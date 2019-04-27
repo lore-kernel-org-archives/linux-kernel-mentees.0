@@ -1,35 +1,41 @@
-From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Fri, 26 Apr 2019 13:32:47 -0600
-Subject: [Linux-kernel-mentees] [PATCH] Staging: sm750fb: Change *array into
-	*const array
-Message-ID: <20190426193247.4176-1-skunberg.kelsey@gmail.com>
+From: bnvandana@gmail.com (Vandana BN)
+Date: Sat, 27 Apr 2019 11:20:20 +0530
+Subject: [Linux-kernel-mentees] [PATCH v3] staging: rtl8723bs: Fix
+	checkpatch.pl warnings
+In-Reply-To: <20190426131249.16198-1-bnvandana@gmail.com>
+References: <20190426131249.16198-1-bnvandana@gmail.com>
+Message-ID: <20190427055020.23203-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190426193247.lSqUFM-Ln0zNRP53oU0hpdVD798Z0UDn_LSRiu1LLew@z>
+Message-ID: <20190427055020.IfgjC0xk1wZJCqZHgZZi3kdfrMuwimSUI59Dqq5_a_I@z>
 
-Resolve checkpatch warning for static const char * array by using const
-pointers.
+This patch resolves coding style brace warning and constant on right warning.
+WARNING: Comparisons should place the constant on the right side of the test
+WARNING: braces {} are not necessary for single statement blocks
 
-Checkpatch Warning in sm750.c:
-static const char * array should probably be static const char * const
-
-Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+Signed-off-by: Vandana BN <bnvandana at gmail.com>
+------
+ v2- Edited commit message and subject
+ v3- Edited commit message
+------
 ---
- drivers/staging/sm750fb/sm750.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_debug.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 105089b97bf5..59568d18ce23 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -748,7 +748,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 		lynx750_ext, NULL, vesa_modes,
- 	};
- 	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
--	static const char *mdb_desc[] = {
-+	static const char * const mdb_desc[] = {
- 		"driver prepared modes",
- 		"kernel prepared default modedb",
- 		"kernel HELPERS prepared vesa_modes",
+diff --git a/drivers/staging/rtl8723bs/core/rtw_debug.c b/drivers/staging/rtl8723bs/core/rtw_debug.c
+index 0de1e12a676e..3fb09ad45a67 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_debug.c
++++ b/drivers/staging/rtl8723bs/core/rtw_debug.c
+@@ -1425,9 +1425,8 @@ int proc_get_btcoex_info(struct seq_file *m, void *v)
+ 	padapter = (struct adapter *)rtw_netdev_priv(dev);
+ 
+ 	pbuf = rtw_zmalloc(bufsize);
+-	if (NULL == pbuf) {
++	if (pbuf == NULL)
+ 		return -ENOMEM;
+-	}
+ 
+ 	rtw_btcoex_DisplayBtCoexInfo(padapter, pbuf, bufsize);
+ 
 -- 
-2.20.1
+2.17.1
