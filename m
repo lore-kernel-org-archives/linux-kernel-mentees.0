@@ -1,29 +1,41 @@
-From: gregkh at linuxfoundation.org (Greg KH)
-Date: Sat, 27 Apr 2019 09:31:03 +0200
-Subject: [Linux-kernel-mentees] [PATCH v3] staging: rtl8723bs: Fix
+From: bnvandana at gmail.com (Vandana BN)
+Date: Sat, 27 Apr 2019 13:10:28 +0530
+Subject: [Linux-kernel-mentees] [PATCH v4] staging: rtl8723bs: Fix
 	checkpatch.pl warnings
-In-Reply-To: <bfe32468-5289-f223-fd82-236b77793615@gmail.com>
+In-Reply-To: <20190426131249.16198-1-bnvandana@gmail.com>
 References: <20190426131249.16198-1-bnvandana@gmail.com>
-	<20190427055020.23203-1-bnvandana@gmail.com>
-	<20190427063118.GC15324@kroah.com>
-	<bfe32468-5289-f223-fd82-236b77793615@gmail.com>
-Message-ID: <20190427073102.GA30973@kroah.com>
+Message-ID: <20190427074028.26089-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Sat, Apr 27, 2019 at 12:54:08PM +0530, Vandana BN wrote:
-> 
-> On 27/04/19 12:01 PM, Greg KH wrote:
-> > On Sat, Apr 27, 2019 at 11:20:20AM +0530, Vandana BN wrote:
-> >> This patch resolves coding style brace warning and constant on right warning.
-> >> WARNING: Comparisons should place the constant on the right side of the test
-> >> WARNING: braces {} are not necessary for single statement blocks
-> >>
-> >> Signed-off-by: Vandana BN <bnvandana at gmail.com>
-> > I need a "real name" here, and in the From: line.  Unless I am mistaken
-> > and your last name is just "BN" and that is how you sign legal
-> > documents?  If so, please let me know.
-> Vandana BN is my real and legal name :)
+This patch resolves coding style brace warning and constant on right warning.
+WARNING: Comparisons should place the constant on the right side of the test
+WARNING: braces {} are not necessary for single statement blocks
+CHECK: Comparison to NULL could be written "!pbuf"
 
-Ok, thanks, I had to ask :)
+Signed-off-by: Vandana BN <bnvandana at gmail.com>
+------
+ v2- Edited commit message and subject
+ v3- Edited commit message
+ v4- changed NULL check to use !pbuf
+------
+---
+ drivers/staging/rtl8723bs/core/rtw_debug.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-greg k-h
+diff --git a/drivers/staging/rtl8723bs/core/rtw_debug.c b/drivers/staging/rtl8723bs/core/rtw_debug.c
+index 0de1e12a676e..9f8446ccf771 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_debug.c
++++ b/drivers/staging/rtl8723bs/core/rtw_debug.c
+@@ -1425,9 +1425,8 @@ int proc_get_btcoex_info(struct seq_file *m, void *v)
+ 	padapter = (struct adapter *)rtw_netdev_priv(dev);
+ 
+ 	pbuf = rtw_zmalloc(bufsize);
+-	if (NULL == pbuf) {
++	if (!pbuf)
+ 		return -ENOMEM;
+-	}
+ 
+ 	rtw_btcoex_DisplayBtCoexInfo(padapter, pbuf, bufsize);
+ 
+-- 
+2.17.1
