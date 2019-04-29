@@ -1,42 +1,43 @@
-From: greg@kroah.com (Greg KH)
-Date: Mon, 29 Apr 2019 16:56:35 +0200
-Subject: [Linux-kernel-mentees] [PATCH] staging: media: bcm2048: Fixed
- style error ERROR: Macros with complex values should be enclosed in
- parentheses found using scripts/checkpatch.pl
-In-Reply-To: <20190429145002.GA12732@arch>
-References: <20190429145002.GA12732@arch>
-Message-ID: <20190429145635.GA7601@kroah.com>
+From: bnvandana@gmail.com (Vandana BN)
+Date: Mon, 29 Apr 2019 21:30:45 +0530
+Subject: [Linux-kernel-mentees] [PATCH v4] staging: rtl8723bs: Fix
+	checkpatch.pl warnings
+In-Reply-To: <20190426131249.16198-1-bnvandana@gmail.com>
+References: <20190426131249.16198-1-bnvandana@gmail.com>
+Message-ID: <20190429160045.13110-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190429145635.sNUl6pGm8Najs-UlJrRomxmDNKXg_eTj5_0H0DGSXts@z>
+Message-ID: <20190429160045.8Y6QKcynayJnssY9rEj21mwYUkOgBSuhsrM_dbTm9Jg@z>
 
-On Mon, Apr 29, 2019 at 08:20:02PM +0530, Puranjay Mohan wrote:
-> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> ---
+This patch resolves coding style brace warning and constant on right warning.
+WARNING: Comparisons should place the constant on the right side of the test
+WARNING: braces {} are not necessary for single statement blocks
+CHECK: Comparison to NULL could be written "!pbuf"
 
-I think your subject line needs a bit of work :)
+Signed-off-by: Vandana BN <bnvandana at gmail.com>
+------
+ v2- Edited commit message and subject
+ v3- Edited commit message
+ v4- changed NULL check to use !pbuf
+------
+---
+ drivers/staging/rtl8723bs/core/rtw_debug.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Also, I can't take patches without any changelog text.
-
->  drivers/staging/media/bcm2048/radio-bcm2048.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> index d9b02ff66259..599da6c977ed 100644
-> --- a/drivers/staging/media/bcm2048/radio-bcm2048.c
-> +++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> @@ -2000,7 +2000,7 @@ static ssize_t bcm2048_##prop##_read(struct device *dev,		\
->  	return sprintf(buf, mask "\n", value);				\
->  }
->  
-> -#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
-> +#define (DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check))		\
->  property_write(prop, prop_type, mask, check)				\
->  property_read(prop, mask)						\
-
-Wait, did you build this patch?  Are you sure it is doing what you think
-it is doing?
-
-thanks,
-
-greg k-h
+diff --git a/drivers/staging/rtl8723bs/core/rtw_debug.c b/drivers/staging/rtl8723bs/core/rtw_debug.c
+index 0de1e12a676e..9f8446ccf771 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_debug.c
++++ b/drivers/staging/rtl8723bs/core/rtw_debug.c
+@@ -1425,9 +1425,8 @@ int proc_get_btcoex_info(struct seq_file *m, void *v)
+ 	padapter = (struct adapter *)rtw_netdev_priv(dev);
+ 
+ 	pbuf = rtw_zmalloc(bufsize);
+-	if (NULL == pbuf) {
++	if (!pbuf)
+ 		return -ENOMEM;
+-	}
+ 
+ 	rtw_btcoex_DisplayBtCoexInfo(padapter, pbuf, bufsize);
+ 
+-- 
+2.17.1
