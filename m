@@ -1,75 +1,88 @@
-From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Mon, 29 Apr 2019 22:47:55 +0530
+From: gregkh at linuxfoundation.org (Greg KH)
+Date: Mon, 29 Apr 2019 19:46:44 +0200
 Subject: [Linux-kernel-mentees] [PATCH] staging: media: bcm2048: Fixed
  style error ERROR: Macros with complex values should be enclosed in
  parentheses found using scripts/checkpatch.pl
-In-Reply-To: <93269609-66ae-871b-8001-9bb9d4b0b1ed@linuxfoundation.org>
+In-Reply-To: <20190429171755.GA11268@arch>
 References: <20190429145002.GA12732@arch> <20190429145635.GA7601@kroah.com>
 	<20190429151719.GA1362@arch>
 	<93269609-66ae-871b-8001-9bb9d4b0b1ed@linuxfoundation.org>
-Message-ID: <20190429171755.GA11268@arch>
+	<20190429171755.GA11268@arch>
+Message-ID: <20190429174644.GA21757@kroah.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Mon, Apr 29, 2019 at 09:34:41AM -0600, Shuah Khan wrote:
-> On 4/29/19 9:17 AM, Puranjay Mohan wrote:
-> > On Mon, Apr 29, 2019 at 04:56:35PM +0200, Greg KH wrote:
-> > > On Mon, Apr 29, 2019 at 08:20:02PM +0530, Puranjay Mohan wrote:
-> > > > Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> > > > ---
-> > > 
-> > > I think your subject line needs a bit of work :)
-> > > 
-> > > Also, I can't take patches without any changelog text.
-> > > 
-> > > >   drivers/staging/media/bcm2048/radio-bcm2048.c | 2 +-
-> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Apr 29, 2019 at 10:47:55PM +0530, Puranjay Mohan wrote:
+> On Mon, Apr 29, 2019 at 09:34:41AM -0600, Shuah Khan wrote:
+> > On 4/29/19 9:17 AM, Puranjay Mohan wrote:
+> > > On Mon, Apr 29, 2019 at 04:56:35PM +0200, Greg KH wrote:
+> > > > On Mon, Apr 29, 2019 at 08:20:02PM +0530, Puranjay Mohan wrote:
+> > > > > Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+> > > > > ---
 > > > > 
-> > > > diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> > > > index d9b02ff66259..599da6c977ed 100644
-> > > > --- a/drivers/staging/media/bcm2048/radio-bcm2048.c
-> > > > +++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> > > > @@ -2000,7 +2000,7 @@ static ssize_t bcm2048_##prop##_read(struct device *dev,		\
-> > > >   	return sprintf(buf, mask "\n", value);				\
-> > > >   }
-> > > > -#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
-> > > > +#define (DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check))		\
-> > > >   property_write(prop, prop_type, mask, check)				\
-> > > >   property_read(prop, mask)						\
+> > > > I think your subject line needs a bit of work :)
+> > > > 
+> > > > Also, I can't take patches without any changelog text.
+> > > > 
+> > > > >   drivers/staging/media/bcm2048/radio-bcm2048.c | 2 +-
+> > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
+> > > > > index d9b02ff66259..599da6c977ed 100644
+> > > > > --- a/drivers/staging/media/bcm2048/radio-bcm2048.c
+> > > > > +++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
+> > > > > @@ -2000,7 +2000,7 @@ static ssize_t bcm2048_##prop##_read(struct device *dev,		\
+> > > > >   	return sprintf(buf, mask "\n", value);				\
+> > > > >   }
+> > > > > -#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
+> > > > > +#define (DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check))		\
+> > > > >   property_write(prop, prop_type, mask, check)				\
+> > > > >   property_read(prop, mask)						\
+> > > > 
+> > > > Wait, did you build this patch?  Are you sure it is doing what you think
+> > > > it is doing?
+> > > > 
+> > > > thanks,
+> > > > 
+> > > > greg k-h
 > > > 
-> > > Wait, did you build this patch?  Are you sure it is doing what you think
-> > > it is doing?
+> > > It is my first patch ever, can you guide me on how to resend the patch
+> > > with the corrections.
+> > > After adding the parentheses around the Macro, the Error was not showing
+> > > up with the checkpatch.pl so I thought it corrected it.
 > > > 
-> > > thanks,
-> > > 
-> > > greg k-h
+> > Did you build and run tests to make sure you change works?
 > > 
-> > It is my first patch ever, can you guide me on how to resend the patch
-> > with the corrections.
-> > After adding the parentheses around the Macro, the Error was not showing
-> > up with the checkpatch.pl so I thought it corrected it.
+> > Please go through the following to understand all about sending your first
+> > patch.
 > > 
-> Did you build and run tests to make sure you change works?
+> > https://wiki.linuxfoundation.org/lkmp/lkmp_getting_started
+> > 
+> > This should tell you the steps to follow before sending the patch.
+> > 
+> > thanks,
+> > -- Shuah
 > 
-> Please go through the following to understand all about sending your first
-> patch.
 > 
-> https://wiki.linuxfoundation.org/lkmp/lkmp_getting_started
+> I built the driver and this change caused a compilation error. Sorry for
+> sending a wrong patch.
+> Please help me in solving the checkpatch.pl error.
 > 
-> This should tell you the steps to follow before sending the patch.
-> 
-> thanks,
-> -- Shuah
+> ERROR: Macros with complex values should be enclosed in parentheses
+> #2003: FILE: drivers/staging/media/bcm2048/radio-bcm2048.c:2003:
+> +#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
+> +property_write(prop, prop_type, mask, check)				\
+> +property_read(prop, mask)						\
+> +
 
+How well do you understand C and how macros work with it?
 
-I built the driver and this change caused a compilation error. Sorry for
-sending a wrong patch.
-Please help me in solving the checkpatch.pl error.
+Do you see anything wrong with this code?  What happens if you pass in
+something "unusual" for one of those parameters?
 
-ERROR: Macros with complex values should be enclosed in parentheses
-#2003: FILE: drivers/staging/media/bcm2048/radio-bcm2048.c:2003:
-+#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
-+property_write(prop, prop_type, mask, check)				\
-+property_read(prop, mask)						\
-+
+Also, always remember that checkpatch.pl is a dumb perl script,
+sometimes it is not correct, and may be ignored for some types of
+things.
 
-Thanks and Regards.
+thanks,
+
+greg k-h
