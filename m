@@ -1,43 +1,123 @@
-From: bnvandana@gmail.com (Vandana BN)
-Date: Mon, 29 Apr 2019 21:30:45 +0530
-Subject: [Linux-kernel-mentees] [PATCH v4] staging: rtl8723bs: Fix
-	checkpatch.pl warnings
-In-Reply-To: <20190426131249.16198-1-bnvandana@gmail.com>
-References: <20190426131249.16198-1-bnvandana@gmail.com>
-Message-ID: <20190429160045.13110-1-bnvandana@gmail.com>
+From: linux.bhar@gmail.com (Bharath Vedartham)
+Date: Mon, 29 Apr 2019 21:58:09 +0530
+Subject: [Linux-kernel-mentees] [linux-kernel mentees][2]Syzbot report
+In-Reply-To: <586ab18f-7349-ffcf-2bf5-04d13e60b674@linuxfoundation.org>
+References: <20190428173632.GA4349@bharath12345-Inspiron-5559>
+	<586ab18f-7349-ffcf-2bf5-04d13e60b674@linuxfoundation.org>
+Message-ID: <20190429162809.GA5638@bharath12345-Inspiron-5559>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190429160045.8Y6QKcynayJnssY9rEj21mwYUkOgBSuhsrM_dbTm9Jg@z>
+Message-ID: <20190429162809.-v4LHpjhr5NjfT8O3N_jfXYNMo5AcnAK_iWKokD0Gck@z>
 
-This patch resolves coding style brace warning and constant on right warning.
-WARNING: Comparisons should place the constant on the right side of the test
-WARNING: braces {} are not necessary for single statement blocks
-CHECK: Comparison to NULL could be written "!pbuf"
+On Mon, Apr 29, 2019 at 10:18:37AM -0600, Shuah Khan wrote:
+> Hi Bharath,
+> 
+> First of all, I like the level of detail in this report, however, you
+> haven't included the link to bug report.
+> 
+> A few comments and I am adding your mentor as well for his comments.
+> 
+> On 4/28/19 11:36 AM, Bharath Vedartham wrote:
+> >kernel BUG at include/linux/mm.h:LINE! (5)
+> 
+> Please include the link to the bug in your reports.
+>
+My apologies. Here is the link:
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
-------
- v2- Edited commit message and subject
- v3- Edited commit message
- v4- changed NULL check to use !pbuf
-------
----
- drivers/staging/rtl8723bs/core/rtw_debug.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+https://syzkaller.appspot.com/bug?id=c14d620a28ea77843c2632f5b05b315c44a2dd06
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_debug.c b/drivers/staging/rtl8723bs/core/rtw_debug.c
-index 0de1e12a676e..9f8446ccf771 100644
---- a/drivers/staging/rtl8723bs/core/rtw_debug.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_debug.c
-@@ -1425,9 +1425,8 @@ int proc_get_btcoex_info(struct seq_file *m, void *v)
- 	padapter = (struct adapter *)rtw_netdev_priv(dev);
- 
- 	pbuf = rtw_zmalloc(bufsize);
--	if (NULL == pbuf) {
-+	if (!pbuf)
- 		return -ENOMEM;
--	}
- 
- 	rtw_btcoex_DisplayBtCoexInfo(padapter, pbuf, bufsize);
- 
--- 
-2.17.1
+> >
+> >This bug was in the open section.
+> >
+> >Breif stack trace:
+> >[  172.788569]  skb_release_all+0x4a/0x60
+> >[  172.789273]  __kfree_skb+0x15/0x20
+> >[  172.789896]  tcp_write_queue_purge+0x24f/0x7c0
+> >[  172.791100]  tcp_disconnect+0x406/0x1890
+> >[  172.791999]  ? lock_sock_nested+0xe2/0x120
+> >[  172.793116]  tcp_close+0xe28/0x10a0
+> >[  172.794085]  ? _raw_spin_unlock_bh+0x30/0x40
+> >[  172.795221]  tls_sk_proto_close+0x3de/0x7b0
+> >[  172.796175]  ? mark_held_locks+0x130/0x130
+> >[  172.797155]  ? tcp_check_oom+0x560/0x560
+> >[  172.797939]  ? tls_push_sg+0x6b0/0x6b0
+> >[  172.798628]  ? ip_mc_drop_socket+0x210/0x270
+> >[  172.799381]  inet_release+0x104/0x1f0
+> >[  172.800056]  inet6_release+0x50/0x70
+> >[  172.800654]  __sock_release+0xd7/0x2b0
+> >[  172.801283]  ? __sock_release+0x2b0/0x2b0
+> >[  172.801957]  sock_close+0x19/0x20
+> >[  172.802526]  __fput+0x2cf/0x8b0
+> >[  172.803171]  ____fput+0x15/0x20
+> >[  172.803747]  task_work_run+0x14d/0x1c0
+> >[  172.804418]  do_exit+0xb9f/0x3200
+> >[  172.804936]  ? __lock_acquire+0x5d6/0x4760
+> >[  172.805567]  ? mm_update_next_owner+0x6f0/0x6f0
+> >[  172.806275]  ? find_held_lock+0x36/0x1d0
+> >[  172.806888]  ? get_signal+0x300/0x1cc0
+> >[  172.807947]  ? _raw_spin_unlock_irq+0x27/0x80
+> >[  172.808684]  ? get_signal+0x300/0x1cc0
+> >[  172.809329]  ? _raw_spin_unlock_irq+0x27/0x80
+> >[  172.810428]  do_group_exit+0x135/0x370
+> >[  172.811384]  get_signal+0x356/0x1cc0
+> >[  172.811985]  ? __might_fault+0x12b/0x1e0
+> >[  172.812798]  ? lock_downgrade+0x7f0/0x7f0
+> >[  172.813663]  do_signal+0x87/0x1930
+> >[  172.814196]  ? kasan_check_read+0x11/0x20
+> >[  172.814793]  ? _copy_to_user+0xc8/0x110
+> >[  172.815714]  ? setup_sigcontext+0x7d0/0x7d0
+> >[  172.816453]  ? __x64_sys_futex+0x40d/0x5b0
+> >[  172.817168]  ? exit_to_usermode_loop+0x40/0x2c0
+> >[  172.817951]  ? do_syscall_64+0x536/0x600
+> >[  172.818700]  ? exit_to_usermode_loop+0x40/0x2c0
+> >[  172.819618]  ? lockdep_hardirqs_on+0x421/0x5c0
+> >[  172.820443]  ? trace_hardirqs_on+0x67/0x230
+> >[  172.821257]  exit_to_usermode_loop+0x241/0x2c0
+> >[  172.822058]  do_syscall_64+0x536/0x600
+> >[  172.823116]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> >
+> >Reproducer: A reproducer in C was present. I was able to reproduce the
+> >bug easily. I had to link a few extra libraries like pthreads to compile
+> >the reproducer. I had to enable tls(transport layer security) options in
+> >my kernel config(5.1.0-rc6+) to be able to reproduce it. I figured this
+> >out by observing the commit to which the crash was bisected. >
+> 
+> Nice.
+> 
+> >Analysis: By the stack trace, I observed that the crash was triggered
+> >somewhere in skb_release_data. The RIP register was pointing to
+> >skb_release-data+0x5ae. skb_release is responsible for releasing data
+> >from a socket buffer. Using GDB, I was able to figure out that
+> >skb_release_data+0x5ae mapped to the function __skb_frag_unref. The
+> >function takes as input a fragment of the data section of the socket
+> >buffer and releases a reference to it. __skb_frag_unref calls put_page
+> >to release a reference on the paged fragment. put_page in
+> >/include/linux/mm.h:992 is triggered. put_page checks if the physical
+> >page representing the fragment in physical memory has more than 0
+> >references so as to release a reference using __put_page. In
+> >put_page_testzero, if the page has 0 references on the entry of the
+> >function, it triggers a crash(using VM_BUG_ON_PAGE). This means that one
+> >of the data fragments of the socket buffer has zero references in memory
+> >and is still a part of the socket buffer.
+> >
+> 
+> Good level of detail on the analysis.
+> 
+> >Fix: A fix for this would be to ignore the fragment for releasing if its
+> >reference count of its struct page is 0. But I feel that this would not
+> >be a wise idea. The fact that a fragment of the socket buffer data has
+> >no references should pass quietly.
+> >
+> 
+> Are you sure?  This indicates, a mismatch in either taking reference or
+> releasing reference to this page. I don't think fixing it to ignore the
+> warning is the right approach.
+> 
+> In any case, it is difficult to decide whether your analysis and fix are
+> correct without looking at the original bug report. Please give more details
+> on the bug report.
+> 
+I meant that the warning should not pass quietly!! That was a typo! 
+I have attached the link above for more details.
+> thanks,
+> -- Shuah
