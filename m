@@ -1,28 +1,13 @@
-From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Mon, 29 Apr 2019 20:20:02 +0530
-Subject: [Linux-kernel-mentees] [PATCH] staging: media: bcm2048: Fixed style
- error ERROR: Macros with complex values should be enclosed in parentheses
- found using scripts/checkpatch.pl
-Message-ID: <20190429145002.GA12732@arch>
+From: skhan at linuxfoundation.org (Shuah Khan)
+Date: Mon, 29 Apr 2019 09:14:20 -0600
+Subject: [Linux-kernel-mentees] Patch tips
+Message-ID: <a1523c0f-b42e-ffbe-0531-9f8c2d131296@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
----
- drivers/staging/media/bcm2048/radio-bcm2048.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Once you get the hang of patches and worked out initial issues, please 
+include the list. You will have to run get_maintainers without --nol to 
+send your patches.
 
-diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
-index d9b02ff66259..599da6c977ed 100644
---- a/drivers/staging/media/bcm2048/radio-bcm2048.c
-+++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
-@@ -2000,7 +2000,7 @@ static ssize_t bcm2048_##prop##_read(struct device *dev,		\
- 	return sprintf(buf, mask "\n", value);				\
- }
- 
--#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
-+#define (DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check))		\
- property_write(prop, prop_type, mask, check)				\
- property_read(prop, mask)						\
- 
--- 
-2.21.0
+Thanks Kelsey! I see your recent patch has mailing lists included.
+
+-- Shuah
