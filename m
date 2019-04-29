@@ -1,62 +1,115 @@
 From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Mon, 29 Apr 2019 09:34:41 -0600
-Subject: [Linux-kernel-mentees] [PATCH] staging: media: bcm2048: Fixed
- style error ERROR: Macros with complex values should be enclosed in
- parentheses found using scripts/checkpatch.pl
-In-Reply-To: <20190429151719.GA1362@arch>
-References: <20190429145002.GA12732@arch> <20190429145635.GA7601@kroah.com>
-	<20190429151719.GA1362@arch>
-Message-ID: <93269609-66ae-871b-8001-9bb9d4b0b1ed@linuxfoundation.org>
+Date: Mon, 29 Apr 2019 10:18:37 -0600
+Subject: [Linux-kernel-mentees] [linux-kernel mentees][2]Syzbot report
+In-Reply-To: <20190428173632.GA4349@bharath12345-Inspiron-5559>
+References: <20190428173632.GA4349@bharath12345-Inspiron-5559>
+Message-ID: <586ab18f-7349-ffcf-2bf5-04d13e60b674@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190429153441.F-3dapjB-jf-xxvVJGKU4wBpYwxOM8xJ8guzhMWT-tk@z>
+Message-ID: <20190429161837.XPdvWuQB1hthYE83PdNPSc6nB2qTXZH7RGclKk51kEQ@z>
 
-On 4/29/19 9:17 AM, Puranjay Mohan wrote:
-> On Mon, Apr 29, 2019 at 04:56:35PM +0200, Greg KH wrote:
->> On Mon, Apr 29, 2019 at 08:20:02PM +0530, Puranjay Mohan wrote:
->>> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
->>> ---
->>
->> I think your subject line needs a bit of work :)
->>
->> Also, I can't take patches without any changelog text.
->>
->>>   drivers/staging/media/bcm2048/radio-bcm2048.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
->>> index d9b02ff66259..599da6c977ed 100644
->>> --- a/drivers/staging/media/bcm2048/radio-bcm2048.c
->>> +++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
->>> @@ -2000,7 +2000,7 @@ static ssize_t bcm2048_##prop##_read(struct device *dev,		\
->>>   	return sprintf(buf, mask "\n", value);				\
->>>   }
->>>   
->>> -#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
->>> +#define (DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check))		\
->>>   property_write(prop, prop_type, mask, check)				\
->>>   property_read(prop, mask)						\
->>
->> Wait, did you build this patch?  Are you sure it is doing what you think
->> it is doing?
->>
->> thanks,
->>
->> greg k-h
+Hi Bharath,
+
+First of all, I like the level of detail in this report, however, you 
+haven't included the link to bug report.
+
+A few comments and I am adding your mentor as well for his comments.
+
+On 4/28/19 11:36 AM, Bharath Vedartham wrote:
+> kernel BUG at include/linux/mm.h:LINE! (5)
+
+Please include the link to the bug in your reports.
+
 > 
-> It is my first patch ever, can you guide me on how to resend the patch
-> with the corrections.
-> After adding the parentheses around the Macro, the Error was not showing
-> up with the checkpatch.pl so I thought it corrected it.
->
-Did you build and run tests to make sure you change works?
+> This bug was in the open section.
+> 
+> Breif stack trace:
+> [  172.788569]  skb_release_all+0x4a/0x60
+> [  172.789273]  __kfree_skb+0x15/0x20
+> [  172.789896]  tcp_write_queue_purge+0x24f/0x7c0
+> [  172.791100]  tcp_disconnect+0x406/0x1890
+> [  172.791999]  ? lock_sock_nested+0xe2/0x120
+> [  172.793116]  tcp_close+0xe28/0x10a0
+> [  172.794085]  ? _raw_spin_unlock_bh+0x30/0x40
+> [  172.795221]  tls_sk_proto_close+0x3de/0x7b0
+> [  172.796175]  ? mark_held_locks+0x130/0x130
+> [  172.797155]  ? tcp_check_oom+0x560/0x560
+> [  172.797939]  ? tls_push_sg+0x6b0/0x6b0
+> [  172.798628]  ? ip_mc_drop_socket+0x210/0x270
+> [  172.799381]  inet_release+0x104/0x1f0
+> [  172.800056]  inet6_release+0x50/0x70
+> [  172.800654]  __sock_release+0xd7/0x2b0
+> [  172.801283]  ? __sock_release+0x2b0/0x2b0
+> [  172.801957]  sock_close+0x19/0x20
+> [  172.802526]  __fput+0x2cf/0x8b0
+> [  172.803171]  ____fput+0x15/0x20
+> [  172.803747]  task_work_run+0x14d/0x1c0
+> [  172.804418]  do_exit+0xb9f/0x3200
+> [  172.804936]  ? __lock_acquire+0x5d6/0x4760
+> [  172.805567]  ? mm_update_next_owner+0x6f0/0x6f0
+> [  172.806275]  ? find_held_lock+0x36/0x1d0
+> [  172.806888]  ? get_signal+0x300/0x1cc0
+> [  172.807947]  ? _raw_spin_unlock_irq+0x27/0x80
+> [  172.808684]  ? get_signal+0x300/0x1cc0
+> [  172.809329]  ? _raw_spin_unlock_irq+0x27/0x80
+> [  172.810428]  do_group_exit+0x135/0x370
+> [  172.811384]  get_signal+0x356/0x1cc0
+> [  172.811985]  ? __might_fault+0x12b/0x1e0
+> [  172.812798]  ? lock_downgrade+0x7f0/0x7f0
+> [  172.813663]  do_signal+0x87/0x1930
+> [  172.814196]  ? kasan_check_read+0x11/0x20
+> [  172.814793]  ? _copy_to_user+0xc8/0x110
+> [  172.815714]  ? setup_sigcontext+0x7d0/0x7d0
+> [  172.816453]  ? __x64_sys_futex+0x40d/0x5b0
+> [  172.817168]  ? exit_to_usermode_loop+0x40/0x2c0
+> [  172.817951]  ? do_syscall_64+0x536/0x600
+> [  172.818700]  ? exit_to_usermode_loop+0x40/0x2c0
+> [  172.819618]  ? lockdep_hardirqs_on+0x421/0x5c0
+> [  172.820443]  ? trace_hardirqs_on+0x67/0x230
+> [  172.821257]  exit_to_usermode_loop+0x241/0x2c0
+> [  172.822058]  do_syscall_64+0x536/0x600
+> [  172.823116]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> 
+> Reproducer: A reproducer in C was present. I was able to reproduce the
+> bug easily. I had to link a few extra libraries like pthreads to compile
+> the reproducer. I had to enable tls(transport layer security) options in
+> my kernel config(5.1.0-rc6+) to be able to reproduce it. I figured this
+> out by observing the commit to which the crash was bisected. >
 
-Please go through the following to understand all about sending your 
-first patch.
+Nice.
 
-https://wiki.linuxfoundation.org/lkmp/lkmp_getting_started
+> Analysis: By the stack trace, I observed that the crash was triggered
+> somewhere in skb_release_data. The RIP register was pointing to
+> skb_release-data+0x5ae. skb_release is responsible for releasing data
+> from a socket buffer. Using GDB, I was able to figure out that
+> skb_release_data+0x5ae mapped to the function __skb_frag_unref. The
+> function takes as input a fragment of the data section of the socket
+> buffer and releases a reference to it. __skb_frag_unref calls put_page
+> to release a reference on the paged fragment. put_page in
+> /include/linux/mm.h:992 is triggered. put_page checks if the physical
+> page representing the fragment in physical memory has more than 0
+> references so as to release a reference using __put_page. In
+> put_page_testzero, if the page has 0 references on the entry of the
+> function, it triggers a crash(using VM_BUG_ON_PAGE). This means that one
+> of the data fragments of the socket buffer has zero references in memory
+> and is still a part of the socket buffer.
+> 
 
-This should tell you the steps to follow before sending the patch.
+Good level of detail on the analysis.
+
+> Fix: A fix for this would be to ignore the fragment for releasing if its
+> reference count of its struct page is 0. But I feel that this would not
+> be a wise idea. The fact that a fragment of the socket buffer data has
+> no references should pass quietly.
+> 
+
+Are you sure?  This indicates, a mismatch in either taking reference or 
+releasing reference to this page. I don't think fixing it to ignore the 
+warning is the right approach.
+
+In any case, it is difficult to decide whether your analysis and fix are 
+correct without looking at the original bug report. Please give more 
+details on the bug report.
 
 thanks,
 -- Shuah
