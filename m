@@ -1,13 +1,17 @@
 From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Wed, 1 May 2019 00:45:58 +0530
-Subject: [Linux-kernel-mentees] [PATCH] Staging: rtl8192e: rtl8192e: Removed
- extra space before break statement
-Message-ID: <20190430191558.GA22185@arch>
+Date: Wed, 1 May 2019 01:29:03 +0530
+Subject: [Linux-kernel-mentees] [PATCH v2] Staging: rtl8192e: rtl8192e:
+ Removed extra space before break statement
+Message-ID: <20190430195903.GA30960@arch>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Fixed a style issue reported by checkpatch.pl
-break statements had extra spaces before them.
+Fixed a style issues reported by checkpatch.pl
+break statements had extra spaces before them, so they didn't end at
+tabstop. Removed the extra space before them to correct the issue.
 WARNING: Statements should start on a tabstop
++		 break;
+WARNING: Statements should start on a tabstop
++		 break;
 
 Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 ---
