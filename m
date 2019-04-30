@@ -1,25 +1,36 @@
 From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Tue, 30 Apr 2019 13:35:10 -0600
-Subject: [Linux-kernel-mentees] [PATCH] Staging: rtl8192e: rtl8192e:
+Date: Tue, 30 Apr 2019 16:18:37 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2] Staging: rtl8192e: rtl8192e:
  Removed extra space before break statement
-In-Reply-To: <20190430191558.GA22185@arch>
-References: <20190430191558.GA22185@arch>
-Message-ID: <ef2985e5-b696-2aa4-c3d8-4bc38c30c286@linuxfoundation.org>
+In-Reply-To: <20190430195903.GA30960@arch>
+References: <20190430195903.GA30960@arch>
+Message-ID: <633a89cb-4cf9-6885-c53c-94c8f1c0e924@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190430193510.36K3eluWiGtD9s2y2eTiCIuPRXCmzRqn8bNGBsOkvXg@z>
+Message-ID: <20190430221837.E2KnV4XA6HWLbvmXp2cpAQVDRJyV5hLYQCaVRoPvwKg@z>
 
-Hi Puranjay,
+On 4/30/19 1:59 PM, Puranjay Mohan wrote:
+> Fixed a style issues reported by checkpatch.pl
+> break statements had extra spaces before them, so they didn't end at
+> tabstop. Removed the extra space before them to correct the issue.
 
-On 4/30/19 1:15 PM, Puranjay Mohan wrote:
-> Fixed a style issue reported by checkpatch.pl
-> break statements had extra spaces before them.
+You could rephrase the above to say
+
+"Removed extra spaces before "break" statements to fix the following
+warnings from checkpatch.pl"
+
+<add warning here>
+
 > WARNING: Statements should start on a tabstop
+> +		 break;
+> WARNING: Statements should start on a tabstop
+> +		 break;
 > 
+> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 
-Please include the entire checkpatch warning line. Also commit log can 
-have 75 char length lines and you don't have to limit them to a shorter 
-length.
+Your subject line has duplicate information:
+
+rtl8192e twice?
 
 thanks,
 -- Shuah
