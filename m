@@ -1,32 +1,23 @@
 From: skhan at linuxfoundation.org (Shuah Khan)
-Date: Tue, 30 Apr 2019 13:11:42 -0600
-Subject: [Linux-kernel-mentees] Please join IRC channel on freenode
-In-Reply-To: <1cff4b19-f346-ea2f-2396-7edf5940b668@linuxfoundation.org>
-References: <1cff4b19-f346-ea2f-2396-7edf5940b668@linuxfoundation.org>
-Message-ID: <bc8fb85a-5a64-c5dd-96c1-b94b90eebcd1@linuxfoundation.org>
+Date: Tue, 30 Apr 2019 13:35:10 -0600
+Subject: [Linux-kernel-mentees] [PATCH] Staging: rtl8192e: rtl8192e:
+ Removed extra space before break statement
+In-Reply-To: <20190430191558.GA22185@arch>
+References: <20190430191558.GA22185@arch>
+Message-ID: <ef2985e5-b696-2aa4-c3d8-4bc38c30c286@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On 4/30/19 12:50 PM, Shuah Khan wrote:
-> All,
-> 
-> I created new IRC channel on freenode for mentorship.
-> 
-> Please join? #linux-kernel-mentees IRC Channel on freenode
-> 
-> https://freenode.net/
-> 
-> thanks,
-> -- Shuah
+Hi Puranjay,
 
-Information on the server. This server recommends Nick registration.
+On 4/30/19 1:15 PM, Puranjay Mohan wrote:
+> Fixed a style issue reported by checkpatch.pl
+> break statements had extra spaces before them.
+> WARNING: Statements should start on a tabstop
+> 
 
-irc.freenode.net/6667
-
-You can register your Nick
-identify /msg NickServ identify <password>
-
-You can configure your chat client to auto identify using NickServ(/MSG 
-MickServ+password) option - works on hexchat
+Please include the entire checkpatch warning line. Also commit log can 
+have 75 char length lines and you don't have to limit them to a shorter 
+length.
 
 thanks,
 -- Shuah
