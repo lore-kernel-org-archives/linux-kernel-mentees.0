@@ -1,88 +1,134 @@
-From: gregkh at linuxfoundation.org (Greg KH)
-Date: Mon, 29 Apr 2019 19:46:44 +0200
-Subject: [Linux-kernel-mentees] [PATCH] staging: media: bcm2048: Fixed
- style error ERROR: Macros with complex values should be enclosed in
- parentheses found using scripts/checkpatch.pl
-In-Reply-To: <20190429171755.GA11268@arch>
-References: <20190429145002.GA12732@arch> <20190429145635.GA7601@kroah.com>
-	<20190429151719.GA1362@arch>
-	<93269609-66ae-871b-8001-9bb9d4b0b1ed@linuxfoundation.org>
-	<20190429171755.GA11268@arch>
-Message-ID: <20190429174644.GA21757@kroah.com>
+From: bnvandana at gmail.com (Vandana BN)
+Date: Tue, 30 Apr 2019 23:59:44 +0530
+Subject: [Linux-kernel-mentees] [PATCH] staging: rtl8192u: ieee80211:
+	Resolve ERROR reported by checkpatch
+Message-ID: <20190430182944.9539-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Mon, Apr 29, 2019 at 10:47:55PM +0530, Puranjay Mohan wrote:
-> On Mon, Apr 29, 2019 at 09:34:41AM -0600, Shuah Khan wrote:
-> > On 4/29/19 9:17 AM, Puranjay Mohan wrote:
-> > > On Mon, Apr 29, 2019 at 04:56:35PM +0200, Greg KH wrote:
-> > > > On Mon, Apr 29, 2019 at 08:20:02PM +0530, Puranjay Mohan wrote:
-> > > > > Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> > > > > ---
-> > > > 
-> > > > I think your subject line needs a bit of work :)
-> > > > 
-> > > > Also, I can't take patches without any changelog text.
-> > > > 
-> > > > >   drivers/staging/media/bcm2048/radio-bcm2048.c | 2 +-
-> > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> > > > > index d9b02ff66259..599da6c977ed 100644
-> > > > > --- a/drivers/staging/media/bcm2048/radio-bcm2048.c
-> > > > > +++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> > > > > @@ -2000,7 +2000,7 @@ static ssize_t bcm2048_##prop##_read(struct device *dev,		\
-> > > > >   	return sprintf(buf, mask "\n", value);				\
-> > > > >   }
-> > > > > -#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
-> > > > > +#define (DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check))		\
-> > > > >   property_write(prop, prop_type, mask, check)				\
-> > > > >   property_read(prop, mask)						\
-> > > > 
-> > > > Wait, did you build this patch?  Are you sure it is doing what you think
-> > > > it is doing?
-> > > > 
-> > > > thanks,
-> > > > 
-> > > > greg k-h
-> > > 
-> > > It is my first patch ever, can you guide me on how to resend the patch
-> > > with the corrections.
-> > > After adding the parentheses around the Macro, the Error was not showing
-> > > up with the checkpatch.pl so I thought it corrected it.
-> > > 
-> > Did you build and run tests to make sure you change works?
-> > 
-> > Please go through the following to understand all about sending your first
-> > patch.
-> > 
-> > https://wiki.linuxfoundation.org/lkmp/lkmp_getting_started
-> > 
-> > This should tell you the steps to follow before sending the patch.
-> > 
-> > thanks,
-> > -- Shuah
-> 
-> 
-> I built the driver and this change caused a compilation error. Sorry for
-> sending a wrong patch.
-> Please help me in solving the checkpatch.pl error.
-> 
-> ERROR: Macros with complex values should be enclosed in parentheses
-> #2003: FILE: drivers/staging/media/bcm2048/radio-bcm2048.c:2003:
-> +#define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
-> +property_write(prop, prop_type, mask, check)				\
-> +property_read(prop, mask)						\
-> +
+This patch resolves coding style space ERRORs reported by checkpatch
 
-How well do you understand C and how macros work with it?
+ERROR: spaces required around that '>' (ctx:VxV)
+ERROR: space required after that ',' (ctx:VxO)
+ERROR: space required before that '&' (ctx:OxV)
+ERROR: spaces required around that '!=' (ctx:VxV)
+ERROR: spaces required around that '=' (ctx:VxW)
+ERROR: space required before the open parenthesis '('
+ERROR: spaces required around that '?' (ctx:VxE)
+ERROR: spaces required around that ':' (ctx:VxE)
+ERROR: spaces required around that '==' (ctx:VxV)
+Signed-off-by: Vandana BN <bnvandana at gmail.com>
+---
+ .../rtl8192u/ieee80211/rtl819x_TSProc.c       | 40 +++++++++----------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-Do you see anything wrong with this code?  What happens if you pass in
-something "unusual" for one of those parameters?
-
-Also, always remember that checkpatch.pl is a dumb perl script,
-sometimes it is not correct, and may be ignored for some types of
-things.
-
-thanks,
-
-greg k-h
+diff --git a/drivers/staging/rtl8192u/ieee80211/rtl819x_TSProc.c b/drivers/staging/rtl8192u/ieee80211/rtl819x_TSProc.c
+index 418c92403904..7cac668bfb0b 100644
+--- a/drivers/staging/rtl8192u/ieee80211/rtl819x_TSProc.c
++++ b/drivers/staging/rtl8192u/ieee80211/rtl819x_TSProc.c
+@@ -63,7 +63,7 @@ static void RxPktPendingTimeout(struct timer_list *t)
+ 		}
+ 	}
+ 
+-	if (index>0) {
++	if (index > 0) {
+ 		// Set rx_timeout_indicate_seq to 0xffff to indicate no pending packets in buffer now.
+ 		pRxTs->rx_timeout_indicate_seq = 0xffff;
+ 
+@@ -182,7 +182,7 @@ void TSInitialize(struct ieee80211_device *ieee)
+ 	INIT_LIST_HEAD(&ieee->RxReorder_Unused_List);
+ //#ifdef TO_DO_LIST
+ 	for (count = 0; count < REORDER_ENTRY_NUM; count++) {
+-		list_add_tail(&pRxReorderEntry->List,&ieee->RxReorder_Unused_List);
++		list_add_tail(&pRxReorderEntry->List, &ieee->RxReorder_Unused_List);
+ 		if (count == (REORDER_ENTRY_NUM-1))
+ 			break;
+ 		pRxReorderEntry = &ieee->RxReorderEntry[count+1];
+@@ -196,7 +196,7 @@ static void AdmitTS(struct ieee80211_device *ieee,
+ 	del_timer_sync(&pTsCommonInfo->setup_timer);
+ 	del_timer_sync(&pTsCommonInfo->inact_timer);
+ 
+-	if (InactTime!=0)
++	if (InactTime != 0)
+ 		mod_timer(&pTsCommonInfo->inact_timer,
+ 			  jiffies + msecs_to_jiffies(InactTime));
+ }
+@@ -214,25 +214,25 @@ static struct ts_common_info *SearchAdmitTRStream(struct ieee80211_device *ieee,
+ 	if (ieee->iw_mode == IW_MODE_MASTER) { //ap mode
+ 		if (TxRxSelect == TX_DIR) {
+ 			search_dir[DIR_DOWN] = true;
+-			search_dir[DIR_BI_DIR]= true;
++			search_dir[DIR_BI_DIR] = true;
+ 		} else {
+ 			search_dir[DIR_UP]	= true;
+-			search_dir[DIR_BI_DIR]= true;
++			search_dir[DIR_BI_DIR] = true;
+ 		}
+ 	} else if (ieee->iw_mode == IW_MODE_ADHOC) {
+-		if(TxRxSelect == TX_DIR)
++		if (TxRxSelect == TX_DIR)
+ 			search_dir[DIR_UP]	= true;
+ 		else
+ 			search_dir[DIR_DOWN] = true;
+ 	} else {
+ 		if (TxRxSelect == TX_DIR) {
+ 			search_dir[DIR_UP]	= true;
+-			search_dir[DIR_BI_DIR]= true;
+-			search_dir[DIR_DIRECT]= true;
++			search_dir[DIR_BI_DIR] = true;
++			search_dir[DIR_DIRECT] = true;
+ 		} else {
+ 			search_dir[DIR_DOWN] = true;
+-			search_dir[DIR_BI_DIR]= true;
+-			search_dir[DIR_DIRECT]= true;
++			search_dir[DIR_BI_DIR] = true;
++			search_dir[DIR_DIRECT] = true;
+ 		}
+ 	}
+ 
+@@ -357,20 +357,20 @@ bool GetTs(
+ 			struct tspec_body	TSpec;
+ 			struct qos_tsinfo	*pTSInfo = &TSpec.ts_info;
+ 			struct list_head	*pUnusedList =
+-								(TxRxSelect == TX_DIR)?
+-								(&ieee->Tx_TS_Unused_List):
++								(TxRxSelect == TX_DIR) ?
++								(&ieee->Tx_TS_Unused_List) :
+ 								(&ieee->Rx_TS_Unused_List);
+ 
+ 			struct list_head	*pAddmitList =
+-								(TxRxSelect == TX_DIR)?
+-								(&ieee->Tx_TS_Admit_List):
++								(TxRxSelect == TX_DIR) ?
++								(&ieee->Tx_TS_Admit_List) :
+ 								(&ieee->Rx_TS_Admit_List);
+ 
+-			enum direction_value	Dir =		(ieee->iw_mode == IW_MODE_MASTER)?
+-								((TxRxSelect==TX_DIR)?DIR_DOWN:DIR_UP):
+-								((TxRxSelect==TX_DIR)?DIR_UP:DIR_DOWN);
++			enum direction_value	Dir =		(ieee->iw_mode == IW_MODE_MASTER) ?
++								((TxRxSelect == TX_DIR)?DIR_DOWN:DIR_UP) :
++								((TxRxSelect == TX_DIR)?DIR_UP:DIR_DOWN);
+ 			IEEE80211_DEBUG(IEEE80211_DL_TS, "to add Ts\n");
+-			if(!list_empty(pUnusedList)) {
++			if (!list_empty(pUnusedList)) {
+ 				(*ppTS) = list_entry(pUnusedList->next, struct ts_common_info, list);
+ 				list_del_init(&(*ppTS)->list);
+ 				if (TxRxSelect == TX_DIR) {
+@@ -435,13 +435,13 @@ static void RemoveTsEntry(struct ieee80211_device *ieee, struct ts_common_info *
+ 					spin_unlock_irqrestore(&(ieee->reorder_spinlock), flags);
+ 					return;
+ 				}
+-				for(i =0; i < prxb->nr_subframes; i++)
++				for (i =  0; i < prxb->nr_subframes; i++)
+ 					dev_kfree_skb(prxb->subframes[i]);
+ 
+ 				kfree(prxb);
+ 				prxb = NULL;
+ 			}
+-			list_add_tail(&pRxReorderEntry->List,&ieee->RxReorder_Unused_List);
++			list_add_tail(&pRxReorderEntry->List, &ieee->RxReorder_Unused_List);
+ 			spin_unlock_irqrestore(&(ieee->reorder_spinlock), flags);
+ 		}
+ 
+-- 
+2.17.1
