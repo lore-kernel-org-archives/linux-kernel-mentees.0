@@ -1,44 +1,39 @@
-From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Wed, 1 May 2019 01:29:03 +0530
+From: khalid.aziz at oracle.com (Khalid Aziz)
+Date: Wed, 1 May 2019 08:16:30 -0600
 Subject: [Linux-kernel-mentees] [PATCH v2] Staging: rtl8192e: rtl8192e:
  Removed extra space before break statement
-Message-ID: <20190430195903.GA30960@arch>
+In-Reply-To: <CABhMZUVycH6MyjS=EtEekg1dDV+piv+dw4s3bSXiGkte=rimUA@mail.gmail.com>
+References: <20190430195903.GA30960@arch>
+	<633a89cb-4cf9-6885-c53c-94c8f1c0e924@linuxfoundation.org>
+	<CABhMZUVycH6MyjS=EtEekg1dDV+piv+dw4s3bSXiGkte=rimUA@mail.gmail.com>
+Message-ID: <913af98f-525a-663a-1db4-966db6fdb163@oracle.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Fixed a style issues reported by checkpatch.pl
-break statements had extra spaces before them, so they didn't end at
-tabstop. Removed the extra space before them to correct the issue.
-WARNING: Statements should start on a tabstop
-+		 break;
-WARNING: Statements should start on a tabstop
-+		 break;
+On 4/30/19 5:50 PM, Bjorn Helgaas wrote:
+> On Tue, Apr 30, 2019 at 5:19 PM Shuah Khan <skhan at linuxfoundation.org> wrote:
+>>
+>> On 4/30/19 1:59 PM, Puranjay Mohan wrote:
+>>> Fixed a style issues reported by checkpatch.pl
+>>> break statements had extra spaces before them, so they didn't end at
+>>> tabstop. Removed the extra space before them to correct the issue.
+>>
+>> You could rephrase the above to say
+>>
+>> "Removed extra spaces before "break" statements to fix the following
+>> warnings from checkpatch.pl"
+> 
+> Here's a great post about commit logs: https://chris.beams.io/posts/git-commit/
+> 
+> One hint is to use the imperative mood, as though you're giving a
+> command, e.g., "Remove extra spaces ..."  That matches the messages
+> git generates for merges and reverts.  Chris says this is only
+> important in the subject line, not in the body, but I enforce it
+> everywhere.  I might be OCD.
+> 
 
-Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I agree with Bjorn. Another way to think of it is to describe what your
+patch does when one applies it to their tree, as opposed to describing
+what you have done in the patch.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 0353f7ee5341..ef92ce957466 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1913,7 +1913,7 @@ static void _rtl92e_update_received_rate_histogram_stats(
- 		break;
- 	case MGN_2M:
- 		rateIndex = 1;
--		 break;
-+		break;
- 	case MGN_5_5M:
- 		rateIndex = 2;
- 		break;
-@@ -1931,7 +1931,7 @@ static void _rtl92e_update_received_rate_histogram_stats(
- 		break;
- 	case MGN_18M:
- 		rateIndex = 7;
--		 break;
-+		break;
- 	case MGN_24M:
- 		rateIndex = 8;
- 		break;
--- 
-2.21.0
+--
+Khalid
