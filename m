@@ -1,36 +1,38 @@
 From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Fri, 3 May 2019 00:15:34 +0530
-Subject: [Linux-kernel-mentees] [PATCH v2] Staging: rtl8192u: ieee80211: Fix
-	coding style warning
-Message-ID: <20190502184534.GA10842@arch>
+Date: Fri, 3 May 2019 02:09:21 +0530
+Subject: [Linux-kernel-mentees] [PATCH] Staging: rtl8192u: ieee80211: Fix
+	spelling mistake
+Message-ID: <20190502203921.GA6347@arch>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Remove braces around a single if statement to fix following
-checkpatch.pl warning.
-WARNING: braces {} are not necessary for single statement blocks
+Correct spelling mistakes at two places in comments.
 
 Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 ---
-v2- Removed trailing whitespace.
-
  drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-index 0e762e559675..bd97531a254f 100644
+index 0e762e559675..274eead8d24d 100644
 --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
 +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-@@ -2577,9 +2577,9 @@ static inline void ieee80211_process_probe_response(
- 	spin_unlock_irqrestore(&ieee->lock, flags);
- 	if (is_beacon(beacon->header.frame_ctl)&&is_same_network(&ieee->current_network, network, ieee)&&\
- 		(ieee->state == IEEE80211_LINKED)) {
--		if (ieee->handle_beacon != NULL) {
-+		if (ieee->handle_beacon != NULL)
- 			ieee->handle_beacon(ieee->dev,beacon,&ieee->current_network);
--		}
-+
- 	}
-
- out:
---
+@@ -557,7 +557,7 @@ void ieee80211_indicate_packets(struct ieee80211_device *ieee, struct ieee80211_
+ 			//stats->rx_packets++;
+ 			//stats->rx_bytes += sub_skb->len;
+ 
+-		/* Indicat the packets to upper layer */
++		/* Indicate the packets to upper layer */
+ 			if (sub_skb) {
+ 				sub_skb->protocol = eth_type_trans(sub_skb, ieee->dev);
+ 				memset(sub_skb->cb, 0, sizeof(sub_skb->cb));
+@@ -1311,7 +1311,7 @@ int ieee80211_rx(struct ieee80211_device *ieee, struct sk_buff *skb,
+ 					stats->multicast++;
+ 				}
+ 
+-				/* Indicat the packets to upper layer */
++				/* Indicate the packets to upper layer */
+ 				sub_skb->protocol = eth_type_trans(sub_skb, dev);
+ 				memset(sub_skb->cb, 0, sizeof(sub_skb->cb));
+ 				sub_skb->dev = dev;
+-- 
 2.21.0
