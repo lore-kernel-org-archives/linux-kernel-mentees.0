@@ -1,40 +1,117 @@
-From: greg@kroah.com (Greg KH)
-Date: Thu, 2 May 2019 19:43:13 +0200
+From: puranjay12@gmail.com (Puranjay Mohan)
+Date: Fri, 3 May 2019 13:22:04 +0530
 Subject: [Linux-kernel-mentees] [PATCH] Staging: rtl8192u: ieee80211:
-	Fix coding style warning
-In-Reply-To: <20190502055923.GA21115@arch>
-References: <20190502055923.GA21115@arch>
-Message-ID: <20190502174313.GA14857@kroah.com>
+ Fix comment formating errors
+In-Reply-To: <20190502174154.GB14304@kroah.com>
+References: <20190502052608.GA15578@arch>
+ <20190502174154.GB14304@kroah.com>
+Message-ID: <20190503075204.GB4313@arch>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190502174313.nxZnkLI2tp8CU5eZAjfFX5S_y-8CmTp7W4mualP3VVE@z>
+Message-ID: <20190503075204.TWrA5wZW_unLxXYiOV1d2XhXZ4sZR2_NPkv3u5sOVEo@z>
 
-On Thu, May 02, 2019 at 11:29:23AM +0530, Puranjay Mohan wrote:
-> Remove braces around a single if statement to fix following
-> checkpatch.pl warning.
-> WARNING: braces {} are not necessary for single statement blocks
+On Thu, May 02, 2019 at 07:41:54PM +0200, Greg KH wrote:
+> On Thu, May 02, 2019 at 10:56:08AM +0530, Puranjay Mohan wrote:
+> > Fix comment formating warnings found by checkpatch.pl
+> > 
+> > Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+> > ---
+> >  .../rtl8192u/ieee80211/ieee80211_softmac.c    | 66 ++++++++++---------
+> >  1 file changed, 34 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > index 944c8894f9ff..be02f73f5618 100644
+> > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > @@ -196,13 +196,13 @@ static u8 MgntQuery_MgntFrameTxRate(struct ieee80211_device *ieee)
+> >  	}
+> >  
+> >  	/*
+> > -	// Data rate of ProbeReq is already decided. Annie, 2005-03-31
+> > -	if( pMgntInfo->bScanInProgress || (pMgntInfo->bDualModeScanStep!=0) ) {
+> > -	if(pMgntInfo->dot11CurrentWirelessMode==WIRELESS_MODE_A)
+> > -	rate = 0x0c;
+> > -	else
+> > -	rate = 0x02;
+> > -	}
+> > +	 * // Data rate of ProbeReq is already decided. Annie, 2005-03-31
+> > +	 * if( pMgntInfo->bScanInProgress || (pMgntInfo->bDualModeScanStep!=0) ) {
+> > +	 * if(pMgntInfo->dot11CurrentWirelessMode==WIRELESS_MODE_A)
+> > +	 * rate = 0x0c;
+> > +	 * else
+> > +	 * rate = 0x02;
+> > +	 * }
+> >  	 */
+> >  	return rate;
 > 
-> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> ---
->  drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Ick, no, just delete this chunk, that indentation makes no sense.
+This solves this checkpatch.pl warning
+WARNING: Block comments use * on subsequent lines
 > 
-> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-> index 0e762e559675..c3433ade7144 100644
-> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-> @@ -2577,9 +2577,9 @@ static inline void ieee80211_process_probe_response(
->  	spin_unlock_irqrestore(&ieee->lock, flags);
->  	if (is_beacon(beacon->header.frame_ctl)&&is_same_network(&ieee->current_network, network, ieee)&&\
->  		(ieee->state == IEEE80211_LINKED)) {
-> -		if (ieee->handle_beacon != NULL) {
-> +		if (ieee->handle_beacon != NULL) 
->  			ieee->handle_beacon(ieee->dev,beacon,&ieee->current_network);
-> -		}
-> +		
+> >  }
+> > @@ -265,7 +265,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct ieee80211_device *ieee
+> >  			/* insert the skb packet to the management queue */
+> >  			/* as for the completion function, it does not need
+> >  			 * to check it any more.
+> > -			 * */
+> > +			 */
+> >  			printk("%s():insert to waitqueue!\n", __func__);
+> >  			skb_queue_tail(&ieee->skb_waitQ[tcb_desc->queue_index], skb);
+> >  		} else {
+> > @@ -1643,11 +1643,11 @@ static short ieee80211_sta_ps_sleep(struct ieee80211_device *ieee, u32 *time_h,
+> >  	int timeout;
+> >  	u8 dtim;
+> >  	/*if(ieee->ps == IEEE80211_PS_DISABLED ||
+> > -		ieee->iw_mode != IW_MODE_INFRA ||
+> > -		ieee->state != IEEE80211_LINKED)
+> > -
+> > -		return 0;
+> > -	*/
+> > +	 *	ieee->iw_mode != IW_MODE_INFRA ||
+> > +	 *	ieee->state != IEEE80211_LINKED)
+> > +	 *	
+> > +	 *	return 0;
+> > +	 */
+> 
+> Same here.
+This also solves WARNING: Block comments use * on subsequent lines
+> You also added trailing whitespace :(
+sorry, I will fix it in V2
+> >  	dtim = ieee->current_network.dtim_data;
+> >  	if (!(dtim & IEEE80211_DTIM_VALID))
+> >  		return 0;
+> > @@ -1979,8 +1979,8 @@ ieee80211_rx_frame_softmac(struct ieee80211_device *ieee, struct sk_buff *skb,
+> >  	case IEEE80211_STYPE_DISASSOC:
+> >  	case IEEE80211_STYPE_DEAUTH:
+> >  		/* FIXME for now repeat all the association procedure
+> > -		* both for disassociation and deauthentication
+> > -		*/
+> > +		 * both for disassociation and deauthentication
+> > +		 */
+> >  		if ((ieee->softmac_features & IEEE_SOFTMAC_ASSOCIATE) &&
+> >  		    ieee->state == IEEE80211_LINKED &&
+> >  		    ieee->iw_mode == IW_MODE_INFRA) {
+> > @@ -2050,10 +2050,10 @@ void ieee80211_softmac_xmit(struct ieee80211_txb *txb, struct ieee80211_device *
+> >  #endif
+> >  		    (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) || \
+> >  		    (ieee->queue_stop)) {
+> > -			/* insert the skb packet to the wait queue */
+> > -			/* as for the completion function, it does not need
+> > +			/* insert the skb packet to the wait queue 
+> 
+> 
+> You added trailing whitespace :(
+> 
+> I recommend fixing your editor to highlight in red when this happens.
+>
+> I stopped reviewing here...
+> 
+> thanks,
+> 
+> greg k-h
 
-Again you added trailing whitespace.
-
-Git even complains when you try to apply this :(
-
-greg k-h
+I have fixed all trailing whitespace issues, also fixed my editor to
+show them :D.
+Should I keep the above two blocks(which you told to remove) in V2
+because they solve WARNING:Block comments use * on subsequent lines,
+or should I remove them before sending V2.
