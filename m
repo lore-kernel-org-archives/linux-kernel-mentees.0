@@ -1,70 +1,83 @@
-From: greg at kroah.com (Greg KH)
-Date: Fri, 3 May 2019 10:01:25 +0200
-Subject: [Linux-kernel-mentees] [PATCH] Staging: rtl8192u: ieee80211:
- Fix comment formating errors
-In-Reply-To: <20190503075204.GB4313@arch>
-References: <20190502052608.GA15578@arch> <20190502174154.GB14304@kroah.com>
-	<20190503075204.GB4313@arch>
-Message-ID: <20190503080125.GB14960@kroah.com>
+From: puranjay12 at gmail.com (Puranjay Mohan)
+Date: Fri, 3 May 2019 13:51:28 +0530
+Subject: [Linux-kernel-mentees] [PATCH] Staging: rtl8192u: ieee80211: Add
+	spaces around '&&' operator
+Message-ID: <20190503082128.GA15317@arch>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Fri, May 03, 2019 at 01:22:04PM +0530, Puranjay Mohan wrote:
-> On Thu, May 02, 2019 at 07:41:54PM +0200, Greg KH wrote:
-> > On Thu, May 02, 2019 at 10:56:08AM +0530, Puranjay Mohan wrote:
-> > > Fix comment formating warnings found by checkpatch.pl
-> > > 
-> > > Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> > > ---
-> > >  .../rtl8192u/ieee80211/ieee80211_softmac.c    | 66 ++++++++++---------
-> > >  1 file changed, 34 insertions(+), 32 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > index 944c8894f9ff..be02f73f5618 100644
-> > > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > @@ -196,13 +196,13 @@ static u8 MgntQuery_MgntFrameTxRate(struct ieee80211_device *ieee)
-> > >  	}
-> > >  
-> > >  	/*
-> > > -	// Data rate of ProbeReq is already decided. Annie, 2005-03-31
-> > > -	if( pMgntInfo->bScanInProgress || (pMgntInfo->bDualModeScanStep!=0) ) {
-> > > -	if(pMgntInfo->dot11CurrentWirelessMode==WIRELESS_MODE_A)
-> > > -	rate = 0x0c;
-> > > -	else
-> > > -	rate = 0x02;
-> > > -	}
-> > > +	 * // Data rate of ProbeReq is already decided. Annie, 2005-03-31
-> > > +	 * if( pMgntInfo->bScanInProgress || (pMgntInfo->bDualModeScanStep!=0) ) {
-> > > +	 * if(pMgntInfo->dot11CurrentWirelessMode==WIRELESS_MODE_A)
-> > > +	 * rate = 0x0c;
-> > > +	 * else
-> > > +	 * rate = 0x02;
-> > > +	 * }
-> > >  	 */
-> > >  	return rate;
-> > 
-> > Ick, no, just delete this chunk, that indentation makes no sense.
-> This solves this checkpatch.pl warning
-> WARNING: Block comments use * on subsequent lines
+Fix coding style errors by adding spaces around '&&' operators.
 
-checkpatch.pl is only a dumb perl script, it can't know about
-everything, you have to always take its advice under advisement, it is
-not always correct.
+Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+---
+ drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Look at the change you made, does it really make much sense?  Does the
-code look better after you have made it?  That's the key here, your goal
-is to leave the code better looking and easier to understand overall.
-Just indenting the comment does not really do that.
-
-> I have fixed all trailing whitespace issues, also fixed my editor to
-> show them :D.
-> Should I keep the above two blocks(which you told to remove) in V2
-> because they solve WARNING:Block comments use * on subsequent lines,
-> or should I remove them before sending V2.
-
-Please remove and send them as a different patch that removes commented
-out code.
-
-thanks,
-
-greg k-h
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
+index 274eead8d24d..0eb073fe1783 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
+@@ -102,7 +102,7 @@ ieee80211_frag_cache_get(struct ieee80211_device *ieee,
+ 	struct rtl_80211_hdr_4addrqos *hdr_4addrqos;
+ 	u8 tid;
+ 
+-	if (((fc & IEEE80211_FCTL_DSTODS) == IEEE80211_FCTL_DSTODS)&&IEEE80211_QOS_HAS_SEQ(fc)) {
++	if (((fc & IEEE80211_FCTL_DSTODS) == IEEE80211_FCTL_DSTODS) && IEEE80211_QOS_HAS_SEQ(fc)) {
+ 	  hdr_4addrqos = (struct rtl_80211_hdr_4addrqos *)hdr;
+ 	  tid = le16_to_cpu(hdr_4addrqos->qos_ctl) & IEEE80211_QCTL_TID;
+ 	  tid = UP2AC(tid);
+@@ -169,7 +169,7 @@ static int ieee80211_frag_cache_invalidate(struct ieee80211_device *ieee,
+ 	struct rtl_80211_hdr_4addrqos *hdr_4addrqos;
+ 	u8 tid;
+ 
+-	if(((fc & IEEE80211_FCTL_DSTODS) == IEEE80211_FCTL_DSTODS)&&IEEE80211_QOS_HAS_SEQ(fc)) {
++	if(((fc & IEEE80211_FCTL_DSTODS) == IEEE80211_FCTL_DSTODS) && IEEE80211_QOS_HAS_SEQ(fc)) {
+ 	  hdr_4addrqos = (struct rtl_80211_hdr_4addrqos *)hdr;
+ 	  tid = le16_to_cpu(hdr_4addrqos->qos_ctl) & IEEE80211_QCTL_TID;
+ 	  tid = UP2AC(tid);
+@@ -426,7 +426,7 @@ static int is_duplicate_packet(struct ieee80211_device *ieee,
+ 
+ 
+ 	//TO2DS and QoS
+-	if(((fc & IEEE80211_FCTL_DSTODS) == IEEE80211_FCTL_DSTODS)&&IEEE80211_QOS_HAS_SEQ(fc)) {
++	if(((fc & IEEE80211_FCTL_DSTODS) == IEEE80211_FCTL_DSTODS) && IEEE80211_QOS_HAS_SEQ(fc)) {
+ 	  hdr_4addrqos = (struct rtl_80211_hdr_4addrqos *)header;
+ 	  tid = le16_to_cpu(hdr_4addrqos->qos_ctl) & IEEE80211_QCTL_TID;
+ 	  tid = UP2AC(tid);
+@@ -773,7 +773,7 @@ static u8 parse_subframe(struct sk_buff *skb,
+ 	/* just for debug purpose */
+ 	SeqNum = WLAN_GET_SEQ_SEQ(le16_to_cpu(hdr->seq_ctl));
+ 
+-	if ((IEEE80211_QOS_HAS_SEQ(fc))&&\
++	if ((IEEE80211_QOS_HAS_SEQ(fc)) && \
+ 			(((frameqos *)(skb->data + IEEE80211_3ADDR_LEN))->field.reserved)) {
+ 		bIsAggregateFrame = true;
+ 	}
+@@ -1109,7 +1109,7 @@ int ieee80211_rx(struct ieee80211_device *ieee, struct sk_buff *skb,
+ 	if (stype != IEEE80211_STYPE_DATA &&
+ 	    stype != IEEE80211_STYPE_DATA_CFACK &&
+ 	    stype != IEEE80211_STYPE_DATA_CFPOLL &&
+-	    stype != IEEE80211_STYPE_DATA_CFACKPOLL&&
++	    stype != IEEE80211_STYPE_DATA_CFACKPOLL &&
+ 	    stype != IEEE80211_STYPE_QOS_DATA//add by David,2006.8.4
+ 	    ) {
+ 		if (stype != IEEE80211_STYPE_NULLFUNC)
+@@ -2565,7 +2565,7 @@ static inline void ieee80211_process_probe_response(
+ 		//	printk("====>2 network->ssid=%s FLAG=%d target.ssid=%s FLAG=%d\n", network->ssid, network->flags, target->ssid, target->flags);
+ 		if(((network->flags & NETWORK_EMPTY_ESSID) == NETWORK_EMPTY_ESSID) \
+ 		    && (((network->ssid_len > 0) && (strncmp(target->ssid, network->ssid, network->ssid_len)))\
+-		    ||((ieee->current_network.ssid_len == network->ssid_len)&&(strncmp(ieee->current_network.ssid, network->ssid, network->ssid_len) == 0)&&(ieee->state == IEEE80211_NOLINK))))
++		    ||((ieee->current_network.ssid_len == network->ssid_len) && (strncmp(ieee->current_network.ssid, network->ssid, network->ssid_len) == 0) && (ieee->state == IEEE80211_NOLINK))))
+ 			renew = 1;
+ 		//YJ,add,080819,for hidden ap,end
+ 
+@@ -2575,7 +2575,7 @@ static inline void ieee80211_process_probe_response(
+ 	}
+ 
+ 	spin_unlock_irqrestore(&ieee->lock, flags);
+-	if (is_beacon(beacon->header.frame_ctl)&&is_same_network(&ieee->current_network, network, ieee)&&\
++	if (is_beacon(beacon->header.frame_ctl) && is_same_network(&ieee->current_network, network, ieee) && \
+ 		(ieee->state == IEEE80211_LINKED)) {
+ 		if (ieee->handle_beacon != NULL) {
+ 			ieee->handle_beacon(ieee->dev,beacon,&ieee->current_network);
+-- 
+2.21.0
