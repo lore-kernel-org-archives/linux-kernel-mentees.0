@@ -1,57 +1,29 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Tue,  7 May 2019 23:21:18 -0600
-Subject: [Linux-kernel-mentees] [PATCH] lspci: Make output for empty range
-	behind a bridge consistent
-Message-ID: <20190508052118.21796-1-skunberg.kelsey@gmail.com>
+Date: Tue,  7 May 2019 23:39:57 -0600
+Subject: [Linux-kernel-mentees] [PATCH] lspci: Include -vvv option in help
+Message-ID: <20190508053957.22076-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-When a range behind a bridge is empty, '[empty]' will be displayed
-after the prefix. Removing option to display 'None' for consistency.
-
-Using -vvv will include full range addresses between prefix and '[empty]'.
-
-show_range() is only called when verbose (-v). Code checking for
-'not verbose' is not needed.
+Listed -vvv within the help page so highest used level of verbose
+in lspci is known
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- lspci.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ lspci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lspci.c b/lspci.c
-index d63b6d0..65cbde9 100644
+index 65cbde9..9ec46c3 100644
 --- a/lspci.c
 +++ b/lspci.c
-@@ -375,23 +375,15 @@ show_size(u64 x)
- 
- static void
- show_range(char *prefix, u64 base, u64 limit, int is_64bit)
--{
--  if (base > limit)
-+{ 
-+  printf("%s:", prefix);
-+  if (base <= limit || verbose > 2)
-     {
--      if (!verbose)
--	return;
--      else if (verbose < 3)
--	{
--	  printf("%s: None\n", prefix);
--	  return;
--	}
-+      if (is_64bit)
-+        printf(" %016" PCI_U64_FMT_X "-%016" PCI_U64_FMT_X, base, limit);
-+      else
-+        printf(" %08x-%08x", (unsigned) base, (unsigned) limit);
-     }
--
--  printf("%s: ", prefix);
--  if (is_64bit)
--    printf("%016" PCI_U64_FMT_X "-%016" PCI_U64_FMT_X, base, limit);
--  else
--    printf("%08x-%08x", (unsigned) base, (unsigned) limit);
-   if (base <= limit)
-     show_size(limit - base + 1);
-   else
+@@ -41,7 +41,7 @@ static char help_msg[] =
+ "-t\t\tShow bus tree\n"
+ "\n"
+ "Display options:\n"
+-"-v\t\tBe verbose (-vv for very verbose)\n"
++"-v\t\tBe verbose (-vv or -vvv for higher verbosity)\n"
+ #ifdef PCI_OS_LINUX
+ "-k\t\tShow kernel drivers handling each device\n"
+ #endif
 -- 
 2.20.1
