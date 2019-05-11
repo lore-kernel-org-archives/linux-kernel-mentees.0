@@ -1,68 +1,53 @@
-From: gregkh at linuxfoundation.org (Greg KH)
-Date: Sat, 11 May 2019 08:04:20 +0200
-Subject: [Linux-kernel-mentees] [PATCH] Staging: kpc2000: kpc_dma:
- resolve checkpath errors and warnings
-In-Reply-To: <20190510193833.1051-1-bnvandana@gmail.com>
-References: <20190510193833.1051-1-bnvandana@gmail.com>
-Message-ID: <20190511060420.GA18755@kroah.com>
+From: bnvandana at gmail.com (Vandana BN)
+Date: Sat, 11 May 2019 13:14:04 +0530
+Subject: [Linux-kernel-mentees] Syzbot analysis;
+ KASAN: null-ptr-deref Read in zr364xx_vidioc_querycap
+Message-ID: <71bf3532-9233-def6-9b3d-53b90d3546a3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Sat, May 11, 2019 at 01:08:33AM +0530, Vandana BN wrote:
-> This patch resolves coding style errors and warnings reported by chechpatch
-> 
-> ERROR: "(foo*)" should be "(foo *)"
-> ERROR: trailing whitespace
-> ERROR: space required before the open brace '{'
-> ERROR: "foo * bar" should be "foo *bar"
-> ERROR: space prohibited after that '!' (ctx:BxW)
-> ERROR: space prohibited after that open parenthesis '('
-> ERROR: switch and case should be at the same indent
-> ERROR: trailing statements should be on next line
-> ERROR: Macros with complex values should be enclosed in parentheses
-> ERROR: "foo __init  bar" should be "foo __init bar"
-> ERROR: "foo __exit  bar" should be "foo __exit bar"
-> WARNING: Missing a blank line after declarations
-> WARNING: Prefer using '"%s...", __func__' to using function's name, in a string
-> WARNING: braces {} are not necessary for any arm of this statement
-> WARNING: unnecessary cast may hide bugs
-> WARNING: braces {} are not necessary for single statement
-> WARNING: struct file_operations should normally be const
-> WARNING: labels should not be indented
-> Signed-off-by: Vandana BN <bnvandana at gmail.com>
-> ---
->  drivers/staging/kpc2000/kpc_dma/dma.c         | 137 +++++------
->  drivers/staging/kpc2000/kpc_dma/fileops.c     | 220 +++++++++---------
->  .../staging/kpc2000/kpc_dma/kpc_dma_driver.c  | 121 +++++-----
->  .../staging/kpc2000/kpc_dma/kpc_dma_driver.h  |  32 +--
->  4 files changed, 265 insertions(+), 245 deletions(-)
-> 
+This is a NULL pointer derefrence bug in USB_ZR364XX driver.
 
-Hi,
+KASAN: null-ptr-deref Read in zr364xx_vidioc_querycap <https://syzkaller.appspot.com/bug?id=9c0c178c24d828a7378f483309001329750aad64>
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+The ioctl vidioc_querycap() is used to get capablity of driver and hardware.
+USB_ZR364XX driver registers zr364xx_vidioc_querycap() as .vidioc_querycap funtion which is part of v4l2_ioctl_ops in v4l2.
+When VIDIOC_QUERYCAP ioctl is called, the below function path is traversed
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+?v4l2_ioctl()->video_usercopy()->__video_do_ioctl()->v4l_querycap()->zr364xx_vidioc_querycap()
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+which further calls below funtions
 
-thanks,
+? strcpy()->read_word_at_a_time()->kasan_check_read()->check_memory_region()->check_memory_region_inline->kasan_report().
 
-greg k-h's patch email bot
+In function check_memory_region(), if the input addr is not valid, that is,
+if addr is greater than KASAN_SHADOW_START which is VA_START - the first kernel virtual address.
+then, kasan_report() get called which prints the stack seen in bug report via dump_stack().
+
+The stack trace in the bug points at below line in zr364xx_vidioc_querycap()
+
+"706 strscpy(cap->card, cam->udev->product, sizeof(cap->card));"
+
+The bug report has the below line which? tells that the addr which is src(cam->udev->product) in the above strcpy() is NULL.
+
+"Read of size 1 at addr 0000000000000000 by task v4l_id/5287"
+
+So, for this device the Product is not initialized and accessing it causes a NULL pointer deref.
+
+Also, in usb.h in comment on struct usb_device it says
+"@product: iProduct string, if present (static)" .
+I deduce that product can be NULL from this, and in all other places where udev->product is accessed does NULL check before accessing it.
+
+The fix would be to check for NULL before strcpy or/and copy DRIVER_DESC or "zr364xx" to cap->card insted in zr364xx_vidioc_querycap().
+
+I could not reproduce this as i dont have the device to test it.
+
+Please let me know your feedback.
+
+Thanks,
+
+Vandana.
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20190511/5b277ec0/attachment.html>
