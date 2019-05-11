@@ -1,53 +1,34 @@
-From: bnvandana at gmail.com (Vandana BN)
-Date: Sat, 11 May 2019 13:14:04 +0530
-Subject: [Linux-kernel-mentees] Syzbot analysis;
- KASAN: null-ptr-deref Read in zr364xx_vidioc_querycap
-Message-ID: <71bf3532-9233-def6-9b3d-53b90d3546a3@gmail.com>
+From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
+Date: Sat, 11 May 2019 17:03:07 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 0/3] lspci: Update verbose help
+	and show_range()
+Message-ID: <20190511230310.4438-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-This is a NULL pointer derefrence bug in USB_ZR364XX driver.
+Changes since v1:
+  - Expand changes into more patches for easier review.
+  - Combine three patches for lspci.c into patchset.
 
-KASAN: null-ptr-deref Read in zr364xx_vidioc_querycap <https://syzkaller.appspot.com/bug?id=9c0c178c24d828a7378f483309001329750aad64>
+  * Patch 1: "lspci: Include -vvv option in help"
+    No changes made. Added to series for review.
 
+  * Patch 2: "lspci: Remove unnecessary !verbose check in show_range()"
+    Move into it's own patch since v1. Dead code which checks for
+    verbosity to be true.
 
-The ioctl vidioc_querycap() is used to get capablity of driver and hardware.
-USB_ZR364XX driver registers zr364xx_vidioc_querycap() as .vidioc_querycap funtion which is part of v4l2_ioctl_ops in v4l2.
-When VIDIOC_QUERYCAP ioctl is called, the below function path is traversed
+  * Patch 3: "lspci: Replace output for bridge with empty range from
+  * 'None' to '[empty]'
+    Patch builds off Patch 2 to change show_range() output to be more
+    consistent between each level of verbosity.
 
-?v4l2_ioctl()->video_usercopy()->__video_do_ioctl()->v4l_querycap()->zr364xx_vidioc_querycap()
+Kelsey Skunberg (3):
+  lspci: Include -vvv option in help
+  lspci: Remove unnecessary !verbose check in show_range()
+  lspci: Replace output for bridge with empty range from 'None' to
+    '[empty]'
 
-which further calls below funtions
+ lspci.c | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-? strcpy()->read_word_at_a_time()->kasan_check_read()->check_memory_region()->check_memory_region_inline->kasan_report().
-
-In function check_memory_region(), if the input addr is not valid, that is,
-if addr is greater than KASAN_SHADOW_START which is VA_START - the first kernel virtual address.
-then, kasan_report() get called which prints the stack seen in bug report via dump_stack().
-
-The stack trace in the bug points at below line in zr364xx_vidioc_querycap()
-
-"706 strscpy(cap->card, cam->udev->product, sizeof(cap->card));"
-
-The bug report has the below line which? tells that the addr which is src(cam->udev->product) in the above strcpy() is NULL.
-
-"Read of size 1 at addr 0000000000000000 by task v4l_id/5287"
-
-So, for this device the Product is not initialized and accessing it causes a NULL pointer deref.
-
-Also, in usb.h in comment on struct usb_device it says
-"@product: iProduct string, if present (static)" .
-I deduce that product can be NULL from this, and in all other places where udev->product is accessed does NULL check before accessing it.
-
-The fix would be to check for NULL before strcpy or/and copy DRIVER_DESC or "zr364xx" to cap->card insted in zr364xx_vidioc_querycap().
-
-I could not reproduce this as i dont have the device to test it.
-
-Please let me know your feedback.
-
-Thanks,
-
-Vandana.
-
--------------- next part --------------
-An HTML attachment was scrubbed...
-URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20190511/5b277ec0/attachment.html>
+--
+2.20.1
