@@ -1,50 +1,21 @@
-From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Sun, 12 May 2019 01:34:29 -0600
-Subject: [Linux-kernel-mentees] [PATCH] selftests: bpf: Add files
- generated when compiled to .gitignore
-In-Reply-To: <20190512062907.GL1247@mini-arch>
-References: <20190512035009.25451-1-skunberg.kelsey@gmail.com>
-	<20190512062907.GL1247@mini-arch>
-Message-ID: <20190512073427.GA10811@asus>
+From: daniel@iogearbox.net (Daniel Borkmann)
+Date: Mon, 13 May 2019 01:23:52 +0200
+Subject: [Linux-kernel-mentees] [PATCH v2] selftests: bpf: Add files
+ generated after build to .gitignore
+In-Reply-To: <20190512072918.10736-1-skunberg.kelsey@gmail.com>
+References: <20190512072918.10736-1-skunberg.kelsey@gmail.com>
+Message-ID: <d6097853-70e1-b42c-b332-c08da6942efb@iogearbox.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190512073429.vYuuixpopBJ_nQV6OSN_oUz6BZJsLmKEZodmEyhaq10@z>
+Message-ID: <20190512232352.NT-bMksZ2Q2dIe9g--hqKm28j-h_-DPWMlh62koRjm0@z>
 
-On Sat, May 11, 2019 at 11:29:07PM -0700, Stanislav Fomichev wrote:
-> On 05/11, Kelsey Skunberg wrote:
-> > The following files are generated when /selftests/bpf/ is compiled and
-> > should be added to .gitignore:
-> > 
-> > 	- libbpf.pc
-> > 	- libbpf.so.0
-> > 	- libbpf.so.0.0.3
-> > 
-> > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> > ---
-> >  tools/testing/selftests/bpf/.gitignore | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/tools/testing/selftests/bpf/.gitignore b/tools/testing/selftests/bpf/.gitignore
-> > index 41e8a689aa77..ceb11f98fe4f 100644
-> > --- a/tools/testing/selftests/bpf/.gitignore
-> > +++ b/tools/testing/selftests/bpf/.gitignore
-> > @@ -32,3 +32,6 @@ test_tcpnotify_user
-> >  test_libbpf
-> >  test_tcp_check_syncookie_user
-> >  alu32
-> > +libbpf.pc
+On 05/12/2019 09:29 AM, Kelsey Skunberg wrote:
+> The following files are generated after building /selftests/bpf/ and
+> should be added to .gitignore:
 > 
-> [..]
-> > +libbpf.so.0
-> > +libbpf.so.0.0.3
-> How about libbpf.so.* so we don't have to update it on every release?
->
+> 	- libbpf.pc
+> 	- libbpf.so.*
+> 
+> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 
-That seems logical. Updated in v2. I appreciate the feedback!
-
-Cheers,
-Kelsey
-
-> > --
-> > 2.20.1
-> > 
+Applied, thanks.
