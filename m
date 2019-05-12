@@ -1,34 +1,42 @@
-From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Sat, 11 May 2019 21:50:09 -0600
-Subject: [Linux-kernel-mentees] [PATCH] selftests: bpf: Add files generated
-	when compiled to .gitignore
-Message-ID: <20190512035009.25451-1-skunberg.kelsey@gmail.com>
+From: sdf@fomichev.me (Stanislav Fomichev)
+Date: Sat, 11 May 2019 23:29:07 -0700
+Subject: [Linux-kernel-mentees] [PATCH] selftests: bpf: Add files
+ generated when compiled to .gitignore
+In-Reply-To: <20190512035009.25451-1-skunberg.kelsey@gmail.com>
+References: <20190512035009.25451-1-skunberg.kelsey@gmail.com>
+Message-ID: <20190512062907.GL1247@mini-arch>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190512035009.fvPuI_laXADAPVxks15Xztr6t7YiLFiSzcBpoEbM7g4@z>
+Message-ID: <20190512062907.E-avv61hV2DRP2BaVdGklDzVNF07u1O72b54jm-tCNY@z>
 
-The following files are generated when /selftests/bpf/ is compiled and
-should be added to .gitignore:
+On 05/11, Kelsey Skunberg wrote:
+> The following files are generated when /selftests/bpf/ is compiled and
+> should be added to .gitignore:
+> 
+> 	- libbpf.pc
+> 	- libbpf.so.0
+> 	- libbpf.so.0.0.3
+> 
+> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> ---
+>  tools/testing/selftests/bpf/.gitignore | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/tools/testing/selftests/bpf/.gitignore b/tools/testing/selftests/bpf/.gitignore
+> index 41e8a689aa77..ceb11f98fe4f 100644
+> --- a/tools/testing/selftests/bpf/.gitignore
+> +++ b/tools/testing/selftests/bpf/.gitignore
+> @@ -32,3 +32,6 @@ test_tcpnotify_user
+>  test_libbpf
+>  test_tcp_check_syncookie_user
+>  alu32
+> +libbpf.pc
 
-	- libbpf.pc
-	- libbpf.so.0
-	- libbpf.so.0.0.3
+[..]
+> +libbpf.so.0
+> +libbpf.so.0.0.3
+How about libbpf.so.* so we don't have to update it on every release?
 
-Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
----
- tools/testing/selftests/bpf/.gitignore | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/tools/testing/selftests/bpf/.gitignore b/tools/testing/selftests/bpf/.gitignore
-index 41e8a689aa77..ceb11f98fe4f 100644
---- a/tools/testing/selftests/bpf/.gitignore
-+++ b/tools/testing/selftests/bpf/.gitignore
-@@ -32,3 +32,6 @@ test_tcpnotify_user
- test_libbpf
- test_tcp_check_syncookie_user
- alu32
-+libbpf.pc
-+libbpf.so.0
-+libbpf.so.0.0.3
---
-2.20.1
+> --
+> 2.20.1
+> 
