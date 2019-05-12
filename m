@@ -1,39 +1,27 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Sat, 11 May 2019 22:44:34 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2] selftests: kvm: Add files
-	generated when compiled to .gitignore
-In-Reply-To: <5d60e7126803e9a11b51618e65966ba047eff7df>
-References: <5d60e7126803e9a11b51618e65966ba047eff7df>
-Message-ID: <20190512044434.32627-1-skunberg.kelsey@gmail.com>
+Date: Sat, 11 May 2019 22:57:11 -0600
+Subject: [Linux-kernel-mentees] [PATCH] selftests: pidfd: Create .gitignore
+	to include pidfd_test
+Message-ID: <20190512045711.4507-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-The following files are generated in /selftests/kvm/ after compiling and
-should be added to /selftests/kvm/.gitignore:
+Create /selftests/pidfd/.gitignore which holds the following file name
+created after compiling:
 
-        - /x86_64/hyperv_cpuid
-	- /x86_64/smm_test
-	- /clear_dirty_log_test
+	- pidfd_test
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
-Changes since v1:
-        - Included /clear_dirty_log_test to .gitignore
-        - Updated commit log to reflect file added
+ tools/testing/selftests/pidfd/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 tools/testing/selftests/pidfd/.gitignore
 
- tools/testing/selftests/kvm/.gitignore | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/tools/testing/selftests/kvm/.gitignore b/tools/testing/selftests/kvm/.gitignore
-index 2689d1ea6d7a..391a19231618 100644
---- a/tools/testing/selftests/kvm/.gitignore
-+++ b/tools/testing/selftests/kvm/.gitignore
-@@ -6,4 +6,7 @@
- /x86_64/vmx_close_while_nested_test
- /x86_64/vmx_tsc_adjust_test
- /x86_64/state_test
-+/x86_64/hyperv_cpuid
-+/x86_64/smm_test
-+/clear_dirty_log_test
- /dirty_log_test
+diff --git a/tools/testing/selftests/pidfd/.gitignore b/tools/testing/selftests/pidfd/.gitignore
+new file mode 100644
+index 000000000000..822a1e63d045
+--- /dev/null
++++ b/tools/testing/selftests/pidfd/.gitignore
+@@ -0,0 +1 @@
++pidfd_test
 --
 2.20.1
