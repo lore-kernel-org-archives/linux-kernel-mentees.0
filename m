@@ -1,29 +1,31 @@
 From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Sat, 11 May 2019 23:04:52 -0600
-Subject: [Linux-kernel-mentees] [PATCH] selftests: drivers: Create
-	.gitignore to include /dma-buf/udmabuf
-Message-ID: <20190512050452.4720-1-skunberg.kelsey@gmail.com>
+Date: Sat, 11 May 2019 23:37:49 -0600
+Subject: [Linux-kernel-mentees] [PATCH] tools: gpio: Add
+	include/linux/gpio.h to .gitignore
+Message-ID: <20190512053749.7508-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190512050452.iQpcyoIBcfY3Nm7kXsAoAGElSgil_1XFeVcKkeJELIE@z>
+Message-ID: <20190512053749.K0_3CoopBwxHBibqvSPefxRmaUOjuf-b9qVduRhsWaA@z>
 
-Create /selftests/drivers/.gitignore which holds the following file name
-created after compiling:
+File include/linux/gpio.h is generated after building
+tools/testing/selftests
 
-	- /dma-buf/udmabuf
+Add gpio.h to .gitignore to help clean up working tree status.
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- tools/testing/selftests/drivers/.gitignore | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 tools/testing/selftests/drivers/.gitignore
+ tools/gpio/.gitignore | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/drivers/.gitignore b/tools/testing/selftests/drivers/.gitignore
-new file mode 100644
-index 000000000000..f6aebcc27b76
---- /dev/null
-+++ b/tools/testing/selftests/drivers/.gitignore
-@@ -0,0 +1 @@
-+/dma-buf/udmabuf
+diff --git a/tools/gpio/.gitignore b/tools/gpio/.gitignore
+index 9e9dd4b681b2..a94c0e83b209 100644
+--- a/tools/gpio/.gitignore
++++ b/tools/gpio/.gitignore
+@@ -1,4 +1,4 @@
+ gpio-event-mon
+ gpio-hammer
+ lsgpio
+-
++include/linux/gpio.h
 --
 2.20.1
