@@ -1,33 +1,41 @@
 From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Sat, 11 May 2019 22:12:35 -0600
-Subject: [Linux-kernel-mentees] [PATCH] selftests: kvm: Add files generated
-	when compiled to .gitignore
-Message-ID: <20190512041235.29840-1-skunberg.kelsey@gmail.com>
+Date: Sat, 11 May 2019 22:44:34 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2] selftests: kvm: Add files
+	generated when compiled to .gitignore
+In-Reply-To: <5d60e7126803e9a11b51618e65966ba047eff7df>
+References: <5d60e7126803e9a11b51618e65966ba047eff7df>
+Message-ID: <20190512044434.32627-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190512041235.l4Bd6Sv0UmpihsTOA2WhY7eH8qFpU0Q1DTElZ2dIeBs@z>
+Message-ID: <20190512044434.p_1QiRcKIpdX0qyVT0OFwKCpKtGR3YBzpLcm6wJnYK0@z>
 
 The following files are generated in /selftests/kvm/ after compiling and
 should be added to /selftests/kvm/.gitignore:
 
-	- /x86_64/hyperv_cpuid
+        - /x86_64/hyperv_cpuid
 	- /x86_64/smm_test
+	- /clear_dirty_log_test
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- tools/testing/selftests/kvm/.gitignore | 2 ++
- 1 file changed, 2 insertions(+)
+Changes since v1:
+        - Included /clear_dirty_log_test to .gitignore
+        - Updated commit log to reflect file added
+
+ tools/testing/selftests/kvm/.gitignore | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/tools/testing/selftests/kvm/.gitignore b/tools/testing/selftests/kvm/.gitignore
-index 2689d1ea6d7a..81e9cb775ab8 100644
+index 2689d1ea6d7a..391a19231618 100644
 --- a/tools/testing/selftests/kvm/.gitignore
 +++ b/tools/testing/selftests/kvm/.gitignore
-@@ -6,4 +6,6 @@
+@@ -6,4 +6,7 @@
  /x86_64/vmx_close_while_nested_test
  /x86_64/vmx_tsc_adjust_test
  /x86_64/state_test
 +/x86_64/hyperv_cpuid
 +/x86_64/smm_test
++/clear_dirty_log_test
  /dirty_log_test
 --
 2.20.1
