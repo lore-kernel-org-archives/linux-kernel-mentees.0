@@ -1,62 +1,47 @@
-From: bnvandana at gmail.com (Vandana BN)
-Date: Mon, 13 May 2019 19:13:27 +0530
-Subject: [Linux-kernel-mentees] [PATCH v4 8/8] Staging: kpc2000: kpc_dma:
-	Resolve cast warning and use const for file_operation
-In-Reply-To: <20190513134327.26320-1-bnvandana@gmail.com>
-References: <20190510193833.1051-1-bnvandana@gmail.com>
-	<20190513134327.26320-1-bnvandana@gmail.com>
-Message-ID: <20190513134327.26320-8-bnvandana@gmail.com>
+From: sean.j.christopherson at intel.com (Sean Christopherson)
+Date: Mon, 13 May 2019 07:03:05 -0700
+Subject: [Linux-kernel-mentees] [PATCH v2] selftests: kvm: Add files
+ generated when compiled to .gitignore
+In-Reply-To: <20190512044434.32627-1-skunberg.kelsey@gmail.com>
+References: <5d60e7126803e9a11b51618e65966ba047eff7df>
+	<20190512044434.32627-1-skunberg.kelsey@gmail.com>
+Message-ID: <20190513140305.GA28561@linux.intel.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-This Patch resolves unnecessary cast warning and const file_operations
-reported by checkpath.pl
-WARNING: unnecessary cast may hide bugs
-WARNING: struct file_operations should normally be const
+On Sat, May 11, 2019 at 10:44:34PM -0600, Kelsey Skunberg wrote:
+> The following files are generated in /selftests/kvm/ after compiling and
+> should be added to /selftests/kvm/.gitignore:
+> 
+>         - /x86_64/hyperv_cpuid
+> 	- /x86_64/smm_test
+> 	- /clear_dirty_log_test
+> 
+> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> ---
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
----
-v2 - split changes to multiple patches
-v3 - edit commit message, subject line
-v4 - edit commit message
+An equivalent patch has already been queued.
 
- drivers/staging/kpc2000/kpc_dma/fileops.c        | 4 ++--
- drivers/staging/kpc2000/kpc_dma/kpc_dma_driver.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+https://patchwork.kernel.org/patch/10931115/
 
-diff --git a/drivers/staging/kpc2000/kpc_dma/fileops.c b/drivers/staging/kpc2000/kpc_dma/fileops.c
-index c21672ea2b4f..54a1419728ce 100644
---- a/drivers/staging/kpc2000/kpc_dma/fileops.c
-+++ b/drivers/staging/kpc2000/kpc_dma/fileops.c
-@@ -59,7 +59,7 @@ int  kpc_dma_transfer(struct dev_private_data *priv, struct kiocb *kcb, unsigned
- 
- 	dev_dbg(&priv->ldev->pldev->dev, "%s(priv = [%p], kcb = [%p], iov_base = [%p], iov_len = %ld) ldev = [%p]\n", __func__, priv, kcb, (void *)iov_base, iov_len, ldev);
- 
--	acd = (struct aio_cb_data *) kzalloc(sizeof(struct aio_cb_data), GFP_KERNEL);
-+	acd = kzalloc(sizeof(struct aio_cb_data), GFP_KERNEL);
- 	if (!acd) {
- 		dev_err(&priv->ldev->pldev->dev, "Couldn't kmalloc space for for the aio data\n");
- 		return -ENOMEM;
-@@ -418,7 +418,7 @@ long  kpc_dma_ioctl(struct file *filp, unsigned int ioctl_num, unsigned long ioc
- 	return -ENOTTY;
- }
- 
--struct file_operations  kpc_dma_fops = {
-+const struct file_operations  kpc_dma_fops = {
- 	.owner      = THIS_MODULE,
- 	.open           = kpc_dma_open,
- 	.release        = kpc_dma_close,
-diff --git a/drivers/staging/kpc2000/kpc_dma/kpc_dma_driver.h b/drivers/staging/kpc2000/kpc_dma/kpc_dma_driver.h
-index cf781940ac1b..ee47f43e71cf 100644
---- a/drivers/staging/kpc2000/kpc_dma/kpc_dma_driver.h
-+++ b/drivers/staging/kpc2000/kpc_dma/kpc_dma_driver.h
-@@ -57,7 +57,7 @@ struct dev_private_data {
- 
- struct kpc_dma_device *kpc_dma_lookup_device(int minor);
- 
--extern struct file_operations  kpc_dma_fops;
-+extern const struct file_operations  kpc_dma_fops;
- 
- #define ENG_CAP_PRESENT                 0x00000001
- #define ENG_CAP_DIRECTION               0x00000002
--- 
-2.17.1
+> Changes since v1:
+>         - Included /clear_dirty_log_test to .gitignore
+>         - Updated commit log to reflect file added
+> 
+>  tools/testing/selftests/kvm/.gitignore | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/tools/testing/selftests/kvm/.gitignore b/tools/testing/selftests/kvm/.gitignore
+> index 2689d1ea6d7a..391a19231618 100644
+> --- a/tools/testing/selftests/kvm/.gitignore
+> +++ b/tools/testing/selftests/kvm/.gitignore
+> @@ -6,4 +6,7 @@
+>  /x86_64/vmx_close_while_nested_test
+>  /x86_64/vmx_tsc_adjust_test
+>  /x86_64/state_test
+> +/x86_64/hyperv_cpuid
+> +/x86_64/smm_test
+> +/clear_dirty_log_test
+>  /dirty_log_test
+> --
+> 2.20.1
+> 
