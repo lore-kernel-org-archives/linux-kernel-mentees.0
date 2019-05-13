@@ -1,42 +1,18 @@
 From: bnvandana@gmail.com (Vandana BN)
-Date: Mon, 13 May 2019 16:13:32 +0530
-Subject: [Linux-kernel-mentees] [PATCH v2 2/8] Staging: kpc2000:
- kpc_dma: Resolve coding style errors reported by checkpatch.
-In-Reply-To: <20190513084217.GA17959@kroah.com>
+Date: Mon, 13 May 2019 17:30:25 +0530
+Subject: [Linux-kernel-mentees] [PATCH v3 1/8] Staging: kpc2000:
+ kpc_dma: Resolve trailing whitespace error reported by checkpatch
+In-Reply-To: <20190513104920.GI18105@kadam>
 References: <20190510193833.1051-1-bnvandana@gmail.com>
-	<20190512234000.16555-1-bnvandana@gmail.com>
-	<20190512234000.16555-2-bnvandana@gmail.com>
-	<20190513084217.GA17959@kroah.com>
-Message-ID: <edce8621-86df-6e43-18e3-96d48851ca99@gmail.com>
+	<20190513102622.22398-1-bnvandana@gmail.com>
+	<20190513104920.GI18105@kadam>
+Message-ID: <73832a6a-bc47-5882-91af-b23727f33b87@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190513104332.d0ZsmGCqPtxV0VwOYBGG-lWOMrxdloHJLgdXiQbeHLw@z>
+Message-ID: <20190513120025.AcGqstj6Ujpa0pf2HRb7SzORyL72ChZQhmDImTnOUT0@z>
 
+oh ok.. thanks i will correct it.
 
-On 13/05/19 2:12 PM, Greg KH wrote:
-> On Mon, May 13, 2019 at 05:09:54AM +0530, Vandana BN wrote:
->> This patch resolves below errors reported by checkpatch
->> ERROR: "(foo*)" should be "(foo *)"
->> ERROR: "foo * bar" should be "foo *bar"
->> ERROR: "foo __init  bar" should be "foo __init bar"
->> ERROR: "foo __exit  bar" should be "foo __exit bar"
->>
->> Signed-off-by: Vandana BN <bnvandana at gmail.com>
-> Better...
->
-> But your subject lines are almost all the same, with some being
-> identical to others, yet you are doing different things in each of the
-> patch.
->
-> So please provide a better subject line saying, in a unique way, exactly
-> what you are doing here.
->
-> thanks,
->
-> greg k-h
-
-Thanks, have sent another patch set with better subject lines.
-
-regards,
-
-Vandana.
+On 13/05/19 4:19 PM, Dan Carpenter wrote:
+> The Signed off by has to be before the first --- cut off line.
+> Everything after the cut off is removed from the commit message.
