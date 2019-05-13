@@ -1,21 +1,36 @@
-From: daniel@iogearbox.net (Daniel Borkmann)
-Date: Mon, 13 May 2019 01:23:52 +0200
-Subject: [Linux-kernel-mentees] [PATCH v2] selftests: bpf: Add files
- generated after build to .gitignore
-In-Reply-To: <20190512072918.10736-1-skunberg.kelsey@gmail.com>
-References: <20190512072918.10736-1-skunberg.kelsey@gmail.com>
-Message-ID: <d6097853-70e1-b42c-b332-c08da6942efb@iogearbox.net>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Mon, 13 May 2019 13:49:20 +0300
+Subject: [Linux-kernel-mentees] [PATCH v3 1/8] Staging: kpc2000:
+ kpc_dma: Resolve trailing whitespace error reported by checkpatch
+In-Reply-To: <20190513102622.22398-1-bnvandana@gmail.com>
+References: <20190510193833.1051-1-bnvandana@gmail.com>
+	<20190513102622.22398-1-bnvandana@gmail.com>
+Message-ID: <20190513104920.GI18105@kadam>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190512232352.NT-bMksZ2Q2dIe9g--hqKm28j-h_-DPWMlh62koRjm0@z>
+Message-ID: <20190513104920.oscg03c_ycWbZ7JqNkU_uQqaIgv1-9GaBGP_WjX_ztw@z>
 
-On 05/12/2019 09:29 AM, Kelsey Skunberg wrote:
-> The following files are generated after building /selftests/bpf/ and
-> should be added to .gitignore:
+On Mon, May 13, 2019 at 03:56:15PM +0530, Vandana BN wrote:
+> Resolve trailing whitespace error from checkpatch.pl
+> ERROR: trailing whitespace
+> ---
+> v2-split changes to multiple patches
+> v3 - edit commit message
+> ---
 > 
-> 	- libbpf.pc
-> 	- libbpf.so.*
-> 
-> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> Signed-off-by: Vandana BN <bnvandana at gmail.com>
+> ---
 
-Applied, thanks.
+The Signed off by has to be before the first --- cut off line.
+Everything after the cut off is removed from the commit message.
+
+>  drivers/staging/kpc2000/kpc_dma/dma.c         |  86 ++++++-------
+>  drivers/staging/kpc2000/kpc_dma/fileops.c     | 114 +++++++++---------
+>  .../staging/kpc2000/kpc_dma/kpc_dma_driver.c  |  46 +++----
+>  .../staging/kpc2000/kpc_dma/kpc_dma_driver.h  |  16 +--
+>  4 files changed, 131 insertions(+), 131 deletions(-)
+> 
+
+
+regards,
+dan carpenter
