@@ -1,64 +1,27 @@
 From: skhan at linuxfoundation.org (Shuah Khan)
-Date: Tue, 14 May 2019 14:14:39 -0600
-Subject: [Linux-kernel-mentees] Syzbot analysis;
- KASAN: null-ptr-deref Read in zr364xx_vidioc_querycap
-In-Reply-To: <71bf3532-9233-def6-9b3d-53b90d3546a3@gmail.com>
-References: <71bf3532-9233-def6-9b3d-53b90d3546a3@gmail.com>
-Message-ID: <e28c8e7d-6595-e31d-6bfe-73bd5993277d@linuxfoundation.org>
+Date: Tue, 14 May 2019 17:26:25 -0600
+Subject: [Linux-kernel-mentees] [PATCH] selftests: pidfd: Create
+	.gitignore to include pidfd_test
+In-Reply-To: <20190512045711.4507-1-skunberg.kelsey@gmail.com>
+References: <20190512045711.4507-1-skunberg.kelsey@gmail.com>
+Message-ID: <f0f3c65d-2b1f-3633-ee18-7d49d18eb7a5@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Hi Vandana,
+Hi Kelsey,
 
-On 5/11/19 1:44 AM, Vandana BN wrote:
-> This is a NULL pointer derefrence bug in USB_ZR364XX driver.
-> 
-> KASAN: null-ptr-deref Read in zr364xx_vidioc_querycap 
-> <https://syzkaller.appspot.com/bug?id=9c0c178c24d828a7378f483309001329750aad64>
-> 
-> 
-> The ioctl vidioc_querycap() is used to get capablity of driver and hardware.
-> USB_ZR364XX driver registers zr364xx_vidioc_querycap() as 
-> .vidioc_querycap funtion which is part of v4l2_ioctl_ops in v4l2.
-> When VIDIOC_QUERYCAP ioctl is called, the below function path is traversed
-> 
->  ?v4l2_ioctl()->video_usercopy()->__video_do_ioctl()->v4l_querycap()->zr364xx_vidioc_querycap()
-> 
-> which further calls below funtions
-> 
-> strcpy()->read_word_at_a_time()->kasan_check_read()->check_memory_region()->check_memory_region_inline->kasan_report().
-> 
-> In function check_memory_region(), if the input addr is not valid, that is,
-> if addr is greater than KASAN_SHADOW_START which is VA_START - the first 
-> kernel virtual address.
-> then, kasan_report() get called which prints the stack seen in bug 
-> report via dump_stack().
-> 
-> The stack trace in the bug points at below line in zr364xx_vidioc_querycap()
-> 
-> "706 strscpy(cap->card, cam->udev->product, sizeof(cap->card));"
-> 
-> The bug report has the below line which? tells that the addr which is 
-> src(cam->udev->product) in the above strcpy() is NULL.
-> 
-> "Read of size 1 at addr 0000000000000000 by task v4l_id/5287"
-> 
-> So, for this device the Product is not initialized and accessing it 
-> causes a NULL pointer deref.
-> 
-> Also, in usb.h in comment on struct usb_device it says
-> "@product: iProduct string, if present (static)" .
-> I deduce that product can be NULL from this, and in all other places 
-> where udev->product is accessed does NULL check before accessing it.
-> 
+On 5/11/19 10:57 PM, Kelsey Skunberg wrote:
+> Create /selftests/pidfd/.gitignore which holds the following file name
+> created after compiling:
 
-Correct. Other drivers do check if product in null first.
+This patch generates the following checkpatch warning.
 
-> The fix would be to check for NULL before strcpy or/and copy DRIVER_DESC 
-> or "zr364xx" to cap->card insted in zr364xx_vidioc_querycap().
-> 
+WARNING: use relative pathname instead of absolute in changelog text
+#85:
+Create /selftests/drivers/.gitignore which holds the following file name
 
-Right. A null check would fix the problem. Send the fix in. cc'ing Hans
-on this
+
+I fixed it and applied the patch. Please make sure to run checkpatch
+before sending patches in the future.
 
 thanks,
 -- Shuah
