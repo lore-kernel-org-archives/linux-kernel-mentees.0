@@ -1,66 +1,51 @@
-From: bjorn.helgaas at gmail.com (Bjorn Helgaas)
-Date: Thu, 16 May 2019 07:58:37 -0500
-Subject: [Linux-kernel-mentees] [PATCH v2 2/3] lspci: Remove unnecessary
-	!verbose check in show_range()
-In-Reply-To: <20190511230310.4438-3-skunberg.kelsey@gmail.com>
+From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
+Date: Thu, 16 May 2019 15:23:24 -0600
+Subject: [Linux-kernel-mentees] [PATCH v3 0/3] Update verbose help and
+	show_range()
+In-Reply-To: <20190511230310.4438-1-skunberg.kelsey@gmail.com>
 References: <20190511230310.4438-1-skunberg.kelsey@gmail.com>
-	<20190511230310.4438-3-skunberg.kelsey@gmail.com>
-Message-ID: <CABhMZUWviq7O7f3eaDk45JKYUz+Gg_4TdtTkx3HC5WgLWh5Umg@mail.gmail.com>
+Message-ID: <20190516212327.4310-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Sat, May 11, 2019 at 6:05 PM Kelsey Skunberg
-<skunberg.kelsey at gmail.com> wrote:
->
-> Remove 'if (!verbose)' code in show_range() due to not being called.
-> show_range() will only be called when verbose is true. Additional call
-> to check for verbosity within show_range() is dead code.
->
-> !verbose was used so nothing would print if the range behind a bridge
-> had a base > limit and verbose == false. Since show_range() will not be
-> called when verbose == false, not printing bridge information is
-> still accomplished.
->
-> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> ---
->  lspci.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
->
-> diff --git a/lspci.c b/lspci.c
-> index 937c6e4..419f386 100644
-> --- a/lspci.c
-> +++ b/lspci.c
-> @@ -376,17 +376,11 @@ show_size(u64 x)
->  static void
->  show_range(char *prefix, u64 base, u64 limit, int is_64bit)
->  {
-> -  if (base > limit)
-> +  if (base > limit || verbose < 3)
->      {
-> -      if (!verbose)
-> -       return;
-> -      else if (verbose < 3)
-> -       {
-> -         printf("%s: None\n", prefix);
-> -         return;
-> -       }
+Changes since v1:
+  - Expand changes into more patches for easier review.
+  - Combine three patches for lspci.c into patchset.
 
-I don't think this works quite right.  The resulting code is:
+  * Patch 1: "lspci: Include -vvv option in help"
+    No changes made. Added to series for review.
 
-  if (base > limit || verbose < 3) {
-    printf("%s: None\n", prefix);
-    return;
-  }
+  * Patch 2: "lspci: Remove unnecessary !verbose check in show_range()"
+    Move into it's own patch since v1. Dead code which checks for
+    verbosity to be true.
 
-but that means we print "None" when the window is *enabled* (base <=
-limit) and verbose < 3.  We should print the window in that case.
+  * Patch 3: "lspci: Replace output for bridge with empty range from
+  * 'None' to '[empty]'
+    Patch builds off Patch 2 to change show_range() output to be more
+    consistent between each level of verbosity.
 
-> +      printf("%s: None\n", prefix);
-> +      return;
->      }
-> -
->    printf("%s: ", prefix);
->    if (is_64bit)
->      printf("%016" PCI_U64_FMT_X "-%016" PCI_U64_FMT_X, base, limit);
-> --
-> 2.20.1
->
+Changes since v2:
+  * Patch 1: Update commit log to imperative mood
+
+  * Patch 2: Fix logical error
+	Previous:
+	(base > limit || verbose < 3)
+	New:
+	(base > limit && verbose < 3)
+
+  * Patch 3: Fix logical error
+	Previous:
+	base > limit
+	New:
+	base <= limit
+
+Kelsey Skunberg (3):
+  lspci: Include -vvv option in help
+  lspci: Remove unnecessary !verbose check in show_range()
+  lspci: Replace output for bridge with empty range from 'None' to
+    '[empty]'
+
+ lspci.c | 22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
+
+--
+2.20.1
