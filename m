@@ -1,71 +1,67 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Thu, 16 May 2019 15:26:16 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 2/3] lspci: Remove unnecessary
- !verbose check in show_range()
-In-Reply-To: <CABhMZUWviq7O7f3eaDk45JKYUz+Gg_4TdtTkx3HC5WgLWh5Umg@mail.gmail.com>
-References: <20190511230310.4438-1-skunberg.kelsey@gmail.com>
-	<20190511230310.4438-3-skunberg.kelsey@gmail.com>
-	<CABhMZUWviq7O7f3eaDk45JKYUz+Gg_4TdtTkx3HC5WgLWh5Umg@mail.gmail.com>
-Message-ID: <20190516212615.GA4369@asus>
+Date: Fri, 17 May 2019 10:46:52 -0600
+Subject: [Linux-kernel-mentees] [SYZBOT REPORT] WARNING in
+	vkms_vblank_simulate
+Message-ID: <20190517164651.GA5873@asus>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Thu, May 16, 2019 at 07:58:37AM -0500, Bjorn Helgaas wrote:
-> On Sat, May 11, 2019 at 6:05 PM Kelsey Skunberg
-> <skunberg.kelsey at gmail.com> wrote:
-> >
-> > Remove 'if (!verbose)' code in show_range() due to not being called.
-> > show_range() will only be called when verbose is true. Additional call
-> > to check for verbosity within show_range() is dead code.
-> >
-> > !verbose was used so nothing would print if the range behind a bridge
-> > had a base > limit and verbose == false. Since show_range() will not be
-> > called when verbose == false, not printing bridge information is
-> > still accomplished.
-> >
-> > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> > ---
-> >  lspci.c | 12 +++---------
-> >  1 file changed, 3 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/lspci.c b/lspci.c
-> > index 937c6e4..419f386 100644
-> > --- a/lspci.c
-> > +++ b/lspci.c
-> > @@ -376,17 +376,11 @@ show_size(u64 x)
-> >  static void
-> >  show_range(char *prefix, u64 base, u64 limit, int is_64bit)
-> >  {
-> > -  if (base > limit)
-> > +  if (base > limit || verbose < 3)
-> >      {
-> > -      if (!verbose)
-> > -       return;
-> > -      else if (verbose < 3)
-> > -       {
-> > -         printf("%s: None\n", prefix);
-> > -         return;
-> > -       }
-> 
-> I don't think this works quite right.  The resulting code is:
-> 
->   if (base > limit || verbose < 3) {
->     printf("%s: None\n", prefix);
->     return;
->   }
-> 
-> but that means we print "None" when the window is *enabled* (base <=
-> limit) and verbose < 3.  We should print the window in that case.
-> 
-> > +      printf("%s: None\n", prefix);
-> > +      return;
-> >      }
-> > -
-> >    printf("%s: ", prefix);
-> >    if (is_64bit)
-> >      printf("%016" PCI_U64_FMT_X "-%016" PCI_U64_FMT_X, base, limit);
-> > --
-> > 2.20.1
-> >
+WARNING in vkms_vblank_simulate
 
-You're absolutely right and I should have caught this. Revised and v3
-sumbitted. Thank you for reviewing and letting me know.
+https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
+
+Warning appears when a call to hrtimer_forward_now() fails.
+A bisection was provided and determined warning started with
+the following patch:
+
+https://patchwork.freedesktop.org/patch/284352/
+
+Introduction of WARNING is clear since the patch is adding a
+WARN_ON() which alerts if the return of hrtimer_forward_now()
+function is not 1. This error was likely being produced before
+this patch was implemented.
+
+Function where WARN_ON() is called after calling hrtimer_forward_now()
+can be found here:
+drivers/gpu/drm/vkms/vkms_crtc.c
+
+hrtimer_forward_now() calls return hrtimer_forward() which
+verifies if request to forward the timer expiry is valid.
+hrtimer_forward() is further explored below:
+
+Function Objective:
+ * hrtimer_forward - forward the timer expiry
+
+Function Location:
+kernel/time/hrtimer.c
+
+Variables:
+ * @timer:      hrtimer to forward
+ * @now:        forward past this time
+ * @interval:   the interval to forward
+ * @delta:      @now ? timer expiry
+
+A warning is issued if one of the following are met:
+
+	[1] If starting time expiry is greater than ?now?
+
+	[2] If the number of intervals needed to pass ?now? is
+	    greater than 1.
+
+In the listed crashes with reproducers the kernel version is 5.0.0
+and multiple reports without reproducers on kernel version 5.1.0
+
+I had the option to test on kernel versions 5.1.0-rc7 and 5.1.2 with
+no success of reproducing. I was able to verify that the WARN_ON() is
+still checked in the vkms_crtc.c file. Reproducer was ran individually and in a
+loop to attempt triggering, though to no avail. It?s possible for debugging
+going to kernel 5.0.0 to test reproducer and find where the warning is typically
+triggered from could help find the problem. Since the reports are only on 5.0.0
+and 5.1.0 (atleast in this report), it's possible the changes in
+newer kernels have resolved the error.
+
+Any other suggestions on further exploring this warning or tips on reproducing
+would be appreciated.
+
+In the event anyone else is curious about hrtimer vs timer, here is the
+documentation:
+https://www.kernel.org/doc/Documentation/timers/hrtimers.txt
