@@ -1,67 +1,54 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Fri, 17 May 2019 10:46:52 -0600
-Subject: [Linux-kernel-mentees] [SYZBOT REPORT] WARNING in
-	vkms_vblank_simulate
-Message-ID: <20190517164651.GA5873@asus>
+Date: Fri, 17 May 2019 11:26:28 -0600
+Subject: [Linux-kernel-mentees] [SYZBOT REPORT] WARNING: Support for this
+ device (Terratec Grabster AV400) is experimental
+Message-ID: <20190517172627.GB5873@asus>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-WARNING in vkms_vblank_simulate
+WARNING: Support for this device (Terratec Grabster AV400) is experimental.
 
-https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
+https://syzkaller.appspot.com/bug?id=faae4720a75cadb8cd0dbda5c4d3542228d37340
 
-Warning appears when a call to hrtimer_forward_now() fails.
-A bisection was provided and determined warning started with
-the following patch:
+This warning does not trigger a crash in the system and alternatively is
+warning the device?s functionality might not be entirely working.
+Since this isn?t a crash, it?s incorrectly being reported in Syzbot.
 
-https://patchwork.freedesktop.org/patch/284352/
+I was not able to reproduce this warning due to not having the Terratec Grabster
+AV400, however, by checking the following file it can be verified if the Warning
+will be triggered or not:
 
-Introduction of WARNING is clear since the patch is adding a
-WARN_ON() which alerts if the return of hrtimer_forward_now()
-function is not 1. This error was likely being produced before
-this patch was implemented.
+/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
 
-Function where WARN_ON() is called after calling hrtimer_forward_now()
-can be found here:
-drivers/gpu/drm/vkms/vkms_crtc.c
+I was able to verify in kernel 5.1.2, it shows the warning would be trigged due to
+the following line in pvrusb2-hdw.c:
 
-hrtimer_forward_now() calls return hrtimer_forward() which
-verifies if request to forward the timer expiry is valid.
-hrtimer_forward() is further explored below:
+pvr2_trace(PVR2_TRACE_INFO,
+          "WARNING: Support for this device (%s) is experimental.",
+                                            hdw_desc->description);
 
-Function Objective:
- * hrtimer_forward - forward the timer expiry
+The "WARNING" in the format string is getting interpeted as a Warning
+from WARN_ON() and then reported to syzbot.
 
-Function Location:
-kernel/time/hrtimer.c
+Clarification on valid uses of WARN(), WARN_ON(), and WARN_ON_ONCE() can be found
+in the following file:
+include/asm-generic/bug.h
 
-Variables:
- * @timer:      hrtimer to forward
- * @now:        forward past this time
- * @interval:   the interval to forward
- * @delta:      @now ? timer expiry
+It states: "Do not include "BUG"/"WARNING" in format strings manually to make these
+conditions distinguishable from kernel issues."
 
-A warning is issued if one of the following are met:
+This error can be resolved by updating the format strings to output an
+alternative to 'WARNING' which will avoid the string from being confused
+with a kernel issue.
 
-	[1] If starting time expiry is greater than ?now?
+A patch was already submitted to address this problem:
+https://syzkaller.appspot.com/x/patch.diff?x=1479a4b8a00000
 
-	[2] If the number of intervals needed to pass ?now? is
-	    greater than 1.
+This patch changes the "WARNING" in format strings to have "***" on each
+side of the word:
 
-In the listed crashes with reproducers the kernel version is 5.0.0
-and multiple reports without reproducers on kernel version 5.1.0
+	Previous Line:
+-		   "WARNING: Support for this device (%s) is experimental.",
 
-I had the option to test on kernel versions 5.1.0-rc7 and 5.1.2 with
-no success of reproducing. I was able to verify that the WARN_ON() is
-still checked in the vkms_crtc.c file. Reproducer was ran individually and in a
-loop to attempt triggering, though to no avail. It?s possible for debugging
-going to kernel 5.0.0 to test reproducer and find where the warning is typically
-triggered from could help find the problem. Since the reports are only on 5.0.0
-and 5.1.0 (atleast in this report), it's possible the changes in
-newer kernels have resolved the error.
-
-Any other suggestions on further exploring this warning or tips on reproducing
-would be appreciated.
-
-In the event anyone else is curious about hrtimer vs timer, here is the
-documentation:
-https://www.kernel.org/doc/Documentation/timers/hrtimers.txt
+	New Line:
++		   "***WARNING*** Support for this device (%s) is experimental.",
+ 						      hdw_desc->description);
