@@ -1,39 +1,71 @@
-From: bgolaszewski at baylibre.com (Bartosz Golaszewski)
-Date: Mon, 20 May 2019 15:45:01 +0200
-Subject: [Linux-kernel-mentees] [PATCH] tools: gpio: Add
-	include/linux/gpio.h to .gitignore
-In-Reply-To: <20190512053749.7508-1-skunberg.kelsey@gmail.com>
-References: <20190512053749.7508-1-skunberg.kelsey@gmail.com>
-Message-ID: <CAMpxmJWCD0yOTyEfQhU59BsvnUoGkwWC3cEnS8Dn9W7EupA2Wg@mail.gmail.com>
+From: hverkuil at xs4all.nl (Hans Verkuil)
+Date: Tue, 21 May 2019 14:01:21 +0200
+Subject: [Linux-kernel-mentees] Syzbot analysis;
+ KASAN: null-ptr-deref Read in zr364xx_vidioc_querycap
+In-Reply-To: <71bf3532-9233-def6-9b3d-53b90d3546a3@gmail.com>
+References: <71bf3532-9233-def6-9b3d-53b90d3546a3@gmail.com>
+Message-ID: <71d25b28-dad3-2b2e-af6c-02c734db01dc@xs4all.nl>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-niedz., 12 maj 2019 o 07:38 Kelsey Skunberg
-<skunberg.kelsey at gmail.com> napisa?(a):
->
-> File include/linux/gpio.h is generated after building
-> tools/testing/selftests
->
-> Add gpio.h to .gitignore to help clean up working tree status.
->
-> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> ---
->  tools/gpio/.gitignore | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tools/gpio/.gitignore b/tools/gpio/.gitignore
-> index 9e9dd4b681b2..a94c0e83b209 100644
-> --- a/tools/gpio/.gitignore
-> +++ b/tools/gpio/.gitignore
-> @@ -1,4 +1,4 @@
->  gpio-event-mon
->  gpio-hammer
->  lsgpio
-> -
-> +include/linux/gpio.h
-> --
-> 2.20.1
->
+Hi Vandana,
 
-Patch applied, thanks!
+Sorry for the late reply, it appears that I missed this one.
 
-Bartosz
+On 5/11/19 9:44 AM, Vandana BN wrote:
+> This is a NULL pointer derefrence bug in USB_ZR364XX driver.
+> 
+> KASAN: null-ptr-deref Read in zr364xx_vidioc_querycap <https://syzkaller.appspot.com/bug?id=9c0c178c24d828a7378f483309001329750aad64>
+> 
+> 
+> The ioctl vidioc_querycap() is used to get capablity of driver and hardware.
+> USB_ZR364XX driver registers zr364xx_vidioc_querycap() as .vidioc_querycap funtion which is part of v4l2_ioctl_ops in v4l2.
+> When VIDIOC_QUERYCAP ioctl is called, the below function path is traversed
+> 
+> ?v4l2_ioctl()->video_usercopy()->__video_do_ioctl()->v4l_querycap()->zr364xx_vidioc_querycap()
+> 
+> which further calls below funtions
+> 
+> ? strcpy()->read_word_at_a_time()->kasan_check_read()->check_memory_region()->check_memory_region_inline->kasan_report().
+> 
+> In function check_memory_region(), if the input addr is not valid, that is,
+> if addr is greater than KASAN_SHADOW_START which is VA_START - the first kernel virtual address.
+> then, kasan_report() get called which prints the stack seen in bug report via dump_stack().
+> 
+> The stack trace in the bug points at below line in zr364xx_vidioc_querycap()
+> 
+> "706 strscpy(cap->card, cam->udev->product, sizeof(cap->card));"
+> 
+> The bug report has the below line which? tells that the addr which is src(cam->udev->product) in the above strcpy() is NULL.
+> 
+> "Read of size 1 at addr 0000000000000000 by task v4l_id/5287"
+> 
+> So, for this device the Product is not initialized and accessing it causes a NULL pointer deref.
+> 
+> Also, in usb.h in comment on struct usb_device it says
+> "@product: iProduct string, if present (static)" .
+> I deduce that product can be NULL from this, and in all other places where udev->product is accessed does NULL check before accessing it.
+> 
+> The fix would be to check for NULL before strcpy or/and copy DRIVER_DESC or "zr364xx" to cap->card insted in zr364xx_vidioc_querycap().
+
+Can you post a patch fixing this? If udev->product == NULL, then just set cap->card
+to an empty string.
+
+Regards,
+
+	Hans
+
+> 
+> I could not reproduce this as i dont have the device to test it.
+> 
+> Please let me know your feedback.
+> 
+> Thanks,
+> 
+> Vandana.
+> 
+> 
+> _______________________________________________
+> Linux-kernel-mentees mailing list
+> Linux-kernel-mentees at lists.linuxfoundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+> 
