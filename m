@@ -1,15 +1,16 @@
 From: hverkuil@xs4all.nl (Hans Verkuil)
-Date: Wed, 22 May 2019 08:52:33 +0200
-Subject: [Linux-kernel-mentees] [PATCH] media:usb:zr364xx:Fix
+Date: Wed, 22 May 2019 10:36:28 +0200
+Subject: [Linux-kernel-mentees] [PATCH v2] media:usb:zr364xx:Fix
  KASAN:null-ptr-deref Read in zr364xx_vidioc_querycap
-In-Reply-To: <20190521181535.7974-1-bnvandana@gmail.com>
+In-Reply-To: <20190522083415.9252-1-bnvandana@gmail.com>
 References: <20190521181535.7974-1-bnvandana@gmail.com>
-Message-ID: <c9311eeb-4cb6-e69c-8a26-7faea7e0c088@xs4all.nl>
+	<20190522083415.9252-1-bnvandana@gmail.com>
+Message-ID: <5cb192e9-aa20-cc80-44b3-16d11a6257ff@xs4all.nl>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190522065233.gruVIaXZdTEzZlCZszAuEBKh0Ae51RL61-jBUWMMfLQ@z>
+Message-ID: <20190522083628.KPhVyUZ2RdeTZEtjf6RSLPxBftnRnPRAwIHR4GCVUUs@z>
 
-On 5/21/19 8:15 PM, Vandana BN wrote:
+On 5/22/19 10:34 AM, Vandana BN wrote:
 > SyzKaller hit the null pointer deref while reading from uninitialized
 > udev->product in zr364xx_vidioc_querycap().
 > ==================================================================
@@ -60,31 +61,32 @@ On 5/21/19 8:15 PM, Vandana BN wrote:
 > Reported-by: syzbot+66010012fd4c531a1a96 at syzkaller.appspotmail.com
 > 
 > Signed-off-by: Vandana BN <bnvandana at gmail.com>
+
+Looks good!
+
+I'll take this patch for v5.3.
+
+Regards,
+
+	Hans
+
 > ---
->  drivers/media/usb/zr364xx/zr364xx.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> v2 - removed else part as cap->card is already zeroed.
+> 
+>  drivers/media/usb/zr364xx/zr364xx.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-> index 96fee8d5b865..401a1e55dbe1 100644
+> index 96fee8d5b865..cd2bc9ed0cd9 100644
 > --- a/drivers/media/usb/zr364xx/zr364xx.c
 > +++ b/drivers/media/usb/zr364xx/zr364xx.c
-> @@ -703,7 +703,10 @@ static int zr364xx_vidioc_querycap(struct file *file, void *priv,
+> @@ -703,7 +703,8 @@ static int zr364xx_vidioc_querycap(struct file *file, void *priv,
 >  	struct zr364xx_camera *cam = video_drvdata(file);
 >  
 >  	strscpy(cap->driver, DRIVER_DESC, sizeof(cap->driver));
 > -	strscpy(cap->card, cam->udev->product, sizeof(cap->card));
 > +	if (cam->udev->product)
 > +		strscpy(cap->card, cam->udev->product, sizeof(cap->card));
-> +	else
-> +		strscpy(cap->card, "", sizeof(cap->card));
-
-You can drop the 'else' part since cap->card is already zeroed by the
-V4L2 core framework. Looks good otherwise!
-
-Regards,
-
-	Hans
-
 >  	strscpy(cap->bus_info, dev_name(&cam->udev->dev),
 >  		sizeof(cap->bus_info));
 >  	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE |
