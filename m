@@ -1,31 +1,35 @@
 From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Sun, 16 Jun 2019 21:18:08 +0530
-Subject: [Linux-kernel-mentees] [PATCH] rtc: Change type of 'count' from int
-	to u64
-Message-ID: <20190616154808.21772-1-puranjay12@gmail.com>
+Date: Sun, 16 Jun 2019 21:57:34 +0530
+Subject: [Linux-kernel-mentees] [PATCH] fs: cramfs_fs.h: Fix shifting signed
+	32-bit value by 31 bits problem
+Message-ID: <20190616162734.29966-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Callers of hrtimer_forward_now() should save the return value in u64.
-function rtc_pie_update_irq() stores it in variable 'count' of type int
-change type of count from unsigned long to u64 to solve the issue.
+Fix CRAMFS_BLK_FLAG_UNCOMPRESSED to use "U" cast to avoid shifting signed
+32-bit value by 31 bits problem. This isn't a problem for kernel builds
+with gcc.
+
+This could be problem since this header is part of public API which
+could be included for builds using compilers that don't handle this
+condition safely resulting in undefined behavior.
 
 Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 ---
- drivers/rtc/interface.c | 2 +-
+ include/uapi/linux/cramfs_fs.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
-index 4124f4dd376b..72b7ddc43116 100644
---- a/drivers/rtc/interface.c
-+++ b/drivers/rtc/interface.c
-@@ -633,7 +633,7 @@ enum hrtimer_restart rtc_pie_update_irq(struct hrtimer *timer)
- {
- 	struct rtc_device *rtc;
- 	ktime_t period;
--	int count;
-+	u64 count;
+diff --git a/include/uapi/linux/cramfs_fs.h b/include/uapi/linux/cramfs_fs.h
+index 6713669aa2ed..31df3e185b62 100644
+--- a/include/uapi/linux/cramfs_fs.h
++++ b/include/uapi/linux/cramfs_fs.h
+@@ -98,7 +98,7 @@ struct cramfs_super {
+  *
+  * That leaves room for 3 flag bits in the block pointer table.
+  */
+-#define CRAMFS_BLK_FLAG_UNCOMPRESSED	(1 << 31)
++#define CRAMFS_BLK_FLAG_UNCOMPRESSED	(1U << 31)
+ #define CRAMFS_BLK_FLAG_DIRECT_PTR	(1 << 30)
  
- 	rtc = container_of(timer, struct rtc_device, pie_timer);
- 
+ #define CRAMFS_BLK_FLAGS	( CRAMFS_BLK_FLAG_UNCOMPRESSED \
 -- 
 2.21.0
