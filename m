@@ -1,83 +1,30 @@
-From: bjorn.helgaas at gmail.com (Bjorn Helgaas)
-Date: Tue, 11 Jun 2019 15:25:00 -0500
-Subject: [Linux-kernel-mentees] [PATCH v3 3/3] lspci: Replace output for
- bridge with empty range from 'None' to '[empty]'
-In-Reply-To: <20190516212327.4310-4-skunberg.kelsey@gmail.com>
-References: <20190511230310.4438-1-skunberg.kelsey@gmail.com>
-	<20190516212327.4310-1-skunberg.kelsey@gmail.com>
-	<20190516212327.4310-4-skunberg.kelsey@gmail.com>
-Message-ID: <CABhMZUUSBFr4-_B-VPpU6z-xKHy1nxOg_TS=MUuBspyFWCptUQ@mail.gmail.com>
+From: puranjay12 at gmail.com (Puranjay Mohan)
+Date: Sun, 16 Jun 2019 21:06:13 +0530
+Subject: [Linux-kernel-mentees] [PATCH] media: pci: cx88: Change the type of
+	'missed' to u64
+Message-ID: <20190616153613.14259-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Thu, May 16, 2019 at 4:23 PM Kelsey Skunberg
-<skunberg.kelsey at gmail.com> wrote:
->
-> Change output displayed for memory behind bridge when the range is
-> empty to be consistent between each verbosity level. Replace 'None' with
-> '[empty]'. Old and new output examples listed below for each verbosity
-> level.
->
-> Show_range() is not called unless verbose == true. No output given
-> unless a verbose argument is provided.
->
-> OLD ouptut for -v and -vv which uses 'None' and -vvv uses '[empty]':
+Callers of hrtimer_forward_now() should save the return value in u64.
+change type of missed from unsigned long to u64.
 
-s/ouptut/output/
+Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+---
+ drivers/media/pci/cx88/cx88-input.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->   Memory behind bridge: None                          # lspci -v
->   Memory behind bridge: None                          # lspci -vv
->   Memory behind bridge: 0000e000-0000efff [empty]     # lspci -vvv
->
-> NEW output for -v and -vv to also use "[empty]":
->
->   Memory behind bridge: [empty]                       # lspci -v
->   Memory behind bridge: [empty]                       # lspci -vv
->   Memory behind bridge: 0000e000-0000efff [empty]     # lspci -vvv
-
-How about this alternative?  The spec doesn't actually use the term
-"window", but I think in terms of bridge windows to downstream
-devices, and the windows can be either enabled or disabled.
-
-  Memory behind bridge: Disabled    # lspci -v or lspci -vv
-  Memory behind bridge: Disabled [0x0000e000-0x0000efff]   # lspci -vvv
-
-
-
-> Advantage is consistent output regardless of verbosity level chosen and
-> to simplify the code.
->
-> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> ---
->  lspci.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
->
-> diff --git a/lspci.c b/lspci.c
-> index 7418b07..0c00c91 100644
-> --- a/lspci.c
-> +++ b/lspci.c
-> @@ -376,16 +376,14 @@ show_size(u64 x)
->  static void
->  show_range(char *prefix, u64 base, u64 limit, int is_64bit)
->  {
-> -  if (base > limit && verbose < 3)
-> +  printf("%s:", prefix);
-> +  if (base <= limit || verbose > 2)
->      {
-> -      printf("%s: None\n", prefix);
-> -      return;
-> +      if (is_64bit)
-> +        printf(" %016" PCI_U64_FMT_X "-%016" PCI_U64_FMT_X, base, limit);
-> +      else
-> +        printf(" %08x-%08x", (unsigned) base, (unsigned) limit);
->      }
-> -  printf("%s: ", prefix);
-> -  if (is_64bit)
-> -    printf("%016" PCI_U64_FMT_X "-%016" PCI_U64_FMT_X, base, limit);
-> -  else
-> -    printf("%08x-%08x", (unsigned) base, (unsigned) limit);
->    if (base <= limit)
->      show_size(limit - base + 1);
->    else
-> --
-> 2.20.1
->
+diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx88/cx88-input.c
+index 27f690b54e0c..fa5ce464b0ba 100644
+--- a/drivers/media/pci/cx88/cx88-input.c
++++ b/drivers/media/pci/cx88/cx88-input.c
+@@ -167,7 +167,7 @@ static void cx88_ir_handle_key(struct cx88_IR *ir)
+ 
+ static enum hrtimer_restart cx88_ir_work(struct hrtimer *timer)
+ {
+-	unsigned long missed;
++	u64 missed;
+ 	struct cx88_IR *ir = container_of(timer, struct cx88_IR, timer);
+ 
+ 	cx88_ir_handle_key(ir);
+-- 
+2.21.0
