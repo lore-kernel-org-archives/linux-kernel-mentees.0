@@ -1,32 +1,33 @@
 From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Tue, 18 Jun 2019 09:49:37 +0530
-Subject: [Linux-kernel-mentees] [PATCH RESEND] media: pci: cx88: Change the
-	type of 'missed' to u64
-Message-ID: <20190618041937.8424-1-puranjay12@gmail.com>
+Date: Tue, 18 Jun 2019 09:53:51 +0530
+Subject: [Linux-kernel-mentees] [PATCH RESEND] rtc: Change type of 'count'
+	from int to u64
+Message-ID: <20190618042351.9692-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
 Callers of hrtimer_forward_now() should save the return value in u64.
-change type of missed from unsigned long to u64.
+function rtc_pie_update_irq() stores it in variable 'count' of type int
+change type of count from unsigned long to u64 to solve the issue.
 
 Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 ---
 RESEND - Added required mailing lists in CC
 
- drivers/media/pci/cx88/cx88-input.c | 2 +-
+ drivers/rtc/interface.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx88/cx88-input.c
-index 27f690b54e0c..fa5ce464b0ba 100644
---- a/drivers/media/pci/cx88/cx88-input.c
-+++ b/drivers/media/pci/cx88/cx88-input.c
-@@ -167,7 +167,7 @@ static void cx88_ir_handle_key(struct cx88_IR *ir)
- 
- static enum hrtimer_restart cx88_ir_work(struct hrtimer *timer)
+diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
+index 4124f4dd376b..72b7ddc43116 100644
+--- a/drivers/rtc/interface.c
++++ b/drivers/rtc/interface.c
+@@ -633,7 +633,7 @@ enum hrtimer_restart rtc_pie_update_irq(struct hrtimer *timer)
  {
--	unsigned long missed;
-+	u64 missed;
- 	struct cx88_IR *ir = container_of(timer, struct cx88_IR, timer);
+ 	struct rtc_device *rtc;
+ 	ktime_t period;
+-	int count;
++	u64 count;
  
- 	cx88_ir_handle_key(ir);
+ 	rtc = container_of(timer, struct rtc_device, pie_timer);
+ 
 -- 
 2.21.0
