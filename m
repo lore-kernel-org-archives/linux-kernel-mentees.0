@@ -1,39 +1,34 @@
 From: puranjay12@gmail.com (Puranjay Mohan)
-Date: Tue, 18 Jun 2019 09:42:57 +0530
-Subject: [Linux-kernel-mentees] [PATCH RESEND] fs: cramfs_fs.h: Fix shifting
-	signed 32-bit value by 31 bits problem
-Message-ID: <20190618041257.5401-1-puranjay12@gmail.com>
+Date: Tue, 18 Jun 2019 09:49:37 +0530
+Subject: [Linux-kernel-mentees] [PATCH RESEND] media: pci: cx88: Change the
+	type of 'missed' to u64
+Message-ID: <20190618041937.8424-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190618041257.9vknQc74m90yNGTO4qXlhevmztpAe-KXFG-MKDkMz_M@z>
+Message-ID: <20190618041937.CPNSHsnuDLvanECOfeqNaEg396116N8CzxyGNThXAXU@z>
 
-Fix CRAMFS_BLK_FLAG_UNCOMPRESSED to use "U" cast to avoid shifting signed
-32-bit value by 31 bits problem. This isn't a problem for kernel builds
-with gcc.
-
-This could be problem since this header is part of public API which
-could be included for builds using compilers that don't handle this
-condition safely resulting in undefined behavior.
+Callers of hrtimer_forward_now() should save the return value in u64.
+change type of missed from unsigned long to u64.
 
 Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 ---
-RESEND - Added required mailing list in CC
+RESEND - Added required mailing lists in CC
 
- include/uapi/linux/cramfs_fs.h | 2 +-
+ drivers/media/pci/cx88/cx88-input.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/cramfs_fs.h b/include/uapi/linux/cramfs_fs.h
-index 6713669aa2ed..31df3e185b62 100644
---- a/include/uapi/linux/cramfs_fs.h
-+++ b/include/uapi/linux/cramfs_fs.h
-@@ -98,7 +98,7 @@ struct cramfs_super {
-  *
-  * That leaves room for 3 flag bits in the block pointer table.
-  */
--#define CRAMFS_BLK_FLAG_UNCOMPRESSED	(1 << 31)
-+#define CRAMFS_BLK_FLAG_UNCOMPRESSED	(1U << 31)
- #define CRAMFS_BLK_FLAG_DIRECT_PTR	(1 << 30)
+diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx88/cx88-input.c
+index 27f690b54e0c..fa5ce464b0ba 100644
+--- a/drivers/media/pci/cx88/cx88-input.c
++++ b/drivers/media/pci/cx88/cx88-input.c
+@@ -167,7 +167,7 @@ static void cx88_ir_handle_key(struct cx88_IR *ir)
  
- #define CRAMFS_BLK_FLAGS	( CRAMFS_BLK_FLAG_UNCOMPRESSED \
+ static enum hrtimer_restart cx88_ir_work(struct hrtimer *timer)
+ {
+-	unsigned long missed;
++	u64 missed;
+ 	struct cx88_IR *ir = container_of(timer, struct cx88_IR, timer);
+ 
+ 	cx88_ir_handle_key(ir);
 -- 
 2.21.0
