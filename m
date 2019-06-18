@@ -1,33 +1,73 @@
 From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Tue, 18 Jun 2019 09:53:51 +0530
-Subject: [Linux-kernel-mentees] [PATCH RESEND] rtc: Change type of 'count'
-	from int to u64
-Message-ID: <20190618042351.9692-1-puranjay12@gmail.com>
+Date: Tue, 18 Jun 2019 11:02:27 +0530
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: platform: convert
+	x86-laptop-drivers.txt to reST
+Message-ID: <20190618053227.31678-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Callers of hrtimer_forward_now() should save the return value in u64.
-function rtc_pie_update_irq() stores it in variable 'count' of type int
-change type of count from unsigned long to u64 to solve the issue.
+This converts the plain text documentation to reStructuredText format.
+No essential content change.
 
 Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 ---
-RESEND - Added required mailing lists in CC
+ Documentation/platform/x86-laptop-drivers.rst | 23 +++++++++++++++++++
+ Documentation/platform/x86-laptop-drivers.txt | 18 ---------------
+ 2 files changed, 23 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/platform/x86-laptop-drivers.rst
+ delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
 
- drivers/rtc/interface.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
-index 4124f4dd376b..72b7ddc43116 100644
---- a/drivers/rtc/interface.c
-+++ b/drivers/rtc/interface.c
-@@ -633,7 +633,7 @@ enum hrtimer_restart rtc_pie_update_irq(struct hrtimer *timer)
- {
- 	struct rtc_device *rtc;
- 	ktime_t period;
--	int count;
-+	u64 count;
- 
- 	rtc = container_of(timer, struct rtc_device, pie_timer);
- 
+diff --git a/Documentation/platform/x86-laptop-drivers.rst b/Documentation/platform/x86-laptop-drivers.rst
+new file mode 100644
+index 000000000000..0494c3fdd41c
+--- /dev/null
++++ b/Documentation/platform/x86-laptop-drivers.rst
+@@ -0,0 +1,23 @@
++=============
++compal-laptop
++=============
++
++List of supported hardware:
++===========================
++
++by Compal:
++----------
++- Compal FL90/IFL90
++- Compal FL91/IFL91
++- Compal FL92/JFL92
++- Compal FT00/IFT00
++
++by Dell:
++--------
++- Dell Vostro 1200
++- Dell Mini 9 (Inspiron 910)
++- Dell Mini 10 (Inspiron 1010)
++- Dell Mini 10v (Inspiron 1011)
++- Dell Mini 1012 (Inspiron 1012)
++- Dell Inspiron 11z (Inspiron 1110)
++- Dell Mini 12 (Inspiron 1210)
+diff --git a/Documentation/platform/x86-laptop-drivers.txt b/Documentation/platform/x86-laptop-drivers.txt
+deleted file mode 100644
+index 01facd2590bb..000000000000
+--- a/Documentation/platform/x86-laptop-drivers.txt
++++ /dev/null
+@@ -1,18 +0,0 @@
+-compal-laptop
+-=============
+-List of supported hardware:
+-
+-by Compal:
+-	Compal FL90/IFL90
+-	Compal FL91/IFL91
+-	Compal FL92/JFL92
+-	Compal FT00/IFT00
+-
+-by Dell:
+-	Dell Vostro 1200
+-	Dell Mini 9 (Inspiron 910)
+-	Dell Mini 10 (Inspiron 1010)
+-	Dell Mini 10v (Inspiron 1011)
+-	Dell Mini 1012 (Inspiron 1012)
+-	Dell Inspiron 11z (Inspiron 1110)
+-	Dell Mini 12 (Inspiron 1210)
 -- 
 2.21.0
