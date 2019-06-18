@@ -1,27 +1,104 @@
-From: gregkh at linuxfoundation.org (Greg KH)
-Date: Tue, 18 Jun 2019 07:41:58 +0200
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: platform: convert
- x86-laptop-drivers.txt to reST
-In-Reply-To: <20190618053227.31678-1-puranjay12@gmail.com>
-References: <20190618053227.31678-1-puranjay12@gmail.com>
-Message-ID: <20190618054158.GA3713@kroah.com>
+From: lnowakow at eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Mon, 17 Jun 2019 22:42:49 -0700
+Subject: [Linux-kernel-mentees] [PATCH v3] Media: Radio: Change devm_k*alloc
+	to k*alloc
+Message-ID: <4a93f478-116c-fb85-fd74-12f5133a3bb1@eng.ucsd.edu>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Jun 18, 2019 at 11:02:27AM +0530, Puranjay Mohan wrote:
-> This converts the plain text documentation to reStructuredText format.
-> No essential content change.
-> 
-> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> ---
->  Documentation/platform/x86-laptop-drivers.rst | 23 +++++++++++++++++++
->  Documentation/platform/x86-laptop-drivers.txt | 18 ---------------
->  2 files changed, 23 insertions(+), 18 deletions(-)
->  create mode 100644 Documentation/platform/x86-laptop-drivers.rst
->  delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
+Change devm_k*alloc to k*alloc to manually allocate memory. Memory is freed in v4l2.release callback which now calls raremono_device_release to free up the appropriate memory, just like in radio-shark driver. 
 
-Don't you also need to hook it up to the documentation build process
-when doing this?
+This patch aims to fix the use-after-free read described in
+https://syzkaller.appspot.com/bug?extid=a4387f5b6b799f6becbf
 
-thanks,
-
-greg k-h
+Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+---
+diff --git a/drivers/media/radio/radio-raremono.c b/drivers/media/radio/radio-raremono.c
+index 5e782b3c2fa9..b467ad7fdd21 100644
+--- a/drivers/media/radio/radio-raremono.c
++++ b/drivers/media/radio/radio-raremono.c
+@@ -271,6 +271,15 @@ static int vidioc_g_frequency(struct file *file, void *priv,
+        return 0;
+ }
+ 
++static void raremono_device_release(struct v4l2_device *v4l2_dev)
++{
++       struct raremono_device *radio = to_raremono_dev(v4l2_dev);
++       
++       kfree(radio->buffer);
++       kfree(radio);
++}
++
++
+ /* File system interface */
+ static const struct v4l2_file_operations usb_raremono_fops = {
+        .owner          = THIS_MODULE,
+@@ -295,12 +304,15 @@ static int usb_raremono_probe(struct usb_interface *intf,
+        struct raremono_device *radio;
+        int retval = 0;
+ 
+-       radio = devm_kzalloc(&intf->dev, sizeof(struct raremono_device), GFP_KERNEL);
+-       if (radio)
+-               radio->buffer = devm_kmalloc(&intf->dev, BUFFER_LENGTH, GFP_KERNEL);
+-
+-       if (!radio || !radio->buffer)
++       radio = kzalloc(sizeof(struct raremono_device), GFP_KERNEL);
++       if (!radio)
+                return -ENOMEM;
++       
++       radio->buffer = kmalloc(BUFFER_LENGTH, GFP_KERNEL);
++       if (!radio->buffer) {
++               kfree(radio);
++               return -ENOMEM;
++       }
+ 
+        radio->usbdev = interface_to_usbdev(intf);
+        radio->intf = intf;
+@@ -324,7 +336,9 @@ static int usb_raremono_probe(struct usb_interface *intf,
+        if (retval != 3 ||
+            (get_unaligned_be16(&radio->buffer[1]) & 0xfff) == 0x0242) {
+                dev_info(&intf->dev, "this is not Thanko's Raremono.\n");
+-               return -ENODEV;
++               
++               retval = -ENODEV;
++               goto free_mem;
+        }
+ 
+        dev_info(&intf->dev, "Thanko's Raremono connected: (%04X:%04X)\n",
+@@ -333,7 +347,7 @@ static int usb_raremono_probe(struct usb_interface *intf,
+       retval = v4l2_device_register(&intf->dev, &radio->v4l2_dev);
+        if (retval < 0) {
+                dev_err(&intf->dev, "couldn't register v4l2_device\n");
+-               return retval;
++               goto free_mem;
+        }
+ 
+        mutex_init(&radio->lock);
+@@ -345,6 +359,8 @@ static int usb_raremono_probe(struct usb_interface *intf,
+        radio->vdev.ioctl_ops = &usb_raremono_ioctl_ops;
+        radio->vdev.lock = &radio->lock;
+        radio->vdev.release = video_device_release_empty;
++       
++       radio->v4l2_dev.release = raremono_device_release;
+ 
+        usb_set_intfdata(intf, &radio->v4l2_dev);
+ 
+@@ -353,13 +369,20 @@ static int usb_raremono_probe(struct usb_interface *intf,
+        raremono_cmd_main(radio, BAND_FM, 95160);
+ 
+        retval = video_register_device(&radio->vdev, VFL_TYPE_RADIO, -1);
++       
+        if (retval == 0) {
+                dev_info(&intf->dev, "V4L2 device registered as %s\n",
+                                video_device_node_name(&radio->vdev));
+                return 0;
+        }
++       
+        dev_err(&intf->dev, "could not register video device\n");
+        v4l2_device_unregister(&radio->v4l2_dev);
++
++free_mem:
++       kfree(radio->buffer);
++       kfree(radio);
++
+        return retval;
+ }
