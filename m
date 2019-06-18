@@ -1,36 +1,39 @@
-From: gregkh at linuxfoundation.org (Greg KH)
-Date: Tue, 18 Jun 2019 10:14:49 +0200
-Subject: [Linux-kernel-mentees] [PATCH v4] Media: Radio: Change
- devm_k*alloc to k*alloc
-In-Reply-To: <f6821f6c-bd89-00bd-a3d9-721f3e3a11cd@eng.ucsd.edu>
-References: <f6821f6c-bd89-00bd-a3d9-721f3e3a11cd@eng.ucsd.edu>
-Message-ID: <20190618081449.GA24889@kroah.com>
+From: puranjay12 at gmail.com (Puranjay Mohan)
+Date: Tue, 18 Jun 2019 17:19:47 +0530
+Subject: [Linux-kernel-mentees] [PATCH v2] fs: cramfs_fs.h: Fix shifting
+	signed 32-bit value by 31 bits problem
+Message-ID: <20190618114947.10563-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Jun 18, 2019 at 12:47:02AM -0700, Luke Nowakowski-Krijger wrote:
-> Change devm_k*alloc to k*alloc to manually allocate memory. 
-> 
-> Memory is freed in v4l2.release callback which now calls 
-> raremono_device_release to free up the appropriate memory, 
-> just like in radio-shark driver. 
+Fix CRAMFS_BLK_FLAG_UNCOMPRESSED to use "U" cast to avoid shifting signed
+32-bit value by 31 bits problem. This isn't a problem for kernel builds
+with gcc.
 
-Trailing whitespace :(
+This could be problem since this header is part of public API which
+could be included for builds using compilers that don't handle this
+condition safely resulting in undefined behavior.
 
-Please fix your editor.
+Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+---
+V2 - use the unsigned constants for all flags, not just one
 
-> 
-> 
-> Reported-by: syzbot+a4387f5b6b799f6becbf at syzkaller.appspotmail.com
-> Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
-> ---
+ include/uapi/linux/cramfs_fs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If this is a new version, properly version your patches, with a v2 and a
-description below the --- line as to what changed.  The documentation
-should say exactly how to do this.
-
-Also, did you submit this to syzbot for testing?  You can do that
-through the email interface.
-
-thanks,
-
-greg k-h
+diff --git a/include/uapi/linux/cramfs_fs.h b/include/uapi/linux/cramfs_fs.h
+index 6713669aa2ed..71cb602d4198 100644
+--- a/include/uapi/linux/cramfs_fs.h
++++ b/include/uapi/linux/cramfs_fs.h
+@@ -98,8 +98,8 @@ struct cramfs_super {
+  *
+  * That leaves room for 3 flag bits in the block pointer table.
+  */
+-#define CRAMFS_BLK_FLAG_UNCOMPRESSED	(1 << 31)
+-#define CRAMFS_BLK_FLAG_DIRECT_PTR	(1 << 30)
++#define CRAMFS_BLK_FLAG_UNCOMPRESSED	(1U << 31)
++#define CRAMFS_BLK_FLAG_DIRECT_PTR	(1U << 30)
+ 
+ #define CRAMFS_BLK_FLAGS	( CRAMFS_BLK_FLAG_UNCOMPRESSED \
+ 				| CRAMFS_BLK_FLAG_DIRECT_PTR )
+-- 
+2.21.0
