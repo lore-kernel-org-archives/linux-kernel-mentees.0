@@ -1,42 +1,32 @@
 From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Tue, 18 Jun 2019 22:08:37 +0530
-Subject: [Linux-kernel-mentees] [PATCH v2] fs: cramfs_fs.h: Fix shifting
- signed 32-bit value by 31 bits problem
-In-Reply-To: <777ee79c-9371-956a-07df-be866796047b@linuxfoundation.org>
-References: <20190618114947.10563-1-puranjay12@gmail.com>
-	<20190618160847.GC27611@kroah.com>
-	<777ee79c-9371-956a-07df-be866796047b@linuxfoundation.org>
-Message-ID: <20190618163835.GA4766@arch>
+Date: Tue, 18 Jun 2019 22:29:08 +0530
+Subject: [Linux-kernel-mentees] [PATCH] Sched: Change type of 'overrun' from
+	int to u64
+Message-ID: <20190618165908.15012-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Jun 18, 2019 at 10:15:11AM -0600, Shuah Khan wrote:
-> On 6/18/19 10:08 AM, Greg KH wrote:
-> > On Tue, Jun 18, 2019 at 05:19:47PM +0530, Puranjay Mohan wrote:
-> > > Fix CRAMFS_BLK_FLAG_UNCOMPRESSED to use "U" cast to avoid shifting signed
-> > > 32-bit value by 31 bits problem. This isn't a problem for kernel builds
-> > > with gcc.
-> > > 
-> > > This could be problem since this header is part of public API which
-> > > could be included for builds using compilers that don't handle this
-> > > condition safely resulting in undefined behavior.
-> > > 
-> > > Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> > 
-> > Reviewed-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-> > 
-> > You should resend this and cc: Nicolas Pitre <nico at fluxnic.net> as he is
-> > the cramfs maintainer.
-> > 
-> 
-> Puranjay! You can add all the Reviewed-by tags when you resend the patch
-> with Nicolas Pitre <nico at fluxnic.net> on the thread.
-> 
-> 
-> Reviewed-by: Shuah Khan <skhan at linuxfoundation.org>
-> 
-> thanks,
-> -- Shuah
+Callers of hrtimer_forward_now() should save the return value in u64.
+function sched_cfs_period_timer() stores
+it in variable 'overrun' of type int
+change type of overrun from int to u64 to solve the issue.
 
-Thanks, I have sent the mail with Nicolas Pitre in CC.
+Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+---
+ kernel/sched/fair.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---Puranjay
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index f35930f5e528..c6bcae7d4e49 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -4896,7 +4896,7 @@ static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
+ 	struct cfs_bandwidth *cfs_b =
+ 		container_of(timer, struct cfs_bandwidth, period_timer);
+ 	unsigned long flags;
+-	int overrun;
++	u64 overrun;
+ 	int idle = 0;
+ 	int count = 0;
+ 
+-- 
+2.21.0
