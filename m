@@ -1,71 +1,40 @@
-From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Wed, 19 Jun 2019 10:48:58 -0600
-Subject: [Linux-kernel-mentees] [PATCH v4 3/3] lspci: Change output for
-	bridge with empty range to "[disabled]"
-In-Reply-To: <20190619164858.84746-1-skunberg.kelsey@gmail.com>
-References: <20190619164858.84746-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190619164858.84746-4-skunberg.kelsey@gmail.com>
+From: puranjay12 at gmail.com (Puranjay Mohan)
+Date: Wed, 19 Jun 2019 23:15:56 +0530
+Subject: [Linux-kernel-mentees] [PATCH] net: fddi: skfp: Include generic PCI
+	definitions from pci_regs.h
+Message-ID: <20190619174556.21194-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Change output displayed for memory behind bridge when the range is
-empty to be consistent between each verbosity level. Replace "None" and
-"[empty]" with "[disabled]". Old and new output examples listed below
-for each verbosity level.
+Include the generic PCI definitions from include/uapi/linux/pci_regs.h
+change PCI_REV_ID to PCI_REVISION_ID to make it compatible with the
+generic define.
+This driver uses only one generic PCI define.
 
-Show_range() is not called unless verbose == true. No output given
-unless a verbose argument is provided.
-
-OLD output for -v and -vv which uses "None" and -vvv uses "[empty]":
-
-  Memory behind bridge: None                          # lspci -v
-  Memory behind bridge: None                          # lspci -vv
-  Memory behind bridge: 0000e000-0000efff [empty]     # lspci -vvv
-
-NEW output for -v, -vv, and -vvv to use "[disabled]":
-
-  Memory behind bridge: [disabled]                       # lspci -v
-  Memory behind bridge: [disabled]                       # lspci -vv
-  Memory behind bridge: 0000e000-0000efff [disabled]     # lspci -vvv
-
-Advantage is consistent output regardless of verbosity level chosen and
-to simplify the code.
-
-Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 ---
- lspci.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/net/fddi/skfp/drvfbi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/lspci.c b/lspci.c
-index 7418b07..525bb82 100644
---- a/lspci.c
-+++ b/lspci.c
-@@ -376,20 +376,18 @@ show_size(u64 x)
- static void
- show_range(char *prefix, u64 base, u64 limit, int is_64bit)
- {
--  if (base > limit && verbose < 3)
-+  printf("%s:", prefix);
-+  if (base <= limit || verbose > 2)
-     {
--      printf("%s: None\n", prefix);
--      return;
-+      if (is_64bit)
-+        printf(" %016" PCI_U64_FMT_X "-%016" PCI_U64_FMT_X, base, limit);
-+      else
-+        printf(" %08x-%08x", (unsigned) base, (unsigned) limit);
-     }
--  printf("%s: ", prefix);
--  if (is_64bit)
--    printf("%016" PCI_U64_FMT_X "-%016" PCI_U64_FMT_X, base, limit);
--  else
--    printf("%08x-%08x", (unsigned) base, (unsigned) limit);
-   if (base <= limit)
-     show_size(limit - base + 1);
-   else
--    printf(" [empty]");
-+    printf(" [disabled]");
-   putchar('\n');
- }
+diff --git a/drivers/net/fddi/skfp/drvfbi.c b/drivers/net/fddi/skfp/drvfbi.c
+index bdd5700e71fa..38f6d943385d 100644
+--- a/drivers/net/fddi/skfp/drvfbi.c
++++ b/drivers/net/fddi/skfp/drvfbi.c
+@@ -20,6 +20,7 @@
+ #include "h/supern_2.h"
+ #include "h/skfbiinc.h"
+ #include <linux/bitrev.h>
++#include <uapi/linux/pci_regs.h>
  
+ #ifndef	lint
+ static const char ID_sccs[] = "@(#)drvfbi.c	1.63 99/02/11 (C) SK " ;
+@@ -127,7 +128,7 @@ static void card_start(struct s_smc *smc)
+ 	 *	 at very first before any other initialization functions is
+ 	 *	 executed.
+ 	 */
+-	rev_id = inp(PCI_C(PCI_REV_ID)) ;
++	rev_id = inp(PCI_C(PCI_REVISION_ID)) ;
+ 	if ((rev_id & 0xf0) == SK_ML_ID_1 || (rev_id & 0xf0) == SK_ML_ID_2) {
+ 		smc->hw.hw_is_64bit = TRUE ;
+ 	} else {
 -- 
-2.20.1
+2.21.0
