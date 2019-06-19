@@ -1,58 +1,38 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Wed, 19 Jun 2019 14:44:40 -0500
-Subject: [Linux-kernel-mentees] [PATCH v4 0/3] lspci: Update verbose
-	help and show_range()
-In-Reply-To: <20190619164858.84746-1-skunberg.kelsey@gmail.com>
-References: <20190619164858.84746-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190619194440.GA189077@google.com>
+From: davem@davemloft.net (David Miller)
+Date: Wed, 19 Jun 2019 17:12:41 -0400 (EDT)
+Subject: [Linux-kernel-mentees] [PATCH] net: fddi: skfp: Include generic
+ PCI definitions from pci_regs.h
+In-Reply-To: <20190619174556.21194-1-puranjay12@gmail.com>
+References: <20190619174556.21194-1-puranjay12@gmail.com>
+Message-ID: <20190619.171241.1736506463260822121.davem@davemloft.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190619194440.pEtiWLf7JSKWkteAe3bxlDAHjaaGv4ePEFvuJ-a6mjs@z>
+Message-ID: <20190619211241.91mv9UM4LAR_k-spPxGLFQ5Tm2_TT5b3FF3Sq-WTVeQ@z>
 
-On Wed, Jun 19, 2019 at 10:48:55AM -0600, Kelsey Skunberg wrote:
-> Changes since v1:
->   - Expand changes into more patches for easier review.
->   - Combine three patches for lspci.c into patchset.
-> 
->   * Patch 1: lspci: Include -vvv option in help
->     No changes made. Added to series for review.
-> 
->   * Patch 2: lspci: Remove unnecessary !verbose check in show_range()
->     Move into it's own patch since v1. Dead code which checks for
->     verbosity to be true.
-> 
->   * Patch 3: lspci: Replace output for bridge with empty range from
->     "None" to "[empty]"
->     Patch builds off Patch 2 to change show_range() output to be more
->     consistent between each level of verbosity.
-> 
-> Changes since v2:
->   * Patch 1: Update commit log to imperative mood
-> 
->   * Patch 2: Fix logical error
->         Previous:
->         (base > limit || verbose < 3)
->         New:
->         (base > limit && verbose < 3)
-> 
->   * Patch 3: Fix logical error
->         Previous:
->         base > limit
->         New:
->         base <= limit
-> 
-> Changes since v3:
->   * Patch 1 and 2: No change
->   * Patch 3: Change output from "[empty]" to "[disabled]"
-> 
-> Kelsey Skunberg (3):
->   lspci: Include -vvv option in help
->   lspci: Remove unnecessary !verbose check in show_range()
->   lspci: Change output for bridge with empty range to "[disabled]"
-> 
->  lspci.c | 24 ++++++++----------------
->  1 file changed, 8 insertions(+), 16 deletions(-)
+From: Puranjay Mohan <puranjay12@gmail.com>
+Date: Wed, 19 Jun 2019 23:15:56 +0530
 
-These look great to me, thanks for doing this.  FWIW:
+> Include the generic PCI definitions from include/uapi/linux/pci_regs.h
+> change PCI_REV_ID to PCI_REVISION_ID to make it compatible with the
+> generic define.
+> This driver uses only one generic PCI define.
+> 
+> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+> ---
+>  drivers/net/fddi/skfp/drvfbi.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/fddi/skfp/drvfbi.c b/drivers/net/fddi/skfp/drvfbi.c
+> index bdd5700e71fa..38f6d943385d 100644
+> --- a/drivers/net/fddi/skfp/drvfbi.c
+> +++ b/drivers/net/fddi/skfp/drvfbi.c
+> @@ -20,6 +20,7 @@
+>  #include "h/supern_2.h"
+>  #include "h/skfbiinc.h"
+>  #include <linux/bitrev.h>
+> +#include <uapi/linux/pci_regs.h>
 
-Reviewed-by: Bjorn Helgaas <bhelgaas at google.com>
+You never need to use "uapi/" in header includes from the kernel source,
+please just use "linux/pci_regs.h"
+
+Thank you.
