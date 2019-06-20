@@ -1,50 +1,28 @@
-From: skhan at linuxfoundation.org (Shuah Khan)
-Date: Thu, 20 Jun 2019 07:38:41 -0600
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: platform: convert
- x86-laptop-drivers.txt to reST
-In-Reply-To: <CAHp75Vf__EtLVTOf0XvA3w7RPj+bnoQOud3gCXr1Fya0b_o4cw@mail.gmail.com>
-References: <20190618053227.31678-1-puranjay12@gmail.com>
-	<20190618054158.GA3713@kroah.com> <20190618071717.2132a1b7@lwn.net>
-	<20190618133948.GB5416@kroah.com>
-	<8aeb222a-ee44-4125-45fd-ce9a741e7ecc@linuxfoundation.org>
-	<CAHp75Vf__EtLVTOf0XvA3w7RPj+bnoQOud3gCXr1Fya0b_o4cw@mail.gmail.com>
-Message-ID: <bf25df8c-9135-c23b-0307-1e3ea611d9d4@linuxfoundation.org>
+From: puranjay12 at gmail.com (Puranjay Mohan)
+Date: Thu, 20 Jun 2019 23:37:51 +0530
+Subject: [Linux-kernel-mentees] [PATCH v2 0/3] net: fddi: skfp: Use PCI
+	generic definitions instead of private duplicates
+Message-ID: <20190620180754.15413-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On 6/20/19 12:19 AM, Andy Shevchenko wrote:
-> On Tue, Jun 18, 2019 at 6:06 PM Shuah Khan <skhan at linuxfoundation.org> wrote:
->> On 6/18/19 7:39 AM, Greg KH wrote:
->>> On Tue, Jun 18, 2019 at 07:17:17AM -0600, Jonathan Corbet wrote:
->>>> On Tue, 18 Jun 2019 07:41:58 +0200
->>>> Greg KH <gregkh at linuxfoundation.org> wrote:
->>>>> On Tue, Jun 18, 2019 at 11:02:27AM +0530, Puranjay Mohan wrote:
-> 
->>> I bet it should be deleted, but we should ask the platform driver
->>> maintainers first before we do that :)
-> 
->> Adding Platform driver maintainers Darren Hart and Andy Shevchenko, and
->> Compal laptop maintainer Cezary Jackiewicz to the discussion.
->>
->> + platform-driver-x86 at vger.kernel.org
->>
->> Hi Darren, Andy, and Cezary,
->>
->> Would it be okay to remove the x86-laptop-drivers.txt or should it be
->> converted to .rst and kept around?
-> 
-> Shuan, thanks for heads up.
-> The list of laptops supported by drivers in PDx86 subsystem is quite
-> big and growing. The mentioned file contains less than per cent out of
-> it and I don't think there is sense to make it up to date with
-> thousands lines. Agree on removal.
-> 
+This patch series removes the private duplicates of PCI definitions in
+favour of generic definitions defined in pci_regs.h.
 
-Thanks Andy!
+This driver only uses one of the generic PCI definitons, i.e.
+PCI_REVISION_ID, which is included from pci_regs.h and its private
+version is removed from skfbi.h with all other private defines.
 
-Puranjay!
+The skfbi.h defines PCI_REV_ID which is renamed to PCI_REVISION_ID in
+drvfbi.c to make it compatible with the generic define in pci_regs.h.
 
-Please remove the file and cc everybody on this list on the v2 patch.
-Make sure to build docs and see if this removal doesn't cause errors.
+Puranjay Mohan (3):
+  net: fddi: skfp: Rename PCI_REV_ID to PCI_REVISION_ID
+  net: fddi: skfp: Include generic PCI definitions
+  net: fddi: skfp: Remove unused private PCI definitions
 
-thanks,
--- Shuah
+ drivers/net/fddi/skfp/drvfbi.c  |   4 +-
+ drivers/net/fddi/skfp/h/skfbi.h | 207 +-------------------------------
+ 2 files changed, 3 insertions(+), 208 deletions(-)
+
+-- 
+2.21.0
