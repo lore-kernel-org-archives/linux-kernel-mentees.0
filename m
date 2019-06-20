@@ -1,56 +1,70 @@
-From: andy.shevchenko at gmail.com (Andy Shevchenko)
-Date: Thu, 20 Jun 2019 22:50:17 +0300
-Subject: [Linux-kernel-mentees] [PATCH v2] Documentation: platform:
-	Delete x86-laptop-drivers.txt
-In-Reply-To: <20190620183827.23704-1-puranjay12@gmail.com>
-References: <20190620183827.23704-1-puranjay12@gmail.com>
-Message-ID: <CAHp75Ve+v7o=Ar=5Vc7yZndCxUNf3sn8YwpCHXMwdeJxuLKMoA@mail.gmail.com>
+From: helgaas at kernel.org (Bjorn Helgaas)
+Date: Thu, 20 Jun 2019 16:37:21 -0500
+Subject: [Linux-kernel-mentees] [PATCH v2 3/3] net: fddi: skfp: Remove
+ unused private PCI definitions
+In-Reply-To: <20190620180754.15413-4-puranjay12@gmail.com>
+References: <20190620180754.15413-1-puranjay12@gmail.com>
+	<20190620180754.15413-4-puranjay12@gmail.com>
+Message-ID: <20190620213721.GD110859@google.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Thu, Jun 20, 2019 at 9:38 PM Puranjay Mohan <puranjay12 at gmail.com> wrote:
->
-> The list of laptops supported by drivers in PDx86 subsystem is quite
-> big and growing. x86-laptop-drivers.txt contains details of very few
-> laptop models. Remove it because it does not  serve any purpose.
->
-
-Acked-by: Andy Shevchenko <andy.shevchenko at gmail.com>
-
+On Thu, Jun 20, 2019 at 11:37:54PM +0530, Puranjay Mohan wrote:
+> Remove unused and private PCI definitions from skfbi.h because generic PCI
+> symbols are already included from pci_regs.h.
+> 
 > Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 > ---
->  Documentation/platform/x86-laptop-drivers.txt | 18 ------------------
->  1 file changed, 18 deletions(-)
->  delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
->
-> diff --git a/Documentation/platform/x86-laptop-drivers.txt b/Documentation/platform/x86-laptop-drivers.txt
-> deleted file mode 100644
-> index 01facd2590bb..000000000000
-> --- a/Documentation/platform/x86-laptop-drivers.txt
-> +++ /dev/null
-> @@ -1,18 +0,0 @@
-> -compal-laptop
-> -=============
-> -List of supported hardware:
-> -
-> -by Compal:
-> -       Compal FL90/IFL90
-> -       Compal FL91/IFL91
-> -       Compal FL92/JFL92
-> -       Compal FT00/IFT00
-> -
-> -by Dell:
-> -       Dell Vostro 1200
-> -       Dell Mini 9 (Inspiron 910)
-> -       Dell Mini 10 (Inspiron 1010)
-> -       Dell Mini 10v (Inspiron 1011)
-> -       Dell Mini 1012 (Inspiron 1012)
-> -       Dell Inspiron 11z (Inspiron 1110)
-> -       Dell Mini 12 (Inspiron 1210)
-> --
-> 2.21.0
->
+>  drivers/net/fddi/skfp/h/skfbi.h | 207 +-------------------------------
+>  1 file changed, 1 insertion(+), 206 deletions(-)
+> 
+> diff --git a/drivers/net/fddi/skfp/h/skfbi.h b/drivers/net/fddi/skfp/h/skfbi.h
+> index a05ce16171be..a8af80148022 100644
+> --- a/drivers/net/fddi/skfp/h/skfbi.h
+> +++ b/drivers/net/fddi/skfp/h/skfbi.h
+> @@ -27,46 +27,6 @@
+>  /*
+>   * Configuration Space header
+>   */
 
+This comment should be removed because it goes along with the
+definitions below (the ones from PCI_VENDOR_ID to PCI_MAX_LAT).
 
--- 
-With Best Regards,
-Andy Shevchenko
+> -#define	PCI_VENDOR_ID	0x00	/* 16 bit	Vendor ID */
+> -#define	PCI_DEVICE_ID	0x02	/* 16 bit	Device ID */
+
+> @@ -74,179 +34,14 @@
+>   * Note: The temperature and voltage sensors are relocated on a different
+>   *	 I2C bus.
+>   */
+> -#define I2C_ADDR_VPD	0xA0	/* I2C address for the VPD EEPROM */ 
+> +#define I2C_ADDR_VPD	0xA0	/* I2C address for the VPD EEPROM */
+
+You removed the space at the end of the I2C_ADDR_VPD line.  That space
+*is* a whitespace error, but generally you should avoid fixing random
+unrelated issues in the middle of your patch.  Those random fixes make
+it harder because the reviewer is expecting to see unused PCI-related
+things removed and seeing an I2C diff is surprising and forces him/her
+to do some investigation.
+
+> -/*	PCI_STATUS	16 bit	Status */
+>  #define	PCI_PERR	0x8000	/* Bit 15:	Parity Error */
+>  #define	PCI_SERR	0x4000	/* Bit 14:	Signaled SERR */
+>  #define	PCI_RMABORT	0x2000	/* Bit 13:	Received Master Abort */
+
+These should be replaced by PCI_STATUS_DETECTED_PARITY and similar
+generic definitions.  You could do this in your 1/1 patch along with
+PCI_REVISION_ID.
+
+> -#define	PCI_RTABORT	0x1000	/* Bit 12:	Received Target Abort */
+>  #define	PCI_STABORT	0x0800	/* Bit 11:	Sent Target Abort */
+> -#define	PCI_DEVSEL	0x0600	/* Bit 10..9:	DEVSEL Timing */
+> -#define	PCI_DEV_FAST	(0<<9)	/*		fast */
+> -#define	PCI_DEV_MEDIUM	(1<<9)	/*		medium */
+> -#define	PCI_DEV_SLOW	(2<<9)	/*		slow */
+>  #define	PCI_DATAPERR	0x0100	/* Bit 8:	DATA Parity error detected */
+> -#define	PCI_FB2BCAP	0x0080	/* Bit 7:	Fast Back-to-Back Capability */
+> -#define	PCI_UDF		0x0040	/* Bit 6:	User Defined Features */
+> -#define PCI_66MHZCAP	0x0020	/* Bit 5:	66 MHz PCI bus clock capable */
+> -#define PCI_NEWCAP	0x0010	/* Bit 4:	New cap. list implemented */
+> -
+>  #define PCI_ERRBITS	(PCI_PERR|PCI_SERR|PCI_RMABORT|PCI_STABORT|PCI_DATAPERR)
