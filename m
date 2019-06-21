@@ -1,13 +1,13 @@
 From: lkp@intel.com (kbuild test robot)
-Date: Fri, 21 Jun 2019 10:35:04 +0800
+Date: Fri, 21 Jun 2019 11:51:14 +0800
 Subject: [Linux-kernel-mentees] [PATCH] net: fddi: skfp: remove generic
 	PCI defines from skfbi.h
 In-Reply-To: <20190619174643.21456-1-puranjay12@gmail.com>
 References: <20190619174643.21456-1-puranjay12@gmail.com>
-Message-ID: <201906211041.vz3g9kf9%lkp@intel.com>
+Message-ID: <201906211128.eLm29xBq%lkp@intel.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190621023504.IaSVdlOWtmni-SqJwQ45sSdYbDEuWc3zgYD7kgUu1bc@z>
+Message-ID: <20190621035114.hW21zy21MFxC3S4sT0sd8iWDZ4oklPZ2RbYaMf-YOc8@z>
 
 Hi Puranjay,
 
@@ -18,31 +18,29 @@ Thank you for the patch! Yet something to improve:
 [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
 url:    https://github.com/0day-ci/linux/commits/Puranjay-Mohan/net-fddi-skfp-remove-generic-PCI-defines-from-skfbi-h/20190621-081729
-config: sparc64-allmodconfig (attached as .config)
-compiler: sparc64-linux-gcc (GCC) 7.4.0
+config: x86_64-randconfig-s4-06211045 (attached as .config)
+compiler: gcc-7 (Debian 7.3.0-1) 7.3.0
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # save the attached .config to linux build tree
-        GCC_VERSION=7.4.0 make.cross ARCH=sparc64 
+        make ARCH=x86_64 
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp at intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    In file included from drivers/net/fddi/skfp/drvfbi.c:17:0:
    drivers/net/fddi/skfp/drvfbi.c: In function 'card_start':
->> drivers/net/fddi/skfp/drvfbi.c:130:21: error: 'PCI_REV_ID' undeclared (first use in this function); did you mean 'PCI_DEVID'?
+>> drivers/net/fddi/skfp/drvfbi.c:130:21: error: 'PCI_REV_ID' undeclared (first use in this function); did you mean 'PCI_DEV_ID0'?
      rev_id = inp(PCI_C(PCI_REV_ID)) ;
                         ^
    drivers/net/fddi/skfp/h/types.h:28:25: note: in definition of macro 'inp'
     #define inp(p)  ioread8(p)
                             ^
->> drivers/net/fddi/skfp/h/skfbi.h:916:18: note: in expansion of macro 'ADDR'
+   drivers/net/fddi/skfp/h/skfbi.h:916:18: note: in expansion of macro 'ADDR'
     #define PCI_C(a) ADDR(B3_CFG_SPC + (a)) /* PCI Config Space */
                      ^~~~
->> drivers/net/fddi/skfp/drvfbi.c:130:15: note: in expansion of macro 'PCI_C'
+   drivers/net/fddi/skfp/drvfbi.c:130:15: note: in expansion of macro 'PCI_C'
      rev_id = inp(PCI_C(PCI_REV_ID)) ;
                   ^~~~~
    drivers/net/fddi/skfp/drvfbi.c:130:21: note: each undeclared identifier is reported only once for each function it appears in
@@ -51,10 +49,10 @@ All error/warnings (new ones prefixed by >>):
    drivers/net/fddi/skfp/h/types.h:28:25: note: in definition of macro 'inp'
     #define inp(p)  ioread8(p)
                             ^
->> drivers/net/fddi/skfp/h/skfbi.h:916:18: note: in expansion of macro 'ADDR'
+   drivers/net/fddi/skfp/h/skfbi.h:916:18: note: in expansion of macro 'ADDR'
     #define PCI_C(a) ADDR(B3_CFG_SPC + (a)) /* PCI Config Space */
                      ^~~~
->> drivers/net/fddi/skfp/drvfbi.c:130:15: note: in expansion of macro 'PCI_C'
+   drivers/net/fddi/skfp/drvfbi.c:130:15: note: in expansion of macro 'PCI_C'
      rev_id = inp(PCI_C(PCI_REV_ID)) ;
                   ^~~~~
 
@@ -216,6 +214,6 @@ https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 A non-text attachment was scrubbed...
 Name: .config.gz
 Type: application/gzip
-Size: 58075 bytes
+Size: 34851 bytes
 Desc: not available
-URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20190621/b97e95da/attachment-0001.bin>
+URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20190621/72adb576/attachment-0001.bin>
