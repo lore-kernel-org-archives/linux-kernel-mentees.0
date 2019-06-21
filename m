@@ -1,52 +1,30 @@
-From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Fri, 21 Jun 2019 22:09:21 +0530
-Subject: [Linux-kernel-mentees] [PATCH 3/3] net: ethernet: atheros: atlx:
-	Remove unused and private PCI definitions
-In-Reply-To: <20190621163921.26188-1-puranjay12@gmail.com>
-References: <20190621163921.26188-1-puranjay12@gmail.com>
-Message-ID: <20190621163921.26188-4-puranjay12@gmail.com>
+From: helgaas at kernel.org (Bjorn Helgaas)
+Date: Fri, 21 Jun 2019 11:44:29 -0500
+Subject: [Linux-kernel-mentees] [PATCH v3 0/3] net: fddi: skfp: Use PCI
+ generic definitions instead of private duplicates
+In-Reply-To: <20190621162024.53620dd9@alans-desktop>
+References: <20190621094607.15011-1-puranjay12@gmail.com>
+	<20190621162024.53620dd9@alans-desktop>
+Message-ID: <20190621164429.GA187016@google.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Remove unused private PCI definitions from skfbi.h because generic PCI
-symbols are already included from pci_regs.h.
+On Fri, Jun 21, 2019 at 04:20:24PM +0100, Alan Cox wrote:
+> On Fri, 21 Jun 2019 15:16:04 +0530
+> Puranjay Mohan <puranjay12 at gmail.com> wrote:
+> 
+> > This patch series removes the private duplicates of PCI definitions in
+> > favour of generic definitions defined in pci_regs.h.
+> 
+> Why bother ? It's an ancient obsolete card ?
 
-Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
----
- drivers/net/ethernet/atheros/atlx/atl2.h | 2 --
- drivers/net/ethernet/atheros/atlx/atlx.h | 1 -
- 2 files changed, 3 deletions(-)
+That's a fair question.
 
-diff --git a/drivers/net/ethernet/atheros/atlx/atl2.h b/drivers/net/ethernet/atheros/atlx/atl2.h
-index c53b810a831d..1b25d6d747de 100644
---- a/drivers/net/ethernet/atheros/atlx/atl2.h
-+++ b/drivers/net/ethernet/atheros/atlx/atl2.h
-@@ -32,7 +32,6 @@
- int ethtool_ioctl(struct ifreq *ifr);
- #endif
- 
--#define PCI_COMMAND_REGISTER	PCI_COMMAND
- #define CMD_MEM_WRT_INVALIDATE	PCI_COMMAND_INVALIDATE
- 
- #define ATL2_WRITE_REG(a, reg, value) (iowrite32((value), \
-@@ -202,7 +201,6 @@ static void atl2_force_ps(struct atl2_hw *hw);
- #define MII_DBG_DATA	0x1E
- 
- /* PCI Command Register Bit Definitions */
--#define PCI_COMMAND		0x04
- #define CMD_IO_SPACE		0x0001
- #define CMD_MEMORY_SPACE	0x0002
- #define CMD_BUS_MASTER		0x0004
-diff --git a/drivers/net/ethernet/atheros/atlx/atlx.h b/drivers/net/ethernet/atheros/atlx/atlx.h
-index 09464cb02ce0..4d355dbc2d01 100644
---- a/drivers/net/ethernet/atheros/atlx/atlx.h
-+++ b/drivers/net/ethernet/atheros/atlx/atlx.h
-@@ -445,7 +445,6 @@
- #define MII_DBG_DATA			0x1E
- 
- /* PCI Command Register Bit Definitions */
--#define PCI_COMMAND			0x04	/* PCI Command Register */
- #define CMD_IO_SPACE			0x0001
- #define CMD_MEMORY_SPACE		0x0002
- #define CMD_BUS_MASTER			0x0004
--- 
-2.21.0
+Is there anything that would indicate that "this file is obsolete and
+problems shouldn't be fixed"?  Nobody wants to waste time on things
+that don't need to be fixed, but I don't know how to tell if something
+is obsolete.
+
+My naive assumption is that if something is in the tree, it's fair
+game for fixes and cleanups.
+
+Bjorn
