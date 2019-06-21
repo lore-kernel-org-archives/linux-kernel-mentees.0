@@ -1,33 +1,41 @@
-From: hvubfoss@gmail.com (Harshavardhan Unnibhavi)
-Date: Fri, 21 Jun 2019 22:14:53 +0530
-Subject: [Linux-kernel-mentees] [PATCH] staging: soc_mt9v022: replace
-	symbolic permission with octal permission
-Message-ID: <20190621164453.5075-1-hvubfoss@gmail.com>
+From: sushmaunnibhavi425@gmail.com (Sushma Unnibhavi)
+Date: Fri, 21 Jun 2019 22:37:35 +0530
+Subject: [Linux-kernel-mentees] [PATCH] staging: rtl8723bs: replace symbolic
+	permission with octal permission
+Message-ID: <20190621170735.30373-1-sushmaunnibhavi425@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190621164453.9fK6ywXBwqlSOXjA6hVhtEhyhtl-hezPISbgE9-yvy8@z>
+Message-ID: <20190621170735.U_5R5y0ImN8YzZPgtDDby_O0j0yTBjFNbuvb-MWmBVo@z>
 
 Resolved following checkpatch issue:
-WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider
-using octal permissions '0444'.
+WARNING: symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
 
-Signed-off-by: Harshavardhan Unnibhavi <hvubfoss at gmail.com>
+Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
 ---
- drivers/staging/media/soc_camera/soc_mt9v022.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/soc_camera/soc_mt9v022.c b/drivers/staging/media/soc_camera/soc_mt9v022.c
-index e7e0d3d29499..f73f5460663c 100644
---- a/drivers/staging/media/soc_camera/soc_mt9v022.c
-+++ b/drivers/staging/media/soc_camera/soc_mt9v022.c
-@@ -25,7 +25,7 @@
-  */
+diff --git a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+index 5f950fda48ea..fd9dfb953ada 100644
+--- a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
++++ b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+@@ -21,7 +21,7 @@ inline struct proc_dir_entry *rtw_proc_create_dir(const char *name, struct proc_
+ {
+ 	struct proc_dir_entry *entry;
  
- static char *sensor_type;
--module_param(sensor_type, charp, S_IRUGO);
-+module_param(sensor_type, charp, 0444);
- MODULE_PARM_DESC(sensor_type, "Sensor type: \"colour\" or \"monochrome\"");
+-	entry = proc_mkdir_data(name, S_IRUGO|S_IXUGO, parent, data);
++	entry = proc_mkdir_data(name, 0444|S_IXUGO, parent, data);
  
- /* mt9v022 selected register addresses */
+ 	return entry;
+ }
+@@ -31,7 +31,7 @@ inline struct proc_dir_entry *rtw_proc_create_entry(const char *name, struct pro
+ {
+ 	struct proc_dir_entry *entry;
+ 
+-	entry = proc_create_data(name,  S_IFREG|S_IRUGO, parent, fops, data);
++	entry = proc_create_data(name,  S_IFREG|0444, parent, fops, data);
+ 
+ 	return entry;
+ }
 -- 
 2.17.1
