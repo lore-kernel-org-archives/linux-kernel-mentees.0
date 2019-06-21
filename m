@@ -1,32 +1,33 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 21 Jun 2019 11:44:29 -0500
-Subject: [Linux-kernel-mentees] [PATCH v3 0/3] net: fddi: skfp: Use PCI
- generic definitions instead of private duplicates
-In-Reply-To: <20190621162024.53620dd9@alans-desktop>
-References: <20190621094607.15011-1-puranjay12@gmail.com>
-	<20190621162024.53620dd9@alans-desktop>
-Message-ID: <20190621164429.GA187016@google.com>
+From: hvubfoss@gmail.com (Harshavardhan Unnibhavi)
+Date: Fri, 21 Jun 2019 22:14:53 +0530
+Subject: [Linux-kernel-mentees] [PATCH] staging: soc_mt9v022: replace
+	symbolic permission with octal permission
+Message-ID: <20190621164453.5075-1-hvubfoss@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190621164429.DbsVwTwqT8z2GJSZWqEJ3bbqjBdMGVNSdX9KrO3ACEU@z>
+Message-ID: <20190621164453.9fK6ywXBwqlSOXjA6hVhtEhyhtl-hezPISbgE9-yvy8@z>
 
-On Fri, Jun 21, 2019 at 04:20:24PM +0100, Alan Cox wrote:
-> On Fri, 21 Jun 2019 15:16:04 +0530
-> Puranjay Mohan <puranjay12 at gmail.com> wrote:
-> 
-> > This patch series removes the private duplicates of PCI definitions in
-> > favour of generic definitions defined in pci_regs.h.
-> 
-> Why bother ? It's an ancient obsolete card ?
+Resolved following checkpatch issue:
+WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider
+using octal permissions '0444'.
 
-That's a fair question.
+Signed-off-by: Harshavardhan Unnibhavi <hvubfoss at gmail.com>
+---
+ drivers/staging/media/soc_camera/soc_mt9v022.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Is there anything that would indicate that "this file is obsolete and
-problems shouldn't be fixed"?  Nobody wants to waste time on things
-that don't need to be fixed, but I don't know how to tell if something
-is obsolete.
-
-My naive assumption is that if something is in the tree, it's fair
-game for fixes and cleanups.
-
-Bjorn
+diff --git a/drivers/staging/media/soc_camera/soc_mt9v022.c b/drivers/staging/media/soc_camera/soc_mt9v022.c
+index e7e0d3d29499..f73f5460663c 100644
+--- a/drivers/staging/media/soc_camera/soc_mt9v022.c
++++ b/drivers/staging/media/soc_camera/soc_mt9v022.c
+@@ -25,7 +25,7 @@
+  */
+ 
+ static char *sensor_type;
+-module_param(sensor_type, charp, S_IRUGO);
++module_param(sensor_type, charp, 0444);
+ MODULE_PARM_DESC(sensor_type, "Sensor type: \"colour\" or \"monochrome\"");
+ 
+ /* mt9v022 selected register addresses */
+-- 
+2.17.1
