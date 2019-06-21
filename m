@@ -1,42 +1,44 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 21 Jun 2019 09:05:05 -0500
-Subject: [Linux-kernel-mentees] [PATCH v3 0/3] net: fddi: skfp: Use PCI
- generic definitions instead of private duplicates
-In-Reply-To: <20190621094607.15011-1-puranjay12@gmail.com>
-References: <20190621094607.15011-1-puranjay12@gmail.com>
-Message-ID: <20190621140505.GF82584@google.com>
+From: puranjay12@gmail.com (Puranjay Mohan)
+Date: Fri, 21 Jun 2019 20:44:12 +0530
+Subject: [Linux-kernel-mentees] [PATCH v4 0/3] net: fddi: skfp: Use PCI
+	generic definitions instead of private duplicates
+Message-ID: <20190621151415.10795-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190621140505.PqbOabPaHY5UGAU5LrxckKUFNldZv_eW3Yx8vtv6DcQ@z>
+Message-ID: <20190621151412.F7IfIzwGmRf2uzFg84h-q5Px8gkoLgrg0A3F8UEPlYE@z>
 
-[+cc Stephen]
+This patch series removes the private duplicates of PCI definitions in
+favour of generic definitions defined in pci_regs.h.
 
-On Fri, Jun 21, 2019 at 03:16:04PM +0530, Puranjay Mohan wrote:
-> This patch series removes the private duplicates of PCI definitions in
-> favour of generic definitions defined in pci_regs.h.
-> 
-> This driver only uses some of the generic PCI definitons,
-> which are included from pci_regs.h and thier private versions
-> are removed from skfbi.h with all other private defines.
-> 
-> The skfbi.h defines PCI_REV_ID and other private defines with different
-> names, these are renamed to Generic PCI names to make them
-> compatible with defines in pci_regs.h.
-> 
-> All unused defines are removed from skfbi.h.
-> 
-> Puranjay Mohan (3):
->   net: fddi: skfp: Rename local PCI defines to match generic PCI defines
->   net: fddi: skfp: Include generic PCI definitions
->   net: fddi: skfp: Remove unused private PCI definitions
-> 
->  drivers/net/fddi/skfp/drvfbi.c  |  3 +-
->  drivers/net/fddi/skfp/h/skfbi.h | 80 +--------------------------------
->  2 files changed, 4 insertions(+), 79 deletions(-)
+This driver only uses some of the generic PCI definitons,
+which are included from pci_regs.h and thier private versions
+are removed from skfbi.h with all other private defines.
 
-It's good form to CC people who have commented on previous versions of
-your series, so I added Stephen.
+The skfbi.h defines PCI_REV_ID and other private defines with different
+names, these are renamed to Generic PCI names to make them
+compatible with defines in pci_regs.h.
 
-FWIW,
+All unused defines are removed from skfbi.h.
 
-Reviewed-by: Bjorn Helgaas <bhelgaas at google.com>
+Changes in v4:
+Removed unused PCI definitions which were left in v3
+
+Changes in v3:
+Renamed all local PCI definitions to Generic names.
+Corrected coding style mistakes.
+
+Changes in v2:
+Converted individual patches to a series.
+Made sure that individual patches build correctly
+
+Puranjay Mohan (3):
+  net: fddi: skfp: Rename local PCI defines to match generic PCI defines
+  net: fddi: skfp: Include generic PCI definitions
+  net: fddi: skfp: Remove unused private PCI definitions
+
+ drivers/net/fddi/skfp/drvfbi.c  |   3 +-
+ drivers/net/fddi/skfp/h/skfbi.h | 217 +-------------------------------
+ 2 files changed, 6 insertions(+), 214 deletions(-)
+
+-- 
+2.21.0
