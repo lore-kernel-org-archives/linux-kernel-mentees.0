@@ -1,49 +1,46 @@
-From: bhelgaas@google.com (Bjorn Helgaas)
-Date: Fri, 21 Jun 2019 12:13:34 -0500
-Subject: [Linux-kernel-mentees] [PATCH 3/3] net: ethernet: atheros:
- atlx: Remove unused and private PCI definitions
-In-Reply-To: <20190621163921.26188-4-puranjay12@gmail.com>
-References: <20190621163921.26188-1-puranjay12@gmail.com>
-	<20190621163921.26188-4-puranjay12@gmail.com>
-Message-ID:
- <CAErSpo4BBczS7hdwmXF=07LqUtT1-3e1Q1Z2r0+J6N=rVhXb7g@mail.gmail.com>
+From: joe@perches.com (Joe Perches)
+Date: Fri, 21 Jun 2019 10:59:21 -0700
+Subject: [Linux-kernel-mentees] [PATCH v3 0/3] net: fddi: skfp: Use PCI
+ generic definitions instead of private duplicates
+In-Reply-To: <20190621164429.GA187016@google.com>
+References: <20190621094607.15011-1-puranjay12@gmail.com>
+	<20190621162024.53620dd9@alans-desktop>
+	<20190621164429.GA187016@google.com>
+Message-ID: <5025da034080c6653b23d7362e06cf211d2cec3c.camel@perches.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190621171334.sJxAdR_L1zULqladVyDC9JUzjB_u3pjU5axKZvysGm4@z>
+Message-ID: <20190621175921.AaJ2W26M_OMqZ_hWfdL3F69HLIOzW63YKE23uDyBlv0@z>
 
-On Fri, Jun 21, 2019 at 11:40 AM Puranjay Mohan <puranjay12 at gmail.com> wrote:
->
-> Remove unused private PCI definitions from skfbi.h because generic PCI
-> symbols are already included from pci_regs.h.
->
-> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> ---
->  drivers/net/ethernet/atheros/atlx/atl2.h | 2 --
->  drivers/net/ethernet/atheros/atlx/atlx.h | 1 -
->  2 files changed, 3 deletions(-)
->
-> diff --git a/drivers/net/ethernet/atheros/atlx/atl2.h b/drivers/net/ethernet/atheros/atlx/atl2.h
-> index c53b810a831d..1b25d6d747de 100644
-> --- a/drivers/net/ethernet/atheros/atlx/atl2.h
-> +++ b/drivers/net/ethernet/atheros/atlx/atl2.h
-> @@ -32,7 +32,6 @@
->  int ethtool_ioctl(struct ifreq *ifr);
->  #endif
->
-> -#define PCI_COMMAND_REGISTER   PCI_COMMAND
->  #define CMD_MEM_WRT_INVALIDATE PCI_COMMAND_INVALIDATE
->
->  #define ATL2_WRITE_REG(a, reg, value) (iowrite32((value), \
-> @@ -202,7 +201,6 @@ static void atl2_force_ps(struct atl2_hw *hw);
->  #define MII_DBG_DATA   0x1E
->
->  /* PCI Command Register Bit Definitions */
-> -#define PCI_COMMAND            0x04
->  #define CMD_IO_SPACE           0x0001
->  #define CMD_MEMORY_SPACE       0x0002
->  #define CMD_BUS_MASTER         0x0004
+On Fri, 2019-06-21 at 11:44 -0500, Bjorn Helgaas wrote:
+> On Fri, Jun 21, 2019 at 04:20:24PM +0100, Alan Cox wrote:
+> > On Fri, 21 Jun 2019 15:16:04 +0530
+> > Puranjay Mohan <puranjay12 at gmail.com> wrote:
+> > 
+> > > This patch series removes the private duplicates of PCI definitions in
+> > > favour of generic definitions defined in pci_regs.h.
+> > 
+> > Why bother ? It's an ancient obsolete card ?
+> 
+> That's a fair question.
+> 
+> Is there anything that would indicate that "this file is obsolete and
+> problems shouldn't be fixed"?  Nobody wants to waste time on things
+> that don't need to be fixed, but I don't know how to tell if something
+> is obsolete.
+> 
+> My naive assumption is that if something is in the tree, it's fair
+> game for fixes and cleanups.
 
-These bit definitions (CMD_IO_SPACE, CMD_MEMORY_SPACE, etc) are also
-generic PCI things that should be replaced with PCI_COMMAND_IO,
-PCI_COMMAND_MEMORY, etc.  I haven't looked at the file, but there are
-likely more.
+I'd prefer to move the old, crufty, obsolete and generally
+unsupported drivers to new directory trees and possibly
+symlink those drivers to their current locations.
+
+I suggested on the kernel summit list:
+https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2019-June/006482.html
+
+---
+
+Perhaps a mechanism to move these old, generally unsupported
+by an actual maintainer, and rarely tested drivers out of the
+mainline drivers directory into a separate obsolete directory
+would help isolate the whitespace and trivial api changes.
