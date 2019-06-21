@@ -1,39 +1,34 @@
-From: sushmaunnibhavi425 at gmail.com (Sushma Unnibhavi)
-Date: Fri, 21 Jun 2019 22:37:35 +0530
-Subject: [Linux-kernel-mentees] [PATCH] staging: rtl8723bs: replace symbolic
-	permission with octal permission
-Message-ID: <20190621170735.30373-1-sushmaunnibhavi425@gmail.com>
+From: bhelgaas at google.com (Bjorn Helgaas)
+Date: Fri, 21 Jun 2019 12:11:52 -0500
+Subject: [Linux-kernel-mentees] [PATCH 0/3] net: ethernet: atheros:
+ atlx: Use PCI generic definitions instead of private duplicates
+In-Reply-To: <20190621163921.26188-1-puranjay12@gmail.com>
+References: <20190621163921.26188-1-puranjay12@gmail.com>
+Message-ID: <CAErSpo5TMPokae7BMY8ZcOXtW=GeGsWXX_bqS8SrZnh0pEQYxw@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Resolved following checkpatch issue:
-WARNING: symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
+On Fri, Jun 21, 2019 at 11:39 AM Puranjay Mohan <puranjay12 at gmail.com> wrote:
+>
+> This patch series removes the private duplicates of PCI definitions in
+> favour of generic definitions defined in pci_regs.h.
+>
+> Puranjay Mohan (3):
+>   net: ethernet: atheros: atlx: Rename local PCI defines to generic
+>     names
+>   net: ethernet: atheros: atlx: Include generic PCI definitions
+>   net: ethernet: atheros: atlx: Remove unused and private PCI
+>     definitions
+>
+>  drivers/net/ethernet/atheros/atlx/atl2.c | 5 +++--
+>  drivers/net/ethernet/atheros/atlx/atl2.h | 2 --
+>  drivers/net/ethernet/atheros/atlx/atlx.h | 1 -
+>  3 files changed, 3 insertions(+), 5 deletions(-)
 
-Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Let's slow this down a little bit; I'm afraid we're going to overwhelm folks.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
-index 5f950fda48ea..fd9dfb953ada 100644
---- a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
-+++ b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
-@@ -21,7 +21,7 @@ inline struct proc_dir_entry *rtw_proc_create_dir(const char *name, struct proc_
- {
- 	struct proc_dir_entry *entry;
- 
--	entry = proc_mkdir_data(name, S_IRUGO|S_IXUGO, parent, data);
-+	entry = proc_mkdir_data(name, 0444|S_IXUGO, parent, data);
- 
- 	return entry;
- }
-@@ -31,7 +31,7 @@ inline struct proc_dir_entry *rtw_proc_create_entry(const char *name, struct pro
- {
- 	struct proc_dir_entry *entry;
- 
--	entry = proc_create_data(name,  S_IFREG|S_IRUGO, parent, fops, data);
-+	entry = proc_create_data(name,  S_IFREG|0444, parent, fops, data);
- 
- 	return entry;
- }
--- 
-2.17.1
+Before posting more to LKML/netdev, how about we first complete a
+sweep of all the drivers to see what we're getting into.  It could be
+that this will end up being more churn than it's worth.  You could
+send the result to linux-kernel-mentees, Shuah, me (but not LKML and
+netdev), and then we can talk about whether it should be posted all at
+once, as several series, etc.
