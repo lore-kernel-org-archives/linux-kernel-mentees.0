@@ -1,47 +1,24 @@
-From: skhan at linuxfoundation.org (Shuah Khan)
-Date: Fri, 21 Jun 2019 10:36:02 -0600
-Subject: [Linux-kernel-mentees] [PATCH v3 0/3] net: fddi: skfp: Use PCI
- generic definitions instead of private duplicates
-In-Reply-To: <20190621162024.53620dd9@alans-desktop>
-References: <20190621094607.15011-1-puranjay12@gmail.com>
-	<20190621162024.53620dd9@alans-desktop>
-Message-ID: <5f04f52d-8911-4db9-4321-00334d357d54@linuxfoundation.org>
+From: puranjay12 at gmail.com (Puranjay Mohan)
+Date: Fri, 21 Jun 2019 22:09:18 +0530
+Subject: [Linux-kernel-mentees] [PATCH 0/3] net: ethernet: atheros: atlx:
+	Use PCI generic definitions instead of private duplicates
+Message-ID: <20190621163921.26188-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On 6/21/19 9:20 AM, Alan Cox wrote:
-> On Fri, 21 Jun 2019 15:16:04 +0530
-> Puranjay Mohan <puranjay12 at gmail.com> wrote:
-> 
->> This patch series removes the private duplicates of PCI definitions in
->> favour of generic definitions defined in pci_regs.h.
-> 
-> Why bother ? It's an ancient obsolete card ?
-> 
-> Do you even have one to test ?
-> 
->>
->> This driver only uses some of the generic PCI definitons,
->> which are included from pci_regs.h and thier private versions
->> are removed from skfbi.h with all other private defines.
->>
->> The skfbi.h defines PCI_REV_ID and other private defines with different
->> names, these are renamed to Generic PCI names to make them
->> compatible with defines in pci_regs.h.
->>
->> All unused defines are removed from skfbi.h.
-> 
-> I sincerely doubt anyone on the planet is using this card any more.
-> 
-> Alan
-> 
+This patch series removes the private duplicates of PCI definitions in
+favour of generic definitions defined in pci_regs.h.
 
-Thanks Alan!
+Puranjay Mohan (3):
+  net: ethernet: atheros: atlx: Rename local PCI defines to generic
+    names
+  net: ethernet: atheros: atlx: Include generic PCI definitions
+  net: ethernet: atheros: atlx: Remove unused and private PCI
+    definitions
 
-Stephen Hemminger is suggesting removal as well. Makes sense to me.
+ drivers/net/ethernet/atheros/atlx/atl2.c | 5 +++--
+ drivers/net/ethernet/atheros/atlx/atl2.h | 2 --
+ drivers/net/ethernet/atheros/atlx/atlx.h | 1 -
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-David!
-
-What would you recommend the next steps are? Would like driver removed?
-
-thanks,
--- Shuah
+-- 
+2.21.0
