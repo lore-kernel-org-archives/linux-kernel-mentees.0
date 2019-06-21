@@ -1,55 +1,64 @@
-From: c0d1n61at3@gmail.com (Jiunn Chang)
-Date: Sun, 23 Jun 2019 03:14:13 -0500
-Subject: [Linux-kernel-mentees] [PATCH v2 7/7] Documentation: RCU: Add links
-	to rcu.rst
-In-Reply-To: <20190622090046.178d9d16@lwn.net>
-References: <20190622090046.178d9d16@lwn.net>
-Message-ID: <20190623081413.7095-8-c0d1n61at3@gmail.com>
+From: joe@perches.com (Joe Perches)
+Date: Fri, 21 Jun 2019 11:33:27 -0700
+Subject: [Linux-kernel-mentees] [PATCH 0/3] net: ethernet: atheros:
+ atlx: Use PCI generic definitions instead of private duplicates
+In-Reply-To: <CAErSpo6iRVWU-yL5CRF_GEY7CWg5iV=Jw0BrdNV4h3Jvh5AuAw@mail.gmail.com>
+References: <20190621163921.26188-1-puranjay12@gmail.com>
+	<CAErSpo5TMPokae7BMY8ZcOXtW=GeGsWXX_bqS8SrZnh0pEQYxw@mail.gmail.com>
+	<698d3e3614ae903ae9582547d64c6a9846629e57.camel@perches.com>
+	<CAErSpo6iRVWU-yL5CRF_GEY7CWg5iV=Jw0BrdNV4h3Jvh5AuAw@mail.gmail.com>
+Message-ID: <838b8e84523151418ab8cda4abdbb114ce24a497.camel@perches.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190623081413.mX8_G48gdkjdf1QgUqEINJQsffL7x-FWeMEDe9aQTEg@z>
+Message-ID: <20190621183327.WzGC2JXnCzBl7UPwarUcP_5iqG_UkJu3SdCTK1a6OkQ@z>
 
-Add the following links to rcu.rst:
-	list_rcu
-	up_rcu
+On Fri, 2019-06-21 at 13:12 -0500, Bjorn Helgaas wrote:
+> On Fri, Jun 21, 2019 at 12:27 PM Joe Perches <joe at perches.com> wrote:
+[]
+> > Subsystem specific local PCI #defines without generic
+> > naming is poor style and makes treewide grep and
+> > refactoring much more difficult.
+> 
+> Don't worry, we have the same objectives.  I totally agree that local
+> #defines are a bad thing, which is why I proposed this project in the
+> first place.
 
-Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
----
- Documentation/RCU/rcu.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Hi again Bjorn.
 
-diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-index 2b93b128a6fd..3d21ebf66daa 100644
---- a/Documentation/RCU/rcu.rst
-+++ b/Documentation/RCU/rcu.rst
-@@ -11,8 +11,8 @@ A "grace period" must elapse between the two parts, and this grace period
- must be long enough that any readers accessing the item being deleted have
- since dropped their references.  For example, an RCU-protected deletion
- from a linked list would first remove the item from the list, wait for
--a grace period to elapse, then free the element.  See the listRCU.txt
--file for more information on using RCU with linked lists.
-+a grace period to elapse, then free the element.  See :ref:`list_rcu`
-+for more information on using RCU with linked lists.
- 
- Frequently Asked Questions
- 
-@@ -49,7 +49,7 @@ Frequently Asked Questions
- - If I am running on a uniprocessor kernel, which can only do one
-   thing at a time, why should I wait for a grace period?
- 
--  See the UP.txt file in this directory.
-+  See :ref:`up_rcu` for more information.
- 
- - How can I see where RCU is currently used in the Linux kernel?
- 
-@@ -67,7 +67,7 @@ Frequently Asked Questions
- 
- - Why the name "RCU"?
- 
--  "RCU" stands for "read-copy update".  The file listRCU.txt has
-+  "RCU" stands for "read-copy update".  :ref:`list_rcu` has
-   more information on where this name came from, search for
-   "read-copy update" to find it.
- 
--- 
-2.22.0
+I didn't know that was your idea.  Good idea.
+
+> I'm just saying that this is a "first-patch" sort of learning project
+> and I think it'll avoid some list spamming and discouragement if we
+> can figure out the scope and shake out some of the teething problems
+> ahead of time.  I don't want to end up with multiple versions of
+> dozens of little 2-3 patch series posted every week or two.
+
+Great, that's sensible.
+
+> I'd rather be able to deal with a whole block of them at one time.
+
+Also very sensible.
+
+> > 2: Show that you compiled the object files and verified
+> >    where possible that there are no object file changes.
+> 
+> Do you have any pointers for the best way to do this?  Is it as simple
+> as comparing output of "objdump -d"?
+
+Generically, yes.
+
+I have a little script that does the equivalent of:
+
+<git reset>
+make <foo.o>
+mv <foo.o> <foo.o>.old
+patch -P1 < <foo_patch>
+make <foo.o>
+mv <foo.o> <foo.o>.new
+diff -urN <(objdump -d <foo.o>.old) <(objdump -d <foo.o>.new)
+
+But it's not foolproof as gcc does not guarantee
+compilation repeatability.
+
+And some subsystems Makefiles do not allow per-file
+compilation.
