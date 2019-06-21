@@ -1,272 +1,219 @@
-From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Fri, 21 Jun 2019 21:10:37 +0530
-Subject: [Linux-kernel-mentees] [PATCH v5 3/3] net: fddi: skfp: Remove
-	unused private PCI definitions
-In-Reply-To: <20190621154037.25245-1-puranjay12@gmail.com>
-References: <20190621154037.25245-1-puranjay12@gmail.com>
-Message-ID: <20190621154037.25245-4-puranjay12@gmail.com>
+From: lkp at intel.com (kbuild test robot)
+Date: Fri, 21 Jun 2019 10:35:04 +0800
+Subject: [Linux-kernel-mentees] [PATCH] net: fddi: skfp: remove generic
+	PCI defines from skfbi.h
+In-Reply-To: <20190619174643.21456-1-puranjay12@gmail.com>
+References: <20190619174643.21456-1-puranjay12@gmail.com>
+Message-ID: <201906211041.vz3g9kf9%lkp@intel.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Remove unused private PCI definitions from skfbi.h because generic PCI
-symbols are already included from pci_regs.h.
+Hi Puranjay,
 
-Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on net/master]
+[also build test ERROR on v5.2-rc5 next-20190620]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Puranjay-Mohan/net-fddi-skfp-remove-generic-PCI-defines-from-skfbi-h/20190621-081729
+config: sparc64-allmodconfig (attached as .config)
+compiler: sparc64-linux-gcc (GCC) 7.4.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        GCC_VERSION=7.4.0 make.cross ARCH=sparc64 
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp at intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/net/fddi/skfp/drvfbi.c:17:0:
+   drivers/net/fddi/skfp/drvfbi.c: In function 'card_start':
+>> drivers/net/fddi/skfp/drvfbi.c:130:21: error: 'PCI_REV_ID' undeclared (first use in this function); did you mean 'PCI_DEVID'?
+     rev_id = inp(PCI_C(PCI_REV_ID)) ;
+                        ^
+   drivers/net/fddi/skfp/h/types.h:28:25: note: in definition of macro 'inp'
+    #define inp(p)  ioread8(p)
+                            ^
+>> drivers/net/fddi/skfp/h/skfbi.h:916:18: note: in expansion of macro 'ADDR'
+    #define PCI_C(a) ADDR(B3_CFG_SPC + (a)) /* PCI Config Space */
+                     ^~~~
+>> drivers/net/fddi/skfp/drvfbi.c:130:15: note: in expansion of macro 'PCI_C'
+     rev_id = inp(PCI_C(PCI_REV_ID)) ;
+                  ^~~~~
+   drivers/net/fddi/skfp/drvfbi.c:130:21: note: each undeclared identifier is reported only once for each function it appears in
+     rev_id = inp(PCI_C(PCI_REV_ID)) ;
+                        ^
+   drivers/net/fddi/skfp/h/types.h:28:25: note: in definition of macro 'inp'
+    #define inp(p)  ioread8(p)
+                            ^
+>> drivers/net/fddi/skfp/h/skfbi.h:916:18: note: in expansion of macro 'ADDR'
+    #define PCI_C(a) ADDR(B3_CFG_SPC + (a)) /* PCI Config Space */
+                     ^~~~
+>> drivers/net/fddi/skfp/drvfbi.c:130:15: note: in expansion of macro 'PCI_C'
+     rev_id = inp(PCI_C(PCI_REV_ID)) ;
+                  ^~~~~
+
+vim +130 drivers/net/fddi/skfp/drvfbi.c
+
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  @17  #include "h/types.h"
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   18  #include "h/fddi.h"
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   19  #include "h/smc.h"
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   20  #include "h/supern_2.h"
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   21  #include "h/skfbiinc.h"
+bc63eb9c drivers/net/skfp/drvfbi.c Akinobu Mita   2006-12-19   22  #include <linux/bitrev.h>
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   23  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   24  #ifndef	lint
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   25  static const char ID_sccs[] = "@(#)drvfbi.c	1.63 99/02/11 (C) SK " ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   26  #endif
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   27  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   28  /*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   29   * PCM active state
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   30   */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   31  #define PC8_ACTIVE	8
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   32  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   33  #define	LED_Y_ON	0x11	/* Used for ring up/down indication */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   34  #define	LED_Y_OFF	0x10
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   35  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   36  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   37  #define MS2BCLK(x)	((x)*12500L)
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   38  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   39  /*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   40   * valid configuration values are:
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   41   */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   42  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   43  /*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   44   *	xPOS_ID:xxxx
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   45   *	|	\  /
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   46   *	|	 \/
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   47   *	|	  --------------------- the patched POS_ID of the Adapter
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   48   *	|				xxxx = (Vendor ID low byte,
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   49   *	|					Vendor ID high byte,
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   50   *	|					Device ID low byte,
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   51   *	|					Device ID high byte)
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   52   *	+------------------------------ the patched oem_id must be
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   53   *					'S' for SK or 'I' for IBM
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   54   *					this is a short id for the driver.
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   55   */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   56  #ifndef MULT_OEM
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   57  #ifndef	OEM_CONCEPT
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   58  const u_char oem_id[] = "xPOS_ID:xxxx" ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   59  #else	/* OEM_CONCEPT */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   60  const u_char oem_id[] = OEM_ID ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   61  #endif	/* OEM_CONCEPT */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   62  #define	ID_BYTE0	8
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   63  #define	OEMID(smc,i)	oem_id[ID_BYTE0 + i]
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   64  #else	/* MULT_OEM */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   65  const struct s_oem_ids oem_ids[] = {
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   66  #include "oemids.h"
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   67  {0}
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   68  };
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   69  #define	OEMID(smc,i)	smc->hw.oem_id->oi_id[i]
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   70  #endif	/* MULT_OEM */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   71  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   72  /* Prototypes of external functions */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   73  #ifdef AIX
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   74  extern int AIX_vpdReadByte() ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   75  #endif
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   76  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   77  
+7aa55fce drivers/net/skfp/drvfbi.c Adrian Bunk    2005-06-21   78  /* Prototype of a local function. */
+7aa55fce drivers/net/skfp/drvfbi.c Adrian Bunk    2005-06-21   79  static void smt_stop_watchdog(struct s_smc *smc);
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   80  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   81  /*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   82   * FDDI card reset
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   83   */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   84  static void card_start(struct s_smc *smc)
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   85  {
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   86  	int i ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   87  #ifdef	PCI
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   88  	u_char	rev_id ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   89  	u_short word;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   90  #endif
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   91  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   92  	smt_stop_watchdog(smc) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   93  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   94  #ifdef	PCI
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   95  	/*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   96  	 * make sure no transfer activity is pending
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   97  	 */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   98  	outpw(FM_A(FM_MDREG1),FM_MINIT) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16   99  	outp(ADDR(B0_CTRL), CTRL_HPI_SET) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  100  	hwt_wait_time(smc,hwt_quick_read(smc),MS2BCLK(10)) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  101  	/*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  102  	 * now reset everything
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  103  	 */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  104  	outp(ADDR(B0_CTRL),CTRL_RST_SET) ;	/* reset for all chips */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  105  	i = (int) inp(ADDR(B0_CTRL)) ;		/* do dummy read */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  106  	SK_UNUSED(i) ;				/* Make LINT happy. */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  107  	outp(ADDR(B0_CTRL), CTRL_RST_CLR) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  108  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  109  	/*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  110  	 * Reset all bits in the PCI STATUS register
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  111  	 */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  112  	outp(ADDR(B0_TST_CTRL), TST_CFG_WRITE_ON) ;	/* enable for writes */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  113  	word = inpw(PCI_C(PCI_STATUS)) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  114  	outpw(PCI_C(PCI_STATUS), word | PCI_ERRBITS) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  115  	outp(ADDR(B0_TST_CTRL), TST_CFG_WRITE_OFF) ;	/* disable writes */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  116  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  117  	/*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  118  	 * Release the reset of all the State machines
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  119  	 * Release Master_Reset
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  120  	 * Release HPI_SM_Reset
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  121  	 */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  122  	outp(ADDR(B0_CTRL), CTRL_MRST_CLR|CTRL_HPI_CLR) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  123  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  124  	/*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  125  	 * determine the adapter type
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  126  	 * Note: Do it here, because some drivers may call card_start() once
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  127  	 *	 at very first before any other initialization functions is
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  128  	 *	 executed.
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  129  	 */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16 @130  	rev_id = inp(PCI_C(PCI_REV_ID)) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  131  	if ((rev_id & 0xf0) == SK_ML_ID_1 || (rev_id & 0xf0) == SK_ML_ID_2) {
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  132  		smc->hw.hw_is_64bit = TRUE ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  133  	} else {
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  134  		smc->hw.hw_is_64bit = FALSE ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  135  	}
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  136  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  137  	/*
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  138  	 * Watermark initialization
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  139  	 */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  140  	if (!smc->hw.hw_is_64bit) {
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  141  		outpd(ADDR(B4_R1_F), RX_WATERMARK) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  142  		outpd(ADDR(B5_XA_F), TX_WATERMARK) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  143  		outpd(ADDR(B5_XS_F), TX_WATERMARK) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  144  	}
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  145  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  146  	outp(ADDR(B0_CTRL),CTRL_RST_CLR) ;	/* clear the reset chips */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  147  	outp(ADDR(B0_LED),LED_GA_OFF|LED_MY_ON|LED_GB_OFF) ; /* ye LED on */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  148  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  149  	/* init the timer value for the watch dog 2,5 minutes */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  150  	outpd(ADDR(B2_WDOG_INI),0x6FC23AC0) ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  151  
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  152  	/* initialize the ISR mask */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  153  	smc->hw.is_imask = ISR_MASK ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  154  	smc->hw.hw_state = STOPPED ;
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  155  #endif
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  156  	GET_PAGE(0) ;		/* necessary for BOOT */
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  157  }
+^1da177e drivers/net/skfp/drvfbi.c Linus Torvalds 2005-04-16  158  
+
+:::::: The code at line 130 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds at ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds at ppc970.osdl.org>
+
 ---
- drivers/net/fddi/skfp/h/skfbi.h | 225 +-------------------------------
- 1 file changed, 1 insertion(+), 224 deletions(-)
-
-diff --git a/drivers/net/fddi/skfp/h/skfbi.h b/drivers/net/fddi/skfp/h/skfbi.h
-index 5f9b631e7515..480795681719 100644
---- a/drivers/net/fddi/skfp/h/skfbi.h
-+++ b/drivers/net/fddi/skfp/h/skfbi.h
-@@ -24,49 +24,6 @@
-  *	(ML)	= only defined for Monalisa
-  */
- 
--/*
-- * Configuration Space header
-- */
--#define	PCI_VENDOR_ID	0x00	/* 16 bit	Vendor ID */
--#define	PCI_DEVICE_ID	0x02	/* 16 bit	Device ID */
--#define	PCI_COMMAND	0x04	/* 16 bit	Command */
--#define	PCI_STATUS	0x06	/* 16 bit	Status */
--#define	PCI_REVISION_ID	0x08	/*  8 bit	Revision ID */
--#define	PCI_CLASS_CODE	0x09	/* 24 bit	Class Code */
--#define	PCI_CACHE_LSZ	0x0c	/*  8 bit	Cache Line Size */
--#define	PCI_LAT_TIM	0x0d	/*  8 bit	Latency Timer */
--#define	PCI_HEADER_T	0x0e	/*  8 bit	Header Type */
--#define	PCI_BIST	0x0f	/*  8 bit	Built-in selftest */
--#define	PCI_BASE_1ST	0x10	/* 32 bit	1st Base address */
--#define	PCI_BASE_2ND	0x14	/* 32 bit	2nd Base address */
--/* Byte 18..2b:	Reserved */
--#define	PCI_SUB_VID	0x2c	/* 16 bit	Subsystem Vendor ID */
--#define	PCI_SUB_ID	0x2e	/* 16 bit	Subsystem ID */
--#define	PCI_BASE_ROM	0x30	/* 32 bit	Expansion ROM Base Address */
--/* Byte 34..33:	Reserved */
--#define PCI_CAP_PTR	0x34	/*  8 bit (ML)	Capabilities Ptr */
--/* Byte 35..3b:	Reserved */
--#define	PCI_IRQ_LINE	0x3c	/*  8 bit	Interrupt Line */
--#define	PCI_IRQ_PIN	0x3d	/*  8 bit	Interrupt Pin */
--#define	PCI_MIN_GNT	0x3e	/*  8 bit	Min_Gnt */
--#define	PCI_MAX_LAT	0x3f	/*  8 bit	Max_Lat */
--/* Device Dependent Region */
--#define	PCI_OUR_REG	0x40	/* 32 bit (DV)	Our Register */
--#define	PCI_OUR_REG_1	0x40	/* 32 bit (ML)	Our Register 1 */
--#define	PCI_OUR_REG_2	0x44	/* 32 bit (ML)	Our Register 2 */
--/* Power Management Region */
--#define PCI_PM_CAP_ID	0x48	/*  8 bit (ML)	Power Management Cap. ID */
--#define PCI_PM_NITEM	0x49	/*  8 bit (ML)	Next Item Ptr */
--#define PCI_PM_CAP_REG	0x4a	/* 16 bit (ML)	Power Management Capabilities */
--#define PCI_PM_CTL_STS	0x4c	/* 16 bit (ML)	Power Manag. Control/Status */
--/* Byte 0x4e:	Reserved */
--#define PCI_PM_DAT_REG	0x4f	/*  8 bit (ML)	Power Manag. Data Register */
--/* VPD Region */
--#define	PCI_VPD_CAP_ID	0x50	/*  8 bit (ML)	VPD Cap. ID */
--#define PCI_VPD_NITEM	0x51	/*  8 bit (ML)	Next Item Ptr */
--#define PCI_VPD_ADR_REG	0x52	/* 16 bit (ML)	VPD Address Register */
--#define PCI_VPD_DAT_REG	0x54	/* 32 bit (ML)	VPD Data Register */
--/* Byte 58..ff:	Reserved */
- 
- /*
-  * I2C Address (PCI Config)
-@@ -76,176 +33,10 @@
-  */
- #define I2C_ADDR_VPD	0xA0	/* I2C address for the VPD EEPROM */ 
- 
--/*
-- * Define Bits and Values of the registers
-- */
--/*	PCI_VENDOR_ID	16 bit	Vendor ID */
--/*	PCI_DEVICE_ID	16 bit	Device ID */
--/* Values for Vendor ID and Device ID shall be patched into the code */
--/*	PCI_COMMAND	16 bit	Command */
--#define	PCI_FBTEN	0x0200	/* Bit 9:	Fast Back-To-Back enable */
--#define	PCI_SERREN	0x0100	/* Bit 8:	SERR enable */
--#define	PCI_ADSTEP	0x0080	/* Bit 7:	Address Stepping */
--#define	PCI_PERREN	0x0040	/* Bit 6:	Parity Report Response enable */
--#define	PCI_VGA_SNOOP	0x0020	/* Bit 5:	VGA palette snoop */
--#define	PCI_MWIEN	0x0010	/* Bit 4:	Memory write an inv cycl ena */
--#define	PCI_SCYCEN	0x0008	/* Bit 3:	Special Cycle enable */
--#define	PCI_BMEN	0x0004	/* Bit 2:	Bus Master enable */
--#define	PCI_MEMEN	0x0002	/* Bit 1:	Memory Space Access enable */
--#define	PCI_IOEN	0x0001	/* Bit 0:	IO Space Access enable */
--
--/*	PCI_STATUS	16 bit	Status */
--#define	PCI_PERR	0x8000	/* Bit 15:	Parity Error */
--#define	PCI_SERR	0x4000	/* Bit 14:	Signaled SERR */
--#define	PCI_RMABORT	0x2000	/* Bit 13:	Received Master Abort */
--#define	PCI_RTABORT	0x1000	/* Bit 12:	Received Target Abort */
--#define	PCI_STABORT	0x0800	/* Bit 11:	Sent Target Abort */
--#define	PCI_DEVSEL	0x0600	/* Bit 10..9:	DEVSEL Timing */
--#define	PCI_DEV_FAST	(0<<9)	/*		fast */
--#define	PCI_DEV_MEDIUM	(1<<9)	/*		medium */
--#define	PCI_DEV_SLOW	(2<<9)	/*		slow */
--#define	PCI_DATAPERR	0x0100	/* Bit 8:	DATA Parity error detected */
--#define	PCI_FB2BCAP	0x0080	/* Bit 7:	Fast Back-to-Back Capability */
--#define	PCI_UDF		0x0040	/* Bit 6:	User Defined Features */
--#define PCI_66MHZCAP	0x0020	/* Bit 5:	66 MHz PCI bus clock capable */
--#define PCI_NEWCAP	0x0010	/* Bit 4:	New cap. list implemented */
- 
- #define PCI_ERRBITS	(PCI_STATUS_DETECTED_PARITY | PCI_STATUS_SIG_SYSTEM_ERROR | PCI_STATUS_REC_MASTER_ABORT | PCI_STATUS_SIG_TARGET_ABORT | PCI_STATUS_PARITY)
- 
--/*	PCI_REV_ID	8 bit	Revision ID */
--/*	PCI_CLASS_CODE	24 bit	Class Code */
--/*	Byte 2:		Base Class		(02) */
--/*	Byte 1:		SubClass		(02) */
--/*	Byte 0:		Programming Interface	(00) */
--
--/*	PCI_CACHE_LSZ	8 bit	Cache Line Size */
--/*	Possible values: 0,2,4,8,16	*/
--
--/*	PCI_LAT_TIM	8 bit	Latency Timer */
--
--/*	PCI_HEADER_T	8 bit	Header Type */
--#define	PCI_HD_MF_DEV	0x80	/* Bit 7:	0= single, 1= multi-func dev */
--#define	PCI_HD_TYPE	0x7f	/* Bit 6..0:	Header Layout 0= normal */
--
--/*	PCI_BIST	8 bit	Built-in selftest */
--#define	PCI_BIST_CAP	0x80	/* Bit 7:	BIST Capable */
--#define	PCI_BIST_ST	0x40	/* Bit 6:	Start BIST */
--#define	PCI_BIST_RET	0x0f	/* Bit 3..0:	Completion Code */
--
--/*	PCI_BASE_1ST	32 bit	1st Base address */
--#define	PCI_MEMSIZE	0x800L       /* use 2 kB Memory Base */
--#define	PCI_MEMBASE_BITS 0xfffff800L /* Bit 31..11:	Memory Base Address */
--#define	PCI_MEMSIZE_BIIS 0x000007f0L /* Bit 10..4:	Memory Size Req. */
--#define	PCI_PREFEN	0x00000008L  /* Bit 3:		Prefetchable */
--#define	PCI_MEM_TYP	0x00000006L  /* Bit 2..1:	Memory Type */
--#define	PCI_MEM32BIT	(0<<1)	     /* Base addr anywhere in 32 Bit range */
--#define	PCI_MEM1M	(1<<1)	     /* Base addr below 1 MegaByte */
--#define	PCI_MEM64BIT	(2<<1)	     /* Base addr anywhere in 64 Bit range */
--#define	PCI_MEMSPACE	0x00000001L  /* Bit 0:	Memory Space Indic. */
--
--/*	PCI_SUB_VID	16 bit	Subsystem Vendor ID */
--/*	PCI_SUB_ID	16 bit	Subsystem ID */
--
--/*	PCI_BASE_ROM	32 bit	Expansion ROM Base Address */
--#define	PCI_ROMBASE	0xfffe0000L  /* Bit 31..17: ROM BASE address (1st) */
--#define	PCI_ROMBASZ	0x0001c000L  /* Bit 16..14: Treat as BASE or SIZE */
--#define	PCI_ROMSIZE	0x00003800L  /* Bit 13..11: ROM Size Requirements */
--#define	PCI_ROMEN	0x00000001L  /* Bit 0:	    Address Decode enable */
--
--/*	PCI_CAP_PTR	8 bit	New Capabilities Pointers */
--/*	PCI_IRQ_LINE	8 bit	Interrupt Line */
--/*	PCI_IRQ_PIN	8 bit	Interrupt Pin */
--/*	PCI_MIN_GNT	8 bit	Min_Gnt */
--/*	PCI_MAX_LAT	8 bit	Max_Lat */
--/* Device Dependent Region */
--/*	PCI_OUR_REG	(DV)	32 bit	Our Register */
--/*	PCI_OUR_REG_1	(ML)	32 bit	Our Register 1 */
--				  /*	 Bit 31..29:	reserved */
--#define	PCI_PATCH_DIR	(3L<<27)  /*(DV) Bit 28..27:	Ext Patchs direction */
--#define PCI_PATCH_DIR_0	(1L<<27)  /*(DV) Type of the pins EXT_PATCHS<1..0>   */
--#define PCI_PATCH_DIR_1 (1L<<28)  /*	   0 = input			     */
--				  /*	   1 = output			     */
--#define	PCI_EXT_PATCHS	(3L<<25)  /*(DV) Bit 26..25:	Extended Patches     */
--#define PCI_EXT_PATCH_0 (1L<<25)  /*(DV)				     */
--#define PCI_EXT_PATCH_1 (1L<<26)  /*	 CLK for MicroWire (ML)		     */
--#define PCI_VIO		(1L<<25)  /*(ML)				     */
--#define	PCI_EN_BOOT	(1L<<24)  /*	 Bit 24:	Enable BOOT via ROM  */
--				  /*	   1 = Don't boot with ROM	     */
--				  /*	   0 = Boot with ROM		     */
--#define	PCI_EN_IO	(1L<<23)  /*	 Bit 23:	Mapping to IO space  */
--#define	PCI_EN_FPROM	(1L<<22)  /*	 Bit 22:	FLASH mapped to mem? */
--				  /*	   1 = Map Flash to Memory	     */
--			  	  /*	   0 = Disable all addr. decoding    */
--#define	PCI_PAGESIZE	(3L<<20)  /*	 Bit 21..20:	FLASH Page Size	     */
--#define	PCI_PAGE_16	(0L<<20)  /*		16 k pages		     */
--#define	PCI_PAGE_32K	(1L<<20)  /*		32 k pages		     */
--#define	PCI_PAGE_64K	(2L<<20)  /*		64 k pages		     */
--#define	PCI_PAGE_128K	(3L<<20)  /*		128 k pages		     */
--				  /*	 Bit 19: reserved (ML) and (DV)	     */
--#define	PCI_PAGEREG	(7L<<16)  /*	 Bit 18..16:	Page Register	     */
--				  /*	 Bit 15:	reserved	     */
--#define	PCI_FORCE_BE	(1L<<14)  /*	 Bit 14:	Assert all BEs on MR */
--#define	PCI_DIS_MRL	(1L<<13)  /*	 Bit 13:	Disable Mem R Line   */
--#define	PCI_DIS_MRM	(1L<<12)  /*	 Bit 12:	Disable Mem R multip */
--#define	PCI_DIS_MWI	(1L<<11)  /*	 Bit 11:	Disable Mem W & inv  */
--#define	PCI_DISC_CLS	(1L<<10)  /*	 Bit 10:	Disc: cacheLsz bound */
--#define	PCI_BURST_DIS	(1L<<9)	  /*	 Bit  9:	Burst Disable	     */
--#define	PCI_BYTE_SWAP	(1L<<8)	  /*(DV) Bit  8:	Byte Swap in DATA    */
--#define	PCI_SKEW_DAS	(0xfL<<4) /*	 Bit 7..4:	Skew Ctrl, DAS Ext   */
--#define	PCI_SKEW_BASE	(0xfL<<0) /*	 Bit 3..0:	Skew Ctrl, Base	     */
--
--/*	PCI_OUR_REG_2	(ML)	32 bit	Our Register 2 (Monalisa only) */
--#define PCI_VPD_WR_TH	(0xffL<<24)	/* Bit 24..31	VPD Write Threshold  */
--#define	PCI_DEV_SEL	(0x7fL<<17)	/* Bit 17..23	EEPROM Device Select */
--#define	PCI_VPD_ROM_SZ	(7L<<14)	/* Bit 14..16	VPD ROM Size	     */
--					/* Bit 12..13	reserved	     */
--#define	PCI_PATCH_DIR2	(0xfL<<8)	/* Bit  8..11	Ext Patchs dir 2..5  */
--#define	PCI_PATCH_DIR_2	(1L<<8)		/* Bit  8	CS for MicroWire     */
--#define	PCI_PATCH_DIR_3	(1L<<9)
--#define	PCI_PATCH_DIR_4	(1L<<10)
--#define	PCI_PATCH_DIR_5	(1L<<11)
--#define PCI_EXT_PATCHS2 (0xfL<<4)	/* Bit  4..7	Extended Patches     */
--#define	PCI_EXT_PATCH_2	(1L<<4)		/* Bit  4	CS for MicroWire     */
--#define	PCI_EXT_PATCH_3	(1L<<5)
--#define	PCI_EXT_PATCH_4	(1L<<6)
--#define	PCI_EXT_PATCH_5	(1L<<7)
--#define	PCI_EN_DUMMY_RD	(1L<<3)		/* Bit  3	Enable Dummy Read    */
--#define PCI_REV_DESC	(1L<<2)		/* Bit  2	Reverse Desc. Bytes  */
--#define PCI_USEADDR64	(1L<<1)		/* Bit  1	Use 64 Bit Addresse  */
--#define PCI_USEDATA64	(1L<<0)		/* Bit  0	Use 64 Bit Data bus ext*/
--
--/* Power Management Region */
--/*	PCI_PM_CAP_ID		 8 bit (ML)	Power Management Cap. ID */
--/*	PCI_PM_NITEM		 8 bit (ML)	Next Item Ptr */
--/*	PCI_PM_CAP_REG		16 bit (ML)	Power Management Capabilities*/
--#define	PCI_PME_SUP	(0x1f<<11)	/* Bit 11..15	PM Manag. Event Support*/
--#define PCI_PM_D2_SUB	(1<<10)		/* Bit 10	D2 Support Bit	     */
--#define PCI_PM_D1_SUB	(1<<9)		/* Bit 9	D1 Support Bit       */
--					/* Bit 6..8 reserved		     */
--#define PCI_PM_DSI	(1<<5)		/* Bit 5	Device Specific Init.*/
--#define PCI_PM_APS	(1<<4)		/* Bit 4	Auxialiary Power Src */
--#define PCI_PME_CLOCK	(1<<3)		/* Bit 3	PM Event Clock       */
--#define PCI_PM_VER	(7<<0)		/* Bit 0..2	PM PCI Spec. version */
--
--/*	PCI_PM_CTL_STS		16 bit (ML)	Power Manag. Control/Status  */
--#define	PCI_PME_STATUS	(1<<15)		/* Bit 15 	PFA doesn't sup. PME#*/
--#define PCI_PM_DAT_SCL	(3<<13)		/* Bit 13..14	dat reg Scaling factor */
--#define PCI_PM_DAT_SEL	(0xf<<9)	/* Bit  9..12	PM data selector field */
--					/* Bit  7.. 2	reserved	     */
--#define PCI_PM_STATE	(3<<0)		/* Bit  0.. 1	Power Management State */
--#define PCI_PM_STATE_D0	(0<<0)		/* D0:	Operational (default) */
--#define	PCI_PM_STATE_D1	(1<<0)		/* D1:	not supported */
--#define PCI_PM_STATE_D2	(2<<0)		/* D2:	not supported */
--#define PCI_PM_STATE_D3 (3<<0)		/* D3:	HOT, Power Down and Reset */
--
--/*	PCI_PM_DAT_REG		 8 bit (ML)	Power Manag. Data Register */
--/* VPD Region */
--/*	PCI_VPD_CAP_ID		 8 bit (ML)	VPD Cap. ID */
--/*	PCI_VPD_NITEM		 8 bit (ML)	Next Item Ptr */
--/*	PCI_VPD_ADR_REG		16 bit (ML)	VPD Address Register */
--#define	PCI_VPD_FLAG	(1<<15)		/* Bit 15	starts VPD rd/wd cycle*/
--
--/*	PCI_VPD_DAT_REG		32 bit (ML)	VPD Data Register */
-+
- 
- /*
-  *	Control Register File:
-@@ -873,20 +664,6 @@
- #define	T3_MUX		(3<<2)	/* Bit 3..2:	Mux position */
- #define	T3_VRAM		(3<<0)	/* Bit 1..0:	Virtual RAM buffer Address */
- 
--/* PCI card IDs */
--/*
-- * Note: The following 4 byte definitions shall not be used! Use OEM Concept!
-- */
--#define	PCI_VEND_ID0	0x48		/* PCI vendor ID (SysKonnect) */
--#define	PCI_VEND_ID1	0x11		/* PCI vendor ID (SysKonnect) */
--					/*		 (High byte) */
--#define	PCI_DEV_ID0	0x00		/* PCI device ID */
--#define	PCI_DEV_ID1	0x40		/* PCI device ID (High byte) */
--
--/*#define PCI_CLASS	0x02*/		/* PCI class code: network device */
--#define PCI_NW_CLASS	0x02		/* PCI class code: network device */
--#define PCI_SUB_CLASS	0x02		/* PCI subclass ID: FDDI device */
--#define PCI_PROG_INTFC	0x00		/* PCI programming Interface (=0) */
- 
- /*
-  * address transmission from logical to physical offset address on board
--- 
-2.21.0
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 58075 bytes
+Desc: not available
+URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20190621/b97e95da/attachment-0001.bin>
