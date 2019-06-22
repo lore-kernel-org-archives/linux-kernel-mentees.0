@@ -1,39 +1,30 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Sat, 22 Jun 2019 09:38:37 +0200
-Subject: [Linux-kernel-mentees] [PATCH] staging: rtl8723bs: change
-	sscanf to kstrtoint
-In-Reply-To: <20190622073158.6712-1-hvubfoss@gmail.com>
-References: <20190622073158.6712-1-hvubfoss@gmail.com>
-Message-ID: <20190622073837.GB10516@kroah.com>
+From: puranjay12@gmail.com (Puranjay Mohan)
+Date: Sat, 22 Jun 2019 14:29:38 +0530
+Subject: [Linux-kernel-mentees] [PATCH v2 0/3] net: ethernet: atheros: atlx:
+	Use PCI generic definitions instead of private duplicates
+Message-ID: <20190622085941.24931-1-puranjay12@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190622073837.vyT6lxui4IH_Xkx73q6DqGlWhd_RF4-gSPQLJ_3PMJM@z>
+Message-ID: <20190622085938.bb_Va17tHpU9gfX75LsnA-mJeZhqohS0P_YofkBzFR0@z>
 
-On Sat, Jun 22, 2019 at 01:01:58PM +0530, Harshavardhan Unnibhavi wrote:
-> Fixes following checkpath.pl warning:
-> Prefer kstrto<type> to single variable sscanf
-> 
-> Signed-off-by: Harshavardhan Unnibhavi <hvubfoss at gmail.com>
-> ---
->  drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
-> index 5f950fda48ea..b700363c899c 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
-> @@ -468,7 +468,7 @@ ssize_t proc_set_odm_dbg_comp(struct file *file, const char __user *buffer, size
->  
->  	if (buffer && !copy_from_user(tmp, buffer, sizeof(tmp))) {
->  
-> -		int num = sscanf(tmp, "%llx", &dbg_comp);
-> +		int num = kstrtoint(tmp, "%llx", &dbg_comp);
+This patch series removes the private duplicates of PCI definitions in
+favour of generic definitions defined in pci_regs.h.
 
-If the conversion was this easy, we would have done it with a global
-search/replace a long time ago :)
+Changes in v2:
+Removed local PCI definitions of PCI_COMMAND_IO, PCI_COMMAND_MASTER,
+etc. which were left in v1.
 
-Are you _sure_ this is correct?
+Puranjay Mohan (3):
+  net: ethernet: atheros: atlx: Rename local PCI defines to generic
+    names
+  net: ethernet: atheros: atlx: Include generic PCI definitions
+  net: ethernet: atheros: atlx: Remove unused and private PCI
+    definitions
 
-thanks,
+ drivers/net/ethernet/atheros/atlx/atl2.c | 11 ++++++-----
+ drivers/net/ethernet/atheros/atlx/atl2.h |  7 -------
+ drivers/net/ethernet/atheros/atlx/atlx.h |  5 -----
+ 3 files changed, 6 insertions(+), 17 deletions(-)
 
-greg k-h
+-- 
+2.21.0
