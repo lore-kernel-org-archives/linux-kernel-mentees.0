@@ -1,72 +1,125 @@
-From: chris.snook at gmail.com (Chris Snook)
-Date: Fri, 21 Jun 2019 15:45:11 -0700
-Subject: [Linux-kernel-mentees] [PATCH 0/3] net: ethernet: atheros:
- atlx: Use PCI generic definitions instead of private duplicates
-In-Reply-To: <838b8e84523151418ab8cda4abdbb114ce24a497.camel@perches.com>
-References: <20190621163921.26188-1-puranjay12@gmail.com>
-	<CAErSpo5TMPokae7BMY8ZcOXtW=GeGsWXX_bqS8SrZnh0pEQYxw@mail.gmail.com>
-	<698d3e3614ae903ae9582547d64c6a9846629e57.camel@perches.com>
-	<CAErSpo6iRVWU-yL5CRF_GEY7CWg5iV=Jw0BrdNV4h3Jvh5AuAw@mail.gmail.com>
-	<838b8e84523151418ab8cda4abdbb114ce24a497.camel@perches.com>
-Message-ID: <CAMXMK6uUgLSz=DXazLY81pkiMjtyxKxNeR_VcWOOh1NvaEyS8w@mail.gmail.com>
+From: lnowakow at eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Fri, 21 Jun 2019 18:04:38 -0700
+Subject: [Linux-kernel-mentees] [PATCH v4 RESEND] Media: Radio: Change
+ devm_k*alloc to k*alloc
+Message-ID: <20190622010438.GA10125@luke-XPS-13>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Fri, Jun 21, 2019 at 11:33 AM Joe Perches <joe at perches.com> wrote:
->
-> On Fri, 2019-06-21 at 13:12 -0500, Bjorn Helgaas wrote:
-> > On Fri, Jun 21, 2019 at 12:27 PM Joe Perches <joe at perches.com> wrote:
-> []
-> > > Subsystem specific local PCI #defines without generic
-> > > naming is poor style and makes treewide grep and
-> > > refactoring much more difficult.
-> >
-> > Don't worry, we have the same objectives.  I totally agree that local
-> > #defines are a bad thing, which is why I proposed this project in the
-> > first place.
->
-> Hi again Bjorn.
->
-> I didn't know that was your idea.  Good idea.
->
-> > I'm just saying that this is a "first-patch" sort of learning project
-> > and I think it'll avoid some list spamming and discouragement if we
-> > can figure out the scope and shake out some of the teething problems
-> > ahead of time.  I don't want to end up with multiple versions of
-> > dozens of little 2-3 patch series posted every week or two.
->
-> Great, that's sensible.
->
-> > I'd rather be able to deal with a whole block of them at one time.
->
-> Also very sensible.
->
-> > > 2: Show that you compiled the object files and verified
-> > >    where possible that there are no object file changes.
-> >
-> > Do you have any pointers for the best way to do this?  Is it as simple
-> > as comparing output of "objdump -d"?
->
-> Generically, yes.
->
-> I have a little script that does the equivalent of:
->
-> <git reset>
-> make <foo.o>
-> mv <foo.o> <foo.o>.old
-> patch -P1 < <foo_patch>
-> make <foo.o>
-> mv <foo.o> <foo.o>.new
-> diff -urN <(objdump -d <foo.o>.old) <(objdump -d <foo.o>.new)
->
-> But it's not foolproof as gcc does not guarantee
-> compilation repeatability.
->
-> And some subsystems Makefiles do not allow per-file
-> compilation.
->
+Change devm_k*alloc to k*alloc to manually allocate memory 
 
-This should work, but be aware that the older atlx drivers did some
-regrettable things with file structure, so not all .c files are
-expected to generate a corresponding .o file.
+The manual allocation and freeing of memory is necessary because when
+the USB radio is disconnected, the memory associated with devm_k*alloc
+is freed. Meaning if we still have unresolved references to the radio
+device, then we get use-after-free errors. 
 
-- Chris
+This patch fixes this by manually allocating memory, and freeing it in 
+the v4l2.release callback that gets called when the last radio device
+exits. 
+
+Reported-and-tested-by: syzbot+a4387f5b6b799f6becbf at syzkaller.appspotmail.com
+Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+---
+Changes in RESEND: 
++ Added reported-and-tested-by tag
++ Further updated description
+- Removed whitespace in patch description
+Changes in v4:
+- Removed whitespace to fix checkpatch.pl errors
+Changes in v3:
++ Update release method in v2 for v4l2.release callback 
++ Assign v4l2.release callback to release method
+- Remove vdev.release callback used in v2
+Changes in v2:
++ Create raremono_device_release method
++ Assign vdev.release to release method
++ Added gotos for better memory cleanup
+- Removed incorrect kfrees in usb_release in v1
+Changes in v1: 
++ Added k*allocs to raremono_device struct, and buffs
++ Added kfrees on error conditions in usb_probe
++ Added kfrees in usb_release
+- Removed devm_k*allocs
+
+ drivers/media/radio/radio-raremono.c | 31 +++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/media/radio/radio-raremono.c b/drivers/media/radio/radio-raremono.c
+index 5e782b3c2fa9..a5b12372eccb 100644
+--- a/drivers/media/radio/radio-raremono.c
++++ b/drivers/media/radio/radio-raremono.c
+@@ -271,6 +271,15 @@ static int vidioc_g_frequency(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
++static void raremono_device_release(struct v4l2_device *v4l2_dev)
++{
++	struct raremono_device *radio = to_raremono_dev(v4l2_dev);
++
++	kfree(radio->buffer);
++	kfree(radio);
++}
++
++
+ /* File system interface */
+ static const struct v4l2_file_operations usb_raremono_fops = {
+ 	.owner		= THIS_MODULE,
+@@ -295,12 +304,14 @@ static int usb_raremono_probe(struct usb_interface *intf,
+ 	struct raremono_device *radio;
+ 	int retval = 0;
+ 
+-	radio = devm_kzalloc(&intf->dev, sizeof(struct raremono_device), GFP_KERNEL);
+-	if (radio)
+-		radio->buffer = devm_kmalloc(&intf->dev, BUFFER_LENGTH, GFP_KERNEL);
+-
+-	if (!radio || !radio->buffer)
++	radio = kzalloc(sizeof(struct raremono_device), GFP_KERNEL);
++	if (!radio)
++		return -ENOMEM;
++	radio->buffer = kmalloc(BUFFER_LENGTH, GFP_KERNEL);
++	if (!radio->buffer) {
++		kfree(radio);
+ 		return -ENOMEM;
++	}
+ 
+ 	radio->usbdev = interface_to_usbdev(intf);
+ 	radio->intf = intf;
+@@ -324,7 +335,8 @@ static int usb_raremono_probe(struct usb_interface *intf,
+ 	if (retval != 3 ||
+ 	    (get_unaligned_be16(&radio->buffer[1]) & 0xfff) == 0x0242) {
+ 		dev_info(&intf->dev, "this is not Thanko's Raremono.\n");
+-		return -ENODEV;
++		retval = -ENODEV;
++		goto free_mem;
+ 	}
+ 
+ 	dev_info(&intf->dev, "Thanko's Raremono connected: (%04X:%04X)\n",
+@@ -333,7 +345,7 @@ static int usb_raremono_probe(struct usb_interface *intf,
+ 	retval = v4l2_device_register(&intf->dev, &radio->v4l2_dev);
+ 	if (retval < 0) {
+ 		dev_err(&intf->dev, "couldn't register v4l2_device\n");
+-		return retval;
++		goto free_mem;
+ 	}
+ 
+ 	mutex_init(&radio->lock);
+@@ -345,6 +357,7 @@ static int usb_raremono_probe(struct usb_interface *intf,
+ 	radio->vdev.ioctl_ops = &usb_raremono_ioctl_ops;
+ 	radio->vdev.lock = &radio->lock;
+ 	radio->vdev.release = video_device_release_empty;
++	radio->v4l2_dev.release = raremono_device_release;
+ 
+ 	usb_set_intfdata(intf, &radio->v4l2_dev);
+ 
+@@ -360,6 +373,10 @@ static int usb_raremono_probe(struct usb_interface *intf,
+ 	}
+ 	dev_err(&intf->dev, "could not register video device\n");
+ 	v4l2_device_unregister(&radio->v4l2_dev);
++
++free_mem:
++	kfree(radio->buffer);
++	kfree(radio);
+ 	return retval;
+ }
+ 
+-- 
+2.20.1
