@@ -1,220 +1,30 @@
-From: c0d1n61at3@gmail.com (Jiunn Chang)
-Date: Sat, 22 Jun 2019 02:04:05 -0500
-Subject: [Linux-kernel-mentees] [PATCH 3/3] Documentation: RCU: Convert RCU
- UP systems to ReST
-Message-ID: <20190622070405.GA7193@rYz3n>
+From: sushmaunnibhavi425@gmail.com (Sushma Unnibhavi)
+Date: Sat, 22 Jun 2019 12:47:03 +0530
+Subject: [Linux-kernel-mentees] [PATCH v2] replaced both the symbolic
+	permissions S_IXUGO and S_IRUGO to octal permissions 0111 and 0444
+Message-ID: <20190622071703.9664-1-sushmaunnibhavi425@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190622070405.AfRXRAirxoLExMW2uN668st4zoxCUO6h_PeXgR2rL44@z>
+Message-ID: <20190622071703.pL4RTKw5BnMtaRlqn5tIyNrzicY2LaNS0P0G1wKFWqU@z>
 
-Convert RCU UP systems and add TOC tree hook.
-
-Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
 ---
- Documentation/RCU/index.rst              |  1 +
- Documentation/RCU/rcu.rst                |  2 +-
- Documentation/RCU/{UP.txt => up_doc.rst} | 73 ++++++++++++------------
- 3 files changed, 39 insertions(+), 37 deletions(-)
- rename Documentation/RCU/{UP.txt => up_doc.rst} (62%)
+Changes in v2:changed both symbolic permissions to octal
+ drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 69efb36acf0a..b7b187f512fd 100644
---- a/Documentation/RCU/index.rst
-+++ b/Documentation/RCU/index.rst
-@@ -9,6 +9,7 @@ RCU concepts
+diff --git a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+index fd9dfb953ada..f4292a2fd011 100644
+--- a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
++++ b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+@@ -21,7 +21,7 @@ inline struct proc_dir_entry *rtw_proc_create_dir(const char *name, struct proc_
+ {
+ 	struct proc_dir_entry *entry;
  
-    rcu
-    list_rcu
-+   up_doc
+-	entry = proc_mkdir_data(name, 0444|S_IXUGO, parent, data);
++	entry = proc_mkdir_data(name, 0444|0111, parent, data);
  
- .. only::  subproject and html
- 
-diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-index fec4a71e8b95..796357b595c1 100644
---- a/Documentation/RCU/rcu.rst
-+++ b/Documentation/RCU/rcu.rst
-@@ -49,7 +49,7 @@ Frequently Asked Questions
- - If I am running on a uniprocessor kernel, which can only do one
-   thing at a time, why should I wait for a grace period?
- 
--  See UP.txt for more information.
-+  See :ref:`up_doc` for more information.
- 
- - How can I see where RCU is currently used in the Linux kernel?
- 
-diff --git a/Documentation/RCU/UP.txt b/Documentation/RCU/up_doc.rst
-similarity index 62%
-rename from Documentation/RCU/UP.txt
-rename to Documentation/RCU/up_doc.rst
-index 53bde717017b..f2e67ec5b457 100644
---- a/Documentation/RCU/UP.txt
-+++ b/Documentation/RCU/up_doc.rst
-@@ -1,100 +1,101 @@
--RCU on Uniprocessor Systems
-+.. _up_doc:
- 
-+RCU on Uniprocessor Systems
-+===========================
- 
--A common misconception is that, on UP systems, the call_rcu() primitive
-+A common misconception is that, on UP systems, the *call_rcu()* primitive
- may immediately invoke its function.  The basis of this misconception
- is that since there is only one CPU, it should not be necessary to
- wait for anything else to get done, since there are no other CPUs for
--anything else to be happening on.  Although this approach will -sort- -of-
-+anything else to be happening on.  Although this approach will **sort of**
- work a surprising amount of the time, it is a very bad idea in general.
- This document presents three examples that demonstrate exactly how bad
- an idea this is.
- 
--
- Example 1: softirq Suicide
-+--------------------------
- 
- Suppose that an RCU-based algorithm scans a linked list containing
- elements A, B, and C in process context, and can delete elements from
- this same list in softirq context.  Suppose that the process-context scan
- is referencing element B when it is interrupted by softirq processing,
--which deletes element B, and then invokes call_rcu() to free element B
-+which deletes element B, and then invokes *call_rcu()* to free element B
- after a grace period.
- 
--Now, if call_rcu() were to directly invoke its arguments, then upon return
-+Now, if *call_rcu()* were to directly invoke its arguments, then upon return
- from softirq, the list scan would find itself referencing a newly freed
- element B.  This situation can greatly decrease the life expectancy of
- your kernel.
- 
--This same problem can occur if call_rcu() is invoked from a hardware
-+This same problem can occur if *call_rcu()* is invoked from a hardware
- interrupt handler.
- 
--
- Example 2: Function-Call Fatality
-+---------------------------------
- 
- Of course, one could avert the suicide described in the preceding example
--by having call_rcu() directly invoke its arguments only if it was called
-+by having *call_rcu()* directly invoke its arguments only if it was called
- from process context.  However, this can fail in a similar manner.
- 
- Suppose that an RCU-based algorithm again scans a linked list containing
- elements A, B, and C in process contexts, but that it invokes a function
- on each element as it is scanned.  Suppose further that this function
--deletes element B from the list, then passes it to call_rcu() for deferred
-+deletes element B from the list, then passes it to *call_rcu()* for deferred
- freeing.  This may be a bit unconventional, but it is perfectly legal
--RCU usage, since call_rcu() must wait for a grace period to elapse.
--Therefore, in this case, allowing call_rcu() to immediately invoke
-+RCU usage, since *call_rcu()* must wait for a grace period to elapse.
-+Therefore, in this case, allowing *call_rcu()* to immediately invoke
- its arguments would cause it to fail to make the fundamental guarantee
--underlying RCU, namely that call_rcu() defers invoking its arguments until
-+underlying RCU, namely that *call_rcu()* defers invoking its arguments until
- all RCU read-side critical sections currently executing have completed.
- 
--Quick Quiz #1: why is it -not- legal to invoke synchronize_rcu() in
-+Quick Quiz #1: why is it -not- legal to invoke *synchronize_rcu()* in
- 	this case?
- 
--
- Example 3: Death by Deadlock
-+----------------------------
- 
--Suppose that call_rcu() is invoked while holding a lock, and that the
-+Suppose that *call_rcu()* is invoked while holding a lock, and that the
- callback function must acquire this same lock.  In this case, if
--call_rcu() were to directly invoke the callback, the result would
-+*call_rcu()* were to directly invoke the callback, the result would
- be self-deadlock.
- 
- In some cases, it would possible to restructure to code so that
--the call_rcu() is delayed until after the lock is released.  However,
-+the *call_rcu()* is delayed until after the lock is released.  However,
- there are cases where this can be quite ugly:
- 
--1.	If a number of items need to be passed to call_rcu() within
-+1.	If a number of items need to be passed to *call_rcu()* within
- 	the same critical section, then the code would need to create
- 	a list of them, then traverse the list once the lock was
- 	released.
- 
- 2.	In some cases, the lock will be held across some kernel API,
--	so that delaying the call_rcu() until the lock is released
-+	so that delaying the *call_rcu()* until the lock is released
- 	requires that the data item be passed up via a common API.
- 	It is far better to guarantee that callbacks are invoked
- 	with no locks held than to have to modify such APIs to allow
- 	arbitrary data items to be passed back up through them.
- 
--If call_rcu() directly invokes the callback, painful locking restrictions
-+If *call_rcu()* directly invokes the callback, painful locking restrictions
- or API changes would be required.
- 
- Quick Quiz #2: What locking restriction must RCU callbacks respect?
- 
--
- Summary
-+-------
- 
--Permitting call_rcu() to immediately invoke its arguments breaks RCU,
-+Permitting *call_rcu()* to immediately invoke its arguments breaks RCU,
- even on a UP system.  So do not do it!  Even on a UP system, the RCU
--infrastructure -must- respect grace periods, and -must- invoke callbacks
-+infrastructure **must** respect grace periods, and **must** invoke callbacks
- from a known environment in which no locks are held.
- 
--Note that it -is- safe for synchronize_rcu() to return immediately on
--UP systems, including !PREEMPT SMP builds running on UP systems.
-+Note that it **is** safe for *synchronize_rcu()* to return immediately on
-+UP systems, including ``PREEMPT SMP`` builds running on UP systems.
- 
--Quick Quiz #3: Why can't synchronize_rcu() return immediately on
-+Quick Quiz #3: Why can't *synchronize_rcu()* return immediately on
- 	UP systems running preemptable RCU?
- 
--
- Answer to Quick Quiz #1:
--	Why is it -not- legal to invoke synchronize_rcu() in this case?
-+	Why is it -not- legal to invoke *synchronize_rcu()* in this case?
- 
- 	Because the calling function is scanning an RCU-protected linked
- 	list, and is therefore within an RCU read-side critical section.
-@@ -106,12 +107,12 @@ Answer to Quick Quiz #2:
- 
- 	Any lock that is acquired within an RCU callback must be
- 	acquired elsewhere using an _irq variant of the spinlock
--	primitive.  For example, if "mylock" is acquired by an
-+	primitive.  For example, if *mylock* is acquired by an
- 	RCU callback, then a process-context acquisition of this
--	lock must use something like spin_lock_irqsave() to
-+	lock must use something like *spin_lock_irqsave()* to
- 	acquire the lock.
- 
--	If the process-context code were to simply use spin_lock(),
-+	If the process-context code were to simply use *spin_lock()*,
- 	then, since RCU callbacks can be invoked from softirq context,
- 	the callback might be called from a softirq that interrupted
- 	the process-context critical section.  This would result in
-@@ -119,15 +120,15 @@ Answer to Quick Quiz #2:
- 
- 	This restriction might seem gratuitous, since very few RCU
- 	callbacks acquire locks directly.  However, a great many RCU
--	callbacks do acquire locks -indirectly-, for example, via
--	the kfree() primitive.
-+	callbacks do acquire locks **indirectly**, for example, via
-+	the *kfree()* primitive.
- 
- Answer to Quick Quiz #3:
--	Why can't synchronize_rcu() return immediately on UP systems
-+	Why can't *synchronize_rcu()* return immediately on UP systems
- 	running preemptable RCU?
- 
- 	Because some other task might have been preempted in the middle
--	of an RCU read-side critical section.  If synchronize_rcu()
-+	of an RCU read-side critical section.  If *synchronize_rcu()*
- 	simply immediately returned, it would prematurely signal the
- 	end of the grace period, which would come as a nasty shock to
- 	that other thread when it started running again.
+ 	return entry;
+ }
 -- 
-2.22.0
+2.17.1
