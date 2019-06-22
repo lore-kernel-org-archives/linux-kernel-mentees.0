@@ -1,717 +1,218 @@
 From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Sat, 22 Jun 2019 02:02:51 -0500
-Subject: [Linux-kernel-mentees] [PATCH 2/3] Documentation: RCU: Convert RCU
- linked list to ReST
-Message-ID: <20190622070251.GA7182@rYz3n>
+Date: Sat, 22 Jun 2019 02:04:05 -0500
+Subject: [Linux-kernel-mentees] [PATCH 3/3] Documentation: RCU: Convert RCU
+ UP systems to ReST
+Message-ID: <20190622070405.GA7193@rYz3n>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Convert RCU linked list and add TOC tree hook.
+Convert RCU UP systems and add TOC tree hook.
 
 Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 ---
- Documentation/RCU/index.rst    |   1 +
- Documentation/RCU/listRCU.txt  | 315 -------------------------------
- Documentation/RCU/list_rcu.rst | 335 +++++++++++++++++++++++++++++++++
- Documentation/RCU/rcu.rst      |   4 +-
- 4 files changed, 338 insertions(+), 317 deletions(-)
- delete mode 100644 Documentation/RCU/listRCU.txt
- create mode 100644 Documentation/RCU/list_rcu.rst
+ Documentation/RCU/index.rst              |  1 +
+ Documentation/RCU/rcu.rst                |  2 +-
+ Documentation/RCU/{UP.txt => up_doc.rst} | 73 ++++++++++++------------
+ 3 files changed, 39 insertions(+), 37 deletions(-)
+ rename Documentation/RCU/{UP.txt => up_doc.rst} (62%)
 
 diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 30d1f2f3133f..69efb36acf0a 100644
+index 69efb36acf0a..b7b187f512fd 100644
 --- a/Documentation/RCU/index.rst
 +++ b/Documentation/RCU/index.rst
-@@ -8,6 +8,7 @@ RCU concepts
-    :maxdepth: 1
+@@ -9,6 +9,7 @@ RCU concepts
  
     rcu
-+   list_rcu
+    list_rcu
++   up_doc
  
  .. only::  subproject and html
  
-diff --git a/Documentation/RCU/listRCU.txt b/Documentation/RCU/listRCU.txt
-deleted file mode 100644
-index adb5a3782846..000000000000
---- a/Documentation/RCU/listRCU.txt
-+++ /dev/null
-@@ -1,315 +0,0 @@
--Using RCU to Protect Read-Mostly Linked Lists
--
--
--One of the best applications of RCU is to protect read-mostly linked lists
--("struct list_head" in list.h).  One big advantage of this approach
--is that all of the required memory barriers are included for you in
--the list macros.  This document describes several applications of RCU,
--with the best fits first.
--
--
--Example 1: Read-Side Action Taken Outside of Lock, No In-Place Updates
--
--The best applications are cases where, if reader-writer locking were
--used, the read-side lock would be dropped before taking any action
--based on the results of the search.  The most celebrated example is
--the routing table.  Because the routing table is tracking the state of
--equipment outside of the computer, it will at times contain stale data.
--Therefore, once the route has been computed, there is no need to hold
--the routing table static during transmission of the packet.  After all,
--you can hold the routing table static all you want, but that won't keep
--the external Internet from changing, and it is the state of the external
--Internet that really matters.  In addition, routing entries are typically
--added or deleted, rather than being modified in place.
--
--A straightforward example of this use of RCU may be found in the
--system-call auditing support.  For example, a reader-writer locked
--implementation of audit_filter_task() might be as follows:
--
--	static enum audit_state audit_filter_task(struct task_struct *tsk)
--	{
--		struct audit_entry *e;
--		enum audit_state   state;
--
--		read_lock(&auditsc_lock);
--		/* Note: audit_netlink_sem held by caller. */
--		list_for_each_entry(e, &audit_tsklist, list) {
--			if (audit_filter_rules(tsk, &e->rule, NULL, &state)) {
--				read_unlock(&auditsc_lock);
--				return state;
--			}
--		}
--		read_unlock(&auditsc_lock);
--		return AUDIT_BUILD_CONTEXT;
--	}
--
--Here the list is searched under the lock, but the lock is dropped before
--the corresponding value is returned.  By the time that this value is acted
--on, the list may well have been modified.  This makes sense, since if
--you are turning auditing off, it is OK to audit a few extra system calls.
--
--This means that RCU can be easily applied to the read side, as follows:
--
--	static enum audit_state audit_filter_task(struct task_struct *tsk)
--	{
--		struct audit_entry *e;
--		enum audit_state   state;
--
--		rcu_read_lock();
--		/* Note: audit_netlink_sem held by caller. */
--		list_for_each_entry_rcu(e, &audit_tsklist, list) {
--			if (audit_filter_rules(tsk, &e->rule, NULL, &state)) {
--				rcu_read_unlock();
--				return state;
--			}
--		}
--		rcu_read_unlock();
--		return AUDIT_BUILD_CONTEXT;
--	}
--
--The read_lock() and read_unlock() calls have become rcu_read_lock()
--and rcu_read_unlock(), respectively, and the list_for_each_entry() has
--become list_for_each_entry_rcu().  The _rcu() list-traversal primitives
--insert the read-side memory barriers that are required on DEC Alpha CPUs.
--
--The changes to the update side are also straightforward.  A reader-writer
--lock might be used as follows for deletion and insertion:
--
--	static inline int audit_del_rule(struct audit_rule *rule,
--					 struct list_head *list)
--	{
--		struct audit_entry  *e;
--
--		write_lock(&auditsc_lock);
--		list_for_each_entry(e, list, list) {
--			if (!audit_compare_rule(rule, &e->rule)) {
--				list_del(&e->list);
--				write_unlock(&auditsc_lock);
--				return 0;
--			}
--		}
--		write_unlock(&auditsc_lock);
--		return -EFAULT;		/* No matching rule */
--	}
--
--	static inline int audit_add_rule(struct audit_entry *entry,
--					 struct list_head *list)
--	{
--		write_lock(&auditsc_lock);
--		if (entry->rule.flags & AUDIT_PREPEND) {
--			entry->rule.flags &= ~AUDIT_PREPEND;
--			list_add(&entry->list, list);
--		} else {
--			list_add_tail(&entry->list, list);
--		}
--		write_unlock(&auditsc_lock);
--		return 0;
--	}
--
--Following are the RCU equivalents for these two functions:
--
--	static inline int audit_del_rule(struct audit_rule *rule,
--					 struct list_head *list)
--	{
--		struct audit_entry  *e;
--
--		/* Do not use the _rcu iterator here, since this is the only
--		 * deletion routine. */
--		list_for_each_entry(e, list, list) {
--			if (!audit_compare_rule(rule, &e->rule)) {
--				list_del_rcu(&e->list);
--				call_rcu(&e->rcu, audit_free_rule);
--				return 0;
--			}
--		}
--		return -EFAULT;		/* No matching rule */
--	}
--
--	static inline int audit_add_rule(struct audit_entry *entry,
--					 struct list_head *list)
--	{
--		if (entry->rule.flags & AUDIT_PREPEND) {
--			entry->rule.flags &= ~AUDIT_PREPEND;
--			list_add_rcu(&entry->list, list);
--		} else {
--			list_add_tail_rcu(&entry->list, list);
--		}
--		return 0;
--	}
--
--Normally, the write_lock() and write_unlock() would be replaced by
--a spin_lock() and a spin_unlock(), but in this case, all callers hold
--audit_netlink_sem, so no additional locking is required.  The auditsc_lock
--can therefore be eliminated, since use of RCU eliminates the need for
--writers to exclude readers.  Normally, the write_lock() calls would
--be converted into spin_lock() calls.
--
--The list_del(), list_add(), and list_add_tail() primitives have been
--replaced by list_del_rcu(), list_add_rcu(), and list_add_tail_rcu().
--The _rcu() list-manipulation primitives add memory barriers that are
--needed on weakly ordered CPUs (most of them!).  The list_del_rcu()
--primitive omits the pointer poisoning debug-assist code that would
--otherwise cause concurrent readers to fail spectacularly.
--
--So, when readers can tolerate stale data and when entries are either added
--or deleted, without in-place modification, it is very easy to use RCU!
--
--
--Example 2: Handling In-Place Updates
--
--The system-call auditing code does not update auditing rules in place.
--However, if it did, reader-writer-locked code to do so might look as
--follows (presumably, the field_count is only permitted to decrease,
--otherwise, the added fields would need to be filled in):
--
--	static inline int audit_upd_rule(struct audit_rule *rule,
--					 struct list_head *list,
--					 __u32 newaction,
--					 __u32 newfield_count)
--	{
--		struct audit_entry  *e;
--		struct audit_newentry *ne;
--
--		write_lock(&auditsc_lock);
--		/* Note: audit_netlink_sem held by caller. */
--		list_for_each_entry(e, list, list) {
--			if (!audit_compare_rule(rule, &e->rule)) {
--				e->rule.action = newaction;
--				e->rule.file_count = newfield_count;
--				write_unlock(&auditsc_lock);
--				return 0;
--			}
--		}
--		write_unlock(&auditsc_lock);
--		return -EFAULT;		/* No matching rule */
--	}
--
--The RCU version creates a copy, updates the copy, then replaces the old
--entry with the newly updated entry.  This sequence of actions, allowing
--concurrent reads while doing a copy to perform an update, is what gives
--RCU ("read-copy update") its name.  The RCU code is as follows:
--
--	static inline int audit_upd_rule(struct audit_rule *rule,
--					 struct list_head *list,
--					 __u32 newaction,
--					 __u32 newfield_count)
--	{
--		struct audit_entry  *e;
--		struct audit_newentry *ne;
--
--		list_for_each_entry(e, list, list) {
--			if (!audit_compare_rule(rule, &e->rule)) {
--				ne = kmalloc(sizeof(*entry), GFP_ATOMIC);
--				if (ne == NULL)
--					return -ENOMEM;
--				audit_copy_rule(&ne->rule, &e->rule);
--				ne->rule.action = newaction;
--				ne->rule.file_count = newfield_count;
--				list_replace_rcu(&e->list, &ne->list);
--				call_rcu(&e->rcu, audit_free_rule);
--				return 0;
--			}
--		}
--		return -EFAULT;		/* No matching rule */
--	}
--
--Again, this assumes that the caller holds audit_netlink_sem.  Normally,
--the reader-writer lock would become a spinlock in this sort of code.
--
--
--Example 3: Eliminating Stale Data
--
--The auditing examples above tolerate stale data, as do most algorithms
--that are tracking external state.  Because there is a delay from the
--time the external state changes before Linux becomes aware of the change,
--additional RCU-induced staleness is normally not a problem.
--
--However, there are many examples where stale data cannot be tolerated.
--One example in the Linux kernel is the System V IPC (see the ipc_lock()
--function in ipc/util.c).  This code checks a "deleted" flag under a
--per-entry spinlock, and, if the "deleted" flag is set, pretends that the
--entry does not exist.  For this to be helpful, the search function must
--return holding the per-entry spinlock, as ipc_lock() does in fact do.
--
--Quick Quiz:  Why does the search function need to return holding the
--	per-entry lock for this deleted-flag technique to be helpful?
--
--If the system-call audit module were to ever need to reject stale data,
--one way to accomplish this would be to add a "deleted" flag and a "lock"
--spinlock to the audit_entry structure, and modify audit_filter_task()
--as follows:
--
--	static enum audit_state audit_filter_task(struct task_struct *tsk)
--	{
--		struct audit_entry *e;
--		enum audit_state   state;
--
--		rcu_read_lock();
--		list_for_each_entry_rcu(e, &audit_tsklist, list) {
--			if (audit_filter_rules(tsk, &e->rule, NULL, &state)) {
--				spin_lock(&e->lock);
--				if (e->deleted) {
--					spin_unlock(&e->lock);
--					rcu_read_unlock();
--					return AUDIT_BUILD_CONTEXT;
--				}
--				rcu_read_unlock();
--				return state;
--			}
--		}
--		rcu_read_unlock();
--		return AUDIT_BUILD_CONTEXT;
--	}
--
--Note that this example assumes that entries are only added and deleted.
--Additional mechanism is required to deal correctly with the
--update-in-place performed by audit_upd_rule().  For one thing,
--audit_upd_rule() would need additional memory barriers to ensure
--that the list_add_rcu() was really executed before the list_del_rcu().
--
--The audit_del_rule() function would need to set the "deleted"
--flag under the spinlock as follows:
--
--	static inline int audit_del_rule(struct audit_rule *rule,
--					 struct list_head *list)
--	{
--		struct audit_entry  *e;
--
--		/* Do not need to use the _rcu iterator here, since this
--		 * is the only deletion routine. */
--		list_for_each_entry(e, list, list) {
--			if (!audit_compare_rule(rule, &e->rule)) {
--				spin_lock(&e->lock);
--				list_del_rcu(&e->list);
--				e->deleted = 1;
--				spin_unlock(&e->lock);
--				call_rcu(&e->rcu, audit_free_rule);
--				return 0;
--			}
--		}
--		return -EFAULT;		/* No matching rule */
--	}
--
--
--Summary
--
--Read-mostly list-based data structures that can tolerate stale data are
--the most amenable to use of RCU.  The simplest case is where entries are
--either added or deleted from the data structure (or atomically modified
--in place), but non-atomic in-place modifications can be handled by making
--a copy, updating the copy, then replacing the original with the copy.
--If stale data cannot be tolerated, then a "deleted" flag may be used
--in conjunction with a per-entry spinlock in order to allow the search
--function to reject newly deleted data.
--
--
--Answer to Quick Quiz
--	Why does the search function need to return holding the per-entry
--	lock for this deleted-flag technique to be helpful?
--
--	If the search function drops the per-entry lock before returning,
--	then the caller will be processing stale data in any case.  If it
--	is really OK to be processing stale data, then you don't need a
--	"deleted" flag.  If processing stale data really is a problem,
--	then you need to hold the per-entry lock across all of the code
--	that uses the value that was returned.
-diff --git a/Documentation/RCU/list_rcu.rst b/Documentation/RCU/list_rcu.rst
-new file mode 100644
-index 000000000000..255c9e173fba
---- /dev/null
-+++ b/Documentation/RCU/list_rcu.rst
-@@ -0,0 +1,335 @@
-+.. _list_rcu_doc:
-+
-+Using RCU to Protect Read-Mostly Linked Lists
-+=============================================
-+
-+One of the best applications of RCU is to protect read-mostly linked lists
-+(*struct list_head* in ``list.h``).  One big advantage of this approach
-+is that all of the required memory barriers are included for you in
-+the list macros.  This document describes several applications of RCU,
-+with the best fits first.
-+
-+Example 1: Read-Side Action Taken Outside of Lock, No In-Place Updates
-+----------------------------------------------------------------------
-+
-+The best applications are cases where, if reader-writer locking were
-+used, the read-side lock would be dropped before taking any action
-+based on the results of the search.  The most celebrated example is
-+the routing table.  Because the routing table is tracking the state of
-+equipment outside of the computer, it will at times contain stale data.
-+Therefore, once the route has been computed, there is no need to hold
-+the routing table static during transmission of the packet.  After all,
-+you can hold the routing table static all you want, but that won't keep
-+the external Internet from changing, and it is the state of the external
-+Internet that really matters.  In addition, routing entries are typically
-+added or deleted, rather than being modified in place.
-+
-+A straightforward example of this use of RCU may be found in the
-+system-call auditing support.  For example, a reader-writer locked
-+implementation of *audit_filter_task()* might be as follows:
-+
-+.. code-block:: c
-+
-+   static enum audit_state audit_filter_task(struct task_struct *tsk)
-+   {
-+      struct audit_entry *e;
-+      enum audit_state   state;
-+
-+      read_lock(&auditsc_lock);
-+      /* Note: audit_netlink_sem held by caller. */
-+      list_for_each_entry(e, &audit_tsklist, list) {
-+         if (audit_filter_rules(tsk, &e->rule, NULL, &state)) {
-+            read_unlock(&auditsc_lock);
-+            return state;
-+         }
-+      }
-+      read_unlock(&auditsc_lock);
-+      return AUDIT_BUILD_CONTEXT;
-+   }
-+
-+Here the list is searched under the lock, but the lock is dropped before
-+the corresponding value is returned.  By the time that this value is acted
-+on, the list may well have been modified.  This makes sense, since if
-+you are turning auditing off, it is OK to audit a few extra system calls.
-+
-+This means that RCU can be easily applied to the read side, as follows:
-+
-+.. code-block:: c
-+
-+   static enum audit_state audit_filter_task(struct task_struct *tsk)
-+   {
-+      struct audit_entry *e;
-+      enum audit_state   state;
-+
-+      rcu_read_lock();
-+      /* Note: audit_netlink_sem held by caller. */
-+      list_for_each_entry_rcu(e, &audit_tsklist, list) {
-+         if (audit_filter_rules(tsk, &e->rule, NULL, &state)) {
-+            rcu_read_unlock();
-+            return state;
-+         }
-+      }
-+      rcu_read_unlock();
-+      return AUDIT_BUILD_CONTEXT;
-+   }
-+
-+The *read_lock()* and *read_unlock()* calls have become *rcu_read_lock()*
-+and *rcu_read_unlock()*, respectively, and the *list_for_each_entry()* has
-+become *list_for_each_entry_rcu()*.  The *_rcu()* list-traversal primitives
-+insert the read-side memory barriers that are required on DEC Alpha CPUs.
-+
-+The changes to the update side are also straightforward.  A reader-writer
-+lock might be used as follows for deletion and insertion:
-+
-+.. code-block:: c
-+
-+   static inline int audit_del_rule(struct audit_rule *rule,
-+                                    struct list_head *list)
-+   {
-+      struct audit_entry  *e;
-+
-+      write_lock(&auditsc_lock);
-+      list_for_each_entry(e, list, list) {
-+         if (!audit_compare_rule(rule, &e->rule)) {
-+            list_del(&e->list);
-+            write_unlock(&auditsc_lock);
-+            return 0;
-+         }
-+      }
-+      write_unlock(&auditsc_lock);
-+      return -EFAULT;   /* No matching rule */
-+   }
-+
-+   static inline int audit_add_rule(struct audit_entry *entry,
-+                                    struct list_head *list)
-+   {
-+      write_lock(&auditsc_lock);
-+      if (entry->rule.flags & AUDIT_PREPEND) {
-+         entry->rule.flags &= ~AUDIT_PREPEND;
-+         list_add(&entry->list, list);
-+      } else {
-+         list_add_tail(&entry->list, list);
-+      }
-+      write_unlock(&auditsc_lock);
-+      return 0;
-+   }
-+
-+Following are the RCU equivalents for these two functions:
-+
-+.. code-block:: c
-+
-+   static inline int audit_del_rule(struct audit_rule *rule,
-+                                    struct list_head *list)
-+   {
-+      struct audit_entry  *e;
-+
-+      /* Do not use the _rcu iterator here, since this is the only
-+       * deletion routine. */
-+      list_for_each_entry(e, list, list) {
-+         if (!audit_compare_rule(rule, &e->rule)) {
-+            list_del_rcu(&e->list);
-+            call_rcu(&e->rcu, audit_free_rule);
-+            return 0;
-+         }
-+      }
-+      return -EFAULT;   /* No matching rule */
-+   }
-+
-+   static inline int audit_add_rule(struct audit_entry *entry,
-+                                    struct list_head *list)
-+   {
-+      if (entry->rule.flags & AUDIT_PREPEND) {
-+         entry->rule.flags &= ~AUDIT_PREPEND;
-+         list_add_rcu(&entry->list, list);
-+      } else {
-+         list_add_tail_rcu(&entry->list, list);
-+      }
-+      return 0;
-+   }
-+
-+Normally, the *write_lock()* and *write_unlock()* would be replaced by
-+a *spin_lock()* and a *spin_unlock()*, but in this case, all callers hold
-+*audit_netlink_sem*, so no additional locking is required.  The *auditsc_lock*
-+can therefore be eliminated, since use of RCU eliminates the need for
-+writers to exclude readers.  Normally, the *write_lock()* calls would
-+be converted into *spin_lock()* calls.
-+
-+The *list_del()*, *list_add()*, and *list_add_tail()* primitives have been
-+replaced by *list_del_rcu()*, *list_add_rcu()*, and *list_add_tail_rcu()*.
-+The *_rcu()* list-manipulation primitives add memory barriers that are
-+needed on weakly ordered CPUs (most of them!).  The *list_del_rcu()*
-+primitive omits the pointer poisoning debug-assist code that would
-+otherwise cause concurrent readers to fail spectacularly.
-+
-+So, when readers can tolerate stale data and when entries are either added
-+or deleted, without in-place modification, it is very easy to use RCU!
-+
-+Example 2: Handling In-Place Updates
-+------------------------------------
-+
-+The system-call auditing code does not update auditing rules in place.
-+However, if it did, reader-writer-locked code to do so might look as
-+follows (presumably, the field_count is only permitted to decrease,
-+otherwise, the added fields would need to be filled in):
-+
-+.. code-block:: c
-+
-+   static inline int audit_upd_rule(struct audit_rule *rule,
-+                                    struct list_head *list,
-+                                    __u32 newaction,
-+                                    __u32 newfield_count)
-+   {
-+      struct audit_entry  *e;
-+      struct audit_newentry *ne;
-+
-+      write_lock(&auditsc_lock);
-+      /* Note: audit_netlink_sem held by caller. */
-+      list_for_each_entry(e, list, list) {
-+         if (!audit_compare_rule(rule, &e->rule)) {
-+            e->rule.action = newaction;
-+            e->rule.file_count = newfield_count;
-+            write_unlock(&auditsc_lock);
-+            return 0;
-+         }
-+      }
-+      write_unlock(&auditsc_lock);
-+      return -EFAULT;   /* No matching rule */
-+   }
-+
-+The RCU version creates a copy, updates the copy, then replaces the old
-+entry with the newly updated entry.  This sequence of actions, allowing
-+concurrent reads while doing a copy to perform an update, is what gives
-+RCU ("read-copy update") its name.  The RCU code is as follows:
-+
-+.. code-block:: c
-+
-+   static inline int audit_upd_rule(struct audit_rule *rule,
-+                                    struct list_head *list,
-+                                    __u32 newaction,
-+                                    __u32 newfield_count)
-+   {
-+      struct audit_entry  *e;
-+      struct audit_newentry *ne;
-+
-+      list_for_each_entry(e, list, list) {
-+         if (!audit_compare_rule(rule, &e->rule)) {
-+            ne = kmalloc(sizeof(*entry), GFP_ATOMIC);
-+            if (ne == NULL)
-+               return -ENOMEM;
-+            audit_copy_rule(&ne->rule, &e->rule);
-+            ne->rule.action = newaction;
-+            ne->rule.file_count = newfield_count;
-+            list_replace_rcu(&e->list, &ne->list);
-+            call_rcu(&e->rcu, audit_free_rule);
-+            return 0;
-+         }
-+      }
-+      return -EFAULT;   /* No matching rule */
-+   }
-+
-+Again, this assumes that the caller holds audit_netlink_sem.  Normally,
-+the reader-writer lock would become a spinlock in this sort of code.
-+
-+Example 3: Eliminating Stale Data
-+
-+The auditing examples above tolerate stale data, as do most algorithms
-+that are tracking external state.  Because there is a delay from the
-+time the external state changes before Linux becomes aware of the change,
-+additional RCU-induced staleness is normally not a problem.
-+
-+However, there are many examples where stale data cannot be tolerated.
-+One example in the Linux kernel is the System V IPC (see the *ipc_lock()*
-+function in ``ipc/util.c``).  This code checks a *deleted* flag under a
-+per-entry spinlock, and, if the *deleted* flag is set, pretends that the
-+entry does not exist.  For this to be helpful, the search function must
-+return holding the per-entry spinlock, as *ipc_lock()* does in fact do.
-+
-+Quick Quiz:  Why does the search function need to return holding the
-+	per-entry lock for this deleted-flag technique to be helpful?
-+
-+:ref:`answer_quick_quiz`
-+
-+If the system-call audit module were to ever need to reject stale data,
-+one way to accomplish this would be to add a *deleted* flag and a *lock*
-+spinlock to the *audit_entry* structure, and modify *audit_filter_task()*
-+as follows:
-+
-+.. code-block:: c
-+
-+   static enum audit_state audit_filter_task(struct task_struct *tsk)
-+   {
-+      struct audit_entry *e;
-+      enum audit_state   state;
-+
-+      rcu_read_lock();
-+      list_for_each_entry_rcu(e, &audit_tsklist, list) {
-+         if (audit_filter_rules(tsk, &e->rule, NULL, &state)) {
-+            spin_lock(&e->lock);
-+            if (e->deleted) {
-+               spin_unlock(&e->lock);
-+               rcu_read_unlock();
-+               return AUDIT_BUILD_CONTEXT;
-+            }
-+            rcu_read_unlock();
-+            return state;
-+         }
-+      }
-+      rcu_read_unlock();
-+      return AUDIT_BUILD_CONTEXT;
-+   }
-+
-+Note that this example assumes that entries are only added and deleted.
-+Additional mechanism is required to deal correctly with the
-+update-in-place performed by *audit_upd_rule()*.  For one thing,
-+*audit_upd_rule()* would need additional memory barriers to ensure
-+that the *list_add_rcu()* was really executed before the *list_del_rcu()*.
-+
-+The *audit_del_rule()* function would need to set the *deleted*
-+flag under the spinlock as follows:
-+
-+.. code-block:: c
-+
-+   static inline int audit_del_rule(struct audit_rule *rule,
-+                                    struct list_head *list)
-+   {
-+      struct audit_entry  *e;
-+
-+      /* Do not need to use the _rcu iterator here, since this
-+       * is the only deletion routine. */
-+      list_for_each_entry(e, list, list) {
-+         if (!audit_compare_rule(rule, &e->rule)) {
-+            spin_lock(&e->lock);
-+            list_del_rcu(&e->list);
-+            e->deleted = 1;
-+            spin_unlock(&e->lock);
-+            call_rcu(&e->rcu, audit_free_rule);
-+            return 0;
-+         }
-+      }
-+      return -EFAULT;   /* No matching rule */
-+   }
-+
-+.. _answer_quick_quiz:
-+
-+Summary
-+-------
-+
-+Read-mostly list-based data structures that can tolerate stale data are
-+the most amenable to use of RCU.  The simplest case is where entries are
-+either added or deleted from the data structure (or atomically modified
-+in place), but non-atomic in-place modifications can be handled by making
-+a copy, updating the copy, then replacing the original with the copy.
-+If stale data cannot be tolerated, then a *deleted* flag may be used
-+in conjunction with a per-entry spinlock in order to allow the search
-+function to reject newly deleted data.
-+
-+Answer to Quick Quiz
-+	Why does the search function need to return holding the per-entry
-+	lock for this deleted-flag technique to be helpful?
-+
-+	If the search function drops the per-entry lock before returning,
-+	then the caller will be processing stale data in any case.  If it
-+	is really OK to be processing stale data, then you don't need a
-+	"deleted" flag.  If processing stale data really is a problem,
-+	then you need to hold the per-entry lock across all of the code
-+	that uses the value that was returned.
 diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-index e95f023d6065..fec4a71e8b95 100644
+index fec4a71e8b95..796357b595c1 100644
 --- a/Documentation/RCU/rcu.rst
 +++ b/Documentation/RCU/rcu.rst
-@@ -11,7 +11,7 @@ A "grace period" must elapse between the two parts, and this grace period
- must be long enough that any readers accessing the item being deleted have
- since dropped their references.  For example, an RCU-protected deletion
- from a linked list would first remove the item from the list, wait for
--a grace period to elapse, then free the element.  See listRCU.txt
-+a grace period to elapse, then free the element.  See :ref:`list_rcu_doc`
- for more information on using RCU with linked lists.
+@@ -49,7 +49,7 @@ Frequently Asked Questions
+ - If I am running on a uniprocessor kernel, which can only do one
+   thing at a time, why should I wait for a grace period?
  
- Frequently Asked Questions
-@@ -67,7 +67,7 @@ Frequently Asked Questions
+-  See UP.txt for more information.
++  See :ref:`up_doc` for more information.
  
- - Why the name "RCU"?
+ - How can I see where RCU is currently used in the Linux kernel?
  
--  "RCU" stands for "read-copy update".  listRCU.txt has
-+  "RCU" stands for "read-copy update".  :ref:`list_rcu_doc` has
-   more information on where this name came from, search for
-   "read-copy update" to find it.
+diff --git a/Documentation/RCU/UP.txt b/Documentation/RCU/up_doc.rst
+similarity index 62%
+rename from Documentation/RCU/UP.txt
+rename to Documentation/RCU/up_doc.rst
+index 53bde717017b..f2e67ec5b457 100644
+--- a/Documentation/RCU/UP.txt
++++ b/Documentation/RCU/up_doc.rst
+@@ -1,100 +1,101 @@
+-RCU on Uniprocessor Systems
++.. _up_doc:
  
++RCU on Uniprocessor Systems
++===========================
+ 
+-A common misconception is that, on UP systems, the call_rcu() primitive
++A common misconception is that, on UP systems, the *call_rcu()* primitive
+ may immediately invoke its function.  The basis of this misconception
+ is that since there is only one CPU, it should not be necessary to
+ wait for anything else to get done, since there are no other CPUs for
+-anything else to be happening on.  Although this approach will -sort- -of-
++anything else to be happening on.  Although this approach will **sort of**
+ work a surprising amount of the time, it is a very bad idea in general.
+ This document presents three examples that demonstrate exactly how bad
+ an idea this is.
+ 
+-
+ Example 1: softirq Suicide
++--------------------------
+ 
+ Suppose that an RCU-based algorithm scans a linked list containing
+ elements A, B, and C in process context, and can delete elements from
+ this same list in softirq context.  Suppose that the process-context scan
+ is referencing element B when it is interrupted by softirq processing,
+-which deletes element B, and then invokes call_rcu() to free element B
++which deletes element B, and then invokes *call_rcu()* to free element B
+ after a grace period.
+ 
+-Now, if call_rcu() were to directly invoke its arguments, then upon return
++Now, if *call_rcu()* were to directly invoke its arguments, then upon return
+ from softirq, the list scan would find itself referencing a newly freed
+ element B.  This situation can greatly decrease the life expectancy of
+ your kernel.
+ 
+-This same problem can occur if call_rcu() is invoked from a hardware
++This same problem can occur if *call_rcu()* is invoked from a hardware
+ interrupt handler.
+ 
+-
+ Example 2: Function-Call Fatality
++---------------------------------
+ 
+ Of course, one could avert the suicide described in the preceding example
+-by having call_rcu() directly invoke its arguments only if it was called
++by having *call_rcu()* directly invoke its arguments only if it was called
+ from process context.  However, this can fail in a similar manner.
+ 
+ Suppose that an RCU-based algorithm again scans a linked list containing
+ elements A, B, and C in process contexts, but that it invokes a function
+ on each element as it is scanned.  Suppose further that this function
+-deletes element B from the list, then passes it to call_rcu() for deferred
++deletes element B from the list, then passes it to *call_rcu()* for deferred
+ freeing.  This may be a bit unconventional, but it is perfectly legal
+-RCU usage, since call_rcu() must wait for a grace period to elapse.
+-Therefore, in this case, allowing call_rcu() to immediately invoke
++RCU usage, since *call_rcu()* must wait for a grace period to elapse.
++Therefore, in this case, allowing *call_rcu()* to immediately invoke
+ its arguments would cause it to fail to make the fundamental guarantee
+-underlying RCU, namely that call_rcu() defers invoking its arguments until
++underlying RCU, namely that *call_rcu()* defers invoking its arguments until
+ all RCU read-side critical sections currently executing have completed.
+ 
+-Quick Quiz #1: why is it -not- legal to invoke synchronize_rcu() in
++Quick Quiz #1: why is it -not- legal to invoke *synchronize_rcu()* in
+ 	this case?
+ 
+-
+ Example 3: Death by Deadlock
++----------------------------
+ 
+-Suppose that call_rcu() is invoked while holding a lock, and that the
++Suppose that *call_rcu()* is invoked while holding a lock, and that the
+ callback function must acquire this same lock.  In this case, if
+-call_rcu() were to directly invoke the callback, the result would
++*call_rcu()* were to directly invoke the callback, the result would
+ be self-deadlock.
+ 
+ In some cases, it would possible to restructure to code so that
+-the call_rcu() is delayed until after the lock is released.  However,
++the *call_rcu()* is delayed until after the lock is released.  However,
+ there are cases where this can be quite ugly:
+ 
+-1.	If a number of items need to be passed to call_rcu() within
++1.	If a number of items need to be passed to *call_rcu()* within
+ 	the same critical section, then the code would need to create
+ 	a list of them, then traverse the list once the lock was
+ 	released.
+ 
+ 2.	In some cases, the lock will be held across some kernel API,
+-	so that delaying the call_rcu() until the lock is released
++	so that delaying the *call_rcu()* until the lock is released
+ 	requires that the data item be passed up via a common API.
+ 	It is far better to guarantee that callbacks are invoked
+ 	with no locks held than to have to modify such APIs to allow
+ 	arbitrary data items to be passed back up through them.
+ 
+-If call_rcu() directly invokes the callback, painful locking restrictions
++If *call_rcu()* directly invokes the callback, painful locking restrictions
+ or API changes would be required.
+ 
+ Quick Quiz #2: What locking restriction must RCU callbacks respect?
+ 
+-
+ Summary
++-------
+ 
+-Permitting call_rcu() to immediately invoke its arguments breaks RCU,
++Permitting *call_rcu()* to immediately invoke its arguments breaks RCU,
+ even on a UP system.  So do not do it!  Even on a UP system, the RCU
+-infrastructure -must- respect grace periods, and -must- invoke callbacks
++infrastructure **must** respect grace periods, and **must** invoke callbacks
+ from a known environment in which no locks are held.
+ 
+-Note that it -is- safe for synchronize_rcu() to return immediately on
+-UP systems, including !PREEMPT SMP builds running on UP systems.
++Note that it **is** safe for *synchronize_rcu()* to return immediately on
++UP systems, including ``PREEMPT SMP`` builds running on UP systems.
+ 
+-Quick Quiz #3: Why can't synchronize_rcu() return immediately on
++Quick Quiz #3: Why can't *synchronize_rcu()* return immediately on
+ 	UP systems running preemptable RCU?
+ 
+-
+ Answer to Quick Quiz #1:
+-	Why is it -not- legal to invoke synchronize_rcu() in this case?
++	Why is it -not- legal to invoke *synchronize_rcu()* in this case?
+ 
+ 	Because the calling function is scanning an RCU-protected linked
+ 	list, and is therefore within an RCU read-side critical section.
+@@ -106,12 +107,12 @@ Answer to Quick Quiz #2:
+ 
+ 	Any lock that is acquired within an RCU callback must be
+ 	acquired elsewhere using an _irq variant of the spinlock
+-	primitive.  For example, if "mylock" is acquired by an
++	primitive.  For example, if *mylock* is acquired by an
+ 	RCU callback, then a process-context acquisition of this
+-	lock must use something like spin_lock_irqsave() to
++	lock must use something like *spin_lock_irqsave()* to
+ 	acquire the lock.
+ 
+-	If the process-context code were to simply use spin_lock(),
++	If the process-context code were to simply use *spin_lock()*,
+ 	then, since RCU callbacks can be invoked from softirq context,
+ 	the callback might be called from a softirq that interrupted
+ 	the process-context critical section.  This would result in
+@@ -119,15 +120,15 @@ Answer to Quick Quiz #2:
+ 
+ 	This restriction might seem gratuitous, since very few RCU
+ 	callbacks acquire locks directly.  However, a great many RCU
+-	callbacks do acquire locks -indirectly-, for example, via
+-	the kfree() primitive.
++	callbacks do acquire locks **indirectly**, for example, via
++	the *kfree()* primitive.
+ 
+ Answer to Quick Quiz #3:
+-	Why can't synchronize_rcu() return immediately on UP systems
++	Why can't *synchronize_rcu()* return immediately on UP systems
+ 	running preemptable RCU?
+ 
+ 	Because some other task might have been preempted in the middle
+-	of an RCU read-side critical section.  If synchronize_rcu()
++	of an RCU read-side critical section.  If *synchronize_rcu()*
+ 	simply immediately returned, it would prematurely signal the
+ 	end of the grace period, which would come as a nasty shock to
+ 	that other thread when it started running again.
 -- 
 2.22.0
