@@ -1,23 +1,32 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Sat, 22 Jun 2019 09:29:04 +0200
-Subject: [Linux-kernel-mentees] [PATCH v2] replaced both the symbolic
- permissions S_IXUGO and S_IRUGO to octal permissions 0111 and 0444
-In-Reply-To: <20190622071703.9664-1-sushmaunnibhavi425@gmail.com>
-References: <20190622071703.9664-1-sushmaunnibhavi425@gmail.com>
-Message-ID: <20190622072904.GA9498@kroah.com>
+From: hvubfoss@gmail.com (Harshavardhan Unnibhavi)
+Date: Sat, 22 Jun 2019 13:01:58 +0530
+Subject: [Linux-kernel-mentees] [PATCH] staging: rtl8723bs: change sscanf to
+	kstrtoint
+Message-ID: <20190622073158.6712-1-hvubfoss@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190622072904.jOJIUbjeivTJ40Kor3zw-7aWpTa89uBszaUcYTednSM@z>
+Message-ID: <20190622073158.vdvGESQhSSVyFlfCw5VgjVWAh5H5mw46D6WC8C4WfiU@z>
 
-On Sat, Jun 22, 2019 at 12:47:03PM +0530, Sushma Unnibhavi wrote:
-> Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
-> ---
-> Changes in v2:changed both symbolic permissions to octal
->  drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Fixes following checkpath.pl warning:
+Prefer kstrto<type> to single variable sscanf
 
-I'm just going to delete this and wait for a new set on Monday :)
+Signed-off-by: Harshavardhan Unnibhavi <hvubfoss at gmail.com>
+---
+ drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
-
-greg k-h
+diff --git a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+index 5f950fda48ea..b700363c899c 100644
+--- a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
++++ b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+@@ -468,7 +468,7 @@ ssize_t proc_set_odm_dbg_comp(struct file *file, const char __user *buffer, size
+ 
+ 	if (buffer && !copy_from_user(tmp, buffer, sizeof(tmp))) {
+ 
+-		int num = sscanf(tmp, "%llx", &dbg_comp);
++		int num = kstrtoint(tmp, "%llx", &dbg_comp);
+ 
+ 		if (num != 1)
+ 			return count;
+-- 
+2.17.1
