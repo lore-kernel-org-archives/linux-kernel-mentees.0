@@ -1,9 +1,9 @@
 From: sushmaunnibhavi425 at gmail.com (Sushma Unnibhavi)
-Date: Sat, 22 Jun 2019 12:13:28 +0530
+Date: Sat, 22 Jun 2019 12:19:00 +0530
 Subject: [Linux-kernel-mentees] [PATCH] changes in v2: changed both the
 	symbolic permissions S_IFREG and S_IXUGO into octal
 	permissions 0100000 and 0444 respectively
-Message-ID: <20190622064328.8655-1-sushmaunnibhavi425@gmail.com>
+Message-ID: <20190622064900.8830-1-sushmaunnibhavi425@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
 Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
