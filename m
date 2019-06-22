@@ -1,30 +1,30 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Sat, 22 Jun 2019 08:28:15 +0200
-Subject: [Linux-kernel-mentees] [PATCH] staging: rtl8732bs: replace
- symbolic permission with octal permission
-In-Reply-To: <20190622053358.5832-1-sushmaunnibhavi425@gmail.com>
-References: <20190622053358.5832-1-sushmaunnibhavi425@gmail.com>
-Message-ID: <20190622062815.GA6089@kroah.com>
+From: sushmaunnibhavi425@gmail.com (Sushma Unnibhavi)
+Date: Sat, 22 Jun 2019 12:13:28 +0530
+Subject: [Linux-kernel-mentees] [PATCH] changes in v2: changed both the
+	symbolic permissions S_IFREG and S_IXUGO into octal
+	permissions 0100000 and 0444 respectively
+Message-ID: <20190622064328.8655-1-sushmaunnibhavi425@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190622062815.MCMdBxjYsyy_D32Zwb15lbuLBRF7rTivEgdRrf5hmiQ@z>
+Message-ID: <20190622064328.4Sc2hanGQMlwFZiOEe2vB-_LmFr8c1ThLi-24yrhRfM@z>
 
-On Sat, Jun 22, 2019 at 11:03:58AM +0530, Sushma Unnibhavi wrote:
-> Resolved following checkpatch issue:
-> WARNING: Symbolic permissions 'S_IXUGO' are not preferred. Consider using octal permissions '0111'
-> 
-> Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
-> ---
->  drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
+---
+ drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Is this a "v2" patch?  If so, you always have to say that as per the
-kernel documentation and put what changed below the --- line.
-
-Also, you can not send patches based on top of a previous patch, unless
-that patch was accepted.  And I don't think I accepted your previous
-patch, right?
-
-thanks,
-
-greg k-h
+diff --git a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+index f4292a2fd011..5fcdcb47e657 100644
+--- a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
++++ b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+@@ -31,7 +31,7 @@ inline struct proc_dir_entry *rtw_proc_create_entry(const char *name, struct pro
+ {
+ 	struct proc_dir_entry *entry;
+ 
+-	entry = proc_create_data(name,  S_IFREG|0444, parent, fops, data);
++	entry = proc_create_data(name,  0100000|0444, parent, fops, data);
+ 
+ 	return entry;
+ }
+-- 
+2.17.1
