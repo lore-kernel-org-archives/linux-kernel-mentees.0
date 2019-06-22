@@ -1,29 +1,238 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Sat, 22 Jun 2019 09:00:23 +0200
-Subject: [Linux-kernel-mentees] [PATCH] changes in v2: changed both the
- symbolic permissions S_IFREG and S_IXUGO into octal permissions 0100000 and
- 0444 respectively
-In-Reply-To: <20190622064900.8830-1-sushmaunnibhavi425@gmail.com>
-References: <20190622064900.8830-1-sushmaunnibhavi425@gmail.com>
-Message-ID: <20190622070023.GA25039@kroah.com>
+From: c0d1n61at3@gmail.com (Jiunn Chang)
+Date: Sat, 22 Jun 2019 02:01:33 -0500
+Subject: [Linux-kernel-mentees] [PATCH 1/3] Documentation: RCU: Convert RCU
+ basic concepts to ReST
+Message-ID: <20190622070133.GA7149@rYz3n>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190622070023._rpSb3mALXUlPj_AT9h8Uhwi6vQoN91m4whUi_flK3s@z>
+Message-ID: <20190622070133.0R5awsTofNZWi_TlNNOXV7baD3vsIiVIXHAygy6x1v8@z>
 
-On Sat, Jun 22, 2019 at 12:19:00PM +0530, Sushma Unnibhavi wrote:
-> Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
-> ---
->  drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Convert RCU basic concepts and add TOC tree hook.
 
-Slow down, take a few hours off, and think about what you are doing
-here.  Make a new patch, read the documentation for how to properly
-document a versioned patch, and then send it to yourself to ensure you
-have it right.
+Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+---
+ Documentation/RCU/index.rst | 17 +++++++
+ Documentation/RCU/rcu.rst   | 91 +++++++++++++++++++++++++++++++++++++
+ Documentation/RCU/rcu.txt   | 89 ------------------------------------
+ 3 files changed, 108 insertions(+), 89 deletions(-)
+ create mode 100644 Documentation/RCU/index.rst
+ create mode 100644 Documentation/RCU/rcu.rst
+ delete mode 100644 Documentation/RCU/rcu.txt
 
-Then if it all looks ok, resend it here to everyone.  There is no rush.
-Some of us are about to leave on 10+ plane rides anyway  :)
-
-thanks,
-
-greg k-h
+diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+new file mode 100644
+index 000000000000..30d1f2f3133f
+--- /dev/null
++++ b/Documentation/RCU/index.rst
+@@ -0,0 +1,17 @@
++.. _rcu_concepts:
++
++============
++RCU concepts
++============
++
++.. toctree::
++   :maxdepth: 1
++
++   rcu
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
+new file mode 100644
+index 000000000000..e95f023d6065
+--- /dev/null
++++ b/Documentation/RCU/rcu.rst
+@@ -0,0 +1,91 @@
++.. _rcu_doc:
++
++============
++RCU Concepts
++============
++
++The basic idea behind RCU (read-copy update) is to split destructive
++operations into two parts, one that prevents anyone from seeing the data
++item being destroyed, and one that actually carries out the destruction.
++A "grace period" must elapse between the two parts, and this grace period
++must be long enough that any readers accessing the item being deleted have
++since dropped their references.  For example, an RCU-protected deletion
++from a linked list would first remove the item from the list, wait for
++a grace period to elapse, then free the element.  See listRCU.txt
++for more information on using RCU with linked lists.
++
++Frequently Asked Questions
++
++- Why would anyone want to use RCU?
++
++  The advantage of RCU's two-part approach is that RCU readers need
++  not acquire any locks, perform any atomic instructions, write to
++  shared memory, or (on CPUs other than Alpha) execute any memory
++  barriers.  The fact that these operations are quite expensive
++  on modern CPUs is what gives RCU its performance advantages
++  in read-mostly situations.  The fact that RCU readers need not
++  acquire locks can also greatly simplify deadlock-avoidance code.
++
++- How can the updater tell when a grace period has completed
++  if the RCU readers give no indication when they are done?
++
++  Just as with spinlocks, RCU readers are not permitted to
++  block, switch to user-mode execution, or enter the idle loop.
++  Therefore, as soon as a CPU is seen passing through any of these
++  three states, we know that that CPU has exited any previous RCU
++  read-side critical sections.  So, if we remove an item from a
++  linked list, and then wait until all CPUs have switched context,
++  executed in user mode, or executed in the idle loop, we can
++  safely free up that item.
++
++  Preemptible variants of RCU (CONFIG_PREEMPT_RCU) get the
++  same effect, but require that the readers manipulate CPU-local
++  counters.  These counters allow limited types of blocking within
++  RCU read-side critical sections.  SRCU also uses CPU-local
++  counters, and permits general blocking within RCU read-side
++  critical sections.  These variants of RCU detect grace periods
++  by sampling these counters.
++
++- If I am running on a uniprocessor kernel, which can only do one
++  thing at a time, why should I wait for a grace period?
++
++  See UP.txt for more information.
++
++- How can I see where RCU is currently used in the Linux kernel?
++
++  Search for "rcu_read_lock", "rcu_read_unlock", "call_rcu",
++  "rcu_read_lock_bh", "rcu_read_unlock_bh", "srcu_read_lock",
++  "srcu_read_unlock", "synchronize_rcu", "synchronize_net",
++  "synchronize_srcu", and the other RCU primitives.  Or grab one
++  of the cscope databases from:
++
++  (http://www.rdrop.com/users/paulmck/RCU/linuxusage/rculocktab.html).
++
++- What guidelines should I follow when writing code that uses RCU?
++
++  See checklist.txt for more information.
++
++- Why the name "RCU"?
++
++  "RCU" stands for "read-copy update".  listRCU.txt has
++  more information on where this name came from, search for
++  "read-copy update" to find it.
++
++- I hear that RCU is patented?  What is with that?
++
++  Yes, it is.  There are several known patents related to RCU,
++  search for the string "Patent" in RTFP.txt to find them.
++  Of these, one was allowed to lapse by the assignee, and the
++  others have been contributed to the Linux kernel under GPL.
++  There are now also LGPL implementations of user-level RCU
++  available (http://liburcu.org/).
++
++- I hear that RCU needs work in order to support realtime kernels?
++
++  Realtime-friendly RCU can be enabled via the CONFIG_PREEMPT_RCU
++  kernel configuration parameter.
++
++- Where can I find more information on RCU?
++
++  See RTFP.txt for more information.
++  Or point your browser at (http://www.rdrop.com/users/paulmck/RCU/).
+diff --git a/Documentation/RCU/rcu.txt b/Documentation/RCU/rcu.txt
+deleted file mode 100644
+index c818cf65c5a9..000000000000
+--- a/Documentation/RCU/rcu.txt
++++ /dev/null
+@@ -1,89 +0,0 @@
+-RCU Concepts
+-
+-
+-The basic idea behind RCU (read-copy update) is to split destructive
+-operations into two parts, one that prevents anyone from seeing the data
+-item being destroyed, and one that actually carries out the destruction.
+-A "grace period" must elapse between the two parts, and this grace period
+-must be long enough that any readers accessing the item being deleted have
+-since dropped their references.  For example, an RCU-protected deletion
+-from a linked list would first remove the item from the list, wait for
+-a grace period to elapse, then free the element.  See the listRCU.txt
+-file for more information on using RCU with linked lists.
+-
+-
+-Frequently Asked Questions
+-
+-o	Why would anyone want to use RCU?
+-
+-	The advantage of RCU's two-part approach is that RCU readers need
+-	not acquire any locks, perform any atomic instructions, write to
+-	shared memory, or (on CPUs other than Alpha) execute any memory
+-	barriers.  The fact that these operations are quite expensive
+-	on modern CPUs is what gives RCU its performance advantages
+-	in read-mostly situations.  The fact that RCU readers need not
+-	acquire locks can also greatly simplify deadlock-avoidance code.
+-
+-o	How can the updater tell when a grace period has completed
+-	if the RCU readers give no indication when they are done?
+-
+-	Just as with spinlocks, RCU readers are not permitted to
+-	block, switch to user-mode execution, or enter the idle loop.
+-	Therefore, as soon as a CPU is seen passing through any of these
+-	three states, we know that that CPU has exited any previous RCU
+-	read-side critical sections.  So, if we remove an item from a
+-	linked list, and then wait until all CPUs have switched context,
+-	executed in user mode, or executed in the idle loop, we can
+-	safely free up that item.
+-
+-	Preemptible variants of RCU (CONFIG_PREEMPT_RCU) get the
+-	same effect, but require that the readers manipulate CPU-local
+-	counters.  These counters allow limited types of blocking within
+-	RCU read-side critical sections.  SRCU also uses CPU-local
+-	counters, and permits general blocking within RCU read-side
+-	critical sections.  These variants of RCU detect grace periods
+-	by sampling these counters.
+-
+-o	If I am running on a uniprocessor kernel, which can only do one
+-	thing at a time, why should I wait for a grace period?
+-
+-	See the UP.txt file in this directory.
+-
+-o	How can I see where RCU is currently used in the Linux kernel?
+-
+-	Search for "rcu_read_lock", "rcu_read_unlock", "call_rcu",
+-	"rcu_read_lock_bh", "rcu_read_unlock_bh", "srcu_read_lock",
+-	"srcu_read_unlock", "synchronize_rcu", "synchronize_net",
+-	"synchronize_srcu", and the other RCU primitives.  Or grab one
+-	of the cscope databases from:
+-
+-	http://www.rdrop.com/users/paulmck/RCU/linuxusage/rculocktab.html
+-
+-o	What guidelines should I follow when writing code that uses RCU?
+-
+-	See the checklist.txt file in this directory.
+-
+-o	Why the name "RCU"?
+-
+-	"RCU" stands for "read-copy update".  The file listRCU.txt has
+-	more information on where this name came from, search for
+-	"read-copy update" to find it.
+-
+-o	I hear that RCU is patented?  What is with that?
+-
+-	Yes, it is.  There are several known patents related to RCU,
+-	search for the string "Patent" in RTFP.txt to find them.
+-	Of these, one was allowed to lapse by the assignee, and the
+-	others have been contributed to the Linux kernel under GPL.
+-	There are now also LGPL implementations of user-level RCU
+-	available (http://liburcu.org/).
+-
+-o	I hear that RCU needs work in order to support realtime kernels?
+-
+-	Realtime-friendly RCU can be enabled via the CONFIG_PREEMPT_RCU
+-	kernel configuration parameter.
+-
+-o	Where can I find more information on RCU?
+-
+-	See the RTFP.txt file in this directory.
+-	Or point your browser at http://www.rdrop.com/users/paulmck/RCU/.
+-- 
+2.22.0
