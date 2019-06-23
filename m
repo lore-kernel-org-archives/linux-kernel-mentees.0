@@ -1,184 +1,205 @@
 From: joel@joelfernandes.org (Joel Fernandes)
-Date: Sun, 23 Jun 2019 19:31:58 -0400
-Subject: [Linux-kernel-mentees] [PATCH v2 3/7] Documentation: RCU:
- Convert RCU linked list to ReST
-In-Reply-To: <20190623081413.7095-4-c0d1n61at3@gmail.com>
+Date: Sun, 23 Jun 2019 19:34:22 -0400
+Subject: [Linux-kernel-mentees] [PATCH v2 1/7] Documentation: RCU:
+ Convert RCU basic concepts to ReST
+In-Reply-To: <20190623081413.7095-2-c0d1n61at3@gmail.com>
 References: <20190622090046.178d9d16@lwn.net>
-	<20190623081413.7095-4-c0d1n61at3@gmail.com>
-Message-ID: <20190623233158.GB141282@google.com>
+	<20190623081413.7095-2-c0d1n61at3@gmail.com>
+Message-ID: <20190623233422.GC141282@google.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190623233158.bo6I2NPZrCbowP7ACIfutnODxpPpXpOLuXyQ6yOTqGk@z>
+Message-ID: <20190623233422.wpJxYBCRbWQMVBYu2kD5pjiaQo1WddB1pTgYyhYHoAU@z>
 
-On Sun, Jun 23, 2019 at 03:14:09AM -0500, Jiunn Chang wrote:
+On Sun, Jun 23, 2019 at 03:14:07AM -0500, Jiunn Chang wrote:
 > ReST markup and TOC tree hook.
 > 
 > Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
-> ---
->  Documentation/RCU/index.rst   |  1 +
->  Documentation/RCU/listRCU.txt | 33 +++++++++++++++++++--------------
->  2 files changed, 20 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-> index bc8cd42a91cc..5a19c3642e88 100644
-> --- a/Documentation/RCU/index.rst
-> +++ b/Documentation/RCU/index.rst
-> @@ -8,6 +8,7 @@ RCU concepts
->     :maxdepth: 1
->  
->     rcu
-> +   list_rcu
->  
->  .. only:: subproject and html
->  
-> diff --git a/Documentation/RCU/listRCU.txt b/Documentation/RCU/listRCU.txt
-> index adb5a3782846..f786cd82c6a7 100644
-> --- a/Documentation/RCU/listRCU.txt
-> +++ b/Documentation/RCU/listRCU.txt
-> @@ -1,14 +1,16 @@
-> -Using RCU to Protect Read-Mostly Linked Lists
-> +.. _list_rcu_doc:
->  
-> +Using RCU to Protect Read-Mostly Linked Lists
-> +=============================================
->  
->  One of the best applications of RCU is to protect read-mostly linked lists
-> -("struct list_head" in list.h).  One big advantage of this approach
-> +(*struct list_head* in ``list.h``).  One big advantage of this approach
->  is that all of the required memory barriers are included for you in
->  the list macros.  This document describes several applications of RCU,
->  with the best fits first.
->  
-> -
->  Example 1: Read-Side Action Taken Outside of Lock, No In-Place Updates
-> +----------------------------------------------------------------------
->  
->  The best applications are cases where, if reader-writer locking were
->  used, the read-side lock would be dropped before taking any action
-> @@ -24,7 +26,7 @@ added or deleted, rather than being modified in place.
->  
->  A straightforward example of this use of RCU may be found in the
->  system-call auditing support.  For example, a reader-writer locked
-> -implementation of audit_filter_task() might be as follows:
-> +implementation of audit_filter_task() might be as follows::
->  
->  	static enum audit_state audit_filter_task(struct task_struct *tsk)
->  	{
-> @@ -48,7 +50,7 @@ the corresponding value is returned.  By the time that this value is acted
->  on, the list may well have been modified.  This makes sense, since if
->  you are turning auditing off, it is OK to audit a few extra system calls.
->  
-> -This means that RCU can be easily applied to the read side, as follows:
-> +This means that RCU can be easily applied to the read side, as follows::
->  
->  	static enum audit_state audit_filter_task(struct task_struct *tsk)
->  	{
-> @@ -73,7 +75,7 @@ become list_for_each_entry_rcu().  The _rcu() list-traversal primitives
->  insert the read-side memory barriers that are required on DEC Alpha CPUs.
->  
->  The changes to the update side are also straightforward.  A reader-writer
-> -lock might be used as follows for deletion and insertion:
-> +lock might be used as follows for deletion and insertion::
->  
->  	static inline int audit_del_rule(struct audit_rule *rule,
->  					 struct list_head *list)
-> @@ -106,7 +108,7 @@ lock might be used as follows for deletion and insertion:
->  		return 0;
->  	}
->  
-> -Following are the RCU equivalents for these two functions:
-> +Following are the RCU equivalents for these two functions::
->  
->  	static inline int audit_del_rule(struct audit_rule *rule,
->  					 struct list_head *list)
-> @@ -154,13 +156,13 @@ otherwise cause concurrent readers to fail spectacularly.
->  So, when readers can tolerate stale data and when entries are either added
->  or deleted, without in-place modification, it is very easy to use RCU!
->  
-> -
->  Example 2: Handling In-Place Updates
-> +------------------------------------
->  
->  The system-call auditing code does not update auditing rules in place.
->  However, if it did, reader-writer-locked code to do so might look as
->  follows (presumably, the field_count is only permitted to decrease,
-> -otherwise, the added fields would need to be filled in):
-> +otherwise, the added fields would need to be filled in)::
->  
->  	static inline int audit_upd_rule(struct audit_rule *rule,
->  					 struct list_head *list,
-> @@ -187,7 +189,7 @@ otherwise, the added fields would need to be filled in):
->  The RCU version creates a copy, updates the copy, then replaces the old
->  entry with the newly updated entry.  This sequence of actions, allowing
->  concurrent reads while doing a copy to perform an update, is what gives
-> -RCU ("read-copy update") its name.  The RCU code is as follows:
-> +RCU ("read-copy update") its name.  The RCU code is as follows::
->  
->  	static inline int audit_upd_rule(struct audit_rule *rule,
->  					 struct list_head *list,
-> @@ -216,8 +218,8 @@ RCU ("read-copy update") its name.  The RCU code is as follows:
->  Again, this assumes that the caller holds audit_netlink_sem.  Normally,
->  the reader-writer lock would become a spinlock in this sort of code.
->  
-> -
->  Example 3: Eliminating Stale Data
-> +---------------------------------
->  
->  The auditing examples above tolerate stale data, as do most algorithms
->  that are tracking external state.  Because there is a delay from the
-> @@ -234,10 +236,12 @@ return holding the per-entry spinlock, as ipc_lock() does in fact do.
->  Quick Quiz:  Why does the search function need to return holding the
->  	per-entry lock for this deleted-flag technique to be helpful?
->  
-> +:ref:`answer_quick_quiz`
-> +
->  If the system-call audit module were to ever need to reject stale data,
->  one way to accomplish this would be to add a "deleted" flag and a "lock"
->  spinlock to the audit_entry structure, and modify audit_filter_task()
-> -as follows:
-> +as follows::
->  
->  	static enum audit_state audit_filter_task(struct task_struct *tsk)
->  	{
-> @@ -268,7 +272,7 @@ audit_upd_rule() would need additional memory barriers to ensure
->  that the list_add_rcu() was really executed before the list_del_rcu().
->  
->  The audit_del_rule() function would need to set the "deleted"
-> -flag under the spinlock as follows:
-> +flag under the spinlock as follows::
->  
->  	static inline int audit_del_rule(struct audit_rule *rule,
->  					 struct list_head *list)
-> @@ -290,8 +294,10 @@ flag under the spinlock as follows:
->  		return -EFAULT;		/* No matching rule */
->  	}
->  
-> +.. _answer_quick_quiz:
 
-Should the _answer_quick_quiz label below where 'Answer to Quick Quiz' is below?
+This one LGTM.
 
-
->  
->  Summary
-> +-------
->  
->  Read-mostly list-based data structures that can tolerate stale data are
->  the most amenable to use of RCU.  The simplest case is where entries are
-> @@ -302,7 +308,6 @@ If stale data cannot be tolerated, then a "deleted" flag may be used
->  in conjunction with a per-entry spinlock in order to allow the search
->  function to reject newly deleted data.
->  
-
-That is, should it be here?
-
-> -
->  Answer to Quick Quiz
->  	Why does the search function need to return holding the per-entry
->  	lock for this deleted-flag technique to be helpful?
-> -- 
-> 2.22.0
-> 
+Reviewed-by: Joel Fernandes (Google) <joel at joelfernandes.org>
 
 thanks,
 
  - Joel
+
+> ---
+>  Documentation/RCU/index.rst |  17 ++++++
+>  Documentation/RCU/rcu.txt   | 114 ++++++++++++++++++------------------
+>  2 files changed, 75 insertions(+), 56 deletions(-)
+>  create mode 100644 Documentation/RCU/index.rst
+> 
+> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+> new file mode 100644
+> index 000000000000..bc8cd42a91cc
+> --- /dev/null
+> +++ b/Documentation/RCU/index.rst
+> @@ -0,0 +1,17 @@
+> +.. _rcu_concepts:
+> +
+> +============
+> +RCU concepts
+> +============
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   rcu
+> +
+> +.. only:: subproject and html
+> +
+> +   Indices
+> +   =======
+> +
+> +   * :ref:`genindex`
+> diff --git a/Documentation/RCU/rcu.txt b/Documentation/RCU/rcu.txt
+> index c818cf65c5a9..2b93b128a6fd 100644
+> --- a/Documentation/RCU/rcu.txt
+> +++ b/Documentation/RCU/rcu.txt
+> @@ -1,5 +1,8 @@
+> -RCU Concepts
+> +.. _rcu_doc:
+>  
+> +============
+> +RCU Concepts
+> +============
+>  
+>  The basic idea behind RCU (read-copy update) is to split destructive
+>  operations into two parts, one that prevents anyone from seeing the data
+> @@ -11,79 +14,78 @@ from a linked list would first remove the item from the list, wait for
+>  a grace period to elapse, then free the element.  See the listRCU.txt
+>  file for more information on using RCU with linked lists.
+>  
+> -
+>  Frequently Asked Questions
+>  
+> -o	Why would anyone want to use RCU?
+> +- Why would anyone want to use RCU?
+>  
+> -	The advantage of RCU's two-part approach is that RCU readers need
+> -	not acquire any locks, perform any atomic instructions, write to
+> -	shared memory, or (on CPUs other than Alpha) execute any memory
+> -	barriers.  The fact that these operations are quite expensive
+> -	on modern CPUs is what gives RCU its performance advantages
+> -	in read-mostly situations.  The fact that RCU readers need not
+> -	acquire locks can also greatly simplify deadlock-avoidance code.
+> +  The advantage of RCU's two-part approach is that RCU readers need
+> +  not acquire any locks, perform any atomic instructions, write to
+> +  shared memory, or (on CPUs other than Alpha) execute any memory
+> +  barriers.  The fact that these operations are quite expensive
+> +  on modern CPUs is what gives RCU its performance advantages
+> +  in read-mostly situations.  The fact that RCU readers need not
+> +  acquire locks can also greatly simplify deadlock-avoidance code.
+>  
+> -o	How can the updater tell when a grace period has completed
+> -	if the RCU readers give no indication when they are done?
+> +- How can the updater tell when a grace period has completed
+> +  if the RCU readers give no indication when they are done?
+>  
+> -	Just as with spinlocks, RCU readers are not permitted to
+> -	block, switch to user-mode execution, or enter the idle loop.
+> -	Therefore, as soon as a CPU is seen passing through any of these
+> -	three states, we know that that CPU has exited any previous RCU
+> -	read-side critical sections.  So, if we remove an item from a
+> -	linked list, and then wait until all CPUs have switched context,
+> -	executed in user mode, or executed in the idle loop, we can
+> -	safely free up that item.
+> +  Just as with spinlocks, RCU readers are not permitted to
+> +  block, switch to user-mode execution, or enter the idle loop.
+> +  Therefore, as soon as a CPU is seen passing through any of these
+> +  three states, we know that that CPU has exited any previous RCU
+> +  read-side critical sections.  So, if we remove an item from a
+> +  linked list, and then wait until all CPUs have switched context,
+> +  executed in user mode, or executed in the idle loop, we can
+> +  safely free up that item.
+>  
+> -	Preemptible variants of RCU (CONFIG_PREEMPT_RCU) get the
+> -	same effect, but require that the readers manipulate CPU-local
+> -	counters.  These counters allow limited types of blocking within
+> -	RCU read-side critical sections.  SRCU also uses CPU-local
+> -	counters, and permits general blocking within RCU read-side
+> -	critical sections.  These variants of RCU detect grace periods
+> -	by sampling these counters.
+> +  Preemptible variants of RCU (CONFIG_PREEMPT_RCU) get the
+> +  same effect, but require that the readers manipulate CPU-local
+> +  counters.  These counters allow limited types of blocking within
+> +  RCU read-side critical sections.  SRCU also uses CPU-local
+> +  counters, and permits general blocking within RCU read-side
+> +  critical sections.  These variants of RCU detect grace periods
+> +  by sampling these counters.
+>  
+> -o	If I am running on a uniprocessor kernel, which can only do one
+> -	thing at a time, why should I wait for a grace period?
+> +- If I am running on a uniprocessor kernel, which can only do one
+> +  thing at a time, why should I wait for a grace period?
+>  
+> -	See the UP.txt file in this directory.
+> +  See the UP.txt file in this directory.
+>  
+> -o	How can I see where RCU is currently used in the Linux kernel?
+> +- How can I see where RCU is currently used in the Linux kernel?
+>  
+> -	Search for "rcu_read_lock", "rcu_read_unlock", "call_rcu",
+> -	"rcu_read_lock_bh", "rcu_read_unlock_bh", "srcu_read_lock",
+> -	"srcu_read_unlock", "synchronize_rcu", "synchronize_net",
+> -	"synchronize_srcu", and the other RCU primitives.  Or grab one
+> -	of the cscope databases from:
+> +  Search for "rcu_read_lock", "rcu_read_unlock", "call_rcu",
+> +  "rcu_read_lock_bh", "rcu_read_unlock_bh", "srcu_read_lock",
+> +  "srcu_read_unlock", "synchronize_rcu", "synchronize_net",
+> +  "synchronize_srcu", and the other RCU primitives.  Or grab one
+> +  of the cscope databases from:
+>  
+> -	http://www.rdrop.com/users/paulmck/RCU/linuxusage/rculocktab.html
+> +  (http://www.rdrop.com/users/paulmck/RCU/linuxusage/rculocktab.html).
+>  
+> -o	What guidelines should I follow when writing code that uses RCU?
+> +- What guidelines should I follow when writing code that uses RCU?
+>  
+> -	See the checklist.txt file in this directory.
+> +  See the checklist.txt file in this directory.
+>  
+> -o	Why the name "RCU"?
+> +- Why the name "RCU"?
+>  
+> -	"RCU" stands for "read-copy update".  The file listRCU.txt has
+> -	more information on where this name came from, search for
+> -	"read-copy update" to find it.
+> +  "RCU" stands for "read-copy update".  The file listRCU.txt has
+> +  more information on where this name came from, search for
+> +  "read-copy update" to find it.
+>  
+> -o	I hear that RCU is patented?  What is with that?
+> +- I hear that RCU is patented?  What is with that?
+>  
+> -	Yes, it is.  There are several known patents related to RCU,
+> -	search for the string "Patent" in RTFP.txt to find them.
+> -	Of these, one was allowed to lapse by the assignee, and the
+> -	others have been contributed to the Linux kernel under GPL.
+> -	There are now also LGPL implementations of user-level RCU
+> -	available (http://liburcu.org/).
+> +  Yes, it is.  There are several known patents related to RCU,
+> +  search for the string "Patent" in RTFP.txt to find them.
+> +  Of these, one was allowed to lapse by the assignee, and the
+> +  others have been contributed to the Linux kernel under GPL.
+> +  There are now also LGPL implementations of user-level RCU
+> +  available (http://liburcu.org/).
+>  
+> -o	I hear that RCU needs work in order to support realtime kernels?
+> +- I hear that RCU needs work in order to support realtime kernels?
+>  
+> -	Realtime-friendly RCU can be enabled via the CONFIG_PREEMPT_RCU
+> -	kernel configuration parameter.
+> +  Realtime-friendly RCU can be enabled via the CONFIG_PREEMPT_RCU
+> +  kernel configuration parameter.
+>  
+> -o	Where can I find more information on RCU?
+> +- Where can I find more information on RCU?
+>  
+> -	See the RTFP.txt file in this directory.
+> -	Or point your browser at http://www.rdrop.com/users/paulmck/RCU/.
+> +  See the RTFP.txt file in this directory.
+> +  Or point your browser at (http://www.rdrop.com/users/paulmck/RCU/).
+> -- 
+> 2.22.0
+> 
