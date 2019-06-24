@@ -1,46 +1,63 @@
-From: paulmck at linux.ibm.com (Paul E. McKenney)
-Date: Sat, 22 Jun 2019 10:03:31 -0700
-Subject: [Linux-kernel-mentees] [PATCH 1/3] Documentation: RCU: Convert
- RCU basic concepts to ReST
-In-Reply-To: <20190622085411.3c1692c2@lwn.net>
-References: <20190622070133.GA7149@rYz3n>
- <20190622085411.3c1692c2@lwn.net>
-Message-ID: <20190622170331.GR26519@linux.ibm.com>
+From: corbet at lwn.net (Jonathan Corbet)
+Date: Sun, 23 Jun 2019 18:39:02 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 0/7] Documentation: RCU:
+ Convert to
+In-Reply-To: <20190623081413.7095-1-c0d1n61at3@gmail.com>
+References: <20190622090046.178d9d16@lwn.net>
+	<20190623081413.7095-1-c0d1n61at3@gmail.com>
+Message-ID: <20190623183902.71196f2a@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Sat, Jun 22, 2019 at 08:54:11AM -0600, Jonathan Corbet wrote:
-> On Sat, 22 Jun 2019 02:01:33 -0500
-> Jiunn Chang <c0d1n61at3 at gmail.com> wrote:
+On Sun, 23 Jun 2019 03:14:06 -0500
+Jiunn Chang <c0d1n61at3 at gmail.com> wrote:
+
+> This patch series is the initial conversion of the RCU documentation
+> section.
 > 
-> > Convert RCU basic concepts and add TOC tree hook.
-> > 
-> > Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
-> 
-> A few overall comments...
-> 
->  - Hopefully Paul is OK with converting these documents.  If not, Paul,
->    now seems like the time to complain :)
+> [PATCH v2 0/7] Documentation: RCU: Convert the following to ReST
+> [PATCH v2 1/7] Documentation: RCU: Convert RCU basic concepts to ReST
+> 	- ReST markup and TOC tree hook.
+> [PATCH v2 2/7] Documentation: RCU: Rename RCU basic concepts to ReST
+> 	- Rename RCU basic concepts txt file to rst.
+> [PATCH v2 3/7] Documentation: RCU: Convert RCU linked list to ReST
+> 	- ReST markup and TOC tree hook.
+> [PATCH v2 4/7] Documentation: RCU: Rename RCU linked list to ReST
+> 	- Rename RCU linked list txt file to rst.
+> [PATCH v2 5/7] Documentation: RCU: Convert RCU UP systems to ReST
+> 	- ReST markup and TOC tree hook.
+> [PATCH v2 6/7] Documentation: RCU: Rename RCU UP systems to ReST
+> 	- Rename RCU UP systems txt file to rst.
+> [PATCH v2 6/7] Documentation: RCU: Add links to rcu.rst
+> 	- Add the following links to rcu.rst:
+> 		list_rcu
+> 		up_rcu
 
-No complaints here!
+Thanks for working on this, we're getting closer.  That said, I have some
+overall comments again:
 
->  - It's good to have a cover letter on a multi-part patch set like this
->    describing the overall project.  It's also important to copy patches to
->    a public list.  At a minimum, linux-doc would be a good place; I'd
->    suggest linux-kernel as well - it doesn't get enough email and people
->    get lonely there.
+ - Thanks for including a cover letter, but there should be a bit more
+   than a list of patches there.  Put in a paragraph saying what the
+   series as a whole is for; if somebody reads the cover letter and
+   nothing else, they should know what you're up to.
 
-Heh!  For RCU documentation patches, please also CC rcu at vger.kernel.org.
+ - The cover letter should also say what has changed since the previous
+   posting.
 
->  - (The part that people get mad at me about): we should think about
->    whether this should remain a top-level directory.  I would argue for
->    putting it into the core-api manual, but others may disagree.
+ - Copying the relevant mailing lists really isn't optional, so I'll ask
+   you again to do that.  Most maintainers won't accept patches that have
+   not been posted to the appropriate public list(s)
 
-Let's worry about that separately.
+ - Please thread your patches as replies to the cover letter, so they all
+   stay together.  "git send-email" will do that nicely for you.
 
-> Thanks for working to improve our docs!  In this case, the conversion
-> itself looks good.
+ - You have a couple of Reviewed-by tags from Joel now; be sure to add
+   those before the next posting.
 
-I will do a build and check within the next few days, and will more
-carefully review your next version of this patch series.
+ - Thanks for splitting out the renames - do you see how that makes it
+   easier to see what has actually changed in the files?  That said, you
+   could easily and appropriately do all of the renames in a single
+   commit.
 
-							Thanx, Paul
+Thanks,
+
+jon
