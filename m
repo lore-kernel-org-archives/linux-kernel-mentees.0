@@ -1,55 +1,75 @@
 From: corbet at lwn.net (Jonathan Corbet)
-Date: Sun, 23 Jun 2019 18:43:43 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 3/7] Documentation: RCU:
- Convert RCU linked list to ReST
-In-Reply-To: <20190623081413.7095-4-c0d1n61at3@gmail.com>
+Date: Sun, 23 Jun 2019 18:45:51 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 5/7] Documentation: RCU:
+ Convert RCU UP systems to ReST
+In-Reply-To: <20190623081413.7095-6-c0d1n61at3@gmail.com>
 References: <20190622090046.178d9d16@lwn.net>
-	<20190623081413.7095-4-c0d1n61at3@gmail.com>
-Message-ID: <20190623184343.4a6d901c@lwn.net>
+	<20190623081413.7095-6-c0d1n61at3@gmail.com>
+Message-ID: <20190623184551.03a2300d@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Sun, 23 Jun 2019 03:14:09 -0500
+On Sun, 23 Jun 2019 03:14:11 -0500
 Jiunn Chang <c0d1n61at3 at gmail.com> wrote:
 
 > ReST markup and TOC tree hook.
 > 
 > Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 > ---
->  Documentation/RCU/index.rst   |  1 +
->  Documentation/RCU/listRCU.txt | 33 +++++++++++++++++++--------------
->  2 files changed, 20 insertions(+), 14 deletions(-)
+>  Documentation/RCU/UP.txt    | 27 ++++++++++++++-------------
+>  Documentation/RCU/index.rst |  1 +
+>  2 files changed, 15 insertions(+), 13 deletions(-)
 > 
-> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-> index bc8cd42a91cc..5a19c3642e88 100644
-> --- a/Documentation/RCU/index.rst
-> +++ b/Documentation/RCU/index.rst
-> @@ -8,6 +8,7 @@ RCU concepts
->     :maxdepth: 1
+> diff --git a/Documentation/RCU/UP.txt b/Documentation/RCU/UP.txt
+> index 53bde717017b..10fede2acfc0 100644
+> --- a/Documentation/RCU/UP.txt
+> +++ b/Documentation/RCU/UP.txt
+> @@ -1,17 +1,19 @@
+> -RCU on Uniprocessor Systems
+> +.. _up_doc:
 >  
->     rcu
-> +   list_rcu
+> +RCU on Uniprocessor Systems
+> +===========================
 >  
->  .. only:: subproject and html
->  
-> diff --git a/Documentation/RCU/listRCU.txt b/Documentation/RCU/listRCU.txt
-> index adb5a3782846..f786cd82c6a7 100644
-> --- a/Documentation/RCU/listRCU.txt
-> +++ b/Documentation/RCU/listRCU.txt
-> @@ -1,14 +1,16 @@
-> -Using RCU to Protect Read-Mostly Linked Lists
-> +.. _list_rcu_doc:
->  
-> +Using RCU to Protect Read-Mostly Linked Lists
-> +=============================================
->  
->  One of the best applications of RCU is to protect read-mostly linked lists
-> -("struct list_head" in list.h).  One big advantage of this approach
-> +(*struct list_head* in ``list.h``).  One big advantage of this approach
+>  A common misconception is that, on UP systems, the call_rcu() primitive
+>  may immediately invoke its function.  The basis of this misconception
+>  is that since there is only one CPU, it should not be necessary to
+>  wait for anything else to get done, since there are no other CPUs for
+> -anything else to be happening on.  Although this approach will -sort- -of-
+> +anything else to be happening on.  Although this approach will *sort of*
 
-Thanks for taking out the function markup from before; now I'll ask you to
-take out this markup as well.  As a general rule, we try to use the minimal
-amount of markup possible in our documentation in order to maximize the
-readability of the .rst files.
+Just in case you're wondering, this markup is fine; it's an actual emphasis
+that you're preserving from the original.
+
+>  work a surprising amount of the time, it is a very bad idea in general.
+>  This document presents three examples that demonstrate exactly how bad
+>  an idea this is.
+>  
+> -
+>  Example 1: softirq Suicide
+> +--------------------------
+>  
+>  Suppose that an RCU-based algorithm scans a linked list containing
+>  elements A, B, and C in process context, and can delete elements from
+> @@ -28,8 +30,8 @@ your kernel.
+>  This same problem can occur if call_rcu() is invoked from a hardware
+>  interrupt handler.
+>  
+> -
+>  Example 2: Function-Call Fatality
+> +---------------------------------
+>  
+>  Of course, one could avert the suicide described in the preceding example
+>  by having call_rcu() directly invoke its arguments only if it was called
+> @@ -46,11 +48,11 @@ its arguments would cause it to fail to make the fundamental guarantee
+>  underlying RCU, namely that call_rcu() defers invoking its arguments until
+>  all RCU read-side critical sections currently executing have completed.
+>  
+> -Quick Quiz #1: why is it -not- legal to invoke synchronize_rcu() in
+> +Quick Quiz #1: why is it *not* legal to invoke synchronize_rcu() in
+>  	this case?
+
+Have you actually built the docs with these changes and looked at the
+results?  This will not render the way you might like.
 
 Thanks,
 
