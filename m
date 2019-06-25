@@ -1,69 +1,51 @@
-From: paulmck at linux.ibm.com (Paul E. McKenney)
-Date: Tue, 25 Jun 2019 08:56:23 -0700
-Subject: [Linux-kernel-mentees] [PATCH v3 5/6] Documentation: RCU: Add
- links to rcu.rst
-In-Reply-To: <20190625062627.26378-6-c0d1n61at3@gmail.com>
-References: <20190623081413.7095-1-c0d1n61at3@gmail.com>
-	<20190625062627.26378-6-c0d1n61at3@gmail.com>
-Message-ID: <20190625155623.GA26519@linux.ibm.com>
+From: c0d1n61at3 at gmail.com (Jiunn Chang)
+Date: Tue, 25 Jun 2019 12:48:02 -0500
+Subject: [Linux-kernel-mentees] [SYZBOT REPORT] - WARNING: refcount bug
+ in kobject_get
+In-Reply-To: <20190624084421.GA2481@kroah.com>
+References: <3674099a-c1f2-f9a3-57f4-d4f4b59a126a@linuxfoundation.org>
+	<20190618215612.rguyuy6maxt56l4n@rYz3n>
+	<72705c91-d753-4c3c-071b-92825d2cd092@linuxfoundation.org>
+	<20190619152100.GB29425@kroah.com>
+	<45d50c39-38de-d5d3-4c45-9e5a77e224cb@linuxfoundation.org>
+	<20190620222242.ux65vxces7ou62o3@rYz3n>
+	<20190621064501.GB12643@kroah.com>
+	<20190621163439.is2e7i3bwz3jyfrj@rYz3n>
+	<20190624081532.ihnrb475dduh77gj@rYz3n>
+	<20190624084421.GA2481@kroah.com>
+Message-ID: <20190625174801.nbmqafqk5ww7fibv@rYz3n>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Jun 25, 2019 at 01:26:26AM -0500, Jiunn Chang wrote:
-> Add the following links:
->   - list_rcu
->   - up_rcu
+On Mon, Jun 24, 2019 at 04:44:21PM +0800, Greg KH wrote:
+> On Mon, Jun 24, 2019 at 03:15:33AM -0500, Jiunn Chang wrote:
+> > At this point, I need more help to attempt a fix.  If you have any suggestions please
+> > let me know.
 > 
-> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
-> ---
->  Documentation/RCU/rcu.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Sorry, I'm traveling all this week and have not had the chance to look
+> at this yet.
 > 
-> diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-> index 000da07d683e..d145decb5c39 100644
-> --- a/Documentation/RCU/rcu.rst
-> +++ b/Documentation/RCU/rcu.rst
-> @@ -10,8 +10,8 @@ A "grace period" must elapse between the two parts, and this grace period
->  must be long enough that any readers accessing the item being deleted have
->  since dropped their references.  For example, an RCU-protected deletion
->  from a linked list would first remove the item from the list, wait for
-> -a grace period to elapse, then free the element.  See the listRCU.txt
-> -file for more information on using RCU with linked lists.
-> +a grace period to elapse, then free the element.  See :ref:`list_rcu`
-> +for more information on using RCU with linked lists.
->  
->  Frequently Asked Questions
->  --------------------------
-> @@ -49,7 +49,7 @@ Frequently Asked Questions
->  - If I am running on a uniprocessor kernel, which can only do one
->    thing at a time, why should I wait for a grace period?
->  
-> -  See the UP.txt file in this directory.
-> +  See :ref:`up_rcu` for more information.
-
-This rendered as straight text after "make htmldocs" instead of producing
-a link in the HTML output.  The HTML itself is:
-
-	<span class="xref std std-ref">up_rcu</span>
-
-This doesn't look like something that would create a link, though I
-freely admit that my HTML is rather outdated.
-
->  - How can I see where RCU is currently used in the Linux kernel?
->  
-> @@ -67,7 +67,7 @@ Frequently Asked Questions
->  
->  - Why the name "RCU"?
->  
-> -  "RCU" stands for "read-copy update".  The file listRCU.txt has
-> +  "RCU" stands for "read-copy update".  :ref:`list_rcu` has
-
-Same here for list_rcu.
-
-							Thanx, Paul
-
->    more information on where this name came from, search for
->    "read-copy update" to find it.
->  
-> -- 
-> 2.22.0
+> The driver core is "tricky" as you have found out.  I'll dig into this
+> when I get the chance, but it might be a few days.
 > 
+> Note, this call should not be the one that creates the "virtual" kobject
+> parent, as that is almost always created before this (I would think.)
+> 
+> Are you testing this on a laptop or in a virtual machine?  Before you
+> run the test script, is /sys/devices/virtual/ present on your system or
+> not?
+
+  Hello Greg,
+
+  Happy travels!  Thanks for all the help.  I am testing on a laptop and not a vm.
+  I do have /sys/devices/virtual--I thought about that too.
+
+  I will take a closer look at where virtual device is/should being created.
+
+  THX,
+
+  Jiunn
+
+> 
+> thanks,
+> 
+> greg k-h
