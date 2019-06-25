@@ -1,87 +1,54 @@
-From: joel@joelfernandes.org (Joel Fernandes)
-Date: Sun, 23 Jun 2019 19:39:27 -0400
-Subject: [Linux-kernel-mentees] [PATCH v2 0/7] Documentation: RCU:
- Convert to
+From: c0d1n61at3@gmail.com (Jiunn Chang)
+Date: Tue, 25 Jun 2019 01:26:21 -0500
+Subject: [Linux-kernel-mentees] [PATCH v3 0/6] Documentation: RCU: Convert
+	to reST
 In-Reply-To: <20190623081413.7095-1-c0d1n61at3@gmail.com>
-References: <20190622090046.178d9d16@lwn.net>
-	<20190623081413.7095-1-c0d1n61at3@gmail.com>
-Message-ID: <20190623233927.GA139216@google.com>
+References: <20190623081413.7095-1-c0d1n61at3@gmail.com>
+Message-ID: <20190625062627.26378-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190623233927.qyeknE4RKoI5XiujeXa93UGjYHMPs9QQAd26_w3YOcI@z>
+Message-ID: <20190625062621.RMZ03LYaxQRAGhJCFMc_JhYihFH9FrswUKU9B2lVqw0@z>
 
-Hello Jiunn,
+This patch series is the initial conversion of the RCU documentation
+section.  This includes reST markup and renaming txt files to rst.  For files
+converted, internal and external links have been created with cross-references.
+Checkpatch was used to leverage codespell for any spelling errors.  Each patch
+in the series has been compiled and reviewed for warnings and errors.
+Patches can be bisected.
 
-Nice to see the kernel mentees project in action! (I actually did not know
-about this project before this posting). I replied to your patches. Once you
-address the small nits I suggested, please feel free to add my Reviewed-by
-tag to your patches:
-Reviewed-by: Joel Fernandes (Google) <joel at joelfernandes.org>
+The changes made in v3 include:
+  - correcting markup to maintain even more of the original text
+  - correcting markup for line breaks
+  - combining all file renaming into one patch
+  - add reviewed-by tags
+  - add required public list to CC
 
-If you are interested in RCU, I have some listRCU hardening improvements I am
-working on and would be nice to work together with you on that (only if you
-are interested).
+The changes made in v2 include:
+  - correcting markup to maintain as much of the original text as possible
+  - correcting markup to reduce reader context switching
+  - breakout file renaming into individual patches in the series
 
-On Sun, Jun 23, 2019 at 03:14:06AM -0500, Jiunn Chang wrote:
-> This patch series is the initial conversion of the RCU documentation
-> section.
+>8-----------------------------------------------------------------8<
 
-I think you still did not CC rcu at vger.kernel.org . It would be nice if you
-could do that. I think Paul also suggested that in your v1.
+Jiunn Chang (6):
+  Documentation: RCU: Convert RCU basic concepts to reST
+  Documentation: RCU: Convert RCU linked list to reST
+  Documentation: RCU: Convert RCU UP systems to reST
+  Documentation: RCU: Rename txt files to rst
+  Documentation: RCU: Add links to rcu.rst
+  Documentation: RCU: Add TOC tree hooks
 
-thanks!
+ Documentation/RCU/index.rst                   | 19 ++++
+ .../RCU/{listRCU.txt => list_rcu.rst}         | 38 ++++----
+ Documentation/RCU/rcu.rst                     | 91 +++++++++++++++++++
+ Documentation/RCU/rcu.txt                     | 89 ------------------
+ Documentation/RCU/{UP.txt => up_rcu.rst}      | 37 +++++---
+ 5 files changed, 155 insertions(+), 119 deletions(-)
+ create mode 100644 Documentation/RCU/index.rst
+ rename Documentation/RCU/{listRCU.txt => list_rcu.rst} (92%)
+ create mode 100644 Documentation/RCU/rcu.rst
+ delete mode 100644 Documentation/RCU/rcu.txt
+ rename Documentation/RCU/{UP.txt => up_rcu.rst} (84%)
 
- - Joel
-
-> 
-> [PATCH v2 0/7] Documentation: RCU: Convert the following to ReST
-> [PATCH v2 1/7] Documentation: RCU: Convert RCU basic concepts to ReST
-> 	- ReST markup and TOC tree hook.
-> [PATCH v2 2/7] Documentation: RCU: Rename RCU basic concepts to ReST
-> 	- Rename RCU basic concepts txt file to rst.
-> [PATCH v2 3/7] Documentation: RCU: Convert RCU linked list to ReST
-> 	- ReST markup and TOC tree hook.
-> [PATCH v2 4/7] Documentation: RCU: Rename RCU linked list to ReST
-> 	- Rename RCU linked list txt file to rst.
-> [PATCH v2 5/7] Documentation: RCU: Convert RCU UP systems to ReST
-> 	- ReST markup and TOC tree hook.
-> [PATCH v2 6/7] Documentation: RCU: Rename RCU UP systems to ReST
-> 	- Rename RCU UP systems txt file to rst.
-> [PATCH v2 6/7] Documentation: RCU: Add links to rcu.rst
-> 	- Add the following links to rcu.rst:
-> 		list_rcu
-> 		up_rcu
-> 
-> [PATCH 1/3] Documentation: RCU: Convert RCU basic concepts to ReST
-> 	- Convert RCU basic concepts and add TOC tree hook.
-> [PATCH 2/3] Documentation: RCU: Convert RCU linked list to ReST
-> 	- Convert RCU linked list and add TOC tree hook.
-> [PATCH 3/3] Documentation: RCU: Convert RCU UP systems to ReST
-> 	- Convert RCU UP systems and add TOC tree hook.
-> 
-> >8-----------------------------------------------------------------8<
-> 
-> Jiunn Chang (7):
->   Documentation: RCU: Convert RCU basic concepts to ReST
->   Documentation: RCU: Rename RCU basic concepts to ReST
->   Documentation: RCU: Convert RCU linked list to ReST
->   Documentation: RCU: Rename RCU linked list to ReST
->   Documentation: RCU: Convert RCU UP systems to ReST
->   Documentation: RCU: Rename RCU UP systems to ReST
->   Documentation: RCU: Add links to rcu.rst
-> 
->  Documentation/RCU/index.rst                   | 19 ++++
->  .../RCU/{listRCU.txt => list_rcu.rst}         | 33 ++++---
->  Documentation/RCU/rcu.rst                     | 91 +++++++++++++++++++
->  Documentation/RCU/rcu.txt                     | 89 ------------------
->  Documentation/RCU/{UP.txt => up_rcu.rst}      | 27 +++---
->  5 files changed, 143 insertions(+), 116 deletions(-)
->  create mode 100644 Documentation/RCU/index.rst
->  rename Documentation/RCU/{listRCU.txt => list_rcu.rst} (93%)
->  create mode 100644 Documentation/RCU/rcu.rst
->  delete mode 100644 Documentation/RCU/rcu.txt
->  rename Documentation/RCU/{UP.txt => up_rcu.rst} (89%)
-> 
-> -- 
-> 2.22.0
-> 
+-- 
+2.22.0
