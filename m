@@ -1,108 +1,129 @@
-From: bnvandana at gmail.com (Vandana BN)
-Date: Wed, 26 Jun 2019 11:31:15 +0530
-Subject: [Linux-kernel-mentees] [PATCH] media:vivid: add sanity check to
-	avoid divide error and set value to 1 if 0.
-Message-ID: <20190626060115.4305-1-bnvandana@gmail.com>
+From: paulmck at linux.ibm.com (Paul E. McKenney)
+Date: Tue, 25 Jun 2019 09:03:54 -0700
+Subject: [Linux-kernel-mentees] [PATCH v3 3/6] Documentation: RCU:
+ Convert RCU UP systems to reST
+In-Reply-To: <20190625062627.26378-4-c0d1n61at3@gmail.com>
+References: <20190623081413.7095-1-c0d1n61at3@gmail.com>
+	<20190625062627.26378-4-c0d1n61at3@gmail.com>
+Message-ID: <20190625160354.GB26519@linux.ibm.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Syzbot reported divide error in vivid_thread_vid_cap, which has been
-seen only once and doesnot have a reproducer.
-This patch sanity checks for the denominator value with WARN_ON if it is 0 and replaces it with 1.
+On Tue, Jun 25, 2019 at 01:26:24AM -0500, Jiunn Chang wrote:
+> RCU UP systems reST markup.
+> 
+> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+> Reviewed-by: Joel Fernandes (Google) <joel at joelfernandes.org>
+> ---
+>  Documentation/RCU/UP.txt | 37 +++++++++++++++++++++++--------------
+>  1 file changed, 23 insertions(+), 14 deletions(-)
+> 
+> diff --git a/Documentation/RCU/UP.txt b/Documentation/RCU/UP.txt
+> index 53bde717017b..67715a47ae89 100644
+> --- a/Documentation/RCU/UP.txt
+> +++ b/Documentation/RCU/UP.txt
+> @@ -1,17 +1,19 @@
+> -RCU on Uniprocessor Systems
+> +.. _up_doc:
+>  
+> +RCU on Uniprocessor Systems
+> +===========================
+>  
+>  A common misconception is that, on UP systems, the call_rcu() primitive
+>  may immediately invoke its function.  The basis of this misconception
+>  is that since there is only one CPU, it should not be necessary to
+>  wait for anything else to get done, since there are no other CPUs for
+> -anything else to be happening on.  Although this approach will -sort- -of-
+> +anything else to be happening on.  Although this approach will *sort of*
+>  work a surprising amount of the time, it is a very bad idea in general.
+>  This document presents three examples that demonstrate exactly how bad
+>  an idea this is.
+>  
+> -
+>  Example 1: softirq Suicide
+> +--------------------------
+>  
+>  Suppose that an RCU-based algorithm scans a linked list containing
+>  elements A, B, and C in process context, and can delete elements from
+> @@ -28,8 +30,8 @@ your kernel.
+>  This same problem can occur if call_rcu() is invoked from a hardware
+>  interrupt handler.
+>  
+> -
+>  Example 2: Function-Call Fatality
+> +---------------------------------
+>  
+>  Of course, one could avert the suicide described in the preceding example
+>  by having call_rcu() directly invoke its arguments only if it was called
+> @@ -46,11 +48,13 @@ its arguments would cause it to fail to make the fundamental guarantee
+>  underlying RCU, namely that call_rcu() defers invoking its arguments until
+>  all RCU read-side critical sections currently executing have completed.
+>  
+> -Quick Quiz #1: why is it -not- legal to invoke synchronize_rcu() in
+> -	this case?
+> +Quick Quiz #1:
+> +	Why is it *not* legal to invoke synchronize_rcu() in this case?
+>  
+> +:ref:`Answers to Quick Quiz <answer_quick_quiz_up>`
+>  
+>  Example 3: Death by Deadlock
+> +----------------------------
+>  
+>  Suppose that call_rcu() is invoked while holding a lock, and that the
+>  callback function must acquire this same lock.  In this case, if
+> @@ -76,25 +80,30 @@ there are cases where this can be quite ugly:
+>  If call_rcu() directly invokes the callback, painful locking restrictions
+>  or API changes would be required.
+>  
+> -Quick Quiz #2: What locking restriction must RCU callbacks respect?
+> +Quick Quiz #2:
+> +	What locking restriction must RCU callbacks respect?
+>  
+> +:ref:`Answers to Quick Quiz <answer_quick_quiz_up>`
+>  
+>  Summary
+> +-------
+>  
+>  Permitting call_rcu() to immediately invoke its arguments breaks RCU,
+>  even on a UP system.  So do not do it!  Even on a UP system, the RCU
+> -infrastructure -must- respect grace periods, and -must- invoke callbacks
+> +infrastructure *must* respect grace periods, and *must* invoke callbacks
+>  from a known environment in which no locks are held.
+>  
+> -Note that it -is- safe for synchronize_rcu() to return immediately on
+> -UP systems, including !PREEMPT SMP builds running on UP systems.
+> +Note that it *is* safe for synchronize_rcu() to return immediately on
+> +UP systems, including PREEMPT SMP builds running on UP systems.
+>  
+> -Quick Quiz #3: Why can't synchronize_rcu() return immediately on
+> -	UP systems running preemptable RCU?
+> +Quick Quiz #3:
+> +	Why can't synchronize_rcu() return immediately on UP systems running
+> +	preemptable RCU?
+>  
+> +.. _answer_quick_quiz_up:
 
-Reported-by: syz... at syzkaller.appspotmail.com
+As long as you are in the area, the answer is overly constraining.
+The locking primitives could use either _irq suffixes (as stated) or
+_bh suffixes.  This is obviously not your fault, but please feel free
+to fix this with an additional patch.
 
-divide error: 0000 [#1] PREEMPT SMP KASAN
-kobject: 'tx-0' (0000000017161f7f): kobject_uevent_env
-CPU: 0 PID: 23689 Comm: vivid-003-vid-c Not tainted 5.0.0-rc4+ #58
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-Google 01/01/2011
-RIP: 0010:vivid_cap_update_frame_period
-drivers/media/platform/vivid/vivid-kthread-cap.c:661 [inline]
-RIP: 0010:vivid_thread_vid_cap+0x221/0x284
-drivers/media/platform/vivid/vivid-kthread-cap.c:789
-Code: 48 c1 e9 03 0f b6 0c 11 48 89 f2 48 69 c0 00 ca 9a 3b 83 c2 03 38
-ca
-7c 08 84 c9 0f 85 f0 1e 00 00 41 8b 8f 24 64 00 00 31 d2 <48> f7 f1 49
-89
-c4 48 89 c3 49 8d 87 28 64 00 00 48 89 c2 48 89 45
-RSP: 0018:ffff88808b4afd68 EFLAGS: 00010246
-kobject: 'tx-0' (0000000017161f7f): fill_kobj_path: path
-= '/devices/virtual/net/gre0/queues/tx-0'
-RAX: 000000de5a6f8e00 RBX: 0000000100047b22 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000004
-RBP: ffff88808b4aff00 R08: ffff88804862e1c0 R09: ffffffff89997008
-R10: ffffffff89997010 R11: 0000000000000001 R12: 00000000fffffffc
-R13: ffff8880a17e0500 R14: ffff88803e40f760 R15: ffff8882182b0140
-FS:  0000000000000000(0000) GS:ffff8880ae800000(0000)
-knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000004cdc90 CR3: 000000005d827000 CR4: 00000000001426f0
-Call Trace:
-kobject: 'gretap0' (00000000d7549098): kobject_add_internal: parent:
-'net',
-set: 'devices'
-kobject: 'loop2' (0000000094ed4ee4): kobject_uevent_env
-kobject: 'loop2' (0000000094ed4ee4): fill_kobj_path: path
-= '/devices/virtual/block/loop2'
-  kthread+0x357/0x430 kernel/kthread.c:246
-kobject: 'gretap0' (00000000d7549098): kobject_uevent_env
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-Modules linked in:
-kobject: 'gretap0' (00000000d7549098): fill_kobj_path: path
-= '/devices/virtual/net/gretap0'
----[ end trace bc5c8b25b64d768f ]---
-kobject: 'loop1' (0000000032036b86): kobject_uevent_env
-RIP: 0010:vivid_cap_update_frame_period
-drivers/media/platform/vivid/vivid-kthread-cap.c:661 [inline]
-RIP: 0010:vivid_thread_vid_cap+0x221/0x2840
-drivers/media/platform/vivid/vivid-kthread-cap.c:789
-kobject: 'loop1' (0000000032036b86): fill_kobj_path: path
-= '/devices/virtual/block/loop1'
-Code: 48 c1 e9 03 0f b6 0c 11 48 89 f2 48 69 c0 00 ca 9a 3b 83 c2 03 38
-ca
-7c 08 84 c9 0f 85 f0 1e 00 00 41 8b 8f 24 64 00 00 31 d2 <48> f7 f1 49
-89
-c4 48 89 c3 49 8d 87 28 64 00 00 48 89 c2 48 89 45
-kobject: 'loop0' (00000000dd9927c3): kobject_uevent_env
-RSP: 0018:ffff88808b4afd68 EFLAGS: 00010246
-RAX: 000000de5a6f8e00 RBX: 0000000100047b22 RCX: 0000000000000000
-kobject: 'queues' (000000007ed20666): kobject_add_internal:
-parent: 'gretap0', set: '<NULL>'
-RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000004
-RBP: ffff88808b4aff00 R08: ffff88804862e1c0 R09: ffffffff89997008
-kobject: 'loop0' (00000000dd9927c3): fill_kobj_path: path
-= '/devices/virtual/block/loop0'
-R10: ffffffff89997010 R11: 0000000000000001 R12: 00000000fffffffc
-kobject: 'queues' (000000007ed20666): kobject_uevent_env
-R13: ffff8880a17e0500 R14: ffff88803e40f760 R15: ffff8882182b0140
-FS:  0000000000000000(0000) GS:ffff8880ae800000(0000)
-knlGS:0000000000000000
-kobject: 'loop5' (00000000a41f9e79): kobject_uevent_env
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-kobject: 'queues' (000000007ed20666): kobject_uevent_env: filter
-function
-caused the event to drop!
-CR2: 00000000004cdc90 CR3: 000000005d827000 CR4: 00000000001426f0
-kobject: 'loop5' (00000000a41f9e79): fill_kobj_path: path
-= '/devices/virtual/block/loop5'
+							Thanx, Paul
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
----
- drivers/media/platform/vivid/vivid-kthread-cap.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
-index f8006a30c12f..025a8c68bd1c 100644
---- a/drivers/media/platform/vivid/vivid-kthread-cap.c
-+++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
-@@ -658,6 +658,8 @@ static void vivid_cap_update_frame_period(struct vivid_dev *dev)
- 	u64 f_period;
- 
- 	f_period = (u64)dev->timeperframe_vid_cap.numerator * 1000000000;
-+	if(WARN_ON(dev->timeperframe_vid_cap.denominator == 0))
-+		dev->timeperframe_vid_cap.denominator = 1;
- 	do_div(f_period, dev->timeperframe_vid_cap.denominator);
- 	if (dev->field_cap == V4L2_FIELD_ALTERNATE)
- 		f_period >>= 1;
--- 
-2.17.1
+>  Answer to Quick Quiz #1:
+> -	Why is it -not- legal to invoke synchronize_rcu() in this case?
+> +	Why is it *not* legal to invoke synchronize_rcu() in this case?
+>  
+>  	Because the calling function is scanning an RCU-protected linked
+>  	list, and is therefore within an RCU read-side critical section.
+> @@ -119,7 +128,7 @@ Answer to Quick Quiz #2:
+>  
+>  	This restriction might seem gratuitous, since very few RCU
+>  	callbacks acquire locks directly.  However, a great many RCU
+> -	callbacks do acquire locks -indirectly-, for example, via
+> +	callbacks do acquire locks *indirectly*, for example, via
+>  	the kfree() primitive.
+>  
+>  Answer to Quick Quiz #3:
+> -- 
+> 2.22.0
+> 
