@@ -1,27 +1,54 @@
-From: corbet at lwn.net (Jonathan Corbet)
-Date: Wed, 26 Jun 2019 11:41:40 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2] Documentation: platform:
- Delete x86-laptop-drivers.txt
-In-Reply-To: <CAHp75Ve+v7o=Ar=5Vc7yZndCxUNf3sn8YwpCHXMwdeJxuLKMoA@mail.gmail.com>
-References: <20190620183827.23704-1-puranjay12@gmail.com>
-	<CAHp75Ve+v7o=Ar=5Vc7yZndCxUNf3sn8YwpCHXMwdeJxuLKMoA@mail.gmail.com>
-Message-ID: <20190626114140.52af4bb5@lwn.net>
+From: c0d1n61at3 at gmail.com (Jiunn Chang)
+Date: Wed, 26 Jun 2019 14:12:44 -0500
+Subject: [Linux-kernel-mentees] [PATCH v4 0/5] Documentation: RCU: Convert
+	to reST
+In-Reply-To: <20190625062627.26378-1-c0d1n61at3@gmail.com>
+References: <20190625062627.26378-1-c0d1n61at3@gmail.com>
+Message-ID: <20190626191249.21135-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Thu, 20 Jun 2019 22:50:17 +0300
-Andy Shevchenko <andy.shevchenko at gmail.com> wrote:
+This patch series is the initial conversion of the RCU documentation
+section.  This includes reST markup and renaming txt files to rst.  For files
+converted, internal links have been created.  Checkpatch was used to leverage codespell
+for any spelling errors.  Each patch in the series has been compiled and reviewed
+for warnings and errors.  Patches can be bisected.
 
-> On Thu, Jun 20, 2019 at 9:38 PM Puranjay Mohan <puranjay12 at gmail.com> wrote:
-> >
-> > The list of laptops supported by drivers in PDx86 subsystem is quite
-> > big and growing. x86-laptop-drivers.txt contains details of very few
-> > laptop models. Remove it because it does not  serve any purpose.
-> >  
-> 
-> Acked-by: Andy Shevchenko <andy.shevchenko at gmail.com>
-> 
-> > Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+The changes made in v4 include:
+  - Change links in rcu.rst to the path in documentation section
+  - Maintain the original name of the txt files
 
-I have applied this, thanks.
+The changes made in v3 include:
+  - correcting markup to maintain even more of the original text
+  - correcting markup for line breaks
+  - combining all file renaming into one patch
+  - add reviewed-by tags
+  - add required public list to CC
 
-jon
+The changes made in v2 include:
+  - correcting markup to maintain as much of the original text as possible
+  - correcting markup to reduce reader context switching
+  - breakout file renaming into individual patches in the series
+
+>8---------------------------------------------------------------------------8<
+
+Jiunn Chang (5):
+  Documentation: RCU: Convert RCU basic concepts to reST
+  Documentation: RCU: Convert RCU linked list to reST
+  Documentation: RCU: Convert RCU UP systems to reST
+  Documentation: RCU: Rename txt files to rst
+  Documentation: RCU: Add TOC tree hooks
+
+ Documentation/RCU/{UP.txt => UP.rst}          | 37 +++++---
+ Documentation/RCU/index.rst                   | 19 ++++
+ .../RCU/{listRCU.txt => listRCU.rst}          | 38 ++++----
+ Documentation/RCU/rcu.rst                     | 92 +++++++++++++++++++
+ Documentation/RCU/rcu.txt                     | 89 ------------------
+ 5 files changed, 156 insertions(+), 119 deletions(-)
+ rename Documentation/RCU/{UP.txt => UP.rst} (84%)
+ create mode 100644 Documentation/RCU/index.rst
+ rename Documentation/RCU/{listRCU.txt => listRCU.rst} (92%)
+ create mode 100644 Documentation/RCU/rcu.rst
+ delete mode 100644 Documentation/RCU/rcu.txt
+
+-- 
+2.22.0
