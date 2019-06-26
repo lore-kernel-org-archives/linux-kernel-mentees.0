@@ -1,76 +1,108 @@
-From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Tue, 25 Jun 2019 23:01:12 -0500
-Subject: [Linux-kernel-mentees] [SYZBOT REPORT] - WARNING: refcount bug
- in kobject_get
-In-Reply-To: <20190625174801.nbmqafqk5ww7fibv@rYz3n>
-References: <20190618215612.rguyuy6maxt56l4n@rYz3n>
-	<72705c91-d753-4c3c-071b-92825d2cd092@linuxfoundation.org>
-	<20190619152100.GB29425@kroah.com>
-	<45d50c39-38de-d5d3-4c45-9e5a77e224cb@linuxfoundation.org>
-	<20190620222242.ux65vxces7ou62o3@rYz3n>
-	<20190621064501.GB12643@kroah.com>
-	<20190621163439.is2e7i3bwz3jyfrj@rYz3n>
-	<20190624081532.ihnrb475dduh77gj@rYz3n>
-	<20190624084421.GA2481@kroah.com>
-	<20190625174801.nbmqafqk5ww7fibv@rYz3n>
-Message-ID: <20190626040111.pwkesr2vdmdpgxoi@rYz3n>
+From: bnvandana at gmail.com (Vandana BN)
+Date: Wed, 26 Jun 2019 11:31:15 +0530
+Subject: [Linux-kernel-mentees] [PATCH] media:vivid: add sanity check to
+	avoid divide error and set value to 1 if 0.
+Message-ID: <20190626060115.4305-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Jun 25, 2019 at 12:48:02PM -0500, Jiunn Chang wrote:
-> On Mon, Jun 24, 2019 at 04:44:21PM +0800, Greg KH wrote:
-> > On Mon, Jun 24, 2019 at 03:15:33AM -0500, Jiunn Chang wrote:
-> > > At this point, I need more help to attempt a fix.  If you have any suggestions please
-> > > let me know.
-> > 
-> > Sorry, I'm traveling all this week and have not had the chance to look
-> > at this yet.
-> > 
-> > The driver core is "tricky" as you have found out.  I'll dig into this
-> > when I get the chance, but it might be a few days.
-> > 
-> > Note, this call should not be the one that creates the "virtual" kobject
-> > parent, as that is almost always created before this (I would think.)
-> > 
-> > Are you testing this on a laptop or in a virtual machine?  Before you
-> > run the test script, is /sys/devices/virtual/ present on your system or
-> > not?
-> 
->   Hello Greg,
-> 
->   Happy travels!  Thanks for all the help.  I am testing on a laptop and not a vm.
->   I do have /sys/devices/virtual--I thought about that too.
-> 
->   I will take a closer look at where virtual device is/should being created.
-> 
->   THX,
-> 
->   Jiunn
+Syzbot reported divide error in vivid_thread_vid_cap, which has been
+seen only once and doesnot have a reproducer.
+This patch sanity checks for the denominator value with WARN_ON if it is 0 and replaces it with 1.
 
-  Hello Greg,
+Reported-by: syz... at syzkaller.appspotmail.com
 
-  I need to clarify my testing setup.  I misunderstood you when I read "laptop".
-  I am testing on a laptop, but I am running the syz program on a QEMU Debian
-  instance.  The QEMU Debian instance does have /sys/devices/virtual.
+divide error: 0000 [#1] PREEMPT SMP KASAN
+kobject: 'tx-0' (0000000017161f7f): kobject_uevent_env
+CPU: 0 PID: 23689 Comm: vivid-003-vid-c Not tainted 5.0.0-rc4+ #58
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+Google 01/01/2011
+RIP: 0010:vivid_cap_update_frame_period
+drivers/media/platform/vivid/vivid-kthread-cap.c:661 [inline]
+RIP: 0010:vivid_thread_vid_cap+0x221/0x284
+drivers/media/platform/vivid/vivid-kthread-cap.c:789
+Code: 48 c1 e9 03 0f b6 0c 11 48 89 f2 48 69 c0 00 ca 9a 3b 83 c2 03 38
+ca
+7c 08 84 c9 0f 85 f0 1e 00 00 41 8b 8f 24 64 00 00 31 d2 <48> f7 f1 49
+89
+c4 48 89 c3 49 8d 87 28 64 00 00 48 89 c2 48 89 45
+RSP: 0018:ffff88808b4afd68 EFLAGS: 00010246
+kobject: 'tx-0' (0000000017161f7f): fill_kobj_path: path
+= '/devices/virtual/net/gre0/queues/tx-0'
+RAX: 000000de5a6f8e00 RBX: 0000000100047b22 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000004
+RBP: ffff88808b4aff00 R08: ffff88804862e1c0 R09: ffffffff89997008
+R10: ffffffff89997010 R11: 0000000000000001 R12: 00000000fffffffc
+R13: ffff8880a17e0500 R14: ffff88803e40f760 R15: ffff8882182b0140
+FS:  0000000000000000(0000) GS:ffff8880ae800000(0000)
+knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000004cdc90 CR3: 000000005d827000 CR4: 00000000001426f0
+Call Trace:
+kobject: 'gretap0' (00000000d7549098): kobject_add_internal: parent:
+'net',
+set: 'devices'
+kobject: 'loop2' (0000000094ed4ee4): kobject_uevent_env
+kobject: 'loop2' (0000000094ed4ee4): fill_kobj_path: path
+= '/devices/virtual/block/loop2'
+  kthread+0x357/0x430 kernel/kthread.c:246
+kobject: 'gretap0' (00000000d7549098): kobject_uevent_env
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+Modules linked in:
+kobject: 'gretap0' (00000000d7549098): fill_kobj_path: path
+= '/devices/virtual/net/gretap0'
+---[ end trace bc5c8b25b64d768f ]---
+kobject: 'loop1' (0000000032036b86): kobject_uevent_env
+RIP: 0010:vivid_cap_update_frame_period
+drivers/media/platform/vivid/vivid-kthread-cap.c:661 [inline]
+RIP: 0010:vivid_thread_vid_cap+0x221/0x2840
+drivers/media/platform/vivid/vivid-kthread-cap.c:789
+kobject: 'loop1' (0000000032036b86): fill_kobj_path: path
+= '/devices/virtual/block/loop1'
+Code: 48 c1 e9 03 0f b6 0c 11 48 89 f2 48 69 c0 00 ca 9a 3b 83 c2 03 38
+ca
+7c 08 84 c9 0f 85 f0 1e 00 00 41 8b 8f 24 64 00 00 31 d2 <48> f7 f1 49
+89
+c4 48 89 c3 49 8d 87 28 64 00 00 48 89 c2 48 89 45
+kobject: 'loop0' (00000000dd9927c3): kobject_uevent_env
+RSP: 0018:ffff88808b4afd68 EFLAGS: 00010246
+RAX: 000000de5a6f8e00 RBX: 0000000100047b22 RCX: 0000000000000000
+kobject: 'queues' (000000007ed20666): kobject_add_internal:
+parent: 'gretap0', set: '<NULL>'
+RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000004
+RBP: ffff88808b4aff00 R08: ffff88804862e1c0 R09: ffffffff89997008
+kobject: 'loop0' (00000000dd9927c3): fill_kobj_path: path
+= '/devices/virtual/block/loop0'
+R10: ffffffff89997010 R11: 0000000000000001 R12: 00000000fffffffc
+kobject: 'queues' (000000007ed20666): kobject_uevent_env
+R13: ffff8880a17e0500 R14: ffff88803e40f760 R15: ffff8882182b0140
+FS:  0000000000000000(0000) GS:ffff8880ae800000(0000)
+knlGS:0000000000000000
+kobject: 'loop5' (00000000a41f9e79): kobject_uevent_env
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+kobject: 'queues' (000000007ed20666): kobject_uevent_env: filter
+function
+caused the event to drop!
+CR2: 00000000004cdc90 CR3: 000000005d827000 CR4: 00000000001426f0
+kobject: 'loop5' (00000000a41f9e79): fill_kobj_path: path
+= '/devices/virtual/block/loop5'
 
-  I took a look, as you suggested, at where the virtual device parent is being
-  created.  My intuition tells me that the parent should get initialized right
-  after device_initialize() is called in hci_init_sysfs().  I do not think the
-  driver core should be altered since this will impact other subsystems.  I
-  noticed that virtual_device_parent() is not globally defined as device_initialize()
-  seems to be.  Not sure if this is the right solution or not.
+Signed-off-by: Vandana BN <bnvandana at gmail.com>
+---
+ drivers/media/platform/vivid/vivid-kthread-cap.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-  One strange thing I did notice is the way virtual_device_parent() is defined.  It
-  is being passed a device pointer but it does not appear to do anything with
-  it.  It just creates a virtual_dir with a call to kobject_create_and_add().
-
-  Let me know what you think when you have time.
-
-  Thanks Greg.
-
-  Jiunn
-
-> 
-> > 
-> > thanks,
-> > 
-> > greg k-h
+diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
+index f8006a30c12f..025a8c68bd1c 100644
+--- a/drivers/media/platform/vivid/vivid-kthread-cap.c
++++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
+@@ -658,6 +658,8 @@ static void vivid_cap_update_frame_period(struct vivid_dev *dev)
+ 	u64 f_period;
+ 
+ 	f_period = (u64)dev->timeperframe_vid_cap.numerator * 1000000000;
++	if(WARN_ON(dev->timeperframe_vid_cap.denominator == 0))
++		dev->timeperframe_vid_cap.denominator = 1;
+ 	do_div(f_period, dev->timeperframe_vid_cap.denominator);
+ 	if (dev->field_cap == V4L2_FIELD_ALTERNATE)
+ 		f_period >>= 1;
+-- 
+2.17.1
