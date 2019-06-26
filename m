@@ -1,43 +1,31 @@
 From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Wed, 26 Jun 2019 17:47:15 -0500
-Subject: [Linux-kernel-mentees] [PATCH] drivers: kernel: sched: Fix return
-	value assignment
-Message-ID: <20190626224717.27051-1-c0d1n61at3@gmail.com>
+Date: Wed, 26 Jun 2019 17:47:16 -0500
+Subject: [Linux-kernel-mentees] [PATCH] drivers: media: pci: cx88: Fix
+	return value assignment
+In-Reply-To: <20190626224717.27051-1-c0d1n61at3@gmail.com>
+References: <20190626224717.27051-1-c0d1n61at3@gmail.com>
+Message-ID: <20190626224717.27051-2-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-hrtimer_forward_now() returns u64, so change overrun to u64.
+hrtimer_forward_now() returns u64, so change missed to u64.
 
 Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 ---
- kernel/sched/fair.c | 2 +-
- kernel/sched/rt.c   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/pci/cx88/cx88-input.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index f35930f5e528..c6bcae7d4e49 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -4896,7 +4896,7 @@ static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
- 	struct cfs_bandwidth *cfs_b =
- 		container_of(timer, struct cfs_bandwidth, period_timer);
- 	unsigned long flags;
--	int overrun;
-+	u64 overrun;
- 	int idle = 0;
- 	int count = 0;
+diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx88/cx88-input.c
+index 27f690b54e0c..fa5ce464b0ba 100644
+--- a/drivers/media/pci/cx88/cx88-input.c
++++ b/drivers/media/pci/cx88/cx88-input.c
+@@ -167,7 +167,7 @@ static void cx88_ir_handle_key(struct cx88_IR *ir)
  
-diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-index 1e6b909dca36..f5d3893914f5 100644
---- a/kernel/sched/rt.c
-+++ b/kernel/sched/rt.c
-@@ -19,7 +19,7 @@ static enum hrtimer_restart sched_rt_period_timer(struct hrtimer *timer)
- 	struct rt_bandwidth *rt_b =
- 		container_of(timer, struct rt_bandwidth, rt_period_timer);
- 	int idle = 0;
--	int overrun;
-+	u64 overrun;
+ static enum hrtimer_restart cx88_ir_work(struct hrtimer *timer)
+ {
+-	unsigned long missed;
++	u64 missed;
+ 	struct cx88_IR *ir = container_of(timer, struct cx88_IR, timer);
  
- 	raw_spin_lock(&rt_b->rt_runtime_lock);
- 	for (;;) {
+ 	cx88_ir_handle_key(ir);
 -- 
 2.22.0
