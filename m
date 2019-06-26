@@ -1,57 +1,57 @@
 From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Wed, 26 Jun 2019 18:33:35 -0500
-Subject: [Linux-kernel-mentees] [PATCH] drivers: kernel: sched: Fix
- return value assignment
-In-Reply-To: <20190626224717.27051-1-c0d1n61at3@gmail.com>
-References: <20190626224717.27051-1-c0d1n61at3@gmail.com>
-Message-ID: <20190626233334.6kcr776kfz6obb5z@rYz3n>
+Date: Wed, 26 Jun 2019 15:07:00 -0500
+Subject: [Linux-kernel-mentees] [PATCH v5 0/5] Documentation: RCU: Convert
+	to reST
+In-Reply-To: <20190626191249.21135-1-c0d1n61at3@gmail.com>
+References: <20190626191249.21135-1-c0d1n61at3@gmail.com>
+Message-ID: <20190626200705.24501-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Wed, Jun 26, 2019 at 05:47:15PM -0500, Jiunn Chang wrote:
-> hrtimer_forward_now() returns u64, so change overrun to u64.
-> 
-> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
-> ---
->  kernel/sched/fair.c | 2 +-
->  kernel/sched/rt.c   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index f35930f5e528..c6bcae7d4e49 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -4896,7 +4896,7 @@ static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
->  	struct cfs_bandwidth *cfs_b =
->  		container_of(timer, struct cfs_bandwidth, period_timer);
->  	unsigned long flags;
-> -	int overrun;
-> +	u64 overrun;
->  	int idle = 0;
->  	int count = 0;
->  
-> diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-> index 1e6b909dca36..f5d3893914f5 100644
-> --- a/kernel/sched/rt.c
-> +++ b/kernel/sched/rt.c
-> @@ -19,7 +19,7 @@ static enum hrtimer_restart sched_rt_period_timer(struct hrtimer *timer)
->  	struct rt_bandwidth *rt_b =
->  		container_of(timer, struct rt_bandwidth, rt_period_timer);
->  	int idle = 0;
-> -	int overrun;
-> +	u64 overrun;
->  
->  	raw_spin_lock(&rt_b->rt_runtime_lock);
->  	for (;;) {
-> -- 
-> 2.22.0
-> 
+This patch series is the initial conversion of the RCU documentation
+section.  This includes reST markup and renaming txt files to rst.  For files
+converted, internal links have been created.  Checkpatch was used to leverage codespell
+for any spelling errors.  Each patch in the series has been compiled and reviewed
+for warnings and errors.  Patches can be bisected.
 
-Hello,
+The changes make in v5 include:
+  - add reviewed-by tags
 
-Looks like this patch was already submitted by someone else.
+The changes made in v4 include:
+  - Change links in rcu.rst to the path in documentation section
+  - Maintain the original name of the txt files
 
-Please ignore unless the other patches have been dropped.
+The changes made in v3 include:
+  - correcting markup to maintain even more of the original text
+  - correcting markup for line breaks
+  - combining all file renaming into one patch
+  - add reviewed-by tags
+  - add required public list to CC
 
-Regards,
+The changes made in v2 include:
+  - correcting markup to maintain as much of the original text as possible
+  - correcting markup to reduce reader context switching
+  - breakout file renaming into individual patches in the series
 
-Jiunn
+>8---------------------------------------------------------------------------8<
+
+Jiunn Chang (5):
+  Documentation: RCU: Convert RCU basic concepts to reST
+  Documentation: RCU: Convert RCU linked list to reST
+  Documentation: RCU: Convert RCU UP systems to reST
+  Documentation: RCU: Rename txt files to rst
+  Documentation: RCU: Add TOC tree hooks
+
+ Documentation/RCU/{UP.txt => UP.rst}          | 37 +++++---
+ Documentation/RCU/index.rst                   | 19 ++++
+ .../RCU/{listRCU.txt => listRCU.rst}          | 38 ++++----
+ Documentation/RCU/rcu.rst                     | 92 +++++++++++++++++++
+ Documentation/RCU/rcu.txt                     | 89 ------------------
+ 5 files changed, 156 insertions(+), 119 deletions(-)
+ rename Documentation/RCU/{UP.txt => UP.rst} (84%)
+ create mode 100644 Documentation/RCU/index.rst
+ rename Documentation/RCU/{listRCU.txt => listRCU.rst} (92%)
+ create mode 100644 Documentation/RCU/rcu.rst
+ delete mode 100644 Documentation/RCU/rcu.txt
+
+-- 
+2.22.0
