@@ -1,29 +1,24 @@
 From: davem@davemloft.net (David Miller)
-Date: Wed, 26 Jun 2019 13:05:58 -0700 (PDT)
-Subject: [Linux-kernel-mentees] [PATCH v5 0/3] net: fddi: skfp: Use PCI
- generic definitions instead of private duplicates
-In-Reply-To: <20190621154037.25245-1-puranjay12@gmail.com>
-References: <20190621154037.25245-1-puranjay12@gmail.com>
-Message-ID: <20190626.130558.961377889679553755.davem@davemloft.net>
+Date: Wed, 26 Jun 2019 13:07:29 -0700 (PDT)
+Subject: [Linux-kernel-mentees] [PATCH 3/3] net: ethernet: atheros:
+ atlx: Remove unused and private PCI definitions
+In-Reply-To: <20190621163921.26188-4-puranjay12@gmail.com>
+References: <20190621163921.26188-1-puranjay12@gmail.com>
+	<20190621163921.26188-4-puranjay12@gmail.com>
+Message-ID: <20190626.130729.2125111135503705774.davem@davemloft.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190626200558.3oYs5r9B5pN2pdVHrIOoi03X57HlZmY7mUV7g4l1EM8@z>
+Message-ID: <20190626200729.s7HwcFIzuvgi-kJ4GcICCyL5ZVgHXAgZsuSXarVKkDM@z>
 
 From: Puranjay Mohan <puranjay12@gmail.com>
-Date: Fri, 21 Jun 2019 21:10:34 +0530
+Date: Fri, 21 Jun 2019 22:09:21 +0530
 
-> This patch series removes the private duplicates of PCI definitions in
-> favour of generic definitions defined in pci_regs.h.
+> Remove unused private PCI definitions from skfbi.h because generic PCI
+> symbols are already included from pci_regs.h.
 > 
-> This driver only uses some of the generic PCI definitons,
-> which are included from pci_regs.h and thier private versions
-> are removed from skfbi.h with all other private defines.
-> 
-> The skfbi.h defines PCI_REV_ID and other private defines with different
-> names, these are renamed to Generic PCI names to make them
-> compatible with defines in pci_regs.h.
-> 
-> All unused defines are removed from skfbi.h.
- ...
+> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
 
-Series applied, thanks.
+Please also handle the PCI register bit value define duplications as well,
+as pointed out by Bjorn.
+
+Thanks.
