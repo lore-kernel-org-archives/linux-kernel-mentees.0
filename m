@@ -1,49 +1,55 @@
-From: c0d1n61at3@gmail.com (Jiunn Chang)
-Date: Wed, 26 Jun 2019 15:07:05 -0500
-Subject: [Linux-kernel-mentees] [PATCH v5 5/5] Documentation: RCU: Add TOC
-	tree hooks
-In-Reply-To: <20190626191249.21135-1-c0d1n61at3@gmail.com>
-References: <20190626191249.21135-1-c0d1n61at3@gmail.com>
-Message-ID: <20190626200705.24501-6-c0d1n61at3@gmail.com>
+From: alexandre.belloni@bootlin.com (Alexandre Belloni)
+Date: Thu, 27 Jun 2019 01:32:09 +0200
+Subject: [Linux-kernel-mentees] [PATCH] drivers: rtc: Fix return value
+ assignment
+In-Reply-To: <20190626224717.27051-3-c0d1n61at3@gmail.com>
+References: <20190626224717.27051-1-c0d1n61at3@gmail.com>
+	<20190626224717.27051-3-c0d1n61at3@gmail.com>
+Message-ID: <20190626233209.GF3692@piout.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190626200705.ShhZLWe3T_VQfKB9f-X5zUK7TqcXedtsOja3OCEIdOg@z>
+Message-ID: <20190626233209.zGAG9YNoLccRkDoorvXOjX79ijJa6btmrHLM1yYq45E@z>
 
-Add TOC tree hooks for:
-  - rcu
-  - listRCU
-  - UP
+Hello,
 
-Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
----
- Documentation/RCU/index.rst | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 Documentation/RCU/index.rst
+Please do use subject lines matching the style for the subsystem.
 
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-new file mode 100644
-index 000000000000..340a9725676c
---- /dev/null
-+++ b/Documentation/RCU/index.rst
-@@ -0,0 +1,19 @@
-+.. _rcu_concepts:
-+
-+============
-+RCU concepts
-+============
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   rcu
-+   listRCU
-+   UP
-+
-+.. only:: subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
+Also, you should definitively send patches to the subsystem mailing list
+so that tools like patchwork would see them.
+
+On 26/06/2019 17:47:17-0500, Jiunn Chang wrote:
+> hrtimer_forward_now() returns u64, so change count to u64.
+> 
+> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+> ---
+>  drivers/rtc/interface.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/rtc/interface.c b/drivers/rtc/interface.c
+> index 4124f4dd376b..72b7ddc43116 100644
+> --- a/drivers/rtc/interface.c
+> +++ b/drivers/rtc/interface.c
+> @@ -633,7 +633,7 @@ enum hrtimer_restart rtc_pie_update_irq(struct hrtimer *timer)
+>  {
+>  	struct rtc_device *rtc;
+>  	ktime_t period;
+> -	int count;
+> +	u64 count;
+>  
+
+Finally, I'm sorry but someone already beat you to it (and made almost
+the same mistakes):
+
+https://patchwork.ozlabs.org/patch/1117613/
+
+
+>  	rtc = container_of(timer, struct rtc_device, pie_timer);
+>  
+> -- 
+> 2.22.0
+> 
+
 -- 
-2.22.0
+Alexandre Belloni, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
