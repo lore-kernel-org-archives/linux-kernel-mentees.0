@@ -1,47 +1,28 @@
-From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Wed, 26 Jun 2019 14:12:49 -0500
-Subject: [Linux-kernel-mentees] [PATCH v4 5/5] Documentation: RCU: Add TOC
-	tree hooks
-In-Reply-To: <20190625062627.26378-1-c0d1n61at3@gmail.com>
-References: <20190625062627.26378-1-c0d1n61at3@gmail.com>
-Message-ID: <20190626191249.21135-6-c0d1n61at3@gmail.com>
+From: davem at davemloft.net (David Miller)
+Date: Wed, 26 Jun 2019 13:03:48 -0700 (PDT)
+Subject: [Linux-kernel-mentees] [PATCH v3 0/3] net: fddi: skfp: Use PCI
+ generic definitions instead of private duplicates
+In-Reply-To: <5f04f52d-8911-4db9-4321-00334d357d54@linuxfoundation.org>
+References: <20190621094607.15011-1-puranjay12@gmail.com>
+	<20190621162024.53620dd9@alans-desktop>
+	<5f04f52d-8911-4db9-4321-00334d357d54@linuxfoundation.org>
+Message-ID: <20190626.130348.743645536748522991.davem@davemloft.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Add TOC tree hooks for:
-  - rcu
-  - listRCU
-  - UP
+From: Shuah Khan <skhan at linuxfoundation.org>
+Date: Fri, 21 Jun 2019 10:36:02 -0600
 
-Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
----
- Documentation/RCU/index.rst | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 Documentation/RCU/index.rst
+> Stephen Hemminger is suggesting removal as well. Makes sense to me.
+ ...
+> What would you recommend the next steps are? Would like driver
+> removed?
 
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-new file mode 100644
-index 000000000000..340a9725676c
---- /dev/null
-+++ b/Documentation/RCU/index.rst
-@@ -0,0 +1,19 @@
-+.. _rcu_concepts:
-+
-+============
-+RCU concepts
-+============
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   rcu
-+   listRCU
-+   UP
-+
-+.. only:: subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
--- 
-2.22.0
+If you hadn't proposed the cleanups nobody would have said to remove
+this driver.  Really if someone wants to go through the tree and
+send removal patches for seemingly really unused drivers, that is
+a separate piece of work unrelated to your cleanup.
+
+While something still is in the tree we should clean it up from
+stuff like this.
+
+Therefore, I'll be applying v5 of your changes, thanks.
