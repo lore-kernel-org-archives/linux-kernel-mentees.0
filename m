@@ -1,51 +1,45 @@
-From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Tue, 25 Jun 2019 12:48:02 -0500
-Subject: [Linux-kernel-mentees] [SYZBOT REPORT] - WARNING: refcount bug
- in kobject_get
-In-Reply-To: <20190624084421.GA2481@kroah.com>
-References: <3674099a-c1f2-f9a3-57f4-d4f4b59a126a@linuxfoundation.org>
-	<20190618215612.rguyuy6maxt56l4n@rYz3n>
-	<72705c91-d753-4c3c-071b-92825d2cd092@linuxfoundation.org>
-	<20190619152100.GB29425@kroah.com>
-	<45d50c39-38de-d5d3-4c45-9e5a77e224cb@linuxfoundation.org>
-	<20190620222242.ux65vxces7ou62o3@rYz3n>
-	<20190621064501.GB12643@kroah.com>
-	<20190621163439.is2e7i3bwz3jyfrj@rYz3n>
-	<20190624081532.ihnrb475dduh77gj@rYz3n>
-	<20190624084421.GA2481@kroah.com>
-Message-ID: <20190625174801.nbmqafqk5ww7fibv@rYz3n>
+From: gregkh at linuxfoundation.org (Greg KH)
+Date: Wed, 26 Jun 2019 09:54:50 +0800
+Subject: [Linux-kernel-mentees] [PATCH] staging: rtl8723bs: replace
+ symbolic permission with octal permission
+In-Reply-To: <20190624135654.6092-1-sushmaunnibhavi425@gmail.com>
+References: <20190624135654.6092-1-sushmaunnibhavi425@gmail.com>
+Message-ID: <20190626015450.GB30966@kroah.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Mon, Jun 24, 2019 at 04:44:21PM +0800, Greg KH wrote:
-> On Mon, Jun 24, 2019 at 03:15:33AM -0500, Jiunn Chang wrote:
-> > At this point, I need more help to attempt a fix.  If you have any suggestions please
-> > let me know.
+On Mon, Jun 24, 2019 at 07:26:54PM +0530, Sushma Unnibhavi wrote:
+> Resolved following checkpatch issue:
+> WARNING: symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
 > 
-> Sorry, I'm traveling all this week and have not had the chance to look
-> at this yet.
+> Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/rtw_proc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> The driver core is "tricky" as you have found out.  I'll dig into this
-> when I get the chance, but it might be a few days.
-> 
-> Note, this call should not be the one that creates the "virtual" kobject
-> parent, as that is almost always created before this (I would think.)
-> 
-> Are you testing this on a laptop or in a virtual machine?  Before you
-> run the test script, is /sys/devices/virtual/ present on your system or
-> not?
+> diff --git a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+> index 5f950fda48ea..701ea9e76141 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/rtw_proc.c
+> @@ -21,7 +21,7 @@ inline struct proc_dir_entry *rtw_proc_create_dir(const char *name, struct proc_
+>  {
+>  	struct proc_dir_entry *entry;
+>  
+> -	entry = proc_mkdir_data(name, S_IRUGO|S_IXUGO, parent, data);
+> +	entry = proc_mkdir_data(name, 0444|0111, parent, data);
 
-  Hello Greg,
+So, 0555 would be the correct value here, right?  :)
 
-  Happy travels!  Thanks for all the help.  I am testing on a laptop and not a vm.
-  I do have /sys/devices/virtual--I thought about that too.
+Also, why are you only fixing this one warning in this file?  There
+should be at least one more instance of this issue here.
 
-  I will take a closer look at where virtual device is/should being created.
+And, as a meta-comment, this whole function should be removed, as it is
+not needed.  And in reality, the whole proc file additions that this
+driver adds should be removed as they are pointless (no need for the
+version, and the debugging flag should be removed entirely and the
+in-kernel debugging functions used instead.)
 
-  THX,
+So, you have lots of options for how to resolve this issue,
 
-  Jiunn
+thanks,
 
-> 
-> thanks,
-> 
-> greg k-h
+greg k-h
