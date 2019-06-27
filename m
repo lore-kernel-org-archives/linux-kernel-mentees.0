@@ -1,44 +1,52 @@
-From: c0d1n61at3@gmail.com (Jiunn Chang)
-Date: Thu, 27 Jun 2019 11:47:50 -0500
+From: skhan@linuxfoundation.org (Shuah Khan)
+Date: Thu, 27 Jun 2019 10:48:24 -0600
 Subject: [Linux-kernel-mentees] [PATCH v5 1/5] Documentation: RCU:
  Convert RCU basic concepts to reST
-In-Reply-To: <20190627083443.4f4918a7@lwn.net>
+In-Reply-To: <20190627111324.1db0f1ec@gandalf.local.home>
 References: <20190626191249.21135-1-c0d1n61at3@gmail.com>
 	<20190626200705.24501-2-c0d1n61at3@gmail.com>
 	<20190627083443.4f4918a7@lwn.net>
-Message-ID: <20190627164748.qeg7o2ixwe5yu3i4@rYz3n>
+	<20190627111324.1db0f1ec@gandalf.local.home>
+Message-ID: <83bb7141-d291-de27-f833-6fa485b406b6@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190627164750.GtW8b4oQSLEccyiKzTtdvtz63uC9Cm53zsLuHgjba8w@z>
+Message-ID: <20190627164824.EIcOQ5Ld5lvkOdzWvPr9Uj7jwSG6wtXxk_jtag_THP0@z>
 
-On Thu, Jun 27, 2019 at 08:34:43AM -0600, Jonathan Corbet wrote:
-> On Wed, 26 Jun 2019 15:07:01 -0500
-> Jiunn Chang <c0d1n61at3 at gmail.com> wrote:
+On 6/27/19 9:13 AM, Steven Rostedt wrote:
+> On Thu, 27 Jun 2019 08:34:43 -0600
+> Jonathan Corbet <corbet at lwn.net> wrote:
 > 
-> > RCU basic concepts reST markup.
-> > 
-> > Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
-> > Reviewed-by: Joel Fernandes (Google) <joel at joelfernandes.org>
+>> On Wed, 26 Jun 2019 15:07:01 -0500
+>> Jiunn Chang <c0d1n61at3 at gmail.com> wrote:
+>>
+>>> RCU basic concepts reST markup.
+>>>
+>>> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+>>> Reviewed-by: Joel Fernandes (Google) <joel at joelfernandes.org>
+>>
+>> So this is a little detail but ... your signoff should be the last thing
+>> in the set of tags on the patch.
 > 
-> So this is a little detail but ... your signoff should be the last thing
-> in the set of tags on the patch.
+> Note, I've been seeing this a lot lately, and then noticed, that when I
+> downloaded a patch directly from patchwork, it placed all the
+> Reviewed-by and Acked-by tags after the original Signed-off-by. I
+> checked the original patch on the mailing list, and it had no other
+> tags but the Signed-off-by. I then pulled one of my own patches, and it
+> did it to that patch as well.
 > 
-> This isn't worth making you do yet another revision, so I went ahead and
-> applied the patches and fixed the tag ordering on the way in.  I'll also
-> append a patch adding the new RCU stuff into the core-api manual so people
-> can actually get to it.
+> I too prefer the Signed-off-by be last, but our tooling needs to do
+> this as well, otherwise it's a failure in our procedures.
 > 
-> Thanks,
-> 
-> jon
 
-Hello Jon,
+Thanks Steve for pointing this out. I am seeing some odd behavior with tags.
 
-I will keep this in mind for next time.  I would like to thank you, Joel, Paul
-and everyone else who has helped me learn the Linux kernel patch process.
+It appears some maintainers want the tags in chronological order, which
+is Reviewed-by after Signed-off which doesn't make sense to me.
 
-I will send a patch for the UP systems change Paul sent me for _bh suffix.
+I prefer Signed-off-by last.
 
-THX,
+I am working on FAQ (Frequently Answered Questions) section for mentees.
+I will add this to it.
 
-Jiunn
+thanks,
+-- Shuah
