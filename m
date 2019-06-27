@@ -1,14 +1,14 @@
 From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Wed, 26 Jun 2019 21:32:52 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2] packet: Fix undefined
+Date: Wed, 26 Jun 2019 21:33:43 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2] drm/amdkfd: Fix undefined
  behavior in bit shift
-In-Reply-To: <20190627032532.18374-2-c0d1n61at3@gmail.com>
-References: <20190627010137.5612-1-c0d1n61at3@gmail.com>
-	<20190627032532.18374-2-c0d1n61at3@gmail.com>
-Message-ID: <7f6f44b2-3fe4-85f6-df3c-ad59f2eadba2@linuxfoundation.org>
+In-Reply-To: <20190627032532.18374-3-c0d1n61at3@gmail.com>
+References: <20190627010137.5612-3-c0d1n61at3@gmail.com>
+	<20190627032532.18374-3-c0d1n61at3@gmail.com>
+Message-ID: <59d3169d-4c74-4e75-7a48-93c0e99ae1f2@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190627033252.19w9T6-oF1rqLUJdLgpRS9IVW_Y2y8KQXzrKukhfWa0@z>
+Message-ID: <20190627033343.wohZJRZ0ptNoF9hKfdyLNj6ZrScXo8pXQDIc_1K6Ql8@z>
 
 On 6/26/19 9:25 PM, Jiunn Chang wrote:
 > Shifting signed 32-bit value by 31 bits is undefined.  Changing most
@@ -18,30 +18,27 @@ On 6/26/19 9:25 PM, Jiunn Chang wrote:
 >    - use subsystem specific subject lines
 >    - CC required mailing lists
 > 
-
-These version change lines don't belong in the change log.
-
 > Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 > ---
 
-Move them here.
+Move version change lines here.
 
->   include/uapi/linux/if_packet.h | 2 +-
+>   include/uapi/linux/kfd_ioctl.h | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/uapi/linux/if_packet.h b/include/uapi/linux/if_packet.h
-> index 467b654bd4c7..3d884d68eb30 100644
-> --- a/include/uapi/linux/if_packet.h
-> +++ b/include/uapi/linux/if_packet.h
-> @@ -123,7 +123,7 @@ struct tpacket_auxdata {
->   /* Rx and Tx ring - header status */
->   #define TP_STATUS_TS_SOFTWARE		(1 << 29)
->   #define TP_STATUS_TS_SYS_HARDWARE	(1 << 30) /* deprecated, never set */
-> -#define TP_STATUS_TS_RAW_HARDWARE	(1 << 31)
-> +#define TP_STATUS_TS_RAW_HARDWARE	(1U << 31)
->   
->   /* Rx ring - feature request bits */
->   #define TP_FT_REQ_FILL_RXHASH	0x1
+> diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
+> index dc067ed0b72d..ae5669272303 100644
+> --- a/include/uapi/linux/kfd_ioctl.h
+> +++ b/include/uapi/linux/kfd_ioctl.h
+> @@ -339,7 +339,7 @@ struct kfd_ioctl_acquire_vm_args {
+>   #define KFD_IOC_ALLOC_MEM_FLAGS_USERPTR		(1 << 2)
+>   #define KFD_IOC_ALLOC_MEM_FLAGS_DOORBELL	(1 << 3)
+>   /* Allocation flags: attributes/access options */
+> -#define KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE	(1 << 31)
+> +#define KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE	(1U << 31)
+>   #define KFD_IOC_ALLOC_MEM_FLAGS_EXECUTABLE	(1 << 30)
+>   #define KFD_IOC_ALLOC_MEM_FLAGS_PUBLIC		(1 << 29)
+>   #define KFD_IOC_ALLOC_MEM_FLAGS_NO_SUBSTITUTE	(1 << 28)
 > 
 
 thanks,
