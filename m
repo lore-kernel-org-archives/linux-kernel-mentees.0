@@ -1,11 +1,13 @@
 From: c0d1n61at3@gmail.com (Jiunn Chang)
-Date: Wed, 26 Jun 2019 20:01:34 -0500
+Date: Wed, 26 Jun 2019 20:01:35 -0500
 Subject: [Linux-kernel-mentees] [PATCH] uapi: linux: Fix undefined behavior
 	in bit shift
-Message-ID: <20190627010137.5612-1-c0d1n61at3@gmail.com>
+In-Reply-To: <20190627010137.5612-1-c0d1n61at3@gmail.com>
+References: <20190627010137.5612-1-c0d1n61at3@gmail.com>
+Message-ID: <20190627010137.5612-2-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190627010134.EYWgj4aScMMjvc-rwoqU-mgUzkkgrIMT874oEO6lSvo@z>
+Message-ID: <20190627010135.8mGNfllS-cGvvql9AJN613t4XekXKPZPM5ObFAOERUs@z>
 
 Shifting signed 32-bit value by 31 bits is undefined.  Changing most
 significant bit to unsigned.
