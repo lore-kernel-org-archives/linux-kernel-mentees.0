@@ -1,111 +1,34 @@
-From: mchehab@kernel.org (Mauro Carvalho Chehab)
-Date: Fri, 28 Jun 2019 06:30:50 -0300
-Subject: [Linux-kernel-mentees] Patch guidelines and tips
-In-Reply-To: <20190628083915.GA3682@localhost>
-References: <6aa42000-1957-b0cf-ae6d-18e89d304892@linuxfoundation.org>
-	<20190627064833.3e41d60a@coco.lan>
-	<20190628083915.GA3682@localhost>
-Message-ID: <20190628063050.2cbf6bbc@coco.lan>
+From: rostedt@goodmis.org (Steven Rostedt)
+Date: Thu, 27 Jun 2019 18:29:38 -0400
+Subject: [Linux-kernel-mentees] [PATCH] doc: RCU callback locks need
+ only _bh, not necessarily _irq
+In-Reply-To: <20190627221045.GH26519@linux.ibm.com>
+References: <20190627210147.19510-1-c0d1n61at3@gmail.com>
+	<bc2ce605-56ab-33aa-c94d-d7774e6ce8cd@linuxfoundation.org>
+	<20190627221045.GH26519@linux.ibm.com>
+Message-ID: <20190627182938.306ab9d9@gandalf.local.home>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190628093050.iq8g8APqwq6tJXvExf44x43Pt_l7leJrtFpLw1vX7PE@z>
+Message-ID: <20190627222938.DNWkVluKyWij8Y-ZVBLY0Ooazgbi3zPsbMFioEHmr0w@z>
 
-Hi Sheriff,
+On Thu, 27 Jun 2019 15:10:45 -0700
+"Paul E. McKenney" <paulmck at linux.ibm.com> wrote:
 
-Em Fri, 28 Jun 2019 09:39:15 +0100
-Sheriff Esseson <sheriffesseson at gmail.com> escreveu:
-
-> On Thu, Jun 27, 2019 at 06:48:33AM -0300, Mauro Carvalho Chehab wrote:
-> > Em Wed, 26 Jun 2019 18:38:31 -0600
-> > Shuah Khan <skhan at linuxfoundation.org> escreveu:
-> >   
-> > > Mentees,
-> > > 
-> > > Thanks for your active participation in working towards the
-> > > required contributions. A few tips and guidelines to make
-> > > this experience productive for us all.
-> > > 
-> > > - Before you start working on a task, please check the archive
-> > >    first to see if a patch is already in progress. This avoids
-> > >    duplicated efforts.
-> > > 
-> > >   https://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/
-> > > 
-> > > - For documentation tasks, start small with picking one file for
-> > >    conversion first. You don't have to work on all the files in a
-> > >    directory in one step. Working on a single file helps you get
-> > >    over the learning curve and then you can take on larger set of
-> > >    files as needed.
-> > > 
-> > >    If in doubt, send email to maintainers - starting with me if you
-> > >    prefer.  
+> On Thu, Jun 27, 2019 at 04:01:35PM -0600, Shuah Khan wrote:
+> > On 6/27/19 3:01 PM, Jiunn Chang wrote:  
+> > >The UP.rst file calls for locks acquired within RCU callback functions
+> > >to use _irq variants (spin_lock_irqsave() or similar), which does work,
+> > >but can be overkill.  This commit therefore instead calls for _bh variants
+> > >(spin_lock_bh() or similar), while noting that _irq does work.
+> > >
+> > >Signed-off-by: Paul E. McKenney <paulmck at linux.ibm.com>  
 > > 
-> > Please feel free to send e-mail to me with regards to documentation
-> > tasks. I'm open to help with that.
-> > 
-> > Also, I have a big series of documentation patches under discussion
-> > for the merge process. So, better to check with me before trying to
-> > work on something that was already done.
-> >   
-> > > 
-> > > These steps are all documented on the project page. Don't forget to
-> > > do the following when you send patches:
-> > > 
-> > > - Please copy mailing lists and maintainers/developers suggested by
-> > >    scripts/get_maintainer.pl
-> > > 
-> > > - Please run scripts/checkpatch.pl before sending the patch.
-> > > 
-> > > - Compile and test - Documentation compile steps have been documented.
-> > > 
-
- > https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees  
+> > Should this by Suggested-by?  
 > 
-> Please is the filesystem docs available or taken?
+> I wrote it and Jiunn converted my change to .rst, so I believe that
+> this is correct as is.
 
-I don't know anyone doing doc patches for filesystem, but each
-filesystem has its own maintainer. For example (getting a random fs text
-file): 
+Note, you did send Jiunn an explicit Signed-off-by when you wrote it,
+correct? As Signed-off-by is equivalent to a signature.
 
-	$ ./scripts/get_maintainer.pl -f Documentation/filesystems/squashfs.txt
-	Phillip Lougher <phillip at squashfs.org.uk> (maintainer:SQUASHFS FILE SYSTEM)
-	Jonathan Corbet <corbet at lwn.net> (maintainer:DOCUMENTATION)
-	linux-doc at vger.kernel.org (open list:DOCUMENTATION)
-	linux-kernel at vger.kernel.org (open list)
-
-Please notice that the best is to try preserving the original style of
-the document as much as possible, avoiding adding unneeded markups.
-
-We also avoid using all-uppercase titles for sections.
-
-On this particular example, what I would do for the conversion would
-be to mark the document title with:
-
-	
-=======================
-Squashfs 4.0 Filesystem
-=======================
-
-...
-
-Mailing list: squashfs-devel at lists.sourceforge.net
-
-Web site: www.squashfs.org
-
-
-1. Filesystem features
-======================
-
-doing the same title markup change for the other level 1 titles,
-and use the table markups.
-
-After doing the changes, don't forget to look at the resulting html output,
-and do puntual changes, if required.
-
-A good conversion is the one where:
-	- avoids useless changes;
-	- the file keeps easy to read as text file;
-	- the html and pdf output looks nice.
-
-Thanks,
-Mauro
+-- Steve
