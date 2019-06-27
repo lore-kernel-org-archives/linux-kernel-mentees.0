@@ -1,15 +1,15 @@
-From: paulmck@linux.ibm.com (Paul E. McKenney)
-Date: Thu, 27 Jun 2019 09:26:58 -0700
+From: c0d1n61at3@gmail.com (Jiunn Chang)
+Date: Thu, 27 Jun 2019 11:47:50 -0500
 Subject: [Linux-kernel-mentees] [PATCH v5 1/5] Documentation: RCU:
  Convert RCU basic concepts to reST
 In-Reply-To: <20190627083443.4f4918a7@lwn.net>
 References: <20190626191249.21135-1-c0d1n61at3@gmail.com>
 	<20190626200705.24501-2-c0d1n61at3@gmail.com>
 	<20190627083443.4f4918a7@lwn.net>
-Message-ID: <20190627162658.GV26519@linux.ibm.com>
+Message-ID: <20190627164748.qeg7o2ixwe5yu3i4@rYz3n>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190627162658._c_GDZDx_TDfnNYBS860bxoLb-_6ZjUpU6KWQ8shRM4@z>
+Message-ID: <20190627164750.GtW8b4oQSLEccyiKzTtdvtz63uC9Cm53zsLuHgjba8w@z>
 
 On Thu, Jun 27, 2019 at 08:34:43AM -0600, Jonathan Corbet wrote:
 > On Wed, 26 Jun 2019 15:07:01 -0500
@@ -27,9 +27,18 @@ On Thu, Jun 27, 2019 at 08:34:43AM -0600, Jonathan Corbet wrote:
 > applied the patches and fixed the tag ordering on the way in.  I'll also
 > append a patch adding the new RCU stuff into the core-api manual so people
 > can actually get to it.
+> 
+> Thanks,
+> 
+> jon
 
-Please feel free to add my ack:
+Hello Jon,
 
-Acked-by: Paul E. McKenney <paulmck at linux.ibm.com>
+I will keep this in mind for next time.  I would like to thank you, Joel, Paul
+and everyone else who has helped me learn the Linux kernel patch process.
 
-							Thanx, Paul
+I will send a patch for the UP systems change Paul sent me for _bh suffix.
+
+THX,
+
+Jiunn
