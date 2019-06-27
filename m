@@ -1,14 +1,14 @@
 From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Wed, 26 Jun 2019 21:33:43 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2] drm/amdkfd: Fix undefined
+Date: Wed, 26 Jun 2019 21:34:24 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2] nl80211: Fix undefined
  behavior in bit shift
-In-Reply-To: <20190627032532.18374-3-c0d1n61at3@gmail.com>
-References: <20190627010137.5612-3-c0d1n61at3@gmail.com>
-	<20190627032532.18374-3-c0d1n61at3@gmail.com>
-Message-ID: <59d3169d-4c74-4e75-7a48-93c0e99ae1f2@linuxfoundation.org>
+In-Reply-To: <20190627032532.18374-4-c0d1n61at3@gmail.com>
+References: <20190627010137.5612-4-c0d1n61at3@gmail.com>
+	<20190627032532.18374-4-c0d1n61at3@gmail.com>
+Message-ID: <c20a0a94-ab50-bb85-7c78-e02a465c5a40@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190627033343.wohZJRZ0ptNoF9hKfdyLNj6ZrScXo8pXQDIc_1K6Ql8@z>
+Message-ID: <20190627033424.Y2rdLpROFSvMy6PjvbWFl1pQTowiEXHU87TI10Oh9uQ@z>
 
 On 6/26/19 9:25 PM, Jiunn Chang wrote:
 > Shifting signed 32-bit value by 31 bits is undefined.  Changing most
@@ -21,24 +21,24 @@ On 6/26/19 9:25 PM, Jiunn Chang wrote:
 > Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 > ---
 
-Move version change lines here.
+Move version change lines here. They don't belong in the commit log.
 
->   include/uapi/linux/kfd_ioctl.h | 2 +-
+>   include/uapi/linux/nl80211.h | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-> index dc067ed0b72d..ae5669272303 100644
-> --- a/include/uapi/linux/kfd_ioctl.h
-> +++ b/include/uapi/linux/kfd_ioctl.h
-> @@ -339,7 +339,7 @@ struct kfd_ioctl_acquire_vm_args {
->   #define KFD_IOC_ALLOC_MEM_FLAGS_USERPTR		(1 << 2)
->   #define KFD_IOC_ALLOC_MEM_FLAGS_DOORBELL	(1 << 3)
->   /* Allocation flags: attributes/access options */
-> -#define KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE	(1 << 31)
-> +#define KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE	(1U << 31)
->   #define KFD_IOC_ALLOC_MEM_FLAGS_EXECUTABLE	(1 << 30)
->   #define KFD_IOC_ALLOC_MEM_FLAGS_PUBLIC		(1 << 29)
->   #define KFD_IOC_ALLOC_MEM_FLAGS_NO_SUBSTITUTE	(1 << 28)
+> diff --git a/include/uapi/linux/nl80211.h b/include/uapi/linux/nl80211.h
+> index 6f09d1500960..fa7ebbc6ff27 100644
+> --- a/include/uapi/linux/nl80211.h
+> +++ b/include/uapi/linux/nl80211.h
+> @@ -5314,7 +5314,7 @@ enum nl80211_feature_flags {
+>   	NL80211_FEATURE_TDLS_CHANNEL_SWITCH		= 1 << 28,
+>   	NL80211_FEATURE_SCAN_RANDOM_MAC_ADDR		= 1 << 29,
+>   	NL80211_FEATURE_SCHED_SCAN_RANDOM_MAC_ADDR	= 1 << 30,
+> -	NL80211_FEATURE_ND_RANDOM_MAC_ADDR		= 1 << 31,
+> +	NL80211_FEATURE_ND_RANDOM_MAC_ADDR		= 1U << 31,
+>   };
+>   
+>   /**
 > 
 
 thanks,
