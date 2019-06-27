@@ -1,49 +1,39 @@
 From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Thu, 27 Jun 2019 10:48:24 -0600
-Subject: [Linux-kernel-mentees] [PATCH v5 1/5] Documentation: RCU:
- Convert RCU basic concepts to reST
-In-Reply-To: <20190627111324.1db0f1ec@gandalf.local.home>
-References: <20190626191249.21135-1-c0d1n61at3@gmail.com>
-	<20190626200705.24501-2-c0d1n61at3@gmail.com>
-	<20190627083443.4f4918a7@lwn.net>
-	<20190627111324.1db0f1ec@gandalf.local.home>
-Message-ID: <83bb7141-d291-de27-f833-6fa485b406b6@linuxfoundation.org>
+Date: Thu, 27 Jun 2019 10:52:10 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2] packet: Fix undefined
+ behavior in bit shift
+In-Reply-To: <20190627.092253.1878691006683087825.davem@davemloft.net>
+References: <20190627010137.5612-1-c0d1n61at3@gmail.com>
+	<20190627032532.18374-2-c0d1n61at3@gmail.com>
+	<7f6f44b2-3fe4-85f6-df3c-ad59f2eadba2@linuxfoundation.org>
+	<20190627.092253.1878691006683087825.davem@davemloft.net>
+Message-ID: <9687ddc6-3bdb-5b2a-2934-ed9c6921551d@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190627164824.EIcOQ5Ld5lvkOdzWvPr9Uj7jwSG6wtXxk_jtag_THP0@z>
+Message-ID: <20190627165210.nGIvMPGK6DCbIM3H68XnPGePaGAikWlxAzyL_7AyBKI@z>
 
-On 6/27/19 9:13 AM, Steven Rostedt wrote:
-> On Thu, 27 Jun 2019 08:34:43 -0600
-> Jonathan Corbet <corbet at lwn.net> wrote:
+On 6/27/19 10:22 AM, David Miller wrote:
+> From: Shuah Khan <skhan at linuxfoundation.org>
+> Date: Wed, 26 Jun 2019 21:32:52 -0600
 > 
->> On Wed, 26 Jun 2019 15:07:01 -0500
->> Jiunn Chang <c0d1n61at3 at gmail.com> wrote:
->>
->>> RCU basic concepts reST markup.
+>> On 6/26/19 9:25 PM, Jiunn Chang wrote:
+>>> Shifting signed 32-bit value by 31 bits is undefined.  Changing most
+>>> significant bit to unsigned.
+>>> Changes included in v2:
+>>>     - use subsystem specific subject lines
+>>>     - CC required mailing lists
 >>>
->>> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
->>> Reviewed-by: Joel Fernandes (Google) <joel at joelfernandes.org>
 >>
->> So this is a little detail but ... your signoff should be the last thing
->> in the set of tags on the patch.
+>> These version change lines don't belong in the change log.
 > 
-> Note, I've been seeing this a lot lately, and then noticed, that when I
-> downloaded a patch directly from patchwork, it placed all the
-> Reviewed-by and Acked-by tags after the original Signed-off-by. I
-> checked the original patch on the mailing list, and it had no other
-> tags but the Signed-off-by. I then pulled one of my own patches, and it
-> did it to that patch as well.
-> 
-> I too prefer the Signed-off-by be last, but our tooling needs to do
-> this as well, otherwise it's a failure in our procedures.
+> For networking changes I actually like the change lines to be in the
+> commit log.  So please don't stray people this way, thanks.
 > 
 
-Thanks Steve for pointing this out. I am seeing some odd behavior with tags.
-
-It appears some maintainers want the tags in chronological order, which
-is Reviewed-by after Signed-off which doesn't make sense to me.
-
-I prefer Signed-off-by last.
+As a general rule, please don't include change lines in the commit log.
+For networking changes that get sent to David and netdev, as David
+points out here, he likes them in the commit log, please include them
+in the commit log.
 
 I am working on FAQ (Frequently Answered Questions) section for mentees.
 I will add this to it.
