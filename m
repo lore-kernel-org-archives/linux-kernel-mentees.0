@@ -1,22 +1,28 @@
-From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Thu, 27 Jun 2019 08:44:03 -0600
-Subject: [Linux-kernel-mentees] Stable release 5.0.21
-In-Reply-To: <20190627095939.GB26368@hacker-queen>
-References: <20190627095939.GB26368@hacker-queen>
-Message-ID: <110fb096-6302-3765-4537-3739bf028a52@linuxfoundation.org>
+From: davem@davemloft.net (David Miller)
+Date: Thu, 27 Jun 2019 09:22:53 -0700 (PDT)
+Subject: [Linux-kernel-mentees] [PATCH v2] packet: Fix undefined
+ behavior in bit shift
+In-Reply-To: <7f6f44b2-3fe4-85f6-df3c-ad59f2eadba2@linuxfoundation.org>
+References: <20190627010137.5612-1-c0d1n61at3@gmail.com>
+	<20190627032532.18374-2-c0d1n61at3@gmail.com>
+	<7f6f44b2-3fe4-85f6-df3c-ad59f2eadba2@linuxfoundation.org>
+Message-ID: <20190627.092253.1878691006683087825.davem@davemloft.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190627144403.rv73IlRIAx15yLTOIcTuuigePfsDwg_c-sypeP40Djk@z>
+Message-ID: <20190627162253.l4pi7Swd_8jBaRhHzzK0y37ctV5CenpOuXamWEBELSk@z>
 
-On 6/27/19 3:59 AM, Sushma Unnibhavi wrote:
-> Compiled, booted, and no regressions
+From: Shuah Khan <skhan@linuxfoundation.org>
+Date: Wed, 26 Jun 2019 21:32:52 -0600
+
+> On 6/26/19 9:25 PM, Jiunn Chang wrote:
+>> Shifting signed 32-bit value by 31 bits is undefined.  Changing most
+>> significant bit to unsigned.
+>> Changes included in v2:
+>>    - use subsystem specific subject lines
+>>    - CC required mailing lists
+>> 
 > 
+> These version change lines don't belong in the change log.
 
-Hi Sushma,
-
-This is just an example release. You are supposed to subscribe to
-stable release mailing list and watch the notifications and test 2
-recent releases.
-
-thanks,
--- Shuah
+For networking changes I actually like the change lines to be in the
+commit log.  So please don't stray people this way, thanks.
