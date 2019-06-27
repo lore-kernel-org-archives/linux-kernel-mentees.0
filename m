@@ -1,39 +1,32 @@
-From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Wed, 26 Jun 2019 19:18:28 -0600
-Subject: [Linux-kernel-mentees] [PATCH] uapi: linux: Fix undefined
- behavior in bit shift
-In-Reply-To: <20190627010137.5612-4-c0d1n61at3@gmail.com>
-References: <20190627010137.5612-1-c0d1n61at3@gmail.com>
-	<20190627010137.5612-4-c0d1n61at3@gmail.com>
-Message-ID: <7dab4642-a198-9d64-8411-54949c8a61f6@linuxfoundation.org>
+From: c0d1n61at3@gmail.com (Jiunn Chang)
+Date: Wed, 26 Jun 2019 22:25:29 -0500
+Subject: [Linux-kernel-mentees] [PATCH] ethtool: Fix undefined behavior in
+	bit shift
+Message-ID: <20190627032532.18374-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190627011828.ybtF5ORfHhI7npIltp2WKlpnNW7ybYt4KJ4zlpqqEKA@z>
+Message-ID: <20190627032529.FRJ8IosyN7zIjeQ20KX4PiLu262PH1Skek6NtfrbnHE@z>
 
-On 6/26/19 7:01 PM, Jiunn Chang wrote:
-> Shifting signed 32-bit value by 31 bits is undefined.  Changing most
-> significant bit to unsigned.
-> 
-> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
-> ---
->   include/uapi/linux/nl80211.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/linux/nl80211.h b/include/uapi/linux/nl80211.h
-> index 6f09d1500960..fa7ebbc6ff27 100644
-> --- a/include/uapi/linux/nl80211.h
-> +++ b/include/uapi/linux/nl80211.h
-> @@ -5314,7 +5314,7 @@ enum nl80211_feature_flags {
->   	NL80211_FEATURE_TDLS_CHANNEL_SWITCH		= 1 << 28,
->   	NL80211_FEATURE_SCAN_RANDOM_MAC_ADDR		= 1 << 29,
->   	NL80211_FEATURE_SCHED_SCAN_RANDOM_MAC_ADDR	= 1 << 30,
-> -	NL80211_FEATURE_ND_RANDOM_MAC_ADDR		= 1 << 31,
-> +	NL80211_FEATURE_ND_RANDOM_MAC_ADDR		= 1U << 31,
->   };
->   
->   /**
-> 
+Shifting signed 32-bit value by 31 bits is undefined.  Changing most
+significant bit to unsigned.
 
-cc mailing lists.
+Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+---
+ include/uapi/linux/ethtool.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- Shuah
+diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
+index 3534ce157ae9..859b2e99c000 100644
+--- a/include/uapi/linux/ethtool.h
++++ b/include/uapi/linux/ethtool.h
+@@ -1691,7 +1691,7 @@ static inline int ethtool_validate_duplex(__u8 duplex)
+ #define	RXH_IP_DST	(1 << 5)
+ #define	RXH_L4_B_0_1	(1 << 6) /* src port in case of TCP/UDP/SCTP */
+ #define	RXH_L4_B_2_3	(1 << 7) /* dst port in case of TCP/UDP/SCTP */
+-#define	RXH_DISCARD	(1 << 31)
++#define	RXH_DISCARD	(1U << 31)
+ 
+ #define	RX_CLS_FLOW_DISC	0xffffffffffffffffULL
+ #define RX_CLS_FLOW_WAKE	0xfffffffffffffffeULL
+-- 
+2.22.0
