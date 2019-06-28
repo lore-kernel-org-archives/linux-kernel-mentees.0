@@ -1,41 +1,45 @@
-From: corbet at lwn.net (Jonathan Corbet)
-Date: Fri, 28 Jun 2019 09:04:38 -0600
-Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v2] Doc :
-	doc-guide : Fix a typo
-In-Reply-To: <20190628062001.26085-1-sheriffesseson@gmail.com>
-References: <20190628060648.25151-1-sheriffesseson@gmail.com>
-	<20190628062001.26085-1-sheriffesseson@gmail.com>
-Message-ID: <20190628090438.017d70a7@lwn.net>
+From: johannes at sipsolutions.net (Johannes Berg)
+Date: Fri, 28 Jun 2019 17:17:30 +0200
+Subject: [Linux-kernel-mentees] [PATCH v2] nl80211: Fix undefined
+ behavior in bit shift
+In-Reply-To: <9e17c585-bd42-8c65-a37a-add6aa4d5ca4@linuxfoundation.org>
+	(sfid-20190628_170419_565002_8FFEF936)
+References: <20190627010137.5612-4-c0d1n61at3@gmail.com>
+	<20190627032532.18374-4-c0d1n61at3@gmail.com>
+	<c20a0a94-ab50-bb85-7c78-e02a465c5a40@linuxfoundation.org>
+	<8b8c44c3ecb8626d9bb5a8f786b1d2b7488df86b.camel@sipsolutions.net>
+	<9e17c585-bd42-8c65-a37a-add6aa4d5ca4@linuxfoundation.org>
+	(sfid-20190628_170419_565002_8FFEF936)
+Message-ID: <b5a247aa3bb21094c0a6ef1d8e3281d701bb6200.camel@sipsolutions.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Fri, 28 Jun 2019 07:20:01 +0100
-Sheriff Esseson <sheriffesseson at gmail.com> wrote:
+Hi Shuah,
 
-> fix the disjunction by replacing "of" with "or".
-> 
-> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
-> ---
-> 
-> changes in v2:
-> - cc-ed Corbet.
-> 
->  Documentation/doc-guide/kernel-doc.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> index f96059767..192c36af3 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -359,7 +359,7 @@ Domain`_ references.
->    ``monospaced font``.
->  
->    Useful if you need to use special characters that would otherwise have some
-> -  meaning either by kernel-doc script of by reStructuredText.
-> +  meaning either by kernel-doc script or by reStructuredText.
->  
->    This is particularly useful if you need to use things like ``%ph`` inside
->    a function description.
+> I went looking in the git log. Looks like there are several commits with
+> "Changes since" included in the commit log. It still appears to be
+> maintainer preference. Probably from networking and networking related
+> areas - wireless being one of them. This trend is recent it appears in
+> any case.
 
-I have applied this, thanks.
+Yeah. I was really just observing that I'd seen this, and some people (I
+guess 'many' was an exaggeration) actively request it to be in the
+commit log. I "grew up" with "changelog after ---" too ;-)
 
-jon
+> There is a value to seeing changes as the work evolves. However, there
+> is the concern that how log should it be.
+
+That doesn't parse, what did you mean?
+
+> This example commit has history from RFC stage and no doubt very useful
+> since this is a new driver.
+> 
+> 8ef988b914bd449458eb2174febb67b0f137b33c
+> 
+> If we make this more of a norm, we do want to make sure, we evolve
+> from informal nature of these "Changes since", to "Commit log" text.
+
+Not sure it's really worth it, but I guess some recommendations could be
+useful. If it is indeed to become the norm, and there aren't some people
+who strongly feel it should *not* be included.
+
+johannes
