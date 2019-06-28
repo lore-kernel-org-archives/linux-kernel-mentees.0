@@ -1,79 +1,311 @@
-From: paulmck at linux.ibm.com (Paul E. McKenney)
-Date: Thu, 27 Jun 2019 15:42:23 -0700
-Subject: [Linux-kernel-mentees] [PATCH] doc: RCU callback locks need
- only _bh, not necessarily _irq
-In-Reply-To: <20190627182938.306ab9d9@gandalf.local.home>
-References: <20190627210147.19510-1-c0d1n61at3@gmail.com>
-	<bc2ce605-56ab-33aa-c94d-d7774e6ce8cd@linuxfoundation.org>
-	<20190627221045.GH26519@linux.ibm.com>
-	<20190627182938.306ab9d9@gandalf.local.home>
-Message-ID: <20190627224223.GJ26519@linux.ibm.com>
+From: bnvandana at gmail.com (Vandana BN)
+Date: Fri, 28 Jun 2019 18:54:59 +0530
+Subject: [Linux-kernel-mentees] [PATCH v2] Documentation:sh:convert
+	register-banks.txt and new-machine.txt to rst format.
+In-Reply-To: <20190627063347.11137-1-bnvandana@gmail.com>
+References: <20190627063347.11137-1-bnvandana@gmail.com>
+Message-ID: <20190628132459.5409-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Thu, Jun 27, 2019 at 06:29:38PM -0400, Steven Rostedt wrote:
-> On Thu, 27 Jun 2019 15:10:45 -0700
-> "Paul E. McKenney" <paulmck at linux.ibm.com> wrote:
-> 
-> > On Thu, Jun 27, 2019 at 04:01:35PM -0600, Shuah Khan wrote:
-> > > On 6/27/19 3:01 PM, Jiunn Chang wrote:  
-> > > >The UP.rst file calls for locks acquired within RCU callback functions
-> > > >to use _irq variants (spin_lock_irqsave() or similar), which does work,
-> > > >but can be overkill.  This commit therefore instead calls for _bh variants
-> > > >(spin_lock_bh() or similar), while noting that _irq does work.
-> > > >
-> > > >Signed-off-by: Paul E. McKenney <paulmck at linux.ibm.com>  
-> > > 
-> > > Should this by Suggested-by?  
-> > 
-> > I wrote it and Jiunn converted my change to .rst, so I believe that
-> > this is correct as is.
-> 
-> Note, you did send Jiunn an explicit Signed-off-by when you wrote it,
-> correct? As Signed-off-by is equivalent to a signature.
+This patch converts new-machine.txt and register-banks.txt to ReST format, No content
+change.
+Added new-machine.rst and register-banks.rst to sh/index.rst
 
-Indeed I did, but I now see that it was via private email.  Here it is
-again for public consumption, and Jiunn's patch is based on this one,
-just translated to .rst.  I once again verified that the Jiunn's version
-is word-for-word identical to mine, so Jiunn's patch should be good.  ;-)
+Signed-off-by: Vandana BN <bnvandana at gmail.com>
+---
+ Documentation/sh/index.rst                    |   6 +
+ .../sh/{new-machine.txt => new-machine.rst}   | 171 +++++++++---------
+ ...{register-banks.txt => register-banks.rst} |   8 +-
+ 3 files changed, 100 insertions(+), 85 deletions(-)
+ rename Documentation/sh/{new-machine.txt => new-machine.rst} (79%)
+ rename Documentation/sh/{register-banks.txt => register-banks.rst} (90%)
 
-							Thanx, Paul
+diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
+index bc8db7ba894a..25471d3fc294 100644
+--- a/Documentation/sh/index.rst
++++ b/Documentation/sh/index.rst
+@@ -57,3 +57,9 @@ Maple
 
-------------------------------------------------------------------------
+ .. kernel-doc:: drivers/sh/maple/maple.c
+    :export:
++
++.. toctree::
++   :maxdepth: 2
++
++   new-machine
++   register-banks
+diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
+similarity index 79%
+rename from Documentation/sh/new-machine.txt
+rename to Documentation/sh/new-machine.rst
+index e0961a66130b..b16c33342642 100644
+--- a/Documentation/sh/new-machine.txt
++++ b/Documentation/sh/new-machine.rst
+@@ -1,8 +1,8 @@
++================================
++Adding a new board to LinuxSH
++================================
 
-commit a293734a310b463a0dba68409943a4e6065cd39d
-Author: Paul E. McKenney <paulmck at linux.ibm.com>
-Date:   Wed Jun 26 10:16:19 2019 -0700
+-                Adding a new board to LinuxSH
+-               ================================
+-
+-               Paul Mundt <lethal at linux-sh.org>
++Paul Mundt <lethal at linux-sh.org>
 
-    doc: RCU callback locks need only _bh, not necessarily _irq
-    
-    The UP.txt file calls for locks acquired within RCU callback functions
-    to use _irq variants (spin_lock_irqsave() or similar), which does work,
-    but can be overkill.  This commit therefore instead calls for _bh variants
-    (spin_lock_bh() or similar), while noting that _irq does work.
-    
-    Signed-off-by: Paul E. McKenney <paulmck at linux.ibm.com>
+ This document attempts to outline what steps are necessary to add support
+ for new boards to the LinuxSH port under the new 2.5 and 2.6 kernels. This
+@@ -19,65 +19,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
+ companion chip type, and CPU type. Looking at a tree view of this directory
+ hierarchy looks like the following:
 
-diff --git a/Documentation/RCU/UP.txt b/Documentation/RCU/UP.txt
-index 53bde717017b..0edd8c5af0b5 100644
---- a/Documentation/RCU/UP.txt
-+++ b/Documentation/RCU/UP.txt
-@@ -104,12 +104,13 @@ Answer to Quick Quiz #1:
- Answer to Quick Quiz #2:
- 	What locking restriction must RCU callbacks respect?
- 
--	Any lock that is acquired within an RCU callback must be
--	acquired elsewhere using an _irq variant of the spinlock
--	primitive.  For example, if "mylock" is acquired by an
--	RCU callback, then a process-context acquisition of this
--	lock must use something like spin_lock_irqsave() to
--	acquire the lock.
-+	Any lock that is acquired within an RCU callback must be acquired
-+	elsewhere using an _bh variant of the spinlock primitive.
-+	For example, if "mylock" is acquired by an RCU callback, then
-+	a process-context acquisition of this lock must use something
-+	like spin_lock_bh() to acquire the lock.  Please note that
-+	it is also OK to use _irq variants of spinlocks, for example,
-+	spin_lock_irqsave().
- 
- 	If the process-context code were to simply use spin_lock(),
- 	then, since RCU callbacks can be invoked from softirq context,
+-Board-specific code:
+-
+-.
+-|-- arch
+-|   `-- sh
+-|       `-- boards
+-|           |-- adx
+-|           |   `-- board-specific files
+-|           |-- bigsur
+-|           |   `-- board-specific files
+-|           |
+-|           ... more boards here ...
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- adx
+-        |   `-- board-specific headers
+-        |-- bigsur
+-        |   `-- board-specific headers
+-        |
+-	.. more boards here ...
+-
+-Next, for companion chips:
+-.
+-`-- arch
+-    `-- sh
+-        `-- cchips
+-            `-- hd6446x
+-                `-- hd64461
+-                    `-- cchip-specific files
++Board-specific code::
++
++ .
++ |-- arch
++ |   `-- sh
++ |       `-- boards
++ |           |-- adx
++ |           |   `-- board-specific files
++ |           |-- bigsur
++ |           |   `-- board-specific files
++ |           |
++ |           ... more boards here ...
++ |
++ `-- include
++     `-- asm-sh
++         |-- adx
++         |   `-- board-specific headers
++         |-- bigsur
++         |   `-- board-specific headers
++         |
++       	 .. more boards here ...
++
++Next, for companion chips::
++
++ .
++ `-- arch
++     `-- sh
++         `-- cchips
++             `-- hd6446x
++                 `-- hd64461
++                     `-- cchip-specific files
+
+ ... and so on. Headers for the companion chips are treated the same way as
+ board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
+ hd64461-specific headers.
+
+-Finally, CPU family support is also abstracted:
+-.
+-|-- arch
+-|   `-- sh
+-|       |-- kernel
+-|       |   `-- cpu
+-|       |       |-- sh2
+-|       |       |   `-- SH-2 generic files
+-|       |       |-- sh3
+-|       |       |   `-- SH-3 generic files
+-|       |       `-- sh4
+-|       |           `-- SH-4 generic files
+-|       `-- mm
+-|           `-- This is also broken out per CPU family, so each family can
+-|               have their own set of cache/tlb functions.
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- cpu-sh2
+-        |   `-- SH-2 specific headers
+-        |-- cpu-sh3
+-        |   `-- SH-3 specific headers
+-        `-- cpu-sh4
+-            `-- SH-4 specific headers
++Finally, CPU family support is also abstracted::
++
++ .
++ |-- arch
++ |   `-- sh
++ |       |-- kernel
++ |       |   `-- cpu
++ |       |       |-- sh2
++ |       |       |   `-- SH-2 generic files
++ |       |       |-- sh3
++ |       |       |   `-- SH-3 generic files
++ |       |       `-- sh4
++ |       |           `-- SH-4 generic files
++ |       `-- mm
++ |           `-- This is also broken out per CPU family, so each family can
++ |               have their own set of cache/tlb functions.
++ |
++ `-- include
++     `-- asm-sh
++         |-- cpu-sh2
++         |   `-- SH-2 specific headers
++         |-- cpu-sh3
++         |   `-- SH-3 specific headers
++         `-- cpu-sh4
++             `-- SH-4 specific headers
+
+ It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
+ need to be dealt with by the CPU family specific code.
+@@ -112,18 +114,20 @@ setup code, we're required at the very least to provide definitions for
+ get_system_type() and platform_setup(). For our imaginary board, this
+ might look something like:
+
+-/*
+- * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
+- */
+-#include <linux/init.h>
++.. code-block:: c
++
++    /*
++     * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
++     */
++    #include <linux/init.h>
+
+-const char *get_system_type(void)
+-{
+-	return "FooTech Vaporboard";
+-}
++    const char *get_system_type(void)
++    {
++        return "FooTech Vaporboard";
++    }
+
+-int __init platform_setup(void)
+-{
++    int __init platform_setup(void)
++    {
+   	/*
+ 	 * If our hardware actually existed, we would do real
+ 	 * setup here. Though it's also sane to leave this empty
+@@ -136,7 +140,8 @@ int __init platform_setup(void)
+ 	/* And whatever else ... */
+
+ 	return 0;
+-}
++    }
++
+
+ Our new imaginary board will also have to tie into the machvec in order for it
+ to be of any use.
+@@ -172,16 +177,17 @@ sufficient.
+    vector.
+
+    Note that these prototypes are generated automatically by setting
+-   __IO_PREFIX to something sensible. A typical example would be:
++   __IO_PREFIX to something sensible. A typical example would be::
+
+ 	#define __IO_PREFIX vapor
+    	#include <asm/io_generic.h>
+
++
+    somewhere in the board-specific header. Any boards being ported that still
+    have a legacy io.h should remove it entirely and switch to the new model.
+
+  - Add machine vector definitions to the board's setup.c. At a bare minimum,
+-   this must be defined as something like:
++   this must be defined as something like::
+
+ 	struct sh_machine_vector mv_vapor __initmv = {
+ 		.mv_name = "vapor",
+@@ -202,11 +208,11 @@ Large portions of the build system are now entirely dynamic, and merely
+ require the proper entry here and there in order to get things done.
+
+ The first thing to do is to add an entry to arch/sh/Kconfig, under the
+-"System type" menu:
++"System type" menu::
+
+-config SH_VAPOR
+-	bool "Vapor"
+-	help
++ config SH_VAPOR
++	 bool "Vapor"
++	 help
+ 	  select Vapor if configuring for a FooTech Vaporboard.
+
+ next, this has to be added into arch/sh/Makefile. All boards require a
+@@ -232,6 +238,8 @@ space restating it here. After this is done, you will be able to use
+ implicit checks for your board if you need this somewhere throughout the
+ common code, such as:
+
++::
++
+ 	/* Make sure we're on the FooTech Vaporboard */
+ 	if (!mach_is_vapor())
+ 		return -ENODEV;
+@@ -253,12 +261,13 @@ build target, and it will be implicitly listed as such in the help text.
+ Looking at the 'make help' output, you should now see something like:
+
+ Architecture specific targets (sh):
+-  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
+-  adx_defconfig           - Build for adx
+-  cqreek_defconfig        - Build for cqreek
+-  dreamcast_defconfig     - Build for dreamcast
+-...
+-  vapor_defconfig         - Build for vapor
++
++ - zImage                  - Compressed kernel image (arch/sh/boot/zImage)
++ - adx_defconfig           - Build for adx
++ - cqreek_defconfig        - Build for cqreek
++ - dreamcast_defconfig     - Build for dreamcast
++ - ...
++ - vapor_defconfig         - Build for vapor
+
+ which then allows you to do:
+
+diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
+similarity index 90%
+rename from Documentation/sh/register-banks.txt
+rename to Documentation/sh/register-banks.rst
+index a6719f2f6594..acccfaf80355 100644
+--- a/Documentation/sh/register-banks.txt
++++ b/Documentation/sh/register-banks.rst
+@@ -1,8 +1,9 @@
+-	Notes on register bank usage in the kernel
+-	==========================================
++==========================================
++Notes on register bank usage in the kernel
++==========================================
+
+ Introduction
+-------------
++============
+
+ The SH-3 and SH-4 CPU families traditionally include a single partial register
+ bank (selected by SR.RB, only r0 ... r7 are banked), whereas other families
+@@ -30,4 +31,3 @@ Presently the kernel uses several of these registers.
+ 		- The SR.IMASK interrupt handler makes use of this to set the
+ 		  interrupt priority level (used by local_irq_enable())
+ 	- r7_bank (current)
+-
+--
+2.17.1
