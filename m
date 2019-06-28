@@ -1,10 +1,10 @@
 From: sheriffesseson at gmail.com (Sheriff Esseson)
-Date: Fri, 28 Jun 2019 07:20:01 +0100
+Date: Fri, 28 Jun 2019 07:33:42 +0100
 Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v2] Doc :
 	doc-guide : Fix a typo
 In-Reply-To: <20190628060648.25151-1-sheriffesseson@gmail.com>
 References: <20190628060648.25151-1-sheriffesseson@gmail.com>
-Message-ID: <20190628062001.26085-1-sheriffesseson@gmail.com>
+Message-ID: <20190628063342.27613-1-sheriffesseson@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
 fix the disjunction by replacing "of" with "or".
