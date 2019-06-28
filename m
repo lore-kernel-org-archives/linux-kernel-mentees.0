@@ -1,751 +1,457 @@
-From: sheriffesseson@gmail.com (Sheriff Esseson)
-Date: Sat, 29 Jun 2019 02:25:08 +0100
-Subject: [Linux-kernel-mentees] [PATCH v1] Doc : fs : convert xfs.txt to
-	ReST
-In-Reply-To: <20190628214302.GA12096@localhost>
-Message-ID: <20190629010733.GA31770@localhost>
+From: mchehab+samsung@kernel.org (Mauro Carvalho Chehab)
+Date: Fri, 28 Jun 2019 14:06:27 -0300
+Subject: [Linux-kernel-mentees] [PATCH v3] Documentation:sh:convert
+ register-banks.txt and new-machine.txt to rst format.
+In-Reply-To: <20190628150345.8490-1-bnvandana@gmail.com>
+References: <20190627063347.11137-1-bnvandana@gmail.com>
+	<20190628150345.8490-1-bnvandana@gmail.com>
+Message-ID: <20190628140627.31f584ad@coco.lan>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190629012508.BXFjN1YQJVA0agaATWOexEmCJfpU8SUw4SJJOvxZHxA@z>
+Message-ID: <20190628170627.KbnOlk9YTHGqqilBgk0j5Jp77nEl2Ha7siZwv7fwCfY@z>
 
-On Fri, Jun 28, 2019 at 10:43:24PM +0100, Sheriff Esseson wrote:
-> 	Convert xfs.txt to ReST, markup and rename accordingly. Update
-> 	Documentation/index.rst.
-> 	
-> 	While at it, make "value" in "option=value" form xfs options definable by
-> 	the user, by embedding in angle "<>" brackets, rather than something
-> 	predifined elsewhere. This is inline with the conventions in manuals.
-> 	
-> 	Also, make defaults of boolean options prefixed with "(*)". This is
-> 	so that options can be compressed to "[no]option" and on a single line, which renders
-> 	consistently and nicely in htmldocs.
-> 	lastly, enforce a "one option, one definition" policy to keep things
-> 	consistent and simple.
+Em Fri, 28 Jun 2019 20:33:45 +0530
+Vandana BN <bnvandana at gmail.com> escreveu:
+
+> This patch converts new-machine.txt and register-banks.txt
+> to ReST format, No content change.
+> Added interfaces.rst to contain kernel-doc markups from index.rst
+> Added interfaces.rst,new-machine.rst and register-banks.rst to sh/index.rst
 > 
-> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+> Signed-off-by: Vandana BN <bnvandana at gmail.com>
 > ---
->  Documentation/filesystems/index.rst           |   1 +
->  .../filesystems/{xfs.txt => xfs.rst}          | 190 ++++++++++--------
->  2 files changed, 103 insertions(+), 88 deletions(-)
->  rename Documentation/filesystems/{xfs.txt => xfs.rst} (74%)
+>  Documentation/sh/index.rst                    |  63 +------
+>  Documentation/sh/interface.rst                |  59 ++++++
+>  .../sh/{new-machine.txt => new-machine.rst}   | 171 +++++++++---------
+>  ...{register-banks.txt => register-banks.rst} |   8 +-
+>  4 files changed, 161 insertions(+), 140 deletions(-)
+>  create mode 100644 Documentation/sh/interface.rst
+>  rename Documentation/sh/{new-machine.txt => new-machine.rst} (79%)
+>  rename Documentation/sh/{register-banks.txt => register-banks.rst} (90%)
 > 
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 1131c34d7..be91fe616 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -41,3 +41,4 @@ Documentation for individual filesystem types can be found here.
->     :maxdepth: 2
->  
->     binderfs.rst
-> +   xfs.rst
-> diff --git a/Documentation/filesystems/xfs.txt b/Documentation/filesystems/xfs.rst
-> similarity index 74%
-> rename from Documentation/filesystems/xfs.txt
-> rename to Documentation/filesystems/xfs.rst
-> index a5cbb5e0e..5e29e1583 100644
-> --- a/Documentation/filesystems/xfs.txt
-> +++ b/Documentation/filesystems/xfs.rst
-> @@ -1,4 +1,4 @@
+> diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
+> index bc8db7ba894a..e9e4720cce0c 100644
+> --- a/Documentation/sh/index.rst
+> +++ b/Documentation/sh/index.rst
+> @@ -1,59 +1,12 @@
+> -=======================
+> -SuperH Interfaces Guide
+> -=======================
+> +====================
+> +SuperH Documentation
+> +====================
+
+Please add a SPDX tag before the title. As this is actually a new
+file, it makes easier if you add it directly.
+
+With that:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung at kernel.org>
+
+> 
+>  :Author: Paul Mundt
+> 
+> -Memory Management
+> -=================
+> +.. toctree::
+> +   :maxdepth: 2
+> 
+> -SH-4
+> -----
 > -
-> +======================
->  The SGI XFS Filesystem
->  ======================
->  
-> @@ -18,10 +18,10 @@ Mount Options
->  =============
->  
->  When mounting an XFS filesystem, the following options are accepted.
-> -For boolean mount options, the names with the (*) suffix is the
-> +For boolean mount options, the names with the "(*)" prefix is the
->  default behaviour.
->  
-> -  allocsize=size
-> +   allocsize=<size>
->  	Sets the buffered I/O end-of-file preallocation size when
->  	doing delayed allocation writeout (default size is 64KiB).
->  	Valid values for this option are page size (typically 4KiB)
-> @@ -34,181 +34,195 @@ default behaviour.
->  	to the file. Specifying a fixed allocsize value turns off
->  	the dynamic behaviour.
->  
-> -  attr2
-> -  noattr2
-> +   [no]attr2
->  	The options enable/disable an "opportunistic" improvement to
->  	be made in the way inline extended attributes are stored
->  	on-disk.  When the new form is used for the first time when
-> -	attr2 is selected (either when setting or removing extended
-> +	``attr2`` is selected (either when setting or removing extended
->  	attributes) the on-disk superblock feature bit field will be
->  	updated to reflect this format being in use.
->  
->  	The default behaviour is determined by the on-disk feature
-> -	bit indicating that attr2 behaviour is active. If either
-> -	mount option it set, then that becomes the new default used
-> -	by the filesystem.
+> -Store Queue API
+> -~~~~~~~~~~~~~~~
 > -
-> -	CRC enabled filesystems always use the attr2 format, and so
-> -	will reject the noattr2 mount option if it is set.
-> +	bit indicating that ``attr2`` behaviour is active. If either
-> +	mount options is set, then that becomes the new default used
-> +	by the filesystem. However on CRC enabled filesystems, the
-> +        ``attr2`` format is always used , and so
-> +	will reject the ``noattr2`` mount option if it is set.
->  
-> -  discard
-> -  nodiscard (*)
-> +   (*)[no]discard
->  	Enable/disable the issuing of commands to let the block
->  	device reclaim space freed by the filesystem.  This is
->  	useful for SSD devices, thinly provisioned LUNs and virtual
->  	machine images, but may have a performance impact.
->  
-> -	Note: It is currently recommended that you use the fstrim
-> -	application to discard unused blocks rather than the discard
-> +	Note: It is currently recommended that you use the ``fstrim``
-> +	application to discard unused blocks rather than the ``discard``
->  	mount option because the performance impact of this option
->  	is quite severe.
->  
-> -  grpid/bsdgroups
-> -  nogrpid/sysvgroups (*)
-> +   grpid/bsdgroups
-> +   nogrpid/(*)sysvgroups
->  	These options define what group ID a newly created file
-> -	gets.  When grpid is set, it takes the group ID of the
-> +	gets.  When ``grpid`` is set, it takes the group ID of the
->  	directory in which it is created; otherwise it takes the
-> -	fsgid of the current process, unless the directory has the
-> -	setgid bit set, in which case it takes the gid from the
-> -	parent directory, and also gets the setgid bit set if it is
-> +	``fsgid`` of the current process, unless the directory has the
-> +	``setgid`` bit set, in which case it takes the ``gid`` from the
-> +	parent directory, and also gets the ``setgid`` bit set if it is
->  	a directory itself.
->  
-> -  filestreams
-> +   filestreams
->  	Make the data allocator use the filestreams allocation mode
->  	across the entire filesystem rather than just on directories
->  	configured to use it.
->  
-> -  ikeep
-> -  noikeep (*)
-> -	When ikeep is specified, XFS does not delete empty inode
-> -	clusters and keeps them around on disk.  When noikeep is
-> +   (*)[no]ikeep
-> +	When ``ikeep`` is specified, XFS does not delete empty inode
-> +	clusters and keeps them around on disk.  When ``noikeep`` is
->  	specified, empty inode clusters are returned to the free
->  	space pool.
->  
-> -  inode32
-> -  inode64 (*)
-> -	When inode32 is specified, it indicates that XFS limits
-> +   inode32 | (*)inode64
-> +	When ``inode32`` is specified, it indicates that XFS limits
->  	inode creation to locations which will not result in inode
->  	numbers with more than 32 bits of significance.
->  
-> -	When inode64 is specified, it indicates that XFS is allowed
-> +	When ``inode64`` is specified, it indicates that XFS is allowed
->  	to create inodes at any location in the filesystem,
->  	including those which will result in inode numbers occupying
-> -	more than 32 bits of significance. 
-> +	more than 32 bits of significance.
->  
-> -	inode32 is provided for backwards compatibility with older
-> +	``inode32`` is provided for backwards compatibility with older
->  	systems and applications, since 64 bits inode numbers might
->  	cause problems for some applications that cannot handle
->  	large inode numbers.  If applications are in use which do
-> -	not handle inode numbers bigger than 32 bits, the inode32
-> +	not handle inode numbers bigger than 32 bits, the ``inode32``
->  	option should be specified.
->  
->  
-> -  largeio
-> -  nolargeio (*)
-> -	If "nolargeio" is specified, the optimal I/O reported in
-> -	st_blksize by stat(2) will be as small as possible to allow
-> +   (*)[no]largeio
-> +	If ``nolargeio`` is specified, the optimal I/O reported in
-> +	st_blksize by **stat(2)** will be as small as possible to allow
->  	user applications to avoid inefficient read/modify/write
->  	I/O.  This is typically the page size of the machine, as
->  	this is the granularity of the page cache.
->  
-> -	If "largeio" specified, a filesystem that was created with a
-> -	"swidth" specified will return the "swidth" value (in bytes)
-> -	in st_blksize. If the filesystem does not have a "swidth"
-> -	specified but does specify an "allocsize" then "allocsize"
-> +	If ``largeio`` specified, a filesystem that was created with a
-> +	``swidth`` specified will return the ``swidth`` value (in bytes)
-> +	in st_blksize. If the filesystem does not have a ``swidth``
-> +	specified but does specify an ``allocsize`` then ``allocsize``
->  	(in bytes) will be returned instead. Otherwise the behaviour
-> -	is the same as if "nolargeio" was specified.
-> +	is the same as if ``nolargeio`` was specified.
->  
-> -  logbufs=value
-> -	Set the number of in-memory log buffers.  Valid numbers
-> +   logbufs=<value>
-> +	Set the number of in-memory log buffers to ``value``.  Valid numbers
->  	range from 2-8 inclusive.
->  
->  	The default value is 8 buffers.
->  
->  	If the memory cost of 8 log buffers is too high on small
->  	systems, then it may be reduced at some cost to performance
-> -	on metadata intensive workloads. The logbsize option below
-> +	on metadata intensive workloads. The ``logbsize`` option below
->  	controls the size of each buffer and so is also relevant to
->  	this case.
->  
-> -  logbsize=value
-> -	Set the size of each in-memory log buffer.  The size may be
-> -	specified in bytes, or in kilobytes with a "k" suffix.
-> +   logbsize=<value>
-> +	Set the size of each in-memory log buffer to ``value``.  The size
-> +        may be specified in bytes, or in kilobytes with a "k" suffix.
->  	Valid sizes for version 1 and version 2 logs are 16384 (16k)
->  	and 32768 (32k).  Valid sizes for version 2 logs also
->  	include 65536 (64k), 131072 (128k) and 262144 (256k). The
-> -	logbsize must be an integer multiple of the log
-> -	stripe unit configured at mkfs time.
-> +	``logbsize`` must be an integer multiple of the
-> +        "log stripe unit" configured at mkfs time.
->  
->  	The default value for for version 1 logs is 32768, while the
-> -	default value for version 2 logs is MAX(32768, log_sunit).
-> +	default value for version 2 logs is ``MAX(32768, log_sunit)``.
->  
-> -  logdev=device and rtdev=device
-> -	Use an external log (metadata journal) and/or real-time device.
-> -	An XFS filesystem has up to three parts: a data section, a log
-> -	section, and a real-time section.  The real-time section is
-> -	optional, and the log section can be separate from the data
-> -	section or contained within it.
-> +   logdev=<device>
-> +	Use ``device`` as an external log.
-> +	In an XFS filesystem, the log section can be separate from
-> +        the data section or contained within it.
->  
-> -  noalign
-> +   rtdev=<device>
-> +        An XFS filesystem has up to three parts: a data section, a log
-> +	section, and a real-time section.  The real-time section is optional.
-> +        If enabled, ``rtdev`` sets ``device`` to be used as an
-> +        external real-time section, similar to ``logdev`` above.
+> -.. kernel-doc:: arch/sh/kernel/cpu/sh4/sq.c
+> -   :export:
+> -
+> -SH-5
+> -----
+> -
+> -TLB Interfaces
+> -~~~~~~~~~~~~~~
+> -
+> -.. kernel-doc:: arch/sh/mm/tlb-sh5.c
+> -   :internal:
+> -
+> -.. kernel-doc:: arch/sh/include/asm/tlb_64.h
+> -   :internal:
+> -
+> -Machine Specific Interfaces
+> -===========================
+> -
+> -mach-dreamcast
+> ---------------
+> -
+> -.. kernel-doc:: arch/sh/boards/mach-dreamcast/rtc.c
+> -   :internal:
+> -
+> -mach-x3proto
+> -------------
+> -
+> -.. kernel-doc:: arch/sh/boards/mach-x3proto/ilsel.c
+> -   :export:
+> -
+> -Busses
+> -======
+> -
+> -SuperHyway
+> -----------
+> -
+> -.. kernel-doc:: drivers/sh/superhyway/superhyway.c
+> -   :export:
+> -
+> -Maple
+> ------
+> -
+> -.. kernel-doc:: drivers/sh/maple/maple.c
+> -   :export:
+> +   interface
+> +   new-machine
+> +   register-banks
+> diff --git a/Documentation/sh/interface.rst b/Documentation/sh/interface.rst
+> new file mode 100644
+> index 000000000000..bc8db7ba894a
+> --- /dev/null
+> +++ b/Documentation/sh/interface.rst
+> @@ -0,0 +1,59 @@
+> +=======================
+> +SuperH Interfaces Guide
+> +=======================
 > +
-> +   noalign
->  	Data allocations will not be aligned at stripe unit
->  	boundaries. This is only relevant to filesystems created
->  	with non-zero data alignment parameters (sunit, swidth) by
->  	mkfs.
->  
-> -  norecovery
-> +   norecovery
->  	The filesystem will be mounted without running log recovery.
->  	If the filesystem was not cleanly unmounted, it is likely to
-> -	be inconsistent when mounted in "norecovery" mode.
-> +	be inconsistent when mounted in ``norecovery`` mode.
->  	Some files or directories may not be accessible because of this.
-> -	Filesystems mounted "norecovery" must be mounted read-only or
-> +	Filesystems mounted ``norecovery`` must be mounted read-only or
->  	the mount will fail.
->  
-> -  nouuid
-> +   nouuid
->  	Don't check for double mounted file systems using the file
->  	system uuid.  This is useful to mount LVM snapshot volumes,
-> -	and often used in combination with "norecovery" for mounting
-> +	and often used in combination with ``norecovery`` for mounting
->  	read-only snapshots.
->  
-> -  noquota
-> +   noquota
->  	Forcibly turns off all quota accounting and enforcement
->  	within the filesystem.
->  
-> -  uquota/usrquota/uqnoenforce/quota
-> +   uquota/usrquota/uqnoenforce/quota
->  	User disk quota accounting enabled, and limits (optionally)
-> -	enforced.  Refer to xfs_quota(8) for further details.
-> +	enforced.  Refer to **xfs_quota(8)** for further details.
->  
-> -  gquota/grpquota/gqnoenforce
-> +   gquota/grpquota/gqnoenforce
->  	Group disk quota accounting enabled and limits (optionally)
-> -	enforced.  Refer to xfs_quota(8) for further details.
-> +	enforced.  Refer to **xfs_quota(8)** for further details.
->  
-> -  pquota/prjquota/pqnoenforce
-> +   pquota/prjquota/pqnoenforce
->  	Project disk quota accounting enabled and limits (optionally)
-> -	enforced.  Refer to xfs_quota(8) for further details.
-> +	enforced.  Refer to **xfs_quota(8)** for further details.
->  
-> -  sunit=value and swidth=value
-> -	Used to specify the stripe unit and width for a RAID device
-> -	or a stripe volume.  "value" must be specified in 512-byte
-> -	block units. These options are only relevant to filesystems
-> +   sunit=<value>
-> +	Used to specify the stripe unit for a RAID device
-> +	or (in conjunction with ``swidth`` below) a stripe volume.  ``value`` must be specified in 512-byte
-> +	block units. This option is only relevant to filesystems
->  	that were created with non-zero data alignment parameters.
->  
-> -	The sunit and swidth parameters specified must be compatible
-> +	The ``sunit`` parameter specified must be compatible
->  	with the existing filesystem alignment characteristics.  In
-> -	general, that means the only valid changes to sunit are
-> -	increasing it by a power-of-2 multiple. Valid swidth values
-> -	are any integer multiple of a valid sunit value.
-> +	general, that means the only valid changes to ``sunit`` are
-> +	increasing it by a power-of-2 multiple.
->  
-> -	Typically the only time these mount options are necessary if
-> -	after an underlying RAID device has had it's geometry
-> +	Typically, this mount option is necessary only
-> +	after an underlying RAID device has had its geometry
->  	modified, such as adding a new disk to a RAID5 lun and
->  	reshaping it.
->  
-> -  swalloc
-> +   swidth=<value>
-> +        Used to specify the stripe width for a RAID device
-> +	or (in conjunction with ``sunit`` above) a stripe volume.  ``value`` must be specified in 512-byte
-> +	block units. This option, like ``sunit`` above, is only
-> +        relevant to filesystems that were created with non-zero data alignment parameters.
+> +:Author: Paul Mundt
 > +
-> +	The ``swidth`` parameter specified must be compatible
-> +	with the existing filesystem alignment characteristics.  In
-> +	general, that means the only valid swidth values
-> +	are any integer multiple of a valid ``sunit`` value.
+> +Memory Management
+> +=================
 > +
-> +	Typically, this mount option is necessary only
-> +	after an underlying RAID device has had its geometry
-> +	modified, such as adding a new disk to a RAID5 lun and
-> +	reshaping it.
+> +SH-4
+> +----
 > +
+> +Store Queue API
+> +~~~~~~~~~~~~~~~
 > +
-> +   swalloc
->  	Data allocations will be rounded up to stripe width boundaries
->  	when the current end of file is being extended and the file
->  	size is larger than the stripe width size.
->  
-> -  wsync
-> +   wsync
->  	When specified, all filesystem namespace operations are
->  	executed synchronously. This ensures that when the namespace
->  	operation (create, unlink, etc) completes, the change to the
-> @@ -302,27 +316,27 @@ The following sysctls are available for the XFS filesystem:
->  
->    fs.xfs.inherit_sync		(Min: 0  Default: 1  Max: 1)
->  	Setting this to "1" will cause the "sync" flag set
-> -	by the xfs_io(8) chattr command on a directory to be
-> +	by the **xfs_io(8)** chattr command on a directory to be
->  	inherited by files in that directory.
->  
->    fs.xfs.inherit_nodump		(Min: 0  Default: 1  Max: 1)
->  	Setting this to "1" will cause the "nodump" flag set
-> -	by the xfs_io(8) chattr command on a directory to be
-> +	by the **xfs_io(8)** chattr command on a directory to be
->  	inherited by files in that directory.
->  
->    fs.xfs.inherit_noatime	(Min: 0  Default: 1  Max: 1)
->  	Setting this to "1" will cause the "noatime" flag set
-> -	by the xfs_io(8) chattr command on a directory to be
-> +	by the **xfs_io(8)** chattr command on a directory to be
->  	inherited by files in that directory.
->  
->    fs.xfs.inherit_nosymlinks	(Min: 0  Default: 1  Max: 1)
->  	Setting this to "1" will cause the "nosymlinks" flag set
-> -	by the xfs_io(8) chattr command on a directory to be
-> +	by the **xfs_io(8)** chattr command on a directory to be
->  	inherited by files in that directory.
->  
->    fs.xfs.inherit_nodefrag	(Min: 0  Default: 1  Max: 1)
->  	Setting this to "1" will cause the "nodefrag" flag set
-> -	by the xfs_io(8) chattr command on a directory to be
-> +	by the **xfs_io(8)** chattr command on a directory to be
->  	inherited by files in that directory.
->  
->    fs.xfs.rotorstep		(Min: 1  Default: 1  Max: 256)
-> -- 
-> 2.22.0
+> +.. kernel-doc:: arch/sh/kernel/cpu/sh4/sq.c
+> +   :export:
+> +
+> +SH-5
+> +----
+> +
+> +TLB Interfaces
+> +~~~~~~~~~~~~~~
+> +
+> +.. kernel-doc:: arch/sh/mm/tlb-sh5.c
+> +   :internal:
+> +
+> +.. kernel-doc:: arch/sh/include/asm/tlb_64.h
+> +   :internal:
+> +
+> +Machine Specific Interfaces
+> +===========================
+> +
+> +mach-dreamcast
+> +--------------
+> +
+> +.. kernel-doc:: arch/sh/boards/mach-dreamcast/rtc.c
+> +   :internal:
+> +
+> +mach-x3proto
+> +------------
+> +
+> +.. kernel-doc:: arch/sh/boards/mach-x3proto/ilsel.c
+> +   :export:
+> +
+> +Busses
+> +======
+> +
+> +SuperHyway
+> +----------
+> +
+> +.. kernel-doc:: drivers/sh/superhyway/superhyway.c
+> +   :export:
+> +
+> +Maple
+> +-----
+> +
+> +.. kernel-doc:: drivers/sh/maple/maple.c
+> +   :export:
+> diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
+> similarity index 79%
+> rename from Documentation/sh/new-machine.txt
+> rename to Documentation/sh/new-machine.rst
+> index e0961a66130b..b16c33342642 100644
+> --- a/Documentation/sh/new-machine.txt
+> +++ b/Documentation/sh/new-machine.rst
+> @@ -1,8 +1,8 @@
+> +================================
+> +Adding a new board to LinuxSH
+> +================================
+> 
+> -                Adding a new board to LinuxSH
+> -               ================================
+> -
+> -               Paul Mundt <lethal at linux-sh.org>
+> +Paul Mundt <lethal at linux-sh.org>
+> 
+>  This document attempts to outline what steps are necessary to add support
+>  for new boards to the LinuxSH port under the new 2.5 and 2.6 kernels. This
+> @@ -19,65 +19,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
+>  companion chip type, and CPU type. Looking at a tree view of this directory
+>  hierarchy looks like the following:
+> 
+> -Board-specific code:
+> -
+> -.
+> -|-- arch
+> -|   `-- sh
+> -|       `-- boards
+> -|           |-- adx
+> -|           |   `-- board-specific files
+> -|           |-- bigsur
+> -|           |   `-- board-specific files
+> -|           |
+> -|           ... more boards here ...
+> -|
+> -`-- include
+> -    `-- asm-sh
+> -        |-- adx
+> -        |   `-- board-specific headers
+> -        |-- bigsur
+> -        |   `-- board-specific headers
+> -        |
+> -	.. more boards here ...
+> -
+> -Next, for companion chips:
+> -.
+> -`-- arch
+> -    `-- sh
+> -        `-- cchips
+> -            `-- hd6446x
+> -                `-- hd64461
+> -                    `-- cchip-specific files
+> +Board-specific code::
+> +
+> + .
+> + |-- arch
+> + |   `-- sh
+> + |       `-- boards
+> + |           |-- adx
+> + |           |   `-- board-specific files
+> + |           |-- bigsur
+> + |           |   `-- board-specific files
+> + |           |
+> + |           ... more boards here ...
+> + |
+> + `-- include
+> +     `-- asm-sh
+> +         |-- adx
+> +         |   `-- board-specific headers
+> +         |-- bigsur
+> +         |   `-- board-specific headers
+> +         |
+> +       	 .. more boards here ...
+> +
+> +Next, for companion chips::
+> +
+> + .
+> + `-- arch
+> +     `-- sh
+> +         `-- cchips
+> +             `-- hd6446x
+> +                 `-- hd64461
+> +                     `-- cchip-specific files
+> 
+>  ... and so on. Headers for the companion chips are treated the same way as
+>  board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
+>  hd64461-specific headers.
+> 
+> -Finally, CPU family support is also abstracted:
+> -.
+> -|-- arch
+> -|   `-- sh
+> -|       |-- kernel
+> -|       |   `-- cpu
+> -|       |       |-- sh2
+> -|       |       |   `-- SH-2 generic files
+> -|       |       |-- sh3
+> -|       |       |   `-- SH-3 generic files
+> -|       |       `-- sh4
+> -|       |           `-- SH-4 generic files
+> -|       `-- mm
+> -|           `-- This is also broken out per CPU family, so each family can
+> -|               have their own set of cache/tlb functions.
+> -|
+> -`-- include
+> -    `-- asm-sh
+> -        |-- cpu-sh2
+> -        |   `-- SH-2 specific headers
+> -        |-- cpu-sh3
+> -        |   `-- SH-3 specific headers
+> -        `-- cpu-sh4
+> -            `-- SH-4 specific headers
+> +Finally, CPU family support is also abstracted::
+> +
+> + .
+> + |-- arch
+> + |   `-- sh
+> + |       |-- kernel
+> + |       |   `-- cpu
+> + |       |       |-- sh2
+> + |       |       |   `-- SH-2 generic files
+> + |       |       |-- sh3
+> + |       |       |   `-- SH-3 generic files
+> + |       |       `-- sh4
+> + |       |           `-- SH-4 generic files
+> + |       `-- mm
+> + |           `-- This is also broken out per CPU family, so each family can
+> + |               have their own set of cache/tlb functions.
+> + |
+> + `-- include
+> +     `-- asm-sh
+> +         |-- cpu-sh2
+> +         |   `-- SH-2 specific headers
+> +         |-- cpu-sh3
+> +         |   `-- SH-3 specific headers
+> +         `-- cpu-sh4
+> +             `-- SH-4 specific headers
+> 
+>  It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
+>  need to be dealt with by the CPU family specific code.
+> @@ -112,18 +114,20 @@ setup code, we're required at the very least to provide definitions for
+>  get_system_type() and platform_setup(). For our imaginary board, this
+>  might look something like:
+> 
+> -/*
+> - * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
+> - */
+> -#include <linux/init.h>
+> +.. code-block:: c
+> +
+> +    /*
+> +     * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
+> +     */
+> +    #include <linux/init.h>
+> 
+> -const char *get_system_type(void)
+> -{
+> -	return "FooTech Vaporboard";
+> -}
+> +    const char *get_system_type(void)
+> +    {
+> +        return "FooTech Vaporboard";
+> +    }
+> 
+> -int __init platform_setup(void)
+> -{
+> +    int __init platform_setup(void)
+> +    {
+>    	/*
+>  	 * If our hardware actually existed, we would do real
+>  	 * setup here. Though it's also sane to leave this empty
+> @@ -136,7 +140,8 @@ int __init platform_setup(void)
+>  	/* And whatever else ... */
+> 
+>  	return 0;
+> -}
+> +    }
+> +
+> 
+>  Our new imaginary board will also have to tie into the machvec in order for it
+>  to be of any use.
+> @@ -172,16 +177,17 @@ sufficient.
+>     vector.
+> 
+>     Note that these prototypes are generated automatically by setting
+> -   __IO_PREFIX to something sensible. A typical example would be:
+> +   __IO_PREFIX to something sensible. A typical example would be::
+> 
+>  	#define __IO_PREFIX vapor
+>     	#include <asm/io_generic.h>
+> 
+> +
+>     somewhere in the board-specific header. Any boards being ported that still
+>     have a legacy io.h should remove it entirely and switch to the new model.
+> 
+>   - Add machine vector definitions to the board's setup.c. At a bare minimum,
+> -   this must be defined as something like:
+> +   this must be defined as something like::
+> 
+>  	struct sh_machine_vector mv_vapor __initmv = {
+>  		.mv_name = "vapor",
+> @@ -202,11 +208,11 @@ Large portions of the build system are now entirely dynamic, and merely
+>  require the proper entry here and there in order to get things done.
+> 
+>  The first thing to do is to add an entry to arch/sh/Kconfig, under the
+> -"System type" menu:
+> +"System type" menu::
+> 
+> -config SH_VAPOR
+> -	bool "Vapor"
+> -	help
+> + config SH_VAPOR
+> +	 bool "Vapor"
+> +	 help
+>  	  select Vapor if configuring for a FooTech Vaporboard.
+> 
+>  next, this has to be added into arch/sh/Makefile. All boards require a
+> @@ -232,6 +238,8 @@ space restating it here. After this is done, you will be able to use
+>  implicit checks for your board if you need this somewhere throughout the
+>  common code, such as:
+> 
+> +::
+> +
+>  	/* Make sure we're on the FooTech Vaporboard */
+>  	if (!mach_is_vapor())
+>  		return -ENODEV;
+> @@ -253,12 +261,13 @@ build target, and it will be implicitly listed as such in the help text.
+>  Looking at the 'make help' output, you should now see something like:
+> 
+>  Architecture specific targets (sh):
+> -  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
+> -  adx_defconfig           - Build for adx
+> -  cqreek_defconfig        - Build for cqreek
+> -  dreamcast_defconfig     - Build for dreamcast
+> -...
+> -  vapor_defconfig         - Build for vapor
+> +
+> + - zImage                  - Compressed kernel image (arch/sh/boot/zImage)
+> + - adx_defconfig           - Build for adx
+> + - cqreek_defconfig        - Build for cqreek
+> + - dreamcast_defconfig     - Build for dreamcast
+> + - ...
+> + - vapor_defconfig         - Build for vapor
+> 
+>  which then allows you to do:
+> 
+> diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
+> similarity index 90%
+> rename from Documentation/sh/register-banks.txt
+> rename to Documentation/sh/register-banks.rst
+> index a6719f2f6594..acccfaf80355 100644
+> --- a/Documentation/sh/register-banks.txt
+> +++ b/Documentation/sh/register-banks.rst
+> @@ -1,8 +1,9 @@
+> -	Notes on register bank usage in the kernel
+> -	==========================================
+> +==========================================
+> +Notes on register bank usage in the kernel
+> +==========================================
+> 
+>  Introduction
+> -------------
+> +============
+> 
+>  The SH-3 and SH-4 CPU families traditionally include a single partial register
+>  bank (selected by SR.RB, only r0 ... r7 are banked), whereas other families
+> @@ -30,4 +31,3 @@ Presently the kernel uses several of these registers.
+>  		- The SR.IMASK interrupt handler makes use of this to set the
+>  		  interrupt priority level (used by local_irq_enable())
+>  	- r7_bank (current)
+> -
+> --
+> 2.17.1
 > 
 
-Rid Documentation/filesystems/index.rst of ".rst" in toc-tree references.
 
-CC xfs-list.
 
-Correct email indentation.
-
-Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
----
- Documentation/filesystems/index.rst           |   5 +-
- .../filesystems/{xfs.txt => xfs.rst}          | 193 ++++++++++--------
- 2 files changed, 107 insertions(+), 91 deletions(-)
- rename Documentation/filesystems/{xfs.txt => xfs.rst} (73%)
-
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 1131c34d7..a4cf5fca4 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -16,7 +16,7 @@ algorithms work.
- .. toctree::
-    :maxdepth: 2
- 
--   path-lookup.rst
-+   path-lookup
-    api-summary
-    splice
- 
-@@ -40,4 +40,5 @@ Documentation for individual filesystem types can be found here.
- .. toctree::
-    :maxdepth: 2
- 
--   binderfs.rst
-+   binderfs
-+   xfs
-diff --git a/Documentation/filesystems/xfs.txt b/Documentation/filesystems/xfs.rst
-similarity index 73%
-rename from Documentation/filesystems/xfs.txt
-rename to Documentation/filesystems/xfs.rst
-index a5cbb5e0e..a8357cbd3 100644
---- a/Documentation/filesystems/xfs.txt
-+++ b/Documentation/filesystems/xfs.rst
-@@ -1,4 +1,4 @@
--
-+======================
- The SGI XFS Filesystem
- ======================
- 
-@@ -18,10 +18,11 @@ Mount Options
- =============
- 
- When mounting an XFS filesystem, the following options are accepted.
--For boolean mount options, the names with the (*) suffix is the
--default behaviour.
-+For boolean mount options, the names with the "(*)" prefix is the
-+default behaviour. For example, take an behaviour enabled by default to be a one (1) or,
-+a zero (0) otherwise, ``(*)[no]default`` would be 0 and ``[no](*)default`` a 1.
- 
--  allocsize=size
-+   allocsize=<size>
- 	Sets the buffered I/O end-of-file preallocation size when
- 	doing delayed allocation writeout (default size is 64KiB).
- 	Valid values for this option are page size (typically 4KiB)
-@@ -34,181 +35,195 @@ default behaviour.
- 	to the file. Specifying a fixed allocsize value turns off
- 	the dynamic behaviour.
- 
--  attr2
--  noattr2
-+   [no]attr2
- 	The options enable/disable an "opportunistic" improvement to
- 	be made in the way inline extended attributes are stored
- 	on-disk.  When the new form is used for the first time when
--	attr2 is selected (either when setting or removing extended
-+	``attr2`` is selected (either when setting or removing extended
- 	attributes) the on-disk superblock feature bit field will be
- 	updated to reflect this format being in use.
- 
- 	The default behaviour is determined by the on-disk feature
--	bit indicating that attr2 behaviour is active. If either
--	mount option it set, then that becomes the new default used
--	by the filesystem.
--
--	CRC enabled filesystems always use the attr2 format, and so
--	will reject the noattr2 mount option if it is set.
-+	bit indicating that ``attr2`` behaviour is active. If either
-+	mount options is set, then that becomes the new default used
-+	by the filesystem. However on CRC enabled filesystems, the
-+        ``attr2`` format is always used , and so
-+	will reject the ``noattr2`` mount option if it is set.
- 
--  discard
--  nodiscard (*)
-+   (*)[no]discard
- 	Enable/disable the issuing of commands to let the block
- 	device reclaim space freed by the filesystem.  This is
- 	useful for SSD devices, thinly provisioned LUNs and virtual
- 	machine images, but may have a performance impact.
- 
--	Note: It is currently recommended that you use the fstrim
--	application to discard unused blocks rather than the discard
-+	Note: It is currently recommended that you use the ``fstrim``
-+	application to discard unused blocks rather than the ``discard``
- 	mount option because the performance impact of this option
- 	is quite severe.
- 
--  grpid/bsdgroups
--  nogrpid/sysvgroups (*)
-+   grpid/bsdgroups
-+   nogrpid/(*)sysvgroups
- 	These options define what group ID a newly created file
--	gets.  When grpid is set, it takes the group ID of the
-+	gets.  When ``grpid`` is set, it takes the group ID of the
- 	directory in which it is created; otherwise it takes the
--	fsgid of the current process, unless the directory has the
--	setgid bit set, in which case it takes the gid from the
--	parent directory, and also gets the setgid bit set if it is
-+	``fsgid`` of the current process, unless the directory has the
-+	``setgid`` bit set, in which case it takes the ``gid`` from the
-+	parent directory, and also gets the ``setgid`` bit set if it is
- 	a directory itself.
- 
--  filestreams
-+   filestreams
- 	Make the data allocator use the filestreams allocation mode
- 	across the entire filesystem rather than just on directories
- 	configured to use it.
- 
--  ikeep
--  noikeep (*)
--	When ikeep is specified, XFS does not delete empty inode
--	clusters and keeps them around on disk.  When noikeep is
-+   (*)[no]ikeep
-+	When ``ikeep`` is specified, XFS does not delete empty inode
-+	clusters and keeps them around on disk.  When ``noikeep`` is
- 	specified, empty inode clusters are returned to the free
- 	space pool.
- 
--  inode32
--  inode64 (*)
--	When inode32 is specified, it indicates that XFS limits
-+   inode32 | (*)inode64
-+	When ``inode32`` is specified, it indicates that XFS limits
- 	inode creation to locations which will not result in inode
- 	numbers with more than 32 bits of significance.
- 
--	When inode64 is specified, it indicates that XFS is allowed
-+	When ``inode64`` is specified, it indicates that XFS is allowed
- 	to create inodes at any location in the filesystem,
- 	including those which will result in inode numbers occupying
--	more than 32 bits of significance. 
-+	more than 32 bits of significance.
- 
--	inode32 is provided for backwards compatibility with older
-+	``inode32`` is provided for backwards compatibility with older
- 	systems and applications, since 64 bits inode numbers might
- 	cause problems for some applications that cannot handle
- 	large inode numbers.  If applications are in use which do
--	not handle inode numbers bigger than 32 bits, the inode32
-+	not handle inode numbers bigger than 32 bits, the ``inode32``
- 	option should be specified.
- 
- 
--  largeio
--  nolargeio (*)
--	If "nolargeio" is specified, the optimal I/O reported in
--	st_blksize by stat(2) will be as small as possible to allow
-+   (*)[no]largeio
-+	If ``nolargeio`` is specified, the optimal I/O reported in
-+	st_blksize by **stat(2)** will be as small as possible to allow
- 	user applications to avoid inefficient read/modify/write
- 	I/O.  This is typically the page size of the machine, as
- 	this is the granularity of the page cache.
- 
--	If "largeio" specified, a filesystem that was created with a
--	"swidth" specified will return the "swidth" value (in bytes)
--	in st_blksize. If the filesystem does not have a "swidth"
--	specified but does specify an "allocsize" then "allocsize"
-+	If ``largeio`` specified, a filesystem that was created with a
-+	``swidth`` specified will return the ``swidth`` value (in bytes)
-+	in st_blksize. If the filesystem does not have a ``swidth``
-+	specified but does specify an ``allocsize`` then ``allocsize``
- 	(in bytes) will be returned instead. Otherwise the behaviour
--	is the same as if "nolargeio" was specified.
-+	is the same as if ``nolargeio`` was specified.
- 
--  logbufs=value
--	Set the number of in-memory log buffers.  Valid numbers
-+   logbufs=<value>
-+	Set the number of in-memory log buffers to ``value``.  Valid numbers
- 	range from 2-8 inclusive.
- 
- 	The default value is 8 buffers.
- 
- 	If the memory cost of 8 log buffers is too high on small
- 	systems, then it may be reduced at some cost to performance
--	on metadata intensive workloads. The logbsize option below
-+	on metadata intensive workloads. The ``logbsize`` option below
- 	controls the size of each buffer and so is also relevant to
- 	this case.
- 
--  logbsize=value
--	Set the size of each in-memory log buffer.  The size may be
--	specified in bytes, or in kilobytes with a "k" suffix.
-+   logbsize=<value>
-+	Set the size of each in-memory log buffer to ``value``.  The size
-+        may be specified in bytes, or in kilobytes with a "k" suffix.
- 	Valid sizes for version 1 and version 2 logs are 16384 (16k)
- 	and 32768 (32k).  Valid sizes for version 2 logs also
- 	include 65536 (64k), 131072 (128k) and 262144 (256k). The
--	logbsize must be an integer multiple of the log
--	stripe unit configured at mkfs time.
-+	``logbsize`` must be an integer multiple of the
-+        "log stripe unit" configured at mkfs time.
- 
- 	The default value for for version 1 logs is 32768, while the
--	default value for version 2 logs is MAX(32768, log_sunit).
-+	default value for version 2 logs is ``MAX(32768, log_sunit)``.
- 
--  logdev=device and rtdev=device
--	Use an external log (metadata journal) and/or real-time device.
--	An XFS filesystem has up to three parts: a data section, a log
--	section, and a real-time section.  The real-time section is
--	optional, and the log section can be separate from the data
--	section or contained within it.
-+   logdev=<device>
-+	Use ``device`` as an external log.
-+	In an XFS filesystem, the log section can be separate from
-+        the data section or contained within it.
- 
--  noalign
-+   rtdev=<device>
-+        An XFS filesystem has up to three parts: a data section, a log
-+	section, and a real-time section.  The real-time section is optional.
-+        If enabled, ``rtdev`` sets ``device`` to be used as an
-+        external real-time section, similar to ``logdev`` above.
-+
-+   noalign
- 	Data allocations will not be aligned at stripe unit
- 	boundaries. This is only relevant to filesystems created
- 	with non-zero data alignment parameters (sunit, swidth) by
- 	mkfs.
- 
--  norecovery
-+   norecovery
- 	The filesystem will be mounted without running log recovery.
- 	If the filesystem was not cleanly unmounted, it is likely to
--	be inconsistent when mounted in "norecovery" mode.
-+	be inconsistent when mounted in ``norecovery`` mode.
- 	Some files or directories may not be accessible because of this.
--	Filesystems mounted "norecovery" must be mounted read-only or
-+	Filesystems mounted ``norecovery`` must be mounted read-only or
- 	the mount will fail.
- 
--  nouuid
-+   nouuid
- 	Don't check for double mounted file systems using the file
- 	system uuid.  This is useful to mount LVM snapshot volumes,
--	and often used in combination with "norecovery" for mounting
-+	and often used in combination with ``norecovery`` for mounting
- 	read-only snapshots.
- 
--  noquota
-+   noquota
- 	Forcibly turns off all quota accounting and enforcement
- 	within the filesystem.
- 
--  uquota/usrquota/uqnoenforce/quota
-+   uquota/usrquota/uqnoenforce/quota
- 	User disk quota accounting enabled, and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
-+	enforced.  Refer to **xfs_quota(8)** for further details.
- 
--  gquota/grpquota/gqnoenforce
-+   gquota/grpquota/gqnoenforce
- 	Group disk quota accounting enabled and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
-+	enforced.  Refer to **xfs_quota(8)** for further details.
- 
--  pquota/prjquota/pqnoenforce
-+   pquota/prjquota/pqnoenforce
- 	Project disk quota accounting enabled and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
-+	enforced.  Refer to **xfs_quota(8)** for further details.
- 
--  sunit=value and swidth=value
--	Used to specify the stripe unit and width for a RAID device
--	or a stripe volume.  "value" must be specified in 512-byte
--	block units. These options are only relevant to filesystems
-+   sunit=<value>
-+	Used to specify the stripe unit for a RAID device
-+	or (in conjunction with ``swidth`` below) a stripe volume.  ``value`` must be specified in 512-byte
-+	block units. This option is only relevant to filesystems
- 	that were created with non-zero data alignment parameters.
- 
--	The sunit and swidth parameters specified must be compatible
-+	The ``sunit`` parameter specified must be compatible
- 	with the existing filesystem alignment characteristics.  In
--	general, that means the only valid changes to sunit are
--	increasing it by a power-of-2 multiple. Valid swidth values
--	are any integer multiple of a valid sunit value.
-+	general, that means the only valid changes to ``sunit`` are
-+	increasing it by a power-of-2 multiple.
- 
--	Typically the only time these mount options are necessary if
--	after an underlying RAID device has had it's geometry
-+	Typically, this mount option is necessary only
-+	after an underlying RAID device has had its geometry
- 	modified, such as adding a new disk to a RAID5 lun and
- 	reshaping it.
- 
--  swalloc
-+   swidth=<value>
-+        Used to specify the stripe width for a RAID device
-+	or (in conjunction with ``sunit`` above) a stripe volume.  ``value`` must be specified in 512-byte
-+	block units. This option, like ``sunit`` above, is only
-+        relevant to filesystems that were created with non-zero data alignment parameters.
-+
-+	The ``swidth`` parameter specified must be compatible
-+	with the existing filesystem alignment characteristics.  In
-+	general, that means the only valid swidth values
-+	are any integer multiple of a valid ``sunit`` value.
-+
-+	Typically, this mount option is necessary only
-+	after an underlying RAID device has had its geometry
-+	modified, such as adding a new disk to a RAID5 lun and
-+	reshaping it.
-+
-+
-+   swalloc
- 	Data allocations will be rounded up to stripe width boundaries
- 	when the current end of file is being extended and the file
- 	size is larger than the stripe width size.
- 
--  wsync
-+   wsync
- 	When specified, all filesystem namespace operations are
- 	executed synchronously. This ensures that when the namespace
- 	operation (create, unlink, etc) completes, the change to the
-@@ -302,27 +317,27 @@ The following sysctls are available for the XFS filesystem:
- 
-   fs.xfs.inherit_sync		(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "sync" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.inherit_nodump		(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "nodump" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.inherit_noatime	(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "noatime" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.inherit_nosymlinks	(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "nosymlinks" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.inherit_nodefrag	(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "nodefrag" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.rotorstep		(Min: 1  Default: 1  Max: 256)
--- 
-2.22.0
+Thanks,
+Mauro
