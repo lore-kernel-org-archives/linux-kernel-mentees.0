@@ -1,13 +1,13 @@
 From: sheriffesseson@gmail.com (Sheriff Esseson)
-Date: Fri, 28 Jun 2019 07:20:01 +0100
+Date: Fri, 28 Jun 2019 07:33:42 +0100
 Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v2] Doc :
 	doc-guide : Fix a typo
 In-Reply-To: <20190628060648.25151-1-sheriffesseson@gmail.com>
 References: <20190628060648.25151-1-sheriffesseson@gmail.com>
-Message-ID: <20190628062001.26085-1-sheriffesseson@gmail.com>
+Message-ID: <20190628063342.27613-1-sheriffesseson@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190628062001.XMzSFVQxmPmuzEUdggNTIpb_VuEvvduIskIlxhAM70E@z>
+Message-ID: <20190628063342.cxbf2Bu6lwGk_SQiH9qRZ4_sOiMmLuW8cXQckwI9cvo@z>
 
 fix the disjunction by replacing "of" with "or".
 
