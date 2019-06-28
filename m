@@ -1,9 +1,37 @@
-From: sushmaunnibhavi425@gmail.com (Sushma Unnibhavi)
-Date: Fri, 28 Jun 2019 11:39:08 +0530
-Subject: [Linux-kernel-mentees] Stable release 5.1.15
-Message-ID: <20190628060908.GA27625@hacker-queen>
+From: sheriffesseson@gmail.com (Sheriff Esseson)
+Date: Fri, 28 Jun 2019 07:20:01 +0100
+Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v2] Doc :
+	doc-guide : Fix a typo
+In-Reply-To: <20190628060648.25151-1-sheriffesseson@gmail.com>
+References: <20190628060648.25151-1-sheriffesseson@gmail.com>
+Message-ID: <20190628062001.26085-1-sheriffesseson@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190628060908.030IZ_GqkYl_E4aOP5sfnSkhsITwUjsUNfdYTDASNzA@z>
+Message-ID: <20190628062001.XMzSFVQxmPmuzEUdggNTIpb_VuEvvduIskIlxhAM70E@z>
 
-Compiled, booted, and no regressions.
+fix the disjunction by replacing "of" with "or".
+
+Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+---
+
+changes in v2:
+- cc-ed Corbet.
+
+ Documentation/doc-guide/kernel-doc.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index f96059767..192c36af3 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -359,7 +359,7 @@ Domain`_ references.
+   ``monospaced font``.
+ 
+   Useful if you need to use special characters that would otherwise have some
+-  meaning either by kernel-doc script of by reStructuredText.
++  meaning either by kernel-doc script or by reStructuredText.
+ 
+   This is particularly useful if you need to use things like ``%ph`` inside
+   a function description.
+-- 
+2.22.0
