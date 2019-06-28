@@ -1,29 +1,40 @@
-From: sanjana99reddy99 at gmail.com (Sanjana Sanikommu)
-Date: Fri, 28 Jun 2019 12:06:08 +0530
-Subject: [Linux-kernel-mentees] [PATCH 36/36] Documentation: networking: Fix
-	the title underline
-Message-ID: <20190628063608.14809-1-sanjana99reddy99@gmail.com>
+From: sheriffesseson at gmail.com (Sheriff Esseson)
+Date: Fri, 28 Jun 2019 08:43:44 +0100
+Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v2] Doc :
+	doc-guide : Fix a typo
+In-Reply-To: <20190628063342.27613-1-sheriffesseson@gmail.com>
+References: <20190628060648.25151-1-sheriffesseson@gmail.com>
+	<20190628063342.27613-1-sheriffesseson@gmail.com>
+Message-ID: <20190628074129.GA31006@localhost>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-WARNING: Title underline too short.
+On Fri, Jun 28, 2019 at 07:33:42AM +0100, Sheriff Esseson wrote:
+> fix the disjunction by replacing "of" with "or".
+> 
+> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+> ---
+> 
+> changes in v2:
+> - cc-ed Corbet.
+> 
+>  Documentation/doc-guide/kernel-doc.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+> index f96059767..192c36af3 100644
+> --- a/Documentation/doc-guide/kernel-doc.rst
+> +++ b/Documentation/doc-guide/kernel-doc.rst
+> @@ -359,7 +359,7 @@ Domain`_ references.
+>    ``monospaced font``.
+>  
+>    Useful if you need to use special characters that would otherwise have some
+> -  meaning either by kernel-doc script of by reStructuredText.
+> +  meaning either by kernel-doc script or by reStructuredText.
+>  
+>    This is particularly useful if you need to use things like ``%ph`` inside
+>    a function description.
+> -- 
+> 2.22.0
+> 
 
-Signed-off-by: Sanjana Sanikommu <sanjana99reddy99 at gmail.com>
----
- Documentation/networking/snmp_counter.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/snmp_counter.rst b/Documentation/networking/snmp_counter.rst
-index 52b026be028f..679b1a7654b0 100644
---- a/Documentation/networking/snmp_counter.rst
-+++ b/Documentation/networking/snmp_counter.rst
-@@ -719,7 +719,7 @@ will be updated. If the undo_marker is set, TcpExtTCPDSACKIgnoredOld
- will be updated. As implied in its name, it might be an old packet.
- 
- SACK shift
--=========
-+==========
- The linux networking stack stores data in sk_buff struct (skb for
- short). If a SACK block acrosses multiple skb, the TCP stack will try
- to re-arrange data in these skb. E.g. if a SACK block acknowledges seq
--- 
-2.17.1
+make respose inline.
