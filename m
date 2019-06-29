@@ -1,418 +1,440 @@
-From: sushmaunnibhavi425 at gmail.com (Sushma Unnibhavi)
-Date: Sat, 29 Jun 2019 17:21:47 +0530
-Subject: [Linux-kernel-mentees] [PATCH v3] Documentation: Changed .txt file
-	to .rst
-Message-ID: <20190629115147.18358-1-sushmaunnibhavi425@gmail.com>
+From: bnvandana at gmail.com (Vandana BN)
+Date: Sat, 29 Jun 2019 20:02:45 +0530
+Subject: [Linux-kernel-mentees] [PATCH v4] Documentation:sh:convert
+	register-banks.txt and new-machine.txt to rst format.
+In-Reply-To: <20190627063347.11137-1-bnvandana@gmail.com>
+References: <20190627063347.11137-1-bnvandana@gmail.com>
+Message-ID: <20190629143245.3580-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Changed the Documentation/scsi/aha15x.txt file to Documentation/scsi/aha15x.rst since .rst files
-produces a nice output in html and pdf formats.
+This patch converts new-machine.txt and register-banks.txt
+to ReST format, No content change.
+Added interfaces.rst to contain kernel-doc markups from index.rst
+Added interfaces.rst,new-machine.rst and register-banks.rst to sh/index.rst
+Added SPDX tag in index.rst
 
-Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
+Signed-off-by: Vandana BN <bnvandana at gmail.com>
 ---
- Documentation/scsi/aha152x.rst | 203 +++++++++++++++++++++++++++++++++
- Documentation/scsi/aha152x.txt | 183 -----------------------------
- 2 files changed, 203 insertions(+), 183 deletions(-)
- create mode 100644 Documentation/scsi/aha152x.rst
- delete mode 100644 Documentation/scsi/aha152x.txt
+ Documentation/sh/index.rst                    |  65 +------
+ Documentation/sh/interface.rst                |  59 ++++++
+ .../sh/{new-machine.txt => new-machine.rst}   | 171 +++++++++---------
+ ...{register-banks.txt => register-banks.rst} |   8 +-
+ 4 files changed, 163 insertions(+), 140 deletions(-)
+ create mode 100644 Documentation/sh/interface.rst
+ rename Documentation/sh/{new-machine.txt => new-machine.rst} (79%)
+ rename Documentation/sh/{register-banks.txt => register-banks.rst} (90%)
 
-diff --git a/Documentation/scsi/aha152x.rst b/Documentation/scsi/aha152x.rst
+diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
+index bc8db7ba894a..fec3c405b6b9 100644
+--- a/Documentation/sh/index.rst
++++ b/Documentation/sh/index.rst
+@@ -1,59 +1,14 @@
+-=======================
+-SuperH Interfaces Guide
+-=======================
++.. SPDX-License-Identifier: GPL-2.0
+
+-:Author: Paul Mundt
+-
+-Memory Management
+-=================
+-
+-SH-4
+-----
+-
+-Store Queue API
+-~~~~~~~~~~~~~~~
+-
+-.. kernel-doc:: arch/sh/kernel/cpu/sh4/sq.c
+-   :export:
+-
+-SH-5
+-----
+-
+-TLB Interfaces
+-~~~~~~~~~~~~~~
+-
+-.. kernel-doc:: arch/sh/mm/tlb-sh5.c
+-   :internal:
+-
+-.. kernel-doc:: arch/sh/include/asm/tlb_64.h
+-   :internal:
++====================
++SuperH Documentation
++====================
+
+-Machine Specific Interfaces
+-===========================
+-
+-mach-dreamcast
+---------------
+-
+-.. kernel-doc:: arch/sh/boards/mach-dreamcast/rtc.c
+-   :internal:
+-
+-mach-x3proto
+-------------
+-
+-.. kernel-doc:: arch/sh/boards/mach-x3proto/ilsel.c
+-   :export:
+-
+-Busses
+-======
+-
+-SuperHyway
+-----------
+-
+-.. kernel-doc:: drivers/sh/superhyway/superhyway.c
+-   :export:
++:Author: Paul Mundt
+
+-Maple
+------
++.. toctree::
++   :maxdepth: 2
+
+-.. kernel-doc:: drivers/sh/maple/maple.c
+-   :export:
++   interface
++   new-machine
++   register-banks
+diff --git a/Documentation/sh/interface.rst b/Documentation/sh/interface.rst
 new file mode 100644
-index 000000000000..3c4d558b9daf
+index 000000000000..bc8db7ba894a
 --- /dev/null
-+++ b/Documentation/scsi/aha152x.rst
-@@ -0,0 +1,203 @@
++++ b/Documentation/sh/interface.rst
+@@ -0,0 +1,59 @@
++=======================
++SuperH Interfaces Guide
++=======================
 +
-+=====================================================
-+Adaptec AHA-1520/1522 SCSI driver for Linux (aha152x)
-+=====================================================
++:Author: Paul Mundt
 +
-+Copyright 1993-1999 J?rgen Fischer <fischer at norbit.de>
-+TC1550 patches by Luuk van Dijk (ldz at xs4all.nl)
++Memory Management
++=================
 +
++SH-4
++----
 +
-+In Revision 2 the driver was modified a lot (especially the
-+bottom-half handler complete()).
++Store Queue API
++~~~~~~~~~~~~~~~
 +
-+The driver is much cleaner now, has support for the  new
-+error handling code in 2.3, produced less cpu load (much
-+less polling loops), has slightly higher throughput  (at
-+least on my ancient test box; a i486/33Mhz/20MB).
++.. kernel-doc:: arch/sh/kernel/cpu/sh4/sq.c
++   :export:
 +
++SH-5
++----
 +
-+========================
-+Configuration Arguments
-+========================
-++-----------+------------------------------------------+---------------------------+
-+|IOPORT|    |   base io address                        |     (0x340/0x140)         |
-++-----------+------------------------------------------+---------------------------+
-+|IRQ        |      interrupt level                     |     (9-12; default 11)|   |
-++-----------+------------------------------------------+---------------------------+
-+|SCSI_ID    |   scsi id of controller                  |   (0-7; default 7)        |
-++-----------+------------------------------------------+---------------------------+
-+|RECONNECT  |  allow targets to disconnect from the bus|  (0/1; default 1 [on])    |
-++-----------+------------------------------------------+---------------------------+
-+|PARITY     |   enable parity checking                 |   (0/1; default 1 [on])   |
-++-----------+------------------------------------------+---------------------------+
-+|SYNCHRONOUS|   enable synchronous transfers           |   (0/1; default 1 [on])   |
-++-----------+------------------------------------------+---------------------------+
-+|DELAY:     |   bus reset delay                        |  (default 100)            |
-++-----------+------------------------------------------+---------------------------+
-+|EXT_TRANS: |  enable extended translation (see NOTES) |  (0/1: default 0 [off])   |
-++-----------+------------------------------------------+---------------------------+
++TLB Interfaces
++~~~~~~~~~~~~~~
 +
-+========================================================================
-+Compile Time Configuration (go into AHA152X in drivers/scsi/Makefile)
-+========================================================================
++.. kernel-doc:: arch/sh/mm/tlb-sh5.c
++   :internal:
 +
-+-DAUTOCONF
-+ use configuration the controller reports (AHA-152x only)
++.. kernel-doc:: arch/sh/include/asm/tlb_64.h
++   :internal:
 +
-+-DSKIP_BIOSTEST
-+ Don't test for BIOS signature (AHA-1510 or disabled BIOS)
++Machine Specific Interfaces
++===========================
 +
-+-DSETUP0="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
-+ override for the first controller 
++mach-dreamcast
++--------------
 +
-+-DSETUP1="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
-+ override for the second controller
++.. kernel-doc:: arch/sh/boards/mach-dreamcast/rtc.c
++   :internal:
 +
-+-DAHA152X_DEBUG
-+ enable debugging output
++mach-x3proto
++------------
 +
-+-DAHA152X_STAT
-+ enable some statistics
++.. kernel-doc:: arch/sh/boards/mach-x3proto/ilsel.c
++   :export:
 +
++Busses
++======
 +
-+==========================
-+Lilo Command Line Options
-+==========================
++SuperHyway
++----------
 +
-+aha152x=<IOPORT>[,<IRQ>[,<SCSI-ID>[,<RECONNECT>[,<PARITY>[,<SYNCHRONOUS>[,<DELAY> [,<EXT_TRANS]]]]]]]
++.. kernel-doc:: drivers/sh/superhyway/superhyway.c
++   :export:
 +
-+The normal configuration can be overridden by specifying a command
-+line.When you do this, the  BIOS  test  is skipped. Entered values
-+have to be valid (known).  Don't use values that  aren't supported
-+under normal operation.  If  you think that you need other values:
-+contact me. For two controllers  use  the aha152x statement twice.
++Maple
++-----
 +
++.. kernel-doc:: drivers/sh/maple/maple.c
++   :export:
+diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
+similarity index 79%
+rename from Documentation/sh/new-machine.txt
+rename to Documentation/sh/new-machine.rst
+index e0961a66130b..b16c33342642 100644
+--- a/Documentation/sh/new-machine.txt
++++ b/Documentation/sh/new-machine.rst
+@@ -1,8 +1,8 @@
++================================
++Adding a new board to LinuxSH
++================================
+
+-                Adding a new board to LinuxSH
+-               ================================
+-
+-               Paul Mundt <lethal at linux-sh.org>
++Paul Mundt <lethal at linux-sh.org>
+
+ This document attempts to outline what steps are necessary to add support
+ for new boards to the LinuxSH port under the new 2.5 and 2.6 kernels. This
+@@ -19,65 +19,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
+ companion chip type, and CPU type. Looking at a tree view of this directory
+ hierarchy looks like the following:
+
+-Board-specific code:
+-
+-.
+-|-- arch
+-|   `-- sh
+-|       `-- boards
+-|           |-- adx
+-|           |   `-- board-specific files
+-|           |-- bigsur
+-|           |   `-- board-specific files
+-|           |
+-|           ... more boards here ...
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- adx
+-        |   `-- board-specific headers
+-        |-- bigsur
+-        |   `-- board-specific headers
+-        |
+-	.. more boards here ...
+-
+-Next, for companion chips:
+-.
+-`-- arch
+-    `-- sh
+-        `-- cchips
+-            `-- hd6446x
+-                `-- hd64461
+-                    `-- cchip-specific files
++Board-specific code::
 +
-+=================================
-+Symbols For Module Configuration
-+=================================
-+---------------------------
-+Choose From 2 Alternatives
-+---------------------------
-+1. specify everything (old)
++ .
++ |-- arch
++ |   `-- sh
++ |       `-- boards
++ |           |-- adx
++ |           |   `-- board-specific files
++ |           |-- bigsur
++ |           |   `-- board-specific files
++ |           |
++ |           ... more boards here ...
++ |
++ `-- include
++     `-- asm-sh
++         |-- adx
++         |   `-- board-specific headers
++         |-- bigsur
++         |   `-- board-specific headers
++         |
++       	 .. more boards here ...
 +
-+   aha152x=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
-+   configuration override for first controller
++Next, for companion chips::
 +
++ .
++ `-- arch
++     `-- sh
++         `-- cchips
++             `-- hd6446x
++                 `-- hd64461
++                     `-- cchip-specific files
+
+ ... and so on. Headers for the companion chips are treated the same way as
+ board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
+ hd64461-specific headers.
+
+-Finally, CPU family support is also abstracted:
+-.
+-|-- arch
+-|   `-- sh
+-|       |-- kernel
+-|       |   `-- cpu
+-|       |       |-- sh2
+-|       |       |   `-- SH-2 generic files
+-|       |       |-- sh3
+-|       |       |   `-- SH-3 generic files
+-|       |       `-- sh4
+-|       |           `-- SH-4 generic files
+-|       `-- mm
+-|           `-- This is also broken out per CPU family, so each family can
+-|               have their own set of cache/tlb functions.
+-|
+-`-- include
+-    `-- asm-sh
+-        |-- cpu-sh2
+-        |   `-- SH-2 specific headers
+-        |-- cpu-sh3
+-        |   `-- SH-3 specific headers
+-        `-- cpu-sh4
+-            `-- SH-4 specific headers
++Finally, CPU family support is also abstracted::
 +
-+   aha152x1=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
-+   configuration override for second controller
++ .
++ |-- arch
++ |   `-- sh
++ |       |-- kernel
++ |       |   `-- cpu
++ |       |       |-- sh2
++ |       |       |   `-- SH-2 generic files
++ |       |       |-- sh3
++ |       |       |   `-- SH-3 generic files
++ |       |       `-- sh4
++ |       |           `-- SH-4 generic files
++ |       `-- mm
++ |           `-- This is also broken out per CPU family, so each family can
++ |               have their own set of cache/tlb functions.
++ |
++ `-- include
++     `-- asm-sh
++         |-- cpu-sh2
++         |   `-- SH-2 specific headers
++         |-- cpu-sh3
++         |   `-- SH-3 specific headers
++         `-- cpu-sh4
++             `-- SH-4 specific headers
+
+ It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
+ need to be dealt with by the CPU family specific code.
+@@ -112,18 +114,20 @@ setup code, we're required at the very least to provide definitions for
+ get_system_type() and platform_setup(). For our imaginary board, this
+ might look something like:
+
+-/*
+- * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
+- */
+-#include <linux/init.h>
++.. code-block:: c
 +
-+2. specify only what you need to (irq or io is required; new)
++    /*
++     * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
++     */
++    #include <linux/init.h>
+
+-const char *get_system_type(void)
+-{
+-	return "FooTech Vaporboard";
+-}
++    const char *get_system_type(void)
++    {
++        return "FooTech Vaporboard";
++    }
+
+-int __init platform_setup(void)
+-{
++    int __init platform_setup(void)
++    {
+   	/*
+ 	 * If our hardware actually existed, we would do real
+ 	 * setup here. Though it's also sane to leave this empty
+@@ -136,7 +140,8 @@ int __init platform_setup(void)
+ 	/* And whatever else ... */
+
+ 	return 0;
+-}
++    }
 +
-+   io=IOPORT0[,IOPORT1]
-+   IOPORT for first and second controller
+
+ Our new imaginary board will also have to tie into the machvec in order for it
+ to be of any use.
+@@ -172,16 +177,17 @@ sufficient.
+    vector.
+
+    Note that these prototypes are generated automatically by setting
+-   __IO_PREFIX to something sensible. A typical example would be:
++   __IO_PREFIX to something sensible. A typical example would be::
+
+ 	#define __IO_PREFIX vapor
+    	#include <asm/io_generic.h>
+
 +
-+   irq=IRQ0[,IRQ1]
-+   IRQ for first and second controller
+    somewhere in the board-specific header. Any boards being ported that still
+    have a legacy io.h should remove it entirely and switch to the new model.
+
+  - Add machine vector definitions to the board's setup.c. At a bare minimum,
+-   this must be defined as something like:
++   this must be defined as something like::
+
+ 	struct sh_machine_vector mv_vapor __initmv = {
+ 		.mv_name = "vapor",
+@@ -202,11 +208,11 @@ Large portions of the build system are now entirely dynamic, and merely
+ require the proper entry here and there in order to get things done.
+
+ The first thing to do is to add an entry to arch/sh/Kconfig, under the
+-"System type" menu:
++"System type" menu::
+
+-config SH_VAPOR
+-	bool "Vapor"
+-	help
++ config SH_VAPOR
++	 bool "Vapor"
++	 help
+ 	  select Vapor if configuring for a FooTech Vaporboard.
+
+ next, this has to be added into arch/sh/Makefile. All boards require a
+@@ -232,6 +238,8 @@ space restating it here. After this is done, you will be able to use
+ implicit checks for your board if you need this somewhere throughout the
+ common code, such as:
+
++::
 +
-+   scsiid=SCSIID0[,SCSIID1]
-+   SCSIID for first and second controller
+ 	/* Make sure we're on the FooTech Vaporboard */
+ 	if (!mach_is_vapor())
+ 		return -ENODEV;
+@@ -253,12 +261,13 @@ build target, and it will be implicitly listed as such in the help text.
+ Looking at the 'make help' output, you should now see something like:
+
+ Architecture specific targets (sh):
+-  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
+-  adx_defconfig           - Build for adx
+-  cqreek_defconfig        - Build for cqreek
+-  dreamcast_defconfig     - Build for dreamcast
+-...
+-  vapor_defconfig         - Build for vapor
 +
-+   reconnect=RECONNECT0[,RECONNECT1]
-+   allow targets to disconnect for first and second controller
-+
-+   parity=PAR0[PAR1]
-+   use parity for first and second controller
-+
-+   sync=SYNCHRONOUS0[,SYNCHRONOUS1]
-+   enable synchronous transfers for first and second controller
-+
-+   delay=DELAY0[,DELAY1]
-+   reset DELAY for first and second controller
-+
-+   exttrans=EXTTRANS0[,EXTTRANS1]
-+   enable extended translation for first and second controller
-+
-+
-+If you use both alternatives the first will be taken.
-+
-+
-+====================
-+NOTES ON EXT_TRANS:
-+====================
-+
-+SCSI uses block numbers to address blocks/sectors on a device.
-+The BIOS uses a cylinder/head/sector addressing scheme (C/H/S)
-+scheme instead.  DOS expects a BIOS or driver that understands
-+this C/H/S addressing.
-+
-+The number of cylinders/heads/sectors is called geometry and is
-+required as base for requests in  C/H/S  addressing.  SCSI only
-+knows about the total capacity  of  disks  in blocks (sectors).
-+
-+Therefore the SCSI BIOS/DOS driver has to calculate a logical/virtual
-+geometry just  to  be  able  to  support  that addressing scheme. The
-+geometry returned by the SCSI BIOS is  a  pure  calculation  and  has
-+nothing to do with the  real/physical  geometry  of  the  disk (which
-+is usually irrelevant anyway).
-+
-+Basically this has no impact at all on Linux, because it also  uses block
-+instead of C/H/S addressing.  Unfortunately C/H/S addressing is also used
-+in the partition table and therefore every operating  system  has to know
-+the right geometry to be able to interpret it.
-+
-+Moreover there are certain limitations to the  C/H/S  addressing scheme,
-+namely the address space is limited to up to 255 heads, up to 63 sectors
-+and a maximum of 1023 cylinders.
-+
-+The AHA-1522 BIOS calculates the geometry by fixing the number of heads
-+to 64, the number of sectors to  32  and  by  calculating the number of
-+cylinders by dividing the capacity reported by the disk by 64*32 (1 MB).
-+This is considered to be the default translation.
-+
-+With respect to the limit of 1023 cylinders using C/H/S you can only
-+address the first GB of your disk in the partition table.  Therefore
-+BIOSes of some  newer controllers based on the AIC-6260/6360 support
-+extended  translation.  This means that the BIOS uses 255 for heads,
-+63 for  sectors  and then divides the capacity of the disk by 255*63
-+(about 8 MB), as soon it sees a disk greater than 1 GB. That results
-+in a maximum of about 8 GB addressable  diskspace  in the  partition
-+table (but there are already bigger disks out there today).
-+
-+To make it even more complicated the translation mode might/might
-+not be configurable in certain BIOS setups.
-+
-+This driver does some more or less failsafe guessing to get the
-+geometry right in most cases:
-+
-+- for disks<1GB:
-+  -use default translation (C/32/64)
-+
-+- for disks>1GB:
-+  - take current geometry from the partition table (using scsicam_bios_param
-+    and accept only `valid` geometries, ie. either (C/32/64) or (C/63/255)).
-+    This can be extended translation even if it's not enabled in the driver.
-+
-+  - if that fails, take extended translation if  enabled  by override,
-+    kernel or module parameter, otherwise take default translation and
-+    ask the user for verification.  This might on  not yet partitioned
-+    disks.
-+
-+
-+==================
-+REFERENCES USED:
-+==================
-+ "AIC-6260 SCSI Chip Specification", Adaptec Corporation.
-+
-+ "SCSI COMPUTER SYSTEM INTERFACE - 2 (SCSI-2)", X3T9.2/86-109 rev. 10h
-+
-+ "Writing a SCSI device driver for Linux", Rik Faith (faith at cs.unc.edu)
-+
-+ "Kernel Hacker's Guide", Michael K. Johnson (johnsonm at sunsite.unc.edu)
-+
-+ "Adaptec 1520/1522 User's Guide", Adaptec Corporation.
-+
-+ Michael K. Johnson (johnsonm at sunsite.unc.edu)
-+
-+ Drew Eckhardt (drew at cs.colorado.edu)
-+
-+ Eric Youngdale (eric at andante.org)
-+
-+ special thanks to Eric Youngdale for the free(!) supplying the
-+ documentation on the chip.
-diff --git a/Documentation/scsi/aha152x.txt b/Documentation/scsi/aha152x.txt
-deleted file mode 100644
-index 94848734ac66..000000000000
---- a/Documentation/scsi/aha152x.txt
-+++ /dev/null
-@@ -1,183 +0,0 @@
--$Id: README.aha152x,v 1.2 1999/12/25 15:32:30 fischer Exp fischer $
--Adaptec AHA-1520/1522 SCSI driver for Linux (aha152x)
++ - zImage                  - Compressed kernel image (arch/sh/boot/zImage)
++ - adx_defconfig           - Build for adx
++ - cqreek_defconfig        - Build for cqreek
++ - dreamcast_defconfig     - Build for dreamcast
++ - ...
++ - vapor_defconfig         - Build for vapor
+
+ which then allows you to do:
+
+diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
+similarity index 90%
+rename from Documentation/sh/register-banks.txt
+rename to Documentation/sh/register-banks.rst
+index a6719f2f6594..acccfaf80355 100644
+--- a/Documentation/sh/register-banks.txt
++++ b/Documentation/sh/register-banks.rst
+@@ -1,8 +1,9 @@
+-	Notes on register bank usage in the kernel
+-	==========================================
++==========================================
++Notes on register bank usage in the kernel
++==========================================
+
+ Introduction
+-------------
++============
+
+ The SH-3 and SH-4 CPU families traditionally include a single partial register
+ bank (selected by SR.RB, only r0 ... r7 are banked), whereas other families
+@@ -30,4 +31,3 @@ Presently the kernel uses several of these registers.
+ 		- The SR.IMASK interrupt handler makes use of this to set the
+ 		  interrupt priority level (used by local_irq_enable())
+ 	- r7_bank (current)
 -
--Copyright 1993-1999 J?rgen Fischer <fischer at norbit.de>
--TC1550 patches by Luuk van Dijk (ldz at xs4all.nl)
--
--
--In Revision 2 the driver was modified a lot (especially the
--bottom-half handler complete()).
--
--The driver is much cleaner now, has support for the new
--error handling code in 2.3, produced less cpu load (much
--less polling loops), has slightly higher throughput (at
--least on my ancient test box; a i486/33Mhz/20MB).
--
--
--CONFIGURATION ARGUMENTS:
--
--IOPORT        base io address                           (0x340/0x140)
--IRQ           interrupt level                           (9-12; default 11)
--SCSI_ID       scsi id of controller                     (0-7; default 7)
--RECONNECT     allow targets to disconnect from the bus  (0/1; default 1 [on])
--PARITY        enable parity checking                    (0/1; default 1 [on])
--SYNCHRONOUS   enable synchronous transfers              (0/1; default 1 [on])
--DELAY:        bus reset delay                           (default 100)
--EXT_TRANS:    enable extended translation               (0/1: default 0 [off])
--              (see NOTES)
--
--COMPILE TIME CONFIGURATION (go into AHA152X in drivers/scsi/Makefile):
--
---DAUTOCONF
-- use configuration the controller reports (AHA-152x only)
--
---DSKIP_BIOSTEST
-- Don't test for BIOS signature (AHA-1510 or disabled BIOS)
--
---DSETUP0="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
-- override for the first controller 
--
---DSETUP1="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
-- override for the second controller
--
---DAHA152X_DEBUG
-- enable debugging output
--
---DAHA152X_STAT
-- enable some statistics
--
--
--LILO COMMAND LINE OPTIONS:
--
--aha152x=<IOPORT>[,<IRQ>[,<SCSI-ID>[,<RECONNECT>[,<PARITY>[,<SYNCHRONOUS>[,<DELAY> [,<EXT_TRANS]]]]]]]
--
-- The normal configuration can be overridden by specifying a command line.
-- When you do this, the BIOS test is skipped. Entered values have to be
-- valid (known).  Don't use values that aren't supported under normal
-- operation.  If you think that you need other values: contact me.
-- For two controllers use the aha152x statement twice.
--
--
--SYMBOLS FOR MODULE CONFIGURATION:
--
--Choose from 2 alternatives:
--
--1. specify everything (old)
--
--aha152x=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
--  configuration override for first controller
--
--
--aha152x1=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
--  configuration override for second controller
--
--2. specify only what you need to (irq or io is required; new)
--
--io=IOPORT0[,IOPORT1]
--  IOPORT for first and second controller
--
--irq=IRQ0[,IRQ1]
--  IRQ for first and second controller
--
--scsiid=SCSIID0[,SCSIID1]
--  SCSIID for first and second controller
--
--reconnect=RECONNECT0[,RECONNECT1]
--  allow targets to disconnect for first and second controller
--
--parity=PAR0[PAR1]
--  use parity for first and second controller
--
--sync=SYNCHRONOUS0[,SYNCHRONOUS1]
--  enable synchronous transfers for first and second controller
--
--delay=DELAY0[,DELAY1]
--  reset DELAY for first and second controller
--
--exttrans=EXTTRANS0[,EXTTRANS1]
--  enable extended translation for first and second controller
--
--
--If you use both alternatives the first will be taken.
--
--
--NOTES ON EXT_TRANS: 
--
--SCSI uses block numbers to address blocks/sectors on a device.
--The BIOS uses a cylinder/head/sector addressing scheme (C/H/S)
--scheme instead.  DOS expects a BIOS or driver that understands this
--C/H/S addressing.
--
--The number of cylinders/heads/sectors is called geometry and is required
--as base for requests in C/H/S addressing.  SCSI only knows about the
--total capacity of disks in blocks (sectors).
--
--Therefore the SCSI BIOS/DOS driver has to calculate a logical/virtual
--geometry just to be able to support that addressing scheme.  The geometry
--returned by the SCSI BIOS is a pure calculation and has nothing to
--do with the real/physical geometry of the disk (which is usually
--irrelevant anyway).
--
--Basically this has no impact at all on Linux, because it also uses block
--instead of C/H/S addressing.  Unfortunately C/H/S addressing is also used
--in the partition table and therefore every operating system has to know
--the right geometry to be able to interpret it.
--
--Moreover there are certain limitations to the C/H/S addressing scheme,
--namely the address space is limited to up to 255 heads, up to 63 sectors
--and a maximum of 1023 cylinders.
--
--The AHA-1522 BIOS calculates the geometry by fixing the number of heads
--to 64, the number of sectors to 32 and by calculating the number of
--cylinders by dividing the capacity reported by the disk by 64*32 (1 MB).
--This is considered to be the default translation.
--
--With respect to the limit of 1023 cylinders using C/H/S you can only
--address the first GB of your disk in the partition table.  Therefore
--BIOSes of some newer controllers based on the AIC-6260/6360 support
--extended translation.  This means that the BIOS uses 255 for heads,
--63 for sectors and then divides the capacity of the disk by 255*63
--(about 8 MB), as soon it sees a disk greater than 1 GB.  That results
--in a maximum of about 8 GB addressable diskspace in the partition table
--(but there are already bigger disks out there today).
--
--To make it even more complicated the translation mode might/might
--not be configurable in certain BIOS setups.
--
--This driver does some more or less failsafe guessing to get the
--geometry right in most cases:
--
--- for disks<1GB: use default translation (C/32/64)
--
--- for disks>1GB:
--  - take current geometry from the partition table
--    (using scsicam_bios_param and accept only `valid' geometries,
--    ie. either (C/32/64) or (C/63/255)).  This can be extended translation
--    even if it's not enabled in the driver.
--
--  - if that fails, take extended translation if enabled by override,
--    kernel or module parameter, otherwise take default translation and
--    ask the user for verification.  This might on not yet partitioned
--    disks.
--
--
--REFERENCES USED:
--
-- "AIC-6260 SCSI Chip Specification", Adaptec Corporation.
--
-- "SCSI COMPUTER SYSTEM INTERFACE - 2 (SCSI-2)", X3T9.2/86-109 rev. 10h
--
-- "Writing a SCSI device driver for Linux", Rik Faith (faith at cs.unc.edu)
--
-- "Kernel Hacker's Guide", Michael K. Johnson (johnsonm at sunsite.unc.edu)
--
-- "Adaptec 1520/1522 User's Guide", Adaptec Corporation.
--
-- Michael K. Johnson (johnsonm at sunsite.unc.edu)
--
-- Drew Eckhardt (drew at cs.colorado.edu)
--
-- Eric Youngdale (eric at andante.org) 
--
-- special thanks to Eric Youngdale for the free(!) supplying the
-- documentation on the chip.
--- 
+--
 2.17.1
