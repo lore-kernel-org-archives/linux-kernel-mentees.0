@@ -1,554 +1,366 @@
 From: mchehab@kernel.org (Mauro Carvalho Chehab)
-Date: Sun, 30 Jun 2019 09:11:39 -0300
-Subject: [Linux-kernel-mentees] [PATCH v3] Documentation: Changed .txt
-	file to .rst
-In-Reply-To: <20190630090158.494febd4@coco.lan>
-References: <20190629115147.18358-1-sushmaunnibhavi425@gmail.com>
-	<20190630090158.494febd4@coco.lan>
-Message-ID: <20190630091139.4b3f54c1@coco.lan>
+Date: Sun, 30 Jun 2019 09:27:58 -0300
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: scsi: Changed
+	hptiop.txt to hptiop.rst
+In-Reply-To: <20190630042619.1555-1-sushmaunnibhavi425@gmail.com>
+References: <y>
+	<20190630042619.1555-1-sushmaunnibhavi425@gmail.com>
+Message-ID: <20190630092758.562ed9bd@coco.lan>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190630121139.BVZB62T4GR4bMA7DW9b0kyd3a_iLyvMe16CJkcrHOmk@z>
+Message-ID: <20190630122758.Z1Re822CGvXQwPptdKn8z-6bqnKziplDzUz67TZj-Dk@z>
 
-Em Sun, 30 Jun 2019 09:01:58 -0300
-Mauro Carvalho Chehab <mchehab at kernel.org> escreveu:
+Em Sun, 30 Jun 2019 09:56:19 +0530
+Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com> escreveu:
 
-> You forgot to run ./get_maintainer.pl:
+> Converted the hptiop.txt file into .rst format to get a nice output
+> in html and pdf formats
 > 
-> 	./scripts/get_maintainer.pl Documentation/scsi/aha152x.txt 
-> 	Jonathan Corbet <corbet at lwn.net> (maintainer:DOCUMENTATION)
-> 	linux-doc at vger.kernel.org (open list:DOCUMENTATION)
-> 	linux-kernel at vger.kernel.org (open list)
+> Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
+> ---
 
-In time: forgot to mention about the title. It should be, instead,
-something like:
+Please see my comments to the first patch you wrote. At the title,
+instead of "Documentation:", use just "docs:".
 
-	docs: aha152x.txt convert it to ReST
-
-Also, all .rst files should be included into an index.rst.
-
-As this is the first patch for scsi, this patch should also create an
-Documentation/scsi/index.rst file that would look like this:
-
-	. SPDX-License-Identifier: GPL-2.0
-
-	==============
-	SCSI Subsystem
-	==============
-
-	.. toctree::
-	   :maxdepth: 1
-
-	   aha152x
-
-	.. only::  subproject and html
-
-	   Indices
-	   =======
-
-	   * :ref:`genindex`
-
-For the next patches, you'll be adding the name of the converted
-file under toctree markup.
-
-The scsi/index.rst file should also be added to the main index file,
-somewhere after the driver-api/index:
-
-	diff --git a/Documentation/index.rst b/Documentation/index.rst
-	index bcaddbfa817f..84802cd56941 100644
-	--- a/Documentation/index.rst
-	+++ b/Documentation/index.rst
-	@@ -115,6 +115,7 @@ needed).
-	    power/index
-	    target/index
-	    timers/index
-	+   scsi/index
-	    spi/index
-	    w1/index
-	    watchdog/index
-
-> 
-> 
-> The patch should be copied to the pointed mailing lists.
-> 
-> Em Sat, 29 Jun 2019 17:21:47 +0530
-> Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com> escreveu:
-> 
-> > Changed the Documentation/scsi/aha15x.txt file to Documentation/scsi/aha15x.rst since .rst files
-> > produces a nice output in html and pdf formats.
-> 
-> Please do descriptions with less than 72 columns.
-> 
-> > 
-> > Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
-> > ---
-> >  Documentation/scsi/aha152x.rst | 203 +++++++++++++++++++++++++++++++++
-> >  Documentation/scsi/aha152x.txt | 183 -----------------------------
-> 
-> You forgot to run it with -M1.
-> 
-> 
-> >  2 files changed, 203 insertions(+), 183 deletions(-)
-> >  create mode 100644 Documentation/scsi/aha152x.rst
-> >  delete mode 100644 Documentation/scsi/aha152x.txt
-> > 
-> > diff --git a/Documentation/scsi/aha152x.rst b/Documentation/scsi/aha152x.rst
-> > new file mode 100644
-> > index 000000000000..3c4d558b9daf
-> > --- /dev/null
-> > +++ b/Documentation/scsi/aha152x.rst
-> > @@ -0,0 +1,203 @@
-> > +
-> > +=====================================================
-> > +Adaptec AHA-1520/1522 SCSI driver for Linux (aha152x)
-> > +=====================================================
-> > +
-> > +Copyright 1993-1999 J?rgen Fischer <fischer at norbit.de>
-> > +TC1550 patches by Luuk van Dijk (ldz at xs4all.nl)
-> > +
-> > +
-> > +In Revision 2 the driver was modified a lot (especially the
-> > +bottom-half handler complete()).
-> > +
-> > +The driver is much cleaner now, has support for the  new
-> > +error handling code in 2.3, produced less cpu load (much
-> > +less polling loops), has slightly higher throughput  (at
-> > +least on my ancient test box; a i486/33Mhz/20MB).
-> > +
-> > +
-> > +========================
-> > +Configuration Arguments
-> > +========================
-> 
-> No! As I said before, add just the bottom line, with has to have
-> exactly the same size of the first line, e. g. this should look
-> like this:
-> 
-> 	The driver is much cleaner now, has support for the  new
-> 	error handling code in 2.3, produced less cpu load (much
-> 	less polling loops), has slightly higher throughput  (at
-> 	least on my ancient test box; a i486/33Mhz/20MB).
-> 
-> 
-> 	Configuration Arguments
-> 	=======================
-> 
-> Did you try to build with Sphinx? when the bottom line has more
-> characters than the previous line, it should have emitted a warning.
-> 
-> You should fix all warnings that affects the file you're touching.
-> 
-> Ah, and you should remove any trailing whitespaces.
-> 
-> > ++-----------+------------------------------------------+---------------------------+
-> > +|IOPORT|    |   base io address                        |     (0x340/0x140)         |
-> > ++-----------+------------------------------------------+---------------------------+
-> > +|IRQ        |      interrupt level                     |     (9-12; default 11)|   |
-> > ++-----------+------------------------------------------+---------------------------+
-> > +|SCSI_ID    |   scsi id of controller                  |   (0-7; default 7)        |
-> > ++-----------+------------------------------------------+---------------------------+
-> > +|RECONNECT  |  allow targets to disconnect from the bus|  (0/1; default 1 [on])    |
-> > ++-----------+------------------------------------------+---------------------------+
-> > +|PARITY     |   enable parity checking                 |   (0/1; default 1 [on])   |
-> > ++-----------+------------------------------------------+---------------------------+
-> > +|SYNCHRONOUS|   enable synchronous transfers           |   (0/1; default 1 [on])   |
-> > ++-----------+------------------------------------------+---------------------------+
-> > +|DELAY:     |   bus reset delay                        |  (default 100)            |
-> > ++-----------+------------------------------------------+---------------------------+
-> > +|EXT_TRANS: |  enable extended translation (see NOTES) |  (0/1: default 0 [off])   |
-> > ++-----------+------------------------------------------+---------------------------+
-> > +
-> > +========================================================================
-> > +Compile Time Configuration (go into AHA152X in drivers/scsi/Makefile)
-> > +========================================================================
-> > +
-> > +-DAUTOCONF
-> > + use configuration the controller reports (AHA-152x only)
-> 
-> No. As I said you, do it like:
-> 
-> 	Compile Time Configuration (go into AHA152X in drivers/scsi/Makefile)
-> 	=====================================================================
-> 
-> 	DAUTOCONF
-> 	  use configuration the controller reports (AHA-152x only)
-> 
-> > +
-> > +-DSKIP_BIOSTEST
-> > + Don't test for BIOS signature (AHA-1510 or disabled BIOS)
-> > +
-> > +-DSETUP0="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
-> > + override for the first controller 
-> > +
-> > +-DSETUP1="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
-> > + override for the second controller
-> > +
-> > +-DAHA152X_DEBUG
-> > + enable debugging output
-> > +
-> > +-DAHA152X_STAT
-> > + enable some statistics
-> 
-> (same here)
-> > +
-> > +
-> > +==========================
-> > +Lilo Command Line Options
-> > +==========================
-> > +
-> > +aha152x=<IOPORT>[,<IRQ>[,<SCSI-ID>[,<RECONNECT>[,<PARITY>[,<SYNCHRONOUS>[,<DELAY> [,<EXT_TRANS]]]]]]]
-> > +
-> > +The normal configuration can be overridden by specifying a command
-> > +line.When you do this, the  BIOS  test  is skipped. Entered values
-> > +have to be valid (known).  Don't use values that  aren't supported
-> > +under normal operation.  If  you think that you need other values:
-> > +contact me. For two controllers  use  the aha152x statement twice.
-> > +
-> > +
-> > +=================================
-> > +Symbols For Module Configuration
-> > +=================================
-> > +---------------------------
-> > +Choose From 2 Alternatives
-> > +---------------------------
-> > +1. specify everything (old)
-> > +
-> > +   aha152x=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
-> > +   configuration override for first controller
-> 
-> As before commented, this should be:
-> 
-> 
-> 	Choose From 2 Alternatives
-> 	--------------------------
-> 
-> 	1. specify everything (old)
-> 
-> 	aha152x=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
-> 	  configuration override for first controller
-> 
-> the two whitespaces before "configuration" is a markup: it tells
-> Sphinx that the first line is a sort of title and should have a different
-> format - On older Sphinx versions, it becomes bold - on Sphinx 2.0, it
-> becomes even nicer.
-> 
-> > +
-> > +
-> > +   aha152x1=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
-> > +   configuration override for second controller
-> > +
-> > +2. specify only what you need to (irq or io is required; new)
-> > +
-> > +   io=IOPORT0[,IOPORT1]
-> > +   IOPORT for first and second controller
-> > +
-> > +   irq=IRQ0[,IRQ1]
-> > +   IRQ for first and second controller
-> > +
-> > +   scsiid=SCSIID0[,SCSIID1]
-> > +   SCSIID for first and second controller
-> > +
-> > +   reconnect=RECONNECT0[,RECONNECT1]
-> > +   allow targets to disconnect for first and second controller
-> > +
-> > +   parity=PAR0[PAR1]
-> > +   use parity for first and second controller
-> > +
-> > +   sync=SYNCHRONOUS0[,SYNCHRONOUS1]
-> > +   enable synchronous transfers for first and second controller
-> > +
-> > +   delay=DELAY0[,DELAY1]
-> > +   reset DELAY for first and second controller
-> > +
-> > +   exttrans=EXTTRANS0[,EXTTRANS1]
-> > +   enable extended translation for first and second controller
-> 
-> (same applies here)
-> 
-> > +
-> > +
-> > +If you use both alternatives the first will be taken.
-> > +
-> > +
-> > +====================
-> > +NOTES ON EXT_TRANS:
-> > +====================
-> > +
-> > +SCSI uses block numbers to address blocks/sectors on a device.
-> > +The BIOS uses a cylinder/head/sector addressing scheme (C/H/S)
-> > +scheme instead.  DOS expects a BIOS or driver that understands
-> > +this C/H/S addressing.
-> > +
-> > +The number of cylinders/heads/sectors is called geometry and is
-> > +required as base for requests in  C/H/S  addressing.  SCSI only
-> > +knows about the total capacity  of  disks  in blocks (sectors).
-> > +
-> > +Therefore the SCSI BIOS/DOS driver has to calculate a logical/virtual
-> > +geometry just  to  be  able  to  support  that addressing scheme. The
-> > +geometry returned by the SCSI BIOS is  a  pure  calculation  and  has
-> > +nothing to do with the  real/physical  geometry  of  the  disk (which
-> > +is usually irrelevant anyway).
-> > +
-> > +Basically this has no impact at all on Linux, because it also  uses block
-> > +instead of C/H/S addressing.  Unfortunately C/H/S addressing is also used
-> > +in the partition table and therefore every operating  system  has to know
-> > +the right geometry to be able to interpret it.
-> > +
-> > +Moreover there are certain limitations to the  C/H/S  addressing scheme,
-> > +namely the address space is limited to up to 255 heads, up to 63 sectors
-> > +and a maximum of 1023 cylinders.
-> > +
-> > +The AHA-1522 BIOS calculates the geometry by fixing the number of heads
-> > +to 64, the number of sectors to  32  and  by  calculating the number of
-> > +cylinders by dividing the capacity reported by the disk by 64*32 (1 MB).
-> > +This is considered to be the default translation.
-> > +
-> > +With respect to the limit of 1023 cylinders using C/H/S you can only
-> > +address the first GB of your disk in the partition table.  Therefore
-> > +BIOSes of some  newer controllers based on the AIC-6260/6360 support
-> > +extended  translation.  This means that the BIOS uses 255 for heads,
-> > +63 for  sectors  and then divides the capacity of the disk by 255*63
-> > +(about 8 MB), as soon it sees a disk greater than 1 GB. That results
-> > +in a maximum of about 8 GB addressable  diskspace  in the  partition
-> > +table (but there are already bigger disks out there today).
-> > +
-> > +To make it even more complicated the translation mode might/might
-> > +not be configurable in certain BIOS setups.
-> > +
-> > +This driver does some more or less failsafe guessing to get the
-> > +geometry right in most cases:
-> > +
-> > +- for disks<1GB:
-> > +  -use default translation (C/32/64)
-> > +
-> > +- for disks>1GB:
-> > +  - take current geometry from the partition table (using scsicam_bios_param
-> > +    and accept only `valid` geometries, ie. either (C/32/64) or (C/63/255)).
-> > +    This can be extended translation even if it's not enabled in the driver.
-> > +
-> > +  - if that fails, take extended translation if  enabled  by override,
-> > +    kernel or module parameter, otherwise take default translation and
-> > +    ask the user for verification.  This might on  not yet partitioned
-> > +    disks.
-> > +
-> > +
-> > +==================
-> > +REFERENCES USED:
-> > +==================
-> > + "AIC-6260 SCSI Chip Specification", Adaptec Corporation.
-> > +
-> > + "SCSI COMPUTER SYSTEM INTERFACE - 2 (SCSI-2)", X3T9.2/86-109 rev. 10h
-> > +
-> > + "Writing a SCSI device driver for Linux", Rik Faith (faith at cs.unc.edu)
-> > +
-> > + "Kernel Hacker's Guide", Michael K. Johnson (johnsonm at sunsite.unc.edu)
-> > +
-> > + "Adaptec 1520/1522 User's Guide", Adaptec Corporation.
-> > +
-> > + Michael K. Johnson (johnsonm at sunsite.unc.edu)
-> > +
-> > + Drew Eckhardt (drew at cs.colorado.edu)
-> > +
-> > + Eric Youngdale (eric at andante.org)
-> > +
-> > + special thanks to Eric Youngdale for the free(!) supplying the
-> > + documentation on the chip.
-> > diff --git a/Documentation/scsi/aha152x.txt b/Documentation/scsi/aha152x.txt
-> > deleted file mode 100644
-> > index 94848734ac66..000000000000
-> > --- a/Documentation/scsi/aha152x.txt
-> > +++ /dev/null
-> > @@ -1,183 +0,0 @@
-> > -$Id: README.aha152x,v 1.2 1999/12/25 15:32:30 fischer Exp fischer $
-> > -Adaptec AHA-1520/1522 SCSI driver for Linux (aha152x)
-> > -
-> > -Copyright 1993-1999 J?rgen Fischer <fischer at norbit.de>
-> > -TC1550 patches by Luuk van Dijk (ldz at xs4all.nl)
-> > -
-> > -
-> > -In Revision 2 the driver was modified a lot (especially the
-> > -bottom-half handler complete()).
-> > -
-> > -The driver is much cleaner now, has support for the new
-> > -error handling code in 2.3, produced less cpu load (much
-> > -less polling loops), has slightly higher throughput (at
-> > -least on my ancient test box; a i486/33Mhz/20MB).
-> > -
-> > -
-> > -CONFIGURATION ARGUMENTS:
-> > -
-> > -IOPORT        base io address                           (0x340/0x140)
-> > -IRQ           interrupt level                           (9-12; default 11)
-> > -SCSI_ID       scsi id of controller                     (0-7; default 7)
-> > -RECONNECT     allow targets to disconnect from the bus  (0/1; default 1 [on])
-> > -PARITY        enable parity checking                    (0/1; default 1 [on])
-> > -SYNCHRONOUS   enable synchronous transfers              (0/1; default 1 [on])
-> > -DELAY:        bus reset delay                           (default 100)
-> > -EXT_TRANS:    enable extended translation               (0/1: default 0 [off])
-> > -              (see NOTES)
-> > -
-> > -COMPILE TIME CONFIGURATION (go into AHA152X in drivers/scsi/Makefile):
-> > -
-> > --DAUTOCONF
-> > - use configuration the controller reports (AHA-152x only)
-> > -
-> > --DSKIP_BIOSTEST
-> > - Don't test for BIOS signature (AHA-1510 or disabled BIOS)
-> > -
-> > --DSETUP0="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
-> > - override for the first controller 
-> > -
-> > --DSETUP1="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
-> > - override for the second controller
-> > -
-> > --DAHA152X_DEBUG
-> > - enable debugging output
-> > -
-> > --DAHA152X_STAT
-> > - enable some statistics
-> > -
-> > -
-> > -LILO COMMAND LINE OPTIONS:
-> > -
-> > -aha152x=<IOPORT>[,<IRQ>[,<SCSI-ID>[,<RECONNECT>[,<PARITY>[,<SYNCHRONOUS>[,<DELAY> [,<EXT_TRANS]]]]]]]
-> > -
-> > - The normal configuration can be overridden by specifying a command line.
-> > - When you do this, the BIOS test is skipped. Entered values have to be
-> > - valid (known).  Don't use values that aren't supported under normal
-> > - operation.  If you think that you need other values: contact me.
-> > - For two controllers use the aha152x statement twice.
-> > -
-> > -
-> > -SYMBOLS FOR MODULE CONFIGURATION:
-> > -
-> > -Choose from 2 alternatives:
-> > -
-> > -1. specify everything (old)
-> > -
-> > -aha152x=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
-> > -  configuration override for first controller
-> > -
-> > -
-> > -aha152x1=IOPORT,IRQ,SCSI_ID,RECONNECT,PARITY,SYNCHRONOUS,DELAY,EXT_TRANS
-> > -  configuration override for second controller
-> > -
-> > -2. specify only what you need to (irq or io is required; new)
-> > -
-> > -io=IOPORT0[,IOPORT1]
-> > -  IOPORT for first and second controller
-> > -
-> > -irq=IRQ0[,IRQ1]
-> > -  IRQ for first and second controller
-> > -
-> > -scsiid=SCSIID0[,SCSIID1]
-> > -  SCSIID for first and second controller
-> > -
-> > -reconnect=RECONNECT0[,RECONNECT1]
-> > -  allow targets to disconnect for first and second controller
-> > -
-> > -parity=PAR0[PAR1]
-> > -  use parity for first and second controller
-> > -
-> > -sync=SYNCHRONOUS0[,SYNCHRONOUS1]
-> > -  enable synchronous transfers for first and second controller
-> > -
-> > -delay=DELAY0[,DELAY1]
-> > -  reset DELAY for first and second controller
-> > -
-> > -exttrans=EXTTRANS0[,EXTTRANS1]
-> > -  enable extended translation for first and second controller
-> > -
-> > -
-> > -If you use both alternatives the first will be taken.
-> > -
-> > -
-> > -NOTES ON EXT_TRANS: 
-> > -
-> > -SCSI uses block numbers to address blocks/sectors on a device.
-> > -The BIOS uses a cylinder/head/sector addressing scheme (C/H/S)
-> > -scheme instead.  DOS expects a BIOS or driver that understands this
-> > -C/H/S addressing.
-> > -
-> > -The number of cylinders/heads/sectors is called geometry and is required
-> > -as base for requests in C/H/S addressing.  SCSI only knows about the
-> > -total capacity of disks in blocks (sectors).
-> > -
-> > -Therefore the SCSI BIOS/DOS driver has to calculate a logical/virtual
-> > -geometry just to be able to support that addressing scheme.  The geometry
-> > -returned by the SCSI BIOS is a pure calculation and has nothing to
-> > -do with the real/physical geometry of the disk (which is usually
-> > -irrelevant anyway).
-> > -
-> > -Basically this has no impact at all on Linux, because it also uses block
-> > -instead of C/H/S addressing.  Unfortunately C/H/S addressing is also used
-> > -in the partition table and therefore every operating system has to know
-> > -the right geometry to be able to interpret it.
-> > -
-> > -Moreover there are certain limitations to the C/H/S addressing scheme,
-> > -namely the address space is limited to up to 255 heads, up to 63 sectors
-> > -and a maximum of 1023 cylinders.
-> > -
-> > -The AHA-1522 BIOS calculates the geometry by fixing the number of heads
-> > -to 64, the number of sectors to 32 and by calculating the number of
-> > -cylinders by dividing the capacity reported by the disk by 64*32 (1 MB).
-> > -This is considered to be the default translation.
-> > -
-> > -With respect to the limit of 1023 cylinders using C/H/S you can only
-> > -address the first GB of your disk in the partition table.  Therefore
-> > -BIOSes of some newer controllers based on the AIC-6260/6360 support
-> > -extended translation.  This means that the BIOS uses 255 for heads,
-> > -63 for sectors and then divides the capacity of the disk by 255*63
-> > -(about 8 MB), as soon it sees a disk greater than 1 GB.  That results
-> > -in a maximum of about 8 GB addressable diskspace in the partition table
-> > -(but there are already bigger disks out there today).
-> > -
-> > -To make it even more complicated the translation mode might/might
-> > -not be configurable in certain BIOS setups.
-> > -
-> > -This driver does some more or less failsafe guessing to get the
-> > -geometry right in most cases:
-> > -
-> > -- for disks<1GB: use default translation (C/32/64)
-> > -
-> > -- for disks>1GB:
-> > -  - take current geometry from the partition table
-> > -    (using scsicam_bios_param and accept only `valid' geometries,
-> > -    ie. either (C/32/64) or (C/63/255)).  This can be extended translation
-> > -    even if it's not enabled in the driver.
-> > -
-> > -  - if that fails, take extended translation if enabled by override,
-> > -    kernel or module parameter, otherwise take default translation and
-> > -    ask the user for verification.  This might on not yet partitioned
-> > -    disks.
-> > -
-> > -
-> > -REFERENCES USED:
-> > -
-> > - "AIC-6260 SCSI Chip Specification", Adaptec Corporation.
-> > -
-> > - "SCSI COMPUTER SYSTEM INTERFACE - 2 (SCSI-2)", X3T9.2/86-109 rev. 10h
-> > -
-> > - "Writing a SCSI device driver for Linux", Rik Faith (faith at cs.unc.edu)
-> > -
-> > - "Kernel Hacker's Guide", Michael K. Johnson (johnsonm at sunsite.unc.edu)
-> > -
-> > - "Adaptec 1520/1522 User's Guide", Adaptec Corporation.
-> > -
-> > - Michael K. Johnson (johnsonm at sunsite.unc.edu)
-> > -
-> > - Drew Eckhardt (drew at cs.colorado.edu)
-> > -
-> > - Eric Youngdale (eric at andante.org) 
-> > -
-> > - special thanks to Eric Youngdale for the free(!) supplying the
-> > - documentation on the chip.
-> 
-> 
-> 
-> Thanks,
-> Mauro
+Don't forget to run get_maintainer.pl and copy the interested
+parties on this e-mail.
 
 
+>  Documentation/scsi/hptiop.rst | 253 ++++++++++++++++++++++++++++++++++
+
+You forgot to remove the old file, and to add it to the scsi/index.rst.
+
+Ah, as you're renaming things, you need to do a:
+
+	$ git grep Documentation/scsi/hptiop.txt
+
+to check if this change didn't break any reference to this file and,
+if so, fix the broken reference. The same applies to the previous one.
+
+>  1 file changed, 253 insertions(+)
+>  create mode 100644 Documentation/scsi/hptiop.rst
+> 
+> diff --git a/Documentation/scsi/hptiop.rst b/Documentation/scsi/hptiop.rst
+> new file mode 100644
+> index 000000000000..4ca2a0231cb5
+> --- /dev/null
+> +++ b/Documentation/scsi/hptiop.rst
+> @@ -0,0 +1,253 @@
+> +=======================================================
+> +HIGHPOINT ROCKETRAID 3xxx/4xxx ADAPTER DRIVER (hptiop)
+> +=======================================================
+> +
+> +-------------------------
+> +Controller Register Map
+> +-------------------------
+
+Same as before: adjust the markup line sizes, and - except for the document
+title - use just title markup, as a bottom line. E. g.:
+
+	HIGHPOINT ROCKETRAID 3xxx/4xxx ADAPTER DRIVER (hptiop)
+	======================================================
+
+	Controller Register Map
+	-----------------------
+
+
+> +
+> +For RR44xx Intel IOP based adapters, the controller IOP is accessed via PCI BAR0 and BAR2:
+
+Please keep a blank line after it.
+
+Also, except where not possible, lines should have at most 80 columns.
+
+Did you run checkpatch.pl? 
+
+> +    +--------------+------------------------+
+> +    | BAR0 offset  |  Register              |
+> +    +==============+========================+
+> +    |      0x11C5Z |  Link Interface IRQ Set|
+> +    +--------------+------------------------+
+> +    |      0x11C60 |Link Interface IRQ Clear|
+> +    +--------------+------------------------+
+
+In the case of aha152x.txt, we opted for the above format just
+because it was already using a table artwork with required minor
+adjustments to be recognized by Sphinx.
+
+This file doesn't have any table artwork, so the author prefers
+to keep the file less polluted.
+
+So, please respect the author's view on that and keep the table
+with the simpler markup, e. g.:
+
+
+	    ===========    ========================
+	    BAR0 offset    Register
+	    ===========    ========================
+            0x11C5C	   Link Interface IRQ Set
+            0x11C60	   Link Interface IRQ Clear
+	    ===========    ========================
+
+That is a way less polluting while reading as a text file, and 
+will produce an identical result after being parsed by
+Sphinx.
+
+Same applies to the other tables.
+
+> +
+> +    +-------------+-------------------------------------+
+> +    | BAR2 offset |   Register                          |
+> +    +=============+=====================================+
+> +    |        0x10 |   Inbound Message Register 0        |
+> +    +-------------+-------------------------------------+
+> +    |        0x14 |   Inbound Message Register 1        |
+> +    +-------------+-------------------------------------+
+> +    |        0x18 |   Outbound Message Register 0       |
+> +    +-------------+-------------------------------------+
+> +    |        0x1C |   Outbound Message Register 1       |
+> +    +-------------+-------------------------------------+
+> +    |        0x20 |   Inbound Doorbell Register         |
+> +    +-------------+-------------------------------------+
+> +    |        0x24 |   Inbound Interrupt Status Register |
+> +    +-------------+-------------------------------------+
+> +    |        0x28 |   Inbound Interrupt Mask Register   |
+> +    +-------------+-------------------------------------+
+> +    |        0x30 |   Outbound Interrupt Status Register|
+> +    +-------------+-------------------------------------+
+> +    |        0x34 |   Outbound Interrupt Mask Register  |
+> +    +-------------+-------------------------------------+
+> +    |        0x40 |   Inbound Queue Port                |
+> +    +-------------+-------------------------------------+
+> +    |        0x44 |   Outbound Queue Port               |
+> +    +-------------+-------------------------------------+
+> +
+> +For Intel IOP based adapters, the controller IOP is accessed via PCI BAR0:
+> +
+> +    +------------+--------------------------------------+
+> +    | BAR0 offset|    Register                          |
+> +    +============+======================================+
+> +    |        0x10|    Inbound Message Register 0        |
+> +    +------------+--------------------------------------+
+> +    |        0x14|    Inbound Message Register 1        |
+> +    +------------+--------------------------------------+
+> +    |        0x18|    Outbound Message Register 0       |
+> +    +------------+--------------------------------------+
+> +    |        0x1C|    Outbound Message Register 1       |
+> +    +------------+--------------------------------------+
+> +    |        0x20|    Inbound Doorbell Register         |
+> +    +------------+--------------------------------------+
+> +    |        0x24|    Inbound Interrupt Status Register |
+> +    +------------+--------------------------------------+
+> +    |        0x28|    Inbound Interrupt Mask Register   |
+> +    +------------+--------------------------------------+
+> +    |        0x30|    Outbound Interrupt Status Register|
+> +    +------------+--------------------------------------+
+> +    |        0x34|    Outbound Interrupt Mask Register  |
+> +    +------------+--------------------------------------+
+> +    |        0x40|    Inbound Queue Port                |
+> +    +------------+--------------------------------------+
+> +    |        0x44|    Outbound Queue Port               |
+> +    +------------+--------------------------------------+
+> +
+> +For Marvell not Frey IOP based adapters, the IOP is accessed via PCI BAR0 and BAR1:
+> +
+> + +----------------+-----------------------------------+
+> + |    BAR0 offset |   Register                        |
+> + +================+===================================+
+> + |        0x20400 |   Inbound Doorbell Register       |
+> + +----------------+-----------------------------------+
+> + |        0x20404 |   Inbound Interrupt Mask Register |
+> + +----------------+-----------------------------------+
+> + |        0x20408 |   Outbound Doorbell Register      |
+> + +----------------+-----------------------------------+
+> + |        0x2040C |   Outbound Interrupt Mask Register|
+> + +----------------+-----------------------------------+
+> +     
+> +  +---------------+-------------------------------+
+> +  |   BAR1 offset |    Register                   |
+> +  +===============+===============================+
+> +  |           0x0 |   Inbound Queue Head Pointer  |
+> +  +---------------+-------------------------------+
+> +  |           0x4 |   Inbound Queue Tail Pointer  |
+> +  +---------------+-------------------------------+
+> +  |           0x8 |   Outbound Queue Head Pointer |
+> +  +---------------+-------------------------------+
+> +  |           0xC |   Outbound Queue Tail Pointer |
+> +  +---------------+-------------------------------+
+> +  |          0x10 |   Inbound Message Register    |
+> +  +---------------+-------------------------------+
+> +  |          0x14 |   Outbound Message Register   |
+> +  +---------------+-------------------------------+
+> +  |   0x40-0x1040 |   Inbound Queue               |
+> +  +---------------+-------------------------------+
+> +  | 0x1040-0x2040 |   Outbound Queue              |
+> +  +---------------+-------------------------------+
+> +
+> +For Marvell Frey IOP based adapters, the IOP is accessed via PCI BAR0 and BAR1:
+> +
+> +    +-------------+---------------------------------+
+> +    | BAR0 offset |   Register                      |
+> +    +=============+=================================+
+> +    |         0x0 |   IOP configuration information.|
+> +    +-------------+---------------------------------+
+> +
+> +  +--------------+----------------------------------------------------------+
+> +  |  BAR1 offset |   Register                                               |
+> +  +==============+==========================================================+
+> +  |        0x4000|    Inbound List Base Address Low                         |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x4004|    Inbound List Base Address High                        |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x4018|    Inbound List Write Pointer                            |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x402C|    Inbound List Configuration and Control                |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x4050|    Outbound List Base Address Low                        |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x4054|    Outbound List Base Address High                       |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x4058|    Outbound List Copy Pointer Shadow Base Address Low    |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x405C|    Outbound List Copy Pointer Shadow Base Address High   |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x4088|    Outbound List Interrupt Cause                         |
+> +  +--------------+----------------------------------------------------------+
+> +  |        0x408C|    Outbound List Interrupt Enable                        |
+> +  +--------------+----------------------------------------------------------+
+> +  |       0x1020C|    PCIe Function 0 Interrupt Enable                      |
+> +  +--------------+----------------------------------------------------------+
+> +  |       0x10400|    PCIe Function 0 to CPU Message A                      |
+> +  +--------------+----------------------------------------------------------+
+> +  |       0x10420|    CPU to PCIe Function 0 Message A                      |
+> +  +--------------+----------------------------------------------------------+
+> +  |       0x10480|    CPU to PCIe Function 0 Doorbell                       |
+> +  +--------------+----------------------------------------------------------+
+> +  |       0x10484|    CPU to PCIe Function 0 Doorbell Enable                |
+> +  +--------------+----------------------------------------------------------+
+> +
+> +
+> +I/O Request Workflow of Not Marvell Frey
+> +------------------------------------------
+> +
+> +All queued requests are handled via inbound/outbound queue port.
+> +A request packet can be allocated in either IOP or host memory.
+> +
+> +To send a request to the controller:
+> +
+> +    - Get a free request packet by reading the inbound queue port or
+> +      allocate a free request in host DMA coherent memory.
+> +
+> +      The value returned from the inbound queue port is an offset
+> +      relative to the IOP BAR0.
+> +
+> +      Requests allocated in host memory must be aligned on 32-bytes boundary.
+> +
+> +    - Fill the packet.
+> +
+> +    - Post the packet to IOP by writing it to inbound queue. For requests
+> +      allocated in IOP memory, write the offset to inbound queue port. For
+> +      requests allocated in host memory, write (0x80000000|(bus_addr>>5))
+> +      to the inbound queue port.
+> +
+> +    - The IOP process the request. When the request is completed, it
+> +      will be put into outbound queue. An outbound interrupt will be
+> +      generated.
+> +
+> +      For requests allocated in IOP memory, the request offset is posted to
+> +      outbound queue.
+> +
+> +      For requests allocated in host memory, (0x80000000|(bus_addr>>5))
+> +      is posted to the outbound queue. If IOP_REQUEST_FLAG_OUTPUT_CONTEXT
+> +      flag is set in the request, the low 32-bit context value will be
+> +      posted instead.
+> +
+> +    - The host read the outbound queue and complete the request.
+> +
+> +      For requests allocated in IOP memory, the host driver free the request
+> +      by writing it to the outbound queue.
+> +
+> +Non-queued requests (reset/flush etc) can be sent via inbound message
+> +register 0. An outbound message with the same value indicates the completion
+> +of an inbound message.
+> +
+> +
+> +I/O Request Workflow of Marvell Frey
+> +--------------------------------------
+> +
+> +All queued requests are handled via inbound/outbound list.
+> +
+> +To send a request to the controller:
+> +
+> +    - Allocate a free request in host DMA coherent memory.
+> +
+> +      Requests allocated in host memory must be aligned on 32-bytes boundary.
+> +
+> +    - Fill the request with index of the request in the flag.
+> +
+> +      Fill a free inbound list unit with the physical address and the size of
+> +      the request.
+> +
+> +      Set up the inbound list write pointer with the index of previous unit,
+> +      round to 0 if the index reaches the supported count of requests.
+> +
+> +    - Post the inbound list writer pointer to IOP.
+> +
+> +    - The IOP process the request. When the request is completed, the flag of
+> +      the request with or-ed IOPMU_QUEUE_MASK_HOST_BITS will be put into a
+> +      free outbound list unit and the index of the outbound list unit will be
+> +      put into the copy pointer shadow register. An outbound interrupt will be
+> +      generated.
+> +
+> +    - The host read the outbound list copy pointer shadow register and compare
+> +      with previous saved read pointer N. If they are different, the host will
+> +      read the (N+1)th outbound list unit.
+> +
+> +      The host get the index of the request from the (N+1)th outbound list
+> +      unit and complete the request.
+> +
+> +Non-queued requests (reset communication/reset/flush etc) can be sent via PCIe
+> +Function 0 to CPU Message A register. The CPU to PCIe Function 0 Message register
+> +with the same value indicates the completion of message.
+> +
+> +
+> +User-level Interface
+> +---------------------
+> +
+> +The driver exposes following sysfs attributes:
+> +
+> +     NAME                 R/W    Description
+> +     driver-version        R     driver version string
+> +     firmware-version      R     firmware version string
+
+This is another table. Please use the table markups
+
+> +
+> +
+> +-----------------------------------------------------------------------------
+> +Copyright (C) 2006-2012 HighPoint Technologies, Inc. All Rights Reserved.
+> +-----------------------------------------------------------------------------
+
+Seriously?
+
+Why the copyright should be a document title???
+
+> +
+> +  This file is distributed in the hope that it will be useful,
+> +  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +  GNU General Public License for more details.
+
+This is GPL. You should add a SPDX markup to this file to reflect
+it. See:
+
+	Documentation/process/license-rules.rst
+
+In this specific case, I would use a GPL-2.0 SPDX markup.
+
+
+> +
+> +  linux at highpoint-tech.com
+> +  http://www.highpoint-tech.com
+
+Please add a blank line between those two.
 
 Thanks,
 Mauro
