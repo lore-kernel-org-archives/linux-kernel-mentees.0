@@ -1,935 +1,279 @@
-From: shreeya.patel23498 at gmail.com (Shreeya Patel)
-Date: Sun, 30 Jun 2019 03:02:03 +0530
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: misc-devices: mei:
-	Convert mei txt files to reST
-Message-ID: <20190629213203.5887-1-shreeya.patel23498@gmail.com>
+From: sushmaunnibhavi425 at gmail.com (Sushma Unnibhavi)
+Date: Sun, 30 Jun 2019 09:56:19 +0530
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: scsi: Changed
+	hptiop.txt to hptiop.rst
+In-Reply-To: <y>
+References: <y>
+Message-ID: <20190630042619.1555-1-sushmaunnibhavi425@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Convert the MEI misc device's documentation files from .txt to
-reStructuredText format. Make a minor change of correcting the
-wrong macro name MEI_CONNECT_CLIENT_IOCTL to IOCTL_MEI_CONNECT_CLIENT.
-Add an index file in mei as there are two sections for it in the
-documentation.
+Converted the hptiop.txt file into .rst format to get a nice output
+in html and pdf formats
 
-Signed-off-by: Shreeya Patel <shreeya.patel23498 at gmail.com>
+Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
 ---
-I am not sure if I have placed the Documentation in the right place
-so I would like to get some suggestions from the MAINTAINERS on this
-part.
+ Documentation/scsi/hptiop.rst | 253 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 253 insertions(+)
+ create mode 100644 Documentation/scsi/hptiop.rst
 
- Documentation/misc-devices/index.rst          |   1 +
- Documentation/misc-devices/mei/index.rst      |  15 +
- .../misc-devices/mei/mei-client-bus.rst       | 151 +++++++++
- .../misc-devices/mei/mei-client-bus.txt       | 141 ---------
- Documentation/misc-devices/mei/mei.rst        | 289 ++++++++++++++++++
- Documentation/misc-devices/mei/mei.txt        | 266 ----------------
- 6 files changed, 456 insertions(+), 407 deletions(-)
- create mode 100644 Documentation/misc-devices/mei/index.rst
- create mode 100644 Documentation/misc-devices/mei/mei-client-bus.rst
- delete mode 100644 Documentation/misc-devices/mei/mei-client-bus.txt
- create mode 100644 Documentation/misc-devices/mei/mei.rst
- delete mode 100644 Documentation/misc-devices/mei/mei.txt
-
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index dfd1f45a3127..e788a12b2b19 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -15,3 +15,4 @@ fit into other categories.
-    :maxdepth: 2
- 
-    ibmvmc
-+   mei/index
-diff --git a/Documentation/misc-devices/mei/index.rst b/Documentation/misc-devices/mei/index.rst
+diff --git a/Documentation/scsi/hptiop.rst b/Documentation/scsi/hptiop.rst
 new file mode 100644
-index 000000000000..3018098ad075
+index 000000000000..4ca2a0231cb5
 --- /dev/null
-+++ b/Documentation/misc-devices/mei/index.rst
-@@ -0,0 +1,15 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/scsi/hptiop.rst
+@@ -0,0 +1,253 @@
++=======================================================
++HIGHPOINT ROCKETRAID 3xxx/4xxx ADAPTER DRIVER (hptiop)
++=======================================================
++
++-------------------------
++Controller Register Map
++-------------------------
++
++For RR44xx Intel IOP based adapters, the controller IOP is accessed via PCI BAR0 and BAR2:
++    +--------------+------------------------+
++    | BAR0 offset  |  Register              |
++    +==============+========================+
++    |      0x11C5Z |  Link Interface IRQ Set|
++    +--------------+------------------------+
++    |      0x11C60 |Link Interface IRQ Clear|
++    +--------------+------------------------+
++
++    +-------------+-------------------------------------+
++    | BAR2 offset |   Register                          |
++    +=============+=====================================+
++    |        0x10 |   Inbound Message Register 0        |
++    +-------------+-------------------------------------+
++    |        0x14 |   Inbound Message Register 1        |
++    +-------------+-------------------------------------+
++    |        0x18 |   Outbound Message Register 0       |
++    +-------------+-------------------------------------+
++    |        0x1C |   Outbound Message Register 1       |
++    +-------------+-------------------------------------+
++    |        0x20 |   Inbound Doorbell Register         |
++    +-------------+-------------------------------------+
++    |        0x24 |   Inbound Interrupt Status Register |
++    +-------------+-------------------------------------+
++    |        0x28 |   Inbound Interrupt Mask Register   |
++    +-------------+-------------------------------------+
++    |        0x30 |   Outbound Interrupt Status Register|
++    +-------------+-------------------------------------+
++    |        0x34 |   Outbound Interrupt Mask Register  |
++    +-------------+-------------------------------------+
++    |        0x40 |   Inbound Queue Port                |
++    +-------------+-------------------------------------+
++    |        0x44 |   Outbound Queue Port               |
++    +-------------+-------------------------------------+
++
++For Intel IOP based adapters, the controller IOP is accessed via PCI BAR0:
++
++    +------------+--------------------------------------+
++    | BAR0 offset|    Register                          |
++    +============+======================================+
++    |        0x10|    Inbound Message Register 0        |
++    +------------+--------------------------------------+
++    |        0x14|    Inbound Message Register 1        |
++    +------------+--------------------------------------+
++    |        0x18|    Outbound Message Register 0       |
++    +------------+--------------------------------------+
++    |        0x1C|    Outbound Message Register 1       |
++    +------------+--------------------------------------+
++    |        0x20|    Inbound Doorbell Register         |
++    +------------+--------------------------------------+
++    |        0x24|    Inbound Interrupt Status Register |
++    +------------+--------------------------------------+
++    |        0x28|    Inbound Interrupt Mask Register   |
++    +------------+--------------------------------------+
++    |        0x30|    Outbound Interrupt Status Register|
++    +------------+--------------------------------------+
++    |        0x34|    Outbound Interrupt Mask Register  |
++    +------------+--------------------------------------+
++    |        0x40|    Inbound Queue Port                |
++    +------------+--------------------------------------+
++    |        0x44|    Outbound Queue Port               |
++    +------------+--------------------------------------+
++
++For Marvell not Frey IOP based adapters, the IOP is accessed via PCI BAR0 and BAR1:
++
++ +----------------+-----------------------------------+
++ |    BAR0 offset |   Register                        |
++ +================+===================================+
++ |        0x20400 |   Inbound Doorbell Register       |
++ +----------------+-----------------------------------+
++ |        0x20404 |   Inbound Interrupt Mask Register |
++ +----------------+-----------------------------------+
++ |        0x20408 |   Outbound Doorbell Register      |
++ +----------------+-----------------------------------+
++ |        0x2040C |   Outbound Interrupt Mask Register|
++ +----------------+-----------------------------------+
++     
++  +---------------+-------------------------------+
++  |   BAR1 offset |    Register                   |
++  +===============+===============================+
++  |           0x0 |   Inbound Queue Head Pointer  |
++  +---------------+-------------------------------+
++  |           0x4 |   Inbound Queue Tail Pointer  |
++  +---------------+-------------------------------+
++  |           0x8 |   Outbound Queue Head Pointer |
++  +---------------+-------------------------------+
++  |           0xC |   Outbound Queue Tail Pointer |
++  +---------------+-------------------------------+
++  |          0x10 |   Inbound Message Register    |
++  +---------------+-------------------------------+
++  |          0x14 |   Outbound Message Register   |
++  +---------------+-------------------------------+
++  |   0x40-0x1040 |   Inbound Queue               |
++  +---------------+-------------------------------+
++  | 0x1040-0x2040 |   Outbound Queue              |
++  +---------------+-------------------------------+
++
++For Marvell Frey IOP based adapters, the IOP is accessed via PCI BAR0 and BAR1:
++
++    +-------------+---------------------------------+
++    | BAR0 offset |   Register                      |
++    +=============+=================================+
++    |         0x0 |   IOP configuration information.|
++    +-------------+---------------------------------+
++
++  +--------------+----------------------------------------------------------+
++  |  BAR1 offset |   Register                                               |
++  +==============+==========================================================+
++  |        0x4000|    Inbound List Base Address Low                         |
++  +--------------+----------------------------------------------------------+
++  |        0x4004|    Inbound List Base Address High                        |
++  +--------------+----------------------------------------------------------+
++  |        0x4018|    Inbound List Write Pointer                            |
++  +--------------+----------------------------------------------------------+
++  |        0x402C|    Inbound List Configuration and Control                |
++  +--------------+----------------------------------------------------------+
++  |        0x4050|    Outbound List Base Address Low                        |
++  +--------------+----------------------------------------------------------+
++  |        0x4054|    Outbound List Base Address High                       |
++  +--------------+----------------------------------------------------------+
++  |        0x4058|    Outbound List Copy Pointer Shadow Base Address Low    |
++  +--------------+----------------------------------------------------------+
++  |        0x405C|    Outbound List Copy Pointer Shadow Base Address High   |
++  +--------------+----------------------------------------------------------+
++  |        0x4088|    Outbound List Interrupt Cause                         |
++  +--------------+----------------------------------------------------------+
++  |        0x408C|    Outbound List Interrupt Enable                        |
++  +--------------+----------------------------------------------------------+
++  |       0x1020C|    PCIe Function 0 Interrupt Enable                      |
++  +--------------+----------------------------------------------------------+
++  |       0x10400|    PCIe Function 0 to CPU Message A                      |
++  +--------------+----------------------------------------------------------+
++  |       0x10420|    CPU to PCIe Function 0 Message A                      |
++  +--------------+----------------------------------------------------------+
++  |       0x10480|    CPU to PCIe Function 0 Doorbell                       |
++  +--------------+----------------------------------------------------------+
++  |       0x10484|    CPU to PCIe Function 0 Doorbell Enable                |
++  +--------------+----------------------------------------------------------+
 +
-+=================================================================
-+Intel(R) Management Engine Interface Kernel Driver (Intel(R) MEI)
-+=================================================================
 +
-+.. class:: toc-title
++I/O Request Workflow of Not Marvell Frey
++------------------------------------------
 +
-+           Table of contents
++All queued requests are handled via inbound/outbound queue port.
++A request packet can be allocated in either IOP or host memory.
 +
-+.. toctree::
-+   :maxdepth: 2
++To send a request to the controller:
 +
-+   mei
-+   mei-client-bus
-diff --git a/Documentation/misc-devices/mei/mei-client-bus.rst b/Documentation/misc-devices/mei/mei-client-bus.rst
-new file mode 100644
-index 000000000000..82d455afae78
---- /dev/null
-+++ b/Documentation/misc-devices/mei/mei-client-bus.rst
-@@ -0,0 +1,151 @@
-+.. SPDX-License-Identifier: GPL-2.0
++    - Get a free request packet by reading the inbound queue port or
++      allocate a free request in host DMA coherent memory.
 +
-+==============================================
-+Intel(R) Management Engine (ME) Client bus API
-+==============================================
++      The value returned from the inbound queue port is an offset
++      relative to the IOP BAR0.
 +
++      Requests allocated in host memory must be aligned on 32-bytes boundary.
 +
-+Rationale
-+=========
++    - Fill the packet.
 +
-+MEI misc character device is useful for dedicated applications to send and receive
-+data to the many FW appliance found in Intel's ME from the user space.
-+However for some of the ME functionalities it make sense to leverage existing software
-+stack and expose them through existing kernel subsystems.
++    - Post the packet to IOP by writing it to inbound queue. For requests
++      allocated in IOP memory, write the offset to inbound queue port. For
++      requests allocated in host memory, write (0x80000000|(bus_addr>>5))
++      to the inbound queue port.
 +
-+In order to plug seamlessly into the kernel device driver model we add kernel virtual
-+bus abstraction on top of the MEI driver. This allows implementing linux kernel drivers
-+for the various MEI features as a stand alone entities found in their respective subsystem.
-+Existing device drivers can even potentially be re-used by adding an MEI CL bus layer to
-+the existing code.
++    - The IOP process the request. When the request is completed, it
++      will be put into outbound queue. An outbound interrupt will be
++      generated.
 +
++      For requests allocated in IOP memory, the request offset is posted to
++      outbound queue.
 +
-+MEI CL bus API
-+==============
++      For requests allocated in host memory, (0x80000000|(bus_addr>>5))
++      is posted to the outbound queue. If IOP_REQUEST_FLAG_OUTPUT_CONTEXT
++      flag is set in the request, the low 32-bit context value will be
++      posted instead.
 +
-+A driver implementation for an MEI Client is very similar to existing bus
-+based device drivers. The driver registers itself as an MEI CL bus driver through
-+the :c:type:`mei_cl_driver` structure:
++    - The host read the outbound queue and complete the request.
 +
-+::
++      For requests allocated in IOP memory, the host driver free the request
++      by writing it to the outbound queue.
 +
-+        struct mei_cl_driver {
-+	        struct device_driver driver;
-+	        const char *name;
++Non-queued requests (reset/flush etc) can be sent via inbound message
++register 0. An outbound message with the same value indicates the completion
++of an inbound message.
 +
-+	        const struct mei_cl_device_id *id_table;
 +
-+	        int (*probe)(struct mei_cl_device *dev, const struct mei_cl_id *id);
-+	        int (*remove)(struct mei_cl_device *dev);
-+        };
++I/O Request Workflow of Marvell Frey
++--------------------------------------
 +
-+        struct mei_cl_id {
-+	        char name[MEI_NAME_SIZE];
-+	        kernel_ulong_t driver_info;
-+        };
++All queued requests are handled via inbound/outbound list.
 +
++To send a request to the controller:
 +
-+The :c:type:`mei_cl_id` structure allows the driver to bind itself against a device name.
++    - Allocate a free request in host DMA coherent memory.
 +
-+To actually register a driver on the ME Client bus one must call the :c:func:`mei_cl_add_driver()`
-+API. This is typically called at module init time.
++      Requests allocated in host memory must be aligned on 32-bytes boundary.
 +
-+Once registered on the ME Client bus, a driver will typically try to do some I/O on
-+this bus and this should be done through the :c:func:`mei_cl_send()` and :c:func:`mei_cl_recv()`
-+routines. The latter is synchronous (blocks and sleeps until data shows up).
-+In order for drivers to be notified of pending events waiting for them (e.g.
-+an Rx event) they can register an event handler through the
-+:c:func:`mei_cl_register_event_cb()` routine. Currently only the :c:macro:`MEI_EVENT_RX` event
-+will trigger an event handler call and the driver implementation is supposed
-+to call :c:func:`mei_recv()` from the event handler in order to fetch the pending
-+received buffers.
++    - Fill the request with index of the request in the flag.
 +
++      Fill a free inbound list unit with the physical address and the size of
++      the request.
 +
-+Example
-+=======
++      Set up the inbound list write pointer with the index of previous unit,
++      round to 0 if the index reaches the supported count of requests.
 +
-+As a theoretical example let's pretend the ME comes with a "contact" NFC IP.
-+The driver init and exit routines for this device would look like:
-+
-+::
-+
-+        #define CONTACT_DRIVER_NAME "contact"
-+
-+        static struct mei_cl_device_id contact_mei_cl_tbl[] = {
-+	        { CONTACT_DRIVER_NAME, },
-+	        /* required last entry */
-+	        { }
-+        };
-+        MODULE_DEVICE_TABLE(mei_cl, contact_mei_cl_tbl);
-+
-+        static struct mei_cl_driver contact_driver = {
-+	        .id_table = contact_mei_tbl,
-+	        .name = CONTACT_DRIVER_NAME,
-+	        .probe = contact_probe,
-+	        .remove = contact_remove,
-+        };
-+
-+        static int contact_init(void)
-+        {
-+	        int r;
-+
-+	        r = mei_cl_driver_register(&contact_driver);
-+	        if (r) {
-+		        pr_err(CONTACT_DRIVER_NAME ": driver registration failed\n");
-+		        return r;
-+	        }
-+
-+	        return 0;
-+        }
-+
-+        static void __exit contact_exit(void)
-+        {
-+	        mei_cl_driver_unregister(&contact_driver);
-+        }
-+
-+        module_init(contact_init);
-+        module_exit(contact_exit);
-+
-+And the driver's simplified probe routine would look like that:
-+
-+::
-+
-+        int contact_probe(struct mei_cl_device *dev, struct mei_cl_device_id *id)
-+        {
-+	        struct contact_driver *contact;
-+
-+	        [...]
-+	        mei_cl_enable_device(dev);
-+
-+	        mei_cl_register_event_cb(dev, contact_event_cb, contact);
-+
-+	        return 0;
-+        }
-+
-+In the probe routine the driver first enable the MEI device and then registers
-+an ME bus event handler which is as close as it can get to registering a
-+threaded IRQ handler.
-+The handler implementation will typically call some I/O routine depending on
-+the pending events:
-+
-+::
-+
-+        #define MAX_NFC_PAYLOAD 128
-+
-+        static void contact_event_cb(struct mei_cl_device *dev, u32 events,
-+                                     void *context)
-+        {
-+	        struct contact_driver *contact = context;
-+
-+	        if (events & BIT(MEI_EVENT_RX)) {
-+		        u8 payload[MAX_NFC_PAYLOAD];
-+		        int payload_size;
-+
-+		        payload_size = mei_recv(dev, payload, MAX_NFC_PAYLOAD);
-+		        if (payload_size <= 0)
-+			        return;
-+
-+		        /* Hook to the NFC subsystem */
-+		        nfc_hci_recv_frame(contact->hdev, payload, payload_size);
-+	        }
-+        }
-diff --git a/Documentation/misc-devices/mei/mei-client-bus.txt b/Documentation/misc-devices/mei/mei-client-bus.txt
-deleted file mode 100644
-index 743be4ec8989..000000000000
---- a/Documentation/misc-devices/mei/mei-client-bus.txt
-+++ /dev/null
-@@ -1,141 +0,0 @@
--Intel(R) Management Engine (ME) Client bus API
--==============================================
--
--
--Rationale
--=========
--
--MEI misc character device is useful for dedicated applications to send and receive
--data to the many FW appliance found in Intel's ME from the user space.
--However for some of the ME functionalities it make sense to leverage existing software
--stack and expose them through existing kernel subsystems.
--
--In order to plug seamlessly into the kernel device driver model we add kernel virtual
--bus abstraction on top of the MEI driver. This allows implementing linux kernel drivers
--for the various MEI features as a stand alone entities found in their respective subsystem.
--Existing device drivers can even potentially be re-used by adding an MEI CL bus layer to
--the existing code.
--
--
--MEI CL bus API
--==============
--
--A driver implementation for an MEI Client is very similar to existing bus
--based device drivers. The driver registers itself as an MEI CL bus driver through
--the mei_cl_driver structure:
--
--struct mei_cl_driver {
--	struct device_driver driver;
--	const char *name;
--
--	const struct mei_cl_device_id *id_table;
--
--	int (*probe)(struct mei_cl_device *dev, const struct mei_cl_id *id);
--	int (*remove)(struct mei_cl_device *dev);
--};
--
--struct mei_cl_id {
--	char name[MEI_NAME_SIZE];
--	kernel_ulong_t driver_info;
--};
--
--The mei_cl_id structure allows the driver to bind itself against a device name.
--
--To actually register a driver on the ME Client bus one must call the mei_cl_add_driver()
--API. This is typically called at module init time.
--
--Once registered on the ME Client bus, a driver will typically try to do some I/O on
--this bus and this should be done through the mei_cl_send() and mei_cl_recv()
--routines. The latter is synchronous (blocks and sleeps until data shows up).
--In order for drivers to be notified of pending events waiting for them (e.g.
--an Rx event) they can register an event handler through the
--mei_cl_register_event_cb() routine. Currently only the MEI_EVENT_RX event
--will trigger an event handler call and the driver implementation is supposed
--to call mei_recv() from the event handler in order to fetch the pending
--received buffers.
--
--
--Example
--=======
--
--As a theoretical example let's pretend the ME comes with a "contact" NFC IP.
--The driver init and exit routines for this device would look like:
--
--#define CONTACT_DRIVER_NAME "contact"
--
--static struct mei_cl_device_id contact_mei_cl_tbl[] = {
--	{ CONTACT_DRIVER_NAME, },
--
--	/* required last entry */
--	{ }
--};
--MODULE_DEVICE_TABLE(mei_cl, contact_mei_cl_tbl);
--
--static struct mei_cl_driver contact_driver = {
--	.id_table = contact_mei_tbl,
--	.name = CONTACT_DRIVER_NAME,
--
--	.probe = contact_probe,
--	.remove = contact_remove,
--};
--
--static int contact_init(void)
--{
--	int r;
--
--	r = mei_cl_driver_register(&contact_driver);
--	if (r) {
--		pr_err(CONTACT_DRIVER_NAME ": driver registration failed\n");
--		return r;
--	}
--
--	return 0;
--}
--
--static void __exit contact_exit(void)
--{
--	mei_cl_driver_unregister(&contact_driver);
--}
--
--module_init(contact_init);
--module_exit(contact_exit);
--
--And the driver's simplified probe routine would look like that:
--
--int contact_probe(struct mei_cl_device *dev, struct mei_cl_device_id *id)
--{
--	struct contact_driver *contact;
--
--	[...]
--	mei_cl_enable_device(dev);
--
--	mei_cl_register_event_cb(dev, contact_event_cb, contact);
--
--	return 0;
--}
--
--In the probe routine the driver first enable the MEI device and then registers
--an ME bus event handler which is as close as it can get to registering a
--threaded IRQ handler.
--The handler implementation will typically call some I/O routine depending on
--the pending events:
--
--#define MAX_NFC_PAYLOAD 128
--
--static void contact_event_cb(struct mei_cl_device *dev, u32 events,
--			     void *context)
--{
--	struct contact_driver *contact = context;
--
--	if (events & BIT(MEI_EVENT_RX)) {
--		u8 payload[MAX_NFC_PAYLOAD];
--		int payload_size;
--
--		payload_size = mei_recv(dev, payload, MAX_NFC_PAYLOAD);
--		if (payload_size <= 0)
--			return;
--
--		/* Hook to the NFC subsystem */
--		nfc_hci_recv_frame(contact->hdev, payload, payload_size);
--	}
--}
-diff --git a/Documentation/misc-devices/mei/mei.rst b/Documentation/misc-devices/mei/mei.rst
-new file mode 100644
-index 000000000000..e91ac2570b4d
---- /dev/null
-+++ b/Documentation/misc-devices/mei/mei.rst
-@@ -0,0 +1,289 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================================
-+Intel(R) Management Engine Interface
-+====================================
-+
-+Introduction
-+============
-+
-+The Intel Management Engine (Intel ME) is an isolated and protected computing
-+resource (Co-processor) residing inside certain Intel chipsets. The Intel ME
-+provides support for computer/IT management features. The feature set
-+depends on the Intel chipset SKU.
-+
-+The Intel Management Engine Interface (Intel MEI, previously known as HECI)
-+is the interface between the Host and Intel ME. This interface is exposed
-+to the host as a PCI device. The Intel MEI Driver is in charge of the
-+communication channel between a host application and the Intel ME feature.
-+
-+Each Intel ME feature (Intel ME Client) is addressed by a GUID/UUID and
-+each client has its own protocol. The protocol is message-based with a
-+header and payload up to 512 bytes.
-+
-+Prominent usage of the Intel ME Interface is to communicate with Intel(R)
-+Active Management Technology (Intel AMT) implemented in firmware running on
-+the Intel ME.
-+
-+Intel AMT provides the ability to manage a host remotely out-of-band (OOB)
-+even when the operating system running on the host processor has crashed or
-+is in a sleep state.
-+
-+Some examples of Intel AMT usage are:
-+        * Monitoring hardware state and platform components
-+        * Remote power off/on (useful for green computing or overnight IT
-+          maintenance)
-+        * OS updates
-+        * Storage of useful platform information such as software assets
-+        * Built-in hardware KVM
-+        * Selective network isolation of Ethernet and IP protocol flows based
-+          on policies set by a remote management console
-+        * IDE device redirection from remote management console
-+
-+Intel AMT (OOB) communication is based on SOAP (deprecated
-+starting with Release 6.0) over HTTP/S or WS-Management protocol over
-+HTTP/S that are received from a remote management console application.
-+
-+For more information about Intel AMT:
-+`<http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide>`_
-+
-+
-+Intel MEI Driver
-+================
-+
-+The driver exposes a misc device called :file:`/dev/mei`.
-+
-+An application maintains communication with an Intel ME feature while
-+:file:`/dev/mei` is open. The binding to a specific feature is performed by calling
-+:c:macro:`IOCTL_MEI_CONNECT_CLIENT`, which passes the desired UUID.
-+The number of instances of an Intel ME feature that can be opened
-+at the same time depends on the Intel ME feature, but most of the
-+features allow only a single instance.
-+
-+The Intel AMT Host Interface (Intel AMTHI) feature supports multiple
-+simultaneous user connected applications. The Intel MEI driver
-+handles this internally by maintaining request queues for the applications.
-+
-+The driver is transparent to data that are passed between firmware feature
-+and host application.
-+
-+Because some of the Intel ME features can change the system
-+configuration, the driver by default allows only a privileged
-+user to access it.
-+
-+A code snippet for an application communicating with Intel AMTHI client:
-+
-+::
-+
-+        struct mei_connect_client_data data;
-+        fd = open(MEI_DEVICE);
-+
-+        data.d.in_client_uuid = AMTHI_UUID;
-+
-+        ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &data);
-+
-+        printf("Ver=%d, MaxLen=%ld\n",
-+               data.d.in_client_uuid.protocol_version,
-+               data.d.in_client_uuid.max_msg_length);
-+
-+        [...]
-+
-+        write(fd, amthi_req_data, amthi_req_data_len);
-+
-+        [...]
-+
-+        read(fd, &amthi_res_data, amthi_res_data_len);
-+
-+        [...]
-+
-+        close(fd);
-+
-+
-+IOCTL
-+=====
-+
-+The Intel MEI Driver supports the following IOCTL commands:
-+
-+
-+:c:macro:`IOCTL_MEI_CONNECT_CLIENT`
-+-------------------------------------
-+Connect to firmware Feature (client)
-+
-+**Usage:**
-+
-+::
-+
-+        struct mei_connect_client_data clientData;
-+        ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &clientData);
-+
-+**Inputs:**
-+        :c:type:`mei_connect_client_data` - structure contain the following
-+        input field.
-+
-+        :c:data:`in_client_uuid` - UUID of the FW Feature that needs to connect to.
-+
-+**Outputs:**
-+        :c:data:`out_client_properties` - Client Properties: MTU and Protocol Version.
-+
-+**Error returns:**
-+        | :c:macro:`EINVAL` -  Wrong IOCTL Number.
-+        | :c:macro:`ENODEV` -  Device or Connection is not initialized or ready. (e.g. Wrong UUID).
-+        | :c:macro:`ENOMEM` - Unable to allocate memory to client internal data.
-+        | :c:macro:`EFAULT` -  Fatal Error (e.g. Unable to access user input data).
-+        | :c:macro:`EBUSY` -  Connection Already Open.
-+
-+**Notes:**
-+        :c:data:`max_msg_length` (MTU) in client properties describes the maximum
-+        data that can be sent or received. (e.g. if MTU=2K, can send
-+        requests up to bytes 2k and received responses up to 2k bytes).
-+
-+
-+:c:macro:`IOCTL_MEI_NOTIFY_SET`
-+-------------------------------
-+Enable or disable event notifications
-+
-+**Usage:**
-+
-+::
-+
-+        uint32_t enable;
-+        ioctl(fd, IOCTL_MEI_NOTIFY_SET, &enable);
-+
-+**Inputs:**
-+        | :c:data:`uint32_t enable = 1;`
-+        | or
-+        | :c:data:`uint32_t enable[disable] = 0;`
-+
-+**Error returns:**
-+        | :c:macro:`EINVAL` - Wrong IOCTL Number.
-+        | :c:macro:`ENODEV` - Device  is not initialized or the client not connected.
-+        | :c:macro:`ENOMEM` - Unable to allocate memory to client internal data.
-+        | :c:macro:`EFAULT` - Fatal Error (e.g. Unable to access user input data).
-+        | :c:macro:`EOPNOTSUPP` - if the device doesn't support the feature.
-+
-+**Notes:**
-+        The client must be connected in order to enable notification events.
-+
-+
-+:c:macro:`IOCTL_MEI_NOTIFY_GET`
-+-------------------------------
-+Retrieve event
-+
-+**Usage:**
-+
-+::
-+
-+        uint32_t event;
-+        ioctl(fd, IOCTL_MEI_NOTIFY_GET, &event);
-+
-+**Outputs:**
-+        | 1 - if an event is pending.
-+        | 0 - if there is no even pending.
-+
-+**Error returns:**
-+        | :c:macro:`EINVAL` - Wrong IOCTL Number.
-+        | :c:macro:`ENODEV` - Device is not initialized or the client not connected.
-+        | :c:macro:`ENOMEM` - Unable to allocate memory to client internal data.
-+        | :c:macro:`EFAULT` - Fatal Error (e.g. Unable to access user input data).
-+        | :c:macro:`EOPNOTSUPP` - if the device doesn't support the feature.
-+
-+**Notes:**
-+        The client must be connected and event notification has to be enabled
-+        in order to receive an event.
-+
-+
-+Intel ME Applications
-+=====================
-+
-+1) Intel Local Management Service (Intel LMS)
-+
-+        Applications running locally on the platform communicate with Intel AMT Release
-+        2.0 and later releases in the same way that network applications do via SOAP
-+        over HTTP (deprecated starting with Release 6.0) or with WS-Management over
-+        SOAP over HTTP. This means that some Intel AMT features can be accessed from a
-+        local application using the same network interface as a remote application
-+        communicating with Intel AMT over the network.
-+
-+        When a local application sends a message addressed to the local Intel AMT host
-+        name, the Intel LMS, which listens for traffic directed to the host name,
-+        intercepts the message and routes it to the Intel MEI.
-+        For more information:
-+        `<http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide>`_
-+        Under "About Intel AMT" => "Local Access"
-+
-+        For downloading Intel LMS:
-+        `<http://software.intel.com/en-us/articles/download-the-latest-intel-amt-open-source-drivers/>`_
-+
-+        The Intel LMS opens a connection using the Intel MEI driver to the Intel LMS
-+        firmware feature using a defined UUID and then communicates with the feature
-+        using a protocol called Intel AMT Port Forwarding Protocol (Intel APF protocol).
-+        The protocol is used to maintain multiple sessions with Intel AMT from a
-+        single application.
-+
-+        See the protocol specification in the `Intel AMT Software Development Kit (SDK)
-+        <http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide>`_
-+        Under "SDK Resources" => "Intel(R) vPro(TM) Gateway (MPS)"
-+        => "Information for Intel(R) vPro(TM) Gateway Developers"
-+        => "Description of the Intel AMT Port Forwarding (APF) Protocol"
-+
-+2) Intel AMT Remote configuration using a Local Agent
-+
-+        A Local Agent enables IT personnel to configure Intel AMT out-of-the-box
-+        without requiring installing additional data to enable setup. The remote
-+        configuration process may involve an ISV-developed remote configuration
-+        agent that runs on the host.
-+        For more information:
-+        `<http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide>`_
-+        Under "Setup and Configuration of Intel AMT" =>
-+        "SDK Tools Supporting Setup and Configuration" =>
-+        "Using the Local Agent Sample"
-+
-+        An open source Intel AMT configuration utility,	implementing a local agent
-+        that accesses the Intel MEI driver, can be found here:
-+        `<http://software.intel.com/en-us/articles/download-the-latest-intel-amt-open-source-drivers/>`
-+
-+
-+Intel AMT OS Health Watchdog
-+============================
-+
-+The Intel AMT Watchdog is an OS Health (Hang/Crash) watchdog.
-+Whenever the OS hangs or crashes, Intel AMT will send an event
-+to any subscriber to this event. This mechanism means that
-+IT knows when a platform crashes even when there is a hard failure on the host.
-+
-+The Intel AMT Watchdog is composed of two parts:
-+        1) Firmware feature - receives the heartbeats
-+           and sends an event when the heartbeats stop.
-+        2) Intel MEI iAMT watchdog driver - connects to the watchdog feature,
-+           configures the watchdog and sends the heartbeats.
-+
-+The Intel iAMT watchdog MEI driver uses the kernel watchdog API to configure
-+the Intel AMT Watchdog and to send heartbeats to it. The default timeout of the
-+watchdog is 120 seconds.
-+
-+If the Intel AMT is not enabled in the firmware then the watchdog client won't enumerate
-+on the me client bus and watchdog devices won't be exposed.
-+
-+
-+Supported Chipsets
-+==================
-+
-+| 7 Series Chipset Family
-+| 6 Series Chipset Family
-+| 5 Series Chipset Family
-+| 4 Series Chipset Family
-+| Mobile 4 Series Chipset Family
-+| ICH9
-+| 82946GZ/GL
-+| 82G35 Express
-+| 82Q963/Q965
-+| 82P965/G965
-+| Mobile PM965/GM965
-+| Mobile GME965/GLE960
-+| 82Q35 Express
-+| 82G33/G31/P35/P31 Express
-+| 82Q33 Express
-+| 82X38/X48 Express
-+
-+---
-+linux-mei at linux.intel.com
-diff --git a/Documentation/misc-devices/mei/mei.txt b/Documentation/misc-devices/mei/mei.txt
-deleted file mode 100644
-index 2b80a0cd621f..000000000000
---- a/Documentation/misc-devices/mei/mei.txt
-+++ /dev/null
-@@ -1,266 +0,0 @@
--Intel(R) Management Engine Interface (Intel(R) MEI)
--===================================================
--
--Introduction
--============
--
--The Intel Management Engine (Intel ME) is an isolated and protected computing
--resource (Co-processor) residing inside certain Intel chipsets. The Intel ME
--provides support for computer/IT management features. The feature set
--depends on the Intel chipset SKU.
--
--The Intel Management Engine Interface (Intel MEI, previously known as HECI)
--is the interface between the Host and Intel ME. This interface is exposed
--to the host as a PCI device. The Intel MEI Driver is in charge of the
--communication channel between a host application and the Intel ME feature.
--
--Each Intel ME feature (Intel ME Client) is addressed by a GUID/UUID and
--each client has its own protocol. The protocol is message-based with a
--header and payload up to 512 bytes.
--
--Prominent usage of the Intel ME Interface is to communicate with Intel(R)
--Active Management Technology (Intel AMT) implemented in firmware running on
--the Intel ME.
--
--Intel AMT provides the ability to manage a host remotely out-of-band (OOB)
--even when the operating system running on the host processor has crashed or
--is in a sleep state.
--
--Some examples of Intel AMT usage are:
--   - Monitoring hardware state and platform components
--   - Remote power off/on (useful for green computing or overnight IT
--     maintenance)
--   - OS updates
--   - Storage of useful platform information such as software assets
--   - Built-in hardware KVM
--   - Selective network isolation of Ethernet and IP protocol flows based
--     on policies set by a remote management console
--   - IDE device redirection from remote management console
--
--Intel AMT (OOB) communication is based on SOAP (deprecated
--starting with Release 6.0) over HTTP/S or WS-Management protocol over
--HTTP/S that are received from a remote management console application.
--
--For more information about Intel AMT:
--http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide
--
--
--Intel MEI Driver
--================
--
--The driver exposes a misc device called /dev/mei.
--
--An application maintains communication with an Intel ME feature while
--/dev/mei is open. The binding to a specific feature is performed by calling
--MEI_CONNECT_CLIENT_IOCTL, which passes the desired UUID.
--The number of instances of an Intel ME feature that can be opened
--at the same time depends on the Intel ME feature, but most of the
--features allow only a single instance.
--
--The Intel AMT Host Interface (Intel AMTHI) feature supports multiple
--simultaneous user connected applications. The Intel MEI driver
--handles this internally by maintaining request queues for the applications.
--
--The driver is transparent to data that are passed between firmware feature
--and host application.
--
--Because some of the Intel ME features can change the system
--configuration, the driver by default allows only a privileged
--user to access it.
--
--A code snippet for an application communicating with Intel AMTHI client:
--
--	struct mei_connect_client_data data;
--	fd = open(MEI_DEVICE);
--
--	data.d.in_client_uuid = AMTHI_UUID;
--
--	ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &data);
--
--	printf("Ver=%d, MaxLen=%ld\n",
--			data.d.in_client_uuid.protocol_version,
--			data.d.in_client_uuid.max_msg_length);
--
--	[...]
--
--	write(fd, amthi_req_data, amthi_req_data_len);
--
--	[...]
--
--	read(fd, &amthi_res_data, amthi_res_data_len);
--
--	[...]
--	close(fd);
--
--
--IOCTL
--=====
--
--The Intel MEI Driver supports the following IOCTL commands:
--	IOCTL_MEI_CONNECT_CLIENT	Connect to firmware Feature (client).
--
--	usage:
--		struct mei_connect_client_data clientData;
--		ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &clientData);
--
--	inputs:
--		mei_connect_client_data struct contain the following
--		input field:
--
--		in_client_uuid -	UUID of the FW Feature that needs
--					to connect to.
--	outputs:
--		out_client_properties - Client Properties: MTU and Protocol Version.
--
--	error returns:
--		EINVAL	Wrong IOCTL Number
--		ENODEV	Device or Connection is not initialized or ready.
--			(e.g. Wrong UUID)
--		ENOMEM	Unable to allocate memory to client internal data.
--		EFAULT	Fatal Error (e.g. Unable to access user input data)
--		EBUSY	Connection Already Open
--
--	Notes:
--        max_msg_length (MTU) in client properties describes the maximum
--        data that can be sent or received. (e.g. if MTU=2K, can send
--        requests up to bytes 2k and received responses up to 2k bytes).
--
--	IOCTL_MEI_NOTIFY_SET: enable or disable event notifications
--
--	Usage:
--		uint32_t enable;
--		ioctl(fd, IOCTL_MEI_NOTIFY_SET, &enable);
--
--	Inputs:
--		uint32_t enable = 1;
--		or
--		uint32_t enable[disable] = 0;
--
--	Error returns:
--		EINVAL	Wrong IOCTL Number
--		ENODEV	Device  is not initialized or the client not connected
--		ENOMEM	Unable to allocate memory to client internal data.
--		EFAULT	Fatal Error (e.g. Unable to access user input data)
--		EOPNOTSUPP if the device doesn't support the feature
--
--	Notes:
--	The client must be connected in order to enable notification events
--
--
--	IOCTL_MEI_NOTIFY_GET : retrieve event
--
--	Usage:
--		uint32_t event;
--		ioctl(fd, IOCTL_MEI_NOTIFY_GET, &event);
--
--	Outputs:
--		1 - if an event is pending
--		0 - if there is no even pending
--
--	Error returns:
--		EINVAL	Wrong IOCTL Number
--		ENODEV	Device is not initialized or the client not connected
--		ENOMEM	Unable to allocate memory to client internal data.
--		EFAULT	Fatal Error (e.g. Unable to access user input data)
--		EOPNOTSUPP if the device doesn't support the feature
--
--	Notes:
--	The client must be connected and event notification has to be enabled
--	in order to receive an event
--
--
--Intel ME Applications
--=====================
--
--	1) Intel Local Management Service (Intel LMS)
--
--	   Applications running locally on the platform communicate with Intel AMT Release
--	   2.0 and later releases in the same way that network applications do via SOAP
--	   over HTTP (deprecated starting with Release 6.0) or with WS-Management over
--	   SOAP over HTTP. This means that some Intel AMT features can be accessed from a
--	   local application using the same network interface as a remote application
--	   communicating with Intel AMT over the network.
--
--	   When a local application sends a message addressed to the local Intel AMT host
--	   name, the Intel LMS, which listens for traffic directed to the host name,
--	   intercepts the message and routes it to the Intel MEI.
--	   For more information:
--	   http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide
--	   Under "About Intel AMT" => "Local Access"
--
--	   For downloading Intel LMS:
--	   http://software.intel.com/en-us/articles/download-the-latest-intel-amt-open-source-drivers/
--
--	   The Intel LMS opens a connection using the Intel MEI driver to the Intel LMS
--	   firmware feature using a defined UUID and then communicates with the feature
--	   using a protocol called Intel AMT Port Forwarding Protocol (Intel APF protocol).
--	   The protocol is used to maintain multiple sessions with Intel AMT from a
--	   single application.
--
--	   See the protocol specification in the Intel AMT Software Development Kit (SDK)
--	   http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide
--	   Under "SDK Resources" => "Intel(R) vPro(TM) Gateway (MPS)"
--	   => "Information for Intel(R) vPro(TM) Gateway Developers"
--	   => "Description of the Intel AMT Port Forwarding (APF) Protocol"
--
--	2) Intel AMT Remote configuration using a Local Agent
--
--	   A Local Agent enables IT personnel to configure Intel AMT out-of-the-box
--	   without requiring installing additional data to enable setup. The remote
--	   configuration process may involve an ISV-developed remote configuration
--	   agent that runs on the host.
--	   For more information:
--	   http://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide
--	   Under "Setup and Configuration of Intel AMT" =>
--	   "SDK Tools Supporting Setup and Configuration" =>
--	   "Using the Local Agent Sample"
--
--	   An open source Intel AMT configuration utility,	implementing a local agent
--	   that accesses the Intel MEI driver, can be found here:
--	   http://software.intel.com/en-us/articles/download-the-latest-intel-amt-open-source-drivers/
--
--
--Intel AMT OS Health Watchdog
--============================
--
--The Intel AMT Watchdog is an OS Health (Hang/Crash) watchdog.
--Whenever the OS hangs or crashes, Intel AMT will send an event
--to any subscriber to this event. This mechanism means that
--IT knows when a platform crashes even when there is a hard failure on the host.
--
--The Intel AMT Watchdog is composed of two parts:
--	1) Firmware feature - receives the heartbeats
--	   and sends an event when the heartbeats stop.
--	2) Intel MEI iAMT watchdog driver - connects to the watchdog feature,
--	   configures the watchdog and sends the heartbeats.
--
--The Intel iAMT watchdog MEI driver uses the kernel watchdog API to configure
--the Intel AMT Watchdog and to send heartbeats to it. The default timeout of the
--watchdog is 120 seconds.
--
--If the Intel AMT is not enabled in the firmware then the watchdog client won't enumerate
--on the me client bus and watchdog devices won't be exposed.
--
--
--Supported Chipsets
--==================
--
--7 Series Chipset Family
--6 Series Chipset Family
--5 Series Chipset Family
--4 Series Chipset Family
--Mobile 4 Series Chipset Family
--ICH9
--82946GZ/GL
--82G35 Express
--82Q963/Q965
--82P965/G965
--Mobile PM965/GM965
--Mobile GME965/GLE960
--82Q35 Express
--82G33/G31/P35/P31 Express
--82Q33 Express
--82X38/X48 Express
--
-----
--linux-mei at linux.intel.com
++    - Post the inbound list writer pointer to IOP.
++
++    - The IOP process the request. When the request is completed, the flag of
++      the request with or-ed IOPMU_QUEUE_MASK_HOST_BITS will be put into a
++      free outbound list unit and the index of the outbound list unit will be
++      put into the copy pointer shadow register. An outbound interrupt will be
++      generated.
++
++    - The host read the outbound list copy pointer shadow register and compare
++      with previous saved read pointer N. If they are different, the host will
++      read the (N+1)th outbound list unit.
++
++      The host get the index of the request from the (N+1)th outbound list
++      unit and complete the request.
++
++Non-queued requests (reset communication/reset/flush etc) can be sent via PCIe
++Function 0 to CPU Message A register. The CPU to PCIe Function 0 Message register
++with the same value indicates the completion of message.
++
++
++User-level Interface
++---------------------
++
++The driver exposes following sysfs attributes:
++
++     NAME                 R/W    Description
++     driver-version        R     driver version string
++     firmware-version      R     firmware version string
++
++
++-----------------------------------------------------------------------------
++Copyright (C) 2006-2012 HighPoint Technologies, Inc. All Rights Reserved.
++-----------------------------------------------------------------------------
++
++  This file is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU General Public License for more details.
++
++  linux at highpoint-tech.com
++  http://www.highpoint-tech.com
 -- 
 2.17.1
