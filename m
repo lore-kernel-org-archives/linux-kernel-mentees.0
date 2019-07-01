@@ -1,53 +1,37 @@
 From: sanjana99reddy99@gmail.com (Sanjana Sanikommu)
-Date: Mon,  1 Jul 2019 19:47:19 +0530
-Subject: [Linux-kernel-mentees] [PATCH] drivers: mtd: nand: raw: Remove
-	unnecessary return variables.
-Message-ID: <20190701141719.6636-1-sanjana99reddy99@gmail.com>
+Date: Mon,  1 Jul 2019 20:27:32 +0530
+Subject: [Linux-kernel-mentees] [PATCH] include: uapi: vfio.h: Fix shifting
+	signed 32-bit value by 31 bits problem
+Message-ID: <20190701145732.7673-1-sanjana99reddy99@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190701141719.dJuOpHW6VyWE4pVGy8tVfdWYcTuucpTuit_66c5RNYY@z>
+Message-ID: <20190701145732.ykVS_NuEX9amN9PJxJCT7059As66YCFSrM4s6J8fKGs@z>
 
-Issue found using coccinelle tool.
+Fix CRAMFS_BLK_FLAG_UNCOMPRESSED to use "U" cast to avoid shifting signed
+32-bit value by 31 bits problem. This isn't a problem for kernel builds
+with gcc.
+
+This could be problem since this header is part of public API which
+could be included for builds using compilers that don't handle this
+condition safely resulting in undefined behavior.
 
 Signed-off-by: Sanjana Sanikommu <sanjana99reddy99 at gmail.com>
 ---
- drivers/mtd/nand/raw/marvell_nand.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ include/uapi/linux/vfio.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/mtd/nand/raw/marvell_nand.c b/drivers/mtd/nand/raw/marvell_nand.c
-index f38e5c1b87e4..ac91ce6a8764 100644
---- a/drivers/mtd/nand/raw/marvell_nand.c
-+++ b/drivers/mtd/nand/raw/marvell_nand.c
-@@ -1029,8 +1029,7 @@ static int marvell_nfc_hw_ecc_hmg_do_read_page(struct nand_chip *chip,
- 		marvell_nfc_xfer_data_in_pio(nfc, oob_buf, oob_bytes);
- 	}
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+index 02bb7ad6e986..bb61f5d443cf 100644
+--- a/include/uapi/linux/vfio.h
++++ b/include/uapi/linux/vfio.h
+@@ -295,7 +295,7 @@ struct vfio_region_info_cap_type {
+ 	__u32 subtype;	/* type specific */
+ };
  
--	ret = marvell_nfc_wait_cmdd(chip);
--	return ret;
-+	return marvell_nfc_wait_cmdd(chip);
- }
+-#define VFIO_REGION_TYPE_PCI_VENDOR_TYPE	(1 << 31)
++#define VFIO_REGION_TYPE_PCI_VENDOR_TYPE	(1U << 31)
+ #define VFIO_REGION_TYPE_PCI_VENDOR_MASK	(0xffff)
  
- static int marvell_nfc_hw_ecc_hmg_read_page_raw(struct nand_chip *chip, u8 *buf,
-@@ -1141,9 +1140,8 @@ static int marvell_nfc_hw_ecc_hmg_do_write_page(struct nand_chip *chip,
- 	if (ret)
- 		return ret;
- 
--	ret = marvell_nfc_wait_op(chip,
-+	return marvell_nfc_wait_op(chip,
- 				  PSEC_TO_MSEC(chip->data_interface.timings.sdr.tPROG_max));
--	return ret;
- }
- 
- static int marvell_nfc_hw_ecc_hmg_write_page_raw(struct nand_chip *chip,
-@@ -2708,8 +2706,7 @@ static int marvell_nand_chips_init(struct device *dev, struct marvell_nfc *nfc)
- 	 * NAND controller node.
- 	 */
- 	if (nfc->caps->legacy_of_bindings) {
--		ret = marvell_nand_chip_init(dev, nfc, np);
--		return ret;
-+		return marvell_nand_chip_init(dev, nfc, np);
- 	}
- 
- 	for_each_child_of_node(np, nand_np) {
+ /* 8086 Vendor sub-types */
 -- 
 2.17.1
