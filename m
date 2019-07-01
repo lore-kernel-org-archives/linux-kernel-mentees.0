@@ -1,98 +1,143 @@
-From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Mon, 1 Jul 2019 09:12:32 -0600
-Subject: [Linux-kernel-mentees] [SYZBOT REPORT] - WARNING in
- __vb2_queue_cancel
-In-Reply-To: <20190701112310.6bxpjigplp4n56tp@rYz3n>
-References: <20190701112310.6bxpjigplp4n56tp@rYz3n>
-Message-ID: <135e7c01-0ba9-48bf-47a0-a1cacb500e93@linuxfoundation.org>
+From: dcbw@redhat.com (Dan Williams)
+Date: Mon, 01 Jul 2019 10:29:50 -0500
+Subject: [Linux-kernel-mentees] [PATCH] net: usb: asix: init MAC address
+	buffers
+In-Reply-To: <20190630234533.15089-1-tranmanphong@gmail.com>
+References: <00000000000008f06d058a6e9783@google.com>
+	<20190630234533.15089-1-tranmanphong@gmail.com>
+Message-ID: <279519d5386680b3353b994a02475df08df13e29.camel@redhat.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190701151232.9l0wIGuLAujlrrfv1wvAg1Ld56fUxnxudnQEx_DkiE0@z>
+Message-ID: <20190701152950.BdcSAc3fVWu4qQw_HlfE1LebwF63V3Gr5X4f36B3mvA@z>
 
-Hi Jiunn,
+On Mon, 2019-07-01 at 06:45 +0700, Phong Tran wrote:
+> This is for fixing bug KMSAN: uninit-value in ax88772_bind
+> 
+> Tested by
+> https://groups.google.com/d/msg/syzkaller-bugs/aFQurGotng4/cFe9nxMCCwAJ
+> 
+> Reported-by: syzbot+8a3fc6674bbc3978ed4e at syzkaller.appspotmail.com
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    f75e4cfe kmsan: use kmsan_handle_urb() in urb.c
+> git tree:       kmsan
+> console output: 
+> https://syzkaller.appspot.com/x/log.txt?x=136d720ea00000
+> kernel config:
+> https://syzkaller.appspot.com/x/.config?x=602468164ccdc30a
+> dashboard link:
+> https://syzkaller.appspot.com/bug?extid=8a3fc6674bbc3978ed4e
+> compiler:       clang version 9.0.0 (/home/glider/llvm/clang
+> 06d00afa61eef8f7f501ebdb4e8612ea43ec2d78)
+> syz repro:
+> https://syzkaller.appspot.com/x/repro.syz?x=12788316a00000
+> C reproducer:   
+> https://syzkaller.appspot.com/x/repro.c?x=120359aaa00000
+> 
+> ==================================================================
+> BUG: KMSAN: uninit-value in is_valid_ether_addr
+> include/linux/etherdevice.h:200 [inline]
+> BUG: KMSAN: uninit-value in asix_set_netdev_dev_addr
+> drivers/net/usb/asix_devices.c:73 [inline]
+> BUG: KMSAN: uninit-value in ax88772_bind+0x93d/0x11e0
+> drivers/net/usb/asix_devices.c:724
+> CPU: 0 PID: 3348 Comm: kworker/0:2 Not tainted 5.1.0+ #1
+> Hardware name: Google Google Compute Engine/Google Compute Engine,
+> BIOS
+> Google 01/01/2011
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0x191/0x1f0 lib/dump_stack.c:113
+>   kmsan_report+0x130/0x2a0 mm/kmsan/kmsan.c:622
+>   __msan_warning+0x75/0xe0 mm/kmsan/kmsan_instr.c:310
+>   is_valid_ether_addr include/linux/etherdevice.h:200 [inline]
+>   asix_set_netdev_dev_addr drivers/net/usb/asix_devices.c:73 [inline]
+>   ax88772_bind+0x93d/0x11e0 drivers/net/usb/asix_devices.c:724
+>   usbnet_probe+0x10f5/0x3940 drivers/net/usb/usbnet.c:1728
+>   usb_probe_interface+0xd66/0x1320 drivers/usb/core/driver.c:361
+>   really_probe+0xdae/0x1d80 drivers/base/dd.c:513
+>   driver_probe_device+0x1b3/0x4f0 drivers/base/dd.c:671
+>   __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:778
+>   bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+>   __device_attach+0x454/0x730 drivers/base/dd.c:844
+>   device_initial_probe+0x4a/0x60 drivers/base/dd.c:891
+>   bus_probe_device+0x137/0x390 drivers/base/bus.c:514
+>   device_add+0x288d/0x30e0 drivers/base/core.c:2106
+>   usb_set_configuration+0x30dc/0x3750 drivers/usb/core/message.c:2027
+>   generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
+>   usb_probe_device+0x14c/0x200 drivers/usb/core/driver.c:266
+>   really_probe+0xdae/0x1d80 drivers/base/dd.c:513
+>   driver_probe_device+0x1b3/0x4f0 drivers/base/dd.c:671
+>   __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:778
+>   bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+>   __device_attach+0x454/0x730 drivers/base/dd.c:844
+>   device_initial_probe+0x4a/0x60 drivers/base/dd.c:891
+>   bus_probe_device+0x137/0x390 drivers/base/bus.c:514
+>   device_add+0x288d/0x30e0 drivers/base/core.c:2106
+>   usb_new_device+0x23e5/0x2ff0 drivers/usb/core/hub.c:2534
+>   hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+>   port_event drivers/usb/core/hub.c:5350 [inline]
+>   hub_event+0x48d1/0x7290 drivers/usb/core/hub.c:5432
+>   process_one_work+0x1572/0x1f00 kernel/workqueue.c:2269
+>   process_scheduled_works kernel/workqueue.c:2331 [inline]
+>   worker_thread+0x189c/0x2460 kernel/workqueue.c:2417
+>   kthread+0x4b5/0x4f0 kernel/kthread.c:254
+>   ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+> 
+> Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+> ---
+>  drivers/net/usb/asix_devices.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/net/usb/asix_devices.c
+> b/drivers/net/usb/asix_devices.c
+> index c9bc96310ed4..f514d19316b1 100644
+> --- a/drivers/net/usb/asix_devices.c
+> +++ b/drivers/net/usb/asix_devices.c
+> @@ -230,6 +230,7 @@ static int ax88172_bind(struct usbnet *dev,
+> struct usb_interface *intf)
+>  	int i;
+>  	unsigned long gpio_bits = dev->driver_info->data;
+>  
+> +	memset(buf, 0, sizeof(buf));
 
-On 7/1/19 5:23 AM, Jiunn Chang wrote:
-> Hello,
-> 
-> This is an analysis of the following Syzbot report:
-> 
-> https://syzkaller.appspot.com/bug?id=dd5aa153a2344f5f39e656692bc58dfe86e0423f
-> 
-> I am able to reproduce this warning on upstream v5.2-rc4.  I compiled with gcc 9.1
-> and used the syz program provided.
-> 
-> The RIP register is placing the site for the warning in:
-> 
-> drivers/media/common/videobuf2/videobuf2-core.c:1877
-> 
-> [  106.310118][ T6765] Call Trace:
-> [  106.310118][ T6765]  vb2_core_streamoff+0x60/0x150
-> [  106.310118][ T6765]  __vb2_cleanup_fileio+0x78/0x170
-> [  106.310118][ T6765]  vb2_core_queue_release+0x20/0x80
-> [  106.310118][ T6765]  _vb2_fop_release+0x1cf/0x2a0
-> [  106.310118][ T6765]  vb2_fop_release+0x75/0xc0
-> [  106.310118][ T6765]  vivid_fop_release+0x18e/0x440
-> [  106.310118][ T6765]  v4l2_release+0x21f/0x390
-> 
-> The syz program is:
-> 
-> r0 = syz_open_dev$vbi(0x0, 0xffffffffffffffff, 0x2)
-> ioctl$VIDIOC_S_INPUT(r0, 0xc0045627, &(0x7f0000000040)=0x2)
-> r1 = syz_open_dev$vbi(&(0x7f0000000140)='/dev/vbi#\x00', 0xffffffffffffffff, 0x2)
-> read$eventfd(r1, &(0x7f00000000c0), 0x1000001b2)
-> 
-> Analysis:
-> 
-> The syz program appears to open a VBI device and using the raw VBI interface to
-> select it as the current video input.  Then it tries to read from an event
-> notification file descriptor for any notifications from the VBI device open.
-> 
-> Although none of this is in the trace--my guess is that the v4l2_device is registered
-> and when refcount reaches zero it is released.  This brings us to the beginning of the
-> trace.
-> 
-> There are more than a few calls until the site of the warning appears.  The
-> root cause seems to be that start_streaming_called bit field is not set in the vb2_queue
-> object in v4l2_device.  The call trace will eventually lead to vb2_core_streamoff()
-> where I see this comment:
-> 
-> /*
->   * Cancel will pause streaming and remove all buffers from the driver
->   * and videobuf, effectively returning control over them to userspace.
->   *
->   * Note that we do this even if q->streaming == 0: if you prepare or$
->   * queue buffers, and then call streamoff without ever having called$
->   * streamon, you would still expect those buffers to be returned to$
->   * their normal dequeued state.$
->   */
-> 
-> vb2_start_streaming() is what sets the start_streaming_called bit field, and I
-> do not see this call in the trace.
-> 
-> A call to __vb2_queue_cancel() in vb2_core_streamoff() will only call stop_streaming()
-> if the start_streaming_called bit field is set.  Given the comments in the code, the
-> if statement wrapping the call to stop_streaming() should be checking the
-> streaming bit field and not the start_streaming_called bit field.  Another alternative
-> is to not wrap the call to stop_streaming() with an if statement at all.
-> 
-> Purposed fix:
-> 
-> Not sure if this is the right approach, but it seems logical.
-> 
-> /*
->   * Tell driver to stop all transactions and release all queued
->   * buffers.
->   */
-> if (q->start_streaming_called)
-> 	call_void_qop(q, stop_streaming, q);
-> 
-> Change the if statement to check: if q->streaming == 0: like the comment states
-> or remove the if statement entirely.
-> 
+For array variables defined in the function itself, isn't this usually
+done with:
 
-Hans knows this area very well.
+         int ret = 0;
+-        u8 buf[ETH_ALEN];
++        u8 buf[ETH_ALEN] = {0};
+         int i;
+         unsigned long gpio_bits = dev->driver_info->data;
 
-Hans! Would you like Jiunn to cc media list when he sends these reports?
+eg make the compiler do it (though maybe it's smart enough to elide the
+memset, I don't know). See drivers/net/ethernet/intel/igb/e1000_mac.c
+for an example.
 
-thanks,
--- Shuah
+Dan
+
+>  	usbnet_get_endpoints(dev,intf);
+>  
+>  	/* Toggle the GPIOs in a manufacturer/model specific way */
+> @@ -681,6 +682,7 @@ static int ax88772_bind(struct usbnet *dev,
+> struct usb_interface *intf)
+>  	u32 phyid;
+>  	struct asix_common_private *priv;
+>  
+> +	memset(buf, 0, sizeof(buf));
+>  	usbnet_get_endpoints(dev, intf);
+>  
+>  	/* Maybe the boot loader passed the MAC address via device tree
+> */
+> @@ -1063,6 +1065,7 @@ static int ax88178_bind(struct usbnet *dev,
+> struct usb_interface *intf)
+>  	int ret;
+>  	u8 buf[ETH_ALEN];
+>  
+> +	memset(buf, 0, sizeof(buf));
+>  	usbnet_get_endpoints(dev,intf);
+>  
+>  	/* Get the MAC address */
