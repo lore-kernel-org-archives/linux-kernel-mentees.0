@@ -1,30 +1,51 @@
-From: bnvandana at gmail.com (Vandana BN)
-Date: Mon,  1 Jul 2019 19:46:10 +0530
-Subject: [Linux-kernel-mentees] [PATCH] net:gue.h:Fix shifting signed 32-bit
-	value by 31 bits problem
-Message-ID: <20190701141610.3681-1-bnvandana@gmail.com>
+From: sanjana99reddy99 at gmail.com (Sanjana Sanikommu)
+Date: Mon,  1 Jul 2019 19:47:19 +0530
+Subject: [Linux-kernel-mentees] [PATCH] drivers: mtd: nand: raw: Remove
+	unnecessary return variables.
+Message-ID: <20190701141719.6636-1-sanjana99reddy99@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Fix GUE_PFLAG_REMCSUM to use "U" cast to avoid shifting signed
-32-bit value by 31 bits problem.
+Issue found using coccinelle tool.
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
+Signed-off-by: Sanjana Sanikommu <sanjana99reddy99 at gmail.com>
 ---
- include/net/gue.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/mtd/nand/raw/marvell_nand.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/include/net/gue.h b/include/net/gue.h
-index fdad41469b65..3a6595bfa641 100644
---- a/include/net/gue.h
-+++ b/include/net/gue.h
-@@ -60,7 +60,7 @@ struct guehdr {
-
- /* Private flags in the private option extension */
-
--#define GUE_PFLAG_REMCSUM	htonl(1 << 31)
-+#define GUE_PFLAG_REMCSUM	htonl(1U << 31)
- #define GUE_PLEN_REMCSUM	4
-
- #define GUE_PFLAGS_ALL	(GUE_PFLAG_REMCSUM)
---
+diff --git a/drivers/mtd/nand/raw/marvell_nand.c b/drivers/mtd/nand/raw/marvell_nand.c
+index f38e5c1b87e4..ac91ce6a8764 100644
+--- a/drivers/mtd/nand/raw/marvell_nand.c
++++ b/drivers/mtd/nand/raw/marvell_nand.c
+@@ -1029,8 +1029,7 @@ static int marvell_nfc_hw_ecc_hmg_do_read_page(struct nand_chip *chip,
+ 		marvell_nfc_xfer_data_in_pio(nfc, oob_buf, oob_bytes);
+ 	}
+ 
+-	ret = marvell_nfc_wait_cmdd(chip);
+-	return ret;
++	return marvell_nfc_wait_cmdd(chip);
+ }
+ 
+ static int marvell_nfc_hw_ecc_hmg_read_page_raw(struct nand_chip *chip, u8 *buf,
+@@ -1141,9 +1140,8 @@ static int marvell_nfc_hw_ecc_hmg_do_write_page(struct nand_chip *chip,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = marvell_nfc_wait_op(chip,
++	return marvell_nfc_wait_op(chip,
+ 				  PSEC_TO_MSEC(chip->data_interface.timings.sdr.tPROG_max));
+-	return ret;
+ }
+ 
+ static int marvell_nfc_hw_ecc_hmg_write_page_raw(struct nand_chip *chip,
+@@ -2708,8 +2706,7 @@ static int marvell_nand_chips_init(struct device *dev, struct marvell_nfc *nfc)
+ 	 * NAND controller node.
+ 	 */
+ 	if (nfc->caps->legacy_of_bindings) {
+-		ret = marvell_nand_chip_init(dev, nfc, np);
+-		return ret;
++		return marvell_nand_chip_init(dev, nfc, np);
+ 	}
+ 
+ 	for_each_child_of_node(np, nand_np) {
+-- 
 2.17.1
