@@ -1,37 +1,33 @@
 From: sanjana99reddy99@gmail.com (Sanjana Sanikommu)
-Date: Mon,  1 Jul 2019 20:27:32 +0530
-Subject: [Linux-kernel-mentees] [PATCH] include: uapi: vfio.h: Fix shifting
-	signed 32-bit value by 31 bits problem
-Message-ID: <20190701145732.7673-1-sanjana99reddy99@gmail.com>
+Date: Mon,  1 Jul 2019 20:29:14 +0530
+Subject: [Linux-kernel-mentees] [PATCH v2] Documentation: networking: Fix
+	the title underline
+Message-ID: <20190701145914.7731-1-sanjana99reddy99@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190701145732.ykVS_NuEX9amN9PJxJCT7059As66YCFSrM4s6J8fKGs@z>
+Message-ID: <20190701145914.aQqTlQJr2tMxLrqVQNS0u73A1bnPiQbBdcW_OVXiwc8@z>
 
-Fix CRAMFS_BLK_FLAG_UNCOMPRESSED to use "U" cast to avoid shifting signed
-32-bit value by 31 bits problem. This isn't a problem for kernel builds
-with gcc.
-
-This could be problem since this header is part of public API which
-could be included for builds using compilers that don't handle this
-condition safely resulting in undefined behavior.
+WARNING: Title underline too short.
 
 Signed-off-by: Sanjana Sanikommu <sanjana99reddy99 at gmail.com>
 ---
- include/uapi/linux/vfio.h | 2 +-
+Changes in v2:
+Fix the patch number 
+Documentation/networking/snmp_counter.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-index 02bb7ad6e986..bb61f5d443cf 100644
---- a/include/uapi/linux/vfio.h
-+++ b/include/uapi/linux/vfio.h
-@@ -295,7 +295,7 @@ struct vfio_region_info_cap_type {
- 	__u32 subtype;	/* type specific */
- };
+diff --git a/Documentation/networking/snmp_counter.rst b/Documentation/networking/snmp_counter.rst
+index 52b026be028f..679b1a7654b0 100644
+--- a/Documentation/networking/snmp_counter.rst
++++ b/Documentation/networking/snmp_counter.rst
+@@ -719,7 +719,7 @@ will be updated. If the undo_marker is set, TcpExtTCPDSACKIgnoredOld
+ will be updated. As implied in its name, it might be an old packet.
  
--#define VFIO_REGION_TYPE_PCI_VENDOR_TYPE	(1 << 31)
-+#define VFIO_REGION_TYPE_PCI_VENDOR_TYPE	(1U << 31)
- #define VFIO_REGION_TYPE_PCI_VENDOR_MASK	(0xffff)
- 
- /* 8086 Vendor sub-types */
+ SACK shift
+-=========
++==========
+ The linux networking stack stores data in sk_buff struct (skb for
+ short). If a SACK block acrosses multiple skb, the TCP stack will try
+ to re-arrange data in these skb. E.g. if a SACK block acknowledges seq
 -- 
 2.17.1
