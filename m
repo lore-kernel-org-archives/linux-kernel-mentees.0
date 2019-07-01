@@ -1,59 +1,30 @@
-From: lnowakow at eng.ucsd.edu (Luke Nowakowski-Krijger)
-Date: Mon, 1 Jul 2019 06:22:06 -0700
-Subject: [Linux-kernel-mentees] [Linux-kernel-mentees,
- PATCH] media: hdpvr: Add device num check and handling
-Message-ID: <20190701132206.GA8193@luke-XPS-13>
+From: bnvandana at gmail.com (Vandana BN)
+Date: Mon,  1 Jul 2019 19:46:10 +0530
+Subject: [Linux-kernel-mentees] [PATCH] net:gue.h:Fix shifting signed 32-bit
+	value by 31 bits problem
+Message-ID: <20190701141610.3681-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Add hdpvr device num check and error handling
+Fix GUE_PFLAG_REMCSUM to use "U" cast to avoid shifting signed
+32-bit value by 31 bits problem.
 
-We need to increment the device count atomically before we checkout a
-device to make sure that we do not reach the max count, otherwise we get
-out-of-bounds errors as reported by syzbot. 
-
-Reported-and-tested-by: syzbot+aac8d0d7205f112045d2 at syzkaller.appspotmail.com
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+Signed-off-by: Vandana BN <bnvandana at gmail.com>
 ---
-Changes in V1:
-+ add storing of incremented index in dev_num var
-+ add bounds check on dev_num and appropriate error handling
-- remove attomic_inc_return from inside of hdpvr_register call
+ include/net/gue.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/media/usb/hdpvr/hdpvr-core.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+diff --git a/include/net/gue.h b/include/net/gue.h
+index fdad41469b65..3a6595bfa641 100644
+--- a/include/net/gue.h
++++ b/include/net/gue.h
+@@ -60,7 +60,7 @@ struct guehdr {
 
-diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
-index 29ac7fc5b039..640ef83b57c9 100644
---- a/drivers/media/usb/hdpvr/hdpvr-core.c
-+++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-@@ -275,6 +275,7 @@ static int hdpvr_probe(struct usb_interface *interface,
- #endif
- 	size_t buffer_size;
- 	int i;
-+	int dev_num;
- 	int retval = -ENOMEM;
- 
- 	/* allocate memory for our device state and initialize it */
-@@ -371,9 +372,18 @@ static int hdpvr_probe(struct usb_interface *interface,
- 		goto reg_fail;
- 	}
- #endif
--
-+
-+	dev_num = atomic_inc_return(&dev_nr);
-+	if (dev_num >= HDPVR_MAX) {
-+		v4l2_err(&dev->v4l2_dev,
-+			"max device number reached, device register failed\n");
-+		atomic_dec(&dev_nr);
-+		retval = -ENODEV;
-+		goto reg_fail;
-+	}
-+
- 	retval = hdpvr_register_videodev(dev, &interface->dev,
--				    video_nr[atomic_inc_return(&dev_nr)]);
-+				    video_nr[dev_num]);
- 	if (retval < 0) {
- 		v4l2_err(&dev->v4l2_dev, "registering videodev failed\n");
- 		goto reg_fail;
--- 
-2.20.1
+ /* Private flags in the private option extension */
+
+-#define GUE_PFLAG_REMCSUM	htonl(1 << 31)
++#define GUE_PFLAG_REMCSUM	htonl(1U << 31)
+ #define GUE_PLEN_REMCSUM	4
+
+ #define GUE_PFLAGS_ALL	(GUE_PFLAG_REMCSUM)
+--
+2.17.1
