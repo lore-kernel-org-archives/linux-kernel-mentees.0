@@ -1,33 +1,79 @@
-From: sanjana99reddy99@gmail.com (Sanjana Sanikommu)
-Date: Mon,  1 Jul 2019 20:29:14 +0530
-Subject: [Linux-kernel-mentees] [PATCH v2] Documentation: networking: Fix
-	the title underline
-Message-ID: <20190701145914.7731-1-sanjana99reddy99@gmail.com>
+From: sandeen@sandeen.net (Eric Sandeen)
+Date: Mon, 1 Jul 2019 09:54:23 -0500
+Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v1] Doc :
+ fs : convert xfs.txt to ReST
+In-Reply-To: <20190630113243.7265c33e@lwn.net>
+References: <20190630165046.GB5193@localhost> <20190630113243.7265c33e@lwn.net>
+Message-ID: <7251234a-9469-68a6-8a23-c023bd01c637@sandeen.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190701145914.aQqTlQJr2tMxLrqVQNS0u73A1bnPiQbBdcW_OVXiwc8@z>
+Message-ID: <20190701145423.dW9-YMfZyhHJhV0XCn0IomCnlGihHcFBDM_cLEkdtj8@z>
 
-WARNING: Title underline too short.
 
-Signed-off-by: Sanjana Sanikommu <sanjana99reddy99 at gmail.com>
----
-Changes in v2:
-Fix the patch number 
-Documentation/networking/snmp_counter.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/snmp_counter.rst b/Documentation/networking/snmp_counter.rst
-index 52b026be028f..679b1a7654b0 100644
---- a/Documentation/networking/snmp_counter.rst
-+++ b/Documentation/networking/snmp_counter.rst
-@@ -719,7 +719,7 @@ will be updated. If the undo_marker is set, TcpExtTCPDSACKIgnoredOld
- will be updated. As implied in its name, it might be an old packet.
- 
- SACK shift
--=========
-+==========
- The linux networking stack stores data in sk_buff struct (skb for
- short). If a SACK block acrosses multiple skb, the TCP stack will try
- to re-arrange data in these skb. E.g. if a SACK block acknowledges seq
--- 
-2.17.1
+On 6/30/19 12:32 PM, Jonathan Corbet wrote:
+> On Sun, 30 Jun 2019 17:50:46 +0100
+> Sheriff Esseson <sheriffesseson at gmail.com> wrote:
+> 
+>> On Sat, Jun 29, 2019 at 09:57:59PM +0100, Sheriff Esseson wrote:
+>>> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+>>> ---
+>>>
+>>> In v3:
+>>> Update MAINTAINERS. Fix Indentation/long line issues. Insert Sphinx tag.
+>>>
+>>> -- 
+>>> 2.22.0
+>>>   
+>>
+>> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+>> ---
+>>
+>> In v4:
+>> dax.txt : 
+>> 	fix broken reference to xfs.rst
+> 
+> I will now repeat what I said yesterday:
+> 
+>> Please do us a favor?  
+>>
+>> 1) Post each patch standalone, without quoted text, ready to be applied.
+
+To be maybe more explicit,
+
+While we appreciate the eagerness here I'd like to reiterate that the
+followup V2, V3, ... patches should each be a standalone, self-contained
+email, without any quoted text and with updated subject lines, i.e.
+
+Subject: [PATCH] Doc : fs : convert xfs.txt to ReST
+
+followed by:
+
+Subject: [PATCH V2] Doc : fs : convert xfs.txt to ReST
+
+followed by:
+
+Subject: [PATCH V3] Doc : fs : convert xfs.txt to ReST
+
+so it's trivial to see from subject lines when a new version has been
+sent.
+
+Also, what Jonathan said about time between iterations.  ;)
+
+Thanks,
+-Eric
+
+
+>> 2) Wait a little while between postings so that you can address more than
+>> one comment at a time.
+>>
+>> OK, two favors - off-by-one errors are my specialty...:)
+> 
+> I did actually mean that.  For "a little while" I meant "a few days or
+> so".  Please slow down a little.  In any case, we're getting closer to the
+> merge window, so this patch won't be applied for a while regardless.
+> 
+> Thanks,
+> 
+> jon
+> 
