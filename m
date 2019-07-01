@@ -1,18 +1,18 @@
 From: davem@davemloft.net (David Miller)
-Date: Mon, 01 Jul 2019 10:49:03 -0700 (PDT)
-Subject: [Linux-kernel-mentees] [PATCH] net: dst.h: Fix shifting signed
+Date: Mon, 01 Jul 2019 11:00:11 -0700 (PDT)
+Subject: [Linux-kernel-mentees] [PATCH] net:gue.h:Fix shifting signed
  32-bit value by 31 bits problem
-In-Reply-To: <20190701115539.6738-1-bnvandana@gmail.com>
-References: <20190701115539.6738-1-bnvandana@gmail.com>
-Message-ID: <20190701.104903.1353371516845397024.davem@davemloft.net>
+In-Reply-To: <20190701141610.3681-1-bnvandana@gmail.com>
+References: <20190701141610.3681-1-bnvandana@gmail.com>
+Message-ID: <20190701.110011.200125223653333509.davem@davemloft.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190701174903.ONRYW_-M_KBCDSviRYuUjeR196FuanefEqGgpJWwihc@z>
+Message-ID: <20190701180011.69xAzyQ9tCssgVjJ6dZOCpE6ZuQFc4Ta5LbZjOqWwEQ@z>
 
 From: Vandana BN <bnvandana@gmail.com>
-Date: Mon,  1 Jul 2019 17:25:39 +0530
+Date: Mon,  1 Jul 2019 19:46:10 +0530
 
-> Fix DST_FEATURE_ECN_CA to use "U" cast to avoid shifting signed
+> Fix GUE_PFLAG_REMCSUM to use "U" cast to avoid shifting signed
 > 32-bit value by 31 bits problem.
 > 
 > Signed-off-by: Vandana BN <bnvandana at gmail.com>
