@@ -1,69 +1,24 @@
-From: glider@google.com (Alexander Potapenko)
-Date: Tue, 2 Jul 2019 16:23:11 +0200
-Subject: [Linux-kernel-mentees] [PATCH] media: usb: technisat-usb2: fix
-	buffer overflow
-In-Reply-To: <20190702140211.28399-1-tranmanphong@gmail.com>
-References: <000000000000089d7f058683115e@google.com>
-	<20190702140211.28399-1-tranmanphong@gmail.com>
-Message-ID:
- <CAG_fn=VHpZW69TfK35aqL7o6CvgsPazL5raeW1QmWpu9ReYkhw@mail.gmail.com>
+From: willy@infradead.org (Matthew Wilcox)
+Date: Tue, 2 Jul 2019 08:04:52 -0700
+Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v5] Doc :
+ fs : convert xfs.txt to ReST
+In-Reply-To: <20190702123040.GA30111@localhost>
+References: <20190702123040.GA30111@localhost>
+Message-ID: <20190702150452.GD1729@bombadil.infradead.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190702142311.q-upmZpf4Iuts-FBOvEOH68Ft-6RaKEe6svnSTbm264@z>
+Message-ID: <20190702150452.NYGfhhuPmW7Iz4esx5-dWOvNzEnLW6IsfIB0QHNfJG0@z>
 
-On Tue, Jul 2, 2019 at 4:02 PM Phong Tran <tranmanphong at gmail.com> wrote:
->
-> The buffer will be overflow in case of the while loop can not break.
-> Add the checking buffer condition in while loop for avoiding
-> overlooping index.
->
-> This issue was reported by syzbot
->
-> Reported-by: syzbot+eaaaf38a95427be88f4b at syzkaller.appspotmail.com
->
-> Tested by:
-> https://groups.google.com/d/msg/syzkaller-bugs/CySBCKuUOOs/0hKq1CdjCwAJ
->
-> Signed-off-by: Phong Tran <tranmanphong at gmail.com>
-> ---
->  drivers/media/usb/dvb-usb/technisat-usb2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/usb/dvb-usb/technisat-usb2.c b/drivers/media/usb/dvb-usb/technisat-usb2.c
-> index c659e18b358b..4e0b6185666a 100644
-> --- a/drivers/media/usb/dvb-usb/technisat-usb2.c
-> +++ b/drivers/media/usb/dvb-usb/technisat-usb2.c
-> @@ -655,7 +655,7 @@ static int technisat_usb2_get_ir(struct dvb_usb_device *d)
->  #endif
->
->         ev.pulse = 0;
-> -       while (1) {
-> +       while (b != (buf + 63)) {
-I think it won't hurt to either use ARRAY_SIZE here, or define some
-magic constant for the buffer size in struct technisat_usb2_state.
+On Tue, Jul 02, 2019 at 01:30:40PM +0100, Sheriff Esseson wrote:
+> +When mounting an XFS filesystem, the following options are accepted.  For
+> +boolean mount options, the names with the "(*)" prefix is the default behaviour.
+> +For example, take a behaviour enabled by default to be a one (1) or, a zero (0)
+> +otherwise, ``(*)[no]default`` would be 0 while ``[no](*)default`` , a 1.
+> -When mounting an XFS filesystem, the following options are accepted.
+> -For boolean mount options, the names with the (*) suffix is the
+> -default behaviour.
 
->                 ev.pulse = !ev.pulse;
->                 ev.duration = (*b * FIRMWARE_CLOCK_DIVISOR * FIRMWARE_CLOCK_TICK) / 1000;
->                 ir_raw_event_store(d->rc_dev, &ev);
-> --
-> 2.11.0
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe at googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20190702140211.28399-1-tranmanphong%40gmail.com.
-> For more options, visit https://groups.google.com/d/optout.
-
-
-
--- 
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra?e, 33
-80636 M?nchen
-
-Gesch?ftsf?hrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+You seem to have reflowed all the text.  That means git no longer notices
+it's a rename, and quite frankly the shorter lines that were in use were
+better.  This is not an improvement; please undo it in the next version
+(which you should not post for several days to accumulate more feedback).
