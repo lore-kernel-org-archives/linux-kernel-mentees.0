@@ -1,70 +1,69 @@
-From: tranmanphong@gmail.com (Phong Tran)
-Date: Tue, 2 Jul 2019 21:06:13 +0700
-Subject: [Linux-kernel-mentees] Analyze syzbot report
- technisat_usb2_rc_query KASAN
-In-Reply-To: <20190702044510.GA1045@kroah.com>
-References: <ede75d50-7475-3478-b30f-ef9077b6bf48@gmail.com>
-	<20190702044510.GA1045@kroah.com>
-Message-ID: <cf3f9c63-bd2d-1e26-bfa7-1fd220bc0652@gmail.com>
+From: glider@google.com (Alexander Potapenko)
+Date: Tue, 2 Jul 2019 16:23:11 +0200
+Subject: [Linux-kernel-mentees] [PATCH] media: usb: technisat-usb2: fix
+	buffer overflow
+In-Reply-To: <20190702140211.28399-1-tranmanphong@gmail.com>
+References: <000000000000089d7f058683115e@google.com>
+	<20190702140211.28399-1-tranmanphong@gmail.com>
+Message-ID:
+ <CAG_fn=VHpZW69TfK35aqL7o6CvgsPazL5raeW1QmWpu9ReYkhw@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190702140613.wk5M6vFC0jwklU_ou8ycv92mBHFsBiyIWBc6D3pFx3g@z>
+Message-ID: <20190702142311.q-upmZpf4Iuts-FBOvEOH68Ft-6RaKEe6svnSTbm264@z>
+
+On Tue, Jul 2, 2019 at 4:02 PM Phong Tran <tranmanphong at gmail.com> wrote:
+>
+> The buffer will be overflow in case of the while loop can not break.
+> Add the checking buffer condition in while loop for avoiding
+> overlooping index.
+>
+> This issue was reported by syzbot
+>
+> Reported-by: syzbot+eaaaf38a95427be88f4b at syzkaller.appspotmail.com
+>
+> Tested by:
+> https://groups.google.com/d/msg/syzkaller-bugs/CySBCKuUOOs/0hKq1CdjCwAJ
+>
+> Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+> ---
+>  drivers/media/usb/dvb-usb/technisat-usb2.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/usb/dvb-usb/technisat-usb2.c b/drivers/media/usb/dvb-usb/technisat-usb2.c
+> index c659e18b358b..4e0b6185666a 100644
+> --- a/drivers/media/usb/dvb-usb/technisat-usb2.c
+> +++ b/drivers/media/usb/dvb-usb/technisat-usb2.c
+> @@ -655,7 +655,7 @@ static int technisat_usb2_get_ir(struct dvb_usb_device *d)
+>  #endif
+>
+>         ev.pulse = 0;
+> -       while (1) {
+> +       while (b != (buf + 63)) {
+I think it won't hurt to either use ARRAY_SIZE here, or define some
+magic constant for the buffer size in struct technisat_usb2_state.
+
+>                 ev.pulse = !ev.pulse;
+>                 ev.duration = (*b * FIRMWARE_CLOCK_DIVISOR * FIRMWARE_CLOCK_TICK) / 1000;
+>                 ir_raw_event_store(d->rc_dev, &ev);
+> --
+> 2.11.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe at googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20190702140211.28399-1-tranmanphong%40gmail.com.
+> For more options, visit https://groups.google.com/d/optout.
 
 
 
-On 7/2/19 11:45 AM, Greg KH wrote:
-> On Tue, Jul 02, 2019 at 07:49:26AM +0700, Phong Tran wrote:
->> Hello,
->>
->> I did a checking for this report of syzbot [1]
->>  From the call stack of dump log:
->>
->> There shows that a problem within technisat_usb2_get_ir()
->>
->> BUG: KASAN: slab-out-of-bounds in technisat_usb2_get_ir
->> drivers/media/usb/dvb-usb/technisat-usb2.c:664 [inline]
->> BUG: KASAN: slab-out-of-bounds in technisat_usb2_rc_query+0x5fa/0x660
->> drivers/media/usb/dvb-usb/technisat-usb2.c:679
->> Read of size 1 at addr ffff8880a8791ea8 by task kworker/0:1/12
->>
->> Take a look into while loop in technisat_usb2_get_ir().
->> I recognized that a problem. The loop will not break out with the condition
->> doesn't reach. Then "b++" will go wrong and buffer will be overflow.
->>
->> while (1) {
->> [...]
->> 	b++;
->> 	if (*b == 0xff) {
->> 		ev.pulse = 0;
->> 		ev.duration = 888888*2;
->> 		ir_raw_event_store(d->rc_dev, &ev);
->> 		break;
->> 	}
->> }
->>
->> I would propose changing the loop condition by checking the address of the
->> buffer. If acceptable, I will send this patch to the mailing-list.
->> eg:
->>
->> -       while (1) {
->> +       while (b != (buf + 63)) {
->> [...]
->> }
->>
->> Tested with syzbot, result is good [2].
->>
->> [1] https://syzkaller.appspot.com/bug?extid=eaaaf38a95427be88f4b
->> [2] https://groups.google.com/d/msg/syzkaller-bugs/CySBCKuUOOs/0hKq1CdjCwAJ
-> 
-> Great, can you submit a patch for this?
-> 
+-- 
+Alexander Potapenko
+Software Engineer
 
-Yes, sent a patch
-https://lore.kernel.org/lkml/20190702140211.28399-1-tranmanphong at gmail.com/
+Google Germany GmbH
+Erika-Mann-Stra?e, 33
+80636 M?nchen
 
-Phong.
-
-> thanks,
-> 
-> greg k-h
-> 
+Gesch?ftsf?hrer: Paul Manicle, Halimah DeLaine Prado
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
