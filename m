@@ -1,8 +1,7 @@
 From: sushmaunnibhavi425 at gmail.com (Sushma Unnibhavi)
-Date: Wed,  3 Jul 2019 11:44:46 +0530
-Subject: [Linux-kernel-mentees] [PATCH v4] docs: aha152x.txt convert it to
-	ReST
-Message-ID: <20190703061446.12582-1-sushmaunnibhavi425@gmail.com>
+Date: Wed,  3 Jul 2019 12:05:10 +0530
+Subject: [Linux-kernel-mentees] [PATCH] docs: aha152x.txt convert it to ReST
+Message-ID: <20190703063510.13393-1-sushmaunnibhavi425@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
 This patch converts aha152x.rst
@@ -13,11 +12,11 @@ Added SPDX tag in index.rst
 Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
 ---
  Documentation/driver-api/index.rst  |   1 +
- Documentation/scsi/aha152x.rst      | 203 ++++++++++++++++++++++++++++
- Documentation/scsi/aha152x.txt      | 183 -------------------------
- Documentation/scsi/source/conf.py   |  52 +++++++
- Documentation/scsi/source/index.rst |  22 +++
- 5 files changed, 278 insertions(+), 183 deletions(-)
+ Documentation/scsi/aha152x.rst      | 190 ++++++++++++++++++++++++++++
+ Documentation/scsi/aha152x.txt      | 183 ---------------------------
+ Documentation/scsi/source/conf.py   |  52 ++++++++
+ Documentation/scsi/source/index.rst |  22 ++++
+ 5 files changed, 265 insertions(+), 183 deletions(-)
  create mode 100644 Documentation/scsi/aha152x.rst
  delete mode 100644 Documentation/scsi/aha152x.txt
  create mode 100644 Documentation/scsi/source/conf.py
@@ -37,10 +36,10 @@ index d26308af6036..e26809c95c79 100644
     i3c/index
 diff --git a/Documentation/scsi/aha152x.rst b/Documentation/scsi/aha152x.rst
 new file mode 100644
-index 000000000000..3c4d558b9daf
+index 000000000000..6d2ced6a026b
 --- /dev/null
 +++ b/Documentation/scsi/aha152x.rst
-@@ -0,0 +1,203 @@
+@@ -0,0 +1,190 @@
 +
 +=====================================================
 +Adaptec AHA-1520/1522 SCSI driver for Linux (aha152x)
@@ -59,36 +58,32 @@ index 000000000000..3c4d558b9daf
 +least on my ancient test box; a i486/33Mhz/20MB).
 +
 +
-+========================
 +Configuration Arguments
 +========================
-++-----------+------------------------------------------+---------------------------+
-+|IOPORT|    |   base io address                        |     (0x340/0x140)         |
-++-----------+------------------------------------------+---------------------------+
-+|IRQ        |      interrupt level                     |     (9-12; default 11)|   |
-++-----------+------------------------------------------+---------------------------+
-+|SCSI_ID    |   scsi id of controller                  |   (0-7; default 7)        |
-++-----------+------------------------------------------+---------------------------+
-+|RECONNECT  |  allow targets to disconnect from the bus|  (0/1; default 1 [on])    |
-++-----------+------------------------------------------+---------------------------+
-+|PARITY     |   enable parity checking                 |   (0/1; default 1 [on])   |
-++-----------+------------------------------------------+---------------------------+
-+|SYNCHRONOUS|   enable synchronous transfers           |   (0/1; default 1 [on])   |
-++-----------+------------------------------------------+---------------------------+
-+|DELAY:     |   bus reset delay                        |  (default 100)            |
-++-----------+------------------------------------------+---------------------------+
-+|EXT_TRANS: |  enable extended translation (see NOTES) |  (0/1: default 0 [off])   |
-++-----------+------------------------------------------+---------------------------+
+++-----------+------------------------------------------+----------------------+
++|IOPORT     |   base io address                        |(0x340/0x140)         |
+++-----------+------------------------------------------+----------------------+
++|IRQ        |      interrupt level                     |(9-12; default 11)    |
+++-----------+------------------------------------------+----------------------+
++|SCSI_ID    |   scsi id of controller                  |(0-7; default 7)      |
+++-----------+------------------------------------------+----------------------+
++|RECONNECT  |  allow targets to disconnect from the bus|(0/1; default 1 [on]) |
+++-----------+------------------------------------------+----------------------+
++|PARITY     |   enable parity checking                 |(0/1; default 1 [on]) |
+++-----------+------------------------------------------+----------------------+
++|SYNCHRONOUS|   enable synchronous transfers           |(0/1; default 1 [on]) |
+++-----------+------------------------------------------+----------------------+
++|DELAY:     |   bus reset delay                        |(default 100)         |
+++-----------+------------------------------------------+----------------------+
++|EXT_TRANS: |  enable extended translation (see NOTES) |(0/1: default 0 [off])|
+++-----------+------------------------------------------+----------------------+
 +
-+========================================================================
 +Compile Time Configuration (go into AHA152X in drivers/scsi/Makefile)
 +========================================================================
 +
-+-DAUTOCONF
-+ use configuration the controller reports (AHA-152x only)
++-DAUTOCONF use configuration the controller reports (AHA-152x only)
 +
-+-DSKIP_BIOSTEST
-+ Don't test for BIOS signature (AHA-1510 or disabled BIOS)
++-DSKIP_BIOSTEST Don't test for BIOS signature (AHA-1510 or disabled BIOS)
 +
 +-DSETUP0="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
 + override for the first controller 
@@ -96,14 +91,11 @@ index 000000000000..3c4d558b9daf
 +-DSETUP1="{ IOPORT, IRQ, SCSI_ID, RECONNECT, PARITY, SYNCHRONOUS, DELAY, EXT_TRANS }"
 + override for the second controller
 +
-+-DAHA152X_DEBUG
-+ enable debugging output
++-DAHA152X_DEBUG enable debugging output
 +
-+-DAHA152X_STAT
-+ enable some statistics
++-DAHA152X_STAT enable some statistics
 +
 +
-+==========================
 +Lilo Command Line Options
 +==========================
 +
@@ -116,10 +108,8 @@ index 000000000000..3c4d558b9daf
 +contact me. For two controllers  use  the aha152x statement twice.
 +
 +
-+=================================
 +Symbols For Module Configuration
 +=================================
-+---------------------------
 +Choose From 2 Alternatives
 +---------------------------
 +1. specify everything (old)
@@ -161,7 +151,6 @@ index 000000000000..3c4d558b9daf
 +If you use both alternatives the first will be taken.
 +
 +
-+====================
 +NOTES ON EXT_TRANS:
 +====================
 +
@@ -213,17 +202,14 @@ index 000000000000..3c4d558b9daf
 +  -use default translation (C/32/64)
 +
 +- for disks>1GB:
-+  - take current geometry from the partition table (using scsicam_bios_param
-+    and accept only `valid` geometries, ie. either (C/32/64) or (C/63/255)).
-+    This can be extended translation even if it's not enabled in the driver.
++  - take current geometry from the partition table (using scsicam_bios_param and accept        only `valid` geometries, ie. either (C/32/64) or (C/63/255)). This can be extended translation even if it's not enabled in the driver.
 +
-+  - if that fails, take extended translation if  enabled  by override,
-+    kernel or module parameter, otherwise take default translation and
-+    ask the user for verification.  This might on  not yet partitioned
-+    disks.
++- if that fails, take extended translation if  enabled  by override,
++  kernel or module parameter, otherwise take default translation and
++  ask the user for verification.  This might on  not yet partitioned
++  disks.
 +
 +
-+==================
 +REFERENCES USED:
 +==================
 + "AIC-6260 SCSI Chip Specification", Adaptec Corporation.
