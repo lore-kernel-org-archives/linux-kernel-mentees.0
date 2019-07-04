@@ -1,31 +1,72 @@
-From: puranjay12 at gmail.com (Puranjay Mohan)
-Date: Thu,  4 Jul 2019 23:21:05 +0530
-Subject: [Linux-kernel-mentees] [PATCH] net: ethernet: intel: e1000: Remove
-	unused PCI-Ex defines
-Message-ID: <20190704175105.16084-1-puranjay12@gmail.com>
+From: shreeya.patel23498 at gmail.com (Shreeya Patel)
+Date: Fri,  5 Jul 2019 00:00:48 +0530
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: input: Add HID gadget
+	driver's docs to Input subsystem
+Message-ID: <20190704183048.32360-1-shreeya.patel23498@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Remove the unused PCI-Ex define from e1000_hw.h.
+Convert gadget_hid file to ReST format, in order to allow it to
+be parsed by Sphinx.
+Also move the file in the Input subsystem documentation so as to
+put it in the right place.
 
-Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+Signed-off-by: Shreeya Patel <shreeya.patel23498 at gmail.com>
 ---
- drivers/net/ethernet/intel/e1000/e1000_hw.h | 4 ----
- 1 file changed, 4 deletions(-)
+ .../devices/gadget_hid.rst}                        | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+ rename Documentation/{usb/gadget_hid.txt => input/devices/gadget_hid.rst} (96%)
 
-diff --git a/drivers/net/ethernet/intel/e1000/e1000_hw.h b/drivers/net/ethernet/intel/e1000/e1000_hw.h
-index b57a04954ccf..1bc8bd792640 100644
---- a/drivers/net/ethernet/intel/e1000/e1000_hw.h
-+++ b/drivers/net/ethernet/intel/e1000/e1000_hw.h
-@@ -2178,10 +2178,6 @@ struct e1000_host_command_info {
- #define E1000_FACTPS_LAN_FUNC_SEL                   0x40000000
- #define E1000_FACTPS_PM_STATE_CHANGED               0x80000000
+diff --git a/Documentation/usb/gadget_hid.txt b/Documentation/input/devices/gadget_hid.rst
+similarity index 96%
+rename from Documentation/usb/gadget_hid.txt
+rename to Documentation/input/devices/gadget_hid.rst
+index 098d563040cc..132a8d6719f0 100644
+--- a/Documentation/usb/gadget_hid.txt
++++ b/Documentation/input/devices/gadget_hid.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
+ ===========================
+ Linux USB HID gadget driver
+ ===========================
+@@ -8,15 +10,15 @@ Introduction
+ The HID Gadget driver provides emulation of USB Human Interface
+ Devices (HID). The basic HID handling is done in the kernel,
+ and HID reports can be sent/received through I/O on the
+-/dev/hidgX character devices.
++:file:`/dev/hidgX` character devices.
  
--/* PCI-Ex Config Space */
--#define PCI_EX_LINK_STATUS           0x12
--#define PCI_EX_LINK_WIDTH_MASK       0x3F0
--#define PCI_EX_LINK_WIDTH_SHIFT      4
+ For more details about HID, see the developer page on
+-http://www.usb.org/developers/hidpage/
++`<http://www.usb.org/developers/hidpage/>`_
  
- /* EEPROM Commands - Microwire */
- #define EEPROM_READ_OPCODE_MICROWIRE  0x6	/* EEPROM read opcode */
+ Configuration
+ =============
+ 
+-g_hid is a platform driver, so to use it you need to add
++*g_hid* is a platform driver, so to use it you need to add
+ struct platform_device(s) to your platform code defining the
+ HID function descriptors you want to use - E.G. something
+ like::
+@@ -89,16 +91,16 @@ Send and receive HID reports
+ ============================
+ 
+ HID reports can be sent/received using read/write on the
+-/dev/hidgX character devices. See below for an example program
++:file:`/dev/hidgX` character devices. See below for an example program
+ to do this.
+ 
+-hid_gadget_test is a small interactive program to test the HID
++*hid_gadget_test* is a small interactive program to test the HID
+ gadget driver. To use, point it at a hidg device and set the
+ device type (keyboard / mouse / joystick) - E.G.::
+ 
+ 	# hid_gadget_test /dev/hidg0 keyboard
+ 
+-You are now in the prompt of hid_gadget_test. You can type any
++You are now in the prompt of *hid_gadget_test*. You can type any
+ combination of options and values. Available options and
+ values are listed at program start. In keyboard mode you can
+ send up to six values.
 -- 
-2.21.0
+2.17.1
