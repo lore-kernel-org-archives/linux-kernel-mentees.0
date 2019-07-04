@@ -1,41 +1,35 @@
-From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Thu, 4 Jul 2019 13:34:33 -0500
-Subject: [Linux-kernel-mentees] [PATCH v2] nl80211: Fix undefined
- behavior in bit shift
-In-Reply-To: <8b8c44c3ecb8626d9bb5a8f786b1d2b7488df86b.camel@sipsolutions.net>
-References: <20190627010137.5612-4-c0d1n61at3@gmail.com>
-	<20190627032532.18374-4-c0d1n61at3@gmail.com>
-	<c20a0a94-ab50-bb85-7c78-e02a465c5a40@linuxfoundation.org>
-	<8b8c44c3ecb8626d9bb5a8f786b1d2b7488df86b.camel@sipsolutions.net>
-Message-ID: <20190704183432.av37fjd5s3zcho6m@rYz3n>
+From: festevam at gmail.com (Fabio Estevam)
+Date: Thu, 4 Jul 2019 15:46:46 -0300
+Subject: [Linux-kernel-mentees] [Linux-kernel-mentee,
+ PATCH] media: dvb_frontend.h: Fix shifting signed 32-bit value
+ problem
+In-Reply-To: <20190704170422.GA25633@luke-XPS-13>
+References: <20190704170422.GA25633@luke-XPS-13>
+Message-ID: <CAOMZO5D0ti3o_8z4+b5L7ht55z582CRZWybiYK+feRROErUxuw@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Fri, Jun 28, 2019 at 03:57:05PM +0200, Johannes Berg wrote:
-> On Wed, 2019-06-26 at 21:34 -0600, Shuah Khan wrote:
-> > On 6/26/19 9:25 PM, Jiunn Chang wrote:
-> > > Shifting signed 32-bit value by 31 bits is undefined.  Changing most
-> > > significant bit to unsigned.
-> > > 
-> > > Changes included in v2:
-> > >    - use subsystem specific subject lines
-> > >    - CC required mailing lists
-> > > 
-> > > Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
-> > > ---
-> > 
-> > Move version change lines here. They don't belong in the commit log.
-> 
-> FWIW, in many cases people (maintainers) now *do* want them in the
-> commit log. Here, they're just editorial, so agree, but if real
-> technical changes were made due to reviews, they can indeed be useful.
-> 
-> johannes
-> 
+Hi Luke,
 
-Hello Johannes,
+On Thu, Jul 4, 2019 at 3:22 PM Luke Nowakowski-Krijger
+<lnowakow at eng.ucsd.edu> wrote:
+>
+> Fix DVBFE_ALGO_RECOVERY and DVBFE_ALGO_SEARCH_ERROR to use U cast which
+> fixes undefined behavior error by certain compilers.
+>
+> Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+> ---
+>  include/media/dvb_frontend.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
+> index f05cd7b94a2c..472fe5871d94 100644
+> --- a/include/media/dvb_frontend.h
+> +++ b/include/media/dvb_frontend.h
+> @@ -144,7 +144,7 @@ enum dvbfe_algo {
+>         DVBFE_ALGO_HW                   = (1 <<  0),
+>         DVBFE_ALGO_SW                   = (1 <<  1),
+>         DVBFE_ALGO_CUSTOM               = (1 <<  2),
+> -       DVBFE_ALGO_RECOVERY             = (1 << 31)
+> +       DVBFE_ALGO_RECOVERY             = (1U << 31)
 
-Would you like me to send v3 with the change log in the patch description?
-
-THX,
-
-Jiunn
+You could switch all these definitions to use the BIT() macro instead.
