@@ -1,26 +1,43 @@
-From: corbet at lwn.net (Jonathan Corbet)
-Date: Wed, 3 Jul 2019 08:32:41 -0600
-Subject: [Linux-kernel-mentees] [PATCH] docs: aha152x.txt convert it to
-	ReST
-In-Reply-To: <20190703063510.13393-1-sushmaunnibhavi425@gmail.com>
-References: <20190703063510.13393-1-sushmaunnibhavi425@gmail.com>
-Message-ID: <20190703083241.052153f9@lwn.net>
+From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
+Date: Wed,  3 Jul 2019 18:08:17 -0600
+Subject: [Linux-kernel-mentees] [PATCH 0/2] lspci: Add lspci support to
+	decode AIDA64 and dmesg log files
+Message-ID: <20190704000819.25050-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Wed,  3 Jul 2019 12:05:10 +0530
-Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com> wrote:
+Add lspci support to decode AIDA64 log files and dmesg log files with
+"pci=earlydump" parameter to output PCI configuration space information.
 
-> This patch converts aha152x.rst
-> to ReST format, No content change.
-> Added aha152x.rst to sh/index.rst
-> Added SPDX tag in index.rst
-> 
-> Signed-off-by: Sushma Unnibhavi <sushmaunnibhavi425 at gmail.com>
+	Patch 1: Add lspci support to decode AIDA64 log file.
 
-So I am very confused.  You appear to have sent two versions of this patch
-at the same time, one marked v4 one not, to different lists of
-recipients.  What am I supposed to make of these?
+	AIDA64 log file included in patch for testing. Use the following
+	command to run:
 
-Thanks,
+		lspci -F tests/aida64-dump
 
-jon
+
+	Patch 2: Add lspci support to decode dmesg log file with
+	"pci=earlydump" parameter.
+
+	dmesg log file with "pci=earlydump" included in patch for
+	testing. Use the following command to run:
+
+                lspci -F tests/dmesg-dump
+
+
+
+
+
+Bjorn Helgaas (2):
+  lspci: Add lspci support to decode an AIDA64 log file
+  lspci: Add lspci support to decode "pci=earlydump" output
+
+ lib/dump.c        |   96 ++-
+ tests/aida64-dump |  954 ++++++++++++++++++++++++
+ tests/dmesg-dump  | 1795 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 2812 insertions(+), 33 deletions(-)
+ create mode 100644 tests/aida64-dump
+ create mode 100644 tests/dmesg-dump
+
+-- 
+2.20.1
