@@ -1,21 +1,72 @@
-From: johannes at sipsolutions.net (Johannes Berg)
-Date: Thu, 04 Jul 2019 22:20:11 +0200
-Subject: [Linux-kernel-mentees] [PATCH v2] nl80211: Fix undefined
- behavior in bit shift
-In-Reply-To: <20190704183432.av37fjd5s3zcho6m@rYz3n>
-	(sfid-20190704_203436_301195_44BD720F)
-References: <20190627010137.5612-4-c0d1n61at3@gmail.com>
-	<20190627032532.18374-4-c0d1n61at3@gmail.com>
-	<c20a0a94-ab50-bb85-7c78-e02a465c5a40@linuxfoundation.org>
-	<8b8c44c3ecb8626d9bb5a8f786b1d2b7488df86b.camel@sipsolutions.net>
-	<20190704183432.av37fjd5s3zcho6m@rYz3n>
-	(sfid-20190704_203436_301195_44BD720F)
-Message-ID: <b120890b4b784036a139b0d676032bae263a0642.camel@sipsolutions.net>
+From: lnowakow at eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Thu, 4 Jul 2019 13:58:12 -0700
+Subject: [Linux-kernel-mentees] [PATCH v2] media: dvb_frontend.h: Fix
+ shifting signed 32-bit value problem
+Message-ID: <20190704205812.GA28496@luke-XPS-13>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Thu, 2019-07-04 at 13:34 -0500, Jiunn Chang wrote:
-> Would you like me to send v3 with the change log in the patch description?
-> 
-No no, like I said, it's not very useful in this case anyway.
+Fix DVBFE_ALGO_RECOVERY and DVBFE_ALGO_SEARCH_ERROR use BIT macro which
+fixes undefined behavior error by certain compilers. 
 
-johannes
+Also changed all other bit shifted definitions to use macro for better
+readability. 
+
+Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+---
+ Changes in V2:
+ + Added BIT macro to all bit shifted definitions
+ - Removed U cast on 31 bit shifted definition
+ Changes in V1:
+ + Added U cast to shifting 31 bits
+
+ include/media/dvb_frontend.h | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
+
+diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
+index f05cd7b94a2c..0d76fa4551b3 100644
+--- a/include/media/dvb_frontend.h
++++ b/include/media/dvb_frontend.h
+@@ -41,6 +41,7 @@
+ #include <linux/delay.h>
+ #include <linux/mutex.h>
+ #include <linux/slab.h>
++#include <linux/bitops.h>
+ 
+ #include <linux/dvb/frontend.h>
+ 
+@@ -141,10 +142,10 @@ struct analog_parameters {
+  *	These devices have AUTO recovery capabilities from LOCK failure
+  */
+ enum dvbfe_algo {
+-	DVBFE_ALGO_HW			= (1 <<  0),
+-	DVBFE_ALGO_SW			= (1 <<  1),
+-	DVBFE_ALGO_CUSTOM		= (1 <<  2),
+-	DVBFE_ALGO_RECOVERY		= (1 << 31)
++	DVBFE_ALGO_HW			= BIT(0),
++	DVBFE_ALGO_SW			= BIT(1),
++	DVBFE_ALGO_CUSTOM		= BIT(2),
++	DVBFE_ALGO_RECOVERY		= BIT(31),
+ };
+ 
+ /**
+@@ -170,12 +171,12 @@ enum dvbfe_algo {
+  *	The frontend search algorithm was requested to search again
+  */
+ enum dvbfe_search {
+-	DVBFE_ALGO_SEARCH_SUCCESS	= (1 <<  0),
+-	DVBFE_ALGO_SEARCH_ASLEEP	= (1 <<  1),
+-	DVBFE_ALGO_SEARCH_FAILED	= (1 <<  2),
+-	DVBFE_ALGO_SEARCH_INVALID	= (1 <<  3),
+-	DVBFE_ALGO_SEARCH_AGAIN		= (1 <<  4),
+-	DVBFE_ALGO_SEARCH_ERROR		= (1 << 31),
++	DVBFE_ALGO_SEARCH_SUCCESS	= BIT(0),
++	DVBFE_ALGO_SEARCH_ASLEEP	= BIT(1),
++	DVBFE_ALGO_SEARCH_FAILED	= BIT(2),
++	DVBFE_ALGO_SEARCH_INVALID	= BIT(3),
++	DVBFE_ALGO_SEARCH_AGAIN		= BIT(4),
++	DVBFE_ALGO_SEARCH_ERROR		= BIT(31),
+ };
+ 
+ /**
+-- 
+2.20.1
