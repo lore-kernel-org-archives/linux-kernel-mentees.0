@@ -1,64 +1,75 @@
-From: sheriffesseson@gmail.com (Sheriff Esseson)
-Date: Fri, 5 Jul 2019 14:14:46 +0100
-Subject: [Linux-kernel-mentees] [PATCH] Doc : fs : move xfs.txt to
-	admin-guide
-Message-ID: <20190705131446.GA10045@localhost>
+From: tranmanphong@gmail.com (Phong Tran)
+Date: Sat,  6 Jul 2019 01:55:19 +0700
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: usb: convert usb-help
+	to rst
+Message-ID: <20190705185519.31033-1-tranmanphong@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190705131446.jTsUL0dHDhglRFQzhIR7yfeKK1cjsF6SCJQx7P6MiU8@z>
+Message-ID: <20190705185519.I6iFxVmIRjIkuQrXfzC5OoJ_m7dbOXZyKxCz5kxOKE0@z>
 
-As suggested by Matthew Wilcox, xfs.txt is primarily a guide on available
-options when setting up an XFS. This makes it appropriate to be placed under
-the admin-guide tree.
+Add new index.rst and change usb-help.txt format
+to rst.
 
-Thus, move xfs.txt to admin-guide and fix broken references.
-
-Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+Signed-off-by: Phong Tran <tranmanphong at gmail.com>
 ---
+ Documentation/index.rst                          |  1 +
+ Documentation/usb/index.rst                      | 22 ++++++++++++++++++++++
+ Documentation/usb/{usb-help.txt => usb-help.rst} |  1 -
+ 3 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/usb/index.rst
+ rename Documentation/usb/{usb-help.txt => usb-help.rst} (97%)
 
-The reference to xfs.txt from dax.txt in itself is not looking good. Maybe, we
-need something more inspirational.
-
- Documentation/{filesystems => admin-guide}/xfs.txt | 0
- Documentation/filesystems/dax.txt                  | 2 +-
- MAINTAINERS                                        | 2 +-
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename Documentation/{filesystems => admin-guide}/xfs.txt (100%)
-
-diff --git a/Documentation/filesystems/xfs.txt b/Documentation/admin-guide/xfs.txt
-similarity index 100%
-rename from Documentation/filesystems/xfs.txt
-rename to Documentation/admin-guide/xfs.txt
-diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
-index 6d2c0d340..b2b19738b 100644
---- a/Documentation/filesystems/dax.txt
-+++ b/Documentation/filesystems/dax.txt
-@@ -76,7 +76,7 @@ exposure of uninitialized data through mmap.
- These filesystems may be used for inspiration:
- - ext2: see Documentation/filesystems/ext2.txt
- - ext4: see Documentation/filesystems/ext4/
--- xfs:  see Documentation/filesystems/xfs.txt
-+- xfs:  see Documentation/admin-guide/xfs.txt
-
-
- Handling Media Errors
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 01a52fc96..fc309b0a1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17374,7 +17374,7 @@ L:	linux-xfs at vger.kernel.org
- W:	http://xfs.org/
- T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
- S:	Supported
--F:	Documentation/filesystems/xfs.txt
-+F:	Documentation/admin-guide/xfs.txt
- F:	fs/xfs/
-
- XILINX AXI ETHERNET DRIVER
---
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees at lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
-2.22.0
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index a7566ef62411..4e7498f39063 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -102,6 +102,7 @@ needed).
+    vm/index
+    bpf/index
+    misc-devices/index
++   usb/index
+ 
+ Architecture-specific documentation
+ -----------------------------------
+diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
+new file mode 100644
+index 000000000000..5688ceaf0826
+--- /dev/null
++++ b/Documentation/usb/index.rst
+@@ -0,0 +1,22 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Linux USB Subsystem Documentation
++===================================
++
++.. only:: html
++
++   .. class:: toc-title
++
++        Table of Contents
++
++.. toctree::
++   :maxdepth: 2
++
++   usb-help
++
++.. only:: html and subproject
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/usb/usb-help.txt b/Documentation/usb/usb-help.rst
+similarity index 97%
+rename from Documentation/usb/usb-help.txt
+rename to Documentation/usb/usb-help.rst
+index dc23ecd4d802..03abc4e501ae 100644
+--- a/Documentation/usb/usb-help.txt
++++ b/Documentation/usb/usb-help.rst
+@@ -1,4 +1,3 @@
+-==============
+ USB references
+ ==============
+ 
+-- 
+2.11.0
