@@ -1,42 +1,62 @@
-From: peterz at infradead.org (Peter Zijlstra)
-Date: Fri, 5 Jul 2019 13:52:12 +0200
-Subject: [Linux-kernel-mentees] [PATCH] Sched: Change type of 'overrun'
-	from int to u64
-In-Reply-To: <20190705085609.24453-1-puranjay12@gmail.com>
-References: <20190705085609.24453-1-puranjay12@gmail.com>
-Message-ID: <20190705115212.GT3402@hirez.programming.kicks-ass.net>
+From: sheriffesseson at gmail.com (Sheriff Esseson)
+Date: Fri, 5 Jul 2019 14:14:46 +0100
+Subject: [Linux-kernel-mentees] [PATCH] Doc : fs : move xfs.txt to
+	admin-guide
+Message-ID: <20190705131446.GA10045@localhost>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Fri, Jul 05, 2019 at 02:26:09PM +0530, Puranjay Mohan wrote:
-> Callers of hrtimer_forward_now() should save the return value in u64.
-> function sched_rt_period_timer() stores
-> it in variable 'overrun' of type int
-> change type of overrun from int to u64 to solve the issue.
+As suggested by Matthew Wilcox, xfs.txt is primarily a guide on available
+options when setting up an XFS. This makes it appropriate to be placed under
+the admin-guide tree.
 
-Is there an actual issue? If we've missed _that_ many periods, something
-is really buggered.
+Thus, move xfs.txt to admin-guide and fix broken references.
 
->From a code consistency PoV this patch makes sense, but I don't think
-there anything really wrong with the current code.
+Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+---
 
-> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
-> ---
->  kernel/sched/rt.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-> index 1e6b909dca36..f5d3893914f5 100644
-> --- a/kernel/sched/rt.c
-> +++ b/kernel/sched/rt.c
-> @@ -19,7 +19,7 @@ static enum hrtimer_restart sched_rt_period_timer(struct hrtimer *timer)
->  	struct rt_bandwidth *rt_b =
->  		container_of(timer, struct rt_bandwidth, rt_period_timer);
->  	int idle = 0;
-> -	int overrun;
-> +	u64 overrun;
->  
->  	raw_spin_lock(&rt_b->rt_runtime_lock);
->  	for (;;) {
-> -- 
-> 2.21.0
-> 
+The reference to xfs.txt from dax.txt in itself is not looking good. Maybe, we
+need something more inspirational.
+
+ Documentation/{filesystems => admin-guide}/xfs.txt | 0
+ Documentation/filesystems/dax.txt                  | 2 +-
+ MAINTAINERS                                        | 2 +-
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename Documentation/{filesystems => admin-guide}/xfs.txt (100%)
+
+diff --git a/Documentation/filesystems/xfs.txt b/Documentation/admin-guide/xfs.txt
+similarity index 100%
+rename from Documentation/filesystems/xfs.txt
+rename to Documentation/admin-guide/xfs.txt
+diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
+index 6d2c0d340..b2b19738b 100644
+--- a/Documentation/filesystems/dax.txt
++++ b/Documentation/filesystems/dax.txt
+@@ -76,7 +76,7 @@ exposure of uninitialized data through mmap.
+ These filesystems may be used for inspiration:
+ - ext2: see Documentation/filesystems/ext2.txt
+ - ext4: see Documentation/filesystems/ext4/
+-- xfs:  see Documentation/filesystems/xfs.txt
++- xfs:  see Documentation/admin-guide/xfs.txt
+
+
+ Handling Media Errors
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 01a52fc96..fc309b0a1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17374,7 +17374,7 @@ L:	linux-xfs at vger.kernel.org
+ W:	http://xfs.org/
+ T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
+ S:	Supported
+-F:	Documentation/filesystems/xfs.txt
++F:	Documentation/admin-guide/xfs.txt
+ F:	fs/xfs/
+
+ XILINX AXI ETHERNET DRIVER
+--
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees at lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+2.22.0
