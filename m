@@ -1,471 +1,304 @@
-From: tranmanphong at gmail.com (Phong Tran)
-Date: Sat,  6 Jul 2019 03:45:12 +0700
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: coresight: covert txt
-	to rst
-Message-ID: <20190705204512.15444-1-tranmanphong@gmail.com>
+From: shreeya.patel23498 at gmail.com (Shreeya Patel)
+Date: Sat,  6 Jul 2019 02:34:28 +0530
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: cpu-freq: Convert
+	core.txt file to ReST format
+Message-ID: <20190705210428.8039-1-shreeya.patel23498@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-change the format file and adpate the text style
+Convert core file to ReST format, in order to allow it to
+be parsed by Sphinx. Make a minor change of correcting the wrong
+function name cpufreq_put_cpu to cpufreq_cpu_put.
+Also create an index.rst file in cpu-freq and add it's entry
+in the main Documentation/index.rst file.
 
-Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+Signed-off-by: Shreeya Patel <shreeya.patel23498 at gmail.com>
 ---
- .../trace/{coresight.txt => coresight.rst}         | 296 ++++++++++++---------
- Documentation/trace/index.rst                      |   1 +
- 2 files changed, 167 insertions(+), 130 deletions(-)
- rename Documentation/trace/{coresight.txt => coresight.rst} (59%)
+ Documentation/cpu-freq/core.rst  | 114 +++++++++++++++++++++++++++++
+ Documentation/cpu-freq/core.txt  | 120 -------------------------------
+ Documentation/cpu-freq/index.rst |  14 ++++
+ Documentation/index.rst          |   1 +
+ 4 files changed, 129 insertions(+), 120 deletions(-)
+ create mode 100644 Documentation/cpu-freq/core.rst
+ delete mode 100644 Documentation/cpu-freq/core.txt
+ create mode 100644 Documentation/cpu-freq/index.rst
 
-diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.rst
-similarity index 59%
-rename from Documentation/trace/coresight.txt
-rename to Documentation/trace/coresight.rst
-index efbc832146e7..bea24e70cfba 100644
---- a/Documentation/trace/coresight.txt
-+++ b/Documentation/trace/coresight.rst
-@@ -1,5 +1,6 @@
--		Coresight - HW Assisted Tracing on ARM
--		======================================
-+======================================
-+Coresight - HW Assisted Tracing on ARM
-+======================================
- 
-    Author:   Mathieu Poirier <mathieu.poirier at linaro.org>
-    Date:     September 11th, 2014
-@@ -26,7 +27,7 @@ implementation, either storing the compressed stream in a memory buffer or
- creating an interface to the outside world where data can be transferred to a
- host without fear of filling up the onboard coresight memory buffer.
- 
--At typical coresight system would look like this:
-+At typical coresight system would look like this::
- 
-   *****************************************************************
-  **************************** AMBA AXI  ****************************===||
-@@ -95,6 +96,7 @@ Acronyms and Classification
- 
- Acronyms:
- 
-+======== =============================================================
- PTM:     Program Trace Macrocell
- ETM:     Embedded Trace Macrocell
- STM:     System trace Macrocell
-@@ -104,6 +106,7 @@ TPIU:    Trace Port Interface Unit
- TMC-ETR: Trace Memory Controller, configured as Embedded Trace Router
- TMC-ETF: Trace Memory Controller, configured as Embedded Trace FIFO
- CTI:     Cross Trigger Interface
-+======== =============================================================
- 
- Classification:
- 
-@@ -118,7 +121,7 @@ Misc:
- 
- 
- Device Tree Bindings
------------------------
+diff --git a/Documentation/cpu-freq/core.rst b/Documentation/cpu-freq/core.rst
+new file mode 100644
+index 000000000000..b4cf48633797
+--- /dev/null
++++ b/Documentation/cpu-freq/core.rst
+@@ -0,0 +1,114 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++CPUFreq Core
++============
++
++Authors:
++
++- Dominik Brodowski <linux at brodo.de>,
++- David Kimdon <dwhedon at debian.org>,
++- Rafael J. Wysocki <rafael.j.wysocki at intel.com>,
++- Viresh Kumar <viresh.kumar at linaro.org>
++
++
++Clock scaling allows you to change the clock speed of the CPUs on the
++fly. This is a nice method to save battery power, because the lower
++the clock speed, the less power the CPU consumes.
++
++
++1. General Information
++----------------------
++
++The CPUFreq core code is located in :file:`drivers/cpufreq/cpufreq.c`. This
++cpufreq code offers a standardized interface for the CPUFreq
++architecture drivers (those pieces of code that do actual
++frequency transitions), as well as to "notifiers". These are device
++drivers or other part of the kernel that need to be informed of
++policy changes (ex. thermal modules like ACPI) or of all
++frequency changes (ex. timing code) or even need to force certain
++speed limits (like LCD drivers on ARM architecture). Additionally, the
++kernel "constant" :c:data:`loops_per_jiffy` is updated on frequency changes
++here.
++
++Reference counting of the cpufreq policies is done by :c:func:`cpufreq_cpu_put`
++and :c:func:`cpufreq_cpu_put`, which make sure that the cpufreq driver is
++correctly registered with the core, and will not be unloaded until
++:c:func:`cpufreq_cpu_put` is called. That also ensures that the respective cpufreq
++policy doesn't get freed while being used.
++
++2. CPUFreq notifiers
 +--------------------
- 
- See Documentation/devicetree/bindings/arm/coresight.txt for details.
- 
-@@ -133,57 +136,63 @@ The coresight framework provides a central point to represent, configure and
- manage coresight devices on a platform.  Any coresight compliant device can
- register with the framework for as long as they use the right APIs:
- 
--struct coresight_device *coresight_register(struct coresight_desc *desc);
--void coresight_unregister(struct coresight_device *csdev);
-+.. c:function:: struct coresight_device *coresight_register(struct coresight_desc *desc);
-+.. c:function:: void coresight_unregister(struct coresight_device *csdev);
- 
--The registering function is taking a "struct coresight_device *csdev" and
-+The registering function is taking a :code:`struct coresight_device *csdev` and
- register the device with the core framework.  The unregister function takes
--a reference to a "struct coresight_device", obtained at registration time.
-+a reference to a :code:`struct coresight_device`, obtained at registration time.
- 
- If everything goes well during the registration process the new devices will
- show up under /sys/bus/coresight/devices, as showns here for a TC2 platform:
- 
--root:~# ls /sys/bus/coresight/devices/
--replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
--root:~#
-+.. code:: console
- 
--The functions take a "struct coresight_device", which looks like this:
-+    root:~# ls /sys/bus/coresight/devices/
-+    replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
-+    20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
-+    root:~#
- 
--struct coresight_desc {
--        enum coresight_dev_type type;
--        struct coresight_dev_subtype subtype;
--        const struct coresight_ops *ops;
--        struct coresight_platform_data *pdata;
--        struct device *dev;
--        const struct attribute_group **groups;
--};
-+The functions take a :code:`struct coresight_device`, which looks like this:
 +
-+.. code:: c
++CPUFreq notifiers conform to the standard kernel notifier interface.
++See :file:`linux/include/linux/notifier.h` for details on notifiers.
 +
-+    struct coresight_desc {
-+            enum coresight_dev_type type;
-+            struct coresight_dev_subtype subtype;
-+            const struct coresight_ops *ops;
-+            struct coresight_platform_data *pdata;
-+            struct device *dev;
-+            const struct attribute_group **groups;
-+    };
- 
- 
- The "coresight_dev_type" identifies what the device is, i.e, source link or
- sink while the "coresight_dev_subtype" will characterise that type further.
- 
--The "struct coresight_ops" is mandatory and will tell the framework how to
-+The :code:`struct coresight_ops` is mandatory and will tell the framework how to
- perform base operations related to the components, each component having
--a different set of requirement.  For that "struct coresight_ops_sink",
--"struct coresight_ops_link" and "struct coresight_ops_source" have been
-+a different set of requirement.  For that :code:`struct coresight_ops_sink,
-+struct coresight_ops_link` and :code:`struct coresight_ops_source` have been
- provided.
- 
--The next field, "struct coresight_platform_data *pdata" is acquired by calling
--"of_get_coresight_platform_data()", as part of the driver's _probe routine and
--"struct device *dev" gets the device reference embedded in the "amba_device":
-+The next field, :code:`struct coresight_platform_data *pdata` is acquired by calling
-+:code:`of_get_coresight_platform_data()`, as part of the driver's _probe routine and
-+:code:`struct device *dev` gets the device reference embedded in the :code:`amba_device`:
- 
--static int etm_probe(struct amba_device *adev, const struct amba_id *id)
--{
-- ...
-- ...
-- drvdata->dev = &adev->dev;
-- ...
--}
-+.. code:: c
++There are two different CPUFreq notifiers - policy notifiers and
++transition notifiers.
 +
-+    static int etm_probe(struct amba_device *adev, const struct amba_id *id)
-+    {
-+     ...
-+     ...
-+     drvdata->dev = &adev->dev;
-+     ...
-+    }
- 
- Specific class of device (source, link, or sink) have generic operations
--that can be performed on them (see "struct coresight_ops").  The
--"**groups" is a list of sysfs entries pertaining to operations
-+that can be performed on them (see :code:`struct coresight_ops`).  The
-+:code:`**groups` is a list of sysfs entries pertaining to operations
- specific to that component only.  "Implementation defined" customisations are
- expected to be accessed and controlled using those entries.
- 
-@@ -204,49 +213,56 @@ There is no limit on the amount of sinks (nor sources) that can be enabled at
- any given moment.  As a generic operation, all device pertaining to the sink
- class will have an "active" entry in sysfs:
- 
--root:/sys/bus/coresight/devices# ls
--replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
--root:/sys/bus/coresight/devices# ls 20010000.etb
--enable_sink  status  trigger_cntr
--root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
--root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
--1
--root:/sys/bus/coresight/devices#
-+.. code:: console
 +
-+    root:/sys/bus/coresight/devices# ls
-+    replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
-+    20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
-+    root:/sys/bus/coresight/devices# ls 20010000.etb
-+    enable_sink  status  trigger_cntr
-+    root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
-+    root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
-+    1
-+    root:/sys/bus/coresight/devices#
- 
- At boot time the current etm3x driver will configure the first address
- comparator with "_stext" and "_etext", essentially tracing any instruction
- that falls within that range.  As such "enabling" a source will immediately
- trigger a trace capture:
- 
--root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
--root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
--1
--root:/sys/bus/coresight/devices# cat 20010000.etb/status
--Depth:          0x2000
--Status:         0x1
--RAM read ptr:   0x0
--RAM wrt ptr:    0x19d3   <----- The write pointer is moving
--Trigger cnt:    0x0
--Control:        0x1
--Flush status:   0x0
--Flush ctrl:     0x2001
--root:/sys/bus/coresight/devices#
-+.. code:: console
++2.1 CPUFreq policy notifiers
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+    root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
-+    root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
-+    1
-+    root:/sys/bus/coresight/devices# cat 20010000.etb/status
-+    Depth:          0x2000
-+    Status:         0x1
-+    RAM read ptr:   0x0
-+    RAM wrt ptr:    0x19d3   <----- The write pointer is moving
-+    Trigger cnt:    0x0
-+    Control:        0x1
-+    Flush status:   0x0
-+    Flush ctrl:     0x2001
-+    root:/sys/bus/coresight/devices#
- 
- Trace collection is stopped the same way:
- 
--root:/sys/bus/coresight/devices# echo 0 > 2201c000.ptm/enable_source
--root:/sys/bus/coresight/devices#
-+.. code:: console
++These are notified when a new policy is intended to be set. Each
++CPUFreq policy notifier is called twice for a policy transition:
 +
-+    root:/sys/bus/coresight/devices# echo 0 > 2201c000.ptm/enable_source
-+    root:/sys/bus/coresight/devices#
- 
- The content of the ETB buffer can be harvested directly from /dev:
- 
--root:/sys/bus/coresight/devices# dd if=/dev/20010000.etb \
--of=~/cstrace.bin
-+.. code:: console
- 
--64+0 records in
--64+0 records out
--32768 bytes (33 kB) copied, 0.00125258 s, 26.2 MB/s
--root:/sys/bus/coresight/devices#
-+    root:/sys/bus/coresight/devices# dd if=/dev/20010000.etb \
-+    of=~/cstrace.bin
-+    64+0 records in
-+    64+0 records out
-+    32768 bytes (33 kB) copied, 0.00125258 s, 26.2 MB/s
-+    root:/sys/bus/coresight/devices#
- 
- The file cstrace.bin can be decompressed using "ptm2human", DS-5 or Trace32.
- 
-@@ -254,55 +270,57 @@ Following is a DS-5 output of an experimental loop that increments a variable up
- to a certain value.  The example is simple and yet provides a glimpse of the
- wealth of possibilities that coresight provides.
- 
--Info                                    Tracing enabled
--Instruction     106378866       0x8026B53C      E52DE004        false   PUSH     {lr}
--Instruction     0       0x8026B540      E24DD00C        false   SUB      sp,sp,#0xc
--Instruction     0       0x8026B544      E3A03000        false   MOV      r3,#0
--Instruction     0       0x8026B548      E58D3004        false   STR      r3,[sp,#4]
--Instruction     0       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
--Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
--Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
--Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
--Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
--Timestamp                                       Timestamp: 17106715833
--Instruction     319     0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
--Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
--Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
--Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
--Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
--Instruction     9       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
--Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
--Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
--Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
--Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
--Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
--Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
--Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
--Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
--Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
--Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
--Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
--Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
--Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
--Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
--Instruction     10      0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
--Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
--Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
--Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
--Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
--Instruction     6       0x8026B560      EE1D3F30        false   MRC      p15,#0x0,r3,c13,c0,#1
--Instruction     0       0x8026B564      E1A0100D        false   MOV      r1,sp
--Instruction     0       0x8026B568      E3C12D7F        false   BIC      r2,r1,#0x1fc0
--Instruction     0       0x8026B56C      E3C2203F        false   BIC      r2,r2,#0x3f
--Instruction     0       0x8026B570      E59D1004        false   LDR      r1,[sp,#4]
--Instruction     0       0x8026B574      E59F0010        false   LDR      r0,[pc,#16] ; [0x8026B58C] = 0x80550368
--Instruction     0       0x8026B578      E592200C        false   LDR      r2,[r2,#0xc]
--Instruction     0       0x8026B57C      E59221D0        false   LDR      r2,[r2,#0x1d0]
--Instruction     0       0x8026B580      EB07A4CF        true    BL       {pc}+0x1e9344 ; 0x804548c4
--Info                                    Tracing enabled
--Instruction     13570831        0x8026B584      E28DD00C        false   ADD      sp,sp,#0xc
--Instruction     0       0x8026B588      E8BD8000        true    LDM      sp!,{pc}
--Timestamp                                       Timestamp: 17107041535
-+.. code:: c
++        1) During :c:macro:`CPUFREQ_ADJUST` all CPUFreq notifiers may change
++           the limit if they see a need for this - may it be thermal considerations
++           or hardware limitations.
 +
-+    Info                                    Tracing enabled
-+    Instruction     106378866       0x8026B53C      E52DE004        false   PUSH     {lr}
-+    Instruction     0       0x8026B540      E24DD00C        false   SUB      sp,sp,#0xc
-+    Instruction     0       0x8026B544      E3A03000        false   MOV      r3,#0
-+    Instruction     0       0x8026B548      E58D3004        false   STR      r3,[sp,#4]
-+    Instruction     0       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
-+    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
-+    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
-+    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
-+    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
-+    Timestamp                                       Timestamp: 17106715833
-+    Instruction     319     0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
-+    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
-+    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
-+    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
-+    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
-+    Instruction     9       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
-+    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
-+    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
-+    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
-+    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
-+    Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
-+    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
-+    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
-+    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
-+    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
-+    Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
-+    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
-+    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
-+    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
-+    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
-+    Instruction     10      0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
-+    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
-+    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
-+    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
-+    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
-+    Instruction     6       0x8026B560      EE1D3F30        false   MRC      p15,#0x0,r3,c13,c0,#1
-+    Instruction     0       0x8026B564      E1A0100D        false   MOV      r1,sp
-+    Instruction     0       0x8026B568      E3C12D7F        false   BIC      r2,r1,#0x1fc0
-+    Instruction     0       0x8026B56C      E3C2203F        false   BIC      r2,r2,#0x3f
-+    Instruction     0       0x8026B570      E59D1004        false   LDR      r1,[sp,#4]
-+    Instruction     0       0x8026B574      E59F0010        false   LDR      r0,[pc,#16] ; [0x8026B58C] = 0x80550368
-+    Instruction     0       0x8026B578      E592200C        false   LDR      r2,[r2,#0xc]
-+    Instruction     0       0x8026B57C      E59221D0        false   LDR      r2,[r2,#0x1d0]
-+    Instruction     0       0x8026B580      EB07A4CF        true    BL       {pc}+0x1e9344 ; 0x804548c4
-+    Info                                    Tracing enabled
-+    Instruction     13570831        0x8026B584      E28DD00C        false   ADD      sp,sp,#0xc
-+    Instruction     0       0x8026B588      E8BD8000        true    LDM      sp!,{pc}
-+    Timestamp                                       Timestamp: 17107041535
- 
- 2) Using perf framework:
- 
-@@ -312,6 +330,8 @@ controlling when tracing gets enabled based on when the process of interest is
- scheduled.  When configured in a system, Coresight PMUs will be listed when
- queried by the perf command line tool:
- 
-+.. code:: console
++        2) And during :c:macro:`CPUFREQ_NOTIFY` all notifiers are informed of the
++           new policy - if two hardware drivers failed to agree on a new policy
++           before this stage, the incompatible hardware shall be shut down, and the user
++           informed of this.
 +
- 	linaro at linaro-nano:~$ ./perf list pmu
- 
- 		List of pre-defined events (to be used in -e):
-@@ -329,6 +349,8 @@ Coresight system will typically have more than one sink, the name of the sink to
- work with needs to be specified as an event option.  Names for sink to choose
- from are listed in sysFS under ($SYSFS)/bus/coresight/devices:
- 
-+.. code:: console
++The phase is specified in the second argument to the notifier.
 +
- 	root at linaro-nano:~# ls /sys/bus/coresight/devices/
- 		20010000.etf   20040000.funnel  20100000.stm  22040000.etm
- 		22140000.etm  230c0000.funnel  23240000.etm 20030000.tpiu
-@@ -343,7 +365,7 @@ to use for the trace session.
- 
- More information on the above and other example on how to use Coresight with
- the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
--repository [3].
-+repository [#third]_.
- 
- 2.1) AutoFDO analysis using the perf tools:
- 
-@@ -352,6 +374,8 @@ perf can be used to record and analyze trace of programs.
- Execution can be recorded using 'perf record' with the cs_etm event,
- specifying the name of the sink to record to, e.g:
- 
-+.. code:: console
++The third argument, a :c:data:`void *pointer`, points to a :c:type:`struct cpufreq_policy`
++consisting of several values, including min, max (the lower and upper
++frequencies (in kHz) of the new policy).
 +
-     perf record -e cs_etm/@20070000.etr/u --per-thread
- 
- The 'perf report' and 'perf script' commands can be used to analyze execution,
-@@ -370,12 +394,16 @@ Generating coverage files for Feedback Directed Optimization: AutoFDO
- 'perf inject' accepts the --itrace option in which case tracing data is
- removed and replaced with the synthesized events. e.g.
- 
-+.. code:: console
 +
- 	perf inject --itrace --strip -i perf.data -o perf.data.new
- 
- Below is an example of using ARM ETM for autoFDO.  It requires autofdo
- (https://github.com/google/autofdo) and gcc version 5.  The bubble
- sort example is from the AutoFDO tutorial (https://gcc.gnu.org/wiki/AutoFDO/Tutorial).
- 
-+.. code:: console
++2.2 CPUFreq transition notifiers
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
- 	$ gcc-5 -O3 sort.c -o sort
- 	$ taskset -c 2 ./sort
- 	Bubble sorting array of 30000 elements
-@@ -403,28 +431,36 @@ difference is that clients are driving the trace capture rather
- than the program flow through the code.
- 
- As with any other CoreSight component, specifics about the STM tracer can be
--found in sysfs with more information on each entry being found in [1]:
-+found in sysfs with more information on each entry being found in [#first]_:
- 
--root at genericarmv8:~# ls /sys/bus/coresight/devices/20100000.stm
--enable_source   hwevent_select  port_enable     subsystem       uevent
--hwevent_enable  mgmt            port_select     traceid
--root at genericarmv8:~#
-+.. code:: console
++These are notified twice for each online CPU in the policy, when the
++CPUfreq driver switches the CPU core frequency and this change has no
++any external implications.
 +
-+    root at genericarmv8:~# ls /sys/bus/coresight/devices/20100000.stm
-+    enable_source   hwevent_select  port_enable     subsystem       uevent
-+    hwevent_enable  mgmt            port_select     traceid
-+    root at genericarmv8:~#
- 
- Like any other source a sink needs to be identified and the STM enabled before
- being used:
- 
--root at genericarmv8:~# echo 1 > /sys/bus/coresight/devices/20010000.etf/enable_sink
--root at genericarmv8:~# echo 1 > /sys/bus/coresight/devices/20100000.stm/enable_source
-+.. code:: console
++The second argument specifies the phase - :c:macro:`CPUFREQ_PRECHANGE` or
++:c:macro:`CPUFREQ_POSTCHANGE`.
 +
-+    root at genericarmv8:~# echo 1 > /sys/bus/coresight/devices/20010000.etf/enable_sink
-+    root at genericarmv8:~# echo 1 > /sys/bus/coresight/devices/20100000.stm/enable_source
- 
- From there user space applications can request and use channels using the devfs
- interface provided for that purpose by the generic STM API:
- 
--root at genericarmv8:~# ls -l /dev/20100000.stm
--crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/20100000.stm
--root at genericarmv8:~#
-+.. code:: console
++The third argument is a :c:type:`struct cpufreq_freqs` with the following
++values:
 +
-+    root at genericarmv8:~# ls -l /dev/20100000.stm
-+    crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/20100000.stm
-+    root at genericarmv8:~#
++| cpu   - number of the affected CPU
++| old   - old frequency
++| new   - new frequency
++| flags - flags of the cpufreq driver
 +
-+Details on how to use the generic STM API can be found here [#second]_.
 +
-+.. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
++3. CPUFreq Table Generation with Operating Performance Point (OPP)
++------------------------------------------------------------------
++For details about OPP, see :file:`Documentation/power/opp.txt`
++
++:c:func:`dev_pm_opp_init_cpufreq_table` - This function provides a ready
++to use conversion routine to translate the OPP layer's internal information
++about the available frequencies into a format readily providable to cpufreq.
++
++WARNING: Do not use this function in interrupt context.
++
++	Example::
++
++	 soc_pm_init()
++	 {
++		/* Do things */
++		r = dev_pm_opp_init_cpufreq_table(dev, &freq_table);
++		if (!r)
++			policy->freq_table = freq_table;
++		/* Do other things */
++	 }
++
++NOTE: This function is available only if CONFIG_CPU_FREQ is enabled in
++addition to CONFIG_PM_OPP.
++
++:c:func:`dev_pm_opp_free_cpufreq_table` - Free up the table allocated by :c:func:`dev_pm_opp_init_cpufreq_table`
+diff --git a/Documentation/cpu-freq/core.txt b/Documentation/cpu-freq/core.txt
+deleted file mode 100644
+index 073f128af5a7..000000000000
+--- a/Documentation/cpu-freq/core.txt
++++ /dev/null
+@@ -1,120 +0,0 @@
+-     CPU frequency and voltage scaling code in the Linux(TM) kernel
+-
+-
+-		         L i n u x    C P U F r e q
+-
+-			  C P U F r e q    C o r e
+-
+-
+-		    Dominik Brodowski  <linux at brodo.de>
+-		     David Kimdon <dwhedon at debian.org>
+-		Rafael J. Wysocki <rafael.j.wysocki at intel.com>
+-		   Viresh Kumar <viresh.kumar at linaro.org>
+-
+-
+-
+-   Clock scaling allows you to change the clock speed of the CPUs on the
+-    fly. This is a nice method to save battery power, because the lower
+-            the clock speed, the less power the CPU consumes.
+-
+-
+-Contents:
+----------
+-1.  CPUFreq core and interfaces
+-2.  CPUFreq notifiers
+-3.  CPUFreq Table Generation with Operating Performance Point (OPP)
+-
+-1. General Information
+-=======================
+-
+-The CPUFreq core code is located in drivers/cpufreq/cpufreq.c. This
+-cpufreq code offers a standardized interface for the CPUFreq
+-architecture drivers (those pieces of code that do actual
+-frequency transitions), as well as to "notifiers". These are device
+-drivers or other part of the kernel that need to be informed of
+-policy changes (ex. thermal modules like ACPI) or of all
+-frequency changes (ex. timing code) or even need to force certain
+-speed limits (like LCD drivers on ARM architecture). Additionally, the
+-kernel "constant" loops_per_jiffy is updated on frequency changes
+-here.
+-
+-Reference counting of the cpufreq policies is done by cpufreq_cpu_get
+-and cpufreq_cpu_put, which make sure that the cpufreq driver is
+-correctly registered with the core, and will not be unloaded until
+-cpufreq_put_cpu is called. That also ensures that the respective cpufreq
+-policy doesn't get freed while being used.
+-
+-2. CPUFreq notifiers
+-====================
+-
+-CPUFreq notifiers conform to the standard kernel notifier interface.
+-See linux/include/linux/notifier.h for details on notifiers.
+-
+-There are two different CPUFreq notifiers - policy notifiers and
+-transition notifiers.
+-
+-
+-2.1 CPUFreq policy notifiers
+-----------------------------
+-
+-These are notified when a new policy is intended to be set. Each
+-CPUFreq policy notifier is called twice for a policy transition:
+-
+-1.) During CPUFREQ_ADJUST all CPUFreq notifiers may change the limit if
+-    they see a need for this - may it be thermal considerations or
+-    hardware limitations.
+-
+-2.) And during CPUFREQ_NOTIFY all notifiers are informed of the new policy
+-   - if two hardware drivers failed to agree on a new policy before this
+-   stage, the incompatible hardware shall be shut down, and the user
+-   informed of this.
+-
+-The phase is specified in the second argument to the notifier.
+-
+-The third argument, a void *pointer, points to a struct cpufreq_policy
+-consisting of several values, including min, max (the lower and upper
+-frequencies (in kHz) of the new policy).
+-
+-
+-2.2 CPUFreq transition notifiers
+---------------------------------
+-
+-These are notified twice for each online CPU in the policy, when the
+-CPUfreq driver switches the CPU core frequency and this change has no
+-any external implications.
+-
+-The second argument specifies the phase - CPUFREQ_PRECHANGE or
+-CPUFREQ_POSTCHANGE.
+-
+-The third argument is a struct cpufreq_freqs with the following
+-values:
+-cpu	- number of the affected CPU
+-old	- old frequency
+-new	- new frequency
+-flags	- flags of the cpufreq driver
+-
+-3. CPUFreq Table Generation with Operating Performance Point (OPP)
+-==================================================================
+-For details about OPP, see Documentation/power/opp.txt
+-
+-dev_pm_opp_init_cpufreq_table -
+-	This function provides a ready to use conversion routine to translate
+-	the OPP layer's internal information about the available frequencies
+-	into a format readily providable to cpufreq.
+-
+-	WARNING: Do not use this function in interrupt context.
+-
+-	Example:
+-	 soc_pm_init()
+-	 {
+-		/* Do things */
+-		r = dev_pm_opp_init_cpufreq_table(dev, &freq_table);
+-		if (!r)
+-			policy->freq_table = freq_table;
+-		/* Do other things */
+-	 }
+-
+-	NOTE: This function is available only if CONFIG_CPU_FREQ is enabled in
+-	addition to CONFIG_PM_OPP.
+-
+-dev_pm_opp_free_cpufreq_table - Free up the table allocated by dev_pm_opp_init_cpufreq_table
+diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
+new file mode 100644
+index 000000000000..fd81d4f501cc
+--- /dev/null
++++ b/Documentation/cpu-freq/index.rst
+@@ -0,0 +1,14 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============================================
++CPU Frequency and Voltage Scaling Documentation
++===============================================
++
++.. class:: toc-title
++
++           Table of contents
++
++.. toctree::
++   :maxdepth: 2
++
++   core.rst
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index a7566ef62411..934206bc1daf 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -102,6 +102,7 @@ needed).
+    vm/index
+    bpf/index
+    misc-devices/index
++   cpu-freq/index
  
--Details on how to use the generic STM API can be found here [2].
-+.. [#second] Documentation/trace/stm.rst
- 
--[1]. Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
--[2]. Documentation/trace/stm.rst
--[3]. https://github.com/Linaro/perf-opencsd
-+.. [#third] https://github.com/Linaro/perf-opencsd
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index 6b4107cf4b98..3330c5456bcb 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -23,3 +23,4 @@ Linux Tracing Technologies
-    intel_th
-    stm
-    sys-t
-+   coresight
+ Architecture-specific documentation
+ -----------------------------------
 -- 
-2.11.0
+2.17.1
