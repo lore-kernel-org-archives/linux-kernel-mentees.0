@@ -1,49 +1,44 @@
-From: suratiamol@gmail.com (Amol Surati)
-Date: Fri, 5 Jul 2019 15:52:54 +0530
-Subject: [Linux-kernel-mentees] Testing stable-rc v5.1.17-rc1-g57f5b343c
-In-Reply-To: <20190705091721.GA22725@kroah.com>
-References: <20190705081141.GA17898@arch>
- <20190705091721.GA22725@kroah.com>
-Message-ID: <20190705102254.GA22194@arch>
+From: peterz@infradead.org (Peter Zijlstra)
+Date: Fri, 5 Jul 2019 13:52:12 +0200
+Subject: [Linux-kernel-mentees] [PATCH] Sched: Change type of 'overrun'
+	from int to u64
+In-Reply-To: <20190705085609.24453-1-puranjay12@gmail.com>
+References: <20190705085609.24453-1-puranjay12@gmail.com>
+Message-ID: <20190705115212.GT3402@hirez.programming.kicks-ass.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190705102254.IvkyrD8PDYzHTa3j8ztwRzFnTyZMcgqHZHSIU_sVgvQ@z>
+Message-ID: <20190705115212.hugeKCxqVcV9eQoM7b4qjrdF475ZFitt3H5vnW_tIs8@z>
 
-On Fri, Jul 05, 2019 at 11:17:21AM +0200, Greg KH wrote:
-> On Fri, Jul 05, 2019 at 01:41:41PM +0530, Amol Surati wrote:
-> > Hi,
-> > 
-> > Given that 5.1.17-rc1 is marked on the stable-rc repo, I attempted to
-> > carry out the required 'stable release contribution' task, ahead, in
-> > anticipation of receiving the stable-review email.
-> > 
-> > Running kselftest (as root) showed the errors displayed below.
-> > 
-> > Are these an indication of problems, in my environment, which I must
-> > fix? Or are some of the failures meant to be ignored?
-> 
-> Do you get the same errors when running 5.1.16?  Try doing that on a
-> "known good" release first to get your testing system set up properly.
+On Fri, Jul 05, 2019 at 02:26:09PM +0530, Puranjay Mohan wrote:
+> Callers of hrtimer_forward_now() should save the return value in u64.
+> function sched_rt_period_timer() stores
+> it in variable 'overrun' of type int
+> change type of overrun from int to u64 to solve the issue.
 
-Okay, I am building 5.1.6, to use it to calibrate the system. I think
-that the two kselftest test-runs, one on each build, will match each other
-in behaviour closely.
+Is there an actual issue? If we've missed _that_ many periods, something
+is really buggered.
 
-Thanks,
-amol
+>From a code consistency PoV this patch makes sense, but I don't think
+there anything really wrong with the current code.
 
+> Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
+> ---
+>  kernel/sched/rt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > The 'lkmp stable release contribution' wiki isn't quite clear on what
-> > needs to be done with kselftest result if there are failures in it.
-> > 
-> > Upon checking one of the logs of a test result from linaro - 
-> > https://lkft.validation.linaro.org/scheduler/job/806628 - it is found
-> > that certain tests, that fail on my side, either succeed or are marked
-> > as skipped, on their side.
+> diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
+> index 1e6b909dca36..f5d3893914f5 100644
+> --- a/kernel/sched/rt.c
+> +++ b/kernel/sched/rt.c
+> @@ -19,7 +19,7 @@ static enum hrtimer_restart sched_rt_period_timer(struct hrtimer *timer)
+>  	struct rt_bandwidth *rt_b =
+>  		container_of(timer, struct rt_bandwidth, rt_period_timer);
+>  	int idle = 0;
+> -	int overrun;
+> +	u64 overrun;
+>  
+>  	raw_spin_lock(&rt_b->rt_runtime_lock);
+>  	for (;;) {
+> -- 
+> 2.21.0
 > 
-> Some tests are skipped because of various reasons, as you are finding
-> out :)
-> 
-> thanks,
-> 
-> greg k-h
