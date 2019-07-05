@@ -1,34 +1,39 @@
-From: puranjay12@gmail.com (Puranjay Mohan)
-Date: Fri,  5 Jul 2019 14:26:09 +0530
-Subject: [Linux-kernel-mentees] [PATCH] Sched: Change type of 'overrun' from
-	int to u64
-Message-ID: <20190705085609.24453-1-puranjay12@gmail.com>
+From: gregkh@linuxfoundation.org (Greg KH)
+Date: Fri, 5 Jul 2019 11:17:21 +0200
+Subject: [Linux-kernel-mentees] Testing stable-rc v5.1.17-rc1-g57f5b343c
+In-Reply-To: <20190705081141.GA17898@arch>
+References: <20190705081141.GA17898@arch>
+Message-ID: <20190705091721.GA22725@kroah.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190705085609.cqNrbIJCKiNNw3BOYOMLhBTyA1t9Z1XfT1Fa9Mx4TMI@z>
+Message-ID: <20190705091721.ZnFYmx3Doi-09d3xcaVpr0mmfSjN8i9X3Ytw9Elencg@z>
 
-Callers of hrtimer_forward_now() should save the return value in u64.
-function sched_rt_period_timer() stores
-it in variable 'overrun' of type int
-change type of overrun from int to u64 to solve the issue.
+On Fri, Jul 05, 2019 at 01:41:41PM +0530, Amol Surati wrote:
+> Hi,
+> 
+> Given that 5.1.17-rc1 is marked on the stable-rc repo, I attempted to
+> carry out the required 'stable release contribution' task, ahead, in
+> anticipation of receiving the stable-review email.
+> 
+> Running kselftest (as root) showed the errors displayed below.
+> 
+> Are these an indication of problems, in my environment, which I must
+> fix? Or are some of the failures meant to be ignored?
 
-Signed-off-by: Puranjay Mohan <puranjay12 at gmail.com>
----
- kernel/sched/rt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Do you get the same errors when running 5.1.16?  Try doing that on a
+"known good" release first to get your testing system set up properly.
 
-diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-index 1e6b909dca36..f5d3893914f5 100644
---- a/kernel/sched/rt.c
-+++ b/kernel/sched/rt.c
-@@ -19,7 +19,7 @@ static enum hrtimer_restart sched_rt_period_timer(struct hrtimer *timer)
- 	struct rt_bandwidth *rt_b =
- 		container_of(timer, struct rt_bandwidth, rt_period_timer);
- 	int idle = 0;
--	int overrun;
-+	u64 overrun;
- 
- 	raw_spin_lock(&rt_b->rt_runtime_lock);
- 	for (;;) {
--- 
-2.21.0
+> The 'lkmp stable release contribution' wiki isn't quite clear on what
+> needs to be done with kselftest result if there are failures in it.
+> 
+> Upon checking one of the logs of a test result from linaro - 
+> https://lkft.validation.linaro.org/scheduler/job/806628 - it is found
+> that certain tests, that fail on my side, either succeed or are marked
+> as skipped, on their side.
+
+Some tests are skipped because of various reasons, as you are finding
+out :)
+
+thanks,
+
+greg k-h
