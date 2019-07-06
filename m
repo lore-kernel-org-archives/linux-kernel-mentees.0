@@ -1,91 +1,61 @@
-From: suratiamol@gmail.com (Amol Surati)
-Date: Sat, 6 Jul 2019 14:49:57 +0530
-Subject: [Linux-kernel-mentees] git: Behaviour of the stable-rc repo
-In-Reply-To: <20190706081926.GA8177@kroah.com>
-References: <20190706065655.GA10163@arch>
- <20190706081926.GA8177@kroah.com>
-Message-ID: <20190706091957.GA15828@arch>
+From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Sat, 6 Jul 2019 02:23:43 -0700
+Subject: [Linux-kernel-mentees] [PATCH RESEND] media: hdpvr: Add device num
+	check and handling
+Message-ID: <20190706092343.GA5462@luke-XPS-13>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190706091957.XpJlwXfSyRhhaBUSNGIWVjdvLV42DhGmNQEKfeq2YKs@z>
+Message-ID: <20190706092343.RmetbDVkc9tGoO5DWu8FpwvZ1Irr7e70IulbbUezp9o@z>
 
-On Sat, Jul 06, 2019 at 10:19:26AM +0200, Greg KH wrote:
-> On Sat, Jul 06, 2019 at 12:28:07PM +0530, Amol Surati wrote:
-> > Hi,
-> > 
-> > Since yesterday, the stable-rc branch 'linux-5.1.y' has received new
-> > commits.
-> 
-> The stable-rc tree is a rebased mess of a git tree, don't use it unless
-> you really understand git :)
+Add hdpvr device num check and error handling
 
-I don't understand git to that extent :)
+We need to increment the device count atomically before we checkout a
+device to make sure that we do not reach the max count, otherwise we get
+out-of-bounds errors as reported by syzbot. 
 
-> 
-> > There were 7 code-change-commits + 1 version-change-commit, which were
-> > based on the released 5.1.16. Now, when the branch has been refreshed
-> > (twice afaics) with new commits, those 8 previous commits have been assigned
-> > new identities (still based on 5.1.16).
-> > 
-> > It seems that there are 3 copies of those 8 commits.
-> > For e.g., the version-change-commit has these IDs -
-> > 
-> > 57f5b343cdf9593b22d79f5261f30243c07d6515,
-> > 925bedf91c6bb194cb6b23a553cb8469f3a2007f, and
-> > 2b5fd394355ac0b2cc9572232727cb2bce7c15a7
-> > 
-> > with 2b5... being the most recent ID (and the HEAD iinm).
-> > 
-> > Could you help me understand how these copies are created, and why?
-> > 
-> > Also, why do we want to commit the version update, if more commits are
-> > expected to arrive on top of it?
-> 
-> The stable kernel tree patches are kept as a series of patches that will
-> be applied on top of the previous version, using a tool called quilt.
-> That set of quilt patches can be found in the stable-queue.git tree on
-> git.kernel.org.
+Reported-and-tested-by: syzbot+aac8d0d7205f112045d2 at syzkaller.appspotmail.com
+Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+---
+Changes in V1:
++ add storing of incremented index in dev_num var
++ add bounds check on dev_num and appropriate error handling
+- remove attomic_inc_return from inside of hdpvr_register call
 
-Okay.
+ drivers/media/usb/hdpvr/hdpvr-core.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-> 
-> From that quilt tree of patches, I generate the stable-rc tree every so
-> often so that people who only use git, have an easier way to test
-> things.  The tree is constantly rebased and rebuilt every time I do a
-> new push to it and a number of autobuilders and testing systems watch it
-> and send me automated reports when it changes.
-
-Okay. Some of them would be those on kernelci.org, who use 'git describe'
-to identify the point-in-time when reporting their results.
-
-> 
-> So I recommend ONLY using it if you just always rebase, and treat it
-> like a "point in time" type of tree.
-> 
-> When I do a "real" -rc release, I do an announcement to the stable
-> mailing list and lkml and push out a compressed patch that you can apply
-> to the last released kernel, or you can pull from the stable-rc tree
-> (again rebasing) if that is easier for you to test from.
-
-Okay. Understood. The stable-rc tree that I tested yesterday was a
-shallow (depth 1) clone. I am assuming that rebasing would't work on
-it, owing to lack of necessary information.
-
-LKMP describes both methods (stable-rc, and the compressed patch), but
-they need us to /wait/ for your email before attempting a test. The
-presence of '5.1.17-rc1' commit threw me off the track :) - I see now
-that it is not an actual -rc1 release.
-
-> 
-> Does this help?  The stable-rc tree there is present only for those who
-> don't like dealing with quilt, and I never use it myself, I only
-> generate it for others who can use it for early testing.
-
-Yes it does. Thank you for the details.
-
--amol
-
-> 
-> thanks,
-> 
-> greg k-h
+diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
+index 29ac7fc5b039..640ef83b57c9 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-core.c
++++ b/drivers/media/usb/hdpvr/hdpvr-core.c
+@@ -275,6 +275,7 @@ static int hdpvr_probe(struct usb_interface *interface,
+ #endif
+ 	size_t buffer_size;
+ 	int i;
++	int dev_num;
+ 	int retval = -ENOMEM;
+ 
+ 	/* allocate memory for our device state and initialize it */
+@@ -371,9 +372,18 @@ static int hdpvr_probe(struct usb_interface *interface,
+ 		goto reg_fail;
+ 	}
+ #endif
+-
++
++	dev_num = atomic_inc_return(&dev_nr);
++	if (dev_num >= HDPVR_MAX) {
++		v4l2_err(&dev->v4l2_dev,
++			 "max device number reached, device register failed\n");
++		atomic_dec(&dev_nr);
++		retval = -ENODEV;
++		goto reg_fail;
++	}
++
+ 	retval = hdpvr_register_videodev(dev, &interface->dev,
+-				    video_nr[atomic_inc_return(&dev_nr)]);
++				    video_nr[dev_num]);
+ 	if (retval < 0) {
+ 		v4l2_err(&dev->v4l2_dev, "registering videodev failed\n");
+ 		goto reg_fail;
+-- 
+2.20.1
