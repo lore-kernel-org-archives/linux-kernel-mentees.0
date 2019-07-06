@@ -1,13 +1,13 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Sat, 6 Jul 2019 11:45:19 +0200
+From: suratiamol@gmail.com (Amol Surati)
+Date: Sat, 6 Jul 2019 20:36:41 +0530
 Subject: [Linux-kernel-mentees] git: Behaviour of the stable-rc repo
 In-Reply-To: <20190706094126.GB15480@kroah.com>
 References: <20190706065655.GA10163@arch> <20190706081926.GA8177@kroah.com>
 	<20190706091957.GA15828@arch> <20190706094126.GB15480@kroah.com>
-Message-ID: <20190706094519.GA17594@kroah.com>
+Message-ID: <20190706150641.GA23951@arch>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190706094519.Vn_7UGGxQ9CrRDEtXdDCk2RUlf6x4VeKG9_VqFD4eRA@z>
+Message-ID: <20190706150641.L__USRSmxvPqfKWuHisB8Cyx9rooqpp1ttUHrAL42_g@z>
 
 On Sat, Jul 06, 2019 at 11:41:26AM +0200, Greg KH wrote:
 > On Sat, Jul 06, 2019 at 02:49:57PM +0530, Amol Surati wrote:
@@ -24,6 +24,9 @@ On Sat, Jul 06, 2019 at 11:41:26AM +0200, Greg KH wrote:
 > > I don't understand git to that extent :)
 > 
 > Hey, you can now learn :)
+
+:) That is true.
+
 > 
 > > > > There were 7 code-change-commits + 1 version-change-commit, which were
 > > > > based on the released 5.1.16. Now, when the branch has been refreshed
@@ -82,6 +85,9 @@ On Sat, Jul 06, 2019 at 11:41:26AM +0200, Greg KH wrote:
 > tree as a remote and pulling from that, and then taking that local tree
 > and just using it as a base to create other local trees from for
 > anything else.
+
+Will do.
+
 > 
 > That way you have one "real" copy of upstream, which you took the time
 > to suck down once, and then any additions you make on top of that is
@@ -106,6 +112,11 @@ On Sat, Jul 06, 2019 at 11:41:26AM +0200, Greg KH wrote:
 > for upstream development and messing around with.  When I want to update
 > it to the latest tree from Linus's tree, I just do a 'git pull' in my
 > linux/gregkh/ directory and all is good.
+
+Okay. The 'git pull' pulls from the local torvalds tree. I wonder what
+would happen if one publishes (if publishing is possible at all) an
+'incomplete' tree like gregkh for others to clone from.
+
 > 
 > For stable kernel work, I have a "real" tree that was based off of the
 > torvalds tree, but added the upstream stable repo from.  It was created
@@ -124,19 +135,53 @@ On Sat, Jul 06, 2019 at 11:41:26AM +0200, Greg KH wrote:
 > 	git clone -s linux-stable linux-4.19.y
 > 	cd linux-4.19.y
 > 	git checkout -t -b linux-4.19.y origin/linux-4.19.y
+
+Okay. So updates are applied on the linux-4.19.y/linux-4.19.y, then
+pushed to origin/linux-4.19.y which is actually linux-stable/linux-4.19.y.
+I suppose that linux-stable/linux-4.19.y was created based on Linus's 4.19
+release, with remote pointing to linux-stable/stable/linux-4.19.y. Then,
+one push to that remote publishes the updates.
+
 > 
 > There, I have 3 different "full" source trees on my system now, but the
 > majority of the git objects all live in linux/work/torvalds/ and after
 > that, I only have to update tiny amounts.
+> 
+> > LKMP describes both methods (stable-rc, and the compressed patch), but
+> > they need us to /wait/ for your email before attempting a test.
+> 
+> What is "LKMP"?
 
-Ah, here's an old script that I use to set up a "blank" machine for
-doing kernel work:
-	https://github.com/gregkh/gregkh-linux/blob/master/scripts/set_it_up.sh
-it might be a bit old, but you can get the idea of doing clones on local
-trees.  You will have to change the "source" location for those 'git
-clone' commands, as that url doesn't work anymore, and only used to work
-for someone who had a kernel.org account.
+That's the Linux Kernel Mentees Project.
 
-thanks,
+> 
+> And yes, you can wait for my email to do "real" testing, as that is when
+> I am asking others to test.  If you want to do testing before then,
+> that's wonderful, but you have to be able to handle the git tree
+> rebasing.
 
-greg k-h
+I will try out the rebasing method too.
+
+> 
+> You can do this, by always doing a 'git pull --rebase' on the
+> linux-stable-rc tree, but if you do that, you will loose any changes you
+> might have had there, so don't do this on a tree you actually create
+> patches on.
+
+Understood.
+
+> 
+> > The presence of '5.1.17-rc1' commit threw me off the track :) - I see
+> > now that it is not an actual -rc1 release.
+> 
+> Yes, my scripts just automatically add that to make it obvious that the
+> testing kernel is not the previous release.
+> 
+> hope this helps,
+
+Yes it does. Thank you for taking the time to explain the details.
+
+-amol
+
+> 
+> greg k-h
