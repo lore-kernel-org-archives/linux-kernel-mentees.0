@@ -1,38 +1,37 @@
-From: shreeya.patel23498 at gmail.com (Shreeya Patel)
-Date: Sun, 07 Jul 2019 01:26:07 +0530
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: cpu-freq: Convert
- core.txt file to ReST format
-In-Reply-To: <CAJZ5v0hovK+BY0kozGvkyCgR5CFHpZUu71BZRjUUdCYV8fM5Hg@mail.gmail.com>
-References: <20190705210428.8039-1-shreeya.patel23498@gmail.com>
-	<CAJZ5v0hovK+BY0kozGvkyCgR5CFHpZUu71BZRjUUdCYV8fM5Hg@mail.gmail.com>
-Message-ID: <dcbc0088f31f26f80ab05e51787099df9b70262f.camel@gmail.com>
+From: lnowakow at eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Sat,  6 Jul 2019 14:38:12 -0700
+Subject: [Linux-kernel-mentees] [PATCH 0/3] [PATCH 0/3] Documentation:
+	virtual: convert files from .txt to
+Message-ID: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Sat, 2019-07-06 at 09:58 +0200, Rafael J. Wysocki wrote:
-> On Fri, Jul 5, 2019 at 11:04 PM Shreeya Patel
-> <shreeya.patel23498 at gmail.com> wrote:
-> > 
-> > Convert core file to ReST format, in order to allow it to
-> > be parsed by Sphinx. Make a minor change of correcting the wrong
-> > function name cpufreq_put_cpu to cpufreq_cpu_put.
-> > Also create an index.rst file in cpu-freq and add it's entry
-> > in the main Documentation/index.rst file.
-> > 
-> > Signed-off-by: Shreeya Patel <shreeya.patel23498 at gmail.com>
-> 
-> I've said "no" no three previous attempts and this one is not
-> different.
-> 
-Sorry, I was not knowing about it.
+From: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
 
-> I don't want to have anything .rst in Documentation/cpu-freq/.
-> 
-> There is a *new* admin-guide doc for cpufreq already and what is
-> missing is a *new* driver-api one.
-> 
-Yes I saw that but it didn't include all the details given in
-Documentation/cpu-freq hence I thought of sending this initial patch.
+Converted a few documents in virtual and virtual/kvm to .rst format.
+Also added toctree hooks wherever there were .rst files. Adding hooks to
+the main doc tree should be in another patch series once there are more
+files in the directory. 
 
-Thanks
+After confirming with the appropriate lists that all the 
+Documentation/virtual/* files are not obsolete I will continue
+converting the rest of the .txt files to .rst. 
 
-> Thanks!
+Luke Nowakowski-Krijger (3):
+  Documentation: virtual: Add toctree hooks
+  Documentation: kvm: Convert cpuid.txt to .rst
+  Documentation: virtual: Convert paravirt_ops.txt to .rst
+
+ Documentation/virtual/index.rst               | 18 ++++
+ Documentation/virtual/kvm/cpuid.rst           | 99 +++++++++++++++++++
+ Documentation/virtual/kvm/cpuid.txt           | 83 ----------------
+ Documentation/virtual/kvm/index.rst           | 12 +++
+ .../{paravirt_ops.txt => paravirt_ops.rst}    | 19 ++--
+ 5 files changed, 140 insertions(+), 91 deletions(-)
+ create mode 100644 Documentation/virtual/index.rst
+ create mode 100644 Documentation/virtual/kvm/cpuid.rst
+ delete mode 100644 Documentation/virtual/kvm/cpuid.txt
+ create mode 100644 Documentation/virtual/kvm/index.rst
+ rename Documentation/virtual/{paravirt_ops.txt => paravirt_ops.rst} (65%)
+
+-- 
+2.20.1
