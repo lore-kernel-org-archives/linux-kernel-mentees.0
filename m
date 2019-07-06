@@ -1,22 +1,29 @@
-From: shobhitkukreti@gmail.com (Shobhit Kukreti)
-Date: Sat, 6 Jul 2019 10:41:03 -0700
-Subject: [Linux-kernel-mentees] [PATCH] video: atmel_lcdc: Fix Shifting
- signed 32 bit value by 31 bits problem
-Message-ID: <20190706174059.GA14822@t-1000>
+From: shobhitkukreti at gmail.com (shobhitkukreti@gmail.com)
+Date: Sat,  6 Jul 2019 11:28:31 -0700
+Subject: [Linux-kernel-mentees] [PATCH v2] video: atmel_lcdc: Fix Shifting
+	signed 32 bit value by 31 bits problem
+In-Reply-To: <20190706174059.GA14822@t-1000>
+References: <20190706174059.GA14822@t-1000>
+Message-ID: <1562437711-30079-1-git-send-email-shobhitkukreti@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190706174103.veEL60RBUgv9wz0_Lk78NT45v3xjr4m6xrjc_WGc8H0@z>
+Message-ID: <20190706182831.aziu6m03NhLc13EFmB3DHChcgM9yRVfBBCrALKGj-Dw@z>
+
+From: Shobhit Kukreti <shobhitkukreti@gmail.com>
 
 Fix ATMEL_LCDC_MEMOR and ATMEL_LCDC_MEMOR_LITTLE defines to use "U"
 cast to avoid shifting signed 32 bit values by 31 bit problem. This
-problem. This is not a problem for gcc built kernel.
+is not a problem for gcc built kernel.
 
-However, this may be a problem since the header is part of pbulic API
+However, this may be a problem since the header is part of public API
 which could be included for builds using compilers which do not handle
 this condition safely resulting in undefined behavior
 
 Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
 ---
+Changes in v2:
+	Fixed spelling typo
+
  include/video/atmel_lcdc.h | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
