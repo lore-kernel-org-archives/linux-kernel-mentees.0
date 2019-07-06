@@ -1,39 +1,72 @@
 From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
-Date: Sat,  6 Jul 2019 14:38:12 -0700
-Subject: [Linux-kernel-mentees] [PATCH 0/3] [PATCH 0/3] Documentation:
-	virtual: convert files from .txt to
-Message-ID: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
+Date: Sat,  6 Jul 2019 14:38:13 -0700
+Subject: [Linux-kernel-mentees] [PATCH 1/3] Documentation: virtual: Add
+	toctree hooks
+In-Reply-To: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
+References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
+Message-ID:
+ <ef1edb15bd6a6ef87abf4fef7636cd9213450e3c.1562448500.git.lnowakow@eng.ucsd.edu>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190706213812.9YPqFJYdLyqHZWtLXnfj8ykgIK53sF7XKMHv2Xrwj74@z>
+Message-ID: <20190706213813.aBUfLib59P_3_3evYKG6b9A_7mG1sfxazt7zy-8WkOA@z>
 
 From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
 
-Converted a few documents in virtual and virtual/kvm to .rst format.
-Also added toctree hooks wherever there were .rst files. Adding hooks to
-the main doc tree should be in another patch series once there are more
-files in the directory. 
+Added toctree hooks for indexing. Hooks added only for newly added files
+or already existing files. 
 
-After confirming with the appropriate lists that all the 
-Documentation/virtual/* files are not obsolete I will continue
-converting the rest of the .txt files to .rst. 
+The hook for the top of the tree will be added in a later patch series
+when a few more substantial changes have been added. 
 
-Luke Nowakowski-Krijger (3):
-  Documentation: virtual: Add toctree hooks
-  Documentation: kvm: Convert cpuid.txt to .rst
-  Documentation: virtual: Convert paravirt_ops.txt to .rst
-
- Documentation/virtual/index.rst               | 18 ++++
- Documentation/virtual/kvm/cpuid.rst           | 99 +++++++++++++++++++
- Documentation/virtual/kvm/cpuid.txt           | 83 ----------------
- Documentation/virtual/kvm/index.rst           | 12 +++
- .../{paravirt_ops.txt => paravirt_ops.rst}    | 19 ++--
- 5 files changed, 140 insertions(+), 91 deletions(-)
+Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+---
+ Documentation/virtual/index.rst     | 18 ++++++++++++++++++
+ Documentation/virtual/kvm/index.rst | 12 ++++++++++++
+ 2 files changed, 30 insertions(+)
  create mode 100644 Documentation/virtual/index.rst
- create mode 100644 Documentation/virtual/kvm/cpuid.rst
- delete mode 100644 Documentation/virtual/kvm/cpuid.txt
  create mode 100644 Documentation/virtual/kvm/index.rst
- rename Documentation/virtual/{paravirt_ops.txt => paravirt_ops.rst} (65%)
 
+diff --git a/Documentation/virtual/index.rst b/Documentation/virtual/index.rst
+new file mode 100644
+index 000000000000..19c9fa2266f4
+--- /dev/null
++++ b/Documentation/virtual/index.rst
+@@ -0,0 +1,18 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========================
++Linux Virtual Documentation
++===========================
++
++.. toctree::
++   :maxdepth: 2
++
++   kvm/index
++   paravirt_ops
++
++.. only:: html and subproject
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virtual/kvm/index.rst
+new file mode 100644
+index 000000000000..ada224a511fe
+--- /dev/null
++++ b/Documentation/virtual/kvm/index.rst
+@@ -0,0 +1,12 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===
++KVM
++===
++
++.. toctree::
++   :maxdepth: 2
++
++   amd-memory-encryption
++   cpuid
++   vcpu-requests
 -- 
 2.20.1
