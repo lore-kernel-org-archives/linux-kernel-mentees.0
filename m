@@ -1,100 +1,124 @@
-From: corbet@lwn.net (Jonathan Corbet)
-Date: Mon, 8 Jul 2019 14:09:54 -0600
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: coresight: covert
-	txt to rst
-In-Reply-To: <20190705204512.15444-1-tranmanphong@gmail.com>
-References: <20190705204512.15444-1-tranmanphong@gmail.com>
-Message-ID: <20190708140954.35a38021@lwn.net>
+From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Mon, 8 Jul 2019 13:15:10 -0700
+Subject: [Linux-kernel-mentees] [PATCH 2/3] Documentation: kvm: Convert
+	cpuid.txt to .rst
+In-Reply-To: <20190708140022.5fa9d01f@lwn.net>
+References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
+	<e8cd24f40cdd23ed116679f4c3cfcf8849879bb4.1562448500.git.lnowakow@eng.ucsd.edu>
+	<20190708140022.5fa9d01f@lwn.net>
+Message-ID: <20190708201510.GA13296@luke-XPS-13>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190708200954.CXQBLLTtCLrhWVLSIcv8mGJqGe8_0SmEm-SgdzTRviA@z>
+Message-ID: <20190708201510.uT6Pgqbxit_IByS5vsHZFH-GxYAzgjo7XAjdFXcJrAU@z>
 
-On Sat,  6 Jul 2019 03:45:12 +0700
-Phong Tran <tranmanphong at gmail.com> wrote:
-
-> change the format file and adpate the text style
+On Mon, Jul 08, 2019 at 02:00:22PM -0600, Jonathan Corbet wrote:
+> On Sat,  6 Jul 2019 14:38:14 -0700
+> Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu> wrote:
 > 
-> Signed-off-by: Phong Tran <tranmanphong at gmail.com>
-> ---
->  .../trace/{coresight.txt => coresight.rst}         | 296 ++++++++++++---------
->  Documentation/trace/index.rst                      |   1 +
->  2 files changed, 167 insertions(+), 130 deletions(-)
->  rename Documentation/trace/{coresight.txt => coresight.rst} (59%)
+> > From: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+> > 
+> > Convert cpuid.txt to .rst format to be parsable by sphinx. 
+> > 
+> > Change format and spacing to make function definitions and return values
+> > much more clear. Also added a table that is parsable by sphinx and makes
+> > the information much more clean. 
+> > 
+> > Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+> > ---
+> >  Documentation/virtual/kvm/cpuid.rst | 99 +++++++++++++++++++++++++++++
+> >  Documentation/virtual/kvm/cpuid.txt | 83 ------------------------
+> >  2 files changed, 99 insertions(+), 83 deletions(-)
+> >  create mode 100644 Documentation/virtual/kvm/cpuid.rst
+> >  delete mode 100644 Documentation/virtual/kvm/cpuid.txt
+> > 
+> > diff --git a/Documentation/virtual/kvm/cpuid.rst b/Documentation/virtual/kvm/cpuid.rst
+> > new file mode 100644
+> > index 000000000000..1a03336a500e
+> > --- /dev/null
+> > +++ b/Documentation/virtual/kvm/cpuid.rst
+> > @@ -0,0 +1,99 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
 > 
-> diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.rst
-> similarity index 59%
-> rename from Documentation/trace/coresight.txt
-> rename to Documentation/trace/coresight.rst
-> index efbc832146e7..bea24e70cfba 100644
-> --- a/Documentation/trace/coresight.txt
-> +++ b/Documentation/trace/coresight.rst
-> @@ -1,5 +1,6 @@
-> -		Coresight - HW Assisted Tracing on ARM
-> -		======================================
-> +======================================
-> +Coresight - HW Assisted Tracing on ARM
-> +======================================
->  
->     Author:   Mathieu Poirier <mathieu.poirier at linaro.org>
->     Date:     September 11th, 2014
-> @@ -26,7 +27,7 @@ implementation, either storing the compressed stream in a memory buffer or
->  creating an interface to the outside world where data can be transferred to a
->  host without fear of filling up the onboard coresight memory buffer.
->  
-> -At typical coresight system would look like this:
-> +At typical coresight system would look like this::
->  
->    *****************************************************************
->   **************************** AMBA AXI  ****************************===||
-> @@ -95,6 +96,7 @@ Acronyms and Classification
->  
->  Acronyms:
->  
-> +======== =============================================================
->  PTM:     Program Trace Macrocell
->  ETM:     Embedded Trace Macrocell
->  STM:     System trace Macrocell
-> @@ -104,6 +106,7 @@ TPIU:    Trace Port Interface Unit
->  TMC-ETR: Trace Memory Controller, configured as Embedded Trace Router
->  TMC-ETF: Trace Memory Controller, configured as Embedded Trace FIFO
->  CTI:     Cross Trigger Interface
-> +======== =============================================================
+> Do you know that this is the appropriate license for this file?  If so, you
+> should say how you know that.  I appreciate that you thought to add the
+> SPDX line, but we have to be sure that it actually matches the intent of
+> the creator of this file.
+> 
 
-A minor nit, but since you're making a table out of this, you don't need
-the colons in the first column.
+I do not know what the authors intent was. You are right. This is not my
+work after all. Ill remove it in the next version.
 
->  Classification:
->  
-> @@ -118,7 +121,7 @@ Misc:
->  
->  
->  Device Tree Bindings
-> -----------------------
-> +--------------------
->  
->  See Documentation/devicetree/bindings/arm/coresight.txt for details.
->  
-> @@ -133,57 +136,63 @@ The coresight framework provides a central point to represent, configure and
->  manage coresight devices on a platform.  Any coresight compliant device can
->  register with the framework for as long as they use the right APIs:
->  
-> -struct coresight_device *coresight_register(struct coresight_desc *desc);
-> -void coresight_unregister(struct coresight_device *csdev);
-> +.. c:function:: struct coresight_device *coresight_register(struct coresight_desc *desc);
-> +.. c:function:: void coresight_unregister(struct coresight_device *csdev);
->  
-> -The registering function is taking a "struct coresight_device *csdev" and
-> +The registering function is taking a :code:`struct coresight_device *csdev` and
+> > +==============
+> > +KVM CPUID bits
+> > +==============
+> > +
+> > +:Author: Glauber Costa <glommer at redhat.com>, Red Hat Inc, 2010
+> 
+> I rather suspect that email address doesn't work these days.
+> 
 
-As a general rule, we would rather see less markup in the text files than
-you are applying here.  Just present the prototypes in a literal block
-here.  (Even better would be a nice kerneldoc comment in the source that
-could be pulled in, but that's more work).  I wouldn't use :code: anywhere,
-really. 
+No I guess it wont :). We would still keep this correct? 
 
-As well as addressing Mathieu's comments, could you pass through and cut
-the markup down to the bare minimum?
+> > +A guest running on a kvm host, can check some of its features using
+> > +cpuid. This is not always guaranteed to work, since userspace can
+> > +mask-out some, or even all KVM-related cpuid features before launching
+> > +a guest.
+> > +
+> > +KVM cpuid functions are:
+> > +
+> > +function: **KVM_CPUID_SIGNATURE (0x40000000)**
+> 
+> I wouldn't add the **markup** here, it doesn't really help.
+> 
 
-Thanks,
+My intent was to make the "function" part more readable immediately
+because otherwise it sort of looks like a wall of text. I might have
+gotten a little too fancy here though. 
 
-jon
+> > +
+> > +returns::
+> > + 
+> > +   eax = 0x40000001
+> > +   ebx = 0x4b4d564b
+> > +   ecx = 0x564b4d56
+> > +   edx = 0x4d
+> > +
+> > +Note that this value in ebx, ecx and edx corresponds to the string "KVMKVMKVM".
+> > +The value in eax corresponds to the maximum cpuid function present in this leaf,
+> > +and will be updated if more functions are added in the future.
+> > +Note also that old hosts set eax value to 0x0. This should
+> > +be interpreted as if the value was 0x40000001.
+> > +This function queries the presence of KVM cpuid leafs.
+> > +
+> > +function: **define KVM_CPUID_FEATURES (0x40000001)**
+> > +
+> > +returns::
+> > +
+> > +          ebx, ecx
+> > +          eax = an OR'ed group of (1 << flag)
+> > +
+> > +where ``flag`` is defined as below:
+> > +
+> > ++--------------------------------+------------+---------------------------------+
+> > +| flag                           | value      | meaning                         |
+> > ++================================+============+=================================+
+> > +| KVM_FEATURE_CLOCKSOURCE        | 0          | kvmclock available at msrs      |
+> > +|                                |            | 0x11 and 0x12                   |
+> 
+> You might consider using the
+> 
+>     ======= ===== ======
+>     simpler table format
+>     ======= ===== ======
+> 
+> here, it might be a bit easier to read and maintain.
+>
+
+Understood. 
+
+> Thanks,
+> 
+> jon
+
+Thanks for the review, 
+- Luke
