@@ -1,35 +1,43 @@
-From: corbet@lwn.net (Jonathan Corbet)
-Date: Mon, 8 Jul 2019 14:20:32 -0600
-Subject: [Linux-kernel-mentees] [PATCH 2/3] Documentation: kvm: Convert
-	cpuid.txt to .rst
-In-Reply-To: <20190708201510.GA13296@luke-XPS-13>
+From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Mon, 8 Jul 2019 13:28:08 -0700
+Subject: [Linux-kernel-mentees] [PATCH 1/3] Documentation: virtual: Add
+	toctree hooks
+In-Reply-To: <20190708135404.3eeed68f@lwn.net>
 References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
-	<e8cd24f40cdd23ed116679f4c3cfcf8849879bb4.1562448500.git.lnowakow@eng.ucsd.edu>
-	<20190708140022.5fa9d01f@lwn.net>
-	<20190708201510.GA13296@luke-XPS-13>
-Message-ID: <20190708142032.4fbd175e@lwn.net>
+	<ef1edb15bd6a6ef87abf4fef7636cd9213450e3c.1562448500.git.lnowakow@eng.ucsd.edu>
+	<20190708135404.3eeed68f@lwn.net>
+Message-ID: <20190708202808.GA8859@luke-XPS-13>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190708202032.jWAhy1JqBXSTApLjX8j3A5fFif3SXhK1el3cKU4DSvI@z>
+Message-ID: <20190708202808.HAA30BSdXb3pDto5xncqWENTVs1q_jx_yNYHrBL_adU@z>
 
-On Mon, 8 Jul 2019 13:15:10 -0700
-Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu> wrote:
-
-> > > +:Author: Glauber Costa <glommer at redhat.com>, Red Hat Inc, 2010  
-> > 
-> > I rather suspect that email address doesn't work these days.
-> >   
+On Mon, Jul 08, 2019 at 01:54:04PM -0600, Jonathan Corbet wrote:
+> On Sat,  6 Jul 2019 14:38:13 -0700
+> Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu> wrote:
 > 
-> No I guess it wont :). We would still keep this correct? 
+ 
+> At this point in the patch series, the above-mentioned RST files don't
+> exist.  So if somebody tries to build the docs here, the build will fail.
+> I suspect that it's pretty rare for people to use bisection with docs
+> builds, but it's still proper practice to ensure that things work at every
+> step in your series.  So the above entries should be added in the patches
+> that convert the files.
+>
 
-There's nothing good that will come from keeping a broken email address
-there.  You could either:
+Yes, agreed. It should be at the end of the series. 
 
- - Just take the address out, or
+> Also, vcpu-requests.txt is never touched in this patch series, which
+> suggests that you didn't build the docs even at the end of it.
+> 
 
- - Track Glauber down and get a newer address; you could ask him about the
-   licensing while you're at it :)
+In the staging tree I was doing work out of I saw a vcpu-requests.rst
+file so thought I could add it "while I'm here". 
 
-Thanks,
+You're right. I should only add the files I am converting. 
 
-jon
+> Thanks,
+> 
+> jon
+
+Thanks again, 
+- Luke
