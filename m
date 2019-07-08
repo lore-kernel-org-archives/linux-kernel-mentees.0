@@ -1,75 +1,86 @@
 From: corbet@lwn.net (Jonathan Corbet)
-Date: Mon, 8 Jul 2019 13:47:56 -0600
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystems:
- Convert jfs.txt to reStructedText format.
-In-Reply-To: <20190706232236.GA24717@t-1000>
-References: <20190706232236.GA24717@t-1000>
-Message-ID: <20190708134756.1025c940@lwn.net>
+Date: Mon, 8 Jul 2019 13:54:04 -0600
+Subject: [Linux-kernel-mentees] [PATCH 1/3] Documentation: virtual: Add
+	toctree hooks
+In-Reply-To: <ef1edb15bd6a6ef87abf4fef7636cd9213450e3c.1562448500.git.lnowakow@eng.ucsd.edu>
+References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
+	<ef1edb15bd6a6ef87abf4fef7636cd9213450e3c.1562448500.git.lnowakow@eng.ucsd.edu>
+Message-ID: <20190708135404.3eeed68f@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190708194756.bigI8EJIYNtfSI_E9k-PWgzP9XnW0jvl8vNtBSn9gk8@z>
+Message-ID: <20190708195404.QVHFidhfWk4sMSbAfJJom4-6hfm6hGz70Ue3gbfa3ko@z>
 
-On Sat, 6 Jul 2019 16:22:39 -0700
-Shobhit Kukreti <shobhitkukreti at gmail.com> wrote:
+On Sat,  6 Jul 2019 14:38:13 -0700
+Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu> wrote:
 
-> This converts the plain text documentation of jfs.txt to reStructuredText format.
-> Added to documentation build process and verified with make htmldocs
+> From: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
 > 
-> Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
-
-Thanks for working to make the kernel documentation better.  That said, I
-do have a request...
-
-
+> Added toctree hooks for indexing. Hooks added only for newly added files
+> or already existing files. 
+> 
+> The hook for the top of the tree will be added in a later patch series
+> when a few more substantial changes have been added. 
+> 
+> Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
 > ---
->  Documentation/filesystems/index.rst |  1 +
->  Documentation/filesystems/jfs.rst   | 74 +++++++++++++++++++++++++++++++++++++
->  Documentation/filesystems/jfs.txt   | 52 --------------------------
->  3 files changed, 75 insertions(+), 52 deletions(-)
->  create mode 100644 Documentation/filesystems/jfs.rst
->  delete mode 100644 Documentation/filesystems/jfs.txt
+>  Documentation/virtual/index.rst     | 18 ++++++++++++++++++
+>  Documentation/virtual/kvm/index.rst | 12 ++++++++++++
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 Documentation/virtual/index.rst
+>  create mode 100644 Documentation/virtual/kvm/index.rst
 > 
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 1131c34..d700330 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -41,3 +41,4 @@ Documentation for individual filesystem types can be found here.
->     :maxdepth: 2
->  
->     binderfs.rst
-> +   jfs
-> diff --git a/Documentation/filesystems/jfs.rst b/Documentation/filesystems/jfs.rst
+> diff --git a/Documentation/virtual/index.rst b/Documentation/virtual/index.rst
 > new file mode 100644
-> index 0000000..bfb6110
+> index 000000000000..19c9fa2266f4
 > --- /dev/null
-> +++ b/Documentation/filesystems/jfs.rst
-> @@ -0,0 +1,74 @@
-> +===========================================
-> +IBM's Journaled File System (JFS) for Linux
-> +===========================================
+> +++ b/Documentation/virtual/index.rst
+> @@ -0,0 +1,18 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +JFS Homepage:  http://jfs.sourceforge.net/
+> +===========================
+> +Linux Virtual Documentation
+> +===========================
 > +
-> +Following Mount Options are Supported
+> +.. toctree::
+> +   :maxdepth: 2
 > +
-> +(*) == default
-> + .. tabularcolumns:: |p{1.3cm}|p{1.3cm}|p{8.0cm}|
+> +   kvm/index
+> +   paravirt_ops
 > +
-> +.. cssclass:: longtable
+> +.. only:: html and subproject
 > +
-> +.. flat-table::   
-> +  :header-rows:  0
-> +  :stub-columns: 0
+> +   Indices
+> +   =======
+> +
+> +   * :ref:`genindex`
+> diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virtual/kvm/index.rst
+> new file mode 100644
+> index 000000000000..ada224a511fe
+> --- /dev/null
+> +++ b/Documentation/virtual/kvm/index.rst
+> @@ -0,0 +1,12 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===
+> +KVM
+> +===
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   amd-memory-encryption
+> +   cpuid
+> +   vcpu-requests
 
-Please don't use flat-table unless you really need to.  It makes the
-documents harder to read in plain-text form, which is something we want to
-avoid whenever possible.  A simple definition list seems more appropriate
-for this information.
+At this point in the patch series, the above-mentioned RST files don't
+exist.  So if somebody tries to build the docs here, the build will fail.
+I suspect that it's pretty rare for people to use bisection with docs
+builds, but it's still proper practice to ensure that things work at every
+step in your series.  So the above entries should be added in the patches
+that convert the files.
 
-(I should really update the documentation to discourage use of flat-table).
-
-Note that the merge window is open, so expect me to be even slower than
-usual to respond to things for the next couple of weeks.
+Also, vcpu-requests.txt is never touched in this patch series, which
+suggests that you didn't build the docs even at the end of it.
 
 Thanks,
 
