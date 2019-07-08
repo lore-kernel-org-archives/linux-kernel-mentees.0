@@ -1,87 +1,29 @@
-From: corbet@lwn.net (Jonathan Corbet)
-Date: Mon, 8 Jul 2019 13:54:04 -0600
-Subject: [Linux-kernel-mentees] [PATCH 1/3] Documentation: virtual: Add
-	toctree hooks
-In-Reply-To: <ef1edb15bd6a6ef87abf4fef7636cd9213450e3c.1562448500.git.lnowakow@eng.ucsd.edu>
-References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
-	<ef1edb15bd6a6ef87abf4fef7636cd9213450e3c.1562448500.git.lnowakow@eng.ucsd.edu>
-Message-ID: <20190708135404.3eeed68f@lwn.net>
+From: willy@infradead.org (Matthew Wilcox)
+Date: Mon, 8 Jul 2019 12:57:17 -0700
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystems:
+ Convert jfs.txt to reStructedText format.
+In-Reply-To: <20190706232236.GA24717@t-1000>
+References: <20190706232236.GA24717@t-1000>
+Message-ID: <20190708195717.GG32320@bombadil.infradead.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190708195404.QVHFidhfWk4sMSbAfJJom4-6hfm6hGz70Ue3gbfa3ko@z>
+Message-ID: <20190708195717.rNE4Z8HotWH1M_bSrW62rcfwJGVptmvttTMHENgj-Ps@z>
 
-On Sat,  6 Jul 2019 14:38:13 -0700
-Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu> wrote:
+On Sat, Jul 06, 2019 at 04:22:39PM -0700, Shobhit Kukreti wrote:
+> +++ b/Documentation/filesystems/index.rst
+> @@ -41,3 +41,4 @@ Documentation for individual filesystem types can be found here.
+>     :maxdepth: 2
+>  
+>     binderfs.rst
+> +   jfs
 
-> From: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
-> 
-> Added toctree hooks for indexing. Hooks added only for newly added files
-> or already existing files. 
-> 
-> The hook for the top of the tree will be added in a later patch series
-> when a few more substantial changes have been added. 
-> 
-> Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
-> ---
->  Documentation/virtual/index.rst     | 18 ++++++++++++++++++
->  Documentation/virtual/kvm/index.rst | 12 ++++++++++++
->  2 files changed, 30 insertions(+)
->  create mode 100644 Documentation/virtual/index.rst
->  create mode 100644 Documentation/virtual/kvm/index.rst
-> 
-> diff --git a/Documentation/virtual/index.rst b/Documentation/virtual/index.rst
+This is the wrong place for this file.  See earlier conversation with
+Sheriff Esseson, and the patch from me to move binderfs.
+
+> diff --git a/Documentation/filesystems/jfs.rst b/Documentation/filesystems/jfs.rst
 > new file mode 100644
-> index 000000000000..19c9fa2266f4
+> index 0000000..bfb6110
 > --- /dev/null
-> +++ b/Documentation/virtual/index.rst
-> @@ -0,0 +1,18 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===========================
-> +Linux Virtual Documentation
-> +===========================
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   kvm/index
-> +   paravirt_ops
-> +
-> +.. only:: html and subproject
-> +
-> +   Indices
-> +   =======
-> +
-> +   * :ref:`genindex`
-> diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virtual/kvm/index.rst
-> new file mode 100644
-> index 000000000000..ada224a511fe
-> --- /dev/null
-> +++ b/Documentation/virtual/kvm/index.rst
-> @@ -0,0 +1,12 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===
-> +KVM
-> +===
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   amd-memory-encryption
-> +   cpuid
-> +   vcpu-requests
+> +++ b/Documentation/filesystems/jfs.rst
 
-At this point in the patch series, the above-mentioned RST files don't
-exist.  So if somebody tries to build the docs here, the build will fail.
-I suspect that it's pretty rare for people to use bisection with docs
-builds, but it's still proper practice to ensure that things work at every
-step in your series.  So the above entries should be added in the patches
-that convert the files.
-
-Also, vcpu-requests.txt is never touched in this patch series, which
-suggests that you didn't build the docs even at the end of it.
-
-Thanks,
-
-jon
+Why is git not detecting this as (mostly) a rename?
