@@ -1,17 +1,98 @@
-From: skhan at linuxfoundation.org (Shuah Khan)
-Date: Mon, 8 Jul 2019 14:03:42 -0600
-Subject: [Linux-kernel-mentees] Linux 5.3 Merge window is open - expect slow
-	response
-Message-ID: <3c205881-62cd-59f7-7201-f6dcc84cf367@linuxfoundation.org>
+From: corbet at lwn.net (Jonathan Corbet)
+Date: Mon, 8 Jul 2019 14:09:54 -0600
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: coresight: covert
+	txt to rst
+In-Reply-To: <20190705204512.15444-1-tranmanphong@gmail.com>
+References: <20190705204512.15444-1-tranmanphong@gmail.com>
+Message-ID: <20190708140954.35a38021@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Mentees,
+On Sat,  6 Jul 2019 03:45:12 +0700
+Phong Tran <tranmanphong at gmail.com> wrote:
 
-Note that the Linux 5.3 Merge window is open and please expect
-slow response for your patches from maintainers and developers.
+> change the format file and adpate the text style
+> 
+> Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+> ---
+>  .../trace/{coresight.txt => coresight.rst}         | 296 ++++++++++++---------
+>  Documentation/trace/index.rst                      |   1 +
+>  2 files changed, 167 insertions(+), 130 deletions(-)
+>  rename Documentation/trace/{coresight.txt => coresight.rst} (59%)
+> 
+> diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.rst
+> similarity index 59%
+> rename from Documentation/trace/coresight.txt
+> rename to Documentation/trace/coresight.rst
+> index efbc832146e7..bea24e70cfba 100644
+> --- a/Documentation/trace/coresight.txt
+> +++ b/Documentation/trace/coresight.rst
+> @@ -1,5 +1,6 @@
+> -		Coresight - HW Assisted Tracing on ARM
+> -		======================================
+> +======================================
+> +Coresight - HW Assisted Tracing on ARM
+> +======================================
+>  
+>     Author:   Mathieu Poirier <mathieu.poirier at linaro.org>
+>     Date:     September 11th, 2014
+> @@ -26,7 +27,7 @@ implementation, either storing the compressed stream in a memory buffer or
+>  creating an interface to the outside world where data can be transferred to a
+>  host without fear of filling up the onboard coresight memory buffer.
+>  
+> -At typical coresight system would look like this:
+> +At typical coresight system would look like this::
+>  
+>    *****************************************************************
+>   **************************** AMBA AXI  ****************************===||
+> @@ -95,6 +96,7 @@ Acronyms and Classification
+>  
+>  Acronyms:
+>  
+> +======== =============================================================
+>  PTM:     Program Trace Macrocell
+>  ETM:     Embedded Trace Macrocell
+>  STM:     System trace Macrocell
+> @@ -104,6 +106,7 @@ TPIU:    Trace Port Interface Unit
+>  TMC-ETR: Trace Memory Controller, configured as Embedded Trace Router
+>  TMC-ETF: Trace Memory Controller, configured as Embedded Trace FIFO
+>  CTI:     Cross Trigger Interface
+> +======== =============================================================
 
-Merge window 2 weeks long and ends when first rc comes out. That
-would be July 21st for Linux 5.3
+A minor nit, but since you're making a table out of this, you don't need
+the colons in the first column.
 
-thanks,
--- Shuah
+>  Classification:
+>  
+> @@ -118,7 +121,7 @@ Misc:
+>  
+>  
+>  Device Tree Bindings
+> -----------------------
+> +--------------------
+>  
+>  See Documentation/devicetree/bindings/arm/coresight.txt for details.
+>  
+> @@ -133,57 +136,63 @@ The coresight framework provides a central point to represent, configure and
+>  manage coresight devices on a platform.  Any coresight compliant device can
+>  register with the framework for as long as they use the right APIs:
+>  
+> -struct coresight_device *coresight_register(struct coresight_desc *desc);
+> -void coresight_unregister(struct coresight_device *csdev);
+> +.. c:function:: struct coresight_device *coresight_register(struct coresight_desc *desc);
+> +.. c:function:: void coresight_unregister(struct coresight_device *csdev);
+>  
+> -The registering function is taking a "struct coresight_device *csdev" and
+> +The registering function is taking a :code:`struct coresight_device *csdev` and
+
+As a general rule, we would rather see less markup in the text files than
+you are applying here.  Just present the prototypes in a literal block
+here.  (Even better would be a nice kerneldoc comment in the source that
+could be pulled in, but that's more work).  I wouldn't use :code: anywhere,
+really. 
+
+As well as addressing Mathieu's comments, could you pass through and cut
+the markup down to the bare minimum?
+
+Thanks,
+
+jon
