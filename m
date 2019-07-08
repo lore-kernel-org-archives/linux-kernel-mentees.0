@@ -1,41 +1,34 @@
-From: gregkh at linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon, 8 Jul 2019 17:16:05 +0200
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: usb: convert
-	usb-help to rst
-In-Reply-To: <CAD3AR6EN7n5KXnJqW0UdgB_eQjuTedB6KdC8sJ_h+MJNKB6ZmA@mail.gmail.com>
-References: <20190705185519.31033-1-tranmanphong@gmail.com>
-	<20190708075255.0f337b28@lwn.net>
-	<CAD3AR6EN7n5KXnJqW0UdgB_eQjuTedB6KdC8sJ_h+MJNKB6ZmA@mail.gmail.com>
-Message-ID: <20190708151605.GA14040@kroah.com>
+From: tranmanphong at gmail.com (Phong Tran)
+Date: Tue, 9 Jul 2019 00:49:48 +0700
+Subject: [Linux-kernel-mentees] [PATCH 5.1 00/96] 5.1.17-stable review
+In-Reply-To: <20190708150526.234572443@linuxfoundation.org>
+References: <20190708150526.234572443@linuxfoundation.org>
+Message-ID: <c1498293-f0f6-0599-bd72-4156370a7599@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Mon, Jul 08, 2019 at 10:01:13PM +0700, Phong Tran wrote:
-> On Mon, Jul 8, 2019 at 8:52 PM Jonathan Corbet <corbet at lwn.net> wrote:
-> >
-> > On Sat,  6 Jul 2019 01:55:19 +0700
-> > Phong Tran <tranmanphong at gmail.com> wrote:
-> >
-> > > Add new index.rst and change usb-help.txt format
-> > > to rst.
-> > >
-> > > Signed-off-by: Phong Tran <tranmanphong at gmail.com>
-> >
-> > Thank you for working to make the kernel's documentation better.  That
-> > said, I really don't think there is value in keeping this document.  It
-> > hasn't been updated in any useful way in decades, contains broken links,
-> > and the links that still work are full of obsolete information.  Honestly,
-> > a better patch would, IMO, just delete this file.
-> >
-> @Jonathan Corbet  it's fine to me.
+On 7/8/19 10:12 PM, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.1.17 release.
+> There are 96 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Need ack from you @Greg Kroah-Hartman
-> if yes, I will send the cleanup patch.
+> Responses should be made by Wed 10 Jul 2019 03:03:52 PM UTC.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.17-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
+> and the diffstat can be found below.
+> 
 
-All of the USB documentation needs a refresh and look again at where it
-is and what it contains.  After 5.3-rc1 I would recommend doing that (as
-that is when all of the recent pending documentation changes will be
-merged).
+build and boot fine with qemu-system-riscv64
 
-thanks,
-
-greg k-h
+root@(none):~# uname  -a
+Linux (none) 5.1.17-rc1-00097-gb64119f8dffe #4 SMP Tue Jul 9 00:44:23 
++07 2019 riscv64 GNU/Linux
+root@(none):~# cat /proc/cpuinfo
+processor	: 0
+hart		: 0
+isa		: rv64imafdcu
+mmu		: sv48
