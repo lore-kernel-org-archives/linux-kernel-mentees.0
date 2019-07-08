@@ -1,31 +1,28 @@
-From: suratiamol@gmail.com (Amol Surati)
-Date: Mon, 8 Jul 2019 19:13:04 +0530
-Subject: [Linux-kernel-mentees] [PATCH 3.16 000/129] 3.16.70-rc1 review
-In-Reply-To: <lsq.1562518456.876074874@decadent.org.uk>
-References: <lsq.1562518456.876074874@decadent.org.uk>
-Message-ID: <20190708134304.GA21832@arch>
+From: corbet@lwn.net (Jonathan Corbet)
+Date: Mon, 8 Jul 2019 07:52:55 -0600
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: usb: convert
+	usb-help to rst
+In-Reply-To: <20190705185519.31033-1-tranmanphong@gmail.com>
+References: <20190705185519.31033-1-tranmanphong@gmail.com>
+Message-ID: <20190708075255.0f337b28@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190708134304.dPMT9pAW6923leRfRzhJYDoHTPbHydlZX6aXFnF4hbE@z>
+Message-ID: <20190708135255.ynV_KWBnD7wgz9KHDjz9GzA0lSoZtmuEeNmhXvyipq0@z>
 
-On Sun, Jul 07, 2019 at 05:54:16PM +0100, Ben Hutchings wrote:
-> This is the start of the stable review cycle for the 3.16.70 release.
-> There are 129 patches in this series, which will be posted as responses
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Tue Jul 09 20:00:00 UTC 2019.
-> Anything received after that time might be too late.
-> 
-> All the patches have also been committed to the linux-3.16.y-rc branch of
-> https://git.kernel.org/pub/scm/linux/kernel/git/bwh/linux-stable-rc.git .
-> A shortlog and diffstat can be found below.
-> 
-> Ben.
+On Sat,  6 Jul 2019 01:55:19 +0700
+Phong Tran <tranmanphong at gmail.com> wrote:
 
+> Add new index.rst and change usb-help.txt format
+> to rst.
+> 
+> Signed-off-by: Phong Tran <tranmanphong at gmail.com>
 
-x86_64 (on debian-8.11.1), compiled and booted successfully.
-No regressions (between 3.16.69 and 3.16.70-rc1).
+Thank you for working to make the kernel's documentation better.  That
+said, I really don't think there is value in keeping this document.  It
+hasn't been updated in any useful way in decades, contains broken links,
+and the links that still work are full of obsolete information.  Honestly,
+a better patch would, IMO, just delete this file.
 
 Thanks,
--amol
+
+jon
