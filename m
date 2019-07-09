@@ -1,47 +1,57 @@
-From: willy@infradead.org (Matthew Wilcox)
-Date: Tue, 9 Jul 2019 11:45:59 -0700
-Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v6] Doc :
- fs : convert xfs.txt to ReST
-In-Reply-To: <20190709124859.GA21503@localhost>
-References: <20190709124859.GA21503@localhost>
-Message-ID: <20190709184559.GL32320@bombadil.infradead.org>
+From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Tue,  9 Jul 2019 13:07:18 -0700
+Subject: [Linux-kernel-mentees] [PATCH v2 0/3] Documentation: virtual:
+	convert .txt to .rst
+Message-ID: <20190709200721.16991-1-lnowakow@neg.ucsd.edu>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190709184559.r3Z3u4Twpbi26fsaqYZwblOxAZaN1WrOH4dhv1O4zvs@z>
+Message-ID: <20190709200718.0FalewDyUrtiv3HEkcl63nSBAR4BYuEz4BueA1OyjpA@z>
 
-On Tue, Jul 09, 2019 at 01:48:59PM +0100, Sheriff Esseson wrote:
-> Convert xfs.txt to ReST, rename and fix broken references, consequently.
-> 
-> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
-> ---
-> 
-> Changes in v6:
-> 	- undo text reflow from v5.
-> 	- fix a typo.
-> 	- change indication of defaults , as suggested by Darrick J. Wong, to
-> 	  keep the read simple.
-> 	- change delimiter of boolean option from a newline to an "or" (clue
-> 	  from something like "<option> and <another option>" in the text)
-> 	  because the former does not render well in html.
-> 
->  Documentation/filesystems/dax.txt             |   2 +-
->  Documentation/filesystems/index.rst           |   1 +
->  .../filesystems/{xfs.txt => xfs.rst}          | 123 +++++++++---------
->  MAINTAINERS                                   |   2 +-
->  4 files changed, 61 insertions(+), 67 deletions(-)
->  rename Documentation/filesystems/{xfs.txt => xfs.rst} (81%)
+From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
 
-Documentation/{filesystem/xfs.txt => admin-guide/xfs.rst}.
+Converted a few documents in virtual and virtual/kvm to .rst format.
+Also added toctree hooks wherever there were .rst files. Adding hooks to
+the main doc tree should be in another patch series once there are more
+files in the directory.
 
-> -	If "largeio" specified, a filesystem that was created with a
-> -	"swidth" specified will return the "swidth" value (in bytes)
-> -	in st_blksize. If the filesystem does not have a "swidth"
-> -	specified but does specify an "allocsize" then "allocsize"
-> +	If ``largeio`` specified, a filesystem that was created with a
+After confirming with the appropriate lists that all the
+Documentation/virtual/* files are not obsolete I will continue
+converting the rest of the .txt files to .rst.
 
-surely 'If ``largeio`` is specified' here?
+Changes in v2: 
+	Documentation: kvm: Convert cpuid.txt to .rst
+	+ added updated Author email address
+	+ changed table to simpler format
+	- removed function bolding from v1
+	Documentation: virtual: Add toctree hooks
+	- Removed vcpu-request from hooks that was added in v1
 
-> +	``swidth`` specified will return the ``swidth`` value (in bytes)
-> +	in ``st_blksize``. If the filesystem does not have a ``swidth``
-> +	specified but does specify an ``allocsize`` then ``allocsize``
->  	(in bytes) will be returned instead. Otherwise the behaviour
+Chanes in v1:
+	Documentation: kvm: Convert cpuid.txt to .rst
+	+ Converted doc to .rst format
+	Documentation: virtual: Convert paravirt_ops.txt to .rst
+	+ Converted doc to .rst format
+	Documentation: virtual: Add toctree hooks
+	+ Added index.rst file in virtual directory
+	+ Added index.rst file in virtual/kvm directory
+
+
+Luke Nowakowski-Krijger (3):
+  Documentation: kvm: Convert cpuid.txt to .rst
+  Documentation: virtual: Convert paravirt_ops.txt to .rst
+  Documentation: virtual: Add toctree hooks
+
+ Documentation/virtual/index.rst               | 18 ++++
+ Documentation/virtual/kvm/cpuid.rst           | 99 +++++++++++++++++++
+ Documentation/virtual/kvm/cpuid.txt           | 83 ----------------
+ Documentation/virtual/kvm/index.rst           | 11 +++
+ .../{paravirt_ops.txt => paravirt_ops.rst}    | 19 ++--
+ 5 files changed, 139 insertions(+), 91 deletions(-)
+ create mode 100644 Documentation/virtual/index.rst
+ create mode 100644 Documentation/virtual/kvm/cpuid.rst
+ delete mode 100644 Documentation/virtual/kvm/cpuid.txt
+ create mode 100644 Documentation/virtual/kvm/index.rst
+ rename Documentation/virtual/{paravirt_ops.txt => paravirt_ops.rst} (65%)
+
+-- 
+2.20.1
