@@ -1,71 +1,76 @@
 From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
-Date: Tue,  9 Jul 2019 13:07:20 -0700
-Subject: [Linux-kernel-mentees] [PATCH v2 2/3] Documentation: virtual:
-	Convert paravirt_ops.txt to .rst
+Date: Tue,  9 Jul 2019 13:07:21 -0700
+Subject: [Linux-kernel-mentees] [PATCH v2 3/3] Documentation: virtual: Add
+	toctree hooks
 In-Reply-To: <20190709200721.16991-1-lnowakow@neg.ucsd.edu>
 References: <20190709200721.16991-1-lnowakow@neg.ucsd.edu>
-Message-ID: <20190709200721.16991-3-lnowakow@neg.ucsd.edu>
+Message-ID: <20190709200721.16991-4-lnowakow@neg.ucsd.edu>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190709200720._5sTOTve5NzQNXv3i_DxATYmySEr1YUzqgxX10c-wQ4@z>
+Message-ID: <20190709200721.y7SAE6-ULfxc_yI6oXAwi7Bq080agiuQyheLHWB7kks@z>
 
 From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
 
-Convert paravirt_opts.txt to .rst format to be able to be parsed by
-sphinx.
+Added toctree hooks for indexing. Hooks added only for newly added
+files.
 
-Made some minor spacing and formatting corrections to make defintions
-much more clear and easy to read. Added default kernel license to the
-document.
+The hook for the top of the tree will be added in a later patch series
+when a few more substantial changes have been added.
 
 Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
 ---
  Changes since v2:
- none
+ - Removed vcpu-request from hooks that was added in v1
  Changes since v1:
- + Converted doc to .rst format
+ + Added index.rst file in virtual directory
+ + Added index.rst file in virtual/kvm directory
+ 
+ Documentation/virtual/index.rst     | 18 ++++++++++++++++++
+ Documentation/virtual/kvm/index.rst | 11 +++++++++++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 Documentation/virtual/index.rst
+ create mode 100644 Documentation/virtual/kvm/index.rst
 
- .../{paravirt_ops.txt => paravirt_ops.rst}    | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
- rename Documentation/virtual/{paravirt_ops.txt => paravirt_ops.rst} (65%)
-
-diff --git a/Documentation/virtual/paravirt_ops.txt b/Documentation/virtual/paravirt_ops.rst
-similarity index 65%
-rename from Documentation/virtual/paravirt_ops.txt
-rename to Documentation/virtual/paravirt_ops.rst
-index d4881c00e339..6b789d27cead 100644
---- a/Documentation/virtual/paravirt_ops.txt
-+++ b/Documentation/virtual/paravirt_ops.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/virtual/index.rst b/Documentation/virtual/index.rst
+new file mode 100644
+index 000000000000..19c9fa2266f4
+--- /dev/null
++++ b/Documentation/virtual/index.rst
+@@ -0,0 +1,18 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+============
- Paravirt_ops
- ============
- 
-@@ -18,15 +21,15 @@ at boot time.
- pv_ops operations are classified into three categories:
- 
- - simple indirect call
--  These operations correspond to high level functionality where it is
--  known that the overhead of indirect call isn't very important.
-+   These operations correspond to high level functionality where it is
-+   known that the overhead of indirect call isn't very important.
- 
- - indirect call which allows optimization with binary patch
--  Usually these operations correspond to low level critical instructions. They
--  are called frequently and are performance critical. The overhead is
--  very important.
-+   Usually these operations correspond to low level critical instructions. They
-+   are called frequently and are performance critical. The overhead is
-+   very important.
- 
- - a set of macros for hand written assembly code
--  Hand written assembly codes (.S files) also need paravirtualization
--  because they include sensitive instructions or some of code paths in
--  them are very performance critical.
-+   Hand written assembly codes (.S files) also need paravirtualization
-+   because they include sensitive instructions or some of code paths in
-+   them are very performance critical.
++===========================
++Linux Virtual Documentation
++===========================
++
++.. toctree::
++   :maxdepth: 2
++
++   kvm/index
++   paravirt_ops
++
++.. only:: html and subproject
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virtual/kvm/index.rst
+new file mode 100644
+index 000000000000..0b206a06f5be
+--- /dev/null
++++ b/Documentation/virtual/kvm/index.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===
++KVM
++===
++
++.. toctree::
++   :maxdepth: 2
++
++   amd-memory-encryption
++   cpuid
 -- 
 2.20.1
