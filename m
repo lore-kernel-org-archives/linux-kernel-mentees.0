@@ -1,31 +1,45 @@
-From: sheriffesseson at gmail.com (Sheriff Esseson)
-Date: Tue, 9 Jul 2019 18:33:33 +0100
+From: willy at infradead.org (Matthew Wilcox)
+Date: Tue, 9 Jul 2019 11:45:59 -0700
 Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v6] Doc :
  fs : convert xfs.txt to ReST
-In-Reply-To: <20190709161646.GA14183@infradead.org>
+In-Reply-To: <20190709124859.GA21503@localhost>
 References: <20190709124859.GA21503@localhost>
-	<20190709140540.GA13183@infradead.org>
-	<20190709161225.GA28905@localhost>
-	<20190709161646.GA14183@infradead.org>
-Message-ID: <20190709173333.GB28905@localhost>
+Message-ID: <20190709184559.GL32320@bombadil.infradead.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Jul 09, 2019 at 09:16:46AM -0700, Christoph Hellwig wrote:
-> On Tue, Jul 09, 2019 at 05:12:25PM +0100, Sheriff Esseson wrote:
-> > On Tue, Jul 09, 2019 at 07:05:40AM -0700, Christoph Hellwig wrote:
-> > > On Tue, Jul 09, 2019 at 01:48:59PM +0100, Sheriff Esseson wrote:
-> > > > Convert xfs.txt to ReST, rename and fix broken references, consequently.
-> > > 
-> > > The subject line still uses completely b0rked naming conventions.
-> > 
-> > Sorry, Christoph, for repeating the mistake. I did not know the mailing list
-> > auto-inserts the "...mentees..." header in my subject line - I did it manually.
+On Tue, Jul 09, 2019 at 01:48:59PM +0100, Sheriff Esseson wrote:
+> Convert xfs.txt to ReST, rename and fix broken references, consequently.
 > 
-> Now, that is not the problem as that gets stripped away.  It is your
-> we?rd use of colons and shortening of Documentation to Doc.
+> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+> ---
 > 
-Oh, *noted*. 
+> Changes in v6:
+> 	- undo text reflow from v5.
+> 	- fix a typo.
+> 	- change indication of defaults , as suggested by Darrick J. Wong, to
+> 	  keep the read simple.
+> 	- change delimiter of boolean option from a newline to an "or" (clue
+> 	  from something like "<option> and <another option>" in the text)
+> 	  because the former does not render well in html.
+> 
+>  Documentation/filesystems/dax.txt             |   2 +-
+>  Documentation/filesystems/index.rst           |   1 +
+>  .../filesystems/{xfs.txt => xfs.rst}          | 123 +++++++++---------
+>  MAINTAINERS                                   |   2 +-
+>  4 files changed, 61 insertions(+), 67 deletions(-)
+>  rename Documentation/filesystems/{xfs.txt => xfs.rst} (81%)
 
-Thanks,
+Documentation/{filesystem/xfs.txt => admin-guide/xfs.rst}.
 
-Sheriff
+> -	If "largeio" specified, a filesystem that was created with a
+> -	"swidth" specified will return the "swidth" value (in bytes)
+> -	in st_blksize. If the filesystem does not have a "swidth"
+> -	specified but does specify an "allocsize" then "allocsize"
+> +	If ``largeio`` specified, a filesystem that was created with a
+
+surely 'If ``largeio`` is specified' here?
+
+> +	``swidth`` specified will return the ``swidth`` value (in bytes)
+> +	in ``st_blksize``. If the filesystem does not have a ``swidth``
+> +	specified but does specify an ``allocsize`` then ``allocsize``
+>  	(in bytes) will be returned instead. Otherwise the behaviour
