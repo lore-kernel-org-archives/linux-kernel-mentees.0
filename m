@@ -1,76 +1,51 @@
-From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
-Date: Tue,  9 Jul 2019 13:07:21 -0700
-Subject: [Linux-kernel-mentees] [PATCH v2 3/3] Documentation: virtual: Add
-	toctree hooks
-In-Reply-To: <20190709200721.16991-1-lnowakow@neg.ucsd.edu>
-References: <20190709200721.16991-1-lnowakow@neg.ucsd.edu>
-Message-ID: <20190709200721.16991-4-lnowakow@neg.ucsd.edu>
+From: sheriffesseson@gmail.com (Sheriff Esseson)
+Date: Tue, 9 Jul 2019 21:29:15 +0100
+Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v6] Doc :
+ fs : convert xfs.txt to ReST
+In-Reply-To: <20190709184559.GL32320@bombadil.infradead.org>
+References: <20190709124859.GA21503@localhost>
+	<20190709184559.GL32320@bombadil.infradead.org>
+Message-ID: <20190709202915.GC28905@localhost>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190709200721.y7SAE6-ULfxc_yI6oXAwi7Bq080agiuQyheLHWB7kks@z>
+Message-ID: <20190709202915.TlI1tvZiebf4lPsXpsERk6ONystH_lONpp54KCf7vEM@z>
 
-From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+On Tue, Jul 09, 2019 at 11:45:59AM -0700, Matthew Wilcox wrote:
+> On Tue, Jul 09, 2019 at 01:48:59PM +0100, Sheriff Esseson wrote:
+> > Convert xfs.txt to ReST, rename and fix broken references, consequently.
+> > 
+> > Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+> > ---
+> > 
+> > Changes in v6:
+> > 	- undo text reflow from v5.
+> > 	- fix a typo.
+> > 	- change indication of defaults , as suggested by Darrick J. Wong, to
+> > 	  keep the read simple.
+> > 	- change delimiter of boolean option from a newline to an "or" (clue
+> > 	  from something like "<option> and <another option>" in the text)
+> > 	  because the former does not render well in html.
+> > 
+> >  Documentation/filesystems/dax.txt             |   2 +-
+> >  Documentation/filesystems/index.rst           |   1 +
+> >  .../filesystems/{xfs.txt => xfs.rst}          | 123 +++++++++---------
+> >  MAINTAINERS                                   |   2 +-
+> >  4 files changed, 61 insertions(+), 67 deletions(-)
+> >  rename Documentation/filesystems/{xfs.txt => xfs.rst} (81%)
+> 
+> Documentation/{filesystem/xfs.txt => admin-guide/xfs.rst}.
+> 
+> > -	If "largeio" specified, a filesystem that was created with a
+> > -	"swidth" specified will return the "swidth" value (in bytes)
+> > -	in st_blksize. If the filesystem does not have a "swidth"
+> > -	specified but does specify an "allocsize" then "allocsize"
+> > +	If ``largeio`` specified, a filesystem that was created with a
+> 
+> surely 'If ``largeio`` is specified' here?
 
-Added toctree hooks for indexing. Hooks added only for newly added
-files.
-
-The hook for the top of the tree will be added in a later patch series
-when a few more substantial changes have been added.
-
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
----
- Changes since v2:
- - Removed vcpu-request from hooks that was added in v1
- Changes since v1:
- + Added index.rst file in virtual directory
- + Added index.rst file in virtual/kvm directory
- 
- Documentation/virtual/index.rst     | 18 ++++++++++++++++++
- Documentation/virtual/kvm/index.rst | 11 +++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 Documentation/virtual/index.rst
- create mode 100644 Documentation/virtual/kvm/index.rst
-
-diff --git a/Documentation/virtual/index.rst b/Documentation/virtual/index.rst
-new file mode 100644
-index 000000000000..19c9fa2266f4
---- /dev/null
-+++ b/Documentation/virtual/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================
-+Linux Virtual Documentation
-+===========================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   kvm/index
-+   paravirt_ops
-+
-+.. only:: html and subproject
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virtual/kvm/index.rst
-new file mode 100644
-index 000000000000..0b206a06f5be
---- /dev/null
-+++ b/Documentation/virtual/kvm/index.rst
-@@ -0,0 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===
-+KVM
-+===
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   amd-memory-encryption
-+   cpuid
--- 
-2.20.1
+Oops!!! Thanks.
+> 
+> > +	``swidth`` specified will return the ``swidth`` value (in bytes)
+> > +	in ``st_blksize``. If the filesystem does not have a ``swidth``
+> > +	specified but does specify an ``allocsize`` then ``allocsize``
+> >  	(in bytes) will be returned instead. Otherwise the behaviour
