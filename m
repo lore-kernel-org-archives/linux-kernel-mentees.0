@@ -1,13 +1,32 @@
-From: hch at infradead.org (Christoph Hellwig)
-Date: Tue, 9 Jul 2019 07:05:40 -0700
-Subject: [Linux-kernel-mentees] [linux-kernel-mentees] [PATCH v6] Doc :
- fs : convert xfs.txt to ReST
-In-Reply-To: <20190709124859.GA21503@localhost>
-References: <20190709124859.GA21503@localhost>
-Message-ID: <20190709140540.GA13183@infradead.org>
+From: suratiamol at gmail.com (Amol Surati)
+Date: Tue, 9 Jul 2019 21:14:29 +0530
+Subject: [Linux-kernel-mentees] [PATCH 4.19 00/90] 4.19.58-stable review
+In-Reply-To: <20190708150521.829733162@linuxfoundation.org>
+References: <20190708150521.829733162@linuxfoundation.org>
+Message-ID: <20190709154429.GA2793@arch>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Jul 09, 2019 at 01:48:59PM +0100, Sheriff Esseson wrote:
-> Convert xfs.txt to ReST, rename and fix broken references, consequently.
+On Mon, Jul 08, 2019 at 05:12:27PM +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.58 release.
+> There are 90 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Wed 10 Jul 2019 03:03:52 PM UTC.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.58-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-The subject line still uses completely b0rked naming conventions.
+x86_64 compiled and booted; no regressions between 4.19.57 and
+4.19.58-rc1 among dmesg and kselftests.
+
+Thanks,
+-amol
