@@ -1,76 +1,134 @@
-From: lnowakow at eng.ucsd.edu (Luke Nowakowski-Krijger)
-Date: Wed, 10 Jul 2019 08:30:54 -0700
-Subject: [Linux-kernel-mentees] [PATCH v3 3/3] Documentation: virtual: Add
-	toctree hooks
-In-Reply-To: <20190710153054.29564-1-lnowakow@neg.ucsd.edu>
-References: <20190710153054.29564-1-lnowakow@neg.ucsd.edu>
-Message-ID: <20190710153054.29564-4-lnowakow@neg.ucsd.edu>
+From: mchehab+samsung at kernel.org (Mauro Carvalho Chehab)
+Date: Wed, 10 Jul 2019 12:57:30 -0300
+Subject: [Linux-kernel-mentees] [PATCH v3] Documentation: filesystems:
+	Convert jfs.txt to
+In-Reply-To: <1562772541-32144-1-git-send-email-shobhitkukreti@gmail.com>
+References: <20190710093323.7e5d6790@coco.lan>
+	<1562772541-32144-1-git-send-email-shobhitkukreti@gmail.com>
+Message-ID: <20190710125730.0d0cb685@coco.lan>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-From: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+Em Wed, 10 Jul 2019 08:29:01 -0700
+Shobhit Kukreti <shobhitkukreti at gmail.com> escreveu:
 
-Added toctree hooks for indexing. Hooks added only for newly added
-files.
+> This converts the plain text documentation of jfs.txt to reStructuredText
+> format. Added to documentation build process and verified with 
+> make htmldocs
+> 
+> Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
 
-The hook for the top of the tree will be added in a later patch series
-when a few more substantial changes have been added.
+Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung at kernel.org>
 
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
----
- Changes since v3:
- none
- Changes since v2:
- - Removed vcpu-request from hooks that was added in v1
- Changes since v1:
- + Added index.rst file in virtual directory
- + Added index.rst file in virtual/kvm directory
+> ---
+> Changes in v3:
+>         1. Reverted to minimally changed jfs.rst
+>         2. Used -M1 in git format-patch to show files as renamed
+> 
+> Changes in v2:
+>         1. Removed flat-table.
+>         2. Moved jfs.rst from filesystem to admin-guide
+> 
+>  Documentation/admin-guide/index.rst                |  1 +
+>  .../{filesystems/jfs.txt => admin-guide/jfs.rst}   | 44 ++++++++++++++--------
+>  2 files changed, 30 insertions(+), 15 deletions(-)
+>  rename Documentation/{filesystems/jfs.txt => admin-guide/jfs.rst} (51%)
+> 
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+> index 8001917..2871b79 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -70,6 +70,7 @@ configure specific aspects of kernel behavior to your liking.
+>     ras
+>     bcache
+>     ext4
+> +   jfs
+>     pm/index
+>     thunderbolt
+>     LSM/index
+> diff --git a/Documentation/filesystems/jfs.txt b/Documentation/admin-guide/jfs.rst
+> similarity index 51%
+> rename from Documentation/filesystems/jfs.txt
+> rename to Documentation/admin-guide/jfs.rst
+> index 41fd757..9e12d93 100644
+> --- a/Documentation/filesystems/jfs.txt
+> +++ b/Documentation/admin-guide/jfs.rst
+> @@ -1,45 +1,59 @@
+> +===========================================
+>  IBM's Journaled File System (JFS) for Linux
+> +===========================================
+>  
+>  JFS Homepage:  http://jfs.sourceforge.net/
+>  
+>  The following mount options are supported:
+> +
+>  (*) == default
+>  
+> -iocharset=name	Character set to use for converting from Unicode to
+> +iocharset=name
+> +                Character set to use for converting from Unicode to
+>  		ASCII.  The default is to do no conversion.  Use
+>  		iocharset=utf8 for UTF-8 translations.  This requires
+>  		CONFIG_NLS_UTF8 to be set in the kernel .config file.
+>  		iocharset=none specifies the default behavior explicitly.
+>  
+> -resize=value	Resize the volume to <value> blocks.  JFS only supports
+> +resize=value
+> +                Resize the volume to <value> blocks.  JFS only supports
+>  		growing a volume, not shrinking it.  This option is only
+>  		valid during a remount, when the volume is mounted
+>  		read-write.  The resize keyword with no value will grow
+>  		the volume to the full size of the partition.
+>  
+> -nointegrity	Do not write to the journal.  The primary use of this option
+> +nointegrity
+> +                Do not write to the journal.  The primary use of this option
+>  		is to allow for higher performance when restoring a volume
+>  		from backup media.  The integrity of the volume is not
+>  		guaranteed if the system abnormally abends.
+>  
+> -integrity(*)	Commit metadata changes to the journal.  Use this option to
+> +integrity(*)
+> +                Commit metadata changes to the journal.  Use this option to
+>  		remount a volume where the nointegrity option was
+>  		previously specified in order to restore normal behavior.
+>  
+> -errors=continue		Keep going on a filesystem error.
+> -errors=remount-ro(*)	Remount the filesystem read-only on an error.
+> -errors=panic		Panic and halt the machine if an error occurs.
+> +errors=continue
+> +                        Keep going on a filesystem error.
+> +errors=remount-ro(*)
+> +                        Remount the filesystem read-only on an error.
+> +errors=panic
+> +                        Panic and halt the machine if an error occurs.
+>  
+> -uid=value	Override on-disk uid with specified value
+> -gid=value	Override on-disk gid with specified value
+> -umask=value	Override on-disk umask with specified octal value.  For
+> -		directories, the execute bit will be set if the corresponding
+> +uid=value
+> +                Override on-disk uid with specified value
+> +gid=value
+> +                Override on-disk gid with specified value
+> +umask=value
+> +                Override on-disk umask with specified octal value. For
+> +                directories, the execute bit will be set if the corresponding
+>  		read bit is set.
+>  
+> -discard=minlen	This enables/disables the use of discard/TRIM commands.
+> -discard		The discard/TRIM commands are sent to the underlying
+> -nodiscard(*)	block device when blocks are freed. This is useful for SSD
+> -		devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
+> +discard=minlen, discard/nodiscard(*)
+> +                This enables/disables the use of discard/TRIM commands.
+> +		The discard/TRIM commands are sent to the underlying
+> +                block device when blocks are freed. This is useful for SSD
+> +                devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
+>  		command is also available together with the nodiscard option.
+>  		The value of minlen specifies the minimum blockcount, when
+>  		a TRIM command to the block device is considered useful.
 
- Documentation/virtual/index.rst     | 18 ++++++++++++++++++
- Documentation/virtual/kvm/index.rst | 11 +++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 Documentation/virtual/index.rst
- create mode 100644 Documentation/virtual/kvm/index.rst
 
-diff --git a/Documentation/virtual/index.rst b/Documentation/virtual/index.rst
-new file mode 100644
-index 000000000000..19c9fa2266f4
---- /dev/null
-+++ b/Documentation/virtual/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================
-+Linux Virtual Documentation
-+===========================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   kvm/index
-+   paravirt_ops
-+
-+.. only:: html and subproject
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/virtual/kvm/index.rst b/Documentation/virtual/kvm/index.rst
-new file mode 100644
-index 000000000000..0b206a06f5be
---- /dev/null
-+++ b/Documentation/virtual/kvm/index.rst
-@@ -0,0 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===
-+KVM
-+===
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   amd-memory-encryption
-+   cpuid
--- 
-2.20.1
+
+Thanks,
+Mauro
