@@ -1,124 +1,222 @@
-From: shobhitkukreti at gmail.com (Shobhit Kukreti)
-Date: Wed, 10 Jul 2019 08:31:23 -0700
-Subject: [Linux-kernel-mentees] [PATCH v3] Documentation: filesystems:
-	Convert ufs.txt to reStructuredText format
-In-Reply-To: <20190710092605.73ddee8b@coco.lan>
-References: <20190710092605.73ddee8b@coco.lan>
-Message-ID: <1562772683-32422-1-git-send-email-shobhitkukreti@gmail.com>
+From: lnowakow at eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Wed, 10 Jul 2019 08:30:53 -0700
+Subject: [Linux-kernel-mentees] [PATCH v3 2/3] Documentation: kvm: Convert
+	cpuid.txt to .rst
+In-Reply-To: <20190710153054.29564-1-lnowakow@neg.ucsd.edu>
+References: <20190710153054.29564-1-lnowakow@neg.ucsd.edu>
+Message-ID: <20190710153054.29564-3-lnowakow@neg.ucsd.edu>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-This converts the plain text documentation of ufs.txt to
-reStructuredText format. Added to documentation build process
-and verified with make htmldocs
+From: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
 
-Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
+Convert cpuid.txt to .rst format to be parsable by sphinx.
+
+Change format and spacing to make function definitions and return values
+much more clear. Also added a table that is parsable by sphinx and makes
+the information much more clean. Updated Author email to their new
+active email address. Added license identifier with the consent of the
+author.
+
+Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
 ---
-Changes in v3:
-        1. Reverted to minimally changed ufs.rst
-	2. Fix Minor Space Issues
-        3. Used -M1 in git format-patch to show files as renamed
-Changes in v2:
-        1. Removed flat-table
-        2. Moved ufs.rst to admin-guide
+ Changes since v3:
+ + added table entries that were in updated cpuid.txt
+ Changes since v2:
+ + added updated Author email address
+ + changed table to simpler format
+ - removed function bolding from v1
+ Changes since v1:
+ + Converted doc to .rst format
 
- Documentation/admin-guide/index.rst                |  1 +
- .../{filesystems/ufs.txt => admin-guide/ufs.rst}   | 36 +++++++++++++---------
- 2 files changed, 23 insertions(+), 14 deletions(-)
- rename Documentation/{filesystems/ufs.txt => admin-guide/ufs.rst} (69%)
+ .../virtual/kvm/{cpuid.txt => cpuid.rst}      | 162 ++++++++++--------
+ 1 file changed, 89 insertions(+), 73 deletions(-)
+ rename Documentation/virtual/kvm/{cpuid.txt => cpuid.rst} (13%)
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 2871b79..9bfb076 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -71,6 +71,7 @@ configure specific aspects of kernel behavior to your liking.
-    bcache
-    ext4
-    jfs
-+   ufs
-    pm/index
-    thunderbolt
-    LSM/index
-diff --git a/Documentation/filesystems/ufs.txt b/Documentation/admin-guide/ufs.rst
-similarity index 69%
-rename from Documentation/filesystems/ufs.txt
-rename to Documentation/admin-guide/ufs.rst
-index 7a602ad..55d1529 100644
---- a/Documentation/filesystems/ufs.txt
-+++ b/Documentation/admin-guide/ufs.rst
-@@ -1,37 +1,45 @@
--USING UFS
-+=========
-+Using UFS
- =========
+diff --git a/Documentation/virtual/kvm/cpuid.txt b/Documentation/virtual/kvm/cpuid.rst
+similarity index 13%
+rename from Documentation/virtual/kvm/cpuid.txt
+rename to Documentation/virtual/kvm/cpuid.rst
+index 2bdac528e4a2..01b081f6e7ea 100644
+--- a/Documentation/virtual/kvm/cpuid.txt
++++ b/Documentation/virtual/kvm/cpuid.rst
+@@ -1,6 +1,10 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============
+ KVM CPUID bits
+-Glauber Costa <glommer at redhat.com>, Red Hat Inc, 2010
+-=====================================================
++==============
++
++:Author: Glauber Costa <glommer at gmail.com>
  
- mount -t ufs -o ufstype=type_of_ufs device dir
+ A guest running on a kvm host, can check some of its features using
+ cpuid. This is not always guaranteed to work, since userspace can
+@@ -10,10 +14,14 @@ a guest.
+ KVM cpuid functions are:
  
+ function: KVM_CPUID_SIGNATURE (0x40000000)
+-returns : eax = 0x40000001,
+-          ebx = 0x4b4d564b,
+-          ecx = 0x564b4d56,
+-          edx = 0x4d.
++
++returns::
++
++   eax = 0x40000001
++   ebx = 0x4b4d564b
++   ecx = 0x564b4d56
++   edx = 0x4d
++
+ Note that this value in ebx, ecx and edx corresponds to the string "KVMKVMKVM".
+ The value in eax corresponds to the maximum cpuid function present in this leaf,
+ and will be updated if more functions are added in the future.
+@@ -21,71 +29,79 @@ Note also that old hosts set eax value to 0x0. This should
+ be interpreted as if the value was 0x40000001.
+ This function queries the presence of KVM cpuid leafs.
  
--UFS OPTIONS
-+UFS Options
- ===========
- 
- ufstype=type_of_ufs
- 	UFS is a file system widely used in different operating systems.
- 	The problem are differences among implementations. Features of
- 	some implementations are undocumented, so its hard to recognize
--	type of ufs automatically. That's why user must specify type of 
-+	type of ufs automatically. That's why user must specify type of
- 	ufs manually by mount option ufstype. Possible values are:
- 
--	old	old format of ufs
-+	old
-+                old format of ufs
- 		default value, supported as read-only
- 
--	44bsd	used in FreeBSD, NetBSD, OpenBSD
-+	44bsd
-+                used in FreeBSD, NetBSD, OpenBSD
- 		supported as read-write
- 
--	ufs2    used in FreeBSD 5.x
-+	ufs2
-+                used in FreeBSD 5.x
- 		supported as read-write
- 
--	5xbsd	synonym for ufs2
-+	5xbsd
-+                synonym for ufs2
- 
--	sun	used in SunOS (Solaris)
-+	sun
-+                used in SunOS (Solaris)
- 		supported as read-write
- 
--	sunx86	used in SunOS for Intel (Solarisx86)
-+	sunx86
-+                used in SunOS for Intel (Solarisx86)
- 		supported as read-write
- 
--	hp	used in HP-UX
-+	hp
-+                used in HP-UX
- 		supported as read-only
- 
- 	nextstep
-@@ -47,14 +55,14 @@ ufstype=type_of_ufs
- 		supported as read-only
- 
- 
--POSSIBLE PROBLEMS
--=================
-+Possible Problems
-+-----------------
- 
- See next section, if you have any.
- 
- 
--BUG REPORTS
--===========
-+Bug Reports
-+-----------
- 
- Any ufs bug report you can send to daniel.pirkl at email.cz or
- to dushistov at mail.ru (do not send partition tables bug reports).
+-
+ function: define KVM_CPUID_FEATURES (0x40000001)
+-returns : ebx, ecx
+-          eax = an OR'ed group of (1 << flag), where each flags is:
+-
+-
+-flag                               || value || meaning
+-=============================================================================
+-KVM_FEATURE_CLOCKSOURCE            ||     0 || kvmclock available at msrs
+-                                   ||       || 0x11 and 0x12.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_NOP_IO_DELAY           ||     1 || not necessary to perform delays
+-                                   ||       || on PIO operations.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_MMU_OP                 ||     2 || deprecated.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_CLOCKSOURCE2           ||     3 || kvmclock available at msrs
+-                                   ||       || 0x4b564d00 and 0x4b564d01
+-------------------------------------------------------------------------------
+-KVM_FEATURE_ASYNC_PF               ||     4 || async pf can be enabled by
+-                                   ||       || writing to msr 0x4b564d02
+-------------------------------------------------------------------------------
+-KVM_FEATURE_STEAL_TIME             ||     5 || steal time can be enabled by
+-                                   ||       || writing to msr 0x4b564d03.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_PV_EOI                 ||     6 || paravirtualized end of interrupt
+-                                   ||       || handler can be enabled by writing
+-                                   ||       || to msr 0x4b564d04.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_PV_UNHALT              ||     7 || guest checks this feature bit
+-                                   ||       || before enabling paravirtualized
+-                                   ||       || spinlock support.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_PV_TLB_FLUSH           ||     9 || guest checks this feature bit
+-                                   ||       || before enabling paravirtualized
+-                                   ||       || tlb flush.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_ASYNC_PF_VMEXIT        ||    10 || paravirtualized async PF VM exit
+-                                   ||       || can be enabled by setting bit 2
+-                                   ||       || when writing to msr 0x4b564d02
+-------------------------------------------------------------------------------
+-KVM_FEATURE_PV_SEND_IPI            ||    11 || guest checks this feature bit
+-                                   ||       || before using paravirtualized
+-                                   ||       || send IPIs.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_PV_POLL_CONTROL        ||    12 || host-side polling on HLT can
+-                                   ||       || be disabled by writing
+-                                   ||       || to msr 0x4b564d05.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_PV_SCHED_YIELD         ||    13 || guest checks this feature bit
+-                                   ||       || before using paravirtualized
+-                                   ||       || sched yield.
+-------------------------------------------------------------------------------
+-KVM_FEATURE_CLOCKSOURCE_STABLE_BIT ||    24 || host will warn if no guest-side
+-                                   ||       || per-cpu warps are expected in
+-                                   ||       || kvmclock.
+-------------------------------------------------------------------------------
+-
+-          edx = an OR'ed group of (1 << flag), where each flags is:
+-
+-
+-flag                               || value || meaning
+-==================================================================================
+-KVM_HINTS_REALTIME                 ||     0 || guest checks this feature bit to
+-                                   ||       || determine that vCPUs are never
+-                                   ||       || preempted for an unlimited time,
+-                                   ||       || allowing optimizations
+-----------------------------------------------------------------------------------
++
++returns::
++
++          ebx, ecx
++          eax = an OR'ed group of (1 << flag)
++
++where ``flag`` is defined as below:
++
++================================= =========== ================================
++flag                              value       meaning
++================================= =========== ================================
++KVM_FEATURE_CLOCKSOURCE           0           kvmclock available at msrs
++                                              0x11 and 0x12
++
++KVM_FEATURE_NOP_IO_DELAY          1           not necessary to perform delays
++                                              on PIO operations
++
++KVM_FEATURE_MMU_OP                2           deprecated
++
++KVM_FEATURE_CLOCKSOURCE2          3           kvmclock available at msrs
++
++                                              0x4b564d00 and 0x4b564d01
++KVM_FEATURE_ASYNC_PF              4           async pf can be enabled by
++                                              writing to msr 0x4b564d02
++
++KVM_FEATURE_STEAL_TIME            5           steal time can be enabled by
++                                              writing to msr 0x4b564d03
++
++KVM_FEATURE_PV_EOI                6           paravirtualized end of interrupt
++                                              handler can be enabled by
++                                              writing to msr 0x4b564d04
++
++KVM_FEATURE_PV_UNHAULT            7           guest checks this feature bit
++                                              before enabling paravirtualized
++                                              spinlock support
++
++KVM_FEATURE_PV_TLB_FLUSH          9           guest checks this feature bit
++                                              before enabling paravirtualized
++                                              tlb flush
++
++KVM_FEATURE_ASYNC_PF_VMEXIT       10          paravirtualized async PF VM EXIT
++                                              can be enabled by setting bit 2
++                                              when writing to msr 0x4b564d02
++
++KVM_FEATURE_PV_SEND_IPI           11          guest checks this feature bit
++                                              before enabling paravirtualized
++                                              sebd IPIs
++
++KVM_FEATURE_PV_POLL_CONTROL       12          host-side polling on HLT can
++                                              be disabled by writing
++                                              to msr 0x4b564d05.
++
++KVM_FEATURE_PV_SCHED_YIELD        13          guest checks this feature bit
++                                              before using paravirtualized
++                                              sched yield.
++
++KVM_FEATURE_CLOCSOURCE_STABLE_BIT 24          host will warn if no guest-side
++                                              per-cpu warps are expeced in
++                                              kvmclock
++================================= =========== ================================
++
++::
++
++      edx = an OR'ed group of (1 << flag)
++
++Where ``flag`` here is defined as below:
++
++================== ============ =================================
++flag               value        meaning
++================== ============ =================================
++KVM_HINTS_REALTIME 0            guest checks this feature bit to
++                                determine that vCPUs are never
++                                preempted for an unlimited time
++                                allowing optimizations
++================== ============ =================================
 -- 
-2.7.4
+2.20.1
