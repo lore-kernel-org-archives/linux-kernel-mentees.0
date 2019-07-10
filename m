@@ -1,267 +1,707 @@
-From: mchehab+samsung@kernel.org (Mauro Carvalho Chehab)
-Date: Wed, 10 Jul 2019 10:07:10 -0300
-Subject: [Linux-kernel-mentees] [PATCH v2 1/3] Documentation: kvm:
-	Convert cpuid.txt to .rst
-In-Reply-To: <20190709200721.16991-2-lnowakow@neg.ucsd.edu>
-References: <20190709200721.16991-1-lnowakow@neg.ucsd.edu>
-	<20190709200721.16991-2-lnowakow@neg.ucsd.edu>
-Message-ID: <20190710100710.58443e79@coco.lan>
+From: tranmanphong@gmail.com (Phong Tran)
+Date: Wed, 10 Jul 2019 22:01:33 +0700
+Subject: [Linux-kernel-mentees] [Patch V4] Documentation: coresight: covert
+	txt to rst
+In-Reply-To: <20190705204512.15444-1-tranmanphong@gmail.com>
+References: <20190705204512.15444-1-tranmanphong@gmail.com>
+Message-ID: <20190710150133.13992-1-tranmanphong@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190710130710.SxzgmIjVEl9vIcs_m9Tx2svJcSiWcelpmAsucNfvHYY@z>
+Message-ID: <20190710150133.sfwQdsLvxpKkCwcTsLL28-RAOXrppwAAIsk5EE6Kssw@z>
 
-Em Tue,  9 Jul 2019 13:07:19 -0700
-Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu> escreveu:
+as doc-guide of kernel documentation, use Sphinx tool to
+generate the html/pdf... files.
 
-> From: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
-> 
-> Convert cpuid.txt to .rst format to be parsable by sphinx.
-> 
-> Change format and spacing to make function definitions and return values
-> much more clear. Also added a table that is parsable by sphinx and makes
-> the information much more clean. Updated Author email to their new
-> active email address. Added license identifier with the consent of the
-> author. 
-> 
-> Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
-> ---
->  Changes since v2: 
->  + added updated Author email address
->  + changed table to simpler format
->  - removed function bolding from v1
->  Changes since v1:
->  + Converted doc to .rst format
->  
->  Documentation/virtual/kvm/cpuid.rst | 99 +++++++++++++++++++++++++++++
->  Documentation/virtual/kvm/cpuid.txt | 83 ------------------------
->  2 files changed, 99 insertions(+), 83 deletions(-)
->  create mode 100644 Documentation/virtual/kvm/cpuid.rst
->  delete mode 100644 Documentation/virtual/kvm/cpuid.txt
+This changes the plan text txt to rst format.
 
-I strongly suggest to generate the diff with -M1, in order to show it
-as a diff, instead of create/delete.
+Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+---
+ChangeLog:
+V2: review points from Mathieu, Jonathan
+  * Add coresight-cpu-debug
+  * Update MAINTAINERS file
+  * Avoid use markup as much as posible
+V3: review points from Mauro
+  * add the colon author, date
+  * change to use ```` in the struct
+  * add line for the acronyms
+V4:
+  * Rebase on linux-next tree
+---
+ ...sight-cpu-debug.txt => coresight-cpu-debug.rst} |  67 ++--
+ .../trace/{coresight.txt => coresight.rst}         | 372 +++++++++++----------
+ Documentation/trace/index.rst                      |   2 +
+ MAINTAINERS                                        |   4 +-
+ 4 files changed, 234 insertions(+), 211 deletions(-)
+ rename Documentation/trace/{coresight-cpu-debug.txt => coresight-cpu-debug.rst} (84%)
+ rename Documentation/trace/{coresight.txt => coresight.rst} (56%)
 
-Btw, when applying on the top of linux-next, I got a merge conflict,
-probably due to this patch:
-
-	commit 9824c83f92bc8351dfb5c387436cc2816616fb4a
-	Author: Paolo Bonzini <pbonzini at redhat.com>
-	Date:   Tue Jul 2 18:57:29 2019 +0200
-
-	    Documentation: kvm: document CPUID bit for MSR_KVM_POLL_CONTROL
-
-which added a new flag (KVM_FEATURE_PV_POLL_CONTROL). There's also
-another patch adding KVM_FEATURE_PV_SCHED_YIELD flag.
-
-In order to check the results, I did already a rebase on the top a temp
-branch on my experimental tree:
-
-	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=convert_rst_renames_next_v3&id=90330aba498e6d9d5258322d0006b3968e9a65a9
-
-(please notice that this is not the upstream docs branch, so you
-need to re-submit the patch to the ML)
-
-With the rebase, for this 3 patch series:
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung at kernel.org>
-
-> 
-> diff --git a/Documentation/virtual/kvm/cpuid.rst b/Documentation/virtual/kvm/cpuid.rst
-> new file mode 100644
-> index 000000000000..644c53687861
-> --- /dev/null
-> +++ b/Documentation/virtual/kvm/cpuid.rst
-> @@ -0,0 +1,99 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==============
-> +KVM CPUID bits
-> +==============
-> +
-> +:Author: Glauber Costa <glommer at gmail.com>
-> +
-> +A guest running on a kvm host, can check some of its features using
-> +cpuid. This is not always guaranteed to work, since userspace can
-> +mask-out some, or even all KVM-related cpuid features before launching
-> +a guest.
-> +
-> +KVM cpuid functions are:
-> +
-> +function: KVM_CPUID_SIGNATURE (0x40000000)
-> +
-> +returns::
-> +
-> +   eax = 0x40000001
-> +   ebx = 0x4b4d564b
-> +   ecx = 0x564b4d56
-> +   edx = 0x4d
-> +
-> +Note that this value in ebx, ecx and edx corresponds to the string "KVMKVMKVM".
-> +The value in eax corresponds to the maximum cpuid function present in this leaf,
-> +and will be updated if more functions are added in the future.
-> +Note also that old hosts set eax value to 0x0. This should
-> +be interpreted as if the value was 0x40000001.
-> +This function queries the presence of KVM cpuid leafs.
-> +
-> +function: define KVM_CPUID_FEATURES (0x40000001)
-> +
-> +returns::
-> +
-> +          ebx, ecx
-> +          eax = an OR'ed group of (1 << flag)
-> +
-> +where ``flag`` is defined as below:
-> +
-> +================================= =========== ================================
-> +flag                              value       meaning
-> +================================= =========== ================================
-> +KVM_FEATURE_CLOCKSOURCE           0           kvmclock available at msrs
-> +                                              0x11 and 0x12
-> +
-> +KVM_FEATURE_NOP_IO_DELAY          1           not necessary to perform delays 
-> +                                              on PIO operations
-> +
-> +KVM_FEATURE_MMU_OP                2           deprecated
-> +
-> +KVM_FEATURE_CLOCKSOURCE2          3           kvmclock available at msrs
-> +
-> +                                              0x4b564d00 and 0x4b564d01
-> +KVM_FEATURE_ASYNC_PF              4           async pf can be enabled by
-> +                                              writing to msr 0x4b564d02
-> +
-> +KVM_FEATURE_STEAL_TIME            5           steal time can be enabled by
-> +                                              writing to msr 0x4b564d03
-> +
-> +KVM_FEATURE_PV_EOI                6           paravirtualized end of interrupt
-> +                                              handler can be enabled by
-> +                                              writing to msr 0x4b564d04
-> +
-> +KVM_FEATURE_PV_UNHAULT            7           guest checks this feature bit
-> +                                              before enabling paravirtualized
-> +                                              spinlock support
-> +
-> +KVM_FEATURE_PV_TLB_FLUSH          9           guest checks this feature bit
-> +                                              before enabling paravirtualized
-> +                                              tlb flush
-> +
-> +KVM_FEATURE_ASYNC_PF_VMEXIT       10          paravirtualized async PF VM EXIT
-> +                                              can be enabled by setting bit 2
-> +                                              when writing to msr 0x4b564d02
-> +
-> +KVM_FEATURE_PV_SEND_IPI           11          guest checks this feature bit
-> +                                              before enabling paravirtualized 
-> +                                              sebd IPIs
-> +
-> +KVM_FEATURE_CLOCSOURCE_STABLE_BIT 24          host will warn if no guest-side
-> +                                              per-cpu warps are expeced in
-> +                                              kvmclock
-> +================================= =========== ================================
-> +
-> +::
-> +
-> +      edx = an OR'ed group of (1 << flag)
-> +
-> +Where ``flag`` here is defined as below:
-> +
-> +================== ============ =================================
-> +flag               value        meaning
-> +================== ============ =================================
-> +KVM_HINTS_REALTIME 0            guest checks this feature bit to
-> +                                determine that vCPUs are never
-> +                                preempted for an unlimited time
-> +                                allowing optimizations
-> +================== ============ =================================
-> diff --git a/Documentation/virtual/kvm/cpuid.txt b/Documentation/virtual/kvm/cpuid.txt
-> deleted file mode 100644
-> index 97ca1940a0dc..000000000000
-> --- a/Documentation/virtual/kvm/cpuid.txt
-> +++ /dev/null
-> @@ -1,83 +0,0 @@
-> -KVM CPUID bits
-> -Glauber Costa <glommer at redhat.com>, Red Hat Inc, 2010
-> -=====================================================
-> -
-> -A guest running on a kvm host, can check some of its features using
-> -cpuid. This is not always guaranteed to work, since userspace can
-> -mask-out some, or even all KVM-related cpuid features before launching
-> -a guest.
-> -
-> -KVM cpuid functions are:
-> -
-> -function: KVM_CPUID_SIGNATURE (0x40000000)
-> -returns : eax = 0x40000001,
-> -          ebx = 0x4b4d564b,
-> -          ecx = 0x564b4d56,
-> -          edx = 0x4d.
-> -Note that this value in ebx, ecx and edx corresponds to the string "KVMKVMKVM".
-> -The value in eax corresponds to the maximum cpuid function present in this leaf,
-> -and will be updated if more functions are added in the future.
-> -Note also that old hosts set eax value to 0x0. This should
-> -be interpreted as if the value was 0x40000001.
-> -This function queries the presence of KVM cpuid leafs.
-> -
-> -
-> -function: define KVM_CPUID_FEATURES (0x40000001)
-> -returns : ebx, ecx
-> -          eax = an OR'ed group of (1 << flag), where each flags is:
-> -
-> -
-> -flag                               || value || meaning
-> -=============================================================================
-> -KVM_FEATURE_CLOCKSOURCE            ||     0 || kvmclock available at msrs
-> -                                   ||       || 0x11 and 0x12.
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_NOP_IO_DELAY           ||     1 || not necessary to perform delays
-> -                                   ||       || on PIO operations.
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_MMU_OP                 ||     2 || deprecated.
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_CLOCKSOURCE2           ||     3 || kvmclock available at msrs
-> -                                   ||       || 0x4b564d00 and 0x4b564d01
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_ASYNC_PF               ||     4 || async pf can be enabled by
-> -                                   ||       || writing to msr 0x4b564d02
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_STEAL_TIME             ||     5 || steal time can be enabled by
-> -                                   ||       || writing to msr 0x4b564d03.
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_PV_EOI                 ||     6 || paravirtualized end of interrupt
-> -                                   ||       || handler can be enabled by writing
-> -                                   ||       || to msr 0x4b564d04.
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_PV_UNHALT              ||     7 || guest checks this feature bit
-> -                                   ||       || before enabling paravirtualized
-> -                                   ||       || spinlock support.
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_PV_TLB_FLUSH           ||     9 || guest checks this feature bit
-> -                                   ||       || before enabling paravirtualized
-> -                                   ||       || tlb flush.
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_ASYNC_PF_VMEXIT        ||    10 || paravirtualized async PF VM exit
-> -                                   ||       || can be enabled by setting bit 2
-> -                                   ||       || when writing to msr 0x4b564d02
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_PV_SEND_IPI            ||    11 || guest checks this feature bit
-> -                                   ||       || before using paravirtualized
-> -                                   ||       || send IPIs.
-> -------------------------------------------------------------------------------
-> -KVM_FEATURE_CLOCKSOURCE_STABLE_BIT ||    24 || host will warn if no guest-side
-> -                                   ||       || per-cpu warps are expected in
-> -                                   ||       || kvmclock.
-> -------------------------------------------------------------------------------
-> -
-> -          edx = an OR'ed group of (1 << flag), where each flags is:
-> -
-> -
-> -flag                               || value || meaning
-> -==================================================================================
-> -KVM_HINTS_REALTIME                 ||     0 || guest checks this feature bit to
-> -                                   ||       || determine that vCPUs are never
-> -                                   ||       || preempted for an unlimited time,
-> -                                   ||       || allowing optimizations
-> -----------------------------------------------------------------------------------
-
-
-
-Thanks,
-Mauro
+diff --git a/Documentation/trace/coresight-cpu-debug.txt b/Documentation/trace/coresight-cpu-debug.rst
+similarity index 84%
+rename from Documentation/trace/coresight-cpu-debug.txt
+rename to Documentation/trace/coresight-cpu-debug.rst
+index 1a660a39e3c0..993dd294b81b 100644
+--- a/Documentation/trace/coresight-cpu-debug.txt
++++ b/Documentation/trace/coresight-cpu-debug.rst
+@@ -1,8 +1,9 @@
+-		Coresight CPU Debug Module
+-		==========================
++==========================
++Coresight CPU Debug Module
++==========================
+ 
+-   Author:   Leo Yan <leo.yan at linaro.org>
+-   Date:     April 5th, 2017
++   :Author:   Leo Yan <leo.yan at linaro.org>
++   :Date:     April 5th, 2017
+ 
+ Introduction
+ ------------
+@@ -69,6 +70,7 @@ Before accessing debug registers, we should ensure the clock and power domain
+ have been enabled properly. In ARMv8-a ARM (ARM DDI 0487A.k) chapter 'H9.1
+ Debug registers', the debug registers are spread into two domains: the debug
+ domain and the CPU domain.
++::
+ 
+                                 +---------------+
+                                 |               |
+@@ -125,18 +127,21 @@ If you want to enable debugging functionality at boot time, you can add
+ "coresight_cpu_debug.enable=1" to the kernel command line parameter.
+ 
+ The driver also can work as module, so can enable the debugging when insmod
+-module:
+-# insmod coresight_cpu_debug.ko debug=1
++module::
++
++  # insmod coresight_cpu_debug.ko debug=1
+ 
+ When boot time or insmod module you have not enabled the debugging, the driver
+ uses the debugfs file system to provide a knob to dynamically enable or disable
+ debugging:
+ 
+-To enable it, write a '1' into /sys/kernel/debug/coresight_cpu_debug/enable:
+-# echo 1 > /sys/kernel/debug/coresight_cpu_debug/enable
++To enable it, write a '1' into /sys/kernel/debug/coresight_cpu_debug/enable::
++
++  # echo 1 > /sys/kernel/debug/coresight_cpu_debug/enable
++
++To disable it, write a '0' into /sys/kernel/debug/coresight_cpu_debug/enable::
+ 
+-To disable it, write a '0' into /sys/kernel/debug/coresight_cpu_debug/enable:
+-# echo 0 > /sys/kernel/debug/coresight_cpu_debug/enable
++  # echo 0 > /sys/kernel/debug/coresight_cpu_debug/enable
+ 
+ As explained in chapter "Clock and power domain", if you are working on one
+ platform which has idle states to power off debug logic and the power
+@@ -154,34 +159,34 @@ subsystem, more specifically by using the "/dev/cpu_dma_latency"
+ interface (see Documentation/power/pm_qos_interface.rst for more
+ details).  As specified in the PM QoS documentation the requested
+ parameter will stay in effect until the file descriptor is released.
+-For example:
++For example::
+ 
+-# exec 3<> /dev/cpu_dma_latency; echo 0 >&3
+-...
+-Do some work...
+-...
+-# exec 3<>-
++  # exec 3<> /dev/cpu_dma_latency; echo 0 >&3
++  ...
++  Do some work...
++  ...
++  # exec 3<>-
+ 
+ The same can also be done from an application program.
+ 
+ Disable specific CPU's specific idle state from cpuidle sysfs (see
+-Documentation/admin-guide/pm/cpuidle.rst):
+-# echo 1 > /sys/devices/system/cpu/cpu$cpu/cpuidle/state$state/disable
++Documentation/admin-guide/pm/cpuidle.rst)::
+ 
++  # echo 1 > /sys/devices/system/cpu/cpu$cpu/cpuidle/state$state/disable
+ 
+ Output format
+ -------------
+ 
+-Here is an example of the debugging output format:
+-
+-ARM external debug module:
+-coresight-cpu-debug 850000.debug: CPU[0]:
+-coresight-cpu-debug 850000.debug:  EDPRSR:  00000001 (Power:On DLK:Unlock)
+-coresight-cpu-debug 850000.debug:  EDPCSR:  handle_IPI+0x174/0x1d8
+-coresight-cpu-debug 850000.debug:  EDCIDSR: 00000000
+-coresight-cpu-debug 850000.debug:  EDVIDSR: 90000000 (State:Non-secure Mode:EL1/0 Width:64bits VMID:0)
+-coresight-cpu-debug 852000.debug: CPU[1]:
+-coresight-cpu-debug 852000.debug:  EDPRSR:  00000001 (Power:On DLK:Unlock)
+-coresight-cpu-debug 852000.debug:  EDPCSR:  debug_notifier_call+0x23c/0x358
+-coresight-cpu-debug 852000.debug:  EDCIDSR: 00000000
+-coresight-cpu-debug 852000.debug:  EDVIDSR: 90000000 (State:Non-secure Mode:EL1/0 Width:64bits VMID:0)
++Here is an example of the debugging output format::
++
++  ARM external debug module:
++  coresight-cpu-debug 850000.debug: CPU[0]:
++  coresight-cpu-debug 850000.debug:  EDPRSR:  00000001 (Power:On DLK:Unlock)
++  coresight-cpu-debug 850000.debug:  EDPCSR:  handle_IPI+0x174/0x1d8
++  coresight-cpu-debug 850000.debug:  EDCIDSR: 00000000
++  coresight-cpu-debug 850000.debug:  EDVIDSR: 90000000 (State:Non-secure Mode:EL1/0 Width:64bits VMID:0)
++  coresight-cpu-debug 852000.debug: CPU[1]:
++  coresight-cpu-debug 852000.debug:  EDPRSR:  00000001 (Power:On DLK:Unlock)
++  coresight-cpu-debug 852000.debug:  EDPCSR:  debug_notifier_call+0x23c/0x358
++  coresight-cpu-debug 852000.debug:  EDCIDSR: 00000000
++  coresight-cpu-debug 852000.debug:  EDVIDSR: 90000000 (State:Non-secure Mode:EL1/0 Width:64bits VMID:0)
+diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.rst
+similarity index 56%
+rename from Documentation/trace/coresight.txt
+rename to Documentation/trace/coresight.rst
+index b027d61b27a6..72f4b7ef1bad 100644
+--- a/Documentation/trace/coresight.txt
++++ b/Documentation/trace/coresight.rst
+@@ -1,8 +1,9 @@
+-		Coresight - HW Assisted Tracing on ARM
+-		======================================
++======================================
++Coresight - HW Assisted Tracing on ARM
++======================================
+ 
+-   Author:   Mathieu Poirier <mathieu.poirier at linaro.org>
+-   Date:     September 11th, 2014
++   :Author:   Mathieu Poirier <mathieu.poirier at linaro.org>
++   :Date:     September 11th, 2014
+ 
+ Introduction
+ ------------
+@@ -26,7 +27,7 @@ implementation, either storing the compressed stream in a memory buffer or
+ creating an interface to the outside world where data can be transferred to a
+ host without fear of filling up the onboard coresight memory buffer.
+ 
+-At typical coresight system would look like this:
++At typical coresight system would look like this::
+ 
+   *****************************************************************
+  **************************** AMBA AXI  ****************************===||
+@@ -95,15 +96,24 @@ Acronyms and Classification
+ 
+ Acronyms:
+ 
+-PTM:     Program Trace Macrocell
+-ETM:     Embedded Trace Macrocell
+-STM:     System trace Macrocell
+-ETB:     Embedded Trace Buffer
+-ITM:     Instrumentation Trace Macrocell
+-TPIU:    Trace Port Interface Unit
+-TMC-ETR: Trace Memory Controller, configured as Embedded Trace Router
+-TMC-ETF: Trace Memory Controller, configured as Embedded Trace FIFO
+-CTI:     Cross Trigger Interface
++PTM:
++    Program Trace Macrocell
++ETM:
++    Embedded Trace Macrocell
++STM:
++    System trace Macrocell
++ETB:
++    Embedded Trace Buffer
++ITM:
++    Instrumentation Trace Macrocell
++TPIU:
++     Trace Port Interface Unit
++TMC-ETR:
++        Trace Memory Controller, configured as Embedded Trace Router
++TMC-ETF:
++        Trace Memory Controller, configured as Embedded Trace FIFO
++CTI:
++    Cross Trigger Interface
+ 
+ Classification:
+ 
+@@ -118,7 +128,7 @@ Misc:
+ 
+ 
+ Device Tree Bindings
+-----------------------
++--------------------
+ 
+ See Documentation/devicetree/bindings/arm/coresight.txt for details.
+ 
+@@ -133,79 +143,79 @@ The coresight framework provides a central point to represent, configure and
+ manage coresight devices on a platform.  Any coresight compliant device can
+ register with the framework for as long as they use the right APIs:
+ 
+-struct coresight_device *coresight_register(struct coresight_desc *desc);
+-void coresight_unregister(struct coresight_device *csdev);
++.. c:function:: struct coresight_device *coresight_register(struct coresight_desc *desc);
++.. c:function:: void coresight_unregister(struct coresight_device *csdev);
+ 
+-The registering function is taking a "struct coresight_device *csdev" and
+-register the device with the core framework.  The unregister function takes
+-a reference to a "struct coresight_device", obtained at registration time.
++The registering function is taking a ``struct coresight_desc *desc`` and
++register the device with the core framework. The unregister function takes
++a reference to a ``struct coresight_device *csdev`` obtained at registration time.
+ 
+ If everything goes well during the registration process the new devices will
+-show up under /sys/bus/coresight/devices, as showns here for a TC2 platform:
++show up under /sys/bus/coresight/devices, as showns here for a TC2 platform::
+ 
+-root:~# ls /sys/bus/coresight/devices/
+-replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+-20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+-root:~#
++    root:~# ls /sys/bus/coresight/devices/
++    replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
++    20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
++    root:~#
+ 
+-The functions take a "struct coresight_device", which looks like this:
++The functions take a ``struct coresight_device``, which looks like this::
+ 
+-struct coresight_desc {
+-        enum coresight_dev_type type;
+-        struct coresight_dev_subtype subtype;
+-        const struct coresight_ops *ops;
+-        struct coresight_platform_data *pdata;
+-        struct device *dev;
+-        const struct attribute_group **groups;
+-};
++    struct coresight_desc {
++            enum coresight_dev_type type;
++            struct coresight_dev_subtype subtype;
++            const struct coresight_ops *ops;
++            struct coresight_platform_data *pdata;
++            struct device *dev;
++            const struct attribute_group **groups;
++    };
+ 
+ 
+ The "coresight_dev_type" identifies what the device is, i.e, source link or
+ sink while the "coresight_dev_subtype" will characterise that type further.
+ 
+-The "struct coresight_ops" is mandatory and will tell the framework how to
++The ``struct coresight_ops`` is mandatory and will tell the framework how to
+ perform base operations related to the components, each component having
+-a different set of requirement.  For that "struct coresight_ops_sink",
+-"struct coresight_ops_link" and "struct coresight_ops_source" have been
++a different set of requirement. For that ``struct coresight_ops_sink``,
++``struct coresight_ops_link`` and ``struct coresight_ops_source`` have been
+ provided.
+ 
+-The next field, "struct coresight_platform_data *pdata" is acquired by calling
+-"of_get_coresight_platform_data()", as part of the driver's _probe routine and
+-"struct device *dev" gets the device reference embedded in the "amba_device":
++The next field ``struct coresight_platform_data *pdata`` is acquired by calling
++``of_get_coresight_platform_data()``, as part of the driver's _probe routine and
++``struct device *dev`` gets the device reference embedded in the ``amba_device``::
+ 
+-static int etm_probe(struct amba_device *adev, const struct amba_id *id)
+-{
+- ...
+- ...
+- drvdata->dev = &adev->dev;
+- ...
+-}
++    static int etm_probe(struct amba_device *adev, const struct amba_id *id)
++    {
++     ...
++     ...
++     drvdata->dev = &adev->dev;
++     ...
++    }
+ 
+ Specific class of device (source, link, or sink) have generic operations
+-that can be performed on them (see "struct coresight_ops").  The
+-"**groups" is a list of sysfs entries pertaining to operations
++that can be performed on them (see ``struct coresight_ops``). The ``**groups``
++is a list of sysfs entries pertaining to operations
+ specific to that component only.  "Implementation defined" customisations are
+ expected to be accessed and controlled using those entries.
+ 
+-
+ Device Naming scheme
+-------------------------
++--------------------
++
+ The devices that appear on the "coresight" bus were named the same as their
+ parent devices, i.e, the real devices that appears on AMBA bus or the platform bus.
+ Thus the names were based on the Linux Open Firmware layer naming convention,
+ which follows the base physical address of the device followed by the device
+-type. e.g:
++type. e.g::
+ 
+-root:~# ls /sys/bus/coresight/devices/
+- 20010000.etf  20040000.funnel      20100000.stm     22040000.etm
+- 22140000.etm  230c0000.funnel      23240000.etm     20030000.tpiu
+- 20070000.etr  20120000.replicator  220c0000.funnel
+- 23040000.etm  23140000.etm         23340000.etm
++    root:~# ls /sys/bus/coresight/devices/
++     20010000.etf  20040000.funnel      20100000.stm     22040000.etm
++     22140000.etm  230c0000.funnel      23240000.etm     20030000.tpiu
++     20070000.etr  20120000.replicator  220c0000.funnel
++     23040000.etm  23140000.etm         23340000.etm
+ 
+ However, with the introduction of ACPI support, the names of the real
+ devices are a bit cryptic and non-obvious. Thus, a new naming scheme was
+ introduced to use more generic names based on the type of the device. The
+-following rules apply:
++following rules apply::
+ 
+   1) Devices that are bound to CPUs, are named based on the CPU logical
+      number.
+@@ -220,11 +230,11 @@ following rules apply:
+ 
+ 	e.g, tmc_etf0, tmc_etr0, funnel0, funnel1
+ 
+-Thus, with the new scheme the devices could appear as :
++Thus, with the new scheme the devices could appear as ::
+ 
+-root:~# ls /sys/bus/coresight/devices/
+- etm0     etm1     etm2         etm3  etm4      etm5      funnel0
+- funnel1  funnel2  replicator0  stm0  tmc_etf0  tmc_etr0  tpiu0
++    root:~# ls /sys/bus/coresight/devices/
++     etm0     etm1     etm2         etm3  etm4      etm5      funnel0
++     funnel1  funnel2  replicator0  stm0  tmc_etf0  tmc_etr0  tpiu0
+ 
+ Some of the examples below might refer to old naming scheme and some
+ to the newer scheme, to give a confirmation that what you see on your
+@@ -234,9 +244,12 @@ the system under specified locations.
+ How to use the tracer modules
+ -----------------------------
+ 
+-There are two ways to use the Coresight framework: 1) using the perf cmd line
+-tools and 2) interacting directly with the Coresight devices using the sysFS
+-interface.  Preference is given to the former as using the sysFS interface
++There are two ways to use the Coresight framework:
++
++1. using the perf cmd line tools.
++2. interacting directly with the Coresight devices using the sysFS interface.
++
++Preference is given to the former as using the sysFS interface
+ requires a deep understanding of the Coresight HW.  The following sections
+ provide details on using both methods.
+ 
+@@ -245,107 +258,107 @@ provide details on using both methods.
+ Before trace collection can start, a coresight sink needs to be identified.
+ There is no limit on the amount of sinks (nor sources) that can be enabled at
+ any given moment.  As a generic operation, all device pertaining to the sink
+-class will have an "active" entry in sysfs:
+-
+-root:/sys/bus/coresight/devices# ls
+-replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+-20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+-root:/sys/bus/coresight/devices# ls 20010000.etb
+-enable_sink  status  trigger_cntr
+-root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
+-root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
+-1
+-root:/sys/bus/coresight/devices#
++class will have an "active" entry in sysfs::
++
++    root:/sys/bus/coresight/devices# ls
++    replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
++    20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
++    root:/sys/bus/coresight/devices# ls 20010000.etb
++    enable_sink  status  trigger_cntr
++    root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
++    root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
++    1
++    root:/sys/bus/coresight/devices#
+ 
+ At boot time the current etm3x driver will configure the first address
+ comparator with "_stext" and "_etext", essentially tracing any instruction
+ that falls within that range.  As such "enabling" a source will immediately
+-trigger a trace capture:
+-
+-root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
+-root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
+-1
+-root:/sys/bus/coresight/devices# cat 20010000.etb/status
+-Depth:          0x2000
+-Status:         0x1
+-RAM read ptr:   0x0
+-RAM wrt ptr:    0x19d3   <----- The write pointer is moving
+-Trigger cnt:    0x0
+-Control:        0x1
+-Flush status:   0x0
+-Flush ctrl:     0x2001
+-root:/sys/bus/coresight/devices#
+-
+-Trace collection is stopped the same way:
+-
+-root:/sys/bus/coresight/devices# echo 0 > 2201c000.ptm/enable_source
+-root:/sys/bus/coresight/devices#
+-
+-The content of the ETB buffer can be harvested directly from /dev:
+-
+-root:/sys/bus/coresight/devices# dd if=/dev/20010000.etb \
+-of=~/cstrace.bin
+-
+-64+0 records in
+-64+0 records out
+-32768 bytes (33 kB) copied, 0.00125258 s, 26.2 MB/s
+-root:/sys/bus/coresight/devices#
++trigger a trace capture::
++
++    root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
++    root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
++    1
++    root:/sys/bus/coresight/devices# cat 20010000.etb/status
++    Depth:          0x2000
++    Status:         0x1
++    RAM read ptr:   0x0
++    RAM wrt ptr:    0x19d3   <----- The write pointer is moving
++    Trigger cnt:    0x0
++    Control:        0x1
++    Flush status:   0x0
++    Flush ctrl:     0x2001
++    root:/sys/bus/coresight/devices#
++
++Trace collection is stopped the same way::
++
++    root:/sys/bus/coresight/devices# echo 0 > 2201c000.ptm/enable_source
++    root:/sys/bus/coresight/devices#
++
++The content of the ETB buffer can be harvested directly from /dev::
++
++    root:/sys/bus/coresight/devices# dd if=/dev/20010000.etb \
++    of=~/cstrace.bin
++    64+0 records in
++    64+0 records out
++    32768 bytes (33 kB) copied, 0.00125258 s, 26.2 MB/s
++    root:/sys/bus/coresight/devices#
+ 
+ The file cstrace.bin can be decompressed using "ptm2human", DS-5 or Trace32.
+ 
+ Following is a DS-5 output of an experimental loop that increments a variable up
+ to a certain value.  The example is simple and yet provides a glimpse of the
+ wealth of possibilities that coresight provides.
+-
+-Info                                    Tracing enabled
+-Instruction     106378866       0x8026B53C      E52DE004        false   PUSH     {lr}
+-Instruction     0       0x8026B540      E24DD00C        false   SUB      sp,sp,#0xc
+-Instruction     0       0x8026B544      E3A03000        false   MOV      r3,#0
+-Instruction     0       0x8026B548      E58D3004        false   STR      r3,[sp,#4]
+-Instruction     0       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+-Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+-Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+-Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+-Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+-Timestamp                                       Timestamp: 17106715833
+-Instruction     319     0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+-Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+-Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+-Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+-Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+-Instruction     9       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+-Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+-Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+-Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+-Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+-Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+-Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+-Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+-Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+-Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+-Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+-Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+-Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+-Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+-Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+-Instruction     10      0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
+-Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
+-Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
+-Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
+-Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
+-Instruction     6       0x8026B560      EE1D3F30        false   MRC      p15,#0x0,r3,c13,c0,#1
+-Instruction     0       0x8026B564      E1A0100D        false   MOV      r1,sp
+-Instruction     0       0x8026B568      E3C12D7F        false   BIC      r2,r1,#0x1fc0
+-Instruction     0       0x8026B56C      E3C2203F        false   BIC      r2,r2,#0x3f
+-Instruction     0       0x8026B570      E59D1004        false   LDR      r1,[sp,#4]
+-Instruction     0       0x8026B574      E59F0010        false   LDR      r0,[pc,#16] ; [0x8026B58C] = 0x80550368
+-Instruction     0       0x8026B578      E592200C        false   LDR      r2,[r2,#0xc]
+-Instruction     0       0x8026B57C      E59221D0        false   LDR      r2,[r2,#0x1d0]
+-Instruction     0       0x8026B580      EB07A4CF        true    BL       {pc}+0x1e9344 ; 0x804548c4
+-Info                                    Tracing enabled
+-Instruction     13570831        0x8026B584      E28DD00C        false   ADD      sp,sp,#0xc
+-Instruction     0       0x8026B588      E8BD8000        true    LDM      sp!,{pc}
+-Timestamp                                       Timestamp: 17107041535
++::
++
++    Info                                    Tracing enabled
++    Instruction     106378866       0x8026B53C      E52DE004        false   PUSH     {lr}
++    Instruction     0       0x8026B540      E24DD00C        false   SUB      sp,sp,#0xc
++    Instruction     0       0x8026B544      E3A03000        false   MOV      r3,#0
++    Instruction     0       0x8026B548      E58D3004        false   STR      r3,[sp,#4]
++    Instruction     0       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
++    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
++    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
++    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
++    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
++    Timestamp                                       Timestamp: 17106715833
++    Instruction     319     0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
++    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
++    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
++    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
++    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
++    Instruction     9       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
++    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
++    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
++    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
++    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
++    Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
++    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
++    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
++    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
++    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
++    Instruction     7       0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
++    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
++    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
++    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
++    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
++    Instruction     10      0x8026B54C      E59D3004        false   LDR      r3,[sp,#4]
++    Instruction     0       0x8026B550      E3530004        false   CMP      r3,#4
++    Instruction     0       0x8026B554      E2833001        false   ADD      r3,r3,#1
++    Instruction     0       0x8026B558      E58D3004        false   STR      r3,[sp,#4]
++    Instruction     0       0x8026B55C      DAFFFFFA        true    BLE      {pc}-0x10 ; 0x8026b54c
++    Instruction     6       0x8026B560      EE1D3F30        false   MRC      p15,#0x0,r3,c13,c0,#1
++    Instruction     0       0x8026B564      E1A0100D        false   MOV      r1,sp
++    Instruction     0       0x8026B568      E3C12D7F        false   BIC      r2,r1,#0x1fc0
++    Instruction     0       0x8026B56C      E3C2203F        false   BIC      r2,r2,#0x3f
++    Instruction     0       0x8026B570      E59D1004        false   LDR      r1,[sp,#4]
++    Instruction     0       0x8026B574      E59F0010        false   LDR      r0,[pc,#16] ; [0x8026B58C] = 0x80550368
++    Instruction     0       0x8026B578      E592200C        false   LDR      r2,[r2,#0xc]
++    Instruction     0       0x8026B57C      E59221D0        false   LDR      r2,[r2,#0x1d0]
++    Instruction     0       0x8026B580      EB07A4CF        true    BL       {pc}+0x1e9344 ; 0x804548c4
++    Info                                    Tracing enabled
++    Instruction     13570831        0x8026B584      E28DD00C        false   ADD      sp,sp,#0xc
++    Instruction     0       0x8026B588      E8BD8000        true    LDM      sp!,{pc}
++    Timestamp                                       Timestamp: 17107041535
+ 
+ 2) Using perf framework:
+ 
+@@ -370,19 +383,18 @@ A Coresight PMU works the same way as any other PMU, i.e the name of the PMU is
+ listed along with configuration options within forward slashes '/'.  Since a
+ Coresight system will typically have more than one sink, the name of the sink to
+ work with needs to be specified as an event option.
+-On newer kernels the available sinks are listed in sysFS under:
+-($SYSFS)/bus/event_source/devices/cs_etm/sinks/
++On newer kernels the available sinks are listed in sysFS under
++($SYSFS)/bus/event_source/devices/cs_etm/sinks/::
+ 
+ 	root at localhost:/sys/bus/event_source/devices/cs_etm/sinks# ls
+ 	tmc_etf0  tmc_etr0  tpiu0
+ 
+ On older kernels, this may need to be found from the list of coresight devices,
+-available under ($SYSFS)/bus/coresight/devices/:
++available under ($SYSFS)/bus/coresight/devices/::
+ 
+ 	root:~# ls /sys/bus/coresight/devices/
+ 	 etm0     etm1     etm2         etm3  etm4      etm5      funnel0
+ 	 funnel1  funnel2  replicator0  stm0  tmc_etf0  tmc_etr0  tpiu0
+-
+ 	root at linaro-nano:~# perf record -e cs_etm/@tmc_etr0/u --per-thread program
+ 
+ As mentioned above in section "Device Naming scheme", the names of the devices could
+@@ -395,14 +407,14 @@ to use for the trace session.
+ 
+ More information on the above and other example on how to use Coresight with
+ the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
+-repository [3].
++repository [#third]_.
+ 
+ 2.1) AutoFDO analysis using the perf tools:
+ 
+ perf can be used to record and analyze trace of programs.
+ 
+ Execution can be recorded using 'perf record' with the cs_etm event,
+-specifying the name of the sink to record to, e.g:
++specifying the name of the sink to record to, e.g::
+ 
+     perf record -e cs_etm/@tmc_etr0/u --per-thread
+ 
+@@ -421,12 +433,14 @@ Generating coverage files for Feedback Directed Optimization: AutoFDO
+ 
+ 'perf inject' accepts the --itrace option in which case tracing data is
+ removed and replaced with the synthesized events. e.g.
++::
+ 
+ 	perf inject --itrace --strip -i perf.data -o perf.data.new
+ 
+ Below is an example of using ARM ETM for autoFDO.  It requires autofdo
+ (https://github.com/google/autofdo) and gcc version 5.  The bubble
+ sort example is from the AutoFDO tutorial (https://gcc.gnu.org/wiki/AutoFDO/Tutorial).
++::
+ 
+ 	$ gcc-5 -O3 sort.c -o sort
+ 	$ taskset -c 2 ./sort
+@@ -455,28 +469,30 @@ difference is that clients are driving the trace capture rather
+ than the program flow through the code.
+ 
+ As with any other CoreSight component, specifics about the STM tracer can be
+-found in sysfs with more information on each entry being found in [1]:
++found in sysfs with more information on each entry being found in [#first]_::
+ 
+-root at genericarmv8:~# ls /sys/bus/coresight/devices/stm0
+-enable_source   hwevent_select  port_enable     subsystem       uevent
+-hwevent_enable  mgmt            port_select     traceid
+-root at genericarmv8:~#
++    root at genericarmv8:~# ls /sys/bus/coresight/devices/stm0
++    enable_source   hwevent_select  port_enable     subsystem       uevent
++    hwevent_enable  mgmt            port_select     traceid
++    root at genericarmv8:~#
+ 
+ Like any other source a sink needs to be identified and the STM enabled before
+-being used:
++being used::
+ 
+-root at genericarmv8:~# echo 1 > /sys/bus/coresight/devices/tmc_etf0/enable_sink
+-root at genericarmv8:~# echo 1 > /sys/bus/coresight/devices/stm0/enable_source
++    root at genericarmv8:~# echo 1 > /sys/bus/coresight/devices/tmc_etf0/enable_sink
++    root at genericarmv8:~# echo 1 > /sys/bus/coresight/devices/stm0/enable_source
+ 
+ From there user space applications can request and use channels using the devfs
+-interface provided for that purpose by the generic STM API:
++interface provided for that purpose by the generic STM API::
++
++    root at genericarmv8:~# ls -l /dev/stm0
++    crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/stm0
++    root at genericarmv8:~#
++
++Details on how to use the generic STM API can be found here [#second]_.
+ 
+-root at genericarmv8:~# ls -l /dev/stm0
+-crw-------    1 root     root       10,  61 Jan  3 18:11 /dev/stm0
+-root at genericarmv8:~#
++.. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+ 
+-Details on how to use the generic STM API can be found here [2].
++.. [#second] Documentation/trace/stm.rst
+ 
+-[1]. Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+-[2]. Documentation/trace/stm.rst
+-[3]. https://github.com/Linaro/perf-opencsd
++.. [#third] https://github.com/Linaro/perf-opencsd
+diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+index 6b4107cf4b98..b7891cb1ab4d 100644
+--- a/Documentation/trace/index.rst
++++ b/Documentation/trace/index.rst
+@@ -23,3 +23,5 @@ Linux Tracing Technologies
+    intel_th
+    stm
+    sys-t
++   coresight
++   coresight-cpu-debug
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 661def85619c..eb03e5966f11 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1582,8 +1582,8 @@ R:	Suzuki K Poulose <suzuki.poulose at arm.com>
+ L:	linux-arm-kernel at lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	drivers/hwtracing/coresight/*
+-F:	Documentation/trace/coresight.txt
+-F:	Documentation/trace/coresight-cpu-debug.txt
++F:	Documentation/trace/coresight.rst
++F:	Documentation/trace/coresight-cpu-debug.rst
+ F:	Documentation/devicetree/bindings/arm/coresight.txt
+ F:	Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt
+ F:	Documentation/ABI/testing/sysfs-bus-coresight-devices-*
+-- 
+2.11.0
