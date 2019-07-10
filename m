@@ -1,73 +1,126 @@
-From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
-Date: Wed, 10 Jul 2019 08:30:52 -0700
-Subject: [Linux-kernel-mentees] [PATCH v3 1/3] Documentation: virtual:
-	Convert paravirt_ops.txt to .rst
-In-Reply-To: <20190710153054.29564-1-lnowakow@neg.ucsd.edu>
-References: <20190710153054.29564-1-lnowakow@neg.ucsd.edu>
-Message-ID: <20190710153054.29564-2-lnowakow@neg.ucsd.edu>
+From: shobhitkukreti@gmail.com (Shobhit Kukreti)
+Date: Wed, 10 Jul 2019 08:31:23 -0700
+Subject: [Linux-kernel-mentees] [PATCH v3] Documentation: filesystems:
+	Convert ufs.txt to reStructuredText format
+In-Reply-To: <20190710092605.73ddee8b@coco.lan>
+References: <20190710092605.73ddee8b@coco.lan>
+Message-ID: <1562772683-32422-1-git-send-email-shobhitkukreti@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190710153052.4UNjbi3P_libnNhY-1a_QyFDL-sRf6gKdLDFYaTr3u0@z>
+Message-ID: <20190710153123.AQyyxmtQCt_nsvjj_n_MD-EmGSP73xNSmO1T6Xc5zgk@z>
 
-From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+This converts the plain text documentation of ufs.txt to
+reStructuredText format. Added to documentation build process
+and verified with make htmldocs
 
-Convert paravirt_opts.txt to .rst format to be able to be parsed by
-sphinx.
-
-Made some minor spacing and formatting corrections to make defintions
-much more clear and easy to read. Added default kernel license to the
-document.
-
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
 ---
- Changes since v3:
- none
- Changes since v2:
- none
- Changes since v1:
- + Converted doc to .rst format
- 
- .../{paravirt_ops.txt => paravirt_ops.rst}    | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
- rename Documentation/virtual/{paravirt_ops.txt => paravirt_ops.rst} (65%)
+Changes in v3:
+        1. Reverted to minimally changed ufs.rst
+	2. Fix Minor Space Issues
+        3. Used -M1 in git format-patch to show files as renamed
+Changes in v2:
+        1. Removed flat-table
+        2. Moved ufs.rst to admin-guide
 
-diff --git a/Documentation/virtual/paravirt_ops.txt b/Documentation/virtual/paravirt_ops.rst
-similarity index 65%
-rename from Documentation/virtual/paravirt_ops.txt
-rename to Documentation/virtual/paravirt_ops.rst
-index d4881c00e339..6b789d27cead 100644
---- a/Documentation/virtual/paravirt_ops.txt
-+++ b/Documentation/virtual/paravirt_ops.rst
-@@ -1,3 +1,6 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
- Paravirt_ops
- ============
+ Documentation/admin-guide/index.rst                |  1 +
+ .../{filesystems/ufs.txt => admin-guide/ufs.rst}   | 36 +++++++++++++---------
+ 2 files changed, 23 insertions(+), 14 deletions(-)
+ rename Documentation/{filesystems/ufs.txt => admin-guide/ufs.rst} (69%)
+
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 2871b79..9bfb076 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -71,6 +71,7 @@ configure specific aspects of kernel behavior to your liking.
+    bcache
+    ext4
+    jfs
++   ufs
+    pm/index
+    thunderbolt
+    LSM/index
+diff --git a/Documentation/filesystems/ufs.txt b/Documentation/admin-guide/ufs.rst
+similarity index 69%
+rename from Documentation/filesystems/ufs.txt
+rename to Documentation/admin-guide/ufs.rst
+index 7a602ad..55d1529 100644
+--- a/Documentation/filesystems/ufs.txt
++++ b/Documentation/admin-guide/ufs.rst
+@@ -1,37 +1,45 @@
+-USING UFS
++=========
++Using UFS
+ =========
  
-@@ -18,15 +21,15 @@ at boot time.
- pv_ops operations are classified into three categories:
+ mount -t ufs -o ufstype=type_of_ufs device dir
  
- - simple indirect call
--  These operations correspond to high level functionality where it is
--  known that the overhead of indirect call isn't very important.
-+   These operations correspond to high level functionality where it is
-+   known that the overhead of indirect call isn't very important.
  
- - indirect call which allows optimization with binary patch
--  Usually these operations correspond to low level critical instructions. They
--  are called frequently and are performance critical. The overhead is
--  very important.
-+   Usually these operations correspond to low level critical instructions. They
-+   are called frequently and are performance critical. The overhead is
-+   very important.
+-UFS OPTIONS
++UFS Options
+ ===========
  
- - a set of macros for hand written assembly code
--  Hand written assembly codes (.S files) also need paravirtualization
--  because they include sensitive instructions or some of code paths in
--  them are very performance critical.
-+   Hand written assembly codes (.S files) also need paravirtualization
-+   because they include sensitive instructions or some of code paths in
-+   them are very performance critical.
+ ufstype=type_of_ufs
+ 	UFS is a file system widely used in different operating systems.
+ 	The problem are differences among implementations. Features of
+ 	some implementations are undocumented, so its hard to recognize
+-	type of ufs automatically. That's why user must specify type of 
++	type of ufs automatically. That's why user must specify type of
+ 	ufs manually by mount option ufstype. Possible values are:
+ 
+-	old	old format of ufs
++	old
++                old format of ufs
+ 		default value, supported as read-only
+ 
+-	44bsd	used in FreeBSD, NetBSD, OpenBSD
++	44bsd
++                used in FreeBSD, NetBSD, OpenBSD
+ 		supported as read-write
+ 
+-	ufs2    used in FreeBSD 5.x
++	ufs2
++                used in FreeBSD 5.x
+ 		supported as read-write
+ 
+-	5xbsd	synonym for ufs2
++	5xbsd
++                synonym for ufs2
+ 
+-	sun	used in SunOS (Solaris)
++	sun
++                used in SunOS (Solaris)
+ 		supported as read-write
+ 
+-	sunx86	used in SunOS for Intel (Solarisx86)
++	sunx86
++                used in SunOS for Intel (Solarisx86)
+ 		supported as read-write
+ 
+-	hp	used in HP-UX
++	hp
++                used in HP-UX
+ 		supported as read-only
+ 
+ 	nextstep
+@@ -47,14 +55,14 @@ ufstype=type_of_ufs
+ 		supported as read-only
+ 
+ 
+-POSSIBLE PROBLEMS
+-=================
++Possible Problems
++-----------------
+ 
+ See next section, if you have any.
+ 
+ 
+-BUG REPORTS
+-===========
++Bug Reports
++-----------
+ 
+ Any ufs bug report you can send to daniel.pirkl at email.cz or
+ to dushistov at mail.ru (do not send partition tables bug reports).
 -- 
-2.20.1
+2.7.4
