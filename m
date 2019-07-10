@@ -1,19 +1,19 @@
 From: mchehab+samsung at kernel.org (Mauro Carvalho Chehab)
-Date: Wed, 10 Jul 2019 12:57:30 -0300
+Date: Wed, 10 Jul 2019 12:58:49 -0300
 Subject: [Linux-kernel-mentees] [PATCH v3] Documentation: filesystems:
-	Convert jfs.txt to
-In-Reply-To: <1562772541-32144-1-git-send-email-shobhitkukreti@gmail.com>
-References: <20190710093323.7e5d6790@coco.lan>
-	<1562772541-32144-1-git-send-email-shobhitkukreti@gmail.com>
-Message-ID: <20190710125730.0d0cb685@coco.lan>
+ Convert ufs.txt to reStructuredText format
+In-Reply-To: <1562772683-32422-1-git-send-email-shobhitkukreti@gmail.com>
+References: <20190710092605.73ddee8b@coco.lan>
+	<1562772683-32422-1-git-send-email-shobhitkukreti@gmail.com>
+Message-ID: <20190710125849.38f30c43@coco.lan>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Em Wed, 10 Jul 2019 08:29:01 -0700
+Em Wed, 10 Jul 2019 08:31:23 -0700
 Shobhit Kukreti <shobhitkukreti at gmail.com> escreveu:
 
-> This converts the plain text documentation of jfs.txt to reStructuredText
-> format. Added to documentation build process and verified with 
-> make htmldocs
+> This converts the plain text documentation of ufs.txt to
+> reStructuredText format. Added to documentation build process
+> and verified with make htmldocs
 > 
 > Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
 
@@ -21,112 +21,112 @@ Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung at kernel.org>
 
 > ---
 > Changes in v3:
->         1. Reverted to minimally changed jfs.rst
->         2. Used -M1 in git format-patch to show files as renamed
-> 
+>         1. Reverted to minimally changed ufs.rst
+> 	2. Fix Minor Space Issues
+>         3. Used -M1 in git format-patch to show files as renamed
 > Changes in v2:
->         1. Removed flat-table.
->         2. Moved jfs.rst from filesystem to admin-guide
+>         1. Removed flat-table
+>         2. Moved ufs.rst to admin-guide
 > 
 >  Documentation/admin-guide/index.rst                |  1 +
->  .../{filesystems/jfs.txt => admin-guide/jfs.rst}   | 44 ++++++++++++++--------
->  2 files changed, 30 insertions(+), 15 deletions(-)
->  rename Documentation/{filesystems/jfs.txt => admin-guide/jfs.rst} (51%)
+>  .../{filesystems/ufs.txt => admin-guide/ufs.rst}   | 36 +++++++++++++---------
+>  2 files changed, 23 insertions(+), 14 deletions(-)
+>  rename Documentation/{filesystems/ufs.txt => admin-guide/ufs.rst} (69%)
 > 
 > diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-> index 8001917..2871b79 100644
+> index 2871b79..9bfb076 100644
 > --- a/Documentation/admin-guide/index.rst
 > +++ b/Documentation/admin-guide/index.rst
-> @@ -70,6 +70,7 @@ configure specific aspects of kernel behavior to your liking.
->     ras
+> @@ -71,6 +71,7 @@ configure specific aspects of kernel behavior to your liking.
 >     bcache
 >     ext4
-> +   jfs
+>     jfs
+> +   ufs
 >     pm/index
 >     thunderbolt
 >     LSM/index
-> diff --git a/Documentation/filesystems/jfs.txt b/Documentation/admin-guide/jfs.rst
-> similarity index 51%
-> rename from Documentation/filesystems/jfs.txt
-> rename to Documentation/admin-guide/jfs.rst
-> index 41fd757..9e12d93 100644
-> --- a/Documentation/filesystems/jfs.txt
-> +++ b/Documentation/admin-guide/jfs.rst
-> @@ -1,45 +1,59 @@
-> +===========================================
->  IBM's Journaled File System (JFS) for Linux
-> +===========================================
+> diff --git a/Documentation/filesystems/ufs.txt b/Documentation/admin-guide/ufs.rst
+> similarity index 69%
+> rename from Documentation/filesystems/ufs.txt
+> rename to Documentation/admin-guide/ufs.rst
+> index 7a602ad..55d1529 100644
+> --- a/Documentation/filesystems/ufs.txt
+> +++ b/Documentation/admin-guide/ufs.rst
+> @@ -1,37 +1,45 @@
+> -USING UFS
+> +=========
+> +Using UFS
+>  =========
 >  
->  JFS Homepage:  http://jfs.sourceforge.net/
+>  mount -t ufs -o ufstype=type_of_ufs device dir
 >  
->  The following mount options are supported:
-> +
->  (*) == default
 >  
-> -iocharset=name	Character set to use for converting from Unicode to
-> +iocharset=name
-> +                Character set to use for converting from Unicode to
->  		ASCII.  The default is to do no conversion.  Use
->  		iocharset=utf8 for UTF-8 translations.  This requires
->  		CONFIG_NLS_UTF8 to be set in the kernel .config file.
->  		iocharset=none specifies the default behavior explicitly.
+> -UFS OPTIONS
+> +UFS Options
+>  ===========
 >  
-> -resize=value	Resize the volume to <value> blocks.  JFS only supports
-> +resize=value
-> +                Resize the volume to <value> blocks.  JFS only supports
->  		growing a volume, not shrinking it.  This option is only
->  		valid during a remount, when the volume is mounted
->  		read-write.  The resize keyword with no value will grow
->  		the volume to the full size of the partition.
+>  ufstype=type_of_ufs
+>  	UFS is a file system widely used in different operating systems.
+>  	The problem are differences among implementations. Features of
+>  	some implementations are undocumented, so its hard to recognize
+> -	type of ufs automatically. That's why user must specify type of 
+> +	type of ufs automatically. That's why user must specify type of
+>  	ufs manually by mount option ufstype. Possible values are:
 >  
-> -nointegrity	Do not write to the journal.  The primary use of this option
-> +nointegrity
-> +                Do not write to the journal.  The primary use of this option
->  		is to allow for higher performance when restoring a volume
->  		from backup media.  The integrity of the volume is not
->  		guaranteed if the system abnormally abends.
+> -	old	old format of ufs
+> +	old
+> +                old format of ufs
+>  		default value, supported as read-only
 >  
-> -integrity(*)	Commit metadata changes to the journal.  Use this option to
-> +integrity(*)
-> +                Commit metadata changes to the journal.  Use this option to
->  		remount a volume where the nointegrity option was
->  		previously specified in order to restore normal behavior.
+> -	44bsd	used in FreeBSD, NetBSD, OpenBSD
+> +	44bsd
+> +                used in FreeBSD, NetBSD, OpenBSD
+>  		supported as read-write
 >  
-> -errors=continue		Keep going on a filesystem error.
-> -errors=remount-ro(*)	Remount the filesystem read-only on an error.
-> -errors=panic		Panic and halt the machine if an error occurs.
-> +errors=continue
-> +                        Keep going on a filesystem error.
-> +errors=remount-ro(*)
-> +                        Remount the filesystem read-only on an error.
-> +errors=panic
-> +                        Panic and halt the machine if an error occurs.
+> -	ufs2    used in FreeBSD 5.x
+> +	ufs2
+> +                used in FreeBSD 5.x
+>  		supported as read-write
 >  
-> -uid=value	Override on-disk uid with specified value
-> -gid=value	Override on-disk gid with specified value
-> -umask=value	Override on-disk umask with specified octal value.  For
-> -		directories, the execute bit will be set if the corresponding
-> +uid=value
-> +                Override on-disk uid with specified value
-> +gid=value
-> +                Override on-disk gid with specified value
-> +umask=value
-> +                Override on-disk umask with specified octal value. For
-> +                directories, the execute bit will be set if the corresponding
->  		read bit is set.
+> -	5xbsd	synonym for ufs2
+> +	5xbsd
+> +                synonym for ufs2
 >  
-> -discard=minlen	This enables/disables the use of discard/TRIM commands.
-> -discard		The discard/TRIM commands are sent to the underlying
-> -nodiscard(*)	block device when blocks are freed. This is useful for SSD
-> -		devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
-> +discard=minlen, discard/nodiscard(*)
-> +                This enables/disables the use of discard/TRIM commands.
-> +		The discard/TRIM commands are sent to the underlying
-> +                block device when blocks are freed. This is useful for SSD
-> +                devices and sparse/thinly-provisioned LUNs.  The FITRIM ioctl
->  		command is also available together with the nodiscard option.
->  		The value of minlen specifies the minimum blockcount, when
->  		a TRIM command to the block device is considered useful.
+> -	sun	used in SunOS (Solaris)
+> +	sun
+> +                used in SunOS (Solaris)
+>  		supported as read-write
+>  
+> -	sunx86	used in SunOS for Intel (Solarisx86)
+> +	sunx86
+> +                used in SunOS for Intel (Solarisx86)
+>  		supported as read-write
+>  
+> -	hp	used in HP-UX
+> +	hp
+> +                used in HP-UX
+>  		supported as read-only
+>  
+>  	nextstep
+> @@ -47,14 +55,14 @@ ufstype=type_of_ufs
+>  		supported as read-only
+>  
+>  
+> -POSSIBLE PROBLEMS
+> -=================
+> +Possible Problems
+> +-----------------
+>  
+>  See next section, if you have any.
+>  
+>  
+> -BUG REPORTS
+> -===========
+> +Bug Reports
+> +-----------
+>  
+>  Any ufs bug report you can send to daniel.pirkl at email.cz or
+>  to dushistov at mail.ru (do not send partition tables bug reports).
 
 
 
