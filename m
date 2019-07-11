@@ -1,53 +1,47 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Thu, 11 Jul 2019 16:23:31 -0600
-Subject: [Linux-kernel-mentees] [PATCH 01/11] PCI: Move #define PCI_PM_*
-	lines to drivers/pci/pci.h
+Date: Thu, 11 Jul 2019 16:23:32 -0600
+Subject: [Linux-kernel-mentees] [PATCH 02/11] PCI: Move PME declarations to
+	drivers/pci/pci.h
 In-Reply-To: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
 References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190711222341.111556-2-skunberg.kelsey@gmail.com>
+Message-ID: <20190711222341.111556-3-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-The #define PCI_PM_* lines are only used within drivers/pci/ and they do not
-need to be seen by the rest of the kernel. Move #define PCI_* to
-drivers/pci/pci.h
+pci_check_pme_status() and pci_pme_wakeup_bus() are only
+called within drivers/pci/. Since declarations do not need to be visible
+to the rest of the kernel, move to drivers/pci/pci.h.
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- drivers/pci/pci.h   | 5 +++++
- include/linux/pci.h | 5 -----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/pci/pci.h   | 2 ++
+ include/linux/pci.h | 2 --
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 9cb99380c61e..7e30fbde5c84 100644
+index 7e30fbde5c84..800fe8989f48 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -39,6 +39,11 @@ int pci_probe_reset_function(struct pci_dev *dev);
- int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
- int pci_bus_error_reset(struct pci_dev *dev);
- 
-+#define PCI_PM_D2_DELAY         200
-+#define PCI_PM_D3_WAIT          10
-+#define PCI_PM_D3COLD_WAIT      100
-+#define PCI_PM_BUS_WAIT         50
-+
- /**
-  * struct pci_platform_pm_ops - Firmware PM callbacks
-  *
+@@ -85,6 +85,8 @@ void pci_power_up(struct pci_dev *dev);
+ void pci_disable_enabled_device(struct pci_dev *dev);
+ int pci_finish_runtime_suspend(struct pci_dev *dev);
+ void pcie_clear_root_pme_status(struct pci_dev *dev);
++bool pci_check_pme_status(struct pci_dev *dev);
++void pci_pme_wakeup_bus(struct pci_bus *bus);
+ int __pci_pme_wakeup(struct pci_dev *dev, void *ign);
+ void pci_pme_restore(struct pci_dev *dev);
+ bool pci_dev_keep_suspended(struct pci_dev *dev);
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index dd436da7eccc..3bda6a87a815 100644
+index 3bda6a87a815..cedebb08a32d 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -145,11 +145,6 @@ static inline const char *pci_power_name(pci_power_t state)
- 	return pci_power_names[1 + (__force int) state];
- }
- 
--#define PCI_PM_D2_DELAY		200
--#define PCI_PM_D3_WAIT		10
--#define PCI_PM_D3COLD_WAIT	100
--#define PCI_PM_BUS_WAIT		50
--
- /**
-  * The pci_channel state describes connectivity between the CPU and
-  * the PCI device.  If some PCI bus between here and the PCI device
+@@ -1187,8 +1187,6 @@ int pci_wake_from_d3(struct pci_dev *dev, bool enable);
+ int pci_prepare_to_sleep(struct pci_dev *dev);
+ int pci_back_from_sleep(struct pci_dev *dev);
+ bool pci_dev_run_wake(struct pci_dev *dev);
+-bool pci_check_pme_status(struct pci_dev *dev);
+-void pci_pme_wakeup_bus(struct pci_bus *bus);
+ void pci_d3cold_enable(struct pci_dev *dev);
+ void pci_d3cold_disable(struct pci_dev *dev);
+ bool pcie_relaxed_ordering_enabled(struct pci_dev *dev);
 -- 
 2.20.1
