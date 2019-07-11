@@ -1,50 +1,47 @@
 From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Thu, 11 Jul 2019 16:23:36 -0600
-Subject: [Linux-kernel-mentees] [PATCH 06/11] PCI: Move pci_bus_*
-	declarations to drivers/pci/pci.h
+Date: Thu, 11 Jul 2019 16:23:37 -0600
+Subject: [Linux-kernel-mentees] [PATCH 07/11] PCI: Move
+	pcie_update_link_speed() to drivers/pci/pci.h
 In-Reply-To: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
 References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190711222341.111556-7-skunberg.kelsey@gmail.com>
+Message-ID: <20190711222341.111556-8-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190711222336.rU2GBIHsA_b1A9uzQ_EJ5ixRMt--QyewjHBIOOwfGpU@z>
+Message-ID: <20190711222337.zjj44TA2KPhQcDZs7Q-zcTT3SzhTVdEnI3iP8jeSfmM@z>
 
-pci_bus_* declarations are only called within drivers/pci/. Since
-declarations do not need to be visible to the rest of the kernel, move to
+pcie_update_line_speed() is only called within drivers/pci/. Since
+declaration does not need to be visible to the rest of the kernel, move to
 drivers/pci/pci.h.
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- drivers/pci/pci.h   | 3 +++
- include/linux/pci.h | 2 --
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/pci/pci.h   | 1 +
+ include/linux/pci.h | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index ee7b7383e497..9b87309f5c12 100644
+index 9b87309f5c12..59321488da03 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -270,6 +270,9 @@ bool pci_bus_clip_resource(struct pci_dev *dev, int idx);
- void pci_reassigndev_resource_alignment(struct pci_dev *dev);
- void pci_disable_bridge_window(struct pci_dev *dev);
+@@ -295,6 +295,7 @@ u32 pcie_bandwidth_capable(struct pci_dev *dev, enum pci_bus_speed *speed,
+ 			   enum pcie_link_width *width);
+ void __pcie_print_link_status(struct pci_dev *dev, bool verbose);
+ void pcie_report_downtraining(struct pci_dev *dev);
++void pcie_update_link_speed(struct pci_bus *bus, u16 link_status);
  
-+struct pci_bus *pci_bus_get(struct pci_bus *bus);
-+void pci_bus_put(struct pci_bus *bus);
-+
- /* PCIe link information */
- #define PCIE_SPEED2STR(speed) \
- 	((speed) == PCIE_SPEED_16_0GT ? "16 GT/s" : \
+ /* Single Root I/O Virtualization */
+ struct pci_sriov {
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index ead399b8d136..54946423d901 100644
+index 54946423d901..3221d9f61ab4 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -1233,8 +1233,6 @@ int pci_request_selected_regions_exclusive(struct pci_dev *, int, const char *);
- void pci_release_selected_regions(struct pci_dev *, int);
- 
- /* drivers/pci/bus.c */
--struct pci_bus *pci_bus_get(struct pci_bus *bus);
--void pci_bus_put(struct pci_bus *bus);
- void pci_add_resource(struct list_head *resources, struct resource *res);
- void pci_add_resource_offset(struct list_head *resources, struct resource *res,
- 			     resource_size_t offset);
+@@ -938,7 +938,6 @@ struct pci_bus *pci_scan_root_bus(struct device *parent, int bus,
+ int pci_scan_root_bus_bridge(struct pci_host_bridge *bridge);
+ struct pci_bus *pci_add_new_bus(struct pci_bus *parent, struct pci_dev *dev,
+ 				int busnr);
+-void pcie_update_link_speed(struct pci_bus *bus, u16 link_status);
+ struct pci_slot *pci_create_slot(struct pci_bus *parent, int slot_nr,
+ 				 const char *name,
+ 				 struct hotplug_slot *hotplug);
 -- 
 2.20.1
