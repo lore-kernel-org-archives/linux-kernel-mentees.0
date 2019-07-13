@@ -1,365 +1,158 @@
 From: sheriffesseson@gmail.com (Sheriff Esseson)
-Date: Fri, 12 Jul 2019 12:51:18 +0100
-Subject: [Linux-kernel-mentees] [PATCH v7] Documentation: filesystem:
-	Convert xfs.txt to ReST
-Message-ID: <20190712115118.GA24483@localhost>
+Date: Sat, 13 Jul 2019 09:32:12 +0100
+Subject: [Linux-kernel-mentees] git: Behaviour of the stable-rc repo
+In-Reply-To: <20190706094126.GB15480@kroah.com>
+References: <20190706065655.GA10163@arch> <20190706081926.GA8177@kroah.com>
+	<20190706091957.GA15828@arch> <20190706094126.GB15480@kroah.com>
+Message-ID: <20190713083212.GA19807@localhost>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190712115118.bX1YhH7eS90PpMVZmrAfYInIhIPSUwkAmvkPOkfxvhY@z>
+Message-ID: <20190713083212.tXo8dN7JDEeC4AWXGBJ9apYtCGi5GsQy8qGCvfybr-Q@z>
 
-Convert xfs.txt to ReST and fix broken references. 
+On Sat, Jul 06, 2019 at 11:41:26AM +0200, Greg KH wrote:
+> On Sat, Jul 06, 2019 at 02:49:57PM +0530, Amol Surati wrote:
+> > On Sat, Jul 06, 2019 at 10:19:26AM +0200, Greg KH wrote:
+> > > On Sat, Jul 06, 2019 at 12:28:07PM +0530, Amol Surati wrote:
+> > > > Hi,
+> > > > 
+> > > > Since yesterday, the stable-rc branch 'linux-5.1.y' has received new
+> > > > commits.
+> > > 
+> > > The stable-rc tree is a rebased mess of a git tree, don't use it unless
+> > > you really understand git :)
+> > 
+> > I don't understand git to that extent :)
+> 
+> Hey, you can now learn :)
+> 
+> > > > There were 7 code-change-commits + 1 version-change-commit, which were
+> > > > based on the released 5.1.16. Now, when the branch has been refreshed
+> > > > (twice afaics) with new commits, those 8 previous commits have been assigned
+> > > > new identities (still based on 5.1.16).
+> > > > 
+> > > > It seems that there are 3 copies of those 8 commits.
+> > > > For e.g., the version-change-commit has these IDs -
+> > > > 
+> > > > 57f5b343cdf9593b22d79f5261f30243c07d6515,
+> > > > 925bedf91c6bb194cb6b23a553cb8469f3a2007f, and
+> > > > 2b5fd394355ac0b2cc9572232727cb2bce7c15a7
+> > > > 
+> > > > with 2b5... being the most recent ID (and the HEAD iinm).
+> > > > 
+> > > > Could you help me understand how these copies are created, and why?
+> > > > 
+> > > > Also, why do we want to commit the version update, if more commits are
+> > > > expected to arrive on top of it?
+> > > 
+> > > The stable kernel tree patches are kept as a series of patches that will
+> > > be applied on top of the previous version, using a tool called quilt.
+> > > That set of quilt patches can be found in the stable-queue.git tree on
+> > > git.kernel.org.
+> > 
+> > Okay.
+> > 
+> > > 
+> > > From that quilt tree of patches, I generate the stable-rc tree every so
+> > > often so that people who only use git, have an easier way to test
+> > > things.  The tree is constantly rebased and rebuilt every time I do a
+> > > new push to it and a number of autobuilders and testing systems watch it
+> > > and send me automated reports when it changes.
+> > 
+> > Okay. Some of them would be those on kernelci.org, who use 'git describe'
+> > to identify the point-in-time when reporting their results.
+> 
+> Yes, kernelci uses this as does others.
+> 
+> > > So I recommend ONLY using it if you just always rebase, and treat it
+> > > like a "point in time" type of tree.
+> > > 
+> > > When I do a "real" -rc release, I do an announcement to the stable
+> > > mailing list and lkml and push out a compressed patch that you can apply
+> > > to the last released kernel, or you can pull from the stable-rc tree
+> > > (again rebasing) if that is easier for you to test from.
+> > 
+> > Okay. Understood. The stable-rc tree that I tested yesterday was a
+> > shallow (depth 1) clone. I am assuming that rebasing would't work on
+> > it, owing to lack of necessary information.
+> 
+> A shallow clone of a kernel tree isn't good, you can't do much with that
+> for a "real" git tree.
+> 
+> I recommend cloning Linus's tree once, and then add the linux-stable
+> tree as a remote and pulling from that, and then taking that local tree
+> and just using it as a base to create other local trees from for
+> anything else.
+> 
+> That way you have one "real" copy of upstream, which you took the time
+> to suck down once, and then any additions you make on top of that is
+> always much simpler and faster.  If you use the '-s' option to git when
+> cloning the trees, you will not take up additional disk space for the
+> .git objects.
+> 
+> As an example, here's how I do my work.  It's a bit more complex than
+> what you probably want to do, but you can get the idea here.
+> 
+> I have one "root" git tree, that is a "bare" repo:
+> 	linux/work/torvalds/
+> that I cloned from git.kernel.org with the --bare option.
+> I run 'git fetch origin' on it every once in a while to keep it up to
+> date.
+> 
+> I have a "local" tree that I do my work in and run my machine's kernel
+> off of, it was created by doing:
+> 	cd linux
+> 	git clone -s linux/work/torvalds/ gregkh
+> and in linux/gregkh/ I have local branches and other stuff that I use
+> for upstream development and messing around with.  When I want to update
+> it to the latest tree from Linus's tree, I just do a 'git pull' in my
+> linux/gregkh/ directory and all is good.
+> 
+> For stable kernel work, I have a "real" tree that was based off of the
+> torvalds tree, but added the upstream stable repo from.  It was created
+> by doing:
+> 	cd linux
+> 	mkdir stable
+> 	git clone -s linux/work/torvalds/ stable/linux-stable
+> 	cd stable/linux-stable
+> 	git remote add stable [FULL linux-stable.git URL HERE]
+> 	git fetch --all
+> 
+> Then, for individual specific release branches of the linux-stable tree,
+> I create local copies of that tree.  For example, to create the
+> linux-4.19.y tree, I would do:
+> 	cd linux/stable
+> 	git clone -s linux-stable linux-4.19.y
+> 	cd linux-4.19.y
+> 	git checkout -t -b linux-4.19.y origin/linux-4.19.y
+> 
+> There, I have 3 different "full" source trees on my system now, but the
+> majority of the git objects all live in linux/work/torvalds/ and after
+> that, I only have to update tiny amounts.
+> 
+> > LKMP describes both methods (stable-rc, and the compressed patch), but
+> > they need us to /wait/ for your email before attempting a test.
+> 
+> What is "LKMP"?
+> 
+> And yes, you can wait for my email to do "real" testing, as that is when
+> I am asking others to test.  If you want to do testing before then,
+> that's wonderful, but you have to be able to handle the git tree
+> rebasing.
+> 
+> You can do this, by always doing a 'git pull --rebase' on the
+> linux-stable-rc tree, but if you do that, you will loose any changes you
+> might have had there, so don't do this on a tree you actually create
+> patches on.
+> 
+> > The presence of '5.1.17-rc1' commit threw me off the track :) - I see
+> > now that it is not an actual -rc1 release.
+> 
+> Yes, my scripts just automatically add that to make it obvious that the
+> testing kernel is not the previous release.
+> 
+> hope this helps,
+> 
+> greg k-h
 
-Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
----
-
-Changes in v7:
-	- move xfs.rst to admin (Suggested by Matthew Wilcox).
-	- Update admin index.
-	- fix another typo (Caught by Matthew Wilcox).
-
- Documentation/admin-guide/index.rst           |   1 +
- .../xfs.txt => admin-guide/xfs.rst}           | 123 +++++++++---------
- Documentation/filesystems/dax.txt             |   2 +-
- MAINTAINERS                                   |   2 +-
- 4 files changed, 61 insertions(+), 67 deletions(-)
- rename Documentation/{filesystems/xfs.txt => admin-guide/xfs.rst} (82%)
-
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 24fbe0568eff..0615ea3a744c 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -70,6 +70,7 @@ configure specific aspects of kernel behavior to your liking.
-    ras
-    bcache
-    ext4
-+   xfs
-    binderfs
-    pm/index
-    thunderbolt
-diff --git a/Documentation/filesystems/xfs.txt b/Documentation/admin-guide/xfs.rst
-similarity index 82%
-rename from Documentation/filesystems/xfs.txt
-rename to Documentation/admin-guide/xfs.rst
-index a5cbb5e0e3db..9836ac3428f9 100644
---- a/Documentation/filesystems/xfs.txt
-+++ b/Documentation/admin-guide/xfs.rst
-@@ -1,4 +1,6 @@
-+.. SPDX-License-Identifier: GPL-2.0
- 
-+======================
- The SGI XFS Filesystem
- ======================
- 
-@@ -18,8 +20,6 @@ Mount Options
- =============
- 
- When mounting an XFS filesystem, the following options are accepted.
--For boolean mount options, the names with the (*) suffix is the
--default behaviour.
- 
-   allocsize=size
- 	Sets the buffered I/O end-of-file preallocation size when
-@@ -31,46 +31,43 @@ default behaviour.
- 	preallocation size, which uses a set of heuristics to
- 	optimise the preallocation size based on the current
- 	allocation patterns within the file and the access patterns
--	to the file. Specifying a fixed allocsize value turns off
-+	to the file. Specifying a fixed ``allocsize`` value turns off
- 	the dynamic behaviour.
- 
--  attr2
--  noattr2
-+  attr2 or noattr2
- 	The options enable/disable an "opportunistic" improvement to
- 	be made in the way inline extended attributes are stored
- 	on-disk.  When the new form is used for the first time when
--	attr2 is selected (either when setting or removing extended
-+	``attr2`` is selected (either when setting or removing extended
- 	attributes) the on-disk superblock feature bit field will be
- 	updated to reflect this format being in use.
- 
- 	The default behaviour is determined by the on-disk feature
--	bit indicating that attr2 behaviour is active. If either
--	mount option it set, then that becomes the new default used
-+	bit indicating that ``attr2`` behaviour is active. If either
-+	mount option is set, then that becomes the new default used
- 	by the filesystem.
- 
--	CRC enabled filesystems always use the attr2 format, and so
--	will reject the noattr2 mount option if it is set.
-+	CRC enabled filesystems always use the ``attr2`` format, and so
-+	will reject the ``noattr2`` mount option if it is set.
- 
--  discard
--  nodiscard (*)
-+  discard or nodiscard (default)
- 	Enable/disable the issuing of commands to let the block
- 	device reclaim space freed by the filesystem.  This is
- 	useful for SSD devices, thinly provisioned LUNs and virtual
- 	machine images, but may have a performance impact.
- 
--	Note: It is currently recommended that you use the fstrim
--	application to discard unused blocks rather than the discard
-+	Note: It is currently recommended that you use the ``fstrim``
-+	application to ``discard`` unused blocks rather than the ``discard``
- 	mount option because the performance impact of this option
- 	is quite severe.
- 
--  grpid/bsdgroups
--  nogrpid/sysvgroups (*)
-+  grpid/bsdgroups or nogrpid/sysvgroups (default)
- 	These options define what group ID a newly created file
--	gets.  When grpid is set, it takes the group ID of the
-+	gets.  When ``grpid`` is set, it takes the group ID of the
- 	directory in which it is created; otherwise it takes the
--	fsgid of the current process, unless the directory has the
--	setgid bit set, in which case it takes the gid from the
--	parent directory, and also gets the setgid bit set if it is
-+	``fsgid`` of the current process, unless the directory has the
-+	``setgid`` bit set, in which case it takes the ``gid`` from the
-+	parent directory, and also gets the ``setgid`` bit set if it is
- 	a directory itself.
- 
-   filestreams
-@@ -78,46 +75,42 @@ default behaviour.
- 	across the entire filesystem rather than just on directories
- 	configured to use it.
- 
--  ikeep
--  noikeep (*)
--	When ikeep is specified, XFS does not delete empty inode
--	clusters and keeps them around on disk.  When noikeep is
-+  ikeep or noikeep (default)
-+	When ``ikeep`` is specified, XFS does not delete empty inode
-+	clusters and keeps them around on disk.  When ``noikeep`` is
- 	specified, empty inode clusters are returned to the free
- 	space pool.
- 
--  inode32
--  inode64 (*)
--	When inode32 is specified, it indicates that XFS limits
-+  inode32 or inode64 (default)
-+	When ``inode32`` is specified, it indicates that XFS limits
- 	inode creation to locations which will not result in inode
- 	numbers with more than 32 bits of significance.
- 
--	When inode64 is specified, it indicates that XFS is allowed
-+	When ``inode64`` is specified, it indicates that XFS is allowed
- 	to create inodes at any location in the filesystem,
- 	including those which will result in inode numbers occupying
--	more than 32 bits of significance. 
-+	more than 32 bits of significance.
- 
--	inode32 is provided for backwards compatibility with older
-+	``inode32`` is provided for backwards compatibility with older
- 	systems and applications, since 64 bits inode numbers might
- 	cause problems for some applications that cannot handle
- 	large inode numbers.  If applications are in use which do
--	not handle inode numbers bigger than 32 bits, the inode32
-+	not handle inode numbers bigger than 32 bits, the ``inode32``
- 	option should be specified.
- 
--
--  largeio
--  nolargeio (*)
--	If "nolargeio" is specified, the optimal I/O reported in
--	st_blksize by stat(2) will be as small as possible to allow
-+  largeio or nolargeio (default)
-+	If ``nolargeio`` is specified, the optimal I/O reported in
-+	``st_blksize`` by **stat(2)** will be as small as possible to allow
- 	user applications to avoid inefficient read/modify/write
- 	I/O.  This is typically the page size of the machine, as
- 	this is the granularity of the page cache.
- 
--	If "largeio" specified, a filesystem that was created with a
--	"swidth" specified will return the "swidth" value (in bytes)
--	in st_blksize. If the filesystem does not have a "swidth"
--	specified but does specify an "allocsize" then "allocsize"
-+	If ``largeio`` is specified, a filesystem that was created with a
-+	``swidth`` specified will return the ``swidth`` value (in bytes)
-+	in ``st_blksize``. If the filesystem does not have a ``swidth``
-+	specified but does specify an ``allocsize`` then ``allocsize``
- 	(in bytes) will be returned instead. Otherwise the behaviour
--	is the same as if "nolargeio" was specified.
-+	is the same as if ``nolargeio`` was specified.
- 
-   logbufs=value
- 	Set the number of in-memory log buffers.  Valid numbers
-@@ -127,7 +120,7 @@ default behaviour.
- 
- 	If the memory cost of 8 log buffers is too high on small
- 	systems, then it may be reduced at some cost to performance
--	on metadata intensive workloads. The logbsize option below
-+	on metadata intensive workloads. The ``logbsize`` option below
- 	controls the size of each buffer and so is also relevant to
- 	this case.
- 
-@@ -138,7 +131,7 @@ default behaviour.
- 	and 32768 (32k).  Valid sizes for version 2 logs also
- 	include 65536 (64k), 131072 (128k) and 262144 (256k). The
- 	logbsize must be an integer multiple of the log
--	stripe unit configured at mkfs time.
-+	stripe unit configured at **mkfs(8)** time.
- 
- 	The default value for for version 1 logs is 32768, while the
- 	default value for version 2 logs is MAX(32768, log_sunit).
-@@ -153,21 +146,21 @@ default behaviour.
-   noalign
- 	Data allocations will not be aligned at stripe unit
- 	boundaries. This is only relevant to filesystems created
--	with non-zero data alignment parameters (sunit, swidth) by
--	mkfs.
-+	with non-zero data alignment parameters (``sunit``, ``swidth``) by
-+	**mkfs(8)**.
- 
-   norecovery
- 	The filesystem will be mounted without running log recovery.
- 	If the filesystem was not cleanly unmounted, it is likely to
--	be inconsistent when mounted in "norecovery" mode.
-+	be inconsistent when mounted in ``norecovery`` mode.
- 	Some files or directories may not be accessible because of this.
--	Filesystems mounted "norecovery" must be mounted read-only or
-+	Filesystems mounted ``norecovery`` must be mounted read-only or
- 	the mount will fail.
- 
-   nouuid
- 	Don't check for double mounted file systems using the file
--	system uuid.  This is useful to mount LVM snapshot volumes,
--	and often used in combination with "norecovery" for mounting
-+	system ``uuid``.  This is useful to mount LVM snapshot volumes,
-+	and often used in combination with ``norecovery`` for mounting
- 	read-only snapshots.
- 
-   noquota
-@@ -176,15 +169,15 @@ default behaviour.
- 
-   uquota/usrquota/uqnoenforce/quota
- 	User disk quota accounting enabled, and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
-+	enforced.  Refer to **xfs_quota(8)** for further details.
- 
-   gquota/grpquota/gqnoenforce
- 	Group disk quota accounting enabled and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
-+	enforced.  Refer to **xfs_quota(8)** for further details.
- 
-   pquota/prjquota/pqnoenforce
- 	Project disk quota accounting enabled and limits (optionally)
--	enforced.  Refer to xfs_quota(8) for further details.
-+	enforced.  Refer to **xfs_quota(8)** for further details.
- 
-   sunit=value and swidth=value
- 	Used to specify the stripe unit and width for a RAID device
-@@ -192,11 +185,11 @@ default behaviour.
- 	block units. These options are only relevant to filesystems
- 	that were created with non-zero data alignment parameters.
- 
--	The sunit and swidth parameters specified must be compatible
-+	The ``sunit`` and ``swidth`` parameters specified must be compatible
- 	with the existing filesystem alignment characteristics.  In
--	general, that means the only valid changes to sunit are
--	increasing it by a power-of-2 multiple. Valid swidth values
--	are any integer multiple of a valid sunit value.
-+	general, that means the only valid changes to ``sunit`` are
-+	increasing it by a power-of-2 multiple. Valid ``swidth`` values
-+	are any integer multiple of a valid ``sunit`` value.
- 
- 	Typically the only time these mount options are necessary if
- 	after an underlying RAID device has had it's geometry
-@@ -302,27 +295,27 @@ The following sysctls are available for the XFS filesystem:
- 
-   fs.xfs.inherit_sync		(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "sync" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.inherit_nodump		(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "nodump" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.inherit_noatime	(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "noatime" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.inherit_nosymlinks	(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "nosymlinks" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.inherit_nodefrag	(Min: 0  Default: 1  Max: 1)
- 	Setting this to "1" will cause the "nodefrag" flag set
--	by the xfs_io(8) chattr command on a directory to be
-+	by the **xfs_io(8)** chattr command on a directory to be
- 	inherited by files in that directory.
- 
-   fs.xfs.rotorstep		(Min: 1  Default: 1  Max: 256)
-@@ -368,7 +361,7 @@ handler:
-  -error handlers:
- 	Defines the behavior for a specific error.
- 
--The filesystem behavior during an error can be set via sysfs files. Each
-+The filesystem behavior during an error can be set via ``sysfs`` files. Each
- error handler works independently - the first condition met by an error handler
- for a specific class will cause the error to be propagated rather than reset and
- retried.
-@@ -419,7 +412,7 @@ level directory:
- 	handler configurations.
- 
- 	Note: there is no guarantee that fail_at_unmount can be set while an
--	unmount is in progress. It is possible that the sysfs entries are
-+	unmount is in progress. It is possible that the ``sysfs`` entries are
- 	removed by the unmounting filesystem before a "retry forever" error
- 	handler configuration causes unmount to hang, and hence the filesystem
- 	must be configured appropriately before unmount begins to prevent
-@@ -428,7 +421,7 @@ level directory:
- Each filesystem has specific error class handlers that define the error
- propagation behaviour for specific errors. There is also a "default" error
- handler defined, which defines the behaviour for all errors that don't have
--specific handlers defined. Where multiple retry constraints are configuredi for
-+specific handlers defined. Where multiple retry constraints are configured for
- a single error, the first retry configuration that expires will cause the error
- to be propagated. The handler configurations are found in the directory:
- 
-@@ -463,7 +456,7 @@ to be propagated. The handler configurations are found in the directory:
- 	Setting the value to "N" (where 0 < N < Max) will allow XFS to retry the
- 	operation for up to "N" seconds before propagating the error.
- 
--Note: The default behaviour for a specific error handler is dependent on both
-+**Note:** The default behaviour for a specific error handler is dependent on both
- the class and error context. For example, the default values for
- "metadata/ENODEV" are "0" rather than "-1" so that this error handler defaults
- to "fail immediately" behaviour. This is done because ENODEV is a fatal,
-diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
-index 6d2c0d340dea..679729442fd2 100644
---- a/Documentation/filesystems/dax.txt
-+++ b/Documentation/filesystems/dax.txt
-@@ -76,7 +76,7 @@ exposure of uninitialized data through mmap.
- These filesystems may be used for inspiration:
- - ext2: see Documentation/filesystems/ext2.txt
- - ext4: see Documentation/filesystems/ext4/
--- xfs:  see Documentation/filesystems/xfs.txt
-+- xfs:  see Documentation/admin-guide/xfs.rst
- 
- 
- Handling Media Errors
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 43ca94856944..3b6e0b6d8cbd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17453,7 +17453,7 @@ L:	linux-xfs at vger.kernel.org
- W:	http://xfs.org/
- T:	git git://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git
- S:	Supported
--F:	Documentation/filesystems/xfs.txt
-+F:	Documentation/admin-guide/xfs.rst
- F:	fs/xfs/
- 
- XILINX AXI ETHERNET DRIVER
--- 
-2.22.0
+Please, does a "git pull" in "linux/gregkh" merges the FETCH_HEAD of
+"linux/work/torvalds" (You do only "git fetch origin" here).
