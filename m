@@ -1,55 +1,46 @@
-From: b.zolnierkie at samsung.com (Bartlomiej Zolnierkiewicz)
-Date: Mon, 15 Jul 2019 13:34:56 +0200
-Subject: [Linux-kernel-mentees] [PATCH] video: radeon.h Fix Shifting
- signed 32 bit value by 31 bits problem
-In-Reply-To: <20190706184111.GA13070@t-1000>
-References: <CGME20190706184121epcas2p3e9f8717c9e809f7756b1dfa4665ce1c2@epcas2p3.samsung.com>
-	<20190706184111.GA13070@t-1000>
-Message-ID: <46c5dc00-eb00-e229-62af-6e171f9f2a40@samsung.com>
+From: tranmanphong at gmail.com (Phong Tran)
+Date: Mon, 15 Jul 2019 22:08:14 +0700
+Subject: [Linux-kernel-mentees] [PATCH] ISDN: hfcsusb: checking idx of ep
+	configuration
+In-Reply-To: <000000000000f2b23d05868310f9@google.com>
+References: <000000000000f2b23d05868310f9@google.com>
+Message-ID: <20190715150814.20022-1-tranmanphong@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
+The syzbot test with random endpoint address which made the idx is
+overflow in the table of endpoint configuations.
 
-On 7/6/19 8:41 PM, Shobhit Kukreti wrote:
-> Fix RB2D_DC_BUSY and HORZ_AUTO_RATIO_INC defines to use "U" cast to
-> avoid shifting signed 32 bit values by 31 bit problem. This is not a
-> problem for gcc built kernel.
-> 
-> However, the header file being a public api, other compilers may not
-> handle the condition safely resulting in undefined behavior.
-> 
-> Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
+this adds the checking for fixing the error report from
+syzbot
 
-While you are at it please convert radeon.h to use BIT() macro.
+KASAN: stack-out-of-bounds Read in hfcsusb_probe [1]
+The patch tested by syzbot [2]
 
-> ---
->  include/video/radeon.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/video/radeon.h b/include/video/radeon.h
-> index 005eae1..cb0a5f6 100644
-> --- a/include/video/radeon.h
-> +++ b/include/video/radeon.h
-> @@ -531,7 +531,7 @@
->  #define RB2D_DC_FLUSH_2D			   (1 << 0)
->  #define RB2D_DC_FREE_2D				   (1 << 2)
->  #define RB2D_DC_FLUSH_ALL			   (RB2D_DC_FLUSH_2D | RB2D_DC_FREE_2D)
-> -#define RB2D_DC_BUSY				   (1 << 31)
-> +#define RB2D_DC_BUSY				   (1U << 31)
->  
->  /* DSTCACHE_MODE bits constants */
->  #define RB2D_DC_AUTOFLUSH_ENABLE                   (1 << 8)
-> @@ -672,7 +672,7 @@
->  #define HORZ_STRETCH_ENABLE			   (1 << 25)
->  #define HORZ_AUTO_RATIO				   (1 << 27)
->  #define HORZ_FP_LOOP_STRETCH			   (0x7 << 28)
-> -#define HORZ_AUTO_RATIO_INC			   (1 << 31)
-> +#define HORZ_AUTO_RATIO_INC			   (1U << 31)
->  
->  
->  /* FP_VERT_STRETCH bit constants */
+Reported-by: syzbot+8750abbc3a46ef47d509 at syzkaller.appspotmail.com
 
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+[1]:
+https://syzkaller.appspot.com/bug?id=30a04378dac680c5d521304a00a86156bb913522
+[2]:
+https://groups.google.com/d/msg/syzkaller-bugs/_6HBdge8F3E/OJn7wVNpBAAJ
+
+Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+---
+ drivers/isdn/hardware/mISDN/hfcsusb.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/isdn/hardware/mISDN/hfcsusb.c b/drivers/isdn/hardware/mISDN/hfcsusb.c
+index 4c99739b937e..0e224232f746 100644
+--- a/drivers/isdn/hardware/mISDN/hfcsusb.c
++++ b/drivers/isdn/hardware/mISDN/hfcsusb.c
+@@ -1955,6 +1955,9 @@ hfcsusb_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 
+ 				/* get endpoint base */
+ 				idx = ((ep_addr & 0x7f) - 1) * 2;
++				if (idx > 15)
++					return -EIO;
++
+ 				if (ep_addr & 0x80)
+ 					idx++;
+ 				attr = ep->desc.bmAttributes;
+-- 
+2.11.0
