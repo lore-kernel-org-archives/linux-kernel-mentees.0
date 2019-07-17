@@ -1,45 +1,23 @@
-From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Wed, 17 Jul 2019 13:26:39 -0600
-Subject: [Linux-kernel-mentees] [PATCH] thermal: intel: int340x_thermal:
-	Remove unnecessary acpi_has_method() uses
-Message-ID: <20190717192639.90092-1-skunberg.kelsey@gmail.com>
+From: gregkh@linuxfoundation.org (Greg KH)
+Date: Thu, 18 Jul 2019 05:48:53 +0900
+Subject: [Linux-kernel-mentees] [PATCH] PCI: Remove unused
+ EXPORT_SYMBOL()s from drivers/pci/bus.c
+In-Reply-To: <20190717182353.45557-1-skunberg.kelsey@gmail.com>
+References: <20190717182353.45557-1-skunberg.kelsey@gmail.com>
+Message-ID: <20190717204853.GD12367@kroah.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190717192639.-sedwOHH5Cf0e1NyhJqPNJI484fXtMGXhAsdG75Mazs@z>
+Message-ID: <20190717204853.zV0n4-atTYeF7O_4B0PZtDnfujmHbiCJc1FffSfhXOQ@z>
 
-acpi_evaluate_object() will already return in error if the method does not
-exist. Checking if the method is absent before the acpi_evaluate_object()
-call is not needed. Remove acpi_has_method() calls to avoid additional
-work.
+On Wed, Jul 17, 2019 at 12:23:53PM -0600, Kelsey Skunberg wrote:
+> pci_bus_get() and pci_bus_put() are not used by a loadable kernel module
+> and do not need to be exported. Remove lines exporting pci_bus_get() and
+> pci_bus_put().
+> 
+> Functions were exported in commit fe830ef62ac6 ("PCI: Introduce
+> pci_bus_{get|put}() to manage PCI bus reference count"). No found history
+> of functions being used by a loadable kernel module.
+> 
+> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 
-Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
----
- drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-index 9716bc3abaf9..7130e90773ed 100644
---- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-+++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-@@ -77,9 +77,6 @@ int acpi_parse_trt(acpi_handle handle, int *trt_count, struct trt **trtp,
- 	struct acpi_buffer element = { 0, NULL };
- 	struct acpi_buffer trt_format = { sizeof("RRNNNNNN"), "RRNNNNNN" };
- 
--	if (!acpi_has_method(handle, "_TRT"))
--		return -ENODEV;
--
- 	status = acpi_evaluate_object(handle, "_TRT", NULL, &buffer);
- 	if (ACPI_FAILURE(status))
- 		return -ENODEV;
-@@ -158,9 +155,6 @@ int acpi_parse_art(acpi_handle handle, int *art_count, struct art **artp,
- 	struct acpi_buffer art_format =	{
- 		sizeof("RRNNNNNNNNNNN"), "RRNNNNNNNNNNN" };
- 
--	if (!acpi_has_method(handle, "_ART"))
--		return -ENODEV;
--
- 	status = acpi_evaluate_object(handle, "_ART", NULL, &buffer);
- 	if (ACPI_FAILURE(status))
- 		return -ENODEV;
--- 
-2.20.1
+Acked-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
