@@ -1,32 +1,74 @@
-From: bnvandana@gmail.com (Vandana BN)
-Date: Wed, 17 Jul 2019 17:44:28 +0530
-Subject: [Linux-kernel-mentees] analysis -syzbot :KASAN:
-	global-out-of-bounds Read in dvb_pll_attach
-Message-ID: <a37e47be-68af-973b-4c43-92d550120f30@gmail.com>
+From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
+Date: Wed, 17 Jul 2019 07:09:33 -0700
+Subject: [Linux-kernel-mentees] [PATCH v2 RESEND] media: dvb_frontend.h: Fix
+ shifting signed 32-bit value problem
+Message-ID: <0d5dae7b-e6e5-27ea-ba6d-59065f0c6edf@eng.ucsd.edu>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190717121428.ot3e24Ncdmbh_fHEDOviineouW6Dtly7vI2y6G8VZCE@z>
+Message-ID: <20190717140933.RZ6i2BHgNzM8yu9Q7mWj1nWiBSz4YBLO5sbFS5hBDk4@z>
 
-Hello,
+Fix DVBFE_ALGO_RECOVERY and DVBFE_ALGO_SEARCH_ERROR use BIT macro which
+fixes undefined behavior error by certain compilers. 
 
-I analysed the syzbot bug : https://syzkaller.appspot.com/bug?id=7f97adccc1f9c4a69f7db8daabf1e662117e18de
+Also changed all other bit shifted definitions to use macro for better
+readability. 
 
-Its global out of bounds in dvb_pll_attach, while accessing id.
+Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+---
+ Changes in V2:
+ + Added BIT macro to all bit shifted definitions
+ - Removed U cast on 31 bit shifted definition
+ Changes in V1:
+ + Added U cast to shifting 31 bits
 
-??????? if ((id[dvb_pll_devcount] > DVB_PLL_UNDEFINED) &&
-??????????? (id[dvb_pll_devcount] < ARRAY_SIZE(pll_list)))
-??????????????? pll_desc_id = id[dvb_pll_devcount];
+ include/media/dvb_frontend.h | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-this happends because , the dvb_pll_devcount is more than the size of array id DVB_PLL_MAX.
-
-also, In logs, we can see, dvb_pll 2-0060: DVB Simple Tuner attached is called 64 times, and 65th call causes this bug.
-
-The fix is to check if dvb_pll_devcount has reached DVB_PLL_MAX, if so return from there. as no more devices can be attached.
-
-With this fix syzbot doesn't see the issue.
-
-https://groups.google.com/d/msg/syzkaller-bugs/4IyprfsSUe4/v3IlSYPbDwAJ
-
-Regards,
-
-Vandana.
+diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
+index f05cd7b94a2c..0d76fa4551b3 100644
+--- a/include/media/dvb_frontend.h
++++ b/include/media/dvb_frontend.h
+@@ -41,6 +41,7 @@
+ #include <linux/delay.h>
+ #include <linux/mutex.h>
+ #include <linux/slab.h>
++#include <linux/bitops.h>
+ 
+ #include <linux/dvb/frontend.h>
+ 
+@@ -141,10 +142,10 @@ struct analog_parameters {
+  *	These devices have AUTO recovery capabilities from LOCK failure
+  */
+ enum dvbfe_algo {
+-	DVBFE_ALGO_HW			= (1 <<  0),
+-	DVBFE_ALGO_SW			= (1 <<  1),
+-	DVBFE_ALGO_CUSTOM		= (1 <<  2),
+-	DVBFE_ALGO_RECOVERY		= (1 << 31)
++	DVBFE_ALGO_HW			= BIT(0),
++	DVBFE_ALGO_SW			= BIT(1),
++	DVBFE_ALGO_CUSTOM		= BIT(2),
++	DVBFE_ALGO_RECOVERY		= BIT(31),
+ };
+ 
+ /**
+@@ -170,12 +171,12 @@ enum dvbfe_algo {
+  *	The frontend search algorithm was requested to search again
+  */
+ enum dvbfe_search {
+-	DVBFE_ALGO_SEARCH_SUCCESS	= (1 <<  0),
+-	DVBFE_ALGO_SEARCH_ASLEEP	= (1 <<  1),
+-	DVBFE_ALGO_SEARCH_FAILED	= (1 <<  2),
+-	DVBFE_ALGO_SEARCH_INVALID	= (1 <<  3),
+-	DVBFE_ALGO_SEARCH_AGAIN		= (1 <<  4),
+-	DVBFE_ALGO_SEARCH_ERROR		= (1 << 31),
++	DVBFE_ALGO_SEARCH_SUCCESS	= BIT(0),
++	DVBFE_ALGO_SEARCH_ASLEEP	= BIT(1),
++	DVBFE_ALGO_SEARCH_FAILED	= BIT(2),
++	DVBFE_ALGO_SEARCH_INVALID	= BIT(3),
++	DVBFE_ALGO_SEARCH_AGAIN		= BIT(4),
++	DVBFE_ALGO_SEARCH_ERROR		= BIT(31),
+ };
+ 
+ /**
+-- 
+2.20.1
