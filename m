@@ -1,59 +1,38 @@
-From: lnowakow at eng.ucsd.edu (Luke Nowakowski-Krijger)
-Date: Wed, 17 Jul 2019 07:19:46 -0700
-Subject: [Linux-kernel-mentees] [PATCH RESEND] media: hdpvr: Add device num
-	check and handling
-Message-ID: <757f11e5-8463-4f48-1f42-1ecf9bd0a86e@eng.ucsd.edu>
+From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
+Date: Wed, 17 Jul 2019 12:23:53 -0600
+Subject: [Linux-kernel-mentees] [PATCH] PCI: Remove unused EXPORT_SYMBOL()s
+	from drivers/pci/bus.c
+Message-ID: <20190717182353.45557-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Add hdpvr device num check and error handling
+pci_bus_get() and pci_bus_put() are not used by a loadable kernel module
+and do not need to be exported. Remove lines exporting pci_bus_get() and
+pci_bus_put().
 
-We need to increment the device count atomically before we checkout a
-device to make sure that we do not reach the max count, otherwise we get
-out-of-bounds errors as reported by syzbot. 
+Functions were exported in commit fe830ef62ac6 ("PCI: Introduce
+pci_bus_{get|put}() to manage PCI bus reference count"). No found history
+of functions being used by a loadable kernel module.
 
-Reported-and-tested-by: syzbot+aac8d0d7205f112045d2 at syzkaller.appspotmail.com
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow at eng.ucsd.edu>
+Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
-Changes in V1:
-+ add storing of incremented index in dev_num var
-+ add bounds check on dev_num and appropriate error handling
-- remove attomic_inc_return from inside of hdpvr_register call
+ drivers/pci/bus.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- drivers/media/usb/hdpvr/hdpvr-core.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
-index 29ac7fc5b039..640ef83b57c9 100644
---- a/drivers/media/usb/hdpvr/hdpvr-core.c
-+++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-@@ -275,6 +275,7 @@ static int hdpvr_probe(struct usb_interface *interface,
- #endif
- 	size_t buffer_size;
- 	int i;
-+	int dev_num;
- 	int retval = -ENOMEM;
+diff --git a/drivers/pci/bus.c b/drivers/pci/bus.c
+index 495059d923f7..8e40b3e6da77 100644
+--- a/drivers/pci/bus.c
++++ b/drivers/pci/bus.c
+@@ -417,11 +417,9 @@ struct pci_bus *pci_bus_get(struct pci_bus *bus)
+ 		get_device(&bus->dev);
+ 	return bus;
+ }
+-EXPORT_SYMBOL(pci_bus_get);
  
- 	/* allocate memory for our device state and initialize it */
-@@ -371,9 +372,18 @@ static int hdpvr_probe(struct usb_interface *interface,
- 		goto reg_fail;
- 	}
- #endif
--
-+
-+	dev_num = atomic_inc_return(&dev_nr);
-+	if (dev_num >= HDPVR_MAX) {
-+		v4l2_err(&dev->v4l2_dev,
-+			 "max device number reached, device register failed\n");
-+		atomic_dec(&dev_nr);
-+		retval = -ENODEV;
-+		goto reg_fail;
-+	}
-+
- 	retval = hdpvr_register_videodev(dev, &interface->dev,
--				    video_nr[atomic_inc_return(&dev_nr)]);
-+				    video_nr[dev_num]);
- 	if (retval < 0) {
- 		v4l2_err(&dev->v4l2_dev, "registering videodev failed\n");
- 		goto reg_fail;
+ void pci_bus_put(struct pci_bus *bus)
+ {
+ 	if (bus)
+ 		put_device(&bus->dev);
+ }
+-EXPORT_SYMBOL(pci_bus_put);
 -- 
 2.20.1
