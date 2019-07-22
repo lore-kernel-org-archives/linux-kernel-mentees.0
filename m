@@ -1,53 +1,106 @@
 From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Sun, 21 Jul 2019 20:35:30 -0600
-Subject: [Linux-kernel-mentees] [PATCH 3/3] ACPI: Remove acpi_has_method()
-	calls from thermal.c
-In-Reply-To: <20190722023530.67676-1-skunberg.kelsey@gmail.com>
-References: <20190722023530.67676-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190722023530.67676-4-skunberg.kelsey@gmail.com>
+Date: Sun, 21 Jul 2019 21:04:01 -0600
+Subject: [Linux-kernel-mentees] [PATCH] drivers: net: xgene: Remove
+	acpi_has_method() calls
+Message-ID: <20190722030401.69563-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190722023530.1eTQf8CT-4yf1JmfKOw9IrUKNF4dhyubo0zd1vTO3ro@z>
+Message-ID: <20190722030401.5DqRevdOFq5QGlMJYKZ2Z1IQvXNCM3HWpd4b0TntHxQ@z>
 
-The following acpi_has_method() calls are unnecessary since
-acpi_execute_simple_method() and acpi_evaluate_reference() will return an
-error if the given method does not exist. Remove acpi_has_method() calls
-to avoid additional work.
+acpi_evaluate_object will already return an error if the needed method
+does not exist. Remove unnecessary acpi_has_method() calls and check the
+returned acpi_status for failure instead.
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- drivers/acpi/thermal.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ drivers/net/ethernet/apm/xgene/xgene_enet_hw.c    |  7 +++----
+ drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c | 10 +++++-----
+ drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c |  9 ++++-----
+ 3 files changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
-index 00f12a86ecbd..d831a61e0010 100644
---- a/drivers/acpi/thermal.c
-+++ b/drivers/acpi/thermal.c
-@@ -225,13 +225,9 @@ static int acpi_thermal_set_cooling_mode(struct acpi_thermal *tz, int mode)
- 	if (!tz)
- 		return -EINVAL;
+diff --git a/drivers/net/ethernet/apm/xgene/xgene_enet_hw.c b/drivers/net/ethernet/apm/xgene/xgene_enet_hw.c
+index 61a465097cb8..ef75a09069a8 100644
+--- a/drivers/net/ethernet/apm/xgene/xgene_enet_hw.c
++++ b/drivers/net/ethernet/apm/xgene/xgene_enet_hw.c
+@@ -694,6 +694,7 @@ bool xgene_ring_mgr_init(struct xgene_enet_pdata *p)
+ static int xgene_enet_reset(struct xgene_enet_pdata *pdata)
+ {
+ 	struct device *dev = &pdata->pdev->dev;
++	acpi_status status;
  
--	if (!acpi_has_method(tz->device->handle, "_SCP")) {
--		ACPI_DEBUG_PRINT((ACPI_DB_INFO, "_SCP not present\n"));
-+	if (ACPI_FAILURE(acpi_execute_simple_method(tz->device->handle,
-+						    "_SCP", mode)))
+ 	if (!xgene_ring_mgr_init(pdata))
  		return -ENODEV;
--	} else if (ACPI_FAILURE(acpi_execute_simple_method(tz->device->handle,
--							   "_SCP", mode))) {
--		return -ENODEV;
+@@ -712,11 +713,9 @@ static int xgene_enet_reset(struct xgene_enet_pdata *pdata)
+ 		udelay(5);
+ 	} else {
+ #ifdef CONFIG_ACPI
+-		if (acpi_has_method(ACPI_HANDLE(&pdata->pdev->dev), "_RST")) {
+-			acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
++		status = acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
+ 					     "_RST", NULL, NULL);
+-		} else if (acpi_has_method(ACPI_HANDLE(&pdata->pdev->dev),
+-					 "_INI")) {
++		if (ACPI_FAILURE(status)) {
+ 			acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
+ 					     "_INI", NULL, NULL);
+ 		}
+diff --git a/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c b/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
+index 6453fc2ebb1f..6237a2cfd703 100644
+--- a/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
++++ b/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
+@@ -437,6 +437,7 @@ static void xgene_sgmac_tx_disable(struct xgene_enet_pdata *p)
+ static int xgene_enet_reset(struct xgene_enet_pdata *p)
+ {
+ 	struct device *dev = &p->pdev->dev;
++	acpi_status status;
+ 
+ 	if (!xgene_ring_mgr_init(p))
+ 		return -ENODEV;
+@@ -460,14 +461,13 @@ static int xgene_enet_reset(struct xgene_enet_pdata *p)
+ 		}
+ 	} else {
+ #ifdef CONFIG_ACPI
+-		if (acpi_has_method(ACPI_HANDLE(&p->pdev->dev), "_RST"))
+-			acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
+-					     "_RST", NULL, NULL);
+-		else if (acpi_has_method(ACPI_HANDLE(&p->pdev->dev), "_INI"))
++		status = acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
++			 		      "_RST", NULL, NULL);
++		if (ACPI_FAILURE(status)) {
+ 			acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
+ 					     "_INI", NULL, NULL);
++		}
+ #endif
 -	}
  
- 	return 0;
- }
-@@ -463,8 +459,7 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
- 			break;
- 	}
+ 	if (!p->port_id) {
+ 		xgene_enet_ecc_init(p);
+diff --git a/drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c b/drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c
+index 133eb91c542e..fede3bfe4d68 100644
+--- a/drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c
++++ b/drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c
+@@ -380,6 +380,7 @@ static void xgene_xgmac_tx_disable(struct xgene_enet_pdata *pdata)
+ static int xgene_enet_reset(struct xgene_enet_pdata *pdata)
+ {
+ 	struct device *dev = &pdata->pdev->dev;
++	acpi_status status;
  
--	if ((flag & ACPI_TRIPS_DEVICES)
--	    && acpi_has_method(tz->device->handle, "_TZD")) {
-+	if (flag & ACPI_TRIPS_DEVICES) {
- 		memset(&devices, 0, sizeof(devices));
- 		status = acpi_evaluate_reference(tz->device->handle, "_TZD",
- 						NULL, &devices);
+ 	if (!xgene_ring_mgr_init(pdata))
+ 		return -ENODEV;
+@@ -393,11 +394,9 @@ static int xgene_enet_reset(struct xgene_enet_pdata *pdata)
+ 		udelay(5);
+ 	} else {
+ #ifdef CONFIG_ACPI
+-		if (acpi_has_method(ACPI_HANDLE(&pdata->pdev->dev), "_RST")) {
+-			acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
+-					     "_RST", NULL, NULL);
+-		} else if (acpi_has_method(ACPI_HANDLE(&pdata->pdev->dev),
+-					   "_INI")) {
++		status = acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
++				 	      "_RST", NULL, NULL);
++		if (ACPI_FAILURE(status)) {
+ 			acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
+ 					     "_INI", NULL, NULL);
+ 		}
 -- 
 2.20.1
