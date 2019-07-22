@@ -1,46 +1,78 @@
-From: lnowakow@eng.ucsd.edu (Luke Nowakowski-Krijger)
-Date: Sun, 21 Jul 2019 04:56:49 -0700
-Subject: [Linux-kernel-mentees] [SYZBOT REPORT] global-out-of-bounds Read in
-	hdpvr_probe
-Message-ID: <20190721115649.GA6644@luke-XPS-13>
+From: shobhitkukreti@gmail.com (Shobhit Kukreti)
+Date: Sun, 21 Jul 2019 17:42:40 -0700
+Subject: [Linux-kernel-mentees] [PATCH v3] video: atmel_lcdc: Fix Shifting
+	signed 32 bit value by 31 bits problem
+In-Reply-To: <9c98fd20-5bc8-48a6-96ed-889a18d1a0c0@samsung.com>
+References: <9c98fd20-5bc8-48a6-96ed-889a18d1a0c0@samsung.com>
+Message-ID: <1563756160-29702-1-git-send-email-shobhitkukreti@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190721115649.AP18wP-pHhZpp57t3VMhvlLTDHXgihFzkiAWCmaafRk@z>
+Message-ID: <20190722004240.6KEeEEdvKsLjTyx88byKlwPBsRZyDUxHj8MLdw24ePY@z>
 
-Hello,
+Fix ATMEL_LCDC_MEMOR and ATMEL_LCDC_MEMOR_LITTLE defines to use "U"
+cast to avoid shifting signed 32 bit values by 31 bit problem. This
+problem. This is not a problem for gcc built kernel.
 
-This is an analysis of the following report
+However, this may be a problem since the header is part of pbulic API
+which could be included for builds using compilers which do not handle
+this condition safely resulting in undefined behavior
 
-https://syzkaller.appspot.com/bug?id=69bf3422c0eb7a37dec8c1a6c2d56ea40bf6bacf
+Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
+---
+Changes in v3:
+	Replace Bit Shift Operations with BIT() macros
 
-The error was reproduced with 5.1-rc4 with gcc 9.1.0. 
+Changes in v2:
+       Fixed spelling typo
 
-The offending line is:
+ include/video/atmel_lcdc.h | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-retval = hdpvr_register_videodev(dev, &interface->dev,
-				 video_nr[atomic_inc_return(&dev_nr)]);
-
-Analysis:
-
-Immediately we see that the video_nr array is being accessed without
-a checking increment. Meaning that if we were to go up to the size of
-the array and it were to access it, we would get this kind of global out
-of bounds error as reported by syzbot. 
-
-Fix: 
-
-The fix would be to "checkout" a place in the register array before we
-actually register the device and see if we havent already reached the
-max amount of devices we want to register. If we did this and found that
-we have reached max, we can report our findings and return safely probe
-function, thus avoiding this global out of bounds access error and
-reporting useful information to the user.
-
-I have already prepared a patch that is awaiting review that fixes this
-issue. 
-
-https://lore.kernel.org/lkml/757f11e5-8463-4f48-1f42-1ecf9bd0a86e at eng.ucsd.edu/
-
-Thanks, 
-
-Luke
+diff --git a/include/video/atmel_lcdc.h b/include/video/atmel_lcdc.h
+index 43e497c..985e2d6 100644
+--- a/include/video/atmel_lcdc.h
++++ b/include/video/atmel_lcdc.h
+@@ -85,27 +85,27 @@ struct atmel_lcdfb_pdata {
+ #define		ATMEL_LCDC_PIXELSIZE_16		(4 << 5)
+ #define		ATMEL_LCDC_PIXELSIZE_24		(5 << 5)
+ #define		ATMEL_LCDC_PIXELSIZE_32		(6 << 5)
+-#define	ATMEL_LCDC_INVVD	(1 << 8)
++#define	ATMEL_LCDC_INVVD	BIT(8)
+ #define		ATMEL_LCDC_INVVD_NORMAL		(0 << 8)
+-#define		ATMEL_LCDC_INVVD_INVERTED	(1 << 8)
+-#define	ATMEL_LCDC_INVFRAME	(1 << 9 )
++#define		ATMEL_LCDC_INVVD_INVERTED	BIT(8)
++#define	ATMEL_LCDC_INVFRAME	BIT(9)
+ #define		ATMEL_LCDC_INVFRAME_NORMAL	(0 << 9)
+-#define		ATMEL_LCDC_INVFRAME_INVERTED	(1 << 9)
+-#define	ATMEL_LCDC_INVLINE	(1 << 10)
++#define		ATMEL_LCDC_INVFRAME_INVERTED	BIT(9)
++#define	ATMEL_LCDC_INVLINE	BIT(10)
+ #define		ATMEL_LCDC_INVLINE_NORMAL	(0 << 10)
+-#define		ATMEL_LCDC_INVLINE_INVERTED	(1 << 10)
+-#define	ATMEL_LCDC_INVCLK	(1 << 11)
++#define		ATMEL_LCDC_INVLINE_INVERTED	BIT(10)
++#define	ATMEL_LCDC_INVCLK	BIT(11)
+ #define		ATMEL_LCDC_INVCLK_NORMAL	(0 << 11)
+-#define		ATMEL_LCDC_INVCLK_INVERTED	(1 << 11)
+-#define	ATMEL_LCDC_INVDVAL	(1 << 12)
++#define		ATMEL_LCDC_INVCLK_INVERTED	BIT(11)
++#define	ATMEL_LCDC_INVDVAL	BIT(12)
+ #define		ATMEL_LCDC_INVDVAL_NORMAL	(0 << 12)
+-#define		ATMEL_LCDC_INVDVAL_INVERTED	(1 << 12)
+-#define	ATMEL_LCDC_CLKMOD	(1 << 15)
++#define		ATMEL_LCDC_INVDVAL_INVERTED	BIT(12)
++#define	ATMEL_LCDC_CLKMOD	BIT(15)
+ #define		ATMEL_LCDC_CLKMOD_ACTIVEDISPLAY	(0 << 15)
+-#define		ATMEL_LCDC_CLKMOD_ALWAYSACTIVE	(1 << 15)
+-#define	ATMEL_LCDC_MEMOR	(1 << 31)
++#define		ATMEL_LCDC_CLKMOD_ALWAYSACTIVE	BIT(15)
++#define	ATMEL_LCDC_MEMOR	BIT(31)
+ #define		ATMEL_LCDC_MEMOR_BIG		(0 << 31)
+-#define		ATMEL_LCDC_MEMOR_LITTLE		(1 << 31)
++#define		ATMEL_LCDC_MEMOR_LITTLE		BIT(31)
+ 
+ #define ATMEL_LCDC_TIM1		0x0808
+ #define	ATMEL_LCDC_VFP		(0xffU <<  0)
+-- 
+2.7.4
