@@ -1,48 +1,47 @@
 From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Mon, 22 Jul 2019 10:29:55 +0200
-Subject: [Linux-kernel-mentees] [PATCH 2/3] ACPI: Remove
-	acpi_has_method() call from scan.c
-In-Reply-To: <20190722023530.67676-3-skunberg.kelsey@gmail.com>
+Date: Mon, 22 Jul 2019 10:31:11 +0200
+Subject: [Linux-kernel-mentees] [PATCH 1/3] ACPI: Remove
+	acpi_has_method() call from acpi_adxl.c
+In-Reply-To: <20190722023530.67676-2-skunberg.kelsey@gmail.com>
 References: <20190722023530.67676-1-skunberg.kelsey@gmail.com>
-	<20190722023530.67676-3-skunberg.kelsey@gmail.com>
+	<20190722023530.67676-2-skunberg.kelsey@gmail.com>
 Message-ID:
- <CAJZ5v0ix6fe2fj9_mbO5ZdQzkThe8PnkRbJWAuQHjB58x66ixg@mail.gmail.com>
+ <CAJZ5v0gRzu0bVL+7L9NhbWu5OxveEP8H8v5qpiW-FeOtoOepiw@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190722082955.2ZE3EflZ4s3Ycfzytv8QqK_WD6jNQp7_bJmZgS0Uglw@z>
+Message-ID: <20190722083111.EykL-hw3q9me2RxNWjdYIj_CcwIY6bTQ5yeFHrmjYUU@z>
 
 On Mon, Jul 22, 2019 at 4:36 AM Kelsey Skunberg
 <skunberg.kelsey at gmail.com> wrote:
 >
-> acpi_evaluate_reference() will return an error if the DEP method
-> does not exist. Checking if the DEP method exists before the
-> acpi_evaluate_reference() call is not needed. Remove acpi_has_method()
-> call to avoid additional work.
+> acpi_check_dsm() will already return an error if the DSM method does not
+> exist. Checking if the DSM method exists before the acpi_check_dsm() call
+> is not needed. Remove acpi_has_method() call to avoid additional work.
 >
 > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 > ---
->  drivers/acpi/scan.c | 3 ---
->  1 file changed, 3 deletions(-)
+>  drivers/acpi/acpi_adxl.c | 5 -----
+>  1 file changed, 5 deletions(-)
 >
-> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> index 0e28270b0fd8..4f2b0b481cee 100644
-> --- a/drivers/acpi/scan.c
-> +++ b/drivers/acpi/scan.c
-> @@ -1803,9 +1803,6 @@ static void acpi_device_dep_initialize(struct acpi_device *adev)
+> diff --git a/drivers/acpi/acpi_adxl.c b/drivers/acpi/acpi_adxl.c
+> index 13c8f7b50c46..89aac15663fd 100644
+> --- a/drivers/acpi/acpi_adxl.c
+> +++ b/drivers/acpi/acpi_adxl.c
+> @@ -148,11 +148,6 @@ static int __init adxl_init(void)
+>                 return -ENODEV;
+>         }
 >
->         adev->dep_unmet = 0;
->
-> -       if (!acpi_has_method(adev->handle, "_DEP"))
-> -               return;
+> -       if (!acpi_has_method(handle, "_DSM")) {
+> -               pr_info("No DSM method\n");
+
+And why is printing the message not useful?
+
+> -               return -ENODEV;
+> -       }
 > -
-
-As you can see, this just returns.
-
->         status = acpi_evaluate_reference(adev->handle, "_DEP", NULL,
->                                         &dep_devices);
->         if (ACPI_FAILURE(status)) {
-
-Where this does something more on fallure.
-
-Therefore the code after the change is not equivalent to the code
-before it, so the changes is questionable.
+>         if (!acpi_check_dsm(handle, &adxl_guid, ADXL_REVISION,
+>                             ADXL_IDX_GET_ADDR_PARAMS |
+>                             ADXL_IDX_FORWARD_TRANSLATE)) {
+> --
+> 2.20.1
+>
