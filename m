@@ -1,106 +1,38 @@
 From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Sun, 21 Jul 2019 21:04:01 -0600
-Subject: [Linux-kernel-mentees] [PATCH] drivers: net: xgene: Remove
-	acpi_has_method() calls
-Message-ID: <20190722030401.69563-1-skunberg.kelsey@gmail.com>
+Date: Sun, 21 Jul 2019 21:11:58 -0600
+Subject: [Linux-kernel-mentees] [PATCH] platform: x86: Remove
+	acpi_has_method() call in wmi.c
+Message-ID: <20190722031158.70311-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190722030401.5DqRevdOFq5QGlMJYKZ2Z1IQvXNCM3HWpd4b0TntHxQ@z>
+Message-ID: <20190722031158.g6_bxBetucIF_9mkQ0hIC656M7cy1sm9x3GJYoVqH7A@z>
 
-acpi_evaluate_object will already return an error if the needed method
-does not exist. Remove unnecessary acpi_has_method() calls and check the
-returned acpi_status for failure instead.
+acpi_has_method() is unnecessary within __query_block() and should be
+removed to avoid extra work.
+
+wc_status is initialized to AE_ERROR before the acpi_has_method() call.
+acpi_has_method() and acpi_execute_simple_method() failing due to the
+method not existing will result in the same outcome from __query_block().
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- drivers/net/ethernet/apm/xgene/xgene_enet_hw.c    |  7 +++----
- drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c | 10 +++++-----
- drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c |  9 ++++-----
- 3 files changed, 12 insertions(+), 14 deletions(-)
+ drivers/platform/x86/wmi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/net/ethernet/apm/xgene/xgene_enet_hw.c b/drivers/net/ethernet/apm/xgene/xgene_enet_hw.c
-index 61a465097cb8..ef75a09069a8 100644
---- a/drivers/net/ethernet/apm/xgene/xgene_enet_hw.c
-+++ b/drivers/net/ethernet/apm/xgene/xgene_enet_hw.c
-@@ -694,6 +694,7 @@ bool xgene_ring_mgr_init(struct xgene_enet_pdata *p)
- static int xgene_enet_reset(struct xgene_enet_pdata *pdata)
- {
- 	struct device *dev = &pdata->pdev->dev;
-+	acpi_status status;
+diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
+index 784cea8572c2..59e9aa0f9643 100644
+--- a/drivers/platform/x86/wmi.c
++++ b/drivers/platform/x86/wmi.c
+@@ -340,9 +340,7 @@ static acpi_status __query_block(struct wmi_block *wblock, u8 instance,
+ 		 * expensive, but have no corresponding WCxx method. So we
+ 		 * should not fail if this happens.
+ 		 */
+-		if (acpi_has_method(handle, wc_method))
+-			wc_status = acpi_execute_simple_method(handle,
+-								wc_method, 1);
++		wc_status = acpi_execute_simple_method(handle, wc_method, 1);
+ 	}
  
- 	if (!xgene_ring_mgr_init(pdata))
- 		return -ENODEV;
-@@ -712,11 +713,9 @@ static int xgene_enet_reset(struct xgene_enet_pdata *pdata)
- 		udelay(5);
- 	} else {
- #ifdef CONFIG_ACPI
--		if (acpi_has_method(ACPI_HANDLE(&pdata->pdev->dev), "_RST")) {
--			acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
-+		status = acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
- 					     "_RST", NULL, NULL);
--		} else if (acpi_has_method(ACPI_HANDLE(&pdata->pdev->dev),
--					 "_INI")) {
-+		if (ACPI_FAILURE(status)) {
- 			acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
- 					     "_INI", NULL, NULL);
- 		}
-diff --git a/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c b/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
-index 6453fc2ebb1f..6237a2cfd703 100644
---- a/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
-+++ b/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
-@@ -437,6 +437,7 @@ static void xgene_sgmac_tx_disable(struct xgene_enet_pdata *p)
- static int xgene_enet_reset(struct xgene_enet_pdata *p)
- {
- 	struct device *dev = &p->pdev->dev;
-+	acpi_status status;
- 
- 	if (!xgene_ring_mgr_init(p))
- 		return -ENODEV;
-@@ -460,14 +461,13 @@ static int xgene_enet_reset(struct xgene_enet_pdata *p)
- 		}
- 	} else {
- #ifdef CONFIG_ACPI
--		if (acpi_has_method(ACPI_HANDLE(&p->pdev->dev), "_RST"))
--			acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
--					     "_RST", NULL, NULL);
--		else if (acpi_has_method(ACPI_HANDLE(&p->pdev->dev), "_INI"))
-+		status = acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
-+			 		      "_RST", NULL, NULL);
-+		if (ACPI_FAILURE(status)) {
- 			acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
- 					     "_INI", NULL, NULL);
-+		}
- #endif
--	}
- 
- 	if (!p->port_id) {
- 		xgene_enet_ecc_init(p);
-diff --git a/drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c b/drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c
-index 133eb91c542e..fede3bfe4d68 100644
---- a/drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c
-+++ b/drivers/net/ethernet/apm/xgene/xgene_enet_xgmac.c
-@@ -380,6 +380,7 @@ static void xgene_xgmac_tx_disable(struct xgene_enet_pdata *pdata)
- static int xgene_enet_reset(struct xgene_enet_pdata *pdata)
- {
- 	struct device *dev = &pdata->pdev->dev;
-+	acpi_status status;
- 
- 	if (!xgene_ring_mgr_init(pdata))
- 		return -ENODEV;
-@@ -393,11 +394,9 @@ static int xgene_enet_reset(struct xgene_enet_pdata *pdata)
- 		udelay(5);
- 	} else {
- #ifdef CONFIG_ACPI
--		if (acpi_has_method(ACPI_HANDLE(&pdata->pdev->dev), "_RST")) {
--			acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
--					     "_RST", NULL, NULL);
--		} else if (acpi_has_method(ACPI_HANDLE(&pdata->pdev->dev),
--					   "_INI")) {
-+		status = acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
-+				 	      "_RST", NULL, NULL);
-+		if (ACPI_FAILURE(status)) {
- 			acpi_evaluate_object(ACPI_HANDLE(&pdata->pdev->dev),
- 					     "_INI", NULL, NULL);
- 		}
+ 	strcpy(method, "WQ");
 -- 
 2.20.1
