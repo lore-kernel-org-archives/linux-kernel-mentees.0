@@ -1,56 +1,42 @@
-From: bjorn.helgaas@gmail.com (Bjorn Helgaas)
-Date: Tue, 23 Jul 2019 17:56:04 -0500
-Subject: [Linux-kernel-mentees] [PATCH v2] drivers: net: xgene: Remove
-	acpi_has_method() calls
-In-Reply-To: <20190723185811.8548-1-skunberg.kelsey@gmail.com>
-References: <20190722030401.69563-1-skunberg.kelsey@gmail.com>
-	<20190723185811.8548-1-skunberg.kelsey@gmail.com>
-Message-ID:
- <CABhMZUVAcJwJpN8BKZTTU7jUW6881KdBtoYs_3kSn+tDtOVqNw@mail.gmail.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 23 Jul 2019 18:07:01 -0500
+Subject: [Linux-kernel-mentees] [PATCH 00/11] PCI: Move symbols to
+	drivers/pci/pci.h
+In-Reply-To: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
+References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
+Message-ID: <20190723230701.GA47047@google.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190723225604.-OO99AGgUaV0Yczp4g_isVkNgwJB9zMs-ZqAJc-JoK0@z>
+Message-ID: <20190723230701.sPnGdFRDf4E0cvb5pvC8Ft-OQ45Uv9fk_t7Jqri2MJo@z>
 
-On Tue, Jul 23, 2019 at 1:59 PM Kelsey Skunberg
-<skunberg.kelsey at gmail.com> wrote:
->
-> acpi_evaluate_object will already return an error if the needed method
-> does not exist. Remove unnecessary acpi_has_method() calls and check the
-> returned acpi_status for failure instead.
+On Thu, Jul 11, 2019 at 04:23:30PM -0600, Kelsey Skunberg wrote:
+> Move symbols defined in include/linux/pci.h that are only used in
+> drivers/pci/ to drivers/pci/pci.h.
+> 
+> Symbols only used in drivers/pci/ do not need to be visible to the rest of
+> the kernel.
+> 
+> Kelsey Skunberg (11):
+>   PCI: Move #define PCI_PM_* lines to drivers/pci/pci.h
+>   PCI: Move PME declarations to drivers/pci/pci.h
+>   PCI: Move *_host_bridge_device() declarations to drivers/pci.pci.h
+>   PCI: Move PCI Virtual Channel declarations to drivers/pci/pci.h
+>   PCI: Move pci_hotplug_*_size declarations to drivers/pci/pci.h
+>   PCI: Move pci_bus_* declarations to drivers/pci/pci.h
+>   PCI: Move pcie_update_link_speed() to drivers/pci/pci.h
+>   PCI: Move pci_ats_init() to drivers/pci/pci.h
+>   PCI: Move ECRC declarations to drivers/pci/pci.h
+>   PCI: Move PTM declaration to drivers/pci/pci.h
+>   PCI: Move pci_*_node() declarations to drivers/pci/pci.h
+> 
+>  drivers/pci/pci.h   | 48 ++++++++++++++++++++++++++++++++++++++++++---
+>  include/linux/pci.h | 47 --------------------------------------------
+>  2 files changed, 45 insertions(+), 50 deletions(-)
 
-> diff --git a/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c b/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
-> index 6453fc2ebb1f..5d637b46b2bf 100644
-> --- a/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
-> +++ b/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
-> @@ -437,6 +437,7 @@ static void xgene_sgmac_tx_disable(struct xgene_enet_pdata *p)
->  static int xgene_enet_reset(struct xgene_enet_pdata *p)
->  {
->         struct device *dev = &p->pdev->dev;
-> +       acpi_status status;
->
->         if (!xgene_ring_mgr_init(p))
->                 return -ENODEV;
-> @@ -460,14 +461,13 @@ static int xgene_enet_reset(struct xgene_enet_pdata *p)
->                 }
->         } else {
->  #ifdef CONFIG_ACPI
-> -               if (acpi_has_method(ACPI_HANDLE(&p->pdev->dev), "_RST"))
-> -                       acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
-> -                                            "_RST", NULL, NULL);
-> -               else if (acpi_has_method(ACPI_HANDLE(&p->pdev->dev), "_INI"))
-> +               status = acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
-> +                                             "_RST", NULL, NULL);
-> +               if (ACPI_FAILURE(status)) {
->                         acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
->                                              "_INI", NULL, NULL);
-> +               }
->  #endif
-> -       }
+Hi Kelsey,
 
-Oops, I don't think you intended to remove that brace.
+I didn't get these applied before v5.3-rc1, so now they don't apply
+cleanly.  Would you mind refreshing them and posting a v2 that does
+apply to my "master" branch (v5.3-rc1)?
 
-If you haven't found it already, CONFIG_COMPILE_TEST is useful for
-building things that wouldn't normally be buildable on your arch.
-
->         if (!p->port_id) {
->                 xgene_enet_ecc_init(p);
+Bjorn
