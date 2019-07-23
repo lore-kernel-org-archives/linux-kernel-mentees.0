@@ -1,35 +1,22 @@
-From: sheriffesseson at gmail.com (Sheriff Esseson)
-Date: Tue, 23 Jul 2019 12:48:13 +0100
+From: corbet at lwn.net (Jonathan Corbet)
+Date: Tue, 23 Jul 2019 07:42:18 -0600
 Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystem: fix
 	"Removed Sysctls" table
-Message-ID: <20190723114813.GA14870@localhost>
+In-Reply-To: <20190723114813.GA14870@localhost>
+References: <20190723114813.GA14870@localhost>
+Message-ID: <20190723074218.4532737f@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-the "Removed Sysctls" section is a table - bring it alive with ReST.
+On Tue, 23 Jul 2019 12:48:13 +0100
+Sheriff Esseson <sheriffesseson at gmail.com> wrote:
 
-Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
----
- Documentation/admin-guide/xfs.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> the "Removed Sysctls" section is a table - bring it alive with ReST.
+> 
+> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
 
-diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
-index e76665a8f2f2..fb5b39f73059 100644
---- a/Documentation/admin-guide/xfs.rst
-+++ b/Documentation/admin-guide/xfs.rst
-@@ -337,11 +337,12 @@ None at present.
- Removed Sysctls
- ===============
- 
-+=============================	=======
-   Name				Removed
--  ----				-------
-+=============================	=======
-   fs.xfs.xfsbufd_centisec	v4.0
-   fs.xfs.age_buffer_centisecs	v4.0
--
-+=============================	=======
- 
- Error handling
- ==============
--- 
-2.22.0
+So this appears to be identical to the patch you sent three days ago; is
+there a reason why you are sending it again now?
+
+Thanks,
+
+jon
