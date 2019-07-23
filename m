@@ -1,60 +1,49 @@
 From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Tue, 23 Jul 2019 18:34:25 -0500
-Subject: [Linux-kernel-mentees] [PATCH v3] PCI: Remove functions not
- called in include/linux/pci.h
-In-Reply-To: <20190715203416.37547-1-skunberg.kelsey@gmail.com>
-References: <20190715181312.31403-1-skunberg.kelsey@gmail.com>
-	<20190715203416.37547-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190723233424.GC47047@google.com>
+Date: Tue, 23 Jul 2019 18:36:51 -0500
+Subject: [Linux-kernel-mentees] [PATCH] PCI: Remove unused
+ EXPORT_SYMBOL()s from drivers/pci/bus.c
+In-Reply-To: <20190717182353.45557-1-skunberg.kelsey@gmail.com>
+References: <20190717182353.45557-1-skunberg.kelsey@gmail.com>
+Message-ID: <20190723233651.GD47047@google.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190723233425.Sjo5NKTWh86cZ3uAr_wHzk2YcZDoO_hslfx0abH9T7Y@z>
+Message-ID: <20190723233651.H4MQVJLHUQsVsUg4MvdhTvXPbtsamU9WZGPL8MHmov0@z>
 
-On Mon, Jul 15, 2019 at 02:34:16PM -0600, Kelsey Skunberg wrote:
-> Remove the following uncalled functions from include/linux/pci.h:
+[+cc Greg]
+
+On Wed, Jul 17, 2019 at 12:23:53PM -0600, Kelsey Skunberg wrote:
+> pci_bus_get() and pci_bus_put() are not used by a loadable kernel module
+> and do not need to be exported. Remove lines exporting pci_bus_get() and
+> pci_bus_put().
 > 
->         pci_block_cfg_access()
->         pci_block_cfg_access_in_atomic()
->         pci_unblock_cfg_access()
-> 
-> Functions were added in commit fb51ccbf217c ("PCI: Rework config space
-> blocking services"), though no callers were added. Code continues to be
-> unused and should be removed.
+> Functions were exported in commit fe830ef62ac6 ("PCI: Introduce
+> pci_bus_{get|put}() to manage PCI bus reference count"). No found history
+> of functions being used by a loadable kernel module.
 > 
 > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 
-Applied with Lukas' reviewed-by (thank you!) to pci/hide for v5.4,
-thanks!
+Applied with Greg's ack to pci/hide for v5.4, thanks!
 
 > ---
+>  drivers/pci/bus.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> Changes since v1:
->   - Fixed Signed-off-by line to show full name
-> 
-> Changes since v2:
->   - Change commit message to reference prior commit properly with the
->     following format:
-> 	commit <12-character sha prefix> ("<commit message>")
-> 
->  include/linux/pci.h | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index cf380544c700..3c9ba6133bea 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -1656,11 +1656,6 @@ static inline void pci_release_regions(struct pci_dev *dev) { }
+> diff --git a/drivers/pci/bus.c b/drivers/pci/bus.c
+> index 495059d923f7..8e40b3e6da77 100644
+> --- a/drivers/pci/bus.c
+> +++ b/drivers/pci/bus.c
+> @@ -417,11 +417,9 @@ struct pci_bus *pci_bus_get(struct pci_bus *bus)
+>  		get_device(&bus->dev);
+>  	return bus;
+>  }
+> -EXPORT_SYMBOL(pci_bus_get);
 >  
->  static inline unsigned long pci_address_to_pio(phys_addr_t addr) { return -1; }
->  
-> -static inline void pci_block_cfg_access(struct pci_dev *dev) { }
-> -static inline int pci_block_cfg_access_in_atomic(struct pci_dev *dev)
-> -{ return 0; }
-> -static inline void pci_unblock_cfg_access(struct pci_dev *dev) { }
-> -
->  static inline struct pci_bus *pci_find_next_bus(const struct pci_bus *from)
->  { return NULL; }
->  static inline struct pci_dev *pci_get_slot(struct pci_bus *bus,
+>  void pci_bus_put(struct pci_bus *bus)
+>  {
+>  	if (bus)
+>  		put_device(&bus->dev);
+>  }
+> -EXPORT_SYMBOL(pci_bus_put);
 > -- 
 > 2.20.1
 > 
