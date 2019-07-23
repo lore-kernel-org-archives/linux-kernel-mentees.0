@@ -1,29 +1,37 @@
-From: davem@davemloft.net (David Miller)
-Date: Mon, 22 Jul 2019 18:17:31 -0700 (PDT)
-Subject: [Linux-kernel-mentees] [PATCH] drivers: net: xgene: Remove
-	acpi_has_method() calls
-In-Reply-To: <20190722030401.69563-1-skunberg.kelsey@gmail.com>
-References: <20190722030401.69563-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190722.181731.1661840445301919861.davem@davemloft.net>
+From: sheriffesseson@gmail.com (Sheriff Esseson)
+Date: Tue, 23 Jul 2019 12:48:13 +0100
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystem: fix
+	"Removed Sysctls" table
+Message-ID: <20190723114813.GA14870@localhost>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190723011731.ZQIB08XR8np63eNvwGuuVc5pYIOrGRq4y-h98kUyfrI@z>
+Message-ID: <20190723114813.KxUK3TJkt5gYDhkUz4DZ4f2GQJOVr1pbp51ch-TBiv8@z>
 
-From: Kelsey Skunberg <skunberg.kelsey@gmail.com>
-Date: Sun, 21 Jul 2019 21:04:01 -0600
+the "Removed Sysctls" section is a table - bring it alive with ReST.
 
-> +			 		      "_RST", NULL, NULL);
-               ^^^^
+Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+---
+ Documentation/admin-guide/xfs.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-SPACE before TAB in indentation.
-
-> +				 	      "_RST", NULL, NULL);
-                            ^^^^^^
-
-Likewise.
-
-GIT even warns about this when I try to apply this patch.
-
-Please fix this.
-
-Thank you.
+diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
+index e76665a8f2f2..fb5b39f73059 100644
+--- a/Documentation/admin-guide/xfs.rst
++++ b/Documentation/admin-guide/xfs.rst
+@@ -337,11 +337,12 @@ None at present.
+ Removed Sysctls
+ ===============
+ 
++=============================	=======
+   Name				Removed
+-  ----				-------
++=============================	=======
+   fs.xfs.xfsbufd_centisec	v4.0
+   fs.xfs.age_buffer_centisecs	v4.0
+-
++=============================	=======
+ 
+ Error handling
+ ==============
+-- 
+2.22.0
