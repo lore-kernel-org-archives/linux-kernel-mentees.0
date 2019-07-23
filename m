@@ -1,64 +1,49 @@
-From: davem@davemloft.net (David Miller)
-Date: Tue, 23 Jul 2019 14:07:39 -0700 (PDT)
-Subject: [Linux-kernel-mentees] [PATCH v2] drivers: net: xgene: Remove
-	acpi_has_method() calls
-In-Reply-To: <20190723.140646.505566792140054611.davem@davemloft.net>
-References: <20190722030401.69563-1-skunberg.kelsey@gmail.com>
-	<20190723185811.8548-1-skunberg.kelsey@gmail.com>
-	<20190723.140646.505566792140054611.davem@davemloft.net>
-Message-ID: <20190723.140739.379654507424022463.davem@davemloft.net>
+From: david@fromorbit.com (Dave Chinner)
+Date: Wed, 24 Jul 2019 08:21:42 +1000
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystem: fix
+	"Removed Sysctls" table
+In-Reply-To: <20190723145201.GA20658@localhost>
+References: <20190723114813.GA14870@localhost>
+	<20190723074218.4532737f@lwn.net>
+	<20190723145201.GA20658@localhost>
+Message-ID: <20190723222142.GS7689@dread.disaster.area>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190723210739.PfxfjZQ_TtTG8jaZjbNKcX5ukMNcPt7VPX9XiONEgYs@z>
+Message-ID: <20190723222142.FK6AfeixK6on33ujgEM6icIYebTF1qMlBN-GbOL9Hm4@z>
 
-From: David Miller <davem@davemloft.net>
-Date: Tue, 23 Jul 2019 14:06:46 -0700 (PDT)
-
-> From: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> Date: Tue, 23 Jul 2019 12:58:11 -0600
+On Tue, Jul 23, 2019 at 03:52:01PM +0100, Sheriff Esseson wrote:
+> On Tue, Jul 23, 2019 at 07:42:18AM -0600, Jonathan Corbet wrote:
+> > On Tue, 23 Jul 2019 12:48:13 +0100
+> > Sheriff Esseson <sheriffesseson at gmail.com> wrote:
+> > 
+> > > the "Removed Sysctls" section is a table - bring it alive with ReST.
+> > > 
+> > > Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+> > 
+> > So this appears to be identical to the patch you sent three days ago; is
+> > there a reason why you are sending it again now?
+> > 
+> > Thanks,
+> > 
+> > jon
 > 
->> acpi_evaluate_object will already return an error if the needed method
->> does not exist. Remove unnecessary acpi_has_method() calls and check the
->> returned acpi_status for failure instead.
->> 
->> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
->> ---
->> Changes in v2:
->> 	- Fixed white space warnings and errors
-> 
-> Applied to net-next.
+> Sorry, I was think the patch went unnoticed during the merge window - I could
+> not find a response.
 
-Wow did you even build test this?   Reverted...
+The correct thing to do in that case is to reply to the original
+patch and ask if it has been looked at. The usual way of doing this
+is quoting the commit message and replying with a "Ping?" comment
+to bump it back to the top of everyone's mail stacks.
 
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c: In function ?xgene_enet_reset?:
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:480:13: error: invalid storage class for function ?xgene_enet_cle_bypass?
- static void xgene_enet_cle_bypass(struct xgene_enet_pdata *p,
-             ^~~~~~~~~~~~~~~~~~~~~
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:480:1: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
- static void xgene_enet_cle_bypass(struct xgene_enet_pdata *p,
- ^~~~~~
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:506:13: error: invalid storage class for function ?xgene_enet_clear?
- static void xgene_enet_clear(struct xgene_enet_pdata *pdata,
-             ^~~~~~~~~~~~~~~~
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:522:13: error: invalid storage class for function ?xgene_enet_shutdown?
- static void xgene_enet_shutdown(struct xgene_enet_pdata *p)
-             ^~~~~~~~~~~~~~~~~~~
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:532:13: error: invalid storage class for function ?xgene_enet_link_state?
- static void xgene_enet_link_state(struct work_struct *work)
-             ^~~~~~~~~~~~~~~~~~~~~
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:563:13: error: invalid storage class for function ?xgene_sgmac_enable_tx_pause?
- static void xgene_sgmac_enable_tx_pause(struct xgene_enet_pdata *p, bool enable)
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:604:1: error: expected declaration or statement at end of input
- };
- ^
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:599:29: warning: unused variable ?xgene_sgport_ops? [-Wunused-variable]
- const struct xgene_port_ops xgene_sgport_ops = {
-                             ^~~~~~~~~~~~~~~~
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:582:28: warning: unused variable ?xgene_sgmac_ops? [-Wunused-variable]
- const struct xgene_mac_ops xgene_sgmac_ops = {
-                            ^~~~~~~~~~~~~~~
-At top level:
-drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c:437:12: warning: ?xgene_enet_reset? defined but not used [-Wunused-function]
- static int xgene_enet_reset(struct xgene_enet_pdata *p)
-            ^~~~~~~~~~~~~~~~
+But, again, 3 days is not a long time, people tend to be extremely
+busy and might take a few days to get to reviewing non-critical
+changes, and people may not even review patches during the merge
+window. I'd suggest waiting a week before pinging a patch you've
+sent if there's been no response....
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david at fromorbit.com
