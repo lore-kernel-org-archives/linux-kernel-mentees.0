@@ -1,47 +1,53 @@
-From: david at fromorbit.com (Dave Chinner)
-Date: Wed, 24 Jul 2019 08:21:42 +1000
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystem: fix
-	"Removed Sysctls" table
-In-Reply-To: <20190723145201.GA20658@localhost>
-References: <20190723114813.GA14870@localhost>
-	<20190723074218.4532737f@lwn.net>
-	<20190723145201.GA20658@localhost>
-Message-ID: <20190723222142.GS7689@dread.disaster.area>
+From: bjorn.helgaas at gmail.com (Bjorn Helgaas)
+Date: Tue, 23 Jul 2019 17:56:04 -0500
+Subject: [Linux-kernel-mentees] [PATCH v2] drivers: net: xgene: Remove
+	acpi_has_method() calls
+In-Reply-To: <20190723185811.8548-1-skunberg.kelsey@gmail.com>
+References: <20190722030401.69563-1-skunberg.kelsey@gmail.com>
+	<20190723185811.8548-1-skunberg.kelsey@gmail.com>
+Message-ID: <CABhMZUVAcJwJpN8BKZTTU7jUW6881KdBtoYs_3kSn+tDtOVqNw@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Jul 23, 2019 at 03:52:01PM +0100, Sheriff Esseson wrote:
-> On Tue, Jul 23, 2019 at 07:42:18AM -0600, Jonathan Corbet wrote:
-> > On Tue, 23 Jul 2019 12:48:13 +0100
-> > Sheriff Esseson <sheriffesseson at gmail.com> wrote:
-> > 
-> > > the "Removed Sysctls" section is a table - bring it alive with ReST.
-> > > 
-> > > Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
-> > 
-> > So this appears to be identical to the patch you sent three days ago; is
-> > there a reason why you are sending it again now?
-> > 
-> > Thanks,
-> > 
-> > jon
-> 
-> Sorry, I was think the patch went unnoticed during the merge window - I could
-> not find a response.
+On Tue, Jul 23, 2019 at 1:59 PM Kelsey Skunberg
+<skunberg.kelsey at gmail.com> wrote:
+>
+> acpi_evaluate_object will already return an error if the needed method
+> does not exist. Remove unnecessary acpi_has_method() calls and check the
+> returned acpi_status for failure instead.
 
-The correct thing to do in that case is to reply to the original
-patch and ask if it has been looked at. The usual way of doing this
-is quoting the commit message and replying with a "Ping?" comment
-to bump it back to the top of everyone's mail stacks.
+> diff --git a/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c b/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
+> index 6453fc2ebb1f..5d637b46b2bf 100644
+> --- a/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
+> +++ b/drivers/net/ethernet/apm/xgene/xgene_enet_sgmac.c
+> @@ -437,6 +437,7 @@ static void xgene_sgmac_tx_disable(struct xgene_enet_pdata *p)
+>  static int xgene_enet_reset(struct xgene_enet_pdata *p)
+>  {
+>         struct device *dev = &p->pdev->dev;
+> +       acpi_status status;
+>
+>         if (!xgene_ring_mgr_init(p))
+>                 return -ENODEV;
+> @@ -460,14 +461,13 @@ static int xgene_enet_reset(struct xgene_enet_pdata *p)
+>                 }
+>         } else {
+>  #ifdef CONFIG_ACPI
+> -               if (acpi_has_method(ACPI_HANDLE(&p->pdev->dev), "_RST"))
+> -                       acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
+> -                                            "_RST", NULL, NULL);
+> -               else if (acpi_has_method(ACPI_HANDLE(&p->pdev->dev), "_INI"))
+> +               status = acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
+> +                                             "_RST", NULL, NULL);
+> +               if (ACPI_FAILURE(status)) {
+>                         acpi_evaluate_object(ACPI_HANDLE(&p->pdev->dev),
+>                                              "_INI", NULL, NULL);
+> +               }
+>  #endif
+> -       }
 
-But, again, 3 days is not a long time, people tend to be extremely
-busy and might take a few days to get to reviewing non-critical
-changes, and people may not even review patches during the merge
-window. I'd suggest waiting a week before pinging a patch you've
-sent if there's been no response....
+Oops, I don't think you intended to remove that brace.
 
-Cheers,
+If you haven't found it already, CONFIG_COMPILE_TEST is useful for
+building things that wouldn't normally be buildable on your arch.
 
-Dave.
--- 
-Dave Chinner
-david at fromorbit.com
+>         if (!p->port_id) {
+>                 xgene_enet_ecc_init(p);
