@@ -1,21 +1,28 @@
-From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Wed, 24 Jul 2019 11:52:01 -0600
-Subject: [Linux-kernel-mentees] Fall 2019 Completed applications due on July
-	26th
-Message-ID: <f8c5d7fd-ca91-3566-2753-03f2c064994a@linuxfoundation.org>
+From: davem@davemloft.net (David Miller)
+Date: Wed, 24 Jul 2019 11:30:08 -0700 (PDT)
+Subject: [Linux-kernel-mentees] [PATCH v3] drivers: net: xgene: Remove
+	acpi_has_method() calls
+In-Reply-To: <20190724060659.105292-1-skunberg.kelsey@gmail.com>
+References: <20190723185811.8548-1-skunberg.kelsey@gmail.com>
+	<20190724060659.105292-1-skunberg.kelsey@gmail.com>
+Message-ID: <20190724.113008.1837834250766825392.davem@davemloft.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190724175201.JUzKOQ86ZRMAJbxggflZ2OlM5mZc51empWdmhIf58cc@z>
+Message-ID: <20190724183008.Slcp-MK8YEOvusiBA_Vv259XVl59bwkso-hIYv_YUco@z>
 
-This is a reminder to mentee candidates that started Fall 2019
-application process on the June 17th that the completed applications
-are due on July 26th.
+From: Kelsey Skunberg <skunberg.kelsey@gmail.com>
+Date: Wed, 24 Jul 2019 00:06:59 -0600
 
-I look forward reading about your experiences and reviewing the work
-you have done these past 6 weeks.
+> acpi_evaluate_object will already return an error if the needed method
+> does not exist. Remove unnecessary acpi_has_method() calls and check the
+> returned acpi_status for failure instead.
+> 
+> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> ---
+> Changes in v2:
+> 	- Fixed white space warnings and errors
+> 
+> Changes in v3:
+> 	- Resolved build errors caused by missing bracket
 
-For those that have already sent me the completed applications, thanks
-and you can disregard this reminder.
-
-thanks,
--- Shuah
+Applied, will push out after build testing :)
