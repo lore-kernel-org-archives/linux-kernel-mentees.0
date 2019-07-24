@@ -1,58 +1,77 @@
 From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Wed, 24 Jul 2019 17:38:47 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 10/11] PCI: Move PTM declaration
-	to drivers/pci/pci.h
+Date: Wed, 24 Jul 2019 17:38:48 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 11/11] PCI: Move pci_*_node()
+	declarations to drivers/pci/pci.h
 In-Reply-To: <20190724233848.73327-1-skunberg.kelsey@gmail.com>
 References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
 	<20190724233848.73327-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190724233848.73327-11-skunberg.kelsey@gmail.com>
+Message-ID: <20190724233848.73327-12-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190724233847.T4QJLqqLEWEEMQuURY-iMhjla4wBKvcmlo_e3Wvi0D4@z>
+Message-ID: <20190724233848.NmqxvBkprcImwxkUXVHh0gAVsfu35xWmr_O-Nj3PHj4@z>
 
-pci_enable_ptm() is only called within drivers/pci/. Since declaration
-does not need to be visible to the rest of the kernel, move to
+pci_*_node() is only called from drivers/pci/. Since these declarations do
+not need to be visible to the rest of the kernel, move to
 drivers/pci/pci.h.
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- drivers/pci/pci.h   | 3 +++
- include/linux/pci.h | 7 -------
- 2 files changed, 3 insertions(+), 7 deletions(-)
+ drivers/pci/pci.h   | 9 +++++++++
+ include/linux/pci.h | 8 --------
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 5e5ce04bda59..6cdc3500de15 100644
+index 6cdc3500de15..27089a87dfea 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -551,8 +551,11 @@ static inline void pcie_ecrc_get_policy(char *str) { }
+@@ -592,6 +592,10 @@ struct device_node;
+ int of_pci_parse_bus_range(struct device_node *node, struct resource *res);
+ int of_get_pci_domain_nr(struct device_node *node);
+ int of_pci_get_max_link_speed(struct device_node *node);
++void pci_set_of_node(struct pci_dev *dev);
++void pci_release_of_node(struct pci_dev *dev);
++void pci_set_bus_of_node(struct pci_bus *bus);
++void pci_release_bus_of_node(struct pci_bus *bus);
  
- #ifdef CONFIG_PCIE_PTM
- void pci_ptm_init(struct pci_dev *dev);
-+int pci_enable_ptm(struct pci_dev *dev, u8 *granularity);
  #else
- static inline void pci_ptm_init(struct pci_dev *dev) { }
-+static inline int pci_enable_ptm(struct pci_dev *dev, u8 *granularity)
-+{ return -EINVAL; }
- #endif
+ static inline int
+@@ -611,6 +615,11 @@ of_pci_get_max_link_speed(struct device_node *node)
+ {
+ 	return -EINVAL;
+ }
++
++static inline void pci_set_of_node(struct pci_dev *dev) { }
++static inline void pci_release_of_node(struct pci_dev *dev) { }
++static inline void pci_set_bus_of_node(struct pci_bus *bus) { }
++static inline void pci_release_bus_of_node(struct pci_bus *bus) { }
+ #endif /* CONFIG_OF */
  
- struct pci_dev_reset_methods {
+ #if defined(CONFIG_OF_ADDRESS)
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 5dd4abeef8b0..a483b7598059 100644
+index a483b7598059..d354fbcee5a7 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -1561,13 +1561,6 @@ static inline bool pci_aer_available(void) { return false; }
+@@ -2264,10 +2264,6 @@ int pci_vpd_find_info_keyword(const u8 *buf, unsigned int off,
+ #ifdef CONFIG_OF
+ struct device_node;
+ struct irq_domain;
+-void pci_set_of_node(struct pci_dev *dev);
+-void pci_release_of_node(struct pci_dev *dev);
+-void pci_set_bus_of_node(struct pci_bus *bus);
+-void pci_release_bus_of_node(struct pci_bus *bus);
+ struct irq_domain *pci_host_bridge_of_msi_domain(struct pci_bus *bus);
+ int pci_parse_request_of_pci_ranges(struct device *dev,
+ 				    struct list_head *resources,
+@@ -2277,10 +2273,6 @@ int pci_parse_request_of_pci_ranges(struct device *dev,
+ struct device_node *pcibios_get_phb_of_node(struct pci_bus *bus);
  
- bool pci_ats_disabled(void);
- 
--#ifdef CONFIG_PCIE_PTM
--int pci_enable_ptm(struct pci_dev *dev, u8 *granularity);
--#else
--static inline int pci_enable_ptm(struct pci_dev *dev, u8 *granularity)
--{ return -EINVAL; }
--#endif
--
- void pci_cfg_access_lock(struct pci_dev *dev);
- bool pci_cfg_access_trylock(struct pci_dev *dev);
- void pci_cfg_access_unlock(struct pci_dev *dev);
+ #else	/* CONFIG_OF */
+-static inline void pci_set_of_node(struct pci_dev *dev) { }
+-static inline void pci_release_of_node(struct pci_dev *dev) { }
+-static inline void pci_set_bus_of_node(struct pci_bus *bus) { }
+-static inline void pci_release_bus_of_node(struct pci_bus *bus) { }
+ static inline struct irq_domain *
+ pci_host_bridge_of_msi_domain(struct pci_bus *bus) { return NULL; }
+ static inline int pci_parse_request_of_pci_ranges(struct device *dev,
 -- 
 2.20.1
