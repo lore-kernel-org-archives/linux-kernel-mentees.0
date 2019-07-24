@@ -1,48 +1,50 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Wed, 24 Jul 2019 17:38:39 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 02/11] PCI: Move PME declarations
-	to drivers/pci/pci.h
+Date: Wed, 24 Jul 2019 17:38:40 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 03/11] PCI: Move
+	*_host_bridge_device() declarations to drivers/pci.pci.h
 In-Reply-To: <20190724233848.73327-1-skunberg.kelsey@gmail.com>
 References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
 	<20190724233848.73327-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190724233848.73327-3-skunberg.kelsey@gmail.com>
+Message-ID: <20190724233848.73327-4-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-pci_check_pme_status() and pci_pme_wakeup_bus() are only
-called within drivers/pci/. Since declarations do not need to be visible
-to the rest of the kernel, move to drivers/pci/pci.h.
+pci_get_host_bridge_device() and pci_put_host_bridge_device() are only
+called within drivers/pci/pci.h. Since declarations do not need to be
+visible to the rest of the kernel, move to drives/pci/pci.h.
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- drivers/pci/pci.h   | 2 ++
- include/linux/pci.h | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/pci/pci.h   | 3 +++
+ include/linux/pci.h | 3 ---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 708413632429..ad1fe54ab8ee 100644
+index ad1fe54ab8ee..f41dde136648 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -89,6 +89,8 @@ void pci_power_up(struct pci_dev *dev);
- void pci_disable_enabled_device(struct pci_dev *dev);
- int pci_finish_runtime_suspend(struct pci_dev *dev);
- void pcie_clear_root_pme_status(struct pci_dev *dev);
-+bool pci_check_pme_status(struct pci_dev *dev);
-+void pci_pme_wakeup_bus(struct pci_bus *bus);
- int __pci_pme_wakeup(struct pci_dev *dev, void *ign);
- void pci_pme_restore(struct pci_dev *dev);
- bool pci_dev_need_resume(struct pci_dev *dev);
+@@ -105,6 +105,9 @@ void pci_free_cap_save_buffers(struct pci_dev *dev);
+ bool pci_bridge_d3_possible(struct pci_dev *dev);
+ void pci_bridge_d3_update(struct pci_dev *dev);
+ 
++struct device *pci_get_host_bridge_device(struct pci_dev *dev);
++void pci_put_host_bridge_device(struct device *dev);
++
+ static inline void pci_wakeup_event(struct pci_dev *dev)
+ {
+ 	/* Wait 100 ms before the system can be put into a sleep state. */
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 238449460210..e1f784de459f 100644
+index e1f784de459f..cd49427e198e 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -1236,8 +1236,6 @@ int pci_wake_from_d3(struct pci_dev *dev, bool enable);
- int pci_prepare_to_sleep(struct pci_dev *dev);
- int pci_back_from_sleep(struct pci_dev *dev);
- bool pci_dev_run_wake(struct pci_dev *dev);
--bool pci_check_pme_status(struct pci_dev *dev);
--void pci_pme_wakeup_bus(struct pci_bus *bus);
- void pci_d3cold_enable(struct pci_dev *dev);
- void pci_d3cold_disable(struct pci_dev *dev);
- bool pcie_relaxed_ordering_enabled(struct pci_dev *dev);
+@@ -644,9 +644,6 @@ static inline struct pci_dev *pci_upstream_bridge(struct pci_dev *dev)
+ 	return dev->bus->self;
+ }
+ 
+-struct device *pci_get_host_bridge_device(struct pci_dev *dev);
+-void pci_put_host_bridge_device(struct device *dev);
+-
+ #ifdef CONFIG_PCI_MSI
+ static inline bool pci_dev_msi_enabled(struct pci_dev *pci_dev)
+ {
 -- 
 2.20.1
