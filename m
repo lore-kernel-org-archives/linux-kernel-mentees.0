@@ -1,28 +1,41 @@
-From: davem@davemloft.net (David Miller)
-Date: Wed, 24 Jul 2019 11:30:08 -0700 (PDT)
-Subject: [Linux-kernel-mentees] [PATCH v3] drivers: net: xgene: Remove
-	acpi_has_method() calls
-In-Reply-To: <20190724060659.105292-1-skunberg.kelsey@gmail.com>
-References: <20190723185811.8548-1-skunberg.kelsey@gmail.com>
-	<20190724060659.105292-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190724.113008.1837834250766825392.davem@davemloft.net>
+From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
+Date: Wed, 24 Jul 2019 17:38:37 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 00/11] Hide PCI symbols that don't
+	need to be global
+In-Reply-To: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
+References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
+Message-ID: <20190724233848.73327-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190724183008.Slcp-MK8YEOvusiBA_Vv259XVl59bwkso-hIYv_YUco@z>
+Message-ID: <20190724233837.2an-RWcw2ba4deb1amK6VDme63zO2bSL52TWBWaHbUA@z>
 
-From: Kelsey Skunberg <skunberg.kelsey@gmail.com>
-Date: Wed, 24 Jul 2019 00:06:59 -0600
+The include/linux/pci.h header file defines several symbols that are used
+only in drivers/pci/. These symbols do not need to be visible to the rest
+of the kernel. Move PCI symbols that are only used in drivers/pci/ to
+drivers/pci/pci.h.
 
-> acpi_evaluate_object will already return an error if the needed method
-> does not exist. Remove unnecessary acpi_has_method() calls and check the
-> returned acpi_status for failure instead.
-> 
-> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> ---
-> Changes in v2:
-> 	- Fixed white space warnings and errors
-> 
-> Changes in v3:
-> 	- Resolved build errors caused by missing bracket
+Changes in v2:
+        - Built patches to work with v5.3-rc1
+        - Changed line lengths on commit logs to stay below 80 characters
+	- Changed cover-letter log to better explain patch series
 
-Applied, will push out after build testing :)
+
+Kelsey Skunberg (11):
+  PCI: Move #define PCI_PM_* lines to drivers/pci/pci.h
+  PCI: Move PME declarations to drivers/pci/pci.h
+  PCI: Move *_host_bridge_device() declarations to drivers/pci.pci.h
+  PCI: Move PCI Virtual Channel declarations to drivers/pci/pci.h
+  PCI: Move pci_hotplug_*_size declarations to drivers/pci/pci.h
+  PCI: Move pci_bus_* declarations to drivers/pci/pci.h
+  PCI: Move pcie_update_link_speed() to drivers/pci/pci.h
+  PCI: Move pci_ats_init() to drivers/pci/pci.h
+  PCI: Move ECRC declarations to drivers/pci/pci.h
+  PCI: Move PTM declaration to drivers/pci/pci.h
+  PCI: Move pci_*_node() declarations to drivers/pci/pci.h
+
+ drivers/pci/pci.h   | 48 ++++++++++++++++++++++++++++++++++++++++++---
+ include/linux/pci.h | 47 --------------------------------------------
+ 2 files changed, 45 insertions(+), 50 deletions(-)
+
+-- 
+2.20.1
