@@ -1,51 +1,48 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Wed, 24 Jul 2019 17:38:42 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 05/11] PCI: Move
-	pci_hotplug_*_size declarations to drivers/pci/pci.h
+Date: Wed, 24 Jul 2019 17:38:43 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 06/11] PCI: Move pci_bus_*
+	declarations to drivers/pci/pci.h
 In-Reply-To: <20190724233848.73327-1-skunberg.kelsey@gmail.com>
 References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
 	<20190724233848.73327-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190724233848.73327-6-skunberg.kelsey@gmail.com>
+Message-ID: <20190724233848.73327-7-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-pci_hotplug_*_size declarations are only called within drivers/pci/pci/.
-Since declarations do not need to be seen by the rest of the kernel, move
-to drivers/pci/pci.h.
+pci_bus_* declarations are only called within drivers/pci/. Since
+declarations do not need to be visible to the rest of the kernel, move to
+drivers/pci/pci.h.
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- drivers/pci/pci.h   | 3 +++
- include/linux/pci.h | 4 ----
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ drivers/pci/pci.h   | 2 ++
+ include/linux/pci.h | 2 --
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 0eb0fb7ad353..9391330805e9 100644
+index 9391330805e9..3e9dfca4b661 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -211,6 +211,9 @@ extern const struct attribute_group *pcibus_groups[];
- extern const struct device_type pci_dev_type;
- extern const struct attribute_group *pci_bus_groups[];
+@@ -274,6 +274,8 @@ bool pci_bus_clip_resource(struct pci_dev *dev, int idx);
  
-+extern unsigned long pci_hotplug_io_size;
-+extern unsigned long pci_hotplug_mem_size;
-+extern unsigned long pci_hotplug_bus_size;
+ void pci_reassigndev_resource_alignment(struct pci_dev *dev);
+ void pci_disable_bridge_window(struct pci_dev *dev);
++struct pci_bus *pci_bus_get(struct pci_bus *bus);
++void pci_bus_put(struct pci_bus *bus);
  
- /**
-  * pci_match_one_device - Tell if a PCI device structure has a matching
+ /* PCIe link information */
+ #define PCIE_SPEED2STR(speed) \
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index d1944e3e7eb2..9c9554906659 100644
+index 9c9554906659..af59ecf8ccff 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -2015,10 +2015,6 @@ extern unsigned long pci_cardbus_mem_size;
- extern u8 pci_dfl_cache_line_size;
- extern u8 pci_cache_line_size;
+@@ -1282,8 +1282,6 @@ int pci_request_selected_regions_exclusive(struct pci_dev *, int, const char *);
+ void pci_release_selected_regions(struct pci_dev *, int);
  
--extern unsigned long pci_hotplug_io_size;
--extern unsigned long pci_hotplug_mem_size;
--extern unsigned long pci_hotplug_bus_size;
--
- /* Architecture-specific versions may override these (weak) */
- void pcibios_disable_device(struct pci_dev *dev);
- void pcibios_set_master(struct pci_dev *dev);
+ /* drivers/pci/bus.c */
+-struct pci_bus *pci_bus_get(struct pci_bus *bus);
+-void pci_bus_put(struct pci_bus *bus);
+ void pci_add_resource(struct list_head *resources, struct resource *res);
+ void pci_add_resource_offset(struct list_head *resources, struct resource *res,
+ 			     resource_size_t offset);
 -- 
 2.20.1
