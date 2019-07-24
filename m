@@ -1,56 +1,53 @@
 From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Wed, 24 Jul 2019 17:38:41 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 04/11] PCI: Move PCI Virtual
-	Channel declarations to drivers/pci/pci.h
+Date: Wed, 24 Jul 2019 17:38:42 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 05/11] PCI: Move
+	pci_hotplug_*_size declarations to drivers/pci/pci.h
 In-Reply-To: <20190724233848.73327-1-skunberg.kelsey@gmail.com>
 References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
 	<20190724233848.73327-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190724233848.73327-5-skunberg.kelsey@gmail.com>
+Message-ID: <20190724233848.73327-6-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190724233841.ugUfX0TRITFuQL6HyK_1SD5uq9m7yOcplN4_ThRinOw@z>
+Message-ID: <20190724233842.2YGrWHI7OOFh5bxMQmDSyLSy82Rmtknz8VtPy77j9AA@z>
 
-PCI Virtual Channel declarations are only called within drivers/pci/.
-Since declarations do not need to be visible to the rest of the kernel,
-move to drivers/pci/pci.h.
+pci_hotplug_*_size declarations are only called within drivers/pci/pci/.
+Since declarations do not need to be seen by the rest of the kernel, move
+to drivers/pci/pci.h.
 
 Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
- drivers/pci/pci.h   | 5 +++++
- include/linux/pci.h | 5 -----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/pci/pci.h   | 3 +++
+ include/linux/pci.h | 4 ----
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index f41dde136648..0eb0fb7ad353 100644
+index 0eb0fb7ad353..9391330805e9 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -133,6 +133,11 @@ void pci_vpd_release(struct pci_dev *dev);
- void pcie_vpd_create_sysfs_dev_files(struct pci_dev *dev);
- void pcie_vpd_remove_sysfs_dev_files(struct pci_dev *dev);
+@@ -211,6 +211,9 @@ extern const struct attribute_group *pcibus_groups[];
+ extern const struct device_type pci_dev_type;
+ extern const struct attribute_group *pci_bus_groups[];
  
-+/* PCI Virtual Channel */
-+int pci_save_vc_state(struct pci_dev *dev);
-+void pci_restore_vc_state(struct pci_dev *dev);
-+void pci_allocate_vc_save_buffers(struct pci_dev *dev);
-+
- /* PCI /proc functions */
- #ifdef CONFIG_PROC_FS
- int pci_proc_attach_device(struct pci_dev *dev);
++extern unsigned long pci_hotplug_io_size;
++extern unsigned long pci_hotplug_mem_size;
++extern unsigned long pci_hotplug_bus_size;
+ 
+ /**
+  * pci_match_one_device - Tell if a PCI device structure has a matching
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index cd49427e198e..d1944e3e7eb2 100644
+index d1944e3e7eb2..9c9554906659 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -1239,11 +1239,6 @@ bool pcie_relaxed_ordering_enabled(struct pci_dev *dev);
- void pci_wakeup_bus(struct pci_bus *bus);
- void pci_bus_set_current_state(struct pci_bus *bus, pci_power_t state);
+@@ -2015,10 +2015,6 @@ extern unsigned long pci_cardbus_mem_size;
+ extern u8 pci_dfl_cache_line_size;
+ extern u8 pci_cache_line_size;
  
--/* PCI Virtual Channel */
--int pci_save_vc_state(struct pci_dev *dev);
--void pci_restore_vc_state(struct pci_dev *dev);
--void pci_allocate_vc_save_buffers(struct pci_dev *dev);
+-extern unsigned long pci_hotplug_io_size;
+-extern unsigned long pci_hotplug_mem_size;
+-extern unsigned long pci_hotplug_bus_size;
 -
- /* For use by arch with custom probe code */
- void set_pcie_port_type(struct pci_dev *pdev);
- void set_pcie_hotplug_bridge(struct pci_dev *pdev);
+ /* Architecture-specific versions may override these (weak) */
+ void pcibios_disable_device(struct pci_dev *dev);
+ void pcibios_set_master(struct pci_dev *dev);
 -- 
 2.20.1
