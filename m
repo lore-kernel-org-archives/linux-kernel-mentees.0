@@ -1,39 +1,62 @@
-From: helgaas at kernel.org (Bjorn Helgaas)
-Date: Tue, 23 Jul 2019 18:37:13 -0500
-Subject: [Linux-kernel-mentees] [PATCH] PCI: Stop exporting pci_bus_sem
-In-Reply-To: <20190718032951.40188-1-skunberg.kelsey@gmail.com>
-References: <20190718032951.40188-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190723233713.GE47047@google.com>
+From: tranmanphong at gmail.com (Phong Tran)
+Date: Wed, 24 Jul 2019 09:06:01 +0700
+Subject: [Linux-kernel-mentees] [PATCH] usb: wusbcore: fix unbalanced
+	get/put cluster_id
+In-Reply-To: <000000000000d48965058e589a94@google.com>
+References: <000000000000d48965058e589a94@google.com>
+Message-ID: <20190724020601.15257-1-tranmanphong@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Wed, Jul 17, 2019 at 09:29:52PM -0600, Kelsey Skunberg wrote:
-> pci_bus_sem is not used by a loadable kernel module and does not need to
-> be exported. Remove line exporting pci_bus_sem.
-> 
-> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+syzboot reported that
+https://syzkaller.appspot.com/bug?extid=fd2bd7df88c606eea4ef
 
-Applied to pci/hide for v5.4, thanks!
+There is not consitency parameter in cluste_id_get/put calling.
+In case of getting the id with result is failure, the wusbhc->cluster_id
+will not be updated and this can not be used for wusb_cluster_id_put().
 
-> ---
->  drivers/pci/search.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/pci/search.c b/drivers/pci/search.c
-> index 7f4e65872b8d..bade14002fd8 100644
-> --- a/drivers/pci/search.c
-> +++ b/drivers/pci/search.c
-> @@ -15,7 +15,6 @@
->  #include "pci.h"
->  
->  DECLARE_RWSEM(pci_bus_sem);
-> -EXPORT_SYMBOL_GPL(pci_bus_sem);
->  
->  /*
->   * pci_for_each_dma_alias - Iterate over DMA aliases for a device
-> -- 
-> 2.20.1
-> 
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees at lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+Tested report
+https://groups.google.com/d/msg/syzkaller-bugs/0znZopp3-9k/oxOrhLkLEgAJ
+
+Reported-by: syzbot+fd2bd7df88c606eea4ef at syzkaller.appspotmail.com
+
+Reproduce and gdb got the details:
+
+139		addr = wusb_cluster_id_get();
+(gdb) n
+140		if (addr == 0)
+(gdb) print addr
+$1 = 254 '\376'
+(gdb) n
+142		result = __hwahc_set_cluster_id(hwahc, addr);
+(gdb) print result
+$2 = -71
+(gdb) break wusb_cluster_id_put
+Breakpoint 3 at 0xffffffff836e3f20: file drivers/usb/wusbcore/wusbhc.c, line 384.
+(gdb) s
+Thread 2 hit Breakpoint 3, wusb_cluster_id_put (id=0 '\000') at drivers/usb/wusbcore/wusbhc.c:384
+384		id = 0xff - id;
+(gdb) n
+385		BUG_ON(id >= CLUSTER_IDS);
+(gdb) print id
+$3 = 255 '\377'
+
+Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+---
+ drivers/usb/host/hwa-hc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/host/hwa-hc.c b/drivers/usb/host/hwa-hc.c
+index 09a8ebd95588..6968b9f2b76b 100644
+--- a/drivers/usb/host/hwa-hc.c
++++ b/drivers/usb/host/hwa-hc.c
+@@ -159,7 +159,7 @@ static int hwahc_op_start(struct usb_hcd *usb_hcd)
+ 	return result;
+ 
+ error_set_cluster_id:
+-	wusb_cluster_id_put(wusbhc->cluster_id);
++	wusb_cluster_id_put(addr);
+ error_cluster_id_get:
+ 	goto out;
+ 
+-- 
+2.20.1
