@@ -1,52 +1,44 @@
-From: sheriffesseson at gmail.com (Sheriff Esseson)
-Date: Thu, 25 Jul 2019 01:51:01 +0100
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystem: fix
-	"Removed Sysctls" table
-In-Reply-To: <20190723222142.GS7689@dread.disaster.area>
-References: <20190723114813.GA14870@localhost>
-	<20190723074218.4532737f@lwn.net>
-	<20190723145201.GA20658@localhost>
-	<20190723222142.GS7689@dread.disaster.area>
-Message-ID: <20190725005101.GA21821@localhost>
+From: c0d1n61at3 at gmail.com (Jiunn Chang)
+Date: Wed, 24 Jul 2019 23:43:43 -0500
+Subject: [Linux-kernel-mentees] [SYZBOT REPORT] - KMSAN: uninit-value in
+ friio_power_ctrl
+Message-ID: <20190725044342.5cjwnf56y3avgdqo@rYz3n>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Wed, Jul 24, 2019 at 08:21:42AM +1000, Dave Chinner wrote:
-> On Tue, Jul 23, 2019 at 03:52:01PM +0100, Sheriff Esseson wrote:
-> > On Tue, Jul 23, 2019 at 07:42:18AM -0600, Jonathan Corbet wrote:
-> > > On Tue, 23 Jul 2019 12:48:13 +0100
-> > > Sheriff Esseson <sheriffesseson at gmail.com> wrote:
-> > > 
-> > > > the "Removed Sysctls" section is a table - bring it alive with ReST.
-> > > > 
-> > > > Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
-> > > 
-> > > So this appears to be identical to the patch you sent three days ago; is
-> > > there a reason why you are sending it again now?
-> > > 
-> > > Thanks,
-> > > 
-> > > jon
-> > 
-> > Sorry, I was think the patch went unnoticed during the merge window - I could
-> > not find a response.
-> 
-> The correct thing to do in that case is to reply to the original
-> patch and ask if it has been looked at. The usual way of doing this
-> is quoting the commit message and replying with a "Ping?" comment
-> to bump it back to the top of everyone's mail stacks.
-> 
-> But, again, 3 days is not a long time, people tend to be extremely
-> busy and might take a few days to get to reviewing non-critical
-> changes, and people may not even review patches during the merge
-> window. I'd suggest waiting a week before pinging a patch you've
-> sent if there's been no response....
+Hello,
 
-Okay, Thanks Dave.
+This is an analysis of the following Syzbot report:
 
-> 
-> Cheers,
-> 
-> Dave.
-> -- 
-> Dave Chinner
-> david at fromorbit.com
+https://syzkaller.appspot.com/bug?id=cad92e4d55bb8904e263a7342259804a2b7797f6
+
+I am able to reproduce this in KMSAN.  I compiled with clang 9.0.0 and used the
+syz program provided.
+
+The syz program will open a specific dvb device:  0x7a69, 0x1, 0x1936
+
+[  932.533552][ T8163] usb 1-1: New USB device found, idVendor=7a69, idProduct=0001, bcdDevice=19.36
+[  932.535827][ T8163] usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[  932.540947][ T8163] usb 1-1: config 0 descriptor??
+[  932.589823][ T8163] usb 1-1: dvb_usb_v2: found a '774 Friio White ISDB-T USB2.0' in warm state
+
+The code in question belongs to friio_reset() in drivers/media/usb/dvb-usb-v2/gl861.c:389.
+
+There is nothing wrong with the logic of the code.  KMSAN is a code smell that
+is usually simple to fix.  In this case the read buffer, rbuf, looks to be the
+variable in question.  It just needs to be initialized before it is used.
+
+Purposed fix:
+
+If my analysis is correct, both wbuf and rbuf should be initialized to zero
+before they are used.
+
++	u8 wbuf[2] = {}, rbuf[2] = {};
+
+I testing this locally and the KMSAN issue whent away.  I have submitted a test
+to KMSAN for confiramtion.
+
+I will submit a patch if the KMSAN test passes.
+
+THX,
+
+Jiunn
