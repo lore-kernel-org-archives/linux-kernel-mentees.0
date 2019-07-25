@@ -1,77 +1,54 @@
-From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Wed, 24 Jul 2019 17:38:48 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 11/11] PCI: Move pci_*_node()
-	declarations to drivers/pci/pci.h
-In-Reply-To: <20190724233848.73327-1-skunberg.kelsey@gmail.com>
-References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
-	<20190724233848.73327-1-skunberg.kelsey@gmail.com>
-Message-ID: <20190724233848.73327-12-skunberg.kelsey@gmail.com>
+From: sheriffesseson@gmail.com (Sheriff Esseson)
+Date: Thu, 25 Jul 2019 01:51:01 +0100
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystem: fix
+	"Removed Sysctls" table
+In-Reply-To: <20190723222142.GS7689@dread.disaster.area>
+References: <20190723114813.GA14870@localhost>
+	<20190723074218.4532737f@lwn.net>
+	<20190723145201.GA20658@localhost>
+	<20190723222142.GS7689@dread.disaster.area>
+Message-ID: <20190725005101.GA21821@localhost>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190724233848.NmqxvBkprcImwxkUXVHh0gAVsfu35xWmr_O-Nj3PHj4@z>
+Message-ID: <20190725005101.TLYTk3lUMH1rRC95rYYnucM-nyYjzOAZfpy6WG2U6hM@z>
 
-pci_*_node() is only called from drivers/pci/. Since these declarations do
-not need to be visible to the rest of the kernel, move to
-drivers/pci/pci.h.
+On Wed, Jul 24, 2019 at 08:21:42AM +1000, Dave Chinner wrote:
+> On Tue, Jul 23, 2019 at 03:52:01PM +0100, Sheriff Esseson wrote:
+> > On Tue, Jul 23, 2019 at 07:42:18AM -0600, Jonathan Corbet wrote:
+> > > On Tue, 23 Jul 2019 12:48:13 +0100
+> > > Sheriff Esseson <sheriffesseson at gmail.com> wrote:
+> > > 
+> > > > the "Removed Sysctls" section is a table - bring it alive with ReST.
+> > > > 
+> > > > Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
+> > > 
+> > > So this appears to be identical to the patch you sent three days ago; is
+> > > there a reason why you are sending it again now?
+> > > 
+> > > Thanks,
+> > > 
+> > > jon
+> > 
+> > Sorry, I was think the patch went unnoticed during the merge window - I could
+> > not find a response.
+> 
+> The correct thing to do in that case is to reply to the original
+> patch and ask if it has been looked at. The usual way of doing this
+> is quoting the commit message and replying with a "Ping?" comment
+> to bump it back to the top of everyone's mail stacks.
+> 
+> But, again, 3 days is not a long time, people tend to be extremely
+> busy and might take a few days to get to reviewing non-critical
+> changes, and people may not even review patches during the merge
+> window. I'd suggest waiting a week before pinging a patch you've
+> sent if there's been no response....
 
-Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
----
- drivers/pci/pci.h   | 9 +++++++++
- include/linux/pci.h | 8 --------
- 2 files changed, 9 insertions(+), 8 deletions(-)
+Okay, Thanks Dave.
 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 6cdc3500de15..27089a87dfea 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -592,6 +592,10 @@ struct device_node;
- int of_pci_parse_bus_range(struct device_node *node, struct resource *res);
- int of_get_pci_domain_nr(struct device_node *node);
- int of_pci_get_max_link_speed(struct device_node *node);
-+void pci_set_of_node(struct pci_dev *dev);
-+void pci_release_of_node(struct pci_dev *dev);
-+void pci_set_bus_of_node(struct pci_bus *bus);
-+void pci_release_bus_of_node(struct pci_bus *bus);
- 
- #else
- static inline int
-@@ -611,6 +615,11 @@ of_pci_get_max_link_speed(struct device_node *node)
- {
- 	return -EINVAL;
- }
-+
-+static inline void pci_set_of_node(struct pci_dev *dev) { }
-+static inline void pci_release_of_node(struct pci_dev *dev) { }
-+static inline void pci_set_bus_of_node(struct pci_bus *bus) { }
-+static inline void pci_release_bus_of_node(struct pci_bus *bus) { }
- #endif /* CONFIG_OF */
- 
- #if defined(CONFIG_OF_ADDRESS)
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index a483b7598059..d354fbcee5a7 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -2264,10 +2264,6 @@ int pci_vpd_find_info_keyword(const u8 *buf, unsigned int off,
- #ifdef CONFIG_OF
- struct device_node;
- struct irq_domain;
--void pci_set_of_node(struct pci_dev *dev);
--void pci_release_of_node(struct pci_dev *dev);
--void pci_set_bus_of_node(struct pci_bus *bus);
--void pci_release_bus_of_node(struct pci_bus *bus);
- struct irq_domain *pci_host_bridge_of_msi_domain(struct pci_bus *bus);
- int pci_parse_request_of_pci_ranges(struct device *dev,
- 				    struct list_head *resources,
-@@ -2277,10 +2273,6 @@ int pci_parse_request_of_pci_ranges(struct device *dev,
- struct device_node *pcibios_get_phb_of_node(struct pci_bus *bus);
- 
- #else	/* CONFIG_OF */
--static inline void pci_set_of_node(struct pci_dev *dev) { }
--static inline void pci_release_of_node(struct pci_dev *dev) { }
--static inline void pci_set_bus_of_node(struct pci_bus *bus) { }
--static inline void pci_release_bus_of_node(struct pci_bus *bus) { }
- static inline struct irq_domain *
- pci_host_bridge_of_msi_domain(struct pci_bus *bus) { return NULL; }
- static inline int pci_parse_request_of_pci_ranges(struct device *dev,
--- 
-2.20.1
+> 
+> Cheers,
+> 
+> Dave.
+> -- 
+> Dave Chinner
+> david at fromorbit.com
