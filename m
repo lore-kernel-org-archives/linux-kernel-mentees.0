@@ -1,72 +1,50 @@
-From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Thu, 25 Jul 2019 11:17:55 -0500
-Subject: [Linux-kernel-mentees] [SYZBOT REPORT] - KMSAN: uninit-value in
- friio_power_ctrl
-In-Reply-To: <20190725060127.GA31256@kroah.com>
-References: <20190725044342.5cjwnf56y3avgdqo@rYz3n>
-	<20190725060127.GA31256@kroah.com>
-Message-ID: <20190725161754.supygugtn3qnlg3h@rYz3n>
+From: andy.shevchenko at gmail.com (Andy Shevchenko)
+Date: Thu, 25 Jul 2019 20:58:43 +0300
+Subject: [Linux-kernel-mentees] [PATCH] platform: x86: Remove
+	acpi_has_method() call in wmi.c
+In-Reply-To: <20190722031158.70311-1-skunberg.kelsey@gmail.com>
+References: <20190722031158.70311-1-skunberg.kelsey@gmail.com>
+Message-ID: <CAHp75Vc4qSNs6Kx6BdO163fi=fYNfPNHy+m3XVpO5v755pu2DA@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Thu, Jul 25, 2019 at 08:01:27AM +0200, Greg KH wrote:
-> On Wed, Jul 24, 2019 at 11:43:43PM -0500, Jiunn Chang wrote:
-> > Hello,
-> > 
-> > This is an analysis of the following Syzbot report:
-> > 
-> > https://syzkaller.appspot.com/bug?id=cad92e4d55bb8904e263a7342259804a2b7797f6
-> > 
-> > I am able to reproduce this in KMSAN.  I compiled with clang 9.0.0 and used the
-> > syz program provided.
-> > 
-> > The syz program will open a specific dvb device:  0x7a69, 0x1, 0x1936
-> > 
-> > [  932.533552][ T8163] usb 1-1: New USB device found, idVendor=7a69, idProduct=0001, bcdDevice=19.36
-> > [  932.535827][ T8163] usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> > [  932.540947][ T8163] usb 1-1: config 0 descriptor??
-> > [  932.589823][ T8163] usb 1-1: dvb_usb_v2: found a '774 Friio White ISDB-T USB2.0' in warm state
-> > 
-> > The code in question belongs to friio_reset() in drivers/media/usb/dvb-usb-v2/gl861.c:389.
-> > 
-> > There is nothing wrong with the logic of the code.  KMSAN is a code smell that
-> > is usually simple to fix.  In this case the read buffer, rbuf, looks to be the
-> > variable in question.  It just needs to be initialized before it is used.
-> > 
-> > Purposed fix:
-> > 
-> > If my analysis is correct, both wbuf and rbuf should be initialized to zero
-> > before they are used.
-> > 
-> > +	u8 wbuf[2] = {}, rbuf[2] = {};
-> 
-> Why would wbuf need to be set, it is properly initialized before using.
+On Mon, Jul 22, 2019 at 6:13 AM Kelsey Skunberg
+<skunberg.kelsey at gmail.com> wrote:
+>
+> acpi_has_method() is unnecessary within __query_block() and should be
+> removed to avoid extra work.
+>
+> wc_status is initialized to AE_ERROR before the acpi_has_method() call.
+> acpi_has_method() and acpi_execute_simple_method() failing due to the
+> method not existing will result in the same outcome from __query_block().
+>
 
-  Hello Greg,
+Pushed to my review and testing queue, thanks!
 
-  You are right.  wbuf is fine as I only changed rbuf during local testing and
-  the kmsan warning went away.  I figured zero initializing both would not hurt
-  in this case.
+> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> ---
+>  drivers/platform/x86/wmi.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
+> index 784cea8572c2..59e9aa0f9643 100644
+> --- a/drivers/platform/x86/wmi.c
+> +++ b/drivers/platform/x86/wmi.c
+> @@ -340,9 +340,7 @@ static acpi_status __query_block(struct wmi_block *wblock, u8 instance,
+>                  * expensive, but have no corresponding WCxx method. So we
+>                  * should not fail if this happens.
+>                  */
+> -               if (acpi_has_method(handle, wc_method))
+> -                       wc_status = acpi_execute_simple_method(handle,
+> -                                                               wc_method, 1);
+> +               wc_status = acpi_execute_simple_method(handle, wc_method, 1);
+>         }
+>
+>         strcpy(method, "WQ");
+> --
+> 2.20.1
+>
 
-> 
-> And rbuf should also not need to be set to anything as the call to
-> gl861_i2c_read_ex() properly sets it, if the call is successful.
-> 
-> If the call is not successful, the return value is correctly tested for
-> before accessing the data.
 
-  Yep, I see that.  I came to my conclusions when the KMSAN warning went away after
-  initialzing rbuf to zero and testing.
-
-> 
-> So I do not think any kernel driver code needs to be changed here.
-
-  Okay, I will take a closer look.
-
-  Thanks for the help Greg.
-
-  Jiunn
-
-> 
-> thanks,
-> 
-> greg k-h
+-- 
+With Best Regards,
+Andy Shevchenko
