@@ -1,41 +1,35 @@
-From: corbet@lwn.net (Jonathan Corbet)
-Date: Fri, 26 Jul 2019 14:51:19 -0600
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystem: fix
-	"Removed Sysctls" table
-In-Reply-To: <20190723114813.GA14870@localhost>
-References: <20190723114813.GA14870@localhost>
-Message-ID: <20190726145119.5ef751e8@lwn.net>
+From: pbonzini@redhat.com (Paolo Bonzini)
+Date: Sat, 27 Jul 2019 00:19:27 +0200
+Subject: [Linux-kernel-mentees] [PATCH 2/3] Documentation: kvm: Convert
+	cpuid.txt to .rst
+In-Reply-To: <20190708142032.4fbd175e@lwn.net>
+References: <cover.1562448500.git.lnowakow@eng.ucsd.edu>
+	<e8cd24f40cdd23ed116679f4c3cfcf8849879bb4.1562448500.git.lnowakow@eng.ucsd.edu>
+	<20190708140022.5fa9d01f@lwn.net> <20190708201510.GA13296@luke-XPS-13>
+	<20190708142032.4fbd175e@lwn.net>
+Message-ID: <5a18d0c0-8bfa-c936-11e5-8238a89b5b5f@redhat.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190726205119.W25lKaY6fXWWp3ImDzgfR8JkNtrChpoLEtN2izhSzDE@z>
+Message-ID: <20190726221927.RW4ohUsOU0rC5e08PkvtDaI34X2cAtI24S8gmezgBUs@z>
 
-On Tue, 23 Jul 2019 12:48:13 +0100
-Sheriff Esseson <sheriffesseson at gmail.com> wrote:
-
-> the "Removed Sysctls" section is a table - bring it alive with ReST.
+On 08/07/19 22:20, Jonathan Corbet wrote:
+>>>> +:Author: Glauber Costa <glommer at redhat.com>, Red Hat Inc, 2010  
+>>> I rather suspect that email address doesn't work these days.
+>>>   
+>> No I guess it wont :). We would still keep this correct? 
+> There's nothing good that will come from keeping a broken email address
+> there.  You could either:
 > 
-> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
-> ---
->  Documentation/admin-guide/xfs.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
-> index e76665a8f2f2..fb5b39f73059 100644
-> --- a/Documentation/admin-guide/xfs.rst
-> +++ b/Documentation/admin-guide/xfs.rst
-> @@ -337,11 +337,12 @@ None at present.
->  Removed Sysctls
->  ===============
->  
-> +=============================	=======
->    Name				Removed
-> -  ----				-------
-> +=============================	=======
->    fs.xfs.xfsbufd_centisec	v4.0
->    fs.xfs.age_buffer_centisecs	v4.0
-> -
-> +=============================	=======
+>  - Just take the address out, or
 
-I've applied this, thanks.
+I agree with this, there have been more authors since 2010.
 
-jon
+Regarding the license, it was my understanding that if somebody wants
+anything but GPL-2.0 they should put it in the file when they create it.
+ That's because even if Glauber had a different idea of what license to
+use, other contributors to the file couldn't know.
+
+Paolo
+
+>  - Track Glauber down and get a newer address; you could ask him about the
+>    licensing while you're at it :)
