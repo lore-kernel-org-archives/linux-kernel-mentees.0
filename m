@@ -1,50 +1,48 @@
-From: andy.shevchenko at gmail.com (Andy Shevchenko)
-Date: Thu, 25 Jul 2019 20:58:43 +0300
-Subject: [Linux-kernel-mentees] [PATCH] platform: x86: Remove
-	acpi_has_method() call in wmi.c
-In-Reply-To: <20190722031158.70311-1-skunberg.kelsey@gmail.com>
-References: <20190722031158.70311-1-skunberg.kelsey@gmail.com>
-Message-ID: <CAHp75Vc4qSNs6Kx6BdO163fi=fYNfPNHy+m3XVpO5v755pu2DA@mail.gmail.com>
+From: tranmanphong at gmail.com (Phong Tran)
+Date: Fri, 26 Jul 2019 20:35:28 +0700
+Subject: [Linux-kernel-mentees] [PATCH] isdn/gigaset: check endpoint null in
+	gigaset_probe
+Message-ID: <20190726133528.11063-1-tranmanphong@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Mon, Jul 22, 2019 at 6:13 AM Kelsey Skunberg
-<skunberg.kelsey at gmail.com> wrote:
->
-> acpi_has_method() is unnecessary within __query_block() and should be
-> removed to avoid extra work.
->
-> wc_status is initialized to AE_ERROR before the acpi_has_method() call.
-> acpi_has_method() and acpi_execute_simple_method() failing due to the
-> method not existing will result in the same outcome from __query_block().
->
+This fixed the potential reference NULL pointer while using variable
+endpoint.
 
-Pushed to my review and testing queue, thanks!
+Reported-by: syzbot+35b1c403a14f5c89eba7 at syzkaller.appspotmail.com
+Tested by syzbot:
+https://groups.google.com/d/msg/syzkaller-bugs/wnHG8eRNWEA/Qn2HhjNdBgAJ
 
-> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> ---
->  drivers/platform/x86/wmi.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-> index 784cea8572c2..59e9aa0f9643 100644
-> --- a/drivers/platform/x86/wmi.c
-> +++ b/drivers/platform/x86/wmi.c
-> @@ -340,9 +340,7 @@ static acpi_status __query_block(struct wmi_block *wblock, u8 instance,
->                  * expensive, but have no corresponding WCxx method. So we
->                  * should not fail if this happens.
->                  */
-> -               if (acpi_has_method(handle, wc_method))
-> -                       wc_status = acpi_execute_simple_method(handle,
-> -                                                               wc_method, 1);
-> +               wc_status = acpi_execute_simple_method(handle, wc_method, 1);
->         }
->
->         strcpy(method, "WQ");
-> --
-> 2.20.1
->
+Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+---
+ drivers/isdn/gigaset/usb-gigaset.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-
+diff --git a/drivers/isdn/gigaset/usb-gigaset.c b/drivers/isdn/gigaset/usb-gigaset.c
+index 1b9b43659bdf..2e011f3db59e 100644
+--- a/drivers/isdn/gigaset/usb-gigaset.c
++++ b/drivers/isdn/gigaset/usb-gigaset.c
+@@ -703,6 +703,10 @@ static int gigaset_probe(struct usb_interface *interface,
+ 	usb_set_intfdata(interface, cs);
+ 
+ 	endpoint = &hostif->endpoint[0].desc;
++        if (!endpoint) {
++		dev_err(cs->dev, "Couldn't get control endpoint\n");
++		return -ENODEV;
++	}
+ 
+ 	buffer_size = le16_to_cpu(endpoint->wMaxPacketSize);
+ 	ucs->bulk_out_size = buffer_size;
+@@ -722,6 +726,11 @@ static int gigaset_probe(struct usb_interface *interface,
+ 	}
+ 
+ 	endpoint = &hostif->endpoint[1].desc;
++        if (!endpoint) {
++		dev_err(cs->dev, "Endpoint not available\n");
++		retval = -ENODEV;
++		goto error;
++	}
+ 
+ 	ucs->busy = 0;
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.20.1
