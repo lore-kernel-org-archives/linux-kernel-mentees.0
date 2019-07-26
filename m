@@ -1,63 +1,39 @@
-From: pebolle at tiscali.nl (Paul Bolle)
-Date: Fri, 26 Jul 2019 16:22:18 +0200
-Subject: [Linux-kernel-mentees] [PATCH] isdn/gigaset: check endpoint
-	null in gigaset_probe
-In-Reply-To: <20190726133528.11063-1-tranmanphong@gmail.com>
-References: <20190726133528.11063-1-tranmanphong@gmail.com>
-Message-ID: <1876196a0e7fc665f0f50d5e9c0e2641f713e089.camel@tiscali.nl>
+From: corbet at lwn.net (Jonathan Corbet)
+Date: Fri, 26 Jul 2019 14:51:19 -0600
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystem: fix
+	"Removed Sysctls" table
+In-Reply-To: <20190723114813.GA14870@localhost>
+References: <20190723114813.GA14870@localhost>
+Message-ID: <20190726145119.5ef751e8@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Phong Tran schreef op vr 26-07-2019 om 20:35 [+0700]:
-> This fixed the potential reference NULL pointer while using variable
-> endpoint.
+On Tue, 23 Jul 2019 12:48:13 +0100
+Sheriff Esseson <sheriffesseson at gmail.com> wrote:
+
+> the "Removed Sysctls" section is a table - bring it alive with ReST.
 > 
-> Reported-by: syzbot+35b1c403a14f5c89eba7 at syzkaller.appspotmail.com
-> Tested by syzbot:
-> https://groups.google.com/d/msg/syzkaller-bugs/wnHG8eRNWEA/Qn2HhjNdBgAJ
-> 
-> Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+> Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
 > ---
->  drivers/isdn/gigaset/usb-gigaset.c | 9 +++++++++
-
-This is now drivers/staging/isdn/gigaset/usb-gigaset.c.
-
->  1 file changed, 9 insertions(+)
+>  Documentation/admin-guide/xfs.rst | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/isdn/gigaset/usb-gigaset.c b/drivers/isdn/gigaset/usb-gigaset.c
-> index 1b9b43659bdf..2e011f3db59e 100644
-> --- a/drivers/isdn/gigaset/usb-gigaset.c
-> +++ b/drivers/isdn/gigaset/usb-gigaset.c
-> @@ -703,6 +703,10 @@ static int gigaset_probe(struct usb_interface *interface,
->  	usb_set_intfdata(interface, cs);
+> diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
+> index e76665a8f2f2..fb5b39f73059 100644
+> --- a/Documentation/admin-guide/xfs.rst
+> +++ b/Documentation/admin-guide/xfs.rst
+> @@ -337,11 +337,12 @@ None at present.
+>  Removed Sysctls
+>  ===============
 >  
->  	endpoint = &hostif->endpoint[0].desc;
-> +        if (!endpoint) {
-> +		dev_err(cs->dev, "Couldn't get control endpoint\n");
-> +		return -ENODEV;
-> +	}
+> +=============================	=======
+>    Name				Removed
+> -  ----				-------
+> +=============================	=======
+>    fs.xfs.xfsbufd_centisec	v4.0
+>    fs.xfs.age_buffer_centisecs	v4.0
+> -
+> +=============================	=======
 
-When can this happen? Is this one of those bugs that one can only trigger with
-a specially crafted (evil) usb device?
+I've applied this, thanks.
 
->  	buffer_size = le16_to_cpu(endpoint->wMaxPacketSize);
->  	ucs->bulk_out_size = buffer_size;
-> @@ -722,6 +726,11 @@ static int gigaset_probe(struct usb_interface *interface,
->  	}
->  
->  	endpoint = &hostif->endpoint[1].desc;
-> +        if (!endpoint) {
-> +		dev_err(cs->dev, "Endpoint not available\n");
-> +		retval = -ENODEV;
-> +		goto error;
-> +	}
->  
->  	ucs->busy = 0;
->  
-
-Please note that I'm very close to getting cut off from the ISDN network, so
-the chances of being able to testi this on a live system are getting small. 
-
-Thanks,
-
-
-Paul Bolle
+jon
