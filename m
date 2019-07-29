@@ -1,63 +1,82 @@
-From: pebolle at tiscali.nl (Paul Bolle)
-Date: Sat, 27 Jul 2019 11:36:08 +0200
-Subject: [Linux-kernel-mentees] [PATCH] isdn/gigaset: check endpoint
-	null in gigaset_probe
-In-Reply-To: <24cd0b70-45e6-ea98-fc8f-b25fbf6e817f@gmail.com>
-References: <20190726133528.11063-1-tranmanphong@gmail.com>
-	<1876196a0e7fc665f0f50d5e9c0e2641f713e089.camel@tiscali.nl>
-	<24cd0b70-45e6-ea98-fc8f-b25fbf6e817f@gmail.com>
-Message-ID: <fcb8a79e4dab34511e4d7b379afff4736a8aa401.camel@tiscali.nl>
+From: helgaas at kernel.org (Bjorn Helgaas)
+Date: Mon, 29 Jul 2019 16:44:05 -0500
+Subject: [Linux-kernel-mentees] [PATCH v2 01/11] PCI: Move #define
+ PCI_PM_* lines to drivers/pci/pci.h
+In-Reply-To: <20190724233848.73327-2-skunberg.kelsey@gmail.com>
+References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
+	<20190724233848.73327-1-skunberg.kelsey@gmail.com>
+	<20190724233848.73327-2-skunberg.kelsey@gmail.com>
+Message-ID: <20190729214405.GG203187@google.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Hi Phong,
+[+to Rafael, author of commits mentioned below]
 
-Phong Tran schreef op za 27-07-2019 om 08:56 [+0700]:
-> On 7/26/19 9:22 PM, Paul Bolle wrote:
-> > Phong Tran schreef op vr 26-07-2019 om 20:35 [+0700]:
-> > > diff --git a/drivers/isdn/gigaset/usb-gigaset.c b/drivers/isdn/gigaset/usb-gigaset.c
-> > > index 1b9b43659bdf..2e011f3db59e 100644
-> > > --- a/drivers/isdn/gigaset/usb-gigaset.c
-> > > +++ b/drivers/isdn/gigaset/usb-gigaset.c
-> > > @@ -703,6 +703,10 @@ static int gigaset_probe(struct usb_interface *interface,
-> > >   	usb_set_intfdata(interface, cs);
-> > >   
-> > >   	endpoint = &hostif->endpoint[0].desc;
-> > > +        if (!endpoint) {
-> > > +		dev_err(cs->dev, "Couldn't get control endpoint\n");
-> > > +		return -ENODEV;
-> > > +	}
-> > 
-> > When can this happen? Is this one of those bugs that one can only trigger with
-> > a specially crafted (evil) usb device?
-> > 
+On Wed, Jul 24, 2019 at 05:38:38PM -0600, Kelsey Skunberg wrote:
+> The #define PCI_PM_* lines are only used within drivers/pci/ and they do
+> not need to be seen by the rest of the kernel. Move #define PCI_* to
+> drivers/pci/pci.h
 > 
-> Yes, in my understanding, this only happens with random test of syzbot.
-
-Looking at this again, I note the code is taking the address of a struct
-usb_endpoint_descriptor that's stored somewhere in memory. That address can't
-be NULL, can it?
-
-So I haven't even looked at the fuzzer's report here, but I don't see how this
-patch could help. It only adds dead code. Am I missing something and should I
-drink even more coffee this Saturday morning?
-
-> > >   	buffer_size = le16_to_cpu(endpoint->wMaxPacketSize);
-> > >   	ucs->bulk_out_size = buffer_size;
-> > > @@ -722,6 +726,11 @@ static int gigaset_probe(struct usb_interface *interface,
-> > > 
-> > Please note that I'm very close to getting cut off from the ISDN network, so
-> > the chances of being able to testi this on a live system are getting small.
-> > 
+> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> ---
+>  drivers/pci/pci.h   | 5 +++++
+>  include/linux/pci.h | 5 -----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 > 
-> This bug can be invalid now. Do you agree?
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index 1be03a97cb92..708413632429 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -39,6 +39,11 @@ int pci_probe_reset_function(struct pci_dev *dev);
+>  int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
+>  int pci_bus_error_reset(struct pci_dev *dev);
+>  
+> +#define PCI_PM_D2_DELAY         200
+> +#define PCI_PM_D3_WAIT          10
+> +#define PCI_PM_D3COLD_WAIT      100
+> +#define PCI_PM_BUS_WAIT         50
 
-It's just that your patch arrived while I was busy doing my last ever test of
-the gigaset driver. So please don't expect me to put much time in this report
-(see 
-https://lwn.net/ml/linux-kernel/20190726220541.28783-1-pebolle%40tiscali.nl/
-).
+Unrelated to *this* patch, but while reviewing, I noticed this a few
+lines below:
 
-Thanks,
+  static inline void pci_wakeup_event(struct pci_dev *dev)
+  {
+    /* Wait 100 ms before the system can be put into a sleep state. */
+    pm_wakeup_event(&dev->dev, 100);
+  }
 
+I'm curious about what this 100ms is and whether it's related to
+something in the PCIe spec.  E.g., is this another way of writing
+PCI_PM_D3COLD_WAIT?
 
-Paul Bolle
+This constant was added to drivers/pci/pci.c as PCI_WAKEUP_COOLDOWN by
+c125e96f0444 ("PM: Make it possible to avoid races between wakeup and
+system sleep") and then moved to drivers/pci/pci.h and the name
+removed by b6e335aeeb11 ("PCI/PM: Use pm_wakeup_event() directly for
+reporting wakeup events").
+
+>  /**
+>   * struct pci_platform_pm_ops - Firmware PM callbacks
+>   *
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 9e700d9f9f28..238449460210 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -145,11 +145,6 @@ static inline const char *pci_power_name(pci_power_t state)
+>  	return pci_power_names[1 + (__force int) state];
+>  }
+>  
+> -#define PCI_PM_D2_DELAY		200
+> -#define PCI_PM_D3_WAIT		10
+> -#define PCI_PM_D3COLD_WAIT	100
+> -#define PCI_PM_BUS_WAIT		50
+> -
+>  /**
+>   * typedef pci_channel_state_t
+>   *
+> -- 
+> 2.20.1
+> 
+> _______________________________________________
+> Linux-kernel-mentees mailing list
+> Linux-kernel-mentees at lists.linuxfoundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
