@@ -1,82 +1,87 @@
-From: helgaas at kernel.org (Bjorn Helgaas)
-Date: Mon, 29 Jul 2019 16:44:05 -0500
-Subject: [Linux-kernel-mentees] [PATCH v2 01/11] PCI: Move #define
- PCI_PM_* lines to drivers/pci/pci.h
-In-Reply-To: <20190724233848.73327-2-skunberg.kelsey@gmail.com>
-References: <20190711222341.111556-1-skunberg.kelsey@gmail.com>
-	<20190724233848.73327-1-skunberg.kelsey@gmail.com>
-	<20190724233848.73327-2-skunberg.kelsey@gmail.com>
-Message-ID: <20190729214405.GG203187@google.com>
+From: linux.bhar at gmail.com (Bharath Vedartham)
+Date: Tue, 30 Jul 2019 14:58:44 +0530
+Subject: [Linux-kernel-mentees] [PATCH v4] staging: kpc2000: Convert
+ put_page to put_user_page*()
+Message-ID: <20190730092843.GA5150@bharath12345-Inspiron-5559>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-[+to Rafael, author of commits mentioned below]
+put_page() to put_user_page*()
+Reply-To: 
+In-Reply-To: <1564058658-3551-1-git-send-email-linux.bhar at gmail.com>
 
-On Wed, Jul 24, 2019 at 05:38:38PM -0600, Kelsey Skunberg wrote:
-> The #define PCI_PM_* lines are only used within drivers/pci/ and they do
-> not need to be seen by the rest of the kernel. Move #define PCI_* to
-> drivers/pci/pci.h
+On Thu, Jul 25, 2019 at 06:14:18PM +0530, Bharath Vedartham wrote:
+[Forwarding patch to linux-kernel-mentees mailing list]
+> For pages that were retained via get_user_pages*(), release those pages
+> via the new put_user_page*() routines, instead of via put_page().
 > 
-> Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> This is part a tree-wide conversion, as described in commit fc1d8e7cca2d
+> ("mm: introduce put_user_page*(), placeholder versions").
+> 
+> Cc: Ira Weiny <ira.weiny at intel.com>
+> Cc: John Hubbard <jhubbard at nvidia.com>
+> Cc: J?r?me Glisse <jglisse at redhat.com>
+> Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+> Cc: Matt Sickler <Matt.Sickler at daktronics.com>
+> Cc: devel at driverdev.osuosl.org
+> Cc: linux-kernel at vger.kernel.org
+> Cc: linux-mm at kvack.org
+> Reviewed-by: John Hubbard <jhubbard at nvidia.com>
+> Signed-off-by: Bharath Vedartham <linux.bhar at gmail.com>
 > ---
->  drivers/pci/pci.h   | 5 +++++
->  include/linux/pci.h | 5 -----
->  2 files changed, 5 insertions(+), 5 deletions(-)
+> Changes since v1
+>         - Improved changelog by John's suggestion.
+>         - Moved logic to dirty pages below sg_dma_unmap
+>          and removed PageReserved check.
+> Changes since v2
+>         - Added back PageResevered check as
+>         suggested by John Hubbard.
+> Changes since v3
+>         - Changed the changelog as suggested by John.
+>         - Added John's Reviewed-By tag.
+> Changes since v4
+>         - Rebased the patch on the staging tree.
+>         - Improved commit log by fixing a line wrap.
+> ---
+>  drivers/staging/kpc2000/kpc_dma/fileops.c | 17 ++++++-----------
+>  1 file changed, 6 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index 1be03a97cb92..708413632429 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -39,6 +39,11 @@ int pci_probe_reset_function(struct pci_dev *dev);
->  int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
->  int pci_bus_error_reset(struct pci_dev *dev);
+> diff --git a/drivers/staging/kpc2000/kpc_dma/fileops.c b/drivers/staging/kpc2000/kpc_dma/fileops.c
+> index 48ca88b..f15e292 100644
+> --- a/drivers/staging/kpc2000/kpc_dma/fileops.c
+> +++ b/drivers/staging/kpc2000/kpc_dma/fileops.c
+> @@ -190,9 +190,7 @@ static int kpc_dma_transfer(struct dev_private_data *priv,
+>  	sg_free_table(&acd->sgt);
+>   err_dma_map_sg:
+>   err_alloc_sg_table:
+> -	for (i = 0 ; i < acd->page_count ; i++) {
+> -		put_page(acd->user_pages[i]);
+> -	}
+> +	put_user_pages(acd->user_pages, acd->page_count);
+>   err_get_user_pages:
+>  	kfree(acd->user_pages);
+>   err_alloc_userpages:
+> @@ -211,16 +209,13 @@ void  transfer_complete_cb(struct aio_cb_data *acd, size_t xfr_count, u32 flags)
+>  	BUG_ON(acd->ldev == NULL);
+>  	BUG_ON(acd->ldev->pldev == NULL);
 >  
-> +#define PCI_PM_D2_DELAY         200
-> +#define PCI_PM_D3_WAIT          10
-> +#define PCI_PM_D3COLD_WAIT      100
-> +#define PCI_PM_BUS_WAIT         50
-
-Unrelated to *this* patch, but while reviewing, I noticed this a few
-lines below:
-
-  static inline void pci_wakeup_event(struct pci_dev *dev)
-  {
-    /* Wait 100 ms before the system can be put into a sleep state. */
-    pm_wakeup_event(&dev->dev, 100);
-  }
-
-I'm curious about what this 100ms is and whether it's related to
-something in the PCIe spec.  E.g., is this another way of writing
-PCI_PM_D3COLD_WAIT?
-
-This constant was added to drivers/pci/pci.c as PCI_WAKEUP_COOLDOWN by
-c125e96f0444 ("PM: Make it possible to avoid races between wakeup and
-system sleep") and then moved to drivers/pci/pci.h and the name
-removed by b6e335aeeb11 ("PCI/PM: Use pm_wakeup_event() directly for
-reporting wakeup events").
-
->  /**
->   * struct pci_platform_pm_ops - Firmware PM callbacks
->   *
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 9e700d9f9f28..238449460210 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -145,11 +145,6 @@ static inline const char *pci_power_name(pci_power_t state)
->  	return pci_power_names[1 + (__force int) state];
->  }
->  
-> -#define PCI_PM_D2_DELAY		200
-> -#define PCI_PM_D3_WAIT		10
-> -#define PCI_PM_D3COLD_WAIT	100
-> -#define PCI_PM_BUS_WAIT		50
+> -	for (i = 0 ; i < acd->page_count ; i++) {
+> -		if (!PageReserved(acd->user_pages[i])) {
+> -			set_page_dirty(acd->user_pages[i]);
+> -		}
+> -	}
 > -
->  /**
->   * typedef pci_channel_state_t
->   *
+>  	dma_unmap_sg(&acd->ldev->pldev->dev, acd->sgt.sgl, acd->sgt.nents, acd->ldev->dir);
+>  
+> -	for (i = 0 ; i < acd->page_count ; i++) {
+> -		put_page(acd->user_pages[i]);
+> +	for (i = 0; i < acd->page_count; i++) {
+> +		if (!PageReserved(acd->user_pages[i]))
+> +			put_user_pages_dirty(&acd->user_pages[i], 1);
+> +		else
+> +			put_user_page(acd->user_pages[i]);
+>  	}
+>  
+>  	sg_free_table(&acd->sgt);
 > -- 
-> 2.20.1
+> 2.7.4
 > 
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees at lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
