@@ -1,24 +1,32 @@
 From: corbet@lwn.net (Jonathan Corbet)
-Date: Wed, 31 Jul 2019 13:10:26 -0600
-Subject: [Linux-kernel-mentees] [PATCH v3] Documentation: filesystems:
- Convert ufs.txt to reStructuredText format
-In-Reply-To: <1562772683-32422-1-git-send-email-shobhitkukreti@gmail.com>
-References: <20190710092605.73ddee8b@coco.lan>
-	<1562772683-32422-1-git-send-email-shobhitkukreti@gmail.com>
-Message-ID: <20190731131026.56381580@lwn.net>
+Date: Wed, 31 Jul 2019 13:14:07 -0600
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: coresight:
+	convert txt to rst
+In-Reply-To: <20190711165201.31798-1-tranmanphong@gmail.com>
+References: <20190705204512.15444-1-tranmanphong@gmail.com>
+	<20190711165201.31798-1-tranmanphong@gmail.com>
+Message-ID: <20190731131407.345e5935@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190731191026.BBloit7YzJta26fyWzd9RTW5MSITOm2lEWWRkJcbEsA@z>
+Message-ID: <20190731191407.JMjAI3Gl61QbYo6YzdInjpXdm8fe7_kaSLF7DIV0pd4@z>
 
-On Wed, 10 Jul 2019 08:31:23 -0700
-Shobhit Kukreti <shobhitkukreti at gmail.com> wrote:
+On Thu, 11 Jul 2019 23:52:01 +0700
+Phong Tran <tranmanphong at gmail.com> wrote:
 
-> This converts the plain text documentation of ufs.txt to
-> reStructuredText format. Added to documentation build process
-> and verified with make htmldocs
+> This changes from plain text to reStructuredText as suggestion
+> in doc-guide [1]
 > 
-> Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
+> [1] https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
+> 
+> Some adaptations such as: literal block, ``inline literal`` and
+> alignment text,...
+> 
+> Signed-off-by: Phong Tran <tranmanphong at gmail.com>
+> Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung at kernel.org>
+> Acked-by: Mathieu Poirier <mathieu.poirier at linaro.org>
 
-I've applied this one as well; apologies for the delay.
+Applied at long last, sorry for the delay.
+
+Thanks,
 
 jon
