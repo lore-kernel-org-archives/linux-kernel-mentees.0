@@ -1,119 +1,173 @@
-From: tranmanphong@gmail.com (Phong Tran)
-Date: Mon,  1 Jul 2019 06:45:33 +0700
-Subject: [Linux-kernel-mentees] [PATCH] net: usb: asix: init MAC address
-	buffers
-In-Reply-To: <00000000000008f06d058a6e9783@google.com>
-References: <00000000000008f06d058a6e9783@google.com>
-Message-ID: <20190630234533.15089-1-tranmanphong@gmail.com>
+From: sean@mess.org (Sean Young)
+Date: Thu, 1 Aug 2019 06:09:15 +0100
+Subject: [Linux-kernel-mentees] [PATCH v2] media:dvb-frontends:Remove
+ dvb_pll_devcount and id module parameters.
+In-Reply-To: <20190724053635.4pl44glggvcnton2@gofer.mess.org>
+References: <20190717141204.19433-1-bnvandana@gmail.com>
+	<20190720061302.24047-1-bnvandana@gmail.com>
+	<20190724053635.4pl44glggvcnton2@gofer.mess.org>
+Message-ID: <20190801050915.bmv5xpbczixtaotf@gofer.mess.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190630234533.bdpxDKqkuxNkYJOji50olokh1qrpQMCfu-ydWlKvQO0@z>
+Message-ID: <20190801050915.oQY3SIDbgAJqA4m2WT6FlhYACUaPqdi6VYnEQ-SF5sE@z>
 
-This is for fixing bug KMSAN: uninit-value in ax88772_bind
+On Wed, Jul 24, 2019 at 06:36:35AM +0100, Sean Young wrote:
+> On Sat, Jul 20, 2019 at 11:43:02AM +0530, Vandana BN wrote:
+> > Syzbot reported global-out-of-bounds Read in dvb_pll_attach, while
+> > accessing id[dvb_pll_devcount], because dvb_pll_devcount was 65,
+> > that is more than size of 'id' which is DVB_PLL_MAX(64).
+> > 
+> > Fix would be to check if DVB_PLL_MAX devices are attached and if so return
+> > NULL from dvb_pll_attach(). But this will put a limit on the number of
+> > devices that can be attached.
+> > Also dvb_pll_devcount and "id" module parameter are used for debugging
+> > purpose to override/force PLL type.
+> > So this patch removes these module parameters.
+> > 
+> > Reported-by: syz... at syzkaller.appspotmail.com
+> > 
+> > usb 1-1: dvb_usb_v2: will pass the complete MPEG2 transport stream to the
+> > software demuxer
+> > dvbdev: DVB: registering new adapter (774 Friio White ISDB-T USB2.0)
+> > usb 1-1: media controller created
+> > dvbdev: dvb_create_media_entity: media entity 'dvb-demux' registered.
+> > tc90522 0-0018: Toshiba TC90522 attached.
+> > usb 1-1: DVB: registering adapter 0 frontend 0 (Toshiba TC90522 ISDB-T
+> > module)...
+> > dvbdev: dvb_create_media_entity: media entity 'Toshiba TC90522 ISDB-T
+> > module' registered.
+> > ==================================================================
+> > BUG: KASAN: global-out-of-bounds in dvb_pll_attach+0x6c5/0x830
+> > drivers/media/dvb-frontends/dvb-pll.c:798
+> > Read of size 4 at addr ffffffff89c9e5e0 by task kworker/0:1/12
+> > 
+> > CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.2.0-rc6+ #13
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> > Google 01/01/2011
+> > Workqueue: usb_hub_wq hub_event
+> > Call Trace:
+> >   __dump_stack lib/dump_stack.c:77 [inline]
+> >   dump_stack+0xca/0x13e lib/dump_stack.c:113
+> >   print_address_description+0x67/0x231 mm/kasan/report.c:188
+> >   __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:317
+> >   kasan_report+0xe/0x20 mm/kasan/common.c:614
+> >   dvb_pll_attach+0x6c5/0x830 drivers/media/dvb-frontends/dvb-pll.c:798
+> >   dvb_pll_probe+0xfe/0x174 drivers/media/dvb-frontends/dvb-pll.c:877
+> >   i2c_device_probe+0x790/0xaa0 drivers/i2c/i2c-core-base.c:389
+> >   really_probe+0x281/0x660 drivers/base/dd.c:509
+> >   driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+> >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+> >   bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+> >   __device_attach+0x217/0x360 drivers/base/dd.c:843
+> >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+> >   device_add+0xae6/0x16f0 drivers/base/core.c:2111
+> >   i2c_new_client_device+0x5b3/0xc40 drivers/i2c/i2c-core-base.c:778
+> >   i2c_new_device+0x19/0x50 drivers/i2c/i2c-core-base.c:821
+> >   dvb_module_probe+0xf9/0x220 drivers/media/dvb-core/dvbdev.c:985
+> >   friio_tuner_attach+0x125/0x1d0 drivers/media/usb/dvb-usb-v2/gl861.c:536
+> >   dvb_usbv2_adapter_frontend_init
+> > drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:675 [inline]
+> >   dvb_usbv2_adapter_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:804
+> > [inline]
+> >   dvb_usbv2_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:865 [inline]
+> >   dvb_usbv2_probe.cold+0x24dc/0x255d
+> > drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:980
+> >   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+> >   really_probe+0x281/0x660 drivers/base/dd.c:509
+> >   driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+> >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+> >   bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+> >   __device_attach+0x217/0x360 drivers/base/dd.c:843
+> >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+> >   device_add+0xae6/0x16f0 drivers/base/core.c:2111
+> >   usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+> >   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+> >   usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+> >   really_probe+0x281/0x660 drivers/base/dd.c:509
+> >   driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+> >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+> >   bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+> >   __device_attach+0x217/0x360 drivers/base/dd.c:843
+> >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+> >   device_add+0xae6/0x16f0 drivers/base/core.c:2111
+> >   usb_new_device.cold+0x8c1/0x1016 drivers/usb/core/hub.c:2534
+> >   hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+> >   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+> >   port_event drivers/usb/core/hub.c:5350 [inline]
+> >   hub_event+0x1ada/0x3590 drivers/usb/core/hub.c:5432
+> >   process_one_work+0x905/0x1570 kernel/workqueue.c:2269
+> >   process_scheduled_works kernel/workqueue.c:2331 [inline]
+> >   worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+> >   kthread+0x30b/0x410 kernel/kthread.c:255
+> >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+> > 
+> > The buggy address belongs to the variable:
+> >   id+0x100/0x120
+> > 
+> > Memory state around the buggy address:
+> >   ffffffff89c9e480: fa fa fa fa 00 00 fa fa fa fa fa fa 00 00 00 00
+> >   ffffffff89c9e500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > ffffffff89c9e580: 00 00 00 00 00 00 00 00 00 00 00 00 fa fa fa fa
+> >                                                         ^
+> >   ffffffff89c9e600: 04 fa fa fa fa fa fa fa 04 fa fa fa fa fa fa fa
+> >   ffffffff89c9e680: 04 fa fa fa fa fa fa fa 04 fa fa fa fa fa fa fa
+> > ==================================================================
+> > 
+> > Signed-off-by: Vandana BN <bnvandana at gmail.com>
+> > ---
+> >  drivers/media/dvb-frontends/dvb-pll.c | 19 +++----------------
+> >  1 file changed, 3 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/drivers/media/dvb-frontends/dvb-pll.c b/drivers/media/dvb-frontends/dvb-pll.c
+> > index ba0c49107bd2..c3a04751e9cf 100644
+> > --- a/drivers/media/dvb-frontends/dvb-pll.c
+> > +++ b/drivers/media/dvb-frontends/dvb-pll.c
+> > @@ -33,19 +33,11 @@ struct dvb_pll_priv {
+> >  	u32 bandwidth;
+> >  };
+> > 
+> > -#define DVB_PLL_MAX 64
+> > -
+> > -static unsigned int dvb_pll_devcount;
+> > 
+> >  static int debug;
+> >  module_param(debug, int, 0644);
+> >  MODULE_PARM_DESC(debug, "enable verbose debug messages");
+> > 
+> > -static unsigned int id[DVB_PLL_MAX] =
+> > -	{ [ 0 ... (DVB_PLL_MAX-1) ] = DVB_PLL_UNDEFINED };
+> > -module_param_array(id, int, NULL, 0644);
+> > -MODULE_PARM_DESC(id, "force pll id to use (DEBUG ONLY)");
+> > -
+> 
+> Mike, you introduced this module parameter in:
+> 
+> commit 05a4611b5d71ad6f968fdeef092c24914570898b
+> Author:     Michael Krufky <mkrufky at linuxtv.org>
+> AuthorDate: Fri Sep 7 18:19:57 2007 -0300
+> 
+>     V4L/DVB (6228): dvb-pll: add module option to specify rf input
+>     
+>     Add a module option to dvb-pll, called "input" to specify which rf
+>     input to use on devices with multiple rf inputs.  If the module option
+>     is not specified, then the driver will autoselect the rf input, as per
+>     previous behavior.
+>     
+>     Signed-off-by: Michael Krufky <mkrufky at linuxtv.org>
+>     Signed-off-by: Mauro Carvalho Chehab <mchehab at infradead.org>
+> 
+> What was your motivation?
 
-Tested by
-https://groups.google.com/d/msg/syzkaller-bugs/aFQurGotng4/cFe9nxMCCwAJ
+dvb_pll_devcount only ever gets increased, so this only works for the
+first time a driver is loaded; after a usb replug or rmmod this does
+not work anymore since the dvb_pll_devcount will have moved on to the
+next entry. Considering it is broken maybe it should just be removed;
+also we have no answer from mkrufky yet.
 
-Reported-by: syzbot+8a3fc6674bbc3978ed4e at syzkaller.appspotmail.com
+If this functionality is useful, then it should be implemented with
+an DEFINE_IDA() and ida_simpla_get(), but I'm not sure it's worth it
+when the functionality is probably unused. If it was used, someone
+would have noticed it was broken.
 
-syzbot found the following crash on:
 
-HEAD commit:    f75e4cfe kmsan: use kmsan_handle_urb() in urb.c
-git tree:       kmsan
-console output: https://syzkaller.appspot.com/x/log.txt?x=136d720ea00000
-kernel config:
-https://syzkaller.appspot.com/x/.config?x=602468164ccdc30a
-dashboard link:
-https://syzkaller.appspot.com/bug?extid=8a3fc6674bbc3978ed4e
-compiler:       clang version 9.0.0 (/home/glider/llvm/clang
-06d00afa61eef8f7f501ebdb4e8612ea43ec2d78)
-syz repro:
-https://syzkaller.appspot.com/x/repro.syz?x=12788316a00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=120359aaa00000
-
-==================================================================
-BUG: KMSAN: uninit-value in is_valid_ether_addr
-include/linux/etherdevice.h:200 [inline]
-BUG: KMSAN: uninit-value in asix_set_netdev_dev_addr
-drivers/net/usb/asix_devices.c:73 [inline]
-BUG: KMSAN: uninit-value in ax88772_bind+0x93d/0x11e0
-drivers/net/usb/asix_devices.c:724
-CPU: 0 PID: 3348 Comm: kworker/0:2 Not tainted 5.1.0+ #1
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x191/0x1f0 lib/dump_stack.c:113
-  kmsan_report+0x130/0x2a0 mm/kmsan/kmsan.c:622
-  __msan_warning+0x75/0xe0 mm/kmsan/kmsan_instr.c:310
-  is_valid_ether_addr include/linux/etherdevice.h:200 [inline]
-  asix_set_netdev_dev_addr drivers/net/usb/asix_devices.c:73 [inline]
-  ax88772_bind+0x93d/0x11e0 drivers/net/usb/asix_devices.c:724
-  usbnet_probe+0x10f5/0x3940 drivers/net/usb/usbnet.c:1728
-  usb_probe_interface+0xd66/0x1320 drivers/usb/core/driver.c:361
-  really_probe+0xdae/0x1d80 drivers/base/dd.c:513
-  driver_probe_device+0x1b3/0x4f0 drivers/base/dd.c:671
-  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:778
-  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
-  __device_attach+0x454/0x730 drivers/base/dd.c:844
-  device_initial_probe+0x4a/0x60 drivers/base/dd.c:891
-  bus_probe_device+0x137/0x390 drivers/base/bus.c:514
-  device_add+0x288d/0x30e0 drivers/base/core.c:2106
-  usb_set_configuration+0x30dc/0x3750 drivers/usb/core/message.c:2027
-  generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
-  usb_probe_device+0x14c/0x200 drivers/usb/core/driver.c:266
-  really_probe+0xdae/0x1d80 drivers/base/dd.c:513
-  driver_probe_device+0x1b3/0x4f0 drivers/base/dd.c:671
-  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:778
-  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
-  __device_attach+0x454/0x730 drivers/base/dd.c:844
-  device_initial_probe+0x4a/0x60 drivers/base/dd.c:891
-  bus_probe_device+0x137/0x390 drivers/base/bus.c:514
-  device_add+0x288d/0x30e0 drivers/base/core.c:2106
-  usb_new_device+0x23e5/0x2ff0 drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x48d1/0x7290 drivers/usb/core/hub.c:5432
-  process_one_work+0x1572/0x1f00 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x189c/0x2460 kernel/workqueue.c:2417
-  kthread+0x4b5/0x4f0 kernel/kthread.c:254
-  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
-
-Signed-off-by: Phong Tran <tranmanphong at gmail.com>
----
- drivers/net/usb/asix_devices.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
-index c9bc96310ed4..f514d19316b1 100644
---- a/drivers/net/usb/asix_devices.c
-+++ b/drivers/net/usb/asix_devices.c
-@@ -230,6 +230,7 @@ static int ax88172_bind(struct usbnet *dev, struct usb_interface *intf)
- 	int i;
- 	unsigned long gpio_bits = dev->driver_info->data;
- 
-+	memset(buf, 0, sizeof(buf));
- 	usbnet_get_endpoints(dev,intf);
- 
- 	/* Toggle the GPIOs in a manufacturer/model specific way */
-@@ -681,6 +682,7 @@ static int ax88772_bind(struct usbnet *dev, struct usb_interface *intf)
- 	u32 phyid;
- 	struct asix_common_private *priv;
- 
-+	memset(buf, 0, sizeof(buf));
- 	usbnet_get_endpoints(dev, intf);
- 
- 	/* Maybe the boot loader passed the MAC address via device tree */
-@@ -1063,6 +1065,7 @@ static int ax88178_bind(struct usbnet *dev, struct usb_interface *intf)
- 	int ret;
- 	u8 buf[ETH_ALEN];
- 
-+	memset(buf, 0, sizeof(buf));
- 	usbnet_get_endpoints(dev,intf);
- 
- 	/* Get the MAC address */
--- 
-2.11.0
+Sean
