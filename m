@@ -1,38 +1,88 @@
-From: sheriffesseson@gmail.com (Sheriff Esseson)
-Date: Fri, 9 Aug 2019 14:23:49 +0100
-Subject: [Linux-kernel-mentees] [PATCH v2] Documentation: virt: Fix broken
- reference to virt tree's index
-Message-ID: <20190809132349.GA15460@localhost>
+From: jhubbard@nvidia.com (John Hubbard)
+Date: Fri, 9 Aug 2019 11:03:14 -0700
+Subject: [Linux-kernel-mentees] [PATCH v4 1/1] sgi-gru: Remove
+ *pte_lookup functions
+In-Reply-To: <20190809094406.GA22457@bharath12345-Inspiron-5559>
+References: <1565290555-14126-1-git-send-email-linux.bhar@gmail.com>
+	<1565290555-14126-2-git-send-email-linux.bhar@gmail.com>
+	<b659042a-f2c3-df3c-4182-bb7dd5156bc1@nvidia.com>
+	<20190809094406.GA22457@bharath12345-Inspiron-5559>
+Message-ID: <f2f928f1-2747-e693-1a7f-14ad5f57fef5@nvidia.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190809132349.8pBOrcqF_ekQ5AFt_nuwD22KTf-Hye8ergcCpaYOXEo@z>
+Message-ID: <20190809180314.7TVqPCp1x6W7Z9-6NnSAY9dPDY4fPQ_eP473QzLsN_s@z>
 
-Fix broken reference to virt/index.rst.
+On 8/9/19 2:44 AM, Bharath Vedartham wrote:
+> On Thu, Aug 08, 2019 at 04:21:44PM -0700, John Hubbard wrote:
+>> On 8/8/19 11:55 AM, Bharath Vedartham wrote:
+>> ...
+>>>   static int gru_vtop(struct gru_thread_state *gts, unsigned long vaddr,
+>>>   		    int write, int atomic, unsigned long *gpa, int *pageshift)
+>>>   {
+>>>   	struct mm_struct *mm = gts->ts_mm;
+>>>   	struct vm_area_struct *vma;
+>>>   	unsigned long paddr;
+>>> -	int ret, ps;
+>>> +	int ret;
+>>> +	struct page *page;
+>>>   
+>>>   	vma = find_vma(mm, vaddr);
+>>>   	if (!vma)
+>>> @@ -263,21 +187,33 @@ static int gru_vtop(struct gru_thread_state *gts, unsigned long vaddr,
+>>>   
+>>>   	/*
+>>>   	 * Atomic lookup is faster & usually works even if called in non-atomic
+>>> -	 * context.
+>>> +	 * context. get_user_pages_fast does atomic lookup before falling back to
+>>> +	 * slow gup.
+>>>   	 */
+>>>   	rmb();	/* Must/check ms_range_active before loading PTEs */
+>>> -	ret = atomic_pte_lookup(vma, vaddr, write, &paddr, &ps);
+>>> -	if (ret) {
+>>> -		if (atomic)
+>>> +	if (atomic) {
+>>> +		ret = __get_user_pages_fast(vaddr, 1, write, &page);
+>>> +		if (!ret)
+>>>   			goto upm;
+>>> -		if (non_atomic_pte_lookup(vma, vaddr, write, &paddr, &ps))
+>>> +	} else {
+>>> +		ret = get_user_pages_fast(vaddr, 1, write ? FOLL_WRITE : 0, &page);
+>>> +		if (!ret)
+>>>   			goto inval;
+>>>   	}
+>>> +
+>>> +	paddr = page_to_phys(page);
+>>> +	put_user_page(page);
+>>> +
+>>> +	if (unlikely(is_vm_hugetlb_page(vma)))
+>>> +		*pageshift = HPAGE_SHIFT;
+>>> +	else
+>>> +		*pageshift = PAGE_SHIFT;
+>>> +
+>>>   	if (is_gru_paddr(paddr))
+>>>   		goto inval;
+>>> -	paddr = paddr & ~((1UL << ps) - 1);
+>>> +	paddr = paddr & ~((1UL << *pageshift) - 1);
+>>>   	*gpa = uv_soc_phys_ram_to_gpa(paddr);
+>>> -	*pageshift = ps;
+>>
+>> Why are you no longer setting *pageshift? There are a couple of callers
+>> that both use this variable.
+> Hi John,
+> 
+> I did set *pageshift. The if statement above sets *pageshift. ps was
+> used to retrive the pageshift value when the pte_lookup functions were
+> present. ps was passed by reference to those functions and set by them.
+> But here since we are trying to remove those functions, we don't need ps
+> and we directly set *pageshift to HPAGE_SHIFT or PAGE_SHIFT based on the
+> type of vma.
+> 
+> Hope this clears things up?
+> 
 
-Fixes: 2f5947dfcaec ("Documentation: move Documentation/virtual to
-Documentation/virt")
+Right you are, sorry for overlooking that. Looks good.
 
-Signed-off-by: Sheriff Esseson <sheriffesseson at gmail.com>
----
-
-Changes in v2:
-	- Fix patch description. 
-
- Documentation/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 2df5a3da563c..5205430305d5 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -115,7 +115,7 @@ needed).
-    target/index
-    timers/index
-    watchdog/index
--   virtual/index
-+   virt/index
-    input/index
-    hwmon/index
-    gpu/index
+thanks,
 -- 
-2.17.1
+John Hubbard
+NVIDIA
