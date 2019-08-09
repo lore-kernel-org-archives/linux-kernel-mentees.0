@@ -1,202 +1,411 @@
-From: linux.bhar at gmail.com (Bharath Vedartham)
-Date: Sat, 10 Aug 2019 01:08:17 +0530
-Subject: [Linux-kernel-mentees] [PATCH v5 1/1] sgi-gru: Remove *pte_lookup
-	functions, Convert to get_user_page*()
-In-Reply-To: <1565379497-29266-1-git-send-email-linux.bhar@gmail.com>
-References: <1565379497-29266-1-git-send-email-linux.bhar@gmail.com>
-Message-ID: <1565379497-29266-2-git-send-email-linux.bhar@gmail.com>
+From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
+Date: Fri,  9 Aug 2019 13:57:21 -0600
+Subject: [Linux-kernel-mentees] [PATCH] PCI/IOV: Move sysfs SR-IOV functions
+	to iov.c
+Message-ID: <20190809195721.34237-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-For pages that were retained via get_user_pages*(), release those pages
-via the new put_user_page*() routines, instead of via put_page() or
-release_pages().
+The sysfs SR-IOV functions are for an optional feature and will be better
+organized to keep with the feature's code. Move the sysfs SR-IOV functions
+to /pci/iov.c.
 
-This is part a tree-wide conversion, as described in commit fc1d8e7cca2d
-("mm: introduce put_user_page*(), placeholder versions").
-
-As part of this conversion, the *pte_lookup functions can be removed and
-be easily replaced with get_user_pages_fast() functions. In the case of
-atomic lookup, __get_user_pages_fast() is used, because it does not fall
-back to the slow path: get_user_pages(). get_user_pages_fast(), on the other
-hand, first calls __get_user_pages_fast(), but then falls back to the
-slow path if __get_user_pages_fast() fails.
-
-Also: remove unnecessary CONFIG_HUGETLB ifdefs.
-
-Cc: Ira Weiny <ira.weiny at intel.com>
-Cc: John Hubbard <jhubbard at nvidia.com>
-Cc: J?r?me Glisse <jglisse at redhat.com>
-Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-Cc: Dimitri Sivanich <sivanich at sgi.com>
-Cc: Arnd Bergmann <arnd at arndb.de>
-Cc: William Kucharski <william.kucharski at oracle.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: linux-kernel at vger.kernel.org
-Cc: linux-mm at kvack.org
-Cc: linux-kernel-mentees at lists.linuxfoundation.org
-Reviewed-by: Ira Weiny <ira.weiny at intel.com>
-Reviewed-by: John Hubbard <jhubbard at nvidia.com>
-Reviewed-by: William Kucharski <william.kucharski at oracle.com>
-Signed-off-by: Bharath Vedartham <linux.bhar at gmail.com>
+Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 ---
-This is a fold of the 3 patches in the v2 patch series.
-The review tags were given to the individual patches.
+ drivers/pci/iov.c       | 173 +++++++++++++++++++++++++++++++++++++++
+ drivers/pci/pci-sysfs.c | 176 ----------------------------------------
+ drivers/pci/pci.h       |   2 +-
+ 3 files changed, 174 insertions(+), 177 deletions(-)
 
-Changes since v3
-	- Used gup flags in get_user_pages_fast rather than
-	boolean flags.
-Changes since v4
-	- Updated changelog according to John Hubbard.
----
- drivers/misc/sgi-gru/grufault.c | 112 +++++++++-------------------------------
- 1 file changed, 24 insertions(+), 88 deletions(-)
-
-diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
-index 4b713a8..304e9c5 100644
---- a/drivers/misc/sgi-gru/grufault.c
-+++ b/drivers/misc/sgi-gru/grufault.c
-@@ -166,96 +166,20 @@ static void get_clear_fault_map(struct gru_state *gru,
+diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+index 9b48818ced01..661051adf23f 100644
+--- a/drivers/pci/iov.c
++++ b/drivers/pci/iov.c
+@@ -240,6 +240,179 @@ void pci_iov_remove_virtfn(struct pci_dev *dev, int id)
+ 	pci_dev_put(dev);
  }
  
- /*
-- * Atomic (interrupt context) & non-atomic (user context) functions to
-- * convert a vaddr into a physical address. The size of the page
-- * is returned in pageshift.
-- * 	returns:
-- * 		  0 - successful
-- * 		< 0 - error code
-- * 		  1 - (atomic only) try again in non-atomic context
-- */
--static int non_atomic_pte_lookup(struct vm_area_struct *vma,
--				 unsigned long vaddr, int write,
--				 unsigned long *paddr, int *pageshift)
++static ssize_t sriov_totalvfs_show(struct device *dev,
++				   struct device_attribute *attr,
++				   char *buf)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++
++	return sprintf(buf, "%u\n", pci_sriov_get_totalvfs(pdev));
++}
++
++static ssize_t sriov_numvfs_show(struct device *dev,
++				 struct device_attribute *attr,
++				 char *buf)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++
++	return sprintf(buf, "%u\n", pdev->sriov->num_VFs);
++}
++
++/*
++ * num_vfs > 0; number of VFs to enable
++ * num_vfs = 0; disable all VFs
++ *
++ * Note: SRIOV spec does not allow partial VF
++ *       disable, so it's all or none.
++ */
++static ssize_t sriov_numvfs_store(struct device *dev,
++				  struct device_attribute *attr,
++				  const char *buf, size_t count)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++	int ret;
++	u16 num_vfs;
++
++	ret = kstrtou16(buf, 0, &num_vfs);
++	if (ret < 0)
++		return ret;
++
++	if (num_vfs > pci_sriov_get_totalvfs(pdev))
++		return -ERANGE;
++
++	device_lock(&pdev->dev);
++
++	if (num_vfs == pdev->sriov->num_VFs)
++		goto exit;
++
++	/* is PF driver loaded w/callback */
++	if (!pdev->driver || !pdev->driver->sriov_configure) {
++		pci_info(pdev, "Driver does not support SRIOV configuration via sysfs\n");
++		ret = -ENOENT;
++		goto exit;
++	}
++
++	if (num_vfs == 0) {
++		/* disable VFs */
++		ret = pdev->driver->sriov_configure(pdev, 0);
++		goto exit;
++	}
++
++	/* enable VFs */
++	if (pdev->sriov->num_VFs) {
++		pci_warn(pdev, "%d VFs already enabled. Disable before enabling %d VFs\n",
++			 pdev->sriov->num_VFs, num_vfs);
++		ret = -EBUSY;
++		goto exit;
++	}
++
++	ret = pdev->driver->sriov_configure(pdev, num_vfs);
++	if (ret < 0)
++		goto exit;
++
++	if (ret != num_vfs)
++		pci_warn(pdev, "%d VFs requested; only %d enabled\n",
++			 num_vfs, ret);
++
++exit:
++	device_unlock(&pdev->dev);
++
++	if (ret < 0)
++		return ret;
++
++	return count;
++}
++
++static ssize_t sriov_offset_show(struct device *dev,
++				 struct device_attribute *attr,
++				 char *buf)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++
++	return sprintf(buf, "%u\n", pdev->sriov->offset);
++}
++
++static ssize_t sriov_stride_show(struct device *dev,
++				 struct device_attribute *attr,
++				 char *buf)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++
++	return sprintf(buf, "%u\n", pdev->sriov->stride);
++}
++
++static ssize_t sriov_vf_device_show(struct device *dev,
++				    struct device_attribute *attr,
++				    char *buf)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++
++	return sprintf(buf, "%x\n", pdev->sriov->vf_device);
++}
++
++static ssize_t sriov_drivers_autoprobe_show(struct device *dev,
++					    struct device_attribute *attr,
++					    char *buf)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++
++	return sprintf(buf, "%u\n", pdev->sriov->drivers_autoprobe);
++}
++
++static ssize_t sriov_drivers_autoprobe_store(struct device *dev,
++					     struct device_attribute *attr,
++					     const char *buf, size_t count)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++	bool drivers_autoprobe;
++
++	if (kstrtobool(buf, &drivers_autoprobe) < 0)
++		return -EINVAL;
++
++	pdev->sriov->drivers_autoprobe = drivers_autoprobe;
++
++	return count;
++}
++
++static struct device_attribute sriov_totalvfs_attr = __ATTR_RO(sriov_totalvfs);
++static struct device_attribute sriov_numvfs_attr =
++		__ATTR(sriov_numvfs, (S_IRUGO | S_IWUSR | S_IWGRP),
++		       sriov_numvfs_show, sriov_numvfs_store);
++static struct device_attribute sriov_offset_attr = __ATTR_RO(sriov_offset);
++static struct device_attribute sriov_stride_attr = __ATTR_RO(sriov_stride);
++static struct device_attribute sriov_vf_device_attr =
++		__ATTR_RO(sriov_vf_device);
++static struct device_attribute sriov_drivers_autoprobe_attr =
++		__ATTR(sriov_drivers_autoprobe, (S_IRUGO | S_IWUSR | S_IWGRP),
++		       sriov_drivers_autoprobe_show,
++		       sriov_drivers_autoprobe_store);
++
++static struct attribute *sriov_dev_attrs[] = {
++	&sriov_totalvfs_attr.attr,
++	&sriov_numvfs_attr.attr,
++	&sriov_offset_attr.attr,
++	&sriov_stride_attr.attr,
++	&sriov_vf_device_attr.attr,
++	&sriov_drivers_autoprobe_attr.attr,
++	NULL,
++};
++
++static umode_t sriov_attrs_are_visible(struct kobject *kobj,
++				       struct attribute *a, int n)
++{
++	struct device *dev = kobj_to_dev(kobj);
++
++	if (!dev_is_pf(dev))
++		return 0;
++
++	return a->mode;
++}
++
++const struct attribute_group sriov_dev_attr_group = {
++	.attrs = sriov_dev_attrs,
++	.is_visible = sriov_attrs_are_visible,
++};
++
+ int __weak pcibios_sriov_enable(struct pci_dev *pdev, u16 num_vfs)
+ {
+ 	return 0;
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 965c72104150..d5c35434810b 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -551,154 +551,6 @@ static ssize_t devspec_show(struct device *dev,
+ static DEVICE_ATTR_RO(devspec);
+ #endif
+ 
+-#ifdef CONFIG_PCI_IOV
+-static ssize_t sriov_totalvfs_show(struct device *dev,
+-				   struct device_attribute *attr,
+-				   char *buf)
 -{
--	struct page *page;
+-	struct pci_dev *pdev = to_pci_dev(dev);
 -
--#ifdef CONFIG_HUGETLB_PAGE
--	*pageshift = is_vm_hugetlb_page(vma) ? HPAGE_SHIFT : PAGE_SHIFT;
--#else
--	*pageshift = PAGE_SHIFT;
--#endif
--	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <= 0)
--		return -EFAULT;
--	*paddr = page_to_phys(page);
--	put_page(page);
--	return 0;
+-	return sprintf(buf, "%u\n", pci_sriov_get_totalvfs(pdev));
+-}
+-
+-
+-static ssize_t sriov_numvfs_show(struct device *dev,
+-				 struct device_attribute *attr,
+-				 char *buf)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-
+-	return sprintf(buf, "%u\n", pdev->sriov->num_VFs);
 -}
 -
 -/*
-- * atomic_pte_lookup
-+ * mmap_sem is already helod on entry to this function. This guarantees
-+ * existence of the page tables.
-  *
-- * Convert a user virtual address to a physical address
-  * Only supports Intel large pages (2MB only) on x86_64.
-- *	ZZZ - hugepage support is incomplete
+- * num_vfs > 0; number of VFs to enable
+- * num_vfs = 0; disable all VFs
 - *
-- * NOTE: mmap_sem is already held on entry to this function. This
-- * guarantees existence of the page tables.
-+ *	ZZZ - hugepage support is incomplete.
-  */
--static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
--	int write, unsigned long *paddr, int *pageshift)
+- * Note: SRIOV spec doesn't allow partial VF
+- *       disable, so it's all or none.
+- */
+-static ssize_t sriov_numvfs_store(struct device *dev,
+-				  struct device_attribute *attr,
+-				  const char *buf, size_t count)
 -{
--	pgd_t *pgdp;
--	p4d_t *p4dp;
--	pud_t *pudp;
--	pmd_t *pmdp;
--	pte_t pte;
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-	int ret;
+-	u16 num_vfs;
 -
--	pgdp = pgd_offset(vma->vm_mm, vaddr);
--	if (unlikely(pgd_none(*pgdp)))
--		goto err;
+-	ret = kstrtou16(buf, 0, &num_vfs);
+-	if (ret < 0)
+-		return ret;
 -
--	p4dp = p4d_offset(pgdp, vaddr);
--	if (unlikely(p4d_none(*p4dp)))
--		goto err;
+-	if (num_vfs > pci_sriov_get_totalvfs(pdev))
+-		return -ERANGE;
 -
--	pudp = pud_offset(p4dp, vaddr);
--	if (unlikely(pud_none(*pudp)))
--		goto err;
+-	device_lock(&pdev->dev);
 -
--	pmdp = pmd_offset(pudp, vaddr);
--	if (unlikely(pmd_none(*pmdp)))
--		goto err;
--#ifdef CONFIG_X86_64
--	if (unlikely(pmd_large(*pmdp)))
--		pte = *(pte_t *) pmdp;
--	else
--#endif
--		pte = *pte_offset_kernel(pmdp, vaddr);
+-	if (num_vfs == pdev->sriov->num_VFs)
+-		goto exit;
 -
--	if (unlikely(!pte_present(pte) ||
--		     (write && (!pte_write(pte) || !pte_dirty(pte)))))
--		return 1;
+-	/* is PF driver loaded w/callback */
+-	if (!pdev->driver || !pdev->driver->sriov_configure) {
+-		pci_info(pdev, "Driver doesn't support SRIOV configuration via sysfs\n");
+-		ret = -ENOENT;
+-		goto exit;
+-	}
 -
--	*paddr = pte_pfn(pte) << PAGE_SHIFT;
--#ifdef CONFIG_HUGETLB_PAGE
--	*pageshift = is_vm_hugetlb_page(vma) ? HPAGE_SHIFT : PAGE_SHIFT;
--#else
--	*pageshift = PAGE_SHIFT;
--#endif
--	return 0;
+-	if (num_vfs == 0) {
+-		/* disable VFs */
+-		ret = pdev->driver->sriov_configure(pdev, 0);
+-		goto exit;
+-	}
 -
--err:
--	return 1;
+-	/* enable VFs */
+-	if (pdev->sriov->num_VFs) {
+-		pci_warn(pdev, "%d VFs already enabled. Disable before enabling %d VFs\n",
+-			 pdev->sriov->num_VFs, num_vfs);
+-		ret = -EBUSY;
+-		goto exit;
+-	}
+-
+-	ret = pdev->driver->sriov_configure(pdev, num_vfs);
+-	if (ret < 0)
+-		goto exit;
+-
+-	if (ret != num_vfs)
+-		pci_warn(pdev, "%d VFs requested; only %d enabled\n",
+-			 num_vfs, ret);
+-
+-exit:
+-	device_unlock(&pdev->dev);
+-
+-	if (ret < 0)
+-		return ret;
+-
+-	return count;
 -}
 -
- static int gru_vtop(struct gru_thread_state *gts, unsigned long vaddr,
- 		    int write, int atomic, unsigned long *gpa, int *pageshift)
+-static ssize_t sriov_offset_show(struct device *dev,
+-				 struct device_attribute *attr,
+-				 char *buf)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-
+-	return sprintf(buf, "%u\n", pdev->sriov->offset);
+-}
+-
+-static ssize_t sriov_stride_show(struct device *dev,
+-				 struct device_attribute *attr,
+-				 char *buf)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-
+-	return sprintf(buf, "%u\n", pdev->sriov->stride);
+-}
+-
+-static ssize_t sriov_vf_device_show(struct device *dev,
+-				    struct device_attribute *attr,
+-				    char *buf)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-
+-	return sprintf(buf, "%x\n", pdev->sriov->vf_device);
+-}
+-
+-static ssize_t sriov_drivers_autoprobe_show(struct device *dev,
+-					    struct device_attribute *attr,
+-					    char *buf)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-
+-	return sprintf(buf, "%u\n", pdev->sriov->drivers_autoprobe);
+-}
+-
+-static ssize_t sriov_drivers_autoprobe_store(struct device *dev,
+-					     struct device_attribute *attr,
+-					     const char *buf, size_t count)
+-{
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-	bool drivers_autoprobe;
+-
+-	if (kstrtobool(buf, &drivers_autoprobe) < 0)
+-		return -EINVAL;
+-
+-	pdev->sriov->drivers_autoprobe = drivers_autoprobe;
+-
+-	return count;
+-}
+-
+-static struct device_attribute sriov_totalvfs_attr = __ATTR_RO(sriov_totalvfs);
+-static struct device_attribute sriov_numvfs_attr =
+-		__ATTR(sriov_numvfs, (S_IRUGO|S_IWUSR|S_IWGRP),
+-		       sriov_numvfs_show, sriov_numvfs_store);
+-static struct device_attribute sriov_offset_attr = __ATTR_RO(sriov_offset);
+-static struct device_attribute sriov_stride_attr = __ATTR_RO(sriov_stride);
+-static struct device_attribute sriov_vf_device_attr = __ATTR_RO(sriov_vf_device);
+-static struct device_attribute sriov_drivers_autoprobe_attr =
+-		__ATTR(sriov_drivers_autoprobe, (S_IRUGO|S_IWUSR|S_IWGRP),
+-		       sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
+-#endif /* CONFIG_PCI_IOV */
+-
+ static ssize_t driver_override_store(struct device *dev,
+ 				     struct device_attribute *attr,
+ 				     const char *buf, size_t count)
+@@ -1697,34 +1549,6 @@ static const struct attribute_group pci_dev_hp_attr_group = {
+ 	.is_visible = pci_dev_hp_attrs_are_visible,
+ };
+ 
+-#ifdef CONFIG_PCI_IOV
+-static struct attribute *sriov_dev_attrs[] = {
+-	&sriov_totalvfs_attr.attr,
+-	&sriov_numvfs_attr.attr,
+-	&sriov_offset_attr.attr,
+-	&sriov_stride_attr.attr,
+-	&sriov_vf_device_attr.attr,
+-	&sriov_drivers_autoprobe_attr.attr,
+-	NULL,
+-};
+-
+-static umode_t sriov_attrs_are_visible(struct kobject *kobj,
+-				       struct attribute *a, int n)
+-{
+-	struct device *dev = kobj_to_dev(kobj);
+-
+-	if (!dev_is_pf(dev))
+-		return 0;
+-
+-	return a->mode;
+-}
+-
+-static const struct attribute_group sriov_dev_attr_group = {
+-	.attrs = sriov_dev_attrs,
+-	.is_visible = sriov_attrs_are_visible,
+-};
+-#endif /* CONFIG_PCI_IOV */
+-
+ static const struct attribute_group pci_dev_attr_group = {
+ 	.attrs = pci_dev_dev_attrs,
+ 	.is_visible = pci_dev_attrs_are_visible,
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 61bbfd611140..7e3c6c8ae6f9 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -455,7 +455,7 @@ void pci_iov_update_resource(struct pci_dev *dev, int resno);
+ resource_size_t pci_sriov_resource_alignment(struct pci_dev *dev, int resno);
+ void pci_restore_iov_state(struct pci_dev *dev);
+ int pci_iov_bus_range(struct pci_bus *bus);
+-
++extern const struct attribute_group sriov_dev_attr_group;
+ #else
+ static inline int pci_iov_init(struct pci_dev *dev)
  {
- 	struct mm_struct *mm = gts->ts_mm;
- 	struct vm_area_struct *vma;
- 	unsigned long paddr;
--	int ret, ps;
-+	int ret;
-+	struct page *page;
- 
- 	vma = find_vma(mm, vaddr);
- 	if (!vma)
-@@ -263,21 +187,33 @@ static int gru_vtop(struct gru_thread_state *gts, unsigned long vaddr,
- 
- 	/*
- 	 * Atomic lookup is faster & usually works even if called in non-atomic
--	 * context.
-+	 * context. get_user_pages_fast does atomic lookup before falling back to
-+	 * slow gup.
- 	 */
- 	rmb();	/* Must/check ms_range_active before loading PTEs */
--	ret = atomic_pte_lookup(vma, vaddr, write, &paddr, &ps);
--	if (ret) {
--		if (atomic)
-+	if (atomic) {
-+		ret = __get_user_pages_fast(vaddr, 1, write, &page);
-+		if (!ret)
- 			goto upm;
--		if (non_atomic_pte_lookup(vma, vaddr, write, &paddr, &ps))
-+	} else {
-+		ret = get_user_pages_fast(vaddr, 1, write ? FOLL_WRITE : 0, &page);
-+		if (!ret)
- 			goto inval;
- 	}
-+
-+	paddr = page_to_phys(page);
-+	put_user_page(page);
-+
-+	if (unlikely(is_vm_hugetlb_page(vma)))
-+		*pageshift = HPAGE_SHIFT;
-+	else
-+		*pageshift = PAGE_SHIFT;
-+
- 	if (is_gru_paddr(paddr))
- 		goto inval;
--	paddr = paddr & ~((1UL << ps) - 1);
-+	paddr = paddr & ~((1UL << *pageshift) - 1);
- 	*gpa = uv_soc_phys_ram_to_gpa(paddr);
--	*pageshift = ps;
-+
- 	return VTOP_SUCCESS;
- 
- inval:
 -- 
-2.7.4
+2.20.1
