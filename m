@@ -1,60 +1,65 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Wed, 14 Aug 2019 09:53:24 +0200
-Subject: [Linux-kernel-mentees] [PATCH v2 2/3] PCI: sysfs: Change
- permissions from symbolic to octal
-In-Reply-To: <20190814053846.GA253360@google.com>
-References: <20190809195721.34237-1-skunberg.kelsey@gmail.com>
-	<20190813204513.4790-1-skunberg.kelsey@gmail.com>
-	<20190813204513.4790-3-skunberg.kelsey@gmail.com>
-	<20190814053846.GA253360@google.com>
-Message-ID: <20190814075324.GB4067@kroah.com>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Wed, 14 Aug 2019 10:58:31 +0200
+Subject: [Linux-kernel-mentees] [RFC PATCH 0/2] Add predictive memory
+	reclamation and compaction
+In-Reply-To: <3cb0af00-f091-2f3e-d6cc-73a5171e6eda@oracle.com>
+References: <20190813014012.30232-1-khalid.aziz@oracle.com>
+	<20190813140553.GK17933@dhcp22.suse.cz>
+	<3cb0af00-f091-2f3e-d6cc-73a5171e6eda@oracle.com>
+Message-ID: <20190814085831.GS17933@dhcp22.suse.cz>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190814075324.6SPVkJSS3-UviNyGphZrSkjsYvrEq9laTxWCaqGyMaw@z>
+Message-ID: <20190814085831.P9qcoS_hLnyc_1WW0iY8DXUgPbg2HeziIsXMq9ip-IE@z>
 
-On Wed, Aug 14, 2019 at 12:38:46AM -0500, Bjorn Helgaas wrote:
-> [+cc Bodong, Don, Greg for permission question]
-> 
-> On Tue, Aug 13, 2019 at 02:45:12PM -0600, Kelsey Skunberg wrote:
-> > Symbolic permissions such as "(S_IWUSR | S_IWGRP)" are not
-> > preferred and octal permissions should be used instead. Change all
-> > symbolic permissions to octal permissions.
+On Tue 13-08-19 09:20:51, Khalid Aziz wrote:
+> On 8/13/19 8:05 AM, Michal Hocko wrote:
+> > On Mon 12-08-19 19:40:10, Khalid Aziz wrote:
+> > [...]
+> >> Patch 1 adds code to maintain a sliding lookback window of (time, number
+> >> of free pages) points which can be updated continuously and adds code to
+> >> compute best fit line across these points. It also adds code to use the
+> >> best fit lines to determine if kernel must start reclamation or
+> >> compaction.
+> >>
+> >> Patch 2 adds code to collect data points on free pages of various orders
+> >> at different points in time, uses code in patch 1 to update sliding
+> >> lookback window with these points and kicks off reclamation or
+> >> compaction based upon the results it gets.
 > > 
-> > Example of old:
+> > An important piece of information missing in your description is why
+> > do we need to keep that logic in the kernel. In other words, we have
+> > the background reclaim that acts on a wmark range and those are tunable
+> > from the userspace. The primary point of this background reclaim is to
+> > keep balance and prevent from direct reclaim. Why cannot you implement
+> > this or any other dynamic trend watching watchdog and tune watermarks
+> > accordingly? Something similar applies to kcompactd although we might be
+> > lacking a good interface.
 > > 
-> > "(S_IWUSR | S_IWGRP)"
-> > 
-> > Example of new:
-> > 
-> > "0220"
 > 
+> Hi Michal,
 > 
-> >  static DEVICE_ATTR_RO(sriov_totalvfs);
-> > -static DEVICE_ATTR(sriov_numvfs, (S_IRUGO | S_IWUSR | S_IWGRP),
-> > -				  sriov_numvfs_show, sriov_numvfs_store);
-> > +static DEVICE_ATTR(sriov_numvfs, 0664, sriov_numvfs_show, sriov_numvfs_store);
-> >  static DEVICE_ATTR_RO(sriov_offset);
-> >  static DEVICE_ATTR_RO(sriov_stride);
-> >  static DEVICE_ATTR_RO(sriov_vf_device);
-> > -static DEVICE_ATTR(sriov_drivers_autoprobe, (S_IRUGO | S_IWUSR | S_IWGRP),
-> > -		   sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
-> > +static DEVICE_ATTR(sriov_drivers_autoprobe, 0664, sriov_drivers_autoprobe_show,
-> > +		   sriov_drivers_autoprobe_store);
+> That is a very good question. As a matter of fact the initial prototype
+> to assess the feasibility of this approach was written in userspace for
+> a very limited application. We wrote the initial prototype to monitor
+> fragmentation and used /sys/devices/system/node/node*/compact to trigger
+> compaction. The prototype demonstrated this approach has merits.
 > 
-> Greg noticed that sriov_numvfs and sriov_drivers_autoprobe have
-> "unusual" permissions.  These were added by:
-> 
->   0e7df22401a3 ("PCI: Add sysfs sriov_drivers_autoprobe to control VF driver binding")
->   1789382a72a5 ("PCI: SRIOV control and status via sysfs")
-> 
-> Kelsey's patch correctly preserves the existing permissions, but we
-> should double-check that they are the permissions they want, and
-> possibly add a comment about why they're different from the rest.
+> The primary reason to implement this logic in the kernel is to make the
+> kernel self-tuning.
 
-I agree.  And if those permissions are ok, please put a HUGE comment in
-here saying why they are what they are and why they need to stay that
-way so we don't have this conversation again in a few years :)
+What makes this particular self-tuning an universal win? In other words
+there are many ways to analyze the memory pressure and feedback it back
+that I can think of. It is quite likely that very specific workloads
+would have very specific demands there. I have seen cases where are
+trivial increase of min_free_kbytes to normally insane value worked
+really great for a DB workload because the wasted memory didn't matter
+for example.
 
-thanks,
+> The more knobs we have externally, the more complex
+> it becomes to tune the kernel externally.
 
-greg k-h
+I agree on this point. Is the current set of tunning sufficient? What
+would be missing if not?
+-- 
+Michal Hocko
+SUSE Labs
