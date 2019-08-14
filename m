@@ -1,81 +1,179 @@
-From: linux.bhar@gmail.com (Bharath Vedartham)
-Date: Wed, 14 Aug 2019 23:30:31 +0530
-Subject: [Linux-kernel-mentees] [PATCH v5 1/1] sgi-gru: Remove
- *pte_lookup functions, Convert to get_user_page*()
-In-Reply-To: <20190814173830.GC13770@ziepe.ca>
-References: <1565379497-29266-1-git-send-email-linux.bhar@gmail.com>
-	<1565379497-29266-2-git-send-email-linux.bhar@gmail.com>
-	<20190813145029.GA32451@hpe.com>
-	<20190813172301.GA10228@bharath12345-Inspiron-5559>
-	<20190813181938.GA4196@hpe.com>
-	<20190814173034.GA5121@bharath12345-Inspiron-5559>
-	<20190814173830.GC13770@ziepe.ca>
-Message-ID: <20190814180031.GB5121@bharath12345-Inspiron-5559>
+From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
+Date: Wed, 14 Aug 2019 17:14:27 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2 1/3] PCI: sysfs: Define device
+ attributes with DEVICE_ATTR*()
+In-Reply-To: <20190814075220.GA4067@kroah.com>
+References: <20190809195721.34237-1-skunberg.kelsey@gmail.com>
+	<20190813204513.4790-1-skunberg.kelsey@gmail.com>
+	<20190813204513.4790-2-skunberg.kelsey@gmail.com>
+	<20190814075220.GA4067@kroah.com>
+Message-ID: <20190814231427.GC110786@JATN>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190814180031.VE-DEH62qe63WJsgSXiL7GR9lqO4A32tMIpzjFA0HXo@z>
+Message-ID: <20190814231427.hzxfN8dwlqG6tbu6uLuLsbBNnqkmNhEA5g368Qbi8_w@z>
 
-On Wed, Aug 14, 2019 at 02:38:30PM -0300, Jason Gunthorpe wrote:
-> On Wed, Aug 14, 2019 at 11:00:34PM +0530, Bharath Vedartham wrote:
-> > On Tue, Aug 13, 2019 at 01:19:38PM -0500, Dimitri Sivanich wrote:
-> > > On Tue, Aug 13, 2019 at 10:53:01PM +0530, Bharath Vedartham wrote:
-> > > > On Tue, Aug 13, 2019 at 09:50:29AM -0500, Dimitri Sivanich wrote:
-> > > > > Bharath,
-> > > > > 
-> > > > > I do not believe that __get_user_pages_fast will work for the atomic case, as
-> > > > > there is no guarantee that the 'current->mm' will be the correct one for the
-> > > > > process in question, as the process might have moved away from the cpu that is
-> > > > > handling interrupts for it's context.
-> > > > So what your saying is, there may be cases where current->mm != gts->ts_mm
-> > > > right? __get_user_pages_fast and get_user_pages do assume current->mm.
-> > > 
-> > > Correct, in the case of atomic context.
-> > > 
-> > > > 
-> > > > These changes were inspired a bit from kvm. In kvm/kvm_main.c,
-> > > > hva_to_pfn_fast uses __get_user_pages_fast. THe comment above the
-> > > > function states it runs in atomic context.
-> > > > 
-> > > > Just curious, get_user_pages also uses current->mm. Do you think that is
-> > > > also an issue? 
-> > > 
-> > > Not in non-atomic context.  Notice that it is currently done that way.
-> > > 
-> > > > 
-> > > > Do you feel using get_user_pages_remote would be a better idea? We can
-> > > > specify the mm_struct in get_user_pages_remote?
-> > > 
-> > > From that standpoint maybe, but is it safe in interrupt context?
-> > Hmm.. The gup maintainers seemed fine with the code..
+On Wed, Aug 14, 2019 at 09:52:20AM +0200, Greg KH wrote:
+> On Tue, Aug 13, 2019 at 02:45:11PM -0600, Kelsey Skunberg wrote:
+> > Defining device attributes should be done through the helper
+> > DEVICE_ATTR*(_name, _mode, _show, _store). Change all instances using
+> > __ATTR*() to now use DEVICE_ATTR*().
 > > 
-> > Now this is only an issue if gru_vtop can be executed in an interrupt
-> > context. 
+> > Example of old:
 > > 
-> > get_user_pages_remote is not valid in an interrupt context(if CONFIG_MMU
-> > is set). If we follow the function, in __get_user_pages, cond_resched()
-> > is called which definitly confirms that we can't run this function in an
-> > interrupt context. 
+> > struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show,
+> > 						  _store)
 > > 
-> > I think we might need some advice from the gup maintainers here.
-> > Note that the comment on the function __get_user_pages_fast states that
-> > __get_user_pages_fast is IRQ-safe.
+> > Example of new:
+> > 
+> > static DEVICE_ATTR(foo, S_IWUSR | S_IRUGO, show_foo, store_foo)
 > 
-> vhost is doing some approach where they switch current to the target
-> then call __get_user_pages_fast in an IRQ context, that might be a
-> reasonable pattern
+> Why not DEVICE_ATTR_RO() and DEVICE_ATTR_RW() and friends?  "Raw"
+> DEVICE_ATTR() should almost never be used unless the files have a very
+> strange mode setting.  And if that is true, they should be audited to
+> find out why their permissions are so strange from the rest of the
+> kernel defaults.
+>
+
+This makes sense. I'll put together a patch to change the DEVICE_ATTR()
+applicable to be changed. Thank you, Greg!
+
+-Kelsey
+
+> > 
+> > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> > ---
+> >  drivers/pci/pci-sysfs.c | 59 +++++++++++++++++++----------------------
+> >  1 file changed, 27 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> > index 965c72104150..8af7944fdccb 100644
+> > --- a/drivers/pci/pci-sysfs.c
+> > +++ b/drivers/pci/pci-sysfs.c
+> > @@ -464,9 +464,7 @@ static ssize_t dev_rescan_store(struct device *dev,
+> >  	}
+> >  	return count;
+> >  }
+> > -static struct device_attribute dev_rescan_attr = __ATTR(rescan,
+> > -							(S_IWUSR|S_IWGRP),
+> > -							NULL, dev_rescan_store);
+> > +static DEVICE_ATTR(rescan, (S_IWUSR | S_IWGRP), NULL, dev_rescan_store);
 > 
-> If this is a regular occurance we should probably add a
-> get_atomic_user_pages_remote() to make the pattern clear.
+> DEVICE_ATTR_WO()?
 > 
-> Jason
-
-That makes sense. get_atomic_user_pages_remote() should not be hard to
-write. AFAIKS __get_user_pages_fast is special_cased for current, we
-could probably just add a new parameter of the mm_struct to the page
-table walking code in gup.c
-
-But till then I think we can approach this by the way vhost approaches
-this problem by switching current to the target. 
-
-Thank you
-Bharath
+> >  static ssize_t remove_store(struct device *dev, struct device_attribute *attr,
+> >  			    const char *buf, size_t count)
+> > @@ -480,9 +478,8 @@ static ssize_t remove_store(struct device *dev, struct device_attribute *attr,
+> >  		pci_stop_and_remove_bus_device_locked(to_pci_dev(dev));
+> >  	return count;
+> >  }
+> > -static struct device_attribute dev_remove_attr = __ATTR_IGNORE_LOCKDEP(remove,
+> > -							(S_IWUSR|S_IWGRP),
+> > -							NULL, remove_store);
+> > +static DEVICE_ATTR_IGNORE_LOCKDEP(remove, (S_IWUSR | S_IWGRP), NULL,
+> > +				  remove_store);
+> 
+> DEVICE_ATTR_WO()?
+> 
+> Ugh, no lockdep?  ick, ok, leave this as-is, crazy "remove" files...
+> 
+> >  
+> >  static ssize_t dev_bus_rescan_store(struct device *dev,
+> >  				    struct device_attribute *attr,
+> > @@ -504,7 +501,7 @@ static ssize_t dev_bus_rescan_store(struct device *dev,
+> >  	}
+> >  	return count;
+> >  }
+> > -static DEVICE_ATTR(rescan, (S_IWUSR|S_IWGRP), NULL, dev_bus_rescan_store);
+> > +static DEVICE_ATTR(bus_rescan, (S_IWUSR | S_IWGRP), NULL, dev_bus_rescan_store);
+> 
+> DEVICE_ATTR_WO()?
+> 
+> >  
+> >  #if defined(CONFIG_PM) && defined(CONFIG_ACPI)
+> >  static ssize_t d3cold_allowed_store(struct device *dev,
+> > @@ -687,16 +684,14 @@ static ssize_t sriov_drivers_autoprobe_store(struct device *dev,
+> >  	return count;
+> >  }
+> >  
+> > -static struct device_attribute sriov_totalvfs_attr = __ATTR_RO(sriov_totalvfs);
+> > -static struct device_attribute sriov_numvfs_attr =
+> > -		__ATTR(sriov_numvfs, (S_IRUGO|S_IWUSR|S_IWGRP),
+> > -		       sriov_numvfs_show, sriov_numvfs_store);
+> > -static struct device_attribute sriov_offset_attr = __ATTR_RO(sriov_offset);
+> > -static struct device_attribute sriov_stride_attr = __ATTR_RO(sriov_stride);
+> > -static struct device_attribute sriov_vf_device_attr = __ATTR_RO(sriov_vf_device);
+> > -static struct device_attribute sriov_drivers_autoprobe_attr =
+> > -		__ATTR(sriov_drivers_autoprobe, (S_IRUGO|S_IWUSR|S_IWGRP),
+> > -		       sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
+> > +static DEVICE_ATTR_RO(sriov_totalvfs);
+> > +static DEVICE_ATTR(sriov_numvfs, (S_IRUGO | S_IWUSR | S_IWGRP),
+> > +				  sriov_numvfs_show, sriov_numvfs_store);
+> 
+> DEVICE_ATTR_RW()?
+> 
+> > +static DEVICE_ATTR_RO(sriov_offset);
+> > +static DEVICE_ATTR_RO(sriov_stride);
+> > +static DEVICE_ATTR_RO(sriov_vf_device);
+> > +static DEVICE_ATTR(sriov_drivers_autoprobe, (S_IRUGO | S_IWUSR | S_IWGRP),
+> > +		   sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
+> 
+> DEVICE_ATTR_RW()?
+> 
+> >  #endif /* CONFIG_PCI_IOV */
+> >  
+> >  static ssize_t driver_override_store(struct device *dev,
+> > @@ -792,7 +787,7 @@ static struct attribute *pcie_dev_attrs[] = {
+> >  };
+> >  
+> >  static struct attribute *pcibus_attrs[] = {
+> > -	&dev_attr_rescan.attr,
+> > +	&dev_attr_bus_rescan.attr,
+> >  	&dev_attr_cpuaffinity.attr,
+> >  	&dev_attr_cpulistaffinity.attr,
+> >  	NULL,
+> > @@ -820,7 +815,7 @@ static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
+> >  		!!(pdev->resource[PCI_ROM_RESOURCE].flags &
+> >  		   IORESOURCE_ROM_SHADOW));
+> >  }
+> > -static struct device_attribute vga_attr = __ATTR_RO(boot_vga);
+> > +static DEVICE_ATTR_RO(boot_vga);
+> >  
+> >  static ssize_t pci_read_config(struct file *filp, struct kobject *kobj,
+> >  			       struct bin_attribute *bin_attr, char *buf,
+> > @@ -1458,7 +1453,7 @@ static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
+> >  	return count;
+> >  }
+> >  
+> > -static struct device_attribute reset_attr = __ATTR(reset, 0200, NULL, reset_store);
+> > +static DEVICE_ATTR(reset, 0200, NULL, reset_store);
+> 
+> DEVICE_ATTR_WO()?  Hm, root only, maybe not :(
+> 
+> >  
+> >  static int pci_create_capabilities_sysfs(struct pci_dev *dev)
+> >  {
+> > @@ -1468,7 +1463,7 @@ static int pci_create_capabilities_sysfs(struct pci_dev *dev)
+> >  	pcie_aspm_create_sysfs_dev_files(dev);
+> >  
+> >  	if (dev->reset_fn) {
+> > -		retval = device_create_file(&dev->dev, &reset_attr);
+> > +		retval = device_create_file(&dev->dev, &dev_attr_reset);
+> 
+> odds are this needs to be fixed up later to use attribute groups
+> properly.  But that's better left for another patch.
+> 
+> >  		if (retval)
+> >  			goto error;
+> >  	}
+> > @@ -1553,7 +1548,7 @@ static void pci_remove_capabilities_sysfs(struct pci_dev *dev)
+> >  	pcie_vpd_remove_sysfs_dev_files(dev);
+> >  	pcie_aspm_remove_sysfs_dev_files(dev);
+> >  	if (dev->reset_fn) {
+> > -		device_remove_file(&dev->dev, &reset_attr);
+> > +		device_remove_file(&dev->dev, &dev_attr_reset);
+> 
+> Same here, attribute groups will handle this.
+> 
+> thanks,
+> 
+> greg k-h
