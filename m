@@ -1,177 +1,57 @@
-From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Wed, 14 Aug 2019 17:14:27 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 1/3] PCI: sysfs: Define device
- attributes with DEVICE_ATTR*()
-In-Reply-To: <20190814075220.GA4067@kroah.com>
+From: ddutile at redhat.com (Don Dutile)
+Date: Thu, 15 Aug 2019 10:37:13 -0400
+Subject: [Linux-kernel-mentees] [PATCH v2 2/3] PCI: sysfs: Change
+ permissions from symbolic to octal
+In-Reply-To: <20190814053846.GA253360@google.com>
 References: <20190809195721.34237-1-skunberg.kelsey@gmail.com>
 	<20190813204513.4790-1-skunberg.kelsey@gmail.com>
-	<20190813204513.4790-2-skunberg.kelsey@gmail.com>
-	<20190814075220.GA4067@kroah.com>
-Message-ID: <20190814231427.GC110786@JATN>
+	<20190813204513.4790-3-skunberg.kelsey@gmail.com>
+	<20190814053846.GA253360@google.com>
+Message-ID: <b4c0d5b4-7243-ba96-96d1-041a264ac499@redhat.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Wed, Aug 14, 2019 at 09:52:20AM +0200, Greg KH wrote:
-> On Tue, Aug 13, 2019 at 02:45:11PM -0600, Kelsey Skunberg wrote:
-> > Defining device attributes should be done through the helper
-> > DEVICE_ATTR*(_name, _mode, _show, _store). Change all instances using
-> > __ATTR*() to now use DEVICE_ATTR*().
-> > 
-> > Example of old:
-> > 
-> > struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show,
-> > 						  _store)
-> > 
-> > Example of new:
-> > 
-> > static DEVICE_ATTR(foo, S_IWUSR | S_IRUGO, show_foo, store_foo)
+On 08/14/2019 01:38 AM, Bjorn Helgaas wrote:
+> [+cc Bodong, Don, Greg for permission question]
 > 
-> Why not DEVICE_ATTR_RO() and DEVICE_ATTR_RW() and friends?  "Raw"
-> DEVICE_ATTR() should almost never be used unless the files have a very
-> strange mode setting.  And if that is true, they should be audited to
-> find out why their permissions are so strange from the rest of the
-> kernel defaults.
->
+> On Tue, Aug 13, 2019 at 02:45:12PM -0600, Kelsey Skunberg wrote:
+>> Symbolic permissions such as "(S_IWUSR | S_IWGRP)" are not
+>> preferred and octal permissions should be used instead. Change all
+>> symbolic permissions to octal permissions.
+>>
+>> Example of old:
+>>
+>> "(S_IWUSR | S_IWGRP)"
+>>
+>> Example of new:
+>>
+>> "0220"
+> 
+> 
+>>   static DEVICE_ATTR_RO(sriov_totalvfs);
+>> -static DEVICE_ATTR(sriov_numvfs, (S_IRUGO | S_IWUSR | S_IWGRP),
+>> -				  sriov_numvfs_show, sriov_numvfs_store);
+>> +static DEVICE_ATTR(sriov_numvfs, 0664, sriov_numvfs_show, sriov_numvfs_store);
+>>   static DEVICE_ATTR_RO(sriov_offset);
+>>   static DEVICE_ATTR_RO(sriov_stride);
+>>   static DEVICE_ATTR_RO(sriov_vf_device);
+>> -static DEVICE_ATTR(sriov_drivers_autoprobe, (S_IRUGO | S_IWUSR | S_IWGRP),
+>> -		   sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
+>> +static DEVICE_ATTR(sriov_drivers_autoprobe, 0664, sriov_drivers_autoprobe_show,
+>> +		   sriov_drivers_autoprobe_store);
+> 
+> Greg noticed that sriov_numvfs and sriov_drivers_autoprobe have
+> "unusual" permissions.  These were added by:
+> 
+>    0e7df22401a3 ("PCI: Add sysfs sriov_drivers_autoprobe to control VF driver binding")
+>    1789382a72a5 ("PCI: SRIOV control and status via sysfs")
+> 
+> Kelsey's patch correctly preserves the existing permissions, but we
+> should double-check that they are the permissions they want, and
+> possibly add a comment about why they're different from the rest.
+> 
+> Bjorn
+> 
+The rest being? ... 0644 vs 0664 ?
+The file is read & written, thus the (first) 6; I'll have to dig through very old (7 yr) notes to see if the second 6 is needed for libvirt (so it doesn't have to be root to enable).
 
-This makes sense. I'll put together a patch to change the DEVICE_ATTR()
-applicable to be changed. Thank you, Greg!
-
--Kelsey
-
-> > 
-> > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> > ---
-> >  drivers/pci/pci-sysfs.c | 59 +++++++++++++++++++----------------------
-> >  1 file changed, 27 insertions(+), 32 deletions(-)
-> > 
-> > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> > index 965c72104150..8af7944fdccb 100644
-> > --- a/drivers/pci/pci-sysfs.c
-> > +++ b/drivers/pci/pci-sysfs.c
-> > @@ -464,9 +464,7 @@ static ssize_t dev_rescan_store(struct device *dev,
-> >  	}
-> >  	return count;
-> >  }
-> > -static struct device_attribute dev_rescan_attr = __ATTR(rescan,
-> > -							(S_IWUSR|S_IWGRP),
-> > -							NULL, dev_rescan_store);
-> > +static DEVICE_ATTR(rescan, (S_IWUSR | S_IWGRP), NULL, dev_rescan_store);
-> 
-> DEVICE_ATTR_WO()?
-> 
-> >  static ssize_t remove_store(struct device *dev, struct device_attribute *attr,
-> >  			    const char *buf, size_t count)
-> > @@ -480,9 +478,8 @@ static ssize_t remove_store(struct device *dev, struct device_attribute *attr,
-> >  		pci_stop_and_remove_bus_device_locked(to_pci_dev(dev));
-> >  	return count;
-> >  }
-> > -static struct device_attribute dev_remove_attr = __ATTR_IGNORE_LOCKDEP(remove,
-> > -							(S_IWUSR|S_IWGRP),
-> > -							NULL, remove_store);
-> > +static DEVICE_ATTR_IGNORE_LOCKDEP(remove, (S_IWUSR | S_IWGRP), NULL,
-> > +				  remove_store);
-> 
-> DEVICE_ATTR_WO()?
-> 
-> Ugh, no lockdep?  ick, ok, leave this as-is, crazy "remove" files...
-> 
-> >  
-> >  static ssize_t dev_bus_rescan_store(struct device *dev,
-> >  				    struct device_attribute *attr,
-> > @@ -504,7 +501,7 @@ static ssize_t dev_bus_rescan_store(struct device *dev,
-> >  	}
-> >  	return count;
-> >  }
-> > -static DEVICE_ATTR(rescan, (S_IWUSR|S_IWGRP), NULL, dev_bus_rescan_store);
-> > +static DEVICE_ATTR(bus_rescan, (S_IWUSR | S_IWGRP), NULL, dev_bus_rescan_store);
-> 
-> DEVICE_ATTR_WO()?
-> 
-> >  
-> >  #if defined(CONFIG_PM) && defined(CONFIG_ACPI)
-> >  static ssize_t d3cold_allowed_store(struct device *dev,
-> > @@ -687,16 +684,14 @@ static ssize_t sriov_drivers_autoprobe_store(struct device *dev,
-> >  	return count;
-> >  }
-> >  
-> > -static struct device_attribute sriov_totalvfs_attr = __ATTR_RO(sriov_totalvfs);
-> > -static struct device_attribute sriov_numvfs_attr =
-> > -		__ATTR(sriov_numvfs, (S_IRUGO|S_IWUSR|S_IWGRP),
-> > -		       sriov_numvfs_show, sriov_numvfs_store);
-> > -static struct device_attribute sriov_offset_attr = __ATTR_RO(sriov_offset);
-> > -static struct device_attribute sriov_stride_attr = __ATTR_RO(sriov_stride);
-> > -static struct device_attribute sriov_vf_device_attr = __ATTR_RO(sriov_vf_device);
-> > -static struct device_attribute sriov_drivers_autoprobe_attr =
-> > -		__ATTR(sriov_drivers_autoprobe, (S_IRUGO|S_IWUSR|S_IWGRP),
-> > -		       sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
-> > +static DEVICE_ATTR_RO(sriov_totalvfs);
-> > +static DEVICE_ATTR(sriov_numvfs, (S_IRUGO | S_IWUSR | S_IWGRP),
-> > +				  sriov_numvfs_show, sriov_numvfs_store);
-> 
-> DEVICE_ATTR_RW()?
-> 
-> > +static DEVICE_ATTR_RO(sriov_offset);
-> > +static DEVICE_ATTR_RO(sriov_stride);
-> > +static DEVICE_ATTR_RO(sriov_vf_device);
-> > +static DEVICE_ATTR(sriov_drivers_autoprobe, (S_IRUGO | S_IWUSR | S_IWGRP),
-> > +		   sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
-> 
-> DEVICE_ATTR_RW()?
-> 
-> >  #endif /* CONFIG_PCI_IOV */
-> >  
-> >  static ssize_t driver_override_store(struct device *dev,
-> > @@ -792,7 +787,7 @@ static struct attribute *pcie_dev_attrs[] = {
-> >  };
-> >  
-> >  static struct attribute *pcibus_attrs[] = {
-> > -	&dev_attr_rescan.attr,
-> > +	&dev_attr_bus_rescan.attr,
-> >  	&dev_attr_cpuaffinity.attr,
-> >  	&dev_attr_cpulistaffinity.attr,
-> >  	NULL,
-> > @@ -820,7 +815,7 @@ static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
-> >  		!!(pdev->resource[PCI_ROM_RESOURCE].flags &
-> >  		   IORESOURCE_ROM_SHADOW));
-> >  }
-> > -static struct device_attribute vga_attr = __ATTR_RO(boot_vga);
-> > +static DEVICE_ATTR_RO(boot_vga);
-> >  
-> >  static ssize_t pci_read_config(struct file *filp, struct kobject *kobj,
-> >  			       struct bin_attribute *bin_attr, char *buf,
-> > @@ -1458,7 +1453,7 @@ static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
-> >  	return count;
-> >  }
-> >  
-> > -static struct device_attribute reset_attr = __ATTR(reset, 0200, NULL, reset_store);
-> > +static DEVICE_ATTR(reset, 0200, NULL, reset_store);
-> 
-> DEVICE_ATTR_WO()?  Hm, root only, maybe not :(
-> 
-> >  
-> >  static int pci_create_capabilities_sysfs(struct pci_dev *dev)
-> >  {
-> > @@ -1468,7 +1463,7 @@ static int pci_create_capabilities_sysfs(struct pci_dev *dev)
-> >  	pcie_aspm_create_sysfs_dev_files(dev);
-> >  
-> >  	if (dev->reset_fn) {
-> > -		retval = device_create_file(&dev->dev, &reset_attr);
-> > +		retval = device_create_file(&dev->dev, &dev_attr_reset);
-> 
-> odds are this needs to be fixed up later to use attribute groups
-> properly.  But that's better left for another patch.
-> 
-> >  		if (retval)
-> >  			goto error;
-> >  	}
-> > @@ -1553,7 +1548,7 @@ static void pci_remove_capabilities_sysfs(struct pci_dev *dev)
-> >  	pcie_vpd_remove_sysfs_dev_files(dev);
-> >  	pcie_aspm_remove_sysfs_dev_files(dev);
-> >  	if (dev->reset_fn) {
-> > -		device_remove_file(&dev->dev, &reset_attr);
-> > +		device_remove_file(&dev->dev, &dev_attr_reset);
-> 
-> Same here, attribute groups will handle this.
-> 
-> thanks,
-> 
-> greg k-h
+-dd
