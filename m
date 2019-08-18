@@ -1,24 +1,52 @@
 From: linux.bhar@gmail.com (Bharath Vedartham)
-Date: Mon, 19 Aug 2019 01:08:53 +0530
-Subject: [Linux-kernel-mentees] [PATCH v6 0/2] get_user_pages changes
-Message-ID: <1566157135-9423-1-git-send-email-linux.bhar@gmail.com>
+Date: Mon, 19 Aug 2019 01:08:54 +0530
+Subject: [Linux-kernel-mentees] [PATCH v6 1/2] sgi-gru: Convert put_page()
+	to put_user_page*()
+In-Reply-To: <1566157135-9423-1-git-send-email-linux.bhar@gmail.com>
+References: <1566157135-9423-1-git-send-email-linux.bhar@gmail.com>
+Message-ID: <1566157135-9423-2-git-send-email-linux.bhar@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190818193853._4wRSAVqeRs6ToWeRtyrQ3k5iDNtfkCZDJHhysWRChs@z>
+Message-ID: <20190818193854.Gd2xbluOQOyZDCm82aEGcbnjAAazwnzKjzPL0UfoYkU@z>
 
-This version only converts put_page to put_user_page and removes
-an unecessary ifdef. 
+For pages that were retained via get_user_pages*(), release those pages
+via the new put_user_page*() routines, instead of via put_page() or
+release_pages().
 
-It does not convert atomic_pte_lookup to __get_user_pages as
-gru_vtop could run in an interrupt context in which we can't assume
-current as __get_user_pages does.
+This is part a tree-wide conversion, as described in commit fc1d8e7cca2d
+("mm: introduce put_user_page*(), placeholder versions").
 
-Bharath Vedartham (2):
-  sgi-gru: Convert put_page() to put_user_page*()
-  sgi-gru: Remove uneccessary ifdef for CONFIG_HUGETLB_PAGE
+Cc: Ira Weiny <ira.weiny at intel.com>
+Cc: John Hubbard <jhubbard at nvidia.com>
+Cc: J?r?me Glisse <jglisse at redhat.com>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: Dimitri Sivanich <sivanich at sgi.com>
+Cc: Arnd Bergmann <arnd at arndb.de>
+Cc: William Kucharski <william.kucharski at oracle.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: linux-kernel at vger.kernel.org
+Cc: linux-mm at kvack.org
+Cc: linux-kernel-mentees at lists.linuxfoundation.org
+Reviewed-by: Ira Weiny <ira.weiny at intel.com>
+Reviewed-by: John Hubbard <jhubbard at nvidia.com>
+Reviewed-by: William Kucharski <william.kucharski at oracle.com>
+Signed-off-by: Bharath Vedartham <linux.bhar at gmail.com>
+---
+ drivers/misc/sgi-gru/grufault.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/misc/sgi-gru/grufault.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
+index 4b713a8..61b3447 100644
+--- a/drivers/misc/sgi-gru/grufault.c
++++ b/drivers/misc/sgi-gru/grufault.c
+@@ -188,7 +188,7 @@ static int non_atomic_pte_lookup(struct vm_area_struct *vma,
+ 	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <= 0)
+ 		return -EFAULT;
+ 	*paddr = page_to_phys(page);
+-	put_page(page);
++	put_user_page(page);
+ 	return 0;
+ }
+ 
 -- 
 2.7.4
