@@ -1,20 +1,24 @@
-From: linux.bhar@gmail.com (Bharath Vedartham)
-Date: Mon, 19 Aug 2019 01:21:40 +0530
-Subject: [Linux-kernel-mentees] [PATCH 2/2] sgi-gru: Remove uneccessary
- ifdef for CONFIG_HUGETLB_PAGE
-In-Reply-To: <1566157135-9423-3-git-send-email-linux.bhar@gmail.com>
+From: sivanich@hpe.com (Dimitri Sivanich)
+Date: Mon, 19 Aug 2019 07:56:11 -0500
+Subject: [Linux-kernel-mentees] [PATCH v6 1/2] sgi-gru: Convert
+ put_page() to put_user_page*()
+In-Reply-To: <1566157135-9423-2-git-send-email-linux.bhar@gmail.com>
 References: <1566157135-9423-1-git-send-email-linux.bhar@gmail.com>
-	<1566157135-9423-3-git-send-email-linux.bhar@gmail.com>
-Message-ID: <20190818195140.GC4487@bharath12345-Inspiron-5559>
+	<1566157135-9423-2-git-send-email-linux.bhar@gmail.com>
+Message-ID: <20190819125611.GA5808@hpe.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190818195140.Y9KMkawhphE3VOVOWdzR9ligjZAvXTQSI-nZ46rWDnw@z>
+Message-ID: <20190819125611.E5zqw2AWKiglrd1ArX2JAcap48bRaNKYXT-oT0Spgdw@z>
 
-CC'ing lkml.
+Reviewed-by: Dimitri Sivanich <sivanich at hpe.com>
 
-On Mon, Aug 19, 2019 at 01:08:55AM +0530, Bharath Vedartham wrote:
-> is_vm_hugetlb_page will always return false if CONFIG_HUGETLB_PAGE is
-> not set.
+On Mon, Aug 19, 2019 at 01:08:54AM +0530, Bharath Vedartham wrote:
+> For pages that were retained via get_user_pages*(), release those pages
+> via the new put_user_page*() routines, instead of via put_page() or
+> release_pages().
+> 
+> This is part a tree-wide conversion, as described in commit fc1d8e7cca2d
+> ("mm: introduce put_user_page*(), placeholder versions").
 > 
 > Cc: Ira Weiny <ira.weiny at intel.com>
 > Cc: John Hubbard <jhubbard at nvidia.com>
@@ -32,48 +36,22 @@ On Mon, Aug 19, 2019 at 01:08:55AM +0530, Bharath Vedartham wrote:
 > Reviewed-by: William Kucharski <william.kucharski at oracle.com>
 > Signed-off-by: Bharath Vedartham <linux.bhar at gmail.com>
 > ---
->  drivers/misc/sgi-gru/grufault.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
+>  drivers/misc/sgi-gru/grufault.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
-> index 61b3447..bce47af 100644
+> index 4b713a8..61b3447 100644
 > --- a/drivers/misc/sgi-gru/grufault.c
 > +++ b/drivers/misc/sgi-gru/grufault.c
-> @@ -180,11 +180,11 @@ static int non_atomic_pte_lookup(struct vm_area_struct *vma,
->  {
->  	struct page *page;
->  
-> -#ifdef CONFIG_HUGETLB_PAGE
-> -	*pageshift = is_vm_hugetlb_page(vma) ? HPAGE_SHIFT : PAGE_SHIFT;
-> -#else
-> -	*pageshift = PAGE_SHIFT;
-> -#endif
-> +	if (unlikely(is_vm_hugetlb_page(vma)))
-> +		*pageshift = HPAGE_SHIFT;
-> +	else
-> +		*pageshift = PAGE_SHIFT;
-> +
+> @@ -188,7 +188,7 @@ static int non_atomic_pte_lookup(struct vm_area_struct *vma,
 >  	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <= 0)
 >  		return -EFAULT;
 >  	*paddr = page_to_phys(page);
-> @@ -238,11 +238,12 @@ static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
->  		return 1;
->  
->  	*paddr = pte_pfn(pte) << PAGE_SHIFT;
-> -#ifdef CONFIG_HUGETLB_PAGE
-> -	*pageshift = is_vm_hugetlb_page(vma) ? HPAGE_SHIFT : PAGE_SHIFT;
-> -#else
-> -	*pageshift = PAGE_SHIFT;
-> -#endif
-> +
-> +	if (unlikely(is_vm_hugetlb_page(vma)))
-> +		*pageshift = HPAGE_SHIFT;
-> +	else
-> +		*pageshift = PAGE_SHIFT;
-> +
+> -	put_page(page);
+> +	put_user_page(page);
 >  	return 0;
+>  }
 >  
->  err:
 > -- 
 > 2.7.4
 > 
