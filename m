@@ -1,67 +1,81 @@
-From: jhubbard at nvidia.com (John Hubbard)
-Date: Mon, 19 Aug 2019 12:30:18 -0700
-Subject: [Linux-kernel-mentees] [PATCH v6 1/2] sgi-gru: Convert
- put_page() to put_user_page*()
-In-Reply-To: <20190819190647.GA6261@bharath12345-Inspiron-5559>
-References: <1566157135-9423-1-git-send-email-linux.bhar@gmail.com>
-	<1566157135-9423-2-git-send-email-linux.bhar@gmail.com>
-	<20190819125611.GA5808@hpe.com>
-	<20190819190647.GA6261@bharath12345-Inspiron-5559>
-Message-ID: <0c2ad29b-934c-ec30-66c3-b153baf1fba5@nvidia.com>
+From: helgaas at kernel.org (Bjorn Helgaas)
+Date: Mon, 19 Aug 2019 17:42:03 -0500
+Subject: [Linux-kernel-mentees] [PATCH v3 0/4] PCI: Clean up pci-sysfs.c
+In-Reply-To: <20190815153352.86143-1-skunberg.kelsey@gmail.com>
+References: <20190813204513.4790-1-skunberg.kelsey@gmail.com>
+	<20190815153352.86143-1-skunberg.kelsey@gmail.com>
+Message-ID: <20190819224203.GV253360@google.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On 8/19/19 12:06 PM, Bharath Vedartham wrote:
-> On Mon, Aug 19, 2019 at 07:56:11AM -0500, Dimitri Sivanich wrote:
->> Reviewed-by: Dimitri Sivanich <sivanich at hpe.com>
-> Thanks!
+On Thu, Aug 15, 2019 at 09:33:49AM -0600, Kelsey Skunberg wrote:
+> This series is designed to clean up device attributes and permissions in
+> pci-sysfs.c. Then move the sysfs SR-IOV functions from pci-sysfs.c to
+> iov.c for better organization.
 > 
-> John, would you like to take this patch into your miscellaneous
-> conversions patch set?
+> Patch 1: Define device attributes with DEVICE_ATTR* instead of __ATTR*.
 > 
+> Patch 2: Change permissions from symbolic to the preferred octal.
+> 
+> Patch 3: Change DEVICE_ATTR() with 0220 permissions to DEVICE_ATTR_WO().
+> 
+> Patch 4: Move sysfs SR-IOV functions to iov.c to keep the feature's code
+> together.
+> 
+> 
+> Patch 1, 2, and 4 will report unusual permissions '0664' used from the
+> following:
+> 
+>   static DEVICE_ATTR(sriov_numvfs, 0664, sriov_numvfs_show,
+>                      sriov_numvfs_store);
+> 
+>   static DEVICE_ATTR(sriov_drivers_autoprobe, 0664,
+>                      sriov_drivers_autoprobe_show,
+>                      sriov_drivers_autoprobe_store);
+> 
+> This series preserves the existing permissions set in:
+> 
+> 
+>   commit 0e7df22401a3 ("PCI: Add sysfs sriov_drivers_autoprobe to control
+>                         VF driver binding")
+> 
+>   commit 1789382a72a5 ("PCI: SRIOV control and status via sysfs")
+> 
+> Either adding a comment verifying permissions are okay or changing the
+> permissions is to be completed with a new patch.
+> 
+> Changes since v1:
+>         Add patch 1 and 2 to fix the way device attributes are defined
+>         and change permissions from symbolic to octal. Patch 4 which moves
+>         sysfs SR-IOV functions to iov.c will then apply cleaner.
+> 
+> Changes since v2:
+> 
+>         Patch 1: Commit log updated. Example shows DEVICE_ATTR_RO()
+>         example instead of DEVICE_ATTR(). DEVICE_ATTR() should be avoided
+>         unless the files have unusual permissions. Changed to reflect a
+>         more encouraged usage.  Also updated regex to be accurate.
+> 
+>         Patch 3: [NEW] Add patch to change DEVICE_ATTR() with 0220
+>         permissions to DEVICE_ATTR_WO().
+> 
+>         Updated series log to reflect new patch and unusual permissions
+>         information.
+> 
+> 
+> Kelsey Skunberg (4):
+>   PCI: sysfs: Define device attributes with DEVICE_ATTR*
+>   PCI: sysfs: Change permissions from symbolic to octal
+>   PCI: sysfs: Change DEVICE_ATTR() to DEVICE_ATTR_WO()
+>   PCI/IOV: Move sysfs SR-IOV functions to iov.c
+> 
+>  drivers/pci/iov.c       | 168 ++++++++++++++++++++++++++++++
+>  drivers/pci/pci-sysfs.c | 223 ++++------------------------------------
+>  drivers/pci/pci.h       |   2 +-
+>  3 files changed, 191 insertions(+), 202 deletions(-)
 
-(+Andrew and Michal, so they know where all this is going.)
+Thanks, I applied the new DEVICE_ATTR_WO() patch as the *second* patch
+so the two DEVICE_ATTR patches were together.  I added Greg and Don's
+Reviewed-by to all and Kuppuswamy's to the last.  This is all on
+pci/virtualization for v5.4.
 
-Sure, although that conversion series [1] is on a brief hold, because
-there are additional conversions desired, and the API is still under
-discussion. Also, reading between the lines of Michal's response [2]
-about it, I think people would prefer that the next revision include
-the following, for each conversion site:
-
-Conversion of gup/put_page sites:
-
-Before:
-
-	get_user_pages(...);
-	...
-	for each page:
-		put_page();
-
-After:
-	
-	gup_flags |= FOLL_PIN; (maybe FOLL_LONGTERM in some cases)
-	vaddr_pin_user_pages(...gup_flags...)
-	...
-	vaddr_unpin_user_pages(); /* which invokes put_user_page() */
-
-Fortunately, it's not harmful for the simpler conversion from put_page()
-to put_user_page() to happen first, and in fact those have usually led
-to simplifications, paving the way to make it easier to call
-vaddr_unpin_user_pages(), once it's ready. (And showing exactly what
-to convert, too.)
-
-So for now, I'm going to just build on top of Ira's tree, and once the
-vaddr*() API settles down, I'll send out an updated series that attempts
-to include the reviews and ACKs so far (I'll have to review them, but
-make a note that review or ACK was done for part of the conversion),
-and adds the additional gup(FOLL_PIN), and uses vaddr*() wrappers instead of
-gup/pup.
-
-[1] https://lore.kernel.org/r/20190807013340.9706-1-jhubbard at nvidia.com
-
-[2] https://lore.kernel.org/r/20190809175210.GR18351 at dhcp22.suse.cz
-
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+Bjorn
