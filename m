@@ -1,134 +1,65 @@
-From: b.zolnierkie@samsung.com (Bartlomiej Zolnierkiewicz)
-Date: Mon, 19 Aug 2019 16:33:59 +0200
-Subject: [Linux-kernel-mentees] [PATCH v2] video: radeon.h Fix Shifting
- signed 32 bit value by 31 bits problem
-In-Reply-To: <1563758072-898-1-git-send-email-shobhitkukreti@gmail.com>
-References: <46c5dc00-eb00-e229-62af-6e171f9f2a40@samsung.com>
-	<CGME20190722011449epcas2p1ddef0d4a3bc2d39d9d99c9a8e9c10dc7@epcas2p1.samsung.com>
-	<1563758072-898-1-git-send-email-shobhitkukreti@gmail.com>
-Message-ID: <85b130de-4e1b-3004-ae5a-3cda5d732bcb@samsung.com>
+From: linux.bhar@gmail.com (Bharath Vedartham)
+Date: Tue, 20 Aug 2019 00:36:47 +0530
+Subject: [Linux-kernel-mentees] [PATCH v6 1/2] sgi-gru: Convert
+ put_page() to put_user_page*()
+In-Reply-To: <20190819125611.GA5808@hpe.com>
+References: <1566157135-9423-1-git-send-email-linux.bhar@gmail.com>
+	<1566157135-9423-2-git-send-email-linux.bhar@gmail.com>
+	<20190819125611.GA5808@hpe.com>
+Message-ID: <20190819190647.GA6261@bharath12345-Inspiron-5559>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190819143359.OSYhUosu2cyX7N1Am3fwUgMGzxKgvkKFr-eQ-RxxHk8@z>
+Message-ID: <20190819190647.YT_kz_8mj33ShE5GFzyP9Z6kOZcOeq5AITIX3W23Xfc@z>
 
+On Mon, Aug 19, 2019 at 07:56:11AM -0500, Dimitri Sivanich wrote:
+> Reviewed-by: Dimitri Sivanich <sivanich at hpe.com>
+Thanks!
 
-Hi,
+John, would you like to take this patch into your miscellaneous
+conversions patch set?
 
-On 7/22/19 3:14 AM, Shobhit Kukreti wrote:
-> Fix RB2D_DC_BUSY and HORZ_AUTO_RATIO_INC defines to use "U" cast to
-> avoid shifting signed 32 bit values by 31 bit problem. This is not a
-> problem for gcc built kernel.
-> 
-> However, the header file being a public api, other compilers may not
-> handle the condition safely resulting in undefined behavior.
-> 
-> Signed-off-by: Shobhit Kukreti <shobhitkukreti at gmail.com>
-> ---
-> Changes in v2:
-> 	Replace bit shift operations with BIT() macro
-
-1. Please update the patch summary & description to reflect that,
-please see commit 13990cf8a180 for the reference:
-
-commit 13990cf8a180cc070f0b1266140e799db8754289
-Author: Amol Surati <suratiamol at gmail.com>
-Date:   Sun Jul 7 14:27:29 2019 +0530
-
-    ide: use BIT() macro for defining bit-flags
-    
-    The BIT() macro is available for defining the required bit-flags.
-    
-    Since it operates on an unsigned value and expands to an unsigned result,
-    using it, instead of an expression like (1 << x), also fixes the problem
-    of shifting a signed 32-bit value by 31 bits (e.g. 1 << 31).
-    
-    Signed-off-by: Amol Surati <suratiamol at gmail.com>
-    Signed-off-by: David S. Miller <davem at davemloft.net>
-
-
-2. Please use ./scripts/checkpatch.pl to check your patch and fix issue
-reported by the script:
-
-WARNING: please, no space before tabs
-#147: FILE: include/video/radeon.h:458:
-+#define FORCEON_MCLKB         ^I^I   ^I   BIT(17)$
-
-WARNING: please, no space before tabs
-#148: FILE: include/video/radeon.h:459:
-+#define FORCEON_YCLKA         ^I    ^I   ^I   BIT(18)$
-
-WARNING: please, no space before tabs
-#149: FILE: include/video/radeon.h:460:
-+#define FORCEON_YCLKB         ^I^I   ^I   BIT(19)$
-
-WARNING: please, no space before tabs
-#150: FILE: include/video/radeon.h:461:
-+#define FORCEON_MC            ^I^I   ^I   BIT(20)$
-
-WARNING: please, no space before tabs
-#151: FILE: include/video/radeon.h:462:
-+#define FORCEON_AIC           ^I^I   ^I   BIT(21)$
-
-WARNING: please, no space before tabs
-#219: FILE: include/video/radeon.h:544:
-+#define CRTC_BYPASS_LUT_EN     ^I^I^I   BIT(14)$
-
-WARNING: please, no space before tabs
-#220: FILE: include/video/radeon.h:545:
-+#define CRTC_EXT_DISP_EN      ^I^I^I   BIT(24)$
-
-WARNING: please, no space before tabs
-#453: FILE: include/video/radeon.h:740:
-+#define SOFT_RESET_CP           ^I^I   BIT(0)$
-
-WARNING: please, no space before tabs
-#454: FILE: include/video/radeon.h:741:
-+#define SOFT_RESET_HI           ^I^I   BIT(1)$
-
-WARNING: please, no space before tabs
-#455: FILE: include/video/radeon.h:742:
-+#define SOFT_RESET_SE           ^I^I   BIT(2)$
-
-WARNING: please, no space before tabs
-#456: FILE: include/video/radeon.h:743:
-+#define SOFT_RESET_RE           ^I^I   BIT(3)$
-
-WARNING: please, no space before tabs
-#457: FILE: include/video/radeon.h:744:
-+#define SOFT_RESET_PP           ^I^I   BIT(4)$
-
-WARNING: please, no space before tabs
-#458: FILE: include/video/radeon.h:745:
-+#define SOFT_RESET_E2           ^I^I   BIT(5)$
-
-WARNING: please, no space before tabs
-#459: FILE: include/video/radeon.h:746:
-+#define SOFT_RESET_RB           ^I^I   BIT(6)$
-
-WARNING: please, no space before tabs
-#460: FILE: include/video/radeon.h:747:
-+#define SOFT_RESET_HDP          ^I^I   BIT(7)$
-
-WARNING: please, no space before tabs
-#496: FILE: include/video/radeon.h:888:
-+#define GMC_CLR_CMP_CNTL_DIS      ^I^I   BIT(28)$
-
-total: 0 errors, 17 warnings, 0 checks, 502 lines checked
-
-
-3. Please update Cc: list of your mail by all mailing lists returned by
-./scripts/get_maintainer.pl:
-
-$ ./scripts/get_maintainer.pl -f include/video/atmel_lcdc.h
-Bartlomiej Zolnierkiewicz <b.zolnierkie at samsung.com> (maintainer:FRAMEBUFFER LAYER)
-dri-devel at lists.freedesktop.org (open list:FRAMEBUFFER LAYER)
-linux-fbdev at vger.kernel.org (open list:FRAMEBUFFER LAYER)
-linux-kernel at vger.kernel.org (open list)
-
->  include/video/radeon.h | 338 ++++++++++++++++++++++++-------------------------
->  1 file changed, 169 insertions(+), 169 deletions(-)
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+Thank you
+Bharath
+> On Mon, Aug 19, 2019 at 01:08:54AM +0530, Bharath Vedartham wrote:
+> > For pages that were retained via get_user_pages*(), release those pages
+> > via the new put_user_page*() routines, instead of via put_page() or
+> > release_pages().
+> > 
+> > This is part a tree-wide conversion, as described in commit fc1d8e7cca2d
+> > ("mm: introduce put_user_page*(), placeholder versions").
+> > 
+> > Cc: Ira Weiny <ira.weiny at intel.com>
+> > Cc: John Hubbard <jhubbard at nvidia.com>
+> > Cc: J?r?me Glisse <jglisse at redhat.com>
+> > Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+> > Cc: Dimitri Sivanich <sivanich at sgi.com>
+> > Cc: Arnd Bergmann <arnd at arndb.de>
+> > Cc: William Kucharski <william.kucharski at oracle.com>
+> > Cc: Christoph Hellwig <hch at lst.de>
+> > Cc: linux-kernel at vger.kernel.org
+> > Cc: linux-mm at kvack.org
+> > Cc: linux-kernel-mentees at lists.linuxfoundation.org
+> > Reviewed-by: Ira Weiny <ira.weiny at intel.com>
+> > Reviewed-by: John Hubbard <jhubbard at nvidia.com>
+> > Reviewed-by: William Kucharski <william.kucharski at oracle.com>
+> > Signed-off-by: Bharath Vedartham <linux.bhar at gmail.com>
+> > ---
+> >  drivers/misc/sgi-gru/grufault.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
+> > index 4b713a8..61b3447 100644
+> > --- a/drivers/misc/sgi-gru/grufault.c
+> > +++ b/drivers/misc/sgi-gru/grufault.c
+> > @@ -188,7 +188,7 @@ static int non_atomic_pte_lookup(struct vm_area_struct *vma,
+> >  	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <= 0)
+> >  		return -EFAULT;
+> >  	*paddr = page_to_phys(page);
+> > -	put_page(page);
+> > +	put_user_page(page);
+> >  	return 0;
+> >  }
+> >  
+> > -- 
+> > 2.7.4
+> > 
