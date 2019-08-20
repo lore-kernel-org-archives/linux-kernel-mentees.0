@@ -1,73 +1,63 @@
-From: skhan at linuxfoundation.org (Shuah Khan)
-Date: Mon, 19 Aug 2019 18:17:02 -0600
-Subject: [Linux-kernel-mentees] [PROJECT] clean up swapcache use of
- struct page
-In-Reply-To: <20190819235456.GA9657@bombadil.infradead.org>
-References: <20190819235456.GA9657@bombadil.infradead.org>
-Message-ID: <f69a2e2e-ec21-efd6-4787-59f1c77885b3@linuxfoundation.org>
+From: mhocko at kernel.org (Michal Hocko)
+Date: Tue, 20 Aug 2019 10:18:20 +0200
+Subject: [Linux-kernel-mentees] [PATCH v6 1/2] sgi-gru: Convert
+ put_page() to put_user_page*()
+In-Reply-To: <0c2ad29b-934c-ec30-66c3-b153baf1fba5@nvidia.com>
+References: <1566157135-9423-1-git-send-email-linux.bhar@gmail.com>
+	<1566157135-9423-2-git-send-email-linux.bhar@gmail.com>
+	<20190819125611.GA5808@hpe.com>
+	<20190819190647.GA6261@bharath12345-Inspiron-5559>
+	<0c2ad29b-934c-ec30-66c3-b153baf1fba5@nvidia.com>
+Message-ID: <20190820081820.GI3111@dhcp22.suse.cz>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Hi Matthew,
+On Mon 19-08-19 12:30:18, John Hubbard wrote:
+> On 8/19/19 12:06 PM, Bharath Vedartham wrote:
+> > On Mon, Aug 19, 2019 at 07:56:11AM -0500, Dimitri Sivanich wrote:
+> > > Reviewed-by: Dimitri Sivanich <sivanich at hpe.com>
+> > Thanks!
+> > 
+> > John, would you like to take this patch into your miscellaneous
+> > conversions patch set?
+> > 
+> 
+> (+Andrew and Michal, so they know where all this is going.)
+> 
+> Sure, although that conversion series [1] is on a brief hold, because
+> there are additional conversions desired, and the API is still under
+> discussion. Also, reading between the lines of Michal's response [2]
+> about it, I think people would prefer that the next revision include
+> the following, for each conversion site:
+> 
+> Conversion of gup/put_page sites:
+> 
+> Before:
+> 
+> 	get_user_pages(...);
+> 	...
+> 	for each page:
+> 		put_page();
+> 
+> After:
+> 	
+> 	gup_flags |= FOLL_PIN; (maybe FOLL_LONGTERM in some cases)
+> 	vaddr_pin_user_pages(...gup_flags...)
 
-On 8/19/19 5:54 PM, Matthew Wilcox wrote:
-> 
-> This would be a good project for someone with a little experience and
-> a lot of attention to detail.
-> 
-> The struct page is probably the most abused data structure in the kernel,
-> and for good reason.  But some of the abuse is unnecessary ... a mere
-> historical accident that would be better fixed.
-> 
-> Page cache pages use page->mapping and page->index to indicate which file
-> the page belongs to and where in that file it is.  page->private may be
-> used by the filesystem for its own purposes (eg buffer heads).
-> 
-> Anonymous pages use page->mapping to point to the anon VMA they belong
-> to and page->index to record the offset within the VMA.  Then, if they
-> are also part of the swap cache, they use page->private to record both
-> the offset within the swap device and the index of the page within the
-> swap device.
-> 
-> Then we get abominations like:
-> 
-> static inline pgoff_t page_index(struct page *page)
-> {
->          if (unlikely(PageSwapCache(page)))
->                  return __page_file_index(page);
->          return page->index;
-> }
-> 
-> My modest proposal for deleting the first two lines of that function is
-> to first switch the uses of page->private and page->index for anonymous
-> pages.  Then move the swp_type() back from page->index to page->private
-> again [1].
-> 
-> I am willing to review patches and provide feedback.  I can go into more
-> detail about how I think this should be tackled if there's interest.
-> Also, if you know more than I do about the MM and think this is a bad
-> idea, please do say ;-)
-> 
+I was hoping that FOLL_PIN would be handled by vaddr_pin_user_pages.
 
-I will be happy to add it to the project list for Spring session.
-
-We can work together to come up with a task list to get the candidates
-up to speed during the application process period which starts on Nov 1st.
-
-> This is going to be a tough project because there are a lot of
-> rarely-tested paths which directly reference (eg) page->index, and they
-> might be talking about a page cache page or a swap page.  This is not
-> a simple Coccinelle script.
-
-Yes mm isn't an easy area especially for new developers. We can work
-together to come up with a task list to get the candidates up to speed
-during the application process period which starts on Nov 1st.
-
+> 	...
+> 	vaddr_unpin_user_pages(); /* which invokes put_user_page() */
 > 
-> [1] We have enough bits to do this; on a 32-bit machine, we can at most
-> have a VMA which covers 4GB memory and with a 4kB page size, that's only
-> 20 bits needed to encode all possible offsets within a VMA).
+> Fortunately, it's not harmful for the simpler conversion from put_page()
+> to put_user_page() to happen first, and in fact those have usually led
+> to simplifications, paving the way to make it easier to call
+> vaddr_unpin_user_pages(), once it's ready. (And showing exactly what
+> to convert, too.)
 
-That being said, I will wait for other mm experts weigh in.
-
-thanks,
--- Shuah
+If that makes the later conversion easier then no real objections from
+me. Assuming that the current put_user_page conversions are correct of
+course (I have the mlock one and potentials that falls into the same
+category in mind).
+-- 
+Michal Hocko
+SUSE Labs
