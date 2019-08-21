@@ -1,66 +1,43 @@
-From: jhubbard@nvidia.com (John Hubbard)
-Date: Tue, 20 Aug 2019 13:50:18 -0700
-Subject: [Linux-kernel-mentees] [PATCH v6 1/2] sgi-gru: Convert
- put_page() to put_user_page*()
-In-Reply-To: <20190820081820.GI3111@dhcp22.suse.cz>
-References: <1566157135-9423-1-git-send-email-linux.bhar@gmail.com>
-	<1566157135-9423-2-git-send-email-linux.bhar@gmail.com>
-	<20190819125611.GA5808@hpe.com>
-	<20190819190647.GA6261@bharath12345-Inspiron-5559>
-	<0c2ad29b-934c-ec30-66c3-b153baf1fba5@nvidia.com>
-	<20190820081820.GI3111@dhcp22.suse.cz>
-Message-ID: <2971c5ea-88f2-0f07-e6f5-ad4108f62816@nvidia.com>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Wed, 21 Aug 2019 16:06:32 +0200
+Subject: [Linux-kernel-mentees] [RFC PATCH 0/2] Add predictive memory
+	reclamation and compaction
+In-Reply-To: <2668ad2e-ee52-8c88-22c0-1952243af5a1@oracle.com>
+References: <20190813014012.30232-1-khalid.aziz@oracle.com>
+	<20190813140553.GK17933@dhcp22.suse.cz>
+	<3cb0af00-f091-2f3e-d6cc-73a5171e6eda@oracle.com>
+	<20190814085831.GS17933@dhcp22.suse.cz>
+	<d3895804-7340-a7ae-d611-62913303e9c5@oracle.com>
+	<20190815170215.GQ9477@dhcp22.suse.cz>
+	<2668ad2e-ee52-8c88-22c0-1952243af5a1@oracle.com>
+Message-ID: <20190821140632.GI3111@dhcp22.suse.cz>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190820205018.WQal6WxNtTlp9BlL5WEiiOYuGqkS-N4pYcBb0yqc9so@z>
+Message-ID: <20190821140632.8Cyc3X2zL5Z0MgseUkC_KZepj5hffWCHdd3P2e4MwAM@z>
 
-On 8/20/19 1:18 AM, Michal Hocko wrote:
-> On Mon 19-08-19 12:30:18, John Hubbard wrote:
->> On 8/19/19 12:06 PM, Bharath Vedartham wrote:
->>> On Mon, Aug 19, 2019 at 07:56:11AM -0500, Dimitri Sivanich wrote:
-...
->> Conversion of gup/put_page sites:
->>
->> Before:
->>
->> 	get_user_pages(...);
->> 	...
->> 	for each page:
->> 		put_page();
->>
->> After:
->> 	
->> 	gup_flags |= FOLL_PIN; (maybe FOLL_LONGTERM in some cases)
->> 	vaddr_pin_user_pages(...gup_flags...)
+On Thu 15-08-19 14:51:04, Khalid Aziz wrote:
+> Hi Michal,
 > 
-> I was hoping that FOLL_PIN would be handled by vaddr_pin_user_pages.
-> 
+> The smarts for tuning these knobs can be implemented in userspace and
+> more knobs added to allow for what is missing today, but we get back to
+> the same issue as before. That does nothing to make kernel self-tuning
+> and adds possibly even more knobs to userspace. Something so fundamental
+> to kernel memory management as making free pages available when they are
+> needed really should be taken care of in the kernel itself. Moving it to
+> userspace just means the kernel is hobbled unless one installs and tunes
+> a userspace package correctly.
 
-Good point: now that we've got the 4 cases summarized, it turns out
-that either FOLL_PIN is required, or there is no need to call
-vaddr_pin_user_pages() at all.  So we can go back to setting FOLL_PIN
-inside it, which is of course much better for maintenance. Great!
+>From my past experience the existing autotunig works mostly ok for a
+vast variety of workloads. A more clever tuning is possible and people
+are doing that already. Especially for cases when the machine is heavily
+overcommited. There are different ways to achieve that. Your new
+in-kernel auto tuning would have to be tested on a large variety of
+workloads to be proven and riskless. So I am quite skeptical to be
+honest.
 
-
->> 	...
->> 	vaddr_unpin_user_pages(); /* which invokes put_user_page() */
->>
->> Fortunately, it's not harmful for the simpler conversion from put_page()
->> to put_user_page() to happen first, and in fact those have usually led
->> to simplifications, paving the way to make it easier to call
->> vaddr_unpin_user_pages(), once it's ready. (And showing exactly what
->> to convert, too.)
-> 
-> If that makes the later conversion easier then no real objections from
-> me. Assuming that the current put_user_page conversions are correct of
-> course (I have the mlock one and potentials that falls into the same
-> category in mind).
-> 
-
-Agreed: only correct conversions should be done. Not the incorrect
-ones. ahem.  :)
-
-thanks,
+Therefore I would really focus on discussing whether we have sufficient
+APIs to tune the kernel to do the right thing when needed. That requires
+to identify gaps in that area.
 -- 
-John Hubbard
-NVIDIA
+Michal Hocko
+SUSE Labs
