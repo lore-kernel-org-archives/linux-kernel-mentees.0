@@ -1,96 +1,79 @@
-From: c0d1n61at3@gmail.com (Jiunn Chang)
-Date: Mon,  2 Sep 2019 11:59:20 -0500
-Subject: [Linux-kernel-mentees] [PATCH v2] cec-compliance: system audio
-	control tests
-In-Reply-To: <20190902093346.20041-1-c0d1n61at3@gmail.com>
-References: <20190902093346.20041-1-c0d1n61at3@gmail.com>
-Message-ID: <20190902165920.17812-1-c0d1n61at3@gmail.com>
+From: rafael@kernel.org (Rafael J. Wysocki)
+Date: Mon, 2 Sep 2019 23:08:08 +0200
+Subject: [Linux-kernel-mentees] [PATCH 1/3] ACPI: Remove
+	acpi_has_method() call from acpi_adxl.c
+In-Reply-To: <20190722182929.GA203187@google.com>
+References: <20190722023530.67676-1-skunberg.kelsey@gmail.com>
+	<20190722023530.67676-2-skunberg.kelsey@gmail.com>
+	<CAJZ5v0gRzu0bVL+7L9NhbWu5OxveEP8H8v5qpiW-FeOtoOepiw@mail.gmail.com>
+	<20190722182929.GA203187@google.com>
+Message-ID:
+ <CAJZ5v0iF=TxxD_gCJfaZzORTrcu+2StJE1_vhthB70jxqCkHuw@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190902165920.xUc7aqLUboMPUUFGyqId0PncccMlVePIsyRE3d94Vcw@z>
+Message-ID: <20190902210808.yZeSBzasIsi56wn-8JSMkmP41sc4_y9Xz3HqKCGzAMY@z>
 
-Add user control press operands:
- - Mute Function
- - Restore Volume Function
+Sorry for the delayed reply.
 
-Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
----
+On Mon, Jul 22, 2019 at 8:29 PM Bjorn Helgaas <helgaas at kernel.org> wrote:
+>
+> [+cc Tony (original author), Borislav (merged original patch)]
+>
+> On Mon, Jul 22, 2019 at 10:31:11AM +0200, Rafael J. Wysocki wrote:
+> > On Mon, Jul 22, 2019 at 4:36 AM Kelsey Skunberg
+> > <skunberg.kelsey at gmail.com> wrote:
+> > >
+> > > acpi_check_dsm() will already return an error if the DSM method does not
+> > > exist. Checking if the DSM method exists before the acpi_check_dsm() call
+> > > is not needed. Remove acpi_has_method() call to avoid additional work.
+> > >
+> > > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> > > ---
+> > >  drivers/acpi/acpi_adxl.c | 5 -----
+> > >  1 file changed, 5 deletions(-)
+> > >
+> > > diff --git a/drivers/acpi/acpi_adxl.c b/drivers/acpi/acpi_adxl.c
+> > > index 13c8f7b50c46..89aac15663fd 100644
+> > > --- a/drivers/acpi/acpi_adxl.c
+> > > +++ b/drivers/acpi/acpi_adxl.c
+> > > @@ -148,11 +148,6 @@ static int __init adxl_init(void)
+> > >                 return -ENODEV;
+> > >         }
+> > >
+> > > -       if (!acpi_has_method(handle, "_DSM")) {
+> > > -               pr_info("No DSM method\n");
+> >
+> > And why is printing the message not useful?
+> >
+> > > -               return -ENODEV;
+> > > -       }
+> > > -
+> > >         if (!acpi_check_dsm(handle, &adxl_guid, ADXL_REVISION,
+> > >                             ADXL_IDX_GET_ADDR_PARAMS |
+> > >                             ADXL_IDX_FORWARD_TRANSLATE)) {
+>
+> The next line of context (not included in the patch):
+>
+>                pr_info("DSM method does not support forward translate\n");
+>
+> IMHO kernel messages that are just a constant string, with no context
+> or variable part (device ID, path, error code, etc) are questionable
+> in general.  Is there any dev_printk()-like thing that takes an
+> acpi_handle?  Seems like that would be useful for cases like this.
+>
+> This message *does* include an "ADXL: " prefix (from the pr_fmt
+> definition), and from reading the code you can see that the only
+> possible method is "\_SB.ADXL._DSM".
+>
+> There's nothing an end user can do with these messages, so I suspect
+> their value is for debugging during platform bringup, and it would be
+> sufficient to drop the first one (as Kelsey's patch does) and change
+> the second one like this:
+>
+> -              pr_info("DSM method does not support forward translate\n");
+> +              pr_info("%s DSM missing or does not support forward translate\n",
+> +                      path);
 
-Changes made since v2:
- - change node->state.mute to boolean
+You have a point, but then I would expect the changelog to mention that.
 
->8---------------------------------------------------------------------------8<
-
- utils/cec-compliance/cec-test-audio.cpp | 32 +++++++++++++++++++++++++
- utils/cec-follower/cec-processing.cpp   |  6 +++++
- 2 files changed, 38 insertions(+)
-
-diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-index 8611350e..872bb9ad 100644
---- a/utils/cec-compliance/cec-test-audio.cpp
-+++ b/utils/cec-compliance/cec-test-audio.cpp
-@@ -673,6 +673,32 @@ static int sac_user_control_press_mute(struct node *node, unsigned me, unsigned
- 	return 0;
- }
- 
-+static int sac_user_control_press_mute_function(struct node *node, unsigned me, unsigned la, bool interactive)
-+{
-+	__u8 ret;
-+
-+	if ((ret = sac_util_send_user_control_press(node, me, la, 0x65)))
-+		return ret;
-+	fail_on_test_v2(node->remote[la].cec_version,
-+			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
-+			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_ON);
-+
-+	return 0;
-+}
-+
-+static int sac_user_control_press_restore_volume_function(struct node *node, unsigned me, unsigned la, bool interactive)
-+{
-+	__u8 ret;
-+
-+	if ((ret = sac_util_send_user_control_press(node, me, la, 0x66)))
-+		return ret;
-+	fail_on_test_v2(node->remote[la].cec_version,
-+			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
-+			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_OFF);
-+
-+	return 0;
-+}
-+
- static int sac_user_control_release(struct node *node, unsigned me, unsigned la, bool interactive)
- {
- 	struct cec_msg msg = {};
-@@ -763,6 +789,12 @@ struct remote_subtest sac_subtests[] = {
- 	{ "User Control Pressed (Mute)",
- 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
- 	  sac_user_control_press_mute },
-+	{ "User Control Pressed (Restore Volume Function)",
-+	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+	  sac_user_control_press_restore_volume_function },
-+	{ "User Control Pressed (Mute Function)",
-+	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+	  sac_user_control_press_mute_function },
- 	{ "User Control Released",
- 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
- 	  sac_user_control_release },
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 27172560..a38f664b 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -516,6 +516,12 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 		case 0x43:
- 			node->state.mute = !node->state.mute;
- 			break;
-+		case 0x65:
-+			node->state.mute = true;
-+			break;
-+		case 0x66:
-+			node->state.mute = false;
-+			break;
- 		case 0x6B:
- 			if (!enter_standby(node))
- 				exit_standby(node);
--- 
-2.23.0
+As it stands, the patch does more than the changelog says, which isn't nice.
