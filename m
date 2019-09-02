@@ -1,35 +1,88 @@
-From: mhocko@kernel.org (Michal Hocko)
-Date: Mon, 2 Sep 2019 10:02:18 +0200
-Subject: [Linux-kernel-mentees] [RFC PATCH 0/2] Add predictive memory
-	reclamation and compaction
-In-Reply-To: <23eca880-d0d7-00f9-cb1b-b2998f2a1dff@oracle.com>
-References: <20190813140553.GK17933@dhcp22.suse.cz>
-	<3cb0af00-f091-2f3e-d6cc-73a5171e6eda@oracle.com>
-	<20190814085831.GS17933@dhcp22.suse.cz>
-	<d3895804-7340-a7ae-d611-62913303e9c5@oracle.com>
-	<20190815170215.GQ9477@dhcp22.suse.cz>
-	<2668ad2e-ee52-8c88-22c0-1952243af5a1@oracle.com>
-	<20190821140632.GI3111@dhcp22.suse.cz>
-	<20190826204420.GA16800@bharath12345-Inspiron-5559>
-	<20190827061606.GN7538@dhcp22.suse.cz>
-	<23eca880-d0d7-00f9-cb1b-b2998f2a1dff@oracle.com>
-Message-ID: <20190902080218.GF14028@dhcp22.suse.cz>
+From: c0d1n61at3@gmail.com (Jiunn Chang)
+Date: Mon,  2 Sep 2019 04:33:46 -0500
+Subject: [Linux-kernel-mentees] [PATCH] cec-compliance: system audio control
+	tests
+Message-ID: <20190902093346.20041-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190902080218.jQHA5DS6pEIHJ0ewtGukntGyZgJjHZutre85SKHI0rQ@z>
+Message-ID: <20190902093346.c5UP5kLQtujxUwkPi8YlT4fY1_il-oFrmH_bDyJzSQ8@z>
 
-On Fri 30-08-19 15:35:06, Khalid Aziz wrote:
-[...]
-> - Kernel is not self-tuning and is dependent upon a userspace tool to
-> perform well in a fundamental area of memory management.
+Add user control press operands:
+ - Mute Function
+ - Restore Volume Function
 
-You keep bringing this up without an actual analysis of a wider range of
-workloads that would prove that the default behavior is really
-suboptimal. You are making some assumptions based on a very specific DB
-workload which might benefit from a more aggressive background workload.
-If you really want to sell any changes to auto tuning then you really
-need to come up with more workloads and an actual theory why an early
-and more aggressive reclaim pays off.
+Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+---
+ utils/cec-compliance/cec-test-audio.cpp | 32 +++++++++++++++++++++++++
+ utils/cec-follower/cec-processing.cpp   |  6 +++++
+ 2 files changed, 38 insertions(+)
+
+diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
+index 8611350e..872bb9ad 100644
+--- a/utils/cec-compliance/cec-test-audio.cpp
++++ b/utils/cec-compliance/cec-test-audio.cpp
+@@ -673,6 +673,32 @@ static int sac_user_control_press_mute(struct node *node, unsigned me, unsigned
+ 	return 0;
+ }
+ 
++static int sac_user_control_press_mute_function(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	__u8 ret;
++
++	if ((ret = sac_util_send_user_control_press(node, me, la, 0x65)))
++		return ret;
++	fail_on_test_v2(node->remote[la].cec_version,
++			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
++			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_ON);
++
++	return 0;
++}
++
++static int sac_user_control_press_restore_volume_function(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	__u8 ret;
++
++	if ((ret = sac_util_send_user_control_press(node, me, la, 0x66)))
++		return ret;
++	fail_on_test_v2(node->remote[la].cec_version,
++			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
++			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_OFF);
++
++	return 0;
++}
++
+ static int sac_user_control_release(struct node *node, unsigned me, unsigned la, bool interactive)
+ {
+ 	struct cec_msg msg = {};
+@@ -763,6 +789,12 @@ struct remote_subtest sac_subtests[] = {
+ 	{ "User Control Pressed (Mute)",
+ 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+ 	  sac_user_control_press_mute },
++	{ "User Control Pressed (Restore Volume Function)",
++	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
++	  sac_user_control_press_restore_volume_function },
++	{ "User Control Pressed (Mute Function)",
++	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
++	  sac_user_control_press_mute_function },
+ 	{ "User Control Released",
+ 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+ 	  sac_user_control_release },
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index 27172560..c6d88647 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -516,6 +516,12 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		case 0x43:
+ 			node->state.mute = !node->state.mute;
+ 			break;
++		case 0x65:
++			node->state.mute = CEC_OP_AUD_MUTE_STATUS_ON;
++			break;
++		case 0x66:
++			node->state.mute = CEC_OP_AUD_MUTE_STATUS_OFF;
++			break;
+ 		case 0x6B:
+ 			if (!enter_standby(node))
+ 				exit_standby(node);
 -- 
-Michal Hocko
-SUSE Labs
+2.23.0
