@@ -1,112 +1,118 @@
-From: bnvandana@gmail.com (Vandana BN)
-Date: Tue,  3 Sep 2019 16:28:39 +0530
-Subject: [Linux-kernel-mentees] [PATCH] v4l2-ctl: Print UVC meta info
-Message-ID: <20190903105839.4182-1-bnvandana@gmail.com>
+From: skhan@linuxfoundation.org (Shuah Khan)
+Date: Tue, 3 Sep 2019 08:15:02 -0600
+Subject: [Linux-kernel-mentees] [PATCH v2] cec-compliance: system audio
+ control tests
+In-Reply-To: <20190902165920.17812-1-c0d1n61at3@gmail.com>
+References: <20190902093346.20041-1-c0d1n61at3@gmail.com>
+	<20190902165920.17812-1-c0d1n61at3@gmail.com>
+Message-ID: <becde334-cc07-7ecd-3cc3-729b1af56af8@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190903105839.evwLuXWc_g-UJFfBkeR-LQN8-oAAsaY-bVlPvrV6Pr8@z>
+Message-ID: <20190903141502.IhHk_bLSOKhLAiQRjWbQ7pU5gsz74qA2SW7Dv22BWM4@z>
 
-Print UVC Metadata information in verbose mode.
+On 9/2/19 10:59 AM, Jiunn Chang wrote:
+> Add user control press operands:
+>   - Mute Function
+>   - Restore Volume Function
+> 
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
----
- utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 20 ++++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 14 ++++++++------
- utils/v4l2-ctl/v4l2-ctl.h             |  1 +
- 3 files changed, 29 insertions(+), 6 deletions(-)
+Please add more details to the commit message. It would be helpful
+to know more about the features that are getting added.
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-index 75fbd6f4..f1003604 100644
---- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-@@ -127,3 +127,23 @@ void meta_list(cv4l_fd &fd)
- 		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
- 	}
- }
-+
-+static struct vivid_uvc_meta_buf {
-+	__u64 ns;
-+	__u16 sof;
-+	__u8 length;
-+	__u8 flags;
-+	__u8 buf[];
-+} __packed;
-+
-+void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-+{
-+	struct vivid_uvc_meta_buf *vbuf;
-+	if (fmt.g_pixelformat() == V4L2_META_FMT_UVC) {
-+		fprintf(f, "META format V4L2_META_FMT_UVC:");
-+		for (unsigned i = 0; i< buf.g_num_planes(); i++) {
-+			vbuf = (vivid_uvc_meta_buf *)(q.g_dataptr(buf.g_index(), i) + buf.g_mem_offset(i));
-+			fprintf(f, "ns %llu sof %u, len %u, flags 0x%x\n",vbuf[i].ns, vbuf[i].sof, vbuf[i].length, vbuf[i].flags);
-+		}
-+	}
-+}
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index 11157434..46d53f23 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
- 	fprintf(f, "\n");
- }
- 
--static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
--				 fps_timestamps &fps_ts, int comp_perc,
--				 bool skip_ts = false)
-+static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
-+				 cv4l_queue &q, fps_timestamps &fps_ts,
-+				 int comp_perc, bool skip_ts = false)
- {
- 	static double last_ts;
- 
-@@ -592,6 +592,8 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
- 	if (fl)
- 		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
- 	fprintf(f, "\n");
-+	if (v4l_type_is_meta(buf.g_type()))
-+		print_meta_buffer(f, buf, fmt, q);
- }
- 
- static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-@@ -1390,7 +1392,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
- 		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
- 			break;
- 		if (verbose)
--			print_concise_buffer(stderr, buf, fps_ts, -1);
-+			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
- 		if (fd.qbuf(buf))
- 			return QUEUE_ERROR;
- 	}
-@@ -1412,7 +1414,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
- 	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
- 		ch = 'B';
- 	if (verbose) {
--		print_concise_buffer(stderr, buf, fps_ts,
-+		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
- 				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
- 		comp_perc_count = comp_perc = 0;
- 	}
-@@ -1502,7 +1504,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
- 		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
- 		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
- 		if (verbose)
--			print_concise_buffer(stderr, buf, fps_ts, -1);
-+			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
- 
- 		for (unsigned j = 0; j < buf.g_num_planes(); j++)
- 			buf.s_bytesused(buf.g_length(j), j);
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index 5797d784..36051566 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
- void meta_set(cv4l_fd &fd);
- void meta_get(cv4l_fd &fd);
- void meta_list(cv4l_fd &fd);
-+void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
- 
- // v4l2-ctl-subdev.cpp
- void subdev_usage(void);
--- 
-2.17.1
+> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+> ---
+> 
+> Changes made since v2:
+
+I assume you meant since v1?
+
+>   - change node->state.mute to boolean
+> 
+>> 8---------------------------------------------------------------------------8<
+> 
+>   utils/cec-compliance/cec-test-audio.cpp | 32 +++++++++++++++++++++++++
+>   utils/cec-follower/cec-processing.cpp   |  6 +++++
+>   2 files changed, 38 insertions(+)
+> 
+> diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
+> index 8611350e..872bb9ad 100644
+> --- a/utils/cec-compliance/cec-test-audio.cpp
+> +++ b/utils/cec-compliance/cec-test-audio.cpp
+> @@ -673,6 +673,32 @@ static int sac_user_control_press_mute(struct node *node, unsigned me, unsigned
+>   	return 0;
+>   }
+>   
+> +static int sac_user_control_press_mute_function(struct node *node, unsigned me, unsigned la, bool interactive)
+> +{
+> +	__u8 ret;
+> +
+> +	if ((ret = sac_util_send_user_control_press(node, me, la, 0x65)))
+
+Would it help to add a define for 0x65 - same comment on other uses
+such as 0x66
+
+> +		return ret;
+> +	fail_on_test_v2(node->remote[la].cec_version,
+> +			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
+> +			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_ON);
+> +
+> +	return 0;
+> +}
+> +
+> +static int sac_user_control_press_restore_volume_function(struct node *node, unsigned me, unsigned la, bool interactive)
+> +{
+> +	__u8 ret;
+> +
+> +	if ((ret = sac_util_send_user_control_press(node, me, la, 0x66)))
+
+Same here?
+
+> +		return ret;
+> +	fail_on_test_v2(node->remote[la].cec_version,
+> +			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
+> +			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_OFF);
+> +
+> +	return 0;
+> +}
+> +
+>   static int sac_user_control_release(struct node *node, unsigned me, unsigned la, bool interactive)
+>   {
+>   	struct cec_msg msg = {};
+> @@ -763,6 +789,12 @@ struct remote_subtest sac_subtests[] = {
+>   	{ "User Control Pressed (Mute)",
+>   	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+>   	  sac_user_control_press_mute },
+> +	{ "User Control Pressed (Restore Volume Function)",
+> +	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+> +	  sac_user_control_press_restore_volume_function },
+> +	{ "User Control Pressed (Mute Function)",
+> +	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+> +	  sac_user_control_press_mute_function },
+>   	{ "User Control Released",
+>   	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+>   	  sac_user_control_release },
+> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+> index 27172560..a38f664b 100644
+> --- a/utils/cec-follower/cec-processing.cpp
+> +++ b/utils/cec-follower/cec-processing.cpp
+> @@ -516,6 +516,12 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+>   		case 0x43:
+>   			node->state.mute = !node->state.mute;
+>   			break;
+
+Looks like this is existing usage. Still it would make sense to add
+a define for these as self documenting.
+
+> +		case 0x65:
+> +			node->state.mute = true;
+> +			break;
+> +		case 0x66:
+> +			node->state.mute = false;
+> +			break;
+>   		case 0x6B:
+>   			if (!enter_standby(node))
+>   				exit_standby(node);
+> 
+
+thanks,
+-- Shuah
