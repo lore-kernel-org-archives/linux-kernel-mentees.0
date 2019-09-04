@@ -1,5 +1,5 @@
 From: ddutile@redhat.com (Don Dutile)
-Date: Wed, 4 Sep 2019 11:32:14 -0400
+Date: Wed, 4 Sep 2019 14:33:44 -0400
 Subject: [Linux-kernel-mentees] [PATCH v2 2/3] PCI: sysfs: Change
  permissions from symbolic to octal
 In-Reply-To: <20190904062229.GA66871@JATN>
@@ -9,10 +9,10 @@ References: <20190809195721.34237-1-skunberg.kelsey@gmail.com>
 	<20190814053846.GA253360@google.com>
 	<b4c0d5b4-7243-ba96-96d1-041a264ac499@redhat.com>
 	<20190904062229.GA66871@JATN>
-Message-ID: <a7865a6a-4359-e989-7ef5-77d9a8135ae3@redhat.com>
+Message-ID: <850cf536-0b72-d78c-efaf-855dcb391087@redhat.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190904153214.4sMxCh3WzT6YosO9CjoLt8T4K1Hm9gQES5UlW8F3hvI@z>
+Message-ID: <20190904183344.nWIGwtGlgKeJ4547sJFAb9c3r2_OpQeqL88jtsQFc0A@z>
 
 On 09/04/2019 02:22 AM, Kelsey Skunberg wrote:
 > On Thu, Aug 15, 2019 at 10:37:13AM -0400, Don Dutile wrote:
@@ -71,7 +71,9 @@ On 09/04/2019 02:22 AM, Kelsey Skunberg wrote:
 > 
 > -Kelsey
 > 
-Asking libvirt team in RH; will get back as soon as I hear back.
-LPC time sink may delay the response.
+Daniel Berrang? reported that libvirt runs as root when dealing with anything PCI, and chowns files for qemu needs, so there is no need for the 664 permission.
+For all I know, it's a simple typo that was allowed to creep in. :-/
+
+Feel free to modify to 644.
 
 -dd
