@@ -1,77 +1,66 @@
-From: ddutile at redhat.com (Don Dutile)
-Date: Wed, 4 Sep 2019 14:33:44 -0400
-Subject: [Linux-kernel-mentees] [PATCH v2 2/3] PCI: sysfs: Change
- permissions from symbolic to octal
-In-Reply-To: <20190904062229.GA66871@JATN>
-References: <20190809195721.34237-1-skunberg.kelsey@gmail.com>
-	<20190813204513.4790-1-skunberg.kelsey@gmail.com>
-	<20190813204513.4790-3-skunberg.kelsey@gmail.com>
-	<20190814053846.GA253360@google.com>
-	<b4c0d5b4-7243-ba96-96d1-041a264ac499@redhat.com>
-	<20190904062229.GA66871@JATN>
-Message-ID: <850cf536-0b72-d78c-efaf-855dcb391087@redhat.com>
+From: helgaas at kernel.org (Bjorn Helgaas)
+Date: Wed, 4 Sep 2019 13:45:38 -0500
+Subject: [Linux-kernel-mentees] [PATCH 2/2] PCI: Unify
+ pci_dev_is_disconnected() and pci_dev_is_inaccessible()
+In-Reply-To: <20190904053523.7lmuoo5zempxtsdq@wunner.de>
+References: <20190904043633.65026-1-skunberg.kelsey@gmail.com>
+	<20190904043633.65026-3-skunberg.kelsey@gmail.com>
+	<20190904053523.7lmuoo5zempxtsdq@wunner.de>
+Message-ID: <20190904184538.GC103977@google.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On 09/04/2019 02:22 AM, Kelsey Skunberg wrote:
-> On Thu, Aug 15, 2019 at 10:37:13AM -0400, Don Dutile wrote:
->> On 08/14/2019 01:38 AM, Bjorn Helgaas wrote:
->>> [+cc Bodong, Don, Greg for permission question]
->>>
->>> On Tue, Aug 13, 2019 at 02:45:12PM -0600, Kelsey Skunberg wrote:
->>>> Symbolic permissions such as "(S_IWUSR | S_IWGRP)" are not
->>>> preferred and octal permissions should be used instead. Change all
->>>> symbolic permissions to octal permissions.
->>>>
->>>> Example of old:
->>>>
->>>> "(S_IWUSR | S_IWGRP)"
->>>>
->>>> Example of new:
->>>>
->>>> "0220"
->>>
->>>
->>>>    static DEVICE_ATTR_RO(sriov_totalvfs);
->>>> -static DEVICE_ATTR(sriov_numvfs, (S_IRUGO | S_IWUSR | S_IWGRP),
->>>> -				  sriov_numvfs_show, sriov_numvfs_store);
->>>> +static DEVICE_ATTR(sriov_numvfs, 0664, sriov_numvfs_show, sriov_numvfs_store);
->>>>    static DEVICE_ATTR_RO(sriov_offset);
->>>>    static DEVICE_ATTR_RO(sriov_stride);
->>>>    static DEVICE_ATTR_RO(sriov_vf_device);
->>>> -static DEVICE_ATTR(sriov_drivers_autoprobe, (S_IRUGO | S_IWUSR | S_IWGRP),
->>>> -		   sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
->>>> +static DEVICE_ATTR(sriov_drivers_autoprobe, 0664, sriov_drivers_autoprobe_show,
->>>> +		   sriov_drivers_autoprobe_store);
->>>
->>> Greg noticed that sriov_numvfs and sriov_drivers_autoprobe have
->>> "unusual" permissions.  These were added by:
->>>
->>>     0e7df22401a3 ("PCI: Add sysfs sriov_drivers_autoprobe to control VF driver binding")
->>>     1789382a72a5 ("PCI: SRIOV control and status via sysfs")
->>>
->>> Kelsey's patch correctly preserves the existing permissions, but we
->>> should double-check that they are the permissions they want, and
->>> possibly add a comment about why they're different from the rest.
->>>
->>> Bjorn
->>>
-> 
-> Hi Don,
-> 
->> The rest being? ... 0644 vs 0664 ?
->> The file is read & written, thus the (first) 6; I'll have to dig through very old (7 yr) notes to see if the second 6 is needed for libvirt (so it doesn't have to be root to enable).
->>
->> -dd
->>
-> 
-> Were you able to see if the unusual permissions (0664) are needed for
-> libvirt? I appreciate your help!
-> 
-> -Kelsey
-> 
-Daniel Berrang? reported that libvirt runs as root when dealing with anything PCI, and chowns files for qemu needs, so there is no need for the 664 permission.
-For all I know, it's a simple typo that was allowed to creep in. :-/
+[+cc Carolyn, author of 17a402a0075c]
 
-Feel free to modify to 644.
+On Wed, Sep 04, 2019 at 07:35:23AM +0200, Lukas Wunner wrote:
+> On Tue, Sep 03, 2019 at 10:36:35PM -0600, Kelsey Skunberg wrote:
+> > Change pci_dev_is_disconnected() call inside pci_dev_is_inaccessible() to:
+> > 
+> > 	pdev->error_state == pci_channel_io_perm_failure
+> > 
+> > Change remaining pci_dev_is_disconnected() calls to
+> > pci_dev_is_inaccessible() calls.
+> 
+> I don't think that's a good idea because it introduces a config space read
+> (for the vendor ID) in places where we don't want that.  E.g., after the
+> check of pdev->error_state, a regular config space read may take place and
+> if that returns all ones, we may already be able to determine that the
+> device is inaccessible, obviating the need for a vendor ID check.
 
--dd
+Oh, I think I see what you mean: Previously pci_read_config_byte() et
+al called pci_dev_is_disconnected(), which only checked
+dev->error_state.
+
+If we applied this patch, those sites would call
+pci_dev_is_inaccessible(), which would check error_state and then (in
+the common case where we haven't set error_state) do a config read of
+the vendor ID.
+
+So we would basically double the config access overhead because we'd
+be doing an extra read of the vendor ID before every access.  That
+indeed doesn't seem practical.
+
+I think what we need to figure out is whether we really need two
+interfaces (one that looks only at dev->error_state and a second that
+looks at dev->error_state and also reads the vendor ID).  If we do
+need both, then I think we need a little guidance in the function
+comments about when to use one vs the other.
+
+There are only a few uses of pci_device_is_present() (which looks at
+dev->error_state and also reads the vendor ID) and they were added
+here:
+
+  8496e85c20e7 ("PCI / tg3: Give up chip reset and carrier loss handling if PCI device is not present")
+  17a402a0075c ("igb: Fixes needed for surprise removal support")
+  6db28eda2660 ("nvme/pci: Disable on removal when disconnected")
+  b8a62d540240 ("ACPI / hotplug / PCI: Use pci_device_is_present()")
+  4ebe34503baa ("ACPI / hotplug / PCI: Check for new devices on enabled slots")
+  a6a64026c0cd ("PCI: Recognize D3cold in pci_update_current_state()")
+
+The ACPI and PCI core uses are basically enumeration-type things so
+that mostly makes sense to me.
+
+I'm not so sure about the driver uses though.  I wonder if those could
+be better handled by having the drivers check for ~0 error response
+data from MMIO and config reads.
+
+Bjorn
