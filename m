@@ -1,87 +1,83 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Wed, 4 Sep 2019 22:04:33 -0600
-Subject: [Linux-kernel-mentees] [PATCH v2 2/3] PCI: sysfs: Change
- permissions from symbolic to octal
-In-Reply-To: <850cf536-0b72-d78c-efaf-855dcb391087@redhat.com>
-References: <20190809195721.34237-1-skunberg.kelsey@gmail.com>
-	<20190813204513.4790-1-skunberg.kelsey@gmail.com>
-	<20190813204513.4790-3-skunberg.kelsey@gmail.com>
-	<20190814053846.GA253360@google.com>
-	<b4c0d5b4-7243-ba96-96d1-041a264ac499@redhat.com>
-	<20190904062229.GA66871@JATN>
-	<850cf536-0b72-d78c-efaf-855dcb391087@redhat.com>
-Message-ID: <20190905040433.GA117297@JATN>
+Date: Wed, 4 Sep 2019 22:11:12 -0600
+Subject: [Linux-kernel-mentees] [PATCH 1/3] ACPI: Remove
+	acpi_has_method() call from acpi_adxl.c
+In-Reply-To: <CAJZ5v0iF=TxxD_gCJfaZzORTrcu+2StJE1_vhthB70jxqCkHuw@mail.gmail.com>
+References: <20190722023530.67676-1-skunberg.kelsey@gmail.com>
+	<20190722023530.67676-2-skunberg.kelsey@gmail.com>
+	<CAJZ5v0gRzu0bVL+7L9NhbWu5OxveEP8H8v5qpiW-FeOtoOepiw@mail.gmail.com>
+	<20190722182929.GA203187@google.com>
+	<CAJZ5v0iF=TxxD_gCJfaZzORTrcu+2StJE1_vhthB70jxqCkHuw@mail.gmail.com>
+Message-ID: <20190905041112.GB117297@JATN>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Wed, Sep 04, 2019 at 02:33:44PM -0400, Don Dutile wrote:
-> On 09/04/2019 02:22 AM, Kelsey Skunberg wrote:
-> > On Thu, Aug 15, 2019 at 10:37:13AM -0400, Don Dutile wrote:
-> > > On 08/14/2019 01:38 AM, Bjorn Helgaas wrote:
-> > > > [+cc Bodong, Don, Greg for permission question]
-> > > > 
-> > > > On Tue, Aug 13, 2019 at 02:45:12PM -0600, Kelsey Skunberg wrote:
-> > > > > Symbolic permissions such as "(S_IWUSR | S_IWGRP)" are not
-> > > > > preferred and octal permissions should be used instead. Change all
-> > > > > symbolic permissions to octal permissions.
-> > > > > 
-> > > > > Example of old:
-> > > > > 
-> > > > > "(S_IWUSR | S_IWGRP)"
-> > > > > 
-> > > > > Example of new:
-> > > > > 
-> > > > > "0220"
-> > > > 
-> > > > 
-> > > > >    static DEVICE_ATTR_RO(sriov_totalvfs);
-> > > > > -static DEVICE_ATTR(sriov_numvfs, (S_IRUGO | S_IWUSR | S_IWGRP),
-> > > > > -				  sriov_numvfs_show, sriov_numvfs_store);
-> > > > > +static DEVICE_ATTR(sriov_numvfs, 0664, sriov_numvfs_show, sriov_numvfs_store);
-> > > > >    static DEVICE_ATTR_RO(sriov_offset);
-> > > > >    static DEVICE_ATTR_RO(sriov_stride);
-> > > > >    static DEVICE_ATTR_RO(sriov_vf_device);
-> > > > > -static DEVICE_ATTR(sriov_drivers_autoprobe, (S_IRUGO | S_IWUSR | S_IWGRP),
-> > > > > -		   sriov_drivers_autoprobe_show, sriov_drivers_autoprobe_store);
-> > > > > +static DEVICE_ATTR(sriov_drivers_autoprobe, 0664, sriov_drivers_autoprobe_show,
-> > > > > +		   sriov_drivers_autoprobe_store);
-> > > > 
-> > > > Greg noticed that sriov_numvfs and sriov_drivers_autoprobe have
-> > > > "unusual" permissions.  These were added by:
-> > > > 
-> > > >     0e7df22401a3 ("PCI: Add sysfs sriov_drivers_autoprobe to control VF driver binding")
-> > > >     1789382a72a5 ("PCI: SRIOV control and status via sysfs")
-> > > > 
-> > > > Kelsey's patch correctly preserves the existing permissions, but we
-> > > > should double-check that they are the permissions they want, and
-> > > > possibly add a comment about why they're different from the rest.
-> > > > 
-> > > > Bjorn
-> > > > 
-> > 
-> > Hi Don,
-> > 
-> > > The rest being? ... 0644 vs 0664 ?
-> > > The file is read & written, thus the (first) 6; I'll have to dig through very old (7 yr) notes to see if the second 6 is needed for libvirt (so it doesn't have to be root to enable).
-> > > 
-> > > -dd
-> > > 
-> > 
-> > Were you able to see if the unusual permissions (0664) are needed for
-> > libvirt? I appreciate your help!
-> > 
-> > -Kelsey
-> > 
-> Daniel Berrang? reported that libvirt runs as root when dealing with anything PCI, and chowns files for qemu needs, so there is no need for the 664 permission.
-> For all I know, it's a simple typo that was allowed to creep in. :-/
+On Mon, Sep 02, 2019 at 11:08:08PM +0200, Rafael J. Wysocki wrote:
+> Sorry for the delayed reply.
 > 
-> Feel free to modify to 644.
+> On Mon, Jul 22, 2019 at 8:29 PM Bjorn Helgaas <helgaas at kernel.org> wrote:
+> >
+> > [+cc Tony (original author), Borislav (merged original patch)]
+> >
+> > On Mon, Jul 22, 2019 at 10:31:11AM +0200, Rafael J. Wysocki wrote:
+> > > On Mon, Jul 22, 2019 at 4:36 AM Kelsey Skunberg
+> > > <skunberg.kelsey at gmail.com> wrote:
+> > > >
+> > > > acpi_check_dsm() will already return an error if the DSM method does not
+> > > > exist. Checking if the DSM method exists before the acpi_check_dsm() call
+> > > > is not needed. Remove acpi_has_method() call to avoid additional work.
+> > > >
+> > > > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+> > > > ---
+> > > >  drivers/acpi/acpi_adxl.c | 5 -----
+> > > >  1 file changed, 5 deletions(-)
+> > > >
+> > > > diff --git a/drivers/acpi/acpi_adxl.c b/drivers/acpi/acpi_adxl.c
+> > > > index 13c8f7b50c46..89aac15663fd 100644
+> > > > --- a/drivers/acpi/acpi_adxl.c
+> > > > +++ b/drivers/acpi/acpi_adxl.c
+> > > > @@ -148,11 +148,6 @@ static int __init adxl_init(void)
+> > > >                 return -ENODEV;
+> > > >         }
+> > > >
+> > > > -       if (!acpi_has_method(handle, "_DSM")) {
+> > > > -               pr_info("No DSM method\n");
+> > >
+> > > And why is printing the message not useful?
+> > >
+> > > > -               return -ENODEV;
+> > > > -       }
+> > > > -
+> > > >         if (!acpi_check_dsm(handle, &adxl_guid, ADXL_REVISION,
+> > > >                             ADXL_IDX_GET_ADDR_PARAMS |
+> > > >                             ADXL_IDX_FORWARD_TRANSLATE)) {
+> >
+> > The next line of context (not included in the patch):
+> >
+> >                pr_info("DSM method does not support forward translate\n");
+> >
+> > IMHO kernel messages that are just a constant string, with no context
+> > or variable part (device ID, path, error code, etc) are questionable
+> > in general.  Is there any dev_printk()-like thing that takes an
+> > acpi_handle?  Seems like that would be useful for cases like this.
+> >
+> > This message *does* include an "ADXL: " prefix (from the pr_fmt
+> > definition), and from reading the code you can see that the only
+> > possible method is "\_SB.ADXL._DSM".
+> >
+> > There's nothing an end user can do with these messages, so I suspect
+> > their value is for debugging during platform bringup, and it would be
+> > sufficient to drop the first one (as Kelsey's patch does) and change
+> > the second one like this:
+> >
+> > -              pr_info("DSM method does not support forward translate\n");
+> > +              pr_info("%s DSM missing or does not support forward translate\n",
+> > +                      path);
 > 
-> -dd
->
+> You have a point, but then I would expect the changelog to mention that.
+> 
+> As it stands, the patch does more than the changelog says, which isn't nice.
 
-Thank you for checking into this and getting back so quick! I'll cc you in
-the patch. :)
-
-Thanks again!
+You're right, the changelog should include this information. I'll get an
+updated version made. Thank you for getting back.
 
 -Kelsey
