@@ -1,85 +1,53 @@
 From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Wed, 4 Sep 2019 22:11:12 -0600
-Subject: [Linux-kernel-mentees] [PATCH 1/3] ACPI: Remove
-	acpi_has_method() call from acpi_adxl.c
-In-Reply-To: <CAJZ5v0iF=TxxD_gCJfaZzORTrcu+2StJE1_vhthB70jxqCkHuw@mail.gmail.com>
-References: <20190722023530.67676-1-skunberg.kelsey@gmail.com>
-	<20190722023530.67676-2-skunberg.kelsey@gmail.com>
-	<CAJZ5v0gRzu0bVL+7L9NhbWu5OxveEP8H8v5qpiW-FeOtoOepiw@mail.gmail.com>
-	<20190722182929.GA203187@google.com>
-	<CAJZ5v0iF=TxxD_gCJfaZzORTrcu+2StJE1_vhthB70jxqCkHuw@mail.gmail.com>
-Message-ID: <20190905041112.GB117297@JATN>
+Date: Thu,  5 Sep 2019 00:32:26 -0600
+Subject: [Linux-kernel-mentees] [PATCH] PCI/IOV: Make SR-IOV attributes with
+	mode 0664 use 0644
+Message-ID: <20190905063226.43269-1-skunberg.kelsey@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190905041112.NLGZHl7YigjZqA3o9ohahLjCjgrQgNIkAkWkAmBTSTY@z>
+Message-ID: <20190905063226.weSIzQKXeIvXTeeSSsJS5BkeBghTQcn-rqC0iKbQsmQ@z>
 
-On Mon, Sep 02, 2019 at 11:08:08PM +0200, Rafael J. Wysocki wrote:
-> Sorry for the delayed reply.
-> 
-> On Mon, Jul 22, 2019 at 8:29 PM Bjorn Helgaas <helgaas at kernel.org> wrote:
-> >
-> > [+cc Tony (original author), Borislav (merged original patch)]
-> >
-> > On Mon, Jul 22, 2019 at 10:31:11AM +0200, Rafael J. Wysocki wrote:
-> > > On Mon, Jul 22, 2019 at 4:36 AM Kelsey Skunberg
-> > > <skunberg.kelsey at gmail.com> wrote:
-> > > >
-> > > > acpi_check_dsm() will already return an error if the DSM method does not
-> > > > exist. Checking if the DSM method exists before the acpi_check_dsm() call
-> > > > is not needed. Remove acpi_has_method() call to avoid additional work.
-> > > >
-> > > > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> > > > ---
-> > > >  drivers/acpi/acpi_adxl.c | 5 -----
-> > > >  1 file changed, 5 deletions(-)
-> > > >
-> > > > diff --git a/drivers/acpi/acpi_adxl.c b/drivers/acpi/acpi_adxl.c
-> > > > index 13c8f7b50c46..89aac15663fd 100644
-> > > > --- a/drivers/acpi/acpi_adxl.c
-> > > > +++ b/drivers/acpi/acpi_adxl.c
-> > > > @@ -148,11 +148,6 @@ static int __init adxl_init(void)
-> > > >                 return -ENODEV;
-> > > >         }
-> > > >
-> > > > -       if (!acpi_has_method(handle, "_DSM")) {
-> > > > -               pr_info("No DSM method\n");
-> > >
-> > > And why is printing the message not useful?
-> > >
-> > > > -               return -ENODEV;
-> > > > -       }
-> > > > -
-> > > >         if (!acpi_check_dsm(handle, &adxl_guid, ADXL_REVISION,
-> > > >                             ADXL_IDX_GET_ADDR_PARAMS |
-> > > >                             ADXL_IDX_FORWARD_TRANSLATE)) {
-> >
-> > The next line of context (not included in the patch):
-> >
-> >                pr_info("DSM method does not support forward translate\n");
-> >
-> > IMHO kernel messages that are just a constant string, with no context
-> > or variable part (device ID, path, error code, etc) are questionable
-> > in general.  Is there any dev_printk()-like thing that takes an
-> > acpi_handle?  Seems like that would be useful for cases like this.
-> >
-> > This message *does* include an "ADXL: " prefix (from the pr_fmt
-> > definition), and from reading the code you can see that the only
-> > possible method is "\_SB.ADXL._DSM".
-> >
-> > There's nothing an end user can do with these messages, so I suspect
-> > their value is for debugging during platform bringup, and it would be
-> > sufficient to drop the first one (as Kelsey's patch does) and change
-> > the second one like this:
-> >
-> > -              pr_info("DSM method does not support forward translate\n");
-> > +              pr_info("%s DSM missing or does not support forward translate\n",
-> > +                      path);
-> 
-> You have a point, but then I would expect the changelog to mention that.
-> 
-> As it stands, the patch does more than the changelog says, which isn't nice.
+sriov_numvfs and sriov_drivers_autoprobe have "unusual" permissions (0664)
+with no reported or found reason for allowing group write permissions.
+libvirt runs as root when dealing with PCI, and chowns files for qemu
+needs. There is not a need for the "0664" permissions.
 
-You're right, the changelog should include this information. I'll get an
-updated version made. Thank you for getting back.
+sriov_numvfs was introduced in:
+	commit 1789382a72a5 ("PCI: SRIOV control and status via sysfs")
 
--Kelsey
+sriov_drivers_autoprobe was introduced in:
+	commit 0e7df22401a3 ("PCI: Add sysfs sriov_drivers_autoprobe to
+			      control VF driver binding")
+
+Change sriov_numvfs and sriov_drivers_autoprobe from "0664" permissions to
+"0644" permissions.
+
+Exchange DEVICE_ATTR() with DEVICE_ATTR_RW() which sets the mode to "0644".
+DEVICE_ATTR() should only be used for "unusual" permissions.
+
+Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
+---
+ drivers/pci/iov.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+index b335db21c85e..b3f972e8cfed 100644
+--- a/drivers/pci/iov.c
++++ b/drivers/pci/iov.c
+@@ -375,12 +375,11 @@ static ssize_t sriov_drivers_autoprobe_store(struct device *dev,
+ }
+ 
+ static DEVICE_ATTR_RO(sriov_totalvfs);
+-static DEVICE_ATTR(sriov_numvfs, 0664, sriov_numvfs_show, sriov_numvfs_store);
++static DEVICE_ATTR_RW(sriov_numvfs);
+ static DEVICE_ATTR_RO(sriov_offset);
+ static DEVICE_ATTR_RO(sriov_stride);
+ static DEVICE_ATTR_RO(sriov_vf_device);
+-static DEVICE_ATTR(sriov_drivers_autoprobe, 0664, sriov_drivers_autoprobe_show,
+-		   sriov_drivers_autoprobe_store);
++static DEVICE_ATTR_RW(sriov_drivers_autoprobe);
+ 
+ static struct attribute *sriov_dev_attrs[] = {
+ 	&dev_attr_sriov_totalvfs.attr,
+-- 
+2.20.1
