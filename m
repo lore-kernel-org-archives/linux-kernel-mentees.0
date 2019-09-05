@@ -1,15 +1,15 @@
 From: skunberg.kelsey at gmail.com (Kelsey Skunberg)
-Date: Thu, 5 Sep 2019 13:16:37 -0600
+Date: Thu, 5 Sep 2019 13:19:13 -0600
 Subject: [Linux-kernel-mentees] [PATCH] PCI/IOV: Make SR-IOV attributes
 	with mode 0664 use 0644
-In-Reply-To: <20190905073416.GC29933@kroah.com>
+In-Reply-To: <37736cd8-fc9f-5896-030a-d7957cc68113@redhat.com>
 References: <20190905063226.43269-1-skunberg.kelsey@gmail.com>
-	<20190905073416.GC29933@kroah.com>
-Message-ID: <20190905191637.GA22813@JATN>
+	<37736cd8-fc9f-5896-030a-d7957cc68113@redhat.com>
+Message-ID: <20190905191913.GB22813@JATN>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Thu, Sep 05, 2019 at 09:34:16AM +0200, Greg KH wrote:
-> On Thu, Sep 05, 2019 at 12:32:26AM -0600, Kelsey Skunberg wrote:
+On Thu, Sep 05, 2019 at 12:24:19PM -0400, Don Dutile wrote:
+> On 09/05/2019 02:32 AM, Kelsey Skunberg wrote:
 > > sriov_numvfs and sriov_drivers_autoprobe have "unusual" permissions (0664)
 > > with no reported or found reason for allowing group write permissions.
 > > libvirt runs as root when dealing with PCI, and chowns files for qemu
@@ -30,34 +30,33 @@ On Thu, Sep 05, 2019 at 09:34:16AM +0200, Greg KH wrote:
 > > 
 > > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
 > > ---
-> >  drivers/pci/iov.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >   drivers/pci/iov.c | 5 ++---
+> >   1 file changed, 2 insertions(+), 3 deletions(-)
 > > 
 > > diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
 > > index b335db21c85e..b3f972e8cfed 100644
 > > --- a/drivers/pci/iov.c
 > > +++ b/drivers/pci/iov.c
 > > @@ -375,12 +375,11 @@ static ssize_t sriov_drivers_autoprobe_store(struct device *dev,
-> >  }
-> >  
-> >  static DEVICE_ATTR_RO(sriov_totalvfs);
+> >   }
+> >   static DEVICE_ATTR_RO(sriov_totalvfs);
 > > -static DEVICE_ATTR(sriov_numvfs, 0664, sriov_numvfs_show, sriov_numvfs_store);
 > > +static DEVICE_ATTR_RW(sriov_numvfs);
-> >  static DEVICE_ATTR_RO(sriov_offset);
-> >  static DEVICE_ATTR_RO(sriov_stride);
-> >  static DEVICE_ATTR_RO(sriov_vf_device);
+> >   static DEVICE_ATTR_RO(sriov_offset);
+> >   static DEVICE_ATTR_RO(sriov_stride);
+> >   static DEVICE_ATTR_RO(sriov_vf_device);
 > > -static DEVICE_ATTR(sriov_drivers_autoprobe, 0664, sriov_drivers_autoprobe_show,
 > > -		   sriov_drivers_autoprobe_store);
 > > +static DEVICE_ATTR_RW(sriov_drivers_autoprobe);
-> >  
-> >  static struct attribute *sriov_dev_attrs[] = {
-> >  	&dev_attr_sriov_totalvfs.attr,
+> >   static struct attribute *sriov_dev_attrs[] = {
+> >   	&dev_attr_sriov_totalvfs.attr,
+> > 
+> Thanks again for the cleanup.
 > 
-> 
-> Nice!!!
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+> Acked-by: Donald Dutile <ddutile at redhat.com>
+>
 
-Thank you for reviewing!
+Glad I could contribute. Thanks for your help and the
+acknowledgment. :)
 
 -Kelsey
