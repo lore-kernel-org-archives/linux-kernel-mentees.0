@@ -1,65 +1,110 @@
 From: c0d1n61at3@gmail.com (Jiunn Chang)
-Date: Thu,  5 Sep 2019 22:51:28 -0500
-Subject: [Linux-kernel-mentees] [PATCH] cec-compliance: audio return channel
-	tests
-Message-ID: <20190906035129.18447-1-c0d1n61at3@gmail.com>
+Date: Thu,  5 Sep 2019 22:51:29 -0500
+Subject: [Linux-kernel-mentees] [PATCH v3] cec-compliance: system audio
+	control tests
+In-Reply-To: <20190902165920.17812-1-c0d1n61at3@gmail.com>
+References: <20190902165920.17812-1-c0d1n61at3@gmail.com>
+Message-ID: <20190906035129.18447-2-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190906035128.M577m0Mi81_wXvmfPZLRBlqSO5c5_vGWjz0NBDzSFTc@z>
+Message-ID: <20190906035129.8KCXP7QvjBpUs89QqWxyagmLj3NaFaLFGrl1YOAia1E@z>
 
-For devices on a HDMI ARC link, sinks can only support transmitter
-devices and sources and only support receiver devices.
+The HDMI CEC specification defines deterministic operands for
+User Control Pressed that mute or unmute system audio.
 
-This patch checks to see if the DUT is an transmitter or receiver and
-has the ARC flag set properly from the device.
+Those being:
+ - Mute Function for mute on
+ - Restore Volume Function for mute off
 
-This should apply to devices that support the HDMI CEC 1.4 spec going
-forward when ARC was introduced.
+This is different from the operand Mute which is a toggle.
+
+This patch adds tests for these User Control Pressed operands.
 
 Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 ---
- utils/cec-compliance/cec-test-audio.cpp | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+
+Changes made since v2:
+ - add more details to commit message
+
+Notes:
+
+A patch series has been submitted by Hans Verkuil to add CEC UI command operands
+to the cec header in the media tree from which v4l-utils copies it.  Once those
+patches are applied, another patch will be submitted to leverage the new header
+operand macros.
+
+>8---------------------------------------------------------------------------8<
+
+ utils/cec-compliance/cec-test-audio.cpp | 32 +++++++++++++++++++++++++
+ utils/cec-follower/cec-processing.cpp   |  6 +++++
+ 2 files changed, 38 insertions(+)
 
 diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-index 872bb9ad..da2ed1d1 100644
+index 8611350e..872bb9ad 100644
 --- a/utils/cec-compliance/cec-test-audio.cpp
 +++ b/utils/cec-compliance/cec-test-audio.cpp
-@@ -297,11 +297,35 @@ static int arc_terminate_rx(struct node *node, unsigned me, unsigned la, bool in
+@@ -673,6 +673,32 @@ static int sac_user_control_press_mute(struct node *node, unsigned me, unsigned
  	return 0;
  }
  
-+static int arc_sink_tx(struct node *node, unsigned me, unsigned la, bool interactive)
++static int sac_user_control_press_mute_function(struct node *node, unsigned me, unsigned la, bool interactive)
 +{
-+	/* Check if we are upstream from the device. If we are, then the device is
-+	   an HDMI source, which means that it is an ARC receiver, not a transmitter. */
-+	if (pa_is_upstream_from(node->phys_addr, node->remote[la].phys_addr))
-+		return NOTAPPLICABLE;
-+	fail_on_test(!node->remote[la].has_arc_tx);
++	__u8 ret;
++
++	if ((ret = sac_util_send_user_control_press(node, me, la, 0x65)))
++		return ret;
++	fail_on_test_v2(node->remote[la].cec_version,
++			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
++			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_ON);
 +
 +	return 0;
 +}
 +
-+static int arc_source_rx(struct node *node, unsigned me, unsigned la, bool interactive)
++static int sac_user_control_press_restore_volume_function(struct node *node, unsigned me, unsigned la, bool interactive)
 +{
-+	/* Check if the DUT is upstream from us. If it is, then it is an
-+	   HDMI sink, which means that it is an ARC transmitter, not receiver. */
-+	if (pa_is_upstream_from(node->remote[la].phys_addr, node->phys_addr))
-+		return NOTAPPLICABLE;
-+	fail_on_test(!node->remote[la].has_arc_rx);
++	__u8 ret;
++
++	if ((ret = sac_util_send_user_control_press(node, me, la, 0x66)))
++		return ret;
++	fail_on_test_v2(node->remote[la].cec_version,
++			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
++			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_OFF);
 +
 +	return 0;
 +}
 +
- struct remote_subtest arc_subtests[] = {
- 	{ "Initiate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_rx },
- 	{ "Terminate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_rx },
- 	{ "Initiate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_tx },
- 	{ "Terminate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_tx },
-+	{ "Sink ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_sink_tx },
-+	{ "Source ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_source_rx },
- };
- 
- const unsigned arc_subtests_size = ARRAY_SIZE(arc_subtests);
+ static int sac_user_control_release(struct node *node, unsigned me, unsigned la, bool interactive)
+ {
+ 	struct cec_msg msg = {};
+@@ -763,6 +789,12 @@ struct remote_subtest sac_subtests[] = {
+ 	{ "User Control Pressed (Mute)",
+ 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+ 	  sac_user_control_press_mute },
++	{ "User Control Pressed (Restore Volume Function)",
++	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
++	  sac_user_control_press_restore_volume_function },
++	{ "User Control Pressed (Mute Function)",
++	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
++	  sac_user_control_press_mute_function },
+ 	{ "User Control Released",
+ 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+ 	  sac_user_control_release },
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index 27172560..a38f664b 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -516,6 +516,12 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		case 0x43:
+ 			node->state.mute = !node->state.mute;
+ 			break;
++		case 0x65:
++			node->state.mute = true;
++			break;
++		case 0x66:
++			node->state.mute = false;
++			break;
+ 		case 0x6B:
+ 			if (!enter_standby(node))
+ 				exit_standby(node);
 -- 
 2.23.0
