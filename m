@@ -1,75 +1,65 @@
-From: skunberg.kelsey@gmail.com (Kelsey Skunberg)
-Date: Thu, 5 Sep 2019 13:21:33 -0600
-Subject: [Linux-kernel-mentees] [PATCH] PCI/IOV: Make SR-IOV attributes
- with mode 0664 use 0644
-In-Reply-To: <20190905182938.GD103977@google.com>
-References: <20190905063226.43269-1-skunberg.kelsey@gmail.com>
-	<20190905182938.GD103977@google.com>
-Message-ID: <20190905192133.GC22813@JATN>
+From: c0d1n61at3@gmail.com (Jiunn Chang)
+Date: Thu,  5 Sep 2019 22:51:28 -0500
+Subject: [Linux-kernel-mentees] [PATCH] cec-compliance: audio return channel
+	tests
+Message-ID: <20190906035129.18447-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190905192133.zRwcx9cmh2bz9KjQehQCuEbsE8eNxKpiYNJK2KgQDCE@z>
+Message-ID: <20190906035128.M577m0Mi81_wXvmfPZLRBlqSO5c5_vGWjz0NBDzSFTc@z>
 
-On Thu, Sep 05, 2019 at 01:29:38PM -0500, Bjorn Helgaas wrote:
-> [+cc Bodong, Eli: just FYI since this affects sriov_drivers_autoprobe,
-> which you added with 0e7df22401a3]
-> 
-> On Thu, Sep 05, 2019 at 12:32:26AM -0600, Kelsey Skunberg wrote:
-> > sriov_numvfs and sriov_drivers_autoprobe have "unusual" permissions (0664)
-> > with no reported or found reason for allowing group write permissions.
-> > libvirt runs as root when dealing with PCI, and chowns files for qemu
-> > needs. There is not a need for the "0664" permissions.
-> > 
-> > sriov_numvfs was introduced in:
-> > 	commit 1789382a72a5 ("PCI: SRIOV control and status via sysfs")
-> > 
-> > sriov_drivers_autoprobe was introduced in:
-> > 	commit 0e7df22401a3 ("PCI: Add sysfs sriov_drivers_autoprobe to
-> > 			      control VF driver binding")
-> > 
-> > Change sriov_numvfs and sriov_drivers_autoprobe from "0664" permissions to
-> > "0644" permissions.
-> > 
-> > Exchange DEVICE_ATTR() with DEVICE_ATTR_RW() which sets the mode to "0644".
-> > DEVICE_ATTR() should only be used for "unusual" permissions.
-> > 
-> > Signed-off-by: Kelsey Skunberg <skunberg.kelsey at gmail.com>
-> 
-> Applied with Greg's Reviewed-by and Don's Acked-by to pci/misc for
-> v5.4, thanks!
->
+For devices on a HDMI ARC link, sinks can only support transmitter
+devices and sources and only support receiver devices.
 
-Appreciate you adding the cc and applying. Thanks, Bjorn!
+This patch checks to see if the DUT is an transmitter or receiver and
+has the ARC flag set properly from the device.
 
--Kelsey
+This should apply to devices that support the HDMI CEC 1.4 spec going
+forward when ARC was introduced.
+
+Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+---
+ utils/cec-compliance/cec-test-audio.cpp | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
+index 872bb9ad..da2ed1d1 100644
+--- a/utils/cec-compliance/cec-test-audio.cpp
++++ b/utils/cec-compliance/cec-test-audio.cpp
+@@ -297,11 +297,35 @@ static int arc_terminate_rx(struct node *node, unsigned me, unsigned la, bool in
+ 	return 0;
+ }
  
-> > ---
-> >  drivers/pci/iov.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> > index b335db21c85e..b3f972e8cfed 100644
-> > --- a/drivers/pci/iov.c
-> > +++ b/drivers/pci/iov.c
-> > @@ -375,12 +375,11 @@ static ssize_t sriov_drivers_autoprobe_store(struct device *dev,
-> >  }
-> >  
-> >  static DEVICE_ATTR_RO(sriov_totalvfs);
-> > -static DEVICE_ATTR(sriov_numvfs, 0664, sriov_numvfs_show, sriov_numvfs_store);
-> > +static DEVICE_ATTR_RW(sriov_numvfs);
-> >  static DEVICE_ATTR_RO(sriov_offset);
-> >  static DEVICE_ATTR_RO(sriov_stride);
-> >  static DEVICE_ATTR_RO(sriov_vf_device);
-> > -static DEVICE_ATTR(sriov_drivers_autoprobe, 0664, sriov_drivers_autoprobe_show,
-> > -		   sriov_drivers_autoprobe_store);
-> > +static DEVICE_ATTR_RW(sriov_drivers_autoprobe);
-> >  
-> >  static struct attribute *sriov_dev_attrs[] = {
-> >  	&dev_attr_sriov_totalvfs.attr,
-> > -- 
-> > 2.20.1
-> > 
-> > _______________________________________________
-> > Linux-kernel-mentees mailing list
-> > Linux-kernel-mentees at lists.linuxfoundation.org
-> > https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
++static int arc_sink_tx(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	/* Check if we are upstream from the device. If we are, then the device is
++	   an HDMI source, which means that it is an ARC receiver, not a transmitter. */
++	if (pa_is_upstream_from(node->phys_addr, node->remote[la].phys_addr))
++		return NOTAPPLICABLE;
++	fail_on_test(!node->remote[la].has_arc_tx);
++
++	return 0;
++}
++
++static int arc_source_rx(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	/* Check if the DUT is upstream from us. If it is, then it is an
++	   HDMI sink, which means that it is an ARC transmitter, not receiver. */
++	if (pa_is_upstream_from(node->remote[la].phys_addr, node->phys_addr))
++		return NOTAPPLICABLE;
++	fail_on_test(!node->remote[la].has_arc_rx);
++
++	return 0;
++}
++
+ struct remote_subtest arc_subtests[] = {
+ 	{ "Initiate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_rx },
+ 	{ "Terminate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_rx },
+ 	{ "Initiate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_tx },
+ 	{ "Terminate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_tx },
++	{ "Sink ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_sink_tx },
++	{ "Source ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_source_rx },
+ };
+ 
+ const unsigned arc_subtests_size = ARRAY_SIZE(arc_subtests);
+-- 
+2.23.0
