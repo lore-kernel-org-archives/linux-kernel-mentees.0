@@ -1,144 +1,342 @@
-From: hverkuil@xs4all.nl (Hans Verkuil)
-Date: Mon, 16 Sep 2019 13:46:54 +0200
-Subject: [Linux-kernel-mentees] [PATCH] v4l2-ctl: Print UVC meta info
-In-Reply-To: <20190903105839.4182-1-bnvandana@gmail.com>
-References: <20190903105839.4182-1-bnvandana@gmail.com>
-Message-ID: <c1351836-c3a3-e8ac-ff2a-871a57788de1@xs4all.nl>
+From: c0d1n61at3@gmail.com (Jiunn Chang)
+Date: Mon, 16 Sep 2019 08:23:08 -0500
+Subject: [Linux-kernel-mentees] [PATCH v2] cec-follower: create cec-tuner.cpp
+In-Reply-To: <20190916091553.116728-1-c0d1n61at3@gmail.com>
+References: <20190916091553.116728-1-c0d1n61at3@gmail.com>
+Message-ID: <20190916132308.41810-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190916114654.MzhNLy-IoSNMdcUODn7FYshk5zyg23TEGL0EUXfvDnU@z>
+Message-ID: <20190916132308.-xQalC9YV5lREjtZ73mRJdbR-iL5JXRN7yVK1GJJmIc@z>
 
-On 9/3/19 12:58 PM, Vandana BN wrote:
-> Print UVC Metadata information in verbose mode.
-> 
-> Signed-off-by: Vandana BN <bnvandana at gmail.com>
-> ---
->  utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 20 ++++++++++++++++++++
->  utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 14 ++++++++------
->  utils/v4l2-ctl/v4l2-ctl.h             |  1 +
->  3 files changed, 29 insertions(+), 6 deletions(-)
-> 
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> index 75fbd6f4..f1003604 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> @@ -127,3 +127,23 @@ void meta_list(cv4l_fd &fd)
->  		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
->  	}
->  }
-> +
-> +static struct vivid_uvc_meta_buf {
+Move tuner control, one touch record, and timer programming into
+cec-tuner.cpp.  These features are all tuner related and involve the
+tuner as a central feature to be able to test.
 
-Drop static. See the note about __packed below.
+Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+---
 
-> +	__u64 ns;
-> +	__u16 sof;
-> +	__u8 length;
-> +	__u8 flags;
-> +	__u8 buf[];
-> +} __packed;
+Changes made since v1:
+  - Change cec-tuner.cpp function name to process_tuner_record_timer_msgs()
+  - Refactor commit message
 
-__packed is not needed. And in fact produces this warning:
+>8---------------------------------------------------------------------------8<
 
-v4l2-ctl-meta.cpp: At global scope:
-v4l2-ctl-meta.cpp:137:3: warning: ?__packed? defined but not used [-Wunused-variable]
- } __packed;
-   ^~~~~~~~
+ utils/cec-follower/Makefile.am        |   2 +-
+ utils/cec-follower/cec-follower.h     |   3 +
+ utils/cec-follower/cec-processing.cpp | 109 +-------------------
+ utils/cec-follower/cec-tuner.cpp      | 139 ++++++++++++++++++++++++++
+ 4 files changed, 148 insertions(+), 105 deletions(-)
+ create mode 100644 utils/cec-follower/cec-tuner.cpp
 
-gcc doesn't know about it, so it thinks __packed is the name of a variable.
-
-(__packed is a linux kernel define)
-
-> +
-> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-> +{
-> +	struct vivid_uvc_meta_buf *vbuf;
-> +	if (fmt.g_pixelformat() == V4L2_META_FMT_UVC) {
-> +		fprintf(f, "META format V4L2_META_FMT_UVC:");
-
-That's too long. Just use "UVC: ".
-
-> +		for (unsigned i = 0; i< buf.g_num_planes(); i++) {
-> +			vbuf = (vivid_uvc_meta_buf *)(q.g_dataptr(buf.g_index(), i) + buf.g_mem_offset(i));
-
-Why buf.g_mem_offset(i)? Just use q.g_dataptr(buf.g_index(), i), that does the right thing.
-
-> +			fprintf(f, "ns %llu sof %u, len %u, flags 0x%x\n",vbuf[i].ns, vbuf[i].sof, vbuf[i].length, vbuf[i].flags);
-
-Print the time in seconds: "%.6fs," , (double)vbuf[i].ns / 1000000000.0
-
-That's easier to read.
-
-Regards,
-
-	Hans
-
-> +		}
-> +	}
-> +}
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> index 11157434..46d53f23 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> @@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
->  	fprintf(f, "\n");
->  }
->  
-> -static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
-> -				 fps_timestamps &fps_ts, int comp_perc,
-> -				 bool skip_ts = false)
-> +static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
-> +				 cv4l_queue &q, fps_timestamps &fps_ts,
-> +				 int comp_perc, bool skip_ts = false)
->  {
->  	static double last_ts;
->  
-> @@ -592,6 +592,8 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
->  	if (fl)
->  		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
->  	fprintf(f, "\n");
-> +	if (v4l_type_is_meta(buf.g_type()))
-> +		print_meta_buffer(f, buf, fmt, q);
->  }
->  
->  static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-> @@ -1390,7 +1392,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
->  		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
->  			break;
->  		if (verbose)
-> -			print_concise_buffer(stderr, buf, fps_ts, -1);
-> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
->  		if (fd.qbuf(buf))
->  			return QUEUE_ERROR;
->  	}
-> @@ -1412,7 +1414,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
->  	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
->  		ch = 'B';
->  	if (verbose) {
-> -		print_concise_buffer(stderr, buf, fps_ts,
-> +		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
->  				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
->  		comp_perc_count = comp_perc = 0;
->  	}
-> @@ -1502,7 +1504,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
->  		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
->  		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
->  		if (verbose)
-> -			print_concise_buffer(stderr, buf, fps_ts, -1);
-> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
->  
->  		for (unsigned j = 0; j < buf.g_num_planes(); j++)
->  			buf.s_bytesused(buf.g_length(j), j);
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-> index 5797d784..36051566 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.h
-> +++ b/utils/v4l2-ctl/v4l2-ctl.h
-> @@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
->  void meta_set(cv4l_fd &fd);
->  void meta_get(cv4l_fd &fd);
->  void meta_list(cv4l_fd &fd);
-> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
->  
->  // v4l2-ctl-subdev.cpp
->  void subdev_usage(void);
-> 
+diff --git a/utils/cec-follower/Makefile.am b/utils/cec-follower/Makefile.am
+index 9b0a48b0..294a6ab4 100644
+--- a/utils/cec-follower/Makefile.am
++++ b/utils/cec-follower/Makefile.am
+@@ -1,7 +1,7 @@
+ bin_PROGRAMS = cec-follower
+ man_MANS = cec-follower.1
+ 
+-cec_follower_SOURCES = cec-follower.cpp cec-follower.h cec-processing.cpp cec-log.cpp cec-info.cpp
++cec_follower_SOURCES = cec-follower.cpp cec-follower.h cec-processing.cpp cec-tuner.cpp cec-log.cpp cec-info.cpp
+ cec_follower_CPPFLAGS = -I$(top_srcdir)/utils/common
+ cec_follower_LDFLAGS = -lrt
+ 
+diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+index 0998382c..9f5f1be4 100644
+--- a/utils/cec-follower/cec-follower.h
++++ b/utils/cec-follower/cec-follower.h
+@@ -219,6 +219,9 @@ std::string audio_format_id_code2s(__u8 audio_format_id, __u8 audio_format_code)
+ std::string opcode2s(const struct cec_msg *msg);
+ void sad_encode(const struct short_audio_desc *sad, __u32 *descriptor);
+ 
++// cec-tuner.cpp
++void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me);
++
+ // CEC processing
+ void testProcessing(struct node *node, bool wallclock);
+ 
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index fa7687c9..15cedddf 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -608,128 +608,29 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 	case CEC_MSG_DECK_STATUS:
+ 		return;
+ 
++	/* Tuner Centric Messages */
+ 
+-		/*
+-		  Tuner Control
+-
+-		  This is only a basic implementation.
+-
+-		  TODO: Device state should change when selecting services etc.
+-		*/
+-
+-	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
+-		if (!cec_has_tuner(1 << me))
+-			break;
+-
+-		struct cec_op_tuner_device_info tuner_dev_info = {};
+-
+-		cec_msg_set_reply_to(&msg, &msg);
+-		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
+-		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
+-		tuner_dev_info.is_analog = false;
+-		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
+-		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
+-		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
+-		tuner_dev_info.digital.channel.minor = 1;
+-
+-		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
+-		transmit(node, &msg);
+-		return;
+-	}
+-
++	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS:
+ 	case CEC_MSG_TUNER_DEVICE_STATUS:
+-		return;
+-
+ 	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
+ 	case CEC_MSG_SELECT_DIGITAL_SERVICE:
+ 	case CEC_MSG_TUNER_STEP_DECREMENT:
+ 	case CEC_MSG_TUNER_STEP_INCREMENT:
+-		if (!cec_has_tuner(1 << me))
+-			break;
+-		return;
+-
+-
+-		/*
+-		  One Touch Record
+-
+-		  This is only a basic implementation.
+-
+-		  TODO:
+-		  - If we are a TV, we should only send Record On if the
+-		    remote end is a Recording device or Reserved. Otherwise ignore.
+-
+-		  - Device state should reflect whether we are recording, etc. In
+-		    recording mode we should ignore Standby messages.
+-		*/
+-
+-	case CEC_MSG_RECORD_TV_SCREEN: {
+-		if (!node->has_rec_tv)
+-			break;
+-
+-		struct cec_op_record_src rec_src = {};
+-
+-		rec_src.type = CEC_OP_RECORD_SRC_OWN;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_record_on(&msg, false, &rec_src);
+-		transmit(node, &msg);
+-		return;
+-	}
++	case CEC_MSG_RECORD_TV_SCREEN:
+ 	case CEC_MSG_RECORD_ON:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
+-		transmit(node, &msg);
+-		return;
+ 	case CEC_MSG_RECORD_OFF:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
+-		transmit(node, &msg);
+-		return;
+ 	case CEC_MSG_RECORD_STATUS:
+-		return;
+-
+-
+-		/*
+-		  Timer Programming
+-
+-		  This is only a basic implementation.
+-
+-		  TODO/Ideas:
+-		  - Act like an actual recording device; keep track of recording
+-		    schedule and act correctly when colliding timers are set.
+-		  - Emulate a finite storage space for recordings
+-		 */
+-
+ 	case CEC_MSG_SET_ANALOGUE_TIMER:
+ 	case CEC_MSG_SET_DIGITAL_TIMER:
+ 	case CEC_MSG_SET_EXT_TIMER:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_timer_status(&msg, CEC_OP_TIMER_OVERLAP_WARNING_NO_OVERLAP,
+-				     CEC_OP_MEDIA_INFO_NO_MEDIA,
+-				     CEC_OP_PROG_INFO_ENOUGH_SPACE, 0, 0, 0);
+-		transmit(node, &msg);
+-		return;
+ 	case CEC_MSG_CLEAR_ANALOGUE_TIMER:
+ 	case CEC_MSG_CLEAR_DIGITAL_TIMER:
+ 	case CEC_MSG_CLEAR_EXT_TIMER:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_timer_cleared_status(&msg, CEC_OP_TIMER_CLR_STAT_CLEARED);
+-		transmit(node, &msg);
+-		return;
+ 	case CEC_MSG_SET_TIMER_PROGRAM_TITLE:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		return;
+ 	case CEC_MSG_TIMER_CLEARED_STATUS:
+ 	case CEC_MSG_TIMER_STATUS:
+-		return;
++		process_tuner_record_timer_msgs(node, msg, me);
++		break;
+ 
+ 		/* Dynamic Auto Lipsync */
+ 
+diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+new file mode 100644
+index 00000000..5e794d71
+--- /dev/null
++++ b/utils/cec-follower/cec-tuner.cpp
+@@ -0,0 +1,139 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
++/*
++ * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
++ */
++
++#include <sys/ioctl.h>
++
++#include "cec-follower.h"
++
++void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
++{
++	switch (msg.msg[1]) {
++
++
++		/*
++		  Tuner Control
++
++		  This is only a basic implementation.
++
++		  TODO: Device state should change when selecting services etc.
++		*/
++
++	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
++		if (!cec_has_tuner(1 << me))
++			break;
++
++		struct cec_op_tuner_device_info tuner_dev_info = {};
++
++		cec_msg_set_reply_to(&msg, &msg);
++		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
++		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
++		tuner_dev_info.is_analog = false;
++		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
++		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
++		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
++		tuner_dev_info.digital.channel.minor = 1;
++
++		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
++		transmit(node, &msg);
++		return;
++	}
++
++	case CEC_MSG_TUNER_DEVICE_STATUS:
++		return;
++
++	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
++	case CEC_MSG_SELECT_DIGITAL_SERVICE:
++	case CEC_MSG_TUNER_STEP_DECREMENT:
++	case CEC_MSG_TUNER_STEP_INCREMENT:
++		if (!cec_has_tuner(1 << me))
++			break;
++		return;
++
++
++		/*
++		  One Touch Record
++
++		  This is only a basic implementation.
++
++		  TODO:
++		  - If we are a TV, we should only send Record On if the
++		    remote end is a Recording device or Reserved. Otherwise ignore.
++
++		  - Device state should reflect whether we are recording, etc. In
++		    recording mode we should ignore Standby messages.
++		*/
++
++	case CEC_MSG_RECORD_TV_SCREEN: {
++		if (!node->has_rec_tv)
++			break;
++
++		struct cec_op_record_src rec_src = {};
++
++		rec_src.type = CEC_OP_RECORD_SRC_OWN;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_record_on(&msg, false, &rec_src);
++		transmit(node, &msg);
++		return;
++	}
++	case CEC_MSG_RECORD_ON:
++		if (!cec_has_record(1 << me))
++			break;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
++		transmit(node, &msg);
++		return;
++	case CEC_MSG_RECORD_OFF:
++		if (!cec_has_record(1 << me))
++			break;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
++		transmit(node, &msg);
++		return;
++	case CEC_MSG_RECORD_STATUS:
++		return;
++
++
++		/*
++		  Timer Programming
++
++		  This is only a basic implementation.
++
++		  TODO/Ideas:
++		  - Act like an actual recording device; keep track of recording
++		    schedule and act correctly when colliding timers are set.
++		  - Emulate a finite storage space for recordings
++		 */
++
++	case CEC_MSG_SET_ANALOGUE_TIMER:
++	case CEC_MSG_SET_DIGITAL_TIMER:
++	case CEC_MSG_SET_EXT_TIMER:
++		if (!cec_has_record(1 << me))
++			break;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_timer_status(&msg, CEC_OP_TIMER_OVERLAP_WARNING_NO_OVERLAP,
++				     CEC_OP_MEDIA_INFO_NO_MEDIA,
++				     CEC_OP_PROG_INFO_ENOUGH_SPACE, 0, 0, 0);
++		transmit(node, &msg);
++		return;
++	case CEC_MSG_CLEAR_ANALOGUE_TIMER:
++	case CEC_MSG_CLEAR_DIGITAL_TIMER:
++	case CEC_MSG_CLEAR_EXT_TIMER:
++		if (!cec_has_record(1 << me))
++			break;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_timer_cleared_status(&msg, CEC_OP_TIMER_CLR_STAT_CLEARED);
++		transmit(node, &msg);
++		return;
++	case CEC_MSG_SET_TIMER_PROGRAM_TITLE:
++		if (!cec_has_record(1 << me))
++			break;
++		return;
++	case CEC_MSG_TIMER_CLEARED_STATUS:
++	case CEC_MSG_TIMER_STATUS:
++		return;
++	default:
++		break;
++	}
++}
+-- 
+2.23.0
