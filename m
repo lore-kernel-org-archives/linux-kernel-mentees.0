@@ -1,121 +1,106 @@
-From: bnvandana at gmail.com (Vandana BN)
-Date: Mon, 16 Sep 2019 23:30:43 +0530
-Subject: [Linux-kernel-mentees] [PATCH v3] v4l2-ctl: Print UVC meta info
-In-Reply-To: <9d52d428-dbf6-0968-ab3e-761da02d45ed@xs4all.nl>
-References: <9d52d428-dbf6-0968-ab3e-761da02d45ed@xs4all.nl>
-Message-ID: <20190916180044.25023-1-bnvandana@gmail.com>
+From: c0d1n61at3 at gmail.com (Jiunn Chang)
+Date: Mon, 16 Sep 2019 13:38:35 -0500
+Subject: [Linux-kernel-mentees] [PATCH] cec-follower: create analog channel
+	frequencies
+Message-ID: <20190916183835.132777-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Print UVC Metadata information in verbose mode.
+This frequency table will allow proper testing of tuner control.  There
+are three frequencies per analog broadcast type and broadcast system, so
+tuner increment and decrement can be tested.
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
+Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 ---
-Changes since v2
-- Converted if to switch statement.
-- Corrected format specifier in print.
----
- utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 25 +++++++++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 14 ++++++++------
- utils/v4l2-ctl/v4l2-ctl.h             |  1 +
- 3 files changed, 34 insertions(+), 6 deletions(-)
+ utils/cec-follower/cec-tuner.cpp | 77 ++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-index 75fbd6f4..5d7b28d6 100644
---- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-@@ -127,3 +127,28 @@ void meta_list(cv4l_fd &fd)
- 		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
- 	}
- }
-+
-+struct vivid_uvc_meta_buf {
-+	__u64 ns;
-+	__u16 sof;
-+	__u8 length;
-+	__u8 flags;
-+	__u8 buf[];
+diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+index 5e794d71..e0d58e6c 100644
+--- a/utils/cec-follower/cec-tuner.cpp
++++ b/utils/cec-follower/cec-tuner.cpp
+@@ -7,6 +7,83 @@
+ 
+ #include "cec-follower.h"
+ 
++/*
++ * This table contains analog television channel frequencies in KHz.  There are
++ * a total of three frequencies per analog broadcast type and broadcast system.
++ *
++ * CEC 17 and CEC Table 31 of the 1.4 specification lists the available analog
++ * broadcast types and broadcast systems.
++ *
++ * The table is indexed by [ana_bcast_type][bcast_system][i].
++ *
++ */
++static unsigned int analog_freqs_khz[3][9][3] =
++{
++	// cable
++	{
++		// pal-bg
++		{471250, 479250, 487250},
++		// secam-lq
++		{615250, 623250, 631250},
++		// pal-m
++		{501250, 507250, 513250},
++		// ntsc-m
++		{519250, 525250, 531250},
++		// pal-i
++		{45750, 53750, 61750},
++		// secam-dk
++		{759250, 767250, 775250},
++		// secam-bg
++		{495250, 503250, 511250},
++		// secam-l
++		{639250, 647250, 655250},
++		// pal-dk
++		{783250, 791250, 799250}
++	},
++	// satellite
++	{
++		// pal-bg
++		{519250, 527250, 535250},
++		// secam-lq
++		{663250, 671250, 679250},
++		// pal-m
++		{537250, 543250, 549250},
++		// ntsc-m
++		{555250, 561250, 567250},
++		// pal-i
++		{175250, 183250, 191250},
++		// secam-dk
++		{807250, 815250, 823250},
++		// secam-bg
++		{543250, 551250, 559250},
++		// secam-l
++		{687250, 695250, 703250},
++		// pal-dk
++		{831250, 839250, 847250}
++	},
++	// terrestrial
++	{
++		// pal-bg
++		{567250, 575250, 583250},
++		// secam-lq
++		{711250, 719250, 727250},
++		// pal-m
++		{573250, 579250, 585250},
++		// ntsc-m
++		{591250, 597250, 603250},
++		// pal-i
++		{199250, 207250, 215250},
++		// secam-dk
++		{145250, 153250, 161250},
++		// secam-bg
++		{591250, 599250, 607250},
++		// secam-l
++		{735250, 743250, 751250},
++		// pal-dk
++		{169250, 177250, 185250}
++	}
 +};
 +
-+void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-+{
-+	struct vivid_uvc_meta_buf *vbuf;
-+
-+	switch(fmt.g_pixelformat()) {
-+		case V4L2_META_FMT_UVC:
-+			fprintf(f, "UVC: ");
-+			for (unsigned i = 0; i < buf.g_num_planes(); i++) {
-+				vbuf = (vivid_uvc_meta_buf *)q.g_dataptr(buf.g_index(), i);
-+				fprintf(f, "%.6fs, sof %u, len %u, flags 0x%x\n",
-+						(double)vbuf[i].ns / 1000000000.0, vbuf[i].sof,
-+						vbuf[i].length, vbuf[i].flags);
-+			}
-+			break;
-+	}
-+}
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index 11157434..46d53f23 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
- 	fprintf(f, "\n");
- }
- 
--static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
--				 fps_timestamps &fps_ts, int comp_perc,
--				 bool skip_ts = false)
-+static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
-+				 cv4l_queue &q, fps_timestamps &fps_ts,
-+				 int comp_perc, bool skip_ts = false)
+ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
  {
- 	static double last_ts;
- 
-@@ -592,6 +592,8 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
- 	if (fl)
- 		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
- 	fprintf(f, "\n");
-+	if (v4l_type_is_meta(buf.g_type()))
-+		print_meta_buffer(f, buf, fmt, q);
- }
- 
- static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-@@ -1390,7 +1392,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
- 		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
- 			break;
- 		if (verbose)
--			print_concise_buffer(stderr, buf, fps_ts, -1);
-+			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
- 		if (fd.qbuf(buf))
- 			return QUEUE_ERROR;
- 	}
-@@ -1412,7 +1414,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
- 	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
- 		ch = 'B';
- 	if (verbose) {
--		print_concise_buffer(stderr, buf, fps_ts,
-+		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
- 				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
- 		comp_perc_count = comp_perc = 0;
- 	}
-@@ -1502,7 +1504,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
- 		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
- 		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
- 		if (verbose)
--			print_concise_buffer(stderr, buf, fps_ts, -1);
-+			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
- 
- 		for (unsigned j = 0; j < buf.g_num_planes(); j++)
- 			buf.s_bytesused(buf.g_length(j), j);
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index 5797d784..36051566 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
- void meta_set(cv4l_fd &fd);
- void meta_get(cv4l_fd &fd);
- void meta_list(cv4l_fd &fd);
-+void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
- 
- // v4l2-ctl-subdev.cpp
- void subdev_usage(void);
+ 	switch (msg.msg[1]) {
 -- 
-2.17.1
+2.23.0
