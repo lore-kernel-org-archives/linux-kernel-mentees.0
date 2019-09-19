@@ -1,96 +1,120 @@
 From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Wed, 18 Sep 2019 21:17:16 -0500
-Subject: [Linux-kernel-mentees] [PATCH] cec-follower: fix cec-tuner.cpp
-Message-ID: <20190919021716.259614-1-c0d1n61at3@gmail.com>
+Date: Wed, 18 Sep 2019 21:53:24 -0500
+Subject: [Linux-kernel-mentees] [PATCH v3] cec-follower: create analog
+	channel frequencies
+In-Reply-To: <20190917091323.48665-1-c0d1n61at3@gmail.com>
+References: <20190917091323.48665-1-c0d1n61at3@gmail.com>
+Message-ID: <20190919025324.277999-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Export code from cec-processing.cpp to cec-tuner.cpp so testing logic
-does not break for PRESUMED_OK which replies on the feature abort
-message.  Also needed it a boolean for broadcast messages that should
-not be aborted.
+This frequency table will allow proper testing of tuner control.  There
+are three frequencies per analog broadcast type and broadcast system, so
+tuner increment and decrement can be tested.
 
 Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 ---
- utils/cec-follower/cec-processing.cpp |  4 +--
- utils/cec-follower/cec-tuner.cpp      | 37 +++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+), 2 deletions(-)
 
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 15cedddf..c6ef1d09 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -608,7 +608,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 	case CEC_MSG_DECK_STATUS:
- 		return;
- 
--	/* Tuner Centric Messages */
-+	/* Tuner/Record/Timer Messages */
- 
- 	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS:
- 	case CEC_MSG_TUNER_DEVICE_STATUS:
-@@ -630,7 +630,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 	case CEC_MSG_TIMER_CLEARED_STATUS:
- 	case CEC_MSG_TIMER_STATUS:
- 		process_tuner_record_timer_msgs(node, msg, me);
--		break;
-+		return;
- 
- 		/* Dynamic Auto Lipsync */
- 
+Changes since v1:
+  - Add Wikipedia link for analog channel frequencies
+  - Add spaces between { and }
+
+Changes since v2:
+  - Refactor lines numbers since a fix patch was needed for cec-tuner.cpp
+
+---
+ utils/cec-follower/cec-tuner.cpp | 80 ++++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+
 diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-index 5e794d71..bb727ae7 100644
+index bb727ae7..2303e6bb 100644
 --- a/utils/cec-follower/cec-tuner.cpp
 +++ b/utils/cec-follower/cec-tuner.cpp
-@@ -7,8 +7,40 @@
+@@ -7,6 +7,86 @@
  
  #include "cec-follower.h"
  
-+static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP)
++/*
++ * This table contains analog television channel frequencies in KHz.  There are
++ * a total of three frequencies per analog broadcast type and broadcast system.
++ *
++ * CEC 17 and CEC Table 31 of the 1.4 specification lists the available analog
++ * broadcast types and broadcast systems.
++ *
++ * The table is indexed by [ana_bcast_type][bcast_system][i].
++ *
++ * Analog channel frequencies are from Wikipedia:
++ *
++ * https://en.wikipedia.org/wiki/Television_channel_frequencies
++ */
++static unsigned int analog_freqs_khz[3][9][3] =
 +{
-+	unsigned la = cec_msg_initiator(msg);
-+	__u8 opcode = cec_msg_opcode(msg);
-+	__u64 ts_now = get_ts();
-+
-+	if (cec_msg_is_broadcast(msg) || cec_msg_initiator(msg) == CEC_LOG_ADDR_UNREGISTERED)
-+		return;
-+	if (reason == CEC_OP_ABORT_UNRECOGNIZED_OP) {
-+		la_info[la].feature_aborted[opcode].count++;
-+		if (la_info[la].feature_aborted[opcode].count == 2) {
-+			/* If the Abort Reason was "Unrecognized opcode", the Initiator should not send
-+			   the same message to the same Follower again at that time to avoid saturating
-+			   the bus. */
-+			warn("Received message %s from LA %d (%s) shortly after\n",
-+				opcode2s(msg).c_str(), la, la2s(la));
-+			warn("replying Feature Abort [Unrecognized Opcode] to the same message.\n");
-+		}
++	// cable
++	{
++		// pal-bg
++		{ 471250, 479250, 487250 },
++		// secam-lq
++		{ 615250, 623250, 631250 },
++		// pal-m
++		{ 501250, 507250, 513250 },
++		// ntsc-m
++		{ 519250, 525250, 531250 },
++		// pal-i
++		{ 45750, 53750, 61750 },
++		// secam-dk
++		{ 759250, 767250, 775250 },
++		// secam-bg
++		{ 495250, 503250, 511250 },
++		// secam-l
++		{ 639250, 647250, 655250 },
++		// pal-dk
++		{ 783250, 791250, 799250 }
++	},
++	// satellite
++	{
++		// pal-bg
++		{ 519250, 527250, 535250 },
++		// secam-lq
++		{ 663250, 671250, 679250 },
++		// pal-m
++		{ 537250, 543250, 549250 },
++		// ntsc-m
++		{ 555250, 561250, 567250 },
++		// pal-i
++		{ 175250, 183250, 191250 },
++		// secam-dk
++		{ 807250, 815250, 823250 },
++		// secam-bg
++		{ 543250, 551250, 559250 },
++		// secam-l
++		{ 687250, 695250, 703250 },
++		// pal-dk
++		{ 831250, 839250, 847250 }
++	},
++	// terrestrial
++	{
++		// pal-bg
++		{ 567250, 575250, 583250 },
++		// secam-lq
++		{ 711250, 719250, 727250 },
++		// pal-m
++		{ 573250, 579250, 585250 },
++		// ntsc-m
++		{ 591250, 597250, 603250 },
++		// pal-i
++		{ 199250, 207250, 215250 },
++		// secam-dk
++		{ 145250, 153250, 161250 },
++		// secam-bg
++		{ 591250, 599250, 607250 },
++		// secam-l
++		{ 735250, 743250, 751250 },
++		// pal-dk
++		{ 169250, 177250, 185250 }
 +	}
-+	else if (la_info[la].feature_aborted[opcode].count) {
-+		warn("Replying Feature Abort with abort reason different than [Unrecognized Opcode]\n");
-+		warn("to message that has previously been replied Feature Abort to with [Unrecognized Opcode].\n");
-+	}
-+	else
-+		la_info[la].feature_aborted[opcode].ts = ts_now;
++};
 +
-+	cec_msg_reply_feature_abort(msg, reason);
-+	transmit(node, msg);
-+}
-+
- void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
+ static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP)
  {
-+	bool is_bcast = cec_msg_is_broadcast(&msg);
-+
- 	switch (msg.msg[1]) {
- 
- 
-@@ -136,4 +168,9 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
- 	default:
- 		break;
- 	}
-+
-+	if (is_bcast)
-+		return;
-+
-+	reply_feature_abort(node, &msg);
- }
+ 	unsigned la = cec_msg_initiator(msg);
 -- 
 2.23.0
