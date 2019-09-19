@@ -1,174 +1,96 @@
-From: hverkuil at xs4all.nl (Hans Verkuil)
-Date: Thu, 19 Sep 2019 11:05:34 +0200
-Subject: [Linux-kernel-mentees] [PATCH v4] cec-follower: add tuner
-	analog service emulation
-In-Reply-To: <20190919041844.346514-1-c0d1n61at3@gmail.com>
-References: <20190918192710.170428-1-c0d1n61at3@gmail.com>
-	<20190919041844.346514-1-c0d1n61at3@gmail.com>
-Message-ID: <f2146a23-b358-e9ed-1c68-386d6c7f7a68@xs4all.nl>
+From: c0d1n61at3 at gmail.com (Jiunn Chang)
+Date: Thu, 19 Sep 2019 12:47:00 -0500
+Subject: [Linux-kernel-mentees] [PATCH v2] cec-follower: fix cec-tuner.cpp
+In-Reply-To: <20190919021716.259614-1-c0d1n61at3@gmail.com>
+References: <20190919021716.259614-1-c0d1n61at3@gmail.com>
+Message-ID: <20190919174702.140335-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On 9/19/19 6:18 AM, Jiunn Chang wrote:
-> Implement the following tuner control features:
->   - <Select Analogue Service>
->   - <Give Tuner Device Status> and reply <Tuner Device Status>
-> 
-> Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
-> ---
-> 
-> Changes made since v1:
->   - Fix typos/bugs
->   - Import reply_feature_abort() from cec-processing.cpp
->   - Add functionality to choose nearest frequency
-> 
-> Changes made since v2:
->   - Fix typos/bugs
->   - Use state from node in cec-follower.h
->   - Rename functions to analog_ prefix
-> 
-> Changes made since v3:
->   - Refactor lines numbers since a fix patch was needed for cec-tuner.cpp
-> 
-> ---
->  utils/cec-follower/cec-follower.h |  1 +
->  utils/cec-follower/cec-tuner.cpp  | 57 ++++++++++++++++++++++++-------
->  2 files changed, 46 insertions(+), 12 deletions(-)
-> 
-> diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
-> index 9f5f1be4..9c146be1 100644
-> --- a/utils/cec-follower/cec-follower.h
-> +++ b/utils/cec-follower/cec-follower.h
-> @@ -51,6 +51,7 @@ struct state {
->  	__u64 rc_press_rx_ts;
->  	unsigned rc_press_hold_count;
->  	unsigned rc_duration_sum;
-> +	struct cec_op_tuner_device_info tuner_dev_info;
->  };
->  
->  struct node {
-> diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-> index 2303e6bb..87c631e4 100644
-> --- a/utils/cec-follower/cec-tuner.cpp
-> +++ b/utils/cec-follower/cec-tuner.cpp
-> @@ -4,6 +4,7 @@
->   */
->  
->  #include <sys/ioctl.h>
-> +#include <stdlib.h>
->  
->  #include "cec-follower.h"
->  
-> @@ -117,6 +118,35 @@ static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 rea
->  	transmit(node, msg);
->  }
->  
-> +static void analog_set_tuner_chan_freq(struct node *node)
-> +{
-> +	unsigned int ana_freq_khz = (node->state.tuner_dev_info.analog.ana_freq * 625) / 10;
-> +	unsigned int nearest = analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][0];
+Remove static from reply_feature_abort() in cec-processing.cpp so
+it can be used in cec-tuner.cpp.  This is maintain testing logic
+for PRESUMED_OK which replies on the feature abort message.  Also
+needed is a boolean for broadcast messages that should not be
+aborted.
 
-I'd make both variable 'int', since that will avoid the int cast in the abs function.
+Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
+---
 
-Add newline after variable declarations.
+Changes made since v1:
+  - Remove reply_feature_abort() from cec-tuner.cpp
+  - Remove static from reply_feature_abort() in cec-processing.cpp
+  - Add prototype for reply_feature_abort() in cec-follower.h
 
-Also make a temp variable like this:
+---
+ utils/cec-follower/cec-follower.h     | 1 +
+ utils/cec-follower/cec-processing.cpp | 6 +++---
+ utils/cec-follower/cec-tuner.cpp      | 7 +++++++
+ 3 files changed, 11 insertions(+), 3 deletions(-)
 
-	struct cec_op_tuner_device_info *info = &node->state.tuner_dev_info;
-
-and use that instead instead of repeating 'node->state.tuner_dev_info.' everywhere.
-That's way too long.
-
-> +	for (int i = 0; i < 3; i++) {
-
-Rather than hardcoding '3' here, add a NUM_ANALOG_FREQS define and use that.
-
-Of course, the analog_freqs_khz array declaration should use this new define as well.
-This means a new version of 'cec-follower: create analog channel frequencies'.
-
-I'd add a:
-		int freq = analog_freqs_khz[info->analog.ana_bcast_type][info->analog.bcast_system][i];
-
-and use that below.
-
-> +		if (abs(int(ana_freq_khz - analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][i])) <
-> +		    abs(int(ana_freq_khz - nearest))) {
-> +			nearest = analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][i];
-> +		}
-> +	}
-> +	node->state.tuner_dev_info.analog.ana_freq = (nearest * 10) / 625;
-> +}
-> +
-> +static bool analog_set_tuner_dev_info(struct node *node, struct cec_msg *msg)
-> +{
-> +	node->state.tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
-> +	node->state.tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_ANALOGUE;
-> +	node->state.tuner_dev_info.is_analog = true;
-
-Same here, use info pointer.
-
-> +	cec_ops_select_analogue_service(msg,
-> +					&node->state.tuner_dev_info.analog.ana_bcast_type,
-> +					&node->state.tuner_dev_info.analog.ana_freq,
-> +					&node->state.tuner_dev_info.analog.bcast_system);
-> +	if (node->state.tuner_dev_info.analog.ana_bcast_type > 2 ||
-> +	    node->state.tuner_dev_info.analog.bcast_system > 8)
-> +		return false;
-> +	analog_set_tuner_chan_freq(node);
-> +	return true;
-> +}
-> +
->  void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
->  {
->  	bool is_bcast = cec_msg_is_broadcast(&msg);
-> @@ -133,21 +163,11 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
->  		*/
->  
->  	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
-> -		if (!cec_has_tuner(1 << me))
-> +		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
->  			break;
->  
-> -		struct cec_op_tuner_device_info tuner_dev_info = {};
-> -
->  		cec_msg_set_reply_to(&msg, &msg);
-> -		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
-> -		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
-> -		tuner_dev_info.is_analog = false;
-> -		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
-> -		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
-> -		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
-> -		tuner_dev_info.digital.channel.minor = 1;
-> -
-> -		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
-> +		cec_msg_tuner_device_status(&msg, &node->state.tuner_dev_info);
->  		transmit(node, &msg);
->  		return;
->  	}
-> @@ -156,6 +176,19 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
->  		return;
->  
->  	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
-> +		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
-> +			break;
-> +
-> +		if (node->state.tuner_dev_info.rec_flag == CEC_OP_REC_FLAG_USED) {
-> +			reply_feature_abort(node, &msg, CEC_OP_ABORT_REFUSED);
-> +			return;
-> +		}
-> +		if (!analog_set_tuner_dev_info(node, &msg)) {
-> +			reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
-> +			return;
-> +		}
-> +		return;
-> +
->  	case CEC_MSG_SELECT_DIGITAL_SERVICE:
->  	case CEC_MSG_TUNER_STEP_DECREMENT:
->  	case CEC_MSG_TUNER_STEP_INCREMENT:
-> 
-
-Can you post a patch series next time? There are now three patches on top of one another,
-it's easier to review if I see the whole set.
-
-Regards,
-
-	Hans
+diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+index 9f5f1be4..03b52217 100644
+--- a/utils/cec-follower/cec-follower.h
++++ b/utils/cec-follower/cec-follower.h
+@@ -223,6 +223,7 @@ void sad_encode(const struct short_audio_desc *sad, __u32 *descriptor);
+ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me);
+ 
+ // CEC processing
++void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP);
+ void testProcessing(struct node *node, bool wallclock);
+ 
+ // cec-log.c
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index 15cedddf..3db88f1a 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -211,7 +211,7 @@ static void log_event(struct cec_event &ev, bool wallclock)
+ 		printf("\tTimestamp: %s\n", ts2s(ev.ts, wallclock).c_str());
+ }
+ 
+-static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP)
++void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason)
+ {
+ 	unsigned la = cec_msg_initiator(msg);
+ 	__u8 opcode = cec_msg_opcode(msg);
+@@ -608,7 +608,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 	case CEC_MSG_DECK_STATUS:
+ 		return;
+ 
+-	/* Tuner Centric Messages */
++	/* Tuner/Record/Timer Messages */
+ 
+ 	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS:
+ 	case CEC_MSG_TUNER_DEVICE_STATUS:
+@@ -630,7 +630,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 	case CEC_MSG_TIMER_CLEARED_STATUS:
+ 	case CEC_MSG_TIMER_STATUS:
+ 		process_tuner_record_timer_msgs(node, msg, me);
+-		break;
++		return;
+ 
+ 		/* Dynamic Auto Lipsync */
+ 
+diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+index 5e794d71..a1e349bd 100644
+--- a/utils/cec-follower/cec-tuner.cpp
++++ b/utils/cec-follower/cec-tuner.cpp
+@@ -9,6 +9,8 @@
+ 
+ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
+ {
++	bool is_bcast = cec_msg_is_broadcast(&msg);
++
+ 	switch (msg.msg[1]) {
+ 
+ 
+@@ -136,4 +138,9 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+ 	default:
+ 		break;
+ 	}
++
++	if (is_bcast)
++		return;
++
++	reply_feature_abort(node, &msg);
+ }
+-- 
+2.23.0
