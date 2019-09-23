@@ -1,18 +1,53 @@
-From: hverkuil at xs4all.nl (Hans Verkuil)
-Date: Mon, 23 Sep 2019 15:55:28 +0200
-Subject: [Linux-kernel-mentees] Presentation: Writing Code: Keep It Short,
-	Stupid!
-Message-ID: <92080a41-038c-15fd-8183-13f9cba47bdf@xs4all.nl>
+From: madhuparnabhowmik04 at gmail.com (Madhuparna Bhowmik)
+Date: Tue, 24 Sep 2019 02:33:25 +0530
+Subject: [Linux-kernel-mentees] Fwd: [PATCH] fs: direct-io: Fixed a
+	Documentation build warn
+In-Reply-To: <CAF65HP3W3OM-Euc28fpZc_EPcG9KzEt8==UOC0fgS8ODoWRXiA@mail.gmail.com>
+References: <20190923123701.GA9627@madhuparna-HP-Notebook>
+	<CAF65HP3W3OM-Euc28fpZc_EPcG9KzEt8==UOC0fgS8ODoWRXiA@mail.gmail.com>
+Message-ID: <CAF65HP0CViR_Dw=xEhSAY++o=UUxtDAv2ZkAHjVkmOMiNTEeBA@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-This might be of interest: a 30 minute presentation I gave a few years ago
-at the Kernel Recipes conference about coding in general:
+Fixed Excess function parameters warning.
+warning: Excess function parameter 'offset' description in
+'dio_complete'.
+Removed the description of the local variable offset from the
+description for arguments of a function and added it with the
+declaration of the variable.
 
-https://kernel-recipes.org/en/2014/writing-code-keep-it-short-stupid/
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+---
+ fs/direct-io.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It was a fun presentation to give, and if nothing else it should give some food
-for thought.
+diff --git a/fs/direct-io.c b/fs/direct-io.c
+index ae196784f487..a9cb770f0bc1 100644
+--- a/fs/direct-io.c
++++ b/fs/direct-io.c
+@@ -243,7 +243,6 @@ void dio_warn_stale_pagecache(struct file *filp)
 
-Regards,
+ /**
+  * dio_complete() - called when all DIO BIO I/O has been completed
+- * @offset: the byte offset in the file of the completed operation
+  *
+  * This drops i_dio_count, lets interested parties know that a DIO
+operation
+  * has completed, and calculates the resulting return code for the
+operation.
+@@ -255,6 +254,7 @@ void dio_warn_stale_pagecache(struct file *filp)
+  */
+ static ssize_t dio_complete(struct dio *dio, ssize_t ret, unsigned int
+flags)
+ {
++       /* offset: the byte offset in the file of the completed operation */
+        loff_t offset = dio->iocb->ki_pos;
+        ssize_t transferred = 0;
+        int err;
+-- 
+2.17.1
 
-	Hans
+?
+?
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20190924/d297bba5/attachment.html>
