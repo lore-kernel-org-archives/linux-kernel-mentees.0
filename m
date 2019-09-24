@@ -1,67 +1,150 @@
-From: bnvandana at gmail.com (Vandana BN)
-Date: Tue, 24 Sep 2019 14:55:30 +0530
-Subject: [Linux-kernel-mentees] [PATCH] v4l2-compliance: Verify metadata
-	formats
-Message-ID: <20190924092530.17749-1-bnvandana@gmail.com>
+From: hverkuil at xs4all.nl (Hans Verkuil)
+Date: Tue, 24 Sep 2019 12:28:20 +0200
+Subject: [Linux-kernel-mentees] [PATCH v7] v4l2-ctl: Print UVC meta info
+In-Reply-To: <20190924091426.17530-1-bnvandana@gmail.com>
+References: <215f6e47-84ec-8c63-713b-b30b81f90c18@xs4all.nl>
+	<20190924091426.17530-1-bnvandana@gmail.com>
+Message-ID: <4a30b7ef-4e1e-3cef-5f7d-c75920edae7e@xs4all.nl>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-changes to testEnumFormats() and testGetFormats() to verify METADATA type.
-G_FMT sets node->valid_buftypes, so TRY/S_FMT does not get called for
-other input types, hence did not modify them.
+Hi Vandana,
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
----
- utils/v4l2-compliance/v4l2-test-formats.cpp | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+I did some testing with several webcams and there is only one more thing
+to do:
 
-diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
-index 525dfafa..604ea921 100644
---- a/utils/v4l2-compliance/v4l2-test-formats.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
-@@ -305,8 +305,6 @@ int testEnumFormats(struct node *node)
- 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
- 		case V4L2_BUF_TYPE_SDR_CAPTURE:
- 		case V4L2_BUF_TYPE_SDR_OUTPUT:
--		case V4L2_BUF_TYPE_META_CAPTURE:
--		case V4L2_BUF_TYPE_META_OUTPUT:
- 			if (ret && (node->g_caps() & buftype2cap[type]))
- 				return fail("%s cap set, but no %s formats defined\n",
- 						buftype2s(type).c_str(), buftype2s(type).c_str());
-@@ -314,6 +312,10 @@ int testEnumFormats(struct node *node)
- 				return fail("%s cap not set, but %s formats defined\n",
- 						buftype2s(type).c_str(), buftype2s(type).c_str());
- 			break;
-+		case V4L2_BUF_TYPE_META_CAPTURE:
-+		case V4L2_BUF_TYPE_META_OUTPUT:
-+			/* Metadata formats need not be present for all input types */
-+			break;
- 		default:
- 			if (!ret)
- 				return fail("Buffer type %s not allowed!\n", buftype2s(type).c_str());
-@@ -599,8 +601,6 @@ int testGetFormats(struct node *node)
- 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
- 		case V4L2_BUF_TYPE_SDR_CAPTURE:
- 		case V4L2_BUF_TYPE_SDR_OUTPUT:
--		case V4L2_BUF_TYPE_META_CAPTURE:
--		case V4L2_BUF_TYPE_META_OUTPUT:
- 			if (ret && (node->g_caps() & buftype2cap[type]))
- 				return fail("%s cap set, but no %s formats defined\n",
- 					buftype2s(type).c_str(), buftype2s(type).c_str());
-@@ -608,6 +608,15 @@ int testGetFormats(struct node *node)
- 				return fail("%s cap not set, but %s formats defined\n",
- 					buftype2s(type).c_str(), buftype2s(type).c_str());
- 			break;
-+		case V4L2_BUF_TYPE_META_CAPTURE:
-+		case V4L2_BUF_TYPE_META_OUTPUT:
-+			if(ret && !node->buftype_pixfmts[type].empty())
-+				return fail("%s Get_format failed, but %s formats defined\n",
-+					buftype2s(type).c_str(), buftype2s(type).c_str());
-+			if(!ret && node->buftype_pixfmts[type].empty())
-+				return fail("%s Get_format success, but no  %s formats defined\n",
-+					buftype2s(type).c_str(), buftype2s(type).c_str());
-+			break;
- 		default:
- 			/* ENUMFMT doesn't support other buftypes */
- 			break;
--- 
-2.17.1
+On 9/24/19 11:14 AM, Vandana BN wrote:
+> Print UVC Metadata information in verbose mode.
+> 
+> Signed-off-by: Vandana BN <bnvandana at gmail.com>
+> ---
+> Changes since v6:
+> 	Not to print PTS/SCR if not present.
+> 	Remove loop in print_meta_buffer()
+> Changes since v5:
+> 	Use proper print format.
+> 	split fprintf.
+> Changes since v4:
+> 	Print PTS and SCR info.
+> ---
+>  utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 39 +++++++++++++++++++++++++++
+>  utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 14 +++++-----
+>  utils/v4l2-ctl/v4l2-ctl.h             |  1 +
+>  3 files changed, 48 insertions(+), 6 deletions(-)
+> 
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> index 75fbd6f4..eae7438f 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> @@ -127,3 +127,42 @@ void meta_list(cv4l_fd &fd)
+>  		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
+>  	}
+>  }
+> +
+> +struct vivid_uvc_meta_buf {
+> +	__u64 ns;
+> +	__u16 sof;
+> +	__u8 length;
+> +	__u8 flags;
+> +	__u8 buf[10];
+> +};
+> +
+> +#define UVC_STREAM_SCR	(1 << 3)
+> +#define UVC_STREAM_PTS	(1 << 2)
+> +
+> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
+> +{
+> +	struct vivid_uvc_meta_buf *vbuf;
+> +	int buf_off = 0;
+> +
+> +	switch (fmt.g_pixelformat()) {
+> +	case V4L2_META_FMT_UVC:
+> +		fprintf(f, "UVC: ");
+> +		vbuf = (vivid_uvc_meta_buf *)q.g_dataptr(buf.g_index(), 0);
+> +
+> +		fprintf(f, "%.6fs sof: %4d len: %u flags: 0x%02x",
+> +			(double)vbuf->ns / 1000000000.0,
+> +			vbuf->sof,
+> +			vbuf->length,
+> +			vbuf->flags);
+> +		if (vbuf->flags & UVC_STREAM_PTS) {
+> +			fprintf(f, " PTS: %u", le32toh(*(__u32*)(vbuf->buf)));
+> +			buf_off = 4;
+> +		}
+> +		if (vbuf->flags & UVC_STREAM_SCR)
+> +			fprintf(f, " STC: %u SOF counter: %u",
+> +				le32toh(*(__u32*)(vbuf->buf + buf_off)),
+> +				le16toh(*(__u16*)(vbuf->buf + buf_off + 4)));
+> +		fprintf(f, "\n");
+> +		break;
+> +	}
+> +}
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> index 11157434..46d53f23 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> @@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
+>  	fprintf(f, "\n");
+>  }
+>  
+> -static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
+> -				 fps_timestamps &fps_ts, int comp_perc,
+> -				 bool skip_ts = false)
+> +static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
+> +				 cv4l_queue &q, fps_timestamps &fps_ts,
+> +				 int comp_perc, bool skip_ts = false)
+>  {
+>  	static double last_ts;
+>  
+> @@ -592,6 +592,8 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
+>  	if (fl)
+>  		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
+>  	fprintf(f, "\n");
+> +	if (v4l_type_is_meta(buf.g_type()))
+
+Don't call print_meta_buffer if V4L2_BUF_FLAG_ERROR is set, or if bytesused == 0, since
+in that case the buffer doesn't contain valid data.
+
+> +		print_meta_buffer(f, buf, fmt, q);
+>  }
+>  
+>  static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
+> @@ -1390,7 +1392,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
+>  		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
+>  			break;
+>  		if (verbose)
+> -			print_concise_buffer(stderr, buf, fps_ts, -1);
+> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
+>  		if (fd.qbuf(buf))
+>  			return QUEUE_ERROR;
+>  	}
+> @@ -1412,7 +1414,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
+>  	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
+>  		ch = 'B';
+>  	if (verbose) {
+> -		print_concise_buffer(stderr, buf, fps_ts,
+> +		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
+>  				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
+>  		comp_perc_count = comp_perc = 0;
+>  	}
+> @@ -1502,7 +1504,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
+>  		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
+>  		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
+>  		if (verbose)
+> -			print_concise_buffer(stderr, buf, fps_ts, -1);
+> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
+>  
+>  		for (unsigned j = 0; j < buf.g_num_planes(); j++)
+>  			buf.s_bytesused(buf.g_length(j), j);
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+> index 5797d784..36051566 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.h
+> +++ b/utils/v4l2-ctl/v4l2-ctl.h
+> @@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
+>  void meta_set(cv4l_fd &fd);
+>  void meta_get(cv4l_fd &fd);
+>  void meta_list(cv4l_fd &fd);
+> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
+>  
+>  // v4l2-ctl-subdev.cpp
+>  void subdev_usage(void);
+> 
