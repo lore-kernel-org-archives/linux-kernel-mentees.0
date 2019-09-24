@@ -1,37 +1,156 @@
 From: skhan@linuxfoundation.org (Shuah Khan)
-Date: Tue, 24 Sep 2019 07:16:23 -0600
-Subject: [Linux-kernel-mentees] [PATCH] fs: direct-io: Fixed a
- Documentation build warn
-In-Reply-To: <20190924122310.GF1855@bombadil.infradead.org>
-References: <20190924121920.GA4593@madhuparna-HP-Notebook>
-	<20190924122310.GF1855@bombadil.infradead.org>
-Message-ID: <684ef896-5062-0997-99fe-8395e9f05d9b@linuxfoundation.org>
+Date: Tue, 24 Sep 2019 07:29:38 -0600
+Subject: [Linux-kernel-mentees] [PATCH v8] v4l2-ctl: Print UVC meta info
+In-Reply-To: <20190924110426.25398-1-bnvandana@gmail.com>
+References: <4a30b7ef-4e1e-3cef-5f7d-c75920edae7e@xs4all.nl>
+	<20190924110426.25398-1-bnvandana@gmail.com>
+Message-ID: <65619439-4944-b95a-a312-efe1da50872f@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190924131623.AFOP04wgpmPApsaAogV_eDVNovoywJDvrN7cHuOzssA@z>
+Message-ID: <20190924132938.Kbyx0GOCnxlD25EIz_EBMoCBERtyGQMbxBYvphZ5OQo@z>
 
-On 9/24/19 6:23 AM, Matthew Wilcox wrote:
-> On Tue, Sep 24, 2019 at 05:49:25PM +0530, Madhuparna Bhowmik wrote:
->> Adds the description about
->> offset within the code.
-> 
-> Why?
-> 
->> @@ -255,6 +254,7 @@ void dio_warn_stale_pagecache(struct file *filp)
->>    */
->>   static ssize_t dio_complete(struct dio *dio, ssize_t ret, unsigned int flags)
->>   {
->> +	/* offset: the byte offset in the file of the completed operation */
->>   	loff_t offset = dio->iocb->ki_pos;
->>   	ssize_t transferred = 0;
->>   	int err;
-> 
-> This is not normal practice within the Linux kernel.  I suggest reading
-> section 8 of Documentation/process/coding-style.rst
+On 9/24/19 5:04 AM, Vandana BN wrote:
+> Print UVC Metadata information in verbose mode.
 > 
 
-You don't combine documentation and code patches. I don't think you need
-to add this comment in here.
+Cam you add more information on what this Metadata is and how it
+is used.
 
-thanks,
--- Shuah
+> Signed-off-by: Vandana BN <bnvandana at gmail.com>
+> ---
+> Changes since v7:
+> 	Not to call print_meta_buffer, if V4L2_BUF_FLAG_ERROR is set or
+> bytesused is 0.
+> Changes since v6:
+> 	Not to print PTS/SCR if not present.
+> 	Remove loop in print_meta_buffer()
+> Changes since v5:
+> 	Use proper print format.
+> 	split fprintf.
+> Changes since v4:
+> 	Print PTS and SCR info.
+> ---
+>   utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 39 +++++++++++++++++++++++++++
+>   utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 15 ++++++-----
+>   utils/v4l2-ctl/v4l2-ctl.h             |  1 +
+>   3 files changed, 49 insertions(+), 6 deletions(-)
+> 
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> index 75fbd6f4..eae7438f 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> @@ -127,3 +127,42 @@ void meta_list(cv4l_fd &fd)
+>   		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
+>   	}
+>   }
+> +
+> +struct vivid_uvc_meta_buf {
+> +	__u64 ns;
+> +	__u16 sof;
+> +	__u8 length;
+> +	__u8 flags;
+> +	__u8 buf[10];
+> +};
+> +
+> +#define UVC_STREAM_SCR	(1 << 3)
+> +#define UVC_STREAM_PTS	(1 << 2)
+> +
+> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
+> +{
+> +	struct vivid_uvc_meta_buf *vbuf;
+> +	int buf_off = 0;
+> +
+> +	switch (fmt.g_pixelformat()) {
+> +	case V4L2_META_FMT_UVC:
+> +		fprintf(f, "UVC: ");
+
+Can you make this "UVC: Metadata:" or something along the lines to
+say what this is. It will be easeir for people to search for a key
+word.
+
+> +		vbuf = (vivid_uvc_meta_buf *)q.g_dataptr(buf.g_index(), 0);
+> +
+> +		fprintf(f, "%.6fs sof: %4d len: %u flags: 0x%02x",
+> +			(double)vbuf->ns / 1000000000.0,
+> +			vbuf->sof,
+> +			vbuf->length,
+> +			vbuf->flags);
+> +		if (vbuf->flags & UVC_STREAM_PTS) {
+> +			fprintf(f, " PTS: %u", le32toh(*(__u32*)(vbuf->buf)));
+> +			buf_off = 4;
+> +		}
+> +		if (vbuf->flags & UVC_STREAM_SCR)
+> +			fprintf(f, " STC: %u SOF counter: %u",
+> +				le32toh(*(__u32*)(vbuf->buf + buf_off)),
+> +				le16toh(*(__u16*)(vbuf->buf + buf_off + 4)));
+> +		fprintf(f, "\n");
+> +		break;
+> +	}
+> +}
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> index 11157434..47b7d3f8 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> @@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
+>   	fprintf(f, "\n");
+>   }
+>   
+> -static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
+> -				 fps_timestamps &fps_ts, int comp_perc,
+> -				 bool skip_ts = false)
+> +static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
+> +				 cv4l_queue &q, fps_timestamps &fps_ts,
+> +				 int comp_perc, bool skip_ts = false)
+>   {
+>   	static double last_ts;
+>   
+> @@ -592,6 +592,9 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
+>   	if (fl)
+>   		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
+>   	fprintf(f, "\n");
+> +	if (v4l_type_is_meta(buf.g_type()) && buf.g_bytesused(0) &&
+> +	    !(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
+> +		print_meta_buffer(f, buf, fmt, q);
+>   }
+>   
+>   static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
+> @@ -1390,7 +1393,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
+>   		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
+>   			break;
+>   		if (verbose)
+> -			print_concise_buffer(stderr, buf, fps_ts, -1);
+> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
+>   		if (fd.qbuf(buf))
+>   			return QUEUE_ERROR;
+>   	}
+> @@ -1412,7 +1415,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
+>   	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
+>   		ch = 'B';
+>   	if (verbose) {
+> -		print_concise_buffer(stderr, buf, fps_ts,
+> +		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
+>   				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
+>   		comp_perc_count = comp_perc = 0;
+>   	}
+> @@ -1502,7 +1505,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
+>   		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
+>   		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
+>   		if (verbose)
+> -			print_concise_buffer(stderr, buf, fps_ts, -1);
+> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
+>   
+>   		for (unsigned j = 0; j < buf.g_num_planes(); j++)
+>   			buf.s_bytesused(buf.g_length(j), j);
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+> index 5797d784..36051566 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.h
+> +++ b/utils/v4l2-ctl/v4l2-ctl.h
+> @@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
+>   void meta_set(cv4l_fd &fd);
+>   void meta_get(cv4l_fd &fd);
+>   void meta_list(cv4l_fd &fd);
+> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
+>   
+>   // v4l2-ctl-subdev.cpp
+>   void subdev_usage(void);
+> 
