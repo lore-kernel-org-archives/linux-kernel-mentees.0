@@ -1,69 +1,31 @@
-From: bnvandana at gmail.com (Vandana BN)
-Date: Wed, 25 Sep 2019 14:44:26 +0530
-Subject: [Linux-kernel-mentees] [PATCH v2] v4l2-compliance: Verify metadata
-	formats
-In-Reply-To: <49ffdb33-39a7-aa44-fb0c-302e963972b1@xs4all.nl>
-References: <49ffdb33-39a7-aa44-fb0c-302e963972b1@xs4all.nl>
-Message-ID: <20190925091426.17120-1-bnvandana@gmail.com>
+From: madhuparnabhowmik04 at gmail.com (Madhuparna Bhowmik)
+Date: Wed, 25 Sep 2019 22:39:42 +0530
+Subject: [Linux-kernel-mentees] [PATCH 2/2] kernel: sched: fair: Changes
+	data type from int to u64
+Message-ID: <20190925170931.GA23927@madhuparna-HP-Notebook>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Metadata formats may not be defined for a given input or output type.
-This patch checks, if given input/output type enumerates metadata formats
-and validates G_FMT accordingly.
+This patch changes the data type of variable overrun in the function
+sched_cfs_period_timer() from int to u64 as the return type of the
+function hrtimer_forward_now() is u64.
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
 ---
- utils/v4l2-compliance/v4l2-test-formats.cpp | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ kernel/sched/fair.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
-index 525dfafa..b60d9275 100644
---- a/utils/v4l2-compliance/v4l2-test-formats.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
-@@ -305,8 +305,6 @@ int testEnumFormats(struct node *node)
- 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
- 		case V4L2_BUF_TYPE_SDR_CAPTURE:
- 		case V4L2_BUF_TYPE_SDR_OUTPUT:
--		case V4L2_BUF_TYPE_META_CAPTURE:
--		case V4L2_BUF_TYPE_META_OUTPUT:
- 			if (ret && (node->g_caps() & buftype2cap[type]))
- 				return fail("%s cap set, but no %s formats defined\n",
- 						buftype2s(type).c_str(), buftype2s(type).c_str());
-@@ -314,6 +312,10 @@ int testEnumFormats(struct node *node)
- 				return fail("%s cap not set, but %s formats defined\n",
- 						buftype2s(type).c_str(), buftype2s(type).c_str());
- 			break;
-+		case V4L2_BUF_TYPE_META_CAPTURE:
-+		case V4L2_BUF_TYPE_META_OUTPUT:
-+			/* Metadata formats need not be present for the current input/output */
-+			break;
- 		default:
- 			if (!ret)
- 				return fail("Buffer type %s not allowed!\n", buftype2s(type).c_str());
-@@ -599,8 +601,6 @@ int testGetFormats(struct node *node)
- 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
- 		case V4L2_BUF_TYPE_SDR_CAPTURE:
- 		case V4L2_BUF_TYPE_SDR_OUTPUT:
--		case V4L2_BUF_TYPE_META_CAPTURE:
--		case V4L2_BUF_TYPE_META_OUTPUT:
- 			if (ret && (node->g_caps() & buftype2cap[type]))
- 				return fail("%s cap set, but no %s formats defined\n",
- 					buftype2s(type).c_str(), buftype2s(type).c_str());
-@@ -608,6 +608,15 @@ int testGetFormats(struct node *node)
- 				return fail("%s cap not set, but %s formats defined\n",
- 					buftype2s(type).c_str(), buftype2s(type).c_str());
- 			break;
-+		case V4L2_BUF_TYPE_META_CAPTURE:
-+		case V4L2_BUF_TYPE_META_OUTPUT:
-+			if (ret && !node->buftype_pixfmts[type].empty())
-+				return fail("%s G_FMT failed, but %s formats defined\n",
-+					buftype2s(type).c_str(), buftype2s(type).c_str());
-+			if (!ret && node->buftype_pixfmts[type].empty())
-+				return fail("%s G_FMT success, but no %s formats defined\n",
-+					buftype2s(type).c_str(), buftype2s(type).c_str());
-+			break;
- 		default:
- 			/* ENUMFMT doesn't support other buftypes */
- 			break;
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index d4bbf68c3161..7c97e9704ca2 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -4929,7 +4929,7 @@ static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
+ 	struct cfs_bandwidth *cfs_b =
+ 		container_of(timer, struct cfs_bandwidth, period_timer);
+ 	unsigned long flags;
+-	int overrun;
++	u64 overrun;
+ 	int idle = 0;
+ 	int count = 0;
+ 
 -- 
 2.17.1
