@@ -1,31 +1,31 @@
 From: madhuparnabhowmik04 at gmail.com (Madhuparna Bhowmik)
-Date: Wed, 25 Sep 2019 22:39:42 +0530
-Subject: [Linux-kernel-mentees] [PATCH 2/2] kernel: sched: fair: Changes
-	data type from int to u64
-Message-ID: <20190925170931.GA23927@madhuparna-HP-Notebook>
+Date: Thu, 26 Sep 2019 01:36:18 +0530
+Subject: [Linux-kernel-mentees] [PATCH] fs: direct-io: Fixed a Documentation
+	build warn
+Message-ID: <20190925200614.GA30749@madhuparna-HP-Notebook>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-This patch changes the data type of variable overrun in the function
-sched_cfs_period_timer() from int to u64 as the return type of the
-function hrtimer_forward_now() is u64.
+This patch fixes the warning: Excess function parameter 'offset'
+description in 'dio_complete'.
+Removes offset from the list of arguments in the function
+header as it not an argument to the function.
 
 Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
 ---
- kernel/sched/fair.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/direct-io.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index d4bbf68c3161..7c97e9704ca2 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -4929,7 +4929,7 @@ static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
- 	struct cfs_bandwidth *cfs_b =
- 		container_of(timer, struct cfs_bandwidth, period_timer);
- 	unsigned long flags;
--	int overrun;
-+	u64 overrun;
- 	int idle = 0;
- 	int count = 0;
+diff --git a/fs/direct-io.c b/fs/direct-io.c
+index ae196784f487..636a61036ffe 100644
+--- a/fs/direct-io.c
++++ b/fs/direct-io.c
+@@ -243,7 +243,6 @@ void dio_warn_stale_pagecache(struct file *filp)
  
+ /**
+  * dio_complete() - called when all DIO BIO I/O has been completed
+- * @offset: the byte offset in the file of the completed operation
+  *
+  * This drops i_dio_count, lets interested parties know that a DIO operation
+  * has completed, and calculates the resulting return code for the operation.
 -- 
 2.17.1
