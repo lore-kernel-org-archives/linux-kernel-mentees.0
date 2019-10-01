@@ -1,46 +1,42 @@
-From: dwlsalmeida at gmail.com (Daniel W. S. Almeida)
-Date: Mon, 30 Sep 2019 22:04:55 -0300
-Subject: [Linux-kernel-mentees] [PATCH] sched: change type of 'overrun' to
-	u64
-Message-ID: <20191001010455.278712-1-dwlsalmeida@gmail.com>
+From: c0d1n61at3 at gmail.com (Jiunn Chang)
+Date: Mon, 30 Sep 2019 22:18:20 -0500
+Subject: [Linux-kernel-mentees] [PATCH v4 0/3] cec-compliance: tuner control
+In-Reply-To: <20190930043017.474025-1-c0d1n61at3@gmail.com>
+References: <20190930043017.474025-1-c0d1n61at3@gmail.com>
+Message-ID: <20191001031823.312020-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-From: "Daniel W. S. Almeida" <dwlsalmeida at gmail.com>
+This patch series implements analog tuner step features and cec-compliance tests.
+Added tuner_ctl_test() to test new tuner features implemented in the cec-follower.
 
-hrtimer_forward_now() return value is now u64, but int was used instead.
-Now fixed.
-
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida at gmail.com>
 ---
- kernel/sched/fair.c | 2 +-
- kernel/sched/rt.c   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 83ab35e2374f..379577798703 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -4913,7 +4913,7 @@ static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
- 	struct cfs_bandwidth *cfs_b =
- 		container_of(timer, struct cfs_bandwidth, period_timer);
- 	unsigned long flags;
--	int overrun;
-+	u64 overrun;
- 	int idle = 0;
- 	int count = 0;
- 
-diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-index ebaa4e619684..cc4875964352 100644
---- a/kernel/sched/rt.c
-+++ b/kernel/sched/rt.c
-@@ -19,7 +19,7 @@ static enum hrtimer_restart sched_rt_period_timer(struct hrtimer *timer)
- 	struct rt_bandwidth *rt_b =
- 		container_of(timer, struct rt_bandwidth, rt_period_timer);
- 	int idle = 0;
--	int overrun;
-+	u64 overrun;
- 
- 	raw_spin_lock(&rt_b->rt_runtime_lock);
- 	for (;;) {
+changes made since v3:
+  - Correct commit message for tuner emulation bug fix
+  - Refactor analog_get_nearest_freq_idx() to return freq index
+  - Refactor analog_get_type_system_idx() to set device info
+  - Add macro ARRAY_SIZE_ANA_FREQS
+  - Refactor tuner_ctl_test() to use std::vector
+
+Changes made since v2:
+  - Fix bugs for tuner emulation
+  - Add freq_idx to cec-follower state
+  - Refactor tuner tests into a single tuner_ctl_test()
+
+Changes made since v1:
+  - Remove redundant error checking
+  - Add circular wrap logic to tuner step increment/decrement
+
+Jiunn Chang (3):
+  cec-follower: fix bugs for tuner emulation
+  cec-follower: add tuner step increment/decrement
+  cec-compliance: add tuner control test
+
+ utils/cec-compliance/cec-test.cpp   | 91 +++++++++++++++++++++++++++++
+ utils/cec-follower/cec-follower.cpp |  2 +-
+ utils/cec-follower/cec-follower.h   |  3 +-
+ utils/cec-follower/cec-tuner.cpp    | 73 +++++++++++++++++------
+ 4 files changed, 150 insertions(+), 19 deletions(-)
+
 -- 
 2.23.0
