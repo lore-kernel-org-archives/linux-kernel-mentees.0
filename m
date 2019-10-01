@@ -1,81 +1,58 @@
 From: dwlsalmeida at gmail.com (Daniel W. S. Almeida)
-Date: Mon, 30 Sep 2019 21:58:51 -0300
-Subject: [Linux-kernel-mentees] [PATCH] drm: i915: fix kernel-doc warnings
-	in i915_drv.h
-Message-ID: <20191001005851.276806-1-dwlsalmeida@gmail.com>
+Date: Mon, 30 Sep 2019 22:03:44 -0300
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: perf: fix kernel-doc
+	warnings in imx-ddr.rst
+Message-ID: <20191001010344.278234-1-dwlsalmeida@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
 From: "Daniel W. S. Almeida" <dwlsalmeida at gmail.com>
 
-The warnings were generated due to missing or misplaced characters.
-Now fixed. No other change in content.
+Unexpected indentation errors were reported due to missing blank lines.
+Now fixed. No change in content otherwise.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida at gmail.com>
 ---
- drivers/gpu/drm/i915/i915_drv.h | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ Documentation/admin-guide/perf/imx-ddr.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 772154e4073e..941f60304932 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1126,7 +1126,7 @@ struct i915_perf_stream {
- 	struct i915_oa_config *oa_config;
+diff --git a/Documentation/admin-guide/perf/imx-ddr.rst b/Documentation/admin-guide/perf/imx-ddr.rst
+index 517a205abad6..75c8b46ba6f9 100644
+--- a/Documentation/admin-guide/perf/imx-ddr.rst
++++ b/Documentation/admin-guide/perf/imx-ddr.rst
+@@ -18,6 +18,7 @@ The "format" directory describes format of the config (event ID) and config1
+ devices/imx8_ddr0/format/. The "events" directory describes the events types
+ hardware supported that can be used with perf tool, see /sys/bus/event_source/
+ devices/imx8_ddr0/events/.
++
+   e.g.::
+         perf stat -a -e imx8_ddr0/cycles/ cmd
+         perf stat -a -e imx8_ddr0/read/,imx8_ddr0/write/ cmd
+@@ -31,16 +32,19 @@ in the driver.
+   Filter is defined with two configuration parts:
+   --AXI_ID defines AxID matching value.
+   --AXI_MASKING defines which bits of AxID are meaningful for the matching.
++
+         0?corresponding bit is masked.
+         1: corresponding bit is not masked, i.e. used to do the matching.
  
- 	/**
--	 * The OA context specific information.
-+	 * @pinned_ctx: The OA context specific information.
- 	 */
- 	struct intel_context *pinned_ctx;
- 	u32 specific_ctx_id;
-@@ -1140,7 +1140,7 @@ struct i915_perf_stream {
- 	int period_exponent;
+   AXI_ID and AXI_MASKING are mapped on DPCR1 register in performance counter.
+   When non-masked bits are matching corresponding AXI_ID bits then counter is
+   incremented. Perf counter is incremented if
++
+           AxID && AXI_MASKING == AXI_ID && AXI_MASKING
  
- 	/**
--	 * State of the OA buffer.
-+	 * @oa_buffer: State of the OA buffer.
- 	 */
- 	struct {
- 		struct i915_vma *vma;
-@@ -1150,7 +1150,7 @@ struct i915_perf_stream {
- 		int format_size;
- 		int size_exponent;
- 
--		/**
-+		/*
- 		 * Locks reads and writes to all head/tail state
- 		 *
- 		 * Consider: the head and tail pointer state needs to be read
-@@ -1172,7 +1172,7 @@ struct i915_perf_stream {
- 		 */
- 		spinlock_t ptr_lock;
- 
--		/**
-+		/*
- 		 * One 'aging' tail pointer and one 'aged' tail pointer ready to
- 		 * used for reading.
- 		 *
-@@ -1184,18 +1184,18 @@ struct i915_perf_stream {
- 			u32 offset;
- 		} tails[2];
- 
--		/**
-+		/*
- 		 * Index for the aged tail ready to read() data up to.
- 		 */
- 		unsigned int aged_tail_idx;
- 
--		/**
-+		/*
- 		 * A monotonic timestamp for when the current aging tail pointer
- 		 * was read; used to determine when it is old enough to trust.
- 		 */
- 		u64 aging_timestamp;
- 
--		/**
-+		/*
- 		 * Although we can always read back the head pointer register,
- 		 * we prefer to avoid trusting the HW state, just to avoid any
- 		 * risk that some hardware condition could * somehow bump the
+   This filter doesn't support filter different AXI ID for axid-read and axid-write
+   event at the same time as this filter is shared between counters.
++
+   e.g.::
+         perf stat -a -e imx8_ddr0/axid-read,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
+         perf stat -a -e imx8_ddr0/axid-write,axi_mask=0xMMMM,axi_id=0xDDDD/ cmd
+@@ -48,5 +52,6 @@ in the driver.
+   NOTE: axi_mask is inverted in userspace(i.e. set bits are bits to mask), and
+   it will be reverted in driver automatically. so that the user can just specify
+   axi_id to monitor a specific id, rather than having to specify axi_mask.
++
+   e.g.::
+         perf stat -a -e imx8_ddr0/axid-read,axi_id=0x12/ cmd, which will monitor ARID=0x12
 -- 
 2.23.0
