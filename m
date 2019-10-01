@@ -1,183 +1,139 @@
 From: c0d1n61at3 at gmail.com (Jiunn Chang)
-Date: Mon, 30 Sep 2019 22:18:22 -0500
-Subject: [Linux-kernel-mentees] [PATCH v4 2/3] cec-follower: add tuner step
-	increment/decrement
+Date: Mon, 30 Sep 2019 22:18:23 -0500
+Subject: [Linux-kernel-mentees] [PATCH v4 3/3] cec-compliance: add tuner
+	control test
 In-Reply-To: <20190930043017.474025-1-c0d1n61at3@gmail.com>
 References: <20190930043017.474025-1-c0d1n61at3@gmail.com>
-Message-ID: <20191001031823.312020-3-c0d1n61at3@gmail.com>
+Message-ID: <20191001031823.312020-4-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Tuner step increment/decrement will select the next highest or next
-lowest service frequency.  There are a total of three possible
-frequencies given a broadcast type and system for a total of 81 analog
-channels.
+Add test for new features added to cec-follower.
 
-Opcodes implemented:
-  - <Tuner Step Increment>
-  - <Tuner Step Decrement>
+Analog tuner control test tuner_ctl_test():
+  - give analog tuner status
+  - select tuner analog service
+  - analog tuner step features
 
 Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 ---
- utils/cec-follower/cec-follower.cpp |  2 +-
- utils/cec-follower/cec-follower.h   |  3 +-
- utils/cec-follower/cec-tuner.cpp    | 65 ++++++++++++++++++++++-------
- 3 files changed, 54 insertions(+), 16 deletions(-)
+ utils/cec-compliance/cec-test.cpp | 91 +++++++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
-diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
-index 4243fdd9..8375404e 100644
---- a/utils/cec-follower/cec-follower.cpp
-+++ b/utils/cec-follower/cec-follower.cpp
-@@ -298,7 +298,7 @@ void state_init(struct node &node)
- 	node.state.sac_active = false;
- 	node.state.volume = 50;
- 	node.state.mute = false;
--	analog_tuner_init(&node.state.tuner_dev_info);
-+	analog_tuner_init(&node.state);
- }
+diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
+index aece546c..17f72cc6 100644
+--- a/utils/cec-compliance/cec-test.cpp
++++ b/utils/cec-compliance/cec-test.cpp
+@@ -16,6 +16,7 @@
+ #include <sys/ioctl.h>
+ #include <config.h>
+ #include <sstream>
++#include <vector>
  
- int main(int argc, char **argv)
-diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
-index a53c16fe..d8ac4e77 100644
---- a/utils/cec-follower/cec-follower.h
-+++ b/utils/cec-follower/cec-follower.h
-@@ -52,6 +52,7 @@ struct state {
- 	unsigned rc_press_hold_count;
- 	unsigned rc_duration_sum;
- 	struct cec_op_tuner_device_info tuner_dev_info;
-+	unsigned int freq_idx;
- };
+ #include "cec-compliance.h"
  
- struct node {
-@@ -221,7 +222,7 @@ std::string opcode2s(const struct cec_msg *msg);
- void sad_encode(const struct short_audio_desc *sad, __u32 *descriptor);
+@@ -722,6 +723,95 @@ static struct remote_subtest deck_ctl_subtests[] = {
+   TODO: These are very rudimentary tests which should be expanded.
+  */
  
- // cec-tuner.cpp
--void analog_tuner_init(struct cec_op_tuner_device_info *tuner_dev_info);
-+void analog_tuner_init(struct state *state);
- void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me);
- 
- // CEC processing
-diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-index d74981b2..6f14b059 100644
---- a/utils/cec-follower/cec-tuner.cpp
-+++ b/utils/cec-follower/cec-tuner.cpp
-@@ -9,6 +9,8 @@
- #include "cec-follower.h"
- 
- #define NUM_ANALOG_FREQS	3
-+#define ARRAY_SIZE_ANA_FREQS(x) \
-+	ARRAY_SIZE(x) * ARRAY_SIZE(*x) * ARRAY_SIZE(**x)
- 
- /*
-  * This table contains analog television channel frequencies in KHz.  There are
-@@ -90,10 +92,12 @@ static unsigned int analog_freqs_khz[3][9][NUM_ANALOG_FREQS] =
- 	}
- };
- 
--void analog_tuner_init(struct cec_op_tuner_device_info *info)
-+void analog_tuner_init(struct state *state)
- {
-+	struct cec_op_tuner_device_info *info = &state->tuner_dev_info;
- 	unsigned int freq_khz;
- 
-+	state->freq_idx = 0;
- 	info->rec_flag = CEC_OP_REC_FLAG_NOT_USED;
- 	info->tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_ANALOGUE;
- 	info->is_analog = true;
-@@ -103,23 +107,41 @@ void analog_tuner_init(struct cec_op_tuner_device_info *info)
- 	info->analog.ana_freq = (freq_khz * 10) / 625;
- }
- 
--static unsigned int analog_get_nearest_freq(__u8 ana_bcast_type, __u8 ana_bcast_system,
--                                            int ana_freq_khz)
-+static unsigned int analog_get_nearest_freq_idx(__u8 ana_bcast_type, __u8 ana_bcast_system,
-+						int ana_freq_khz)
- {
- 	int nearest = analog_freqs_khz[ana_bcast_type][ana_bcast_system][0];
-+	unsigned int offset = 0;
- 
- 	for (int i = 0; i < NUM_ANALOG_FREQS; i++) {
- 		int freq = analog_freqs_khz[ana_bcast_type][ana_bcast_system][i];
- 
--		if (abs(ana_freq_khz - freq) < abs(ana_freq_khz - nearest))
-+		if (abs(ana_freq_khz - freq) < abs(ana_freq_khz - nearest)) {
- 			nearest = freq;
-+			offset++;
-+		}
- 	}
--	return nearest;
-+	return NUM_ANALOG_FREQS * ((ana_bcast_type * 9) + ana_bcast_system) + offset;
- }
- 
--static bool analog_set_tuner_dev_info(struct node *node, struct cec_msg *msg)
-+static void analog_get_type_system_idx(struct node *node)
- {
- 	struct cec_op_tuner_device_info *info = &node->state.tuner_dev_info;
-+	unsigned int tot_freqs = NUM_ANALOG_FREQS * 9;
-+	unsigned int freq_idx = node->state.freq_idx;
-+	unsigned int freq_khz;
-+	unsigned int idx;
++static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	struct cec_msg msg = {};
++	struct cec_op_tuner_device_info info = {};
++	std::vector<struct cec_op_tuner_device_info> info_vec;
++	__u16 start_freq;
 +
-+	info->analog.ana_bcast_type = freq_idx / tot_freqs;
-+	info->analog.bcast_system =
-+		(freq_idx - (tot_freqs * info->analog.ana_bcast_type)) / NUM_ANALOG_FREQS;
-+	idx = freq_idx % NUM_ANALOG_FREQS;
-+	freq_khz = analog_freqs_khz[info->analog.ana_bcast_type][info->analog.bcast_system][idx];
-+	info->analog.ana_freq = (freq_khz * 10) / 625;
++	cec_msg_init(&msg, me, la);
++	cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
++	fail_on_test(!transmit_timeout(node, &msg));
++	fail_on_test(timed_out(&msg));
++	if (unrecognized_op(&msg))
++		return NOTSUPPORTED;
++	if (refused(&msg))
++		return REFUSED;
++	cec_ops_tuner_device_status(&msg, &info);
++	start_freq = info.analog.ana_freq;
++	info_vec.push_back(info);
++
++	while (1) {
++		struct cec_op_tuner_device_info new_info;
++
++		cec_msg_init(&msg, me, la);
++		cec_msg_tuner_step_increment(&msg);
++		fail_on_test(!transmit_timeout(node, &msg));
++		if (unrecognized_op(&msg))
++			return NOTSUPPORTED;
++		if (refused(&msg))
++			return REFUSED;
++		cec_msg_init(&msg, me, la);
++		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
++		fail_on_test(!transmit_timeout(node, &msg));
++		fail_on_test(timed_out(&msg));
++		if (unrecognized_op(&msg))
++			return NOTSUPPORTED;
++		if (refused(&msg))
++			return REFUSED;
++		cec_ops_tuner_device_status(&msg, &new_info);
++		if (new_info.analog.ana_freq == start_freq)
++			break;
++		if (new_info.analog.ana_freq == info_vec.back().analog.ana_freq) {
++			warn("Tuner channel step increment does not wrap.\n");
++			break;
++		}
++		info_vec.push_back(new_info);
++	}
++
++	
++	for (std::vector<struct cec_op_tuner_device_info>::iterator iter = info_vec.begin();
++			iter != info_vec.end(); iter++) {
++		struct cec_op_tuner_device_info current;
++
++		cec_msg_init(&msg, me, la);
++		cec_msg_select_analogue_service(&msg, iter->analog.ana_bcast_type,
++			iter->analog.ana_freq, iter->analog.bcast_system);
++		fail_on_test(!transmit_timeout(node, &msg));
++		if (unrecognized_op(&msg))
++			return NOTSUPPORTED;
++		if (refused(&msg))
++			return REFUSED;
++		cec_msg_init(&msg, me, la);
++		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
++		fail_on_test(!transmit_timeout(node, &msg));
++		fail_on_test(timed_out(&msg));
++		if (unrecognized_op(&msg))
++			return NOTSUPPORTED;
++		if (refused(&msg))
++			return REFUSED;
++		cec_ops_tuner_device_status(&msg, &current);
++		fail_on_test(current.analog.ana_freq != iter->analog.ana_freq);
++		if (iter->is_analog) {
++			float freq_mhz = (iter->analog.ana_freq * 625) / 10000;
++			info("Analog channel freq: %.2f MHz\n", freq_mhz);
++		}
++	}
++
++	cec_msg_init(&msg, me, la);
++	cec_msg_select_analogue_service(&msg, 3, 16000, 9);
++	fail_on_test(!transmit_timeout(node, &msg));
++	if (unrecognized_op(&msg))
++		return NOTSUPPORTED;
++	if (refused(&msg))
++		return REFUSED;
++	fail_on_test(!cec_msg_status_is_abort(&msg));
++	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
++
++	return 0;
 +}
 +
-+static bool analog_set_tuner_dev_info(struct node *node, struct cec_msg *msg)
-+{
- 	__u8 type;
- 	__u16 freq;
- 	__u8 system;
-@@ -127,11 +149,9 @@ static bool analog_set_tuner_dev_info(struct node *node, struct cec_msg *msg)
- 	cec_ops_select_analogue_service(msg, &type, &freq, &system);
- 	if (type < 3 && system < 9) {
- 		int freq_khz = (freq * 625) / 10;
--		unsigned int nearest = analog_get_nearest_freq(type, system,
--							       freq_khz);
--		info->analog.ana_bcast_type = type;
--		info->analog.ana_freq = (nearest * 10) / 625;
--		info->analog.bcast_system = system;
-+
-+		node->state.freq_idx = analog_get_nearest_freq_idx(type, system, freq_khz);
-+		analog_get_type_system_idx(node);
- 		return true;
- 	}
- 	return false;
-@@ -180,12 +200,29 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
- 		return;
+ static int tuner_ctl_give_status(struct node *node, unsigned me, unsigned la, bool interactive)
+ {
+ 	struct cec_msg msg = {};
+@@ -885,6 +975,7 @@ static int tuner_ctl_step_inc(struct node *node, unsigned me, unsigned la, bool
+ }
  
- 	case CEC_MSG_SELECT_DIGITAL_SERVICE:
--	case CEC_MSG_TUNER_STEP_DECREMENT:
--	case CEC_MSG_TUNER_STEP_INCREMENT:
--		if (!cec_has_tuner(1 << me))
-+	case CEC_MSG_TUNER_STEP_DECREMENT: {
-+		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
- 			break;
-+
-+		if (node->state.freq_idx == 0)
-+			node->state.freq_idx = ARRAY_SIZE_ANA_FREQS(analog_freqs_khz) - 1;
-+		else
-+			node->state.freq_idx--;
-+		analog_get_type_system_idx(node);
- 		return;
-+	}
- 
-+	case CEC_MSG_TUNER_STEP_INCREMENT: {
-+		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
-+			break;
-+
-+		if (node->state.freq_idx == ARRAY_SIZE_ANA_FREQS(analog_freqs_khz) - 1)
-+			node->state.freq_idx = 0;
-+		else
-+			node->state.freq_idx++;
-+		analog_get_type_system_idx(node);
-+		return;
-+	}
- 
- 		/*
- 		  One Touch Record
+ static struct remote_subtest tuner_ctl_subtests[] = {
++	{ "Tuner Control", CEC_LOG_ADDR_MASK_TUNER | CEC_LOG_ADDR_MASK_TV, tuner_ctl_test },
+ 	{ "Give Tuner Device Status", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_give_status },
+ 	{ "Select Analogue Service", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_sel_analog_service },
+ 	{ "Select Digital Service", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_sel_digital_service },
 -- 
 2.23.0
