@@ -1,179 +1,33 @@
 From: bnvandana at gmail.com (Vandana BN)
-Date: Thu,  3 Oct 2019 12:36:15 +0530
-Subject: [Linux-kernel-mentees] [PATCH] v4l2-ctl: support for metadata output
-Message-ID: <20191003070615.23129-1-bnvandana@gmail.com>
+Date: Thu,  3 Oct 2019 12:48:54 +0530
+Subject: [Linux-kernel-mentees] [PATCH 0/2] vivid: Metadata output support
+Message-ID: <20191003071856.23664-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Adds support to test metadata output format V4L2_META_FMT_VIVID.
+This patch adds metadata output support in vivid driver.
+New metadata format V4L2_META_FMT_VIVID is added,
+which is used to set brightness, contrast, sturation and hue.
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
----
- contrib/freebsd/include/linux/videodev2.h |  1 +
- include/linux/videodev2.h                 |  1 +
- utils/v4l2-ctl/v4l2-ctl-meta.cpp          | 31 +++++++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp     | 12 ++++++---
- utils/v4l2-ctl/v4l2-ctl.h                 |  1 +
- 5 files changed, 43 insertions(+), 3 deletions(-)
+Regards,
+Vandana.
 
-diff --git a/contrib/freebsd/include/linux/videodev2.h b/contrib/freebsd/include/linux/videodev2.h
-index 0c12d27f..d14ca0aa 100644
---- a/contrib/freebsd/include/linux/videodev2.h
-+++ b/contrib/freebsd/include/linux/videodev2.h
-@@ -783,6 +783,7 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_VSP1_HGT    v4l2_fourcc('V', 'S', 'P', 'T') /* R-Car VSP1 2-D Histogram */
- #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
- #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
-+#define V4L2_META_FMT_VIVID       v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Output Metadata */
- 
- /* priv field value to indicates that subsequent fields are valid. */
- #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
-diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
-index e2847759..be4727da 100644
---- a/include/linux/videodev2.h
-+++ b/include/linux/videodev2.h
-@@ -749,6 +749,7 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_VSP1_HGT    v4l2_fourcc('V', 'S', 'P', 'T') /* R-Car VSP1 2-D Histogram */
- #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
- #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
-+#define V4L2_META_FMT_VIVID       v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Output Metadata */
- 
- /* priv field value to indicates that subsequent fields are valid. */
- #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
-diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-index eae7438f..2b5781a7 100644
---- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-@@ -139,10 +139,18 @@ struct vivid_uvc_meta_buf {
- #define UVC_STREAM_SCR	(1 << 3)
- #define UVC_STREAM_PTS	(1 << 2)
- 
-+struct vivid_meta_out_buf {
-+        __u8      brightness;
-+        __u8      contrast;
-+        __u8      saturation;
-+        __s16     hue;
-+};
-+
- void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
- {
- 	struct vivid_uvc_meta_buf *vbuf;
- 	int buf_off = 0;
-+	struct vivid_meta_out_buf *vbuf_out;
- 
- 	switch (fmt.g_pixelformat()) {
- 	case V4L2_META_FMT_UVC:
-@@ -164,5 +172,28 @@ void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
- 				le16toh(*(__u16*)(vbuf->buf + buf_off + 4)));
- 		fprintf(f, "\n");
- 		break;
-+	case V4L2_META_FMT_VIVID:
-+		fprintf(f, "VIVID:");
-+		vbuf_out = (vivid_meta_out_buf *)q.g_dataptr(buf.g_index(), 0);
-+
-+		fprintf(f, " brightness: %u", vbuf_out->brightness);
-+		fprintf(f, " contrast: %u", vbuf_out->contrast);
-+		fprintf(f, " saturation: %u", vbuf_out->saturation);
-+		fprintf(f, " hue: %d\n", vbuf_out->hue);
-+		break;
-+	}
-+}
-+
-+void meta_fillbuffer(int idx, cv4l_fmt &fmt, cv4l_queue &q)
-+{
-+	struct vivid_meta_out_buf *vbuf;
-+	switch (fmt.g_pixelformat()) {
-+		case V4L2_META_FMT_VIVID:
-+			vbuf = (vivid_meta_out_buf *)q.g_dataptr(idx, 0);
-+			vbuf->brightness = 228;
-+			vbuf->contrast = 228;
-+			vbuf->saturation = 228;
-+			vbuf->hue = 100;
-+			break;
- 	}
- }
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index 47b7d3f8..fc82d483 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -1146,6 +1146,7 @@ static int do_setup_out_buffers(cv4l_fd &fd, cv4l_queue &q, FILE *fin, bool qbuf
- 	bool can_fill = false;
- 	bool is_video = q.g_type() == V4L2_BUF_TYPE_VIDEO_OUTPUT ||
- 			q.g_type() == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-+	bool is_meta = q.g_type() == V4L2_BUF_TYPE_META_OUTPUT;
- 
- 	if (q.obtain_bufs(&fd))
- 		return QUEUE_ERROR;
-@@ -1177,7 +1178,6 @@ static int do_setup_out_buffers(cv4l_fd &fd, cv4l_queue &q, FILE *fin, bool qbuf
- 	if (V4L2_FIELD_HAS_T_OR_B(field))
- 		output_field = (stream_out_std & V4L2_STD_525_60) ?
- 			V4L2_FIELD_BOTTOM : V4L2_FIELD_TOP;
--
- 	if (is_video) {
- 		tpg_init(&tpg, 640, 360);
- 		tpg_alloc(&tpg, fmt.g_width());
-@@ -1244,6 +1244,9 @@ static int do_setup_out_buffers(cv4l_fd &fd, cv4l_queue &q, FILE *fin, bool qbuf
- 		if (fin && !fill_buffer_from_file(fd, q, buf, fmt, fin))
- 			return QUEUE_STOPPED;
- 
-+		if (is_meta)
-+			meta_fillbuffer(i, fmt, q);
-+
- 		if (fmt.g_pixelformat() == V4L2_PIX_FMT_FWHT_STATELESS) {
- 			int media_fd = mi_get_media_fd(fd.g_fd());
- 
-@@ -1266,7 +1269,6 @@ static int do_setup_out_buffers(cv4l_fd &fd, cv4l_queue &q, FILE *fin, bool qbuf
- 		}
- 		if (qbuf) {
- 			fps_timestamps fps_ts;
--
- 			set_time_stamp(buf);
- 			if (fd.qbuf(buf))
- 				return QUEUE_ERROR;
-@@ -1480,6 +1482,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
- 			 bool stopped, bool ignore_count_skip)
- {
- 	cv4l_buffer buf(q);
-+	bool is_meta = q.g_type() == V4L2_BUF_TYPE_META_OUTPUT;
- 	int ret = 0;
- 
- 	if (cap) {
-@@ -1522,6 +1525,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
- 			fprintf(stderr, ", dropped buffers: %u", dropped);
- 		fprintf(stderr, "\n");
- 	}
-+
- 	if (stopped)
- 		return 0;
- 
-@@ -1542,6 +1546,8 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
- 			tpg_fillbuffer(&tpg, stream_out_std, j,
- 				       (u8 *)q.g_dataptr(buf.g_index(), j));
- 	}
-+	if (is_meta)
-+		meta_fillbuffer(buf.g_index(), fmt, q);
- 
- 	if (fmt.g_pixelformat() == V4L2_PIX_FMT_FWHT_STATELESS) {
- 		if (ioctl(buf.g_request_fd(), MEDIA_REQUEST_IOC_REINIT, NULL)) {
-@@ -2039,7 +2045,7 @@ static void streaming_set_out(cv4l_fd &fd, cv4l_fd &exp_fd)
- 
- 	if (!(capabilities & (V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_VIDEO_OUTPUT_MPLANE |
- 			      V4L2_CAP_VBI_OUTPUT | V4L2_CAP_SLICED_VBI_OUTPUT |
--			      V4L2_CAP_SDR_OUTPUT |
-+			      V4L2_CAP_SDR_OUTPUT | V4L2_CAP_META_OUTPUT |
- 			      V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE))) {
- 		fprintf(stderr, "unsupported stream type\n");
- 		return;
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index 2c861d82..a12a2ba7 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -409,6 +409,7 @@ void meta_set(cv4l_fd &fd);
- void meta_get(cv4l_fd &fd);
- void meta_list(cv4l_fd &fd);
- void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
-+void meta_fillbuffer(int idx, cv4l_fmt &fmt, cv4l_queue &q);
- 
- // v4l2-ctl-subdev.cpp
- void subdev_usage(void);
+Vandana BN (2):
+  v4l2-core: Add new metadata format
+  vivid: Add metadata output support
+
+ drivers/media/platform/vivid/Makefile         |   2 +-
+ drivers/media/platform/vivid/vivid-core.c     |  98 +++++++++-
+ drivers/media/platform/vivid/vivid-core.h     |  10 +
+ drivers/media/platform/vivid/vivid-ctrls.c    |  14 +-
+ .../media/platform/vivid/vivid-kthread-out.c  |  50 ++++-
+ drivers/media/platform/vivid/vivid-meta-out.c | 174 ++++++++++++++++++
+ drivers/media/platform/vivid/vivid-meta-out.h |  25 +++
+ drivers/media/platform/vivid/vivid-vid-out.c  |   5 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 10 files changed, 368 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-out.c
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-out.h
+
 -- 
 2.17.1
