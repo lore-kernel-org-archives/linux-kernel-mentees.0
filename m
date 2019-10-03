@@ -1,11 +1,11 @@
 From: hverkuil at xs4all.nl (Hans Verkuil)
-Date: Thu, 3 Oct 2019 09:23:12 +0200
+Date: Thu, 3 Oct 2019 09:24:47 +0200
 Subject: [Linux-kernel-mentees] [PATCH 1/2] v4l2-core: Add new metadata
 	format
 In-Reply-To: <20191003071856.23664-2-bnvandana@gmail.com>
 References: <20191003071856.23664-1-bnvandana@gmail.com>
 	<20191003071856.23664-2-bnvandana@gmail.com>
-Message-ID: <5a95f800-c1b2-409e-0739-b65bc0bc451d@xs4all.nl>
+Message-ID: <9439560a-dbc7-9aeb-a27b-314ace85dc81@xs4all.nl>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
 On 10/3/19 9:18 AM, Vandana BN wrote:
@@ -26,6 +26,10 @@ On 10/3/19 9:18 AM, Vandana BN wrote:
 >  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
 >  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
 > +	case V4L2_META_FMT_VIVID:       descr = "Vivid Output Metadata"; break;
+
+Drop 'Output'. As mentioned in my previous reply, this format can be used for capture
+as well (and I think we should implement this).
+
 >  
 >  	default:
 >  		/* Compressed formats */
@@ -38,15 +42,13 @@ On 10/3/19 9:18 AM, Vandana BN wrote:
 >  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
 >  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
 > +#define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Output Metadata */
+
+Drop 'Output' in the comment.
+
 >  
 >  /* priv field value to indicates that subsequent fields are valid. */
 >  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
 > 
-
-This format needs to be documented in a Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst file.
-
-It would be nice if vivid would also support this metadata format for metadata capture.
-Something for a follow-up patch.
 
 Regards,
 
