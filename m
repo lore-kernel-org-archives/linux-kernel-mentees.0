@@ -1,136 +1,53 @@
 From: hverkuil@xs4all.nl (Hans Verkuil)
-Date: Thu, 3 Oct 2019 14:54:47 +0200
-Subject: [Linux-kernel-mentees] [PATCH v7 2/2] vivid: fixes for
-	v4l2-compliance issues.
-In-Reply-To: <20190925082730.15550-3-bnvandana@gmail.com>
-References: <bbef8158-e603-7f80-308a-129d76c68a1b@xs4all.nl>
-	<20190925082730.15550-1-bnvandana@gmail.com>
-	<20190925082730.15550-3-bnvandana@gmail.com>
-Message-ID: <a75b3099-eff7-b397-3e81-6061ad16a1fb@xs4all.nl>
+Date: Thu, 3 Oct 2019 14:58:43 +0200
+Subject: [Linux-kernel-mentees] [PATCH v2 1/2] v4l2-core: Add new
+	metadata format
+In-Reply-To: <20191003110858.7120-2-bnvandana@gmail.com>
+References: <9439560a-dbc7-9aeb-a27b-314ace85dc81@xs4all.nl>
+	<20191003110858.7120-1-bnvandana@gmail.com>
+	<20191003110858.7120-2-bnvandana@gmail.com>
+Message-ID: <1916a903-fff7-3006-b070-78165eb9a8ad@xs4all.nl>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191003125447.yuAc0ssW_PaA72y9rxWTi_A2xrjUpO_uKSMU7ep_pdg@z>
+Message-ID: <20191003125843.sC5jURu81bbMLHXrrvYB2g13adMyJ3gmBZ1Px8a7nd8@z>
 
-On 9/25/19 10:27 AM, Vandana BN wrote:
-> From: Hans Verkuil <hverkuil at xs4all.nl>
+On 10/3/19 1:08 PM, Vandana BN wrote:
+> Add new metadata format to support metadata output in vivid.
 > 
-> This patch fixes v4l2-compliance issues seen on metadata device.
+> Signed-off-by: Vandana BN <bnvandana at gmail.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 1 +
+>  include/uapi/linux/videodev2.h       | 1 +
+>  2 files changed, 2 insertions(+)
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco at xs4all.nl>
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 20b3107dd4e8..2753073cf340 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1340,6 +1340,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_META_FMT_VSP1_HGT:	descr = "R-Car VSP1 2-D Histogram"; break;
+>  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
+>  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
+> +	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+>  
+>  	default:
+>  		/* Compressed formats */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 530638dffd93..a82181e27c5a 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -755,6 +755,7 @@ struct v4l2_pix_format {
+>  #define V4L2_META_FMT_VSP1_HGT    v4l2_fourcc('V', 'S', 'P', 'T') /* R-Car VSP1 2-D Histogram */
+>  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
+>  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
+> +#define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
+>  
+>  /* priv field value to indicates that subsequent fields are valid. */
+>  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+> 
 
-Can you squash this patch into the previous one? It's really all fixes for the
-previous patch, and it is better to apply one good patch.
-
-No need to keep my Signed-off-by: it will be added again anyway when I merge
-the v8 vivid metadata capture patch.
+Still no documentation for this new metadata format!
 
 Regards,
 
 	Hans
-
-> ---
->  drivers/media/platform/vivid/vivid-core.c     | 16 +++++++++++++++-
->  drivers/media/platform/vivid/vivid-meta-cap.c |  2 +-
->  drivers/media/platform/vivid/vivid-vid-cap.c  |  5 ++++-
->  3 files changed, 20 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
-> index c7d317f45fc0..97ab197bdec0 100644
-> --- a/drivers/media/platform/vivid/vivid-core.c
-> +++ b/drivers/media/platform/vivid/vivid-core.c
-> @@ -897,9 +897,14 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  				     V4L2_CAP_READWRITE;
->  
->  	/* set up the capabilities of meta capture device */
-> -	if (dev->has_meta_cap)
-> +	if (dev->has_meta_cap) {
->  		dev->meta_cap_caps = V4L2_CAP_META_CAPTURE |
->  				     V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
-> +		if (dev->has_audio_inputs)
-> +			dev->meta_cap_caps |= V4L2_CAP_AUDIO;
-> +		if (in_type_counter[TV])
-> +			dev->meta_cap_caps |= V4L2_CAP_TUNER;
-> +	}
->  
->  	ret = -ENOMEM;
->  	/* initialize the test pattern generator */
-> @@ -960,6 +965,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_AUDIO);
->  		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_AUDIO);
->  		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_ENUMAUDIO);
-> +		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_AUDIO);
-> +		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_AUDIO);
-> +		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_ENUMAUDIO);
->  	}
->  	if (!dev->has_audio_outputs) {
->  		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_AUDOUT);
-> @@ -985,12 +993,16 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_FREQUENCY);
->  		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_FREQUENCY);
->  		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_FREQUENCY);
-> +		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_FREQUENCY);
-> +		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_FREQUENCY);
->  	}
->  	if (!has_tuner) {
->  		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_TUNER);
->  		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_G_TUNER);
->  		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_TUNER);
->  		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_TUNER);
-> +		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_TUNER);
-> +		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_TUNER);
->  	}
->  	if (in_type_counter[HDMI] == 0) {
->  		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_EDID);
-> @@ -1016,6 +1028,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
->  	v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
->  	v4l2_disable_ioctl(&dev->sdr_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
-> +	v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
->  	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_FREQUENCY);
->  	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_FREQUENCY);
->  	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_FRAMESIZES);
-> @@ -1552,6 +1565,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  		vfd->v4l2_dev = &dev->v4l2_dev;
->  		vfd->queue = &dev->vb_meta_cap_q;
->  		vfd->lock = &dev->mutex;
-> +		vfd->tvnorms = tvnorms_cap;
->  		video_set_drvdata(vfd, dev);
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  		dev->meta_cap_pad.flags = MEDIA_PAD_FL_SINK;
-> diff --git a/drivers/media/platform/vivid/vivid-meta-cap.c b/drivers/media/platform/vivid/vivid-meta-cap.c
-> index e3241d602b7a..b2f42c09abe1 100644
-> --- a/drivers/media/platform/vivid/vivid-meta-cap.c
-> +++ b/drivers/media/platform/vivid/vivid-meta-cap.c
-> @@ -135,7 +135,7 @@ int vidioc_enum_fmt_meta_cap(struct file *file, void  *priv,
->  	struct vivid_dev *dev = video_drvdata(file);
->  
->  	if (!vivid_is_webcam(dev))
-> -		return -ENODATA;
-> +		return -EINVAL;
->  
->  	if (f->index > 0)
->  		return -EINVAL;
-> diff --git a/drivers/media/platform/vivid/vivid-vid-cap.c b/drivers/media/platform/vivid/vivid-vid-cap.c
-> index 2d030732feac..e94beef008c8 100644
-> --- a/drivers/media/platform/vivid/vivid-vid-cap.c
-> +++ b/drivers/media/platform/vivid/vivid-vid-cap.c
-> @@ -1356,7 +1356,9 @@ int vidioc_s_input(struct file *file, void *priv, unsigned i)
->  	if (i == dev->input)
->  		return 0;
->  
-> -	if (vb2_is_busy(&dev->vb_vid_cap_q) || vb2_is_busy(&dev->vb_vbi_cap_q))
-> +	if (vb2_is_busy(&dev->vb_vid_cap_q) ||
-> +	    vb2_is_busy(&dev->vb_vbi_cap_q) ||
-> +	    vb2_is_busy(&dev->vb_meta_cap_q))
->  		return -EBUSY;
->  
->  	dev->input = i;
-> @@ -1366,6 +1368,7 @@ int vidioc_s_input(struct file *file, void *priv, unsigned i)
->  		dev->vid_cap_dev.tvnorms = V4L2_STD_ALL;
->  	}
->  	dev->vbi_cap_dev.tvnorms = dev->vid_cap_dev.tvnorms;
-> +	dev->meta_cap_dev.tvnorms = dev->vid_cap_dev.tvnorms;
->  	vivid_update_format_cap(dev, false);
->  
->  	if (dev->colorspace) {
-> 
