@@ -1,52 +1,123 @@
 From: c0d1n61at3@gmail.com (Jiunn Chang)
-Date: Thu,  3 Oct 2019 23:05:05 -0500
-Subject: [Linux-kernel-mentees] [PATCH v6 0/1] cec-compliance: tuner control
+Date: Thu,  3 Oct 2019 23:05:06 -0500
+Subject: [Linux-kernel-mentees] [PATCH v6 1/1] Add test for new features in
+	cec-follower
 In-Reply-To: <20191003031816.168985-1-c0d1n61at3@gmail.com>
 References: <20191003031816.168985-1-c0d1n61at3@gmail.com>
-Message-ID: <20191004040506.31488-1-c0d1n61at3@gmail.com>
+Message-ID: <20191004040506.31488-2-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191004040505.hyMeP4VYXB621qjtmrvmIGUOVkSmWJX4X7jjB2s38b0@z>
+Message-ID: <20191004040506.f3nvf8QZUOaEUN4lQskliDjAOmbvGk0i0YN0kPzDYjE@z>
 
-This patch series implements analog tuner step features and cec-compliance tests.
-Added tuner_ctl_test() to test new tuner features implemented in the cec-follower.
+Analog tuner control test tuner_ctl_test():
+  - give analog tuner status
+  - select tuner analog service
+  - analog tuner step features
 
+Signed-off-by: Jiunn Chang <c0d1n61at3 at gmail.com>
 ---
-
-Changes made since v5:
-  - Add missing fail_on_test(cec_msg_status_is_abort(&msg)): hverkuil
-  - Remove redundant test unrecognized_op(&msg): hverkuil
-  - Refactor tuner_ctl_test to use memcmp(): hverkuil
-
-Changes made since v4:
-  - Add TOT_ANALOG_FREQS macro: hverkuil
-  - Rename function to analog_update_tuner_dev_info(): hverkuil
-  - Set freq_idx in analog_update_tuner_dev_info(): hverkuil
-  - Reuse info variable in tuner_ctl_test(): hverkuil
-  - Refactor tuner_ctl_test() to leverage timed_out_or_abort() and
-    abort_reason(): hverkuil
-
-changes made since v3:
-  - Correct commit message for tuner emulation bug fix
-  - Refactor analog_get_nearest_freq_idx() to return freq index
-  - Refactor analog_get_type_system_idx() to set device info
-  - Add macro ARRAY_SIZE_ANA_FREQS
-  - Refactor tuner_ctl_test() to use std::vector
-
-Changes made since v2:
-  - Fix bugs for tuner emulation
-  - Add freq_idx to cec-follower state
-  - Refactor tuner tests into a single tuner_ctl_test()
-
-Changes made since v1:
-  - Remove redundant error checking
-  - Add circular wrap logic to tuner step increment/decrement
-
-Jiunn Chang (1):
-  Add test for new features in cec-follower
-
  utils/cec-compliance/cec-test.cpp | 75 +++++++++++++++++++++++++++++++
  1 file changed, 75 insertions(+)
 
+diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
+index ec07d886..1fd0ea92 100644
+--- a/utils/cec-compliance/cec-test.cpp
++++ b/utils/cec-compliance/cec-test.cpp
+@@ -16,6 +16,7 @@
+ #include <sys/ioctl.h>
+ #include <config.h>
+ #include <sstream>
++#include <vector>
+ 
+ #include "cec-compliance.h"
+ 
+@@ -722,6 +723,79 @@ static struct remote_subtest deck_ctl_subtests[] = {
+   TODO: These are very rudimentary tests which should be expanded.
+  */
+ 
++static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	struct cec_msg msg = {};
++	struct cec_op_tuner_device_info info = {};
++	std::vector<struct cec_op_tuner_device_info> info_vec;
++
++	cec_msg_init(&msg, me, la);
++	cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
++	fail_on_test(!transmit_timeout(node, &msg));
++	fail_on_test(cec_msg_status_is_abort(&msg));
++	if (timed_out(&msg) || unrecognized_op(&msg))
++		return NOTSUPPORTED;
++	if (refused(&msg))
++		return REFUSED;
++	cec_ops_tuner_device_status(&msg, &info);
++	info_vec.push_back(info);
++
++	while (1) {
++		cec_msg_init(&msg, me, la);
++		cec_msg_tuner_step_increment(&msg);
++		fail_on_test(!transmit_timeout(node, &msg));
++		fail_on_test(cec_msg_status_is_abort(&msg));
++		if (cec_msg_status_is_abort(&msg)) {
++			fail_on_test(abort_reason(&msg) == CEC_OP_ABORT_UNRECOGNIZED_OP);
++			if (abort_reason(&msg) == CEC_OP_ABORT_REFUSED) {
++				warn("Tuner step increment does not wrap.\n");
++				break;
++			} else {
++				warn("Tuner at end of service list did not receive feature abort refused.\n");
++				break;
++			}
++		}
++		cec_msg_init(&msg, me, la);
++		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
++		fail_on_test(!transmit_timeout(node, &msg));
++		fail_on_test(timed_out_or_abort(&msg));
++		info = {};
++		cec_ops_tuner_device_status(&msg, &info);
++		if (!memcmp(&info, &info_vec[0], sizeof(info)))
++			break;
++		info_vec.push_back(info);
++	}
++
++	for (std::vector<struct cec_op_tuner_device_info>::iterator iter = info_vec.begin();
++			iter != info_vec.end(); iter++) {
++		cec_msg_init(&msg, me, la);
++		cec_msg_select_analogue_service(&msg, iter->analog.ana_bcast_type,
++			iter->analog.ana_freq, iter->analog.bcast_system);
++		fail_on_test(!transmit_timeout(node, &msg));
++		fail_on_test(cec_msg_status_is_abort(&msg));
++		cec_msg_init(&msg, me, la);
++		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
++		fail_on_test(!transmit_timeout(node, &msg));
++		fail_on_test(timed_out_or_abort(&msg));
++		info = {};
++		cec_ops_tuner_device_status(&msg, &info);
++		fail_on_test(memcmp(&info, &(*iter), sizeof(info)));
++		if (iter->is_analog) {
++			double freq_mhz = (iter->analog.ana_freq * 625) / 10000.0;
++
++			info("Analog channel freq: %.2f MHz\n", freq_mhz);
++		}
++	}
++
++	cec_msg_init(&msg, me, la);
++	cec_msg_select_analogue_service(&msg, 3, 16000, 9);
++	fail_on_test(!transmit_timeout(node, &msg));
++	fail_on_test(!cec_msg_status_is_abort(&msg));
++	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
++
++	return 0;
++}
++
+ static int tuner_ctl_give_status(struct node *node, unsigned me, unsigned la, bool interactive)
+ {
+ 	struct cec_msg msg = {};
+@@ -885,6 +959,7 @@ static int tuner_ctl_step_inc(struct node *node, unsigned me, unsigned la, bool
+ }
+ 
+ static struct remote_subtest tuner_ctl_subtests[] = {
++	{ "Tuner Control", CEC_LOG_ADDR_MASK_TUNER | CEC_LOG_ADDR_MASK_TV, tuner_ctl_test },
+ 	{ "Give Tuner Device Status", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_give_status },
+ 	{ "Select Analogue Service", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_sel_analog_service },
+ 	{ "Select Digital Service", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_sel_digital_service },
 -- 
 2.23.0
