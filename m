@@ -1,78 +1,20 @@
-From: bnvandana at gmail.com (Vandana BN)
-Date: Fri,  4 Oct 2019 17:51:52 +0530
-Subject: [Linux-kernel-mentees] [PATCH v2] Documentation:media:v4l2:Add
-	vivid metadata doc
-In-Reply-To: <3db91bd0-cfdd-6453-6e70-8567ac94d68e@xs4all.nl>
-References: <3db91bd0-cfdd-6453-6e70-8567ac94d68e@xs4all.nl>
-Message-ID: <20191004122152.32378-1-bnvandana@gmail.com>
+From: skhan at linuxfoundation.org (Shuah Khan)
+Date: Fri, 4 Oct 2019 12:49:55 -0600
+Subject: [Linux-kernel-mentees] Spring 2020 prerequisite training
+Message-ID: <4dc84e4b-a865-e5dc-4a32-5c64959f1c38@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-Adds new file for describing new metadata format V4L2_META_FMT_VIVID added in vivid driver.
+This is message is for mentees applying for Spring 2020.
 
-Signed-off-by: Vandana BN <bnvandana at gmail.com>
----
- Documentation/media/uapi/v4l/meta-formats.rst |  1 +
- .../media/uapi/v4l/pixfmt-meta-vivid.rst      | 43 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
+Please complete the A Beginner?s Guide to Linux Kernel Development class
+before Oct 28th 2019.
 
-diff --git a/Documentation/media/uapi/v4l/meta-formats.rst b/Documentation/media/uapi/v4l/meta-formats.rst
-index b10ca9ee3968..74c8659ee9d6 100644
---- a/Documentation/media/uapi/v4l/meta-formats.rst
-+++ b/Documentation/media/uapi/v4l/meta-formats.rst
-@@ -24,3 +24,4 @@ These formats are used for the :ref:`metadata` interface only.
-     pixfmt-meta-uvc
-     pixfmt-meta-vsp1-hgo
-     pixfmt-meta-vsp1-hgt
-+    pixfmt-meta-vivid
-diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst b/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
-new file mode 100644
-index 000000000000..68f9df623064
---- /dev/null
-+++ b/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
-@@ -0,0 +1,43 @@
-+.. Permission is granted to copy, distribute and/or modify this
-+.. document under the terms of the GNU Free Documentation License,
-+.. Version 1.1 or any later version published by the Free Software
-+.. Foundation, with no Invariant Sections, no Front-Cover Texts
-+.. and no Back-Cover Texts. A copy of the license is included at
-+.. Documentation/media/uapi/fdl-appendix.rst.
-+..
-+.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
-+
-+.. _v4l2-meta-fmt-vivid:
-+
-+*******************************
-+V4L2_META_FMT_VIVID ('VIVD')
-+*******************************
-+
-+VIVID Metadata Format
-+
-+
-+Description
-+===========
-+
-+This describes the metadata format used by the vivid driver.
-+
-+It sets Brightness, Saturation, Contrast and Hue, each of which maps to
-+corresponding controls of the vivid driver with respect to the range and default values.
-+
-+It contains the following fields:
-+
-+.. flat-table:: VIVID Metadata
-+    :widths: 1 4
-+    :header-rows:  1
-+    :stub-columns: 0
-+
-+    * - Field
-+      - Description
-+    * - u16 brightness;
-+      - Image brightness, the value is in the range 0 to 255, with the default value as 128.
-+    * - u16 contrast;
-+      - Image contrast, the value is in the range 0 to 255, with the default value as 128.
-+    * - u16 saturation;
-+      - Image color saturation, the value is in the range 0 to 255, with the default value as 128.
-+    * - s16 hue;
-+      - Image color balance, the value is in the range -128 to 128, with the default value as 0.
--- 
-2.17.1
+https://training.linuxfoundation.org/training/a-beginners-guide-to-linux-kernel-development-lfc103/
+
+This is a free training class which is a prerequisite for the mentorship
+program starting Spring 2020
+
+Please contact me if you have any questions on this.
+
+thanks,
+-- Shuah
