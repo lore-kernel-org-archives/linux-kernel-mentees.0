@@ -1,66 +1,46 @@
-From: hverkuil@xs4all.nl (Hans Verkuil)
-Date: Mon, 7 Oct 2019 16:31:44 +0200
-Subject: [Linux-kernel-mentees] [PATCH v9] vivid: Add metadata capture
-	support
-In-Reply-To: <20191004102457.27611-1-bnvandana@gmail.com>
-References: <0e9fb478-18b7-22a4-2eaf-c19ae57678e0@xs4all.nl>
-	<20191004102457.27611-1-bnvandana@gmail.com>
-Message-ID: <96d53360-5520-f253-db8e-995bf5920746@xs4all.nl>
+From: bnvandana@gmail.com (Vandana BN)
+Date: Tue,  8 Oct 2019 12:57:54 +0530
+Subject: [Linux-kernel-mentees] [PATCH v10 0/3] vivid: Metadata support
+In-Reply-To: <96d53360-5520-f253-db8e-995bf5920746@xs4all.nl>
+References: <96d53360-5520-f253-db8e-995bf5920746@xs4all.nl>
+Message-ID: <20191008072757.22752-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191007143144.IALvcJ48pFDaNA89NnmnJq9KSzcwSE0MKSdLrdZSQAk@z>
+Message-ID: <20191008072754.NaEcjK5KTMRswPrv64T1KigognCGBnuVLKqFt9cXVeA@z>
 
-On 10/4/19 12:24 PM, Vandana BN wrote:
-> +void vivid_meta_cap_fillbuff(struct vivid_dev *dev,
-> +			     struct vivid_buffer *buf, u32 soe)
-
-soe should have been a u64 since f_time is a u64.
-
-> +{
-> +	struct vivid_uvc_meta_buf *meta = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-> +	int buf_off = 0;
-> +
-> +	buf->vb.sequence = dev->meta_cap_seq_count;
-> +	if (dev->field_cap == V4L2_FIELD_ALTERNATE)
-> +		buf->vb.sequence /= 2;
-> +	memset(meta, 1, vb2_plane_size(&buf->vb.vb2_buf, 0));
-> +
-> +	meta->ns = ktime_get_ns();
-> +	meta->sof = buf->vb.sequence * 30;
-> +	meta->length = sizeof(*meta) - offsetof(struct vivid_uvc_meta_buf, length);
-> +	meta->flags = UVC_STREAM_EOH | UVC_STREAM_EOF;
-> +
-> +	if ((buf->vb.sequence % 2) == 0)
-> +		meta->flags |= UVC_STREAM_FID;
-> +
-> +	dprintk(dev, 2, "%s ns:%llu sof:%4d len:%u flags: 0x%02x",
-> +		__func__, meta->ns, meta->sof, meta->length, meta->flags);
-> +	if (dev->meta_pts) {
-> +		meta->flags |= UVC_STREAM_PTS;
-> +		meta->buf[0] = soe / VIVID_META_CLOCK_UNIT;
-
-Use div_u64() here.
-
-> +		buf_off = 4;
-> +		dprintk(dev, 2, " pts: %u\n", *(__u32 *)(meta->buf));
-> +	}
-> +
-> +	if (dev->meta_scr) {
-> +		meta->flags |= UVC_STREAM_SCR;
-> +		meta->buf[buf_off] = (soe + dev->cap_frame_eof_offset)
-> +					/ VIVID_META_CLOCK_UNIT;
-
-Same here (and this is the cause of the kbuild error).
-
-> +
-> +		meta->buf[buf_off + 4] = (buf->vb.sequence * 30) % 1000;
-> +		dprintk(dev, 2, " stc: %u, sof counter: %u\n",
-> +			*(__u32 *)(meta->buf + buf_off),
-> +			*(__u16 *)(meta->buf + buf_off + 4));
-> +	}
-> +	dprintk(dev, 2, "\n");
-> +}
+This patch adds metadata support in vivid driver.
+Metadata capture supports UVCH format V4L2_META_FMT_UVC as it is widely used in webcams.
+https://hverkuil.home.xs4all.nl/spec/uapi/v4l/pixfmt-meta-uvc.html
+For Metadata output a new format V4L2_META_FMT_VIVID is added,
+which is used to set brightness, contrast, sturation and hue.
 
 Regards,
+Vandana.
 
-	Hans
+Vandana BN (3):
+  vivid: Add metadata capture support
+  v4l2-core: Add new metadata format
+  vivid: Add metadata output support
+
+ drivers/media/platform/vivid/Makefile         |   2 +-
+ drivers/media/platform/vivid/vivid-core.c     | 197 ++++++++++++++++-
+ drivers/media/platform/vivid/vivid-core.h     |  24 +++
+ drivers/media/platform/vivid/vivid-ctrls.c    |  75 +++++++
+ .../media/platform/vivid/vivid-kthread-cap.c  |  54 ++++-
+ .../media/platform/vivid/vivid-kthread-out.c  |  50 ++++-
+ drivers/media/platform/vivid/vivid-meta-cap.c | 201 ++++++++++++++++++
+ drivers/media/platform/vivid/vivid-meta-cap.h |  29 +++
+ drivers/media/platform/vivid/vivid-meta-out.c | 174 +++++++++++++++
+ drivers/media/platform/vivid/vivid-meta-out.h |  25 +++
+ drivers/media/platform/vivid/vivid-vid-cap.c  |   5 +-
+ drivers/media/platform/vivid/vivid-vid-out.c  |   5 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 14 files changed, 825 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.c
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.h
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-out.c
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-out.h
+
+-- 
+2.17.1
