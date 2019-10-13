@@ -1,110 +1,103 @@
-From: ds at didiksetiawan.com (Didik Setiawan)
-Date: Thu, 10 Oct 2019 13:31:58 +0700
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: RCU: Convert RCU
-	array to reST
-Message-ID: <20191010063158.22261-1-ds@didiksetiawan.com>
+From: jaskaransingh7654321 at gmail.com (Jaskaran Singh)
+Date: Sun, 13 Oct 2019 16:14:59 +0530
+Subject: [Linux-kernel-mentees] [SYZBOT REPORT] KMSAN: uninit-value in
+	asix_mdio_read
+Message-ID: <20191013104459.GA20511@localhost.localdomain>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-RCU array reST markup.
+Hi,
 
-Signed-off-by: Didik Setiawan <ds at didiksetiawan.com>
----
- .../RCU/{arrayRCU.txt => arrayRCU.rst}        | 20 +++++++++++--------
- Documentation/RCU/index.rst                   |  1 +
- 2 files changed, 13 insertions(+), 8 deletions(-)
- rename Documentation/RCU/{arrayRCU.txt => arrayRCU.rst} (92%)
+Following is my analysis of syzbot report:
 
-diff --git a/Documentation/RCU/arrayRCU.txt b/Documentation/RCU/arrayRCU.rst
-similarity index 92%
-rename from Documentation/RCU/arrayRCU.txt
-rename to Documentation/RCU/arrayRCU.rst
-index f05a9afb2c39..6e0cb6d5c1f2 100644
---- a/Documentation/RCU/arrayRCU.txt
-+++ b/Documentation/RCU/arrayRCU.rst
-@@ -1,5 +1,7 @@
--Using RCU to Protect Read-Mostly Arrays
-+.. _array_rcu_doc:
- 
-+Using RCU to Protect Read-Mostly Arrays
-+=======================================
- 
- Although RCU is more commonly used to protect linked lists, it can
- also be used to protect arrays.  Three situations are as follows:
-@@ -24,16 +26,16 @@ to be safely used.
- That aside, each of the three RCU-protected pointer situations are
- described in the following sections.
- 
--
- Situation 1: Hash Tables
-+------------------------
- 
- Hash tables are often implemented as an array, where each array entry
- has a linked-list hash chain.  Each hash chain can be protected by RCU
- as described in the listRCU.txt document.  This approach also applies
- to other array-of-list situations, such as radix trees.
- 
--
- Situation 2: Static Arrays
-+--------------------------
- 
- Static arrays, where the data (rather than a pointer to the data) is
- located in each array element, and where the array is never resized,
-@@ -41,11 +43,13 @@ have not been used with RCU.  Rik van Riel recommends using seqlock in
- this situation, which would also have minimal read-side overhead as long
- as updates are rare.
- 
--Quick Quiz:  Why is it so important that updates be rare when
--	     using seqlock?
-+Quick Quiz:
-+        Why is it so important that updates be rare when using seqlock?
- 
-+:ref:`Answer to Quick Quiz <answer_quick_quiz_array>`
- 
- Situation 3: Resizeable Arrays
-+------------------------------
- 
- Use of RCU for resizeable arrays is demonstrated by the grow_ary()
- function formerly used by the System V IPC code.  The array is used
-@@ -60,7 +64,7 @@ the remainder of the new, updates the ids->entries pointer to point to
- the new array, and invokes ipc_rcu_putref() to free up the old array.
- Note that rcu_assign_pointer() is used to update the ids->entries pointer,
- which includes any memory barriers required on whatever architecture
--you are running on.
-+you are running on. ::
- 
- 	static int grow_ary(struct ipc_ids* ids, int newsize)
- 	{
-@@ -112,7 +116,7 @@ a simple check suffices.  The pointer to the structure corresponding
- to the desired IPC object is placed in "out", with NULL indicating
- a non-existent entry.  After acquiring "out->lock", the "out->deleted"
- flag indicates whether the IPC object is in the process of being
--deleted, and, if not, the pointer is returned.
-+deleted, and, if not, the pointer is returned. ::
- 
- 	struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
- 	{
-@@ -144,9 +148,9 @@ deleted, and, if not, the pointer is returned.
- 		return out;
- 	}
- 
-+.. _answer_quick_quiz_array:
- 
- Answer to Quick Quiz:
--
- 	The reason that it is important that updates be rare when
- 	using seqlock is that frequent updates can livelock readers.
- 	One way to avoid this problem is to assign a seqlock for
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-index 340a9725676c..75443a0599ed 100644
---- a/Documentation/RCU/index.rst
-+++ b/Documentation/RCU/index.rst
-@@ -9,6 +9,7 @@ RCU concepts
- 
-    rcu
-    listRCU
-+   arrayRCU
-    UP
- 
- .. only:: subproject and html
--- 
-2.23.0
+https://syzkaller.appspot.com/bug?id=66a3f426f314ef275628182228ad31815fac58ed
+
+The call trace is as follows:
+
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x191/0x1f0 lib/dump_stack.c:113
+ kmsan_report+0x13a/0x2b0 mm/kmsan/kmsan_report.c:108
+ __msan_warning+0x73/0xe0 mm/kmsan/kmsan_instr.c:250
+ asix_mdio_read+0x3e9/0x8f0 drivers/net/usb/asix_common.c:461
+ asix_mdio_bus_read+0xbc/0xe0 drivers/net/usb/ax88172a.c:31
+ __mdiobus_read+0x106/0x3d0 drivers/net/phy/mdio_bus.c:563
+ mdiobus_read+0xbd/0x110 drivers/net/phy/mdio_bus.c:640
+ get_phy_id drivers/net/phy/phy_device.c:785 [inline]
+ get_phy_device+0x331/0x8a0 drivers/net/phy/phy_device.c:819
+ mdiobus_scan+0x91/0x760 drivers/net/phy/mdio_bus.c:527
+ __mdiobus_register+0x86d/0xca0 drivers/net/phy/mdio_bus.c:426
+ ax88172a_init_mdio drivers/net/usb/ax88172a.c:105 [inline]
+ ax88172a_bind+0xcc5/0xf80 drivers/net/usb/ax88172a.c:243
+ usbnet_probe+0x10ae/0x3960 drivers/net/usb/usbnet.c:1722
+ usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
+ really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+ driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+ __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+ bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+ __device_attach+0x489/0x750 drivers/base/dd.c:882
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+ bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+ device_add+0x25b5/0x2df0 drivers/base/core.c:2165
+ usb_set_configuration+0x309f/0x3710 drivers/usb/core/message.c:2027
+ generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
+ usb_probe_device+0x146/0x200 drivers/usb/core/driver.c:266
+ really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+ driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+ __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+ bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+ __device_attach+0x489/0x750 drivers/base/dd.c:882
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+ bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+ device_add+0x25b5/0x2df0 drivers/base/core.c:2165
+ usb_new_device+0x23e5/0x2fb0 drivers/usb/core/hub.c:2536
+ hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+ port_event drivers/usb/core/hub.c:5359 [inline]
+ hub_event+0x581d/0x72f0 drivers/usb/core/hub.c:5441
+ process_one_work+0x1572/0x1ef0 kernel/workqueue.c:2269
+ worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
+ kthread+0x4b5/0x4f0 kernel/kthread.c:256
+ ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+
+drivers/net/usb/asix_common.c:461 points to this:
+
+	u8 smsr;
+	// ...
+	do {
+		ret = asix_set_sw_mii(dev, 0);
+		if (ret == -ENODEV || ret == -ETIMEDOUT)
+			break;
+		usleep_range(1000, 1100);
+		ret = asix_read_cmd(dev, AX_CMD_STATMNGSTS_REG,
+				    0, 0, 1, &smsr, 0);
+->	} while (!(smsr & AX_HOST_EN) && (i++ < 30) && (ret != -ENODEV));
+
+i.e. the variable "smsr", as pointed out by the tail of the syzbot report.
+Now, a read command is initiated at the end of the while loop. asix_read_cmd
+calls usbnet_read_cmd, which fills up the buffer only on one code path,
+as follows:
+
+	err = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
+			      cmd, reqtype, value, index, buf, size,
+			      USB_CTRL_GET_TIMEOUT);
+	if (err > 0 && err <= size) {
+        if (data)
+            memcpy(data, buf, err);
+
+So most probably a negative error code was generated by usb_control_msg,
+as evinced by the logs in the head of the syzbot report, which led to 
+the buffer being left uninitialized. The while condition was then inevitably
+executed, and thus generated the error.
+
+The most apparent fix for this is to initialize smsr to 1.
+
+-	u8 smsr;
++	u8 smsr = 1;
+
+Thus, even if smsr is untouched by the usbnet function calls, the first 
+condition of the while loop won't evaluate to true anyway.
+
+Similar changes should be made to other ASIX command functions in
+drivers/net/usb/asix_common.c.
+
+Cheers,
+Jaskaran.
