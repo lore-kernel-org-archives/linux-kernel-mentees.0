@@ -1,105 +1,45 @@
-From: jaskaransingh7654321@gmail.com (Jaskaran Singh)
-Date: Sun, 13 Oct 2019 16:14:59 +0530
-Subject: [Linux-kernel-mentees] [SYZBOT REPORT] KMSAN: uninit-value in
-	asix_mdio_read
-Message-ID: <20191013104459.GA20511@localhost.localdomain>
+From: c0d1n61at3@gmail.com (Jiunn Chang)
+Date: Sun, 13 Oct 2019 23:17:13 -0500
+Subject: [Linux-kernel-mentees] [PATCH 0/8] cec-compliance: add digital
+	tuner support
+Message-ID: <20191014041721.52025-1-c0d1n61at3@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191013104459.PS-INVwL8w7K190NvOvKkAr4ttak5cyauePN9LPvnZU@z>
+Message-ID: <20191014041713.nLpsqWmRHRnt2OLeIIKrsg1An4r8D-M2wMG8RMaiPXY@z>
 
-Hi,
+This patch series will add digital tuner support to cec-compliance.
+cec-follower support for the following digital broadcast systems:
 
-Following is my analysis of syzbot report:
+  - ARIB-BS
+  - ARIB-T
+  - ATSC-SAT
+  - ATSC-T
+  - DVB-S2
+  - DVB-T
 
-https://syzkaller.appspot.com/bug?id=66a3f426f314ef275628182228ad31815fac58ed
+has been added for 18 digital plus 81 analog for a total of 98 channels.
+Tuner step features have been implemented to cycle through all available
+channels with digital proceeding analog.  Channels will wrap on both ends.
+Tuner testing will cycle through all channels and check status with tuner
+select service following after.
 
-The call trace is as follows:
+---
 
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x191/0x1f0 lib/dump_stack.c:113
- kmsan_report+0x13a/0x2b0 mm/kmsan/kmsan_report.c:108
- __msan_warning+0x73/0xe0 mm/kmsan/kmsan_instr.c:250
- asix_mdio_read+0x3e9/0x8f0 drivers/net/usb/asix_common.c:461
- asix_mdio_bus_read+0xbc/0xe0 drivers/net/usb/ax88172a.c:31
- __mdiobus_read+0x106/0x3d0 drivers/net/phy/mdio_bus.c:563
- mdiobus_read+0xbd/0x110 drivers/net/phy/mdio_bus.c:640
- get_phy_id drivers/net/phy/phy_device.c:785 [inline]
- get_phy_device+0x331/0x8a0 drivers/net/phy/phy_device.c:819
- mdiobus_scan+0x91/0x760 drivers/net/phy/mdio_bus.c:527
- __mdiobus_register+0x86d/0xca0 drivers/net/phy/mdio_bus.c:426
- ax88172a_init_mdio drivers/net/usb/ax88172a.c:105 [inline]
- ax88172a_bind+0xcc5/0xf80 drivers/net/usb/ax88172a.c:243
- usbnet_probe+0x10ae/0x3960 drivers/net/usb/usbnet.c:1722
- usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
- really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
- driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
- __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
- bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
- __device_attach+0x489/0x750 drivers/base/dd.c:882
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
- bus_probe_device+0x131/0x390 drivers/base/bus.c:514
- device_add+0x25b5/0x2df0 drivers/base/core.c:2165
- usb_set_configuration+0x309f/0x3710 drivers/usb/core/message.c:2027
- generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
- usb_probe_device+0x146/0x200 drivers/usb/core/driver.c:266
- really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
- driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
- __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
- bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
- __device_attach+0x489/0x750 drivers/base/dd.c:882
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
- bus_probe_device+0x131/0x390 drivers/base/bus.c:514
- device_add+0x25b5/0x2df0 drivers/base/core.c:2165
- usb_new_device+0x23e5/0x2fb0 drivers/usb/core/hub.c:2536
- hub_port_connect drivers/usb/core/hub.c:5098 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
- port_event drivers/usb/core/hub.c:5359 [inline]
- hub_event+0x581d/0x72f0 drivers/usb/core/hub.c:5441
- process_one_work+0x1572/0x1ef0 kernel/workqueue.c:2269
- worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
- kthread+0x4b5/0x4f0 kernel/kthread.c:256
- ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+Jiunn Chang (8):
+  cec-follower: fix analog tuner device info update
+  cec-follower: rename freq_idx to service_idx
+  cec-follower: create digital ARIB channels
+  cec-follower: create digital ATSC channels
+  cec-follower: create digital DVB channels
+  cec-follower: add tuner digital service emulation
+  cec-follower: fix tuner step increment/decrement
+  cec-compliance: add digital tuner control testing
 
-drivers/net/usb/asix_common.c:461 points to this:
+ utils/cec-compliance/cec-test.cpp   |  50 +++-
+ utils/cec-follower/cec-follower.cpp |   2 +-
+ utils/cec-follower/cec-follower.h   |   4 +-
+ utils/cec-follower/cec-tuner.cpp    | 375 ++++++++++++++++++++++++++--
+ 4 files changed, 400 insertions(+), 31 deletions(-)
 
-	u8 smsr;
-	// ...
-	do {
-		ret = asix_set_sw_mii(dev, 0);
-		if (ret == -ENODEV || ret == -ETIMEDOUT)
-			break;
-		usleep_range(1000, 1100);
-		ret = asix_read_cmd(dev, AX_CMD_STATMNGSTS_REG,
-				    0, 0, 1, &smsr, 0);
-->	} while (!(smsr & AX_HOST_EN) && (i++ < 30) && (ret != -ENODEV));
-
-i.e. the variable "smsr", as pointed out by the tail of the syzbot report.
-Now, a read command is initiated at the end of the while loop. asix_read_cmd
-calls usbnet_read_cmd, which fills up the buffer only on one code path,
-as follows:
-
-	err = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
-			      cmd, reqtype, value, index, buf, size,
-			      USB_CTRL_GET_TIMEOUT);
-	if (err > 0 && err <= size) {
-        if (data)
-            memcpy(data, buf, err);
-
-So most probably a negative error code was generated by usb_control_msg,
-as evinced by the logs in the head of the syzbot report, which led to 
-the buffer being left uninitialized. The while condition was then inevitably
-executed, and thus generated the error.
-
-The most apparent fix for this is to initialize smsr to 1.
-
--	u8 smsr;
-+	u8 smsr = 1;
-
-Thus, even if smsr is untouched by the usbnet function calls, the first 
-condition of the while loop won't evaluate to true anyway.
-
-Similar changes should be made to other ASIX command functions in
-drivers/net/usb/asix_common.c.
-
-Cheers,
-Jaskaran.
+-- 
+2.23.0
