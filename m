@@ -1,40 +1,51 @@
-From: sre@kernel.org (Sebastian Reichel)
-Date: Mon, 14 Oct 2019 08:58:42 +0200
-Subject: [Linux-kernel-mentees] [PATCH 4/4] Driver: Power: Supply:
- abx500_chargalg: Fixed a few coding style errors
-In-Reply-To: <20190930082303.GC2036553@kroah.com>
-References: <20190929181906.GA21828@madhuparna-HP-Notebook>
-	<20190930082303.GC2036553@kroah.com>
-Message-ID: <20191014065842.p6kbrl3saeerpoqq@earth.universe>
+From: bnvandana@gmail.com (Vandana BN)
+Date: Tue, 15 Oct 2019 16:10:14 +0530
+Subject: [Linux-kernel-mentees] [PATCH v11 0/3] vivid: Metadata support
+In-Reply-To: <20191008072757.22752-1-bnvandana@gmail.com>
+References: <20191008072757.22752-1-bnvandana@gmail.com>
+Message-ID: <20191015104017.13722-1-bnvandana@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191014065842.bWHbD2YPeKSejlU10nGuGxvNlffG8XZeoPgGP35LkHo@z>
+Message-ID: <20191015104014.KAmVT35PzW1kqZKz5ohm6q31Rb5hFnXduMD462oxeIc@z>
 
-Hi,
+This patch adds metadata support in vivid driver.
+Metadata capture supports UVCH format V4L2_META_FMT_UVC as it is widely used in webcams.
+https://hverkuil.home.xs4all.nl/spec/uapi/v4l/pixfmt-meta-uvc.html
+For Metadata output a new format V4L2_META_FMT_VIVID is added,
+which is used to set brightness, contrast, sturation and hue.
 
-On Mon, Sep 30, 2019 at 10:23:03AM +0200, Greg KH wrote:
-> On Sun, Sep 29, 2019 at 11:49:10PM +0530, Madhuparna Bhowmik wrote:
-> > This patch fixes a few coding style errors and warnings
-> > detected by checkpatch.pl:
-> > 
-> > WARNING: please, no space before tabs
-> > ERROR: code indent should use tabs where possible
-> > WARNING: please, no spaces at the start of a line
-> > WARNING: Unnecessary parentheses
-> > WARNING: Block comments use a trailing */ on a separate line
-> > WARNING: Prefer 'long' over 'long int' as the int is unnecessary
-> 
-> I know for the subsystems I maintain, I would require this to be broken
-> up into "one logical change per patch" so be aware that this might also
-> need to be done here too.
+Changes in V11:
+	fix in metadata output patch to correctly update sequence.
+	fix in metadata capture patch updating description of node_types
+in module patameter.
 
-Same applies for the power-supply subsystem. Thanks,
+Regards,
+Vandana.
 
--- Sebastian
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20191014/ca03ff39/attachment.sig>
+Vandana BN (3):
+  vivid: Add metadata capture support
+  v4l2-core: Add new metadata format
+  vivid: Add metadata output support
+
+ drivers/media/platform/vivid/Makefile         |   2 +-
+ drivers/media/platform/vivid/vivid-core.c     | 197 ++++++++++++++++-
+ drivers/media/platform/vivid/vivid-core.h     |  24 +++
+ drivers/media/platform/vivid/vivid-ctrls.c    |  75 +++++++
+ .../media/platform/vivid/vivid-kthread-cap.c  |  54 ++++-
+ .../media/platform/vivid/vivid-kthread-out.c  |  49 ++++-
+ drivers/media/platform/vivid/vivid-meta-cap.c | 201 ++++++++++++++++++
+ drivers/media/platform/vivid/vivid-meta-cap.h |  29 +++
+ drivers/media/platform/vivid/vivid-meta-out.c | 174 +++++++++++++++
+ drivers/media/platform/vivid/vivid-meta-out.h |  25 +++
+ drivers/media/platform/vivid/vivid-vid-cap.c  |   5 +-
+ drivers/media/platform/vivid/vivid-vid-out.c  |   5 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 14 files changed, 824 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.c
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.h
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-out.c
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-out.h
+
+-- 
+2.17.1
