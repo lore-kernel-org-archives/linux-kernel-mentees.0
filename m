@@ -1,47 +1,119 @@
-From: madhuparnabhowmik04 at gmail.com (madhuparnabhowmik04@gmail.com)
-Date: Tue, 15 Oct 2019 21:43:41 +0530
-Subject: [Linux-kernel-mentees] [PATCH] Power: supply: abx500_chargalg.c:
-	Fixed a code indentation error
-Message-ID: <20191015161341.26868-1-madhuparnabhowmik04@gmail.com>
+From: mchehab+samsung@kernel.org (Mauro Carvalho Chehab)
+Date: Wed, 16 Oct 2019 16:45:03 -0300
+Subject: [Linux-kernel-mentees] [PATCH] Documentation:media:v4l2:Add
+	vivid metadata doc
+In-Reply-To: <3db91bd0-cfdd-6453-6e70-8567ac94d68e@xs4all.nl>
+References: <20191004115514.31259-1-bnvandana@gmail.com>
+	<3db91bd0-cfdd-6453-6e70-8567ac94d68e@xs4all.nl>
+Message-ID: <20191016164503.01b9f037@coco.lan>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191015161341.CXezW5i1lfuThEWcFsNQ0mTqenPR130bAZei7S8qb_Q@z>
+Message-ID: <20191016194503.8oquPCPCWeFnZISpCwqUdy6I0eQ-uZBPDEtMTHJdRck@z>
 
-From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Em Fri, 4 Oct 2019 13:59:00 +0200
+Hans Verkuil <hverkuil at xs4all.nl> escreveu:
 
-Fixed Code indentation error caused due to using spaces
-instead of tabs.
-The error reported by checkpatch.pl is:
- ERROR: code indent should use tabs where possible
-The warning reported by checkpatch.pl is:
- WARNING: please, no spaces at the start of a line
+> On 10/4/19 1:55 PM, Vandana BN wrote:
+> > Adds new file for describing new metadata format V4L2_META_FMT_VIVID added in vivid driver.
+> > 
+> > Signed-off-by: Vandana BN <bnvandana at gmail.com>
+> > ---
+> >  Documentation/media/uapi/v4l/meta-formats.rst |  1 +
+> >  .../media/uapi/v4l/pixfmt-meta-vivid.rst      | 43 +++++++++++++++++++
+> >  2 files changed, 44 insertions(+)
+> >  create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
+> > 
+> > diff --git a/Documentation/media/uapi/v4l/meta-formats.rst b/Documentation/media/uapi/v4l/meta-formats.rst
+> > index b10ca9ee3968..74c8659ee9d6 100644
+> > --- a/Documentation/media/uapi/v4l/meta-formats.rst
+> > +++ b/Documentation/media/uapi/v4l/meta-formats.rst
+> > @@ -24,3 +24,4 @@ These formats are used for the :ref:`metadata` interface only.
+> >      pixfmt-meta-uvc
+> >      pixfmt-meta-vsp1-hgo
+> >      pixfmt-meta-vsp1-hgt
+> > +    pixfmt-meta-vivid
+> > diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst b/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
+> > new file mode 100644
+> > index 000000000000..e6c349fadf30
+> > --- /dev/null
+> > +++ b/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
+> > @@ -0,0 +1,43 @@
+> > +.. Permission is granted to copy, distribute and/or modify this
+> > +.. document under the terms of the GNU Free Documentation License,
+> > +.. Version 1.1 or any later version published by the Free Software
+> > +.. Foundation, with no Invariant Sections, no Front-Cover Texts
+> > +.. and no Back-Cover Texts. A copy of the license is included at
+> > +.. Documentation/media/uapi/fdl-appendix.rst.
+> > +..
+> > +.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
 
-Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
----
- drivers/power/supply/abx500_chargalg.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Could you please re-license it with dual GFDL and GPL?
 
-diff --git a/drivers/power/supply/abx500_chargalg.c b/drivers/power/supply/abx500_chargalg.c
-index 23757fb10479..e6e37d4f20e4 100644
---- a/drivers/power/supply/abx500_chargalg.c
-+++ b/drivers/power/supply/abx500_chargalg.c
-@@ -354,13 +354,13 @@ static int abx500_chargalg_check_charger_enable(struct abx500_chargalg *di)
- 
- 	if (di->chg_info.charger_type & USB_CHG) {
- 		return di->usb_chg->ops.check_enable(di->usb_chg,
--                         di->bm->bat_type[di->bm->batt_id].normal_vol_lvl,
--                         di->bm->bat_type[di->bm->batt_id].normal_cur_lvl);
-+			di->bm->bat_type[di->bm->batt_id].normal_vol_lvl,
-+			di->bm->bat_type[di->bm->batt_id].normal_cur_lvl);
- 	} else if ((di->chg_info.charger_type & AC_CHG) &&
- 		   !(di->ac_chg->external)) {
- 		return di->ac_chg->ops.check_enable(di->ac_chg,
--                         di->bm->bat_type[di->bm->batt_id].normal_vol_lvl,
--                         di->bm->bat_type[di->bm->batt_id].normal_cur_lvl);
-+			di->bm->bat_type[di->bm->batt_id].normal_vol_lvl,
-+			di->bm->bat_type[di->bm->batt_id].normal_cur_lvl);
- 	}
- 	return 0;
- }
--- 
-2.17.1
+See for example:
+	Documentation/media/uapi/mediactl/media-request-ioc-queue.rst
+
+For the text we're adding to all new documentation files on media.
+
+Regards,
+Mauro
+
+> > +
+> > +.. _v4l2-meta-fmt-vivid:
+> > +
+> > +*******************************
+> > +V4L2_META_FMT_VIVID ('VIVID')  
+> 
+> That's a fivecc instead of a fourcc :-)
+> 
+> > +*******************************
+> > +
+> > +VIVID Metadata Format
+> > +
+> > +
+> > +Description
+> > +===========
+> > +
+> > +This format describes metadata in vivid driver.  
+> 
+> Say: ...describes the metadata format used by the vivid driver.
+> 
+> > +
+> > +It sets Brightness, Saturation, Contrast and Hue, each of which maps to
+> > +corresponding control in vivid driver with respect to its range and default values.  
+> 
+> ...controls of the...
+> ...respect to the range...
+> 
+> > +
+> > +It contains the following fields:
+> > +
+> > +.. flat-table:: VIVID Metadata
+> > +    :widths: 1 4
+> > +    :header-rows:  1
+> > +    :stub-columns: 0
+> > +
+> > +    * - Field
+> > +      - Description
+> > +    * - u16 brightness;
+> > +      - Image brightness, value can be in range 0 to 255, with default value as 128.  
+> 
+>       - Image brightness, the value is in the range 0 to 255, with the default value as 128.
+> 
+> > +    * - u16 contrast;
+> > +      - Image contrast, value can be in range 0 to 255, with default value as 128.
+> > +    * - u16 saturation;
+> > +      - Image color saturation, value can be in range 0 to 255, with default value as 128.
+> > +    * - s16 hue;
+> > +      - Image color balance, value can be in range -128 to 128, with default value as 0.
+> >   
+> 
+> Ditto.
+> 
+> Regards,
+> 
+> 	Hans
+
+
+
+Thanks,
+Mauro
