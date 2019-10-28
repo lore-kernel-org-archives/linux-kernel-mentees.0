@@ -1,30 +1,26 @@
-From: csx@disroot.org (Dhanuka Warusadura)
-Date: Mon, 28 Oct 2019 16:37:44 +0530
-Subject: [Linux-kernel-mentees] [PATCH] Fixes documentation warning.
-Message-ID: <20191028110744.6523-1-csx@disroot.org>
+From: corbet@lwn.net (Jonathan Corbet)
+Date: Mon, 28 Oct 2019 08:30:39 -0600
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: driver-api:
+ index: Removed non-existing document driver-api/sgi-ioc4 from the toctree.
+In-Reply-To: <20191028060710.15154-1-madhuparnabhowmik04@gmail.com>
+References: <20191028060710.15154-1-madhuparnabhowmik04@gmail.com>
+Message-ID: <20191028083039.1151a646@lwn.net>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191028110744.REjHijlgoF0u8lSOw_wPFkDY25jRl3YgnYDlIeysrt0@z>
+Message-ID: <20191028143039.Bqfx2gyjchWtKlDYX53z3wGj-X4JvWKBfrR7Ta2HoAU@z>
 
-This patch fixes - warning: Function parameter or member 'of_match_table'
-not described in 'w1_family'
+On Mon, 28 Oct 2019 11:37:10 +0530
+madhuparnabhowmik04 at gmail.com wrote:
 
-Signed-off-by: Dhanuka Warusadura <csx at disroot.org>
----
- include/linux/w1.h | 1 +
- 1 file changed, 1 insertion(+)
+> From: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+> 
+> This patches fixes the WARNING: toctree contains reference
+> to nonexisting document u'driver-api/sgi-ioc4'by removing
+> it from the toctree in the index.rst file.
+> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+> ---
 
-diff --git a/include/linux/w1.h b/include/linux/w1.h
-index 7da0c7588e04..cebf3464bc03 100644
---- a/include/linux/w1.h
-+++ b/include/linux/w1.h
-@@ -262,6 +262,7 @@ struct w1_family_ops {
-  * @family_entry:	family linked list
-  * @fid:		8 bit family identifier
-  * @fops:		operations for this family
-+ * @of_match_table: open firmware match table
-  * @refcnt:		reference counter
-  */
- struct w1_family {
--- 
-2.24.0.rc1
+Thanks, but this was fixed in docs-next last week.
+
+jon
