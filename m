@@ -1,32 +1,28 @@
-From: madhuparnabhowmik04 at gmail.com (madhuparnabhowmik04 at gmail.com)
-Date: Mon, 28 Oct 2019 11:37:10 +0530
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: driver-api: index:
-	Removed non-existing document driver-api/sgi-ioc4 from the toctree.
-Message-ID: <20191028060710.15154-1-madhuparnabhowmik04@gmail.com>
+From: csx at disroot.org (Dhanuka Warusadura)
+Date: Mon, 28 Oct 2019 16:37:44 +0530
+Subject: [Linux-kernel-mentees] [PATCH] Fixes documentation warning.
+Message-ID: <20191028110744.6523-1-csx@disroot.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-From: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+This patch fixes - warning: Function parameter or member 'of_match_table'
+not described in 'w1_family'
 
-This patches fixes the WARNING: toctree contains reference
-to nonexisting document u'driver-api/sgi-ioc4'by removing
-it from the toctree in the index.rst file.
-
-Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+Signed-off-by: Dhanuka Warusadura <csx at disroot.org>
 ---
- Documentation/driver-api/index.rst | 1 -
- 1 file changed, 1 deletion(-)
+ include/linux/w1.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 38e638abe3eb..6d46ceeb62c4 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -93,7 +93,6 @@ available subsections can be seen below.
-    pwm
-    rfkill
-    serial/index
--   sgi-ioc4
-    sm501
-    smsc_ece1099
-    switchtec
+diff --git a/include/linux/w1.h b/include/linux/w1.h
+index 7da0c7588e04..cebf3464bc03 100644
+--- a/include/linux/w1.h
++++ b/include/linux/w1.h
+@@ -262,6 +262,7 @@ struct w1_family_ops {
+  * @family_entry:	family linked list
+  * @fid:		8 bit family identifier
+  * @fops:		operations for this family
++ * @of_match_table: open firmware match table
+  * @refcnt:		reference counter
+  */
+ struct w1_family {
 -- 
-2.17.1
+2.24.0.rc1
