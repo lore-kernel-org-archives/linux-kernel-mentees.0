@@ -1,26 +1,113 @@
-From: corbet@lwn.net (Jonathan Corbet)
-Date: Mon, 28 Oct 2019 08:30:39 -0600
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: driver-api:
- index: Removed non-existing document driver-api/sgi-ioc4 from the toctree.
-In-Reply-To: <20191028060710.15154-1-madhuparnabhowmik04@gmail.com>
-References: <20191028060710.15154-1-madhuparnabhowmik04@gmail.com>
-Message-ID: <20191028083039.1151a646@lwn.net>
+From: madhuparnabhowmik04 at gmail.com (madhuparnabhowmik04@gmail.com)
+Date: Mon, 28 Oct 2019 20:49:36 +0530
+Subject: [Linux-kernel-mentees] [PATCH 2/2] Documentation: RCU: Converted
+	arrayRCU.txt to arrayRCU.rst.
+Message-ID: <20191028151936.27016-1-madhuparnabhowmik04@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191028143039.Bqfx2gyjchWtKlDYX53z3wGj-X4JvWKBfrR7Ta2HoAU@z>
+Message-ID: <20191028151936.THRmmL6GFiAT4Zpz_w8IJNuLt1yf0UFfkgkP424sci4@z>
 
-On Mon, 28 Oct 2019 11:37:10 +0530
-madhuparnabhowmik04 at gmail.com wrote:
+From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
-> From: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
-> 
-> This patches fixes the WARNING: toctree contains reference
-> to nonexisting document u'driver-api/sgi-ioc4'by removing
-> it from the toctree in the index.rst file.
-> 
-> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
-> ---
+This patch converts arrayRCU from txt to rst format.
+arrayRCU.rst is also added in the index.rst file.
 
-Thanks, but this was fixed in docs-next last week.
+Signed-off-by: Madhuparna Bhowmik <madhuparnbhowmik04 at gmail.com>
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+---
+ .../RCU/{arrayRCU.txt => arrayRCU.rst}         | 18 ++++++++++++++----
+ Documentation/RCU/index.rst                    |  1 +
+ 2 files changed, 15 insertions(+), 4 deletions(-)
+ rename Documentation/RCU/{arrayRCU.txt => arrayRCU.rst} (91%)
 
-jon
+diff --git a/Documentation/RCU/arrayRCU.txt b/Documentation/RCU/arrayRCU.rst
+similarity index 91%
+rename from Documentation/RCU/arrayRCU.txt
+rename to Documentation/RCU/arrayRCU.rst
+index f05a9afb2c39..c8a26f7b2577 100644
+--- a/Documentation/RCU/arrayRCU.txt
++++ b/Documentation/RCU/arrayRCU.rst
+@@ -1,4 +1,7 @@
++.. _array_rcu_doc:
++
+ Using RCU to Protect Read-Mostly Arrays
++=======================================
+ 
+ 
+ Although RCU is more commonly used to protect linked lists, it can
+@@ -26,6 +29,7 @@ described in the following sections.
+ 
+ 
+ Situation 1: Hash Tables
++------------------------
+ 
+ Hash tables are often implemented as an array, where each array entry
+ has a linked-list hash chain.  Each hash chain can be protected by RCU
+@@ -34,6 +38,7 @@ to other array-of-list situations, such as radix trees.
+ 
+ 
+ Situation 2: Static Arrays
++--------------------------
+ 
+ Static arrays, where the data (rather than a pointer to the data) is
+ located in each array element, and where the array is never resized,
+@@ -41,11 +46,14 @@ have not been used with RCU.  Rik van Riel recommends using seqlock in
+ this situation, which would also have minimal read-side overhead as long
+ as updates are rare.
+ 
+-Quick Quiz:  Why is it so important that updates be rare when
+-	     using seqlock?
++Quick Quiz:
++		Why is it so important that updates be rare when using seqlock?
++
++:ref:`Answer to Quick Quiz <answer_quick_quiz_seqlock>`
+ 
+ 
+ Situation 3: Resizeable Arrays
++------------------------------
+ 
+ Use of RCU for resizeable arrays is demonstrated by the grow_ary()
+ function formerly used by the System V IPC code.  The array is used
+@@ -60,7 +68,7 @@ the remainder of the new, updates the ids->entries pointer to point to
+ the new array, and invokes ipc_rcu_putref() to free up the old array.
+ Note that rcu_assign_pointer() is used to update the ids->entries pointer,
+ which includes any memory barriers required on whatever architecture
+-you are running on.
++you are running on.::
+ 
+ 	static int grow_ary(struct ipc_ids* ids, int newsize)
+ 	{
+@@ -112,7 +120,7 @@ a simple check suffices.  The pointer to the structure corresponding
+ to the desired IPC object is placed in "out", with NULL indicating
+ a non-existent entry.  After acquiring "out->lock", the "out->deleted"
+ flag indicates whether the IPC object is in the process of being
+-deleted, and, if not, the pointer is returned.
++deleted, and, if not, the pointer is returned.::
+ 
+ 	struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
+ 	{
+@@ -144,8 +152,10 @@ deleted, and, if not, the pointer is returned.
+ 		return out;
+ 	}
+ 
++.. _answer_quick_quiz_seqlock:
+ 
+ Answer to Quick Quiz:
++	Why is it so important that updates be rare when using seqlock?
+ 
+ 	The reason that it is important that updates be rare when
+ 	using seqlock is that frequent updates can livelock readers.
+diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+index 340a9725676c..c4586602e7e2 100644
+--- a/Documentation/RCU/index.rst
++++ b/Documentation/RCU/index.rst
+@@ -7,6 +7,7 @@ RCU concepts
+ .. toctree::
+    :maxdepth: 1
+ 
++   arrayRCU
+    rcu
+    listRCU
+    UP
+-- 
+2.17.1
