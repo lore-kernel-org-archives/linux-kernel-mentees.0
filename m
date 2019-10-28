@@ -1,125 +1,146 @@
-From: paulmck at kernel.org (Paul E. McKenney)
-Date: Mon, 28 Oct 2019 14:00:14 -0700
+From: madhuparnabhowmik04 at gmail.com (Madhuparna Bhowmik)
+Date: Tue, 29 Oct 2019 02:36:25 +0530
 Subject: [Linux-kernel-mentees] [PATCH] Documentation: RCU: arrayRCU:
- Converted arrayRCU.txt to arrayRCU.rst
-In-Reply-To: <20191028202417.13095-1-madhuparnabhowmik04@gmail.com>
+	Converted arrayRCU.txt to arrayRCU.rst
+In-Reply-To: <20191028210014.GD20975@paulmck-ThinkPad-P72>
 References: <20191028202417.13095-1-madhuparnabhowmik04@gmail.com>
-Message-ID: <20191028210014.GD20975@paulmck-ThinkPad-P72>
+	<20191028210014.GD20975@paulmck-ThinkPad-P72>
+Message-ID: <CAF65HP0CkjBeoa5U6kqoyE_C+b7h_qHLoHAiK8oz-GSF+A6Btg@mail.gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 
-On Tue, Oct 29, 2019 at 01:54:17AM +0530, madhuparnabhowmik04 at gmail.com wrote:
-> From: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
-> 
-> This patch converts arrayRCU from txt to rst format.
-> arrayRCU.rst is also added in the index.rst file.
-> 
-> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+On Tue, Oct 29, 2019 at 2:30 AM Paul E. McKenney <paulmck at kernel.org> wrote:
 
-Much better, thank you!
+> On Tue, Oct 29, 2019 at 01:54:17AM +0530, madhuparnabhowmik04 at gmail.com
+> wrote:
+> > From: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+> >
+> > This patch converts arrayRCU from txt to rst format.
+> > arrayRCU.rst is also added in the index.rst file.
+> >
+> > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
+>
+> Much better, thank you!
+>
+> I queued this with a small but important change called out below.
+>
+Thank you!
 
-I queued this with a small but important change called out below.
+>
+> > ---
+> >  .../RCU/{arrayRCU.txt => arrayRCU.rst}         | 18 +++++++++++++-----
+> >  Documentation/RCU/index.rst                    |  1 +
+> >  2 files changed, 14 insertions(+), 5 deletions(-)
+> >  rename Documentation/RCU/{arrayRCU.txt => arrayRCU.rst} (91%)
+> >
+> > diff --git a/Documentation/RCU/arrayRCU.txt
+> b/Documentation/RCU/arrayRCU.rst
+> > similarity index 91%
+> > rename from Documentation/RCU/arrayRCU.txt
+> > rename to Documentation/RCU/arrayRCU.rst
+> > index f05a9afb2c39..ed5ae24b196e 100644
+> > --- a/Documentation/RCU/arrayRCU.txt
+> > +++ b/Documentation/RCU/arrayRCU.rst
+> > @@ -1,5 +1,7 @@
+> > -Using RCU to Protect Read-Mostly Arrays
+> > +.. _array_rcu_doc:
+> >
+> > +Using RCU to Protect Read-Mostly Arrays
+> > +=======================================
+> >
+> >  Although RCU is more commonly used to protect linked lists, it can
+> >  also be used to protect arrays.  Three situations are as follows:
+> > @@ -26,6 +28,7 @@ described in the following sections.
+> >
+> >
+> >  Situation 1: Hash Tables
+> > +------------------------
+> >
+> >  Hash tables are often implemented as an array, where each array entry
+> >  has a linked-list hash chain.  Each hash chain can be protected by RCU
+> > @@ -34,6 +37,7 @@ to other array-of-list situations, such as radix trees.
+> >
+> >
+> >  Situation 2: Static Arrays
+> > +--------------------------
+> >
+> >  Static arrays, where the data (rather than a pointer to the data) is
+> >  located in each array element, and where the array is never resized,
+> > @@ -41,11 +45,13 @@ have not been used with RCU.  Rik van Riel
+> recommends using seqlock in
+> >  this situation, which would also have minimal read-side overhead as long
+> >  as updates are rare.
+> >
+> > -Quick Quiz:  Why is it so important that updates be rare when
+> > -          using seqlock?
+> > +Quick Quiz:
+>
+> The above line added trailing whitespace.  I removed it for you, but
+> please check for this on future submissions.  ;-)
+>
+Sure, I will take care of this next time.
 
-> ---
->  .../RCU/{arrayRCU.txt => arrayRCU.rst}         | 18 +++++++++++++-----
->  Documentation/RCU/index.rst                    |  1 +
->  2 files changed, 14 insertions(+), 5 deletions(-)
->  rename Documentation/RCU/{arrayRCU.txt => arrayRCU.rst} (91%)
-> 
-> diff --git a/Documentation/RCU/arrayRCU.txt b/Documentation/RCU/arrayRCU.rst
-> similarity index 91%
-> rename from Documentation/RCU/arrayRCU.txt
-> rename to Documentation/RCU/arrayRCU.rst
-> index f05a9afb2c39..ed5ae24b196e 100644
-> --- a/Documentation/RCU/arrayRCU.txt
-> +++ b/Documentation/RCU/arrayRCU.rst
-> @@ -1,5 +1,7 @@
-> -Using RCU to Protect Read-Mostly Arrays
-> +.. _array_rcu_doc:
->  
-> +Using RCU to Protect Read-Mostly Arrays
-> +=======================================
->  
->  Although RCU is more commonly used to protect linked lists, it can
->  also be used to protect arrays.  Three situations are as follows:
-> @@ -26,6 +28,7 @@ described in the following sections.
->  
->  
->  Situation 1: Hash Tables
-> +------------------------
->  
->  Hash tables are often implemented as an array, where each array entry
->  has a linked-list hash chain.  Each hash chain can be protected by RCU
-> @@ -34,6 +37,7 @@ to other array-of-list situations, such as radix trees.
->  
->  
->  Situation 2: Static Arrays
-> +--------------------------
->  
->  Static arrays, where the data (rather than a pointer to the data) is
->  located in each array element, and where the array is never resized,
-> @@ -41,11 +45,13 @@ have not been used with RCU.  Rik van Riel recommends using seqlock in
->  this situation, which would also have minimal read-side overhead as long
->  as updates are rare.
->  
-> -Quick Quiz:  Why is it so important that updates be rare when
-> -	     using seqlock?
-> +Quick Quiz:  
-
-The above line added trailing whitespace.  I removed it for you, but
-please check for this on future submissions.  ;-)
-
-							Thanx, Paul
-
-> +		Why is it so important that updates be rare when using seqlock?
->  
-> +:ref:`Answer to Quick Quiz <answer_quick_quiz_seqlock>`
->  
->  Situation 3: Resizeable Arrays
-> +------------------------------
->  
->  Use of RCU for resizeable arrays is demonstrated by the grow_ary()
->  function formerly used by the System V IPC code.  The array is used
-> @@ -60,7 +66,7 @@ the remainder of the new, updates the ids->entries pointer to point to
->  the new array, and invokes ipc_rcu_putref() to free up the old array.
->  Note that rcu_assign_pointer() is used to update the ids->entries pointer,
->  which includes any memory barriers required on whatever architecture
-> -you are running on.
-> +you are running on.::
->  
->  	static int grow_ary(struct ipc_ids* ids, int newsize)
->  	{
-> @@ -112,7 +118,7 @@ a simple check suffices.  The pointer to the structure corresponding
->  to the desired IPC object is placed in "out", with NULL indicating
->  a non-existent entry.  After acquiring "out->lock", the "out->deleted"
->  flag indicates whether the IPC object is in the process of being
-> -deleted, and, if not, the pointer is returned.
-> +deleted, and, if not, the pointer is returned.::
->  
->  	struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
->  	{
-> @@ -144,8 +150,10 @@ deleted, and, if not, the pointer is returned.
->  		return out;
->  	}
->  
-> +.. _answer_quick_quiz_seqlock:
->  
->  Answer to Quick Quiz:
-> +	Why is it so important that updates be rare when using seqlock?
->  
->  	The reason that it is important that updates be rare when
->  	using seqlock is that frequent updates can livelock readers.
-> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-> index 5c99185710fa..8d20d44f8fd4 100644
-> --- a/Documentation/RCU/index.rst
-> +++ b/Documentation/RCU/index.rst
-> @@ -7,6 +7,7 @@ RCU concepts
->  .. toctree::
->     :maxdepth: 3
->  
-> +   arrayRCU
->     rcu
->     listRCU
->     UP
-> -- 
-> 2.17.1
-> 
+>
+>                                                         Thanx, Paul
+>
+> > +             Why is it so important that updates be rare when using
+> seqlock?
+> >
+> > +:ref:`Answer to Quick Quiz <answer_quick_quiz_seqlock>`
+> >
+> >  Situation 3: Resizeable Arrays
+> > +------------------------------
+> >
+> >  Use of RCU for resizeable arrays is demonstrated by the grow_ary()
+> >  function formerly used by the System V IPC code.  The array is used
+> > @@ -60,7 +66,7 @@ the remainder of the new, updates the ids->entries
+> pointer to point to
+> >  the new array, and invokes ipc_rcu_putref() to free up the old array.
+> >  Note that rcu_assign_pointer() is used to update the ids->entries
+> pointer,
+> >  which includes any memory barriers required on whatever architecture
+> > -you are running on.
+> > +you are running on.::
+> >
+> >       static int grow_ary(struct ipc_ids* ids, int newsize)
+> >       {
+> > @@ -112,7 +118,7 @@ a simple check suffices.  The pointer to the
+> structure corresponding
+> >  to the desired IPC object is placed in "out", with NULL indicating
+> >  a non-existent entry.  After acquiring "out->lock", the "out->deleted"
+> >  flag indicates whether the IPC object is in the process of being
+> > -deleted, and, if not, the pointer is returned.
+> > +deleted, and, if not, the pointer is returned.::
+> >
+> >       struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
+> >       {
+> > @@ -144,8 +150,10 @@ deleted, and, if not, the pointer is returned.
+> >               return out;
+> >       }
+> >
+> > +.. _answer_quick_quiz_seqlock:
+> >
+> >  Answer to Quick Quiz:
+> > +     Why is it so important that updates be rare when using seqlock?
+> >
+> >       The reason that it is important that updates be rare when
+> >       using seqlock is that frequent updates can livelock readers.
+> > diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+> > index 5c99185710fa..8d20d44f8fd4 100644
+> > --- a/Documentation/RCU/index.rst
+> > +++ b/Documentation/RCU/index.rst
+> > @@ -7,6 +7,7 @@ RCU concepts
+> >  .. toctree::
+> >     :maxdepth: 3
+> >
+> > +   arrayRCU
+> >     rcu
+> >     listRCU
+> >     UP
+> > --
+> > 2.17.1
+> >
+>
+?
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20191029/6ffc7074/attachment.html>
