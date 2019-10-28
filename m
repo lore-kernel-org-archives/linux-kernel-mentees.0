@@ -1,18 +1,17 @@
 From: madhuparnabhowmik04 at gmail.com (madhuparnabhowmik04@gmail.com)
-Date: Mon, 28 Oct 2019 20:49:36 +0530
+Date: Mon, 28 Oct 2019 20:54:49 +0530
 Subject: [Linux-kernel-mentees] [PATCH 2/2] Documentation: RCU: Converted
 	arrayRCU.txt to arrayRCU.rst.
-Message-ID: <20191028151936.27016-1-madhuparnabhowmik04@gmail.com>
+Message-ID: <20191028152449.27264-1-madhuparnabhowmik04@gmail.com>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191028151936.THRmmL6GFiAT4Zpz_w8IJNuLt1yf0UFfkgkP424sci4@z>
+Message-ID: <20191028152449.hEeqckXWf0lzJUrmov-xXEx8Tnii0rvz_iYEec5dk7w@z>
 
 From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
 This patch converts arrayRCU from txt to rst format.
 arrayRCU.rst is also added in the index.rst file.
 
-Signed-off-by: Madhuparna Bhowmik <madhuparnbhowmik04 at gmail.com>
 Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04 at gmail.com>
 ---
  .../RCU/{arrayRCU.txt => arrayRCU.rst}         | 18 ++++++++++++++----
