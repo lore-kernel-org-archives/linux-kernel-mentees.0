@@ -1,53 +1,23 @@
-From: Alexander.Deucher@amd.com (Deucher, Alexander)
-Date: Fri, 1 Nov 2019 18:18:56 +0000
-Subject: [Linux-kernel-mentees] [PATCH] drivers: gpu: drm: amd: amdgpu:
- Add @level to amdgpu_vm_bo_param documentation
-In-Reply-To: <20191101163856.GA13800@localhost.localdomain>
-References: <20191101163856.GA13800@localhost.localdomain>
-Message-ID:
- <BN6SPR00MB1824AA701FC65A47786A30CF7620@BN6SPR00MB182.namprd12.prod.outlook.com>
+From: skhan@linuxfoundation.org (Shuah Khan)
+Date: Fri, 1 Nov 2019 13:39:57 -0600
+Subject: [Linux-kernel-mentees] Documentation task list
+Message-ID: <a7628457-c105-e631-585b-512cad30aeca@linuxfoundation.org>
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20191101181856.WnSktUg2xATTPs-gzZMoFKaUE4ZMRlzdRKEjleo_pEw@z>
+Message-ID: <20191101193957.P9c7rdS1c3cumEOlgZzO3BqY8KwSZ0Kyyu8YzONNu6E@z>
 
-Thanks for the patch.  This has already been fixed.
+Hi Jaskara, Madhuparna and others applying for Spring:
 
-Alex
+When you pick doc warn task from the task list, please verify if it is
+still a problem first. You can do that by building docs.
 
-________________________________
-From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-Sent: Friday, November 1, 2019 12:38 PM
-To: linux-kernel at vger.kernel.org <linux-kernel at vger.kernel.org>
-Cc: linux-kernel-mentees at lists.linuxfoundation.org <linux-kernel-mentees at lists.linuxfoundation.org>; Deucher, Alexander <Alexander.Deucher at amd.com>; Koenig, Christian <Christian.Koenig at amd.com>; Zhou, David(ChunMing) <David1.Zhou at amd.com>; airlied at linux.ie <airlied at linux.ie>; daniel at ffwll.ch <daniel at ffwll.ch>; Kuehling, Felix <Felix.Kuehling at amd.com>; Huang, Ray <Ray.Huang at amd.com>
-Subject: [PATCH] drivers: gpu: drm: amd: amdgpu: Add @level to amdgpu_vm_bo_param documentation
+Also check linux-doc and linux-next trees to see of the problem exists.
 
-The documentation for this function is missing the function parameter
-"level", so add it. This fixes the following warning:
+Also, try to review and test each others patches. When you review and
+test, send Tested-by.
 
-./drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:821:
-        warning: Function parameter or member 'level'
-        not described in 'amdgpu_vm_bo_param'
+Any questions, ask on IRC or send response to this email, so others
+can benefit from the questions you ask me.
 
-Signed-off-by: Jaskaran Singh <jaskaransingh7654321 at gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 5251352f5922..6f6a9be11d84 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -813,6 +813,7 @@ static int amdgpu_vm_clear_bo(struct amdgpu_device *adev,
-  *
-  * @adev: amdgpu_device pointer
-  * @vm: requesting vm
-+ * @level: VMPT level
-  * @bp: resulting BO allocation parameters
-  */
- static void amdgpu_vm_bo_param(struct amdgpu_device *adev, struct amdgpu_vm *vm,
---
-2.21.0
-
--------------- next part --------------
-An HTML attachment was scrubbed...
-URL: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20191101/f71538de/attachment.html>
+thanks,
+-- Shuah
