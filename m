@@ -8,75 +8,78 @@ X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F33A1CA9ECF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  1 Nov 2019 16:05:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E38EACA9ECF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  1 Nov 2019 16:39:03 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C4EAC222CB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  1 Nov 2019 16:05:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B3BFD21734
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  1 Nov 2019 16:39:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcjs1Zci"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C4EAC222CB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nmLI6Xfp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B3BFD21734
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 97C39EF2;
-	Fri,  1 Nov 2019 16:05:00 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 984E8CC4;
+	Fri,  1 Nov 2019 16:39:03 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 07A91E3D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id DF025CBB
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri,  1 Nov 2019 16:04:59 +0000 (UTC)
+	Fri,  1 Nov 2019 16:39:01 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C5056876
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A2147466
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri,  1 Nov 2019 16:04:58 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id l24so6751085pgh.10
+	Fri,  1 Nov 2019 16:39:01 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id a18so3464006plm.10
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 01 Nov 2019 09:04:58 -0700 (PDT)
+	Fri, 01 Nov 2019 09:39:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=i2tLZxbCCHmnoEpOsO7B5VVDeMXO3toEiyrLWd0A38o=;
-	b=hcjs1Zciuo/RTyzZa9A4iY9n/ubXJ+Fb5DeZf+wGjtKZhXalQQPjqr71znd3veulnS
-	X2oTu6EaclBjH+E1XQ/PsJcCPBBEa4YseuLjPZXm2JgqsjNCPkqyvO+fnzrBqOwzaDYL
-	GxBDgmjYDj74tdnnN6jsJqtQHW/qzBnwbVyM1Saqt6pGa1156QtgSV7cfUxw1N51hbPT
-	6B7ZcAFV33q6fL4jxVJ2uuSzcNukM2ujBGw41jgTx86HWQ/AbLoJ5er70djeSRYfibDY
-	/qTCBJJG66Bl6gDKulKI5JJVLj48F6EbttJgn4H2vx1jjkfzOHRyCJqc/18S+viGapNV
-	nUGg==
+	h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=Jop3Dux9Tb3Ov/yAM9BwP8Zp0TbIeSOkimu79QY77es=;
+	b=nmLI6Xfp4DCOu0L6Y0a6idgMpzE/ZCS6AXaU1AX1lBJkSSFLMJJMyEXVX43sofP8BM
+	jpb6lCY0BXFwGWAUBFoseAhpp0yqARTfCsjnqJA9xYnkS6S4ljXOCZi8VT3nbPgFaB+T
+	oaNDXQZ3C6efLroLoE88iCbEW3/60zoCWd7FzL6fpipnd5Z3qm7QW9X3sxlilgIw8TCQ
+	bPkHhNVix3KT43TwaGSq5ed93dFCXDBNHyT8FnTLUNVak1Kbe7sJJnT2r4TUQOPyH4k/
+	rCMS4rR9q2RQWxq2qxEPIWyLtpPP5PK7bDvzBDGOOpf2imwnhteMOjPbLHLvUefhj0XP
+	oa+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
 	:content-disposition:user-agent;
-	bh=i2tLZxbCCHmnoEpOsO7B5VVDeMXO3toEiyrLWd0A38o=;
-	b=OS7dXzvVri8/j5WWYhO9FDGoJ+KIeYTKx+HOrQj7+rT8Et4T0M+WfzGQHjq4RisdW7
-	y++qRNB1IPz04zi3dvMGyzcCEBpOA5a/2sVQmx7JhysPpir+hWDc0/tU1Bz0M33DRUQq
-	tvanUCqj8izI92K+g+KTp1hdoMjNXvgoPyKtH83VT/0++8kzN7XODbzmHudfmz1Gj3Oq
-	0QCFeNvujL44fX3eyQsslPf0c0gxgoaSkvSKYcDhSGDKlFKhHKe3GGYSHct+LmPfsziv
-	2hGuSUHhYNI0XXYQys8nXHV5mRLN0oR7zCe4lzPXmJVE+O7+7D2jNRXNgOs64IGvj+6L
-	doMQ==
-X-Gm-Message-State: APjAAAVBn0W0VwOl6c0kXmT4pTD78GcVUpWXtTIK92TnLHxqa31N7cI5
-	FdAiRbsOI27lgA8yjzbvOhKDZyRbDEf8Xg==
-X-Google-Smtp-Source: APXvYqzyuU2zSVdXw9w/xHdHbDW8XzYjf4ymx6EbXXyY6gD+BnXvdPqnvvPYLfieTeYrESGHkZjzwQ==
-X-Received: by 2002:a17:90a:345:: with SMTP id
-	5mr16379796pjf.121.1572624298080; 
-	Fri, 01 Nov 2019 09:04:58 -0700 (PDT)
+	bh=Jop3Dux9Tb3Ov/yAM9BwP8Zp0TbIeSOkimu79QY77es=;
+	b=etvbfc2FUXqN9TVp/A7tLCR3NRxvuiwskNo09AcGDxEBBf/rUzMNYzd0SFnFOPTB+S
+	Fxsq0E6zGkaHQzjFrfyKfjM8aFHPQNBJL1rvrA2zdzUjWbr7GS7Kr+kEMkwVAvg7L9k7
+	WB4PqqLiqnpohzAuZPDtyzylg1E4FZ7Hh+Zfu94DzFXp1edhnApvfBiExboxLMaDg2W6
+	B4+mmUOGkbQvoERTk+8P4+et9o1Qnt2PlaJ7sje3Nyq3KLd8oBbYYscE4eqD5LkR3ELS
+	91CLASpma4GZj/5T9LyNDSK0P/8OQxVivSMoHLF+PvP95PrghbuTcDUpjk0Q5p/LrV6A
+	IKnQ==
+X-Gm-Message-State: APjAAAV4XKv1IY2I0jjI5B/R9Ja9BcSbPibRIyOnn3x/Tp/Vsv8W0XxQ
+	5oocmdEuQyga7oLvOMlwE30=
+X-Google-Smtp-Source: APXvYqwikFR65XxVHQmNND6nn1yvtJkPX4KG/6KXxiGf1DsHPC00SF/oqM0MfFi79t8JfXr2DGcWdQ==
+X-Received: by 2002:a17:902:161:: with SMTP id
+	88mr12645499plb.253.1572626341042; 
+	Fri, 01 Nov 2019 09:39:01 -0700 (PDT)
 Received: from localhost ([2402:3a80:1386:1fa1:cbdc:7851:d398:f27c])
-	by smtp.gmail.com with ESMTPSA id a21sm5520798pjq.1.2019.11.01.09.04.57
-	for <linux-kernel-mentees@lists.linuxfoundation.org>
+	by smtp.gmail.com with ESMTPSA id
+	m15sm6319676pgv.58.2019.11.01.09.38.59
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 01 Nov 2019 09:04:57 -0700 (PDT)
-Date: Fri, 1 Nov 2019 21:34:54 +0530
+	Fri, 01 Nov 2019 09:39:00 -0700 (PDT)
+Date: Fri, 1 Nov 2019 22:08:56 +0530
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-To: linux-kernel-mentees@lists.linuxfoundation.org
-Message-ID: <20191101160454.GA11565@localhost.localdomain>
+To: linux-kernel@vger.kernel.org
+Message-ID: <20191101163856.GA13800@localhost.localdomain>
 MIME-Version: 1.0
 Content-Disposition: inline
 User-Agent: Mutt/1.12.1 (2019-06-15)
-Subject: [Linux-kernel-mentees] [PATCH] drivers: gpu: amdgpu: Remove @dev
- from amdgpu_gem_prime_export documentation
+Cc: David1.Zhou@amd.com, airlied@linux.ie, Felix.Kuehling@amd.com,
+	ray.huang@amd.com, daniel@ffwll.ch, alexander.deucher@amd.com,
+	linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com
+Subject: [Linux-kernel-mentees] [PATCH] drivers: gpu: drm: amd: amdgpu: Add
+ @level to amdgpu_vm_bo_param documentation
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -92,33 +95,32 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
-Message-ID: <20191101160454.qgabZMAfW3QxwMlnw9rknpa9vnGDICr72Tl0R3rAbRI@z>
+Message-ID: <20191101163856.rlRIqNDn1vE3kJ0MLuoMk7ZAd9YG29GoQwPojeQqYgk@z>
 
-The function does not have a "dev" argument, so remove it from
-the documentation. This fixes the following documentation
-build warning:
+The documentation for this function is missing the function parameter
+"level", so add it. This fixes the following warning:
 
-./drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:335:
-	warning: Excess function parameter 'dev' description in
-	'amdgpu_gem_prime_export'
+./drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:821:
+	warning: Function parameter or member 'level'
+	not described in 'amdgpu_vm_bo_param'
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index 61f108ec2b5c..4917b548b7f2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -321,7 +321,6 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
- 
- /**
-  * amdgpu_gem_prime_export - &drm_driver.gem_prime_export implementation
-- * @dev: DRM device
-  * @gobj: GEM BO
-  * @flags: Flags such as DRM_CLOEXEC and DRM_RDWR.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 5251352f5922..6f6a9be11d84 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -813,6 +813,7 @@ static int amdgpu_vm_clear_bo(struct amdgpu_device *adev,
   *
+  * @adev: amdgpu_device pointer
+  * @vm: requesting vm
++ * @level: VMPT level
+  * @bp: resulting BO allocation parameters
+  */
+ static void amdgpu_vm_bo_param(struct amdgpu_device *adev, struct amdgpu_vm *vm,
 -- 
 2.21.0
 
