@@ -2,82 +2,84 @@ Return-Path: <SRS0=JPIQ=Y2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_FONT_LOW_CONTRAST,HTML_MESSAGE,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MIME_HTML_MOSTLY,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F29E2CA9EC7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Nov 2019 08:31:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED64CA9ED1
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Nov 2019 11:55:36 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ADC652085B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Nov 2019 08:31:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 64BC520862
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Nov 2019 11:55:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vi1B8XAl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADC652085B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UnWMI5MI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 64BC520862
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 6DAEEE36;
-	Sat,  2 Nov 2019 08:31:33 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 363DBE42;
+	Sat,  2 Nov 2019 11:55:36 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id EE2F0E35
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1A370E39
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat,  2 Nov 2019 08:31:32 +0000 (UTC)
+	Sat,  2 Nov 2019 11:55:35 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2B52863D
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5C98314D
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat,  2 Nov 2019 08:31:30 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id m193so10151904oig.0
+	Sat,  2 Nov 2019 11:55:34 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id x28so5587433pfo.6
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 02 Nov 2019 01:31:30 -0700 (PDT)
+	Sat, 02 Nov 2019 04:55:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=mNCNsyudeR0UWipX3UKRbdYacm4SSv2kHoBO44yGmhM=;
-	b=Vi1B8XAlig58iYGUn1XbK/nSm9qLU4aao0/lscEB+QCG1pCxDStBbf/UHnqOJ51cGW
-	tFVc9XREi+k0sW/tt6iE/xt0JjFajDhtQsga6iQzvxqo03b5s7x9N0SZupKZRkN9uQOo
-	fHqW4fHAhh39XQGsDHV0Dd7+uV7x3S+pHILnkJlaHKTguFmUS81Bg4g2Y3hkOPP5dyB7
-	7d7lxfAIwvxJM0gXG0ncFeSrxejhneiMWHDj7aWcpajwHB2TkE+3of+XigTBjgD6iB4O
-	pZFm0dU2LrstB1f7GhS/1WMYzS6IhaKKEmES9W79RSgi2dySaXLPhEpdzihWmKIBxRbr
-	EHhg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7u/iOR7HJqtZD8nquIFJaMlxUwUZ2mligFudZlnPrWU=;
+	b=UnWMI5MI5/gxEd8ihgP7kS9XWpzKHAH7ezgi6KAANGgBemAcX1+iFM6NVxnzuzVjf4
+	tn0H2sMS8+m71lBTPPzsca+MSFg5ULBumVtzCY/TYQcMdGZpkWwQems7wB74qLPNXsaA
+	w2VJremR97MGbNCqbv+mXjqQvVyJz4li6FdYz7V8n9ubDmsrBk5TjeGYWkdTXKEBfDpX
+	NkCQj4P0XePvhDx8OUWuaFwtYeb20FutncuFZvt2sQqJ7By14n8Oo4iy/RIMyk/OWOXX
+	fAF5ALjaQvnr3PWHJ6/1qDqLcqs/hxOg74Y6H4yWVkAjA6eYNDX8lM+zZJjb8ErwBMLV
+	Wfiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=mNCNsyudeR0UWipX3UKRbdYacm4SSv2kHoBO44yGmhM=;
-	b=b7FVoxA8O2Q0DJqadebimFXKvcmWnkT8rN3b/IyLXIY8i8tEaFydfr5S5pkZT42vEY
-	mDOoCp5oM6KC4B0rMtHwTpdIA25WVwgge7U1FcooZmYZ8VNRaH6/1PYhwAYzTNuUNsfh
-	AwfZonFyl2oIFTxGn7KYvlYudbXkUWw5yvNHe2lNW8EKrespbnt3CBSX5jInpGnMcvKa
-	knf05W+cQB+nEgEFBVAadHfUvTLBV8ornYK5JsK77/iP3z12yE4tM1+YcsukFN6jyiTr
-	BTN9TOQKXQ2qH0p4IVvwc4S9eh19KiOtrfYSSWb8pakHvLwpz49YdLn2wtSfgHQ8Dbh/
-	5Y9A==
-X-Gm-Message-State: APjAAAVtARtN06dbtmBBYzAuSj1vxs4cBprmmJYxRK38y3zp6phiuX1B
-	JYser7o7r+S+IOEdWc1udXMLtlIpkcT5HsHRc6I=
-X-Google-Smtp-Source: APXvYqyeODdmId0M3j20ZjUlTzgqJYbOmMNZNvz56QaZ4hfzBfDddIzEZmx9vSFQ7Ga8G61c3ram4OjKEIUcDADLP6c=
-X-Received: by 2002:aca:210e:: with SMTP id 14mr587884oiz.109.1572683488781;
-	Sat, 02 Nov 2019 01:31:28 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7u/iOR7HJqtZD8nquIFJaMlxUwUZ2mligFudZlnPrWU=;
+	b=Oo1w3OMjrWmmbXXvmjqG13RofK85T6vA13jwAKiDut3jGNlaWlEgBHhyfBzgMjfvSO
+	VP/hkcEEAwF0CtlfXh/X2H6YU0VIEdisjqZVU6IK0Muy+sckXNbd6vKGpvtDYPOumcLw
+	CIxc8a/tCjBOqGusgAGA+wQ9TsLWKem/LHNT5NcTq+/DW3CDU1y92BlLKC3v9ReOukzF
+	nM4wM9HPJWyZf/xfXwJFm+5d5VtlVlmvnbfuzvMouOkjpZ5szjlu4kL+6kLcv1gBFhZy
+	UYNouPdG5QtgsV8No0+LpOW60R65WqrZ6JalslIsb/xKn8/XSpyDC4Rmw9VAEr0HCiwR
+	D56A==
+X-Gm-Message-State: APjAAAVLo7ufyXZBIpD+w2UhjYjRxVaSLx5L2P2sO2I739rk37WQGwX1
+	fRb+sUzSFp6tBexmBS1Avr8=
+X-Google-Smtp-Source: APXvYqx5DViiAj0X3gP1IMt5ru+wl84hoOd5wSYkowEoxDjDaT8Br+oaj/Eo+YAEW9+cN7erRjKmRg==
+X-Received: by 2002:a17:90a:d993:: with SMTP id
+	d19mr21679885pjv.26.1572695733504; 
+	Sat, 02 Nov 2019 04:55:33 -0700 (PDT)
+Received: from debian.net.fpt ([2405:4800:58f7:55d9:3e01:3008:2e64:188f])
+	by smtp.gmail.com with ESMTPSA id
+	a12sm5122320pfo.136.2019.11.02.04.55.29
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 02 Nov 2019 04:55:32 -0700 (PDT)
+From: Phong Tran <tranmanphong@gmail.com>
+To: paulmck@kernel.org, josh@joshtriplett.org, rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	joel@joelfernandes.org, corbet@lwn.net, madhuparnabhowmik04@gmail.com
+Date: Sat,  2 Nov 2019 18:55:17 +0700
+Message-Id: <20191102115517.6378-1-tranmanphong@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20191030233128.14997-1-tranmanphong@gmail.com>
-In-Reply-To: <20191030233128.14997-1-tranmanphong@gmail.com>
-From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Date: Sat, 2 Nov 2019 14:01:16 +0530
-Message-ID:
- <CAF65HP0uA-6Gna=QqUnybRO1rqkOgem-Lvezs63n00x3J=qaKQ@mail.gmail.com>
-To: Phong Tran <tranmanphong@gmail.com>
-Cc: paulmck@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-	jiangshanlai@gmail.com, josh@joshtriplett.org,
-	rostedt@goodmis.org, linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org, mathieu.desnoyers@efficios.com,
-	Joel Fernandes <joel@joelfernandes.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Doc: convert whatisRCU.txt to rst
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rcu@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] Doc: Improve format for whatisRCU.rst
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -89,1197 +91,216 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>,
 	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============4845696162972177543=="
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
-Message-ID: <20191102083116.YbFobIkxZPa0ie_lsCUlI_b93oVTYlLzUTecDKXbRQA@z>
+Message-ID: <20191102115517.f-y9XvLblPGcoARlwQofWLwoMVwmQWSirpWgJ4-d-D4@z>
 
---===============4845696162972177543==
-Content-Type: multipart/alternative; boundary="000000000000b16bb8059658e84b"
+Adding crossreference target for some headers, answer of quizzes
 
---000000000000b16bb8059658e84b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+---
+ Documentation/RCU/whatisRCU.rst | 73 +++++++++++++++++++++++----------
+ 1 file changed, 52 insertions(+), 21 deletions(-)
 
-I reviewed this patch, and I have the following suggestions:
-
-On Thu, Oct 31, 2019 at 5:04 AM Phong Tran <tranmanphong@gmail.com> wrote:
-
-> Sync the format with current state of kernel documentation.
-> This change base on rcu-dev branch
-> what changed:
-> - Format bullet lists
-> - Add literal blocks
->
-> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
-> ---
->  Documentation/RCU/index.rst                   |   1 +
->  .../RCU/{whatisRCU.txt =3D> whatisRCU.rst}      | 150 +++++++++++-------
->  2 files changed, 90 insertions(+), 61 deletions(-)
->  rename Documentation/RCU/{whatisRCU.txt =3D> whatisRCU.rst} (91%)
->
-> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-> index 627128c230dc..b9b11481c727 100644
-> --- a/Documentation/RCU/index.rst
-> +++ b/Documentation/RCU/index.rst
-> @@ -8,6 +8,7 @@ RCU concepts
->     :maxdepth: 3
->
->     arrayRCU
-> +   whatisRCU
->     rcu
->     listRCU
->     NMI-RCU
-> diff --git a/Documentation/RCU/whatisRCU.txt
-> b/Documentation/RCU/whatisRCU.rst
-> similarity index 91%
-> rename from Documentation/RCU/whatisRCU.txt
-> rename to Documentation/RCU/whatisRCU.rst
-> index 58ba05c4d97f..70d0e4c21917 100644
-> --- a/Documentation/RCU/whatisRCU.txt
-> +++ b/Documentation/RCU/whatisRCU.rst
-> @@ -1,15 +1,18 @@
-> +.. _rcu_doc:
-> +
->  What is RCU?  --  "Read, Copy, Update"
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Please note that the "What is RCU?" LWN series is an excellent place
->  to start learning about RCU:
->
-> -1.     What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
-> -2.     What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
-> -3.     RCU part 3: the RCU API      http://lwn.net/Articles/264090/
-> -4.     The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
-> -       2010 Big API Table           http://lwn.net/Articles/419086/
-> -5.     The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
-> -       2014 Big API Table           http://lwn.net/Articles/609973/
-> +| 1.   What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
-> +| 2.   What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
-> +| 3.   RCU part 3: the RCU API      http://lwn.net/Articles/264090/
-> +| 4.   The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
-> +|      2010 Big API Table           http://lwn.net/Articles/419086/
-> +| 5.   The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
-> +|      2014 Big API Table           http://lwn.net/Articles/609973/
->
->
-Adding an external link here would be better.
-like this :  `text <link URL>`_
-
- What is RCU?
-> @@ -51,6 +54,7 @@ never need this document anyway.  ;-)
->
->
->
-There is a list of topics that are covered in this documentation.
-Like this:
-
-1. RCU OVERVIEW
-2. WHAT IS RCU=E2=80=99S CORE API?
-3. WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
-4. WHAT IF MY UPDATING THREAD CANNOT BLOCK?
-...
-
- since this document is quite big adding cross-references to the above
-would be helpful.
-
-
->  1.  RCU OVERVIEW
-> +----------------
->
->  The basic idea behind RCU is to split updates into "removal" and
->  "reclamation" phases.  The removal phase removes references to data item=
-s
-> @@ -118,6 +122,7 @@ Read on to learn about how RCU's API makes this easy.
->
->
->  2.  WHAT IS RCU'S CORE API?
-> +---------------------------
->
->  The core RCU API is quite small:
->
-> @@ -166,7 +171,7 @@ synchronize_rcu()
->         read-side critical sections on all CPUs have completed.
->         Note that synchronize_rcu() will -not- necessarily wait for
->         any subsequent RCU read-side critical sections to complete.
-> -       For example, consider the following sequence of events:
-> +       For example, consider the following sequence of events::
->
->                  CPU 0                  CPU 1                 CPU 2
->              ----------------- ------------------------- ---------------
-> @@ -248,13 +253,13 @@ rcu_dereference()
->
->         Common coding practice uses rcu_dereference() to copy an
->         RCU-protected pointer to a local variable, then dereferences
-> -       this local variable, for example as follows:
-> +       this local variable, for example as follows::
->
->                 p =3D rcu_dereference(head.next);
->                 return p->data;
->
->         However, in this case, one could just as easily combine these
-> -       into one statement:
-> +       into one statement::
->
->                 return rcu_dereference(head.next)->data;
->
-> @@ -267,7 +272,7 @@ rcu_dereference()
->
->         Note that the value returned by rcu_dereference() is valid
->         only within the enclosing RCU read-side critical section [1].
-> -       For example, the following is -not- legal:
-> +       For example, the following is -not- legal::
->
->                 rcu_read_lock();
->                 p =3D rcu_dereference(head.next);
-> @@ -315,6 +320,7 @@ rcu_dereference()
->
->  The following diagram shows how each API communicates among the
->  reader, updater, and reclaimer.
-> +::
->
->
->             rcu_assign_pointer()
-> @@ -377,10 +383,12 @@ for specialized uses, but are relatively uncommon.
->
->
->  3.  WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
-> +-----------------------------------------------
->
->  This section shows a simple use of the core RCU API to protect a
->  global pointer to a dynamically allocated structure.  More-typical
->  uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.txt.
-> +::
->
->         struct foo {
->                 int a;
-> @@ -467,13 +475,14 @@ arrayRCU.txt, and NMI-RCU.txt.
->
->
->  4.  WHAT IF MY UPDATING THREAD CANNOT BLOCK?
-> +--------------------------------------------
->
->  In the example above, foo_update_a() blocks until a grace period elapses=
-.
->  This is quite simple, but in some cases one cannot afford to wait so
->  long -- there might be other high-priority work to be done.
->
->  In such cases, one uses call_rcu() rather than synchronize_rcu().
-> -The call_rcu() API is as follows:
-> +The call_rcu() API is as follows::
->
->         void call_rcu(struct rcu_head * head,
->                       void (*func)(struct rcu_head *head));
-> @@ -481,7 +490,7 @@ The call_rcu() API is as follows:
->  This function invokes func(head) after a grace period has elapsed.
->  This invocation might happen from either softirq or process context,
->  so the function is not permitted to block.  The foo struct needs to
-> -have an rcu_head structure added, perhaps as follows:
-> +have an rcu_head structure added, perhaps as follows::
->
->         struct foo {
->                 int a;
-> @@ -490,7 +499,7 @@ have an rcu_head structure added, perhaps as follows:
->                 struct rcu_head rcu;
->         };
->
-> -The foo_update_a() function might then be written as follows:
-> +The foo_update_a() function might then be written as follows::
->
->         /*
->          * Create a new struct foo that is the same as the one currently
-> @@ -520,7 +529,7 @@ The foo_update_a() function might then be written as
-> follows:
->                 call_rcu(&old_fp->rcu, foo_reclaim);
->         }
->
-> -The foo_reclaim() function might appear as follows:
-> +The foo_reclaim() function might appear as follows::
->
->         void foo_reclaim(struct rcu_head *rp)
->         {
-> @@ -552,7 +561,7 @@ o   Use call_rcu() -after- removing a data element
-> from an
->
->  If the callback for call_rcu() is not doing anything more than calling
->  kfree() on the structure, you can use kfree_rcu() instead of call_rcu()
-> -to avoid having to write your own callback:
-> +to avoid having to write your own callback::
->
->         kfree_rcu(old_fp, rcu);
->
-> @@ -560,6 +569,7 @@ Again, see checklist.txt for additional rules
-> governing the use of RCU.
->
->
->  5.  WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
-> +------------------------------------------------
->
->  One of the nice things about RCU is that it has extremely simple "toy"
->  implementations that are a good first step towards understanding the
-> @@ -591,7 +601,7 @@ you allow nested rcu_read_lock() calls, you can
-> deadlock.
->  However, it is probably the easiest implementation to relate to, so is
->  a good starting point.
->
-> -It is extremely simple:
-> +It is extremely simple::
->
->         static DEFINE_RWLOCK(rcu_gp_mutex);
->
-> @@ -614,7 +624,7 @@ It is extremely simple:
->
->  [You can ignore rcu_assign_pointer() and rcu_dereference() without missi=
-ng
->  much.  But here are simplified versions anyway.  And whatever you do,
-> -don't forget about them when submitting patches making use of RCU!]
-> +don't forget about them when submitting patches making use of RCU!]::
->
->         #define rcu_assign_pointer(p, v) \
->         ({ \
-> @@ -659,6 +669,7 @@ This section presents a "toy" RCU implementation that
-> is based on
->  on features such as hotplug CPU and the ability to run in CONFIG_PREEMPT
->  kernels.  The definitions of rcu_dereference() and rcu_assign_pointer()
->  are the same as those shown in the preceding section, so they are omitte=
-d.
-> +::
->
->         void rcu_read_lock(void) { }
->
-> @@ -707,10 +718,12 @@ Quick Quiz #3:  If it is illegal to block in an RCU
-> read-side
->
->
->  6.  ANALOGY WITH READER-WRITER LOCKING
-> +--------------------------------------
->
->  Although RCU can be used in many different ways, a very common use of
->  RCU is analogous to reader-writer locking.  The following unified
->  diff shows how closely related RCU and reader-writer locking can be.
-> +::
->
->         @@ -5,5 +5,5 @@ struct el {
->                 int data;
-> @@ -762,7 +775,7 @@ diff shows how closely related RCU and reader-writer
-> locking can be.
->                 return 0;
->          }
->
-> -Or, for those who prefer a side-by-side listing:
-> +Or, for those who prefer a side-by-side listing::
->
->   1 struct el {                          1 struct el {
->   2   struct list_head list;             2   struct list_head list;
-> @@ -774,40 +787,44 @@ Or, for those who prefer a side-by-side listing:
->   8 rwlock_t listmutex;                  8 spinlock_t listmutex;
->   9 struct el head;                      9 struct el head;
->
-> - 1 int search(long key, int *result)    1 int search(long key, int
-> *result)
-> - 2 {                                    2 {
-> - 3   struct list_head *lp;              3   struct list_head *lp;
-> - 4   struct el *p;                      4   struct el *p;
-> - 5                                      5
-> - 6   read_lock(&listmutex);             6   rcu_read_lock();
-> - 7   list_for_each_entry(p, head, lp) { 7   list_for_each_entry_rcu(p,
-> head, lp) {
-> - 8     if (p->key =3D=3D key) {             8     if (p->key =3D=3D key)=
- {
-> - 9       *result =3D p->data;             9       *result =3D p->data;
-> -10       read_unlock(&listmutex);      10       rcu_read_unlock();
-> -11       return 1;                     11       return 1;
-> -12     }                               12     }
-> -13   }                                 13   }
-> -14   read_unlock(&listmutex);          14   rcu_read_unlock();
-> -15   return 0;                         15   return 0;
-> -16 }                                   16 }
-> -
-> - 1 int delete(long key)                 1 int delete(long key)
-> - 2 {                                    2 {
-> - 3   struct el *p;                      3   struct el *p;
-> - 4                                      4
-> - 5   write_lock(&listmutex);            5   spin_lock(&listmutex);
-> - 6   list_for_each_entry(p, head, lp) { 6   list_for_each_entry(p, head,
-> lp) {
-> - 7     if (p->key =3D=3D key) {             7     if (p->key =3D=3D key)=
- {
-> - 8       list_del(&p->list);            8       list_del_rcu(&p->list);
-> - 9       write_unlock(&listmutex);      9       spin_unlock(&listmutex);
-> -                                       10       synchronize_rcu();
-> -10       kfree(p);                     11       kfree(p);
-> -11       return 1;                     12       return 1;
-> -12     }                               13     }
-> -13   }                                 14   }
-> -14   write_unlock(&listmutex);         15   spin_unlock(&listmutex);
-> -15   return 0;                         16   return 0;
-> -16 }                                   17 }
-> +::
-> +
-> +  1 int search(long key, int *result)    1 int search(long key, int
-> *result)
-> +  2 {                                    2 {
-> +  3   struct list_head *lp;              3   struct list_head *lp;
-> +  4   struct el *p;                      4   struct el *p;
-> +  5                                      5
-> +  6   read_lock(&listmutex);             6   rcu_read_lock();
-> +  7   list_for_each_entry(p, head, lp) { 7   list_for_each_entry_rcu(p,
-> head, lp) {
-> +  8     if (p->key =3D=3D key) {             8     if (p->key =3D=3D key=
-) {
-> +  9       *result =3D p->data;             9       *result =3D p->data;
-> + 10       read_unlock(&listmutex);      10       rcu_read_unlock();
-> + 11       return 1;                     11       return 1;
-> + 12     }                               12     }
-> + 13   }                                 13   }
-> + 14   read_unlock(&listmutex);          14   rcu_read_unlock();
-> + 15   return 0;                         15   return 0;
-> + 16 }                                   16 }
-> +
-> +::
-> +
-> +  1 int delete(long key)                 1 int delete(long key)
-> +  2 {                                    2 {
-> +  3   struct el *p;                      3   struct el *p;
-> +  4                                      4
-> +  5   write_lock(&listmutex);            5   spin_lock(&listmutex);
-> +  6   list_for_each_entry(p, head, lp) { 6   list_for_each_entry(p, head=
-,
-> lp) {
-> +  7     if (p->key =3D=3D key) {             7     if (p->key =3D=3D key=
-) {
-> +  8       list_del(&p->list);            8       list_del_rcu(&p->list);
-> +  9       write_unlock(&listmutex);      9       spin_unlock(&listmutex)=
-;
-> +                                        10       synchronize_rcu();
-> + 10       kfree(p);                     11       kfree(p);
-> + 11       return 1;                     12       return 1;
-> + 12     }                               13     }
-> + 13   }                                 14   }
-> + 14   write_unlock(&listmutex);         15   spin_unlock(&listmutex);
-> + 15   return 0;                         16   return 0;
-> + 16 }                                   17 }
->
->  Either way, the differences are quite small.  Read-side locking moves
->  to rcu_read_lock() and rcu_read_unlock, update-side locking moves from
-> @@ -827,13 +844,14 @@ be used in place of synchronize_rcu().
->
->
->  7.  FULL LIST OF RCU APIs
-> +-------------------------
->
->  The RCU APIs are documented in docbook-format header comments in the
->  Linux-kernel source code, but it helps to have a full list of the
->  APIs, since there does not appear to be a way to categorize them
->  in docbook.  Here is the list, by category.
->
-> -RCU list traversal:
-> +RCU list traversal::
->
->         list_entry_rcu
->         list_first_entry_rcu
-> @@ -854,7 +872,7 @@ RCU list traversal:
->         hlist_bl_first_rcu
->         hlist_bl_for_each_entry_rcu
->
-> -RCU pointer/list update:
-> +RCU pointer/list udate::
->
->         rcu_assign_pointer
->         list_add_rcu
-> @@ -876,7 +894,9 @@ RCU pointer/list update:
->         hlist_bl_del_rcu
->         hlist_bl_set_first_rcu
->
-> -RCU:   Critical sections       Grace period            Barrier
-> +RCU::
-> +
-> +       Critical sections       Grace period            Barrier
->
->         rcu_read_lock           synchronize_net         rcu_barrier
->         rcu_read_unlock         synchronize_rcu
-> @@ -885,7 +905,9 @@ RCU:        Critical sections       Grace period
->       Barrier
->         rcu_dereference_check   kfree_rcu
->         rcu_dereference_protected
->
-> -bh:    Critical sections       Grace period            Barrier
-> +bh::
-> +
-> +       Critical sections       Grace period            Barrier
->
->         rcu_read_lock_bh        call_rcu                rcu_barrier
->         rcu_read_unlock_bh      synchronize_rcu
-> @@ -896,7 +918,9 @@ bh: Critical sections       Grace period
-> Barrier
->         rcu_dereference_bh_protected
->         rcu_read_lock_bh_held
->
-> -sched: Critical sections       Grace period            Barrier
-> +sched::
-> +
-> +       Critical sections       Grace period            Barrier
->
->         rcu_read_lock_sched     call_rcu                rcu_barrier
->         rcu_read_unlock_sched   synchronize_rcu
-> @@ -910,7 +934,9 @@ sched:      Critical sections       Grace period
->       Barrier
->         rcu_read_lock_sched_held
->
->
-> -SRCU:  Critical sections       Grace period            Barrier
-> +SRCU::
-> +
-> +       Critical sections       Grace period            Barrier
->
->         srcu_read_lock          call_srcu               srcu_barrier
->         srcu_read_unlock        synchronize_srcu
-> @@ -918,13 +944,14 @@ SRCU:     Critical sections       Grace period
->       Barrier
->         srcu_dereference_check
->         srcu_read_lock_held
->
-> -SRCU:  Initialization/cleanup
-> +SRCU: Initialization/cleanup::
-> +
->         DEFINE_SRCU
->         DEFINE_STATIC_SRCU
->         init_srcu_struct
->         cleanup_srcu_struct
->
-> -All:  lockdep-checked RCU-protected pointer access
-> +All: lockdep-checked RCU-protected pointer access::
->
->         rcu_access_pointer
->         rcu_dereference_raw
-> @@ -976,6 +1003,7 @@ the right tool for your job.
->
->
->  8.  ANSWERS TO QUICK QUIZZES
-> +----------------------------
->
->  Quick Quiz #1: Why is this argument naive?  How could a deadlock
->                 occur when using this algorithm in a real-world Linux
->
-
-Here, the formatting is not proper. In the rst file, the question should be
-added in the next line after Quick Quiz #1. Currently, half of the question
-appears in bold and the rest half does not.
-Also, as followed in all the documents there should be a cross-reference to
-the answer to this question. As this document is quite big having
-references would be helpful.
-The same applies to all other quick quiz questions in this document and in
-the Answers section as well the questions do not appear properly, half in
-bold text and half not bold.
-
-Apart from this, the other added changes look good!
-
-Thank you
-Madhuparna
-
---=20
-> 2.20.1
->
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees@lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
->
-=E1=90=A7
-
---000000000000b16bb8059658e84b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I reviewed this patch, and I have the following sugge=
-stions:</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, Oct 31, 2019 at 5:04 AM Phong Tran &lt;<a href=3D"mailto:tra=
-nmanphong@gmail.com">tranmanphong@gmail.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">Sync the format with current sta=
-te of kernel documentation.<br>
-This change base on rcu-dev branch<br>
-what changed:<br>
-- Format bullet lists<br>
-- Add literal blocks<br>
-<br>
-Signed-off-by: Phong Tran &lt;<a href=3D"mailto:tranmanphong@gmail.com" tar=
-get=3D"_blank">tranmanphong@gmail.com</a>&gt;<br>
----<br>
-=C2=A0Documentation/RCU/index.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0.../RCU/{whatisRCU.txt =3D&gt; whatisRCU.rst}=C2=A0 =C2=A0 =C2=A0 | 1=
-50 +++++++++++-------<br>
-=C2=A02 files changed, 90 insertions(+), 61 deletions(-)<br>
-=C2=A0rename Documentation/RCU/{whatisRCU.txt =3D&gt; whatisRCU.rst} (91%)<=
-br>
-<br>
-diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst<br>
-index 627128c230dc..b9b11481c727 100644<br>
---- a/Documentation/RCU/index.rst<br>
-+++ b/Documentation/RCU/index.rst<br>
-@@ -8,6 +8,7 @@ RCU concepts<br>
-=C2=A0 =C2=A0 :maxdepth: 3<br>
-<br>
-=C2=A0 =C2=A0 arrayRCU<br>
-+=C2=A0 =C2=A0whatisRCU<br>
-=C2=A0 =C2=A0 rcu<br>
-=C2=A0 =C2=A0 listRCU<br>
-=C2=A0 =C2=A0 NMI-RCU<br>
-diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.=
-rst<br>
-similarity index 91%<br>
-rename from Documentation/RCU/whatisRCU.txt<br>
-rename to Documentation/RCU/whatisRCU.rst<br>
-index 58ba05c4d97f..70d0e4c21917 100644<br>
---- a/Documentation/RCU/whatisRCU.txt<br>
-+++ b/Documentation/RCU/whatisRCU.rst<br>
-@@ -1,15 +1,18 @@<br>
-+.. _rcu_doc:<br>
-+<br>
-=C2=A0What is RCU?=C2=A0 --=C2=A0 &quot;Read, Copy, Update&quot;<br>
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-<br>
-=C2=A0Please note that the &quot;What is RCU?&quot; LWN series is an excell=
-ent place<br>
-=C2=A0to start learning about RCU:<br>
-<br>
--1.=C2=A0 =C2=A0 =C2=A0What is RCU, Fundamentally?=C2=A0 <a href=3D"http://=
-lwn.net/Articles/262464/" rel=3D"noreferrer" target=3D"_blank">http://lwn.n=
-et/Articles/262464/</a><br>
--2.=C2=A0 =C2=A0 =C2=A0What is RCU? Part 2: Usage=C2=A0 =C2=A0<a href=3D"ht=
-tp://lwn.net/Articles/263130/" rel=3D"noreferrer" target=3D"_blank">http://=
-lwn.net/Articles/263130/</a><br>
--3.=C2=A0 =C2=A0 =C2=A0RCU part 3: the RCU API=C2=A0 =C2=A0 =C2=A0 <a href=
-=3D"http://lwn.net/Articles/264090/" rel=3D"noreferrer" target=3D"_blank">h=
-ttp://lwn.net/Articles/264090/</a><br>
--4.=C2=A0 =C2=A0 =C2=A0The RCU API, 2010 Edition=C2=A0 =C2=A0 <a href=3D"ht=
-tp://lwn.net/Articles/418853/" rel=3D"noreferrer" target=3D"_blank">http://=
-lwn.net/Articles/418853/</a><br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A02010 Big API Table=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0<a href=3D"http://lwn.net/Articles/419086/" rel=3D"noreferrer"=
- target=3D"_blank">http://lwn.net/Articles/419086/</a><br>
--5.=C2=A0 =C2=A0 =C2=A0The RCU API, 2014 Edition=C2=A0 =C2=A0 <a href=3D"ht=
-tp://lwn.net/Articles/609904/" rel=3D"noreferrer" target=3D"_blank">http://=
-lwn.net/Articles/609904/</a><br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A02014 Big API Table=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0<a href=3D"http://lwn.net/Articles/609973/" rel=3D"noreferrer"=
- target=3D"_blank">http://lwn.net/Articles/609973/</a><br>
-+| 1.=C2=A0 =C2=A0What is RCU, Fundamentally?=C2=A0 <a href=3D"http://lwn.n=
-et/Articles/262464/" rel=3D"noreferrer" target=3D"_blank">http://lwn.net/Ar=
-ticles/262464/</a><br>
-+| 2.=C2=A0 =C2=A0What is RCU? Part 2: Usage=C2=A0 =C2=A0<a href=3D"http://=
-lwn.net/Articles/263130/" rel=3D"noreferrer" target=3D"_blank">http://lwn.n=
-et/Articles/263130/</a><br>
-+| 3.=C2=A0 =C2=A0RCU part 3: the RCU API=C2=A0 =C2=A0 =C2=A0 <a href=3D"ht=
-tp://lwn.net/Articles/264090/" rel=3D"noreferrer" target=3D"_blank">http://=
-lwn.net/Articles/264090/</a><br>
-+| 4.=C2=A0 =C2=A0The RCU API, 2010 Edition=C2=A0 =C2=A0 <a href=3D"http://=
-lwn.net/Articles/418853/" rel=3D"noreferrer" target=3D"_blank">http://lwn.n=
-et/Articles/418853/</a><br>
-+|=C2=A0 =C2=A0 =C2=A0 2010 Big API Table=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0<a href=3D"http://lwn.net/Articles/419086/" rel=3D"noreferrer" targe=
-t=3D"_blank">http://lwn.net/Articles/419086/</a><br>
-+| 5.=C2=A0 =C2=A0The RCU API, 2014 Edition=C2=A0 =C2=A0 <a href=3D"http://=
-lwn.net/Articles/609904/" rel=3D"noreferrer" target=3D"_blank">http://lwn.n=
-et/Articles/609904/</a><br>
-+|=C2=A0 =C2=A0 =C2=A0 2014 Big API Table=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0<a href=3D"http://lwn.net/Articles/609973/" rel=3D"noreferrer" targe=
-t=3D"_blank">http://lwn.net/Articles/609973/</a><br><br></blockquote><div><=
-br></div><div>Adding an external link here would be better.</div><div>like =
-this :=C2=A0=C2=A0<span class=3D"gmail-s" style=3D"font-family:Menlo,Monaco=
-,Consolas,&quot;Courier New&quot;,monospace;font-size:13px;box-sizing:borde=
-r-box;color:rgb(64,112,160)">`text=C2=A0</span><span class=3D"gmail-si" sty=
-le=3D"font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;f=
-ont-size:13px;box-sizing:border-box;color:rgb(112,160,208);font-style:itali=
-c">&lt;link URL&gt;</span><span class=3D"gmail-s" style=3D"font-family:Menl=
-o,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:13px;box-sizi=
-ng:border-box;color:rgb(64,112,160)">`_</span>=C2=A0</div><div><br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0What is RCU?<br>
-@@ -51,6 +54,7 @@ never need this document anyway.=C2=A0 ;-)<br>
-<br>
-<br></blockquote><div><br></div><div>There is a list of topics that are cov=
-ered in this documentation.</div><div>Like this:</div><div><br></div><div>1=
-. RCU OVERVIEW<br>2. WHAT IS RCU=E2=80=99S CORE API?<br>3. WHAT ARE SOME EX=
-AMPLE USES OF CORE RCU API?<br>4. WHAT IF MY UPDATING THREAD CANNOT BLOCK?<=
-br></div><div>...</div><div><br></div><div>=C2=A0since this document is qui=
-te big adding cross-references to the above would be helpful.</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A01.=C2=A0 RCU OVERVIEW<br>
-+----------------<br>
-<br>
-=C2=A0The basic idea behind RCU is to split updates into &quot;removal&quot=
-; and<br>
-=C2=A0&quot;reclamation&quot; phases.=C2=A0 The removal phase removes refer=
-ences to data items<br>
-@@ -118,6 +122,7 @@ Read on to learn about how RCU&#39;s API makes this eas=
-y.<br>
-<br>
-<br>
-=C2=A02.=C2=A0 WHAT IS RCU&#39;S CORE API?<br>
-+---------------------------<br>
-<br>
-=C2=A0The core RCU API is quite small:<br>
-<br>
-@@ -166,7 +171,7 @@ synchronize_rcu()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 read-side critical sections on all CPUs have co=
-mpleted.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Note that synchronize_rcu() will -not- necessar=
-ily wait for<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 any subsequent RCU read-side critical sections =
-to complete.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0For example, consider the following sequence of=
- events:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0For example, consider the following sequence of=
- events::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0CPU 0=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPU 1=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0CPU 2<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0----------------- ---------=
----------------- ---------------<br>
-@@ -248,13 +253,13 @@ rcu_dereference()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Common coding practice uses rcu_dereference() t=
-o copy an<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 RCU-protected pointer to a local variable, then=
- dereferences<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0this local variable, for example as follows:<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0this local variable, for example as follows::<b=
-r>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D rcu_dereferen=
-ce(head.next);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return p-&gt;data;<=
-br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 However, in this case, one could just as easily=
- combine these<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0into one statement:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0into one statement::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return rcu_derefere=
-nce(head.next)-&gt;data;<br>
-<br>
-@@ -267,7 +272,7 @@ rcu_dereference()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Note that the value returned by rcu_dereference=
-() is valid<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 only within the enclosing RCU read-side critica=
-l section [1].<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0For example, the following is -not- legal:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0For example, the following is -not- legal::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_lock();<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D rcu_dereferen=
-ce(head.next);<br>
-@@ -315,6 +320,7 @@ rcu_dereference()<br>
-<br>
-=C2=A0The following diagram shows how each API communicates among the<br>
-=C2=A0reader, updater, and reclaimer.<br>
-+::<br>
-<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_assign_pointer()<br>
-@@ -377,10 +383,12 @@ for specialized uses, but are relatively uncommon.<br=
->
-<br>
-<br>
-=C2=A03.=C2=A0 WHAT ARE SOME EXAMPLE USES OF CORE RCU API?<br>
-+-----------------------------------------------<br>
-<br>
-=C2=A0This section shows a simple use of the core RCU API to protect a<br>
-=C2=A0global pointer to a dynamically allocated structure.=C2=A0 More-typic=
-al<br>
-=C2=A0uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.tx=
-t.<br>
-+::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct foo {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int a;<br>
-@@ -467,13 +475,14 @@ arrayRCU.txt, and NMI-RCU.txt.<br>
-<br>
-<br>
-=C2=A04.=C2=A0 WHAT IF MY UPDATING THREAD CANNOT BLOCK?<br>
-+--------------------------------------------<br>
-<br>
-=C2=A0In the example above, foo_update_a() blocks until a grace period elap=
-ses.<br>
-=C2=A0This is quite simple, but in some cases one cannot afford to wait so<=
-br>
-=C2=A0long -- there might be other high-priority work to be done.<br>
-<br>
-=C2=A0In such cases, one uses call_rcu() rather than synchronize_rcu().<br>
--The call_rcu() API is as follows:<br>
-+The call_rcu() API is as follows::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 void call_rcu(struct rcu_head * head,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 void (*func)(struct rcu_head *head));<br>
-@@ -481,7 +490,7 @@ The call_rcu() API is as follows:<br>
-=C2=A0This function invokes func(head) after a grace period has elapsed.<br=
->
-=C2=A0This invocation might happen from either softirq or process context,<=
-br>
-=C2=A0so the function is not permitted to block.=C2=A0 The foo struct needs=
- to<br>
--have an rcu_head structure added, perhaps as follows:<br>
-+have an rcu_head structure added, perhaps as follows::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct foo {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int a;<br>
-@@ -490,7 +499,7 @@ have an rcu_head structure added, perhaps as follows:<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct rcu_head rcu=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
-<br>
--The foo_update_a() function might then be written as follows:<br>
-+The foo_update_a() function might then be written as follows::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Create a new struct foo that is the sam=
-e as the one currently<br>
-@@ -520,7 +529,7 @@ The foo_update_a() function might then be written as fo=
-llows:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 call_rcu(&amp;old_f=
-p-&gt;rcu, foo_reclaim);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
--The foo_reclaim() function might appear as follows:<br>
-+The foo_reclaim() function might appear as follows::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 void foo_reclaim(struct rcu_head *rp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-@@ -552,7 +561,7 @@ o=C2=A0 =C2=A0Use call_rcu() -after- removing a data el=
-ement from an<br>
-<br>
-=C2=A0If the callback for call_rcu() is not doing anything more than callin=
-g<br>
-=C2=A0kfree() on the structure, you can use kfree_rcu() instead of call_rcu=
-()<br>
--to avoid having to write your own callback:<br>
-+to avoid having to write your own callback::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 kfree_rcu(old_fp, rcu);<br>
-<br>
-@@ -560,6 +569,7 @@ Again, see checklist.txt for additional rules governing=
- the use of RCU.<br>
-<br>
-<br>
-=C2=A05.=C2=A0 WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?<br>
-+------------------------------------------------<br>
-<br>
-=C2=A0One of the nice things about RCU is that it has extremely simple &quo=
-t;toy&quot;<br>
-=C2=A0implementations that are a good first step towards understanding the<=
-br>
-@@ -591,7 +601,7 @@ you allow nested rcu_read_lock() calls, you can deadloc=
-k.<br>
-=C2=A0However, it is probably the easiest implementation to relate to, so i=
-s<br>
-=C2=A0a good starting point.<br>
-<br>
--It is extremely simple:<br>
-+It is extremely simple::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 static DEFINE_RWLOCK(rcu_gp_mutex);<br>
-<br>
-@@ -614,7 +624,7 @@ It is extremely simple:<br>
-<br>
-=C2=A0[You can ignore rcu_assign_pointer() and rcu_dereference() without mi=
-ssing<br>
-=C2=A0much.=C2=A0 But here are simplified versions anyway.=C2=A0 And whatev=
-er you do,<br>
--don&#39;t forget about them when submitting patches making use of RCU!]<br=
->
-+don&#39;t forget about them when submitting patches making use of RCU!]::<=
-br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 #define rcu_assign_pointer(p, v) \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ({ \<br>
-@@ -659,6 +669,7 @@ This section presents a &quot;toy&quot; RCU implementat=
-ion that is based on<br>
-=C2=A0on features such as hotplug CPU and the ability to run in CONFIG_PREE=
-MPT<br>
-=C2=A0kernels.=C2=A0 The definitions of rcu_dereference() and rcu_assign_po=
-inter()<br>
-=C2=A0are the same as those shown in the preceding section, so they are omi=
-tted.<br>
-+::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 void rcu_read_lock(void) { }<br>
-<br>
-@@ -707,10 +718,12 @@ Quick Quiz #3:=C2=A0 If it is illegal to block in an =
-RCU read-side<br>
-<br>
-<br>
-=C2=A06.=C2=A0 ANALOGY WITH READER-WRITER LOCKING<br>
-+--------------------------------------<br>
-<br>
-=C2=A0Although RCU can be used in many different ways, a very common use of=
-<br>
-=C2=A0RCU is analogous to reader-writer locking.=C2=A0 The following unifie=
-d<br>
-=C2=A0diff shows how closely related RCU and reader-writer locking can be.<=
-br>
-+::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 @@ -5,5 +5,5 @@ struct el {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int data;<br>
-@@ -762,7 +775,7 @@ diff shows how closely related RCU and reader-writer lo=
-cking can be.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--Or, for those who prefer a side-by-side listing:<br>
-+Or, for those who prefer a side-by-side listing::<br>
-<br>
-=C2=A0 1 struct el {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1 struct el {<br>
-=C2=A0 2=C2=A0 =C2=A0struct list_head list;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A02=C2=A0 =C2=A0struct list_head list;<br>
-@@ -774,40 +787,44 @@ Or, for those who prefer a side-by-side listing:<br>
-=C2=A0 8 rwlock_t listmutex;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 8 spinlock_t listmutex;<br>
-=C2=A0 9 struct el head;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 9 struct el head;<br>
-<br>
-- 1 int search(long key, int *result)=C2=A0 =C2=A0 1 int search(long key, i=
-nt *result)<br>
-- 2 {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 {<br>
-- 3=C2=A0 =C2=A0struct list_head *lp;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 3=C2=A0 =C2=A0struct list_head *lp;<br>
-- 4=C2=A0 =C2=A0struct el *p;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 4=C2=A0 =C2=A0struct el *p;<br>
-- 5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 5<br>
-- 6=C2=A0 =C2=A0read_lock(&amp;listmutex);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A06=C2=A0 =C2=A0rcu_read_lock();<br>
-- 7=C2=A0 =C2=A0list_for_each_entry(p, head, lp) { 7=C2=A0 =C2=A0list_for_e=
-ach_entry_rcu(p, head, lp) {<br>
-- 8=C2=A0 =C2=A0 =C2=A0if (p-&gt;key =3D=3D key) {=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A08=C2=A0 =C2=A0 =C2=A0if (p-&gt;key =3D=3D key) {<br=
->
-- 9=C2=A0 =C2=A0 =C2=A0 =C2=A0*result =3D p-&gt;data;=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A09=C2=A0 =C2=A0 =C2=A0 =C2=A0*result =3D p-&gt;da=
-ta;<br>
--10=C2=A0 =C2=A0 =C2=A0 =C2=A0read_unlock(&amp;listmutex);=C2=A0 =C2=A0 =C2=
-=A0 10=C2=A0 =C2=A0 =C2=A0 =C2=A0rcu_read_unlock();<br>
--11=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A011=C2=A0 =C2=A0 =C2=A0 =C2=A0retur=
-n 1;<br>
--12=C2=A0 =C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A012=C2=A0 =C2=
-=A0 =C2=A0}<br>
--13=C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A013=C2=A0 =C2=
-=A0}<br>
--14=C2=A0 =C2=A0read_unlock(&amp;listmutex);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 14=C2=A0 =C2=A0rcu_read_unlock();<br>
--15=C2=A0 =C2=A0return 0;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A015=C2=A0 =C2=A0return 0;<br>
--16 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A016 }<br>
--<br>
-- 1 int delete(long key)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A01 int delete(long key)<br>
-- 2 {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 {<br>
-- 3=C2=A0 =C2=A0struct el *p;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3=C2=A0 =C2=A0struct el *p;<br>
-- 4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 4<br>
-- 5=C2=A0 =C2=A0write_lock(&amp;listmutex);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 5=C2=A0 =C2=A0spin_lock(&amp;listmutex);<br>
-- 6=C2=A0 =C2=A0list_for_each_entry(p, head, lp) { 6=C2=A0 =C2=A0list_for_e=
-ach_entry(p, head, lp) {<br>
-- 7=C2=A0 =C2=A0 =C2=A0if (p-&gt;key =3D=3D key) {=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A07=C2=A0 =C2=A0 =C2=A0if (p-&gt;key =3D=3D key) {<br=
->
-- 8=C2=A0 =C2=A0 =C2=A0 =C2=A0list_del(&amp;p-&gt;list);=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 8=C2=A0 =C2=A0 =C2=A0 =C2=A0list_del_rcu(&amp;p-&g=
-t;list);<br>
-- 9=C2=A0 =C2=A0 =C2=A0 =C2=A0write_unlock(&amp;listmutex);=C2=A0 =C2=A0 =
-=C2=A0 9=C2=A0 =C2=A0 =C2=A0 =C2=A0spin_unlock(&amp;listmutex);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A010=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0synchronize_rcu();<br>
--10=C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(p);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A011=C2=A0 =C2=A0 =C2=A0 =C2=A0kfree=
-(p);<br>
--11=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A012=C2=A0 =C2=A0 =C2=A0 =C2=A0retur=
-n 1;<br>
--12=C2=A0 =C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A013=C2=A0 =C2=
-=A0 =C2=A0}<br>
--13=C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A014=C2=A0 =C2=
-=A0}<br>
--14=C2=A0 =C2=A0write_unlock(&amp;listmutex);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A015=C2=A0 =C2=A0spin_unlock(&amp;listmutex);<br>
--15=C2=A0 =C2=A0return 0;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A016=C2=A0 =C2=A0return 0;<br>
--16 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A017 }<br>
-+::<br>
-+<br>
-+=C2=A0 1 int search(long key, int *result)=C2=A0 =C2=A0 1 int search(long =
-key, int *result)<br>
-+=C2=A0 2 {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 {<br>
-+=C2=A0 3=C2=A0 =C2=A0struct list_head *lp;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 3=C2=A0 =C2=A0struct list_head *lp;<br>
-+=C2=A0 4=C2=A0 =C2=A0struct el *p;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 4=C2=A0 =C2=A0struct el *p;<br>
-+=C2=A0 5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 5<br>
-+=C2=A0 6=C2=A0 =C2=A0read_lock(&amp;listmutex);=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A06=C2=A0 =C2=A0rcu_read_lock();<br>
-+=C2=A0 7=C2=A0 =C2=A0list_for_each_entry(p, head, lp) { 7=C2=A0 =C2=A0list=
-_for_each_entry_rcu(p, head, lp) {<br>
-+=C2=A0 8=C2=A0 =C2=A0 =C2=A0if (p-&gt;key =3D=3D key) {=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A08=C2=A0 =C2=A0 =C2=A0if (p-&gt;key =3D=3D ke=
-y) {<br>
-+=C2=A0 9=C2=A0 =C2=A0 =C2=A0 =C2=A0*result =3D p-&gt;data;=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A09=C2=A0 =C2=A0 =C2=A0 =C2=A0*result =3D p=
--&gt;data;<br>
-+ 10=C2=A0 =C2=A0 =C2=A0 =C2=A0read_unlock(&amp;listmutex);=C2=A0 =C2=A0 =
-=C2=A0 10=C2=A0 =C2=A0 =C2=A0 =C2=A0rcu_read_unlock();<br>
-+ 11=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A011=C2=A0 =C2=A0 =C2=A0 =C2=A0retur=
-n 1;<br>
-+ 12=C2=A0 =C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A012=C2=A0 =C2=
-=A0 =C2=A0}<br>
-+ 13=C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A013=C2=A0 =C2=
-=A0}<br>
-+ 14=C2=A0 =C2=A0read_unlock(&amp;listmutex);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 14=C2=A0 =C2=A0rcu_read_unlock();<br>
-+ 15=C2=A0 =C2=A0return 0;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A015=C2=A0 =C2=A0return 0;<br>
-+ 16 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A016 }<br>
-+<br>
-+::<br>
-+<br>
-+=C2=A0 1 int delete(long key)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A01 int delete(long key)<br>
-+=C2=A0 2 {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 {<br>
-+=C2=A0 3=C2=A0 =C2=A0struct el *p;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3=C2=A0 =C2=A0struct el *p;<br>
-+=C2=A0 4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 4<br>
-+=C2=A0 5=C2=A0 =C2=A0write_lock(&amp;listmutex);=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 5=C2=A0 =C2=A0spin_lock(&amp;listmutex);<br>
-+=C2=A0 6=C2=A0 =C2=A0list_for_each_entry(p, head, lp) { 6=C2=A0 =C2=A0list=
-_for_each_entry(p, head, lp) {<br>
-+=C2=A0 7=C2=A0 =C2=A0 =C2=A0if (p-&gt;key =3D=3D key) {=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A07=C2=A0 =C2=A0 =C2=A0if (p-&gt;key =3D=3D ke=
-y) {<br>
-+=C2=A0 8=C2=A0 =C2=A0 =C2=A0 =C2=A0list_del(&amp;p-&gt;list);=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 8=C2=A0 =C2=A0 =C2=A0 =C2=A0list_del_rcu(&amp;=
-p-&gt;list);<br>
-+=C2=A0 9=C2=A0 =C2=A0 =C2=A0 =C2=A0write_unlock(&amp;listmutex);=C2=A0 =C2=
-=A0 =C2=A0 9=C2=A0 =C2=A0 =C2=A0 =C2=A0spin_unlock(&amp;listmutex);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 10=C2=A0=
- =C2=A0 =C2=A0 =C2=A0synchronize_rcu();<br>
-+ 10=C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(p);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A011=C2=A0 =C2=A0 =C2=A0 =C2=A0kfree=
-(p);<br>
-+ 11=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A012=C2=A0 =C2=A0 =C2=A0 =C2=A0retur=
-n 1;<br>
-+ 12=C2=A0 =C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A013=C2=A0 =C2=
-=A0 =C2=A0}<br>
-+ 13=C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A014=C2=A0 =C2=
-=A0}<br>
-+ 14=C2=A0 =C2=A0write_unlock(&amp;listmutex);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A015=C2=A0 =C2=A0spin_unlock(&amp;listmutex);<br>
-+ 15=C2=A0 =C2=A0return 0;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A016=C2=A0 =C2=A0return 0;<br>
-+ 16 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A017 }<br>
-<br>
-=C2=A0Either way, the differences are quite small.=C2=A0 Read-side locking =
-moves<br>
-=C2=A0to rcu_read_lock() and rcu_read_unlock, update-side locking moves fro=
-m<br>
-@@ -827,13 +844,14 @@ be used in place of synchronize_rcu().<br>
-<br>
-<br>
-=C2=A07.=C2=A0 FULL LIST OF RCU APIs<br>
-+-------------------------<br>
-<br>
-=C2=A0The RCU APIs are documented in docbook-format header comments in the<=
-br>
-=C2=A0Linux-kernel source code, but it helps to have a full list of the<br>
-=C2=A0APIs, since there does not appear to be a way to categorize them<br>
-=C2=A0in docbook.=C2=A0 Here is the list, by category.<br>
-<br>
--RCU list traversal:<br>
-+RCU list traversal::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 list_entry_rcu<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 list_first_entry_rcu<br>
-@@ -854,7 +872,7 @@ RCU list traversal:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hlist_bl_first_rcu<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hlist_bl_for_each_entry_rcu<br>
-<br>
--RCU pointer/list update:<br>
-+RCU pointer/list udate::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_assign_pointer<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 list_add_rcu<br>
-@@ -876,7 +894,9 @@ RCU pointer/list update:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hlist_bl_del_rcu<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hlist_bl_set_first_rcu<br>
-<br>
--RCU:=C2=A0 =C2=A0Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Grace period=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-+RCU::<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Gra=
-ce period=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_lock=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0synchronize_net=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rcu_barrier<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_unlock=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0synchronize_rcu<br>
-@@ -885,7 +905,9 @@ RCU:=C2=A0 =C2=A0 =C2=A0 =C2=A0 Critical sections=C2=A0=
- =C2=A0 =C2=A0 =C2=A0Grace period=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-Barrier<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_dereference_check=C2=A0 =C2=A0kfree_rcu<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_dereference_protected<br>
-<br>
--bh:=C2=A0 =C2=A0 Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Grace period=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-+bh::<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Gra=
-ce period=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_lock_bh=C2=A0 =C2=A0 =C2=A0 =C2=A0 cal=
-l_rcu=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_barrier<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_unlock_bh=C2=A0 =C2=A0 =C2=A0 synchron=
-ize_rcu<br>
-@@ -896,7 +918,9 @@ bh: Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Grace p=
-eriod=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_dereference_bh_protected<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_lock_bh_held<br>
-<br>
--sched: Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Grace period=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-+sched::<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Gra=
-ce period=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_lock_sched=C2=A0 =C2=A0 =C2=A0call_rcu=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_barrier<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_unlock_sched=C2=A0 =C2=A0synchronize_r=
-cu<br>
-@@ -910,7 +934,9 @@ sched:=C2=A0 =C2=A0 =C2=A0 Critical sections=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0Grace period=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barr=
-ier<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_read_lock_sched_held<br>
-<br>
-<br>
--SRCU:=C2=A0 Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Grace period=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-+SRCU::<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0Critical sections=C2=A0 =C2=A0 =C2=A0 =C2=A0Gra=
-ce period=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barrier<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcu_read_lock=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 call_srcu=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0srcu_ba=
-rrier<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcu_read_unlock=C2=A0 =C2=A0 =C2=A0 =C2=A0 syn=
-chronize_srcu<br>
-@@ -918,13 +944,14 @@ SRCU:=C2=A0 =C2=A0 =C2=A0Critical sections=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0Grace period=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Barr=
-ier<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcu_dereference_check<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcu_read_lock_held<br>
-<br>
--SRCU:=C2=A0 Initialization/cleanup<br>
-+SRCU: Initialization/cleanup::<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 DEFINE_SRCU<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 DEFINE_STATIC_SRCU<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 init_srcu_struct<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cleanup_srcu_struct<br>
-<br>
--All:=C2=A0 lockdep-checked RCU-protected pointer access<br>
-+All: lockdep-checked RCU-protected pointer access::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_access_pointer<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rcu_dereference_raw<br>
-@@ -976,6 +1003,7 @@ the right tool for your job.<br>
-<br>
-<br>
-=C2=A08.=C2=A0 ANSWERS TO QUICK QUIZZES<br>
-+----------------------------<br>
-<br>
-=C2=A0Quick Quiz #1: Why is this argument naive?=C2=A0 How could a deadlock=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 occur when using th=
-is algorithm in a real-world Linux<br></blockquote><div><br></div><div>Here=
-, the formatting is not proper. In the rst file, the question should be add=
-ed in the next line after Quick Quiz #1. Currently, half of the question ap=
-pears in bold and the rest half does not.</div><div>Also, as followed in al=
-l the documents there should be a cross-reference to the answer to this que=
-stion. As this document is quite big having references would be helpful.</d=
-iv><div>The same applies to all other quick quiz questions in this document=
- and in the Answers section as well the questions do not appear properly, h=
-alf in bold text and half not bold.</div><div><br></div><div>Apart from thi=
-s, the other added changes look good!</div><div><br></div><div>Thank you</d=
-iv><div>Madhuparna</div><div><br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
--- <br>
-2.20.1<br>
-<br>
-_______________________________________________<br>
-Linux-kernel-mentees mailing list<br>
-<a href=3D"mailto:Linux-kernel-mentees@lists.linuxfoundation.org" target=3D=
-"_blank">Linux-kernel-mentees@lists.linuxfoundation.org</a><br>
-<a href=3D"https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-=
-mentees" rel=3D"noreferrer" target=3D"_blank">https://lists.linuxfoundation=
-.org/mailman/listinfo/linux-kernel-mentees</a><br>
-</blockquote></div></div><div hspace=3D"streak-pt-mark" style=3D"max-height=
-:1px"><img alt=3D"" style=3D"width:0px;max-height:0px;overflow:hidden" src=
-=3D"https://mailfoogae.appspot.com/t?sender=3DabWFkaHVwYXJuYWJob3dtaWswNEBn=
-bWFpbC5jb20%3D&amp;type=3Dzerocontent&amp;guid=3D8fec4e47-6422-4486-a303-a3=
-0685f7265d"><font color=3D"#ffffff" size=3D"1">=E1=90=A7</font></div>
-
---000000000000b16bb8059658e84b--
-
---===============4845696162972177543==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index 70d0e4c21917..ae40c8bcc56c 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -1,4 +1,4 @@
+-.. _rcu_doc:
++.. _whatisrcu_doc:
+ 
+ What is RCU?  --  "Read, Copy, Update"
+ ======================================
+@@ -27,14 +27,21 @@ the experience has been that different people must take different paths
+ to arrive at an understanding of RCU.  This document provides several
+ different paths, as follows:
+ 
+-1.	RCU OVERVIEW
+-2.	WHAT IS RCU'S CORE API?
+-3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+-4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+-5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+-6.	ANALOGY WITH READER-WRITER LOCKING
+-7.	FULL LIST OF RCU APIs
+-8.	ANSWERS TO QUICK QUIZZES
++:ref:`1.	RCU OVERVIEW <1_whatisRCU>`
++
++:ref:`2.	WHAT IS RCU'S CORE API? <2_whatisRCU>`
++
++:ref:`3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API? <3_whatisRCU>`
++
++:ref:`4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK? <4_whatisRCU>`
++
++:ref:`5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU? <5_whatisRCU>`
++
++:ref:`6.	ANALOGY WITH READER-WRITER LOCKING <6_whatisRCU>`
++
++:ref:`7.	FULL LIST OF RCU APIs <7_whatisRCU>`
++
++:ref:`8.	ANSWERS TO QUICK QUIZZES <8_whatisRCU>`
+ 
+ People who prefer starting with a conceptual overview should focus on
+ Section 1, though most readers will profit by reading this section at
+@@ -52,6 +59,7 @@ everything, feel free to read the whole thing -- but if you are really
+ that type of person, you have perused the source code and will therefore
+ never need this document anyway.  ;-)
+ 
++.. _1_whatisRCU:
+ 
+ 1.  RCU OVERVIEW
+ ----------------
+@@ -120,6 +128,7 @@ So how the heck can a reclaimer tell when a reader is done, given
+ that readers are not doing any sort of synchronization operations???
+ Read on to learn about how RCU's API makes this easy.
+ 
++.. _2_whatisRCU:
+ 
+ 2.  WHAT IS RCU'S CORE API?
+ ---------------------------
+@@ -381,13 +390,15 @@ c.	RCU applied to scheduler and interrupt/NMI-handler tasks.
+ Again, most uses will be of (a).  The (b) and (c) cases are important
+ for specialized uses, but are relatively uncommon.
+ 
++.. _3_whatisRCU:
+ 
+ 3.  WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+ -----------------------------------------------
+ 
+ This section shows a simple use of the core RCU API to protect a
+ global pointer to a dynamically allocated structure.  More-typical
+-uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.txt.
++uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
++:ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst <NMI_rcu_doc>`.
+ ::
+ 
+ 	struct foo {
+@@ -470,9 +481,11 @@ o	Use synchronize_rcu() -after- removing a data element from an
+ 	data item.
+ 
+ See checklist.txt for additional rules to follow when using RCU.
+-And again, more-typical uses of RCU may be found in listRCU.txt,
+-arrayRCU.txt, and NMI-RCU.txt.
++And again, more-typical uses of RCU may be found in :ref:`listRCU.rst
++<list_rcu_doc>`, :ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst
++<NMI_rcu_doc>`.
+ 
++.. _4_whatisRCU:
+ 
+ 4.  WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+ --------------------------------------------
+@@ -567,6 +580,7 @@ to avoid having to write your own callback::
+ 
+ Again, see checklist.txt for additional rules governing the use of RCU.
+ 
++.. _5_whatisRCU:
+ 
+ 5.  WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+ ------------------------------------------------
+@@ -657,10 +671,12 @@ that the only thing that can block rcu_read_lock() is a synchronize_rcu().
+ But synchronize_rcu() does not acquire any locks while holding rcu_gp_mutex,
+ so there can be no deadlock cycle.
+ 
+-Quick Quiz #1:	Why is this argument naive?  How could a deadlock
++Quick Quiz #1:
++		Why is this argument naive?  How could a deadlock
+ 		occur when using this algorithm in a real-world Linux
+ 		kernel?  How could this deadlock be avoided?
+ 
++:ref:`Answers to Quick Quiz <8_whatisRCU>`
+ 
+ 5B.  "TOY" EXAMPLE #2: CLASSIC RCU
+ 
+@@ -709,13 +725,20 @@ synchronize_rcu().  Once synchronize_rcu() returns, we are guaranteed
+ that there are no RCU read-side critical sections holding a reference
+ to that data item, so we can safely reclaim it.
+ 
+-Quick Quiz #2:	Give an example where Classic RCU's read-side
++Quick Quiz #2:
++		Give an example where Classic RCU's read-side
+ 		overhead is -negative-.
+ 
+-Quick Quiz #3:  If it is illegal to block in an RCU read-side
++:ref:`Answers to Quick Quiz <8_whatisRCU>`
++
++Quick Quiz #3:
++		If it is illegal to block in an RCU read-side
+ 		critical section, what the heck do you do in
+ 		PREEMPT_RT, where normal spinlocks can block???
+ 
++:ref:`Answers to Quick Quiz <8_whatisRCU>`
++
++.. _6_whatisRCU:
+ 
+ 6.  ANALOGY WITH READER-WRITER LOCKING
+ --------------------------------------
+@@ -842,6 +865,7 @@ delete() can now block.  If this is a problem, there is a callback-based
+ mechanism that never blocks, namely call_rcu() or kfree_rcu(), that can
+ be used in place of synchronize_rcu().
+ 
++.. _7_whatisRCU:
+ 
+ 7.  FULL LIST OF RCU APIs
+ -------------------------
+@@ -1001,16 +1025,19 @@ g.	Otherwise, use RCU.
+ Of course, this all assumes that you have determined that RCU is in fact
+ the right tool for your job.
+ 
++.. _8_whatisRCU:
+ 
+ 8.  ANSWERS TO QUICK QUIZZES
+ ----------------------------
+ 
+-Quick Quiz #1:	Why is this argument naive?  How could a deadlock
++Quick Quiz #1:
++		Why is this argument naive?  How could a deadlock
+ 		occur when using this algorithm in a real-world Linux
+ 		kernel?  [Referring to the lock-based "toy" RCU
+ 		algorithm.]
+ 
+-Answer:		Consider the following sequence of events:
++Answer:
++		Consider the following sequence of events:
+ 
+ 		1.	CPU 0 acquires some unrelated lock, call it
+ 			"problematic_lock", disabling irq via
+@@ -1049,10 +1076,12 @@ Answer:		Consider the following sequence of events:
+ 		approach where tasks in RCU read-side critical sections
+ 		cannot be blocked by tasks executing synchronize_rcu().
+ 
+-Quick Quiz #2:	Give an example where Classic RCU's read-side
++Quick Quiz #2:
++		Give an example where Classic RCU's read-side
+ 		overhead is -negative-.
+ 
+-Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
++Answer:
++		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+ 		kernel where a routing table is used by process-context
+ 		code, but can be updated by irq-context code (for example,
+ 		by an "ICMP REDIRECT" packet).	The usual way of handling
+@@ -1074,11 +1103,13 @@ Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+ 		even the theoretical possibility of negative overhead for
+ 		a synchronization primitive is a bit unexpected.  ;-)
+ 
+-Quick Quiz #3:  If it is illegal to block in an RCU read-side
++Quick Quiz #3:
++		If it is illegal to block in an RCU read-side
+ 		critical section, what the heck do you do in
+ 		PREEMPT_RT, where normal spinlocks can block???
+ 
+-Answer:		Just as PREEMPT_RT permits preemption of spinlock
++Answer:
++		Just as PREEMPT_RT permits preemption of spinlock
+ 		critical sections, it permits preemption of RCU
+ 		read-side critical sections.  It also permits
+ 		spinlocks blocking while in RCU read-side critical
+-- 
+2.20.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============4845696162972177543==--
