@@ -8,78 +8,78 @@ X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D2EDCA9EB5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 17:16:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90FFBCA9ED3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 17:32:08 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 537D920842
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 17:16:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6C93020869
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 17:32:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZj6ExCI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 537D920842
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZS92UsCK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C93020869
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 693711010;
-	Mon,  4 Nov 2019 17:16:51 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 2531AFE7;
+	Mon,  4 Nov 2019 17:32:08 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 838CA1000
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A36D9FCD
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon,  4 Nov 2019 17:16:50 +0000 (UTC)
+	Mon,  4 Nov 2019 17:32:06 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id DA9BD710
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0E8D989E
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon,  4 Nov 2019 17:16:49 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id c184so12689645pfb.0
+	Mon,  4 Nov 2019 17:32:05 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id c13so12713804pfp.5
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 04 Nov 2019 09:16:49 -0800 (PST)
+	Mon, 04 Nov 2019 09:32:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=0iWNKgMiZSCkjyZ9pvOXAXMd5XlBu3bb6nEU1im0MKg=;
-	b=gZj6ExCI5v/5AyMvZe38iuFqKzLeMDl5eVyobOA5lUAV0qRvKfW4baDJrFUMmE1+h9
-	cj206N2VooFIbxjCjjLTMvbxUXXrm/n8hsap+yda1vmYCP0fZkr+3ma+mHaAFAw1O2Mq
-	qG03YbQrFF5TE3Lzojb6XI4ms68MhTypu31TLSmimjwqcHAlVzFKgtAsQjQUM9VqbB15
-	casxPEqaEDByDQUiPL4kEA7Bn5PiDaRy+bEGE2s4l6ELEwhL2JdUqseJ/A9si6M+6+SG
-	tsccSmy67rp+v5P27wp7k8Pj2Xqfs5HxeHRG5eswrti/SnPAuzA10XndOGXPe0fswZU7
-	YFIA==
+	bh=l69ummbnkucSxuM61KnWZr+QE4asTsNeQ7EDMaFQ/LQ=;
+	b=ZS92UsCKc8Hj5ncrQDiMdwXGnAGHVrWknlQGjYTwsyXyMCvA9ohIjYNRRTmZ2GTYB2
+	hgHif5b5w0X8junZc4tgPrztpEKOK0v5oCg1tpuH87XrwwYdszS5IGp8fKlggsfNGw/M
+	09pigGUMGbFKp+Gd6cxDnZ3cohi2uPBJyxbyiqA/INFYUyGGVHBg+EDqsa35qgyNmAT3
+	ieqz3OzFbiIu7UhU4nw0s85ZBJtHeFl22qGI5B4wnPsf3e4PvFatnMQgOhNKQCjpCiL+
+	rKodU2WSddX0KyBVjT92daJBd4MNsvznTw4pzeJkyYKlBX6TcEsQ0R8j+iHLMz9OHntH
+	d+eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=0iWNKgMiZSCkjyZ9pvOXAXMd5XlBu3bb6nEU1im0MKg=;
-	b=T82ab2+r3f/EM9ONTinGUpyPShmjmQjp9DJIoPrtoMt6NkCRH4+DSFAvDkJi2NNWBO
-	kUK9HWVmUpheqv4mrMPbQi1+tmsUD93YUgOIpZoA+HfYqb8DIsmtD+D9r5Fmdy+KAu3y
-	gRv19aivWDASNQmE5YErMyTFmnszU0K8o5+ZkSDRIX+mfke5EhdV14h76HbdnPdPSRj3
-	uB099qkPmDf0ap3iO+klmogZckP6VLaanueyreN3UZnyRiI/BhkSCmeJbgSv5G5vLUz6
-	0Vxuhs/my/tua6r0yvyPPbkv+k95r0yR67rvqLdh+Z9Q+R9FBI1IOHCJ5NSzg62K/ouS
-	XUIQ==
-X-Gm-Message-State: APjAAAVXYUHOEkM6LxRML5ccGJKtp93CABaAESCVWlewZ+MQeismbLWO
-	9SAKipYU9cYGPRlDAoZLa5k=
-X-Google-Smtp-Source: APXvYqzOgFP05782A8U4VGLpiUo4fzWQGDXm3X/B8ePj5jvEms9PIC1wv1eYI5rlOgxotppWXJxZRQ==
-X-Received: by 2002:a62:53:: with SMTP id 80mr33528484pfa.192.1572887809296;
-	Mon, 04 Nov 2019 09:16:49 -0800 (PST)
+	bh=l69ummbnkucSxuM61KnWZr+QE4asTsNeQ7EDMaFQ/LQ=;
+	b=Qk4oMX19HEx7/rfz4lU88XOVapd/9EPHhCplPP9l4xw6u2CHTBLhKFqRbkc8+DJCrB
+	k2hNuekV/+rKQXyMrcOoW7LiOoLLwXw8bHzUNd0J6/wXyo3eNHYqNWMbe+IHmDcdvZmL
+	JfahSS1ymdRXthgGYdoAbg+kSGKRyVldBWowAAuzqvEAvOSPU7/j+ny4bPm3ym5DgKKA
+	cqV+x7QIbDVVqwh3fnC+LYmonRzehvQYosTU3aQVn6sZnz4oUYvU6gIvvG1gxV7jp4e6
+	5pCaN8xvN5Kcmwpm6/5le5DnwevpLQ5wdXVka7lqelI9akXqhN8RrFxiSm9c8aQnfDzP
+	J06w==
+X-Gm-Message-State: APjAAAVn2n5goDU18BcgZ1A2TD09dwDd8/V9/Wi8exaDfY28EYQPme3r
+	bxxf5NWyg3+zp0ofIGIvKY8=
+X-Google-Smtp-Source: APXvYqySUtitKYMsIcxyNKY9L3vTqqA7owzP7uIwB7NS8uGIXoUwQ9RZ2TI3r0LcmXstWG5gJtCkzw==
+X-Received: by 2002:a63:134a:: with SMTP id 10mr30908497pgt.441.1572888725334; 
+	Mon, 04 Nov 2019 09:32:05 -0800 (PST)
 Received: from workstation-kernel-dev ([139.5.253.170])
 	by smtp.gmail.com with ESMTPSA id
-	v16sm10738482pje.1.2019.11.04.09.16.45
+	81sm20455000pfx.142.2019.11.04.09.32.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 04 Nov 2019 09:16:48 -0800 (PST)
-Date: Mon, 4 Nov 2019 22:46:41 +0530
+	Mon, 04 Nov 2019 09:32:04 -0800 (PST)
+Date: Mon, 4 Nov 2019 23:01:56 +0530
 From: Amol Grover <frextrite@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Message-ID: <20191104171641.GA15217@workstation-kernel-dev>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Message-ID: <20191104173156.GA15267@workstation-kernel-dev>
 References: <20191104133315.GA14499@workstation-kernel-dev>
-	<20191104150328.GZ20975@paulmck-ThinkPad-P72>
+	<87pni77jvt.fsf@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191104150328.GZ20975@paulmck-ThinkPad-P72>
+In-Reply-To: <87pni77jvt.fsf@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, Lai Jiangshan <jiangshanlai@gmail.com>,
 	Josh Triplett <josh@joshtriplett.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
@@ -104,39 +104,17 @@ Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
-On Mon, Nov 04, 2019 at 07:03:28AM -0800, Paul E. McKenney wrote:
-> On Mon, Nov 04, 2019 at 07:03:15PM +0530, Amol Grover wrote:
+On Mon, Nov 04, 2019 at 05:15:34PM +0200, Jani Nikula wrote:
+> On Mon, 04 Nov 2019, Amol Grover <frextrite@gmail.com> wrote:
 > > Convert RCU API method text to sub-headings and
 > > add hyperlink and superscript to 2 literary notes
 > > under rcu_dereference() section
-> > 
+> >
 > > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> 
-> Good stuff, but Phong Tran beat you to it.  If you are suggesting
-> changes to that patch, please send a reply to her email, which
-> may be found here:
-> 
-> https://lore.kernel.org/lkml/20191030233128.14997-1-tranmanphong@gmail.com/
-> 
-> There are several options for replying to this email listed at the
-> bottom of that web page.
-> 
-> 							Thanx, Paul
-
-Thank you Paul! And that is correct, I was suggesting changes to
-that patch. However, since that patch was already integrated into
-the `dev` branch, I mistakenly believed this patch could be sent
-independently. Sorry for the trouble, I'll re-send the patch the
-correct way.
-
-Thank you
-Amol
-
-> 
 > > ---
 > >  Documentation/RCU/whatisRCU.rst | 34 +++++++++++++++++++++++++++------
 > >  1 file changed, 28 insertions(+), 6 deletions(-)
-> > 
+> >
 > > diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
 > > index ae40c8bcc56c..3cf6e17d0065 100644
 > > --- a/Documentation/RCU/whatisRCU.rst
@@ -209,6 +187,29 @@ Amol
 > > +	primitives, such as list_for_each_entry_rcu() |entry_2|.
 > > +
 > > +.. |cs_1| raw:: html
+> 
+> Please don't use raw. It's ugly and error prone. We have some raw output
+> for latex, but this would be the first for html.
+> 
+> What are you trying to achieve?
+
+Hi Jani,
+While going through the documentation I encountered a few footnotes (numbers
+[1] and [2]) which referenced the actual footnote somewhere below the text.
+They were particularly not straight-forward to find hence I decided to
+link them to the footnote text which could be done using inline markup.
+Then I tried to make them more appealing by converting to super-scripts
+(the way they look like in books and websites). However, nested inline 
+markup is not yet possible in reST hence I went with the html way to 
+achieve the same. Too much?
+
+Thank you
+Amol
+
+> 
+> BR,
+> Jani.
+> 
 > > +
 > > +	<a href="#cs"><sup>[1]</sup></a>
 > > +
@@ -245,9 +246,9 @@ Amol
 > >  
 > >  The following diagram shows how each API communicates among the
 > >  reader, updater, and reclaimer.
-> > -- 
-> > 2.20.1
-> > 
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
