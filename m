@@ -4,66 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 762E2CA9EB5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 15:03:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AED4CA9EB5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 15:11:10 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 49AB921744
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 15:03:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D315920663
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 15:11:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="didDH6wf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 49AB921744
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9uMUOzi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D315920663
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 132EDDC5;
-	Mon,  4 Nov 2019 15:03:33 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 05DB6DCE;
+	Mon,  4 Nov 2019 15:11:06 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D57E6DBE
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6B475DBE
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon,  4 Nov 2019 15:03:31 +0000 (UTC)
+	Mon,  4 Nov 2019 15:11:05 +0000 (UTC)
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D6EF689E
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id ACD978A7
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon,  4 Nov 2019 15:03:30 +0000 (UTC)
+	Mon,  4 Nov 2019 15:11:04 +0000 (UTC)
 Received: from paulmck-ThinkPad-P72.home (unknown [109.144.216.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 535AB20659;
-	Mon,  4 Nov 2019 15:03:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 2C2F420869;
+	Mon,  4 Nov 2019 15:11:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572879810;
-	bh=PgT8W6DftwnfwmGNL6dHObxLdmfDGv/U93yvXSQ/GmA=;
+	s=default; t=1572880264;
+	bh=p3A1CsQUx+W3GtZjQkQsHYH4jp+Q0+YDCaga7R+hiYU=;
 	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=didDH6wfhWoEueBvV+kpDeLGrNZpzDEiT8R3wgovEhJ+9TYYxPCcEx6in8MlVSZal
-	aKOtmgrtocgCI9iIwNO1qsAeb51/JxAj4daou2d8IISESH7oei6HiDgqTHpLZud/zl
-	lHMhOkdNJ3IljwboHJIpLiM9oGu1dcdV3sYymlgQ=
+	b=R9uMUOziwJiaoxNC1aYlUE9OGk+xZHCHbO88XZg8OKLIoSJ4Gcdn8F8I+q3t20oFX
+	7e2cqAVHhgSQL71lgzSwN7TxzJcJKI3ggteaNdBWquy86TMXOGy0NtONDwew6rQMk9
+	4199LXWSXINmHXe71hAUiEdPhT4Z6i71eYuMqCrk=
 Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 5A33D3520B56; Mon,  4 Nov 2019 07:03:28 -0800 (PST)
-Date: Mon, 4 Nov 2019 07:03:28 -0800
+	id 37B0D3520B56; Mon,  4 Nov 2019 07:11:02 -0800 (PST)
+Date: Mon, 4 Nov 2019 07:11:02 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20191104150328.GZ20975@paulmck-ThinkPad-P72>
-References: <20191104133315.GA14499@workstation-kernel-dev>
+To: madhuparnabhowmik04@gmail.com
+Message-ID: <20191104151102.GA20975@paulmck-ThinkPad-P72>
+References: <20191102115517.6378-1-tranmanphong@gmail.com>
+	<20191102115517.6378-1-tranmanphong@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191104133315.GA14499@workstation-kernel-dev>
+In-Reply-To: <20191102115517.6378-1-tranmanphong@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, jiangshanlai@gmail.com,
+	josh@joshtriplett.org, rostedt@goodmis.org,
 	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
+	mathieu.desnoyers@efficios.com, joel@joelfernandes.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: RCU: whatisRCU:
- Fix formatting for section 2
+Subject: Re: [Linux-kernel-mentees] [PATCH] Doc: Improve format for
+	whatisRCU.rst
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -81,136 +78,221 @@ Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
-On Mon, Nov 04, 2019 at 07:03:15PM +0530, Amol Grover wrote:
-> Convert RCU API method text to sub-headings and
-> add hyperlink and superscript to 2 literary notes
-> under rcu_dereference() section
+On Sun, Nov 03, 2019 at 02:24:06AM +0530, madhuparnabhowmik04@gmail.com wrote:
+> From: Phong Tran <tranmanphong@gmail.com>
 > 
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
+> Adding crossreference target for some headers, answer of quizzes
+> 
+> Tested-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
-Good stuff, but Phong Tran beat you to it.  If you are suggesting
-changes to that patch, please send a reply to her email, which
-may be found here:
+Applied, thank you both!
 
-https://lore.kernel.org/lkml/20191030233128.14997-1-tranmanphong@gmail.com/
+I am assuming that you tested the combination of Phong's original pair
+of patches.  If not, please let me know.
 
-There are several options for replying to this email listed at the
-bottom of that web page.
+And this was great, but in the future it is easier for everyone to simply
+reply to the patch inserting the Tested-by.  ;-)
 
 							Thanx, Paul
 
+> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 > ---
->  Documentation/RCU/whatisRCU.rst | 34 +++++++++++++++++++++++++++------
->  1 file changed, 28 insertions(+), 6 deletions(-)
+>  Documentation/RCU/whatisRCU.rst | 73 +++++++++++++++++++++++----------
+>  1 file changed, 52 insertions(+), 21 deletions(-)
 > 
 > diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-> index ae40c8bcc56c..3cf6e17d0065 100644
+> index 70d0e4c21917..ae40c8bcc56c 100644
 > --- a/Documentation/RCU/whatisRCU.rst
 > +++ b/Documentation/RCU/whatisRCU.rst
-> @@ -150,6 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
->  at the function header comments.
+> @@ -1,4 +1,4 @@
+> -.. _rcu_doc:
+> +.. _whatisrcu_doc:
 >  
->  rcu_read_lock()
-> +^^^^^^^^^^^^^^^
+>  What is RCU?  --  "Read, Copy, Update"
+>  ======================================
+> @@ -27,14 +27,21 @@ the experience has been that different people must take different paths
+>  to arrive at an understanding of RCU.  This document provides several
+>  different paths, as follows:
 >  
->  	void rcu_read_lock(void);
->  
-> @@ -164,6 +165,7 @@ rcu_read_lock()
->  	longer-term references to data structures.
->  
->  rcu_read_unlock()
-> +^^^^^^^^^^^^^^^^^
->  
->  	void rcu_read_unlock(void);
->  
-> @@ -172,6 +174,7 @@ rcu_read_unlock()
->  	read-side critical sections may be nested and/or overlapping.
->  
->  synchronize_rcu()
-> +^^^^^^^^^^^^^^^^^
->  
->  	void synchronize_rcu(void);
->  
-> @@ -225,6 +228,7 @@ synchronize_rcu()
->  	checklist.txt for some approaches to limiting the update rate.
->  
->  rcu_assign_pointer()
-> +^^^^^^^^^^^^^^^^^^^^
->  
->  	void rcu_assign_pointer(p, typeof(p) v);
->  
-> @@ -245,6 +249,7 @@ rcu_assign_pointer()
->  	the _rcu list-manipulation primitives such as list_add_rcu().
->  
->  rcu_dereference()
-> +^^^^^^^^^^^^^^^^^
->  
->  	typeof(p) rcu_dereference(p);
->  
-> @@ -279,8 +284,10 @@ rcu_dereference()
->  	if an update happened while in the critical section, and incur
->  	unnecessary overhead on Alpha CPUs.
->  
-> +.. _back_to_1:
+> -1.	RCU OVERVIEW
+> -2.	WHAT IS RCU'S CORE API?
+> -3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+> -4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+> -5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+> -6.	ANALOGY WITH READER-WRITER LOCKING
+> -7.	FULL LIST OF RCU APIs
+> -8.	ANSWERS TO QUICK QUIZZES
+> +:ref:`1.	RCU OVERVIEW <1_whatisRCU>`
 > +
->  	Note that the value returned by rcu_dereference() is valid
-> -	only within the enclosing RCU read-side critical section [1].
-> +	only within the enclosing RCU read-side critical section |cs_1|.
->  	For example, the following is -not- legal::
+> +:ref:`2.	WHAT IS RCU'S CORE API? <2_whatisRCU>`
+> +
+> +:ref:`3.	WHAT ARE SOME EXAMPLE USES OF CORE RCU API? <3_whatisRCU>`
+> +
+> +:ref:`4.	WHAT IF MY UPDATING THREAD CANNOT BLOCK? <4_whatisRCU>`
+> +
+> +:ref:`5.	WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU? <5_whatisRCU>`
+> +
+> +:ref:`6.	ANALOGY WITH READER-WRITER LOCKING <6_whatisRCU>`
+> +
+> +:ref:`7.	FULL LIST OF RCU APIs <7_whatisRCU>`
+> +
+> +:ref:`8.	ANSWERS TO QUICK QUIZZES <8_whatisRCU>`
 >  
->  		rcu_read_lock();
-> @@ -298,15 +305,27 @@ rcu_dereference()
->  	it was acquired is just as illegal as doing so with normal
->  	locking.
+>  People who prefer starting with a conceptual overview should focus on
+>  Section 1, though most readers will profit by reading this section at
+> @@ -52,6 +59,7 @@ everything, feel free to read the whole thing -- but if you are really
+>  that type of person, you have perused the source code and will therefore
+>  never need this document anyway.  ;-)
 >  
-> +.. _back_to_2:
-> +
->  	As with rcu_assign_pointer(), an important function of
->  	rcu_dereference() is to document which pointers are protected by
->  	RCU, in particular, flagging a pointer that is subject to changing
->  	at any time, including immediately after the rcu_dereference().
->  	And, again like rcu_assign_pointer(), rcu_dereference() is
->  	typically used indirectly, via the _rcu list-manipulation
-> -	primitives, such as list_for_each_entry_rcu() [2].
-> +	primitives, such as list_for_each_entry_rcu() |entry_2|.
-> +
-> +.. |cs_1| raw:: html
-> +
-> +	<a href="#cs"><sup>[1]</sup></a>
-> +
-> +.. |entry_2| raw:: html
+> +.. _1_whatisRCU:
 >  
-> -	[1] The variant rcu_dereference_protected() can be used outside
-> +	<a href="#entry"><sup>[2]</sup></a>
-> +
-> +.. _cs:
-> +
-> +	\ :sup:`[1]`\  The variant rcu_dereference_protected() can be used outside
->  	of an RCU read-side critical section as long as the usage is
->  	protected by locks acquired by the update-side code.  This variant
->  	avoids the lockdep warning that would happen when using (for
-> @@ -317,15 +336,18 @@ rcu_dereference()
->  	a lockdep expression to indicate which locks must be acquired
->  	by the caller. If the indicated protection is not provided,
->  	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
-> -	and the API's code comments for more details and example usage.
-> +	and the API's code comments for more details and example usage. :ref:`back <back_to_1>`
-> +
-> +
-> +.. _entry:
+>  1.  RCU OVERVIEW
+>  ----------------
+> @@ -120,6 +128,7 @@ So how the heck can a reclaimer tell when a reader is done, given
+>  that readers are not doing any sort of synchronization operations???
+>  Read on to learn about how RCU's API makes this easy.
 >  
-> -	[2] If the list_for_each_entry_rcu() instance might be used by
-> +	\ :sup:`[2]`\  If the list_for_each_entry_rcu() instance might be used by
->  	update-side code as well as by RCU readers, then an additional
->  	lockdep expression can be added to its list of arguments.
->  	For example, given an additional "lock_is_held(&mylock)" argument,
->  	the RCU lockdep code would complain only if this instance was
->  	invoked outside of an RCU read-side critical section and without
-> -	the protection of mylock.
-> +	the protection of mylock. :ref:`back <back_to_2>`
+> +.. _2_whatisRCU:
 >  
->  The following diagram shows how each API communicates among the
->  reader, updater, and reclaimer.
+>  2.  WHAT IS RCU'S CORE API?
+>  ---------------------------
+> @@ -381,13 +390,15 @@ c.	RCU applied to scheduler and interrupt/NMI-handler tasks.
+>  Again, most uses will be of (a).  The (b) and (c) cases are important
+>  for specialized uses, but are relatively uncommon.
+>  
+> +.. _3_whatisRCU:
+>  
+>  3.  WHAT ARE SOME EXAMPLE USES OF CORE RCU API?
+>  -----------------------------------------------
+>  
+>  This section shows a simple use of the core RCU API to protect a
+>  global pointer to a dynamically allocated structure.  More-typical
+> -uses of RCU may be found in listRCU.txt, arrayRCU.txt, and NMI-RCU.txt.
+> +uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
+> +:ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst <NMI_rcu_doc>`.
+>  ::
+>  
+>  	struct foo {
+> @@ -470,9 +481,11 @@ o	Use synchronize_rcu() -after- removing a data element from an
+>  	data item.
+>  
+>  See checklist.txt for additional rules to follow when using RCU.
+> -And again, more-typical uses of RCU may be found in listRCU.txt,
+> -arrayRCU.txt, and NMI-RCU.txt.
+> +And again, more-typical uses of RCU may be found in :ref:`listRCU.rst
+> +<list_rcu_doc>`, :ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst
+> +<NMI_rcu_doc>`.
+>  
+> +.. _4_whatisRCU:
+>  
+>  4.  WHAT IF MY UPDATING THREAD CANNOT BLOCK?
+>  --------------------------------------------
+> @@ -567,6 +580,7 @@ to avoid having to write your own callback::
+>  
+>  Again, see checklist.txt for additional rules governing the use of RCU.
+>  
+> +.. _5_whatisRCU:
+>  
+>  5.  WHAT ARE SOME SIMPLE IMPLEMENTATIONS OF RCU?
+>  ------------------------------------------------
+> @@ -657,10 +671,12 @@ that the only thing that can block rcu_read_lock() is a synchronize_rcu().
+>  But synchronize_rcu() does not acquire any locks while holding rcu_gp_mutex,
+>  so there can be no deadlock cycle.
+>  
+> -Quick Quiz #1:	Why is this argument naive?  How could a deadlock
+> +Quick Quiz #1:
+> +		Why is this argument naive?  How could a deadlock
+>  		occur when using this algorithm in a real-world Linux
+>  		kernel?  How could this deadlock be avoided?
+>  
+> +:ref:`Answers to Quick Quiz <8_whatisRCU>`
+>  
+>  5B.  "TOY" EXAMPLE #2: CLASSIC RCU
+>  
+> @@ -709,13 +725,20 @@ synchronize_rcu().  Once synchronize_rcu() returns, we are guaranteed
+>  that there are no RCU read-side critical sections holding a reference
+>  to that data item, so we can safely reclaim it.
+>  
+> -Quick Quiz #2:	Give an example where Classic RCU's read-side
+> +Quick Quiz #2:
+> +		Give an example where Classic RCU's read-side
+>  		overhead is -negative-.
+>  
+> -Quick Quiz #3:  If it is illegal to block in an RCU read-side
+> +:ref:`Answers to Quick Quiz <8_whatisRCU>`
+> +
+> +Quick Quiz #3:
+> +		If it is illegal to block in an RCU read-side
+>  		critical section, what the heck do you do in
+>  		PREEMPT_RT, where normal spinlocks can block???
+>  
+> +:ref:`Answers to Quick Quiz <8_whatisRCU>`
+> +
+> +.. _6_whatisRCU:
+>  
+>  6.  ANALOGY WITH READER-WRITER LOCKING
+>  --------------------------------------
+> @@ -842,6 +865,7 @@ delete() can now block.  If this is a problem, there is a callback-based
+>  mechanism that never blocks, namely call_rcu() or kfree_rcu(), that can
+>  be used in place of synchronize_rcu().
+>  
+> +.. _7_whatisRCU:
+>  
+>  7.  FULL LIST OF RCU APIs
+>  -------------------------
+> @@ -1001,16 +1025,19 @@ g.	Otherwise, use RCU.
+>  Of course, this all assumes that you have determined that RCU is in fact
+>  the right tool for your job.
+>  
+> +.. _8_whatisRCU:
+>  
+>  8.  ANSWERS TO QUICK QUIZZES
+>  ----------------------------
+>  
+> -Quick Quiz #1:	Why is this argument naive?  How could a deadlock
+> +Quick Quiz #1:
+> +		Why is this argument naive?  How could a deadlock
+>  		occur when using this algorithm in a real-world Linux
+>  		kernel?  [Referring to the lock-based "toy" RCU
+>  		algorithm.]
+>  
+> -Answer:		Consider the following sequence of events:
+> +Answer:
+> +		Consider the following sequence of events:
+>  
+>  		1.	CPU 0 acquires some unrelated lock, call it
+>  			"problematic_lock", disabling irq via
+> @@ -1049,10 +1076,12 @@ Answer:		Consider the following sequence of events:
+>  		approach where tasks in RCU read-side critical sections
+>  		cannot be blocked by tasks executing synchronize_rcu().
+>  
+> -Quick Quiz #2:	Give an example where Classic RCU's read-side
+> +Quick Quiz #2:
+> +		Give an example where Classic RCU's read-side
+>  		overhead is -negative-.
+>  
+> -Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+> +Answer:
+> +		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+>  		kernel where a routing table is used by process-context
+>  		code, but can be updated by irq-context code (for example,
+>  		by an "ICMP REDIRECT" packet).	The usual way of handling
+> @@ -1074,11 +1103,13 @@ Answer:		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+>  		even the theoretical possibility of negative overhead for
+>  		a synchronization primitive is a bit unexpected.  ;-)
+>  
+> -Quick Quiz #3:  If it is illegal to block in an RCU read-side
+> +Quick Quiz #3:
+> +		If it is illegal to block in an RCU read-side
+>  		critical section, what the heck do you do in
+>  		PREEMPT_RT, where normal spinlocks can block???
+>  
+> -Answer:		Just as PREEMPT_RT permits preemption of spinlock
+> +Answer:
+> +		Just as PREEMPT_RT permits preemption of spinlock
+>  		critical sections, it permits preemption of RCU
+>  		read-side critical sections.  It also permits
+>  		spinlocks blocking while in RCU read-side critical
 > -- 
 > 2.20.1
 > 
