@@ -1,94 +1,79 @@
-Return-Path: <SRS0=b9dF=Y3=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=aStP=Y4=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D17EBCA9ED2
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 Nov 2019 06:35:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC86DCA9ED4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 12:46:28 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A78C82084D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 Nov 2019 06:35:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C2BF4218BA
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Nov 2019 12:46:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p7G4fyaN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A78C82084D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Or1N8Z+Z"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2BF4218BA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 50958AAE;
-	Sun,  3 Nov 2019 06:35:35 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8B9BDCF6;
+	Mon,  4 Nov 2019 12:46:28 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id AB386A95
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1748CCF3
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun,  3 Nov 2019 06:35:33 +0000 (UTC)
+	Mon,  4 Nov 2019 12:46:27 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 01AE3180
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CE4ED8AA
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun,  3 Nov 2019 06:35:30 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id f19so9151078pgn.13
+	Mon,  4 Nov 2019 12:46:24 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id x28so8912323pfo.6
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 02 Nov 2019 23:35:30 -0700 (PDT)
+	Mon, 04 Nov 2019 04:46:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=jeORO5ZUt0doBbSOV8Th41chv6HfjPxHBvvQzP2DtFU=;
-	b=p7G4fyaN54oVu/0M70fNAPO3f1gs0zB2xPsyxPB9uCFTBsWwKywXwo9U+WU5+pmvHM
-	kIESnbiZfdX1wn5NEHDeE+8fxvlmoJiIq00dpz1A8NBf3lpUuS+6ePFXaubYfHnAhJT/
-	sCINDYT432NiM4gkxZdbjytzd1epdbo4rS3UUlyNp6RprWYXQc4xfre9DOfUKAmIAm3O
-	FWo5M4pxmO1WV4QVt3Rd66ndP57XABpdb1g8MxrrxxTD8Rb6CGXEcFWI0AzZfxxBL/hM
-	9+Fkb4qr2QVGpIdjVaOOpHaJU4zFxqCqMJq/zHoZALamDSohgxlQmjzX+KWg8Z2iPaxX
-	XQeQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=1kvr6etgvSqEtBU5agD5x6c3YMkHZYMpZP9Gk+YCwoQ=;
+	b=Or1N8Z+ZEe8judaZOBBCjRy6/bzSJ9XWQBm0/lneaeq+tDK32pnf9/4fcu1n7EJWTh
+	SSL4bJ2KFh461u9fnrSzyZX+LI1sTWBzwNKARbU3Guse89I6n3SPuB2p1pu5u8TNKxd4
+	o/4Sjls/kVvlySao6q8hBA7Agbp/AB+VUwkLepy2XgVcqaZOMS4+SdiHZurAH7i4XM24
+	lnMb7Ngu6D5J/orq5qVdoLwJDjWhJcYH3qZViT6NBCR+Mn38Or7W/e0X5pecmMi3DCZ1
+	Gy6g+mUnmY3CjX6Kfc9ytqfokpVzVGDUoWkdDgpYNuUhrHJ1je9MQh0aj7IMcfdthtK1
+	w6/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=jeORO5ZUt0doBbSOV8Th41chv6HfjPxHBvvQzP2DtFU=;
-	b=cnOW8qVOawvw7gli6h1V7vt43H/zbwPSwri+5+Qt4B8CmlNzlE75kbXuBITmQU31Np
-	x6XRPWdCnc8a3/ycTTTxXLE7u9fa8o7DTIuDnVSIPn25eEJA7t8dSrsucURcYrgFUfzj
-	I4lCT4f/ahFkZpdtpCBYwog5rZfRyVsEmwwJS9sqEXPx85FbH97OAJWrjBIio6G0rR7U
-	gfZd3smW7kMi3vIapCU9HwswCzySzXeYzAEMgMlVLoyWVVG7JsTaKuPPidRzxG7KiodH
-	JmId9XVKsgeUN+JBNpOadcbKgNpvbcT599C7avMcHWXzlyifV9hgoX4pqGdaWU07iSDG
-	L6nQ==
-X-Gm-Message-State: APjAAAXyAisUwd0i4Nf2wkzzs6rH3HHcN5GDaTY7YM9l1iCvGwA+FtMz
-	Gr1lhf8LYQIgvAVfPF1tC9w=
-X-Google-Smtp-Source: APXvYqx271aN3RuZ2nR+1q03x5UtMuyA+O3itqVgVpWzZDZVn8g3e3g4g5rgkuZcPUEpPZPlB5Q4tQ==
-X-Received: by 2002:a17:90a:741:: with SMTP id
-	s1mr23133821pje.122.1572762930141; 
-	Sat, 02 Nov 2019 23:35:30 -0700 (PDT)
-Received: from workstation-kernel-dev ([139.5.252.170])
-	by smtp.gmail.com with ESMTPSA id
-	w27sm11766547pgc.20.2019.11.02.23.35.25
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=1kvr6etgvSqEtBU5agD5x6c3YMkHZYMpZP9Gk+YCwoQ=;
+	b=AutqqZu277x0oYdiTEcTJ7tJBpAz3yY8dnfSbXLZOOZPr2MA53l9DP2qATcm/unUdU
+	/VyieKuLrCAu7ApuHO/cabEjDlRwi+aDReK3S1VdaQRk5efSL/Q1kOU5Cbp9qj2m9hDs
+	Kd5OzXP5+Bm7HfjNai1Mz2DZ7UbSea6miFB7JdGdoHG2QG10+PpKKYGJNSGb+ybgjq2i
+	nUCUmBjtZSJ+nTOJzPfheL//+W+7HQdplbycQCQv09yr9/+YSoFwEfr5mA13y2WJ+J+0
+	y7bHsF+ceQODInmD3DTXXLKpyTg/vGCnS2D8xJ85QwwJBLlVQAh2mIBvtN/lmxMJ+RNZ
+	Db3g==
+X-Gm-Message-State: APjAAAVuRI5hUMzsaQwykFakdPWraaGxCWMe6+82eboLCqjYqpB+nEP3
+	nLA2QGZOGOez3ANu90qNWbY=
+X-Google-Smtp-Source: APXvYqzRSdEVtM4xTlrHuJpfgIXwJol23fNP0fFtV5ZgRH+J0SUbY7hJRii1eDzoVznk6mzsRfl0MQ==
+X-Received: by 2002:a63:1f08:: with SMTP id f8mr30318634pgf.145.1572871583690; 
+	Mon, 04 Nov 2019 04:46:23 -0800 (PST)
+Received: from localhost.localdomain ([223.186.192.194])
+	by smtp.gmail.com with ESMTPSA id z2sm6983515pgg.41.2019.11.04.04.46.18
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 02 Nov 2019 23:35:29 -0700 (PDT)
-Date: Sun, 3 Nov 2019 12:05:22 +0530
-From: Amol Grover <frextrite@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Message-ID: <20191103063522.GA828@workstation-kernel-dev>
-References: <20191102080107.GA3066@workstation-kernel-dev>
-	<20191102165734.GS20975@paulmck-ThinkPad-P72>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191102165734.GS20975@paulmck-ThinkPad-P72>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: RCU:
- rcu_dereference: Convert to rcu_dereference.rst
+	Mon, 04 Nov 2019 04:46:22 -0800 (PST)
+From: Vandana BN <bnvandana@gmail.com>
+To: linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Date: Mon,  4 Nov 2019 18:15:44 +0530
+Message-Id: <20191104124544.22270-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191022075141.21069-3-bnvandana@gmail.com>
+References: <20191022075141.21069-3-bnvandana@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v2] vivid: Add touch support
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -100,347 +85,1054 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>,
 	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
-Message-ID: <20191103063522.TGfMpOhmscpXZqVqgXHuv4ytH9Y1K15Ti8V9kV3b1ZU@z>
 
-On Sat, Nov 02, 2019 at 09:57:34AM -0700, Paul E. McKenney wrote:
-> On Sat, Nov 02, 2019 at 01:31:07PM +0530, Amol Grover wrote:
-> > This patch converts rcu_dereference.txt to rcu_dereference.rst and
-> > adds it to index.rst
-> > 
-> > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> 
-> Queued and pushed for review and testing.  Assuming all goes well, I will
-> push it for the v5.6 merge window.
-> 
-> Could you please take a look at the similar commits from Madhuparna and
-> Phong?  No time like the present to also gain experience with review
-> and testing!
-> 
-> 							Thanx, Paul
+Support to emulate touch devices in vivid driver.
 
-Sure thing Paul!
+Incorporate changes from https://patchwork.linuxtv.org/patch/59782/,
+to avoid the mutex unlocking/relocking around the kthread_stop.
 
-Thank you
-Amol
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+ drivers/media/platform/vivid/Makefile         |   3 +-
+ drivers/media/platform/vivid/vivid-core.c     | 180 +++++++++++++-
+ drivers/media/platform/vivid/vivid-core.h     |  19 ++
+ drivers/media/platform/vivid/vivid-ctrls.c    |  11 +
+ .../media/platform/vivid/vivid-kthread-cap.c  |   1 -
+ .../platform/vivid/vivid-kthread-touch.c      | 212 +++++++++++++++++
+ .../platform/vivid/vivid-kthread-touch.h      |  13 ++
+ .../media/platform/vivid/vivid-touch-cap.c    | 221 ++++++++++++++++++
+ .../media/platform/vivid/vivid-touch-cap.h    |  25 ++
+ 9 files changed, 672 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.c
+ create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.h
+ create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.c
+ create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.h
 
-> 
-> > ---
-> >  Documentation/RCU/index.rst                   |  1 +
-> >  ...cu_dereference.txt => rcu_dereference.rst} | 75 ++++++++++---------
-> >  2 files changed, 42 insertions(+), 34 deletions(-)
-> >  rename Documentation/RCU/{rcu_dereference.txt => rcu_dereference.rst} (88%)
-> > 
-> > diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
-> > index 627128c230dc..585f3d8abd76 100644
-> > --- a/Documentation/RCU/index.rst
-> > +++ b/Documentation/RCU/index.rst
-> > @@ -8,6 +8,7 @@ RCU concepts
-> >     :maxdepth: 3
-> >  
-> >     arrayRCU
-> > +   rcu_dereference
-> >     rcu
-> >     listRCU
-> >     NMI-RCU
-> > diff --git a/Documentation/RCU/rcu_dereference.txt b/Documentation/RCU/rcu_dereference.rst
-> > similarity index 88%
-> > rename from Documentation/RCU/rcu_dereference.txt
-> > rename to Documentation/RCU/rcu_dereference.rst
-> > index bf699e8cfc75..c9667eb0d444 100644
-> > --- a/Documentation/RCU/rcu_dereference.txt
-> > +++ b/Documentation/RCU/rcu_dereference.rst
-> > @@ -1,4 +1,7 @@
-> > +.. _rcu_dereference_doc:
-> > +
-> >  PROPER CARE AND FEEDING OF RETURN VALUES FROM rcu_dereference()
-> > +===============================================================
-> >  
-> >  Most of the time, you can use values from rcu_dereference() or one of
-> >  the similar primitives without worries.  Dereferencing (prefix "*"),
-> > @@ -8,7 +11,7 @@ subtraction of constants, and casts all work quite naturally and safely.
-> >  It is nevertheless possible to get into trouble with other operations.
-> >  Follow these rules to keep your RCU code working properly:
-> >  
-> > -o	You must use one of the rcu_dereference() family of primitives
-> > +-	You must use one of the rcu_dereference() family of primitives
-> >  	to load an RCU-protected pointer, otherwise CONFIG_PROVE_RCU
-> >  	will complain.  Worse yet, your code can see random memory-corruption
-> >  	bugs due to games that compilers and DEC Alpha can play.
-> > @@ -25,24 +28,24 @@ o	You must use one of the rcu_dereference() family of primitives
-> >  	for an example where the compiler can in fact deduce the exact
-> >  	value of the pointer, and thus cause misordering.
-> >  
-> > -o	You are only permitted to use rcu_dereference on pointer values.
-> > +-	You are only permitted to use rcu_dereference on pointer values.
-> >  	The compiler simply knows too much about integral values to
-> >  	trust it to carry dependencies through integer operations.
-> >  	There are a very few exceptions, namely that you can temporarily
-> >  	cast the pointer to uintptr_t in order to:
-> >  
-> > -	o	Set bits and clear bits down in the must-be-zero low-order
-> > +	-	Set bits and clear bits down in the must-be-zero low-order
-> >  		bits of that pointer.  This clearly means that the pointer
-> >  		must have alignment constraints, for example, this does
-> >  		-not- work in general for char* pointers.
-> >  
-> > -	o	XOR bits to translate pointers, as is done in some
-> > +	-	XOR bits to translate pointers, as is done in some
-> >  		classic buddy-allocator algorithms.
-> >  
-> >  	It is important to cast the value back to pointer before
-> >  	doing much of anything else with it.
-> >  
-> > -o	Avoid cancellation when using the "+" and "-" infix arithmetic
-> > +-	Avoid cancellation when using the "+" and "-" infix arithmetic
-> >  	operators.  For example, for a given variable "x", avoid
-> >  	"(x-(uintptr_t)x)" for char* pointers.	The compiler is within its
-> >  	rights to substitute zero for this sort of expression, so that
-> > @@ -54,16 +57,16 @@ o	Avoid cancellation when using the "+" and "-" infix arithmetic
-> >  	"p+a-b" is safe because its value still necessarily depends on
-> >  	the rcu_dereference(), thus maintaining proper ordering.
-> >  
-> > -o	If you are using RCU to protect JITed functions, so that the
-> > +-	If you are using RCU to protect JITed functions, so that the
-> >  	"()" function-invocation operator is applied to a value obtained
-> >  	(directly or indirectly) from rcu_dereference(), you may need to
-> >  	interact directly with the hardware to flush instruction caches.
-> >  	This issue arises on some systems when a newly JITed function is
-> >  	using the same memory that was used by an earlier JITed function.
-> >  
-> > -o	Do not use the results from relational operators ("==", "!=",
-> > +-	Do not use the results from relational operators ("==", "!=",
-> >  	">", ">=", "<", or "<=") when dereferencing.  For example,
-> > -	the following (quite strange) code is buggy:
-> > +	the following (quite strange) code is buggy::
-> >  
-> >  		int *p;
-> >  		int *q;
-> > @@ -81,11 +84,11 @@ o	Do not use the results from relational operators ("==", "!=",
-> >  	after such branches, but can speculate loads, which can again
-> >  	result in misordering bugs.
-> >  
-> > -o	Be very careful about comparing pointers obtained from
-> > +-	Be very careful about comparing pointers obtained from
-> >  	rcu_dereference() against non-NULL values.  As Linus Torvalds
-> >  	explained, if the two pointers are equal, the compiler could
-> >  	substitute the pointer you are comparing against for the pointer
-> > -	obtained from rcu_dereference().  For example:
-> > +	obtained from rcu_dereference().  For example::
-> >  
-> >  		p = rcu_dereference(gp);
-> >  		if (p == &default_struct)
-> > @@ -93,7 +96,7 @@ o	Be very careful about comparing pointers obtained from
-> >  
-> >  	Because the compiler now knows that the value of "p" is exactly
-> >  	the address of the variable "default_struct", it is free to
-> > -	transform this code into the following:
-> > +	transform this code into the following::
-> >  
-> >  		p = rcu_dereference(gp);
-> >  		if (p == &default_struct)
-> > @@ -105,14 +108,14 @@ o	Be very careful about comparing pointers obtained from
-> >  
-> >  	However, comparisons are OK in the following cases:
-> >  
-> > -	o	The comparison was against the NULL pointer.  If the
-> > +	-	The comparison was against the NULL pointer.  If the
-> >  		compiler knows that the pointer is NULL, you had better
-> >  		not be dereferencing it anyway.  If the comparison is
-> >  		non-equal, the compiler is none the wiser.  Therefore,
-> >  		it is safe to compare pointers from rcu_dereference()
-> >  		against NULL pointers.
-> >  
-> > -	o	The pointer is never dereferenced after being compared.
-> > +	-	The pointer is never dereferenced after being compared.
-> >  		Since there are no subsequent dereferences, the compiler
-> >  		cannot use anything it learned from the comparison
-> >  		to reorder the non-existent subsequent dereferences.
-> > @@ -124,31 +127,31 @@ o	Be very careful about comparing pointers obtained from
-> >  		dereferenced, rcu_access_pointer() should be used in place
-> >  		of rcu_dereference().
-> >  
-> > -	o	The comparison is against a pointer that references memory
-> > +	-	The comparison is against a pointer that references memory
-> >  		that was initialized "a long time ago."  The reason
-> >  		this is safe is that even if misordering occurs, the
-> >  		misordering will not affect the accesses that follow
-> >  		the comparison.  So exactly how long ago is "a long
-> >  		time ago"?  Here are some possibilities:
-> >  
-> > -		o	Compile time.
-> > +		-	Compile time.
-> >  
-> > -		o	Boot time.
-> > +		-	Boot time.
-> >  
-> > -		o	Module-init time for module code.
-> > +		-	Module-init time for module code.
-> >  
-> > -		o	Prior to kthread creation for kthread code.
-> > +		-	Prior to kthread creation for kthread code.
-> >  
-> > -		o	During some prior acquisition of the lock that
-> > +		-	During some prior acquisition of the lock that
-> >  			we now hold.
-> >  
-> > -		o	Before mod_timer() time for a timer handler.
-> > +		-	Before mod_timer() time for a timer handler.
-> >  
-> >  		There are many other possibilities involving the Linux
-> >  		kernel's wide array of primitives that cause code to
-> >  		be invoked at a later time.
-> >  
-> > -	o	The pointer being compared against also came from
-> > +	-	The pointer being compared against also came from
-> >  		rcu_dereference().  In this case, both pointers depend
-> >  		on one rcu_dereference() or another, so you get proper
-> >  		ordering either way.
-> > @@ -159,13 +162,13 @@ o	Be very careful about comparing pointers obtained from
-> >  		of such an RCU usage bug is shown in the section titled
-> >  		"EXAMPLE OF AMPLIFIED RCU-USAGE BUG".
-> >  
-> > -	o	All of the accesses following the comparison are stores,
-> > +	-	All of the accesses following the comparison are stores,
-> >  		so that a control dependency preserves the needed ordering.
-> >  		That said, it is easy to get control dependencies wrong.
-> >  		Please see the "CONTROL DEPENDENCIES" section of
-> >  		Documentation/memory-barriers.txt for more details.
-> >  
-> > -	o	The pointers are not equal -and- the compiler does
-> > +	-	The pointers are not equal -and- the compiler does
-> >  		not have enough information to deduce the value of the
-> >  		pointer.  Note that the volatile cast in rcu_dereference()
-> >  		will normally prevent the compiler from knowing too much.
-> > @@ -175,7 +178,7 @@ o	Be very careful about comparing pointers obtained from
-> >  		comparison will provide exactly the information that the
-> >  		compiler needs to deduce the value of the pointer.
-> >  
-> > -o	Disable any value-speculation optimizations that your compiler
-> > +-	Disable any value-speculation optimizations that your compiler
-> >  	might provide, especially if you are making use of feedback-based
-> >  	optimizations that take data collected from prior runs.  Such
-> >  	value-speculation optimizations reorder operations by design.
-> > @@ -188,11 +191,12 @@ o	Disable any value-speculation optimizations that your compiler
-> >  
-> >  
-> >  EXAMPLE OF AMPLIFIED RCU-USAGE BUG
-> > +----------------------------------
-> >  
-> >  Because updaters can run concurrently with RCU readers, RCU readers can
-> >  see stale and/or inconsistent values.  If RCU readers need fresh or
-> >  consistent values, which they sometimes do, they need to take proper
-> > -precautions.  To see this, consider the following code fragment:
-> > +precautions.  To see this, consider the following code fragment::
-> >  
-> >  	struct foo {
-> >  		int a;
-> > @@ -244,7 +248,7 @@ to some reordering from the compiler and CPUs is beside the point.
-> >  
-> >  But suppose that the reader needs a consistent view?
-> >  
-> > -Then one approach is to use locking, for example, as follows:
-> > +Then one approach is to use locking, for example, as follows::
-> >  
-> >  	struct foo {
-> >  		int a;
-> > @@ -299,6 +303,7 @@ As always, use the right tool for the job!
-> >  
-> >  
-> >  EXAMPLE WHERE THE COMPILER KNOWS TOO MUCH
-> > +-----------------------------------------
-> >  
-> >  If a pointer obtained from rcu_dereference() compares not-equal to some
-> >  other pointer, the compiler normally has no clue what the value of the
-> > @@ -308,7 +313,7 @@ guarantees that RCU depends on.  And the volatile cast in rcu_dereference()
-> >  should prevent the compiler from guessing the value.
-> >  
-> >  But without rcu_dereference(), the compiler knows more than you might
-> > -expect.  Consider the following code fragment:
-> > +expect.  Consider the following code fragment::
-> >  
-> >  	struct foo {
-> >  		int a;
-> > @@ -354,6 +359,7 @@ dereference the resulting pointer.
-> >  
-> >  
-> >  WHICH MEMBER OF THE rcu_dereference() FAMILY SHOULD YOU USE?
-> > +------------------------------------------------------------
-> >  
-> >  First, please avoid using rcu_dereference_raw() and also please avoid
-> >  using rcu_dereference_check() and rcu_dereference_protected() with a
-> > @@ -370,7 +376,7 @@ member of the rcu_dereference() to use in various situations:
-> >  
-> >  2.	If the access might be within an RCU read-side critical section
-> >  	on the one hand, or protected by (say) my_lock on the other,
-> > -	use rcu_dereference_check(), for example:
-> > +	use rcu_dereference_check(), for example::
-> >  
-> >  		p1 = rcu_dereference_check(p->rcu_protected_pointer,
-> >  					   lockdep_is_held(&my_lock));
-> > @@ -378,14 +384,14 @@ member of the rcu_dereference() to use in various situations:
-> >  
-> >  3.	If the access might be within an RCU read-side critical section
-> >  	on the one hand, or protected by either my_lock or your_lock on
-> > -	the other, again use rcu_dereference_check(), for example:
-> > +	the other, again use rcu_dereference_check(), for example::
-> >  
-> >  		p1 = rcu_dereference_check(p->rcu_protected_pointer,
-> >  					   lockdep_is_held(&my_lock) ||
-> >  					   lockdep_is_held(&your_lock));
-> >  
-> >  4.	If the access is on the update side, so that it is always protected
-> > -	by my_lock, use rcu_dereference_protected():
-> > +	by my_lock, use rcu_dereference_protected()::
-> >  
-> >  		p1 = rcu_dereference_protected(p->rcu_protected_pointer,
-> >  					       lockdep_is_held(&my_lock));
-> > @@ -410,18 +416,19 @@ member of the rcu_dereference() to use in various situations:
-> >  
-> >  
-> >  SPARSE CHECKING OF RCU-PROTECTED POINTERS
-> > +-----------------------------------------
-> >  
-> >  The sparse static-analysis tool checks for direct access to RCU-protected
-> >  pointers, which can result in "interesting" bugs due to compiler
-> >  optimizations involving invented loads and perhaps also load tearing.
-> > -For example, suppose someone mistakenly does something like this:
-> > +For example, suppose someone mistakenly does something like this::
-> >  
-> >  	p = q->rcu_protected_pointer;
-> >  	do_something_with(p->a);
-> >  	do_something_else_with(p->b);
-> >  
-> >  If register pressure is high, the compiler might optimize "p" out
-> > -of existence, transforming the code to something like this:
-> > +of existence, transforming the code to something like this::
-> >  
-> >  	do_something_with(q->rcu_protected_pointer->a);
-> >  	do_something_else_with(q->rcu_protected_pointer->b);
-> > @@ -435,7 +442,7 @@ Load tearing could of course result in dereferencing a mashup of a pair
-> >  of pointers, which also might fatally disappoint your code.
-> >  
-> >  These problems could have been avoided simply by making the code instead
-> > -read as follows:
-> > +read as follows::
-> >  
-> >  	p = rcu_dereference(q->rcu_protected_pointer);
-> >  	do_something_with(p->a);
-> > @@ -448,7 +455,7 @@ or as a formal parameter, with "__rcu", which tells sparse to complain if
-> >  this pointer is accessed directly.  It will also cause sparse to complain
-> >  if a pointer not marked with "__rcu" is accessed using rcu_dereference()
-> >  and friends.  For example, ->rcu_protected_pointer might be declared as
-> > -follows:
-> > +follows::
-> >  
-> >  	struct foo __rcu *rcu_protected_pointer;
-> >  
-> > -- 
-> > 2.20.1
-> > 
+diff --git a/drivers/media/platform/vivid/Makefile b/drivers/media/platform/vivid/Makefile
+index e8a50c506dc9..b12ad0152a3e 100644
+--- a/drivers/media/platform/vivid/Makefile
++++ b/drivers/media/platform/vivid/Makefile
+@@ -3,7 +3,8 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
+ 		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
+ 		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
+ 		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
+-		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o
++		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o \
++		vivid-kthread-touch.o vivid-touch-cap.o
+ ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
+   vivid-objs += vivid-cec.o
+ endif
+diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
+index bd91916980b9..f6f58d7daa71 100644
+--- a/drivers/media/platform/vivid/vivid-core.c
++++ b/drivers/media/platform/vivid/vivid-core.c
+@@ -39,6 +39,7 @@
+ #include "vivid-ctrls.h"
+ #include "vivid-meta-cap.h"
+ #include "vivid-meta-out.h"
++#include "vivid-touch-cap.h"
+ 
+ #define VIVID_MODULE_NAME "vivid"
+ 
+@@ -89,6 +90,10 @@ static int meta_out_nr[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
+ module_param_array(meta_out_nr, int, NULL, 0444);
+ MODULE_PARM_DESC(meta_out_nr, " videoX start number, -1 is autodetect");
+ 
++static int touch_cap_nr[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
++module_param_array(touch_cap_nr, int, NULL, 0444);
++MODULE_PARM_DESC(touch_cap_nr, " v4l-touchX start number, -1 is autodetect");
++
+ static int ccs_cap_mode[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
+ module_param_array(ccs_cap_mode, int, NULL, 0444);
+ MODULE_PARM_DESC(ccs_cap_mode, " capture crop/compose/scale mode:\n"
+@@ -110,10 +115,10 @@ MODULE_PARM_DESC(multiplanar, " 1 (default) creates a single planar device, 2 cr
+  * vbi-out + vid-out + meta-cap
+  */
+ static unsigned int node_types[VIVID_MAX_DEVS] = {
+-	[0 ... (VIVID_MAX_DEVS - 1)] = 0x61d3d
++	[0 ... (VIVID_MAX_DEVS - 1)] = 0xe1d3d
+ };
+ module_param_array(node_types, uint, NULL, 0444);
+-MODULE_PARM_DESC(node_types, " node types, default is 0x61d3d. Bitmask with the following meaning:\n"
++MODULE_PARM_DESC(node_types, " node types, default is 0xe1d3d. Bitmask with the following meaning:\n"
+ 			     "\t\t    bit 0: Video Capture node\n"
+ 			     "\t\t    bit 2-3: VBI Capture node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
+ 			     "\t\t    bit 4: Radio Receiver node\n"
+@@ -123,7 +128,8 @@ MODULE_PARM_DESC(node_types, " node types, default is 0x61d3d. Bitmask with the
+ 			     "\t\t    bit 12: Radio Transmitter node\n"
+ 			     "\t\t    bit 16: Framebuffer for testing overlays\n"
+ 			     "\t\t    bit 17: Metadata Capture node\n"
+-			     "\t\t    bit 18: Metadata Output node\n");
++			     "\t\t    bit 18: Metadata Output node\n"
++			     "\t\t    bit 19: Touch Capture node\n");
+ 
+ /* Default: 4 inputs */
+ static unsigned num_inputs[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = 4 };
+@@ -223,7 +229,8 @@ static int vidioc_querycap(struct file *file, void  *priv,
+ 		dev->vbi_cap_caps | dev->vbi_out_caps |
+ 		dev->radio_rx_caps | dev->radio_tx_caps |
+ 		dev->sdr_cap_caps | dev->meta_cap_caps |
+-		dev->meta_out_caps | V4L2_CAP_DEVICE_CAPS;
++		dev->meta_out_caps | dev->touch_cap_caps |
++		V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+@@ -255,6 +262,8 @@ static int vidioc_g_tuner(struct file *file, void *fh, struct v4l2_tuner *vt)
+ 		return vivid_radio_rx_g_tuner(file, fh, vt);
+ 	if (vdev->vfl_type == VFL_TYPE_SDR)
+ 		return vivid_sdr_g_tuner(file, fh, vt);
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return -EINVAL;
+ 	return vivid_video_g_tuner(file, fh, vt);
+ }
+ 
+@@ -266,6 +275,8 @@ static int vidioc_s_tuner(struct file *file, void *fh, const struct v4l2_tuner *
+ 		return vivid_radio_rx_s_tuner(file, fh, vt);
+ 	if (vdev->vfl_type == VFL_TYPE_SDR)
+ 		return vivid_sdr_s_tuner(file, fh, vt);
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return -EINVAL;
+ 	return vivid_video_s_tuner(file, fh, vt);
+ }
+ 
+@@ -280,6 +291,8 @@ static int vidioc_g_frequency(struct file *file, void *fh, struct v4l2_frequency
+ 			&dev->radio_rx_freq : &dev->radio_tx_freq, vf);
+ 	if (vdev->vfl_type == VFL_TYPE_SDR)
+ 		return vivid_sdr_g_frequency(file, fh, vf);
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return -EINVAL;
+ 	return vivid_video_g_frequency(file, fh, vf);
+ }
+ 
+@@ -294,6 +307,8 @@ static int vidioc_s_frequency(struct file *file, void *fh, const struct v4l2_fre
+ 			&dev->radio_rx_freq : &dev->radio_tx_freq, vf);
+ 	if (vdev->vfl_type == VFL_TYPE_SDR)
+ 		return vivid_sdr_s_frequency(file, fh, vf);
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return -EINVAL;
+ 	return vivid_video_s_frequency(file, fh, vf);
+ }
+ 
+@@ -377,6 +392,8 @@ static int vidioc_g_parm(struct file *file, void *fh,
+ {
+ 	struct video_device *vdev = video_devdata(file);
+ 
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return vivid_g_parm_tch(file, fh, parm);
+ 	if (vdev->vfl_dir == VFL_DIR_RX)
+ 		return vivid_vid_cap_g_parm(file, fh, parm);
+ 	return vivid_vid_out_g_parm(file, fh, parm);
+@@ -387,6 +404,8 @@ static int vidioc_s_parm(struct file *file, void *fh,
+ {
+ 	struct video_device *vdev = video_devdata(file);
+ 
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return vivid_g_parm_tch(file, fh, parm);
+ 	if (vdev->vfl_dir == VFL_DIR_RX)
+ 		return vivid_vid_cap_s_parm(file, fh, parm);
+ 	return -ENOTTY;
+@@ -432,6 +451,66 @@ static __poll_t vivid_radio_poll(struct file *file, struct poll_table_struct *wa
+ 	return vivid_radio_tx_poll(file, wait);
+ }
+ 
++int vivid_enum_input(struct file *file, void *priv, struct v4l2_input *inp)
++{
++	struct video_device *vdev = video_devdata(file);
++
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return vivid_enum_input_tch(file, priv, inp);
++	else
++		return vidioc_enum_input(file, priv, inp);
++}
++
++int vivid_s_input(struct file *file, void *priv, unsigned int i)
++{
++	struct video_device *vdev = video_devdata(file);
++
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return vivid_s_input_tch(file, priv, i);
++	else
++		return vidioc_s_input(file, priv, i);
++}
++
++int vivid_enum_fmt_cap(struct file *file, void  *priv, struct v4l2_fmtdesc *f)
++{
++	struct video_device *vdev = video_devdata(file);
++
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return vivid_enum_fmt_tch(file, priv, f);
++	else
++		return vivid_enum_fmt_vid(file, priv, f);
++}
++
++int vivid_g_fmt_cap(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct video_device *vdev = video_devdata(file);
++
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return vivid_g_fmt_tch(file, priv, f);
++	else
++		return vidioc_g_fmt_vid_cap(file, priv, f);
++}
++
++int vivid_try_fmt_cap(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct video_device *vdev = video_devdata(file);
++
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return vivid_g_fmt_tch(file, priv, f);
++	else
++		return vidioc_try_fmt_vid_cap(file, priv, f);
++}
++
++int vivid_s_fmt_cap(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct video_device *vdev = video_devdata(file);
++
++	if (vdev->vfl_type == VFL_TYPE_TOUCH)
++		return vivid_g_fmt_tch(file, priv, f);
++	else
++		return vidioc_s_fmt_vid_cap(file, priv, f);
++}
++
+ static bool vivid_is_in_use(struct video_device *vdev)
+ {
+ 	unsigned long flags;
+@@ -453,7 +532,8 @@ static bool vivid_is_last_user(struct vivid_dev *dev)
+ 			vivid_is_in_use(&dev->radio_rx_dev) +
+ 			vivid_is_in_use(&dev->radio_tx_dev) +
+ 			vivid_is_in_use(&dev->meta_cap_dev) +
+-			vivid_is_in_use(&dev->meta_out_dev);
++			vivid_is_in_use(&dev->meta_out_dev) +
++			vivid_is_in_use(&dev->touch_cap_dev);
+ 
+ 	return uses == 1;
+ }
+@@ -481,6 +561,7 @@ static int vivid_fop_release(struct file *file)
+ 		set_bit(V4L2_FL_REGISTERED, &dev->radio_tx_dev.flags);
+ 		set_bit(V4L2_FL_REGISTERED, &dev->meta_cap_dev.flags);
+ 		set_bit(V4L2_FL_REGISTERED, &dev->meta_out_dev.flags);
++		set_bit(V4L2_FL_REGISTERED, &dev->touch_cap_dev.flags);
+ 	}
+ 	mutex_unlock(&dev->mutex);
+ 	if (file->private_data == dev->overlay_cap_owner)
+@@ -522,10 +603,10 @@ static const struct v4l2_file_operations vivid_radio_fops = {
+ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
+ 	.vidioc_querycap		= vidioc_querycap,
+ 
+-	.vidioc_enum_fmt_vid_cap	= vivid_enum_fmt_vid,
+-	.vidioc_g_fmt_vid_cap		= vidioc_g_fmt_vid_cap,
+-	.vidioc_try_fmt_vid_cap		= vidioc_try_fmt_vid_cap,
+-	.vidioc_s_fmt_vid_cap		= vidioc_s_fmt_vid_cap,
++	.vidioc_enum_fmt_vid_cap	= vivid_enum_fmt_cap,
++	.vidioc_g_fmt_vid_cap		= vivid_g_fmt_cap,
++	.vidioc_try_fmt_vid_cap		= vivid_try_fmt_cap,
++	.vidioc_s_fmt_vid_cap		= vivid_s_fmt_cap,
+ 	.vidioc_g_fmt_vid_cap_mplane	= vidioc_g_fmt_vid_cap_mplane,
+ 	.vidioc_try_fmt_vid_cap_mplane	= vidioc_try_fmt_vid_cap_mplane,
+ 	.vidioc_s_fmt_vid_cap_mplane	= vidioc_s_fmt_vid_cap_mplane,
+@@ -590,9 +671,9 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
+ 	.vidioc_streamon		= vb2_ioctl_streamon,
+ 	.vidioc_streamoff		= vb2_ioctl_streamoff,
+ 
+-	.vidioc_enum_input		= vidioc_enum_input,
++	.vidioc_enum_input		= vivid_enum_input,
+ 	.vidioc_g_input			= vidioc_g_input,
+-	.vidioc_s_input			= vidioc_s_input,
++	.vidioc_s_input			= vivid_s_input,
+ 	.vidioc_s_audio			= vidioc_s_audio,
+ 	.vidioc_g_audio			= vidioc_g_audio,
+ 	.vidioc_enumaudio		= vidioc_enumaudio,
+@@ -856,6 +937,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	/* do we create a metadata output device */
+ 	dev->has_meta_out = node_type & 0x40000;
+ 
++	/* do we create a touch capture device */
++	dev->has_touch_cap = node_type & 0x80000;
++
+ 	/* end detecting feature set */
+ 
+ 	if (dev->has_vid_cap) {
+@@ -929,6 +1013,11 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 		if (dev->has_audio_outputs)
+ 			dev->meta_out_caps |= V4L2_CAP_AUDIO;
+ 	}
++	/* set up the capabilities of the touch capture device */
++	if (dev->has_touch_cap) {
++		dev->touch_cap_caps = V4L2_CAP_TOUCH | V4L2_CAP_VIDEO_CAPTURE |
++				      V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
++	}
+ 
+ 	ret = -ENOMEM;
+ 	/* initialize the test pattern generator */
+@@ -992,6 +1081,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_AUDIO);
+ 		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_AUDIO);
+ 		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_ENUMAUDIO);
++		v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_S_AUDIO);
++		v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_G_AUDIO);
++		v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_ENUMAUDIO);
+ 	}
+ 	if (!dev->has_audio_outputs) {
+ 		v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_AUDOUT);
+@@ -1022,6 +1114,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_FREQUENCY);
+ 		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_FREQUENCY);
+ 		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_FREQUENCY);
++		v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_S_FREQUENCY);
++		v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_G_FREQUENCY);
+ 	}
+ 	if (!has_tuner) {
+ 		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_TUNER);
+@@ -1030,6 +1124,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 		v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_G_TUNER);
+ 		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_TUNER);
+ 		v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_G_TUNER);
++		v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_S_TUNER);
++		v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_G_TUNER);
+ 	}
+ 	if (in_type_counter[HDMI] == 0) {
+ 		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_EDID);
+@@ -1056,6 +1152,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	v4l2_disable_ioctl(&dev->vbi_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
+ 	v4l2_disable_ioctl(&dev->sdr_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
+ 	v4l2_disable_ioctl(&dev->meta_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
++	v4l2_disable_ioctl(&dev->touch_cap_dev, VIDIOC_S_HW_FREQ_SEEK);
+ 	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_S_FREQUENCY);
+ 	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_G_FREQUENCY);
+ 	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_FRAMESIZES);
+@@ -1136,6 +1233,11 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	dev->fb_cap.fmt.bytesperline = dev->src_rect.width * tpg_g_twopixelsize(&dev->tpg, 0) / 2;
+ 	dev->fb_cap.fmt.sizeimage = dev->src_rect.height * dev->fb_cap.fmt.bytesperline;
+ 
++	/* update touch configuration */
++	dev->timeperframe_tch_cap.numerator = 1;
++	dev->timeperframe_tch_cap.denominator = 10;
++	vivid_set_touch(dev, 0);
++
+ 	/* initialize locks */
+ 	spin_lock_init(&dev->slock);
+ 	mutex_init(&dev->mutex);
+@@ -1148,6 +1250,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	INIT_LIST_HEAD(&dev->sdr_cap_active);
+ 	INIT_LIST_HEAD(&dev->meta_cap_active);
+ 	INIT_LIST_HEAD(&dev->meta_out_active);
++	INIT_LIST_HEAD(&dev->touch_cap_active);
+ 
+ 	INIT_LIST_HEAD(&dev->cec_work_list);
+ 	spin_lock_init(&dev->cec_slock);
+@@ -1336,6 +1439,27 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 		if (ret)
+ 			goto unreg_dev;
+ 	}
++	if (dev->has_touch_cap) {
++		/* initialize touch_cap queue */
++		q = &dev->vb_touch_cap_q;
++		q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++		q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_READ;
++		if (!allocator)
++			q->io_modes |= VB2_USERPTR;
++		q->drv_priv = dev;
++		q->buf_struct_size = sizeof(struct vivid_buffer);
++		q->ops = &vivid_touch_cap_qops;
++		q->mem_ops = vivid_mem_ops[allocator];
++		q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++		q->min_buffers_needed = 1;
++		q->lock = &dev->mutex;
++		q->dev = dev->v4l2_dev.dev;
++		q->supports_requests = true;
++
++		ret = vb2_queue_init(q);
++		if (ret)
++			goto unreg_dev;
++	}
+ 
+ #ifdef CONFIG_VIDEO_VIVID_CEC
+ 	if (dev->has_vid_cap && in_type_counter[HDMI]) {
+@@ -1379,6 +1503,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_sdr_cap);
+ 	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_meta_cap);
+ 	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_meta_out);
++	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_touch_cap);
+ 
+ 	/* finally start creating the device nodes */
+ 	if (dev->has_vid_cap) {
+@@ -1665,6 +1790,33 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 			  video_device_node_name(vfd));
+ 	}
+ 
++	if (dev->has_touch_cap) {
++		vfd = &dev->touch_cap_dev;
++		vfd->fops = &vivid_fops;
++		vfd->ioctl_ops = &vivid_ioctl_ops;
++		vfd->device_caps = dev->touch_cap_caps;
++		vfd->release = video_device_release_empty;
++		vfd->v4l2_dev = &dev->v4l2_dev;
++		vfd->queue = &dev->vb_touch_cap_q;
++		vfd->tvnorms = tvnorms_cap;
++		vfd->lock = &dev->mutex;
++		video_set_drvdata(vfd, dev);
++#ifdef CONFIG_MEDIA_CONTROLLER
++		dev->touch_cap_pad.flags = MEDIA_PAD_FL_SINK;
++		ret = media_entity_pads_init(&vfd->entity, 1,
++					     &dev->touch_cap_pad);
++		if (ret)
++			goto unreg_dev;
++#endif
++		ret = video_register_device(vfd, VFL_TYPE_TOUCH,
++					    touch_cap_nr[inst]);
++		if (ret < 0)
++			goto unreg_dev;
++		v4l2_info(&dev->v4l2_dev,
++			  "V4L2 touch capture device registered as %s\n",
++			  video_device_node_name(vfd));
++	}
++
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ 	/* Register the media device */
+ 	ret = media_device_register(&dev->mdev);
+@@ -1681,6 +1833,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	return 0;
+ 
+ unreg_dev:
++	video_unregister_device(&dev->touch_cap_dev);
+ 	video_unregister_device(&dev->meta_out_dev);
+ 	video_unregister_device(&dev->meta_cap_dev);
+ 	video_unregister_device(&dev->radio_tx_dev);
+@@ -1809,6 +1962,11 @@ static int vivid_remove(struct platform_device *pdev)
+ 				  video_device_node_name(&dev->meta_out_dev));
+ 			video_unregister_device(&dev->meta_out_dev);
+ 		}
++		if (dev->has_touch_cap) {
++			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
++				  video_device_node_name(&dev->touch_cap_dev));
++			video_unregister_device(&dev->touch_cap_dev);
++		}
+ 		cec_unregister_adapter(dev->cec_rx_adap);
+ 		for (j = 0; j < MAX_OUTPUTS; j++)
+ 			cec_unregister_adapter(dev->cec_tx_adap[j]);
+diff --git a/drivers/media/platform/vivid/vivid-core.h b/drivers/media/platform/vivid/vivid-core.h
+index d57066ed31f0..0827f6cf7d54 100644
+--- a/drivers/media/platform/vivid/vivid-core.h
++++ b/drivers/media/platform/vivid/vivid-core.h
+@@ -133,6 +133,7 @@ struct vivid_dev {
+ 	struct media_pad		sdr_cap_pad;
+ 	struct media_pad		meta_cap_pad;
+ 	struct media_pad		meta_out_pad;
++	struct media_pad		touch_cap_pad;
+ #endif
+ 	struct v4l2_ctrl_handler	ctrl_hdl_user_gen;
+ 	struct v4l2_ctrl_handler	ctrl_hdl_user_vid;
+@@ -159,6 +160,8 @@ struct vivid_dev {
+ 	struct v4l2_ctrl_handler	ctrl_hdl_meta_cap;
+ 	struct video_device		meta_out_dev;
+ 	struct v4l2_ctrl_handler	ctrl_hdl_meta_out;
++	struct video_device		touch_cap_dev;
++	struct v4l2_ctrl_handler	ctrl_hdl_touch_cap;
+ 
+ 	spinlock_t			slock;
+ 	struct mutex			mutex;
+@@ -173,6 +176,7 @@ struct vivid_dev {
+ 	u32				radio_tx_caps;
+ 	u32				meta_cap_caps;
+ 	u32				meta_out_caps;
++	u32				touch_cap_caps;
+ 
+ 	/* supported features */
+ 	bool				multiplanar;
+@@ -200,6 +204,7 @@ struct vivid_dev {
+ 	bool				has_fb;
+ 	bool				has_meta_cap;
+ 	bool				has_meta_out;
++	bool				has_touch_cap;
+ 
+ 	bool				can_loop_video;
+ 
+@@ -403,6 +408,8 @@ struct vivid_dev {
+ 	struct list_head		vbi_cap_active;
+ 	struct vb2_queue		vb_meta_cap_q;
+ 	struct list_head		meta_cap_active;
++	struct vb2_queue		vb_touch_cap_q;
++	struct list_head		touch_cap_active;
+ 
+ 	/* thread for generating video capture stream */
+ 	struct task_struct		*kthread_vid_cap;
+@@ -424,6 +431,18 @@ struct vivid_dev {
+ 	u32				meta_cap_seq_count;
+ 	bool				meta_cap_streaming;
+ 
++	/* Touch capture */
++	struct task_struct		*kthread_touch_cap;
++	unsigned long			jiffies_touch_cap;
++	u64				touch_cap_stream_start;
++	u32				touch_cap_seq_offset;
++	bool				touch_cap_seq_resync;
++	u32				touch_cap_seq_start;
++	u32				touch_cap_seq_count;
++	bool				touch_cap_streaming;
++	struct v4l2_fract		timeperframe_tch_cap;
++	struct v4l2_pix_format		tch_format;
++
+ 	/* video output */
+ 	const struct vivid_fmt		*fmt_out;
+ 	struct v4l2_fract		timeperframe_vid_out;
+diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
+index b250fc3764e2..c2a5597a6480 100644
+--- a/drivers/media/platform/vivid/vivid-ctrls.c
++++ b/drivers/media/platform/vivid/vivid-ctrls.c
+@@ -1495,6 +1495,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	struct v4l2_ctrl_handler *hdl_sdr_cap = &dev->ctrl_hdl_sdr_cap;
+ 	struct v4l2_ctrl_handler *hdl_meta_cap = &dev->ctrl_hdl_meta_cap;
+ 	struct v4l2_ctrl_handler *hdl_meta_out = &dev->ctrl_hdl_meta_out;
++	struct v4l2_ctrl_handler *hdl_tch_cap = &dev->ctrl_hdl_touch_cap;
+ 
+ 	struct v4l2_ctrl_config vivid_ctrl_dv_timings = {
+ 		.ops = &vivid_vid_cap_ctrl_ops,
+@@ -1538,6 +1539,8 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	v4l2_ctrl_new_custom(hdl_meta_cap, &vivid_ctrl_class, NULL);
+ 	v4l2_ctrl_handler_init(hdl_meta_out, 2);
+ 	v4l2_ctrl_new_custom(hdl_meta_out, &vivid_ctrl_class, NULL);
++	v4l2_ctrl_handler_init(hdl_tch_cap, 2);
++	v4l2_ctrl_new_custom(hdl_tch_cap, &vivid_ctrl_class, NULL);
+ 
+ 	/* User Controls */
+ 	dev->volume = v4l2_ctrl_new_std(hdl_user_aud, NULL,
+@@ -1890,6 +1893,13 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 			return hdl_meta_out->error;
+ 		dev->meta_out_dev.ctrl_handler = hdl_meta_out;
+ 	}
++	if (dev->has_touch_cap) {
++		v4l2_ctrl_add_handler(hdl_tch_cap, hdl_user_gen, NULL, false);
++		v4l2_ctrl_add_handler(hdl_tch_cap, hdl_streaming, NULL, false);
++		if (hdl_tch_cap->error)
++			return hdl_tch_cap->error;
++		dev->touch_cap_dev.ctrl_handler = hdl_tch_cap;
++	}
+ 	return 0;
+ }
+ 
+@@ -1911,4 +1921,5 @@ void vivid_free_controls(struct vivid_dev *dev)
+ 	v4l2_ctrl_handler_free(&dev->ctrl_hdl_fb);
+ 	v4l2_ctrl_handler_free(&dev->ctrl_hdl_meta_cap);
+ 	v4l2_ctrl_handler_free(&dev->ctrl_hdl_meta_out);
++	v4l2_ctrl_handler_free(&dev->ctrl_hdl_touch_cap);
+ }
+diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
+index 9f981e8bae6e..84deafac0d26 100644
+--- a/drivers/media/platform/vivid/vivid-kthread-cap.c
++++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
+@@ -779,7 +779,6 @@ static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
+ 			meta_cap_buf->vb.vb2_buf.index);
+ 		meta_cap_buf->vb.vb2_buf.timestamp = f_time + dev->cap_frame_eof_offset;
+ 	}
+-
+ 	dev->dqbuf_error = false;
+ 
+ update_mv:
+diff --git a/drivers/media/platform/vivid/vivid-kthread-touch.c b/drivers/media/platform/vivid/vivid-kthread-touch.c
+new file mode 100644
+index 000000000000..f39f10749a29
+--- /dev/null
++++ b/drivers/media/platform/vivid/vivid-kthread-touch.c
+@@ -0,0 +1,212 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * vivid-kthread-touch.h - touch capture thread support functions.
++ *
++ */
++
++#include <linux/module.h>
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/init.h>
++#include <linux/sched.h>
++#include <linux/slab.h>
++#include <linux/font.h>
++#include <linux/mutex.h>
++#include <linux/videodev2.h>
++#include <linux/kthread.h>
++#include <linux/freezer.h>
++#include <linux/random.h>
++#include <linux/v4l2-dv-timings.h>
++#include <asm/div64.h>
++#include <media/videobuf2-vmalloc.h>
++#include <media/v4l2-dv-timings.h>
++#include <media/v4l2-ioctl.h>
++#include <media/v4l2-fh.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-rect.h>
++
++#include "vivid-core.h"
++#include "vivid-osd.h"
++#include "vivid-ctrls.h"
++#include "vivid-kthread-touch.h"
++#include "vivid-touch-cap.h"
++
++static noinline_for_stack void vivid_thread_tch_cap_tick(struct vivid_dev *dev,
++							 int dropped_bufs)
++{
++	struct vivid_buffer *tch_cap_buf = NULL;
++
++	dprintk(dev, 1, "Touch Capture Thread Tick\n");
++
++	spin_lock(&dev->slock);
++	if (!list_empty(&dev->touch_cap_active)) {
++		tch_cap_buf = list_entry(dev->touch_cap_active.next,
++					 struct vivid_buffer, list);
++		list_del(&tch_cap_buf->list);
++	}
++
++	spin_unlock(&dev->slock);
++
++	if (tch_cap_buf) {
++		v4l2_ctrl_request_setup(tch_cap_buf->vb.vb2_buf.req_obj.req,
++					&dev->ctrl_hdl_touch_cap);
++
++		vivid_fillbuff_tch(dev, tch_cap_buf);
++		v4l2_ctrl_request_complete(tch_cap_buf->vb.vb2_buf.req_obj.req,
++					   &dev->ctrl_hdl_touch_cap);
++		vb2_buffer_done(&tch_cap_buf->vb.vb2_buf, dev->dqbuf_error ?
++				VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
++		dprintk(dev, 2, "touch_cap buffer %d done\n",
++			tch_cap_buf->vb.vb2_buf.index);
++
++		tch_cap_buf->vb.vb2_buf.timestamp = ktime_get_ns() + dev->time_wrap_offset;
++	}
++	dev->dqbuf_error = false;
++}
++
++static int vivid_thread_touch_cap(void *data)
++{
++	struct vivid_dev *dev = data;
++	u64 numerators_since_start;
++	u64 buffers_since_start;
++	u64 next_jiffies_since_start;
++	unsigned long jiffies_since_start;
++	unsigned long cur_jiffies;
++	unsigned int wait_jiffies;
++	unsigned int numerator;
++	unsigned int denominator;
++	int dropped_bufs;
++
++	dprintk(dev, 1, "Touch Capture Thread Start\n");
++
++	set_freezable();
++
++	/* Resets frame counters */
++	dev->touch_cap_seq_offset = 0;
++	dev->touch_cap_seq_count = 0;
++	dev->touch_cap_seq_resync = false;
++	dev->jiffies_touch_cap = jiffies;
++
++	for (;;) {
++		try_to_freeze();
++		if (kthread_should_stop())
++			break;
++
++		if (!mutex_trylock(&dev->mutex)) {
++			schedule_timeout_uninterruptible(1);
++			continue;
++		}
++		cur_jiffies = jiffies;
++		if (dev->touch_cap_seq_resync) {
++			dev->jiffies_touch_cap = cur_jiffies;
++			dev->touch_cap_seq_offset = dev->touch_cap_seq_count + 1;
++			dev->touch_cap_seq_count = 0;
++			dev->cap_seq_resync = false;
++		}
++		denominator = dev->timeperframe_vid_cap.denominator;
++		numerator = dev->timeperframe_tch_cap.numerator;
++
++		/* Calculate the number of jiffies since we started streaming */
++		jiffies_since_start = cur_jiffies - dev->jiffies_touch_cap;
++		/* Get the number of buffers streamed since the start */
++		buffers_since_start = (u64)jiffies_since_start * denominator +
++				      (HZ * numerator) / 2;
++		do_div(buffers_since_start, HZ * numerator);
++
++		/*
++		 * After more than 0xf0000000 (rounded down to a multiple of
++		 * 'jiffies-per-day' to ease jiffies_to_msecs calculation)
++		 * jiffies have passed since we started streaming reset the
++		 * counters and keep track of the sequence offset.
++		 */
++		if (jiffies_since_start > JIFFIES_RESYNC) {
++			dev->jiffies_touch_cap = cur_jiffies;
++			dev->cap_seq_offset = buffers_since_start;
++			buffers_since_start = 0;
++		}
++		dropped_bufs = buffers_since_start + dev->touch_cap_seq_offset - dev->touch_cap_seq_count;
++		dev->touch_cap_seq_count = buffers_since_start + dev->touch_cap_seq_offset;
++
++		vivid_thread_tch_cap_tick(dev, dropped_bufs);
++
++		/*
++		 * Calculate the number of 'numerators' streamed
++		 * since we started, including the current buffer.
++		 */
++		numerators_since_start = ++buffers_since_start * numerator;
++
++		/* And the number of jiffies since we started */
++		jiffies_since_start = jiffies - dev->jiffies_touch_cap;
++
++		mutex_unlock(&dev->mutex);
++
++		/*
++		 * Calculate when that next buffer is supposed to start
++		 * in jiffies since we started streaming.
++		 */
++		next_jiffies_since_start = numerators_since_start * HZ +
++					   denominator / 2;
++		do_div(next_jiffies_since_start, denominator);
++		/* If it is in the past, then just schedule asap */
++		if (next_jiffies_since_start < jiffies_since_start)
++			next_jiffies_since_start = jiffies_since_start;
++
++		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
++		schedule_timeout_interruptible(wait_jiffies ? wait_jiffies : 1);
++	}
++	dprintk(dev, 1, "Touch Capture Thread End\n");
++	return 0;
++}
++
++int vivid_start_generating_touch_cap(struct vivid_dev *dev, bool *pstreaming)
++{
++	dprintk(dev, 1, "%s\n", __func__);
++
++	if (dev->kthread_touch_cap) {
++		*pstreaming = true;
++		return 0;
++	}
++
++	dev->kthread_touch_cap = kthread_run(vivid_thread_touch_cap, dev,
++					     "%s-tch-cap", dev->v4l2_dev.name);
++
++	if (IS_ERR(dev->kthread_touch_cap)) {
++		int err = PTR_ERR(dev->kthread_touch_cap);
++
++		dev->kthread_touch_cap = NULL;
++		v4l2_err(&dev->v4l2_dev, "kernel_thread() failed\n");
++		return err;
++	}
++	*pstreaming = true;
++	dprintk(dev, 1, "returning from %s\n", __func__);
++	return 0;
++}
++
++void vivid_stop_generating_touch_cap(struct vivid_dev *dev, bool *pstreaming)
++{
++	dprintk(dev, 1, "%s\n", __func__);
++
++	if (!dev->kthread_touch_cap)
++		return;
++
++	*pstreaming = false;
++
++	while (!list_empty(&dev->touch_cap_active)) {
++		struct vivid_buffer *buf;
++
++		buf = list_entry(dev->touch_cap_active.next,
++				 struct vivid_buffer, list);
++		list_del(&buf->list);
++		v4l2_ctrl_request_complete(buf->vb.vb2_buf.req_obj.req,
++					   &dev->ctrl_hdl_touch_cap);
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++		dprintk(dev, 2, "touch_cap buffer %d done\n",
++			buf->vb.vb2_buf.index);
++	}
++
++	if (dev->touch_cap_streaming)
++		return;
++
++	kthread_stop(dev->kthread_touch_cap);
++	dev->kthread_touch_cap = NULL;
++}
+diff --git a/drivers/media/platform/vivid/vivid-kthread-touch.h b/drivers/media/platform/vivid/vivid-kthread-touch.h
+new file mode 100644
+index 000000000000..db9cfa1b473c
+--- /dev/null
++++ b/drivers/media/platform/vivid/vivid-kthread-touch.h
+@@ -0,0 +1,13 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * vivid-kthread-cap.h - video/vbi capture thread support functions.
++ *
++ */
++
++#ifndef _VIVID_KTHREAD_CAP_H_
++#define _VIVID_KTHREAD_CAP_H_
++
++int vivid_start_generating_touch_cap(struct vivid_dev *dev, bool *pstreaming);
++void vivid_stop_generating_touch_cap(struct vivid_dev *dev, bool *pstreaming);
++
++#endif
+diff --git a/drivers/media/platform/vivid/vivid-touch-cap.c b/drivers/media/platform/vivid/vivid-touch-cap.c
+new file mode 100644
+index 000000000000..480846afc311
+--- /dev/null
++++ b/drivers/media/platform/vivid/vivid-touch-cap.c
+@@ -0,0 +1,221 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * vivid-touch-cap.c - touch support functions.
++ */
++
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/videodev2.h>
++#include <media/v4l2-common.h>
++#include <linux/usb/video.h>
++
++#include "vivid-core.h"
++#include "vivid-kthread-touch.h"
++#include "vivid-touch-cap.h"
++
++static int touch_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
++				 unsigned int *nplanes, unsigned int sizes[],
++				 struct device *alloc_devs[])
++{
++	unsigned int size = sizeof(struct vivid_touch_buf);
++
++	if (*nplanes) {
++		if (sizes[0] < size)
++			return -EINVAL;
++	} else {
++		sizes[0] = size;
++	}
++
++	if (vq->num_buffers + *nbuffers < 2)
++		*nbuffers = 2 - vq->num_buffers;
++
++	*nplanes = 1;
++	return 0;
++}
++
++static int touch_cap_buf_prepare(struct vb2_buffer *vb)
++{
++	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
++	unsigned int size = sizeof(struct vivid_touch_buf);
++
++	dprintk(dev, 1, "%s\n", __func__);
++
++	if (dev->buf_prepare_error) {
++		/*
++		 * Error injection: test what happens if buf_prepare() returns
++		 * an error.
++		 */
++		dev->buf_prepare_error = false;
++		return -EINVAL;
++	}
++	if (vb2_plane_size(vb, 0) < size) {
++		dprintk(dev, 1, "%s data will not fit into plane (%lu < %u)\n",
++			__func__, vb2_plane_size(vb, 0), size);
++		return -EINVAL;
++	}
++	vb2_set_plane_payload(vb, 0, size);
++
++	return 0;
++}
++
++static void touch_cap_buf_queue(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
++	struct vivid_buffer *buf = container_of(vbuf, struct vivid_buffer, vb);
++
++	dprintk(dev, 1, "%s\n", __func__);
++
++	spin_lock(&dev->slock);
++	list_add_tail(&buf->list, &dev->touch_cap_active);
++	spin_unlock(&dev->slock);
++}
++
++static int touch_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
++{
++	struct vivid_dev *dev = vb2_get_drv_priv(vq);
++	int err;
++
++	dprintk(dev, 1, "%s\n", __func__);
++	dev->touch_cap_seq_count = 0;
++	if (dev->start_streaming_error) {
++		dev->start_streaming_error = false;
++		err = -EINVAL;
++	} else {
++		err = vivid_start_generating_touch_cap(dev,
++						       &dev->touch_cap_streaming);
++	}
++	if (err) {
++		struct vivid_buffer *buf, *tmp;
++
++		list_for_each_entry_safe(buf, tmp,
++					 &dev->touch_cap_active, list) {
++			list_del(&buf->list);
++			vb2_buffer_done(&buf->vb.vb2_buf,
++					VB2_BUF_STATE_QUEUED);
++		}
++	}
++	return err;
++}
++
++/* abort streaming and wait for last buffer */
++static void touch_cap_stop_streaming(struct vb2_queue *vq)
++{
++	struct vivid_dev *dev = vb2_get_drv_priv(vq);
++
++	dprintk(dev, 1, "%s\n", __func__);
++	vivid_stop_generating_touch_cap(dev, &dev->touch_cap_streaming);
++}
++
++static void touch_cap_buf_request_complete(struct vb2_buffer *vb)
++{
++	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
++
++	v4l2_ctrl_request_complete(vb->req_obj.req, &dev->ctrl_hdl_touch_cap);
++}
++
++const struct vb2_ops vivid_touch_cap_qops = {
++	.queue_setup		= touch_cap_queue_setup,
++	.buf_prepare		= touch_cap_buf_prepare,
++	.buf_queue		= touch_cap_buf_queue,
++	.start_streaming	= touch_cap_start_streaming,
++	.stop_streaming		= touch_cap_stop_streaming,
++	.buf_request_complete	= touch_cap_buf_request_complete,
++	.wait_prepare		= vb2_ops_wait_prepare,
++	.wait_finish		= vb2_ops_wait_finish,
++};
++
++int vivid_enum_fmt_tch(struct file *file, void  *priv, struct v4l2_fmtdesc *f)
++{
++	struct vivid_dev *dev = video_drvdata(file);
++
++	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		return -EINVAL;
++	if (f->index)
++		return -EINVAL;
++
++	dprintk(dev, 1, "%s\n", __func__);
++
++	f->pixelformat = V4L2_TCH_FMT_TU16;
++	return 0;
++}
++
++int vivid_g_fmt_tch(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct vivid_dev *dev = video_drvdata(file);
++
++	dprintk(dev, 1, "%s\n", __func__);
++	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++	f->fmt.pix = dev->tch_format;
++	return 0;
++}
++
++int vivid_g_parm_tch(struct file *file, void *priv,
++		     struct v4l2_streamparm *parm)
++{
++	struct vivid_dev *dev = video_drvdata(file);
++
++	dprintk(dev, 1, "%s\n", __func__);
++
++	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		return -EINVAL;
++	parm->parm.capture.capability   = V4L2_CAP_TIMEPERFRAME;
++	parm->parm.capture.timeperframe = dev->timeperframe_tch_cap;
++	parm->parm.capture.readbuffers  = 1;
++	return 0;
++}
++
++int vivid_enum_input_tch(struct file *file, void *priv, struct v4l2_input *inp)
++{
++	struct vivid_dev *dev = video_drvdata(file);
++
++	dprintk(dev, 1, "%s\n", __func__);
++
++	if (inp->index >= dev->num_inputs)
++		return -EINVAL;
++
++	inp->type = V4L2_INPUT_TYPE_TOUCH;
++	snprintf(inp->name, sizeof(inp->name), "Vivid Touch %u",
++		 dev->input_name_counter[inp->index]);
++	inp->capabilities = 0;
++	return 0;
++}
++
++int vivid_set_touch(struct vivid_dev *dev, unsigned int i)
++{
++	struct v4l2_pix_format *f = &dev->tch_format;
++
++	if (i >= dev->num_inputs)
++		return -EINVAL;
++
++	dev->input = i;
++	f->pixelformat = V4L2_TCH_FMT_TU16;
++	f->width =  VIVID_TCH_WIDTH;
++	f->height = VIVID_TCH_HEIGHT;
++	f->field = V4L2_FIELD_NONE;
++	f->colorspace = V4L2_COLORSPACE_RAW;
++	f->bytesperline = f->width * sizeof(u16);
++	f->sizeimage = f->width * f->height * sizeof(u16);
++	return 0;
++}
++
++int vivid_s_input_tch(struct file *file, void *priv, unsigned int i)
++{
++	return vivid_set_touch(video_drvdata(file), i);
++}
++
++void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf)
++{
++	int size = VIVID_TCH_WIDTH * VIVID_TCH_HEIGHT;
++	int touch_width = VIVID_TCH_WIDTH / 4;
++	int i = 0, j = 0;
++	struct vivid_touch_buf *tch_buf = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
++
++	buf->vb.sequence = dev->touch_cap_seq_count;
++
++	memset(tch_buf, 1, vb2_plane_size(&buf->vb.vb2_buf, 0));
++
++	for (i = 0; i < (size / 4 + touch_width) ; i = i + VIVID_TCH_WIDTH)
++		for (j = i ; j < i + touch_width; j++)
++			tch_buf->buf[j] = buf->vb.sequence;
++}
+diff --git a/drivers/media/platform/vivid/vivid-touch-cap.h b/drivers/media/platform/vivid/vivid-touch-cap.h
+new file mode 100644
+index 000000000000..9286afab5425
+--- /dev/null
++++ b/drivers/media/platform/vivid/vivid-touch-cap.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * vivid-touch-cap.h - touch support functions.
++ */
++#ifndef _VIVID_TOUCH_CAP_H_
++#define _VIVID_TOUCH_CAP_H_
++
++#define VIVID_TCH_HEIGHT	24
++#define VIVID_TCH_WIDTH		14
++
++struct vivid_touch_buf {
++	u16	buf[VIVID_TCH_WIDTH * VIVID_TCH_HEIGHT];
++};
++
++extern const struct vb2_ops vivid_touch_cap_qops;
++
++int vivid_enum_fmt_tch(struct file *file, void  *priv, struct v4l2_fmtdesc *f);
++int vivid_g_fmt_tch(struct file *file, void *priv, struct v4l2_format *f);
++int vivid_enum_input_tch(struct file *file, void *priv, struct v4l2_input *inp);
++int vivid_s_input_tch(struct file *file, void *priv, unsigned int i);
++void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf);
++int vivid_set_touch(struct vivid_dev *dev, unsigned int i);
++int vivid_g_parm_tch(struct file *file, void *priv,
++		     struct v4l2_streamparm *parm);
++#endif
+-- 
+2.17.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
