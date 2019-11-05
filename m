@@ -2,80 +2,87 @@ Return-Path: <SRS0=fOLH=Y5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_FONT_LOW_CONTRAST,HTML_MESSAGE,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D759EC5DF60
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 21:37:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B75E8C5DF60
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 21:43:29 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9441C21882
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 21:37:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7759421882
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 21:43:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Al34BAK6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9441C21882
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JLZGt4VB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7759421882
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 82BCBDC8;
-	Tue,  5 Nov 2019 21:37:40 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 40A23D99;
+	Tue,  5 Nov 2019 21:43:29 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9DCD6DAF
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 683CACAA
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  5 Nov 2019 21:37:39 +0000 (UTC)
+	Tue,  5 Nov 2019 21:43:28 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E2DC5844
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 646BD27B
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  5 Nov 2019 21:37:38 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id v138so18989701oif.6
+	Tue,  5 Nov 2019 21:43:27 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id s23so12069929pgo.9
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 05 Nov 2019 13:37:38 -0800 (PST)
+	Tue, 05 Nov 2019 13:43:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RSU22adR+rJgZ1GRaOYEtUx47QpmdXWHM2ZBKtQvXrs=;
-	b=Al34BAK67MP6JqWAEjesjlo/80EUCqqUSO60GGLYaVjPDQoRfXZVplSo8u2Oqw3paC
-	LIFNDCuzFkHpC6LOogXQ0bPg2ajSrrB+p+0gb5VySdTtqYH4C1ehaubvEVUWL1/u8TiH
-	au3y4An/q79Mia7gBaHKQl/Z3RyeKXghqWtwmk2Av9p2I3OHTd3oSJNR8GVKXvlSaGGa
-	0PKFS7ypEO+OcNiQQK3AW37lzMbSX63X3jaU3TTD+KdBkBfoby7Yp4tqzSuh0X9cjxSe
-	HF1luYZ6ntKR10HgqXrheN81Qb5LMx/20bD87C9icRmWKH0v3a35LmjaYe9Pidi/wN94
-	9KnA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=PzgUCHmX4SKtXHoHzT3qESrsCOYBynwOpztbmGqg0O0=;
+	b=JLZGt4VBlvn/7SRVm30hukJ/2OU401CXRI3XTJ61J3zbU4ssJnUO+4xrJ8sN/DwYCT
+	x5wn2/2MYlKgORmDMnwlhUEMCVAsDM4/1tdkkozSRr37vW8XKFh6UyNDnwEureqLvjpE
+	76W3UkaFhT7K42bsMGh44ExnE3mEOHPdYEs3/54hhQ8tcQ3RjZtm2a559+C44TELGW5n
+	GOzNUVWoFadfAb9rNOv5hMSFE4s59D/keKeFuov20FSUM+VaWBE9/imO1GyA3GOeh4ZF
+	kGZj2Xd+a6QPyX4vqN+nfIL3j3jqzvF1yKG+a8IOmvad1A5/2PIRaWftWwNrR52ehMgP
+	/4Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RSU22adR+rJgZ1GRaOYEtUx47QpmdXWHM2ZBKtQvXrs=;
-	b=VcBsTWsKYvrzdfcjPHCBT5k3lJ+ZARMc65mVCqxp87a7EyQvZhg3rG5R+8PnAnti5x
-	6zblPikR5s2a3UElBylVoFF03HgxPuHlwnnOx3/4VfQ/HUpRLGk8f+ZnV30ceM/bh9Yq
-	RuDfHxHCBQlTHXATrIYbHxrZKl2VRwsR3W5/llMdymYlsp6b/QWIkG+cNFG2XJVYNeXz
-	4N6nyYHGamjEqzu32895Ku++XdGTFB2KTcJ0L9/mGmxnH1bF4omPtWjkrvc83BNfWpyu
-	Ko98sbZylc+OAbmE61s3Io2FW8+rWP8hforLF1Y6xDWAmkPLopHdk8M4Ttgqrm2lXBN4
-	fGYg==
-X-Gm-Message-State: APjAAAVOihaDVScxd4Mif5PLrkFC74+2Gh+gKndJILwpI/zAzGfm76LP
-	1HI8SH8Y7D/L8rFX2tNszEcimSV066WsG/suDiPWVDQO
-X-Google-Smtp-Source: APXvYqzdMyeT19asYqqXW9EYWUXAsZefDQWUTtcW1lcTvq2AltWGRyXZWz/p4N6Z5zkEN8CCNcLVGXUUnrRSD4zQoyI=
-X-Received: by 2002:aca:c4c3:: with SMTP id u186mr924583oif.173.1572989857873; 
-	Tue, 05 Nov 2019 13:37:37 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=PzgUCHmX4SKtXHoHzT3qESrsCOYBynwOpztbmGqg0O0=;
+	b=NJTb5Vfz7IX+9JbgFl/UpQimNYQ/ZZVG0wdtEHwX/W/09TmtUWrQ/z/rLclL4cQykw
+	1vkQipYnNYgb28c2W1IOanX99na/hQvLOn0f2ZD+zwKtlTryQwXqafcP3J22zYfKlXm4
+	vmVmezO8Dvdn63NzLchX0j5m0FzP0iselwyMua/X94hBArF31kVdxmtehF1SEiIkSVUV
+	SNYUjtMOisV+YlUd2l1TNNuIy8Ka23QJk0LKNIGQ7beN4fitbNLAR8NyeEBwgvmXjeEt
+	VMYun1I+Zzb4e7RGasV/0IEAhlYfJfjPGc8Mb52LdvcRmcWqJfQ62Yv6GFIaN9jKivDs
+	Oi6A==
+X-Gm-Message-State: APjAAAUP3vq5rfn8cvle/It0b4vrPzjtqUBx88lJ4pj8GueljZfNvmPu
+	k/YBzLzP8EcRK18aN+NbyUQ=
+X-Google-Smtp-Source: APXvYqzh7qCItQmbwlGWFB35LJmpSi0Zx9nz8WPKkZC+a4Y2dKLaZ7uhpWoO6DnwyRQS4JGyI7QgvA==
+X-Received: by 2002:a63:cf4d:: with SMTP id b13mr38055347pgj.396.1572990206533;
+	Tue, 05 Nov 2019 13:43:26 -0800 (PST)
+Received: from debian.net.fpt ([2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb])
+	by smtp.gmail.com with ESMTPSA id
+	c12sm25428790pfp.67.2019.11.05.13.43.23
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 05 Nov 2019 13:43:25 -0800 (PST)
+From: Phong Tran <tranmanphong@gmail.com>
+To: frextrite@gmail.com,
+	paulmck@kernel.org
+Date: Wed,  6 Nov 2019 04:42:34 +0700
+Message-Id: <20191105214234.17116-1-tranmanphong@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191105165938.GA10903@workstation>
+References: <20191105165938.GA10903@workstation>
 MIME-Version: 1.0
-References: <20191028214252.17580-1-madhuparnabhowmik04@gmail.com>
-	<5bab8828-76e4-c67f-5855-ea4e4f43eaa5@gmail.com>
-	<20191105135524.GN20975@paulmck-ThinkPad-P72>
-In-Reply-To: <20191105135524.GN20975@paulmck-ThinkPad-P72>
-From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Date: Wed, 6 Nov 2019 03:07:26 +0530
-Message-ID: <CAF65HP1zFpW+82-8YbFrBNDY25cmS2HQrB3L_bFu5FQ6MFCR8A@mail.gmail.com>
-To: paulmck@kernel.org
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
+Cc: linux-doc@vger.kernel.org, corbet@lwn.net, jiangshanlai@gmail.com,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+	josh@joshtriplett.org, rcu@vger.kernel.org,
+	mathieu.desnoyers@efficios.com, joel@joelfernandes.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: RCU: NMI-RCU:
- Converted NMI-RCU.txt to NMI-RCU.rst.
+Subject: [Linux-kernel-mentees] [PATCH] Doc: whatisRCU: Add more Markup
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -87,292 +94,259 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>,
 	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7601184938474761108=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
---===============7601184938474761108==
-Content-Type: multipart/alternative; boundary="000000000000b6c3200596a03d9f"
+o Adding more crossrefs.
+o Bold some words.
+o Add header levels.
 
---000000000000b6c3200596a03d9f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+---
+ Documentation/RCU/whatisRCU.rst | 67 ++++++++++++++++++++-------------
+ 1 file changed, 41 insertions(+), 26 deletions(-)
 
-On Tue, Nov 5, 2019 at 7:25 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-
-> On Tue, Nov 05, 2019 at 08:40:05PM +0700, Phong Tran wrote:
-> > On 10/29/19 4:42 AM, madhuparnabhowmik04@gmail.com wrote:
-> > > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> > >
-> > > This patch converts NMI-RCU from txt to rst format.
-> > > Also adds NMI-RCU in the index.rst file.
-> > >
-> > > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> > > -- >   .../RCU/{NMI-RCU.txt =3D> NMI-RCU.rst}          | 53
-> ++++++++++---------
-> > >   Documentation/RCU/index.rst                   |  1 +
-> > >   2 files changed, 29 insertions(+), 25 deletions(-)
-> > >   rename Documentation/RCU/{NMI-RCU.txt =3D> NMI-RCU.rst} (73%)
-> > >
-> > > diff --git a/Documentation/RCU/NMI-RCU.txt
-> b/Documentation/RCU/NMI-RCU.rst
-> > > similarity index 73%
-> > > rename from Documentation/RCU/NMI-RCU.txt
-> > > rename to Documentation/RCU/NMI-RCU.rst
-> > > index 881353fd5bff..da5861f6a433 100644
-> > > --- a/Documentation/RCU/NMI-RCU.txt
-> > > +++ b/Documentation/RCU/NMI-RCU.rst
-> > > @@ -1,4 +1,7 @@
-> > > +.. _NMI_rcu_doc:
-> > > +
-> > >   Using RCU to Protect Dynamic NMI Handlers
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >   Although RCU is usually used to protect read-mostly data structures=
-,
-> > > @@ -9,7 +12,7 @@ work in "arch/x86/oprofile/nmi_timer_int.c" and in
-> > >   "arch/x86/kernel/traps.c".
-> > >   The relevant pieces of code are listed below, each followed by a
-> > > -brief explanation.
-> > > +brief explanation.::
-> > there is just a minor ":" redundant in html page.There are some same in
-> this
-> > patch.
-> > eg:
-> >  brief explanation.:
-> >
-> > Other things look good to me.
-> >
-> > Tested-by: Phong Tran <tranmanphong@gmail.com>
->
-> Thank you, Phong!
->
-> I queued a commit to be squashed into Madhuparna's original as shown belo=
-w
-> which adds your Tested-by and attempts a fix.  Does this work for you?
->
-> Thank you, Paul, for improving my patch. I will do keep these things in
-mind from next time and let me know if any other changes are required.
-
-Regards
-Madhuparna
-
->                                                         Thanx, Paul
->
-> ------------------------------------------------------------------------
->
-> commit 2c29f1c481f74f5e5aaaab195042f4df6a0b8119
-> Author: Paul E. McKenney <paulmck@kernel.org>
-> Date:   Tue Nov 5 05:51:12 2019 -0800
->
->     squash! Documentation: RCU: NMI-RCU: Converted NMI-RCU.txt to
-> NMI-RCU.rst.
->
->     [ paulmck: Apply feedback from Phong Tran. ]
->     Tested-by: Phong Tran <tranmanphong@gmail.com>
->     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
->
-> diff --git a/Documentation/RCU/NMI-RCU.rst b/Documentation/RCU/NMI-RCU.rs=
-t
-> index da5861f..1809583 100644
-> --- a/Documentation/RCU/NMI-RCU.rst
-> +++ b/Documentation/RCU/NMI-RCU.rst
-> @@ -12,7 +12,7 @@ work in "arch/x86/oprofile/nmi_timer_int.c" and in
->  "arch/x86/kernel/traps.c".
->
->  The relevant pieces of code are listed below, each followed by a
-> -brief explanation.::
-> +brief explanation::
->
->         static int dummy_nmi_callback(struct pt_regs *regs, int cpu)
->         {
-> @@ -21,12 +21,12 @@ brief explanation.::
->
->  The dummy_nmi_callback() function is a "dummy" NMI handler that does
->  nothing, but returns zero, thus saying that it did nothing, allowing
-> -the NMI handler to take the default machine-specific action.::
-> +the NMI handler to take the default machine-specific action::
->
->         static nmi_callback_t nmi_callback =3D dummy_nmi_callback;
->
->  This nmi_callback variable is a global function pointer to the current
-> -NMI handler.::
-> +NMI handler::
->
->         void do_nmi(struct pt_regs * regs, long error_code)
->         {
-> @@ -61,7 +61,7 @@ Quick Quiz:
->
->  :ref:`Answer to Quick Quiz <answer_quick_quiz_NMI>`
->
-> -Back to the discussion of NMI and RCU...::
-> +Back to the discussion of NMI and RCU::
->
->         void set_nmi_callback(nmi_callback_t callback)
->         {
->
-=E1=90=A7
-
---000000000000b6c3200596a03d9f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 5, 2019 at 7:25 PM Paul E=
-. McKenney &lt;<a href=3D"mailto:paulmck@kernel.org" target=3D"_blank">paul=
-mck@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">On Tue, Nov 05, 2019 at 08:40:05PM +0700, Phong Tran wrote:<b=
-r>
-&gt; On 10/29/19 4:42 AM, <a href=3D"mailto:madhuparnabhowmik04@gmail.com" =
-target=3D"_blank">madhuparnabhowmik04@gmail.com</a> wrote:<br>
-&gt; &gt; From: Madhuparna Bhowmik &lt;<a href=3D"mailto:madhuparnabhowmik0=
-4@gmail.com" target=3D"_blank">madhuparnabhowmik04@gmail.com</a>&gt;<br>
-&gt; &gt; <br>
-&gt; &gt; This patch converts NMI-RCU from txt to rst format.<br>
-&gt; &gt; Also adds NMI-RCU in the index.rst file.<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Madhuparna Bhowmik &lt;<a href=3D"mailto:madhuparn=
-abhowmik04@gmail.com" target=3D"_blank">madhuparnabhowmik04@gmail.com</a>&g=
-t;<br>
-&gt; &gt; -- &gt;=C2=A0 =C2=A0.../RCU/{NMI-RCU.txt =3D&gt; NMI-RCU.rst}=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 53 ++++++++++---------<br>
-&gt; &gt;=C2=A0 =C2=A0Documentation/RCU/index.rst=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt; &gt;=C2=A0 =C2=A02 files changed, 29 insertions(+), 25 deletions(-)<br=
->
-&gt; &gt;=C2=A0 =C2=A0rename Documentation/RCU/{NMI-RCU.txt =3D&gt; NMI-RCU=
-.rst} (73%)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/Documentation/RCU/NMI-RCU.txt b/Documentation/RCU/NM=
-I-RCU.rst<br>
-&gt; &gt; similarity index 73%<br>
-&gt; &gt; rename from Documentation/RCU/NMI-RCU.txt<br>
-&gt; &gt; rename to Documentation/RCU/NMI-RCU.rst<br>
-&gt; &gt; index 881353fd5bff..da5861f6a433 100644<br>
-&gt; &gt; --- a/Documentation/RCU/NMI-RCU.txt<br>
-&gt; &gt; +++ b/Documentation/RCU/NMI-RCU.rst<br>
-&gt; &gt; @@ -1,4 +1,7 @@<br>
-&gt; &gt; +.. _NMI_rcu_doc:<br>
-&gt; &gt; +<br>
-&gt; &gt;=C2=A0 =C2=A0Using RCU to Protect Dynamic NMI Handlers<br>
-&gt; &gt; +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt; &gt;=C2=A0 =C2=A0Although RCU is usually used to protect read-mostly d=
-ata structures,<br>
-&gt; &gt; @@ -9,7 +12,7 @@ work in &quot;arch/x86/oprofile/nmi_timer_int.c&=
-quot; and in<br>
-&gt; &gt;=C2=A0 =C2=A0&quot;arch/x86/kernel/traps.c&quot;.<br>
-&gt; &gt;=C2=A0 =C2=A0The relevant pieces of code are listed below, each fo=
-llowed by a<br>
-&gt; &gt; -brief explanation.<br>
-&gt; &gt; +brief explanation.::<br>
-&gt; there is just a minor &quot;:&quot; redundant in html page.There are s=
-ome same in this<br>
-&gt; patch.<br>
-&gt; eg:<br>
-&gt;=C2=A0 brief explanation.:<br>
-&gt; <br>
-&gt; Other things look good to me.<br>
-&gt; <br>
-&gt; Tested-by: Phong Tran &lt;<a href=3D"mailto:tranmanphong@gmail.com" ta=
-rget=3D"_blank">tranmanphong@gmail.com</a>&gt;<br>
-<br>
-Thank you, Phong!<br>
-<br>
-I queued a commit to be squashed into Madhuparna&#39;s original as shown be=
-low<br>
-which adds your Tested-by and attempts a fix.=C2=A0 Does this work for you?=
-<br>
-<br></blockquote><div>Thank you, Paul, for improving my patch. I will do ke=
-ep these things in mind from next time and let me know if any other changes=
- are required.</div><div><br></div><div>Regards</div><div>Madhuparna</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Thanx, Paul<br>
-<br>
-------------------------------------------------------------------------<br=
->
-<br>
-commit 2c29f1c481f74f5e5aaaab195042f4df6a0b8119<br>
-Author: Paul E. McKenney &lt;<a href=3D"mailto:paulmck@kernel.org" target=
-=3D"_blank">paulmck@kernel.org</a>&gt;<br>
-Date:=C2=A0 =C2=A0Tue Nov 5 05:51:12 2019 -0800<br>
-<br>
-=C2=A0 =C2=A0 squash! Documentation: RCU: NMI-RCU: Converted NMI-RCU.txt to=
- NMI-RCU.rst.<br>
-<br>
-=C2=A0 =C2=A0 [ paulmck: Apply feedback from Phong Tran. ]<br>
-=C2=A0 =C2=A0 Tested-by: Phong Tran &lt;<a href=3D"mailto:tranmanphong@gmai=
-l.com" target=3D"_blank">tranmanphong@gmail.com</a>&gt;<br>
-=C2=A0 =C2=A0 Signed-off-by: Paul E. McKenney &lt;<a href=3D"mailto:paulmck=
-@kernel.org" target=3D"_blank">paulmck@kernel.org</a>&gt;<br>
-<br>
-diff --git a/Documentation/RCU/NMI-RCU.rst b/Documentation/RCU/NMI-RCU.rst<=
-br>
-index da5861f..1809583 100644<br>
---- a/Documentation/RCU/NMI-RCU.rst<br>
-+++ b/Documentation/RCU/NMI-RCU.rst<br>
-@@ -12,7 +12,7 @@ work in &quot;arch/x86/oprofile/nmi_timer_int.c&quot; and=
- in<br>
-=C2=A0&quot;arch/x86/kernel/traps.c&quot;.<br>
-<br>
-=C2=A0The relevant pieces of code are listed below, each followed by a<br>
--brief explanation.::<br>
-+brief explanation::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 static int dummy_nmi_callback(struct pt_regs *r=
-egs, int cpu)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-@@ -21,12 +21,12 @@ brief explanation.::<br>
-<br>
-=C2=A0The dummy_nmi_callback() function is a &quot;dummy&quot; NMI handler =
-that does<br>
-=C2=A0nothing, but returns zero, thus saying that it did nothing, allowing<=
-br>
--the NMI handler to take the default machine-specific action.::<br>
-+the NMI handler to take the default machine-specific action::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 static nmi_callback_t nmi_callback =3D dummy_nm=
-i_callback;<br>
-<br>
-=C2=A0This nmi_callback variable is a global function pointer to the curren=
-t<br>
--NMI handler.::<br>
-+NMI handler::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 void do_nmi(struct pt_regs * regs, long error_c=
-ode)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-@@ -61,7 +61,7 @@ Quick Quiz:<br>
-<br>
-=C2=A0:ref:`Answer to Quick Quiz &lt;answer_quick_quiz_NMI&gt;`<br>
-<br>
--Back to the discussion of NMI and RCU...::<br>
-+Back to the discussion of NMI and RCU::<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 void set_nmi_callback(nmi_callback_t callback)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-</blockquote></div></div><div hspace=3D"streak-pt-mark" style=3D"max-height=
-:1px"><img alt=3D"" style=3D"width:0px;max-height:0px;overflow:hidden" src=
-=3D"https://mailfoogae.appspot.com/t?sender=3DabWFkaHVwYXJuYWJob3dtaWswNEBn=
-bWFpbC5jb20%3D&amp;type=3Dzerocontent&amp;guid=3D18c086ca-0d5e-430c-b41c-3e=
-1f8c519496"><font color=3D"#ffffff" size=3D"1">=E1=90=A7</font></div>
-
---000000000000b6c3200596a03d9f--
-
---===============7601184938474761108==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index ae40c8bcc56c..3e24e0155a91 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -150,7 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
+ at the function header comments.
+ 
+ rcu_read_lock()
+-
++^^^^^^^^^^^^^^^
+ 	void rcu_read_lock(void);
+ 
+ 	Used by a reader to inform the reclaimer that the reader is
+@@ -164,7 +164,7 @@ rcu_read_lock()
+ 	longer-term references to data structures.
+ 
+ rcu_read_unlock()
+-
++^^^^^^^^^^^^^^^^^
+ 	void rcu_read_unlock(void);
+ 
+ 	Used by a reader to inform the reclaimer that the reader is
+@@ -172,13 +172,13 @@ rcu_read_unlock()
+ 	read-side critical sections may be nested and/or overlapping.
+ 
+ synchronize_rcu()
+-
++^^^^^^^^^^^^^^^^^
+ 	void synchronize_rcu(void);
+ 
+ 	Marks the end of updater code and the beginning of reclaimer
+ 	code.  It does this by blocking until all pre-existing RCU
+ 	read-side critical sections on all CPUs have completed.
+-	Note that synchronize_rcu() will -not- necessarily wait for
++	Note that synchronize_rcu() will **not** necessarily wait for
+ 	any subsequent RCU read-side critical sections to complete.
+ 	For example, consider the following sequence of events::
+ 
+@@ -196,7 +196,7 @@ synchronize_rcu()
+ 	any that begin after synchronize_rcu() is invoked.
+ 
+ 	Of course, synchronize_rcu() does not necessarily return
+-	-immediately- after the last pre-existing RCU read-side critical
++	**immediately** after the last pre-existing RCU read-side critical
+ 	section completes.  For one thing, there might well be scheduling
+ 	delays.  For another thing, many RCU implementations process
+ 	requests in batches in order to improve efficiencies, which can
+@@ -225,10 +225,10 @@ synchronize_rcu()
+ 	checklist.txt for some approaches to limiting the update rate.
+ 
+ rcu_assign_pointer()
+-
++^^^^^^^^^^^^^^^^^^^^
+ 	void rcu_assign_pointer(p, typeof(p) v);
+ 
+-	Yes, rcu_assign_pointer() -is- implemented as a macro, though it
++	Yes, rcu_assign_pointer() **is** implemented as a macro, though it
+ 	would be cool to be able to declare a function in this manner.
+ 	(Compiler experts will no doubt disagree.)
+ 
+@@ -245,7 +245,7 @@ rcu_assign_pointer()
+ 	the _rcu list-manipulation primitives such as list_add_rcu().
+ 
+ rcu_dereference()
+-
++^^^^^^^^^^^^^^^^^
+ 	typeof(p) rcu_dereference(p);
+ 
+ 	Like rcu_assign_pointer(), rcu_dereference() must be implemented
+@@ -280,8 +280,8 @@ rcu_dereference()
+ 	unnecessary overhead on Alpha CPUs.
+ 
+ 	Note that the value returned by rcu_dereference() is valid
+-	only within the enclosing RCU read-side critical section [1].
+-	For example, the following is -not- legal::
++	only within the enclosing RCU read-side critical section [1]_.
++	For example, the following is **not** legal::
+ 
+ 		rcu_read_lock();
+ 		p = rcu_dereference(head.next);
+@@ -304,9 +304,11 @@ rcu_dereference()
+ 	at any time, including immediately after the rcu_dereference().
+ 	And, again like rcu_assign_pointer(), rcu_dereference() is
+ 	typically used indirectly, via the _rcu list-manipulation
+-	primitives, such as list_for_each_entry_rcu() [2].
++	primitives, such as list_for_each_entry_rcu() [2]_.
++
++	.. [1]
+ 
+-	[1] The variant rcu_dereference_protected() can be used outside
++	The variant rcu_dereference_protected() can be used outside
+ 	of an RCU read-side critical section as long as the usage is
+ 	protected by locks acquired by the update-side code.  This variant
+ 	avoids the lockdep warning that would happen when using (for
+@@ -319,7 +321,9 @@ rcu_dereference()
+ 	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
+ 	and the API's code comments for more details and example usage.
+ 
+-	[2] If the list_for_each_entry_rcu() instance might be used by
++	.. [2]
++
++	If the list_for_each_entry_rcu() instance might be used by
+ 	update-side code as well as by RCU readers, then an additional
+ 	lockdep expression can be added to its list of arguments.
+ 	For example, given an additional "lock_is_held(&mylock)" argument,
+@@ -459,22 +463,22 @@ uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
+ 
+ So, to sum up:
+ 
+-o	Use rcu_read_lock() and rcu_read_unlock() to guard RCU
++-	Use rcu_read_lock() and rcu_read_unlock() to guard RCU
+ 	read-side critical sections.
+ 
+-o	Within an RCU read-side critical section, use rcu_dereference()
++-	Within an RCU read-side critical section, use rcu_dereference()
+ 	to dereference RCU-protected pointers.
+ 
+-o	Use some solid scheme (such as locks or semaphores) to
++-	Use some solid scheme (such as locks or semaphores) to
+ 	keep concurrent updates from interfering with each other.
+ 
+-o	Use rcu_assign_pointer() to update an RCU-protected pointer.
++-	Use rcu_assign_pointer() to update an RCU-protected pointer.
+ 	This primitive protects concurrent readers from the updater,
+-	-not- concurrent updates from each other!  You therefore still
++	**not** concurrent updates from each other!  You therefore still
+ 	need to use locking (or something similar) to keep concurrent
+ 	rcu_assign_pointer() primitives from interfering with each other.
+ 
+-o	Use synchronize_rcu() -after- removing a data element from an
++-	Use synchronize_rcu() **after** removing a data element from an
+ 	RCU-protected data structure, but -before- reclaiming/freeing
+ 	the data element, in order to wait for the completion of all
+ 	RCU read-side critical sections that might be referencing that
+@@ -566,7 +570,7 @@ namely foo_reclaim().
+ The summary of advice is the same as for the previous section, except
+ that we are now using call_rcu() rather than synchronize_rcu():
+ 
+-o	Use call_rcu() -after- removing a data element from an
++-	Use call_rcu() **after** removing a data element from an
+ 	RCU-protected data structure in order to register a callback
+ 	function that will be invoked after the completion of all RCU
+ 	read-side critical sections that might be referencing that
+@@ -603,7 +607,7 @@ more details on the current implementation as of early 2004.
+ 
+ 
+ 5A.  "TOY" IMPLEMENTATION #1: LOCKING
+-
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ This section presents a "toy" RCU implementation that is based on
+ familiar locking primitives.  Its overhead makes it a non-starter for
+ real-life use, as does its lack of scalability.  It is also unsuitable
+@@ -671,6 +675,8 @@ that the only thing that can block rcu_read_lock() is a synchronize_rcu().
+ But synchronize_rcu() does not acquire any locks while holding rcu_gp_mutex,
+ so there can be no deadlock cycle.
+ 
++.. _quiz_1:
++
+ Quick Quiz #1:
+ 		Why is this argument naive?  How could a deadlock
+ 		occur when using this algorithm in a real-world Linux
+@@ -679,7 +685,7 @@ Quick Quiz #1:
+ :ref:`Answers to Quick Quiz <8_whatisRCU>`
+ 
+ 5B.  "TOY" EXAMPLE #2: CLASSIC RCU
+-
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ This section presents a "toy" RCU implementation that is based on
+ "classic RCU".  It is also short on performance (but only for updates) and
+ on features such as hotplug CPU and the ability to run in CONFIG_PREEMPT
+@@ -710,14 +716,14 @@ CPU in turn.  The run_on() primitive can be implemented straightforwardly
+ in terms of the sched_setaffinity() primitive.  Of course, a somewhat less
+ "toy" implementation would restore the affinity upon completion rather
+ than just leaving all tasks running on the last CPU, but when I said
+-"toy", I meant -toy-!
++"toy", I meant **toy**!
+ 
+ So how the heck is this supposed to work???
+ 
+ Remember that it is illegal to block while in an RCU read-side critical
+ section.  Therefore, if a given CPU executes a context switch, we know
+ that it must have completed all preceding RCU read-side critical sections.
+-Once -all- CPUs have executed a context switch, then -all- preceding
++Once **all** CPUs have executed a context switch, then **all** preceding
+ RCU read-side critical sections will have completed.
+ 
+ So, suppose that we remove a data item from its structure and then invoke
+@@ -725,12 +731,16 @@ synchronize_rcu().  Once synchronize_rcu() returns, we are guaranteed
+ that there are no RCU read-side critical sections holding a reference
+ to that data item, so we can safely reclaim it.
+ 
++.. _quiz_2:
++
+ Quick Quiz #2:
+ 		Give an example where Classic RCU's read-side
+-		overhead is -negative-.
++		overhead is **negative**.
+ 
+ :ref:`Answers to Quick Quiz <8_whatisRCU>`
+ 
++.. _quiz_3:
++
+ Quick Quiz #3:
+ 		If it is illegal to block in an RCU read-side
+ 		critical section, what the heck do you do in
+@@ -1076,9 +1086,11 @@ Answer:
+ 		approach where tasks in RCU read-side critical sections
+ 		cannot be blocked by tasks executing synchronize_rcu().
+ 
++:ref:`Back to Quick Quiz #1 <quiz_1>`
++
+ Quick Quiz #2:
+ 		Give an example where Classic RCU's read-side
+-		overhead is -negative-.
++		overhead is **negative**.
+ 
+ Answer:
+ 		Imagine a single-CPU system with a non-CONFIG_PREEMPT
+@@ -1103,6 +1115,8 @@ Answer:
+ 		even the theoretical possibility of negative overhead for
+ 		a synchronization primitive is a bit unexpected.  ;-)
+ 
++:ref:`Back to Quick Quiz #2 <quiz_2>`
++
+ Quick Quiz #3:
+ 		If it is illegal to block in an RCU read-side
+ 		critical section, what the heck do you do in
+@@ -1128,6 +1142,7 @@ Answer:
+ 		Besides, how does the computer know what pizza parlor
+ 		the human being went to???
+ 
++:ref:`Back to Quick Quiz #3 <quiz_3>`
+ 
+ ACKNOWLEDGEMENTS
+ 
+-- 
+2.20.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============7601184938474761108==--
