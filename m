@@ -2,66 +2,83 @@ Return-Path: <SRS0=fOLH=Y5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EAA8C1747C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 14:05:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDC97C17460
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 14:18:25 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 444B021882
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 14:05:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A0A412190F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 14:18:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="mITltpIs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 444B021882
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Grx+b/45"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0A412190F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 04B3F1093;
-	Tue,  5 Nov 2019 14:05:39 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 669FC14CA;
+	Tue,  5 Nov 2019 14:18:25 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id CC636F8C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 11F031494
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  5 Nov 2019 14:05:37 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 61C7E189
+	Tue,  5 Nov 2019 14:18:24 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4EC3727B
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  5 Nov 2019 14:05:37 +0000 (UTC)
-Received: from paulmck-ThinkPad-P72.home (unknown [109.144.209.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id D908521882;
-	Tue,  5 Nov 2019 14:05:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572962737;
-	bh=vQxBQ0EAzzICHxv5rPXPpBob4gEq2oHIQaAHTGT0/p8=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=mITltpIsZm/TzaXrNgBEy3wxth02B7nfLt/FWGmcPEHPp7hKxgzU6tZfVzHBypvfV
-	I69WJLXziWvfy/SVqwZXeRbjn6nsAvrlTcneMLs8uEGKHS2EZXkrmd/oumdHz0Fi+q
-	F3NQJ/VdNuHjgwPVjd/PzdRTnr1zmzFlKDiyHiBQ=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 1005C35227C0; Tue,  5 Nov 2019 06:05:35 -0800 (PST)
-Date: Tue, 5 Nov 2019 06:05:35 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Phong Tran <tranmanphong@gmail.com>
-Message-ID: <20191105140535.GP20975@paulmck-ThinkPad-P72>
-References: <20191028214252.17580-1-madhuparnabhowmik04@gmail.com>
-	<5bab8828-76e4-c67f-5855-ea4e4f43eaa5@gmail.com>
-	<20191105135524.GN20975@paulmck-ThinkPad-P72>
-	<7b9f5499-bd03-8405-52f5-1fb94e9d85dc@gmail.com>
+	Tue,  5 Nov 2019 14:18:22 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 15so14290318pgt.7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>;
+	Tue, 05 Nov 2019 06:18:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4Z2WSsWHskG0Pcep27ldnUGqnlUWbGBs3tUsEl7VTNg=;
+	b=Grx+b/45s85SXtn0Wr6DjrCIJnGZQ8Pa9I2baoFxnu+f7l2EbvIp9SsOOLmjQpD3Ly
+	rmM2j1e7nzhVQpQSC3+l0VpPuyuMxN3y2O3CyiA6ICyiCwmGx2Jj03Qla/tCIqKNlJhZ
+	t8qzUtlsqD/2I5Llc5ZdtqAQxiXD4C7e++Jv3GfFjTvo8MAEoQr44xPAMZq3hg78562W
+	rgYGWg3ho9xmzhU6b6SnVAAi2APSUv+H4LTUWdOJP0k87AsGyzjCHkDzKNCRzxkNxCgc
+	Wrv1yCwManKRlctajUcMItls6VjNDsmHUElDluD+lT9U/NkniNgONe4xFWjW0qH9mVxV
+	hF7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4Z2WSsWHskG0Pcep27ldnUGqnlUWbGBs3tUsEl7VTNg=;
+	b=ErQIMzfOJmLGn1nkxZxPkA4f7+CBCXYqbzMFQhNCZWVcE76bnzEg4H+i6eXC6oC9ef
+	Q5tpvhZ6KdjVNuWK08i0yt7k5Xv0gMPYAgxOSfcd0Re124c71nbHF2RwOkBG6e55R6Qw
+	5CXNChAjWi3GVGslzeJRv9lPTltltExluAoo3wFXO4ueE7bUnx+S+qH3P8fPmU6dslhH
+	dNuRzkkg5ec07EIaS1NrM6bsJwTCUcBUECcN+VouaB5ypBrn32QNG5beiuiaLA9blL96
+	tgB7p8utwiiKVgYVyokG6/cj4WOMpRDtuSEF/ReKkHWxgqvgzyNCFGa6kcFOqx6Ym0HZ
+	HDLw==
+X-Gm-Message-State: APjAAAXdVBQT/cRAFEpGS3efzN50TP2A+M9KISiWdraG54PeRGoZ2B7r
+	bz/NAOjwtuLOWQvUoc8fh3w=
+X-Google-Smtp-Source: APXvYqzb/nzpT7KuncJqUZQMA+17dC4pT0+4mfv5HD4WhVk3nvQV/eiQ4o/gGThLszu22+ZHjNLclQ==
+X-Received: by 2002:a62:8010:: with SMTP id j16mr38341159pfd.249.1572963501755;
+	Tue, 05 Nov 2019 06:18:21 -0800 (PST)
+Received: from debian.net.fpt ([2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb])
+	by smtp.gmail.com with ESMTPSA id
+	w2sm25246691pgm.18.2019.11.05.06.18.19
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 05 Nov 2019 06:18:20 -0800 (PST)
+From: Phong Tran <tranmanphong@gmail.com>
+To: benjamin.tissoires@redhat.com
+Date: Tue,  5 Nov 2019 21:18:07 +0700
+Message-Id: <20191105141807.27054-1-tranmanphong@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7b9f5499-bd03-8405-52f5-1fb94e9d85dc@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org, joel@joelfernandes.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: RCU: NMI-RCU:
- Converted NMI-RCU.txt to NMI-RCU.rst.
+Cc: syzbot+1234691fec1b8ceba8b1@syzkaller.appspotmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] HID: hid-lg4ff: Fix uninit-value
+	set_autocenter_default
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,110 +90,46 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>,
 	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
-On Tue, Nov 05, 2019 at 09:02:46PM +0700, Phong Tran wrote:
-> On 11/5/19 8:55 PM, Paul E. McKenney wrote:
-> > On Tue, Nov 05, 2019 at 08:40:05PM +0700, Phong Tran wrote:
-> > > On 10/29/19 4:42 AM, madhuparnabhowmik04@gmail.com wrote:
-> > > > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> > > > 
-> > > > This patch converts NMI-RCU from txt to rst format.
-> > > > Also adds NMI-RCU in the index.rst file.
-> > > > 
-> > > > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> > > > -- >   .../RCU/{NMI-RCU.txt => NMI-RCU.rst}          | 53 ++++++++++---------
-> > > >    Documentation/RCU/index.rst                   |  1 +
-> > > >    2 files changed, 29 insertions(+), 25 deletions(-)
-> > > >    rename Documentation/RCU/{NMI-RCU.txt => NMI-RCU.rst} (73%)
-> > > > 
-> > > > diff --git a/Documentation/RCU/NMI-RCU.txt b/Documentation/RCU/NMI-RCU.rst
-> > > > similarity index 73%
-> > > > rename from Documentation/RCU/NMI-RCU.txt
-> > > > rename to Documentation/RCU/NMI-RCU.rst
-> > > > index 881353fd5bff..da5861f6a433 100644
-> > > > --- a/Documentation/RCU/NMI-RCU.txt
-> > > > +++ b/Documentation/RCU/NMI-RCU.rst
-> > > > @@ -1,4 +1,7 @@
-> > > > +.. _NMI_rcu_doc:
-> > > > +
-> > > >    Using RCU to Protect Dynamic NMI Handlers
-> > > > +=========================================
-> > > >    Although RCU is usually used to protect read-mostly data structures,
-> > > > @@ -9,7 +12,7 @@ work in "arch/x86/oprofile/nmi_timer_int.c" and in
-> > > >    "arch/x86/kernel/traps.c".
-> > > >    The relevant pieces of code are listed below, each followed by a
-> > > > -brief explanation.
-> > > > +brief explanation.::
-> > > there is just a minor ":" redundant in html page.There are some same in this
-> > > patch.
-> > > eg:
-> > >   brief explanation.:
-> > > 
-> > > Other things look good to me.
-> > > 
-> > > Tested-by: Phong Tran <tranmanphong@gmail.com>
-> > 
-> > Thank you, Phong!
-> > 
-> > I queued a commit to be squashed into Madhuparna's original as shown below
-> > which adds your Tested-by and attempts a fix.  Does this work for you?
-> 
-> Yes, Paul.
+syzbot found a problem using of uinit pointer in
+lg4ff_set_autocenter_default().
 
-Very good, thank you!
+Reported-by: syzbot+1234691fec1b8ceba8b1@syzkaller.appspotmail.com
 
-							Thanx, Paul
+Tested by syzbot:
 
-> Regards,
-> Phong.
-> 
-> > 							Thanx, Paul
-> > 
-> > ------------------------------------------------------------------------
-> > 
-> > commit 2c29f1c481f74f5e5aaaab195042f4df6a0b8119
-> > Author: Paul E. McKenney <paulmck@kernel.org>
-> > Date:   Tue Nov 5 05:51:12 2019 -0800
-> > 
-> >      squash! Documentation: RCU: NMI-RCU: Converted NMI-RCU.txt to NMI-RCU.rst.
-> >      [ paulmck: Apply feedback from Phong Tran. ]
-> >      Tested-by: Phong Tran <tranmanphong@gmail.com>
-> >      Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > 
-> > diff --git a/Documentation/RCU/NMI-RCU.rst b/Documentation/RCU/NMI-RCU.rst
-> > index da5861f..1809583 100644
-> > --- a/Documentation/RCU/NMI-RCU.rst
-> > +++ b/Documentation/RCU/NMI-RCU.rst
-> > @@ -12,7 +12,7 @@ work in "arch/x86/oprofile/nmi_timer_int.c" and in
-> >   "arch/x86/kernel/traps.c".
-> >   The relevant pieces of code are listed below, each followed by a
-> > -brief explanation.::
-> > +brief explanation::
-> >   	static int dummy_nmi_callback(struct pt_regs *regs, int cpu)
-> >   	{
-> > @@ -21,12 +21,12 @@ brief explanation.::
-> >   The dummy_nmi_callback() function is a "dummy" NMI handler that does
-> >   nothing, but returns zero, thus saying that it did nothing, allowing
-> > -the NMI handler to take the default machine-specific action.::
-> > +the NMI handler to take the default machine-specific action::
-> >   	static nmi_callback_t nmi_callback = dummy_nmi_callback;
-> >   This nmi_callback variable is a global function pointer to the current
-> > -NMI handler.::
-> > +NMI handler::
-> >   	void do_nmi(struct pt_regs * regs, long error_code)
-> >   	{
-> > @@ -61,7 +61,7 @@ Quick Quiz:
-> >   :ref:`Answer to Quick Quiz <answer_quick_quiz_NMI>`
-> > -Back to the discussion of NMI and RCU...::
-> > +Back to the discussion of NMI and RCU::
-> >   	void set_nmi_callback(nmi_callback_t callback)
-> >   	{
-> > 
+https://groups.google.com/d/msg/syzkaller-bugs/ApnMLW6sfKE/Qq0bIHGEAQAJ
+
+Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+---
+ drivers/hid/hid-lg4ff.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-lg4ff.c b/drivers/hid/hid-lg4ff.c
+index 5e6a0cef2a06..44dfd08b0c32 100644
+--- a/drivers/hid/hid-lg4ff.c
++++ b/drivers/hid/hid-lg4ff.c
+@@ -468,10 +468,10 @@ static int lg4ff_play(struct input_dev *dev, void *data, struct ff_effect *effec
+ static void lg4ff_set_autocenter_default(struct input_dev *dev, u16 magnitude)
+ {
+ 	struct hid_device *hid = input_get_drvdata(dev);
+-	s32 *value;
++	s32 *value = NULL;
+ 	u32 expand_a, expand_b;
+-	struct lg4ff_device_entry *entry;
+-	struct lg_drv_data *drv_data;
++	struct lg4ff_device_entry *entry = NULL;
++	struct lg_drv_data *drv_data = NULL;
+ 	unsigned long flags;
+ 
+ 	drv_data = hid_get_drvdata(hid);
+-- 
+2.20.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
