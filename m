@@ -2,93 +2,93 @@ Return-Path: <SRS0=n4Lq=Y6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-13.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20BA8C47E49
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Nov 2019 13:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24F3DC5DF65
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Nov 2019 14:22:42 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CCCB621882
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Nov 2019 13:16:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EA2A72178F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Nov 2019 14:22:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eKdLEu+G"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CCCB621882
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iy429A2C"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA2A72178F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 98247CD3;
-	Wed,  6 Nov 2019 13:16:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id C975ECDB;
+	Wed,  6 Nov 2019 14:22:41 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 06950CBB
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3D05EC3A
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed,  6 Nov 2019 13:16:43 +0000 (UTC)
+	Wed,  6 Nov 2019 14:22:40 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 15479189
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C5469196
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed,  6 Nov 2019 13:16:42 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id k7so11426855pll.1
+	Wed,  6 Nov 2019 14:22:39 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id y24so11496084plr.12
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 06 Nov 2019 05:16:42 -0800 (PST)
+	Wed, 06 Nov 2019 06:22:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=cc:subject:to:references:from:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=jH1CxWqEe5u9tGVGijQtsOXtAhLD0z88WC7LLZl90EA=;
-	b=eKdLEu+G6yD6w9fFrb36tbbY8q/Qizz9j2ep8AtDSIqRH0N4OX38AJYVrNqQQLJgiI
-	fDVdvWbtQrwjtko0umuiNgkAQP7MpBKd76opQgeqGTguqkoPWHkT0nrSlTEFDQKcwZox
-	J0Czo4e3Li/Al5Nt624/TuZ2BYvjv7sos3uaFow4VTXTjlXS1BibegLDC04lhfkSZgeo
-	3X3ymRUegYNqP1Q9B410+uiAzPZuwsV5kCCrswl0N3+h2gA111mwTtls3m83UAlSnKi9
-	BCvCYOTXU/i46/zMelsgYqRevWnfAdwXUrf4JTxEECLwCP7GDYwlfpnYnC+GPpahuWUG
-	CrSA==
+	bh=VZ2YuX9WkVdA2wqZva8TfQh4uDZmSLYmnIZt2JxlnZI=;
+	b=iy429A2Ct25xdGd6rSxaImff/6n7BsHMEcJ1elNUhEYMpfsceHyGsLNXGfuTPDayK9
+	OFPB5QxinNwR4ztz4fGc0RArA+ldntUVcI17PR4mIv9i9ouOu3OprX0DrvEiucfB3qCe
+	ojrGH8Y2Bej9sf4mQc5Zh2KmXMvlI28OK8qX75pVrssia1PGcmimRnnXmalbb7l9ghEF
+	aSqhve8jp7NQmQsqhN4U0BZ1UsCxu1GttGQU5Kd7foRsDk3M87j5YFPXTImBlyRdyLPW
+	6R37tu0qG1FEROElVWSlVT8h3l2dRpy18ed5l7anPKE2wvGdeGftqxx40ElLgYr6E9Sf
+	tiRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:cc:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=jH1CxWqEe5u9tGVGijQtsOXtAhLD0z88WC7LLZl90EA=;
-	b=m7blgbcu1vmJt21U6GzHHIMAugxQMmVwBZtiFnkUR812LPSfeoQKi+v3f4J80lAqpL
-	2KwHeEEM5m91nNfgGrAskHGQPmEvQ13d+NzhSzUjKxqG5/4VI0/DLhPafmmz7qmmmUPb
-	qnGh0dsUa+EFcpCuHGNiY47VOR0idE3msorYPpscbGwCvm0AfvHpmkChctkhGneTrSmf
-	ATxikthApy8Zv0NtuY5Gh4ZOPnYpEk1vXefQrCwHb4JxIuQaqfVO+czYRZ5NzxQ/wCQM
-	Hll3BomPbP5XB+/tDfDntSRpj/mjRyXDIkvTRYiILUAj3VNMSXOln/AuPhEJ9sVf0QWf
-	h5nw==
-X-Gm-Message-State: APjAAAWPKDFZuZoyHttcz97tWj0woJn1ofw9kW9zybVkO4H6cNMe3/sJ
-	+FwaCXWKZ8aWik2qTRE3a7MT4Oq7qXw=
-X-Google-Smtp-Source: APXvYqxp58pt5cP0YvZCIifD24FK0eCy/ukLAA5N1vzz0ykRvr6pUS6GC7funBp42A5ELVgxTOhPzQ==
-X-Received: by 2002:a17:902:9687:: with SMTP id
-	n7mr2665743plp.166.1573046200967; 
-	Wed, 06 Nov 2019 05:16:40 -0800 (PST)
+	bh=VZ2YuX9WkVdA2wqZva8TfQh4uDZmSLYmnIZt2JxlnZI=;
+	b=eMqCqI5+prtvmXish5dop0qagAC1VdHm/vowbes8WQMZDbPAODdLxEbfNQw6YKXRqP
+	tZG0ejWHpW//F6r+bYDoxGq2uNMofIDmQP/h4+MbXVkZQDbO45XrpuMsc5eWNihVchKA
+	WcHbVN0fbl+8Q6rQdNvyg2U2MPj0gZbxGvzSJRF0eXnSU5JPVUUPDdvWSwZA15E3CV6r
+	X2j+ikLIye1embv3I93GlP+QmdCWOeEGz4m8kJQbZ2jpRwa8yuvTtPTgt6Sj9sarFttW
+	aQ1hJ3kQhrTMROr2+0kQVZhLs3K+6bF1n6wkfdqVIP/RccsASWH+CQgF5vaYRI2eR6UJ
+	r2rw==
+X-Gm-Message-State: APjAAAVCcMPXmxeVifOPP+D05YBeVydGjnm2SAR26rFHQ6TVrVGyUKBQ
+	NvzZtJ9MeDbCVRkI92mhCA6iafwGYljUVw==
+X-Google-Smtp-Source: APXvYqwW8FePfs310Sjh8MLuZtyWmpxZSQ7ZkwcJbVr51fSef7+NsmDIBarHxe3GMmwrsHrOOTtxEw==
+X-Received: by 2002:a17:902:8343:: with SMTP id
+	z3mr2920223pln.200.1573050158836; 
+	Wed, 06 Nov 2019 06:22:38 -0800 (PST)
 Received: from ?IPv6:2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb?
 	([2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb])
 	by smtp.gmail.com with ESMTPSA id
-	18sm23577703pfp.100.2019.11.06.05.16.37
+	c184sm26760638pfc.159.2019.11.06.06.22.35
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 06 Nov 2019 05:16:40 -0800 (PST)
-To: Amol Grover <frextrite@gmail.com>
-References: <20191105165938.GA10903@workstation>
-	<20191105214234.17116-1-tranmanphong@gmail.com>
-	<20191106094523.GA1245@workstation-kernel-dev>
+	Wed, 06 Nov 2019 06:22:38 -0800 (PST)
+To: Oliver Neukum <oneukum@suse.com>,
+	syzbot+495dab1f175edc9c2f13@syzkaller.appspotmail.com
+References: <00000000000042d60805933945b5@google.com>
+	<20191105233652.21033-1-tranmanphong@gmail.com>
+	<1573040577.3090.22.camel@suse.com>
 From: Phong Tran <tranmanphong@gmail.com>
-Message-ID: <8705475b-7423-1af1-a664-bdee2bf3894d@gmail.com>
-Date: Wed, 6 Nov 2019 20:16:36 +0700
+Message-ID: <d6c628d0-71ad-7343-d80e-1b0cd0795242@gmail.com>
+Date: Wed, 6 Nov 2019 21:22:34 +0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191106094523.GA1245@workstation-kernel-dev>
+In-Reply-To: <1573040577.3090.22.camel@suse.com>
 Content-Language: en-US
-Cc: paulmck@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-	jiangshanlai@gmail.com, josh@joshtriplett.org,
-	rostedt@goodmis.org, linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org, mathieu.desnoyers@efficios.com,
-	joel@joelfernandes.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Doc: whatisRCU: Add more Markup
+Cc: linux-usb@vger.kernel.org, alex.theissen@me.com, andreyknvl@google.com,
+	2pi@mok.nu, syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] usb: appledisplay: fix
+ use-after-free in bl_get_brightness
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,288 +107,105 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
 
 
-On 11/6/19 4:45 PM, Amol Grover wrote:
-> On Wed, Nov 06, 2019 at 04:42:34AM +0700, Phong Tran wrote:
->> o Adding more crossrefs.
->> o Bold some words.
->> o Add header levels.
+On 11/6/19 6:42 PM, Oliver Neukum wrote:
+> Am Mittwoch, den 06.11.2019, 06:36 +0700 schrieb Phong Tran:
+>> In context of USB disconnect, the delaywork trigger and calling
+>> appledisplay_bl_get_brightness() and the msgdata was freed.
 >>
->> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
->> ---
->>   Documentation/RCU/whatisRCU.rst | 67 ++++++++++++++++++++-------------
->>   1 file changed, 41 insertions(+), 26 deletions(-)
->>
->> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
->> index ae40c8bcc56c..3e24e0155a91 100644
->> --- a/Documentation/RCU/whatisRCU.rst
->> +++ b/Documentation/RCU/whatisRCU.rst
->> @@ -150,7 +150,7 @@ later.  See the kernel docbook documentation for more info, or look directly
->>   at the function header comments.
->>   
->>   rcu_read_lock()
->> -
->> +^^^^^^^^^^^^^^^
->>   	void rcu_read_lock(void);
->>   
->>   	Used by a reader to inform the reclaimer that the reader is
->> @@ -164,7 +164,7 @@ rcu_read_lock()
->>   	longer-term references to data structures.
->>   
->>   rcu_read_unlock()
->> -
->> +^^^^^^^^^^^^^^^^^
->>   	void rcu_read_unlock(void);
->>   
->>   	Used by a reader to inform the reclaimer that the reader is
->> @@ -172,13 +172,13 @@ rcu_read_unlock()
->>   	read-side critical sections may be nested and/or overlapping.
->>   
->>   synchronize_rcu()
->> -
->> +^^^^^^^^^^^^^^^^^
->>   	void synchronize_rcu(void);
->>   
->>   	Marks the end of updater code and the beginning of reclaimer
->>   	code.  It does this by blocking until all pre-existing RCU
->>   	read-side critical sections on all CPUs have completed.
->> -	Note that synchronize_rcu() will -not- necessarily wait for
->> +	Note that synchronize_rcu() will **not** necessarily wait for
->>   	any subsequent RCU read-side critical sections to complete.
->>   	For example, consider the following sequence of events::
->>   
->> @@ -196,7 +196,7 @@ synchronize_rcu()
->>   	any that begin after synchronize_rcu() is invoked.
->>   
->>   	Of course, synchronize_rcu() does not necessarily return
->> -	-immediately- after the last pre-existing RCU read-side critical
->> +	**immediately** after the last pre-existing RCU read-side critical
->>   	section completes.  For one thing, there might well be scheduling
->>   	delays.  For another thing, many RCU implementations process
->>   	requests in batches in order to improve efficiencies, which can
->> @@ -225,10 +225,10 @@ synchronize_rcu()
->>   	checklist.txt for some approaches to limiting the update rate.
->>   
->>   rcu_assign_pointer()
->> -
->> +^^^^^^^^^^^^^^^^^^^^
->>   	void rcu_assign_pointer(p, typeof(p) v);
->>   
->> -	Yes, rcu_assign_pointer() -is- implemented as a macro, though it
->> +	Yes, rcu_assign_pointer() **is** implemented as a macro, though it
->>   	would be cool to be able to declare a function in this manner.
->>   	(Compiler experts will no doubt disagree.)
->>   
->> @@ -245,7 +245,7 @@ rcu_assign_pointer()
->>   	the _rcu list-manipulation primitives such as list_add_rcu().
->>   
->>   rcu_dereference()
->> -
->> +^^^^^^^^^^^^^^^^^
->>   	typeof(p) rcu_dereference(p);
->>   
->>   	Like rcu_assign_pointer(), rcu_dereference() must be implemented
->> @@ -280,8 +280,8 @@ rcu_dereference()
->>   	unnecessary overhead on Alpha CPUs.
->>   
->>   	Note that the value returned by rcu_dereference() is valid
->> -	only within the enclosing RCU read-side critical section [1].
->> -	For example, the following is -not- legal::
->> +	only within the enclosing RCU read-side critical section [1]_.
->> +	For example, the following is **not** legal::
->>   
->>   		rcu_read_lock();
->>   		p = rcu_dereference(head.next);
->> @@ -304,9 +304,11 @@ rcu_dereference()
->>   	at any time, including immediately after the rcu_dereference().
->>   	And, again like rcu_assign_pointer(), rcu_dereference() is
->>   	typically used indirectly, via the _rcu list-manipulation
->> -	primitives, such as list_for_each_entry_rcu() [2].
->> +	primitives, such as list_for_each_entry_rcu() [2]_.
->> +
->> +	.. [1]
+>> add the checking return value of usb_control_msg() and only update the
+>> data while the retval is valid.
 > 
-> Hey Phong,
-> I just checked the patch but this change doesn't seem quite right.
-> It just creates an empty footnote. Something on the lines of
-> ..	[1] The variant rcu_dereference_protected()...
-> should work.
+> Hi,
 > 
-thanks, Amol.
-fixed it. The patch sent out amend to 7c12b3764c47
+> I am afraid there are some issues with your patch. First, let me stress
+> that you found the right place to fix an issue and you partially fixed
+> an issue. But the the fix you applied is incomplete and left another
+> issue open.
+> 
+> Your patch still allows doing IO to a device that may already be bound
+> to another driver. That is bad, especially as the buffer is already
+> free. Yes, if IO is failing, you have fixed that narrow issue.
+> But it need not fail.
+> 
+> If you look into appledisplay_probe() you will see that it can fail
+> because backlight_device_register() fails. The error handling will
+> thereupon kill the URB and free memory. But it will not kill an already
+> scheduled work. The scheduled work will then call usb_control_msg()
+> on pdata->msgdata, which has been freed. If that IO fails, all is well.
+> If not, the issue still exists.
+> 
+Hello Oliver,
 
-https://lkml.org/lkml/2019/11/6/513
+argee, there need a cancel workqueue in case error of probe().
 
->>   
->> -	[1] The variant rcu_dereference_protected() can be used outside
->> +	The variant rcu_dereference_protected() can be used outside
->>   	of an RCU read-side critical section as long as the usage is
->>   	protected by locks acquired by the update-side code.  This variant
->>   	avoids the lockdep warning that would happen when using (for
->> @@ -319,7 +321,9 @@ rcu_dereference()
->>   	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
->>   	and the API's code comments for more details and example usage.
->>   
->> -	[2] If the list_for_each_entry_rcu() instance might be used by
->> +	.. [2]
+> Secondly, your error check is off by 2. You are checking only for
+> usb_control_msg() failing. But it can return only one byte instead
+> of two. If that happens, the value you return is stale, although
+> the buffer is correctly allocated.
 > 
-> Similarly for this.
+> 	Regards
+> 		Oliver
 > 
-Fixed it
+> The correct fix for both issues would be:
+> 
+> #syz test: https://github.com/google/kasan.git e0bd8d79
+> 
+>  From 2497a62bdbeb9bd94f690c22d96dd1b8cf22861f Mon Sep 17 00:00:00 2001
+> From: Oliver Neukum <oneukum@suse.com>
+> Date: Wed, 6 Nov 2019 12:36:28 +0100
+> Subject: [PATCH] appledisplay: fix error handling in the scheduled work
+> 
+> The work item can operate on
+> 
+> 1. stale memory left over from the last transfer
+> the actual length of the data transfered needs to be checked
+> 2. memory already freed
+> the error handling in appledisplay_probe() needs
+> to cancel the work in that case
+> 
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+>   drivers/usb/misc/appledisplay.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/misc/appledisplay.c b/drivers/usb/misc/appledisplay.c
+> index ac92725458b5..ba1eaabc7796 100644
+> --- a/drivers/usb/misc/appledisplay.c
+> +++ b/drivers/usb/misc/appledisplay.c
+> @@ -164,7 +164,12 @@ static int appledisplay_bl_get_brightness(struct backlight_device *bd)
+>   		0,
+>   		pdata->msgdata, 2,
+>   		ACD_USB_TIMEOUT);
+> -	brightness = pdata->msgdata[1];
+> +	if (retval < 2) {
+> +		if (retval >= 0)
+> +			retval = -EMSGSIZE;
+> +	} else {
+> +		brightness = pdata->msgdata[1];
+> +	}
 
->> +
->> +	If the list_for_each_entry_rcu() instance might be used by
->>   	update-side code as well as by RCU readers, then an additional
->>   	lockdep expression can be added to its list of arguments.
->>   	For example, given an additional "lock_is_held(&mylock)" argument,
->> @@ -459,22 +463,22 @@ uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
->>   
->>   So, to sum up:
->>   
->> -o	Use rcu_read_lock() and rcu_read_unlock() to guard RCU
->> +-	Use rcu_read_lock() and rcu_read_unlock() to guard RCU
->>   	read-side critical sections.
->>   
->> -o	Within an RCU read-side critical section, use rcu_dereference()
->> +-	Within an RCU read-side critical section, use rcu_dereference()
->>   	to dereference RCU-protected pointers.
->>   
->> -o	Use some solid scheme (such as locks or semaphores) to
->> +-	Use some solid scheme (such as locks or semaphores) to
->>   	keep concurrent updates from interfering with each other.
->>   
->> -o	Use rcu_assign_pointer() to update an RCU-protected pointer.
->> +-	Use rcu_assign_pointer() to update an RCU-protected pointer.
->>   	This primitive protects concurrent readers from the updater,
->> -	-not- concurrent updates from each other!  You therefore still
->> +	**not** concurrent updates from each other!  You therefore still
->>   	need to use locking (or something similar) to keep concurrent
->>   	rcu_assign_pointer() primitives from interfering with each other.
->>   
->> -o	Use synchronize_rcu() -after- removing a data element from an
->> +-	Use synchronize_rcu() **after** removing a data element from an
->>   	RCU-protected data structure, but -before- reclaiming/freeing
-> 
-> And this -before- is feeling lonely aswell.
-> 
-okay, fixed.
+compare with message size (2) can be considered.
+
+if (retval == 2) {
+	brightness = pdata->msgdata[1];
+} else {
+	retval = -EMSGSIZE;
+}
 
 Regards,
 Phong.
 
-> 
-> Thanks
-> Amol
-> 
->>   	the data element, in order to wait for the completion of all
->>   	RCU read-side critical sections that might be referencing that
->> @@ -566,7 +570,7 @@ namely foo_reclaim().
->>   The summary of advice is the same as for the previous section, except
->>   that we are now using call_rcu() rather than synchronize_rcu():
->>   
->> -o	Use call_rcu() -after- removing a data element from an
->> +-	Use call_rcu() **after** removing a data element from an
->>   	RCU-protected data structure in order to register a callback
->>   	function that will be invoked after the completion of all RCU
->>   	read-side critical sections that might be referencing that
->> @@ -603,7 +607,7 @@ more details on the current implementation as of early 2004.
->>   
->>   
->>   5A.  "TOY" IMPLEMENTATION #1: LOCKING
->> -
->> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>   This section presents a "toy" RCU implementation that is based on
->>   familiar locking primitives.  Its overhead makes it a non-starter for
->>   real-life use, as does its lack of scalability.  It is also unsuitable
->> @@ -671,6 +675,8 @@ that the only thing that can block rcu_read_lock() is a synchronize_rcu().
->>   But synchronize_rcu() does not acquire any locks while holding rcu_gp_mutex,
->>   so there can be no deadlock cycle.
->>   
->> +.. _quiz_1:
->> +
->>   Quick Quiz #1:
->>   		Why is this argument naive?  How could a deadlock
->>   		occur when using this algorithm in a real-world Linux
->> @@ -679,7 +685,7 @@ Quick Quiz #1:
->>   :ref:`Answers to Quick Quiz <8_whatisRCU>`
->>   
->>   5B.  "TOY" EXAMPLE #2: CLASSIC RCU
->> -
->> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>   This section presents a "toy" RCU implementation that is based on
->>   "classic RCU".  It is also short on performance (but only for updates) and
->>   on features such as hotplug CPU and the ability to run in CONFIG_PREEMPT
->> @@ -710,14 +716,14 @@ CPU in turn.  The run_on() primitive can be implemented straightforwardly
->>   in terms of the sched_setaffinity() primitive.  Of course, a somewhat less
->>   "toy" implementation would restore the affinity upon completion rather
->>   than just leaving all tasks running on the last CPU, but when I said
->> -"toy", I meant -toy-!
->> +"toy", I meant **toy**!
->>   
->>   So how the heck is this supposed to work???
->>   
->>   Remember that it is illegal to block while in an RCU read-side critical
->>   section.  Therefore, if a given CPU executes a context switch, we know
->>   that it must have completed all preceding RCU read-side critical sections.
->> -Once -all- CPUs have executed a context switch, then -all- preceding
->> +Once **all** CPUs have executed a context switch, then **all** preceding
->>   RCU read-side critical sections will have completed.
->>   
->>   So, suppose that we remove a data item from its structure and then invoke
->> @@ -725,12 +731,16 @@ synchronize_rcu().  Once synchronize_rcu() returns, we are guaranteed
->>   that there are no RCU read-side critical sections holding a reference
->>   to that data item, so we can safely reclaim it.
->>   
->> +.. _quiz_2:
->> +
->>   Quick Quiz #2:
->>   		Give an example where Classic RCU's read-side
->> -		overhead is -negative-.
->> +		overhead is **negative**.
->>   
->>   :ref:`Answers to Quick Quiz <8_whatisRCU>`
->>   
->> +.. _quiz_3:
->> +
->>   Quick Quiz #3:
->>   		If it is illegal to block in an RCU read-side
->>   		critical section, what the heck do you do in
->> @@ -1076,9 +1086,11 @@ Answer:
->>   		approach where tasks in RCU read-side critical sections
->>   		cannot be blocked by tasks executing synchronize_rcu().
->>   
->> +:ref:`Back to Quick Quiz #1 <quiz_1>`
->> +
->>   Quick Quiz #2:
->>   		Give an example where Classic RCU's read-side
->> -		overhead is -negative-.
->> +		overhead is **negative**.
->>   
->>   Answer:
->>   		Imagine a single-CPU system with a non-CONFIG_PREEMPT
->> @@ -1103,6 +1115,8 @@ Answer:
->>   		even the theoretical possibility of negative overhead for
->>   		a synchronization primitive is a bit unexpected.  ;-)
->>   
->> +:ref:`Back to Quick Quiz #2 <quiz_2>`
->> +
->>   Quick Quiz #3:
->>   		If it is illegal to block in an RCU read-side
->>   		critical section, what the heck do you do in
->> @@ -1128,6 +1142,7 @@ Answer:
->>   		Besides, how does the computer know what pizza parlor
->>   		the human being went to???
->>   
->> +:ref:`Back to Quick Quiz #3 <quiz_3>`
->>   
->>   ACKNOWLEDGEMENTS
->>   
->> -- 
->> 2.20.1
->>
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees@lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+>   	mutex_unlock(&pdata->sysfslock);
+>   
+>   	if (retval < 0)
+> @@ -299,6 +304,7 @@ static int appledisplay_probe(struct usb_interface *iface,
+>   	if (pdata) {
+>   		if (pdata->urb) {
+>   			usb_kill_urb(pdata->urb);
+> +			cancel_delayed_work_sync(&pdata->work);
+>   			if (pdata->urbdata)
+>   				usb_free_coherent(pdata->udev, ACD_URB_BUFFER_LEN,
+>   					pdata->urbdata, pdata->urb->transfer_dma);
 > 
 _______________________________________________
 Linux-kernel-mentees mailing list
