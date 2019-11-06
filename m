@@ -1,87 +1,62 @@
-Return-Path: <SRS0=fOLH=Y5=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=n4Lq=Y6=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB222C5DF60
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 23:37:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1554C5DF62
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Nov 2019 08:50:22 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8B75320663
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Nov 2019 23:37:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B2565206A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Nov 2019 08:50:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T7otIGjN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8B75320663
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pm30crSK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2565206A3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 88D08DF2;
-	Tue,  5 Nov 2019 23:37:04 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 81FBDB0B;
+	Wed,  6 Nov 2019 08:50:22 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id ABBF8DDF
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 77C6EB09
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  5 Nov 2019 23:37:03 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5A71427B
+	Wed,  6 Nov 2019 08:50:21 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 14472196
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  5 Nov 2019 23:37:03 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id p26so17289627pfq.8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 05 Nov 2019 15:37:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=jbOa8JF4MBQR2lZ6+xvcROFm9Impr2oKxSGxSOq96pg=;
-	b=T7otIGjNM+rxJdQzdyBGLkV3wlSlK0ERKVBdMp3P/gK3s8k6YB+I9PX7WzR8GXVgPY
-	FsORAyvugQ6ORE7htS3hSbnu6mVPwgJ5be3ZCjHR7OYWjOlp9F1CX23SX7pjXwoluPMh
-	WEctsoRPF2XL7IV3Dnt249ls5LKiykIvFKx8LsdSwsfwXg4Hwi6AuBTpWNSWoGHBTwl6
-	sbLonNw5C5GbYtxU8DGyl93/qHK/zUp+qP3cr6lpPzXNHR51cXMHYniT0Tt0AuBcnuoC
-	vDTD3T5tfU4Ryc5DIDSAfRwjVavmYUq1TFL7QbVKwuu7WujskeUg5vOzIjOQNpTmzs5p
-	gsBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=jbOa8JF4MBQR2lZ6+xvcROFm9Impr2oKxSGxSOq96pg=;
-	b=Ca/g+lk+MVyVZduNy/uLfc32bK4rvmltVCUXz136tBhRuy6OznMTcnMVzfzIJ/nhMy
-	gvsKHs1f9q2gQfCDaZZ+6ZjSbF5iLbdpUQPMeD/IP9h6kyCjW7ace6cmSrWCvDN0BLzZ
-	s/8a4Wxbrdzd18I9CGqs8hwQpTzi41Ab13oqqKL5wF1JeoNVn3LEUOhsTCOg2VUrqhAL
-	hsJOfHEwOQe8PoKYTqbjdP3jWpDnCxrlFUTzdb+rI7NpsAdAUaO1kSW8KN0GFyGDHwhx
-	eUXiEs02HqDCLetVnCpwa6ynKGWxJBwL34oCbwxgziDoOeY+RZGV1s7WLr4pac6XSitC
-	gW+A==
-X-Gm-Message-State: APjAAAUbetc1IucdMtNEJqE4IqzQd9sCK683lwwBnNM2S4EjauCUqz5j
-	mbJBr3ZyssLSY1GVpUjTFl0=
-X-Google-Smtp-Source: APXvYqy6TnDZoAcLevkCQceDlWjiDNaPRoDljt1Fyg09m4mm28L5Wnv+mQ2DQxrQ9qKmM8wKNTktYg==
-X-Received: by 2002:a17:90a:25e1:: with SMTP id
-	k88mr2298501pje.14.1572997022758; 
-	Tue, 05 Nov 2019 15:37:02 -0800 (PST)
-Received: from debian.net.fpt ([2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb])
-	by smtp.gmail.com with ESMTPSA id
-	y22sm13641688pfn.6.2019.11.05.15.36.59
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 05 Nov 2019 15:37:01 -0800 (PST)
-From: Phong Tran <tranmanphong@gmail.com>
-To: syzbot+495dab1f175edc9c2f13@syzkaller.appspotmail.com
-Date: Wed,  6 Nov 2019 06:36:52 +0700
-Message-Id: <20191105233652.21033-1-tranmanphong@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <00000000000042d60805933945b5@google.com>
-References: <00000000000042d60805933945b5@google.com>
+	Wed,  6 Nov 2019 08:50:21 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (unknown [109.144.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 824C5206A3;
+	Wed,  6 Nov 2019 08:50:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1573030220;
+	bh=gSCNYnvybXaFKN/pomF/RlMMre8A0JZrFJwWxYzSl54=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=Pm30crSKj1fdy4ElGNGzdoydeJvy5t1WaBx/mKgGXojvqSd+Vn/oaJrTyqPor/us3
+	QddBzYau48K0bi63ExnBJjetNZih2EZEmmJ1K9EMjDes15ZphbIKQB4J15CaZZaJvJ
+	HZS/n8kL+2zLIFVqAijDA+EhcCs1a3vtVKJGBOY4=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id EAEF33520B54; Wed,  6 Nov 2019 00:50:17 -0800 (PST)
+Date: Wed, 6 Nov 2019 00:50:17 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: madhuparnabhowmik04@gmail.com
+Message-ID: <20191106085017.GX20975@paulmck-ThinkPad-P72>
+References: <20191105212927.13924-1-madhuparnabhowmik04@gmail.com>
 MIME-Version: 1.0
-Cc: alex.theissen@me.com, andreyknvl@google.com, linux-usb@vger.kernel.org,
-	2pi@mok.nu, linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] usb: appledisplay: fix
-	use-after-free in bl_get_brightness
+Content-Disposition: inline
+In-Reply-To: <20191105212927.13924-1-madhuparnabhowmik04@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	joel@joelfernandes.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] Documentation: RCU:
+ arrayRCU: Improve format for arrayRCU.rst
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -93,45 +68,103 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>,
 	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
-In context of USB disconnect, the delaywork trigger and calling
-appledisplay_bl_get_brightness() and the msgdata was freed.
+On Wed, Nov 06, 2019 at 02:59:27AM +0530, madhuparnabhowmik04@gmail.com wrote:
+> From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> 
+> This patch adds cross-references and fixes a few formtting issues.
+> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
-add the checking return value of usb_control_msg() and only update the
-data while the retval is valid.
+Hearing no objections, applied to be squashed into this commit:
 
-Reported-by: syzbot+495dab1f175edc9c2f13@syzkaller.appspotmail.com
-Reported-and-tested-by:
-syzbot+495dab1f175edc9c2f13@syzkaller.appspotmail.com
+7e42de651ffd ("Documentation: RCU: arrayRCU: Converted arrayRCU.txt
+to arrayRCU.rst")
 
-https://groups.google.com/d/msg/syzkaller-bugs/dRmkh2UYusY/l2a6Mg3FAQAJ
+And with the addition of Phong's and Amol's Tested-by tags.
 
-Signed-off-by: Phong Tran <tranmanphong@gmail.com>
----
- drivers/usb/misc/appledisplay.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+							Thanx, Paul
 
-diff --git a/drivers/usb/misc/appledisplay.c b/drivers/usb/misc/appledisplay.c
-index ac92725458b5..3e3dfa5a3954 100644
---- a/drivers/usb/misc/appledisplay.c
-+++ b/drivers/usb/misc/appledisplay.c
-@@ -164,7 +164,8 @@ static int appledisplay_bl_get_brightness(struct backlight_device *bd)
- 		0,
- 		pdata->msgdata, 2,
- 		ACD_USB_TIMEOUT);
--	brightness = pdata->msgdata[1];
-+	if (retval >= 0)
-+		brightness = pdata->msgdata[1];
- 	mutex_unlock(&pdata->sysfslock);
- 
- 	if (retval < 0)
--- 
-2.20.1
-
+> ---
+>  Documentation/RCU/arrayRCU.rst | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/RCU/arrayRCU.rst b/Documentation/RCU/arrayRCU.rst
+> index ed5ae24b196e..30c007edfbfb 100644
+> --- a/Documentation/RCU/arrayRCU.rst
+> +++ b/Documentation/RCU/arrayRCU.rst
+> @@ -6,16 +6,16 @@ Using RCU to Protect Read-Mostly Arrays
+>  Although RCU is more commonly used to protect linked lists, it can
+>  also be used to protect arrays.  Three situations are as follows:
+>  
+> -1.  Hash Tables
+> +1.  :ref:`Hash Tables <hash_tables>`
+>  
+> -2.  Static Arrays
+> +2.  :ref:`Static Arrays <static_arrays>`
+>  
+> -3.  Resizeable Arrays
+> +3.  :ref:`Resizeable Arrays <resizeable_arrays>`
+>  
+>  Each of these three situations involves an RCU-protected pointer to an
+>  array that is separately indexed.  It might be tempting to consider use
+>  of RCU to instead protect the index into an array, however, this use
+> -case is -not- supported.  The problem with RCU-protected indexes into
+> +case is **not** supported.  The problem with RCU-protected indexes into
+>  arrays is that compilers can play way too many optimization games with
+>  integers, which means that the rules governing handling of these indexes
+>  are far more trouble than they are worth.  If RCU-protected indexes into
+> @@ -26,6 +26,7 @@ to be safely used.
+>  That aside, each of the three RCU-protected pointer situations are
+>  described in the following sections.
+>  
+> +.. _hash_tables:
+>  
+>  Situation 1: Hash Tables
+>  ------------------------
+> @@ -35,6 +36,7 @@ has a linked-list hash chain.  Each hash chain can be protected by RCU
+>  as described in the listRCU.txt document.  This approach also applies
+>  to other array-of-list situations, such as radix trees.
+>  
+> +.. _static_arrays:
+>  
+>  Situation 2: Static Arrays
+>  --------------------------
+> @@ -50,6 +52,8 @@ Quick Quiz:
+>  
+>  :ref:`Answer to Quick Quiz <answer_quick_quiz_seqlock>`
+>  
+> +.. _resizeable_arrays:
+> +
+>  Situation 3: Resizeable Arrays
+>  ------------------------------
+>  
+> @@ -66,7 +70,7 @@ the remainder of the new, updates the ids->entries pointer to point to
+>  the new array, and invokes ipc_rcu_putref() to free up the old array.
+>  Note that rcu_assign_pointer() is used to update the ids->entries pointer,
+>  which includes any memory barriers required on whatever architecture
+> -you are running on.::
+> +you are running on::
+>  
+>  	static int grow_ary(struct ipc_ids* ids, int newsize)
+>  	{
+> @@ -118,7 +122,7 @@ a simple check suffices.  The pointer to the structure corresponding
+>  to the desired IPC object is placed in "out", with NULL indicating
+>  a non-existent entry.  After acquiring "out->lock", the "out->deleted"
+>  flag indicates whether the IPC object is in the process of being
+> -deleted, and, if not, the pointer is returned.::
+> +deleted, and, if not, the pointer is returned::
+>  
+>  	struct kern_ipc_perm* ipc_lock(struct ipc_ids* ids, int id)
+>  	{
+> -- 
+> 2.17.1
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
