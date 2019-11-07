@@ -5,81 +5,81 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04336FA372C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 01:44:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1169AFC6197
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 01:45:19 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C581121882
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 01:44:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D47972187F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 01:45:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kic0KlCf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C581121882
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XtTKLwu4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D47972187F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 79DB9B79;
-	Thu,  7 Nov 2019 01:44:06 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id B1D6CB79;
+	Thu,  7 Nov 2019 01:45:18 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id AA52CB6D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6622FAE0
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  7 Nov 2019 01:44:05 +0000 (UTC)
+	Thu,  7 Nov 2019 01:45:17 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
 Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
 	[209.85.160.194])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 48B04189
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E9C48189
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  7 Nov 2019 01:44:05 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id t8so616651qtc.6
+	Thu,  7 Nov 2019 01:45:16 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id t20so595573qtn.9
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 06 Nov 2019 17:44:05 -0800 (PST)
+	Wed, 06 Nov 2019 17:45:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=tPal4Tiqr59qTE4j9taLMEZPyrRNOc3SEDhq39Ai+vg=;
-	b=kic0KlCfgbyQSycleGSUGHg4bZcIuK3yiYuF99JI4LmP+9yGNWmh7TBUXvukOm0JVd
-	nVJVCnB8tq/YCsPxguRsnntFs7IuCYTrd4/7stszwGUmFf3vRa2UX1+HQ6UC1TdpRRCD
-	VS9G8/HP64zEU99KnjBUQz1h/o286W4d0lKqe8ceAdQBauATsFQMp5sUOLrjabMdHXc+
-	y0svqQXEXfZIDswBnvrWB8pb0j5FdfIhqlYDVNxlL9q4XloYWAzSuwP7051wmYXjbWCe
-	DJvSrI+bhrnVh+aphEb9xAPBwUmi9Mv7s/z8vTPVzm7AAVSbhPIgbwgLElwvlr5uTdrh
-	2fbw==
+	bh=sT9JhCsm7ji7ANGvO8aOX9ZWgfUj6JLCR9TWfO6QprI=;
+	b=XtTKLwu4bHiLHqcm4xyDss30UijRbtv8JirrGKJsiZ0bsGk2pvsaYtKCXSLBThlpA1
+	NwwxGXNUzfBsGkU45VjO1qj7DEhh/0FjRE/PdjdZEBYBAelAyBosPAtv9K7dG9aubMdi
+	YqKQixTNl3OIU1VdUS3wKEuSKM3QWXnh1PMOdPkoQXbsdFQbpVZ+ZvZmyelRttDweQIV
+	Pfh3vth7QDS5Z1xgPvvrAikxhVOqkhThI0wF4WAugEmY794C+MxknPKc5uKSEMsgyjQW
+	zWH66Gse0C23wp+aOrVwr2vuyahnEehEtZcwnHwWWSn/9SHOs85WV9/sa/qY+sV37iup
+	Tsvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=tPal4Tiqr59qTE4j9taLMEZPyrRNOc3SEDhq39Ai+vg=;
-	b=eKGEuXQT+q5JabzXD4grbaY2cs8FCkCtCYzqwbN/uaFYm9wTBOoTxuTP2r2YZhIS1d
-	sbhNRDYXXRjU4ZDnerbPZR+coHnsLq/7XAblCpEi/8/sMP9RcGNQTqJrzIurOWdvyVoQ
-	X6fmapZkkCDA9HRvEFgv1Qc7+eBmQbNkkFOCEIHK+Nvfq2xZgNGMShF8Law0uKYSFQDl
-	AbTrYXYuQzvVIY+5uHwUxq6ZcD7C7h8mGyg0uXDFnorx/YKILvMwXhzpxl8enJqMpcXA
-	Clry+tK5LhfGzkO+hoR2KXW+ExwP4TmBvODnXGVmRXVHBwpuHV4O2JLM7xAV+4/yiP8u
-	BXlQ==
-X-Gm-Message-State: APjAAAWnCAPq78QhVamnvRZ0zGiy1YyVcBLPMbjgYTmizUwG7tPufz0K
-	UP2UKh8Gs8CWUbYilF/IWpY=
-X-Google-Smtp-Source: APXvYqz1z+OOXVnwnekzSO564Z0h38RCFhoI+TOMiMkZG4/Vq6sygDhROacXTZXFBFiDWUtG/TUIRw==
-X-Received: by 2002:ac8:7188:: with SMTP id w8mr1173603qto.211.1573091044281; 
-	Wed, 06 Nov 2019 17:44:04 -0800 (PST)
+	bh=sT9JhCsm7ji7ANGvO8aOX9ZWgfUj6JLCR9TWfO6QprI=;
+	b=KkOMzCuUH9nfx0/f+X5A9w8fAaYjQVYjYc/XI5wwalkmmDIRMP8vFjuP+/keMdrvcN
+	luGO4wLTyGLHWocz4gmfHg/S46m3QnCEtNigl1+VJ9RYywsmJfqP8r9cfMl3h+VJJ4Av
+	qLkyQxOdYIi8sML45WKBH3RDWG5gJ27EHerMK8YZIUazz7SBxHvyAySxiTdVkYeVCgZo
+	okhQF98jFcJTmxxlo2uwJFPDdokBrccdo12jUUgyGGRlM7aRub+bm+UwnV2AHUwDMmlT
+	PtXA/X13r2BP+Ym97Rdc5rR1yRU4Ep6fI4bqETufJG0qeoKwPCS/JIfAX3AVM2vomh1u
+	FD8A==
+X-Gm-Message-State: APjAAAUcAaN677hjiD4kT0FAh3wxRD6CRmHqqK8bh6h52VHn0P/4ji08
+	7EciwI9xJ852nM6KWgOKqqo=
+X-Google-Smtp-Source: APXvYqyUk/PO1CBION0aoWcHxLD0lwe3UjcGIiPjoWQdyHpIYi35jCEX+J4uoUa92p3JqbLbqyZoVQ==
+X-Received: by 2002:ac8:344a:: with SMTP id v10mr1198317qtb.323.1573091116010; 
+	Wed, 06 Nov 2019 17:45:16 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-	by smtp.gmail.com with ESMTPSA id g45sm377343qtb.48.2019.11.06.17.44.00
+	by smtp.gmail.com with ESMTPSA id w24sm579224qta.44.2019.11.06.17.45.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 06 Nov 2019 17:44:03 -0800 (PST)
+	Wed, 06 Nov 2019 17:45:15 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
-To: mchehab@kernel.org, rfontana@redhat.com, gregkh@linuxfoundation.org,
-	allison@lohutok.net, kstewart@linuxfoundation.org, tglx@linutronix.de
-Date: Wed,  6 Nov 2019 22:36:33 -0300
-Message-Id: <20191107013633.21894-1-dwlsalmeida@gmail.com>
+To: mchehab@kernel.org, gregkh@linuxfoundation.org, rfontana@redhat.com,
+	kstewart@linuxfoundation.org, tglx@linutronix.de
+Date: Wed,  6 Nov 2019 22:37:45 -0300
+Message-Id: <20191107013745.22147-1-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org,
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2] media: dvb_dummy_fe: place
-	EXPORT_SYMBOL below corresponding function
+	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH] media: dvb_dummy_fe: Add error
+	messages in case of attach failure
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -98,57 +98,73 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-dvb_dummy_fe.c had all its EXPORT_SYMBOL macros located at the end of the
-file. Now these are located directly below the symbol they are exporting
-for increased readability.
+Complain if the attach functions fail, for any reason. This is helpful
+when debugging.
 
 Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-
 ---
-Changes in V2:
-*Add git commit log
-
----
- drivers/media/dvb-frontends/dvb_dummy_fe.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/media/dvb-frontends/dvb_dummy_fe.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-index 4db679cb70ad..909dac2345c4 100644
+index 4db679cb70ad..ca86857c3667 100644
 --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
 +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-@@ -121,6 +121,7 @@ struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
+@@ -114,12 +114,16 @@ struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
+ 	/* allocate memory for the internal state */
+ 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
+ 	if (!state)
+-		return NULL;
++		goto err;
+ 
+ 	/* create dvb_frontend */
+ 	memcpy(&state->frontend.ops, &dvb_dummy_fe_ofdm_ops, sizeof(struct dvb_frontend_ops));
  	state->frontend.demodulator_priv = state;
  	return &state->frontend;
++
++err:
++	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
++	return NULL;
  }
-+EXPORT_SYMBOL(dvb_dummy_fe_ofdm_attach);
  
  static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops;
+@@ -131,12 +135,16 @@ struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
+ 	/* allocate memory for the internal state */
+ 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
+ 	if (!state)
+-		return NULL;
++		goto err;
  
-@@ -138,6 +139,7 @@ struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
+ 	/* create dvb_frontend */
+ 	memcpy(&state->frontend.ops, &dvb_dummy_fe_qpsk_ops, sizeof(struct dvb_frontend_ops));
  	state->frontend.demodulator_priv = state;
  	return &state->frontend;
++
++err:
++	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
++	return NULL;
  }
-+EXPORT_SYMBOL(dvb_dummy_fe_qpsk_attach);
  
  static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops;
+@@ -148,12 +156,16 @@ struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
+ 	/* allocate memory for the internal state */
+ 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
+ 	if (!state)
+-		return NULL;
++		goto err;
  
-@@ -155,6 +157,7 @@ struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
+ 	/* create dvb_frontend */
+ 	memcpy(&state->frontend.ops, &dvb_dummy_fe_qam_ops, sizeof(struct dvb_frontend_ops));
  	state->frontend.demodulator_priv = state;
  	return &state->frontend;
++
++err:
++	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
++	return NULL;
  }
-+EXPORT_SYMBOL(dvb_dummy_fe_qam_attach);
  
  static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops = {
- 	.delsys = { SYS_DVBT },
-@@ -253,7 +256,3 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops = {
- MODULE_DESCRIPTION("DVB DUMMY Frontend");
- MODULE_AUTHOR("Emard");
- MODULE_LICENSE("GPL");
--
--EXPORT_SYMBOL(dvb_dummy_fe_ofdm_attach);
--EXPORT_SYMBOL(dvb_dummy_fe_qam_attach);
--EXPORT_SYMBOL(dvb_dummy_fe_qpsk_attach);
 -- 
 2.24.0
 
