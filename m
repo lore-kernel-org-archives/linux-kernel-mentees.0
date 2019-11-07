@@ -5,85 +5,81 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94C41FA372C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 00:44:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04336FA372C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 01:44:07 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 60E40206C3
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 00:44:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C581121882
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 01:44:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vN47OxNW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 60E40206C3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kic0KlCf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C581121882
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 25831C3A;
-	Thu,  7 Nov 2019 00:44:21 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 79DB9B79;
+	Thu,  7 Nov 2019 01:44:06 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E71F1C2A
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AA52CB6D
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  7 Nov 2019 00:44:19 +0000 (UTC)
+	Thu,  7 Nov 2019 01:44:05 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 93E36712
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 48B04189
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  7 Nov 2019 00:44:19 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id y24so125418plr.12
+	Thu,  7 Nov 2019 01:44:05 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id t8so616651qtc.6
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 06 Nov 2019 16:44:19 -0800 (PST)
+	Wed, 06 Nov 2019 17:44:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=Ve6txvm4TEbZ68vl1TZrP7X3Fq6hJlmUnRCShKqx4Nc=;
-	b=vN47OxNW9OpxtDVgv9BdNwxRsewNx8fSaPUZKaVQUNrcOQ2voRnPDZO4+7ZF+Df2qQ
-	db/BjqbBzRuIHIuu8P3Dgo8tza2VWOkVhntkHXhLOTZ87cQ7YDgUV68nEPJ7pu4Yx0Al
-	645dvDwdGtOzij+4nU1ffGiqD8XHqt9kmWGw5geDoU837WQCM71fbMpt698pFyWW3f8t
-	a6pds0DTuwrGg5zVS3YF8Z+00AbZr221wvFURl2kJvJsFNjee6zXOmPcKnsNXCN00a4p
-	YbpwLqYI68/2st7ssoQxkui/3D5im11vpVa58wRbNNiLrRG13OvUMPrFWe278MqeCfaU
-	291w==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=tPal4Tiqr59qTE4j9taLMEZPyrRNOc3SEDhq39Ai+vg=;
+	b=kic0KlCfgbyQSycleGSUGHg4bZcIuK3yiYuF99JI4LmP+9yGNWmh7TBUXvukOm0JVd
+	nVJVCnB8tq/YCsPxguRsnntFs7IuCYTrd4/7stszwGUmFf3vRa2UX1+HQ6UC1TdpRRCD
+	VS9G8/HP64zEU99KnjBUQz1h/o286W4d0lKqe8ceAdQBauATsFQMp5sUOLrjabMdHXc+
+	y0svqQXEXfZIDswBnvrWB8pb0j5FdfIhqlYDVNxlL9q4XloYWAzSuwP7051wmYXjbWCe
+	DJvSrI+bhrnVh+aphEb9xAPBwUmi9Mv7s/z8vTPVzm7AAVSbhPIgbwgLElwvlr5uTdrh
+	2fbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Ve6txvm4TEbZ68vl1TZrP7X3Fq6hJlmUnRCShKqx4Nc=;
-	b=TreKZnk4gASevV/It9aNyVWTnOBBH1/quwuiBLUpWSlJ/KoAE8YZRkeDwOUagSbaBb
-	jkM19ecTbP0stlG4lqC7hrWLaANKYpRaZRsT8mG2c75FSM79Z/loZ6VNkB2hbPSdLSAC
-	UmB1cQ+0lJhL6hItHMJx04HcHW8d5+7fBylI9HmFzWkFDzncPMDnxGOWmcU/j/Y8uJcx
-	zSDKAmD6G3Mo5JjXjDD6+gfUFsWC7+tomuBBI3RzYQ1VWLvwMV+06qgLbwy9xcPq1U1D
-	Xt4ju0uGLJsFShtGBCi5Jzou8WeLJdqN8duL1rLOgHx3oSPirmEIR1aipYuYP1K3ePpz
-	QRyw==
-X-Gm-Message-State: APjAAAU6qPGYJhTA42RvZjRqIuVG5UZE51C9bjQ0XCMYZSegNri+ubO/
-	s8iQ4pr0I3AArviFyWxjyO0=
-X-Google-Smtp-Source: APXvYqxpy3t28znraTs3FdUzKv0i5TNBoXLmMbIn4EQZShJvFNGc0pT9gU4Ma4CNDnuo+NLeWHI5Zg==
-X-Received: by 2002:a17:902:9005:: with SMTP id
-	a5mr583641plp.204.1573087458695; 
-	Wed, 06 Nov 2019 16:44:18 -0800 (PST)
-Received: from debian.net.fpt ([2405:4800:58f7:3f8f:27cb:abb4:d0bd:49cb])
-	by smtp.gmail.com with ESMTPSA id 71sm180385pfx.107.2019.11.06.16.44.15
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=tPal4Tiqr59qTE4j9taLMEZPyrRNOc3SEDhq39Ai+vg=;
+	b=eKGEuXQT+q5JabzXD4grbaY2cs8FCkCtCYzqwbN/uaFYm9wTBOoTxuTP2r2YZhIS1d
+	sbhNRDYXXRjU4ZDnerbPZR+coHnsLq/7XAblCpEi/8/sMP9RcGNQTqJrzIurOWdvyVoQ
+	X6fmapZkkCDA9HRvEFgv1Qc7+eBmQbNkkFOCEIHK+Nvfq2xZgNGMShF8Law0uKYSFQDl
+	AbTrYXYuQzvVIY+5uHwUxq6ZcD7C7h8mGyg0uXDFnorx/YKILvMwXhzpxl8enJqMpcXA
+	Clry+tK5LhfGzkO+hoR2KXW+ExwP4TmBvODnXGVmRXVHBwpuHV4O2JLM7xAV+4/yiP8u
+	BXlQ==
+X-Gm-Message-State: APjAAAWnCAPq78QhVamnvRZ0zGiy1YyVcBLPMbjgYTmizUwG7tPufz0K
+	UP2UKh8Gs8CWUbYilF/IWpY=
+X-Google-Smtp-Source: APXvYqz1z+OOXVnwnekzSO564Z0h38RCFhoI+TOMiMkZG4/Vq6sygDhROacXTZXFBFiDWUtG/TUIRw==
+X-Received: by 2002:ac8:7188:: with SMTP id w8mr1173603qto.211.1573091044281; 
+	Wed, 06 Nov 2019 17:44:04 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+	by smtp.gmail.com with ESMTPSA id g45sm377343qtb.48.2019.11.06.17.44.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 06 Nov 2019 16:44:18 -0800 (PST)
-From: Phong Tran <tranmanphong@gmail.com>
-To: syzbot+7dc7c28d4577bbe55b10@syzkaller.appspotmail.com, davem@davemloft.net,
-	gregkh@linuxfoundation.org
-Date: Thu,  7 Nov 2019 07:44:04 +0700
-Message-Id: <20191107004404.23707-1-tranmanphong@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <0000000000009763320594f993ee@google.com>
-References: <0000000000009763320594f993ee@google.com>
+	Wed, 06 Nov 2019 17:44:03 -0800 (PST)
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To: mchehab@kernel.org, rfontana@redhat.com, gregkh@linuxfoundation.org,
+	allison@lohutok.net, kstewart@linuxfoundation.org, tglx@linutronix.de
+Date: Wed,  6 Nov 2019 22:36:33 -0300
+Message-Id: <20191107013633.21894-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Cc: kstewart@linuxfoundation.org, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, hslester96@gmail.com,
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-	glider@google.com, tglx@linutronix.de,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] usb: asix: Fix uninit-value in
-	asix_mdio_write
+Cc: linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v2] media: dvb_dummy_fe: place
+	EXPORT_SYMBOL below corresponding function
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -100,66 +96,61 @@ Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
-The local variables use without initilization value.
-This fixes the syzbot report.
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Reported-by: syzbot+7dc7c28d4577bbe55b10@syzkaller.appspotmail.com
+dvb_dummy_fe.c had all its EXPORT_SYMBOL macros located at the end of the
+file. Now these are located directly below the symbol they are exporting
+for increased readability.
 
-Test result:
+Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-https://groups.google.com/d/msg/syzkaller-bugs/3H_n05x_sPU/sUoHhxgAAgAJ
-
-Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 ---
- drivers/net/usb/asix_common.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Changes in V2:
+*Add git commit log
 
-diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
-index e39f41efda3e..3c7ccd8a9da8 100644
---- a/drivers/net/usb/asix_common.c
-+++ b/drivers/net/usb/asix_common.c
-@@ -444,8 +444,8 @@ void asix_set_multicast(struct net_device *net)
- int asix_mdio_read(struct net_device *netdev, int phy_id, int loc)
- {
- 	struct usbnet *dev = netdev_priv(netdev);
--	__le16 res;
--	u8 smsr;
-+	__le16 res = 0;
-+	u8 smsr = 0;
- 	int i = 0;
- 	int ret;
+---
+ drivers/media/dvb-frontends/dvb_dummy_fe.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+index 4db679cb70ad..909dac2345c4 100644
+--- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
++++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+@@ -121,6 +121,7 @@ struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
+ }
++EXPORT_SYMBOL(dvb_dummy_fe_ofdm_attach);
  
-@@ -478,7 +478,7 @@ void asix_mdio_write(struct net_device *netdev, int phy_id, int loc, int val)
- {
- 	struct usbnet *dev = netdev_priv(netdev);
- 	__le16 res = cpu_to_le16(val);
--	u8 smsr;
-+	u8 smsr = 0;
- 	int i = 0;
- 	int ret;
+ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops;
  
-@@ -508,8 +508,8 @@ void asix_mdio_write(struct net_device *netdev, int phy_id, int loc, int val)
- int asix_mdio_read_nopm(struct net_device *netdev, int phy_id, int loc)
- {
- 	struct usbnet *dev = netdev_priv(netdev);
--	__le16 res;
--	u8 smsr;
-+	__le16 res = 0;
-+	u8 smsr = 0;
- 	int i = 0;
- 	int ret;
+@@ -138,6 +139,7 @@ struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
+ }
++EXPORT_SYMBOL(dvb_dummy_fe_qpsk_attach);
  
-@@ -543,7 +543,7 @@ asix_mdio_write_nopm(struct net_device *netdev, int phy_id, int loc, int val)
- {
- 	struct usbnet *dev = netdev_priv(netdev);
- 	__le16 res = cpu_to_le16(val);
--	u8 smsr;
-+	u8 smsr = 0;
- 	int i = 0;
- 	int ret;
+ static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops;
  
+@@ -155,6 +157,7 @@ struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
+ }
++EXPORT_SYMBOL(dvb_dummy_fe_qam_attach);
+ 
+ static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops = {
+ 	.delsys = { SYS_DVBT },
+@@ -253,7 +256,3 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops = {
+ MODULE_DESCRIPTION("DVB DUMMY Frontend");
+ MODULE_AUTHOR("Emard");
+ MODULE_LICENSE("GPL");
+-
+-EXPORT_SYMBOL(dvb_dummy_fe_ofdm_attach);
+-EXPORT_SYMBOL(dvb_dummy_fe_qam_attach);
+-EXPORT_SYMBOL(dvb_dummy_fe_qpsk_attach);
 -- 
-2.20.1
+2.24.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
