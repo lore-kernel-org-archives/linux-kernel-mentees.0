@@ -2,54 +2,69 @@ Return-Path: <SRS0=nM8m=Y7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B4D7C5DF60
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 09:06:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC603C5DF61
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 09:55:57 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DBC8E2187F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 09:06:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DBC8E2187F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9BDD5214D8
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Nov 2019 09:55:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="K8YgBirC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BDD5214D8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 93D8713E7;
-	Thu,  7 Nov 2019 09:06:35 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 76EA4150A;
+	Thu,  7 Nov 2019 09:55:57 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DEBFF13E6
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9C3B21509
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  7 Nov 2019 09:06:33 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5C46A196
+	Thu,  7 Nov 2019 09:55:56 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 51C59196
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  7 Nov 2019 09:06:33 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx1.suse.de (Postfix) with ESMTP id 339D5AE65;
-	Thu,  7 Nov 2019 09:06:31 +0000 (UTC)
-Message-ID: <1573116629.3024.1.camel@suse.com>
-From: Oliver Neukum <oneukum@suse.com>
-To: Phong Tran <tranmanphong@gmail.com>, 
-	syzbot+495dab1f175edc9c2f13@syzkaller.appspotmail.com
-Date: Thu, 07 Nov 2019 09:50:29 +0100
-In-Reply-To: <d6c628d0-71ad-7343-d80e-1b0cd0795242@gmail.com>
-References: <00000000000042d60805933945b5@google.com>
-	<20191105233652.21033-1-tranmanphong@gmail.com>
-	<1573040577.3090.22.camel@suse.com>
-	<d6c628d0-71ad-7343-d80e-1b0cd0795242@gmail.com>
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Cc: alex.theissen@me.com, andreyknvl@google.com, linux-usb@vger.kernel.org,
-	2pi@mok.nu, linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+	Thu,  7 Nov 2019 09:55:56 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (unknown [109.144.217.237])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id F14592084D;
+	Thu,  7 Nov 2019 09:55:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1573120556;
+	bh=11m4wZfJjMPzk2fEBKdsC1rwpRjYVXA31fkds2/+/E8=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=K8YgBirCk1MCAIe836pAstA8lN5eLPqh66hjhqYqOJ+eVfgsBwM5gkYY4S67NSEUc
+	OVKLnNN9rQUhA/BKSu/Fky1xh6+Ppz1NmfhB7gtw6UcHHuGPfvrcxM/rSqIy+B64Ri
+	qf3qKUt387bEclE5+IwlngVc39emcU9CcFYiTGxM=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 05DB735227FC; Thu,  7 Nov 2019 01:55:54 -0800 (PST)
+Date: Thu, 7 Nov 2019 01:55:54 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Amol Grover <frextrite@gmail.com>
+Message-ID: <20191107095553.GM20975@paulmck-ThinkPad-P72>
+References: <20191106165617.GA12205@workstation-kernel-dev>
+	<15512469-fc7e-24c8-d407-72ba7015a099@gmail.com>
+	<20191107063949.GA2310@workstation-kernel-dev>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191107063949.GA2310@workstation-kernel-dev>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] usb: appledisplay: fix
- use-after-free in bl_get_brightness
+Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: RCU: rcubarrier:
+ Convert to reST
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,26 +76,42 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>,
 	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
-Am Mittwoch, den 06.11.2019, 21:22 +0700 schrieb Phong Tran:
+On Thu, Nov 07, 2019 at 12:09:49PM +0530, Amol Grover wrote:
+> On Thu, Nov 07, 2019 at 07:19:27AM +0700, Phong Tran wrote:
+> > On 11/6/19 11:56 PM, Amol Grover wrote:
 
-> compare with message size (2) can be considered.
+[ . . . ]
+
+> > >   We instead need the rcu_barrier() primitive.  Rather than waiting for
+> > >   a grace period to elapse, rcu_barrier() waits for all outstanding RCU
+> > > -callbacks to complete.  Please note that rcu_barrier() does -not- imply
+> > > +callbacks to complete.  Please note that rcu_barrier() does **not** imply
+> > >   synchronize_rcu(), in particular, if there are no RCU callbacks queued
+> > >   anywhere, rcu_barrier() is within its rights to return immediately,
+> > >   without waiting for a grace period to elapse.
+> > > @@ -89,78 +94,78 @@ module uses multiple flavors of call_rcu(), then it must also use multiple
+> > >   flavors of rcu_barrier() when unloading that module.  For example, if
+> > >   it uses call_rcu(), call_srcu() on srcu_struct_1, and call_srcu() on
+> > >   srcu_struct_2(), then the following three lines of code will be required
+> > 
+> > Hello Amol,
+> > 
+> > srcu_struct_2() should be srcu_struct_2
 > 
-> if (retval == 2) {
-> 	brightness = pdata->msgdata[1];
-> } else {
-> 	retval = -EMSGSIZE;
-> }
+> Hey Phong,
+> Thanks for the review! Fixed and sent the new patch
+> https://lore.kernel.org/lkml/20191107063241.GA2234@workstation-kernel-dev/
 
-If you do it that way, the error reporting will be distorted.
-Hence I did it a bit more complexly.
+Phong, please let us know whether Amol's new version looks good to you.
+If it does, preferably with your Reviewed-by and/or Tested by.  ;-)
 
-	Regards
-		Oliver
+							Thanx, Paul
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
