@@ -2,77 +2,85 @@ Return-Path: <SRS0=i4Xv=ZA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.4 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C367CFC6194
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 Nov 2019 07:12:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D76C3FA372C
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 Nov 2019 16:25:57 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 95F202087E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 Nov 2019 07:12:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ACC7621882
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 Nov 2019 16:25:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NByuecrC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95F202087E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eMX3g/Ej"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ACC7621882
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 42AE7D4A;
-	Fri,  8 Nov 2019 07:12:37 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 82E2EE89;
+	Fri,  8 Nov 2019 16:25:43 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BA9C8B9E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AC27FE82
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri,  8 Nov 2019 07:12:36 +0000 (UTC)
+	Fri,  8 Nov 2019 16:25:42 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 75ADF710
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+	[209.85.166.195])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 51ED8710
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri,  8 Nov 2019 07:12:35 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id s10so3495433plp.2
+	Fri,  8 Nov 2019 16:25:42 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id s75so5643470ilc.3
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 07 Nov 2019 23:12:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=7pnccXbop4M/TCVxdmdegnw4UV0QugzjizOP7//XPiY=;
-	b=NByuecrCmCrFgGs6mIkgnq4iarpP5qncB87GnL7I3GcovS3v1IBVoqA2Yy7ORwzkhs
-	ta8cEg7fSW4JL5IFbyu5rk718GXlIx6dtsYWoBYxERRPm/kMJTAaXgyPFanJKrpwTokn
-	ZAx2FEZHpeVxEhIp4l7JvvyKMbRNruQ2Q2fJ09Q7EQyiIEtijbNduqKqAPoepbOFlwNk
-	3VuZ2UqQI7rOp4tScP0f8DJT2ed3UJARl/pwT4f3Rz5VbtiPAAUMAzKJNm2y6LDYtJ50
-	gScF2Dt6l0/jYnGGWY71rSaaM3AWDLXn1c1ab1RffG9Btwcm/bd2ctoNvMg/mFQoD6Cd
-	ZR7w==
+	Fri, 08 Nov 2019 08:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=dwQjkTfEo5yMh2KjfAIAPwSKju01x/vYIT2La5SAaIA=;
+	b=eMX3g/EjzOypweNcA48oOtiPYva4EQWEgJJuKt9JhEv3IDAUNpMuL7rPN/vglJopKJ
+	rSwogNBf7Cvq0A8VwOMXAIRMkKs9WT5jchAsF+OmEvi8cYAbbhiapdN8r5Y4TwBBewjt
+	knlJkJm8WdYhHhloNM7t7CSqnRuCLO9nLdNcg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7pnccXbop4M/TCVxdmdegnw4UV0QugzjizOP7//XPiY=;
-	b=ZkyPEnsp5lyDtjjrDXqy/VOuZ1x8VtYYlrcIOqCGRODomydr0oKkCa+nwZRX7f3HoB
-	+Z+8uC0q4z1KWmu2yyB8GHkqt/NDlHXPDOwDSnZD0t6L/X+pNCP8Q30CmWuqvPtGHOSH
-	Wll2SVRtE3Is3ezy+xaFAFFYQKjLFFYNxfOz0OjTZRnD6vDdv/dfqoym6mXR1bOclkvk
-	/+sj1eGYJzfSDt2vDs2qqOz0RSVtpnWvjaDXxSf1HlNYMY9sJoh06tLGQRtNP+7O/VIK
-	ndi1kMLhP/uoJG4DhQdvaRM8enRenm8h02twwQVp+KenGgH9BS7nVN+BzlBIl2yRItYg
-	wRww==
-X-Gm-Message-State: APjAAAXm+qKOlfc+8AU8+Ed3Ns61XjizF1+G4dzzNnUeNLlLnWzSzxHs
-	i3j3K8N/b0si8dIyM0jrWHU=
-X-Google-Smtp-Source: APXvYqz9Gz799muI0Y7f8lnCgC6/XB/wMCBNiSMH8YAppsXF+ZasEk3ky+tVx+W0+3iswWV+vcGD1w==
-X-Received: by 2002:a17:90a:1089:: with SMTP id
-	c9mr11587095pja.8.1573197154850; 
-	Thu, 07 Nov 2019 23:12:34 -0800 (PST)
-Received: from localhost.localdomain ([106.216.170.180])
-	by smtp.gmail.com with ESMTPSA id
-	b128sm645578pfg.58.2019.11.07.23.12.32
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 07 Nov 2019 23:12:34 -0800 (PST)
-From: Vandana BN <bnvandana@gmail.com>
-To: linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Date: Fri,  8 Nov 2019 12:42:27 +0530
-Message-Id: <20191108071227.10982-1-bnvandana@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [Linux-kernel-mentees] [PATCH] v4l2-ctl:Add Support for Touch
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=dwQjkTfEo5yMh2KjfAIAPwSKju01x/vYIT2La5SAaIA=;
+	b=MMFJHduJO1fzDE7rSNNjzMosM7760JRfATiRXp01A0dcF80XJvPNg4SOV1yb77qVX9
+	+5HI7DdeB6w1AH8zXJvDECi96UEedNKWl/1aH4Z7CxSmgMmDtly4kxULjduG8qBpNgfF
+	Nmt/eka1ra8inYpbufv0spgGpr/XSdVoCAdYfkfXgvKZOoz9ssM9OjMEbMoSDph5LfM6
+	G4jXS+RqRe9eEO26eb6/RUQj0jfH1hZ52X+OIKgzJF3gFBgG/rLvz1Jvl9qYfkrY6Pdt
+	3alW2D5FJ1tS/v/Iv2WQgTmN1BLmhGFvqi3+SSA7K5RtdHDh2bsSwtMeFfSN1P/axbY0
+	gfMw==
+X-Gm-Message-State: APjAAAUeCfd5ylOVyaiSA8Kyz9n1eqT83AM0R3zS8Vt5i+f/yfCH+hdL
+	q1LHZj9GgY+6VXeCGNdcx4YFdM3A
+X-Google-Smtp-Source: APXvYqy+5R4GLsuIev8Yy2Nzugz/LzGn+LI63xwyEloVOR+4yKTkT4TiqNzpEzFkzLyWPzhbYKOiwg==
+X-Received: by 2002:a92:bf08:: with SMTP id z8mr12550558ilh.11.1573230341536; 
+	Fri, 08 Nov 2019 08:25:41 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
+	[24.9.64.241])
+	by smtp.gmail.com with ESMTPSA id d1sm522953iod.16.2019.11.08.08.25.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Nov 2019 08:25:40 -0800 (PST)
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, rfontana@redhat.com,
+	kstewart@linuxfoundation.org, tglx@linutronix.de, allison@lohutok.net
+References: <20191108035835.7607-1-dwlsalmeida@gmail.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <d0f23eea-c5e9-8055-49be-73bd0c9ffa11@linuxfoundation.org>
+Date: Fri, 8 Nov 2019 09:25:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191108035835.7607-1-dwlsalmeida@gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] media: dvb_dummy_fe: Fix ERROR:
+	POINTER_LOCATION
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -84,87 +92,29 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>,
 	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
-Add support to verify V4L2_TCH_FMT_TU16 format touch inputs.
+On 11/7/19 8:58 PM, Daniel W. S. Almeida wrote:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Change foo* bar to foo *bar to avoid ERROR: POINTER_LOCATION in checkpatch.pl
 
-Signed-off-by: Vandana BN <bnvandana@gmail.com>
----
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp |  4 ++++
- utils/v4l2-ctl/v4l2-ctl-vidcap.cpp    | 29 +++++++++++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl.h             |  1 +
- 3 files changed, 34 insertions(+)
+Can you include the error message from checkpatch.pl in the commit log
+and send v2.
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index 184bfd64..191a18c5 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -595,6 +595,10 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
- 	if (v4l_type_is_meta(buf.g_type()) && buf.g_bytesused(0) &&
- 	    !(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
- 		print_meta_buffer(f, buf, fmt, q);
-+
-+	if ((capabilities & V4L2_CAP_TOUCH) && buf.g_bytesused(0) &&
-+	    !(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
-+		print_touch_buffer(f, buf, fmt, q);
- }
- 
- static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-index 3a29251a..99945248 100644
---- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-@@ -358,3 +358,32 @@ void vidcap_list(cv4l_fd &fd)
- 		}
- 	}
- }
-+
-+#define VIVID_TCH_HEIGHT        24
-+#define VIVID_TCH_WIDTH         14
-+
-+struct vivid_touch_buf {
-+        __u16     buf[VIVID_TCH_WIDTH * VIVID_TCH_HEIGHT];
-+	int test_pattern;
-+};
-+
-+void print_touch_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-+{
-+        struct vivid_touch_buf *vbuf;
-+        int i=0;
-+
-+        switch (fmt.g_pixelformat()) {
-+        case V4L2_TCH_FMT_TU16:
-+                vbuf = (vivid_touch_buf *)q.g_dataptr(buf.g_index(), 0);
-+		fprintf(f, "Test Pattern: %d\n",vbuf->test_pattern);
-+                fprintf(f, "TU16: ");
-+		for (i = 0; i < (VIVID_TCH_HEIGHT*VIVID_TCH_WIDTH); i++) {
-+			if (vbuf->buf[i])
-+			fprintf(f, "x: %d y: %d Pressure Value: %d\n",
-+				i % VIVID_TCH_WIDTH,
-+				i / VIVID_TCH_WIDTH,
-+				vbuf->buf[i]);
-+		}
-+                break;
-+	}
-+}
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index b0f65e9b..b31be7f5 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -373,6 +373,7 @@ int vidcap_get_and_update_fmt(cv4l_fd &_fd, struct v4l2_format &vfmt);
- void vidcap_set(cv4l_fd &fd);
- void vidcap_get(cv4l_fd &fd);
- void vidcap_list(cv4l_fd &fd);
-+void print_touch_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
- 
- // v4l2-ctl-vidout.cpp
- void vidout_usage(void);
--- 
-2.17.1
+Changes look good to me. I assume checkpatch error disappeared with this
+patch.
+
+> 
+> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+
+thanks,
+-- Shuah
 
 _______________________________________________
 Linux-kernel-mentees mailing list
