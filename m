@@ -5,81 +5,82 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.4 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B645BC43331
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 20:00:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4857C17440
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 20:00:51 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 864D4214E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 20:00:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 98FA021925
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 20:00:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HzEVLDql"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 864D4214E0
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JEyV0NAL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98FA021925
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 59C33EB0;
-	Tue, 12 Nov 2019 20:00:21 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 73A29EB6;
+	Tue, 12 Nov 2019 20:00:51 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D9144EA5
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A4696EB0
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 12 Nov 2019 20:00:19 +0000 (UTC)
+	Tue, 12 Nov 2019 20:00:49 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CFD178A9
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3D237102
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 12 Nov 2019 20:00:17 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id i19so15655838qki.2
+	Tue, 12 Nov 2019 20:00:49 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id 205so15651751qkk.1
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 12 Nov 2019 12:00:17 -0800 (PST)
+	Tue, 12 Nov 2019 12:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=sUgul/A9cCSF36Xg/vqaHA0cEImiVIRh9iAQCFNRdHQ=;
-	b=HzEVLDql49dOVwTMZt9IJDllV61HRuag1vF5aQdcuQ4PoiQNz/LWZ1bbSiAEI1/Vw7
-	DW9kfGONyd8NihhAqJNDEPWlb7bjjYSmv/FjLZR52t+3EMmdg73bCOuUj/2CMsSSFiES
-	5yjBHKF+UMnr3FObFsxN3msgz2Di972TS6wdu9ztmhlPFITx37jINsXm1fgrKxb/lAos
-	SCHrJsZFHTmL/YfLZUIy8WfHtYntAaVYkyy9pF2SAmDSXBJV5qxQTDpssyoa5W1DzfGE
-	6+MWvd8AlcA5s7yDaH1ZW3mgT30vZsuGLvbBPD68VNYbZtnSJg7eQIfZFHSOk4f63JQm
-	o1vg==
+	bh=3eav2bR35KwTZHUBuG2w5gTnEDz7MMKjoz09RrJ7+SM=;
+	b=JEyV0NALWPyv/f1lnpLO+wyQkpn6fkzNkpHISiAfRX3RG07I9QS+eJo3DJtlx0J4tg
+	BbDFi0QeaDKfLtSUwyXpI0+ym/cI4jHZdI+K7Iek5NCcntNQyNZczVo2CRKtABdbNR4C
+	GP813+5D4J+RZ3CzVEEmiUrRtDSfi0NFsodOnUTHQb42kIBXeYHVrrQvNJ/AdQ6UmKqF
+	xSSDxZt/IQAU2tq5O3jdl5qkBAlHgpKaera7mCWl4PocI/K3aRpeuvJ1s0rcbwES5Fep
+	yMheCu/hHAls4nvjyFRoj5qyyS375VJt2iMqroSSd3pb9SYixvjkN7QO46lcvHEFl178
+	MKqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=sUgul/A9cCSF36Xg/vqaHA0cEImiVIRh9iAQCFNRdHQ=;
-	b=ELM+aGmFgBC2qFujxS6eM11sJjF96NC7T28c6aE3yBUAwCpc1H+BIZX67xsGi3QtxC
-	790rVsLtZ3BsAQzedqcR0waq+qI9ZhRYoIGiGDw3sxlzC8TFu0OSU20RIB4oRnhF5eBl
-	83+cCdD061uiKMf/iIU3QgmgbaN0EvCp9UJLBU7Gmmc5O1HOJoI9B3UAzYtCJA+mOn90
-	MNBc95Xyh5rHmg+zRZzCZIYLpXPLMSccpdz99k/sfnwYetL6RXTUmpZ6no96I1mXCwcG
-	zlsTrGKu54HFYojCwO2IKiGy5MJ9ySz89SqGDDCQE9wtjSZgR5ooybGypDRKy/KH9qBe
-	DE1Q==
-X-Gm-Message-State: APjAAAU+Kse3JkZsb0aBRUZuHKhCVW/J4pNbsym+YyvC1upbAwyuNQby
-	CiBOY0R7Pfcjh4G2IzGqZYU=
-X-Google-Smtp-Source: APXvYqy1f9ekVu+VnvCTbNVtKxjC7eHIzuOiXxnRVAjWeIcCFuTmMakBzLxZOfrwLbUN6A2aMk6Vmw==
-X-Received: by 2002:a37:f915:: with SMTP id l21mr17001532qkj.209.1573588816759;
-	Tue, 12 Nov 2019 12:00:16 -0800 (PST)
+	bh=3eav2bR35KwTZHUBuG2w5gTnEDz7MMKjoz09RrJ7+SM=;
+	b=Vk5FLrc05Tzk6XGLI9hL8Whd8FpRHtV3Y2tAWxsFoSSYqsiHF45DIBuoMrO1G3ZYVH
+	N7/CCpGrkF1IRA3zMi4np+X9O/sGNWUyi217gA83eh2HeYzQw1HSX4S5ByvnSNM3FRbZ
+	9x3pySvghw1EnZawcc8CUR+/XwZAvfBuTMCoRIVSq/7qmda1vI5bxW9ctVYvqp5DieVn
+	Mv0PikUuL4/WpzELL9TVoN89daHmb725vfMaVpF3Rk03WEvZHyW3CzTbJHtgBKHbTiwi
+	f9zByDeBkxuKDu4r0ofIVc7fgi8/EJ1Hz/67x5oKrOAxUacGw0zLCh2muNbQQa1/jgtf
+	SYNQ==
+X-Gm-Message-State: APjAAAV+RZ0FQ/iQveA24nKTiSEJLYjuPI/v1TxioYCXp60js1uTxN93
+	enDhuNmDHchsWy24KtK6nvI=
+X-Google-Smtp-Source: APXvYqz83Y6VLDKBuWgGbw82I2j3rhIqrC/DybzDOTm84a7MRr1bLPP/UwzTFUoGJRJp9o3VRqVSSw==
+X-Received: by 2002:ae9:edc6:: with SMTP id
+	c189mr17145597qkg.351.1573588847741; 
+	Tue, 12 Nov 2019 12:00:47 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
 	by smtp.gmail.com with ESMTPSA id
-	h186sm9436141qkf.64.2019.11.12.12.00.12
+	g17sm11754955qte.89.2019.11.12.12.00.43
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 12 Nov 2019 12:00:16 -0800 (PST)
+	Tue, 12 Nov 2019 12:00:47 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
-To: mchehab@kernel.org, gregkh@linuxfoundation.org, rfontana@redhat.com,
-	kstewart@linuxfoundation.org, tglx@linutronix.de, allison@lohutok.net
-Date: Tue, 12 Nov 2019 16:52:48 -0300
-Message-Id: <20191112195248.36084-1-dwlsalmeida@gmail.com>
+To: serjk@netup.ru, aospan@netup.ru, mchehab@kernel.org, ast@kernel.org,
+	daniel@iogearbox.net, kafai@fb.com, songliubraving@fb.com, yhs@fb.com
+Date: Tue, 12 Nov 2019 16:53:21 -0300
+Message-Id: <20191112195321.36297-1-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH] media: as102_fe.c: fix checkpatch.pl
+	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] media: ascot2e.c: fix checkpatch.pl
 	error
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
@@ -101,30 +102,28 @@ From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
 This patch fixes the following scripts/checkpatch.pl error:
 
-ERROR: open brace '{' following function definitions go on the next line
-+static int as102_fe_get_tune_settings(struct dvb_frontend *fe,
-+			struct dvb_frontend_tune_settings *settings) {
+ERROR: space required after that ',' (ctx:VxV)
++		dev_warn(&priv->i2c->dev,"wr reg=%04x: len=%d is too big!\n",
 
 Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- drivers/media/dvb-frontends/as102_fe.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/dvb-frontends/ascot2e.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-frontends/as102_fe.c b/drivers/media/dvb-frontends/as102_fe.c
-index 496ebb8176c0..bc72d954dc1f 100644
---- a/drivers/media/dvb-frontends/as102_fe.c
-+++ b/drivers/media/dvb-frontends/as102_fe.c
-@@ -290,7 +290,8 @@ static int as102_fe_get_frontend(struct dvb_frontend *fe,
- }
+diff --git a/drivers/media/dvb-frontends/ascot2e.c b/drivers/media/dvb-frontends/ascot2e.c
+index 9b00b56230b6..bfb2d5cb6ce7 100644
+--- a/drivers/media/dvb-frontends/ascot2e.c
++++ b/drivers/media/dvb-frontends/ascot2e.c
+@@ -124,7 +124,7 @@ static int ascot2e_write_regs(struct ascot2e_priv *priv,
+ 	};
  
- static int as102_fe_get_tune_settings(struct dvb_frontend *fe,
--			struct dvb_frontend_tune_settings *settings) {
-+			struct dvb_frontend_tune_settings *settings)
-+{
- 
- 	settings->min_delay_ms = 1000;
- 
+ 	if (len + 1 > sizeof(buf)) {
+-		dev_warn(&priv->i2c->dev,"wr reg=%04x: len=%d is too big!\n",
++		dev_warn(&priv->i2c->dev, "wr reg=%04x: len=%d is too big!\n",
+ 			 reg, len + 1);
+ 		return -E2BIG;
+ 	}
 -- 
 2.24.0
 
