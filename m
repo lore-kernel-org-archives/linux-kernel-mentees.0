@@ -2,54 +2,57 @@ Return-Path: <SRS0=D7LL=ZE=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7DCC17441
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 16:46:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C0AC17441
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 17:05:00 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A242B2196E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 16:46:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A242B2196E
+	by mail.kernel.org (Postfix) with ESMTPS id 4C68621D7F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 17:05:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C68621D7F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8469ADD4;
-	Tue, 12 Nov 2019 16:46:43 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 19859D48;
+	Tue, 12 Nov 2019 17:05:00 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id F41462C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 34691C6D
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 12 Nov 2019 16:46:42 +0000 (UTC)
+	Tue, 12 Nov 2019 17:04:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BA05DDF
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id ECA2B712
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 12 Nov 2019 16:46:42 +0000 (UTC)
+	Tue, 12 Nov 2019 17:04:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost [127.0.0.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EC6867DE;
-	Tue, 12 Nov 2019 16:46:40 +0000 (UTC)
-Date: Tue, 12 Nov 2019 09:46:38 -0700
+	by ms.lwn.net (Postfix) with ESMTPSA id BFF415A0;
+	Tue, 12 Nov 2019 17:04:56 +0000 (UTC)
+Date: Tue, 12 Nov 2019 10:04:54 -0700
 From: Jonathan Corbet <corbet@lwn.net>
-To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <20191112094638.54459a23@lwn.net>
-In-Reply-To: <20191107185755.29586-1-dwlsalmeida@gmail.com>
-References: <20191107185755.29586-1-dwlsalmeida@gmail.com>
+To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+Message-ID: <20191112100454.3b41f3af@lwn.net>
+In-Reply-To: <cd9dbb3704d0a39a161c3e4df8fcd9f84bbc5b03.camel@gmail.com>
+References: <20191105071846.GA28727@localhost.localdomain>
+	<20191107120455.29a4c155@lwn.net>
+	<cd9dbb3704d0a39a161c3e4df8fcd9f84bbc5b03.camel@gmail.com>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Cc: linux-doc@vger.kernel.org, festevam@gmail.com, s.hauer@pengutronix.de,
-	Frank.li@nxp.com, linux-kernel@vger.kernel.org,
-	linux-imx@nxp.com, kernel@pengutronix.de, shawnguo@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [RFC PATCH] Documentation: perf: fix
- kernel-doc warnings in imx-ddr.rst
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	willy@infradead.org, neilb@suse.com, tobin@kernel.org,
+	stefanha@redhat.com, hofrat@osadl.org, mchehab+samsung@kernel.org,
+	"linux-kernel-mentees@lists.linuxfoundation.org"
+	<linux-kernel-mentees@lists.linuxfoundation.org>,
+	christian@brauner.io, jeffrey.t.kirsher@intel.com
+Subject: Re: [Linux-kernel-mentees] [PATCH][RESEND] docs: filesystems:
+ sysfs: convert sysfs.txt to reST
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,20 +69,30 @@ Content-Transfer-Encoding: 7bit
 Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
-On Thu,  7 Nov 2019 15:57:55 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
+On Sat, 09 Nov 2019 18:36:16 +0530
+Jaskaran Singh <jaskaransingh7654321@gmail.com> wrote:
 
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> > At a bare minimum, an effort like this needs to put a big flashing
+> > warning
+> > at the top of the file.  But it would be soooooo much better to
+> > actually
+> > update the content as well.
+> > 
+> > The best way to do that would be to annotate the source with proper
+> > kerneldoc comments, then pull them into the documentation rather than
+> > repeating the information here.  Is there any chance you might be up
+> > for
+> > taking on a task like this?
+> >   
 > 
-> Unexpected indentation errors were reported due to missing blank lines.
-> Now fixed. No change in content otherwise.
 > 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> Sure! I'll send the documentation patch(es) followed by a v2 for this
+> patch.
 
-So this is in no way your fault, but this particular file has been the
-subject of some merge conflicts in linux-next already, so it's probably
-best not to mess with it further at the moment.   Could I ask you to
-resubmit the patch after the 5.5 merge window?
+Great.  As an alternative, if you like, redo the current patch with the
+other suggested fixes and a "this is obsolete" warning at the top.  Then,
+after the subsequent improvements land, that warning can eventually be
+removed again.
 
 Thanks,
 
