@@ -8,80 +8,79 @@ X-Spam-Status: No, score=-9.4 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4857C17440
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 20:00:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED780C17440
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 20:02:12 +0000 (UTC)
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 98FA021925
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 20:00:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BFAFA2196E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Nov 2019 20:02:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JEyV0NAL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98FA021925
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+UUHEHs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BFAFA2196E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 73A29EB6;
-	Tue, 12 Nov 2019 20:00:51 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 9E0DAEB0;
+	Tue, 12 Nov 2019 20:02:12 +0000 (UTC)
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A4696EB0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 951E2EA4
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 12 Nov 2019 20:00:49 +0000 (UTC)
+	Tue, 12 Nov 2019 20:02:11 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3D237102
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+	[209.85.219.66])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4721C712
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 12 Nov 2019 20:00:49 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id 205so15651751qkk.1
+	Tue, 12 Nov 2019 20:02:11 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id g18so6917526qvp.8
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 12 Nov 2019 12:00:49 -0800 (PST)
+	Tue, 12 Nov 2019 12:02:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=3eav2bR35KwTZHUBuG2w5gTnEDz7MMKjoz09RrJ7+SM=;
-	b=JEyV0NALWPyv/f1lnpLO+wyQkpn6fkzNkpHISiAfRX3RG07I9QS+eJo3DJtlx0J4tg
-	BbDFi0QeaDKfLtSUwyXpI0+ym/cI4jHZdI+K7Iek5NCcntNQyNZczVo2CRKtABdbNR4C
-	GP813+5D4J+RZ3CzVEEmiUrRtDSfi0NFsodOnUTHQb42kIBXeYHVrrQvNJ/AdQ6UmKqF
-	xSSDxZt/IQAU2tq5O3jdl5qkBAlHgpKaera7mCWl4PocI/K3aRpeuvJ1s0rcbwES5Fep
-	yMheCu/hHAls4nvjyFRoj5qyyS375VJt2iMqroSSd3pb9SYixvjkN7QO46lcvHEFl178
-	MKqQ==
+	bh=qzHKv7EJKhKKsRubq57MkGnr2W/gW3bcPkxKycveIzc=;
+	b=B+UUHEHsiqJdprAmur9aX7FDIex3I/IotLgOO8Lb/dqHA20avIw5cQAbPbXyIx8CbJ
+	87ynMj4c9wsq1G+QIgbx9qGTFY/iiZWfGOeOJS6g9nqaGVaxWGXqlJS6oq0BnHRiU3oD
+	qEUbK4JvW4I17ErKuHqAIjxFxfKwXsIdBt3PffhzE3X8ONbJC1uv8tqWhBs1hGPGYjLk
+	6HuM+3j1qbCmSMJ6egqrFtpHkTs9nupXdEuVXwsBxxIh9Np6XaMffdjLOOAPpiWvh0no
+	IRIn4Lyk3l/vbNnOZKzyZUCJtFk1lWaNAABx+JbiUsUDOZzlUfK+99+tMJAVRXFL/UrZ
+	mf0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=3eav2bR35KwTZHUBuG2w5gTnEDz7MMKjoz09RrJ7+SM=;
-	b=Vk5FLrc05Tzk6XGLI9hL8Whd8FpRHtV3Y2tAWxsFoSSYqsiHF45DIBuoMrO1G3ZYVH
-	N7/CCpGrkF1IRA3zMi4np+X9O/sGNWUyi217gA83eh2HeYzQw1HSX4S5ByvnSNM3FRbZ
-	9x3pySvghw1EnZawcc8CUR+/XwZAvfBuTMCoRIVSq/7qmda1vI5bxW9ctVYvqp5DieVn
-	Mv0PikUuL4/WpzELL9TVoN89daHmb725vfMaVpF3Rk03WEvZHyW3CzTbJHtgBKHbTiwi
-	f9zByDeBkxuKDu4r0ofIVc7fgi8/EJ1Hz/67x5oKrOAxUacGw0zLCh2muNbQQa1/jgtf
-	SYNQ==
-X-Gm-Message-State: APjAAAV+RZ0FQ/iQveA24nKTiSEJLYjuPI/v1TxioYCXp60js1uTxN93
-	enDhuNmDHchsWy24KtK6nvI=
-X-Google-Smtp-Source: APXvYqz83Y6VLDKBuWgGbw82I2j3rhIqrC/DybzDOTm84a7MRr1bLPP/UwzTFUoGJRJp9o3VRqVSSw==
-X-Received: by 2002:ae9:edc6:: with SMTP id
-	c189mr17145597qkg.351.1573588847741; 
-	Tue, 12 Nov 2019 12:00:47 -0800 (PST)
+	bh=qzHKv7EJKhKKsRubq57MkGnr2W/gW3bcPkxKycveIzc=;
+	b=jXWVxbBzrgDG014iOyVL3+ORv6pSzoY+TjOS3YU3E4vAO5ulWUF/89CDjx2lq2DalK
+	HMhQokcFbcC1uDhuJEmJDivsf6v+eCs1qkow12Nr4AykC3tn56YxR8qcVDGtQ/NhL2Ai
+	Qzu7lrh6uDUt4w/lhAAZ8tH46yzwT7yKhDcdWHdtg5+zZ0tMuMjXDm2CelpLW1liDmqH
+	zCINztJ+blwgQDfdSDbJeWSwY60Q3wTVcFTPeX0qcMYfn3Pi0gB4lUGAR2swISyCMTkh
+	+E66LCfGQWJkWX5rl5RMTDFjms2hQUHmfyVk6YsX856Fk63jdPgi13GaFNlxriuAERTe
+	Y76Q==
+X-Gm-Message-State: APjAAAWDMY3aDddEjqmTC/uR1qhTiHqq3PYekDuHhXXm7bTqVhd6x1aO
+	zNyhvfdVtNheP49kn0Sqjd0=
+X-Google-Smtp-Source: APXvYqw1d6VGo53vPkZIcxw/4poQLsxAcqWa51smX2+LKXfJow5F/ySOMVr+mfCIh7zD0m8plDAr8A==
+X-Received: by 2002:a0c:fa50:: with SMTP id k16mr29483751qvo.172.1573588930212;
+	Tue, 12 Nov 2019 12:02:10 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
 	by smtp.gmail.com with ESMTPSA id
-	g17sm11754955qte.89.2019.11.12.12.00.43
+	w23sm13017071qtw.87.2019.11.12.12.02.06
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 12 Nov 2019 12:00:47 -0800 (PST)
+	Tue, 12 Nov 2019 12:02:09 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
-To: serjk@netup.ru, aospan@netup.ru, mchehab@kernel.org, ast@kernel.org,
-	daniel@iogearbox.net, kafai@fb.com, songliubraving@fb.com, yhs@fb.com
-Date: Tue, 12 Nov 2019 16:53:21 -0300
-Message-Id: <20191112195321.36297-1-dwlsalmeida@gmail.com>
+To: mchehab@kernel.org, gregkh@linuxfoundation.org, rfontana@redhat.com,
+	kstewart@linuxfoundation.org, tglx@linutronix.de, allison@lohutok.net
+Date: Tue, 12 Nov 2019 16:54:45 -0300
+Message-Id: <20191112195445.36761-1-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] media: ascot2e.c: fix checkpatch.pl
-	error
+	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH] media: au8522_decoder.c: fix
+	checkpatch.pl error
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -100,30 +99,30 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-This patch fixes the following scripts/checkpatch.pl error:
+This patch fixes the following scripts/checkpatch.pl errors:
 
-ERROR: space required after that ',' (ctx:VxV)
-+		dev_warn(&priv->i2c->dev,"wr reg=%04x: len=%d is too big!\n",
+ERROR: space required before the open parenthesis '('
++	switch(input) {
 
 Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- drivers/media/dvb-frontends/ascot2e.c | 2 +-
+ drivers/media/dvb-frontends/au8522_decoder.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-frontends/ascot2e.c b/drivers/media/dvb-frontends/ascot2e.c
-index 9b00b56230b6..bfb2d5cb6ce7 100644
---- a/drivers/media/dvb-frontends/ascot2e.c
-+++ b/drivers/media/dvb-frontends/ascot2e.c
-@@ -124,7 +124,7 @@ static int ascot2e_write_regs(struct ascot2e_priv *priv,
- 	};
+diff --git a/drivers/media/dvb-frontends/au8522_decoder.c b/drivers/media/dvb-frontends/au8522_decoder.c
+index c1717dde874b..8cdca051e51b 100644
+--- a/drivers/media/dvb-frontends/au8522_decoder.c
++++ b/drivers/media/dvb-frontends/au8522_decoder.c
+@@ -562,7 +562,7 @@ static int au8522_s_video_routing(struct v4l2_subdev *sd,
+ {
+ 	struct au8522_state *state = to_state(sd);
  
- 	if (len + 1 > sizeof(buf)) {
--		dev_warn(&priv->i2c->dev,"wr reg=%04x: len=%d is too big!\n",
-+		dev_warn(&priv->i2c->dev, "wr reg=%04x: len=%d is too big!\n",
- 			 reg, len + 1);
- 		return -E2BIG;
- 	}
+-	switch(input) {
++	switch (input) {
+ 	case AU8522_COMPOSITE_CH1:
+ 	case AU8522_SVIDEO_CH13:
+ 	case AU8522_COMPOSITE_CH4_SIF:
 -- 
 2.24.0
 
