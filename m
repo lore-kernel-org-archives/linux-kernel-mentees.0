@@ -1,393 +1,222 @@
-Return-Path: <SRS0=etLx=ZG=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=oKDY=ZI=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04354C43215
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Nov 2019 16:38:38 +0000 (UTC)
-Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 074F4C432C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 16 Nov 2019 02:07:13 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CEDE7206DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Nov 2019 16:38:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CEDE7206DB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
+	by mail.kernel.org (Postfix) with ESMTPS id D0E8120730
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 16 Nov 2019 02:07:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D0E8120730
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
-Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 6428BAD0;
-	Thu, 14 Nov 2019 16:38:37 +0000 (UTC)
-Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
-	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id B1775AC8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 14 Nov 2019 16:38:35 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 95365623
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 14 Nov 2019 16:38:34 +0000 (UTC)
-Received: from localhost.localdomain (localhost [127.0.0.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E04CC7C0;
-	Thu, 14 Nov 2019 16:38:32 +0000 (UTC)
-Date: Thu, 14 Nov 2019 09:38:31 -0700
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-Message-ID: <20191114093831.2ab8a077@lwn.net>
-In-Reply-To: <20191113073822.GA31926@localhost.localdomain>
-References: <20191113073822.GA31926@localhost.localdomain>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from localhost (localhost [127.0.0.1])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8FFA981B97;
+	Sat, 16 Nov 2019 02:07:12 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4kGbbdCnhySu; Sat, 16 Nov 2019 02:07:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id AFE9683BBA;
+	Sat, 16 Nov 2019 02:06:49 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97872C087F;
+	Sat, 16 Nov 2019 02:06:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D34A5C0878
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 16 Nov 2019 02:06:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id BFC51876BB
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 16 Nov 2019 02:06:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8um+1I6kVOqm
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 16 Nov 2019 02:06:47 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0167.hostedemail.com
+ [216.40.44.167])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 7E506876A5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 16 Nov 2019 02:06:47 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay05.hostedemail.com (Postfix) with ESMTP id 251A41804E55A;
+ Sat, 16 Nov 2019 02:06:46 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: comb52_b943ff6c03d
+X-Filterd-Recvd-Size: 5082
+Received: from XPS-9350.home (unknown [47.151.135.224])
+ (Authenticated sender: joe@perches.com)
+ by omf08.hostedemail.com (Postfix) with ESMTPA;
+ Sat, 16 Nov 2019 02:06:44 +0000 (UTC)
+Message-ID: <4586e574ab5b598938cb2dfa65ea63ff40a136a7.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, mchehab@kernel.org
+Date: Fri, 15 Nov 2019 18:06:25 -0800
+In-Reply-To: <20191112195504.36952-1-dwlsalmeida@gmail.com>
+References: <20191112195504.36952-1-dwlsalmeida@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Cc: mszeredi@redhat.com, linux-doc@vger.kernel.org, neilb@suse.com,
-	willy@infradead.org, linux-kernel@vger.kernel.org,
-	stefanha@redhat.com, mchehab+samsung@kernel.org, akpm@linux-foundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	christian@brauner.io, raven@themaw.net
-Subject: Re: [Linux-kernel-mentees] [RFC PATCH] docs: filesystems: convert
-	autofs.txt to reST
+Cc: linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH] media: bcm3510.c: Fix
+	checkpatch.pl errors
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
-X-Mailman-Version: 2.1.12
+X-Mailman-Version: 2.1.15
 Precedence: list
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/linux-kernel-mentees>,
-	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=unsubscribe>
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/linux-kernel-mentees>, 
+ <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=unsubscribe>
 List-Archive: <http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/>
 List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>,
-	<mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
+ <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Sender: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
+Sender: "Linux-kernel-mentees"
+ <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 13 Nov 2019 13:08:22 +0530
-Jaskaran Singh <jaskaransingh7654321@gmail.com> wrote:
+On Tue, 2019-11-12 at 16:55 -0300, Daniel W. S. Almeida wrote:
+[]
+> diff --git a/drivers/media/dvb-frontends/bcm3510.c b/drivers/media/dvb-frontends/bcm3510.c
+[]
+> @@ -67,31 +67,37 @@ static int debug;
+>  module_param(debug, int, 0644);
+>  MODULE_PARM_DESC(debug, "set debugging level (1=info,2=i2c (|-able)).");
+>  
+> -#define dprintk(level,x...) if (level & debug) printk(x)
+> -#define dbufout(b,l,m) {\
+> -	    int i; \
+> -	    for (i = 0; i < l; i++) \
+> -		m("%02x ",b[i]); \
+> +#define dprintk(level, x...) if (level & debug) printk(KERN_DEBUG x)
+> +#define dbufout(b, l, m) {\
+> +	int i; \
+> +	for (i = 0; i < l; i++) \
+> +		m("%02x ", b[i]); \
+>  }
+> -#define deb_info(args...) dprintk(0x01,args)
+> -#define deb_i2c(args...)  dprintk(0x02,args)
+> -#define deb_hab(args...)  dprintk(0x04,args)
+> +#define deb_info(args...) dprintk(0x01, args)
+> +#define deb_i2c(args...)  dprintk(0x02, args)
+> +#define deb_hab(args...)  dprintk(0x04, args)
 
-Thanks for doing this.  Naturally I have some requests :)
+These debug functions, if used, will make a mess of the
+actual output and these will all print on single lines.
 
-> This patch converts autofs.txt to reST.
+The dbufout macro will really make a mess of the logging.
 
-Some subsystem maintainers react strongly to changelogs that read "this
-patch"; it's best to express things in the imperative form described in
-Documentation/process/submitting-patches.rst.
+This should really be something like:
+---
+ drivers/media/dvb-frontends/bcm3510.c | 51 +++++++++++++++++++++--------------
+ 1 file changed, 31 insertions(+), 20 deletions(-)
 
->  - Most of the changes pertain to reST formatting.
->  - Some of the code snippets are updated to reflect current source.
->  - A definition of the autofs packet header has been added in the chapter
-> 	"Communicating with autofs: the event pipe".
->  - An indentation of an 8 space tab has been added wherever suitable, so
->    as to maintain consistency.
->  - Removed indentation of the description of the ioctls which are similar
->    to the AUTOFS_IOC ioctls, as it does not come out quite right in HTML.
+diff --git a/drivers/media/dvb-frontends/bcm3510.c b/drivers/media/dvb-frontends/bcm3510.c
+index e92542..7bb560a7 100644
+--- a/drivers/media/dvb-frontends/bcm3510.c
++++ b/drivers/media/dvb-frontends/bcm3510.c
+@@ -67,15 +67,29 @@ static int debug;
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "set debugging level (1=info,2=i2c (|-able)).");
+ 
+-#define dprintk(level,x...) if (level & debug) printk(x)
+-#define dbufout(b,l,m) {\
+-	    int i; \
+-	    for (i = 0; i < l; i++) \
+-		m("%02x ",b[i]); \
+-}
+-#define deb_info(args...) dprintk(0x01,args)
+-#define deb_i2c(args...)  dprintk(0x02,args)
+-#define deb_hab(args...)  dprintk(0x04,args)
++#define DBG_INFO	0x01
++#define DBG_I2C		0x02
++#define DBG_HAB		0x04
++
++#define dprintk(level, fmt, ...)					\
++do {									\
++	if ((level) & debug)						\
++		printk(KERN_DEBUG fmt, ##__VA_ARGS__);			\
++} while (0)
++
++#define dbufout(level, buf, count)					\
++do {									\
++	if ((level) & debug) {						\
++		int i;							\
++		for (i = 0; i < (count); i++)				\
++			pr_cont(" %02x", buf[i]);			\
++		pr_cont("\n");						\
++	}								\
++} while (0)
++
++#define deb_info(fmt, ...) dprintk(DBG_INFO, fmt, ##__VA_ARGS__)
++#define deb_i2c(fmt, ...)  dprintk(DBG_I2C, fmt, ##__VA_ARGS__)
++#define deb_hab(fmt, ...)  dprintk(DBG_HAB, fmt, ##__VA_ARGS__)
+ 
+ /* transfer functions */
+ static int bcm3510_writebytes (struct bcm3510_state *state, u8 reg, u8 *buf, u8 len)
+@@ -87,9 +101,8 @@ static int bcm3510_writebytes (struct bcm3510_state *state, u8 reg, u8 *buf, u8
+ 	b[0] = reg;
+ 	memcpy(&b[1],buf,len);
+ 
+-	deb_i2c("i2c wr %02x: ",reg);
+-	dbufout(buf,len,deb_i2c);
+-	deb_i2c("\n");
++	deb_i2c("i2c wr %02x:", reg);
++	dbufout(DBG_I2C, buf, len);
+ 
+ 	if ((err = i2c_transfer (state->i2c, &msg, 1)) != 1) {
+ 
+@@ -116,8 +129,8 @@ static int bcm3510_readbytes (struct bcm3510_state *state, u8 reg, u8 *buf, u8 l
+ 			__func__, state->config->demod_address, reg,  err);
+ 		return -EREMOTEIO;
+ 	}
+-	deb_i2c("i2c rd %02x: ",reg);
+-	dbufout(buf,len,deb_i2c);
++	deb_i2c("i2c rd %02x:", reg);
++	dbufout(DBG_I2C, buf, len);
+ 	deb_i2c("\n");
+ 
+ 	return 0;
+@@ -221,9 +234,8 @@ static int bcm3510_do_hab_cmd(struct bcm3510_state *st, u8 cmd, u8 msgid, u8 *ob
+ 	ob[1] = msgid;
+ 	memcpy(&ob[2],obuf,olen);
+ 
+-	deb_hab("hab snd: ");
+-	dbufout(ob,olen+2,deb_hab);
+-	deb_hab("\n");
++	deb_hab("hab snd:");
++	dbufout(DBG_HAB, ob, olen + 2);
+ 
+ 	if (mutex_lock_interruptible(&st->hab_mutex) < 0)
+ 		return -EAGAIN;
+@@ -232,9 +244,8 @@ static int bcm3510_do_hab_cmd(struct bcm3510_state *st, u8 cmd, u8 msgid, u8 *ob
+ 		(ret = bcm3510_hab_get_response(st, ib, ilen+2)) < 0)
+ 		goto error;
+ 
+-	deb_hab("hab get: ");
+-	dbufout(ib,ilen+2,deb_hab);
+-	deb_hab("\n");
++	deb_hab("hab get:");
++	dbufout(DBG_HAB, ib, ilen + 2);
+ 
+ 	memcpy(ibuf,&ib[2],ilen);
+ error:
 
-These seems like good changes, but they are too much for a single patch.
-Please split this into multiple patches, separating the formatting and
-white-space changes from those that change the text.  That makes it much
-easier to review.
 
-Some nits below.
-
-> Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-> ---
->  .../filesystems/{autofs.txt => autofs.rst}    | 258 ++++++++++--------
->  Documentation/filesystems/index.rst           |   1 +
->  2 files changed, 140 insertions(+), 119 deletions(-)
->  rename Documentation/filesystems/{autofs.txt => autofs.rst} (77%)
-> 
-> diff --git a/Documentation/filesystems/autofs.txt b/Documentation/filesystems/autofs.rst
-> similarity index 77%
-> rename from Documentation/filesystems/autofs.txt
-> rename to Documentation/filesystems/autofs.rst
-> index 3af38c7fd26d..a130cba76f07 100644
-> --- a/Documentation/filesystems/autofs.txt
-> +++ b/Documentation/filesystems/autofs.rst
-> @@ -1,12 +1,9 @@
-> -<head>
-> -<style> p { max-width:50em} ol, ul {max-width: 40em}</style>
-> -</head>
-
-Heh, yeah, I'm not sure why that's there, it should definitely go.
-
-> +=====================
->  autofs - how it works
->  =====================
->  
->  Purpose
-> --------
-> +=======
->  
->  The goal of autofs is to provide on-demand mounting and race free
->  automatic unmounting of various other filesystems.  This provides two
-> @@ -28,7 +25,7 @@ key advantages:
->     first accessed a name.
->  
->  Context
-> --------
-> +=======
->  
->  The "autofs" filesystem module is only one part of an autofs system.
->  There also needs to be a user-space program which looks up names
-> @@ -43,7 +40,7 @@ filesystem type.  Several "autofs" filesystems can be mounted and they
->  can each be managed separately, or all managed by the same daemon.
->  
->  Content
-> --------
-> +=======
->  
->  An autofs filesystem can contain 3 sorts of objects: directories,
->  symbolic links and mount traps.  Mount traps are directories with
-> @@ -52,7 +49,7 @@ extra properties as described in the next section.
->  Objects can only be created by the automount daemon: symlinks are
->  created with a regular `symlink` system call, while directories and
->  mount traps are created with `mkdir`.  The determination of whether a
-> -directory should be a mount trap or not is quite _ad hoc_, largely for
-> +directory should be a mount trap or not is quite _ad hoc\_, largely for
-
-Remember that we want to preserve the readability of the plain-text
-document; sprinkling that sort of escape doesn't really help.  Recognize
-that what's there now is a sort of informal markup; I'd either fix it up or
-take it out.  So "*ad hoc*" or just "ad hoc".
-
-(Or rephrase it, since this doesn't actually seem to be an appropriate use
-of "ad hoc" but that's a separate issue :)
-
->  historical reasons, and is determined in part by the
->  *direct*/*indirect*/*offset* mount options, and the *maxproto* mount option.
->  
-> @@ -80,7 +77,7 @@ where in the tree they are (root, top level, or lower), the *maxproto*,
->  and whether the mount was *indirect* or not.
->  
->  Mount Traps
-> ----------------
-> +===============
-
-As long as you're changing the underbar make it match the length of the
-text.
-
->  A core element of the implementation of autofs is the Mount Traps
->  which are provided by the Linux VFS.  Any directory provided by a
-> @@ -201,7 +198,7 @@ initiated or is being considered, otherwise it returns 0.
->  
->  
->  Mountpoint expiry
-> ------------------
-> +=================
->  
->  The VFS has a mechanism for automatically expiring unused mounts,
->  much as it can expire any unused dentry information from the dcache.
-> @@ -301,7 +298,7 @@ completed (together with removing any directories that might have been
->  necessary), or has been aborted.
->  
->  Communicating with autofs: detecting the daemon
-> ------------------------------------------------
-> +===============================================
->  
->  There are several forms of communication between the automount daemon
->  and the filesystem.  As we have already seen, the daemon can create and
-> @@ -317,33 +314,39 @@ If the daemon ever has to be stopped and restarted a new pgid can be
->  provided through an ioctl as will be described below.
->  
->  Communicating with autofs: the event pipe
-> ------------------------------------------
-> +=========================================
->  
->  When an autofs filesystem is mounted, the 'write' end of a pipe must
->  be passed using the 'fd=' mount option.  autofs will write
->  notification messages to this pipe for the daemon to respond to.
-> -For version 5, the format of the message is:
-> -
-> -        struct autofs_v5_packet {
-> -                int proto_version;                /* Protocol version */
-> -                int type;                        /* Type of packet */
-> -                autofs_wqt_t wait_queue_token;
-> -                __u32 dev;
-> -                __u64 ino;
-> -                __u32 uid;
-> -                __u32 gid;
-> -                __u32 pid;
-> -                __u32 tgid;
-> -                __u32 len;
-> -                char name[NAME_MAX+1];
-> +For version 5, the format of the message is: ::
-
-Too may colons.  Just say "...the message is::"  There's a few of these.
-
-> +	struct autofs_v5_packet {
-> +		struct autofs_packet_hdr hdr;
-> +		autofs_wqt_t wait_queue_token;
-> +		__u32 dev;
-> +		__u64 ino;
-> +		__u32 uid;
-> +		__u32 gid;
-> +		__u32 pid;
-> +		__u32 tgid;
-> +		__u32 len;
-> +		char name[NAME_MAX+1];
->          };
->  
-> -where the type is one of
-> +And the format of the header is: ::
-> +
-> +	struct autofs_packet_hdr {
-> +		int proto_version;		/* Protocol version */
-> +		int type;			/* Type of packet */
-> +	};
->  
-> -        autofs_ptype_missing_indirect
-> -        autofs_ptype_expire_indirect
-> -        autofs_ptype_missing_direct
-> -        autofs_ptype_expire_direct
-> +where the type is one of ::
-> +
-> +	autofs_ptype_missing_indirect
-> +	autofs_ptype_expire_indirect
-> +	autofs_ptype_missing_direct
-> +	autofs_ptype_expire_direct
->  
->  so messages can indicate that a name is missing (something tried to
->  access it but it isn't there) or that it has been selected for expiry.
-> @@ -360,7 +363,7 @@ acknowledged using one of the ioctls below with the relevant
->  `wait_queue_token`.
->  
->  Communicating with autofs: root directory ioctls
-> -------------------------------------------------
-> +================================================
->  
->  The root directory of an autofs filesystem will respond to a number of
->  ioctls.  The process issuing the ioctl must have the CAP_SYS_ADMIN
-> @@ -368,58 +371,66 @@ capability, or must be the automount daemon.
->  
->  The available ioctl commands are:
->  
-> -- **AUTOFS_IOC_READY**: a notification has been handled.  The argument
-> -    to the ioctl command is the "wait_queue_token" number
-> -    corresponding to the notification being acknowledged.
-> -- **AUTOFS_IOC_FAIL**: similar to above, but indicates failure with
-> -    the error code `ENOENT`.
-> -- **AUTOFS_IOC_CATATONIC**: Causes the autofs to enter "catatonic"
-> -    mode meaning that it stops sending notifications to the daemon.
-> -    This mode is also entered if a write to the pipe fails.
-> -- **AUTOFS_IOC_PROTOVER**:  This returns the protocol version in use.
-> -- **AUTOFS_IOC_PROTOSUBVER**: Returns the protocol sub-version which
-> -    is really a version number for the implementation.
-> -- **AUTOFS_IOC_SETTIMEOUT**:  This passes a pointer to an unsigned
-> -    long.  The value is used to set the timeout for expiry, and
-> -    the current timeout value is stored back through the pointer.
-> -- **AUTOFS_IOC_ASKUMOUNT**:  Returns, in the pointed-to `int`, 1 if
-> -    the filesystem could be unmounted.  This is only a hint as
-> -    the situation could change at any instant.  This call can be
-> -    used to avoid a more expensive full unmount attempt.
-> -- **AUTOFS_IOC_EXPIRE**: as described above, this asks if there is
-> -    anything suitable to expire.  A pointer to a packet:
-> -
-> -        struct autofs_packet_expire_multi {
-> -                int proto_version;              /* Protocol version */
-> -                int type;                       /* Type of packet */
-> -                autofs_wqt_t wait_queue_token;
-> -                int len;
-> -                char name[NAME_MAX+1];
-> -        };
-> +- **AUTOFS_IOC_READY**:
-> +	a notification has been handled.  The argument
-> +	to the ioctl command is the "wait_queue_token" number
-> +	corresponding to the notification being acknowledged.
-> +- **AUTOFS_IOC_FAIL**:
-> +	similar to above, but indicates failure with
-> +	the error code `ENOENT`.
-> +- **AUTOFS_IOC_CATATONIC**:
-> +	Causes the autofs to enter "catatonic"
-> +	mode meaning that it stops sending notifications to the daemon.
-> +	This mode is also entered if a write to the pipe fails.
-> +- **AUTOFS_IOC_PROTOVER**:
-> +	This returns the protocol version in use.
-> +- **AUTOFS_IOC_PROTOSUBVER**:
-> +	Returns the protocol sub-version which
-> +	is really a version number for the implementation.
-> +- **AUTOFS_IOC_SETTIMEOUT**:
-> +	This passes a pointer to an unsigned
-> +	long.  The value is used to set the timeout for expiry, and
-> +	the current timeout value is stored back through the pointer.
-> +- **AUTOFS_IOC_ASKUMOUNT**:
-> +	Returns, in the pointed-to `int`, 1 if
-> +	the filesystem could be unmounted.  This is only a hint as
-> +	the situation could change at any instant.  This call can be
-> +	used to avoid a more expensive full unmount attempt.
-> +- **AUTOFS_IOC_EXPIRE**:
-> +	as described above, this asks if there is
-> +	anything suitable to expire.  A pointer to a packet: ::
-> +
-> +		struct autofs_packet_expire_multi {
-> +			struct autofs_packet_hdr hdr;
-> +			autofs_wqt_t wait_queue_token;
-> +			int len;
-> +			char name[NAME_MAX+1];
-> +		};
->  
-> -     is required.  This is filled in with the name of something
-> -     that can be unmounted or removed.  If nothing can be expired,
-> -     `errno` is set to `EAGAIN`.  Even though a `wait_queue_token`
-> -     is present in the structure, no "wait queue" is established
-> -     and no acknowledgment is needed.
-> -- **AUTOFS_IOC_EXPIRE_MULTI**:  This is similar to
-> -     **AUTOFS_IOC_EXPIRE** except that it causes notification to be
-> -     sent to the daemon, and it blocks until the daemon acknowledges.
-> -     The argument is an integer which can contain two different flags.
-> +	is required.  This is filled in with the name of something
-> +	that can be unmounted or removed.  If nothing can be expired,
-> +	`errno` is set to `EAGAIN`.  Even though a `wait_queue_token`
-> +	is present in the structure, no "wait queue" is established
-> +	and no acknowledgment is needed.
-> +- **AUTOFS_IOC_EXPIRE_MULTI**:
-> +	This is similar to
-> +	**AUTOFS_IOC_EXPIRE** except that it causes notification to be
-> +	sent to the daemon, and it blocks until the daemon acknowledges.
-> +	The argument is an integer which can contain two different flags.
->  
-> -     **AUTOFS_EXP_IMMEDIATE** causes `last_used` time to be ignored
-> -     and objects are expired if the are not in use.
-> +	**AUTOFS_EXP_IMMEDIATE** causes `last_used` time to be ignored
-> +	and objects are expired if the are not in use.
->  
-> -     **AUTOFS_EXP_FORCED** causes the in use status to be ignored
-> -     and objects are expired ieven if they are in use. This assumes
-> -     that the daemon has requested this because it is capable of
-> -     performing the umount.
-> +	**AUTOFS_EXP_FORCED** causes the in use status to be ignored
-> +	and objects are expired ieven if they are in use. This assumes
-> +	that the daemon has requested this because it is capable of
-> +	performing the umount.
->  
-> -     **AUTOFS_EXP_LEAVES** will select a leaf rather than a top-level
-> -     name to expire.  This is only safe when *maxproto* is 4.
-> +	**AUTOFS_EXP_LEAVES** will select a leaf rather than a top-level
-> +	name to expire.  This is only safe when *maxproto* is 4.
->  
->  Communicating with autofs: char-device ioctls
-> ----------------------------------------------
-> +=============================================
->  
->  It is not always possible to open the root of an autofs filesystem,
->  particularly a *direct* mounted filesystem.  If the automount daemon
-> @@ -429,9 +440,9 @@ need there is a "miscellaneous" character device (major 10, minor 235)
->  which can be used to communicate directly with the autofs filesystem.
->  It requires CAP_SYS_ADMIN for access.
->  
-> -The `ioctl`s that can be used on this device are described in a separate
-> +The `ioctl`\s that can be used on this device are described in a separate
-
-Better to just avoid the use of the backtick here.  I'd say "ioctl()s" but
-that's me.  If nothing else, change it to a regular apostrophe.
-
-Thanks,
-
-jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
