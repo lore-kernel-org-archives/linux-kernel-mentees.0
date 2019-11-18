@@ -7,108 +7,101 @@ X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3208AC432C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 18 Nov 2019 00:01:31 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8EB3C432C0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 18 Nov 2019 09:43:40 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 02CC520730
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 18 Nov 2019 00:01:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A1A322073A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 18 Nov 2019 09:43:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b="sgnkTUOE";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Dq8Ooen9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 02CC520730
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=themaw.net
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D7j6LC5h"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A1A322073A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6E63085C2E;
-	Mon, 18 Nov 2019 00:01:30 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6E1CA87B41;
+	Mon, 18 Nov 2019 09:43:40 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZgTrUgEb6qmU; Mon, 18 Nov 2019 09:43:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 68E6487B1D;
+	Mon, 18 Nov 2019 09:43:39 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5EBD8C18DA;
+	Mon, 18 Nov 2019 09:43:39 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 100B6C07AC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 18 Nov 2019 09:43:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id EE5F385BEE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 18 Nov 2019 09:43:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ETksh8kKRwf4; Mon, 18 Nov 2019 00:01:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5FC8285BE4;
-	Mon, 18 Nov 2019 00:01:29 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 485B7C0880;
-	Mon, 18 Nov 2019 00:01:29 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E58AAC07AC
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 Nov 2019 00:01:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id DC5AD203CE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 Nov 2019 00:01:27 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TmMntQeiLPVz
+ with ESMTP id GbAhDf6ZiYZm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 Nov 2019 00:01:26 +0000 (UTC)
-X-Greylist: delayed 00:11:10 by SQLgrey-1.7.6
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by silver.osuosl.org (Postfix) with ESMTPS id 9171A203CA
+ Mon, 18 Nov 2019 09:43:37 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E86F485BD1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 Nov 2019 00:01:26 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id A4A5B58A0;
- Sun, 17 Nov 2019 18:50:15 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Sun, 17 Nov 2019 18:50:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
- message-id:subject:from:to:cc:date:in-reply-to:references
- :content-type:mime-version:content-transfer-encoding; s=fm1; bh=
- 0DjwSwNuuCOp/OVQlpsoTSIJMgZBoS/7Z1vmhjDwt88=; b=sgnkTUOEhsKBKU2Q
- gjSRtuiccaNpAL1BC2O70eveU06JEYJwX9NfN2o6/zZjttsM0YXC9qySPFDxgVrq
- kLVW2Sr64Etb5+thTcm/NKTs4S6XrbnGL4hvm4e/0v/cA8lbvVVVtMn9lSJ32I2a
- ONukdCXJiHUEh9AzJtSqJZgjVadd9dEf/v6zytXehAWxRQdrhkQWP92oBZFDHril
- Q3AMW+hGUGEqTZQHPHXb+6Gk4iBy4mNZpxqwVXfYiEjZDJMOPzYYAoR8t0+Ctb/F
- Q7e+KzGrA2bMqiZUirDdkJURGeAh3HDiBSwr2Q0jfO8SnE4kXssOQACWjbjq6RxJ
- i0BYQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=0DjwSwNuuCOp/OVQlpsoTSIJMgZBoS/7Z1vmhjDwt
- 88=; b=Dq8Ooen9yYhuVCb5lEIsv59dJ9phV36/YmypYdeivu4bcsXV62dsea9Lx
- WJBLLi+l+VwOGt6MhHI1N8c+1Mtu+lNSbyJ2krLJtjOTWF+/IfzfdBMocNg5nDbd
- 8a1Hfpjkm5nNF0kg8HjffuBmX6XoWsVQ6VUs15JWQc48XkOCpg+mj3RIzgKJKg/r
- jHAH2egLD1SjSWu31m8T4CA1TPl9gDgfrbVkimn8RelG1ysNZIavU1q87TvXu0HQ
- Gdr7tfjGNGKRM3p4N/EN/TT55yb3FcC95LzZumpkoKnYskvDn/mQUqd7nXO5KwZg
- YfoLvMrf68z8sS780MMipoO3ttluA==
-X-ME-Sender: <xms:ttzRXf1s3EVTLsHWM8UBPBSxcQSkH46gE8g8aMID0dmt9CqynNrycA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeggedgudehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepkfgrnhcu
- mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucfkphepuddukedrvddtle
- drudekiedrudekjeenucfrrghrrghmpehmrghilhhfrhhomheprhgrvhgvnhesthhhvghm
- rgifrdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:ttzRXSWrJkmI7JeaYDMQFhNtz4vSeXiZLmyFLDHg5QodLVYZoiGgZA>
- <xmx:ttzRXa4JAYHcWI8_pmevLcvWXCb2pKBgYss9ymvillD0DVsYXOGCGg>
- <xmx:ttzRXZJ8iruzVRcZjifRg7misJE76fjRlibLXSNY5CxenWNsDj-wyA>
- <xmx:t9zRXVQx4CNoqQ65CSdZFFgq_d43TfN_dMhIW5DBEnWezZ1x_GnFAA>
-Received: from mickey.themaw.net (unknown [118.209.186.187])
- by mail.messagingengine.com (Postfix) with ESMTPA id B758C8005B;
- Sun, 17 Nov 2019 18:50:09 -0500 (EST)
-Message-ID: <a5b17c43fbd2b186240252b5a7fbef9c6a0ad54d.camel@themaw.net>
-From: Ian Kent <raven@themaw.net>
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, corbet@lwn.net
-Date: Mon, 18 Nov 2019 07:50:06 +0800
-In-Reply-To: <20191117172436.8831-4-jaskaransingh7654321@gmail.com>
-References: <20191117172436.8831-1-jaskaransingh7654321@gmail.com>
- <20191117172436.8831-4-jaskaransingh7654321@gmail.com>
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+ Mon, 18 Nov 2019 09:43:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574070215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2K0wvDeLJaW8sYE1jy+QQGz6cSrIUDN55exId+Sge8Y=;
+ b=D7j6LC5htBBByzR4SJIWinAiI4mIkL7/q8XHLdaW4xHTWoKdMqrWR0p2mL7HwfC7CFwejF
+ MrCtEHeS9s+wtRtbKq9X0syx/Hck+HWj5HfRRp9eYRdzjeI8vgKnetE9g4ZISr1e7vs+qH
+ /Gq9wDMQCf4bR/3A2pxwa32LSdh1cnY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-C2z1AcP_Pqet9yEKHkFpCA-1; Mon, 18 Nov 2019 04:43:34 -0500
+Received: by mail-qk1-f199.google.com with SMTP id 125so11128878qkj.12
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 18 Nov 2019 01:43:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v6BPHFPKvorTEt7xRKiDYcS9E+a1exQkd1rgkDj9f8k=;
+ b=S7i4s4xoUARfr64DXDFyVbclTGTvY4jvfx/Iq7R4fPJ4Y0MRjxPQBYx4pKQ3Ujhrk2
+ uXVlafYgbssjgdElanVJ5fKDLWFPlQE2D6ofzRHl9oQzp9BNwRDrk0HTQ8ZT/WUDRMC1
+ 6CG000VyCETYigDxvPZXrB3DlQPe4OrlF+INt0RSRIyJWrHz3BZXg0MR2g4wk9ZyMdCU
+ eJQEiS3y43tHxot6JK/diunAIMYX+4D+XlCzOlVp24VXw4KodZH/p6lTV0I7TjJFWCfe
+ 3o19zz7sr69g7A2kP9MGdYxYqylaim6B8l9b7Y1lYYaqug9SXCt/IwKm5uV7MPiWzGE3
+ OjNw==
+X-Gm-Message-State: APjAAAXcwld2LEfxP7ebJRqRJKUsdCFL5D3E8mAvRRdq8A5NhRKvUxc0
+ IlHUtQqhZf2zpMEMjJlrM5MWyrBni3Ba2xC5y/r+orgwBU5Djo1likSI6hN6pEmWXrqV9Yfp6W2
+ KGbiPwamo79xcH/Z2wPPBP2Yso/SXFRUvu/eKiiAIdU2Gl15UMtTtU/ZQxdWYJ0Uk
+X-Received: by 2002:ad4:4042:: with SMTP id r2mr14849479qvp.196.1574070214015; 
+ Mon, 18 Nov 2019 01:43:34 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx71kYpokpYolgnoIGCviUOb0R7a7qr8hq+AWngDyS809ErQ8pbjgNF0TGZ3+0bjitznHrrNaWkVj/d0HliWew=
+X-Received: by 2002:ad4:4042:: with SMTP id r2mr14849462qvp.196.1574070213673; 
+ Mon, 18 Nov 2019 01:43:33 -0800 (PST)
 MIME-Version: 1.0
-Cc: mszeredi@redhat.com, ebiggers@google.com, linux-doc@vger.kernel.org,
- neilb@suse.com, linux-kernel@vger.kernel.org, tobin@kernel.org,
- stefanha@redhat.com, mchehab+samsung@kernel.org, akpm@linux-foundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, christian@brauner.io
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 3/3] docs: filesystems: Add
- mount map description in Content
+References: <20191105141807.27054-1-tranmanphong@gmail.com>
+In-Reply-To: <20191105141807.27054-1-tranmanphong@gmail.com>
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Mon, 18 Nov 2019 10:43:21 +0100
+Message-ID: <CAO-hwJ+cydMPQE_otc8-67=SDKmjac5RXsLs-9x6dH4YqA+DVQ@mail.gmail.com>
+To: Phong Tran <tranmanphong@gmail.com>
+X-MC-Unique: C2z1AcP_Pqet9yEKHkFpCA-1
+X-Mimecast-Spam-Score: 0
+Cc: syzbot+1234691fec1b8ceba8b1@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ lkml <linux-kernel@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH] HID: hid-lg4ff: Fix uninit-value
+	set_autocenter_default
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,52 +119,59 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, 2019-11-17 at 22:54 +0530, Jaskaran Singh wrote:
-> The second paragraph of the content section does not properly
-> describe how mount points are determined by autofs.
-> 
-> Replace the lines detailing how the determination of these mount
-> points is "ad hoc" by a short description of the mount map syntax
-> used by autofs.
-> 
-> Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+On Tue, Nov 5, 2019 at 3:18 PM Phong Tran <tranmanphong@gmail.com> wrote:
+>
+> syzbot found a problem using of uinit pointer in
+> lg4ff_set_autocenter_default().
+>
+> Reported-by: syzbot+1234691fec1b8ceba8b1@syzkaller.appspotmail.com
+>
+> Tested by syzbot:
+>
+> https://groups.google.com/d/msg/syzkaller-bugs/ApnMLW6sfKE/Qq0bIHGEAQAJ
+
+This seems weird to me:
+
+the syzbot link above is about `hid_get_drvdata(hid)`, and, as I read
+it, the possibility that hid might not have an initialized value.
+
+Here you are changing the initialized values of value, entry and
+drv_data, all 3 are never used before their first assignment.
+
+I have a feeling this particular syzbot check has already been fixed
+upstream by d9d4b1e46d95 "HID: Fix assumption that devices have
+inputs".
+
+Cheers,
+Benjamin
+
+>
+> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 > ---
->  Documentation/filesystems/autofs.rst | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/autofs.rst
-> b/Documentation/filesystems/autofs.rst
-> index 2f704e9c5dc0..c17f6bf0eb5d 100644
-> --- a/Documentation/filesystems/autofs.rst
-> +++ b/Documentation/filesystems/autofs.rst
-> @@ -49,9 +49,10 @@ extra properties as described in the next section.
->  Objects can only be created by the automount daemon: symlinks are
->  created with a regular `symlink` system call, while directories and
->  mount traps are created with `mkdir`.  The determination of whether
-> a
-> -directory should be a mount trap or not is quite ad hoc, largely for
-> -historical reasons, and is determined in part by the
-> -*direct*/*indirect*/*offset* mount options, and the *maxproto* mount
-> option.
-> +directory should be a mount trap is based on a master map. This
-> master
-> +map is consulted by autofs to determine which directories are mount
-> +points. Mount points can be *direct*/*indirect*/*offset*.
-> +On most systems, the default master map is located at
-> */etc/auto.master*.
-
-Ok, lets just use this for now since it's better than what was
-originally there and I'll put together an update after these
-changes are merged.
-
-What happens is actually a bit more complicated, the opening
-sentence above this is talking about what happens with maps
-associated with autofs mount points given in the master map,
-not so much master map entries themselves.
-
->  
->  If neither the *direct* or *offset* mount options are given (so the
->  mount is considered to be *indirect*), then the root directory is
+>  drivers/hid/hid-lg4ff.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/hid/hid-lg4ff.c b/drivers/hid/hid-lg4ff.c
+> index 5e6a0cef2a06..44dfd08b0c32 100644
+> --- a/drivers/hid/hid-lg4ff.c
+> +++ b/drivers/hid/hid-lg4ff.c
+> @@ -468,10 +468,10 @@ static int lg4ff_play(struct input_dev *dev, void *data, struct ff_effect *effec
+>  static void lg4ff_set_autocenter_default(struct input_dev *dev, u16 magnitude)
+>  {
+>         struct hid_device *hid = input_get_drvdata(dev);
+> -       s32 *value;
+> +       s32 *value = NULL;
+>         u32 expand_a, expand_b;
+> -       struct lg4ff_device_entry *entry;
+> -       struct lg_drv_data *drv_data;
+> +       struct lg4ff_device_entry *entry = NULL;
+> +       struct lg_drv_data *drv_data = NULL;
+>         unsigned long flags;
+>
+>         drv_data = hid_get_drvdata(hid);
+> --
+> 2.20.1
+>
 
 _______________________________________________
 Linux-kernel-mentees mailing list
