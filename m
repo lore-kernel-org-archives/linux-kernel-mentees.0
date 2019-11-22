@@ -2,98 +2,103 @@ Return-Path: <SRS0=fwyv=ZO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53AA9C432C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Nov 2019 12:59:52 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DFEC432C0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Nov 2019 15:02:49 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2908C2068E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Nov 2019 12:59:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8999720706
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Nov 2019 15:02:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DaPJMLk8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2908C2068E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qqav0lsb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8999720706
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 084A8873B6;
-	Fri, 22 Nov 2019 12:59:52 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5F71520479;
+	Fri, 22 Nov 2019 15:02:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X6r4Gp68ln2l; Fri, 22 Nov 2019 12:59:50 +0000 (UTC)
+	with ESMTP id ffhS76P+7-fS; Fri, 22 Nov 2019 15:02:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E525487252;
-	Fri, 22 Nov 2019 12:59:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C1D6620444;
+	Fri, 22 Nov 2019 15:02:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DA526C1DD8;
-	Fri, 22 Nov 2019 12:59:50 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7D2E9C18DA
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A95B5C1DD8;
+	Fri, 22 Nov 2019 15:02:48 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C915FC18DA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Nov 2019 12:59:49 +0000 (UTC)
+ Fri, 22 Nov 2019 15:02:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 687F688218
+ by hemlock.osuosl.org (Postfix) with ESMTP id C388188B4B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Nov 2019 12:59:49 +0000 (UTC)
+ Fri, 22 Nov 2019 15:02:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XFKAiFZ3Svgj
+ with ESMTP id nRF2bbH-Atpa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Nov 2019 12:59:48 +0000 (UTC)
+ Fri, 22 Nov 2019 15:02:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
- [209.85.167.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 5E84088166
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+ [209.85.166.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2889A88BCD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Nov 2019 12:59:48 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id v24so5440164lfi.7
+ Fri, 22 Nov 2019 15:02:47 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id p12so982873iog.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Nov 2019 04:59:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q8dmnxZ8Ub8Bxc2H8I3mPfzbqfpB7OPPdHaZygHcHFE=;
- b=DaPJMLk8AL1aq2ByFGb2IWSuYlXpiez43Oi25BeBN7wROv9RgVJ815FEIM9S8LtBJZ
- UtonKNOJCNB+rDeRCfVWO5NE1S5bLZRNGDZx5UjRfDgZm2YJuJxWT3yNlrS0LoHq2F9k
- VmT47cxRT8H/xf7AvyCN4gT1bdBoBYAV65OH4MLbzwZBnPytv2hJUwu3qpR9fvPqCcFS
- 42q0IyZgsuI1qoYCQAr18hOe6tsMEwOYuN6ucIdogf/4horoUpS9E6Gyl91z//4QGT81
- 7TaGOV1qU8P3so2gBU0fMgkq3aA5Sjpa17HQ6ejQ77o4kRSxZAXUcPe5NBsEVnvbzrEy
- lyuw==
+ Fri, 22 Nov 2019 07:02:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PxNAVs84y6+SdjyjG3T0bh7Cdn5TKSY5guXJVYla5a0=;
+ b=Qqav0lsbtPScG0UOqGuwD03uWyG+fZJf9/lRFrM6uiGX4IG+jbsu+j7SR9Djgs2YbY
+ 2HjIkw4QToMAUPgexium8gqB/KbfNMYvRZ0lW5ibRwX1uQOfkpIV49tlBCocQPU16CoG
+ Xc2/dWOLWhYRTShLPJlavRo08QrP61d6PU0XU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q8dmnxZ8Ub8Bxc2H8I3mPfzbqfpB7OPPdHaZygHcHFE=;
- b=ZNaXxmTwtgG6MGvX1nqRJ1uN5Ov6CBvsqAJ/pda1Mzq7eSbuG3VPzrb0S45cAccadt
- wUOLWItnWt7Uhb3ZbYoNNL+WCM2CcMgKFFaZ7MCEU3h4gUIJ9PGOWd2JSTXE9J9fFYDb
- dTuQICZitUsUXC4JU9eL9i5NOnKZVxGj1AtBNCYLh5GVkcLbe0YLwJRURo6nHM5lNeF7
- JKIriFP/Z5l40M5W5ofNGR/tmLyCrFoDXM9t9MyIke1geRqFRdPT0AotVYgpElv02sku
- En7OFH8L4eq/tGaagsS5lEJP4PdIZM6p0K9+q9VZi+MQ48UxVtBgwuzJfTY3eUKcSfV2
- K6LA==
-X-Gm-Message-State: APjAAAV/SKj1jqzE1DfFpfQC5xNO3yypOMAi/q7zdDy7wJp/VlwtigQV
- xtLBkhvqS4SX7DX79Hrq8wW0XQUlqq6fbU6pc7JSKg==
-X-Google-Smtp-Source: APXvYqwYz+6QGdIRe/6VX6sUO09vd4ONwLVaGPGso7wwY07jjid5xDn5gxKiF4dN+YxhEi01937w3jc/iLYs/k5FSsM=
-X-Received: by 2002:ac2:5b86:: with SMTP id o6mr11970188lfn.44.1574427586437; 
- Fri, 22 Nov 2019 04:59:46 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PxNAVs84y6+SdjyjG3T0bh7Cdn5TKSY5guXJVYla5a0=;
+ b=Po9qCCAKAuk5gthJOMS1bknkNStidvKsBm5tUKI9eZnEBZa+yd189U4ogYfovp6l7f
+ zYaTRyn6zUfdHjUql958xTf/0m02QRTzzK1aUh8YAc4HSGBAa1a3OS9KgZ8ooilYAfEK
+ n8vNFRw6rEYv9VKcawwFow6/5kedN2b8w+BpjLmhPYdkVYTFNslFB7JDp2G5JPu25EH9
+ R9gozdmTXMld5v+igO6cL0pm7jU+Fgm5oYQ7bhxlaTdDV3KiXByGudOdPcQkxTkajsqL
+ s44xyYAhIssQziYOzTJh86L7rzvXKoxTWxGC8ap2PahEptwddEutTwIGG+ivRpPX6MOg
+ nUog==
+X-Gm-Message-State: APjAAAWKlBGosP242FlIav+blpxDoPIn+JYSiPuZySjzPZ3/BzgZ37pY
+ JzB52RVI43N6Gs04q1RjqHPOQylJ
+X-Google-Smtp-Source: APXvYqzZRyzNpVJBMZeDUWupKu+gILtzBpEeZraZSJZ/RrbsiZNRLB7Zm9rrc7n+rU1kJ/uscdFzow==
+X-Received: by 2002:a02:92c8:: with SMTP id c8mr13993197jah.2.1574434966112;
+ Fri, 22 Nov 2019 07:02:46 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
+ [24.9.64.241])
+ by smtp.gmail.com with ESMTPSA id v15sm3029217ilk.8.2019.11.22.07.02.44
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 22 Nov 2019 07:02:45 -0800 (PST)
+To: Greg KH <gregkh@linuxfoundation.org>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+References: <a02e01c5-635f-60c3-9d27-6c13abda8ffa@gmail.com>
+ <20191121202104.GA812038@kroah.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <078909db-a4e6-3656-67a4-f55cec7395c6@linuxfoundation.org>
+Date: Fri, 22 Nov 2019 08:02:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191122034702.58563-1-dwlsalmeida@gmail.com>
-In-Reply-To: <20191122034702.58563-1-dwlsalmeida@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 22 Nov 2019 13:59:33 +0100
-Message-ID: <CACRpkdbaDEmZ4JCnWGinVVjzbVB=efTjMSTa+mrzuuaK_sCqmw@mail.gmail.com>
-To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: gpio: driver.rst:
-	Fix warnings
+In-Reply-To: <20191121202104.GA812038@kroah.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, stable@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] Linux 5.3.12 BOOT TEST: Compiled, Booted,
+	everything OK.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,26 +110,44 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Nov 22, 2019 at 4:55 AM Daniel W. S. Almeida
-<dwlsalmeida@gmail.com> wrote:
+On 11/21/19 1:21 PM, Greg KH wrote:
+> On Thu, Nov 21, 2019 at 03:55:34PM -0300, Daniel W. S. Almeida wrote:
+>> ~ 2hr uptime: no crashes, no new errors on dmesg, everything looks good.
+> 
+> Thanks for testing.
+> 
+>> *This pops up after diffing the output of kselftest though:*
+>>
+>> < # ./reuseport_bpf: Unable to open tcp_fastopen sysctl for writing:
+>> Permission denied
+>> ---
+>>> # ./reuseport_bpf: ebpf error. log:
+>>> # 0: (bf) r6 = r1
+>>> # 1: (20) r0 = *(u32 *)skb[0]
+>>> # 2: (97) r0 %= 10
+>>> # 3: (95) exit
+>>> # processed 4 insns (limit 1000000) max_states_per_insn 0 total_states 0
+>> peak_states 0 mark_read 0
+>>> #
+>>> # : Operation not permitted
+>>
+>> I did not run kselftest as root. I assume it is nothing noteworthy?
+> 
+> Is this a new issue, or has it always been there?
+> 
 
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
->
-> Fix warnings due to incorrect rst markup. Also improved the presentation
-> a little without changing the underlying content.
->
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+This is not new issue. Running a root is required based on results
+from my test runs.
 
-Thanks a lot, patch applied!
+thanks,
+-- Shuah
 
-Yours,
-Linus Walleij
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
