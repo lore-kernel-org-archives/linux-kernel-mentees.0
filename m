@@ -8,96 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3564C432C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 27 Nov 2019 17:39:26 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32697C43215
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 27 Nov 2019 17:39:27 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9A1502071E
+	by mail.kernel.org (Postfix) with ESMTPS id 092282071E
 	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 27 Nov 2019 17:39:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nzWRGVM/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A1502071E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VqNX6bR/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 092282071E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7430187A9C;
+	by whitealder.osuosl.org (Postfix) with ESMTP id CF7B186C18;
 	Wed, 27 Nov 2019 17:39:26 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id n6E4eqfBKthz; Wed, 27 Nov 2019 17:39:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id ED08086804;
+	Wed, 27 Nov 2019 17:39:22 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DD9B3C1DDA;
+	Wed, 27 Nov 2019 17:39:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1AEB6C0881
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 27 Nov 2019 17:39:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0870487A60
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 27 Nov 2019 17:39:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Tqi20j3IG8pP; Wed, 27 Nov 2019 17:39:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 05F6087A52;
-	Wed, 27 Nov 2019 17:39:26 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EA3C4C1DDA;
-	Wed, 27 Nov 2019 17:39:25 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BF4FBC0881
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 17:39:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B9FA386237
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 17:39:24 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0EFIdEv4zeKr
+ with ESMTP id CqHBWQm2yYvx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 17:39:24 +0000 (UTC)
+ Wed, 27 Nov 2019 17:39:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 48BD986204
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id AAE2487A52
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 17:39:24 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id t3so10783894pgl.5
+ Wed, 27 Nov 2019 17:39:21 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id f7so10330497pjw.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 09:39:24 -0800 (PST)
+ Wed, 27 Nov 2019 09:39:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XI2+aCDvSDzw7sp0F3NSfsmqm2bx8d6RjVRQ43Sv6SI=;
- b=nzWRGVM/s3nDWNoHhBrxShxfFMTVYkQ4JsR9X6x+AmyO2eoUIwmihEut8p5pn+1Jsq
- IOTz7NpH1Z5cxJ/VYnhLAo/T6a4OhQqAmulMm2bWYrwlyh0pzYUt3aV1KVqN7MpToMMB
- I8BzJ9oqcEwDLIOpLEWUR2qabSpI/8GGdnvba0E16HHVFdM9sZnx8Z35p0VnBdDauS74
- DTl6jGHnqNIouIwFo3MqDSqyU3eURsT3xGqGacnc7MU7Iljqndg2wuzw7e/qGKHwLY3W
- GRaeQ81O782Lv4KsZCFkJIEH/9ifPYV45JOI9QltanZsFg5OEKJLiFTaCQCxehJF5S8I
- 8y6Q==
+ bh=/bgY6bWipWcem0dOb2HqcOGSQaEs3oosAqTWJP3WsEU=;
+ b=VqNX6bR/K2Z3Z/7n2xKVO//wK1oDvDlcG/+QvHrc5t7U0Ib9fIPQDbG2kV1xd4rKIe
+ jvBWbLT3tAJ2C4224IJtlrk6qXUf7+ZNL0pQcvTN7G4eQD4FrPq9crGP0CmnZfrf3w/7
+ F1w/NhDdsMaWzCMTiemlnFapbA8iKowRUESJu5h0krQk1cshlJvrFMLTPzyHfM4Q18DG
+ HDUHNVuevzO1GZ4TAwWQ8oGwLx9Er6r/aNC3scuXx/TBP2qXfOHtlhmTo88hkYNfjSyV
+ JYHztKxwLcf9OyE6XyUrVkQ7QuixjspXurtnJVLCLS4LdMeYggBk2P1V9BiBZisnoPUD
+ NFdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XI2+aCDvSDzw7sp0F3NSfsmqm2bx8d6RjVRQ43Sv6SI=;
- b=IXr0Kevs83MJkti0hSwMDtN10Ir/aEnyaYf8356Hukh2nicC11dy3uIJPcF/++Bbri
- NZ6xLhNC2P/is4D3WVmHbEWojFs/TB+/XnN8dhI57+a9DBIvDTpZ/Gh2NsdtOWjT6hOE
- SWuoqWYjJhUSnPis5fsy6bu4K4kIXWVeiqEpjAYu8waTM80dLSe6vd2JApW24ZcD29+y
- 65jIRBahpgNCp7qZHFBFwjrUdXi8rq/vifCObayVzaU3piks20dpKqggxC1XEmYBipR2
- TBPvzNNvIsx6dFewSAE3D7ifZdVwv55PLUNi1vFWvTK94EZuiuYdILW3WvKT9PUiFQzh
- EQgQ==
-X-Gm-Message-State: APjAAAVsYBekhVkXNsf1Ut/HiXer6StUV91YmQXWjt9NTQ/oYkUb/7Gt
- KNzYBhz1sIuwWvy9La3JqsY=
-X-Google-Smtp-Source: APXvYqyVJYEQFE0zdBAikqy01aRhDIZuH1OYQFvPgZep80EZyVkbnbpSLwr6N52fxk8t51p+v4aUfw==
-X-Received: by 2002:aa7:828c:: with SMTP id s12mr47700052pfm.166.1574876363779; 
- Wed, 27 Nov 2019 09:39:23 -0800 (PST)
+ bh=/bgY6bWipWcem0dOb2HqcOGSQaEs3oosAqTWJP3WsEU=;
+ b=hKV2u7hRt3o1oUKoBF34yTkP0rThFyZaEVVMO/IroOpgVa4Pv2SghFV71vOP/HNl/c
+ PTL6mX4WZJYCbGykHivUmkJH8Y7T6YQh9uAANacmkhc26d6iBudSQ69X2awtT0niufQX
+ 0f4fKc9OQQa3EGqYr0ZEGNzpgGU6znMArwEfoSVj2+rVDbpz9fI/042V8qgXQZhADThQ
+ 4awJOrLleMr3e4MpMCdE2JfV5wVcIgwuk1eYuJilUz+ZLNMXz9YuFNss7ceDNTdF+Auk
+ o9mNIa5XSOw/8rCjDSTmszpO5+OiRhgCgDq9QWIFZAmus3qms3tMAwzJWhmZacoFSuhs
+ Acag==
+X-Gm-Message-State: APjAAAVXIdMbbuVyBbXVSBgPFPQnTqS367xrVw8OzV/g+8KyekTgYan2
+ kSeTjux55XW99PdUAf912BnYmqanxXA=
+X-Google-Smtp-Source: APXvYqyI0WZBCjv5bYBRxEGX5OQ1RLPMyX7nqvpZSOs0hLvoIhF81UWF1trO7w7RZdiZNIGrrqrgGQ==
+X-Received: by 2002:a17:90a:d353:: with SMTP id
+ i19mr7666301pjx.43.1574876361190; 
+ Wed, 27 Nov 2019 09:39:21 -0800 (PST)
 Received: from localhost.localdomain
  ([2402:3a80:167f:97a7:3939:930e:5cf8:fd50])
- by smtp.googlemail.com with ESMTPSA id j23sm17028240pfe.95.2019.11.27.09.39.21
+ by smtp.googlemail.com with ESMTPSA id j23sm17028240pfe.95.2019.11.27.09.39.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Nov 2019 09:39:23 -0800 (PST)
+ Wed, 27 Nov 2019 09:39:20 -0800 (PST)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Wed, 27 Nov 2019 23:08:15 +0530
-Message-Id: <20191127173815.24988-3-jaskaransingh7654321@gmail.com>
+Date: Wed, 27 Nov 2019 23:08:14 +0530
+Message-Id: <20191127173815.24988-2-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191127173815.24988-1-jaskaransingh7654321@gmail.com>
 References: <20191127173815.24988-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 2/2] tests: Add test case for
-	statement removed and added
+Subject: [Linux-kernel-mentees] [PATCH 1/2] engine: remove circular
+	references in MINUS/NOREPLACEMENT case
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,64 +116,28 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This is in response to the following "continue statement of death"
-report:
-
-https://www.mail-archive.com/cocci@systeme.lip6.fr/msg06199.html
-
-Coccinelle would crash in similar cases, so add a test case for it.
+The cocci info tag can sometimes have circular references in the
+MINUS/NOREPLACEMENT case in the transformation. Pass the binding
+info through clean_env to remove circular references.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- tests/stmt_removed_and_added.c     | 8 ++++++++
- tests/stmt_removed_and_added.cocci | 7 +++++++
- tests/stmt_removed_and_added.res   | 8 ++++++++
- 3 files changed, 23 insertions(+)
- create mode 100644 tests/stmt_removed_and_added.c
- create mode 100644 tests/stmt_removed_and_added.cocci
- create mode 100644 tests/stmt_removed_and_added.res
+ engine/transformation_c.ml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/stmt_removed_and_added.c b/tests/stmt_removed_and_added.c
-new file mode 100644
-index 00000000..cbc64f42
---- /dev/null
-+++ b/tests/stmt_removed_and_added.c
-@@ -0,0 +1,8 @@
-+void main()
-+{
-+	for(i; j; k) {
-+		if (1)
-+			continue;
-+		c++;
-+	}
-+}
-diff --git a/tests/stmt_removed_and_added.cocci b/tests/stmt_removed_and_added.cocci
-new file mode 100644
-index 00000000..93558a19
---- /dev/null
-+++ b/tests/stmt_removed_and_added.cocci
-@@ -0,0 +1,7 @@
-+@@
-+expression I, J, K;
-+statement S;
-+@@
-+
-+- for (I; J; K) S
-++ while(1) S
-diff --git a/tests/stmt_removed_and_added.res b/tests/stmt_removed_and_added.res
-new file mode 100644
-index 00000000..4b20027a
---- /dev/null
-+++ b/tests/stmt_removed_and_added.res
-@@ -0,0 +1,8 @@
-+void main()
-+{
-+	while (1) {
-+		if (1)
-+			continue;
-+		c++;
-+	}
-+}
+diff --git a/engine/transformation_c.ml b/engine/transformation_c.ml
+index bcde08b8..9f0b0ab2 100644
+--- a/engine/transformation_c.ml
++++ b/engine/transformation_c.ml
+@@ -380,7 +380,7 @@ module XTRANS = struct
+ 	  (Ast_cocci.MINUS
+ 	     (old_pos,Common.union_set old_inst new_inst,old_adj,
+ 	      Ast_cocci.NOREPLACEMENT),
+-	   [tin.binding]);
++	   [clean_env tin.binding]);
+         (if !Flag_matcher.show_misc
+         then pr2_once "already tagged but only removed, so safe")
+ 
 -- 
 2.21.0
 
