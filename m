@@ -2,96 +2,99 @@ Return-Path: <SRS0=A+ee=ZT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAB56C432C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 27 Nov 2019 15:32:01 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F42C432C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 27 Nov 2019 17:39:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8B1BB20674
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 27 Nov 2019 15:32:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 32CE42071E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 27 Nov 2019 17:39:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="pnkn80E8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8B1BB20674
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eTg0p3lu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32CE42071E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 650098584F;
-	Wed, 27 Nov 2019 15:32:01 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CiJuDO-GrEpD; Wed, 27 Nov 2019 15:31:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CD0928559F;
-	Wed, 27 Nov 2019 15:31:57 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C68BFC1DDA;
-	Wed, 27 Nov 2019 15:31:57 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CF146C0881
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 15:31:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id BE17920475
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 15:31:55 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E751D204CF;
+	Wed, 27 Nov 2019 17:39:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5g+qUZoBBXQL; Wed, 27 Nov 2019 17:39:20 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id D651520478;
+	Wed, 27 Nov 2019 17:39:20 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C0A38C1DDA;
+	Wed, 27 Nov 2019 17:39:20 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A1D54C0881
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 27 Nov 2019 17:39:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 90F5087A60
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 27 Nov 2019 17:39:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UL5sMZNZ6oUm
+ with ESMTP id h6XyeZhDNZ69
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 15:31:55 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
- [209.85.160.196])
- by silver.osuosl.org (Postfix) with ESMTPS id CE3CE2000D
+ Wed, 27 Nov 2019 17:39:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B6D0A87A52
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 15:31:54 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id z22so4889717qto.7
+ Wed, 27 Nov 2019 17:39:18 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id s5so11351140pfh.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 07:31:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m8XASQ33ScpPMW9Lk7i08lqftHVIhhUvhoQmKMQABbc=;
- b=pnkn80E8scR8OP9K1ql6Itvkl8+SnCbu+Dqzoa7buKcqDvIJ6fvN5RXHrEvAbbuP/B
- Z3xNb8VsfHx+ctarmuV2zL9XA52orUWS1O5afOFFBp+k6vFL5pVCuY2NFjUVhMtRjvIQ
- VdZUDb0gXj1V85KUfEtxHsPp/0+24jOlIUDfs=
+ Wed, 27 Nov 2019 09:39:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hAdHg+nMpBBpnhQAb4eQYvBwAsK1HxagWWhgNhFJul8=;
+ b=eTg0p3lupqzPqMOI2f1yhQdYjVCeKMOc+YaPpSgPujuist0u/SSCeFXY4DtCM7Gx/Q
+ VIaSJsK6buyzzDpimQ2PuLelc8gVzPjFq7eNKhF2InyJaGG4g4FP/5+WqH0pYdo5ME5C
+ /X1/PzrdX1AlIt5qa8E1+7gHnJM7D/bM15EP5yCPXRHYDS/IFZjZ1kHU5OusQCqxptQa
+ u/3ADnUDKo5YZtqbjMp5dzXaKtyQhjFstDaggAjt6GeZXuNxA5IOGoxH92jkNaQA0Ikt
+ E5uHJYUF5okAtmCdoWtul03aYKnZylvmCfWEHPJ3wm9n+0+yzchwTcs7FvLEUsIcQF7X
+ 4y/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m8XASQ33ScpPMW9Lk7i08lqftHVIhhUvhoQmKMQABbc=;
- b=HUcZFw5xOoa0on+NkPdW+gHvwsZ1NjR1O2P2k8eT7yhXN9x+bCYUx6gKEP5p7P+YJa
- mKgCuO7X437iBqY1FlWg8iak/4wuBFh0RayzFxTwR3Ailfp49fy48ukc5Fgwaq9/2uPO
- 4WKGkcqTSIWpcsTQ4gvGSo1llLc5kT65PjtvSfSfCJAyfwc5+qEoYOAH/60jPtuMj2dG
- Vw0KlbxkIbIeex5V8VrqjLr5gVHCT0EU4PzOtxpM5sUvhE8ksVzgXvYnclaz3tui50zI
- j8F4VZ4ZUprrY5pssLdwYnUu31ZGt8guCCottDZ0XdxSkF0wdPKn4sUpGq+U2/seglII
- hijg==
-X-Gm-Message-State: APjAAAVWD5ICxRyVMMB/FBSLU1MZbvoYwcbfeeKk1MK1iwszEibWlHz5
- O4VoJoXH9+aHD/ww3ME6ZfTHF8VV+ceAghGimi9yumuv
-X-Google-Smtp-Source: APXvYqxmt7EJm6XHe3c8cZCXvjViANZ57FQDXdBpxpmjlh/GOMdASfyOe+aRvHafsySiNAzQc11Jy+o+X72q47vcr88=
-X-Received: by 2002:ae9:c219:: with SMTP id j25mr4939170qkg.470.1574868368530; 
- Wed, 27 Nov 2019 07:26:08 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hAdHg+nMpBBpnhQAb4eQYvBwAsK1HxagWWhgNhFJul8=;
+ b=F6eb39gjQ3wpdRYvciA99L97MRBmr0KLtfYrilHxOHi4FgSyWhXMQBLVPuAfAj5Kyj
+ CCOBisFmyw10mfpgiwQKZMjDETW0wX3A8DJrPrzTytVQGG/g56jhi0/Fq+00hyMk7G1r
+ ZLNMUUu+UdTI09N0RhJnp7K46Mmw9qyVzFxO9ikknujHKgYe+r/ug73WrTM5gHSw0qwi
+ +swXFWo+Y7QYUUMKIlzT6yF9grp0U2Sr6HCP5WSZFPjdBKVaT3x9v+tjfoxcl2HsvpNA
+ xR7RqzF8zgqq06xBi73Hx3Ly3YK11yElRPje5NEs+u7XgXhWVXEnCgRJjWXNPL7UFXdH
+ vsdA==
+X-Gm-Message-State: APjAAAXP7wuBpsvvtH8Vq36LsuWjcPjLcD0lq4/UaMltAdtidPxs3jRM
+ /5FeVLP5yExkxANrec2b51c=
+X-Google-Smtp-Source: APXvYqxjM0+LoGgNkAM6hzc8u+gHxKQq9hjlbYUWAaAZVMfXG1sCKWFiRJaFUPuqOOvzj9rwHoBQTg==
+X-Received: by 2002:a62:e105:: with SMTP id q5mr48917809pfh.105.1574876358295; 
+ Wed, 27 Nov 2019 09:39:18 -0800 (PST)
+Received: from localhost.localdomain
+ ([2402:3a80:167f:97a7:3939:930e:5cf8:fd50])
+ by smtp.googlemail.com with ESMTPSA id j23sm17028240pfe.95.2019.11.27.09.39.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Nov 2019 09:39:17 -0800 (PST)
+From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+To: cocci@systeme.lip6.fr
+Date: Wed, 27 Nov 2019 23:08:13 +0530
+Message-Id: <20191127173815.24988-1-jaskaransingh7654321@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191126172723.GA12759@workstation-kernel-dev>
- <20191127022925.GB157739@google.com>
- <20191127052827.GA9782@workstation-portable>
-In-Reply-To: <20191127052827.GA9782@workstation-portable>
-From: Joel Fernandes <joel@joelfernandes.org>
-Date: Wed, 27 Nov 2019 10:25:57 -0500
-Message-ID: <CAEXW_YS=eDhmv+MaKLoRTCcPknscxqfHa2TyrjAEXpug1g67jw@mail.gmail.com>
-To: Amol Grover <frextrite@gmail.com>
-Cc: Paul Moore <paul@paul-moore.com>, LKML <linux-kernel@vger.kernel.org>,
- Eric Paris <eparis@redhat.com>, linux-audit@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] kernel: audit.c: Add __rcu
-	notation to RCU pointer
+Cc: julia.lawall@inria.fr, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH 0/2] cocci: Fix continue statement of
+	death and similar cases
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,73 +112,21 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 27, 2019 at 12:29 AM Amol Grover <frextrite@gmail.com> wrote:
->
-> On Tue, Nov 26, 2019 at 09:29:25PM -0500, Joel Fernandes wrote:
-> > On Tue, Nov 26, 2019 at 10:57:23PM +0530, Amol Grover wrote:
-> > > add __rcu notation to RCU protected global pointer auditd_conn
-> > >
-> > > Fixes multiple instances of sparse error:
-> > > error: incompatible types in comparison expression
-> > > (different address spaces)
-> > >
-> > > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> > > ---
-> > >  kernel/audit.c | 6 ++++--
-> > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > index da8dc0db5bd3..30e7fc9b8da2 100644
-> > > --- a/kernel/audit.c
-> > > +++ b/kernel/audit.c
-> > > @@ -102,12 +102,14 @@ struct audit_net {
-> > >   * This struct is RCU protected; you must either hold the RCU lock for reading
-> > >   * or the associated spinlock for writing.
-> > >   */
-> > > -static struct auditd_connection {
-> > > +struct auditd_connection {
-> > >     struct pid *pid;
-> > >     u32 portid;
-> > >     struct net *net;
-> > >     struct rcu_head rcu;
-> > > -} *auditd_conn = NULL;
-> > > +};
-> > > +static struct auditd_connection __rcu *auditd_conn;
-> > > +RCU_INIT_POINTER(auditd_conn);
-> >
-> > Looks like this causes a build error. Always please build test your patches
-> > in the very least. And I also did not understand how RCU_INIT_POINTER can
-> > even be used outside of a function. In C, executable code cannot be outside
-> > functions.
-> >
-> > Is doing the following not sufficient to fix the sparse issue?
-> >
-> > thanks,
-> >
-> >  - Joel
-> >
-> > ---8<-----------------------
-> >
-> > diff --git a/kernel/audit.c b/kernel/audit.c
-> > index 49b6049b26ac..c5d4b5a2dea1 100644
-> > --- a/kernel/audit.c
-> > +++ b/kernel/audit.c
-> > @@ -108,8 +108,8 @@ struct auditd_connection {
-> >       struct net *net;
-> >       struct rcu_head rcu;
-> >  };
-> > -static struct auditd_connection __rcu *auditd_conn;
-> > -RCU_INIT_POINTER(auditd_conn);
-> > +static struct auditd_connection __rcu *auditd_conn = NULL;
->
-> I ran a quick checkpatch and it gave me this error:
-> ERROR: do not initialise statics to NULL
->
-> So in order to fix it I decided to INIT the pointer (and failed)
+The following patch series is for fixing the "continue statement of
+death" report here:
 
-Well, try to understand the checkpatch error then, and do the right thing :)
+https://www.mail-archive.com/cocci@systeme.lip6.fr/msg06199.html
 
-- Joel
+Changes include removing circular references that cause the crash
+and adding a corresponding test case.
+
+ engine/transformation_c.ml         |    2 +-
+ tests/stmt_removed_and_added.c     |    8 ++++++++
+ tests/stmt_removed_and_added.cocci |    7 +++++++
+ tests/stmt_removed_and_added.res   |    8 ++++++++
+ 4 files changed, 24 insertions(+), 1 deletion(-)
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
