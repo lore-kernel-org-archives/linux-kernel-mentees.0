@@ -5,104 +5,96 @@ X-Spam-Level:
 X-Spam-Status: No, score=-7.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2731C432C3
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Nov 2019 15:10:32 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E0B7C43215
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Nov 2019 15:32:13 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8F4CC21775
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Nov 2019 15:10:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 23245217AB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Nov 2019 15:32:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c5OxcfVn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F4CC21775
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkjLgbwd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23245217AB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 64011869D9;
-	Thu, 28 Nov 2019 15:10:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E56568816B;
+	Thu, 28 Nov 2019 15:32:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e3SpvO0cDn18; Thu, 28 Nov 2019 15:10:31 +0000 (UTC)
+	with ESMTP id ybhkS9SEj8db; Thu, 28 Nov 2019 15:32:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E66BE85249;
-	Thu, 28 Nov 2019 15:10:31 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 674C0861D1;
+	Thu, 28 Nov 2019 15:32:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DABB2C1DD5;
-	Thu, 28 Nov 2019 15:10:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 570D3C1DD5;
+	Thu, 28 Nov 2019 15:32:12 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 69F3CC0881
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 65DFCC0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Nov 2019 15:10:30 +0000 (UTC)
+ Thu, 28 Nov 2019 15:32:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4F362883FA
+ by hemlock.osuosl.org (Postfix) with ESMTP id 61ABE861D1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Nov 2019 15:10:30 +0000 (UTC)
+ Thu, 28 Nov 2019 15:32:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tSypMIHB4YHg
+ with ESMTP id uxo1jTmFhf7A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Nov 2019 15:10:29 +0000 (UTC)
+ Thu, 28 Nov 2019 15:32:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1744A883F6
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6F2D388164
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Nov 2019 15:10:29 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id w8so11999355pjh.11
+ Thu, 28 Nov 2019 15:32:10 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id k1so13042090pgg.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Nov 2019 07:10:29 -0800 (PST)
+ Thu, 28 Nov 2019 07:32:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Z2wU0E4d5s4/xK+13SW3DrjkiCtDxj7UMABJh83nudE=;
- b=c5OxcfVnBC5jamcSyxumsTvrFr88egXS4P+lN9zZWdpMu20m2zTLB7/E7qq0dW0BCd
- ScKf5xCamGQcz1nrfUmvavZYIKleOViPPnPD7AC+IvW5Uvw9nXn+8gpUb86p5QPrnpMR
- ixtnjJa9JEMmfJqXb9zrboDnEKM89dQncRUXaPP1mSqOuXtjP5mGOJIy/Kg/UsTEHHWk
- iegOzPLNe8CBS0Jb2x5yM5wQ/KEMz2j7zgdAf01PhNM63MW2M6vPVDEG/oibIorRUsX2
- ek+QpNVbMhMA8UMotnlY8cEhHxGFJTR4IxYTQXw5oSIoYdpX7kc0JZxuspkGjfq2XVx5
- kXng==
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=PpHb3fvmg1wnxHHN6wZlT7oMOhT2IAI1cwgs8iwmgww=;
+ b=lkjLgbwdRqukZGNpN1LfTOVPQlzYOcqS8Sib6QnsDCumdKzmyZq+1cenQrSvRjVr1V
+ VxtfbnYVrHOgHkyVNtUofoVgXRx4rDds0sMvHQCe3tjF5A0/XPUIOu80OqTq8K5+TX05
+ Pm8Wve1ChsV5w9QT+PFGuQJmLmRLwaDfMcWdysS/ly0l4BcIXyNw5v9oPgT9zH7pRUOa
+ VyfMeWcFn9PWcurMvKxvy8xCLkirlRg2enDdLF1aFXsSq+BYio+R0/27n9tOjoVA7XiG
+ ueFKCL5VC4xQ7VgTVsiYdKrVSJZd/074jQjwi8AyYzPAzm+CtYPPlhPeJ65B+TAVnQ3H
+ 8GoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Z2wU0E4d5s4/xK+13SW3DrjkiCtDxj7UMABJh83nudE=;
- b=ROQnwRDARfZlSR5WfHt52ZCJuxnbcA/Doj6jqhIIcS8k2YwHc1iX4RjQ6ytw01RHHi
- oYn1bGxKZHcpCbkn46kJgXVbcIYwYUQGSZJ+hZWzxW9uBS98i9pmst98i8KcGEp3sxlN
- UPWQOciNc/lM1QuvavW3tSTSy5UYHp80ZaALZjeZ8RIhPlJp2nsz4U0mfvcupfEQVUyp
- XpgXKyULsuVVa0qN31V63bDAmcdMGpnao7V3eR8y+JF6psI/nt8iqNuexwxqLi4NX4vG
- 20IENUMGuVxd8HYSbfVMYkMbA5glEZYLwH++fMMzAnL5I1v2MrzZRmzo30Xh+4N6ASTT
- +QYw==
-X-Gm-Message-State: APjAAAWRpXUPX4GStRtCbm8XWr7YITBCEzxeO9X76Qf42PF1B2UTMTI1
- MAX5G4CREwynNRbzKBlWdZ4=
-X-Google-Smtp-Source: APXvYqyt+El6kPSt8sRjEBFZGlMkpGpdZo0+rg0M5e9jkdIU+Clr5DkO7mBNGSWNbn3kjaK8qooU+g==
-X-Received: by 2002:a17:902:142:: with SMTP id
- 60mr10314206plb.38.1574953828543; 
- Thu, 28 Nov 2019 07:10:28 -0800 (PST)
-Received: from workstation-portable ([139.5.253.4])
- by smtp.gmail.com with ESMTPSA id h9sm8756948pfo.139.2019.11.28.07.10.25
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=PpHb3fvmg1wnxHHN6wZlT7oMOhT2IAI1cwgs8iwmgww=;
+ b=fsg6BOoVF6xkXxp+yeYl7EDRfdOg92c8HYRUkeUYJjEUhXkmQhpL91NTYr17RSpZXr
+ aRaC5cBVpVss5v5XXtmpw8BIQ0hbujQrGgMweDL0+xpiJFs9x1pxZkOxM9LP0deFGZmF
+ OyVlOCDAAEr34dU0rNKcvqhxAUBFk+pSMLgZNq0dM7W1776UYFbGzWE+WgRzexjAW26X
+ IgK4eJh5xaLfrvJRyQu+ZQX9xeIhWS2EDsxFMSeqI2ObCXTT9pXcsLE+uWfYO6mQKRVe
+ onwSIZB/4hQ1kP9uL6W39phWCakPGZt4EmDnc1e+MOnJCdQi3hgN0HPWhQeb7CKv355V
+ td4g==
+X-Gm-Message-State: APjAAAXRUKB6davh4oba1wohObcfnnT7N8AkWK4zOguEBAyUc1GnX8lA
+ stLSSp2Y30XDgsJh57RXtuY=
+X-Google-Smtp-Source: APXvYqw0ZuqqCQ3bpYNoPpQ541irC88FBLvvfU7BPliB9p4YDB9wkq1pQ+suOYZqqdaXq2l1fot78A==
+X-Received: by 2002:a63:d20f:: with SMTP id a15mr12262947pgg.268.1574955129913; 
+ Thu, 28 Nov 2019 07:32:09 -0800 (PST)
+Received: from workstation-kernel-dev ([139.5.253.4])
+ by smtp.gmail.com with ESMTPSA id j7sm7624426pgn.0.2019.11.28.07.32.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Nov 2019 07:10:27 -0800 (PST)
-Date: Thu, 28 Nov 2019 20:39:49 +0530
+ Thu, 28 Nov 2019 07:32:09 -0800 (PST)
+Date: Thu, 28 Nov 2019 21:02:03 +0530
 From: Amol Grover <frextrite@gmail.com>
-To: Joel Fernandes <joel@joelfernandes.org>
-Message-ID: <20191128150949.GA30181@workstation-portable>
-References: <20191126172723.GA12759@workstation-kernel-dev>
- <20191127022925.GB157739@google.com>
- <20191127052827.GA9782@workstation-portable>
- <CAEXW_YS=eDhmv+MaKLoRTCcPknscxqfHa2TyrjAEXpug1g67jw@mail.gmail.com>
+To: Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>
+Message-ID: <20191128153203.GA23803@workstation-kernel-dev>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAEXW_YS=eDhmv+MaKLoRTCcPknscxqfHa2TyrjAEXpug1g67jw@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
-Cc: Paul Moore <paul@paul-moore.com>, LKML <linux-kernel@vger.kernel.org>,
- Eric Paris <eparis@redhat.com>, linux-audit@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] kernel: audit.c: Add __rcu
+User-Agent: Mutt/1.11.3 (2019-02-01)
+Cc: Joel Fernandes <joel@joelfernandes.org>, linux-audit@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v2] kernel: audit.c: Add __rcu
 	notation to RCU pointer
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -121,81 +113,43 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 27, 2019 at 10:25:57AM -0500, Joel Fernandes wrote:
-> On Wed, Nov 27, 2019 at 12:29 AM Amol Grover <frextrite@gmail.com> wrote:
-> >
-> > On Tue, Nov 26, 2019 at 09:29:25PM -0500, Joel Fernandes wrote:
-> > > On Tue, Nov 26, 2019 at 10:57:23PM +0530, Amol Grover wrote:
-> > > > add __rcu notation to RCU protected global pointer auditd_conn
-> > > >
-> > > > Fixes multiple instances of sparse error:
-> > > > error: incompatible types in comparison expression
-> > > > (different address spaces)
-> > > >
-> > > > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> > > > ---
-> > > >  kernel/audit.c | 6 ++++--
-> > > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > > index da8dc0db5bd3..30e7fc9b8da2 100644
-> > > > --- a/kernel/audit.c
-> > > > +++ b/kernel/audit.c
-> > > > @@ -102,12 +102,14 @@ struct audit_net {
-> > > >   * This struct is RCU protected; you must either hold the RCU lock for reading
-> > > >   * or the associated spinlock for writing.
-> > > >   */
-> > > > -static struct auditd_connection {
-> > > > +struct auditd_connection {
-> > > >     struct pid *pid;
-> > > >     u32 portid;
-> > > >     struct net *net;
-> > > >     struct rcu_head rcu;
-> > > > -} *auditd_conn = NULL;
-> > > > +};
-> > > > +static struct auditd_connection __rcu *auditd_conn;
-> > > > +RCU_INIT_POINTER(auditd_conn);
-> > >
-> > > Looks like this causes a build error. Always please build test your patches
-> > > in the very least. And I also did not understand how RCU_INIT_POINTER can
-> > > even be used outside of a function. In C, executable code cannot be outside
-> > > functions.
-> > >
-> > > Is doing the following not sufficient to fix the sparse issue?
-> > >
-> > > thanks,
-> > >
-> > >  - Joel
-> > >
-> > > ---8<-----------------------
-> > >
-> > > diff --git a/kernel/audit.c b/kernel/audit.c
-> > > index 49b6049b26ac..c5d4b5a2dea1 100644
-> > > --- a/kernel/audit.c
-> > > +++ b/kernel/audit.c
-> > > @@ -108,8 +108,8 @@ struct auditd_connection {
-> > >       struct net *net;
-> > >       struct rcu_head rcu;
-> > >  };
-> > > -static struct auditd_connection __rcu *auditd_conn;
-> > > -RCU_INIT_POINTER(auditd_conn);
-> > > +static struct auditd_connection __rcu *auditd_conn = NULL;
-> >
-> > I ran a quick checkpatch and it gave me this error:
-> > ERROR: do not initialise statics to NULL
-> >
-> > So in order to fix it I decided to INIT the pointer (and failed)
-> 
-> Well, try to understand the checkpatch error then, and do the right thing :)
+add __rcu notation to RCU protected global pointer auditd_conn
 
-I read-up a few articles about this. I think I've understood the problem. I'm
-sending in the ammended patch now. Sorry for this. Won't happen again.
+Fixes multiple instances of sparse error:
+error: incompatible types in comparison expression
+(different address spaces)
 
-Thanks
-Amol
+Signed-off-by: Amol Grover <frextrite@gmail.com>
+---
+v2:
+- fix erroneous RCU pointer initialization
 
-> 
-> - Joel
+ kernel/audit.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/audit.c b/kernel/audit.c
+index da8dc0db5bd3..ff7cfc61f53d 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -102,12 +102,13 @@ struct audit_net {
+  * This struct is RCU protected; you must either hold the RCU lock for reading
+  * or the associated spinlock for writing.
+  */
+-static struct auditd_connection {
++struct auditd_connection {
+ 	struct pid *pid;
+ 	u32 portid;
+ 	struct net *net;
+ 	struct rcu_head rcu;
+-} *auditd_conn = NULL;
++};
++static struct auditd_connection __rcu *auditd_conn;
+ static DEFINE_SPINLOCK(auditd_conn_lock);
+ 
+ /* If audit_rate_limit is non-zero, limit the rate of sending audit records
+-- 
+2.24.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
