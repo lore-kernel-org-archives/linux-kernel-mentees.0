@@ -2,98 +2,102 @@ Return-Path: <SRS0=yDVd=ZX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1889C432C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 16:37:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D0CC43215
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 18:35:48 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C439120718
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 16:37:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0C03120833
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 18:35:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PDbevn9G"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C439120718
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mKkA0pkG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C03120833
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A39BD857DC;
-	Sun,  1 Dec 2019 16:37:37 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CAC0386FCD;
+	Sun,  1 Dec 2019 18:35:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TuEg0KfpfFqO; Sun,  1 Dec 2019 16:37:37 +0000 (UTC)
+	with ESMTP id A693tQ4yNO5W; Sun,  1 Dec 2019 18:35:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1F71B8591D;
-	Sun,  1 Dec 2019 16:37:37 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4F97786FAF;
+	Sun,  1 Dec 2019 18:35:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D713C1DE3;
-	Sun,  1 Dec 2019 16:37:37 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2476FC1DEB
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E46EC1DDC;
+	Sun,  1 Dec 2019 18:35:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A3B7BC087F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 16:37:35 +0000 (UTC)
+ Sun,  1 Dec 2019 18:35:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DB65584B82
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8188886CA7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 16:37:34 +0000 (UTC)
+ Sun,  1 Dec 2019 18:35:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VT-GePVwjuAb
+ with ESMTP id MrPpuxXHp_gf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 16:37:34 +0000 (UTC)
+ Sun,  1 Dec 2019 18:35:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
- [209.85.217.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 21DCA81DE9
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 50ACE86C9B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 16:37:34 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id p21so1156106vsq.6
+ Sun,  1 Dec 2019 18:35:45 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id b19so17341088pfd.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 01 Dec 2019 08:37:34 -0800 (PST)
+ Sun, 01 Dec 2019 10:35:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4y1cMVE7kVeau+RABDn0TxsVYguftcnhPPVMl9zqRWQ=;
- b=PDbevn9GawZr1NskBktdX0c5SoFf09giIAujdClYqTikymI4xD+swPY5PXDrLCxa6e
- YvlmOeTzIFqqkpNM2sVeKd2tNWc88os3QdCfyc9NMcFaVSs0pSh0Q5GPLszyM9ewmY1R
- r4SBxQPVrQ2pXRQ8ACE/7r2wCYYd0mrA+hdOP4BNZnE5O0PomVx37jwv11d9tPv41LOt
- vHbF7OB5aU6rXIGkglthcQpiD/BQw8FuzzknOI285H6xQHKeBZZXm/AclmnByu88jYkh
- NSqQy5h0CVhTii1zzuvFQhAQrufnRre3jPccjQ6ykfJLiZDoZrgaCgw5KjfbCWqjvL5V
- dqwg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z3TzwSYn5g3MrmieUv6eN394fAt/3mpfuC3Uls+rr6g=;
+ b=mKkA0pkGmxqIHJ+qCSrIllvlqSR4felhHMYUGM4ymrdXNEDhgAyVWK1U+EGU3Ck+ZC
+ tctswF4V8L51AnZxXFHjaxhCCSJz7IuTZrnoIAxH/ZLRSxvm6qa+vvp2aQ9nyBs4qYmF
+ T5QGEPaa9Cas4JUaJyL97bHVD9azTp14OdwikDC6Bq6hszF/OJGu4XaAlQbQoJp6EZPB
+ P2XUFBtZU8Pkxr8T8KL8pfxl8pOre3rab0QHDFOUVn/HjvV5P1FHHylG7KtH0hVbyEXx
+ p/TqnOs4xAOqhK+w0563YzN2fn57DxZB3oM50RvZd96z09P3cDgjgRn/tftf+zr5w10o
+ g1FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4y1cMVE7kVeau+RABDn0TxsVYguftcnhPPVMl9zqRWQ=;
- b=NJXKd4s9Fb1q+47/Kbai/nPnSbX637R+RX9KKUR5pSHeWBkVDYdwWzSpKCKqzgd1Gu
- fqmUYiQvRKwzQMDpD3F77XdC+pthTKH6awp+5UVdeaZdGHQrqNlzREAPCgMGiml14Pdo
- sE8Yc00yEOTWY0bzB4SWuVXU3EcovxtDdkn6uMiri5uHpDWad+qlyZalZ7Cq27pVuCpI
- 9OPq9ej3UREV2w9Vjzxl2/hlWvQZUH4kVXU46nVegyTGDuvGPzTjYwDpRCtpNSRE6Pwq
- 1j/L+nz78NqvycOPE/iHbB6PgqrgCmjAmj2R0fhqM/e2xVIe+Q0u6N4cfHlc0DM+X9fW
- dGNA==
-X-Gm-Message-State: APjAAAUl028/6e4D80AFvXX4FjeEJyUSoPSAyqOrEuqe/eIa95qhNbM6
- QHH392sonyJ7r7pC4Ub7ZMFdI791phuYtPP3IKw=
-X-Google-Smtp-Source: APXvYqxrx3xsUIAZ0+qCs98gUQgpR9+DHW1RO3LDbX3E2HzbsrG215ZJzjVt4nmPV0+d/7x/drZFqazUPiQFC6wSDa8=
-X-Received: by 2002:a05:6102:3086:: with SMTP id
- l6mr7100617vsb.52.1575218253159; 
- Sun, 01 Dec 2019 08:37:33 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z3TzwSYn5g3MrmieUv6eN394fAt/3mpfuC3Uls+rr6g=;
+ b=VU2XL3MEUSWVfWLoTb6tthxJvvzFjDEQIGUGTuUu3b97lFawmQohIH4GYp5/qJaxDT
+ 6QroKyURPYCeik+AGaUUo+Hyyjb8gNj1TchaZBIDhl0ObZeAcj64B8GTX1xj5kddPWc3
+ Gec67XKEgNPbUhfGDAMhYurEtZ8CdhXkREe9jz76dp/EwYBd3g+PQ3kOJUQWAXpkPIRs
+ Vfj7wh5G8hPvNGr+LRBEldFAwgttYbFWfjdhTpGK7wcmYmdWwFHDkC6u4GFYo0LoaUyK
+ 91VYNz05BfNvS/B5pprCOWn1jVexGBqFcempH5eFAe77y7M6fmPX9UuUO5CdsJpwRGKS
+ ocig==
+X-Gm-Message-State: APjAAAUSc3/5jUKxDLW2Cj7mnQfSU8o4QC2tZzxWiymWqhWpPeq++wT3
+ PquuRmwLivQRtPGFdktO1Qg=
+X-Google-Smtp-Source: APXvYqxg/NKmExH60ea61UZusx0DpypzbkLGYSHNbTZo/5IvSi29I/71C0L9mCytHATmuEAjrSguQw==
+X-Received: by 2002:a63:e647:: with SMTP id p7mr28156201pgj.47.1575225344893; 
+ Sun, 01 Dec 2019 10:35:44 -0800 (PST)
+Received: from localhost.localdomain ([139.5.253.99])
+ by smtp.googlemail.com with ESMTPSA id y128sm5432492pfg.17.2019.12.01.10.35.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Dec 2019 10:35:44 -0800 (PST)
+From: Amol Grover <frextrite@gmail.com>
+To: Paul Moore <paul@paul-moore.com>,
+	Eric Paris <eparis@redhat.com>
+Date: Mon,  2 Dec 2019 00:03:48 +0530
+Message-Id: <20191201183347.18122-1-frextrite@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20191201161542.69535-1-dwlsalmeida@gmail.com>
- <20191201161542.69535-5-dwlsalmeida@gmail.com>
-In-Reply-To: <20191201161542.69535-5-dwlsalmeida@gmail.com>
-From: Amit Choudhary <amitchoudhary2305@gmail.com>
-Date: Sun, 1 Dec 2019 22:07:22 +0530
-Message-ID: <CAFzckaFfmVYV_baqV9bHrnguXfOKs42DJ2VgA4C1y2Ey-+99xQ@mail.gmail.com>
-To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc: kstewart@linuxfoundation.org, linux-kernel@vger.kernel.org,
- rfontana@redhat.com, tglx@linutronix.de, mchehab@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 4/6] media: dvb_dummy_fe: Fix
-	long lines
+Cc: linux-kernel@vger.kernel.org, linux-audit@redhat.com,
+ Joel Fernandes <joel@joelfernandes.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v3] kernel: audit.c: Add __rcu
+	annotation to RCU pointer
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,85 +109,59 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7371482851445188275=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============7371482851445188275==
-Content-Type: multipart/alternative; boundary="0000000000006c61360598a71476"
+Add __rcu annotation to RCU-protected global pointer auditd_conn.
 
---0000000000006c61360598a71476
-Content-Type: text/plain; charset="UTF-8"
+auditd_conn is an RCU-protected global pointer,i.e., accessed
+via RCU methods rcu_dereference() and rcu_assign_pointer(),
+hence it must be annotated with __rcu for sparse to report
+warnings/errors correctly.
 
-+static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe,
+Fix multiple instances of the sparse error:
+error: incompatible types in comparison expression
+(different address spaces)
 
-> +                                            u16 *strength)
->
+Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Signed-off-by: Amol Grover <frextrite@gmail.com>
+---
+v3:
+- update changelog to be more descriptive
 
-In my opinion, the arguments on new line should be just below the start of
-arguments on top line. Like this:
+v2:
+- fix erroneous RCU pointer initialization
+ 
+ kernel/audit.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-+static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe,
-+                                                                     u16
-*strength)
-
-
-
-+               .caps = FE_CAN_FEC_1_2 |
-> +                       FE_CAN_FEC_2_3 |
->
-
-Similarly, here too and other places too:
-
-+               .caps = FE_CAN_FEC_1_2 |
-+                           FE_CAN_FEC_2_3 |
-
-Regards,
-Amit
-
---0000000000006c61360598a71476
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><br></div><div>+static int dvb_dummy_fe_read_signal_s=
-trength(struct dvb_frontend *fe,</div><div class=3D"gmail_quote"><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 u16 *strength)<br>
-</blockquote><div><br></div><div>In my opinion, the arguments on new line s=
-hould be just below the start of arguments on top line. Like this:<br></div=
-><div><br></div><div>+static int dvb_dummy_fe_read_signal_strength(struct d=
-vb_frontend *fe,<br></div><div>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0 u16 *strength)=C2=A0<=
-/div><div><br></div><div><br></div><br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.caps =3D FE_CAN_FE=
-C_1_2 |<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0FE_CAN_FEC_2_3 |<br></blockquote><div><br></div><div>Similarly, h=
-ere too and other places too:</div><div><br></div><div>+=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.caps =3D FE_CAN_FEC_1_2 |<br></div><=
-div>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 FE_CAN_FEC_2_3 |</div><div><br></div><div>R=
-egards,<br></div><div>Amit</div><div><br></div></div></div>
-
---0000000000006c61360598a71476--
-
---===============7371482851445188275==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/kernel/audit.c b/kernel/audit.c
+index da8dc0db5bd3..ff7cfc61f53d 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -102,12 +102,13 @@ struct audit_net {
+  * This struct is RCU protected; you must either hold the RCU lock for reading
+  * or the associated spinlock for writing.
+  */
+-static struct auditd_connection {
++struct auditd_connection {
+ 	struct pid *pid;
+ 	u32 portid;
+ 	struct net *net;
+ 	struct rcu_head rcu;
+-} *auditd_conn = NULL;
++};
++static struct auditd_connection __rcu *auditd_conn;
+ static DEFINE_SPINLOCK(auditd_conn_lock);
+ 
+ /* If audit_rate_limit is non-zero, limit the rate of sending audit records
+-- 
+2.24.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============7371482851445188275==--
