@@ -6,79 +6,79 @@ X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15415C432C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 07:47:43 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60C5FC432C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 07:51:49 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA3C2215F1
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 07:47:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3692020833
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 07:51:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jr7ralNE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA3C2215F1
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T2Y9zX+0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3692020833
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8C87588BB1;
-	Sun,  1 Dec 2019 07:47:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0AF102000F;
+	Sun,  1 Dec 2019 07:51:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pxyCZ7Sp2-8D; Sun,  1 Dec 2019 07:47:41 +0000 (UTC)
+	with ESMTP id 9nhJ7zVhh4St; Sun,  1 Dec 2019 07:51:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6BF7488B9A;
-	Sun,  1 Dec 2019 07:47:41 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E1C301FE32;
+	Sun,  1 Dec 2019 07:51:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D4B1C1DD9;
-	Sun,  1 Dec 2019 07:47:41 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AB2DFC087F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DB909C1DD9;
+	Sun,  1 Dec 2019 07:51:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7ACC6C087F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 07:47:39 +0000 (UTC)
+ Sun,  1 Dec 2019 07:51:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9300488B9A
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7782687B22
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 07:47:39 +0000 (UTC)
+ Sun,  1 Dec 2019 07:51:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3bgfHuMyYkJ0
+ with ESMTP id 4ryXNztn5r6x
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 07:47:38 +0000 (UTC)
+ Sun,  1 Dec 2019 07:51:45 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 823C188B6A
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 4AC0987B21
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 07:47:38 +0000 (UTC)
+ Sun,  1 Dec 2019 07:51:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
  Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
  From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
  Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
  List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=31ZIn5LuPfDCCSlP/VMSXAo5Pn3mOLQbdfQ8bPQa9Sg=; b=jr7ralNE8IVefG9LG2R/0zGWP
- xv6rzjRM7IVgQoFkQ5shDctC6DSMqRKYKb+OwxvnEzSoz/4PhCN2t+hcT6BcCkcAeXezWpMmiFHg3
- 7Qj4OELKoBTSZQm9BtbuvtQj7fog6Nak+61ZUWc1PqC+w8RXmbpqwCtI7hYidbYF2WQuLNJh86L33
- AVj2X4mO/Q0tXzJNSPAhyxWo8BsZKviL8UBxtp7q5SXyUo63hc2L2qa3kN2TndO6BoBr9RL1ZsuAk
- h4joyVg99Hbv/lnS0ARKZ6xMoTakr0HlyJ0YXAyvgNbhWXUL/wvO4D1uh4l8n/c6uckzIo0gBzzFk
- SkHmSQ6CQ==;
+ bh=9ar5lBj/XBoTQRzWdBhddrRjlU7aJCUOJe5hxl/9WVw=; b=T2Y9zX+0DUU6kEa2tFC8aEi4b
+ TujXFgtQuOz9MWTFpWPDKXAXHaT+Cb3gRvVGhVFsYf+KaKlqN3B+DwIQuRGbpqg7wGOVH0H4GLx1U
+ O+TfyyM5mQUIQfwUq85sbrEXirAlZIzLNVFZog3T4+gc2oKJYI7SZpyzKJKPg3IA0Jr7Kw3LtyA2y
+ ZAX7zfIt+vMtR2fqIihodLbhgb0ktTof6R0KySKOVkcI5ctFGWuRxEfXkrvtK1OqpsfshloztnqX3
+ 9aXvp5ISUSRsujDqI9q90oBMHke3BpiwFSPrRQYSRs/C8lR9mQmTn45TfpxVREERCNO5IWXnhTMjD
+ VB9+4fjLA==;
 Received: from [80.156.29.194] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ibJx7-00025Q-B9; Sun, 01 Dec 2019 07:47:33 +0000
-Date: Sun, 1 Dec 2019 08:47:28 +0100
+ id 1ibK17-0003SB-S7; Sun, 01 Dec 2019 07:51:42 +0000
+Date: Sun, 1 Dec 2019 08:51:38 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <20191201084728.17387715@kernel.org>
-In-Reply-To: <20191112125014.5604-1-dwlsalmeida@gmail.com>
-References: <20191112125014.5604-1-dwlsalmeida@gmail.com>
+Message-ID: <20191201085138.339a850e@kernel.org>
+In-Reply-To: <20191112142436.1406-1-dwlsalmeida@gmail.com>
+References: <20191112142436.1406-1-dwlsalmeida@gmail.com>
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Cc: kstewart@linuxfoundation.org, linux-kernel@vger.kernel.org,
  rfontana@redhat.com, tglx@linutronix.de,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] media: dvb_dummy_fe: Fix
-	ERROR: POINTER_LOCATION
+Subject: Re: [Linux-kernel-mentees] [PATCH] media: dvb_dummy_fe: Fix long
+	lines
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,195 +96,173 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Em Tue, 12 Nov 2019 09:50:14 -0300
+Em Tue, 12 Nov 2019 11:24:36 -0300
 "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
 > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
-> Change foo* bar to foo *bar to avoid ERROR: POINTER_LOCATION in checkpatch.pl
+> Break long lines into smaller ones to improve readability.
 > 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
+> WARNING: line over 80 characters
+> +	memcpy(&state->frontend.ops, &dvb_dummy_fe_ofdm_ops, sizeof(struct dvb_frontend_ops));
 > 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
+> WARNING: line over 80 characters
+> +	memcpy(&state->frontend.ops, &dvb_dummy_fe_qpsk_ops, sizeof(struct dvb_frontend_ops));
+> WARNING: line over 80 characters
+> +	memcpy(&state->frontend.ops, &dvb_dummy_fe_qam_ops, sizeof(struct dvb_frontend_ops));
 > 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
+> WARNING: line over 80 characters
+> +				FE_CAN_FEC_4_5 | FE_CAN_FEC_5_6 | FE_CAN_FEC_6_7 |
 > 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
+> WARNING: line over 80 characters
+> +				FE_CAN_FEC_7_8 | FE_CAN_FEC_8_9 | FE_CAN_FEC_AUTO |
 > 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
+> WARNING: line over 80 characters
+> +				FE_CAN_QAM_16 | FE_CAN_QAM_64 | FE_CAN_QAM_AUTO |
 > 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
-> 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
-> 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static int dvb_dummy_fe_init(struct dvb_frontend* fe)
-> 
-> ERROR: "foo* bar" should be "foo *bar"
-> +static void dvb_dummy_fe_release(struct dvb_frontend* fe)
-> 
-> ERROR: "foo* bar" should be "foo *bar"
-> +	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
-> 
-> ERROR: "foo* bar" should be "foo *bar"
-> +struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
-> 
-> ERROR: "foo* bar" should be "foo *bar"
-> +	struct dvb_dummy_fe_state* state = NULL;
-> 
-> ERROR: "foo* bar" should be "foo *bar"
-> +	struct dvb_dummy_fe_state* state = NULL;
-> 
-> ERROR: "foo* bar" should be "foo *bar"
-> +	struct dvb_dummy_fe_state* state = NULL;
+> WARNING: line over 80 characters
+> +		.symbol_rate_min	= (57840000 / 2) / 6
 > 
 > Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
 > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> 
-> ------------------------------------------------------------
-> Changes in v2:
-> 
-> -Added checkpatch.pl previous output so it's more clear what
-> is being fixed by this patch.
-> 
 > ---
->  drivers/media/dvb-frontends/dvb_dummy_fe.c | 24 +++++++++++-----------
->  drivers/media/dvb-frontends/dvb_dummy_fe.h |  6 +++---
->  2 files changed, 15 insertions(+), 15 deletions(-)
+>  drivers/media/dvb-frontends/dvb_dummy_fe.c | 62 ++++++++++++++++------
+>  1 file changed, 45 insertions(+), 17 deletions(-)
 > 
 > diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-> index 4db679cb70ad..8413038aa30b 100644
+> index 4db679cb70ad..f41c1e0dc8eb 100644
 > --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
 > +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-> @@ -31,25 +31,25 @@ static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
->  	return 0;
->  }
->  
-> -static int dvb_dummy_fe_read_ber(struct dvb_frontend* fe, u32* ber)
-> +static int dvb_dummy_fe_read_ber(struct dvb_frontend *fe, u32 *ber)
->  {
->  	*ber = 0;
+> @@ -37,7 +37,8 @@ static int dvb_dummy_fe_read_ber(struct dvb_frontend* fe, u32* ber)
 >  	return 0;
 >  }
 >  
 > -static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
-> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe, u16 *strength)
+> +static int
+> +dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
 
-Line too long. As you're touching on it, please also fix the long line
-warning.
+The pointer references should be, instead:
+	struct dvb_frontend *fe
+
+Btw, I think that this patch conflicts with the one you posted previously.
+Please don't do that, as it makes harder to apply.
+
+If you have multiple patches touching a file, you should place them into
+a patch series, in order to ensure that they can be applied at the right
+order.
 
 >  {
 >  	*strength = 0;
 >  	return 0;
->  }
->  
-> -static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
-> +static int dvb_dummy_fe_read_snr(struct dvb_frontend *fe, u16 *snr)
+> @@ -102,6 +103,7 @@ static int dvb_dummy_fe_set_voltage(struct dvb_frontend *fe,
+>  static void dvb_dummy_fe_release(struct dvb_frontend* fe)
 >  {
->  	*snr = 0;
->  	return 0;
->  }
->  
-> -static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
-> +static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend *fe, u32 *ucblocks)
->  {
->  	*ucblocks = 0;
->  	return 0;
-> @@ -77,12 +77,12 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
->  	return 0;
->  }
->  
-> -static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
-> +static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
->  {
->  	return 0;
->  }
->  
-> -static int dvb_dummy_fe_init(struct dvb_frontend* fe)
-> +static int dvb_dummy_fe_init(struct dvb_frontend *fe)
->  {
->  	return 0;
->  }
-> @@ -99,17 +99,17 @@ static int dvb_dummy_fe_set_voltage(struct dvb_frontend *fe,
->  	return 0;
->  }
->  
-> -static void dvb_dummy_fe_release(struct dvb_frontend* fe)
-> +static void dvb_dummy_fe_release(struct dvb_frontend *fe)
->  {
-> -	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
-> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+>  	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
+> +
 >  	kfree(state);
 >  }
 >  
->  static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops;
+> @@ -117,7 +119,10 @@ struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
+>  		return NULL;
 >  
-> -struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
-> +struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
->  {
-> -	struct dvb_dummy_fe_state* state = NULL;
-> +	struct dvb_dummy_fe_state *state = NULL;
+>  	/* create dvb_frontend */
+> -	memcpy(&state->frontend.ops, &dvb_dummy_fe_ofdm_ops, sizeof(struct dvb_frontend_ops));
+> +	memcpy(&state->frontend.ops,
+> +	       &dvb_dummy_fe_ofdm_ops,
+> +	       sizeof(struct dvb_frontend_ops));
+> +
+>  	state->frontend.demodulator_priv = state;
+>  	return &state->frontend;
+>  }
+> @@ -134,7 +139,10 @@ struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
+>  		return NULL;
 >  
->  	/* allocate memory for the internal state */
->  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-> @@ -126,7 +126,7 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops;
+>  	/* create dvb_frontend */
+> -	memcpy(&state->frontend.ops, &dvb_dummy_fe_qpsk_ops, sizeof(struct dvb_frontend_ops));
+> +	memcpy(&state->frontend.ops,
+> +	       &dvb_dummy_fe_qpsk_ops,
+> +	       sizeof(struct dvb_frontend_ops));
+> +
+>  	state->frontend.demodulator_priv = state;
+>  	return &state->frontend;
+>  }
+> @@ -151,7 +159,10 @@ struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
+>  		return NULL;
 >  
->  struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
->  {
-> -	struct dvb_dummy_fe_state* state = NULL;
-> +	struct dvb_dummy_fe_state *state = NULL;
+>  	/* create dvb_frontend */
+> -	memcpy(&state->frontend.ops, &dvb_dummy_fe_qam_ops, sizeof(struct dvb_frontend_ops));
+> +	memcpy(&state->frontend.ops,
+> +	       &dvb_dummy_fe_qam_ops,
+> +	       sizeof(struct dvb_frontend_ops));
+> +
+>  	state->frontend.demodulator_priv = state;
+>  	return &state->frontend;
+>  }
+> @@ -163,13 +174,21 @@ static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops = {
+>  		.frequency_min_hz	= 0,
+>  		.frequency_max_hz	= 863250 * kHz,
+>  		.frequency_stepsize_hz	= 62500,
+> -		.caps = FE_CAN_FEC_1_2 | FE_CAN_FEC_2_3 | FE_CAN_FEC_3_4 |
+> -				FE_CAN_FEC_4_5 | FE_CAN_FEC_5_6 | FE_CAN_FEC_6_7 |
+> -				FE_CAN_FEC_7_8 | FE_CAN_FEC_8_9 | FE_CAN_FEC_AUTO |
+> -				FE_CAN_QAM_16 | FE_CAN_QAM_64 | FE_CAN_QAM_AUTO |
+> -				FE_CAN_TRANSMISSION_MODE_AUTO |
+> -				FE_CAN_GUARD_INTERVAL_AUTO |
+> -				FE_CAN_HIERARCHY_AUTO,
+> +		.caps = FE_CAN_FEC_1_2 |
+> +			FE_CAN_FEC_2_3 |
+> +			FE_CAN_FEC_3_4 |
+> +			FE_CAN_FEC_4_5 |
+> +			FE_CAN_FEC_5_6 |
+> +			FE_CAN_FEC_6_7 |
+> +			FE_CAN_FEC_7_8 |
+> +			FE_CAN_FEC_8_9 |
+> +			FE_CAN_FEC_AUTO |
+> +			FE_CAN_QAM_16 |
+> +			FE_CAN_QAM_64 |
+> +			FE_CAN_QAM_AUTO |
+> +			FE_CAN_TRANSMISSION_MODE_AUTO |
+> +			FE_CAN_GUARD_INTERVAL_AUTO |
+> +			FE_CAN_HIERARCHY_AUTO,
+>  	},
 >  
->  	/* allocate memory for the internal state */
->  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-> @@ -143,7 +143,7 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops;
+>  	.release = dvb_dummy_fe_release,
+> @@ -194,11 +213,16 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops = {
+>  		.frequency_min_hz	=  51 * MHz,
+>  		.frequency_max_hz	= 858 * MHz,
+>  		.frequency_stepsize_hz	= 62500,
+> -		.symbol_rate_min	= (57840000 / 2) / 64,  /* SACLK/64 == (XIN/2)/64 */
+> +		/* symbol_rate_min: SACLK/64 == (XIN/2)/64 */
+> +		.symbol_rate_min	= (57840000 / 2) / 64,
+>  		.symbol_rate_max	= (57840000 / 2) / 4,   /* SACLK/4 */
+> -		.caps = FE_CAN_QAM_16 | FE_CAN_QAM_32 | FE_CAN_QAM_64 |
+> -			FE_CAN_QAM_128 | FE_CAN_QAM_256 |
+> -			FE_CAN_FEC_AUTO | FE_CAN_INVERSION_AUTO
+> +		.caps = FE_CAN_QAM_16 |
+> +			FE_CAN_QAM_32 |
+> +			FE_CAN_QAM_64 |
+> +			FE_CAN_QAM_128 |
+> +			FE_CAN_QAM_256 |
+> +			FE_CAN_FEC_AUTO |
+> +			FE_CAN_INVERSION_AUTO
+>  	},
 >  
->  struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
->  {
-> -	struct dvb_dummy_fe_state* state = NULL;
-> +	struct dvb_dummy_fe_state *state = NULL;
+>  	.release = dvb_dummy_fe_release,
+> @@ -227,8 +251,12 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops = {
+>  		.symbol_rate_min	= 1000000,
+>  		.symbol_rate_max	= 45000000,
+>  		.caps = FE_CAN_INVERSION_AUTO |
+> -			FE_CAN_FEC_1_2 | FE_CAN_FEC_2_3 | FE_CAN_FEC_3_4 |
+> -			FE_CAN_FEC_5_6 | FE_CAN_FEC_7_8 | FE_CAN_FEC_AUTO |
+> +			FE_CAN_FEC_1_2 |
+> +			FE_CAN_FEC_2_3 |
+> +			FE_CAN_FEC_3_4 |
+> +			FE_CAN_FEC_5_6 |
+> +			FE_CAN_FEC_7_8 |
+> +			FE_CAN_FEC_AUTO |
+>  			FE_CAN_QPSK
+>  	},
 >  
->  	/* allocate memory for the internal state */
->  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.h b/drivers/media/dvb-frontends/dvb_dummy_fe.h
-> index 526fabd7751f..35efe2ce1a88 100644
-> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.h
-> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.h
-> @@ -12,9 +12,9 @@
->  #include <media/dvb_frontend.h>
->  
->  #if IS_REACHABLE(CONFIG_DVB_DUMMY_FE)
-> -extern struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void);
-> -extern struct dvb_frontend* dvb_dummy_fe_qpsk_attach(void);
-> -extern struct dvb_frontend* dvb_dummy_fe_qam_attach(void);
-> +extern struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void);
-> +extern struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void);
-> +extern struct dvb_frontend *dvb_dummy_fe_qam_attach(void);
-
-Don't keep the "extern" here:
-
-CHECK:AVOID_EXTERNS: extern prototypes should be avoided in .h files
-#185: FILE: drivers/media/dvb-frontends/dvb_dummy_fe.h:15:
-+extern struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void);
-
-CHECK:AVOID_EXTERNS: extern prototypes should be avoided in .h files
-#186: FILE: drivers/media/dvb-frontends/dvb_dummy_fe.h:16:
-+extern struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void);
-
-CHECK:AVOID_EXTERNS: extern prototypes should be avoided in .h files
-#187: FILE: drivers/media/dvb-frontends/dvb_dummy_fe.h:17:
-+extern struct dvb_frontend *dvb_dummy_fe_qam_attach(void);
-
-
->  #else
->  static inline struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
->  {
 
 
 
