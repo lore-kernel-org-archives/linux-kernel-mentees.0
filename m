@@ -8,90 +8,91 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B93DC432C3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 16:23:55 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9599C432C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 16:24:00 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5256120725
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 16:23:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AD1882082E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Dec 2019 16:24:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6S/xT+H"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5256120725
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vNJDZz8X"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD1882082E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 385618651C;
-	Sun,  1 Dec 2019 16:23:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8D28F87B25;
+	Sun,  1 Dec 2019 16:24:00 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id GLR2SeFVqmPd; Sun,  1 Dec 2019 16:23:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id B70AF87B45;
+	Sun,  1 Dec 2019 16:23:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A6B6EC1DDC;
+	Sun,  1 Dec 2019 16:23:58 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C50ABC087F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  1 Dec 2019 16:23:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id C1B528686A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  1 Dec 2019 16:23:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QXJzlP-qdvOF; Sun,  1 Dec 2019 16:23:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9B84286501;
-	Sun,  1 Dec 2019 16:23:54 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8AC89C1DDC;
-	Sun,  1 Dec 2019 16:23:54 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4CDC0C087F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 16:23:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3AF4020493
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 16:23:53 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H0D1Rti1-+s5
+ with ESMTP id TmVN27rmjj2B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 16:23:52 +0000 (UTC)
+ Sun,  1 Dec 2019 16:23:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
- [209.85.160.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 223FD203E4
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+ [209.85.222.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0588286501
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Dec 2019 16:23:52 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id w47so34510330qtk.4
+ Sun,  1 Dec 2019 16:23:56 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id e187so30200080qkf.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 01 Dec 2019 08:23:52 -0800 (PST)
+ Sun, 01 Dec 2019 08:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nhZaFdBnqe6R3qJPe92ATUEtEyOTSuOuCSUMZwuBZ3A=;
- b=e6S/xT+H8zmwtiyG7Vr7x5AJz0DPrhlbjelFUkFq9RZ3yldSmwKHKlcNbmJqdfPnWJ
- FoOPwhDU02CsblM9RMyn3BEgBuz84IL3nfL+NcXDsj/RKUzzY6GLfcI7SH/reScpDJ1b
- p9SNbmFLJpm4sib+PZ7vdYNwhKlv+klX2wTZCbEnFqRQz6DGZ6wMne/ecb+S0HG7uL0m
- fcp1VPmrk/PMrffjlpFi3MROqlICE3SUsYgx8qsXvnElWWb5fBeG2KH8fjrgbBjSyhr3
- vXo0tAbTc7QZunGLLw2cKibWNhZ3JVNMse9VyfXtbDsMtc1SACCFzL0S7n5h6WPrUdT5
- zmGg==
+ bh=mqweMa9Bqk/FYspWjif3MeC3E0h6tyWrHPvZlY2xTv8=;
+ b=vNJDZz8XTL6bDdAW6XcIHUN3zsZpgrf+Qff1Sjy39xoXunxGyuXxCVJ5Y3FvVUR4+T
+ tLuoX4WYZX6s94uX22gATiYiS/ymhgENEYbcrgu+2OCIOkzqdcVih6YsjAtQadvDhd4g
+ rt+oo9YGU4sfTT3bnFWxfuwIGh/d+Y3HORGi5qbrPWjClY3MUvsyu6UwJ+pf4/URnUBO
+ RRb7JlsIK5tOwah+BsvR4NoNGgrxug74PUNFVIesUS5GcADWvLsO99kQmfMEGxXZG9Jc
+ YcortGIa8yBH4Yvw2c7V2kHpal1gbyD5pmb0hQ+2dS4vREyU2t+MwjmTGhi8aCT5WF+h
+ 6HnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nhZaFdBnqe6R3qJPe92ATUEtEyOTSuOuCSUMZwuBZ3A=;
- b=jmlHqfJce4moapPZ0brlPpgjimkzRD0HA6KYBmKoEnp82Hi4blij5x393qj1G11Z6C
- pz4L8z0W/Jb5c4JJ8ruGsiCJo2TBKCAiSedOF6Oqlfcz84c2Qg831DZ4cbWAJaDlHoO/
- S6t5WVdKhh9mam08JoEDYn6s/RQoJGYQIws6hMUkBmhhYqtX/yTR+tR/+Tdh1FQhEWGE
- h4cy8uSTiuiuCyYnGxWaqnm4w2ZMKPCAugJ52RL2KTuu5GXf6FgbEkl4RCOEgUlABjHq
- i7NEixmddTgPl/aO3blCVIsewiPjLiMbQALNoQahldUmrEf8cqVycLE+gcggsdWC3zxg
- WAfQ==
-X-Gm-Message-State: APjAAAXjSlqOFPhcUzve7JwnPSNpnWggVSHoBHe/x4qAKUcYX0Vd0T4A
- UnrqVAG3DXZYfiXOJzCZAb8=
-X-Google-Smtp-Source: APXvYqwlCS1WdeXCggit3ddtB/7sVmzGkyBarw0qoYJ1khzdADk3wue8cuOPYKkgS/BJsV1kE82GAg==
-X-Received: by 2002:ac8:4901:: with SMTP id e1mr51389902qtq.280.1575217431015; 
- Sun, 01 Dec 2019 08:23:51 -0800 (PST)
+ bh=mqweMa9Bqk/FYspWjif3MeC3E0h6tyWrHPvZlY2xTv8=;
+ b=nt7JTa8ccwtn5b7dNF6l1sf+hEvaje8H7JZoAwRicLqtZlZNIXvxHvT7eIYFl6kNCh
+ mXhIRQiN3mDswRjHFPVxadftu29Fy4+8qBBqkmmqX4e1sKtaYoMhFkEiInTO6RGcY1zM
+ r+6l934EPZ9E3Q6c1sWn4i4bLDx9UMY0RkUEsN0+9dpY4x+KBb+XbH2vKjycVzs07m/Q
+ m+PjLSNL+0s4qXgLevy2w8Liq2bUeAH5IPFkAZHj6mDL47WYPTeylOrEK3+q3FwJSLk8
+ nD/Ni05lxnfAn2rnchY9Ut0J6AYcnTm1VsISZzj2J8oAem4ZJ8zuzVLh28QNgXXht7eJ
+ cuTA==
+X-Gm-Message-State: APjAAAX8fPvmSWKRfLnL9oCrZ76CUgYMPvU6OQPhH3Mi88d9OqO7YhQn
+ xXr/rbKX0kQqLwPp1hkSMQI=
+X-Google-Smtp-Source: APXvYqyEw4ORc3mQKnUC28POTzugn2rfgbIEZuZF5mhe1m1C3EXP/nnawxivI5ZKuP1hRAOHbtRugQ==
+X-Received: by 2002:a05:620a:143b:: with SMTP id
+ k27mr10353223qkj.262.1575217434869; 
+ Sun, 01 Dec 2019 08:23:54 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id y10sm5171195qky.6.2019.12.01.08.23.47
+ by smtp.gmail.com with ESMTPSA id y10sm5171195qky.6.2019.12.01.08.23.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Dec 2019 08:23:50 -0800 (PST)
+ Sun, 01 Dec 2019 08:23:54 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To: mchehab@kernel.org, gregkh@linuxfoundation.org, rfontana@redhat.com,
  kstewart@linuxfoundation.org, tglx@linutronix.de
-Date: Sun,  1 Dec 2019 13:15:39 -0300
-Message-Id: <20191201161542.69535-4-dwlsalmeida@gmail.com>
+Date: Sun,  1 Dec 2019 13:15:40 -0300
+Message-Id: <20191201161542.69535-5-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191201161542.69535-1-dwlsalmeida@gmail.com>
 References: <20191201161542.69535-1-dwlsalmeida@gmail.com>
@@ -99,8 +100,8 @@ MIME-Version: 1.0
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH 3/6] media: dvb_dummy_fe: Fix ERROR:
-	POINTER_LOCATION
+Subject: [Linux-kernel-mentees] [PATCH 4/6] media: dvb_dummy_fe: Fix long
+	lines
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,163 +121,149 @@ Sender: "Linux-kernel-mentees"
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Change foo* bar to foo *bar to avoid ERROR: POINTER_LOCATION in checkpatch.pl
+Break long lines into smaller ones to improve readability.
 
-ERROR: "foo* bar" should be "foo *bar"
-+static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
+WARNING: line over 80 characters
++	memcpy(&state->frontend.ops, &dvb_dummy_fe_ofdm_ops, sizeof(struct dvb_frontend_ops));
 
-ERROR: "foo* bar" should be "foo *bar"
-+static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
+WARNING: line over 80 characters
++	memcpy(&state->frontend.ops, &dvb_dummy_fe_qpsk_ops, sizeof(struct dvb_frontend_ops));
+WARNING: line over 80 characters
++	memcpy(&state->frontend.ops, &dvb_dummy_fe_qam_ops, sizeof(struct dvb_frontend_ops));
 
-ERROR: "foo* bar" should be "foo *bar"
-+static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
+WARNING: line over 80 characters
++				FE_CAN_FEC_4_5 | FE_CAN_FEC_5_6 | FE_CAN_FEC_6_7 |
 
-ERROR: "foo* bar" should be "foo *bar"
-+static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
+WARNING: line over 80 characters
++				FE_CAN_FEC_7_8 | FE_CAN_FEC_8_9 | FE_CAN_FEC_AUTO |
 
-ERROR: "foo* bar" should be "foo *bar"
-+static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
+WARNING: line over 80 characters
++				FE_CAN_QAM_16 | FE_CAN_QAM_64 | FE_CAN_QAM_AUTO |
 
-ERROR: "foo* bar" should be "foo *bar"
-+static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
-
-ERROR: "foo* bar" should be "foo *bar"
-+static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
-
-ERROR: "foo* bar" should be "foo *bar"
-+static int dvb_dummy_fe_init(struct dvb_frontend* fe)
-
-ERROR: "foo* bar" should be "foo *bar"
-+static void dvb_dummy_fe_release(struct dvb_frontend* fe)
-
-ERROR: "foo* bar" should be "foo *bar"
-+	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
-
-ERROR: "foo* bar" should be "foo *bar"
-+struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
-
-ERROR: "foo* bar" should be "foo *bar"
-+	struct dvb_dummy_fe_state* state = NULL;
-
-ERROR: "foo* bar" should be "foo *bar"
-+	struct dvb_dummy_fe_state* state = NULL;
-
-ERROR: "foo* bar" should be "foo *bar"
-+	struct dvb_dummy_fe_state* state = NULL;
+WARNING: line over 80 characters
++		.symbol_rate_min	= (57840000 / 2) / 6
 
 Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- drivers/media/dvb-frontends/dvb_dummy_fe.c | 24 +++++++++++-----------
- drivers/media/dvb-frontends/dvb_dummy_fe.h |  6 +++---
- 2 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/media/dvb-frontends/dvb_dummy_fe.c | 61 ++++++++++++++++------
+ 1 file changed, 44 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-index 987c3488fe6c..209e7ac0de33 100644
+index 209e7ac0de33..67a6ed307c1f 100644
 --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
 +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-@@ -31,25 +31,25 @@ static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
+@@ -37,7 +37,8 @@ static int dvb_dummy_fe_read_ber(struct dvb_frontend *fe, u32 *ber)
  	return 0;
  }
  
--static int dvb_dummy_fe_read_ber(struct dvb_frontend* fe, u32* ber)
-+static int dvb_dummy_fe_read_ber(struct dvb_frontend *fe, u32 *ber)
- {
- 	*ber = 0;
- 	return 0;
- }
- 
--static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
-+static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe, u16 *strength)
+-static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe, u16 *strength)
++static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe,
++					     u16 *strength)
  {
  	*strength = 0;
  	return 0;
- }
+@@ -117,7 +118,10 @@ struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
+ 		goto err;
  
--static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
-+static int dvb_dummy_fe_read_snr(struct dvb_frontend *fe, u16 *snr)
- {
- 	*snr = 0;
- 	return 0;
- }
+ 	/* create dvb_frontend */
+-	memcpy(&state->frontend.ops, &dvb_dummy_fe_ofdm_ops, sizeof(struct dvb_frontend_ops));
++	memcpy(&state->frontend.ops,
++	       &dvb_dummy_fe_ofdm_ops,
++	       sizeof(struct dvb_frontend_ops));
++
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
  
--static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
-+static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend *fe, u32 *ucblocks)
- {
- 	*ucblocks = 0;
- 	return 0;
-@@ -77,12 +77,12 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
- 	return 0;
- }
+@@ -139,7 +143,10 @@ struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
+ 		goto err;
  
--static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
-+static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
- {
- 	return 0;
- }
+ 	/* create dvb_frontend */
+-	memcpy(&state->frontend.ops, &dvb_dummy_fe_qpsk_ops, sizeof(struct dvb_frontend_ops));
++	memcpy(&state->frontend.ops,
++	       &dvb_dummy_fe_qpsk_ops,
++	       sizeof(struct dvb_frontend_ops));
++
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
  
--static int dvb_dummy_fe_init(struct dvb_frontend* fe)
-+static int dvb_dummy_fe_init(struct dvb_frontend *fe)
- {
- 	return 0;
- }
-@@ -99,17 +99,17 @@ static int dvb_dummy_fe_set_voltage(struct dvb_frontend *fe,
- 	return 0;
- }
+@@ -161,7 +168,10 @@ struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
+ 		goto err;
  
--static void dvb_dummy_fe_release(struct dvb_frontend* fe)
-+static void dvb_dummy_fe_release(struct dvb_frontend *fe)
- {
--	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
-+	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
- 	kfree(state);
- }
+ 	/* create dvb_frontend */
+-	memcpy(&state->frontend.ops, &dvb_dummy_fe_qam_ops, sizeof(struct dvb_frontend_ops));
++	memcpy(&state->frontend.ops,
++	       &dvb_dummy_fe_qam_ops,
++	       sizeof(struct dvb_frontend_ops));
++
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
  
- static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops;
+@@ -178,13 +188,21 @@ static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops = {
+ 		.frequency_min_hz	= 0,
+ 		.frequency_max_hz	= 863250 * kHz,
+ 		.frequency_stepsize_hz	= 62500,
+-		.caps = FE_CAN_FEC_1_2 | FE_CAN_FEC_2_3 | FE_CAN_FEC_3_4 |
+-				FE_CAN_FEC_4_5 | FE_CAN_FEC_5_6 | FE_CAN_FEC_6_7 |
+-				FE_CAN_FEC_7_8 | FE_CAN_FEC_8_9 | FE_CAN_FEC_AUTO |
+-				FE_CAN_QAM_16 | FE_CAN_QAM_64 | FE_CAN_QAM_AUTO |
+-				FE_CAN_TRANSMISSION_MODE_AUTO |
+-				FE_CAN_GUARD_INTERVAL_AUTO |
+-				FE_CAN_HIERARCHY_AUTO,
++		.caps = FE_CAN_FEC_1_2 |
++			FE_CAN_FEC_2_3 |
++			FE_CAN_FEC_3_4 |
++			FE_CAN_FEC_4_5 |
++			FE_CAN_FEC_5_6 |
++			FE_CAN_FEC_6_7 |
++			FE_CAN_FEC_7_8 |
++			FE_CAN_FEC_8_9 |
++			FE_CAN_FEC_AUTO |
++			FE_CAN_QAM_16 |
++			FE_CAN_QAM_64 |
++			FE_CAN_QAM_AUTO |
++			FE_CAN_TRANSMISSION_MODE_AUTO |
++			FE_CAN_GUARD_INTERVAL_AUTO |
++			FE_CAN_HIERARCHY_AUTO,
+ 	},
  
--struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
-+struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
- {
--	struct dvb_dummy_fe_state* state = NULL;
-+	struct dvb_dummy_fe_state *state = NULL;
+ 	.release = dvb_dummy_fe_release,
+@@ -209,11 +227,16 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops = {
+ 		.frequency_min_hz	=  51 * MHz,
+ 		.frequency_max_hz	= 858 * MHz,
+ 		.frequency_stepsize_hz	= 62500,
+-		.symbol_rate_min	= (57840000 / 2) / 64,  /* SACLK/64 == (XIN/2)/64 */
++		/* symbol_rate_min: SACLK/64 == (XIN/2)/64 */
++		.symbol_rate_min	= (57840000 / 2) / 64,
+ 		.symbol_rate_max	= (57840000 / 2) / 4,   /* SACLK/4 */
+-		.caps = FE_CAN_QAM_16 | FE_CAN_QAM_32 | FE_CAN_QAM_64 |
+-			FE_CAN_QAM_128 | FE_CAN_QAM_256 |
+-			FE_CAN_FEC_AUTO | FE_CAN_INVERSION_AUTO
++		.caps = FE_CAN_QAM_16 |
++			FE_CAN_QAM_32 |
++			FE_CAN_QAM_64 |
++			FE_CAN_QAM_128 |
++			FE_CAN_QAM_256 |
++			FE_CAN_FEC_AUTO |
++			FE_CAN_INVERSION_AUTO
+ 	},
  
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-@@ -131,7 +131,7 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops;
+ 	.release = dvb_dummy_fe_release,
+@@ -242,8 +265,12 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops = {
+ 		.symbol_rate_min	= 1000000,
+ 		.symbol_rate_max	= 45000000,
+ 		.caps = FE_CAN_INVERSION_AUTO |
+-			FE_CAN_FEC_1_2 | FE_CAN_FEC_2_3 | FE_CAN_FEC_3_4 |
+-			FE_CAN_FEC_5_6 | FE_CAN_FEC_7_8 | FE_CAN_FEC_AUTO |
++			FE_CAN_FEC_1_2 |
++			FE_CAN_FEC_2_3 |
++			FE_CAN_FEC_3_4 |
++			FE_CAN_FEC_5_6 |
++			FE_CAN_FEC_7_8 |
++			FE_CAN_FEC_AUTO |
+ 			FE_CAN_QPSK
+ 	},
  
- struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
- {
--	struct dvb_dummy_fe_state* state = NULL;
-+	struct dvb_dummy_fe_state *state = NULL;
- 
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-@@ -153,7 +153,7 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops;
- 
- struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
- {
--	struct dvb_dummy_fe_state* state = NULL;
-+	struct dvb_dummy_fe_state *state = NULL;
- 
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.h b/drivers/media/dvb-frontends/dvb_dummy_fe.h
-index 526fabd7751f..35efe2ce1a88 100644
---- a/drivers/media/dvb-frontends/dvb_dummy_fe.h
-+++ b/drivers/media/dvb-frontends/dvb_dummy_fe.h
-@@ -12,9 +12,9 @@
- #include <media/dvb_frontend.h>
- 
- #if IS_REACHABLE(CONFIG_DVB_DUMMY_FE)
--extern struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void);
--extern struct dvb_frontend* dvb_dummy_fe_qpsk_attach(void);
--extern struct dvb_frontend* dvb_dummy_fe_qam_attach(void);
-+extern struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void);
-+extern struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void);
-+extern struct dvb_frontend *dvb_dummy_fe_qam_attach(void);
- #else
- static inline struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
- {
 -- 
 2.24.0
 
