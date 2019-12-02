@@ -1,103 +1,91 @@
 Return-Path: <SRS0=TUsn=ZY=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Level: *
+X-Spam-Status: No, score=1.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_FONT_LOW_CONTRAST,HTML_IMAGE_ONLY_08,
+	HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B51C432C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Dec 2019 21:19:23 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E17C432C0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Dec 2019 22:06:41 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B83512068E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Dec 2019 21:19:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C45A02070B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Dec 2019 22:06:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="k5OBlfOU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B83512068E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jL8h8Ygd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C45A02070B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6DE3885CFF;
-	Mon,  2 Dec 2019 21:19:23 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 529D02048E;
+	Mon,  2 Dec 2019 22:06:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gJgj_U7ahLnY; Mon,  2 Dec 2019 21:19:21 +0000 (UTC)
+	with ESMTP id YR6PjZ7JbwNH; Mon,  2 Dec 2019 22:06:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9CCC385722;
-	Mon,  2 Dec 2019 21:19:21 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BD0F1203C3;
+	Mon,  2 Dec 2019 22:06:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89191C1798;
-	Mon,  2 Dec 2019 21:19:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A93B4C1798;
+	Mon,  2 Dec 2019 22:06:39 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 44DF7C087F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D50E4C087F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2019 21:19:20 +0000 (UTC)
+ Mon,  2 Dec 2019 22:06:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 40D57203B0
+ by silver.osuosl.org (Postfix) with ESMTP id C640D203FB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2019 21:19:20 +0000 (UTC)
+ Mon,  2 Dec 2019 22:06:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ef14zdWyGiH0
+ with ESMTP id 3EaQQe3NNpDv
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2019 21:19:19 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by silver.osuosl.org (Postfix) with ESMTPS id 82D8B2034B
+ Mon,  2 Dec 2019 22:06:38 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+ [209.85.167.182])
+ by silver.osuosl.org (Postfix) with ESMTPS id 3767F203C3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2019 21:19:19 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id x28so382532pfo.6
+ Mon,  2 Dec 2019 22:06:38 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id 6so1254961oix.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Dec 2019 13:19:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=BDFi2KtUfHoxYhQyKwF8j1ECcKUBGo4/hE4QVcfZiuY=;
- b=k5OBlfOUiouOhGL4KZyw41pLaH30PzkB5d3ZDqtGV/Ol3dKliwN57h0InITL0WL2vX
- Ss72U23D08CWmhSmsy1She1V1pEOZy2IVux+qSo1YzkuqPk88MpxiAZbVyHawT8fqQWi
- pcmXULt3qf+94Pauot0hTlG85A4cOlnm+Fscg=
+ Mon, 02 Dec 2019 14:06:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=s8KV8wP28Jf7zlx1NPjrJ9C6GJXQ2itR6fwVtYkQ3zs=;
+ b=jL8h8Ygd4fHEnLX28XP2Cx/H29U9IKgN15yAmT5fvNV1yon/T78ixBxQcyxX+s2V/M
+ KGjv5SLJcuMjKOs3Ae3wMDdkG+wjkBRLUW50ryFRKPb3Jd8nU4vLlijN4Y8AQ0uC6GOe
+ 81rJdVEtQWVWTAnPSefIlpJJOKP05Pq1a62BmngsbZ+sBtGBH74LWdmGw2qQSnVXhW+c
+ EXA4QbSayDwiJSvRnIznS91JBQBzjfBWlHG1ZYI5deOBFTufrpOdJGmF1iH3xvOhFbkW
+ J04gmHBhHyAz4U7pSCRvF6xtK0+0YOWJLlV72bxfPOlrnfpTMSGmhMmBHHcTMElQoGV1
+ cAkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=BDFi2KtUfHoxYhQyKwF8j1ECcKUBGo4/hE4QVcfZiuY=;
- b=ca6YZ4BAfrfjF+uJbnJvbdBgIyXHJCyTI2FJpU+JrwpnSFEHRGjUCoejyLspVijsXJ
- VNVivOZh6qV8iBGZ80kkCskF88lwKNNFdrNFP5yy0qRNcDdC4pgJuQLRSD+EWpUH+Ckf
- vqdm31h2JxvdgMp9INraDUPJ3J6Y2fZsPS26ah+bnhM+k928JNE63SkDDEkpSC2qzfYz
- V+tL016aPzuyGDsN0qvnRjeU5F7Cidg9md/R4Kc1CeI1nH5e5WG9+LcSFAXB3xKBTDol
- J25+XumHq3YgmzpAXTSzO7Z4BZfCMBSRkkqudKs5kcvuYrXrI8aEElDyUZC7cywSzXs3
- Ooog==
-X-Gm-Message-State: APjAAAVr6cSvnbKWiYdrJyEUw3bj0M+1Nu3P1kEh02vwms9oLWMxn+Gd
- 4zgR8M+DUEzJ64pipuLufnmg3A==
-X-Google-Smtp-Source: APXvYqxSoc2SCTWEE4t/98ajNaXkB89lCMxgkBxngI0eYX8ZLLrTxHxWP3ZysSCHCSy6mvVMxbj+MQ==
-X-Received: by 2002:a62:5807:: with SMTP id m7mr743978pfb.180.1575321558967;
- Mon, 02 Dec 2019 13:19:18 -0800 (PST)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
- by smtp.gmail.com with ESMTPSA id a26sm398874pff.155.2019.12.02.13.19.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2019 13:19:16 -0800 (PST)
-Date: Mon, 2 Dec 2019 16:19:15 -0500
-From: Joel Fernandes <joel@joelfernandes.org>
-To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20191202211915.GF17234@google.com>
-References: <20191201183347.18122-1-frextrite@gmail.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=s8KV8wP28Jf7zlx1NPjrJ9C6GJXQ2itR6fwVtYkQ3zs=;
+ b=XOxzPwuS9XHg9Q1pW4PRu8D9QxJ2Yzif97k1LGLxG+5//foRBaiqX8C1yMrOEztJyP
+ oNRMmfo4QLWd5bWO5Z7vcsVRTFq6aqX47QpbmMi1KFPl0qfJGLqT/MyZADH75MhljWll
+ Sn6q6mEH1nU7fP/vNGEbbcePDOun3rleFmMRi4Yi4o/4cEXBEvOsvYZVhnoBEpegxWcs
+ KkVU8avvFsU0PSsK1L3oUqt7JZQnnkRXGHp1gugfteY3EO3sjHSf16SRQzdG7okJnFst
+ 9AlA6W5WumZvJYLhwGxW7U2CGO31Wn4E2+dCgQBxZ6TMoFVKftJi8u+P0er3C13kD4gs
+ CvbQ==
+X-Gm-Message-State: APjAAAXITt3EqCc5RcEZQe19bgD6Q3y3ftz/X2WiwRAbt2eIf7nK4o3l
+ hnlON3vRvldmu2kjr3i5/ZYqbfeF81FDioIl+g0=
+X-Google-Smtp-Source: APXvYqw3yeNvsBys0MQZHBmsliy1AygiFbGQbcYwpJLP24i2e/H9e/dBDjfh78oFzqQ9HNtThsJhTHDqZZq7lO7jIWY=
+X-Received: by 2002:aca:5303:: with SMTP id h3mr1016160oib.109.1575324396913; 
+ Mon, 02 Dec 2019 14:06:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191201183347.18122-1-frextrite@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Paul Moore <paul@paul-moore.com>, paulmck@kernel.org,
- linux-kernel@vger.kernel.org, Eric Paris <eparis@redhat.com>,
- rcu@vger.kernel.org, linux-audit@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, rostedt@kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] kernel: audit.c: Add __rcu
-	annotation to RCU pointer
+From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Date: Tue, 3 Dec 2019 03:36:25 +0530
+Message-ID: <CAF65HP34ecBsDW5vcHukBmLSVevqitc=CbKpkRozuCf8ehdwPw@mail.gmail.com>
+To: stable@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] BOOT TEST: Linux 5.4.1
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,68 +97,57 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8582447338583432243=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Good idea to CC the following on RCU patches:
-Paul McKenney
-Steven Rostedt
-(Any others on the RCU maintainers list).
-And, the list: rcu@vger.kernel.org
+--===============8582447338583432243==
+Content-Type: multipart/alternative; boundary="0000000000001588250598bfcb42"
 
-Could anyone Ack the patch? Looks safe and straight forward.
+--0000000000001588250598bfcb42
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 02, 2019 at 12:03:48AM +0530, Amol Grover wrote:
-> Add __rcu annotation to RCU-protected global pointer auditd_conn.
-> 
-> auditd_conn is an RCU-protected global pointer,i.e., accessed
-> via RCU methods rcu_dereference() and rcu_assign_pointer(),
-> hence it must be annotated with __rcu for sparse to report
-> warnings/errors correctly.
-> 
-> Fix multiple instances of the sparse error:
-> error: incompatible types in comparison expression
-> (different address spaces)
-> 
-> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
-> ---
-> v3:
-> - update changelog to be more descriptive
-> 
-> v2:
-> - fix erroneous RCU pointer initialization
->  
->  kernel/audit.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/audit.c b/kernel/audit.c
-> index da8dc0db5bd3..ff7cfc61f53d 100644
-> --- a/kernel/audit.c
-> +++ b/kernel/audit.c
-> @@ -102,12 +102,13 @@ struct audit_net {
->   * This struct is RCU protected; you must either hold the RCU lock for reading
->   * or the associated spinlock for writing.
->   */
-> -static struct auditd_connection {
-> +struct auditd_connection {
->  	struct pid *pid;
->  	u32 portid;
->  	struct net *net;
->  	struct rcu_head rcu;
-> -} *auditd_conn = NULL;
-> +};
-> +static struct auditd_connection __rcu *auditd_conn;
->  static DEFINE_SPINLOCK(auditd_conn_lock);
->  
->  /* If audit_rate_limit is non-zero, limit the rate of sending audit records
-> -- 
-> 2.24.0
-> 
+Hi,
+
+I boot tested Linux 5.4.1, everything seems okay except the following error=
+:
+
+[    0.275509] platform MSFT0101:00: failed to claim resource 1: [mem
+0xfed40000-0xfed40fff]
+[    0.275515] acpi MSFT0101:00: platform device creation failed: -16
+
+Thank You,
+Madhuparna
+=E1=90=A7
+
+--0000000000001588250598bfcb42
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>I boot tested Linux 5.4.1, everythi=
+ng seems okay except the following error:</div><div><br></div><div>[ =C2=A0=
+ =C2=A00.275509] platform MSFT0101:00: failed to claim resource 1: [mem 0xf=
+ed40000-0xfed40fff]<br>[ =C2=A0 =C2=A00.275515] acpi MSFT0101:00: platform =
+device creation failed: -16<br></div><div><br></div><div>Thank You,</div><d=
+iv>Madhuparna</div></div><div hspace=3D"streak-pt-mark" style=3D"max-height=
+:1px"><img alt=3D"" style=3D"width:0px;max-height:0px;overflow:hidden" src=
+=3D"https://mailfoogae.appspot.com/t?sender=3DabWFkaHVwYXJuYWJob3dtaWswNEBn=
+bWFpbC5jb20%3D&amp;type=3Dzerocontent&amp;guid=3D124d3fbd-1d8c-48fa-82a5-c7=
+f782182430"><font color=3D"#ffffff" size=3D"1">=E1=90=A7</font></div>
+
+--0000000000001588250598bfcb42--
+
+--===============8582447338583432243==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============8582447338583432243==--
