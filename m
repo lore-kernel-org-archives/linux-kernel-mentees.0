@@ -6,82 +6,81 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3BEC432C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Dec 2019 05:36:10 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E825C432C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Dec 2019 05:50:58 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 68F9C20705
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Dec 2019 05:36:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 328192070B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Dec 2019 05:50:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U7v/I2bc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 68F9C20705
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="apK1WG3W"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 328192070B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4095B87ACB;
-	Mon,  2 Dec 2019 05:36:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id ED46686044;
+	Mon,  2 Dec 2019 05:50:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id E9V7wma-w2MC; Mon,  2 Dec 2019 05:36:07 +0000 (UTC)
+	with ESMTP id ZAj2rjIdq_-G; Mon,  2 Dec 2019 05:50:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9404A87AB5;
-	Mon,  2 Dec 2019 05:36:07 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D815E85E1A;
+	Mon,  2 Dec 2019 05:50:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 882F4C1DD9;
-	Mon,  2 Dec 2019 05:36:07 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AEBF2C087F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BF7EFC1DD9;
+	Mon,  2 Dec 2019 05:50:56 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7207AC087F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2019 05:36:05 +0000 (UTC)
+ Mon,  2 Dec 2019 05:50:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A535E2010B
+ by whitealder.osuosl.org (Postfix) with ESMTP id 5B07186429
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2019 05:36:05 +0000 (UTC)
+ Mon,  2 Dec 2019 05:50:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 36PpOxrg+M4K
+ with ESMTP id kjhovOmxUUB2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2019 05:36:04 +0000 (UTC)
+ Mon,  2 Dec 2019 05:50:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by silver.osuosl.org (Postfix) with ESMTPS id 2FB7320104
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8311086420
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Dec 2019 05:36:04 +0000 (UTC)
+ Mon,  2 Dec 2019 05:50:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
  Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
  From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
  Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
  List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zzQN8wezjT7b8g3+ghWsdGp9+x99xEeyGabO3I6sDJg=; b=U7v/I2bc5x5IaFlgbKhxfCG9/
- 3alyresmA6+o81UZ1foOF28PTS51KwKjRyhlwbda2VanIfwRh3q0+xs0PR5Pb61sWpfT7oY0RI4HA
- BmF0XKuX9YTc0KHeMF0e1H9J/a9qQ9s0EFCn4qXa+xFJ5dEdAniVTm5RyzRCk9O3josCIR07amc4n
- fHUKXBwc9mQgPaDLto9J0zhXIND5sXPYfHsQlQ0xUJC1eQFjCcejbwuzm1ZtLlzEMMzA5N5sFA4/X
- jItRphDUN+6O2M/dNDs7JPp5CUdXtCm5lr7K83ptbZMotQ3Eab2VxU8xHkV/F+gOHkcfaLs7MdOQh
- 4iZRJA2YA==;
+ bh=JxzbjAicqr2k4SAVBtPRNgbKswEiyX6uTFNgc/Dtp6k=; b=apK1WG3WMQC866rC6TIEGAe8J
+ RgKee35qVnLc0VPcoQ8ae9sLiEhbUArE9MNDF18YZo910y0a/X2Ra1I4WjtaGnJKGKL7Hy8YNvwN8
+ bAc+5ZmqYQZ9IvI+SJ7KWbH/SCevLyH9O3aos4UzUcfZWcF08ii1jmTEOp5Cvwp/2bw+7sd8k+ycY
+ 3Pt+RVyAqnB2sQ8WnQCmN61MnF6raHaDcD/fvVFBdByIg4wiBuUsY3afsLeS5KesFn0b1A0YpqD/t
+ SiEaZHcjOFfgZU0Ihw4nsZWl+z2Rf219EJh8YfTstBt6/NQ+gdoA+9C5gCZS/AQDhTpgYXdPGbPFI
+ nshkGjLYg==;
 Received: from [80.156.29.194] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ibeNM-0007z9-8d; Mon, 02 Dec 2019 05:36:00 +0000
-Date: Mon, 2 Dec 2019 06:35:55 +0100
+ id 1ibebi-0004Qx-To; Mon, 02 Dec 2019 05:50:51 +0000
+Date: Mon, 2 Dec 2019 06:50:47 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Amit Choudhary <amitchoudhary2305@gmail.com>
-Message-ID: <20191202063555.0f75e68f@kernel.org>
-In-Reply-To: <CAFzckaFfmVYV_baqV9bHrnguXfOKs42DJ2VgA4C1y2Ey-+99xQ@mail.gmail.com>
-References: <20191201161542.69535-1-dwlsalmeida@gmail.com>
- <20191201161542.69535-5-dwlsalmeida@gmail.com>
- <CAFzckaFfmVYV_baqV9bHrnguXfOKs42DJ2VgA4C1y2Ey-+99xQ@mail.gmail.com>
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <20191202065047.3cffda7a@kernel.org>
+In-Reply-To: <13629649-f363-4787-e88b-784f8309bfcd@gmail.com>
+References: <20191130045420.111288-1-dwlsalmeida@gmail.com>
+ <20191201090733.2bd8c2c4@kernel.org>
+ <13629649-f363-4787-e88b-784f8309bfcd@gmail.com>
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Cc: kstewart@linuxfoundation.org, linux-kernel@vger.kernel.org,
  rfontana@redhat.com, tglx@linutronix.de,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 4/6] media: dvb_dummy_fe: Fix
-	long lines
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] media: dvb_dummy_fe.c: add
+ members to dvb_dummy_fe_state
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,53 +98,100 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Em Sun, 1 Dec 2019 22:07:22 +0530
-Amit Choudhary <amitchoudhary2305@gmail.com> escreveu:
+Em Mon, 2 Dec 2019 01:49:38 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe,
+> Hi Mauro, thanks for checking out my work!
 > 
-> > +                                            u16 *strength)
-> >  
+> > please don't add fields at the
+> > struct while they're not used, as this makes harder for reviewers to be
+> > sure that we're not adding bloatware at the code.  
 > 
-> In my opinion, the arguments on new line should be just below the start of
-> arguments on top line. Like this:
+> OK.
 > 
-> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe,
-> +                                                                     u16
-> *strength)
+> > Please remember that
+> > we want one logical change per patch.
+> >
+> > It means that, if you add a state->frontend_status at the driver, the
+> > patch should implement the entire logic for it.  
+> I will keep this in mind.
+> 
+> >   static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
+> >   {
+> > +
+> > +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+> > +
+> > +	state->sleeping = true;
+> > +  
+> 
+> > Hmm...what's the sense of adding it? Where are you setting it to false?
+> > Where are you using the sleeping state?  
+> 
+> I noted some drivers seem to instruct the hardware into a low power state. Take helene, for instance:
+> 
+> static int helene_sleep(struct dvb_frontend *fe)
+> {
+> 	struct helene_priv *priv = fe->tuner_priv;
+> 
+> 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
+> 	helene_enter_power_save(priv);
+> 	return 0;
+> }
+> 
+> static int helene_enter_power_save(struct helene_priv *priv)
+> {
+> 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
+> 	if (priv->state == STATE_SLEEP)
+> 		return 0;
+> 
+> 	/* Standby setting for CPU */
+> 	helene_write_reg(priv, 0x88, 0x0);
+> 
+> 	/* Standby setting for internal logic block */
+> 	helene_write_reg(priv, 0x87, 0xC0);
+> 
+> 	priv->state = STATE_SLEEP;
+> 	return 0;
+> }
+> 
+> As we are emulating some piece of hardware I thought it would be enough to add a simple bool to indicate that the device was sleeping.
 
-No, that is not the way we indent. The alignment is relative to the open
-parenthesis:
+Yeah, that could have some value. Yet, if you're doing that, I suggest
+to add a function to change the device power state, as this is what a
+real driver would do. Something similar to:
 
-  foo(arg1,
-      arg2);
+static inline void change_power_state(struct state *st, bool on) 
+{
+	/* A real driver would have commands here to wake/sleep the dev */
 
-Btw, if you run checkpatch --strict, you'll see it complaining if the
-alignment is different:
+	st->power = on;
+}
 
-	CHECK: Alignment should match open parenthesis
-	#2: FILE: a.c:2:
-	+void foo(int arg1,
-	+		int arg2)
+In any case, a real device on sleeping mode will not be tuning any
+channels, so all stats will reflect that, e. g:
 
-> +               .caps = FE_CAN_FEC_1_2 |
-> > +                       FE_CAN_FEC_2_3 |
+	- frontend status will return 0;
+	- stats that depends on having a lock will be set with:
+		FE_SCALE_NOT_AVAILABLE
+	  tip: most stats are like that
+	- stats like signal strength should probably return 0.
 
-The alignment here is given by the first argument:
+Not so sure what SNR will return, but probably it should return
+FE_SCALE_NOT_AVAILABLE too, as this is usually calculated indirectly
+once the device is locked.
 
-   bitfield = BIT_1 |
-              BIT_2 |
-              BIT_3 |
-              ...
+On other words, only signal strength and stats should return a value
+with would be 0 on both cases. All other stats should return
+FE_SCALE_NOT_AVAILABLE.
 
-or
+Btw, as this depends on having the stats implemented, I would suggest you to
+first finish the tuning and stats part of the driver. Only after having those
+patches, apply the power mode patch.
 
-   bitfield = BIT_1
-              | BIT_2
-              | BIT_3
-              ...
-
-On media, we usually prefer the first form.
+> 
+> This patch was a bit convoluted on my part. Let's iron out the issues you pointed out in v2.
+> 
+> - Daniel.
 
 Cheers,
 Mauro
