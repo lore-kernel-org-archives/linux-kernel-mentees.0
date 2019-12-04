@@ -2,100 +2,95 @@ Return-Path: <SRS0=/i4J=Z2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A83DDC43603
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 17:50:44 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB2EC43603
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 19:57:41 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 78E0020661
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 17:50:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7734E2073B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 19:57:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="kZJJDJE+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78E0020661
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="E7xM2G7n"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7734E2073B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4FB0F86F49;
-	Wed,  4 Dec 2019 17:50:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4B86E232D7;
+	Wed,  4 Dec 2019 19:57:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rBxCSoDkBS2v; Wed,  4 Dec 2019 17:50:43 +0000 (UTC)
+	with ESMTP id GJwTNffNbqpK; Wed,  4 Dec 2019 19:57:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EB0D086E97;
-	Wed,  4 Dec 2019 17:50:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D78FE232FA;
+	Wed,  4 Dec 2019 19:57:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D13C9C18DD;
-	Wed,  4 Dec 2019 17:50:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BD467C18DD;
+	Wed,  4 Dec 2019 19:57:39 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E48F6C077D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CAE47C077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 17:50:41 +0000 (UTC)
+ Wed,  4 Dec 2019 19:57:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D28F186EB3
+ by fraxinus.osuosl.org (Postfix) with ESMTP id BA03986F85
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 17:50:41 +0000 (UTC)
+ Wed,  4 Dec 2019 19:57:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id p3ODk0d2Rcjx
+ with ESMTP id xzHPUhdDtlO0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 17:50:39 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2569E86E97
+ Wed,  4 Dec 2019 19:57:35 +0000 (UTC)
+X-Greylist: delayed 00:08:22 by SQLgrey-1.7.6
+Received: from mx.kolabnow.com (mx.kolabnow.com [95.128.36.42])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id D2BE086F7E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 17:50:39 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id x185so202597pfc.5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 04 Dec 2019 09:50:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=F9Qa6Puv7ezBDFINsGITxUb0gdMtfeyJWNm86YFTPaA=;
- b=kZJJDJE+eSZPXPBjvuRAiamWZtJg0meXDZiJSBQ/OgKPdYcV/vRtTi+g2tm2BMxS4S
- yBq0QCAF+CWwh5KNJGF5NjXTm2avaYTBI4IJU0omAS7KBFBoripTGSJ1wTpU9lLGF425
- P7R5G6u4RTAHq59GpetEHVthgwzineIep1X3E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=F9Qa6Puv7ezBDFINsGITxUb0gdMtfeyJWNm86YFTPaA=;
- b=HIBSSCtUEgF+WdYL4P6xVYr4RTCmVCgRJ2+prA4J6P4MpBgqEhB8dIr7vOveBs8Tp+
- nE1YEjmuFrjxOEJvo9Xd2ThWdZxSYDr1cdwZr03ekQFXxx/IwbIiUciGPqkgs3dNVqMh
- J0gJxplRwPLTqlSFD+X7W8kdCbakswRgreHunZ/zf7ya2+aFZGL7JCjWfnj213o9p2nB
- 8KU5VpB8+x9aSvPhRxwBWVLo9n6zyClWvscTr94gL+gZVVCxcZYmHHi5T9O/2Y+SKeYK
- /coahg+e8/mVG7Kp68SKV3Vcg93fr/+SHnzPHCNjSvxEIthgj/iWJ7O5ZE03q8QoE8EY
- 10bw==
-X-Gm-Message-State: APjAAAUoViRsK6lJEfgKffjzGtlz0fB2sLWxXXi9fjEYjCIMPMHMq4FK
- ZEBQFclGFrCSLIMtybnSb/BZx/xBJYc=
-X-Google-Smtp-Source: APXvYqwgcPT4G/249WAVQBUzpvpK20eSRwudnC4aE++PyedRE5c3ZYx0sSLwuLtcw8WjbZy5uVsoPA==
-X-Received: by 2002:a62:e817:: with SMTP id c23mr4358423pfi.24.1575481489391; 
- Wed, 04 Dec 2019 09:44:49 -0800 (PST)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
- by smtp.gmail.com with ESMTPSA id k4sm8512292pfa.25.2019.12.04.09.44.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2019 09:44:48 -0800 (PST)
-Date: Wed, 4 Dec 2019 12:44:47 -0500
-From: Joel Fernandes <joel@joelfernandes.org>
+ Wed,  4 Dec 2019 19:57:34 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 10E7DE80;
+ Wed,  4 Dec 2019 20:49:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :references:in-reply-to:message-id:date:date:subject:subject
+ :from:from:received:received:received; s=dkim20160331; t=
+ 1575488947; x=1577303348; bh=yLYpeKqjnaOhnM2r4tIxV0b85RTS/6he0Mv
+ 6cNbwlEQ=; b=E7xM2G7nTnUPsnUVjbv7tOKoo3tPyTc6e6I/SW4owdScN5YvTzE
+ RgQbQn9NCneyvA8BRrWgDgvFEE4uIQ5iHIgTM4CGXNYS4wbCmA4Lc965tkElJAbp
+ OlWqGpdjGGtkHVyI0wnOOVQaEmkkhmKPI1kcZpse7eV2V51ZJeNDRT52lPpiSBdc
+ xreJ7pgQFLswjrvyVtLEwfUJuFI2p7z1xnjo4w401kfzibw2xSMO48RxMF2l9Xpu
+ H/R5CW0BZ9C8odUuNZYmp/MfeehT+XKIuxpnf9cIGujFEfDXy70pDAXyVRTKKu+N
+ ma5C1dZ21jSjcLYlyhnv4k3rWcsddkmObNWGjC+guv9hbaYtdufkpbkQwkzeX8pH
+ 1C5pWi5JHAlU73M4O5s4JxpSfgClQNOk0j3xVHvCwWfktQOyAjaOu3wjql40Ranh
+ LXYW4xP/fsB6gcssvpz022pefrMh/CcwNC8eRT5Wm8uZz9vL6U0Y99I2pysmDdVL
+ 9OT4ucRERsVPDJalYgndny83nYtYN0VruFdVdE06QflR/eTSBy7XjNZz+BhXwOHM
+ 4orugqieCP8CdkPH8dNBoom+9+2poBoKnYSCu0DVOQ9zuujuseQhZytmjadoPzQv
+ wwsaHDFSf+Nl08apyHgqoLrUXLu4n8sSjr0r3yEV6fqdvs9q11yjBc20=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+ by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id aiCaJ7Unynau; Wed,  4 Dec 2019 20:49:07 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+ by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id C99D056F;
+ Wed,  4 Dec 2019 20:49:07 +0100 (CET)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+ by int-mx002.mykolab.com (Postfix) with ESMTPS id 6A5FF3B72;
+ Wed,  4 Dec 2019 20:49:07 +0100 (CET)
+From: Federico Vaga <federico.vaga@vaga.pv.it>
 To: madhuparnabhowmik04@gmail.com
-Message-ID: <20191204174447.GE34402@google.com>
-References: <20191204120357.11658-1-madhuparnabhowmik04@gmail.com>
+Date: Wed, 04 Dec 2019 20:49:05 +0100
+Message-ID: <4850753.A3onD7O4GF@harkonnen>
+In-Reply-To: <20191204104554.9100-1-madhuparnabhowmik04@gmail.com>
+References: <20191204104554.9100-1-madhuparnabhowmik04@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191204120357.11658-1-madhuparnabhowmik04@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: rcu@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, paulmck@kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Include: Linux: rculist_nulls:
- Add docbook comment headers
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, mchehab@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net
+Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] Documentation:
+	kernel-hacking: hacking.rst: Change reference to document
+	namespaces.rst to symbol-namespaces.rst
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,48 +108,61 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Dec 04, 2019 at 05:33:57PM +0530, madhuparnabhowmik04@gmail.com wrote:
+If you are interested there is a little discussion here about it
+
+https://www.lkml.org/lkml/2019/11/22/1580
+
+On Wednesday, December 4, 2019 11:45:54 AM CET madhuparnabhowmik04@gmail.com 
+wrote:
 > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 > 
-> This patch adds docbook comment headers for hlist_nulls_first_rcu
-> and hlist_nulls_next_rcu in rculist_nulls.h.
+> This patch fixes the following documentation build warning:
+> Warning: Documentation/kernel-hacking/hacking.rst references
+> a file that doesn't exist: Documentation/kbuild/namespaces.rst
+> 
+> According to the following patch:
+> https://patchwork.kernel.org/patch/11178727/
+> (doc: move namespaces.rst from kbuild/ to core-api/)
+> 
+> The file namespaces.rst was moved from kbuild to core-api
+> and renamed to symbol-namespaces.rst.
+> Therefore, this patch changes the reference to the document
+> kbuild/namespaces.rst in hacking.rst to
+> core-api/symbol-namespaces.rst
 > 
 > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-
-Thanks. Could you send this to the list? I'd like Paul to review or apply
-this one.
-
- - Joel
-
 > ---
->  include/linux/rculist_nulls.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  Documentation/kernel-hacking/hacking.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/linux/rculist_nulls.h b/include/linux/rculist_nulls.h
-> index 517a06f36c7a..d796ef18ec52 100644
-> --- a/include/linux/rculist_nulls.h
-> +++ b/include/linux/rculist_nulls.h
-> @@ -38,9 +38,17 @@ static inline void hlist_nulls_del_init_rcu(struct hlist_nulls_node *n)
->  	}
->  }
->  
-> +/**
-> + * hlist_nulls_first_rcu - returns the first element of the hash list.
-> + * @head: the head for your list.
-> + */
->  #define hlist_nulls_first_rcu(head) \
->  	(*((struct hlist_nulls_node __rcu __force **)&(head)->first))
->  
-> +/**
-> + * hlist_nulls_next_rcu - returns the element of the list next to @node.
-> + * @node: Element of the list.
-> + */
->  #define hlist_nulls_next_rcu(node) \
->  	(*((struct hlist_nulls_node __rcu __force **)&(node)->next))
->  
-> -- 
-> 2.17.1
+> diff --git a/Documentation/kernel-hacking/hacking.rst
+> b/Documentation/kernel-hacking/hacking.rst index a3ddb213a5e1..d62aacb2822a
+> 100644
+> --- a/Documentation/kernel-hacking/hacking.rst
+> +++ b/Documentation/kernel-hacking/hacking.rst
+> @@ -601,7 +601,7 @@ Defined in ``include/linux/export.h``
 > 
+>  This is the variant of `EXPORT_SYMBOL()` that allows specifying a symbol
+>  namespace. Symbol Namespaces are documented in
+> -``Documentation/kbuild/namespaces.rst``.
+> +``Documentation/core-api/symbol-namespaces.rst``.
+> 
+>  :c:func:`EXPORT_SYMBOL_NS_GPL()`
+> 
+>  --------------------------------
+> @@ -610,7 +610,7 @@ Defined in ``include/linux/export.h``
+> 
+>  This is the variant of `EXPORT_SYMBOL_GPL()` that allows specifying a
+> symbol namespace. Symbol Namespaces are documented in
+> -``Documentation/kbuild/namespaces.rst``.
+> +``Documentation/core-api/symbol-namespaces.rst``.
+> 
+>  Routines and Conventions
+>  ========================
+
+
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
