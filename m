@@ -2,85 +2,100 @@ Return-Path: <SRS0=/i4J=Z2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97388C43603
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 16:39:23 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A83DDC43603
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 17:50:44 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 649E52084B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 16:39:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 78E0020661
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 17:50:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DJmo/Vir"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 649E52084B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="kZJJDJE+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78E0020661
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 19F8F87CDA;
-	Wed,  4 Dec 2019 16:39:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4FB0F86F49;
+	Wed,  4 Dec 2019 17:50:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id go+04AkNvQ0u; Wed,  4 Dec 2019 16:39:22 +0000 (UTC)
+	with ESMTP id rBxCSoDkBS2v; Wed,  4 Dec 2019 17:50:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A4F1D87C55;
-	Wed,  4 Dec 2019 16:39:22 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EB0D086E97;
+	Wed,  4 Dec 2019 17:50:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 94497C1DD6;
-	Wed,  4 Dec 2019 16:39:22 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 36F72C077D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D13C9C18DD;
+	Wed,  4 Dec 2019 17:50:43 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E48F6C077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 16:39:20 +0000 (UTC)
+ Wed,  4 Dec 2019 17:50:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2679487CDA
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D28F186EB3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 16:39:20 +0000 (UTC)
+ Wed,  4 Dec 2019 17:50:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OvJKglCp6hII
+ with ESMTP id p3ODk0d2Rcjx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 16:39:19 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 93AD887C55
+ Wed,  4 Dec 2019 17:50:39 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2569E86E97
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 16:39:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:
- Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=yvkwdjWV2dbRxadhAu73uSRbz7briKKaZny4sqBY6X8=; b=DJmo/VirsXbpSShLj09KSNK+p
- 5k6VBQitayqm0j2cbIaaDt8yL0EJHqYOM+faM4lNuiV3tFZjtLp+iK1CYH3TNnFcFu/iceLRUJLme
- jT4W2CJz2WYRGxUgl+EyWku7J+mOTvdDIWqW5eSuhvGNHo12Y6ehasmXjOVm2S1ybhe1y2BPaS2dp
- 10ZzW5cECFmfzZCnFrKqO+3G7b24xbSTL2Cq+yJtCMFxGNyHm47Pn46aPJWr0wUDNuWp+wU/r0rza
- v5+sMZ4rEXxa4J4TRYOABigbwHd/RqAAF1swr18rWyhZyr7HmT6UPc6u3yQIuWk7uxRyA4EPH8saA
- kg92Z+DpA==;
-Received: from [2601:1c0:6280:3f0::3deb]
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1icXgN-0006RZ-8o; Wed, 04 Dec 2019 16:39:19 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: madhuparnabhowmik04@gmail.com, corbet@lwn.net, mchehab@kernel.org
-References: <20191204100941.6268-1-madhuparnabhowmik04@gmail.com>
- <09c9f538-8698-37c4-c5c0-2107a96ae859@infradead.org>
-Message-ID: <724aa2b7-1f45-5162-67b9-3f64beaa2951@infradead.org>
-Date: Wed, 4 Dec 2019 08:39:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ Wed,  4 Dec 2019 17:50:39 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id x185so202597pfc.5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 04 Dec 2019 09:50:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=joelfernandes.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=F9Qa6Puv7ezBDFINsGITxUb0gdMtfeyJWNm86YFTPaA=;
+ b=kZJJDJE+eSZPXPBjvuRAiamWZtJg0meXDZiJSBQ/OgKPdYcV/vRtTi+g2tm2BMxS4S
+ yBq0QCAF+CWwh5KNJGF5NjXTm2avaYTBI4IJU0omAS7KBFBoripTGSJ1wTpU9lLGF425
+ P7R5G6u4RTAHq59GpetEHVthgwzineIep1X3E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=F9Qa6Puv7ezBDFINsGITxUb0gdMtfeyJWNm86YFTPaA=;
+ b=HIBSSCtUEgF+WdYL4P6xVYr4RTCmVCgRJ2+prA4J6P4MpBgqEhB8dIr7vOveBs8Tp+
+ nE1YEjmuFrjxOEJvo9Xd2ThWdZxSYDr1cdwZr03ekQFXxx/IwbIiUciGPqkgs3dNVqMh
+ J0gJxplRwPLTqlSFD+X7W8kdCbakswRgreHunZ/zf7ya2+aFZGL7JCjWfnj213o9p2nB
+ 8KU5VpB8+x9aSvPhRxwBWVLo9n6zyClWvscTr94gL+gZVVCxcZYmHHi5T9O/2Y+SKeYK
+ /coahg+e8/mVG7Kp68SKV3Vcg93fr/+SHnzPHCNjSvxEIthgj/iWJ7O5ZE03q8QoE8EY
+ 10bw==
+X-Gm-Message-State: APjAAAUoViRsK6lJEfgKffjzGtlz0fB2sLWxXXi9fjEYjCIMPMHMq4FK
+ ZEBQFclGFrCSLIMtybnSb/BZx/xBJYc=
+X-Google-Smtp-Source: APXvYqwgcPT4G/249WAVQBUzpvpK20eSRwudnC4aE++PyedRE5c3ZYx0sSLwuLtcw8WjbZy5uVsoPA==
+X-Received: by 2002:a62:e817:: with SMTP id c23mr4358423pfi.24.1575481489391; 
+ Wed, 04 Dec 2019 09:44:49 -0800 (PST)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+ by smtp.gmail.com with ESMTPSA id k4sm8512292pfa.25.2019.12.04.09.44.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2019 09:44:48 -0800 (PST)
+Date: Wed, 4 Dec 2019 12:44:47 -0500
+From: Joel Fernandes <joel@joelfernandes.org>
+To: madhuparnabhowmik04@gmail.com
+Message-ID: <20191204174447.GE34402@google.com>
+References: <20191204120357.11658-1-madhuparnabhowmik04@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <09c9f538-8698-37c4-c5c0-2107a96ae859@infradead.org>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: filesystems:
- automount-support: Change reference to document autofs.txt to autofs.rst
+Content-Disposition: inline
+In-Reply-To: <20191204120357.11658-1-madhuparnabhowmik04@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: rcu@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, paulmck@kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] Include: Linux: rculist_nulls:
+ Add docbook comment headers
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,37 +113,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 12/4/19 8:38 AM, Randy Dunlap wrote:
-> On 12/4/19 2:09 AM, madhuparnabhowmik04@gmail.com wrote:
->> From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
->>
->> This patch fixes the following documentation build warning:
->>
->> Warning: Documentation/filesystems/automount-support.txt references
->>  a file that doesn't exist: Documentation/filesystems/autofs.txt
->>
->> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
->> ---
->>  .../filesystems/automount-support.txt         |    2 +-
->>  doc.txt                                       |  492 ++
->>  four.txt                                      | 7656 +++++++++++++++++
->>  fs/nfs/dir.c                                  |    2 +-
->>  scripts/pnmtologo                             |  Bin 0 -> 18112 bytes
->>  5 files changed, 8150 insertions(+), 2 deletions(-)
->>  create mode 100644 doc.txt
->>  create mode 100644 four.txt
->>  create mode 100755 scripts/pnmtologo
+On Wed, Dec 04, 2019 at 05:33:57PM +0530, madhuparnabhowmik04@gmail.com wrote:
+> From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 > 
-> Hi,
+> This patch adds docbook comment headers for hlist_nulls_first_rcu
+> and hlist_nulls_next_rcu in rculist_nulls.h.
 > 
-> It seems that there are some files in this patch that should not be here.
-> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
-Sorry, I see your other patch now.  Thanks.
+Thanks. Could you send this to the list? I'd like Paul to review or apply
+this one.
 
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
+ - Joel
+
+> ---
+>  include/linux/rculist_nulls.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/include/linux/rculist_nulls.h b/include/linux/rculist_nulls.h
+> index 517a06f36c7a..d796ef18ec52 100644
+> --- a/include/linux/rculist_nulls.h
+> +++ b/include/linux/rculist_nulls.h
+> @@ -38,9 +38,17 @@ static inline void hlist_nulls_del_init_rcu(struct hlist_nulls_node *n)
+>  	}
+>  }
+>  
+> +/**
+> + * hlist_nulls_first_rcu - returns the first element of the hash list.
+> + * @head: the head for your list.
+> + */
+>  #define hlist_nulls_first_rcu(head) \
+>  	(*((struct hlist_nulls_node __rcu __force **)&(head)->first))
+>  
+> +/**
+> + * hlist_nulls_next_rcu - returns the element of the list next to @node.
+> + * @node: Element of the list.
+> + */
+>  #define hlist_nulls_next_rcu(node) \
+>  	(*((struct hlist_nulls_node __rcu __force **)&(node)->next))
+>  
+> -- 
+> 2.17.1
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
