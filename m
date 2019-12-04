@@ -8,95 +8,94 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B75CEC2BBE2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 10:20:11 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF481C43603
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 10:46:26 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 89FDA20675
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 10:20:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9EED9207DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Dec 2019 10:46:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBEQBjUC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 89FDA20675
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="irQosFEL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EED9207DD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 71B3F20433;
-	Wed,  4 Dec 2019 10:20:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6E1F8882A3;
+	Wed,  4 Dec 2019 10:46:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nkFxyT0muEMv; Wed,  4 Dec 2019 10:20:10 +0000 (UTC)
+	with ESMTP id xPxjuwpyikIH; Wed,  4 Dec 2019 10:46:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 608192040A;
-	Wed,  4 Dec 2019 10:20:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F29428829B;
+	Wed,  4 Dec 2019 10:46:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 47D44C1DD6;
-	Wed,  4 Dec 2019 10:20:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6902C1DD6;
+	Wed,  4 Dec 2019 10:46:25 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 05738C077D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BDC7BC077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 10:20:09 +0000 (UTC)
+ Wed,  4 Dec 2019 10:46:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E263287711
+ by whitealder.osuosl.org (Postfix) with ESMTP id AB36E87BD7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 10:20:08 +0000 (UTC)
+ Wed,  4 Dec 2019 10:46:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Y4-wCzYWRxHY
+ with ESMTP id bLfuGQDqzs0A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 10:20:08 +0000 (UTC)
+ Wed,  4 Dec 2019 10:46:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 639EF85CD0
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2F6CD86D39
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Dec 2019 10:20:08 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id q16so2982842plr.10
+ Wed,  4 Dec 2019 10:46:24 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id x28so3461605pfo.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 04 Dec 2019 02:20:08 -0800 (PST)
+ Wed, 04 Dec 2019 02:46:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=up7wRNDiQakb25Ld8qipwPlfmty+/izO4vyiWQI+wHE=;
- b=HBEQBjUC51tDAwFLRg/VzpdIi04E8cnFGwEtaYKjFQ1CmQtkCDovuAMAg1xMqg6qF0
- WTB158ts4/d5+XtTQ3oBHN/O3SjRWx9O1I5GcpZcwohOdW4RgWBptIioied7PjwkskNx
- zdf5l4SlcXZvAzmts2+Mju1F9JYV6HsuqntyK4ejeq0Hf1j0rQg9Is5tm8wYdsrb1z2/
- G5f7duquUNSqTu03sJbwGWKGYPvn0txKq6VIcY1HbgeWh32d0zRZjvncp+d2fG427kK3
- 7mR0ExQZSQjgE3OKKlD4Dd7LD09ky7HRMWGXBP/TgBczL9gMVZJgdh+vUyx5FT/3V3UJ
- F/mg==
+ bh=FfFA2fx9vKQkK9IXB35RPn6PXJy6DUq2hQ/f9g/q8mg=;
+ b=irQosFELQ9MogtzndKRWTSh4IdQpCm0B7RPeZAAeOsWxA4/nkKPY4wrC9q646U0SWg
+ rYAhrTUthYM/Pn8MzgXoJoSiBrPdwlrSw27HgWWzXomLmYl6w8ckAmGbfIh3VVN5pTNj
+ rzTvCH2wyR+wKu3yEFFD6JKFcC+afGyLmgBK939sYlhyD8k76FbfnKoH1WoF7cAXHPX1
+ dq5IIhewOVUWQ9XiVKqiVNNw9ksCqnCG9S9tk4bJaKEcRLJ9Bb9e1yuHbaZLNar01+9Y
+ ZWACTWDUwchpJTxj577MeUjtDqjYlMJjD1u5x87Bs5/RgW7VMrZjgoSaee0puIlFYtzL
+ HS6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=up7wRNDiQakb25Ld8qipwPlfmty+/izO4vyiWQI+wHE=;
- b=qq89v1cSY2KYSOfmf0az2P5LoPC+it9bcT7ptt9SbNTOXlX2WccRgVt5e6xr+wMr4z
- V/RX5DH1XzLNRGAzTWcacYlXDnDZzyDAXoN1rSrRjwQvL9difXmpiQ82zcYoyyRv22R5
- 7quepz6IrinKwBYlffrqx8dgBN1lYnKTc6J/GGK+xswlKFHFGI0V67U2YmG1VeAF8xzo
- CeMeKfJR9xdLN88qUKozAaw3qr1KurFyTG5vDVyWhsjoNqcemqdbyNDg0sVJNv8X5Amm
- jl/a1yqekfnilRv/ffCONb3PMlI7g4oxuqVFEVuLImNUOnphhuQ2zvRljx7uYXpX/k6j
- hq4w==
-X-Gm-Message-State: APjAAAXeLSY/L01Yx7vujVb/OYN/9Gp2yASg2Sa8PGqjwzpaYl6pB7QU
- ZMnX2kf0r5p0kF1mzBGSYpg=
-X-Google-Smtp-Source: APXvYqwL1TM41IFYtBTyi9IDlGtHy7hkPVvUAIXIWa/c+wYFlAB/P7WWIdG0P2n945+R/zGzm1mfuA==
-X-Received: by 2002:a17:90a:cf11:: with SMTP id
- h17mr2468035pju.103.1575454807763; 
- Wed, 04 Dec 2019 02:20:07 -0800 (PST)
+ bh=FfFA2fx9vKQkK9IXB35RPn6PXJy6DUq2hQ/f9g/q8mg=;
+ b=GTu79mtj7BYz8BtvfH4VBNqXRx55DYES8tpu8EpsveHt4rr9JwoeObF5pqaWxj/uhF
+ CDz+jQBMPCm+qK0IR3b5L2lECN3LxG4Mhm9Mj+dVRIZKJ23bNy3N0jjIdLDlmzkFdJ59
+ FLUEIPwZrFgVQKg7EiqCTYrDrg6jqcxHAv8iJHpgyoDAoRBcMk+aBNjt15y+CiRMJTeZ
+ 20kvtdm6RZ+2wFVzhZdD+7AHVGx2JtfBlyT+FprVHOr/VhDKcwen2wxT4OUEDuT3IiIU
+ zEaZNmyhgeHcbTs6A3jYY2BESswjhkTjfM1D8nFLWP1b+GRBbKHZOl9XBwMWytNKoKXt
+ JEhA==
+X-Gm-Message-State: APjAAAWZx4qBawGKbvibeFWD9H5cZRzomQPLdS7uo+hOwgcYmrUxLb2D
+ RTaSO1AHtekr7anR27CpX3zkPvr7MGk=
+X-Google-Smtp-Source: APXvYqyivDIvz9YK3RohHzevDM78spQ4qGZqtiStCyPw+L5kyV050nRq6HQWpEPVeoBgX97T0Lo+eg==
+X-Received: by 2002:a63:ff26:: with SMTP id k38mr2909488pgi.128.1575456383355; 
+ Wed, 04 Dec 2019 02:46:23 -0800 (PST)
 Received: from localhost.localdomain ([2402:3a80:cdb:94ce:3984:ab1:9b44:803])
  by smtp.gmail.com with ESMTPSA id
- d22sm7209393pfn.164.2019.12.04.02.20.05
+ k101sm6160710pjb.5.2019.12.04.02.46.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2019 02:20:07 -0800 (PST)
+ Wed, 04 Dec 2019 02:46:22 -0800 (PST)
 From: madhuparnabhowmik04@gmail.com
 To: corbet@lwn.net,
 	mchehab@kernel.org
-Date: Wed,  4 Dec 2019 15:49:39 +0530
-Message-Id: <20191204101939.6939-1-madhuparnabhowmik04@gmail.com>
+Date: Wed,  4 Dec 2019 16:15:54 +0530
+Message-Id: <20191204104554.9100-1-madhuparnabhowmik04@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: filesystems:
-	automount-support: Change reference to document autofs.txt to
-	autofs.rst
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH 2/2] Documentation: kernel-hacking:
+	hacking.rst: Change reference to document namespaces.rst to
+	symbol-namespaces.rst
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,28 +116,47 @@ Sender: "Linux-kernel-mentees"
 
 From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
-This patch fixes following documentation build warning:
-Warning: Documentation/filesystems/automount-support.txt references
-a file that doesn't exist: Documentation/filesystems/autofs.txt
+This patch fixes the following documentation build warning:
+Warning: Documentation/kernel-hacking/hacking.rst references
+a file that doesn't exist: Documentation/kbuild/namespaces.rst
+
+According to the following patch:
+https://patchwork.kernel.org/patch/11178727/
+(doc: move namespaces.rst from kbuild/ to core-api/)
+
+The file namespaces.rst was moved from kbuild to core-api
+and renamed to symbol-namespaces.rst.
+Therefore, this patch changes the reference to the document
+kbuild/namespaces.rst in hacking.rst to
+core-api/symbol-namespaces.rst
 
 Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 ---
- Documentation/filesystems/automount-support.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/kernel-hacking/hacking.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/filesystems/automount-support.txt b/Documentation/filesystems/automount-support.txt
-index b0afd3d55eaf..7d9f82607562 100644
---- a/Documentation/filesystems/automount-support.txt
-+++ b/Documentation/filesystems/automount-support.txt
-@@ -9,7 +9,7 @@ also be requested by userspace.
- IN-KERNEL AUTOMOUNTING
- ======================
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index a3ddb213a5e1..d62aacb2822a 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -601,7 +601,7 @@ Defined in ``include/linux/export.h``
  
--See section "Mount Traps" of  Documentation/filesystems/autofs.txt
-+See section "Mount Traps" of  Documentation/filesystems/autofs.rst
+ This is the variant of `EXPORT_SYMBOL()` that allows specifying a symbol
+ namespace. Symbol Namespaces are documented in
+-``Documentation/kbuild/namespaces.rst``.
++``Documentation/core-api/symbol-namespaces.rst``.
  
- Then from userspace, you can just do something like:
+ :c:func:`EXPORT_SYMBOL_NS_GPL()`
+ --------------------------------
+@@ -610,7 +610,7 @@ Defined in ``include/linux/export.h``
  
+ This is the variant of `EXPORT_SYMBOL_GPL()` that allows specifying a symbol
+ namespace. Symbol Namespaces are documented in
+-``Documentation/kbuild/namespaces.rst``.
++``Documentation/core-api/symbol-namespaces.rst``.
+ 
+ Routines and Conventions
+ ========================
 -- 
 2.17.1
 
