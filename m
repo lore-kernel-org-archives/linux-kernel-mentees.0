@@ -2,111 +2,98 @@ Return-Path: <SRS0=164v=Z4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_FONT_LOW_CONTRAST,HTML_MESSAGE,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC07C43603
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 01:08:12 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B85FCC43603
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 07:23:16 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0FACE2077B
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 01:08:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8636B21835
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 07:23:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="mcohcs6I"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0FACE2077B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QReq/72V"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8636B21835
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D42D922EDD;
-	Fri,  6 Dec 2019 01:08:11 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ja6bObo3ShVw; Fri,  6 Dec 2019 01:08:10 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id CB3D1204AC;
-	Fri,  6 Dec 2019 01:08:10 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC28AC18DD;
-	Fri,  6 Dec 2019 01:08:10 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24996C077D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 01:08:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0E3058612E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 01:08:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 490BB8742D;
+	Fri,  6 Dec 2019 07:23:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rKCea2jX8Cfb; Fri,  6 Dec 2019 07:23:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AE5218720A;
+	Fri,  6 Dec 2019 07:23:15 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3CABC18DD;
+	Fri,  6 Dec 2019 07:23:15 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2CF90C077D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  6 Dec 2019 07:23:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 12ECB87D75
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  6 Dec 2019 07:23:14 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4jJJ6NwC--sM
+ with ESMTP id xMrTeEdaTvyU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 01:08:08 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 799CB86102
+ Fri,  6 Dec 2019 07:23:13 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5B91C881F3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 01:08:08 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id h14so2434491pfe.10
+ Fri,  6 Dec 2019 07:23:13 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id a15so5044972otf.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 05 Dec 2019 17:08:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=6QNT5TPRX9LvCPG87QD5zupwCfbpXJ322naahbA3zsE=;
- b=mcohcs6IvVzKE1WtjTt3SAAgCpPpyXT7KNl1cy4GGYGRNjcaD6CS5SbdB543e71BOd
- oL0rhLUqg+P9u3sQS3kajx81HG2lBrDnMCcpOBqeHEbMvW12ttL+z9k6ZayGpKuFhJWZ
- RMEa57xuCixXLoDIk6h3FLyjCzE/UlVMvHB6w=
+ Thu, 05 Dec 2019 23:23:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9VKQjsJzIksXIY0QmBlXIv/K+XRCCEybxYQUywV5/7g=;
+ b=QReq/72VG1aqx2gqa4plI+PovLKp5kbrFTr1H5cL4vSOTookiFrNdfsNBphpPj1YuC
+ S6QTHofPNUx3gjx1rGEMWU1Inro3u0qkSZJyOPzRGu4/klxxAxtVaFrHT0I+Rah7L6ia
+ JAfWImI5EBAU5/2ZrPHCboAMwbd+8IPeSjAlUdnV2E4voPo8MABwaDDYu3cXIn+ZsK/l
+ W+tS4G9kd94ptEVjGdnqejO1oa/KH0mhnBzFtJkv1bv3vdjlCPyHCJBX1aerEXOYwsRW
+ Quh5mourvc1Y3bbyxBvl/akxX524gNi/lR0E226iSoV6OOdg13kFnQdCsAWZwHVAsG3G
+ HCig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=6QNT5TPRX9LvCPG87QD5zupwCfbpXJ322naahbA3zsE=;
- b=VPzzom9Tw05zNdMN0X9dMuP77otQacM7JMLEwZzK9Ia65b/aQ+e4vp5NejCXXc5RQx
- zNrYKfYmJ8bQOpuNxJOHEaOHERXXX55XJc21AWFSnDJZeRpQTuNU3ZUPz39ogxfWpgYI
- mebmx698atuawq5NLEs7eH8lX2prRFWWm38w/iM2G8GW4XZWjpaUpf/0SocF1RsZgTvM
- 6DqPYhxjECZsWAtcouaIqjbv1qvUZm3VrMzSh7t3xVwH6ZxvnfAyHI5BA+t7LZLvY1Ne
- efTtHCO5/QqR7Lpf4oExgntvT8cLCFXm+RdE1s4D/9i6AEA8LkG3XIrsq1dM38+TunKv
- uQ6w==
-X-Gm-Message-State: APjAAAVUEcDg5W2VMuOGBx9i+xmCjx3Mrke4uMfp3hqP+n05En5OGkSS
- woHj/RRTnj+sxt+qGTeSzEStRQ==
-X-Google-Smtp-Source: APXvYqy7slV1vspesqiwQNeIaiovm3Q3/BPlms15Vf02v4G2S8j6tKfI0uxzWagh5nTrPJ2bHNG9kg==
-X-Received: by 2002:a62:1cd6:: with SMTP id
- c205mr11881014pfc.179.1575594487954; 
- Thu, 05 Dec 2019 17:08:07 -0800 (PST)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
- by smtp.gmail.com with ESMTPSA id 143sm13650519pfz.67.2019.12.05.17.08.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Dec 2019 17:08:07 -0800 (PST)
-Date: Thu, 5 Dec 2019 20:08:06 -0500
-From: Joel Fernandes <joel@joelfernandes.org>
-To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20191206010806.GA142442@google.com>
-References: <20191203063941.6981-1-frextrite@gmail.com>
- <20191203064132.38d75348@lwn.net>
- <20191204082412.GA6959@workstation-kernel-dev>
- <20191204074833.44bcc079@lwn.net>
- <20191204153958.GA17404@google.com>
- <20191204084729.184480f3@lwn.net>
- <20191204163552.GE17404@google.com>
- <20191205151418.GA3424@workstation-kernel-dev>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9VKQjsJzIksXIY0QmBlXIv/K+XRCCEybxYQUywV5/7g=;
+ b=suRPp/nzPQ2CRPMgxHmkoSk8cyySp3LsV8OgljZZbDd4SnOWCGnK2fxfJ+5FMiQsC4
+ AFjHWtsGjpK0qlwU77lrBEeNnCNYSXTLgS/B/NYM9Ynv1Xe1AVhcvmJ5kE0CUWgIsj7m
+ ILSrsv/T6uomYb0d08dc8DUnILo5hujDHaUK9L2Jm/qNjppi9KWmjM49TEWAT56Azc0v
+ 7YfVWa9XoQdlZDqmi6o1J6hlLeVbI+196IYDdPfS8/5siIkJOelSQ4a6eT0ILuU5ic0z
+ 303l5YyEx2SYxodBiGkDzyvi4mz4tnWMT0mvWm4oB1IzSHSPPZewa1a7wSRmiU9jK9gw
+ X91A==
+X-Gm-Message-State: APjAAAWH7UmURHbJmZBW3exVWyp97fnSIB2T9b+8bjiZ/dk8wnKR5m7k
+ J7vQcM2qetmdixoXrypAImu6gK8UB+eJ0TDsSWg=
+X-Google-Smtp-Source: APXvYqx6ptcXNhgFXCdyJDZG+PGYeJ2GujXyea4QS+ZJY4GMow8Y/OBenFSuUqHoRpJLQUhn/za8xJGCv1roZdPlPgw=
+X-Received: by 2002:a9d:51ca:: with SMTP id d10mr9546571oth.76.1575616992228; 
+ Thu, 05 Dec 2019 23:23:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191205151418.GA3424@workstation-kernel-dev>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: "Paul E . McKenney" <paulmck@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, Lai Jiangshan <jiangshanlai@gmail.com>,
- Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] doc: listRCU: Add some more
- listRCU patterns in the kernel
+References: <20191205185352.1957-1-madhuparnabhowmik04@gmail.com>
+ <20191206000446.GW2889@paulmck-ThinkPad-P72>
+In-Reply-To: <20191206000446.GW2889@paulmck-ThinkPad-P72>
+From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+Date: Fri, 6 Dec 2019 12:53:01 +0530
+Message-ID: <CAF65HP2e2sVjJV-foo-MT=zOxrW2dcceUXDTXO+TUvGUz=yjWQ@mail.gmail.com>
+To: paulmck@kernel.org
+Cc: Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, josh@joshtriplett.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] include: linux: rculist_nulls:
+	Change docbook comment headers
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,49 +105,173 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1542323237780880182=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Dec 05, 2019 at 08:44:18PM +0530, Amol Grover wrote:
-> On Wed, Dec 04, 2019 at 11:35:52AM -0500, Joel Fernandes wrote:
-> > On Wed, Dec 04, 2019 at 08:47:29AM -0700, Jonathan Corbet wrote:
-> > > On Wed, 4 Dec 2019 10:39:58 -0500
-> > > Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > 
-> > > > Actually I had asked Amol privately to add the backticks. It appeared
-> > > > super weird in my browser when some function calls were rendered
-> > > > monospace while others weren't. Not all functions were successfully
-> > > > cross referenced for me. May be it is my kernel version?
-> > > 
-> > > If you have an example of a failure to cross-reference a function that
-> > > has kerneldoc comments *that are included in the toctree*, I'd like to see
-> > > it; that's a bug.
-> > > 
-> > > Changing the font on functions without anything to cross-reference to is
-> > > easy enough and should probably be done; I'll look into it when I get a
-> > > chance.
-> > 
-> > I tried on a different machine (my work machine) and the cross-referencing is
-> > working fine. So I am not sure if this could be something related to Sphinx
-> > version or I had used an older kernel tree before. This kernel tree is
-> > Linus's master.
-> > 
-> 
-> This is great! I'll remove the "``" from function text and send in the
-> updated version. However, should I leave in the "``CONSTANTS``" and
-> "``variables``"? They dont' have any kernel docs to be cross-referenced
-> with and also make them distinguishable from the normal text.
+--===============1542323237780880182==
+Content-Type: multipart/alternative; boundary="0000000000001fbdd7059903ebaa"
 
-I think you should.
+--0000000000001fbdd7059903ebaa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+On Fri, Dec 6, 2019 at 5:34 AM Paul E. McKenney <paulmck@kernel.org> wrote:
 
- - Joel
+> On Fri, Dec 06, 2019 at 12:23:52AM +0530, madhuparnabhowmik04@gmail.com
+> wrote:
+> > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> >
+> > This patch changes the docbook comment "head for your list"
+> > to "head of the list".
+> >
+> > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+>
+> I applied both with some updates to the subject line and commit log.
+> Could you please double-check for errors on my part?
+
+
+ Yes, I checked, it seems alright.
+
+Thank you,
+Madhuparna
+
+
+>                                                         Thanx, Paul
+>
+> > ---
+> >  include/linux/rculist_nulls.h | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/include/linux/rculist_nulls.h
+> b/include/linux/rculist_nulls.h
+> > index 517a06f36c7a..bea311c884b3 100644
+> > --- a/include/linux/rculist_nulls.h
+> > +++ b/include/linux/rculist_nulls.h
+> > @@ -104,7 +104,7 @@ static inline void hlist_nulls_add_head_rcu(struct
+> hlist_nulls_node *n,
+> >   * hlist_nulls_for_each_entry_rcu - iterate over rcu list of given typ=
+e
+> >   * @tpos:    the type * to use as a loop cursor.
+> >   * @pos:     the &struct hlist_nulls_node to use as a loop cursor.
+> > - * @head:    the head for your list.
+> > + * @head:    the head of the list.
+> >   * @member:  the name of the hlist_nulls_node within the struct.
+> >   *
+> >   * The barrier() is needed to make sure compiler doesn't cache first
+> element [1],
+> > @@ -124,7 +124,7 @@ static inline void hlist_nulls_add_head_rcu(struct
+> hlist_nulls_node *n,
+> >   *   iterate over list of given type safe against removal of list entr=
+y
+> >   * @tpos:    the type * to use as a loop cursor.
+> >   * @pos:     the &struct hlist_nulls_node to use as a loop cursor.
+> > - * @head:    the head for your list.
+> > + * @head:    the head of the list.
+> >   * @member:  the name of the hlist_nulls_node within the struct.
+> >   */
+> >  #define hlist_nulls_for_each_entry_safe(tpos, pos, head, member)
+>      \
+> > --
+> > 2.17.1
+> >
+>
+=E1=90=A7
+
+--0000000000001fbdd7059903ebaa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 6, 2019 at 5:34 AM Paul E=
+. McKenney &lt;<a href=3D"mailto:paulmck@kernel.org">paulmck@kernel.org</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On F=
+ri, Dec 06, 2019 at 12:23:52AM +0530, <a href=3D"mailto:madhuparnabhowmik04=
+@gmail.com" target=3D"_blank">madhuparnabhowmik04@gmail.com</a> wrote:<br>
+&gt; From: Madhuparna Bhowmik &lt;<a href=3D"mailto:madhuparnabhowmik04@gma=
+il.com" target=3D"_blank">madhuparnabhowmik04@gmail.com</a>&gt;<br>
+&gt; <br>
+&gt; This patch changes the docbook comment &quot;head for your list&quot;<=
+br>
+&gt; to &quot;head of the list&quot;.<br>
+&gt; <br>
+&gt; Signed-off-by: Madhuparna Bhowmik &lt;<a href=3D"mailto:madhuparnabhow=
+mik04@gmail.com" target=3D"_blank">madhuparnabhowmik04@gmail.com</a>&gt;<br=
+>
+<br>
+I applied both with some updates to the subject line and commit log.<br>
+Could you please double-check for errors on my part?</blockquote><div>=C2=
+=A0</div><div>=C2=A0Yes, I checked, it seems alright.=C2=A0</div><div><br><=
+/div><div>Thank you,</div><div>Madhuparna</div><div><br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex"> <br></blockquote><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Thanx, Paul<br>
+<br>
+&gt; ---<br>
+&gt;=C2=A0 include/linux/rculist_nulls.h | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/include/linux/rculist_nulls.h b/include/linux/rculist_nul=
+ls.h<br>
+&gt; index 517a06f36c7a..bea311c884b3 100644<br>
+&gt; --- a/include/linux/rculist_nulls.h<br>
+&gt; +++ b/include/linux/rculist_nulls.h<br>
+&gt; @@ -104,7 +104,7 @@ static inline void hlist_nulls_add_head_rcu(struct=
+ hlist_nulls_node *n,<br>
+&gt;=C2=A0 =C2=A0* hlist_nulls_for_each_entry_rcu - iterate over rcu list o=
+f given type<br>
+&gt;=C2=A0 =C2=A0* @tpos:=C2=A0 =C2=A0 the type * to use as a loop cursor.<=
+br>
+&gt;=C2=A0 =C2=A0* @pos:=C2=A0 =C2=A0 =C2=A0the &amp;struct hlist_nulls_nod=
+e to use as a loop cursor.<br>
+&gt; - * @head:=C2=A0 =C2=A0 the head for your list.<br>
+&gt; + * @head:=C2=A0 =C2=A0 the head of the list.<br>
+&gt;=C2=A0 =C2=A0* @member:=C2=A0 the name of the hlist_nulls_node within t=
+he struct.<br>
+&gt;=C2=A0 =C2=A0*<br>
+&gt;=C2=A0 =C2=A0* The barrier() is needed to make sure compiler doesn&#39;=
+t cache first element [1],<br>
+&gt; @@ -124,7 +124,7 @@ static inline void hlist_nulls_add_head_rcu(struct=
+ hlist_nulls_node *n,<br>
+&gt;=C2=A0 =C2=A0*=C2=A0 =C2=A0iterate over list of given type safe against=
+ removal of list entry<br>
+&gt;=C2=A0 =C2=A0* @tpos:=C2=A0 =C2=A0 the type * to use as a loop cursor.<=
+br>
+&gt;=C2=A0 =C2=A0* @pos:=C2=A0 =C2=A0 =C2=A0the &amp;struct hlist_nulls_nod=
+e to use as a loop cursor.<br>
+&gt; - * @head:=C2=A0 =C2=A0 the head for your list.<br>
+&gt; + * @head:=C2=A0 =C2=A0 the head of the list.<br>
+&gt;=C2=A0 =C2=A0* @member:=C2=A0 the name of the hlist_nulls_node within t=
+he struct.<br>
+&gt;=C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 #define hlist_nulls_for_each_entry_safe(tpos, pos, head, member)=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt; -- <br>
+&gt; 2.17.1<br>
+&gt; <br>
+</blockquote></div></div><div hspace=3D"streak-pt-mark" style=3D"max-height=
+:1px"><img alt=3D"" style=3D"width:0px;max-height:0px;overflow:hidden" src=
+=3D"https://mailfoogae.appspot.com/t?sender=3DabWFkaHVwYXJuYWJob3dtaWswNEBn=
+bWFpbC5jb20%3D&amp;type=3Dzerocontent&amp;guid=3D2898abe1-2c32-4cb4-a621-66=
+d629dc236d"><font color=3D"#ffffff" size=3D"1">=E1=90=A7</font></div>
+
+--0000000000001fbdd7059903ebaa--
+
+--===============1542323237780880182==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============1542323237780880182==--
