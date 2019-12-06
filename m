@@ -6,75 +6,77 @@ X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25815C43603
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 18:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33EF4C2D0C2
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 18:45:57 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EE0572173E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 18:24:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0BE7024676
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 18:45:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="bip68Fgb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EE0572173E
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="1wiQHNi3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0BE7024676
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id BEED72076E;
-	Fri,  6 Dec 2019 18:24:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C69F32635C;
+	Fri,  6 Dec 2019 18:45:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GBj1luoQwz+k; Fri,  6 Dec 2019 18:24:17 +0000 (UTC)
+	with ESMTP id Q4jSsJ4youdV; Fri,  6 Dec 2019 18:45:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0A989204E3;
-	Fri,  6 Dec 2019 18:24:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id ABF7D2037B;
+	Fri,  6 Dec 2019 18:45:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 049D6C1D7D;
-	Fri,  6 Dec 2019 18:24:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A1474C1D7D;
+	Fri,  6 Dec 2019 18:45:55 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 56A1BC077D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DC51DC077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 18:24:16 +0000 (UTC)
+ Fri,  6 Dec 2019 18:45:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 44DA62076E
+ by silver.osuosl.org (Postfix) with ESMTP id C64512037B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 18:24:16 +0000 (UTC)
+ Fri,  6 Dec 2019 18:45:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LSV8x7uGl3Kg
+ with ESMTP id a2+1drgc4KEN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 18:24:14 +0000 (UTC)
+ Fri,  6 Dec 2019 18:45:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id D4FD7204E3
+ by silver.osuosl.org (Postfix) with ESMTPS id 66BB420378
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 18:24:14 +0000 (UTC)
+ Fri,  6 Dec 2019 18:45:53 +0000 (UTC)
 Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
  [50.39.105.78])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9CEC02173E;
- Fri,  6 Dec 2019 18:24:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3622024670;
+ Fri,  6 Dec 2019 18:45:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1575656654;
- bh=1adZ1AgCodi3yfl22ybU9XywdoW/YwynEVekYlf8iyg=;
+ s=default; t=1575657953;
+ bh=uI9EKANieQp4/2Z6MB2ZAs2MMN7vumj93kZAcBBUEt0=;
  h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=bip68FgbFhzD7abAaLaKKwmZ/PlKrEsoPog/fOBXd3A8vVVSJLOwL3Z7hM5oDt28X
- x5kk2JXh6nTEpwuKmeqQ8tRKqP41kLhRJm3X7IeKrf82/z9NeEQ/FhP+pgtJaVl8en
- eFj15Rtqf0hFVJJ8Lrw1ZuQAtrha5zryvGXnkMkk=
+ b=1wiQHNi35PaEkG8c+sJQrPmvIkrOI/hWxm7imrIqmIQHlt1NZuKXhss6iRwGFU39D
+ bpjt5/DslssYZVyMiM8JtFzAxn6dtHXeIMXZ0Ir9xeC9GRGBAfnSA1UijLPVHmAkBm
+ g3CNDUixy30L8My/oZEi+y4wch3I/jeCaNGlu36g=
 Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id 662B035206AB; Fri,  6 Dec 2019 10:24:14 -0800 (PST)
-Date: Fri, 6 Dec 2019 10:24:14 -0800
+ id 0E73635206AB; Fri,  6 Dec 2019 10:45:53 -0800 (PST)
+Date: Fri, 6 Dec 2019 10:45:53 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Trond Myklebust <trondmy@hammerspace.com>
-Message-ID: <20191206182414.GH2889@paulmck-ThinkPad-P72>
+Message-ID: <20191206184553.GI2889@paulmck-ThinkPad-P72>
 References: <20191206151640.10966-1-madhuparnabhowmik04@gmail.com>
  <20191206160238.GE2889@paulmck-ThinkPad-P72>
  <2ec21ec537144bb3c0d5fbdaf88ea022d07b7ff8.camel@hammerspace.com>
+ <20191206182414.GH2889@paulmck-ThinkPad-P72>
+ <127792d6811173921733542052f061a18991f441.camel@hammerspace.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <2ec21ec537144bb3c0d5fbdaf88ea022d07b7ff8.camel@hammerspace.com>
+In-Reply-To: <127792d6811173921733542052f061a18991f441.camel@hammerspace.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Cc: "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -103,81 +105,99 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Dec 06, 2019 at 05:52:10PM +0000, Trond Myklebust wrote:
-> Hi Paul,
-> 
-> On Fri, 2019-12-06 at 08:02 -0800, Paul E. McKenney wrote:
-> > On Fri, Dec 06, 2019 at 08:46:40PM +0530, 
-> > madhuparnabhowmik04@gmail.com wrote:
-> > > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+On Fri, Dec 06, 2019 at 06:28:14PM +0000, Trond Myklebust wrote:
+> On Fri, 2019-12-06 at 10:24 -0800, Paul E. McKenney wrote:
+> > On Fri, Dec 06, 2019 at 05:52:10PM +0000, Trond Myklebust wrote:
+> > > Hi Paul,
 > > > 
-> > > This patch fixes the following errors:
-> > > fs/nfs/dir.c:2353:14: error: incompatible types in comparison
-> > > expression (different address spaces):
-> > > fs/nfs/dir.c:2353:14:    struct list_head [noderef] <asn:4> *
-> > > fs/nfs/dir.c:2353:14:    struct list_head *
+> > > On Fri, 2019-12-06 at 08:02 -0800, Paul E. McKenney wrote:
+> > > > On Fri, Dec 06, 2019 at 08:46:40PM +0530, 
+> > > > madhuparnabhowmik04@gmail.com wrote:
+> > > > > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> > > > > 
+> > > > > This patch fixes the following errors:
+> > > > > fs/nfs/dir.c:2353:14: error: incompatible types in comparison
+> > > > > expression (different address spaces):
+> > > > > fs/nfs/dir.c:2353:14:    struct list_head [noderef] <asn:4> *
+> > > > > fs/nfs/dir.c:2353:14:    struct list_head *
+> > > > > 
+> > > > > caused due to directly accessing the prev pointer of
+> > > > > a RCU protected list.
+> > > > > Accessing the pointer using the macro list_prev_rcu() fixes
+> > > > > this
+> > > > > error.
+> > > > > 
+> > > > > Signed-off-by: Madhuparna Bhowmik <
+> > > > > madhuparnabhowmik04@gmail.com>
+> > > > > ---
+> > > > >  fs/nfs/dir.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
+> > > > > index e180033e35cf..2035254cc283 100644
+> > > > > --- a/fs/nfs/dir.c
+> > > > > +++ b/fs/nfs/dir.c
+> > > > > @@ -2350,7 +2350,7 @@ static int
+> > > > > nfs_access_get_cached_rcu(struct
+> > > > > inode *inode, const struct cred *cre
+> > > > >  	rcu_read_lock();
+> > > > >  	if (nfsi->cache_validity & NFS_INO_INVALID_ACCESS)
+> > > > >  		goto out;
+> > > > > -	lh = rcu_dereference(nfsi-
+> > > > > >access_cache_entry_lru.prev);
+> > > > > +	lh = rcu_dereference(list_prev_rcu(&nfsi-
+> > > > > > access_cache_entry_lru));
+> > > > 
+> > > > And as noted in the earlier email, what is preventing concurrent
+> > > > insertions into  and deletions from this list?
+> > > > 
+> > > > o	This use of list_move_tail() is OK because it does not poison.
+> > > > 	Though it isn't being all that friendly to lockless access to
+> > > > 	->prev -- no WRITE_ONCE() in list_move_tail().
+> > > > 
+> > > > o	The use of list_add_tail() is not safe with RCU readers, though
+> > > > 	they do at least partially compensate via use of smp_wmb()
+> > > > 	in nfs_access_add_cache() before calling
+> > > > nfs_access_add_rbtree().
+> > > > 
+> > > > o	The list_del() near the end of nfs_access_add_rbtree() will
+> > > > 	poison the ->prev pointer.  I don't see how this is safe given
+> > > > the
+> > > > 	possibility of a concurrent call to
+> > > > nfs_access_get_cached_rcu().
 > > > 
-> > > caused due to directly accessing the prev pointer of
-> > > a RCU protected list.
-> > > Accessing the pointer using the macro list_prev_rcu() fixes this
-> > > error.
+> > > The pointer nfsi->access_cache_entry_lru is the head of the list,
+> > > so it
+> > > won't get poisoned. Furthermore, the objects it points to are freed
+> > > using kfree_rcu(), so they will survive as long as we hold the rcu
+> > > read
+> > > lock. The object's cred pointers also points to something that is
+> > > freed
+> > > in an rcu-safe manner.
 > > > 
-> > > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> > > ---
-> > >  fs/nfs/dir.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > The problem here is rather that a racing list_del() can cause nfsi-
+> > > > access_cache_entry_lru to be empty, which is presumably why Neil
+> > > > added
+> > > that check plus the empty cred pointer check in the following line.
 > > > 
-> > > diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-> > > index e180033e35cf..2035254cc283 100644
-> > > --- a/fs/nfs/dir.c
-> > > +++ b/fs/nfs/dir.c
-> > > @@ -2350,7 +2350,7 @@ static int nfs_access_get_cached_rcu(struct
-> > > inode *inode, const struct cred *cre
-> > >  	rcu_read_lock();
-> > >  	if (nfsi->cache_validity & NFS_INO_INVALID_ACCESS)
-> > >  		goto out;
-> > > -	lh = rcu_dereference(nfsi->access_cache_entry_lru.prev);
-> > > +	lh = rcu_dereference(list_prev_rcu(&nfsi-
-> > > >access_cache_entry_lru));
+> > > The barrier semantics may be suspect, although the spin unlock
+> > > after
+> > > list_del() should presumably guarantee release semantics?
 > > 
-> > And as noted in the earlier email, what is preventing concurrent
-> > insertions into  and deletions from this list?
-> > 
-> > o	This use of list_move_tail() is OK because it does not poison.
-> > 	Though it isn't being all that friendly to lockless access to
-> > 	->prev -- no WRITE_ONCE() in list_move_tail().
-> > 
-> > o	The use of list_add_tail() is not safe with RCU readers, though
-> > 	they do at least partially compensate via use of smp_wmb()
-> > 	in nfs_access_add_cache() before calling
-> > nfs_access_add_rbtree().
-> > 
-> > o	The list_del() near the end of nfs_access_add_rbtree() will
-> > 	poison the ->prev pointer.  I don't see how this is safe given
-> > the
-> > 	possibility of a concurrent call to
-> > nfs_access_get_cached_rcu().
+> > Ah, OK, so you are only ever using ->prev only from the head of the
+> > list,
+> > and presumably never do list_del() on the head itself.  (Don't laugh,
+> > this does really happen as a way to remove the entire list, though
+> > perhaps with list_del_init() rather than list_del().)
 > 
-> The pointer nfsi->access_cache_entry_lru is the head of the list, so it
-> won't get poisoned. Furthermore, the objects it points to are freed
-> using kfree_rcu(), so they will survive as long as we hold the rcu read
-> lock. The object's cred pointers also points to something that is freed
-> in an rcu-safe manner.
+> Correct.
 > 
-> The problem here is rather that a racing list_del() can cause nfsi-
-> >access_cache_entry_lru to be empty, which is presumably why Neil added
-> that check plus the empty cred pointer check in the following line.
+> > Maybe we should have a list_tail_rcu() that is only expected to work
+> > on the head of the list?
 > 
-> The barrier semantics may be suspect, although the spin unlock after
-> list_del() should presumably guarantee release semantics?
+> That might be the best way to resolve this, yes.
 
-Ah, OK, so you are only ever using ->prev only from the head of the list,
-and presumably never do list_del() on the head itself.  (Don't laugh,
-this does really happen as a way to remove the entire list, though
-perhaps with list_del_init() rather than list_del().)
-
-Maybe we should have a list_tail_rcu() that is only expected to work
-on the head of the list?
+Madhuparna, would you be willing to do a patch series along these lines?
 
 							Thanx, Paul
 _______________________________________________
