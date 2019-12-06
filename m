@@ -2,84 +2,101 @@ Return-Path: <SRS0=164v=Z4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C10B1C2BBE2
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 16:02:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0418C43603
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 16:05:50 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 964452173E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 16:02:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 924C42173E
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Dec 2019 16:05:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhBUf+ww"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 964452173E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="xA4bTKeR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 924C42173E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5B33988A83;
-	Fri,  6 Dec 2019 16:02:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6B61A88ABC;
+	Fri,  6 Dec 2019 16:05:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OVelqksfkfcZ; Fri,  6 Dec 2019 16:02:41 +0000 (UTC)
+	with ESMTP id HiIBv3zGBWrz; Fri,  6 Dec 2019 16:05:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 47ABD88A74;
-	Fri,  6 Dec 2019 16:02:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C61D188A98;
+	Fri,  6 Dec 2019 16:05:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 25C4DC18DD;
-	Fri,  6 Dec 2019 16:02:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B9DE8C1D7D;
+	Fri,  6 Dec 2019 16:05:49 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EECE7C077D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 510E4C077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 16:02:39 +0000 (UTC)
+ Fri,  6 Dec 2019 16:05:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id EA786253CA
+ by silver.osuosl.org (Postfix) with ESMTP id 4C39126045
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 16:02:39 +0000 (UTC)
+ Fri,  6 Dec 2019 16:05:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qBsem-Juf5hr
+ with ESMTP id 9NpEBqK4lXlg
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 16:02:39 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 582EC20503
+ Fri,  6 Dec 2019 16:05:46 +0000 (UTC)
+X-Greylist: delayed 00:06:55 by SQLgrey-1.7.6
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id F204920503
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Dec 2019 16:02:39 +0000 (UTC)
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
- [50.39.105.78])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 22B232173E;
- Fri,  6 Dec 2019 16:02:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1575648159;
- bh=uN49J2KjPjCG2q1vrkZZhYout9vUnOgmq5AHuzL7OmY=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=dhBUf+ww+91PA7OIoUovoazx+Zee9VhrqKOW7tvxd09vcuMDCb5ZqA/Xh//Y8mUTG
- f8gBztw7LPmmF9Ptmm0dmheqcx1kCMIhpl7Rnx+bubZ6acaSfZrRnn8cc8pKCVsolB
- Q0ieCCicDMxk1sWnpr3m9eetaba0Ru77BQMujAis=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id DB9F435206AB; Fri,  6 Dec 2019 08:02:38 -0800 (PST)
-Date: Fri, 6 Dec 2019 08:02:38 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: madhuparnabhowmik04@gmail.com
-Message-ID: <20191206160238.GE2889@paulmck-ThinkPad-P72>
-References: <20191206151640.10966-1-madhuparnabhowmik04@gmail.com>
+ Fri,  6 Dec 2019 16:05:45 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id v93so2918807pjb.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 06 Dec 2019 08:05:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=joelfernandes.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=pygl8oMQvOdcJfo8OD7ZqM6kANo2v/N/jTBIk1Ungko=;
+ b=xA4bTKeRYpdY/+/mnZnlANfDTD1eYnEC7UKH0/cEPhEwJbsOPPMAUnf6ZEZR6SfzOo
+ 1KCMflEIr/QemVn4RA4X38oHl2/j7bKcP5g5l7b+ETLaztmPs48Pyx9wFxp7EXWhHBZa
+ p0gOEZkOjQlpqF+nvYKTw5d4SqmN5wJsj33r0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=pygl8oMQvOdcJfo8OD7ZqM6kANo2v/N/jTBIk1Ungko=;
+ b=WvJU0vHLp8ZDh7COt8bib9V/y5yAh/H8DfhO0fvEfdgsAAMePH5WkXEwhgDv17oBIm
+ dk1M+R7kNOeUf4J/z54JuDqpGIYV2hf+gixD3IDWcg/VhbRFu0G6Pa2EwVSOJNo7PVZY
+ oQ9xKKdVCE1s8frWG1F7KFf5+XuKmMAIuJbd8JT0hV1K2SEUi6XpbYl7Ko3PWS7OhIc7
+ 7I6UUPMR/m/FJH5bQu1NLmuLi90dkMSCVkl5+vSQ0psoYuJABNAwXZ59U3mUAvN+brKl
+ 8WQHMZVoHw4GP5vQSUtK8XnND4rCMst009NWrR6XwX7pcBik9+ESGHtLpZzVUVNkZHQ7
+ rpsQ==
+X-Gm-Message-State: APjAAAUmQ0ezsTUqOdXtHk+EzbZ/jfKN1H2Jbs+WJTj71Nr6ITvahIk8
+ oFNbfkuLOvvpb6FEBFrHEo7FCA==
+X-Google-Smtp-Source: APXvYqyHcbMY2FvYIEPh6SR56LzKLX4vx0Fs5FhrAhi/UkKIZHLUhBBdgWkmqf97Fdj9mmK8tA1Hxg==
+X-Received: by 2002:a17:90a:178f:: with SMTP id
+ q15mr16632135pja.132.1575647929759; 
+ Fri, 06 Dec 2019 07:58:49 -0800 (PST)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+ by smtp.gmail.com with ESMTPSA id x197sm17302182pfc.1.2019.12.06.07.58.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Dec 2019 07:58:49 -0800 (PST)
+Date: Fri, 6 Dec 2019 10:58:48 -0500
+From: Joel Fernandes <joel@joelfernandes.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Message-ID: <20191206155848.GA15547@google.com>
+References: <20191206150554.10479-1-madhuparnabhowmik04@gmail.com>
+ <20191206153258.GD2889@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191206151640.10966-1-madhuparnabhowmik04@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- anna.schumaker@netapp.com, rcu@vger.kernel.org, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- trond.myklebust@hammerspace.com
-Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] fs: nfs: dir.c: Fix sparse
-	error
+In-Reply-To: <20191206153258.GD2889@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: rcu@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ rostedt@goodmis.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] rculist: Add macro list_prev_rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,94 +108,130 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Dec 06, 2019 at 08:46:40PM +0530, madhuparnabhowmik04@gmail.com wrote:
-> From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+On Fri, Dec 06, 2019 at 07:32:58AM -0800, Paul E. McKenney wrote:
+> On Fri, Dec 06, 2019 at 08:35:54PM +0530, madhuparnabhowmik04@gmail.com wrote:
+> > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> > 
+> > There are instances in the linux kernel where the prev pointer
+> > of a list is accessed.
+> > Unlike list_next_rcu, a similar macro for accessing the prev
+> > pointer was not present.
 > 
-> This patch fixes the following errors:
-> fs/nfs/dir.c:2353:14: error: incompatible types in comparison expression (different address spaces):
-> fs/nfs/dir.c:2353:14:    struct list_head [noderef] <asn:4> *
-> fs/nfs/dir.c:2353:14:    struct list_head *
+> Interesting patch, but...
 > 
-> caused due to directly accessing the prev pointer of
-> a RCU protected list.
-> Accessing the pointer using the macro list_prev_rcu() fixes this error.
+> You lost me on this one.  The list_head ->prev pointer is not marked
+> __rcu, so why is sparse complaining?  Or is someone trying to use
+> rcu_dereference() or similar on ->prev?  If so, it is important to note
+> that both list_del() and list_del_rcu() poision ->prev, so it is not
+> usually safe to access ->prev within an RCU read-side critical section.
+> At the very least, this restriction needs to be called out in the
+> list_prev_rcu() comment header.  And that use of rcu_dereference() and
+> friends on the ->prev pointer is almost always the result of confusion,
+> if not a bug.  (Or is this some new-to-me use case?)
+
+Madhuparna, could you please send the patch using this as well, to prevent
+confusion? You can see how just sending one patch and not the user of it
+creates avoidable confusion. Thanks.
+
+Thanks Paul for taking a look. If I remember the dependent patch uses
+rcu_dereference() but I don't remember all the details at the top of my head.
+
+thanks,
+
+ - Joel
+
+
 > 
-> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> ---
->  fs/nfs/dir.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Either way, the big question is how we are sure that the uses of ->prev
+> that sparse is complaining about are in fact safe.  More specifically,
+> what have those use cases done to ensure that there will be no invocation
+> of either list_del() or list_del_rcu() on the current element just before
+> the use of ->prev?  Here are a couple of possibilities:
 > 
-> diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-> index e180033e35cf..2035254cc283 100644
-> --- a/fs/nfs/dir.c
-> +++ b/fs/nfs/dir.c
-> @@ -2350,7 +2350,7 @@ static int nfs_access_get_cached_rcu(struct inode *inode, const struct cred *cre
->  	rcu_read_lock();
->  	if (nfsi->cache_validity & NFS_INO_INVALID_ACCESS)
->  		goto out;
-> -	lh = rcu_dereference(nfsi->access_cache_entry_lru.prev);
-> +	lh = rcu_dereference(list_prev_rcu(&nfsi->access_cache_entry_lru));
-
-And as noted in the earlier email, what is preventing concurrent
-insertions into  and deletions from this list?
-
-o	This use of list_move_tail() is OK because it does not poison.
-	Though it isn't being all that friendly to lockless access to
-	->prev -- no WRITE_ONCE() in list_move_tail().
-
-o	The use of list_add_tail() is not safe with RCU readers, though
-	they do at least partially compensate via use of smp_wmb()
-	in nfs_access_add_cache() before calling nfs_access_add_rbtree().
-
-o	The list_del() near the end of nfs_access_add_rbtree() will
-	poison the ->prev pointer.  I don't see how this is safe given the
-	possibility of a concurrent call to nfs_access_get_cached_rcu().
-
->  	cache = list_entry(lh, struct nfs_access_entry, lru);
->  	if (lh == &nfsi->access_cache_entry_lru ||
->  	    cred != cache->cred)
-
-And a few lines below here, it really does dereference the pointer
-obtained from ->prev!
-
-So how to really fix this?  Here is one possibility, but we of course
-need to get the NFS developers' and maintainers' thoughts:
-
-o	Create a list that is safe for bidirectional RCU traversal.
-	This can use list_head, and would need these functions,
-	give or take the exact names:
-
-	list_add_tail_rcuprev():  This is like list_add_tail_rcu(),
-	but also has smp_store_release() for ->prev.  (As in there is
-	also a __list_add_rcuprev() helper that actually contains the
-	additional smp_store_release().)
-
-	list_del_rcuprev():  This can be exactly __list_del_entry(),
-	but with the assignment to ->prev in __list_del() becoming
-	WRITE_ONCE().  And it looks like callers to __list_del_entry()
-	and __list_del() might need some attention!  And these might
-	result in additional users of *_rcuprev().
-
-	list_prev_rcu() as in your first patch, but with READ_ONCE().
-	Otherwise DEC Alpha can fail.  And more subtle compiler issues
-	can appear on other architectures.
-
-	Note that list_move_tail() will be OK give or take *_ONCE().
-	It might be better to define a list_move_tail_rcuprev(), given
-	the large number of users of list_move_tail() -- some of these
-	users might not like even the possibility of added overhead due
-	to volatile accesses.  ;-)
-
-Or am I missing something subtle here?
-
-							Thanx, Paul
+> 1.	The list only grows, so list_del() and list_del_rcu() are never
+> 	ever invoked on it.
+> 
+> 	But even this is not safe because __list_add_rcu() does
+> 	smp_store_release() only on ->next.  The initialization of
+> 	->prev is completely unordered with any other initialization,
+> 	which can result in bugs on lookup/insertion concurrency.
+> 
+> 	So this instead becomes the list being constant.
+> 
+> 2.	The ->prev pointer is never actually dereferenced, but only
+> 	compared.  One example use case is determining whether the
+> 	current element is first in the list by comparing its
+> 	->prev pointer to the address of the list header.
+> 
+> 	But this use case needs a READ_ONCE().
+> 
+> 3.	These accesses are single-threaded, for example while the list
+> 	is being initialized but before it is exposed to readers or
+> 	after the list has been rendered inaccessible to readers
+> 	(and following at least one grace period after that).  But in
+> 	this case, there is no need for rcu_dereference(), so sparse
+> 	should not be complaining.
+> 
+> 4.	#3 above, but code is shared with the non-single-threaded case.
+> 	But then the non-single-threaded code needs to be safe with
+> 	respect to concurrent insertions and deletions, as called
+> 	out above.
+> 
+> So what am I missing here?
+> 
+> 							Thanx, Paul
+> 
+> > Therefore, directly accessing the prev pointer was causing
+> > sparse errors.
+> > One such example is the sparse error in fs/nfs/dir.c
+> > 
+> > error:
+> > fs/nfs/dir.c:2353:14: error: incompatible types in comparison expression (different address spaces):
+> > fs/nfs/dir.c:2353:14:    struct list_head [noderef] <asn:4> *
+> > fs/nfs/dir.c:2353:14:    struct list_head *
+> > 
+> > The error is caused due to the following line:
+> > 
+> > lh = rcu_dereference(nfsi->access_cache_entry_lru.prev);
+> > 
+> > After adding the macro, this error can be fixed as follows:
+> > 
+> > lh = rcu_dereference(list_prev_rcu(&nfsi->access_cache_entry_lru));
+> > 
+> > Therefore, we think there is a need to add this macro to rculist.h.
+> > 
+> > Suggested-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> > ---
+> >  include/linux/rculist.h | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/include/linux/rculist.h b/include/linux/rculist.h
+> > index 4b7ae1bf50b3..49eef8437753 100644
+> > --- a/include/linux/rculist.h
+> > +++ b/include/linux/rculist.h
+> > @@ -40,6 +40,12 @@ static inline void INIT_LIST_HEAD_RCU(struct list_head *list)
+> >   */
+> >  #define list_next_rcu(list)	(*((struct list_head __rcu **)(&(list)->next)))
+> >  
+> > +/*
+> > + * return the prev pointer of a list_head in an rcu safe
+> > + * way, we must not access it directly
+> > + */
+> > +#define list_prev_rcu(list)	(*((struct list_head __rcu **)(&(list)->prev)))
+> > +
+> >  /*
+> >   * Check during list traversal that we are within an RCU reader
+> >   */
+> > -- 
+> > 2.17.1
+> > 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
