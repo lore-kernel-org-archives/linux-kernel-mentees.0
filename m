@@ -2,106 +2,102 @@ Return-Path: <SRS0=PP36=2C=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=1.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_FONT_LOW_CONTRAST,HTML_IMAGE_ONLY_24,
-	HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12190C43603
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Dec 2019 19:48:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E338EC43603
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Dec 2019 22:03:53 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D54D12077B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Dec 2019 19:48:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B19C9214D8
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Dec 2019 22:03:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DPPjxzL8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D54D12077B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="akQTQ8DG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B19C9214D8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B06E8888C2;
-	Thu, 12 Dec 2019 19:48:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 83A73871FA;
+	Thu, 12 Dec 2019 22:03:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xs0e8YHjWHM2; Thu, 12 Dec 2019 19:48:50 +0000 (UTC)
+	with ESMTP id WNq0GSyzGdXS; Thu, 12 Dec 2019 22:03:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3D7D0888BE;
-	Thu, 12 Dec 2019 19:48:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 193A585531;
+	Thu, 12 Dec 2019 22:03:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2853DC1D81;
-	Thu, 12 Dec 2019 19:48:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE456C1D81;
+	Thu, 12 Dec 2019 22:03:52 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BC666C0881
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D967CC0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Dec 2019 19:48:48 +0000 (UTC)
+ Thu, 12 Dec 2019 22:03:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id AAFDF86F4E
+ by fraxinus.osuosl.org (Postfix) with ESMTP id C2465871FA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Dec 2019 19:48:48 +0000 (UTC)
+ Thu, 12 Dec 2019 22:03:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HN9MLcGqlZ0V
+ with ESMTP id 5FnLloztRNNG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Dec 2019 19:48:47 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6198186EFF
+ Thu, 12 Dec 2019 22:03:51 +0000 (UTC)
+X-Greylist: delayed 00:08:14 by SQLgrey-1.7.6
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3CF5285531
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Dec 2019 19:48:47 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id i1so49701oie.8
+ Thu, 12 Dec 2019 22:03:51 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id l24so301582pgk.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Dec 2019 11:48:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J7Ud72WI466qsftOP7JQ50KB+lJebsDWAyFkChWRoN0=;
- b=DPPjxzL8yYBNY4albLs/s8eJRP9il386/eZhVoDuFHlSpdRZlGS9TlNkZJ68hYnjI6
- I0yBGkMCE2i+D2kN8H0KB4jmfHmtiywX5jewm8WngdKCORbqhCIadsBxR3+HKFUAIl8/
- +k3xQYRY60bUs5dhV59i615pOXI3joVaSzyER13MmqNxiaPDJViFlD+xkh+SGXKIeJPY
- nXbJciICco4zTHuM8khu3W2tElk0dBCe2ftZ5Pf+B2mekOX+IMN8sO2e3zq1ComLu0yE
- c7m0S43FT3WaU+mP1tRpOuk2+asswlqXQ1rHSslNvK1PqBJsaP8NMhESQuBttNQQYaV3
- h3sA==
+ Thu, 12 Dec 2019 14:03:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=joelfernandes.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=h/VdtXdRQlPmJqNAwJpL0SAreQKh5WfidHfGkffdfTY=;
+ b=akQTQ8DGz4+sLf+zxm0p7E7OSR4ZVNkCljcLLOLKtWKJJXAmgxCFUjPlwOG5fbSC9N
+ mERo4ScyELdDEEkmatrR1iPy+pdwUVhfxjnUUIR+kUGOsjfUBzr5wxbpFNbTqRNtQ09z
+ b+wx6vcHLgpVhQN4aXYz0T07BsuRDMg6DU2cw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J7Ud72WI466qsftOP7JQ50KB+lJebsDWAyFkChWRoN0=;
- b=Ms1+Y6o6SZVuq045hILq4L1z1iLjcbLRqcB9scp5Wn9kTK/Y+srY+60iRlMtHZTkpN
- RJMtazbvWm9F/Al083pQprmO9bqmz4iyF2rDMjTosTmaAdXKjE4T8GS0DZaFbrNYTHv1
- Kdu862907KZkw/8BTMDFPwkEsJcGAc4Qth6GWLnFAMnl/e7bVTp+UKQt0UyT6JA1gZqW
- qww4BEKhrReOHyY3PLcKxgFouwtzf5cgl2HfLIpm6MM6OC8CBiNRwgjDQlLIRxUDJUX5
- dolk4PlBNpUIdnDpy/nPqqwutK4HfJVhaDfDHXlbEXH18h5/DjBNZHUL3h+VaYUY+8ju
- V/Ww==
-X-Gm-Message-State: APjAAAWxiAE2QrRckuWU5C5v6F2ayksRDzoXeRjC77rZs9Qqcx997C8x
- LoLgmNfHru/TK6n/8RCgJc0failf64oj2erT0JA=
-X-Google-Smtp-Source: APXvYqxJo/kzcBIFB8jl/XGL+b0QHJZX5hhcnyj5MuEN301Kw6Ql/jB7HKdBlKXkvP3kNTwTj3HT27WAVpN+ThjpgYk=
-X-Received: by 2002:aca:5303:: with SMTP id h3mr5862925oib.109.1576180126437; 
- Thu, 12 Dec 2019 11:48:46 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=h/VdtXdRQlPmJqNAwJpL0SAreQKh5WfidHfGkffdfTY=;
+ b=cPs12jlF9BsIl+tNiUNEVsycTeH2q1YTxAy/eDXO/R6ePerZOx1Q2l/mtR233zOGpX
+ d1FxVw5NsEpBfcPKgHMjr1AMrSDUMB4sL/UAzVLHvihPUWPagnM+JbylhcZ3qIKo07nx
+ GzLowAz7t+NXVJuU3UY6MTfyRTRXqmb5l97OUlyxewg/kdhQNITE3+FbJ+v5+2it6NG4
+ 2mzsr3F1gR7OCcgkuR0VJdDEgrYFWPYQNocWLXGeoCENsPf89APRofmGgrqfxRPVj6+A
+ A1cYA0XyTPUnEqj7W5CbyAePc7OIRkWzSmeTLBT2DEwiYgSJSwBLduBO0EHWg1FIYMe2
+ 3gUQ==
+X-Gm-Message-State: APjAAAWpsyDt861BWL+fFKP/ZZC+oYlsb4DwvOsb0foEP5qBY+yq2bgE
+ 8eLAujb0+xfSMJQyhv+hMUE/0haSxhc=
+X-Google-Smtp-Source: APXvYqwsMX2eicc0dbN7r6W5gmKv0tIxPb2fvRfeVxEEAY6q0Rx/j41gSkqdSqxQQojNi+feY0HBOQ==
+X-Received: by 2002:a63:7843:: with SMTP id t64mr13106609pgc.144.1576187736533; 
+ Thu, 12 Dec 2019 13:55:36 -0800 (PST)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+ by smtp.gmail.com with ESMTPSA id k88sm7172380pjb.15.2019.12.12.13.55.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Dec 2019 13:55:35 -0800 (PST)
+Date: Thu, 12 Dec 2019 16:55:34 -0500
+From: Joel Fernandes <joel@joelfernandes.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Message-ID: <20191212215534.GE129023@google.com>
+References: <20191206151640.10966-1-madhuparnabhowmik04@gmail.com>
+ <20191206160238.GE2889@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-References: <201912110621.WJ6oENgf%lkp@intel.com>
- <20191211074842.21400-1-madhuparnabhowmik04@gmail.com>
- <20191212041406.GT2889@paulmck-ThinkPad-P72>
- <5614739335088d3e9baff43b752df04b84a8ad14.camel@hammerspace.com>
- <20191212180358.GX2889@paulmck-ThinkPad-P72>
-In-Reply-To: <20191212180358.GX2889@paulmck-ThinkPad-P72>
-From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-Date: Fri, 13 Dec 2019 01:18:35 +0530
-Message-ID: <CAF65HP0GGndGEc01P7oqUHDfLre=UafDJt3i7PkPAvErgahCug@mail.gmail.com>
-To: paulmck@kernel.org
-Cc: "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
- "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "rcu@vger.kernel.org" <rcu@vger.kernel.org>,
- Trond Myklebust <trondmy@hammerspace.com>,
- "joel@joelfernandes.org" <joel@joelfernandes.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "anna.schumaker@netapp.com" <anna.schumaker@netapp.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] fs: nfs: dir.c: Fix sparse error
+Content-Disposition: inline
+In-Reply-To: <20191206160238.GE2889@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ anna.schumaker@netapp.com, rcu@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ trond.myklebust@hammerspace.com
+Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] fs: nfs: dir.c: Fix sparse
+	error
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,105 +109,63 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============4508245843234235526=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============4508245843234235526==
-Content-Type: multipart/alternative; boundary="00000000000089d6650599870826"
+On Fri, Dec 06, 2019 at 08:02:38AM -0800, Paul E. McKenney wrote:
 
---00000000000089d6650599870826
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks for fixing these issues and I caught up with all the patches.
 
-On Thu, Dec 12, 2019 at 11:33 PM Paul E. McKenney <paulmck@kernel.org>
-wrote:
+> 
+> o	Create a list that is safe for bidirectional RCU traversal.
+> 	This can use list_head, and would need these functions,
+> 	give or take the exact names:
 
-> On Thu, Dec 12, 2019 at 01:45:29PM +0000, Trond Myklebust wrote:
-> > On Wed, 2019-12-11 at 20:14 -0800, Paul E. McKenney wrote:
-> > > On Wed, Dec 11, 2019 at 01:18:42PM +0530,
-> > > madhuparnabhowmik04@gmail.com wrote:
-> > > > This build error is because the macro list_tail_rcu() is
-> > > > not yet present in the mainline kernel.
-> > > >
-> > > > This patch is dependent on the patch :
-> > > >
-> https://lore.kernel.org/linux-kernel-mentees/CAF65HP2SC89k9HJZfcLgeOMRPBK=
-RyasCMiLo2gZgBKycjHuU6A@mail.gmail.com/T/#t
-> > >
-> > > If the NFS folks are OK with it, I would be happy to take it in -rcu,
-> > > where the list_tail_rcu() patch is currently located.
-> >
-> > That would be fine with me.
->
-> Very good!  I have queued it.
->
-> Thank you very much!
+On a related topic, I was trying to reason about how one could come up with
+bidirectional traversal without ever getting rid of poisoning.
 
-Regards,
-Madhuparna
+As you noted in another post, if during traversal, the node is deleted and
+poisoned, then the traverser can access a poisoned pointer. If the list is
+being traversed in reverse (by following prev), then poisioning could hurt
+it.
 
->                                                         Thanx, Paul
->
-=E1=90=A7
+Even with the below modifications, poisoning would still hurt it. No? Were
+you suggesting to remove poisoning for such bidirectional RCU list?
 
---00000000000089d6650599870826
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sorry if I missed something.
+thanks,
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 12, 2019 at 11:33 PM Paul=
- E. McKenney &lt;<a href=3D"mailto:paulmck@kernel.org" target=3D"_blank">pa=
-ulmck@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">On Thu, Dec 12, 2019 at 01:45:29PM +0000, Trond Myklebust w=
-rote:<br>
-&gt; On Wed, 2019-12-11 at 20:14 -0800, Paul E. McKenney wrote:<br>
-&gt; &gt; On Wed, Dec 11, 2019 at 01:18:42PM +0530, <br>
-&gt; &gt; <a href=3D"mailto:madhuparnabhowmik04@gmail.com" target=3D"_blank=
-">madhuparnabhowmik04@gmail.com</a> wrote:<br>
-&gt; &gt; &gt; This build error is because the macro list_tail_rcu() is<br>
-&gt; &gt; &gt; not yet present in the mainline kernel.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; This patch is dependent on the patch : <br>
-&gt; &gt; &gt; <a href=3D"https://lore.kernel.org/linux-kernel-mentees/CAF6=
-5HP2SC89k9HJZfcLgeOMRPBKRyasCMiLo2gZgBKycjHuU6A@mail.gmail.com/T/#t" rel=3D=
-"noreferrer" target=3D"_blank">https://lore.kernel.org/linux-kernel-mentees=
-/CAF65HP2SC89k9HJZfcLgeOMRPBKRyasCMiLo2gZgBKycjHuU6A@mail.gmail.com/T/#t</a=
-><br>
-&gt; &gt; <br>
-&gt; &gt; If the NFS folks are OK with it, I would be happy to take it in -=
-rcu,<br>
-&gt; &gt; where the list_tail_rcu() patch is currently located.<br>
-&gt; <br>
-&gt; That would be fine with me.<br>
-<br>
-Very good!=C2=A0 I have queued it.<br>
-<br></blockquote><div>Thank you very much!</div><div><br></div><div>Regards=
-,</div><div>Madhuparna=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Thanx, Paul<br>
-</blockquote></div></div><div hspace=3D"streak-pt-mark" style=3D"max-height=
-:1px"><img alt=3D"" style=3D"width:0px;max-height:0px;overflow:hidden" src=
-=3D"https://mailfoogae.appspot.com/t?sender=3DabWFkaHVwYXJuYWJob3dtaWswNEBn=
-bWFpbC5jb20%3D&amp;type=3Dzerocontent&amp;guid=3D840d5ca7-da0f-4d99-a009-25=
-6f36edec4f"><font color=3D"#ffffff" size=3D"1">=E1=90=A7</font></div>
+ - Joel
 
---00000000000089d6650599870826--
 
---===============4508245843234235526==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> 	list_add_tail_rcuprev():  This is like list_add_tail_rcu(),
+> 	but also has smp_store_release() for ->prev.  (As in there is
+> 	also a __list_add_rcuprev() helper that actually contains the
+> 	additional smp_store_release().)
+> 
+> 	list_del_rcuprev():  This can be exactly __list_del_entry(),
+> 	but with the assignment to ->prev in __list_del() becoming
+> 	WRITE_ONCE().  And it looks like callers to __list_del_entry()
+> 	and __list_del() might need some attention!  And these might
+> 	result in additional users of *_rcuprev().
+> 
+> 	list_prev_rcu() as in your first patch, but with READ_ONCE().
+> 	Otherwise DEC Alpha can fail.  And more subtle compiler issues
+> 	can appear on other architectures.
+> 
+> 	Note that list_move_tail() will be OK give or take *_ONCE().
+> 	It might be better to define a list_move_tail_rcuprev(), given
+> 	the large number of users of list_move_tail() -- some of these
+> 	users might not like even the possibility of added overhead due
+> 	to volatile accesses.  ;-)
+> 
+> Or am I missing something subtle here?
+> 
+> 							Thanx, Paul
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============4508245843234235526==--
