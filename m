@@ -2,88 +2,70 @@ Return-Path: <SRS0=GqCC=2J=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B2AAC2D0C1
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 19 Dec 2019 16:56:04 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C34A8C43603
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 19 Dec 2019 17:00:31 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6EBF824672
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 19 Dec 2019 16:56:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOWy03CF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6EBF824672
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 96A9124676
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 19 Dec 2019 17:00:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96A9124676
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4C924886B4;
-	Thu, 19 Dec 2019 16:56:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9528887F8C;
+	Thu, 19 Dec 2019 17:00:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id R047R0xJfK42; Thu, 19 Dec 2019 16:56:03 +0000 (UTC)
+	with ESMTP id 9ELljC3659vn; Thu, 19 Dec 2019 17:00:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DA3A5886AB;
-	Thu, 19 Dec 2019 16:56:03 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7161787EDB;
+	Thu, 19 Dec 2019 17:00:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B9CE8C1AE8;
-	Thu, 19 Dec 2019 16:56:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 58488C1AE8;
+	Thu, 19 Dec 2019 17:00:29 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8F679C077D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9AFD3C077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Dec 2019 16:56:02 +0000 (UTC)
+ Thu, 19 Dec 2019 17:00:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 73C9C886B4
+ by hemlock.osuosl.org (Postfix) with ESMTP id 80927886AF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Dec 2019 16:56:02 +0000 (UTC)
+ Thu, 19 Dec 2019 17:00:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c-dIjq2b7IJ8
+ with ESMTP id bkWMgmAgmOiE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Dec 2019 16:56:01 +0000 (UTC)
+ Thu, 19 Dec 2019 17:00:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EB6F3886AB
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C15F687C7D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Dec 2019 16:56:01 +0000 (UTC)
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
- [50.39.105.78])
+ Thu, 19 Dec 2019 17:00:27 +0000 (UTC)
+Received: from lwn.net (localhost [127.0.0.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B48DE2146E;
- Thu, 19 Dec 2019 16:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576774561;
- bh=PMSrHvqg0gemRV++ytAtKoOkAvugTmkmbonktzFyE18=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=kOWy03CFpwgpXw2oFdpVHUn7E+twuJwx204ffHmEP3rX5xAhmL0yn3pJryLeHzsM/
- 9mHGJBz4Lz4LHdvx1jUkbqzyiNnllYhG2ubYHjX6ory+oEl2IBwYYEKMx28ZlHvUDQ
- +gMlaF8T9cykSqBWbLdfxDfbcLvFvApGmIPpgPC0=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id 8483E352274B; Thu, 19 Dec 2019 08:56:01 -0800 (PST)
-Date: Thu, 19 Dec 2019 08:56:01 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Message-ID: <20191219165601.GA2889@paulmck-ThinkPad-P72>
-References: <20191203063941.6981-1-frextrite@gmail.com>
- <20191206080750.21745-1-frextrite@gmail.com>
- <20191219092913.76ca933e@lwn.net>
+ by ms.lwn.net (Postfix) with ESMTPSA id F41BF2E5;
+ Thu, 19 Dec 2019 17:00:26 +0000 (UTC)
+Date: Thu, 19 Dec 2019 10:00:25 -0700
+From: Jonathan Corbet <corbet@lwn.net>
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <20191219100025.255003e6@lwn.net>
+In-Reply-To: <20191121130605.29074-1-dwlsalmeida@gmail.com>
+References: <20191121130605.29074-1-dwlsalmeida@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191219092913.76ca933e@lwn.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: linux-doc@vger.kernel.org, Lai Jiangshan <jiangshanlai@gmail.com>,
- Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] doc: listRCU: Add some more
- listRCU patterns in the kernel
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, hirofumi@mail.parknet.co.jp,
+ linux-doc@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] Documentation: filesystems:
+	convert vfat.txt to RST
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,43 +77,65 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Dec 19, 2019 at 09:29:13AM -0700, Jonathan Corbet wrote:
-> On Fri,  6 Dec 2019 13:37:51 +0530
-> Amol Grover <frextrite@gmail.com> wrote:
-> 
-> > - Add more information about listRCU patterns taking examples
-> > from audit subsystem in the linux kernel.
-> > 
-> > - The initially written audit examples are kept, even though they are
-> > slightly different in the kernel.
-> > 
-> > - Modify inline text for better passage quality.
-> > 
-> > - Fix typo in code-blocks and improve code comments.
-> > 
-> > - Add text formatting (italics, bold and code) for better emphasis.
-> > 
-> > Patch originally submitted at
-> > https://lore.kernel.org/patchwork/patch/1082804/
-> > 
-> > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> 
-> Paul, what's your wish regarding this one?  Do you want to pick it up, or
-> should I ... ?
+On Thu, 21 Nov 2019 10:06:05 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
 
-I was waiting for replies agreeing that Amol's changes addressed the
-feedback to v1 of this patch.  I take this to mean that you are OK
-with his v2, so will queue Amol's patch.  ;-)
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Converts vfat.txt to the reStructuredText format, improving presentation
+> without changing the underlying content.
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> -----------------------------------------------------------
+> Changes in v2:
+> Refactored long lines as pointed out by Jonathan
+> Copied the maintainer
+> Updated the reference in the MAINTAINERS file for vfat
+> 
+> I did not move this into admin-guide, waiting on what the 
+> maintainer has to say about this and also about old sections
+> in the text, if any.
 
-							Thanx, Paul
+This one, too, could user a bit less markup, and more consistent markup.
+If you have to mark up literal text, for example, it should be ``literal``,
+not *emphasis*.  But please think about whether it needs marking up at all.
+
+I have one other thing here, that could use input from the vfat maintainer:
+
+[...]
+
+> +BUG REPORTS
+> +===========
+> +If you have trouble with the *VFAT* filesystem, mail bug reports to
+> +chaffee@bmrc.cs.berkeley.edu.
+> +
+> +Please specify the filename and the operation that gave you trouble.
+> +
+> +TEST SUITE
+> +==========
+> +If you plan to make any modifications to the vfat filesystem, please
+> +get the test suite that comes with the vfat distribution at
+> +
+> +`<http://web.archive.org/web/*/http://bmrc.berkeley.edu/people/chaffee/vfat.html>`_
+> +
+> +This tests quite a few parts of the vfat filesystem and additional
+> +tests for new features or untested features would be appreciated.
+
+What are the chances that the above email address works at all, especially
+given that the associated web page has to be dug out of the wayback
+machine?  We should really try to avoid perpetuating obviously wrong
+information when we can.  Hirofumi, do you have any thoughts on what might
+replace this section?
+
+Thanks,
+
+jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
