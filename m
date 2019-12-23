@@ -2,101 +2,79 @@ Return-Path: <SRS0=sSDe=2N=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68632C2D0D3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Dec 2019 03:31:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6DE6C2D0C0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Dec 2019 07:47:11 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 32FFB206CB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Dec 2019 03:31:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aG1zyt/Z"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32FFB206CB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id B698120715
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Dec 2019 07:47:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B698120715
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=darmarit.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EE2768778E;
-	Mon, 23 Dec 2019 03:31:38 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8D1448738B;
+	Mon, 23 Dec 2019 07:47:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AJLE6hKuJZGQ; Mon, 23 Dec 2019 03:31:38 +0000 (UTC)
+	with ESMTP id 8Yr7hth8QoDg; Mon, 23 Dec 2019 07:47:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4FE308774C;
-	Mon, 23 Dec 2019 03:31:38 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 023D38739D;
+	Mon, 23 Dec 2019 07:47:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 33B29C18DC;
-	Mon, 23 Dec 2019 03:31:38 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D05D5C0881
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DEC17C1D81;
+	Mon, 23 Dec 2019 07:47:09 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 00CA6C0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Dec 2019 03:31:36 +0000 (UTC)
+ Mon, 23 Dec 2019 07:47:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B4F2A85BF7
+ by silver.osuosl.org (Postfix) with ESMTP id DC1961FFFF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Dec 2019 03:31:36 +0000 (UTC)
+ Mon, 23 Dec 2019 07:47:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jPMJtG-1C855
+ with ESMTP id vsFH6TQacTE5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Dec 2019 03:31:36 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id F1DE585B95
+ Mon, 23 Dec 2019 07:47:06 +0000 (UTC)
+X-Greylist: delayed 00:09:28 by SQLgrey-1.7.6
+Received: from smtp1-3.goneo.de (smtp1-3.goneo.de [85.220.129.32])
+ by silver.osuosl.org (Postfix) with ESMTPS id 557861FF59
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Dec 2019 03:31:35 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id p14so8484155pfn.4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Dec 2019 19:31:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wDk9eb7F2WxO7x5adDBGN43VlmnnZ5rDg1TMYWO8AcU=;
- b=aG1zyt/Z2Phm31nUAnlEmVfeRFW3Z+k9xOf+fSEYyBZY5LrxUHcY1bS+MCadB8+8/x
- bIz+JJ6jlbNazR81bTamAfPf8AvcG/vg9haZ0nqQi7ZcCyFEpSNbf43VKITHz/Ae3KIa
- bgC/v0FvhIx9PpJaMX7kD9md5juR0gh/DArWT6JjlqzISemtbE/me29ooDk6cE559fb9
- /G/ZK/GHaAwvTEmqfQ8S1yGFNjRHJdT46P8DAFKrF250/5i1h5bxPbaY1glSndVYRLmf
- ikDSmZpSS9H6vxURj2gM6gJvJQu6mJhkLNroEuzuaPSbWfmVYBj20NDqrHvsfwbZ7o18
- bqVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wDk9eb7F2WxO7x5adDBGN43VlmnnZ5rDg1TMYWO8AcU=;
- b=An7cDVGEWNQKJaEOWYct0HvIB+BOQRgxEPc5EUT1tuIYKUjLJSojne6/zwfbUB0d4l
- /8hIqIqtz7HNabia/Fxn7rk0fTelBUolVdnrTy8qJAZkH5YeyjDrSdsV+NL/KfaiWFiE
- KYoJkBH6uhin1in7V8htQa6q8pHznsXv6aILTvzH8kO1fEDbRKUHBEXMWkbapIO9anIq
- zTJUCD9OTpld1rosHracBrlRVUHEfA1oYZXiOWzDo64y5ZvAXUq54nTpx5sASSFhXNnj
- WsbG/5DcdTGyLoazNhVU97XPoDIiAN5ZGD2KqRlbEKT+nxZMF90hCv6gLh/QLnereCoU
- txYQ==
-X-Gm-Message-State: APjAAAUEDP4s+srAdJczmp8/G20aTk8Iyj0qKIthyYcnYoli6lOypeJM
- m2StTLpAtJuz+UBv+9p/mkg=
-X-Google-Smtp-Source: APXvYqw6cYeESIHewXsTj5ZOMfVsL360DyEGQXE+t1uEQIKtnZ5cv7gAEB6mPAUShLtobJ5UD0k7Gw==
-X-Received: by 2002:a63:4f54:: with SMTP id p20mr29174948pgl.246.1577071895412; 
- Sun, 22 Dec 2019 19:31:35 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id f30sm19932481pga.20.2019.12.22.19.31.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Dec 2019 19:31:34 -0800 (PST)
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
- x86@kernel.org, corbet@lwn.net
-Date: Mon, 23 Dec 2019 00:31:21 -0300
-Message-Id: <20191223033121.1584930-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.24.1
+ Mon, 23 Dec 2019 07:47:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.goneo.de (Postfix) with ESMTP id 9A2B323F0D5;
+ Mon, 23 Dec 2019 08:37:35 +0100 (CET)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+ by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Uz_X5WMlX-IY; Mon, 23 Dec 2019 08:37:34 +0100 (CET)
+Received: from [192.168.1.127] (dyndsl-085-016-047-111.ewe-ip-backbone.de
+ [85.16.47.111])
+ by smtp1.goneo.de (Postfix) with ESMTPSA id 1D2C523F0C6;
+ Mon, 23 Dec 2019 08:37:34 +0100 (CET)
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, corbet@lwn.net,
+ miklos@szeredi.hu
+References: <20191223012248.606168-1-dwlsalmeida@gmail.com>
+From: Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <91ded87c-ca70-bcf7-49fc-fa2988f4e36b@darmarit.de>
+Date: Mon, 23 Dec 2019 08:37:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: boot.rst: fix warnings
+In-Reply-To: <20191223012248.606168-1-dwlsalmeida@gmail.com>
+Content-Language: de-DE
+Cc: linux-fsdevel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] Documentation: filesystems:
+	convert fuse to RST
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,92 +86,55 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Hi Daniel,
 
-Fix WARNING: Inline emphasis start-string without end-string.
-This warning was due to wrong syntax being used.
+just some nits ...
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- Documentation/x86/boot.rst | 40 +++++++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+Am 23.12.19 um 02:22 schrieb Daniel W. S. Almeida:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+...
 
-diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
-index 90bb8f5ab384..94c2a2775a31 100644
---- a/Documentation/x86/boot.rst
-+++ b/Documentation/x86/boot.rst
-@@ -834,14 +834,14 @@ Protocol:	2.09+
-   chunks of memory are occupied by kernel data.
- 
-   Thus setup_indirect struct and SETUP_INDIRECT type were introduced in
--  protocol 2.15.
-+  protocol 2.15::
- 
--  struct setup_indirect {
--    __u32 type;
--    __u32 reserved;  /* Reserved, must be set to zero. */
--    __u64 len;
--    __u64 addr;
--  };
-+    struct setup_indirect {
-+      __u32 type;
-+      __u32 reserved;  /* Reserved, must be set to zero. */
-+      __u64 len;
-+      __u64 addr;
-+    };
- 
-   The type member is a SETUP_INDIRECT | SETUP_* type. However, it cannot be
-   SETUP_INDIRECT itself since making the setup_indirect a tree structure
-@@ -849,19 +849,19 @@ Protocol:	2.09+
-   and stack space can be limited in boot contexts.
- 
-   Let's give an example how to point to SETUP_E820_EXT data using setup_indirect.
--  In this case setup_data and setup_indirect will look like this:
--
--  struct setup_data {
--    __u64 next = 0 or <addr_of_next_setup_data_struct>;
--    __u32 type = SETUP_INDIRECT;
--    __u32 len = sizeof(setup_data);
--    __u8 data[sizeof(setup_indirect)] = struct setup_indirect {
--      __u32 type = SETUP_INDIRECT | SETUP_E820_EXT;
--      __u32 reserved = 0;
--      __u64 len = <len_of_SETUP_E820_EXT_data>;
--      __u64 addr = <addr_of_SETUP_E820_EXT_data>;
-+  In this case setup_data and setup_indirect will look like this::
-+
-+    struct setup_data {
-+      __u64 next = 0 or <addr_of_next_setup_data_struct>;
-+      __u32 type = SETUP_INDIRECT;
-+      __u32 len = sizeof(setup_data);
-+      __u8 data[sizeof(setup_indirect)] = struct setup_indirect {
-+        __u32 type = SETUP_INDIRECT | SETUP_E820_EXT;
-+        __u32 reserved = 0;
-+        __u64 len = <len_of_SETUP_E820_EXT_data>;
-+        __u64 addr = <addr_of_SETUP_E820_EXT_data>;
-+      }
-     }
--  }
- 
- .. note::
-      SETUP_INDIRECT | SETUP_NONE objects cannot be properly distinguished
-@@ -964,7 +964,7 @@ expected to copy into a setup_data chunk.
- All kernel_info data should be part of this structure. Fixed size data have to
- be put before kernel_info_var_len_data label. Variable size data have to be put
- after kernel_info_var_len_data label. Each chunk of variable size data has to
--be prefixed with header/magic and its size, e.g.:
-+be prefixed with header/magic and its size, e.g.::
- 
-   kernel_info:
-           .ascii  "LToP"          /* Header, Linux top (structure). */
--- 
-2.24.1
+> diff --git a/Documentation/filesystems/fuse.txt b/Documentation/filesystems/fuse.rst
+> similarity index 79%
+> rename from Documentation/filesystems/fuse.txt
+> rename to Documentation/filesystems/fuse.rst
+> index 13af4a49e7db..1ca3aac04606 100644
+> --- a/Documentation/filesystems/fuse.txt
+> +++ b/Documentation/filesystems/fuse.rst
+> @@ -1,41 +1,39 @@
 
+...
+
+>   Filesystem type
+> -~~~~~~~~~~~~~~~
+> +===============
+>   
+>   The filesystem type given to mount(2) can be one of the following:
+>   
+> -'fuse'
+> +    **fuse**
+>   
+
+drop empty line, use definition list[1] / you used definition list everywhere 
+except here.  I guess the follwowing matches better:
+
+
+``fuse``
+   This is the usual way to mount a FUSE filesystem. ...
+
+``fuseblk``
+   The filesystem is block device based. ..
+
+[1] 
+https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#definition-lists
+
+-- Markus --
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
