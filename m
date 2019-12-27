@@ -1,106 +1,102 @@
-Return-Path: <SRS0=To5p=2Q=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=KBRW=2R=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D286C2D0C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 26 Dec 2019 21:20:26 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA5F5C2D0C0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Dec 2019 01:00:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4292E20828
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 26 Dec 2019 21:20:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A33B12080D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Dec 2019 01:00:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TAkqAQb8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4292E20828
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0tf8yE5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A33B12080D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E041886F74;
-	Thu, 26 Dec 2019 21:20:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 72D89204F4;
+	Fri, 27 Dec 2019 01:00:50 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XJqrWbpULLv2; Fri, 27 Dec 2019 01:00:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 51BEF20487;
+	Fri, 27 Dec 2019 01:00:49 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38B2DC18DD;
+	Fri, 27 Dec 2019 01:00:49 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DB9D6C0881
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 27 Dec 2019 01:00:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id B72A187327
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 27 Dec 2019 01:00:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JkTS84JTG1eX; Thu, 26 Dec 2019 21:20:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3BC0986D51;
-	Thu, 26 Dec 2019 21:20:25 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A357C1797;
-	Thu, 26 Dec 2019 21:20:25 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F3421C0881
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Dec 2019 21:20:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EAAC284B8B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Dec 2019 21:20:23 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8VoD5NGjdhC5
+ with ESMTP id VgKU6nT72P5e
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Dec 2019 21:20:23 +0000 (UTC)
+ Fri, 27 Dec 2019 01:00:46 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3379F84A43
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 96ED387143
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Dec 2019 21:20:23 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id k197so13422280pga.10
+ Fri, 27 Dec 2019 01:00:46 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id s64so13641579pgb.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Dec 2019 13:20:23 -0800 (PST)
+ Thu, 26 Dec 2019 17:00:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uR3f0Y5+qpw7GzuSpDtOazUC6VJQJeKwTwbFDTwTBCA=;
- b=TAkqAQb8No2gy7WzN1sJvFtaIfh8yR6jVnzKPh7zRvKgXiQxja4X2M/R8OI1JXRqfF
- iYtXBLMIgVSmOF6z2BWWtb//uG//yPyUnGgUaCULLT9gLIx0jgoQSpZ53pZciMn5M4Ip
- J2fcJY0R8UBSDb4eX338kif7aYA4OnO8vcfsRqUtKLnF6ok1zB5UAqBExVRgryuD17bB
- sthhKA+lkMr3qV6t/6S939dSTXV4j3np3q/S82YHeePtaOZpB0XuoXUJUaQ+F5ut0JaJ
- 6apzLl8L2g2eormOs4rfwrb9M7OGtUGOwZBFoVZHIWtwdKFT2oonqMf+B1q44eafBbdF
- gtkA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yWOe5wokD7PXE5eb2l014Cgkgdh+K2uUczGe6c1Zn5M=;
+ b=G0tf8yE5BzwsGri54YqX9qkHwBzqAb1SlIAHjCgD1XEA9GVAb4Aai1Z7esmISMxhLw
+ bS6Su/TS75k27tdZvxtBFF1JCvIRihvsk9b7vDjqAbECygQ6fxeDx6kbaBi+qEzdaCFi
+ vhp1Jpdjv6GGvEY1b4C81NwDj+eX6NBZb6z6zDbFNNbseKK8wG50eQrsw1qcY2ddRqC0
+ zWyGndClawbvL4oK1+78JT9P6Kvn/6VlGjnO/y+t5/K0Kw7zGBTozye30Galz/07aoiF
+ 5H3/qBB9olu2cgaWOMaFSnF4rhVHbFyBnGK+uyza5fqtFUnb3L+rvc76LOqtav+tObDj
+ AzIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uR3f0Y5+qpw7GzuSpDtOazUC6VJQJeKwTwbFDTwTBCA=;
- b=b0zSAxJEUxFwsArHDMkq9XHNd0WAKqq5QgIKoEttUYM1xKC/irLMHYZfwr28kqnE9F
- iAfBPeQvz0XYQt40cEf+QiJKo8wUbfzwa8KZ5dCg/0rA6Fil2Mo+hLAiuWzxWgoDIUW1
- Cq5wv7bSZNpJG4NyZPHRIo4Nt0SL+5tfNuhMc+Z8hPus9pzDaBmjm55fZj/lKlTLel9K
- EUn79soG83lSFmasy+QW2dq8zg06OHg2NLKIHxJtc4bxbqYwr0wIBFGWO9kNNAOQxDPX
- bG+HU7STr/JS6SRLGbMcJqbCkOfETLjzl9einAD43GVd4X90NCJbaXPuDmQUvJRofw6r
- /fpw==
-X-Gm-Message-State: APjAAAXlnMDRXZ5FS+hwSgr2BxeNjfc/U0FAIrfcUze7gdqEdvaWS8pa
- ZYIZbqYc6rd24v/th0tdk1A=
-X-Google-Smtp-Source: APXvYqyorNqryvPglf+3L6Xcx1pzgUGp18X2qoTYM00yT7qKT8hr4MaI5L+8dEWB6eb3t6lIXDxQKg==
-X-Received: by 2002:aa7:9296:: with SMTP id j22mr21795997pfa.201.1577395222683; 
- Thu, 26 Dec 2019 13:20:22 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yWOe5wokD7PXE5eb2l014Cgkgdh+K2uUczGe6c1Zn5M=;
+ b=faEv5UQOuV21Wid8ebvYIClhKxewECKY8BcatY1pxCl6mRQK60GIT/34F9kXxWDZ7g
+ CS/Ken2HU5O0uCBN4zmbel23PVRUmUyeErqMQLj6H4lTTw9IQa46AHsk68GnUi9sn4nl
+ iC9yw4sWTJhmJbfuy7LDaEYRZORbVTYdbof/rx11CV0rg+w0Q6s7QOWVFPoCSOefDxQ+
+ WyMZTf/nvnomSzRlm7bqD46ac6GexY5n6L/Pb9VT0bKmHgdIbD7DV3Q/eLlLSfdLkCq5
+ UuX1zBkvEd86QavGlkAmMf7Za/Zph1G+4DyurAaBzHo8iVutNCxHzhWcK91fOVqZW1Nz
+ qixw==
+X-Gm-Message-State: APjAAAXaF1sqzyixOSRexHhQKlXNtftjVOW5IqmUBUqFZio4cbmuzNvu
+ IaMf/2M7BAF00yRHrjm0yaY=
+X-Google-Smtp-Source: APXvYqxXnYvMF50GmyIIVzf5l5l/GfR2e8sXtXBVWFxftnmTZ9bmTVmV+IDX95lRuqgGIKvs7BIYgA==
+X-Received: by 2002:aa7:96c7:: with SMTP id h7mr50263431pfq.211.1577408445697; 
+ Thu, 26 Dec 2019 17:00:45 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id b22sm35114380pft.110.2019.12.26.13.20.19
+ by smtp.gmail.com with ESMTPSA id 65sm39640144pfu.140.2019.12.26.17.00.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Dec 2019 13:20:22 -0800 (PST)
+ Thu, 26 Dec 2019 17:00:45 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
-To: corbet@lwn.net,
-	mchehab+samsung@kernel.org
-Date: Thu, 26 Dec 2019 18:19:47 -0300
-Message-Id: <0063476e939087c87678a68dfd7fbab2e2d57bb9.1577394517.git.dwlsalmeida@gmail.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org
+Date: Thu, 26 Dec 2019 22:00:33 -0300
+Message-Id: <20191227010035.854913-1-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1577394517.git.dwlsalmeida@gmail.com>
-References: <cover.1577394517.git.dwlsalmeida@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-doc@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH 5/5] Documentation: nfs: idmapper:
-	convert to ReST
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: fs: Fix warnings
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,105 +116,150 @@ Sender: "Linux-kernel-mentees"
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Convert idmapper.txt to ReST and move it to admin-guide.
-Content remains mostly unchanged otherwise.
+Fix the following warnings:
+
+fs/debugfs/inode.c:423: WARNING: Inline literal start-string without end-string.
+fs/debugfs/inode.c:502: WARNING: Inline literal start-string without end-string.
+fs/debugfs/inode.c:534: WARNING: Inline literal start-string without end-string.
+fs/debugfs/inode.c:627: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:496: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:502: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:581: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:587: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:846: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:852: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:899: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:905: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:1091: WARNING: Inline literal start-string without end-string.
+fs/debugfs/file.c:1097: WARNING: Inline literal start-string without end-string
+
+By replacing %ERR_PTR with ERR_PTR.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- Documentation/admin-guide/nfs/index.rst       |  1 +
- .../nfs/nfs-idmapper.rst}                     | 31 ++++++++++---------
- 2 files changed, 18 insertions(+), 14 deletions(-)
- rename Documentation/{filesystems/nfs/idmapper.txt => admin-guide/nfs/nfs-idmapper.rst} (81%)
+ fs/debugfs/file.c  | 21 ++++++++++-----------
+ fs/debugfs/inode.c |  9 ++++-----
+ 2 files changed, 14 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/admin-guide/nfs/index.rst b/Documentation/admin-guide/nfs/index.rst
-index c73ba9c16b77..c90fd5ebc640 100644
---- a/Documentation/admin-guide/nfs/index.rst
-+++ b/Documentation/admin-guide/nfs/index.rst
-@@ -9,4 +9,5 @@ NFS
-     nfsroot
-     nfs-rdma
-     nfsd-admin-interfaces
-+    nfs-idmapper
- 
-diff --git a/Documentation/filesystems/nfs/idmapper.txt b/Documentation/admin-guide/nfs/nfs-idmapper.rst
-similarity index 81%
-rename from Documentation/filesystems/nfs/idmapper.txt
-rename to Documentation/admin-guide/nfs/nfs-idmapper.rst
-index b86831acd583..58b8e63412d5 100644
---- a/Documentation/filesystems/nfs/idmapper.txt
-+++ b/Documentation/admin-guide/nfs/nfs-idmapper.rst
-@@ -1,7 +1,7 @@
-+=============
-+NFS ID Mapper
-+=============
- 
--=========
--ID Mapper
--=========
- Id mapper is used by NFS to translate user and group ids into names, and to
- translate user and group names into ids.  Part of this translation involves
- performing an upcall to userspace to request the information.  There are two
-@@ -20,22 +20,24 @@ legacy rpc.idmap daemon for the id mapping.  This result will be stored
- in a custom NFS idmap cache.
- 
- 
--===========
- Configuring
- ===========
-+
- The file /etc/request-key.conf will need to be modified so /sbin/request-key can
- direct the upcall.  The following line should be added:
- 
--#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...
--#======	=======	===============	===============	===============================
--create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600
-+``#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...``
-+``#======	=======	===============	===============	===============================``
-+``create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600``
-+
- 
- This will direct all id_resolver requests to the program /usr/sbin/nfs.idmap.
- The last parameter, 600, defines how many seconds into the future the key will
- expire.  This parameter is optional for /usr/sbin/nfs.idmap.  When the timeout
- is not specified, nfs.idmap will default to 600 seconds.
- 
--id mapper uses for key descriptions:
-+id mapper uses for key descriptions::
-+
- 	  uid:  Find the UID for the given user
- 	  gid:  Find the GID for the given group
- 	 user:  Find the user  name for the given UID
-@@ -45,23 +47,24 @@ You can handle any of these individually, rather than using the generic upcall
- program.  If you would like to use your own program for a uid lookup then you
- would edit your request-key.conf so it look similar to this:
- 
--#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...
--#======	=======	===============	===============	===============================
--create	id_resolver	uid:*	*		/some/other/program %k %d 600
--create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600
-+``#OP	TYPE	DESCRIPTION	CALLOUT INFO	PROGRAM ARG1 ARG2 ARG3 ...``
-+``#======	=======	===============	===============	===============================``
-+``create	id_resolver	uid:*	*		/some/other/program %k %d 600``
-+``create	id_resolver	*	*		/usr/sbin/nfs.idmap %k %d 600``
-+
- 
- Notice that the new line was added above the line for the generic program.
- request-key will find the first matching line and corresponding program.  In
- this case, /some/other/program will handle all uid lookups and
- /usr/sbin/nfs.idmap will handle gid, user, and group lookups.
- 
--See <file:Documentation/security/keys/request-key.rst> for more information
-+See Documentation/security/keys/request-key.rst for more information
- about the request-key function.
- 
- 
--=========
- nfs.idmap
- =========
-+
- nfs.idmap is designed to be called by request-key, and should not be run "by
- hand".  This program takes two arguments, a serialized key and a key
- description.  The serialized key is first converted into a key_serial_t, and
+diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+index dede25247b81..8be46add9105 100644
+--- a/fs/debugfs/file.c
++++ b/fs/debugfs/file.c
+@@ -496,10 +496,10 @@ DEFINE_DEBUGFS_ATTRIBUTE(fops_u32_wo, NULL, debugfs_u32_set, "%llu\n");
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the file is
+  * to be removed (no automatic cleanup happens if your module is unloaded,
+- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
++ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
++ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
+  * be returned.
+  */
+ struct dentry *debugfs_create_u32(const char *name, umode_t mode,
+@@ -581,10 +581,10 @@ DEFINE_DEBUGFS_ATTRIBUTE(fops_ulong_wo, NULL, debugfs_ulong_set, "%llu\n");
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the file is
+  * to be removed (no automatic cleanup happens if your module is unloaded,
+- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
++ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
++ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
+  * be returned.
+  */
+ struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
+@@ -846,10 +846,10 @@ static const struct file_operations fops_bool_wo = {
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the file is
+  * to be removed (no automatic cleanup happens if your module is unloaded,
+- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
++ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
++ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
+  * be returned.
+  */
+ struct dentry *debugfs_create_bool(const char *name, umode_t mode,
+@@ -899,10 +899,10 @@ static const struct file_operations fops_blob = {
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the file is
+  * to be removed (no automatic cleanup happens if your module is unloaded,
+- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
++ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
++ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
+  * be returned.
+  */
+ struct dentry *debugfs_create_blob(const char *name, umode_t mode,
+@@ -1091,10 +1091,10 @@ static const struct file_operations fops_regset32 = {
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the file is
+  * to be removed (no automatic cleanup happens if your module is unloaded,
+- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
++ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
++ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
+  * be returned.
+  */
+ struct dentry *debugfs_create_regset32(const char *name, umode_t mode,
+@@ -1158,4 +1158,3 @@ struct dentry *debugfs_create_devm_seqfile(struct device *dev, const char *name,
+ 				   &debugfs_devm_entry_ops);
+ }
+ EXPORT_SYMBOL_GPL(debugfs_create_devm_seqfile);
+-
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index f4d8df5e4714..dc6cffc4feba 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -423,7 +423,7 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the file is
+  * to be removed (no automatic cleanup happens if your module is unloaded,
+- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
++ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+@@ -502,7 +502,7 @@ EXPORT_SYMBOL_GPL(debugfs_create_file_unsafe);
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the file is
+  * to be removed (no automatic cleanup happens if your module is unloaded,
+- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
++ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+@@ -534,7 +534,7 @@ EXPORT_SYMBOL_GPL(debugfs_create_file_size);
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the file is
+  * to be removed (no automatic cleanup happens if your module is unloaded,
+- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
++ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+@@ -627,7 +627,7 @@ EXPORT_SYMBOL(debugfs_create_automount);
+  * This function will return a pointer to a dentry if it succeeds.  This
+  * pointer must be passed to the debugfs_remove() function when the symbolic
+  * link is to be removed (no automatic cleanup happens if your module is
+- * unloaded, you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR)
++ * unloaded, you are responsible here.)  If an error occurs, ERR_PTR(-ERROR)
+  * will be returned.
+  *
+  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+@@ -906,4 +906,3 @@ static int __init debugfs_init(void)
+ 	return retval;
+ }
+ core_initcall(debugfs_init);
+-
 -- 
 2.24.1
 
