@@ -8,95 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA5F5C2D0C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Dec 2019 01:00:50 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BBB4C2D0C0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Dec 2019 01:00:53 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A33B12080D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Dec 2019 01:00:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 40BD82080D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Dec 2019 01:00:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0tf8yE5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A33B12080D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="twiCyqpn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40BD82080D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 72D89204F4;
-	Fri, 27 Dec 2019 01:00:50 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XJqrWbpULLv2; Fri, 27 Dec 2019 01:00:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 51BEF20487;
-	Fri, 27 Dec 2019 01:00:49 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38B2DC18DD;
-	Fri, 27 Dec 2019 01:00:49 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DB9D6C0881
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Dec 2019 01:00:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B72A187327
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Dec 2019 01:00:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EBC0587327;
+	Fri, 27 Dec 2019 01:00:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VgKU6nT72P5e
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SO3QlzGPZNzw; Fri, 27 Dec 2019 01:00:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6022087143;
+	Fri, 27 Dec 2019 01:00:52 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A68BC18DD;
+	Fri, 27 Dec 2019 01:00:52 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 396A0C0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Dec 2019 01:00:46 +0000 (UTC)
+ Fri, 27 Dec 2019 01:00:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 35678204CF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 27 Dec 2019 01:00:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uVygMRbnqlEQ
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 27 Dec 2019 01:00:50 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
  [209.85.215.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 96ED387143
+ by silver.osuosl.org (Postfix) with ESMTPS id 99C6320487
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Dec 2019 01:00:46 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id s64so13641579pgb.9
+ Fri, 27 Dec 2019 01:00:50 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id s64so13641681pgb.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Dec 2019 17:00:46 -0800 (PST)
+ Thu, 26 Dec 2019 17:00:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yWOe5wokD7PXE5eb2l014Cgkgdh+K2uUczGe6c1Zn5M=;
- b=G0tf8yE5BzwsGri54YqX9qkHwBzqAb1SlIAHjCgD1XEA9GVAb4Aai1Z7esmISMxhLw
- bS6Su/TS75k27tdZvxtBFF1JCvIRihvsk9b7vDjqAbECygQ6fxeDx6kbaBi+qEzdaCFi
- vhp1Jpdjv6GGvEY1b4C81NwDj+eX6NBZb6z6zDbFNNbseKK8wG50eQrsw1qcY2ddRqC0
- zWyGndClawbvL4oK1+78JT9P6Kvn/6VlGjnO/y+t5/K0Kw7zGBTozye30Galz/07aoiF
- 5H3/qBB9olu2cgaWOMaFSnF4rhVHbFyBnGK+uyza5fqtFUnb3L+rvc76LOqtav+tObDj
- AzIw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=s2YJGyHBLvtLKqb9SRpRu2YXGxUEZDi676bDfDkyEFg=;
+ b=twiCyqpn/Igign0RvlTZHvRkRYKtUufFHA5W5ycoaUd3q/8n3py3R1QLAkBGcgvad9
+ Kfcxqo5rB/CXwKIUyAmRey7Sjj2B4U/UurCMPZ0Oq3XFZiq5iW4QXiNFq0XUvdph+djU
+ amfN30k3K/pnAH2doaL32/Om0flzJGZE4QASYvLRwjk2VBR0jXqlVOJVvgz+OLfivS8P
+ 6Mln+/3Y4Tcwxlp5b4USwweIsYnqqxgEFpsBqM60Mtv37cMjkY+BMwHW+axPm8cJx+OS
+ Ij0wZx7Mo/qWeWuP/P+00VbarS89o+W+QgdgXlRZwfjLokI2fh3F+FuXB0ogkEOb4Odf
+ tr8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yWOe5wokD7PXE5eb2l014Cgkgdh+K2uUczGe6c1Zn5M=;
- b=faEv5UQOuV21Wid8ebvYIClhKxewECKY8BcatY1pxCl6mRQK60GIT/34F9kXxWDZ7g
- CS/Ken2HU5O0uCBN4zmbel23PVRUmUyeErqMQLj6H4lTTw9IQa46AHsk68GnUi9sn4nl
- iC9yw4sWTJhmJbfuy7LDaEYRZORbVTYdbof/rx11CV0rg+w0Q6s7QOWVFPoCSOefDxQ+
- WyMZTf/nvnomSzRlm7bqD46ac6GexY5n6L/Pb9VT0bKmHgdIbD7DV3Q/eLlLSfdLkCq5
- UuX1zBkvEd86QavGlkAmMf7Za/Zph1G+4DyurAaBzHo8iVutNCxHzhWcK91fOVqZW1Nz
- qixw==
-X-Gm-Message-State: APjAAAXaF1sqzyixOSRexHhQKlXNtftjVOW5IqmUBUqFZio4cbmuzNvu
- IaMf/2M7BAF00yRHrjm0yaY=
-X-Google-Smtp-Source: APXvYqxXnYvMF50GmyIIVzf5l5l/GfR2e8sXtXBVWFxftnmTZ9bmTVmV+IDX95lRuqgGIKvs7BIYgA==
-X-Received: by 2002:aa7:96c7:: with SMTP id h7mr50263431pfq.211.1577408445697; 
- Thu, 26 Dec 2019 17:00:45 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=s2YJGyHBLvtLKqb9SRpRu2YXGxUEZDi676bDfDkyEFg=;
+ b=DMtqfCr3TzJRR1SM9SKQojeNgOzv3n6Wnu8rUJcxRksA0deh3ElQM9upHjgNNVhgMo
+ KYKaxQW3ybw6i1sAxmVa25T0CEOBGdOg93GN0Cc+wxxta6e2tZb6KClJ8ffMVi005bJc
+ PciNvBMP091vqF0H298bXRtaCcR6RHciDLxIRVbHJl18QKYFg6b8zCdhXeuj2QV9ipb8
+ o7fZNkOJDWlM1rmuRZAuUNwig5/vHnGeSeAT5/ZCsXQSJpvhPJ7vXiQJVIC0JkaV4jdw
+ Drcer2KsWSFn4Xg+t0EVbbpllRddKGTiGCDxtM66oGzx+TG9joNkYZ5A2OQDUQwatmVl
+ uUmQ==
+X-Gm-Message-State: APjAAAWzw73EGpXqsodnpVHM8Rgdx1QGDMjOCisxfSyu56RmTcKaku9y
+ UHOWD7AWmBmy72+iF3jb4eKSSh2mXBr4DQ==
+X-Google-Smtp-Source: APXvYqwBB3Je6TMn6AbEqX5wBKgLlL6tpe5IErd1reTThA5aDBcNJsLSZUMJ3tQdS3Wfj9HH1YDKYw==
+X-Received: by 2002:a62:e318:: with SMTP id g24mr51146777pfh.218.1577408450192; 
+ Thu, 26 Dec 2019 17:00:50 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id 65sm39640144pfu.140.2019.12.26.17.00.42
+ by smtp.gmail.com with ESMTPSA id 65sm39640144pfu.140.2019.12.26.17.00.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Dec 2019 17:00:45 -0800 (PST)
+ Thu, 26 Dec 2019 17:00:49 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org
-Date: Thu, 26 Dec 2019 22:00:33 -0300
-Message-Id: <20191227010035.854913-1-dwlsalmeida@gmail.com>
+To: viro@zeniv.linux.org.uk
+Date: Thu, 26 Dec 2019 22:00:34 -0300
+Message-Id: <20191227010035.854913-2-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20191227010035.854913-1-dwlsalmeida@gmail.com>
+References: <20191227010035.854913-1-dwlsalmeida@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+Cc: linux-fsdevel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
  "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] Documentation: fs: Fix warnings
+Subject: [Linux-kernel-mentees] [PATCH] fs: posix-acl.c: Fix warnings
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,150 +118,45 @@ Sender: "Linux-kernel-mentees"
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Fix the following warnings:
+Fix the following warning
 
-fs/debugfs/inode.c:423: WARNING: Inline literal start-string without end-string.
-fs/debugfs/inode.c:502: WARNING: Inline literal start-string without end-string.
-fs/debugfs/inode.c:534: WARNING: Inline literal start-string without end-string.
-fs/debugfs/inode.c:627: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:496: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:502: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:581: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:587: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:846: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:852: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:899: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:905: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:1091: WARNING: Inline literal start-string without end-string.
-fs/debugfs/file.c:1097: WARNING: Inline literal start-string without end-string
+/fs/posix_acl.c:636: WARNING: Inline emphasis start-string without end-string.
 
-By replacing %ERR_PTR with ERR_PTR.
+By escaping a character.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- fs/debugfs/file.c  | 21 ++++++++++-----------
- fs/debugfs/inode.c |  9 ++++-----
- 2 files changed, 14 insertions(+), 16 deletions(-)
+ fs/posix_acl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index dede25247b81..8be46add9105 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -496,10 +496,10 @@ DEFINE_DEBUGFS_ATTRIBUTE(fops_u32_wo, NULL, debugfs_u32_set, "%llu\n");
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the file is
-  * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
-+ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
+diff --git a/fs/posix_acl.c b/fs/posix_acl.c
+index 84ad1c90d535..cb25966c6881 100644
+--- a/fs/posix_acl.c
++++ b/fs/posix_acl.c
+@@ -634,7 +634,7 @@ EXPORT_SYMBOL_GPL(posix_acl_create);
   *
-- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
-+ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
-  * be returned.
-  */
- struct dentry *debugfs_create_u32(const char *name, umode_t mode,
-@@ -581,10 +581,10 @@ DEFINE_DEBUGFS_ATTRIBUTE(fops_ulong_wo, NULL, debugfs_ulong_set, "%llu\n");
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the file is
-  * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
-+ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
+  * Update the file mode when setting an ACL: compute the new file permission
+  * bits based on the ACL.  In addition, if the ACL is equivalent to the new
+- * file mode, set *acl to NULL to indicate that no ACL should be set.
++ * file mode, set \*acl to NULL to indicate that no ACL should be set.
   *
-- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
-+ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
-  * be returned.
-  */
- struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
-@@ -846,10 +846,10 @@ static const struct file_operations fops_bool_wo = {
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the file is
-  * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
-+ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
-+ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
-  * be returned.
-  */
- struct dentry *debugfs_create_bool(const char *name, umode_t mode,
-@@ -899,10 +899,10 @@ static const struct file_operations fops_blob = {
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the file is
-  * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
-+ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
-+ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
-  * be returned.
-  */
- struct dentry *debugfs_create_blob(const char *name, umode_t mode,
-@@ -1091,10 +1091,10 @@ static const struct file_operations fops_regset32 = {
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the file is
-  * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
-+ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-- * If debugfs is not enabled in the kernel, the value %ERR_PTR(-ENODEV) will
-+ * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
-  * be returned.
-  */
- struct dentry *debugfs_create_regset32(const char *name, umode_t mode,
-@@ -1158,4 +1158,3 @@ struct dentry *debugfs_create_devm_seqfile(struct device *dev, const char *name,
- 				   &debugfs_devm_entry_ops);
- }
- EXPORT_SYMBOL_GPL(debugfs_create_devm_seqfile);
--
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index f4d8df5e4714..dc6cffc4feba 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -423,7 +423,7 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the file is
-  * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
-+ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-@@ -502,7 +502,7 @@ EXPORT_SYMBOL_GPL(debugfs_create_file_unsafe);
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the file is
-  * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
-+ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-@@ -534,7 +534,7 @@ EXPORT_SYMBOL_GPL(debugfs_create_file_size);
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the file is
-  * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR) will be
-+ * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-@@ -627,7 +627,7 @@ EXPORT_SYMBOL(debugfs_create_automount);
-  * This function will return a pointer to a dentry if it succeeds.  This
-  * pointer must be passed to the debugfs_remove() function when the symbolic
-  * link is to be removed (no automatic cleanup happens if your module is
-- * unloaded, you are responsible here.)  If an error occurs, %ERR_PTR(-ERROR)
-+ * unloaded, you are responsible here.)  If an error occurs, ERR_PTR(-ERROR)
-  * will be returned.
-  *
-  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-@@ -906,4 +906,3 @@ static int __init debugfs_init(void)
- 	return retval;
- }
- core_initcall(debugfs_init);
--
+  * As with chmod, clear the setgit bit if the caller is not in the owning group
+  * or capable of CAP_FSETID (see inode_change_ok).
+@@ -743,12 +743,12 @@ posix_acl_from_xattr(struct user_namespace *user_ns,
+ 		return ERR_PTR(-EINVAL);
+ 	if (count == 0)
+ 		return NULL;
+-	
++
+ 	acl = posix_acl_alloc(count, GFP_NOFS);
+ 	if (!acl)
+ 		return ERR_PTR(-ENOMEM);
+ 	acl_e = acl->a_entries;
+-	
++
+ 	for (end = entry + count; entry != end; acl_e++, entry++) {
+ 		acl_e->e_tag  = le16_to_cpu(entry->e_tag);
+ 		acl_e->e_perm = le16_to_cpu(entry->e_perm);
 -- 
 2.24.1
 
