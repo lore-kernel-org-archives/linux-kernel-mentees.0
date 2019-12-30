@@ -1,104 +1,104 @@
-Return-Path: <SRS0=KBRW=2R=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=vtN2=2U=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.4 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89579C2D0C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Dec 2019 01:00:56 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E29C2D0C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Dec 2019 04:56:15 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5AF4F2080D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Dec 2019 01:00:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9453720663
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Dec 2019 04:56:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vn50N8j/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5AF4F2080D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qqAIQc1W"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9453720663
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3DA072079C;
-	Fri, 27 Dec 2019 01:00:56 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tjs20E4SeXfu; Fri, 27 Dec 2019 01:00:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 74DA620487;
-	Fri, 27 Dec 2019 01:00:55 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 72493C18DD;
-	Fri, 27 Dec 2019 01:00:55 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DDA16C0881
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Dec 2019 01:00:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CAA85855FE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Dec 2019 01:00:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 627F384514;
+	Mon, 30 Dec 2019 04:56:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6Nilao-sV5eH; Mon, 30 Dec 2019 04:56:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DD7AB834D6;
+	Mon, 30 Dec 2019 04:56:14 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C3AA3C18DC;
+	Mon, 30 Dec 2019 04:56:14 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6DC7BC077D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 30 Dec 2019 04:56:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 57BEC85DE0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 30 Dec 2019 04:56:13 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MsBWOZP6LWJj
+ with ESMTP id pwECQArgVLgy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Dec 2019 01:00:54 +0000 (UTC)
+ Mon, 30 Dec 2019 04:56:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 4BCA0855CB
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CD73885D22
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Dec 2019 01:00:54 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id x185so13967564pfc.5
+ Mon, 30 Dec 2019 04:56:12 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id b9so17425997pgk.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Dec 2019 17:00:54 -0800 (PST)
+ Sun, 29 Dec 2019 20:56:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=44qeSbgK4fjxtx3Jl3gaoujj676TRWsAIPJoecKwxeA=;
- b=Vn50N8j/tjWROXYPVqiazH69KDR9POr+3lErHzubQvZT+V5huf7MhhUleCplm9Lf0K
- Ymry87zOQmn/Lzunqk2RR5XcdfCgaxFuXRd2HplsnNWWjfXuS+hUiX8VbRrQbH3eJwMR
- LumeSiMzI40fOSID7NKsz30KTufqFWxUqZrjRqdYcRy3M8/r5wjkeUmJqDucJZkK1iXd
- BUcE6kMsp78UqW+w89VyVP5n6UlZeo2v19BhO2mo647EO0DO7CMqS9sQy+aglAwHwyKr
- jjpxDLhi8HPBh56sBy9jsm+eJnihGPaKrS6Jw1ydLXMXlwdGR1/xvNMT+UPF/GTs0D1M
- EROg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IVpMyu8Fw0MXecqQ4gT1BLcDBkmAuorpSplnF3n4Kow=;
+ b=qqAIQc1WcTrG7GhRA7fAVuFT3OMKm09P5JRZpiACaCOJKZrskmEovAJU7WdeN1Ugsw
+ sKNiL3pTG6mEmyHzAjWDyMXMVchyogdABINc/q7a8ttwczl/goJ5/QVqLNCheYXF4i59
+ LZN7lI09aHDqSaqaK0MBM77ZLwCZbYWV74LdDGsaY6wt0uR9PPhDx6kxqPMo6wfxwA+R
+ GOK+6nnf43Tff9JoX+CVZDOiiImpsew0XRgqv1VIOsbqRpbui5kT4SPevT8WyQ5C2UNO
+ Vkr0DUyvX427haKWq7DVk4xZBfj6wWJLitrGZw7XaTed7PxCNPJPmZgchXrisVjL0dmE
+ EhUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=44qeSbgK4fjxtx3Jl3gaoujj676TRWsAIPJoecKwxeA=;
- b=gBrIA97KueNvlSPOfygZCz8SW51I+7N5UjPPL+Uw/eLCeka4Dp29wu2kclFDEZil0R
- SE/t4UYPopyi+NAo7l8Sk4B3QI3alKIsBgn4co+Wrg3U16vPgL0YgEYKHfPFqKRbLPFJ
- BBiupxo8Uo3/4btepO5XD7c6Q73p6h44hLUn1V7ruF7CHFnf+KreDtuWE/6NhpxuBtP6
- YQ0epPAe8sePiRp+SK3EIuFhB1xcTaY38xdKnJvIAgsyeWXw5IKLQ1QUPQ9QuMZPxaz3
- F23PLpkKLmLpKhkfqERZUNSRFWiSJ5MvCFIvRz+TA5yDWyXE3zlFOH6q20R6lYk98efy
- y5OQ==
-X-Gm-Message-State: APjAAAVjRx97qgRS4rcqPQzsRcMYwUKlsMN4X/oEBALLzKcXK2DMSbag
- BryGdri3YBfBEIcCscv/s0EXrfDKBOJEIg==
-X-Google-Smtp-Source: APXvYqxA7fUPenla1wmNjprezXBoLMHCH166OsttVNrdQKg7iRnkv0Mnm7CF9SlsrPU4D+amEYGwXA==
-X-Received: by 2002:a62:f842:: with SMTP id c2mr52061691pfm.104.1577408453895; 
- Thu, 26 Dec 2019 17:00:53 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id 65sm39640144pfu.140.2019.12.26.17.00.51
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IVpMyu8Fw0MXecqQ4gT1BLcDBkmAuorpSplnF3n4Kow=;
+ b=SM2sJIU7/H+j+8r/iXwek0CiW1Ipr5vBL8AEt5ds8x9Ir4CaFhwxdJHSldQJ85czJ9
+ /jzpJmcnUja1/8QtSaP+BmVNUTxH5+H2pS0EkkN6tRqbWNVVJIHzibZ9Z+0LUVcEDiz7
+ 56QMmG/vFBgTaeq8pAQToW65nwuhmO0Cz3NPQte/pEicqDGfkIKtOGHEcuaz9Sijd/xG
+ 0j1WBB7hVQkAbv5gXVC9p66VPVhX8shJIYVeOuv+w5rwf9bhxzI1FV57jvgN4p/RfLuR
+ O7mBCk5ZJ4rnynFW4yDapqKfzSDzlbufi8kwotbaSgHxlEjdYlTnKx15Q6mZVilo5Htl
+ mWQw==
+X-Gm-Message-State: APjAAAXBLOFZaw+MeAHEfHe1unjR4TAkDul5lF8GlQFFTAgO3Ssb+eGr
+ GUzcLWY203lEQPR65NpYJKY=
+X-Google-Smtp-Source: APXvYqzaSD2agHTs8zTCTxRqp0olWnCnWnOCwVT1fbYoaRRCutEBd86i43Vlu6eryjAGy/phDRhKvQ==
+X-Received: by 2002:a63:3dc6:: with SMTP id
+ k189mr68428892pga.396.1577681772284; 
+ Sun, 29 Dec 2019 20:56:12 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:da15:c0bd:33c1:e2ad])
+ by smtp.gmail.com with ESMTPSA id b1sm22373189pjw.4.2019.12.29.20.56.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Dec 2019 17:00:53 -0800 (PST)
+ Sun, 29 Dec 2019 20:56:11 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
-To: viro@zeniv.linux.org.uk
-Date: Thu, 26 Dec 2019 22:00:35 -0300
-Message-Id: <20191227010035.854913-3-dwlsalmeida@gmail.com>
+To: corbet@lwn.net,
+	mchehab+samsung@kernel.org
+Date: Mon, 30 Dec 2019 01:55:54 -0300
+Message-Id: <cover.1577681164.git.dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191227010035.854913-1-dwlsalmeida@gmail.com>
-References: <20191227010035.854913-1-dwlsalmeida@gmail.com>
 MIME-Version: 1.0
-Cc: linux-fsdevel@vger.kernel.org,
+Cc: linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] fs: seq_file.c: Fix warnings
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-doc@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v2 0/8] Documentation: nfs: Convert a
+	few documents to RST and move them to admin-guide
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,48 +118,52 @@ Sender: "Linux-kernel-mentees"
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Fix the following warnings:
+This series converts a few docs in Documentation/filesystems/nfs to RST.
+The docs were also moved into admin-guide because they contain information
+that might be useful for system administrators
 
-fs/seq_file.c:40: WARNING: Inline strong start-string without end-string.
-fs/seq_file.c:40: WARNING: Inline strong start-string without end-string.
-fs/seq_file.c:40: WARNING: Inline strong start-string without end-string.
-fs/seq_file.c:40: WARNING: Inline strong start-string without end-string
+Most changes are related to aesthetics and presentation, i.e. the content
+itself remains mostly untouched. The use of markup was limited in order
+not to negatively impact the plain-text reading experience.
 
-By escaping the parenthesis in the affected line. Line breaks were added
-for clarity.
+Changes in v2
+-------------
+Also convert pnfs-block-server.txt, pnfs-scsi-server.txt and fault_injection.txt
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- fs/seq_file.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/fs/seq_file.c b/fs/seq_file.c
-index 1600034a929b..aad4354ceeb0 100644
---- a/fs/seq_file.c
-+++ b/fs/seq_file.c
-@@ -38,10 +38,18 @@ static void *seq_buf_alloc(unsigned long size)
-  *	@op: method table describing the sequence
-  *
-  *	seq_open() sets @file, associating it with a sequence described
-- *	by @op.  @op->start() sets the iterator up and returns the first
-- *	element of sequence. @op->stop() shuts it down.  @op->next()
-- *	returns the next element of sequence.  @op->show() prints element
-- *	into the buffer.  In case of error ->start() and ->next() return
-+ *	by @op.
-+ *
-+ *	@op->start\(\) sets the iterator up and returns the first
-+ *	element of sequence.
-+ *
-+ *	@op->stop\(\) shuts it down.
-+ *
-+ *	@op->next\(\) returns the next element of sequence.
-+ *
-+ *	@op->show\(\) prints element into the buffer.
-+ *
-+ *	In case of error ->start() and ->next() return
-  *	ERR_PTR(error).  In the end of sequence they return %NULL. ->show()
-  *	returns 0 in case of success and negative number in case of error.
-  *	Returning SEQ_SKIP means "discard this element and move on".
+Daniel W. S. Almeida (8):
+  Documentation: convert nfs.txt to ReST
+  Documentation: nfsroot.txt: convert to ReST
+  Documentation: nfs-rdma: convert to ReST
+  Documentation: convert nfsd-admin-interfaces to ReST
+  Documentation: nfs: idmapper: convert to ReST
+  Documentation: nfs: convert pnfs-block-server to ReST
+  Documentation: nfs: pnfs-scsi-server: convert to ReST
+  Documentation: nfs: fault_injection: convert to ReST
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../nfs/fault_injection.rst}                  |   5 +-
+ Documentation/admin-guide/nfs/index.rst       |  16 +
+ .../nfs/nfs-client.rst}                       |  91 +++---
+ .../nfs/nfs-idmapper.rst}                     |  31 +-
+ Documentation/admin-guide/nfs/nfs-rdma.rst    | 290 ++++++++++++++++++
+ .../nfs/nfsd-admin-interfaces.rst}            |  19 +-
+ .../nfs/nfsroot.rst}                          | 140 +++++----
+ .../nfs/pnfs-block-server.rst}                |  25 +-
+ .../nfs/pnfs-scsi-server.rst}                 |   1 +
+ Documentation/filesystems/nfs/nfs-rdma.txt    | 274 -----------------
+ 11 files changed, 475 insertions(+), 418 deletions(-)
+ rename Documentation/{filesystems/nfs/fault_injection.txt => admin-guide/nfs/fault_injection.rst} (98%)
+ create mode 100644 Documentation/admin-guide/nfs/index.rst
+ rename Documentation/{filesystems/nfs/nfs.txt => admin-guide/nfs/nfs-client.rst} (72%)
+ rename Documentation/{filesystems/nfs/idmapper.txt => admin-guide/nfs/nfs-idmapper.rst} (81%)
+ create mode 100644 Documentation/admin-guide/nfs/nfs-rdma.rst
+ rename Documentation/{filesystems/nfs/nfsd-admin-interfaces.txt => admin-guide/nfs/nfsd-admin-interfaces.rst} (70%)
+ rename Documentation/{filesystems/nfs/nfsroot.txt => admin-guide/nfs/nfsroot.rst} (83%)
+ rename Documentation/{filesystems/nfs/pnfs-block-server.txt => admin-guide/nfs/pnfs-block-server.rst} (80%)
+ rename Documentation/{filesystems/nfs/pnfs-scsi-server.txt => admin-guide/nfs/pnfs-scsi-server.rst} (97%)
+ delete mode 100644 Documentation/filesystems/nfs/nfs-rdma.txt
+
 -- 
 2.24.1
 
