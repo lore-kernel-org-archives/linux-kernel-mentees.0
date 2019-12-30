@@ -6,66 +6,66 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A68C2D0CE
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Dec 2019 19:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB0DDC2D0C2
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Dec 2019 19:18:14 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 34A1A2053B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Dec 2019 19:12:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 34A1A2053B
+	by mail.kernel.org (Postfix) with ESMTPS id 7F1E62071E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Dec 2019 19:18:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F1E62071E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 0B7CC204FF;
-	Mon, 30 Dec 2019 19:12:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5B9E820488;
+	Mon, 30 Dec 2019 19:18:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0zQ72PEy4Bgb; Mon, 30 Dec 2019 19:12:29 +0000 (UTC)
+	with ESMTP id V04eHn3J4y7m; Mon, 30 Dec 2019 19:18:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 03CC120488;
-	Mon, 30 Dec 2019 19:12:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F2F69204F5;
+	Mon, 30 Dec 2019 19:18:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4BB6C1796;
-	Mon, 30 Dec 2019 19:12:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E04E5C1796;
+	Mon, 30 Dec 2019 19:18:11 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E392C077D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1387CC077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Dec 2019 19:12:27 +0000 (UTC)
+ Mon, 30 Dec 2019 19:18:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 486FD87582
+ by hemlock.osuosl.org (Postfix) with ESMTP id F3EB087582
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Dec 2019 19:12:27 +0000 (UTC)
+ Mon, 30 Dec 2019 19:18:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id w56X39wBogVc
+ with ESMTP id Ap+hqpsxWfAV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Dec 2019 19:12:26 +0000 (UTC)
+ Mon, 30 Dec 2019 19:18:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9AA0B87554
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C12BB87554
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Dec 2019 19:12:26 +0000 (UTC)
+ Mon, 30 Dec 2019 19:18:08 +0000 (UTC)
 Received: from lwn.net (localhost [127.0.0.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 80B74536;
- Mon, 30 Dec 2019 19:12:25 +0000 (UTC)
-Date: Mon, 30 Dec 2019 12:12:24 -0700
+ by ms.lwn.net (Postfix) with ESMTPSA id 318352B4;
+ Mon, 30 Dec 2019 19:18:08 +0000 (UTC)
+Date: Mon, 30 Dec 2019 12:18:07 -0700
 From: Jonathan Corbet <corbet@lwn.net>
 To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <20191230121224.1d9e795a@lwn.net>
-In-Reply-To: <ddeb8a98f4c5c24df2f36e1ce1cc5ab4da6442a1.1577681164.git.dwlsalmeida@gmail.com>
+Message-ID: <20191230121807.3a1f5f38@lwn.net>
+In-Reply-To: <92be5a49b967ce35a305fc5ccfb3efea3f61a19a.1577681164.git.dwlsalmeida@gmail.com>
 References: <cover.1577681164.git.dwlsalmeida@gmail.com>
- <ddeb8a98f4c5c24df2f36e1ce1cc5ab4da6442a1.1577681164.git.dwlsalmeida@gmail.com>
+ <92be5a49b967ce35a305fc5ccfb3efea3f61a19a.1577681164.git.dwlsalmeida@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Cc: mchehab+samsung@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 1/8] Documentation: convert
-	nfs.txt to ReST
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 2/8] Documentation:
+	nfsroot.txt: convert to ReST
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,103 +83,150 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 30 Dec 2019 01:55:55 -0300
+On Mon, 30 Dec 2019 01:55:56 -0300
 "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
 
 > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
-> This patch converts nfs.txt to RST. It also moves it to admin-guide.
-> The reason for moving it is because this document contains information
-> useful for system administrators, as noted on the following paragraph:
-> 
-> 'The purpose of this document is to provide information on some of the
-> special features of the NFS client that can be configured by system
-> administrators'.
+> Convert nfsroot.txt to RST and move it to admin-guide. Content remains
+> mostly the same.
 > 
 > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-This generally looks good, I just have one request...
+This one, too, is almost there, but ...
 
->  Documentation/admin-guide/index.rst           |  1 +
->  Documentation/admin-guide/nfs/index.rst       |  9 ++
->  .../nfs/nfs-client.rst}                       | 91 ++++++++++---------
->  3 files changed, 58 insertions(+), 43 deletions(-)
->  create mode 100644 Documentation/admin-guide/nfs/index.rst
->  rename Documentation/{filesystems/nfs/nfs.txt => admin-guide/nfs/nfs-client.rst} (72%)
+>  Documentation/admin-guide/nfs/index.rst       |   1 +
+>  .../nfs/nfsroot.rst}                          | 140 ++++++++++--------
+>  2 files changed, 76 insertions(+), 65 deletions(-)
+>  rename Documentation/{filesystems/nfs/nfsroot.txt => admin-guide/nfs/nfsroot.rst} (83%)
 > 
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-> index 4405b7485312..4433f3929481 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -76,6 +76,7 @@ configure specific aspects of kernel behavior to your liking.
->     device-mapper/index
->     efi-stub
->     ext4
-> +   nfs/index
->     gpio/index
->     highuid
->     hw_random
 > diff --git a/Documentation/admin-guide/nfs/index.rst b/Documentation/admin-guide/nfs/index.rst
-> new file mode 100644
-> index 000000000000..f5c0180f4e5e
-> --- /dev/null
+> index f5c0180f4e5e..c2b87e9f0fed 100644
+> --- a/Documentation/admin-guide/nfs/index.rst
 > +++ b/Documentation/admin-guide/nfs/index.rst
-> @@ -0,0 +1,9 @@
-> +=============
-> +NFS
-> +=============
-> +
-> +.. toctree::
-> +    :maxdepth: 1
-> +
-> +    nfs-client
-> +
-> diff --git a/Documentation/filesystems/nfs/nfs.txt b/Documentation/admin-guide/nfs/nfs-client.rst
-> similarity index 72%
-> rename from Documentation/filesystems/nfs/nfs.txt
-> rename to Documentation/admin-guide/nfs/nfs-client.rst
-> index f2571c8bef74..f01bf6a6c207 100644
-> --- a/Documentation/filesystems/nfs/nfs.txt
-> +++ b/Documentation/admin-guide/nfs/nfs-client.rst
-> @@ -1,3 +1,6 @@
-> +==========
-> +NFS Client
-> +==========
+> @@ -6,4 +6,5 @@ NFS
+>      :maxdepth: 1
 >  
->  The NFS client
->  ==============
-> @@ -59,10 +62,11 @@ The DNS resolver
+>      nfs-client
+> +    nfsroot
 >  
->  NFSv4 allows for one server to refer the NFS client to data that has been
->  migrated onto another server by means of the special "fs_locations"
-> -attribute. See
-> -	http://tools.ietf.org/html/rfc3530#section-6
-> -and
-> -	http://tools.ietf.org/html/draft-ietf-nfsv4-referrals-00
-> +attribute. See `RFC3530 Section 6: Filesystem Migration and Replication`_ and
-> +`Implementation Guide for Referrals in NFSv4`_.
+> diff --git a/Documentation/filesystems/nfs/nfsroot.txt b/Documentation/admin-guide/nfs/nfsroot.rst
+> similarity index 83%
+> rename from Documentation/filesystems/nfs/nfsroot.txt
+> rename to Documentation/admin-guide/nfs/nfsroot.rst
+> index ae4332464560..85d834ad3d03 100644
+> --- a/Documentation/filesystems/nfs/nfsroot.txt
+> +++ b/Documentation/admin-guide/nfs/nfsroot.rst
+> @@ -1,18 +1,24 @@
+> +===============================================
+>  Mounting the root filesystem via NFS (nfsroot)
+>  ===============================================
+>  
+> -Written 1996 by Gero Kuhlmann <gero@gkminix.han.de>
+> -Updated 1997 by Martin Mares <mj@atrey.karlin.mff.cuni.cz>
+> -Updated 2006 by Nico Schottelius <nico-kernel-nfsroot@schottelius.org>
+> -Updated 2006 by Horms <horms@verge.net.au>
+> -Updated 2018 by Chris Novakovic <chris@chrisn.me.uk>
+> +:Authors:
+> +	Written 1996 by Gero Kuhlmann <gero@gkminix.han.de>
 > +
-> +.. _RFC3530 Section 6\: Filesystem Migration and Replication: http://tools.ietf.org/html/rfc3530#section-6
-> +.. _Implementation Guide for Referrals in NFSv4: http://tools.ietf.org/html/draft-ietf-nfsv4-referrals-00
+> +	Updated 1997 by Martin Mares <mj@atrey.karlin.mff.cuni.cz>
+> +
+> +	Updated 2006 by Nico Schottelius <nico-kernel-nfsroot@schottelius.org>
+> +
+> +	Updated 2006 by Horms <horms@verge.net.au>
+> +
+> +	Updated 2018 by Chris Novakovic <chris@chrisn.me.uk>
 >  
->  The fs_locations information can take the form of either an ip address and
->  a path, or a DNS hostname and a path. The latter requires the NFS client to
-> @@ -72,16 +76,16 @@ upcall to allow userland to provide this service.
->  Assuming that the user has the 'rpc_pipefs' filesystem mounted in the usual
->  /var/lib/nfs/rpc_pipefs, the upcall consists of the following steps:
 >  
-> -   (1) The process checks the dns_resolve cache to see if it contains a
-> +   #.  The process checks the dns_resolve cache to see if it contains a
+>  
+>  In order to use a diskless system, such as an X-terminal or printer server
+>  for example, it is necessary for the root filesystem to be present on a
+> -non-disk device. This may be an initramfs (see Documentation/filesystems/
+> -ramfs-rootfs-initramfs.txt), a ramdisk (see Documentation/admin-guide/initrd.rst) or a
+> +non-disk device. This may be an initramfs (see Documentation/filesystems/ramfs-rootfs-initramfs.txt`),
 
-It really only occurs to me now that we probaby shouldn't use the "#"
-notation.  If we truly need an *enumerated* list, meaning that the numbers
-are an important part of reading the list, then we should retain the
-numbers in the plain-text version, even if that means we occasionally have
-to change them if the list changes.  If, instead, the numbers aren't
-important, we should just use bullets instead.
+It's best in general to avoid refilling paragraphs so as to make it clear
+what is being changed.  But we would also like to avoid creating such long
+lines.  Perhaps an add-on patch refilling things would satisfy both
+criteria here.
 
-In this case, we have an explicit sequence of events, so the numbers should
-probably remain.
+Also, there seems to be a stray backtick (`) in there.
+
+> +a ramdisk (see Documentation/admin-guide/initrd.rst) or a
+>  filesystem mounted via NFS. The following text describes on how to use NFS
+>  for the root filesystem. For the rest of this text 'client' means the
+>  diskless system, and 'server' means the NFS server.
+> @@ -20,8 +26,8 @@ diskless system, and 'server' means the NFS server.
+>  
+>  
+>  
+> -1.) Enabling nfsroot capabilities
+> -    -----------------------------
+> +Enabling nfsroot capabilities
+> +=============================
+>  
+>  In order to use nfsroot, NFS client support needs to be selected as
+>  built-in during configuration. Once this has been selected, the nfsroot
+> @@ -34,8 +40,8 @@ DHCP, BOOTP and RARP is safe.
+>  
+>  
+>  
+> -2.) Kernel command line
+> -    -------------------
+> +Kernel command line
+> +===================
+>  
+>  When the kernel has been loaded by a boot loader (see below) it needs to be
+>  told what root fs device to use. And in the case of nfsroot, where to find
+> @@ -44,19 +50,17 @@ This can be established using the following kernel command line parameters:
+>  
+>  
+>  root=/dev/nfs
+> -
+>    This is necessary to enable the pseudo-NFS-device. Note that it's not a
+>    real device but just a synonym to tell the kernel to use NFS instead of
+>    a real device.
+>  
+>  
+>  nfsroot=[<server-ip>:]<root-dir>[,<nfs-options>]
+> -
+>    If the `nfsroot' parameter is NOT given on the command line,
+> -  the default "/tftpboot/%s" will be used.
+> +  the default ``"/tftpboot/%s"`` will be used.
+>  
+>    <server-ip>	Specifies the IP address of the NFS server.
+> -		The default address is determined by the `ip' parameter
+> +		The default address is determined by the ip parameter
+>  		(see below). This parameter allows the use of different
+>  		servers for IP autoconfiguration and NFS.
+>  
+> @@ -67,6 +71,9 @@ nfsroot=[<server-ip>:]<root-dir>[,<nfs-options>]
+>  
+>    <nfs-options>	Standard NFS options. All options are separated by commas.
+>  		The following defaults are used:
+> +
+> +		::
+> +
+
+Please don't use the standalone "::" like that.  Just say "used::"
+
+[...]
+
+> -3.) Boot Loader
+> -    ----------
+> +Boot Loader
+> +===========
+>  
+>  To get the kernel into memory different approaches can be used.
+>  They depend on various facilities being available:
+>  
+>  
+> -3.1)  Booting from a floppy using syslinux
+> +#. Booting from a floppy using syslinux
+
+Here, too, I wouldn't use "#".  This is essentially an unordered list, so
+basic bullets should be fine.
 
 Thanks,
 
