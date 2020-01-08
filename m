@@ -1,60 +1,124 @@
-Return-Path: <SRS0=MteQ=24=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=o+/b=25=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7569C282DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jan 2020 20:41:19 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9DFCC00523
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  8 Jan 2020 08:06:14 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 685CF2072A
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jan 2020 20:41:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6F40620643
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  8 Jan 2020 08:06:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
 	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="LzfATNAF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 685CF2072A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F40620643
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 426598513B;
-	Tue,  7 Jan 2020 20:41:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 33036203E3;
+	Wed,  8 Jan 2020 08:06:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0qKV3YXkfAtj; Tue,  7 Jan 2020 20:41:18 +0000 (UTC)
+	with ESMTP id 6EvFQyEx1+Wl; Wed,  8 Jan 2020 08:06:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2C5088502B;
-	Tue,  7 Jan 2020 20:41:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 443E01FE32;
+	Wed,  8 Jan 2020 08:06:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 109ABC1D82;
-	Tue,  7 Jan 2020 20:41:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2AC35C1D81;
+	Wed,  8 Jan 2020 08:06:12 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 794DDC0881
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F3CFAC0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jan 2020 20:41:16 +0000 (UTC)
+ Wed,  8 Jan 2020 08:06:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 644D320399
+ by silver.osuosl.org (Postfix) with ESMTP id DB98920337
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jan 2020 20:41:16 +0000 (UTC)
+ Wed,  8 Jan 2020 08:06:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9JzMIWU55nXJ
+ with ESMTP id wyjwS64GbD9B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jan 2020 20:41:14 +0000 (UTC)
-X-Greylist: delayed 00:07:18 by SQLgrey-1.7.6
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com
- [209.85.219.65])
- by silver.osuosl.org (Postfix) with ESMTPS id 1284D20366
+ Wed,  8 Jan 2020 08:06:10 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 251C71FE32
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jan 2020 20:41:14 +0000 (UTC)
-Received: by mail-qv1-f65.google.com with SMTP id x1so461736qvr.8
+ Wed,  8 Jan 2020 08:06:10 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id j11so726040pjs.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 07 Jan 2020 12:41:14 -0800 (PST)
+ Wed, 08 Jan 2020 00:06:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:delivered-to
+ :dkim-signature:references:mime-version:content-disposition
+ :in-reply-to:user-agent;
+ bh=vtQqcrqgsrzExDFy1gdr2XRM6ojuqM6vzXjFY+l/4AY=;
+ b=a/IaYgc8YlxUa06/jM93Gu9t9ZjL+1OQ3Nye8MCHbxbiVy4EW4tRxJ1m2UH0dbbKhr
+ +NIDOv6Xp4KjdQVStZpOtMkTJr+Ahn8YkqCf8ZUg+12AN5PlxCUBO74NsMGb0B9O9XQw
+ t2/rCmGruDXzmCTwXarP4YUbinqhm3dypf0SjFuUDEwIo4BMZSLPILAQTnAQeXHrFFJe
+ KAieokewvnA9wV4OSfpdxLeHAQVfDLgm99Y7mbxCzfcMeF/j3X6ZZcCpCSpppC+khJ2K
+ 291FPpr4BA51hwmXo07dkNrUtfKrGPY3uyBC6YddOmHAZ2btUaIxavfMs3mGfO5Mt1/u
+ J3Hw==
+X-Gm-Message-State: APjAAAXvl3pkqfsRBNgv4Iqr0JJBjvGGAJvFvXJwzcPNN3jtGbALCE09
+ GCBbeWkBns2oThqx4SlgO0g=
+X-Google-Smtp-Source: APXvYqw25ADoSDuSiAeKTUMWdf46qPB1tm/b5QiGLfw+9uJ7I6zGcNc+Mi/ik3lpziYreByq6vnksg==
+X-Received: by 2002:a17:902:61:: with SMTP id 88mr4020487pla.313.1578470769428; 
+ Wed, 08 Jan 2020 00:06:09 -0800 (PST)
+Received: from madhuparna-HP-Notebook.nitk.ac.in
+ ([2402:3a80:1ee6:eec1:7443:e8d6:e559:22e2])
+ by smtp.gmail.com with ESMTPSA id x21sm2212809pfn.164.2020.01.08.00.06.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 00:06:08 -0800 (PST)
+From: madhuparnabhowmik04@gmail.com
+To: jgg@ziepe.ca,
+	madhuparnabhowmik04@gmail.com
+Date: Wed,  8 Jan 2020 13:35:07 +0530
+Message-Id: <20200107203354.GD26174@ziepe.ca>
+X-Mailer: git-send-email 2.17.1
+Received: by 2002:ac9:32e7:0:0:0:0:0 with SMTP id o36csp527349occ;
+ Tue, 7 Jan 2020 12:33:56 -0800 (PST)
+X-Received: by 2002:a05:620a:228:: with SMTP id
+ u8mr1198248qkm.88.1578429236735; 
+ Tue, 07 Jan 2020 12:33:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578429236; cv=none;
+ d=google.com; s=arc-20160816;
+ b=DjaH4m81MAwsDRUetxLNPAV2YuxcjgIZJnWh5Y4C4SvISeE22EJipZgsE3LfpxJzio
+ H3pCoZy3qxNY9b4AT5QZdYWG/cDb73KE4+8qP50QMLe4OK13X+c8/xWoOhOizewedcuD
+ YDA4lWq58Ze+dcLjsoGorDaMIesCQeQI02uB28KRkey8rWFld5lbzYIDHGdsGeSfbV9U
+ aLvqCWxOMnnVim2z8Fi0AXBDZWeJW6/R0LFMqUZObuMw8v6Bitk2ZqWdMs2l3GkTwIk4
+ l7ZGwOrLQWPS3vQjp+fOsWyebMeBmPJmyxs3htFeQC9JA+5PhXEvJ27uJLFLT3nlaj+X
+ MCpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20160816; 
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:dkim-signature;
+ bh=3zhpjGKRs5oCN7gE0zJUv09fBYY5DJxxWR8yhyAhckI=;
+ b=DYe8MmpXKd1fVNQ/DHibxTPUurcFgw60qxWY8ffDaK57LsQ8xyWd/4BNQahq4gvUoH
+ dksIkPgD7oHO2Vk4xT5Lot9VniDLncz8zeCwCwnpGoYcrB8xg+5+S89YAc0+ws01mWyO
+ cnPO6jo7mzjV6I9gfmiLD3X/SOQVDeuwuTsxrcr0CQULiQXrKtIhHi9VV7Y+u2P6lgce
+ 1LzL4tiPrpOJYr1286urnbsQhSz/1GRrXVe8AAHJ5e3m/tl96WltqEkrrte1Dwf/rEnh
+ KmsJgsC5zwnQFf+VXmE3epcqN6F035d8rievBNkGELYsHcH1c+m/P4M2GERIw+lfauI7
+ xaZg==
+ARC-Authentication-Results: i=1; mx.google.com;
+ dkim=pass header.i=@ziepe.ca header.s=google header.b=LzfATNAF;
+ spf=pass (google.com: domain of jgg@ziepe.ca designates 209.85.220.65 as
+ permitted sender) smtp.mailfrom=jgg@ziepe.ca
+Received: from mail-sor-f65.google.com (mail-sor-f65.google.com.
+ [209.85.220.65])
+ by mx.google.com with SMTPS id h20sor759663qvv.38.2020.01.07.12.33.56
+ for <madhuparnabhowmik04@gmail.com> (Google Transport Security);
+ Tue, 07 Jan 2020 12:33:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of jgg@ziepe.ca designates
+ 209.85.220.65 as permitted sender) client-ip=209.85.220.65; 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
@@ -65,20 +129,6 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  oPrKDojhIIATLeooNxbXC9kMnsP5qZA1e90aV/Tz4jgc5sIqaT9AIJXuDHRgZ+XbpjTv
  +nk4SnEi+FeRmci7r55ERdAASdZgPpAY02r9b46vZe0iLEDR3Xge2WCmwVarMRF8iPmL
  g1JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=3zhpjGKRs5oCN7gE0zJUv09fBYY5DJxxWR8yhyAhckI=;
- b=brnFEXie6bxF3/WV3zVcvKGfd0SNDZScAbeAN3dluNuvF3EWUY9DlZVJIkvTBlQq0g
- +LUwHWUQVavkBHYm4jB4EbQSlwZIg8lvLst+8csV3VTv5227vJotA9IxHvNjxINGA3GR
- aAJifoYd6v7l5eb2AyCSK98U5Lk46RM/je4oKbwq5lvClrP0GmvXlzOr01PAklpXUpS2
- TF4uzb2LOqMzCcnt3eMXsFaeV1jaWIkLCr79js5uCCMmQ3wFKHAF+aIiD8hR9/CIrq3O
- kEfJHhDVPumZkn2MBt3ip+AYv914HYcWTXtaO8B6AghC+ZnzEi/GCJm5hwglEFiADgfM
- U/eA==
-X-Gm-Message-State: APjAAAXk0BpjrUkgdJErmn7AuHM3CCY8boI3XGtknjAgyFIXL1AB49lK
- hczgPj53xlHFVb8/Y9SVrxu1OmI2DSM=
-X-Google-Smtp-Source: APXvYqzWbftKZEr84YWD8iGrR1oDz0h1VmVb/RITKJH7Bi68eIZnbK/lkG9EUM5l75oi0+8mHGJU/Q==
 X-Received: by 2002:a05:6214:1150:: with SMTP id
  b16mr1181882qvt.71.1578429235967; 
  Tue, 07 Jan 2020 12:33:55 -0800 (PST)
@@ -91,10 +141,6 @@ Received: from ziepe.ca
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
  (envelope-from <jgg@ziepe.ca>)
  id 1iovY2-0001Xd-Ue; Tue, 07 Jan 2020 16:33:54 -0400
-Date: Tue, 7 Jan 2020 16:33:54 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: madhuparnabhowmik04@gmail.com
-Message-ID: <20200107203354.GD26174@ziepe.ca>
 References: <20200107192912.22691-1-madhuparnabhowmik04@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -122,6 +168,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
+Message-ID: <20200108080507.nPKHNRH4jQDUUKHzjZ1fxS0Wi3bgglDsxm3KFjWvd2g@z>
+
+From: Jason Gunthorpe <jgg@ziepe.ca>
 
 On Wed, Jan 08, 2020 at 12:59:12AM +0530, madhuparnabhowmik04@gmail.com wrote:
 > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
@@ -146,6 +195,14 @@ On Wed, Jan 08, 2020 at 12:59:12AM +0530, madhuparnabhowmik04@gmail.com wrote:
 
 Why .dep_map? Does this compile?
 
+Alternatively, it can be lockdep_is_held(ibp->rvp.lock).
+Please refer to the macro(link below) and let me know if the usage of lock_is_held()
+in the patch is correct.
+
+https://elixir.bootlin.com/linux/v5.5-rc2/source/include/linux/lockdep.h#L364
+
+Thanks,
+Madhuparna
 Jason
 _______________________________________________
 Linux-kernel-mentees mailing list
