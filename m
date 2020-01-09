@@ -2,69 +2,101 @@ Return-Path: <SRS0=kdHc=26=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C91E6C32771
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jan 2020 10:47:31 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF28EC282DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jan 2020 15:24:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 99FE62067D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jan 2020 10:47:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 99FE62067D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=inria.fr
+	by mail.kernel.org (Postfix) with ESMTPS id 7962D2072A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jan 2020 15:24:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D116hLM3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7962D2072A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6E7BD88045;
-	Thu,  9 Jan 2020 10:47:31 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5682E84D41;
+	Thu,  9 Jan 2020 15:24:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zwD4zXyO+DU7; Thu,  9 Jan 2020 10:47:29 +0000 (UTC)
+	with ESMTP id KCqOYFu13Lgv; Thu,  9 Jan 2020 15:24:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A4E1288026;
-	Thu,  9 Jan 2020 10:47:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DEAAC84CF4;
+	Thu,  9 Jan 2020 15:24:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 90646C18DC;
-	Thu,  9 Jan 2020 10:47:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D3CE6C1796;
+	Thu,  9 Jan 2020 15:24:26 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24622C0881
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BF5CFC0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 10:47:28 +0000 (UTC)
+ Thu,  9 Jan 2020 15:24:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1CE9C20405
+ by silver.osuosl.org (Postfix) with ESMTP id AAFDA21511
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 10:47:28 +0000 (UTC)
+ Thu,  9 Jan 2020 15:24:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 38hFRJZwZAsU
+ with ESMTP id ZQFBWIWhts9g
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 10:47:26 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail2-relais-roc.national.inria.fr
- (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by silver.osuosl.org (Postfix) with ESMTPS id 75E75203F0
+ Thu,  9 Jan 2020 15:24:24 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+ [209.85.160.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0F35C214E9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 10:47:26 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.69,413,1571695200"; d="scan'208";a="430596588"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
- by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2020 11:47:23 +0100
-Date: Thu, 9 Jan 2020 11:47:23 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: julia@hadrien
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-In-Reply-To: <20200108150518.6241-1-jaskaransingh7654321@gmail.com>
-Message-ID: <alpine.DEB.2.21.2001091147060.10786@hadrien>
-References: <20200108150518.6241-1-jaskaransingh7654321@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Thu,  9 Jan 2020 15:24:24 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id 5so6167924qtz.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 09 Jan 2020 07:24:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PWNCEr7Y0E2jpBWo5WW7zoI6piAesxsrYle93t+slgI=;
+ b=D116hLM3lkHdbMP1J9dMKKWF+DlDf1lyaYiIVcZyHLzFs/K7HKLKji5e5waw159E3X
+ oLH68GsILRsNso+tUPqy+I5vuPXaEPyF1mF2Oy3Dy8sa6ZaC8IAmfKpRN+G5yRuB3cWW
+ RK0Gt1fI38mqnML7veBC3Nn3/AtM0SF43IWpxfuqsIFLjcJaiQZuv/0auUkXZkmPixoG
+ brKOOzbvlwl6Hl0InzcnwyFTsQTYNNNltNa/hjhASZ2eZiRuxJDLx/0zrznCvEWzrV9A
+ fBjVrhCsMfwA1I6KKFf4upmlVcbTYcdsDGJcK0+vL/RvgIcNHb56OTypYLuz9xkh5j0r
+ zI4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PWNCEr7Y0E2jpBWo5WW7zoI6piAesxsrYle93t+slgI=;
+ b=BF3i697uUuYU+/47l96L5c3x/ySKhOL6mFzEAg6EZQBwoTMYPPfhVa6cSMdPrFhj+W
+ hJVzVxZ1CJQ/qCy8bBuAEAdTUtT2yMOAAa0ilJBQrd3UmDde2eKqcoj5L69FJzT9zqJm
+ 0wAWNuARcUvvgg3flKD7yrB37Oyfmg6c0dZ74ZQYPEoZPCCiuab73Nrnx4aHgyNCy4xU
+ Q0jKvq2//qhy0ib77L1Eq4Xi7A5GwrXzsJPdEbV5IBeaKV86gunK+hjDY6oSNDAYMQvv
+ vDtTX3CyiN9O6XBgvMRVAAqdZDLlq4SzZuxe4Pz1KgrqKKBprJJQVktjEGKe4slQj9fB
+ JPBg==
+X-Gm-Message-State: APjAAAUl+141BY3f2Ggj3aFES+JVlASVFpnOigK1fF3G+JNWl1NIUS3k
+ rhcI0y2DmE6TevTMCqf/KoY=
+X-Google-Smtp-Source: APXvYqwQiMpPoRQSE+6GVjiDdTHEnopuFTn2TSErNMH0LELVLEi+3ZQm1tRO9sbIbwDJBVwNXDssEQ==
+X-Received: by 2002:ac8:36ab:: with SMTP id a40mr8600301qtc.181.1578583462979; 
+ Thu, 09 Jan 2020 07:24:22 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id w21sm3641361qth.17.2020.01.09.07.24.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jan 2020 07:24:22 -0800 (PST)
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To: mchehab@kernel.org, sean@mess.org, tglx@linutronix.de,
+ gregkh@linuxfoundation.org
+Date: Thu,  9 Jan 2020 12:24:07 -0300
+Message-Id: <20200109152408.919325-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, cocci@systeme.lip6.fr
-Subject: Re: [Linux-kernel-mentees] [PATCH] parsing_c: Handle case of
- annotation in function proto/def
+Cc: linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH 0/1] Implement a DVB Dummy Tuner
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,58 +114,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
+This patch series should implement a dummy DVB tuner as part of ongoing work
+on a virtual DVB test driver under the 2020 Spring Linux Kernel Mentorship Program.
 
-On Wed, 8 Jan 2020, Jaskaran Singh wrote:
+as 
+Daniel W. S. Almeida (1):
+  media: dvb_dummy_tuner: implement driver skeleton
 
-> For the following case:
->
-> [const_vol] <type> [ptr] <annotation> <identifier> <open_par>
->
-> The lookahead function in Parsing_hacks would mislabel <annotation> as a
-> CppDirective, causing pretty printing errors.
->
-> Add a case in the lookahead function for handling this case.
+ drivers/media/tuners/Kconfig           |   7 ++
+ drivers/media/tuners/Makefile          |   1 +
+ drivers/media/tuners/dvb_dummy_tuner.c | 153 +++++++++++++++++++++++++
+ drivers/media/tuners/dvb_dummy_tuner.h |  20 ++++
+ 4 files changed, 181 insertions(+)
+ create mode 100644 drivers/media/tuners/dvb_dummy_tuner.c
+ create mode 100644 drivers/media/tuners/dvb_dummy_tuner.h
 
-Applied.  Thanks!
+-- 
+2.24.1
 
-julia
-
->
-> Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-> ---
->  parsing_c/parsing_hacks.ml | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/parsing_c/parsing_hacks.ml b/parsing_c/parsing_hacks.ml
-> index 43421647..3f031f21 100644
-> --- a/parsing_c/parsing_hacks.ml
-> +++ b/parsing_c/parsing_hacks.ml
-> @@ -2066,6 +2066,20 @@ let lookahead2 ~pass next before =
->  	&& is_type type_ ->
->  	  TCommentCpp (Token_c.CppDirective, i1)
->
-> +        (* tt xx yy ( : xx is an annot *)
-> +  | (TIdent (s, i1)::TIdent (s2, i2)::TOPar _::_, seen::_)
-> +    when LP.current_context () = LP.InTopLevel
-> +	&& (is_struct_enum before || is_type seen)
-> +	&& s ==~ regexp_annot ->
-> +	  TCommentCpp (Token_c.CppMacro, i1)
-> +
-> +        (* tt * xx yy ( : xx is an annot *)
-> +  | (TIdent (s, i1)::TIdent (s2, i2)::TOPar _::_, ptr)
-> +    when LP.current_context () = LP.InTopLevel
-> +	&& pointer ptr
-> +	&& s ==~ regexp_annot ->
-> +	  TCommentCpp (Token_c.CppMacro, i1)
-> +
->  	(* tt xx yy; : yy is an annot *)
->    | (TIdent (s, i1)::(TPtVirg _|TEq _)::_, TIdent (s2, i2)::type_::rest)
->      when (is_struct_enum (type_::rest)
-> --
-> 2.21.1
->
->
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
