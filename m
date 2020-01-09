@@ -7,104 +7,100 @@ X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FBCBC33CA1
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jan 2020 20:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 839D0C282DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jan 2020 20:51:28 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 147D92077B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jan 2020 20:43:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4B6F72067D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jan 2020 20:51:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sXFXkHka"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 147D92077B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qw4ugtVa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B6F72067D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E57D7865AB;
-	Thu,  9 Jan 2020 20:43:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1852F865AB;
+	Thu,  9 Jan 2020 20:51:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4xfxwdwnGFlB; Thu,  9 Jan 2020 20:43:21 +0000 (UTC)
+	with ESMTP id yU6F2m9qNGJ3; Thu,  9 Jan 2020 20:51:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7F4B085359;
-	Thu,  9 Jan 2020 20:43:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C03D3868A8;
+	Thu,  9 Jan 2020 20:51:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 674A3C18DC;
-	Thu,  9 Jan 2020 20:43:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AF481C18DC;
+	Thu,  9 Jan 2020 20:51:27 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3BE3AC0881
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C3437C0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 20:43:20 +0000 (UTC)
+ Thu,  9 Jan 2020 20:51:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 22EA820428
+ by silver.osuosl.org (Postfix) with ESMTP id AD4CC20336
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 20:43:20 +0000 (UTC)
+ Thu,  9 Jan 2020 20:51:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bI+4kFzUDKTE
+ with ESMTP id 9jQI9BiDjCjg
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 20:43:19 +0000 (UTC)
+ Thu,  9 Jan 2020 20:51:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
- [209.85.219.67])
- by silver.osuosl.org (Postfix) with ESMTPS id 32618203C8
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+ [209.85.160.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id EC6302002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 20:43:19 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id u10so3584625qvi.2
+ Thu,  9 Jan 2020 20:51:25 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id t3so7042643qtr.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 09 Jan 2020 12:43:19 -0800 (PST)
+ Thu, 09 Jan 2020 12:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=ef9/tFIDN6mikvhUQb4XMvHbbgBUrjC1EBqGZF+FLsk=;
- b=sXFXkHka6oKVtQKVKZiBjE9C/sNZvR9m0AACc3oWtVDWSoMaHGL02DqGyopAKIUsxv
- NCXnuHkaPglMJsl6oWOfQL3ICcECz229wJdXw5bxIfUtxQZNfY8G4AOEVWt9tFHfzcNI
- 2WzPUiExo5v+4FOtJPA1ARVI9eA9kK8j6PlRuSJVxajHDSZddB3J+oIRHtXmnMFJvSuO
- wH3Jp9vqCGHD06jOJdG/TS/oKvzGsMXGWD0YcxH8BejChxm5UC7Hrd8Q+/WQ1MBuZXGO
- JMXao3zFB6DIjqCTXt5F1PV2yd0n7pldDn4hMgzzQou4FggV+q7AZw0dRpJpuUTxVAfK
- M2fw==
+ bh=r8+PNHuHVYhO/9L0NgizQ0DPv9kkAS8uxlfxmczMuUs=;
+ b=qw4ugtVaC6xnbnftjvIJFcCrXVrzd9ZuL6nubS64+2uc1FK5WtpHD8Y2NRCrKtv5td
+ djdGWXbyqaDsGAtasuUyc6QDk06/XjfT104M+RVhFCPaZ7qSy7UT1FoFPqECaPbFjfGy
+ LCqzkqjOdSA2V9FDFm/s69Q3pGSHKgQWw4E9QbJ7S82IamCX/hcdH9lGuCgwh+cZbLhE
+ TNxhXFYpMOMiOQMq97/JxjDIgrG8ELLGnM5BTQNFXiE6KqCwv5uZPidQqrgE/e6BX46h
+ 5GbOguWylANbfu0iwzBlydzg79iWAuySiFY3SktZaUOXE+kaaEumPNRSeEpWsDp+NTF2
+ oeHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=ef9/tFIDN6mikvhUQb4XMvHbbgBUrjC1EBqGZF+FLsk=;
- b=Xfv5otdSNP3XYo34fEvnCbJcCPfCD0VpIi8NYFHxxrh7x0k4r9kWj/bzHZVq8P3C14
- SZ33t3DNi0RymLT+qCrSSPyjCFnW8Vs3e59DE37FtQncANbY8MaWq2ZlUTeYsjB7rjLJ
- YF1OogojZR8kt0hogrCq+r+oBuqge+9O1XW7FodhSRByDjXI8DaHXNV5/02UwOX/a2zG
- OEusQ0wr5Udzi4G7UnXWOuIXLtQDJ/H91wwWvZZhvvgtb402eD6hivNyfuCLN+uNZrT/
- kIXVui13VRu5wHzUv6M5w58xykS5vjB1jQ/WDTjppm+uy+qJk/A76xdEqXBkHjoHK1NF
- Y4Ig==
-X-Gm-Message-State: APjAAAVnbCmRoAOTtSRhA4SsitJ13RkEKkdokkW+TL4rT9TbzUOzMoxB
- bI8t6SNyhxuAtYlHI8iAeAPsifix2yA=
-X-Google-Smtp-Source: APXvYqyy/kx651cOXGkIrrG6zslGb9MsDswmcdV/3oXSGQgr334qQh80B8EWLVv92a39Y/yyg/53Lw==
-X-Received: by 2002:a05:6214:38c:: with SMTP id
- l12mr10604400qvy.224.1578602597906; 
- Thu, 09 Jan 2020 12:43:17 -0800 (PST)
+ bh=r8+PNHuHVYhO/9L0NgizQ0DPv9kkAS8uxlfxmczMuUs=;
+ b=JxTtfPliWIYxCBd7EtJUx8dgTahJxDTzvBukAOE9Kt6Op2quP5FnnFZu7DnckEaq8J
+ p1HoUudByHMyXeSicy5rmbu7Xu72bS4DqjPmeNg7QXx8o1tSsr4zREyV5MtpyqyGEnWo
+ SE8p+VZcvycEtKycMG2a95zceMF51dFyP2gw/Xw3+2roXW93fv686sAMXowiuzMmL1UE
+ 52mPLcq1bEl9i/n6EtdYsVeVk2imvJ9+NAQBsEVueEZ2V3g+RQhpLT+ObQr3E+fb5/LR
+ g2yj+b3vWYkEGomKWX0jcw+n4QgN2X/lKBaUc8e75pUtOHR5n+XESPxbSKh/NqPUKrho
+ iWAw==
+X-Gm-Message-State: APjAAAUcp1aoPCPWWjRdebEAkp99eAAU/BgmTnMU10h28WfF6DUputLW
+ QUhGQjR7K4pC6eAUvQoXA9aJp17jglQ=
+X-Google-Smtp-Source: APXvYqxuq+Jd+nWt/TrkJDmldrGG25HleKXAUbyKuI0EseL0XUXFC3Xq9Wq6SD6HMQ8/qorIQEuDng==
+X-Received: by 2002:ac8:4657:: with SMTP id f23mr8387874qto.378.1578603084671; 
+ Thu, 09 Jan 2020 12:51:24 -0800 (PST)
 Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac?
  ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id u52sm4018315qta.23.2020.01.09.12.43.14
+ by smtp.gmail.com with ESMTPSA id s91sm3846706qtd.50.2020.01.09.12.51.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jan 2020 12:43:17 -0800 (PST)
-To: Greg KH <gregkh@linuxfoundation.org>
+ Thu, 09 Jan 2020 12:51:24 -0800 (PST)
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
 References: <20200109152408.919325-1-dwlsalmeida@gmail.com>
- <20200109152408.919325-2-dwlsalmeida@gmail.com>
- <20200109155437.GA568342@kroah.com>
+ <20200109170750.12746fcc@kernel.org>
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <c242068a-ad8c-be27-4c95-22cb5ff17216@gmail.com>
-Date: Thu, 9 Jan 2020 17:43:13 -0300
+Message-ID: <aedc52d8-db98-eeac-c519-a4eeb21fa9dd@gmail.com>
+Date: Thu, 9 Jan 2020 17:51:20 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200109155437.GA568342@kroah.com>
+In-Reply-To: <20200109170750.12746fcc@kernel.org>
 Content-Language: en-US
 Cc: sean@mess.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
- mchehab@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 1/1] media: dvb_dummy_tuner:
-	implement driver skeleton
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 0/1] Implement a DVB Dummy Tuner
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,35 +118,24 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Greg! Thanks for chiming in.
+Hi Mauro!
 
 
-> As you are a driver, you should never need to call any pr_* calls,
-> instead use dev_*().  For this, you can use dev_dbg(), but really, why
-> is that even needed except for your debugging bringup.  And for that,
-> you can use ftrace, right?  So no need for any printing of anything
-> here.
-> Again, dev_err() would be proper, but there's no need for any error
-> message here.
+> No need for a patch 0/1. If you want to send just one patch, just sent it
+> directly as:
+>
+> 	[PATCH] foo
 
-Let's take these out in v2 then.
+I planned on adding more commits to this series in v2, v3 and so forth 
+so they would be applied in order, since they would be touching the same 
+file. Likewise, the changes could be reviewed in a piecemeal fashion 
+making it easier for reviewers. Is this not advisable?
 
+Anyway, thanks for the heads up.
 
-> Don't you need to register the tuner ops with something in this
-> function?
-> Don't you need to unregister the tuner ops in here?
-
-It is my understanding that bridge drivers are the ones responsible for 
-this. For instance, I don't see this with either xc4000.c, xc5000.c or 
-mt2060.c. I could be wrong, though. Maybe Mauro could clarify this?
-
-What I did miss in this patch was an attach function. Let's also add 
-this in v2.
-
-
-Thanks again,
 
 - Daniel.
+
 
 _______________________________________________
 Linux-kernel-mentees mailing list
