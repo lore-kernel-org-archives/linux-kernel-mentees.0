@@ -2,82 +2,103 @@ Return-Path: <SRS0=OMk/=27=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C659EC282DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 16:31:46 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E807C33CA3
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 16:49:23 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8EEB22084D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 16:31:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5559C206ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 16:49:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="IrbMpNEO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8EEB22084D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n0jzEtSP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5559C206ED
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5CD69204DA;
-	Fri, 10 Jan 2020 16:31:46 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2A080844CA;
+	Fri, 10 Jan 2020 16:49:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xnpn9TWmh9y6; Fri, 10 Jan 2020 16:31:44 +0000 (UTC)
+	with ESMTP id BXRuFtApYbv5; Fri, 10 Jan 2020 16:49:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7F10420353;
-	Fri, 10 Jan 2020 16:31:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AB97181BDF;
+	Fri, 10 Jan 2020 16:49:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6711FC1796;
-	Fri, 10 Jan 2020 16:31:44 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99EE7C0881
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97EE4C1796;
+	Fri, 10 Jan 2020 16:49:22 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 799EEC0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 16:31:43 +0000 (UTC)
+ Fri, 10 Jan 2020 16:49:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 87866869C7
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 665E286AEC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 16:31:43 +0000 (UTC)
+ Fri, 10 Jan 2020 16:49:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id o4Idi42MYxbH
+ with ESMTP id 4gV7DXd-Uv-v
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 16:31:43 +0000 (UTC)
+ Fri, 10 Jan 2020 16:49:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 10189869B4
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id DC14D85B99
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 16:31:43 +0000 (UTC)
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 65178205F4;
- Fri, 10 Jan 2020 16:31:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578673902;
- bh=Rrk4n1nHKqxj+BZCcSgnpXUKkWUtPTA1mv68Gy7dZO0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IrbMpNEO3empPNaJOZ9/BBjsosxffjbyeTmhwaC5ygwe1vlJhhVWfAh0XUUOmOySF
- nPLJuu4WDpKEvLXufBqY1wH+gLdayWRrZ2S6z2KwnwLWQ/Z/yLjN7KIp/aLEd+Sx26
- dThCEIS9BeCJC1ZHLa2ixTdNyl1x5Tb/XyRM+3G0=
-Date: Sat, 11 Jan 2020 01:31:34 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20200110163134.GA18579@redsun51.ssa.fujisawa.hgst.com>
-References: <20200110132356.27110-1-frextrite@gmail.com>
+ Fri, 10 Jan 2020 16:49:20 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id i23so1409709pfo.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jan 2020 08:49:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=brXuec6fVOc4dwf+FV3n+KOcRsO8MbgAaQ9yCNJ4rtQ=;
+ b=n0jzEtSPIAyJr1b96PF8pKh1BWTiiObRYsejvJ/bLaoeNTrNPvcx8ERAFofXmXOLbx
+ 8j7k0EYBOesfQ/yyyg6PmulFcLdldU307A6tY9c6Z2QQIoIOenJnBmwc3CCEbSZHdA8v
+ Nmmw3IsTeBCM7943yJN7PQOMKhPy1NmgsO2eKBuVFfxK90Je52sHonk9D0Qm1s6AuFHU
+ n2gRNf06PQXXMIqnpSgTfdI15yr/MQZMC/wBcPpJz4JuMT2vCi5r/3weVEmx3VtQZmxS
+ mhPXfKLEjQLZLi3zQWOKlcFmghSSUlqsviW4j/LaPdY/cRdmUMYUNc2izqC8gYjxfJKG
+ cMoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=brXuec6fVOc4dwf+FV3n+KOcRsO8MbgAaQ9yCNJ4rtQ=;
+ b=bvHqmwt1wmJuKAcEZecJFsbUdf+QZ0iSSExGbZPcWGFEpLsI9vBuQQukGoVaLXleS4
+ QoO9Ppq8gggqzb0DpJguAPkrlaneTJXgwFaH5IReLISP1Isfm58yElT5DwLK5a1ZWdI7
+ HMHq6DkreXQoBZPXroR1qiZO46+AxkdEFnd6+DZdGtqR5vPdCDDqRc2wGAUZPfRBnPDl
+ CKRSDR5Jnh/yp7tJsBNNWQgW3I5I6OOy/KXBCQuPL9ob43Zt4MmpmrYQEreQbeHYs3LN
+ nc94jJmj+iB8KqSJEeno3H5AmNE3Cll94C9waq7gFJ0gBo9AlXky0OWnez+F70xo9WAV
+ wTJQ==
+X-Gm-Message-State: APjAAAUauMnQm+j4BWHVRSPPPV2pwKkEEktbj2l+yI81yERbVG0uUQhs
+ s632/HQd+MtmTNMyaWNhBEs=
+X-Google-Smtp-Source: APXvYqwg1KhDgRTKcRKE4yl6HbIV3yB4bwewoheoY502mloPzg1d/sVq71GxLax/oMU9ZDd6AJNTwA==
+X-Received: by 2002:a62:c541:: with SMTP id j62mr5172910pfg.237.1578674960543; 
+ Fri, 10 Jan 2020 08:49:20 -0800 (PST)
+Received: from localhost.localdomain ([103.211.17.220])
+ by smtp.googlemail.com with ESMTPSA id h7sm3947538pfq.36.2020.01.10.08.49.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jan 2020 08:49:20 -0800 (PST)
+From: Amol Grover <frextrite@gmail.com>
+To: Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Fri, 10 Jan 2020 22:17:10 +0530
+Message-Id: <20200110164709.26741-1-frextrite@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200110132356.27110-1-frextrite@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Joel Fernandes <joel@joelfernandes.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, Christoph Hellwig <hch@lst.de>
-Subject: Re: [Linux-kernel-mentees] [PATCH] drivers: nvme: target: core:
- Pass lockdep expression to RCU lists
+Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
+ Joel Fernandes <joel@joelfernandes.org>,
+ openipmi-developer@lists.sourceforge.net,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v2] drivers: char: ipmi:
+	ipmi_msghandler: Pass lockdep expression to RCU lists
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,24 +116,95 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jan 10, 2020 at 06:53:58PM +0530, Amol Grover wrote:
-> +#define subsys_lock_held() \
-> +	lockdep_is_held(&subsys->lock)
+intf->cmd_rcvrs is traversed with list_for_each_entry_rcu
+outside an RCU read-side critical section but under the
+protection of intf->cmd_rcvrs_mutex.
 
-This macro requires "struct nvmet_subsys *subsys" was previously declared
-in the function using it, which isn't obvious when looking at the users. I
-don't think that's worth the conciseness.
+ipmi_interfaces is traversed using list_for_each_entry_rcu
+outside an RCU read-side critical section but under the protection
+of ipmi_interfaces_mutex.
 
-> @@ -555,7 +558,8 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
->  	} else {
->  		struct nvmet_ns *old;
->  
-> -		list_for_each_entry_rcu(old, &subsys->namespaces, dev_link) {
-> +		list_for_each_entry_rcu(old, &subsys->namespaces, dev_link,
-> +							subsys_lock_held()) {
->  			BUG_ON(ns->nsid == old->nsid);
->  			if (ns->nsid < old->nsid)
->  				break;
+Hence, add the corresponding lockdep expression to the list traversal
+primitive to silence false-positive lockdep warnings, and
+harden RCU lists.
+
+Add macro for the corresponding lockdep expression to make the code
+clean and concise.
+
+Signed-off-by: Amol Grover <frextrite@gmail.com>
+---
+v2:
+- Fix sparse error
+  CHECK: Alignment should match open parenthesis
+
+ drivers/char/ipmi/ipmi_msghandler.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/char/ipmi/ipmi_msghandler.c b/drivers/char/ipmi/ipmi_msghandler.c
+index cad9563f8f48..1cbeacb1e8b9 100644
+--- a/drivers/char/ipmi/ipmi_msghandler.c
++++ b/drivers/char/ipmi/ipmi_msghandler.c
+@@ -35,6 +35,8 @@
+ #include <linux/nospec.h>
+ 
+ #define IPMI_DRIVER_VERSION "39.2"
++#define cmd_rcvrs_mutex_held() \
++	lockdep_is_held(&intf->cmd_rcvrs_mutex)
+ 
+ static struct ipmi_recv_msg *ipmi_alloc_recv_msg(void);
+ static int ipmi_init_msghandler(void);
+@@ -618,6 +620,8 @@ static DEFINE_MUTEX(ipmidriver_mutex);
+ 
+ static LIST_HEAD(ipmi_interfaces);
+ static DEFINE_MUTEX(ipmi_interfaces_mutex);
++#define ipmi_interfaces_mutex_held() \
++	lockdep_is_held(&ipmi_interfaces_mutex)
+ static struct srcu_struct ipmi_interfaces_srcu;
+ 
+ /*
+@@ -1321,7 +1325,8 @@ static void _ipmi_destroy_user(struct ipmi_user *user)
+ 	 * synchronize_srcu()) then free everything in that list.
+ 	 */
+ 	mutex_lock(&intf->cmd_rcvrs_mutex);
+-	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link) {
++	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
++				cmd_rcvrs_mutex_held()) {
+ 		if (rcvr->user == user) {
+ 			list_del_rcu(&rcvr->link);
+ 			rcvr->next = rcvrs;
+@@ -1599,7 +1604,8 @@ static struct cmd_rcvr *find_cmd_rcvr(struct ipmi_smi *intf,
+ {
+ 	struct cmd_rcvr *rcvr;
+ 
+-	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link) {
++	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
++				rcu_read_lock_held() || cmd_rcvrs_mutex_held()) {
+ 		if ((rcvr->netfn == netfn) && (rcvr->cmd == cmd)
+ 					&& (rcvr->chans & (1 << chan)))
+ 			return rcvr;
+@@ -1614,7 +1620,8 @@ static int is_cmd_rcvr_exclusive(struct ipmi_smi *intf,
+ {
+ 	struct cmd_rcvr *rcvr;
+ 
+-	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link) {
++	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
++				cmd_rcvrs_mutex_held()) {
+ 		if ((rcvr->netfn == netfn) && (rcvr->cmd == cmd)
+ 					&& (rcvr->chans & chans))
+ 			return 0;
+@@ -3450,7 +3457,8 @@ int ipmi_add_smi(struct module         *owner,
+ 	/* Look for a hole in the numbers. */
+ 	i = 0;
+ 	link = &ipmi_interfaces;
+-	list_for_each_entry_rcu(tintf, &ipmi_interfaces, link) {
++	list_for_each_entry_rcu(tintf, &ipmi_interfaces, link,
++				ipmi_interfaces_mutex_held()) {
+ 		if (tintf->intf_num != i) {
+ 			link = &tintf->link;
+ 			break;
+-- 
+2.24.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
