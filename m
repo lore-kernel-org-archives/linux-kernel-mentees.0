@@ -2,145 +2,102 @@ Return-Path: <SRS0=OMk/=27=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E56C282DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 18:39:45 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB2F2C282DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 23:24:51 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D4E642072E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 18:39:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 95BCF20838
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 23:24:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="j05jR1v5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D4E642072E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XL5cgHP0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95BCF20838
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A7096226A0;
-	Fri, 10 Jan 2020 18:39:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 83E9D85516;
+	Fri, 10 Jan 2020 23:24:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8BZKdU5K5QzF; Fri, 10 Jan 2020 18:39:43 +0000 (UTC)
+	with ESMTP id gqXeE-_evKVt; Fri, 10 Jan 2020 23:24:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E12A022264;
-	Fri, 10 Jan 2020 18:39:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 14B86854E7;
+	Fri, 10 Jan 2020 23:24:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D08F3C1796;
-	Fri, 10 Jan 2020 18:39:43 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 252B3C0881
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0CC69C1D7D;
+	Fri, 10 Jan 2020 23:24:51 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8AF45C0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 18:39:42 +0000 (UTC)
+ Fri, 10 Jan 2020 23:24:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1B39E226A0
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7A82285516
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 18:39:42 +0000 (UTC)
+ Fri, 10 Jan 2020 23:24:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Cyfy368h9zdq
+ with ESMTP id USDEZsXt3yds
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 18:39:41 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by silver.osuosl.org (Postfix) with ESMTPS id A26552265B
+ Fri, 10 Jan 2020 23:24:48 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 714D4854E7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 18:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1578681576;
- bh=4W9fFsDU3CcwOzVLNfh9BJkQAOirbWBVxZMyhkZW3C8=;
- h=X-UI-Sender-Class:To:Cc:References:Subject:From:Date:In-Reply-To;
- b=j05jR1v5zEtdV1YwaAJUaE4fU4zwzka1fPt0hE0ySBpyBq4bJid8gG9qLE81q4Z6B
- ISho5OLiWTg20Nq4bWeVt+jWBi99uv//qx0DYWEug9PTZDhIRXmf30NBBagLPstN6m
- ik+W3yKkB/Z/XUayQVLFzz8JsCG7rdy88taQNGyA=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.135.170.191]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LfRyz-1jRa7t1e8n-00p89j; Fri, 10
- Jan 2020 19:39:36 +0100
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
-References: <20200110171150.14695-3-jaskaransingh7654321@gmail.com>
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <fd51f110-63eb-cd34-3624-a2647f1f877a@web.de>
-Date: Fri, 10 Jan 2020 19:39:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ Fri, 10 Jan 2020 23:24:48 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id w127so3552889qkb.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jan 2020 15:24:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=02RbzqkVXHjb1txPhIU2YZ7FpiY37PIXVOUBy3YGbxk=;
+ b=XL5cgHP0F8ByiplBxRyH3+i9Uh1GQNaOh7AN1Y67iCTj6lEcDxDHDPHec8DRbANAcc
+ zdR0YYDzknCO+HZgaoi1rbTkYIG8pMkAf7CWqrUzHd/u9n9O3EjuuwHtXKQw3mSE10WE
+ K7fRqSxHQN2glWiHlktVnIgRgxaZxUjfJps5KY6FD/XHkzE1N83AJmNw4EHUkR7T/dSA
+ o5scPnQy7OmCwVG71TAUGBFui5pLiEztuXxuvyOXpKfI9lpPsxqncDuQRtve5p6WTvlo
+ CjJ9CuN81CIsM+Qgwc5vxjahyZn/NNz2+eCjtHCf+pSc3h4KMOwuP7ru/sE6BjgHsKB7
+ DoEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=02RbzqkVXHjb1txPhIU2YZ7FpiY37PIXVOUBy3YGbxk=;
+ b=RQghwOo8cIejE0W/oGWnW7m2VuQqg1HBd65lgNnfNUjp+vdFBJ71Bb/K8UFOsRj6j/
+ TpptHS+xmb8ZhIe08qvNoR2pdTkZaTUV/pyqFNYKUEjRtGc+fYX4h1gZSId1tCd8ynIx
+ 0mIG2FQU5oKXzLD2gRUbSSdWjaVrE6X8zsZFlg4SzDIBqdOQLbu94HzxLnsigRwaruvH
+ PjXpOw98vEdYVGb8rHfA4qKhF2WEw3H48hjqUwNW1Yu/Pb/C++bL4z25NmdPDUfRWwHp
+ eyYGg/2/ojoNoo05Z01bM+OqiMaLAlCFf9QaXMFMC7hmDvZwzk6WHpPkytGcrTjKuVI5
+ OTQg==
+X-Gm-Message-State: APjAAAUvv+dzuaPykqiPpCRi3kjJ1uNcWxp+vY8ZPvHKaBtGhSISibLT
+ h4gwMU/g8zJLz3J7wpfmcQ0=
+X-Google-Smtp-Source: APXvYqzkIedBNPUQuLMTZkQXY4cNcOjFdebiss+j8cWhxlOWlyRCU7hMUU9SnvkC7XZ87BR1tQ4H5g==
+X-Received: by 2002:a37:63c7:: with SMTP id x190mr5695672qkb.232.1578698687284; 
+ Fri, 10 Jan 2020 15:24:47 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id i2sm1774752qte.87.2020.01.10.15.24.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jan 2020 15:24:46 -0800 (PST)
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To: mchehab+samsung@kernel.org,
+	corbet@lwn.net
+Date: Fri, 10 Jan 2020 20:24:22 -0300
+Message-Id: <cover.1578697871.git.dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200110171150.14695-3-jaskaransingh7654321@gmail.com>
-Content-Language: en-US
-X-Provags-ID: V03:K1:KU+RG1NljqGmO8uEWjX3SrHk8w1C8HljXGvXF6PZneZiCHYCar8
- qHhFyBrFelFH9oPo12FOriCoVmHR8+rpk6K7jkzh8V3Jo+HuCjNmjarg1JRJHFTbFYJUYRA
- TOyLx1hiDSM7b+JavhBlCNoDFM2KPr1ARzzaFVLdstpCXGfyxE5z2rnVPNF4jBQq6pMQWkf
- 8ymFrFw7l7zmioIvc+n1w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VLxiFegmZwc=:wM4ObfTqxxNPnAvztupfb2
- XNh5MoYdYodo91re/ruV33EP3IFcaewdRWk7xDdXMv61yLEF2RSDh/TxngT+JBOGBSJ6+WPhP
- ofB8dMYA3O1b1hv0/Rz/LKwGfEvbCT7fSEB1/Tn6bXgir0QF3UJojS4cvCBSamdMonCvqMIqh
- H5Jz5q8/PG4lYgu4EnCxvuHs3Ic4QhY8Zi0RHNMDg0t38F1RV0x7NvRaWQLFXBtnUvNziPoMU
- WIivEtL1IGmD3TPee0STRoPc8e7ectXbN7cnrkh8vLPOJRyXXVmw+U3qOur4l1Q1iGBQgfF9Z
- ny0u8eDYYxuTeFEKzhaMO0NlTQHh1LCl7vNgzdNjsRb0UJa44k0L/OB7GM3cYNfke9cyjYeF4
- ntrYUNdTw3Frm/5pGsDTaiIxlIAVNd+/YUJXqZZZx0WLupT/4+/J843Uf2E7FySbqpgrwJeCJ
- 6razVOOH/6dr2rzKPA6zYyZ1H27KQLb4I9vhWZ9KAoxnmRfgDh8vMZPl8+EKPN0x9RpCIMVbu
- 1ycym3cqWjY8foGDh8XDlICGz6X9KmCdRDtpN964sj2xkzhdXaNU1cOPW+Cdgcsf0scQDJ5d9
- r0AUgBZDhzLKcsCBqodCqULOPJhvGZRmZwqjL1dCeeXATsKzs0gP+H2cjFMDLM4nSd1LzUeRu
- aiJPpDSzJz25mNYngufYkNQqoIIqpJwfmQtWfUpcaoz24IDtyTS0zCJzonRzs0ggG1EVvoieu
- wX1JKSW0e0Uth7CNSdnlwVwAQY2VA/QTltFJzASIvx7ZGunJg6jTaaA6lgd9v9LXc/tMidjgu
- xTMaSB2zNKo+mc18W7jJKyGV4OuhAeVJKwICeUsqP2J7sUV3mD85lQCW4T2/vV4ChYd2MIBps
- uW1pQpx8m+SruP4hbM/+iynbPn0XyTw9eX0q6GCG20UQ9KSb9kAjd+1fQvB8QFknPinRX+Snx
- tXeJkIcgLwYfwOi7jYWgGgTRMo479Tjej+cUKXiZEcac+IrIBtIJl9FHUrnbYlMGeQ2BgD1as
- qbxLo9Gb5BmuMkbHIPTAEUMxO2CffLJuOjYvi8/NtR89oGUSREIDsmJDcKnAtpZfBfw9zFWIE
- SpUq5ZoMJRxhFX2P4uYlONxEjNqjyHFz13h9ILg61OPoXd/yOCPDboMUa7Zm/KcIYakVcr843
- 7HeFk9h9b4iZRn3TeqqZ++7Zkl0vyqNUEO36DF5v67NRu6B7+oqPTKEdHJqs7gA5JqDUDZ4LP
- PQouDSZP5k9QG4Zk5YZLA7l3Ww+zj1yIPkG+OLQOrea0dWemu13A6f17oTcI=
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH 2/2] tests: Add test case
- for user comments attached to identifiers
+Cc: linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-doc@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v4 0/9] Documentation: nfs: Convert a
+	few documents to RST and move them to admin-guide
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -158,45 +115,93 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> Add a test case for both of the erroneous cases.
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Thanks for your contribution.
+This series converts a few docs in Documentation/filesystems/nfs to RST.
+The docs were also moved into admin-guide because they contain information
+that might be useful for system administrators
 
-Will a slightly different subject be more appropriate for this patch?
+Most changes are related to aesthetics and presentation, i.e. the content
+itself remains mostly untouched. The use of markup was limited in order
+not to negatively impact the plain-text reading experience.
 
+Changes in v4
+-------------
+Add missing commit [Documentation: convert nfs.txt to ReST]
+Fix the following errors:
+	Applying: Documentation: convert nfs.txt to ReST
+	.git/rebase-apply/patch:35: new blank line at EOF.
+	+
+	warning: 1 line adds whitespace errors.
+	Applying: Documentation: nfsroot.txt: convert to ReST
+	.git/rebase-apply/patch:163: space before tab in indent.
+			If unspecified the netmask is derived from the client IP address
+	.git/rebase-apply/patch:170: space before tab in indent.
+			If a '.' character is present, anything
+	.git/rebase-apply/patch:193: space before tab in indent.
+			In the case of options
+	warning: 3 lines add whitespace errors.
+	
 
-> +@ r0 @
-> +type t;
-> +position p;
+Changes in v3
+-------------
+Documentation: convert nfs.txt to ReST
+	- Remove "#." syntax
 
-I suggest to omit this variable for the shown simple SmPL script.
+Documentation: nfsroot.txt: convert to ReST
+	- Remove stray backtick
+	- Remove standalone "::"
+	- Remove "#." syntax
+	- Refill paragraph in a new commit to remove long lines
 
+Documentation: nfs-rdma: convert to ReST
+	- Add warning for obsolete content
+	- CC nfs-rdma-devel@lists.sourceforge.net
 
-> +@ script:python r1 @
-> +id;
-> +@@
-> +coccinelle.id = "id/* user comment */"
-> +
-> +@ r2 @
-> +identifier r1.id;
-> +type r0.t;
-> +@@
-> +foo() {
-> +...
-> +++ t id;
-> +}
+Documentation: convert nfsd-admin-interfaces to ReST
+	- Remove "#." syntax
 
-This variable assignment and the addition of commented variable declarations
-looks interesting.
+Changes in v2
+-------------
+Also convert pnfs-block-server.txt, pnfs-scsi-server.txt and fault_injection.txt
 
-* Can such a change be achieved also directly without using an extra
-  Python (or OCaml) script?
+Daniel W. S. Almeida (9):
+  Documentation: convert nfs.txt to ReST
+  Documentation: nfsroot.txt: convert to ReST
+  Documentation: nfsroot.rst: COSMETIC: refill a paragraph
+  Documentation: nfs-rdma: convert to ReST
+  Documentation: convert nfsd-admin-interfaces to ReST
+  Documentation: nfs: idmapper: convert to ReST
+  Documentation: nfs: convert pnfs-block-server to ReST
+  Documentation: nfs: pnfs-scsi-server: convert to ReST
+  Documentation: nfs: fault_injection: convert to ReST
 
-* I would usually prefer to avoid the generation of duplicate source code.
-  The corresponding example might demonstrate other test goals.
+ Documentation/admin-guide/index.rst           |   1 +
+ .../nfs/fault_injection.rst}                  |   5 +-
+ Documentation/admin-guide/nfs/index.rst       |  15 +
+ .../nfs/nfs-client.rst}                       |  85 ++---
+ .../nfs/nfs-idmapper.rst}                     |  31 +-
+ Documentation/admin-guide/nfs/nfs-rdma.rst    | 292 ++++++++++++++++++
+ .../nfs/nfsd-admin-interfaces.rst}            |  19 +-
+ .../nfs/nfsroot.rst}                          | 151 ++++-----
+ .../nfs/pnfs-block-server.rst}                |  25 +-
+ .../nfs/pnfs-scsi-server.rst}                 |   1 +
+ Documentation/filesystems/nfs/nfs-rdma.txt    | 274 ----------------
+ 11 files changed, 478 insertions(+), 421 deletions(-)
+ rename Documentation/{filesystems/nfs/fault_injection.txt => admin-guide/nfs/fault_injection.rst} (98%)
+ create mode 100644 Documentation/admin-guide/nfs/index.rst
+ rename Documentation/{filesystems/nfs/nfs.txt => admin-guide/nfs/nfs-client.rst} (75%)
+ rename Documentation/{filesystems/nfs/idmapper.txt => admin-guide/nfs/nfs-idmapper.rst} (81%)
+ create mode 100644 Documentation/admin-guide/nfs/nfs-rdma.rst
+ rename Documentation/{filesystems/nfs/nfsd-admin-interfaces.txt => admin-guide/nfs/nfsd-admin-interfaces.rst} (70%)
+ rename Documentation/{filesystems/nfs/nfsroot.txt => admin-guide/nfs/nfsroot.rst} (80%)
+ rename Documentation/{filesystems/nfs/pnfs-block-server.txt => admin-guide/nfs/pnfs-block-server.rst} (80%)
+ rename Documentation/{filesystems/nfs/pnfs-scsi-server.txt => admin-guide/nfs/pnfs-scsi-server.rst} (97%)
+ delete mode 100644 Documentation/filesystems/nfs/nfs-rdma.txt
 
-Regards,
-Markus
+-- 
+2.24.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
