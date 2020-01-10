@@ -4,101 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 037D9C282DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 15:47:29 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB54CC33CA3
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 15:54:13 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C238D20721
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 15:47:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 827F92080D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 15:54:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="LcxSVzG5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C238D20721
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="aBV1vy75"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 827F92080D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9DC6B8846E;
-	Fri, 10 Jan 2020 15:47:28 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0XDhxta2qofj; Fri, 10 Jan 2020 15:47:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 13FF388456;
-	Fri, 10 Jan 2020 15:47:28 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EBA31C1D7D;
-	Fri, 10 Jan 2020 15:47:27 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A4BAC0881
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 15:47:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2274987120
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 15:47:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5A8C584CF3;
+	Fri, 10 Jan 2020 15:54:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PJQDm6-BdURh; Fri, 10 Jan 2020 15:54:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id E405284B82;
+	Fri, 10 Jan 2020 15:54:12 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C9E25C1D7D;
+	Fri, 10 Jan 2020 15:54:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AF279C0881
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jan 2020 15:54:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9A8AC86B16
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jan 2020 15:54:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mpKa4FTx-cXM
+ with ESMTP id ffj2_B_3Bcqb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 15:47:24 +0000 (UTC)
+ Fri, 10 Jan 2020 15:54:10 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9E21C8568D
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1546F86B04
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 15:47:24 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id p14so1326006pfn.4
+ Fri, 10 Jan 2020 15:54:10 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id 195so1316509pfw.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 07:47:24 -0800 (PST)
+ Fri, 10 Jan 2020 07:54:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=joelfernandes.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=z4ABlzGfi6l9NY75xhWGkqHQ22z62lYF4lGV0Z/l5RI=;
- b=LcxSVzG5beLFAGBipNshQyqz86YJ4TvGiOt8WALynXqSjPkkq7quMQSkFPFePo5f1q
- kJd0E4o7b+dPaAwBlXzfg5j5FKpHhUCAp057Fb328BFbzN8FK/VNHdiDhDR1bzkAooFs
- EzOxEsiGw18GT7yVSM8MCsgBXWLwE304YYV4c=
+ bh=SK9SfM0s44elgGzLaJeFK5jMx7NIcHCDZF3x9nv0Lxs=;
+ b=aBV1vy75sNaosplHJ4H3qazVSebNElcAVlUb+HrjOZPq1vvWoFf9dEImAwbKzRGAey
+ WXFZW3qa2v84cafmXiduuTXYX7tiAt38D7DQCWgB/pNRtn4obYWkC9IU5eWvee8iLkNT
+ whWf5etBpitExpwXzzboEVpBB0lB6AIMlr6bM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=z4ABlzGfi6l9NY75xhWGkqHQ22z62lYF4lGV0Z/l5RI=;
- b=qgTK3La5xcxe2xhE0t30JvN7HrUrjzR46Wpwg9BDNNNqNB8eAo9HJEYzzCE5zBI0tk
- 1HyqIPXMSr3a17//irAYW0IEo+Vk4vro4whn5Mq/FYaRuU28pVlPGew71E1Helh9vcwn
- iUwbR+smQBx6YkaYu+s5VFGwOoaPxPYt/XVQS3OWMgbf89KWW5OBs+DhsLaLmMcm660b
- Oq7spbCRNIXFQgjcAZoJAWEgD2LJ4s23pA9CBc/rXa7uKrehQWuUxyOtL2a95ZApex22
- U9oL/OSU6PyHu52rbo9faQ9y0OI5v+S+s8p+D+btN7nqR6JPdNh+xKmuMep4qwJv6EkE
- 2LvQ==
-X-Gm-Message-State: APjAAAUE8KhtxTkSMzrApfGwQJybo9fXYWM6W4UBXGXpG5KZdRFkhSvV
- PmIRF7DJECpLQhRQTOGVI8UPSQ==
-X-Google-Smtp-Source: APXvYqwJtzElrbQ8rKden7GP/HTNQxSyjLQOYjfY8yPFbp0XjIM+yXed9Z3lzn1NH9U0cYSbLjiIow==
-X-Received: by 2002:a62:c583:: with SMTP id j125mr5021922pfg.27.1578671244168; 
- Fri, 10 Jan 2020 07:47:24 -0800 (PST)
+ bh=SK9SfM0s44elgGzLaJeFK5jMx7NIcHCDZF3x9nv0Lxs=;
+ b=OFEw5jACWM5oykHvYXKBtbm23TG+ee04T50KEaUbP1l00FJAtQMAl9LiMxBMKUzzXf
+ Wqz2idMrBDkdiaBlJwxqyIGda48nCxcNTMx67/OvnHPmqM52nuYENs+qXOFPLA46Dvme
+ 7xYRzz8Fds3bxsjfNUvlD+XUgQgvEtSV3lSOa8Vf3KPtwNUx61J0lrLq/XkGBIrT8YS3
+ P0IA99p+e1pE4KO6KFvNcgO+UOG7pYmdG0exGDnc6uF7K+X126fbrCcjR3WqGh4WQzaP
+ J857+wQlTpkT/RNeuY8AiTuQCgBo+2AIzJgHC9dN/C0EMf8pFYq+ENH0GgWivx4zVxBW
+ Dllg==
+X-Gm-Message-State: APjAAAXc9p1up9qCewlhR5tGZZDxq2P1IQg4KoMlD7151QNPB1fUvZiC
+ CUkGy79QX/4aicZNYXo7Aj8KpA==
+X-Google-Smtp-Source: APXvYqycGLOZaBaQu3Hqaeuta4YY/jPKmGOsSO3iqRpNJkIQ54WkKeTGxoc6scloX9pTQNenda0JAg==
+X-Received: by 2002:a63:541e:: with SMTP id i30mr5002051pgb.183.1578671649500; 
+ Fri, 10 Jan 2020 07:54:09 -0800 (PST)
 Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
- by smtp.gmail.com with ESMTPSA id z26sm3137300pgu.80.2020.01.10.07.47.23
+ by smtp.gmail.com with ESMTPSA id w6sm3769223pfq.99.2020.01.10.07.54.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jan 2020 07:47:23 -0800 (PST)
-Date: Fri, 10 Jan 2020 10:47:22 -0500
+ Fri, 10 Jan 2020 07:54:08 -0800 (PST)
+Date: Fri, 10 Jan 2020 10:54:07 -0500
 From: Joel Fernandes <joel@joelfernandes.org>
-To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20200110154722.GA128013@google.com>
-References: <20200110132356.27110-1-frextrite@gmail.com>
+To: madhuparnabhowmik04@gmail.com
+Message-ID: <20200110155407.GB128013@google.com>
+References: <20200107192912.22691-1-madhuparnabhowmik04@gmail.com>
+ <20200107203354.GD26174@ziepe.ca>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200110132356.27110-1-frextrite@gmail.com>
+In-Reply-To: <20200107203354.GD26174@ziepe.ca>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Christoph Hellwig <hch@lst.de>
-Subject: Re: [Linux-kernel-mentees] [PATCH] drivers: nvme: target: core:
- Pass lockdep expression to RCU lists
+Cc: mike.marciniszyn@intel.com, paulmck@kernel.org, linux-rdma@vger.kernel.org,
+ dennis.dalessandro@intel.com, linux-kernel@vger.kernel.org,
+ rcu@vger.kernel.org, jgg@ziepe.ca, dledford@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 1/3] infiniband: hw: hfi1:
+ verbs.c: Use built-in RCU list checking
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,82 +116,51 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jan 10, 2020 at 06:53:58PM +0530, Amol Grover wrote:
-> ctrl->subsys->namespaces and subsys->namespaces are traversed with
-> hlist_for_each_entry_rcu outside an RCU read-side critical section
-> but under the protection of subsys->lock.
+On Wed, Jan 08, 2020 at 01:35:07PM +0530, madhuparnabhowmik04@gmail.com wrote:
+> From: Jason Gunthorpe <jgg@ziepe.ca>
 > 
-> Hence, add the corresponding lockdep expression to the list traversal
-> primitive to silence false-positive lockdep warnings, and
-> harden RCU lists.
+> On Wed, Jan 08, 2020 at 12:59:12AM +0530, madhuparnabhowmik04@gmail.com wrote:
+> > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> > 
+> > list_for_each_entry_rcu has built-in RCU and lock checking.
+> > Pass cond argument to list_for_each_entry_rcu.
+> > 
+> > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
+> >  drivers/infiniband/hw/hfi1/verbs.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/infiniband/hw/hfi1/verbs.c b/drivers/infiniband/hw/hfi1/verbs.c
+> > index 089e201d7550..e6abdbcb4ffb 100644
+> > +++ b/drivers/infiniband/hw/hfi1/verbs.c
+> > @@ -515,7 +515,8 @@ static inline void hfi1_handle_packet(struct hfi1_packet *packet,
+> >  				       opa_get_lid(packet->dlid, 9B));
+> >  		if (!mcast)
+> >  			goto drop;
+> > -		list_for_each_entry_rcu(p, &mcast->qp_list, list) {
+> > +		list_for_each_entry_rcu(p, &mcast->qp_list, list,
+> > +					lock_is_held(&(ibp->rvp.lock).dep_map)) {
 > 
-> Add macro for the corresponding lockdep expression to make the code
-> clean and concise.
+> Why .dep_map? Does this compile?
 
-Amol, thanks. Could you fix this checkpatch warnings? hint: Use --fix-inplace
+Yeah, have you really compiled this? Don't send patches without at least
+compile testing !!
 
-CHECK: Alignment should match open parenthesis
-#50: FILE: drivers/nvme/target/core.c:562:
-+               list_for_each_entry_rcu(old, &subsys->namespaces, dev_link,
-+                                                       subsys_lock_held()) {
+> Alternatively, it can be lockdep_is_held(ibp->rvp.lock).
+> Please refer to the macro(link below) and let me know if the usage of lock_is_held()
+> in the patch is correct.
+> 
+> https://elixir.bootlin.com/linux/v5.5-rc2/source/include/linux/lockdep.h#L364
 
-CHECK: Alignment should match open parenthesis
-#60: FILE: drivers/nvme/target/core.c:1180:
-+       list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link,
-+                                                       subsys_lock_held())
-
-Otherwise,
-
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Please use lockdep_is_held(). Thanks.
 
 thanks,
 
  - Joel
 
-
 > 
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
-> ---
->  drivers/nvme/target/core.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 28438b833c1b..7caab4ba6a04 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -15,6 +15,9 @@
->  
->  #include "nvmet.h"
->  
-> +#define subsys_lock_held() \
-> +	lockdep_is_held(&subsys->lock)
-> +
->  struct workqueue_struct *buffered_io_wq;
->  static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
->  static DEFINE_IDA(cntlid_ida);
-> @@ -555,7 +558,8 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
->  	} else {
->  		struct nvmet_ns *old;
->  
-> -		list_for_each_entry_rcu(old, &subsys->namespaces, dev_link) {
-> +		list_for_each_entry_rcu(old, &subsys->namespaces, dev_link,
-> +							subsys_lock_held()) {
->  			BUG_ON(ns->nsid == old->nsid);
->  			if (ns->nsid < old->nsid)
->  				break;
-> @@ -1172,7 +1176,8 @@ static void nvmet_setup_p2p_ns_map(struct nvmet_ctrl *ctrl,
->  
->  	ctrl->p2p_client = get_device(req->p2p_client);
->  
-> -	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link)
-> +	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link,
-> +							subsys_lock_held())
->  		nvmet_p2pmem_ns_add_p2p(ctrl, ns);
->  }
->  
-> -- 
-> 2.24.1
-> 
+> Thanks,
+> Madhuparna
+> Jason
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
