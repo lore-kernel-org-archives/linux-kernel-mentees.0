@@ -8,97 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E807C33CA3
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 16:49:23 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE5F9C33CA5
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 17:06:52 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5559C206ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 16:49:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 76CC620661
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jan 2020 17:06:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n0jzEtSP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5559C206ED
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D6QloqUy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 76CC620661
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2A080844CA;
-	Fri, 10 Jan 2020 16:49:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 431DD87534;
+	Fri, 10 Jan 2020 17:06:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BXRuFtApYbv5; Fri, 10 Jan 2020 16:49:22 +0000 (UTC)
+	with ESMTP id Mez1OmOm--zZ; Fri, 10 Jan 2020 17:06:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id AB97181BDF;
-	Fri, 10 Jan 2020 16:49:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B340C86F3F;
+	Fri, 10 Jan 2020 17:06:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 97EE4C1796;
-	Fri, 10 Jan 2020 16:49:22 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 799EEC0881
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A39FC1D7D;
+	Fri, 10 Jan 2020 17:06:51 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 87A8EC0881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 16:49:21 +0000 (UTC)
+ Fri, 10 Jan 2020 17:06:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 665E286AEC
+ by silver.osuosl.org (Postfix) with ESMTP id 8355122264
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 16:49:21 +0000 (UTC)
+ Fri, 10 Jan 2020 17:06:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4gV7DXd-Uv-v
+ with ESMTP id zRh-18l1reNl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 16:49:20 +0000 (UTC)
+ Fri, 10 Jan 2020 17:06:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id DC14D85B99
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6E16222219
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 16:49:20 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id i23so1409709pfo.2
+ Fri, 10 Jan 2020 17:06:48 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id l35so1247197pje.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jan 2020 08:49:20 -0800 (PST)
+ Fri, 10 Jan 2020 09:06:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=brXuec6fVOc4dwf+FV3n+KOcRsO8MbgAaQ9yCNJ4rtQ=;
- b=n0jzEtSPIAyJr1b96PF8pKh1BWTiiObRYsejvJ/bLaoeNTrNPvcx8ERAFofXmXOLbx
- 8j7k0EYBOesfQ/yyyg6PmulFcLdldU307A6tY9c6Z2QQIoIOenJnBmwc3CCEbSZHdA8v
- Nmmw3IsTeBCM7943yJN7PQOMKhPy1NmgsO2eKBuVFfxK90Je52sHonk9D0Qm1s6AuFHU
- n2gRNf06PQXXMIqnpSgTfdI15yr/MQZMC/wBcPpJz4JuMT2vCi5r/3weVEmx3VtQZmxS
- mhPXfKLEjQLZLi3zQWOKlcFmghSSUlqsviW4j/LaPdY/cRdmUMYUNc2izqC8gYjxfJKG
- cMoA==
+ bh=IHv1uXIjZrBkPDtqd3SWrlnhplYEAEov1hk0+vF++bc=;
+ b=D6QloqUyjA7aqfAZzs4kwh2nt3pyT0OymgieI8yxI4wPm1p2eXG8sII04YqS24v3Is
+ Mo9L8DH3TiCYa2CFdFIdJWheaCXhp0wrRGwZpAOCsJpAu26FAib968ZTs6vm42clut9M
+ p6qjzCkQIQPH81lr1dru0y8guNmELSU+zDHiKywJAkrtvhhNBZA9NbnrwTGFiMgh6I3D
+ mohLOtEeTr+b4nzZYfezm+dJDJ/qq6ekCPbh1/hhyf9B3KQap/n+mMjR5VINvjlIU+Fz
+ QfeUjoR19XnQKOrIiYlcSYG/EbcMtuT8r9QWpSXAMCuXvwmNdq3GSa9mP+6P9SbblM1K
+ kfwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=brXuec6fVOc4dwf+FV3n+KOcRsO8MbgAaQ9yCNJ4rtQ=;
- b=bvHqmwt1wmJuKAcEZecJFsbUdf+QZ0iSSExGbZPcWGFEpLsI9vBuQQukGoVaLXleS4
- QoO9Ppq8gggqzb0DpJguAPkrlaneTJXgwFaH5IReLISP1Isfm58yElT5DwLK5a1ZWdI7
- HMHq6DkreXQoBZPXroR1qiZO46+AxkdEFnd6+DZdGtqR5vPdCDDqRc2wGAUZPfRBnPDl
- CKRSDR5Jnh/yp7tJsBNNWQgW3I5I6OOy/KXBCQuPL9ob43Zt4MmpmrYQEreQbeHYs3LN
- nc94jJmj+iB8KqSJEeno3H5AmNE3Cll94C9waq7gFJ0gBo9AlXky0OWnez+F70xo9WAV
- wTJQ==
-X-Gm-Message-State: APjAAAUauMnQm+j4BWHVRSPPPV2pwKkEEktbj2l+yI81yERbVG0uUQhs
- s632/HQd+MtmTNMyaWNhBEs=
-X-Google-Smtp-Source: APXvYqwg1KhDgRTKcRKE4yl6HbIV3yB4bwewoheoY502mloPzg1d/sVq71GxLax/oMU9ZDd6AJNTwA==
-X-Received: by 2002:a62:c541:: with SMTP id j62mr5172910pfg.237.1578674960543; 
- Fri, 10 Jan 2020 08:49:20 -0800 (PST)
+ bh=IHv1uXIjZrBkPDtqd3SWrlnhplYEAEov1hk0+vF++bc=;
+ b=EEA8KEt5gms6n98ylqsjrdGCKobZV8voUh6PVosG60iEAK9ZoP0N/IuWOouRceiGBO
+ 8yGgJDIIvPZvCdvC11AxwiXE3yii2bpgLsZtV5Pe5g1aa/jbMLIr41Cj3AWzYmIXVluK
+ B22OIpcGFzwaWSBpdQjdkIENB/pVh9OJp9Aui1cajKl7u8v24YYeakjG72YSz5R9K4hQ
+ 5cbIFRtFzmh+9QOKnVliGhgBpOd6dn7vIAVaWrq/aAhj8+jnrYhyUuGHPxMbRPvp3J9w
+ mlosZdLT/gDVmZqWig/Ol9cyOhrTx438j9IjykuSAztPGHI1+WCSc2zYX58kA0QFTti9
+ 07CA==
+X-Gm-Message-State: APjAAAXfczsLp6QjrTAjN+ErIFVTj154TVnwg+E1NYPmcCCRdYxhDAEL
+ 8jypBdm3+3vpK/tufmyovyc=
+X-Google-Smtp-Source: APXvYqx3gqGSFiAwvC6krHLnqHoT6cxVpd3wtWFIYmQO3dWFbHKJ4+9cRs/OmdPPAAfpMhC+suke+A==
+X-Received: by 2002:a17:902:9885:: with SMTP id
+ s5mr5464097plp.217.1578676007973; 
+ Fri, 10 Jan 2020 09:06:47 -0800 (PST)
 Received: from localhost.localdomain ([103.211.17.220])
- by smtp.googlemail.com with ESMTPSA id h7sm3947538pfq.36.2020.01.10.08.49.17
+ by smtp.googlemail.com with ESMTPSA id x4sm3613268pff.143.2020.01.10.09.06.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jan 2020 08:49:20 -0800 (PST)
+ Fri, 10 Jan 2020 09:06:47 -0800 (PST)
 From: Amol Grover <frextrite@gmail.com>
-To: Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Fri, 10 Jan 2020 22:17:10 +0530
-Message-Id: <20200110164709.26741-1-frextrite@gmail.com>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Date: Fri, 10 Jan 2020 22:35:57 +0530
+Message-Id: <20200110170558.23466-1-frextrite@gmail.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
+Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-scsi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
  Joel Fernandes <joel@joelfernandes.org>,
- openipmi-developer@lists.sourceforge.net,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2] drivers: char: ipmi:
-	ipmi_msghandler: Pass lockdep expression to RCU lists
+Subject: [Linux-kernel-mentees] [PATCH v2 1/3] drivers: target:
+	target_core_device: Pass lockdep expression to RCU lists
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,13 +116,9 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-intf->cmd_rcvrs is traversed with list_for_each_entry_rcu
+nacl->lun_entry_hlist is traversed with hlist_for_each_entry_rcu
 outside an RCU read-side critical section but under the
-protection of intf->cmd_rcvrs_mutex.
-
-ipmi_interfaces is traversed using list_for_each_entry_rcu
-outside an RCU read-side critical section but under the protection
-of ipmi_interfaces_mutex.
+protection of nacl->lun_entry_mutex.
 
 Hence, add the corresponding lockdep expression to the list traversal
 primitive to silence false-positive lockdep warnings, and
@@ -137,71 +133,68 @@ v2:
 - Fix sparse error
   CHECK: Alignment should match open parenthesis
 
- drivers/char/ipmi/ipmi_msghandler.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ drivers/target/target_core_device.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/char/ipmi/ipmi_msghandler.c b/drivers/char/ipmi/ipmi_msghandler.c
-index cad9563f8f48..1cbeacb1e8b9 100644
---- a/drivers/char/ipmi/ipmi_msghandler.c
-+++ b/drivers/char/ipmi/ipmi_msghandler.c
-@@ -35,6 +35,8 @@
- #include <linux/nospec.h>
+diff --git a/drivers/target/target_core_device.c b/drivers/target/target_core_device.c
+index 2d19f0e332b0..7627583e2509 100644
+--- a/drivers/target/target_core_device.c
++++ b/drivers/target/target_core_device.c
+@@ -36,6 +36,9 @@
+ #include "target_core_pr.h"
+ #include "target_core_ua.h"
  
- #define IPMI_DRIVER_VERSION "39.2"
-+#define cmd_rcvrs_mutex_held() \
-+	lockdep_is_held(&intf->cmd_rcvrs_mutex)
++#define lun_entry_mutex_held() \
++	lockdep_is_held(&nacl->lun_entry_mutex)
++
+ static DEFINE_MUTEX(device_mutex);
+ static LIST_HEAD(device_list);
+ static DEFINE_IDR(devices_idr);
+@@ -247,9 +250,10 @@ void core_free_device_list_for_node(
+ 	struct se_dev_entry *deve;
  
- static struct ipmi_recv_msg *ipmi_alloc_recv_msg(void);
- static int ipmi_init_msghandler(void);
-@@ -618,6 +620,8 @@ static DEFINE_MUTEX(ipmidriver_mutex);
- 
- static LIST_HEAD(ipmi_interfaces);
- static DEFINE_MUTEX(ipmi_interfaces_mutex);
-+#define ipmi_interfaces_mutex_held() \
-+	lockdep_is_held(&ipmi_interfaces_mutex)
- static struct srcu_struct ipmi_interfaces_srcu;
- 
- /*
-@@ -1321,7 +1325,8 @@ static void _ipmi_destroy_user(struct ipmi_user *user)
- 	 * synchronize_srcu()) then free everything in that list.
- 	 */
- 	mutex_lock(&intf->cmd_rcvrs_mutex);
--	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link) {
-+	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
-+				cmd_rcvrs_mutex_held()) {
- 		if (rcvr->user == user) {
- 			list_del_rcu(&rcvr->link);
- 			rcvr->next = rcvrs;
-@@ -1599,7 +1604,8 @@ static struct cmd_rcvr *find_cmd_rcvr(struct ipmi_smi *intf,
+ 	mutex_lock(&nacl->lun_entry_mutex);
+-	hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link) {
++	hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link,
++				 lun_entry_mutex_held()) {
+ 		struct se_lun *lun = rcu_dereference_check(deve->se_lun,
+-					lockdep_is_held(&nacl->lun_entry_mutex));
++							lun_entry_mutex_held());
+ 		core_disable_device_list_for_node(lun, deve, nacl, tpg);
+ 	}
+ 	mutex_unlock(&nacl->lun_entry_mutex);
+@@ -276,7 +280,8 @@ struct se_dev_entry *target_nacl_find_deve(struct se_node_acl *nacl, u64 mapped_
  {
- 	struct cmd_rcvr *rcvr;
+ 	struct se_dev_entry *deve;
  
--	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link) {
-+	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
-+				rcu_read_lock_held() || cmd_rcvrs_mutex_held()) {
- 		if ((rcvr->netfn == netfn) && (rcvr->cmd == cmd)
- 					&& (rcvr->chans & (1 << chan)))
- 			return rcvr;
-@@ -1614,7 +1620,8 @@ static int is_cmd_rcvr_exclusive(struct ipmi_smi *intf,
- {
- 	struct cmd_rcvr *rcvr;
+-	hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link)
++	hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link,
++				 rcu_read_lock_held() || lun_entry_mutex_held())
+ 		if (deve->mapped_lun == mapped_lun)
+ 			return deve;
  
--	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link) {
-+	list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
-+				cmd_rcvrs_mutex_held()) {
- 		if ((rcvr->netfn == netfn) && (rcvr->cmd == cmd)
- 					&& (rcvr->chans & chans))
- 			return 0;
-@@ -3450,7 +3457,8 @@ int ipmi_add_smi(struct module         *owner,
- 	/* Look for a hole in the numbers. */
- 	i = 0;
- 	link = &ipmi_interfaces;
--	list_for_each_entry_rcu(tintf, &ipmi_interfaces, link) {
-+	list_for_each_entry_rcu(tintf, &ipmi_interfaces, link,
-+				ipmi_interfaces_mutex_held()) {
- 		if (tintf->intf_num != i) {
- 			link = &tintf->link;
- 			break;
+@@ -339,7 +344,7 @@ int core_enable_device_list_for_node(
+ 	orig = target_nacl_find_deve(nacl, mapped_lun);
+ 	if (orig && orig->se_lun) {
+ 		struct se_lun *orig_lun = rcu_dereference_check(orig->se_lun,
+-					lockdep_is_held(&nacl->lun_entry_mutex));
++							lun_entry_mutex_held());
+ 
+ 		if (orig_lun != lun) {
+ 			pr_err("Existing orig->se_lun doesn't match new lun"
+@@ -460,9 +465,10 @@ void core_clear_lun_from_tpg(struct se_lun *lun, struct se_portal_group *tpg)
+ 	list_for_each_entry(nacl, &tpg->acl_node_list, acl_list) {
+ 
+ 		mutex_lock(&nacl->lun_entry_mutex);
+-		hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link) {
++		hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link,
++					 lun_entry_mutex_held()) {
+ 			struct se_lun *tmp_lun = rcu_dereference_check(deve->se_lun,
+-					lockdep_is_held(&nacl->lun_entry_mutex));
++							lun_entry_mutex_held());
+ 
+ 			if (lun != tmp_lun)
+ 				continue;
 -- 
 2.24.1
 
