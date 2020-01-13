@@ -2,94 +2,107 @@ Return-Path: <SRS0=VDQn=3C=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 661E1C33CA8
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jan 2020 08:52:13 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B93BC33CAF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jan 2020 18:23:11 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D31D20678
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jan 2020 08:52:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4456C2075B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jan 2020 18:23:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="iUMNVIah"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D31D20678
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=szeredi.hu
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g3m860U9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4456C2075B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E2E3280ACD;
-	Mon, 13 Jan 2020 08:52:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 10A842046D;
+	Mon, 13 Jan 2020 18:23:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BvFQibDQL8AU; Mon, 13 Jan 2020 08:52:11 +0000 (UTC)
+	with ESMTP id Ol+DZuX9E7ut; Mon, 13 Jan 2020 18:23:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C1710849B8;
-	Mon, 13 Jan 2020 08:52:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 77B68203CE;
+	Mon, 13 Jan 2020 18:23:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B019AC18DD;
-	Mon, 13 Jan 2020 08:52:11 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3B7A9C077D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D5EEC18DD;
+	Mon, 13 Jan 2020 18:23:10 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B2E6DC077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jan 2020 08:52:10 +0000 (UTC)
+ Mon, 13 Jan 2020 18:23:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2772E84E2E
+ by silver.osuosl.org (Postfix) with ESMTP id AE6632046D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jan 2020 08:52:10 +0000 (UTC)
+ Mon, 13 Jan 2020 18:23:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uPalOJ81WnKT
+ with ESMTP id 8IEuGe5ag5eQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jan 2020 08:52:08 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B9ABB811F3
+ Mon, 13 Jan 2020 18:23:09 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id E6E8B203CE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jan 2020 08:52:08 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id c16so8930873ioh.6
+ Mon, 13 Jan 2020 18:23:08 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id 21so9437850qky.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jan 2020 00:52:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WguZovr7w2m2X1zQC6+qX9nLM78GMuCabyk3ve+En7w=;
- b=iUMNVIahZJ+iYbyruFJTQpGPwrHA6AbG3SEi1ryfNGcBbqSZhlOZ972H5JVFhpaJu3
- SuxTyCywmNR32/JAz023KaCvReKJ2xvTMZkEU+2+rGlm/PxbAHWugOvhz1JzW5YAkn7w
- X1Y9vVnN8ThfKMFcwdJLuJhJhmVOchINsZaxE=
+ Mon, 13 Jan 2020 10:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=YmmSvyn5Ka4mUit6kvopVG0e++A9vopcwQJc+Ac8cPw=;
+ b=g3m860U9KBcklp4Vfp3dHNeOazKl1B5xu7fRIlJZWuhUQz0Cx4K17MuU1Fz+04I6GK
+ f2gKden77W05LeVTFtP/oKlhs+VjKw+BPwbC0lMAKVp5l9VPICVLujTcx7KqtAWxIm5r
+ jpJSMfnCwUdE7zfsmhrLwQI1sF27RKuKhMgVnERPMI9ASwcqNJ8FmfGeGPQk/Ioh4Vas
+ Ju+b9MohiFDL6WYYs3tECijiFTJbJc9MS/F3mMveT9fzC5k966lxdZ/V5/7/6wG3vr8w
+ 4SKGcNOfRDCDnAlL75BhVkUi6eH9pX82JMfZkget/d5O/qFBYPs1G9bs2lwnNgjnaPwl
+ xClA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WguZovr7w2m2X1zQC6+qX9nLM78GMuCabyk3ve+En7w=;
- b=HlQ6Oiv1L12wwqb1gbTtbUef1aq3ER8ZfNOTGDsvi/qIO68/pgV2coBMCfs2T4PiYG
- F/keS/gZ3BISV0oHXBOnbVNGSelHb3Ns/65K/zw9ydWHDcJSi69RPV/ac/CCO9rBKevP
- sprICs0z35W0g5HuKfBH4wPuHkv98zcszy+KUC+TFOVTdoG4qr79VR61DgtMSPgTcYAI
- DUQzeKTY3ReGN2RteCX7B+K8Eo7ep+H0ZgtxEjfu1PyGrVG2g6iDAxx8uBkGKdLOFQKG
- fSAl7pCNt7enAaOQuLxH9kext0M4Bea55MEwSRUHEMIRhNJGoxvry9xk3B4U1ArJ1Fvw
- 5bgg==
-X-Gm-Message-State: APjAAAX+ZztXZHPoeX6h2dvCO1inRqpVGS7kBLKolFVTnXSqkyLcQoz/
- en+dvc6CX+AHf+0pG3nLdrqZQxkE/+HDqtVIb91w/g==
-X-Google-Smtp-Source: APXvYqyD1z3AhO+BunsjSlb7c6IJA/YCCugP+yTkUD3iDk7YUduoV/eRTFouDc06SaotaswtXWIGMt+FAjQFrWE+B0I=
-X-Received: by 2002:a02:6a10:: with SMTP id l16mr13056335jac.77.1578905527652; 
- Mon, 13 Jan 2020 00:52:07 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=YmmSvyn5Ka4mUit6kvopVG0e++A9vopcwQJc+Ac8cPw=;
+ b=b1hfy+BHfS+Rl8ZOiCTu/4/8NsSvEJ/DTWt91nMuafuY+jNM6xj2nGh2K9G51zSAfh
+ zRX3L9vG20MyZAa/kIkbF79ncAF0p7pKUsdllNFxdHuiihrajZyuFkofICGxwR0F7Xu5
+ yMjJiBq170dYT2ZpjwVvmDezcsihiBedVc6/5wXyGmxTGiCXfOhibOPZ+7rrSm67U3FV
+ ZsBpIpRbDOmJtCEaoJUmueikdpum2WWFfvtaOhiVXYJhq1TiicMnodtO5i6YPd+Sb2TT
+ 5hLqKLgVoOLCd/7Ldedq7jnaSakP3rai6rMLfTpAOUtCc9+PuvQtIAtPCT67ZOphNcKr
+ 9TAA==
+X-Gm-Message-State: APjAAAX1nBoUhoX37LND5SRndhi4Ehn/RqdLLYrJg0Kex+7vemnIhbSj
+ 05Jbx2ilRH6k7hz2AWd5xVZ8QI0Mqzc=
+X-Google-Smtp-Source: APXvYqzpHpCANvGcMQtO+BCaZNdbqhnWjfbggggFs7EUVOZ3FcLytDzEYS3jnGLSYEpcYWgZynigQg==
+X-Received: by 2002:a37:e210:: with SMTP id g16mr17483419qki.413.1578939787671; 
+ Mon, 13 Jan 2020 10:23:07 -0800 (PST)
+Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac?
+ ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id w25sm6098136qts.91.2020.01.13.10.23.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jan 2020 10:23:07 -0800 (PST)
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20200109233757.734008-1-dwlsalmeida@gmail.com>
+ <20200110073024.GA156006@kroah.com>
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <d6d119cf-7447-31ce-37db-25503cf2f9bc@gmail.com>
+Date: Mon, 13 Jan 2020 15:23:02 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <20191231185110.809467-1-dwlsalmeida@gmail.com>
- <20200110110923.31fc56e5@lwn.net>
-In-Reply-To: <20200110110923.31fc56e5@lwn.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 13 Jan 2020 09:51:56 +0100
-Message-ID: <CAJfpegsBbLWaF43WtyTo8y-_sUjLi=60sQoXHDatsSVg8m68PQ@mail.gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: markus.heiser@darmarit.de, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v4] Documentation: filesystems:
-	convert fuse to RST
+In-Reply-To: <20200110073024.GA156006@kroah.com>
+Content-Language: en-US
+Cc: sean@mess.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
+ mchehab@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] media: dvb_dummy_tuner:
+	implement driver skeleton
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,34 +114,56 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jan 10, 2020 at 7:09 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Tue, 31 Dec 2019 15:51:10 -0300
-> "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
->
-> > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> >
-> > Converts fuse.txt to reStructuredText format, improving the presentation
-> > without changing much of the underlying content.
-> >
-> > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
->
-> So I note that the last non-typo-fix change to this document happened in
-> 2006, which leads me to suspect that it might be just a wee bit out of
-> date.  Miklos, what's the story here?  Should we put a warning at the top?
+Hi Greg,
 
-The document seems to be mostly valid still.
+I am working on v3. Would you mind clarifying this?
 
-It would be good to have more documentation, though...
 
-Thanks,
-Miklos
+>> + *
+>> + * The virtual DVB test driver serves as a reference DVB driver and helps
+>> + * validate the existing APIs in the media subsystem. It can also aid developers
+>> + * working on userspace applications.
+>> + *
+>> + * This dummy tuner should support common TV standards such as DVB-T/T2/S/S2,
+>> + * ISDB-T and ATSC when completed.
+>> + *
+>> + * Copyright (c) 2020 Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> Normally this is the first comment line above in this block.
+>
+
+Just so we're clear, do you mean this? e.g.:
+
++ * Copyright (c) 2020 Daniel W. S. Almeida <dwlsalmeida@gmail.com>
++ *
++ * The virtual DVB test driver serves as a reference DVB driver and helps
++ * validate the existing APIs in the media subsystem. It can also aid developers
++ * working on userspace applications.
++ *
++ * This dummy tuner should support common TV standards such as DVB-T/T2/S/S2,
++ * ISDB-T and ATSC when completed.
++ *
+
+
+> Not the same license as your .c file?  Odd :(
+
+Oops! :(
+
+
+> If you keep this file, same comments as above for the comment block, but
+> really, you don't need this .h file at all, just drop it.
+
+OK.
+
+
+- Daniel
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
