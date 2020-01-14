@@ -7,88 +7,94 @@ X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BEA1C33CB2
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 19:17:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A2ACC33C9E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 19:42:03 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CC64E24656
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 19:17:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3301F24655
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 19:42:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="HX1p1M7M"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC64E24656
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="fBEWXnlX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3301F24655
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A134985FBA;
-	Tue, 14 Jan 2020 19:17:38 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0E80A86092;
+	Tue, 14 Jan 2020 19:42:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mPRo7dL3JPr9; Tue, 14 Jan 2020 19:17:37 +0000 (UTC)
+	with ESMTP id QjnwYi9G14r2; Tue, 14 Jan 2020 19:41:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7EA2085F92;
-	Tue, 14 Jan 2020 19:17:37 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6012486099;
+	Tue, 14 Jan 2020 19:41:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 65ED2C18DD;
-	Tue, 14 Jan 2020 19:17:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 54271C18DD;
+	Tue, 14 Jan 2020 19:41:59 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8507DC077D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 159E3C077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 19:17:36 +0000 (UTC)
+ Tue, 14 Jan 2020 19:41:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6E8A387987
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0A5E485A03
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 19:17:36 +0000 (UTC)
+ Tue, 14 Jan 2020 19:41:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BVol9KtqfWBQ
+ with ESMTP id KfybLenT3x0S
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 19:17:35 +0000 (UTC)
+ Tue, 14 Jan 2020 19:41:51 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C5E66878F1
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+ [209.85.160.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 00D1D8594B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 19:17:35 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id kx11so6117375pjb.4
+ Tue, 14 Jan 2020 19:41:50 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id i13so13559234qtr.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 11:17:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
+ Tue, 14 Jan 2020 11:41:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=KKog2MzKI2EmbmFRZbPQAj3SDffD3J1/gHWJI9GN8Ak=;
- b=HX1p1M7M0qxTTrjPtfNCyMe/XxOTqf3q/mYb+Bs7xX2IsBGHIdUtLmO3lbUJnekqs3
- zmZx8eaYvmH4+wfQapPvneyFUPr/+naxzGfN2z9odiTcSz9ffOPkHSr8fVCJMQIDdqjd
- 8+zg9cI3eFRQ+yHpgNKile2uqExmKwhkD4jRc=
+ :user-agent; bh=VD1VewVfYzcowrTTTc3p/NP2nAZZrqrdh/Y1+DTe6+o=;
+ b=fBEWXnlXPRTh7yxZ1lkX1I9O8Fi9nn1GRvSKPOkv4DsNb4xxnzRKN8cEU9sILm04e0
+ bKvt9UFvIMbTWGHhe7YTvvPlQDW+At6DCbGnIalW77Mbrd7GEnLW6iSGjbYNeu/LHoc5
+ iegGOQZeFHQqNfRl+EQxvE6XDKCXAbG+HJQYE6lRK68aUkQrvSPcn1A3DLI0/KEYibSL
+ T07NUjLYFcugJNpLRYOyA2oRhrN5Yz6XOqlLyfGujguLHbb+3HFst8+rveOYK2bbSlGF
+ qycO77V5ORIVqXJ3o9WXJXxXx4OJDebAszpViFXpFugNQPa7rt0a9cOcZDK9ZBsZZiFo
+ uKkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to:user-agent;
- bh=KKog2MzKI2EmbmFRZbPQAj3SDffD3J1/gHWJI9GN8Ak=;
- b=NRK/mStH07m+A7ayjXQrHTTmIsmQw9byvZoeOYrTM1vS05SSzdqPQJ/2N+r9n0Sq41
- MUQIhfySB45lrbRUfPyO6x4Wl8a/nxR6e1bkCoLva6aypbgC8UGi3rmKna2S5xnzdxFg
- sGH5CSfva1OIS5Cb1oF0bkKHmH7q+ux1Q8m8gPnS034HO+Js01vVOVuDVaYmPc9U0QdP
- q6605w0RyOK7wsQzcLEoM2ez3eXRbjn3TH4Ga42FgpigmzziIMji1QCHrs/tfWXfUrVi
- jf/1h24Rm60duS7cp3xtKBc3D7xWIO4KeAyEaeH9jAlu2fgCiJXUzP2yKeC9Ag5/KaqW
- n6jA==
-X-Gm-Message-State: APjAAAXAdDKbWAaHpBbLaMcZIljF/BRBrG4SdLoygyJn9L/qKZ62q6MN
- 5dV8dLBcruaZal72IWd6AT0teQ==
-X-Google-Smtp-Source: APXvYqz/3Tp3YfGdmLiQ3GBfQqRxYY+gia7aeZJwE4eJzKME0PsjfIh1cEmo6Hcm9w+t3OeBhqLjQg==
-X-Received: by 2002:a17:90a:8a98:: with SMTP id
- x24mr31844615pjn.113.1579029455327; 
- Tue, 14 Jan 2020 11:17:35 -0800 (PST)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
- by smtp.gmail.com with ESMTPSA id b21sm20338404pfp.0.2020.01.14.11.17.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2020 11:17:34 -0800 (PST)
-Date: Tue, 14 Jan 2020 14:17:33 -0500
-From: Joel Fernandes <joel@joelfernandes.org>
-To: madhuparnabhowmik04@gmail.com
-Message-ID: <20200114191733.GC103493@google.com>
+ bh=VD1VewVfYzcowrTTTc3p/NP2nAZZrqrdh/Y1+DTe6+o=;
+ b=J6lOguamy/wfVTQAg8UfA+Uk3X6L96IJ9KJ5wE7J3g9aGui6T2C9BPkGXfLtYby0x6
+ pQ0sH4j4BLXHJIuP7Ki3zFuCUNzH82FkioW2KNY1LYRyf1vpomYY+IM0tHxOhWZ/WX93
+ wVcGzb2aKVlroBfMXdMENoNQ7FpBUbTG0Dof0o8hq8iu2h3F6NT20aGdRwvbaxWBUIe+
+ V4qEdRB4IKLQ2pV1wYCOVjDfkZbN8ymW4Xirvme1KvKgYDM/gx62Ft6qqbQ5Ja0rJc3g
+ VcmZEc7AnCBRsF9kKLHcGv/Oc60lD06x9JTB7SVKBOR8vTv+Pcd1Jl1WFVch2Hj3B3aM
+ KxyQ==
+X-Gm-Message-State: APjAAAXamiDfg1WJhHOCueLHz3ASfIrHP3KgAdIglOg1YsuPlfcdNJT6
+ uFQh1hXlgdn4Ufmm23mbYmEkIA==
+X-Google-Smtp-Source: APXvYqyZXNJxL/f6fEf8lTGkE6lao/zdKc6zFDFvbpLKofSirhqC8ULCTv5Dyqi9Xe7jEJK/Am2mwg==
+X-Received: by 2002:ac8:4289:: with SMTP id o9mr173201qtl.277.1579030910016;
+ Tue, 14 Jan 2020 11:41:50 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id k4sm7189056qki.35.2020.01.14.11.41.49
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 14 Jan 2020 11:41:49 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1irS4S-0006jm-U1; Tue, 14 Jan 2020 15:41:48 -0400
+Date: Tue, 14 Jan 2020 15:41:48 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dennis Dalessandro <dennis.dalessandro@intel.com>
+Message-ID: <20200114194148.GD22037@ziepe.ca>
 References: <20200114162345.19995-1-madhuparnabhowmik04@gmail.com>
  <20200114165740.GB22037@ziepe.ca>
  <74adec84-ec5b-ea1b-7adf-3f8608838259@intel.com>
@@ -96,10 +102,9 @@ References: <20200114162345.19995-1-madhuparnabhowmik04@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <25133367-6544-d0af-ae30-5178909748b1@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Cc: mike.marciniszyn@intel.com, paulmck@kernel.org, linux-rdma@vger.kernel.org,
- dennis.dalessandro@intel.com, linux-kernel@vger.kernel.org,
- rcu@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-kernel@vger.kernel.org, rcu@vger.kernel.org, joel@joelfernandes.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH 1/3] infiniband: hw: hfi1:
  verbs.c: Use built-in RCU list checking
@@ -114,97 +119,47 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jan 15, 2020 at 12:04:58AM +0530, madhuparnabhowmik04@gmail.com wro=
-te:
-> From: Dennis Dalessandro <dennis.dalessandro@intel.com>
-> =
-
-> On 1/14/2020 12:00 PM, Dennis Dalessandro wrote:
-> > On 1/14/2020 11:57 AM, Jason Gunthorpe wrote:
-> > > On Tue, Jan 14, 2020 at 09:53:45PM +0530,
-> > > madhuparnabhowmik04@gmail.com wrote:
-> > > > From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> > > > =
-
-> > > > list_for_each_entry_rcu has built-in RCU and lock checking.
-> > > > Pass cond argument to list_for_each_entry_rcu.
-> > > > =
-
-> > > > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
-> > > > =A0 drivers/infiniband/hw/hfi1/verbs.c | 2 +-
-> > > > =A0 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > =
-
-> > > > diff --git a/drivers/infiniband/hw/hfi1/verbs.c
-> > > > b/drivers/infiniband/hw/hfi1/verbs.c
-> > > > index 089e201d7550..22f2d4fd2577 100644
-> > > > +++ b/drivers/infiniband/hw/hfi1/verbs.c
-> > > > @@ -515,7 +515,7 @@ static inline void hfi1_handle_packet(struct
-> > > > hfi1_packet *packet,
-> > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 opa_get_lid(packet->dlid, 9B));
-> > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0 if (!mcast)
-> > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto drop;
-> > > > -=A0=A0=A0=A0=A0=A0=A0 list_for_each_entry_rcu(p, &mcast->qp_list, =
-list) {
-> > > > +=A0=A0=A0=A0=A0=A0=A0 list_for_each_entry_rcu(p, &mcast->qp_list, =
-list,
-> > > > lockdep_is_held(&(ibp->rvp.lock))) {
-> > > =
-
-> > > Okay, this looks reasonable
-> > > =
-
-> > > Mike, Dennis, is this the right lock to test?
-> > > =
-
-> > =
-
-> > I'm looking at that right now actually, I don't think this is correct.
-> > Wanted to talk to Mike before I send a response though.
-> > =
-
-> > -Denny
-> =
-
-> That's definitely going to throw a ton of lock dep messages. It's not rea=
-lly
-> the right lock either. Instead what we probably need to do is what we do =
-in
-> the non-multicast part of the code and take the rcu_read_lock().
-> =
-
-> I'd say hold off on this and we'll fix it right. Same goes for the qib on=
-e.
-> =
-
-> Alright, thank you for reviewing.
-> =
-
-> The rdmavt one though looks to be OK. I'll give it a test.
-
-Madhuparna, there seems to be an issue with your mail client where it is not
-quoting text correctly, either there is a '>' missing or there are too many.
-Can you look into it and figure what's wrong with it?
-
-thanks,
-
- - Joel
-
-> =
-
-> Thank you,
-> Madhuparna
-> =
-
-> -Denny
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gVHVlLCBKYW4gMTQsIDIwMjAgYXQgMDE6MjQ6MDBQTSAtMDUwMCwgRGVubmlzIERhbGVzc2Fu
+ZHJvIHdyb3RlOgo+IE9uIDEvMTQvMjAyMCAxMjowMCBQTSwgRGVubmlzIERhbGVzc2FuZHJvIHdy
+b3RlOgo+ID4gT24gMS8xNC8yMDIwIDExOjU3IEFNLCBKYXNvbiBHdW50aG9ycGUgd3JvdGU6Cj4g
+PiA+IE9uIFR1ZSwgSmFuIDE0LCAyMDIwIGF0IDA5OjUzOjQ1UE0gKzA1MzAsCj4gPiA+IG1hZGh1
+cGFybmFiaG93bWlrMDRAZ21haWwuY29tIHdyb3RlOgo+ID4gPiA+IEZyb206IE1hZGh1cGFybmEg
+Qmhvd21payA8bWFkaHVwYXJuYWJob3dtaWswNEBnbWFpbC5jb20+Cj4gPiA+ID4gCj4gPiA+ID4g
+bGlzdF9mb3JfZWFjaF9lbnRyeV9yY3UgaGFzIGJ1aWx0LWluIFJDVSBhbmQgbG9jayBjaGVja2lu
+Zy4KPiA+ID4gPiBQYXNzIGNvbmQgYXJndW1lbnQgdG8gbGlzdF9mb3JfZWFjaF9lbnRyeV9yY3Uu
+Cj4gPiA+ID4gCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogTWFkaHVwYXJuYSBCaG93bWlrIDxtYWRo
+dXBhcm5hYmhvd21pazA0QGdtYWlsLmNvbT4KPiA+ID4gPiDCoCBkcml2ZXJzL2luZmluaWJhbmQv
+aHcvaGZpMS92ZXJicy5jIHwgMiArLQo+ID4gPiA+IMKgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKSwgMSBkZWxldGlvbigtKQo+ID4gPiA+IAo+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2luZmluaWJhbmQvaHcvaGZpMS92ZXJicy5jCj4gPiA+ID4gYi9kcml2ZXJzL2luZmluaWJh
+bmQvaHcvaGZpMS92ZXJicy5jCj4gPiA+ID4gaW5kZXggMDg5ZTIwMWQ3NTUwLi4yMmYyZDRmZDI1
+NzcgMTAwNjQ0Cj4gPiA+ID4gKysrIGIvZHJpdmVycy9pbmZpbmliYW5kL2h3L2hmaTEvdmVyYnMu
+Ywo+ID4gPiA+IEBAIC01MTUsNyArNTE1LDcgQEAgc3RhdGljIGlubGluZSB2b2lkIGhmaTFfaGFu
+ZGxlX3BhY2tldChzdHJ1Y3QKPiA+ID4gPiBoZmkxX3BhY2tldCAqcGFja2V0LAo+ID4gPiA+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvcGFfZ2V0X2xp
+ZChwYWNrZXQtPmRsaWQsIDlCKSk7Cj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgIGlmICghbWNh
+c3QpCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBkcm9wOwo+ID4gPiA+
+IC3CoMKgwqDCoMKgwqDCoCBsaXN0X2Zvcl9lYWNoX2VudHJ5X3JjdShwLCAmbWNhc3QtPnFwX2xp
+c3QsIGxpc3QpIHsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqAgbGlzdF9mb3JfZWFjaF9lbnRyeV9y
+Y3UocCwgJm1jYXN0LT5xcF9saXN0LCBsaXN0LAo+ID4gPiA+IGxvY2tkZXBfaXNfaGVsZCgmKGli
+cC0+cnZwLmxvY2spKSkgewo+ID4gPiAKPiA+ID4gT2theSwgdGhpcyBsb29rcyByZWFzb25hYmxl
+Cj4gPiA+IAo+ID4gPiBNaWtlLCBEZW5uaXMsIGlzIHRoaXMgdGhlIHJpZ2h0IGxvY2sgdG8gdGVz
+dD8KPiA+ID4gCj4gPiAKPiA+IEknbSBsb29raW5nIGF0IHRoYXQgcmlnaHQgbm93IGFjdHVhbGx5
+LCBJIGRvbid0IHRoaW5rIHRoaXMgaXMgY29ycmVjdC4KPiA+IFdhbnRlZCB0byB0YWxrIHRvIE1p
+a2UgYmVmb3JlIEkgc2VuZCBhIHJlc3BvbnNlIHRob3VnaC4KPiA+IAo+ID4gLURlbm55Cj4gCj4g
+VGhhdCdzIGRlZmluaXRlbHkgZ29pbmcgdG8gdGhyb3cgYSB0b24gb2YgbG9jayBkZXAgbWVzc2Fn
+ZXMuIEl0J3Mgbm90IHJlYWxseQo+IHRoZSByaWdodCBsb2NrIGVpdGhlci4gSW5zdGVhZCB3aGF0
+IHdlIHByb2JhYmx5IG5lZWQgdG8gZG8gaXMgd2hhdCB3ZSBkbyBpbgo+IHRoZSBub24tbXVsdGlj
+YXN0IHBhcnQgb2YgdGhlIGNvZGUgYW5kIHRha2UgdGhlIHJjdV9yZWFkX2xvY2soKS4KClVoLi4g
+d2h5IGlzIHRoaXMgdXNpbmcgdGhlIF9yY3UgdmFyaWVudCB3aXRob3V0IGhvbGRpbmcgdGhlIHJj
+dSBsb2NrPwpUaGF0IGlzIHF1aXRlIHdyb25nIGFscmVhZHkuCgpKYXNvbgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBt
+YWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9y
+ZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51
+eC1rZXJuZWwtbWVudGVlcwo=
