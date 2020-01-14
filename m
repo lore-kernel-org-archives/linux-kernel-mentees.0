@@ -8,93 +8,94 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA66C33C9E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 16:24:40 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2492AC33C9E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 16:25:41 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D000824655
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 16:24:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E856F24656
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 16:25:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V2E6iTOF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D000824655
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="izTvq/7K"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E856F24656
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 88A768790D;
-	Tue, 14 Jan 2020 16:24:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C00C6860E1;
+	Tue, 14 Jan 2020 16:25:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MkeuwauRxr6C; Tue, 14 Jan 2020 16:24:34 +0000 (UTC)
+	with ESMTP id FTyculTpGD+v; Tue, 14 Jan 2020 16:25:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B7786878FE;
-	Tue, 14 Jan 2020 16:24:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 040B6860DB;
+	Tue, 14 Jan 2020 16:25:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A4681C1D83;
-	Tue, 14 Jan 2020 16:24:34 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 65CE4C077D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E1A65C1D83;
+	Tue, 14 Jan 2020 16:25:35 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B2A17C077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 16:24:33 +0000 (UTC)
+ Tue, 14 Jan 2020 16:25:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D8C2984471
+ by silver.osuosl.org (Postfix) with ESMTP id 9C14120523
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 16:24:32 +0000 (UTC)
+ Tue, 14 Jan 2020 16:25:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id P6EnKv4NcGeQ
+ with ESMTP id nPUbJfmAAbJR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 16:24:27 +0000 (UTC)
+ Tue, 14 Jan 2020 16:25:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A5D4384456
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id 7847520508
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 16:24:27 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id 4so6812052pfz.9
+ Tue, 14 Jan 2020 16:25:27 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id kx11so5913967pjb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 08:24:27 -0800 (PST)
+ Tue, 14 Jan 2020 08:25:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=PDyuI6D5hJtH0+thVw4r/qR9DD4Csl28GlClVXYvOmo=;
- b=V2E6iTOF2PVQVslEQICUxmidoKU9xM7zyf01P1l8489cYNbLJV+ZZQtrMLKoe+T8eg
- +RvB47tw077vmFFz1SAkZawppGOeh5OaoMD9v2r5r1y94MTQOQ6ddLw8/VsovLd9ksgB
- NRfbzmyWdVy3/z1cel1683RKLbEehtnBUjZFDT9EgMVCocxLnMwj/o8KvPBRJEnJFrTE
- JkPCEEOTnwhprwu9BJGSmZVnaIEEWLsJ7amXbOu8f9YNbGqjmxFz/NVL57hroXB+ioMA
- 3NljDF2X1l1v6dnYyjtA60qgRV+7ya0pidazHJ7gkZ7fLKb0XTCN8wyGHq696y0+STxM
- qqng==
+ bh=GPzrzY9F39Rp14jkQHqPK+Xq5V2Z3YersgLJxHHp4yg=;
+ b=izTvq/7KiP2J2spCG7hAbuJSGJDDDjc4ReYE2M+qUMQ+pTxOEGpx7dJXtPxmsjB4jL
+ 0G+fzXhrLEVlfmOBVbMqpJ9oi7lVD5hpN0DpzMttJ4PEpXukzsPyJn2S1W7ytkptHlgc
+ gav4InYivRXe4F8mY9sPsXclSGLh0pJEm97ZYvAgNjEkJWXTCe/HLeJUOE99xYoggcIz
+ 3ud/HTBl3xsd009nZDrRcsgBsnB6DDTTQPCQF45Vj90+wUqBGKngEG/KLaa0E/fmpBzj
+ Wif8vqov0bk3vfv1M413NSs1xb2XPAncuWKfYdAzxXOoyNWHUeEhYrmRoDNL7oQxHmTp
+ Wccg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=PDyuI6D5hJtH0+thVw4r/qR9DD4Csl28GlClVXYvOmo=;
- b=UrFS/Wz+dKtPr35aE0wFANhkEu+UKdeuls2og0RZ6E5iVeiOyA6r8GG3814kX3clWw
- b/d+/VA8yVLDVogxM4xlSuQSxcfaqYkqMs7sJHazeuEbnrXNh3OSSpe6GjbXRdVMXGcw
- sZoB2rSgn8d/5I7whxE5dKN/oiPrjdG/2UU0pA88K4U7hlNdfSjRSshjCwaFZO6u/B2M
- /AaMT74B3GzTxuG2eRdQxzsUIw8UmxpX+Nc2r9XrUPEzjmJVklEFkTe075Gj0NzAm3hD
- pENAzQhiY1KTl4y244M2hCUM3bLtJbyTWlZlYUEMAh/pW+0T+cqf9vORXakszCQ+aMCg
- YF+A==
-X-Gm-Message-State: APjAAAX0ftVHEXz2hpsts2ylJqxIxPp4qH7A3Y3bwKpdSPOiK5Rh8Zkm
- NFlu8jneXFNbxLSloE5QXPc=
-X-Google-Smtp-Source: APXvYqz88bNIaPHzcim/6S/uUF9DpjERKnfgOQ8Qhg0gQstgjbriVUc2j5BW+2+pkvXrCW1t1Hmc0Q==
-X-Received: by 2002:a65:56c6:: with SMTP id w6mr28444928pgs.167.1579019067136; 
- Tue, 14 Jan 2020 08:24:27 -0800 (PST)
+ bh=GPzrzY9F39Rp14jkQHqPK+Xq5V2Z3YersgLJxHHp4yg=;
+ b=LfoGgyC//+VO3Ijo/3xQswZ5Pi8M3md2YFqCb2pKokeiSSiclLReJdce//n9VuuqgB
+ M4JmbxIbnGyky0zje1yOVwH5IsNm7V/ex0fqTAkvnBkzAQOVOAWJbeydmgafBZdBtAXD
+ YltGgP06on40xMLsYRLolbd8sqzxNX901yGJ2z6WmR20Alkrr6Urhe9+pfjjuuiErCep
+ BhMM6pBXplNV9BgW+AAIE7V77YQFoXJpD5VN4oI/In0cLTXev93pGTarkCbG8T4wydoy
+ gLA+J+cTd9NJcf9yH9gz8HsSVOK0sVMTupAJOKd1b+aMTj+EZ6sdVSPYm6k60+OqpAfR
+ SdvA==
+X-Gm-Message-State: APjAAAU7s8C2mmBfxP2YKJPFeMTykT78Oqzdar52eUhidCmxbRLFjwUp
+ /+fUonsxjYzycp5dLkx4QZo=
+X-Google-Smtp-Source: APXvYqx9Q8mYgC/vWsODDnktfF+o7uQM2Yy9FVhF+6HjsdMb4D7DCRFfMntMB9aRDbyFKkD+F9gWdw==
+X-Received: by 2002:a17:902:8541:: with SMTP id
+ d1mr21271321plo.57.1579019126949; 
+ Tue, 14 Jan 2020 08:25:26 -0800 (PST)
 Received: from madhuparna-HP-Notebook.nitk.ac.in
  ([2402:3a80:1ee7:f789:438:77e9:83ea:bb95])
- by smtp.gmail.com with ESMTPSA id s20sm17511918pjn.2.2020.01.14.08.24.22
+ by smtp.gmail.com with ESMTPSA id v10sm17975379pgk.24.2020.01.14.08.25.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2020 08:24:26 -0800 (PST)
+ Tue, 14 Jan 2020 08:25:26 -0800 (PST)
 From: madhuparnabhowmik04@gmail.com
 To: mike.marciniszyn@intel.com, dennis.dalessandro@intel.com, jgg@ziepe.ca,
  paulmck@kernel.org
-Date: Tue, 14 Jan 2020 21:53:45 +0530
-Message-Id: <20200114162345.19995-1-madhuparnabhowmik04@gmail.com>
+Date: Tue, 14 Jan 2020 21:55:11 +0530
+Message-Id: <20200114162511.20335-1-madhuparnabhowmik04@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Cc: linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
  rcu@vger.kernel.org, joel@joelfernandes.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 1/3] infiniband: hw: hfi1: verbs.c:
+Subject: [Linux-kernel-mentees] [PATCH 2/3] infiniband: hw: qib: qib_verbs:
 	Use built-in RCU list checking
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -116,27 +117,27 @@ Sender: "Linux-kernel-mentees"
 
 From: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 
-list_for_each_entry_rcu has built-in RCU and lock checking.
-Pass cond argument to list_for_each_entry_rcu.
+Use built-in RCU and lock checking for list_for_each_entry_rcu
+by passing cond argument to it.
 
 Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>
 ---
- drivers/infiniband/hw/hfi1/verbs.c | 2 +-
+ drivers/infiniband/hw/qib/qib_verbs.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/infiniband/hw/hfi1/verbs.c b/drivers/infiniband/hw/hfi1/verbs.c
-index 089e201d7550..22f2d4fd2577 100644
---- a/drivers/infiniband/hw/hfi1/verbs.c
-+++ b/drivers/infiniband/hw/hfi1/verbs.c
-@@ -515,7 +515,7 @@ static inline void hfi1_handle_packet(struct hfi1_packet *packet,
- 				       opa_get_lid(packet->dlid, 9B));
- 		if (!mcast)
+diff --git a/drivers/infiniband/hw/qib/qib_verbs.c b/drivers/infiniband/hw/qib/qib_verbs.c
+index 33778d451b82..df93fdc8a2fd 100644
+--- a/drivers/infiniband/hw/qib/qib_verbs.c
++++ b/drivers/infiniband/hw/qib/qib_verbs.c
+@@ -329,7 +329,7 @@ void qib_ib_rcv(struct qib_ctxtdata *rcd, void *rhdr, void *data, u32 tlen)
+ 		if (mcast == NULL)
  			goto drop;
--		list_for_each_entry_rcu(p, &mcast->qp_list, list) {
-+		list_for_each_entry_rcu(p, &mcast->qp_list, list, lockdep_is_held(&(ibp->rvp.lock))) {
- 			packet->qp = p->qp;
- 			if (hfi1_do_pkey_check(packet))
- 				goto drop;
+ 		this_cpu_inc(ibp->pmastats->n_multicast_rcv);
+-		list_for_each_entry_rcu(p, &mcast->qp_list, list)
++		list_for_each_entry_rcu(p, &mcast->qp_list, list, lockdep_is_held(&(ibp->rvp.lock)))
+ 			qib_qp_rcv(rcd, hdr, 1, data, tlen, p->qp);
+ 		/*
+ 		 * Notify rvt_multicast_detach() if it is waiting for us
 -- 
 2.17.1
 
