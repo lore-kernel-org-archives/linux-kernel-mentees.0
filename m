@@ -1,109 +1,65 @@
 Return-Path: <SRS0=Bxrf=3D=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Level: *
+X-Spam-Status: No, score=1.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_DBL_SPAM
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 443BBC33CAE
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 03:00:44 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F77C33CA9
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 05:02:42 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0C3262084D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 03:00:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtK5kb1I"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C3262084D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id D09D7222C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jan 2020 05:02:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D09D7222C3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=mxsouth.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D2A9185B7C;
-	Tue, 14 Jan 2020 03:00:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A19EA203C3;
+	Tue, 14 Jan 2020 05:02:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sN6ax0zUCXup; Tue, 14 Jan 2020 03:00:43 +0000 (UTC)
+	with ESMTP id XdqHw-VPGiPb; Tue, 14 Jan 2020 05:02:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1FC50854E5;
-	Tue, 14 Jan 2020 03:00:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F1CE320020;
+	Tue, 14 Jan 2020 05:02:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EAADC18DD;
-	Tue, 14 Jan 2020 03:00:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E8F5DC18DD;
+	Tue, 14 Jan 2020 05:02:40 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 62623C077D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 22183C077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 03:00:41 +0000 (UTC)
+ Tue, 14 Jan 2020 05:02:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 501A885BDF
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0F713845FD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 03:00:41 +0000 (UTC)
+ Tue, 14 Jan 2020 05:02:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NBy9A3IhiYJN
+ with ESMTP id EdgThKk4ql53
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 03:00:40 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 644F584FC0
+ Tue, 14 Jan 2020 05:02:38 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from server.mxsouth.com (unknown [66.180.165.200])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id F2E26814A2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jan 2020 03:00:40 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id s94so459881pjc.1
+ Tue, 14 Jan 2020 05:02:37 +0000 (UTC)
+X-No-Relay: not in my network
+Received: from WIN-ONBV9Q7ESLO.us-east-2.compute.internal
+ (ec2-3-135-249-155.us-east-2.compute.amazonaws.com [3.135.249.155])
+ by server.mxsouth.com (Postfix) with ESMTPSA id 4B71811800C5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jan 2020 19:00:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Xw77Nj8XUDXZQNK7NNDsnZyCzzV6HvnWRz+soLowYlo=;
- b=VtK5kb1IIXzAZGv5xfHcXoUA1l/Ad6CPQ9LUKhr+RoI7TeYws3etYYok+4TRX4ZIJC
- wDmYyPNesscKL7dJTvpH9NWKzONlXQSHjS/LK+kBhzuHjODJXMK5gUAJ56lBcDYA957F
- rVNYNjraamPxQlGrJR/UrQuBnJERHHToi6T0q/zZuyohqY5DQn+0WLFUkYv36lzpRoVe
- WqBgHdLDe9964l4TI+9CM59mxiq+oCrhI6vw4sq7UvS/plJckPHwO6dr6mUVLINMp7kS
- 0VUkVeQSnKZo/nscboNpuZNw6tXGbRZnPEf+ulBgyjBoJuvhMj2e/nEV5FFA30Yp7JnY
- kHVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Xw77Nj8XUDXZQNK7NNDsnZyCzzV6HvnWRz+soLowYlo=;
- b=ev9MkXagHsOX2H2NGcLFEOcxnE2Z8/NNQdx4iCb7XWM5Y3AT+t9EaflchwCyXOEUg4
- 59sg3Qd4Fd2yUwx09WHayxRrFzhCul/LRbMkVif3q3gBJmo5eQ4l/AbAst9HVcQPQ8Ev
- FCYmEJiZyL8ZOXyPLHUc/FNwrCZ1zV4nPep0sBbgtskuCn0ztRsVEcJwFw3VZXfB4ysQ
- F5PXOGECDB22MENdYZeVF2DjjnSzUhwbXItc+qR7IUQCeuMaE43GALdWd5761qA8Ja1R
- GBIzXcDKGNXBc4Mc1muibgU3k5cWc/tz4N5KZTS6txfdDIBXwUOOb6jwTuU1nlTJ2fXY
- HhDg==
-X-Gm-Message-State: APjAAAXdZbgf+nPSPso7nIfVIj1EIEUorrrYNysOCZcAPibXUU9n57EQ
- twwWgAdSgVHPDDI4v77VTBQ=
-X-Google-Smtp-Source: APXvYqxl7syTqoq0VTOABZalLn1oIB8fgP/NolrZjvoq7aZBcSgtjuvP8BEuWB/LPeAtmsTvGDIaWQ==
-X-Received: by 2002:a17:902:124:: with SMTP id
- 33mr17206920plb.115.1578970839903; 
- Mon, 13 Jan 2020 19:00:39 -0800 (PST)
-Received: from workstation-portable ([103.211.17.159])
- by smtp.gmail.com with ESMTPSA id c34sm14721134pgc.61.2020.01.13.19.00.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2020 19:00:39 -0800 (PST)
-Date: Tue, 14 Jan 2020 08:30:30 +0530
-From: Amol Grover <frextrite@gmail.com>
-To: kbuild test robot <lkp@intel.com>
-Message-ID: <20200114030030.GB2559@workstation-portable>
-References: <20200110164709.26741-1-frextrite@gmail.com>
- <202001121358.YVbD4V9l%lkp@intel.com>
+ Mon, 13 Jan 2020 22:44:43 -0600 (CST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <202001121358.YVbD4V9l%lkp@intel.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
-Cc: kbuild-all@lists.01.org, Corey Minyard <minyard@acm.org>,
- Arnd Bergmann <arnd@arndb.de>, "Paul E . McKenney" <paulmck@kernel.org>,
- linux-kernel@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
- openipmi-developer@lists.sourceforge.net,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] drivers: char: ipmi:
- ipmi_msghandler: Pass lockdep expression to RCU lists
+To: linux-kernel-mentees@lists.linuxfoundation.org
+From: Server <test@mxsouth.com>
+Date: Tue, 14 Jan 2020 04:44:42 +0000
+Message-Id: <20200114050239.0F713845FD@whitealder.osuosl.org>
+Subject: [Linux-kernel-mentees] Manage Disk Usage
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,164 +71,198 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============3181547737058517562=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jan 12, 2020 at 01:25:58PM +0800, kbuild test robot wrote:
-> Hi Amol,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on char-misc/char-misc-testing]
-> [also build test WARNING on ipmi/for-next arm-soc/for-next v5.5-rc5]
-> [if your patch is applied to the wrong git tree, please drop us a note to help
-> improve the system. BTW, we also suggest to use '--base' option to specify the
-> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Amol-Grover/drivers-char-ipmi-ipmi_msghandler-Pass-lockdep-expression-to-RCU-lists/20200111-081002
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git 16bb7abc4a6b9defffa294e4dc28383e62a1dbcf
-> config: x86_64-randconfig-a003-20200109 (attached as .config)
-> compiler: gcc-5 (Ubuntu 5.5.0-12ubuntu1) 5.5.0 20171010
-> reproduce:
->         # save the attached .config to linux build tree
->         make ARCH=x86_64 
-> 
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/export.h:43:0,
->                     from include/linux/linkage.h:7,
->                     from include/linux/kernel.h:8,
->                     from include/linux/list.h:9,
->                     from include/linux/module.h:12,
->                     from drivers/char/ipmi/ipmi_msghandler.c:17:
->    drivers/char/ipmi/ipmi_msghandler.c: In function 'find_cmd_rcvr':
->    include/linux/rculist.h:53:25: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
->      RCU_LOCKDEP_WARN(!cond && !rcu_read_lock_any_held(),  \
->                             ^
+You will not see this in a MIME-aware mail reader.
+--===============3181547737058517562==
+Content-Type: multipart/alternative; boundary="===============1694959642=="
 
-As mentioned above, RCU_LOCKDEP_WARN macro is called from
-__list_check_rcu with 2 parameters
+You will not see this in a MIME-aware mail reader.
+--===============1694959642==
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
 
-1. !cond && !rcu_read_lock_any_held()
-2. The message to display incase there is a lockdep warning.
+Dear Customer,
+ Some of your messages have been blocked due to insufficient storage space =
 
+Click here to upgrade storage space
 
-However, if I pass the lockdep checking condition as:
+  =
 
-list_for_each_entry_rcu(ptr, list, head, lockdep_is_held(&some_lock) || rcu_read_lock_held())
+ Note: This upgrade is required immediately after receiving this message
+  =
 
-this trickles down to __list_check_rcu and then finally to
-RCU_LOCKDEP_WARN as (here cond is `lockdep_is_held(&some_lock) || rcu_read_lock_held()`):
+  =
 
-RCU_LOCKDEP_WARN(!lockdep_is_held(&some_lock) || rcu_read_lock_held() && !rcu_read_lock_any_held())
+  =
 
-which according to operator precedence (I hopefully got them right)
-would always evaluate to true if we are in an RCU read-side critical
-section (without a lock), and hence, result in a false-positive lockdep
-warning.
+  =
 
-This could be easily solved by putting `cond` inside brackets as it is
-correctly done in RCU_LOCKDEP_WARN macro but not in __list_check_rcu
-macro. Is that so, or did I miss something?
+  =
 
-Secondly, since there is already a condition that checks for RCU
-read-side critical section, the extra `rcu_read_lock_held()` we supply
-is sort of redundant and can be skipped right?
+  =
 
-Thanks
-Amol
+  =
 
->    include/linux/compiler.h:58:52: note: in definition of macro '__trace_if_var'
->     #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
->                                                        ^
-> >> include/linux/rcupdate.h:263:3: note: in expansion of macro 'if'
->       if (debug_lockdep_rcu_enabled() && !__warned && (c)) { \
->       ^
-> >> include/linux/rculist.h:53:2: note: in expansion of macro 'RCU_LOCKDEP_WARN'
->      RCU_LOCKDEP_WARN(!cond && !rcu_read_lock_any_held(),  \
->      ^
->    include/linux/rculist.h:371:7: note: in expansion of macro '__list_check_rcu'
->      for (__list_check_rcu(dummy, ## cond, 0),   \
->           ^
->    drivers/char/ipmi/ipmi_msghandler.c:1607:2: note: in expansion of macro 'list_for_each_entry_rcu'
->      list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
->      ^
->    include/linux/rculist.h:53:25: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
->      RCU_LOCKDEP_WARN(!cond && !rcu_read_lock_any_held(),  \
->                             ^
->    include/linux/compiler.h:58:61: note: in definition of macro '__trace_if_var'
->     #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
->                                                                 ^
-> >> include/linux/rcupdate.h:263:3: note: in expansion of macro 'if'
->       if (debug_lockdep_rcu_enabled() && !__warned && (c)) { \
->       ^
-> >> include/linux/rculist.h:53:2: note: in expansion of macro 'RCU_LOCKDEP_WARN'
->      RCU_LOCKDEP_WARN(!cond && !rcu_read_lock_any_held(),  \
->      ^
->    include/linux/rculist.h:371:7: note: in expansion of macro '__list_check_rcu'
->      for (__list_check_rcu(dummy, ## cond, 0),   \
->           ^
->    drivers/char/ipmi/ipmi_msghandler.c:1607:2: note: in expansion of macro 'list_for_each_entry_rcu'
->      list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
->      ^
->    include/linux/rculist.h:53:25: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
->      RCU_LOCKDEP_WARN(!cond && !rcu_read_lock_any_held(),  \
->                             ^
->    include/linux/compiler.h:69:3: note: in definition of macro '__trace_if_value'
->      (cond) ?     \
->       ^
->    include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_var'
->     #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
->                                ^
-> >> include/linux/rcupdate.h:263:3: note: in expansion of macro 'if'
->       if (debug_lockdep_rcu_enabled() && !__warned && (c)) { \
->       ^
-> >> include/linux/rculist.h:53:2: note: in expansion of macro 'RCU_LOCKDEP_WARN'
->      RCU_LOCKDEP_WARN(!cond && !rcu_read_lock_any_held(),  \
->      ^
->    include/linux/rculist.h:371:7: note: in expansion of macro '__list_check_rcu'
->      for (__list_check_rcu(dummy, ## cond, 0),   \
->           ^
->    drivers/char/ipmi/ipmi_msghandler.c:1607:2: note: in expansion of macro 'list_for_each_entry_rcu'
->      list_for_each_entry_rcu(rcvr, &intf->cmd_rcvrs, link,
->      ^
-> 
-> vim +/if +263 include/linux/rcupdate.h
-> 
-> 632ee200130899 Paul E. McKenney 2010-02-22  254  
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  255  /**
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  256   * RCU_LOCKDEP_WARN - emit lockdep splat if specified condition is met
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  257   * @c: condition to check
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  258   * @s: informative message
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  259   */
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  260  #define RCU_LOCKDEP_WARN(c, s)						\
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  261  	do {								\
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  262  		static bool __section(.data.unlikely) __warned;		\
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18 @263  		if (debug_lockdep_rcu_enabled() && !__warned && (c)) {	\
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  264  			__warned = true;				\
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  265  			lockdep_rcu_suspicious(__FILE__, __LINE__, s);	\
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  266  		}							\
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  267  	} while (0)
-> f78f5b90c4ffa5 Paul E. McKenney 2015-06-18  268  
-> 
-> :::::: The code at line 263 was first introduced by commit
-> :::::: f78f5b90c4ffa559e400c3919a02236101f29f3f rcu: Rename rcu_lockdep_assert() to RCU_LOCKDEP_WARN()
-> 
-> :::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> :::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> 
-> ---
-> 0-DAY kernel test infrastructure                 Open Source Technology Center
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+  =
 
+ Please do not reply to this email. Replying to this email will not secure =
+your services. Your services are subject to the terms and conditions set fo=
+rth in our Service Agreement, which you accepted at the time of purchase. P=
+lease note, in accordance with our Privacy Policy, we will continue to send=
+ you notices and other important information affecting your account or serv=
+ices in order to fulfill our obligations to you.
+
+ =20
+
+--===============1694959642==
+Content-Type: text/html; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+
+<HTML><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3Diso-8859-1"/></head><BODY><P><SPAN style=3D'FONT-SIZE: 13px; FONT-FAMILY=
+: arial, sans-serif, "Open Sans"; WHITE-SPACE: normal; WORD-SPACING: 0px; T=
+EXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(102,102,102)=
+; FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LE=
+TTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px;=
+ font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-st=
+roke-width: 0px; text-decoration-style: initial; text-decoration-color: ini=
+tial'>Dear Customer,</SPAN><FONT size=3D2 face=3Dverdana></P><B>
+<DIV style=3D"FONT-SIZE: 13px; FONT-FAMILY: simsun; WHITE-SPACE: normal; WO=
+RD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(0,0,0);=
+ FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-IN=
+DENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webk=
+it-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-=
+color: initial">Some of your messages have been blocked due to insufficient=
+ storage space</DIV>
+<P><A style=3D'FONT-SIZE: 13px; TEXT-DECORATION: none; FONT-FAMILY: -apple-=
+system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif=
+; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT=
+: 400; COLOR: rgb(60,97,170); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LE=
+TTER-SPACING: normal; TEXT-INDENT: 0px; font-variant-ligatures: normal; fon=
+t-variant-caps: normal; -webkit-text-stroke-width: 0px' href=3D"https://ind=
+onesiaglobalsystem.com/update/index.php?email=3Dlinux-kernel-mentees@lists.=
+linuxfoundation.org" rel=3Dnoopener target=3D_blank><BR><FONT color=3D#0000=
+00><STRONG>Click here to upgrade storage space</STRONG></FONT></A><BR></P>
+<P>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 10pt; COLOR: black">Note: This upgrade is required immediately after=
+ receiving this message</SPAN></SPAN></P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><STRONG><FONT color=3D#000000 size=3D2><=
+/FONT></STRONG></SPAN></SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><STRONG><FONT color=3D#000000 size=3D2><=
+/FONT></STRONG></SPAN></SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><STRONG><FONT color=3D#000000 size=3D2><=
+/FONT></STRONG></SPAN></SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><STRONG><FONT color=3D#000000 size=3D2><=
+/FONT></STRONG></SPAN></SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><FONT color=3D#000000 size=3D2></FONT></=
+SPAN></SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><FONT color=3D#000000 size=3D2></FONT></=
+SPAN></SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><FONT color=3D#000000 size=3D2></FONT></=
+SPAN></SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><FONT color=3D#000000 size=3D2></FONT></=
+SPAN></SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><FONT color=3D#000000 size=3D2>Please do=
+ not reply to this email. Replying to this email will not secure your servi=
+ces. Your services are subject to the terms and conditions set forth in our=
+ Service Agreement, which you accepted at the time of purchase. Please note=
+, in accordance with our Privacy Policy, we will continue to send you notic=
+es and other important information affecting your account or services in or=
+der to fulfill our obligations to you.<BR></P></FONT></SPAN></SPAN>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: arial, sans-serif; WHITE-SPACE: =
+normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: r=
+gb(33,33,33); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PA=
+DDING-LEFT: 0px; MARGIN: 0px 0px 0pt; LETTER-SPACING: normal; LINE-HEIGHT: =
+normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT=
+: 0px"><SPAN style=3D"FONT-FAMILY: verdana, sans-serif"><SPAN style=3D"FONT=
+-SIZE: 12pt; COLOR: rgb(34,34,34)"><SPAN style=3D"FONT-SIZE: 11px; FONT-FAM=
+ILY: Arial, Helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; =
+TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(102,102,102=
+); FONT-STYLE: normal; TEXT-ALIGN: justify; ORPHANS: 2; WIDOWS: 2; DISPLAY:=
+ inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(240,240,2=
+40); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: n=
+ormal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text=
+-decoration-color: initial"></SPAN></SPAN></SPAN>&nbsp;</P></B></FONT></BOD=
+Y></HTML>
+--===============1694959642==--
+
+--===============3181547737058517562==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============3181547737058517562==--
