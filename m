@@ -6,110 +6,100 @@ X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41530C33C9E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jan 2020 18:24:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC23FC33CB6
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jan 2020 19:35:22 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CC8A206D5
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jan 2020 18:24:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9EC572072B
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jan 2020 19:35:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="b4Mr7Ihr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CC8A206D5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lixom-net.20150623.gappssmtp.com header.i=@lixom-net.20150623.gappssmtp.com header.b="V07u5up/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EC572072B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lixom.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D406C22128;
-	Fri, 17 Jan 2020 18:24:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 690CF221D9;
+	Fri, 17 Jan 2020 19:35:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0an4AsolYQrX; Fri, 17 Jan 2020 18:24:24 +0000 (UTC)
+	with ESMTP id OkuHsyi93vRP; Fri, 17 Jan 2020 19:35:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 482A320347;
-	Fri, 17 Jan 2020 18:24:24 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B1BCB221AF;
+	Fri, 17 Jan 2020 19:35:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 321B4C18DC;
-	Fri, 17 Jan 2020 18:24:24 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A36E2C077D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 98AEAC1D81;
+	Fri, 17 Jan 2020 19:35:17 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 47477C077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 18:24:22 +0000 (UTC)
+ Fri, 17 Jan 2020 19:35:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 8E2FE203B5
+ by hemlock.osuosl.org (Postfix) with ESMTP id 29E4288175
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 18:24:22 +0000 (UTC)
+ Fri, 17 Jan 2020 19:35:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bZ9VeJERFzFZ
+ with ESMTP id zly+H7goZtIS
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 18:24:17 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by silver.osuosl.org (Postfix) with ESMTPS id E243720347
+ Fri, 17 Jan 2020 19:35:09 +0000 (UTC)
+X-Greylist: delayed 00:08:20 by SQLgrey-1.7.6
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+ [209.85.208.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 731D788170
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 18:24:16 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00HIDFPF186359;
- Fri, 17 Jan 2020 18:24:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=V6jdRO8DhqcENdZcDjhcv4ayNKUxDX1LtbH6Da7E+34=;
- b=b4Mr7Ihr0XV9WdlwaWg34Hl0DTRKBlJWqerwaqJco3cCtBY7/FeDhy6hUVpcVsto44uK
- 6yX0cRD7SwWdMna9wbQ5LCIEnTwRD6/QKS77/hPrJxhmebfvn+9HJq1yWHKqOTHAKC7l
- nC3zc6dRW+WJbKy7zpM2na1+VI0W39bNZ+L6OKzs/x05DecBuD9+unYJX2FK22B3wEpK
- ZEMWL2dfG1bxlwt0ynLP1mLqpziNw6UJose15+KzmDa80uS0XexrsIFD0dRfTESCaWHG
- 4CXVQP+bunQ/dSk35jRca/uY6pQ+CsImV4gsmNOzyPeuyx9CIo6WyJfMxkC4jw/pgovm iA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2xf74st9er-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Jan 2020 18:24:08 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00HIAmtU141255;
- Fri, 17 Jan 2020 18:24:07 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2xk24ff8bm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Jan 2020 18:24:07 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00HIO6VS005836;
- Fri, 17 Jan 2020 18:24:06 GMT
-Received: from [10.209.227.41] (/10.209.227.41)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 17 Jan 2020 10:24:05 -0800
-To: Amol Grover <frextrite@gmail.com>, arm-soc <arm@kernel.org>
+ Fri, 17 Jan 2020 19:35:09 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id m26so27561132ljc.13
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 17 Jan 2020 11:35:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lixom-net.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=eWPxiqs2+iCS7ywgBZoPdcaP9J/JZnx6nY7cUof021c=;
+ b=V07u5up/I77H9UHL2RgtE8EgTvlvwfaEFYjFWyiW4+y3mmsf6hSpIL9mWxuD8JIASe
+ 3SSst9qoCTXer85nAaDXwyv/YnBEnPFcdRJ2ybjqyOWOd1gg/3Kd6GrFQfpNmDHi/BMP
+ w0ZMrjYcUe+KlA5/lADOtOVfp712SacxUQBPD0QJjcff8V1bsR+QbUjR7dOF/lb0NN96
+ usrzIqp2q/vX/xCnYHVsNkAn2erp5+VtyzupP9SaaEZ0FD1ww/8EO+YxsI5seKUG4Cw8
+ 5CMzNcoox5gW2zipArH3pjEATR80XUQuLFCaEDPaEVYFZGTyxdW97XFsH/XH+eENVwM2
+ htDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=eWPxiqs2+iCS7ywgBZoPdcaP9J/JZnx6nY7cUof021c=;
+ b=YoMjoXtQSAGygThS8HdEzWtPKFIyyGp91SrAVSntPqbukBel4N8QsOBPTJ2etzBJ4g
+ jphSn25pQlT84vP/iuydRwF1Fogwj+y2VSobX8B2lRvqgczxnPG7eG0cAVMoNHhGgIpy
+ SID1QDaaWgAq6yA3Llir3rSarYUUmj2SnhpAu1iNteTgdXeIFZ7wolk0ym5Raz7S563P
+ XrByE9k188mkrqLWsk1Wz7Gca/73NCS/Wm8lzc6yjAgf7W/1rhL5LoCugCbvw5mQFlQb
+ XMieqq04yNYNLMVbamuP8zd2blpWGcwKER2a1pEdr3fJ89hMWA1up3jKlhLkhHG19ju/
+ DizA==
+X-Gm-Message-State: APjAAAWkGCmN8i1aUQDzfUwP1w/WpS35oXKQZ59cITy0lPKUpzq9qBqA
+ 4PCvdii54J2MEvVoc06tiy7gL1yfdidBPw==
+X-Google-Smtp-Source: APXvYqxdevK1ARk4iG2CURRwB6/qFK6i8RWBWNjzDcLM/Zn5XeE+WkyCWl8OJDp7suwJT87EBjEJlw==
+X-Received: by 2002:a2e:9013:: with SMTP id h19mr6192574ljg.223.1579289207431; 
+ Fri, 17 Jan 2020 11:26:47 -0800 (PST)
+Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
+ by smtp.gmail.com with ESMTPSA id w29sm12592801lfa.34.2020.01.17.11.26.46
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 17 Jan 2020 11:26:46 -0800 (PST)
+Date: Fri, 17 Jan 2020 11:25:55 -0800
+From: Olof Johansson <olof@lixom.net>
+To: santosh.shilimkar@oracle.com
+Message-ID: <20200117192555.baoxu4xd7krxgfjz@localhost>
 References: <20200117133048.31708-1-frextrite@gmail.com>
-From: santosh.shilimkar@oracle.com
-Organization: Oracle Corporation
-Message-ID: <5d77df7f-8693-0232-dbfe-0acfc37e040f@oracle.com>
-Date: Fri, 17 Jan 2020 10:24:04 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.7.2
+ <5d77df7f-8693-0232-dbfe-0acfc37e040f@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200117133048.31708-1-frextrite@gmail.com>
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9503
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=945
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001170142
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9503
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001170142
+Content-Disposition: inline
+In-Reply-To: <5d77df7f-8693-0232-dbfe-0acfc37e040f@oracle.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Santosh Shilimkar <ssantosh@kernel.org>,
+ arm-soc <arm@kernel.org>, Santosh Shilimkar <ssantosh@kernel.org>,
  Joel Fernandes <joel@joelfernandes.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 Subject: Re: [Linux-kernel-mentees] [PATCH v2] drivers: soc: ti:
  knav_qmss_queue: Pass lockdep expression to RCU lists
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -123,36 +113,45 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 1/17/20 5:30 AM, Amol Grover wrote:
-> inst->handles is traversed using list_for_each_entry_rcu
-> outside an RCU read-side critical section but under the protection
-> of knav_dev_lock.
+On Fri, Jan 17, 2020 at 10:24:04AM -0800, santosh.shilimkar@oracle.com wrote:
+> On 1/17/20 5:30 AM, Amol Grover wrote:
+> > inst->handles is traversed using list_for_each_entry_rcu
+> > outside an RCU read-side critical section but under the protection
+> > of knav_dev_lock.
+> > 
+> > Hence, add corresponding lockdep expression to silence false-positive
+> > lockdep warnings, and harden RCU lists.
+> > 
+> > Add macro for the corresponding lockdep expression.
+> > 
+> > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> > ---
+> > v2:
+> > - Remove rcu_read_lock_held() from lockdep expression since it is
+> >    implicitly checked for.
+> > 
+> Looks fine to me.
 > 
-> Hence, add corresponding lockdep expression to silence false-positive
-> lockdep warnings, and harden RCU lists.
-> 
-> Add macro for the corresponding lockdep expression.
-> 
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
-> ---
-> v2:
-> - Remove rcu_read_lock_held() from lockdep expression since it is
->    implicitly checked for.
-> 
-Looks fine to me.
+> Hi Olof, Arnd,
+> Can you please pick this one and apply to your driver-soc branch ?
+> I already sent out pull request and hence the request.
 
-Hi Olof, Arnd,
-Can you please pick this one and apply to your driver-soc branch ?
-I already sent out pull request and hence the request.
+Hi,
 
-regards,
-Santosh
+Can you please email the whole patch with sign-off to
+soc@kernel.org? Otherwise it won't end up in patchwork, which is how we track
+patches and pull requests these days.
+
+
+Thanks,
+
+-Olof
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
