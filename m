@@ -5,99 +5,101 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA032C33CB1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jan 2020 13:37:47 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36560C33CB1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jan 2020 13:40:30 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6E1222073A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jan 2020 13:37:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0394C20728
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jan 2020 13:40:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nyCDumfv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6E1222073A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j15iXKGq"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0394C20728
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3CACC8639F;
-	Fri, 17 Jan 2020 13:37:47 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KaFmL2M9dn9b; Fri, 17 Jan 2020 13:37:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5AD5185FB6;
-	Fri, 17 Jan 2020 13:37:43 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 344C6C1D81;
-	Fri, 17 Jan 2020 13:37:43 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E9465C077D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 13:37:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D3203203B5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 13:37:41 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8534C2076E;
+	Fri, 17 Jan 2020 13:40:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id K2hsLmBC2AvB; Fri, 17 Jan 2020 13:40:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id BA98720422;
+	Fri, 17 Jan 2020 13:40:24 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A2797C1D81;
+	Fri, 17 Jan 2020 13:40:24 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E1849C077D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 17 Jan 2020 13:40:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id DBA3886440
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 17 Jan 2020 13:40:22 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BSvuxDoNsfFZ
+ with ESMTP id IPFVjBvhtgDb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 13:37:35 +0000 (UTC)
+ Fri, 17 Jan 2020 13:40:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 61BDC20422
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7C0D286427
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 13:37:35 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id g6so9896886plp.6
+ Fri, 17 Jan 2020 13:40:16 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id d5so3184142pjz.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jan 2020 05:37:35 -0800 (PST)
+ Fri, 17 Jan 2020 05:40:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=YHBJFZwYhK7Tmr8esHxqJUtoRn8WnZqTo+H+EnwYrJo=;
- b=nyCDumfvEcGI6zIFcDK5993aLcMZr2BSrphFpVcsIQuJdGZXvAjSxzqH+3c5I9Paf5
- AXRmanS3PLoIGFPLvxYipMqaTeiAD2kEWff4ROiwS4h0BEJd116OLwyHSiYcRxjm5iHB
- 5qhIrMXvU0e+VyL0sw+9be4Jx0S6pXmg+kCSt9gDaNyoeFxk/Ph6os7uImlW3gbsAj0g
- DSlOUoP2+jyIkbnHe7USSl7SA/EgB4ObNw0G1wIcgPAXfUxelXegmmO/IDwMKirYFM5h
- /biIw7TgNJY/5OS6wogEgiDzzd/T16483kcJttOHMzl/0UzUU1J1odaLt0KmFfHrldT9
- Rpsw==
+ bh=RlKM/XYrBa3kEOwzCqWtgXvilXlmKMO+nK4gGJZhPfg=;
+ b=j15iXKGqjYlNBJ1O5MSIPLWXuL/l4gus32mS8VNjxmISFECRxV5UZEPyHvRH6yoQLO
+ uO4qX4SvAMVnuN+JxcDHCmJ6Gsp6dOhvkk929w+ntR8qY+Ztw8hObJ2GNudF+tkNALDA
+ l+RMK5xSjtCPuFAtz8/lE4mOWThFWTjgw8BmcUHvZbZctPRvyg4ef2fRfrCRwb3LjY1w
+ LMN1l7RF/4hgRpgYwrTI8doJZzjLMIc0u0EROorqpVdYkUaoj/Wj39EYG3zCIa07R2QV
+ 5Eg2S48eXDdQYhiXyVafm2Cc3tx6lssLzMDuY9Xy3ylGnJLts8EvE+LxOtEmk9OFwL9l
+ 8r0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=YHBJFZwYhK7Tmr8esHxqJUtoRn8WnZqTo+H+EnwYrJo=;
- b=DPV1GXRRona+q7IkGVhdn54zDibhvI5ruDiK5P4cCtZHKAh/4ynPbd33fHYSQHcw9m
- 1nBJi5s9VF2OylkJAuFnSREQOi5vAko+dbeLpdqGAu8AbCYif2HzOYr4mwRePMQlbsd0
- 21yIIZn6D2na35iIi7oDbQO0/ku4wkYIuI3UnK7cwQzd6Er/PDOoqHBsWxgVcqf0Zai2
- iOjKydToAPID+uamwnL7oPPDZFb2CBJ7nE/ZpD3/NI35lh/CaQwt97fbkV0oK5OpNb1X
- 104VZF69BzDcnbevcPAibm68Aen+Adm/ICnYkbXUz8cwDLcibk9AaIScbF5KdYCMIou0
- vYjA==
-X-Gm-Message-State: APjAAAWCLw0HyLEcxWjrUS3YliMJxQZNSuXqmyvLssQOp6A2s/Kwf03l
- 1YpkA1Iyrxz4OxidfVHztlQ=
-X-Google-Smtp-Source: APXvYqw8EPpDPsWKBxlJK9XKZQjLvJ/SuPz8bvOZHAxShVJvBgezCmAcl0rhxK02SG64hvN+9RT1fQ==
-X-Received: by 2002:a17:90b:4004:: with SMTP id
- ie4mr5679480pjb.49.1579268254980; 
- Fri, 17 Jan 2020 05:37:34 -0800 (PST)
+ bh=RlKM/XYrBa3kEOwzCqWtgXvilXlmKMO+nK4gGJZhPfg=;
+ b=jgux94YN87bs9qCglpmHap3h3e+ZvuJBu0SM5DPkqI8fM6/zCtcZRcWx/VgoCxONEr
+ oWGpiwvOeZPS4+nAdx9g/36zSJ99XBxWiI3qo4B9n7ngXhqTU8Q21XO3eP79yGNxbwzw
+ F6SrML2S9xEVq6FpeOjAUIzjQmEm9H+gT9mHG7XnoTk5ugoYPmhSyUTZgpT6gF0yKC60
+ bQqpucpFobZN0r/PrgJJmgu9QtpjgUuNt0IEP2mMb6T6DYdCK3M50DrJS4CrfLD4ucY7
+ t6++pzWf5ZDSPMFHqRyJu3sszUR7204x8wR6JrWNp+PrmO6ettR6NKFR8D5ansxCCE5D
+ y9+A==
+X-Gm-Message-State: APjAAAXE4xmbDpiF2CsJXFtfK5bdMGfrMuDGwHblNm/8Fwu3po0cbeZA
+ Ul2Fw/ZNcF6I6h81JuZX/H/uj8k4
+X-Google-Smtp-Source: APXvYqzxmaDfnD4G85RlkpYrpXtxDrj9FaouwSSrEYObW8QCM4XIkoNSNpMzFf8n3qW5tBKyql+dKg==
+X-Received: by 2002:a17:902:8d8a:: with SMTP id
+ v10mr28505346plo.90.1579268416120; 
+ Fri, 17 Jan 2020 05:40:16 -0800 (PST)
 Received: from localhost.localdomain ([103.211.17.168])
- by smtp.googlemail.com with ESMTPSA id e15sm3229519pja.13.2020.01.17.05.37.32
+ by smtp.googlemail.com with ESMTPSA id
+ s18sm29522422pfh.179.2020.01.17.05.40.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2020 05:37:34 -0800 (PST)
+ Fri, 17 Jan 2020 05:40:15 -0800 (PST)
 From: Amol Grover <frextrite@gmail.com>
-To: Santosh Shilimkar <ssantosh@kernel.org>
-Date: Fri, 17 Jan 2020 19:00:49 +0530
-Message-Id: <20200117133048.31708-1-frextrite@gmail.com>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Date: Fri, 17 Jan 2020 19:08:53 +0530
+Message-Id: <20200117133854.32550-1-frextrite@gmail.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Joel Fernandes <joel@joelfernandes.org>,
+Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-scsi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
+ Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2] drivers: soc: ti:
-	knav_qmss_queue: Pass lockdep expression to RCU lists
+Subject: [Linux-kernel-mentees] [PATCH v3 1/3] drivers: target:
+	target_core_device: Pass lockdep expression to RCU lists
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,49 +117,62 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-inst->handles is traversed using list_for_each_entry_rcu
-outside an RCU read-side critical section but under the protection
-of knav_dev_lock.
+nacl->lun_entry_hlist is traversed with hlist_for_each_entry_rcu
+outside an RCU read-side critical section but under the
+protection of nacl->lun_entry_mutex.
 
-Hence, add corresponding lockdep expression to silence false-positive
-lockdep warnings, and harden RCU lists.
-
-Add macro for the corresponding lockdep expression.
+Hence, add the corresponding lockdep expression to the list traversal
+primitive to silence false-positive lockdep warnings, and
+harden RCU lists.
 
 Signed-off-by: Amol Grover <frextrite@gmail.com>
 ---
-v2:
+v3:
 - Remove rcu_read_lock_held() from lockdep expression since it is
   implicitly checked for.
+- Remove unintended macro usage.
 
- drivers/soc/ti/knav_qmss_queue.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+v2:
+- Fix sparse error
+  CHECK: Alignment should match open parenthesis
 
-diff --git a/drivers/soc/ti/knav_qmss_queue.c b/drivers/soc/ti/knav_qmss_queue.c
-index 1ccc9064e1eb..37f3db6c041c 100644
---- a/drivers/soc/ti/knav_qmss_queue.c
-+++ b/drivers/soc/ti/knav_qmss_queue.c
-@@ -25,6 +25,8 @@
+ drivers/target/target_core_device.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/target/target_core_device.c b/drivers/target/target_core_device.c
+index 2d19f0e332b0..306c626183d5 100644
+--- a/drivers/target/target_core_device.c
++++ b/drivers/target/target_core_device.c
+@@ -247,7 +247,8 @@ void core_free_device_list_for_node(
+ 	struct se_dev_entry *deve;
  
- static struct knav_device *kdev;
- static DEFINE_MUTEX(knav_dev_lock);
-+#define knav_dev_lock_held() \
-+	lockdep_is_held(&knav_dev_lock)
+ 	mutex_lock(&nacl->lun_entry_mutex);
+-	hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link) {
++	hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link,
++				 lockdep_is_held(&nacl->lun_entry_mutex)) {
+ 		struct se_lun *lun = rcu_dereference_check(deve->se_lun,
+ 					lockdep_is_held(&nacl->lun_entry_mutex));
+ 		core_disable_device_list_for_node(lun, deve, nacl, tpg);
+@@ -276,7 +277,8 @@ struct se_dev_entry *target_nacl_find_deve(struct se_node_acl *nacl, u64 mapped_
+ {
+ 	struct se_dev_entry *deve;
  
- /* Queue manager register indices in DTS */
- #define KNAV_QUEUE_PEEK_REG_INDEX	0
-@@ -52,8 +54,9 @@ static DEFINE_MUTEX(knav_dev_lock);
- #define knav_queue_idx_to_inst(kdev, idx)			\
- 	(kdev->instances + (idx << kdev->inst_shift))
+-	hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link)
++	hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link,
++				 lockdep_is_held(&nacl->lun_entry_mutex))
+ 		if (deve->mapped_lun == mapped_lun)
+ 			return deve;
  
--#define for_each_handle_rcu(qh, inst)			\
--	list_for_each_entry_rcu(qh, &inst->handles, list)
-+#define for_each_handle_rcu(qh, inst)				\
-+	list_for_each_entry_rcu(qh, &inst->handles, list,	\
-+				knav_dev_lock_held())
+@@ -460,7 +462,8 @@ void core_clear_lun_from_tpg(struct se_lun *lun, struct se_portal_group *tpg)
+ 	list_for_each_entry(nacl, &tpg->acl_node_list, acl_list) {
  
- #define for_each_instance(idx, inst, kdev)		\
- 	for (idx = 0, inst = kdev->instances;		\
+ 		mutex_lock(&nacl->lun_entry_mutex);
+-		hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link) {
++		hlist_for_each_entry_rcu(deve, &nacl->lun_entry_hlist, link,
++					 lockdep_is_held(&nacl->lun_entry_mutex)) {
+ 			struct se_lun *tmp_lun = rcu_dereference_check(deve->se_lun,
+ 					lockdep_is_held(&nacl->lun_entry_mutex));
+ 
 -- 
 2.24.1
 
