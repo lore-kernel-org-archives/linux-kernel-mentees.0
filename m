@@ -2,105 +2,100 @@ Return-Path: <SRS0=cM1+=3K=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 654FBC33CAA
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 06:31:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41408C2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 08:05:28 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 373FF22522
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 06:31:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 05EA422522
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 08:05:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJYg5gxk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 373FF22522
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LBqPWmuO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 05EA422522
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 19B8A878F0;
-	Tue, 21 Jan 2020 06:31:56 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DB4D6879C3;
+	Tue, 21 Jan 2020 08:05:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Cvp6Nxd+xcRw; Tue, 21 Jan 2020 06:31:51 +0000 (UTC)
+	with ESMTP id 2Np+76DfU5B1; Tue, 21 Jan 2020 08:05:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CBF35878E3;
-	Tue, 21 Jan 2020 06:31:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 961BA8798F;
+	Tue, 21 Jan 2020 08:05:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B99CEC0178;
-	Tue, 21 Jan 2020 06:31:51 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C4A3FC0174
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7ECD5C0176;
+	Tue, 21 Jan 2020 08:05:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F32BC0174
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 06:31:49 +0000 (UTC)
+ Tue, 21 Jan 2020 08:05:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A5DD58638F
+ by hemlock.osuosl.org (Postfix) with ESMTP id 84EAC879A6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 06:31:49 +0000 (UTC)
+ Tue, 21 Jan 2020 08:05:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id d6Al5yeflsBi
+ with ESMTP id Fbvc36m0QVgs
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 06:31:44 +0000 (UTC)
+ Tue, 21 Jan 2020 08:05:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B07E586005
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0BC958798F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 06:31:44 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id r67so875115pjb.0
+ Tue, 21 Jan 2020 08:05:14 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id q10so1076466pfs.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jan 2020 22:31:44 -0800 (PST)
+ Tue, 21 Jan 2020 00:05:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=YjawRMKdm8OfiarQVvPGkdWjjfDbFxllxQ4uPbAAw0o=;
- b=RJYg5gxkOD7PcTAIXBB1O5kKjm8P+oWyCnv18jrp1Q4bAsOdUp0LCthEigkRBXpUaW
- YTwoTYAyAbDVsh3U84FVvTJq7tFndPKtGHSQRXsZHgv2J0xO6P0dVmB1xEfWVatxtk08
- CmhYvmn2//F7DF61drzHjKOaLCOU70sUf+M2UdqrSOANuAA49QkOV0umDv4unp48aUNF
- lFvSQvbQ8KyNT1woyQGJa+bXiZKo5a1Rvfjw1Z58U6eN9gdH4nKewdKn7E0J2lRuWNbV
- 7aU6ob+pnXdnuPdErP5bgCq9w7sKU+9s5BFvLh7GhGS+3ZPrrGWdfD5hLrd/zJj5Mw+1
- R4ug==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZGP9dkFNBF7qY4vfMORKTU0siRrZw5MX1d25w1d6MCk=;
+ b=LBqPWmuOEU0nfp96yVYLfHWAmWfJXN1fziaUbw/fatLBiMneSMGWYOy2Y/jCrH4YAY
+ jwls1qXmiOY5V2PUUvFEj21j1KM0vq72csbbobpF+gPeQzSLcz/EUqXXXTSkJMq8l5ee
+ QX9kWydYrS09jUJ8Cd63o6KJFtRosd+/gdv3MhPU77OpeRWV0zVa1y2WO4bV8cEvF2qj
+ XrqKZcJ8Ud+E4d6KG31uL3NIWWM5BFkn6SjZm2sIfGDB5o4p3McYsueoP3NjPfGSkQaD
+ vnbYc4Lv6pgK4mOhNaTp2rlDcFmB3iDJzA7WI8BB5Te5eiSz9VF0TEeJJeltl1JpTIls
+ n0YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=YjawRMKdm8OfiarQVvPGkdWjjfDbFxllxQ4uPbAAw0o=;
- b=ry6IVFr7NXd/dgjGZkU0s0voodgPG4RVlIHHAvaToXMpqsBxJznW2choDLfnQnyww8
- iURx1+qbIVu7o7ipGV2/CtIBvAwKfSdOkTaTiD+WQi61bsDcIWkdItfPtr1xfvinmnrs
- Ou824dg9NqnA5JyG4gzohZ2RdAiA0SGV1F1IBhO+riNzpiKwTIN2F/aLRn6SvurRRBAU
- 3VUuX6XJrNMkfUUSD+dXrH2biGTv2kF0Y9NsLTNAjqCktQCe5bPpH7ShhSnaha9FvTOk
- 997gmMODke82nc4FLp2Vc9QKZbyyIqW6uohIRCP9AuzMcJYE79wUywoaSyNwX9eE1i7i
- S4cg==
-X-Gm-Message-State: APjAAAUxHsPxmTKP2yB/gIACTJL4/0phpD0Ja15qbC0wRwcVSfPEhLyT
- I05h921I3+zlLp2p9tSxPm8=
-X-Google-Smtp-Source: APXvYqxj3jLqJGOXwK5f13cfDJfMCBTA1b6yZVsHZxkPWKMwZ501YHWEtBynQ7OvlgBjfEDPojBAJw==
-X-Received: by 2002:a17:902:462:: with SMTP id
- 89mr3894995ple.270.1579588304180; 
- Mon, 20 Jan 2020 22:31:44 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZGP9dkFNBF7qY4vfMORKTU0siRrZw5MX1d25w1d6MCk=;
+ b=cidyzCfRhQFsmr7P2W6B3TVHFWoCtfuP7EIl+Kya3reSAlI6Rcp4N5C+PzgD/QY/jz
+ eJhXF9FySbaaZG1byWZa+WNvfrpL2X5jEbIpeorJnvp6ONoy6EYjscYGZbC545DBxbLA
+ +kRZO82dyZncLHTJC7bOwS9s6eXA09+Rd6kKUNzbYl8Qj0c3y54hEdMluEd68/9y7M17
+ 8N/UuCDBVANpWNeikhhSotapcI8SN1zgyJjvF/9b8loDgfQAe7+veGRXIfnRmq5xyTWb
+ 58DuVFK9Eo5uJ0NSAdb+rKHDgr79KsiFkcvMKURVStdieIRa0k7xdnfhoT9CmOJmxNCT
+ 7TpQ==
+X-Gm-Message-State: APjAAAVWxQk0dSTQRvcTO3NiDu1dZPCrt1UzRxLKdS/yIUpYaF6AIqix
+ 2/znXE0oawo9NM6+9Cq6qHW4ObskXBY=
+X-Google-Smtp-Source: APXvYqyJtbnK4kwL6PtjPps0PDAFXE6c04E6tiBeMczQVLRzC7P09DNzJDAXp/SVBB4QGY1PqCemLA==
+X-Received: by 2002:a63:d543:: with SMTP id v3mr3956243pgi.285.1579593913545; 
+ Tue, 21 Jan 2020 00:05:13 -0800 (PST)
 Received: from localhost.localdomain ([2402:3a80:167e:da7:fcf8:ab67:c0bb:e29])
  by smtp.gmail.com with ESMTPSA id
- y197sm42404359pfc.79.2020.01.20.22.31.42
+ k23sm39229604pgg.7.2020.01.21.00.05.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 22:31:43 -0800 (PST)
-Message-ID: <14a0f459a636673eeaf968b90cc0e85c0717f15f.camel@gmail.com>
+ Tue, 21 Jan 2020 00:05:13 -0800 (PST)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Date: Tue, 21 Jan 2020 12:01:40 +0530
-In-Reply-To: <alpine.DEB.2.21.2001210622150.2301@hadrien>
-References: <20200119134812.32748-1-jaskaransingh7654321@gmail.com>
- <alpine.DEB.2.21.2001210622150.2301@hadrien>
-User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+To: cocci@systeme.lip6.fr
+Date: Tue, 21 Jan 2020 13:34:52 +0530
+Message-Id: <20200121080455.24748-1-jaskaransingh7654321@gmail.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Cc: "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "cocci@systeme.lip6.fr" <cocci@systeme.lip6.fr>
-Subject: Re: [Linux-kernel-mentees] [PATCH] parsing_hacks: Add bool to list
-	of known typedefs
+Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v2 0/3] cocci: Improve management of
+	macros before typedefs
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,68 +113,33 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, 2020-01-21 at 06:23 +0000, Julia Lawall wrote:
-> 
-> On Sun, 19 Jan 2020, Jaskaran Singh wrote:
-> 
-> > bool is widely used in the Linux kernel. Certain cases of
-> > parsing_hacks.ml would mislabel bool.
-> > 
-> > Add bool to the list of known typedefs.
-> 
-> As far as I can see, this function is only used for avoiding to print
-> some
-> warning messages.  So I'm not sure why it would have any impact on
-> the
-> parsing at all?
-> 
+This patch series is for improving the management of the following
+case:
 
-Sorry, It should've been clear in the patch.
+<macro> <typedef> <ident>
 
-This patch will only make any difference if it's applied on top of 
-https://www.mail-archive.com/cocci@systeme.lip6.fr/msg06706.html
+If <typedef> is a known typedef (such as u8 or *_t) then label <macro>
+as a CppMacro. Subsequent cases will label <typedef> correctly as a
+typedef ident.
 
-Cheers,
-Jaskaran.
+Also add bool to the list of known typedefs so that cases of
 
-> julia
-> 
-> > Stats of --parse-c on Linux v5.5-rc4 are as follows:
-> > 
-> > Before:
-> > 
-> >   nb good = 18956150,  nb passed = 134062 =========> 0.70% passed
-> > 
-> > After:
-> > 
-> >   nb good = 18956150,  nb passed = 134073 =========> 0.70% passed
-> > 
-> > Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-> > ---
-> > The above diff has been obtained after applying
-> > https://www.mail-archive.com/cocci@systeme.lip6.fr/msg06706.html
-> > 
-> >  parsing_c/parsing_hacks.ml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/parsing_c/parsing_hacks.ml
-> > b/parsing_c/parsing_hacks.ml
-> > index 685a4908..5e3301a0 100644
-> > --- a/parsing_c/parsing_hacks.ml
-> > +++ b/parsing_c/parsing_hacks.ml
-> > @@ -61,7 +61,7 @@ let is_known_typdef =
-> >        | "u_char"   | "u_short"  | "u_int"  | "u_long"
-> >        | "u8" | "u16" | "u32" | "u64"
-> >        | "s8"  | "s16" | "s32" | "s64"
-> > -      | "__u8" | "__u16" | "__u32"  | "__u64"
-> > +      | "__u8" | "__u16" | "__u32"  | "__u64" | "bool"
-> >          -> true
-> > 
-> >        | "acpi_handle"
-> > --
-> > 2.21.1
-> > 
-> > 
+<macro> bool <ident>
+
+are handled correctly just like any known typedef will be.
+
+Changes in v2:
+--------------
+- Group these patches as a series for clarity
+- Add a test case for <macro> bool <ident> (Patch 3/3)
+- Explain what has been improved with Patch 2/3
+
+ parsing_c/parsing_hacks.ml    |   37 ++++++++++++++++++++++++++++++++++++-
+ tests/macro_before_bool.c     |    4 ++++
+ tests/macro_before_bool.cocci |    9 +++++++++
+ tests/macro_before_bool.res   |    5 +++++
+ 4 files changed, 54 insertions(+), 1 deletion(-)
+
 
 _______________________________________________
 Linux-kernel-mentees mailing list
