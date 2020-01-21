@@ -6,65 +6,69 @@ X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45DA8C33CAA
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 06:28:21 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96836C33CAA
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 06:30:17 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2489722522
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 06:28:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2489722522
+	by mail.kernel.org (Postfix) with ESMTPS id 71B2E22522
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 06:30:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71B2E22522
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=inria.fr
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 05FF220430;
-	Tue, 21 Jan 2020 06:28:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4B46285E7C;
+	Tue, 21 Jan 2020 06:30:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Rv62WVkL_C9h; Tue, 21 Jan 2020 06:30:13 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8D78D85E07;
+	Tue, 21 Jan 2020 06:30:13 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 777D3C0178;
+	Tue, 21 Jan 2020 06:30:13 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5A4AEC0174
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 21 Jan 2020 06:30:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 45A9020430
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 21 Jan 2020 06:30:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FhF1AXHHVLOM; Tue, 21 Jan 2020 06:28:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 244222041B;
-	Tue, 21 Jan 2020 06:28:20 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20B9BC0178;
-	Tue, 21 Jan 2020 06:28:20 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C414BC0174
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 06:28:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id BE512878ED
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 06:28:18 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ABXJ2SIUtn02
+ with ESMTP id UBjAsapF42C8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 06:28:16 +0000 (UTC)
+ Tue, 21 Jan 2020 06:30:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail2-relais-roc.national.inria.fr
  (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E6221878E3
+ by silver.osuosl.org (Postfix) with ESMTPS id EA2FA2041B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 06:28:15 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,344,1574118000"; d="scan'208";a="432302668"
+ Tue, 21 Jan 2020 06:30:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,344,1574118000"; d="scan'208";a="432302784"
 Received: from unknown (HELO hadrien) ([167.98.102.107])
  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2020 07:28:13 +0100
-Date: Tue, 21 Jan 2020 06:28:13 +0000 (GMT)
+ 21 Jan 2020 07:30:03 +0100
+Date: Tue, 21 Jan 2020 06:30:03 +0000 (GMT)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: julia@hadrien
 To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-In-Reply-To: <20200119134610.31961-1-jaskaransingh7654321@gmail.com>
-Message-ID: <alpine.DEB.2.21.2001210626540.2301@hadrien>
-References: <20200119134610.31961-1-jaskaransingh7654321@gmail.com>
+In-Reply-To: <7fc95d036dbda26e6540839ef25c5c09c21ca747.camel@gmail.com>
+Message-ID: <alpine.DEB.2.21.2001210629190.2301@hadrien>
+References: <20200119134812.32748-1-jaskaransingh7654321@gmail.com>
+ <alpine.DEB.2.21.2001210619100.2301@hadrien>
+ <7fc95d036dbda26e6540839ef25c5c09c21ca747.camel@gmail.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, cocci@systeme.lip6.fr
-Subject: Re: [Linux-kernel-mentees] [PATCH] parsing_c: Handle case of macro
-	before typedef
+Cc: "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "cocci@systeme.lip6.fr" <cocci@systeme.lip6.fr>
+Subject: Re: [Linux-kernel-mentees] [PATCH] parsing_hacks: Add bool to list
+	of known typedefs
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,90 +88,103 @@ Sender: "Linux-kernel-mentees"
 
 
 
-On Sun, 19 Jan 2020, Jaskaran Singh wrote:
+On Tue, 21 Jan 2020, Jaskaran Singh wrote:
 
-> For the following case:
+> On Tue, 2020-01-21 at 06:20 +0000, Julia Lawall wrote:
+> >
+> > On Sun, 19 Jan 2020, Jaskaran Singh wrote:
+> >
+> > > bool is widely used in the Linux kernel. Certain cases of
+> > > parsing_hacks.ml would mislabel bool.
+> > >
+> > > Add bool to the list of known typedefs.
+> > >
+> > > Stats of --parse-c on Linux v5.5-rc4 are as follows:
+> > >
+> > > Before:
+> > >
+> > >   nb good = 18956150,  nb passed = 134062 =========> 0.70% passed
+> > >
+> > > After:
+> > >
+> > >   nb good = 18956150,  nb passed = 134073 =========> 0.70% passed
+> >
+> > Why did nb passed increase?  These are tokens that will not be able
+> > to be
+> > transformed by a semantic patch.
+> >
 >
-> <macro> <typedef> <identifier>
->
-> A case in parsing_hacks.ml sometimes mislabels <macro> as a
-> typedef ident.
->
-> If typedef is a known typedef (such as u8 or *_t), then label
-> <macro> as a CppMacro. Subsequent cases will then label <typedef>
-> correctly.
+> I suspect it's instances of nokprobe_inline in
+> linux/kernel/trace/trace_kprobe.c. They're marked as CppMacro.
 
-OK, I see that you are now using is_known_typdef in a more interesting
-way.  Could you add a test case that shows what has improved?  I would
-still know to know why the number of passed tokens increases.
+OK, that looks ok.  Could you update the log messages with that
+information?
 
+thanks,
 julia
 
 
 >
-> Following are results of --parse-c on the Linux Kernel v5.5-rc4:
+> Here's results from my diff:
 >
-> Before:
->
->   nb good = 18956150,  nb passed = 134061 =========> 0.70% passed
->
-> After:
->
->   nb good = 18956150,  nb passed = 134062 =========> 0.70% passed
->
-> Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+> 20402,20406c20288,20294
+> < passed:bool
+> < passed:bool
+> < passed:bool
+> < passed:bool
+> < passed:bool
 > ---
->  parsing_c/parsing_hacks.ml | 35 +++++++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> 20407a20296,20297
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> 20408a20299,20300
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> 20409a20302,20303
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
+> 20410a20305,20306
+> > passed:nokprobe_inline
+> > passed:nokprobe_inline
 >
-> diff --git a/parsing_c/parsing_hacks.ml b/parsing_c/parsing_hacks.ml
-> index 8374731b..23d675cf 100644
-> --- a/parsing_c/parsing_hacks.ml
-> +++ b/parsing_c/parsing_hacks.ml
-> @@ -2184,6 +2184,41 @@ let lookahead2 ~pass next before =
->        && ok_typedef s && is_macro s2 && is_type type_
->          ->
->  	  TIdent (s, i1)
-> +
-> +  (* xx yy zz : xx is a macro *)
-> +  | (TIdent (s, i1)::TIdent (s2, i2)::TIdent(_,_)::_ , _)
-> +    when not_struct_enum before
-> +	&& ok_typedef s2
-> +	&& is_known_typdef s2
-> +        ->
-> +	  TCommentCpp(Token_c.CppMacro, i1)
-> +
-> +  (* xx yy zz : xx is a typedef ident *)
-> +  | (TIdent (s, i1)::TIdent (s2, i2)::TIdent(_,_)::_ , _)
-> +    when not_struct_enum before
-> +	&& ok_typedef s
-> +        ->
-> +      msg_typedef s i1 2; LP.add_typedef_root s i1;
-> +      TypedefIdent (s, i1)
-> +
-> +  (* xx yy * zz : xx is a macro *)
-> +  | (TIdent (s, i1)::TIdent (s2, i2)::ptr , _)
-> +    when pointer ~followed_by:(function TIdent _ -> true | _ -> false) ptr
-> +	&& not_struct_enum before
-> +	&& ok_typedef s2
-> +	&& is_known_typdef s2
-> +        ->
-> +	  TCommentCpp(Token_c.CppMacro, i1)
-> +
-> +  (* xx yy * zz : xx is a typedef ident *)
-> +  | (TIdent (s, i1)::TIdent (s2, i2)::ptr , _)
-> +    when pointer ~followed_by:(function TIdent _ -> true | _ -> false) ptr
-> +	&& not_struct_enum before
-> +	&& ok_typedef s
-> +        ->
-> +      msg_typedef s i1 2; LP.add_typedef_root s i1;
-> +      TypedefIdent (s, i1)
-> +
->    (* xx yy *)
->    | (TIdent (s, i1)::TIdent (s2, i2)::rest  , _) when not_struct_enum before
->  	&& ok_typedef s && not (is_macro_paren s2 rest)
-> --
-> 2.21.1
+> Cheers,
+> Jaskaran.
+>
+> > julia
+> >
+> > > Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+> > > ---
+> > > The above diff has been obtained after applying
+> > > https://www.mail-archive.com/cocci@systeme.lip6.fr/msg06706.html
+> > >
+> > >  parsing_c/parsing_hacks.ml | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/parsing_c/parsing_hacks.ml
+> > > b/parsing_c/parsing_hacks.ml
+> > > index 685a4908..5e3301a0 100644
+> > > --- a/parsing_c/parsing_hacks.ml
+> > > +++ b/parsing_c/parsing_hacks.ml
+> > > @@ -61,7 +61,7 @@ let is_known_typdef =
+> > >        | "u_char"   | "u_short"  | "u_int"  | "u_long"
+> > >        | "u8" | "u16" | "u32" | "u64"
+> > >        | "s8"  | "s16" | "s32" | "s64"
+> > > -      | "__u8" | "__u16" | "__u32"  | "__u64"
+> > > +      | "__u8" | "__u16" | "__u32"  | "__u64" | "bool"
+> > >          -> true
+> > >
+> > >        | "acpi_handle"
+> > > --
+> > > 2.21.1
+> > >
+> > >
 >
 >
 _______________________________________________
