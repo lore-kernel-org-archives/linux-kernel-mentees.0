@@ -5,101 +5,99 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FF28C2D0CE
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 12:27:49 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D64DEC2D0CE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 12:49:46 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F40FC20882
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 12:27:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9B7222064C
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 12:49:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oxML+TD/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F40FC20882
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r55YOKxK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B7222064C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C07E4855EA;
-	Tue, 21 Jan 2020 12:27:48 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 70ADF8440A;
+	Tue, 21 Jan 2020 12:49:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5zEn3OtaFnAG; Tue, 21 Jan 2020 12:27:44 +0000 (UTC)
+	with ESMTP id 7icWHdGG6mFb; Tue, 21 Jan 2020 12:49:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3338687263;
-	Tue, 21 Jan 2020 12:27:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DC65F834BC;
+	Tue, 21 Jan 2020 12:49:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 22B22C0176;
-	Tue, 21 Jan 2020 12:27:44 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6719FC0174
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C51CEC0176;
+	Tue, 21 Jan 2020 12:49:41 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 85AE4C0174
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 12:27:42 +0000 (UTC)
+ Tue, 21 Jan 2020 12:49:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6432D86406
+ by silver.osuosl.org (Postfix) with ESMTP id 7410E2037A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 12:27:42 +0000 (UTC)
+ Tue, 21 Jan 2020 12:49:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m4FnJLsbfGcV
+ with ESMTP id VBjQ3PnPET-S
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 12:27:34 +0000 (UTC)
+ Tue, 21 Jan 2020 12:49:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id CC9AF86294
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id EF24C20107
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 12:27:34 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id x6so1420444pfo.10
+ Tue, 21 Jan 2020 12:49:33 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id p9so1290890plk.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 04:27:34 -0800 (PST)
+ Tue, 21 Jan 2020 04:49:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SiAOjSQQBJyQRmqiwiRWCNQp66CEeV/KpK/nhQbCexA=;
- b=oxML+TD/495qHyzW7RphcwpXChEevCQ/gBgePpFlwcjMT+t+82QOxq6AovfTzIU4No
- QqwJiDXuw1yU+JERB2Pkoi4zlJLnFN93YlZSLaJeqNLC5G15w7rEqjc3BAgtxuXjzsN/
- OcUhuDzDgvz2R40xYNf/AvpquQbHVS+GjoNqY613P0oSGHRQh8ZsOVbzax+zO4MId7d5
- srvi+cQRBEJXoEHv9QnPMuhqJMv6glLQdNUrpqmKRPlZSiZfKbMGd2qdbFGZ0ZrLHaJa
- k28ObQ9M2T/vjbSlo+m7MVjCq+3vWv6tgybgr8QGGr67Kfrn7xXeXo2MJzF02gzZWfXk
- Ms0g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QSX3p7g/5+mGyY0QbppVn7Dy3rth1hiQMkYqW3UKtds=;
+ b=r55YOKxKOjaGqMzpf9rvWrfHzXFrtKq54xZ8ZzKZz1tZHG4xSG/F51ZBV3dq9Wk69H
+ RJSYJfopA9X1NU6lvr1ibkGo36C3YbtKms0oS3DWTE8eHI0tUVTDqOCrv0Ke3UypAmkm
+ xbr/7cfk35tSzR7c+OhOixYeLDlg0Fu8WDZXrsUxY7P3AA2rjnQRWAckuhe46ST6nCVC
+ pHDXke+7++2GLBxqFOf4Trj6FvBDJgZlxSNlbcJNpcrjALVR68JgIv/V1qTwezkRaK4s
+ s4XryJ5AXaufZIdbF3dAlBPjZS1HzShnIFxwKBsGoMt28sPpRo3ime+JC9DkLEp6Mzta
+ GGbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SiAOjSQQBJyQRmqiwiRWCNQp66CEeV/KpK/nhQbCexA=;
- b=qfxIqKVQn++qr3AbtLpXuqXfxyATmEMBFzVNdNf2hv5850xqiqoOUanfSeCKS4Zz+m
- qHjafs2UbQMX87nfMJ2p+EpKuq5wPV0r/xZ9lf1DtRWiX/R/5sNZnuM5sJJUB9U7xW0/
- RngRYhdbgqbXuVB/ehgnMK/VU3P7NSRnbmS+eDDsQn/vjWyWy/PAfZLlUQogZ1z39yii
- La/RHQMKGkInte7FVA9jy1JGo4rjdsSeOJH87RNmI6k8I6+h/C4jbA3CXHxg+k9qqAUj
- ilqWBmkCJ+BApcR/iqBu5A2J4qlDZbbN8pXmSyh6/huU+3aiejhztFRhLc01u0s+2Oh7
- mE7A==
-X-Gm-Message-State: APjAAAVnPVHQjgARpmP2/s4b6lz8GaUWMtyRIUHxUQ8ufD/ykr6fH3R3
- X4r/bHNy8a5wb7bTHE/iYO4=
-X-Google-Smtp-Source: APXvYqzfDSvbgzV12uL8hxblEU0M4i0xc1CjJaroQALU5vEyKnXhETG1kuUUAhvu2ChDi/ZqYXIR1A==
-X-Received: by 2002:a63:5920:: with SMTP id n32mr5014104pgb.443.1579609654408; 
- Tue, 21 Jan 2020 04:27:34 -0800 (PST)
-Received: from localhost.localdomain ([2402:3a80:167e:da7:fcf8:ab67:c0bb:e29])
- by smtp.gmail.com with ESMTPSA id
- i9sm44381347pfk.24.2020.01.21.04.27.32
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QSX3p7g/5+mGyY0QbppVn7Dy3rth1hiQMkYqW3UKtds=;
+ b=XOQL8iCKqsF72MCjYmRX+2wMnsg6/PxgnuHWPW1EUxu1C7yYDF1Jr98JL1XAe1Az29
+ RLIzhxo7JdnitBGoe1P9A/WnfknKz7IVa5I1+iY4buTqJJJ0ejkTKp+5BwJIzvuJKQMK
+ m+nulIY9gK+m5TqHNHIxrWSWRl9uAL8WcWhTwgeQhQOwbCX0qal0UJif8HFQAYNKV7UD
+ A+ScyQTIPCNgUFQSQTojY6YQ9rHl1PS2a1yf/S16K4rmOiPuYS9PZd2Gos7zF0YJwjxR
+ MooPauG6uExN9JSz3jSPJpEQ4fq+MZ4VnrGdoWT2TmLYceEHICUNqoxq0KTLv8d9ly78
+ aVxA==
+X-Gm-Message-State: APjAAAUzd233K7oVFsIVevdPeIlNdgzW8sO66toXKY7Lw9c/M657iobx
+ PAY6AbKS5oPjbKhKrRxjNGQ=
+X-Google-Smtp-Source: APXvYqyIgR5gRAKdFCfwzwpL3gmf4F8fFRm0thwpdBo9umSnXXwdljZ2jUZHu2uDPrRHEhaIz1yO4Q==
+X-Received: by 2002:a17:902:b08e:: with SMTP id
+ p14mr5446473plr.323.1579610973429; 
+ Tue, 21 Jan 2020 04:49:33 -0800 (PST)
+Received: from localhost.localdomain ([146.196.37.201])
+ by smtp.googlemail.com with ESMTPSA id g67sm44536999pfb.66.2020.01.21.04.49.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 04:27:34 -0800 (PST)
-From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-To: cocci@systeme.lip6.fr
-Date: Tue, 21 Jan 2020 17:57:18 +0530
-Message-Id: <20200121122719.24226-2-jaskaransingh7654321@gmail.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200121122719.24226-1-jaskaransingh7654321@gmail.com>
-References: <20200121080455.24748-1-jaskaransingh7654321@gmail.com>
- <20200121122719.24226-1-jaskaransingh7654321@gmail.com>
+ Tue, 21 Jan 2020 04:49:32 -0800 (PST)
+From: Amol Grover <frextrite@gmail.com>
+To: Jessica Yu <jeyu@kernel.org>
+Date: Tue, 21 Jan 2020 18:17:46 +0530
+Message-Id: <20200121124745.14864-1-frextrite@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Cc: julia.lawall@inria.fr, Jaskaran Singh <jaskaransingh7654321@gmail.com>,
+Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
+ Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v3 2/3] parsing_hacks: Add bool to
-	list of known typedefs
+Subject: [Linux-kernel-mentees] [PATCH] kernel: module: Pass lockdep
+	expression to RCU lists
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,63 +115,84 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-bool is widely used in the Linux kernel. Certain cases of
-parsing_hacks.ml would mislabel bool.
+modules is traversed using list_for_each_entry_rcu outside an
+RCU read-side critical section but under the protection
+of module_mutex or with preemption disabled.
 
-Add bool to the list of known typedefs.
+Hence, add corresponding lockdep expression to silence false-positive
+lockdep warnings, and harden RCU lists.
 
-Stats of --parse-c on Linux v5.5-rc4 are as follows:
+list_for_each_entry_rcu when traversed inside a preempt disabled
+section, doesn't need an explicit lockdep expression since it is
+implicitly checked for.
 
-Before:
+Add macro for the corresponding lockdep expression.
 
-  nb good = 18956150,  nb passed = 134062 =========> 0.70% passed
-
-After:
-
-  nb good = 18956150,  nb passed = 134073 =========> 0.70% passed
-
-The increase in passed tokens is due to functions in
-kernel/trace/trace_kprobe.c using nokprobe_inline. For instances of
-nokprobe_inline bool, nokprobe_inline is labeled as a CppMacro.
-
-Examples of this in the --parse-c diff are as follows:
-
-Before:
-  passed:bool
-  passed:bool
-  passed:bool
-  passed:bool
-  passed:bool
-
-After:
-  passed:nokprobe_inline
-  passed:nokprobe_inline
-  passed:nokprobe_inline
-  passed:nokprobe_inline
-  passed:nokprobe_inline
-  passed:nokprobe_inline
-  passed:nokprobe_inline
-
-Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+Signed-off-by: Amol Grover <frextrite@gmail.com>
 ---
- parsing_c/parsing_hacks.ml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/module.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/parsing_c/parsing_hacks.ml b/parsing_c/parsing_hacks.ml
-index 23d675cf..42ad9ccc 100644
---- a/parsing_c/parsing_hacks.ml
-+++ b/parsing_c/parsing_hacks.ml
-@@ -61,7 +61,7 @@ let is_known_typdef =
-       | "u_char"   | "u_short"  | "u_int"  | "u_long"
-       | "u8" | "u16" | "u32" | "u64"
-       | "s8"  | "s16" | "s32" | "s64"
--      | "__u8" | "__u16" | "__u32"  | "__u64"
-+      | "__u8" | "__u16" | "__u32"  | "__u64" | "bool"
-         -> true
+diff --git a/kernel/module.c b/kernel/module.c
+index b56f3224b161..2425f58159dd 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -84,6 +84,8 @@
+  * 3) module_addr_min/module_addr_max.
+  * (delete and add uses RCU list operations). */
+ DEFINE_MUTEX(module_mutex);
++#define module_mutex_held() \
++	lockdep_is_held(&module_mutex)
+ EXPORT_SYMBOL_GPL(module_mutex);
+ static LIST_HEAD(modules);
  
-       | "acpi_handle"
+@@ -214,7 +216,7 @@ static struct module *mod_find(unsigned long addr)
+ {
+ 	struct module *mod;
+ 
+-	list_for_each_entry_rcu(mod, &modules, list) {
++	list_for_each_entry_rcu(mod, &modules, list, module_mutex_held()) {
+ 		if (within_module(addr, mod))
+ 			return mod;
+ 	}
+@@ -448,7 +450,7 @@ bool each_symbol_section(bool (*fn)(const struct symsearch *arr,
+ 	if (each_symbol_in_section(arr, ARRAY_SIZE(arr), NULL, fn, data))
+ 		return true;
+ 
+-	list_for_each_entry_rcu(mod, &modules, list) {
++	list_for_each_entry_rcu(mod, &modules, list, module_mutex_held()) {
+ 		struct symsearch arr[] = {
+ 			{ mod->syms, mod->syms + mod->num_syms, mod->crcs,
+ 			  NOT_GPL_ONLY, false },
+@@ -616,7 +618,7 @@ static struct module *find_module_all(const char *name, size_t len,
+ 
+ 	module_assert_mutex_or_preempt();
+ 
+-	list_for_each_entry_rcu(mod, &modules, list) {
++	list_for_each_entry_rcu(mod, &modules, list, module_mutex_held()) {
+ 		if (!even_unformed && mod->state == MODULE_STATE_UNFORMED)
+ 			continue;
+ 		if (strlen(mod->name) == len && !memcmp(mod->name, name, len))
+@@ -2040,7 +2042,7 @@ void set_all_modules_text_rw(void)
+ 		return;
+ 
+ 	mutex_lock(&module_mutex);
+-	list_for_each_entry_rcu(mod, &modules, list) {
++	list_for_each_entry_rcu(mod, &modules, list, module_mutex_held()) {
+ 		if (mod->state == MODULE_STATE_UNFORMED)
+ 			continue;
+ 
+@@ -2059,7 +2061,7 @@ void set_all_modules_text_ro(void)
+ 		return;
+ 
+ 	mutex_lock(&module_mutex);
+-	list_for_each_entry_rcu(mod, &modules, list) {
++	list_for_each_entry_rcu(mod, &modules, list, module_mutex_held()) {
+ 		/*
+ 		 * Ignore going modules since it's possible that ro
+ 		 * protection has already been disabled, otherwise we'll
 -- 
-2.21.1
+2.24.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
