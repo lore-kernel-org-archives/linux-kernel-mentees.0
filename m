@@ -7,61 +7,62 @@ X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC3F1C33CAA
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 09:35:34 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C3D8C2D0CE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 09:57:06 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5BCD522522
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 09:35:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AB96C20882
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jan 2020 09:57:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="RrM/SSSm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5BCD522522
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="hd+VnX1t"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB96C20882
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1F35D85E47;
-	Tue, 21 Jan 2020 09:35:34 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 79CA02041E;
+	Tue, 21 Jan 2020 09:57:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rrRRmq-mOHzQ; Tue, 21 Jan 2020 09:35:29 +0000 (UTC)
+	with ESMTP id ajneQi4OU4nt; Tue, 21 Jan 2020 09:57:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B062D844B5;
-	Tue, 21 Jan 2020 09:35:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4C4D6203FC;
+	Tue, 21 Jan 2020 09:57:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96370C1D80;
-	Tue, 21 Jan 2020 09:35:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 35244C1D80;
+	Tue, 21 Jan 2020 09:57:04 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 299A2C0174
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A6110C0174
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 09:35:28 +0000 (UTC)
+ Tue, 21 Jan 2020 09:57:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 18A2485E47
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9516B85DF8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 09:35:28 +0000 (UTC)
+ Tue, 21 Jan 2020 09:57:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sanSchW-JS9L
+ with ESMTP id 9_m3NqN3_JPZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 09:35:24 +0000 (UTC)
+ Tue, 21 Jan 2020 09:57:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 59ACF844B5
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6D24885C92
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jan 2020 09:35:24 +0000 (UTC)
+ Tue, 21 Jan 2020 09:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1579599315;
- bh=N3sXOpn/r7yO4nZzeeEq+/1WxyJ7flT75iRri3qdTBU=;
- h=X-UI-Sender-Class:Cc:Subject:From:To:Date;
- b=RrM/SSSmpI2RUyoK91KZyj9cXmHWZYPCXKKN0JfVALhIPHmKP7ioI7KLoYpBEIDTO
- 5uarntIOZbGMSdCx92yEb6+epYsMC8mpL6dKJbscPFbLqksa9JbxZ+KdkGzD4HtlY8
- uDh6PjUyK7O/G/Uv+ZLtt3dMnrt0rcKqWHnOYsZM=
+ s=dbaedf251592; t=1579600617;
+ bh=dt1jt9pSwcGGnPZLg62VDnvqmFQRxIbXRYuVwEmInNc=;
+ h=X-UI-Sender-Class:Cc:Subject:To:From:Date;
+ b=hd+VnX1t8IEZyI8ag1L6umxAa27B/NGJlF9vZURe0nOrmdtNn27lnz3mCzE9V+Axg
+ PPJoQD8qoMdpmE895tyyCndl4X8rs1GDiTwcuFQHGqx8qgjiDXARI5HjA+3scLYuJJ
+ V4n3ABcg0NZ75X27InzSy6yAp5gFcqe4qDRa/kKQ=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.49.33.93]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0Lj2XW-1jTS8r3AhK-00dJ0v; Tue, 21
- Jan 2020 10:35:15 +0100
+Received: from [192.168.1.2] ([78.49.33.93]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MUBPu-1j23SN0Iny-00QyPh; Tue, 21
+ Jan 2020 10:56:57 +0100
+To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
 From: Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -106,39 +107,38 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
-Message-ID: <9dd96239-49d0-067a-e30d-0908bb6b034d@web.de>
-Date: Tue, 21 Jan 2020 10:35:06 +0100
+Message-ID: <7f56dadb-0fde-359c-2b88-f812b0858ac8@web.de>
+Date: Tue, 21 Jan 2020 10:56:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
 Content-Language: en-US
-X-Provags-ID: V03:K1:l6m5nzxNdAlqNYDHSkQGl7fo/EjG72vYMtLcaPwNXSuxvPsshHz
- URMU7C6owr2ay5oFEMUBCmrX/86+pnaLY389A5AtLteMCR7KpJkIzVugBGK8voC2fZfH0tR
- 8rwFjh43E7toKajSMXxQkkb6MQJQ3v5NM3f6was6PAzoxzuELD5yyBF/IIpbIRGxlSiAL2+
- gexBbOAkWU9nRH7i7h7ag==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LfCeJXkAIhE=:lRVTxNZW0Rtczp30A7NEPw
- lERFO9e/MXPyUMFlSDne7VqukQ3qDdbfFymE9Ut/6oCMWFW8zCz4L+wMZGC2dcMtvUNs0osol
- GAhqc7gpMJLB/syld6ROOq1VFFLWVPgvjx3JqnQVJkTzGfFAAaeOLebgnpNlRR99MZI6XnXAy
- 5CCafJc1xg3kTqNj+ONbCGUGbVn09tqiXxnU6526mtQQ+FadDMp0/RlzglADzy3o57zDpmAil
- noO5qdTRk3O8qUYUbZ1K9GRW28E01OO22Va7OjyaJViiPSZM2siCHkdX5zR20pJ48hEGgS+Ax
- 6zCQKR1AQEvOKXEBlgZxp/H3Rl3plzmTYM1K4oI5idBQgYbqx2WL7nXauFqlkMIY/Qcw9wMKD
- 2QM5w9nD8yvuKN645XC99tYfUBMHqK4sn7jacm2toHBWYssmXvzqeCcWLmrCb7LmLLVyZTiFt
- 8fFYlozSbW/rk5/WxCPiefleeFthuN8CLx46zP+1Mupdek28Qv+2DpO7kSWENFW0iGWJXZ3jH
- YKl1hYR5OSFqv3aYWMptJ4gAT8u8WXpG2IuVGII1m/OpJZ9hxlEolsxf1mzYBXQix7Tmzmr2O
- nv4BwXLLikP26Wpbh/JZUTrTAkvsuLQs/TsCjCOE2SgSREV2HYcVvIg0ZaSYICeVEKeScyo7V
- zXV/8sohw8kL1mt6R32WTNfhuhCXFFl8gYuVx2bwp7pU05kk7ntMOmIeuNdiVQTOZuuiGCl2f
- vCvhn86h0axxSfUiEwbbJHeilAddAzpnz/NoMplV7Ti4EyTNaxmxCZSZB4QlEAbG80fPUYsqH
- l/8qPdEdSu3g26eg4h/DUKKKe6llziMAwu7D824vkEPjap9vn+zu4isl78ebbWobu+ftmBp/W
- Q46Pi9zRt7dLZ4jLLz8/20dwtmqUnJpbcqS8esq6p6NvFaaR9FL4+6GbYL3vLNycEWC0B05Wm
- oQvlcqUyY1UBYVGHYfhhYkchUkekOO7zKXk9yjLON+NwecSp7JzJ9eDZO/TSC9iS3LuG0F4lx
- c2/ch7kw/Bjklne8uHLgliMSa5l1z5GSdFwxysB/r0zwBXNMFpYGuKzfV4oqzAnHudm5dYaVW
- cFhbEKi+3Sgano5I9b8pexGxuSBYmd7WT6cuWjwt9uD4T8ZOj3JngkbYrLvJEHbZIfE30Tmlw
- mhju7wtTOOWgJUnbQT+YU1lvB5mOtPrSuth2DZhv/qMBEflC+rTofykEtVVvkblD1+78mEJTV
- fbZ4vPOOLpDb19KE2Njz6KaqIOMsp5VqjAVK/wfd+i29hDH5sQyzDwlafkMc=
+X-Provags-ID: V03:K1:CUC1lwa25JVFAIT1WzeiMV9Li5jUPZHH33Sdi3OlrZDrCEPwlx/
+ vVJMGpBoSkPiDD5jWnsVAYMJl8q2IRG3aj72XVazB8n5a3aJo3hs2fGJI4o3oQ2A9xP2oqL
+ qQ2mJ5NANNvp8Cyr1F4T9goYjf+4Xi00E5Y+usFL5box4bVTgpxE50FoFpJZM2aiJsVJhuU
+ x7vO+tTizf9ypLlXYGQVg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xy/kaGqoJxo=:W8GNXF7P/4OfejcyJV1VoD
+ 4bWrr5cFuEW0rRKTrHOK+Hjm0jX98TuDIAuaitWwgV9B22VjELTlx/aaMHQGKNcY3AlXf++od
+ I/ptD0P8Xtz/yAFoYzfdnknJmX1WLQ2d8Yhr729r6BMkmy0oxQ01SssktE++oTAzvmGc7r0w9
+ elmtRPrOGNL2vckpgdtQZA9sGUFglxaFsddoqxTnpq4GxzGBTWqiBkCXnmKA9rRYpFYAIxpZr
+ KuyVvVMm/l4Gwe8yl9Jnn737t/huBnN39m3JDWVBrVBjDLAS6vmDmqqb+bI1lEqjVAi/tel0z
+ hagoE6+hOmIL6+w4QrPIOlLYFN7ivPHLNbqUJsdx25QPOhK1LZXSaCEaeax8z85eXwTMGy1bK
+ NkIbqKA6s8I5AUS+rJP4U4uD+T5evXMZliEVfJ+xLi3dwM189NUeHFiE2U0JRkMCpkv8A6KQn
+ n43yq8DZQ639r8yPvGRlIbW0tzA09CIk1uAG0GbZjzcIrTNBHqaB2BpLl+HOUiZhUES9eRXmS
+ 7ub60R31U9+N39TCCe0/71Xe3Mb+ZbaZeGBseSQ8McwXfXYnulOBeoI3KDGUQ2gPCgoc3D4xi
+ s3hxlnBRfeWTSqEBt06BL6kKrAvcab1GOmarupEJiEkf4z5h5joTqOmaIsGHUmS9hFcNxdHD/
+ 00oJu6bmeeQXKyNMl4HtLKx0egroRogzvYHE3Hx8OVSlK2qvVB8WCkTRNvoJj+IsSZRcWkdzu
+ inBnw95kNe4W9Oz9Yxzx/9mFPWHhJyOh5oe4mwHm0kU6grd/bYFsJ26iN4HjGues3RN/I+Xoy
+ nGBsMHvt8expL4z0MJwDBYNLQKOhy+MQB0XZIw8v1IKIiUmysG9NPLzlPC1bqT//1BuI5G6F0
+ iZCQewH1sQmY06+V4JDxkZgFd/0jCWZsuTGZIjCGbdI2bNlV2MrvwoqZQlUqQN5hiLo0UBwU2
+ Co9QciFWbi6X7pCPraFs2g9JUMXA0gGqWtpVFgQVRLnoTXwxzD0968Xtz3IaeD4627FSxDr+M
+ aFspBzACQsggZmRPyNVmbkVlGIp4U0HmmAHUb/Vq5XI+jOv32mbUQxT5LAwDC1lGFODB5ua3/
+ Qz0gVwNVO5fGB6jZkA4qXFb24lC8yzUfWk2mYwL1ZJri7aIsHaj6ZARIuMnqSatueusHSieXN
+ 7vuGWeHuSLjhukIxksbbYPv9GSgQpVr6iL54jzZ2vFyJN+U/xFof1NR1gZPXr/lPXpXkh6/T/
+ YqQCbX00hwRVja+vLJhQ2PDhApNYpx0EMkO41vKX9JMesMg6OmnWsW2wERfk=
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH] parsing_c: Handle case
-	of macro before typedef
+Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH v2 0/3] cocci: Improve
+ management of macros before typedefs
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,17 +150,30 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-PiBBIGNhc2UgaW4gcGFyc2luZ19oYWNrcy5tbCBzb21ldGltZXMgbWlzbGFiZWxzIDxtYWNybz4g
-YXMgYQo+IHR5cGVkZWYgaWRlbnQuCgpDYW4gYSB3b3JkaW5nIGxpa2Ug4oCcYXMgYSB0eXBlIGRl
-ZmluaXRpb24gaWRlbnRpZmllcuKAnSBiZSBuaWNlcgpmb3IgdGhpcyBkZXNjcmlwdGlvbiBvZiBh
-IHNvZnR3YXJlIHNpdHVhdGlvbj8KClJlZ2FyZHMsCk1hcmt1cwpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5n
-IGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRw
-czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJu
-ZWwtbWVudGVlcwo=
+> If <typedef> is a known typedef (such as u8 or *_t) then label <macro>
+> as a CppMacro. Subsequent cases will label <typedef> correctly as a
+> typedef ident.
+>
+> Also add bool to the list of known typedefs so that cases of
+
+Can a wording like the following be nicer for such a change description?
+
+  Label <macro> as a CppMacro if <typedef> is a known type definition
+  (such as u8 or *_t).
+  Subsequent cases will label <typedef> correctly as a type definition identifier.
+
+  Add bool also to the list of known type definition identifiers so that cases of
+
+
+Regards,
+Markus
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
