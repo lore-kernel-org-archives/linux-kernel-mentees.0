@@ -8,95 +8,93 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DD93C2D0DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jan 2020 17:03:35 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D215C2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jan 2020 17:05:02 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DA1862465A
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jan 2020 17:03:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5F82121569
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jan 2020 17:05:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="udoNc8+p"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA1862465A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MiEOeaY9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F82121569
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AF6D487E19;
-	Wed, 22 Jan 2020 17:03:34 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 48C2220512;
+	Wed, 22 Jan 2020 17:05:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id luVJVjBmNCc1; Wed, 22 Jan 2020 17:03:34 +0000 (UTC)
+	with ESMTP id 2T58YOPDTRe0; Wed, 22 Jan 2020 17:05:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4452887E0A;
-	Wed, 22 Jan 2020 17:03:34 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A7CEC2107D;
+	Wed, 22 Jan 2020 17:05:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 27B33C1796;
-	Wed, 22 Jan 2020 17:03:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 955FCC1796;
+	Wed, 22 Jan 2020 17:05:01 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7F366C0174
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A10D4C0174
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jan 2020 17:03:32 +0000 (UTC)
+ Wed, 22 Jan 2020 17:05:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 6853F204FE
+ by silver.osuosl.org (Postfix) with ESMTP id 8FC502107D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jan 2020 17:03:32 +0000 (UTC)
+ Wed, 22 Jan 2020 17:05:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id B-CCEIIfBouq
+ with ESMTP id FFTbNTHmKVkB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jan 2020 17:03:32 +0000 (UTC)
+ Wed, 22 Jan 2020 17:05:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by silver.osuosl.org (Postfix) with ESMTPS id 05ECE2036D
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 1894A2036D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jan 2020 17:03:32 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id e11so165795pjt.4
+ Wed, 22 Jan 2020 17:05:00 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id b9so3812986pgk.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jan 2020 09:03:32 -0800 (PST)
+ Wed, 22 Jan 2020 09:05:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=jqNBkbZMwy19kOHcx6NrygN9IcG823sl9KjLJVX13II=;
- b=udoNc8+pJuT1/uLXNiK/pdBWmz4h5ouYltOmOXxoesWun39QRITmN2aPCFYQurU1yr
- zANY36cnhereu90S2EOXl+gUtZOy/uMty/7j+ukXQlE1/Dfkwnieuw4opEpaux0Eos/k
- T3CaW1rdIFo/Fw6jMYE7xwFZwjJ6u3qoweN4+reZw3dJXhDfEgeJEWnwiNeWaINTr8Aq
- xA60sss57Rq+7/EHNVwlLB6VzhO3yhq5S4I/SXA8KZme5qbJqmBs7iN1TuaxF3/5qEd2
- ZQu0vOXzMgtcJdO55ITMCXUYlfa4byZjiRQiRMsKLl8kGBQTxb4kBzJ7Sl70QQLSMNjl
- EI/w==
+ bh=8QgKyiW0upu1Q+szE5cYtvDG9vOJuAl1OpeZnvTZVEo=;
+ b=MiEOeaY9kdqB8tM2DEWTmU6WQEOBSN25csdV/dunSwN65KQayZ2vpbrRRSl12K9Jgu
+ HXf86q8yhkgvpyxzQ5wvyyn6bbcqkAulGpMpU/x0X9OEwvxQRnihQCZOWHI3CoQhC/ab
+ Qf5TsiHtNaSsqETuS5UXb+TdCqQgkf503b7rxEQhdKHvgCOcLym5G6AHto0rAdM74tw5
+ QY1Uhxu9oMMLGRK9JBBN0WZIb2ls96L3wyHnj8n2t3JXNHSA8inI7gO6utTzlMBtm4l7
+ H6YkYUWIHGzE2v9EyeUqismEmgPBQgYIWLMGp/VPvN8ivEl7lsopgw6o90oAxdUYzHzN
+ 3/dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=jqNBkbZMwy19kOHcx6NrygN9IcG823sl9KjLJVX13II=;
- b=lo1wJCht+ublpsLe21s4ojpWyxN35k/CkE5l4G7ksKUjcT6Bl5s1USMVnjFEoCbvp7
- 8BqsKEElybN8RherQRPYVosj6A8vq2BQWPtr+0Vsvb3GBBZiFrpU8zrIj+BBYM3UVePM
- d2GFoomSsVNKVX1AVvnDrFMoEmOCYQIekT7iY1hI2+kmw1nxG2GC6dGQPckFHtVGli61
- zMEs7//1OVZsYpQNOaKjUjzzR1IOX/8tLmSI9OcVvLBWdMP3UAPtb4zX5StXhYeQk2rx
- ONidWCXKn+eLWHIuoIOxVkw2uJ9NNXspAv6LZhKXmKZC7eRQOS1k5TcfhF3njYwbVfP1
- NRdQ==
-X-Gm-Message-State: APjAAAXrgbx8bf98qFx2u1nRwkx2E7ZF0QlWhuHDQJpL6NEOeXzkaLce
- 86H9urhiYQ7y4az0J7zR/w==
-X-Google-Smtp-Source: APXvYqy99bLz1JWoyph9iIgOzcLd/caqRGosXjDmnNy32D/Yy85xL9gRmYMlNuhEsnqM5Xbl3ZZ63g==
-X-Received: by 2002:a17:90a:fa88:: with SMTP id
- cu8mr3848711pjb.141.1579712611677; 
- Wed, 22 Jan 2020 09:03:31 -0800 (PST)
+ bh=8QgKyiW0upu1Q+szE5cYtvDG9vOJuAl1OpeZnvTZVEo=;
+ b=Bofgfq/+BMFlffEi0t5Ucd4evTYH/pZwSu03wzEi6zkKRiMLjHdgEeggtbz4rQdFCJ
+ Kwx0TpNnvpl9RXuLX7hRtXIZe9uzcvPeMnOKYEaaLG+wBz8E2rlAC3BqcdtCW1GbaXR0
+ Yb/Udlt7y1Yz+0XGpANuEsqho+lpUT0kZs1QmgoMsddYGc06a3To+5rWNuOwxwlaYNqI
+ Bf/FKDtq9z+wgbl6Ns4V4y9OccCXvuLN3YNUm0v09+YIO2b95oARpgV/Ot8N6vKyc4nW
+ RD+TQzJzzxg8bclzhlGLXD3bCHD48dD0gmhnt29Y4j3v/zatV5lmZJmQYrFalFrrNvLe
+ 1hLw==
+X-Gm-Message-State: APjAAAVURDFTtiVq/2eF8dVhxsxQLb2oL8Ia4GlV0+MPHkPzPRlLX4dr
+ sjrV0SYpdTNgH7+2iJnxsg==
+X-Google-Smtp-Source: APXvYqyX/P9oePdmnshAVZLFNwM9QuwuiD9JHWbvwEAoCgBTDQkKNh07krpp1ELPjLALfeQDppTOig==
+X-Received: by 2002:aa7:96f9:: with SMTP id i25mr3471919pfq.161.1579712699709; 
+ Wed, 22 Jan 2020 09:04:59 -0800 (PST)
 Received: from madhuparna-HP-Notebook.nitk.ac.in
  ([2402:3a80:1eee:fc60:1df1:6c1a:3227:9ec0])
- by smtp.gmail.com with ESMTPSA id b8sm48682682pfr.64.2020.01.22.09.03.20
+ by smtp.gmail.com with ESMTPSA id b42sm4001350pjc.27.2020.01.22.09.04.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 09:03:31 -0800 (PST)
+ Wed, 22 Jan 2020 09:04:59 -0800 (PST)
 From: madhuparnabhowmik10@gmail.com
-To: steffen.klassert@secunet.com
-Date: Wed, 22 Jan 2020 22:32:46 +0530
-Message-Id: <20200122170246.20177-1-madhuparnabhowmik10@gmail.com>
+To: jeyu@kernel.org
+Date: Wed, 22 Jan 2020 22:34:47 +0530
+Message-Id: <20200122170447.20539-1-madhuparnabhowmik10@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Cc: paulmck@kernel.org, linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- linux-crypto@vger.kernel.org, joel@joelfernandes.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, joel@joelfernandes.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] padata.h: Annotate parallel_data
-	with __rcu
+Subject: [Linux-kernel-mentees] [PATCH] module.h: Annotate mod_kallsyms with
+	__rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,28 +116,30 @@ Sender: "Linux-kernel-mentees"
 From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 
 This patch fixes the following sparse errors:
-kernel/padata.c:110:14: error: incompatible types in comparison expression
-kernel/padata.c:520:9: error: incompatible types in comparison expression
-kernel/padata.c:1000:9: error: incompatible types in comparison expression
+
+kernel/module.c:3623:9: error: incompatible types in comparison expression
+kernel/module.c:4060:41: error: incompatible types in comparison expression
+kernel/module.c:4203:28: error: incompatible types in comparison expression
+kernel/module.c:4225:41: error: incompatible types in comparison expression
 
 Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 ---
- include/linux/padata.h | 2 +-
+ include/linux/module.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/padata.h b/include/linux/padata.h
-index 23717eeaad23..72a081dd2b73 100644
---- a/include/linux/padata.h
-+++ b/include/linux/padata.h
-@@ -143,7 +143,7 @@ struct padata_instance {
- 	struct hlist_node		 node;
- 	struct workqueue_struct		*parallel_wq;
- 	struct workqueue_struct		*serial_wq;
--	struct parallel_data		*pd;
-+	struct parallel_data __rcu		*pd;
- 	struct padata_cpumask		cpumask;
- 	struct blocking_notifier_head	 cpumask_change_notifier;
- 	struct kobject                   kobj;
+diff --git a/include/linux/module.h b/include/linux/module.h
+index bd165ba68617..dfdc8863e26a 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -429,7 +429,7 @@ struct module {
+ 
+ #ifdef CONFIG_KALLSYMS
+ 	/* Protected by RCU and/or module_mutex: use rcu_dereference() */
+-	struct mod_kallsyms *kallsyms;
++	struct mod_kallsyms __rcu *kallsyms;
+ 	struct mod_kallsyms core_kallsyms;
+ 
+ 	/* Section attributes */
 -- 
 2.17.1
 
