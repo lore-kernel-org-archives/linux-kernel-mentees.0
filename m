@@ -2,114 +2,83 @@ Return-Path: <SRS0=+2mV=3M=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23DE1C2D0DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jan 2020 16:08:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4413C2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jan 2020 16:41:11 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF6A220684
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jan 2020 16:08:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7ED3424125
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jan 2020 16:41:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XCrBGgrY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF6A220684
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="wKcMTcEN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7ED3424125
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BC9E8883C1;
-	Thu, 23 Jan 2020 16:08:58 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 548EC883E2;
+	Thu, 23 Jan 2020 16:41:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kTsO+MZ4jloG; Thu, 23 Jan 2020 16:08:58 +0000 (UTC)
+	with ESMTP id naWqPCgp+XF5; Thu, 23 Jan 2020 16:41:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4CD83883A8;
-	Thu, 23 Jan 2020 16:08:58 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D401A88395;
+	Thu, 23 Jan 2020 16:41:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 41054C18DD;
-	Thu, 23 Jan 2020 16:08:58 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3FEB4C0174
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B9A05C0176;
+	Thu, 23 Jan 2020 16:41:10 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7C741C0174
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jan 2020 16:08:57 +0000 (UTC)
+ Thu, 23 Jan 2020 16:41:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2BD59883A8
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6FFDD857C2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jan 2020 16:08:57 +0000 (UTC)
+ Thu, 23 Jan 2020 16:41:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id knEZDEvwJjfk
+ with ESMTP id 7Ihoec4h7VCw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jan 2020 16:08:56 +0000 (UTC)
+ Thu, 23 Jan 2020 16:41:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9163D8838F
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id CE43A84AAD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jan 2020 16:08:56 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00NFwZZJ007967;
- Thu, 23 Jan 2020 16:08:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=sIDGp/oEBR2StqKw04W1x4gi0FRiIz5M+YjbmfBvszs=;
- b=XCrBGgrYj9bndyOobOoM8k5DYXHJfr1LPqt3+wr5qcoGmJLNtIfq78+281u4BfrvfzVi
- a0I2DtfFLW/snynjFqvrhnIChESd8xA1roDVJNldRARO5BVL6VEIGSHJRRg0Ftmk4rwH
- oskLVpTfdnGnS5U2mRfYZCWITkC1bB103TNoaQfnJvPlXfpiNlP1rWrveGrqKSHGi3Sy
- LWNggW28CHBmk2pI1zRgux+6PXvl812eQuCoyuCVTK9oOploaaLBnh4GlyZQk4TMI2mV
- 8X2V2YSIIYSx6IJlDSg8mPkEdDudQHUAY7z+KPkPcFiH3lSiC3k8iphraCxqWqKQzN7A lA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2xkseuudfv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Jan 2020 16:08:45 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00NFxJMg072214;
- Thu, 23 Jan 2020 16:08:44 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2xpq7n2pej-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Jan 2020 16:08:44 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00NG8etx011729;
- Thu, 23 Jan 2020 16:08:40 GMT
-Received: from ca-dmjordan1.us.oracle.com (/10.211.9.48)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 23 Jan 2020 08:08:40 -0800
-Date: Thu, 23 Jan 2020 11:08:50 -0500
-From: Daniel Jordan <daniel.m.jordan@oracle.com>
+ Thu, 23 Jan 2020 16:41:08 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
+ [50.39.105.78])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8EE2E21734;
+ Thu, 23 Jan 2020 16:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1579797668;
+ bh=SYOcg05hp0GKFRdLdX4OKweCK3oCGyHJiXYgJpSn9B0=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=wKcMTcEN8AXJfZr+rw4lPetdkINSK3OPE6IJftTzck/7ynnPzQnrDMgqysqUX83QW
+ 0tiuizAa/ivcdupeGkVy2gXHCxNRGeDDJb8JDwLAoTR9Cqtu+zmNj2aUNh9Ya/tF6H
+ C4wWOKEqGw4r2TU86XoKPT5u6foDIhICEl0lrXgM=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+ id 593DA3520C31; Thu, 23 Jan 2020 08:41:08 -0800 (PST)
+Date: Thu, 23 Jan 2020 08:41:08 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
 To: madhuparnabhowmik10@gmail.com
-Message-ID: <20200123160850.gcwoydrdpw6saotk@ca-dmjordan1.us.oracle.com>
-References: <20200122170246.20177-1-madhuparnabhowmik10@gmail.com>
+Message-ID: <20200123164108.GQ2935@paulmck-ThinkPad-P72>
+References: <20200123145305.10652-1-madhuparnabhowmik10@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200122170246.20177-1-madhuparnabhowmik10@gmail.com>
-User-Agent: NeoMutt/20180716
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9508
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=385
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001230130
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9508
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=440 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001230130
-Cc: steffen.klassert@secunet.com, Herbert Xu <herbert@gondor.apana.org.au>,
- paulmck@kernel.org, linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- linux-crypto@vger.kernel.org, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] padata.h: Annotate parallel_data
+In-Reply-To: <20200123145305.10652-1-madhuparnabhowmik10@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org, peterz@infradead.org,
+ oleg@redhat.com, linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+ mingo@redhat.com, ebiederm@xmission.com, joel@joelfernandes.org,
+ christian.brauner@ubuntu.com, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] sched.h: Annotate sighand_struct
 	with __rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -122,31 +91,74 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-[add Herbert]
-
-Hi Madhuparna,
-
-On Wed, Jan 22, 2020 at 10:32:46PM +0530, madhuparnabhowmik10@gmail.com wrote:
+On Thu, Jan 23, 2020 at 08:23:05PM +0530, madhuparnabhowmik10@gmail.com wrote:
 > From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 > 
-> This patch fixes the following sparse errors:
-> kernel/padata.c:110:14: error: incompatible types in comparison expression
-> kernel/padata.c:520:9: error: incompatible types in comparison expression
-> kernel/padata.c:1000:9: error: incompatible types in comparison expression
+> This patch fixes the following sparse errors by annotating the
+> sighand_struct with __rcu
+> 
+> kernel/fork.c:1511:9: error: incompatible types in comparison expression
+> kernel/exit.c:100:19: error: incompatible types in comparison expression
+> kernel/signal.c:1370:27: error: incompatible types in comparison expression
+> 
+> This fix introduces the following sparse error in signal.c due to
+> checking the sighand pointer without rcu primitives:
+> 
+> kernel/signal.c:1386:21: error: incompatible types in comparison expression
+> 
+> This new sparse error is also addressed in this patch.
+> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> ---
+>  include/linux/sched.h | 2 +-
+>  kernel/signal.c       | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index b511e178a89f..7a351360ad54 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -918,7 +918,7 @@ struct task_struct {
+>  
+>  	/* Signal handlers: */
+>  	struct signal_struct		*signal;
+> -	struct sighand_struct		*sighand;
+> +	struct sighand_struct __rcu		*sighand;
+>  	sigset_t			blocked;
+>  	sigset_t			real_blocked;
+>  	/* Restored if set_restore_sigmask() was used: */
+> diff --git a/kernel/signal.c b/kernel/signal.c
+> index bcd46f547db3..1272def37462 100644
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -1383,7 +1383,8 @@ struct sighand_struct *__lock_task_sighand(struct task_struct *tsk,
+>  		 * must see ->sighand == NULL.
+>  		 */
+>  		spin_lock_irqsave(&sighand->siglock, *flags);
+> -		if (likely(sighand == tsk->sighand))
+> +		if (likely(sighand == rcu_dereference_protected(tsk->sighand,
+> +						lockdep_is_held(&sighand->siglock))))
 
-This recent patch to padata in the cryptodev tree has fixed these sparse errors
-and is heading for mainline soon:
+Given that the return value is never dereferenced, you can use
+rcu_access_pointer(), which may be used outside of an RCU read-side
+critical section, and thus does not need the lockdep_is_held().  So this
+change would save a line of code and would be a bit easier on the eyes.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git/commit/?id=bbefa1dd6a6d53537c11624752219e39959d04fb
+							Thanx, Paul
 
-Thanks,
-Daniel
+>  			break;
+>  		spin_unlock_irqrestore(&sighand->siglock, *flags);
+>  	}
+> -- 
+> 2.17.1
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
