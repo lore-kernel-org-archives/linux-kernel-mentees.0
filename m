@@ -1,84 +1,109 @@
-Return-Path: <SRS0=+2mV=3M=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=sPDn=3N=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F21C33CAF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jan 2020 22:04:49 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EABC2D0CE
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Jan 2020 04:26:24 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E9BE21569
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jan 2020 22:04:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E9BE21569
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=iogearbox.net
+	by mail.kernel.org (Postfix) with ESMTPS id 41A392072C
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Jan 2020 04:26:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sjKprFmI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 41A392072C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 264B48851F;
-	Thu, 23 Jan 2020 22:04:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1142F86C5E;
+	Fri, 24 Jan 2020 04:26:24 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2fUf1nKnNQcg; Fri, 24 Jan 2020 04:26:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1487086BB9;
+	Fri, 24 Jan 2020 04:26:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE096C0176;
+	Fri, 24 Jan 2020 04:26:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4DF7C0174
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Jan 2020 04:26:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 952A3884EE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Jan 2020 04:26:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0-DbhloBFDqh; Thu, 23 Jan 2020 22:04:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4E8A4884ED;
-	Thu, 23 Jan 2020 22:04:48 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 345F2C18DD;
-	Thu, 23 Jan 2020 22:04:48 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0B00C0174
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jan 2020 22:04:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A9DB722274
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jan 2020 22:04:46 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rGINjPZOH8nL
+ with ESMTP id Bi--4l-5push
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jan 2020 22:04:45 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
- by silver.osuosl.org (Postfix) with ESMTPS id 2F71C20377
+ Fri, 24 Jan 2020 04:26:21 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 16D65884D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jan 2020 22:04:45 +0000 (UTC)
-Received: from sslproxy06.your-server.de ([78.46.172.3])
- by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89_1) (envelope-from <daniel@iogearbox.net>)
- id 1iukaX-0004Li-4E; Thu, 23 Jan 2020 23:04:33 +0100
-Received: from [178.197.248.20] (helo=pc-9.home)
- by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <daniel@iogearbox.net>)
- id 1iukaW-000K4o-HK; Thu, 23 Jan 2020 23:04:32 +0100
-To: Amol Grover <frextrite@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
- "David S . Miller" <davem@davemloft.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Martin KaFai Lau <kafai@fb.com>,
- Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
- Andrii Nakryiko <andriin@fb.com>, brouer@redhat.com, toke@redhat.com
-References: <20200123120437.26506-1-frextrite@gmail.com>
- <20200123171800.GC4484@workstation-portable>
-From: Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <991cab17-3616-4cb4-60f5-5fe235e5bec8@iogearbox.net>
-Date: Thu, 23 Jan 2020 23:04:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Fri, 24 Jan 2020 04:26:21 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id e11so487158pjt.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 23 Jan 2020 20:26:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ESSVHC6qV85e8H5wIqp30FQ6rrj3HanCaflPIZpS5p4=;
+ b=sjKprFmI5+PynbYnEaH+yspbuyLdAbql3dsNyfASc9i/V4WnLGJNLX8PkReWZWxmSX
+ UJpDaa95WQ6TOfGT8pV0i4/xfWk/enTJmSL+nxzS9NsUXqpPT0Ase/1tMHhjV9AQeHJS
+ tZ3eVS/rVqnHyRlK17Ck4b9IpC6Gx4xd+RYSF2lrbubZ42ydLyFnim0XwgU+hS0F/CyA
+ Rj1WahUr0qft/ln24gUFecseWvdTj8nABLi7TZMdJGA4Zy9vztUyB1rcGM1Ec3FV2d9G
+ t+8W/4Z1dzG2o3aAPLkVI4LPMvMj2WRMnPu5jY17GEy31k9RhMkfnyuy+uVTB61E5gtv
+ h37g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ESSVHC6qV85e8H5wIqp30FQ6rrj3HanCaflPIZpS5p4=;
+ b=uMChmG4a1/81HcBDwwCFP6RncQ9mYb+g/DTNbIJpzJC3PY9oDpSBnLuYixZu0T/EMM
+ ktqYT3TB/MT1q4z8EwPhohuha1hFx/bpMz+Y4kQq+kaUUUCrdjtofwxup5+8c16MNPqi
+ D2vW+yzIsBu7eHzrUxUCk2totys+7ChjgFX1+Ol7749CCnqEhh6dUcPmaa1qIpx5HtN8
+ Jik284IVh4kwzePmvNWfdGC0ou4ADZtkZd5nYnNPyK/seE287ObYRzTEHu0pbrQ+dw5o
+ gl8nzfXXCjKYE88GKh6rEmtdUF0utNB0pJz9HJvyw17uSJjCO0mytBJrtR++mBDVWqhx
+ AYIA==
+X-Gm-Message-State: APjAAAWcBXIA+02JzrR5RWxWKlvDzCY9OrL9882vgLgsP40ce9apd6D/
+ oWtGOpEAk2B5XGn9qWhIyQ==
+X-Google-Smtp-Source: APXvYqxprB70a0uP/R+rGUDMKzsz+0tnKdqYZd8ZDy2t+H61CeoOvFKKrX7ufnu84cM9HGFooDRwhQ==
+X-Received: by 2002:a17:90a:6545:: with SMTP id
+ f5mr1243695pjs.42.1579839980685; 
+ Thu, 23 Jan 2020 20:26:20 -0800 (PST)
+Received: from madhuparna-HP-Notebook ([2402:3a80:1ee5:e37b:72:f3a9:f673:9aea])
+ by smtp.gmail.com with ESMTPSA id g9sm4381184pfm.150.2020.01.23.20.26.16
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 23 Jan 2020 20:26:20 -0800 (PST)
+From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+X-Google-Original-From: Madhuparna Bhowmik <change_this_user_name@gmail.com>
+Date: Fri, 24 Jan 2020 09:56:12 +0530
+To: Daniel Jordan <daniel.m.jordan@oracle.com>
+Message-ID: <20200124042612.GB23699@madhuparna-HP-Notebook>
+References: <20200122170246.20177-1-madhuparnabhowmik10@gmail.com>
+ <20200123160850.gcwoydrdpw6saotk@ca-dmjordan1.us.oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123171800.GC4484@workstation-portable>
-Content-Language: en-US
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.101.4/25704/Thu Jan 23 12:37:43 2020)
-Cc: "Paul E . McKenney" <paulmck@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
- bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] bpf: devmap: Pass lockdep
-	expression to RCU lists
+Content-Disposition: inline
+In-Reply-To: <20200123160850.gcwoydrdpw6saotk@ca-dmjordan1.us.oracle.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: steffen.klassert@secunet.com, Herbert Xu <herbert@gondor.apana.org.au>,
+ paulmck@kernel.org, linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+ madhuparnabhowmik10@gmail.com, linux-crypto@vger.kernel.org,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] padata.h: Annotate parallel_data
+	with __rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,25 +115,37 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 1/23/20 6:18 PM, Amol Grover wrote:
-> On Thu, Jan 23, 2020 at 05:34:38PM +0530, Amol Grover wrote:
->> head is traversed using hlist_for_each_entry_rcu outside an
->> RCU read-side critical section but under the protection
->> of dtab->index_lock.
->>
->> Hence, add corresponding lockdep expression to silence false-positive
->> lockdep warnings, and harden RCU lists.
->>
-> Fixes: 6f9d451ab1a3 ("xdp: Add devmap_hash map type for looking up devices by hashed index")
->> Signed-off-by: Amol Grover <frextrite@gmail.com>
+On Thu, Jan 23, 2020 at 11:08:50AM -0500, Daniel Jordan wrote:
+> [add Herbert]
+> 
+> Hi Madhuparna,
+> 
+> On Wed, Jan 22, 2020 at 10:32:46PM +0530, madhuparnabhowmik10@gmail.com wrote:
+> > From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> > 
+> > This patch fixes the following sparse errors:
+> > kernel/padata.c:110:14: error: incompatible types in comparison expression
+> > kernel/padata.c:520:9: error: incompatible types in comparison expression
+> > kernel/padata.c:1000:9: error: incompatible types in comparison expression
+> 
+> This recent patch to padata in the cryptodev tree has fixed these sparse errors
+> and is heading for mainline soon:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git/commit/?id=bbefa1dd6a6d53537c11624752219e39959d04fb
+>
+Thank you for letting me know about this.
 
-Applied, thanks!
+Regards,
+Madhuparna
+
+> Thanks,
+> Daniel
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
