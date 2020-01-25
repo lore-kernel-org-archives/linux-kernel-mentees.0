@@ -2,71 +2,93 @@ Return-Path: <SRS0=pD5R=3O=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA0EC2D0DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Jan 2020 15:01:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3522CC2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Jan 2020 21:48:14 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C96E720704
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Jan 2020 15:01:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C96E720704
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=inria.fr
+	by mail.kernel.org (Postfix) with ESMTPS id ED20B20716
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Jan 2020 21:48:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED20B20716
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ubuntu.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7EBC8875EB;
-	Sat, 25 Jan 2020 15:01:36 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id AF56A8675F;
+	Sat, 25 Jan 2020 21:48:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id u46wEWOFQBUD; Sat, 25 Jan 2020 15:01:35 +0000 (UTC)
+	with ESMTP id AeNnuaUq7QBD; Sat, 25 Jan 2020 21:48:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9B1D48735E;
-	Sat, 25 Jan 2020 15:01:35 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 20521866F0;
+	Sat, 25 Jan 2020 21:48:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D787C1D80;
-	Sat, 25 Jan 2020 15:01:35 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 49302C0174
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 05699C18DC;
+	Sat, 25 Jan 2020 21:48:10 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2429CC0174
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Jan 2020 15:01:34 +0000 (UTC)
+ Sat, 25 Jan 2020 21:48:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 329AD86640
+ by whitealder.osuosl.org (Postfix) with ESMTP id 14F698675F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Jan 2020 15:01:34 +0000 (UTC)
+ Sat, 25 Jan 2020 21:48:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7aOUUCVacmfs
+ with ESMTP id iNc-p2+BWAph
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Jan 2020 15:01:32 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail3-relais-sop.national.inria.fr
- (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 627A686205
+ Sat, 25 Jan 2020 21:48:07 +0000 (UTC)
+X-Greylist: delayed 00:06:54 by SQLgrey-1.7.6
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id F1D22866F0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Jan 2020 15:01:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,361,1574118000"; d="scan'208";a="336998798"
-Received: from ip-241.net-89-2-7.rev.numericable.fr (HELO hadrien)
- ([89.2.7.241])
- by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2020 16:01:29 +0100
-Date: Sat, 25 Jan 2020 16:01:28 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-In-Reply-To: <20200121122458.5513-1-jaskaransingh7654321@gmail.com>
-Message-ID: <alpine.DEB.2.21.2001251601130.3236@hadrien>
-References: <20200121080455.24748-1-jaskaransingh7654321@gmail.com>
- <20200121122458.5513-1-jaskaransingh7654321@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Sat, 25 Jan 2020 21:48:06 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q6so6325020wro.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 25 Jan 2020 13:48:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:user-agent:in-reply-to:references
+ :mime-version:content-transfer-encoding:subject:to:cc:from
+ :message-id;
+ bh=4Jsw+sl3rZeed96mR3AsM5sE56n8KXiFC5Ae1nN2OVo=;
+ b=GnitXsXBtRAuy+g9Cajs93zuTxXTkItXuz4g3lbYD8mm3dx1DAXWOXutYsgc9SsbUJ
+ /YHPU/xro5YtVWnSPG6+d/0pRdA4gXhVgUMJxW/kw6E65L7E3ev9ty86XrPRldoOkDKO
+ g8mg2reCOddLvG4UOXreiM3r13HvoAA5bWHpNmOgUvpMTES/dalgY0/gNftgbUYN3amv
+ BRd9ql7ShAb5wcpEs4/WcQdyYCbOKTnXjDWpSCKW+0dNQooW9DILSJa98SrCC3vl9igN
+ qAzCn1ynaYVrpMxA7HRrlm7gdui0csCd81EbEQbXvzh0MFwSUFCvApxyrWJ8JsaQVuJJ
+ 5RzA==
+X-Gm-Message-State: APjAAAWZkHA4lwHQe/0xGgiMSU3pQZaRVnriVAlnmJATy4trMj/0T1sc
+ +Aruv/csAqULor7kAhIrzttitqIfuCIxAw==
+X-Google-Smtp-Source: APXvYqzTlqw+XUJ74D6yIeyAQeh7UV2lyORpCkFnwkDDWbE38nkVreN+6thxGMbX5/U37+CUG7Hiiw==
+X-Received: by 2002:adf:df8e:: with SMTP id z14mr11369912wrl.190.1579988471090; 
+ Sat, 25 Jan 2020 13:41:11 -0800 (PST)
+Received: from ?IPv6:2a00:20:4003:d1ed:ce46:92a4:be2:c2c2?
+ ([2a00:20:4003:d1ed:ce46:92a4:be2:c2c2])
+ by smtp.gmail.com with ESMTPSA id g79sm11149436wme.17.2020.01.25.13.41.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Jan 2020 13:41:10 -0800 (PST)
+Date: Sat, 25 Jan 2020 22:41:06 +0100
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20200124045908.26389-1-madhuparnabhowmik10@gmail.com>
+References: <20200124045908.26389-1-madhuparnabhowmik10@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, cocci@systeme.lip6.fr
-Subject: Re: [Linux-kernel-mentees] [PATCH v3 0/3] cocci: Improve management
- of macros before typedefs
+To: madhuparnabhowmik10@gmail.com, mingo@redhat.com, peterz@infradead.org,
+ juri.lelli@redhat.com, vincent.guittot@linaro.org, ebiederm@xmission.com,
+ oleg@redhat.com, paulmck@kernel.org
+From: Christian Brauner <christian.brauner@ubuntu.com>
+Message-ID: <37A3FF92-0958-46DD-AFB1-CE72000B153F@ubuntu.com>
+Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] sched.h: Annotate sighand_struct
+	with __rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,53 +106,65 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+On January 24, 2020 5:59:08 AM GMT+01:00, madhuparnabhowmik10@gmail.com wrote:
+>From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+>
+>This patch fixes the following sparse errors by annotating the
+>sighand_struct with __rcu
+>
+>kernel/fork.c:1511:9: error: incompatible types in comparison
+>expression
+>kernel/exit.c:100:19: error: incompatible types in comparison
+>expression
+>kernel/signal.c:1370:27: error: incompatible types in comparison
+>expression
+>
+>This fix introduces the following sparse error in signal.c due to
+>checking the sighand pointer without rcu primitives:
+>
+>kernel/signal.c:1386:21: error: incompatible types in comparison
+>expression
+>
+>This new sparse error is also fixed in this patch.
+>
+>Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+>---
+> include/linux/sched.h | 2 +-
+> kernel/signal.c       | 2 +-
+> 2 files changed, 2 insertions(+), 2 deletions(-)
+>
+>diff --git a/include/linux/sched.h b/include/linux/sched.h
+>index b511e178a89f..7a351360ad54 100644
+>--- a/include/linux/sched.h
+>+++ b/include/linux/sched.h
+>@@ -918,7 +918,7 @@ struct task_struct {
+> 
+> 	/* Signal handlers: */
+> 	struct signal_struct		*signal;
+>-	struct sighand_struct		*sighand;
+>+	struct sighand_struct __rcu		*sighand;
+> 	sigset_t			blocked;
+> 	sigset_t			real_blocked;
+> 	/* Restored if set_restore_sigmask() was used: */
+>diff --git a/kernel/signal.c b/kernel/signal.c
+>index bcd46f547db3..9ad8dea93dbb 100644
+>--- a/kernel/signal.c
+>+++ b/kernel/signal.c
+>@@ -1383,7 +1383,7 @@ struct sighand_struct *__lock_task_sighand(struct
+>task_struct *tsk,
+> 		 * must see ->sighand == NULL.
+> 		 */
+> 		spin_lock_irqsave(&sighand->siglock, *flags);
+>-		if (likely(sighand == tsk->sighand))
+>+		if (likely(sighand == rcu_access_pointer(tsk->sighand)))
+> 			break;
+> 		spin_unlock_irqrestore(&sighand->siglock, *flags);
+> 	}
 
+If Paul is happy with this and nobody wants to take it I'll pick this up.
 
-On Tue, 21 Jan 2020, Jaskaran Singh wrote:
-
-> This patch series is for improving the management of the following
-> case:
->
-> <macro> <typedef> <ident>
->
-> If <typedef> is a known typedef (such as u8 or *_t) then label <macro> as a
-> CppMacro. Subsequent cases will continue to label <typedef> correctly as a
-> typedef identifier.
->
-> Also add bool to the list of known typedefs so that cases of
->
-> <macro> bool <ident>
->
-> are handled correctly just like any known typedef will be.
->
-> Changes in v3:
-> --------------
-> - Change "subsequent cases will label" to "subsequent cases will continue to
->   label" in commit messages of Patch 0/3 and Patch 1/3.
-> - Change the term "typedef ident" to "typedef identifier" wherever
->   suitable.
-> - Add metavariable symbol false to tests/macro_before_bool.cocci to
->   suppress warning.
->
-> Changes in v2:
-> --------------
-> - Group these patches as a series for clarity
-> - Add a test case for <macro> bool <ident> (Patch 3/3)
-> - Explain what has been improved with Patch 2/3
-
-All applied.  Thanks!
-
-julia
-
->
->  parsing_c/parsing_hacks.ml    |   37 ++++++++++++++++++++++++++++++++++++-
->  tests/macro_before_bool.c     |    4 ++++
->  tests/macro_before_bool.cocci |   10 ++++++++++
->  tests/macro_before_bool.res   |    5 +++++
->  4 files changed, 55 insertions(+), 1 deletion(-)
->
->
->
+Thanks!
+Christian
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
