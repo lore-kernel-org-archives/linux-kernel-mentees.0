@@ -8,96 +8,96 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA7EC3F68F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:15:19 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BA3C32771
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:15:24 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 72C09215A4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:15:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 87CDC20CC7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:15:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U4n4tTx9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72C09215A4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2BMAGxj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 87CDC20CC7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5AC1E2047A;
-	Mon, 27 Jan 2020 10:15:19 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6BAC185497;
+	Mon, 27 Jan 2020 10:15:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JPSdjhSLPT28; Mon, 27 Jan 2020 10:15:18 +0000 (UTC)
+	with ESMTP id KqFUE4IyA91m; Mon, 27 Jan 2020 10:15:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id C994C2037E;
-	Mon, 27 Jan 2020 10:15:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0395D85465;
+	Mon, 27 Jan 2020 10:15:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B921FC0177;
-	Mon, 27 Jan 2020 10:15:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7FC0C0177;
+	Mon, 27 Jan 2020 10:15:23 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 44866C0171
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C223C0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:15:18 +0000 (UTC)
+ Mon, 27 Jan 2020 10:15:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2F1F62047A
+ by silver.osuosl.org (Postfix) with ESMTP id 4800B2037E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:15:18 +0000 (UTC)
+ Mon, 27 Jan 2020 10:15:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id phSUPorIUVRi
+ with ESMTP id FvzfeKyJueYa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:15:17 +0000 (UTC)
+ Mon, 27 Jan 2020 10:15:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 5A1F620026
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id 940C320026
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:15:17 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id r11so4924856pgf.1
+ Mon, 27 Jan 2020 10:15:22 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id q8so4695639pfh.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 02:15:17 -0800 (PST)
+ Mon, 27 Jan 2020 02:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=srlge2UyLaMLQMOBuVNCorvu2hILs9zTEX6ffyYx364=;
- b=U4n4tTx9CiDzqkS0IdtHnP7N1ZHpLKh96OZLl+ZrMLImNebgom7M96D+0WF3xRUXYi
- z6iawH0aejcJDS3JkyFw3n1Zccive5w88Ab0N/TA8wp119GxrJlNosIIshJZvZdyhl6o
- H05eACtTp6dADrYdAkKMcMY6TZSw1wFh9c7x2fTEnmoS7b/PWykcoCQNOWed9OMbQKdF
- 3zVWPrSKuWWjM+P4RBdJuUileIp1Z/NGGKtqzgGobJviWPZgp1ehsJqirRCe+YaeeZ2D
- 30mynq82LB80knhA4yLn4Bfq1kjYttKZ8JxCb79F+BrENO03bl8hsGsX3cvD4q/0JQ97
- OJdw==
+ bh=JcRIPbkub/tWCLWv2xyN/6N5F607AAwY0FQRtWmXUeA=;
+ b=I2BMAGxj91JaWVFHnYf9So8bsD1dfH8idbbGesPL0ij3BPjgFCvpvLWjduaA5C8qkg
+ 8Qa2UOd3foVbMQcndVTWVnlpHv/PNu9eGY+jlTMlbamIIvBw196VKKknWRvCeGjqnGII
+ fSQhGwKhVMDj4ynx6uiUTHYjo7it5NW7KImy6H4XpdoHZW28L6ZDnSGNHdOGOhxCkQs5
+ 9t1ebEbrxNhPlpwApa/W8pVeqbRL3ovJXuWiFKAXF5LM+LJbbGheNJL2AQYnsxQJocku
+ BfMyoYnDgZXkYoUcRo1KAkkDppttvlREYu5vumOWZvCWvGurNJzFRHQPh66Feu0z/OYr
+ 9AAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=srlge2UyLaMLQMOBuVNCorvu2hILs9zTEX6ffyYx364=;
- b=Q1sfy2JchBuKFjJ8xRjGcD+9VG+mqly8smwFVoSIpHLM/5LeOV+eR9h/PQLGbecucO
- 9qGOr7gPWWf60mLPgJ6Vbufpc40IWavLPVh/zEqGfOCnTWdU4irjTrfjy+geujMrY1k0
- vyCSuMaD6NzKxn9lvtGRZkqmATi8gMPq7bbJPovzKZhZ5cLUI5A8GE6/brF9JdKX734W
- ELSp6pBxoImi2CeaM/MKmCI1C7nJHKdIZHTpHPVf+9756bfTtk6M0kpTN6iRk2un4VuS
- 7DKIC/bGw51TYR2WsXjHDY2BaW9X0de9+E8UeiekvCM7rubkryx/ldMYS24r8dlAlTYA
- xTwA==
-X-Gm-Message-State: APjAAAWsUlgIj7+oCW+/y/90iFhIlUKVjkpor5eVA7Jvv6ftBJmBbSza
- KASG03L0rVYvd/5Uc/m1lX8=
-X-Google-Smtp-Source: APXvYqysbjV2ji5EYJHV5PyvyPXacfZu6qeM1cE0RQF4rGdVXXJfVcjO/TIlowqCy56Zw1aaUiQF0A==
-X-Received: by 2002:a65:420d:: with SMTP id c13mr19176232pgq.101.1580120117036; 
- Mon, 27 Jan 2020 02:15:17 -0800 (PST)
+ bh=JcRIPbkub/tWCLWv2xyN/6N5F607AAwY0FQRtWmXUeA=;
+ b=jJSMjq9V7/AiYHZ+EodU57yh+f77Vi2vKPDnnB7Z+capWKmhPFyRVeRRmYlDlLW51h
+ 3kD0Nv6IEKfB5YHpE4PHkZ8W1vPXb+8wukR4Sra402dlTZDfl6VIcxQrV6iEhGACynFU
+ S8yPx4W/B325OkBKrygQ+72CdhG/eevLs4lQO/SzX7Tog3yhi6VTgr9X7EggA9Gd39W1
+ +sBG4dD2E7S1rC7mBeaLF1xlPK6J7WkZCpee7S2eQuTDwkCs+Vo9jP7zYn3yjQooEJXi
+ PXe26tgjrApYu6Y5NZxM8HZETuMtqT0d+n4406jK0hDbURVa/d9nQq/qIBGNYpA7yky3
+ YJPw==
+X-Gm-Message-State: APjAAAVX3e2qyvWTwsMTyLQSyH8Vh1T/pKnLKeAFC/8UiGfHv20FY0Xk
+ CAUG8CdzhatvJVGGB0v66Fc=
+X-Google-Smtp-Source: APXvYqz4cpaQhSrx7z63SDuOGFvrj5XzI/Ry023qsgX7Z6Wknq4LZXkbYdBRvnz+HNjoGYRxXi+zWg==
+X-Received: by 2002:a63:7c55:: with SMTP id l21mr18809439pgn.57.1580120122163; 
+ Mon, 27 Jan 2020 02:15:22 -0800 (PST)
 Received: from localhost.localdomain ([2405:205:c902:a5e9:3956:8df2:aee5:9cf6])
- by smtp.gmail.com with ESMTPSA id s15sm15504138pgq.4.2020.01.27.02.15.12
+ by smtp.gmail.com with ESMTPSA id s15sm15504138pgq.4.2020.01.27.02.15.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jan 2020 02:15:16 -0800 (PST)
+ Mon, 27 Jan 2020 02:15:21 -0800 (PST)
 From: Pragat Pandya <pragat.pandya@gmail.com>
 To: valdis.kletnieks@vt.edu,
 	gregkh@linuxfoundation.org
-Date: Mon, 27 Jan 2020 15:43:32 +0530
-Message-Id: <20200127101343.20415-12-pragat.pandya@gmail.com>
+Date: Mon, 27 Jan 2020 15:43:33 +0530
+Message-Id: <20200127101343.20415-13-pragat.pandya@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200127101343.20415-1-pragat.pandya@gmail.com>
 References: <20200127101343.20415-1-pragat.pandya@gmail.com>
 Cc: devel@driverdev.osuosl.org, Pragat Pandya <pragat.pandya@gmail.com>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 11/22] staging: exfat: Rename
-	variable "FatType" to "fat_type"
+Subject: [Linux-kernel-mentees] [PATCH 12/22] staging: exfat: Rename
+	variable "ClusterSize" to "cluster_size"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,49 +116,58 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Change all the occurrences of "FatType" to "fat_type" in exfat.
+Change all the occurrences of "ClusterSize" to "cluster_size" in exfat.
 
 Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
 ---
  drivers/staging/exfat/exfat.h       | 2 +-
- drivers/staging/exfat/exfat_super.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/exfat/exfat_super.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/exfat/exfat.h b/drivers/staging/exfat/exfat.h
-index 58292495bb57..8a4668d301fc 100644
+index 8a4668d301fc..8787cb3203ba 100644
 --- a/drivers/staging/exfat/exfat.h
 +++ b/drivers/staging/exfat/exfat.h
-@@ -242,7 +242,7 @@ struct dev_info_t {
- };
+@@ -243,7 +243,7 @@ struct dev_info_t {
  
  struct vol_info_t {
--	u32      FatType;
-+	u32      fat_type;
- 	u32      ClusterSize;
+ 	u32      fat_type;
+-	u32      ClusterSize;
++	u32      cluster_size;
  	u32      NumClusters;
  	u32      FreeClusters;
+ 	u32      UsedClusters;
 diff --git a/drivers/staging/exfat/exfat_super.c b/drivers/staging/exfat/exfat_super.c
-index 6cc21d795589..695c8793fe5f 100644
+index 695c8793fe5f..b9445bef0e6d 100644
 --- a/drivers/staging/exfat/exfat_super.c
 +++ b/drivers/staging/exfat/exfat_super.c
-@@ -494,7 +494,7 @@ static int ffsGetVolInfo(struct super_block *sb, struct vol_info_t *info)
- 	if (p_fs->used_clusters == UINT_MAX)
+@@ -495,7 +495,7 @@ static int ffsGetVolInfo(struct super_block *sb, struct vol_info_t *info)
  		p_fs->used_clusters = p_fs->fs_func->count_used_clusters(sb);
  
--	info->FatType = p_fs->vol_type;
-+	info->fat_type = p_fs->vol_type;
- 	info->ClusterSize = p_fs->cluster_size;
+ 	info->fat_type = p_fs->vol_type;
+-	info->ClusterSize = p_fs->cluster_size;
++	info->cluster_size = p_fs->cluster_size;
  	info->NumClusters = p_fs->num_clusters - 2; /* clu 0 & 1 */
  	info->UsedClusters = p_fs->used_clusters;
-@@ -3348,7 +3348,7 @@ static int exfat_statfs(struct dentry *dentry, struct kstatfs *buf)
- 			return -EIO;
+ 	info->FreeClusters = info->NumClusters - info->UsedClusters;
+@@ -3349,7 +3349,7 @@ static int exfat_statfs(struct dentry *dentry, struct kstatfs *buf)
  
  	} else {
--		info.FatType = p_fs->vol_type;
-+		info.fat_type = p_fs->vol_type;
- 		info.ClusterSize = p_fs->cluster_size;
+ 		info.fat_type = p_fs->vol_type;
+-		info.ClusterSize = p_fs->cluster_size;
++		info.cluster_size = p_fs->cluster_size;
  		info.NumClusters = p_fs->num_clusters - 2;
  		info.UsedClusters = p_fs->used_clusters;
+ 		info.FreeClusters = info.NumClusters - info.UsedClusters;
+@@ -3359,7 +3359,7 @@ static int exfat_statfs(struct dentry *dentry, struct kstatfs *buf)
+ 	}
+ 
+ 	buf->f_type = sb->s_magic;
+-	buf->f_bsize = info.ClusterSize;
++	buf->f_bsize = info.cluster_size;
+ 	buf->f_blocks = info.NumClusters;
+ 	buf->f_bfree = info.FreeClusters;
+ 	buf->f_bavail = info.FreeClusters;
 -- 
 2.17.1
 
