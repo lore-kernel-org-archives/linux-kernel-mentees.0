@@ -7,60 +7,58 @@ X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F0D6C47409
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:33:40 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C01CC3F68F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 11:23:46 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2097E208CD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:33:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 16919214AF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 11:23:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="rYtGbKgX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2097E208CD
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="XeUZAgkg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16919214AF
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C77C58575A;
-	Mon, 27 Jan 2020 10:33:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BBBAC851C0;
+	Mon, 27 Jan 2020 11:23:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WbBf6ZAWtdfv; Mon, 27 Jan 2020 10:33:38 +0000 (UTC)
+	with ESMTP id VAZECj0x985Q; Mon, 27 Jan 2020 11:23:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C28F685205;
-	Mon, 27 Jan 2020 10:33:38 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1003285184;
+	Mon, 27 Jan 2020 11:23:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AEA5DC0177;
-	Mon, 27 Jan 2020 10:33:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 04FB3C0175;
+	Mon, 27 Jan 2020 11:23:45 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6137EC0171
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A84EC0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:33:34 +0000 (UTC)
+ Mon, 27 Jan 2020 11:23:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4745E86C3A;
- Mon, 27 Jan 2020 10:33:34 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2E49587590;
+ Mon, 27 Jan 2020 11:23:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YRlptfvcYswQ; Mon, 27 Jan 2020 10:33:33 +0000 (UTC)
+ with ESMTP id IMVKXx+xENE8; Mon, 27 Jan 2020 11:23:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0BB6E85958;
- Mon, 27 Jan 2020 10:33:32 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 05953874E4;
+ Mon, 27 Jan 2020 11:23:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1580121199;
- bh=dAxxIGooUrpYMIc/V5niU8NEItO2A/L1D6LYedd4Kb4=;
- h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
- b=rYtGbKgXJevnIC0LSpzxAHP/IKW+VPszQwWByyb8862z5f0q/rLwrRCg6/dn26fKy
- yN2pdgxkucwdVXmmINN4hHUUbEMWkcDInaT9jQIX25fchM4pjMjasQbKusT0SiOREm
- BxRWuAAhRkMlqnWdIJsTZJSdAtJMUnssoQlMP3Zc=
+ s=dbaedf251592; t=1580124208;
+ bh=pFg0c4+RDKrHq6rIi7g2NieDtv74mqOryv/2SEQrOTE=;
+ h=X-UI-Sender-Class:Cc:Subject:From:To:Date;
+ b=XeUZAgkgW2PTQWJEuoGtV/bh5CxZPDU6rBOJP0UMBqaVc/Ua26rVSMEDIkJGsXDAF
+ B7XNRDNJ41h5TXuECGlGKfVOJ8+sS/zzlnj7G9I3MwuGbN75FPwVmV9PRTHdfYEhS6
+ gupzMJGucXg9jb2IcbT5ZqKt9zWH0TK/rWDY7pvg=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.115.58]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0M2Mcy-1jleO31bkK-00s2n6; Mon, 27
- Jan 2020 11:33:19 +0100
-To: Pragat Pandya <pragat.pandya@gmail.com>, devel@driverdev.osuosl.org,
- linux-fsdevel@vger.kernel.org
+Received: from [192.168.1.2] ([93.131.115.58]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LoYX0-1jWlDO1ODS-00gZGm; Mon, 27
+ Jan 2020 12:23:28 +0100
 From: Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -105,40 +103,43 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <3b444326-1295-fecb-2ff8-ddf770627bec@web.de>
-Date: Mon, 27 Jan 2020 11:33:17 +0100
+To: Pragat Pandya <pragat.pandya@gmail.com>, devel@driverdev.osuosl.org,
+ linux-fsdevel@vger.kernel.org
+Message-ID: <130232ad-ec3c-daae-4bcc-a0b896a1a96d@web.de>
+Date: Mon, 27 Jan 2020 12:23:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
 Content-Language: en-US
-X-Provags-ID: V03:K1:uxyvTeLc2QZWHfxXQ5yjYIF7M1dLi6IMScZb2KpG8Uq+6jIlYNg
- EISlabkrMWvvBQeq+PTHJ8YgcvrsWZSlU5dpwXGm7yK9lpW7HY7pMVqw9CJsru0DKyGnU6e
- 5ghtARIjPhQxdMlvUW5e3ZxW+wLyqi7kWwg7c00y7R52MpGnzCl10mopxbBYi0AlYRc67t5
- fl1DgXZwziDgsNGVWtY5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Mm3Dq3GHmXE=:/CU046Gjox9LZ75LmHF9ae
- my+9+rjVnQtMTHuR82tfX5j0oowwBGnwpzyK3l5yXJHNLXy+oXdoLusdhR30lHp+PaacMYM42
- gAeULAX+P7V9TB3gZHRsEvfVvJOKnCUT1HqljCdVKk4PR8K2QrJCvrsQmAne332mHWyGZrQ+L
- 0o7U4+n4gf8mqFIOUViYVe7SGtml3RP+s93bNe5S4WZC/GBMVj/8HYpAaVQcAxWlHhc0yBEYx
- q5SltDeo01wPircy5Il/LZqLP7XRMAlNlUiwBLKrJ5IP5opsOCxJhR8Wd43qA3zypjCS8WERP
- wf6eIylGZ4Fr62m7sa5RCoPAoeLBaFtLTD9Jn5Ua9In0bSYOtWKU6IrxF/fxExgxiw/dstDEa
- vtKZC6JNdaPrSqXCqaTzPTS6GNxZp2l3h45ZzhMKqCMzGgDw/G5UcdyJJENtn0DOooFlupLVz
- evMVjlCDwm+SEL7ytnLpG+9HRYZctb+l9Hrcl2sFIJF4so5OOhNfwOo4Tjsq5QtsBc26jVV0b
- dnu3AvDLSMcG3YJFxaP/MVnJxyLg9k1z/tMADpAd2s/ULzp6hsDLtlrVMY8hk2aZQcGnjbe3t
- xJjUot5iI8u3+g+b0lfWKB3Y8L3HvDy6z/iB0l1ArNw+bAMhF4W8DyqXJDihN+nVMxu04o8Gb
- 9vI7KYpKMUu+W7ZaQ0ndPdP6rHaCSo9lhbv8kKTT0Ka30K17dZZu/XHhtJjwbRVr+yKpFhCgz
- gexeRfuUjXNOBgXa5fdYoArBEyyQZZlTqaGouRjnuIII37qrwckAluuUhUjrH58tlWWKofO+G
- euH6zPFS35e+psL5C2f2aM0J03mBVqxI/Y8pGZ8K/u6dJpa0DY4sDMN2E3/RmZqcSbIVcwOot
- OX4QDLk9nYX+0InxYnnYTbtYaExuvv4b98Wxres2Lk2/6Mft6Her9Kaa9/hR1tqT4tIi7HsSc
- jVoPhQJ+KoQNtSl6m6SZGSZ4FDrSKMFm8hs5p1vu8En9tX3qnIleDiFRG0M/RbalsomjoKXsj
- rbEoHVkkjTfNeIXaywxNF5xj1CtA07hYQFhdrWRix9zN+bOUgD4ehioIicVW008dS5liKgaw7
- QFm0Qzpj+ySkApYQC2u7HIB9uXUgudmT+K8imYekEXgWrT9kr1FOJNJ+VrG7XL8BWUsEcXlAX
- tK6s7+myWCDvz+d1TYDt/Ur2N6fXhKeAdJATwYrwILkzlomXCRXQrYmdKiLGIt4Zc01Zhm+5k
- 2NvtGIlv9ccBMwVmP
+X-Provags-ID: V03:K1:45vEwlej7txwJqTTx+4IWdY3AElXwnlYrbkfl6XuOE1HF1piSZK
+ 5Bq2GCsA9jhMSjRsJxuQ6HcJhIPQL6zgBUywiXa+HPHy0STEPy1E4OtYdDlwWivEDpVu235
+ P8qm5FNhL50gBPrJ0YTWviHWMY43xBfnMAEH53dA5mHsc05dWIWV/p6jBrchRY87Lniu7ow
+ +UwJbSYSEPYKDCZWPkCoA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wZkkJULRNEA=:AsRVyepb81tjoqfnVw1XJd
+ +u4R3mpUWyj0U/ardyhtWwp6VQVHdiCZzHKYuBg9RySUvpz0nV1aVUEovqWTbWP+PNdhBUNaO
+ MXf3KhSGaEenVLIwyejmCNQDUX4UbTN1COS+viS9g8ze7TUl/ep9A4zUVGc4hSQ857c2g4FbD
+ YT7Sz9YlEdx0UFrJz6r7VF+b8P02W4PiCiFD78Oi3/I3paOtVM+R3SQPBfFF2/KqCKt3mRMW9
+ bWRWr09wpTbtx1qHvP1auxb3/KzcRtuKK3z+Av4NmiT8o7NETX/VGryOD+tSuN0Hs7N6ATi7p
+ uq6ncSWTiCwizU6XouO5raVx2zatwMUvT4SECIZRniIxUzQOTce1hMtwTPEzKQRHP0Ivi/tOx
+ bn11sX75XR3Guib1yjpvcIPy9wRDlGiOQPQ7Yf5Hq98MXPNB46crZRQZIQ/ttwgq4Ok/pEuIU
+ haRRxtAc+rIWvGCxujJhLigw7feDu7RZ4jv/mtkTmru40fnJjpLKsL9qwC7nP1X/ALKn1dlyW
+ 6Lc8K83gwZb0hEjch/0YMLuU4Rqsp0ayJgV35LToiNNjnIfWH9yBAMIYRPGeBc3Z2+Y+Z21uS
+ xWVXr6dvaG5OZ2ZQu+jV2X28mlMyiRTqXOo+liOOXDdNTw90GmhYLaUt2ydGwEVshQr8weqz0
+ NlWlgLlAt2FfvK+17VOC02jRa15BnDFySpmSmwk/6+ydfkpNpv8/PXB4M8KBYiG09MoUK8Vr2
+ t6vVDMNqj0DoRndRNN7lpKaG212sd7VJRgwCKvDUTizJ7hv6KuHrck69umq207YR8F9zkQIPi
+ LycFjCgqsT/lA7Ve5Eu89fD3E8S2g5ZGLN5NMR4Extc3sEukEGlOJNKThGt4LtcndiVfN4hcC
+ /lVfI7oAbexc/toJoYIn0eZsDoawgQxb7W+lti17e5u6krQ6iJr00ToQbfU1Ry+58Ih7Iutei
+ 1N5HJTTjljgFxUaeS+YKHnU3mXO9LEHbDM15S10VPGJYOvO0y991zth6RQ9ut+HLlXZkekEWW
+ XLhuob3ojeiTSLBpPHOK7FxnfvhLExoWNIRmENv0wNSnctO6qyeLl99zQN5O1lzBcAPi5Ijw5
+ 116oqWeOcOHbxeSh3M61uXdermKQWH/cl2s1AoDY/qh9bmVknyMrj5/yCRSFwY3v621Th7e2f
+ xV5B8JAVOwUTgK7ZxOiUzYD+MmkIg+0wGic7Nb0sxnzsS9COlBepVGRtd3LbXZJ620SpXExQk
+ 4ljeI1QcLy0FmvVph
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?Q?Valdis_Kl=c4=93tnieks?= <valdis.kletnieks@vt.edu>
-Subject: Re: [Linux-kernel-mentees] [PATCH 02/22] staging: exfat: Rename
-	variable "Month" to "month"
+Subject: Re: [Linux-kernel-mentees]
+ =?utf-8?q?=5BPATCH_00/22=5D_staging=3A_exf?=
+ =?utf-8?q?at=3A_Fix_checkpatch_warning=3A_=E2=80=A6?=
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,20 +151,17 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> Change all the occurrences of "Month" to "month" in exfat.
-
-I hope that the final commit will not contain a misplaced quotation character
-in the subject.
-
-Regards,
-Markus
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+PiBUaGlzIHBhdGNoc2V0IHJlbmFtZXMgZm9sbG93aW5nIHR3ZW50eS10d28gdmFyaWFibGVzIGRl
+Y2xhcmVkIGluIGV4ZmF0LmgKCldvdWxkIGEgc3ViamVjdCBsaWtlIOKAnHN0YWdpbmc6IGV4ZmF0
+OiBSZW5hbWluZyBvZiBzb21lIGlkZW50aWZpZXJz4oCdCmJlIG1vcmUgYXBwcm9wcmlhdGUgKHRo
+YW4gYW4gaW5jb21wbGV0ZSBvbmUpIGZvciB0aGlzIGNvdmVyIGxldHRlcj8KClJlZ2FyZHMsCk1h
+cmt1cwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51
+eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMu
+bGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFp
+bG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
