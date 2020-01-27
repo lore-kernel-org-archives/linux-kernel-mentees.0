@@ -6,98 +6,98 @@ X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33DD6C32771
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:16:04 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B972C33CB1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:16:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F182920661
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:16:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 30CB320661
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:16:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vEfiaWQm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F182920661
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EoshAeqb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30CB320661
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D1BD985497;
-	Mon, 27 Jan 2020 10:16:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0CDBC858BA;
+	Mon, 27 Jan 2020 10:16:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ycrwHgU-1OOS; Mon, 27 Jan 2020 10:16:03 +0000 (UTC)
+	with ESMTP id Z18QfENdqKJk; Mon, 27 Jan 2020 10:16:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5487484E68;
-	Mon, 27 Jan 2020 10:16:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7EC3585650;
+	Mon, 27 Jan 2020 10:16:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 51503C0177;
-	Mon, 27 Jan 2020 10:16:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DED0C0177;
+	Mon, 27 Jan 2020 10:16:08 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B866CC0171
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 64204C0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:16:01 +0000 (UTC)
+ Mon, 27 Jan 2020 10:16:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A461C878AF
+ by hemlock.osuosl.org (Postfix) with ESMTP id 53147878AC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:16:01 +0000 (UTC)
+ Mon, 27 Jan 2020 10:16:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n5A4YelIrNXk
+ with ESMTP id IPX5dSpaiu88
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:16:01 +0000 (UTC)
+ Mon, 27 Jan 2020 10:16:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0BB04878AC
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C130F878A0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 10:16:01 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id 4so4912594pgd.6
+ Mon, 27 Jan 2020 10:16:05 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id n7so4675011pfn.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 02:16:01 -0800 (PST)
+ Mon, 27 Jan 2020 02:16:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=RAuZJZqC2SGkCShIla0AvvSszot+qHX00yLZwza0yk4=;
- b=vEfiaWQmCdtZdGxBTp/pxFIot0PLcVqbhRRWpByRfBqnFaR/WX0ue8E4RIaLLgV36+
- shCJQG128WsoN6SwDlpU6xsmsS7MFBz7NasXeO7nN9uUExHLtu1GjONZi0Atu8h0fIBK
- G6mfMq2ZQSbLz/n0KVqtDEcicFLHA4lLmD3pu/SxUikZ34GZPY2sua1bDPjJCKezGsZ4
- 67CwtNOdKjdtl1Emr4vQrIqJecn7eybE+quuHrkSNR7MZY8faivJ2iTkn4JE7R8RD4Vm
- gRpRjFQkxIWVxR5WzfBHmkqBd6h0ZagU1ayRBYLj9sadiFPAWhLnilP+AAvw+HihjDDV
- iwnQ==
+ bh=PRL92drL21zY0Q9t9ZySq6tJLHhcfzKy1Z3/kgM9dTw=;
+ b=EoshAeqbl0tp+i7ZOK2uOymTRiS8FAn8OLNj7lsYqpY4k0jJbWs+/IoZ0iXYOfzb0g
+ Mq4BtMFtuAYcVsmlYTeizIHACl4L6nUMDSuUCbvv6JG8cUMKVVbZUV1Kyi0Wh9m5k1D8
+ 2txE3nuY8ydP/ZLBry+QvsCJTS2ssXfUOvk0CdbTzHpO2qVfO01loKWqT9MdnWbOl79k
+ vnib7r7HDPVL76U/gYzb6jYL1cilRKtzF0dFRcKPGtLLneE8YTQoz7wfWNxFHBEh+ZEL
+ Iy3cZOjDI7J3EIMKabbhMKQGdsiq4sz2oGW3ySv0bC/OGPLThIU+HNmeenrs6W5boGMv
+ wGCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=RAuZJZqC2SGkCShIla0AvvSszot+qHX00yLZwza0yk4=;
- b=hO2FO3qKiBCBwLuQNNciTqLWpkIgYVZX0TGsFv9KE4ufVPfU52usGNG1AeBhq5/6b5
- sXf9z9w6kigj06Z+3NjTzqP2zPLEvRDLLJouMjB9JDvyQwxSpKFCWTmfKEZOw4jfuIDp
- 7Ti7uxDnwdToyqOBwlB7PYDd1rKTDjXLvK4liBuoipikDJ7AqhHLhU89avJ64TgefOVz
- Hjl5g6sDYDi3mymaG7KKTu5tSAlAMI6ARyuCGgi01nCs1z/ismo+KsRyXiO2TkQEZEGw
- DvT9Wwl0m0TCQ8sNihBZiPIf3nrysjKc/h3KOCZcow+qRCp2gAqpGnKwZhxe5BKelCtE
- e/pQ==
-X-Gm-Message-State: APjAAAU8R+FTeSZSW0Uoj1jVC9eMBaD8NQQ1worFRNIrZrA4and3KMYg
- P0aOsyBOViTMhyfLk++xd9Q=
-X-Google-Smtp-Source: APXvYqzOVJgs6ZnwvWmfrefHgl9aA6HPZYD1L31qFPIOKDlMVTzOu30DvyMdi5Vaek1b/0/9GrjvUg==
-X-Received: by 2002:aa7:9556:: with SMTP id w22mr15592005pfq.198.1580120160623; 
- Mon, 27 Jan 2020 02:16:00 -0800 (PST)
+ bh=PRL92drL21zY0Q9t9ZySq6tJLHhcfzKy1Z3/kgM9dTw=;
+ b=cqyZZDSv0ciNqiz6HVunLNgsjuSpoIOL0XSVYMAW6MJR0a6BKGum0qN7xNbsP4gPNZ
+ tQUB6c4fC13SaHXR/eNh/EcETxVghzGzVHB4kwCscQBtNxB0kSYmBnEMl07j33QZNyr8
+ FsjsgItjhzo7+OZkPp9qtJO7eAWAuYyil2AOq5OVIki7NphP0nxx8wMWbs9S0YNCCmW0
+ mlYWLS2uyhV31Chsup53nKl3th/+MRDn77YhDusGE8gQZnjZbxhiwfHHJFrNDJX4239/
+ LCsTkI15IpfOqvebOTNKwU7dYpYX8F2TSR5zxqS7uERmBiFMyGXH2BwDq39p4ChEkdqn
+ jqnA==
+X-Gm-Message-State: APjAAAWAeXzwQWFvWxIPMxNddVqrSX5fL0CZ75vXhn5Vm2hTXM/+TneW
+ Z1aXhvyElWtjuIE3OEgi480=
+X-Google-Smtp-Source: APXvYqxbAroxE4Q/rtQsO4UKtr31V2/raCu+0yDkH8B7Fj/HwAxXh3HUhH9GjQnGrkpXATh/eyjtsw==
+X-Received: by 2002:a62:e414:: with SMTP id r20mr15373253pfh.154.1580120165390; 
+ Mon, 27 Jan 2020 02:16:05 -0800 (PST)
 Received: from localhost.localdomain ([2405:205:c902:a5e9:3956:8df2:aee5:9cf6])
- by smtp.gmail.com with ESMTPSA id s15sm15504138pgq.4.2020.01.27.02.15.56
+ by smtp.gmail.com with ESMTPSA id s15sm15504138pgq.4.2020.01.27.02.16.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jan 2020 02:15:59 -0800 (PST)
+ Mon, 27 Jan 2020 02:16:04 -0800 (PST)
 From: Pragat Pandya <pragat.pandya@gmail.com>
 To: valdis.kletnieks@vt.edu,
 	gregkh@linuxfoundation.org
-Date: Mon, 27 Jan 2020 15:43:41 +0530
-Message-Id: <20200127101343.20415-21-pragat.pandya@gmail.com>
+Date: Mon, 27 Jan 2020 15:43:42 +0530
+Message-Id: <20200127101343.20415-22-pragat.pandya@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200127101343.20415-1-pragat.pandya@gmail.com>
 References: <20200127101343.20415-1-pragat.pandya@gmail.com>
 Cc: devel@driverdev.osuosl.org, Pragat Pandya <pragat.pandya@gmail.com>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 20/22] staging: exfat: Rename
-	variabel "CreateTimestamp" to "create_timestamp"
+Subject: [Linux-kernel-mentees] [PATCH 21/22] staging: exfat: Rename
+	variable "ModifyTimestamp" to "modify_timestamp"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,7 +116,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Change all the occurreces of "CreateTimestamp" to "create_timestamp" in
+Change all the occurrences of "ModifyTimestamp" to "modify_timestamp" in
 exfat.
 
 Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
@@ -126,110 +126,110 @@ Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
  2 files changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/staging/exfat/exfat.h b/drivers/staging/exfat/exfat.h
-index 2e07cb6b694a..9b3b4a6f586b 100644
+index 9b3b4a6f586b..92f36fcc4591 100644
 --- a/drivers/staging/exfat/exfat.h
 +++ b/drivers/staging/exfat/exfat.h
-@@ -278,7 +278,7 @@ struct dir_entry_t {
- 	u32 attr;
+@@ -279,7 +279,7 @@ struct dir_entry_t {
  	u64 Size;
  	u32 num_subdirs;
--	struct date_time_t CreateTimestamp;
-+	struct date_time_t create_timestamp;
- 	struct date_time_t ModifyTimestamp;
+ 	struct date_time_t create_timestamp;
+-	struct date_time_t ModifyTimestamp;
++	struct date_time_t modify_timestamp;
  	struct date_time_t AccessTimestamp;
  };
+ 
 diff --git a/drivers/staging/exfat/exfat_super.c b/drivers/staging/exfat/exfat_super.c
-index 2fe59bdabb56..4279fb309f9e 100644
+index 4279fb309f9e..3fb7977ef27f 100644
 --- a/drivers/staging/exfat/exfat_super.c
 +++ b/drivers/staging/exfat/exfat_super.c
-@@ -1458,7 +1458,7 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
- 		if ((fid->dir.dir == p_fs->root_dir) &&
- 		    (fid->entry == -1)) {
+@@ -1460,7 +1460,7 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
  			info->attr = ATTR_SUBDIR;
--			memset((char *)&info->CreateTimestamp, 0,
-+			memset((char *)&info->create_timestamp, 0,
+ 			memset((char *)&info->create_timestamp, 0,
  			       sizeof(struct date_time_t));
- 			memset((char *)&info->ModifyTimestamp, 0,
+-			memset((char *)&info->ModifyTimestamp, 0,
++			memset((char *)&info->modify_timestamp, 0,
  			       sizeof(struct date_time_t));
-@@ -1505,13 +1505,13 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
- 	info->attr = p_fs->fs_func->get_entry_attr(ep);
- 
- 	p_fs->fs_func->get_entry_time(ep, &tm, TM_CREATE);
--	info->CreateTimestamp.year = tm.year;
--	info->CreateTimestamp.month = tm.mon;
--	info->CreateTimestamp.day = tm.day;
--	info->CreateTimestamp.hour = tm.hour;
--	info->CreateTimestamp.minute = tm.min;
--	info->CreateTimestamp.second = tm.sec;
--	info->CreateTimestamp.milli_second = 0;
-+	info->create_timestamp.year = tm.year;
-+	info->create_timestamp.month = tm.mon;
-+	info->create_timestamp.day = tm.day;
-+	info->create_timestamp.hour = tm.hour;
-+	info->create_timestamp.minute = tm.min;
-+	info->create_timestamp.second = tm.sec;
-+	info->create_timestamp.milli_second = 0;
+ 			memset((char *)&info->AccessTimestamp, 0,
+ 			       sizeof(struct date_time_t));
+@@ -1514,13 +1514,13 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
+ 	info->create_timestamp.milli_second = 0;
  
  	p_fs->fs_func->get_entry_time(ep, &tm, TM_MODIFY);
- 	info->ModifyTimestamp.year = tm.year;
-@@ -1605,12 +1605,12 @@ static int ffsWriteStat(struct inode *inode, struct dir_entry_t *info)
- 	p_fs->fs_func->set_entry_attr(ep, info->attr);
+-	info->ModifyTimestamp.year = tm.year;
+-	info->ModifyTimestamp.month = tm.mon;
+-	info->ModifyTimestamp.day = tm.day;
+-	info->ModifyTimestamp.hour = tm.hour;
+-	info->ModifyTimestamp.minute = tm.min;
+-	info->ModifyTimestamp.second = tm.sec;
+-	info->ModifyTimestamp.milli_second = 0;
++	info->modify_timestamp.year = tm.year;
++	info->modify_timestamp.month = tm.mon;
++	info->modify_timestamp.day = tm.day;
++	info->modify_timestamp.hour = tm.hour;
++	info->modify_timestamp.minute = tm.min;
++	info->modify_timestamp.second = tm.sec;
++	info->modify_timestamp.milli_second = 0;
  
- 	/* set FILE_INFO structure using the acquired struct dentry_t */
--	tm.sec  = info->CreateTimestamp.second;
--	tm.min  = info->CreateTimestamp.minute;
--	tm.hour = info->CreateTimestamp.hour;
--	tm.day  = info->CreateTimestamp.day;
--	tm.mon  = info->CreateTimestamp.month;
--	tm.year = info->CreateTimestamp.year;
-+	tm.sec  = info->create_timestamp.second;
-+	tm.min  = info->create_timestamp.minute;
-+	tm.hour = info->create_timestamp.hour;
-+	tm.day  = info->create_timestamp.day;
-+	tm.mon  = info->create_timestamp.month;
-+	tm.year = info->create_timestamp.year;
+ 	memset((char *)&info->AccessTimestamp, 0, sizeof(struct date_time_t));
+ 
+@@ -1613,12 +1613,12 @@ static int ffsWriteStat(struct inode *inode, struct dir_entry_t *info)
+ 	tm.year = info->create_timestamp.year;
  	p_fs->fs_func->set_entry_time(ep, &tm, TM_CREATE);
  
- 	tm.sec  = info->ModifyTimestamp.second;
-@@ -1925,13 +1925,13 @@ static int ffsReadDir(struct inode *inode, struct dir_entry_t *dir_entry)
- 			dir_entry->attr = fs_func->get_entry_attr(ep);
+-	tm.sec  = info->ModifyTimestamp.second;
+-	tm.min  = info->ModifyTimestamp.minute;
+-	tm.hour = info->ModifyTimestamp.hour;
+-	tm.day  = info->ModifyTimestamp.day;
+-	tm.mon  = info->ModifyTimestamp.month;
+-	tm.year = info->ModifyTimestamp.year;
++	tm.sec  = info->modify_timestamp.second;
++	tm.min  = info->modify_timestamp.minute;
++	tm.hour = info->modify_timestamp.hour;
++	tm.day  = info->modify_timestamp.day;
++	tm.mon  = info->modify_timestamp.month;
++	tm.year = info->modify_timestamp.year;
+ 	p_fs->fs_func->set_entry_time(ep, &tm, TM_MODIFY);
  
- 			fs_func->get_entry_time(ep, &tm, TM_CREATE);
--			dir_entry->CreateTimestamp.year = tm.year;
--			dir_entry->CreateTimestamp.month = tm.mon;
--			dir_entry->CreateTimestamp.day = tm.day;
--			dir_entry->CreateTimestamp.hour = tm.hour;
--			dir_entry->CreateTimestamp.minute = tm.min;
--			dir_entry->CreateTimestamp.second = tm.sec;
--			dir_entry->CreateTimestamp.milli_second = 0;
-+			dir_entry->create_timestamp.year = tm.year;
-+			dir_entry->create_timestamp.month = tm.mon;
-+			dir_entry->create_timestamp.day = tm.day;
-+			dir_entry->create_timestamp.hour = tm.hour;
-+			dir_entry->create_timestamp.minute = tm.min;
-+			dir_entry->create_timestamp.second = tm.sec;
-+			dir_entry->create_timestamp.milli_second = 0;
+ 	p_fs->fs_func->set_entry_size(ep2, info->Size);
+@@ -1934,13 +1934,13 @@ static int ffsReadDir(struct inode *inode, struct dir_entry_t *dir_entry)
+ 			dir_entry->create_timestamp.milli_second = 0;
  
  			fs_func->get_entry_time(ep, &tm, TM_MODIFY);
- 			dir_entry->ModifyTimestamp.year = tm.year;
-@@ -3192,7 +3192,7 @@ static int exfat_fill_inode(struct inode *inode, struct file_id_t *fid)
+-			dir_entry->ModifyTimestamp.year = tm.year;
+-			dir_entry->ModifyTimestamp.month = tm.mon;
+-			dir_entry->ModifyTimestamp.day = tm.day;
+-			dir_entry->ModifyTimestamp.hour = tm.hour;
+-			dir_entry->ModifyTimestamp.minute = tm.min;
+-			dir_entry->ModifyTimestamp.second = tm.sec;
+-			dir_entry->ModifyTimestamp.milli_second = 0;
++			dir_entry->modify_timestamp.year = tm.year;
++			dir_entry->modify_timestamp.month = tm.mon;
++			dir_entry->modify_timestamp.day = tm.day;
++			dir_entry->modify_timestamp.hour = tm.hour;
++			dir_entry->modify_timestamp.minute = tm.min;
++			dir_entry->modify_timestamp.second = tm.sec;
++			dir_entry->modify_timestamp.milli_second = 0;
+ 
+ 			memset((char *)&dir_entry->AccessTimestamp, 0,
+ 			       sizeof(struct date_time_t));
+@@ -3191,7 +3191,7 @@ static int exfat_fill_inode(struct inode *inode, struct file_id_t *fid)
+ 	inode->i_blocks = ((i_size_read(inode) + (p_fs->cluster_size - 1))
  				& ~((loff_t)p_fs->cluster_size - 1)) >> 9;
  
- 	exfat_time_fat2unix(&inode->i_mtime, &info.ModifyTimestamp);
--	exfat_time_fat2unix(&inode->i_ctime, &info.CreateTimestamp);
-+	exfat_time_fat2unix(&inode->i_ctime, &info.create_timestamp);
+-	exfat_time_fat2unix(&inode->i_mtime, &info.ModifyTimestamp);
++	exfat_time_fat2unix(&inode->i_mtime, &info.modify_timestamp);
+ 	exfat_time_fat2unix(&inode->i_ctime, &info.create_timestamp);
  	exfat_time_fat2unix(&inode->i_atime, &info.AccessTimestamp);
  
- 	return 0;
-@@ -3263,7 +3263,7 @@ static int exfat_write_inode(struct inode *inode, struct writeback_control *wbc)
+@@ -3262,7 +3262,7 @@ static int exfat_write_inode(struct inode *inode, struct writeback_control *wbc)
+ 	info.attr = exfat_make_attr(inode);
  	info.Size = i_size_read(inode);
  
- 	exfat_time_unix2fat(&inode->i_mtime, &info.ModifyTimestamp);
--	exfat_time_unix2fat(&inode->i_ctime, &info.CreateTimestamp);
-+	exfat_time_unix2fat(&inode->i_ctime, &info.create_timestamp);
+-	exfat_time_unix2fat(&inode->i_mtime, &info.ModifyTimestamp);
++	exfat_time_unix2fat(&inode->i_mtime, &info.modify_timestamp);
+ 	exfat_time_unix2fat(&inode->i_ctime, &info.create_timestamp);
  	exfat_time_unix2fat(&inode->i_atime, &info.AccessTimestamp);
  
- 	ffsWriteStat(inode, &info);
 -- 
 2.17.1
 
