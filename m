@@ -2,96 +2,99 @@ Return-Path: <SRS0=mlYZ=3Q=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C37C47409
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 09:30:10 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C234FC32771
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:14:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4EFDC2071E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 09:30:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 880242087F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jan 2020 10:14:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PimJ8yow"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4EFDC2071E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aIaT3JXI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 880242087F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1411320476;
-	Mon, 27 Jan 2020 09:30:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7577B83616;
+	Mon, 27 Jan 2020 10:14:26 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 41Qp8FuDjpee; Mon, 27 Jan 2020 10:14:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1705283608;
+	Mon, 27 Jan 2020 10:14:26 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 03552C0177;
+	Mon, 27 Jan 2020 10:14:26 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6A740C0171
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jan 2020 10:14:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 2EBC820026
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jan 2020 10:14:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id l8pNEumQmn0t; Mon, 27 Jan 2020 09:30:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E900D20441;
-	Mon, 27 Jan 2020 09:30:08 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D477DC0175;
-	Mon, 27 Jan 2020 09:30:08 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D2518C0171
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 09:30:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id CE43F876C3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 09:30:06 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4C4631mAV21A
+ with ESMTP id 1gtaR671n2k3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 09:30:06 +0000 (UTC)
+ Mon, 27 Jan 2020 10:14:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1B6E0875DA
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by silver.osuosl.org (Postfix) with ESMTPS id 12E492037E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jan 2020 09:30:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580117404;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nDSg7vKNkgUU6jWUsJmpRRkdzJQUOjJxGGK53N4Ir/o=;
- b=PimJ8yow41winEJrvjM0uws+1/oPWOKGIkQbU5oPxmv3ImPyBl5yCcjC3Qhzlv3jiXIArq
- xo6BrKHLVMaJ/kr5Wwfb8LmJpiUu3nrDT5E/qNEET8shRMN+0VqgzXFbykB+dwRhUsBpzZ
- Sn+KR48fVaOn++ib9MB0Sig+zwX9Jkc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-U0vpYBDcMXmf1lpVbUuKfQ-1; Mon, 27 Jan 2020 04:29:59 -0500
-X-MC-Unique: U0vpYBDcMXmf1lpVbUuKfQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE97B8024F1;
- Mon, 27 Jan 2020 09:29:57 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.70])
- by smtp.corp.redhat.com (Postfix) with SMTP id D1CC98704A;
- Mon, 27 Jan 2020 09:29:52 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
- oleg@redhat.com; Mon, 27 Jan 2020 10:29:57 +0100 (CET)
-Date: Mon, 27 Jan 2020 10:29:52 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: madhuparnabhowmik10@gmail.com
-Message-ID: <20200127092951.GA1116@redhat.com>
-References: <20200124045908.26389-1-madhuparnabhowmik10@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200124045908.26389-1-madhuparnabhowmik10@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org, paulmck@kernel.org,
- peterz@infradead.org, linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- mingo@redhat.com, ebiederm@xmission.com, joel@joelfernandes.org,
- christian.brauner@ubuntu.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] sched.h: Annotate sighand_struct
-	with __rcu
+ Mon, 27 Jan 2020 10:14:23 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id gv17so2922206pjb.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jan 2020 02:14:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=rjuMryPmuzxZLUVwYOvSS2lNQu9Hy6NwM2Wa5WwZ6xE=;
+ b=aIaT3JXImsy3aXbKYi0Fcxeg5tlE90D5qQ+/NZKcO4TVgWecuPHqGJsUbrSmKtDgGB
+ GetCxUnOH3jlCLK4X3IZVxO2+rwAljH3wYN8claKhhKoEfKvyQ2kgliBNpVQN7TYV2JV
+ xrxKK+jQhyRHl8kZ+CIjgyS/RorI4GS22dGYldq66JErRq5/IZAm4PRPL0OpGKT+JDQm
+ a+eMP1kKjByOma4Qmcqgz19PYqNT+KUhiuZOESUYJ8hV+yFDASSNLRToNzMo4DV1w0eT
+ G4h2KrrFInoOG33Zs5vYQlHLDUIdllq8ub6NbvbqgCVVllVA1H3JUNf7ecxYslItKpvL
+ 89YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=rjuMryPmuzxZLUVwYOvSS2lNQu9Hy6NwM2Wa5WwZ6xE=;
+ b=n/Hq+3lUHoECsc70C6tEgrQFVqRorR7wmziV4Ix7ddjBiftDRu3TlXJaMgbIjX9zhZ
+ bzgwdBli7nL2xdeBpzaHL3mEm72RnjvuqUJANUuXSQ0qaste2h+En7YH/7uKorMOXx9h
+ LW3dL4to99ljDnhgbTlyng4q0ybccDV5cy9N6AVVZVmUJLwzPZQpo6lzI7aR4ZYZMYz+
+ W0/zJaw15RhtganBRtyWY0a0Mh2Log8xP4+CQZWaWoYZ6FcKqMIOGCQRloGgcltXdGKn
+ g/I0AUaRrCfWMfp2A7j3rfG6i6Atn5d/o4oC1lDiEZ7NLWj0ykisAq+GouVy/OnTkE+S
+ CTpA==
+X-Gm-Message-State: APjAAAWLbwhgk3SfptSeA4tB0RgkzMEskrLp3b4zTybtNlK5250mbNXL
+ eK4t0YQ20C6ozPtNldiorx0=
+X-Google-Smtp-Source: APXvYqz6f38Z1esCAAN37J4nFDTF0Db9fcFJcPrHXU/kX5lJJbqNF/Kia27iIdRvwyJKHx5omIfHsQ==
+X-Received: by 2002:a17:902:8d83:: with SMTP id
+ v3mr17289956plo.282.1580120062576; 
+ Mon, 27 Jan 2020 02:14:22 -0800 (PST)
+Received: from localhost.localdomain ([2405:205:c902:a5e9:3956:8df2:aee5:9cf6])
+ by smtp.gmail.com with ESMTPSA id s15sm15504138pgq.4.2020.01.27.02.14.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jan 2020 02:14:21 -0800 (PST)
+From: Pragat Pandya <pragat.pandya@gmail.com>
+To: valdis.kletnieks@vt.edu,
+	gregkh@linuxfoundation.org
+Date: Mon, 27 Jan 2020 15:43:21 +0530
+Message-Id: <20200127101343.20415-1-pragat.pandya@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: devel@driverdev.osuosl.org, Pragat Pandya <pragat.pandya@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH 00/22] staging: exfat: Fix checkpatch
+	warning: Avoid
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,45 +106,73 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 01/24, madhuparnabhowmik10@gmail.com wrote:
->
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -918,7 +918,7 @@ struct task_struct {
->  
->  	/* Signal handlers: */
->  	struct signal_struct		*signal;
-> -	struct sighand_struct		*sighand;
-> +	struct sighand_struct __rcu		*sighand;
->  	sigset_t			blocked;
->  	sigset_t			real_blocked;
->  	/* Restored if set_restore_sigmask() was used: */
-> diff --git a/kernel/signal.c b/kernel/signal.c
-> index bcd46f547db3..9ad8dea93dbb 100644
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -1383,7 +1383,7 @@ struct sighand_struct *__lock_task_sighand(struct task_struct *tsk,
->  		 * must see ->sighand == NULL.
->  		 */
->  		spin_lock_irqsave(&sighand->siglock, *flags);
-> -		if (likely(sighand == tsk->sighand))
-> +		if (likely(sighand == rcu_access_pointer(tsk->sighand)))
->  			break;
->  		spin_unlock_irqrestore(&sighand->siglock, *flags);
->  	}
 
-ACK,
+This patchset renames following twenty-two variables declared in exfat.h
+Fix checkpatch warning: Avoid CamelCase.
+ -Year->year
+ -Month->month
+ -Day->day
+ -Hour->hour
+ -Minute->minute
+ -Second->second
+ -MilliSecond->milli_secnod
+ -Offset->offset
+ -Size->size
+ -SecSize->sec_size
+ -FatType->fat_type
+ -ClusterSize->cluster_size
+ -NumClusters->num_clusters
+ -FreeClusters->free_clusters
+ -UsedClusters->used_clusters
+ -Name->name
+ -ShortName->short_name
+ -Attr->attr
+ -NumSubdirs->num_subdirs
+ -CreateTimestamp->create_timestamp
+ -ModifyTimestamp->modify_timestamp
+ -AccessTimestamp->access_timestamp
 
-perhaps you can also cleanup copy_sighand(). rcu_assign_pointer() makes no
-sense, we should either move it down or simply use RCU_INIT_POINTER().
 
-Oleg.
+Pragat Pandya (22):
+  staging: exfat: Rename variable "Year" to "year"
+  staging: exfat: Rename variable "Month" to "mont"h
+  staging: exfat: Rename variable "Day" to "day"
+  staging: exfat: Rename variable "Hour" to "hour"
+  staging: exfat: Rename variable "Minute" to "minute"
+  staging: exfat: Rename variable "Second" to "second"
+  staging: exfat: Rename variable "MilliSecond" to "milli_second"
+  staging: exfat: Rename variable "Offset" to "offset"
+  staging: exfat: Rename variable "Size" to "size"
+  staging: exfat: Rename variable "SecSize" to "sec_size"
+  staging: exfat: Rename variable "FatType" to "fat_type"
+  staging: exfat: Rename variable "ClusterSize" to "cluster_size"
+  staging: exfat: Rename variable "NumClusters" to "num_clusters"
+  staging: exfat: Rename variable "FreeClusters" to "free_clusters"
+  staging: exfat: Rename variable "UsedClusters" to "used_clusters"
+  staging: exfat: Rename variable "Name" to "name"
+  staging: exfat: Rename variable "ShortName" to "short_name"
+  staging: exfat: Rename variable "Attr" to "attr"
+  staging: exfat: Rename variabel "NumSubdirs" to "num_subdirs"
+  staging: exfat: Rename variabel "CreateTimestamp" to
+    "create_timestamp"
+  staging: exfat: Rename variable "ModifyTimestamp" to
+    "modify_timestamp"
+  staging: exfat: Rename variable  "AccessTimestamp" to
+    "access_timestamp"
+
+ drivers/staging/exfat/exfat.h       |  44 +++---
+ drivers/staging/exfat/exfat_super.c | 232 ++++++++++++++--------------
+ 2 files changed, 138 insertions(+), 138 deletions(-)
+
+-- 
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
