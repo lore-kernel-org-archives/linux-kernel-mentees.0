@@ -2,91 +2,92 @@ Return-Path: <SRS0=C1jw=3R=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB6DC2D0DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jan 2020 12:20:27 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48056C2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jan 2020 12:38:50 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A0E5124681
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jan 2020 12:20:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0F5102173E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jan 2020 12:38:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="j8Uvap6k"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0E5124681
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K62JkGjH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0F5102173E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6E14620117;
-	Tue, 28 Jan 2020 12:20:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CBD7D8560E;
+	Tue, 28 Jan 2020 12:38:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hqlqrqOdQfJh; Tue, 28 Jan 2020 12:20:26 +0000 (UTC)
+	with ESMTP id PZil1yH42uY7; Tue, 28 Jan 2020 12:38:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B73F120005;
-	Tue, 28 Jan 2020 12:20:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CFADB855D7;
+	Tue, 28 Jan 2020 12:38:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A7D32C0175;
-	Tue, 28 Jan 2020 12:20:26 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7853FC0171
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BF2FDC0175;
+	Tue, 28 Jan 2020 12:38:48 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5FC36C0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jan 2020 12:20:25 +0000 (UTC)
+ Tue, 28 Jan 2020 12:38:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6100F8695F
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 569A68560E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jan 2020 12:20:25 +0000 (UTC)
+ Tue, 28 Jan 2020 12:38:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t7qr6pxVEwwQ
+ with ESMTP id ATAIW2zjiw0s
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jan 2020 12:20:24 +0000 (UTC)
+ Tue, 28 Jan 2020 12:38:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 91A17867C5
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 97B9B855D7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jan 2020 12:20:24 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id a22so947689oid.13
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jan 2020 04:20:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hdMgsrTiGncdYOgcbUb9mlCe9olQ7xYagcxpFIcd6+E=;
- b=j8Uvap6kQWXoH1g7T0rcgZ04DrKktnfIlbnAjWMfP6Xff15gUkzPDQyaJudmsL1yDt
- Pb+vDR13QDZ1Ao2bxVflMcVglbNMcWn9vAZMCrxHoLBYDoD6bY2lDG7asXPOG50omDI8
- dk5DIW0lN8yO+3QsjLezBreSJU6k/SztMUCNHfHgKIc2Cg5MDJi/GcJ/7WIZcrVJi1kh
- 0zHT2ERZ9mrZaEMn2TbChsjOz7VewVpcBB1/Yf2BzW2fvghPbhLKD4ANgvNUlOkS8sa8
- /8X4lSS3iRshCXuyTobDjzOHPqKpmwm1o88j0yDlyTev/lDOnbA4duQ/Ybwk7zHH2N3s
- UmpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hdMgsrTiGncdYOgcbUb9mlCe9olQ7xYagcxpFIcd6+E=;
- b=eOQ6X42UwJ5VxdXACfknZH+jEOB0GB7T4AvtRnLGtO2Lgklkzg0ENn4OxmBGgPfyKq
- EA9tQA1JaGtOesxXybsZ7qGaSwn0QXoS+r9g80x7BqyWUHfc5wxp4Fl6bm1/teZaqn7R
- Mnxj/Pz7MxnzjXlkxm2rKd+cbawG0IouI1AVVFoI1yB2JWxWC26WmD+V25dj75feYLUs
- +Dn7qEo7gs1EITNF9j6BpEsEHQQc2g1WQX3AEX+QMq5aEaW0fY8GJqA45OZm8BlCybP2
- aVfAQxRIdPD7sAO4NK7AsvbZFlkenCzSP/DFarLurvv7+aNRAonz3wei8rigkVsC+JXZ
- 3idQ==
-X-Gm-Message-State: APjAAAV3Y2L2l3RY/X2uVFQuxiFxkIEBDQtHR82ZnYfd1ORDBJtK/d8N
- prm1vhrzWBHfKHOIRGM/MqJiyBIp61l8He4Xk0ASaA==
-X-Google-Smtp-Source: APXvYqwwSdhkpILefSxxqrnVL+VKYNPBwrpZU6sJ2/ZVOmEzczQj7qFdKeGZ86K4BmlSR3uvTKTfV/rKVZTC9oqDg/Y=
-X-Received: by 2002:a54:4716:: with SMTP id k22mr2625237oik.39.1580214023416; 
- Tue, 28 Jan 2020 04:20:23 -0800 (PST)
-MIME-Version: 1.0
+ Tue, 28 Jan 2020 12:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580215125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jAUdcUoNlbNA3wmapQDhv1Xevu4+dUMP19fy7F3OARs=;
+ b=K62JkGjHw2opSm71KNW93l2CKHflbv5kSV6NkSdYGQGB8md+cZT4jXle5eHX2DS/RcTxbk
+ rdU+O/zD5aiL7QOPWnBxW1DvHujDP734+TwZmlJTUc6Ws+mBl/IIzrkkOaqAtxUQIfbiH9
+ AzFZxJ8jGXTItgHWI9J4QKWMPbklIEA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-GuLWnJoVMYevW03hQENvBQ-1; Tue, 28 Jan 2020 07:38:41 -0500
+X-MC-Unique: GuLWnJoVMYevW03hQENvBQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 843518010C9;
+ Tue, 28 Jan 2020 12:38:39 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.70])
+ by smtp.corp.redhat.com (Postfix) with SMTP id 0BD1D89D13;
+ Tue, 28 Jan 2020 12:38:36 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+ oleg@redhat.com; Tue, 28 Jan 2020 13:38:38 +0100 (CET)
+Date: Tue, 28 Jan 2020 13:38:35 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Jann Horn <jannh@google.com>
+Message-ID: <20200128123834.GB17943@redhat.com>
 References: <20200128072740.21272-1-frextrite@gmail.com>
  <CAG48ez3ZcO+kVPJVG6XpCPyGUKF2o4UJ6AVdgZXGQ6XJJpcdmg@mail.gmail.com>
  <20200128114818.GA17943@redhat.com>
-In-Reply-To: <20200128114818.GA17943@redhat.com>
-Date: Tue, 28 Jan 2020 13:19:56 +0100
-Message-ID: <CAG48ez2rJZGQyhOcgWe7NwLOxk-CBJugUFMM0Oa9JyuPamRwCg@mail.gmail.com>
-To: Oleg Nesterov <oleg@redhat.com>
+ <CAG48ez2rJZGQyhOcgWe7NwLOxk-CBJugUFMM0Oa9JyuPamRwCg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAG48ez2rJZGQyhOcgWe7NwLOxk-CBJugUFMM0Oa9JyuPamRwCg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Cc: Kees Cook <keescook@chromium.org>, "Paul E . McKenney" <paulmck@kernel.org>,
  kernel list <linux-kernel@vger.kernel.org>,
  James Morris <jamorris@linux.microsoft.com>,
@@ -107,74 +108,33 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Jann Horn via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Jann Horn <jannh@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jan 28, 2020 at 12:48 PM Oleg Nesterov <oleg@redhat.com> wrote:
-> On 01/28, Jann Horn wrote:
-> > On Tue, Jan 28, 2020 at 8:28 AM Amol Grover <frextrite@gmail.com> wrote:
-> > > task_struct.cred and task_struct.real_cred are annotated by __rcu,
-> >
-> > task_struct.cred doesn't actually have RCU semantics though, see
-> > commit d7852fbd0f0423937fa287a598bfde188bb68c22. For task_struct.cred,
-> > it would probably be more correct to remove the __rcu annotation?
+On 01/28, Jann Horn wrote:
 >
-> Yes, but get_task_cred() assumes it has RCU semantics...
+> On Tue, Jan 28, 2020 at 12:48 PM Oleg Nesterov <oleg@redhat.com> wrote:
+> > On 01/28, Jann Horn wrote:
+> > > On Tue, Jan 28, 2020 at 8:28 AM Amol Grover <frextrite@gmail.com> wrote:
+> > > > task_struct.cred and task_struct.real_cred are annotated by __rcu,
+> > >
+> > > task_struct.cred doesn't actually have RCU semantics though, see
+> > > commit d7852fbd0f0423937fa287a598bfde188bb68c22. For task_struct.cred,
+> > > it would probably be more correct to remove the __rcu annotation?
+> >
+> > Yes, but get_task_cred() assumes it has RCU semantics...
+>
+> Oh, huh. AFAICS get_task_cred() makes no sense semantically, and I
+> think it ought to be deleted.
 
-Oh, huh. AFAICS get_task_cred() makes no sense semantically, and I
-think it ought to be deleted.
+Ah, sorry for noise Jann. Somehow I managed to missread this function
+as if it uses task->cred. No, it reads ->real_cred so it is fine.
 
+Oleg.
 
-There are the following users at the moment:
-
-rdtgroup_task_write_permission() - uses it for acting on a task as
-object, should be using objective credentials instead.
-
-__cgroup1_procs_write() - same thing.
-
-task_state() - should also be using objective credentials instead, you
-wouldn't want a task to show up as belonging to root in there just
-because it's in the middle of some overlayfs filesystem method or
-something like that.
-
-apparmor_getprocattr() - same thing as for task_state()
-
-rpcauth_bind_root_cred() - should also be using objective credentials
-instead, if init is in overlayfs or whatever, you probably wouldn't
-want that to have an effect here
-
-prepare_kernel_cred() - most callers pass NULL and don't hit this
-codepath, and those that don't pass NULL use `current`, so there can
-be no concurrent modification. Maybe this could be rewritten to
-something like this:
-
-if (daemon) {
-  BUG_ON(daemon != current);
-  old = get_current_cred();
-} else {
- ...
-}
-
-or maybe it could just use the objective creds, it shouldn't matter
-here, I think.
-
-> To be honest I didn't know we have this helper.
-
-Same here.
-
-> Can't it race with revert_creds() in
-> do_faccessat() ?
-
-Yeah, I think you can probably trigger use-after-free reads with that.
-I also remember seeing something fishy in Smack at some point that had
-similar issues... smack_file_send_sigiotask() does
-smk_of_task(smack_cred(tsk->cred)), which looks very wrong.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
