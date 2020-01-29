@@ -8,98 +8,98 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74962C35240
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 04:49:40 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 736A8C33CB2
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 04:49:44 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4BF4B214D8
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 04:49:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 497DC20702
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 04:49:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAyozUZj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4BF4B214D8
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UoP4u8MV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 497DC20702
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 08C0386BDE;
-	Wed, 29 Jan 2020 04:49:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2638A835C4;
+	Wed, 29 Jan 2020 04:49:44 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Iv9YlaqX_uyQ; Wed, 29 Jan 2020 04:49:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2AAC4835CD;
+	Wed, 29 Jan 2020 04:49:43 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 189BAC0178;
+	Wed, 29 Jan 2020 04:49:43 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A3392C0171
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 29 Jan 2020 04:49:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 9F9FD86BAD
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 29 Jan 2020 04:49:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eZ+HBJl+ZZPe; Wed, 29 Jan 2020 04:49:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C121F861A7;
-	Wed, 29 Jan 2020 04:49:38 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B0AF3C0178;
-	Wed, 29 Jan 2020 04:49:38 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 01E60C0171
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 04:49:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id F2DE62041C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 04:49:36 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PmhoJx7ognqJ
+ with ESMTP id GDIEnfkZ9bZv
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 04:49:35 +0000 (UTC)
+ Wed, 29 Jan 2020 04:49:41 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
- [209.85.222.193])
- by silver.osuosl.org (Postfix) with ESMTPS id DC0D220357
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+ [209.85.160.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D8492861A7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 04:49:34 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id t204so14980347qke.7
+ Wed, 29 Jan 2020 04:49:40 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id l19so6721533qtq.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jan 2020 20:49:34 -0800 (PST)
+ Tue, 28 Jan 2020 20:49:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fjtPyGHczMSaELCapHNSE16Wg2ojQqmt1c/4u/9C08Y=;
- b=hAyozUZjnlikYz2njE3YtjtbQGy7ezhVoK0paMq9ZP1n2hERqO70RECmM0918c2e3I
- CMYFVNR1aIRYy7qZ17YSzpQu15ZJ3nqxFC+SlWXRBvq7hnracyCHPEMAq5LYF2oAnAmp
- JGC7/tMKrrFrkPpHFdoGkjA3PWjvWkZIFmz3g9qHzni2MGqgkB3lid4VroNPKkztD3hk
- 7K765G4p2DXtHHX9jNvge3sEahGpMA1mJdroKQA8ysvBF2nrVNfBtDNPbqsiudatp7EF
- CODjIy3gIfmZpcsrDCEAuNUBQLQb1HFVreLtmcgyk1l0EQ7BAsFsggGSvt5AQjHqRmJM
- lp7w==
+ bh=31Aj6+KBPh1bOjE08uzZPSEk81edXgSHdm2y9/BE59U=;
+ b=UoP4u8MVYaHSh0lQ0CToFR7wVs5l9FMNIYG+EoJ2TjZlj5rMx8DlCblQ0fG45jt+bt
+ XTDyg1wpki8RokPl1Gyp4SqjQ/6seMnTH9tS83IwNTRvJxCMg49aQI7kyxYu+5SBq1g4
+ h2me12E039PowgbZqxNFWkpIUfGWgi6ynqX4urRZAplZSttCT20LKLOqAE8BYCPXZbav
+ +rmH/KmiobzLERmCdcAN+8pExiOVr5ldXQrEgAJUNNIB1r4FiozAXCTUTD2m3yJo4dAL
+ LLMtSOAJEczi7AKimv975xcpdcZWlHAK2KfShFgmqh6TjA5pyj4FXyOh/7xALdTevYsg
+ 2DLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fjtPyGHczMSaELCapHNSE16Wg2ojQqmt1c/4u/9C08Y=;
- b=KnH1hY9m2zu6bPz18E64M7UcPuBPERGFgGUUwVg+biaAQAciYZT3e8Hmt2zduDlj0b
- Fl66aYE3MaJ6LV0xUuETwzVo9WJmS+95ZcafJrgCCDqUAFIh+XlxESgwdTW8eAwjIzl9
- s+9rjYSQGpLunwUJUWv0eE3E/l2QviZ82QmUVhBakEjcdYx9YAfCFTTxbfPQDvfGXkZF
- 9AderGikU9P5AaCjRxuB5c3l4Vdlw1aUf+gu1aI7ZcuWooSSnHI8vM0O86WbROukTzj8
- gY/tYDmdDFjNttyCyVpFHh999lS+1mSIgTcdtU34gVO57hmfB/DHiFtk2aLtbsnOBV7b
- lQaA==
-X-Gm-Message-State: APjAAAViqIHs92QnFuZc+4xbinJ+y2hcxcYj/bOJTupGJIbp3qgcDpaz
- IsWfolKGPWbLllTcGKzQg6o=
-X-Google-Smtp-Source: APXvYqzCDhm4htgYhRBqje4amg/HaEET/32U5ASBXMoF9kEMEeMeNZWcdvjsv/KZUyPjDV5yTpP9ng==
-X-Received: by 2002:a37:9e12:: with SMTP id h18mr25278681qke.420.1580273373759; 
- Tue, 28 Jan 2020 20:49:33 -0800 (PST)
+ bh=31Aj6+KBPh1bOjE08uzZPSEk81edXgSHdm2y9/BE59U=;
+ b=KQ4bMkgCEiMcYW1BTeJdmwQ/RUexoLw71TuBaejt/rLUoeFH9I4Tml3CAfEisAYZeL
+ 2quggc87RZ7SgdpeRPk4/Q2XfAKFgLAc51NmR6QLdgsop6PYHLNpXuQkmN98kd94qjb4
+ IUspX0beIkLh5yKamf3VzK+zNBerbvKCjIVsmDJZKiGEsjcIEnInkRBcMkyzdjqVIv8P
+ w4fjKUWo23sIfWqpfJWrO4o64BySxeLrzQjtK8/Ry414zfwcZ38K3RD1zUOB66c6VxdX
+ nJ9ODMo0Q5oW5WAOzBDmQotiP7x4tvFzoh+Vpkexh0qFBXklvdTm5R2bm3gruYdSee0R
+ wS4w==
+X-Gm-Message-State: APjAAAWxo0UHiCF1Hkjs8EcKujzQZ5DQK6Ex1RS2dSxHSXL5xrFMOW7w
+ SDJIZKOSxxCCljURiSC6Pvg=
+X-Google-Smtp-Source: APXvYqySEOvpOfPwuPAFigyoMeaNy8kB5ev0eFWXmvpgdh/4wtngluVayTjmQ0BWfvkogWWUwPnO/g==
+X-Received: by 2002:ac8:4890:: with SMTP id i16mr24359522qtq.211.1580273379691; 
+ Tue, 28 Jan 2020 20:49:39 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id a22sm487320qtd.48.2020.01.28.20.49.31
+ by smtp.gmail.com with ESMTPSA id a22sm487320qtd.48.2020.01.28.20.49.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 20:49:33 -0800 (PST)
+ Tue, 28 Jan 2020 20:49:39 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To: corbet@lwn.net,
 	mchehab+samsung@kernel.org
-Date: Wed, 29 Jan 2020 01:49:15 -0300
-Message-Id: <20200129044917.566906-4-dwlsalmeida@gmail.com>
+Date: Wed, 29 Jan 2020 01:49:17 -0300
+Message-Id: <20200129044917.566906-6-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129044917.566906-1-dwlsalmeida@gmail.com>
 References: <20200129044917.566906-1-dwlsalmeida@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-doc@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2 3/5] Documentation: nfs:
-	rpc-server-gss: convert to ReST
+Subject: [Linux-kernel-mentees] [PATCH v2 5/5] Documentation: nfs:
+	knfsd-stats: convert to ReST
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,99 +119,71 @@ Sender: "Linux-kernel-mentees"
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Convert rpc-server-gss.txt to ReST. Content remains mostly unchanged.
+Convert knfsd-stats.txt to ReST. Content remains mostly the same.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- Documentation/filesystems/nfs/index.rst       |  1 +
- ...{rpc-server-gss.txt => rpc-server-gss.rst} | 19 +++++++++++--------
- 2 files changed, 12 insertions(+), 8 deletions(-)
- rename Documentation/filesystems/nfs/{rpc-server-gss.txt => rpc-server-gss.rst} (92%)
+ Documentation/filesystems/nfs/index.rst         |  1 +
+ .../nfs/{knfsd-stats.txt => knfsd-stats.rst}    | 17 ++++++++---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+ rename Documentation/filesystems/nfs/{knfsd-stats.txt => knfsd-stats.rst} (95%)
 
 diff --git a/Documentation/filesystems/nfs/index.rst b/Documentation/filesystems/nfs/index.rst
-index 52f4956e7770..9d5365cbe2c3 100644
+index a0a678af921b..65805624e39b 100644
 --- a/Documentation/filesystems/nfs/index.rst
 +++ b/Documentation/filesystems/nfs/index.rst
-@@ -8,3 +8,4 @@ NFS
- 
-    pnfs
+@@ -10,3 +10,4 @@ NFS
     rpc-cache
-+   rpc-server-gss
-diff --git a/Documentation/filesystems/nfs/rpc-server-gss.txt b/Documentation/filesystems/nfs/rpc-server-gss.rst
-similarity index 92%
-rename from Documentation/filesystems/nfs/rpc-server-gss.txt
-rename to Documentation/filesystems/nfs/rpc-server-gss.rst
-index 310bbbaf9080..812754576845 100644
---- a/Documentation/filesystems/nfs/rpc-server-gss.txt
-+++ b/Documentation/filesystems/nfs/rpc-server-gss.rst
-@@ -1,4 +1,4 @@
+    rpc-server-gss
+    nfs41-server
++   knfsd-stats
+diff --git a/Documentation/filesystems/nfs/knfsd-stats.txt b/Documentation/filesystems/nfs/knfsd-stats.rst
+similarity index 95%
+rename from Documentation/filesystems/nfs/knfsd-stats.txt
+rename to Documentation/filesystems/nfs/knfsd-stats.rst
+index 1a5d82180b84..80bcf13550de 100644
+--- a/Documentation/filesystems/nfs/knfsd-stats.txt
++++ b/Documentation/filesystems/nfs/knfsd-stats.rst
+@@ -1,7 +1,9 @@
 -
-+=========================================
- rpcsec_gss support for kernel RPC servers
- =========================================
++============================
+ Kernel NFS Server Statistics
+ ============================
  
-@@ -9,14 +9,17 @@ NFSv4.1 and higher don't require the client to act as a server for the
- purposes of authentication.)
- 
- RPCGSS is specified in a few IETF documents:
++:Authors: Greg Banks <gnb@sgi.com> - 26 Mar 2009
 +
-  - RFC2203 v1: http://tools.ietf.org/rfc/rfc2203.txt
-  - RFC5403 v2: http://tools.ietf.org/rfc/rfc5403.txt
-+
- and there is a 3rd version  being proposed:
-+
-  - http://tools.ietf.org/id/draft-williams-rpcsecgssv3.txt
-    (At draft n. 02 at the time of writing)
+ This document describes the format and semantics of the statistics
+ which the kernel NFS server makes available to userspace.  These
+ statistics are available in several text form pseudo files, each of
+@@ -18,7 +20,7 @@ by parsing routines.  All other lines contain a sequence of fields
+ separated by whitespace.
  
- Background
------------
-+==========
+ /proc/fs/nfsd/pool_stats
+-------------------------
++========================
  
- The RPCGSS Authentication method describes a way to perform GSSAPI
- Authentication for NFS.  Although GSSAPI is itself completely mechanism
-@@ -29,6 +32,7 @@ depends on GSSAPI extensions that are KRB5 specific.
- GSSAPI is a complex library, and implementing it completely in kernel is
- unwarranted. However GSSAPI operations are fundementally separable in 2
- parts:
-+
- - initial context establishment
- - integrity/privacy protection (signing and encrypting of individual
-   packets)
-@@ -41,7 +45,7 @@ kernel, but leave the initial context establishment to userspace.  We
- need upcalls to request userspace to perform context establishment.
+ This file is available in kernels from 2.6.30 onwards, if the
+ /proc/fs/nfsd filesystem is mounted (it almost always should be).
+@@ -109,15 +111,12 @@ this case), or the transport can be enqueued for later attention
+ (sockets-enqueued counts this case), or the packet can be temporarily
+ deferred because the transport is currently being used by an nfsd
+ thread.  This last case is not very interesting and is not explicitly
+-counted, but can be inferred from the other counters thus:
++counted, but can be inferred from the other counters thus::
  
- NFS Server Legacy Upcall Mechanism
------------------------------------
-+==================================
+-packets-deferred = packets-arrived - ( sockets-enqueued + threads-woken )
++	packets-deferred = packets-arrived - ( sockets-enqueued + threads-woken )
  
- The classic upcall mechanism uses a custom text based upcall mechanism
- to talk to a custom daemon called rpc.svcgssd that is provide by the
-@@ -62,21 +66,20 @@ groups) due to limitation on the size of the buffer that can be send
- back to the kernel (4KiB).
  
- NFS Server New RPC Upcall Mechanism
-------------------------------------
-+===================================
- 
- The newer upcall mechanism uses RPC over a unix socket to a daemon
- called gss-proxy, implemented by a userspace program called Gssproxy.
- 
--The gss_proxy RPC protocol is currently documented here:
+ More
+-----
+-Descriptions of the other statistics file should go here.
 -
--	https://fedorahosted.org/gss-proxy/wiki/ProtocolDocumentation
-+The gss_proxy RPC protocol is currently documented `here
-+<https://fedorahosted.org/gss-proxy/wiki/ProtocolDocumentation>`_.
++====
  
- This upcall mechanism uses the kernel rpc client and connects to the gssproxy
- userspace program over a regular unix socket. The gssproxy protocol does not
- suffer from the size limitations of the legacy protocol.
- 
- Negotiating Upcall Mechanisms
-------------------------------
-+=============================
- 
- To provide backward compatibility, the kernel defaults to using the
- legacy mechanism.  To switch to the new mechanism, gss-proxy must bind
+-Greg Banks <gnb@sgi.com>
+-26 Mar 2009
++Descriptions of the other statistics file should go here.
 -- 
 2.25.0
 
