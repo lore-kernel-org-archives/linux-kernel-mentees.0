@@ -8,96 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7E3C33CB7
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 17:00:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B73AC2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 17:00:08 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 763E22071E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 17:00:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 711C22071E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 17:00:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="shw0t8B3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 763E22071E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b696053/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 711C22071E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 57D2721F69;
-	Wed, 29 Jan 2020 17:00:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 39E8B2157D;
+	Wed, 29 Jan 2020 17:00:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mD8qZp37HF4E; Wed, 29 Jan 2020 17:00:00 +0000 (UTC)
+	with ESMTP id 8EjD6AJDVdX0; Wed, 29 Jan 2020 17:00:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D99242154B;
-	Wed, 29 Jan 2020 17:00:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3E3702155E;
+	Wed, 29 Jan 2020 17:00:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6498C0178;
-	Wed, 29 Jan 2020 17:00:00 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 500F1C0171
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2AE62C0178;
+	Wed, 29 Jan 2020 17:00:06 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2E5F1C0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 17:00:00 +0000 (UTC)
+ Wed, 29 Jan 2020 17:00:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3EACD834A0
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2B12E881DC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 17:00:00 +0000 (UTC)
+ Wed, 29 Jan 2020 17:00:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BoQdvVLv0ufZ
+ with ESMTP id YKPRnV+lcO9r
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 16:59:58 +0000 (UTC)
+ Wed, 29 Jan 2020 17:00:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 4E5F18350D
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A74C8881D9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 16:59:58 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id u131so54165pgc.10
+ Wed, 29 Jan 2020 17:00:04 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id 12so22508pjb.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 08:59:58 -0800 (PST)
+ Wed, 29 Jan 2020 09:00:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=eHjjsiMv1wzBzYyD+HE2PIrBR1oeknOAP7k+Y37wTOU=;
- b=shw0t8B3zA6CFyI1x/5Y4QVs4mRC4KcQuPyKBA/kKA/pBp5R3adOcDf+e8sY/1XebQ
- nuR793bgVlDQfNjsSd8SYIrZziZmqY+enjkFZ/ndySx/mJ2S2BWlg7CTzhkAJltN4yW1
- YvIA4zjInhJewzLRZXwgyzGbUzhhWj4pS52a3hOgjW4beVUctm/BaxLXqWXmH592ycZ3
- iwLlUEFamzMt0nogbi7KDvOQI/6h3ACnDHhWZB7SDmj8p0IDvCyZRM0J0TXDFTIegn0d
- txtdOIrQdDxD01YEUM/4eBjlN8Cjf3zafwyWwZBDHWpH20NHXUZbcB2bPYE/LZg560FK
- TPWw==
+ bh=bPvZB2eXnaQVO0WfOG+R7PFYHNHOhAB7tEpy1Zm0ayk=;
+ b=b696053/Lt9vjqeFFvinQoccKggmldIV0Y1dzSBoR7i3gVTaRlbbMgLIp0TzZQCFwX
+ Ryg50luCMbqng2qTecKgyo9na24UhZiRqmsLXR3oV1zcIirYWmu7dqtUyPwvSIaZy5X+
+ /iL5AkJjnwIg4RH3c7zNApVrMneIZeTQCJhakDmqu/P15MVEiAnqUMHPtosbVpLi3+mt
+ Nu/d+MnRe6NmhlXIZFlGGSm7wFZ7l2aVt2xEHOa7iRklUqJ5MAveXW4SbK0eHUYvaHuE
+ 7rS5qXrL79jLKCgpcd5kklcWt8evCPADzm59uRvGUFYtyNwJXlv6a5dbsf2Bka1dE0Wz
+ 6oJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=eHjjsiMv1wzBzYyD+HE2PIrBR1oeknOAP7k+Y37wTOU=;
- b=Ljx1IP/0Gtq5hRXNuurQWfhBJcW15VMIJynf2Z+2zDC3J72Zg4frU9crL1YzDik+GW
- CPxz0o+Meb+jsp7zzrKSJfZ5AecVj6zLZo0v6hbz9cD+910ztTKL4x18SYiwsnCyCVEp
- XInxZ0/1aRvEzYeUaY736tnAiMCUy5BrZW7kjOo3YrG2wTAqIUo7ekX+qQ4t/+KGypaz
- 8LcejuMstFXzBcFA+WMkE8zink7yRTE7jwxmRBP3B7LvvhtPcWS/JtrmYGoNohPNz1s6
- dId1OHGhYxTnaBd3HMkQB9azMDx+SniZIoTzhykViaD4CDlrrWPOZkPsq57LjNlX1HgB
- xtPg==
-X-Gm-Message-State: APjAAAU9CyddsKoUdOcPfP9VU0ZNPGhIHk4xW2PM/Rj0qifC7kZEv9V+
- dZ6SoWSR4adTrETBTtd/n5E=
-X-Google-Smtp-Source: APXvYqxABWPyCjxgqwnirseesvhmXcgODMGoWG64H+djLbHYA5lVIEhFjUKzaCXD/ZciOPEJSZoA6A==
-X-Received: by 2002:aa7:8bcd:: with SMTP id s13mr518903pfd.234.1580317197984; 
- Wed, 29 Jan 2020 08:59:57 -0800 (PST)
+ bh=bPvZB2eXnaQVO0WfOG+R7PFYHNHOhAB7tEpy1Zm0ayk=;
+ b=EHm3K3NFzqu8auLKtc0Y/uML7ly+kdV6gcaU9sbp6t4+oM0vDCBHaxqgpAiH5CGrEi
+ tudWHJV9fa7aadn0ahHvQMk4eGnJF2S6rFgPlDJG3Xoz7rt6AP8tGveqP09y9Dfh3W4Q
+ vmAxh4nTzscHzHPK3kGGAVcpeixqhecY28vm2gLEIHXSHqjgdO6D7sg1irEfnvanRNeD
+ 5OyJsktv9m9PBNEnHhcO70bQEUOlDrlL/XjdVe9W4h3KivgrN7Rb0omlwOcQJwU+3T1n
+ 6GKJ0EAqqD+EiDWWXaf4v+HXD8+MJvirN/UARHkyBREhSDiyZZ71uspJfHlM9KqsTOkQ
+ Lc/g==
+X-Gm-Message-State: APjAAAU6QttXadoKzIt2t4GvL7ZM8jgAxb1tCgBti9D6TF8RcbL2ZUz5
+ 4E5rE69M3NYZq5h5xqk3kMI=
+X-Google-Smtp-Source: APXvYqzxWBAM79wHdhfvx7HHnyjNePmla14ZZU8SCEMcp3qgnwSWntL6S+VfriBAQyiyMUfbBfvcng==
+X-Received: by 2002:a17:902:ba8a:: with SMTP id
+ k10mr271498pls.333.1580317204283; 
+ Wed, 29 Jan 2020 09:00:04 -0800 (PST)
 Received: from localhost.localdomain ([2405:205:c92f:3ccd:49ce:a9e3:28b5:cf94])
- by smtp.gmail.com with ESMTPSA id f8sm3223610pfn.2.2020.01.29.08.59.54
+ by smtp.gmail.com with ESMTPSA id f8sm3223610pfn.2.2020.01.29.08.59.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 08:59:57 -0800 (PST)
+ Wed, 29 Jan 2020 09:00:03 -0800 (PST)
 From: Pragat Pandya <pragat.pandya@gmail.com>
 To: gregkh@linuxfoundation.org,
 	valdis.kletnieks@vt.edu
-Date: Wed, 29 Jan 2020 22:28:25 +0530
-Message-Id: <20200129165832.10574-13-pragat.pandya@gmail.com>
+Date: Wed, 29 Jan 2020 22:28:26 +0530
+Message-Id: <20200129165832.10574-14-pragat.pandya@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200129165832.10574-1-pragat.pandya@gmail.com>
 References: <20200129165832.10574-1-pragat.pandya@gmail.com>
 Cc: devel@driverdev.osuosl.org, Pragat Pandya <pragat.pandya@gmail.com>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 12/19] staging: exfat: Rename
-	variable 'UsedClusters' to 'used_clusters'
+Subject: [Linux-kernel-mentees] [PATCH 13/19] staging: exfat: Rename
+	variable 'Name' to 'name'
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,53 +118,85 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 Fix checkpatch warning: Avoid CamelCase.
-Change all occurrecnes of identifier "UsedClusters" to "used_clusters"
+Change all occurrences of identifier "Name" to "name"
 
 Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
 ---
- drivers/staging/exfat/exfat.h       | 2 +-
- drivers/staging/exfat/exfat_super.c | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/exfat/exfat.h       |  2 +-
+ drivers/staging/exfat/exfat_super.c | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/exfat/exfat.h b/drivers/staging/exfat/exfat.h
-index 2c42519d5eba..2242cf1fdb4a 100644
+index 2242cf1fdb4a..e74e4d5fecd4 100644
 --- a/drivers/staging/exfat/exfat.h
 +++ b/drivers/staging/exfat/exfat.h
-@@ -246,7 +246,7 @@ struct vol_info_t {
- 	u32      cluster_size;
- 	u32      num_clusters;
- 	u32      free_clusters;
--	u32      UsedClusters;
-+	u32      used_clusters;
+@@ -270,7 +270,7 @@ struct file_id_t {
  };
  
- /* directory structure */
+ struct dir_entry_t {
+-	char Name[MAX_NAME_LENGTH * MAX_CHARSET_SIZE];
++	char name[MAX_NAME_LENGTH * MAX_CHARSET_SIZE];
+ 
+ 	/* used only for FAT12/16/32, not used for exFAT */
+ 	char ShortName[DOS_NAME_LENGTH + 2];
 diff --git a/drivers/staging/exfat/exfat_super.c b/drivers/staging/exfat/exfat_super.c
-index 335bf39aa171..4b8ffb8ab557 100644
+index 4b8ffb8ab557..8e9684808cba 100644
 --- a/drivers/staging/exfat/exfat_super.c
 +++ b/drivers/staging/exfat/exfat_super.c
-@@ -497,8 +497,8 @@ static int ffsGetVolInfo(struct super_block *sb, struct vol_info_t *info)
- 	info->fat_type = p_fs->vol_type;
- 	info->cluster_size = p_fs->cluster_size;
- 	info->num_clusters = p_fs->num_clusters - 2; /* clu 0 & 1 */
--	info->UsedClusters = p_fs->used_clusters;
--	info->free_clusters = info->num_clusters - info->UsedClusters;
-+	info->used_clusters = p_fs->used_clusters;
-+	info->free_clusters = info->num_clusters - info->used_clusters;
+@@ -1465,7 +1465,7 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
+ 			memset((char *)&info->AccessTimestamp, 0,
+ 			       sizeof(struct date_time_t));
+ 			strcpy(info->ShortName, ".");
+-			strcpy(info->Name, ".");
++			strcpy(info->name, ".");
  
- 	if (p_fs->dev_ejected)
- 		err = -EIO;
-@@ -3351,8 +3351,8 @@ static int exfat_statfs(struct dentry *dentry, struct kstatfs *buf)
- 		info.fat_type = p_fs->vol_type;
- 		info.cluster_size = p_fs->cluster_size;
- 		info.num_clusters = p_fs->num_clusters - 2;
--		info.UsedClusters = p_fs->used_clusters;
--		info.free_clusters = info.num_clusters - info.UsedClusters;
-+		info.used_clusters = p_fs->used_clusters;
-+		info.free_clusters = info.num_clusters - info.used_clusters;
+ 			dir.dir = p_fs->root_dir;
+ 			dir.flags = 0x01;
+@@ -1530,7 +1530,7 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
+ 	 */
+ 	p_fs->fs_func->get_uni_name_from_ext_entry(sb, &fid->dir, fid->entry,
+ 						   uni_name.name);
+-	nls_uniname_to_cstring(sb, info->Name, &uni_name);
++	nls_uniname_to_cstring(sb, info->name, &uni_name);
  
- 		if (p_fs->dev_ejected)
- 			pr_info("[EXFAT] statfs on device that is ejected\n");
+ 	info->NumSubdirs = 2;
+ 
+@@ -1948,7 +1948,7 @@ static int ffsReadDir(struct inode *inode, struct dir_entry_t *dir_entry)
+ 			*uni_name.name = 0x0;
+ 			fs_func->get_uni_name_from_ext_entry(sb, &dir, dentry,
+ 							     uni_name.name);
+-			nls_uniname_to_cstring(sb, dir_entry->Name, &uni_name);
++			nls_uniname_to_cstring(sb, dir_entry->name, &uni_name);
+ 			exfat_buf_unlock(sb, sector);
+ 
+ 			ep = get_entry_in_dir(sb, &clu, i + 1, NULL);
+@@ -1991,7 +1991,7 @@ static int ffsReadDir(struct inode *inode, struct dir_entry_t *dir_entry)
+ 		}
+ 	}
+ 
+-	*dir_entry->Name = '\0';
++	*dir_entry->name = '\0';
+ 
+ 	fid->rwoffset = (s64)(++dentry);
+ 
+@@ -2129,7 +2129,7 @@ static int exfat_readdir(struct file *filp, struct dir_context *ctx)
+ 
+ 	cpos = EXFAT_I(inode)->fid.rwoffset << DENTRY_SIZE_BITS;
+ 
+-	if (!de.Name[0])
++	if (!de.name[0])
+ 		goto end_of_dir;
+ 
+ 	if (!memcmp(de.ShortName, DOS_CUR_DIR_NAME, DOS_NAME_LENGTH)) {
+@@ -2149,7 +2149,7 @@ static int exfat_readdir(struct file *filp, struct dir_context *ctx)
+ 		}
+ 	}
+ 
+-	if (!dir_emit(ctx, de.Name, strlen(de.Name), inum,
++	if (!dir_emit(ctx, de.name, strlen(de.name), inum,
+ 		      (de.Attr & ATTR_SUBDIR) ? DT_DIR : DT_REG))
+ 		goto out;
+ 
 -- 
 2.17.1
 
