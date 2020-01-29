@@ -2,102 +2,102 @@ Return-Path: <SRS0=ogxK=3S=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47838C35240
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 17:00:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1B17C2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 17:00:30 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1EB33215A4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 17:00:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A480E20720
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 17:00:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JuzyK2ic"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1EB33215A4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQFgmZ7c"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A480E20720
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 028428825E;
-	Wed, 29 Jan 2020 17:00:24 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 861C08823F;
+	Wed, 29 Jan 2020 17:00:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yE6vRLsTDkmG; Wed, 29 Jan 2020 17:00:23 +0000 (UTC)
+	with ESMTP id RHntLfqMpwC6; Wed, 29 Jan 2020 17:00:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 98D4388275;
-	Wed, 29 Jan 2020 17:00:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B40A18825E;
+	Wed, 29 Jan 2020 17:00:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96A3BC0178;
-	Wed, 29 Jan 2020 17:00:23 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C151DC0171
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B1093C0178;
+	Wed, 29 Jan 2020 17:00:28 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D3236C0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 17:00:21 +0000 (UTC)
+ Wed, 29 Jan 2020 17:00:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BE4D8832E1
+ by hemlock.osuosl.org (Postfix) with ESMTP id CC4C188236
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 17:00:21 +0000 (UTC)
+ Wed, 29 Jan 2020 17:00:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iCpRT9mAELvG
+ with ESMTP id 7Wwk7YqHH-Hu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 17:00:21 +0000 (UTC)
+ Wed, 29 Jan 2020 17:00:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 45C5B81E90
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2BC2C8825E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 17:00:21 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id fa20so32128pjb.1
+ Wed, 29 Jan 2020 17:00:26 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id y1so165759plp.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 09:00:21 -0800 (PST)
+ Wed, 29 Jan 2020 09:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Re+GjI9C7izuf8NURe9OZ9XSS0jaSob1qfaa/PaU3r8=;
- b=JuzyK2icLE4/NHojG1P9zT5/IOWVLZUapAZYMcTzvLDYauV96IgNVJaZfNNULspY2I
- 9DzuC+QuXU7WP9GEQRDg+QwP0eexmVDnIslSvcGgb+7k1+Kv77cUsM+Vo61ox30ZmkZY
- bmlWvJ1XXuMcFcOsOvb7bjGxx+XiqMFc4jA/7Mg8yMkD9VldTnPtskIeL36T8i8uekRF
- 3hGvjZzUlE86B88lW+moaIbTMagdUg0/DU8PFvVk/L++a83u/4WzY+BbBogn4MQ5h2Ld
- dczMJI90kIvzfVYsaZl+YpwBLoeUTq47H97fcffj9E0Lmnc8bGgXPY4oamZGOh5xWmcN
- 3p6w==
+ bh=X5DyFstm+Fabv2qYBB5NDWkEkfk8gyzH93R+wgHnU6E=;
+ b=nQFgmZ7cb/lHmtpGJwUbae71HxinF4WrQDEtyFk6+eYZC5NNwym6nrG3AdRGWTitIT
+ aRs9Q/H2ckvK1RAS2KbMaY6vpFZcfXTQAgNZyBToiIzDixwwvFJVceB3NRVL+7R8NQZV
+ GgNVUmm15+P+M24UwKR06kAPfi2ZEAjojh7D5H2KTlIv76KGQIuSqXZIiSP1J7OruZQN
+ oksSid1493MHjZ2JtuNqEug6Bj3LVVqc4q31yV4LxsrLECRjcgL9JZvtAb/XtmIvbkUV
+ JMSRkfVuN3KlCOUfgUL0SJixzIf4K8yJIXs6MV++e7XYB62LxOV6hvWcXH4jGLTuj/Su
+ nbmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Re+GjI9C7izuf8NURe9OZ9XSS0jaSob1qfaa/PaU3r8=;
- b=Qg7YbtAaeI1cnCmUrf2VVrsxEfyju9yeu9zkp+M/b/rBs9bsQXzgHMjnHKbri3TyOT
- 9ingtRGtGll9tCOch1v5sAcouiyjMxeEn4drtsw21KsAqt0ZUPsbBEdMYnoa/dt9cC8V
- Wzh0qzx+B5ylFN5eFPDQncU5kFIBZUxqGgIJ2O5j2TDYcFT7Ho+lFpMqEcj5sdSldRaz
- hBcheoPIczblUtd+yW1tRhJhDbqilr8+I7DMrnNH62ckhivGaQ7j+tN7pV3yh2JCAuvr
- Dc8+PLkg1iF6BqGQnbtrt581QJzTOHQRrnjhfytdt9wV5S+hq/4NlDBqyOfpl1JzCjPX
- 56iA==
-X-Gm-Message-State: APjAAAVb9SojGFY5HuYEaTz5U66YFtRQpthiibZ4t5sF/FJfGalINe4i
- sUuVhwwfWRoBqYcezKGkJn0=
-X-Google-Smtp-Source: APXvYqym2Cve/sWrde69rBx6Ve7uO608Kf0kw0RBG/Kvk5NBwuUvQ8DccUSFXZwYG4rOqU7+3YKYvw==
-X-Received: by 2002:a17:902:528:: with SMTP id 37mr306157plf.322.1580317220820; 
- Wed, 29 Jan 2020 09:00:20 -0800 (PST)
+ bh=X5DyFstm+Fabv2qYBB5NDWkEkfk8gyzH93R+wgHnU6E=;
+ b=YAYLQYJBQQEDlOJL4PAiEBhbpj6uZnyrM+nqsn1/KELiW0zzYrJpo4ZGiBfWkisFTj
+ cjiUGQ3Tl/KSzyD+kMo2wEorsXjxknxXiW8DxyVFAdKNM9yEV33UDg9oDXt55k0sZG50
+ riwW8SmcXlKB0Eug/22Rp39acmSByXRQaFhbIde9Qyiu63RWpg4NEHHSCELHPAJ7n8zD
+ E0lRUJUrbQVjD3j0xyc1Z4Za8DvirhDocxOCuShHNBLNEtYAOX8hDrXrj95Fu3aDj8Yq
+ y2LGDRkdcFXeQe4tMfAQBPaFe5RMCWcE8QHDkwKf+Bx3/9YeOILIWiHUxmXi5TJDlmuF
+ /Dow==
+X-Gm-Message-State: APjAAAVxgnPsMSgHcgR1MLyLabpf/WRh6poaaceqALSuh5VDjcvnbDtl
+ P0H0+znRKgl8tY7Sn1s6zjr6Xe239nM=
+X-Google-Smtp-Source: APXvYqw5gWUDWZTsleyhrwVCmHMkvzYsElcM5bMlPMQUDJiEptfbIgz27srgMEmyVbSk0kCWhisZOA==
+X-Received: by 2002:a17:90b:941:: with SMTP id dw1mr592147pjb.21.1580317225700; 
+ Wed, 29 Jan 2020 09:00:25 -0800 (PST)
 Received: from localhost.localdomain ([2405:205:c92f:3ccd:49ce:a9e3:28b5:cf94])
- by smtp.gmail.com with ESMTPSA id f8sm3223610pfn.2.2020.01.29.09.00.15
+ by smtp.gmail.com with ESMTPSA id f8sm3223610pfn.2.2020.01.29.09.00.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 09:00:20 -0800 (PST)
+ Wed, 29 Jan 2020 09:00:25 -0800 (PST)
 From: Pragat Pandya <pragat.pandya@gmail.com>
 To: gregkh@linuxfoundation.org,
 	valdis.kletnieks@vt.edu
-Date: Wed, 29 Jan 2020 22:28:29 +0530
-Message-Id: <20200129165832.10574-17-pragat.pandya@gmail.com>
+Date: Wed, 29 Jan 2020 22:28:30 +0530
+Message-Id: <20200129165832.10574-18-pragat.pandya@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200129165832.10574-1-pragat.pandya@gmail.com>
 References: <20200129165832.10574-1-pragat.pandya@gmail.com>
 Cc: devel@driverdev.osuosl.org, Pragat Pandya <pragat.pandya@gmail.com>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 16/19] staging: exfat: Rename
-	variable 'NumSubdirs' to 'num_subdirs'
+Subject: [Linux-kernel-mentees] [PATCH 17/19] staging: exfat: Rename
+	variable 'CreateTimestamp' to 'create_timestamp'
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,76 +117,120 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 Fix checkpatch warning: Avoid CamelCase.
-Change all occurrences of identifier "NumSubdirs" to "num_subdirs"
+Change all occurrences of identifier "CreateTimestamp" to
+"create_timestamp"
 
 Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
 ---
  drivers/staging/exfat/exfat.h       |  2 +-
- drivers/staging/exfat/exfat_super.c | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/exfat/exfat_super.c | 46 ++++++++++++++---------------
+ 2 files changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/staging/exfat/exfat.h b/drivers/staging/exfat/exfat.h
-index f1fa4d19a2e2..0b5ec053bb26 100644
+index 0b5ec053bb26..58db8ea700f8 100644
 --- a/drivers/staging/exfat/exfat.h
 +++ b/drivers/staging/exfat/exfat.h
-@@ -277,7 +277,7 @@ struct dir_entry_t {
- 
+@@ -278,7 +278,7 @@ struct dir_entry_t {
  	u32 attr;
  	u64 Size;
--	u32 NumSubdirs;
-+	u32 num_subdirs;
- 	struct date_time_t CreateTimestamp;
+ 	u32 num_subdirs;
+-	struct date_time_t CreateTimestamp;
++	struct date_time_t create_timestamp;
  	struct date_time_t ModifyTimestamp;
  	struct date_time_t AccessTimestamp;
+ };
 diff --git a/drivers/staging/exfat/exfat_super.c b/drivers/staging/exfat/exfat_super.c
-index 73d116b8d769..14a10f6f8653 100644
+index 14a10f6f8653..694acfd8c52a 100644
 --- a/drivers/staging/exfat/exfat_super.c
 +++ b/drivers/staging/exfat/exfat_super.c
-@@ -1484,7 +1484,7 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
- 				ret = count; /* propogate error upward */
- 				goto out;
- 			}
--			info->NumSubdirs = count;
-+			info->num_subdirs = count;
+@@ -1458,7 +1458,7 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
+ 		if ((fid->dir.dir == p_fs->root_dir) &&
+ 		    (fid->entry == -1)) {
+ 			info->attr = ATTR_SUBDIR;
+-			memset((char *)&info->CreateTimestamp, 0,
++			memset((char *)&info->create_timestamp, 0,
+ 			       sizeof(struct date_time_t));
+ 			memset((char *)&info->ModifyTimestamp, 0,
+ 			       sizeof(struct date_time_t));
+@@ -1505,13 +1505,13 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
+ 	info->attr = p_fs->fs_func->get_entry_attr(ep);
  
- 			if (p_fs->dev_ejected)
- 				ret = -EIO;
-@@ -1532,7 +1532,7 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
- 						   uni_name.name);
- 	nls_uniname_to_cstring(sb, info->name, &uni_name);
+ 	p_fs->fs_func->get_entry_time(ep, &tm, TM_CREATE);
+-	info->CreateTimestamp.year = tm.year;
+-	info->CreateTimestamp.month = tm.mon;
+-	info->CreateTimestamp.day = tm.day;
+-	info->CreateTimestamp.hour = tm.hour;
+-	info->CreateTimestamp.minute = tm.min;
+-	info->CreateTimestamp.second = tm.sec;
+-	info->CreateTimestamp.millisecond = 0;
++	info->create_timestamp.year = tm.year;
++	info->create_timestamp.month = tm.mon;
++	info->create_timestamp.day = tm.day;
++	info->create_timestamp.hour = tm.hour;
++	info->create_timestamp.minute = tm.min;
++	info->create_timestamp.second = tm.sec;
++	info->create_timestamp.millisecond = 0;
  
--	info->NumSubdirs = 2;
-+	info->num_subdirs = 2;
+ 	p_fs->fs_func->get_entry_time(ep, &tm, TM_MODIFY);
+ 	info->ModifyTimestamp.year = tm.year;
+@@ -1605,12 +1605,12 @@ static int ffsWriteStat(struct inode *inode, struct dir_entry_t *info)
+ 	p_fs->fs_func->set_entry_attr(ep, info->attr);
  
- 	info->Size = p_fs->fs_func->get_entry_size(ep2);
+ 	/* set FILE_INFO structure using the acquired struct dentry_t */
+-	tm.sec  = info->CreateTimestamp.second;
+-	tm.min  = info->CreateTimestamp.minute;
+-	tm.hour = info->CreateTimestamp.hour;
+-	tm.day  = info->CreateTimestamp.day;
+-	tm.mon  = info->CreateTimestamp.month;
+-	tm.year = info->CreateTimestamp.year;
++	tm.sec  = info->create_timestamp.second;
++	tm.min  = info->create_timestamp.minute;
++	tm.hour = info->create_timestamp.hour;
++	tm.day  = info->create_timestamp.day;
++	tm.mon  = info->create_timestamp.month;
++	tm.year = info->create_timestamp.year;
+ 	p_fs->fs_func->set_entry_time(ep, &tm, TM_CREATE);
  
-@@ -1551,7 +1551,7 @@ static int ffsReadStat(struct inode *inode, struct dir_entry_t *info)
- 			ret = count; /* propogate error upward */
- 			goto out;
- 		}
--		info->NumSubdirs += count;
-+		info->num_subdirs += count;
- 	}
+ 	tm.sec  = info->ModifyTimestamp.second;
+@@ -1925,13 +1925,13 @@ static int ffsReadDir(struct inode *inode, struct dir_entry_t *dir_entry)
+ 			dir_entry->attr = fs_func->get_entry_attr(ep);
  
- 	if (p_fs->dev_ejected)
-@@ -3167,7 +3167,7 @@ static int exfat_fill_inode(struct inode *inode, struct file_id_t *fid)
+ 			fs_func->get_entry_time(ep, &tm, TM_CREATE);
+-			dir_entry->CreateTimestamp.year = tm.year;
+-			dir_entry->CreateTimestamp.month = tm.mon;
+-			dir_entry->CreateTimestamp.day = tm.day;
+-			dir_entry->CreateTimestamp.hour = tm.hour;
+-			dir_entry->CreateTimestamp.minute = tm.min;
+-			dir_entry->CreateTimestamp.second = tm.sec;
+-			dir_entry->CreateTimestamp.millisecond = 0;
++			dir_entry->create_timestamp.year = tm.year;
++			dir_entry->create_timestamp.month = tm.mon;
++			dir_entry->create_timestamp.day = tm.day;
++			dir_entry->create_timestamp.hour = tm.hour;
++			dir_entry->create_timestamp.minute = tm.min;
++			dir_entry->create_timestamp.second = tm.sec;
++			dir_entry->create_timestamp.millisecond = 0;
  
- 		i_size_write(inode, info.Size);
- 		EXFAT_I(inode)->mmu_private = i_size_read(inode);
--		set_nlink(inode, info.NumSubdirs);
-+		set_nlink(inode, info.num_subdirs);
- 	} else if (info.attr & ATTR_SYMLINK) { /* symbolic link */
- 		inode->i_generation |= 1;
- 		inode->i_mode = exfat_make_mode(sbi, info.attr, 0777);
-@@ -3667,7 +3667,7 @@ static int exfat_read_root(struct inode *inode)
- 	inode->i_mtime = curtime;
- 	inode->i_atime = curtime;
- 	inode->i_ctime = curtime;
--	set_nlink(inode, info.NumSubdirs + 2);
-+	set_nlink(inode, info.num_subdirs + 2);
+ 			fs_func->get_entry_time(ep, &tm, TM_MODIFY);
+ 			dir_entry->ModifyTimestamp.year = tm.year;
+@@ -3192,7 +3192,7 @@ static int exfat_fill_inode(struct inode *inode, struct file_id_t *fid)
+ 				& ~((loff_t)p_fs->cluster_size - 1)) >> 9;
+ 
+ 	exfat_time_fat2unix(&inode->i_mtime, &info.ModifyTimestamp);
+-	exfat_time_fat2unix(&inode->i_ctime, &info.CreateTimestamp);
++	exfat_time_fat2unix(&inode->i_ctime, &info.create_timestamp);
+ 	exfat_time_fat2unix(&inode->i_atime, &info.AccessTimestamp);
  
  	return 0;
- }
+@@ -3263,7 +3263,7 @@ static int exfat_write_inode(struct inode *inode, struct writeback_control *wbc)
+ 	info.Size = i_size_read(inode);
+ 
+ 	exfat_time_unix2fat(&inode->i_mtime, &info.ModifyTimestamp);
+-	exfat_time_unix2fat(&inode->i_ctime, &info.CreateTimestamp);
++	exfat_time_unix2fat(&inode->i_ctime, &info.create_timestamp);
+ 	exfat_time_unix2fat(&inode->i_atime, &info.AccessTimestamp);
+ 
+ 	ffsWriteStat(inode, &info);
 -- 
 2.17.1
 
