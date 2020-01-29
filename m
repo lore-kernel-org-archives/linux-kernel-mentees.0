@@ -8,99 +8,101 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F081C2D0DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92065C35240
 	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 16:10:10 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A41D2070E
+	by mail.kernel.org (Postfix) with ESMTPS id 6844D2071E
 	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jan 2020 16:10:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eamuglrt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A41D2070E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7W8xJl3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6844D2071E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0E59F84D81;
+	by silver.osuosl.org (Postfix) with ESMTP id 44B4921552;
 	Wed, 29 Jan 2020 16:10:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ucMeYp6O_NKM; Wed, 29 Jan 2020 16:10:09 +0000 (UTC)
+	with ESMTP id SdjDOsUZdXHP; Wed, 29 Jan 2020 16:10:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9AD1880EBF;
+	by silver.osuosl.org (Postfix) with ESMTP id 6B1A1203EE;
 	Wed, 29 Jan 2020 16:10:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 86A0BC0881;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5154DC0881;
 	Wed, 29 Jan 2020 16:10:09 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E436FC0881
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D1D45C0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Wed, 29 Jan 2020 16:10:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C7BA181A22
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5933D82D57
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 16:10:08 +0000 (UTC)
+ Wed, 29 Jan 2020 16:09:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id k_Y1jpqzeHv5
+ with ESMTP id BQYdF4MJwNy8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Wed, 29 Jan 2020 16:09:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C60E584559
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 49BAB85F5A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 16:09:11 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id j4so6749pgi.1
+ Wed, 29 Jan 2020 16:09:16 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id c23so110899plz.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jan 2020 08:09:11 -0800 (PST)
+ Wed, 29 Jan 2020 08:09:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+oq96d085fk9R1zembWjfCyukhjjIatlVof2J+sNPxs=;
- b=EamuglrtmZ9uGundx/IPRJmVpL0Y/3ThnGKOVz4Zqb8m1MOH+bYP3fPoP5u8oz49Pn
- 1Ij0uVWlWzH+x4BHRgxbd/WvXmQvpf1139nKPgvcQwhptH7/kdEQp58OBYTmsNidNqu+
- t2BBYY5mNpfr1yt+vHtvAupk/RTbYduLBjxPdP3PIsc4rgg5R1XSPm2TAPcEGkAOASzE
- kY1PCIFULGkg/YJjrCq9QmJB8D/tSTQv/nAfwwkcDJjKNBiSDRAPmySG9yxlrYhEs4qd
- uM1e2ZNWjtHQ2PpOvWQBMcJKxfTO350EfYmBRbw1WpRyyTa+cta9B1bu6pubqqsmNGK6
- 5oVg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2w+XND7PBGeesb5X+LaSnTAVC7q/SmsQ7bhG7hGGu3k=;
+ b=c7W8xJl31owTz1Yx+RJ0t0lJeWMHmojPOvI9FTa0hToQ9rjk61F9cJpECaP8EbV9jV
+ WRZWrG5hZ7ErbuZZDvb4Z2ar70aqpQH+u6FO0iuWYBi7MWWnFPiRRLuaAnpssV+DyGNN
+ MisbUq3yuk+p3LM/1fKZ+8GjZEWkz7BLcGV8HFs/oPmu3w8rA+kTmif0eg8BeaZU0AuK
+ cEO1sVF3TrYI7hjmzlHWu4qdxcwtEn6XUo4TH+0B33NSGwu2HBe9wer6Pfz1830NTLdq
+ erOkBytkQCIlCU8kECVoDaG7m+JHQrcGcj1Tgu21IsrQnesl0MMlbNHzSs20osvTKgHn
+ Ahqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+oq96d085fk9R1zembWjfCyukhjjIatlVof2J+sNPxs=;
- b=DVoo+ZKJeWX/0eEhnIUTxqfNFH6usFoHDAn7DFG2QpgDtwPiuHW8/G+7yxXrna1cFO
- 6i3j21utDC0l9Qv7Z74FwQJqxyWJQymY2TchWMA3Mh5+SKMrIKpjCIrjA6QEGC4XHozN
- REBNtvkTSDYalfuG5Hv4XU5iAs7r6KElDXnwn1HXaDgHTcK5VlH6jgdV2jkxycL7CxF1
- rJA2c2rDeWohAq8A3T5wbT+PffcPIvcTnM9m8pBz2Y8ihKT73kOooviSJmy6pDP8Qf+A
- bl2SbR5pccClig4VhUPeRgWdCjAIhR238yOKgpEOcakGzzK8VyOmDDp5epH7uciPau3i
- 00Qg==
-X-Gm-Message-State: APjAAAW4jIKB6NxY9tip5hreTjJrJcGFNx6/X+B6W9WKVem5HfH5HhFi
- jqBwEq8RZpK8Xni6ww0sS2I=
-X-Google-Smtp-Source: APXvYqyhg/HldHGGdfEgHowy5IgtRURU9SafwhhUwsow9z2iqxxg52P1LutbN5nUIyb+3aqkQpZ/Eg==
-X-Received: by 2002:a65:5809:: with SMTP id g9mr31259946pgr.146.1580314151330; 
- Wed, 29 Jan 2020 08:09:11 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2w+XND7PBGeesb5X+LaSnTAVC7q/SmsQ7bhG7hGGu3k=;
+ b=LHFrUP/FQKkHO/zKWjOnAnqRxUUYfT1z40mG3Az+SOks/y5WNCN7e8XCx7VWphK31J
+ rMEdSfdYF2D5kmhWdc+7u5ZMLRMp8CKlS1D1ttXVIBqRXk4Q/4kzAoPlf+MlpGhKGXL0
+ GHRRVVKlKioHx/TU6ws2yGH0zjtP4HvHST6PUynuhSsZ3KsO0yum3WZbunKynMtrn73h
+ wRQVziYTXc1h5ccewZZ+nbrKVDhmFa54YjVdMKamzQWUEhm6n2UhcHR/NipEUNCQbaeX
+ 5csDkv2k1Ek0HK7LqdvZCn7wwbUrcm6P6cLL3vMGIT87bgm8EklSiFEbBxTm1L1GdxiZ
+ xqGw==
+X-Gm-Message-State: APjAAAVzLV2o+iEsNYTTLYml1RkbekPE6QEq3QiyNAdxtDWg0qDs3Ve6
+ P3b4G6xlWctREpvGxn9g814=
+X-Google-Smtp-Source: APXvYqyecajgm+oWpK3P0WbUAVW3ldWDqy8/QBKpagphreZeSIqivw+c88aMbpIHn528OveKK7/n2g==
+X-Received: by 2002:a17:90a:9f04:: with SMTP id n4mr363732pjp.76.1580314155804; 
+ Wed, 29 Jan 2020 08:09:15 -0800 (PST)
 Received: from localhost.localdomain ([146.196.37.139])
- by smtp.googlemail.com with ESMTPSA id 73sm3258801pgc.13.2020.01.29.08.09.08
+ by smtp.googlemail.com with ESMTPSA id 73sm3258801pgc.13.2020.01.29.08.09.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 08:09:10 -0800 (PST)
+ Wed, 29 Jan 2020 08:09:15 -0800 (PST)
 From: Amol Grover <frextrite@gmail.com>
 To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
  Arnaldo Carvalho de Melo <acme@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
  Alexander Shishkin <alexander.shishkin@linux.intel.com>,
  Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>
-Date: Wed, 29 Jan 2020 21:38:12 +0530
-Message-Id: <20200129160813.14263-1-frextrite@gmail.com>
+Date: Wed, 29 Jan 2020 21:38:13 +0530
+Message-Id: <20200129160813.14263-2-frextrite@gmail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200129160813.14263-1-frextrite@gmail.com>
+References: <20200129160813.14263-1-frextrite@gmail.com>
 MIME-Version: 1.0
 Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
  Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 1/2] events: callchain: Annotate RCU
-	pointer with __rcu
+Subject: [Linux-kernel-mentees] [PATCH 2/2] events: callchain: Use RCU API
+	to access RCU pointer
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,34 +120,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fixes following instances of sparse error
-error: incompatible types in comparison expression
-(different address spaces)
-kernel/events/callchain.c:66:9: error: incompatible types in comparison
-kernel/events/callchain.c:96:9: error: incompatible types in comparison
-kernel/events/callchain.c:161:19: error: incompatible types in comparison
+callchain_cpus_entries is annotated as an RCU pointer.
+Hence rcu_dereference_protected or similar RCU API is
+required to dereference the pointer.
 
-This introduces the following warning
+This fixes the following sparse warning
 kernel/events/callchain.c:65:17: warning: incorrect type in assignment
 
 Signed-off-by: Amol Grover <frextrite@gmail.com>
 ---
- kernel/events/callchain.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/events/callchain.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
-index c2b41a263166..f91e1f41d25d 100644
+index f91e1f41d25d..a672d02a1b3a 100644
 --- a/kernel/events/callchain.c
 +++ b/kernel/events/callchain.c
-@@ -32,7 +32,7 @@ static inline size_t perf_callchain_entry__sizeof(void)
- static DEFINE_PER_CPU(int, callchain_recursion[PERF_NR_CONTEXTS]);
- static atomic_t nr_callchain_events;
- static DEFINE_MUTEX(callchain_mutex);
--static struct callchain_cpus_entries *callchain_cpus_entries;
-+static struct callchain_cpus_entries __rcu *callchain_cpus_entries;
+@@ -62,7 +62,8 @@ static void release_callchain_buffers(void)
+ {
+ 	struct callchain_cpus_entries *entries;
  
- 
- __weak void perf_callchain_kernel(struct perf_callchain_entry_ctx *entry,
+-	entries = callchain_cpus_entries;
++	entries = rcu_dereference_protected(callchain_cpus_entries,
++					    lockdep_is_held(&callchain_mutex));
+ 	RCU_INIT_POINTER(callchain_cpus_entries, NULL);
+ 	call_rcu(&entries->rcu_head, release_callchain_buffers_rcu);
+ }
 -- 
 2.24.1
 
