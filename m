@@ -8,100 +8,96 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D925C2D0DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jan 2020 14:23:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F3E2C2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jan 2020 14:47:54 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3482720707
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jan 2020 14:23:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 33948214DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jan 2020 14:47:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3LnSqcA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3482720707
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dTYRlrP1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33948214DB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 035EB88409;
-	Thu, 30 Jan 2020 14:23:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 06221882E7;
+	Thu, 30 Jan 2020 14:47:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id R-3efrt3Rb5m; Thu, 30 Jan 2020 14:23:19 +0000 (UTC)
+	with ESMTP id NRYC-oTK5s4h; Thu, 30 Jan 2020 14:47:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7E059882AC;
-	Thu, 30 Jan 2020 14:23:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A5A0B87E81;
+	Thu, 30 Jan 2020 14:47:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 649B4C1796;
-	Thu, 30 Jan 2020 14:23:19 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D25E5C0171
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 94236C1796;
+	Thu, 30 Jan 2020 14:47:53 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0AF2FC0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 14:23:17 +0000 (UTC)
+ Thu, 30 Jan 2020 14:47:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CEA028659E
+ by whitealder.osuosl.org (Postfix) with ESMTP id EE5A687849
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 14:23:17 +0000 (UTC)
+ Thu, 30 Jan 2020 14:47:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iMWYeLPrZQjQ
+ with ESMTP id Yc+mIll3Ws6O
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 14:23:16 +0000 (UTC)
+ Thu, 30 Jan 2020 14:47:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7D7D286599
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9481187846
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 14:23:16 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id 4so1565565pfz.9
+ Thu, 30 Jan 2020 14:47:51 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id p11so1429004plq.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 06:23:16 -0800 (PST)
+ Thu, 30 Jan 2020 06:47:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6T7BA/VeHSTmsgbu5fmQVa4i4NpuWX85GL9aH8ZEE74=;
- b=R3LnSqcAeDVQOAHlpG1owMpEpBN/wKJXlNPE4yy2OJftYy+o1XFdg2UvFuYOcApUCs
- wzj6xHPsgPqTmDBIZ31a33yVDP95XBf9aS8RiBaegWDx0USmHQD2N6xncypmbbIL/V7S
- pAZF1CnqdBCMYawpCCBIulwl5/aQ0566iMvNDUqD0+AwGHu/QG8wdXxZQtTPEX4MvPUC
- TJsILeo5ZsI7D1qb7HpdCPLQbJX37Lnr/P/obM2hE2jPsiRiv9YkcHI+EORU2tzzekTd
- lusGAtCSo5AWjvSe9SLGDRS1HbgWyDPTbTnruPvJ3wy/CXxvixVGmJ+tpuY6OacDhaFS
- i1OQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=8j7vPXQ8NnTfCALzCvlEWGGchYaunD8ZmjFF9OfryBo=;
+ b=dTYRlrP1Sg5/xLx73QGqX7OvqDFxXjeAQpEcGzWdvNok45gR/uNcMELPLogJvlqukJ
+ 5p6eRnQKAbCK+qxWIuVY8ecUzC35l3XjURCG9TmnYqtJDnGYqCcULECCl8n4gLWy1muU
+ zd1xmyRkjTwHELeVGWvx8ku+TYdQpEesAFPd61I6wmI4hUQ2878FMLmlZdGCy4c0zBx2
+ AZ9l4ruslNPJ4yCPjHNECJKtZs5fIMHSByDfxIr0QxPzGmCDi3mY+d5hPkbQwH3AwTTJ
+ ATO6K/wdTw2kRcqd9UuUimpgQnjlBuiCQ0Q8t6/+FhMdxKU/84RmSgaOQJYUczl86xuR
+ +23Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6T7BA/VeHSTmsgbu5fmQVa4i4NpuWX85GL9aH8ZEE74=;
- b=PR4eYpaJJ3c5s9oVxKbzu4UTDKEnd8Wg5uuE8bCdtAY6A3Sf3y2n+tu5aDrgIXL1SE
- XqSqj5rJAjmvjI76lBI7UA1YPVDQSrYzUV7P7dwB2PsigLLeSYz1ys1UQXjSy86xBfHz
- QQ1oER30a3fyM62WmaxSQKnEVlF7OjoNpPCM7+sNZMpFp7PCg4z0mNEtVbHeXnGPKZ8h
- g73OCNypPhF9+hrzyofU5TK6eEGipjVzs5RMgo0yp02qyPwpnSEucqYkPUWMuTJlFfxL
- v5vvdnPYGVv9ne8DiVUb27B5WIt2hrXBEw+Yqvti/WoOQYDADutJTrqAea8a3C1AeJ0K
- ekRg==
-X-Gm-Message-State: APjAAAVK1QJ0WCOiBuObvpgH31dj5gC4F7WhWt1+tOOsIdSxkW/Ry8i4
- NRgUfSMJHEwuuyd+DyzqPPY=
-X-Google-Smtp-Source: APXvYqyd+aww2fw9g4HcNT4GjoA8fFMGIE5pWD4/IgsGGZeCK+OdvzCgNlecdkjgsjA9wLillvUIvA==
-X-Received: by 2002:aa7:874b:: with SMTP id g11mr5469169pfo.225.1580394195955; 
- Thu, 30 Jan 2020 06:23:15 -0800 (PST)
-Received: from localhost.localdomain ([103.211.17.117])
- by smtp.googlemail.com with ESMTPSA id m71sm9840602pje.0.2020.01.30.06.23.13
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=8j7vPXQ8NnTfCALzCvlEWGGchYaunD8ZmjFF9OfryBo=;
+ b=ciVyQFTL6OTmtBzDQjyvFuPb68Q6HUmGGA7iHGXN+ZOlcqIqFJ5vuAVXEz3Cb/7oRx
+ qWBIEw3yv1Is5vx+8ATydI0Xwwwufcqw478SSAR9X3awa8RjWQUHJKCsEQhvRlJtINbt
+ QRB/xj+CV5zU3f6hR9EgaAKCTet4Wxe/LLUnowPMnOJDPMXIQODpkUwk+ROxCNgrBeyA
+ VCXdCrLB2CIwu5G0laHUvPXMOVvXjYx9Gc7WlYHr08pL6aWHVNYnumJesPPU10/v94CQ
+ P3SkuP/m/aalAdU7cSBb5ogOtapm2Td5Jpi/qowO2H6NyHfhvLnl2h2EjDdqw/DXFfJC
+ hOHQ==
+X-Gm-Message-State: APjAAAU7z6VeGARZ/16WQ3TsAoyq3ByaMF76p7pIBFgTX4jpTVgTnLy2
+ Rq73OoGoPWkuVDnO/aNk1g==
+X-Google-Smtp-Source: APXvYqxweGS12eq7xzPRA2TGNxLW34igZlRxFgUer0mcaJqfFCqFllIcyokHKrPw9a9xIZBKM24v8g==
+X-Received: by 2002:a17:90a:e653:: with SMTP id
+ ep19mr6606383pjb.58.1580395671183; 
+ Thu, 30 Jan 2020 06:47:51 -0800 (PST)
+Received: from madhuparna-HP-Notebook.nitk.ac.in
+ ([2402:3a80:1ee1:f815:d421:7a49:b2e4:2bd6])
+ by smtp.gmail.com with ESMTPSA id b1sm7204927pfg.182.2020.01.30.06.47.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 06:23:15 -0800 (PST)
-From: Amol Grover <frextrite@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>
-Date: Thu, 30 Jan 2020 19:48:19 +0530
-Message-Id: <20200130141818.18391-1-frextrite@gmail.com>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
-Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- Joel Fernandes <joel@joelfernandes.org>,
+ Thu, 30 Jan 2020 06:47:50 -0800 (PST)
+From: madhuparnabhowmik10@gmail.com
+To: peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+ mark.rutland@arm.com, alexander.shishkin@linux.intel.com, olsa@redhat.com,
+ namhyung@kernel.org
+Date: Thu, 30 Jan 2020 20:17:28 +0530
+Message-Id: <20200130144728.24072-1-madhuparnabhowmik10@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: paulmck@kernel.org, linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, joel@joelfernandes.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2] callchain: Annotate RCU pointer
-	with __rcu
+Subject: [Linux-kernel-mentees] [PATCH] perf_event.h: Add RCU Annotation to
+	struct ring_buffer in perf_event
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,60 +109,50 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fixes following instances of sparse error
-error: incompatible types in comparison expression
-(different address spaces)
-kernel/events/callchain.c:66:9: error: incompatible types in comparison
-kernel/events/callchain.c:96:9: error: incompatible types in comparison
-kernel/events/callchain.c:161:19: error: incompatible types in comparison
+From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 
-This introduces the following warning
-kernel/events/callchain.c:65:17: warning: incorrect type in assignment
-which is fixed as below
+This patch fixes the following sparse errors in events/core.c
+and events/ring_buffer.c by adding RCU Annotation to struct
+ring_buffer in perf_event:
 
-callchain_cpus_entries is annotated as an RCU pointer.
-Hence rcu_dereference_protected or similar RCU API is
-required to dereference the pointer.
+kernel/events/core.c:5597:9: error: incompatible types in comparison expression
+kernel/events/core.c:5303:22: error: incompatible types in comparison expression
+kernel/events/core.c:5439:14: error: incompatible types in comparison expression
+kernel/events/core.c:5472:14: error: incompatible types in comparison expression
+kernel/events/core.c:5529:14: error: incompatible types in comparison expression
+kernel/events/core.c:5615:14: error: incompatible types in comparison expression
+kernel/events/core.c:5615:14: error: incompatible types in comparison expression
+kernel/events/core.c:7183:13: error: incompatible types in comparison expression
 
-Signed-off-by: Amol Grover <frextrite@gmail.com>
+kernel/events/ring_buffer.c:169:14: error: incompatible types in comparison expression
+
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 ---
-v2:
-- Squash both the commits into a single one.
+ include/linux/perf_event.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- kernel/events/callchain.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
-index c2b41a263166..a672d02a1b3a 100644
---- a/kernel/events/callchain.c
-+++ b/kernel/events/callchain.c
-@@ -32,7 +32,7 @@ static inline size_t perf_callchain_entry__sizeof(void)
- static DEFINE_PER_CPU(int, callchain_recursion[PERF_NR_CONTEXTS]);
- static atomic_t nr_callchain_events;
- static DEFINE_MUTEX(callchain_mutex);
--static struct callchain_cpus_entries *callchain_cpus_entries;
-+static struct callchain_cpus_entries __rcu *callchain_cpus_entries;
+diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+index 6d4c22aee384..1691107d2800 100644
+--- a/include/linux/perf_event.h
++++ b/include/linux/perf_event.h
+@@ -694,7 +694,7 @@ struct perf_event {
+ 	struct mutex			mmap_mutex;
+ 	atomic_t			mmap_count;
  
- 
- __weak void perf_callchain_kernel(struct perf_callchain_entry_ctx *entry,
-@@ -62,7 +62,8 @@ static void release_callchain_buffers(void)
- {
- 	struct callchain_cpus_entries *entries;
- 
--	entries = callchain_cpus_entries;
-+	entries = rcu_dereference_protected(callchain_cpus_entries,
-+					    lockdep_is_held(&callchain_mutex));
- 	RCU_INIT_POINTER(callchain_cpus_entries, NULL);
- 	call_rcu(&entries->rcu_head, release_callchain_buffers_rcu);
- }
+-	struct ring_buffer		*rb;
++	struct ring_buffer __rcu	*rb;
+ 	struct list_head		rb_entry;
+ 	unsigned long			rcu_batches;
+ 	int				rcu_pending;
 -- 
-2.24.1
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
