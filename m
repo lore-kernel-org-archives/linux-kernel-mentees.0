@@ -2,100 +2,106 @@ Return-Path: <SRS0=9uDz=3T=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC0DC2D0DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jan 2020 13:33:05 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D925C2D0DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jan 2020 14:23:20 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7133F2063A
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jan 2020 13:33:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3482720707
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jan 2020 14:23:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kV/vA7M3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7133F2063A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3LnSqcA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3482720707
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3F6D6877E3;
-	Thu, 30 Jan 2020 13:33:05 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MDCpfKU6MBUt; Thu, 30 Jan 2020 13:33:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8F3CB87697;
-	Thu, 30 Jan 2020 13:33:04 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 75723C0178;
-	Thu, 30 Jan 2020 13:33:04 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C7A2CC0171
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 13:33:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id AE7DB88355
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 13:33:03 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 035EB88409;
+	Thu, 30 Jan 2020 14:23:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id R-3efrt3Rb5m; Thu, 30 Jan 2020 14:23:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7E059882AC;
+	Thu, 30 Jan 2020 14:23:19 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 649B4C1796;
+	Thu, 30 Jan 2020 14:23:19 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D25E5C0171
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 Jan 2020 14:23:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id CEA028659E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 Jan 2020 14:23:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HZcBw7K+zT-4
+ with ESMTP id iMWYeLPrZQjQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 13:33:03 +0000 (UTC)
+ Thu, 30 Jan 2020 14:23:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1D8DD8834D
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7D7D286599
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jan 2020 13:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=0IrD+2Cqd6pTqVBOmkUhWueH8hwhXeAEBdAFin7xf14=; b=kV/vA7M3cXkS/0OU/mQ8HtZpi
- meJlra5xXbFWq7LLPR6gkFU3F1gLSsHUANg6Ond0+b4QhQZyxqEGAFXMYWbejI6JQfzyeUCLzwY6N
- 99qPtTN+NR1TSyhiC98uJjMuvYiSS/p05+qA4ju6GlwJKh6Z/UGCoKxckKsDT5aOBZhVF6gBzNEs7
- RDLFxWd5cb/8HgQyqxKFZp5JGlUMRlywsSyfR4ea9MVWZCzVd/04RilXmqQrhrJQz9swz97vBrwex
- JLrJJQis46zdRMswFFqS/579Mb3n0ajDoJQCZTCuw4M9G152kSzeF34yd82z8yk2PVfzDASwf8jM0
- 2eJcxn16Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ix9wC-0003qO-2x; Thu, 30 Jan 2020 13:32:52 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 627343053FB;
- Thu, 30 Jan 2020 14:31:05 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 9F4102B2800FE; Thu, 30 Jan 2020 14:32:48 +0100 (CET)
-Date: Thu, 30 Jan 2020 14:32:48 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20200130133248.GW14914@hirez.programming.kicks-ass.net>
-References: <20200129160813.14263-1-frextrite@gmail.com>
- <20200129160813.14263-2-frextrite@gmail.com>
- <20200129221909.GA74354@google.com>
- <20200130082321.GX14879@hirez.programming.kicks-ass.net>
- <20200130101451.GA11015@workstation-portable>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200130101451.GA11015@workstation-portable>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "Paul E . McKenney" <paulmck@kernel.org>,
+ Thu, 30 Jan 2020 14:23:16 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id 4so1565565pfz.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 Jan 2020 06:23:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6T7BA/VeHSTmsgbu5fmQVa4i4NpuWX85GL9aH8ZEE74=;
+ b=R3LnSqcAeDVQOAHlpG1owMpEpBN/wKJXlNPE4yy2OJftYy+o1XFdg2UvFuYOcApUCs
+ wzj6xHPsgPqTmDBIZ31a33yVDP95XBf9aS8RiBaegWDx0USmHQD2N6xncypmbbIL/V7S
+ pAZF1CnqdBCMYawpCCBIulwl5/aQ0566iMvNDUqD0+AwGHu/QG8wdXxZQtTPEX4MvPUC
+ TJsILeo5ZsI7D1qb7HpdCPLQbJX37Lnr/P/obM2hE2jPsiRiv9YkcHI+EORU2tzzekTd
+ lusGAtCSo5AWjvSe9SLGDRS1HbgWyDPTbTnruPvJ3wy/CXxvixVGmJ+tpuY6OacDhaFS
+ i1OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6T7BA/VeHSTmsgbu5fmQVa4i4NpuWX85GL9aH8ZEE74=;
+ b=PR4eYpaJJ3c5s9oVxKbzu4UTDKEnd8Wg5uuE8bCdtAY6A3Sf3y2n+tu5aDrgIXL1SE
+ XqSqj5rJAjmvjI76lBI7UA1YPVDQSrYzUV7P7dwB2PsigLLeSYz1ys1UQXjSy86xBfHz
+ QQ1oER30a3fyM62WmaxSQKnEVlF7OjoNpPCM7+sNZMpFp7PCg4z0mNEtVbHeXnGPKZ8h
+ g73OCNypPhF9+hrzyofU5TK6eEGipjVzs5RMgo0yp02qyPwpnSEucqYkPUWMuTJlFfxL
+ v5vvdnPYGVv9ne8DiVUb27B5WIt2hrXBEw+Yqvti/WoOQYDADutJTrqAea8a3C1AeJ0K
+ ekRg==
+X-Gm-Message-State: APjAAAVK1QJ0WCOiBuObvpgH31dj5gC4F7WhWt1+tOOsIdSxkW/Ry8i4
+ NRgUfSMJHEwuuyd+DyzqPPY=
+X-Google-Smtp-Source: APXvYqyd+aww2fw9g4HcNT4GjoA8fFMGIE5pWD4/IgsGGZeCK+OdvzCgNlecdkjgsjA9wLillvUIvA==
+X-Received: by 2002:aa7:874b:: with SMTP id g11mr5469169pfo.225.1580394195955; 
+ Thu, 30 Jan 2020 06:23:15 -0800 (PST)
+Received: from localhost.localdomain ([103.211.17.117])
+ by smtp.googlemail.com with ESMTPSA id m71sm9840602pje.0.2020.01.30.06.23.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jan 2020 06:23:15 -0800 (PST)
+From: Amol Grover <frextrite@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
  Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Joel Fernandes <joel@joelfernandes.org>, Namhyung Kim <namhyung@kernel.org>,
- Jiri Olsa <jolsa@redhat.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] events: callchain: Use RCU
-	API to access RCU pointer
+ Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>
+Date: Thu, 30 Jan 2020 19:48:19 +0530
+Message-Id: <20200130141818.18391-1-frextrite@gmail.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v2] callchain: Annotate RCU pointer
+	with __rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,30 +119,55 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jan 30, 2020 at 03:44:51PM +0530, Amol Grover wrote:
-> > > > diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
-> > > > index f91e1f41d25d..a672d02a1b3a 100644
-> > > > --- a/kernel/events/callchain.c
-> > > > +++ b/kernel/events/callchain.c
-> > > > @@ -62,7 +62,8 @@ static void release_callchain_buffers(void)
-> > > >  {
-> > > >  	struct callchain_cpus_entries *entries;
-> > > >  
-> > > > -	entries = callchain_cpus_entries;
-> > > > +	entries = rcu_dereference_protected(callchain_cpus_entries,
-> > > > +					    lockdep_is_held(&callchain_mutex));
-> > > 
-> > > 
-> > > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > 
-> > Do we really need that smp_read_barrier_depends() here? Then again, I
-> > don't suppose this is a fast path.
-> > 
-> 
-> rcu_dereference_protected is actually a lightweight API and IIRC it
-> omits the READ_ONCE() and hence the memory barriers.
+Fixes following instances of sparse error
+error: incompatible types in comparison expression
+(different address spaces)
+kernel/events/callchain.c:66:9: error: incompatible types in comparison
+kernel/events/callchain.c:96:9: error: incompatible types in comparison
+kernel/events/callchain.c:161:19: error: incompatible types in comparison
 
-Oh argh, indeed. I suppose I should've had more tea this morning.
+This introduces the following warning
+kernel/events/callchain.c:65:17: warning: incorrect type in assignment
+which is fixed as below
+
+callchain_cpus_entries is annotated as an RCU pointer.
+Hence rcu_dereference_protected or similar RCU API is
+required to dereference the pointer.
+
+Signed-off-by: Amol Grover <frextrite@gmail.com>
+---
+v2:
+- Squash both the commits into a single one.
+
+ kernel/events/callchain.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
+index c2b41a263166..a672d02a1b3a 100644
+--- a/kernel/events/callchain.c
++++ b/kernel/events/callchain.c
+@@ -32,7 +32,7 @@ static inline size_t perf_callchain_entry__sizeof(void)
+ static DEFINE_PER_CPU(int, callchain_recursion[PERF_NR_CONTEXTS]);
+ static atomic_t nr_callchain_events;
+ static DEFINE_MUTEX(callchain_mutex);
+-static struct callchain_cpus_entries *callchain_cpus_entries;
++static struct callchain_cpus_entries __rcu *callchain_cpus_entries;
+ 
+ 
+ __weak void perf_callchain_kernel(struct perf_callchain_entry_ctx *entry,
+@@ -62,7 +62,8 @@ static void release_callchain_buffers(void)
+ {
+ 	struct callchain_cpus_entries *entries;
+ 
+-	entries = callchain_cpus_entries;
++	entries = rcu_dereference_protected(callchain_cpus_entries,
++					    lockdep_is_held(&callchain_mutex));
+ 	RCU_INIT_POINTER(callchain_cpus_entries, NULL);
+ 	call_rcu(&entries->rcu_head, release_callchain_buffers_rcu);
+ }
+-- 
+2.24.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
