@@ -2,104 +2,86 @@ Return-Path: <SRS0=uoqP=3Z=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E41C35254
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Feb 2020 13:04:02 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E099C352A1
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Feb 2020 13:11:14 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 79151217F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Feb 2020 13:04:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DB690217BA
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Feb 2020 13:11:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="egbNttUU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 79151217F4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFln09Vk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB690217BA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5481585D78;
-	Wed,  5 Feb 2020 13:04:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A25A9204CA;
+	Wed,  5 Feb 2020 13:11:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nJydessOJ6l5; Wed,  5 Feb 2020 13:04:02 +0000 (UTC)
+	with ESMTP id AamMUWeO+7O4; Wed,  5 Feb 2020 13:11:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EFE1885C08;
-	Wed,  5 Feb 2020 13:04:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EEB87203D0;
+	Wed,  5 Feb 2020 13:11:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ED435C1D81;
-	Wed,  5 Feb 2020 13:04:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E1D64C0175;
+	Wed,  5 Feb 2020 13:11:12 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BC64AC0174
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 234AEC0174
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Feb 2020 13:04:00 +0000 (UTC)
+ Wed,  5 Feb 2020 13:11:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B807485D52
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1F2B983597
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Feb 2020 13:04:00 +0000 (UTC)
+ Wed,  5 Feb 2020 13:11:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X7bPbgcHz0qC
+ with ESMTP id lTOOw8u1IMBy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Feb 2020 13:04:00 +0000 (UTC)
+ Wed,  5 Feb 2020 13:11:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5F6AB85C08
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9DFE3822F3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Feb 2020 13:04:00 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id y1so863564plp.7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 05 Feb 2020 05:04:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=32Y47SbuT10IdA/WyQebJ/4R/klDrpn3l0uQR85Y/JQ=;
- b=egbNttUUskY3YEA9gX0iL+5VLjTr+NqNVmDjlVRPHAjD4d/yR7tFH8YCFuwpkXroKt
- yxe7hlGJ/zaHFNtC9jwzCifFpdFk/mTLFFKi9EvqO+4eVml4uFTeast/mW15xBJVTQ/D
- 9OaMmQc8rhoymXDA+ZtlrUVv6PY24fxvpNKXHWZqHdSpjcnkwx9LLqkzLRkKrZF9NYno
- SsHqj1jWAxZbGWZnLdAmnvvTGlcp/EX5UidYcCzHtfLQRQPe6aP1htObE5bTqjjpKY1U
- TFZYEvh/Fe8nldk5dhrM90JrMgYQulpLVFEi0HV4KDNJsFTH1J3bc1D7jmb91zMSqf08
- alCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=32Y47SbuT10IdA/WyQebJ/4R/klDrpn3l0uQR85Y/JQ=;
- b=HpHWrQ+zbyNpGNXSnyu0YhBow3XDu8zK4jkQDAFWg+oJ7Y8pR2bNKxgoPY+RbA6yO1
- l1K057c2R/MZPKy+XPkXNesf6xIB9O6seXac+6Fchwus6erMOT7iguxYskgT5wyLDTCH
- nGNXXAxyygU2EZ88PPJlHl/tujqMIe3daaPWGjuVT23xSZlEh3D+r6oEPiHsXoOw0Xtm
- xRpgBowhxiTmTeeSd3pZo8s9op4G4R+dzcKb5Aukq+DjByYud+pP1UPml+kt72FZQXz+
- 5KEufvfT9WkvfsD4vrBwrYEFkg8DICien0bOSUkBIo8qV2SvAfHvHrSdEASj9CBGSmbg
- OuPQ==
-X-Gm-Message-State: APjAAAVUv7/fmACKS6XKWIXvfbhU8b7oyGtzJ2WF8JOjDV+TrT42/dtv
- VAMzdyVjXmaPbZfiVqICb4E=
-X-Google-Smtp-Source: APXvYqx7w1WLfGWHTpBo+J9HYCB0UlysfQju0epJtu++DiFdp/GV2Oj65c6V5EN8uY4fPjQdWqYF3A==
-X-Received: by 2002:a17:90a:928c:: with SMTP id
- n12mr5706717pjo.45.1580907839853; 
- Wed, 05 Feb 2020 05:03:59 -0800 (PST)
-Received: from localhost.localdomain ([2405:204:30e:4a31:b268:7a3:7dc6:f288])
- by smtp.gmail.com with ESMTPSA id
- q6sm28137098pfh.127.2020.02.05.05.03.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 05:03:59 -0800 (PST)
-From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-To: cocci@systeme.lip6.fr
-Date: Wed,  5 Feb 2020 18:33:27 +0530
-Message-Id: <20200205130327.6812-3-jaskaransingh7654321@gmail.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200205130327.6812-1-jaskaransingh7654321@gmail.com>
-References: <20200205130327.6812-1-jaskaransingh7654321@gmail.com>
+ Wed,  5 Feb 2020 13:11:10 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
+ [50.39.105.78])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6D3B62082E;
+ Wed,  5 Feb 2020 13:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1580908270;
+ bh=wSPjyDZaJd4iYDsHDvfTkbCVhxFTYWZXqFiynFRgSqQ=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=lFln09VkBtkKNCzjna0O6RjF4HXeY041b+M9cjd6Gg+nM1BDA5etdYv1mR98VGfJD
+ 19dJOGyubTzNLTYO1TgPFs91g8c6SzX04APp359/ins/jR3jaif5VhBt3i8xwTGY3g
+ EUEm4yg8Z6LWtBrnQ8/8skmEGJgZSklG5+b1A6AU=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+ id 3EDCC352270F; Wed,  5 Feb 2020 05:11:10 -0800 (PST)
+Date: Wed, 5 Feb 2020 05:11:10 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Message-ID: <20200205131110.GT2935@paulmck-ThinkPad-P72>
+References: <20200201072703.17330-1-frextrite@gmail.com>
+ <20200203163301.GB85781@google.com>
+ <20200204200116.479f0c60@oasis.local.home>
 MIME-Version: 1.0
-Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
+Content-Disposition: inline
+In-Reply-To: <20200204200116.479f0c60@oasis.local.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>, Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 2/2] tests: Add test case for
-	matching ptr to const ptr and variants
+Subject: Re: [Linux-kernel-mentees] [PATCH] tracing: Annotate
+	ftrace_graph_hash pointer with __rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,79 +93,62 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-These types would not match previously. Add a test case for matching
-a pointer to a const pointer and its variants.
+On Tue, Feb 04, 2020 at 08:01:16PM -0500, Steven Rostedt wrote:
+> On Mon, 3 Feb 2020 11:33:01 -0500
+> Joel Fernandes <joel@joelfernandes.org> wrote:
+> 
+> 
+> > > --- a/kernel/trace/trace.h
+> > > +++ b/kernel/trace/trace.h
+> > > @@ -950,22 +950,25 @@ extern void __trace_graph_return(struct trace_array *tr,
+> > >  				 unsigned long flags, int pc);
+> > >  
+> > >  #ifdef CONFIG_DYNAMIC_FTRACE
+> > > -extern struct ftrace_hash *ftrace_graph_hash;
+> > > +extern struct ftrace_hash __rcu *ftrace_graph_hash;
+> > >  extern struct ftrace_hash *ftrace_graph_notrace_hash;
+> > >  
+> > >  static inline int ftrace_graph_addr(struct ftrace_graph_ent *trace)
+> > >  {
+> > >  	unsigned long addr = trace->func;
+> > >  	int ret = 0;
+> > > +	struct ftrace_hash *hash;
+> > >  
+> > >  	preempt_disable_notrace();
+> > >  
+> > > -	if (ftrace_hash_empty(ftrace_graph_hash)) {
+> > > +	hash = rcu_dereference_protected(ftrace_graph_hash, !preemptible());  
+> > 
+> > I think you can use rcu_dereference_sched() here? That way no need to pass
+> > !preemptible.
+> > 
+> > A preempt-disabled section is an RCU "sched flavor" section. Flavors are
+> > consolidated in the backend, but in the front end the dereference API still
+> > do have flavors.
+> 
+> Unfortunately, doing it with rcu_dereference_sched() causes a lockdep
+> splat :-P. This is because ftrace can execute when rcu is not
+> "watching" and that will trigger a lockdep error. That means, this
+> origin patch *is* correct. I'm re-applying this one.
 
-Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
----
- tests/constptr.c     |  7 +++++++
- tests/constptr.cocci | 19 +++++++++++++++++++
- tests/constptr.res   |  7 +++++++
- 3 files changed, 33 insertions(+)
- create mode 100644 tests/constptr.c
- create mode 100644 tests/constptr.cocci
- create mode 100644 tests/constptr.res
+I strongly recommend a comment stating why disabling preemption prevents
+ftrace_graph_hash from going away.  I see the synchronize_rcu() after
+the rcu_assign_pointer() in ftrace_graph_release(), but I don't see
+anything that waits on CPUs that RCU is not watching.
 
-diff --git a/tests/constptr.c b/tests/constptr.c
-new file mode 100644
-index 00000000..13fe064c
---- /dev/null
-+++ b/tests/constptr.c
-@@ -0,0 +1,7 @@
-+int main()
-+{
-+	const char * const * id;
-+	const char * * const * id;
-+	const char * const * * id;
-+	const char * const id;
-+}
-diff --git a/tests/constptr.cocci b/tests/constptr.cocci
-new file mode 100644
-index 00000000..29f0aa96
---- /dev/null
-+++ b/tests/constptr.cocci
-@@ -0,0 +1,19 @@
-+@ r0 @
-+identifier id;
-+@@
-+const char * const *
-+- id
-++ id1
-+;
-+const char * * const *
-+- id
-++ id2
-+;
-+const char * const * *
-+- id
-++ id3
-+;
-+const char * const
-+- id
-++ id4
-+;
-diff --git a/tests/constptr.res b/tests/constptr.res
-new file mode 100644
-index 00000000..0af4de9a
---- /dev/null
-+++ b/tests/constptr.res
-@@ -0,0 +1,7 @@
-+int main()
-+{
-+	const char * const * id1;
-+	const char * * const * id2;
-+	const char * const * * id3;
-+	const char * const id4;
-+}
--- 
-2.21.1
+Of course, event tracing -makes- RCU watch when needed, but if that
+was set up, then lockdep would not have complained.
 
+So what am I missing?
+
+							Thanx, Paul
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
