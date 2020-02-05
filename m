@@ -2,143 +2,102 @@ Return-Path: <SRS0=uoqP=3Z=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56AA1C35247
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Feb 2020 18:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B30E5C35247
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Feb 2020 21:58:05 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F0F37214AF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Feb 2020 18:55:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7BD1B2082E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Feb 2020 21:58:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="p79hdXxV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0F37214AF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="BfgtY2l3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7BD1B2082E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A3681204C6;
-	Wed,  5 Feb 2020 18:55:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4C1C3214EC;
+	Wed,  5 Feb 2020 21:58:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3wR0cURlpRr2; Wed,  5 Feb 2020 18:55:18 +0000 (UTC)
+	with ESMTP id qdgmkvnDIXhZ; Wed,  5 Feb 2020 21:58:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DF864204BF;
-	Wed,  5 Feb 2020 18:55:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 26F3820119;
+	Wed,  5 Feb 2020 21:58:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D1392C0175;
-	Wed,  5 Feb 2020 18:55:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B544C1D81;
+	Wed,  5 Feb 2020 21:58:04 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E582C0174
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A9778C0174
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Feb 2020 18:55:16 +0000 (UTC)
+ Wed,  5 Feb 2020 21:58:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 44A77874CF
+ by hemlock.osuosl.org (Postfix) with ESMTP id 91ED887356
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Feb 2020 18:55:16 +0000 (UTC)
+ Wed,  5 Feb 2020 21:58:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MLUN97GKsxwz
+ with ESMTP id 6iXorX+Cf7rC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Feb 2020 18:55:15 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 2E9728742F
+ Wed,  5 Feb 2020 21:58:02 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id ECD428731E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Feb 2020 18:55:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1580928909;
- bh=zkj7uwLIzCEmmKaVWqf1rpDw2S3icATop8mjgnOVPXg=;
- h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
- b=p79hdXxVt/lqCCZuG6qZro57vN1wPoiT3X/H6W4pMgaMNQCGGsEirsCmNzx3Y+dbc
- T/xRyPuCuvWjkHmMh3YM6r+17sSnO1qXrv8qPQB6FoBrSfY6t11nqoCmhQ0UXtFY/n
- gtq8t6vBBUbGSuk/ylZYeQQZRjSuWXU+PidTL5RE=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.132.89.156]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MXpV5-1j4CgE1KHH-00WjZ3; Wed, 05
- Feb 2020 19:55:09 +0100
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <132f414d-397f-fb9a-ff6e-5360df827147@web.de>
-Date: Wed, 5 Feb 2020 19:55:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Wed,  5 Feb 2020 21:58:01 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id dw13so1544665pjb.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 05 Feb 2020 13:58:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=joelfernandes.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=GZiszdRhEoXDklowAhrMMrF/LCE5Ul6eKPbb4HvqS4w=;
+ b=BfgtY2l3umi7jAcYAQkg0xPmgX1OhRn09atiKDbbeZ66YUiA39WaRMI0IYWXIR78lH
+ camocExRGLndJzc7CcnzUHTuiZsTZGalRcwYsKd161M1EvmA9q3xNSK01OzMDVRNYtOl
+ TX4dEOq/PIsoUdTqRGSWus5SFSKGc+Pir9A0Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=GZiszdRhEoXDklowAhrMMrF/LCE5Ul6eKPbb4HvqS4w=;
+ b=eTmRQz8ChHDoEPEG8V2yxIuMdESRmYgclognx+A1Qy7Bwd8fJQp7mp56Dgfh7tjToY
+ WZaSWM0rzjiMgUGl0n0Uf+9FCzQyFBAyy7CPkF5bYHfKkag/n1P6pGgLmzalHj7y3yMu
+ pZsHGN5eNfZwTq4xvo6G01zpX613xaKc0Olb5ESkm4d3RcCQuaxwYds+keDJR6hKg2Uh
+ CsGkSTicQZ0CFqFZ02FHm9edYmjGm4QQKlpgpjxANbm9rTOL1oxwrCOphjc7m5wwtFmd
+ 5htrrNA2IZUdpy8o1P6R6/+4IBCj3bmswtWAOkQnZbfHGPp+8pAAXZpbB9s0rE9akJEu
+ j/UA==
+X-Gm-Message-State: APjAAAX+gMUO1YQOryiCcxnOSQm71q85Phjuh2XeXDOBAFwpZkz0mjP9
+ d70Sn9BaZ+c/a58PepWcVuvhxA==
+X-Google-Smtp-Source: APXvYqw6aPnw9wiX99xKRjaXoLALCuAIA38bb2qb5PqIt39eb/sDjSo3NuwC4AtV73voA3Z/K7bpVw==
+X-Received: by 2002:a17:902:bf49:: with SMTP id u9mr64670pls.199.1580939881455; 
+ Wed, 05 Feb 2020 13:58:01 -0800 (PST)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+ by smtp.gmail.com with ESMTPSA id d2sm717301pjv.18.2020.02.05.13.58.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Feb 2020 13:58:00 -0800 (PST)
+Date: Wed, 5 Feb 2020 16:57:59 -0500
+From: Joel Fernandes <joel@joelfernandes.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Message-ID: <20200205215759.GK142103@google.com>
+References: <20200205094156.717b36c9@oasis.local.home>
 MIME-Version: 1.0
-Content-Language: en-US
-X-Provags-ID: V03:K1:HmK06apGhT//7tZ3tZhceqzUIfquKLK9sziZHoOiiwELcAvUNiL
- nt/5yYL5fAnHUTcYDUI/7iitXYnyt/aODKMjrtWfHBW1A/NXjCKsVhP1Movtxvvr4KzkS3W
- fxhZGgUeHJ/wUq6Rik3e5jj1zLb/WYI4VL5n3qQJt4fbJqEL+OIlMWkPxt/aAweYzpo3DOm
- Gb+Vuf+r65taSTyy7cXzA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:urXhkSV2FbM=:/BKAmo4ZYuvBjSrjIBRFZP
- y6YE0hrjwEy8qnBuEQBKNjPnEbNDnpm25HGfCYBOPxsHmZLiYxc9SFfi/w8gOubt+THApd/zl
- 8X+iIEBmcScp1mFv7q8eG38Y4QQrKHc4GyX1z3dO1994JL0VzWQMo6TxUGPxy8X6PxBts7r5O
- 2Y/TdMsEuMMd6S2lL3BTqTdt9niamL5frdNI2/HHABSxz+Ct2JIJwPT8FF4xPiTBgILD1M27n
- nwN3qGFffweVQGWdwYosSx9+1b52QsJDSaT5s5oex0oMcCjE58itZJ9az+eT92m1cLFbOw9xO
- gyq+9m8gUIJ0+S3K7Shwcppr9qJf2gscCWmJSuWA0sJuzMOZ06hB19e78dhGuQxeg9yert/2N
- y5ID9UTeWG+L9GavbAwjZqVDXU5HmPbRp6WfprXnoqwI8Z7jH3xfUJXVveLiVnlf2on7FvNzz
- SB3jZD1oHzzENFD2/KgeytYe93s6DxATs1Ubqrhf6Bdx3a7u7cCJ0jr58UmKe1iw09ESDrcxo
- xdcZp1Jh33heaoXT1SFoQzzXx65nT2ezyfhNb07bHjGQA4XVvVylD4HsbZwMMJgA2cd04hLu7
- l5SgRS1JjY4t8zlldXO/gYPgWx8w1mAFMLO5VXULobPWKInKtr1ctGtkbGEjfJzLf/2XA7cVw
- lbcwk+Td2HYboPhTsj14WWHy7A2QhkZzrvYw1mqd5dudfWbxu4xts8qMFMUV11KvXGoVdaVQx
- EECb6AJxBE5rTz2ZfDhsumErdwbee3Y2PeiUUnSh96035QG90ujKcc4Xs5jEBm9xgXrVeJZ30
- Z5m+QgyEPaBmhaqJfC8/NZ/EBhZwdGFH2WO53Wskk9p1lneCUSIvYcxTE0kiePGOYs+m1k4CJ
- X8DyrCQN5xRqHiKG9pYAkQ4vV7BqG9rJopNScFiqDtxASwUHzaM9Ak3rBBvTeYOFDWgjiWV/2
- WaMk1nYJaMllYRCxylRsBhSwIoPnoYsAif8vGvFfdxUkuYXK7UG0iUIDvyR17MCqjlDLbPp1L
- 8QDcMwqbSJLv+pjR2Kqw3ZKqOttCcs4sQZc4CxPlXTIDYUtdxAYejYsmDoRyBrMl84gtJOY11
- a6LbfgLoHtEnx3xBu0lIa3IHnQpTxBugJekFrUatG91/sxydr7QATGsKpCnFDCpI/fKzKsvm7
- KyTE5gxG5PiWjVl4GMzOsKhkQVkToZSt613OFBV9TseceiLXhQujDOYd2XNA2NqQETqp9Gpkw
- 4/L6pXBnKeVEe3TxM
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH 2/2] tests: Add test case
- for matching pointers to const pointers (and variants)
+Content-Disposition: inline
+In-Reply-To: <20200205094156.717b36c9@oasis.local.home>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] ftrace: Protect
+	ftrace_graph_hash with ftrace_sync
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -156,16 +115,77 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Would you like to avoid any abbreviations in the patch subject?
+On Wed, Feb 05, 2020 at 09:41:56AM -0500, Steven Rostedt wrote:
+> 
+> From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+> 
+> As function_graph tracer can run when RCU is not "watching", it can not be
+> protected by synchronize_rcu() it requires running a task on each CPU before
+> it can be freed. Calling schedule_on_each_cpu(ftrace_sync) needs to be used.
+> 
+> Link: https://lore.kernel.org/r/20200205131110.GT2935@paulmck-ThinkPad-P72
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: b9b0c831bed26 ("ftrace: Convert graph filter to use hash tables")
+> Reported-by: "Paul E. McKenney" <paulmck@kernel.org>
+> Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
+Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-> These types would not match previously.
+thanks,
 
-I imagine that this information can be improved for a nicer patch description,
-can't it?
+ - Joel
 
-Regards,
-Markus
+> ---
+>  kernel/trace/ftrace.c | 11 +++++++++--
+>  kernel/trace/trace.h  |  2 ++
+>  2 files changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
+> index 481ede3eac13..3f7ee102868a 100644
+> --- a/kernel/trace/ftrace.c
+> +++ b/kernel/trace/ftrace.c
+> @@ -5867,8 +5867,15 @@ ftrace_graph_release(struct inode *inode, struct file *file)
+>  
+>  		mutex_unlock(&graph_lock);
+>  
+> -		/* Wait till all users are no longer using the old hash */
+> -		synchronize_rcu();
+> +		/*
+> +		 * We need to do a hard force of sched synchronization.
+> +		 * This is because we use preempt_disable() to do RCU, but
+> +		 * the function tracers can be called where RCU is not watching
+> +		 * (like before user_exit()). We can not rely on the RCU
+> +		 * infrastructure to do the synchronization, thus we must do it
+> +		 * ourselves.
+> +		 */
+> +		schedule_on_each_cpu(ftrace_sync);
+>  
+>  		free_ftrace_hash(old_hash);
+>  	}
+> diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
+> index 8c52f5de9384..3c75d29bd861 100644
+> --- a/kernel/trace/trace.h
+> +++ b/kernel/trace/trace.h
+> @@ -979,6 +979,7 @@ static inline int ftrace_graph_addr(struct ftrace_graph_ent *trace)
+>  	 * Have to open code "rcu_dereference_sched()" because the
+>  	 * function graph tracer can be called when RCU is not
+>  	 * "watching".
+> +	 * Protected with schedule_on_each_cpu(ftrace_sync)
+>  	 */
+>  	hash = rcu_dereference_protected(ftrace_graph_hash, !preemptible());
+>  
+> @@ -1031,6 +1032,7 @@ static inline int ftrace_graph_notrace_addr(unsigned long addr)
+>  	 * Have to open code "rcu_dereference_sched()" because the
+>  	 * function graph tracer can be called when RCU is not
+>  	 * "watching".
+> +	 * Protected with schedule_on_each_cpu(ftrace_sync)
+>  	 */
+>  	notrace_hash = rcu_dereference_protected(ftrace_graph_notrace_hash,
+>  						 !preemptible());
+> -- 
+> 2.20.1
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
