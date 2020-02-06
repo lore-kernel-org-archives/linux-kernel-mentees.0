@@ -2,103 +2,104 @@ Return-Path: <SRS0=nXBU=32=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 559FFC352A2
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Feb 2020 11:29:13 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C530C352A2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Feb 2020 11:50:10 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1BCE320730
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Feb 2020 11:29:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D295A21741
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Feb 2020 11:50:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="QrFQwEl7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1BCE320730
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QYVt6VTU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D295A21741
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CA8B98160B;
-	Thu,  6 Feb 2020 11:29:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 900CD2152E;
+	Thu,  6 Feb 2020 11:50:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CTvHPFO6aq2a; Thu,  6 Feb 2020 11:29:12 +0000 (UTC)
+	with ESMTP id a+fcyOUCA649; Thu,  6 Feb 2020 11:50:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1C6F98160A;
-	Thu,  6 Feb 2020 11:29:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D18A0207A2;
+	Thu,  6 Feb 2020 11:50:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0094CC1D81;
-	Thu,  6 Feb 2020 11:29:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B85A9C1D81;
+	Thu,  6 Feb 2020 11:50:08 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 63F81C013E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 76262C013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Feb 2020 11:29:10 +0000 (UTC)
+ Thu,  6 Feb 2020 11:50:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5AB9985F34
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 64C5C85F4D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Feb 2020 11:29:10 +0000 (UTC)
+ Thu,  6 Feb 2020 11:50:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mRoLXKwI3ysf
+ with ESMTP id 6kd88Tg4A7rA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Feb 2020 11:29:09 +0000 (UTC)
+ Thu,  6 Feb 2020 11:50:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 87BC985ECE
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5CF0085F44
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Feb 2020 11:29:09 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id c16so4246077oic.3
+ Thu,  6 Feb 2020 11:50:06 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 6so2646278pgk.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 06 Feb 2020 03:29:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1LOcb8MY6mnGMOkw5o9OHiVJZqqoYe5yVwQN2zYkKLg=;
- b=QrFQwEl7g9MnWr9VvEcb/sCcX4RY/t3UHs5G2mHmckEcgWv9ZjbrTiqjg4+pY/aPF0
- xbDHD74WDaBaQ0XIXaSFrZhM8HGOFuTdhlzhYHjoIze1f2vT0JQLzn4x+SPw9qpukcU1
- K09tRWDU6NRRCZQI0k8q3KgFBQXfZSHGqpJniU7ng9+I+1nf/j9EppB0onpSSsn7k3Nt
- +8EZTW2qF1u6K/k3LkEX5LtVrtqV4AMOIqD0IJB/3V39Nf68AKXh/MiF9aVk6oyoE7pu
- 4gDTgbzlK2CwQE+/DUfkUSwCjo4HEhypduKjERXUnaA/UG66109Z/rc/h+aWN8mDzVXt
- Lcmg==
+ Thu, 06 Feb 2020 03:50:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=y1yP9T56yxddmmADNHOP28JNy4LoPdf8IqN6O8c7yYU=;
+ b=QYVt6VTUVuQNT5Mz4BfbcC8IedtpD8b8WAMFudFRrJPFD3L/Qa+l0Tac6tZZGxrSmf
+ LLHlGoMzNPbfHqaF7yZuWf51RJh8hh4tgrPm1g5wqpGu4c0CoiODR2KwQg0jDwzNemdO
+ YDDladhw34ikVjKoOEOJw5+ScRgLGpFXpSL3mMnse+FdXIKL0q2TntwRKuD6KTJKQDkb
+ TkrzZSY5ZFupDJjJZ1F+YyfUHKqoKoS5/6Ch4723ryqeJZGf3Jo/Bj9bNhCAa5Dd4UuH
+ qkNqPdYQriMe6V/9+IkxbI7TWxfgOBFmVUWVv5uN9EriSBJi4Ove/YvNv8/TxBub4zsf
+ Jc4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1LOcb8MY6mnGMOkw5o9OHiVJZqqoYe5yVwQN2zYkKLg=;
- b=FAHZCLjcgwyBczi30m33Gj7lPuyz50tz1NZSON63uhvCldzPhvkjm9Kouw9A8jzhry
- +/wg2a6onJcObzrQqIU7gtwIruk/x5FJBjP8Y/3jHOU++Eq22pRJL/3ZxDbC1uO+gcok
- 70sZOle+CA0Zdq6zPe2BRkVE3aJRi3w2bdw2vlxHPfv+w2B5B9oywfxpj/dQclanKWgK
- xl08BVi4kAHafF5y4pjSpuk6RerZ3kxiC8iKoQuBuciWuVxLYYa2dMfAjOmgwEpJTnZF
- ppWndsfoWgiScs1ByVwxieNcwSQwBjfogZwbXWqWwks8NTgJgusy7luRcLkkM68KHsVD
- 2pIQ==
-X-Gm-Message-State: APjAAAWZRGd5ggbFESC1uDElkbHurRN2XvzX3Z+tKyU8xLpdnvCnyFGJ
- ThYjYb8DvF7Xq1JSTykocZBR5/lN8Kj2G6NYw4QEFQ==
-X-Google-Smtp-Source: APXvYqzlXUwReQiQ7QaDb2/khWr0uJbvXUqawl258pPAvjPXGpxxs29kYGBokCGXHPHAd2kkH1Do9TH/W4iGNWCQt58=
-X-Received: by 2002:aca:c7cb:: with SMTP id x194mr6575954oif.157.1580988548436; 
- Thu, 06 Feb 2020 03:29:08 -0800 (PST)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=y1yP9T56yxddmmADNHOP28JNy4LoPdf8IqN6O8c7yYU=;
+ b=D11UXnSapSMnd20i/inZ++sg5OR8D7CHav+e4X+NkM5j/dDzK1Ojw6+UPG4k6rtHQE
+ u6aPPGpJtVfDbKgHcLrHVGP+9pFlhPrPD2AjGyD2O/l/HY+zh8tSHwqCAcT9FZgC+y6n
+ 7dgEzNczpP/XKANztvpNPcxQx9/lPI108PxXBkVevUH97LufOw1r82z0kY9HbjTPPC2a
+ 6rRkqwVGGRCgrhGhx7hah8GiuR/HhoWirVnwcvLSzmaX2yDdWbkLlQ2GUQEgrRC0wUWT
+ GntVIpfVkdSICnaS+pr1wNHYg9X+A4VSP6DhZl9ccm26xcI+H0sxZA9VVikiPWreyQXG
+ xoeg==
+X-Gm-Message-State: APjAAAUQ2O+vZQKQ7xeVSKBy6tXgBdazQMNNtLsCVtYlj3bUZg9oeSpP
+ ToNUTUBCSaymA2dCYbJuzdQ=
+X-Google-Smtp-Source: APXvYqy9Xm3mTLoczcOgH9ncFF+BoBtFzLa2JjPdumo3xp/w707hDTnBosioXLz2acLfqyEj06lUjA==
+X-Received: by 2002:a63:c144:: with SMTP id p4mr3088873pgi.226.1580989805802; 
+ Thu, 06 Feb 2020 03:50:05 -0800 (PST)
+Received: from localhost.localdomain ([2405:204:30e:4a31:b268:7a3:7dc6:f288])
+ by smtp.gmail.com with ESMTPSA id
+ h10sm3056502pfo.181.2020.02.06.03.50.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2020 03:50:05 -0800 (PST)
+Message-ID: <e602666d72bb5a46a1f9f98cb1ee440b4c3dd16a.camel@gmail.com>
+From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Date: Thu, 06 Feb 2020 17:20:00 +0530
+In-Reply-To: <6e8147b7-da54-376f-0684-aee159e23d8e@web.de>
+References: <6e8147b7-da54-376f-0684-aee159e23d8e@web.de>
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
 MIME-Version: 1.0
-References: <20200128072740.21272-1-frextrite@gmail.com>
- <CAG48ez3ZcO+kVPJVG6XpCPyGUKF2o4UJ6AVdgZXGQ6XJJpcdmg@mail.gmail.com>
- <20200128170426.GA10277@workstation-portable>
- <CAG48ez3bLC3dzXn7Ep0YmBENg7wp6TMrocGa6q2RLtYoOdUSxg@mail.gmail.com>
- <20200129065738.GA17486@workstation-portable>
- <CAG48ez2Yc-J1gV4=sTMizySmeFkiZGU+j1NTnZaqyPPo1mYQ=Q@mail.gmail.com>
- <20200206013251.GC55522@google.com>
-In-Reply-To: <20200206013251.GC55522@google.com>
-Date: Thu, 6 Feb 2020 12:28:42 +0100
-Message-ID: <CAG48ez2+7L8YwejaLcm5MN7Z2DZ4d4H5CV6cUyo+j5S9b=tAtQ@mail.gmail.com>
-To: Joel Fernandes <joel@joelfernandes.org>
-Cc: Kees Cook <keescook@chromium.org>, "Paul E . McKenney" <paulmck@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, James Morris <jamorris@linux.microsoft.com>,
- kernel list <linux-kernel@vger.kernel.org>,
- David Howells <dhowells@redhat.com>, Shakeel Butt <shakeelb@google.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] cred: Use RCU primitives to
-	access RCU pointers
+Cc: Julia Lawall <julia.lawall@inria.fr>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "cocci@systeme.lip6.fr" <cocci@systeme.lip6.fr>
+Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH 1/2] parsing_c: Align C
+ AST and Cocci AST for pointers
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,100 +111,34 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Jann Horn via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Jann Horn <jannh@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Feb 6, 2020 at 2:32 AM Joel Fernandes <joel@joelfernandes.org> wrote:
-> On Wed, Jan 29, 2020 at 03:14:56PM +0100, Jann Horn wrote:
-> > On Wed, Jan 29, 2020 at 7:57 AM Amol Grover <frextrite@gmail.com> wrote:
-> > > On Tue, Jan 28, 2020 at 08:09:17PM +0100, Jann Horn wrote:
-> > > > On Tue, Jan 28, 2020 at 6:04 PM Amol Grover <frextrite@gmail.com> wrote:
-> > > > > On Tue, Jan 28, 2020 at 10:30:19AM +0100, Jann Horn wrote:
-> > > > > > On Tue, Jan 28, 2020 at 8:28 AM Amol Grover <frextrite@gmail.com> wrote:
-> > > > > > > task_struct.cred and task_struct.real_cred are annotated by __rcu,
-> > > > > >
-> > > > > > task_struct.cred doesn't actually have RCU semantics though, see
-> > > > > > commit d7852fbd0f0423937fa287a598bfde188bb68c22. For task_struct.cred,
-> > > > > > it would probably be more correct to remove the __rcu annotation?
-> > > > >
-> > > > > Hi Jann,
-> > > > >
-> > > > > I went through the commit you mentioned. If I understand it correctly,
-> > > > > ->cred was not being accessed concurrently (via RCU), hence, a non_rcu
-> > > > > flag was introduced, which determined if the clean-up should wait for
-> > > > > RCU grace-periods or not. And since, the changes were 'thread local'
-> > > > > there was no need to wait for an entire RCU GP to elapse.
-> > > >
-> > > > Yeah.
-> > > >
-> > > > > The commit too, as you said, mentions the removal of __rcu annotation.
-> > > > > However, simply removing the annotation won't work, as there are quite a
-> > > > > few instances where RCU primitives are used. Even get_current_cred()
-> > > > > uses RCU APIs to get a reference to ->cred.
-> > > >
-> > > > Luckily, there aren't too many places that directly access ->cred,
-> > > > since luckily there are helper functions like get_current_cred() that
-> > > > will do it for you. Grepping through the kernel, I see:
-> > [...]
-> > > > So actually, the number of places that already don't use RCU accessors
-> > > > is much higher than the number of places that use them.
-> > > >
-> > > > > So, currently, maybe we
-> > > > > should continue to use RCU APIs and leave the __rcu annotation in?
-> > > > > (Until someone who takes it on himself to remove __rcu annotation and
-> > > > > fix all the instances). Does that sound good? Or do you want me to
-> > > > > remove __rcu annotation and get the process started?
-> > > >
-> > > > I don't think it's a good idea to add more uses of RCU APIs for
-> > > > ->cred; you shouldn't "fix" warnings by making the code more wrong.
-> > > >
-> > > > If you want to fix this, I think it would be relatively easy to fix
-> > > > this properly - as far as I can tell, there are only seven places that
-> > > > you'll have to change, although you may have to split it up into three
-> > > > patches.
-> > >
-> > > Thank you for the detailed analysis. I'll try my best and send you a
-> > > patch.
->
-> Amol, Jann, if I understand the discussion correctly, objects ->cred
-> point (the subjective creds) are never (or never need to be) RCU-managed.
-> This makes sense in light of the commit Jann pointed out
-> (d7852fbd0f0423937fa287a598bfde188bb68c22).
->
-> How about the following diff as a starting point?
->
-> 1. Remove all ->cred accessing happening through RCU primitive.
-
-Sounds good.
-
-> 2. Remove __rcu from task_struct ->cred
-
-Sounds good.
-
-> 3. Also I removed the whole non_rcu flag, and introduced a new put_cred_non_rcu() API
->    which places that task-synchronously use ->cred can overwrite. Callers
->    doing such accesses like access() can use this API instead.
-
-That's wrong, don't do that.
-
-->cred is a reference without RCU semantics, ->real_cred is a
-reference with RCU semantics. If there have never been any references
-with RCU semantics to a specific instance of struct cred, then that
-instance can indeed be freed without an RCU grace period. But it would
-be possible for some filesystem code to take a reference to
-current->cred, and assign it to some pointer with RCU semantics
-somewhere, then drop that reference with put_cred() immediately before
-you reach put_cred_non_rcu(); with the result that despite using
-put_cred(), the other side doesn't get RCU semantics.
-
-Just leave the whole ->non_rcu thing exactly as it was.
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gV2VkLCAyMDIwLTAyLTA1IGF0IDE5OjM2ICswMTAwLCBNYXJrdXMgRWxmcmluZyB3cm90ZToK
+PiDigKYKPiA+ICsrKyBiL3BhcnNpbmdfYy9wcmV0dHlfcHJpbnRfYy5tbAo+ID4gQEAgLTgwNCwx
+MSArODA0LDEyIEBAIGFuZCBwcF9zdHJpbmdfZm9ybWF0IChlLGlpKSA9Cj4gPiAgICAgICAgICAg
+ICAgIChGdW5jdGlvblR5cGUgKHJldHVybj12b2lkLCBwYXJhbXM9aW50IGkpICopCj4gPiAgICAg
+ICAgICAgICgqV1JPTkcgSSBUSElOSywgdXNlIGxlZnQgJiByaWdodCBmdW5jdGlvbiAqKQo+ID4g
+ICAgICAgICAgICAoKiBidWc6IHBwX3R5cGVfd2l0aF9pZGVudF9yZXN0IE5vbmUgdDsgICAgICBw
+cmludF9pZGVudAo+ID4gaWRlbnQgKikKPiA+ICsgICAgICAgICAgcHBfdHlwZV9sZWZ0IHQ7Cj4g
+PiAgICAgICAgICAgIHByX2VsZW0gaTsKPiA+ICAgICAgICAgICAgaWlxdSArPiBMaXN0Lml0ZXIg
+cHJfZWxlbTsgKCogbGUgY29uc3QgZXN0IGZvcmNlbWVudAo+ID4gYXByZXMgbGUgJyonICopCj4g
+PiAgICAgICAgICAgIGlmIGlpcXUgPD4gW10gfHwgZ2V0X2NvbW1lbnRzX2FmdGVyIGkgPD4gW10K
+PiA+ICAgICAgICAgICAgdGhlbiBwcl9zcGFjZSgpOwo+ID4gLSAgICAgICAgICBwcF90eXBlX3dp
+dGhfaWRlbnRfcmVzdCBpZGVudCB0IGF0dHJzIEFzdF9jLm5vYXR0cjsKPiA+ICsgICAgICAgICAg
+cHJpbnRfaWRlbnQgaWRlbnQKPiA+IAo+ID4gICAgICAgICgqIHVnbHkgc3BlY2lhbCBjYXNlIC4u
+LiB0b2RvPyBtYXliZSBzdWZmaWNpZW50IGluIHByYWN0aWNlCj4gPiAqKQo+ID4gICAgICAgIHwg
+KFBhcmVuVHlwZSB0dG9wLCBbaTE7aTJdKSAtPgo+IAo+IEFyZSB0aGUgc291cmNlIGNvZGUgY29t
+bWVudHMgc3RpbGwgYXBwcm9wcmlhdGUgZm9yIHRoaXMgcGF0Y2ggaHVuaz8KPiAKCkkga25vdyB0
+aGUgImxlIGNvbnN0IGVzdCBmb3JjZW1lbnQiIGNvbW1lbnQgaXMgc3RpbGwgYXBwcm9wcmlhdGUu
+CgpUaGUgYnVnIGNvbW1lbnQgYWJvdmUgcHJvYmFibHkgc3RpbGwgaXMuCgpOb3Qgc28gc3VyZSBh
+Ym91dCB0aGUgV1JPTkcgSSBUSElOSyBjb21tZW50LiBJJ20gdXNpbmcgcHBfdHlwZV9sZWZ0Cmhl
+cmUsIGJ1dCBub3QgcHBfdHlwZV9yaWdodC4gT2YgY291cnNlLCB0aGF0IGlzIGlmIHRoZSBjb21t
+ZW50IGlzIGluCnRoYXQgY29udGV4dC4KCkNoZWVycywKSmFza2FyYW4uCgo+IFJlZ2FyZHMsCj4g
+TWFya3VzCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpM
+aW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlz
+dHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcv
+bWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
