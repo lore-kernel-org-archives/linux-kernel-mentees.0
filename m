@@ -2,104 +2,107 @@ Return-Path: <SRS0=QXRK=33=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F207C2D0B1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Feb 2020 06:10:07 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89326C2D0B1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Feb 2020 06:15:24 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3EAFB20726
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Feb 2020 06:10:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4C2DA217BA
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Feb 2020 06:15:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mDNNWLWU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3EAFB20726
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K9MK1YR9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C2DA217BA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2CA7A82494;
-	Fri,  7 Feb 2020 06:10:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E3CAF20430;
+	Fri,  7 Feb 2020 06:15:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Wb4QAHVBJqAA; Fri,  7 Feb 2020 06:10:05 +0000 (UTC)
+	with ESMTP id q2fGHsnrpfW7; Fri,  7 Feb 2020 06:15:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 14FA4835CE;
-	Fri,  7 Feb 2020 06:09:58 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id ED0222039E;
+	Fri,  7 Feb 2020 06:15:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 03C4CC1D81;
-	Fri,  7 Feb 2020 06:09:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D25A6C1D81;
+	Fri,  7 Feb 2020 06:15:21 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A22ECC013E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 88B47C013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Feb 2020 06:09:57 +0000 (UTC)
+ Fri,  7 Feb 2020 06:15:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9EE6B8683A
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7402586988
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Feb 2020 06:09:57 +0000 (UTC)
+ Fri,  7 Feb 2020 06:15:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id b90v4NHnku0X
+ with ESMTP id imv-oTAmI7wf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Feb 2020 06:09:57 +0000 (UTC)
+ Fri,  7 Feb 2020 06:15:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2F30083FA2
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D744686937
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Feb 2020 06:09:57 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id w21so558023pgl.9
+ Fri,  7 Feb 2020 06:15:19 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id g3so561369pgs.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 06 Feb 2020 22:09:57 -0800 (PST)
+ Thu, 06 Feb 2020 22:15:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=T4sLQ+yI9jhZw7bh/zJf2U1VnqtoyxbY1frYKtrY/R0=;
- b=mDNNWLWUjDxuCXdaSF0Q2QW0Gf49iK+0Pfn3phmeotKSk+LR1dawX+gcaXeoG7+3Ye
- erg0aDnausUAaEW8XNVvAJ5+TKCuDaIKqnhxqv1PFUh+zq6wrJEVGke4R+8/eQEIF1oT
- ayEuc4sQk4IBIUGehA8dCq945gaMBcixni3iSR2hNUAjPZXwa30EPvDY3aT+aDYCp4y3
- 8zsC2JBWUSuTKWnxvuXFzC0kvi/WjGICnX/Jd8duR83I0YBCnN1Sst4Rd3Go8WriiBxI
- JNEgJGb/1yJ8ahkS11g8eE5oonSWfTBIGXCmbyJtqjmGdCSrtLIJAPZheZ3wZlcQnHzJ
- 125A==
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=2oIJ/9+Wdznz5JwXSGSH98pjxWJV1VvrSxJKy0S3YZA=;
+ b=K9MK1YR94vwyq+YFLhtou5a0aU4Zady1BPa280VaIh+oIJKIX7pFGH3+LewVTRmKit
+ Rx6kiJDuFZ9H1tSLtnVIW60Sm1kfyBIew3FarvW+8Wu04aEslakbaAjNXHEX6x8AwUNk
+ L08pXZ2VtkiIS3creW794O0cxbaFgKq3sEn/qU62BM4ocpzU4L2uWjaAQpXQtREWLvVx
+ HzI+zRBErtYIWfcCnfzuWwefHsQAgE0l4LeOPXoOI8Rcqby4huItRR04YJA/exxDOplG
+ eH9lHxEJlP5bBYPy6r/G4XQYOE+qSDPZAZLt6dXqfvKdKgYEIdZINk+G30OY+TKNq8KS
+ lIeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=T4sLQ+yI9jhZw7bh/zJf2U1VnqtoyxbY1frYKtrY/R0=;
- b=aDF+QnVW0c2yuJrA74bumYNlMKDbBpM/asSxTexVEhrdJzY72zIKA08cuEGaKq2Oxg
- fq2+hpxACp3YzKaRPl9mVksHqA9bsYMhj9tJGYC2H3nH+0CDtaUWhKGH/dWdqf56BOOz
- qVDbturxzg6cmx9D+h9SwZbDs2w59aiyW7yHYoj3DfwfAy9xq/Ss4LmIfgbbEU6CRhIM
- Qm8AmnqXXLwea+2WK6ZIqrltZa7xeZiTG6nYJhCXdhKe0xGO2Z522DFQy6ibPIva7sLE
- rZwqUPivXbDheiwo9a3M5Bo9m7RvvhDPNS848dyeVl8hgLibgZAIsuf4KWxnxqLRkIUJ
- rHWg==
-X-Gm-Message-State: APjAAAXcQ+vdbd/SWZ9GGQxk6dVVi+3cbWIYoQ4ejZgNgrhw9SuH2E1h
- 7vAvCnrSMCKxjzesN7tsJM8=
-X-Google-Smtp-Source: APXvYqx6DK2awN255gnmj2F5KXWBAbdPnG9/UxzxHZSIAc5NotLSZcQRoVu3kLbVupSQiGGhioGZTQ==
-X-Received: by 2002:a62:7683:: with SMTP id r125mr8310239pfc.132.1581055796656; 
- Thu, 06 Feb 2020 22:09:56 -0800 (PST)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=2oIJ/9+Wdznz5JwXSGSH98pjxWJV1VvrSxJKy0S3YZA=;
+ b=qLTxzohvz04cZhQXsSBpgIv5gsIKZbWgL5eOQObTulWIkb5AxX5VcSfrpbUHg0uCpg
+ qmOIb9zrda8YlK+vGAgoeCQjumPH/+ANxv3p94ajnuoby99cwfEe9tttIdkg7BXpjhup
+ MBBjWTKoATDrU/D9upH17tmmaDSpK8yRnpx8YP5llqPPAGe3sGEt4HbItxOM/lJPmL83
+ 7+2jSZ2S20bK+A88iIi0MqGjSu3GoCctlz8RHdFBYs12mn29CAxz+BFaq3HuCBeoWLfP
+ uZRLtA+/lM6u+D3wVzOOpqU9l27X6dcjjTLBjSWowu0lcGCQ2EM6NYY7EEhNkbnehfhA
+ S/0g==
+X-Gm-Message-State: APjAAAWk4ixQZKKQdzzRZ/ciLXnrZ9U6IOCtBivY0um6iHAlfc0FwtSU
+ MWTN0wMLDvH0OKE0/UC3xns=
+X-Google-Smtp-Source: APXvYqw6wzqbvJmMBT+9pQAOugQrUxw/f93fr+EFyAsRCvHZJitoKbnXIGvBCjs+aV7ABGN96erGkQ==
+X-Received: by 2002:a65:5c44:: with SMTP id v4mr8165922pgr.340.1581056119264; 
+ Thu, 06 Feb 2020 22:15:19 -0800 (PST)
 Received: from localhost.localdomain ([2405:204:30e:4a31:b268:7a3:7dc6:f288])
  by smtp.gmail.com with ESMTPSA id
- b130sm1243438pga.4.2020.02.06.22.09.53
+ v10sm1342660pgk.24.2020.02.06.22.15.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 22:09:56 -0800 (PST)
+ Thu, 06 Feb 2020 22:15:18 -0800 (PST)
+Message-ID: <6e7b556fe05500b5c4f0852b5a7b65f9c762f5ad.camel@gmail.com>
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-To: cocci@systeme.lip6.fr
-Date: Fri,  7 Feb 2020 11:39:37 +0530
-Message-Id: <20200207060938.9531-2-jaskaransingh7654321@gmail.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200207060938.9531-1-jaskaransingh7654321@gmail.com>
-References: <20200205130327.6812-1-jaskaransingh7654321@gmail.com>
- <20200207060938.9531-1-jaskaransingh7654321@gmail.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Date: Fri, 07 Feb 2020 11:45:13 +0530
+In-Reply-To: <964378a7-ddd3-a1f8-e567-f3c4392b14a5@web.de>
+References: <132f414d-397f-fb9a-ff6e-5360df827147@web.de>
+ <f7da90d8cc0e609a2a81e7a041cc98afedb215b6.camel@gmail.com>
+ <964378a7-ddd3-a1f8-e567-f3c4392b14a5@web.de>
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
 MIME-Version: 1.0
-Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 1/2] parsing_c: Align C AST and
-	Cocci AST for pointer
+Cc: Julia Lawall <julia.lawall@inria.fr>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "cocci@systeme.lip6.fr" <cocci@systeme.lip6.fr>
+Subject: Re: [Linux-kernel-mentees] [Cocci] [2/2] tests: Add test case to
+ match const pointer variants
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,93 +114,29 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-For a pointer, the C parser constructed an AST dissimilar from that
-of the Cocci AST. This caused failures in matching with certain
-pointer types. For example, for the following case:
-
-char *1 const *2 id;
-
-The C AST constructed would be:
-const Pointer1 -> Pointer2 -> char
-
-The Cocci AST constructed would be:
-Pointer2 -> const Pointer1 -> char
-
-Change the pointer rule in the C parser so that an AST similar to the
-Cocci AST is constructed.
-
-Make necessary changes in the C pretty printer so that the pointer type
-is printed correctly.
-
-Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
----
- parsing_c/parser_c.mly      | 4 ++--
- parsing_c/pretty_print_c.ml | 6 ++++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/parsing_c/parser_c.mly b/parsing_c/parser_c.mly
-index 8d7b761e..4c74f15a 100644
---- a/parsing_c/parser_c.mly
-+++ b/parsing_c/parser_c.mly
-@@ -1333,14 +1333,14 @@ pointer:
-  | tmul                   { (Ast_c.noattr,fun x -> mk_ty (Pointer x) [$1]) }
-  | tmul pointer
-      { let (attr,ptr) = $2 in
--       (attr,fun x -> mk_ty (Pointer (ptr x)) [$1]) }
-+       (attr,fun x -> ptr (mk_ty (Pointer x) [$1])) }
-  | tmul type_qualif_list
-      { let (attr,tq) = $2 in
-        (attr,fun x -> (tq.qualifD, mk_tybis (Pointer x) [$1]))}
-  | tmul type_qualif_list pointer
-      { let (attr1,tq) = $2 in
-        let (attr2,ptr) = $3 in
--       (attr1@attr2,fun x -> (tq.qualifD, mk_tybis (Pointer (ptr x)) [$1])) }
-+       (attr1@attr2,fun x -> ptr (tq.qualifD, mk_tybis (Pointer x) [$1])) }
- 
- tmul:
-    TMul { $1 }
-diff --git a/parsing_c/pretty_print_c.ml b/parsing_c/pretty_print_c.ml
-index a2e35588..40b89fe5 100644
---- a/parsing_c/pretty_print_c.ml
-+++ b/parsing_c/pretty_print_c.ml
-@@ -804,11 +804,12 @@ and pp_string_format (e,ii) =
-              (FunctionType (return=void, params=int i) *)
-           (*WRONG I THINK, use left & right function *)
-           (* bug: pp_type_with_ident_rest None t;      print_ident ident *)
-+          pp_type_left t;
-           pr_elem i;
-           iiqu +> List.iter pr_elem; (* le const est forcement apres le '*' *)
-           if iiqu <> [] || get_comments_after i <> []
-           then pr_space();
--          pp_type_with_ident_rest ident t attrs Ast_c.noattr;
-+          print_ident ident
- 
-       (* ugly special case ... todo? maybe sufficient in practice *)
-       | (ParenType ttop, [i1;i2]) ->
-@@ -885,11 +886,12 @@ and pp_string_format (e,ii) =
-       match ty, iity with
- 	(NoType,_) -> failwith "pp_type_left: unexpected NoType"
-       | (Pointer t, [i]) ->
-+          pp_type_left t;
-           pr_elem i;
-           iiqu +> List.iter pr_elem; (* le const est forcement apres le '*' *)
-           if iiqu <> [] || get_comments_after i <> []
-           then pr_space();
--          pp_type_left t
-+          ()
- 
-       | (Array (eopt, t), [i1;i2]) -> pp_type_left t
-       | (FunctionType (returnt, paramst), [i1;i2]) -> pp_type_left returnt
--- 
-2.21.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gRnJpLCAyMDIwLTAyLTA3IGF0IDA3OjA3ICswMTAwLCBNYXJrdXMgRWxmcmluZyB3cm90ZToK
+PiA+IFdvdWxkIHRoZSBmb2xsb3dpbmcgYmUgYSBiZXR0ZXIgc3ViamVjdD8KPiAKPiBUaGUgYWx0
+ZXJuYXRpdmUgaXMgbmljZXIuCj4gCj4gCj4gV2lsbCBvdGhlciBpbXBsZW1lbnRhdGlvbiBkZXRh
+aWxzIGJlY29tZSBhbHNvIG1vcmUgaW50ZXJlc3Rpbmc/Cj4gCj4gVGhlIGluZm9ybWF0aW9uIOKA
+nEFsaWduIEMgQVNUIGFuZCBDb2NjaSBBU1TigJ0gd2FzIHByb3ZpZGVkLgo+IGh0dHBzOi8vbG9y
+ZS5rZXJuZWwub3JnL2NvY2NpLzIwMjAwMjA1MTMwMzI3LjY4MTItMi1qYXNrYXJhbnNpbmdoNzY1
+NDMyMUBnbWFpbC5jb20vCj4gaHR0cHM6Ly9zeXN0ZW1lLmxpcDYuZnIvcGlwZXJtYWlsL2NvY2Np
+LzIwMjAtRmVicnVhcnkvMDA2ODQwLmh0bWwKPiAKPiAqIFNob3VsZCB0aGUgcG90ZW50aWFsIGZv
+ciBkaWZmZXJlbmNlcyBpbiB0aGVzZSDigJxBU1TigJ0gYmUgY2hlY2tlZCBhbnkKPiBtb3JlPwo+
+IAoKQW4gZWZmb3J0IGlzIGFscmVhZHkgYmVpbmcgbWFkZSB0byBkbyB0aGlzIGJ5IG1lIGFuZCBK
+dWxpYSA6KQoKPiAqIEhvdyBjYW4gc3VjaCBpdGVtcyBiZSBjb21wYXJlZCBzYWZlbHk/Cj4gCgpO
+b3Qgc3VyZSB3aGF0IHlvdSBtZWFuLiBJZiB5b3UgbWVhbiBob3cgdGhlIHR3byBBU1RzIGNhbiBi
+ZSBjb21wYXJlZCwKaXQncyBqdXN0IGEgcHJvY2VzcyBvZiBkYXRhIGNvbGxlY3Rpb24gYW5kIGRl
+YnVnZ2luZy4KCkNoZWVycywKSmFza2FyYW4uCgo+IAo+IElzIHRoZXJlIGEgbmVlZCB0byBleHRl
+bmQgdGhlIHRlc3QgZm9ybWF0Pwo+IGh0dHBzOi8vZ2l0aHViLmNvbS9jb2NjaW5lbGxlL2NvY2Np
+bmVsbGUvaXNzdWVzLzEzNAo+IAo+IFJlZ2FyZHMsCj4gTWFya3VzCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWls
+aW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpo
+dHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1r
+ZXJuZWwtbWVudGVlcwo=
