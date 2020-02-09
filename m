@@ -2,67 +2,67 @@ Return-Path: <SRS0=6+LU=35=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 289F4C35250
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  9 Feb 2020 09:27:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E6ACC35250
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  9 Feb 2020 09:39:13 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C27AB207FF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  9 Feb 2020 09:27:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C273320726
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  9 Feb 2020 09:39:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="XthgfK23"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C27AB207FF
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="phDzL2nu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C273320726
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 977BC853D3;
-	Sun,  9 Feb 2020 09:27:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8A229855CB;
+	Sun,  9 Feb 2020 09:39:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id urMdji9iwOZa; Sun,  9 Feb 2020 09:27:17 +0000 (UTC)
+	with ESMTP id cmPFogztaNM5; Sun,  9 Feb 2020 09:39:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E886384410;
-	Sun,  9 Feb 2020 09:27:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5F2E584E0A;
+	Sun,  9 Feb 2020 09:39:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D4E1BC07FE;
-	Sun,  9 Feb 2020 09:27:16 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 34D93C0171
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 40A5FC07FE;
+	Sun,  9 Feb 2020 09:39:11 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 40FABC0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Feb 2020 09:27:16 +0000 (UTC)
+ Sun,  9 Feb 2020 09:39:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 23DBF87E23
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2CEBA860D1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Feb 2020 09:27:16 +0000 (UTC)
+ Sun,  9 Feb 2020 09:39:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gwOeYWw1AvLB
+ with ESMTP id bxSKF-m3VeRU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Feb 2020 09:27:15 +0000 (UTC)
+ Sun,  9 Feb 2020 09:39:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0FB8186A98
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id F04FC860BE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Feb 2020 09:27:14 +0000 (UTC)
+ Sun,  9 Feb 2020 09:39:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1581240430;
- bh=ldyPtOFgiAhGwqbE3fENlzl97k5sVsCCAQ6JNwT5j2A=;
+ s=dbaedf251592; t=1581241145;
+ bh=IALBKAzfShjoA9TDrXgmKWqMtkWfEvQqfe39Th4MiUI=;
  h=X-UI-Sender-Class:Cc:Subject:To:From:Date;
- b=XthgfK235qgx4R90oS2W2Xgs8pjWzDaoumIYPqyyjdmqDyp2n/TZDI0j158kWXIhL
- +NeFLChPLOjeWvv4V7GobXW4iU5Nkd7I62TBwfyxVkqf78UKlA5qashcKjOx8WbBuB
- 9YknOgp/ZCJvUZO0KCNXjgyD4Wacy5gbyTg6iDio=
+ b=phDzL2nuIeiAIgKldZRE6Y6f2HjjKijpJxm2ou3Xf04j6/IZdRyo161eoVM0PdpqM
+ quLsdnrOugLDhqfPaRJ86cW8149cK3gXHPboa2gVNnzSJnvM8/gJJytJ7AXH5/cDBE
+ acq5MCXblD7LW5ke6GE2L5q3Y/PmTEP5JwZYfsa0=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
 Received: from [192.168.1.2] ([93.135.143.72]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MK6mD-1izLxL2gpJ-001RuX; Sun, 09
- Feb 2020 10:27:10 +0100
-To: Julia Lawall <julia.lawall@inria.fr>
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MWuiC-1j3yiT1i3I-00Vwxc; Sun, 09
+ Feb 2020 10:39:05 +0100
+To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
 From: Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -107,40 +107,38 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <97fc0859-8b23-de06-ad16-6e879bbef4f0@web.de>
-Date: Sun, 9 Feb 2020 10:27:09 +0100
+Message-ID: <08fbbc65-8aaa-e37c-7781-322df052bd9a@web.de>
+Date: Sun, 9 Feb 2020 10:39:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
 Content-Language: en-US
-X-Provags-ID: V03:K1:8F15Muf5wfN3qiB8ai1w82XHLZ0IxKoIyN/eyF8BhbqsgghWHay
- kyA8zF51jJzdUCRX8Rha9iYvCD1e/eWvPT9n+qdrtCxl9ZyDjzEJ0rr7tRDlphq6SX6/t5w
- CwnUHl0aHwKGzGQMFz13yY2QV1A8THTQETJNIUTK2UCBEokDsp/JNsU/SpBqq1G2vVkfplG
- foz5L85tFlgdAL5TdcIdA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZIXlQMZLPOk=:xfcWBtnTeJ1RQ7v7nGnFGT
- 70Q34ZRL49VMcSwYP5ZBA9sNErbf8WKUxndhdVCWYDZlh/SrLSzE1Ke6N+55MiO3RaEp6PN5Y
- hh1pJeyz2juR5dsLAyA63uLXYDkP6MYWHp0VO6UwRjPH5vJu9kPHcPKrBvPzQ0MH1fQDU6Cgm
- emPFMs7GOOFin1KliuTDHvoUE3cw/lV59hrnk6j/l2rY8Ba1LayMeFKuWhXzj2dHBaSY0KoAI
- 180cvxMk83p8q86nDy9H1mK/YWhMvEcjxK5qMd+Ybbatn/KG+DwMi9sTVu1JAO9NoNf4SJYH8
- BSn4pT+6vrHlpuYzdPdA9T3uSDlohTkyq7vEIjaWsVHJmatKN83sAXkaIeZt3NLUg12RO1nOj
- VobIcaenzfMvi/Pw21utPfMxMkvHhIE1YRzbgCalddRr8XBT9qWn76PmAxJYaqeu24lfNeIhf
- MWVm0O1pzOku2V28DtTeGs5Mc7b0MuQbqreVzfaVbMRW9lcaZxjKxS+IOeX5Hn0VZ7TxNHVhO
- UrhXSjSIDcTpek9IR35beeeM66XZvAnJ4Q+v7yVkrut9UxHgdumHgNTYOmdimYzCv+Hlc++OO
- L9CphxIVT/Ob1610JtlO8zBtwMjDwSGaEFR7xmPXJpSsChCPXg7IG99dUTfU8cHnzimHldK/R
- bdJpukM2LDAqzf1b7fj0klFjztNZ8DL4rjBrW+W8rhSomDRjlRcJ4iBvF6WwmjZ7k+pefskCI
- yPlFoWzWEHXwwPjQaHGCHJGAQCw/K+wKhRGraSSpvct+sGqf3Dn+Sg+MDn3VQnbTImKWINL/6
- 8AB+Nf9X7BNFFMrYjfnQaar1dXCpXlkvbVXzTZb+ySLrzI7X3UfbZ7ea3oRZAchNDh8R4EIv2
- CWLfSe9y0ljSudmBnkrtMBIIRiiLcCYNVDdUQvrwFUl6jIvr2y5XqoOCw5F/rjhka0JiHYMXD
- D1IaYdJPvrQ37MkrOSH191pUpsX7sa3mg+CC9/zjLOyJk+m2Vq33UB6XNBRcY9o06URGZmIn8
- F7I83kADYVaaq8kmoStDP6OPmDnOod47ixe1PAATijLB6Q8OGWr4bqkDL8syIRuTaK8KKuzxh
- xvxsRYlBW6PCwC4lbd/BIw3mchAOy0RXx+A/is3u169APRYyuI+uhF45W6K4uHWnrIh9rUxmP
- JaHlNziz4CoxZZ9LZHpnqsIKzYuyQjlvmNQ0ZILimXzkSFaaglt/vj+rmVGZ9ks4vHD63ANWt
- BYyNXP7w2fvcAdNoS
-Cc: Jaskaran Singh <jaskaransingh7654321@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Coccinelle <cocci@systeme.lip6.fr>
-Subject: Re: [Linux-kernel-mentees] [Cocci] [v2 1/2] parsing_c: Align C AST
- and Coccinelle AST for pointers
+X-Provags-ID: V03:K1:tijJL3X10GX4ejSSTP0rT0FpavPvfRT3PxvPcBziJi2D7TrrAZd
+ /ZAbqb1DHfVnGVPEAMuHXqCHEZsBztq7jEliSgy+DAvb8PXzPB/dDLoii9lbIMpvYAUIKvz
+ RlBYH5GPwqT5GhpwnR/Zf++23i0BqYA8yGuXXckiYM+eXOp5YQjFlPBn1+/oE+gK0MQ3JrX
+ DqudU+RY0MNMBwS1zAswg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ojvUywl84As=:hAQtaiaMrRAcX92lhhclbJ
+ 7Civ+Mb7yS1OeG+3G+P66n71KaKRI6J2pVlN5zD4eN4PmH6UGU+BPQDRbIWOsHVTanSrXT+FK
+ XXPCk8PWnQQMFzae6CGgjkN1p1zv2qRtTwbftT9knf73jQK5eLOn1azYUJi5J4BL674d5cT3R
+ qlbagIMftMbTyHYvVJ5sirurRFCgXJ6aXDnZEYRWyDBuDpL0k5xNrvYK0Ut+CryXBJM3P6KXc
+ lt9b4vpBnZgXJpbqEaWu4wnkHXGOh4NPEhHrWhKCSQaBhk/iBHCZS9dD7aK2mncO5ac6KELed
+ +rCfgQGFHEgOnbXw0hu9MivyMpgdFKZKBTM2LXoPV9FV5eIDkgLMliy/9+j9k0vXw3qf1f/ed
+ 4e7gajcBJhjsG/Ea0b9jjcLev2ujX3ip+Lkd33z5cDUW1ipTT8zX29o+lnY93nUdL94ACvDcd
+ 82CaOz6rAohX8QCIEeBhBydMAl4KNrziUAKUm7bCLkrK6qdhHSA0yZ1/53XzTPnqVCQDxcAO8
+ KadAt7WjJdsX/fD6XyELcu45XXEdaQG6GbNkLvzict1KXtitYaGVMOoNkcFfmAVM2e9RLtzr3
+ qisBwT1DvN4pqKouEO6werFmS64/+dmErWC96GJj9wIWXEgiXAmWhWqOJ5nmrJqivdUaCTDFA
+ fKSR9FDa6YhzCS7hHJ+AgZg7F04Mhhv0LW3JxMh7kxHFDG4rNXxKu/Lec2qFXK3BPfn2B2w1L
+ F9tzxsW3fx6V/dlLIMKRtXtcsgeC6sEPI0W8K1evbGfDVCVNOyg5mEjcstEvYWwvg/NSi9L4r
+ loWrUi2BsQ+HwLeVDBAm6zJrui4kxiui2NuSeEOum5VA292g0Ha+H8lRWHXTTw7ctkXVSLCBp
+ 1s0h6cd0eeOY74pSCits7MZ+px2s6ypXpE7LzDzycb7widOdvE2VvWrEHTr5akFen0dGCWwHW
+ EOtqRm1MtXVXnSgrkYxkC5xu9LT93hsOFRaTI/9r63KA8h7dwLg2XqAJgxdZU9UZAC2RgxBIh
+ dXZqvRp3iLlq+5E+/4S8RIHgYwKZDs7AJwashmicYFDZIgRSANiSQ211Tht8yezwJV4QlLWD0
+ 5jpMAr/X6xZ/qymY2LNIBSepgqUC+LMw3aEBzBxnbin0bYBlrISd4qFVURXKu6kywpW7jnENR
+ fYmv2ZAvGqiMUAXHE7MSnxtDsfehZDmiMEbmpuShPqjqz1ZDKO5/DhljvFMfz/T1bh7dQQDGo
+ 6wPzNSdC/hxrXvheB
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH v2 1/2] parsing_c: Align
+ C AST and Coccinelle AST for pointers
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -152,24 +150,17 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> +	const char *const *y;
->  }
->
-> There should be a space between * and const on the + line.
-
-Will such a detail become more interesting for the clarification
-around coding styles?
-https://github.com/coccinelle/coccinelle/issues/37
-
-Regards,
-Markus
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+PiBGb3IgYSBwb2ludGVyLCB0aGUgQyBwYXJzZXIgY29uc3RydWN0ZWQgYW4gQVNUIGRpc3NpbWls
+YXIgZnJvbSB0aGF0CgpJIGZpbmQgaXQgaGVscGZ1bCB0byBtZW50aW9uIHRoZSBtZWFuaW5nIG9m
+IHRoZSB0ZXJtIOKAnEFTVOKAnSB3aXRob3V0IGFiYnJldmlhdGlvbgpmb3IgYSBuaWNlciBwYXRj
+aCBkZXNjcmlwdGlvbi4KaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvQVNUCgpSZWdhcmRz
+LApNYXJrdXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+TGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxp
+c3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
+L21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
