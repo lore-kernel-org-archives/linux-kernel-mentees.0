@@ -2,103 +2,110 @@ Return-Path: <SRS0=BMuY=36=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4AB5C352A3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Feb 2020 15:46:06 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161E8C352A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Feb 2020 16:47:39 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7ADA220733
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Feb 2020 15:46:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D2C8220733
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Feb 2020 16:47:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bqERrv01"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7ADA220733
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CEL5T7by"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D2C8220733
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 55ABA8448B;
-	Mon, 10 Feb 2020 15:46:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 892F820027;
+	Mon, 10 Feb 2020 16:47:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NrmMtwy0d0QU; Mon, 10 Feb 2020 15:46:05 +0000 (UTC)
+	with ESMTP id fIoDWuCkDBqz; Mon, 10 Feb 2020 16:47:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B472184549;
-	Mon, 10 Feb 2020 15:46:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 976A3203B1;
+	Mon, 10 Feb 2020 16:47:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B162EC1796;
-	Mon, 10 Feb 2020 15:46:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B94EC07FE;
+	Mon, 10 Feb 2020 16:47:37 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DEEF8C0171
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 67778C0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 15:46:04 +0000 (UTC)
+ Mon, 10 Feb 2020 16:47:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DA66187009
+ by hemlock.osuosl.org (Postfix) with ESMTP id 51AFE86D78
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 15:46:04 +0000 (UTC)
+ Mon, 10 Feb 2020 16:47:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MWyo6c0kQxXm
+ with ESMTP id Ez7QZvL4pmCh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 15:46:04 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
- [209.85.160.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0D7A486E2C
+ Mon, 10 Feb 2020 16:47:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C0FB886D73
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 15:46:04 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id t13so5461034qto.3
+ Mon, 10 Feb 2020 16:47:35 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id 84so3969314pfy.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 07:46:04 -0800 (PST)
+ Mon, 10 Feb 2020 08:47:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qZzSV/Cejb8UpV/HQ8108YbaF0V/lqCH3FWdetQ8Pow=;
- b=bqERrv018aofLOYbac08392BfAcTQe7clJ9OzDV8jgahYWVeT/NaaOy4J0qiQoFYS8
- hWw56aB3drHyzueud0IF/eHl4IkoW9XF918irUpRxhd1D30SPtzQxR9QK//nu6JnuBTB
- bk7Q+tPz7ZXtddEnVtgut02cdTOrxfQ+7NqJcGgmlRas2y7v5a/iwnj8aimT3OSEHmRr
- vQK8jVUuUqrC3Ama2VrTA5wfu2gZ6SNCze3g80sl5vlvBqZ+kBE/hvn1Ulju1/Yt9nPY
- TzKKecjCD3TkF9Ak+v09esvykMrddDwMSh5Mp+Fx27mRYuOG7w8Gu8iKWvlr98WqgreF
- /PtA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=6S/qqrclbzsgs+sboOiImcegGzXap9XdkgMRDQlBr0w=;
+ b=CEL5T7byT9BaT02dREx1V+S0eeFRn9TfwoKS+xj2egQaOoxDOCNLNTbepLyeZqiEQg
+ UD1h4wCf1FK5AeCh1nGewFw66oN167hpDJFS81zR4YpaBtOw3J6j9RBiKNiRCWancRhI
+ nwV56OZ1kV0DaZn5x0Y3prLUuDg0/CyHbxN70InK7kBZP4INT3bZ22p3jhorq7Q1KUDE
+ zNAwtibtZc/jfZRTC6sWtYWvcsQZiLlM1y3VwQ/s3uCq9d/i9duHzpcuAnyjyW9inDSf
+ TYyZ827FqwUMBv6o+qRPUOoGq9LvtAcYNiws2EjhdKry+Pcvr10qXtoKPhYWynAQmPoO
+ 9rfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qZzSV/Cejb8UpV/HQ8108YbaF0V/lqCH3FWdetQ8Pow=;
- b=a4/G6pFbJZfIidkwegOQfoBMqlKVYPLrCokBjENeEzyARM8+PyXYe36rgFIw2kiBxL
- wf0pToWk5q30S1wRQdhQE4K64StgR50jn/h1D3/SyV9uG1I24buROXam4YVGg2A7C8Ux
- yemQmDA4tCsKc/+PufAZ3AzEVxQkTORzTTdzat4Kk+WPhBOYWNFFQzDZl/e9MqF47Emm
- EUc0QU84XPh9UaSBziONEQNaaN/CSztsU/R+WnrmSwROTH4XHuL1FksT+Et28JBJofHY
- tpYLQ2oMfQN/UEt3VO+rE3zpEztftq8CBUoi04R3gqkEtY1H0IZX36SPZrDvxfhy0sXz
- A7TA==
-X-Gm-Message-State: APjAAAXMSBiCCBhMcDMDmc8wVrIlXsFKQpxWX3JrF5clJLssN0E8O9S4
- NyVKHZj96tREYzrdT267FV4=
-X-Google-Smtp-Source: APXvYqzPHFzNJtUhodxDnU6Bj7FldHbeHXQeKlnr9o6VdHUlF3LzXjc8bCXUcUrxDmM6665aYZqaNA==
-X-Received: by 2002:ac8:33f8:: with SMTP id d53mr10423304qtb.86.1581349562868; 
- Mon, 10 Feb 2020 07:46:02 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id c45sm350510qtd.43.2020.02.10.07.45.59
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6S/qqrclbzsgs+sboOiImcegGzXap9XdkgMRDQlBr0w=;
+ b=Imba3yxcvT5L3nd+dCDQfnAIL838p2gEQtYsYGjKkoJRxO0y+KBhiM9rBzXfZkopAn
+ ZeVf1D3UncbewU2DAnAevpSrzzPhk/1AvXP6DhZXQ+9VEOKWQQ9GLv6d/YILNrhjz7mD
+ 0ZhRtdqD56v1uuOfKSSQsysUhTLq9RRxWvuU6LNOAbxUh8mFQB7AA0jYNI2oiwq7oc/y
+ rFSJ3Xx6y6YtbkX1k/1tJ8F8z/H8JxUhQbHPqqIoMYDf9UdeMFt2pfpXqRG71tJpf3QJ
+ lWs9C2lWtRHtv29dP+F9V2kc6hnx9N6o0MatpuRWUEejhmxAP5vU4vKiaoX2qhAVElou
+ XufA==
+X-Gm-Message-State: APjAAAWuD3I4misxJdMeN4y52B0Xb88xs+iRYTKwRaqIDdVLr5LMfpf4
+ 9j2DR+qRWQUhGlWL4+LrS40=
+X-Google-Smtp-Source: APXvYqxbcN6fFslsYQuBRd4tNcD50yrE5z+6+8KiffGz+ob3i0+3oDP2xswGxnS14o+RQ737VKX7OQ==
+X-Received: by 2002:a63:2c0e:: with SMTP id s14mr2616909pgs.349.1581353255317; 
+ Mon, 10 Feb 2020 08:47:35 -0800 (PST)
+Received: from workstation-portable ([146.196.37.217])
+ by smtp.gmail.com with ESMTPSA id e2sm773029pjs.25.2020.02.10.08.47.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Feb 2020 07:46:02 -0800 (PST)
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To: mchehab@kernel.org, sean@mess.org, tglx@linutronix.de,
- gregkh@linuxfoundation.org
-Date: Mon, 10 Feb 2020 12:45:55 -0300
-Message-Id: <20200210154555.156283-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.25.0
+ Mon, 10 Feb 2020 08:47:34 -0800 (PST)
+Date: Mon, 10 Feb 2020 22:17:27 +0530
+From: Amol Grover <frextrite@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Message-ID: <20200210164727.GA22283@workstation-portable>
+References: <20200208144648.18833-1-frextrite@gmail.com>
+ <20200210093624.GB14879@hirez.programming.kicks-ass.net>
+ <20200210125948.GA16485@workstation-portable>
+ <20200210133459.GJ14897@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] media: dvb_dummy_fe.c: lose TS lock
-	on bad snr
+Content-Disposition: inline
+In-Reply-To: <20200210133459.GJ14897@hirez.programming.kicks-ass.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@redhat.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] events: Annotate parent_ctx with
+	__rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,212 +123,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+On Mon, Feb 10, 2020 at 02:34:59PM +0100, Peter Zijlstra wrote:
+> On Mon, Feb 10, 2020 at 06:29:48PM +0530, Amol Grover wrote:
+> > On Mon, Feb 10, 2020 at 10:36:24AM +0100, Peter Zijlstra wrote:
+> > > On Sat, Feb 08, 2020 at 08:16:49PM +0530, Amol Grover wrote:
+> 
+> > > > @@ -3106,26 +3106,31 @@ static void ctx_sched_out(struct perf_event_context *ctx,
+> > > >  static int context_equiv(struct perf_event_context *ctx1,
+> > > >  			 struct perf_event_context *ctx2)
+> > > >  {
+> > > > +	struct perf_event_context *parent_ctx1, *parent_ctx2;
+> > > > +
+> > > >  	lockdep_assert_held(&ctx1->lock);
+> > > >  	lockdep_assert_held(&ctx2->lock);
+> > > >  
+> > > > +	parent_ctx1 = rcu_dereference(ctx1->parent_ctx);
+> > > > +	parent_ctx2 = rcu_dereference(ctx2->parent_ctx);
+> > > 
+> > > Bah.
+> > > 
+> > > Why are you  fixing all this sparse crap and making the code worse?
+> > 
+> > Hi Peter,
+> > 
+> > Sparse is quite noisy and we need to eliminate false-positives, right?
+> 
+> Dunno, I've been happy just ignoring it all.
+> 
+> > __rcu will tell the developer, this pointer could change and he needs to
+> > take the required steps to make sure the code doesn't break.
+> 
+> I know what it does; what I don't know is why you need to make the code
+> worse. In paricular, __rcu doesn't mandate rcu_dereference(), esp. not
+> when you're actually holding the write side lock.
 
-Periodically check the signal quality and eventually lose the lock if
-the quality is sub-par. A fake tuner can return a bad quality signal to
-the demod if the frequency is too far off from a valid frequency.
+I might've misinterpreted the code. How does replacing rcu_dereference()
+with
+parent_ctx1 = rcu_dereference_protected(ctx1->parent_ctx,
+					lockdep_is_held(&ctx1->lock));
+sound?
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- drivers/media/dvb-frontends/dvb_dummy_fe.c | 149 ++++++++++++++++++++-
- 1 file changed, 144 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-index 9ff1ebaa5e04..726c964a523d 100644
---- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
-+++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-@@ -9,24 +9,155 @@
- #include <linux/init.h>
- #include <linux/string.h>
- #include <linux/slab.h>
-+#include <linux/workqueue.h>
-+#include <linux/random.h>
- 
- #include <media/dvb_frontend.h>
- #include "dvb_dummy_fe.h"
- 
- 
-+struct dvb_dummy_fe_cnr_to_qual_s {
-+	/* attempt to use the same values as libdvbv5 */
-+	u32 modulation;
-+	u32 fec;
-+	u32 cnr_ok, cnr_good;
-+};
-+
-+struct dvb_dummy_fe_cnr_to_qual_s dvb_c_cnr_2_qual[] = {
-+	/* from libdvbv5 source code */
-+	{ QAM_256, FEC_NONE,  34., 38.},
-+	{ QAM_64,  FEC_NONE,  30., 34.},
-+};
-+
-+struct dvb_dummy_fe_cnr_to_qual_s dvb_s_cnr_2_qual[] = {
-+	/* from libdvbv5 source code */
-+	{ QPSK, FEC_1_2,  7., 10.},
-+
-+	{ QPSK, FEC_2_3,  9., 12.},
-+	{ QPSK, FEC_3_4, 10., 13.},
-+	{ QPSK, FEC_5_6, 11., 14.},
-+
-+	{ QPSK, FEC_7_8, 12., 15.},
-+};
-+
-+struct dvb_dummy_fe_cnr_to_qual_s dvb_s2_cnr_2_qual[] = {
-+	/* from libdvbv5 source code */
-+	{ QPSK,  FEC_1_2,   9.,  12.},
-+	{ QPSK,  FEC_2_3,  11.,  14.},
-+	{ QPSK,  FEC_3_4,  12.,  15.},
-+	{ QPSK,  FEC_5_6,  12.,  15.},
-+	{ QPSK,  FEC_8_9,  13.,  16.},
-+	{ QPSK,  FEC_9_10, 13.5, 16.5},
-+	{ PSK_8, FEC_2_3,  14.5, 17.5},
-+	{ PSK_8, FEC_3_4,  16.,  19.},
-+	{ PSK_8, FEC_5_6,  17.5, 20.5},
-+	{ PSK_8, FEC_8_9,  19.,  22.},
-+};
-+
-+static struct dvb_dummy_fe_cnr_to_qual_s dvb_t_cnr_2_qual[] = {
-+	/* from libdvbv5 source code */
-+	{   QPSK, FEC_1_2,  4.1,  5.9},
-+	{   QPSK, FEC_2_3,  6.1,  9.6},
-+	{   QPSK, FEC_3_4,  7.2, 12.4},
-+	{   QPSK, FEC_5_6,  8.5, 15.6},
-+	{   QPSK, FEC_7_8,  9.2, 17.5},
-+
-+	{ QAM_16, FEC_1_2,  9.8, 11.8},
-+	{ QAM_16, FEC_2_3, 12.1, 15.3},
-+	{ QAM_16, FEC_3_4, 13.4, 18.1},
-+	{ QAM_16, FEC_5_6, 14.8, 21.3},
-+	{ QAM_16, FEC_7_8, 15.7, 23.6},
-+
-+	{ QAM_64, FEC_1_2, 14.0, 16.0},
-+	{ QAM_64, FEC_2_3, 19.9, 25.4},
-+	{ QAM_64, FEC_3_4, 24.9, 27.9},
-+	{ QAM_64, FEC_5_6, 21.3, 23.3},
-+	{ QAM_64, FEC_7_8, 22.0, 24.0},
-+};
-+
-+struct dvb_dummy_fe_config {
-+	/* probability of losing the lock due to low snr */
-+	u8 drop_tslock_probability_on_low_snr;
-+};
-+
- struct dvb_dummy_fe_state {
- 	struct dvb_frontend frontend;
-+	struct dvb_dummy_fe_config config;
-+	struct delayed_work poll_snr;
-+	enum fe_status status;
- };
- 
-+void poll_snr_handler(struct work_struct *work)
-+{
-+	/* periodically check the signal quality and eventually
-+	 * lose the TS lock if it dips too low
-+	 */
-+	struct dvb_dummy_fe_state *state =
-+		container_of(work, struct dvb_dummy_fe_state, poll_snr.work);
-+	struct dtv_frontend_properties *c = &state->frontend.dtv_property_cache;
-+	struct dvb_dummy_fe_cnr_to_qual_s *cnr2qual = NULL;
-+	struct dvb_dummy_fe_config *config = &state->config;
-+	u32 array_size = 0;
-+	u16 snr = 0;
-+	u32 i;
-+
-+	if (!state->frontend.ops.tuner_ops.get_rf_strength)
-+		return;
-+
-+	state->frontend.ops.tuner_ops.get_rf_strength(&state->frontend, &snr);
-+
-+	switch (c->delivery_system) {
-+	case SYS_DVBT:
-+	case SYS_DVBT2:
-+		cnr2qual = dvb_t_cnr_2_qual;
-+		array_size = ARRAY_SIZE(dvb_t_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBS:
-+		cnr2qual = dvb_s_cnr_2_qual;
-+		array_size = ARRAY_SIZE(dvb_s_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBS2:
-+		cnr2qual = dvb_s2_cnr_2_qual;
-+		array_size = ARRAY_SIZE(dvb_s2_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBC_ANNEX_A:
-+		cnr2qual = dvb_c_cnr_2_qual;
-+		array_size = ARRAY_SIZE(dvb_c_cnr_2_qual);
-+		break;
-+
-+	default:
-+		pr_warn("%s: unsupported delivery system: %u\n",
-+			__func__,
-+			c->delivery_system);
-+		break;
-+	}
-+
-+	for (i = 0; i <= array_size; i++) {
-+		if (cnr2qual[i].modulation == c->modulation &&
-+		    cnr2qual[i].fec == c->fec_inner) {
-+
-+			if (snr < cnr2qual[i].cnr_ok) {
-+				/* eventually lose the TS lock */
-+				if (prandom_u32_max(100) <
-+				    config->drop_tslock_probability_on_low_snr)
-+					state->status = 0;
-+			}
-+		}
-+	}
-+
-+	schedule_delayed_work(&(state->poll_snr), msecs_to_jiffies(2000));
-+}
- 
- static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
- 				    enum fe_status *status)
- {
--	*status = FE_HAS_SIGNAL
--		| FE_HAS_CARRIER
--		| FE_HAS_VITERBI
--		| FE_HAS_SYNC
--		| FE_HAS_LOCK;
-+
-+	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
-+
-+	*status = state->status;
- 
- 	return 0;
- }
-@@ -80,11 +211,18 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
- 
- static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
- {
-+	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
-+
-+	cancel_delayed_work_sync(&(state->poll_snr));
- 	return 0;
- }
- 
- static int dvb_dummy_fe_init(struct dvb_frontend *fe)
- {
-+	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
-+
-+	INIT_DELAYED_WORK(&(state->poll_snr), &poll_snr_handler);
-+	schedule_delayed_work(&(state->poll_snr), msecs_to_jiffies(2000));
- 	return 0;
- }
- 
-@@ -104,6 +242,7 @@ static void dvb_dummy_fe_release(struct dvb_frontend *fe)
- {
- 	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
- 
-+	cancel_delayed_work_sync(&(state->poll_snr));
- 	kfree(state);
- }
- 
--- 
-2.25.0
-
+Thanks
+Amol
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
