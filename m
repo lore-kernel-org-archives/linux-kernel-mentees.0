@@ -2,145 +2,97 @@ Return-Path: <SRS0=BMuY=36=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE2DC352A4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Feb 2020 07:52:56 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE4AC352A4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Feb 2020 09:36:36 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 980B620733
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Feb 2020 07:52:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 124E22080C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Feb 2020 09:36:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="IuPz9C3L"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 980B620733
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OVaJfwr6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 124E22080C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7B83984540;
-	Mon, 10 Feb 2020 07:52:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F18F52001A;
+	Mon, 10 Feb 2020 09:36:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id J-TRqv5fuww8; Mon, 10 Feb 2020 07:52:55 +0000 (UTC)
+	with ESMTP id W-WQZKprKoPD; Mon, 10 Feb 2020 09:36:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C326584468;
-	Mon, 10 Feb 2020 07:52:55 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 523E020018;
+	Mon, 10 Feb 2020 09:36:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B2054C1796;
-	Mon, 10 Feb 2020 07:52:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38940C1796;
+	Mon, 10 Feb 2020 09:36:35 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 61BEAC0171
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 92D9BC0171
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 07:52:54 +0000 (UTC)
+ Mon, 10 Feb 2020 09:36:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5080820002
+ by silver.osuosl.org (Postfix) with ESMTP id 7C01C2001A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 07:52:54 +0000 (UTC)
+ Mon, 10 Feb 2020 09:36:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fZygqFzcNd+J
+ with ESMTP id L-bQ-cv205mM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 07:52:53 +0000 (UTC)
+ Mon, 10 Feb 2020 09:36:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by silver.osuosl.org (Postfix) with ESMTPS id 723E22000E
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by silver.osuosl.org (Postfix) with ESMTPS id CBA3E20018
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Feb 2020 07:52:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1581321167;
- bh=siPWWus/5CbfG66kF7CzQB0HxZftlecHn1sckKHMlJM=;
- h=X-UI-Sender-Class:Cc:Subject:To:From:Date;
- b=IuPz9C3LC0O5XF1tnCH6aUic3oofC5BgWEgRBlYQeYR4JZ4LZRGrphZM6uW1IYvf+
- NSGknk2lLHSA5NX/hez3WVj27E0SGIo9bknbqzrcJ1UFtIMJK1ME+m8kgarEyHx6JF
- GxSi99nZ7NRi+4sLNWILEHkeWCJB9eM4r3sk/4M4=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.135.111.70]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MAMY6-1jCdOe3aFG-00BeZw; Mon, 10
- Feb 2020 08:52:46 +0100
-To: Julia Lawall <julia.lawall@inria.fr>
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <f6d6d4db-2326-b962-312f-eae09871aa9d@web.de>
-Date: Mon, 10 Feb 2020 08:52:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+ Mon, 10 Feb 2020 09:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=KWSALxgD8DPKs4l9QdTGtfSb74FtrWq0gjEnbifVqg8=; b=OVaJfwr6gYS4lvSTolSKQURRnZ
+ bsUfpKOQXpyjcfuQ+GklUxLM+XPufwIZMez5WA9oXfzNCviUFc3Eci9Z6RbdboErXvezS5DW47NrS
+ h87x6BwSNYCSd7QS0SqVwk9mmQNNOwYqkeSdjJq2f0ay0q68Mw3Qm6H9hCIbux1Jwmh1nUDzXhAQ3
+ xf/TJEl+vBfQqP4JZCQkQxgcOU9y45+lDSkmGZGMbZj5oPNk0xBO99OacaScB7EqDQKeMUef8bfDi
+ 7m957y9dq4zemVJNKh7uGaRVTVd4sl0BILUhr5oKPsr0h+VeGr1vnUyB9FcfFkC+IJ7mCa+xxx3Mx
+ HAFZmGnQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j15UQ-0002wT-4b; Mon, 10 Feb 2020 09:36:26 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id DB5E73012D8;
+ Mon, 10 Feb 2020 10:34:35 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 15C602B1D5567; Mon, 10 Feb 2020 10:36:24 +0100 (CET)
+Date: Mon, 10 Feb 2020 10:36:24 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Amol Grover <frextrite@gmail.com>
+Message-ID: <20200210093624.GB14879@hirez.programming.kicks-ass.net>
+References: <20200208144648.18833-1-frextrite@gmail.com>
 MIME-Version: 1.0
-Content-Language: en-US
-X-Provags-ID: V03:K1:AX4cVErbHk61AnIxymhlW0qK4pR4TfqHEhskcYPLAaEBMtnFU7a
- 8CSzFEPKfdiU4YQkTLDTTQupJZ9m8KsatpQ32Mt+n9ay+Q7UYSbBwbbbc6Vj410eFva0RUC
- XWlfOZjyb+McmKAO/zp7HlI32wcbpVH5qtfvyK074gJvFZRwEKhajja3OMtzLRCzz/qU77m
- NAyQDdTxB/Ce+0KDGO0Xw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UHqGGSfuQI4=:q6eh1Rl82mQVn3Z9EClpFv
- hrNN6PQeohylLSEEDTaBwe2IdqGJyJ5TjfAeAgoDGoLh9slTfx7LtTSrWL34YiCy2ejf+hy3i
- rfEz+bht93/5mM7uEaAya4nsYenIitQ6dDAxwjllWl3kXMZxo2nWs7ZRuxADmjZ6/If/ryxZI
- egH5tQC9evhKDG+pdyqP3Kn80+NMteLzJq0xKMwhJHhE5xm2Eb1ySPpKjv2gQaU9tlKS424Ss
- atlhZCjToTqc3u4Zbw/jisMU0Ww3xFJJKUyPTSFDIUUoxtX7I5gho1hO8hozcOpCWePUwZWAl
- FOOYocAh2zCEWSsCA6WRd3It2+PcWNJP52EJVD2I+3fngMMvCSDqKgW7I30TUkdW0D7ehl+IS
- 4TitDRex1x74OcG/Wj7KTmVgGpK2VVBTiOZItyy/KbK6j8hje1IPaK3/bw7fxoWkdkLH1lKlf
- fFYpkATlCkcKE8630iPKLO5fpSWaaziW95C5ygb7zqT34Ea25QRnUZCwizffN7nx/oxnCdsz6
- 0CQgI6jkUIHVs4oV0PRLVZOcNmuXk8FemFzA3//xkyPEa//SCBu0LR2qZMFV540RthE4lQH4a
- PNLm45UdJVzFdnkyZTf63QMdQUBirSYVHUr4U1dDJIv0nA8EBVn/597jPAhlVlZ6dAWP7VcsU
- X6XwnhLq5SbHg3lQOsdk/FmcdwFkF/gmxR4Cmok3VkGK3lTH41zF/nKidXd1pDD4/ntVznfHM
- MIPlmYmjeeMfLSCvmWV1Bg+XujIZA+dSG88h9ekHXRMDFyfdLMF6g4yyznIKJMLOtBTc+3cuX
- rEnPJHpS9Js5aZ517ssavxDQtufXnyiJTrByzpaKebWS30+Z8uIyujtgpmOIBjcMWEFSr4ZUE
- L1gUKIQjKnExbUBCPWA4jwVSsu9UDlz0TE3POVWk1a2L5WNFEjv7PDhJ1VBemugJkB8/DcNOO
- 5zHA20Pqu3dX8ZN69JatTC/r4drLSyKK/ifBk3fmdJzDwzyuenTLNIDsXexjd/dDtehte2G5T
- 22GGy2EurI/v/4gJrhRt3y9sq5Qsk5Xq27eVleJHEPgwbrb1BwOOjdCVNMck6usdx9zDucKUr
- rUy363Ao7Rmxmk4H0vhkXiXv892va+OpgMjXjiZdJEhu7EFg7nN/vbhSDaYAfdXbxuTyHgU2E
- zDjuCV6AaO9CggyTFiLkuM3UGyARVeYmxDYuQw1yZxfFp9ISPeDGD163VyZf8Q3q96ImjK6M4
- x0OE/tXq4c8exrtoD
-Cc: Jaskaran Singh <jaskaransingh7654321@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Coccinelle <cocci@systeme.lip6.fr>
-Subject: Re: [Linux-kernel-mentees] [Cocci] [v4 3/3] tests: Add test case to
- match const pointer variants
+Content-Disposition: inline
+In-Reply-To: <20200208144648.18833-1-frextrite@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@redhat.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] events: Annotate parent_ctx with
+	__rcu
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -152,19 +104,66 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-PiA+IERvIHlvdSBtZWFuIHRoYXQgdGhlIEMgZmlsZS9yZXMgZmlsZSBzaG91bGQgY29uZm9ybSB0
-byB0aGUgTGludXggc3R5bGU/Cj4KPiBJIHRoaW5rIGl0IHdvdWxkIGJlIG5pY2VyIGlmIGl0IGRp
-ZC4KCklzIHRoZSBpbnRlcmVzdCBmb3IgdGhlIGNsYXJpZmljYXRpb24gb2YgYSB0b3BpYyBsaWtl
-IOKAnE1ha2UgY2hhbmdlIGluZmx1ZW5jZQpjb25maWd1cmFibGUgZm9yIGNvZGluZyBzdHlsZSBy
-dWxlc+KAnSBncm93aW5nPwpodHRwczovL2dpdGh1Yi5jb20vY29jY2luZWxsZS9jb2NjaW5lbGxl
-L2lzc3Vlcy8zNwoKUmVnYXJkcywKTWFya3VzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51
-eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMu
-bGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVz
-Cg==
+On Sat, Feb 08, 2020 at 08:16:49PM +0530, Amol Grover wrote:
+> parent_ctx is used under RCU context in kernel/events/core.c,
+> tell sparse about it aswell.
+> 
+> Fixes the following instances of sparse error:
+> kernel/events/core.c:3221:18: error: incompatible types in comparison
+> kernel/events/core.c:3222:23: error: incompatible types in comparison
+> 
+> This introduces the following two sparse errors:
+> kernel/events/core.c:3117:18: error: incompatible types in comparison
+> kernel/events/core.c:3121:30: error: incompatible types in comparison
+> 
+> Hence, use rcu_dereference() to access parent_ctx and silence
+> the newly introduced errors.
+> 
+> Signed-off-by: Amol Grover <frextrite@gmail.com>
+> ---
+>  include/linux/perf_event.h |  2 +-
+>  kernel/events/core.c       | 11 ++++++++---
+>  2 files changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+> index 6d4c22aee384..e18a7bdc6f98 100644
+> --- a/include/linux/perf_event.h
+> +++ b/include/linux/perf_event.h
+> @@ -810,7 +810,7 @@ struct perf_event_context {
+>  	 * These fields let us detect when two contexts have both
+>  	 * been cloned (inherited) from a common ancestor.
+>  	 */
+> -	struct perf_event_context	*parent_ctx;
+> +	struct perf_event_context __rcu	*parent_ctx;
+>  	u64				parent_gen;
+>  	u64				generation;
+>  	int				pin_count;
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index 2173c23c25b4..2a8c5670b254 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -3106,26 +3106,31 @@ static void ctx_sched_out(struct perf_event_context *ctx,
+>  static int context_equiv(struct perf_event_context *ctx1,
+>  			 struct perf_event_context *ctx2)
+>  {
+> +	struct perf_event_context *parent_ctx1, *parent_ctx2;
+> +
+>  	lockdep_assert_held(&ctx1->lock);
+>  	lockdep_assert_held(&ctx2->lock);
+>  
+> +	parent_ctx1 = rcu_dereference(ctx1->parent_ctx);
+> +	parent_ctx2 = rcu_dereference(ctx2->parent_ctx);
+
+Bah.
+
+Why are you  fixing all this sparse crap and making the code worse?
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
