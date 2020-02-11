@@ -5,100 +5,99 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4212FC3B187
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Feb 2020 12:40:55 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7F4C3F68F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Feb 2020 12:41:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 18E6020870
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Feb 2020 12:40:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A15B320842
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Feb 2020 12:41:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IrfQbQ76"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18E6020870
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AI1Jahnp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A15B320842
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EBB13852DB;
-	Tue, 11 Feb 2020 12:40:54 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 68548203F7;
+	Tue, 11 Feb 2020 12:41:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RhgkCewEJdAr; Tue, 11 Feb 2020 12:40:54 +0000 (UTC)
+	with ESMTP id Tay2sNocm6Pu; Tue, 11 Feb 2020 12:40:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9B9B184537;
-	Tue, 11 Feb 2020 12:40:54 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AB41A2000D;
+	Tue, 11 Feb 2020 12:40:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B490C1D88;
-	Tue, 11 Feb 2020 12:40:54 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0FBABC07FE
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A2BC1C1D88;
+	Tue, 11 Feb 2020 12:40:59 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 913DDC07FE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 12:40:53 +0000 (UTC)
+ Tue, 11 Feb 2020 12:40:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id F33FD845C5
+ by silver.osuosl.org (Postfix) with ESMTP id 8D57A204C5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 12:40:52 +0000 (UTC)
+ Tue, 11 Feb 2020 12:40:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aK6a0k23Jpgs
+ with ESMTP id 6djwHYYmVE3v
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 12:40:52 +0000 (UTC)
+ Tue, 11 Feb 2020 12:40:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9650084537
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id C19292000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 12:40:52 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id r67so1276802pjb.0
+ Tue, 11 Feb 2020 12:40:57 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id l24so5678581pgk.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 04:40:52 -0800 (PST)
+ Tue, 11 Feb 2020 04:40:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1fCpWU/d5xs7NUCvrmDKGMeeRnc0bIclJxjOjXgUjow=;
- b=IrfQbQ76rup+LAY4+H50Es2hiAZkc1zNAgrNL2k+Zhi003ojxnqXCIXQPmiujwfFYv
- N/Hkq/b8r/YHPaRLoduEHz59MvVyGzMTy6IFsON+wwQQzn4mPauQbOYnKHMrBPVpZ6ef
- o6Jkeg573Z1R20vcz//q3ZSQ04v9IoCicw85y56MEiVNUDnjYfvtTEKdBTQpPRHxMXyc
- ZOrCURaEIkXIyZ2+N+pvpeLk0jhIMRpedPpPfTurSTdsNTnnD7YpsLfnArePEhTLKJOc
- rYLciqV/ttGc6V0/Q1D11RDw+62lQxQ0yVcYkCXVCcjqLNphpfUI1D9Byu+WrBDMkl5g
- Ew0g==
+ bh=vB8/tlMIfHHY6/JMMNWkwheJDn7F+wyT1YK9e+905A8=;
+ b=AI1Jahnp3mJx/q/qFF/nSI7JcaXi73sppfYvfhyqY6oGhAHBFdp42+HO9HXbK9Rzkt
+ rt1eIfjwxX/8Swwq+X9sExmQakKyBolj88QFbn1bzxnXd1Hg0kajAHudgOfcyJwggVYQ
+ 8Yebe9WTnQGPeN1hkonkhHY6DE4he5bDBAoBPuHk7exQ/1l2f7w5Id+QtRcRT60PnI2I
+ ji3NFN69DpMSXx9G+eKC9MAFpLdkQLqfl/H+pAlP3UpmQn+vXw3YQPuEqFz2KuRQHoPd
+ dgtE7QDBMOr6Yz9g9q/1V5A5NTIQCAvwW/E9gGgAAJPMze5r6BWI6oG9MSfGVPKOGUgw
+ cKOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=1fCpWU/d5xs7NUCvrmDKGMeeRnc0bIclJxjOjXgUjow=;
- b=ejXaL3sD59M7M+ukzOPaP+wd/MCH7L9HMq2ii7jD5NdJ1aw83ye0DhvMKk9rEp55eK
- r7sS9eYNIjDo2eKR8OGuI6zsgzpTLbg4Jrhnmxgj3sU8XOqLOsg0ntL8NyxCgu+0YlBG
- eD1cJnerSa5UURDGzVUrTkhRKfHp3DoLW2nHCcFi7TRWA6H3hTc+8JVpmF1NIgk3dkmy
- EqOuFGt/UBLjvEFjix62YipdYvd0eDypfX3JF56jpA2oPCvpY7lmTCSYfVae6KssA8MN
- yHQz8LFJlZjLABKQuV4WWZER0WBKtooOl0O4Uv7KOzPR07oijttCfdrknw2+fOpb8JQB
- FZGw==
-X-Gm-Message-State: APjAAAWc27VOHQGAx8pumeLkvMg/maSj9vDpkaOSfk/wzcI0PZKlCfZp
- 4pLpNP3LcQ8Tx4puwekMYjZ6M7mMGb4=
-X-Google-Smtp-Source: APXvYqwCbqNlO3+v0lqITUqYR+IlHYPL+6mgE0IZx2bC0+Wsb/IY0cx2r/upy5kmK6IkFoGgwT9rnw==
-X-Received: by 2002:a17:902:407:: with SMTP id
- 7mr17269417ple.226.1581424852284; 
- Tue, 11 Feb 2020 04:40:52 -0800 (PST)
+ bh=vB8/tlMIfHHY6/JMMNWkwheJDn7F+wyT1YK9e+905A8=;
+ b=cfuufLHijaHPNGftkRIpHpQSf5vUrx/k/3u43vm4fT8OibttthiDrGu77BXjhX2+a4
+ CyCXhr8YjWuesvZIGlQi4Soc5gIHHfNbiQmxs4ggC5YXtMbtwgkCbwV5TtPKFvz3EAt2
+ VOMDQuvj5FWJOtqRRjKHU7CDGFoYecCf9WYXroq1c+3uDd/N7Z3yvNoguzGYZKeMD3WN
+ RZEglaT5Fqbv9Bpegw2F7vXSH7K7ENyYTX4UWBYsuI6vLbl9BjW5fo7qsBIV/G0nmV+5
+ 55kwCu2ahXSAwMpcGdtYec9nCSBMAIV0hChkJXkbqGf3fdOauNTs7VD8Pdn9gPQ45gwF
+ dIPw==
+X-Gm-Message-State: APjAAAVF5RAs6vbb8cL0h2SjYNWgzAYLXCHh5oS19YJbntfLhnS10WKd
+ by7+czCSrTKq8+cxhopXSpE=
+X-Google-Smtp-Source: APXvYqwqBWKNVboD3wYTD1qQefYmtJ7eRYkmgdT5tnRsuEVF/qV/efF4GI9OJ5A8v0V4OetM5tJXDA==
+X-Received: by 2002:a63:6387:: with SMTP id x129mr2871091pgb.285.1581424857431; 
+ Tue, 11 Feb 2020 04:40:57 -0800 (PST)
 Received: from localhost.localdomain ([2409:4041:69c:214f:144f:bb39:afc3:51b0])
- by smtp.gmail.com with ESMTPSA id d1sm3876789pgj.79.2020.02.11.04.40.46
+ by smtp.gmail.com with ESMTPSA id d1sm3876789pgj.79.2020.02.11.04.40.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 04:40:51 -0800 (PST)
+ Tue, 11 Feb 2020 04:40:56 -0800 (PST)
 From: Pragat Pandya <pragat.pandya@gmail.com>
 To: gregkh@linuxfoundation.org,
 	valdis.kletnieks@vt.edu
-Date: Tue, 11 Feb 2020 18:08:47 +0530
-Message-Id: <20200211123859.10429-7-pragat.pandya@gmail.com>
+Date: Tue, 11 Feb 2020 18:08:48 +0530
+Message-Id: <20200211123859.10429-8-pragat.pandya@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200211123859.10429-1-pragat.pandya@gmail.com>
 References: <20200211123859.10429-1-pragat.pandya@gmail.com>
 Cc: devel@driverdev.osuosl.or, Pragat Pandya <pragat.pandya@gmail.com>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 06/18] staging: exfat: Rename
-	function "ffsReadFile" to "ffs_read_file"
+Subject: [Linux-kernel-mentees] [PATCH 07/18] staging: exfat: Rename
+	variable "LogSector" to "log_sector"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,40 +117,105 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 Fix checkpatch warning: Avoid CamelCase
-Change all occurrences of function "ffsReadFile" to "ffs_read_file" in
+Change all occurrences of identifier "LogSector" to "log_sector" in
 source.
 
 Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
 ---
- drivers/staging/exfat/exfat_super.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/exfat/exfat_super.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/staging/exfat/exfat_super.c b/drivers/staging/exfat/exfat_super.c
-index 5080de9b289a..c7f56f77e4bb 100644
+index c7f56f77e4bb..3393c97bd9cb 100644
 --- a/drivers/staging/exfat/exfat_super.c
 +++ b/drivers/staging/exfat/exfat_super.c
-@@ -662,8 +662,8 @@ static int ffs_create_file(struct inode *inode, char *path, u8 mode,
- 	return ret;
- }
- 
--static int ffsReadFile(struct inode *inode, struct file_id_t *fid, void *buffer,
--		       u64 count, u64 *rcount)
-+static int ffs_read_file(struct inode *inode, struct file_id_t *fid, void *buffer,
-+			 u64 count, u64 *rcount)
- {
+@@ -668,7 +668,7 @@ static int ffs_read_file(struct inode *inode, struct file_id_t *fid, void *buffe
  	s32 offset, sec_offset, clu_offset;
  	u32 clu;
-@@ -2329,8 +2329,8 @@ static struct dentry *exfat_lookup(struct inode *dir, struct dentry *dentry,
- 			err = -ENOMEM;
- 			goto error;
- 		}
--		ffsReadFile(dir, &fid, EXFAT_I(inode)->target,
--			    i_size_read(inode), &ret);
-+		ffs_read_file(dir, &fid, EXFAT_I(inode)->target,
-+			      i_size_read(inode), &ret);
- 		*(EXFAT_I(inode)->target + i_size_read(inode)) = '\0';
- 	}
+ 	int ret = 0;
+-	sector_t LogSector;
++	sector_t log_sector;
+ 	u64 oneblkread, read_bytes;
+ 	struct buffer_head *tmp_bh = NULL;
+ 	struct super_block *sb = inode->i_sb;
+@@ -746,20 +746,20 @@ static int ffs_read_file(struct inode *inode, struct file_id_t *fid, void *buffe
+ 		/* byte offset in sector */
+ 		offset &= p_bd->sector_size_mask;
  
+-		LogSector = START_SECTOR(clu) + sec_offset;
++		log_sector = START_SECTOR(clu) + sec_offset;
+ 
+ 		oneblkread = (u64)(p_bd->sector_size - offset);
+ 		if (oneblkread > count)
+ 			oneblkread = count;
+ 
+ 		if ((offset == 0) && (oneblkread == p_bd->sector_size)) {
+-			if (sector_read(sb, LogSector, &tmp_bh, 1) !=
++			if (sector_read(sb, log_sector, &tmp_bh, 1) !=
+ 			    0)
+ 				goto err_out;
+ 			memcpy((char *)buffer + read_bytes,
+ 			       (char *)tmp_bh->b_data, (s32)oneblkread);
+ 		} else {
+-			if (sector_read(sb, LogSector, &tmp_bh, 1) !=
++			if (sector_read(sb, log_sector, &tmp_bh, 1) !=
+ 			    0)
+ 				goto err_out;
+ 			memcpy((char *)buffer + read_bytes,
+@@ -796,7 +796,7 @@ static int ffsWriteFile(struct inode *inode, struct file_id_t *fid,
+ 	s32 num_clusters, num_alloc, num_alloced = (s32)~0;
+ 	int ret = 0;
+ 	u32 clu, last_clu;
+-	sector_t LogSector;
++	sector_t log_sector;
+ 	u64 oneblkwrite, write_bytes;
+ 	struct chain_t new_clu;
+ 	struct timestamp_t tm;
+@@ -932,19 +932,19 @@ static int ffsWriteFile(struct inode *inode, struct file_id_t *fid,
+ 		/* byte offset in sector    */
+ 		offset &= p_bd->sector_size_mask;
+ 
+-		LogSector = START_SECTOR(clu) + sec_offset;
++		log_sector = START_SECTOR(clu) + sec_offset;
+ 
+ 		oneblkwrite = (u64)(p_bd->sector_size - offset);
+ 		if (oneblkwrite > count)
+ 			oneblkwrite = count;
+ 
+ 		if ((offset == 0) && (oneblkwrite == p_bd->sector_size)) {
+-			if (sector_read(sb, LogSector, &tmp_bh, 0) !=
++			if (sector_read(sb, log_sector, &tmp_bh, 0) !=
+ 			    0)
+ 				goto err_out;
+ 			memcpy((char *)tmp_bh->b_data,
+ 			       (char *)buffer + write_bytes, (s32)oneblkwrite);
+-			if (sector_write(sb, LogSector, tmp_bh, 0) !=
++			if (sector_write(sb, log_sector, tmp_bh, 0) !=
+ 			    0) {
+ 				brelse(tmp_bh);
+ 				goto err_out;
+@@ -952,18 +952,18 @@ static int ffsWriteFile(struct inode *inode, struct file_id_t *fid,
+ 		} else {
+ 			if ((offset > 0) ||
+ 			    ((fid->rwoffset + oneblkwrite) < fid->size)) {
+-				if (sector_read(sb, LogSector, &tmp_bh, 1) !=
++				if (sector_read(sb, log_sector, &tmp_bh, 1) !=
+ 				    0)
+ 					goto err_out;
+ 			} else {
+-				if (sector_read(sb, LogSector, &tmp_bh, 0) !=
++				if (sector_read(sb, log_sector, &tmp_bh, 0) !=
+ 				    0)
+ 					goto err_out;
+ 			}
+ 
+ 			memcpy((char *)tmp_bh->b_data + offset,
+ 			       (char *)buffer + write_bytes, (s32)oneblkwrite);
+-			if (sector_write(sb, LogSector, tmp_bh, 0) !=
++			if (sector_write(sb, log_sector, tmp_bh, 0) !=
+ 			    0) {
+ 				brelse(tmp_bh);
+ 				goto err_out;
 -- 
 2.17.1
 
