@@ -8,96 +8,96 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88933C352A3
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Feb 2020 12:41:39 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F44EC352A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Feb 2020 12:41:45 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5ABB3206DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Feb 2020 12:41:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 529DB206DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Feb 2020 12:41:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IEvSzwwn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5ABB3206DB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dMF2A0nX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 529DB206DB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4A74A86EA3;
-	Tue, 11 Feb 2020 12:41:39 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dXHoeTRtWj9V; Tue, 11 Feb 2020 12:41:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C90138733F;
-	Tue, 11 Feb 2020 12:41:38 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B88EBC1D88;
-	Tue, 11 Feb 2020 12:41:38 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D5ABFC07FE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 12:41:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id C4BD2204C5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 12:41:37 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5CAD52033E;
+	Tue, 11 Feb 2020 12:41:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id M6ax53h4cGYU; Tue, 11 Feb 2020 12:41:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id D8AB22000D;
+	Tue, 11 Feb 2020 12:41:43 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C826DC1D88;
+	Tue, 11 Feb 2020 12:41:43 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E9456C07FE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 11 Feb 2020 12:41:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id E4B9F852DB
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 11 Feb 2020 12:41:42 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ShJkO0nRu9nd
+ with ESMTP id XMOKgXoO7gpG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 12:41:37 +0000 (UTC)
+ Tue, 11 Feb 2020 12:41:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 3705E2033E
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7123984537
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 12:41:37 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id 6so5693820pgk.0
+ Tue, 11 Feb 2020 12:41:42 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id j9so5446324pfa.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 04:41:37 -0800 (PST)
+ Tue, 11 Feb 2020 04:41:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=TdXzoooEIwf4ECqrrOyZqFRyKlMHXHMskvPfQQwPS7E=;
- b=IEvSzwwneqbrWvn0yZfOQ8OI5Gx2Xqj+HuJBwWaGc9IlERBIIVUTOIYLrzYBxSUQLe
- c6Koy9B/KXvnB7TNRK8ww8kRgz1j0RlADFiOnCRBZp0ID0pW48kbCCvncDs/HkmzT9P4
- sMc6wmN1JoHpUG7Nt50vzVGXyPYMUcWrBUp+tTsJUh0RhGM6oginC4bV0SZeEm/PlE1D
- ojQguIwFKb+yCcXvAWZQVI8fDFHlObqhomH7haIcTwKsZuTI3ObYeXpFkFTox6ZmDwJf
- 9P4smkcakc4O5yxjZP0Z5dEg5vlOHSwIkokl66LVrK3PU7VJD3N9SuqhaH5sTEYa3lX0
- ea0Q==
+ bh=6ta/xN7ibt+T77in/0spMP8Vv8W8F1AAImXcnffdDmE=;
+ b=dMF2A0nXHaqBW163aXh9SYI+GkTPe0xRrsia2BvafyJ1fcpcf0+R+gcP2bRZahm8Vc
+ Jxo4ZWHidfa6woObm5roDYiaV7iHQcUg4AwHkyoiJ6LTClKD1CqGMP/Satu2Bp/AC7Vd
+ mekoYYU/3NDfHOJ85K6XYbsPyO+0PZV1rim3STZA6yTn7J24nIxJSpgc4sSHDz+IDH+9
+ y875yzt0fhtapnXJViut3oTM+xKksBj1kwnf3oYVjmHP84Us2cH1BrmU4tzDIqxQArRd
+ 5dR3hH+Dy/ERT+d3KRlM5xUNHE7u2iUBLo7IMgRlx2lONwBjvqd41sCirk7e8AjIH114
+ MmbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=TdXzoooEIwf4ECqrrOyZqFRyKlMHXHMskvPfQQwPS7E=;
- b=VyH0WAFSwTXsFUSCn+HVkAvNimcjAHV+yK+TutlaqAW3/cfUK0/yu1s8UCL/fYkGIj
- Xpvx65LyYmdnq6LE4cnpbuo8cM1i/AtrzngnndiB/FDKnU7FBB+lBKUuef5Ep4mgFm6X
- EMoCGE4mEkTQWEUEOaEPiTrm5ytFsi87+fahkHPKRJjoc2UKz+s5+bnU6fSY/BRcup2f
- 8P4I3DOmHA21iBAPUKsVC1DGZ8aE9f/65LPVPOFjPVsiErKTB2KJ5Txd8tm+518uqMIW
- 4fpnA+d6x1Zj72nGbnmieZXe633JbHddoIWgUj5zyKPX8YUhoSAmIT5l4UPwUnFvIq0G
- wAnw==
-X-Gm-Message-State: APjAAAVBOep+cr3FgUDpKZ/3rw0vV6AfE2pNqB35NN5Xbje/+2ZqGcUH
- 6S0E8fNeZ7ypfnThJFBjyVY=
-X-Google-Smtp-Source: APXvYqwW3SeV5oqKeTuPUMR1CRE3AykgBtR8wfS55TL6bOFQFHYfM0bSw39qTBYoUArq3lqwkpolDw==
-X-Received: by 2002:a63:8b44:: with SMTP id j65mr6569696pge.272.1581424896843; 
- Tue, 11 Feb 2020 04:41:36 -0800 (PST)
+ bh=6ta/xN7ibt+T77in/0spMP8Vv8W8F1AAImXcnffdDmE=;
+ b=EEhYXWJbfCgTuGhYDtGLoB2hnmchNtDZIKwUeD8ftZyp4vF8aPHeVZBHBRQ3FhLE43
+ XENuYgjJixqWgelDyTiPOBhUZWh69bjQTaqd8EJMwY9RIU0Wxgz+m3N1I8aWrSKVEnsi
+ S5fpbU8aD5R95OwPC9aE17GlGsqVSjB7tS2WIlRc7M9c2k/DKri0BSYM9V8FvJ/P8CjV
+ MK/EojpSIgjjaDcIQIV7EOu3M8iDGbl4NWcmmpI99TWzJSEPgSxpFjG0hwA5cseBUuV6
+ 02vN+ZYduRx9EJZrC2Yiwn1gv+Nd2F7s/pZgd1M/ujdOlS2dgaqw4x9N6QqhhX7GSSxi
+ 06iw==
+X-Gm-Message-State: APjAAAU8Rbjrw+CClWBBGlNfdZmFMZsak1Lr/5mLTj+G/rNaau1m1Xcu
+ zFrzTpFLDY14oO1s/wpsZIw=
+X-Google-Smtp-Source: APXvYqwtWIs1C5aTU+Az8XdsdfcbYa/Wellc0burgYlWjDs7rM4/stxvOvSOVZ/+y328JTtqOj9yhw==
+X-Received: by 2002:a63:7457:: with SMTP id e23mr6877579pgn.386.1581424902127; 
+ Tue, 11 Feb 2020 04:41:42 -0800 (PST)
 Received: from localhost.localdomain ([2409:4041:69c:214f:144f:bb39:afc3:51b0])
- by smtp.gmail.com with ESMTPSA id d1sm3876789pgj.79.2020.02.11.04.41.31
+ by smtp.gmail.com with ESMTPSA id d1sm3876789pgj.79.2020.02.11.04.41.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 04:41:36 -0800 (PST)
+ Tue, 11 Feb 2020 04:41:41 -0800 (PST)
 From: Pragat Pandya <pragat.pandya@gmail.com>
 To: gregkh@linuxfoundation.org,
 	valdis.kletnieks@vt.edu
-Date: Tue, 11 Feb 2020 18:08:55 +0530
-Message-Id: <20200211123859.10429-15-pragat.pandya@gmail.com>
+Date: Tue, 11 Feb 2020 18:08:56 +0530
+Message-Id: <20200211123859.10429-16-pragat.pandya@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200211123859.10429-1-pragat.pandya@gmail.com>
 References: <20200211123859.10429-1-pragat.pandya@gmail.com>
 Cc: devel@driverdev.osuosl.or, Pragat Pandya <pragat.pandya@gmail.com>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 14/18] staging: exfat: Rename
-	function "ffsWriteStat" to "ffs_write_stat"
+Subject: [Linux-kernel-mentees] [PATCH 15/18] staging: exfat: Rename
+	function "ffsMapCluster" to "ffs_map_cluster"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,8 +117,8 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 Fix checkpatch warning: Avoid CamelCase
-Change all occurrences of function "ffsWriteStat" to "ffs_write_stat" in
-source.
+Change all occurrences of function "ffsMapCluster" to "ffs_map_cluster"
+in source.
 
 Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
 ---
@@ -126,27 +126,27 @@ Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/exfat/exfat_super.c b/drivers/staging/exfat/exfat_super.c
-index 6d21c0161419..5fb084941c3b 100644
+index 5fb084941c3b..87a7bcba4921 100644
 --- a/drivers/staging/exfat/exfat_super.c
 +++ b/drivers/staging/exfat/exfat_super.c
-@@ -1565,7 +1565,7 @@ static int ffs_read_stat(struct inode *inode, struct dir_entry_t *info)
+@@ -1638,7 +1638,7 @@ static int ffs_write_stat(struct inode *inode, struct dir_entry_t *info)
  	return ret;
  }
  
--static int ffsWriteStat(struct inode *inode, struct dir_entry_t *info)
-+static int ffs_write_stat(struct inode *inode, struct dir_entry_t *info)
+-static int ffsMapCluster(struct inode *inode, s32 clu_offset, u32 *clu)
++static int ffs_map_cluster(struct inode *inode, s32 clu_offset, u32 *clu)
  {
- 	int ret = 0;
- 	struct timestamp_t tm;
-@@ -3263,7 +3263,7 @@ static int exfat_write_inode(struct inode *inode, struct writeback_control *wbc)
- 	exfat_time_unix2fat(&inode->i_ctime, &info.CreateTimestamp);
- 	exfat_time_unix2fat(&inode->i_atime, &info.AccessTimestamp);
+ 	s32 num_clusters, num_alloced;
+ 	bool modified = false;
+@@ -2954,7 +2954,7 @@ static int exfat_bmap(struct inode *inode, sector_t sector, sector_t *phys,
  
--	ffsWriteStat(inode, &info);
-+	ffs_write_stat(inode, &info);
+ 	EXFAT_I(inode)->fid.size = i_size_read(inode);
  
- 	return 0;
- }
+-	err = ffsMapCluster(inode, clu_offset, &cluster);
++	err = ffs_map_cluster(inode, clu_offset, &cluster);
+ 
+ 	if (!err && (cluster != CLUSTER_32(~0))) {
+ 		*phys = START_SECTOR(cluster) + sec_offset;
 -- 
 2.17.1
 
