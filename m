@@ -8,96 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CED01C3B188
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Feb 2020 07:23:49 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FCDCC3B186
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Feb 2020 07:25:53 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 98882206DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Feb 2020 07:23:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3EAC72073C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Feb 2020 07:25:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oxVdvJbp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98882206DB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HYj9kQWz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3EAC72073C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 630F12039C;
-	Wed, 12 Feb 2020 07:23:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 044108643F;
+	Wed, 12 Feb 2020 07:25:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EWo0pFm+6cfJ; Wed, 12 Feb 2020 07:23:48 +0000 (UTC)
+	with ESMTP id e1ehIJCogG4E; Wed, 12 Feb 2020 07:25:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id BE13320390;
-	Wed, 12 Feb 2020 07:23:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 834BF863A3;
+	Wed, 12 Feb 2020 07:25:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A22ECC07FE;
-	Wed, 12 Feb 2020 07:23:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70A3CC07FE;
+	Wed, 12 Feb 2020 07:25:52 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1D1F1C0177
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE7DEC0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Feb 2020 07:23:47 +0000 (UTC)
+ Wed, 12 Feb 2020 07:25:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id F30448551F
+ by fraxinus.osuosl.org (Postfix) with ESMTP id AB22382397
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Feb 2020 07:23:46 +0000 (UTC)
+ Wed, 12 Feb 2020 07:25:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wsruSpCCSbGC
+ with ESMTP id UDWIASq7TAGV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Feb 2020 07:23:46 +0000 (UTC)
+ Wed, 12 Feb 2020 07:25:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 747388550D
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 49A7A81A1A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Feb 2020 07:23:46 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id i6so799628pfc.1
+ Wed, 12 Feb 2020 07:25:50 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id j9so784714pfa.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Feb 2020 23:23:46 -0800 (PST)
+ Tue, 11 Feb 2020 23:25:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=sSs36sQnxGTfCuz7UN6u9y3waBifKuK+zZ5r4rWQl60=;
- b=oxVdvJbpI1X86ZupSuF4fCCHh+VlIFzg0QuIchF1F8Njm3jM6YS3bgcGYc3tMmJUtj
- 0dY2OWYizLldYRAF3MUfzDF+zSm+bnim1+dDYY2k1a3JvG383nyFfMMLm2yiiFtnIrUb
- q2/gx7A+fTMuyvZCD4e31RC4BE18ZrXePmBYX5dn4KE0n/Qa45iYJgrQivYVkwmD3yH5
- iiQH2Yl0JfvPr1YBNks97L97Z3o/f0kE9JGU7wHrjO/X+8G2jQ3IEAYrkEVW2Cc9VEYq
- ixOxCWE4q5ekznrz1Y8s83snb7YkWP2zWmnQCT8q2CbydlM7y/xyo/+7aWsGElBj22Is
- ZeYQ==
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :in-reply-to; bh=vsblHe4BrZXvpcTixylwUCR+Uct1lSaVWajbm+319XI=;
+ b=HYj9kQWzQZ3fTJMk/bGjgfSATXE1MFXHn2Bh1bfBiqZL5oU1T/C6I4MSTVU5O4AX91
+ BM/yA4DXtx9BpAXYND1akj0Z4GZ4pxCjV3+d0y+4jG7rgIhT4EQJCz7TgimW6coMuaW0
+ nxKmXGPboS5FSnkZd878rI4rXkrUevqhM3XOsh2oFB+r+hHzwWbiuR9qEeWYJhznIqYp
+ Gv17x96BCWlZVUWNYjXZsrE40l1Oug8Qc7+wI0MncYS/I+BxtZvxKNTrU5xbbgxqo55S
+ knHy4QuAGo0sHzdH+zkLtT6p8CiEzXMNAUTwoE8I6oyIIzQV8GAHjgSbLFCImIaVYTMD
+ iZnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=sSs36sQnxGTfCuz7UN6u9y3waBifKuK+zZ5r4rWQl60=;
- b=ObJueku4AenqocWwpRlGSFHD0bYuc1LXXG63V3ELbZsWGEgAQR23OCnsNRM2jAwb/l
- IySJ620JO4AsZZrPtR6MpGA2QT+ZXWMjkVMmffd8BRxP0GIXybLi6+zMoK2QC6IA4Wm6
- cb9mvWJmD9abRfKeP5Za8ZjdrTE2djtzYzhS695oHpKYa9Vht6N2nxvaYv1JtVnoKJux
- ZH+s9lYqWC9pWqBqHx/Iw6C4mgJsPQvaxuHeul06CyNsNORaCm4OQUHO719c1t51qOvr
- KuE+Yjp3cJP3AlQfFAhzunrtgoHerX6yH+0SEq/Ey4IP6JH5glWqLhNNO59PfpksUhnN
- iTcg==
-X-Gm-Message-State: APjAAAVMfsMBIBwx6fafdlguumujEW1ze5Jp3o7pNTOCSLoBYF/wQwuU
- VLBZ7ainLMPmpFpJ7ShW3dM=
-X-Google-Smtp-Source: APXvYqwBNgRED6yRsaWlnJLa6J3Vw4BvD2nWSBTOSjouHQDAwr2BAFix1nNzBKQslqhWrzDRlDiVAg==
-X-Received: by 2002:a65:4305:: with SMTP id j5mr11447953pgq.315.1581492226092; 
- Tue, 11 Feb 2020 23:23:46 -0800 (PST)
+ :content-disposition:in-reply-to;
+ bh=vsblHe4BrZXvpcTixylwUCR+Uct1lSaVWajbm+319XI=;
+ b=iEDs8UTSj/L9OvefGzgo9K4lv479MUfkbMdyn00vpJUa003ju4/HrNbTRcsyOgJsT0
+ hGv8PA907i0A1WVdXcnm3zk9nkXJZtH5DCfEIjru0rR3d3NdU9ZbCp2ocVxSx8ak3LMp
+ 7cMfovrhFA6lmj0vb9NnIMv96SZDkZwQIOo15aG93ZwEdZR5Bbut2lu6CUhQiTtbcpfi
+ pdMyquEi9ZzfktxqKTgA8oYf+4N40QXY8PqsauucAO3GqQW0zP1T3ygearpbtaC7LNEx
+ jN7FRes7wWsodHEQI1+rf9rsbassI8C8oi4FDqvZGRBxLqsr8HDKvmMktpTjRVAsx+S5
+ U0gw==
+X-Gm-Message-State: APjAAAVFbUFovvM0yavdgPGQMlvYCKnnj6agimkpcw506ZXaWppTFQwF
+ 0goEzwYKAPBG+J1ubMpkmeQ=
+X-Google-Smtp-Source: APXvYqxc/lSW35juqj9FltNn78TjgtbMbrka6XgwjPBR0EJH2QpY1Uqq7tJ3PWBdgH3NEhMLHLi9Jg==
+X-Received: by 2002:aa7:8804:: with SMTP id c4mr7328335pfo.214.1581492349926; 
+ Tue, 11 Feb 2020 23:25:49 -0800 (PST)
 Received: from workstation-portable ([103.211.17.79])
- by smtp.gmail.com with ESMTPSA id r26sm6398986pga.55.2020.02.11.23.23.42
+ by smtp.gmail.com with ESMTPSA id e2sm5510979pjs.25.2020.02.11.23.25.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 23:23:45 -0800 (PST)
-Date: Wed, 12 Feb 2020 12:53:39 +0530
+ Tue, 11 Feb 2020 23:25:49 -0800 (PST)
+Date: Wed, 12 Feb 2020 12:55:43 +0530
 From: Amol Grover <frextrite@gmail.com>
 To: Hannes Reinecke <hare@suse.de>,
  "James E.J. Bottomley" <jejb@linux.ibm.com>,
  "Martin K. Petersen" <martin.petersen@oracle.com>
-Message-ID: <20200212072339.GH14453@workstation-portable>
+Message-ID: <20200212072543.GI14453@workstation-portable>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <20200212072339.GH14453@workstation-portable>
 X-Mailer: git-send-email 2.24.1
 Cc: linux-scsi@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>,
  linux-kernel@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 1/2 RESEND] scsi: fcoe: fcoe_ctlr:
+Subject: [Linux-kernel-mentees] [PATCH 2/2 RESEND] scsi: qedf: qedf_main:
  Pass lockdep expression to RCU lists
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -116,53 +117,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-lport->disc.rports and disc->rports are traversed using
-list_for_each_entry_rcu outside an RCU read-side critical section but
-under the protection of lport->disc.disc_mutex and disc->disc_mutex
-respectively.
+lport->disc.rports is traversed using list_for_each_entry_rcu
+outside an RCU read-side critical section but under the protection
+of lport->disc.disc_mutex.
 
 Hence, add corresponding lockdep expression to silence false-positive
 lockdep warnings, and harden RCU lists.
 
 Signed-off-by: Amol Grover <frextrite@gmail.com>
 ---
- drivers/scsi/fcoe/fcoe_ctlr.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/scsi/qedf/qedf_main.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/fcoe/fcoe_ctlr.c b/drivers/scsi/fcoe/fcoe_ctlr.c
-index 1791a393795d..0f59992c9cd9 100644
---- a/drivers/scsi/fcoe/fcoe_ctlr.c
-+++ b/drivers/scsi/fcoe/fcoe_ctlr.c
-@@ -2167,7 +2167,8 @@ static void fcoe_ctlr_disc_stop_locked(struct fc_lport *lport)
- 	struct fc_rport_priv *rdata;
- 
+diff --git a/drivers/scsi/qedf/qedf_main.c b/drivers/scsi/qedf/qedf_main.c
+index 604856e72cfb..17eab7f8cf05 100644
+--- a/drivers/scsi/qedf/qedf_main.c
++++ b/drivers/scsi/qedf/qedf_main.c
+@@ -420,7 +420,8 @@ static void qedf_link_recovery(struct work_struct *work)
+ 	 * ADISC since the rport is in state ready.
+ 	 */
  	mutex_lock(&lport->disc.disc_mutex);
 -	list_for_each_entry_rcu(rdata, &lport->disc.rports, peers) {
 +	list_for_each_entry_rcu(rdata, &lport->disc.rports, peers,
 +				lockdep_is_held(&lport->disc.disc_mutex)) {
  		if (kref_get_unless_zero(&rdata->kref)) {
- 			fc_rport_logoff(rdata);
+ 			fc_rport_login(rdata);
  			kref_put(&rdata->kref, fc_rport_destroy);
-@@ -2703,7 +2704,8 @@ static unsigned long fcoe_ctlr_vn_age(struct fcoe_ctlr *fip)
- 
- 	next_time = jiffies + msecs_to_jiffies(FIP_VN_BEACON_INT * 10);
- 	mutex_lock(&lport->disc.disc_mutex);
--	list_for_each_entry_rcu(rdata, &lport->disc.rports, peers) {
-+	list_for_each_entry_rcu(rdata, &lport->disc.rports, peers,
-+				lockdep_is_held(&lport->disc.disc_mutex)) {
- 		if (!kref_get_unless_zero(&rdata->kref))
- 			continue;
- 		frport = fcoe_ctlr_rport(rdata);
-@@ -3061,7 +3063,8 @@ static void fcoe_ctlr_vn_disc(struct fcoe_ctlr *fip)
- 	mutex_lock(&disc->disc_mutex);
- 	callback = disc->pending ? disc->disc_callback : NULL;
- 	disc->pending = 0;
--	list_for_each_entry_rcu(rdata, &disc->rports, peers) {
-+	list_for_each_entry_rcu(rdata, &disc->rports, peers,
-+				lockdep_is_held(&disc->disc_mutex)) {
- 		if (!kref_get_unless_zero(&rdata->kref))
- 			continue;
- 		frport = fcoe_ctlr_rport(rdata);
 -- 
 2.24.1
 
