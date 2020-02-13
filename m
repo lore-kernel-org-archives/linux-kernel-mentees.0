@@ -2,114 +2,117 @@ Return-Path: <SRS0=i9XN=4B=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-6.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15105C3B188
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Feb 2020 06:44:29 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF825C3B188
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Feb 2020 08:11:57 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C3EBD2467C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Feb 2020 06:44:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A8AF120848
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Feb 2020 08:11:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOt+CKba"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C3EBD2467C
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Es48Y6nx"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A8AF120848
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 82000834BE;
-	Thu, 13 Feb 2020 06:44:28 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 69AF287C8C;
+	Thu, 13 Feb 2020 08:11:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QG-awRNObXSu; Thu, 13 Feb 2020 06:44:27 +0000 (UTC)
+	with ESMTP id FUsV-Ne4U+iD; Thu, 13 Feb 2020 08:11:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 685AB83456;
-	Thu, 13 Feb 2020 06:44:27 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D7C3887C7D;
+	Thu, 13 Feb 2020 08:11:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BFDCC1D88;
-	Thu, 13 Feb 2020 06:44:27 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 50290C0177
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C284EC08A4;
+	Thu, 13 Feb 2020 08:11:56 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9FD72C0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Feb 2020 06:44:26 +0000 (UTC)
+ Thu, 13 Feb 2020 08:11:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1115480ECA
+ by hemlock.osuosl.org (Postfix) with ESMTP id 86F7F87C8C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Feb 2020 06:44:26 +0000 (UTC)
+ Thu, 13 Feb 2020 08:11:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1Y680meRsbkA
+ with ESMTP id xihlC7T1f-E3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Feb 2020 06:44:25 +0000 (UTC)
+ Thu, 13 Feb 2020 08:11:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7928780AE0
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C687387C7D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Feb 2020 06:44:25 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id r67so1955398pjb.0
+ Thu, 13 Feb 2020 08:11:53 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id gv17so2077391pjb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Feb 2020 22:44:25 -0800 (PST)
+ Thu, 13 Feb 2020 00:11:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=PTjJW5WkW3WINmBSd47NRsGrdkm7l3mFig0Vv87JoHI=;
- b=fOt+CKbaa0hK1SD+Dy3Gz8bkHD+cshmpLIT8v+VWyrtWI20L8EU2KYeZeIS4rt8NC4
- v2C0B1s63ubGJUhO1XnAezBRS6Bl3gqUaQx0jhQPDFgUwsj4WU+jb9De89x8LVVkxCVh
- kQYGq2caYpKvRl3s2Uaouw5RUk2UcZxWhfKRF+uI/UB9sRroBDPHW/AsaxXuIkXp+y1x
- 4xDnPRcWpYRdZZQDtjN029HZpLQZR8kVwn3EHkJbDxcIp5IuRUxkYaOUZ9xtTg7d9zwV
- qb6+D2jEIHi2q9SIpVRpEc2ZDU5OgD+SdH6c+9PGs+FAMKDFVED6KmP1wxX1lPk6YlqG
- 2hJg==
+ bh=XnRL/6GCJnnLqnsq4zYt0l8kyVXrVP3xw1YFsqQnEx4=;
+ b=Es48Y6nx1HIXVE1wzsyfQo33Kx1crK2xDdWk+ZULrQ0st3KadIGmT4/fB0b1CPvL2N
+ 5cRSgayMUW2fCiLQUmT/VYkYpllxPjd75L9CxY8uMSZ6biMIa/KqxIK8OY/osn1KKoGl
+ TMsk5V1eL/zvu8n/0t6KvbPfxaJU9yFupnFyDotUGUyruJes9Wyis3RoZn4g1CTIjhtq
+ t5ayCIlA3No6HgQxprrWldDVdLubes9dWrFuQ932SILEjR2l7+OBBfN3B0ZiW/h4/eLH
+ sNWr71yNhL6ACs1m9+nTo/a3f51M9yDbdnx4UTXw/n1O7vIBDUfg9RVe/v77lfkR5Zll
+ EeBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=PTjJW5WkW3WINmBSd47NRsGrdkm7l3mFig0Vv87JoHI=;
- b=nlwnu/99JpJtqNS+0Qnftqxm4CzNhZOXzcYpXt+AM/QQGE6WqCHfZ6PmdkNDTXzktN
- 1UdkwS0SOPAWbrNME/LN3HMhh+uOmBZhtouFrJH+tCn0Fmp6cpLASU47ASdFiyBTeCl0
- fXLhxo/s05D6R9EhFJkjIDSnhqIIL60A0vompSlLGMKcF5vriuCvpVs0zO1Oss+kO+3Z
- MW25jA8VfCEcvVcI7/obWw2PDHHxd6ZR0IfWUN8h4zwJNPYy4lzMQT1zTLj9BYSh+IN8
- acjdfqTbRq9yKS6g8hbHpQqodV1SXM37LfemCNIQlJA8AR3jhOWrb+4kKJXCeW9r2vX0
- 0fiQ==
-X-Gm-Message-State: APjAAAVS48q0fNa2EMtTRvrLl5qC1qFdKq/QC/C13XUkpFT7jzauaf9P
- gLXD1ETY5npTDn9QZcJ5Tlk=
-X-Google-Smtp-Source: APXvYqwNMnGMEqnUw+BD3d356YdrBTWxcZDVrpMEjClwMVJdXshDYsdlX3TJyZLVvbTGGXZqEsja7Q==
-X-Received: by 2002:a17:90a:17c2:: with SMTP id
- q60mr3225606pja.111.1581576264849; 
- Wed, 12 Feb 2020 22:44:24 -0800 (PST)
+ bh=XnRL/6GCJnnLqnsq4zYt0l8kyVXrVP3xw1YFsqQnEx4=;
+ b=OCIzgddAznJ5tVMbpW2gLyURXzAMpKnxzV5FMzO5i65K2EHcM36K6eIcjT1PLzMlWB
+ YMI85/XOXzKhyVy2nZeIqGqNfZWqWDnfanWohMctfrN3tPJlc05WQ+jINiqXaNNDTcEt
+ w36PXl9Yyld7zXt6QJbbP8FJYxUBHEc5bMToDmUuEYIAJYBEuTdPVEy+GVZ9wm37UHKW
+ ieKnbCPjZCVAZSj5pwMDZAE4g700zFYVcVHGkn4U/m87A2NkPAQnpbeFYzCIygMFSvM3
+ VvCnZoy8cGSpUyyyJ4K96JxaH6/98STtZCy5TEQ7W7XmnZQA+4nd8AYVCJdWRCh1q+J9
+ wNtw==
+X-Gm-Message-State: APjAAAVeWEbuds/Lh/JsbS9Rs6s7bXqs2m2XaazjbGE+hRm/rmC3fabg
+ CMc2dzKhKHP8J00kvGBCz6Y=
+X-Google-Smtp-Source: APXvYqzfz/PE2mNdtJw+e11/Z3yxDbjoO6rLO+S8IVtkypnf1/CSYFZ6seYri1fPVJTKNtoS2bbH3g==
+X-Received: by 2002:a17:902:6bcb:: with SMTP id
+ m11mr28523894plt.10.1581581513257; 
+ Thu, 13 Feb 2020 00:11:53 -0800 (PST)
 Received: from workstation-portable ([103.211.17.23])
- by smtp.gmail.com with ESMTPSA id x4sm1412685pff.143.2020.02.12.22.44.20
+ by smtp.gmail.com with ESMTPSA id o16sm1681844pgl.58.2020.02.13.00.11.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 22:44:24 -0800 (PST)
-Date: Thu, 13 Feb 2020 12:14:18 +0530
+ Thu, 13 Feb 2020 00:11:52 -0800 (PST)
+Date: Thu, 13 Feb 2020 13:41:39 +0530
 From: Amol Grover <frextrite@gmail.com>
-To: Joel Fernandes <joel@joelfernandes.org>
-Message-ID: <20200213064418.GA26550@workstation-portable>
-References: <20200208144648.18833-1-frextrite@gmail.com>
- <20200210093624.GB14879@hirez.programming.kicks-ass.net>
- <20200210125948.GA16485@workstation-portable>
- <20200210133459.GJ14897@hirez.programming.kicks-ass.net>
- <20200210164727.GA22283@workstation-portable>
- <20200210170831.GB246160@google.com>
+To: Paul Moore <paul@paul-moore.com>
+Message-ID: <20200213081139.GB26550@workstation-portable>
+References: <20200207180504.4200-1-frextrite@gmail.com>
+ <20200207180504.4200-3-frextrite@gmail.com>
+ <CAHC9VhQCbg1V290bYEZM+izDPRpr=XYXakohnDaMphkBBFgUaA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200210170831.GB246160@google.com>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "Paul E . McKenney" <paulmck@kernel.org>,
+In-Reply-To: <CAHC9VhQCbg1V290bYEZM+izDPRpr=XYXakohnDaMphkBBFgUaA@mail.gmail.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ David Howells <dhowells@redhat.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ James Morris <jamorris@linux.microsoft.com>,
  Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- Peter Zijlstra <peterz@infradead.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
- Jiri Olsa <jolsa@redhat.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] events: Annotate parent_ctx with
-	__rcu
+ Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Shakeel Butt <shakeelb@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>,
+ linux-kernel@vger.kernel.org, Eric Paris <eparis@redhat.com>,
+ linux-audit@redhat.com, "Eric W . Biederman" <ebiederm@xmission.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH 3/3] auditsc: Do not use RCU
+ primitive to read from cred pointer
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -127,73 +130,96 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Feb 10, 2020 at 12:08:31PM -0500, Joel Fernandes wrote:
-> On Mon, Feb 10, 2020 at 10:17:27PM +0530, Amol Grover wrote:
-> > On Mon, Feb 10, 2020 at 02:34:59PM +0100, Peter Zijlstra wrote:
-> > > On Mon, Feb 10, 2020 at 06:29:48PM +0530, Amol Grover wrote:
-> > > > On Mon, Feb 10, 2020 at 10:36:24AM +0100, Peter Zijlstra wrote:
-> > > > > On Sat, Feb 08, 2020 at 08:16:49PM +0530, Amol Grover wrote:
-> > > 
-> > > > > > @@ -3106,26 +3106,31 @@ static void ctx_sched_out(struct perf_event_context *ctx,
-> > > > > >  static int context_equiv(struct perf_event_context *ctx1,
-> > > > > >  			 struct perf_event_context *ctx2)
-> > > > > >  {
-> > > > > > +	struct perf_event_context *parent_ctx1, *parent_ctx2;
-> > > > > > +
-> > > > > >  	lockdep_assert_held(&ctx1->lock);
-> > > > > >  	lockdep_assert_held(&ctx2->lock);
-> > > > > >  
-> > > > > > +	parent_ctx1 = rcu_dereference(ctx1->parent_ctx);
-> > > > > > +	parent_ctx2 = rcu_dereference(ctx2->parent_ctx);
+On Tue, Feb 11, 2020 at 10:19:04AM -0500, Paul Moore wrote:
+> On Fri, Feb 7, 2020 at 1:08 PM Amol Grover <frextrite@gmail.com> wrote:
+> >
+> > task_struct::cred is only used task-synchronously and does
+> > not require any RCU locks, hence, rcu_dereference_check is
+> > not required to read from it.
+> >
+> > Suggested-by: Jann Horn <jannh@google.com>
+> > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> > ---
+> >  kernel/auditsc.c | 15 +++++----------
+> >  1 file changed, 5 insertions(+), 10 deletions(-)
 > 
-> You can probably remove the earlier lockdep_assert_held(s) if you're going to
-> use rcu_dereference_protected() here, since that would do the checking anyway.
+> Considering the other changes in this patchset this change seems
+> reasonable to me.  I'm assuming you were intending this patchset to go
+> in via some tree other than audit?
 > 
 
-Ah yes, I was thinking this aswell.
+Yes, that's correct. Thank you for the ack!
 
-> > > > > 
-> > > > > Bah.
-> > > > > 
-> > > > > Why are you  fixing all this sparse crap and making the code worse?
-> > > > 
-> > > > Hi Peter,
-> > > > 
-> > > > Sparse is quite noisy and we need to eliminate false-positives, right?
-> > > 
-> > > Dunno, I've been happy just ignoring it all.
+> Acked-by: Paul Moore <paul@paul-moore.com>
 > 
-> FWIW some of the sparse fixes Amol made recently did uncover so existing
-> "bugs" :) (Not in perf but other code).
+> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > index 4effe01ebbe2..d3510513cdd1 100644
+> > --- a/kernel/auditsc.c
+> > +++ b/kernel/auditsc.c
+> > @@ -430,24 +430,19 @@ static int audit_field_compare(struct task_struct *tsk,
+> >  /* Determine if any context name data matches a rule's watch data */
+> >  /* Compare a task_struct with an audit_rule.  Return 1 on match, 0
+> >   * otherwise.
+> > - *
+> > - * If task_creation is true, this is an explicit indication that we are
+> > - * filtering a task rule at task creation time.  This and tsk == current are
+> > - * the only situations where tsk->cred may be accessed without an rcu read lock.
+> >   */
+> >  static int audit_filter_rules(struct task_struct *tsk,
+> >                               struct audit_krule *rule,
+> >                               struct audit_context *ctx,
+> >                               struct audit_names *name,
+> > -                             enum audit_state *state,
+> > -                             bool task_creation)
+> > +                             enum audit_state *state)
+> >  {
+> >         const struct cred *cred;
+> >         int i, need_sid = 1;
+> >         u32 sid;
+> >         unsigned int sessionid;
+> >
+> > -       cred = rcu_dereference_check(tsk->cred, tsk == current || task_creation);
+> > +       cred = tsk->cred;
+> >
+> >         for (i = 0; i < rule->field_count; i++) {
+> >                 struct audit_field *f = &rule->fields[i];
+> > @@ -745,7 +740,7 @@ static enum audit_state audit_filter_task(struct task_struct *tsk, char **key)
+> >         rcu_read_lock();
+> >         list_for_each_entry_rcu(e, &audit_filter_list[AUDIT_FILTER_TASK], list) {
+> >                 if (audit_filter_rules(tsk, &e->rule, NULL, NULL,
+> > -                                      &state, true)) {
+> > +                                      &state)) {
+> >                         if (state == AUDIT_RECORD_CONTEXT)
+> >                                 *key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
+> >                         rcu_read_unlock();
+> > @@ -791,7 +786,7 @@ static enum audit_state audit_filter_syscall(struct task_struct *tsk,
+> >         list_for_each_entry_rcu(e, list, list) {
+> >                 if (audit_in_mask(&e->rule, ctx->major) &&
+> >                     audit_filter_rules(tsk, &e->rule, ctx, NULL,
+> > -                                      &state, false)) {
+> > +                                      &state)) {
+> >                         rcu_read_unlock();
+> >                         ctx->current_state = state;
+> >                         return state;
+> > @@ -815,7 +810,7 @@ static int audit_filter_inode_name(struct task_struct *tsk,
+> >
+> >         list_for_each_entry_rcu(e, list, list) {
+> >                 if (audit_in_mask(&e->rule, ctx->major) &&
+> > -                   audit_filter_rules(tsk, &e->rule, ctx, n, &state, false)) {
+> > +                   audit_filter_rules(tsk, &e->rule, ctx, n, &state)) {
+> >                         ctx->current_state = state;
+> >                         return 1;
+> >                 }
+> > --
+> > 2.24.1
+> >
 > 
-> > > > __rcu will tell the developer, this pointer could change and he needs to
-> > > > take the required steps to make sure the code doesn't break.
-> > > 
-> > > I know what it does; what I don't know is why you need to make the code
-> > > worse. In paricular, __rcu doesn't mandate rcu_dereference(), esp. not
-> > > when you're actually holding the write side lock.
-> > 
-> > I might've misinterpreted the code. How does replacing rcu_dereference()
-> > with
-> > parent_ctx1 = rcu_dereference_protected(ctx1->parent_ctx,
-> > 					lockdep_is_held(&ctx1->lock));
-> > sound?
 > 
-> FWIW, some maintainers do hate calling RCU APIs when write side lock is held.
-> Evidently it does make the code readability a bit worse and I can see Peter's
-> point of view because the existing code is correct. I leave it to you guys to
-> decide how you want to handle it.
-> 
-
-In that case, I think the code is fine as it is. Thank you for the review both!
-
-Thanks
-Amol
-
-> thanks!
-> 
->  - Joel
-> 
+> -- 
+> paul moore
+> www.paul-moore.com
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
