@@ -1,108 +1,108 @@
-Return-Path: <SRS0=hVmh=4C=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=5ZcB=4D=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07BAAC2BA83
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 14 Feb 2020 18:20:40 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C46DC7114D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 15 Feb 2020 15:15:18 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B338720873
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 14 Feb 2020 18:20:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 55D522084E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 15 Feb 2020 15:15:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AlN8Rr9w"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B338720873
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ob1M+dVQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55D522084E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 88C5486943;
-	Fri, 14 Feb 2020 18:20:39 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1CB5288266;
+	Sat, 15 Feb 2020 15:15:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id veQ0-sdDmKqL; Fri, 14 Feb 2020 18:20:39 +0000 (UTC)
+	with ESMTP id CZJ+vHPGeR9t; Sat, 15 Feb 2020 15:15:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2CE6186942;
-	Fri, 14 Feb 2020 18:20:39 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 48C2A88265;
+	Sat, 15 Feb 2020 15:15:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 14427C08A4;
-	Fri, 14 Feb 2020 18:20:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E628C0881;
+	Sat, 15 Feb 2020 15:15:16 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 930D0C0177
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DA4CAC0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 14 Feb 2020 18:20:37 +0000 (UTC)
+ Sat, 15 Feb 2020 15:15:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7C76986942
+ by fraxinus.osuosl.org (Postfix) with ESMTP id C8FC085065
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 14 Feb 2020 18:20:37 +0000 (UTC)
+ Sat, 15 Feb 2020 15:15:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gDc3miMqLJhF
+ with ESMTP id DTQlnVyrMbuO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 14 Feb 2020 18:20:37 +0000 (UTC)
+ Sat, 15 Feb 2020 15:15:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 031DC86933
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+ [209.85.222.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3707185039
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 14 Feb 2020 18:20:36 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id s1so5252244pfh.10
+ Sat, 15 Feb 2020 15:15:14 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id u124so11635206qkh.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 14 Feb 2020 10:20:36 -0800 (PST)
+ Sat, 15 Feb 2020 07:15:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ErA6jWmmhfb1QGDKOQtEER5Ilc0UgOh2Gqv2PGMN0HE=;
- b=AlN8Rr9wAt7e/JdQ398Ln/0Pgz9LEQu52lKml03hoYL+Kej1LX1Cr4EeA10Qe8zdrP
- RK5SP9i2jYx35aykVGR2g/0onBcpFUJNpFwV4ymCb2LK76xcOP9aPMs6fRWoa5WdtKQd
- 0lbSub1/AJjFLlTVC6kAYd/C/yWF/VPZ9UVBw4Dxnn1dVhBoMDo0d09btXNlKci2LOb3
- TONpvgLieMjffTOazxw56KMEaMYiO5AfO5eZKVow4wKVjpBiKetJn4EUQoKoyYoQbL30
- ldK/cUpZwYrhB+k/33T0vmnMq6nS5FeADc4EdcgS/WPWtsgWAw88v+i2+w59r7ob/irL
- 7HNg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=uWzLjbBp8aRsVSLKA91aPxd7wXiz/npdTaFsiixqRhM=;
+ b=ob1M+dVQyL97DzvdG6/rS1nbpt+LYfpjmAUF7JHhdbEl9u6fZrcYi8ZKLRxYs10wm+
+ hbURUmByVSIB8x+5qdjbXtXCOgb+lKBqJwd+iyfL/Z+NhKrCm7ZD4H/5pTsS+R34P4Df
+ CcMLOB0B0Tg7vQFawFdDQk1GlYgSWAF8lsGvMdJpQ7E+M1P3gFvJyvm6aMkpTHV5y1v2
+ 0hW9uDFk6pOIKTy5AN7tDMjhNwJpVcaU3dc5E/mefQCz+s89pVzmyt0LY/4WFnjstOYy
+ a6aubSK0jx/Oj7sKE0Qbog7f84HUDCiCKKcS3HhaBnUeb1KmcMzMRJLBt+y6LoInnpil
+ oVjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ErA6jWmmhfb1QGDKOQtEER5Ilc0UgOh2Gqv2PGMN0HE=;
- b=jx4XASAx2JHvIxEg2QmBEhKh0pdpb322MGK/RcQX4laIXYP6umNk2yGs4I7KBProAz
- PGsdNsV5dtcDeWQh3lShLaYDuiVbE+pMygXKv7464e7P1z6QzmpfcW5UsqAAWg9FO6W+
- /ZOCOhDpO5SAq4ppSczLm7Y+26AmwmE9Xus/wEzt+esmZIYIzKMg9x5yJKPbSLPzVKon
- X+rwscT7J86Dro/WVyCS3frvhxUjKOw/XPNXOZGyLzaIHx5Cj1pqvVKHeh9VuOIzN3ro
- KR1DfxZPhhNS/e4Dc9Ge3rGOVYEhiqqHXIt0E2509nJm3DNGvozYcqZEp31YQo7jyho5
- SmHQ==
-X-Gm-Message-State: APjAAAXOVYQw4xdAb7zMgmI5mPjjxso709ZQA6dWGHlTxnxeP1kY1v6T
- m1JGLgYimq7aw/AIMecrfHY=
-X-Google-Smtp-Source: APXvYqxRukUjTxlNcRdQc6EB6yehiYsWGKukYpYn476AdEmv6xHv+atjQeeskaxXJY1Etjlq4A58CQ==
-X-Received: by 2002:a63:3712:: with SMTP id e18mr4918078pga.316.1581704436575; 
- Fri, 14 Feb 2020 10:20:36 -0800 (PST)
-Received: from workstation-portable ([146.196.37.246])
- by smtp.gmail.com with ESMTPSA id o11sm7196634pjs.6.2020.02.14.10.20.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2020 10:20:36 -0800 (PST)
-Date: Fri, 14 Feb 2020 23:50:27 +0530
-From: Amol Grover <frextrite@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>
-Message-ID: <20200214182027.GB15350@workstation-portable>
-References: <20200130141818.18391-1-frextrite@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=uWzLjbBp8aRsVSLKA91aPxd7wXiz/npdTaFsiixqRhM=;
+ b=bV4SCUPeAMf4iKwLtpGjUqTpKxPGpbrB5NnKlB+ah5mzDGQ2Ur+sl9w/pq7S0ZeJ40
+ qy6S742rSt+7UR/EAe7KJrQaeDUox2sBaEyZP0R5zEYVZxwMZIs6oQkKnvvgta0Mf91y
+ FKJ3IykjNzUMraUPl1xwfoMBT1FZIu1FmbJuWwWIzNgumWzHCyihJWbM5xs0w8Ozmuq0
+ KG8hcWSTsIzDvGqByLHQhGesxIo821JJEEh9B1bB5IkiwZcfWwhKdm/8/SY1zcZGNhuH
+ ecHiPp7CY4KMCjdZwc+tEopKfJRMng5TZP6RrJeBQBZl8aC9hQmqIJPhzw+7mCNj3z1t
+ LTRg==
+X-Gm-Message-State: APjAAAVNRe9skSrHMTrWA1tU7yiJjdfPsxp3aT3Es+hNXty7OhWPUpjm
+ Gb4C9GvSfL8jXlJWCySnHg4GedKB8kyyZg==
+X-Google-Smtp-Source: APXvYqxpvAHSD/naM2yaCHrG1MA+Xkos4kcUo2nI3mT+HBKkPxDMv80TmBa+NMdsC9D3tFlp12ooAQ==
+X-Received: by 2002:a37:47c4:: with SMTP id u187mr7502718qka.165.1581779712998; 
+ Sat, 15 Feb 2020 07:15:12 -0800 (PST)
+Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac?
+ ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id d16sm1487549qkc.132.2020.02.15.07.15.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 Feb 2020 07:15:12 -0800 (PST)
+To: Nathan Chancellor <natechancellor@gmail.com>
+References: <20200210154102.118166-1-dwlsalmeida@gmail.com>
+ <20200214050813.GA37036@ubuntu-m2-xlarge-x86>
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <886c816b-65a4-9cd9-4c94-f8025b63de4c@gmail.com>
+Date: Sat, 15 Feb 2020 12:15:07 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200130141818.18391-1-frextrite@gmail.com>
-Cc: Joel Fernandes <joel@joelfernandes.org>,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- "Paul E . McKenney" <paulmck@kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] callchain: Annotate RCU
-	pointer with __rcu
+In-Reply-To: <20200214050813.GA37036@ubuntu-m2-xlarge-x86>
+Content-Language: en-US
+Cc: sean@mess.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
+ mchehab@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v5] media: dvb_dummy_tuner:
+	implement driver skeleton
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,71 +114,27 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jan 30, 2020 at 07:48:19PM +0530, Amol Grover wrote:
-> Fixes following instances of sparse error
-> error: incompatible types in comparison expression
-> (different address spaces)
-> kernel/events/callchain.c:66:9: error: incompatible types in comparison
-> kernel/events/callchain.c:96:9: error: incompatible types in comparison
-> kernel/events/callchain.c:161:19: error: incompatible types in comparison
-> 
-> This introduces the following warning
-> kernel/events/callchain.c:65:17: warning: incorrect type in assignment
-> which is fixed as below
-> 
-> callchain_cpus_entries is annotated as an RCU pointer.
-> Hence rcu_dereference_protected or similar RCU API is
-> required to dereference the pointer.
-> 
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
+Hi Nathan,
 
-Hey Peter,
+> This patch and another one that you have [1] cause a ton of build
+> warnings with clang, as reported by the 0day bot, because of the
+> implicit conversions from floating points to integer. Is this
+> intentional? Would you mind taking a look at them and addressing them if
+> you do another revision?
 
-Can you have a look at this patch as well? I have already done the
-requested changes.
+Sorry I did not catch that back then. I'll fix it in a future revision.
 
-Thanks
-Amol
+Thank you for letting me know.
 
-> ---
-> v2:
-> - Squash both the commits into a single one.
-> 
->  kernel/events/callchain.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
-> index c2b41a263166..a672d02a1b3a 100644
-> --- a/kernel/events/callchain.c
-> +++ b/kernel/events/callchain.c
-> @@ -32,7 +32,7 @@ static inline size_t perf_callchain_entry__sizeof(void)
->  static DEFINE_PER_CPU(int, callchain_recursion[PERF_NR_CONTEXTS]);
->  static atomic_t nr_callchain_events;
->  static DEFINE_MUTEX(callchain_mutex);
-> -static struct callchain_cpus_entries *callchain_cpus_entries;
-> +static struct callchain_cpus_entries __rcu *callchain_cpus_entries;
->  
->  
->  __weak void perf_callchain_kernel(struct perf_callchain_entry_ctx *entry,
-> @@ -62,7 +62,8 @@ static void release_callchain_buffers(void)
->  {
->  	struct callchain_cpus_entries *entries;
->  
-> -	entries = callchain_cpus_entries;
-> +	entries = rcu_dereference_protected(callchain_cpus_entries,
-> +					    lockdep_is_held(&callchain_mutex));
->  	RCU_INIT_POINTER(callchain_cpus_entries, NULL);
->  	call_rcu(&entries->rcu_head, release_callchain_buffers_rcu);
->  }
-> -- 
-> 2.24.1
-> 
+
+- Daniel.
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
