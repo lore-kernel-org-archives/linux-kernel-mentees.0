@@ -8,95 +8,96 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC4A4C34049
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Feb 2020 19:57:57 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86D0DC34049
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Feb 2020 19:58:17 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7E59E24670
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Feb 2020 19:57:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5E7B824676
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Feb 2020 19:58:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UQ+9pXbD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E59E24670
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XaFbYSbq"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5E7B824676
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4CD3B204DB;
-	Tue, 18 Feb 2020 19:57:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5478E85BE4;
+	Tue, 18 Feb 2020 19:58:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IpOTexFXFZwy; Tue, 18 Feb 2020 19:58:16 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AA2F685D45;
+	Tue, 18 Feb 2020 19:58:16 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D9B1C1D87;
+	Tue, 18 Feb 2020 19:58:16 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90978C013E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 18 Feb 2020 19:58:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 7EAE8204DB
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 18 Feb 2020 19:58:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6N2aWGK0xEqx; Tue, 18 Feb 2020 19:57:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 953F32000E;
-	Tue, 18 Feb 2020 19:57:56 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8AB72C08A0;
-	Tue, 18 Feb 2020 19:57:56 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EFD7EC013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Feb 2020 19:57:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DF2278658D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Feb 2020 19:57:55 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uzQ320FZMiyv
+ with ESMTP id 8ad8iJELe7yP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Feb 2020 19:57:55 +0000 (UTC)
+ Tue, 18 Feb 2020 19:58:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 7654686578
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id D47EE204D3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Feb 2020 19:57:55 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id 70so11451180pgf.8
+ Tue, 18 Feb 2020 19:58:13 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id y8so8482759pll.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Feb 2020 11:57:55 -0800 (PST)
+ Tue, 18 Feb 2020 11:58:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=93cUwvRz5DcbF2nQaz+gagk6IvPBCJp98CU5NTDjQMY=;
- b=UQ+9pXbDMmbdwA6F96Qv1VTxfWIz+JpDgMRfBgEwsI2/DxQA8d1YYv3LhqeSWvFyG3
- KySMupXsPLTKR8WIfSgIj374RP/tpNY6rn9kI85B2bdUZKNIAI4bBtweOJJkv+UufbfL
- OsHJC1WfHbmkTo4aTz0APkZDFAdFavuyyZd6ZXl1OwPo93zeo/bz8FthImtkeCMnvSFS
- vLhtX0zbw3wAuwNmOtJU6nw6SWTGmqPVqAubM0XpVuoS5kogsoQOXzF6YzD7MGj+PfLU
- FaP2WqUchlHEnqt0TtGb4plEPa9QcyJBK/mJcXAwrN+vzxkqCENzHeZu0Lh3Yb+lIkhs
- cIYg==
+ bh=ZVaa80uyP+XZfhhhWT99/ZXFbqKi9cNUzihG4oAdlOc=;
+ b=XaFbYSbq7VSZh//HL+vvxQWPtsyeqB5gQ4P0KM0hmriCA5ji4kWEWtRsLF8+YJJaW/
+ q86DBbJKueEg9mAyc94VyX4Npqiwi97xuEOvWFSylQ4njEqET32RP/fQ1Rb/j42zeF8E
+ fbOarrrBcnX7YKJLzSpVGwm+nx06OwsvoMdcyRrev2F1f9kaStE38X0CTRcMc6jUR4w5
+ fODfPNzXaTm4a+cUbv2EPAev+zvmleSEx0+04/vBfda64JxTEijfyv5qsJ/FxDK/gyoQ
+ AMIrE/96R+7rPYXgs6Lw10c9MRcCyj62XqVoGN69GD0i2vA0PQTlc8AIEZ7lXFINdvq/
+ mulQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=93cUwvRz5DcbF2nQaz+gagk6IvPBCJp98CU5NTDjQMY=;
- b=cs84qsEHqU54T9ny7Sr1jESK+4hDgqiHUnH6X4oFg35xs1v+Sux+3ymwr6tyJ5QA16
- ewwAyNYSzsXnjks4SLQcwk72/fjqkIegiR/mxuXW80I0n+sR1w5QFibisYQ+WT4sgn6J
- BJIJZASwv40rLDyxwic/BDa/RzQOHjTZpr8QuAOVPinSl4uN3RPOBFmzR+dGrocaefGA
- EAipD+wvsaGHjqGrJnzd4u9gWl+ioKGtsupkiSzRKdmpTE8DuxWlO34gcDLmQtOxOjaQ
- PmiReHYrmpe1J/siWO28SlNiN6F16EnjeiY64hikrZWe31QfOfz91N7bjcQdhgm7Iaz9
- cJeA==
-X-Gm-Message-State: APjAAAUEP61ev/JAjTc3FaTvehYDjwaiRdgflNdi4yCxuNjybCnN6uJ5
- hkQcTpuYn3bNOu8L7IjpEg==
-X-Google-Smtp-Source: APXvYqzmmai+702KiOlcfbcc3ZFX7jmIWdGXi8fVhYaR8Nc3GJgeHndI1Pldb3SlGbLRf31qGdaxsA==
-X-Received: by 2002:a63:4525:: with SMTP id s37mr24073227pga.418.1582055875098; 
- Tue, 18 Feb 2020 11:57:55 -0800 (PST)
+ bh=ZVaa80uyP+XZfhhhWT99/ZXFbqKi9cNUzihG4oAdlOc=;
+ b=UOnGknD0h7cQAdxBQHdQ13TFpAtcATWKAw9xkH2IcLbvdC2v+ero7A4WVJmKNzpkLu
+ FxXXdr0NJFUjJTnUGbNdZOSqrB/fBBEk9eM3xTLHgAn8bf1TyOpEHJbi+EFdFWLwlbpS
+ z4oFKfJiLX0bJaO2G5yEE1T+5/amdkSf0N283FtfpyKxFmxA4iPp2iHtFWI47zpo3xcZ
+ 9NxItHvuLGx2CuEBpdwRB7eB7AF2DoTdTHlJkymvwrmjiGCdVQlwzs7ODnlKRaTpoC2y
+ EHikX243rtHQKuTPoUudvDDkTDecsLA+8vTZTH7O8vqjBtPIKwW9OSaeI697Hz9kCqYH
+ VR+w==
+X-Gm-Message-State: APjAAAW40hf89yiUT58MqlAloYRLy8hi7CGqRX401EgyZuNFlgFii5ZC
+ Uh2JBp142LDTdeX3Lzpflw==
+X-Google-Smtp-Source: APXvYqxzdkyS57C03yGJaG/36hN7DxqwFGCS6tWj6O9YmFwyOpxHVxiIjXkr6u95wRoOLZOl9InRTA==
+X-Received: by 2002:a17:90a:5d85:: with SMTP id
+ t5mr4608220pji.126.1582055893495; 
+ Tue, 18 Feb 2020 11:58:13 -0800 (PST)
 Received: from madhuparna-HP-Notebook.nitk.ac.in
  ([2402:3a80:1ee3:ff08:f869:e1e5:121e:cdbf])
- by smtp.gmail.com with ESMTPSA id d4sm4038413pjz.12.2020.02.18.11.57.50
+ by smtp.gmail.com with ESMTPSA id g19sm5046770pfh.134.2020.02.18.11.58.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 11:57:54 -0800 (PST)
+ Tue, 18 Feb 2020 11:58:12 -0800 (PST)
 From: madhuparnabhowmik10@gmail.com
 To: pshelar@ovn.org,
 	davem@davemloft.net
-Date: Wed, 19 Feb 2020 01:27:42 +0530
-Message-Id: <20200218195742.2636-1-madhuparnabhowmik10@gmail.com>
+Date: Wed, 19 Feb 2020 01:28:02 +0530
+Message-Id: <20200218195802.2702-1-madhuparnabhowmik10@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Cc: dev@openvswitch.org, paulmck@kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, joel@joelfernandes.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 2/4] vport.c: Use built-in RCU list
-	checking
+Subject: [Linux-kernel-mentees] [PATCH 3/4] datapath.c: Use built-in RCU
+	list checking
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,23 +126,43 @@ by default.
 
 Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 ---
- net/openvswitch/vport.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ net/openvswitch/datapath.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/net/openvswitch/vport.c b/net/openvswitch/vport.c
-index 5da9392b03d6..47febb4504f0 100644
---- a/net/openvswitch/vport.c
-+++ b/net/openvswitch/vport.c
-@@ -96,7 +96,8 @@ struct vport *ovs_vport_locate(const struct net *net, const char *name)
- 	struct hlist_head *bucket = hash_bucket(net, name);
- 	struct vport *vport;
+diff --git a/net/openvswitch/datapath.c b/net/openvswitch/datapath.c
+index 1047e8043084..2b7a348ad167 100644
+--- a/net/openvswitch/datapath.c
++++ b/net/openvswitch/datapath.c
+@@ -179,7 +179,8 @@ struct vport *ovs_lookup_vport(const struct datapath *dp, u16 port_no)
+ 	struct hlist_head *head;
  
--	hlist_for_each_entry_rcu(vport, bucket, hash_node)
-+	hlist_for_each_entry_rcu(vport, bucket, hash_node,
-+				lockdep_ovsl_is_held())
- 		if (!strcmp(name, ovs_vport_name(vport)) &&
- 		    net_eq(ovs_dp_get_net(vport->dp), net))
+ 	head = vport_hash_bucket(dp, port_no);
+-	hlist_for_each_entry_rcu(vport, head, dp_hash_node) {
++	hlist_for_each_entry_rcu(vport, head, dp_hash_node,
++				lockdep_ovsl_is_held()) {
+ 		if (vport->port_no == port_no)
  			return vport;
+ 	}
+@@ -2045,7 +2046,8 @@ static unsigned int ovs_get_max_headroom(struct datapath *dp)
+ 	int i;
+ 
+ 	for (i = 0; i < DP_VPORT_HASH_BUCKETS; i++) {
+-		hlist_for_each_entry_rcu(vport, &dp->ports[i], dp_hash_node) {
++		hlist_for_each_entry_rcu(vport, &dp->ports[i], dp_hash_node,
++					lockdep_ovsl_is_held()) {
+ 			dev = vport->dev;
+ 			dev_headroom = netdev_get_fwd_headroom(dev);
+ 			if (dev_headroom > max_headroom)
+@@ -2064,7 +2066,8 @@ static void ovs_update_headroom(struct datapath *dp, unsigned int new_headroom)
+ 
+ 	dp->max_headroom = new_headroom;
+ 	for (i = 0; i < DP_VPORT_HASH_BUCKETS; i++)
+-		hlist_for_each_entry_rcu(vport, &dp->ports[i], dp_hash_node)
++		hlist_for_each_entry_rcu(vport, &dp->ports[i], dp_hash_node,
++					lockdep_ovsl_is_held())
+ 			netdev_set_rx_headroom(vport->dev, new_headroom);
+ }
+ 
 -- 
 2.17.1
 
