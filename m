@@ -1,85 +1,72 @@
-Return-Path: <SRS0=adXe=4F=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=Ux9x=4G=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 311FDC34021
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Feb 2020 18:28:34 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 206ABC34026
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Feb 2020 09:12:54 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EDC4224656
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Feb 2020 18:28:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ORd/0qL1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDC4224656
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id DC84620659
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Feb 2020 09:12:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC84620659
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ubuntu.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C83A520458;
-	Mon, 17 Feb 2020 18:28:33 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NxtT10is7nq5; Mon, 17 Feb 2020 18:28:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 4D35620009;
-	Mon, 17 Feb 2020 18:28:33 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 34E39C08A0;
-	Mon, 17 Feb 2020 18:28:33 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AF9D4C013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Feb 2020 18:28:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9974584F5A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Feb 2020 18:28:32 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id ABED384BF1;
+	Tue, 18 Feb 2020 09:12:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Mmkmgn9i5sIR; Tue, 18 Feb 2020 09:12:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id DBC4484D9F;
+	Tue, 18 Feb 2020 09:12:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE5DCC08A0;
+	Tue, 18 Feb 2020 09:12:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 520F4C013E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 18 Feb 2020 09:12:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 4925520021
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 18 Feb 2020 09:12:49 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wCjLjPEgPAay
+ with ESMTP id xalRJA3RKap4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Feb 2020 18:28:32 +0000 (UTC)
+ Tue, 18 Feb 2020 09:12:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 09C9384A75
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by silver.osuosl.org (Postfix) with ESMTPS id 37D6320020
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Feb 2020 18:28:32 +0000 (UTC)
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net
- [50.39.105.78])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B0436227BF;
- Mon, 17 Feb 2020 18:28:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581964111;
- bh=VX6VBdSNbKVS9TKiwcwWl/BkRExmIhlTJuoRPfrgS4A=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=ORd/0qL1SPD3b86/Yo1Efg4x74DS5vMT5gyOhni0O69KZ6QcvIex5QAlyLDF0emPk
- aMPaweMZVVzCNzc/9AQPZuI/l0hsEx9VC/NID5+qqsGYpn4fIyTx3usXI4YekdWEcl
- YjINY2b4jXrvlZV3/RbJSRfRJzh3PVtpMZuR0fCw=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id 8A970352273C; Mon, 17 Feb 2020 10:28:31 -0800 (PST)
-Date: Mon, 17 Feb 2020 10:28:31 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Message-ID: <20200217182831.GR2935@paulmck-ThinkPad-P72>
-References: <20200216074636.GB14025@workstation-portable>
- <20200217151246.GS14897@hirez.programming.kicks-ass.net>
+ Tue, 18 Feb 2020 09:12:47 +0000 (UTC)
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236]
+ helo=wittgenstein) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <christian.brauner@ubuntu.com>)
+ id 1j3yvq-00087n-Kt; Tue, 18 Feb 2020 09:12:42 +0000
+Date: Tue, 18 Feb 2020 10:12:41 +0100
+From: Christian Brauner <christian.brauner@ubuntu.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Message-ID: <20200218091241.mm7t2gtyilr63hij@wittgenstein>
+References: <20200218064759.4n6vwqgtxqlysjsk@kili.mountain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200217151246.GS14897@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
- Ingo Molnar <mingo@redhat.com>, Joel Fernandes <joel@joelfernandes.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH RESEND] lockdep: Pass lockdep
-	expression to RCU lists
+In-Reply-To: <20200218064759.4n6vwqgtxqlysjsk@kili.mountain>
+Cc: kernel-janitors@vger.kernel.org, Will Drewry <wad@chromium.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Andy Lutomirski <luto@amacapital.net>
+Subject: Re: [Linux-kernel-mentees] [bug report] clone3: allow spawning
+	processes into cgroups
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,90 +78,79 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Feb 17, 2020 at 04:12:46PM +0100, Peter Zijlstra wrote:
-> On Sun, Feb 16, 2020 at 01:16:36PM +0530, Amol Grover wrote:
-> > Data is traversed using hlist_for_each_entry_rcu outside an
-> > RCU read-side critical section but under the protection
-> > of either lockdep_lock or with irqs disabled.
-> > 
-> > Hence, add corresponding lockdep expression to silence false-positive
-> > lockdep warnings, and harden RCU lists. Also add macro for
-> > corresponding lockdep expression.
-> > 
-> > Two things to note:
-> > - RCU traversals protected under both, irqs disabled and
-> > graph lock, have both the checks in the lockdep expression.
-> > - RCU traversals under the protection of just disabled irqs
-> > don't have a corresponding lockdep expression as it is implicitly
-> > checked for.
-> > 
-> > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> > ---
-> >  kernel/locking/lockdep.c | 21 +++++++++++++--------
-> >  1 file changed, 13 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
-> > index 32282e7112d3..696ad5d4daed 100644
-> > --- a/kernel/locking/lockdep.c
-> > +++ b/kernel/locking/lockdep.c
-> > @@ -85,6 +85,8 @@ module_param(lock_stat, int, 0644);
-> >   * code to recurse back into the lockdep code...
-> >   */
-> >  static arch_spinlock_t lockdep_lock = (arch_spinlock_t)__ARCH_SPIN_LOCK_UNLOCKED;
-> > +#define graph_lock_held() \
-> > +	arch_spin_is_locked(&lockdep_lock)
-> >  static struct task_struct *lockdep_selftest_task_struct;
-> >  
-> >  static int graph_lock(void)
-> > @@ -1009,7 +1011,7 @@ static bool __check_data_structures(void)
-> >  	/* Check the chain_key of all lock chains. */
-> >  	for (i = 0; i < ARRAY_SIZE(chainhash_table); i++) {
-> >  		head = chainhash_table + i;
-> > -		hlist_for_each_entry_rcu(chain, head, entry) {
-> > +		hlist_for_each_entry_rcu(chain, head, entry, graph_lock_held()) {
-> >  			if (!check_lock_chain_key(chain))
-> >  				return false;
-> >  		}
+On Tue, Feb 18, 2020 at 09:47:59AM +0300, Dan Carpenter wrote:
+> Hello Christian Brauner,
 > 
-> URGH.. this patch combines two horribles to create a horrific :/
+> The patch ef2c41cf38a7: "clone3: allow spawning processes into
+> cgroups" from Feb 5, 2020, leads to the following static checker
+> warning:
 > 
->  - spin_is_locked() is an abomination
+> 	kernel/fork.c:2632 copy_clone_args_from_user()
+> 	warn: unsigned 'args.cgroup' is never less than zero.
 
-Agreed, I would prefer use of lockdep assertions myself.  And yes, I
-did try to get rid of spin_is_locked() some time back, but there were
-a few use cases that proved stubborn.  :-(
+Thanks, good catch. This strikes me as a great patch for the
+linux-kernel-mentees project so I've Cced the list.
+I'll wait for about two weeks for a patch and if none has surfaced by
+then I'll fix it myself.
+For anyone wanting to fix this, please note that this patch sits in
+Tejun's cgroup tree, i.e. your fix needs to be made against the
+following tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git/log/?h=for-5.7
 
->  - this RCU list stuff is just plain annoying
+Thanks!
+Christian
+
 > 
-> I'm tempted to do something like:
+> kernel/fork.c
+>   2598  noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+>   2599                                                struct clone_args __user *uargs,
+>   2600                                                size_t usize)
+>   2601  {
+>   2602          int err;
+>   2603          struct clone_args args;
+>   2604          pid_t *kset_tid = kargs->set_tid;
+>   2605  
+>   2606          if (unlikely(usize > PAGE_SIZE))
+>   2607                  return -E2BIG;
+>   2608          if (unlikely(usize < CLONE_ARGS_SIZE_VER0))
+>   2609                  return -EINVAL;
+>   2610  
+>   2611          err = copy_struct_from_user(&args, sizeof(args), uargs, usize);
+>   2612          if (err)
+>   2613                  return err;
+>   2614  
+>   2615          if (unlikely(args.set_tid_size > MAX_PID_NS_LEVEL))
+>   2616                  return -EINVAL;
+>   2617  
+>   2618          if (unlikely(!args.set_tid && args.set_tid_size > 0))
+>   2619                  return -EINVAL;
+>   2620  
+>   2621          if (unlikely(args.set_tid && args.set_tid_size == 0))
+>   2622                  return -EINVAL;
+>   2623  
+>   2624          /*
+>   2625           * Verify that higher 32bits of exit_signal are unset and that
+>   2626           * it is a valid signal
+>   2627           */
+>   2628          if (unlikely((args.exit_signal & ~((u64)CSIGNAL)) ||
+>   2629                       !valid_signal(args.exit_signal)))
+>   2630                  return -EINVAL;
+>   2631  
+>   2632          if ((args.flags & CLONE_INTO_CGROUP) && args.cgroup < 0)
+>                                                         ^^^^^^^^^^^^^^^
+> This is a u64 so it can't be negative.  I'm not sure what was intended.
 > 
-> #define STFU (true)
+>   2633                  return -EINVAL;
+>   2634  
 > 
-> 	hlist_for_each_entry_rcu(chain, head, entry, STFU) {
-
-Now that is just plain silly.  It is easier to type "true" than "STFU",
-satisfying though the latter might feel to you right now.
-
-> Paul, are we going a little over-board with this stuff? Do we really
-> have to annotate all of this?
-
-Like rcu_dereference_raw()?  
-
-My goal is to provide infrastructure that allows people to gain the
-benefit of automated code review if they so choose.  And a number have
-so chosen.  In this case, it is pretty easy to disable the checking by
-adding "true" as the last argument, so I am not seeing a real problem.
-
-Just don't come crying to me if doing so ends up hiding a bug.  ;-)
-
-							Thanx, Paul
+> regards,
+> dan carpenter
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
