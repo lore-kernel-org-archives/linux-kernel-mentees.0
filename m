@@ -8,102 +8,102 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 291E7C34047
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Feb 2020 10:07:09 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD04C34050
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Feb 2020 10:17:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DC333207FD
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Feb 2020 10:07:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5514724656
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Feb 2020 10:17:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j0baOwT4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC333207FD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mN10sBd/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5514724656
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9D87C203F4;
-	Wed, 19 Feb 2020 10:07:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2B6FC85E43;
+	Wed, 19 Feb 2020 10:17:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AH4Eg8iFuDSP; Wed, 19 Feb 2020 10:07:08 +0000 (UTC)
+	with ESMTP id WEW2TfZ0t7V4; Wed, 19 Feb 2020 10:17:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 083062000B;
-	Wed, 19 Feb 2020 10:07:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2998485E40;
+	Wed, 19 Feb 2020 10:17:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E7A67C1D80;
-	Wed, 19 Feb 2020 10:07:07 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9C2C4C013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2108CC1D80;
+	Wed, 19 Feb 2020 10:17:08 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3DB95C013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 10:07:06 +0000 (UTC)
+ Wed, 19 Feb 2020 10:17:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 18AC987874
+ by whitealder.osuosl.org (Postfix) with ESMTP id 398BC84EB9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 10:07:06 +0000 (UTC)
+ Wed, 19 Feb 2020 10:17:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mQb6CPJGBJ-L
+ with ESMTP id 7af6n9ShVWr4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 10:06:28 +0000 (UTC)
+ Wed, 19 Feb 2020 10:17:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 664D487860
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 090D68643F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 10:06:26 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id t14so9367502plr.8
+ Wed, 19 Feb 2020 10:17:05 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id y5so12269545pfb.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 02:06:26 -0800 (PST)
+ Wed, 19 Feb 2020 02:17:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=GVRdPNZo5d7eI2NxNW1l7GKKSA1O3A8YX4K6fJNiyFY=;
- b=j0baOwT4MtNLCJOeh0o5lSqPQB90+Rp/h2KSZs0EGIBpTIb0AtoyvA9Om1n5YFIChN
- kteaGHD0cop5owLYIfi7ILHZFl/vUjEP8PP4z5tDqAuta7CFnOTHkXjeGdoceEfQY4XO
- +Ebx9VrVptRX/UV81DTLEQDt6kUPYlRyDJtljGmiWE6bAj0ohSZlDqigr+O8baB1TD7n
- IXCxhV5e35GbRm/8inLkz6r+6idv2be0yxk/GyBL3pGxrBw/DpTlWvPXiJBj6ZrPuQ81
- RyptQrK4Rp5tDRTw1lnJo2YOWDKA4Y202Di+Cqnuq/xTMh9naiEzvBzwJ+IaZfs+Hup8
- yNSg==
+ bh=wx3cl/ju+y18z95mSB4X4cdRQQ7rCw0DISRZpgvl858=;
+ b=mN10sBd/GXiQoJR3Ywfsm0PgOHnA0dVmNF3IgQ8Ktyp7fHFx4uXm9z6AnSYjILHEIV
+ BAZuo/Qzdzixq8W+e9q65H8A0nw4EeI4VW8DpBfebiI8ju0TWNS5j6aH+EUlou6AYQnO
+ QowgF8dWYECxBSGNFRbDdqgiNPb4ggGYLCHRw6x4N1s+H7Y8VoinygwuqrYU9UI08Mkn
+ 1jdpPlct9uT3eS4Hyp281UiuPQ8R9RCNUENIsaUMvOdmPRsrzEPB6R3V2VvWEQzELr9T
+ dXuxcP4YxroyUstNofwTQhh6Yk+wv4ttKWd+yjJf0swaUFO3aBClYJpFbl4F8ctGX/Bf
+ ZVdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=GVRdPNZo5d7eI2NxNW1l7GKKSA1O3A8YX4K6fJNiyFY=;
- b=hqj/tdj40EJWx9IsuY8a9NJaZmuBF1Jz6A/lKQvE3X7ZbHYfd22uNJ5lV2bR1StoZL
- 6StlCTnAy2wr87OYhsmyR6+t0mwxkgtHIFk8YmQtL2yw2hlxFR3FInMl4/WGHFXK3nHc
- tXOtjniOOUDZriUkNn+2cFbVCuA+FvMmxGlWUyVO36Y0dc8b42EJwDixeOF8WvBIJt2e
- TbVR99aNTLwxULe1jxSVuUdgOyCEfQeCqVZfyjN9iewWc0aaLnlPgW+vs4qGdUljNe9m
- p5/Dh+yZ2+MxWt8kZ2P2FxaxWjOAmMVMX68whdwDTw4CqAgBzc6My4JIYLYPrgeeHr/Z
- 680A==
-X-Gm-Message-State: APjAAAWPsV5vFjgqqpLsJa70w7AAMUyfu+OZoIcnO2cDmlVyTWWIS6yf
- mB21IRtHvwI5mJVhtrqKcYo=
-X-Google-Smtp-Source: APXvYqzBjjlOD+j8XLKGMCJFZ0gJV4hY7IPslrCb7PxPpQVZPaaNPRR0FsXbdorABRNjPsdeAx5FPQ==
-X-Received: by 2002:a17:902:7c85:: with SMTP id
- y5mr24648684pll.227.1582106786018; 
- Wed, 19 Feb 2020 02:06:26 -0800 (PST)
+ bh=wx3cl/ju+y18z95mSB4X4cdRQQ7rCw0DISRZpgvl858=;
+ b=p3hkP7q0pgk4+/g70PpGBqtJ8QSXxV7PTkRSWWF/HaL7vgQfqtuO+uBZF5O0B/v8tn
+ EPqynWmXEHx24/JUGJycrAtFuUOVwy6tMbnWP2Uz3X7KQjOO3avwgHE6TQPwpttq8y58
+ Zk5c0DtC6v82aDlizzZaMgFmy788X2cx2wk6KKiKkJv4Vf+ds1Vc/Rfhdw516OGAvT06
+ T+b1HT8weDq8UxmCcN/5LInDHekZjj1TfztJzx7JsnNZsuvJNqSLtLv+yY1Q1cJnqtwG
+ M7e26Sox0FUre70z24hiIj5hKSp59XpPzbx6WUcbCz1AB7E/wP69gTkPnT72d3zNdeEa
+ vtXQ==
+X-Gm-Message-State: APjAAAWXFsoJBF5rvCwyr3x/3qUnKSCG6kGzVb0Jm55hVB34uiTZcJm3
+ mKzK2MLaHIA32RkucqsZX8g=
+X-Google-Smtp-Source: APXvYqy6NiIl+ebEVWdcRWivE8SiuoiFsCnaSaA8epCJyhv6rxlKttT+lXy/ebF12zJfvlcSy/d+Bw==
+X-Received: by 2002:a63:6d0b:: with SMTP id i11mr26437592pgc.266.1582107424607; 
+ Wed, 19 Feb 2020 02:17:04 -0800 (PST)
 Received: from localhost.localdomain ([146.196.37.220])
- by smtp.googlemail.com with ESMTPSA id w14sm2097754pgi.22.2020.02.19.02.06.22
+ by smtp.googlemail.com with ESMTPSA id a2sm2400885pfi.30.2020.02.19.02.16.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 02:06:25 -0800 (PST)
+ Wed, 19 Feb 2020 02:17:04 -0800 (PST)
 From: Amol Grover <frextrite@gmail.com>
-To: Eric Dumazet <edumazet@google.com>,
+To: Pablo Neira Ayuso <pablo@netfilter.org>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Florian Westphal <fw@strlen.de>,
  "David S . Miller" <davem@davemloft.net>,
  Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
  Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
  Jakub Kicinski <kuba@kernel.org>
-Date: Wed, 19 Feb 2020 15:35:46 +0530
-Message-Id: <20200219100545.27397-1-frextrite@gmail.com>
+Date: Wed, 19 Feb 2020 15:46:27 +0530
+Message-Id: <20200219101626.31943-1-frextrite@gmail.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Cc: "Paul E . McKenney" <paulmck@kernel.org>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- Joel Fernandes <joel@joelfernandes.org>,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, coreteam@netfilter.org,
+ netfilter-devel@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] tcp: Pass lockdep expression to RCU
-	lists
+Subject: [Linux-kernel-mentees] [PATCH] netfilter: ipt_CLUSTERIP: Pass
+	lockdep expression to RCU lists
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,52 +121,42 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-tcp_cong_list is traversed using list_for_each_entry_rcu
+cn->configs is traversed using list_for_each_entry_rcu
 outside an RCU read-side critical section but under the protection
-of tcp_cong_list_lock.
+of cn->lock.
 
 Hence, add corresponding lockdep expression to silence false-positive
 warnings, and harden RCU lists.
 
 Signed-off-by: Amol Grover <frextrite@gmail.com>
 ---
- net/ipv4/tcp_cong.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ net/ipv4/netfilter/ipt_CLUSTERIP.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/net/ipv4/tcp_cong.c b/net/ipv4/tcp_cong.c
-index 3737ec096650..8d4446ed309e 100644
---- a/net/ipv4/tcp_cong.c
-+++ b/net/ipv4/tcp_cong.c
-@@ -25,7 +25,8 @@ static struct tcp_congestion_ops *tcp_ca_find(const char *name)
- {
- 	struct tcp_congestion_ops *e;
+diff --git a/net/ipv4/netfilter/ipt_CLUSTERIP.c b/net/ipv4/netfilter/ipt_CLUSTERIP.c
+index 6bdb1ab8af61..df856ff835b7 100644
+--- a/net/ipv4/netfilter/ipt_CLUSTERIP.c
++++ b/net/ipv4/netfilter/ipt_CLUSTERIP.c
+@@ -139,7 +139,8 @@ __clusterip_config_find(struct net *net, __be32 clusterip)
+ 	struct clusterip_config *c;
+ 	struct clusterip_net *cn = clusterip_pernet(net);
  
--	list_for_each_entry_rcu(e, &tcp_cong_list, list) {
-+	list_for_each_entry_rcu(e, &tcp_cong_list, list,
-+				lockdep_is_held(&tcp_cong_list_lock)) {
- 		if (strcmp(e->name, name) == 0)
- 			return e;
+-	list_for_each_entry_rcu(c, &cn->configs, list) {
++	list_for_each_entry_rcu(c, &cn->configs, list,
++				lockdep_is_held(&cn->lock)) {
+ 		if (c->clusterip == clusterip)
+ 			return c;
  	}
-@@ -55,7 +56,8 @@ struct tcp_congestion_ops *tcp_ca_find_key(u32 key)
- {
- 	struct tcp_congestion_ops *e;
+@@ -194,7 +195,8 @@ clusterip_netdev_event(struct notifier_block *this, unsigned long event,
+ 	struct clusterip_config *c;
  
--	list_for_each_entry_rcu(e, &tcp_cong_list, list) {
-+	list_for_each_entry_rcu(e, &tcp_cong_list, list,
-+				lockdep_is_held(&tcp_cong_list_lock)) {
- 		if (e->key == key)
- 			return e;
- 	}
-@@ -317,7 +319,8 @@ int tcp_set_allowed_congestion_control(char *val)
- 	}
- 
- 	/* pass 2 clear old values */
--	list_for_each_entry_rcu(ca, &tcp_cong_list, list)
-+	list_for_each_entry_rcu(ca, &tcp_cong_list, list,
-+				lockdep_is_held(&tcp_cong_list_lock))
- 		ca->flags &= ~TCP_CONG_NON_RESTRICTED;
- 
- 	/* pass 3 mark as allowed */
+ 	spin_lock_bh(&cn->lock);
+-	list_for_each_entry_rcu(c, &cn->configs, list) {
++	list_for_each_entry_rcu(c, &cn->configs, list,
++				lockdep_is_held(&cn->lock)) {
+ 		switch (event) {
+ 		case NETDEV_REGISTER:
+ 			if (!strcmp(dev->name, c->ifname)) {
 -- 
 2.24.1
 
