@@ -6,70 +6,71 @@ X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C97BC169F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Feb 2020 18:56:06 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C9AFC34056
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Feb 2020 19:14:32 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1B9622064C
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Feb 2020 18:56:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B9622064C
+	by mail.kernel.org (Postfix) with ESMTPS id 5E6CD208C4
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Feb 2020 19:14:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5E6CD208C4
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=davemloft.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D986B20355;
-	Wed, 19 Feb 2020 18:56:05 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 363C283F35;
+	Wed, 19 Feb 2020 19:14:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id U2E8r1pr2-ow; Wed, 19 Feb 2020 19:14:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 82093843C8;
+	Wed, 19 Feb 2020 19:14:29 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 60406C1D8A;
+	Wed, 19 Feb 2020 19:14:29 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 66675C1D81
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 19 Feb 2020 19:14:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 53E8F20656
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 19 Feb 2020 19:14:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jPk+wABumOVO; Wed, 19 Feb 2020 18:56:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 779D52000E;
-	Wed, 19 Feb 2020 18:56:04 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FA57C1D80;
-	Wed, 19 Feb 2020 18:56:04 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CF79DC013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 18:56:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BC1848695F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 18:56:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CD79Aaht5w6h
+ with ESMTP id 7UC6PJS7F0wN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 18:56:01 +0000 (UTC)
+ Wed, 19 Feb 2020 19:14:26 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from shards.monkeyblade.net (shards.monkeyblade.net [23.128.96.9])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3BDE686974
+ by silver.osuosl.org (Postfix) with ESMTPS id C5AA020555
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Feb 2020 18:56:01 +0000 (UTC)
+ Wed, 19 Feb 2020 19:14:26 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
  (using TLSv1 with cipher AES256-SHA (256/256 bits))
  (Client did not present a certificate)
  (Authenticated sender: davem-davemloft)
- by shards.monkeyblade.net (Postfix) with ESMTPSA id 5FE7A15ADF43E;
- Wed, 19 Feb 2020 10:55:59 -0800 (PST)
-Date: Wed, 19 Feb 2020 10:55:58 -0800 (PST)
-Message-Id: <20200219.105558.92909916426467093.davem@davemloft.net>
-To: frextrite@gmail.com
+ by shards.monkeyblade.net (Postfix) with ESMTPSA id D053A15ADF498;
+ Wed, 19 Feb 2020 11:14:25 -0800 (PST)
+Date: Wed, 19 Feb 2020 11:14:25 -0800 (PST)
+Message-Id: <20200219.111425.339826041230667879.davem@davemloft.net>
+To: madhuparnabhowmik10@gmail.com
 From: David Miller <davem@davemloft.net>
-In-Reply-To: <20200219100010.23264-1-frextrite@gmail.com>
-References: <20200219100010.23264-1-frextrite@gmail.com>
+In-Reply-To: <20200219151746.1050-1-madhuparnabhowmik10@gmail.com>
+References: <20200219151746.1050-1-madhuparnabhowmik10@gmail.com>
 X-Mailer: Mew version 6.8 on Emacs 26.1
 Mime-Version: 1.0
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12
  (shards.monkeyblade.net [149.20.54.216]);
- Wed, 19 Feb 2020 10:55:59 -0800 (PST)
-Cc: paulmck@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- madhuparnabhowmik10@gmail.com, joel@joelfernandes.org, kuba@kernel.org,
+ Wed, 19 Feb 2020 11:14:26 -0800 (PST)
+Cc: paulmck@kernel.org, nikolay@cumulusnetworks.com, netdev@vger.kernel.org,
+ roopa@cumulusnetworks.com, bridge@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, joel@joelfernandes.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH RESEND] net: hsr: Pass lockdep
-	expression to RCU lists
+Subject: Re: [Linux-kernel-mentees] [PATCH] bridge: br_stp: Use built-in RCU
+	list checking
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,22 +88,20 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Amol Grover <frextrite@gmail.com>
-Date: Wed, 19 Feb 2020 15:30:11 +0530
+From: madhuparnabhowmik10@gmail.com
+Date: Wed, 19 Feb 2020 20:47:46 +0530
 
-> node_db is traversed using list_for_each_entry_rcu
-> outside an RCU read-side critical section but under the protection
-> of hsr->list_lock.
+> From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 > 
-> Hence, add corresponding lockdep expression to silence false-positive
-> warnings, and harden RCU lists.
+> list_for_each_entry_rcu() has built-in RCU and lock checking.
 > 
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
-> ---
-> Resend:
-> - Remove failed delivery recipients
+> Pass cond argument to list_for_each_entry_rcu() to silence
+> false lockdep warning when CONFIG_PROVE_RCU_LIST is enabled
+> by default.
+> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 
-Applied.
+Applied, thank you.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
