@@ -8,100 +8,100 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AADBAC35666
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 16:58:43 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FCEEC35672
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 17:03:59 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 73653208C3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 16:58:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6A7B120702
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 17:03:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jv5v78Gk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 73653208C3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJmGn2jA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A7B120702
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4B00585618;
-	Sat, 22 Feb 2020 16:58:43 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2v20KcK4yuvO; Sat, 22 Feb 2020 16:58:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E76C7851C2;
-	Sat, 22 Feb 2020 16:58:42 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6630C1D81;
-	Sat, 22 Feb 2020 16:58:42 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 70A31C013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 16:58:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6D3108685D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 16:58:41 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3238C86246;
+	Sat, 22 Feb 2020 17:03:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PWcovgkoVYTL; Sat, 22 Feb 2020 17:03:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id A2D528364D;
+	Sat, 22 Feb 2020 17:03:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C7FDC1D81;
+	Sat, 22 Feb 2020 17:03:58 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A2FE6C013E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Feb 2020 17:03:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9C6818561E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Feb 2020 17:03:56 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tOgdSDnW53mG
+ with ESMTP id mdVNgaW2Nxmx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 16:58:40 +0000 (UTC)
+ Sat, 22 Feb 2020 17:03:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D049F867F0
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1B7F28560E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 16:58:40 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id j9so2972185pfa.8
+ Sat, 22 Feb 2020 17:03:56 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id b9so2645092pgk.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 08:58:40 -0800 (PST)
+ Sat, 22 Feb 2020 09:03:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=z3KO4eN5jhFVoFYevJd1WekBeBDLgNl7tb0PRqx3KTw=;
- b=jv5v78GkeLtIpANUBMkMOUQSQsYzG31CXCzESaei3K/C5a0XeuvYwK0FXTxO/sA4ZV
- VFQoadLEu3xYGM+OE8KgOekct8BIyERsI9SlbeLFD2Yfbs0mehB/xSeSnUvuGvOVZ4Dz
- X1tjgXdQIQlzibmkqGYiAEFsm6qV5EnNWLaCdP4HTS+wErYlJ2acBfilGZFtzSEgFOG1
- BXLU1q/64Rw+2oR5XgAiqBq//GmLEnEa8WLJu0QXO/i+afTosVeb3kdKxWQ2awxIrEFp
- D/z2+nUi3N7vxloYtneEgEBNpqvK/fapbLymX74dhA5t7OJHL9Z831TnHc0Mdh7oSMte
- o1Qg==
+ bh=XO/sXJfBbNEYg2i8BDzFxjIgOlJB//vgC4CZTQZkcBA=;
+ b=PJmGn2jApbOjslqr8jSDJI6wgkUPvtJw+T1CKTeT7HgtsLJPEzjkhoAJt0d5kMaAg1
+ 1wUpg4ZzCivc9q/Ma0ZnjuzyhAiYmmC83H1XBgFzQ8IlM25FN0pqjduiRNAijPxfVBKO
+ ZdwNLf++C3filmTuiH4b5cPn3Tb0PH7nKLMh8dqGwvrHpTY7tR3iUEOqZLIPJkhN5onm
+ GPlV8ugIs/Hp3NfC0ZcUTkmNAedBOgXOg/+UD+7j/jYwEo6Dl0ZLTIFoxNGsgM1h0rI8
+ OOdJBAYJaUYXVINQYY+xhJHOKvliSwRdQEshUKSZ2azB2KzwUNjPR3byMUa9afzAQztK
+ 0klg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=z3KO4eN5jhFVoFYevJd1WekBeBDLgNl7tb0PRqx3KTw=;
- b=qVK2eN0BqhwvjeNSrbGfWLYwOP5ETGXVif6CjKhV2pLYylZPJwIenZAIz4CrFl3c4B
- BDAc8youAFLNWiOM1h+aYh7E3lqTTF7Q8ofMdmXTjgtPEKlonq8FWHJAC4cvzHqRukft
- S3grFikAMrGKJRRsjpfstkN2sCgMFRHSZl7LUc6Tb4jLskOhyxq63vfSp+VQ8p36mTzM
- GPcZLq26k1LB2fbvr5JkyO8W6L31kT+CEKcbWzFjfeDAYrKSucbhSmgzpgEiEnIzuRzJ
- biwAddsq1uPTQhqLbKTlZYj0UN6PTgrHNGwRFFH9hf54M7xbBDOZkyF7LClMhy98a9Rz
- my4Q==
-X-Gm-Message-State: APjAAAV5KMr7PNPQFPct57J0En1cI/CFYbNkcWVguUZOl3rOy0uTpJHY
- I2WUkESuCqe8gS5En7fV7GQ=
-X-Google-Smtp-Source: APXvYqzU/oKjoAjO1ie8MPYCGZVdDNYNMPm7PBDPQCslrrf4LLM3ID6101gQUXy0TcG/QYh3wowZNQ==
-X-Received: by 2002:a62:cfc4:: with SMTP id
- b187mr43233929pfg.155.1582390720405; 
- Sat, 22 Feb 2020 08:58:40 -0800 (PST)
+ bh=XO/sXJfBbNEYg2i8BDzFxjIgOlJB//vgC4CZTQZkcBA=;
+ b=W/DOr/J8Ad4l7vNCHc1xXn0+zX8ZymuZHF2PKj9k2q4CP1GTLQdlGgrYfXvWnI8UHL
+ sv/HBzjU/MS4c1cqYPAJXykljMjiO3NNZUHZvkyv/ZaVp6QPW2hB4xLNdyCoGtQR/0XB
+ KhPD0hV8kPM5MzFJDOf2Pua0iXZXdc8G48TBE6NQpzmQ2KkGtsTV0PYng28PFTCI+DQP
+ 7EdsCCzdPN7dtdo8B04PdKCdfY9yowTdJE5vp8vjN3pzAeL4k7aknYukvhuIMs1VGxEE
+ G3Adv+V+WLZAoDR7V0YXkArTHi7EuAQBZh6UHA7wSO9iMGszfQX10KpY5nwLqrzmaa4p
+ 5Bbw==
+X-Gm-Message-State: APjAAAW3d+jmqzJlibdnKsmrImUrH6yT9iHVY8eOUJsPAnV1BnlcC2Sj
+ FvBJ9qQWbCQS47tV5VfR32c=
+X-Google-Smtp-Source: APXvYqxOsT7MWSDKmWYMFdKJpmiJl9IDPRCtUX0zHZya0dBoV+yHgENdK086iULD2/pZnYfgXJinww==
+X-Received: by 2002:a63:5d47:: with SMTP id o7mr10454009pgm.327.1582391035691; 
+ Sat, 22 Feb 2020 09:03:55 -0800 (PST)
 Received: from localhost.localdomain ([103.87.57.201])
- by smtp.googlemail.com with ESMTPSA id y9sm6615835pjj.17.2020.02.22.08.58.37
+ by smtp.googlemail.com with ESMTPSA id z64sm7286220pfz.23.2020.02.22.09.03.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Feb 2020 08:58:40 -0800 (PST)
+ Sat, 22 Feb 2020 09:03:55 -0800 (PST)
 From: Amol Grover <frextrite@gmail.com>
-To: "David S . Miller" <davem@davemloft.net>,
- Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- Jakub Kicinski <kuba@kernel.org>
-Date: Sat, 22 Feb 2020 22:27:27 +0530
-Message-Id: <20200222165726.9330-1-frextrite@gmail.com>
+To: Allison Randal <allison@lohutok.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Qian Cai <cai@lca.pw>, Deepa Dinamani <deepa.kernel@gmail.com>
+Date: Sat, 22 Feb 2020 22:33:33 +0530
+Message-Id: <20200222170333.10570-1-frextrite@gmail.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Cc: "Paul E . McKenney" <paulmck@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org,
+Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
  Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
  Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] ip6mr: Fix RCU list debugging warning
+Subject: [Linux-kernel-mentees] [PATCH] iommu: dmar: Fix RCU list debugging
+	warnings
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,43 +119,55 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-ip6mr_for_each_table() macro uses list_for_each_entry_rcu()
-for traversing outside an RCU read side critical section
-but under the protection of rtnl_mutex. Hence add the
-corresponding lockdep expression to silence the following
-false-positive warnings:
+dmar_drhd_units is traversed using list_for_each_entry_rcu()
+outside of an RCU read side critical section but under the
+protection of dmar_global_lock. Hence add corresponding lockdep
+expression to silence the following false-positive warnings:
 
-[    4.319479] =============================
-[    4.319480] WARNING: suspicious RCU usage
-[    4.319482] 5.5.4-stable #17 Tainted: G            E
-[    4.319483] -----------------------------
-[    4.319485] net/ipv6/ip6mr.c:1243 RCU-list traversed in non-reader section!!
+[    1.603975] =============================
+[    1.603976] WARNING: suspicious RCU usage
+[    1.603977] 5.5.4-stable #17 Not tainted
+[    1.603978] -----------------------------
+[    1.603980] drivers/iommu/intel-iommu.c:4769 RCU-list traversed in non-reader section!!
 
-[    4.456831] =============================
-[    4.456832] WARNING: suspicious RCU usage
-[    4.456834] 5.5.4-stable #17 Tainted: G            E
-[    4.456835] -----------------------------
-[    4.456837] net/ipv6/ip6mr.c:1582 RCU-list traversed in non-reader section!!
+[    1.603869] =============================
+[    1.603870] WARNING: suspicious RCU usage
+[    1.603872] 5.5.4-stable #17 Not tainted
+[    1.603874] -----------------------------
+[    1.603875] drivers/iommu/dmar.c:293 RCU-list traversed in non-reader section!!
 
+Tested-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 Signed-off-by: Amol Grover <frextrite@gmail.com>
 ---
- net/ipv6/ip6mr.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/linux/dmar.h | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/net/ipv6/ip6mr.c b/net/ipv6/ip6mr.c
-index bfa49ff70531..d6483926f449 100644
---- a/net/ipv6/ip6mr.c
-+++ b/net/ipv6/ip6mr.c
-@@ -97,7 +97,8 @@ static void ipmr_expire_process(struct timer_list *t);
+diff --git a/include/linux/dmar.h b/include/linux/dmar.h
+index f64ca27dc210..712be8bc6a7c 100644
+--- a/include/linux/dmar.h
++++ b/include/linux/dmar.h
+@@ -69,8 +69,9 @@ struct dmar_pci_notify_info {
+ extern struct rw_semaphore dmar_global_lock;
+ extern struct list_head dmar_drhd_units;
  
- #ifdef CONFIG_IPV6_MROUTE_MULTIPLE_TABLES
- #define ip6mr_for_each_table(mrt, net) \
--	list_for_each_entry_rcu(mrt, &net->ipv6.mr6_tables, list)
-+	list_for_each_entry_rcu(mrt, &net->ipv6.mr6_tables, list, \
-+				lockdep_rtnl_is_held())
+-#define for_each_drhd_unit(drhd) \
+-	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)
++#define for_each_drhd_unit(drhd)					\
++	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list,		\
++				dmar_rcu_check())
  
- static struct mr_table *ip6mr_mr_table_iter(struct net *net,
- 					    struct mr_table *mrt)
+ #define for_each_active_drhd_unit(drhd)					\
+ 	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)		\
+@@ -81,7 +82,8 @@ extern struct list_head dmar_drhd_units;
+ 		if (i=drhd->iommu, drhd->ignored) {} else
+ 
+ #define for_each_iommu(i, drhd)						\
+-	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)		\
++	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list,		\
++				dmar_rcu_check())			\
+ 		if (i=drhd->iommu, 0) {} else 
+ 
+ static inline bool dmar_rcu_check(void)
 -- 
 2.24.1
 
