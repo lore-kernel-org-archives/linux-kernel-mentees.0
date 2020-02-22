@@ -2,74 +2,71 @@ Return-Path: <SRS0=qNNM=4K=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDDD4C35671
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 12:18:20 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21129C35671
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 12:53:49 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B9B52206EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 12:18:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9B52206EF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ubuntu.com
+	by mail.kernel.org (Postfix) with ESMTPS id DD1C8206EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 12:53:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD1C8206EF
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=sipsolutions.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 24C7C2010D;
-	Sat, 22 Feb 2020 12:18:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A51AA8767B;
+	Sat, 22 Feb 2020 12:53:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9VgYV6kPoqnf; Sat, 22 Feb 2020 12:53:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 29567875B3;
+	Sat, 22 Feb 2020 12:53:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 127D9C1D81;
+	Sat, 22 Feb 2020 12:53:47 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 18C5EC013E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Feb 2020 12:53:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id EE2B320382
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Feb 2020 12:53:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Av2bNZcoPjq2; Sat, 22 Feb 2020 12:18:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A0ECE20396;
-	Sat, 22 Feb 2020 12:18:17 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A786C1D81;
-	Sat, 22 Feb 2020 12:18:17 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BC6ADC013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 12:18:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id AAE768639B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 12:18:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9dy-HpNqxcrG
+ with ESMTP id gSJbXcNj3TOu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 12:18:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 0D4618362E
+ Sat, 22 Feb 2020 12:53:45 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from sipsolutions.net (s3.sipsolutions.net [144.76.43.62])
+ by silver.osuosl.org (Postfix) with ESMTPS id 2418B20363
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 12:18:13 +0000 (UTC)
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236]
- helo=wittgenstein) by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <christian.brauner@ubuntu.com>)
- id 1j5TjN-0004Bh-RQ; Sat, 22 Feb 2020 12:18:01 +0000
-Date: Sat, 22 Feb 2020 13:18:01 +0100
-From: Christian Brauner <christian.brauner@ubuntu.com>
-To: Colin King <colin.king@canonical.com>
-Message-ID: <20200222121801.cu4dfnk4z5xd5uc2@wittgenstein>
-References: <20200222001513.43099-1-colin.king@canonical.com>
+ Sat, 22 Feb 2020 12:53:45 +0000 (UTC)
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.93) (envelope-from <johannes@sipsolutions.net>)
+ id 1j5UHe-000fEg-Jf; Sat, 22 Feb 2020 13:53:26 +0100
+Message-ID: <f1913847671d0b7e19aaa9bef1e1eb89febfa942.camel@sipsolutions.net>
+From: Johannes Berg <johannes@sipsolutions.net>
+To: madhuparnabhowmik10@gmail.com, davem@davemloft.net
+Date: Sat, 22 Feb 2020 13:53:25 +0100
+In-Reply-To: <20200222101831.8001-1-madhuparnabhowmik10@gmail.com>
+ (sfid-20200222_112140_052707_ACC75C29)
+References: <20200222101831.8001-1-madhuparnabhowmik10@gmail.com>
+ (sfid-20200222_112140_052707_ACC75C29)
+User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200222001513.43099-1-colin.king@canonical.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Peter Zijlstra <peterz@infradead.org>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>,
- Tejun Heo <tj@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-kernel-mentees@lists.linuxfoundation.org, Ingo Molnar <mingo@kernel.org>,
- Christian Brauner <christian@brauner.io>
-Subject: Re: [Linux-kernel-mentees] [PATCH][next] clone3: fix an unsigned
- args.cgroup comparison to less than zero
+Cc: paulmck@kernel.org, netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] net: mac80211: rx.c: Use
+	built-in RCU list checking
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,73 +84,43 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Feb 22, 2020 at 12:15:13AM +0000, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On Sat, 2020-02-22 at 15:48 +0530, madhuparnabhowmik10@gmail.com wrote:
+> From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 > 
-> The less than zero comparison of args.cgroup is aways false because
-> args.cgroup is a u64 and can never be less than zero.  I believe the
-> correct check is to cast args.cgroup to a s64 first to ensure an
-> invalid value is not copied to kargs->cgroup.
+> list_for_each_entry_rcu() has built-in RCU and lock checking.
 > 
-> Addresses-Coverity: ("Unsigned compared against 0")
-> Fixes: ef2c41cf38a7 ("clone3: allow spawning processes into cgroups")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> Pass cond argument to list_for_each_entry_rcu() to silence
+> false lockdep warning when CONFIG_PROVE_RCU_LIST is enabled
+> by default.
 
-Thanks, Colin.
-Dan has reported this issue a few days prior on the janitors list so he
-likely should get a 
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-too. I've been sending Dan's bug report to the kernel-mentee list too in
-case someone wanted to fix it there. So I'm Ccing them again here so
-they know someone's working on this!
+Umm. What warning?
 
-> ---
->  kernel/fork.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 67a5d691ffa8..98513a122dd1 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -2635,7 +2635,7 @@ noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
->  		     !valid_signal(args.exit_signal)))
->  		return -EINVAL;
+> +++ b/net/mac80211/rx.c
+> @@ -3547,7 +3547,8 @@ static void ieee80211_rx_cooked_monitor(struct ieee80211_rx_data *rx,
+>  	skb->pkt_type = PACKET_OTHERHOST;
+>  	skb->protocol = htons(ETH_P_802_2);
 >  
-> -	if ((args.flags & CLONE_INTO_CGROUP) && args.cgroup < 0)
-> +	if ((args.flags & CLONE_INTO_CGROUP) && (s64)args.cgroup < 0)
+> -	list_for_each_entry_rcu(sdata, &local->interfaces, list) {
+> +	list_for_each_entry_rcu(sdata, &local->interfaces, list,
+> +				lockdep_is_held(&rx->local->rx_path_lock)) {
+>  		if (!ieee80211_sdata_running(sdata))
+>  			continue;
 
-I think my code here needs a little more fixing. I'm doing
+This is not related at all.
+ 
+> @@ -4114,7 +4115,8 @@ void __ieee80211_check_fast_rx_iface(struct ieee80211_sub_if_data *sdata)
+>  
+>  	lockdep_assert_held(&local->sta_mtx);
+>  
+> -	list_for_each_entry_rcu(sta, &local->sta_list, list) {
+> +	list_for_each_entry_rcu(sta, &local->sta_list, list,
+> +				lockdep_is_held(&local->sta_mtx)) {
 
-	if ((args.flags & CLONE_INTO_CGROUP) && args.cgroup < 0)
-		return -EINVAL;
+And this isn't even a real RCU iteration, since we _must_ hold the mutex
+here.
 
-and then later
+johannes
 
-	*kargs = (struct kernel_clone_args){
-		.cgroup		= args.cgroup,
-	};
-
-blindly casting from a u64 in struct clone_args to an int in struct
-kernel_clone_args. I think we want to check that we're within a sane
-range. Maybe something like:
-
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 2diff --git a/kernel/fork.c b/kernel/fork.c
-index 2853e258fe1f..dca4dde3b5b2 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2618,7 +2618,8 @@ noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
-                     !valid_signal(args.exit_signal)))
-                return -EINVAL;
-
--       if ((args.flags & CLONE_INTO_CGROUP) && args.cgroup < 0)
-+       if ((args.flags & CLONE_INTO_CGROUP) &&
-+           (args.cgroup > INT_MAX || (s64)args.cgroup < 0))
-                return -EINVAL;
-
-        *kargs = (struct kernel_clone_args){
-
-Christian
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
