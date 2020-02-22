@@ -8,102 +8,94 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB6D8C35673
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 06:42:15 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E1BC35672
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 06:53:11 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BD6FE2071E
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 06:42:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 231A420707
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Feb 2020 06:53:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EjxVA3Br"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BD6FE2071E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UWf3o/nE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 231A420707
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9CDD6864CF;
-	Sat, 22 Feb 2020 06:42:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EE01F84543;
+	Sat, 22 Feb 2020 06:53:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Jpqz0O+ZStOh; Sat, 22 Feb 2020 06:53:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 69A7F84485;
+	Sat, 22 Feb 2020 06:53:10 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 515F0C1D81;
+	Sat, 22 Feb 2020 06:53:10 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 86137C013E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Feb 2020 06:53:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 74F0A87FD2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Feb 2020 06:53:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wZ68MRNzJ5ju; Sat, 22 Feb 2020 06:42:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4355A87D3D;
-	Sat, 22 Feb 2020 06:42:15 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 31BBBC1D81;
-	Sat, 22 Feb 2020 06:42:15 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 05A00C013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 06:42:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0289C85FA5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 06:42:14 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dvN8mQx4GAh1
+ with ESMTP id m-xtETmWrRxN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 06:42:13 +0000 (UTC)
+ Sat, 22 Feb 2020 06:53:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
  [209.85.210.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7250885FA1
+ by hemlock.osuosl.org (Postfix) with ESMTPS id F149D87FC9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Feb 2020 06:42:13 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id k29so2432827pfp.13
+ Sat, 22 Feb 2020 06:53:08 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id 4so2455290pfz.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Feb 2020 22:42:13 -0800 (PST)
+ Fri, 21 Feb 2020 22:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9hYMlHxQU9EhnNg/RTgwCsCYqoi4kN3olIEeJ3OkvPk=;
- b=EjxVA3Br6FjEjanPqEhDEoiXcouvU+bGrOv3uTHp9VrVsy3AXGgMpJunV/dlGd1qUm
- h3uIb/c+THfk4d8i8eRh2Gmc6RKBk0FeWU0DeLHdnsCMJijfu9dXn3U/Gbw9qIpykRGt
- gagL4hr4DlgdCOOYPod1UshTeKzN51JTcTv3f74iLTF3ML8aBN5tFTu6vgRzkeuugQ8+
- v7r1tvbe5PFXIYjKy1auosHppC+l4qMmg+TqQGywTUnIQ9D24onvbs6RVVN+8cyCqdJZ
- 7gcoN0kyc3bs6KMHZ694GcP6l1jBOCqrZomZdNBuvqhCS9wlN++JrQOVIs3Jl97i9n2/
- 1y2w==
+ h=from:to:cc:subject:date:message-id;
+ bh=O8dGjw47rBMTaYq9ZdIJC+Ct6bZIAQqAuCZjvsrgZq8=;
+ b=UWf3o/nEx+XZVQxA8TbPakPz+HWWS1vWyxffSLKKOmh+vtB76WPi9666TVY80DE/54
+ yg78oRlOJ2rdlUSabRRdLed8VYF+rMDwp5eKKRnbaaXgAgu3f7/Chf8CK/lukAacHOF/
+ P6AQsNmXhOlxvgTgdWidnw0QYm/ZpAj8NLRccYR+wWCODSJPt+HRtt88Z+3YNwSmf0mc
+ FvgILHFFOr+fHt13B30aqvt4SFTrhr3udX6vMgo75SeWR3aXipNHfm0W6r7rUi+izf+z
+ y3Piw82miHXfGGz9IWG9hzgrsuBOswaCUIDloVHoPfjDMD8+b5CRhlP//O6kGC3nGYMl
+ 6rAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9hYMlHxQU9EhnNg/RTgwCsCYqoi4kN3olIEeJ3OkvPk=;
- b=jwRHYGojXAkOo/6Xus+9IjpVbKkzX2oyEMXV+RwWbXgD2x2xswsOs6PMtfsU3lc0XW
- nydHvYoLSV6s/gcVb6WxA9mBXMOnWEPb/wqiKEGN4NlQgcV9LIABbu+04PD34DURIxYW
- S565oN6Kq2t372+eSW5MN1pNgMXECU1V99wnffPJhj3OXCWpPkFb8L3oaAHh+ZoAjC31
- bK3J0DX/jJej6AQ7nns4RgWNAN4QHF12Ty64quZdFCVnnd8cYbtSr2XYR85cWmH4MiCR
- Kwauh9mkpeqEJdeAcy2lHbMRx5rhdKLppreHAHPMTRAXZeaOKuwkZbofgrBqMcLiOq+C
- qEow==
-X-Gm-Message-State: APjAAAUTON6GyXARQs7yrxg/O1O4UTkzy6sxls4VcVWlprZTb32HqmDM
- CEMrb97768Q4SeBj4DLWy1I=
-X-Google-Smtp-Source: APXvYqwdWk7osSGXdnZrrkUWAfAmanU6pj0j8QeL8rczy5YSTPsqUDFk5CjIMGs1shp3kNuLzO94Qg==
-X-Received: by 2002:a65:645a:: with SMTP id s26mr40682184pgv.135.1582353733058; 
- Fri, 21 Feb 2020 22:42:13 -0800 (PST)
-Received: from localhost.localdomain ([103.87.57.201])
- by smtp.googlemail.com with ESMTPSA id k5sm4455071pju.29.2020.02.21.22.42.09
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=O8dGjw47rBMTaYq9ZdIJC+Ct6bZIAQqAuCZjvsrgZq8=;
+ b=PH+MfdLbOHrVo+w+Pc/JgQgvO/WIYzt7vSZHYXZ+/L6+09l3u6VrMIxT0S0z1eajQ8
+ 7kQDccLmSaoCGifD8CDxOM0+MhGm9Mr+NjbqFeYjUElSCiXgvN5y9VhnBOi+sbvNsz+s
+ Xz5RU9kamtGpZ8jHF5f3RZtZe9gVlMeid1wjIO2M/cs64AxRKAXnm1LGSy/hqSqGpz5y
+ JI4FdhE+G8Wkp3qSUuwnPPKolhT007esbSbuWw7z3HbSok5GjzPvlFJJIFssiixaFRgJ
+ 7uHldID4rM76rAFETZcnY0kOcG5DIbkCoWOIVhRFwnMgQYv4lWK35OuSrF44wf7d3diS
+ YU3w==
+X-Gm-Message-State: APjAAAXAV/6oNdRD3iZDvCotbrBywJhmAQGVZIojkzOYeTgZd1jF2xuh
+ 8qK6WO8kCtauJh9VPhe9hA==
+X-Google-Smtp-Source: APXvYqxCu6MyWMp3NdwLGo82GJR7m2KUSumjYRTil3dfhsgIWR7CGlVVNIztSQdZsszDa4hWCju4GA==
+X-Received: by 2002:a63:5e07:: with SMTP id s7mr41011057pgb.261.1582354388478; 
+ Fri, 21 Feb 2020 22:53:08 -0800 (PST)
+Received: from madhuparna-HP-Notebook.nitk.ac.in
+ ([2402:3a80:536:efd4:3cf2:2ab1:f2dc:185c])
+ by smtp.gmail.com with ESMTPSA id d14sm4708631pjz.12.2020.02.21.22.53.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 22:42:12 -0800 (PST)
-From: Amol Grover <frextrite@gmail.com>
-To: "David S . Miller" <davem@davemloft.net>,
- Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- Jakub Kicinski <kuba@kernel.org>
-Date: Sat, 22 Feb 2020 12:08:36 +0530
-Message-Id: <20200222063835.14328-2-frextrite@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200222063835.14328-1-frextrite@gmail.com>
-References: <20200222063835.14328-1-frextrite@gmail.com>
-MIME-Version: 1.0
-Cc: "Paul E . McKenney" <paulmck@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- Joel Fernandes <joel@joelfernandes.org>,
+ Fri, 21 Feb 2020 22:53:07 -0800 (PST)
+From: madhuparnabhowmik10@gmail.com
+To: jiri@mellanox.com,
+	davem@davemloft.net
+Date: Sat, 22 Feb 2020 12:22:34 +0530
+Message-Id: <20200222065234.8829-1-madhuparnabhowmik10@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: paulmck@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, joel@joelfernandes.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 2/2] ipmr: Add lockdep expression to
-	ipmr_for_each_table macro
+Subject: [Linux-kernel-mentees] [PATCH] net: core: devlink.c: Hold
+	devlink->lock from the beginning of devlink_dpipe_table_register()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,49 +107,67 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-ipmr_for_each_table() uses list_for_each_entry_rcu() for
-traversing outside of an RCU read-side critical section but
-under the protection of pernet_ops_rwsem. Hence add the
-corresponding lockdep expression to silence the following
-false-positive warning at boot:
+From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 
-[    0.645292] =============================
-[    0.645294] WARNING: suspicious RCU usage
-[    0.645296] 5.5.4-stable #17 Not tainted
-[    0.645297] -----------------------------
-[    0.645299] net/ipv4/ipmr.c:136 RCU-list traversed in non-reader section!!
+devlink_dpipe_table_find() should be called under either
+rcu_read_lock() or devlink->lock. devlink_dpipe_table_register()
+calls devlink_dpipe_table_find() without holding the lock
+and acquires it later. Therefore hold the devlink->lock
+from the beginning of devlink_dpipe_table_register().
 
-Signed-off-by: Amol Grover <frextrite@gmail.com>
+Suggested-by: Jiri Pirko <jiri@mellanox.com>
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 ---
- net/ipv4/ipmr.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ net/core/devlink.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/net/ipv4/ipmr.c b/net/ipv4/ipmr.c
-index 99c864eb6e34..950ffe9943da 100644
---- a/net/ipv4/ipmr.c
-+++ b/net/ipv4/ipmr.c
-@@ -109,9 +109,10 @@ static void mroute_clean_tables(struct mr_table *mrt, int flags);
- static void ipmr_expire_process(struct timer_list *t);
+diff --git a/net/core/devlink.c b/net/core/devlink.c
+index 3e8c94155d93..ba9dd8cb98c3 100644
+--- a/net/core/devlink.c
++++ b/net/core/devlink.c
+@@ -6840,22 +6840,29 @@ int devlink_dpipe_table_register(struct devlink *devlink,
+ {
+ 	struct devlink_dpipe_table *table;
  
- #ifdef CONFIG_IP_MROUTE_MULTIPLE_TABLES
--#define ipmr_for_each_table(mrt, net) \
--	list_for_each_entry_rcu(mrt, &net->ipv4.mr_tables, list, \
--				lockdep_rtnl_is_held())
-+#define ipmr_for_each_table(mrt, net)					\
-+	list_for_each_entry_rcu(mrt, &net->ipv4.mr_tables, list,	\
-+				lockdep_rtnl_is_held() ||		\
-+				lockdep_is_held(&pernet_ops_rwsem))
+-	if (devlink_dpipe_table_find(&devlink->dpipe_table_list, table_name))
++	mutex_lock(&devlink->lock);
++
++	if (devlink_dpipe_table_find(&devlink->dpipe_table_list, table_name)) {
++		mutex_unlock(&devlink->lock);
+ 		return -EEXIST;
++	}
  
- static struct mr_table *ipmr_mr_table_iter(struct net *net,
- 					   struct mr_table *mrt)
+-	if (WARN_ON(!table_ops->size_get))
++	if (WARN_ON(!table_ops->size_get)) {
++		mutex_unlock(&devlink->lock);
+ 		return -EINVAL;
++	}
+ 
+ 	table = kzalloc(sizeof(*table), GFP_KERNEL);
+-	if (!table)
++	if (!table) {
++		mutex_unlock(&devlink->lock);
+ 		return -ENOMEM;
++	}
+ 
+ 	table->name = table_name;
+ 	table->table_ops = table_ops;
+ 	table->priv = priv;
+ 	table->counter_control_extern = counter_control_extern;
+ 
+-	mutex_lock(&devlink->lock);
+ 	list_add_tail_rcu(&table->list, &devlink->dpipe_table_list);
+ 	mutex_unlock(&devlink->lock);
+ 	return 0;
 -- 
-2.24.1
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
