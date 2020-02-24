@@ -2,103 +2,76 @@ Return-Path: <SRS0=/sBJ=4M=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDF85C3567B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Feb 2020 10:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD2AC35671
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Feb 2020 12:25:22 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 82C252080D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Feb 2020 10:52:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=resnulli-us.20150623.gappssmtp.com header.i=@resnulli-us.20150623.gappssmtp.com header.b="rRWh5ZbI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 82C252080D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+	by mail.kernel.org (Postfix) with ESMTPS id 1A90A2072D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Feb 2020 12:25:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A90A2072D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ubuntu.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7F64E85495;
-	Mon, 24 Feb 2020 10:52:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E666384AE2;
+	Mon, 24 Feb 2020 12:25:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LTCfJDWhCkjA; Mon, 24 Feb 2020 10:52:19 +0000 (UTC)
+	with ESMTP id ls-ujcxpr8L8; Mon, 24 Feb 2020 12:25:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C3AC784AE1;
-	Mon, 24 Feb 2020 10:52:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 96449848ED;
+	Mon, 24 Feb 2020 12:25:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B8E58C18DA;
-	Mon, 24 Feb 2020 10:52:19 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0F8D5C0177
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75DEEC18DA;
+	Mon, 24 Feb 2020 12:25:20 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 33D40C0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Feb 2020 10:52:17 +0000 (UTC)
+ Mon, 24 Feb 2020 12:25:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id F227585191
+ by silver.osuosl.org (Postfix) with ESMTP id 12C6620478
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Feb 2020 10:52:16 +0000 (UTC)
+ Mon, 24 Feb 2020 12:25:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id diNmwYrNCFwq
+ with ESMTP id SdIMjcYoqfAn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Feb 2020 10:52:12 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 46399848A0
+ Mon, 24 Feb 2020 12:25:17 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by silver.osuosl.org (Postfix) with ESMTPS id 7BCCE2046B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Feb 2020 10:52:11 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id a5so8491491wmb.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Feb 2020 02:52:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=resnulli-us.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=+/3oknbjjXh74tXkJ87bK1AQRcBTEShGAS9TRSr6HFc=;
- b=rRWh5ZbInWogei16TJbuZiPxb08LdmfbYKsu5d4uW34t6VXfELPhC3SQaZAb8nhIPo
- Wda/hWbSbM7MxeAD3Zt6HuJx8bFQQjiKkNKkDvG+JWmW7Uvgld7TDHmG5zF0TOL2KgNT
- RHUpAwJZt3Rrxc5MWW7UlWVtHLBdqv3qMC3mAEJ7ddzaaAdX97ry+iiJXwKHGNPFH+aG
- 1+QNifHvI6Bvj8yw6q9EWNAcXOxr2p9fMUzpcgbpJaW1lD51/PglYCiql3QagLVDcAYz
- WkQEALiNuhOOiSkrL8vJONmUL1vKMkP1gO8SqDrDeYgWZnE4PMDa/4xJV+VgDgbUgD4s
- GhJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+/3oknbjjXh74tXkJ87bK1AQRcBTEShGAS9TRSr6HFc=;
- b=sf0p+bJzFpkP0nte3E9FGWgd2pbnTdy1AqxiA+gl+Ra5/jDdFM2oVq9dPpByZP8iil
- gfqftpVdvh3Vyoj+R3c8vEen3c7V7pBnXTIRER2VyVfuCIjnMkFFZ3j72a/BGv3vThES
- dWBRBUB80KwAOdqEBII9z5Wr8UWJJ7xEGt6fKnAkvRtmPF7ckbOvI03aZ/nMpghW9rUm
- BmPUEHbIeLyjCjRIsC/1rxsqTuyX06Wcmd2cjyzCKpZpaHR295p5Z10JpvS5sR2Axfcu
- NLNReMzqh1xqV7n25yIKsSlZCT1hRqfqi8cpkQjeAaiOi7maSITWg5zbqA89nkAEH1Cd
- 9PsQ==
-X-Gm-Message-State: APjAAAVewS/lK6ajixI/p6wtXWykJVPrKtgbV4xqvcanCdMsQBTBIjlu
- QpMb8gwD109HnC1PzRhiNeWKwg==
-X-Google-Smtp-Source: APXvYqxP173/3xNIfZXcna9Yb7nuBIf8//+b+CatKWU3a/Qh6VaE8qWvRUIK35pa/v+MuRKN2M85Vw==
-X-Received: by 2002:a1c:8055:: with SMTP id b82mr21965462wmd.127.1582541530156; 
- Mon, 24 Feb 2020 02:52:10 -0800 (PST)
-Received: from localhost (ip-89-177-130-96.net.upcbroadband.cz.
- [89.177.130.96])
- by smtp.gmail.com with ESMTPSA id z16sm777239wrp.33.2020.02.24.02.52.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 02:52:09 -0800 (PST)
-Date: Mon, 24 Feb 2020 11:52:09 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: madhuparnabhowmik10@gmail.com
-Message-ID: <20200224105209.GB16270@nanopsycho>
-References: <20200224093013.25700-1-madhuparnabhowmik10@gmail.com>
+ Mon, 24 Feb 2020 12:25:17 +0000 (UTC)
+Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236]
+ helo=wittgenstein) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <christian.brauner@ubuntu.com>)
+ id 1j6CnI-0002AG-1u; Mon, 24 Feb 2020 12:25:04 +0000
+Date: Mon, 24 Feb 2020 13:25:03 +0100
+From: Christian Brauner <christian.brauner@ubuntu.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Message-ID: <20200224122503.2m4oc5wgg2oqpjsi@wittgenstein>
+References: <20200222001513.43099-1-colin.king@canonical.com>
+ <20200222121801.cu4dfnk4z5xd5uc2@wittgenstein>
+ <20200224073157.GB3286@kadam>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200224093013.25700-1-madhuparnabhowmik10@gmail.com>
-Cc: paulmck@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- jiri@mellanox.com, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: core: devlink.c: Use
-	built-in RCU list checking
+In-Reply-To: <20200224073157.GB3286@kadam>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Peter Zijlstra <peterz@infradead.org>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+ Colin King <colin.king@canonical.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org, Ingo Molnar <mingo@kernel.org>,
+ Christian Brauner <christian@brauner.io>
+Subject: Re: [Linux-kernel-mentees] [PATCH][next] clone3: fix an unsigned
+ args.cgroup comparison to less than zero
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,105 +89,30 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Mon, Feb 24, 2020 at 10:30:13AM CET, madhuparnabhowmik10@gmail.com wrote:
->From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
->
->list_for_each_entry_rcu() has built-in RCU and lock checking.
->
->Pass cond argument to list_for_each_entry_rcu() to silence
->false lockdep warning when CONFIG_PROVE_RCU_LIST is enabled.
->
->The devlink->lock is held when devlink_dpipe_table_find()
->is called in non RCU read side section. Therefore, pass struct devlink
->to devlink_dpipe_table_find() for lockdep checking.
->
->Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
->---
-> net/core/devlink.c | 18 +++++++++---------
-> 1 file changed, 9 insertions(+), 9 deletions(-)
->
->diff --git a/net/core/devlink.c b/net/core/devlink.c
->index e82750bdc496..dadf5fa79bb1 100644
->--- a/net/core/devlink.c
->+++ b/net/core/devlink.c
->@@ -2103,11 +2103,11 @@ static int devlink_dpipe_entry_put(struct sk_buff *skb,
+On Mon, Feb 24, 2020 at 10:31:57AM +0300, Dan Carpenter wrote:
+> On Sat, Feb 22, 2020 at 01:18:01PM +0100, Christian Brauner wrote:
+> > On Sat, Feb 22, 2020 at 12:15:13AM +0000, Colin King wrote:
+> > > From: Colin Ian King <colin.king@canonical.com>
+> > diff --git a/kernel/fork.c b/kernel/fork.c
+> > index 2diff --git a/kernel/fork.c b/kernel/fork.c
+> > index 2853e258fe1f..dca4dde3b5b2 100644
+> > --- a/kernel/fork.c
+> > +++ b/kernel/fork.c
+> > @@ -2618,7 +2618,8 @@ noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+> >                      !valid_signal(args.exit_signal)))
+> >                 return -EINVAL;
+> > 
+> > -       if ((args.flags & CLONE_INTO_CGROUP) && args.cgroup < 0)
+> > +       if ((args.flags & CLONE_INTO_CGROUP) &&
+> > +           (args.cgroup > INT_MAX || (s64)args.cgroup < 0))
 > 
-> static struct devlink_dpipe_table *
-> devlink_dpipe_table_find(struct list_head *dpipe_tables,
->-			 const char *table_name)
->+			 const char *table_name, struct devlink *devlink)
-> {
-> 	struct devlink_dpipe_table *table;
->-
->-	list_for_each_entry_rcu(table, dpipe_tables, list) {
->+	list_for_each_entry_rcu(table, dpipe_tables, list,
->+				lockdep_is_held(&devlink->lock)) {
-> 		if (!strcmp(table->name, table_name))
-> 			return table;
-> 	}
->@@ -2226,7 +2226,7 @@ static int devlink_nl_cmd_dpipe_entries_get(struct sk_buff *skb,
-> 
-> 	table_name = nla_data(info->attrs[DEVLINK_ATTR_DPIPE_TABLE_NAME]);
-> 	table = devlink_dpipe_table_find(&devlink->dpipe_table_list,
->-					 table_name);
->+					 table_name, devlink);
-> 	if (!table)
-> 		return -EINVAL;
-> 
->@@ -2382,7 +2382,7 @@ static int devlink_dpipe_table_counters_set(struct devlink *devlink,
-> 	struct devlink_dpipe_table *table;
-> 
-> 	table = devlink_dpipe_table_find(&devlink->dpipe_table_list,
->-					 table_name);
->+					 table_name, devlink);
-> 	if (!table)
-> 		return -EINVAL;
-> 
->@@ -6814,7 +6814,7 @@ bool devlink_dpipe_table_counter_enabled(struct devlink *devlink,
-> 
-> 	rcu_read_lock();
-> 	table = devlink_dpipe_table_find(&devlink->dpipe_table_list,
->-					 table_name);
->+					 table_name, devlink);
-> 	enabled = false;
-> 	if (table)
-> 		enabled = table->counters_enabled;
->@@ -6845,7 +6845,7 @@ int devlink_dpipe_table_register(struct devlink *devlink,
-> 
-> 	mutex_lock(&devlink->lock);
-> 
->-	if (devlink_dpipe_table_find(&devlink->dpipe_table_list, table_name)) {
->+	if (devlink_dpipe_table_find(&devlink->dpipe_table_list, table_name, devlink)) {
+> If we're capping it at INT_MAX then the check for negative isn't
+> required and static analysis tools know it's not so they might complain.
 
-Run scripts/checkpatch.pl on your patch. You are breaking 80-cols limit
-here.
+It isn't, but it's easier to understand for the reader. But I don't care
+that much and if it's trouble for tools than fine.
 
-Otherwise, the patch looks fine.
-
-> 		err = -EEXIST;
-> 		goto unlock;
-> 	}
->@@ -6881,7 +6881,7 @@ void devlink_dpipe_table_unregister(struct devlink *devlink,
-> 
-> 	mutex_lock(&devlink->lock);
-> 	table = devlink_dpipe_table_find(&devlink->dpipe_table_list,
->-					 table_name);
->+					 table_name, devlink);
-> 	if (!table)
-> 		goto unlock;
-> 	list_del_rcu(&table->list);
->@@ -7038,7 +7038,7 @@ int devlink_dpipe_table_resource_set(struct devlink *devlink,
-> 
-> 	mutex_lock(&devlink->lock);
-> 	table = devlink_dpipe_table_find(&devlink->dpipe_table_list,
->-					 table_name);
->+					 table_name, devlink);
-> 	if (!table) {
-> 		err = -EINVAL;
-> 		goto out;
->-- 
->2.17.1
->
+Christian
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
