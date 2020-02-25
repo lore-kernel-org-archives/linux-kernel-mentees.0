@@ -8,95 +8,100 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCAC7C35E03
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Feb 2020 13:18:06 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C956C35E04
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Feb 2020 18:39:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 84CDB24676
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Feb 2020 13:18:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DAF082084E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Feb 2020 18:39:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2XBe6KH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 84CDB24676
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BE3s7hwK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DAF082084E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3D1CF20397;
-	Tue, 25 Feb 2020 13:18:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AB54685F9A;
+	Tue, 25 Feb 2020 18:39:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6Ag0Dyh5IfPD; Tue, 25 Feb 2020 13:18:05 +0000 (UTC)
+	with ESMTP id Qt18NVn_rkoX; Tue, 25 Feb 2020 18:39:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9557D203E5;
-	Tue, 25 Feb 2020 13:18:05 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5199685F90;
+	Tue, 25 Feb 2020 18:39:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 83FB4C18DA;
-	Tue, 25 Feb 2020 13:18:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38925C089F;
+	Tue, 25 Feb 2020 18:39:26 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4F38EC0177
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6F6C6C0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Feb 2020 13:18:04 +0000 (UTC)
+ Tue, 25 Feb 2020 18:39:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 43E4F20397
+ by silver.osuosl.org (Postfix) with ESMTP id 57D7920343
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Feb 2020 13:18:04 +0000 (UTC)
+ Tue, 25 Feb 2020 18:39:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ljHQ5d7geyZ2
+ with ESMTP id xCCpt8VPdVkh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Feb 2020 13:18:03 +0000 (UTC)
+ Tue, 25 Feb 2020 18:39:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by silver.osuosl.org (Postfix) with ESMTPS id BD69720370
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by silver.osuosl.org (Postfix) with ESMTPS id B11CB20113
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Feb 2020 13:18:03 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id a14so6491161pgb.11
+ Tue, 25 Feb 2020 18:39:23 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id n96so72449pjc.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Feb 2020 05:18:03 -0800 (PST)
+ Tue, 25 Feb 2020 10:39:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=djeXvgDX1dzPvkbFDL9oeL1hgiy4iMfslVEDwCPbhX8=;
- b=H2XBe6KHWh6J9Xj1yhLiU4JxY/ymRM7WHmVlQPgaKXfZTq+w9vv6WUKrnPWVWQ2iku
- EOHTt8zH2Q3iFRKI2oGz5xYqJQNLd8xpcTVZprVIddn0/NfOro7dhvRsFjrAeqkfh3Bm
- rtXTWdajE2f8cshEC/JB+YusWRnlD4sQpELYNAX8ziXxMm+zr1TuRJhtktdRuAlqJTf1
- WWPpqGq9vDjDezjJS+KXJzmlZmYTIsdWKOvQpqaN9QcXJ0ggI6oDuTr6pd7TaWOqGITd
- rugHlTWFQ1FFXqSmemh1mlAP0Uwo6HP7V/GdIZVPIF8cX0mQEwnr/5XqwVAb109Ev5u3
- 4xOA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P8swh48wfTLZuYv02RwLOZrF/pIWOZiF/oICtKiXMJc=;
+ b=BE3s7hwKT6oHvUI0W48DjcFi/+3Hm2fY5rHl1CjxQYcS3UXiBjlQrNiwrts0qBdgSB
+ j1gHofmQS/zw6Ow8MGCGQbrJ6pYOzQn90TkBw5kVQMF29L74lTeFJz4BjauMjqwRLf2X
+ Dxil8Dcz1j3AbCnF0KEKSQ6gXAx5uODlCKBGh6XHZhgGlhBajcLIXZ+01G4onRqFQC5S
+ 9EC6Tnp7y1l+A7yekcWnRJDUZ4RQGGYs7CWGdtFB4p2fMkE4fatO4YIEowrnXuUhArzp
+ Lq98HT7Ge/L87abL8+It18Av1Iudc9SKBC8ibN4Fwt7X9Y88Ipe1fEahDJYWuuAU9uOu
+ WKxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=djeXvgDX1dzPvkbFDL9oeL1hgiy4iMfslVEDwCPbhX8=;
- b=Lt8aQEvc0O/mMDy2aSBP/YQ5RlIZ49mxyJmH6O7IZd3U7yqGccQdoc9owtrwqtTYtl
- /JP+Ir0xiQoQfAlOKOj3YrTVugfpowUzmUOWrd8ZTd97BACiJQ2o7XtzXAFIk6qJe0zz
- XJTc5ijuIvzCIeswe2EGqK+tdNwbqG0+bJvNiqlxVg+9AvDmQZKW0n5f92ITUdjZh953
- 3Qbp1/VYkgUxDAr/QPVutQq4d/fWgLasQd4500JAztYf3q9/phF6H5FzuX4jVAOJ+rv5
- Ji0kb8ZxVw794i1dWQ860Edcow5h13r6qBl7gMUCa+7pd/ph9Gsw5gL4X7jM/7VkVixQ
- TbXg==
-X-Gm-Message-State: APjAAAWSm1Uv2CVwqWL6LE8cWICY6cLcllbB+ArKc2OyNE3BCWNL96TO
- Ju7wqYtU5a2iTwZQi6xuNA==
-X-Google-Smtp-Source: APXvYqyZWQbaPcpdmLzEFwfknc0aITQXNKV0KYUx6HCyo9h2Nn+noGbHX128va9+iOz5v+N0ts+zSw==
-X-Received: by 2002:aa7:8717:: with SMTP id b23mr57736952pfo.53.1582636683296; 
- Tue, 25 Feb 2020 05:18:03 -0800 (PST)
-Received: from madhuparna-HP-Notebook.nitk.ac.in
- ([2402:3a80:1ee1:f355:dcbb:6353:6580:5d41])
- by smtp.gmail.com with ESMTPSA id m12sm17057416pfh.37.2020.02.25.05.17.58
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P8swh48wfTLZuYv02RwLOZrF/pIWOZiF/oICtKiXMJc=;
+ b=sOZvjjYZAcpd+uuv1/LqE+LB74Z4xDVEy2LTfbxW0PVeop8HyDFL+UgaOm/G2COgYh
+ ig3eWIk1WqCUiSoDX/pS+zzIWJtlN1xd7AsY0/0fOVVOWGMx6+jGdoy9wN76QdMXc1CO
+ t0q6QqRR6x/8M6m4AjF7mGMHP/9ph7L8SXOwKx802x3W7C9GlOm8xBDxa5gahO2WQ+VB
+ 2HPSwsEs64yywaCKiCPNZ96Svn+SVHatsRtJws6jXcgNO0dROY3c9W33B2A1oKC25ZG8
+ 2AOXuC8gtYfwcpCUBgNMv3jW22epTTyJ9CV7Ox+u5S+j7r5Ah4IJ8X8xRxnzdgq6alVW
+ pTOQ==
+X-Gm-Message-State: APjAAAURh+rWrQewIr79Mo7li/Gzc8sVLesD3R7GgJkKrXwSO9QF/o8y
+ QBbNvfI61xY/gN2Rq7qpoZoh0tHLwbpfGpsa
+X-Google-Smtp-Source: APXvYqyApWD8VybffrlZ5mdReiC24DM6E2uK/QjrEZU40b4xruIxjMwwS+Yey6Aplb1bHaeECPA3bw==
+X-Received: by 2002:a17:90a:cc04:: with SMTP id
+ b4mr369278pju.136.1582655962841; 
+ Tue, 25 Feb 2020 10:39:22 -0800 (PST)
+Received: from localhost.localdomain ([103.46.201.207])
+ by smtp.gmail.com with ESMTPSA id 13sm17803325pfi.78.2020.02.25.10.39.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 05:18:02 -0800 (PST)
-From: madhuparnabhowmik10@gmail.com
-To: marcel@holtmann.org, johan.hedberg@gmail.com, davem@davemloft.net,
- kuba@kernel.org
-Date: Tue, 25 Feb 2020 18:47:53 +0530
-Message-Id: <20200225131753.690-1-madhuparnabhowmik10@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: paulmck@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, joel@joelfernandes.org,
+ Tue, 25 Feb 2020 10:39:22 -0800 (PST)
+From: amanharitsh123 <amanharitsh123@gmail.com>
+To: 
+Date: Wed, 26 Feb 2020 00:09:16 +0530
+Message-Id: <20200225183916.4555-1-amanharitsh123@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] net: bluetooth: hci_core: Use
-	list_for_each_entry_rcu() to traverse RCU list in RCU read-side CS
+Subject: [Linux-kernel-mentees] [PATCH] doc: Convert to checklist.txt to
+	checklist.rst
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,39 +113,63 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+This patch converts checklist.txt to checklist.rst and
+adds it to index.rst
 
-In function hci_is_blocked_key() RCU list is traversed with
-list_for_each_entry() in RCU read-side CS.
-Use list_for_each_entry_rcu() instead.
-
-Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+Signed-off-by: amanharitsh123 <amanharitsh123@gmail.com>
 ---
- net/bluetooth/hci_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/RCU/{checklist.txt => checklist.rst} | 8 +++++---
+ Documentation/RCU/index.rst                        | 1 +
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+ rename Documentation/RCU/{checklist.txt => checklist.rst} (99%)
 
-diff --git a/net/bluetooth/hci_core.c b/net/bluetooth/hci_core.c
-index 8ddd1bea02be..4e6d61a95b20 100644
---- a/net/bluetooth/hci_core.c
-+++ b/net/bluetooth/hci_core.c
-@@ -2327,7 +2327,7 @@ bool hci_is_blocked_key(struct hci_dev *hdev, u8 type, u8 val[16])
- 	struct blocked_key *b;
+diff --git a/Documentation/RCU/checklist.txt b/Documentation/RCU/checklist.rst
+similarity index 99%
+rename from Documentation/RCU/checklist.txt
+rename to Documentation/RCU/checklist.rst
+index e98ff261a438..49bf7862c950 100644
+--- a/Documentation/RCU/checklist.txt
++++ b/Documentation/RCU/checklist.rst
+@@ -1,5 +1,7 @@
+-Review Checklist for RCU Patches
++.. checklist doc:
  
- 	rcu_read_lock();
--	list_for_each_entry(b, &hdev->blocked_keys, list) {
-+	list_for_each_entry_rcu(b, &hdev->blocked_keys, list) {
- 		if (b->type == type && !memcmp(b->val, val, sizeof(b->val))) {
- 			blocked = true;
- 			break;
++Review Checklist for RCU Patches
++================================
+ 
+ This document contains a checklist for producing and reviewing patches
+ that make use of RCU.  Violating any of the rules listed below will
+@@ -442,8 +444,8 @@ over a rather long period of time, but improvements are always welcome!
+ 
+ 	You instead need to use one of the barrier functions:
+ 
+-	o	call_rcu() -> rcu_barrier()
+-	o	call_srcu() -> srcu_barrier()
++	-	call_rcu() -> rcu_barrier()
++	-	call_srcu() -> srcu_barrier()
+ 
+ 	However, these barrier functions are absolutely -not- guaranteed
+ 	to wait for a grace period.  In fact, if there are no call_rcu()
+diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+index 81a0a1e5f767..d60eb4ba2cd0 100644
+--- a/Documentation/RCU/index.rst
++++ b/Documentation/RCU/index.rst
+@@ -10,6 +10,7 @@ RCU concepts
+    arrayRCU
+    rcubarrier
+    rcu_dereference
++   checklist
+    whatisRCU
+    rcu
+    listRCU
 -- 
-2.17.1
+2.20.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
