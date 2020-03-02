@@ -2,91 +2,97 @@ Return-Path: <SRS0=MxuE=4T=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAE7BC3F2D1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 17:02:36 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CF4BC3F2D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 17:40:08 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ADF30217F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 17:02:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADF30217F4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 037EE222C4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 17:40:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W7fj8X3a"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 037EE222C4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 98354843DB;
-	Mon,  2 Mar 2020 17:02:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CE768877E7;
+	Mon,  2 Mar 2020 17:40:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ox3dtmzXjBL5; Mon,  2 Mar 2020 17:02:34 +0000 (UTC)
+	with ESMTP id mRiG4IZFs4Yr; Mon,  2 Mar 2020 17:40:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9DB2B8472A;
-	Mon,  2 Mar 2020 17:02:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7D672877E4;
+	Mon,  2 Mar 2020 17:40:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82A88C1AE2;
-	Mon,  2 Mar 2020 17:02:34 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 04086C013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 745B8C1AE2;
+	Mon,  2 Mar 2020 17:40:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7DC49C013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 17:02:34 +0000 (UTC)
+ Mon,  2 Mar 2020 17:40:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E2E9085B0A
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7591C877E4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 17:02:33 +0000 (UTC)
+ Mon,  2 Mar 2020 17:40:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XfnffeJyHQRg
+ with ESMTP id PeqUFy7Cs9Ng
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 17:02:33 +0000 (UTC)
+ Mon,  2 Mar 2020 17:40:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3C17C85ADC
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E499E877ED
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 17:02:33 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id a20so1746995otl.0
+ Mon,  2 Mar 2020 17:40:04 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id d9so163223pgu.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Mar 2020 09:02:33 -0800 (PST)
+ Mon, 02 Mar 2020 09:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=ccLgGlXJeyfNwA0nueYiFsMbc5nyvrsM97a1+xIUUac=;
+ b=W7fj8X3a8gokG5mZbNte3SvQJzMLyc6ZsZ3I18q1+2Qnam52farx0iNFiqbPc5+HxP
+ kJqiJEsRLC7eaogsdWtKTTkETP+UqktTIdofxDvV8J0WE8RmxhwxTk0dCADgqzImBe4l
+ jGDig8SgkU82S1wb93DXjj1hGpbSm+o1w0WuHdybfxaIoIE6I+tLhWOv69paXjU0w/3O
+ hPdgjlViSZdNcxbYiXUKUEy9EGlDS+84Dj5xOMt9yEGKBlEIwYy0BBaV5fX8UIuorLcD
+ YCuSfHRae8WrrTT2YFHLY1dJ59s3tN1dDGPnj9bl+337a/0xutqLOgpThGS2Uoo073ZM
+ fU2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3E3fWxDEv9ZHfmOkcec5gIIJeOvKCzK/ypdiNkYfC8Q=;
- b=LcJGoL+VuFayX4pTHqB6wb3JUI2tmGVO8ww5eLJ6EG4hbK4TcCIY7CcuwXYa6NIg0a
- LJWwdPq81RzjMsCaUSnBPWZ5m5SPN7emu4sjxjPaUc4oniLnKKchBFGb5HRNp2oCjUUl
- 1ps80dMCPmcbwbLPPP9deuPfUSUxONIgfIFMkKx5QalfKnGIxghf9dyXFl2nmYZJauB6
- dFepnt6xsNfByunlmdWM87TbOQHF7w4lhqsVg1Yher4Wu5iuFVbfXhlvJ8jeaFI0HfVn
- BPeir36H/L+Sbx/lqZ++1Ra113QquI4rfUG9fexa8v7buslQvaOQ217+c1qgWmKGNJkS
- usxw==
-X-Gm-Message-State: ANhLgQ0euxN2W3ZUv59roDnqyg+8/kV4EBI3H5DkDpUjWVPjorqtTrrO
- baj4rU3Pul3wYUuXaRUQyPTI+lx27S9bQYx00VI=
-X-Google-Smtp-Source: ADFU+vtrrwRitcEkkYBbTuh1knba7jp5gALhcQEhCs5xZDWVZPrBv0NBfHT14a2k5mSe4rTQlRheR8mZvBJynFnoa78=
-X-Received: by 2002:a9d:67d7:: with SMTP id c23mr125593otn.262.1583168552404; 
- Mon, 02 Mar 2020 09:02:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20200228174630.8989-1-madhuparnabhowmik10@gmail.com>
- <CAJZ5v0jhw+cVm=ViiOtZgKr+a1L_PbeVPNXpsPbgghUvMPODSA@mail.gmail.com>
- <C2E57D31-A459-4F5F-8ECF-484FBB26C065@joelfernandes.org>
- <CAJZ5v0jTSKd_23fJhM+XUmFX_yTjcD+c_s1Jvi3HA1EmXPkzZw@mail.gmail.com>
- <CAEXW_YRL0kum5yVm+9V8i_PK2FcHfPeUOxJKZ+T8P3zqhATxJg@mail.gmail.com>
- <CAD=jOEZ3vdNC4qTMxptaXLjs7i8TCTYjeiv9vXhcapLSkrr9RQ@mail.gmail.com>
-In-Reply-To: <CAD=jOEZ3vdNC4qTMxptaXLjs7i8TCTYjeiv9vXhcapLSkrr9RQ@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 2 Mar 2020 18:02:21 +0100
-Message-ID: <CAJZ5v0hee4FxeVub_ZkAYn9z8q1_ZLA_AcmTtS-w39VzSe0UxA@mail.gmail.com>
-To: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
-Cc: Len Brown <len.brown@intel.com>, "Paul E. McKenney" <paulmck@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Joel Fernandes <joel@joelfernandes.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 1/2] drivers: base: power: main:
-	Use built-in RCU list checking
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=ccLgGlXJeyfNwA0nueYiFsMbc5nyvrsM97a1+xIUUac=;
+ b=aN5N5DlOSIDQx27xvND1I+iogz+V5hAs3mBdPGe8ZwN9ydR5cuxM/pUoU1WdPWlMlT
+ l0jX3U5iqudna9glRIAcUBLc2/173UqmjVUXkGKW5iID6ZhV97UhcR4XV9Wry5HAI3bs
+ kZ4q8RIOPHpJKWMmii6KHJlbmzGmBuwlzE60mvGmUtTyc4caDNhmTuVHTQrPsHopCJUt
+ fCJRxtb0qvyBx/KojcsHrcE2wv4FzOBntprv5s1/pmTi1TUqEY7nRV7trauAwyYG4284
+ CE96/5Dhk2smAXeAAmpMrzYOqGqPU/5ItBEVIjS6nHuFJGg2UUSKcI9+GZdMy8YsB9aF
+ hORg==
+X-Gm-Message-State: ANhLgQ0A2ERcwlbv0UTTIGDo5wnsYpNAxzNyl4Mxs2CjZgDMbykMwUIi
+ 2PlLwe8gwVDAIWJXhdIzuA4=
+X-Google-Smtp-Source: ADFU+vsmcgwBaN2ggQ2yDntxSGZzld20AoSwZIazsRFr8GSGi0fFrYx982ZdTaikc8pnRwYPy0tVLQ==
+X-Received: by 2002:aa7:8b17:: with SMTP id f23mr149223pfd.197.1583170804359; 
+ Mon, 02 Mar 2020 09:40:04 -0800 (PST)
+Received: from localhost.localdomain ([2405:204:800a:15c3:b0b0:78ba:d728:349e])
+ by smtp.gmail.com with ESMTPSA id c184sm21764462pfa.39.2020.03.02.09.39.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 09:40:03 -0800 (PST)
+From: Pragat Pandya <pragat.pandya@gmail.com>
+To: corbet@lwn.net
+Date: Mon,  2 Mar 2020 23:09:18 +0530
+Message-Id: <20200302173920.24626-1-pragat.pandya@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Pragat Pandya <pragat.pandya@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH 0/2] Documentation: Add two new rst
+	files
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,82 +104,34 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Mar 2, 2020 at 1:34 PM Madhuparna Bhowmik
-<madhuparnabhowmik10@gmail.com> wrote:
->
->
->
-> On Mon, 2 Mar, 2020, 3:48 AM Joel Fernandes, <joel@joelfernandes.org> wrote:
->>
->> On Sun, Mar 1, 2020 at 4:23 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
->> >
->> > On Sun, Mar 1, 2020 at 9:53 PM <joel@joelfernandes.org> wrote:
->> > >
->> > >
->> > >
->> > > On March 1, 2020 3:12:53 PM EST, "Rafael J. Wysocki" <rafael@kernel.org> wrote:
->> > > >On Fri, Feb 28, 2020 at 6:47 PM <madhuparnabhowmik10@gmail.com> wrote:
->> > > >>
->> > > >> From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
->> > > >>
->> > > >> This patch passes the cond argument to list_for_each_entry_rcu()
->> > > >> to fix the following false-positive lockdep warnings:
->> > > >>
->> > > >> [  330.302784] =============================
->> > > >> [  330.302789] WARNING: suspicious RCU usage
->> > > >> [  330.302796] 5.6.0-rc1+ #5 Not tainted
->> > > >> [  330.302801] -----------------------------
->> > > >> [  330.302808] drivers/base/power/main.c:326 RCU-list traversed in
->> > > >non-reader section!!
->> > > >>
->> > > >> [  330.303303] =============================
->> > > >> [  330.303307] WARNING: suspicious RCU usage
->> > > >> [  330.303311] 5.6.0-rc1+ #5 Not tainted
->> > > >> [  330.303315] -----------------------------
->> > > >> [  330.303319] drivers/base/power/main.c:1698 RCU-list traversed in
->> > > >non-reader section!!
->> > > >>
->> > > >> [  331.934969] =============================
->> > > >> [  331.934971] WARNING: suspicious RCU usage
->> > > >> [  331.934973] 5.6.0-rc1+ #5 Not tainted
->> > > >> [  331.934975] -----------------------------
->> > > >> [  331.934977] drivers/base/power/main.c:1238 RCU-list traversed in
->> > > >non-reader section!!
->> > > >>
->> > > >> [  332.467772] WARNING: suspicious RCU usage
->> > > >> [  332.467775] 5.6.0-rc1+ #5 Not tainted
->> > > >> [  332.467775] -----------------------------
->> > > >> [  332.467778] drivers/base/power/main.c:269 RCU-list traversed in
->> > > >non-reader section!!
->> > > >
->> > > >I don't see these warnings in the kernels run locally here.
->> > > >
->> > > >What do you do to get them?
->> > > >
->> > > >Joel, any comments here?
->> > >
->> > > You have to enable lockdep in your config. Does your setup have that?
->> >
->> > CONFIG_LOCK_DEBUGGING_SUPPORT=y
->> > CONFIG_PROVE_LOCKING=y
->> > CONFIG_DEBUG_SPINLOCK=y
->> > CONFIG_DEBUG_LOCK_ALLOC=y
->> > CONFIG_LOCKDEP=y
->>
->>
-> I had CONFIG_PROVE_RCU_LIST = y and I think these warnings were triggered when I had closed my laptop (like just close without shutting down).
+This patchset adds following two rst files to the Documentation and
+references the newly added rst files into TOCTree of index.rst
+ -io_mapping.rst 
+ -io_ordering.rst
 
-OK, so let's define a macro for that in this file to avoid code duplication.
+Pragat Pandya (2):
+  Documentation: Add a new .rst file under Documentation
+  Documentation: Add a new .rst file under Documentation
 
-And analogously in the second patch.
+ Documentation/index.rst                       |  1 +
+ .../{io-mapping.txt => io_mapping.rst}        |  0
+ .../{io_ordering.txt => io_ordering.rst}      |  0
+ doc_make.log                                  | 35 +++++++++++++++++++
+ 4 files changed, 36 insertions(+)
+ rename Documentation/{io-mapping.txt => io_mapping.rst} (100%)
+ rename Documentation/{io_ordering.txt => io_ordering.rst} (100%)
+ create mode 100644 doc_make.log
 
-Thanks!
+-- 
+2.17.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
