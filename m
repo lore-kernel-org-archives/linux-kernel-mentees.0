@@ -2,97 +2,73 @@ Return-Path: <SRS0=MxuE=4T=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC675C3F2D1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 12:37:10 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5708DC3F2D1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 16:04:23 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 98B6121D56
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 12:37:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98B6121D56
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+	by mail.kernel.org (Postfix) with ESMTPS id 2ABF32146E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 16:04:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2ABF32146E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=8bytes.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5D1A185190;
-	Mon,  2 Mar 2020 12:37:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0805E85B00;
+	Mon,  2 Mar 2020 16:04:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7i0PqE0gWyBS; Mon,  2 Mar 2020 12:37:08 +0000 (UTC)
+	with ESMTP id HsAr+pzuBjQ2; Mon,  2 Mar 2020 16:04:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EA64D851D6;
-	Mon,  2 Mar 2020 12:37:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 82E2984237;
+	Mon,  2 Mar 2020 16:04:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6EF1C1AE2;
-	Mon,  2 Mar 2020 12:37:08 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A3738C013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6F617C1AE2;
+	Mon,  2 Mar 2020 16:04:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C44A2C013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 12:37:07 +0000 (UTC)
+ Mon,  2 Mar 2020 16:04:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 99F278709D
+ by silver.osuosl.org (Postfix) with ESMTP id B191C204A0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 12:37:07 +0000 (UTC)
+ Mon,  2 Mar 2020 16:04:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YGNmBwwuK4+m
+ with ESMTP id k8i9s9YQc-yC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 12:37:06 +0000 (UTC)
+ Mon,  2 Mar 2020 16:04:20 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.us.es (correo.us.es [193.147.175.20])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 2A05684FFF
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by silver.osuosl.org (Postfix) with ESMTPS id 32EBB2049F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 12:37:06 +0000 (UTC)
-Received: from antivirus1-rhel7.int (unknown [192.168.2.11])
- by mail.us.es (Postfix) with ESMTP id E29511C4391
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 13:36:51 +0100 (CET)
-Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
- by antivirus1-rhel7.int (Postfix) with ESMTP id D2533DA390
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 13:36:51 +0100 (CET)
-Received: by antivirus1-rhel7.int (Postfix, from userid 99)
- id CB622DA801; Mon,  2 Mar 2020 13:36:51 +0100 (CET)
-Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
- by antivirus1-rhel7.int (Postfix) with ESMTP id D78A8FC5E8;
- Mon,  2 Mar 2020 13:36:49 +0100 (CET)
-Received: from 192.168.1.97 (192.168.1.97)
- by antivirus1-rhel7.int (F-Secure/fsigk_smtp/550/antivirus1-rhel7.int);
- Mon, 02 Mar 2020 13:36:49 +0100 (CET)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/antivirus1-rhel7.int)
-Received: from us.es (unknown [90.77.255.23])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: 1984lsi)
- by entrada.int (Postfix) with ESMTPSA id 9E2A44251480;
- Mon,  2 Mar 2020 13:36:49 +0100 (CET)
-Date: Mon, 2 Mar 2020 13:37:01 +0100
-X-SMTPAUTHUS: auth mail.us.es
-From: Pablo Neira Ayuso <pablo@netfilter.org>
+ Mon,  2 Mar 2020 16:04:18 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 6CE8E5BC; Mon,  2 Mar 2020 17:04:16 +0100 (CET)
+Date: Mon, 2 Mar 2020 17:04:13 +0100
+From: Joerg Roedel <joro@8bytes.org>
 To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20200302123701.qnjmnmyoxycaixs6@salvia>
-References: <20200219101626.31943-1-frextrite@gmail.com>
+Message-ID: <20200302160412.GA7829@8bytes.org>
+References: <20200223165538.29870-1-frextrite@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200219101626.31943-1-frextrite@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Cc: "Paul E . McKenney" <paulmck@kernel.org>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev@vger.kernel.org,
- Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
- Jozsef Kadlecsik <kadlec@netfilter.org>,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, coreteam@netfilter.org,
- netfilter-devel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+In-Reply-To: <20200223165538.29870-1-frextrite@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, Qian Cai <cai@lca.pw>,
+ Deepa Dinamani <deepa.kernel@gmail.com>,
  Joel Fernandes <joel@joelfernandes.org>,
- Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+ Andrew Morton <akpm@linux-foundation.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "David S . Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] netfilter: ipt_CLUSTERIP: Pass
- lockdep expression to RCU lists
+ Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>,
+ Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH RESEND] iommu: dmar: Fix RCU list
+	debugging warnings
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,35 +86,31 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Feb 19, 2020 at 03:46:27PM +0530, Amol Grover wrote:
-> cn->configs is traversed using list_for_each_entry_rcu
-> outside an RCU read-side critical section but under the protection
-> of cn->lock.
+On Sun, Feb 23, 2020 at 10:25:39PM +0530, Amol Grover wrote:
+> dmar_drhd_units is traversed using list_for_each_entry_rcu()
+> outside of an RCU read side critical section but under the
+> protection of dmar_global_lock. Hence add corresponding lockdep
+> expression to silence the following false-positive warnings:
 > 
-> Hence, add corresponding lockdep expression to silence false-positive
-> warnings, and harden RCU lists.
+> [    1.603975] =============================
+> [    1.603976] WARNING: suspicious RCU usage
+> [    1.603977] 5.5.4-stable #17 Not tainted
+> [    1.603978] -----------------------------
+> [    1.603980] drivers/iommu/intel-iommu.c:4769 RCU-list traversed in non-reader section!!
 > 
+> [    1.603869] =============================
+> [    1.603870] WARNING: suspicious RCU usage
+> [    1.603872] 5.5.4-stable #17 Not tainted
+> [    1.603874] -----------------------------
+> [    1.603875] drivers/iommu/dmar.c:293 RCU-list traversed in non-reader section!!
+> 
+> Tested-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 > Signed-off-by: Amol Grover <frextrite@gmail.com>
 > ---
->  net/ipv4/netfilter/ipt_CLUSTERIP.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/net/ipv4/netfilter/ipt_CLUSTERIP.c b/net/ipv4/netfilter/ipt_CLUSTERIP.c
-> index 6bdb1ab8af61..df856ff835b7 100644
-> --- a/net/ipv4/netfilter/ipt_CLUSTERIP.c
-> +++ b/net/ipv4/netfilter/ipt_CLUSTERIP.c
-> @@ -139,7 +139,8 @@ __clusterip_config_find(struct net *net, __be32 clusterip)
->  	struct clusterip_config *c;
->  	struct clusterip_net *cn = clusterip_pernet(net);
->  
-> -	list_for_each_entry_rcu(c, &cn->configs, list) {
-> +	list_for_each_entry_rcu(c, &cn->configs, list,
-> +				lockdep_is_held(&cn->lock)) {
+>  include/linux/dmar.h | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 
-bh is disabled before calling __clusterip_config_find(), then
-rcu_read_lock_any_held() evaluates true.
-
-Are you sure this really results in a WARN_ON splat?
+Applied, thanks.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
