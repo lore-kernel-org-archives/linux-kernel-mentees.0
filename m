@@ -8,88 +8,88 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B78C3F2D1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 18:32:18 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D0D2C3F2D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 18:32:25 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6F32624677
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 18:32:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DB39C2467B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Mar 2020 18:32:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SljIp1RR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F32624677
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+H+SNwy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB39C2467B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4EBC186B6F;
-	Mon,  2 Mar 2020 18:32:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B96891FE32;
+	Mon,  2 Mar 2020 18:32:24 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id g+-c8TfhHniP; Mon,  2 Mar 2020 18:32:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id C9B591FFFE;
+	Mon,  2 Mar 2020 18:32:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B8693C07FE;
+	Mon,  2 Mar 2020 18:32:23 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D913C013E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  2 Mar 2020 18:32:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0964486E1A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  2 Mar 2020 18:32:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eRdWw5sVn+tB; Mon,  2 Mar 2020 18:32:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B4C5786E1A;
-	Mon,  2 Mar 2020 18:32:17 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A1CD9C1D85;
-	Mon,  2 Mar 2020 18:32:17 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 721D4C013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 18:32:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 60C1585A84
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 18:32:16 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id F7-l5EZbaXCU
+ with ESMTP id r5SWynPc-FUM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 18:32:15 +0000 (UTC)
+ Mon,  2 Mar 2020 18:32:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B72A6858A6
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 22D0686B6F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Mar 2020 18:32:15 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id o2so146679pjp.2
+ Mon,  2 Mar 2020 18:32:21 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id dw13so151531pjb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Mar 2020 10:32:15 -0800 (PST)
+ Mon, 02 Mar 2020 10:32:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=m7kkow2C6PEJW5ePtZjJYVncQ+PCJkIgww9bNF+Zjxs=;
- b=SljIp1RR7uuy7/L/p7Lans4VKVeMoQS3VHUbhlhBZ6lp82VNCoZBjpY4g6SW6YMTCS
- Shm3gSUKvMxysEt3aOF8zhYWdh9bTJ5ewPT+sr83gUTu55uGqw9h2Nss18n9D4wetP/p
- GTtqKmWgVP3+grVbxw/S6yxjkG9AGRZCuBCgiCBikeoQKua5mU56sS1khUt6zHTScAG1
- bR2VaPoOaJTnzXrUfkBBOR5V4wP2OnTL7ckKsadLh+k5HkjfCTsoh/E0IQvA5hhruofW
- Ov7o4+UJj+GchIn3/SSbajyZvHorK4lPTGKxyuiREF3VZY3M42/dZPcj7JdxtDqeHGqn
- wpVA==
+ bh=XOGS7l9HvCLkL/Ca6VaW0Z7YxhyZD65Hc+/iXSNMm1w=;
+ b=D+H+SNwyOb1uwWqOXYfe7Vtlqu2lIMmc7cX4+rAUVwDV7J1QBn6WGg3Cp4LqKykkpo
+ MrS0MNDfk8lf5p+n3aYjYGu+twinmiJ4dcW8ZRmXF9TEmvPn5/q9Xu4fWUGS8c4SY5Yt
+ CQMGYGSnQ9bdB7fEaioP055eJjQNLPpgryEN9QdeC0li+Riwm3VpzxHZe255zBo3PVrS
+ uVAj3XiYUi3cdkt9ZVAgh8XkjL5BkwEWTlbuys3om9ppynclGKObWCCVpRoIrwvelEn5
+ V9qkX1hH5WCSSiWN4Udt77Z5/a7VLvXGx4rmmBg3G8zWKzdccT6iyoMRlU89aW63ahJx
+ u5zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=m7kkow2C6PEJW5ePtZjJYVncQ+PCJkIgww9bNF+Zjxs=;
- b=typkJBvVzk7hiTvTEnvdNEBmK3kW5R5tluhlXL7KMNAVj11/PL5zCK/F2iVwphC3uy
- wL6YESe0DZoVdfaoUoPGFVsEw3pEoMQSMpN7SQIV6cw0hIapr9LkU2iHrjFHJmFECC32
- 5atjHKwduRwtnZ9oCCfDCYC+IbyAC7cH/GM/AtgIR5ozrMCR00Ln6yKRwNKHbTHQQBaV
- J5F9PP2pnbPHr67O6PSUrVaXtna2Fnmhsmsq6mMNOX1f1fj/DyuVmLAO05tiXiit8vKX
- rhDM9X87VHjUwgQU+Na3d68+lULOXtCFb2LMQLRcXNKnR3MTktMd0uU+8ClRpmQ6RmM+
- 6FaA==
-X-Gm-Message-State: ANhLgQ18eU302sq/RTWH5GpIkT8KtC6NZY3EFHoXBmMtkZmYRn0GepOS
- Q5mK9lM+Z6BGylbP79xXEtw=
-X-Google-Smtp-Source: ADFU+vsO1glLJ+EL8p4lej6uxMUwitUvEuBZqy0uV8D0OgzXKhbN70Ih9zfl1imtU9H/WipDDUThfQ==
-X-Received: by 2002:a17:90a:db13:: with SMTP id
- g19mr243360pjv.15.1583173935255; 
- Mon, 02 Mar 2020 10:32:15 -0800 (PST)
+ bh=XOGS7l9HvCLkL/Ca6VaW0Z7YxhyZD65Hc+/iXSNMm1w=;
+ b=MmRKuVgqaSztbex9k/wa6VTPgi31B+2jZTXnXS7FY1pfMMim/70EGFTWFgLbp0xCyC
+ WmYkrz+Hk45C69Lfl1lOKmnouwOSJDtdTmuLRN0+T3r9Y0uCaY7wEwbqzGGq0v5KevEL
+ Dh4+kHY2qtQIWJOGRqqZbOSMDqAtrLxBwd1a5IKPNu0abae527ZLuZHvfd0CedFGVRz4
+ ki2Uu1q/Jgf5d5cTeMd6nV29YsnPtJ1Y6PS9nBeTXo4ZsmqA1Fobuddic8WSFZn1PER/
+ c6dstlm2ZCU93RVq8i9UP3HDWcF63orGn19D915+WrVRPMI0HHgwpu4JdWJb9DwplFee
+ iuUQ==
+X-Gm-Message-State: ANhLgQ0sWgj/ZUagfIw/XZQ4AB4wn3KI8StpaL3T42kJvmuJwXaxhOV3
+ Lwm6j1O8ggL8hy5lkulh61o=
+X-Google-Smtp-Source: ADFU+vvCJhg7ByUBJicumo+sQEK+AtxZa+87yFru/+XH2ceA0BHAgSoyhCDHgrpxzoCh9u2hzFwSgA==
+X-Received: by 2002:a17:90a:fa93:: with SMTP id
+ cu19mr254565pjb.166.1583173940626; 
+ Mon, 02 Mar 2020 10:32:20 -0800 (PST)
 Received: from localhost.localdomain ([2405:204:800a:15c3:b0b0:78ba:d728:349e])
- by smtp.gmail.com with ESMTPSA id r145sm22508484pfr.5.2020.03.02.10.32.10
+ by smtp.gmail.com with ESMTPSA id r145sm22508484pfr.5.2020.03.02.10.32.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 10:32:14 -0800 (PST)
+ Mon, 02 Mar 2020 10:32:19 -0800 (PST)
 From: Pragat Pandya <pragat.pandya@gmail.com>
 To: corbet@lwn.net
-Date: Tue,  3 Mar 2020 00:01:04 +0530
-Message-Id: <20200302183105.27628-2-pragat.pandya@gmail.com>
+Date: Tue,  3 Mar 2020 00:01:05 +0530
+Message-Id: <20200302183105.27628-3-pragat.pandya@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200302183105.27628-1-pragat.pandya@gmail.com>
 References: <20200302104501.0f9987bb@lwn.net>
@@ -97,8 +97,8 @@ References: <20200302104501.0f9987bb@lwn.net>
 Cc: Pragat Pandya <pragat.pandya@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2 1/2] Documentation: Add
-	io-mapping.rst to driver-api manual
+Subject: [Linux-kernel-mentees] [PATCH v2 2/2] Documentation: Add
+	io_ordering.rst to driver-api manual
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,131 +117,85 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add io-mapping.rst under Documentation/driver-api and reference it from
+Add io_ordering.rst under Documentation/driver-api and reference it from
 Sphinx TOC Tree present in Documentation/driver-api/index.rst
 
 Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
 ---
- Documentation/driver-api/index.rst      |  1 +
- Documentation/driver-api/io-mapping.rst | 97 +++++++++++++++++++++++++
- 2 files changed, 98 insertions(+)
- create mode 100644 Documentation/driver-api/io-mapping.rst
+ Documentation/driver-api/index.rst       |  1 +
+ Documentation/driver-api/io_ordering.rst | 51 ++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+ create mode 100644 Documentation/driver-api/io_ordering.rst
 
 diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 0ebe205efd0c..e9da95004632 100644
+index e9da95004632..9335412e3832 100644
 --- a/Documentation/driver-api/index.rst
 +++ b/Documentation/driver-api/index.rst
-@@ -79,6 +79,7 @@ available subsections can be seen below.
-    ipmb
+@@ -80,6 +80,7 @@ available subsections can be seen below.
     isa
     isapnp
-+   io-mapping
+    io-mapping
++   io_ordering
     generic-counter
     lightnvm-pblk
     memory-devices/index
-diff --git a/Documentation/driver-api/io-mapping.rst b/Documentation/driver-api/io-mapping.rst
+diff --git a/Documentation/driver-api/io_ordering.rst b/Documentation/driver-api/io_ordering.rst
 new file mode 100644
-index 000000000000..a966239f04e4
+index 000000000000..2ab303ce9a0d
 --- /dev/null
-+++ b/Documentation/driver-api/io-mapping.rst
-@@ -0,0 +1,97 @@
-+========================
-+The io_mapping functions
-+========================
++++ b/Documentation/driver-api/io_ordering.rst
+@@ -0,0 +1,51 @@
++==============================================
++Ordering I/O writes to memory-mapped addresses
++==============================================
 +
-+API
-+===
++On some platforms, so-called memory-mapped I/O is weakly ordered.  On such
++platforms, driver writers are responsible for ensuring that I/O writes to
++memory-mapped addresses on their device arrive in the order intended.  This is
++typically done by reading a 'safe' device or bridge register, causing the I/O
++chipset to flush pending writes to the device before any reads are posted.  A
++driver would usually use this technique immediately prior to the exit of a
++critical section of code protected by spinlocks.  This would ensure that
++subsequent writes to I/O space arrived only after all prior writes (much like a
++memory barrier op, mb(), only with respect to I/O).
 +
-+The io_mapping functions in linux/io-mapping.h provide an abstraction for
-+efficiently mapping small regions of an I/O device to the CPU. The initial
-+usage is to support the large graphics aperture on 32-bit processors where
-+ioremap_wc cannot be used to statically map the entire aperture to the CPU
-+as it would consume too much of the kernel address space.
++A more concrete example from a hypothetical device driver::
 +
-+A mapping object is created during driver initialization using::
++		...
++	CPU A:  spin_lock_irqsave(&dev_lock, flags)
++	CPU A:  val = readl(my_status);
++	CPU A:  ...
++	CPU A:  writel(newval, ring_ptr);
++	CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
++		...
++	CPU B:  spin_lock_irqsave(&dev_lock, flags)
++	CPU B:  val = readl(my_status);
++	CPU B:  ...
++	CPU B:  writel(newval2, ring_ptr);
++	CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
++		...
 +
-+	struct io_mapping *io_mapping_create_wc(unsigned long base,
-+						unsigned long size)
++In the case above, the device may receive newval2 before it receives newval,
++which could cause problems.  Fixing it is easy enough though::
 +
-+'base' is the bus address of the region to be made
-+mappable, while 'size' indicates how large a mapping region to
-+enable. Both are in bytes.
++		...
++	CPU A:  spin_lock_irqsave(&dev_lock, flags)
++	CPU A:  val = readl(my_status);
++	CPU A:  ...
++	CPU A:  writel(newval, ring_ptr);
++	CPU A:  (void)readl(safe_register); /* maybe a config register? */
++	CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
++		...
++	CPU B:  spin_lock_irqsave(&dev_lock, flags)
++	CPU B:  val = readl(my_status);
++	CPU B:  ...
++	CPU B:  writel(newval2, ring_ptr);
++	CPU B:  (void)readl(safe_register); /* maybe a config register? */
++	CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
 +
-+This _wc variant provides a mapping which may only be used
-+with the io_mapping_map_atomic_wc or io_mapping_map_wc.
-+
-+With this mapping object, individual pages can be mapped either atomically
-+or not, depending on the necessary scheduling environment. Of course, atomic
-+maps are more efficient::
-+
-+	void *io_mapping_map_atomic_wc(struct io_mapping *mapping,
-+				       unsigned long offset)
-+
-+'offset' is the offset within the defined mapping region.
-+Accessing addresses beyond the region specified in the
-+creation function yields undefined results. Using an offset
-+which is not page aligned yields an undefined result. The
-+return value points to a single page in CPU address space.
-+
-+This _wc variant returns a write-combining map to the
-+page and may only be used with mappings created by
-+io_mapping_create_wc
-+
-+Note that the task may not sleep while holding this page
-+mapped.
-+
-+::
-+
-+	void io_mapping_unmap_atomic(void *vaddr)
-+
-+'vaddr' must be the value returned by the last
-+io_mapping_map_atomic_wc call. This unmaps the specified
-+page and allows the task to sleep once again.
-+
-+If you need to sleep while holding the lock, you can use the non-atomic
-+variant, although they may be significantly slower.
-+
-+::
-+
-+	void *io_mapping_map_wc(struct io_mapping *mapping,
-+				unsigned long offset)
-+
-+This works like io_mapping_map_atomic_wc except it allows
-+the task to sleep while holding the page mapped.
-+
-+
-+::
-+
-+	void io_mapping_unmap(void *vaddr)
-+
-+This works like io_mapping_unmap_atomic, except it is used
-+for pages mapped with io_mapping_map_wc.
-+
-+At driver close time, the io_mapping object must be freed::
-+
-+	void io_mapping_free(struct io_mapping *mapping)
-+
-+Current Implementation
-+======================
-+
-+The initial implementation of these functions uses existing mapping
-+mechanisms and so provides only an abstraction layer and no new
-+functionality.
-+
-+On 64-bit processors, io_mapping_create_wc calls ioremap_wc for the whole
-+range, creating a permanent kernel-visible mapping to the resource. The
-+map_atomic and map functions add the requested offset to the base of the
-+virtual address returned by ioremap_wc.
-+
-+On 32-bit processors with HIGHMEM defined, io_mapping_map_atomic_wc uses
-+kmap_atomic_pfn to map the specified page in an atomic fashion;
-+kmap_atomic_pfn isn't really supposed to be used with device pages, but it
-+provides an efficient mapping for this usage.
-+
-+On 32-bit processors without HIGHMEM defined, io_mapping_map_atomic_wc and
-+io_mapping_map_wc both use ioremap_wc, a terribly inefficient function which
-+performs an IPI to inform all processors about the new mapping. This results
-+in a significant performance penalty.
++Here, the reads from safe_register will cause the I/O chipset to flush any
++pending writes before actually posting the read to the chipset, preventing
++possible data corruption.
 -- 
 2.17.1
 
