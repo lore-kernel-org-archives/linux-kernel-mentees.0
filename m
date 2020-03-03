@@ -6,70 +6,64 @@ X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FB9C3F2C6
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 16:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B79C3F2C6
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 16:54:42 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5306120863
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 16:45:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5306120863
+	by mail.kernel.org (Postfix) with ESMTPS id 40A4B20863
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 16:54:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40A4B20863
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=fieldses.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2EBDE84E5A;
-	Tue,  3 Mar 2020 16:45:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2057E84E5F;
+	Tue,  3 Mar 2020 16:54:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PMGbzRCztkn6; Tue,  3 Mar 2020 16:45:57 +0000 (UTC)
+	with ESMTP id hh-p9sH02l0P; Tue,  3 Mar 2020 16:54:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CD7DF84C33;
-	Tue,  3 Mar 2020 16:45:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BED3384C33;
+	Tue,  3 Mar 2020 16:54:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BCE6EC1AE2;
-	Tue,  3 Mar 2020 16:45:57 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 57410C013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B851EC1AE2;
+	Tue,  3 Mar 2020 16:54:41 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 66AC7C013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 16:45:56 +0000 (UTC)
+ Tue,  3 Mar 2020 16:54:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 46AE984E5A
+ by hemlock.osuosl.org (Postfix) with ESMTP id 54D7C8738A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 16:45:56 +0000 (UTC)
+ Tue,  3 Mar 2020 16:54:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4LK_b_IVNMCr
+ with ESMTP id MTKVXPhIsiIp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 16:45:55 +0000 (UTC)
-X-Greylist: delayed 00:08:19 by SQLgrey-1.7.6
+ Tue,  3 Mar 2020 16:54:39 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from fieldses.org (fieldses.org [173.255.197.46])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C471D84C33
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B500C8733C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 16:45:55 +0000 (UTC)
+ Tue,  3 Mar 2020 16:54:39 +0000 (UTC)
 Received: by fieldses.org (Postfix, from userid 2815)
- id 8913F378; Tue,  3 Mar 2020 11:37:34 -0500 (EST)
-Date: Tue, 3 Mar 2020 11:37:34 -0500
-From: "J . Bruce Fields" <bfields@fieldses.org>
-To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20200303163734.GA19140@fieldses.org>
-References: <20200219093504.16290-1-frextrite@gmail.com>
+ id 1B27D1C22; Tue,  3 Mar 2020 11:54:39 -0500 (EST)
+Date: Tue, 3 Mar 2020 11:54:39 -0500
+From: "J. Bruce Fields" <bfields@fieldses.org>
+To: madhuparnabhowmik10@gmail.com
+Message-ID: <20200303165439.GC19140@fieldses.org>
+References: <20200213150331.5727-1-madhuparnabhowmik10@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200219093504.16290-1-frextrite@gmail.com>
+In-Reply-To: <20200213150331.5727-1-madhuparnabhowmik10@gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: linux-nfs@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Trond Myklebust <trond.myklebust@hammerspace.com>,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- Chuck Lever <chuck.lever@oracle.com>,
- Anna Schumaker <anna.schumaker@netapp.com>,
- Joel Fernandes <joel@joelfernandes.org>, Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S . Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] sunrpc: Pass lockdep expression
-	to RCU lists
+Cc: linux-nfs@vger.kernel.org, paulmck@kernel.org, linux-kernel@vger.kernel.org,
+ chuck.lever@oracle.com, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] fs: nfsd: nfs4state.c: Use
+	built-in RCU list checking
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,38 +81,38 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Feb 19, 2020 at 03:05:05PM +0530, Amol Grover wrote:
-> detail->hash_table[] is traversed using hlist_for_each_entry_rcu
-> outside an RCU read-side critical section but under the protection
-> of detail->hash_lock.
-> 
-> Hence, add corresponding lockdep expression to silence false-positive
-> warnings, and harden RCU lists.
+Applying for 5.7, thanks.--b.
 
-Thanks, applying for 5.7.--b.
-
+On Thu, Feb 13, 2020 at 08:33:31PM +0530, madhuparnabhowmik10@gmail.com wrote:
+> From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 > 
-> Signed-off-by: Amol Grover <frextrite@gmail.com>
+> list_for_each_entry_rcu() has built-in RCU and lock checking.
+> 
+> Pass cond argument to list_for_each_entry_rcu() to silence
+> false lockdep warning when  CONFIG_PROVE_RCU_LIST is enabled
+> by default.
+> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 > ---
->  net/sunrpc/cache.c | 3 ++-
+>  fs/nfsd/nfs4state.c | 3 ++-
 >  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/net/sunrpc/cache.c b/net/sunrpc/cache.c
-> index f740cb51802a..5db5f5b94726 100644
-> --- a/net/sunrpc/cache.c
-> +++ b/net/sunrpc/cache.c
-> @@ -97,7 +97,8 @@ static struct cache_head *sunrpc_cache_add_entry(struct cache_detail *detail,
->  	spin_lock(&detail->hash_lock);
+> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
+> index 369e574c5092..3a80721fe53d 100644
+> --- a/fs/nfsd/nfs4state.c
+> +++ b/fs/nfsd/nfs4state.c
+> @@ -4295,7 +4295,8 @@ find_file_locked(struct knfsd_fh *fh, unsigned int hashval)
+>  {
+>  	struct nfs4_file *fp;
 >  
->  	/* check if entry appeared while we slept */
-> -	hlist_for_each_entry_rcu(tmp, head, cache_list) {
-> +	hlist_for_each_entry_rcu(tmp, head, cache_list,
-> +				 lockdep_is_held(&detail->hash_lock)) {
->  		if (detail->match(tmp, key)) {
->  			if (cache_is_expired(detail, tmp)) {
->  				hlist_del_init_rcu(&tmp->cache_list);
+> -	hlist_for_each_entry_rcu(fp, &file_hashtbl[hashval], fi_hash) {
+> +	hlist_for_each_entry_rcu(fp, &file_hashtbl[hashval], fi_hash,
+> +				lockdep_is_held(&state_lock)) {
+>  		if (fh_match(&fp->fi_fhandle, fh)) {
+>  			if (refcount_inc_not_zero(&fp->fi_ref))
+>  				return fp;
 > -- 
-> 2.24.1
+> 2.17.1
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
