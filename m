@@ -5,100 +5,95 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29922C3F2CD
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 05:03:33 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9081BC3F2D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 14:46:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED17C20873
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 05:03:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5745920838
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 14:46:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pVYR9gRX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED17C20873
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tfVPG1Dw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5745920838
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 99950873E3;
-	Tue,  3 Mar 2020 05:03:32 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RfPY13PAlRD1; Tue,  3 Mar 2020 05:03:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EFAF28750A;
-	Tue,  3 Mar 2020 05:03:31 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6945C07FE;
-	Tue,  3 Mar 2020 05:03:31 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B7C3BC013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 05:03:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A78D9203AD
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 05:03:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1AF4D2000A;
+	Tue,  3 Mar 2020 14:46:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vQMaGx072qrk; Tue,  3 Mar 2020 14:45:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 684351FEED;
+	Tue,  3 Mar 2020 14:45:59 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D726C1AE2;
+	Tue,  3 Mar 2020 14:45:59 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0129C013E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Mar 2020 14:45:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id AEC5187216
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Mar 2020 14:45:57 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3xrS+G6Cviob
+ with ESMTP id X3uXJuRxTDgQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 05:03:30 +0000 (UTC)
+ Tue,  3 Mar 2020 14:45:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by silver.osuosl.org (Postfix) with ESMTPS id 29C18204DC
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3704A86B58
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 05:03:30 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id d7so788643pjw.1
+ Tue,  3 Mar 2020 14:45:57 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id m5so1651621pgg.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Mar 2020 21:03:30 -0800 (PST)
+ Tue, 03 Mar 2020 06:45:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=N/iUS9xlwhnRwn8ycV3kyYeyWXGgYeSILX+l2MBUv2c=;
- b=pVYR9gRXdunMZ2xCOqSGRxL/S4cyc6o/in4nF/Kqz47Oe1Yv4+C22w0qIDZXbMDgMr
- QmFda8Vv0CRHHgeYaDJWwLw2EmOBncDN0JV69c/iErEUpRhLfU6sf5QbJCKAFozqnb2x
- N7WRrlQExOYxIlPmNDdCMVKfLP8lh9x5sSxDFLDStVNjLPOM9ZkSo7AIpcwSnyhrEiuV
- 0hQ7NTBkCLbt9FA6AaUGVjpx+jbLkn7/sGe/Kus9lHXajgBHSCBSGhRl/xIAPncgxj5d
- sCufOxY7WmTEO7Spb9MwKPa6K2alHw2uOEaL+7jtoHd5WOoRaZNah3+m4WAdQHfeEFuE
- CgGw==
+ h=from:to:cc:subject:date:message-id;
+ bh=7+OPrhcCxhD88nBBppkS0Unot2bwdV1u+1a7nZ3TUsA=;
+ b=tfVPG1Dw9PQ6yj4UwhgU3mxjYGO0RhTzt8ID6jjhlLmQXtMp52UV0OzfSqh/wdtHa6
+ Kpadqio3VhBHTE/ZxRWUy1+y8qQOqbcUwNBdQzpRPBY51Ja6iPa7cgfxX5e3I0PU6xb+
+ 3WL6PQcWb1xkmUkC1ZN7+Bh++lKbI2tc4camwkdNPmwLbk9Xj0qcSe+fLn3nPG5N2QcC
+ aijaQJOyDt0n9HnxM1+qspoC0ISrkUxvjH3HWzmLSpHaHEf4diNiiD9rpy/vkvbWPNFX
+ KSRx9Qv2eJ4tsoDsMdim1pPo5zpt5UH4Bt2mpw2iEFESfH6aOgyG8tPXSdCc4dEzEKez
+ 9dHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=N/iUS9xlwhnRwn8ycV3kyYeyWXGgYeSILX+l2MBUv2c=;
- b=NR8RryBpALRSiHEkLyS5ymy6JP452RKpLiG+XE0UzZfGLQSE8YX1RhcTOqkgyNh8e0
- vZ1Z6BKC3Zzul65zygVtCYXYOGN7YkiO9R405uMct4hRyLGrO0YUtpXXasiUttFBVegb
- CVNWs8aNDtdQRK8paZNiYtHjCEOYs3QaPH1WVXW5TdvPEk7lPbzeAqQ+YNLNCDOkeed+
- FkJlS8LQhLxPcrk+oJpexifhpIn4vEyaLaTF3EDrDrEtX4hICsRONoW+Ps7icQ0CF2Gw
- 1GiTduelbhVLCtBBMW8sMNTSLK3vZi/WGKhL0D1PSM8jz61cC4kbZuPGnqdTyYftr6Mw
- C2Cg==
-X-Gm-Message-State: ANhLgQ1GmMwLiUpwqbBID8NLiPivNuTsKzaGz8AU/STShPNfP5QNWDYc
- cF4bonODKkUyG5TXyFxxuEs=
-X-Google-Smtp-Source: ADFU+vsStuckLpVn2CMO8otbm7LSh6nbqTchYUDl9xj5VPs6RCRr+PtrOezcRY96gHAGgqMRWvC5hw==
-X-Received: by 2002:a17:90a:678e:: with SMTP id
- o14mr2235635pjj.24.1583211809750; 
- Mon, 02 Mar 2020 21:03:29 -0800 (PST)
-Received: from localhost.localdomain ([2405:205:c8aa:e481:f8d3:6de2:77f9:5602])
- by smtp.gmail.com with ESMTPSA id b2sm780446pjc.40.2020.03.02.21.03.26
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=7+OPrhcCxhD88nBBppkS0Unot2bwdV1u+1a7nZ3TUsA=;
+ b=AOHdEFKRF6E0G4onI4t+3CNZp6/moh1mSGNMuRjIf9cjvSkFPY6rxtoEHkqOq4SWG0
+ AKRscTeHwm7OwE9M38HRdgckCqMxac/Ixaw1K06rmJOvbkin+4K7rgzjENXMBqt5fmUF
+ C6gT7t+lEab1Lm5TzE/VoZ2COMC07xvhUIzQA45H7Yqghn8y0Gk5yo7O8+WaH+YQpxVG
+ cuTlQPbsA+haroIm9CIK6KnKU3i4WDCuZakiSYCHWrM/6o4eZRl8stTNGg55cW+TXxtE
+ Kf1J+qI0GgVbM83mAmBud801IjIQjdCGVxmf+JQdQunObRWTnC5Ofap7d4s55xcOxGkH
+ uZ9g==
+X-Gm-Message-State: ANhLgQ2VRCElvQ9tDnm+OVvxW3YMWEfpr6WtdqQk60W7NkCHVIiBwK54
+ 9/+TXtXwE35RiW/boT80cA8=
+X-Google-Smtp-Source: ADFU+vv+wWZZSCz/PWWSj2zrrPSejDYdYRTa8dEA0uwFrJBvvQJareiMv0Ev1scHr5djPToJqBs40A==
+X-Received: by 2002:a63:fc62:: with SMTP id r34mr4498737pgk.437.1583246756508; 
+ Tue, 03 Mar 2020 06:45:56 -0800 (PST)
+Received: from localhost.localdomain ([103.118.34.152])
+ by smtp.gmail.com with ESMTPSA id e12sm9344869pff.168.2020.03.03.06.45.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 21:03:29 -0800 (PST)
-From: Pragat Pandya <pragat.pandya@gmail.com>
-To: corbet@lwn.net
-Date: Tue,  3 Mar 2020 10:33:01 +0530
-Message-Id: <20200303050301.5412-3-pragat.pandya@gmail.com>
+ Tue, 03 Mar 2020 06:45:56 -0800 (PST)
+From: Pawan Kumar Meena <pawank1804@gmail.com>
+To: paulmck@kernel.org,
+	joel@joelfernandes.org
+Date: Tue,  3 Mar 2020 20:15:46 +0530
+Message-Id: <20200303144546.20405-1-pawank1804@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200303050301.5412-1-pragat.pandya@gmail.com>
-References: <20200302114300.34875f69@lwn.net>
- <20200303050301.5412-1-pragat.pandya@gmail.com>
-Cc: Pragat Pandya <pragat.pandya@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v3 2/2] Documentation: Add
-	io_ordering.rst to driver-api manual
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH RESEND] Documentation: RCU:
+	lockdep.txt: Convert to lockdep.rst
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,32 +112,69 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add io_ordering.rst under Documentation/driver-api and reference it from
-the Sphinx TOC Tree present in Documentation/driver-api/index.rst
+This patch converts lockdep.txt to lockdep.rst and adds it to index.rst.
 
-Signed-off-by: Pragat Pandya <pragat.pandya@gmail.com>
+Signed-off-by: Pawan Kumar Meena <pawank1804@gmail.com>
 ---
- Documentation/driver-api/index.rst                            | 1 +
- Documentation/{io_ordering.txt => driver-api/io_ordering.rst} | 0
- 2 files changed, 1 insertion(+)
- rename Documentation/{io_ordering.txt => driver-api/io_ordering.rst} (100%)
+ Documentation/RCU/index.rst                    | 1 +
+ Documentation/RCU/{lockdep.txt => lockdep.rst} | 9 ++++++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+ rename Documentation/RCU/{lockdep.txt => lockdep.rst} (97%)
 
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index e9da95004632..9335412e3832 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -80,6 +80,7 @@ available subsections can be seen below.
-    isa
-    isapnp
-    io-mapping
-+   io_ordering
-    generic-counter
-    lightnvm-pblk
-    memory-devices/index
-diff --git a/Documentation/io_ordering.txt b/Documentation/driver-api/io_ordering.rst
-similarity index 100%
-rename from Documentation/io_ordering.txt
-rename to Documentation/driver-api/io_ordering.rst
+diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+index 81a0a1e5f767..109dea13f165 100644
+--- a/Documentation/RCU/index.rst
++++ b/Documentation/RCU/index.rst
+@@ -10,6 +10,7 @@ RCU concepts
+    arrayRCU
+    rcubarrier
+    rcu_dereference
++   lockdep
+    whatisRCU
+    rcu
+    listRCU
+diff --git a/Documentation/RCU/lockdep.txt b/Documentation/RCU/lockdep.rst
+similarity index 97%
+rename from Documentation/RCU/lockdep.txt
+rename to Documentation/RCU/lockdep.rst
+index 89db949eeca0..3a88d8a59753 100644
+--- a/Documentation/RCU/lockdep.txt
++++ b/Documentation/RCU/lockdep.rst
+@@ -1,4 +1,7 @@
++.. _lockdep_doc:
++
+ RCU and lockdep checking
++========================
+ 
+ All flavors of RCU have lockdep checking available, so that lockdep is
+ aware of when each task enters and leaves any flavor of RCU read-side
+@@ -63,7 +66,7 @@ checking of rcu_dereference() primitives:
+ The rcu_dereference_check() check expression can be any boolean
+ expression, but would normally include a lockdep expression.  However,
+ any boolean expression can be used.  For a moderately ornate example,
+-consider the following:
++consider the following::
+ 
+ 	file = rcu_dereference_check(fdt->fd[fd],
+ 				     lockdep_is_held(&files->file_lock) ||
+@@ -82,7 +85,7 @@ RCU read-side critical sections, in case (2) the ->file_lock prevents
+ any change from taking place, and finally, in case (3) the current task
+ is the only task accessing the file_struct, again preventing any change
+ from taking place.  If the above statement was invoked only from updater
+-code, it could instead be written as follows:
++code, it could instead be written as follows::
+ 
+ 	file = rcu_dereference_protected(fdt->fd[fd],
+ 					 lockdep_is_held(&files->file_lock) ||
+@@ -105,7 +108,7 @@ false and they are called from outside any RCU read-side critical section.
+ 
+ For example, the workqueue for_each_pwq() macro is intended to be used
+ either within an RCU read-side critical section or with wq->mutex held.
+-It is thus implemented as follows:
++It is thus implemented as follows::
+ 
+ 	#define for_each_pwq(pwq, wq)
+ 		list_for_each_entry_rcu((pwq), &(wq)->pwqs, pwqs_node,
 -- 
 2.17.1
 
