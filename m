@@ -1,101 +1,70 @@
-Return-Path: <SRS0=4Pq9=4U=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=g2Ly=4V=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBC5C3F2D1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 19:42:24 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F05AC3F2D8
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Mar 2020 11:08:06 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 84E8420870
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Mar 2020 19:42:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TeHtPEkl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 84E8420870
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id F16B620705
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Mar 2020 11:08:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F16B620705
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=rjwysocki.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 61E5A819A8;
-	Tue,  3 Mar 2020 19:42:24 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PKDDfKMCNIJj; Tue,  3 Mar 2020 19:42:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A2812815FD;
-	Tue,  3 Mar 2020 19:42:22 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F0DFC07FF;
-	Tue,  3 Mar 2020 19:42:22 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8A619C013E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 19:42:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 791E787134
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 19:42:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C5C468797A;
+	Wed,  4 Mar 2020 11:08:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iLaJ5cutIBKa; Wed,  4 Mar 2020 11:08:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id F232E87941;
+	Wed,  4 Mar 2020 11:08:04 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D9E5CC089F;
+	Wed,  4 Mar 2020 11:08:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 40A1DC013E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  4 Mar 2020 11:08:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 27223862BC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  4 Mar 2020 11:08:03 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O3Vc6388bjGG
+ with ESMTP id TJ8RWRYO4h5F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 19:42:19 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E57AE869FE
+ Wed,  4 Mar 2020 11:08:02 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from cloudserver094114.home.pl (cloudserver094114.home.pl
+ [79.96.170.134])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id C48078138B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Mar 2020 19:42:19 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id h8so2011495pgs.9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 03 Mar 2020 11:42:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=h8tgpVg/WfkWXXsiT8gGieydhGIhOktjnYkunJLTkFE=;
- b=TeHtPEkldUQWf/PJsAtcT4UKWLar2Eif6QpmqiA7ZBzu8z8t9N0sV1KcoHYSSDR3uE
- zeYClIONCtKoqETptiKgDam11vqgHkqS1sqMquDOGA9L8BGuGvl8LmRC/OOJ0UY4ZuGf
- VudfxiBsJNTc4FiNhuVD1g6vHWypvmro5M9okhyISWYUlaNEm49AIQ0qjMt7rSsOI31n
- pbUZZlv2NX7MO1CUNd9gr6n2vWE8cMag/fjD6Cnw3NbhyUpWhLYVwoZ3tt1tJnO0hvE4
- yXyCkLDkZNrwV6txnJ9dyeSHlMGlh+2trsGJJoYL1c2qUtbhoE71aQ6vmEmqKzV5kOVO
- V9vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=h8tgpVg/WfkWXXsiT8gGieydhGIhOktjnYkunJLTkFE=;
- b=tO871MgY3XfsZdsKvSVdptRavS1fwNo+QDwCuMPTF7ocIbBTzTR9OSTdbRkJa36oMQ
- 11bu99VLCyTNWe2M1iZjNcwAMVgsXiR8jXYj0LmdWMbm0sPt3EgRrdXYDlHG5AtnOyUW
- g4Bvs5xtlxmpArna6l5zTIFfsySxDD0HHsirO4DdQUOtsog+5NOqj2ItHssDMCqBinsb
- XImgi6u0HiRC/aYC18V5p4Rj0raZ1zp9/qd1Tn2y8aQ4FVm+Xr6DbL+UxbOrsxhYf0Yp
- 9DyvaTp8Ig+DCQ1dSKboGhgcdqACqFT5IR+N5mV6fjQr4gannHJZVyPWy7kfdWH+JPt5
- iHqA==
-X-Gm-Message-State: ANhLgQ0xMR/Mx2acgWC5szO9WK982P7niGIyKQCp27IsUqbAgNBJkHWX
- 3daT3/9+Otl2qjzFckTuCQ==
-X-Google-Smtp-Source: ADFU+vsIKjRLmDIQjJnuD8KDsJHg1Wjco2HXTvq6p5IDaeqCtmTHOBvLcd0q5Mu3WaP3xJoG+TiSiA==
-X-Received: by 2002:a62:aa14:: with SMTP id e20mr5529174pff.178.1583264539508; 
- Tue, 03 Mar 2020 11:42:19 -0800 (PST)
-Received: from madhuparna-HP-Notebook.nitk.ac.in
- ([2402:3a80:1ee0:eafa:280b:b5cb:5e89:a52d])
- by smtp.gmail.com with ESMTPSA id r9sm13737565pfq.72.2020.03.03.11.42.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2020 11:42:18 -0800 (PST)
-From: madhuparnabhowmik10@gmail.com
-To: rjw@rjwysocki.net, pavel@ucw.cz, len.brown@intel.com,
- gregkh@linuxfoundation.org
-Date: Wed,  4 Mar 2020 01:12:09 +0530
-Message-Id: <20200303194209.24685-1-madhuparnabhowmik10@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: paulmck@kernel.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, joel@joelfernandes.org,
+ Wed,  4 Mar 2020 11:08:01 +0000 (UTC)
+Received: from 79.184.237.41.ipv4.supernova.orange.pl (79.184.237.41) (HELO
+ kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
+ id 2bd8be21abd0c5ba; Wed, 4 Mar 2020 12:07:58 +0100
+From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To: madhuparnabhowmik10@gmail.com
+Date: Wed, 04 Mar 2020 12:07:58 +0100
+Message-ID: <1643853.WSYDh8IRHD@kreacher>
+In-Reply-To: <20200303194130.24617-1-madhuparnabhowmik10@gmail.com>
+References: <20200303194130.24617-1-madhuparnabhowmik10@gmail.com>
+MIME-Version: 1.0
+Cc: len.brown@intel.com, paulmck@kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, pavel@ucw.cz, joel@joelfernandes.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 2/2] drivers: base: power: wakeup.c:
-	Use built-in RCU list checking
+Subject: Re: [Linux-kernel-mentees] [PATCH 1/2] drivers: base: power:
+	main.c: Use built-in RCU list checking
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,98 +76,106 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+On Tuesday, March 3, 2020 8:41:30 PM CET madhuparnabhowmik10@gmail.com wrote:
+> From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> 
+> This patch passes the cond argument to list_for_each_entry_rcu()
+> to fix the following false-positive lockdep warnings:
+> (with CONFIG_PROVE_RCU_LIST = y)
+> 
+> [  330.302784] =============================
+> [  330.302789] WARNING: suspicious RCU usage
+> [  330.302796] 5.6.0-rc1+ #5 Not tainted
+> [  330.302801] -----------------------------
+> [  330.302808] drivers/base/power/main.c:326 RCU-list traversed in non-reader section!!
+> 
+> [  330.303303] =============================
+> [  330.303307] WARNING: suspicious RCU usage
+> [  330.303311] 5.6.0-rc1+ #5 Not tainted
+> [  330.303315] -----------------------------
+> [  330.303319] drivers/base/power/main.c:1698 RCU-list traversed in non-reader section!!
+> 
+> [  331.934969] =============================
+> [  331.934971] WARNING: suspicious RCU usage
+> [  331.934973] 5.6.0-rc1+ #5 Not tainted
+> [  331.934975] -----------------------------
+> [  331.934977] drivers/base/power/main.c:1238 RCU-list traversed in non-reader section!!
+> 
+> [  332.467772] WARNING: suspicious RCU usage
+> [  332.467775] 5.6.0-rc1+ #5 Not tainted
+> [  332.467775] -----------------------------
+> [  332.467778] drivers/base/power/main.c:269 RCU-list traversed in non-reader section!!
+> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> ---
+>  drivers/base/power/main.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index 0e99a760aebd..6d1dee7051eb 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -40,6 +40,10 @@
+>  
+>  typedef int (*pm_callback_t)(struct device *);
+>  
+> +#define list_for_each_entry_rcu_locked(pos, head, member) \
+> +	list_for_each_entry_rcu(pos, head, member, \
+> +			device_links_read_lock_held())
+> +
+>  /*
+>   * The entries in the dpm_list list are in a depth first order, simply
+>   * because children are guaranteed to be discovered after parents, and
+> @@ -266,7 +270,7 @@ static void dpm_wait_for_suppliers(struct device *dev, bool async)
+>  	 * callbacks freeing the link objects for the links in the list we're
+>  	 * walking.
+>  	 */
+> -	list_for_each_entry_rcu(link, &dev->links.suppliers, c_node)
+> +	list_for_each_entry_rcu_locked(link, &dev->links.suppliers, c_node)
+>  		if (READ_ONCE(link->status) != DL_STATE_DORMANT)
+>  			dpm_wait(link->supplier, async);
+>  
+> @@ -323,7 +327,7 @@ static void dpm_wait_for_consumers(struct device *dev, bool async)
+>  	 * continue instead of trying to continue in parallel with its
+>  	 * unregistration).
+>  	 */
+> -	list_for_each_entry_rcu(link, &dev->links.consumers, s_node)
+> +	list_for_each_entry_rcu_locked(link, &dev->links.consumers, s_node)
+>  		if (READ_ONCE(link->status) != DL_STATE_DORMANT)
+>  			dpm_wait(link->consumer, async);
+>  
+> @@ -1235,7 +1239,7 @@ static void dpm_superior_set_must_resume(struct device *dev)
+>  
+>  	idx = device_links_read_lock();
+>  
+> -	list_for_each_entry_rcu(link, &dev->links.suppliers, c_node)
+> +	list_for_each_entry_rcu_locked(link, &dev->links.suppliers, c_node)
+>  		link->supplier->power.must_resume = true;
+>  
+>  	device_links_read_unlock(idx);
+> @@ -1695,7 +1699,7 @@ static void dpm_clear_superiors_direct_complete(struct device *dev)
+>  
+>  	idx = device_links_read_lock();
+>  
+> -	list_for_each_entry_rcu(link, &dev->links.suppliers, c_node) {
+> +	list_for_each_entry_rcu_locked(link, &dev->links.suppliers, c_node) {
+>  		spin_lock_irq(&link->supplier->power.lock);
+>  		link->supplier->power.direct_complete = false;
+>  		spin_unlock_irq(&link->supplier->power.lock);
+> 
 
-Pass cond argument to list_for_each_entry_rcu() to fix the
-following false positive lockdep warning and other uses of
-list_for_each_entry_rcu() in wakeup.c.
-(CONFIG_PROVE_RCU_LIST = y)
+Applied along with the [2/2] (with updated changelogs) as 5.7 material.
 
-[  331.934648] =============================
-[  331.934650] WARNING: suspicious RCU usage
-[  331.934653] 5.6.0-rc1+ #5 Not tainted
-[  331.934655] -----------------------------
-[  331.934657] drivers/base/power/wakeup.c:408 RCU-list traversed in non-reader section!!
+Thanks!
 
-[  333.025156] =============================
-[  333.025161] WARNING: suspicious RCU usage
-[  333.025168] 5.6.0-rc1+ #5 Not tainted
-[  333.025173] -----------------------------
-[  333.025180] drivers/base/power/wakeup.c:424 RCU-list traversed in non-reader section!!
 
-Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
----
- drivers/base/power/wakeup.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/base/power/wakeup.c b/drivers/base/power/wakeup.c
-index 27f3e60608e5..7e33a8d829dc 100644
---- a/drivers/base/power/wakeup.c
-+++ b/drivers/base/power/wakeup.c
-@@ -24,6 +24,9 @@ suspend_state_t pm_suspend_target_state;
- #define pm_suspend_target_state	(PM_SUSPEND_ON)
- #endif
- 
-+#define list_for_each_entry_rcu_locked(pos, head, member) \
-+	list_for_each_entry_rcu(pos, head, member, \
-+		srcu_read_lock_held(&wakeup_srcu))
- /*
-  * If set, the suspend/hibernate code will abort transitions to a sleep state
-  * if wakeup events are registered during or immediately before the transition.
-@@ -405,7 +408,7 @@ void device_wakeup_arm_wake_irqs(void)
- 	int srcuidx;
- 
- 	srcuidx = srcu_read_lock(&wakeup_srcu);
--	list_for_each_entry_rcu(ws, &wakeup_sources, entry)
-+	list_for_each_entry_rcu_locked(ws, &wakeup_sources, entry)
- 		dev_pm_arm_wake_irq(ws->wakeirq);
- 	srcu_read_unlock(&wakeup_srcu, srcuidx);
- }
-@@ -421,7 +424,7 @@ void device_wakeup_disarm_wake_irqs(void)
- 	int srcuidx;
- 
- 	srcuidx = srcu_read_lock(&wakeup_srcu);
--	list_for_each_entry_rcu(ws, &wakeup_sources, entry)
-+	list_for_each_entry_rcu_locked(ws, &wakeup_sources, entry)
- 		dev_pm_disarm_wake_irq(ws->wakeirq);
- 	srcu_read_unlock(&wakeup_srcu, srcuidx);
- }
-@@ -874,7 +877,7 @@ void pm_print_active_wakeup_sources(void)
- 	struct wakeup_source *last_activity_ws = NULL;
- 
- 	srcuidx = srcu_read_lock(&wakeup_srcu);
--	list_for_each_entry_rcu(ws, &wakeup_sources, entry) {
-+	list_for_each_entry_rcu_locked(ws, &wakeup_sources, entry) {
- 		if (ws->active) {
- 			pm_pr_dbg("active wakeup source: %s\n", ws->name);
- 			active = 1;
-@@ -1025,7 +1028,7 @@ void pm_wakep_autosleep_enabled(bool set)
- 	int srcuidx;
- 
- 	srcuidx = srcu_read_lock(&wakeup_srcu);
--	list_for_each_entry_rcu(ws, &wakeup_sources, entry) {
-+	list_for_each_entry_rcu_locked(ws, &wakeup_sources, entry) {
- 		spin_lock_irq(&ws->lock);
- 		if (ws->autosleep_enabled != set) {
- 			ws->autosleep_enabled = set;
-@@ -1104,7 +1107,7 @@ static void *wakeup_sources_stats_seq_start(struct seq_file *m,
- 	}
- 
- 	*srcuidx = srcu_read_lock(&wakeup_srcu);
--	list_for_each_entry_rcu(ws, &wakeup_sources, entry) {
-+	list_for_each_entry_rcu_locked(ws, &wakeup_sources, entry) {
- 		if (n-- <= 0)
- 			return ws;
- 	}
--- 
-2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
