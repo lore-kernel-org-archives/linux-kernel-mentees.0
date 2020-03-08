@@ -8,97 +8,96 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B741C10F28
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Mar 2020 08:44:43 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CDDC18E7A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Mar 2020 08:44:51 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2BE2520838
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Mar 2020 08:44:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CC071206D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Mar 2020 08:44:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qVTVhAem"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BE2520838
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oSzQHE7G"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC071206D7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0BB2D86194;
-	Sun,  8 Mar 2020 08:44:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 95F9123120;
+	Sun,  8 Mar 2020 08:44:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RIWDHhUQpHFB; Sun,  8 Mar 2020 08:44:42 +0000 (UTC)
+	with ESMTP id MUv04XKTKnu0; Sun,  8 Mar 2020 08:44:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1E8D786C51;
-	Sun,  8 Mar 2020 08:44:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6C914204BE;
+	Sun,  8 Mar 2020 08:44:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D3A8C1D7E;
-	Sun,  8 Mar 2020 08:44:42 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3B1F7C0177
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C788C1D7E;
+	Sun,  8 Mar 2020 08:44:49 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B112DC0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Mar 2020 08:44:40 +0000 (UTC)
+ Sun,  8 Mar 2020 08:44:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2A6EB882AD
+ by silver.osuosl.org (Postfix) with ESMTP id A0063204BD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Mar 2020 08:44:40 +0000 (UTC)
+ Sun,  8 Mar 2020 08:44:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6CIcsimBH8yY
+ with ESMTP id 1QdENE-yjl5n
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Mar 2020 08:44:38 +0000 (UTC)
+ Sun,  8 Mar 2020 08:44:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8F75A882A7
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 75B3F2000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Mar 2020 08:44:38 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id s8so3093658pjq.0
+ Sun,  8 Mar 2020 08:44:47 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id d9so3301271pgu.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 08 Mar 2020 00:44:38 -0800 (PST)
+ Sun, 08 Mar 2020 00:44:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=u4xob7M3VcdUMVGTjlMM1SimMNPq7uMQvCl8kF/o6k0=;
- b=qVTVhAemqrI65nPIjDLkCeM58x2VtFN63u+KPbDcxnA4hDTMQzNJYSRwz4g+ttr90e
- 82bQjFGHJGNsQmwKSKvWz31OhYNHZ4qh1hKXhGyNGg5q8nlgoSjQ14/HkqTYfF/Agiis
- rwxsQ6LQn6paV6vxX4DwPegZQ3gRZBq7tzRVmyHgUeGx5OzbbzL6lSbGYS0+GKVhr8Os
- ylfwF9lLHZNohk6kqZHtLUgfKAxrqwyBVYj1KxDKJPobweI9npH2+r1MoqcIHxBqWorB
- TM49Uy/JtLIA+odwMqIyWSunVP9h3G1M6AibIQShipQ46nRAgC8spwnK/mTHlaTpSHhY
- jZdg==
+ bh=fysTmO4O6ghGhMX2wDtHaEm/Qh83ihIB7B1VYraQR1Q=;
+ b=oSzQHE7Gc/cal9Z65QJEu5b4Ms9MhbDY3OInWYlRd4l4x5DvpQIP2e1MZHQ9kqXJbg
+ OxkSmkQLriln+mvsJkEkVh3N1IPdf1I4pqxT5i+TQ7qcWB9lZT40MAhYPYptRdmyeUjK
+ Fi1TXQ3ix+wSD7PZtQ7/Y/u7VXzLXqm4L4d8B0Fhvi4P7Ojk+DKJ+h1Of/0PylOG8X0R
+ s8h4nZK4/u0+rf5O6VDOIUTIbyvtNTxXM2XU0C0osR7dwaxdJS/wUZMBvVL13w9DXrvu
+ IoAUjRKqWq1KB8CiBeb6KpXKKjwxcoLc2SvtwEMVc7HU64hf5cEuka9RsACikW4w6ve6
+ eYtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u4xob7M3VcdUMVGTjlMM1SimMNPq7uMQvCl8kF/o6k0=;
- b=mbw0ZB25TSqjAFQW/5Qt9/WGKhxHgX1UMWBUlNzcuCcqk2i3O9Du2DmEnbfccous5w
- iYLpG9c+e8kj+t2dLiwItKnkEzZBe6ubGfcWKl4+vvRVFrnVquJx17MIC8LdThx2PS4e
- tkjyIr0Rcph6NRsCIBfdxgBPhpSh5L8jyf+1A5pFeFZDyS8d06yGjhWD9ZZISCUZruZO
- UffrVKCftgbCVl/Bo608fQJPNXOcQlnF9YDgJdKByItthYfGcf6MOK3PTUtGd8CsdYDX
- rQ4HKaeeAKugTLrNJKqBoUeagkTWwKsTu/rIvesdjrJMgAGQEItJ7aQTdXjMOIK0mYEi
- rx8g==
-X-Gm-Message-State: ANhLgQ2inhnblvjiL8lyMhLBA+yqVaimAOJL9zh7pZQaAASL8fhf6W5L
- sGenSvuSwfuxH0N+ZbUH/48=
-X-Google-Smtp-Source: ADFU+vuIzQXXm6gnq7MUYQbP1FSud0u75wqkMlpy+8GMMRYvfOvuc90ACnsvsQC1fA220pP6fXoe3w==
-X-Received: by 2002:a17:90a:a890:: with SMTP id
- h16mr1440943pjq.55.1583657077888; 
- Sun, 08 Mar 2020 00:44:37 -0800 (PST)
+ bh=fysTmO4O6ghGhMX2wDtHaEm/Qh83ihIB7B1VYraQR1Q=;
+ b=WfZ7pj2BTiAMqikLfSXL37ZOTzJRQj4h7SXL6Q1LWKd29jg64XYHf61DXF1Psrm1hL
+ Oqt2ezQ/YWAXQ0hK7Sx7ScwYZYw3yQlpJjDBUPtpin0hgt11EWldLBnyvLqqwKnR3EaX
+ TXsJghmgtjjnJziSksG7sBik5t3ppghp4OJvSp8/F4zleeuTggJwD9wCr4HpiSA8AY6h
+ otu1SS6fijxOWQSniwanR9i7gZw84/0lq+29TU00jJKbbqSWOPNoLYNWhtiPHBWKWiuj
+ TseIo/rbeFkMYWDdqh3AhiXRzFtM6bt824sS3w/2AgpmLkupSYAgr3YKwbIFt1FCLLTL
+ RrSA==
+X-Gm-Message-State: ANhLgQ1YWSSFhe7/FC9QNVJTtOTIZOVR4IZ/arU2oWuRAnBVp0sSO7EJ
+ FYT8pEUFm9wG1NX7mgrmUoxKF+nn
+X-Google-Smtp-Source: ADFU+vulayWYPzrfKfwu42D9NaMtCb3y0A5vlQay5Q6F+siN5gw4EB/NUvaixXVAyc+sBdXzjAy12g==
+X-Received: by 2002:aa7:9a8c:: with SMTP id w12mr11669743pfi.218.1583657086994; 
+ Sun, 08 Mar 2020 00:44:46 -0800 (PST)
 Received: from localhost.localdomain ([1.38.148.20])
- by smtp.gmail.com with ESMTPSA id b3sm14587244pjo.30.2020.03.08.00.44.33
+ by smtp.gmail.com with ESMTPSA id b3sm14587244pjo.30.2020.03.08.00.44.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Mar 2020 00:44:37 -0800 (PST)
+ Sun, 08 Mar 2020 00:44:46 -0800 (PST)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Sun,  8 Mar 2020 14:13:51 +0530
-Message-Id: <20200308084356.14506-9-jaskaransingh7654321@gmail.com>
+Date: Sun,  8 Mar 2020 14:13:53 +0530
+Message-Id: <20200308084356.14506-11-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200308084356.14506-1-jaskaransingh7654321@gmail.com>
 References: <20200308084356.14506-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 08/13] parsing_cocci: Add visitor
-	functions for enum_decl in visitor_ast
+Subject: [Linux-kernel-mentees] [PATCH 10/13] engine: cocci_vs_c: Match
+	enumerators properly as per enum_decl
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,304 +115,82 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-An enumerator in the SmPL AST now has the enum_decl type.
-Add corresponding functions for the combiner, combiner_rebuilder
-and rebuilder in Visitor_ast.
+The SmPL AST has a separate enum_decl type for an enumerator.
+Make corresponding changes in Cocci_vs_c to correctly match
+enumerators.
 
-Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>n
+Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_cocci/visitor_ast.ml  | 72 +++++++++++++++++++++++++++++++----
- parsing_cocci/visitor_ast.mli |  8 ++++
- 2 files changed, 73 insertions(+), 7 deletions(-)
+ engine/cocci_vs_c.ml | 44 ++++++++++++++++++--------------------------
+ 1 file changed, 18 insertions(+), 26 deletions(-)
 
-diff --git a/parsing_cocci/visitor_ast.ml b/parsing_cocci/visitor_ast.ml
-index 3d5de794..df6b5a90 100644
---- a/parsing_cocci/visitor_ast.ml
-+++ b/parsing_cocci/visitor_ast.ml
-@@ -27,6 +27,7 @@ type 'a combiner =
-      combiner_declaration : Ast.declaration -> 'a;
-      combiner_field : Ast.field -> 'a;
-      combiner_ann_field : Ast.annotated_field -> 'a;
-+     combiner_enumdecl : Ast_cocci.enum_decl -> 'a;
-      combiner_initialiser : Ast.initialiser -> 'a;
-      combiner_parameter : Ast.parameterTypeDef -> 'a;
-      combiner_parameter_list : Ast.parameter_list -> 'a;
-@@ -39,6 +40,7 @@ type 'a combiner =
-      combiner_statement_dots : Ast.statement Ast.dots -> 'a;
-      combiner_anndecl_dots : Ast.annotated_decl Ast.dots -> 'a;
-      combiner_annfield_dots : Ast.annotated_field Ast.dots -> 'a;
-+     combiner_enumdecl_dots : Ast.enum_decl Ast.dots -> 'a;
-      combiner_initialiser_dots : Ast.initialiser Ast.dots -> 'a}
+diff --git a/engine/cocci_vs_c.ml b/engine/cocci_vs_c.ml
+index 5d123164..1a9b3671 100644
+--- a/engine/cocci_vs_c.ml
++++ b/engine/cocci_vs_c.ml
+@@ -3304,14 +3304,14 @@ and (struct_field: (A.annotated_field, B.field) matcher) =
+ and enum_fields = fun eas ebs ->
+   let match_dots ea =
+     match A.unwrap ea with
+-      A.Edots(mcode, optexpr) -> Some (mcode, optexpr)
++      A.EnumDots(mcode, optexpr) -> Some (mcode, optexpr)
+     | _ -> None in
+-  let build_dots (mcode, optexpr) = A.Edots(mcode, optexpr) in
++  let build_dots (mcode, optexpr) = A.EnumDots(mcode, optexpr) in
+   let match_comma ea =
+     match A.unwrap ea with
+-      A.EComma ia1 -> Some ia1
++      A.EnumComma ia1 -> Some ia1
+     | _ -> None in
+-  let build_comma ia1 = A.EComma ia1 in
++  let build_comma ia1 = A.EnumComma ia1 in
+   let match_metalist ea = None in
+   let build_metalist _ (ida,leninfo,cstr,keep,inherited) =
+     failwith "enum: build meta list: not possible" in
+@@ -3326,29 +3326,21 @@ and enum_fields = fun eas ebs ->
+ and enum_field ida idb =
+   X.all_bound (A.get_inherited ida) >&&>
+   match A.unwrap ida, idb with
+-    A.Ident(id),(nameidb,None) ->
+-      ident_cpp DontKnow id nameidb >>= (fun id nameidb ->
+-        return ((A.Ident id) +> A.rewrap ida, (nameidb,None)))
+-  | A.Ident(id),(nameidb,Some _) -> fail (* should we have an iso? *)
+-  | A.Assignment(ea1,opa,ea2,init),(nameidb,Some(opbi,eb2)) ->
+-      (match A.unwrap ea1 with
+-	A.Ident(id) ->
+-	  let assignOp opa0 opbi =
+-	    match A.unwrap opa0 with
+-              A.SimpleAssign oa ->
+-		tokenf oa opbi >>= fun oa opbi ->
+-		  return
+-                    (A.rewrap opa (A.SimpleAssign oa), opbi)
+-            | _ -> failwith "only simple assignment possible here" in
+-	  ident_cpp DontKnow id nameidb >>= (fun id nameidb ->
+-	  expression ea2 eb2 >>= (fun ea2 eb2 ->
+-          assignOp opa opbi >>= (fun opa opbi ->(* only one kind of assignop *)
++    A.Enum(nameida,enum_vala),(nameidb,enum_valb) ->
++      (match enum_vala,enum_valb with
++        (None, Some _)
++      | (Some _, None) -> fail
++      | (None, None) ->
++         ident_cpp DontKnow nameida nameidb >>=
++         (fun nameida nameidb ->
++           return (A.Enum(nameida,None) +> A.rewrap ida, (nameidb,None)))
++      | (Some (eqa,evala), Some(eqb,evalb)) ->
++	  ident_cpp DontKnow nameida nameidb >>= (fun nameida nameidb ->
++          tokenf eqa eqb >>= (fun eqa eqb ->
++	  expression evala evalb >>= (fun ea eb ->
+ 	    return (
+-	    (A.Assignment((A.Ident(id)) +> A.rewrap ea1,opa,ea2,init)) +>
+-	    A.rewrap ida,
+-	    (nameidb,Some(opbi,eb2))))))
+-      |	_ -> failwith "enum: assignment: not possible")
+-  | A.Assignment(ea1,opa,ea2,init),(nameidb,None) -> fail
++	    (A.Enum(nameida,Some(eqa,ea)) +> A.rewrap ida),
++	    (nameidb,Some(eqb,eb)))))))
+   | _ -> failwith ("not possible: "^(Dumper.dump (A.unwrap ida)))
  
- type ('mc,'a) cmcode = 'a combiner -> 'mc Ast_cocci.mcode -> 'a
-@@ -50,11 +52,12 @@ let combiner bind option_default
-     unary_mcodefn arithop_mcodefn logicalop_mcodefn
-     cv_mcodefn sign_mcodefn struct_mcodefn storage_mcodefn
-     inc_file_mcodefn
--    expdotsfn paramdotsfn stmtdotsfn anndecldotsfn annfielddotsfn initdotsfn
-+    expdotsfn paramdotsfn stmtdotsfn anndecldotsfn annfielddotsfn
-+    enumdecldotsfn initdotsfn
-     identfn exprfn fragfn fmtfn assignOpfn binaryOpfn ftfn tyfn initfn
-     paramfn define_paramfn declfn
--    annotated_declfn fieldfn annotated_fieldfn rulefn stmtfn casefn topfn
--    anyfn =
-+    annotated_declfn fieldfn annotated_fieldfn enum_declfn rulefn stmtfn
-+    casefn topfn anyfn =
-   let multibind l =
-     let rec loop = function
- 	[] -> option_default
-@@ -95,6 +98,8 @@ let combiner bind option_default
-     dotsfn anndecldotsfn annotated_decl all_functions d
-   and annotated_field_dots d =
-     dotsfn annfielddotsfn annotated_field all_functions d
-+  and enum_decl_dots d =
-+    dotsfn enumdecldotsfn enum_decl all_functions d
-   and initialiser_dots d = dotsfn initdotsfn initialiser all_functions d
-   and string_fragment_dots d = dotsfn strdotsfn string_fragment all_functions d
-   and exec_code_dots d = dotsfn ecdotsfn exec_code all_functions d
-@@ -348,7 +353,7 @@ let combiner bind option_default
-       | Ast.EnumDef(ty,lb,ids,rb) ->
- 	  let lty = fullType ty in
- 	  let llb = string_mcode lb in
--	  let lids = expression_dots ids in
-+	  let lids = enum_decl_dots ids in
- 	  let lrb = string_mcode rb in
- 	  multibind [lty; llb; lids; lrb]
-       | Ast.StructUnionName(kind,name) ->
-@@ -498,6 +503,25 @@ let combiner bind option_default
-       | Ast.OptField(decl) -> annotated_field decl in
-     annotated_fieldfn all_functions k d
- 
-+  and enum_decl d =
-+    let k d =
-+      match Ast.unwrap d with
-+	Ast.Enum(name,enum_val) ->
-+          let lname = ident name in
-+          (match enum_val with
-+            None -> lname
-+          | Some(eq,eval) ->
-+              let leq = string_mcode eq in
-+              let leval = expression eval in
-+              multibind [lname; leq; leval])
-+      | Ast.EnumComma(cm) ->
-+        string_mcode cm
-+      | Ast.EnumDots(dots,whncode) ->
-+        let ldots = string_mcode dots in
-+        let lwhncode = get_option enum_decl whncode in
-+	bind ldots lwhncode in
-+    enum_declfn all_functions k d
-+
-   and initialiser i =
-     let k i =
-       match Ast.unwrap i with
-@@ -899,6 +923,7 @@ let combiner bind option_default
-       | Ast.LogicalOpTag(logop) -> option_default
-       | Ast.DeclarationTag(decl) -> declaration decl
-       | Ast.FieldTag(decl) -> field decl
-+      | Ast.EnumDeclTag(decl) -> enum_decl decl
-       | Ast.InitTag(ini) -> initialiser ini
-       | Ast.StorageTag(stg) -> option_default
-       | Ast.IncFileTag(stg) -> option_default
-@@ -916,6 +941,7 @@ let combiner bind option_default
-       | Ast.StmtDotsTag(sd) -> statement_dots sd
-       | Ast.AnnDeclDotsTag(sd) -> annotated_decl_dots sd
-       | Ast.AnnFieldDotsTag(sd) -> annotated_field_dots sd
-+      | Ast.EnumDeclDotsTag(sd) -> enum_decl_dots sd
-       | Ast.DefParDotsTag(sd) -> define_param_dots sd
-       | Ast.TypeCTag(ty) -> typeC ty
-       | Ast.ParamTag(param) -> parameterTypeDef param
-@@ -935,6 +961,7 @@ let combiner bind option_default
-       combiner_declaration = declaration;
-       combiner_field = field;
-       combiner_ann_field = annotated_field;
-+      combiner_enumdecl = enum_decl;
-       combiner_initialiser = initialiser;
-       combiner_parameter = parameterTypeDef;
-       combiner_parameter_list = parameter_dots;
-@@ -947,6 +974,7 @@ let combiner bind option_default
-       combiner_statement_dots = statement_dots;
-       combiner_anndecl_dots = annotated_decl_dots;
-       combiner_annfield_dots = annotated_field_dots;
-+      combiner_enumdecl_dots = enum_decl_dots;
-       combiner_initialiser_dots = initialiser_dots} in
-   all_functions
- 
-@@ -966,6 +994,7 @@ type rebuilder =
-       rebuilder_declaration : Ast.declaration inout;
-       rebuilder_field : Ast.field inout;
-       rebuilder_ann_field : Ast.annotated_field inout;
-+      rebuilder_enumdecl : Ast_cocci.enum_decl inout;
-       rebuilder_initialiser : Ast.initialiser inout;
-       rebuilder_parameter : Ast.parameterTypeDef inout;
-       rebuilder_parameter_list : Ast.parameter_list inout;
-@@ -977,6 +1006,7 @@ type rebuilder =
-       rebuilder_statement_dots : Ast.statement Ast.dots inout;
-       rebuilder_anndecl_dots : Ast.annotated_decl Ast.dots inout;
-       rebuilder_annfield_dots : Ast.annotated_field Ast.dots inout;
-+      rebuilder_enumdecl_dots : Ast.enum_decl Ast.dots inout;
-       rebuilder_initialiser_dots : Ast.initialiser Ast.dots inout;
-       rebuilder_define_param_dots : Ast.define_param Ast.dots inout;
-       rebuilder_define_param : Ast.define_param inout;
-@@ -992,10 +1022,11 @@ let rebuilder
-     fix_mcode unary_mcode
-     arithop_mcode logicalop_mcode cv_mcode sign_mcode struct_mcode
-     storage_mcode inc_file_mcode
--    expdotsfn paramdotsfn stmtdotsfn anndecldotsfn annfielddotsfn initdotsfn
-+    expdotsfn paramdotsfn stmtdotsfn anndecldotsfn annfielddotsfn
-+    enumdecldotsfn initdotsfn
-     identfn exprfn fragfn fmtfn assignOpfn binaryOpfn ftfn tyfn initfn
-     paramfn define_paramfn declfn annotated_declfn fieldfn annotated_fieldfn
--    rulefn stmtfn casefn topfn anyfn =
-+    enum_declfn rulefn stmtfn casefn topfn anyfn =
-   let get_option f = function
-       Some x -> Some (f x)
-     | None -> None in
-@@ -1014,6 +1045,8 @@ let rebuilder
-     dotsfn anndecldotsfn annotated_decl all_functions d
-   and annotated_field_dots d =
-     dotsfn annfielddotsfn annotated_field all_functions d
-+  and enum_decl_dots d =
-+    dotsfn enumdecldotsfn enum_decl all_functions d
-   and initialiser_dots d = dotsfn initdotsfn initialiser all_functions d
-   and string_fragment_dots d = dotsfn strdotsfn string_fragment all_functions d
-   and exec_code_dots d = dotsfn ecdotsfn exec_code all_functions d
-@@ -1274,7 +1307,7 @@ let rebuilder
- 	| Ast.EnumDef(ty,lb,ids,rb) ->
- 	    let lty = fullType ty in
- 	    let llb = string_mcode lb in
--	    let lids = expression_dots ids in
-+	    let lids = enum_decl_dots ids in
- 	    let lrb = string_mcode rb in
- 	    Ast.EnumDef (lty, llb, lids, lrb)
- 	| Ast.StructUnionName(kind,name) ->
-@@ -1421,6 +1454,27 @@ let rebuilder
- 	| Ast.OptField(decl) -> Ast.OptField(annotated_field decl)) in
-     annotated_fieldfn all_functions k d
- 
-+  and enum_decl d =
-+    let k d =
-+      Ast.rewrap d
-+        (match Ast.unwrap d with
-+         Ast.Enum(name,enum_val) ->
-+            let lname = ident name in
-+            (match enum_val with
-+              None -> Ast.Enum(lname,None)
-+            | Some(eq,eval) ->
-+                let leq = string_mcode eq in
-+                let leval = expression eval in
-+                Ast.Enum(lname,Some(leq,leval)))
-+        | Ast.EnumComma(cm) ->
-+          let lcm = string_mcode cm in
-+          Ast.EnumComma(lcm)
-+	| Ast.EnumDots(dots,whncode) ->
-+	  let ldots = string_mcode dots in
-+	  let lwhncode = get_option enum_decl whncode in
-+	  Ast.EnumDots(ldots, lwhncode)) in
-+    enum_declfn all_functions k d
-+
-   and initialiser i =
-     let k i =
-       Ast.rewrap i
-@@ -1851,6 +1905,7 @@ let rebuilder
-       | Ast.InitTag(decl) -> Ast.InitTag(initialiser decl)
-       | Ast.DeclarationTag(decl) -> Ast.DeclarationTag(declaration decl)
-       | Ast.FieldTag(decl) -> Ast.FieldTag(field decl)
-+      | Ast.EnumDeclTag(decl) -> Ast.EnumDeclTag(enum_decl decl)
-       | Ast.StorageTag(stg) as x -> x
-       | Ast.IncFileTag(stg) as x -> x
-       | Ast.Rule_elemTag(rule) -> Ast.Rule_elemTag(rule_elem rule)
-@@ -1868,6 +1923,7 @@ let rebuilder
-       | Ast.StmtDotsTag(sd) -> Ast.StmtDotsTag(statement_dots sd)
-       | Ast.AnnDeclDotsTag(sd) -> Ast.AnnDeclDotsTag(annotated_decl_dots sd)
-       | Ast.AnnFieldDotsTag(sd) -> Ast.AnnFieldDotsTag(annotated_field_dots sd)
-+      | Ast.EnumDeclDotsTag(sd) -> Ast.EnumDeclDotsTag(enum_decl_dots sd)
-       | Ast.DefParDotsTag(sd) -> Ast.DefParDotsTag(define_param_dots sd)
-       | Ast.TypeCTag(ty) -> Ast.TypeCTag(typeC ty)
-       | Ast.ParamTag(param) -> Ast.ParamTag(parameterTypeDef param)
-@@ -1887,6 +1943,7 @@ let rebuilder
-       rebuilder_declaration = declaration;
-       rebuilder_field = field;
-       rebuilder_ann_field = annotated_field;
-+      rebuilder_enumdecl = enum_decl;
-       rebuilder_initialiser = initialiser;
-       rebuilder_parameter = parameterTypeDef;
-       rebuilder_parameter_list = parameter_dots;
-@@ -1898,6 +1955,7 @@ let rebuilder
-       rebuilder_statement_dots = statement_dots;
-       rebuilder_anndecl_dots = annotated_decl_dots;
-       rebuilder_annfield_dots = annotated_field_dots;
-+      rebuilder_enumdecl_dots = enum_decl_dots;
-       rebuilder_initialiser_dots = initialiser_dots;
-       rebuilder_define_param_dots = define_param_dots;
-       rebuilder_define_param = define_param;
-diff --git a/parsing_cocci/visitor_ast.mli b/parsing_cocci/visitor_ast.mli
-index 20ce32b0..0ed17774 100644
---- a/parsing_cocci/visitor_ast.mli
-+++ b/parsing_cocci/visitor_ast.mli
-@@ -16,6 +16,7 @@ type 'a combiner =
-      combiner_declaration : Ast_cocci.declaration -> 'a;
-      combiner_field : Ast_cocci.field -> 'a;
-      combiner_ann_field : Ast_cocci.annotated_field -> 'a;
-+     combiner_enumdecl : Ast_cocci.enum_decl -> 'a;
-      combiner_initialiser : Ast_cocci.initialiser -> 'a;
-      combiner_parameter : Ast_cocci.parameterTypeDef -> 'a;
-      combiner_parameter_list : Ast_cocci.parameter_list -> 'a;
-@@ -28,6 +29,7 @@ type 'a combiner =
-      combiner_statement_dots : Ast_cocci.statement Ast_cocci.dots -> 'a;
-      combiner_anndecl_dots : Ast_cocci.annotated_decl Ast_cocci.dots -> 'a;
-      combiner_annfield_dots : Ast_cocci.annotated_field Ast_cocci.dots -> 'a;
-+     combiner_enumdecl_dots : Ast_cocci.enum_decl Ast_cocci.dots -> 'a;
-      combiner_initialiser_dots : Ast_cocci.initialiser Ast_cocci.dots -> 'a}
- 
- type ('mc,'a) cmcode = 'a combiner -> 'mc Ast_cocci.mcode -> 'a
-@@ -54,6 +56,7 @@ val combiner :
-       ((Ast_cocci.statement Ast_cocci.dots,'a) ccode) ->
-       ((Ast_cocci.annotated_decl Ast_cocci.dots,'a) ccode) ->
-       ((Ast_cocci.annotated_field Ast_cocci.dots,'a) ccode) ->
-+      ((Ast_cocci.enum_decl Ast_cocci.dots,'a) ccode) ->
-       ((Ast_cocci.initialiser Ast_cocci.dots,'a) ccode) ->
-       ((Ast_cocci.ident,'a) ccode) ->
-       ((Ast_cocci.expression,'a) ccode) ->
-@@ -70,6 +73,7 @@ val combiner :
-       ((Ast_cocci.annotated_decl,'a) ccode) ->
-       ((Ast_cocci.field,'a) ccode) ->
-       ((Ast_cocci.annotated_field,'a) ccode) ->
-+      ((Ast_cocci.enum_decl,'a) ccode) ->
-       ((Ast_cocci.rule_elem,'a) ccode) ->
-       ((Ast_cocci.statement,'a) ccode) ->
-       ((Ast_cocci.case_line,'a) ccode) ->
-@@ -91,6 +95,7 @@ type rebuilder =
-       rebuilder_declaration : Ast_cocci.declaration inout;
-       rebuilder_field : Ast_cocci.field inout;
-       rebuilder_ann_field : Ast_cocci.annotated_field inout;
-+      rebuilder_enumdecl : Ast_cocci.enum_decl inout;
-       rebuilder_initialiser : Ast_cocci.initialiser inout;
-       rebuilder_parameter : Ast_cocci.parameterTypeDef inout;
-       rebuilder_parameter_list : Ast_cocci.parameter_list inout;
-@@ -102,6 +107,7 @@ type rebuilder =
-       rebuilder_statement_dots : Ast_cocci.statement Ast_cocci.dots inout;
-       rebuilder_anndecl_dots : Ast_cocci.annotated_decl Ast_cocci.dots inout;
-       rebuilder_annfield_dots : Ast_cocci.annotated_field Ast_cocci.dots inout;
-+      rebuilder_enumdecl_dots : Ast_cocci.enum_decl Ast_cocci.dots inout;
-       rebuilder_initialiser_dots : Ast_cocci.initialiser Ast_cocci.dots inout;
-       rebuilder_define_param_dots: Ast_cocci.define_param Ast_cocci.dots inout;
-       rebuilder_define_param : Ast_cocci.define_param inout;
-@@ -131,6 +137,7 @@ val rebuilder :
-     (Ast_cocci.statement Ast_cocci.dots rcode) ->
-     (Ast_cocci.annotated_decl Ast_cocci.dots rcode) ->
-     (Ast_cocci.annotated_field Ast_cocci.dots rcode) ->
-+    (Ast_cocci.enum_decl Ast_cocci.dots rcode) ->
-     (Ast_cocci.initialiser Ast_cocci.dots rcode) ->
-     (Ast_cocci.ident rcode) ->
-     (Ast_cocci.expression rcode) ->
-@@ -147,6 +154,7 @@ val rebuilder :
-     (Ast_cocci.annotated_decl rcode) ->
-     (Ast_cocci.field rcode) ->
-     (Ast_cocci.annotated_field rcode) ->
-+    (Ast_cocci.enum_decl rcode) ->
-     (Ast_cocci.rule_elem rcode) ->
-     (Ast_cocci.statement rcode) ->
-     (Ast_cocci.case_line rcode) ->
+ (* ------------------------------------------------------------------------- *)
 -- 
 2.21.1
 
