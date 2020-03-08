@@ -2,103 +2,102 @@ Return-Path: <SRS0=hY7L=4Z=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,LONGWORDS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99E22C10F28
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Mar 2020 08:44:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F2E5C10F29
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Mar 2020 08:44:53 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6FEB2206D7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Mar 2020 08:44:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 35750206D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Mar 2020 08:44:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EE8xPAes"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6FEB2206D7
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aFKI6UVD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 35750206D7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 50B15882AD;
-	Sun,  8 Mar 2020 08:44:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1CCD586C9B;
+	Sun,  8 Mar 2020 08:44:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id djgTRyAsnITW; Sun,  8 Mar 2020 08:44:49 +0000 (UTC)
+	with ESMTP id nZkriC8Th_bZ; Sun,  8 Mar 2020 08:44:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3B73188277;
-	Sun,  8 Mar 2020 08:44:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7969F86194;
+	Sun,  8 Mar 2020 08:44:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2ABBBC1D7E;
-	Sun,  8 Mar 2020 08:44:49 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 42609C0177
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7697EC1D7E;
+	Sun,  8 Mar 2020 08:44:52 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C5304C0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Mar 2020 08:44:47 +0000 (UTC)
+ Sun,  8 Mar 2020 08:44:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3102886A98
+ by whitealder.osuosl.org (Postfix) with ESMTP id C187F87C5B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Mar 2020 08:44:47 +0000 (UTC)
+ Sun,  8 Mar 2020 08:44:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bsG-nFFRLLEn
+ with ESMTP id ofhHSoV8F4pq
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Mar 2020 08:44:45 +0000 (UTC)
+ Sun,  8 Mar 2020 08:44:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 2CE44873E3
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E0B7E87987
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Mar 2020 08:44:45 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id t3so498317plz.9
+ Sun,  8 Mar 2020 08:44:50 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id d9so3301304pgu.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 08 Mar 2020 00:44:45 -0800 (PST)
+ Sun, 08 Mar 2020 00:44:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nA2YqOGpEoSu1MDV8aYZbdbxMa2RGKefRMdD4sSj1/E=;
- b=EE8xPAesB4a/Cl8osImcbf0DzoZqQ/4YN678PTc4HrCVpZREA7DuEZ+PQnInVPTaPA
- YWrconKU8Y01nZ8B+2uhC9/FHs795TNaHedTT36VVDVcxvCf9Y7BOXuXc2uNs/gROnJs
- +2SA4C4jH2AsqLqBQ6UdF2pZ5OtNfB5Cwt3mEE5L3NcwdlxFiXEUC5JmtzQGWGqCVSf2
- uaLaSMgM9qf46RP7JRC7+dMV74ENSm80AHrtEfFwLn8ZkpiVwqDBXmLx6fYVfvIj6oyh
- q+R4JEaYUQhJauo0zdDmyx+RbQsJnrMtf6Skp9gUC/0RIEpVfwCfF/7HarGj1dyDuIzV
- vYCw==
+ bh=9JAdyz2iBJMEmw31vFq2hVb+1Gs7bt49sVWPqgDF7jo=;
+ b=aFKI6UVDaebs4uc00T2kHOJKk52T3qRsP3Gwu70aUiHEjuDyh9P+pxZR+aG/ATHxKm
+ 74xz6eoziCYnLFdcDxpZLBXb8ARP+B2QyNhRwFc3HIG1YDRsQKQX1AcehRsoGiZ8c5x0
+ DaVopmNtsxyG69kQluqv3KfWAnFfSzJ1F/AeSVRZrqJzpchC5jgDuoxGaOZeyhOuWBXW
+ kgonYqXyoJ1LOLcps2BMRgt0FD7jREQyL1Vxv+gZsxhUiNR31Bx20gmhWGLqWyO2/E85
+ qDqOXH2m0TxgL/FIQhIIMSg1zLObuzCjXcmgOfdD81HKg8rNTz+dALYNF2NwrnGUwZK5
+ oFaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nA2YqOGpEoSu1MDV8aYZbdbxMa2RGKefRMdD4sSj1/E=;
- b=WhzF35Dz/EPfOtgrJ/47A1HAg7p+2KazkK2kuhs2UeXuVVQVEAr0w2mC6WiBJUTpB0
- /sowzZY3grU8/ycH3QQzprRCjJBjU8P3HkSSi/QTRnKczbJDwKgLi6K5m3TYrHGKN6Te
- QJj7DfHaSQlZhc3UbomU5Qt6SurpYidl0YrJZ3OUpLP9+FKRX+CNwU/lBS+oiHPdG5qA
- RV1J0C0KJqgXT54vQ83J3vnz9T6nGYegVxJGihHrjKmej3mgsTeFH5t14BIYjAgx7ZJF
- AkwNz30fbkJwnjNt2aEl5o5QjYKpuiFFvu6AhudMBOChWZdquGyWEQAPqC4Gtg4iq61L
- bwuA==
-X-Gm-Message-State: ANhLgQ0eKRK7TWOEx7TPk1hQUOlPxeTLhgCLkb3k5aSzJlPLnLUi4N/Q
- sm1zECucKcuLM8UWUq5aeaoWQEw0
-X-Google-Smtp-Source: ADFU+vsSoUFRSW3wcpXrIsKKvGsJAc2CMOzbMbhoPJDp3KZ4WIBRoWaDzLVC3tKzphCHZOoCAAxjaw==
-X-Received: by 2002:a17:90a:fa05:: with SMTP id
- cm5mr12536159pjb.94.1583657084414; 
- Sun, 08 Mar 2020 00:44:44 -0800 (PST)
+ bh=9JAdyz2iBJMEmw31vFq2hVb+1Gs7bt49sVWPqgDF7jo=;
+ b=HvWruwYtTGRGPJ2Vph9aPgNSRkX4sWYfJSc9UkU1XzIxQ0EH5M184dnQSUIDMuHxYA
+ a5oFoQbk44tr/58pBv1eFqu8ipc4cAfrSE31T/uYp3j2/q8zLhnfWPxZI0HKHRGb3eah
+ i001fiLsX3q5ThDEswtu0wx7dl4CPXK9fuN/KPMHNG4agi7ltRM5pfK7z53wRpcBuMNO
+ 53zUbQNlovcQMw1DeqdzfKZ7ohzHoSSo+hGfr6dAU3/MuEiFZuCdtYzC6Fg/OIwQN+NI
+ SRI+q1PD86X9ih8Q+kbUp1vAVDNvD2ne2Ap1rO9rXqVgfgMlio6iEuV00m9NrzTdB0T6
+ w4wg==
+X-Gm-Message-State: ANhLgQ2hlQQXw3MNppZinH8eZ7CVsUqicw9E8URv+DIkCAYmd2vbS+Sb
+ YmBoNf8e1TblqDIfN+aSZ5A=
+X-Google-Smtp-Source: ADFU+vvTP/Sbamu6xSoHJndOb7H5rnt7WWsronG3SqCdb+hve+XroUgvYdE4Blp67RrvmTnpaHHEDA==
+X-Received: by 2002:a63:450b:: with SMTP id s11mr11015506pga.45.1583657090377; 
+ Sun, 08 Mar 2020 00:44:50 -0800 (PST)
 Received: from localhost.localdomain ([1.38.148.20])
- by smtp.gmail.com with ESMTPSA id b3sm14587244pjo.30.2020.03.08.00.44.38
+ by smtp.gmail.com with ESMTPSA id b3sm14587244pjo.30.2020.03.08.00.44.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Mar 2020 00:44:44 -0800 (PST)
+ Sun, 08 Mar 2020 00:44:50 -0800 (PST)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Sun,  8 Mar 2020 14:13:52 +0530
-Message-Id: <20200308084356.14506-10-jaskaransingh7654321@gmail.com>
+Date: Sun,  8 Mar 2020 14:13:54 +0530
+Message-Id: <20200308084356.14506-12-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200308084356.14506-1-jaskaransingh7654321@gmail.com>
 References: <20200308084356.14506-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 09/13] cocci: Reflect changes in SmPL
-	visitor_ast in codebase
+Subject: [Linux-kernel-mentees] [PATCH 11/13] cocci: pretty print EnumDef as
+	per enum_decl type
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,692 +115,139 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The SmPL AST visitor has functions for handling enumerators
-separately. Handle these collateral evolutions in the codebase
-by creating visitor functions for enum and enumdots in various places,
-as well as adding the additional arguments needed in the visitor
-combiners and rebuilders.
+The SmPL AST has a separate enum_decl for a enumerator. Make
+corresponding changes in Unparse_cocci and Pretty_print_cocci
+to correctly pretty print enumerators.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- cocci.ml                              |  4 ++--
- engine/asttoctl2.ml                   | 21 ++++++++++---------
- engine/asttomember.ml                 | 17 +++++++++-------
- engine/cocci_vs_c.ml                  |  2 +-
- engine/transformation_c.ml            |  4 ++--
- parsing_c/unparse_hrule.ml            |  4 ++--
- parsing_cocci/arity.ml                | 25 ++++++++++++++++++++++-
- parsing_cocci/cleanup_rules.ml        |  5 +++--
- parsing_cocci/disjdistr.ml            | 29 ++++++++++++++++++++-------
- parsing_cocci/free_vars.ml            | 27 +++++++++++++------------
- parsing_cocci/get_constants2.ml       |  7 ++++---
- parsing_cocci/parse_cocci.ml          |  2 +-
- parsing_cocci/re_constraints.ml       | 10 ++++-----
- parsing_cocci/safe_for_multi_decls.ml | 11 +++++-----
- parsing_cocci/single_statement.ml     |  5 +++--
- parsing_cocci/stmtlist.ml             |  4 ++--
- parsing_cocci/unify_ast.ml            | 29 ++++++++++++++++++++++-----
- popl/popltoctl.ml                     |  2 +-
- popl09/popltoctl.ml                   |  5 +++--
- 19 files changed, 141 insertions(+), 72 deletions(-)
+ parsing_c/unparse_cocci.ml          | 27 ++++++++++++++++++++++++---
+ parsing_cocci/pretty_print_cocci.ml | 18 +++++++++++++++++-
+ 2 files changed, 41 insertions(+), 4 deletions(-)
 
-diff --git a/cocci.ml b/cocci.ml
-index 8d729923..3f315d4c 100644
---- a/cocci.ml
-+++ b/cocci.ml
-@@ -596,11 +596,11 @@ let sp_contain_typed_metavar_z toplevel_list_list =
-     Visitor_ast.combiner bind option_default
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode
-       mcode mcode mcode mcode mcode
--      donothing donothing donothing donothing donothing donothing
-+      donothing donothing donothing donothing donothing donothing donothing
-       donothing expression donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing
--      donothing
-+      donothing donothing
-   in
-   toplevel_list_list +>
-     List.exists
-diff --git a/engine/asttoctl2.ml b/engine/asttoctl2.ml
-index 67ec815f..51d574fa 100644
---- a/engine/asttoctl2.ml
-+++ b/engine/asttoctl2.ml
-@@ -341,9 +341,10 @@ let elim_opt =
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode mcode mcode mcode
-     donothing donothing stmtdotsfn donothing donothing donothing donothing
--    donothing donothing donothing donothing donothing
-+    donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
-+    donothing
- 
- (* --------------------------------------------------------------------- *)
- (* after management *)
-@@ -464,11 +465,12 @@ let contains_modif =
-     V.combiner bind option_default
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode
-       mcode mcode mcode mcode mcode
--      do_nothing do_nothing do_nothing do_nothing do_nothing
-+      do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing init do_nothing do_nothing
-       do_nothing do_nothing do_nothing
--      do_nothing rule_elem do_nothing do_nothing do_nothing do_nothing in
-+      do_nothing do_nothing rule_elem do_nothing do_nothing do_nothing
-+      do_nothing in
-   recursor.V.combiner_rule_elem
- 
- let contains_pos =
-@@ -495,8 +497,9 @@ let contains_pos =
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
--      do_nothing do_nothing
--      do_nothing rule_elem do_nothing do_nothing do_nothing do_nothing in
-+      do_nothing do_nothing do_nothing
-+      do_nothing do_nothing rule_elem do_nothing do_nothing do_nothing
-+      do_nothing in
-   recursor.V.combiner_rule_elem
- 
- (* code is not a DisjRuleElem *)
-@@ -592,10 +595,10 @@ let count_nested_braces s =
-   let recursor = V.combiner bind option_default
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode
-       mcode mcode mcode mcode mcode
--      donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
--      donothing donothing stmt_count donothing donothing donothing in
-+      donothing donothing donothing donothing donothing donothing donothing
-+      donothing donothing donothing stmt_count donothing donothing donothing in
-   let res = string_of_int (recursor.V.combiner_statement s) in
-   string2var ("p"^res)
- 
-@@ -2682,10 +2685,10 @@ and drop_minuses stmt_dots =
-     V.rebuilder
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode
-       mcode mcode mcode mcode mcode
--      donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
--      donothing donothing donothing donothing donothing donothing in
-+      donothing donothing donothing donothing donothing donothing donothing
-+      donothing donothing donothing donothing donothing donothing donothing in
-   v.V.rebuilder_statement_dots stmt_dots
- 
- and find_xx = function
-diff --git a/engine/asttomember.ml b/engine/asttomember.ml
-index eb825ec8..a893a833 100644
---- a/engine/asttomember.ml
-+++ b/engine/asttomember.ml
-@@ -46,8 +46,9 @@ let contains_modif used_after x =
- 	do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
- 	do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
- 	do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
--	do_nothing do_nothing
--	do_nothing rule_elem do_nothing do_nothing do_nothing do_nothing in
-+	do_nothing do_nothing do_nothing
-+	do_nothing do_nothing rule_elem do_nothing do_nothing do_nothing
-+	do_nothing in
-     recursor.V.combiner_rule_elem x
- 
- (* contains an inherited metavariable or contains a constant *)
-@@ -71,10 +72,11 @@ let contains_constant x =
- 	  mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
- 	  mcode mcode mcode
- 	  do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-+	  do_nothing
- 	  ident expr do_nothing do_nothing do_nothing do_nothing do_nothing
- 	  do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
- 	  do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
--	  do_nothing in
-+	  do_nothing do_nothing in
-       recursor.V.combiner_rule_elem x
-   | _ -> true
- 
-@@ -133,9 +135,9 @@ let strip x =
-       mcode mcode mcode mcode mcode
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
--      do_nothing do_nothing do_nothing do_nothing do_nothing
-+      do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       decl_or_field do_absolutely_nothing decl_or_field do_absolutely_nothing
--      rule_elem
-+      do_nothing rule_elem
-       do_nothing do_nothing do_nothing do_absolutely_nothing in
-   r.V.rebuilder_rule_elem x
- 
-@@ -200,9 +202,10 @@ let find_commonalities res : Ast_cocci.rule_elem option =
- 	mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
- 	mcode mcode mcode
- 	do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
--	do_nothing expression do_nothing do_nothing do_nothing do_nothing
--	do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
- 	do_nothing do_nothing
-+	expression do_nothing do_nothing do_nothing do_nothing
-+	do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-+	do_nothing do_nothing do_nothing
- 	do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing in
-     recursor.V.combiner_rule_elem x in
-   match res with
-diff --git a/engine/cocci_vs_c.ml b/engine/cocci_vs_c.ml
-index a4a0e53b..5d123164 100644
---- a/engine/cocci_vs_c.ml
-+++ b/engine/cocci_vs_c.ml
-@@ -2289,7 +2289,7 @@ and (declaration: (A.mcodekind * bool * A.declaration,B.declaration) matcher) =
- 		donothing donothing donothing donothing donothing donothing
- 		donothing donothing donothing donothing donothing donothing
- 		donothing donothing donothing donothing donothing donothing
--	        donothing donothing in
-+	        donothing donothing donothing donothing in
- 	    v.Visitor_ast.rebuilder_declaration decla in
- 
- 	  xs +> List.fold_left (fun acc var ->
-diff --git a/engine/transformation_c.ml b/engine/transformation_c.ml
-index 9f0b0ab2..4de8fe51 100644
---- a/engine/transformation_c.ml
-+++ b/engine/transformation_c.ml
-@@ -287,11 +287,11 @@ module XTRANS = struct
-     let fn = Visitor_ast.rebuilder
- 	mcode mcode mcode mcode mcode mcode mcode mcode mcode
- 	mcode mcode mcode mcode mcode
--	donothing donothing donothing donothing donothing donothing
-+	donothing donothing donothing donothing donothing donothing donothing
- 	ident expression donothing donothing donothing donothing
- 	donothing donothing donothing donothing donothing donothing
- 	donothing donothing donothing donothing donothing donothing
--	donothing donothing in
-+	donothing donothing donothing in
- 
-   fn.Visitor_ast.rebuilder_anything anything
- 
-diff --git a/parsing_c/unparse_hrule.ml b/parsing_c/unparse_hrule.ml
-index 6b766f3c..f2605d82 100644
---- a/parsing_c/unparse_hrule.ml
-+++ b/parsing_c/unparse_hrule.ml
-@@ -133,10 +133,10 @@ let get_function_name rule env =
-     (V.combiner bind option_default
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode
-       mcode mcode mcode mcode mcode
--      donothing donothing donothing donothing donothing donothing
-+      donothing donothing donothing donothing donothing donothing donothing
-       donothing expression donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
--      donothing
-+      donothing donothing
-       donothing donothing donothing donothing donothing).V.combiner_top_level
-       rule in
-   match names with
-diff --git a/parsing_cocci/arity.ml b/parsing_cocci/arity.ml
-index f29b86eb..b932c3fa 100644
---- a/parsing_cocci/arity.ml
-+++ b/parsing_cocci/arity.ml
-@@ -452,7 +452,7 @@ and top_typeC tgt opt_allowed typ =
- 	  (List.map mcode2arity [lb;rb]) in
-       let ty = typeC arity ty in
-       let lb = mcode lb in
--      let ids = dots (expression tgt) decls in
-+      let ids = dots (enum_decl tgt) decls in
-       let rb = mcode rb in
-       make_typeC typ tgt arity (Ast0.EnumDef(ty,lb,ids,rb))
-   | Ast0.StructUnionName(kind,name) ->
-@@ -689,6 +689,29 @@ and field tgt decl =
-   | Ast0.OptField(_) ->
-       failwith "unexpected code"
- 
-+and enum_decl tgt decl =
-+  match Ast0.unwrap decl with
-+    Ast0.Enum(name,enum_val) ->
-+      let name = ident true tgt name in
-+      let enum_val =
-+        get_option
-+          (fun (eq,eval) ->
-+             let arity = all_same true tgt (mcode2line eq) [mcode2arity eq] in
-+             (mcode eq, expression arity eval)) enum_val in
-+      let res = Ast0.Enum(name,enum_val) in
-+      Ast0.rewrap decl res
-+  | Ast0.EnumComma(cm) ->
-+      (*let arity = all_same true tgt (mcode2line cm) [mcode2arity cm] in*)
-+      let cm = mcode cm in
-+      let res = Ast0.EnumComma(cm) in
-+      Ast0.rewrap decl res
-+  | Ast0.EnumDots(dots,whencode) ->
-+      let dots = mcode dots in
-+      let whencode =
-+        get_option (fun (a,e,b) -> (a,e,enum_decl Ast0.NONE b)) whencode in
-+      let res = Ast0.EnumDots(dots,whencode) in
-+      Ast0.rewrap decl res
-+
- (* --------------------------------------------------------------------- *)
- (* Initializer *)
- 
-diff --git a/parsing_cocci/cleanup_rules.ml b/parsing_cocci/cleanup_rules.ml
-index 08ce96d6..60452bec 100644
---- a/parsing_cocci/cleanup_rules.ml
-+++ b/parsing_cocci/cleanup_rules.ml
-@@ -249,10 +249,11 @@ let do_cleanup =
-   V.rebuilder
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode mcode mcode mcode
--    donothing donothing donothing donothing donothing donothing (* dots *)
-+    donothing donothing donothing donothing donothing
-+    donothing donothing (* dots *)
-     ident expression string_fragment string_format assignOp
-     binaryOp fullType typeC initialiser parameterTypeDef define_param
--    declaration donothing field ann_field
-+    declaration donothing field ann_field donothing
-     rule_elem statement donothing donothing donothing
- 
- let cleanup_rules rules d =
-diff --git a/parsing_cocci/disjdistr.ml b/parsing_cocci/disjdistr.ml
-index 668a8810..87b5c7a3 100644
---- a/parsing_cocci/disjdistr.ml
-+++ b/parsing_cocci/disjdistr.ml
-@@ -90,7 +90,7 @@ and disjtypeC bty =
- 	(function name -> Ast.rewrap bty (Ast.StructUnionName(su,name)))
- 	name
+diff --git a/parsing_c/unparse_cocci.ml b/parsing_c/unparse_cocci.ml
+index 30e755e9..8dff2b81 100644
+--- a/parsing_c/unparse_cocci.ml
++++ b/parsing_c/unparse_cocci.ml
+@@ -738,7 +738,7 @@ and typeC ty =
    | Ast.EnumDef(ty,lb,ids,rb) ->
--      disjmult2 (disjty ty) (disjdots disjexp ids)
-+      disjmult2 (disjty ty) (disjdots disjenumdecl ids)
- 	(function ty -> function ids ->
- 	  Ast.rewrap bty (Ast.EnumDef(ty,lb,ids,rb)))
-   | Ast.StructUnionDef(ty,lb,decls,rb) ->
-@@ -130,6 +130,21 @@ and anndisjfield d =
-       let decl = anndisjfield decl in
-       List.map (function decl -> Ast.rewrap d (Ast.OptField(decl))) decl
+       fullType ty; ft_space ty;
+       mcode print_string lb;
+-      dots force_newline expression ids;
++      dots force_newline enum_decl ids;
+       mcode print_string rb
+   | Ast.StructUnionName(kind,name) ->
+       mcode structUnion kind; print_option_prespace ident name
+@@ -952,6 +952,24 @@ and annotated_field d =
+   | Ast.OptField(decl) -> raise CantBeInPlus
+   | Ast.Fdots(_,_) -> raise CantBeInPlus
  
-+and disjenumdecl d =
++and enum_decl d =
 +  match Ast.unwrap d with
 +    Ast.Enum(name,enum_val) ->
-+      let name = disjident name in
-+      (match enum_val with
-+        None ->
-+          List.map (function name -> Ast.rewrap d (Ast.Enum(name,None)))
-+            name
-+      | Some (eq,eval) ->
-+          disjmult2 name (disjexp eval)
-+          (function name -> function eval ->
-+	    Ast.rewrap d (Ast.Enum(name,Some(eq,eval)))))
-+  | Ast.EnumComma(cm) -> [d]
-+  | Ast.EnumDots(dots,whencode) -> [d]
-+
- and disjident e =
-   match Ast.unwrap e with
-     Ast.DisjId(id_list) -> List.concat (List.map disjident id_list)
-@@ -461,8 +476,8 @@ let disj_all =
-     mcode mcode mcode mcode mcode
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
--    donothing donothing donothing donothing donothing donothing
--    donothing disj_rule_elem donothing donothing donothing donothing
-+    donothing donothing donothing donothing donothing donothing donothing
-+    donothing donothing disj_rule_elem donothing donothing donothing donothing
- 
- (* ----------------------------------------------------------------------- *)
- (* collect iso information at the rule_elem level *)
-@@ -478,9 +493,9 @@ let collect_all_isos =
-     mcode mcode mcode mcode mcode
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
--    donothing donothing donothing donothing
-+    donothing donothing donothing donothing donothing
-     doanything donothing doanything donothing donothing donothing donothing
--    doanything
-+    donothing doanything
- 
- let collect_iso_info =
-   let mcode x = x in
-@@ -495,9 +510,9 @@ let collect_iso_info =
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode mcode mcode mcode
-     donothing donothing donothing donothing donothing donothing donothing
-+    donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing
--    donothing donothing donothing donothing donothing
--    donothing donothing donothing donothing rule_elem donothing donothing
-+    donothing donothing donothing donothing donothing rule_elem donothing donothing
-     donothing donothing
- 
- (* ----------------------------------------------------------------------- *)
-diff --git a/parsing_cocci/free_vars.ml b/parsing_cocci/free_vars.ml
-index 4c34cd08..6ad35dcc 100644
---- a/parsing_cocci/free_vars.ml
-+++ b/parsing_cocci/free_vars.ml
-@@ -249,10 +249,10 @@ let collect_refs include_constraints =
-   V.combiner bind option_default
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode mcode mcode
--    donothing donothing donothing donothing donothing donothing
-+    donothing donothing donothing donothing donothing donothing donothing
-     astfvident astfvexpr astfvfrag astfvfmt astfvassignop astfvbinaryop
-     astfvfullType astfvtypeC astfvinit astfvparam astfvdefine_param
--    astfvdecls donothing astfvfields astafvfields
-+    astfvdecls donothing astfvfields astafvfields donothing
-     astfvrule_elem astfvstatement donothing donothing donothing_a
- 
- let collect_all_refs = collect_refs true
-@@ -299,10 +299,10 @@ let collect_pos_positions =
-   V.combiner bind option_default
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode mcode mcode mcode
--    donothing donothing donothing donothing donothing
-+    donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing
--    donothing donothing donothing
-+    donothing donothing donothing donothing
-     cprule_elem cpstmt donothing donothing donothing
- 
- (* ---------------------------------------------------------------- *)
-@@ -475,10 +475,11 @@ let collect_saved =
-   V.combiner bind option_default
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode
--    donothing donothing donothing donothing donothing donothing
-+    donothing donothing donothing donothing donothing donothing donothing
-     astfvident astfvexpr astfvfrag astfvfmt astfvassign astfvbinary donothing
-     astfvtypeC astfvinit astfvparam astfvdefine_param astfvdecls donothing
--    astfvfields donothing astfvrule_elem donothing donothing donothing donothing
-+    astfvfields donothing donothing astfvrule_elem donothing donothing
-+    donothing donothing
- 
- (* ---------------------------------------------------------------- *)
- 
-@@ -607,10 +608,10 @@ let collect_in_plus_term =
- 
-   V.combiner bind option_default
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
--    mcode mcode donothing donothing
-+    mcode mcode donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
--    donothing donothing donothing donothing donothing astfvrule_elem
-+    donothing donothing donothing donothing donothing donothing astfvrule_elem
-     astfvstatement donothing donothing donothing
- 
- let collect_in_plus metavars minirules =
-@@ -900,11 +901,11 @@ let classify_variables metavar_decls minirules used_after =
-   let fn = V.rebuilder
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
-       mcode mcode
--      donothing donothing donothing donothing donothing donothing
-+      donothing donothing donothing donothing donothing donothing donothing
-       ident expression string_fragment string_format assignop binaryop
-       donothing typeC
--      init param define_param decl donothing field donothing rule_elem
--      donothing donothing donothing donothing in
-+      init param define_param decl donothing field donothing donothing
-+      rule_elem donothing donothing donothing donothing in
- 
-   List.map fn.V.rebuilder_top_level minirules
- 
-@@ -1089,7 +1090,7 @@ let astfvs metavars bound =
-     donothing donothing astfvstatement_dots donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
--    donothing
-+    donothing donothing donothing
-     astfvrule_elem astfvstatement astfvcase_line astfvtoplevel donothing
- 
- (*
-@@ -1174,7 +1175,7 @@ let get_neg_pos_list (_,rule) used_after_list =
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
--    donothing donothing donothing donothing donothing in
-+    donothing donothing donothing donothing donothing donothing donothing in
-   match rule with
-     Ast.CocciRule(rule_name,_,minirules,_,_) ->
-       List.map
-diff --git a/parsing_cocci/get_constants2.ml b/parsing_cocci/get_constants2.ml
-index b5cfeccc..76d6d40b 100644
---- a/parsing_cocci/get_constants2.ml
-+++ b/parsing_cocci/get_constants2.ml
-@@ -638,10 +638,10 @@ let do_get_constants constants keywords env (neg_pos,_) =
-   V.combiner bind option_default
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode mcode mcode mcode
--    donothing donothing donothing donothing donothing donothing
-+    donothing donothing donothing donothing donothing donothing donothing
-     ident expression string_fragment string_format donothing donothing
-     fullType typeC initialiser parameter define_parameter declaration donothing
--    field ann_field rule_elem statement donothing donothing donothing
-+    field ann_field donothing rule_elem statement donothing donothing donothing
- 
- (* ------------------------------------------------------------------------ *)
- 
-@@ -708,8 +708,9 @@ let all_context =
-     mcode mcode mcode mcode mcode
-     donothing donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing donothing
-+    donothing
-     initialiser donothing donothing donothing donothing donothing donothing
--    rule_elem statement donothing donothing donothing
-+    donothing rule_elem statement donothing donothing donothing
- 
- (* ------------------------------------------------------------------------ *)
- 
-diff --git a/parsing_cocci/parse_cocci.ml b/parsing_cocci/parse_cocci.ml
-index 886882cc..da2c1288 100644
---- a/parsing_cocci/parse_cocci.ml
-+++ b/parsing_cocci/parse_cocci.ml
-@@ -2541,7 +2541,7 @@ let contains_modifs ast =
-       donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing
--      donothing donothing in
-+      donothing donothing donothing donothing in
-   List.exists
-     (function
- 	Ast.CocciRule(nm,infos,ast,_,_) ->
-diff --git a/parsing_cocci/re_constraints.ml b/parsing_cocci/re_constraints.ml
-index cc218543..17011465 100644
---- a/parsing_cocci/re_constraints.ml
-+++ b/parsing_cocci/re_constraints.ml
-@@ -41,9 +41,9 @@ let disj_free re =
-     V.combiner bind option_default
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode
--    donothing donothing donothing donothing donothing donothing ident
-+    donothing donothing donothing donothing donothing donothing donothing ident
-     expr donothing donothing donothing donothing ty donothing
--    donothing donothing donothing decl donothing donothing ann_field
-+    donothing donothing donothing decl donothing donothing ann_field donothing
-     rule_elem statement donothing donothing donothing in
-   try Hashtbl.find disj_free_table re
-   with Not_found ->
-@@ -90,7 +90,7 @@ let ok_for_all_rule_elems cstr minirules =
-       donothing donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
--      rule_elem donothing donothing donothing donothing in
-+      donothing donothing rule_elem donothing donothing donothing donothing in
-   List.for_all v.V.combiner_top_level minirules
- 
- let update_for_all_rule_elems cstr minirules =
-@@ -111,8 +111,8 @@ let update_for_all_rule_elems cstr minirules =
-       mcode mcode
-       donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing
--      donothing donothing donothing donothing
--      donothing donothing donothing donothing
-+      donothing donothing donothing donothing donothing
-+      donothing donothing donothing donothing donothing
-       donothing rule_elem donothing donothing donothing donothing in
-   List.map v.V.rebuilder_top_level minirules
- 
-diff --git a/parsing_cocci/safe_for_multi_decls.ml b/parsing_cocci/safe_for_multi_decls.ml
-index 070489c5..8fc49432 100644
---- a/parsing_cocci/safe_for_multi_decls.ml
-+++ b/parsing_cocci/safe_for_multi_decls.ml
-@@ -43,7 +43,7 @@ let all_removed_recursor =
-     do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-     do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-     do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
--    do_nothing do_nothing
-+    do_nothing do_nothing do_nothing do_nothing
- 
- let all_removed_decl =
-   all_removed_recursor.V.combiner_declaration
-@@ -97,9 +97,10 @@ let contains_modif =
-       mcode mcode mcode mcode mcode
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
--      do_nothing do_nothing init do_nothing
-+      do_nothing do_nothing do_nothing init do_nothing
-       do_nothing do_nothing do_nothing do_nothing
--      do_nothing rule_elem do_nothing do_nothing do_nothing do_nothing in
-+      do_nothing do_nothing rule_elem do_nothing do_nothing do_nothing
-+      do_nothing in
-   recursor.V.combiner_fullType
- 
- let decl r k e =
-@@ -172,8 +173,8 @@ let process =
-       mcode mcode mcode mcode mcode
-       donothing donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
--      donothing donothing donothing decl anndecl field annfield
--      donothing donothing donothing donothing donothing in
-+      donothing donothing donothing donothing decl anndecl field annfield
-+      donothing donothing donothing donothing donothing donothing in
-   List.map fn.V.rebuilder_top_level
- 
- let safe_for_multi_decls rules =
-diff --git a/parsing_cocci/single_statement.ml b/parsing_cocci/single_statement.ml
-index 46408b73..e9cda647 100644
---- a/parsing_cocci/single_statement.ml
-+++ b/parsing_cocci/single_statement.ml
-@@ -458,9 +458,10 @@ and contains_only_minus =
-   V0.flat_combiner bind option_default
-     mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
-     mcode mcode mcode
--    dots dots dots dots dots dots dots dots
-+    dots dots dots dots dots dots dots dots dots
-     identifier expression donothing donothing typeC donothing donothing
--    declaration field statement donothing case_line donothing donothing
-+    declaration field donothing statement donothing case_line donothing
-+    donothing
- 
- 
- (* needs a special case when there is a Disj or an empty DOTS *)
-diff --git a/parsing_cocci/stmtlist.ml b/parsing_cocci/stmtlist.ml
-index 2f01c404..4e7a0b5a 100644
---- a/parsing_cocci/stmtlist.ml
-+++ b/parsing_cocci/stmtlist.ml
-@@ -55,8 +55,8 @@ let stmtlist_rebuilder =
-     donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing
-     donothing donothing donothing donothing donothing donothing
--    donothing donothing donothing donothing statement donothing donothing
--    donothing
-+    donothing donothing donothing donothing donothing donothing
-+    statement donothing donothing donothing
- 
- let stmtlist rule =
-   match rule with
-diff --git a/parsing_cocci/unify_ast.ml b/parsing_cocci/unify_ast.ml
-index d4ad3030..64887550 100644
---- a/parsing_cocci/unify_ast.ml
-+++ b/parsing_cocci/unify_ast.ml
-@@ -117,6 +117,11 @@ let dpdots e =
-     Ast.DPdots(_) -> true
-   | _ -> false
- 
-+let enumdots e =
-+  match Ast.unwrap e with
-+    Ast.EnumDots(_) -> true
-+  | _ -> false
-+
- let sdots s =
-   match Ast.unwrap s with
-     Ast.Dots(_,_,_,_) -> true
-@@ -348,7 +353,7 @@ and unify_typeC t1 t2 =
-       true
-   | (Ast.EnumDef(ty1,lb1,ids1,rb1),Ast.EnumDef(ty2,lb2,ids2,rb2)) ->
-       unify_fullType ty1 ty2 &&
--      unify_dots unify_expression edots ids1 ids2
-+      unify_dots unify_enum_decl enumdots ids1 ids2
-   | (Ast.StructUnionName(s1,Some ts1),Ast.StructUnionName(s2,Some ts2)) ->
-       if unify_mcode s1 s2 then unify_ident ts1 ts2 else false
-   | (Ast.StructUnionName(s1,None),Ast.StructUnionName(s2,None)) ->
-@@ -476,6 +481,19 @@ and unify_annotated_field d1 d2 =
-   | (Ast.OptField(_),_)
-   | (_,Ast.OptField(_)) -> failwith "unsupported decl"
- 
-+and unify_enum_decl d1 d2 =
-+  match (Ast.unwrap d1,Ast.unwrap d2) with
-+    (Ast.Enum(name1,enum_val1),Ast.Enum(name2,enum_val2)) ->
-+       unify_ident name1 name2 &&
-+       unify_option
-+         (function a -> function b ->
-+            let (_,eval1) = a in
-+            let (_,eval2) = b in
-+            unify_expression eval1 eval2) enum_val1 enum_val2
-+  | (Ast.EnumComma(_),(Ast.EnumComma(_))) -> true
-+  | (Ast.EnumDots(_),(Ast.EnumDots(_))) -> true
-+  | _ -> false
++      ident name;
++      pr_space();
++      print_option
++        (function (eq,eval) ->
++          mcode print_string eq; pr_space(); expression eval) enum_val
++  | Ast.EnumComma(cm) ->
++      mcode (print_string_with_hint (SpaceOrNewline (ref " "))) cm
++  | Ast.EnumDots(dots,whencode) when generating ->
++      mcode print_string dots;
++      print_option
++      (function w ->
++        print_text "   when != ";
++        enum_decl w) whencode
++  | Ast.EnumDots(dots,whencode) -> raise CantBeInPlus
 +
  (* --------------------------------------------------------------------- *)
- (* Initializer *)
+ (* Initialiser *)
  
-@@ -700,10 +718,11 @@ and subexp f =
-   let recursor = V.combiner bind option_default
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
-       mcode mcode
--      donothing donothing donothing donothing donothing donothing donothing expr
-+      donothing donothing donothing donothing donothing donothing donothing
-+      donothing expr
-       donothing donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing donothing
--      donothing donothing donothing donothing in
-+      donothing donothing donothing donothing donothing in
-   recursor.V.combiner_rule_elem
+@@ -1420,6 +1438,7 @@ let pp_any = function
+   | Ast.InitTag(x) -> initialiser false x; false
+   | Ast.DeclarationTag(x) -> declaration x; false
+   | Ast.FieldTag(x) -> field x; false
++  | Ast.EnumDeclTag(x) -> enum_decl x; false
  
- and subtype f =
-@@ -716,10 +735,10 @@ and subtype f =
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
-       mcode mcode
-       donothing donothing donothing donothing donothing donothing donothing
--      donothing donothing donothing donothing donothing fullType
-+      donothing donothing donothing donothing donothing donothing fullType
-       donothing donothing donothing donothing donothing donothing
-       donothing donothing donothing donothing donothing donothing
--      donothing in
-+      donothing donothing in
-   recursor.V.combiner_rule_elem
+   | Ast.StorageTag(x) -> storage x unknown unknown; false
+   | Ast.IncFileTag(x) -> inc_file x unknown unknown; false
+@@ -1473,6 +1492,7 @@ let pp_any = function
+   | Ast.StmtDotsTag(x) -> dots force_newline (statement "") x; false
+   | Ast.AnnDeclDotsTag(x) -> dots force_newline annotated_decl x; false
+   | Ast.AnnFieldDotsTag(x) -> dots force_newline annotated_field x; false
++  | Ast.EnumDeclDotsTag(x) -> dots force_newline enum_decl x; false
+   | Ast.DefParDotsTag(x) -> dots (fun _ -> ()) print_define_param x; false
  
- let rec unify_statement s1 s2 =
-diff --git a/popl/popltoctl.ml b/popl/popltoctl.ml
-index 978d49d0..933c3faf 100644
---- a/popl/popltoctl.ml
-+++ b/popl/popltoctl.ml
-@@ -37,7 +37,7 @@ let contains_modif =
-   let recursor =
-     V.combiner bind option_default
-       mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode mcode
--      mcode
-+      mcode mcode
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing
-diff --git a/popl09/popltoctl.ml b/popl09/popltoctl.ml
-index 6b046309..1b05a762 100644
---- a/popl09/popltoctl.ml
-+++ b/popl09/popltoctl.ml
-@@ -46,8 +46,9 @@ let contains_modif =
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
-       do_nothing do_nothing do_nothing do_nothing do_nothing do_nothing
--      do_nothing do_nothing
--      do_nothing rule_elem do_nothing do_nothing do_nothing do_nothing in
-+      do_nothing do_nothing do_nothing
-+      do_nothing do_nothing rule_elem do_nothing do_nothing do_nothing
-+      do_nothing in
-   recursor.V.combiner_rule_elem
+   | Ast.TypeCTag(x) -> typeC x; false
+@@ -1505,7 +1525,7 @@ in
+ 	      force_newline(); force_newline()
+ 	  | (Ast.Directive _::_)
+ 	  | (Ast.Rule_elemTag _::_) | (Ast.StatementTag _::_)
+-	  | (Ast.FieldTag _::_) | (Ast.InitTag _::_)
++	  | (Ast.FieldTag _::_) | (Ast.EnumDeclTag _::_) | (Ast.InitTag _::_)
+ 	  | (Ast.DeclarationTag _::_) | (Ast.Token ("}",_)::_) -> prnl hd
+ 	  | _ -> () in
+       let newline_after _ =
+@@ -1516,7 +1536,8 @@ in
+ 	      (if isfn s then force_newline());
+ 	      force_newline()
+ 	  | (Ast.Directive _::_) | (Ast.StmtDotsTag _::_)
+-	  | (Ast.Rule_elemTag _::_) | (Ast.FieldTag _::_) | (Ast.InitTag _::_)
++	  | (Ast.Rule_elemTag _::_) | (Ast.FieldTag _::_)
++	  | (Ast.EnumDeclTag _::_)| (Ast.InitTag _::_)
+ 	  | (Ast.DeclarationTag _::_) | (Ast.Token ("{",_)::_) ->
+ 	      force_newline()
+ 	  | _ -> () in
+diff --git a/parsing_cocci/pretty_print_cocci.ml b/parsing_cocci/pretty_print_cocci.ml
+index 6338e464..f6b2894f 100644
+--- a/parsing_cocci/pretty_print_cocci.ml
++++ b/parsing_cocci/pretty_print_cocci.ml
+@@ -439,7 +439,7 @@ and typeC ty =
+       print_option (function x -> ident x; print_string " ") name
+   | Ast.EnumDef(ty,lb,ids,rb) ->
+       fullType ty; mcode print_string lb;
+-      dots force_newline expression ids;
++      dots force_newline enum_decl ids;
+       mcode print_string rb
+   | Ast.StructUnionName(kind,name) ->
+       mcode structUnion kind;
+@@ -585,6 +585,20 @@ and annotated_field arity d =
+   | Ast.ConjField(decls) -> print_disj_list (annotated_field arity) decls "&"
+   | Ast.OptField(decl) -> print_string "?"; annotated_field arity decl
  
- let ctl_exists keep_wit v x =
++and enum_decl d =
++  match Ast.unwrap d with
++    Ast.Enum(name,enum_val) ->
++      ident name;
++      (match enum_val with
++        None -> ()
++      | Some(eq,eval) ->
++          mcode print_string eq;
++          expression eval)
++  | Ast.EnumComma(cm) -> mcode print_string cm
++  | Ast.EnumDots(dots,Some whencode) ->
++      mcode print_string dots; print_string "   when != "; enum_decl whencode
++  | Ast.EnumDots(dots,None) -> mcode print_string dots
++
+ (* --------------------------------------------------------------------- *)
+ (* Initialiser *)
+ 
+@@ -1090,6 +1104,7 @@ let _ =
+     | Ast.InitTag(x) -> initialiser x
+     | Ast.DeclarationTag(x) -> declaration x
+     | Ast.FieldTag(x) -> field x
++    | Ast.EnumDeclTag(x) -> enum_decl x
+     | Ast.StorageTag(x) -> storage x
+     | Ast.IncFileTag(x) -> inc_file x
+     | Ast.Rule_elemTag(x) -> rule_elem "" x
+@@ -1110,6 +1125,7 @@ let _ =
+     | Ast.StmtDotsTag(x) -> dots (function _ -> ()) (statement "") x
+     | Ast.AnnDeclDotsTag(x) -> dots (function _ -> ()) (annotated_decl "") x
+     | Ast.AnnFieldDotsTag(x) -> dots (function _ -> ()) (annotated_field "") x
++    | Ast.EnumDeclDotsTag(x) -> dots (function _ -> ()) enum_decl x
+     | Ast.DefParDotsTag(x) -> dots (function _ -> ()) print_define_param x
+     | Ast.TypeCTag(x) -> typeC x
+     | Ast.ParamTag(x) -> parameterTypeDef x
 -- 
 2.21.1
 
