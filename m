@@ -7,61 +7,61 @@ X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0291CC10F27
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Mar 2020 09:55:49 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01E0C10F27
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Mar 2020 10:12:37 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9FD0B20674
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Mar 2020 09:55:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5F5272072A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Mar 2020 10:12:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="XgfyadQ3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FD0B20674
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="UxliQJ0o"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F5272072A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6531020656;
-	Mon,  9 Mar 2020 09:55:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 22469882CB;
+	Mon,  9 Mar 2020 10:12:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0PMuFcgWcH9Q; Mon,  9 Mar 2020 09:55:47 +0000 (UTC)
+	with ESMTP id 7DFJO4k4unoC; Mon,  9 Mar 2020 10:12:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D593520554;
-	Mon,  9 Mar 2020 09:55:47 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6C44D865B0;
+	Mon,  9 Mar 2020 10:12:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BBC14C1D74;
-	Mon,  9 Mar 2020 09:55:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 56BF0C18D3;
+	Mon,  9 Mar 2020 10:12:36 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2661C0177
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 528CBC0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Mar 2020 09:55:45 +0000 (UTC)
+ Mon,  9 Mar 2020 10:12:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 99CBA20656
+ by silver.osuosl.org (Postfix) with ESMTP id 2774520656
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Mar 2020 09:55:45 +0000 (UTC)
+ Mon,  9 Mar 2020 10:12:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kkd7w5jnZrtC
+ with ESMTP id tNEY7cd1zckn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Mar 2020 09:55:44 +0000 (UTC)
+ Mon,  9 Mar 2020 10:12:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mout.web.de (mout.web.de [212.227.15.3])
- by silver.osuosl.org (Postfix) with ESMTPS id E9CFC20554
+ by silver.osuosl.org (Postfix) with ESMTPS id C783F20554
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Mar 2020 09:55:43 +0000 (UTC)
+ Mon,  9 Mar 2020 10:12:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1583747739;
- bh=9HkwsyYAo+uhW9VTvOfvCo7InfzCpF08ymbgLI+R6f8=;
+ s=dbaedf251592; t=1583748749;
+ bh=SeYplZLvsRDfc6GL+CPFSgCdr4nHzh9qb1jJliUlIj4=;
  h=X-UI-Sender-Class:Cc:Subject:To:From:Date;
- b=XgfyadQ3iSsUQiLR0Kg87/9Eeyhri3aHCoVMc/SqoLnuhdw6+gxOFR6skTePM8D1K
- M44+a/G+jWYtZ0IEZucpL+Z14xVeTKMs2/3Ba3JCtpiV7Ft80Kirbc+MZ6c2KhDd5m
- Ugdjm2JrMdDuiDnDdCD+53ShEgJrpjXFTZE7bYcg=
+ b=UxliQJ0oDItl1M0Csc66uCalWuP0go5k4GQnwpVIpqOfdVtmfFCisaumiVlz60NAe
+ xU2sVarQH/KBNL1ib0lOprcautYuDAM+MiJNC1pfV2mZFlp30QqsdBee6nXmhHZiNg
+ TVT6la25BxthTF0ID+ALaeTII/kcObImYtjAYCJA=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.135.147.116]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MZRnx-1iv6OM30pB-00LGHy; Mon, 09
- Mar 2020 10:55:39 +0100
+Received: from [192.168.1.2] ([93.135.147.116]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MCZP8-1j1vjz0Q78-009TTM; Mon, 09
+ Mar 2020 11:12:29 +0100
 To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
 From: Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
@@ -107,38 +107,38 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <c638ac63-f66b-37cc-5c58-2a902c79120e@web.de>
-Date: Mon, 9 Mar 2020 10:55:30 +0100
+Message-ID: <cba5f4ce-6378-a18c-9cc4-82bc9ba5e217@web.de>
+Date: Mon, 9 Mar 2020 11:12:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
 Content-Language: en-US
-X-Provags-ID: V03:K1:lEbfMQ9J3CZs/TZKCtHb7y6drrRNTZGeLeBnYY2yVnMSUAKT10U
- 0b25LmTNXuuCbP9++wfg01e6UD30B6nON98cQglz/Vj82ntrWgvrvbmjY0rqCw+fe2N9TSX
- cOhgQFBHvAxN1vgcQ9b9eEK5Ta+dt7dbOn4BGAZASn4X1Xa2qNyXagiPy0Q7r0RQYOabtGP
- Lfu1g/+WCE7MKT1xIauzQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:P9ZMobFSkMo=:GnZHcO71qXlnur5m+O+8zz
- 5PJiV3q5jqKsJUhu/Mxy1BtgpUGcJWIqblwGoLm+Jf6VTKG5KFpzJF3QKxY8ncyhHIQvHkqzb
- 8Kar3GC1kovQnPpFw96bukSNkXayUfVgRqzfjFUO6n102VyP32DJv3FO7wfkwndvcu5TYM8Yl
- ppub/pfYhl9hkBAr0qUV/MxyC03oiEjEh8mdq78slpOyKagCPryyRa1FzG7MV5ImKDPAaPxsi
- eaNscJxQov8gXFgvdCWitLbCOvd7p/rjZKIfciNDvg2jMW2DlOeRvfjksOmW+MZkFRybYS+bV
- Oqkg+RXKxVdYli5YQQlduywi3I/RAPQ1fuEVVBLiqoTOqY2xd9t0byFmsT7+3hh+gQj3lJz8I
- MF05jiupvG6yUVkj5exkIfAVPDGzyMsdKESI/VIKhCZsTbuuEsjIn4zEq2g7AjsQs5xLP+y3H
- uHgM+gP+vQmt4Dvl2symUIIvzYUmJO9d9pBiCT9D7ibl+b9ykKN2D/FgsjgYMPhbHozJr1URk
- K0/YVB829s7WsngrhOgxy4B7dcY1YPlVx1Y9j/JmBtFexGYJ6pwmBH/F5bafwIYVFCy7QkQg3
- w4RGTFz+iieN8GsWro/fibUhkcfQtbA++rkEHwvsngmQpstjvdRSlvQ51VidYrouDzSkM6tbq
- ELbuRiatz+p2a51BYQIt4GUvruFOk/6MhMOVyULeGCIN4HLb17m/pP/7VarUPPFBEyVtC9inm
- sY7UZ4CpC+KW746R9/nPOuMbN1f/o7taybDWAaiN4fKCANWSyid4c1XDHGRGmVOfMyKNtBuPH
- c5NUI6/7yK8pM2PTrVRCNZzRu9TP61PT6xrV58yKlAItv5s2mCJz50AmWZfYJE3eWgGoGHcpt
- k6JHiHFbAQQV6VLcnoSf1VzxIdNcgI0aabTqVjicRL5q2PFjPs4LcOM4s60qb6zlpV9xvh02H
- Zyu74nw9BJjonPJBMuMis5FnVg0GN7zmMqPtzPchkFKho3sAiEmEWQJlwQEahJ5F25etUMEEM
- cgiI2wQ64YbrSEJ4m6ZC4Myjke6qvt+bJKOhRvxazQAf1uEQciV4v23rI2aCQ9/I6Llcd7FF0
- ymZ+r9esBrUahvppavCO6z8V4O/cjB5YQoGBOmxovSmFgvqx5K3GebuNI95yVigWBSdARivac
- bcR19y1PBFXAmoq7+N7IDaLsGwVaLdHQ7PoJpBwPD0XxBZD2N0rHXpobYX04cMauZIasOUEpd
- QAjmR+xEPrHBVd//4
+X-Provags-ID: V03:K1:ZpEP+XPXmuv5mqtM0b7m82Ulas0gLjJmbvwMxNaBfLKtMmo3Qzr
+ xTVPysgFffMvC6hUyJ5B+QXapBfLeR36WfF5L6oVwia0bO3jtLuooZkK3uFMmcxhkwnEPxK
+ Xdi6SE2gVkht1p1jfQ9emHFoLo/mpFxe0ZFIGm13fc+Vl4WscJozClSzc0iz4MTdvAAUm7P
+ k2UMcX/rzbNJUxitlqaAQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:X725myp5FRM=:15oJjonwX/uoIDoUxRYN8g
+ 6/U8DYAT4XJP45BU9Q8qHZ8VSrFdAja+XEQWFzoesOSi9g4H6khtVVzAg/mn7JDkPuLGgl/2t
+ QTFWqCEGrbEYX+cIK6hoUDT415CdMJeRFdMv8PJmfIbWbPz/uQcsiUr9dOQj7bp/NM0wFU05z
+ MPgGSNBPsQAflyd0S4zzSWDV/5a0D8PgkUTTitEcbBaoNNMMk+B9tD0OqBjBosNDN2h/WZu4t
+ XRLt7s4Hk5FGgyl4JUU5HWmezVEn2mkPfdh0ImbdBqBsXXIaMPGXHt2SnaK0E7VNM4LsT6iaV
+ 71FEgapjBFuhfRH45WkD5eisrReFYxw4qwxQFZ6acjmzjTjAWvhkZK9HkKgboJYcOKCSP1RUt
+ JMfvXXCBb6ZcTcrIuXUclvwTHwfhWooqj23bx69BB44ld6w6PWEJtbtbXWD7IZTz7cW0PhUa6
+ 57id5KsF16v9RAXgnkwLXbdtBBhMGO+84N21o85nSL/0ip5p/oXcAj23K+gsxxigX3PzuUehv
+ ji+jh+EqyD9Pd4bfOOe338sVB6oRUTPKG9IFKuGo6Ks9rTvTC7fGOPTGC3dOU9EQ59zf6i7GL
+ 0sPRcfNpaz7TNn/df+o2jauxrRoaF0AcYTqUPIad05t+zfE2qdLSo1pAR5ZTCKVjYtzyW1MRG
+ R64PVIxvNGSIGdwNPzIjUYXH06DndOT2B22v/1ve5TPHdrnoy5JLJ581jtRPDoKG3Ei18fo/s
+ B4pFO3QevmKhoUGLXzg03bNzN82snD3YLqyCIHs/80cF9+2j05aY9v81DGRd+vMb9KtGvI/UU
+ n4toGSTNJctfTfqzOwJBFqG8ZJUurDRWSArgOwCyEDZEkzRjKy1uXXwl7aMufMFYdwklnLirs
+ rTrIionS3SmdEMW9QrRLSkHIRkIhDNhgtDEC/5v3153AjiE/1hr8VdcZeXuU6nkCWBY+SiYgk
+ PjjeIMczS6fayW23cjVr9CKriOYUm8vc8CX0Y1cxT0Yohmhglm3E/YH44Tp5G+OoRtots73bt
+ eP1WI66hLwbvQNufLlvRpeluSV8uY/cLqaejnP9HHt2WRPLJkkEPYzGabtLj6Nmd6/nlyFfyi
+ O2Ft/ZbixqzdINdMDZy6jE5npXKY5dF/9GSS3X8e9r+UZ0RChxPQp2kk2aekVlVMuYg4Q1EZl
+ 13po57FC0LnkciCYuP1So7pX1qA/YqTd40H0pQ0o8t3f3HeNxxEKIrxPxkc/brYsoY3Nh/cEH
+ dQ57psyZHigZcnTm2
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH 00/13] cocci: Align the C
- AST and SmPL AST for enum
+Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH 01/13] parsing_cocci:
+ Align C AST and SmPL AST for enum
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,17 +150,21 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-PiBUaGUgQyBBU1QgYW5kIFNtUEwgQVNUIGRpZmZlcnMgd2l0aCByZXNwZWN0IHRvIHRoZSBlbnVt
-IHR5cGUuCgpJIHN1Z2dlc3QgdG8gY29uc2lkZXIgd29yZGluZyB2YXJpYW50cy4KCuKAnFRoZSDi
-gKYgYW5kIOKApiBkaWZmZXIg4oCmLuKAnQoKCj4gY29sbGF0ZXJhbCBldm9sdXRpb25zIGNhdXNl
-ZCBieSBjaGFuZ2VkIGluIHRoZSBTbVBMIHZpc2l0b3JzIGFyZQoK4oCc4oCmIGJ5IGNoYW5nZXMg
-aW4g4oCm4oCdCgpSZWdhcmRzLApNYXJrdXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4
-LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5s
-aW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+> Make the enumerator type of the SmPL AST closer to that of
+> the C AST.
+
+Are any deviations between these data structures still relevant
+(or undesirable)?
+
+Regards,
+Markus
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
