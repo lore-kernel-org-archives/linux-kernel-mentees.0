@@ -2,97 +2,78 @@ Return-Path: <SRS0=vND2=43=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB0BC18E5B
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Mar 2020 18:17:29 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BB2C18E5A
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Mar 2020 18:32:50 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9350B21D56
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Mar 2020 18:17:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 93A2A208C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Mar 2020 18:32:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0E8HUeA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9350B21D56
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPQmwnbp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93A2A208C3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 69F4587A5A;
-	Tue, 10 Mar 2020 18:17:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 78365875B7;
+	Tue, 10 Mar 2020 18:32:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iA5dNdUf5rAt; Tue, 10 Mar 2020 18:17:29 +0000 (UTC)
+	with ESMTP id BXaMUGLN2Bx5; Tue, 10 Mar 2020 18:32:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1442187A2E;
-	Tue, 10 Mar 2020 18:17:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D719C875B2;
+	Tue, 10 Mar 2020 18:32:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2172C07FE;
-	Tue, 10 Mar 2020 18:17:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B8542C07FE;
+	Tue, 10 Mar 2020 18:32:49 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C65DC0177
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0AD86C0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Mar 2020 18:17:27 +0000 (UTC)
+ Tue, 10 Mar 2020 18:32:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 68FAB87A2E
+ by hemlock.osuosl.org (Postfix) with ESMTP id E5C9587E2E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Mar 2020 18:17:27 +0000 (UTC)
+ Tue, 10 Mar 2020 18:32:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xQs868v+BULw
+ with ESMTP id 5TMW6L+5LcTh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Mar 2020 18:17:27 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EDF23879A7
+ Tue, 10 Mar 2020 18:32:47 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id F24C987E23
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Mar 2020 18:17:26 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id y7so771815pjn.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Mar 2020 11:17:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=5tsowySGUi7fWa5LgHfYnviwiJBcMtPtbeyXUuKpjsQ=;
- b=T0E8HUeA7l4gRvbttaZDHmRSVcxZWbwTx8VaRiegZJ1itOZbArzlvs6v8reeDRz1VQ
- NoRxhUI8omLu6iCccuoI6TSyHXu12+JsWLVY3ownjYdKRidQh1PCQikeud7opT/kV0xD
- JCO5tSEbRUHMPdSSYkhz/q7Etd10dLCsXshRfQiEgb6PmabB1iqNWlmgb2R00JWaVq0e
- N8kCvTzv2GFCxY2S3jCHzSZWxpSIUPCAEZAkqUuXPC5NR1LszhMjOnqRzVmTyOCXfZaT
- 2Difadbergz4ym4bsqs7hVfDzGokD8JiDaetZoAN4eZo4rqYkdNDWwC68jq/bbouH7ih
- lHqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=5tsowySGUi7fWa5LgHfYnviwiJBcMtPtbeyXUuKpjsQ=;
- b=ZVKHAJ8PVrIqM1k5S+BZGgLxNZjMLqYB8pYXNNg9rVq48E7VT46vyQdKaFsoPzBsTq
- 6q+hwk1cUyzsIg7hdx+iMogeZPea4SX8NQGGE3idfNchA8WSvdD2XgkKqwSrXMi9TnVL
- phmw9rMNrhV6MHJVYJmtcCND8O2YOMJ8CKRgo5fJtFhq265eTtS38c8W03V87dYDF1fO
- djZCF36JQc3MLTbQQQQjk9rPY1Bgcpy6EU4arelRlD/Xca991DHvxpXQH7ZOiMXC1VpD
- siHbZSLjWdC/4qtSPgF35H4RA7Mc5VfDNwFId19z7n1SRwuB4Q+Ip2N2bRQGNv3s/Fsf
- HkVA==
-X-Gm-Message-State: ANhLgQ1aBCmI+tvAZF5/xwRGtmtMS4yTXoJ0GVpFltvrB+nvuZ/mOFMi
- 6gZv7/r6E7BasQjX3acoRxI=
-X-Google-Smtp-Source: ADFU+vt1aV+K5dD0WuYCnprsamxD3MXtNOZ1HsDbCasxtvc8KALg1pF81s2OzocK/4CjJoAiTwRLJw==
-X-Received: by 2002:a17:90a:db49:: with SMTP id
- u9mr3002772pjx.175.1583864246484; 
- Tue, 10 Mar 2020 11:17:26 -0700 (PDT)
-Received: from localhost.localdomain ([49.128.163.16])
- by smtp.gmail.com with ESMTPSA id l25sm47245630pgn.47.2020.03.10.11.17.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 11:17:25 -0700 (PDT)
-From: Sladyn Nunes <sladynlinuxkernel@gmail.com>
-To: gregkh@linuxfoundation.org
-Date: Tue, 10 Mar 2020 23:47:12 +0530
-Message-Id: <20200310181712.884-1-sladynlinuxkernel@gmail.com>
-X-Mailer: git-send-email 2.18.0
+ Tue, 10 Mar 2020 18:32:46 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 41E2821D56;
+ Tue, 10 Mar 2020 18:32:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1583865166;
+ bh=quuHdrlhT13p1QBQupcbdb0Ul/TP78y+7Gaad2Ei5vE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OPQmwnbpHnQiIRgGC5PMbqIMFl6cPmv72B+Ke7IYrG1drSiNR4kgQb2CKSlthAYTY
+ 89F+NGrAAxewUNj1eS8YFJcKWynUs+gEHZhI1BXpRzk3EZvhLTNtqCZ14wEP+5Bcfn
+ FhYpeAyDwnx7d2UFvpJhAYJ7QF4wtax6bwybhem4=
+Date: Tue, 10 Mar 2020 19:32:44 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sladyn Nunes <sladynlinuxkernel@gmail.com>
+Message-ID: <20200310183244.GA3485635@kroah.com>
+References: <20200310181712.884-1-sladynlinuxkernel@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200310181712.884-1-sladynlinuxkernel@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, rafael@kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] drivers: base: platform.c: Fix
+Subject: Re: [Linux-kernel-mentees] [PATCH] drivers: base: platform.c: Fix
 	coding style issue.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -105,63 +86,93 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fixed whitespace and coding style issues in the
-document.
+On Tue, Mar 10, 2020 at 11:47:12PM +0530, Sladyn Nunes wrote:
+> Fixed whitespace and coding style issues in the
+> document.
+> 
+> Signed-off-by: Sladyn Nunes <sladynlinuxkernel@gmail.com>
+> ---
+>  drivers/base/platform.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> index 7fa654f1288b..0da339e14437 100644
+> --- a/drivers/base/platform.c
+> +++ b/drivers/base/platform.c
+> @@ -552,7 +552,8 @@ int platform_device_add(struct platform_device *pdev)
+>  		if (p) {
+>  			ret = insert_resource(p, r);
+>  			if (ret) {
+> -				dev_err(&pdev->dev, "failed to claim resource %d: %pR\n", i, r);
+> +				dev_err(&pdev->dev, "failed to claim resource %d: %pR\n",
+> +						 i, r);
+>  				goto failed;
+>  			}
+>  		}
+> @@ -573,6 +574,7 @@ int platform_device_add(struct platform_device *pdev)
+>  
+>  	while (i--) {
+>  		struct resource *r = &pdev->resource[i];
+> +
+>  		if (r->parent)
+>  			release_resource(r);
+>  	}
+> @@ -604,6 +606,7 @@ void platform_device_del(struct platform_device *pdev)
+>  
+>  		for (i = 0; i < pdev->num_resources; i++) {
+>  			struct resource *r = &pdev->resource[i];
+> +
+>  			if (r->parent)
+>  				release_resource(r);
+>  		}
+> @@ -997,7 +1000,7 @@ static ssize_t modalias_show(struct device *dev, struct device_attribute *a,
+>  	if (len != -ENODEV)
+>  		return len;
+>  
+> -	len = acpi_device_modalias(dev, buf, PAGE_SIZE -1);
+> +	len = acpi_device_modalias(dev, buf, PAGE_SIZE - 1);
+>  	if (len != -ENODEV)
+>  		return len;
+>  
+> -- 
+> 2.18.0
+> 
 
-Signed-off-by: Sladyn Nunes <sladynlinuxkernel@gmail.com>
----
- drivers/base/platform.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 7fa654f1288b..0da339e14437 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -552,7 +552,8 @@ int platform_device_add(struct platform_device *pdev)
- 		if (p) {
- 			ret = insert_resource(p, r);
- 			if (ret) {
--				dev_err(&pdev->dev, "failed to claim resource %d: %pR\n", i, r);
-+				dev_err(&pdev->dev, "failed to claim resource %d: %pR\n",
-+						 i, r);
- 				goto failed;
- 			}
- 		}
-@@ -573,6 +574,7 @@ int platform_device_add(struct platform_device *pdev)
- 
- 	while (i--) {
- 		struct resource *r = &pdev->resource[i];
-+
- 		if (r->parent)
- 			release_resource(r);
- 	}
-@@ -604,6 +606,7 @@ void platform_device_del(struct platform_device *pdev)
- 
- 		for (i = 0; i < pdev->num_resources; i++) {
- 			struct resource *r = &pdev->resource[i];
-+
- 			if (r->parent)
- 				release_resource(r);
- 		}
-@@ -997,7 +1000,7 @@ static ssize_t modalias_show(struct device *dev, struct device_attribute *a,
- 	if (len != -ENODEV)
- 		return len;
- 
--	len = acpi_device_modalias(dev, buf, PAGE_SIZE -1);
-+	len = acpi_device_modalias(dev, buf, PAGE_SIZE - 1);
- 	if (len != -ENODEV)
- 		return len;
- 
--- 
-2.18.0
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
