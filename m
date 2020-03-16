@@ -8,98 +8,98 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C47EC2BB1D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Mar 2020 10:04:56 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E25C5C4CECE
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Mar 2020 10:05:00 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 00EDA2051A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Mar 2020 10:04:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B70EB20663
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Mar 2020 10:05:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGOlDPp5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00EDA2051A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P5YCpgLL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B70EB20663
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BB37E89033;
-	Mon, 16 Mar 2020 10:04:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9825989A56;
+	Mon, 16 Mar 2020 10:05:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yQeTLHMU00LR; Mon, 16 Mar 2020 10:04:55 +0000 (UTC)
+	with ESMTP id 9ONXcVuxjGmD; Mon, 16 Mar 2020 10:04:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 51C1C88672;
-	Mon, 16 Mar 2020 10:04:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7896A89A85;
+	Mon, 16 Mar 2020 10:04:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E921C1D7C;
-	Mon, 16 Mar 2020 10:04:55 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D6B2CC013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 68198C1D7C;
+	Mon, 16 Mar 2020 10:04:59 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E85FFC013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 10:04:53 +0000 (UTC)
+ Mon, 16 Mar 2020 10:04:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CD69187B57
+ by silver.osuosl.org (Postfix) with ESMTP id D0147220A9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 10:04:53 +0000 (UTC)
+ Mon, 16 Mar 2020 10:04:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ti1hzCwDJiGj
+ with ESMTP id 1dJ7mkj0cBx3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 10:04:53 +0000 (UTC)
+ Mon, 16 Mar 2020 10:04:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 74DA687269
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 9FBFE20134
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 10:04:53 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id m15so7682386pje.3
+ Mon, 16 Mar 2020 10:04:57 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id w12so7760273pll.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 03:04:53 -0700 (PDT)
+ Mon, 16 Mar 2020 03:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CW/aBVc/DvLm5AzOCaIeJv4ugR2BHIZSwBinzT7AqF0=;
- b=JGOlDPp54GAwTqVhVkFWnZesLL1cvRrat9MVlcAXDnyy0RHuiZf1o+siqitRRy2ySS
- GESgMbtBQn2e11Fk00Z5qUE+z+IjUq0BoaplWP/ZYfPfQTIMhUmEaWmaxzXaCofUleDW
- Fj1OPM0aeflhhiT3Y2u5dS0cYkoeqna02y4xSwd/yT+eN56A+RfBdZ2FB2sNQLoSR2f4
- Fvq74PUbIEaIfS5bKP2pk/RE5oH8x7/CTCIgWqkpRH2Pj2DrrWoQ+jUwJVjEo9Gae0P4
- q0EhlpWgNX40nA0gaVp35q2QSkR8PhQuG9ZBGAbfrMVdEUgIxKYP2lrKa9xGnOEfgbg+
- FIeg==
+ bh=eY8uN9ZiTYVXH+rnlUtslQcR4wVjV9QbTbMABZr/Vwo=;
+ b=P5YCpgLLSVs9G7DFYDU5cL7nVXpQfT+R91wwzHmNT6IKHtgl534g696OxN/zqaGa9j
+ G/idX1Cz3GmuMJPr/SrW4kC5wit2YFY6TmwXLVpT5myRtPMX1PQxKG1eknVjr2EVu16w
+ TKYrxEIQnmayiNZB4jjjzTQRsTkz0iAqtBBGRN8iILs/WEFqbwZmKo+xImrqyGgOkfyl
+ cLZU/uYqxpwkE1JyFbHyKAiGb0f48zDMlumusZmld/p2tcAPUP7qytttICgLBYynu7dP
+ OKazk8cFkwH5XCYGE4NnRgx9ScrP/UM8sjLUxZyK5K23jAU8NCCZQRYPxNVIoMa5gejH
+ Z6AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CW/aBVc/DvLm5AzOCaIeJv4ugR2BHIZSwBinzT7AqF0=;
- b=FNgPqsN4JWo71VpZWHtVLVNcVOZfoVvExH9B6POD0JFJXLBiBXkINQkitFUfhXqX3X
- jr57T/I3l1lvecaQMR2t7959TaelxcJghOqKUSjFvVX/F/YQfQiw65KvmjJXFakT2RKd
- iXZivuDBM1GIczwUdzwSXrEfx5Vo7Fc50F6KB2pSlqYJOICPc7JW3HmitCq1gra//1PB
- QwQSP4riBkWQ1JAROAX5Qx/4xVr7P1pMTOfbxUDqsJVNIcKY0BTLCIWQ/U9UcfYc2FEV
- nKaI2ow5s6oTTA78TNyNfrvqUVJ9O0s7LCW7u+HcpY7lODuAIgMhif+7p2Qq+cUlYIva
- oE9w==
-X-Gm-Message-State: ANhLgQ2QjbCyCVMSrkbR5NT7aRdeNPInUV0CXbi468rE6FddwlI1bV9Q
- GPgml5vgp5OXW7ItKjkNdM4=
-X-Google-Smtp-Source: ADFU+vtJsmax0DwQC+Cf9NjJglYaRBWbACQoic2tLn6yf66YW/uZVM0OuXW3/yAdCegbFry1bM5ujw==
-X-Received: by 2002:a17:90a:a791:: with SMTP id
- f17mr8620356pjq.22.1584353092970; 
- Mon, 16 Mar 2020 03:04:52 -0700 (PDT)
+ bh=eY8uN9ZiTYVXH+rnlUtslQcR4wVjV9QbTbMABZr/Vwo=;
+ b=cUkCkSpARPa0nZPrmwWVqX8ZYuBjzy3LjJo0CMUvs8/VYbi/5DbAy4uNDIDUzPa5jz
+ KaEKl0CUPRZr4T3xZ0ed3ibPnbGokb/8Tk71aMs0x1ofSYDN9SAu1xNfvAlrpPIzI4/p
+ Bjhth4YeWUPXv1P6TolGR1xdwo5qMumi/E+n6toAmYeunsyIPcrqqrj4jzi1Jaf6cdKn
+ 4iy+gCpKYgPGQX4sXr6nNhe3YtWWPTALyhbC6XbPBeWlqusSpbzc4/R4ThjKLclmdsZo
+ ZA2H797D2Q+73TbbOEY1jgYr01rF3eciUUn+jGATHJGsciCAynSqSBJ3HIfgieRyDdLR
+ f31g==
+X-Gm-Message-State: ANhLgQ07knIwnF8S43rT7xtkqmFCbHQluONW73KbH3qRsThByFMdv8mp
+ wylW8xKEAJSX9j+HRN1ntwWav5nQ
+X-Google-Smtp-Source: ADFU+vvT4Vmpd/OMW6ATeRCvA3hzjngeibW3R6WSp8G6wnt+DzBLOhSfoshEl0+xvuPM6tYvkmCx9g==
+X-Received: by 2002:a17:902:8303:: with SMTP id
+ bd3mr26657731plb.171.1584353097172; 
+ Mon, 16 Mar 2020 03:04:57 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:284:a4f2:cc63:b7fc:551c:dce5])
  by smtp.gmail.com with ESMTPSA id
- u3sm19803374pjv.32.2020.03.16.03.04.50
+ u3sm19803374pjv.32.2020.03.16.03.04.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 03:04:52 -0700 (PDT)
+ Mon, 16 Mar 2020 03:04:56 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Mon, 16 Mar 2020 15:33:16 +0530
-Message-Id: <20200316100319.27935-24-jaskaransingh7654321@gmail.com>
+Date: Mon, 16 Mar 2020 15:33:17 +0530
+Message-Id: <20200316100319.27935-25-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316100319.27935-1-jaskaransingh7654321@gmail.com>
 References: <20200316100319.27935-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, Jaskaran Singh <jaskaransingh7654321@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 23/26] engine: Match A.ParenType and
-	A.FunctionType
+Subject: [Linux-kernel-mentees] [PATCH 24/26] tools: spgen: Add cases for
+	ParenType/FunctionType
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,73 +117,31 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-ParenType and FunctionType are added to the SmPL AST as types.
-Match these types correctly.
+ParenType and FunctionType are now added to the SmPL ASTs. Add
+cases for these types in position_generator.ml.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- engine/check_exhaustive_pattern.ml |  2 ++
- engine/cocci_vs_c.ml               | 27 +++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ tools/spgen/source/position_generator.ml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/engine/check_exhaustive_pattern.ml b/engine/check_exhaustive_pattern.ml
-index 5a047f73..872c060c 100644
---- a/engine/check_exhaustive_pattern.ml
-+++ b/engine/check_exhaustive_pattern.ml
-@@ -149,6 +149,8 @@ let dumb_astcocci_type = function
-  | A.SignedT (signa,tya) -> ()
-  | A.Pointer (typa, _) -> ()
-  | A.FunctionPointer(ty,lp1,star,rp1,lp2,params,rp2) -> ()
-+ | A.ParenType(lp,ty,rp) -> ()
-+ | A.FunctionType(ty,lp,params,rp) -> ()
-  | A.Array (typa, _, eaopt, _) -> ()
-  | A.Decimal(_, _, _, _, _, _) -> ()
-  | A.EnumName(en, ena) -> ()
-diff --git a/engine/cocci_vs_c.ml b/engine/cocci_vs_c.ml
-index a4a0e53b..3e0eb50e 100644
---- a/engine/cocci_vs_c.ml
-+++ b/engine/cocci_vs_c.ml
-@@ -3785,6 +3785,29 @@ and (typeC: (A.typeC, Ast_c.typeC) matcher) =
-         | _ -> fail
-         )
- 
-+    | A.ParenType (lpa, typa, rpa), (B.ParenType typb, ii) ->
-+        let (lpb, rpb) = tuple_of_list2 ii in
-+        fullType typa typb >>= (fun typa typb ->
-+        tokenf lpa lpb >>= (fun lpa lpb ->
-+        tokenf rpa rpb >>= (fun rpa rpb ->
-+          return (
-+            (A.ParenType (lpa, typa, rpa)) +> A.rewrap ta,
-+            (B.ParenType (typb), [lpb;rpb])
-+          ))))
-+
-+    | A.FunctionType (typa, lpa, paramsa, rpa),
-+        (B.FunctionType (typb, (paramsb, (isvaargs, iidotsb))), ii) ->
-+        let (lpb, rpb) = tuple_of_list2 ii in
-+        fullType typa typb >>= (fun typa typb ->
-+        tokenf lpa lpb >>= (fun lpa lpb ->
-+        tokenf rpa rpb >>= (fun rpa rpb ->
-+        parameters (seqstyle paramsa) (A.unwrap paramsa) paramsb >>=
-+        (fun paramsaunwrap paramsb ->
-+          let paramsa = A.rewrap paramsa paramsaunwrap in
-+          return (
-+            (A.FunctionType (typa, lpa, paramsa, rpa)) +> A.rewrap ta,
-+            (B.FunctionType (typb, (paramsb, (isvaargs, iidotsb))), [lpb;rpb])
-+          )))))
- 
- 
-     (* todo: handle the iso on optional size specification ? *)
-@@ -4361,6 +4384,10 @@ and compatible_typeC a (b,local) =
-     | A.FunctionPointer (a, _, _, _, _, _, _), _ ->
- 	failwith
- 	  "TODO: function pointer type doesn't store enough information to determine compatibility"
-+    | A.ParenType (_, a, _), (qub, (B.ParenType b, ii)) ->
-+	compatible_type a (b, local)
-+    | A.FunctionType (a, _, _, _), (qub, (B.FunctionType (b,_), ii)) ->
-+	compatible_type a (b, local)
-     | A.Array (a, _, _, _), (qub, (B.Array (eopt, b),ii)) ->
-       (* no size info for cocci *)
- 	compatible_type a (b, local)
+diff --git a/tools/spgen/source/position_generator.ml b/tools/spgen/source/position_generator.ml
+index 31d6cb5e..2fa630fb 100644
+--- a/tools/spgen/source/position_generator.ml
++++ b/tools/spgen/source/position_generator.ml
+@@ -195,6 +195,12 @@ let rec type_pos t snp
+   | Ast0.FunctionPointer(t,lp,star,rp,lp2,params,rp2) ->
+       let constructor ~mc = Ast0.FunctionPointer(t,lp,star,rp,lp2,params,mc) in
+       mcode_wrap ~mc:rp2 ~constructor snp
++  | Ast0.ParenType(lp,t,rp) ->
++      let constructor ~mc = Ast0.ParenType(lp,t,rp) in
++      mcode_wrap ~mc:rp ~constructor snp
++  | Ast0.FunctionType(t,lp,params,rp) ->
++      let constructor ~mc = Ast0.FunctionType(t,lp,params,rp) in
++      mcode_wrap ~mc:rp ~constructor snp
+   | Ast0.Array(t,lb,expr,rb) ->
+       let constructor ~mc = Ast0.Array(t,lb,expr,mc) in
+       mcode_wrap ~mc:rb ~constructor snp
 -- 
 2.21.1
 
