@@ -7,61 +7,61 @@ X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 155DCC0044D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Mar 2020 19:10:29 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFE0FC0044D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Mar 2020 19:20:19 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A458E20663
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Mar 2020 19:10:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 825B420674
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Mar 2020 19:20:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="Dn8u2Y8l"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A458E20663
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="lSUv3YL6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 825B420674
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6ADDF891AC;
-	Mon, 16 Mar 2020 19:10:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 55CF4885CE;
+	Mon, 16 Mar 2020 19:20:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gYMv+g2vbrz6; Mon, 16 Mar 2020 19:10:27 +0000 (UTC)
+	with ESMTP id B+6pz5dgnLBd; Mon, 16 Mar 2020 19:20:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B9D868914A;
-	Mon, 16 Mar 2020 19:10:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EF7FC885B4;
+	Mon, 16 Mar 2020 19:20:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A381CC1D7C;
-	Mon, 16 Mar 2020 19:10:27 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 36CFEC013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D82AAC1D7C;
+	Mon, 16 Mar 2020 19:20:18 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4599AC013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 19:10:26 +0000 (UTC)
+ Mon, 16 Mar 2020 19:20:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 24E93214F6
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 343868685B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 19:10:26 +0000 (UTC)
+ Mon, 16 Mar 2020 19:20:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id d5+h1xytaVMe
+ with ESMTP id eF9f3igi_c-k
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 19:10:25 +0000 (UTC)
+ Mon, 16 Mar 2020 19:20:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mout.web.de (mout.web.de [212.227.17.12])
- by silver.osuosl.org (Postfix) with ESMTPS id 81770214E9
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 12E1386519
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Mar 2020 19:10:24 +0000 (UTC)
+ Mon, 16 Mar 2020 19:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1584385819;
- bh=QWOKlTJzaIyuhBzRefTA+ofGDXWDIOCyt+HxcJouxp4=;
+ s=dbaedf251592; t=1584386413;
+ bh=bEHO66UEobFxUGWTSomwDu9jHdMx14VSK8o7Y2Y6MMs=;
  h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
- b=Dn8u2Y8l5FkszkLqdA1Rvc7t1sPC1GkjS+XQdFKKsJC40HqY6GmMY74sWzLZmmggj
- yahT87JsNF+iuse8xrQLfPrYsbKIGgL/ixA/dQmV6mcMCXOVBSlSwgFOK0XnUMliB4
- wFgktEEGP/QiDV/YHAy9aegBfSF0ODlG/IvN1A1A=
+ b=lSUv3YL6fPlbWVH/R7YK0ARDM6v5SOkMRTi+9n1lB/bSp0ih5SKAz9p6pd6e7YGgr
+ ZD3yZqSIJ2fhwAKqmsbMU1MjgalJAOA0wOZ99oQkMprfz+TwT533dlCgYVjtpZ4iRl
+ G5RoXaqGzkI42M3ctwBTFtX/WOz6PWkSAMga43LA=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.49.93.189]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MHY1o-1jAbjy40Xk-003KC0; Mon, 16
- Mar 2020 20:10:19 +0100
+Received: from [192.168.1.2] ([78.49.93.189]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LcgVn-1jcIbD40md-00k8wj; Mon, 16
+ Mar 2020 20:20:13 +0100
 To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
 From: Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
@@ -107,38 +107,38 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <08714c77-6626-ecaf-a73e-ce864fff8de9@web.de>
-Date: Mon, 16 Mar 2020 20:10:18 +0100
+Message-ID: <4d55d76c-29d1-1c88-d8ad-606e32a938d9@web.de>
+Date: Mon, 16 Mar 2020 20:20:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
 Content-Language: en-US
-X-Provags-ID: V03:K1:1elipqCBR7vKpeOIYCgw3cc/AmD0sokJKE8QGtUkwYAabzb6KTp
- jgFQy3P/WG/fFdynShPvVe3KarSd71vgwqE+XX7dNT2USKnaVhXhpZeHXXg58Jz6Q9f/Oy7
- yBV8l2Z5VlInO2dw8z/OKOoa3dY0UBNXKt2UaG59aAG/qpYKF+OJ6IOxhift98QQhH1o+I9
- Y0l4bO2RoRMuO2zYmO2bw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Wzau1aL/VYo=:xa9XzFdiEI4u0Hb7QFsU7A
- n9+p/P3oK1KT8Xcb5yJdDX0IRG0Jicq6YK00cBc3n8MFepg2O59XVdMEz62NER4AOJO/v5Cv0
- S+feVld9fcOQETgJWm9fUkUagvgvIb82NlW58Z4Ha8hKo2ODmJEsklAr4BE16zwMlqu1k39Ah
- s3r5TfIo6HzW2OTyEHHEwiEERaimTX7w3ulCfQy23fcTtox/en01f8WZJRwLVnoyqzmorFvWT
- oy3f1DOigYdtSiB+enis00yDPGxHo/sONmRLlbeDWu/mfnCNBBBs5mz/11S0IkSmpIiUGTaln
- 2UEsbOERHizr4rV5LIBdVpPv5ykm6/0nd1wgAlvx0hrsgvm7It1uIhZFnekROd5p+IYuh0cr6
- 525p24g27iDzrTYn2Uv4LjETeW4UzbK99gtbHmE23eAonxb1NiRH19OVqsd6u+UNLkYeIyhoC
- vqU9z4B1yyhAPZnB3x8PJasUI6v7zi3KND6jwrhj8A7/ePn15EcYz69fSUmOjslzsuxjuhyCV
- wkeRcuVDSy4OKbMqDVRXn1RGY+z4ScfAeRcLqFucbnfHgH552xfEOLYjrPeWbqL0gl2pYDAx8
- yiHqsj3HcD7q9oqIBWFaOc44WNTGIMzo4CKAKmgFP5NsfqyHk4djAYLNoeXe3+1YNUqbyk2TA
- d0Kxy3WnVOLYu782kTnEZoMAJBXypZR1hMlVUcVKrCJwbOQvZwk3eln5a/TEJqZzC96DL172l
- BrtTi4Ct4rfHKLHHpnHiZG09ZW2qB250Rp/yuDN7tn+Tyq0E+8clm0cFE56wAIeLH/fXgz8UL
- TpKtBx1SB3H3dCdv3nwGZLLbaA7GpFCVaqaCgyeRFC1YVz7IhMKNUy+7lxw4qemyzpXdXYUP7
- NaP0TU1CddOBtw06cjuKq099PfqR8DTnE+IDsmRVdxon7yuBXY8aEuHqF9jMhkXp0VbS5s2GH
- B0j4FPTIf38tHzlsW/DZC9zllHIYvmJPpGoaSlVhD08lObpirLOLnV5E2MKxqncA1npk7qgg3
- EqSctkgqlAa+UZrR7in8pzb8X6Kg6tm+A0vU7R+rXIZTYYSJ/H+MgTTKNisghmtQjrcYAWpdX
- cQHQp+x97DZJe6trxreU6l9kdHxVFBDvc4Wonf52vQr9efkXYsL0YBfEI58EhVnW2X58nv4l9
- dq+83/cln08/A4s2eYRRld/bGsvM5RvTRG3ORgJQW/A+sEVYBA59gkPZwH1jZm4uJq/KOShMc
- jgJMCK5GVpaw+1dj7
+X-Provags-ID: V03:K1:BOhN6rIEgH74t21GYJqbpfP/Ra2v/Rkx+v+c/efUY5YAlrWs6n0
+ qaktCxK2ULmGxWXmO5WYUDAxsUhEI898hediyi/RB6s1r8DbMhcH7y4IEvkjiPxmYlIS11P
+ dJ6uAbezffv+OexYD/YruXfrbudyQPkUkj+djO9BWbxVSE/7lr+WRmugg23kMz6TY0YPZfE
+ NIG/vPtSgkWRNN/Jh7o1A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kYFiP8IKKyc=:pk4/3pI4bdeQ2kcxK0uC1/
+ 3VrtohoeOEzweSS9e66qg2ADVV1tP+kxC0EiXqF02Le8IOI7ym71aXub+97VqfQx2eC+7QyOU
+ l6YR4TA9PAqsNyNhSKFn4zGQDLxizLw/kO8yHQrPXl2zmdAJiAmFFS/SuFeRq/wtcmS0sayD8
+ 4G2Kc9q8/sVvfEVbU1sd2WHaWPaNcQypmkkSifB5oPQL48kP9YqOCsIqAzfH/TrV1tlbTLV0M
+ 9lcLzwX6SZ6ii4RHbkmIH9GDZcAK0desY3YR/jTOVKvWPZ5z0HYDFaSwRYiH8qwX6jC6t3V6p
+ taPoH9VYaaOjOfZ6RvK0tr/l9Xn7AqOU/6fleQBXJ/6SJC/qbA9FmLdLTP6KRZq6dIZ79AfTF
+ v0Eq/wRU7WtNzQNMHShktBkqM8atfGMnavxv4sZ3JWvIgaNAYaTp1OKt/96iFNfeXY+0KFK9j
+ ZdK9xXeJXbMZEyaDkThl5qfJv+F2SuK8nyjTV//H3hWpKUckZaaxDhEO1Cmq260/KpwBTUeHp
+ YEuvX8AaZLyvdBzGqU9R3qP/1gMmfF9/XdFoTOYukv7/Lv1UpUB/ROq3xBdEq80fdtDXM86DO
+ hpXntnMNqoqVrWO//H9qFvJ2Cq3aQnvN9bV3WlnnowtQSnzlwywV+Ihqgoavi4F9L62Tlu+ep
+ lEs/ESCpkbCMj+HYOEpX5WY+Vooxs4ZY1IXxpbmRCLC4jUmvdBm0aqa0KeLHMLjJN1BVReWMl
+ g73qjnUyxJ1pxU3LcFm1ROsKM5CjOTRYIoxWmCYGFSbrD6MZKC89j5RRI+6v9yTCX+fYggrY+
+ ZjDpNmc22LPUKxmhzBxOrCqvTkgGkQN4v4oAXBWsUqYDL7o2WkQIp3javAylKlhIto+RC1i4i
+ exeric+lrX9XWPCnFv0KAgvU7mp3nn9uMOIixSTtMCfgkjKhppR+RkxV1xcPfJo87GxOZL0Jx
+ T0JgWng+xLrB3aQPKM/aXPmHJXvZ2EWXD6tOoUbkaR+hNYgAkbVhV99xAy6ONj92bpJNOEaow
+ VRCD26p2PCZtXwFesV6PdeLFM6kGY/xjqPfttf3WdhU2qNi377wpE+y/ezumVhnUZN3cclEcy
+ rFrj+tJJ2xjjNYgU4flQb/lwEGt9OW0+ytlugFsLOGEiIWpibIIvKJMIQmUDq57joaCrakJ2p
+ Yng3G1vZb4VbQ7H6PcTDrEhdFJ1XA7GmXIHTkYPTRBLvc5/TQlIszGbd/jTefHqpdlpjaFFXa
+ p52zqvcT5A418uT34
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH 05/26] parsing_cocci:
- visitor_ast0: Add cases for ParenType/FunctionType
+Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH 06/26] parsing_cocci:
+ arity: Add cases for ParenType/FunctionType
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -156,12 +156,13 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-PiBUaGUgb3JkZXIgb2YgdGhlIHRlcm1zIGluIFBhcmVuVHlwZSByZXF1aXJlIGltcGxlbWVudGlu
-ZyBhIHNwZWNpYWwKPiBjYXNlIGZvciBQYXJlblR5cGUuIFRoaXMgY2FzZSBoYW5kbGVzIG9ubHkg
-dGhlIGZvbGxvd2luZzoK4oCmCgpJdCBzZWVtcyB0aGF0IHRoaXMgY2hhbmdlIGRlc2NyaXB0aW9u
-IHdhcyByZXBlYXRlZCBpbiBvdGhlciB1cGRhdGUgc3RlcHMuCkRvZXMgdGhpcyBkZXRhaWwgaW5k
-aWNhdGUgYSBuZWVkIHRvIHJlY29uc2lkZXIgdGhlIHBhdGNoIGdyYW51bGFyaXR5PwoKUmVnYXJk
-cywKTWFya3VzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0Bs
-aXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
+PiBQYXJlblR5cGUgYW5kIEZ1bmN0aW9uVHlwZSBhcmUgYWRkZWQgdG8gdGhlIFNtUEwgQVNUcy4K
+PiBBZGQgY2FzZXMgZm9yIHRoZXNlIHR5cGVzIGluIOKApi5tbC4KCkEgY2hhbmdlIGRlc2NyaXB0
+aW9uIHRlbXBsYXRlIHdhcyB1c2VkIHNldmVyYWwgdGltZXMuCkkgd29uZGVyIGlmIHRoZXJlIGlz
+IHJlYWxseSBhIG5lZWQgdG8gbW9kaWZ5IG9ubHkgYSBzaW5nbGUgT0NhbWwgc291cmNlIGZpbGUK
+aW4gdGhlc2UgdXBkYXRlIHN0ZXBzLgpIb3cgZG8geW91IHRoaW5rIGFib3V0IHRvIGNvbWJpbmUg
+c3VjaCBjaGFuZ2VzIGluIGEgYmlnZ2VyIHVwZGF0ZSBzdGVwPwoKUmVnYXJkcywKTWFya3VzCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5l
+bC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZv
+dW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
