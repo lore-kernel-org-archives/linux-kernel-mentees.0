@@ -6,77 +6,79 @@ X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5C4C5ACD6
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 08:17:58 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA64C5ACD6
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 08:43:32 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D51F2076E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 08:17:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 25AB120753
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 08:43:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="oU6MwEsZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D51F2076E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pqrd2dDs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 25AB120753
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2852488638;
-	Wed, 18 Mar 2020 08:17:58 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F086220475;
+	Wed, 18 Mar 2020 08:43:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FlEfCmLwB1eo; Wed, 18 Mar 2020 08:17:56 +0000 (UTC)
+	with ESMTP id ZKz0rCKxk+4Y; Wed, 18 Mar 2020 08:43:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E63A488673;
-	Wed, 18 Mar 2020 08:17:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 412F220421;
+	Wed, 18 Mar 2020 08:43:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CFCDCC18DA;
-	Wed, 18 Mar 2020 08:17:56 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 69BE1C013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C010C18DA;
+	Wed, 18 Mar 2020 08:43:31 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 01FEEC013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 08:17:55 +0000 (UTC)
+ Wed, 18 Mar 2020 08:43:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 5003A88673
+ by hemlock.osuosl.org (Postfix) with ESMTP id DF3D888572
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 08:17:55 +0000 (UTC)
+ Wed, 18 Mar 2020 08:43:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aCme7SS5a0Aj
+ with ESMTP id ZvT9XLSpY9aC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 08:17:53 +0000 (UTC)
+ Wed, 18 Mar 2020 08:43:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D27CD88638
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 08E0C88424
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 08:17:53 +0000 (UTC)
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de
- [95.90.212.233])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9249A2076C;
- Wed, 18 Mar 2020 08:17:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584519473;
- bh=VmbOPiu4UbY/pZ8SgpbaTwQO3xidWuQR3GL48hI7Gng=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=oU6MwEsZkeYhwtliIwf0VT1FRU7fyfjMeUWibGhAuZzRpMRuABUt4ylJGU8nrBedC
- 2R1p6t0o5O9j3mKmxqYM9J5k+UI6BgFDvg6PNJ7dqMlAkAw7EDAPLD4JZ3GPhwMtCh
- qeYGfFLPVmhG/UOw+rwRmZAdEyn1cIGM4k1MtJI8=
-Date: Wed, 18 Mar 2020 09:17:48 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ Wed, 18 Mar 2020 08:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+ From:Date:Sender:Reply-To:Content-ID:Content-Description;
+ bh=laocdoFfC8BF0yiFG5s2DtCNbe1PtE+qM3lE7QjksiE=; b=pqrd2dDs+WktHotWvY7YC4zmF7
+ CpgAzrUlHjAxWma4dy9PsfzHuMQ4s6iNk97Ek8esDNPe4E2aWdzsL4tosQgtf+iYQ5ip0xyViAHsR
+ w77boplTJtoakZuoe2In6sFpHtZkkZ8I4GVp5dtqdO6tDO8hWAreL+Q73q4kgodutD32B/mvLYtmg
+ COl56NcHFsgcHDWTjoh29ebX1Jhkn4uRwnnxlQPKbogLvDoTcGjcyjL+7jN+gGLVPtNKW9sEnsT+O
+ LMfIh2+m1EDAC0CU5gXQ/AEnb2cvlWhIrwXrY2MKWd1Hf0fKFK1XM2hBxIQWj4byStXkkqoLjrRI6
+ hyy38axg==;
+Received: from ip5f5ad4e9.dynamic.kabel-deutschland.de ([95.90.212.233]
+ helo=coco.lan)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jEUIO-0004nd-7e; Wed, 18 Mar 2020 08:43:24 +0000
+Date: Wed, 18 Mar 2020 09:43:17 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <20200318091740.3dd1e972@coco.lan>
-In-Reply-To: <20200318060018.3437750-2-dwlsalmeida@gmail.com>
+Message-ID: <20200318094317.35c4efc1@coco.lan>
+In-Reply-To: <20200318060018.3437750-3-dwlsalmeida@gmail.com>
 References: <20200318060018.3437750-1-dwlsalmeida@gmail.com>
- <20200318060018.3437750-2-dwlsalmeida@gmail.com>
+ <20200318060018.3437750-3-dwlsalmeida@gmail.com>
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Cc: kstewart@linuxfoundation.org, sean@mess.org, tglx@linutronix.de,
  linux-kernel-mentees@lists.linuxfoundation.org, allison@lohutok.net,
  linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [RFC 1/3] media: dvb_dummy_tuner:
-	implement driver skeleton
+Subject: Re: [Linux-kernel-mentees] [RFC 2/3] media: dvb_dummy_fe.c: lose TS
+	lock on bad snr
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,114 +96,49 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Em Wed, 18 Mar 2020 03:00:16 -0300
+Em Wed, 18 Mar 2020 03:00:17 -0300
 "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
 > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
-> The virtual DVB test driver serves as a reference DVB driver and helps
-> validate the existing APIs in the media subsystem. It can also aid developers
-> working on userspace applications.
-> 
-> This dummy tuner should support common TV standards such as DVB-T/T2/S/S2,
-> ISDB-T and ATSC when completed.
+> Periodically check the signal quality and eventually lose the lock if
+> the quality is sub-par. A fake tuner can return a bad quality signal to
+> the demod if the frequency is too far off from a valid frequency.
 > 
 > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 > ---
->  drivers/media/tuners/Kconfig           |   9 +
->  drivers/media/tuners/Makefile          |   1 +
->  drivers/media/tuners/dvb_dummy_tuner.c | 421 +++++++++++++++++++++++++
->  3 files changed, 431 insertions(+)
->  create mode 100644 drivers/media/tuners/dvb_dummy_tuner.c
+>  drivers/media/dvb-frontends/dvb_dummy_fe.c | 149 ++++++++++++++++++++-
+>  1 file changed, 144 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
-> index e104bb7766e1..8ad54339ceee 100644
-> --- a/drivers/media/tuners/Kconfig
-> +++ b/drivers/media/tuners/Kconfig
-> @@ -296,4 +296,13 @@ config MEDIA_TUNER_QM1D1B0004
->  	default m if !MEDIA_SUBDRV_AUTOSELECT
->  	help
->  	  Sharp QM1D1B0004 ISDB-S tuner driver.
-> +
-> +config MEDIA_TUNER_DVB_DUMMY_TUNER
-> +	tristate "Dummy DVB Media Tuner"
-> +	depends on MEDIA_SUPPORT && I2C
-> +	help
-> +	  Dummy DVB media tuner driver
-> +	  The virtual DVB test driver serves as a reference DVB driver and helps
-> +	  validate the existing APIs in the media subsystem. It can also aid
-> +	  developers working on userspace applications.
->  endmenu
-> diff --git a/drivers/media/tuners/Makefile b/drivers/media/tuners/Makefile
-> index 7b4f8423501e..f98de1cf2e19 100644
-> --- a/drivers/media/tuners/Makefile
-> +++ b/drivers/media/tuners/Makefile
-> @@ -44,5 +44,6 @@ obj-$(CONFIG_MEDIA_TUNER_QM1D1C0042) += qm1d1c0042.o
->  obj-$(CONFIG_MEDIA_TUNER_QM1D1B0004) += qm1d1b0004.o
->  obj-$(CONFIG_MEDIA_TUNER_M88RS6000T) += m88rs6000t.o
->  obj-$(CONFIG_MEDIA_TUNER_TDA18250) += tda18250.o
-> +obj-$(CONFIG_MEDIA_TUNER_DVB_DUMMY_TUNER) += dvb_dummy_tuner.o
+> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> index 9ff1ebaa5e04..726c964a523d 100644
+> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> @@ -9,24 +9,155 @@
+>  #include <linux/init.h>
+>  #include <linux/string.h>
+>  #include <linux/slab.h>
+> +#include <linux/workqueue.h>
+> +#include <linux/random.h>
 >  
->  ccflags-y += -I$(srctree)/drivers/media/dvb-frontends
-> diff --git a/drivers/media/tuners/dvb_dummy_tuner.c b/drivers/media/tuners/dvb_dummy_tuner.c
-> new file mode 100644
-> index 000000000000..1408a8c84be2
-> --- /dev/null
-> +++ b/drivers/media/tuners/dvb_dummy_tuner.c
-> @@ -0,0 +1,421 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2020 Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> + *
-> + * The virtual DVB test driver serves as a reference DVB driver and helps
-> + * validate the existing APIs in the media subsystem. It can also aid
-> + * developers working on userspace applications.
-> + *
-> + * This dummy tuner should support common TV standards such as
-> + * DVB-T/T2/S/S2, ISDB-T and ATSC when completed.
-> + *
-> + */
-> +
-> +#include <linux/errno.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
-> +#include <media/dvb_frontend.h>
-> +
-> +struct dvb_dummy_tuner_config {
-> +	struct dvb_frontend *fe;
-> +	u32 mock_power_up_delay_msec;
-> +	u32 mock_tune_delay_msec;
-> +	u32 mock_sleep_delay_msec;
-> +	u32 mock_resume_delay_msec;
-> +	u32 dummy_valid_dvb_t_frequencies[8];
-> +	u32 dummy_valid_dvb_c_frequencies[8];
-> +	u32 dummy_valid_dvb_s_frequencies[8];
-> +	u8  max_frequency_shift_hz;
-> +};
-> +
-> +struct dvb_dummy_tuner_cnr_to_qual_s {
+>  #include <media/dvb_frontend.h>
+>  #include "dvb_dummy_fe.h"
+>  
+>  
+> +struct dvb_dummy_fe_cnr_to_qual_s {
 > +	/* attempt to use the same values as libdvbv5 */
 > +	u32 modulation;
 > +	u32 fec;
 > +	u32 cnr_ok, cnr_good;
 > +};
 > +
-> +struct dvb_dummy_tuner_cnr_to_qual_s dvb_c_cnr_2_qual[] = {
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_c_cnr_2_qual[] = {
 > +	/* from libdvbv5 source code */
 > +	{ QAM_256, FEC_NONE,  34., 38.},
 > +	{ QAM_64,  FEC_NONE,  30., 34.},
-
-Instead of using float point, you should multiply those by some value,
-like 1000. So, 34.0 dB would become 34000. Btw, that's the way the DVBv5
-API expects it: as mili-dB. See FE_SCALE_DECIBEL at:
-
-	https://linuxtv.org/downloads/v4l-dvb-apis-new/uapi/dvb/frontend-stat-properties.html#dtv-stat-cnr
-
 > +};
 > +
-> +struct dvb_dummy_tuner_cnr_to_qual_s dvb_s_cnr_2_qual[] = {
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_s_cnr_2_qual[] = {
 > +	/* from libdvbv5 source code */
 > +	{ QPSK, FEC_1_2,  7., 10.},
 > +
@@ -212,7 +149,7 @@ API expects it: as mili-dB. See FE_SCALE_DECIBEL at:
 > +	{ QPSK, FEC_7_8, 12., 15.},
 > +};
 > +
-> +struct dvb_dummy_tuner_cnr_to_qual_s dvb_s2_cnr_2_qual[] = {
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_s2_cnr_2_qual[] = {
 > +	/* from libdvbv5 source code */
 > +	{ QPSK,  FEC_1_2,   9.,  12.},
 > +	{ QPSK,  FEC_2_3,  11.,  14.},
@@ -226,7 +163,7 @@ API expects it: as mili-dB. See FE_SCALE_DECIBEL at:
 > +	{ PSK_8, FEC_8_9,  19.,  22.},
 > +};
 > +
-> +static struct dvb_dummy_tuner_cnr_to_qual_s dvb_t_cnr_2_qual[] = {
+> +static struct dvb_dummy_fe_cnr_to_qual_s dvb_t_cnr_2_qual[] = {
 > +	/* from libdvbv5 source code */
 > +	{   QPSK, FEC_1_2,  4.1,  5.9},
 > +	{   QPSK, FEC_2_3,  6.1,  9.6},
@@ -246,125 +183,66 @@ API expects it: as mili-dB. See FE_SCALE_DECIBEL at:
 > +	{ QAM_64, FEC_5_6, 21.3, 23.3},
 > +	{ QAM_64, FEC_7_8, 22.0, 24.0},
 > +};
+
+Same comment as before: multiply everything to 1000.
+
 > +
-> +enum dvb_dummy_tuner_lock_status {
-> +	STATUS_NO_LOCK = 0,
-> +	STATUS_LOCKED = TUNER_STATUS_LOCKED,
+> +struct dvb_dummy_fe_config {
+> +	/* probability of losing the lock due to low snr */
+> +	u8 drop_tslock_probability_on_low_snr;
 > +};
 > +
-> +enum dvb_dummy_tuner_power_status {
-> +	STATUS_UNKNOWN,
-> +	STATUS_ASLEEP,
-> +	STATUS_ACTIVE
-> +};
-> +
-> +enum dvb_dummy_tuner_frequency_shift_status {
-> +	EXACT_MATCH,
-> +	CLOSE_MATCH,
-> +	TOO_FAR_OFF
-> +};
-> +
-> +struct dvb_dummy_tuner_hardware_state {
-> +	enum dvb_dummy_tuner_power_status power_status;
-> +	enum dvb_dummy_tuner_lock_status lock_status;
-> +	u32 if_frequency;
-> +	u32 tuned_frequency;
-> +	u32 bandwidth;
-> +};
-> +
-> +struct dvb_dummy_tuner_dev {
-> +	struct dvb_frontend *fe;
-> +	struct dvb_dummy_tuner_hardware_state hw_state;
-> +	struct dvb_dummy_tuner_config config;
-> +};
-> +
-> +static struct dvb_dummy_tuner_dev*
-> +dvb_dummy_tuner_get_dev(struct dvb_frontend *fe)
+>  struct dvb_dummy_fe_state {
+>  	struct dvb_frontend frontend;
+> +	struct dvb_dummy_fe_config config;
+> +	struct delayed_work poll_snr;
+> +	enum fe_status status;
+>  };
+>  
+> +void poll_snr_handler(struct work_struct *work)
 > +{
-> +	struct i2c_client *client = fe->tuner_priv;
-> +
-> +	return (struct dvb_dummy_tuner_dev *)i2c_get_clientdata(client);
-> +}
-> +
-> +static bool dvb_dummy_tuner_check_frequency_shift(struct dvb_frontend *fe)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
-> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
-> +	u32 *valid_frequencies = NULL;
-> +	u32 array_sz = 0;
-> +	u32 i;
-> +
-> +	switch (c->delivery_system) {
-> +	case SYS_DVBT:
-> +	case SYS_DVBT2:
-> +		valid_frequencies =
-> +			config.dummy_valid_dvb_t_frequencies;
+> +	/* periodically check the signal quality and eventually
+> +	 * lose the TS lock if it dips too low
+> +	 */
 
-Please avoid splitting assignments like that on multiple lines.
+We use multi-line comments at the Kernel as:
 
-Btw, I would just do a s/frequencies/freqs/. So, that would be:
+	/*
+	 * foo
+	 * bar
+	 */
 
-		valid_freqs = config.dummy_valid_dvb_t_freqs;
 
-> +		array_sz = ARRAY_SIZE(config.dummy_valid_dvb_t_frequencies);
-> +		break;
-> +	case SYS_DVBS:
-> +	case SYS_DVBS2:
-> +		valid_frequencies =
-> +			config.dummy_valid_dvb_s_frequencies;
-> +		array_sz = ARRAY_SIZE(config.dummy_valid_dvb_s_frequencies);
-> +		break;
-> +	case SYS_DVBC_ANNEX_A:
-> +		valid_frequencies =
-> +			config.dummy_valid_dvb_c_frequencies;
-> +		array_sz = ARRAY_SIZE(config.dummy_valid_dvb_c_frequencies);
-> +		break;
-> +
-> +	default:
-> +		pr_warn("%s: unsupported delivery system: %u\n",
-> +			__func__,
-> +			c->delivery_system);
-> +		break;
-> +	}
-> +
-> +	for (i = 0; i < array_sz; i++) {
-> +		if (c->frequency == valid_frequencies[i])
-> +			return EXACT_MATCH;
-
-I would, instead, return 0 here.
-
-> +		else if (c->frequency >= ) -
-> +			 config.max_frequency_shift_hz &&
-> +			 c->frequency <= valid_frequencies[i] +
-> +			 config.max_frequency_shift_hz)
-> +			return CLOSE_MATCH;
-
-I would, instead, do:
-
-	return abs((c->frequency - valid_frequencies[i]) * 100 / config.max_frequency_shift_hz);
-
-This will provide a value from 0 to 100 that would indicate how far is the
-tuned frequency from the right one.
-
-> +	}
-> +
-> +	return TOO_FAR_OFF;
-
-I would return -1.
-
-> +}
-> +
-> +static int
-> +dvb_dummy_tuner_get_signal_strength(struct dvb_frontend *fe, u16 *strength)
-> +{
-> +	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
-> +	struct dvb_dummy_tuner_cnr_to_qual_s *cnr2qual = NULL;
+> +	struct dvb_dummy_fe_state *state =
+> +		container_of(work, struct dvb_dummy_fe_state, poll_snr.work);
+> +	struct dtv_frontend_properties *c = &state->frontend.dtv_property_cache;
+> +	struct dvb_dummy_fe_cnr_to_qual_s *cnr2qual = NULL;
+> +	struct dvb_dummy_fe_config *config = &state->config;
 > +	u32 array_size = 0;
-> +	enum dvb_dummy_tuner_frequency_shift_status shift_status;
+> +	u16 snr = 0;
 > +	u32 i;
+
+Please avoid breaking assignments on multiple lines. It makes harder
+to read.
+
+What I would do, instead, is to split it on a different way:
+
+	struct dvb_dummy_fe_state *state;
+	struct dtv_frontend_properties *c;
+	struct dvb_dummy_fe_config *config;
+	...
+
+	state = container_of(work, struct dvb_dummy_fe_state, poll_snr.work);
+	c = &state->frontend.dtv_property_cache;
+	config = &state->config;
+
+
+
 > +
-> +	shift_status = dvb_dummy_tuner_check_frequency_shift(fe);
+> +	if (!state->frontend.ops.tuner_ops.get_rf_strength)
+> +		return;
+> +
+> +	state->frontend.ops.tuner_ops.get_rf_strength(&state->frontend, &snr);
 > +
 > +	switch (c->delivery_system) {
 > +	case SYS_DVBT:
@@ -392,242 +270,73 @@ I would return -1.
 > +		pr_warn("%s: unsupported delivery system: %u\n",
 > +			__func__,
 > +			c->delivery_system);
-> +		return -EINVAL;
+> +		break;
 > +	}
 > +
 > +	for (i = 0; i <= array_size; i++) {
 > +		if (cnr2qual[i].modulation == c->modulation &&
 > +		    cnr2qual[i].fec == c->fec_inner) {
-> +			*strength = (shift_status == EXACT_MATCH) ?
-> +				    cnr2qual[i].cnr_good :
-> +				    (shift_status == CLOSE_MATCH) ?
-> +				    cnr2qual[i].cnr_ok :
-> +				    cnr2qual[i].cnr_ok -
-> +				    (cnr2qual[i].cnr_good - cnr2qual[i].cnr_ok);
-> +			return 0;
+> +
+> +			if (snr < cnr2qual[i].cnr_ok) {
+> +				/* eventually lose the TS lock */
+> +				if (prandom_u32_max(100) <
+> +				    config->drop_tslock_probability_on_low_snr)
+> +					state->status = 0;
+> +			}
+
+Hmm.. what about the reverse: if it lost TS lock, shouldn't it 
+randomly recover?
+
 > +		}
-> +
 > +	}
 > +
-> +	/* default to some random values if we can't match against the table */
-> +	*strength = (shift_status == EXACT_MATCH) ? 34 : 10;
-
-Perhaps you could, instead, use the frequency shift to calculate the
-strength between 34 and 10. 
-
-So, assuming that you take my suggestion of returning a value from 0 to 100,
-and such value is stored at a "shift" var, you could do:
-
-	*strength = 34 - 24 * shift / 100;
-
-(ok, a linear interpolation is not what would happen on a real case, but
-as the goal of a virtual driver is to validate if userspace is doing the 
-right thing, this works just fine).
-
-> +	return 0;
+> +	schedule_delayed_work(&(state->poll_snr), msecs_to_jiffies(2000));
 > +}
+>  
+>  static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
+>  				    enum fe_status *status)
+>  {
+> -	*status = FE_HAS_SIGNAL
+> -		| FE_HAS_CARRIER
+> -		| FE_HAS_VITERBI
+> -		| FE_HAS_SYNC
+> -		| FE_HAS_LOCK;
 > +
-> +static int dvb_dummy_tuner_init(struct dvb_frontend *fe)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
 > +
-> +	msleep_interruptible(config.mock_power_up_delay_msec);
+> +	*status = state->status;
+>  
+>  	return 0;
+>  }
+> @@ -80,11 +211,18 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
+>  
+>  static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
+>  {
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
 > +
-> +	tuner_dev->hw_state.power_status = STATUS_ACTIVE;
-> +	tuner_dev->hw_state.if_frequency = 5000;
+> +	cancel_delayed_work_sync(&(state->poll_snr));
+>  	return 0;
+>  }
+>  
+>  static int dvb_dummy_fe_init(struct dvb_frontend *fe)
+>  {
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
 > +
-> +	return 0;
-> +}
-> +
-> +static int dvb_dummy_tuner_sleep(struct dvb_frontend *fe)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
-> +
-> +	msleep_interruptible(config.mock_sleep_delay_msec);
-> +	tuner_dev->hw_state.power_status = STATUS_ASLEEP;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dvb_dummy_tuner_suspend(struct dvb_frontend *fe)
-> +{
-> +	return dvb_dummy_tuner_sleep(fe);
-> +}
-> +
-> +static int dvb_dummy_tuner_resume(struct dvb_frontend *fe)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
-> +
-> +	msleep_interruptible(config.mock_resume_delay_msec);
-> +	tuner_dev->hw_state.power_status = STATUS_ACTIVE;
-> +
-> +	return 0;
-> +}
+> +	INIT_DELAYED_WORK(&(state->poll_snr), &poll_snr_handler);
+> +	schedule_delayed_work(&(state->poll_snr), msecs_to_jiffies(2000));
+>  	return 0;
+>  }
+>  
+> @@ -104,6 +242,7 @@ static void dvb_dummy_fe_release(struct dvb_frontend *fe)
+>  {
+>  	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+>  
+> +	cancel_delayed_work_sync(&(state->poll_snr));
+>  	kfree(state);
+>  }
+>  
 
-For suspend/resume, I would not do any msleep(). Just set the status.
-
-> +
-> +static int dvb_dummy_tuner_set_params(struct dvb_frontend *fe)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
-> +	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
-> +	u32 min_freq = fe->ops.tuner_ops.info.frequency_min_hz;
-> +	u32 max_freq = fe->ops.tuner_ops.info.frequency_max_hz;
-> +	u32 min_bw = fe->ops.tuner_ops.info.bandwidth_min;
-> +	u32 max_bw = fe->ops.tuner_ops.info.bandwidth_max;
-> +
-> +	msleep_interruptible(config.mock_tune_delay_msec);
-> +
-> +	if (c->frequency < min_freq  || c->frequency > max_freq  ||
-> +	    c->bandwidth_hz < min_bw || c->bandwidth_hz > max_bw) {
-> +		tuner_dev->hw_state.lock_status = STATUS_NO_LOCK;
-> +		return -EINVAL;
-> +	}
-
-You can move the msleep() to be after checking the parameters.
-This is what happens on other drivers.
-
-> +
-> +	tuner_dev->hw_state.tuned_frequency = c->frequency;
-> +	tuner_dev->hw_state.bandwidth = c->bandwidth_hz;
-> +	tuner_dev->hw_state.lock_status = STATUS_LOCKED;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dvb_dummy_tuner_set_config(struct dvb_frontend *fe,
-> +				      void *priv_cfg)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +
-> +	WARN_ON(sizeof(tuner_dev->config) != sizeof(*priv_cfg));
-> +	memcpy(&tuner_dev->config, priv_cfg, sizeof(*priv_cfg));
-
-Huh? sizeof(void *priv_config) seems plain wrong to me. The above
-shold be, instead:
-
-	memcpy(&tuner_dev->config, priv_cfg, sizeof(tuner_dev->config));
-
-but you should ensure that the caller driver will be filling it
-properly there.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int dvb_dummy_tuner_get_frequency(struct dvb_frontend *fe,
-> +					 u32 *frequency)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +
-> +	*frequency = tuner_dev->hw_state.tuned_frequency;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dvb_dummy_tuner_get_bandwidth(struct dvb_frontend *fe,
-> +					 u32 *bandwidth)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +
-> +	*bandwidth = tuner_dev->hw_state.bandwidth;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dvb_dummy_tuner_get_if_frequency(struct dvb_frontend *fe,
-> +					    u32 *frequency)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +
-> +	*frequency = tuner_dev->hw_state.if_frequency;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dvb_dummy_tuner_get_status(struct dvb_frontend *fe, u32 *status)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
-> +
-> +	*status = tuner_dev->hw_state.lock_status;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dvb_tuner_ops dvb_dummy_tuner_ops = {
-> +	.init = dvb_dummy_tuner_init,
-> +	.sleep = dvb_dummy_tuner_sleep,
-> +	.suspend = dvb_dummy_tuner_suspend,
-> +	.resume = dvb_dummy_tuner_resume,
-> +	.set_params = dvb_dummy_tuner_set_params,
-> +	.set_config = dvb_dummy_tuner_set_config,
-> +	.get_bandwidth = dvb_dummy_tuner_get_bandwidth,
-> +	.get_frequency = dvb_dummy_tuner_get_frequency,
-> +	.get_if_frequency = dvb_dummy_tuner_get_if_frequency,
-> +	.get_status = dvb_dummy_tuner_get_status,
-> +	.get_rf_strength = dvb_dummy_tuner_get_signal_strength
-> +};
-> +
-> +static const struct i2c_device_id dvb_dummy_tuner_i2c_id_table[] = {
-> +	{"dvb_dummy_tuner", 0},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, dvb_dummy_tuner_i2c_id_table);
-> +
-> +static int dvb_dummy_tuner_i2c_probe(struct i2c_client *client,
-> +				     const struct i2c_device_id *id)
-> +{
-> +	struct dvb_dummy_tuner_config *config = client->dev.platform_data;
-> +	struct dvb_frontend *fe = config->fe;
-> +	struct dvb_dummy_tuner_dev *tuner_dev = NULL;
-> +
-> +	tuner_dev = kzalloc(sizeof(*tuner_dev), GFP_KERNEL);
-> +	if (!tuner_dev)
-> +		return -ENOMEM;
-> +
-> +	tuner_dev->fe = config->fe;
-> +	i2c_set_clientdata(client, tuner_dev);
-> +
-> +	memcpy(&fe->ops.tuner_ops,
-> +	       &dvb_dummy_tuner_ops,
-> +	       sizeof(struct dvb_tuner_ops));
-> +
-> +	fe->tuner_priv = client;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dvb_dummy_tuner_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct dvb_dummy_tuner_dev *tuner_dev = i2c_get_clientdata(client);
-> +	struct dvb_frontend *fe = tuner_dev->fe;
-> +
-> +	memset(&fe->ops.tuner_ops, 0, sizeof(struct dvb_tuner_ops));
-> +	fe->tuner_priv = NULL;
-> +	kfree(tuner_dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct i2c_driver dvb_dummy_tuner_i2c_driver = {
-> +	.driver = {
-> +		.name = "dvb_dummy_tuner",
-> +		.suppress_bind_attrs = true,
-> +	},
-> +	.probe		= dvb_dummy_tuner_i2c_probe,
-> +	.remove		= dvb_dummy_tuner_i2c_remove,
-> +	.id_table	= dvb_dummy_tuner_i2c_id_table,
-> +};
-> +module_i2c_driver(dvb_dummy_tuner_i2c_driver);
-> +
-> +MODULE_DESCRIPTION("DVB Dummy Tuner");
-> +MODULE_AUTHOR("Daniel W. S. Almeida");
-> +MODULE_LICENSE("GPL");
-
+The rest of the code sounds good to me.
 
 
 Thanks,
