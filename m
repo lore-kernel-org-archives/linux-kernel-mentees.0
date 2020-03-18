@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F3CFC10F29
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 17:25:52 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4246EC10DCE
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 17:27:29 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D680820753
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 17:25:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D680820753
+	by mail.kernel.org (Postfix) with ESMTPS id 2004620752
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 17:27:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2004620752
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=inria.fr
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A900220435;
-	Wed, 18 Mar 2020 17:25:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 025BA86A33;
+	Wed, 18 Mar 2020 17:27:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Y5HRLZCGPOKG; Wed, 18 Mar 2020 17:25:49 +0000 (UTC)
+	with ESMTP id plFt82YsWWLA; Wed, 18 Mar 2020 17:27:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 35AF920436;
-	Wed, 18 Mar 2020 17:25:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 790D386A10;
+	Wed, 18 Mar 2020 17:27:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1F060C07FE;
-	Wed, 18 Mar 2020 17:25:49 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A0F29C013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75242C07FE;
+	Wed, 18 Mar 2020 17:27:28 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D74D4C013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 17:25:47 +0000 (UTC)
+ Wed, 18 Mar 2020 17:27:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6EF1287726
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D368786A33
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 17:25:22 +0000 (UTC)
+ Wed, 18 Mar 2020 17:27:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id a96XIWIHc11I
+ with ESMTP id GVqfLSz83fOL
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 17:25:20 +0000 (UTC)
+ Wed, 18 Mar 2020 17:27:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail3-relais-sop.national.inria.fr
  (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 71EF5876F2
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6E3F186A10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 17:25:20 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,568,1574118000"; d="scan'208";a="342837055"
+ Wed, 18 Mar 2020 17:27:25 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,568,1574118000"; d="scan'208";a="342837321"
 Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2020 18:25:17 +0100
-Date: Wed, 18 Mar 2020 18:25:17 +0100 (CET)
+ 18 Mar 2020 18:27:23 +0100
+Date: Wed, 18 Mar 2020 18:27:22 +0100 (CET)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
 To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-In-Reply-To: <20200316100319.27935-2-jaskaransingh7654321@gmail.com>
-Message-ID: <alpine.DEB.2.21.2003181823000.2979@hadrien>
+In-Reply-To: <20200316100319.27935-3-jaskaransingh7654321@gmail.com>
+Message-ID: <alpine.DEB.2.21.2003181826560.2979@hadrien>
 References: <20200316100319.27935-1-jaskaransingh7654321@gmail.com>
- <20200316100319.27935-2-jaskaransingh7654321@gmail.com>
+ <20200316100319.27935-3-jaskaransingh7654321@gmail.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, cocci@systeme.lip6.fr
-Subject: Re: [Linux-kernel-mentees] [PATCH 01/26] parsing_cocci: Add
-	Function Prototype token
+Cc: julia.lawall@inria.fr, linux-kernel-mentees@lists.linuxfoundation.org,
+ cocci@systeme.lip6.fr
+Subject: Re: [Linux-kernel-mentees] [PATCH 02/26] parsing_cocci: AST: Add
+ ParenType and FunctionType to SmPL ASTs
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,250 +88,105 @@ Sender: "Linux-kernel-mentees"
 
 On Mon, 16 Mar 2020, Jaskaran Singh wrote:
 
-> To add the types ParenType and FunctionType to the SmPL AST, a
-> reduce/reduce conflict with the funproto rule of the SmPL parser
-> must be resolved. This requires explicitly identifying a function
-> prototype by use of a token (TFunProto).
->
-> While the correct method of identifying a function prototype would be to
-> check if an identifier is preceded by a return type, it is challenging
-> to implement. This is because implementing an OCaml function, to
-> correctly determine a C type in SmPL, without the aid of Yacc, would
-> have to handle a number of cases (disjunctions, typeof expressions,
-> etc.).
->
-> Thus, a slightly hacky approach is taken to determine a function
-> prototype with not the best certainty but what works for most cases
-> in SmPL. If the identifier is preceded by any token that does not
-> seem to be part of a type, then it is not identified as a function
-> prototype. Else, it is.
+> ParenType and FunctionType are types present in the C AST that
+> are not present in the SmPL AST. In the pursuit of aligning
+> both the C and SmPL ASTs, add these types to the SmPL ASTs.
 
-This sacrifices the test case tests/p1p2.cocci:
-
-@@
-typedef Error;
-type T;
-identifier FN;
-parameter P1;
-@@
- T
-+__attribute__((nonnull(1)))
- FN(P1, Error **errp);
-
-@@
-typedef Error;
-type T;
-identifier FN;
-parameter P1;
-parameter P2;
-@@
- T
-+__attribute__((nonnull(2)))
- FN(P1, P2, Error **errp);
-
-Normally, the only way that you can have a ) before a function call is
-when there is a cast.  But hopefully in that case there would not be two
-)) before the function call.  Can that get around the problem?
+It would be nice to extend the log message to give an example of how these
+constructors would be used.
 
 julia
-
-
-
 
 >
 > Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 > ---
->  parsing_cocci/parse_cocci.ml          | 72 +++++++++++++++++++++++----
->  parsing_cocci/parser_cocci_menhir.mly |  9 ++--
->  2 files changed, 67 insertions(+), 14 deletions(-)
+>  ocaml/coccilib.mli           | 6 ++++++
+>  parsing_cocci/ast0_cocci.ml  | 3 +++
+>  parsing_cocci/ast0_cocci.mli | 3 +++
+>  parsing_cocci/ast_cocci.ml   | 3 +++
+>  parsing_cocci/ast_cocci.mli  | 3 +++
+>  5 files changed, 18 insertions(+)
 >
-> diff --git a/parsing_cocci/parse_cocci.ml b/parsing_cocci/parse_cocci.ml
-> index 679d213a..4b2cb7e4 100644
-> --- a/parsing_cocci/parse_cocci.ml
-> +++ b/parsing_cocci/parse_cocci.ml
-> @@ -295,6 +295,7 @@ let token2c (tok,_) add_clt =
->    | PC.TLineEnd(clt) -> "line end"
->    | PC.TInvalid -> "invalid"
->    | PC.TFunDecl(clt) -> "fundecl"
-> +  | PC.TFunProto(clt) -> "funproto"
->
->    | PC.TIso -> "<=>"
->    | PC.TRightIso -> "=>"
-> @@ -480,7 +481,7 @@ let get_clt (tok,_) =
->
->    | PC.TOPar0(_,clt) | PC.TMid0(_,clt) | PC.TAnd0(_,clt) | PC.TCPar0(_,clt)
->    | PC.TOEllipsis(clt) | PC.TCEllipsis(clt)
-> -  | PC.TPOEllipsis(clt) | PC.TPCEllipsis(clt)
-> +  | PC.TPOEllipsis(clt) | PC.TPCEllipsis(clt) | PC.TFunProto(clt)
->    | PC.TFunDecl(clt) | PC.TDirective(_,clt) | PC.TAttr_(clt)
->    | PC.TLineEnd(clt) -> clt
->    | PC.TVAEllipsis(clt) -> clt
-> @@ -718,6 +719,7 @@ let update_clt (tok,x) clt =
->
->    | PC.TLineEnd(_) -> (PC.TLineEnd(clt),x)
->    | PC.TFunDecl(_) -> (PC.TFunDecl(clt),x)
-> +  | PC.TFunProto(_) -> (PC.TFunProto(clt),x)
->    | PC.TTildeExclEq(_) -> (PC.TTildeExclEq(clt),x)
->    | PC.TDirective(a,_) -> (PC.TDirective(a,clt),x)
->    | PC.TAttr_(_) -> (PC.TAttr_(clt),x)
-> @@ -925,7 +927,7 @@ let split_token ((tok,_) as t) =
->    | PC.TInitialize | PC.TFinalize -> ([t],[t])
->    | PC.TPArob clt | PC.TMetaPos(_,_,_,clt) | PC.TMetaCom(_,_,clt) -> split t clt
->
-> -  | PC.TFunDecl(clt)
-> +  | PC.TFunDecl(clt) | PC.TFunProto(clt)
->    | PC.TWhen(clt) | PC.TWhenTrue(clt) | PC.TWhenFalse(clt)
->    | PC.TAny(clt) | PC.TStrict(clt) | PC.TLineEnd(clt)
->    | PC.TEllipsis(clt)
-> @@ -1006,7 +1008,8 @@ let find_function_names l =
->      | _ -> false in
->    let rec split acc = function
->        [] | [_] -> raise Irrelevant
-> -    | ((PC.TCPar(_),_) as t1) :: ((PC.TOBrace(_),_) as t2) :: rest ->
-> +    | ((PC.TCPar(_),_) as t1) :: ((PC.TOBrace(_),_) as t2) :: rest
-> +    | ((PC.TCPar(_),_) as t1) :: ((PC.TPtVirg(_),_) as t2) :: rest ->
->  	(List.rev (t1::acc),(t2::rest))
->      | x::xs -> split (x::acc) xs in
->    let rec balanced_name level = function
-> @@ -1037,7 +1040,48 @@ let find_function_names l =
->      | (PC.TArobArob,_)::_ | (PC.TArob,_)::_ | (PC.EOF,_)::_ ->
->  	raise Irrelevant
->      | t::rest -> balanced_args level rest in
-> -  let rec loop = function
-> +  let rec is_permissible_proto = function
-> +      [] -> false
-> +    | (PC.TCPar0(_),_)::
-> +      ((PC.TMid0(_),_) | (PC.TAnd0(_),_))::
-> +      (PC.TOPar0(_),_)::_ -> false
-> +    | (PC.TOPar0(_),_)::rest
-> +    | (PC.TCPar0(_),_)::rest -> is_permissible_proto rest
-> +    | x::rest when is_mid x ->
-> +        let rec loop = function
-> +          [] -> false
-> +        | (PC.TOPar0(_),_)::xs -> is_permissible_proto xs
-> +        | x::xs -> loop xs in
-> +        loop rest
-> +    | _::((PC.TEq(_),_) | (PC.TNotEq(_),_))::(PC.TWhen(_),_)::_
-> +    | _::(PC.TWhen(_),_)::_
-> +    | (PC.TComma(_),_)::_
-> +    | (PC.TDirective(_),_)::_
-> +    | (PC.TElse(_),_)::_
-> +    | (PC.TReturn(_),_)::_
-> +    | (PC.TMetaStm(_),_)::_
-> +    | (PC.TMetaExp(_),_)::_
-> +    | (PC.TMetaId(_),_)::_
-> +    | (PC.TMetaLocalIdExp(_),_)::_
-> +    | (PC.TEq(_),_)::_
-> +    | (PC.TEllipsis(_),_)::_
-> +    | (PC.TOEllipsis(_),_)::_
-> +    | (PC.TCEllipsis(_),_)::_
-> +    | (PC.TPOEllipsis(_),_)::_
-> +    | (PC.TPCEllipsis(_),_)::_
-> +    | (PC.TPtVirg(_),_)::_
-> +    | (PC.TOBrace(_),_)::_
-> +    | (PC.TCBrace(_),_)::_
-> +    | (PC.TOPar(_),_)::_
-> +    | (PC.TCPar(_),_)::_
-> +    | (PC.TIdent(_),_)::_ -> false
-> +    | _ -> true in
-> +  let decl_or_proto clt info bef aft =
-> +    match aft with
-> +      (PC.TOBrace(_),_)::_ -> (((PC.TFunDecl(clt),info) :: bef), aft)
-> +    | (PC.TPtVirg(_),_)::_ -> (((PC.TFunProto(clt),info) :: bef), aft)
-> +    | _ -> raise Irrelevant in
-> +  let rec loop acc = function
->        [] -> []
->      | t :: rest ->
->  	if is_par t || is_mid t || is_ident t
-> @@ -1046,26 +1090,30 @@ let find_function_names l =
->  	    try
->  	      let (bef,aft) = split [] (t::rest) in
->  	      let rest = balanced_name 0 bef in
-> +              (match aft with
-> +                (PC.TPtVirg(_),_)::_
-> +                 when not(is_permissible_proto acc) -> raise Irrelevant
-> +              | _ ->
->  	      (match rest with
->  		(PC.TOPar(_),_)::_ ->
->  		  (match balanced_args 0 rest with
->  		    [] ->
->  		      let (_,info) as h = List.hd bef in
->  		      let clt = get_clt h in
-> -		      (((PC.TFunDecl(clt),info) :: bef), aft)
-> +                      decl_or_proto clt info bef aft
->  		  | (PC.TAttr_(_),_)::rest ->
->  		      (match balanced_args 0 rest with
->  			[] ->
->  			  let (_,info) as h = List.hd bef in
->  			  let clt = get_clt h in
-> -			  (((PC.TFunDecl(clt),info) :: bef), aft)
-> +                          decl_or_proto clt info bef aft
->  		      | _ -> raise Irrelevant)
->  		  | _ -> raise Irrelevant)
-> -	      | _ -> raise Irrelevant)
-> +	      | _ -> raise Irrelevant))
->  	    with Irrelevant -> ([t],rest) in
-> -	  t @ (loop rest)
-> -	else t :: (loop rest) in
-> -  loop l
-> +          t @ (loop (t @ acc) rest)
-> +        else t :: (loop (t :: acc) rest) in
-> +  loop [] l
->
->  (* ----------------------------------------------------------------------- *)
->  (* an attribute is an identifier that precedes another identifier and
-> @@ -1168,6 +1216,8 @@ let detect_types in_meta_decls l =
->  	delim::newid::id::(loop false infn (ident::type_names) rest)
->      | ((PC.TFunDecl(_),_) as fn)::rest ->
->  	fn::(loop false 1 type_names rest)
-> +    | ((PC.TFunProto(_),_) as fn)::rest ->
-> +	fn::(loop false 1 type_names rest)
->      | ((PC.TOPar(_),_) as lp)::rest when infn > 0 ->
->  	lp::(loop false (infn + 1) type_names rest)
->      | ((PC.TCPar(_),_) as rp)::rest when infn > 0 ->
-> @@ -1252,7 +1302,7 @@ let token2line (tok,_) =
->    | PC.TMetaDParamList(_,_,_,_,clt) | PC.TMetaFunc(_,_,_,clt)
->    | PC.TMetaLocalFunc(_,_,_,clt) | PC.TMetaPos(_,_,_,clt) | PC.TMetaCom(_,_,clt)
->
-> -  | PC.TFunDecl(clt)
-> +  | PC.TFunDecl(clt) | PC.TFunProto(clt)
->    | PC.TWhen(clt) | PC.TWhenTrue(clt) | PC.TWhenFalse(clt)
->    | PC.TAny(clt) | PC.TStrict(clt) | PC.TEllipsis(clt)
->
-> diff --git a/parsing_cocci/parser_cocci_menhir.mly b/parsing_cocci/parser_cocci_menhir.mly
-> index 9e6c8a08..26958f63 100644
-> --- a/parsing_cocci/parser_cocci_menhir.mly
-> +++ b/parsing_cocci/parser_cocci_menhir.mly
-> @@ -239,7 +239,8 @@ let inline_id aft = function
->
->  %token <Data.clt> TVAEllipsis
->  %token <Data.clt> TIf TElse TWhile TFor TDo TSwitch TCase TDefault TReturn
-> -%token <Data.clt> TBreak TContinue TGoto TSizeof TTypeof TFunDecl Tdecimal Texec
-> +%token <Data.clt> TBreak TContinue TGoto TSizeof TTypeof TFunDecl TFunProto
-> +%token <Data.clt> Tdecimal Texec
->  %token <string * Data.clt> TIdent TTypeId TDeclarerId TIteratorId TSymId
->  %token <Ast_cocci.added_string * Data.clt> TDirective
->  %token <Data.clt> TAttr_
-> @@ -1439,7 +1440,8 @@ reverse_separated_nonempty_llist(separator, X):
->
->  funproto:
->    s=ioption(storage) i=ioption(Tinline) t=ctype
-> -  id=fn_ident lp=TOPar arglist=arg_list(name_opt_decl) rp=TCPar pt=TPtVirg
-> +  TFunProto id=fn_ident
-> +  lp=TOPar arglist=arg_list(name_opt_decl) rp=TCPar pt=TPtVirg
->        { let s = match s with None -> [] | Some s -> [Ast0.FStorage s] in
->          let i =
->  	  match i with
-> @@ -1453,7 +1455,8 @@ funproto:
->  	      P.clt2mcode "(" lp, args, vararg, P.clt2mcode ")" rp,
->  	      P.clt2mcode ";" pt)) }
->  | i=Tinline s=storage t=ctype
-> -  id=fn_ident lp=TOPar arglist=arg_list(name_opt_decl) rp=TCPar pt=TPtVirg
-> +  TFunProto id=fn_ident
-> +  lp=TOPar arglist=arg_list(name_opt_decl) rp=TCPar pt=TPtVirg
->        { let s = [Ast0.FStorage s] in
->          let i = [Ast0.FInline (P.clt2mcode "inline" i)] in
->  	let t = [Ast0.FType t] in
+> diff --git a/ocaml/coccilib.mli b/ocaml/coccilib.mli
+> index 5a913099..e5409a97 100644
+> --- a/ocaml/coccilib.mli
+> +++ b/ocaml/coccilib.mli
+> @@ -2709,6 +2709,9 @@ module Ast_cocci :
+>        | Pointer of fullType * string mcode
+>        | FunctionPointer of fullType * string mcode * string mcode *
+>            string mcode * string mcode * parameter_list * string mcode
+> +      | ParenType of string mcode (* ( *) * fullType * string mcode (* ) *)
+> +      | FunctionType of fullType *
+> +          string mcode (* ( *) * parameter_list * string mcode (* ) *)
+>        | Array of fullType * string mcode * expression option * string mcode
+>        | Decimal of string mcode * string mcode * expression *
+>            string mcode option * expression option * string mcode
+> @@ -3353,6 +3356,9 @@ module Ast0_cocci :
+>        | Pointer of typeC * string mcode
+>        | FunctionPointer of typeC * string mcode * string mcode *
+>            string mcode * string mcode * parameter_list * string mcode
+> +      | ParenType of string mcode * typeC * string mcode
+> +      | FunctionType of typeC *
+> +          string mcode * parameter_list * string mcode
+>        | Array of typeC * string mcode * expression option * string mcode
+>        | Decimal of string mcode * string mcode * expression *
+>            string mcode option * expression option * string mcode
+> diff --git a/parsing_cocci/ast0_cocci.ml b/parsing_cocci/ast0_cocci.ml
+> index 77dc46f0..0acbeaa4 100644
+> --- a/parsing_cocci/ast0_cocci.ml
+> +++ b/parsing_cocci/ast0_cocci.ml
+> @@ -203,6 +203,9 @@ and base_typeC =
+>    | FunctionPointer of typeC *
+>  	          string mcode(* ( *)*string mcode(* * *)*string mcode(* ) *)*
+>                    string mcode (* ( *)*parameter_list*string mcode(* ) *)
+> +  | ParenType       of string mcode (* ( *) * typeC * string mcode (* ) *)
+> +  | FunctionType    of typeC *
+> +                  string mcode (* ( *) * parameter_list * string mcode (* ) *)
+>    | Array           of typeC * string mcode (* [ *) *
+>  	               expression option * string mcode (* ] *)
+>    | Decimal         of string mcode (* decimal *) * string mcode (* ( *) *
+> diff --git a/parsing_cocci/ast0_cocci.mli b/parsing_cocci/ast0_cocci.mli
+> index 274c6bc2..33bd12b2 100644
+> --- a/parsing_cocci/ast0_cocci.mli
+> +++ b/parsing_cocci/ast0_cocci.mli
+> @@ -194,6 +194,9 @@ and base_typeC =
+>    | FunctionPointer of typeC *
+>  	          string mcode(* ( *)*string mcode(* * *)*string mcode(* ) *)*
+>                    string mcode (* ( *)*parameter_list*string mcode(* ) *)
+> +  | ParenType       of string mcode (* ( *) * typeC * string mcode (* ) *)
+> +  | FunctionType    of typeC *
+> +                  string mcode (* ( *) * parameter_list * string mcode (* ) *)
+>    | Array           of typeC * string mcode (* [ *) *
+>  	               expression option * string mcode (* ] *)
+>    | Decimal         of string mcode (* decimal *) * string mcode (* ( *) *
+> diff --git a/parsing_cocci/ast_cocci.ml b/parsing_cocci/ast_cocci.ml
+> index ba6ec29e..f8e6dee6 100644
+> --- a/parsing_cocci/ast_cocci.ml
+> +++ b/parsing_cocci/ast_cocci.ml
+> @@ -343,6 +343,9 @@ and base_typeC =
+>    | FunctionPointer of fullType *
+>  	          string mcode(* ( *)*string mcode(* * *)*string mcode(* ) *)*
+>                    string mcode (* ( *)*parameter_list*string mcode(* ) *)
+> +  | ParenType       of string mcode (* ( *) * fullType * string mcode (* ) *)
+> +  | FunctionType    of fullType *
+> +                  string mcode (* ( *) * parameter_list * string mcode (* ) *)
+>    | Array           of fullType * string mcode (* [ *) *
+>  	               expression option * string mcode (* ] *)
+>    | Decimal         of string mcode (* decimal *) * string mcode (* ( *) *
+> diff --git a/parsing_cocci/ast_cocci.mli b/parsing_cocci/ast_cocci.mli
+> index 5f21664b..7fb54e4d 100644
+> --- a/parsing_cocci/ast_cocci.mli
+> +++ b/parsing_cocci/ast_cocci.mli
+> @@ -325,6 +325,9 @@ and base_typeC =
+>    | FunctionPointer of fullType *
+>  	          string mcode(* ( *)*string mcode(* * *)*string mcode(* ) *)*
+>                    string mcode (* ( *)*parameter_list*string mcode(* ) *)
+> +  | ParenType       of string mcode (* ( *) * fullType * string mcode (* ) *)
+> +  | FunctionType    of fullType *
+> +                  string mcode (* ( *) * parameter_list * string mcode (* ) *)
+>    | Array           of fullType * string mcode (* [ *) *
+>  	               expression option * string mcode (* ] *)
+>    | Decimal         of string mcode (* decimal *) * string mcode (* ( *) *
 > --
 > 2.21.1
 >
