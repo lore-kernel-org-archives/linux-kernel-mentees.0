@@ -2,103 +2,100 @@ Return-Path: <SRS0=wOYV=5D=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9857C1975A
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 03:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6174C5ACD7
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 06:00:30 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A187E20738
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 03:01:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6D88E20724
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Mar 2020 06:00:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="IHTT0YwY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A187E20738
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lh6hv01f"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D88E20724
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 757D9871F0;
-	Wed, 18 Mar 2020 03:01:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4848286D94;
+	Wed, 18 Mar 2020 06:00:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SujPlK41YJZu; Wed, 18 Mar 2020 03:01:24 +0000 (UTC)
+	with ESMTP id Pm66Qj_Nu6qh; Wed, 18 Mar 2020 06:00:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4CEEA8719C;
-	Wed, 18 Mar 2020 03:01:24 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BD47586D6F;
+	Wed, 18 Mar 2020 06:00:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3405CC18DA;
-	Wed, 18 Mar 2020 03:01:24 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8609BC013E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8D68C18DA;
+	Wed, 18 Mar 2020 06:00:29 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AD830C013E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 03:01:22 +0000 (UTC)
+ Wed, 18 Mar 2020 06:00:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 6DE2122BA3
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A3D5686D94
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 03:01:22 +0000 (UTC)
+ Wed, 18 Mar 2020 06:00:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N6c9muQ+0Jwf
+ with ESMTP id NEukMhOZqRZR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 03:01:22 +0000 (UTC)
+ Wed, 18 Mar 2020 06:00:28 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- by silver.osuosl.org (Postfix) with ESMTPS id F2E032048B
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+ [209.85.222.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1D48386D6F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Mar 2020 03:01:21 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id e11so36366146qkg.9
+ Wed, 18 Mar 2020 06:00:28 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id q17so12230684qki.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Mar 2020 20:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=ydkM02gA1lv2jXZ+vVnjGn/g5VzXdwCSm+r9ur1CJPs=;
- b=IHTT0YwYPoS8iMmX0qpmgTqBgRe4WcF01YbL2TEUEwWqZdjOAZwHvbArCyepsxfcs0
- 5RhcvvUs+1Nhtw8Q6FHiVx6OPM4knOtgscqJG4CCaIjYfENTn8BQGSfU8HnjNQ0Au5q5
- fCJ1bE1qbheMPOHu5Rx+kKtWBcbtX1E1cUtDYKEmYlLrkxgQNFYTrzM5p90radr5v1Do
- uKvdEWktYiutwnbjOklODkdp0T+wqHzG0jkZ1uC+yH67D/mYvJ0vRtYBv6vLNZnQN5rh
- lsF+ZTSX4PkQQneVutZwIkM59OL6A9ALmdJbMV/E2fIKiRfxHbcRzHn0n78WLUHNuXvy
- MMcg==
+ Tue, 17 Mar 2020 23:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IbpntlACNTf2KZls1XosmvOl6RuPNFt+vg13rIbAn3w=;
+ b=Lh6hv01fFXCZeXv4NhyciK9t2jnmHpwB3h5O0giQegHmO/xpTSpRXnnNlzEX+vj4rm
+ qdiBPDmU/6taO042gMWZoxgjVhumGhqk2ffjgTRlkwtxzE8OYdcjtfYpY2iMbUQEwJGZ
+ 6eYoTwcwxvK2zWWdthdHOomAvUBV6S8b4Xik8rzgbEKxlvciJ2NCdh5pGUaDF0uDzWQf
+ SW3278LLPWI/JJV4CVbBND0iiN5//5hTXPUhQOUJb4X+sAf+TgZwI+86njcmMDxmCYap
+ v/aOR71ExSq4rFzYPnU7sg/m7QjaDelikp/u4vNevI+NwV2pJ/bIMITGO6tULjxArgvb
+ bcLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=ydkM02gA1lv2jXZ+vVnjGn/g5VzXdwCSm+r9ur1CJPs=;
- b=XpB7hbjs73swOnjKPIBK9rN6zoPXLw07rGiRzDCVmAct6OdDcZLXNmmpspaZAb8KxZ
- NPl8Q8/k3OOV4WzkCAWudGZk70vpEOwRRj6qtKqt4Ni8zyzOaX7hUGWrAhiNxx3cexVX
- sVJodeOvg/6CpqGsrcoznzG0od4LP0yc1E1hNKnPbHXhKYU0pFlVBEbkqhwXwtj6IVKT
- ixlT6tU5QJdftLGrYkxCU6fWsHz0lvuCPdhuZlpkjLhVpGPFuCxZTczvvI3t9Z4oC1za
- iRaZjLi76+h6DCScsnbBZLZYZ3IIFFJRC3Il4P/RHxuvmu+sW8Xxoj4kGmE1UyD31IgY
- foGw==
-X-Gm-Message-State: ANhLgQ32R3owhe1MZXzDumAPLxKUYCTOn5Efr2igjkAh18XDJ2zmgFLb
- ZDdqmALeEASIPXmvpl/LW3uECw==
-X-Google-Smtp-Source: ADFU+vvoBQmPUjD+nO2M86aMQl7VYth980jIKigj6jVHrMsul9eZMS8ExL6RHyTxp/EV9PKXlpRWrQ==
-X-Received: by 2002:a37:6244:: with SMTP id w65mr2061863qkb.350.1584500480945; 
- Tue, 17 Mar 2020 20:01:20 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id i4sm3478217qtr.41.2020.03.17.20.01.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IbpntlACNTf2KZls1XosmvOl6RuPNFt+vg13rIbAn3w=;
+ b=TpqUS1B6njh769rzSybFrsqmkM1ygn/Gdruy2EpapD5zjdplpSJ2uvxB+GmSK4vJRh
+ S1oMH40j44zFtW66buxMIhIBYFJxYAVfa/QWivnTIjoJSyEyEV3ZuqqpMXdExjYd2Qk1
+ jhfdRdkDdXGqFcv8vWQ00X1U4O5CqzkRqh+bDivCQlBo9jVFu5bqEG5iVwLqgPWNk7r9
+ 3+0AByqsHafoYBef4BU2oGzRJ0/yDEmxdM+SImi4rjYr13kabXR18ZErpDwQMcoV388O
+ MxjWD3IAHoH/npOp/kxFUotlTubjJ21WjGpEp1eGVkyUxFAU6ATkCRdiVIHh3wGB8tqi
+ 8R0A==
+X-Gm-Message-State: ANhLgQ2xGjkupNEXEtxyIYjQ21CzYh7sKP8qg74z7TOQHNx/57x8Q2nD
+ jzD0itlsibGwoZcnzZgsg8c=
+X-Google-Smtp-Source: ADFU+vuacI1bxztRsBFwK4FgIjABBnD+nKVi3YfuMJGwcur6EeO5bpZzZIThhoith0Sf2A0ERd2haA==
+X-Received: by 2002:a37:8781:: with SMTP id j123mr2442881qkd.308.1584511226889; 
+ Tue, 17 Mar 2020 23:00:26 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id c10sm223303qtp.13.2020.03.17.23.00.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 20:01:20 -0700 (PDT)
-Message-ID: <3ffd63b480b47aa572a9f95ba620eb4d0ce93f34.camel@massaru.org>
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: Matthew Wilcox <willy@infradead.org>
-Date: Wed, 18 Mar 2020 00:01:17 -0300
-In-Reply-To: <20200318015553.GG22433@bombadil.infradead.org>
-References: <cover.1584494902.git.vitor@massaru.org>
- <7efa62f727eb176341fc0cdfcd47c890ff424451.1584494902.git.vitor@massaru.org>
- <20200318015553.GG22433@bombadil.infradead.org>
-User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+ Tue, 17 Mar 2020 23:00:26 -0700 (PDT)
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To: mchehab@kernel.org, sean@mess.org, kstewart@linuxfoundation.org,
+ allison@lohutok.net, tglx@linutronix.de
+Date: Wed, 18 Mar 2020 03:00:15 -0300
+Message-Id: <20200318060018.3437750-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: linux-fsdevel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] xarray: Add missing blank
-	line after declaration
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] [RFC 0/3] Implement a virtual DVB driver
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,27 +113,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Matthew,
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-On Tue, 2020-03-17 at 18:55 -0700, Matthew Wilcox wrote:
-> On Tue, Mar 17, 2020 at 10:43:03PM -0300, Vitor Massaru Iha wrote:
-> > @@ -1624,6 +1624,7 @@ static inline unsigned int
-> > xas_find_chunk(struct xa_state *xas, bool advance,
-> >  	if (XA_CHUNK_SIZE == BITS_PER_LONG) {
-> >  		if (offset < XA_CHUNK_SIZE) {
-> >  			unsigned long data = *addr & (~0UL << offset);
-> > +
-> >  			if (data)
-> >  				return __ffs(data);
-> >  		}
-> 
-> Do you seriously think this makes the function in any way more
-> legible?
+This series is work in progress. It represents the current work done on a 
+virtual DVB driver for the Linux media subsystem.
 
-Sorry. I was in doubt whether it would actually improve. I did some
-research in older patches and I found something like this.
+I am new to the subsystem and to DTV in general, please take that into account.
 
+Currently I have written a simple fake tuner and I have been working on
+getting PSI packets into a TS stream and then feeding the stream to the
+hardware-independent demux layer. I have been basing my work on ISO 13818,
+ETSI EN 300 468 and on a real MPEG Transport Stream excerpt.
 
+I am aware that the first patch generates plenty of warnings due to floating
+point to integer implicit conversions. I still have to rework that.
+
+The last patch in the series is also WIP, it still misses a set_frontend()
+implementation among other things. This will be sorted soon.
+
+A few bits of code were taken from libdvbv5, mostly the structs for the
+PSI tables.
+
+I appreciate any comments to improve this.
+
+Thank you.
+
+Daniel W. S. Almeida (3):
+  media: dvb_dummy_tuner: implement driver skeleton
+  media: dvb_dummy_fe.c: lose TS lock on bad snr
+  media: dvb_dummy_fe.c: write PSI information into DMX buffer
+
+ drivers/media/dvb-frontends/dvb_dummy_fe.c | 1538 +++++++++++++++++++-
+ drivers/media/tuners/Kconfig               |    9 +
+ drivers/media/tuners/Makefile              |    1 +
+ drivers/media/tuners/dvb_dummy_tuner.c     |  421 ++++++
+ 4 files changed, 1963 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/media/tuners/dvb_dummy_tuner.c
+
+-- 
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
