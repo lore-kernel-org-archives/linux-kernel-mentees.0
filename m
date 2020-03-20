@@ -7,61 +7,62 @@ X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C3FC4332D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Mar 2020 07:40:22 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B5AC4332B
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Mar 2020 08:01:28 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 944672072D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Mar 2020 07:40:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1566420739
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Mar 2020 08:01:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="gWAlUumQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 944672072D
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="ecmddFE5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1566420739
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 526F42734A;
-	Fri, 20 Mar 2020 07:40:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DA430888BE;
+	Fri, 20 Mar 2020 08:01:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Rai1AaxO2mcQ; Fri, 20 Mar 2020 07:40:20 +0000 (UTC)
+	with ESMTP id Ib7uOcA2BmvZ; Fri, 20 Mar 2020 08:01:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 78A2A24DFD;
-	Fri, 20 Mar 2020 07:40:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 36418888B9;
+	Fri, 20 Mar 2020 08:01:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64BA6C1830;
-	Fri, 20 Mar 2020 07:40:20 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D3C04C07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32998C1830;
+	Fri, 20 Mar 2020 08:01:27 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 12F25C07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 07:40:18 +0000 (UTC)
+ Fri, 20 Mar 2020 08:01:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id C61DD268BF
+ by whitealder.osuosl.org (Postfix) with ESMTP id F13E588057
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 07:40:18 +0000 (UTC)
+ Fri, 20 Mar 2020 08:01:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xdy3G0X2UnDy
+ with ESMTP id W9ICDMspnevD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 07:40:18 +0000 (UTC)
+ Fri, 20 Mar 2020 08:01:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mout.web.de (mout.web.de [212.227.17.12])
- by silver.osuosl.org (Postfix) with ESMTPS id 7BD9924DFD
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E345A87F00
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 07:40:17 +0000 (UTC)
+ Fri, 20 Mar 2020 08:01:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1584690013;
- bh=uPWc8NRRsF0AEnCvFXtYnyq1fR4Fd/ha4UlR5WsJjfI=;
- h=X-UI-Sender-Class:Cc:Subject:From:To:Date;
- b=gWAlUumQAg9wk0Xmsvr1GoqTN80PGPflj91Ww+rs+pmxQwHHC5SoH2Y2QR03GZmFG
- 6GMpAkdHoWBhbiCyPXL9PQ9UrsSP5J+gtPuqto4gnL15WPpTGvSyDFcGADT0zLhQ9F
- COybHj7fJ5s6sc2LWf1KtlgLtDtHCf+SmjW+5o+0=
+ s=dbaedf251592; t=1584691280;
+ bh=l/0r93W5tS1co6cOx8bovFrGGfvlq66a5j4gHLk/xEI=;
+ h=X-UI-Sender-Class:Cc:Subject:To:From:Date;
+ b=ecmddFE5JnHQjmke0H7AaEIOeBzxgLyMzqDEZz9Gb0+o+Eu6qoxSokGYnYO3Pk3FI
+ Il7dlcRyAf3YwZZiCrkG6GJYbsL3xaRZUHS7s0dIXhaAlfkdYwmhEP6JKx0b11qLy+
+ HTxZqm0v+9mFhZONEpn2MB8z5O0VN5t7kjqQlSWo=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.49.75.57]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0M1o3y-1jZcYh113K-00tmmb; Fri, 20
- Mar 2020 08:40:13 +0100
+Received: from [192.168.1.2] ([78.49.75.57]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lx7Ab-1jM5RB0xrt-016j2Q; Fri, 20
+ Mar 2020 09:01:20 +0100
+To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
 From: Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -106,39 +107,38 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>, cocci@systeme.lip6.fr
-Message-ID: <4174a7f7-a012-e2c5-72bc-77196f4a16ef@web.de>
-Date: Fri, 20 Mar 2020 08:40:05 +0100
+Message-ID: <3a2d554c-4da9-ee52-4ff8-3a115896ea6c@web.de>
+Date: Fri, 20 Mar 2020 09:01:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
 Content-Language: en-US
-X-Provags-ID: V03:K1:+c/DwuZTQZc7HLBrBsFf4rIQsuxdu8IHT8ZL8RNqQbfmnNG6Tka
- vHelPGGVJ2IBGf3QHNZS6jLpVxrh7leF2lH5O+/uuwWfws1vWHfOYHuWdO35YIB2EHm/Hmb
- hg6v0QmHU2JirK8W/pg4CdpV9lxvrPKjTiN8vqASa6MYrS9Lfp8TEz4bMHIUT1HTzgnq0wM
- Evxt7EQwtPLPtNFoaKoTQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ogGotsT5P54=:a305xLh9aLv1XwLHGTl6bc
- DTbeWuJBBUeKGdgIoyX6z/i+3cpU0Iu3ecS596WvjPWMo8ti+9RPlcPXu7NpYAdOhb752bsaq
- uIkZ97wOc8bSr8WX31vq0eAJmK4yzKEMYcJ6J0KrczA9nhJeqykrRUAPGEPnHPutKoCepUUs1
- i6GCEUcwxAWyvefGlZftHsTarXGQkNixC8uSSyHVEJl01geDrgqQ/EMBdGmRkg7F4JJaIgI/f
- XMbh3QIkB/SPhuLHMmHGKHGOkG8X8Y/mIdLN5ncpDrTrMVQv79t6N71urwdIXshBmY4AY90rB
- DvbuFBu1CUnFbRiNxk+lfFi5zfx7bOqIQKFwF6jzwlIjWReVwfUzAiWkOXiwIXaKut48v1WvT
- 2YMk1dArFexs3MbDOTjYqARzBI88RX5o8EQPgwnq+EoSCYKzdO4hzY4dWwd1DOijMyXbL4u6A
- FTI/oJ5AIEZJDMbH7A/SzGp0hETHifRvZh1frbSvKMlfuX0NkYGNYbKnQc66LNCwvRmui50fF
- BmkJPmeW8/qVtg9XnksR5OXCzUY6Du62+dqpTAXrzpe4k88PgvjoZO8rp51qY/pis+qWq9bOD
- FW51JxvDG1OZvK7BfMWfDv+Ju95j9p5yksJRXjCeBFQHcTaJ2eyVKbUOrYpm403yhHwbeE+Sf
- j5x2Pbvtw3LzUWrBXqR03k8AV9piS2SDXPKwUfOSYZ5iCF6tz/t0+5XU2w3p0Ind119JOaEP+
- z42lDe7wMO1j6SinQfZlUPuuxAJ5y4mRpSlVipR5OptdJFW2xN7jFi1F2Hsd6dg7/nIlC+ExO
- BaLDbAAAxz4+yM7x9tvtC371haruZnVBjdmqb+68LbRy8dHehNrnN++tTL4IGQNKb6jzXL56d
- FvuiOztP1KhdbH3WBG7MSG7uusM2MwwYdk+AwFaD6uhTUYNJvSmfZDgsgtM2DgU7v548ixv6p
- wf5ZSh4g84a5DVh6dFOHiFwEmWf9fF+PcBT/8BSucdwtqDAiN2SIhpXM13AIWRE2yPKOR07D4
- PQJ4XGdYGcUZ0rQaDMNaXtWiwydwVRzdaKc966XzjHibzgrMMu/1ZzTfdEx63x197F0Hu/QVh
- oN9yKw8fqHKZ5ahhWfNYgJ/EzOMaGlswHOuuHs/f5fxWed4N5MhivFO0x7BgT4K+02eZ0xZoN
- yRCB9QiYvKzQawYWziDfZHoSNmgmDz8VXs/6xAoiCD8mCnG/Qcxs490LwrvbmNEISIJGLbk/Q
- uPZGICPrJ9grf5GkJ
+X-Provags-ID: V03:K1:iCGr5/aWuEWdkXgIcZRmlt652J3KmrJWsN2VzyinFBpZqa3WSX9
+ Qyv6/PjYy3IK3Q4T7fqJis1teyBZ4IzvYJmLpZcsZvu6sLExD4mSvcNcYZnVBoFJ9LwVYzl
+ L9IO0HYicFqeVBzBHANnDUszJCdRSMYqnBTXlzSVYFokqPzrTBxzzXKsj1eF9A630YpvUPz
+ 8oV60aU1Cl8qDShVZ0sZg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lp6FozVpago=:865lMskQkI5RWMwKXq8/0E
+ CC5PJpcd0BYDzkWXxWkTWOABSq0dK3WBKkDyfANUhn/DX03kEaSx5m4UjQZzEeDR97mpL19vJ
+ KDSggbDxu3Jzp/eK6ngzEhmtYa8Hc8hX+8q1Vbx1hfzdVrLhZmguDgAmieSiAMdaJ8oSiex2T
+ xDig8asoMwyvYs+vBazXY+e0nTGfzc57DOMY0ww3nZ15z6sWXKLKxz9+D2NMUBNZsS2S8kNXS
+ JYC5qsJCdtef1bToozXVXzqzmv5yIp7iQv8Zh0G/AltP+lE2jNeXIwG/rTJoI4pslZk4z3r9n
+ q1p8QCjt54xLRd5ywwpAQTh9yU3djwbKzg+voX3vgeyI+LTypugsKavdEOLn/PA2hQTNfvO+2
+ z0wE9RlCuhH7A4CKOFBU5JD+azybthCcfsuHolusHxHw0vCPOFXfG02/YTEWAa9iH0M0daA9t
+ RBhbJlM86uQdNGi+j86MWYkGfBawg2yIrAPiWh5sbPQ8qmnHLuYVHO+PK5ra26B16BkPM/v8o
+ wRh4LwVSdTd6OGsySbAdACTU7qcEC87NWojRwUVoV3Yj6h2MiVkQDE1gQEt6xgXpeM17MxXOG
+ 6plLdCC2wCcV6BeAjwk1oMhlJtF9Yj3sDfPRsTapisFcFb6bUzSpnaw1owvMn49vWTlT6s5kt
+ YLjowQ0uCFtGOIja25rzfvbgbzTg60VUChOfsLCTLAJlmebTozG54taI2WLroAcNmUYyCKdZU
+ F5Ks3OpMafmcxNMm4mWKbGEtU0RDNKpkgb0oGEhC20fubrlWfhptj+iTBP7F5IRsoMKo7kkMM
+ Me7zp2g8+cCjXRoAe19jByiL9pJf9d1ziMjfPfN4O7XwyMDmhQF8z6OcSAYXaDbJ8beGCF1Bh
+ VTYyYu/civGRFTsBE8w63udY1K+mH9eMs0jglBUl9mqH1CyhuPa5HrY741tmjKIfDBv6ncm1J
+ R8cVsP6o0SFT03eOIW3UHWIzq6aq1M+Db5qqJWrcHsbM25SzY0XamjcmzsO5g8IT45ISVF0Ha
+ EauzRFMZfDAlAeKlp/ru77IiqTg11iic6COzS7Myd4JvmJC3qydoeMum9pRuEIYFl+BNigN/S
+ VVbdX9DRrPYRiALWxGbeC8CYYUh7SXB2sNQgDTYXr1id763eJvefECip4MV5ZCF/FcO1zuc6r
+ NkbhGMP+NRLlqgrnpy3myARzYJpzaLCLepziM5MAAvhyIt71BnduDE6DGHKVp3LtHdAF/22EG
+ G8tvOkzXh2ou6yKGh
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH v3 02/26] parsing_cocci:
- AST: Add ParenType and FunctionType to SmPL ASTs
+Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH v3 05/26] parsing_cocci:
+ visitor_ast: Add cases for ParenType/FunctionType
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,33 +150,20 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> ParenType and FunctionType are types present in the C AST that
-> are not present in the SmPL AST.
-
-Can the understanding of mentioned details be improved by reconsidering
-the usage of abbreviations?
-
-
-> In the pursuit of aligning both the C and SmPL ASTs,
-
-I find this approach also helpful.
-
-
-> add these types to the SmPL ASTs.
-
-* Does such an extension mean a copy of functionality?
-
-* Can any components be shared between affected software areas?
-
-Regards,
-Markus
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+PiBUaGUgb3JkZXIgb2YgdGhlIHRlcm1zIGluIFBhcmVuVHlwZSByZXF1aXJlIGltcGxlbWVudGlu
+ZyBhIHNwZWNpYWwKPiBjYXNlIGZvciBQYXJlblR5cGUuIFRoaXMgY2FzZSBoYW5kbGVzIG9ubHkg
+dGhlIGZvbGxvd2luZzoKCiogV291bGQgaXQgYmUgbmljZSB0byBtZW50aW9uIGEga2V5IHdvcmQg
+bGlrZSDigJxwYXJlbnRoZXNlc+KAnT8KCiogSG93IGRvIHlvdSBkaXN0aW5ndWlzaCDigJx2aXNp
+dG9yc+KAnSBmb3IgdGhlIGFmZmVjdGVkIHNvZnR3YXJlPwoKKiBJIHdvdWxkIHByZWZlciBsZXNz
+IHJlcGVhdGVkIGNoYW5nZSBkZXNjcmlwdGlvbnMgZm9yIHRoaXMgcGF0Y2ggc2VyaWVzLgogIENh
+biBhbiBvdGhlciBwYXRjaCBncmFudWxhcml0eSBiZWNvbWUgaGVscGZ1bD8KClJlZ2FyZHMsCk1h
+cmt1cwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51
+eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMu
+bGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFp
+bG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
