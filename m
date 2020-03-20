@@ -8,97 +8,96 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 624E8C4332D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Mar 2020 07:02:34 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD77C4332E
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Mar 2020 07:02:36 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3670820774
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Mar 2020 07:02:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 33A6D20774
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Mar 2020 07:02:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LLvzMQgd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3670820774
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oOWdiVbk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33A6D20774
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 14A05873B6;
-	Fri, 20 Mar 2020 07:02:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 27B948811F;
+	Fri, 20 Mar 2020 07:02:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6EwYoJLIgPtD; Fri, 20 Mar 2020 07:02:31 +0000 (UTC)
+	with ESMTP id vJM0iZI7w4hk; Fri, 20 Mar 2020 07:02:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6D6148667B;
-	Fri, 20 Mar 2020 07:02:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9A0CA86B53;
+	Fri, 20 Mar 2020 07:02:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B613C089E;
-	Fri, 20 Mar 2020 07:02:31 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 90360C07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 924A6C089E;
+	Fri, 20 Mar 2020 07:02:35 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39150C07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 07:02:29 +0000 (UTC)
+ Fri, 20 Mar 2020 07:02:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8CCC687447
+ by silver.osuosl.org (Postfix) with ESMTP id 25788273FA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 07:02:29 +0000 (UTC)
+ Fri, 20 Mar 2020 07:02:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id I0jRoCeuGtJz
+ with ESMTP id niBvwB+muYfl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 07:02:28 +0000 (UTC)
+ Fri, 20 Mar 2020 07:02:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E122587347
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id E76E0273EF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 07:02:28 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id m15so2060511pje.3
+ Fri, 20 Mar 2020 07:02:32 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id a23so2119617plm.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Mar 2020 00:02:28 -0700 (PDT)
+ Fri, 20 Mar 2020 00:02:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QLpw+4ZTkm4aN/+CYIUq2JumZEIuNhr7XZ/0CwhF+kE=;
- b=LLvzMQgd6ocGL8Lk44X+HYPhNNgA3o/yZqS6cYv1p0tOumlBK7lG+OhDGe6dxBiPMp
- BNV2k1usb5StrVuF8eBgZHf+WsDviuNuySt9lRPDpFNH416iVEOwpiJ1V3oa6AUgD0Mo
- 0z+uI/LeHjEpUcE6rtFDgWId3bjKEzmHqApr2RDjytEzNMaeKFQDSM4rBAb0p1LSua8t
- 1l0O1TzhPyqEZxnKQ0WLs7KLzLJHb2J1vTSiVCLv3I/0N3QKrvJEb77PRdjuSY83k7sg
- r/spsm9F+agKIsbWXDA7uAQQfAfpKaLW5yoNGc8orgVCyKOyU0A4/TpjqHdB2n2ZS2+p
- vCiA==
+ bh=9INiUzByyCqI0paXu0A4FAHZ1W7BiT8Ci43ZLU3pjuM=;
+ b=oOWdiVbkFdGSu26UfKnhHx5VQZ6hRTdc5XJX21lfhihzlMAWwCaIo6NiTKpN5NO/AT
+ 7RfGQKaG5ISEhjf8sHwYkNoeB3qkfg30qcseJ7GznLFzLaqWBlJIsTuuEeVCFx0PkqGq
+ dTDBUidM6CmfFALcsjWSNq+hBSHnLdELTHP239wioL9OPU5MNoCWIcNkQp01nxwzoPdY
+ 8jd6iptCrsuB0GJHYQADf3IUg0UU3NxjZyQWW8ZufPS+X8y3vW83urHH4OlFe9TC24y4
+ Vnt9LFSsYQhW9cSDaWf1TDZTUccPyAgAGYPFdtrDfGpJVMcCXspm5CXkTVBbaEuK0H6y
+ WLlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QLpw+4ZTkm4aN/+CYIUq2JumZEIuNhr7XZ/0CwhF+kE=;
- b=BKyMhFcgISUd8RFhZv+Q0YMHXNa6/istoUH45aCwN+9MAef5rxcMnt4DEv1bZNQuWh
- nJkJ+TuhGRMr+4G+Y5BZgpQbvRO/N5rEC6txjpT+kNV1wASxMufkRMBbveWuZh88KTUv
- ZxqPVdU/msJEXmD4qvThmDnokD89mjtUTrnOm61neMTqFOHsX4A5zkfUxdPpJftCaKZt
- Bm7Di3fJFIqPbk9rhgT9WfGK7VCSHe4lDiNBexf2A5wd7KzIOQqcZGEg7pOLOYjQPH+G
- 9mFZIlAthM4V5UjsowEqwoQBmtFznY8VDQ40HhGcCqIaGtOBrxtrrWuQEIjjAZW7VaxM
- hWlQ==
-X-Gm-Message-State: ANhLgQ0MOEf7L7gJhJOlN/QXs+97NIuSst5dt7W/G02G806jO5dCku7h
- LrOpKAd47dApJQgh3yyOYMs=
-X-Google-Smtp-Source: ADFU+vsBvsH2Mg2wrVbR0W0cUC74l+odnvBshvIOmu938yGhaVHCE8HvQGm5fPsiFk8kVJwcR/EX1w==
-X-Received: by 2002:a17:902:7c84:: with SMTP id
- y4mr7477306pll.30.1584687748162; 
- Fri, 20 Mar 2020 00:02:28 -0700 (PDT)
+ bh=9INiUzByyCqI0paXu0A4FAHZ1W7BiT8Ci43ZLU3pjuM=;
+ b=ubUcvsT27sDb7od2gyV0nOAC5yfSh8gY+NDXVMrrmiY25o3qGbV/rd8EZ+Nur549my
+ 7LFhpsZhHi8GGbzIm0FCGUj42dxRWR/UqwFfz58uOnZ5yJ8tvmDS/aesfo7nrlz+B24p
+ B/J/vgABKPeZ7MZSYoGqJ3d1ndakdpjXw/4lUwl73EHbMxm75KGOgnSAZq3xcpYDWux9
+ ki3mQIpV38hOcn0iDTtugwsTjRNtJQt4BTfLsKOjz8OHTStLTLTZokmi/JvteNIxAb63
+ upBYlq2vSP+dxZWho3j1glMsHf+I9Mqq4mklPK373p2YFtxq97PXe6INfDyjmDddrClq
+ AszA==
+X-Gm-Message-State: ANhLgQ3udnalJHnX3SFTdUqGxCVz35yj0n7xDOASo0ugFNNr4dpLY5Rw
+ ygsK/DigLEAqwBbDo995Qh4=
+X-Google-Smtp-Source: ADFU+vu59u1ZYMqMFuGruHz6M//Sj6wC7n6mAyKKeYF8lGTJnEUIsMSdhZibCCTETRq33ueOAHt3ow==
+X-Received: by 2002:a17:902:61:: with SMTP id 88mr7286967pla.17.1584687752407; 
+ Fri, 20 Mar 2020 00:02:32 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:2190:a751:deeb:c09d:833a:659d])
- by smtp.gmail.com with ESMTPSA id l11sm3941232pjy.44.2020.03.20.00.02.23
+ by smtp.gmail.com with ESMTPSA id l11sm3941232pjy.44.2020.03.20.00.02.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Mar 2020 00:02:27 -0700 (PDT)
+ Fri, 20 Mar 2020 00:02:31 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Fri, 20 Mar 2020 12:31:35 +0530
-Message-Id: <20200320070157.4206-5-jaskaransingh7654321@gmail.com>
+Date: Fri, 20 Mar 2020 12:31:36 +0530
+Message-Id: <20200320070157.4206-6-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200320070157.4206-1-jaskaransingh7654321@gmail.com>
 References: <20200320070157.4206-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v3 04/26] parsing_cocci:
-	visitor_ast0: Add cases for ParenType/FunctionType
+Subject: [Linux-kernel-mentees] [PATCH v3 05/26] parsing_cocci: visitor_ast:
+	Add cases for ParenType/FunctionType
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -127,195 +126,107 @@ ParenType in Pretty_print_c.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_cocci/visitor_ast0.ml | 147 ++++++++++++++++++++++++++++++++++
- 1 file changed, 147 insertions(+)
+ parsing_cocci/visitor_ast.ml | 66 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-diff --git a/parsing_cocci/visitor_ast0.ml b/parsing_cocci/visitor_ast0.ml
-index c282e1f8..76ec4e5c 100644
---- a/parsing_cocci/visitor_ast0.ml
-+++ b/parsing_cocci/visitor_ast0.ml
-@@ -339,6 +339,12 @@ let visitor mode bind option_default
- 	| Ast0.FunctionPointer(ty,lp1,star,rp1,lp2,params,rp2) ->
- 	    let (t,id) =
-               function_pointer (ty,lp1,star,None,rp1,lp2,params,rp2) in t
-+        | Ast0.ParenType(lp,ty,rp) ->
-+	    let (t,id) =
-+              parentype_type (lp,ty,None,rp) in t
-+        | Ast0.FunctionType(ty,lp,params,rp) ->
-+	    let (t,id) =
-+              functiontype_type (ty,None,lp,params,rp) in t
- 	| Ast0.Array(ty,lb,size,rb) ->
-             let (t,id) = array_type (ty,None,lb,size,rb) in t
- 	| Ast0.Decimal(dec,lp,length,comma,precision_opt,rp) ->
-@@ -435,6 +441,68 @@ let visitor mode bind option_default
-     ((multibind ([ty_n] @ idl @ [lb_n;size_n;rb_n]),
-      Ast0.Array(ty,lb,size,rb)), idu)
+diff --git a/parsing_cocci/visitor_ast.ml b/parsing_cocci/visitor_ast.ml
+index 3d5de794..6f2e3dab 100644
+--- a/parsing_cocci/visitor_ast.ml
++++ b/parsing_cocci/visitor_ast.ml
+@@ -318,6 +318,52 @@ let combiner bind option_default
+     let lrb = string_mcode rb in
+     multibind ([lty] @ lid @ [lb; lsize; lrb])
  
-+  and parentype_type (lp,ty,(id : Ast0.ident option),rp) =
-+    let function_pointer ty1 array_decs =
-+      match Ast0.unwrap ty1 with
-+        Ast0.Pointer(ty2,star) ->
-+          (match Ast0.unwrap ty2 with
-+            Ast0.FunctionType(ty3,lp3,params,rp3) ->
-+              let (ty_n,typ) = typeC ty3 in
-+              let (lp_n,lp) = string_mcode lp in
-+              let (star_n,star) = string_mcode star in
-+              let (idl,idu) =
-+                match id with
-+                  Some a -> let (b,c) = ident a in ([b],Some c)
-+                | None -> ([],None) in
-+              let (array_n, array_t) =
-+                match array_decs with
-+                  Some(lb1,size1,rb1) ->
-+                    let (lb1_n,lb1) = string_mcode lb1 in
-+                    let (size_n,size1) = get_option expression size1 in
-+                    let (rb1_n,rb1) = string_mcode rb1 in
-+                    ([lb1_n;size_n;rb1_n],
-+                     Some(lb1,size1,rb1))
-+                | None -> ([], None) in
-+              let (rp_n,rp) = string_mcode rp in
-+              let (lp3_n,lp3) = string_mcode lp3 in
-+              let (params_n,params) = parameter_dots params in
-+              let (rp3_n,rp3) = string_mcode rp3 in
-+              let bind_val =
-+                multibind ([ty_n;lp_n;star_n]
-+                @ idl @ array_n @ [rp_n;lp3_n;params_n;rp3_n]) in
-+              let inner_type =
-+                let inner_type1 =
-+                  Ast0.rewrap ty2
-+                    (Ast0.Pointer
-+                       (Ast0.rewrap ty3
-+                          (Ast0.FunctionType
-+                             (typ,lp3,params,rp3)),star)) in
-+                match array_t with
-+                    Some(lb1,size1,rb1) ->
-+                      Ast0.rewrap ty1
-+                        (Ast0.Array(inner_type1,lb1,size1,rb1))
-+                  | None -> inner_type1 in
-+              ((bind_val, Ast0.ParenType (lp,inner_type,rp)), idu)
-+        | _ -> failwith "ParenType Visitor_ast0")
-+      | _ -> failwith "ParenType Visitor_ast0" in
-+    match Ast0.unwrap ty with
-+      Ast0.Array(ty1,lb1,size,rb1) ->
-+        function_pointer ty1 (Some(lb1,size,rb1))
-+    | Ast0.Pointer(ty1,star) ->
-+        function_pointer ty None
-+    | _ -> failwith "ParenType Visitor_ast0"
++  and parentype_type (lp,ty,(id : Ast.ident option),rp) =
++    let function_pointer ty1 array_dec =
++      match Ast.unwrap ty1 with
++       Ast.Type(_,_,fty1) ->
++        (match Ast.unwrap fty1 with
++          Ast.Pointer(ty2,star) ->
++           (match Ast.unwrap ty2 with
++             Ast.Type(_,_,fty3) ->
++              (match Ast.unwrap fty3 with
++                Ast.FunctionType(ty3,lp3,params,rp3) ->
++                 let ltyp = fullType ty3 in
++                 let llp = string_mcode lp in
++                 let lstar = string_mcode star in
++                 let lid =
++                   match id with
++                     Some idd -> [ident idd]
++                   | None -> [] in
++                 let larray =
++                   match array_dec with
++                     Some(lb1,size1,rb1) ->
++                       let llb1 = string_mcode lb1 in
++                       let lsize1 = get_option expression size1 in
++                       let lrb1 = string_mcode rb1 in
++                       [llb1;lsize1;lrb1]
++                   | None -> [] in
++                 let lrp = string_mcode rp in
++                 let llp3 = string_mcode lp3 in
++                 let lparams = parameter_dots params in
++                 let lrp3 = string_mcode rp3 in
++                 multibind
++                   ([ltyp;llp;lstar] @ lid @ larray @
++                    [lrp;llp3;lparams;lrp3])
++             | _ -> failwith "ParenType Visitor_ast")
++           | _ -> failwith "ParenType Visitor_ast")
++         | _ -> failwith "ParenType Visitor_ast")
++       | _ -> failwith "ParenType Visitor_ast" in
++    match Ast.unwrap ty with
++      Ast.Type(_,_,fty1) ->
++        (match Ast.unwrap fty1 with
++          Ast.Array(ty1,lb1,size,rb1) ->
++            function_pointer ty1 (Some(lb1,size,rb1))
++        | Ast.Pointer(ty1,star) ->
++            function_pointer ty None
++        | _ -> failwith "ParenType Visitor_ast")
++     | _ -> failwith "ParenType Visitor_ast"
 +
-+  and functiontype_type (ty,(id : Ast0.ident option),lp,params,rp) =
-+    let (ty_n,ty) = typeC ty in
-+    let (idl,idu) = (match id with
-+      | Some a -> let (b,c) = ident a in ([b],Some c)
-+      | None -> ([],None)) in
-+    let (lp_n,lp) = string_mcode lp in
-+    let (params_n,params) = parameter_dots params in
-+    let (rp_n,rp) = string_mcode rp in
-+    ((multibind ([ty_n] @ idl @ [lp_n; params_n; rp_n]),
-+     Ast0.FunctionType(ty,lp,params,rp)), idu)
-+
-   and named_type ty id =
-     match Ast0.unwrap ty with
-       Ast0.FunctionPointer(rty,lp1,star,rp1,lp2,params,rp2) ->
-@@ -446,6 +514,14 @@ let visitor mode bind option_default
- 	let (tyres, idn) = array_type (rty,Some id,lb,size,rb) in
-         let idn = match idn with Some i -> i | None -> failwith "Impossible" in
- 	(rewrap ty tyres, idn)
-+    | Ast0.ParenType(lp,rty,rp) ->
-+	let (tyres, idn) = parentype_type (lp,rty,Some id,rp) in
-+	let idn = match idn with Some i -> i | None -> failwith "Impossible" in
-+	(rewrap ty tyres, idn)
-+    | Ast0.FunctionType(rty,lp,params,rp) ->
-+	let (tyres, idn) = functiontype_type (rty,Some id,lp,params,rp) in
-+	let idn = match idn with Some i -> i | None -> failwith "Impossible" in
-+	(rewrap ty tyres, idn)
-     | _ -> let (ty_n,ty) = typeC ty in
-            let (id_n,id) = ident id in
-              ((bind ty_n id_n, ty), id)
-@@ -479,6 +555,69 @@ let visitor mode bind option_default
-     ((multibind ([ty_n] @ idl @ [lb_n;size_n;rb_n]),
-      Ast0.Array(ty,lb,size,rb)), idu)
- 
-+  (* returns ((bind value,original value),id) since id may have been updated*)
-+  and parentype_typedef (lp,ty,id,rp) =
-+    let function_pointer ty1 array_decs =
-+      match Ast0.unwrap ty1 with
-+        Ast0.Pointer(ty2,star) ->
-+          (match Ast0.unwrap ty2 with
-+            Ast0.FunctionType(ty3,lp3,params,rp3) ->
-+              let (ty_n,typ) = typeC ty3 in
-+              let (lp_n,lp) = string_mcode lp in
-+              let (star_n,star) = string_mcode star in
-+              let (idl,idu) =
-+                match id with
-+                  Some a -> let (b,c) = typeC a in ([b],Some c)
-+                | None -> ([],None) in
-+              let (array_n, array_t) =
-+                match array_decs with
-+                  Some(lb1,size1,rb1) ->
-+                    let (lb1_n,lb1) = string_mcode lb1 in
-+                    let (size_n,size1) = get_option expression size1 in
-+                    let (rb1_n,rb1) = string_mcode rb1 in
-+                    ([lb1_n;size_n;rb1_n],
-+                     Some(lb1,size1,rb1))
-+                | None -> ([], None) in
-+              let (rp_n,rp) = string_mcode rp in
-+              let (lp3_n,lp3) = string_mcode lp3 in
-+              let (params_n,params) = parameter_dots params in
-+              let (rp3_n,rp3) = string_mcode rp3 in
-+              let bind_val =
-+                multibind ([ty_n;lp_n;star_n]
-+                @ idl @ array_n @ [rp_n;lp3_n;params_n;rp3_n]) in
-+              let inner_type =
-+                let inner_type1 =
-+                Ast0.rewrap ty2
-+                  (Ast0.Pointer
-+                     (Ast0.rewrap ty3
-+                        (Ast0.FunctionType
-+                           (typ,lp3,params,rp3)),star)) in
-+                match array_t with
-+                    Some(lb1,size1,rb1) ->
-+                      Ast0.rewrap ty1
-+                        (Ast0.Array(inner_type1,lb1,size1,rb1))
-+                  | None -> inner_type1 in
-+              ((bind_val, Ast0.ParenType (lp,inner_type,rp)), idu)
-+        | _ -> failwith "ParenType Visitor_ast0")
-+      | _ -> failwith "ParenType Visitor_ast0" in
-+    match Ast0.unwrap ty with
-+      Ast0.Array(ty1,lb1,size,rb1) ->
-+        function_pointer ty1 (Some(lb1,size,rb1))
-+    | Ast0.Pointer(ty1,star) ->
-+        function_pointer ty None
-+    | _ -> failwith "ParenType Visitor_ast0"
-+
-+  and functiontype_typedef (ty,id,lp,params,rp) =
-+    let (ty_n,ty) = typeC ty in
-+    let (idl,idu) = (match id with
-+      | Some a -> let (b,c) = typeC a in ([b],Some c)
-+      | None -> ([],None)) in
-+    let (lp_n,lp) = string_mcode lp in
-+    let (params_n,params) = parameter_dots params in
-+    let (rp_n,rp) = string_mcode rp in
-+    ((multibind ([ty_n] @ idl @ [lp_n; params_n; rp_n]),
-+     Ast0.FunctionType(ty,lp,params,rp)), idu)
-+
-   and named_type_typedef ty id =
-     match Ast0.unwrap ty with
-       Ast0.FunctionPointer(rty,lp1,star,rp1,lp2,params,rp2) ->
-@@ -490,6 +629,14 @@ let visitor mode bind option_default
- 	let (tyres, idn) = array_type_typedef (rty,Some id,lb,size,rb) in
-         let idn = match idn with Some i -> i | None -> failwith "Impossible" in
- 	(rewrap ty tyres, idn)
-+    | Ast0.ParenType(lp,rty,rp) ->
-+	let (tyres, idn) = parentype_typedef (lp,rty,Some id,rp) in
-+	let idn = match idn with Some i -> i | None -> failwith "Impossible" in
-+	(rewrap ty tyres, idn)
-+    | Ast0.FunctionType(rty,lp,params,rp) ->
-+	let (tyres, idn) = functiontype_typedef (rty,Some id,lp,params,rp) in
-+	let idn = match idn with Some i -> i | None -> failwith "Impossible" in
-+	(rewrap ty tyres, idn)
-     | _ -> let (ty_n,ty) = typeC ty in
-            let (id_n,id) = typeC id in
-              ((bind ty_n id_n, ty), id)
+   and typeC ty =
+     let k ty =
+       match Ast.unwrap ty with
+@@ -332,6 +378,14 @@ let combiner bind option_default
+ 	  bind lty lstar
+       | Ast.FunctionPointer(ty,lp1,star,rp1,lp2,params,rp2) ->
+ 	  function_pointer (ty,lp1,star,None,rp1,lp2,params,rp2)
++      | Ast.ParenType(lp,ty,rp) ->
++          parentype_type (lp,ty,None,rp)
++      | Ast.FunctionType(ty,lp,params,rp) ->
++          let lty = fullType ty in
++          let llp = string_mcode lp in
++          let lparams = parameter_dots params in
++          let lrp = string_mcode rp in
++          multibind [lty; llp; lparams; lrp]
+       | Ast.Array(ty,lb,size,rb) -> array_type (ty,None,lb,size,rb)
+       | Ast.Decimal(dec,lp,length,comma,precision_opt,rp) ->
+ 	  let ldec = string_mcode dec in
+@@ -384,6 +438,7 @@ let combiner bind option_default
+ 	  Ast.FunctionPointer(ty,lp1,star,rp1,lp2,params,rp2) ->
+ 	    function_pointer (ty, lp1, star, Some id, rp1, lp2, params, rp2)
+ 	| Ast.Array(ty,lb,size,rb) -> array_type (ty, Some id, lb, size, rb)
++        | Ast.ParenType(lp,ty,rp) -> parentype_type (lp, ty, Some id, rp)
+ 	| _ -> let lty = fullType ty in
+ 	       let lid = ident id in
+ 	       bind lty lid)
+@@ -1253,6 +1308,17 @@ let rebuilder
+ 	    let lparams = parameter_dots params in
+ 	    let lrp2 = string_mcode rp2 in
+ 	    Ast.FunctionPointer(lty, llp1, lstar, lrp1, llp2, lparams, lrp2)
++        | Ast.ParenType(lp,ty,rp) ->
++            let llp = string_mcode lp in
++            let lty = fullType ty in
++            let lrp = string_mcode rp in
++            Ast.ParenType(llp,lty,lrp)
++        | Ast.FunctionType(ty,lp,params,rp) ->
++            let lty = fullType ty in
++            let llp = string_mcode lp in
++            let lparams = parameter_dots params in
++            let lrp = string_mcode rp in
++            Ast.FunctionType(lty,llp,lparams,lrp)
+ 	| Ast.Array(ty,lb,size,rb) ->
+ 	    let lty = fullType ty in
+ 	    let llb = string_mcode lb in
 -- 
 2.21.1
 
