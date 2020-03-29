@@ -2,74 +2,69 @@ Return-Path: <SRS0=cPux=5O=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF5BC43331
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 29 Mar 2020 07:33:12 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD576C43331
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 29 Mar 2020 10:18:57 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 52987206E6
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 29 Mar 2020 07:33:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 52987206E6
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kroah.com
+	by mail.kernel.org (Postfix) with ESMTPS id 98CA020732
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 29 Mar 2020 10:18:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98CA020732
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=mess.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 00226204C7;
-	Sun, 29 Mar 2020 07:33:11 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7592D85FB6;
+	Sun, 29 Mar 2020 10:18:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id atmUfPn94vA5; Sun, 29 Mar 2020 07:33:11 +0000 (UTC)
+	with ESMTP id 9zabaKbnqcpH; Sun, 29 Mar 2020 10:18:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EE4572034B;
-	Sun, 29 Mar 2020 07:33:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7A69585FB0;
+	Sun, 29 Mar 2020 10:18:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CD72BC089E;
-	Sun, 29 Mar 2020 07:33:10 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13606C07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 67D7FC1AE8;
+	Sun, 29 Mar 2020 10:18:56 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A0A0BC07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Mar 2020 07:33:10 +0000 (UTC)
+ Sun, 29 Mar 2020 10:18:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DDD2688302
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8BC1785FB6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Mar 2020 07:33:09 +0000 (UTC)
+ Sun, 29 Mar 2020 10:18:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SdBJvU9QquWn
+ with ESMTP id QZ7dqJIlXlLp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Mar 2020 07:33:08 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D169387FC9
+ Sun, 29 Mar 2020 10:18:52 +0000 (UTC)
+X-Greylist: delayed 00:09:14 by SQLgrey-1.7.6
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6BCC085FB0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Mar 2020 07:33:08 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0FA18206E6;
- Sun, 29 Mar 2020 07:33:08 +0000 (UTC)
-Date: Sun, 29 Mar 2020 09:33:04 +0200
-From: Greg KH <greg@kroah.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Message-ID: <20200329073304.GA3911175@kroah.com>
-References: <20200326063524.GA922107@kroah.com>
- <20200328200633.GA102137@google.com>
+ Sun, 29 Mar 2020 10:18:52 +0000 (UTC)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+ id EA908C640E; Sun, 29 Mar 2020 11:09:33 +0100 (BST)
+Date: Sun, 29 Mar 2020 11:09:33 +0100
+From: Sean Young <sean@mess.org>
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <20200329100933.GA9043@gofer.mess.org>
+References: <20200323125732.281976-1-dwlsalmeida@gmail.com>
+ <20200323125732.281976-2-dwlsalmeida@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200328200633.GA102137@google.com>
-Cc: linux-pci@vger.kernel.org, Kelsey Skunberg <kelsey.skunberg@gmail.com>,
- rbilovol@cisco.com, linux-kernel@vger.kernel.org,
- stable <stable@vger.kernel.org>, ddutile@redhat.com, ruslan.bilovol@gmail.com,
- Kelsey Skunberg <skunberg.kelsey@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, bodong@mellanox.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] PCI: sysfs: Change bus_rescan
- and dev_rescan to rescan
+In-Reply-To: <20200323125732.281976-2-dwlsalmeida@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: kstewart@linuxfoundation.org, tglx@linutronix.de, mchehab@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, allison@lohutok.net,
+ linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [RFC, WIP,
+ v2 1/3] media: dvb_dummy_tuner: implement driver skeleton
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,38 +82,500 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Mar 28, 2020 at 03:06:33PM -0500, Bjorn Helgaas wrote:
-> On Thu, Mar 26, 2020 at 07:35:24AM +0100, Greg KH wrote:
-> > On Wed, Mar 25, 2020 at 05:10:33PM -0500, Bjorn Helgaas wrote:
-> > > -static DEVICE_ATTR_WO(dev_rescan);
-> > > +static struct device_attribute dev_attr_dev_rescan = __ATTR(rescan, 0200, NULL,
-> > > +							    dev_rescan_store);
-> > 
-> > Oops, this should just be DEVICE_ATTR(), no need for __ATTR() as this
-> > isn't a kobject-only file.
-> > 
-> > So how about:
-> > 
-> > static DEVICE_ATTR(rescan, 0200, NULL, dev_rescan_store);
-> 
-> I don' think DEVICE_ATTR() works in this case because it uses the
-> first argument ("rescan") to build both the C symbol for the
-> device_attribute struct and the sysfs filename.
-> 
-> There are two instances in this file.  The two sysfs "rescan" files
-> are not a problem, but the two "dev_attr_rescan_name" C symbols *are*.
-> We could resolve that by putting the bus attributes in a different
-> source file than the dev attributes, but it doesn't seem worth it now.
-> 
-> I tentatively have the patch below on pci/misc.  I dropped the
-> tested-by and reviewed-by because I didn't want to put words in your
-> mouths :)
+Hi Daniel,
 
-Ah, yeah, you are right __ATTR() is what you need to use here.
+On Mon, Mar 23, 2020 at 09:57:30AM -0300, Daniel W. S. Almeida wrote:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> The virtual DVB test driver serves as a reference DVB driver and helps
+> validate the existing APIs in the media subsystem. It can also aid developers
+> working on userspace applications.
+> 
+> This dummy tuner should support common TV standards such as DVB-T/T2/S/S2,
+> ISDB-T and ATSC when completed.
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>  drivers/media/tuners/Kconfig           |   9 +
+>  drivers/media/tuners/Makefile          |   1 +
+>  drivers/media/tuners/dvb_dummy_tuner.c | 419 +++++++++++++++++++++++++
+>  3 files changed, 429 insertions(+)
+>  create mode 100644 drivers/media/tuners/dvb_dummy_tuner.c
+> 
+> diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
+> index e104bb7766e1..8ad54339ceee 100644
+> --- a/drivers/media/tuners/Kconfig
+> +++ b/drivers/media/tuners/Kconfig
+> @@ -296,4 +296,13 @@ config MEDIA_TUNER_QM1D1B0004
+>  	default m if !MEDIA_SUBDRV_AUTOSELECT
+>  	help
+>  	  Sharp QM1D1B0004 ISDB-S tuner driver.
+> +
+> +config MEDIA_TUNER_DVB_DUMMY_TUNER
+> +	tristate "Dummy DVB Media Tuner"
+> +	depends on MEDIA_SUPPORT && I2C
+> +	help
+> +	  Dummy DVB media tuner driver
+> +	  The virtual DVB test driver serves as a reference DVB driver and helps
+> +	  validate the existing APIs in the media subsystem. It can also aid
+> +	  developers working on userspace applications.
+>  endmenu
+> diff --git a/drivers/media/tuners/Makefile b/drivers/media/tuners/Makefile
+> index 7b4f8423501e..f98de1cf2e19 100644
+> --- a/drivers/media/tuners/Makefile
+> +++ b/drivers/media/tuners/Makefile
+> @@ -44,5 +44,6 @@ obj-$(CONFIG_MEDIA_TUNER_QM1D1C0042) += qm1d1c0042.o
+>  obj-$(CONFIG_MEDIA_TUNER_QM1D1B0004) += qm1d1b0004.o
+>  obj-$(CONFIG_MEDIA_TUNER_M88RS6000T) += m88rs6000t.o
+>  obj-$(CONFIG_MEDIA_TUNER_TDA18250) += tda18250.o
+> +obj-$(CONFIG_MEDIA_TUNER_DVB_DUMMY_TUNER) += dvb_dummy_tuner.o
+>  
+>  ccflags-y += -I$(srctree)/drivers/media/dvb-frontends
+> diff --git a/drivers/media/tuners/dvb_dummy_tuner.c b/drivers/media/tuners/dvb_dummy_tuner.c
+> new file mode 100644
+> index 000000000000..f0e1f60918f0
+> --- /dev/null
+> +++ b/drivers/media/tuners/dvb_dummy_tuner.c
+> @@ -0,0 +1,419 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2020 Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> + *
+> + * The virtual DVB test driver serves as a reference DVB driver and helps
+> + * validate the existing APIs in the media subsystem. It can also aid
+> + * developers working on userspace applications.
+> + *
+> + * This dummy tuner should support common TV standards such as
+> + * DVB-T/T2/S/S2, ISDB-T and ATSC when completed.
+> + *
+> + */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/types.h>
+> +#include <media/dvb_frontend.h>
+> +
+> +struct dvb_dummy_tuner_config {
+> +	struct dvb_frontend *fe;
+> +	u32 mock_power_up_delay_msec;
+> +	u32 mock_tune_delay_msec;
+> +	u32 mock_sleep_delay_msec;
+> +	u32 mock_resume_delay_msec;
+> +	u32 dummy_valid_dvb_t_freqs[8];
+> +	u32 dummy_valid_dvb_c_freqs[8];
+> +	u32 dummy_valid_dvb_s_freqs[8];
+> +	u8  max_frequency_shift_hz;
+> +};
+> +
+> +struct dvb_dummy_tuner_cnr_to_qual_s {
+> +	/* attempt to use the same values as libdvbv5 */
+> +	u32 modulation;
+> +	u32 fec;
+> +	u32 cnr_ok, cnr_good;
+> +};
+> +
+> +struct dvb_dummy_tuner_cnr_to_qual_s dvb_dummy_tuner_c_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code, in milli db */
+> +	{ QAM_256, FEC_NONE,  34000, 38000},
+> +	{ QAM_64,  FEC_NONE,  30000, 34000},
+> +};
+> +
+> +struct dvb_dummy_tuner_cnr_to_qual_s dvb_dummy_tuner_s_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code, in milli db */
+> +	{ QPSK, FEC_1_2,  7000, 10000},
+> +
+> +	{ QPSK, FEC_2_3,  9000, 12000},
+> +	{ QPSK, FEC_3_4, 10000, 13000},
+> +	{ QPSK, FEC_5_6, 11000, 14000},
+> +
+> +	{ QPSK, FEC_7_8, 12000, 15000},
+> +};
+> +
+> +struct dvb_dummy_tuner_cnr_to_qual_s dvb_dummy_tuner_s2_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code, in milli db */
+> +	{ QPSK,  FEC_1_2,   9000,  12000},
+> +	{ QPSK,  FEC_2_3,  11000,  14000},
+> +	{ QPSK,  FEC_3_4,  12000,  15000},
+> +	{ QPSK,  FEC_5_6,  12000,  15000},
+> +	{ QPSK,  FEC_8_9,  13000,  16000},
+> +	{ QPSK,  FEC_9_10, 13500, 16500},
+> +	{ PSK_8, FEC_2_3,  14500, 17500},
+> +	{ PSK_8, FEC_3_4,  16000,  19000},
+> +	{ PSK_8, FEC_5_6,  17500, 20500},
+> +	{ PSK_8, FEC_8_9,  19000,  22000},
+> +};
+> +
+> +static struct dvb_dummy_tuner_cnr_to_qual_s dvb_dummy_tuner_t_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code, in milli db*/
+> +	{   QPSK, FEC_1_2,  4100,  5900},
+> +	{   QPSK, FEC_2_3,  6100,  9600},
+> +	{   QPSK, FEC_3_4,  7200, 12400},
+> +	{   QPSK, FEC_5_6,  8500, 15600},
+> +	{   QPSK, FEC_7_8,  9200, 17500},
+> +
+> +	{ QAM_16, FEC_1_2,  9800, 11800},
+> +	{ QAM_16, FEC_2_3, 12100, 15300},
+> +	{ QAM_16, FEC_3_4, 13400, 18100},
+> +	{ QAM_16, FEC_5_6, 14800, 21300},
+> +	{ QAM_16, FEC_7_8, 15700, 23600},
+> +
+> +	{ QAM_64, FEC_1_2, 14000, 16000},
+> +	{ QAM_64, FEC_2_3, 19900, 25400},
+> +	{ QAM_64, FEC_3_4, 24900, 27900},
+> +	{ QAM_64, FEC_5_6, 21300, 23300},
+> +	{ QAM_64, FEC_7_8, 22000, 24000},
+> +};
+> +
+> +enum dvb_dummy_tuner_lock_status {
+> +	STATUS_NO_LOCK = 0,
+> +	STATUS_LOCKED = TUNER_STATUS_LOCKED,
+> +};
 
-Your patch looks good:
+This enum is a little odd. In dvb-core tuner status is represented as a u32,
+with two bitfields. TUNER_STATUS_LOCKED and TUNER_STATUS_STEREO. There
+is no STATUS_NO_LOCK; the bitfield is simply 0.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Just use a u32 like the rest of dvb core, I would suggest.
+
+> +
+> +enum dvb_dummy_tuner_power_status {
+> +	STATUS_UNKNOWN,
+> +	STATUS_ASLEEP,
+> +	STATUS_ACTIVE
+> +};
+
+I'm guessing that STATUS_UNKNOWN won't be used, so this enum can be replaced
+with a "boolean asleep".
+
+> +struct dvb_dummy_tuner_hardware_state {
+> +	enum dvb_dummy_tuner_power_status power_status;
+> +	enum dvb_dummy_tuner_lock_status lock_status;
+> +	u32 if_frequency;
+> +	u32 tuned_frequency;
+> +	u32 bandwidth;
+> +};
+> +
+> +struct dvb_dummy_tuner_dev {
+> +	struct dvb_frontend *fe;
+> +	struct dvb_dummy_tuner_hardware_state hw_state;
+> +	struct dvb_dummy_tuner_config config;
+> +};
+> +
+> +static struct dvb_dummy_tuner_dev*
+> +dvb_dummy_tuner_get_dev(struct dvb_frontend *fe)
+> +{
+> +	struct i2c_client *client = fe->tuner_priv;
+> +
+> +	return (struct dvb_dummy_tuner_dev *)i2c_get_clientdata(client);
+
+i2c_get_clientdata() returns void* so need for the cast. C allows void *
+to be cast to any pointer type without a cast.
+
+Thanks
+
+Sean
+
+> +}
+> +
+> +static s32 dvb_dummy_tuner_check_frequency_shift(struct dvb_frontend *fe)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
+> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
+> +	u32 *valid_freqs = NULL;
+> +	u32 array_sz = 0;
+> +	u32 i;
+> +
+> +	switch (c->delivery_system) {
+> +	case SYS_DVBT:
+> +	case SYS_DVBT2:
+> +		valid_freqs =
+> +			config.dummy_valid_dvb_t_freqs;
+> +		array_sz = ARRAY_SIZE(config.dummy_valid_dvb_t_freqs);
+> +		break;
+> +	case SYS_DVBS:
+> +	case SYS_DVBS2:
+> +		valid_freqs =
+> +			config.dummy_valid_dvb_s_freqs;
+> +		array_sz = ARRAY_SIZE(config.dummy_valid_dvb_s_freqs);
+> +		break;
+> +	case SYS_DVBC_ANNEX_A:
+> +		valid_freqs =
+> +			config.dummy_valid_dvb_c_freqs;
+> +		array_sz = ARRAY_SIZE(config.dummy_valid_dvb_c_freqs);
+> +		break;
+> +
+> +	default:
+> +		pr_warn("%s: unsupported delivery system: %u\n",
+> +			__func__,
+> +			c->delivery_system);
+> +		break;
+> +	}
+> +
+> +	for (i = 0; i < array_sz; i++) {
+> +		if (c->frequency == valid_freqs[i])
+> +			return 0;
+> +		else if (c->frequency >= valid_freqs[i] -
+> +			 config.max_frequency_shift_hz &&
+> +			 c->frequency <= valid_freqs[i] +
+> +			 config.max_frequency_shift_hz)
+> +			 /* This will provide a value from 0 to 100 that would
+> +			  * indicate how far is the tuned frequency from the
+> +			  * right one.
+> +			  */
+> +			return abs((c->frequency - valid_freqs[i]) *
+> +				   100 / config.max_frequency_shift_hz);
+> +	}
+> +
+> +	return -1;
+> +}
+> +
+> +static int
+> +dvb_dummy_tuner_get_signal_strength(struct dvb_frontend *fe, u16 *strength)
+> +{
+> +	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
+> +	struct dvb_dummy_tuner_cnr_to_qual_s *cnr2qual = NULL;
+> +	u32 array_size = 0;
+> +	s32 shift;
+> +	u32 i;
+> +
+> +	shift = dvb_dummy_tuner_check_frequency_shift(fe);
+> +
+> +	switch (c->delivery_system) {
+> +	case SYS_DVBT:
+> +	case SYS_DVBT2:
+> +		cnr2qual = dvb_dummy_tuner_t_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_dummy_tuner_t_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBS:
+> +		cnr2qual = dvb_dummy_tuner_s_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_dummy_tuner_s_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBS2:
+> +		cnr2qual = dvb_dummy_tuner_s2_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_dummy_tuner_s2_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBC_ANNEX_A:
+> +		cnr2qual = dvb_dummy_tuner_c_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_dummy_tuner_c_cnr_2_qual);
+> +		break;
+> +
+> +	default:
+> +		pr_warn("%s: unsupported delivery system: %u\n",
+> +			__func__,
+> +			c->delivery_system);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i = 0; i <= array_size; i++) {
+> +		if (cnr2qual[i].modulation == c->modulation &&
+> +		    cnr2qual[i].fec == c->fec_inner) {
+> +			*strength = (shift == 0) ?
+> +				    cnr2qual[i].cnr_good :
+> +				    (shift > 0) ?
+> +				    cnr2qual[i].cnr_ok :
+> +				    cnr2qual[i].cnr_ok -
+> +				    (cnr2qual[i].cnr_good - cnr2qual[i].cnr_ok);
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	/* do a linear interpolation between 34dB and 10dB if we can't
+> +	 * match against the table
+> +	 */
+> +	*strength = 34 - 24 * shift / 100;
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_init(struct dvb_frontend *fe)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
+> +
+> +	msleep_interruptible(config.mock_power_up_delay_msec);
+> +
+> +	tuner_dev->hw_state.power_status = STATUS_ACTIVE;
+> +	tuner_dev->hw_state.if_frequency = 5000;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_sleep(struct dvb_frontend *fe)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
+> +
+> +	msleep_interruptible(config.mock_sleep_delay_msec);
+> +	tuner_dev->hw_state.power_status = STATUS_ASLEEP;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_suspend(struct dvb_frontend *fe)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +
+> +	tuner_dev->hw_state.power_status = STATUS_ASLEEP;
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_resume(struct dvb_frontend *fe)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +
+> +	tuner_dev->hw_state.power_status = STATUS_ACTIVE;
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_set_params(struct dvb_frontend *fe)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +	struct dvb_dummy_tuner_config config = tuner_dev->config;
+> +	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
+> +	u32 min_freq = fe->ops.tuner_ops.info.frequency_min_hz;
+> +	u32 max_freq = fe->ops.tuner_ops.info.frequency_max_hz;
+> +	u32 min_bw = fe->ops.tuner_ops.info.bandwidth_min;
+> +	u32 max_bw = fe->ops.tuner_ops.info.bandwidth_max;
+> +
+> +	if (c->frequency < min_freq  || c->frequency > max_freq  ||
+> +	    c->bandwidth_hz < min_bw || c->bandwidth_hz > max_bw) {
+> +		tuner_dev->hw_state.lock_status = STATUS_NO_LOCK;
+> +		return -EINVAL;
+> +	}
+> +
+> +	tuner_dev->hw_state.tuned_frequency = c->frequency;
+> +	tuner_dev->hw_state.bandwidth = c->bandwidth_hz;
+> +	tuner_dev->hw_state.lock_status = STATUS_LOCKED;
+> +
+> +	msleep_interruptible(config.mock_tune_delay_msec);
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_set_config(struct dvb_frontend *fe,
+> +				      void *priv_cfg)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +
+> +	memcpy(&tuner_dev->config, priv_cfg, sizeof(tuner_dev->config));
+> +
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_get_frequency(struct dvb_frontend *fe,
+> +					 u32 *frequency)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +
+> +	*frequency = tuner_dev->hw_state.tuned_frequency;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_get_bandwidth(struct dvb_frontend *fe,
+> +					 u32 *bandwidth)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +
+> +	*bandwidth = tuner_dev->hw_state.bandwidth;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_get_if_frequency(struct dvb_frontend *fe,
+> +					    u32 *frequency)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +
+> +	*frequency = tuner_dev->hw_state.if_frequency;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_get_status(struct dvb_frontend *fe, u32 *status)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = dvb_dummy_tuner_get_dev(fe);
+> +
+> +	*status = tuner_dev->hw_state.lock_status;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dvb_tuner_ops dvb_dummy_tuner_ops = {
+> +	.init = dvb_dummy_tuner_init,
+> +	.sleep = dvb_dummy_tuner_sleep,
+> +	.suspend = dvb_dummy_tuner_suspend,
+> +	.resume = dvb_dummy_tuner_resume,
+> +	.set_params = dvb_dummy_tuner_set_params,
+> +	.set_config = dvb_dummy_tuner_set_config,
+> +	.get_bandwidth = dvb_dummy_tuner_get_bandwidth,
+> +	.get_frequency = dvb_dummy_tuner_get_frequency,
+> +	.get_if_frequency = dvb_dummy_tuner_get_if_frequency,
+> +	.get_status = dvb_dummy_tuner_get_status,
+> +	.get_rf_strength = dvb_dummy_tuner_get_signal_strength
+> +};
+> +
+> +static const struct i2c_device_id dvb_dummy_tuner_i2c_id_table[] = {
+> +	{"dvb_dummy_tuner", 0},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, dvb_dummy_tuner_i2c_id_table);
+> +
+> +static int dvb_dummy_tuner_i2c_probe(struct i2c_client *client,
+> +				     const struct i2c_device_id *id)
+> +{
+> +	struct dvb_dummy_tuner_config *config = client->dev.platform_data;
+> +	struct dvb_frontend *fe = config->fe;
+> +	struct dvb_dummy_tuner_dev *tuner_dev = NULL;
+> +
+> +	tuner_dev = kzalloc(sizeof(*tuner_dev), GFP_KERNEL);
+> +	if (!tuner_dev)
+> +		return -ENOMEM;
+> +
+> +	tuner_dev->fe = config->fe;
+> +	i2c_set_clientdata(client, tuner_dev);
+> +
+> +	memcpy(&fe->ops.tuner_ops,
+> +	       &dvb_dummy_tuner_ops,
+> +	       sizeof(struct dvb_tuner_ops));
+> +
+> +	fe->tuner_priv = client;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dvb_dummy_tuner_i2c_remove(struct i2c_client *client)
+> +{
+> +	struct dvb_dummy_tuner_dev *tuner_dev = i2c_get_clientdata(client);
+> +	struct dvb_frontend *fe = tuner_dev->fe;
+> +
+> +	memset(&fe->ops.tuner_ops, 0, sizeof(struct dvb_tuner_ops));
+> +	fe->tuner_priv = NULL;
+> +	kfree(tuner_dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct i2c_driver dvb_dummy_tuner_i2c_driver = {
+> +	.driver = {
+> +		.name = "dvb_dummy_tuner",
+> +		.suppress_bind_attrs = true,
+> +	},
+> +	.probe		= dvb_dummy_tuner_i2c_probe,
+> +	.remove		= dvb_dummy_tuner_i2c_remove,
+> +	.id_table	= dvb_dummy_tuner_i2c_id_table,
+> +};
+> +module_i2c_driver(dvb_dummy_tuner_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("DVB Dummy Tuner");
+> +MODULE_AUTHOR("Daniel W. S. Almeida");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.25.2
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
