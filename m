@@ -2,100 +2,104 @@ Return-Path: <SRS0=z0fH=5Q=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 388B8C43331
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 31 Mar 2020 19:45:35 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4273C43331
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 31 Mar 2020 20:02:25 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D31BC2080C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 31 Mar 2020 19:45:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ADCC020787
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 31 Mar 2020 20:02:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="i3NpJnHq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D31BC2080C
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="qjEIqcXD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADCC020787
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B375C87EB0;
-	Tue, 31 Mar 2020 19:45:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7nt3DiB6Yvqq; Tue, 31 Mar 2020 19:45:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D8CC187A3D;
-	Tue, 31 Mar 2020 19:45:33 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C30EAC1AE8;
-	Tue, 31 Mar 2020 19:45:33 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 600EFC07FF
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Mar 2020 19:45:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5C0F286D3C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Mar 2020 19:45:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B938B86D80;
+	Tue, 31 Mar 2020 20:02:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nc5GJl1umYsC; Tue, 31 Mar 2020 20:02:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EB9F786D77;
+	Tue, 31 Mar 2020 20:02:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DC6D6C1AE8;
+	Tue, 31 Mar 2020 20:02:23 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5B76DC07FF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 31 Mar 2020 20:02:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4C2558891C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 31 Mar 2020 20:02:22 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zw6JgCeRVfXZ
+ with ESMTP id BeEAbiP6bqU8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Mar 2020 19:45:30 +0000 (UTC)
-X-Greylist: delayed 00:06:22 by SQLgrey-1.7.6
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
- [209.85.219.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3C51586D2D
+ Tue, 31 Mar 2020 20:02:21 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+ [209.85.222.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 367DC8891A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Mar 2020 19:45:30 +0000 (UTC)
-Received: by mail-yb1-f193.google.com with SMTP id a5so8294331ybo.7
+ Tue, 31 Mar 2020 20:02:21 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id c145so24466903qke.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Mar 2020 12:45:30 -0700 (PDT)
+ Tue, 31 Mar 2020 13:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CmyCyWagylfuKeKB4BO2p4EHeCrzlGpSPlijLTrzQrE=;
- b=i3NpJnHq4kSwxmmk+3rXgxdW8Wt5LW4Edf8xpVA/myZ6FFGqWy/Sa+cGk5maohkOQg
- y8WPF8b84LcU2zQHXVM70zuqSL6ixG4qKmAdHZshTqzvgvpH3/x4nny6bJrgYirLw/Xt
- e+VOU9zfivBrm990mM3EWL29oUt2b6LNVZQEWsmCGkYJhexuUp9A0JbWWyxZM/vQkx03
- tzyBPfueZyGMUmSjzf8LtNpzxWmqXsIIpiCLUk7f/1CEBepL5tBomiR3cob+FkM33OPo
- RQSd9hB1ceYDCHxgX2JI6Y03S00SeRYbcs6RihoC5/E9NC8F49Un2sMHlO+AzuTxlQUa
- PcPQ==
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=Q1beehtgWdVUjw4H/uaMAEYCwGvvcPji2ivitcnMva8=;
+ b=qjEIqcXDFFQ1IVgRToaVEFyL+0yx+IHNvMfCjj1ZHcVpXyMqr/hcYS1hfnj2uVmjjv
+ yF+qKqa9VvvPLCcwZ56GYq/5cMJwhVKSopJqHOxjo73zWwQET2IZ1Su5NLgv13G4oqcu
+ Ho1jOsFYGPvNGoCteEmV1OxTymHbHz3pKZpamIUnpEWAE3tESP4ValkKap8szgNtnVE2
+ L8euZT+pZ0CrVfRxjtsB1gSE9AT1NNvn0cxK9xffq358Uh1tM05ZO05zgGNOTqyTQeEP
+ yTQPBU7ZfTLZBByEWwAdXwumthwfQIde9hm4L9IiAIGIfjzJOTbu6QVTDkyr+W4SoeDV
+ gaDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CmyCyWagylfuKeKB4BO2p4EHeCrzlGpSPlijLTrzQrE=;
- b=O8xKspTBoCtLWMhdpHdtUAxnOUAhfRn0/wEMtGQz9NK5PPtMvSNEDntrbSdd88dmfc
- rhj8jojEYlxF2AQ0d1z8pWd8qV7Ex3ldhftDA861GtgYgTbE9q/qI6IpuS43saFCsxVL
- IkRwuZzWP5AWFc+qIABjJNrxp8VhGmIAmMIygfZf/Y1WiF4hHdpGAYI2Qay2Ev7zqfvI
- bpBRQnaVYfYiAz2PtCm3ZpSuW4CmkjmWRcKFWDZOUfBfCqrQdUeShAqOkYn43qRzLMR2
- oeJNa5yloRe9OgcuxRMMw420dgo4PCJlA62XCLmhnuGzaQ+9JaxfaPl5XRnshHvEIZXd
- j0Ww==
-X-Gm-Message-State: ANhLgQ2ycDmsN/iwgw7/btV9siFu9bbGN3VfLmv8hZ3Ad2QmUUcjENmW
- L9NOx99Z4E0LevuosAin0ECB9nrgedw+GOrW1IFhSZTSdUrIQg==
-X-Google-Smtp-Source: ADFU+vtC9v29cwTvgQzCRkzqmplSAGo2pfpyc7gBVxRCNiuU28PdpgwpW/Ke6FkwW6/6YGQT2lEDfhOzwI5e3wgwWTc=
-X-Received: by 2002:a25:c482:: with SMTP id
- u124mr31079143ybf.286.1585683547417; 
- Tue, 31 Mar 2020 12:39:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200330230256.28323-1-vitor@massaru.org>
- <CAFd5g47hiPf7Xy0f4YER+HzHHXyUV0dhiQ=2ZXfezEHBcrTuEQ@mail.gmail.com>
-In-Reply-To: <CAFd5g47hiPf7Xy0f4YER+HzHHXyUV0dhiQ=2ZXfezEHBcrTuEQ@mail.gmail.com>
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=Q1beehtgWdVUjw4H/uaMAEYCwGvvcPji2ivitcnMva8=;
+ b=oet8a5mMJs6hZ3O7LbKyQ3bNl+xZ/j0hrb2TUrEtiZW/ew14NPXEeJMc0hF59TRT+I
+ Xl+ViMkFMIyvvc4zNSbJoxk2Crs3UsAfHD5L3wBjIcaGwtigOo1CjXt6lirKe4BglKYH
+ +QmdhY5THJlwJwPkMYO2H/jSsCo0HUJCKYIzddiLnUoAlVyAlgq50kEdVPiLoPyCv6i/
+ Kd3TtvG/ndb4arVgXHLWbY454K/DR6y6io8OY9eZOPSJ7f8w39ZyZ/JNd+q3gLCMMDdL
+ v5u0qsy6bYGfT+icfXbZmFKXm0K/KRA05dJNwdznZjyCM2Sdc0+IvTODjRRdacUOwes9
+ aMHA==
+X-Gm-Message-State: ANhLgQ2xdtacIsd9xqGeFomKGLTfDrtN98Hqd11r5T7H1k0vpYFyVID2
+ 9W5JwZ8/MUAiO3TIYcJtmiIw4w==
+X-Google-Smtp-Source: ADFU+vti1QMwOqAdl+gaxBXKBzLkewg0+Axr05e9r2mxkQ8EUGr/8S/DnP48kOLNivRmNJ7kFTFSGQ==
+X-Received: by 2002:a37:61d0:: with SMTP id v199mr6669980qkb.292.1585684939953; 
+ Tue, 31 Mar 2020 13:02:19 -0700 (PDT)
+Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
+ by smtp.gmail.com with ESMTPSA id t43sm14488528qtc.14.2020.03.31.13.02.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Mar 2020 13:02:19 -0700 (PDT)
+Message-ID: <953a450cf58e2a459f7a09267cbbbcd38e5cc6bc.camel@massaru.org>
 From: Vitor Massaru Iha <vitor@massaru.org>
-Date: Tue, 31 Mar 2020 16:38:30 -0300
-Message-ID: <CADQ6JjUUFsJdgeLNA8XUkSF14H=WWF8y2eNTvQPNXHRQ+p_qBw@mail.gmail.com>
-To: Brendan Higgins <brendanhiggins@google.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] kunit: Fix kunit.py run
- --build_dir='<foo>' fails on "unclean" trees
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-kernel@vger.kernel.org
+Date: Tue, 31 Mar 2020 17:02:14 -0300
+In-Reply-To: <20200331085308.098696461@linuxfoundation.org>
+References: <20200331085308.098696461@linuxfoundation.org>
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
+MIME-Version: 1.0
+Cc: ben.hutchings@codethink.co.uk, torvalds@linux-foundation.org,
+ patches@kernelci.org, lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+ akpm@linux-foundation.org, shuah@kernel.org, linux@roeck-us.net,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH 5.6 00/23] 5.6.1-rc1 review
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,102 +111,103 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Brendan,
-
-On Tue, Mar 31, 2020 at 3:27 PM 'Brendan Higgins' via KUnit
-Development <kunit-dev@googlegroups.com> wrote:
->
-> On Mon, Mar 30, 2020 at 4:03 PM Vitor Massaru Iha <vitor@massaru.org> wrote:
-> >
-> > Fix this bug: https://bugzilla.kernel.org/show_bug.cgi?id=205219
-> >
-> > For some reason, the environment variable ARCH is used instead of ARCH
-> > passed as an argument, this patch uses a copy of the env, but using
-> > ARCH=um and CROSS_COMPILER='' to avoid this problem.
-> >
-> > This patch doesn't change the user's environment variables, avoiding
-> > side effects.
->
-> Seems reasonable to me.
-
-There are other problems here, I'll fix it.
-
->
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
->
-> I cannot test this as your patch doesn't apply to our for-next branch
-> (kselftest/kunit). You can find it here:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/log/?h=kunit
->
-> > ---
-> >  tools/testing/kunit/kunit_kernel.py | 12 +++++++-----
-> >  1 file changed, 7 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-> > index d99ae75ef72f..0cb1f81ac8f2 100644
-> > --- a/tools/testing/kunit/kunit_kernel.py
-> > +++ b/tools/testing/kunit/kunit_kernel.py
-> > @@ -15,6 +15,7 @@ import kunit_config
-> >
-> >  KCONFIG_PATH = '.config'
-> >  kunitconfig_path = '.kunitconfig'
-> > +env = dict(os.environ.copy(), ARCH='um', CROSS_COMPILE='')
-> >
-> >  class ConfigError(Exception):
-> >         """Represents an error trying to configure the Linux kernel."""
-> > @@ -36,22 +37,22 @@ class LinuxSourceTreeOperations(object):
-> >                         raise ConfigError(e.output)
-> >
-> >         def make_olddefconfig(self, build_dir):
-> > -               command = ['make', 'ARCH=um', 'olddefconfig']
-> > +               command = ['make', 'olddefconfig']
-> >                 if build_dir:
-> >                         command += ['O=' + build_dir]
-> >                 try:
-> > -                       subprocess.check_output(command)
-> > +                       subprocess.check_output(command, env=env)
-> >                 except OSError as e:
-> >                         raise ConfigError('Could not call make command: ' + e)
-> >                 except subprocess.CalledProcessError as e:
-> >                         raise ConfigError(e.output)
-> >
-> >         def make(self, jobs, build_dir):
-> > -               command = ['make', 'ARCH=um', '--jobs=' + str(jobs)]
-> > +               command = ['make', '--jobs=' + str(jobs)]
-> >                 if build_dir:
-> >                         command += ['O=' + build_dir]
-> >                 try:
-> > -                       subprocess.check_output(command)
-> > +                       subprocess.check_output(command, env=env)
-> >                 except OSError as e:
-> >                         raise BuildError('Could not call execute make: ' + e)
-> >                 except subprocess.CalledProcessError as e:
-> > @@ -66,7 +67,8 @@ class LinuxSourceTreeOperations(object):
-> >                         [linux_bin] + params,
-> >                         stdin=subprocess.PIPE,
-> >                         stdout=subprocess.PIPE,
-> > -                       stderr=subprocess.PIPE)
-> > +                       stderr=subprocess.PIPE,
-> > +                       env=env)
-> >                 process.wait(timeout=timeout)
-> >                 return process
-> >
-> > --
-> > 2.21.1
-> >
->
-> --
-> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/CAFd5g47hiPf7Xy0f4YER%2BHzHHXyUV0dhiQ%3D2ZXfezEHBcrTuEQ%40mail.gmail.com.
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gVHVlLCAyMDIwLTAzLTMxIGF0IDEwOjU5ICswMjAwLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3Jv
+dGU6Cj4gVGhpcyBpcyB0aGUgc3RhcnQgb2YgdGhlIHN0YWJsZSByZXZpZXcgY3ljbGUgZm9yIHRo
+ZSA1LjYuMSByZWxlYXNlLgo+IFRoZXJlIGFyZSAyMyBwYXRjaGVzIGluIHRoaXMgc2VyaWVzLCBh
+bGwgd2lsbCBiZSBwb3N0ZWQgYXMgYSByZXNwb25zZQo+IHRvIHRoaXMgb25lLiAgSWYgYW55b25l
+IGhhcyBhbnkgaXNzdWVzIHdpdGggdGhlc2UgYmVpbmcgYXBwbGllZCwKPiBwbGVhc2UKPiBsZXQg
+bWUga25vdy4KPiAKPiBSZXNwb25zZXMgc2hvdWxkIGJlIG1hZGUgYnkgVGh1LCAwMiBBcHIgMjAy
+MCAwODo1MDozNyArMDAwMC4KPiBBbnl0aGluZyByZWNlaXZlZCBhZnRlciB0aGF0IHRpbWUgbWln
+aHQgYmUgdG9vIGxhdGUuCj4gCj4gVGhlIHdob2xlIHBhdGNoIHNlcmllcyBjYW4gYmUgZm91bmQg
+aW4gb25lIHBhdGNoIGF0Ogo+IAkKPiBodHRwczovL3d3dy5rZXJuZWwub3JnL3B1Yi9saW51eC9r
+ZXJuZWwvdjUueC9zdGFibGUtcmV2aWV3L3BhdGNoLTUuNi4xLXJjMS5nego+IG9yIGluIHRoZSBn
+aXQgdHJlZSBhbmQgYnJhbmNoIGF0Ogo+IAlnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xp
+bnV4L2tlcm5lbC9naXQvc3RhYmxlL2xpbnV4LQo+IHN0YWJsZS1yYy5naXQgbGludXgtNS42LnkK
+PiBhbmQgdGhlIGRpZmZzdGF0IGNhbiBiZSBmb3VuZCBiZWxvdy4KPiAKPiB0aGFua3MsCj4gCj4g
+Z3JlZyBrLWgKPiAKPiAtLS0tLS0tLS0tLS0tCj4gUHNldWRvLVNob3J0bG9nIG9mIGNvbW1pdHM6
+Cj4gCj4gR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiAg
+ICAgTGludXggNS42LjEtcmMxCj4gCj4gRGFmbmEgSGlyc2NoZmVsZCA8ZGFmbmEuaGlyc2NoZmVs
+ZEBjb2xsYWJvcmEuY29tPgo+ICAgICBtZWRpYTogdjRsMi1jb3JlOiBmaXggYSB1c2UtYWZ0ZXIt
+ZnJlZSBidWcgb2Ygc2QtPmRldm5vZGUKPiAKPiBKb2hhbiBIb3ZvbGQgPGpvaGFuQGtlcm5lbC5v
+cmc+Cj4gICAgIG1lZGlhOiB4aXJsaW5rX2NpdDogYWRkIG1pc3NpbmcgZGVzY3JpcHRvciBzYW5p
+dHkgY2hlY2tzCj4gCj4gSm9oYW4gSG92b2xkIDxqb2hhbkBrZXJuZWwub3JnPgo+ICAgICBtZWRp
+YTogc3R2MDZ4eDogYWRkIG1pc3NpbmcgZGVzY3JpcHRvciBzYW5pdHkgY2hlY2tzCj4gCj4gSm9o
+YW4gSG92b2xkIDxqb2hhbkBrZXJuZWwub3JnPgo+ICAgICBtZWRpYTogZGliMDcwMDogZml4IHJj
+IGVuZHBvaW50IGxvb2t1cAo+IAo+IEpvaGFuIEhvdm9sZCA8am9oYW5Aa2VybmVsLm9yZz4KPiAg
+ICAgbWVkaWE6IG92NTE5OiBhZGQgbWlzc2luZyBlbmRwb2ludCBzYW5pdHkgY2hlY2tzCj4gCj4g
+RXJpYyBCaWdnZXJzIDxlYmlnZ2Vyc0Bnb29nbGUuY29tPgo+ICAgICBsaWJmczogZml4IGluZm9s
+ZWFrIGluIHNpbXBsZV9hdHRyX3JlYWQoKQo+IAo+IEthaS1IZW5nIEZlbmcgPGthaS5oZW5nLmZl
+bmdAY2Fub25pY2FsLmNvbT4KPiAgICAgYWhjaTogQWRkIEludGVsIENvbWV0IExha2UgSCBSQUlE
+IFBDSSBJRAo+IAo+IE1pY2hhxYIgTWlyb3PFgmF3IDxtaXJxLWxpbnV4QHJlcmUucW1xbS5wbD4K
+PiAgICAgc3RhZ2luZzogd2Z4OiBhbm5vdGF0ZSBuZXN0ZWQgZ2NfbGlzdCB2cyB0eCBxdWV1ZSBs
+b2NraW5nCj4gCj4gTWljaGHFgiBNaXJvc8WCYXcgPG1pcnEtbGludXhAcmVyZS5xbXFtLnBsPgo+
+ICAgICBzdGFnaW5nOiB3Zng6IGZpeCBpbml0L3JlbW92ZSB2cyBJUlEgcmFjZQo+IAo+IE1pY2hh
+xYIgTWlyb3PFgmF3IDxtaXJxLWxpbnV4QHJlcmUucW1xbS5wbD4KPiAgICAgc3RhZ2luZzogd2Z4
+OiBhZGQgcHJvcGVyICJjb21wYXRpYmxlIiBzdHJpbmcKPiAKPiBRaXVqdW4gSHVhbmcgPGhxamFn
+YWluQGdtYWlsLmNvbT4KPiAgICAgc3RhZ2luZzogd2xhbi1uZzogZml4IHVzZS1hZnRlci1mcmVl
+IFJlYWQgaW4KPiBoZmEzODR4X3VzYmluX2NhbGxiYWNrCj4gCj4gUWl1anVuIEh1YW5nIDxocWph
+Z2FpbkBnbWFpbC5jb20+Cj4gICAgIHN0YWdpbmc6IHdsYW4tbmc6IGZpeCBPREVCVUcgYnVnIGlu
+IHByaXNtMnN0YV9kaXNjb25uZWN0X3VzYgo+IAo+IExhcnJ5IEZpbmdlciA8TGFycnkuRmluZ2Vy
+QGx3ZmluZ2VyLm5ldD4KPiAgICAgc3RhZ2luZzogcnRsODE4OGV1OiBBZGQgQVNVUyBVU0ItTjEw
+IE5hbm8gQjEgdG8gZGV2aWNlIHRhYmxlCj4gCj4gRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRl
+ckBvcmFjbGUuY29tPgo+ICAgICBzdGFnaW5nOiBrcGMyMDAwOiBwcmV2ZW50IHVuZGVyZmxvdyBp
+biBjcGxkX3JlY29uZmlndXJlKCkKPiAKPiBKb2hhbiBIb3ZvbGQgPGpvaGFuQGtlcm5lbC5vcmc+
+Cj4gICAgIG1lZGlhOiB1c2J0djogZml4IGNvbnRyb2wtbWVzc2FnZSB0aW1lb3V0cwo+IAo+IEpv
+aGFuIEhvdm9sZCA8am9oYW5Aa2VybmVsLm9yZz4KPiAgICAgbWVkaWE6IGZsZXhjb3AtdXNiOiBm
+aXggZW5kcG9pbnQgc2FuaXR5IGNoZWNrCj4gCj4gTWFucyBSdWxsZ2FyZCA8bWFuc0BtYW5zci5j
+b20+Cj4gICAgIHVzYjogbXVzYjogZml4IGNyYXNoIHdpdGggaGlnaG1lbiBQSU8gYW5kIHVzYm1v
+bgo+IAo+IFFpdWp1biBIdWFuZyA8aHFqYWdhaW5AZ21haWwuY29tPgo+ICAgICBVU0I6IHNlcmlh
+bDogaW9fZWRnZXBvcnQ6IGZpeCBzbGFiLW91dC1vZi1ib3VuZHMgcmVhZCBpbgo+IGVkZ2VfaW50
+ZXJydXB0X2NhbGxiYWNrCj4gCj4gTWF0dGhpYXMgUmVpY2hsIDxoaWFzQGhvcnVzLmNvbT4KPiAg
+ICAgVVNCOiBjZGMtYWNtOiByZXN0b3JlIGNhcGFiaWxpdHkgY2hlY2sgb3JkZXIKPiAKPiBQYXdl
+bCBEZW1iaWNraSA8cGF3ZWxkZW1iaWNraUBnbWFpbC5jb20+Cj4gICAgIFVTQjogc2VyaWFsOiBv
+cHRpb246IGFkZCBXaXN0cm9uIE5ld2ViIEQxOVExCj4gCj4gUGF3ZWwgRGVtYmlja2kgPHBhd2Vs
+ZGVtYmlja2lAZ21haWwuY29tPgo+ICAgICBVU0I6IHNlcmlhbDogb3B0aW9uOiBhZGQgQnJvYWRN
+b2JpIEJNODA2VQo+IAo+IFBhd2VsIERlbWJpY2tpIDxwYXdlbGRlbWJpY2tpQGdtYWlsLmNvbT4K
+PiAgICAgVVNCOiBzZXJpYWw6IG9wdGlvbjogYWRkIHN1cHBvcnQgZm9yIEFTS0VZIFdXSEMwNTAK
+PiAKPiBEYW5pZWwgQm9ya21hbm4gPGRhbmllbEBpb2dlYXJib3gubmV0Pgo+ICAgICBicGY6IFVu
+ZG8gaW5jb3JyZWN0IF9fcmVnX2JvdW5kX29mZnNldDMyIGhhbmRsaW5nCj4gCj4gCj4gLS0tLS0t
+LS0tLS0tLQo+IAo+IERpZmZzdGF0Ogo+IAo+ICBNYWtlZmlsZSAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB8ICA0ICstLQo+ICBkcml2ZXJzL2F0YS9haGNpLmMgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxICsKPiAgZHJpdmVycy9tZWRpYS91c2Iv
+YjJjMi9mbGV4Y29wLXVzYi5jICAgICAgICAgICAgICAgfCAgNiArKy0tCj4gIGRyaXZlcnMvbWVk
+aWEvdXNiL2R2Yi11c2IvZGliMDcwMF9jb3JlLmMgICAgICAgICAgIHwgIDQgKy0tCj4gIGRyaXZl
+cnMvbWVkaWEvdXNiL2dzcGNhL292NTE5LmMgICAgICAgICAgICAgICAgICAgIHwgMTAgKysrKysr
+Cj4gIGRyaXZlcnMvbWVkaWEvdXNiL2dzcGNhL3N0djA2eHgvc3R2MDZ4eC5jICAgICAgICAgIHwg
+MTkgKysrKysrKysrLQo+ICBkcml2ZXJzL21lZGlhL3VzYi9nc3BjYS9zdHYwNnh4L3N0djA2eHhf
+cGIwMTAwLmMgICB8ICA0ICsrKwo+ICBkcml2ZXJzL21lZGlhL3VzYi9nc3BjYS94aXJsaW5rX2Np
+dC5jICAgICAgICAgICAgICB8IDE4ICsrKysrKysrKy0KPiAgZHJpdmVycy9tZWRpYS91c2IvdXNi
+dHYvdXNidHYtY29yZS5jICAgICAgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL21lZGlhL3Vz
+Yi91c2J0di91c2J0di12aWRlby5jICAgICAgICAgICAgICB8ICA1ICstLQo+ICBkcml2ZXJzL21l
+ZGlhL3Y0bDItY29yZS92NGwyLWRldmljZS5jICAgICAgICAgICAgICB8ICAxICsKPiAgZHJpdmVy
+cy9zdGFnaW5nL2twYzIwMDAva3BjMjAwMC9jb3JlLmMgICAgICAgICAgICAgfCAgNCArLS0KPiAg
+ZHJpdmVycy9zdGFnaW5nL3J0bDgxODhldS9vc19kZXAvdXNiX2ludGYuYyAgICAgICAgfCAgMSAr
+Cj4gIC4uLi9iaW5kaW5ncy9uZXQvd2lyZWxlc3Mvc2lsaWFicyx3ZngudHh0ICAgICAgICAgIHwg
+IDcgKystLQo+ICBkcml2ZXJzL3N0YWdpbmcvd2Z4L2J1c19zZGlvLmMgICAgICAgICAgICAgICAg
+ICAgICB8IDE1ICsrKystLS0tCj4gIGRyaXZlcnMvc3RhZ2luZy93ZngvYnVzX3NwaS5jICAgICAg
+ICAgICAgICAgICAgICAgIHwgNDEKPiArKysrKysrKysrKysrLS0tLS0tLS0tCj4gIGRyaXZlcnMv
+c3RhZ2luZy93ZngvbWFpbi5jICAgICAgICAgICAgICAgICAgICAgICAgIHwgMjEgKysrKysrLS0t
+LS0KPiAgZHJpdmVycy9zdGFnaW5nL3dmeC9tYWluLmggICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgMSAtCj4gIGRyaXZlcnMvc3RhZ2luZy93ZngvcXVldWUuYyAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgMTYgKysrKy0tLS0tCj4gIGRyaXZlcnMvc3RhZ2luZy93bGFuLW5nL2hmYTM4NHhfdXNi
+LmMgICAgICAgICAgICAgIHwgIDIgKysKPiAgZHJpdmVycy9zdGFnaW5nL3dsYW4tbmcvcHJpc20y
+dXNiLmMgICAgICAgICAgICAgICAgfCAgMSArCj4gIGRyaXZlcnMvdXNiL2NsYXNzL2NkYy1hY20u
+YyAgICAgICAgICAgICAgICAgICAgICAgIHwgMTggKysrKystLS0tLQo+ICBkcml2ZXJzL3VzYi9t
+dXNiL211c2JfaG9zdC5jICAgICAgICAgICAgICAgICAgICAgICB8IDE3ICsrKy0tLS0tLQo+ICBk
+cml2ZXJzL3VzYi9zZXJpYWwvaW9fZWRnZXBvcnQuYyAgICAgICAgICAgICAgICAgICB8ICAyICst
+Cj4gIGRyaXZlcnMvdXNiL3NlcmlhbC9vcHRpb24uYyAgICAgICAgICAgICAgICAgICAgICAgIHwg
+IDYgKysrKwo+ICBmcy9saWJmcy5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8ICA4ICsrKy0tCj4gIGtlcm5lbC9icGYvdmVyaWZpZXIuYyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgMTkgLS0tLS0tLS0tLQo+ICAyNyBmaWxlcyBjaGFuZ2VkLCAxNDkgaW5z
+ZXJ0aW9ucygrKSwgMTA0IGRlbGV0aW9ucygtKQo+IAo+IAoKQ29tcGlsZWQsIGJvb3RlZCwgYW5k
+IG5vIHJlZ3Jlc3Npb25zIG9uIG15IG1hY2hpbmUuCgpCUiwKVml0b3IKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1h
+aWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
+Cmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LWtlcm5lbC1tZW50ZWVzCg==
