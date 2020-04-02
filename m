@@ -5,88 +5,88 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A787C2D0E9
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Apr 2020 05:57:31 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BCC8C43331
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Apr 2020 05:57:35 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 512B62078E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Apr 2020 05:57:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4B8312078E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Apr 2020 05:57:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vKP+S4rd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 512B62078E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5ZgPkj4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B8312078E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 41B2120408;
-	Thu,  2 Apr 2020 05:57:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1C67186C0E;
+	Thu,  2 Apr 2020 05:57:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 937is64NfjFn; Thu,  2 Apr 2020 05:57:29 +0000 (UTC)
+	with ESMTP id KPhrXaSfpo2s; Thu,  2 Apr 2020 05:57:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 8742E203D6;
-	Thu,  2 Apr 2020 05:57:29 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A1868868D8;
+	Thu,  2 Apr 2020 05:57:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7405EC1AE2;
-	Thu,  2 Apr 2020 05:57:29 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E7FA1C07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 90EA0C1AE2;
+	Thu,  2 Apr 2020 05:57:34 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 00B01C07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Apr 2020 05:57:27 +0000 (UTC)
+ Thu,  2 Apr 2020 05:57:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D772187E3D
+ by whitealder.osuosl.org (Postfix) with ESMTP id EA8BD86C0E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Apr 2020 05:57:27 +0000 (UTC)
+ Thu,  2 Apr 2020 05:57:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KUPterG2TJez
+ with ESMTP id 1Yvc1xmDW9rl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Apr 2020 05:57:27 +0000 (UTC)
+ Thu,  2 Apr 2020 05:57:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
  [209.85.216.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5CD4C87E09
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6E593868D8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Apr 2020 05:57:27 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id jz1so2983284pjb.0
+ Thu,  2 Apr 2020 05:57:33 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id w9so1118118pjh.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 01 Apr 2020 22:57:27 -0700 (PDT)
+ Wed, 01 Apr 2020 22:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5zQQHlAdkKi/5/LHbljBLnmP/SWJe90/jtmz6ntc02A=;
- b=vKP+S4rdrk3RFrr58T+aSCG4j40KYwNWTXW33a5c5FSl/Eu2lTdZDRL3d8k15FffOK
- x/X+jXgt2DWtlLZl0+J8oEJIz1eizTOdyfwwTugra+NZ7U2A3EJIcchzjragpfXhTgtf
- ZRpKdHlH3nKdxlJjZ7A2zcCmgqzWgM63k8oJH/jLEtQCFg9M1SB4xWNYt0ytbkd0Gfpp
- FM4le5f3s8+scGjcgOg4Mx35mLdFWD6/v0M8UGKgZNukQn/Wfz67onzsR2LiPbVZffKv
- 9nWWe5pRx+UM2QRpHodRyxL5PLEHe5eYikPolhEord7zXqUYPaWfrErk4hd1/xqzE0ry
- gkHg==
+ bh=6dJnmRISnXhx/tid8L3bkFndKLLLawXzGhi1aYEmqBI=;
+ b=F5ZgPkj4Jqb8jVfvdsxgqgz1JEo/1oI1a8uoJIAQA0lpNWQHcaE8671FBeypM6kX3E
+ Dt2Vs0xHlYHGmQ8yuRM5u0mTovkVC35KiwjAZfihtabHL7dVwoUYBEe9WW4k/SUjsCFs
+ dRRQL/gps9M5cE/BlrvUTtv8cJeWUwUo53YE3Z3r/n7QMlw59odA1tKMNrlMWSXK6ZTR
+ ByY4qGARizvkaiTkQKjZYorE1SeoyEYKhPVCEMPxGo5R4YSnUW97n57U6H0RItQxNBga
+ X9n5ayS/XEnySMr0+fxqtf7pACtsK5A1ad9y5KjvXkFlCFVBuCY+Vj867Hd4YWqJ8zT2
+ qHIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5zQQHlAdkKi/5/LHbljBLnmP/SWJe90/jtmz6ntc02A=;
- b=G/yO+TneNBz5AOWTYyKo4TP3Po4bEHmeUDgHKflqrezLATLx5Qfx+M+vWXuirPx+61
- i50+xVm9vw1HRcgUS0t6BqFOYQAHhuYKbWqmLU0fWK2Ds4/JsHCLitKBTtJfU7oVKVJy
- hCXXVNHGGXxiAAMjg8ZmSjjfS8xXi+EGXJPUQK2j49gQf3QQyXBXn5slqhCpetYSi9aJ
- GMhvjpR5VW2tjyhyBHmL6JHnK1zIWZeA8OwtIOR1ZESNVHxKQkkMjZMntx5aIOE4tXvv
- iPE8DdhpNKG+afTQ+Omsd9WWRwhB4swfSeDuw3UY85VCF/xm3bWmLgxnJYNWb6ske1hA
- j38Q==
-X-Gm-Message-State: AGi0Pub+0JW/NKDdwGSYrdjHr2rJQqFcCyssh2/OCiA7IHxTuEdAtHrX
- 3DBHkOr7auhG8X0fKh1n7xA=
-X-Google-Smtp-Source: APiQypIk1wMcGt7vUXSVK1MJW9YRaCXHyaTjB6smeZ6u0GO8uNCLQSJJgk4xubTEKp/AI5wOSj0bHA==
-X-Received: by 2002:a17:902:7581:: with SMTP id
- j1mr1461361pll.171.1585807046892; 
- Wed, 01 Apr 2020 22:57:26 -0700 (PDT)
+ bh=6dJnmRISnXhx/tid8L3bkFndKLLLawXzGhi1aYEmqBI=;
+ b=fSELpu5OkjsXUCMKfFBnLReBQK1KWOrGuv0ERGf3z632yHYVtQBOUTt9djy0Z/aerd
+ 8zf2c1SBNnFizMTLAEnrO7wTsraL0X6yA0rvQwqxs45m6X9Xy9a8U7L9SiOk0u5A51Vl
+ eU33AKqXDC2Ty3gcQSc8u9gjpqAhrsUXbgreOhYZ5CPHKoKkW8p+KPbR1FBCaUJLryuC
+ //r5Mv82NzXufzr9wWKfIvzXTOiO5aw6ZzOvvgVC/xeLwLOaYw7DqwGF4p3nAzbYo46X
+ 1uYvQ85pHnPH9xD1Zhccx7PH61B+CmyHUfxW4IYvjeb5Jbj2n+u+MT2EHVvrVDjNYicq
+ RmFw==
+X-Gm-Message-State: AGi0PubwUwcrPt60rsDR6ETxa42uRJI52z469nnfL6SMXS+RI2310Mha
+ ZytmumgRj2sgrPpQP7RPRUM=
+X-Google-Smtp-Source: APiQypKKpM2RNoBega/Jw427Lig/OopGc2RCcaSq/EMKfefz7KImd2eIOeKFi0eJjpW3VBuddiq5SA==
+X-Received: by 2002:a17:902:e788:: with SMTP id
+ cp8mr1382631plb.343.1585807053025; 
+ Wed, 01 Apr 2020 22:57:33 -0700 (PDT)
 Received: from localhost.localdomain ([103.87.57.161])
- by smtp.googlemail.com with ESMTPSA id 207sm2776058pgg.19.2020.04.01.22.57.22
+ by smtp.googlemail.com with ESMTPSA id 207sm2776058pgg.19.2020.04.01.22.57.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Apr 2020 22:57:26 -0700 (PDT)
+ Wed, 01 Apr 2020 22:57:32 -0700 (PDT)
 From: Amol Grover <frextrite@gmail.com>
 To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
  Juri Lelli <juri.lelli@redhat.com>,
@@ -100,8 +100,8 @@ To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
  "Eric W . Biederman" <ebiederm@xmission.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Paul Moore <paul@paul-moore.com>,Eric Paris <eparis@redhat.com>
-Date: Thu,  2 Apr 2020 11:26:39 +0530
-Message-Id: <20200402055640.6677-2-frextrite@gmail.com>
+Date: Thu,  2 Apr 2020 11:26:40 +0530
+Message-Id: <20200402055640.6677-3-frextrite@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200402055640.6677-1-frextrite@gmail.com>
 References: <20200402055640.6677-1-frextrite@gmail.com>
@@ -110,8 +110,8 @@ Cc: "Paul E . McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
  Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, linux-audit@redhat.com,
  Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 2/3 RESEND] cred: Do not use RCU
-	primitives to access cred pointer
+Subject: [Linux-kernel-mentees] [PATCH 3/3 RESEND] auditsc: Do not use RCU
+	primitive to read from cred pointer
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -129,69 +129,76 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Since task_struct::cred can only be used task-synchronously,
-and is not visible to other threads under RCU context,
-we do not require RCU primitives to read/write to it and incur
-heavy barriers.
+task_struct::cred is only used task-synchronously and does
+not require any RCU locks, hence, rcu_dereference_check is
+not required to read from it.
 
 Suggested-by: Jann Horn <jannh@google.com>
 Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 Signed-off-by: Amol Grover <frextrite@gmail.com>
 ---
- include/linux/cred.h | 5 ++---
- kernel/cred.c        | 6 +++---
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ kernel/auditsc.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/cred.h b/include/linux/cred.h
-index 18639c069263..5973791e5fe4 100644
---- a/include/linux/cred.h
-+++ b/include/linux/cred.h
-@@ -291,11 +291,10 @@ static inline void put_cred(const struct cred *_cred)
- /**
-  * current_cred - Access the current task's subjective credentials
-  *
-- * Access the subjective credentials of the current task.  RCU-safe,
-- * since nobody else can modify it.
-+ * Access the subjective credentials of the current task.
+diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+index 4effe01ebbe2..d3510513cdd1 100644
+--- a/kernel/auditsc.c
++++ b/kernel/auditsc.c
+@@ -430,24 +430,19 @@ static int audit_field_compare(struct task_struct *tsk,
+ /* Determine if any context name data matches a rule's watch data */
+ /* Compare a task_struct with an audit_rule.  Return 1 on match, 0
+  * otherwise.
+- *
+- * If task_creation is true, this is an explicit indication that we are
+- * filtering a task rule at task creation time.  This and tsk == current are
+- * the only situations where tsk->cred may be accessed without an rcu read lock.
   */
- #define current_cred() \
--	rcu_dereference_protected(current->cred, 1)
-+	(current->cred)
+ static int audit_filter_rules(struct task_struct *tsk,
+ 			      struct audit_krule *rule,
+ 			      struct audit_context *ctx,
+ 			      struct audit_names *name,
+-			      enum audit_state *state,
+-			      bool task_creation)
++			      enum audit_state *state)
+ {
+ 	const struct cred *cred;
+ 	int i, need_sid = 1;
+ 	u32 sid;
+ 	unsigned int sessionid;
  
- /**
-  * current_real_cred - Access the current task's objective credentials
-diff --git a/kernel/cred.c b/kernel/cred.c
-index 809a985b1793..3956c31d068d 100644
---- a/kernel/cred.c
-+++ b/kernel/cred.c
-@@ -485,7 +485,7 @@ int commit_creds(struct cred *new)
- 	if (new->user != old->user)
- 		atomic_inc(&new->user->processes);
- 	rcu_assign_pointer(task->real_cred, new);
--	rcu_assign_pointer(task->cred, new);
-+	task->cred = new;
- 	if (new->user != old->user)
- 		atomic_dec(&old->user->processes);
- 	alter_cred_subscribers(old, -2);
-@@ -562,7 +562,7 @@ const struct cred *override_creds(const struct cred *new)
- 	 */
- 	get_new_cred((struct cred *)new);
- 	alter_cred_subscribers(new, 1);
--	rcu_assign_pointer(current->cred, new);
-+	current->cred = new;
- 	alter_cred_subscribers(old, -1);
+-	cred = rcu_dereference_check(tsk->cred, tsk == current || task_creation);
++	cred = tsk->cred;
  
- 	kdebug("override_creds() = %p{%d,%d}", old,
-@@ -590,7 +590,7 @@ void revert_creds(const struct cred *old)
- 	validate_creds(old);
- 	validate_creds(override);
- 	alter_cred_subscribers(old, 1);
--	rcu_assign_pointer(current->cred, old);
-+	current->cred = old;
- 	alter_cred_subscribers(override, -1);
- 	put_cred(override);
- }
+ 	for (i = 0; i < rule->field_count; i++) {
+ 		struct audit_field *f = &rule->fields[i];
+@@ -745,7 +740,7 @@ static enum audit_state audit_filter_task(struct task_struct *tsk, char **key)
+ 	rcu_read_lock();
+ 	list_for_each_entry_rcu(e, &audit_filter_list[AUDIT_FILTER_TASK], list) {
+ 		if (audit_filter_rules(tsk, &e->rule, NULL, NULL,
+-				       &state, true)) {
++				       &state)) {
+ 			if (state == AUDIT_RECORD_CONTEXT)
+ 				*key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
+ 			rcu_read_unlock();
+@@ -791,7 +786,7 @@ static enum audit_state audit_filter_syscall(struct task_struct *tsk,
+ 	list_for_each_entry_rcu(e, list, list) {
+ 		if (audit_in_mask(&e->rule, ctx->major) &&
+ 		    audit_filter_rules(tsk, &e->rule, ctx, NULL,
+-				       &state, false)) {
++				       &state)) {
+ 			rcu_read_unlock();
+ 			ctx->current_state = state;
+ 			return state;
+@@ -815,7 +810,7 @@ static int audit_filter_inode_name(struct task_struct *tsk,
+ 
+ 	list_for_each_entry_rcu(e, list, list) {
+ 		if (audit_in_mask(&e->rule, ctx->major) &&
+-		    audit_filter_rules(tsk, &e->rule, ctx, n, &state, false)) {
++		    audit_filter_rules(tsk, &e->rule, ctx, n, &state)) {
+ 			ctx->current_state = state;
+ 			return 1;
+ 		}
 -- 
 2.24.1
 
