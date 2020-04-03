@@ -2,94 +2,99 @@ Return-Path: <SRS0=cuc6=5T=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A8D2C43331
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Apr 2020 21:22:13 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D857C43331
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Apr 2020 21:44:13 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D61F206F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Apr 2020 21:22:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5BEE8206F6
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Apr 2020 21:44:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y4L2Td99"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D61F206F5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paul-moore-com.20150623.gappssmtp.com header.i=@paul-moore-com.20150623.gappssmtp.com header.b="BqhEXmar"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5BEE8206F6
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0338287242;
-	Fri,  3 Apr 2020 21:22:13 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2CE4126CA1;
+	Fri,  3 Apr 2020 21:44:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OvKP2KU89Q3d; Fri,  3 Apr 2020 21:22:12 +0000 (UTC)
+	with ESMTP id avH4v8wYjUgk; Fri,  3 Apr 2020 21:44:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 12B208729F;
-	Fri,  3 Apr 2020 21:22:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7E1412050F;
+	Fri,  3 Apr 2020 21:44:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EDBBCC1831;
-	Fri,  3 Apr 2020 21:22:08 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 14F90C07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 63AACC1831;
+	Fri,  3 Apr 2020 21:44:12 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DCB0EC07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Apr 2020 21:22:07 +0000 (UTC)
+ Fri,  3 Apr 2020 21:44:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id F300787B5D
+ by silver.osuosl.org (Postfix) with ESMTP id AEC3726CA1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Apr 2020 21:22:06 +0000 (UTC)
+ Fri,  3 Apr 2020 21:44:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AO7GzPK8LeWV
+ with ESMTP id HTl11jE72+3L
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Apr 2020 21:22:06 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9B06087E9E
+ Fri,  3 Apr 2020 21:44:09 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6C0A62050F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Apr 2020 21:22:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585948924;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lPxdH1JXe7h2gPkmS5oPinAisRrZCpEB3AZHI2P5ejM=;
- b=Y4L2Td99k0RyXZG9tjmubvSe01vK8us3tCb2ttM8JDU8Z3KpPk1UZ5GffEhIllO2MGcVGk
- qttGlOj2+Z+MFq2MYxiRU3t0PmsiKX77sx2GUbV/DoM7ivhfMPHHw5fX+Lo4Ua2pB2xQia
- T4Fpyx+NkZIDEq2E9jRaKQapbjQn8qc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-eunYrKpcOoiRPxIDITrryw-1; Fri, 03 Apr 2020 17:21:59 -0400
-X-MC-Unique: eunYrKpcOoiRPxIDITrryw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A54211005509;
- Fri,  3 Apr 2020 21:21:54 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 363DD26DF1;
- Fri,  3 Apr 2020 21:21:41 +0000 (UTC)
-Date: Fri, 3 Apr 2020 17:21:38 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Amol Grover <frextrite@gmail.com>
-Message-ID: <20200403212138.kr72jr57ppzsv6rm@madcap2.tricolour.ca>
+ Fri,  3 Apr 2020 21:44:09 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id i16so11010220edy.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 03 Apr 2020 14:44:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vrK7vwUeUnQBBKtc7jLVryrHjAhV8bpINdD94AtArAQ=;
+ b=BqhEXmarpha79beDhAorB7lrnB2lI2KqeqEc9AalPy8EKuqfwoJUOFuhlDZM0NCIp7
+ HYaQ3xyxEV40Uz96yFvPMayjvCC1LJJzKF6j2T8RKSsyGrWS1YzFBBmbQtz77rHlnCeh
+ IctJOBWK1WJPBhECOIuCiEm7oE+XykwiB2gqVQcOaUUkfhBjgNwKahFWqyugap3x+UQq
+ AZSMWWuYDVfRTjAAw9pn9KztugTIxD7EZ+GEijrCzzLS4EXkqSYDYbdDiwYmA+di2JSP
+ F9ks/fvOHQDQdBpdEaSudpR/AdtMfrZ+Fi6ZxkFvnJhuncgORpMdFbSNnXAzXFvGFe66
+ Wq2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vrK7vwUeUnQBBKtc7jLVryrHjAhV8bpINdD94AtArAQ=;
+ b=l41uplKWA6tfFc+GfNK/iiBM8Cw+RkE2p1xjTbhQJLJ7N3kDF/m2zaxltmW/eOPOZx
+ 8RvBFg3SItIbqulJ32KqTl141PimcZ7+Qkw9NFDPVCQI4zWc8FghBUMuVqSty5Vy6oHm
+ CyxGdvyUrtN+5zAOSf99guR8bsKDRiUHiIchAXb1OoBuo59g2sFnCsQo7BgHFZhbo1wA
+ yshZgvF6q+7B/K+phE0xjEjeglHSy7wGUlzXWbmwI9dj4IS61yvbByQ7PQMFv0qYUlk+
+ Ffh85TSYHU0eMiWaXr+Fu/LjfXAaQeauN4zznAbKpwwEfTmcgGSLcB5fFcCaItn6rWSs
+ lM3A==
+X-Gm-Message-State: AGi0PuaBuJrlAXwrcwNrTBQVz69H2WpHm2iT2/kNoJLXUAIubib896G7
+ UKm/yFJq/aHRp654C1rBu/z3NiFjmfKqdCgD+U5u
+X-Google-Smtp-Source: APiQypL59OxS7QNGPWqemd6Y/5Vu/44PzNASHeGhEZ++QX22x2xMJLmmDasdvS6/rH/XJN9sN5fraRX5tZkWBVbXnpo=
+X-Received: by 2002:a17:906:b2c7:: with SMTP id
+ cf7mr10678793ejb.271.1585950247447; 
+ Fri, 03 Apr 2020 14:44:07 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200402055640.6677-1-frextrite@gmail.com>
  <20200402055640.6677-3-frextrite@gmail.com>
  <CAHC9VhTUKepKiGZgAaWDADyTPnnM5unbM65T7jXZ3p8MFTNUuQ@mail.gmail.com>
  <20200403075613.GA2788@workstation-portable>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200403075613.GA2788@workstation-portable>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+ <20200403212138.kr72jr57ppzsv6rm@madcap2.tricolour.ca>
+In-Reply-To: <20200403212138.kr72jr57ppzsv6rm@madcap2.tricolour.ca>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 3 Apr 2020 17:43:56 -0400
+Message-ID: <CAHC9VhTKPvJCsqS9dNg_MSfR1xaHuxhVSJixNPLoAgdC+WqeeA@mail.gmail.com>
+To: Richard Guy Briggs <rgb@redhat.com>
 Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
  Ben Segall <bsegall@google.com>, Joel Fernandes <joel@joelfernandes.org>,
- Vincent Guittot <vincent.guittot@linaro.org>, Paul Moore <paul@paul-moore.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
  James Morris <jamorris@linux.microsoft.com>,
  Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
  Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
@@ -120,110 +125,42 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2020-04-03 13:26, Amol Grover wrote:
-> On Thu, Apr 02, 2020 at 08:56:36AM -0400, Paul Moore wrote:
-> > On Thu, Apr 2, 2020 at 1:57 AM Amol Grover <frextrite@gmail.com> wrote:
-> > > task_struct::cred is only used task-synchronously and does
-> > > not require any RCU locks, hence, rcu_dereference_check is
-> > > not required to read from it.
+On Fri, Apr 3, 2020 at 5:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-04-03 13:26, Amol Grover wrote:
+> > On Thu, Apr 02, 2020 at 08:56:36AM -0400, Paul Moore wrote:
+> > > On Thu, Apr 2, 2020 at 1:57 AM Amol Grover <frextrite@gmail.com> wrote:
+> > > > task_struct::cred is only used task-synchronously and does
+> > > > not require any RCU locks, hence, rcu_dereference_check is
+> > > > not required to read from it.
+> > > >
+> > > > Suggested-by: Jann Horn <jannh@google.com>
+> > > > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> > > > ---
+> > > >  kernel/auditsc.c | 15 +++++----------
+> > > >  1 file changed, 5 insertions(+), 10 deletions(-)
 > > >
-> > > Suggested-by: Jann Horn <jannh@google.com>
-> > > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> > > ---
-> > >  kernel/auditsc.c | 15 +++++----------
-> > >  1 file changed, 5 insertions(+), 10 deletions(-)
-> > 
-> > This is the exact same patch I ACK'd back in February, yes?
-> > 
-> > https://lore.kernel.org/linux-audit/CAHC9VhQCbg1V290bYEZM+izDPRpr=XYXakohnDaMphkBBFgUaA@mail.gmail.com
-> > 
-> 
-> Hi Paul,
-> 
-> That's correct. I've resend the series out of the fear that the first 2
-> patches might've gotten lost as it's been almost a month since I last
-> sent them. Could you please ack this again, and if you don't mind could
-> you please go through the other 2 patches and ack them aswell?
-
-Via who's tree are you expecting this will make it upstream?
-
-> Thanks
-> Amol
-> 
-> > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > > index 4effe01ebbe2..d3510513cdd1 100644
-> > > --- a/kernel/auditsc.c
-> > > +++ b/kernel/auditsc.c
-> > > @@ -430,24 +430,19 @@ static int audit_field_compare(struct task_struct *tsk,
-> > >  /* Determine if any context name data matches a rule's watch data */
-> > >  /* Compare a task_struct with an audit_rule.  Return 1 on match, 0
-> > >   * otherwise.
-> > > - *
-> > > - * If task_creation is true, this is an explicit indication that we are
-> > > - * filtering a task rule at task creation time.  This and tsk == current are
-> > > - * the only situations where tsk->cred may be accessed without an rcu read lock.
-> > >   */
-> > >  static int audit_filter_rules(struct task_struct *tsk,
-> > >                               struct audit_krule *rule,
-> > >                               struct audit_context *ctx,
-> > >                               struct audit_names *name,
-> > > -                             enum audit_state *state,
-> > > -                             bool task_creation)
-> > > +                             enum audit_state *state)
-> > >  {
-> > >         const struct cred *cred;
-> > >         int i, need_sid = 1;
-> > >         u32 sid;
-> > >         unsigned int sessionid;
+> > > This is the exact same patch I ACK'd back in February, yes?
 > > >
-> > > -       cred = rcu_dereference_check(tsk->cred, tsk == current || task_creation);
-> > > +       cred = tsk->cred;
+> > > https://lore.kernel.org/linux-audit/CAHC9VhQCbg1V290bYEZM+izDPRpr=XYXakohnDaMphkBBFgUaA@mail.gmail.com
 > > >
-> > >         for (i = 0; i < rule->field_count; i++) {
-> > >                 struct audit_field *f = &rule->fields[i];
-> > > @@ -745,7 +740,7 @@ static enum audit_state audit_filter_task(struct task_struct *tsk, char **key)
-> > >         rcu_read_lock();
-> > >         list_for_each_entry_rcu(e, &audit_filter_list[AUDIT_FILTER_TASK], list) {
-> > >                 if (audit_filter_rules(tsk, &e->rule, NULL, NULL,
-> > > -                                      &state, true)) {
-> > > +                                      &state)) {
-> > >                         if (state == AUDIT_RECORD_CONTEXT)
-> > >                                 *key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
-> > >                         rcu_read_unlock();
-> > > @@ -791,7 +786,7 @@ static enum audit_state audit_filter_syscall(struct task_struct *tsk,
-> > >         list_for_each_entry_rcu(e, list, list) {
-> > >                 if (audit_in_mask(&e->rule, ctx->major) &&
-> > >                     audit_filter_rules(tsk, &e->rule, ctx, NULL,
-> > > -                                      &state, false)) {
-> > > +                                      &state)) {
-> > >                         rcu_read_unlock();
-> > >                         ctx->current_state = state;
-> > >                         return state;
-> > > @@ -815,7 +810,7 @@ static int audit_filter_inode_name(struct task_struct *tsk,
-> > >
-> > >         list_for_each_entry_rcu(e, list, list) {
-> > >                 if (audit_in_mask(&e->rule, ctx->major) &&
-> > > -                   audit_filter_rules(tsk, &e->rule, ctx, n, &state, false)) {
-> > > +                   audit_filter_rules(tsk, &e->rule, ctx, n, &state)) {
-> > >                         ctx->current_state = state;
-> > >                         return 1;
-> > >                 }
-> > > --
-> > > 2.24.1
-> > 
-> > paul moore
+> >
+> > Hi Paul,
+> >
+> > That's correct. I've resend the series out of the fear that the first 2
+> > patches might've gotten lost as it's been almost a month since I last
+> > sent them. Could you please ack this again, and if you don't mind could
+> > you please go through the other 2 patches and ack them aswell?
+>
+> Via who's tree are you expecting this will make it upstream?
 
-- RGB
+When I asked a similar question back in February the response was
+basically not the audit tree.
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
-
+-- 
+paul moore
+www.paul-moore.com
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
