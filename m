@@ -2,104 +2,100 @@ Return-Path: <SRS0=pM+b=5W=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D27CC2BA1A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Apr 2020 22:10:14 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E1EBC2BA80
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Apr 2020 22:15:15 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 52A2120768
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Apr 2020 22:10:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 352A6206C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Apr 2020 22:15:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="bSjg+S5s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 52A2120768
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="UmseYPFd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 352A6206C3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2A982858A6;
-	Mon,  6 Apr 2020 22:10:14 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 107CD8685D;
+	Mon,  6 Apr 2020 22:15:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PZ_-LwgrHkHZ; Mon,  6 Apr 2020 22:10:13 +0000 (UTC)
+	with ESMTP id W9IjlVxpRe0a; Mon,  6 Apr 2020 22:15:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 23498858BA;
-	Mon,  6 Apr 2020 22:09:55 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 56C1B8672C;
+	Mon,  6 Apr 2020 22:15:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F776C1AE2;
-	Mon,  6 Apr 2020 22:09:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F4FAC089E;
+	Mon,  6 Apr 2020 22:15:12 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3BA5DC0177
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 82B13C0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Apr 2020 22:09:54 +0000 (UTC)
+ Mon,  6 Apr 2020 22:15:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2AB2B88493
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6DAF58849C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Apr 2020 22:09:54 +0000 (UTC)
+ Mon,  6 Apr 2020 22:15:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1ZpjFRyebuSj
+ with ESMTP id iTtrIn8Jx7tk
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Apr 2020 22:09:53 +0000 (UTC)
+ Mon,  6 Apr 2020 22:15:09 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3194788466
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+ [209.85.160.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id F097D88493
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Apr 2020 22:09:52 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id u4so17970645qkj.13
+ Mon,  6 Apr 2020 22:15:08 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id 14so1234149qtp.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 06 Apr 2020 15:09:52 -0700 (PDT)
+ Mon, 06 Apr 2020 15:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=gIe8CkLjM82wDUUleKDpjwdoMMyk404Cqic4JU9Nero=;
- b=bSjg+S5s9dw1lm4JVKtoxcEC0us/Dz3yySWlk0kXzH0pfe6LwjY5LRiWDpPwKmNdLQ
- IFcCcERwJX97e/R/CqsDHJ65IkA+Fa/yGFMs9uW21KG6zxmWyB7VXyMAhB9GeP9MM8Zv
- aqCmjCB18+K+Aqu7cf2tDXZG1CtGJ6U6aKeuGS0gQylCCNsx2+C2R1pcGiqLauQ67wUw
- rDw4vYWthwd3JVsGnaWMTIcHC93ftfEqK8rD9C2kUyC/sqaO85eaYLQMdgdcItvfEDL7
- IO0hxYyUDb3TJ53eMVw5dzS2cFcxK72mQFaRTpztu9zBkH6TniwXZygMq66c3UDXAlP7
- O2sg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j72I6B2yv1MtQdVXUp6mfzONbbVa//fDwmUTKLmhZlM=;
+ b=UmseYPFdd9OfC6LhQ+NAWOTbLOsEpFb06VKPLLcq3VeJFuFwva7Bg5Bglq5Z8WlJBY
+ qazf1OFqJZw0RMObUPU24HzIGgofGjlz7oNnwpQVtW2HYVx2ARu2/gXxzAPRfev3g2Yc
+ 0rXQdub7D4sLzZR6PE4GVGQ2vWuokGmZxWF5OWTuynE62r/VRhMq7Ff9Co8wIMde3tid
+ S04vh6x8Xz1q89PJiffvk0mkeb68WqucLMDSzdwWAnj0aLoS/8P+tFDx5Bda5dBRbrBe
+ PHDBXGtw4FvPhYXQFGBfm6kI9quTC/6Hg2alzxea5pWiUzDYf6RXpslx0EyT37QQetYg
+ z9wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=gIe8CkLjM82wDUUleKDpjwdoMMyk404Cqic4JU9Nero=;
- b=AjT6nOh1H5EospnC39AgbSgDScsWFXt3CT3EDEgjDHsbxaMSJyywvAMPL2EwuozPha
- sOszsaPW5tIoJqEFG3cpj6yv9Jpu66kLrAhj/ja6lbsCcusatemBPiF5CfOEEnXDvt+e
- qIYI3pO3BsdkaZjJzvITni4YIF4d80J6UDtB279JLF+v3HVf8x0iRFYtkDQEcQDHGpdO
- qRCszcX7vgVqnEDtt6HSxkR3lQbDzYgLKD6tBFmugWTs+mr8pnWzqD/Uxz/hatMm1xgq
- P+mqkpocUS63I37QYlD0BLvmOCzqRMtiXAnJxB64qfm9z348E/naL7PBwxYrkZXEQAmG
- yifA==
-X-Gm-Message-State: AGi0PuakfJVSFFvjnklGN2TunbU7KcUhPkV+qFYVIL0Lf2YbP8/ypCmg
- QkmN8RTm0TqdlNyc2MfnBJahZQ==
-X-Google-Smtp-Source: APiQypIwoRkcP3Q7jH+/lYhUjs6IyMIdwndWokuXoN8e9IyOmyvKF9OBaJWBTF2HZflWMyOS71+cKw==
-X-Received: by 2002:a37:583:: with SMTP id 125mr11379230qkf.351.1586210991809; 
- Mon, 06 Apr 2020 15:09:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j72I6B2yv1MtQdVXUp6mfzONbbVa//fDwmUTKLmhZlM=;
+ b=N3Bu1YOIkHvioLawYUcGodhoRwqL5p6pMQIQ2UEoJEcx52q86GgH05I0Gil6BEbN5l
+ O0EG55Z63GFHQqOsXznx1mkaidnYLaCbw6LHwiGQD45kTQsUq0Fb6euhBiYovD820iA8
+ YJaF3cpHTY5ZEPWm8eyiPYzct9TbyPND9TEublQeKILT0B5XZeSmrbNJt+j2pwsPkd9T
+ PYc3j/XNIn+PUxjNV/LFFeGCDwnMggo91OVqu8gEy6j8OyO8u0nORNrP54uFuCw0U5wt
+ nKI5K4xM7Qf8BcpEjm0xPVY9McopmWCdpZWGsrsrvH47VkTWrPr5hmQbHQW9/8sWXAIb
+ UlRg==
+X-Gm-Message-State: AGi0PuZhwBr8J6k5sYiOSO/uz3usEEXxeepippnxl3sbWIM94hWkJvnB
+ s61rfLUF07cuuv5Dd309urWTYg==
+X-Google-Smtp-Source: APiQypIpf/UbhzyzYpY0P1+j4rwvPJzBNCD6XCGWvf++pPQWMWFWNGNj7BarpYyeNQ+BwIugzCGX4g==
+X-Received: by 2002:aed:32c7:: with SMTP id z65mr1711174qtd.81.1586211307951; 
+ Mon, 06 Apr 2020 15:15:07 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id x66sm10581544qka.121.2020.04.06.15.09.49
+ by smtp.gmail.com with ESMTPSA id e10sm1834923qkl.48.2020.04.06.15.15.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 15:09:51 -0700 (PDT)
-Message-ID: <def1997964b04f73fe7eeae5c20b5109ee2094df.camel@massaru.org>
+ Mon, 06 Apr 2020 15:15:07 -0700 (PDT)
 From: Vitor Massaru Iha <vitor@massaru.org>
-To: Brendan Higgins <brendanhiggins@google.com>
-Date: Mon, 06 Apr 2020 19:09:48 -0300
-In-Reply-To: <CAFd5g47Ot-MfxzYmU8kfxpfv2pWhgb_2WigouuHnPT+20Ejk_w@mail.gmail.com>
-References: <20200401013639.16388-1-vitor@massaru.org>
- <CAFd5g47Ot-MfxzYmU8kfxpfv2pWhgb_2WigouuHnPT+20Ejk_w@mail.gmail.com>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+To: kunit-dev@googlegroups.com
+Date: Mon,  6 Apr 2020 19:15:03 -0300
+Message-Id: <20200406221503.49760-1-vitor@massaru.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "open list:KERNEL
- SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] kunit: Fix kunit.py run
- --build_dir='<foo>' fails on "unclean" trees
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, brendanhiggins@google.com,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v3] kunit: Fix kunit.py run
+	--build_dir='<foo>' fails on "unclean" trees
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,41 +113,98 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 2020-04-06 at 11:12 -0700, Brendan Higgins wrote:
-> On Tue, Mar 31, 2020 at 6:36 PM Vitor Massaru Iha <vitor@massaru.org>
-> wrote:
-> > Fix this bug: https://bugzilla.kernel.org/show_bug.cgi?id=205219
-> > 
-> > For some reason, the environment variable ARCH is used instead of
-> > ARCH
-> > passed as an argument, this patch uses a copy of the env, but using
-> > ARCH=um and CROSS_COMPILER='' to avoid this problem.
-> > 
-> > This patch doesn't change the user's environment variables,
-> > avoiding
-> > side effects.
-> > 
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> 
-> Sorry for the delayed reply. I had two people finish up on my team
-> last week and I needed to do some things for that. You now have my
-> undivided attention.
+Fix this bug: https://bugzilla.kernel.org/show_bug.cgi?id=205219
 
-np
+For some reason, the environment variable ARCH is used instead of ARCH
+passed as an argument, this patch uses a copy of the env, but using
+ARCH=um and CROSS_COMPILER='' to avoid this problem.
 
-> So, I tried to apply this patch and it still doesn't apply on
-> kselftest/kunit. At this point, basing your changes on
-> torvalds/master
-> would be fine since kselftest/kunit just got merged for 5.7.
-> 
-> Can you use the --base branch option when you send your next revision
-> so I know what branch you are working against (just to be sure)?
+This patch doesn't change the user's environment variables, avoiding
+side effects.
 
-Sure, I'll do that.
+Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+---
+v2:
+ - Use the correct next branch
 
-Thanks!
-Vitor
+v3:
+ - Use torvalds/master branch
+ - Use base parameter on git send-email
+---
+ tools/testing/kunit/kunit_kernel.py | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
+diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+index 63dbda2d029f..96216c699fde 100644
+--- a/tools/testing/kunit/kunit_kernel.py
++++ b/tools/testing/kunit/kunit_kernel.py
+@@ -20,6 +20,7 @@ import kunit_parser
+ KCONFIG_PATH = '.config'
+ kunitconfig_path = '.kunitconfig'
+ BROKEN_ALLCONFIG_PATH = 'tools/testing/kunit/configs/broken_on_uml.config'
++env = dict(os.environ.copy(), ARCH='um', CROSS_COMPILE='')
+ 
+ class ConfigError(Exception):
+ 	"""Represents an error trying to configure the Linux kernel."""
+@@ -41,13 +42,15 @@ class LinuxSourceTreeOperations(object):
+ 			raise ConfigError(e.output)
+ 
+ 	def make_olddefconfig(self, build_dir, make_options):
+-		command = ['make', 'ARCH=um', 'olddefconfig']
++		command = ['make', 'olddefconfig']
+ 		if make_options:
+ 			command.extend(make_options)
+ 		if build_dir:
+ 			command += ['O=' + build_dir]
+ 		try:
+-			subprocess.check_output(command, stderr=subprocess.PIPE)
++			subprocess.check_output(command,
++						stderr=subprocess.PIPE,
++						env=env)
+ 		except OSError as e:
+ 			raise ConfigError('Could not call make command: ' + e)
+ 		except subprocess.CalledProcessError as e:
+@@ -57,9 +60,10 @@ class LinuxSourceTreeOperations(object):
+ 		kunit_parser.print_with_timestamp(
+ 			'Enabling all CONFIGs for UML...')
+ 		process = subprocess.Popen(
+-			['make', 'ARCH=um', 'allyesconfig'],
++			['make', 'allyesconfig'],
+ 			stdout=subprocess.DEVNULL,
+-			stderr=subprocess.STDOUT)
++			stderr=subprocess.STDOUT,
++			env=env)
+ 		process.wait()
+ 		kunit_parser.print_with_timestamp(
+ 			'Disabling broken configs to run KUnit tests...')
+@@ -71,13 +75,13 @@ class LinuxSourceTreeOperations(object):
+ 			'Starting Kernel with all configs takes a few minutes...')
+ 
+ 	def make(self, jobs, build_dir, make_options):
+-		command = ['make', 'ARCH=um', '--jobs=' + str(jobs)]
++		command = ['make', '--jobs=' + str(jobs)]
+ 		if make_options:
+ 			command.extend(make_options)
+ 		if build_dir:
+ 			command += ['O=' + build_dir]
+ 		try:
+-			subprocess.check_output(command)
++			subprocess.check_output(command, env=env)
+ 		except OSError as e:
+ 			raise BuildError('Could not call execute make: ' + e)
+ 		except subprocess.CalledProcessError as e:
+@@ -91,7 +95,8 @@ class LinuxSourceTreeOperations(object):
+ 		with open(outfile, 'w') as output:
+ 			process = subprocess.Popen([linux_bin] + params,
+ 						   stdout=output,
+-						   stderr=subprocess.STDOUT)
++						   stderr=subprocess.STDOUT,
++						   env=env)
+ 			process.wait(timeout)
+ 
+ 
+-- 
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
