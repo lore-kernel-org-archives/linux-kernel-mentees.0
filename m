@@ -1,110 +1,112 @@
-Return-Path: <SRS0=krlj=5U=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=pM+b=5W=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-7.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81542C43331
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  4 Apr 2020 02:53:36 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B36BCC2BA1E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Apr 2020 07:06:28 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3950A20737
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  4 Apr 2020 02:53:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 767FC206F8
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Apr 2020 07:06:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DS3HxuwN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3950A20737
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUl+6I4x"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 767FC206F8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F3D87868BE;
-	Sat,  4 Apr 2020 02:53:35 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1F7EE22FEE;
+	Mon,  6 Apr 2020 07:06:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id T541XHKflDfx; Mon,  6 Apr 2020 07:06:27 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 682C422F4C;
+	Mon,  6 Apr 2020 07:06:27 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4DF00C1AE2;
+	Mon,  6 Apr 2020 07:06:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 536C2C0177
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  6 Apr 2020 07:06:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4798F85F98
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  6 Apr 2020 07:06:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cnPg6jrb8U05; Sat,  4 Apr 2020 02:53:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id AEC4186276;
-	Sat,  4 Apr 2020 02:53:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 93013C1AE2;
-	Sat,  4 Apr 2020 02:53:34 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4C12EC07FF
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  4 Apr 2020 02:53:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 39DF188551
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  4 Apr 2020 02:53:33 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id osi2x0CXeDxG
+ with ESMTP id FQ5uQeopDi8a
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  4 Apr 2020 02:53:32 +0000 (UTC)
+ Mon,  6 Apr 2020 07:06:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3EA22883A6
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3211385F7F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  4 Apr 2020 02:53:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585968810;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MLlUu/KBqpNQ9j9WA/dLvHKGWxsB53wUD6hlU/RrFUk=;
- b=DS3HxuwNnb7FiQRj06cEnzn+SlhAtZHP1AtibpvO/31pqt3z2Pb622fxu/HVoIz7YJ3ir8
- FlHJlSbX3L/gW1+48BCj31Kbxl+C5RkQsbfV8ewrmdGUtoIqotNyddOeemWzM7hkPqDHud
- eSF4fRyrb0mz1AqaNdVfASYRyyzIUxQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-ZwPsPAlBMeeGXr2VcAle2A-1; Fri, 03 Apr 2020 22:53:23 -0400
-X-MC-Unique: ZwPsPAlBMeeGXr2VcAle2A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47D1113F8;
- Sat,  4 Apr 2020 02:53:20 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF1D55C28F;
- Sat,  4 Apr 2020 02:53:07 +0000 (UTC)
-Date: Fri, 3 Apr 2020 22:53:04 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Message-ID: <20200404025304.llfj5xw23sapifgm@madcap2.tricolour.ca>
-References: <20200402055640.6677-1-frextrite@gmail.com>
- <20200402055640.6677-3-frextrite@gmail.com>
- <CAHC9VhTUKepKiGZgAaWDADyTPnnM5unbM65T7jXZ3p8MFTNUuQ@mail.gmail.com>
- <20200403075613.GA2788@workstation-portable>
- <20200403212138.kr72jr57ppzsv6rm@madcap2.tricolour.ca>
- <CAHC9VhTKPvJCsqS9dNg_MSfR1xaHuxhVSJixNPLoAgdC+WqeeA@mail.gmail.com>
+ Mon,  6 Apr 2020 07:06:25 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id z3so6057357pjr.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 06 Apr 2020 00:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=RqJfBxc+5hEXzJUkSWB0gPw7NrIyI3K3Pr3732qHYAQ=;
+ b=fUl+6I4x7XwQcdmoCTE2Z0XeWKNZEAvwwQhxESe8sRcEQ6vn+AfhNO23bXM8aiWdRe
+ wVnHoSlX0U3b04JnkGrI5Ay7r0HfzNA0pKXN6fKs/gP6RV4tnDNoiDyKyGKhADiOl43n
+ F+mF6OdX/tADPC9HmEUR2PJJhzbFPdsXHduQuuFTWnIM3HbbkxMv3OvuJKYbTAl42H8N
+ 1djGWbVFtbtxKYMtodVAdgw7d1ViLwhPqusfpHjBZmhP8Wby1fHN6KWDj01D0FRMHbs2
+ 40LctGPDNwQdiPuTkW3RvZYYmwy5GjBoAHY3eo1S34N7o4Y+/bM9ACEMqEVOAq1Y+/ZZ
+ d+Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=RqJfBxc+5hEXzJUkSWB0gPw7NrIyI3K3Pr3732qHYAQ=;
+ b=pWDAtas3z6U4ukmcALHJegGlvPwDxf/cRZgBw0jwoGkZfhPf5u3eJHvZTOR4sl21Jt
+ PnR2SHJGrPBYDX0JjkoPRi0V9R5Nbr5HpksX5OJtgeHRC/PRjRrrojYsPSSlVxg/PyBA
+ NZEvuThoOBkcvC+M4G3e8zy4pa4QIp6J5QJaEmQGye0FiPzSjzemr37worg3ULdVzhNs
+ wy9GJhYsK6Jy2zLK6lDXS4LnoN5BapC7PXyBxk4eJaU9WIcuuOJ3Ilm2cWRD+gjjnU3Y
+ ic+xvLOVd6x9sIfNWJx3OTZCRxE+u4u3LRz0WOSyOdc0n/NIZ9y5UjSXUviXpWPTLR+3
+ Ooqw==
+X-Gm-Message-State: AGi0PuapUXXs/fXdZ2eql48Ndu+V5pRb7qiHUUEqsuXFnCk1fMELNaxt
+ GXOblmztEDVkmGvHQy7vHeM=
+X-Google-Smtp-Source: APiQypKNbF2E3D32XKuBDPJhhlvxxo8J2rW27s0dKvSTxEZx7hANy5tViHe3jOKRRTeN/AfHY6j/Qg==
+X-Received: by 2002:a17:902:507:: with SMTP id 7mr19209367plf.42.1586156784681; 
+ Mon, 06 Apr 2020 00:06:24 -0700 (PDT)
+Received: from workstation-LAP.localdomain ([103.87.57.178])
+ by smtp.gmail.com with ESMTPSA id m2sm11318884pjk.4.2020.04.06.00.06.19
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 06 Apr 2020 00:06:23 -0700 (PDT)
+Date: Mon, 6 Apr 2020 12:36:12 +0530
+From: Amol Grover <frextrite@gmail.com>
+To: "David S . Miller" <davem@davemloft.net>
+Message-ID: <20200406070612.GA240@workstation-LAP.localdomain>
+References: <20200216172653.19772-1-frextrite@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAHC9VhTKPvJCsqS9dNg_MSfR1xaHuxhVSJixNPLoAgdC+WqeeA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Ben Segall <bsegall@google.com>, Joel Fernandes <joel@joelfernandes.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- James Morris <jamorris@linux.microsoft.com>,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+In-Reply-To: <20200216172653.19772-1-frextrite@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Jeremy Sowden <jeremy@azazel.net>, "Paul E . McKenney" <paulmck@kernel.org>,
+ Johannes Berg <johannes.berg@intel.com>, netdev@vger.kernel.org,
+ Florent Fourcot <florent.fourcot@wifirst.fr>, Florian Westphal <fw@strlen.de>,
+ linux-kernel@vger.kernel.org, Jozsef Kadlecsik <kadlec@netfilter.org>,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, coreteam@netfilter.org,
+ netfilter-devel@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
+ Jakub Kicinski <kuba@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
- Steven Rostedt <rostedt@goodmis.org>, Shakeel Butt <shakeelb@google.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org,
- linux-audit@redhat.com, "Eric W . Biederman" <ebiederm@xmission.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH 3/3 RESEND] auditsc: Do not use
- RCU primitive to read from cred pointer
+ Pablo Neira Ayuso <pablo@netfilter.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH] netfilter: ipset: Pass lockdep
+	expression to RCU lists
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,56 +124,52 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2020-04-03 17:43, Paul Moore wrote:
-> On Fri, Apr 3, 2020 at 5:22 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-04-03 13:26, Amol Grover wrote:
-> > > On Thu, Apr 02, 2020 at 08:56:36AM -0400, Paul Moore wrote:
-> > > > On Thu, Apr 2, 2020 at 1:57 AM Amol Grover <frextrite@gmail.com> wrote:
-> > > > > task_struct::cred is only used task-synchronously and does
-> > > > > not require any RCU locks, hence, rcu_dereference_check is
-> > > > > not required to read from it.
-> > > > >
-> > > > > Suggested-by: Jann Horn <jannh@google.com>
-> > > > > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> > > > > ---
-> > > > >  kernel/auditsc.c | 15 +++++----------
-> > > > >  1 file changed, 5 insertions(+), 10 deletions(-)
-> > > >
-> > > > This is the exact same patch I ACK'd back in February, yes?
-> > > >
-> > > > https://lore.kernel.org/linux-audit/CAHC9VhQCbg1V290bYEZM+izDPRpr=XYXakohnDaMphkBBFgUaA@mail.gmail.com
-> > > >
-> > >
-> > > Hi Paul,
-> > >
-> > > That's correct. I've resend the series out of the fear that the first 2
-> > > patches might've gotten lost as it's been almost a month since I last
-> > > sent them. Could you please ack this again, and if you don't mind could
-> > > you please go through the other 2 patches and ack them aswell?
-> >
-> > Via who's tree are you expecting this will make it upstream?
+On Sun, Feb 16, 2020 at 10:56:54PM +0530, Amol Grover wrote:
+> ip_set_type_list is traversed using list_for_each_entry_rcu
+> outside an RCU read-side critical section but under the protection
+> of ip_set_type_mutex.
 > 
-> When I asked a similar question back in February the response was
-> basically not the audit tree.
+> Hence, add corresponding lockdep expression to silence false-positive
+> warnings, and harden RCU lists.
+> 
+> Signed-off-by: Amol Grover <frextrite@gmail.com>
+> ---
 
-Well, I went checking mingo and akpm's trees and didn't find 1/3 and 2/3
-there even though I thought 3/3 was in audit/stable-5.6.  I was mistaken,
-that patch in audit/stable-5.6 is a previous rcu fix for auditd_conn and
-not 3/3.
+Hi David
 
-> paul moore
+Could you please go through this patch aswell? This patch was directed to 
+preemptively fix the _suspicious RCU usage_ warning which is now also
+being reported by Kernel Test Robot.
 
-- RGB
+[   11.654186] =============================
+[   11.654619] WARNING: suspicious RCU usage
+[   11.655022] 5.6.0-rc1-00179-gdb4ead2cd5253 #1 Not tainted
+[   11.655583] -----------------------------
+[   11.656001] net/netfilter/ipset/ip_set_core.c:89 RCU-list traversed in non-reader section!!
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+Thanks
+Amol
 
+>  net/netfilter/ipset/ip_set_core.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/net/netfilter/ipset/ip_set_core.c b/net/netfilter/ipset/ip_set_core.c
+> index cf895bc80871..97c851589160 100644
+> --- a/net/netfilter/ipset/ip_set_core.c
+> +++ b/net/netfilter/ipset/ip_set_core.c
+> @@ -86,7 +86,8 @@ find_set_type(const char *name, u8 family, u8 revision)
+>  {
+>  	struct ip_set_type *type;
+>  
+> -	list_for_each_entry_rcu(type, &ip_set_type_list, list)
+> +	list_for_each_entry_rcu(type, &ip_set_type_list, list,
+> +				lockdep_is_held(&ip_set_type_mutex))
+>  		if (STRNCMP(type->name, name) &&
+>  		    (type->family == family ||
+>  		     type->family == NFPROTO_UNSPEC) &&
+> -- 
+> 2.24.1
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
