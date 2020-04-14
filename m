@@ -2,96 +2,101 @@ Return-Path: <SRS0=g7AB=56=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C56C2BB1D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Apr 2020 19:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A7FC2BB1D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Apr 2020 22:51:11 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 45AEB2074D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Apr 2020 19:27:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9D6132074D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Apr 2020 22:51:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="wxgN2j2p"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45AEB2074D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="sVFynu6u"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D6132074D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 282AF85C7A;
-	Tue, 14 Apr 2020 19:27:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 65AB28592F;
+	Tue, 14 Apr 2020 22:51:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6PtoFvJQzlGc; Tue, 14 Apr 2020 19:27:19 +0000 (UTC)
+	with ESMTP id Wzphq1woyjMC; Tue, 14 Apr 2020 22:51:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8C77D85C28;
-	Tue, 14 Apr 2020 19:27:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EF9DE85913;
+	Tue, 14 Apr 2020 22:51:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8043CC1D7D;
-	Tue, 14 Apr 2020 19:27:19 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A6963C0172
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D9465C089E;
+	Tue, 14 Apr 2020 22:51:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93896C0172
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 19:27:18 +0000 (UTC)
+ Tue, 14 Apr 2020 22:51:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 93F02214F6
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 820DD85932
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 19:27:18 +0000 (UTC)
+ Tue, 14 Apr 2020 22:51:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lQkVShFIkirF
+ with ESMTP id uAbLqlhiw70s
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 19:27:17 +0000 (UTC)
+ Tue, 14 Apr 2020 22:51:04 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
- [209.85.219.194])
- by silver.osuosl.org (Postfix) with ESMTPS id 998FF2045C
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A9D9D8592F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 19:27:17 +0000 (UTC)
-Received: by mail-yb1-f194.google.com with SMTP id n188so7271946ybc.3
+ Tue, 14 Apr 2020 22:51:00 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id v7so15365660qkc.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 12:27:17 -0700 (PDT)
+ Tue, 14 Apr 2020 15:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=liJTaPqBLUEFcRe9N1A8zRM5HSWs7o0PCEhm0b1f3gc=;
- b=wxgN2j2p6EaMXyAzSU997E06gylxThv/R7SidN4P1+l9zc+VA5FqfYE2jKH6iTTxN8
- eIPzfkgru7UpPgLF9dG1dXO9m+IwulKuHVlDuAQXRVn3NJej+FfZ3yiuBO+LJnCDfpbP
- cnzOlrOA994QBvoseVasPOJKMQwPigP8beN8LS4lKeYvV/0+jLIx0S8LmqyOaeXfQ+7G
- EaevnjyZQSXfHf7g4FOYbJ8nEh7p7+It/0CdP9AW29YeRn1rEe9mkV7eA5m44qo7eEGO
- lEHgv+KxK9FAXDk6TuwmuPBpx6p1U6M5kOH7Z/uo3NXmthbLLhPEAnoYg4WGyRlrCCfz
- BPOw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8GmpDGYHNWO1HVRGOCC1HUE41KMOfYWwP4MYA86x9Hs=;
+ b=sVFynu6uxe/1IYpgyK5vHozGoALV27D0esYW0h/gqLr0R7i12qBcB6m3tuCoCBvSR/
+ BarOB3ND2X8zcoVR8cG93fmbKXTwES+Bn+7jDRt+FBXoQbaacVQVx8McUH/AmdkYxbok
+ 63d5rf8DlAcQa7ADrPPCgPYw/57YH73qGw116x0sBUJRgUGLbVs/ytJr8gpCbqdD5ZvV
+ OrGNjkvwP3rRhDPyjAAG6rolsWKXGZRj0Kaw1o1pkr7pArW8k6v1bvq/CXlpai1WXOua
+ qU6t2iP7oSQPBPr8zmP6wqJUMsS3B03rNjKLW6BqaAQfxhEff/kntWZTIyXIafVTGvZM
+ BGhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=liJTaPqBLUEFcRe9N1A8zRM5HSWs7o0PCEhm0b1f3gc=;
- b=Sywp8bHRHQ87abMRt8n7cHFW75Ours9/29orq4JNxNJapytqcwbwmGIthUV19Lq1hg
- CsDUSfgUqgb/R3L1LIgSdIi34OmNlIBFPPYvHywQ3IKBBvjjw8hjn+0PvOGb0YDU0sMl
- gp9jm0y+N0JHdigtl909IpDfi9UIR1axIT2thLeqip8t+wu69uR4msRVbxi6/7B6cbR1
- QMeTZvjJMT/oHMv/kHbKwMU/RrLoB/Ch5p4+kqvIwEX3S4o1BG0Zu3ve3lKa0MbRWPxW
- Y6bKzmkmnWL6dEBXeInOonPl+skUZK6J5JBPpTiBb/BHDzIjUgaCmboft6GnMAqIn46K
- p8OQ==
-X-Gm-Message-State: AGi0PubQlx7+GmtWYRzFq7gRz7DCbTjfIYUeJLE7l/1nAEW4HZ+we0F9
- 6BgXRqJ5tyIMrvlPC+EFaqFfBDIkdlW+cbrzEtLq/A==
-X-Google-Smtp-Source: APiQypKzlwcgNmOnL/Q8YINWwYJceLJcSuKdggUvYamBPmZ0xmNr3yDXnfyO6eTBHG1fEWVs3lgau2qo4YjURlerSx4=
-X-Received: by 2002:a05:6902:505:: with SMTP id
- x5mr2602845ybs.286.1586892436480; 
- Tue, 14 Apr 2020 12:27:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200414012132.32721-1-vitor@massaru.org>
- <CAFd5g44Bs4gfDh82pcwbN5_z7Cuy9SY8UdwftWLGoVCMZZjE3Q@mail.gmail.com>
-In-Reply-To: <CAFd5g44Bs4gfDh82pcwbN5_z7Cuy9SY8UdwftWLGoVCMZZjE3Q@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8GmpDGYHNWO1HVRGOCC1HUE41KMOfYWwP4MYA86x9Hs=;
+ b=VIAJWbvWTXUg/m+Idijp/5adofJ7KU/nIyegFV1B+2rE1vySjkxEAs9ioItbObKArl
+ UY7w4W0qlGm/ktfRNhHC4s4H9BrB6zp/E2q25baJTN8h+3ub2SSJCn4f9/b8vrgoTpny
+ vl/MCcov+rcv2U2cvHtLlhnHPc5GTjfpVwgkdLYAU6NL2kv7w3g/flfrBveJAemacCHn
+ tIo5bJK3ykdy4+jaE0P7rOBU1D1fYNQ3syBxZ4BB+8qYjQ6iX/lNiMOI9X+RJWh/PCQ4
+ 9F839w6U6sC8J5SGIL9NDa5VKSQXrM5gX4+M19foVLcAkLeQyrOzPX0iFznz1XcKJIE7
+ 8AfA==
+X-Gm-Message-State: AGi0PuaXKay6B7paqHbfED6nDqql7lRYg/Jm4GKU/NA9SuMscqv5AKyo
+ KFPUIld6odj3jRZfGyPRBRmKsA==
+X-Google-Smtp-Source: APiQypJcvNv4pDReOcJEKCheR7ohpA3eksDlyYI4BNeYNc+nCmyMn5w0jJ+afnHpid9Nx37EUAFj3A==
+X-Received: by 2002:a37:4ed5:: with SMTP id
+ c204mr23485573qkb.328.1586904659318; 
+ Tue, 14 Apr 2020 15:50:59 -0700 (PDT)
+Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
+ by smtp.gmail.com with ESMTPSA id j90sm11747701qte.20.2020.04.14.15.50.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Apr 2020 15:50:58 -0700 (PDT)
 From: Vitor Massaru Iha <vitor@massaru.org>
-Date: Tue, 14 Apr 2020 16:26:40 -0300
-Message-ID: <CADQ6JjWsZ4-uEoo49uTBnRtxJvEXgqaSc24vxrrSon4XevM_EQ@mail.gmail.com>
-To: Brendan Higgins <brendanhiggins@google.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] kbuild: ensure mrproper
-	removes arch/$(SUBARCH)/include/generated/
+To: kunit-dev@googlegroups.com
+Date: Tue, 14 Apr 2020 19:50:54 -0300
+Message-Id: <20200414225054.81721-1-vitor@massaru.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Cc: linux-kernel@vger.kernel.or, linux-kernel-mentees@lists.linuxfoundation.org,
+ brendanhiggins@google.com, linux-kselftest@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] kunit: use --build_dir=.kunit as
+	default
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,55 +114,50 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Apr 14, 2020 at 4:10 PM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> - Everyone except LKMP people
->
-> On Mon, Apr 13, 2020 at 6:21 PM Vitor Massaru Iha <vitor@massaru.org> wrote:
-> >
-> > In the following use case, when compiling the kernel for the UML
-> > architecture, for example:
-> >
-> >  * `make ARCH=um defconfig && make ARCH=um -j8`,
-> >
-> > SUBARCH files are generated, however when we run the command:
-> >
-> >  * `mrproper ARCH=um`
-> >
-> > the files `arch/$(SUBARCH)/include/generated/ aren't cleaned up.
-> >
-> > This generates compilation errors by running the following command:
-> >
-> >  * `make ARCH=um defconfig O=./build_um && make ARCH=um -j8 O=./build_um`
-> >
-> > This PATCH fix that problem.
-> >
-> > This makes it possible to compile on different architectures that use the
-> > SUBARCH variable, in different build directories and root directory of the
-> > linux directory. This is important because we can compile without the object
-> > files being overwritten. This reduces the re-compilation time in this use case.
-> >
-> > Besides that, in the workflow of developing unit tests, using kunit, and
-> > compiling in different architectures to develop or test a PATCH, this use case
-> > applies.
-> >
-> >  * This bug was introduced in this commit a788b2ed81abe
-> >
-> >  * Related bug: https://bugzilla.kernel.org/show_bug.cgi?id=205219
-> >
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-> > Tested-by: Brendan Higgins <brendanhiggins@google.com>
->
-> Looks great!
+To make KUnit easier to use, and to avoid overwriting object and
+.config files, the default KUnit build directory is set to .kunit
 
-Thanks!
+ * Related bug: https://bugzilla.kernel.org/show_bug.cgi?id=205221
 
-> Should linux-kernel-mentees@ be CC'ed on all of your patches? I
-> thought Shuah said yes.
+Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+---
+ tools/testing/kunit/kunit.py | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-Sorry about that, I forgot to include the linux-kernel-mentees list.
+diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
+index 7dca74774dd2..5da190c79481 100755
+--- a/tools/testing/kunit/kunit.py
++++ b/tools/testing/kunit/kunit.py
+@@ -116,7 +116,7 @@ def main(argv, linux=None):
+ 	run_parser.add_argument('--build_dir',
+ 				help='As in the make command, it specifies the build '
+ 				'directory.',
+-				type=str, default='', metavar='build_dir')
++				type=str, default='.kunit', metavar='build_dir')
+ 
+ 	run_parser.add_argument('--defconfig',
+ 				help='Uses a default .kunitconfig.',
+@@ -136,12 +136,11 @@ def main(argv, linux=None):
+ 		if get_kernel_root_path():
+ 			os.chdir(get_kernel_root_path())
+ 
+-		if cli_args.build_dir:
+-			if not os.path.exists(cli_args.build_dir):
+-				os.mkdir(cli_args.build_dir)
+-			kunit_kernel.kunitconfig_path = os.path.join(
+-				cli_args.build_dir,
+-				kunit_kernel.kunitconfig_path)
++		if not os.path.exists(cli_args.build_dir):
++			os.mkdir(cli_args.build_dir)
++		kunit_kernel.kunitconfig_path = os.path.join(
++			cli_args.build_dir,
++			kunit_kernel.kunitconfig_path)
+ 
+ 		if cli_args.defconfig:
+ 			create_default_kunitconfig()
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
