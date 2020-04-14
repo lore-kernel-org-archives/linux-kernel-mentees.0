@@ -7,95 +7,94 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A7FC2BB1D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Apr 2020 22:51:11 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C3ECC38A29
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Apr 2020 23:09:59 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D6132074D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Apr 2020 22:51:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 323152054F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Apr 2020 23:09:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="sVFynu6u"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D6132074D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="d/XycrnO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 323152054F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 65AB28592F;
-	Tue, 14 Apr 2020 22:51:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0347987E54;
+	Tue, 14 Apr 2020 23:09:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Wzphq1woyjMC; Tue, 14 Apr 2020 22:51:09 +0000 (UTC)
+	with ESMTP id Y6e1DmNm3q3g; Tue, 14 Apr 2020 23:09:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EF9DE85913;
-	Tue, 14 Apr 2020 22:51:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8A7DF87D6E;
+	Tue, 14 Apr 2020 23:09:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D9465C089E;
-	Tue, 14 Apr 2020 22:51:09 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 93896C0172
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80914C1D7D;
+	Tue, 14 Apr 2020 23:09:58 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 04E3BC0172
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 22:51:08 +0000 (UTC)
+ Tue, 14 Apr 2020 23:09:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 820DD85932
+ by whitealder.osuosl.org (Postfix) with ESMTP id F07BB86A3C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 22:51:08 +0000 (UTC)
+ Tue, 14 Apr 2020 23:09:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uAbLqlhiw70s
+ with ESMTP id z08IBxDouODS
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 22:51:04 +0000 (UTC)
+ Tue, 14 Apr 2020 23:09:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A9D9D8592F
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+ [209.85.160.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 4078E84F4F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 22:51:00 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id v7so15365660qkc.0
+ Tue, 14 Apr 2020 23:09:56 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id x2so11824799qtr.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Apr 2020 15:51:00 -0700 (PDT)
+ Tue, 14 Apr 2020 16:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=8GmpDGYHNWO1HVRGOCC1HUE41KMOfYWwP4MYA86x9Hs=;
- b=sVFynu6uxe/1IYpgyK5vHozGoALV27D0esYW0h/gqLr0R7i12qBcB6m3tuCoCBvSR/
- BarOB3ND2X8zcoVR8cG93fmbKXTwES+Bn+7jDRt+FBXoQbaacVQVx8McUH/AmdkYxbok
- 63d5rf8DlAcQa7ADrPPCgPYw/57YH73qGw116x0sBUJRgUGLbVs/ytJr8gpCbqdD5ZvV
- OrGNjkvwP3rRhDPyjAAG6rolsWKXGZRj0Kaw1o1pkr7pArW8k6v1bvq/CXlpai1WXOua
- qU6t2iP7oSQPBPr8zmP6wqJUMsS3B03rNjKLW6BqaAQfxhEff/kntWZTIyXIafVTGvZM
- BGhA==
+ b=d/XycrnOIE9zVNs85mQ8kiqfaX2FAKRGtTainrFJ0IzS2KMbTBKck6+HKcl12KMfi/
+ mLyCl0M1OBOJwXwZ3mkeZWf734twgkheW3CbMFKK9vgo54UnwfYGSfuqlmm2nneOODqY
+ lFI2ztDOic5VkmRttn366D+g3jqOHNKyx6SEMuHpgfwN4dMbeYlKBWMp7+Sx0VtOHgkw
+ QAB6RJyglN5wdqlfuhGUcdCQiEH3Z01NDBhyXZH9qCDuhlHStFTK31cHPnoZ3HSzOw1n
+ zELCk4JBQJoOxdIR6Znl2rOgnjsEmPOnLC0nGGBLDO2jdXjzhoB0uXDpMRgRXyQfNDmR
+ X8Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=8GmpDGYHNWO1HVRGOCC1HUE41KMOfYWwP4MYA86x9Hs=;
- b=VIAJWbvWTXUg/m+Idijp/5adofJ7KU/nIyegFV1B+2rE1vySjkxEAs9ioItbObKArl
- UY7w4W0qlGm/ktfRNhHC4s4H9BrB6zp/E2q25baJTN8h+3ub2SSJCn4f9/b8vrgoTpny
- vl/MCcov+rcv2U2cvHtLlhnHPc5GTjfpVwgkdLYAU6NL2kv7w3g/flfrBveJAemacCHn
- tIo5bJK3ykdy4+jaE0P7rOBU1D1fYNQ3syBxZ4BB+8qYjQ6iX/lNiMOI9X+RJWh/PCQ4
- 9F839w6U6sC8J5SGIL9NDa5VKSQXrM5gX4+M19foVLcAkLeQyrOzPX0iFznz1XcKJIE7
- 8AfA==
-X-Gm-Message-State: AGi0PuaXKay6B7paqHbfED6nDqql7lRYg/Jm4GKU/NA9SuMscqv5AKyo
- KFPUIld6odj3jRZfGyPRBRmKsA==
-X-Google-Smtp-Source: APiQypJcvNv4pDReOcJEKCheR7ohpA3eksDlyYI4BNeYNc+nCmyMn5w0jJ+afnHpid9Nx37EUAFj3A==
-X-Received: by 2002:a37:4ed5:: with SMTP id
- c204mr23485573qkb.328.1586904659318; 
- Tue, 14 Apr 2020 15:50:59 -0700 (PDT)
+ b=aI0Far/iYYHl9UQBjKU/J8tD3UDXyVy/FyawFlsJ6fkbhI3180QZmQq5gklz1quecM
+ jjRFCjlhY4rOXmz7mqdl2LzDNoBqAP3GIAguRt1QriHaKyBqrfjpmdmVAh5mTfuEX1gr
+ T9ETVM1hg0k70LV7NbPm9IhqrX9Rv9nojDg02qlR1kf09SsykwG2Z8iYl0CLIWsPeQXn
+ d8RiQbmLnoBx0UOmrnifyLQNcEF2HVslABs6JUgqfYwqvMHIZ9V7THN6F6Tkh9hU0tOS
+ njUXvwZrHtfeXUtj3g0DA3QVRUnvcFzB3ZYbXp/Hk/swe+JJ/vsR7axDFCoDvmGO27Vu
+ s2Kg==
+X-Gm-Message-State: AGi0PuYUvLLjUs6v6M/IgETPdxNvfwEe4vUY1WGlTku5YMqLw/vl1Drk
+ NXx8eRInYZ0kdvNIyRKJQV1QUA==
+X-Google-Smtp-Source: APiQypIq7HA/Rl7AQcDjE3FdKvf8IBKg1xI6rru45NLF9fLflB46Gk0TTOpZ6L0hLOq23HmizGMYBQ==
+X-Received: by 2002:ac8:16e4:: with SMTP id y33mr19301422qtk.4.1586905795146; 
+ Tue, 14 Apr 2020 16:09:55 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id j90sm11747701qte.20.2020.04.14.15.50.57
+ by smtp.gmail.com with ESMTPSA id f1sm11455084qkl.72.2020.04.14.16.09.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 15:50:58 -0700 (PDT)
+ Tue, 14 Apr 2020 16:09:54 -0700 (PDT)
 From: Vitor Massaru Iha <vitor@massaru.org>
 To: kunit-dev@googlegroups.com
-Date: Tue, 14 Apr 2020 19:50:54 -0300
-Message-Id: <20200414225054.81721-1-vitor@massaru.org>
+Date: Tue, 14 Apr 2020 20:09:50 -0300
+Message-Id: <20200414230950.83665-1-vitor@massaru.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.or, linux-kernel-mentees@lists.linuxfoundation.org,
- brendanhiggins@google.com, linux-kselftest@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] kunit: use --build_dir=.kunit as
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, brendanhiggins@google.com,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [Linux-kernel-mentees] [RESEND] kunit: use --build_dir=.kunit as
 	default
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
