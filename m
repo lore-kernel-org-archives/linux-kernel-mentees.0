@@ -2,92 +2,107 @@ Return-Path: <SRS0=qk0A=57=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C08C2BA19
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Apr 2020 16:15:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AFDC2BA19
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Apr 2020 16:53:52 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 39CEB20656
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Apr 2020 16:15:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 33BC8208E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Apr 2020 16:53:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gbtS2S4o"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 39CEB20656
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fP0HSpR4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33BC8208E4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 04C2F1FFC1;
-	Wed, 15 Apr 2020 16:15:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E84E1204FC;
+	Wed, 15 Apr 2020 16:53:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id n8OXE1SU5jtW; Wed, 15 Apr 2020 16:15:27 +0000 (UTC)
+	with ESMTP id Oq9qNRRDUeDp; Wed, 15 Apr 2020 16:53:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 1AF821FEF0;
-	Wed, 15 Apr 2020 16:15:27 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0820A2010E;
+	Wed, 15 Apr 2020 16:53:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 105DAC1AE2;
-	Wed, 15 Apr 2020 16:15:27 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1C20FC0172
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E4E50C1AE2;
+	Wed, 15 Apr 2020 16:53:50 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4E145C0172
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Apr 2020 16:15:26 +0000 (UTC)
+ Wed, 15 Apr 2020 16:53:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EE2D786194
+ by hemlock.osuosl.org (Postfix) with ESMTP id 37D4C86187
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Apr 2020 16:15:25 +0000 (UTC)
+ Wed, 15 Apr 2020 16:53:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id d2cf5dN9k_yT
+ with ESMTP id zNArYcT3OVwJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Apr 2020 16:15:25 +0000 (UTC)
+ Wed, 15 Apr 2020 16:53:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 538A8860FC
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C03B285754
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Apr 2020 16:15:25 +0000 (UTC)
+ Wed, 15 Apr 2020 16:53:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586967324;
+ s=mimecast20190719; t=1586969626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i9AiOSf2Ndp9zP+cv9L50OpP/JFrww4WbmeVKZKeKQk=;
- b=gbtS2S4owyoWxYpsT9vjU+A8UHaMyjM5arF/uBdFuXe71L7bDQRGh/KRxn/+322ahVQaIp
- 2cISBLKLJGam2bb1Rco5TgpYclsIsQQh15N2M889/GFYdt7D6omCOBkVeIMN/hto3qwII8
- t9I2N1LWEg3sg7c9MTNb4TUYyQDyQQg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-HVLJSW-cNR2Y5uo-GPBh_A-1; Wed, 15 Apr 2020 12:15:20 -0400
-X-MC-Unique: HVLJSW-cNR2Y5uo-GPBh_A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 982DB13F6;
- Wed, 15 Apr 2020 16:15:18 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B8D0119F56;
- Wed, 15 Apr 2020 16:15:06 +0000 (UTC)
-Date: Wed, 15 Apr 2020 12:15:03 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Message-ID: <20200415161503.umujm6v4gadmf6qm@madcap2.tricolour.ca>
+ bh=3em5+hnHLkvNRuTqcYfplgX0m0Gs4o4IJazfnt21sak=;
+ b=fP0HSpR4btG8DNsiw2Kq+nwJd4pPvgzug5xVG/qLeDZfuH2gE025i1IyfYMCnVM9lgIayJ
+ oSTcUhc/2GcZogxZvndr8tR5EccAASEQWvTuwV8yhOFM5yQ1jOnyZr7hKlWTuLEfnbwL4x
+ teRtnp4c5WkQT41td7L4nIToWKDdXqo=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-Slmtxct3O1CNXWmS_1VMlA-1; Wed, 15 Apr 2020 12:53:44 -0400
+X-MC-Unique: Slmtxct3O1CNXWmS_1VMlA-1
+Received: by mail-oi1-f200.google.com with SMTP id l2so8456336oih.19
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Apr 2020 09:53:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5OcF7TWn34i9EQblMYEKpClfav9C/6cS7BZfVRtY1ig=;
+ b=CekOEjqq/kpVZrnfb0LNNEwfsGz+t1ujMmltlndmjKWV+XuW28rd2GylJcjZOLNd/p
+ EY3NgWOyJdMgRDRe9gLVHwiaP8CJnhLMfiRakVrQGr53bA5qR/zddl7spxV9yfjrAeMW
+ l3+uKtTLSxejiCHOe9jdLRsO1DekdCeSnGPPbA+JttvHbADerKsyJ03HoHikxEkklNky
+ JugzlNCbHTTBQcSw1TdqlxWf9TWsr8g9P+wynLoElyQJdQ3MilHzGePUgIy6GzT4EKRr
+ Dq9lLkyiy+nYdhMQa2u0ISTSaxMzfdeCPtBC+To0FO07hcARqc31YlJATLRviLjWYCaZ
+ 2piA==
+X-Gm-Message-State: AGi0PuYhq+CnO14FDd1FYTvxiOuI/td8cALLOYU4Nj9j+w7yQ8BOKV2V
+ IUrfszgWGfkfNIpJpYaxrhvJXqCZjELNJp9h0WQuAzQQmHuv0d3Zvx0c4Ny0SWi2yx6uPyG5SQl
+ yLhkI+1XdXKcx2kGXQyjCcXQLaLEgkp7NeM/7IrfPvk9dndAgeSTq27IGA6xC+8L5
+X-Received: by 2002:aca:b104:: with SMTP id a4mr98034oif.103.1586969623609;
+ Wed, 15 Apr 2020 09:53:43 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLkvY6tKCCKHK+4XBaEZP1jLaOUmd+3Gz8TobGRm5I4yu2oGVOna4Zb5zyid5UxSIVu1Z9+oaZs2SxeDRP40G8=
+X-Received: by 2002:aca:b104:: with SMTP id a4mr98019oif.103.1586969623350;
+ Wed, 15 Apr 2020 09:53:43 -0700 (PDT)
+MIME-Version: 1.0
 References: <20191128153203.GA23803@workstation-kernel-dev>
  <20191130020742.GF157739@google.com>
  <20200415153417.svpbimg66vbeuk7u@madcap2.tricolour.ca>
  <CAHC9VhTdfkxdiEwCZu-JCQGxJ_DNr0b_Ukm40VEUxq=Lc-zx1g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhTdfkxdiEwCZu-JCQGxJ_DNr0b_Ukm40VEUxq=Lc-zx1g@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Cc: linux-kernel@vger.kernel.org, linux-audit@redhat.com,
+ <20200415161503.umujm6v4gadmf6qm@madcap2.tricolour.ca>
+In-Reply-To: <20200415161503.umujm6v4gadmf6qm@madcap2.tricolour.ca>
+From: Ondrej Mosnacek <omosnace@redhat.com>
+Date: Wed, 15 Apr 2020 18:53:32 +0200
+Message-ID: <CAFqZXNuYnvru+pMhPwNTBn1+uB=MfYh1yWWBeAn+J-=LXrFgcg@mail.gmail.com>
+To: Richard Guy Briggs <rgb@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Cc: Paul Moore <paul@paul-moore.com>,
+ Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+ Linux-Audit Mailing List <linux-audit@redhat.com>,
  Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH v2] kernel: audit.c: Add __rcu
@@ -109,75 +124,61 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2020-04-15 12:06, Paul Moore wrote:
-> On Wed, Apr 15, 2020 at 11:34 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2019-11-29 21:07, Joel Fernandes wrote:
-> > > On Thu, Nov 28, 2019 at 09:02:03PM +0530, Amol Grover wrote:
-> > > > add __rcu notation to RCU protected global pointer auditd_conn
-> > >
-> > > Again, please use proper punctuation and captilization. This is unacceptable.
-> > > Please put more effort into changelog.
-> > >
-> > > Otherwise the patch diff itself looks good to me, with the above nit
-> > > corrected, you could add my tag to the next revision:
-> > >
-> > > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > >
-> > > thanks,
-> > >
-> > >  - Joel
-> > >
+On Wed, Apr 15, 2020 at 6:15 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2020-04-15 12:06, Paul Moore wrote:
+> > On Wed, Apr 15, 2020 at 11:34 AM Richard Guy Briggs <rgb@redhat.com> wrote:
+> > > On 2019-11-29 21:07, Joel Fernandes wrote:
+> > > > On Thu, Nov 28, 2019 at 09:02:03PM +0530, Amol Grover wrote:
+> > > > > add __rcu notation to RCU protected global pointer auditd_conn
 > > > >
-> > > > Fixes multiple instances of sparse error:
-> > > > error: incompatible types in comparison expression
-> > > > (different address spaces)
+> > > > Again, please use proper punctuation and captilization. This is unacceptable.
+> > > > Please put more effort into changelog.
+> > > >
+> > > > Otherwise the patch diff itself looks good to me, with the above nit
+> > > > corrected, you could add my tag to the next revision:
+> > > >
+> > > > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > >
+> > > > thanks,
+> > > >
+> > > >  - Joel
+> > > >
+> > > > >
+> > > > > Fixes multiple instances of sparse error:
+> > > > > error: incompatible types in comparison expression
+> > > > > (different address spaces)
+> > >
+> > > Amol or Joel: Is there a reproducer recipe for this?
 > >
-> > Amol or Joel: Is there a reproducer recipe for this?
-> 
-> The commit which was merged has a slightly better description which may help.
+> > The commit which was merged has a slightly better description which may help.
+>
+> I've already seen this.  Perhaps I should have replied to this message
+> instead to make that evident.  What really needed was Amol's original
+> message sent to this list, but it was Joel who included this list in his
+> reply (all 3 versions).
+>
+> I'm looking for the specific setup and commands that produced this error.
 
-I've already seen this.  Perhaps I should have replied to this message
-instead to make that evident.  What really needed was Amol's original
-message sent to this list, but it was Joel who included this list in his
-reply (all 3 versions).
+You can run make with "C=1", which will run sparse on all files that
+are rebuilt during that make run. For example, if I fully build the
+kernel and then revert commit
+cb5172d96d16df72db8b55146b0ec00bfd97f079, I get:
 
-I'm looking for the specific setup and commands that produced this error.
+$ make [...] C=1
+[...]
+  CHECK   [...]/kernel/audit.c
+[...]/kernel/audit.c:218:14: error: incompatible types in comparison
+expression (different address spaces):
+[...]/kernel/audit.c:218:14:    struct auditd_connection [noderef] <asn:4> *
+[...]/kernel/audit.c:218:14:    struct auditd_connection *
+(...and a lot more errors like this + 2 different warnings)
 
->   commit cb5172d96d16df72db8b55146b0ec00bfd97f079
->   Author: Amol Grover <frextrite@gmail.com>
->   Date:   Mon Dec 2 00:03:48 2019 +0530
-> 
->    audit: Add __rcu annotation to RCU pointer
-> 
->    Add __rcu annotation to RCU-protected global pointer auditd_conn.
-> 
->    auditd_conn is an RCU-protected global pointer,i.e., accessed
->    via RCU methods rcu_dereference() and rcu_assign_pointer(),
->    hence it must be annotated with __rcu for sparse to report
->    warnings/errors correctly.
-> 
->    Fix multiple instances of the sparse error:
->    error: incompatible types in comparison expression
->    (different address spaces)
-> 
->    Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->    Signed-off-by: Amol Grover <frextrite@gmail.com>
->    [PM: tweak subject line]
->    Signed-off-by: Paul Moore <paul@paul-moore.com>
-> 
-> -- 
-> paul moore
-> www.paul-moore.com
-> 
+And when I un-revert it again, I get only the 2 warnings.
 
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
+-- 
+Ondrej Mosnacek <omosnace at redhat dot com>
+Software Engineer, Security Technologies
+Red Hat, Inc.
 
 _______________________________________________
 Linux-kernel-mentees mailing list
