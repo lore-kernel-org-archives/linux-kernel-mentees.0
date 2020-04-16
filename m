@@ -1,100 +1,97 @@
-Return-Path: <SRS0=qk0A=57=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=u3rr=6A=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F7AEC2BA19
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Apr 2020 19:27:46 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ADDAC2BB85
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Apr 2020 23:12:15 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 429BF20784
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Apr 2020 19:27:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C0DA821841
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Apr 2020 23:12:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ob3oK4I5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 429BF20784
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="n9LgZ0jV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C0DA821841
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id F3F1F21FAC;
-	Wed, 15 Apr 2020 19:27:45 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 943DD87EE9;
+	Thu, 16 Apr 2020 23:12:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ldh0zB+xoG4b; Wed, 15 Apr 2020 19:27:45 +0000 (UTC)
+	with ESMTP id EBZjuTVYHxID; Thu, 16 Apr 2020 23:12:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 1685920463;
-	Wed, 15 Apr 2020 19:27:45 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3C30987E65;
+	Thu, 16 Apr 2020 23:12:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 06514C089E;
-	Wed, 15 Apr 2020 19:27:45 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B4D4FC0172
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 31FECC1AE8;
+	Thu, 16 Apr 2020 23:12:14 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4DA82C0172
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Apr 2020 19:27:43 +0000 (UTC)
+ Thu, 16 Apr 2020 23:12:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9DDBD8620B
+ by hemlock.osuosl.org (Postfix) with ESMTP id 41F0387EDB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Apr 2020 19:27:43 +0000 (UTC)
+ Thu, 16 Apr 2020 23:12:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id p+zx3GZSG5Zr
+ with ESMTP id g87p4s1SoVBe
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Apr 2020 19:27:40 +0000 (UTC)
+ Thu, 16 Apr 2020 23:12:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A3D1586CF9
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CF3AC87E65
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Apr 2020 19:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586978859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qJS2xD/VOhghsaFkFFvHEazrHBxU5zPlf7mCEhLQdiQ=;
- b=Ob3oK4I5jCWWLPCovk9dySMYhTXycs8mrDbMvXIOwEYvofnu9yW0sRaoNamMpyXf/As5no
- TofNM9QFdUEyKpRDfj/AhdB1uLbPKm8plvjngxkP9hG8BFjR+yUaq4p68MBY3LicLHxc71
- 3MIJ4IYo222zlhZgSKWgPxjEqVinLqU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-9B1YcOYqM9-ip6w5Y6j5iQ-1; Wed, 15 Apr 2020 15:27:37 -0400
-X-MC-Unique: 9B1YcOYqM9-ip6w5Y6j5iQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D62E8017F3;
- Wed, 15 Apr 2020 19:27:36 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.3.128.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DA471001DC2;
- Wed, 15 Apr 2020 19:27:26 +0000 (UTC)
-Date: Wed, 15 Apr 2020 15:27:23 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Ondrej Mosnacek <omosnace@redhat.com>
-Message-ID: <20200415192723.rrdwtitiu3f2cd67@madcap2.tricolour.ca>
-References: <20191128153203.GA23803@workstation-kernel-dev>
- <20191130020742.GF157739@google.com>
- <20200415153417.svpbimg66vbeuk7u@madcap2.tricolour.ca>
- <CAHC9VhTdfkxdiEwCZu-JCQGxJ_DNr0b_Ukm40VEUxq=Lc-zx1g@mail.gmail.com>
- <20200415161503.umujm6v4gadmf6qm@madcap2.tricolour.ca>
- <CAFqZXNuYnvru+pMhPwNTBn1+uB=MfYh1yWWBeAn+J-=LXrFgcg@mail.gmail.com>
+ Thu, 16 Apr 2020 23:12:10 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id f8so219693plt.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 16 Apr 2020 16:12:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qHnZMVe5Y7EDy73UocFbOqkOic/ITzFdjJim0WbrCVg=;
+ b=n9LgZ0jVDeOIG0dfjM08EFewOl7JGzK1/ZndCN6VfuY6rsSsFEtpwkN3C6cLgd1uzQ
+ aEZqc4K0sm8GJmecM+3Pc/OF6Ym6gj18zcOl5Qo7H1p/2YUXyuT6WzJAuvdd4mpm3S1b
+ ccnvtOaThM3rMC456ydHEv88YQQa+vz/Cmocsa5AQb9pABrf/zoniuCCNIcFgzr78p1A
+ Nq+ALGXBXXZB4F/OGrqGfbQ6Y79gvKlk3qY31sBqKnHGDKdtqNtax3gK5jk9YB/6bX1s
+ TRo54mCyR5uuJ38KnuIY9bC2dCmr2/cWYJet3e9gzl7rinBbfuAzIYLDz/rp2NnTGOf9
+ BI6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qHnZMVe5Y7EDy73UocFbOqkOic/ITzFdjJim0WbrCVg=;
+ b=qXm570Ehab0uPNHfwSpIqGjLLFuOQJ1zMxFoNyJUr/SI4YYPz6K6ei1Co7cbq0iOoD
+ PBv8c2jCQjbPbdFmRUe9y+GiQEeUjx38lTl8z2dZ88vI4+8mRX1wSw8lS7GrSuDhIrQx
+ 5NBtpSfksgwe2NU4qjIS+OEHv/SIc6CCbxu7etBxQWoYvQY56SIHUuaAdIWR7POrW6pQ
+ fyM3jOax9UwFltlhz+z/Ws+h7mHud+vimFCETHezkd8oKTGdlezvkuGDNoHtZeSOsHOC
+ lNMzQ99qS/tsK3Xwqj0PG/ATNRIEHPAiZRBSiFLyFBUmpnP9YdmX7nF6r86RNowl4q2e
+ LmzQ==
+X-Gm-Message-State: AGi0PuYa6u/sGSzpg/a7lnbzULhotEEfFZxlbZjvzeEqLzxX1JaVQCFy
+ bQkiDu9LHpBuI3a7SZ4WsLhL/nCWB/+j5n2KlSfQYA==
+X-Google-Smtp-Source: APiQypJzSIA7M8WieLTPiRB0Atlxe05VI645b6MAkDHdrAbIL8/iKZz4Cfptd+4ZR7WHMXeYTkLG5HT32gZYTfR/mK8=
+X-Received: by 2002:a17:90a:3568:: with SMTP id
+ q95mr852976pjb.47.1587078730154; 
+ Thu, 16 Apr 2020 16:12:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAFqZXNuYnvru+pMhPwNTBn1+uB=MfYh1yWWBeAn+J-=LXrFgcg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Cc: Paul Moore <paul@paul-moore.com>,
- Linux kernel mailing list <linux-kernel@vger.kernel.org>,
- Linux-Audit Mailing List <linux-audit@redhat.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] kernel: audit.c: Add __rcu
-	notation to RCU pointer
+References: <20200414230950.83665-1-vitor@massaru.org>
+In-Reply-To: <20200414230950.83665-1-vitor@massaru.org>
+Date: Thu, 16 Apr 2020 16:11:58 -0700
+Message-ID: <CAFd5g47CaeEBiJsiSUtihHQF+OGpfCg76dS2ys2mwy2qn_L5-w@mail.gmail.com>
+To: Vitor Massaru Iha <vitor@massaru.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [RESEND] kunit: use --build_dir=.kunit
+	as default
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,77 +103,25 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Brendan Higgins via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2020-04-15 18:53, Ondrej Mosnacek wrote:
-> On Wed, Apr 15, 2020 at 6:15 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2020-04-15 12:06, Paul Moore wrote:
-> > > On Wed, Apr 15, 2020 at 11:34 AM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > > > On 2019-11-29 21:07, Joel Fernandes wrote:
-> > > > > On Thu, Nov 28, 2019 at 09:02:03PM +0530, Amol Grover wrote:
-> > > > > > add __rcu notation to RCU protected global pointer auditd_conn
-> > > > >
-> > > > > Again, please use proper punctuation and captilization. This is unacceptable.
-> > > > > Please put more effort into changelog.
-> > > > >
-> > > > > Otherwise the patch diff itself looks good to me, with the above nit
-> > > > > corrected, you could add my tag to the next revision:
-> > > > >
-> > > > > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > >
-> > > > > thanks,
-> > > > >
-> > > > >  - Joel
-> > > > >
-> > > > > >
-> > > > > > Fixes multiple instances of sparse error:
-> > > > > > error: incompatible types in comparison expression
-> > > > > > (different address spaces)
-> > > >
-> > > > Amol or Joel: Is there a reproducer recipe for this?
-> > >
-> > > The commit which was merged has a slightly better description which may help.
-> >
-> > I've already seen this.  Perhaps I should have replied to this message
-> > instead to make that evident.  What really needed was Amol's original
-> > message sent to this list, but it was Joel who included this list in his
-> > reply (all 3 versions).
-> >
-> > I'm looking for the specific setup and commands that produced this error.
-> 
-> You can run make with "C=1", which will run sparse on all files that
-> are rebuilt during that make run. For example, if I fully build the
-> kernel and then revert commit
-> cb5172d96d16df72db8b55146b0ec00bfd97f079, I get:
-> 
-> $ make [...] C=1
-> [...]
->   CHECK   [...]/kernel/audit.c
-> [...]/kernel/audit.c:218:14: error: incompatible types in comparison
-> expression (different address spaces):
-> [...]/kernel/audit.c:218:14:    struct auditd_connection [noderef] <asn:4> *
-> [...]/kernel/audit.c:218:14:    struct auditd_connection *
-> (...and a lot more errors like this + 2 different warnings)
-> 
-> And when I un-revert it again, I get only the 2 warnings.
+On Tue, Apr 14, 2020 at 4:09 PM Vitor Massaru Iha <vitor@massaru.org> wrote:
+>
+> To make KUnit easier to use, and to avoid overwriting object and
+> .config files, the default KUnit build directory is set to .kunit
+>
+>  * Related bug: https://bugzilla.kernel.org/show_bug.cgi?id=205221
+>
+> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
 
-Perfect, thanks Ondrej.
-
-> Ondrej Mosnacek <omosnace at redhat dot com>
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
-
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
