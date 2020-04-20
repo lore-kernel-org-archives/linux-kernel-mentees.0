@@ -1,97 +1,101 @@
-Return-Path: <SRS0=u3rr=6A=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=VNSv=6E=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: *
+X-Spam-Status: No, score=1.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D82DC2BA2B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Apr 2020 23:20:46 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ACD7C54FC9
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Apr 2020 01:20:13 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2573F2078B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Apr 2020 23:20:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A004A21974
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Apr 2020 01:20:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="P1GARF+N"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2573F2078B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZHUDnoeh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A004A21974
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DDD3E85FC6;
-	Thu, 16 Apr 2020 23:20:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 736C2204CE;
+	Mon, 20 Apr 2020 01:20:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id irNnBvBlTa5v; Thu, 16 Apr 2020 23:20:45 +0000 (UTC)
+	with ESMTP id qWPT5bSAI1Rq; Mon, 20 Apr 2020 01:20:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 745BC85FC7;
-	Thu, 16 Apr 2020 23:20:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 94E0D20002;
+	Mon, 20 Apr 2020 01:20:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E2BCC1AE8;
-	Thu, 16 Apr 2020 23:20:45 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9D4A0C0172
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80DFEC1D7E;
+	Mon, 20 Apr 2020 01:20:11 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B1494C0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Apr 2020 23:20:43 +0000 (UTC)
+ Mon, 20 Apr 2020 01:20:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8A25185FC7
+ by hemlock.osuosl.org (Postfix) with ESMTP id 9F9CC87079
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Apr 2020 23:20:43 +0000 (UTC)
+ Mon, 20 Apr 2020 01:20:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FRYGa-N3Kk2C
+ with ESMTP id Cy7hUa1rUrVp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Apr 2020 23:20:43 +0000 (UTC)
+ Mon, 20 Apr 2020 01:20:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1F94E85FC6
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+ [209.85.221.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8FCBE87032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Apr 2020 23:20:43 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id f8so227331plt.2
+ Mon, 20 Apr 2020 01:20:09 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id f13so10087945wrm.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Apr 2020 16:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oid4502jx5OsVv4L1q5Cd9rnzIb1+xycaGqywcIvDmc=;
- b=P1GARF+NJi/hKDeu3e7WXiqMUzJJ1TPa5ZL+H9WidK8i3Ok+u3ItGbMm8f0h7WKP8h
- VKvcDZV/uCrR72RmlTHJC2Wu2Ns8pOMvMIABo/jP57B5N0nfKzCh3eKh2zOCuYMB/8JM
- ES4CcSIF4ng+h0a+pk3r9bUXRAMWETWzdYO4QI38NLxXoEeuFbr1JiDFKWMzlbyKIkQW
- EJcsZsLkv2KnKK1fGR31Hr8XWI+PKmW9qRSoB3QdoSej0qDdHwn99ywssrxmsc+rUJtt
- KEDyymPb6uStMgTNzip2IAESB5GCJp7vdVrtw/amlJgcuU6oavtnKSCYJq1dvPve/+oJ
- W2aA==
+ Sun, 19 Apr 2020 18:20:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language;
+ bh=yAP9eT8kJ5Bdwacl7397uWhXUM9vHzwzJI0Y9yAMLxY=;
+ b=ZHUDnoehM8THEhy42gJYPU4B7q/A/2zAkadc9izfjEAfpv1q0qd9hdI1LHRgi47niT
+ aVUIDCF7ffPjylbKiCue6/Ptv5iZPK//Nih/mI3RhRZVULmyFv9tB+wwo4MjmKluAO1g
+ E9k50s/bftmCb+50eQ+ROdLQAnRSTJvzmfDji2xHHH0jsgeYeHOwuXvaBYS8KAzCvUiB
+ Za2szGHJLgTYBFknFd4PmIUkHIA7GWSIli8nAWa9Ki+QLMGVl52NRsdAsx7nKZvdjFju
+ 7wVy3wdwgd1CPzuOJLyuUZevw0uu6558QDbeMKepey24I7UZmCSJ2ydsYyvs2zJJt++b
+ RGYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oid4502jx5OsVv4L1q5Cd9rnzIb1+xycaGqywcIvDmc=;
- b=S7jCsaqBFj2R6ENoVsZq4UqguKNb0gX4l6BxpELvLBBVRz09b32tQW6dQizTeb0GS4
- c8Y1hBUUraYgyzK47/RirAZe2m++gQBkIZPPfbn14xXFg5fs5XwevdNVpjhUtgMz677K
- JPxDEDwZ/+H2aDbaMwc1FTSfSOh585ubG8b+68HeeS4iJm8lNaq8CuKmZ6uMpNMHmWKK
- UH/Kd1Si8zdoT2K8gN8zaq2qXHFW38nm7zhRKC9areQDN4vHhfvLxERqvb+k1FHvF3K6
- RCDFqD46mKVQT2i+gqLtRXMS+X6dFB5CVg15xlxhKjgr22mL8fhSoGFCpJxuY/ZuN+co
- qXEw==
-X-Gm-Message-State: AGi0PubwBKJ0nFGGCPpVAFNjme4QxbItJcN1i9opCGKPTw1j/nhdxuZw
- 1NsBFkrg/JpRsrYUbv8VyymxUeeq+QtY/QaMeWBHEA==
-X-Google-Smtp-Source: APiQypL1gv9lxNUxpuv/LgpCAKGRZAyBFLkc8zFH07ZvjhxVjxDqpX/VBKMtcVsZYhDRPwusjIukR+LAefhB2ibng7M=
-X-Received: by 2002:a17:90a:e28e:: with SMTP id
- d14mr881656pjz.29.1587079242348; 
- Thu, 16 Apr 2020 16:20:42 -0700 (PDT)
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language;
+ bh=yAP9eT8kJ5Bdwacl7397uWhXUM9vHzwzJI0Y9yAMLxY=;
+ b=DrOHLw2mM1M6p/TRVgewMBsp2NIoUBxIJJ0YRf+Uo6KfTaMtikWL0uz83yqhUgpz2T
+ Y0kt2qHw24/SrHrbXvo7Opikii+w94+YVa4oAQ/bJT8ySoD2Cd8du4bAoLhAbBvCje4l
+ gpObNy3XIx42u+wXzUCM0jlUEiOLBO5ay+Ls34DC/IGgMA8V/WVrrQ5flwmzVlL4RFd0
+ wg4eGNdX8K6TiWGQuGt61gfgwYepHawXS8siwWmH844ZMjFyzosOe3F4he0fif6qWNMX
+ Uul+PXmi5OJBbXSs3RC6Je+NvgbDkyg6/VB2ahQoau4ZiX2tUHqo8GHeqY5Bp6R/xWQN
+ z9TA==
+X-Gm-Message-State: AGi0PubirPKb7nvqThuZjgQ8esnZvO6uhsMh2lp/uoK55dOA9ON5Tn0o
+ KP+qSG96CBoZbCAfDkGWcbM=
+X-Google-Smtp-Source: APiQypI4yF7ftXL28OmSVoRHBoRLXdouytBzMzVFGz6cARu5DCPvv7rcX4dBF9yilSh+o5pfFB3Zfw==
+X-Received: by 2002:a5d:5085:: with SMTP id a5mr17273424wrt.394.1587345607883; 
+ Sun, 19 Apr 2020 18:20:07 -0700 (PDT)
+Received: from net.saheed (5402C526.dsl.pool.telekom.hu. [84.2.197.38])
+ by smtp.gmail.com with ESMTPSA id w11sm17347666wmi.32.2020.04.19.18.20.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Apr 2020 18:20:07 -0700 (PDT)
+To: skhan@linuxfoundation.org, mchehab@kernel.org
+From: Saheed Bolarinwa <refactormyself@gmail.com>
+Message-ID: <445b3e38-123e-eb72-2bbb-c40ac4ea9899@gmail.com>
+Date: Mon, 20 Apr 2020 02:20:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200414233753.94978-1-vitor@massaru.org>
-In-Reply-To: <20200414233753.94978-1-vitor@massaru.org>
-Date: Thu, 16 Apr 2020 16:20:31 -0700
-Message-ID: <CAFd5g442ka0c+D+qs7--_ERqn=Bqc3V4AHuER8FLsJi1oesirQ@mail.gmail.com>
-To: Vitor Massaru Iha <vitor@massaru.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] kunit: use KUnit defconfig by
-	default
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org
+Subject: [Linux-kernel-mentees] Clarification on the behaviour of
+	checkpatch.pl
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,26 +107,143 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Brendan Higgins via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6672952599127452660=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Apr 14, 2020 at 4:37 PM Vitor Massaru Iha <vitor@massaru.org> wrote:
->
-> To improve the usability of KUnit, defconfig is used
-> by default if no kunitconfig is present.
->
->  * https://bugzilla.kernel.org/show_bug.cgi?id=205259
->
-> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+This is a multi-part message in MIME format.
+--===============6672952599127452660==
+Content-Type: multipart/alternative;
+ boundary="------------9FEC24DFE35BBD05E6ECA5F0"
+Content-Language: en-US
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+This is a multi-part message in MIME format.
+--------------9FEC24DFE35BBD05E6ECA5F0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hello,
+
+My experience is that checkpatch.pl will not flag some warnings when I use
+
+the '-f' flag. This especially true for .rst files. My understanding is 
+that this flag
+
+is needed to use it with a raw source file instead of a patch.
+
+Please, I will like to confirm if this is a normal behaviour or is it my 
+system setup.
+
+Below is an example from the current stable release linux-5.6.y
+
+    [saheed@net linux-stable]$ perl ./scripts/checkpatch.pl -f
+    ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+    total: 0 errors, 0 warnings, 279 lines checked
+
+    ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst has no
+    obvious style problems and is ready for submission.
+
+
+    [saheed@net linux-stable]$ perl ./scripts/checkpatch.pl
+    ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+    WARNING: Possible unwrapped commit description (prefer a maximum 75
+    chars per line)
+    #6:
+    TAA is a hardware vulnerability that allows unprivileged speculative
+    access to
+
+    ERROR: Does not appear to be a unified-diff format patch
+
+    total: 1 errors, 1 warnings, 0 lines checked
+
+    NOTE: For some of the reported defects, checkpatch may be able to
+           mechanically convert to the typical style using --fix or
+    --fix-inplace.
+
+    ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst has style
+    problems, please review.
+
+    NOTE: If any of the errors are false positives, please report
+           them to the maintainer, see CHECKPATCH in MAINTAINERS.
+
+
+    Thank you.
+
+    Bolarinwa Saheed
+
+
+--------------9FEC24DFE35BBD05E6ECA5F0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hello,</p>
+    <p>My experience is that checkpatch.pl will not flag some warnings
+      when I use</p>
+    <p> the '-f' flag. This especially true for .rst files. My
+      understanding is that this flag</p>
+    <p>is needed to use it with a raw source file instead of a patch.</p>
+    <p>Please, I will like to confirm if this is a normal behaviour or
+      is it my system setup.</p>
+    <p>Below is an example from the current stable release linux-5.6.y</p>
+    <blockquote>
+      <p>[saheed@net linux-stable]$ perl ./scripts/checkpatch.pl -f
+        ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst <br>
+        total: 0 errors, 0 warnings, 279 lines checked<br>
+        <br>
+        ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst has no
+        obvious style problems and is ready for submission.<br>
+      </p>
+      <p><br>
+      </p>
+      <p>[saheed@net linux-stable]$ perl ./scripts/checkpatch.pl
+        ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst <br>
+        WARNING: Possible unwrapped commit description (prefer a maximum
+        75 chars per line)<br>
+        #6: <br>
+        TAA is a hardware vulnerability that allows unprivileged
+        speculative access to<br>
+        <br>
+        ERROR: Does not appear to be a unified-diff format patch<br>
+        <br>
+        total: 1 errors, 1 warnings, 0 lines checked<br>
+        <br>
+        NOTE: For some of the reported defects, checkpatch may be able
+        to<br>
+              mechanically convert to the typical style using --fix or
+        --fix-inplace.<br>
+        <br>
+        ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst has
+        style problems, please review.<br>
+        <br>
+        NOTE: If any of the errors are false positives, please report<br>
+              them to the maintainer, see CHECKPATCH in MAINTAINERS.</p>
+      <p><br>
+      </p>
+      <p>Thank you.</p>
+      <p>Bolarinwa Saheed<br>
+      </p>
+    </blockquote>
+  </body>
+</html>
+
+--------------9FEC24DFE35BBD05E6ECA5F0--
+
+--===============6672952599127452660==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============6672952599127452660==--
