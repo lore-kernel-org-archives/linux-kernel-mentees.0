@@ -6,89 +6,90 @@ X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A04D3C55181
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Apr 2020 21:39:20 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB86CC55182
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Apr 2020 22:27:11 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6206E2078C
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Apr 2020 21:39:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8E79F2078C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Apr 2020 22:27:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="fg7nmJ0/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6206E2078C
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="CuexACRM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E79F2078C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3ABEE869E4;
-	Mon, 20 Apr 2020 21:39:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4932D2210F;
+	Mon, 20 Apr 2020 22:27:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XvGKzwZNUt7C; Mon, 20 Apr 2020 21:39:19 +0000 (UTC)
+	with ESMTP id 0opbxGutWJxt; Mon, 20 Apr 2020 22:27:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A37AE86999;
-	Mon, 20 Apr 2020 21:39:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5A2C120773;
+	Mon, 20 Apr 2020 22:27:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9771DC07FF;
-	Mon, 20 Apr 2020 21:39:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 418F2C1D74;
+	Mon, 20 Apr 2020 22:27:10 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6A0C2C0177
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4125CC0177
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Apr 2020 21:39:18 +0000 (UTC)
+ Mon, 20 Apr 2020 22:27:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5FB48869E4
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2B38A868FB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Apr 2020 21:39:18 +0000 (UTC)
+ Mon, 20 Apr 2020 22:27:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9KQqn8MQSMyC
+ with ESMTP id OkFWa-alF8M8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Apr 2020 21:39:17 +0000 (UTC)
+ Mon, 20 Apr 2020 22:27:08 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
- [209.85.219.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0AB9586999
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 63952864F2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Apr 2020 21:39:17 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id t8so3594861qvw.5
+ Mon, 20 Apr 2020 22:27:08 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id l78so12599077qke.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Apr 2020 14:39:16 -0700 (PDT)
+ Mon, 20 Apr 2020 15:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=message-id:subject:from:to:cc:date:in-reply-to:references
  :user-agent:mime-version:content-transfer-encoding;
- bh=wzoQ8wJxvFhV344X9PJvX5TTrX/IwRx/mNK5Ox4iO9E=;
- b=fg7nmJ0/lCD3NAGktYNMgs1Taa5sCjIqBkT+XDP8OqF52oZYyhh4fJHSekyf8ZWT7j
- jiqI1kfyfgqRRJboQE6nxFxPLuG/ZgimOXLVIfAr/G7/kdMZog0rYRUb0hmDwSBKcewU
- W/iAK44r6kdXwcjrfWPUnpMEZZ/QTjaWBMkmn5WOIOjzBM76aCXti4TsIQOWjmlOjuAg
- G8777grL9z1RfqXD/A+Bf3LB7tXN4bAfv/6JLf0WI8Zyydaz0qqPKuPjg8SFp8XbixEk
- 7E54YsoXyNkeXEA4382qJOTbVd98CsnJUqE64Z7W9d+uamI1HXccoqfl+ZPKIWGklBxO
- 018Q==
+ bh=FnTnNFEg7Eu5eE5Hx3GU/Dpc3NxMHsYhRv+oF0x2HIU=;
+ b=CuexACRM/C7YEMKWw9T0KV9eEQVZc8QUsaRMUaeTFwVC1cxNRwOvGcF+3MHhGFJElL
+ rKFypSJxXiymzlr+Puvh5wsRv8jVT59EXleHsAtvkBJKEPeVy/dTBxXDC83umNjZOKCV
+ 2g4eALDgePL8EH/4+737PUzU3ZimD59H5a978UMEt/LAulA8eV1sZ+fzPjzFHw95WRoU
+ ArZp4qpwzAw2g4gV9G4ZTpojWKjrxhHOB86qTEUaui57pW87Fi5+Sc7HDtyvdqm93I0P
+ oy0NrFnMbya1fLltw+j51dTwjtxslYV1vngnIoR1JV6EcSbftzbB4S+S5mSdx7p1XzK1
+ PD/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:user-agent:mime-version:content-transfer-encoding;
- bh=wzoQ8wJxvFhV344X9PJvX5TTrX/IwRx/mNK5Ox4iO9E=;
- b=OUZN6AUrEMU4o0ia1h3HGjSZdZKOYsmhDT3+YTTxSDIdvnIdD6HmsIolti5Xs6sCMg
- mjpEs/SrmRjzP9/x3oOAsvauMUnf1P4f/smRlmA15W/GWMcerE7lAhIR7xeGhDF0XzIg
- NhDTWu6yHs8bypIPqX5cAZuMwCxtPa9Buj8FlCSAEtrBUYsnoLZ3HFra9qbWE8RxjmGT
- KR6Ul3jjVEO4DZrFxO4SIJ+lSemr8LyR5x4aetnM063hEdQGaAhz7S78qipa9/E+l8zu
- goLkKiDdqq/l040ftSCORqUumJatf1AaZZUl19f++Bz/4DCzxRKPMWXy5rMWaPj6VbHT
- pRIw==
-X-Gm-Message-State: AGi0PuYHcL3UdqNcOVeWVoAca+zNTe2rcVt5SLT4/YTrVrXwzt96AZCl
- O2V561u2ZEsUUQnL5PaEMF4sSA==
-X-Google-Smtp-Source: APiQypJA+tqZbx4LxDeg1IuoG8wdPK9ozSfLBS1LcZNN3xzgp1bql+qusbdixOHygYNj9Vk/oYps0A==
-X-Received: by 2002:a0c:a9c2:: with SMTP id c2mr4283111qvb.23.1587418755936;
- Mon, 20 Apr 2020 14:39:15 -0700 (PDT)
+ bh=FnTnNFEg7Eu5eE5Hx3GU/Dpc3NxMHsYhRv+oF0x2HIU=;
+ b=RaSU+MhTggr/X2BGzuyCHEjL7Exd8rpku4bhI7NbpPCzpmgJQdO/Ms4ioKpE/c959t
+ 9u70Ei0rPxD43fxDRceSysaIx9l6Do7ErlaVtqsfZ9mIkfeDNMNDbhPL+8u6D0H+LzZb
+ lMSIUrhc8x5FXrc4/a2eKae9wHacWg7OkZxJK6PJp/IYKMP6C+2ja0keji9TuXcyvRnh
+ tZv2H5FwDUHy4Qqawbntk6YekqiSFfELTJd5ZtCdZXaP6S9VvQYyB9UIaO9OxlgMMpaO
+ TG1amgI3XUF6Ez7c3H4YJGyp7Em3aBFuk0k31huJoj6fDmvphkVng1BlVXGtydaxlaxb
+ bIHg==
+X-Gm-Message-State: AGi0PuaqtWbS1OWLUscNPdPsMo4+PuLlPOGkHV+UXJtYPwGvXDZb145A
+ Duv4zqrGdt8EZZ2sWkJrsg1E7w==
+X-Google-Smtp-Source: APiQypLK3tuG/uhayBXi71l583i9rWvzEYAli3/mm+oZ/U6XVf951KadRVyZLHxYclATHuNj3xjQnQ==
+X-Received: by 2002:a05:620a:b03:: with SMTP id
+ t3mr18349178qkg.209.1587421627192; 
+ Mon, 20 Apr 2020 15:27:07 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id t75sm533471qke.127.2020.04.20.14.39.13
+ by smtp.gmail.com with ESMTPSA id j2sm451758qth.57.2020.04.20.15.27.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 14:39:15 -0700 (PDT)
-Message-ID: <f0f3a22042bdab2cffe12600f17f1485ca71caae.camel@massaru.org>
+ Mon, 20 Apr 2020 15:27:06 -0700 (PDT)
+Message-ID: <b82142248b38085fa3ab49a9d3181cabd5a79a91.camel@massaru.org>
 From: Vitor Massaru Iha <vitor@massaru.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 20 Apr 2020 18:39:12 -0300
+Date: Mon, 20 Apr 2020 19:27:03 -0300
 In-Reply-To: <CAK7LNAQYxtcNinV7JR+c8Pn9Rp1g0TxJ7m_mOFNOJQsB=OiAoA@mail.gmail.com>
 References: <20200414012132.32721-1-vitor@massaru.org>
  <CAK7LNAQYxtcNinV7JR+c8Pn9Rp1g0TxJ7m_mOFNOJQsB=OiAoA@mail.gmail.com>
@@ -118,6 +119,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
+
+Hi Masahiro,
 
 On Sat, 2020-04-18 at 03:12 +0900, Masahiro Yamada wrote:
 > Hi.
@@ -200,6 +203,10 @@ On Sat, 2020-04-18 at 03:12 +0900, Masahiro Yamada wrote:
 > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
 > 
 > Reported-by: Brendan Higgins <brendanhiggins@google.com>
+
+Was actually Reported-by Theodore Ts'o <tytso@mit.edu>	
+https://groups.google.com/forum/#!msg/kunit-dev/QmA27YEgEgI/hvS1kiz2CwAJ
+
 > 
 > 
 > 
@@ -266,7 +273,9 @@ On Sat, 2020-04-18 at 03:12 +0900, Masahiro Yamada wrote:
 >  # TT or skas makefiles and don't clean skas_ptregs.h.
 >  CLEAN_FILES += linux x.i gmon.out
 > +MRPROPER_DIRS += arch/$(SUBARCH)/include/generated
-> 
+
+Can I add suggested-by Masahiro Yamada <masahiroy@kernel.org> ?
+
 >  archclean:
 >         @find . \( -name '*.bb' -o -name '*.bbg' -o -name '*.da' \
 > 
@@ -277,9 +286,6 @@ On Sat, 2020-04-18 at 03:12 +0900, Masahiro Yamada wrote:
 > --
 > Best Regards
 > Masahiro Yamada
-
-Thanks for review. I agree with the suggested changes.
-
 
 _______________________________________________
 Linux-kernel-mentees mailing list
