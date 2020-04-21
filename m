@@ -2,101 +2,104 @@ Return-Path: <SRS0=yja0=6F=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA4C8C5518F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Apr 2020 05:07:18 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63222C2BA19
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Apr 2020 09:44:36 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 40ACA206D6
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Apr 2020 05:07:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2B1572070B
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Apr 2020 09:44:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="ZHInWwaF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40ACA206D6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CS+2/hYn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2B1572070B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E82C3878B4;
-	Tue, 21 Apr 2020 05:07:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EF08E86A5B;
+	Tue, 21 Apr 2020 09:44:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V80levqmSS-y; Tue, 21 Apr 2020 05:07:17 +0000 (UTC)
+	with ESMTP id Dai_BOkMmVh4; Tue, 21 Apr 2020 09:44:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6E4F48748E;
-	Tue, 21 Apr 2020 05:07:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 84E4386A47;
+	Tue, 21 Apr 2020 09:44:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A323C1D91;
-	Tue, 21 Apr 2020 05:07:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 79BBCC1D91;
+	Tue, 21 Apr 2020 09:44:35 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0FC1C0175
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0826BC0175
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Apr 2020 05:07:16 +0000 (UTC)
+ Tue, 21 Apr 2020 09:44:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A9B95878B4
+ by whitealder.osuosl.org (Postfix) with ESMTP id F364F87987
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Apr 2020 05:07:16 +0000 (UTC)
+ Tue, 21 Apr 2020 09:44:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BQjHEORWws8T
+ with ESMTP id JE12OE89ek2a
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Apr 2020 05:07:15 +0000 (UTC)
-X-Greylist: delayed 00:11:55 by SQLgrey-1.7.6
-Received: from condef-06.nifty.com (condef-06.nifty.com [202.248.20.71])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 33B038748E
+ Tue, 21 Apr 2020 09:44:31 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 7B0548745C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Apr 2020 05:07:15 +0000 (UTC)
-Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-06.nifty.com
- with ESMTP id 03L4rMIH019868
+ Tue, 21 Apr 2020 09:44:31 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id u127so2920186wmg.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Apr 2020 13:53:22 +0900
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
- [209.85.217.52]) (authenticated)
- by conssluserg-01.nifty.com with ESMTP id 03L4qp4S002783
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Apr 2020 13:52:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 03L4qp4S002783
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1587444772;
- bh=/bMQlShw8uk7wtf7csiuF+GhrxiF4rVo+x6bc8t2/pE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZHInWwaFV6Ppb5RJptyXg2Hjwhhcv/Ew7dIOaejliN5o945L/GOphVXlnBGkuk8Lf
- PNMpNUHKpy71O2JbSaYT6WRdhMHOY2QIwBfipvcS559mOb3YVNVIQ0j8xjuvLKIuv0
- +xF2yDcKyT97aKRHZWB3u0DLDY52hsANzuyQM08w/DOg0WOZUKQbif81cSYc6/Y5oi
- fRWn6AOCN5nDOgmEpy0PQHM0WFamJdZCxWJAOepjD2O0hm6JjvgITU41MG6O/7b6hm
- ngZIoo3NN7cYgVqWkDCZme0DIFMZnxHvxsjDDWd2VbZNO/vkyz2+3ZjlTRKIJl5SI5
- EBhdW6Com/TYw==
-X-Nifty-SrcIP: [209.85.217.52]
-Received: by mail-vs1-f52.google.com with SMTP id s11so449040vsq.13
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Apr 2020 21:52:51 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYANsEqiK2rUoBx0PQkYfHOUSgIQt5k+Yz4UnMQR8Ib9Dxw1ZkC
- 17C+P1Ajufx2xd6Xu7TLNQAywScbe9+cJTYFe0I=
-X-Google-Smtp-Source: APiQypK5llLv7LJrjEM3PXYVXtnIpMbDbXFW38yPuWSVyr/Dlk13SYDsY48W+fB8TZ7RTuAWTfCi+VnAHLy7xjr+UOU=
-X-Received: by 2002:a67:e94d:: with SMTP id p13mr11315926vso.215.1587444770520; 
- Mon, 20 Apr 2020 21:52:50 -0700 (PDT)
+ Tue, 21 Apr 2020 02:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=X+mMYA3qFXoBccYe5Q1v2EYprBmty90vAJWRd3ogZ1U=;
+ b=CS+2/hYnNasWB2jsNLAmXFrYZj8KcOi1PYvpIWp6wKqjGvOCuCI2lSZfP5MXBoo+ke
+ Kl0z2hM6tvn2msODMVuoBnHYnqHGyvDF6IUOI7773QcN563zNqJQ3u3fDQRvKcb3AOFe
+ CoHiFyfhJG6sJg/NwrfdePa1/9a/jqOA6yPNQAVD6z5cRhDf5pxCgzIR0axw8l0NlszG
+ 53PChfMNSfEi9xSUzqxed/lB/u4OqMF3s/MXqDrsT/ggKrFkLEFg0zK7boJLczbI9ybe
+ hqZwusLORpg7O7OXosC+twm6CnTP48tPeDvBrMvsQQwf4GhPPju1DbCJk6FZlD03dDcx
+ O9kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=X+mMYA3qFXoBccYe5Q1v2EYprBmty90vAJWRd3ogZ1U=;
+ b=iMoZwUYFAx6KYC/MEK0tpze8P7oWFfi/4CEBa8iJ72BqQRbQ4RbdbY8X6+o81dIO1R
+ xyND68RfaZd9CeyEeO+uElDTDfGU6p7PdHJi0Rfm3ugXINcENx4o45XjQQ4tvVmtUdmy
+ fs87kv57jwn2bgAQGjs89zTx3wgmjl8dq5R56wn2KhNnB4iKK2B5dc4dLwnsgNIWM0yi
+ KDAeipSqeKV8zkCSKnRZno+8vkcboVLTsZhyHihTWZBqFRgT9jk/PuYMHScxdBHr2nyf
+ JJ1pVduRc4Hnb9iqfCrDDf70on/4bXGkx9Zt1orqZG+LTPKio+Q+IsL3mnyQJ2+z2zvY
+ C8Rg==
+X-Gm-Message-State: AGi0Pub5ZRuYK5KRqWy+BKTl9lpkfSmOAVw7lmcdbOatWxZMxTk/HmFC
+ 1YeMalu2+kTekpFQp6IwjL8=
+X-Google-Smtp-Source: APiQypK9RmLpEkjqKlDlxU2Llmi1B5lIMlL8Bl1HFjjxcyZpessuLIwBnke97WzNyp52okucfTPVTg==
+X-Received: by 2002:a1c:dfc6:: with SMTP id w189mr4140181wmg.180.1587462269984; 
+ Tue, 21 Apr 2020 02:44:29 -0700 (PDT)
+Received: from net.saheed (5402C526.dsl.pool.telekom.hu. [84.2.197.38])
+ by smtp.gmail.com with ESMTPSA id n2sm3280622wrq.74.2020.04.21.02.44.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Apr 2020 02:44:29 -0700 (PDT)
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <445b3e38-123e-eb72-2bbb-c40ac4ea9899@gmail.com>
+ <20200420085641.5d8f1a0b@coco.lan>
+From: Saheed Bolarinwa <refactormyself@gmail.com>
+Message-ID: <db880a02-6dc8-7844-254b-682aa41fd54f@gmail.com>
+Date: Tue, 21 Apr 2020 10:44:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200414012132.32721-1-vitor@massaru.org>
- <CAK7LNAQYxtcNinV7JR+c8Pn9Rp1g0TxJ7m_mOFNOJQsB=OiAoA@mail.gmail.com>
- <b82142248b38085fa3ab49a9d3181cabd5a79a91.camel@massaru.org>
-In-Reply-To: <b82142248b38085fa3ab49a9d3181cabd5a79a91.camel@massaru.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 21 Apr 2020 13:52:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQPdSDGX32wXM8MPAQjOwky9qWX2sAo4SWZEcWP5RdTOg@mail.gmail.com>
-Message-ID: <CAK7LNAQPdSDGX32wXM8MPAQjOwky9qWX2sAo4SWZEcWP5RdTOg@mail.gmail.com>
-To: Vitor Massaru Iha <vitor@massaru.org>
-Cc: Michal Marek <michal.lkml@markovi.net>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] kbuild: ensure mrproper
-	removes arch/$(SUBARCH)/include/generated/
+In-Reply-To: <20200420085641.5d8f1a0b@coco.lan>
+Content-Language: en-US
+Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Clarification on the behaviour of
+	checkpatch.pl
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,39 +111,65 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Vitor,
 
-
-On Tue, Apr 21, 2020 at 7:27 AM Vitor Massaru Iha <vitor@massaru.org> wrote:
+On 4/20/20 8:56 AM, Mauro Carvalho Chehab wrote:
+> Em Mon, 20 Apr 2020 02:20:19 +0200
+> Saheed Bolarinwa <refactormyself@gmail.com> escreveu:
 >
-
-> > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> >
-> > Reported-by: Brendan Higgins <brendanhiggins@google.com>
+>> Hello,
+>>
+>> My experience is that checkpatch.pl will not flag some warnings when I use
+>>
+>> the '-f' flag. This especially true for .rst files. My understanding is
+>> that this flag
+>>
+>> is needed to use it with a raw source file instead of a patch.
+>>
+>> Please, I will like to confirm if this is a normal behaviour or is it my
+>> system setup.
+>>
+>> Below is an example from the current stable release linux-5.6.y
+>>
+>>      [saheed@net linux-stable]$ perl ./scripts/checkpatch.pl -f
+>>      ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+>>      total: 0 errors, 0 warnings, 279 lines checked
+>>
+>>      ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst has no
+>>      obvious style problems and is ready for submission.
+>>
+>>
+>>      [saheed@net linux-stable]$ perl ./scripts/checkpatch.pl
+>>      ./Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+>>      WARNING: Possible unwrapped commit description (prefer a maximum 75
+>>      chars per line)
+>>      #6:
+>>      TAA is a hardware vulnerability that allows unprivileged speculative
+>>      access to
+>>
+>>      ERROR: Does not appear to be a unified-diff format patch
+>>
+>>      total: 1 errors, 1 warnings, 0 lines checked
+> If you don't use "-f" flag, then you need to pass a patch to checkpatch,
+> e. g.:
 >
-> Was actually Reported-by Theodore Ts'o <tytso@mit.edu>
-> https://groups.google.com/forum/#!msg/kunit-dev/QmA27YEgEgI/hvS1kiz2CwAJ
-
-OK, please add his tag, then.
-
-
+> 	git show --pretty=email | ./scripts/checkpatch.pl
 >
-> Can I add suggested-by Masahiro Yamada <masahiroy@kernel.org> ?
+> That's btw what you need to do with all patches you would submit upstream.
+>
+> The "-f" flag is used only when you want to run a check on an entire file
+> (and not to the lines modified by a patch).
+>
+>
+Thank you for the clarification.
 
-Please feel free to do so.
+Saheed
 
-
-
-
--- 
-Best Regards
-Masahiro Yamada
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
