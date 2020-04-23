@@ -8,95 +8,97 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 812BCC54FCB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Apr 2020 13:29:37 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 082DDC55186
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Apr 2020 13:30:01 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 46B302073A
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Apr 2020 13:29:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D12232073A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Apr 2020 13:30:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WIYvFizf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46B302073A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J28sVs99"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D12232073A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1A67487813;
-	Thu, 23 Apr 2020 13:29:37 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8D0FF203DD;
+	Thu, 23 Apr 2020 13:30:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3vOGkxPAPOzG; Thu, 23 Apr 2020 13:29:36 +0000 (UTC)
+	with ESMTP id iSmpWZXlfUeF; Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1536E8777F;
-	Thu, 23 Apr 2020 13:29:36 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E3634203D4;
+	Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 09F38C1AE2;
-	Thu, 23 Apr 2020 13:29:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CE312C1AE2;
+	Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CA01AC0175
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 17B74C0175
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 13:29:34 +0000 (UTC)
+ Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B905C86FF9
+ by hemlock.osuosl.org (Postfix) with ESMTP id 06DC187B36
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 13:29:34 +0000 (UTC)
+ Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E7Zjd913dML7
+ with ESMTP id 6ANfbOyKqNjR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 13:29:33 +0000 (UTC)
+ Thu, 23 Apr 2020 13:29:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 769B187CB5
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9235486FF9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 13:29:33 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id a5so2488511pjh.2
+ Thu, 23 Apr 2020 13:29:58 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id v2so2337743plp.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 06:29:33 -0700 (PDT)
+ Thu, 23 Apr 2020 06:29:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A/qLi5DZxHoHRrY1Zo0bANgrwlK0VgvwOiKl05Q08YI=;
- b=WIYvFizfw641zmEzFPfGqFztmbCxpPDF6wW4gUIlu4E1VghjjXII8VEcNLo39T0BqR
- h6pFcwfConso59wGRa8VXKuahu0a9OojNirHwJ/gALeaNMCM1OqFD9xd6yYnrSmP0QKT
- 0gPiA5Kpdg5z8RBHmRsv90fcLGC+gcsaNonfv9rQOsQm0hIoD0Z63zXixsX5e4meklIe
- V870KnT2kx6tdMktpLvfDH+DAyf8s366yfTzx00wiwO4jxsqifkSBI2SBWDPuIK7XaSM
- aM1N4oSxJ5ID8++h+0j8zsiGdkjrL9j1EdMzJX4VK8pUBQBHDA12eu3uHqAXdLt3mkhR
- HrCw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KP3wZ+8tKlkvrUl5SvVI/SdqOgC6oWGIY5Yw4QzvH5E=;
+ b=J28sVs99Lp0SlvzAhp4BaHm/izQCQBhzC7bkN4nLu3z73bcQ8IGOI145uy3EVHVFHB
+ uizOLEA0J4E9xabevgMYcOVU09YkFhyg+fct6SK4cv48gu7UStf7Fb0irrXDHbWD5TXJ
+ 96kjc+6gkrLXkerbcDQmig9b3nZrTcPoW7GVOos27mjK2zDhbxJJxOYKOMbGmbCbVr94
+ 7XsQboylUdP301t5mRTfKuBNbOdgIq1b6ebSShbDDdHG22SSGA+LqzY40rOc1sbZOGks
+ jqoITQr3wmif++dogkHaRq61lAnpjMJuq8/BuzzOM9CG/JW4tdQCmKegBdSbfUy102Ms
+ SM0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A/qLi5DZxHoHRrY1Zo0bANgrwlK0VgvwOiKl05Q08YI=;
- b=drV1ayeQnNgfMtkkdZldjoOsYMRfQL/QK5DvVwICFiK1E6iy/u9V/Ib8Q5q01q8Sl7
- M/xjYQjVlZUws8wu3MuNCF+JIux7opXZDp3elM4eu6cm/q1MCfkGEbUg9uFcu0eFZN+y
- gzXpoEuDB48NDlaCj04HVKSitUzKcrCliryWtvqkZ+rBQVRYmMdqRaru2Q8lIL7zGjQB
- PziRlKURmNTqbkzc3+xs3FzgJhkP8IBgaAliBwJAuNZW9mbExJ7FXFc0vduzv0En96SM
- 4g5kD6wwOdNZzg1WtDEEXATAUKXssmgn+vVagl9poviL63JRkaS+3bS12UuiOFaHNFTu
- CqMA==
-X-Gm-Message-State: AGi0PualBdQoPli9rNEdptvD/Jgnts0zG6qcvjAJwywWPpe8ppy+NkP0
- l4VJtNSzg/CTM6ZA8HQGH70jeHADBW4=
-X-Google-Smtp-Source: APiQypKfBl8F9PlOgP+xYH4ZRY8aemLt77gJiCoZCv/4sZcTKwsd4vnaWKaA3dHuH8A9mP4TkKATPQ==
-X-Received: by 2002:a17:90b:19cc:: with SMTP id
- nm12mr725642pjb.34.1587648572660; 
- Thu, 23 Apr 2020 06:29:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KP3wZ+8tKlkvrUl5SvVI/SdqOgC6oWGIY5Yw4QzvH5E=;
+ b=DPambn1j7j6QEHNEOLOWreqILhiCk2Oc8OVyHE1+TqSm2Q7D0DBxIpz8iqKbqXEabZ
+ 7hSwVA1CI8LDcsHDiSCLSZ2Td82M/amXuzVXk2bpIQNtAaFpZGk7V6KdHGBfji1iMeYF
+ xpQzxBWPzsxkN0+M+QP8ADjoryyTeiwywTumLVNo4kAwyhViq9UghyvxWR0uOtFeQu+k
+ Ew1RcxAv4C1ZZ+ee0vugQpHMZ3sTfPBKcL/kYk+o3OQ8bGrnWPJNWloeDxMbcUJAcBO1
+ xZKW/ERfMubsxguRis+XURyyTSxnw8j7v17uIki9TQk5JDInWR8eR4QRBT8Upu/KpmPu
+ QCRA==
+X-Gm-Message-State: AGi0PubZBgimBdHzLPA3QPp8h2c9HHaM5MvKmoSAXMJM2d1u2rpwDDMA
+ ZUUEn7Dd3PMr2OPnDOZ95+pjgvkLArA=
+X-Google-Smtp-Source: APiQypJYcLB1W36+ri+KVo6iyz9hg8/psJBiKRIU2QFQYX0F3CfW9V6IXM4ECKUJS4xprFiPxaabEQ==
+X-Received: by 2002:a17:90a:fd89:: with SMTP id
+ cx9mr674838pjb.64.1587648597862; 
+ Thu, 23 Apr 2020 06:29:57 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.47])
- by smtp.gmail.com with ESMTPSA id 127sm2567258pfz.128.2020.04.23.06.29.29
+ by smtp.gmail.com with ESMTPSA id 127sm2567258pfz.128.2020.04.23.06.29.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 06:29:31 -0700 (PDT)
+ Thu, 23 Apr 2020 06:29:57 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: linux-kernel-mentees@lists.linuxfoundation.org, bjorn@helgaas.com,
  skhan@linuxfoundation.org, rjw@rjwysocki.net
-Date: Thu, 23 Apr 2020 18:57:59 +0530
-Message-Id: <20200423132759.38191-1-vaibhavgupta40@gmail.com>
+Date: Thu, 23 Apr 2020 18:58:01 +0530
+Message-Id: <20200423132759.38191-2-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200423132759.38191-1-vaibhavgupta40@gmail.com>
+References: <20200423132759.38191-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 1/2] realtek/8139too: Remove
-	Legacy Power Management
+Subject: [Linux-kernel-mentees] [PATCH v1 2/2] realtek/8139cp: Remove Legacy
+	Power Management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,82 +118,89 @@ Sender: "Linux-kernel-mentees"
 
 Upgrade Power Management from legacy to generic using dev_pm_ops.
 
-Remove struct pci_driver.suspend and struct pci_driver.resume bindings,
-and add struct pci_driver.driver.pm .
+Remove pci_save_sate(), pci_set_state(), etc. No need of directive
+'#ifdef CONFIG_PM' as, if CONFIG_PM is not defined, the binding
+will be by deafult set to NULL.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/net/ethernet/realtek/8139too.c | 26 +++++++-------------------
- 1 file changed, 7 insertions(+), 19 deletions(-)
+ drivers/net/ethernet/realtek/8139cp.c | 25 +++++++------------------
+ 1 file changed, 7 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/net/ethernet/realtek/8139too.c b/drivers/net/ethernet/realtek/8139too.c
-index 5caeb8368eab..b7c98b165256 100644
---- a/drivers/net/ethernet/realtek/8139too.c
-+++ b/drivers/net/ethernet/realtek/8139too.c
-@@ -2603,17 +2603,13 @@ static void rtl8139_set_rx_mode (struct net_device *dev)
- 	spin_unlock_irqrestore (&tp->lock, flags);
+diff --git a/drivers/net/ethernet/realtek/8139cp.c b/drivers/net/ethernet/realtek/8139cp.c
+index 60d342f82fb3..e2e79cf4e1fa 100644
+--- a/drivers/net/ethernet/realtek/8139cp.c
++++ b/drivers/net/ethernet/realtek/8139cp.c
+@@ -2054,10 +2054,9 @@ static void cp_remove_one (struct pci_dev *pdev)
+ 	free_netdev(dev);
  }
  
 -#ifdef CONFIG_PM
--
--static int rtl8139_suspend (struct pci_dev *pdev, pm_message_t state)
-+static int rtl8139_suspend(struct device *device)
+-static int cp_suspend (struct pci_dev *pdev, pm_message_t state)
++static int cp_suspend(struct device *device)
  {
--	struct net_device *dev = pci_get_drvdata (pdev);
+-	struct net_device *dev = pci_get_drvdata(pdev);
 +	struct net_device *dev = dev_get_drvdata(device);
- 	struct rtl8139_private *tp = netdev_priv(dev);
- 	void __iomem *ioaddr = tp->mmio_addr;
+ 	struct cp_private *cp = netdev_priv(dev);
  	unsigned long flags;
  
--	pci_save_state (pdev);
--
- 	if (!netif_running (dev))
- 		return 0;
+@@ -2075,16 +2074,12 @@ static int cp_suspend (struct pci_dev *pdev, pm_message_t state)
  
-@@ -2631,38 +2627,30 @@ static int rtl8139_suspend (struct pci_dev *pdev, pm_message_t state)
+ 	spin_unlock_irqrestore (&cp->lock, flags);
  
- 	spin_unlock_irqrestore (&tp->lock, flags);
- 
--	pci_set_power_state (pdev, PCI_D3hot);
+-	pci_save_state(pdev);
+-	pci_enable_wake(pdev, pci_choose_state(pdev, state), cp->wol_enabled);
+-	pci_set_power_state(pdev, pci_choose_state(pdev, state));
 -
  	return 0;
  }
  
--
--static int rtl8139_resume (struct pci_dev *pdev)
-+static int rtl8139_resume(struct device *device)
+-static int cp_resume (struct pci_dev *pdev)
++static int cp_resume(struct device *device)
  {
 -	struct net_device *dev = pci_get_drvdata (pdev);
 +	struct net_device *dev = dev_get_drvdata(device);
+ 	struct cp_private *cp = netdev_priv(dev);
+ 	unsigned long flags;
  
--	pci_restore_state (pdev);
- 	if (!netif_running (dev))
- 		return 0;
--	pci_set_power_state (pdev, PCI_D0);
-+
- 	rtl8139_init_ring (dev);
- 	rtl8139_hw_start (dev);
+@@ -2093,10 +2088,6 @@ static int cp_resume (struct pci_dev *pdev)
+ 
  	netif_device_attach (dev);
+ 
+-	pci_set_power_state(pdev, PCI_D0);
+-	pci_restore_state(pdev);
+-	pci_enable_wake(pdev, PCI_D0, 0);
+-
+ 	/* FIXME: sh*t may happen if the Rx ring buffer is depleted */
+ 	cp_init_rings_index (cp);
+ 	cp_init_hw (cp);
+@@ -2111,7 +2102,6 @@ static int cp_resume (struct pci_dev *pdev)
+ 
  	return 0;
  }
- 
 -#endif /* CONFIG_PM */
--
-+static SIMPLE_DEV_PM_OPS(rtl8139_pm_ops, rtl8139_suspend, rtl8139_resume);
  
- static struct pci_driver rtl8139_pci_driver = {
- 	.name		= DRV_NAME,
- 	.id_table	= rtl8139_pci_tbl,
- 	.probe		= rtl8139_init_one,
- 	.remove		= rtl8139_remove_one,
+ static const struct pci_device_id cp_pci_tbl[] = {
+         { PCI_DEVICE(PCI_VENDOR_ID_REALTEK,     PCI_DEVICE_ID_REALTEK_8139), },
+@@ -2120,15 +2110,14 @@ static const struct pci_device_id cp_pci_tbl[] = {
+ };
+ MODULE_DEVICE_TABLE(pci, cp_pci_tbl);
+ 
++static SIMPLE_DEV_PM_OPS(cp_pm_ops, cp_suspend, cp_resume);
++
+ static struct pci_driver cp_driver = {
+ 	.name         = DRV_NAME,
+ 	.id_table     = cp_pci_tbl,
+ 	.probe        =	cp_init_one,
+ 	.remove       = cp_remove_one,
 -#ifdef CONFIG_PM
--	.suspend	= rtl8139_suspend,
--	.resume		= rtl8139_resume,
--#endif /* CONFIG_PM */
-+	.driver.pm	= &rtl8139_pm_ops,
+-	.resume       = cp_resume,
+-	.suspend      = cp_suspend,
+-#endif
++	.driver.pm    = &cp_pm_ops,
  };
  
- 
+ module_pci_driver(cp_driver);
 -- 
 2.26.2
 
