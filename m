@@ -2,103 +2,114 @@ Return-Path: <SRS0=CC7Y=6H=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-4.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 082DDC55186
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Apr 2020 13:30:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 400A6C54FD0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Apr 2020 14:35:49 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D12232073A
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Apr 2020 13:30:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 05D8520728
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Apr 2020 14:35:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J28sVs99"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D12232073A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vf8Ep7dr"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 05D8520728
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8D0FF203DD;
-	Thu, 23 Apr 2020 13:30:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C9A3420462;
+	Thu, 23 Apr 2020 14:35:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iSmpWZXlfUeF; Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
+	with ESMTP id k4w2koJuthhr; Thu, 23 Apr 2020 14:35:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E3634203D4;
-	Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 38AE620364;
+	Thu, 23 Apr 2020 14:35:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CE312C1AE2;
-	Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 17B74C0175
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1E1E0C1797;
+	Thu, 23 Apr 2020 14:35:48 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5B4B1C0175
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
+ Thu, 23 Apr 2020 14:35:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 06DC187B36
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 490CD86CED
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 13:29:59 +0000 (UTC)
+ Thu, 23 Apr 2020 14:35:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6ANfbOyKqNjR
+ with ESMTP id UcjjuEW1lGwb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 13:29:58 +0000 (UTC)
+ Thu, 23 Apr 2020 14:35:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9235486FF9
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5F8A586CBD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 13:29:58 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id v2so2337743plp.9
+ Thu, 23 Apr 2020 14:35:46 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j1so7130595wrt.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Apr 2020 06:29:58 -0700 (PDT)
+ Thu, 23 Apr 2020 07:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KP3wZ+8tKlkvrUl5SvVI/SdqOgC6oWGIY5Yw4QzvH5E=;
- b=J28sVs99Lp0SlvzAhp4BaHm/izQCQBhzC7bkN4nLu3z73bcQ8IGOI145uy3EVHVFHB
- uizOLEA0J4E9xabevgMYcOVU09YkFhyg+fct6SK4cv48gu7UStf7Fb0irrXDHbWD5TXJ
- 96kjc+6gkrLXkerbcDQmig9b3nZrTcPoW7GVOos27mjK2zDhbxJJxOYKOMbGmbCbVr94
- 7XsQboylUdP301t5mRTfKuBNbOdgIq1b6ebSShbDDdHG22SSGA+LqzY40rOc1sbZOGks
- jqoITQr3wmif++dogkHaRq61lAnpjMJuq8/BuzzOM9CG/JW4tdQCmKegBdSbfUy102Ms
- SM0A==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=x6IGIVHimLN6wXXRyErAIS+MRNtXI4hH2CwyG6Xff30=;
+ b=vf8Ep7drlVFpFPiDnXCutY0TNWGrNo8Xncv2udOcbey1cXFppOGy4CONEDFgH3iI/j
+ cPG+bOr+DeXb9D5cEFTkQ/ApdoEGgKqnH0Mfdj3rMaYdt3PTzrGkZrqpN9M0jfx2jxK7
+ +JtJBwVUMmkszV9SZkHhv/V3keBtmCQt6INjSdmLaGrUaF71Dfw3ph0q02qvZDqa7xjG
+ sDXh9fdNg/3xYeeQ04KaI9+jlD5B2UVwz9eDT4sQKg4gQrQe+CDLnuHIi6e0iploviqL
+ CWzqSckSWzdDxZ7qCmtwoLGia8OJL2fNk/KGo7+B6nJnlch+YdQNE9a0nlwCv7DfSFvO
+ hMaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KP3wZ+8tKlkvrUl5SvVI/SdqOgC6oWGIY5Yw4QzvH5E=;
- b=DPambn1j7j6QEHNEOLOWreqILhiCk2Oc8OVyHE1+TqSm2Q7D0DBxIpz8iqKbqXEabZ
- 7hSwVA1CI8LDcsHDiSCLSZ2Td82M/amXuzVXk2bpIQNtAaFpZGk7V6KdHGBfji1iMeYF
- xpQzxBWPzsxkN0+M+QP8ADjoryyTeiwywTumLVNo4kAwyhViq9UghyvxWR0uOtFeQu+k
- Ew1RcxAv4C1ZZ+ee0vugQpHMZ3sTfPBKcL/kYk+o3OQ8bGrnWPJNWloeDxMbcUJAcBO1
- xZKW/ERfMubsxguRis+XURyyTSxnw8j7v17uIki9TQk5JDInWR8eR4QRBT8Upu/KpmPu
- QCRA==
-X-Gm-Message-State: AGi0PubZBgimBdHzLPA3QPp8h2c9HHaM5MvKmoSAXMJM2d1u2rpwDDMA
- ZUUEn7Dd3PMr2OPnDOZ95+pjgvkLArA=
-X-Google-Smtp-Source: APiQypJYcLB1W36+ri+KVo6iyz9hg8/psJBiKRIU2QFQYX0F3CfW9V6IXM4ECKUJS4xprFiPxaabEQ==
-X-Received: by 2002:a17:90a:fd89:: with SMTP id
- cx9mr674838pjb.64.1587648597862; 
- Thu, 23 Apr 2020 06:29:57 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.152.47])
- by smtp.gmail.com with ESMTPSA id 127sm2567258pfz.128.2020.04.23.06.29.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 06:29:57 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: linux-kernel-mentees@lists.linuxfoundation.org, bjorn@helgaas.com,
- skhan@linuxfoundation.org, rjw@rjwysocki.net
-Date: Thu, 23 Apr 2020 18:58:01 +0530
-Message-Id: <20200423132759.38191-2-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200423132759.38191-1-vaibhavgupta40@gmail.com>
-References: <20200423132759.38191-1-vaibhavgupta40@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=x6IGIVHimLN6wXXRyErAIS+MRNtXI4hH2CwyG6Xff30=;
+ b=uWW5kz+bhkLw3rPMsUS+PPlTVMS98GJ9AZd+j++I/FKHWPM4/IqW++SZMSnZusMSEO
+ 95QDIpAplf2RbuXa8ZtvvheJxKGDbHlyws9//WXjPf0nG5a4ypAvCSO3HmITt7LEliMb
+ e2XZHbgGCdL0OEyyLksXkVdz5/9+DqIEgt7UNR1Q0XnCLNurYhLCyLdpALi/Unb2ifrF
+ KGDxZIfFh8/+de9Ykm6YVlI6iDIG2uM8FeXNwsfVxTDJu91ROWjMwSW1xS431lMw8ikY
+ Gpw7jKgNbMUvjVmuHMsrbvXE0DIdkPRPkz+K/iQRoCdnO2S5I/Z+872wRn7T7jPBAmDs
+ 0s4g==
+X-Gm-Message-State: AGi0PuZ65DCalT72VGcLmlJ/0XLtbqvNjo5pNv8/sMXtvSdZjs26xGMR
+ C7uZnpvxkLxylmS4QsdcISk=
+X-Google-Smtp-Source: APiQypLIUH9cLSTf94KBbNXeLc8HmzzTpjl+Y2L4JZrTFpsXOzsPlyUs45ikzIJWhNEC7Yfw6+4rqg==
+X-Received: by 2002:adf:eecc:: with SMTP id a12mr5225266wrp.112.1587652544894; 
+ Thu, 23 Apr 2020 07:35:44 -0700 (PDT)
+Received: from net.saheed (563BD1A4.dsl.pool.telekom.hu. [86.59.209.164])
+ by smtp.gmail.com with ESMTPSA id c20sm4420321wmd.36.2020.04.23.07.35.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Apr 2020 07:35:44 -0700 (PDT)
+To: Jonathan Corbet <corbet@lwn.net>
+References: <20200423114517.18074-1-refactormyself@users.noreply.github.com>
+ <20200423070230.3fd863ba@lwn.net>
+From: Saheed Bolarinwa <refactormyself@gmail.com>
+Message-ID: <41072c85-7157-a3b8-17b5-9b4ab38f14ca@gmail.com>
+Date: Thu, 23 Apr 2020 15:35:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 2/2] realtek/8139cp: Remove Legacy
-	Power Management
+In-Reply-To: <20200423070230.3fd863ba@lwn.net>
+Content-Language: en-US
+Cc: Song Liu <songliubraving@fb.com>, Stephen Kitt <steve@sk2.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Eric Biggers <ebiggers@google.com>, Andrii Nakryiko <andriin@fb.com>,
+ "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+ John Fastabend <john.fastabend@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
+ linux-doc@vger.kernel.org, Masanari Iida <standby24x7@gmail.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, netdev@vger.kernel.org,
+ KP Singh <kpsingh@chromium.org>, Yonghong Song <yhs@fb.com>,
+ bpf@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Martin KaFai Lau <kafai@fb.com>, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] docs: Fix WARNING - Title
+	underline too short
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,99 +121,39 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Upgrade Power Management from legacy to generic using dev_pm_ops.
 
-Remove pci_save_sate(), pci_set_state(), etc. No need of directive
-'#ifdef CONFIG_PM' as, if CONFIG_PM is not defined, the binding
-will be by deafult set to NULL.
+On 4/23/20 3:02 PM, Jonathan Corbet wrote:
+> On Thu, 23 Apr 2020 13:45:17 +0200
+> Bolarinwa Olayemi Saheed <refactormyself@gmail.com> wrote:
+>
+>> From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+>>
+>> There were two instances of "Title underline too short" and they were
+>> increased to match the title text.
+>>
+>> Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+>> ---
+>>   Documentation/admin-guide/sysctl/kernel.rst | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+> These warnings are caused by a patch entering linux-next via the -mm tree;
+> Randy has already sent a patch to fix them.
+>
+> [Next time you might want to examine the recipient list a bit; this patch
+> was broadcast a bit more widely than was really necessary.]
+>
+>
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/net/ethernet/realtek/8139cp.c | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+Noted, sorry about that.
 
-diff --git a/drivers/net/ethernet/realtek/8139cp.c b/drivers/net/ethernet/realtek/8139cp.c
-index 60d342f82fb3..e2e79cf4e1fa 100644
---- a/drivers/net/ethernet/realtek/8139cp.c
-+++ b/drivers/net/ethernet/realtek/8139cp.c
-@@ -2054,10 +2054,9 @@ static void cp_remove_one (struct pci_dev *pdev)
- 	free_netdev(dev);
- }
- 
--#ifdef CONFIG_PM
--static int cp_suspend (struct pci_dev *pdev, pm_message_t state)
-+static int cp_suspend(struct device *device)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct net_device *dev = dev_get_drvdata(device);
- 	struct cp_private *cp = netdev_priv(dev);
- 	unsigned long flags;
- 
-@@ -2075,16 +2074,12 @@ static int cp_suspend (struct pci_dev *pdev, pm_message_t state)
- 
- 	spin_unlock_irqrestore (&cp->lock, flags);
- 
--	pci_save_state(pdev);
--	pci_enable_wake(pdev, pci_choose_state(pdev, state), cp->wol_enabled);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
--
- 	return 0;
- }
- 
--static int cp_resume (struct pci_dev *pdev)
-+static int cp_resume(struct device *device)
- {
--	struct net_device *dev = pci_get_drvdata (pdev);
-+	struct net_device *dev = dev_get_drvdata(device);
- 	struct cp_private *cp = netdev_priv(dev);
- 	unsigned long flags;
- 
-@@ -2093,10 +2088,6 @@ static int cp_resume (struct pci_dev *pdev)
- 
- 	netif_device_attach (dev);
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--	pci_enable_wake(pdev, PCI_D0, 0);
--
- 	/* FIXME: sh*t may happen if the Rx ring buffer is depleted */
- 	cp_init_rings_index (cp);
- 	cp_init_hw (cp);
-@@ -2111,7 +2102,6 @@ static int cp_resume (struct pci_dev *pdev)
- 
- 	return 0;
- }
--#endif /* CONFIG_PM */
- 
- static const struct pci_device_id cp_pci_tbl[] = {
-         { PCI_DEVICE(PCI_VENDOR_ID_REALTEK,     PCI_DEVICE_ID_REALTEK_8139), },
-@@ -2120,15 +2110,14 @@ static const struct pci_device_id cp_pci_tbl[] = {
- };
- MODULE_DEVICE_TABLE(pci, cp_pci_tbl);
- 
-+static SIMPLE_DEV_PM_OPS(cp_pm_ops, cp_suspend, cp_resume);
-+
- static struct pci_driver cp_driver = {
- 	.name         = DRV_NAME,
- 	.id_table     = cp_pci_tbl,
- 	.probe        =	cp_init_one,
- 	.remove       = cp_remove_one,
--#ifdef CONFIG_PM
--	.resume       = cp_resume,
--	.suspend      = cp_suspend,
--#endif
-+	.driver.pm    = &cp_pm_ops,
- };
- 
- module_pci_driver(cp_driver);
--- 
-2.26.2
+Thank you.
+
+Saheed
 
 _______________________________________________
 Linux-kernel-mentees mailing list
