@@ -2,77 +2,98 @@ Return-Path: <SRS0=nCKz=6I=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	TVD_SUBJ_WIPE_DEBT,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F9F5C5518A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Apr 2020 03:47:38 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFCAFC2BA1A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Apr 2020 09:18:19 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 62DD720706
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Apr 2020 03:47:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B857A20724
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Apr 2020 09:18:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBO6rVx+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62DD720706
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O9KmnucB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B857A20724
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1A7D823251;
-	Fri, 24 Apr 2020 03:47:38 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 728B286F3B;
+	Fri, 24 Apr 2020 09:18:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NxvApGT_yNhg; Fri, 24 Apr 2020 09:18:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C832B86F0F;
+	Fri, 24 Apr 2020 09:18:18 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AB57FC089E;
+	Fri, 24 Apr 2020 09:18:18 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 266D8C0175
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Apr 2020 09:18:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 0A5C12041C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Apr 2020 09:18:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Bed306c8KMhc; Fri, 24 Apr 2020 03:47:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 61ED320485;
-	Fri, 24 Apr 2020 03:47:37 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 47F70C1AE2;
-	Fri, 24 Apr 2020 03:47:37 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 972F9C0175
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 03:47:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 90925886C2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 03:47:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NdXLl15AuSHY
+ with ESMTP id fLamDEjkKnAc
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 03:47:35 +0000 (UTC)
+ Fri, 24 Apr 2020 09:18:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 165EE886B5
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0AF1B20133
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 03:47:35 +0000 (UTC)
-Received: from localhost (mobile-166-175-187-210.mycingular.net
- [166.175.187.210])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9C20720706;
- Fri, 24 Apr 2020 03:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587700054;
- bh=JZocvxA4gCxtORYoLVD2uh/OvgZFbJ3eVtYzA/aNPFo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=nBO6rVx+xI5UKBYCp5PPgmCp4E6+fhx7wCMXmVsqjOlHoCuoh8HGXk84uxIxOY7iw
- E+PPMmFicFkyKDccRsX4OQAGkLQXgxLZoImnDZglTb39nxFtquPDgS2zEGEkJFVdtM
- ZeWAMbX+ACkDn2zxswg1IRvouBNrPPlnkcoBXt5I=
-Date: Thu, 23 Apr 2020 22:47:33 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <20200424034733.GA36790@google.com>
+ Fri, 24 Apr 2020 09:18:17 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id 18so4517379pfx.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Apr 2020 02:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T+uEhCoDVXUbYJvl23b4BPrGVZkGHC3ELQ4hh35XM+g=;
+ b=O9KmnucBbILyIGXIRpzcrKONHuWaDu+Pd4px8G084uU12bwIVofFQXOyoH/a6rTGzA
+ movAMzECa5G2ncLahh7HYmbnMrO5gct84+AjaMRVSfvBIP3B+5TjQq7K7O+kDCpduXdT
+ VNJSbv44MU+R9TUD9BCQeg9IRvcUh4iUs8hoeb2yJG1GoMe0EgynyLUypAw4d3dQiDrS
+ J4XoECdk05BfGHqIiDrufyC2s3PRdPBWmgYfNbDsap0hAf4QaUMb5pRboqXclvcKtkAS
+ SZfeLNf7RzcuhyInS4rIBj04y/5peIQsSp3/SosaXNT3Nw5sAgMUWNDNyQxjx3hSNyS2
+ AgQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T+uEhCoDVXUbYJvl23b4BPrGVZkGHC3ELQ4hh35XM+g=;
+ b=pvvgUCsqVYuSH28uFztoaTG0l1dne0aicoO93W49PWyzce1al84ZSJ+gRed+b2Q1E1
+ kzPMLCPieT56UoXWLQx0rX8RUEgMcS+yEiA3NugQSnoFxEHYgh8jcCkY84kT3lji79ZT
+ Y97ksGdDHICYfE8/SeNrRUrSuT5zFTfxMO6tN5C6QY9DDbW/l40po/B9R7jRgbiuRvU6
+ zywg4qH2p19xsJCiCv6b+ADcz1/ZypzeYR1fEJBX522+H2wmGNe+extr8nvrtG5AnZJ7
+ /1X4UTu30j+QqwFr6hOhIuJiyoirCOhzbnjjYagp4bqcs6qAC3thv90aNmpCFpFKYO7Y
+ 3O/A==
+X-Gm-Message-State: AGi0PubAM0N6QLKbkVpcSXtDJfG/IOsSBs88xw3M/M56q/rb0Q3IyeRg
+ xLk4ZnWxq1SBtKtmnd7rrZI=
+X-Google-Smtp-Source: APiQypKbjGOz5ss+Zxtgd9ipX9zXCwbvViwozLH8P/3+9KxNsb5We2Mslqc6nYQbEReUn/Pv07bFIw==
+X-Received: by 2002:a63:190a:: with SMTP id z10mr7906814pgl.331.1587719896438; 
+ Fri, 24 Apr 2020 02:18:16 -0700 (PDT)
+Received: from localhost.localdomain ([1.38.216.60])
+ by smtp.gmail.com with ESMTPSA id c80sm5043933pfb.82.2020.04.24.02.18.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Apr 2020 02:18:16 -0700 (PDT)
+From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+To: cocci@systeme.lip6.fr
+Date: Fri, 24 Apr 2020 14:47:36 +0530
+Message-Id: <20200424091801.13871-1-jaskaransingh7654321@gmail.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200423132759.38191-2-vaibhavgupta40@gmail.com>
-Cc: rjw@rjwysocki.net, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 2/2] realtek/8139cp: Remove
- Legacy Power Management
+Cc: julia.lawall@inria.fr, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [RFC PATCH 00/25] cocci: Improve C parsing
+	of attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,105 +111,101 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Apr 23, 2020 at 06:58:01PM +0530, Vaibhav Gupta wrote:
-> Upgrade Power Management from legacy to generic using dev_pm_ops.
-> 
-> Remove pci_save_sate(), pci_set_state(), etc. No need of directive
-> '#ifdef CONFIG_PM' as, if CONFIG_PM is not defined, the binding
-> will be by deafult set to NULL.
+This patch series aims to improve parsing of attributes in C by
+Coccinelle's C parser.
 
-s/deafult/default/
+These parsing errors were discovered by running a build of Coccinelle's
+master branch on gitlab to parse the source code of Linux v5.5-rc4 and Linux
+v5.6-rc7. Coccinelle currently manages attributes similar to comments, so
+to explicity state what the attributes are to the C parser, a
+MACROANNOTATION hint was used in Coccinelle's standard.h file. The hint
+enables the parser to correctly identify attributes, and thus potentially
+handle them differently in the AST.
 
-I didn't quite follow this argument.  SIMPLE_DEV_PM_OPS() is defined
-to SET_SYSTEM_SLEEP_PM_OPS(), and SET_SYSTEM_SLEEP_PM_OPS() is defined
-to nothing unless CONFIG_PM_SLEEP (not CONFIG_PM).
+Upon collection of these parsing errors, The GNU C Compiler's
+grammar was taken as a reference for introducing attributes in correct
+places in Coccinelle's C parser.
 
-But in any case, we don't want cp_suspend() and cp_resume() to be
-compiled at all if they're not referenced.  So I think converting the
-"#ifdef CONFIG_PM" to "#ifdef CONFIG_PM_SLEEP" is the right thing.
+Upon applying the MACROANNOTATION hint to a majority of the attributes in
+Coccinelle's standard.h file and parsing the source code of Linux
+v5.6-rc7, the difference between the stats (of --parse-c) before and
+after applying this patch series are as follows:
 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> ---
->  drivers/net/ethernet/realtek/8139cp.c | 25 +++++++------------------
->  1 file changed, 7 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/realtek/8139cp.c b/drivers/net/ethernet/realtek/8139cp.c
-> index 60d342f82fb3..e2e79cf4e1fa 100644
-> --- a/drivers/net/ethernet/realtek/8139cp.c
-> +++ b/drivers/net/ethernet/realtek/8139cp.c
-> @@ -2054,10 +2054,9 @@ static void cp_remove_one (struct pci_dev *pdev)
->  	free_netdev(dev);
->  }
->  
-> -#ifdef CONFIG_PM
-> -static int cp_suspend (struct pci_dev *pdev, pm_message_t state)
-> +static int cp_suspend(struct device *device)
->  {
-> -	struct net_device *dev = pci_get_drvdata(pdev);
-> +	struct net_device *dev = dev_get_drvdata(device);
->  	struct cp_private *cp = netdev_priv(dev);
->  	unsigned long flags;
->  
-> @@ -2075,16 +2074,12 @@ static int cp_suspend (struct pci_dev *pdev, pm_message_t state)
->  
->  	spin_unlock_irqrestore (&cp->lock, flags);
->  
-> -	pci_save_state(pdev);
-> -	pci_enable_wake(pdev, pci_choose_state(pdev, state), cp->wol_enabled);
-> -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
-> -
->  	return 0;
->  }
->  
-> -static int cp_resume (struct pci_dev *pdev)
-> +static int cp_resume(struct device *device)
->  {
-> -	struct net_device *dev = pci_get_drvdata (pdev);
-> +	struct net_device *dev = dev_get_drvdata(device);
->  	struct cp_private *cp = netdev_priv(dev);
->  	unsigned long flags;
->  
-> @@ -2093,10 +2088,6 @@ static int cp_resume (struct pci_dev *pdev)
->  
->  	netif_device_attach (dev);
->  
-> -	pci_set_power_state(pdev, PCI_D0);
-> -	pci_restore_state(pdev);
-> -	pci_enable_wake(pdev, PCI_D0, 0);
-> -
->  	/* FIXME: sh*t may happen if the Rx ring buffer is depleted */
->  	cp_init_rings_index (cp);
->  	cp_init_hw (cp);
-> @@ -2111,7 +2102,6 @@ static int cp_resume (struct pci_dev *pdev)
->  
->  	return 0;
->  }
-> -#endif /* CONFIG_PM */
->  
->  static const struct pci_device_id cp_pci_tbl[] = {
->          { PCI_DEVICE(PCI_VENDOR_ID_REALTEK,     PCI_DEVICE_ID_REALTEK_8139), },
-> @@ -2120,15 +2110,14 @@ static const struct pci_device_id cp_pci_tbl[] = {
->  };
->  MODULE_DEVICE_TABLE(pci, cp_pci_tbl);
->  
-> +static SIMPLE_DEV_PM_OPS(cp_pm_ops, cp_suspend, cp_resume);
-> +
->  static struct pci_driver cp_driver = {
->  	.name         = DRV_NAME,
->  	.id_table     = cp_pci_tbl,
->  	.probe        =	cp_init_one,
->  	.remove       = cp_remove_one,
-> -#ifdef CONFIG_PM
-> -	.resume       = cp_resume,
-> -	.suspend      = cp_suspend,
-> -#endif
-> +	.driver.pm    = &cp_pm_ops,
->  };
->  
->  module_pci_driver(cp_driver);
-> -- 
-> 2.26.2
-> 
+Before:
+
+	NB total files = 28268; perfect = 25697; pbs = 2570; timeout = 0; =========> 90%
+	nb good = 19160664,  nb passed = 135235 =========> 0.70% passed
+	nb good = 19160664,  nb bad = 129685 =========> 99.33% good or passed
+
+After:
+
+	NB total files = 28268; perfect = 25699; pbs = 2568; timeout = 0; =========> 90%
+	nb good = 19160856,  nb passed = 71716 =========> 0.37% passed
+	nb good = 19160856,  nb bad = 129493 =========> 99.33% good or passed
+
+Fixes for a few test case failures that arise from applying the new
+productions are also included. The test cases that failed were:
+
+	unstruct
+	nocast
+
+What this patch series does not do:
+- Add attributes from all the new productions into the C AST. Some of
+  these are dropped.
+- Reflect changes from the C parser in the SmPL parser.
+
+Separate patches will be sent for the above.
+
+Jaskaran Singh (25):
+      parsing_c: parse_c: Ignore TMacroAttr and TMacroEndAttr in passed tokens
+      parsing_c: parsing_hacks: Label end attributes correctly
+      parsing_c: parsing_hacks: Commentize attributes before qualif/type
+      parsing_c: parser: Add rule for multiple end attributes
+      parsing_c: parser: Add expression statement attributes
+      parsing_c: parser: Add attribute production in spec_qualif_list
+      parsing_c: parser: Add init_declarator_attrs rule
+      parsing_c: parser: Add field declaration end attributes production
+      parsing_c: parser: Handle struct/union/enum end attributes
+      parsing_c: parser: Add MacroDecl end attributes production
+      parsing_c: parser: cpp_other end attributes production
+      parsing_c: cpp_token_c: Introduce MACROANNOTATION hint
+      cocci: standard.h: Annotate attributes with MACROANNOTATION
+      parsing_c: visitor_c: Add vk_attribute and vk_attribute_s
+      parsing_c: lib_parsing_c: Add ii_of_attr
+      engine: Add distrf_attr to PARAM functor
+      engine: cocci_vs_c: Add allminus argument to attribute_list
+      parsing_c: parser: Make abstract_declarator pass attributes
+      cocci: Add parameter attributes to C AST
+      parsing_c: parser: Place parameter attributes in C AST
+      parsing_c: visitor_c: Visit parameter attributes
+      parsing_c: unparse_hrule: Add parameter attributes in record
+      parsing_c: type_c: Add parameter attributes to record
+      engine: cocci_vs_c: "Match" parameter attributes
+      engine: c_vs_c: Match parameter attributes
+
+ engine/c_vs_c.ml            |   12 ++-
+ engine/cocci_vs_c.ml        |   85 +++++++++++++++++-----
+ engine/cocci_vs_c.mli       |    3 
+ engine/pattern_c.ml         |    1 
+ engine/transformation_c.ml  |    5 +
+ ocaml/coccilib.mli          |    1 
+ parsing_c/ast_c.ml          |    1 
+ parsing_c/ast_c.mli         |    1 
+ parsing_c/cpp_token_c.ml    |    2 
+ parsing_c/lib_parsing_c.ml  |    1 
+ parsing_c/lib_parsing_c.mli |    1 
+ parsing_c/parse_c.ml        |    4 -
+ parsing_c/parser_c.mly      |  165 +++++++++++++++++++++++++++++++++++++-------
+ parsing_c/parsing_hacks.ml  |   37 +++++++++
+ parsing_c/type_c.ml         |    1 
+ parsing_c/unparse_hrule.ml  |    3 
+ parsing_c/visitor_c.ml      |    7 +
+ parsing_c/visitor_c.mli     |    3 
+ standard.h                  |  116 +++++++++++++++---------------
+ 19 files changed, 342 insertions(+), 107 deletions(-)
+
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
