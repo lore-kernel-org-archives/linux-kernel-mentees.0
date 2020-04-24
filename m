@@ -8,96 +8,96 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C4BC55186
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Apr 2020 09:19:13 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91999C55186
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Apr 2020 09:19:17 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 18D9D20724
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Apr 2020 09:19:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 653F620724
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Apr 2020 09:19:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CkF5DY46"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18D9D20724
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmnOshuJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 653F620724
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F0C8D86F51;
-	Fri, 24 Apr 2020 09:19:12 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kD6cbc71jVXL; Fri, 24 Apr 2020 09:19:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9590486F41;
-	Fri, 24 Apr 2020 09:19:12 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 84DDCC089E;
-	Fri, 24 Apr 2020 09:19:12 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7503AC0175
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 09:19:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6CC56887D5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 09:19:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 29F48887C0;
+	Fri, 24 Apr 2020 09:19:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qEWo7mJVi1NQ; Fri, 24 Apr 2020 09:19:16 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id C7214887BE;
+	Fri, 24 Apr 2020 09:19:16 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B33CBC089E;
+	Fri, 24 Apr 2020 09:19:16 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A5F9CC0175
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Apr 2020 09:19:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 92692880B2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Apr 2020 09:19:14 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pyz+OZjBjyZv
+ with ESMTP id 5A2MyBM1iZSs
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 09:19:11 +0000 (UTC)
+ Fri, 24 Apr 2020 09:19:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0B1B3887BE
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 13A3686443
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 09:19:11 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id g2so3537170plo.3
+ Fri, 24 Apr 2020 09:19:14 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id o15so4376265pgi.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2020 02:19:11 -0700 (PDT)
+ Fri, 24 Apr 2020 02:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BSXy7p3ASCxK8X1Fpi/Kk/DjgU4d+i+CiSo8ebcoGBU=;
- b=CkF5DY46Av8t7kqNHJl/EnKarmm45YwT+fKvzf3VDrf7Bh6H+t/SyEZF6A8gYfxplu
- oOUJasKEi/OuF1iDiZTMgnj2C2YGszbFh4t9kcp3c4DLO3zd3d3EU9C8OzK4PkO3KmWr
- Bb6qs8+FEsgUOIeRchREtuuKSigoVNQCcRBXbpnDWlFi9h2JER3aaZhbsT3KMkEjFoDS
- qf13sfHpjLr+LeQGmC/Fh4s3Vv5gEeykUm/Dnd6Yh0iU+otaf3lt8TbHHoWRGqIPst+8
- 1XM/aETElq1f0Ayk4OGMavCyXQHo8hTeMXfj7tKjuPU0LQzdHQBubeSXar6Ir3v9rv4e
- lXwg==
+ bh=SQehgLNKcnkP2r6snLh68vsSiNrWsr6X4sXUN+Ob+dg=;
+ b=lmnOshuJAISWxrhI6uRfWGisXd5KiwS1rSynPF2Xmxqe1FMntwT8kgnUONKENSYd00
+ 3ZTelG44l8GAFIW6TB8u1TiwsBPMySflv3eM72gurM4zmdTmsOZkbXs6KswJ4C20LNgb
+ muJ4H5lltM2DvWE08fnCuhaYUt5E41URgNTaHr6YYhlmkd/sam2rOrpxgYnp9aYn34IJ
+ alnwAG7cBPz9T9l4fxk54Cn+sAHDn1N1ZP77AivW1ehEubayipUqu+JuHoKUKg2HFoG0
+ ExYg96qOEUw0p1n6ybirZxzOg/o5A2OCFgP3/r3aqPaDCLPFKcCOPLKCvxLAs85plxPQ
+ nN9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BSXy7p3ASCxK8X1Fpi/Kk/DjgU4d+i+CiSo8ebcoGBU=;
- b=F5qiuF55BfTYoxJnzQk0iYBUYQx3gZ9O3hs0kpmaPSv2RIlxk6TA/uIK85NXBC1mRE
- +TSLXaYKi7JkKLm81lFXvb4YwMyhSfWSjMDSsVUsNlDgj7MIClD9nbOzqquDrZAJRkf8
- bdz7oxGlU/wkZBjF9Hax5zbG0gsFeyNB0dKhr/cSSt+F3jvIXvQLlYy/yUSIMWAGH5Y7
- XFd8ZPPuZBGO8B1eHwAH4wvFJx8noeBElCQLJmKc2PzS9wunHSfqqTkSG9OHC1H1s3zL
- v5+6BWMh/n9+z4Pdi0Jamjps5amQM5QdNgWWnjEkuDmy2W+N5y7y3ICogBa4/S8k3dbC
- RO1A==
-X-Gm-Message-State: AGi0PuY5JKrJKbGZV0CnqBQ8Dq1K8VMEpq46OhFGGxBQUpj8A1YqMFXm
- U5AP+O7jzYIgMf/MnX6IuMQ=
-X-Google-Smtp-Source: APiQypKfKqxVyZUaah9B0bt9Oq1oy81MEEPwBHJYyG19yS8UUql75qd2rpeI6Pxf6c6CI5s+H6kwDg==
-X-Received: by 2002:a17:90a:82:: with SMTP id a2mr5533209pja.47.1587719950493; 
- Fri, 24 Apr 2020 02:19:10 -0700 (PDT)
+ bh=SQehgLNKcnkP2r6snLh68vsSiNrWsr6X4sXUN+Ob+dg=;
+ b=PaQSKT4rsxHtAiqwcFBrr9TR0Vxysddw29JjvxUTrcQhXefW0nYsS8Fk9nfGUFDSIw
+ VcmPNvG7D/hv9aVIupGcZPibius8SoK5SNUtQVd1ueLxNUHMD3HWyZKkumcbhHdJaYJv
+ xFHz3bBSB9oGG7lhiBYja8SWWwWzZPwMn6fsRZJXp7MaMhAq+4G2X8qaNHRcHv/q/yeO
+ r5I0vDMJDAciPSqFBWjvjGzwVnt94YGXV2etDJheMZIZKrcVnbpdJHNfTt6Hx8cKCact
+ elslMMQaSjKo1edVnV95IKl8NoFBDx2GZbXme8zu7CRVVGp/TKSLMRDud+Tiepx7OCUr
+ fKQg==
+X-Gm-Message-State: AGi0PuZQ+B2pipcbyB9WgtZq0iRr8ny7P1uGQbB/JxUIJnM0BxEdU6B9
+ fOu7Nv7MPQJnUI3dXKYNxLM=
+X-Google-Smtp-Source: APiQypI5hOl7Sz9P6ONJTaxtxFR193NME9k1L/obfvJi0VWNMBGVLcJg3rfISlvrUHWlSSZPbdVf3Q==
+X-Received: by 2002:a63:b23:: with SMTP id 35mr7976708pgl.170.1587719953502;
+ Fri, 24 Apr 2020 02:19:13 -0700 (PDT)
 Received: from localhost.localdomain ([1.38.216.60])
- by smtp.gmail.com with ESMTPSA id c80sm5043933pfb.82.2020.04.24.02.19.07
+ by smtp.gmail.com with ESMTPSA id c80sm5043933pfb.82.2020.04.24.02.19.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Apr 2020 02:19:10 -0700 (PDT)
+ Fri, 24 Apr 2020 02:19:13 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Fri, 24 Apr 2020 14:47:47 +0530
-Message-Id: <20200424091801.13871-12-jaskaransingh7654321@gmail.com>
+Date: Fri, 24 Apr 2020 14:47:48 +0530
+Message-Id: <20200424091801.13871-13-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200424091801.13871-1-jaskaransingh7654321@gmail.com>
 References: <20200424091801.13871-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, Jaskaran Singh <jaskaransingh7654321@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH 11/25] parsing_c: parser:
-	cpp_other end attributes production
+Subject: [Linux-kernel-mentees] [RFC PATCH 12/25] parsing_c: cpp_token_c:
+	Introduce MACROANNOTATION hint
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,61 +115,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a production for a macro call in the cpp_other rule of Coccinelle's
-C parser. This parses the following C code from Linux v5.6-rc7
-successfully:
+A better way of denoting attributes is to pass attribute information
+from SmPL to the C parser. However, a temporary solution is to introduce
+a MACROANNOTATION hint to cpp_token_c.ml so that the parser can identify
+attributes easily.
 
-  arch/x86/kernel/irq_64.c:
+This hint can be used as follows in standard.h, the user provided
+macro-defs file or the given C file itself:
 
-	DEFINE_PER_CPU_PAGE_ALIGNED(struct irq_stack, irq_stack_backing_store) __visible;
+	#define __attribute_name MACROANNOTATION
+
+By default, __attribute_name would be identified as a comment. Using the
+above hint, __attribute_name would be identified as an attribute and
+transformations from SmPL would be performed as if __attribute_name is
+an attribute, not a comment.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_c/parser_c.mly | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ parsing_c/cpp_token_c.ml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/parsing_c/parser_c.mly b/parsing_c/parser_c.mly
-index eb22cbcf..da6b9c7b 100644
---- a/parsing_c/parser_c.mly
-+++ b/parsing_c/parser_c.mly
-@@ -2262,6 +2262,37 @@ cpp_other:
-            (* old: MacroTop (fst $1, $3,    [snd $1;$2;$4;$5])  *)
-      }
+diff --git a/parsing_c/cpp_token_c.ml b/parsing_c/cpp_token_c.ml
+index 425234e8..0654be26 100644
+--- a/parsing_c/cpp_token_c.ml
++++ b/parsing_c/cpp_token_c.ml
+@@ -81,6 +81,8 @@ let assoc_hint_string = [
+   "YACFE_END_ATTRIBUTE" , HintEndAttribute;
+   "YACFE_IDENT_BUILDER" , HintMacroIdentBuilder;
  
-+ | identifier TOPar argument_list TCPar end_attributes TPtVirg
-+     {
-+       if args_are_params $3
-+       then
-+	 (* if all args are params, assume it is a prototype of a function
-+	    with no return type *)
-+	 let parameters = args_to_params $3 None in
-+	 let paramlist = (parameters, (false, [])) in (* no varargs *)
-+	 let id = RegularName (mk_string_wrap $1) in
-+	 let ret =
-+	   warning "type defaults to 'int'"
-+	     (mk_ty defaultInt [fakeInfo fake_pi]) in
-+	 let ty =
-+	   fixOldCDecl (mk_ty (FunctionType (ret, paramlist)) [$2;$4]) in
-+	 let attrs = Ast_c.noattr in
-+	 let sto = (NoSto, false), [] in
-+	 let iistart = Ast_c.fakeInfo () in
-+	 Declaration(
-+	 DeclList ([{v_namei = Some (id,NoInit); v_type = ty;
-+                      v_storage = unwrap sto; v_local = NotLocalDecl;
-+                      v_attr = attrs; v_endattr = $5;
-+		      v_type_bis = ref None;
-+                    },[]],
-+                   ($6::iistart::snd sto)))
-+       else
-+	 Declaration
-+	   (MacroDecl((NoSto, fst $1, $3, true), [snd $1;$2;$4;$6;fakeInfo()]))
-+           (* old: MacroTop (fst $1, $3,    [snd $1;$2;$4;$5])  *)
-+     }
++  "MACROANNOTATION"   , HintAttribute;
 +
-+
-  /* cheap solution for functions with no return type.  Not really a
-        cpp_other, but avoids conflicts */
-  | identifier TOPar argument_list TCPar compound {
+   "MACROSTATEMENT"   , HintMacroStatement; (* backward compatibility *)
+ ]
+ 
 -- 
 2.21.1
 
