@@ -6,67 +6,67 @@ X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE9EC54FCB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 17:09:21 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AC6C54FCB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 17:13:36 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 558F720738
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 17:09:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 558F720738
+	by mail.kernel.org (Postfix) with ESMTPS id 780DD20738
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 17:13:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 780DD20738
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=inria.fr
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3216987EA1;
-	Mon, 27 Apr 2020 17:09:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4E8A885D94;
+	Mon, 27 Apr 2020 17:13:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZZvq4Sviyp0G; Mon, 27 Apr 2020 17:09:20 +0000 (UTC)
+	with ESMTP id S82u54UnMU9p; Mon, 27 Apr 2020 17:13:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BD7F587E9D;
-	Mon, 27 Apr 2020 17:09:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6C45785D3A;
+	Mon, 27 Apr 2020 17:13:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B71B2C18DC;
-	Mon, 27 Apr 2020 17:09:20 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BD83EC0172
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 54E98C18DC;
+	Mon, 27 Apr 2020 17:13:33 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CB8BAC0172
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 17:09:18 +0000 (UTC)
+ Mon, 27 Apr 2020 17:13:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id AC8D387EA1
+ by silver.osuosl.org (Postfix) with ESMTP id BA57C2012F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 17:09:18 +0000 (UTC)
+ Mon, 27 Apr 2020 17:13:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id s8ngJzqZ9MHE
+ with ESMTP id BLMarlv7GyEY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 17:09:18 +0000 (UTC)
+ Mon, 27 Apr 2020 17:13:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail3-relais-sop.national.inria.fr
  (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by hemlock.osuosl.org (Postfix) with ESMTPS id CAE8187E9D
+ by silver.osuosl.org (Postfix) with ESMTPS id 7D52E20027
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 17:09:17 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.73,324,1583190000"; d="scan'208";a="347098204"
+ Mon, 27 Apr 2020 17:13:30 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.73,324,1583190000"; d="scan'208";a="347098464"
 Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2020 19:09:16 +0200
-Date: Mon, 27 Apr 2020 19:09:15 +0200 (CEST)
+ 27 Apr 2020 19:13:28 +0200
+Date: Mon, 27 Apr 2020 19:13:28 +0200 (CEST)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
 To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-In-Reply-To: <20200427120834.380-13-jaskaransingh7654321@gmail.com>
-Message-ID: <alpine.DEB.2.21.2004271907590.12657@hadrien>
+In-Reply-To: <20200427120834.380-16-jaskaransingh7654321@gmail.com>
+Message-ID: <alpine.DEB.2.21.2004271913060.12657@hadrien>
 References: <20200427120834.380-1-jaskaransingh7654321@gmail.com>
- <20200427120834.380-13-jaskaransingh7654321@gmail.com>
+ <20200427120834.380-16-jaskaransingh7654321@gmail.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, linux-kernel-mentees@lists.linuxfoundation.org,
  cocci@systeme.lip6.fr
-Subject: Re: [Linux-kernel-mentees] [PATCH 12/23] parsing_cocci:
- unparse_ast0: Reflect Parameter attributes
+Subject: Re: [Linux-kernel-mentees] [PATCH 15/23] parsing_cocci:
+ visitor_ast: Visit Parameter attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,48 +88,60 @@ Sender: "Linux-kernel-mentees"
 
 On Mon, 27 Apr 2020, Jaskaran Singh wrote:
 
-> Parameter attributes are added to the SmPL AST. Reflect these changes in
-> unparse_ast0.ml.
+> Parameter attributes are added to the SmPL AST. Visit these attributes in
+> the AST visitor.
 >
 > Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 > ---
->  parsing_cocci/unparse_ast0.ml | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
+>  parsing_cocci/visitor_ast.ml | 22 +++++++++++++++++-----
+>  1 file changed, 17 insertions(+), 5 deletions(-)
 >
-> diff --git a/parsing_cocci/unparse_ast0.ml b/parsing_cocci/unparse_ast0.ml
-> index fdaf6cfa..738549fd 100644
-> --- a/parsing_cocci/unparse_ast0.ml
-> +++ b/parsing_cocci/unparse_ast0.ml
-> @@ -546,9 +546,18 @@ and parameterTypeDef p =
->    print_context p
->      (function _ ->
->        match Ast0.unwrap p with
-> -	Ast0.VoidParam(ty) -> typeC ty
-> -      | Ast0.Param(ty,Some id) -> print_named_type ty id
-> -      |	Ast0.Param(ty,None) -> typeC ty
-> +        Ast0.VoidParam(ty,attr) ->
-> +          typeC ty;
-> +	  (if (attr = []) then print_string " ");
-> +	  print_between (fun _ -> print_string " ") (mcode print_string) attr;
-> +      | Ast0.Param(ty,Some id,attr) ->
-> +          print_named_type ty id;
-> +	  (if (attr = []) then print_string " ");
-> +	  print_between (fun _ -> print_string " ") (mcode print_string) attr;
-> +      |	Ast0.Param(ty,None,attr) ->
-> +          typeC ty;
-> +	  (if (attr = []) then print_string " ");
-> +	  print_between (fun _ -> print_string " ") (mcode print_string) attr;
+> diff --git a/parsing_cocci/visitor_ast.ml b/parsing_cocci/visitor_ast.ml
+> index 8e530114..f1e78d8c 100644
+> --- a/parsing_cocci/visitor_ast.ml
+> +++ b/parsing_cocci/visitor_ast.ml
+> @@ -621,9 +621,18 @@ let combiner bind option_default
+>    and parameterTypeDef p =
+>      let k p =
+>        match Ast.unwrap p with
+> -	Ast.VoidParam(ty) -> fullType ty
+> -      | Ast.Param(ty,Some id) -> named_type ty id
+> -      | Ast.Param(ty,None) -> fullType ty
+> +	Ast.VoidParam(ty,attr) ->
+> +          let lty = fullType ty in
+> +	  let lattr = multibind (List.map string_mcode attr) in
+> +          bind lty lattr
 
-There is some unpleasant alignment in the code above.  After the | there
-should be a space not a tab, and the subsequent lines should use tabs if
-possible.  You didn't introduce these problems, but since you are changing
-these lines, you may as well make these changes as well.
+There are some more inconsistent indentations here.
 
 julia
 
->        | Ast0.MetaParam(name,_,_) -> mcode print_meta name
->        | Ast0.MetaParamList(name,_,_,_) -> mcode print_meta name
->        | Ast0.PComma(cm) -> mcode print_string cm; print_space()
+
+> +      | Ast.Param(ty,Some id,attr) ->
+> +          let lid = named_type ty id in
+> +	  let lattr = multibind (List.map string_mcode attr) in
+> +          bind lid lattr
+> +      | Ast.Param(ty,None,attr) ->
+> +          let lty = fullType ty in
+> +	  let lattr = multibind (List.map string_mcode attr) in
+> +          bind lty lattr
+>        | Ast.MetaParam(name,_,_,_) -> meta_mcode name
+>        | Ast.MetaParamList(name,_,_,_,_) -> meta_mcode name
+>        |	Ast.AsParam(p,asexp) ->
+> @@ -1582,8 +1591,11 @@ let rebuilder
+>      let k p =
+>        Ast.rewrap p
+>  	(match Ast.unwrap p with
+> -	  Ast.VoidParam(ty) -> Ast.VoidParam(fullType ty)
+> -	| Ast.Param(ty,id) -> Ast.Param(fullType ty, get_option ident id)
+> +	  Ast.VoidParam(ty,attr) ->
+> +            Ast.VoidParam(fullType ty,List.map string_mcode attr)
+> +	| Ast.Param(ty,id,attr) ->
+> +            Ast.Param
+> +              (fullType ty, get_option ident id,List.map string_mcode attr)
+>  	| Ast.MetaParam(name,constraints,keep,inherited) ->
+>  	    Ast.MetaParam(meta_mcode name,constraints,keep,inherited)
+>  	| Ast.MetaParamList(name,lenname_inh,constraints,keep,inherited) ->
 > --
 > 2.21.1
 >
