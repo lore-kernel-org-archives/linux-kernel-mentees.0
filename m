@@ -8,96 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9F90C7C8A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 648E7C7C8A3
 	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 12:10:19 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7DB9E20656
+	by mail.kernel.org (Postfix) with ESMTPS id 3AC3A20656
 	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 12:10:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H13Xvzjx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7DB9E20656
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLfyf8BR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AC3A20656
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5A1EA215DF;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0DDA985F4B;
 	Mon, 27 Apr 2020 12:10:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Zuf4Mi72jara; Mon, 27 Apr 2020 12:10:18 +0000 (UTC)
+	with ESMTP id tIaRwhJP2bic; Mon, 27 Apr 2020 12:10:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2F0612011B;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3FEB985F57;
 	Mon, 27 Apr 2020 12:10:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EB55C1D87;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 300D3C1D88;
 	Mon, 27 Apr 2020 12:10:18 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9D389C0172
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0E666C0172
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 12:10:16 +0000 (UTC)
+ Mon, 27 Apr 2020 12:10:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8C06186569
+ by fraxinus.osuosl.org (Postfix) with ESMTP id F21A285F29
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Mon, 27 Apr 2020 12:10:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id idCrUbGw1tf2
+ with ESMTP id E-Pve1hWV7rQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Mon, 27 Apr 2020 12:10:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 32276863CE
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0041E85F57
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 12:10:16 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id p25so8910670pfn.11
+ Mon, 27 Apr 2020 12:10:12 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id k18so6926505pll.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 05:10:16 -0700 (PDT)
+ Mon, 27 Apr 2020 05:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=teePH2Ulat8wodcKd5cQjWVTcK7pUQ3XouFRKvY7zBg=;
- b=H13XvzjxiNkhxoX5mU8inrjyrwZV9hwECAlnqxGScbk6AwhrPT99ngiaxdy8YbNEpD
- 6+TydPz84CTWznNJVZ1IcpPCDetzzEJnLZjBSc8GgbGIdTTn1lm81AQeH7cemNa24Wfe
- VllrGLXZj8FMaKlZX27JtnJ7YlND+7KXyg1oJ4KPK8akidvLK+3mfC6UPjxf+h6SSAV7
- BxrH7HrvfG6IGGHq+Cb8CbHGNzirPzntTCgaA8AQMVPyMraqQLbazmE20c24Xx/fHEwP
- 30wpCwkSgyuhtfjkUBVptJgKj1fcw6BjNvsG1laqpyTN2Sgu4FE0KwJ8li7AtHOa6MWE
- VHcg==
+ bh=oiiyaaxVdFQ8E5eoYpxjpSkj51vxoyU7jiIbcmsszCg=;
+ b=dLfyf8BRZ+gYE3wuMm3H3v31H4whuRrbXMXyADB9yS3pUSWt63vjZzV0SRCFFiYQBV
+ TUEcCfUqy5bUzJcGkSbTtV4LizMAYO1uitOETlHrkfbbW7vqmKxXmyDvFM3VucskcZ+m
+ B6N95+xyNSM2dkGv9d38NjOQ48XLs2zm8SZbPMOTf2mS4jkySKYxK7K0B1gzajGgoi7h
+ FHPXzQZoEpqioa969J5F0AVJLOgsXDxpN1VSqK/CprevYBaDvcPxP6VUbraTzpimriZ0
+ Y8+1XstQnenvV1jyiCwzgZxrdhe80A7IwlUSgalHnDVdJe+o0I4wez8EWa+Z8oeCHxg4
+ K5Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=teePH2Ulat8wodcKd5cQjWVTcK7pUQ3XouFRKvY7zBg=;
- b=KnHCXcPYxFOxVCeAwNlxAZaCd2SEGKxKqwqRwnxAH+Rbi5Uf3OZLvtbmfWg3Bfop8G
- RyYrVeeUpWbyz422ZZxLF22QOc7VdSksyc0JJsSpQSaLC/P1KPy8WuUi7DVzhm7gKhq5
- rWO45Vp8Q58rglyVvUk8fzOuuolGtN9xp8t/yGfR/PlVHVo49XRYv2EMUkPoodITwBaS
- SqSlvt9+haIxPibX+K8jiZ2106A7Ek0GBRXbINyeiXxlZDLn/sOgr8mImyShQ56vHmSX
- PS1lDPUPY9pTOZvhWsD0T804ol4vB2g1SvmVahUphEJ2Je4AbuxRb0D8E2ef98D+Yk2e
- v6iw==
-X-Gm-Message-State: AGi0PuZOlqu/EAZ85jlo0yEUqq+AISL7MWw7mnnfpiBqnzezNnazMT5T
- Xzer9lCA9MvPW3/IMIypwds=
-X-Google-Smtp-Source: APiQypKdoufF4WA7J9k8W8z5+kTddfvSszq1KidT+4yMqFxfI/9DhtaiUuRk4Jy86/XUrLfkzOn/tQ==
-X-Received: by 2002:a63:d804:: with SMTP id b4mr22294219pgh.127.1587989415725; 
- Mon, 27 Apr 2020 05:10:15 -0700 (PDT)
+ bh=oiiyaaxVdFQ8E5eoYpxjpSkj51vxoyU7jiIbcmsszCg=;
+ b=IHjc+JkzTzuiluYIdjmerlMgVzKk03gllW0Ev62v5kHLxITmTDJECbre6iGXHuh6KN
+ +jfZyPrRbjBvOKKJIJYLy3BNA19p6LtNaNMy1nv0f37Gh83K+T9VBuEew4vDU0rp4IZq
+ WEL6Kzz4Ckf+21a+erOAYc3dQ3bfmC7Kqepfh5oIc42b5MvsYiKbR1V9/O9+Dq94FPbR
+ 3Bg9NbS7VQ99BRkE05da+IUsKXMUUbT4Vj+Rbyj38MSoqDIGb+L48ZR/T4E48TqLC3iZ
+ FCmtTk5F0D2IHkRM1l+sjeastRtgutop0vmUMQQ7qq6etdu7RDn0fH6Ut64hJfvyPgZ/
+ Fr6Q==
+X-Gm-Message-State: AGi0PuaNh2hDAgUpor9j+XFShw/oajhy7j0jMAHi+/MOTcWkdwhPi+t0
+ obkXQ1ymu18T/saT1gJgrO9r7QHa5W4=
+X-Google-Smtp-Source: APiQypIMv4y7ldunFAc0mqPnckhNU4aD+jS9iXsFZGCcNMB8UcXbavZPzfHHhNb7c+xxorASaNuZng==
+X-Received: by 2002:a17:90a:8d12:: with SMTP id
+ c18mr23163178pjo.144.1587989412518; 
+ Mon, 27 Apr 2020 05:10:12 -0700 (PDT)
 Received: from localhost.localdomain ([1.38.220.114])
- by smtp.gmail.com with ESMTPSA id r17sm9623885pgn.35.2020.04.27.05.10.12
+ by smtp.gmail.com with ESMTPSA id r17sm9623885pgn.35.2020.04.27.05.10.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 05:10:15 -0700 (PDT)
+ Mon, 27 Apr 2020 05:10:12 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Mon, 27 Apr 2020 17:38:34 +0530
-Message-Id: <20200427120834.380-24-jaskaransingh7654321@gmail.com>
+Date: Mon, 27 Apr 2020 17:38:33 +0530
+Message-Id: <20200427120834.380-23-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200427120834.380-1-jaskaransingh7654321@gmail.com>
 References: <20200427120834.380-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 23/23] tests: Add test case to detect
-	parameter attributes
+Subject: [Linux-kernel-mentees] [PATCH 22/23] tests: Add test case for
+	removing parameter attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,9 +116,8 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a test case to detect parameter attributes in C. The test case
-changes the type of the parameter if it has the attribute. The cases
-covered are for when the attribute is:
+Add a test case for removing Parameter attributes. The test case checks
+correct removal of the attribute when it is:
 
 - before the parameter type.
 - after the parameter type and before the parameter identifier.
@@ -125,49 +125,65 @@ covered are for when the attribute is:
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- tests/detect_param_attr.c     |  3 +++
- tests/detect_param_attr.cocci | 13 +++++++++++++
- tests/detect_param_attr.res   |  3 +++
- 3 files changed, 19 insertions(+)
- create mode 100644 tests/detect_param_attr.c
- create mode 100644 tests/detect_param_attr.cocci
- create mode 100644 tests/detect_param_attr.res
+ tests/remove_param_attrs.c     | 11 +++++++++++
+ tests/remove_param_attrs.cocci | 13 +++++++++++++
+ tests/remove_param_attrs.res   | 11 +++++++++++
+ 3 files changed, 35 insertions(+)
+ create mode 100644 tests/remove_param_attrs.c
+ create mode 100644 tests/remove_param_attrs.cocci
+ create mode 100644 tests/remove_param_attrs.res
 
-diff --git a/tests/detect_param_attr.c b/tests/detect_param_attr.c
+diff --git a/tests/remove_param_attrs.c b/tests/remove_param_attrs.c
 new file mode 100644
-index 00000000..160d6af2
+index 00000000..8ec1ffde
 --- /dev/null
-+++ b/tests/detect_param_attr.c
-@@ -0,0 +1,3 @@
-+int func1(int __nocast u, __nocast int z, int q __nocast, int w) {
++++ b/tests/remove_param_attrs.c
+@@ -0,0 +1,11 @@
++int func1(int x, __nocast int y) {
 +	return 0;
 +}
-diff --git a/tests/detect_param_attr.cocci b/tests/detect_param_attr.cocci
++
++int func2(int x, int __nocast y) {
++	return 0;
++}
++
++int func3(int x, int y __nocast) {
++	return 0;
++}
+diff --git a/tests/remove_param_attrs.cocci b/tests/remove_param_attrs.cocci
 new file mode 100644
-index 00000000..53b8668f
+index 00000000..43f5a204
 --- /dev/null
-+++ b/tests/detect_param_attr.cocci
++++ b/tests/remove_param_attrs.cocci
 @@ -0,0 +1,13 @@
 +@@
-+type T1, T2;
++type T,U;
 +attribute name __nocast;
-+identifier x, y;
++identifier x,y;
 +@@
 +
-+T1 x(
-+	...,
-+-	T2
-++	char
-+	y __nocast,
-+	...
-+   ) {...}
-diff --git a/tests/detect_param_attr.res b/tests/detect_param_attr.res
++T x(
++    ...,
++    U y
++-	__nocast
++    ,
++    ...
++  ) {...}
+diff --git a/tests/remove_param_attrs.res b/tests/remove_param_attrs.res
 new file mode 100644
-index 00000000..b3db290e
+index 00000000..3705e814
 --- /dev/null
-+++ b/tests/detect_param_attr.res
-@@ -0,0 +1,3 @@
-+int func1(char __nocast u, __nocast char z, char q __nocast, int w) {
++++ b/tests/remove_param_attrs.res
+@@ -0,0 +1,11 @@
++int func1(int x, int y) {
++	return 0;
++}
++
++int func2(int x, int y) {
++	return 0;
++}
++
++int func3(int x, int y) {
 +	return 0;
 +}
 -- 
