@@ -8,95 +8,96 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3BA3C7C8A1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 12:09:54 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5DCBC7C8A1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 12:10:03 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 867FE20656
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 12:09:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B67AB20656
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Apr 2020 12:10:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RrGoUOjk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 867FE20656
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XFykXHTJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B67AB20656
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6633786566;
-	Mon, 27 Apr 2020 12:09:54 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 959BF87D7F;
+	Mon, 27 Apr 2020 12:10:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ebQpZ6KkjeXr; Mon, 27 Apr 2020 12:09:54 +0000 (UTC)
+	with ESMTP id RWuyd8WC5I0p; Mon, 27 Apr 2020 12:10:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1192A86365;
-	Mon, 27 Apr 2020 12:09:54 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3F42187D48;
+	Mon, 27 Apr 2020 12:10:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 01863C1D87;
-	Mon, 27 Apr 2020 12:09:54 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B69ADC1D74
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2F5BDC1D87;
+	Mon, 27 Apr 2020 12:10:03 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2FD57C1D74
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 12:09:52 +0000 (UTC)
+ Mon, 27 Apr 2020 12:10:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B2D018620F
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1F94387D5E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 12:09:52 +0000 (UTC)
+ Mon, 27 Apr 2020 12:10:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RyTv-d1AfXds
+ with ESMTP id DaQLrhda9J+T
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 12:09:52 +0000 (UTC)
+ Mon, 27 Apr 2020 12:10:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 38410863CE
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id BC42787D48
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 12:09:52 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id h69so8599279pgc.8
+ Mon, 27 Apr 2020 12:10:00 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id t9so7452128pjw.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2020 05:09:52 -0700 (PDT)
+ Mon, 27 Apr 2020 05:10:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=96G1ivLh1DBNVuKEJBoB0hDamYQo6rKx1EXrpxqcHM4=;
- b=RrGoUOjk5KrhaWld2Gfw2IrWXjoLliyyqP0IMlAGolGJvopBmsxlv5GokdYW4TYDZG
- V33+DRJempNdEtxBEqE6P2cCgTxwhBNJvyRRoT1WSdflMt0eF2rN+6C7c+Bo2jo2HnL1
- BvRMJ7/cTWOi+yxqVpab8YEmES0Yx9bP9RdCd/9pkN+KzgpCbjI9XYMFXT/yN55GzZhT
- yBq7RuxkQi6qesMnvpiYcOaZ6PDjhhbsuAZbpfTj98B/DjkPkaG9sgf0JSm+rr5xtV0d
- uXYgd218oq97g2yoRamN0hYYRkZjlMncDzhxfhmwRKJ3HUGaVw0+W0mfWS4e3zsQ+2Sr
- 6w6w==
+ bh=TV0hQbWPE6I76/eXMWA6DfzgeTBXmkrL8f2jcsCkf6M=;
+ b=XFykXHTJUnmfHwxVJBT+GrMJwkXlKejUejMWI37lo3fMnJ7a54q4mbdXHF/Yq8C9gM
+ 9Qw1gkA7U7I+251l6XKLHnjeJgrO+gNIdEdEDyyWsxyfrjIOlgpvXRiu8U8o9tlEavH0
+ tmdvlUYTrjyNa6r+N64+vfwGgOFe3aJmUdnm0aF2gwKgmGLIbacxKH27318o8YM41a4s
+ Q7ogCkjB49da2fWtAJTr3vuWL4uSAtn01imVJ9vpc3GS3W83cY75iHJ9KQxLeDDNzxni
+ bf6nJ9n7G0Md5FGIMVlqMNsBkwJraEGJXboFJHmJ1hLOo0oRISZFx44m2A2liaoEN928
+ 0kow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=96G1ivLh1DBNVuKEJBoB0hDamYQo6rKx1EXrpxqcHM4=;
- b=o68FbY0ih+bQNcw4zua3aXqBIBkFHJ6PyQ9/BKSjNttaBSOYQR5e5RUPROraJbopDI
- z2CH9cdaNN3htv4NvHnsHK6qpQxbTat2bukuBF8ADlY/fhiEY7tOpVJNw0aOkhsVgEKB
- JVLImFuS+/o0a0vqvg3J8Uek5WF9aiVxNnNge4M8cwH7zyODnxyfkpUTUS4JZaK+i5Xc
- DWwh0jxLrr98LmeHc16DdwxPoX6oYGE8ReRzTDCS6XmOjk6tFsF3btYpnGsxB0k833Uj
- 3CdikkkGbAAuh90KPWK0Xq1voxXOk07S63pJthJ4LVLFtBR0d63H1j9prYMSSgRbCPXz
- njtQ==
-X-Gm-Message-State: AGi0PubZc/idA6IqYRY3lv/dEG7FM86ugXKzkmbbXFidwTyc4dhW0Som
- KgOyJ2I3AMtc+xeI1po3vxE=
-X-Google-Smtp-Source: APiQypIEotHE7F8lbJ4McgR4pQ4Zr+asb0CZF09QNc2+IpHpNwEKbT5r0uCm/8GlrZWnBswDdG1dbg==
-X-Received: by 2002:aa7:8f26:: with SMTP id y6mr24502609pfr.36.1587989391779; 
- Mon, 27 Apr 2020 05:09:51 -0700 (PDT)
+ bh=TV0hQbWPE6I76/eXMWA6DfzgeTBXmkrL8f2jcsCkf6M=;
+ b=Os7W5E2Nm8mU/49WySWuA9dhUbI7e0GPbQ4Pa5R4IuxEFzUQQRQvQ+ADvLeGs2815t
+ I/gaV8fZuQB3601rsQQGRSexn7pWsUklYNFsJQhs9mmvejBpv7WNNOacSfcX7mdblGVt
+ GlkXcVojyhZDG4ZVUGy3YdlLYZW/oTyIlBuoig5/h/+03xX1UGLiQ0z7Xuy2BUXx/x3z
+ WkVxRx36wUYdPpv+Z8BKLXyz192v9YkevC9XKPPbystoDny3iZTEttjjXa99RfkxWykn
+ HWDGgixFtDIuceot/N9N0/em2iWY9cpUWYqlVgpI3IchxNCJBpBF6Bi7bvl+JFoq4hLQ
+ ftJA==
+X-Gm-Message-State: AGi0PuYWLVOgXkSVolXwlQVIuami2fg4DtpO7P2DvRxOD+X5hzVEbsmT
+ PScgYRIFxbNpnFkChDn1zZu9TzotDLI=
+X-Google-Smtp-Source: APiQypLyTnGrTHyYnknK9WQhzBklWrnjk/ZUhuFMnwGbhCGFImwXysm5JxOe0CYQ3/uEOptNqrDipQ==
+X-Received: by 2002:a17:90a:32ea:: with SMTP id
+ l97mr23042764pjb.50.1587989400281; 
+ Mon, 27 Apr 2020 05:10:00 -0700 (PDT)
 Received: from localhost.localdomain ([1.38.220.114])
- by smtp.gmail.com with ESMTPSA id r17sm9623885pgn.35.2020.04.27.05.09.49
+ by smtp.gmail.com with ESMTPSA id r17sm9623885pgn.35.2020.04.27.05.09.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 05:09:51 -0700 (PDT)
+ Mon, 27 Apr 2020 05:09:59 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Mon, 27 Apr 2020 17:38:27 +0530
-Message-Id: <20200427120834.380-17-jaskaransingh7654321@gmail.com>
+Date: Mon, 27 Apr 2020 17:38:30 +0530
+Message-Id: <20200427120834.380-20-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200427120834.380-1-jaskaransingh7654321@gmail.com>
 References: <20200427120834.380-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 16/23] parsing_cocci: ast0toast:
+Subject: [Linux-kernel-mentees] [PATCH 19/23] parsing_cocci: unify_ast:
 	Reflect Parameter attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -116,32 +117,39 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 Parameter attributes are added to the SmPL AST. Reflect these changes in
-ast0toast.ml.
+unify_ast.ml.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_cocci/ast0toast.ml | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ parsing_cocci/unify_ast.ml | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/parsing_cocci/ast0toast.ml b/parsing_cocci/ast0toast.ml
-index 09c28c06..80d38138 100644
---- a/parsing_cocci/ast0toast.ml
-+++ b/parsing_cocci/ast0toast.ml
-@@ -857,10 +857,11 @@ and designator = function
- and parameterTypeDef p =
-   rewrap p no_isos
-     (match Ast0.unwrap p with
--      Ast0.VoidParam(ty) -> Ast.VoidParam(typeC false ty)
--    | Ast0.Param(ty,id) ->
-+      Ast0.VoidParam(ty,attr) ->
-+        Ast.VoidParam(typeC false ty,List.map mcode attr)
-+    | Ast0.Param(ty,id,attr) ->
- 	let allminus = check_allminus.VT0.combiner_rec_parameter p in
--	Ast.Param(typeC allminus ty,get_option ident id)
-+	Ast.Param(typeC allminus ty,get_option ident id,List.map mcode attr)
-     | Ast0.MetaParam(name,cstr,_) ->
- 	Ast.MetaParam(mcode name,constraints cstr,unitary,false)
-     | Ast0.MetaParamList(name,lenname,cstr,_) ->
+diff --git a/parsing_cocci/unify_ast.ml b/parsing_cocci/unify_ast.ml
+index 68cb6613..e2b92c48 100644
+--- a/parsing_cocci/unify_ast.ml
++++ b/parsing_cocci/unify_ast.ml
+@@ -542,11 +542,17 @@ and unify_designator d1 d2 =
+ 
+ and unify_parameterTypeDef p1 p2 =
+   match (Ast.unwrap p1,Ast.unwrap p2) with
+-    (Ast.VoidParam(ft1),Ast.VoidParam(ft2)) -> unify_fullType ft1 ft2
+-  | (Ast.Param(ft1,i1),Ast.Param(ft2,i2)) ->
+-      unify_fullType ft1 ft2 &&
+-      unify_option unify_ident i1 i2
++    (Ast.VoidParam(ft1,attr1),Ast.VoidParam(ft2,attr2)) ->
++      if List.for_all2 unify_mcode attr1 attr2
++      then unify_fullType ft1 ft2
++      else false
++  | (Ast.Param(ft1,i1,attr1),Ast.Param(ft2,i2,attr2)) ->
+ 
++      if List.for_all2 unify_mcode attr1 attr2
++      then
++        unify_fullType ft1 ft2 &&
++        unify_option unify_ident i1 i2
++      else false
+   | (Ast.MetaParam(_,_,_,_),_)
+   | (Ast.MetaParamList(_,_,_,_,_),_)
+   | (_,Ast.MetaParam(_,_,_,_))
 -- 
 2.21.1
 
