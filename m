@@ -2,109 +2,101 @@ Return-Path: <SRS0=fGqK=6M=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE53C83001
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Apr 2020 14:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB35C83008
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Apr 2020 15:53:02 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 224B820746
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Apr 2020 14:44:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 72AA1205C9
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Apr 2020 15:53:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTNPxSCi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 224B820746
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fr2F0Coj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72AA1205C9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EFF4E84549;
-	Tue, 28 Apr 2020 14:44:30 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0E0E184539;
+	Tue, 28 Apr 2020 15:53:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qVoBuRsrs5c8; Tue, 28 Apr 2020 14:44:30 +0000 (UTC)
+	with ESMTP id u-7yifiLXJgb; Tue, 28 Apr 2020 15:53:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 821F884547;
-	Tue, 28 Apr 2020 14:44:30 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8CD8D844C9;
+	Tue, 28 Apr 2020 15:53:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D7D1C0864;
-	Tue, 28 Apr 2020 14:44:30 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 026A3C0172
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 779F7C0863;
+	Tue, 28 Apr 2020 15:53:01 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F2987C0172
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 14:44:29 +0000 (UTC)
+ Tue, 28 Apr 2020 15:52:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id EFC4E2046A
+ by whitealder.osuosl.org (Postfix) with ESMTP id EE55B87613
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 14:44:28 +0000 (UTC)
+ Tue, 28 Apr 2020 15:52:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IhqOt9YQ1jsO
+ with ESMTP id jKriXhmjkprF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 14:44:28 +0000 (UTC)
+ Tue, 28 Apr 2020 15:52:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
  [209.85.210.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 22C222042A
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6BA1287605
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 14:44:28 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id y25so10775427pfn.5
+ Tue, 28 Apr 2020 15:52:59 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id f7so10846985pfa.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 07:44:28 -0700 (PDT)
+ Tue, 28 Apr 2020 08:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JsDPihDIradvM9f3uLrw4TfW583mPkxAjR22PUFbNgw=;
- b=jTNPxSCiyyU0KwKpMbzpSBK4KSkGIk8o1pSKZtwukGLG41ZvNmsGS5VxBVhVsXGGF7
- Y579jbF3hrNbZ7t1P/5xtvo5AJaAr94aSqIKKfTOhKjt/e6f05fj7IdqJid8ZnP22XVM
- pn6dgX1n6cfBOj/wurixACb9gk78J0ilz3cGFS/Sc8bDALFKLmlhU+jpiC+3BfbfDuHz
- Bkpu3URvpdyo02dAiXPfAS/XR6NkkKmJEdbtj+MRgdbQv3uax5VN7GgP/lJnbEzhySLw
- 4Mw3gfGC7C5yOgpCKfIstwyEn3QLP6PcjXUa3qIBeXOm/PioypwSCoM7U9945lbZx6sg
- n0nQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=2c6uCE675m96/FbxOp/+YpjzTr8Ax/d5qUPMW5Gsuec=;
+ b=fr2F0CojibBY6glD0TM6oVEEfkQR6dQ6Xta08+rELpBa63RJXHlQ2mjr8SnXIaQlFy
+ 9RQMGLd8lLgdOc1MTp+Wi0GWvc8S3nW8SVXeYeY/0/LC0PPafhRG+4JF7ffkYgvIhxDV
+ 7maE/trbhJ6Ios0CzPbWJTvYGUwsvrflXuGW/+tYnfQG4M7EFqyKKflPqIITL47MKb/Z
+ d7VUKbgKbZywljxEDdeQCIfdJ1rAql+/0UW4r3avCnc46Ccf6GpzeSV35ZCihxt4DCZR
+ 5kD8b0tsu/Fno/T+Ax8w+h8OjNbveBrMTs3Xg8R6+CEP4e6Uzp08FvHSxdaco3GMQ2Zy
+ Uqkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JsDPihDIradvM9f3uLrw4TfW583mPkxAjR22PUFbNgw=;
- b=YYrcqINF376iulfZWNqhwhIkkalMBrFEX9PlKRGPp9v49OKTTq0l5Gqwj1okERA2zG
- y8SjWozA07FANi0JA+kdWmynukGfZiXhhrDqEzctPOIxHdZulBugd0oz1mYwVs45W1RS
- 6OQEx+a3XX8Iufu6GT6YT6mZg62zPQNeAnXqE3TbrK3xzeKXnJl/u+sHxvwzJCKIK2yb
- wmTbzMMyG+Kqb9rm6uDOBgqD3oXetWLLnn7ikP6QJ6TnlUN/caVgr8WSgpvnUoyuSMGF
- bspuCA+8MmACiyW0Jr5AN++7CEPpsAhMXjgVokIK0izEjKCzQwdiYYzD1Q+90pSzW+mw
- MYog==
-X-Gm-Message-State: AGi0PuaHb1labKGYRbksRiKdna3eFdX23OGZj2mvkEg3Oc8Mn6dXX5HJ
- zP8jOlUOLlChaCRXvnKlpJ0=
-X-Google-Smtp-Source: APiQypL3iX01wY2OqSHGJMR8Y4yXNEIVYUlcFdcIISd34gE2G8qCPiXj1wmuiQETuwl5OGVPQq8Yag==
-X-Received: by 2002:a63:6f07:: with SMTP id k7mr29916217pgc.274.1588085067622; 
- Tue, 28 Apr 2020 07:44:27 -0700 (PDT)
-Received: from varodek.localdomain ([2401:4900:40f3:10a2:97c1:b981:9f1:d7d0])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=2c6uCE675m96/FbxOp/+YpjzTr8Ax/d5qUPMW5Gsuec=;
+ b=X3/2JZ/Gep5PKVYgragsW5Ni825wJUeR9MrKIKLDQW5AGUpXnBqaSe4vaf8GgOsfYn
+ 9r4jfB35X2ndlZT4CuYLVk2mQC96hb+rT2LdMrprjhQUkePdytGpqhbBgYNtBrt75Y3t
+ 5fEu0Qvt7ym73103T0xJy0ysKokI4X6afhj4EHvxDoq29D1CvAlQ5zKkIO6r2U7OFQv4
+ /YUwEO9+kXMT7Fwqr/nBZBfJAb0umioCjqewYK9KQbjJaTjtwm1WmruUZsIPRi6CZDAG
+ 20Vv9vdWhLRSRPTYA2+ZpPc6xQnwxIt7LjVQ33RN69Tm0hMgMCFwKf3vveNFf9e/n5K4
+ XyVg==
+X-Gm-Message-State: AGi0PuZYJWg3FhfvwM8RGKmuphSg/CDeKB154VMX+l6tyShvoWmtYx8M
+ kJWsiUE+7SkV5JnBDUFfsg==
+X-Google-Smtp-Source: APiQypLkMPf9eFxnHsSePauRQebG54rsN5Dm5KoC2usbs2Crxz6EJNZG48I0Ks+vIHv3SzRpf3pkAg==
+X-Received: by 2002:a63:2403:: with SMTP id k3mr28091220pgk.295.1588089179049; 
+ Tue, 28 Apr 2020 08:52:59 -0700 (PDT)
+Received: from localhost.localdomain ([2402:3a80:d33:c58:9c84:8ece:9d0f:426b])
  by smtp.gmail.com with ESMTPSA id
- d203sm15053203pfd.79.2020.04.28.07.44.21
+ mn1sm2410814pjb.24.2020.04.28.08.52.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 07:44:26 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Shannon Nelson <snelson@pensando.io>, Jakub Kicinski <kuba@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Martin Habets <mhabets@solarflare.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, netdev@vger.kernel.org,
- Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- bjorn@helgaas.com, linux-kernel-mentees@lists.linuxfoundation.org,
- rjw@rjwysocki.net
-Date: Tue, 28 Apr 2020 20:13:14 +0530
-Message-Id: <20200428144314.24533-3-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200428144314.24533-1-vaibhavgupta40@gmail.com>
-References: <20200428144314.24533-1-vaibhavgupta40@gmail.com>
-MIME-Version: 1.0
-Cc: linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 2/2] realtek/8139cp: Remove Legacy
-	Power Management
+ Tue, 28 Apr 2020 08:52:58 -0700 (PDT)
+From: madhuparnabhowmik10@gmail.com
+To: sean.j.christopherson@intel.com, wanpengli@tencent.com,
+ jmattson@google.com, tglx@linutronix.de, bp@alien8.de, mingo@redhat.com
+Date: Tue, 28 Apr 2020 21:22:49 +0530
+Message-Id: <20200428155249.19990-1-madhuparnabhowmik10@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: paulmck@kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, cai@lca.pw,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] kvm: Fix false positive RCU usage
+	warning
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,105 +108,68 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Upgrade power management from legacy to generic using dev_pm_ops.
+From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 
-Add "__maybe_unused" attribute to resume() and susend() callbacks
-definition to suppress compiler warnings.
+Fix the following false positive warnings:
 
-Generic callback requires an argument of type "struct device*". Hence,
-convert it to "struct net_device*" using "dev_get_drv_data()" to use
-it in the callback.
+[ 9403.765413][T61744] =============================
+[ 9403.786541][T61744] WARNING: suspicious RCU usage
+[ 9403.807865][T61744] 5.7.0-rc1-next-20200417 #4 Tainted: G             L
+[ 9403.838945][T61744] -----------------------------
+[ 9403.860099][T61744] arch/x86/kvm/mmu/page_track.c:257 RCU-list traversed in non-reader section!!
 
-Most of the cleaning part is to remove pci_save_state(),
-pci_set_power_state(), etc power management function calls.
+and
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+[ 9405.859252][T61751] =============================
+[ 9405.859258][T61751] WARNING: suspicious RCU usage
+[ 9405.880867][T61755] -----------------------------
+[ 9405.911936][T61751] 5.7.0-rc1-next-20200417 #4 Tainted: G             L
+[ 9405.911942][T61751] -----------------------------
+[ 9405.911950][T61751] arch/x86/kvm/mmu/page_track.c:232 RCU-list traversed in non-reader section!!
+
+Since srcu read lock is held, these are false positive warnings.
+Therefore, pass condition srcu_read_lock_held() to
+list_for_each_entry_rcu().
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 ---
- drivers/net/ethernet/realtek/8139cp.c | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ arch/x86/kvm/mmu/page_track.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/realtek/8139cp.c b/drivers/net/ethernet/realtek/8139cp.c
-index 60d342f82fb3..4f2fb1393966 100644
---- a/drivers/net/ethernet/realtek/8139cp.c
-+++ b/drivers/net/ethernet/realtek/8139cp.c
-@@ -2054,10 +2054,9 @@ static void cp_remove_one (struct pci_dev *pdev)
- 	free_netdev(dev);
- }
+diff --git a/arch/x86/kvm/mmu/page_track.c b/arch/x86/kvm/mmu/page_track.c
+index ddc1ec3bdacd..1ad79c7aa05b 100644
+--- a/arch/x86/kvm/mmu/page_track.c
++++ b/arch/x86/kvm/mmu/page_track.c
+@@ -229,7 +229,8 @@ void kvm_page_track_write(struct kvm_vcpu *vcpu, gpa_t gpa, const u8 *new,
+ 		return;
  
--#ifdef CONFIG_PM
--static int cp_suspend (struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused cp_suspend(struct device *device)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct net_device *dev = dev_get_drvdata(device);
- 	struct cp_private *cp = netdev_priv(dev);
- 	unsigned long flags;
+ 	idx = srcu_read_lock(&head->track_srcu);
+-	hlist_for_each_entry_rcu(n, &head->track_notifier_list, node)
++	hlist_for_each_entry_rcu(n, &head->track_notifier_list, node,
++				srcu_read_lock_held(&head->track_srcu))
+ 		if (n->track_write)
+ 			n->track_write(vcpu, gpa, new, bytes, n);
+ 	srcu_read_unlock(&head->track_srcu, idx);
+@@ -254,7 +255,8 @@ void kvm_page_track_flush_slot(struct kvm *kvm, struct kvm_memory_slot *slot)
+ 		return;
  
-@@ -2075,16 +2074,12 @@ static int cp_suspend (struct pci_dev *pdev, pm_message_t state)
- 
- 	spin_unlock_irqrestore (&cp->lock, flags);
- 
--	pci_save_state(pdev);
--	pci_enable_wake(pdev, pci_choose_state(pdev, state), cp->wol_enabled);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
--
- 	return 0;
- }
- 
--static int cp_resume (struct pci_dev *pdev)
-+static int __maybe_unused cp_resume(struct device *device)
- {
--	struct net_device *dev = pci_get_drvdata (pdev);
-+	struct net_device *dev = dev_get_drvdata(device);
- 	struct cp_private *cp = netdev_priv(dev);
- 	unsigned long flags;
- 
-@@ -2093,10 +2088,6 @@ static int cp_resume (struct pci_dev *pdev)
- 
- 	netif_device_attach (dev);
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--	pci_enable_wake(pdev, PCI_D0, 0);
--
- 	/* FIXME: sh*t may happen if the Rx ring buffer is depleted */
- 	cp_init_rings_index (cp);
- 	cp_init_hw (cp);
-@@ -2111,7 +2102,6 @@ static int cp_resume (struct pci_dev *pdev)
- 
- 	return 0;
- }
--#endif /* CONFIG_PM */
- 
- static const struct pci_device_id cp_pci_tbl[] = {
-         { PCI_DEVICE(PCI_VENDOR_ID_REALTEK,     PCI_DEVICE_ID_REALTEK_8139), },
-@@ -2120,15 +2110,14 @@ static const struct pci_device_id cp_pci_tbl[] = {
- };
- MODULE_DEVICE_TABLE(pci, cp_pci_tbl);
- 
-+static SIMPLE_DEV_PM_OPS(cp_pm_ops, cp_suspend, cp_resume);
-+
- static struct pci_driver cp_driver = {
- 	.name         = DRV_NAME,
- 	.id_table     = cp_pci_tbl,
- 	.probe        =	cp_init_one,
- 	.remove       = cp_remove_one,
--#ifdef CONFIG_PM
--	.resume       = cp_resume,
--	.suspend      = cp_suspend,
--#endif
-+	.driver.pm    = &cp_pm_ops,
- };
- 
- module_pci_driver(cp_driver);
+ 	idx = srcu_read_lock(&head->track_srcu);
+-	hlist_for_each_entry_rcu(n, &head->track_notifier_list, node)
++	hlist_for_each_entry_rcu(n, &head->track_notifier_list, node,
++				srcu_read_lock_held(&head->track_srcu))
+ 		if (n->track_flush_slot)
+ 			n->track_flush_slot(kvm, slot, n);
+ 	srcu_read_unlock(&head->track_srcu, idx);
 -- 
-2.26.2
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
