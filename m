@@ -5,98 +5,99 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E58FCC83001
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Apr 2020 17:03:14 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F35C83008
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Apr 2020 17:03:20 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B8C1520730
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Apr 2020 17:03:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AF43B20757
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Apr 2020 17:03:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HPv/gVlG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8C1520730
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhnAGeaR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF43B20757
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 760C0875CA;
-	Tue, 28 Apr 2020 17:03:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8C92E87118;
+	Tue, 28 Apr 2020 17:03:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BfzqDKgLnF7d; Tue, 28 Apr 2020 17:03:14 +0000 (UTC)
+	with ESMTP id b6UDWk3-K+i1; Tue, 28 Apr 2020 17:03:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 00C4A875A1;
-	Tue, 28 Apr 2020 17:03:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 21EC38625C;
+	Tue, 28 Apr 2020 17:03:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2149C0864;
-	Tue, 28 Apr 2020 17:03:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EC70C0864;
+	Tue, 28 Apr 2020 17:03:20 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7385FC0172
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C76CBC0172
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 17:03:12 +0000 (UTC)
+ Tue, 28 Apr 2020 17:03:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7084087118
+ by hemlock.osuosl.org (Postfix) with ESMTP id B469D87118
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 17:03:12 +0000 (UTC)
+ Tue, 28 Apr 2020 17:03:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id o8En42UV41aq
+ with ESMTP id hEH-W2CKETvY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 17:03:11 +0000 (UTC)
+ Tue, 28 Apr 2020 17:03:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 604C286E1A
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 179D88625C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 17:03:11 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id x26so10633045pgc.10
+ Tue, 28 Apr 2020 17:03:16 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id 18so9752546pfv.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2020 10:03:11 -0700 (PDT)
+ Tue, 28 Apr 2020 10:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=baLXxpVeWEBfxtTo4sAaWBj7RQkMl3/SHWSBubRN2Uk=;
- b=HPv/gVlGU6Mi0O4oAhDZNo0x5S7JSwXF9RKv5cyzpwaBTFhXeWV3cG9QDjFk2RpmgQ
- mqgy1km5WX7A6NvRlFJmRvzFXQN4eGX+hCbRSrJaPC5girjTXWZKzbxsaJRQSnv8B4OH
- 5KsRe333Gm1PIoZfQ8lrRjEyuJ9WOdMADft6Bi31l7HQy0CvTu5KPc8bz9EbSSMnmJcI
- 8Y6NyJibi6tDThmFYPI1EHqZ+2QM9QN43lDPFT66gxbFXvOM8b++xkLFWt7XJ1qQNBnG
- EYIAtSgzFvspx7q55s/wHCclL4YgUc0WfK61AQBFs8ap/cY2Kxo4J5BAF9mMgNGhpiST
- S4iw==
+ bh=U2vjDY6M9kJuWsvQDE56SPl3eiXzk/sM3F8VvOJWJ5o=;
+ b=OhnAGeaRr2PjwZ2hnruAV4cb1nbd464BlGzGbPu2Zza8GqQ/X91Xt8k/EBOqmK2Upy
+ zkC9KBXX6BAn+3zSsu5SaYSjk53/BOIPI3IfcqgbnZaQTrk+J01hzKa5u9k1pbIrdTE8
+ ArdXMF/v9Jaa1HpPqIY/7mKkEvDD+XRC7LU+tJiuy4j+RNw1iOmZUyKkQij+Q7C6/kr6
+ Ul0u4hGFL1HlLcelQwYP6uNbPbPv/eCNIGyzJE9H0Bl/FuPhepirV+AsOuBHc013dz3G
+ WSBJ8obaL6ZhMxj+b/5PnUVpA5reXa7h7ottwag0GM6S0UPusQ8abTUaUPQGl3cjDRls
+ Pxgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=baLXxpVeWEBfxtTo4sAaWBj7RQkMl3/SHWSBubRN2Uk=;
- b=eECcyor7kpOCVhn89AB2YJ5PpasNwtDz2zvrcDr0wswe8DPwYAzePevfECt61xlWrA
- QDoKurqo+ST1hVIQNjn/saFt107qHwvswJqd7pxYGv3GuEp6KnQhzFwOMc7RIcGx5k6s
- GRb7jV6k1lKnwZFiK4rjMBBCdVblj/ckGOquaD4PeWJIW7bEYcJLub6qhHlbV551UNHB
- ybF03/9h/FdUmds+88Cr8M5gwNS5w/df1IppEdi7bEfBG7TB9djLDca0/tKcaMO8ZfLy
- yTC75m8xzecEcKzC5vFSBQOMoF4xpeXIK3To8zp0ESRYmJFErgf4sHfjPrUwXKdUxh5p
- kN4A==
-X-Gm-Message-State: AGi0PubhC2TPmGx8Bn/qCGCpqZx3ColgNLQ5dCNdrciU4hmkwscnt2u+
- /Ijcg9Pp3kaIqyzDjxQC/ZM=
-X-Google-Smtp-Source: APiQypLYjLZJmZ1NYZNPnJc/8NgqWdnskTcTS3IaRBznJYcL0/JFYL13U5BgO4qNllSPCUvZtgMBwQ==
-X-Received: by 2002:a62:38cc:: with SMTP id f195mr30380759pfa.85.1588093390897; 
- Tue, 28 Apr 2020 10:03:10 -0700 (PDT)
+ bh=U2vjDY6M9kJuWsvQDE56SPl3eiXzk/sM3F8VvOJWJ5o=;
+ b=N7X4OOt+GuQ6JOLOuAApyDDxd/WZmWCU3/3qVU/2qTvuO91UdgmuT5+yPBEJWJCnYu
+ 9s+g5ryAmRUXQO+iuZOGC65l6jaNpjnmZbfI/VaI3nXsoeUI6Z+syHidNTIiSkB7lZ5j
+ eXxgZWKiCRO04Jqr5mLPY/IJusaBK5mCnxdtuJCu5o2zWxq0RWetANX9LPUrVanDWv/7
+ sLtUYBpBEwMsi2VJ09bmVT76LCRq+ofJdH6ZWQDiMeTwxhkaZEytHymTL4TqowHhIvYa
+ 9shcxsgWobLA4UK+Cij7nAC7bTq4JafWwhsRoCb8+ho6U47hILeSHDwMwo9G7VMHTsDe
+ C+4g==
+X-Gm-Message-State: AGi0PuZ1ql9wNa6kaB88cTUKHxvkaHTq3BcMEz2g4wNQcY+t5CZti4e8
+ rmpq086YmteMt7cUETdYVb7udauk4yY=
+X-Google-Smtp-Source: APiQypKoCtEpZnOmzraFt+6Lrp0QhjjlvTBvVMtyUxjZIb5Skhybxoa2p6z09JOqvFiit9tv7kodOA==
+X-Received: by 2002:a62:5ac2:: with SMTP id
+ o185mr30482649pfb.148.1588093395570; 
+ Tue, 28 Apr 2020 10:03:15 -0700 (PDT)
 Received: from localhost.localdomain ([1.38.220.163])
- by smtp.gmail.com with ESMTPSA id u15sm2505097pjm.47.2020.04.28.10.03.06
+ by smtp.gmail.com with ESMTPSA id u15sm2505097pjm.47.2020.04.28.10.03.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 10:03:09 -0700 (PDT)
+ Tue, 28 Apr 2020 10:03:15 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Tue, 28 Apr 2020 22:32:03 +0530
-Message-Id: <20200428170228.7002-8-jaskaransingh7654321@gmail.com>
+Date: Tue, 28 Apr 2020 22:32:04 +0530
+Message-Id: <20200428170228.7002-9-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200428170228.7002-1-jaskaransingh7654321@gmail.com>
 References: <20200428170228.7002-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 07/32] parsing_cocci: iso_pattern:
+Subject: [Linux-kernel-mentees] [PATCH 08/32] parsing_cocci: type_infer:
 	Reflect Cast attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -116,53 +117,26 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 Cast attributes are added to the SmPL AST. Reflect these changes in
-iso_pattern.ml.
+type_infer.ml.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_cocci/iso_pattern.ml | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ parsing_cocci/type_infer.ml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/parsing_cocci/iso_pattern.ml b/parsing_cocci/iso_pattern.ml
-index 9df21fb9..b57e293e 100644
---- a/parsing_cocci/iso_pattern.ml
-+++ b/parsing_cocci/iso_pattern.ml
-@@ -575,7 +575,7 @@ let match_maker checks_needed context_required whencode_allowed =
- 			(* all caps is a const *)
- 			Str.string_match all_caps nm 0
- 		    | _ -> false)
--		| Ast0.Cast(lp,ty,rp,e) -> matches e
-+		| Ast0.Cast(lp,ty,attr,rp,e) -> matches e
- 		| Ast0.SizeOfExpr(se,exp) -> true
- 		| Ast0.SizeOfType(se,lp,ty,rp) -> true
- 		| Ast0.MetaExpr(nm,_,_,Ast.CONST,p,_bitfield) ->
-@@ -586,7 +586,7 @@ let match_maker checks_needed context_required whencode_allowed =
- 	      let rec matches e =
- 		match Ast0.unwrap e with
- 		  Ast0.Ident(c) -> true
--		| Ast0.Cast(lp,ty,rp,e) -> matches e
-+		| Ast0.Cast(lp,ty,attr,rp,e) -> matches e
- 		| Ast0.MetaExpr(nm,_,_,Ast.ID,p,_bitfield) ->
- 		    (Ast0.lub_pure p pure) = pure
- 		| _ -> false in
-@@ -757,10 +757,16 @@ let match_maker checks_needed context_required whencode_allowed =
- 	       conjunct_many_bindings
- 		 [check_mcode opa op; match_expr expa expb;
- 		   match_ident fielda fieldb]
--	  | (Ast0.Cast(lp1,tya,rp1,expa),Ast0.Cast(lp,tyb,rp,expb)) ->
-+	  | (Ast0.Cast(lp1,tya,attra,rp1,expa),
-+             Ast0.Cast(lp,tyb,attrb,rp,expb)) ->
-+              if (List.length attra = List.length attrb &&
-+                  List.fold_left2 (fun p a b -> p && mcode_equal a b) true
-+                  attra attrb)
-+              then
- 	      conjunct_many_bindings
- 		[check_mcode lp1 lp; check_mcode rp1 rp;
- 		  match_typeC tya tyb; match_expr expa expb]
-+              else return false
- 	  | (Ast0.SizeOfExpr(szf1,expa),Ast0.SizeOfExpr(szf,expb)) ->
- 	      conjunct_bindings (check_mcode szf1 szf) (match_expr expa expb)
- 	  | (Ast0.SizeOfType(szf1,lp1,tya,rp1),
+diff --git a/parsing_cocci/type_infer.ml b/parsing_cocci/type_infer.ml
+index e8aad810..2c1cc73b 100644
+--- a/parsing_cocci/type_infer.ml
++++ b/parsing_cocci/type_infer.ml
+@@ -291,7 +291,7 @@ let rec propagate_types env =
+                | Some x ->
+                    let ty = Ast0.wrap x in
+                    err exp ty "non-structure pointer type in field ref")
+-	| Ast0.Cast(lp,ty,rp,exp) -> Some ty
++	| Ast0.Cast(lp,ty,attr,rp,exp) -> Some ty
+ 	| Ast0.SizeOfExpr(szf,exp) -> Some (Ast0.wrap int_type)
+ 	| Ast0.SizeOfType(szf,lp,ty,rp) -> Some (Ast0.wrap int_type)
+ 	| Ast0.TypeExp(ty) -> None
 -- 
 2.21.1
 
