@@ -2,101 +2,113 @@ Return-Path: <SRS0=qNpr=6O=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-7.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C9E5C47247
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 16:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DD9C47247
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 16:21:21 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 611192076D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 16:02:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 86B4C208C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 16:21:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUF51ZdE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 611192076D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cx7cmehX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86B4C208C3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 26D0786E8F;
-	Thu, 30 Apr 2020 16:02:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5CCA985507;
+	Thu, 30 Apr 2020 16:21:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ertp16UTP-jH; Thu, 30 Apr 2020 16:02:25 +0000 (UTC)
+	with ESMTP id SDcLR7o9zTEd; Thu, 30 Apr 2020 16:21:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 52C2986E75;
-	Thu, 30 Apr 2020 16:02:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AB66C852D5;
+	Thu, 30 Apr 2020 16:21:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 30B39C0889;
-	Thu, 30 Apr 2020 16:02:25 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E490C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A789EC0864;
+	Thu, 30 Apr 2020 16:21:20 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 045D6C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 16:02:23 +0000 (UTC)
+ Thu, 30 Apr 2020 16:21:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3D1032052D
+ by hemlock.osuosl.org (Postfix) with ESMTP id EEDE68878B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 16:02:23 +0000 (UTC)
+ Thu, 30 Apr 2020 16:21:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 86cEkaXGnlAJ
+ with ESMTP id 8ZNqeLaskPWH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 16:02:22 +0000 (UTC)
+ Thu, 30 Apr 2020 16:21:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by silver.osuosl.org (Postfix) with ESMTPS id E5109204C9
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 10AA88877D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 16:02:21 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id q124so2931182pgq.13
+ Thu, 30 Apr 2020 16:21:19 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id z1so31902pfn.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 09:02:21 -0700 (PDT)
+ Thu, 30 Apr 2020 09:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=cNV8wBKZnzVBtfymmveclI4KpbJZuqPxmoI95kkMdEk=;
- b=gUF51ZdEmMNREvmXqCvOQL6dUB2acFhJN4T+qV1lyQaqLu19s6doZkP4sgYp+HFDxZ
- vB0lbjGzTxRL0fE/0T+K+CkxGMAw3phFJpqHqgcsu395S+hUjHM5tAqQTmfF4iNiTK0S
- rUy19yKokxXhSnhmACYx4qtBM0xXlI+/94J8U8fhHMisdBW4uA2nlERs8MexdDiujgcZ
- owtBIRwsLeE/PmzeQlKTzRuCL3sk/LZ2tdoyH5VDaq9dBHU2/0EM0T/Zls4dXbKeiLK1
- 6fCIg28YSOEKSUTj0xoShyBrKt5gcQKodO8WzxA4w7+0WouJT5aiUzn2W9DlzrOGIU/i
- usYQ==
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=a323AGlCBAcV4I3yzJO9rWfR0NR+Luy46FyJfFLhDgE=;
+ b=cx7cmehXNqgLPEZLbpOw69S2u6g71w27MIwcCDFZymrLm62nuXeDKmpvGqXF3wYVFD
+ I7o2k5ud+msFQzJJjKOiQ0/qQPHEluvX8093PGlddLQTgDgwq2TRbmNDWZ8LsI2nmODX
+ 48uua4H4CSh9jwRER8wSa/Tiyw6euJzC9YYK5KYbGicqtMHEhSYwxdi4AXStY3HnlKDJ
+ BqaXx20TRuUc35ue7gWz7nIBWhxXnK0iH2sLt0nprou9SVUdp2T3Hxkzb/6OojTWSk9S
+ BSiUvDOGwlPlCnLXyFxj8kzk570gv0B1yZbFMscioLP3vSt9n3FpZkIWy4G+BvkEt9OS
+ wBgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=cNV8wBKZnzVBtfymmveclI4KpbJZuqPxmoI95kkMdEk=;
- b=k7toZHDBac5XxR0yUdiy6BJ1B+au+kiq3GIxWWbCoA8N4HoKPOrwBlKp7PbYOmVTWs
- pVpQWduhUaWYoduesE/49f+MVFbOua4E7OUo2dJiplUXA60SFojGpMKruESMK0MScTFK
- 0eViiTDnQj/8SjPS/eVFIsxfDCwCPw3AS+VMv0clzwlSusprkYF/EqEfxMjGbTr7qPrW
- M/J9Ao0MQ52i1SPnPscvMMXsaxnuKDfS+tOYSJrCXwxGV436zC54Bm7YtTchKOR0hPj6
- 3P+/hGRJ7wmPCrCa3m1DLJOact+UTwDBZ26E+/pjIFeYqc7UhJ2UfFh7LRKauxMp7Mut
- 6xOw==
-X-Gm-Message-State: AGi0Pub5a8lrvJhwb9UvmuX3FIr2wgn9XvAfSWeTdpIjGqP9MT5MxVnc
- 8YBTcQEaz22g8/tyA2pjEw==
-X-Google-Smtp-Source: APiQypKDW2dWa9U3zBxfHDvIfC7dS46oUZwZ5hSH0zqX0CXg5Qavgg068rmwXmccEmvXAV0Z3Zj/ng==
-X-Received: by 2002:aa7:9811:: with SMTP id e17mr28538pfl.70.1588262541257;
- Thu, 30 Apr 2020 09:02:21 -0700 (PDT)
-Received: from localhost.localdomain ([2402:3a80:d32:dd79:2591:468a:ee81:9c85])
- by smtp.gmail.com with ESMTPSA id 5sm244359pjf.19.2020.04.30.09.02.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 09:02:20 -0700 (PDT)
-From: madhuparnabhowmik10@gmail.com
-To: zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- paulmck@kernel.org
-Date: Thu, 30 Apr 2020 21:32:05 +0530
-Message-Id: <20200430160205.17798-1-madhuparnabhowmik10@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: linux-kernel@vger.kernel.org,
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=a323AGlCBAcV4I3yzJO9rWfR0NR+Luy46FyJfFLhDgE=;
+ b=eUXNUkQDcZxuu1nen94OdNPoiRqvH9SPcre3x7ap/uhf9zDIaPqO92KnXcOdqPb21d
+ vNPIS7G43ZDl6rfa2OB+iSkmwnvgftBqdURhqA8PwdXRCYXSniUFpzVjJdfY+4cqQh09
+ N42x6/YCJn7RMhxdhECxDyDpE+cII+0VCbPEdONvJCgVCM4OJCQuNmv0LfnNO4Y6LaTg
+ w/cGcsveVP9CDYTejzu5VR7OZrn+tkUjacrhpBI/qlTKfCaSgSG7sbKlBpPSgbbZy0e2
+ Zh+4hINUUKmsf403QjhSW/pDb+DXE1YeLN+aZ1y/JiB8mMkvwEAUWq7MZk+mTouFC/RS
+ vDxw==
+X-Gm-Message-State: AGi0PuZU5B8n5cK4zsX5B3JTX87qRslKVIxGSM2LMnpCrcLpqYXcIfl7
+ IftqR6keQcTrYCUh9axwRg==
+X-Google-Smtp-Source: APiQypLUx6sR10Id2bERGEEQO/4aP8IYMJa8+s8q0ium2i2zz1n7SkAjLhpH/JaWMR1ixvInbfRZYw==
+X-Received: by 2002:a63:d13:: with SMTP id c19mr3833293pgl.180.1588263678458; 
+ Thu, 30 Apr 2020 09:21:18 -0700 (PDT)
+Received: from madhuparna-HP-Notebook
+ ([2402:3a80:d32:dd79:2591:468a:ee81:9c85])
+ by smtp.gmail.com with ESMTPSA id u3sm211520pfn.217.2020.04.30.09.21.12
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 30 Apr 2020 09:21:16 -0700 (PDT)
+From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+X-Google-Original-From: Madhuparna Bhowmik <change_this_user_name@gmail.com>
+Date: Thu, 30 Apr 2020 21:51:09 +0530
+To: Qian Cai <cai@lca.pw>
+Message-ID: <20200430162109.GA18365@madhuparna-HP-Notebook>
+References: <20200428155249.19990-1-madhuparnabhowmik10@gmail.com>
+ <014AD5C4-1E88-4694-8637-C07D34A93F58@lca.pw>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <014AD5C4-1E88-4694-8637-C07D34A93F58@lca.pw>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: wanpengli@tencent.com, kvm@vger.kernel.org,
+ "paul E. McKenney" <paulmck@kernel.org>, x86 <x86@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
  Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- linux-security-module@vger.kernel.org, joel@joelfernandes.org,
- linux-integrity@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] integrity: evm: Fix RCU list related
-	warnings.
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org, jmattson@google.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] kvm: Fix false positive RCU
+	usage warning
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,96 +120,143 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+On Wed, Apr 29, 2020 at 04:20:29PM -0400, Qian Cai wrote:
+> 
+> 
+> > On Apr 28, 2020, at 11:52 AM, madhuparnabhowmik10@gmail.com wrote:
+> > 
+> > From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> > 
+> > Fix the following false positive warnings:
+> > 
+> > [ 9403.765413][T61744] =============================
+> > [ 9403.786541][T61744] WARNING: suspicious RCU usage
+> > [ 9403.807865][T61744] 5.7.0-rc1-next-20200417 #4 Tainted: G             L
+> > [ 9403.838945][T61744] -----------------------------
+> > [ 9403.860099][T61744] arch/x86/kvm/mmu/page_track.c:257 RCU-list traversed in non-reader section!!
+> > 
+> > and
+> > 
+> > [ 9405.859252][T61751] =============================
+> > [ 9405.859258][T61751] WARNING: suspicious RCU usage
+> > [ 9405.880867][T61755] -----------------------------
+> > [ 9405.911936][T61751] 5.7.0-rc1-next-20200417 #4 Tainted: G             L
+> > [ 9405.911942][T61751] -----------------------------
+> > [ 9405.911950][T61751] arch/x86/kvm/mmu/page_track.c:232 RCU-list traversed in non-reader section!!
+> > 
+> > Since srcu read lock is held, these are false positive warnings.
+> > Therefore, pass condition srcu_read_lock_held() to
+> > list_for_each_entry_rcu().
+> 
+> You forgot to add KVM maintainer (adding Paolo now). On the other hand, there could be more places need to audit in x86 KVM. Not sure you want to add them together to one patch or doing separately for each file. For example,
+>
+Thank you for adding him.
+I am looking into these other warnings.
+I will send a seperate patch for them.
 
-This patch fixes the following warning and few other
-instances of traversal of evm_config_xattrnames list:
+Regards,
+Madhuparna
 
-[   32.848432] =============================
-[   32.848707] WARNING: suspicious RCU usage
-[   32.848966] 5.7.0-rc1-00006-ga8d5875ce5f0b #1 Not tainted
-[   32.849308] -----------------------------
-[   32.849567] security/integrity/evm/evm_main.c:231 RCU-list traversed in non-reader section!!
-
-Since entries are only added to the list and never deleted,
-use list_For_each_entry_lockless() instead of
-list_for_each_entry_rcu() for traversing the list.
-Also, add a relevant comment in evm_secfs.c to indicate this fact.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
----
- security/integrity/evm/evm_crypto.c | 2 +-
- security/integrity/evm/evm_main.c   | 4 ++--
- security/integrity/evm/evm_secfs.c  | 9 ++++++++-
- 3 files changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/security/integrity/evm/evm_crypto.c b/security/integrity/evm/evm_crypto.c
-index 35682852ddea..b2dc87da5f50 100644
---- a/security/integrity/evm/evm_crypto.c
-+++ b/security/integrity/evm/evm_crypto.c
-@@ -207,7 +207,7 @@ static int evm_calc_hmac_or_hash(struct dentry *dentry,
- 	data->hdr.length = crypto_shash_digestsize(desc->tfm);
- 
- 	error = -ENODATA;
--	list_for_each_entry_rcu(xattr, &evm_config_xattrnames, list) {
-+	list_for_each_entry_lockless(xattr, &evm_config_xattrnames, list) {
- 		bool is_ima = false;
- 
- 		if (strcmp(xattr->name, XATTR_NAME_IMA) == 0)
-diff --git a/security/integrity/evm/evm_main.c b/security/integrity/evm/evm_main.c
-index d361d7fdafc4..0d36259b690d 100644
---- a/security/integrity/evm/evm_main.c
-+++ b/security/integrity/evm/evm_main.c
-@@ -97,7 +97,7 @@ static int evm_find_protected_xattrs(struct dentry *dentry)
- 	if (!(inode->i_opflags & IOP_XATTR))
- 		return -EOPNOTSUPP;
- 
--	list_for_each_entry_rcu(xattr, &evm_config_xattrnames, list) {
-+	list_for_each_entry_lockless(xattr, &evm_config_xattrnames, list) {
- 		error = __vfs_getxattr(dentry, inode, xattr->name, NULL, 0);
- 		if (error < 0) {
- 			if (error == -ENODATA)
-@@ -228,7 +228,7 @@ static int evm_protected_xattr(const char *req_xattr_name)
- 	struct xattr_list *xattr;
- 
- 	namelen = strlen(req_xattr_name);
--	list_for_each_entry_rcu(xattr, &evm_config_xattrnames, list) {
-+	list_for_each_entry_lockless(xattr, &evm_config_xattrnames, list) {
- 		if ((strlen(xattr->name) == namelen)
- 		    && (strncmp(req_xattr_name, xattr->name, namelen) == 0)) {
- 			found = 1;
-diff --git a/security/integrity/evm/evm_secfs.c b/security/integrity/evm/evm_secfs.c
-index 39ad1038d45d..cfc3075769bb 100644
---- a/security/integrity/evm/evm_secfs.c
-+++ b/security/integrity/evm/evm_secfs.c
-@@ -232,7 +232,14 @@ static ssize_t evm_write_xattrs(struct file *file, const char __user *buf,
- 		goto out;
- 	}
- 
--	/* Guard against races in evm_read_xattrs */
-+	/*
-+	 * xattr_list_mutex guards against races in evm_read_xattrs().
-+	 * Entries are only added to the evm_config_xattrnames list
-+	 * and never deleted. Therefore, the list is traversed
-+	 * using list_for_each_entry_lockless() without holding
-+	 * the mutex in evm_calc_hmac_or_hash(), evm_find_protected_xattrs()
-+	 * and evm_protected_xattr().
-+	 */
- 	mutex_lock(&xattr_list_mutex);
- 	list_for_each_entry(tmp, &evm_config_xattrnames, list) {
- 		if (strcmp(xattr->name, tmp->name) == 0) {
--- 
-2.17.1
-
+> [29179.937976][T75781] WARNING: suspicious RCU usage
+> [29179.942789][T75781] 5.7.0-rc3-next-20200429 #1 Tainted: G           O L   
+> [29179.949752][T75781] -----------------------------
+> [29179.954498][T75781] arch/x86/kvm/../../../virt/kvm/eventfd.c:472 RCU-list traversed in non-reader section!!
+> [29179.964768][T75781] 
+> [29179.964768][T75781] other info that might help us debug this:
+> [29179.964768][T75781] 
+> [29179.974958][T75781] 
+> [29179.974958][T75781] rcu_scheduler_active = 2, debug_locks = 1
+> [29179.982961][T75781] 3 locks held by qemu-kvm/75781:
+> [29179.988145][T75781]  #0: ffff95b3755300d0 (&vcpu->mutex){+.+.}-{3:3}, at: kvm_vcpu_ioctl+0xbd/0x860 [kvm]
+> [29179.998450][T75781]  #1: ffffa45946cd7e10 (&kvm->srcu){....}-{0:0}, at: vcpu_enter_guest+0x94e/0x2e50 [kvm]
+> [29180.009264][T75781]  #2: ffffa45946cd8b98 (&kvm->irq_srcu){....}-{0:0}, at: kvm_notify_acked_irq+0x92/0x290 [kvm]
+> [29180.020471][T75781] 
+> [29180.020471][T75781] stack backtrace:
+> [29180.026318][T75781] CPU: 16 PID: 75781 Comm: qemu-kvm Tainted: G           O L    5.7.0-rc3-next-20200429 #1
+> [29180.036480][T75781] Hardware name: HPE ProLiant DL385 Gen10/ProLiant DL385 Gen10, BIOS A40 03/09/2018
+> [29180.045765][T75781] Call Trace:
+> [29180.048942][T75781]  dump_stack+0xab/0x100
+> [29180.053132][T75781]  lockdep_rcu_suspicious+0xea/0xf3
+> [29180.058802][T75781]  kvm_notify_acked_gsi+0x10d/0x120 [kvm]
+> [29180.065386][T75781]  kvm_notify_acked_irq+0xe5/0x290 [kvm]
+> [29180.071529][T75781]  pic_clear_isr+0xa1/0xc0 [kvm]
+> [29180.077118][T75781]  pic_ioport_write+0x335/0x5e0 [kvm]
+> [29180.082453][T75781]  ? do_raw_spin_lock+0x115/0x1b0
+> [29180.088205][T75781]  picdev_write+0x7d/0x130 [kvm]
+> [29180.093677][T75781]  picdev_master_write+0x3a/0x50 [kvm]
+> [29180.099730][T75781]  __kvm_io_bus_write+0x147/0x180 [kvm]
+> [29180.105700][T75781]  kvm_io_bus_write+0xfc/0x1b0 [kvm]
+> [29180.111701][T75781]  kernel_pio+0xeb/0x110 [kvm]
+> [29180.116991][T75781]  emulator_pio_out+0x14f/0x400 [kvm]
+> [29180.122342][T75781]  ? __lock_acquire+0x5c2/0x23f0
+> [29180.127229][T75781]  ? __svm_vcpu_run+0x95/0x110 [kvm_amd]
+> [29180.133481][T75781]  kvm_fast_pio+0x12f/0x200 [kvm]
+> [29180.138733][T75781]  io_interception+0xba/0xe0 [kvm_amd]
+> [29180.144164][T75781]  ? svm_sync_dirty_debug_regs+0x170/0x170 [kvm_amd]
+> [29180.150843][T75781]  handle_exit+0x403/0x9f0 [kvm_amd]
+> [29180.156652][T75781]  ? kvm_arch_vcpu_ioctl_run+0x286/0xb50 [kvm]
+> [29180.163648][T75781]  vcpu_enter_guest+0xa08/0x2e50 [kvm]
+> [29180.169007][T75781]  ? lock_acquire+0xcd/0x450
+> [29180.174364][T75781]  ? kvm_skip_emulated_instruction+0x67/0x80 [kvm]
+> [29180.181422][T75781]  kvm_arch_vcpu_ioctl_run+0x286/0xb50 [kvm]
+> [29180.188256][T75781]  kvm_vcpu_ioctl+0x2d4/0x860 [kvm]
+> [29180.193391][T75781]  ? __fget_light+0xa3/0x170
+> [29180.197879][T75781]  ksys_ioctl+0x227/0xb90
+> [29180.202159][T75781]  ? find_held_lock+0x35/0xa0
+> [29180.206777][T75781]  __x64_sys_ioctl+0x4c/0x5d
+> [29180.211443][T75781]  do_syscall_64+0x91/0xb10
+> [29180.215840][T75781]  ? trace_hardirqs_off_thunk+0x1a/0x1c
+> [29180.221307][T75781]  entry_SYSCALL_64_after_hwframe+0x49/0xb3
+> [29180.227100][T75781] RIP: 0033:0x7f2f5a90487b
+> [29180.231414][T75781] Code: 0f 1e fa 48 8b 05 0d 96 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d dd 95 2c 00 f7 d8 64 89 01 48
+> [29180.251241][T75781] RSP: 002b:00007f2f4b7fd678 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> [29180.259660][T75781] RAX: ffffffffffffffda RBX: 00007f2f5fc31001 RCX: 00007f2f5a90487b
+> [29180.267730][T75781] RDX: 0000000000000000 RSI: 000000000000ae80 RDI: 0000000000000011
+> [29180.275619][T75781] RBP: 0000000000000001 R08: 000055c707b6fad0 R09: 00000000000000ff
+> [29180.283533][T75781] R10: 0000000000000001 R11: 0000000000000246 R12: 000055c707b58100
+> [29180.291622][T75781] R13: 0000000000000000 R14: 00007f2f5fc30000 R15: 000055c70a1b4c60
+> 
+> > 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> > ---
+> > arch/x86/kvm/mmu/page_track.c | 6 ++++--
+> > 1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/arch/x86/kvm/mmu/page_track.c b/arch/x86/kvm/mmu/page_track.c
+> > index ddc1ec3bdacd..1ad79c7aa05b 100644
+> > --- a/arch/x86/kvm/mmu/page_track.c
+> > +++ b/arch/x86/kvm/mmu/page_track.c
+> > @@ -229,7 +229,8 @@ void kvm_page_track_write(struct kvm_vcpu *vcpu, gpa_t gpa, const u8 *new,
+> > 		return;
+> > 
+> > 	idx = srcu_read_lock(&head->track_srcu);
+> > -	hlist_for_each_entry_rcu(n, &head->track_notifier_list, node)
+> > +	hlist_for_each_entry_rcu(n, &head->track_notifier_list, node,
+> > +				srcu_read_lock_held(&head->track_srcu))
+> > 		if (n->track_write)
+> > 			n->track_write(vcpu, gpa, new, bytes, n);
+> > 	srcu_read_unlock(&head->track_srcu, idx);
+> > @@ -254,7 +255,8 @@ void kvm_page_track_flush_slot(struct kvm *kvm, struct kvm_memory_slot *slot)
+> > 		return;
+> > 
+> > 	idx = srcu_read_lock(&head->track_srcu);
+> > -	hlist_for_each_entry_rcu(n, &head->track_notifier_list, node)
+> > +	hlist_for_each_entry_rcu(n, &head->track_notifier_list, node,
+> > +				srcu_read_lock_held(&head->track_srcu))
+> > 		if (n->track_flush_slot)
+> > 			n->track_flush_slot(kvm, slot, n);
+> > 	srcu_read_unlock(&head->track_srcu, idx);
+> > -- 
+> > 2.17.1
+> > 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
