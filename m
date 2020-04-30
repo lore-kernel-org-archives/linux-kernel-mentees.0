@@ -7,94 +7,94 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A1D8C47257
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 22:57:13 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7918AC47247
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 22:58:36 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 639AB2166E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 22:57:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4D4312071C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 22:58:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="j/cqKE2I"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 639AB2166E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="YGZmQ8GW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D4312071C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 273DB88B5F;
-	Thu, 30 Apr 2020 22:57:13 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 287E7874CD;
+	Thu, 30 Apr 2020 22:58:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WerxTtAUU2uM; Thu, 30 Apr 2020 22:57:12 +0000 (UTC)
+	with ESMTP id 36BbT7yrN-ek; Thu, 30 Apr 2020 22:58:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B84DD88B52;
-	Thu, 30 Apr 2020 22:57:12 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0F3AC86E6F;
+	Thu, 30 Apr 2020 22:58:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AA803C0864;
-	Thu, 30 Apr 2020 22:57:12 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A16A5C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F3777C0864;
+	Thu, 30 Apr 2020 22:58:35 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 00FF2C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 22:57:10 +0000 (UTC)
+ Thu, 30 Apr 2020 22:58:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8A8FF883C9
+ by silver.osuosl.org (Postfix) with ESMTP id E217C20109
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 22:57:10 +0000 (UTC)
+ Thu, 30 Apr 2020 22:58:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CUiJe7PpYSii
+ with ESMTP id HUVX4JTo90Ha
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 22:57:10 +0000 (UTC)
+ Thu, 30 Apr 2020 22:58:34 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
- [209.85.219.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 07E418832D
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+ [209.85.222.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id 3DA9720396
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 22:57:10 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id fb4so3958832qvb.7
+ Thu, 30 Apr 2020 22:58:34 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id k81so4945638qke.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 15:57:09 -0700 (PDT)
+ Thu, 30 Apr 2020 15:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=JwaXAKuRd0apGvpDhNCHAFUyDcZ/LeyJTl3LHyQWiwI=;
- b=j/cqKE2I9ySEFXVhi1aXMr5JuwvMm7JmEKZQt9D1LKparoBCiIz9P+hclLYO3dpOK6
- wEnlqwAeq1CjQyzGb7mYaSuxL1S5DmlqXLKRy9DU9YesLL6oQFLCHrGATgtWl0lZjuHA
- 8f9Pu+RFSIvkBO1IzH+dfKLlUDQf0/f33yIRIep/p4XsfICyiHk5vYhzM/NZ77znJjeD
- M7aDOETzdkccWELfAyjE1Y2SnynbI0ZnmBaOoUDGuop4Ziv9AVMSsXOxlWn6e+QbQhHm
- S8XwlhdU7DYpNR04zkVp8pzbtjtBKFN1AhOSlbH98Xeua0/yvQ3JaFsRNB2cqLYmokso
- E4VQ==
+ b=YGZmQ8GWP6O2iWZDHWeYV+qL8FMiaRmtsxbz69scygNhquADfQVsbpoVBYM3QC0dTU
+ t5BMZa9/cc51xVx9QZvTbTJKFYFMfHriP4veaT5UB1//NnNg7+0XPqI0B8qA/YQO6Trs
+ ODWlwi/Z2xJ4g4HRNN3Netfxfe+l11nBgKK667Wd1jhRlghv5U0KJyh72j8quYtLvJZx
+ 0S39woQfT0AwekP+ecAruBhm6CQ6qE30TOGK5VA9fla/qOS9SJIQLCq2k3OVPxwNTv/m
+ eYrZ+OE+SPFO4cOZPNgCwAYmgE4M6ypCY8+z1qT9xJv4CKfUdR8JecebIhlyL8KRHsYu
+ 85Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=JwaXAKuRd0apGvpDhNCHAFUyDcZ/LeyJTl3LHyQWiwI=;
- b=J3W+h1KEBsSkEt07Kedbb+0SPrnDKk1Rx2ZPaLffGRHXWq3nFpBGRRQb92Y2xxqLd/
- L/7nKN44IpzG4D5DwQ0/QnUkWZHPE/xDglE1nDHAKnilGIbEnSMowHXCiGV3yxkSHCuL
- t+i5cDU7fYunUKc4N8zzhFYaTgTO0kC+nX9mvBXig7CpV4VdUFd5AQEWO4ijYe+ZQj2W
- OXZEw78y+7O0lglIY7dKHv69Wjmfx1bOBmdlSo2oB3/o42C42PvoB9wg5dQTR9GYB3qZ
- IgFXsPwr1voQbSQDBuDuIX9HX6D31MuEb/Yr/J+5too7IdYabkzpIsdTFhIOjcXOlnI0
- fT0w==
-X-Gm-Message-State: AGi0PuYzETr8afpPM1cAwzZX3mLi2MThnzkyPc/toHaG3PbCFiDAr61X
- QSkmCUV3FimRD4IGrrgBxHysHQ==
-X-Google-Smtp-Source: APiQypLmKZaE8wkTc6wcMU+OIG30tDXPV6fy6mEI5P2ZFUFQRWrRo5Vo6qL0nK17U8rkzEV1qNLerw==
-X-Received: by 2002:a0c:fd8c:: with SMTP id p12mr1343371qvr.163.1588287428897; 
- Thu, 30 Apr 2020 15:57:08 -0700 (PDT)
+ b=JgrdY9lekvxeOXFs0XF52BI5Xk9+tndcZpBrCQsXB0l0qVjOzcW7RpnehP46N5Rbm4
+ OhjA/uCYXjxDYTriPRaxModWgZ3duYeZOfUDVwj/1ktE9LvEg8Q3IXI3Eq8vQjjp7ob9
+ Os7Lr6SnHqjU2/ACjLRqIy2RBGNPB5RUd0gPCyF7Nn5Jhb11oIbftbB+6Uqm+S+TQQGz
+ EJ7jYrWbdJIb2mLmXG1i6fpbRrKx6SSjWK7OcVFjoNKqBCQI5O17aURQC1Jst1d9yAfK
+ 8V9kznAzlbDVxc1gqdhvliprwyNI3PhzirQQwmo95tuGwgP4D40v8pyRMctrBsSdSXSw
+ I6xw==
+X-Gm-Message-State: AGi0Pubhwa43AHfgIaQYOPc4rAx+Uxssd0XRtnoXyDj4LDqi/Lu6xU0/
+ CwjHr9e2zh3l7Oqg1gqOw+E4Uw==
+X-Google-Smtp-Source: APiQypLfhmjyRVuRf2Lt6npZZiun6EfqTX4lxs32lNtxWW7GfoDXIAI1rIkPsqMKP/JogVM2TtNnpg==
+X-Received: by 2002:ae9:e10b:: with SMTP id g11mr926581qkm.449.1588287513228; 
+ Thu, 30 Apr 2020 15:58:33 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id x194sm1258439qkb.131.2020.04.30.15.57.06
+ by smtp.gmail.com with ESMTPSA id s50sm1165641qtj.1.2020.04.30.15.58.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 15:57:08 -0700 (PDT)
+ Thu, 30 Apr 2020 15:58:32 -0700 (PDT)
 From: Vitor Massaru Iha <vitor@massaru.org>
 To: linux-doc@vger.kernel.org
-Date: Thu, 30 Apr 2020 19:57:03 -0300
-Message-Id: <20200430225703.113909-1-vitor@massaru.org>
+Date: Thu, 30 Apr 2020 19:58:28 -0300
+Message-Id: <20200430225828.114033-1-vitor@massaru.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Cc: corbet@lwn.net, brendanhiggins@google.com, linux-kernel@vger.kernel.org,
  mchehab@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] doc: misc-device: add uaccee to
+Subject: [Linux-kernel-mentees] [RESEND] doc: misc-device: add uacce to
 	toctree(index)
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
