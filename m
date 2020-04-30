@@ -2,101 +2,101 @@ Return-Path: <SRS0=qNpr=6O=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA83C83000
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 14:26:13 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C9E5C47247
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 16:02:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 51BC920774
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 14:26:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 611192076D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Apr 2020 16:02:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pyVQXCzR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 51BC920774
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUF51ZdE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 611192076D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2A7ED884F0;
-	Thu, 30 Apr 2020 14:26:13 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 26D0786E8F;
+	Thu, 30 Apr 2020 16:02:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FxYqxrym4ck8; Thu, 30 Apr 2020 14:26:12 +0000 (UTC)
+	with ESMTP id Ertp16UTP-jH; Thu, 30 Apr 2020 16:02:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9E39E884C1;
-	Thu, 30 Apr 2020 14:26:12 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 52C2986E75;
+	Thu, 30 Apr 2020 16:02:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A6C4C0864;
-	Thu, 30 Apr 2020 14:26:12 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 11065C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 30B39C0889;
+	Thu, 30 Apr 2020 16:02:25 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4E490C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 14:26:11 +0000 (UTC)
+ Thu, 30 Apr 2020 16:02:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id F19B487ED1
+ by silver.osuosl.org (Postfix) with ESMTP id 3D1032052D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 14:26:10 +0000 (UTC)
+ Thu, 30 Apr 2020 16:02:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wiSWo4uadfiK
+ with ESMTP id 86cEkaXGnlAJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 14:26:10 +0000 (UTC)
-X-Greylist: delayed 00:05:13 by SQLgrey-1.7.6
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
- [209.85.167.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 0F95A87ECF
+ Thu, 30 Apr 2020 16:02:22 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id E5109204C9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 14:26:10 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id t199so5364333oif.7
+ Thu, 30 Apr 2020 16:02:21 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id q124so2931182pgq.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2020 07:26:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vU7NNDB88N8b7luDUTJQIrpl7937xKbm7PdW+jOV5J4=;
- b=pyVQXCzRdeYFN35dxvsghsrXzIdcIbEYwc3EaNswiigQ56cZTaQdOFWpaTh0LfCcdm
- 2KjNZxbDLoiOShbqWhjVC9o5qbxrY7BWh0w5c+wVG3zivALqYuf86KUZjg5MdLb8W9j5
- pICF3wLWqrM0bo3kIYJMJJyW8jKzWQXR9OH5A5rzn2vBpKJwwOImwWTVnzVH08xSth+I
- 9+4KH1ak29J3udYms0FoW4bD0Oh3Y2xYPy++zsxjMAbWXZc59UIOz4nbUiYnTT3lvxzn
- mR2DQiqizyIRFsjO3i3lIyN/yI1wkbOWVcjCADgROSvUQboVCrBkRfFoDvvfSHp3Hy19
- ZvDg==
+ Thu, 30 Apr 2020 09:02:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=cNV8wBKZnzVBtfymmveclI4KpbJZuqPxmoI95kkMdEk=;
+ b=gUF51ZdEmMNREvmXqCvOQL6dUB2acFhJN4T+qV1lyQaqLu19s6doZkP4sgYp+HFDxZ
+ vB0lbjGzTxRL0fE/0T+K+CkxGMAw3phFJpqHqgcsu395S+hUjHM5tAqQTmfF4iNiTK0S
+ rUy19yKokxXhSnhmACYx4qtBM0xXlI+/94J8U8fhHMisdBW4uA2nlERs8MexdDiujgcZ
+ owtBIRwsLeE/PmzeQlKTzRuCL3sk/LZ2tdoyH5VDaq9dBHU2/0EM0T/Zls4dXbKeiLK1
+ 6fCIg28YSOEKSUTj0xoShyBrKt5gcQKodO8WzxA4w7+0WouJT5aiUzn2W9DlzrOGIU/i
+ usYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vU7NNDB88N8b7luDUTJQIrpl7937xKbm7PdW+jOV5J4=;
- b=C0lgPxbZnQVRLYsYBetZwvjA6qiqnsCwMDZESS4aRZnGBv/mOwKl4/J5npxbA5qN6R
- gB+RuoNf+ws17J/1/u6163MdJqQTJyvr3TSuPzhRM4bI3/YtOPEBNz5+legodKuEfRNZ
- j1cqakuQn8fzEsLLeHLWTprV97QVdNV0gNPrOotX0SUIsxgYuaBn5LwVDe9fKsVtz3B8
- rUAPmbTHYA/ztoSVId0C+tK/2x47r4FFtojPf1aiHkSkJSf1yowaeE0GxREth7OxpXbD
- +guYsC9fgBd5AXo22rUqKH5J/rnrGmrtZSsZLe5OehUAG1RN5PedZ4VNBxNouvZhHY2M
- XMcA==
-X-Gm-Message-State: AGi0PuYNbMjLbvagRLYpla5jy2jfEa/F5hcMoSjGQutDXCfuNn1Mv8Ex
- i/7WDWA4sjN502PxMYXWY5y6cfumG/voOnKASbw5YjX2ijM=
-X-Google-Smtp-Source: APiQypKi11+B07gGR75YnzeMGeraH6AVLTAvNHkxcGX7oFLvFp4wW4F3hi8wb9UT3WC71m1+ov8vwd6qa2wRA4NbCjo=
-X-Received: by 2002:aca:d485:: with SMTP id l127mr1766826oig.119.1588256456666; 
- Thu, 30 Apr 2020 07:20:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200430015930.32224-1-vitor@massaru.org>
- <cb4d93a0-b967-f37d-ea01-0368c91b896e@infradead.org>
- <0463c90cfbe2036235010c5f8b92af6a96c20f74.camel@massaru.org>
- <20200430043723.GA27272@ravnborg.org>
-In-Reply-To: <20200430043723.GA27272@ravnborg.org>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Thu, 30 Apr 2020 19:50:45 +0530
-Message-ID: <CAO_48GGgeJ9cFeAfKB7GjLTwOzXxk_goKsi42ocRswwXkWh11g@mail.gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, brendanhiggins@google.com,
- LKML <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH] dma-buf: Documentation: fix:
-	`make htmldocs` warnings
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=cNV8wBKZnzVBtfymmveclI4KpbJZuqPxmoI95kkMdEk=;
+ b=k7toZHDBac5XxR0yUdiy6BJ1B+au+kiq3GIxWWbCoA8N4HoKPOrwBlKp7PbYOmVTWs
+ pVpQWduhUaWYoduesE/49f+MVFbOua4E7OUo2dJiplUXA60SFojGpMKruESMK0MScTFK
+ 0eViiTDnQj/8SjPS/eVFIsxfDCwCPw3AS+VMv0clzwlSusprkYF/EqEfxMjGbTr7qPrW
+ M/J9Ao0MQ52i1SPnPscvMMXsaxnuKDfS+tOYSJrCXwxGV436zC54Bm7YtTchKOR0hPj6
+ 3P+/hGRJ7wmPCrCa3m1DLJOact+UTwDBZ26E+/pjIFeYqc7UhJ2UfFh7LRKauxMp7Mut
+ 6xOw==
+X-Gm-Message-State: AGi0Pub5a8lrvJhwb9UvmuX3FIr2wgn9XvAfSWeTdpIjGqP9MT5MxVnc
+ 8YBTcQEaz22g8/tyA2pjEw==
+X-Google-Smtp-Source: APiQypKDW2dWa9U3zBxfHDvIfC7dS46oUZwZ5hSH0zqX0CXg5Qavgg068rmwXmccEmvXAV0Z3Zj/ng==
+X-Received: by 2002:aa7:9811:: with SMTP id e17mr28538pfl.70.1588262541257;
+ Thu, 30 Apr 2020 09:02:21 -0700 (PDT)
+Received: from localhost.localdomain ([2402:3a80:d32:dd79:2591:468a:ee81:9c85])
+ by smtp.gmail.com with ESMTPSA id 5sm244359pjf.19.2020.04.30.09.02.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Apr 2020 09:02:20 -0700 (PDT)
+From: madhuparnabhowmik10@gmail.com
+To: zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+ paulmck@kernel.org
+Date: Thu, 30 Apr 2020 21:32:05 +0530
+Message-Id: <20200430160205.17798-1-madhuparnabhowmik10@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ linux-security-module@vger.kernel.org, joel@joelfernandes.org,
+ linux-integrity@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] integrity: evm: Fix RCU list related
+	warnings.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,74 +108,96 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hello Everyone,
+From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
 
-On Thu, 30 Apr 2020 at 10:07, Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> On Wed, Apr 29, 2020 at 11:27:22PM -0300, Vitor Massaru Iha wrote:
-> > On Wed, 2020-04-29 at 19:06 -0700, Randy Dunlap wrote:
-> > > On 4/29/20 6:59 PM, Vitor Massaru Iha wrote:
-> > > > Add missed ":" on kernel-doc function parameter.
-> > > >
-> > > > This patch fixes this warnings from `make htmldocs`:
-> > > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
-> > > > member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-> > > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
-> > > > member 'importer_priv' not described in 'dma_buf_dynamic_attach'
-> > > >
-> > > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > > > ---
-> > > >  drivers/dma-buf/dma-buf.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > > index ccc9eda1bc28..0756d2155745 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-> > > >   * calls attach() of dma_buf_ops to allow device-specific attach
-> > > > functionality
-> > > >   * @dmabuf:              [in]    buffer to attach device to.
-> > > >   * @dev:         [in]    device to be attached.
-> > > > - * @importer_ops [in]    importer operations for the
-> > > > attachment
-> > > > - * @importer_priv        [in]    importer private pointer for the
-> > > > attachment
-> > > > + * @importer_ops:        [in]    importer operations for the
-> > > > attachment
-> > > > + * @importer_priv:       [in]    importer private pointer for the
-> > > > attachment
-> > > >   *
-> > > >   * Returns struct dma_buf_attachment pointer for this attachment.
-> > > > Attachments
-> > > >   * must be cleaned up by calling dma_buf_detach().
-> > > >
-> > >
-> > > Sumit said that he would be applying my patch from April 7:
-> > > https://lore.kernel.org/linux-media/7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org/
-> > >
-> > > thanks.
-> >
-> > Sorry. I didn't check if the patch has already been sent.
->
-> Sumit - patch from Randy is neither applied to drm-misc-next nor
-> drm-misc-fixes.
-> A reminder in case it was lost somewhere.
+This patch fixes the following warning and few other
+instances of traversal of evm_config_xattrnames list:
 
-My bad: I have now applied it to drm-misc-fixes, so should be seen in
--next soon.
+[   32.848432] =============================
+[   32.848707] WARNING: suspicious RCU usage
+[   32.848966] 5.7.0-rc1-00006-ga8d5875ce5f0b #1 Not tainted
+[   32.849308] -----------------------------
+[   32.849567] security/integrity/evm/evm_main.c:231 RCU-list traversed in non-reader section!!
 
->
->         Sam
+Since entries are only added to the list and never deleted,
+use list_For_each_entry_lockless() instead of
+list_for_each_entry_rcu() for traversing the list.
+Also, add a relevant comment in evm_secfs.c to indicate this fact.
 
-Best,
-Sumit.
+Reported-by: kernel test robot <lkp@intel.com>
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+---
+ security/integrity/evm/evm_crypto.c | 2 +-
+ security/integrity/evm/evm_main.c   | 4 ++--
+ security/integrity/evm/evm_secfs.c  | 9 ++++++++-
+ 3 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/security/integrity/evm/evm_crypto.c b/security/integrity/evm/evm_crypto.c
+index 35682852ddea..b2dc87da5f50 100644
+--- a/security/integrity/evm/evm_crypto.c
++++ b/security/integrity/evm/evm_crypto.c
+@@ -207,7 +207,7 @@ static int evm_calc_hmac_or_hash(struct dentry *dentry,
+ 	data->hdr.length = crypto_shash_digestsize(desc->tfm);
+ 
+ 	error = -ENODATA;
+-	list_for_each_entry_rcu(xattr, &evm_config_xattrnames, list) {
++	list_for_each_entry_lockless(xattr, &evm_config_xattrnames, list) {
+ 		bool is_ima = false;
+ 
+ 		if (strcmp(xattr->name, XATTR_NAME_IMA) == 0)
+diff --git a/security/integrity/evm/evm_main.c b/security/integrity/evm/evm_main.c
+index d361d7fdafc4..0d36259b690d 100644
+--- a/security/integrity/evm/evm_main.c
++++ b/security/integrity/evm/evm_main.c
+@@ -97,7 +97,7 @@ static int evm_find_protected_xattrs(struct dentry *dentry)
+ 	if (!(inode->i_opflags & IOP_XATTR))
+ 		return -EOPNOTSUPP;
+ 
+-	list_for_each_entry_rcu(xattr, &evm_config_xattrnames, list) {
++	list_for_each_entry_lockless(xattr, &evm_config_xattrnames, list) {
+ 		error = __vfs_getxattr(dentry, inode, xattr->name, NULL, 0);
+ 		if (error < 0) {
+ 			if (error == -ENODATA)
+@@ -228,7 +228,7 @@ static int evm_protected_xattr(const char *req_xattr_name)
+ 	struct xattr_list *xattr;
+ 
+ 	namelen = strlen(req_xattr_name);
+-	list_for_each_entry_rcu(xattr, &evm_config_xattrnames, list) {
++	list_for_each_entry_lockless(xattr, &evm_config_xattrnames, list) {
+ 		if ((strlen(xattr->name) == namelen)
+ 		    && (strncmp(req_xattr_name, xattr->name, namelen) == 0)) {
+ 			found = 1;
+diff --git a/security/integrity/evm/evm_secfs.c b/security/integrity/evm/evm_secfs.c
+index 39ad1038d45d..cfc3075769bb 100644
+--- a/security/integrity/evm/evm_secfs.c
++++ b/security/integrity/evm/evm_secfs.c
+@@ -232,7 +232,14 @@ static ssize_t evm_write_xattrs(struct file *file, const char __user *buf,
+ 		goto out;
+ 	}
+ 
+-	/* Guard against races in evm_read_xattrs */
++	/*
++	 * xattr_list_mutex guards against races in evm_read_xattrs().
++	 * Entries are only added to the evm_config_xattrnames list
++	 * and never deleted. Therefore, the list is traversed
++	 * using list_for_each_entry_lockless() without holding
++	 * the mutex in evm_calc_hmac_or_hash(), evm_find_protected_xattrs()
++	 * and evm_protected_xattr().
++	 */
+ 	mutex_lock(&xattr_list_mutex);
+ 	list_for_each_entry(tmp, &evm_config_xattrnames, list) {
+ 		if (strcmp(xattr->name, tmp->name) == 0) {
+-- 
+2.17.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
