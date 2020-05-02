@@ -1,82 +1,105 @@
-Return-Path: <SRS0=To0o=6P=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=N6Le=6Q=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8886CC47256
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  1 May 2020 21:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D2D1C47256
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 May 2020 03:22:31 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4F1D5216FD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  1 May 2020 21:45:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 636AB20731
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 May 2020 03:22:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="lARUAmRC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4F1D5216FD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmFwTdgv"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 636AB20731
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4075387419;
-	Fri,  1 May 2020 21:45:28 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 39DA1873F0;
+	Sat,  2 May 2020 03:22:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MxAePKBykDf4; Fri,  1 May 2020 21:45:27 +0000 (UTC)
+	with ESMTP id uoCtXEFixjI8; Sat,  2 May 2020 03:22:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2BA7F873A8;
-	Fri,  1 May 2020 21:45:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 884A987286;
+	Sat,  2 May 2020 03:22:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 109C5C0864;
-	Fri,  1 May 2020 21:45:27 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 08015C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A860C0864;
+	Sat,  2 May 2020 03:22:30 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E5213C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  1 May 2020 21:45:26 +0000 (UTC)
+ Sat,  2 May 2020 03:22:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E92B9259C9
+ by whitealder.osuosl.org (Postfix) with ESMTP id D548F8844C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  1 May 2020 21:45:25 +0000 (UTC)
+ Sat,  2 May 2020 03:22:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Z6pJTh5e69WM
+ with ESMTP id kU3Nf2vqwRY2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  1 May 2020 21:45:23 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id EE68B25432
+ Sat,  2 May 2020 03:22:28 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id AE9AB883CC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  1 May 2020 21:45:22 +0000 (UTC)
-Received: from localhost (mobile-166-175-184-168.mycingular.net
- [166.175.184.168])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6AFC5216FD;
- Fri,  1 May 2020 21:45:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588369522;
- bh=XMn1gICmyHpXOOhUY9p4XJtGI6RN5Qb81xEHxJ7QTAo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=lARUAmRCbs+1vGD4PD1ol0uoh1bHAKC9x+MOj3OzbQI5cp1s2zsTS9rrqu4SA/CZR
- PVGzXBNiEOPd7VACwaeZ5XxbqVvVIsZjGOpKnXmqjLZwJKPr4+TRNJcRPMlH+rTAqX
- JeGYAHbVLFs0lKRlEoYDbYJMji5T7BLzkGzpjcEc=
-Date: Fri, 1 May 2020 16:45:20 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: "Kirsher, Jeffrey T" <jeffrey.t.kirsher@intel.com>
-Message-ID: <20200501214520.GA135661@bjorn-Precision-5520>
+ Sat,  2 May 2020 03:22:28 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id s9so8520292qkm.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 01 May 2020 20:22:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qiwM8YuY++j6Qywzk7l2v88t8lfc2timetql0FUntf0=;
+ b=AmFwTdgv/5go8FbghU+zeou6QNFBRuMQ0VWLqZLj6PtheexVMLvnAMpO6pj3VCTxmA
+ b3H57HtlfMK6qOJvjhbZoy0XWIywF8uEdu+D4RtWNzNC/m74E23Wu/N9I/CUcc825ImT
+ kNbS3csbDeSaTHoA6mXBVeuXTLGbVeaImzfHVA5mziTKaKWH6yHxyUJigRUHDq9/iRjx
+ PpKFKYw2i3EFrF6nepjDnL3PDusqCLK7FoS87zVtrmQxa9LevqY6XOnXgculX0EBTYwL
+ V3usrrd8sRJJgyisQkpPuIy5LYiqWtrVJqOFh90OZ0vDf+cusSbX7i6SqsBWUQbIR2Yw
+ 2P1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qiwM8YuY++j6Qywzk7l2v88t8lfc2timetql0FUntf0=;
+ b=EHV27NHGeW3nr9GjEDYHcKO/4ZVNaY4uAnqLJppthjVGjFBWuYyF8GuWORjtk6GXGR
+ 6s2GaS8h6lXG5f2otYOWfAJHsz0tN+M4DFouWcvjiln9uTPGRHcAO/nGRCDZUpSyEctn
+ 5NU0A2QTEjMzSUTynLEwXB6HN4t9l+xz5yl8EE477+c7rTDOiqqI2C3paCmZzy42k8Hr
+ nrSww+UWnv5JbF/0ZDGqD/at27Ds1QMgwQSyEdm0rpsLZtMbad1dV4pS1tZ6nNxFx8hZ
+ lANdohUFZV8kpMWx/TuzmQdy7ZsjQep44Yf0vL8c3QX38hto4fmugWDToDarRIIRTXbp
+ N3Pw==
+X-Gm-Message-State: AGi0PuZBQwIyHk+WLgNfzAUYgpoNRpFvPqoC2YLTJrUVomXtmDSVOCG2
+ mzL5I8HRkx8TRtNJjoAErHU=
+X-Google-Smtp-Source: APiQypL6aoL3SPLd1zGUq5eZin3g5GpQefi02P+yIjq+YghEc+iEMYrLVUCPy3jBFKyatJHZtZUd0g==
+X-Received: by 2002:a05:620a:239:: with SMTP id
+ u25mr5985234qkm.304.1588389747447; 
+ Fri, 01 May 2020 20:22:27 -0700 (PDT)
+Received: from localhost.localdomain ([2804:18:602b:723a:1b2a:57a1:a611:34ed])
+ by smtp.gmail.com with ESMTPSA id
+ c41sm4410399qta.96.2020.05.01.20.22.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 May 2020 20:22:26 -0700 (PDT)
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To: mchehab+huawei@kernel.org, sean@mess.org, kstewart@linuxfoundation.org,
+ allison@lohutok.net, tglx@linutronix.de
+Date: Sat,  2 May 2020 00:22:05 -0300
+Message-Id: <20200502032216.197977-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <61CC2BC414934749BD9F5BF3D5D9404498682656@ORSMSX112.amr.corp.intel.com>
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "Brandeburg,
- Jesse" <jesse.brandeburg@intel.com>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] ethernet: intel: e1000:
- Convert to dev_pm_ops
+Cc: linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] [RFC, WIP,
+	v4 00/11] media: vidtv: implement a virtual DVB driver
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,197 +117,141 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, May 01, 2020 at 09:19:00PM +0000, Kirsher, Jeffrey T wrote:
-> > -----Original Message-----
-> > From: Bjorn Helgaas <helgaas@kernel.org>
-> > Sent: Friday, May 1, 2020 13:58
-> > To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > Cc: linux-kernel-mentees@lists.linuxfoundation.org; bjorn@helgaas.com;
-> > skhan@linuxfoundation.org; rjw@rjwysocki.net; Kirsher, Jeffrey T
-> > <jeffrey.t.kirsher@intel.com>; Brandeburg, Jesse
-> > <jesse.brandeburg@intel.com>
-> > Subject: Re: [Linux-kernel-mentees] [PATCH v1] ethernet: intel: e1000: Convert
-> > to dev_pm_ops
-> > 
-> > [+cc Jeff, Jesse]
-> > 
-> > On Fri, Apr 10, 2020 at 06:14:19PM +0530, Vaibhav Gupta wrote:
-> > > Convert the legacy callback .suspend() and .resume() to the generic
-> > > ones.
-> > >
-> > > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > > ---
-> > >  drivers/net/ethernet/intel/e1000/e1000_main.c | 47
-> > > +++++--------------
-> > >  1 file changed, 12 insertions(+), 35 deletions(-)
-> [Kirsher, Jeffrey T] 
-> 
-> Was there a reason why this patch was not at least CC'd to
-> intel-wired-lan@lists.osuosl.org mailing list for all Intel wired
-> LAN driver changes?  Thank you Bjorn for at least adding Jesse and
-> myself to the thread.
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Don't worry, this is potentially part of a mentoring project, and
-we're just trying to shake out trivial issues first before throwing
-Vaibhav straight into the lions' den, so to speak.
 
-> On top of the potential issues Bjorn pointed out, this could cause
-> regression issues that can not fully be validated since this driver
-> is really old and all supported devices may no longer be available
-> to test against.
+This series is work in progress. It represents the current work done on a
+virtual DVB driver for the Linux media subsystem. I am new to the media
+subsystem and to kernel development in general.
 
-Understood.  The problem we're trying to solve is that the PCI
-core carries quite a bit of code to support both the legacy power
-management and the "new" (now 10 year-old) generic scheme.  That
-extra code is its own source of bugs since it's hard to keep both
-paths up to date and tested.
+This series currently adds:
+-fake tuner, demodulator and bridge drivers
+-a PSI generator
+-a PES/TS packetizer
+-a SMPTE 302m encoder, capable of encoding AES3 audio into MPEG TS
+-a barebones TS mux abstraction
 
-> > > diff --git a/drivers/net/ethernet/intel/e1000/e1000_main.c
-> > > b/drivers/net/ethernet/intel/e1000/e1000_main.c
-> > > index 2bced34c19ba..09a6ef46be96 100644
-> > > --- a/drivers/net/ethernet/intel/e1000/e1000_main.c
-> > > +++ b/drivers/net/ethernet/intel/e1000/e1000_main.c
-> > > @@ -152,8 +152,8 @@ static int e1000_vlan_rx_kill_vid(struct
-> > > net_device *netdev,  static void e1000_restore_vlan(struct
-> > > e1000_adapter *adapter);
-> > >
-> > >  #ifdef CONFIG_PM
-> > > -static int e1000_suspend(struct pci_dev *pdev, pm_message_t state);
-> > > -static int e1000_resume(struct pci_dev *pdev);
-> > > +static int e1000_suspend(struct device *dev); static int
-> > > +e1000_resume(struct device *dev);
-> > >  #endif
-> > >  static void e1000_shutdown(struct pci_dev *pdev);
-> > >
-> > > @@ -179,16 +179,16 @@ static const struct pci_error_handlers
-> > e1000_err_handler = {
-> > >  	.resume = e1000_io_resume,
-> > >  };
-> > >
-> > > +static SIMPLE_DEV_PM_OPS(e1000_pm_ops, e1000_suspend,
-> > e1000_resume);
-> > > +
-> > >  static struct pci_driver e1000_driver = {
-> > >  	.name     = e1000_driver_name,
-> > >  	.id_table = e1000_pci_tbl,
-> > >  	.probe    = e1000_probe,
-> > >  	.remove   = e1000_remove,
-> > > -#ifdef CONFIG_PM
-> > > -	/* Power Management Hooks */
-> > > -	.suspend  = e1000_suspend,
-> > > -	.resume   = e1000_resume,
-> > > -#endif
-> > > +	.driver = {
-> > > +		.pm = &e1000_pm_ops,
-> > > +	},
-> > >  	.shutdown = e1000_shutdown,
-> > >  	.err_handler = &e1000_err_handler
-> > >  };
-> > > @@ -5052,9 +5052,6 @@ static int __e1000_shutdown(struct pci_dev *pdev,
-> > bool *enable_wake)
-> > >  	struct e1000_hw *hw = &adapter->hw;
-> > >  	u32 ctrl, ctrl_ext, rctl, status;
-> > >  	u32 wufc = adapter->wol;
-> > > -#ifdef CONFIG_PM
-> > > -	int retval = 0;
-> > > -#endif
-> > >
-> > >  	netif_device_detach(netdev);
-> > >
-> > > @@ -5068,12 +5065,6 @@ static int __e1000_shutdown(struct pci_dev
-> > *pdev, bool *enable_wake)
-> > >  		e1000_down(adapter);
-> > >  	}
-> > >
-> > > -#ifdef CONFIG_PM
-> > > -	retval = pci_save_state(pdev);
-> > > -	if (retval)
-> > > -		return retval;
-> > > -#endif
-> > > -
-> > >  	status = er32(STATUS);
-> > >  	if (status & E1000_STATUS_LU)
-> > >  		wufc &= ~E1000_WUFC_LNKC;
-> > > @@ -5135,36 +5126,22 @@ static int __e1000_shutdown(struct pci_dev
-> > > *pdev, bool *enable_wake)  }
-> > >
-> > >  #ifdef CONFIG_PM
-> > > -static int e1000_suspend(struct pci_dev *pdev, pm_message_t state)
-> > > +static int e1000_suspend(struct device *dev)
-> > >  {
-> > > -	int retval;
-> > > +	struct pci_dev *pdev = to_pci_dev(dev);
-> > >  	bool wake;
-> > >
-> > > -	retval = __e1000_shutdown(pdev, &wake);
-> > > -	if (retval)
-> > > -		return retval;
-> > > -
-> > > -	if (wake) {
-> > > -		pci_prepare_to_sleep(pdev);
-> > > -	} else {
-> > > -		pci_wake_from_d3(pdev, false);
-> > 
-> > I think there's a case where this changes the behavior because we normally set
-> > the device wakeup enable to adapter->wol, but the "wake"
-> > returned from __e1000_shutdown() is sometimes different.
-> > 
-> >   e1000_probe
-> >     adapter->wol = adapter->eeprom_wol;      # assume adapter->wol == 1
-> >     device_set_wakeup_enable(adapter->wol);
-> > 
-> >   Existing code:
-> >     e1000_suspend
-> >       __e1000_shutdown(&wake)                # assume returns wake == 0
-> >       pci_wake_from_d3(false)
-> >         pci_enable_wake(PCI_D3hot, false)    # <-- compare
-> > 
-> >   New code using generic PM ops:
-> >     pci_pm_suspend
-> >       e1000_suspend
-> >         __e1000_shutdown(&wake)              # returns wake == 0 (ignored)
-> >     pci_pm_suspend_noirq
-> >       pci_prepare_to_sleep
-> >         wakeup = device_may_wakeup()         # returns 1
-> >         pci_enable_wake(PCI_D3hot, true)     # <-- different!
-> > 
-> > I sort of suspect that __e1000_shutdown() should call
-> > device_set_wakeup_enable() when it updates the chip's wake-on-lan
-> > registers, but the driver maintainers would know better.
+I appreciate any feedback!
 
-If you have any ideas about this, or maybe patterns in newer Intel
-drivers that could be followed here, we'd love to hear them.
+Changes in v4:
+	Added a PES packetizer
+	Implemented a minimum version of the SMPTE 302m encoder for AES3 audio
+	Fixed endianness in the PSI generator, converting fields to big endian where applicable
+	Added a minimal TS mux abstraction
 
-If you think it's impossible to update e1000 to generic power
-management, it'd be useful to know that, too, so we can move on to
-other drivers.
+Changes in v3:
+	Added a bridge driver
+	Renamed the driver to vidtv
+	Renamed/reworked commits into smaller pieces
+	Moved the driver into its own directory
+	Fixed the code for the signal strength in the tuner
+	Removed useless enums in the tuner driver (e.g. lock_status, power_status...)
+	Reworked the logic for the poll_snr thread in the demodulator driver
+	Moved MPEG related code to the bridge driver, as it controls the demux logic
+	Changed literals to #defines, used sizeof in place of integer literals when
+	computing the size of PSI structs
+	Moved the MPEG PSI tables to the heap to reduce stack space usage
+	Now using usleep_range in place of msleep_interruptible in the MPEG TS thread
+	Wrapped memcpy and memset to protect against buffer overflow when writing to the
+	MPEG TS buffer.
 
-> > > -		pci_set_power_state(pdev, PCI_D3hot);
-> > > -	}
-> > > -
-> > > -	return 0;
-> > > +	return __e1000_shutdown(pdev, &wake);
-> > >  }
-> > >
-> > > -static int e1000_resume(struct pci_dev *pdev)
-> > > +static int e1000_resume(struct device *dev)
-> > >  {
-> > > +	struct pci_dev *pdev = to_pci_dev(dev);
-> > >  	struct net_device *netdev = pci_get_drvdata(pdev);
-> > >  	struct e1000_adapter *adapter = netdev_priv(netdev);
-> > >  	struct e1000_hw *hw = &adapter->hw;
-> > >  	u32 err;
-> > >
-> > > -	pci_set_power_state(pdev, PCI_D0);
-> > > -	pci_restore_state(pdev);
-> > > -	pci_save_state(pdev);
-> > > -
-> > >  	if (adapter->need_ioport)
-> > >  		err = pci_enable_device(pdev);
-> > >  	else
-> > > --
-> > > 2.26.0
-> > >
+Changes in v2:
+	Attempted not to break assignments into multiple lines as much as possible.
+	Code now passes checkpatch strict mode
+
+	media: dvb_dummy_tuner: implement driver skeleton	
+		Changed snr values to mili db
+		Return value from 0-100 to indicate how far off the requested
+		frequency is from a valid one
+
+		Use the frequency shift to interpolate between 34dB and 10dB if
+		we can not match against the SNR lookup table
+		Remove sleep calls for suspend/resume
+
+		Fix memcpy call for the config struct
+
+        media: dvb_dummy_fe.c: lose TS lock on bad snr
+		Randomly recover the TS lock if the signal quality improves
+				
+  	media: dvb_dummy_fe.c: write PSI information into DMX buffer
+		Split the patch into multiple header/source files
+
+		Hexadecimal literals are now lower case
+
+		Prefer short function names / reduce function signatures
+
+		Add #defines for constants when computing section lengths
+
+		Change signature for functions that take a dummy channel as
+		argument (i.e. channels* is now channels[NUM_CHANNELS])
+
+
+Daniel W. S. Almeida (11):
+  media: vidtv: add Kconfig entry
+  media: vidtv: implement a tuner driver
+  media: vidtv: implement a demodulator driver
+  media: vidtv: move config structs into a separate header
+  media: vidtv: add a bridge driver
+  media: vidtv: add wrappers for memcpy and memset
+  media: vidtv: add MPEG TS common code
+  media: vidtv: implement a PSI generator
+  media: vidtv: implement a PES packetizer
+  media: vidtv: Implement a SMPTE 302M encoder
+  media: vidtv: Add a MPEG Transport Stream Multiplexer
+
+ drivers/media/test-drivers/Kconfig            |   10 +
+ drivers/media/test-drivers/Makefile           |    1 +
+ drivers/media/test-drivers/vidtv/Kconfig      |   11 +
+ drivers/media/test-drivers/vidtv/Makefile     |    7 +
+ .../media/test-drivers/vidtv/vidtv_bridge.c   |  442 +++++++
+ .../media/test-drivers/vidtv/vidtv_bridge.h   |   39 +
+ .../media/test-drivers/vidtv/vidtv_channel.c  |  326 +++++
+ .../media/test-drivers/vidtv/vidtv_channel.h  |   66 +
+ .../media/test-drivers/vidtv/vidtv_common.c   |   51 +
+ .../media/test-drivers/vidtv/vidtv_common.h   |   35 +
+ .../media/test-drivers/vidtv/vidtv_config.h   |   35 +
+ .../media/test-drivers/vidtv/vidtv_demod.c    |  494 +++++++
+ .../media/test-drivers/vidtv/vidtv_demod.h    |   34 +
+ .../media/test-drivers/vidtv/vidtv_encoder.h  |  103 ++
+ drivers/media/test-drivers/vidtv/vidtv_mux.c  |  423 ++++++
+ drivers/media/test-drivers/vidtv/vidtv_mux.h  |  105 ++
+ drivers/media/test-drivers/vidtv/vidtv_pes.c  |  429 ++++++
+ drivers/media/test-drivers/vidtv/vidtv_pes.h  |  185 +++
+ drivers/media/test-drivers/vidtv/vidtv_psi.c  | 1155 +++++++++++++++++
+ drivers/media/test-drivers/vidtv/vidtv_psi.h  |  362 ++++++
+ .../media/test-drivers/vidtv/vidtv_s302m.c    |  608 +++++++++
+ .../media/test-drivers/vidtv/vidtv_s302m.h    |   99 ++
+ drivers/media/test-drivers/vidtv/vidtv_ts.c   |  130 ++
+ drivers/media/test-drivers/vidtv/vidtv_ts.h   |  103 ++
+ .../media/test-drivers/vidtv/vidtv_tuner.c    |  403 ++++++
+ 25 files changed, 5656 insertions(+)
+ create mode 100644 drivers/media/test-drivers/vidtv/Kconfig
+ create mode 100644 drivers/media/test-drivers/vidtv/Makefile
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_channel.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_channel.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_config.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_demod.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_demod.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_encoder.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_mux.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_mux.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_pes.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_pes.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_psi.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_psi.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_s302m.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_s302m.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_tuner.c
+
+-- 
+2.26.2
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
