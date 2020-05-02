@@ -5,106 +5,107 @@ X-Spam-Level:
 X-Spam-Status: No, score=-7.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48CA1C47256
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 May 2020 21:12:18 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22975C47247
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 May 2020 22:22:18 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F3CB020757
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 May 2020 21:12:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DD0F52137B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 May 2020 22:22:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6agc3gQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F3CB020757
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cppCNrre"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD0F52137B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BB632886BE;
-	Sat,  2 May 2020 21:12:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8FD3020496;
+	Sat,  2 May 2020 22:22:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZdTAI9-O2FMq; Sat,  2 May 2020 22:22:16 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id B25F120426;
+	Sat,  2 May 2020 22:22:16 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9313BC0864;
+	Sat,  2 May 2020 22:22:16 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B328C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  2 May 2020 22:22:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1275C8816B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  2 May 2020 22:22:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3OEVTCsSNZCs; Sat,  2 May 2020 21:12:16 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EC6D08816B;
-	Sat,  2 May 2020 21:12:16 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D2860C088A;
-	Sat,  2 May 2020 21:12:16 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD358C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 May 2020 21:12:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id C5F5888118
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 May 2020 21:12:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bAUapjzVR2Od
+ with ESMTP id dDIKkZKX+hdz
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 May 2020 21:12:14 +0000 (UTC)
+ Sat,  2 May 2020 22:22:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
- [209.85.219.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 95E46880C8
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+ [209.85.222.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1695787E74
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 May 2020 21:12:14 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id v38so6475433qvf.6
+ Sat,  2 May 2020 22:22:14 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id 23so12896005qkf.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 02 May 2020 14:12:14 -0700 (PDT)
+ Sat, 02 May 2020 15:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=opbP3xf3scB6RxanodsgfXYW3aH44fhT9/1PEOdh5Os=;
- b=Y6agc3gQS+u6m4uKvq3cQlzf+kRukgCErESV9LuiioRKFTili9IzN3bj8NRpDyFqDg
- qrWdv4kO4qfUwr+j+a+y7qP9LGq5zvjY6U53UTbWW77YiemRnCq/WFVQqLTwkFssMiuq
- IrCpk1YrtnQ7pl6PDT7C5fCkhC3F8z9xQa8fXfkqP1zneQHca3paiKBZz8axWISb7ExV
- nrxjC5I9PirncjHqDgTYRKy434rQzFz2grUrfp0RfzloIM1yCZGefIZArg07Xa98/jyC
- g9lZV4j+5xGCxnkZBlyqMc22bcpswzzdBE/Ghnd0I600xzo1D/Xbbe2BU6f3/kXe0e3I
- /Fyg==
+ bh=9fR1xjvWV4IM5l6CDx6CaIGRS9rKxnG2GxWOgEdzvQs=;
+ b=cppCNrreH/DpN1wsjmKOqNfWJGQRx8xUsNCRu0/oMKasKK7I/+EvufC+BLHXq2QGh8
+ HeibKoHVXX1Xud4Nk/vwrSDMJPoMUPwSj0+JV2elaQA01L5qdh+ZMeF2WA8zVO1nW9Bt
+ BdqMg/ZCiP99p0Wp5BE9Ja499volTuvDfkihxeTN17mJehh0+KVXf+y244OORBpo0wt6
+ 8a4Z/Pf3T7uchpVKYgtRs8ZT5m3LnL0PhS2aPQlPUlZJEhVR9u9SeecIPQ0udNNzeJU6
+ svbTnp9FizLGabUQLa1tIyvRnU89xfSxbxQOPKWMWu6UT0LRG5FHN7gm3CcqyesiANmw
+ Djsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=opbP3xf3scB6RxanodsgfXYW3aH44fhT9/1PEOdh5Os=;
- b=KtCSSahTVFaj+QwJQNCCPQXznPyUD+m1MtH0GmWFXo7YpVTzF0fOQNwVBIk/00b2+j
- JbrEOcJeQDa4rSGCs+SPfw/KWQiCMqtdJd9X1PT4jJdUIowqiIdKAQdVy30U3T/6BI4l
- t+jC1QHd67Nf9AdZ5TexCtR4FjP33lQY6sTrWfPsYYN+hYfeEUSHWeH5EfkCYDuamp3W
- O6Xv/qWZ3B6lRQY25vPEw8NfPsS3FAeZBd/2Ot1HWLbpicP8Cewv/NQkl05NTKJcqAs/
- SzrtJsAN/FD+2tgs0ISFWd2eTIfYap/olMbFurnj7Cp4ifXXYlCgE7G9lOZne1CH4nbz
- 4H9A==
-X-Gm-Message-State: AGi0PuZcVY1pCuIztFb/S3li7zSCNI4lhu/SU5rjBW9g702xCcePj9cV
- rogn88Akh06IJJOaXH6nz/s=
-X-Google-Smtp-Source: APiQypKzRqCU1kvTtJ5uzoJEr3JzCfOa17dyXHb9AEMEpg+VgxIgYo1XJK428/4Wxz49HrZCwuS9Tg==
-X-Received: by 2002:a0c:8d48:: with SMTP id s8mr9746643qvb.114.1588453933501; 
- Sat, 02 May 2020 14:12:13 -0700 (PDT)
+ bh=9fR1xjvWV4IM5l6CDx6CaIGRS9rKxnG2GxWOgEdzvQs=;
+ b=oEuK4ZIbIkDU7dCFItitNrKOjxfVnrcCUu5B4T0fIj/f19QQ4AmDMcoA0aOTkjyiSu
+ W5iBpjvwH7o/Fvby0Z9JaM+UcmwKZrHjtX9hZ29wMPElFVHPeU3gApmXJOCMI+KdV0WN
+ 9zlHoRbxwW6v2dLqRB1GO8uERVBfXB9qbYKF7MV/4IKVFK6R+TRDhfjSSzML51LQgS31
+ z6+OSUlZJk/7Qyuv56mSfrJTYFRmYsXgaIoP0SExDehMPyKyNvJMZsURhvGNrTdNIWFy
+ spaNBry/yKhwnfOcdS37YIL2XAMU7MYOy+ay4qvLsS8hCl6ARVfVWM8GSfo8P1bKd0X2
+ fglA==
+X-Gm-Message-State: AGi0PuYa5k/j9uxyKztcq4c9QeVjU5pjwxlK9ddZOBbBIOgUSo7eOXVX
+ 7XU2ikF77kCF0M34SEKp3rU=
+X-Google-Smtp-Source: APiQypLP4CKg7ugDjfJSwNoBC3po3Jl+RH/1WiYVQg5l4meRKQqK+7qUg+fOUbp6G1GrHwzwFWK/jw==
+X-Received: by 2002:a05:620a:1405:: with SMTP id
+ d5mr10404746qkj.329.1588458132880; 
+ Sat, 02 May 2020 15:22:12 -0700 (PDT)
 Received: from ?IPv6:2804:18:700c:ffc5:f528:88fe:f276:acfe?
  ([2804:18:700c:ffc5:f528:88fe:f276:acfe])
- by smtp.gmail.com with ESMTPSA id g47sm6483004qte.54.2020.05.02.14.12.08
+ by smtp.gmail.com with ESMTPSA id t1sm6298244qtd.65.2020.05.02.15.22.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 May 2020 14:12:12 -0700 (PDT)
+ Sat, 02 May 2020 15:22:12 -0700 (PDT)
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 References: <20200502032216.197977-1-dwlsalmeida@gmail.com>
- <20200502032216.197977-6-dwlsalmeida@gmail.com>
- <20200502083030.2314349d@coco.lan>
+ <20200502032216.197977-8-dwlsalmeida@gmail.com>
+ <20200502090933.171aa862@coco.lan>
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <ce98a09d-0f46-bff2-e0fd-fddbec81a815@gmail.com>
-Date: Sat, 2 May 2020 18:12:06 -0300
+Message-ID: <de298533-e002-99f0-0db0-0418a284fa9e@gmail.com>
+Date: Sat, 2 May 2020 19:22:06 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200502083030.2314349d@coco.lan>
+In-Reply-To: <20200502090933.171aa862@coco.lan>
 Content-Language: en-US
 Cc: kstewart@linuxfoundation.org, sean@mess.org, linux-kernel@vger.kernel.org,
  tglx@linutronix.de, linux-kernel-mentees@lists.linuxfoundation.org,
  allison@lohutok.net, linux-media@vger.kernel.org
 Subject: Re: [Linux-kernel-mentees] [RFC, WIP,
-	v4 05/11] media: vidtv: add a bridge driver
+	v4 07/11] media: vidtv: add MPEG TS common code
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,60 +123,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Mauro, thanks for reviewing this.
+Hi Mauro, thanks for reviewing this!
 
-On 5/2/20 3:30 AM, Mauro Carvalho Chehab wrote:
- > Em Sat,  2 May 2020 00:22:10 -0300
+ > Em Sat,  2 May 2020 00:22:12 -0300
  > "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
  >
  >> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
  >>
- >> Digital TV devices consist of several independent hardware 
-components which
- >> are controlled by different drivers.
- >> Each media device is controlled by a group of cooperating drivers 
-with the
- >> bridge driver as the main driver.
- >>
- >> This patch adds a bridge driver for the Virtual Digital TV driver 
-[vidtv].
- >>
- >> The bridge driver binds to the other drivers, that is, vidtv_tuner and
- >> vidtv_demod and implements the digital demux logic, providing userspace
- >> with a MPEG Transport Stream.
- >>
- >> Move config structs to a common header so they can be used by the bridge
- >> driver and by their respective drivers.
+ >> Add code to work with MPEG TS packets, such as TS headers, adaptation
+ >> fields, PCR packets and NULL packets.
  >>
  >> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
  >> ---
- >>   drivers/media/test-drivers/vidtv/Makefile     |   2 +-
- >>   .../media/test-drivers/vidtv/vidtv_bridge.c   | 379 ++++++++++++++++++
- >>   .../media/test-drivers/vidtv/vidtv_bridge.h   |  37 ++
- >>   3 files changed, 417 insertions(+), 1 deletion(-)
- >>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.c
- >>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.h
+ >>   drivers/media/test-drivers/vidtv/Makefile   |   2 +-
+ >>   drivers/media/test-drivers/vidtv/vidtv_ts.c | 130 ++++++++++++++++++++
+ >>   drivers/media/test-drivers/vidtv/vidtv_ts.h | 103 ++++++++++++++++
+ >>   3 files changed, 234 insertions(+), 1 deletion(-)
+ >>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
+ >>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
  >>
  >> diff --git a/drivers/media/test-drivers/vidtv/Makefile 
 b/drivers/media/test-drivers/vidtv/Makefile
- >> index 36ba00ddc0d1e..a9f1993dd5443 100644
+ >> index 9ea9485d42189..92001bc348615 100644
  >> --- a/drivers/media/test-drivers/vidtv/Makefile
  >> +++ b/drivers/media/test-drivers/vidtv/Makefile
- >> @@ -1,3 +1,3 @@
+ >> @@ -1,6 +1,6 @@
  >>   # SPDX-License-Identifier: GPL-2.0
  >>
- >> -obj-$(CONFIG_DVB_VIDTV)	+= vidtv_tuner.o  vidtv_demod.o
- >> +obj-$(CONFIG_DVB_VIDTV)	+= vidtv_tuner.o vidtv_demod.o vidtv_bridge.o
- >> diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c 
-b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+ >>   vidtv_demod-objs := vidtv_common.o
+ >> -vidtv_bridge-objs := vidtv_common.o
+ >> +vidtv_bridge-objs := vidtv_common.o vidtv_ts.o
+ >>
+ >>   obj-$(CONFIG_DVB_VIDTV)	+= vidtv_tuner.o vidtv_demod.o vidtv_bridge.o
+ >> diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c 
+b/drivers/media/test-drivers/vidtv/vidtv_ts.c
  >> new file mode 100644
- >> index 0000000000000..05ca4027c869f
+ >> index 0000000000000..f545c45c0fe7c
  >> --- /dev/null
- >> +++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
- >> @@ -0,0 +1,379 @@
+ >> +++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
+ >> @@ -0,0 +1,130 @@
  >> +// SPDX-License-Identifier: GPL-2.0
  >> +/*
- >> + * The Virtual DTV test driver serves as a reference DVB driver and 
+ >> + * The Virtual DVB test driver serves as a reference DVB driver and 
 helps
  >> + * validate the existing APIs in the media subsystem. It can also aid
  >> + * developers working on userspace applications.
@@ -184,161 +173,107 @@ helps
  >> + */
  >> +
  >> +#include <linux/types.h>
- >> +#include <linux/moduleparam.h>
- >> +#include <linux/mutex.h>
- >> +#include <linux/workqueue.h>
- >> +#include <linux/time.h>
- >> +#include "vidtv_bridge.h"
+ >> +#include <asm/byteorder.h>
+ >> +#include "vidtv_ts.h"
+ >> +#include "vidtv_common.h"
  >> +
- >> +#define TS_BUF_MAX_SZ (128 * 188)
- >> +#define TUNER_DEFAULT_ADDR 0x68
- >> +#define DEMOD_DEFAULT_ADDR 0x60
+ >> +static u32 vidtv_ts_write_pcr_bits(u8 *buf, u64 pcr)
+ >> +{
+ >> +	/* Exact same from ffmpeg. PCR is a counter driven by a 27Mhz clock */
+ >> +	u64 pcr_low = pcr % 300, pcr_high = pcr / 300;
  >> +
- >> +MODULE_AUTHOR("Daniel W. S. Almeida");
- >> +MODULE_LICENSE("GPL");
+ >> +	*buf++ = pcr_high >> 25;
+ >> +	*buf++ = pcr_high >> 17;
+ >> +	*buf++ = pcr_high >>  9;
+ >> +	*buf++ = pcr_high >>  1;
+ >> +	*buf++ = pcr_high <<  7 | pcr_low >> 8 | 0x7e;
+ >> +	*buf++ = pcr_low;
  >> +
- >
- >> +static unsigned int drop_tslock_prob_on_low_snr;
- >> +module_param(drop_tslock_prob_on_low_snr, uint, 0644);
- >> +MODULE_PARM_DESC(drop_tslock_prob_on_low_snr,
- >> +		 "Probability of losing the TS lock if the signal quality is bad");
+ >> +	return 6;
+ >> +}
  >> +
- >> +static unsigned int recover_tslock_prob_on_good_snr;
- >> +module_param(recover_tslock_prob_on_good_snr, uint, 0644);
- >> +MODULE_PARM_DESC(recover_tslock_prob_on_good_snr,
- >> +		 "Probability recovering the TS lock when the signal improves");
- >
- > The FS permissions should be reviewed. IMHO, we should allow the
- > group which owns the /dev to be able to change values when they can
- > be changed in runtime.
- >
- > Yet, be sure that changing it on runtime won't cause race conditions.
- >
- > For the two above, I guess the permissions for those should be, instead,
- > 0664.
- >
+ >> +void vidtv_ts_inc_cc(u8 *continuity_counter)
+ >> +{
+ >> +	++*continuity_counter;
+ >> +	if (*continuity_counter > TS_CC_MAX_VAL)
+ >> +		*continuity_counter = 0;
+ >> +}
  >> +
- >> +static unsigned int mock_power_up_delay_msec;
- >> +module_param(mock_power_up_delay_msec, uint, 0644);
- >> +MODULE_PARM_DESC(mock_power_up_delay_msec, "Simulate a power up 
-delay");
- >
- > What's the sense of allowing changing it after the probe? I guess
- > permissions should be 0444 here.
- >
+ >> +u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
+ >> +{
+ >> +	u32    nbytes                  = 0;
+ >> +	struct vidtv_mpeg_ts ts_header = {0};
  >> +
- >> +static unsigned int mock_tune_delay_msec;
- >> +module_param(mock_tune_delay_msec, uint, 0644);
- >> +MODULE_PARM_DESC(mock_tune_delay_msec, "Simulate a tune delay");
- >
- > Same here: I guess 0664 would work better.
- >
+ >> +	ts_header.sync_byte          = TS_SYNC_BYTE;
+ >> +	ts_header.pid                = TS_NULL_PACKET_PID;
+ >> +	ts_header.payload            = 1;
+ >> +	ts_header.continuity_counter = *args.continuity_counter;
  >> +
- >> +static unsigned int vidtv_valid_dvb_t_freqs[8];
- >> +module_param_array(vidtv_valid_dvb_t_freqs, uint, NULL, 0644);
- >> +MODULE_PARM_DESC(vidtv_valid_dvb_t_freqs,
- >> +		 "Valid DVB-T frequencies to simulate");
+ >> +	cpu_to_be16s(&ts_header.bitfield);
  >> +
- >> +static unsigned int vidtv_valid_dvb_c_freqs[8];
- >> +module_param_array(vidtv_valid_dvb_c_freqs, uint, NULL, 0644);
- >> +MODULE_PARM_DESC(vidtv_valid_dvb_c_freqs,
- >> +		 "Valid DVB-C frequencies to simulate");
- >> +
- >> +static unsigned int vidtv_valid_dvb_s_freqs[8];
- >> +module_param_array(vidtv_valid_dvb_s_freqs, uint, NULL, 0644);
- >> +MODULE_PARM_DESC(vidtv_valid_dvb_s_freqs,
- >> +		 "Valid DVB-C frequencies to simulate");
+ >> +	/* copy TS header */
+ >> +	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
+ >> +			       &ts_header,
+ >> +			       sizeof(ts_header),
+ >> +			       args.dest_offset + nbytes,
+ >> +			       args.buf_sz);
  >
- > Can those be changed in runtime without causing race conditions?
+ > Hmm... now I see why you're returning 0 to vidtv_memcpy().
  >
- >> +
- >> +static unsigned int max_frequency_shift_hz;
- >> +module_param(max_frequency_shift_hz, uint, 0644);
- >> +MODULE_PARM_DESC(max_frequency_shift_hz,
- >> +		 "Maximum shift in HZ allowed when tuning in a channel");
- >
- > 0664?
- >
- >> +
- >> +static unsigned int chosen_delsys = SYS_DVBT;
- >> +module_param(chosen_delsys, uint, 0644);
- >> +MODULE_PARM_DESC(chosen_delsys,
- >> +		 "The delivery system to simulate. Currently supported: DVB-T, 
-DVB-C, DVB-S");
- >
- > Hmm... in order to allow changing this value on runtime, as you proposed,
- > you should use module_param_cb(). The callback would allow touching the
- > delsys only if the driver is not in use. Otherwise, it would return 
--EBUSY.
- > Also, permissions should be 0664.
+ > Yet, if the buffer is full, you should just drop the entire package,
+ > as otherwise you may end copying things that aren't multiple of 188 
+bytes,
+ > causing sync issues at the client.
 
-Actually, my bad here. I used some other media driver as an example for 
-module_param(), I did not intend to be able to change any of these 
-during runtime at all, I only wanted to be able to set them at module 
-load time. In fact, IIRC, these parameters are used when first setting 
-up the driver and then they are not used anymore. Therefore, maybe "0" 
-is more fitting?
+I'd like to provide a counterargument for this.
 
- > Hmm... in order to allow changing this value on runtime, as you proposed,
- > you should use module_param_cb(). The callback would allow touching the
- > delsys only if the driver is not in use. Otherwise, it would return 
--EBUSY.
- > Also, permissions should be 0664.
- >
- > Btw, after thinking a little bit about that, I would take one step 
-back on
- > my demod review, changing it and the bridge's logic to allow 
-chosen_delsys,
- > while keeping just one struct for DVB info parameters.
- >
- > The way I see is that the logic here should be changed in order to use a
- > a bitmask for the chosen_delsys, like:
- >
- > 	bit 0: DVB-T
- > 	bit 1: DVB-T2
- > 	bit 2: DVB-C
- > 	bit 3: DVB-S
- > 	bit 4: DVB-S2
- >
- > Of course you will need to document the meaning for each bit somewhere.
- >
- > The default should be to have all supported types enabled.
- >
- > As there's no ops that would allow the bridge driver to change it
- > dynamically, you should instead implement the "chosen_delsys" directly
- > at the demod's driver.
+The way I am dealing with errors throughout vidtv so far is:
+If we hit any of these WARN_ON macros, pr_err and the like, then all 
+bets are off. This means that the resulting stream will likely be 
+invalid and that something needs to be rewritten in the source code and 
+my main concern is then preventing the whole driver from crashing.
 
-Given what I said above about it being a misunderstanding on my part, do 
-you still want to see this?
+This is exactly the behavior that you see in vidtv_memcpy and 
+vidtv_memset: nothing gets written so we don't end up with an overflow, 
+a diagnostic message is printed and there are no attempts at recovery.
 
- > while keeping just one struct for DVB info parameters.
-
-What do you mean by this?
-
+In this particular example, I compromised by allowing the size of the 
+buffer to be a module param, i.e.
 
  >> +static unsigned int ts_buf_sz = 20 * 188;
  >> +module_param(ts_buf_sz, uint, 0644);
  >> +MODULE_PARM_DESC(ts_buf_sz, "Optional size for the TS buffer");
+
+I think that what I am trying to say is better seen in the last patch 
+for this series: [RFC, WIP, v4 11/11] media: vidtv: Add a MPEG Transport 
+Stream Multiplexer.
+
+The following takes place in vidtv_mux.c:
+
+	1. We wake up from sleep, take note of how long we slept for and store 
+it into "elapsed_time". This is usually between 10ms and 20ms.
+	2. We encode "elapsed_time" miliseconds worth of data into a buffer
+	3. We call dvb_dmx_swfilter(), passing a pointer to the buffer
+	4. We clear the buffer, sleep for a bit and then go back to 1.
+
+If the buffer is somehow full then it means that we are trying to 
+simulate too many fake channels while allocating too little memory, so 
+either we scale down on the amount of fake channels or we choose another 
+value for the "ts_buf_sz" module_param.
+
+I feel that this is better than adding more logic in an attempt to 
+circumvent the issue, specially since I can add more logic and still 
+fail due to my limited experience. The result is more bloat on the 
+source code for little gain.
+
+ > A WARN_ON() seems too severe here. Also, if something bad happens, it
+ > will end causing lots of problems that can make the machine very slow,
+ > ad this will flood dmesg.
  >
- > Huh? Userspace can already change it via an ioctl. Why adding a parameter
- > for that?
+ > So, the best would be to use, instead, dev_warn_ratelimited().
 
-This is actually misplaced: it was supposed to be in the last patch for 
-this series and probably got left behind as I was moving code around.
-
-Maybe the name I chose was a bit confusing? I called the code 
-responsible for collecting ES data from different encoders into a single 
-buffer a "mux". Its buffer was thus named "ts_buf". This parameter 
-dictates the size allocated at runtime with vmalloc(). This buffer later 
-gets passed to dvb_dmx_swfilter().
-
-The source code for this is in patch 11.
-
-It is loosely based on what ffmpeg has going on at libavformat/mpegtsenc.c
-
-
-- Daniel
-
+You're right, I did not consider this. I will use dev_warn_ratelimited() 
+in place of WARN_ON in the next revisions.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
