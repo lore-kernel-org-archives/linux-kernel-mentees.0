@@ -2,83 +2,70 @@ Return-Path: <SRS0=gpyO=6R=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D290C28CBC
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 May 2020 09:51:01 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA026C28CBC
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 May 2020 19:23:34 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DA61920757
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 May 2020 09:51:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="w2COvS66"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA61920757
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 9A1FF2054F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 May 2020 19:23:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A1FF2054F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=inria.fr
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BB3CD88B4E;
-	Sun,  3 May 2020 09:51:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 75B0A81AE2;
+	Sun,  3 May 2020 19:23:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IS6pnao32I+P; Sun,  3 May 2020 09:50:59 +0000 (UTC)
+	with ESMTP id R7a5ue+0UAst; Sun,  3 May 2020 19:23:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 953208872A;
-	Sun,  3 May 2020 09:50:59 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 766BE86B21;
+	Sun,  3 May 2020 19:23:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 841DFC0176;
-	Sun,  3 May 2020 09:50:59 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1F913C0175
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FEC2C0176;
+	Sun,  3 May 2020 19:23:33 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E71DEC0175
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  3 May 2020 09:50:58 +0000 (UTC)
+ Sun,  3 May 2020 19:23:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0ADF588B31
+ by fraxinus.osuosl.org (Postfix) with ESMTP id DD7B586BA8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  3 May 2020 09:50:58 +0000 (UTC)
+ Sun,  3 May 2020 19:23:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PPatHLCFKq-2
+ with ESMTP id JvG3fZ-LdTbD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  3 May 2020 09:50:56 +0000 (UTC)
+ Sun,  3 May 2020 19:23:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C9C118872A
+Received: from mail3-relais-sop.national.inria.fr
+ (mail3-relais-sop.national.inria.fr [192.134.164.104])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2E1A586C43
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  3 May 2020 09:50:56 +0000 (UTC)
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de
- [95.90.213.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 52588206B8;
- Sun,  3 May 2020 09:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588499456;
- bh=E/sTWHiOvUIoBBaFZvsl2NpEPvdhm/z5bua77hLK/ho=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=w2COvS66ha4wd5AKHE1T+pOOLqq9GdLedwqPQTZEdeVaH1ltRjSHzWYz05kcZbywJ
- 4iK1liYeMOGPQgl5VgBMjz1hfEP0L5G2Qp6yT+l4JkQaU37EGZKttVdxy8tOw72Cgh
- FCDKy2VuZPCG3OqkEOOmwbazUk2o1RPBOKaflvvM=
-Date: Sun, 3 May 2020 11:50:51 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <20200503115051.273cf845@coco.lan>
-In-Reply-To: <de298533-e002-99f0-0db0-0418a284fa9e@gmail.com>
-References: <20200502032216.197977-1-dwlsalmeida@gmail.com>
- <20200502032216.197977-8-dwlsalmeida@gmail.com>
- <20200502090933.171aa862@coco.lan>
- <de298533-e002-99f0-0db0-0418a284fa9e@gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ Sun,  3 May 2020 19:23:28 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.73,349,1583190000"; d="scan'208";a="347593752"
+Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
+ by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 May 2020 21:23:26 +0200
+Date: Sun, 3 May 2020 21:23:25 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+In-Reply-To: <20200428170228.7002-2-jaskaransingh7654321@gmail.com>
+Message-ID: <alpine.DEB.2.21.2005032122220.2533@hadrien>
+References: <20200428170228.7002-1-jaskaransingh7654321@gmail.com>
+ <20200428170228.7002-2-jaskaransingh7654321@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Cc: kstewart@linuxfoundation.org, sean@mess.org, linux-kernel@vger.kernel.org,
- tglx@linutronix.de, linux-kernel-mentees@lists.linuxfoundation.org,
- allison@lohutok.net, linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [RFC, WIP,
-	v4 07/11] media: vidtv: add MPEG TS common code
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, cocci@systeme.lip6.fr
+Subject: Re: [Linux-kernel-mentees] [PATCH 01/32] parsing_c: parser: Pass
+ attribute list from type_name
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,242 +83,129 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Em Sat, 2 May 2020 19:22:06 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-> Hi Mauro, thanks for reviewing this!
-> 
->  > Em Sat,  2 May 2020 00:22:12 -0300
->  > "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
->  >  
->  >> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
->  >>
->  >> Add code to work with MPEG TS packets, such as TS headers, adaptation
->  >> fields, PCR packets and NULL packets.
->  >>
->  >> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
->  >> ---
->  >>   drivers/media/test-drivers/vidtv/Makefile   |   2 +-
->  >>   drivers/media/test-drivers/vidtv/vidtv_ts.c | 130 ++++++++++++++++++++
->  >>   drivers/media/test-drivers/vidtv/vidtv_ts.h | 103 ++++++++++++++++
->  >>   3 files changed, 234 insertions(+), 1 deletion(-)
->  >>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
->  >>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
->  >>
->  >> diff --git a/drivers/media/test-drivers/vidtv/Makefile   
-> b/drivers/media/test-drivers/vidtv/Makefile
->  >> index 9ea9485d42189..92001bc348615 100644
->  >> --- a/drivers/media/test-drivers/vidtv/Makefile
->  >> +++ b/drivers/media/test-drivers/vidtv/Makefile
->  >> @@ -1,6 +1,6 @@
->  >>   # SPDX-License-Identifier: GPL-2.0
->  >>
->  >>   vidtv_demod-objs := vidtv_common.o
->  >> -vidtv_bridge-objs := vidtv_common.o
->  >> +vidtv_bridge-objs := vidtv_common.o vidtv_ts.o
->  >>
->  >>   obj-$(CONFIG_DVB_VIDTV)	+= vidtv_tuner.o vidtv_demod.o vidtv_bridge.o
->  >> diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c   
-> b/drivers/media/test-drivers/vidtv/vidtv_ts.c
->  >> new file mode 100644
->  >> index 0000000000000..f545c45c0fe7c
->  >> --- /dev/null
->  >> +++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
->  >> @@ -0,0 +1,130 @@
->  >> +// SPDX-License-Identifier: GPL-2.0
->  >> +/*
->  >> + * The Virtual DVB test driver serves as a reference DVB driver and   
-> helps
->  >> + * validate the existing APIs in the media subsystem. It can also aid
->  >> + * developers working on userspace applications.
->  >> + *
->  >> + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
->  >> + */
->  >> +
->  >> +#include <linux/types.h>
->  >> +#include <asm/byteorder.h>
->  >> +#include "vidtv_ts.h"
->  >> +#include "vidtv_common.h"
->  >> +
->  >> +static u32 vidtv_ts_write_pcr_bits(u8 *buf, u64 pcr)
->  >> +{
->  >> +	/* Exact same from ffmpeg. PCR is a counter driven by a 27Mhz clock */
->  >> +	u64 pcr_low = pcr % 300, pcr_high = pcr / 300;
->  >> +
->  >> +	*buf++ = pcr_high >> 25;
->  >> +	*buf++ = pcr_high >> 17;
->  >> +	*buf++ = pcr_high >>  9;
->  >> +	*buf++ = pcr_high >>  1;
->  >> +	*buf++ = pcr_high <<  7 | pcr_low >> 8 | 0x7e;
->  >> +	*buf++ = pcr_low;
->  >> +
->  >> +	return 6;
->  >> +}
->  >> +
->  >> +void vidtv_ts_inc_cc(u8 *continuity_counter)
->  >> +{
->  >> +	++*continuity_counter;
->  >> +	if (*continuity_counter > TS_CC_MAX_VAL)
->  >> +		*continuity_counter = 0;
->  >> +}
->  >> +
->  >> +u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
->  >> +{
->  >> +	u32    nbytes                  = 0;
->  >> +	struct vidtv_mpeg_ts ts_header = {0};
->  >> +
->  >> +	ts_header.sync_byte          = TS_SYNC_BYTE;
->  >> +	ts_header.pid                = TS_NULL_PACKET_PID;
->  >> +	ts_header.payload            = 1;
->  >> +	ts_header.continuity_counter = *args.continuity_counter;
->  >> +
->  >> +	cpu_to_be16s(&ts_header.bitfield);
->  >> +
->  >> +	/* copy TS header */
->  >> +	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
->  >> +			       &ts_header,
->  >> +			       sizeof(ts_header),
->  >> +			       args.dest_offset + nbytes,
->  >> +			       args.buf_sz);  
->  >
->  > Hmm... now I see why you're returning 0 to vidtv_memcpy().
->  >
->  > Yet, if the buffer is full, you should just drop the entire package,
->  > as otherwise you may end copying things that aren't multiple of 188   
-> bytes,
->  > causing sync issues at the client.  
-> 
-> I'd like to provide a counterargument for this.
-> 
-> The way I am dealing with errors throughout vidtv so far is:
-> If we hit any of these WARN_ON macros, pr_err and the like, then all 
-> bets are off. This means that the resulting stream will likely be 
-> invalid
 
-Losing some data is not really a big issue. 
+On Tue, 28 Apr 2020, Jaskaran Singh wrote:
 
-I mean, a stream with some dropped packages is acceptable. That 
-actually happens in practice, as sometimes userspace just can't read
-everything in time. 
+> To add Cast attributes to the C AST, pass attributes from the type_name
+> rule of the C parser.
 
-The only thing is that, if buffer overflow conditions are detected
-(and allowed - se more below), the code should ensure that the package
-counters should be updated, so the next frame will show a 
-discontinuity. This way, userspace can detect packet losses.
+I'm not sure what you mean by "pass".  Normally, one passes something to
+something else, but it's not clear what the something else is.
 
-> and that something needs to be rewritten in the source code and 
-> my main concern is then preventing the whole driver from crashing.
+>
+> Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+> ---
+>  ocaml/coccilib.mli     |  3 ++-
+>  parsing_c/parse_c.ml   |  4 +++-
+>  parsing_c/parser_c.mly | 16 ++++++++--------
+>  3 files changed, 13 insertions(+), 10 deletions(-)
+>
+> diff --git a/ocaml/coccilib.mli b/ocaml/coccilib.mli
+> index 0e807c9a..a305d616 100644
+> --- a/ocaml/coccilib.mli
+> +++ b/ocaml/coccilib.mli
+> @@ -791,7 +791,8 @@ module Parser_c :
+>        (Lexing.lexbuf -> token) -> Lexing.lexbuf -> Ast_c.statement
+>      val expr : (Lexing.lexbuf -> token) -> Lexing.lexbuf -> Ast_c.expression
+>      val type_name :
+> -      (Lexing.lexbuf -> token) -> Lexing.lexbuf -> Ast_c.fullType
+> +      (Lexing.lexbuf -> token) -> Lexing.lexbuf ->
+> +      Ast_c.attribute list * Ast_c.fullType
+>    end
+>  module Lexer_c :
+>    sig
+> diff --git a/parsing_c/parse_c.ml b/parsing_c/parse_c.ml
+> index 0d3a189a..5f8d5e2d 100644
+> --- a/parsing_c/parse_c.ml
+> +++ b/parsing_c/parse_c.ml
+> @@ -370,7 +370,9 @@ let parse_gen ~cpp ~tos parsefunc s =
+>    result
+>
+>  (* Please DO NOT remove this code, even though most of it is not used *)
+> -let type_of_string       = parse_gen ~cpp:false ~tos:true Parser_c.type_name
+> +let type_of_string s     =
+> +  let typname = parse_gen ~cpp:false ~tos:true Parser_c.type_name s in
+> +  Common.snd typname
+>  let statement_of_string  = parse_gen ~cpp:false ~tos:false Parser_c.statement
+>  let expression_of_string = parse_gen ~cpp:false ~tos:false Parser_c.expr
+>  let cpp_expression_of_string = parse_gen ~cpp:true ~tos:false Parser_c.expr
+> diff --git a/parsing_c/parser_c.mly b/parsing_c/parser_c.mly
+> index aedde179..0abcc9b0 100644
+> --- a/parsing_c/parser_c.mly
+> +++ b/parsing_c/parser_c.mly
+> @@ -665,7 +665,7 @@ let postfakeInfo pii  =
+>
+>  %type <Ast_c.statement> statement
+>  %type <Ast_c.expression> expr
+> -%type <Ast_c.fullType> type_name
+> +%type <Ast_c.attribute list * Ast_c.fullType> type_name
+>
+>  %%
+>  /*(*************************************************************************)*/
+> @@ -818,7 +818,7 @@ arith_expr:
+>
+>  cast_expr:
+>   | unary_expr                        { $1 }
+> - | topar2 type_name tcpar2 cast_expr { mk_e(Cast ($2, $4)) [$1;$3] }
+> + | topar2 type_name tcpar2 cast_expr { mk_e(Cast (snd $2, $4)) [$1;$3] }
+>  /*
+>  It could be useful to have the following, but there is no place for the
+>  attribute in the AST.
+> @@ -831,7 +831,7 @@ unary_expr:
+>   | TDec unary_expr                 { mk_e(Infix ($2, Dec))    [$1] }
+>   | unary_op cast_expr              { mk_e(Unary ($2, fst $1)) [snd $1] }
+>   | Tsizeof unary_expr              { mk_e(SizeOfExpr ($2))    [$1] }
+> - | Tsizeof topar2 type_name tcpar2 { mk_e(SizeOfType ($3))    [$1;$2;$4] }
+> + | Tsizeof topar2 type_name tcpar2 { mk_e(SizeOfType (snd $3))    [$1;$2;$4] }
 
-A WARN_ON() won't prevent a crash. It will just output (very noisly)
-stuff at dmesg. This can actually cause a crash: if someone is using
-a serial console, for example, the amount of data at dmesg will
-be so much that the machine will become unresponsive.
+There could be less white space in front of the [
 
-Btw, when WARN_ON() is detecting something that would cause crashes,
-it should use this pattern:
+julia
 
-	if (WARN_ON(...))
-		return -EINVAL; // or some other error code like -ENOMEM
-
-> This is exactly the behavior that you see in vidtv_memcpy and 
-> vidtv_memset: nothing gets written so we don't end up with an overflow, 
-> a diagnostic message is printed and there are no attempts at recovery.
-
-Yeah, after looking how you're using it, I'm ok with the way you're
-using vidtv_memcpy (but see the comments I posted today about them).
-
-> 
-> In this particular example, I compromised by allowing the size of the 
-> buffer to be a module param, i.e.
-> 
->  >> +static unsigned int ts_buf_sz = 20 * 188;
->  >> +module_param(ts_buf_sz, uint, 0644);
->  >> +MODULE_PARM_DESC(ts_buf_sz, "Optional size for the TS buffer");  
-
-(Unrelated to this discussion)
-What happens if userspace sets ts_buf_sz < 188? What happens if
-ts_buf_sz is bigger than the available RAM size? For sure you need
-a callback there in order validate its result and ensure it would
-between a certain range that would make sense.
-
-> 
-> I think that what I am trying to say is better seen in the last patch 
-> for this series: [RFC, WIP, v4 11/11] media: vidtv: Add a MPEG Transport 
-> Stream Multiplexer.
-> 
-> The following takes place in vidtv_mux.c:
-> 
-> 	1. We wake up from sleep, take note of how long we slept for and store 
-> it into "elapsed_time". This is usually between 10ms and 20ms.
-> 	2. We encode "elapsed_time" miliseconds worth of data into a buffer
-> 	3. We call dvb_dmx_swfilter(), passing a pointer to the buffer
-> 	4. We clear the buffer, sleep for a bit and then go back to 1.
-> 
-> If the buffer is somehow full then it means that we are trying to 
-> simulate too many fake channels while allocating too little memory, so 
-> either we scale down on the amount of fake channels or we choose another 
-> value for the "ts_buf_sz" module_param.
-> 
-> I feel that this is better than adding more logic in an attempt to 
-> circumvent the issue, specially since I can add more logic and still 
-> fail due to my limited experience. The result is more bloat on the 
-> source code for little gain.
-
-Ok, there are some different situations buffer overflow conditions:
-
-1) userspace may not be calling read() fast enough;
-2) the buffer is too small for a single stream;
-3) the buffer will support a limited number of streams.
-
-The code should work fine with condition (1), not causing warnings
-or errors.
-
-The minimal buffer size should be big enough to avoid condition (2).
-
-Different strategies could be used to handle condition (3).
-
--
-
-Let's forget for a while the Kernel driver, focusing on the other
-side of the coin:
-
-This driver is meant to allow testing userspace programs, emulating
-a real hardware.
-
-With real hardware, the TV board will receive a signal with some
-noise. The signal is encoded with several error detection mechanisms.
-
-When a board hardware detects that a package has issues, it will
-discard it. That's why some packets have a continuity_counter,
-while others are just continuously repeated.
-
-So, from this aspect, having some packages dropped from a stream
-is actually not a bad thing.
-
-Back to the implementation part, in order to simulate a package
-drop, we could simply have a rand() call that would be randomly
-dropping some packages. Or, we could set the driver to produce
-more streams that it would fit into the MPEG-TS stream.
-
-For now, I would just do the latter: if the buffer is too small,
-just drop an entire package, preserving the alignment.
-
-> 
->  > A WARN_ON() seems too severe here. Also, if something bad happens, it
->  > will end causing lots of problems that can make the machine very slow,
->  > ad this will flood dmesg.
->  >
->  > So, the best would be to use, instead, dev_warn_ratelimited().  
-> 
-> You're right, I did not consider this. I will use dev_warn_ratelimited() 
-> in place of WARN_ON in the next revisions.
-
-yeah, dev_warn_ratelimited() would work. You could also use
-WARN_ON_ONCE(), as probably there's not much value on keep
-repeating the message every time.
-
-Thanks,
-Mauro
+>   | Tnew new_argument               { mk_e(New (None, $2))     [$1] }
+>   | Tnew TOPar argument_list_ne TCPar new_argument { mk_e(New (Some $3, $5))             [$1; $2; $4] }
+>   | Tdelete cast_expr               { mk_e(Delete(false, $2))  [$1] }
+> @@ -897,9 +897,9 @@ postfix_expr:
+>
+>   /*(* gccext: also called compound literals *)*/
+>   | topar2 type_name tcpar2 TOBrace TCBrace
+> -     { mk_e(Constructor ($2, (InitList [], [$4;$5]))) [$1;$3] }
+> +     { mk_e(Constructor (snd $2, (InitList [], [$4;$5]))) [$1;$3] }
+>   | topar2 type_name tcpar2 TOBrace initialize_list gcc_comma_opt_struct TCBrace
+> -     { mk_e(Constructor ($2, (InitList (List.rev $5),[$4;$7] @ $6))) [$1;$3] }
+> +     { mk_e(Constructor (snd $2, (InitList (List.rev $5),[$4;$7] @ $6))) [$1;$3] }
+>
+>
+>  primary_expr:
+> @@ -1298,7 +1298,7 @@ type_spec2:
+>         Right3 (TypeName (name, Ast_c.noTypedefDef())),[] }
+>
+>   | Ttypeof TOPar assign_expr TCPar { Right3 (TypeOfExpr ($3)), [$1;$2;$4] }
+> - | Ttypeof TOPar type_name   TCPar { Right3 (TypeOfType ($3)), [$1;$2;$4] }
+> + | Ttypeof TOPar type_name   TCPar { Right3 (TypeOfType (snd $3)), [$1;$2;$4] }
+>
+>  /*(*----------------------------*)*/
+>  /*(* workarounds *)*/
+> @@ -1531,12 +1531,12 @@ type_qualif_list:
+>  type_name:
+>   | spec_qualif_list
+>       { let (attrs, ds) = $1 in
+> -       let (returnType, _) = fixDeclSpecForDecl ds in returnType }
+> +       let (returnType, _) = fixDeclSpecForDecl ds in (attrs, returnType) }
+>   | spec_qualif_list abstract_declaratort
+>       { let (attrs1, ds) = $1 in
+>         let (attrs2, fn) = $2 in
+>         let (returnType, _) = fixDeclSpecForDecl ds in
+> -       fn returnType }
+> +       (attrs1@attrs2, fn returnType) }
+>
+>
+>
+> --
+> 2.21.1
+>
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
