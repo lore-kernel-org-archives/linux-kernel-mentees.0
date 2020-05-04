@@ -2,74 +2,115 @@ Return-Path: <SRS0=SEts=6S=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 746BCC3A5A9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 May 2020 13:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5373EC4724C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 May 2020 16:47:55 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F23D62073B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 May 2020 13:18:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F23D62073B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=inria.fr
+	by mail.kernel.org (Postfix) with ESMTPS id 19B1420752
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 May 2020 16:47:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XynwaO9i"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 19B1420752
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id BE2F520115;
-	Mon,  4 May 2020 13:18:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9C5EA20430;
+	Mon,  4 May 2020 16:47:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wenv9i0UEuIO; Mon,  4 May 2020 13:18:57 +0000 (UTC)
+	with ESMTP id b-evQhIkkA-Z; Mon,  4 May 2020 16:47:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 97C6F20005;
-	Mon,  4 May 2020 13:18:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9924620412;
+	Mon,  4 May 2020 16:47:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E59CC088A;
-	Mon,  4 May 2020 13:18:57 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B6D1AC0175
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 952D6C088C;
+	Mon,  4 May 2020 16:47:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E2A74C0175
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 May 2020 13:18:55 +0000 (UTC)
+ Mon,  4 May 2020 16:47:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A509A883C0
+ by silver.osuosl.org (Postfix) with ESMTP id C388420430
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 May 2020 13:18:55 +0000 (UTC)
+ Mon,  4 May 2020 16:47:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DJDikEqc5u9J
+ with ESMTP id o7XV+Yl5nplQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 May 2020 13:18:54 +0000 (UTC)
+ Mon,  4 May 2020 16:47:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail2-relais-roc.national.inria.fr
- (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by hemlock.osuosl.org (Postfix) with ESMTPS id F32E9883A4
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by silver.osuosl.org (Postfix) with ESMTPS id 107A720412
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 May 2020 13:18:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.73,352,1583190000"; d="scan'208";a="448095192"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
- by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 May 2020 15:18:40 +0200
-Date: Mon, 4 May 2020 15:18:40 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-In-Reply-To: <946de1fd2c3faacd4794c8cda8717847f95834bd.camel@gmail.com>
-Message-ID: <alpine.DEB.2.21.2005041517560.2425@hadrien>
-References: <20200428170228.7002-1-jaskaransingh7654321@gmail.com>
- <20200428170228.7002-2-jaskaransingh7654321@gmail.com>
- <alpine.DEB.2.21.2005032122220.2533@hadrien>
- <6073995d205524bfbb64745c3e39e677601ce06e.camel@gmail.com>
- <alpine.DEB.2.21.2005041116360.2425@hadrien>
- <946de1fd2c3faacd4794c8cda8717847f95834bd.camel@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Mon,  4 May 2020 16:47:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588610868;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mqG4NiZOzEfqHtOMWsB/ZvHqz1Pp83h0dHQmV0QkakI=;
+ b=XynwaO9iMmA6NFsjGHQICXwaz+gS9BdigwUMsaTch2oeJdu8XLMsyeYnlJ680DBcmDG2fL
+ N0M+sXfBeY18kHQ3w7QZ+b5lks2KlFdJG6/NxGPPpsQgKsNMJSMHAymxo0zuzqkhCcZ9l5
+ qoW3m3YKC9sVu3ovCu+RioQyUo8KV2k=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-891tzUHSPr69LFwSEx_f_Q-1; Mon, 04 May 2020 12:47:47 -0400
+X-MC-Unique: 891tzUHSPr69LFwSEx_f_Q-1
+Received: by mail-wr1-f71.google.com with SMTP id r11so11085416wrx.21
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 04 May 2020 09:47:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mqG4NiZOzEfqHtOMWsB/ZvHqz1Pp83h0dHQmV0QkakI=;
+ b=iqZFr28guZhWFjyC/S8iYkjSOe1T/zSSB6vnEJP5mBW6KxlfDV3C05lPo3Cok9ejmn
+ AR5+MDlHvArFor77kk9I9Q+RfWOqMkawc3z2sUi8zbCseHaXUCsHvum3wGgynKrbH5m9
+ gGLBzp4XvbZyDU4hi8YkUxQpmU4XavMyMFPDCL1UitcEN1O40DyrT0SW+sZCuA5JL60Z
+ bv5x7W76Ih2eeqfqQ0UX7nPtM5Jgxzl3S1O6fJJcnjmbiD+zTmkwFBHVwQhs1qUPs22X
+ KEmleSjLmIBv2jIDBmTznEtO50tI//o7AuD9yCpqGr46EJMAO9tua9AJE6L/fR6WnzV4
+ B0wQ==
+X-Gm-Message-State: AGi0PuafZDAprrd0/waOUt7TutdOV8L+7R4tJeGdUCOTMXmG983L3E4F
+ j0C6rl+2BTxYHbV5S0od+miQ4FJ52/iTXel+TrQaCwiX0lLNpDleDv4EEtV4sYN3Kbw010Y4g5p
+ J4gCA+HAvPGc1MGf+bl6RAmLWHsMZ9xOkESez9zFBnj/IHxKy
+X-Received: by 2002:a1c:1d92:: with SMTP id d140mr15413161wmd.67.1588610865738; 
+ Mon, 04 May 2020 09:47:45 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLDRC0oKvIrSTpQybtrO+sKCnZxuLzQYC4jjIPDre77gM0GB81TEH4UGwNEonZVOzx3VaVo3w==
+X-Received: by 2002:a1c:1d92:: with SMTP id d140mr15413134wmd.67.1588610865542; 
+ Mon, 04 May 2020 09:47:45 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.132.175])
+ by smtp.gmail.com with ESMTPSA id a9sm40312wmm.38.2020.05.04.09.47.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 09:47:45 -0700 (PDT)
+To: madhuparnabhowmik10@gmail.com, mingo@redhat.com, bp@alien8.de
+References: <20200430192932.13371-1-madhuparnabhowmik10@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6c992b7f-c6c7-44a6-fa5a-c3512646de05@redhat.com>
+Date: Mon, 4 May 2020 18:47:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, cocci@systeme.lip6.fr
-Subject: Re: [Linux-kernel-mentees] [PATCH 01/32] parsing_c: parser: Pass
- attribute list from type_name
+In-Reply-To: <20200430192932.13371-1-madhuparnabhowmik10@gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Cc: kvm@vger.kernel.org, paulmck@kernel.org, linux-pci@vger.kernel.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org, sean.j.christopherson@intel.com,
+ joel@joelfernandes.org, cai@lca.pw, bhelgaas@google.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] x86: Fix RCU list usage to avoid
+	false positive warnings
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,220 +128,68 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+On 30/04/20 21:29, madhuparnabhowmik10@gmail.com wrote:
+> From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> 
+> Use list_for_each_entry() instead of list_for_each_entry_rcu() whenever
+> spinlock or mutex is always held.
+> Otherwise, pass cond to list_for_each_entry_rcu().
+> 
+> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> ---
+>  arch/x86/kernel/nmi.c          | 2 +-
+>  arch/x86/kvm/irq_comm.c        | 3 ++-
+>  arch/x86/pci/mmconfig-shared.c | 2 +-
+>  3 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/nmi.c b/arch/x86/kernel/nmi.c
+> index 6407ea21fa1b..999dc6c134d2 100644
+> --- a/arch/x86/kernel/nmi.c
+> +++ b/arch/x86/kernel/nmi.c
+> @@ -195,7 +195,7 @@ void unregister_nmi_handler(unsigned int type, const char *name)
+>  
+>  	raw_spin_lock_irqsave(&desc->lock, flags);
+>  
+> -	list_for_each_entry_rcu(n, &desc->head, list) {
+> +	list_for_each_entry(n, &desc->head, list) {
+>  		/*
+>  		 * the name passed in to describe the nmi handler
+>  		 * is used as the lookup key
+> diff --git a/arch/x86/kvm/irq_comm.c b/arch/x86/kvm/irq_comm.c
+> index c47d2acec529..5b88a648e079 100644
+> --- a/arch/x86/kvm/irq_comm.c
+> +++ b/arch/x86/kvm/irq_comm.c
+> @@ -258,7 +258,8 @@ void kvm_fire_mask_notifiers(struct kvm *kvm, unsigned irqchip, unsigned pin,
+>  	idx = srcu_read_lock(&kvm->irq_srcu);
+>  	gsi = kvm_irq_map_chip_pin(kvm, irqchip, pin);
+>  	if (gsi != -1)
+> -		hlist_for_each_entry_rcu(kimn, &kvm->arch.mask_notifier_list, link)
+> +		hlist_for_each_entry_rcu(kimn, &kvm->arch.mask_notifier_list, link,
+> +					srcu_read_lock_held(&kvm->irq_srcu))
+>  			if (kimn->irq == gsi)
+>  				kimn->func(kimn, mask);
+>  	srcu_read_unlock(&kvm->irq_srcu, idx);
+> diff --git a/arch/x86/pci/mmconfig-shared.c b/arch/x86/pci/mmconfig-shared.c
+> index 6fa42e9c4e6f..a096942690bd 100644
+> --- a/arch/x86/pci/mmconfig-shared.c
+> +++ b/arch/x86/pci/mmconfig-shared.c
+> @@ -797,7 +797,7 @@ int pci_mmconfig_delete(u16 seg, u8 start, u8 end)
+>  	struct pci_mmcfg_region *cfg;
+>  
+>  	mutex_lock(&pci_mmcfg_lock);
+> -	list_for_each_entry_rcu(cfg, &pci_mmcfg_list, list)
+> +	list_for_each_entry(cfg, &pci_mmcfg_list, list)
+>  		if (cfg->segment == seg && cfg->start_bus == start &&
+>  		    cfg->end_bus == end) {
+>  			list_del_rcu(&cfg->list);
+> 
 
+For KVM parts, if the x86 maintainers want to apply the whole patch,
 
-On Mon, 4 May 2020, Jaskaran Singh wrote:
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> On Mon, 2020-05-04 at 11:17 +0200, Julia Lawall wrote:
-> >
-> > On Mon, 4 May 2020, Jaskaran Singh wrote:
-> >
-> > > On Sun, 2020-05-03 at 21:23 +0200, Julia Lawall wrote:
-> > > > On Tue, 28 Apr 2020, Jaskaran Singh wrote:
-> > > >
-> > > > > To add Cast attributes to the C AST, pass attributes from the
-> > > > > type_name
-> > > > > rule of the C parser.
-> > > >
-> > > > I'm not sure what you mean by "pass".  Normally, one passes
-> > > > something
-> > > > to
-> > > > something else, but it's not clear what the something else is.
-> > > >
-> > >
-> > > The something else would be the cast_expr rule (and basically any
-> > > other
-> > > rule that uses the type_name rule).
-> > >
-> > > I guess a better way to say it would be "return the attributes from
-> > > the
-> > > type_name rule as well"
-> >
-> > This seems fine, thanks!
-> >
-> > In this patch there are a lot of places where the information is just
-> > discarded.  Will it be used in the future?
-> >
->
-> We could add support for those attributes as well (ex. typeof, sizeof,
-> etc.). This patch only adds support for cast attributes though.
+Paolo
 
-OK.  I'm not sure that attributes make sense for sizeof.  Perhaps give a
-warning rather than just dropping it.
-
-julia
-
->
-> Cheers,
-> Jaskaran.
->
-> > julia
-> >
-> > > (or if there is a specific term for it in
-> > > parser-terminology, then that).
-> > >
-> > > Cheers,
-> > > Jaskaran.
-> > >
-> > > > > Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-> > > > > ---
-> > > > >  ocaml/coccilib.mli     |  3 ++-
-> > > > >  parsing_c/parse_c.ml   |  4 +++-
-> > > > >  parsing_c/parser_c.mly | 16 ++++++++--------
-> > > > >  3 files changed, 13 insertions(+), 10 deletions(-)
-> > > > >
-> > > > > diff --git a/ocaml/coccilib.mli b/ocaml/coccilib.mli
-> > > > > index 0e807c9a..a305d616 100644
-> > > > > --- a/ocaml/coccilib.mli
-> > > > > +++ b/ocaml/coccilib.mli
-> > > > > @@ -791,7 +791,8 @@ module Parser_c :
-> > > > >        (Lexing.lexbuf -> token) -> Lexing.lexbuf ->
-> > > > > Ast_c.statement
-> > > > >      val expr : (Lexing.lexbuf -> token) -> Lexing.lexbuf ->
-> > > > > Ast_c.expression
-> > > > >      val type_name :
-> > > > > -      (Lexing.lexbuf -> token) -> Lexing.lexbuf ->
-> > > > > Ast_c.fullType
-> > > > > +      (Lexing.lexbuf -> token) -> Lexing.lexbuf ->
-> > > > > +      Ast_c.attribute list * Ast_c.fullType
-> > > > >    end
-> > > > >  module Lexer_c :
-> > > > >    sig
-> > > > > diff --git a/parsing_c/parse_c.ml b/parsing_c/parse_c.ml
-> > > > > index 0d3a189a..5f8d5e2d 100644
-> > > > > --- a/parsing_c/parse_c.ml
-> > > > > +++ b/parsing_c/parse_c.ml
-> > > > > @@ -370,7 +370,9 @@ let parse_gen ~cpp ~tos parsefunc s =
-> > > > >    result
-> > > > >
-> > > > >  (* Please DO NOT remove this code, even though most of it is
-> > > > > not
-> > > > > used *)
-> > > > > -let type_of_string       = parse_gen ~cpp:false ~tos:true
-> > > > > Parser_c.type_name
-> > > > > +let type_of_string s     =
-> > > > > +  let typname = parse_gen ~cpp:false ~tos:true
-> > > > > Parser_c.type_name
-> > > > > s in
-> > > > > +  Common.snd typname
-> > > > >  let statement_of_string  = parse_gen ~cpp:false ~tos:false
-> > > > > Parser_c.statement
-> > > > >  let expression_of_string = parse_gen ~cpp:false ~tos:false
-> > > > > Parser_c.expr
-> > > > >  let cpp_expression_of_string = parse_gen ~cpp:true ~tos:false
-> > > > > Parser_c.expr
-> > > > > diff --git a/parsing_c/parser_c.mly b/parsing_c/parser_c.mly
-> > > > > index aedde179..0abcc9b0 100644
-> > > > > --- a/parsing_c/parser_c.mly
-> > > > > +++ b/parsing_c/parser_c.mly
-> > > > > @@ -665,7 +665,7 @@ let postfakeInfo pii  =
-> > > > >
-> > > > >  %type <Ast_c.statement> statement
-> > > > >  %type <Ast_c.expression> expr
-> > > > > -%type <Ast_c.fullType> type_name
-> > > > > +%type <Ast_c.attribute list * Ast_c.fullType> type_name
-> > > > >
-> > > > >  %%
-> > > > >  /*(***********************************************************
-> > > > > ****
-> > > > > **********)*/
-> > > > > @@ -818,7 +818,7 @@ arith_expr:
-> > > > >
-> > > > >  cast_expr:
-> > > > >   | unary_expr                        { $1 }
-> > > > > - | topar2 type_name tcpar2 cast_expr { mk_e(Cast ($2, $4))
-> > > > > [$1;$3]
-> > > > > }
-> > > > > + | topar2 type_name tcpar2 cast_expr { mk_e(Cast (snd $2, $4))
-> > > > > [$1;$3] }
-> > > > >  /*
-> > > > >  It could be useful to have the following, but there is no
-> > > > > place
-> > > > > for the
-> > > > >  attribute in the AST.
-> > > > > @@ -831,7 +831,7 @@ unary_expr:
-> > > > >   | TDec unary_expr                 { mk_e(Infix ($2,
-> > > > > Dec))    [$1]
-> > > > > }
-> > > > >   | unary_op cast_expr              { mk_e(Unary ($2, fst $1))
-> > > > > [snd
-> > > > > $1] }
-> > > > >   | Tsizeof unary_expr              { mk_e(SizeOfExpr
-> > > > > ($2))    [$1]
-> > > > > }
-> > > > > - | Tsizeof topar2 type_name tcpar2 { mk_e(SizeOfType
-> > > > > ($3))    [$1;$2;$4] }
-> > > > > + | Tsizeof topar2 type_name tcpar2 { mk_e(SizeOfType (snd
-> > > > > $3))    [$1;$2;$4] }
-> > > >
-> > > > There could be less white space in front of the [
-> > > >
-> > > > julia
-> > > >
-> > > > >   | Tnew new_argument               { mk_e(New (None,
-> > > > > $2))     [$1]
-> > > > > }
-> > > > >   | Tnew TOPar argument_list_ne TCPar new_argument { mk_e(New
-> > > > > (Some
-> > > > > $3, $5))             [$1; $2; $4] }
-> > > > >   | Tdelete cast_expr               { mk_e(Delete(false,
-> > > > > $2))  [$1]
-> > > > > }
-> > > > > @@ -897,9 +897,9 @@ postfix_expr:
-> > > > >
-> > > > >   /*(* gccext: also called compound literals *)*/
-> > > > >   | topar2 type_name tcpar2 TOBrace TCBrace
-> > > > > -     { mk_e(Constructor ($2, (InitList [], [$4;$5]))) [$1;$3]
-> > > > > }
-> > > > > +     { mk_e(Constructor (snd $2, (InitList [], [$4;$5])))
-> > > > > [$1;$3]
-> > > > > }
-> > > > >   | topar2 type_name tcpar2 TOBrace initialize_list
-> > > > > gcc_comma_opt_struct TCBrace
-> > > > > -     { mk_e(Constructor ($2, (InitList (List.rev $5),[$4;$7] @
-> > > > > $6))) [$1;$3] }
-> > > > > +     { mk_e(Constructor (snd $2, (InitList (List.rev
-> > > > > $5),[$4;$7] @
-> > > > > $6))) [$1;$3] }
-> > > > >
-> > > > >
-> > > > >  primary_expr:
-> > > > > @@ -1298,7 +1298,7 @@ type_spec2:
-> > > > >         Right3 (TypeName (name, Ast_c.noTypedefDef())),[] }
-> > > > >
-> > > > >   | Ttypeof TOPar assign_expr TCPar { Right3 (TypeOfExpr ($3)),
-> > > > > [$1;$2;$4] }
-> > > > > - | Ttypeof TOPar type_name   TCPar { Right3 (TypeOfType ($3)),
-> > > > > [$1;$2;$4] }
-> > > > > + | Ttypeof TOPar type_name   TCPar { Right3 (TypeOfType (snd
-> > > > > $3)),
-> > > > > [$1;$2;$4] }
-> > > > >
-> > > > >  /*(*----------------------------*)*/
-> > > > >  /*(* workarounds *)*/
-> > > > > @@ -1531,12 +1531,12 @@ type_qualif_list:
-> > > > >  type_name:
-> > > > >   | spec_qualif_list
-> > > > >       { let (attrs, ds) = $1 in
-> > > > > -       let (returnType, _) = fixDeclSpecForDecl ds in
-> > > > > returnType }
-> > > > > +       let (returnType, _) = fixDeclSpecForDecl ds in (attrs,
-> > > > > returnType) }
-> > > > >   | spec_qualif_list abstract_declaratort
-> > > > >       { let (attrs1, ds) = $1 in
-> > > > >         let (attrs2, fn) = $2 in
-> > > > >         let (returnType, _) = fixDeclSpecForDecl ds in
-> > > > > -       fn returnType }
-> > > > > +       (attrs1@attrs2, fn returnType) }
-> > > > >
-> > > > >
-> > > > >
-> > > > > --
-> > > > > 2.21.1
-> > > > >
-> > > > >
->
->
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
