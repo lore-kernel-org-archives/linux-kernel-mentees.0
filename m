@@ -1,86 +1,107 @@
-Return-Path: <SRS0=QHLe=6W=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=VQEw=6X=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7CD7C35280
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 May 2020 01:21:35 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80009C47257
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  9 May 2020 07:24:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 89B4C208DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 May 2020 01:21:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4676F24957
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  9 May 2020 07:24:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="NucDWMIH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 89B4C208DB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=canb.auug.org.au
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KUc+DAyx"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4676F24957
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4E56A2046B;
-	Fri,  8 May 2020 01:21:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0B17C8714B;
+	Sat,  9 May 2020 07:24:09 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 64C1pMa3ZVIv; Sat,  9 May 2020 07:24:08 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AA6418715D;
+	Sat,  9 May 2020 07:24:08 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9778BC0889;
+	Sat,  9 May 2020 07:24:08 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D8BCC07FF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  9 May 2020 07:24:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 0574E22797
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  9 May 2020 07:24:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eLnU4Te9CazM; Fri,  8 May 2020 01:21:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 644AD20434;
-	Fri,  8 May 2020 01:21:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A2DBC0859;
-	Fri,  8 May 2020 01:21:34 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6F347C07FF
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 May 2020 01:21:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5798B88B15
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 May 2020 01:21:32 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id x02-SZQ0p+8k
+ with ESMTP id aSm8ru8NBJQp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 May 2020 01:21:30 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BD7A88861D
+ Sat,  9 May 2020 07:24:06 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8B1FC226F5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 May 2020 01:21:30 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 49JCGC0TrHz9sSk;
- Fri,  8 May 2020 11:21:23 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1588900885;
- bh=fn1FAITXWrHoD5p0YkLk4NDvgXCTxZCopaiWSoAE24M=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=NucDWMIHzyEWKhv2Jpz5V57pCJSGVwKFECNyZ49I5pY1ukFXmrdSaz/00q2KpJDbG
- EWLv3FYAKffEQaBXd+sOR9qlvTBznRmAqjavXEhcZjrKMl21SATXigYcr4tbNlyzQh
- LO51vcA7p09iXpAntaH3rroJpzap350FUwdpbwPhGyiGuMajhFMQvdhcwTjZk4XvX6
- G0uZxVdYMDn1xLuA7ffyANP3YNjHI4Dm3OcCE7Iyy/sdLK4IVaRP0dKDCAajrN0BVY
- oKN7dnuctm+yzNgINA/ovWbnsNKaMaQHaqsWKxt52evUDbcrR1oWWSEzL2otnQG0AY
- Py7s4KqVpoUUA==
-Date: Fri, 8 May 2020 11:21:21 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Message-ID: <20200508112121.6f665d74@canb.auug.org.au>
-In-Reply-To: <1588897421.5685.152.camel@linux.ibm.com>
-References: <20200430160205.17798-1-madhuparnabhowmik10@gmail.com>
- <20200508101402.267ca0f2@canb.auug.org.au>
- <1588897421.5685.152.camel@linux.ibm.com>
+ Sat,  9 May 2020 07:24:06 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id f7so2170231pfa.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 09 May 2020 00:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O6NOWgkJuVNBzcRIWQKK+1L2R6ELyCXl3BZEpc2cyyg=;
+ b=KUc+DAyxbo/FIS+4ZMWHTtwo6Scti9M6yahWtKDsNxEMlPDPUR2gzIMoGEdEJszrYh
+ yTljj1+PVG4Fy6LZ9x2kjiHQnC2qaotowIAdSHDX9LBsHeBkobPRtDapevkpz/D47TKt
+ BR+X3l9qhCILE3KscM+h8IXp2Rrug8V+6hjbFY8O9s2D0ROHxnLLLlRDXM0k4X5OqYOX
+ fp1LQgIGNHScNVR9h6q2t0tvkeiAjw61Rm+/vdQhKpluCNGdrDoQjZgJpsopz2L5Zrk/
+ Ddfxg1DflK9NwFWtiA0KDnOGZIiNN/MBy3m0zx+tYPSMiP7YKzgdy9YSg8UOqo0gdN2L
+ PzZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O6NOWgkJuVNBzcRIWQKK+1L2R6ELyCXl3BZEpc2cyyg=;
+ b=qLANl32SVK+igHgNOrtVNUgpctiHNM0m3Rcch1cKz6b4DBHumTra3XUN0GnGwl9uDW
+ u080JjzjttB3z80XaXGGgwH2QET7FcI56kUrHpttEq+VkENKvaoC5SMvo9fOZ73dtA2j
+ WmgEmL7bxnBXC0mhIxJ6+lVG8yowhKZcpKA8JpyaRFdGFbg2cF2oBoopct75xPvfNtfI
+ qOatHSVSWFOt3sy2r3uNRpQkpNOr+Sq9K52jNFxmIr1vCFv+P5vEwCUN1N3FcI4lpUCS
+ 8FNvZ5qH3gqIKP+skaPDbKuvNgXD1uIuXva1p+GX71Avq6gSZjqsf3RQ7EfSXL8PM9v9
+ 3+DQ==
+X-Gm-Message-State: AGi0PuZGn9DDR35TzvEljfw7DSzu6JyDvcaZ4fyCZqbq1iw49aWuBPTA
+ xAEyI+HrCN0PCHUGUss2/ZE=
+X-Google-Smtp-Source: APiQypLTU3XMkvl0Nz44wwzDblB4tt49h2bt3Qv4UGrAIw0pZYdRRFVUWDJLSt6+VdFXVmRMfm3pag==
+X-Received: by 2002:aa7:9148:: with SMTP id 8mr7084252pfi.154.1589009046017;
+ Sat, 09 May 2020 00:24:06 -0700 (PDT)
+Received: from localhost.localdomain ([103.87.56.89])
+ by smtp.googlemail.com with ESMTPSA id f74sm14024249pje.3.2020.05.09.00.24.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 09 May 2020 00:24:05 -0700 (PDT)
+From: Amol Grover <frextrite@gmail.com>
+To: "David S . Miller" <davem@davemloft.net>,
+ Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+ Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+ Jakub Kicinski <kuba@kernel.org>
+Date: Sat,  9 May 2020 12:52:43 +0530
+Message-Id: <20200509072243.3141-1-frextrite@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Cc: paulmck@kernel.org, jmorris@namei.org, linux-kernel@vger.kernel.org,
- madhuparnabhowmik10@gmail.com, linux-security-module@vger.kernel.org,
- joel@joelfernandes.org, linux-integrity@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, serge@hallyn.com
-Subject: Re: [Linux-kernel-mentees] [PATCH] integrity: evm: Fix RCU list
-	related warnings.
+Cc: "Paul E . McKenney" <paulmck@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH net 1/2 RESEND] ipmr: Fix RCU list
+	debugging warning
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,64 +113,47 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1811478300378217368=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============1811478300378217368==
-Content-Type: multipart/signed; boundary="Sig_/.D+o4SMW3l1UQxFqbqJwcNG";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+ipmr_for_each_table() macro uses list_for_each_entry_rcu()
+for traversing outside of an RCU read side critical section
+but under the protection of rtnl_mutex. Hence, add the
+corresponding lockdep expression to silence the following
+false-positive warning at boot:
 
---Sig_/.D+o4SMW3l1UQxFqbqJwcNG
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+[    4.319347] =============================
+[    4.319349] WARNING: suspicious RCU usage
+[    4.319351] 5.5.4-stable #17 Tainted: G            E
+[    4.319352] -----------------------------
+[    4.319354] net/ipv4/ipmr.c:1757 RCU-list traversed in non-reader section!!
 
-Hi Mimi,
+Signed-off-by: Amol Grover <frextrite@gmail.com>
+---
+ net/ipv4/ipmr.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On Thu, 07 May 2020 20:23:41 -0400 Mimi Zohar <zohar@linux.ibm.com> wrote:
->
-> Sorry for the delay in pushing this and other fixes to the next-
-> integrity branch. =C2=A0It's in my next-integrity-testing branch.
-
-OK, thanks.
-
-> This isn't a bug per-se, just annotating the reason for the lack of
-> locking.
-
-Yes, but these warnings stop the syzbot's testing in its tracks :-(
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/.D+o4SMW3l1UQxFqbqJwcNG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl60tBEACgkQAVBC80lX
-0Gy1kQf7BffVVaIpxbElKwALAau8rs7TlHqdions0ViHqWb9XbhY3sNQ1phj1nt5
-QORcaLptQ5HmVAVz227Gdg15fnkJPeHg0/w5rUHyzV7f8PePzYE9wZGVvOik+9Sg
-1d1QxHj8AHnRM+Ag+zCc7erThznlgkSKnMOWHonbV73Li9C9aGYE9jTE3L7rFcuh
-b1AN0cliyojwb4E9bIbadn3fSUXivHKR0kHFcx5OFLZmsimBVjMYI19tZQm1RslG
-HYHdEDBG2uGLgVRF6O53nj4FMTVNHJuMNa/gSJU/FgZIF5vAGnSuEE6od7LhT++3
-+/bdVfFcjwWMKQ447SfxBZXwlos1Mg==
-=FC49
------END PGP SIGNATURE-----
-
---Sig_/.D+o4SMW3l1UQxFqbqJwcNG--
-
---===============1811478300378217368==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/net/ipv4/ipmr.c b/net/ipv4/ipmr.c
+index 6e68def66822..99c864eb6e34 100644
+--- a/net/ipv4/ipmr.c
++++ b/net/ipv4/ipmr.c
+@@ -110,7 +110,8 @@ static void ipmr_expire_process(struct timer_list *t);
+ 
+ #ifdef CONFIG_IP_MROUTE_MULTIPLE_TABLES
+ #define ipmr_for_each_table(mrt, net) \
+-	list_for_each_entry_rcu(mrt, &net->ipv4.mr_tables, list)
++	list_for_each_entry_rcu(mrt, &net->ipv4.mr_tables, list, \
++				lockdep_rtnl_is_held())
+ 
+ static struct mr_table *ipmr_mr_table_iter(struct net *net,
+ 					   struct mr_table *mrt)
+-- 
+2.24.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============1811478300378217368==--
