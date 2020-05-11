@@ -8,97 +8,98 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 883DFC54E4B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:07:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 266A8C54E4B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:07:45 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5782220720
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:07:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EA62820720
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:07:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="u+jIqq7r"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5782220720
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hz3ORGz3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA62820720
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 39DC285C9D;
-	Mon, 11 May 2020 10:07:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CC35885C05;
+	Mon, 11 May 2020 10:07:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TF3LhuMbAdOV; Mon, 11 May 2020 10:07:39 +0000 (UTC)
+	with ESMTP id i8cMVj8QDeim; Mon, 11 May 2020 10:07:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4004A85B2F;
-	Mon, 11 May 2020 10:07:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5CE2B85B2F;
+	Mon, 11 May 2020 10:07:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C54BC0178;
-	Mon, 11 May 2020 10:07:39 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 10AE7C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D167C0178;
+	Mon, 11 May 2020 10:07:44 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 88FD3C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:07:38 +0000 (UTC)
+ Mon, 11 May 2020 10:07:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0D28D86E3A
+ by silver.osuosl.org (Postfix) with ESMTP id 78B1524912
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:07:38 +0000 (UTC)
+ Mon, 11 May 2020 10:07:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JahKFPs0fkFa
+ with ESMTP id 26zKc0GO3YmO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:07:37 +0000 (UTC)
+ Mon, 11 May 2020 10:07:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2225886E1F
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by silver.osuosl.org (Postfix) with ESMTPS id 13F3624763
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:07:37 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id v63so4521937pfb.10
+ Mon, 11 May 2020 10:07:42 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id s20so3740146plp.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 03:07:37 -0700 (PDT)
+ Mon, 11 May 2020 03:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IJ8X6mdMcd2gpNaVd2+aOvCg/75yMwXO2zy6w8fzJTU=;
- b=u+jIqq7rBMk3uh/jaskFy6EiV7Ot6zZG5ce9Q8I3SpIInxjbjWGf+RY7WpyUpn8xgg
- d1XhDJHUzjBAACeakaNTWVyrUNpjdscnUtdxPT8ng5i9YncKRsAy1dIsVckfAYXFADl9
- io/lLDUQKJIq+z4enqp1YoEPXztaTyBLgZ4P7Mqn1GXP6k7T7o/9Tojtp5Ueud6Fw095
- 5tsUsgqHcEF2reJePmJ8EnFHo1gl9cQYlhp1p9FEFClVhwQWXq2UfjGMaf3UNiyKkbck
- 5UwKx0Lx1Qh5YFZDiOwEON2oUF0OC01Q/Mc0zcINwN8RVXctYu132qeU7aBVtJPRI3t7
- 2N2w==
+ bh=M91q9QGpyZbnFV5DZ/SflSN23/oSIrJm2HJMonaNS90=;
+ b=Hz3ORGz3EitMt0bgKoAZffSFk3+aLERbfGoxt9ZkqH31ccgakuD+HR7G0ZvROgfuE3
+ fIVLLO7/XjOico7fo5sWzDoZ3VlEec0g6EVgLQJqkceEIYOjbK12VdF9Q5uf1PKCiUL6
+ mI130lQJs8FQXIK2c0QyYQ3idCo5EevtAFptfK8fOiONJrYcvzA9QW0SDOmYJ9CUPPCL
+ F/n1pig4Ed9iWPD49DZpndSbGF7+goZJz3MtnCa/2x+bHgzCpmk+2sflf+6eq6WM8k49
+ JocRmRnsq/pZRNXwBU8VnHG4b8KHUve9sJOLwN7r9HiTC41w06JJZdOjIYdiUdO9hXK1
+ 052g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IJ8X6mdMcd2gpNaVd2+aOvCg/75yMwXO2zy6w8fzJTU=;
- b=ND+BKfq1pUp3WYcaT07a9GJDDyvIsXPIkxti0OK0yEUZUuW4TOsFYJk6vkJQsShQLW
- HtQMh+u4L7T4aaqOTKAxLAdEjobx5CerfS5CrcyBpFlOUozTb97mTr0befYhkRDGiwOj
- 541CEBKMbQJma43u03UY4LV1AsmI/hLtaX5FnQfDyV6zx4sub634dF8dNf9Str5fTyhl
- EPcAK2fSpV1EsmbiAx43SiS5DM0GywoNFVpFBf1n/VN+JTULdrHWzFA3advkZx3OaRus
- vvGHqQgPvaCz0bf0LTCzz90A4/a0j5PBmFh2VomTgQKV4Pf6HkgryGlj7I86UilZDXdP
- yFTg==
-X-Gm-Message-State: AGi0PuZbk9WvpvEVstYdud7pXYgbiWi16diUG3c5etlNIpp2btPSD/EO
- DtxXMVrKs8TI5jJ3Z1SXi70=
-X-Google-Smtp-Source: APiQypKy/ztn+iYOZm4p0cvkhx/52fY+2gAIoWS6aE1yJTv/lhmraa2chQQ4TfLya8AZLO4X0zh49Q==
-X-Received: by 2002:a65:5287:: with SMTP id y7mr13445248pgp.86.1589191656578; 
- Mon, 11 May 2020 03:07:36 -0700 (PDT)
+ bh=M91q9QGpyZbnFV5DZ/SflSN23/oSIrJm2HJMonaNS90=;
+ b=Ja8U2I2w/xCl0Hko+CF10YwYahiAQNMKRDhN65cqCl0U2TJIk3uo2xqJueAKzCDFON
+ wn2cjE0qKRdAfgjtytDizHDgJSWJLBWcQmqfeBoc24QX6BKH7YSwuXfwUYum+Og9e9iq
+ 4tV+IPHOi7fwlLoXEgV29fUgqGtOEzkreykjVMEwNxb6kjidJ5bS8Ns0vbl4tBHYE7DR
+ 8Hn2C6jdlb3QT4LsLG30eUP5fSQ/cnQc5dX+XawXUz7M2BXg6DOqSOUuoaO3626AL31C
+ BvudXfkIRE2X5oEX1ZzF/Hydl1lO5fcgLsGa7XC1/WL25+IRSEU7m+J6wIj7oX1KlhOj
+ UZ9A==
+X-Gm-Message-State: AGi0PuanD3zpEJPWkTrQs1Nd8j0fVQn0dHXtijbiewcfJruhqgYwj8aU
+ V+H1J1piCvKEDDUtwaivm+8=
+X-Google-Smtp-Source: APiQypJuwcYyaEKao5DLtYS/b4+uK0ZrhNQbhbzX5igDFIJUeZP21WCNJ5/xdG7pmTS8twsCHIOXGw==
+X-Received: by 2002:a17:90a:f404:: with SMTP id
+ ch4mr21413942pjb.123.1589191661647; 
+ Mon, 11 May 2020 03:07:41 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:382:66db:4729:1ab8:2139:8945])
  by smtp.gmail.com with ESMTPSA id
- o99sm9772994pjo.8.2020.05.11.03.07.32
+ o99sm9772994pjo.8.2020.05.11.03.07.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 03:07:36 -0700 (PDT)
+ Mon, 11 May 2020 03:07:41 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Mon, 11 May 2020 15:36:44 +0530
-Message-Id: <20200511100715.19819-2-jaskaransingh7654321@gmail.com>
+Date: Mon, 11 May 2020 15:36:45 +0530
+Message-Id: <20200511100715.19819-3-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200511100715.19819-1-jaskaransingh7654321@gmail.com>
 References: <20200511100715.19819-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 01/32] parsing_c: parser: Pass
-	attribute list from type_name
+Subject: [Linux-kernel-mentees] [PATCH v2 02/32] parsing_cocci: ast0_cocci:
+	Add cast attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,120 +117,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-To add Cast attributes to the C AST, pass attributes from the type_name
-rule of the C parser.
+Add cast attributes to AST0 of SmPL. This is a list of attributes in the
+Cast type of AST0.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- ocaml/coccilib.mli     |  3 ++-
- parsing_c/parse_c.ml   |  4 +++-
- parsing_c/parser_c.mly | 24 ++++++++++++++++--------
- 3 files changed, 21 insertions(+), 10 deletions(-)
+ parsing_cocci/ast0_cocci.ml  | 4 ++--
+ parsing_cocci/ast0_cocci.mli | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/ocaml/coccilib.mli b/ocaml/coccilib.mli
-index 0e807c9a..a305d616 100644
---- a/ocaml/coccilib.mli
-+++ b/ocaml/coccilib.mli
-@@ -791,7 +791,8 @@ module Parser_c :
-       (Lexing.lexbuf -> token) -> Lexing.lexbuf -> Ast_c.statement
-     val expr : (Lexing.lexbuf -> token) -> Lexing.lexbuf -> Ast_c.expression
-     val type_name :
--      (Lexing.lexbuf -> token) -> Lexing.lexbuf -> Ast_c.fullType
-+      (Lexing.lexbuf -> token) -> Lexing.lexbuf ->
-+      Ast_c.attribute list * Ast_c.fullType
-   end
- module Lexer_c :
-   sig
-diff --git a/parsing_c/parse_c.ml b/parsing_c/parse_c.ml
-index 0d3a189a..5f8d5e2d 100644
---- a/parsing_c/parse_c.ml
-+++ b/parsing_c/parse_c.ml
-@@ -370,7 +370,9 @@ let parse_gen ~cpp ~tos parsefunc s =
-   result
- 
- (* Please DO NOT remove this code, even though most of it is not used *)
--let type_of_string       = parse_gen ~cpp:false ~tos:true Parser_c.type_name
-+let type_of_string s     =
-+  let typname = parse_gen ~cpp:false ~tos:true Parser_c.type_name s in
-+  Common.snd typname
- let statement_of_string  = parse_gen ~cpp:false ~tos:false Parser_c.statement
- let expression_of_string = parse_gen ~cpp:false ~tos:false Parser_c.expr
- let cpp_expression_of_string = parse_gen ~cpp:true ~tos:false Parser_c.expr
-diff --git a/parsing_c/parser_c.mly b/parsing_c/parser_c.mly
-index aedde179..34d234d2 100644
---- a/parsing_c/parser_c.mly
-+++ b/parsing_c/parser_c.mly
-@@ -665,7 +665,7 @@ let postfakeInfo pii  =
- 
- %type <Ast_c.statement> statement
- %type <Ast_c.expression> expr
--%type <Ast_c.fullType> type_name
-+%type <Ast_c.attribute list * Ast_c.fullType> type_name
- 
- %%
- /*(*************************************************************************)*/
-@@ -818,7 +818,7 @@ arith_expr:
- 
- cast_expr:
-  | unary_expr                        { $1 }
-- | topar2 type_name tcpar2 cast_expr { mk_e(Cast ($2, $4)) [$1;$3] }
-+ | topar2 type_name tcpar2 cast_expr { mk_e(Cast (snd $2, $4)) [$1;$3] }
- /*
- It could be useful to have the following, but there is no place for the
- attribute in the AST.
-@@ -831,7 +831,11 @@ unary_expr:
-  | TDec unary_expr                 { mk_e(Infix ($2, Dec))    [$1] }
-  | unary_op cast_expr              { mk_e(Unary ($2, fst $1)) [snd $1] }
-  | Tsizeof unary_expr              { mk_e(SizeOfExpr ($2))    [$1] }
-- | Tsizeof topar2 type_name tcpar2 { mk_e(SizeOfType ($3))    [$1;$2;$4] }
-+ | Tsizeof topar2 type_name tcpar2
-+     { let ret = mk_e(SizeOfType (snd $3)) [$1;$2;$4] in
-+       match (fst $3) with (* warn about dropped attributes *)
-+         [] -> ret
-+       | _ -> warning "attributes found in sizeof(...), dropping" ret }
-  | Tnew new_argument               { mk_e(New (None, $2))     [$1] }
-  | Tnew TOPar argument_list_ne TCPar new_argument { mk_e(New (Some $3, $5))             [$1; $2; $4] }
-  | Tdelete cast_expr               { mk_e(Delete(false, $2))  [$1] }
-@@ -897,9 +901,9 @@ postfix_expr:
- 
-  /*(* gccext: also called compound literals *)*/
-  | topar2 type_name tcpar2 TOBrace TCBrace
--     { mk_e(Constructor ($2, (InitList [], [$4;$5]))) [$1;$3] }
-+     { mk_e(Constructor (snd $2, (InitList [], [$4;$5]))) [$1;$3] }
-  | topar2 type_name tcpar2 TOBrace initialize_list gcc_comma_opt_struct TCBrace
--     { mk_e(Constructor ($2, (InitList (List.rev $5),[$4;$7] @ $6))) [$1;$3] }
-+     { mk_e(Constructor (snd $2, (InitList (List.rev $5),[$4;$7] @ $6))) [$1;$3] }
- 
- 
- primary_expr:
-@@ -1298,7 +1302,11 @@ type_spec2:
-        Right3 (TypeName (name, Ast_c.noTypedefDef())),[] }
- 
-  | Ttypeof TOPar assign_expr TCPar { Right3 (TypeOfExpr ($3)), [$1;$2;$4] }
-- | Ttypeof TOPar type_name   TCPar { Right3 (TypeOfType ($3)), [$1;$2;$4] }
-+ | Ttypeof TOPar type_name   TCPar
-+     { let ret = Right3 (TypeOfType (snd $3)), [$1;$2;$4] in
-+       match (fst $3) with (* warn about dropped attributes *)
-+         [] -> ret
-+       | _ -> warning "attributes found in typeof(...), dropping" ret }
- 
- /*(*----------------------------*)*/
- /*(* workarounds *)*/
-@@ -1531,12 +1539,12 @@ type_qualif_list:
- type_name:
-  | spec_qualif_list
-      { let (attrs, ds) = $1 in
--       let (returnType, _) = fixDeclSpecForDecl ds in returnType }
-+       let (returnType, _) = fixDeclSpecForDecl ds in (attrs, returnType) }
-  | spec_qualif_list abstract_declaratort
-      { let (attrs1, ds) = $1 in
-        let (attrs2, fn) = $2 in
-        let (returnType, _) = fixDeclSpecForDecl ds in
--       fn returnType }
-+       (attrs1@attrs2, fn returnType) }
- 
- 
- 
+diff --git a/parsing_cocci/ast0_cocci.ml b/parsing_cocci/ast0_cocci.ml
+index a06d99ae..b65400be 100644
+--- a/parsing_cocci/ast0_cocci.ml
++++ b/parsing_cocci/ast0_cocci.ml
+@@ -123,8 +123,8 @@ and base_expression =
+ 	              string mcode (* ] *)
+   | RecordAccess   of expression * string mcode (* . *) * ident
+   | RecordPtAccess of expression * string mcode (* -> *) * ident
+-  | Cast           of string mcode (* ( *) * typeC * string mcode (* ) *) *
+-                      expression
++  | Cast           of string mcode (* ( *) * typeC * attr list *
++                      string mcode (* ) *) * expression
+   | SizeOfExpr     of string mcode (* sizeof *) * expression
+   | SizeOfType     of string mcode (* sizeof *) * string mcode (* ( *) *
+                       typeC * string mcode (* ) *)
+diff --git a/parsing_cocci/ast0_cocci.mli b/parsing_cocci/ast0_cocci.mli
+index 5c2520be..08a4b33b 100644
+--- a/parsing_cocci/ast0_cocci.mli
++++ b/parsing_cocci/ast0_cocci.mli
+@@ -114,8 +114,8 @@ and base_expression =
+ 	              string mcode (* ] *)
+   | RecordAccess   of expression * string mcode (* . *) * ident
+   | RecordPtAccess of expression * string mcode (* -> *) * ident
+-  | Cast           of string mcode (* ( *) * typeC * string mcode (* ) *) *
+-                      expression
++  | Cast           of string mcode (* ( *) * typeC * attr list *
++                      string mcode (* ) *) * expression
+   | SizeOfExpr     of string mcode (* sizeof *) * expression
+   | SizeOfType     of string mcode (* sizeof *) * string mcode (* ( *) *
+                       typeC * string mcode (* ) *)
 -- 
 2.21.1
 
