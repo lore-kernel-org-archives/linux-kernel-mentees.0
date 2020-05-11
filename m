@@ -8,97 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36AA2C47255
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:09:26 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 200E4C54E4B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:09:29 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 096BB20720
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:09:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E6A2920720
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:09:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QyN2+VqA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 096BB20720
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gYqQtwVN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E6A2920720
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id ED4A5888FC;
-	Mon, 11 May 2020 10:09:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CA50B86A11;
+	Mon, 11 May 2020 10:09:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9akq9OzPlPxd; Mon, 11 May 2020 10:09:25 +0000 (UTC)
+	with ESMTP id yAgC0uNaphxb; Mon, 11 May 2020 10:09:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6411A888E4;
-	Mon, 11 May 2020 10:09:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 54E2486990;
+	Mon, 11 May 2020 10:09:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60401C08A2;
-	Mon, 11 May 2020 10:09:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5102EC0892;
+	Mon, 11 May 2020 10:09:23 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8959BC089E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 861AEC0176
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:09:24 +0000 (UTC)
+ Mon, 11 May 2020 10:09:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 749A724B59
+ by silver.osuosl.org (Postfix) with ESMTP id 6BEDE24B59
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:09:24 +0000 (UTC)
+ Mon, 11 May 2020 10:09:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AGaiFPxU07jc
+ with ESMTP id aSe2AL4yZ2JE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:09:24 +0000 (UTC)
+ Mon, 11 May 2020 10:09:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by silver.osuosl.org (Postfix) with ESMTPS id EFAE62050E
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id 9CD992050E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:09:23 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id f7so4528552pfa.9
+ Mon, 11 May 2020 10:09:19 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id p25so4521351pfn.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 03:09:23 -0700 (PDT)
+ Mon, 11 May 2020 03:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XuPFrwuWq6NuiENxiCfyOsgjvaeRNzYflde0XQeU41k=;
- b=QyN2+VqAWmY39JYUX0uPwnhfq1lXa5sQISqDl6C0kv7zwJatCwnR06z1AMeNpAoC5K
- HXogBGmzxgDXtUzizQK8a1gb5wj7qA/oSPRBBGFb1Fw+z5ygBmKPaVJwfrmMv6XXCmTP
- fUjwGiZbbGmqgXDuoSgNRZfnNhM7XOpD93PA5jE4daD9PDcVe/Vei4c0qnhZjCaNJDZq
- O+kGPvwSlYTjC54rrcIJSRkjONFYUwycNH5lpcm+KJGbgD1X55PC7fZYRsNcTyMUFvZQ
- O33Z9bYpgGs3TY3o9B+zo0NgEAealA05gUQ0XdXVuvXo8l9Y1ZK4JO7Tw3c21Ux9AMSx
- sm8w==
+ bh=Rrzz3VKyAplkiQoSTk8Ir4A1V86JltGAz16X3d5PyBk=;
+ b=gYqQtwVNfi/qI9rSvlM6nRyefd+yF2IW6iR6I1BOCn8AimdnnkQpEmBMnagSW7re7L
+ XbCHpBjwShuVdV4lUV7BjIQv9qnWOyIaj6QZPbRUtiYRji9ZLcUF1HnnUJkwh2txEnrM
+ cEpOPwPkTBQzZ+eis0rrZZDTPHSxPweW5twMTTlmoaJ+/xZi+PadBR1pid492qHHtADq
+ nmkAj1SyQOXQEk3cZwYGqqyDCuCuotioHrAX/J/wyijm/mAb06NVEU16Qy83Xn+X6xAG
+ B04GJrV9rKl6oXgpFNSVir+kDI3UXSkudrrTN5GX3QtlhUH1vukR1ZBfW+rqJisPWKEv
+ ko5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XuPFrwuWq6NuiENxiCfyOsgjvaeRNzYflde0XQeU41k=;
- b=oHNwj4xPu1SoCW4mwhcenWh9ywd1dwR65gevZVS1WKFeFf9gv9LyxOEaC4N9RyO9eT
- SINOD2cm/GQPpUqz7agupfFVAY28HctNrvUeUg6SG0AuxZ0ZP8xzytlJ8UxY1aDFxGxR
- hixhOklDdIlnZ17F2v90ocQC2THT5Mp9g1xRUNC5hT0UNHSAg32MS7fW+llYD1TPOu4H
- 3RUgufrF9IKphHmUoHFuQJEFFCEp69NCVdD6beDdGnOHnJXNI/tmS1+r4qLcHs3S1qyL
- AskhEw549qzRHeUwSKJB1DDPVOi3Uo0FDV7C+etP0fiT4Q6E0zLZtuSTVIT6ng4qjnwy
- C+ow==
-X-Gm-Message-State: AGi0PubpLDeCAdHJOhgTZV9u/fJWf4BdANGjaDs+jEVCt1EJDEU14psQ
- vie4Gu3J9y8xwy+pDMko+UQ=
-X-Google-Smtp-Source: APiQypJEJcH5C+xRyh0XzWcTfMI/YAkOn6uXNXTLi6CnDmyv4AeQHQW9gU1GaPv0MrCh6TTVfs3jnQ==
-X-Received: by 2002:a65:4bc6:: with SMTP id p6mr13722210pgr.20.1589191763466; 
- Mon, 11 May 2020 03:09:23 -0700 (PDT)
+ bh=Rrzz3VKyAplkiQoSTk8Ir4A1V86JltGAz16X3d5PyBk=;
+ b=mYiuDyViqNfQQVloRQ3rjVFnF8vMqSRoswc6tlqVQCWT5Y7tYfPrxS5rdn5ut8UbNW
+ uHBiDPtIBEK5t5dvX66Ru14vFd8rQpGDtosppPcGqoU0NRNgjik2srLXQRa+s0t7BKyP
+ 0vUL7V/OW+3x4TVS6ZWA58E0cCS8Ek6d+rJzdfAoojJWAnZvGCu/LHX6N1B6sSxHieA/
+ HkHQcI0F2HxHUCSUj9Kswtfh0eRqGLnPrBxoN/EXiPTQRQvT1CLo4UczljisB6syuUGb
+ yaRgYLBnbpljzgZOXqcDcgnMSXgdcBhuuC2hg3+ikO1Cw7+u+vYTW3IRc4PLtj+Qpe65
+ ZXhg==
+X-Gm-Message-State: AGi0PuaKk8XASHoBwwOPhWV45zmPbXbfPPSD9li6SPDE7+nr/MCKd4tN
+ JlvaltpyXDNPqQWr+OAtVk0=
+X-Google-Smtp-Source: APiQypIjzRFzAWBGb/Qu3UbwTKWxBKMVNttmUo1J+8JvWnjOtoH3IKYaYJuBrAh/vpohzETOJIN+Lw==
+X-Received: by 2002:a62:3006:: with SMTP id w6mr15555845pfw.29.1589191759165; 
+ Mon, 11 May 2020 03:09:19 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:382:66db:4729:1ab8:2139:8945])
  by smtp.gmail.com with ESMTPSA id
- o99sm9772994pjo.8.2020.05.11.03.09.19
+ o99sm9772994pjo.8.2020.05.11.03.09.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 03:09:23 -0700 (PDT)
+ Mon, 11 May 2020 03:09:18 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Mon, 11 May 2020 15:37:10 +0530
-Message-Id: <20200511100715.19819-28-jaskaransingh7654321@gmail.com>
+Date: Mon, 11 May 2020 15:37:09 +0530
+Message-Id: <20200511100715.19819-27-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200511100715.19819-1-jaskaransingh7654321@gmail.com>
 References: <20200511100715.19819-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 27/32] engine: cocci_vs_c: Match
-	Cast attributes
+Subject: [Linux-kernel-mentees] [PATCH v2 26/32] engine:
+	check_exhaustive_pattern: Reflect Cast attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,76 +116,27 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Cast attributes are added to the C and SmPL ASTs. Match these attributes
-in cocci_vs_c.ml.
+Cast attributes are added to the SmPL AST. Reflect these changes in
+check_exhaustive_pattern.ml.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- engine/cocci_vs_c.ml | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ engine/check_exhaustive_pattern.ml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/engine/cocci_vs_c.ml b/engine/cocci_vs_c.ml
-index 317fa71e..3f46a60c 100644
---- a/engine/cocci_vs_c.ml
-+++ b/engine/cocci_vs_c.ml
-@@ -1121,7 +1121,7 @@ let rec (expression: (A.expression, Ast_c.expression) matcher) =
-        * differentiate between different cases *)
-       let rec matches_id = function
- 	  B.Ident(name) -> true
--	| B.Cast(ty,e) -> matches_id (B.unwrap_expr e)
-+	| B.Cast(ty,a,e) -> matches_id (B.unwrap_expr e)
- 	| _ -> false in
-       let form_ok =
- 	match (form,expr) with
-@@ -1137,7 +1137,7 @@ let rec (expression: (A.expression, Ast_c.expression) matcher) =
- 		    true
-                   end
-                   else false
--	      | B.Cast(ty,e) -> matches (B.unwrap_expr e)
-+	      | B.Cast(ty,a,e) -> matches (B.unwrap_expr e)
- 	      |	B.Unary(e,B.UnMinus) -> matches (B.unwrap_expr e)
- 	      | B.SizeOfExpr(exp) -> true
- 	      | B.SizeOfType(ty) -> true
-@@ -1525,16 +1525,26 @@ let rec (expression: (A.expression, Ast_c.expression) matcher) =
-    *    by trying | ea, B.Case (typb, eb) -> match_e_e ea eb ?
-    *)
- 
--  | A.Cast (ia1, typa, ia2, ea), ((B.Cast (typb, eb), typ),ii) ->
-+  | A.Cast (ia1, typa, attrsa, ia2, ea),
-+    ((B.Cast (typb, attrsb, eb), typ),ii) ->
-+
-+      let attr_allminus =
-+        let mcode_is_not_context = function
-+          | (_,_,A.CONTEXT(_,_),_) -> false
-+          | _ -> true in
-+        check_allminus.Visitor_ast.combiner_fullType typa &&
-+        List.for_all mcode_is_not_context attrsa in
-+
-       let (ib1, ib2) = tuple_of_list2 ii in
-       fullType typa typb >>= (fun typa typb ->
-+      attribute_list attr_allminus attrsa attrsb >>= (fun attrsa attrsb ->
-       expression ea eb >>= (fun ea eb ->
-       tokenf ia1 ib1 >>= (fun ia1 ib1 ->
-       tokenf ia2 ib2 >>= (fun ia2 ib2 ->
-         return (
--          ((A.Cast (ia1, typa, ia2, ea))) +> wa,
--          ((B.Cast (typb, eb),typ),[ib1;ib2])
--        )))))
-+          ((A.Cast (ia1, typa, attrsa, ia2, ea))) +> wa,
-+          ((B.Cast (typb, attrsb, eb),typ),[ib1;ib2])
-+        ))))))
- 
-   | A.SizeOfExpr (ia1, ea), ((B.SizeOfExpr (eb), typ),ii) ->
-       let ib1 = tuple_of_list1 ii in
-@@ -1641,7 +1651,7 @@ let rec (expression: (A.expression, Ast_c.expression) matcher) =
- 
- 
-   | _,
--     (((B.Cast (_, _)|B.ParenExpr _|B.SizeOfType _|B.SizeOfExpr _|
-+     (((B.Cast (_, _, _)|B.ParenExpr _|B.SizeOfType _|B.SizeOfExpr _|
-      B.Constructor (_, _)|
-      B.RecordPtAccess (_, _)|
-      B.RecordAccess (_, _)|B.ArrayAccess (_, _)|
+diff --git a/engine/check_exhaustive_pattern.ml b/engine/check_exhaustive_pattern.ml
+index 903c32ff..d7785fc7 100644
+--- a/engine/check_exhaustive_pattern.ml
++++ b/engine/check_exhaustive_pattern.ml
+@@ -123,7 +123,7 @@ let dumb_astcocci_expr = function
+  | A.ArrayAccess (ea1, _, ea2, _) -> ()
+  | A.RecordAccess (ea, _, ida) -> ()
+  | A.RecordPtAccess (ea, _, ida) -> ()
+- | A.Cast (_, typa, _, ea) -> ()
++ | A.Cast (_, typa, attra, _, ea) -> ()
+  | A.SizeOfExpr (_, ea) -> ()
+  | A.SizeOfType (_, _, typa, _) -> ()
+  | A.TypeExp (typa) -> ()
 -- 
 2.21.1
 
