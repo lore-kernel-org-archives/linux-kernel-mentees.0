@@ -8,97 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFCFFC54E8D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:09:05 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E58BEC47255
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:09:06 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B6D920720
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:09:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BBC4120720
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:09:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7GeQ6an"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B6D920720
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8O5CTm5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBC4120720
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5C4C087954;
-	Mon, 11 May 2020 10:09:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8666624A2C;
+	Mon, 11 May 2020 10:09:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xwY0p19L0LT9; Mon, 11 May 2020 10:09:04 +0000 (UTC)
+	with ESMTP id PW2l2j0yO6N0; Mon, 11 May 2020 10:09:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B62A08788B;
-	Mon, 11 May 2020 10:09:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EC6E32050E;
+	Mon, 11 May 2020 10:09:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B3B21C0176;
-	Mon, 11 May 2020 10:09:04 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0BAA9C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DB861C0176;
+	Mon, 11 May 2020 10:09:05 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D8A8AC0890
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Mon, 11 May 2020 10:09:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EF5E887277
+ by silver.osuosl.org (Postfix) with ESMTP id C83BB24B59
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:09:03 +0000 (UTC)
+ Mon, 11 May 2020 10:09:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RK9UPNYbyU8W
+ with ESMTP id oIOqsrMNJh8w
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Mon, 11 May 2020 10:09:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 4001E87954
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id BD1892050E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:08:52 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id s11so856764pgv.13
+ Mon, 11 May 2020 10:09:03 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id g11so507342plp.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 03:08:52 -0700 (PDT)
+ Mon, 11 May 2020 03:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9+LCecuHRzdR/o7M/ikGH5G4JrMwoDyf73lHut0jbu0=;
- b=h7GeQ6angKT+XYjyho/EzT2LYrafE7OVEX1t7xcLS3lNqkor/j9ihEJF99yDW0QRny
- vAdyzmLTuWQwdKT6AngTHhE8B0ZjH9Gct1z/7MPIt8bZeD+E6jSXOUUZY2CSf51ekOIz
- +d6xOeViKZdrNFFX+GEjjh9dtQ/wZ/5DwgKtO/LfwCT+AEZ3Vkn8sJ4/RoOyCRrOlSdK
- sW3nHjaiCrPU8MAl8S3WAxlrA8cfcheYwCEiYNlJEUCP6tFxRSItiXgRGNv/5nFKQ8H8
- mIJXr5rMECbp7LIPgH8dn6auIX9F+i2LstWrnkf95Zpe0oWdTiD6kEU4K2dN+Mss/yld
- 0RIA==
+ bh=Tn9edAsW1urCa0RXAKnfsOWITWdzvvWWDpT5zU7AZJA=;
+ b=g8O5CTm5oAUlHGo1vUcdXS97l40z3DmnqGVu45l9YeUbp3hmz1CKayQeje+Ps4KFdZ
+ YGfwaSPzsrt3gsVpF6pzwlZWktrEQcGlD78hiOBlIC7AWbOhNExn20JOahnC6ySkmqG0
+ s4C33VzAWz4xbOrw8PmWJVWGd1X4Gc/WgXJFSPro9g3zomJ9X6cVgolDYasTB44d002n
+ yZcBPjLdPpAWZNU4zyMaDjwN8M3SOELf109lV7urjo9+G1nWPZyFNX4343gc/bySbqOw
+ vGsnmuXE7eSPwk71KM+7x+vD+hiagA6H3FIxM/SZxrd6XX22yvQsBn0ydfVB1joq41tn
+ g7BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9+LCecuHRzdR/o7M/ikGH5G4JrMwoDyf73lHut0jbu0=;
- b=iTzAFoTM1e3GIJX9uv8/9YPrtuR01b7EDAgJQA7hVXB7X6qGPNIYFKXVo1dSbPEZ5n
- oxvCPuWYjuzULFZXIrv+c8WzdK7VRe0G1BF1mDFctubDHiMKJI+5J1ZADew1uxBQS8eI
- h7g6rF1MqJ1BfJV2JvDuWNMHRjmEECH1p/A3IEOFYXPCVegFFfB+56vQrP71kYLqEbhi
- CJyDGxkzRzvSh8QuMg7Gvz97Bzau74ho+V41SMdJYSGAznbcFct9y5I649Zf1GDGpWr7
- k5GM6JfokCPp0SdsieY/5A8SqNO05fsBFd25jZesxYvpIdv+Hnqw57pmiXzBBe4T6+4N
- w6fA==
-X-Gm-Message-State: AGi0PuaWMuTEQltB44c7c0hgQvKKibXq9YM4LbdROEC9UgDLqcj9JaqV
- Rqpk3sFGVn59a2MfyaiAuqc=
-X-Google-Smtp-Source: APiQypIPXNUv4FjDzB/h0HAlb6FddelA+Zob+scQO3d444cuX7sBPXiFL7cOBR2jTYcvF6VyeuzB3A==
-X-Received: by 2002:a62:1b84:: with SMTP id
- b126mr15566787pfb.123.1589191731833; 
- Mon, 11 May 2020 03:08:51 -0700 (PDT)
+ bh=Tn9edAsW1urCa0RXAKnfsOWITWdzvvWWDpT5zU7AZJA=;
+ b=Idf3VwlDLrw6sbeq/bv6cW60KcANQKugoINrVRwqim5JEihE6dLCBuWELinIc1KcD2
+ 02pj0H/oNtmGT5voM/9B3bEPNDFA1LTCgzqt5XFYoe19ByuytLAU5ZJhdOJOVfnHRHdj
+ KnrgrvLoOKaNrs6Ec6SUUIgw5wl/yVudk97EMUkMnFDHsaZVsfE5kz9dwWqLhsWbycwN
+ j7y30Qd7HZVx9V0H6a6Bv84ru1ktzNt0JM9Rs7n9Ca387ZnRcYcUxlQMi5tZidhwzH2q
+ 80mATn6mSGzNoDFtgL+/KlyiJC5iUOgcNXC/s2nWWpNRIsDPuUhgqoKSpMLeH09JZ+Q8
+ QQgA==
+X-Gm-Message-State: AGi0PuaH/GNPFW27E+A94cShglS7QEyni5KwqQcAwHo26ZwOf+DFDl6b
+ acxU5NFaeBABmoaKKBhYFWw=
+X-Google-Smtp-Source: APiQypIpkKwC38Q+YSAON//qf+kPnCwjI6WyDSmpJR2uqaWE4dtH7tZsYWZkK5DNiEg9IPSdYp3wSw==
+X-Received: by 2002:a17:90a:d312:: with SMTP id
+ p18mr20612736pju.200.1589191743346; 
+ Mon, 11 May 2020 03:09:03 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:382:66db:4729:1ab8:2139:8945])
  by smtp.gmail.com with ESMTPSA id
- o99sm9772994pjo.8.2020.05.11.03.08.48
+ o99sm9772994pjo.8.2020.05.11.03.08.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 03:08:51 -0700 (PDT)
+ Mon, 11 May 2020 03:09:02 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Mon, 11 May 2020 15:37:02 +0530
-Message-Id: <20200511100715.19819-20-jaskaransingh7654321@gmail.com>
+Date: Mon, 11 May 2020 15:37:05 +0530
+Message-Id: <20200511100715.19819-23-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200511100715.19819-1-jaskaransingh7654321@gmail.com>
 References: <20200511100715.19819-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 19/32] parsing_cocci: unify_ast:
+Subject: [Linux-kernel-mentees] [PATCH v2 22/32] parsing_c: pretty_print_c:
 	Reflect Cast attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -117,31 +117,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Cast attributes are added to the SmPL AST. Reflect these changes in
-unify_ast.ml.
+Cast attributes are added to the SmPL AST. Print these attributes in
+pretty_print_c.ml.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_cocci/unify_ast.ml | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ parsing_c/pretty_print_c.ml | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/parsing_cocci/unify_ast.ml b/parsing_cocci/unify_ast.ml
-index 68cb6613..25287503 100644
---- a/parsing_cocci/unify_ast.ml
-+++ b/parsing_cocci/unify_ast.ml
-@@ -220,8 +220,10 @@ and unify_expression e1 e2 =
-       unify_expression e1 e2 && unify_ident fld1 fld2
-   | (Ast.RecordPtAccess(e1,pt1,fld1),Ast.RecordPtAccess(e2,pt2,fld2)) ->
-       unify_expression e1 e2 && unify_ident fld1 fld2
--  | (Ast.Cast(lp1,ty1,rp1,e1),Ast.Cast(lp2,ty2,rp2,e2)) ->
--      unify_fullType ty1 ty2 && unify_expression e1 e2
-+  | (Ast.Cast(lp1,ty1,attr1,rp1,e1),Ast.Cast(lp2,ty2,attr2,rp2,e2)) ->
-+      if List.for_all2 unify_mcode attr1 attr2
-+      then unify_fullType ty1 ty2 && unify_expression e1 e2
-+      else false
-   | (Ast.SizeOfExpr(szf1,e1),Ast.SizeOfExpr(szf2,e2)) ->
-       unify_expression e1 e2
-   | (Ast.SizeOfType(szf1,lp1,ty1,rp1),Ast.SizeOfType(szf2,lp2,ty2,rp2)) ->
+diff --git a/parsing_c/pretty_print_c.ml b/parsing_c/pretty_print_c.ml
+index 99a7e0ed..6e9a418e 100644
+--- a/parsing_c/pretty_print_c.ml
++++ b/parsing_c/pretty_print_c.ml
+@@ -146,8 +146,9 @@ let mk_pretty_printers
+ 	pp_expression e
+     | SizeOfType  (t),     [i1;i2;i3] ->
+         pr_elem i1; pr_elem i2; pp_type t; pr_elem i3
+-    | Cast    (t, e),      [i1;i2] ->
+-        pr_elem i1; pp_type t; pr_elem i2; pp_expression e
++    | Cast    (t, a, e),   [i1;i2] ->
++        pr_elem i1; pp_type t; a +> pp_attributes pr_elem pr_space;
++        pr_elem i2; pp_expression e;
+ 
+     | StatementExpr (statxs, [ii1;ii2]),  [i1;i2] ->
+         pr_elem i1;
+@@ -184,7 +185,7 @@ let mk_pretty_printers
+     | CondExpr (_,_,_) | Sequence (_,_) | Assignment (_,_,_)
+     | Postfix (_,_) | Infix (_,_) | Unary (_,_) | Binary (_,_,_)
+     | ArrayAccess (_,_) | RecordAccess (_,_) | RecordPtAccess (_,_)
+-    | SizeOfExpr (_) | SizeOfType (_) | Cast (_,_)
++    | SizeOfExpr (_) | SizeOfType (_) | Cast (_,_,_)
+     | StatementExpr (_) | Constructor _
+     | ParenExpr (_) | New (_) | Delete (_,_)
+     | Defined (_)),_ -> raise (Impossible 95)
 -- 
 2.21.1
 
