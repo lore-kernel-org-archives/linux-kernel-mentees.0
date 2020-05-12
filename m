@@ -1,105 +1,115 @@
-Return-Path: <SRS0=cT8e=6Z=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=I4PQ=62=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-7.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96254C47255
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C91CC54E8F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 May 2020 05:17:18 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 62D292075E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 May 2020 10:14:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E6D3A2072B
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 May 2020 05:17:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GoTenM56"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62D292075E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2c3q7WI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E6D3A2072B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3DE1A24C2A;
-	Mon, 11 May 2020 10:14:49 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 419992578F;
+	Tue, 12 May 2020 05:17:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4wXoUyHm6pZt; Mon, 11 May 2020 10:14:47 +0000 (UTC)
+	with ESMTP id njkvcv1t6r5a; Tue, 12 May 2020 05:17:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 498DD24B6E;
-	Mon, 11 May 2020 10:14:47 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2DA90220E5;
+	Tue, 12 May 2020 05:17:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3924FC0176;
-	Mon, 11 May 2020 10:14:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0BFC1C088A;
+	Tue, 12 May 2020 05:17:16 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 38F97C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9CE4DC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:14:46 +0000 (UTC)
+ Tue, 12 May 2020 05:17:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3392087885
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8514488246
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:14:46 +0000 (UTC)
+ Tue, 12 May 2020 05:17:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wBz8cvi4x-XC
+ with ESMTP id zOuuhAkAMn0m
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:14:45 +0000 (UTC)
+ Tue, 12 May 2020 05:17:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D0F2887858
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 687A188236
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 10:14:45 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id g11so512406plp.1
+ Tue, 12 May 2020 05:17:13 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id y9so2289544plk.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 May 2020 03:14:45 -0700 (PDT)
+ Mon, 11 May 2020 22:17:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=teePH2Ulat8wodcKd5cQjWVTcK7pUQ3XouFRKvY7zBg=;
- b=GoTenM5697ZnDs74wlK89k1TnX1ADHjDvlW3XdLBQbdTwmzgUWttoJ9B24Zwi8i2qx
- OWfuN23RdxMZbMsCo3IHfjKdtRKRUfjN6QksZbkwwBGnzuiuWmeXhajflUgyrFHxjj4P
- OPGqq30oNzqw5/Ybuu0UbZ1845lHl49YAfVSGDVlwM6bvEt1dkVc49WQ9DjOa+D4Yhg6
- wyjRzLu4jrCuV1H/EI58kJHZUh5eCpwZ69JJqwxIk7HLaurTNZUZ3+AWeZ0kWuGfkvom
- 5AjowPlHmDRTO/4kEzwW1ygcF8TEhZjrKcPYHxlEINHvGpLiquSRjD4YTbdrOB5uTrQY
- Z7dg==
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=+2ay2oeZbTTZYj01EeQhBdIfxindxwr5ydyTm16wc4U=;
+ b=f2c3q7WIslQsR+0M6OaXwLVTyqpY2cF4HiUMcFHRAOrXXeYmfNi/cc0HRal3EI1ITS
+ MGZ4dRcoHZJPS05iCpjP/ik//YCn9W37G9dUyKMtY7655ZMHYUVhkYq0rPtlC7pNQQPG
+ NyjhlTZ/FT5fMbgYlXsaVkfg9pE+YK4y6vosNzLqlkbfppVpbunj12W9Jba68KcRu/95
+ 8mAgoL2QSIgOEASLnCpny+ZToVEg0/mD66dN9o4qx7FAdhXZSwekoP0kAfM27DwEsjTi
+ A6R6qc1ZCOo6lJ87hOVoB5SH6V1fgkDY9OdoAxb7d4qRJQ+kWrYdkUyzvAdghXfQyP6O
+ aLmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=teePH2Ulat8wodcKd5cQjWVTcK7pUQ3XouFRKvY7zBg=;
- b=g55WzDGa8BMokvnUdaZiW8SZFlTNgxeawYYGWn1c0p/nHOd/U9o20FEVj3RTREG9nw
- 5ycJqdAHB1sX/jsCkSl0F2rSBohdoYpa2vYa1xi24lzHVjdTu5U/rtwF7Id//XZBPioD
- SHb/hMsB9yY9HcNY3riBjtMulF4dbzH6SQAP5YSsaldLeSlJ0PM+QieN5pQfXOGdHUFT
- 3YHcTP8d0DAwjS+0R3nYwMbk0VqPFJ9FDcdYpvSh4g8cLZcscDsaVZX+S0rlaE5MgbGv
- b/qv/zCkQAIj7EJhO0CNrZg52KPzgy6zKZvYMn7tBsFVRV8e+hkwd6EUxUmjHSxVQXXd
- 1lsg==
-X-Gm-Message-State: AGi0PuYxYtx0MG/G85gjB3Y3C+pktpgFGqBahUe8ZQTkzPouELyErRSJ
- YQY5whBP+plYkX/TwPIsJds=
-X-Google-Smtp-Source: APiQypKf5mo4ixZTBH4n8qhFX+5NZdpNjTdpgFqwckBo/YPOpy/rstxypbti1GZqqy72NFPs28M/sA==
-X-Received: by 2002:a17:90a:32e3:: with SMTP id
- l90mr20849005pjb.214.1589192085433; 
- Mon, 11 May 2020 03:14:45 -0700 (PDT)
-Received: from localhost.localdomain ([2405:204:382:66db:4729:1ab8:2139:8945])
- by smtp.gmail.com with ESMTPSA id
- j14sm10021121pjm.27.2020.05.11.03.14.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 03:14:45 -0700 (PDT)
-From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-To: cocci@systeme.lip6.fr
-Date: Mon, 11 May 2020 15:43:00 +0530
-Message-Id: <20200511101300.11101-24-jaskaransingh7654321@gmail.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200511101300.11101-1-jaskaransingh7654321@gmail.com>
-References: <20200511101300.11101-1-jaskaransingh7654321@gmail.com>
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=+2ay2oeZbTTZYj01EeQhBdIfxindxwr5ydyTm16wc4U=;
+ b=Yp4rSI8JewRS5s3HdsZXu+JZ4hGeWFuCZI4S78Ot4H895nJJTnnmoHh7OchdiguAga
+ 6Vz3/EDb2wEJ5rO5YeHybDRr/Z3rnoj287HBzV+FAiLCsAeXOgXwCeGxuH8F99b8CqHZ
+ oMP9L57rVCHtGDX9L2/yN4qISrA6YV+aSYQ4oRTalcCGPTk94zFcWfcz+iUuz3qLYpz9
+ 4/qfW4JN6o+R6P+WP151AilkmEvXhCYDrQdcJMXqUOhWrTH7Mqywvb/P3u8MF3WX4HsR
+ 2cl+r98Nvt17T0sIS7GOsygU9852FCvUf84eZCCP9E4l7H+Ghynzz3tT/SiSV4vHOe6L
+ QPZw==
+X-Gm-Message-State: AGi0PubFP9RDZpQosjLMyqp/alyu+dyNzcvLDfwZDrll/DziATmhF/c0
+ /6VdaVkxx3/8I/4ugvq5VQ==
+X-Google-Smtp-Source: APiQypJe+zYQQ39G7J00w4AZT72hfN6S2zR1UBIpPzZLjxEghC6OTN3fc79JS4tOc2wBcNVm9WqgDQ==
+X-Received: by 2002:a17:90a:f40f:: with SMTP id
+ ch15mr22882471pjb.178.1589260632835; 
+ Mon, 11 May 2020 22:17:12 -0700 (PDT)
+Received: from madhuparna-HP-Notebook
+ ([2402:3a80:cf2:a0bc:89fb:f860:f992:54ab])
+ by smtp.gmail.com with ESMTPSA id e11sm10556439pfl.85.2020.05.11.22.17.08
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 11 May 2020 22:17:11 -0700 (PDT)
+From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+X-Google-Original-From: Madhuparna Bhowmik <change_this_user_name@gmail.com>
+Date: Tue, 12 May 2020 10:47:05 +0530
+To: sfr@canb.auug.org.au
+Message-ID: <20200512051705.GB9585@madhuparna-HP-Notebook>
+References: <20200509072243.3141-1-frextrite@gmail.com>
+ <20200509072243.3141-2-frextrite@gmail.com>
+ <20200509141938.028fa959@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v3 23/23] tests: Add test case to
-	detect parameter attributes
+Content-Disposition: inline
+In-Reply-To: <20200509141938.028fa959@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: "Paul E . McKenney" <paulmck@kernel.org>,
+ Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+ Joel Fernandes <joel@joelfernandes.org>, kuba@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S . Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH net 2/2 RESEND] ipmr: Add lockdep
+ expression to ipmr_for_each_table macro
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,64 +127,162 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a test case to detect parameter attributes in C. The test case
-changes the type of the parameter if it has the attribute. The cases
-covered are for when the attribute is:
+On Sat, May 09, 2020 at 02:19:38PM -0700, Jakub Kicinski wrote:
+> On Sat,  9 May 2020 12:52:44 +0530 Amol Grover wrote:
+> > ipmr_for_each_table() uses list_for_each_entry_rcu() for
+> > traversing outside of an RCU read-side critical section but
+> > under the protection of pernet_ops_rwsem. Hence add the
+> > corresponding lockdep expression to silence the following
+> > false-positive warning at boot:
+> 
+> Thanks for the fix, the warning has been annoying me as well!
+> 
+> > [    0.645292] =============================
+> > [    0.645294] WARNING: suspicious RCU usage
+> > [    0.645296] 5.5.4-stable #17 Not tainted
+> > [    0.645297] -----------------------------
+> > [    0.645299] net/ipv4/ipmr.c:136 RCU-list traversed in non-reader section!!
+> 
+> please provide a fuller stack trace, it would have helped the review
+> 
+> > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> > ---
+> >  net/ipv4/ipmr.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/net/ipv4/ipmr.c b/net/ipv4/ipmr.c
+> > index 99c864eb6e34..950ffe9943da 100644
+> > --- a/net/ipv4/ipmr.c
+> > +++ b/net/ipv4/ipmr.c
+> > @@ -109,9 +109,10 @@ static void mroute_clean_tables(struct mr_table *mrt, int flags);
+> >  static void ipmr_expire_process(struct timer_list *t);
+> >  
+> >  #ifdef CONFIG_IP_MROUTE_MULTIPLE_TABLES
+> > -#define ipmr_for_each_table(mrt, net) \
+> > -	list_for_each_entry_rcu(mrt, &net->ipv4.mr_tables, list, \
+> > -				lockdep_rtnl_is_held())
+> > +#define ipmr_for_each_table(mrt, net)					\
+> > +	list_for_each_entry_rcu(mrt, &net->ipv4.mr_tables, list,	\
+> > +				lockdep_rtnl_is_held() ||		\
+> > +				lockdep_is_held(&pernet_ops_rwsem))
+> 
+> This is a strange condition, IMHO. How can we be fine with either
+> lock.. This is supposed to be the writer side lock, one can't have 
+> two writer side locks..
+> 
+> I think what is happening is this:
+> 
+> ipmr_net_init() -> ipmr_rules_init() -> ipmr_new_table()
+> 
+> ipmr_new_table() returns an existing table if there is one, but
+> obviously none can exist at init.  So a better fix would be:
+> 
+> #define ipmr_for_each_table(mrt, net)					\
+> 	list_for_each_entry_rcu(mrt, &net->ipv4.mr_tables, list,	\
+> 				lockdep_rtnl_is_held() ||		\
+> 				list_empty(&net->ipv4.mr_tables))
+>
+(adding Stephen)
 
-- before the parameter type.
-- after the parameter type and before the parameter identifier.
-- after the parameter identifier.
+Hi Jakub,
 
-Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
----
- tests/detect_param_attr.c     |  3 +++
- tests/detect_param_attr.cocci | 13 +++++++++++++
- tests/detect_param_attr.res   |  3 +++
- 3 files changed, 19 insertions(+)
- create mode 100644 tests/detect_param_attr.c
- create mode 100644 tests/detect_param_attr.cocci
- create mode 100644 tests/detect_param_attr.res
+Thank you for your suggestion about this patch.
+Here is a stack trace for ipmr.c:
 
-diff --git a/tests/detect_param_attr.c b/tests/detect_param_attr.c
-new file mode 100644
-index 00000000..160d6af2
---- /dev/null
-+++ b/tests/detect_param_attr.c
-@@ -0,0 +1,3 @@
-+int func1(int __nocast u, __nocast int z, int q __nocast, int w) {
-+	return 0;
-+}
-diff --git a/tests/detect_param_attr.cocci b/tests/detect_param_attr.cocci
-new file mode 100644
-index 00000000..53b8668f
---- /dev/null
-+++ b/tests/detect_param_attr.cocci
-@@ -0,0 +1,13 @@
-+@@
-+type T1, T2;
-+attribute name __nocast;
-+identifier x, y;
-+@@
-+
-+T1 x(
-+	...,
-+-	T2
-++	char
-+	y __nocast,
-+	...
-+   ) {...}
-diff --git a/tests/detect_param_attr.res b/tests/detect_param_attr.res
-new file mode 100644
-index 00000000..b3db290e
---- /dev/null
-+++ b/tests/detect_param_attr.res
-@@ -0,0 +1,3 @@
-+int func1(char __nocast u, __nocast char z, char q __nocast, int w) {
-+	return 0;
-+}
--- 
-2.21.1
+[    1.515015] TCP: Hash tables configured (established 8192 bind 8192)
+[    1.516790] UDP hash table entries: 512 (order: 3, 49152 bytes, linear)
+[    1.518177] UDP-Lite hash table entries: 512 (order: 3, 49152 bytes, linear)
+[    1.519805]
+[    1.520178] =============================
+[    1.520982] WARNING: suspicious RCU usage
+[    1.521798] 5.7.0-rc2-00006-gb35af6a26b7c6f #1 Not tainted
+[    1.522910] -----------------------------
+[    1.523671] net/ipv4/ipmr.c:136 RCU-list traversed in non-reader section!!
+[    1.525218]
+[    1.525218] other info that might help us debug this:
+[    1.525218]
+[    1.526731]
+[    1.526731] rcu_scheduler_active = 2, debug_locks = 1
+[    1.528004] 1 lock held by swapper/1:
+[    1.528714]  #0: c20be1d8 (pernet_ops_rwsem){+.+.}-{3:3}, at: register_pernet_subsys+0xd/0x30
+[    1.530433]
+[    1.530433] stack backtrace:
+[    1.531262] CPU: 0 PID: 1 Comm: swapper Not tainted 5.7.0-rc2-00006-gb35af6a26b7c6f #1
+[    1.532729] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
+[    1.534305] Call Trace:
+[    1.534758]  ? ipmr_get_table+0x3c/0x70
+[    1.535430]  ? ipmr_new_table+0x1c/0x60
+[    1.536173]  ? ipmr_net_init+0x7b/0x170
+[    1.536923]  ? register_pernet_subsys+0xd/0x30
+[    1.537810]  ? ops_init+0x1a0/0x1e0
+[    1.538518]  ? kmem_cache_create_usercopy+0x28a/0x350
+[    1.539752]  ? register_pernet_operations+0xc9/0x1c0
+[    1.540630]  ? ipv4_offload_init+0x65/0x65
+[    1.541451]  ? register_pernet_subsys+0x19/0x30
+[    1.542357]  ? ip_mr_init+0x28/0xff
+[    1.543079]  ? inet_init+0x17b/0x249
+[    1.543773]  ? do_one_initcall+0xc5/0x240
+[    1.544532]  ? parse_args+0x192/0x350
+[    1.545266]  ? rcu_read_lock_sched_held+0x2f/0x60
+[    1.546180]  ? trace_initcall_level+0x61/0x93
+[    1.547061]  ? kernel_init_freeable+0x112/0x18a
+[    1.547978]  ? kernel_init_freeable+0x12b/0x18a
+[    1.548974]  ? rest_init+0x220/0x220
+[    1.549792]  ? kernel_init+0x8/0x100
+[    1.550548]  ? rest_init+0x220/0x220
+[    1.551288]  ? schedule_tail_wrapper+0x6/0x8
+[    1.552136]  ? rest_init+0x220/0x220
+[    1.552873]  ? ret_from_fork+0x2e/0x38
 
+ALso, there is a similar warning for ip6mr.c :
+
+=============================
+WARNING: suspicious RCU usage
+5.7.0-rc4-next-20200507-syzkaller #0 Not tainted
+-----------------------------
+net/ipv6/ip6mr.c:124 RCU-list traversed in non-reader section!!
+
+other info that might help us debug this:
+
+rcu_scheduler_active = 2, debug_locks = 1
+1 lock held by swapper/0/1:
+#0: ffffffff8a7aae30 (pernet_ops_rwsem){+.+.}-{3:3}, at: register_pernet_subsys+0x16/0x40 net/core/net_namespace.c:1257
+
+stack backtrace:
+CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.7.0-rc4-next-20200507-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+__dump_stack lib/dump_stack.c:77 [inline]
+dump_stack+0x18f/0x20d lib/dump_stack.c:118
+ip6mr_get_table+0x153/0x180 net/ipv6/ip6mr.c:124
+ip6mr_new_table+0x1b/0x70 net/ipv6/ip6mr.c:382
+ip6mr_rules_init net/ipv6/ip6mr.c:236 [inline]
+ip6mr_net_init+0x133/0x3f0 net/ipv6/ip6mr.c:1310
+ops_init+0xaf/0x420 net/core/net_namespace.c:151
+__register_pernet_operations net/core/net_namespace.c:1140 [inline]
+register_pernet_operations+0x346/0x840 net/core/net_namespace.c:1217
+register_pernet_subsys+0x25/0x40 net/core/net_namespace.c:1258
+ip6_mr_init+0x49/0x152 net/ipv6/ip6mr.c:1363
+inet6_init+0x1d7/0x6dc net/ipv6/af_inet6.c:1037
+do_one_initcall+0x10a/0x7d0 init/main.c:1159
+do_initcall_level init/main.c:1232 [inline]
+do_initcalls init/main.c:1248 [inline]
+do_basic_setup init/main.c:1268 [inline]
+kernel_init_freeable+0x501/0x5ae init/main.c:1454
+kernel_init+0xd/0x1bb init/main.c:1359
+ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:351
+Segment Routing with IPv6
+mip6: Mobile IPv6
+sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+ip6_gre: GRE over IPv6 tunneling driver
+
+> Thoughts?
+
+Do you think a similar fix (the one you suggested) is also applicable
+in the ip6mr case.
+
+Thank you,
+Madhuparna
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
