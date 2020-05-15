@@ -2,74 +2,76 @@ Return-Path: <SRS0=dZpl=65=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD782C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 15 May 2020 00:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B86C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 15 May 2020 01:01:38 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 68F9F206B6
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 15 May 2020 00:44:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 68F9F206B6
+	by mail.kernel.org (Postfix) with ESMTPS id EFD0D2065F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 15 May 2020 01:01:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EFD0D2065F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=davemloft.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1B9732DC04;
-	Fri, 15 May 2020 00:44:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BEB982D345;
+	Fri, 15 May 2020 01:01:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9RXHaj47fTwo; Fri, 15 May 2020 00:44:14 +0000 (UTC)
+	with ESMTP id VE+226dbnVO3; Fri, 15 May 2020 01:01:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7B5792DA5A;
-	Fri, 15 May 2020 00:44:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 743AB2275F;
+	Fri, 15 May 2020 01:01:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5D816C0863;
-	Fri, 15 May 2020 00:44:14 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F20FAC016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5CDE1C0863;
+	Fri, 15 May 2020 01:01:32 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C1B0C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 15 May 2020 00:44:12 +0000 (UTC)
+ Fri, 15 May 2020 01:01:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E7AC187BA3
+ by silver.osuosl.org (Postfix) with ESMTP id 8F2782D345
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 15 May 2020 00:44:12 +0000 (UTC)
+ Fri, 15 May 2020 01:01:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ekmf9CHccdgw
+ with ESMTP id qseWBjCuBFY1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 15 May 2020 00:44:08 +0000 (UTC)
+ Fri, 15 May 2020 01:01:29 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from shards.monkeyblade.net (shards.monkeyblade.net [23.128.96.9])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8B94887BA1
+ by silver.osuosl.org (Postfix) with ESMTPS id C46172275F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 15 May 2020 00:44:08 +0000 (UTC)
+ Fri, 15 May 2020 01:01:28 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
  (using TLSv1 with cipher AES256-SHA (256/256 bits))
  (Client did not present a certificate)
  (Authenticated sender: davem-davemloft)
- by shards.monkeyblade.net (Postfix) with ESMTPSA id 9ECBF14D69E20;
- Thu, 14 May 2020 17:44:05 -0700 (PDT)
-Date: Thu, 14 May 2020 17:44:04 -0700 (PDT)
-Message-Id: <20200514.174404.371938387358739530.davem@davemloft.net>
-To: madhuparnabhowmik10@gmail.com
+ by shards.monkeyblade.net (Postfix) with ESMTPSA id D33141288F375;
+ Thu, 14 May 2020 18:01:25 -0700 (PDT)
+Date: Thu, 14 May 2020 18:01:25 -0700 (PDT)
+Message-Id: <20200514.180125.970958854699328151.davem@davemloft.net>
+To: frextrite@gmail.com
 From: David Miller <davem@davemloft.net>
-In-Reply-To: <20200514141115.16074-1-madhuparnabhowmik10@gmail.com>
-References: <20200514141115.16074-1-madhuparnabhowmik10@gmail.com>
+In-Reply-To: <20200514180102.26425-1-frextrite@gmail.com>
+References: <20200514180102.26425-1-frextrite@gmail.com>
 X-Mailer: Mew version 6.8 on Emacs 26.3
 Mime-Version: 1.0
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12
  (shards.monkeyblade.net [149.20.54.216]);
- Thu, 14 May 2020 17:44:06 -0700 (PDT)
-Cc: paulmck@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- cai@lca.pw, allison@lohutok.net, joel@joelfernandes.org, tglx@linutronix.de,
- linux-kernel-mentees@lists.linuxfoundation.org, ap420073@gmail.com
-Subject: Re: [Linux-kernel-mentees] [PATCH net] drivers: net: hamradio: Fix
- suspicious RCU usage warning in bpqether.c
+ Thu, 14 May 2020 18:01:26 -0700 (PDT)
+Cc: sfr@canb.auug.org.au, paulmck@kernel.org, yoshfuji@linux-ipv6.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ madhuparnabhowmik10@gmail.com, cai@lca.pw, kuba@kernel.org,
+ joel@joelfernandes.org, kuznet@ms2.inr.ac.ru,
+ linux-kernel-mentees@lists.linuxfoundation.org, kaber@trash.net
+Subject: Re: [Linux-kernel-mentees] [PATCH net v2 1/2] ipmr: Fix RCU list
+	debugging warning
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,24 +89,25 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: madhuparnabhowmik10@gmail.com
-Date: Thu, 14 May 2020 19:41:15 +0530
+From: Amol Grover <frextrite@gmail.com>
+Date: Thu, 14 May 2020 23:31:02 +0530
 
-> From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> ipmr_for_each_table() macro uses list_for_each_entry_rcu()
+> for traversing outside of an RCU read side critical section
+> but under the protection of rtnl_mutex. Hence, add the
+> corresponding lockdep expression to silence the following
+> false-positive warning at boot:
 > 
-> This patch fixes the following warning:
-> =============================
-> WARNING: suspicious RCU usage
-> 5.7.0-rc5-next-20200514-syzkaller #0 Not tainted
-> -----------------------------
-> drivers/net/hamradio/bpqether.c:149 RCU-list traversed in non-reader section!!
+> [    4.319347] =============================
+> [    4.319349] WARNING: suspicious RCU usage
+> [    4.319351] 5.5.4-stable #17 Tainted: G            E
+> [    4.319352] -----------------------------
+> [    4.319354] net/ipv4/ipmr.c:1757 RCU-list traversed in non-reader section!!
 > 
-> Since rtnl lock is held, pass this cond in list_for_each_entry_rcu().
-> 
-> Reported-by: syzbot+bb82cafc737c002d11ca@syzkaller.appspotmail.com
-> Signed-off-by: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+> Fixes: f0ad0860d01e ("ipv4: ipmr: support multiple tables")
+> Signed-off-by: Amol Grover <frextrite@gmail.com>
 
-Applied, thanks.
+Applied.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
