@@ -1,101 +1,105 @@
-Return-Path: <SRS0=A5MH=7A=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=ZD04=7B=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BAD7C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 18 May 2020 15:31:34 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDCCCC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 19 May 2020 07:13:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D181207ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 18 May 2020 15:31:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9762D2070A
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 19 May 2020 07:13:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N0KhUmS4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D181207ED
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b0ftFJE+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9762D2070A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2933988098;
-	Mon, 18 May 2020 15:31:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qvmyZ5W1my4T; Mon, 18 May 2020 15:31:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7507F87E8A;
-	Mon, 18 May 2020 15:31:31 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6ACBEC0888;
-	Mon, 18 May 2020 15:31:31 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3F559C07FF
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 May 2020 15:31:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 31B3E8788C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 May 2020 15:31:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6A24A865C4;
+	Tue, 19 May 2020 07:13:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bar0LlaVO6Vn; Tue, 19 May 2020 07:13:13 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id E635B87899;
+	Tue, 19 May 2020 07:13:13 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C87C4C0881;
+	Tue, 19 May 2020 07:13:13 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B68C7C0176
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 19 May 2020 07:13:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id ABCD386A4F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 19 May 2020 07:13:12 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UU65RrCzhRnZ
+ with ESMTP id HSDAz2itQO43
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 May 2020 15:31:29 +0000 (UTC)
+ Tue, 19 May 2020 07:13:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
- [209.85.166.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 0A86A87872
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 142A386457
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 May 2020 15:31:29 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id c20so8066920ilk.6
+ Tue, 19 May 2020 07:13:12 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id o19so10307975qtr.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 18 May 2020 08:31:29 -0700 (PDT)
+ Tue, 19 May 2020 00:13:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9AqVeP2r3rQJfOZZ5UyYFcPLJKvgW93U2SJ/2d7MaJw=;
- b=N0KhUmS4JdZRJabkbVY5Me5S5eVudS5GLrRZjoMY5S+OifNIyhvJ215gWxAUsYDaot
- VxTYa123hUXKQkImJVQmNSQYoFrCSWBgfO3kNXI0MtpgCApAIxtlWmwGnPVyTU/LXYGz
- U1NrGfEV6cQa5F8VEqcpOQfYE/vrwRz2owAR+UaW62qFYffR+pfGjcohAewEQPERUL7Q
- DzbaOUnGhrXC6cSEkmUwluqtl5UPEwg+QaQEglYMbqemJyrg5+pogVz2a0UkBc+BVMh3
- D4cW4sSBP8Cw+MhrndWxkydCVcf1yuWi9RgYvRWpFpJGbm+kfCKhEvb/igrmFK6Bjz2e
- rWzA==
+ h=date:from:to:cc:message-id:in-reply-to:references:subject
+ :mime-version:content-transfer-encoding:content-disposition;
+ bh=gfrfWaOZkm+lseM0+Bvjs6y+xukYp67el0Y4CWHnZUQ=;
+ b=b0ftFJE+1Kbvt2EcJL8XpS9a5ExwNsTDEiEOnTqOPYr8y+xJ3Mr+oImwRmzGjlp//v
+ CmCFK7j7Tfd1kpwmqw3LhxBKdCnJagToDgHsicBVGo/oByXv4X8VLQWwkzmLsZg78sas
+ M0eRaXxMMjmTBHAOd/XhUgwkWJifR+raQ96ZeibY+55upKIQeWUvDFyh5hYoPpG8cLyP
+ dmQBBbbtUPgypL0LMYtpD31p1e6spiyXfrPoPxvdIY1m2a/jChmnqVIUtwIwfYTVDEAm
+ PSBA+e3U+kjPOtaHuEdJCTXB+P90YJXTFEicGLb/6FNht38avRz0dyQ6+z8N3Vupnc8N
+ mV/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9AqVeP2r3rQJfOZZ5UyYFcPLJKvgW93U2SJ/2d7MaJw=;
- b=fQ9TCk+ag8xzkqhESBUExhGEMVpPmxpA3sdn4kXCAhX8xG+lk+xtewMbzAsySZE5xN
- w8Sbv2eOdeP0GIGdsh3M+gA5W2S8P1PWB39f6bW5Us59PSAeZ3i7a7XUPNL+RYvZxTdh
- 7s/aVob0xXt4zVPk1TyY2E2z30ecbkakaQoDm1EtdLjP+G/te37efLGbIflCABDAzmS9
- jOEu86zHDvwuzJBLAja8zr/fb1uw5dqN4eyMBOaFinHsHk5ScvkqGD/eTpYuBUY8Sc4m
- cPTqJ3rN5rEkjc3klf0nbMjiJJD8ySRx+JaOiuK1wePW8HGwVYBMgyaz0ni35jmeIvm4
- 5TwA==
-X-Gm-Message-State: AOAM5333URf/cx3u/tjY7wkB/BogkSu3S7L1Z1nLYvwXuycLBt/h9vrw
- 7XFck0VY1ybMnH0uPkvEYTzL2CC4a+wdFxNw5sA=
-X-Google-Smtp-Source: ABdhPJzP0aKtlPBvtbA2PhMg+szmmD22RIK/BMfvzZFQkQo9ziQRjtf2KPeEIgsN26ECZwPRSD0lmafBmJLCqHlKNnw=
-X-Received: by 2002:a92:c952:: with SMTP id i18mr17716641ilq.100.1589815888284; 
- Mon, 18 May 2020 08:31:28 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
+ :references:subject:mime-version:content-transfer-encoding
+ :content-disposition;
+ bh=gfrfWaOZkm+lseM0+Bvjs6y+xukYp67el0Y4CWHnZUQ=;
+ b=rQywzKaK8gUQzu0wPhINK88rZBPb249ha29ZdfYC8T8D2r0W9A7H8sL9DuJC8jlerK
+ FWFgYP+OSMI306JibUQlvUAsK8HzxnXabMjevtTyxwBnkfxTfNr4VrfVzZlnP0YOnTo9
+ vq1ZuSle0Sj50bi0sTcQj8kyAAEN0jCCAPW3CeCkXxZV6i5BKMyhhPaIq2KVVj+K4cJA
+ K35+mLTgnjt4Vq4PSSlSnSfleLh5np4cgKZFNFlwxVr6f86YjIQslyujSkPdWeB4/m5R
+ eyhpteODCnfVCC1nnaR38wu2HufmLI8alvtzfH+01XIsEOVAew78xyohd2l9PZTuFBVG
+ DkDA==
+X-Gm-Message-State: AOAM533Bzd6JmiTiqNvKBusENZmvfIR8UNn+7D8FSGFLzDp56wb5x23I
+ 0LRlzMIxBUbKDLHS653F6/Y=
+X-Google-Smtp-Source: ABdhPJzbE6fW6tR2E4L6m4GsHIiwHGdav4WMcMxfECGS94oEMTElNSWQ/VDyXWvAcctxnZt8hmd8UQ==
+X-Received: by 2002:ac8:4e53:: with SMTP id e19mr20328428qtw.277.1589872390952; 
+ Tue, 19 May 2020 00:13:10 -0700 (PDT)
+Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id k93sm8840111qte.74.2020.05.19.00.13.08
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 19 May 2020 00:13:10 -0700 (PDT)
+Date: Tue, 19 May 2020 04:13:07 -0300
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Message-ID: <C564849C-4E08-4994-A694-A736626548E2@getmailspring.com>
+In-Reply-To: <20200517022115.5ce8136c@coco.lan>
+References: <20200517022115.5ce8136c@coco.lan>
+X-Mailer: Mailspring
 MIME-Version: 1.0
-References: <CAPBsFfANa2ktd5h3YGVmPQMasNapzPkM3yBZ0icp8++53bbcZw@mail.gmail.com>
- <20200518152701.GA930338@bjorn-Precision-5520>
-In-Reply-To: <20200518152701.GA930338@bjorn-Precision-5520>
-From: Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Date: Mon, 18 May 2020 21:00:14 +0530
-Message-ID: <CAPBsFfAoHqvwR30fubkjfUkORGxOaotGJjmjy_HwfzzRj3b1PQ@mail.gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
- "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "Kirsher,
- Jeffrey T" <jeffrey.t.kirsher@intel.com>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] ethernet: intel: e1000:
- Convert to dev_pm_ops
+Content-Disposition: inline
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org=22=22?="
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Subject: Re: [Linux-kernel-mentees] modprobing 'vidtv' doesn't really do
+	anything
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,232 +117,69 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 18 May 2020 at 20:57, Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Mon, May 18, 2020 at 08:37:13PM +0530, Vaibhav Gupta wrote:
-> > On Sat, 2 May 2020 at 03:15, Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > On Fri, May 01, 2020 at 09:19:00PM +0000, Kirsher, Jeffrey T wrote:
-> > > > > -----Original Message-----
-> > > > > From: Bjorn Helgaas <helgaas@kernel.org>
-> > > > > Sent: Friday, May 1, 2020 13:58
-> > > > > To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > > > > Cc: linux-kernel-mentees@lists.linuxfoundation.org; bjorn@helgaas.com;
-> > > > > skhan@linuxfoundation.org; rjw@rjwysocki.net; Kirsher, Jeffrey T
-> > > > > <jeffrey.t.kirsher@intel.com>; Brandeburg, Jesse
-> > > > > <jesse.brandeburg@intel.com>
-> > > > > Subject: Re: [Linux-kernel-mentees] [PATCH v1] ethernet: intel: e1000: Convert
-> > > > > to dev_pm_ops
-> > > > >
-> > > > > [+cc Jeff, Jesse]
-> > > > >
-> > > > > On Fri, Apr 10, 2020 at 06:14:19PM +0530, Vaibhav Gupta wrote:
-> > > > > > Convert the legacy callback .suspend() and .resume() to the generic
-> > > > > > ones.
-> > > > > >
-> > > > > > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/net/ethernet/intel/e1000/e1000_main.c | 47
-> > > > > > +++++--------------
-> > > > > >  1 file changed, 12 insertions(+), 35 deletions(-)
-> > > > [Kirsher, Jeffrey T]
-> > > >
-> > > > Was there a reason why this patch was not at least CC'd to
-> > > > intel-wired-lan@lists.osuosl.org mailing list for all Intel wired
-> > > > LAN driver changes?  Thank you Bjorn for at least adding Jesse and
-> > > > myself to the thread.
-> > >
-> > > Don't worry, this is potentially part of a mentoring project, and
-> > > we're just trying to shake out trivial issues first before throwing
-> > > Vaibhav straight into the lions' den, so to speak.
-> > >
-> > > > On top of the potential issues Bjorn pointed out, this could cause
-> > > > regression issues that can not fully be validated since this driver
-> > > > is really old and all supported devices may no longer be available
-> > > > to test against.
-> > >
-> > > Understood.  The problem we're trying to solve is that the PCI
-> > > core carries quite a bit of code to support both the legacy power
-> > > management and the "new" (now 10 year-old) generic scheme.  That
-> > > extra code is its own source of bugs since it's hard to keep both
-> > > paths up to date and tested.
-> > >
-> > > > > > diff --git a/drivers/net/ethernet/intel/e1000/e1000_main.c
-> > > > > > b/drivers/net/ethernet/intel/e1000/e1000_main.c
-> > > > > > index 2bced34c19ba..09a6ef46be96 100644
-> > > > > > --- a/drivers/net/ethernet/intel/e1000/e1000_main.c
-> > > > > > +++ b/drivers/net/ethernet/intel/e1000/e1000_main.c
-> > > > > > @@ -152,8 +152,8 @@ static int e1000_vlan_rx_kill_vid(struct
-> > > > > > net_device *netdev,  static void e1000_restore_vlan(struct
-> > > > > > e1000_adapter *adapter);
-> > > > > >
-> > > > > >  #ifdef CONFIG_PM
-> > > > > > -static int e1000_suspend(struct pci_dev *pdev, pm_message_t state);
-> > > > > > -static int e1000_resume(struct pci_dev *pdev);
-> > > > > > +static int e1000_suspend(struct device *dev); static int
-> > > > > > +e1000_resume(struct device *dev);
-> > > > > >  #endif
-> > > > > >  static void e1000_shutdown(struct pci_dev *pdev);
-> > > > > >
-> > > > > > @@ -179,16 +179,16 @@ static const struct pci_error_handlers
-> > > > > e1000_err_handler = {
-> > > > > >   .resume = e1000_io_resume,
-> > > > > >  };
-> > > > > >
-> > > > > > +static SIMPLE_DEV_PM_OPS(e1000_pm_ops, e1000_suspend,
-> > > > > e1000_resume);
-> > > > > > +
-> > > > > >  static struct pci_driver e1000_driver = {
-> > > > > >   .name     = e1000_driver_name,
-> > > > > >   .id_table = e1000_pci_tbl,
-> > > > > >   .probe    = e1000_probe,
-> > > > > >   .remove   = e1000_remove,
-> > > > > > -#ifdef CONFIG_PM
-> > > > > > - /* Power Management Hooks */
-> > > > > > - .suspend  = e1000_suspend,
-> > > > > > - .resume   = e1000_resume,
-> > > > > > -#endif
-> > > > > > + .driver = {
-> > > > > > +         .pm = &e1000_pm_ops,
-> > > > > > + },
-> > > > > >   .shutdown = e1000_shutdown,
-> > > > > >   .err_handler = &e1000_err_handler
-> > > > > >  };
-> > > > > > @@ -5052,9 +5052,6 @@ static int __e1000_shutdown(struct pci_dev *pdev,
-> > > > > bool *enable_wake)
-> > > > > >   struct e1000_hw *hw = &adapter->hw;
-> > > > > >   u32 ctrl, ctrl_ext, rctl, status;
-> > > > > >   u32 wufc = adapter->wol;
-> > > > > > -#ifdef CONFIG_PM
-> > > > > > - int retval = 0;
-> > > > > > -#endif
-> > > > > >
-> > > > > >   netif_device_detach(netdev);
-> > > > > >
-> > > > > > @@ -5068,12 +5065,6 @@ static int __e1000_shutdown(struct pci_dev
-> > > > > *pdev, bool *enable_wake)
-> > > > > >           e1000_down(adapter);
-> > > > > >   }
-> > > > > >
-> > > > > > -#ifdef CONFIG_PM
-> > > > > > - retval = pci_save_state(pdev);
-> > > > > > - if (retval)
-> > > > > > -         return retval;
-> > > > > > -#endif
-> > > > > > -
-> > > > > >   status = er32(STATUS);
-> > > > > >   if (status & E1000_STATUS_LU)
-> > > > > >           wufc &= ~E1000_WUFC_LNKC;
-> > > > > > @@ -5135,36 +5126,22 @@ static int __e1000_shutdown(struct pci_dev
-> > > > > > *pdev, bool *enable_wake)  }
-> > > > > >
-> > > > > >  #ifdef CONFIG_PM
-> > > > > > -static int e1000_suspend(struct pci_dev *pdev, pm_message_t state)
-> > > > > > +static int e1000_suspend(struct device *dev)
-> > > > > >  {
-> > > > > > - int retval;
-> > > > > > + struct pci_dev *pdev = to_pci_dev(dev);
-> > > > > >   bool wake;
-> > > > > >
-> > > > > > - retval = __e1000_shutdown(pdev, &wake);
-> > > > > > - if (retval)
-> > > > > > -         return retval;
-> > > > > > -
-> > > > > > - if (wake) {
-> > > > > > -         pci_prepare_to_sleep(pdev);
-> > > > > > - } else {
-> > > > > > -         pci_wake_from_d3(pdev, false);
-> > > > >
-> > > > > I think there's a case where this changes the behavior because we normally set
-> > > > > the device wakeup enable to adapter->wol, but the "wake"
-> > > > > returned from __e1000_shutdown() is sometimes different.
-> > > > >
-> > > > >   e1000_probe
-> > > > >     adapter->wol = adapter->eeprom_wol;      # assume adapter->wol == 1
-> > > > >     device_set_wakeup_enable(adapter->wol);
-> > > > >
-> > > > >   Existing code:
-> > > > >     e1000_suspend
-> > > > >       __e1000_shutdown(&wake)                # assume returns wake == 0
-> > > > >       pci_wake_from_d3(false)
-> > > > >         pci_enable_wake(PCI_D3hot, false)    # <-- compare
-> > > > >
-> > > > >   New code using generic PM ops:
-> > > > >     pci_pm_suspend
-> > > > >       e1000_suspend
-> > > > >         __e1000_shutdown(&wake)              # returns wake == 0 (ignored)
-> > > > >     pci_pm_suspend_noirq
-> > > > >       pci_prepare_to_sleep
-> > > > >         wakeup = device_may_wakeup()         # returns 1
-> > > > >         pci_enable_wake(PCI_D3hot, true)     # <-- different!
-> > > > >
-> > > > > I sort of suspect that __e1000_shutdown() should call
-> > > > > device_set_wakeup_enable() when it updates the chip's wake-on-lan
-> > > > > registers, but the driver maintainers would know better.
-> > >
-> > > If you have any ideas about this, or maybe patterns in newer Intel
-> > > drivers that could be followed here, we'd love to hear them.
-> > >
-> > > If you think it's impossible to update e1000 to generic power
-> > > management, it'd be useful to know that, too, so we can move on to
-> > > other drivers.
-> >
-> > Is it safe to assume that we should leave e1000 for now? As
-> > the thread seems to be discontinued.
->
-> My suggestion: update the patch to reflect my feedback above, and post
-> what we believe to be the correct thing to the appropriate upstream
-> lists:
->
->   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
->   Jesse Brandeburg <jesse.brandeburg@intel.com>
->   David S. Miller <davem@davemloft.net>
->   Rafael J. Wysocki <rjw@rjwysocki.net>
->   intel-wired-lan@lists.osuosl.org
->   netdev@vger.kernel.org
->   linux-pm@vger.kernel.org
->   linux-pci@vger.kernel.org
->
-> The maintainers may want to defer it for now because it's old hardware
-> that's hard to test, and that's OK.  But at least we'll have the patch
-> available, and if/when we get to the point of removing legacy PM from
-> the PCI core, we can revisit this.
->
-> What we learn about wake-on-LAN here will probably apply to other
-> drivers as well.
-Sure! Thanks !
+With your current patch the probing code is actually called now, Mauro. Thanks!
 
---Vaibhav Gupta
+As for the sparse errors you've pointed out earlier, I'm at a loss. Yes,
+I have noticed them, but let's look at an example (they're all mostly
+the same)
+
+>SPARSE:drivers/media/test-drivers/vidtv/vidtv_psi.c
+>drivers/media/test-drivers/vidtv/vidtv_psi.c:174:43: warning: Using plain
+>integer as NULL pointer
+
+This actually refers to this line:
+
+>struct psi_write_args psi_args = {0}
+
+Which seems to me like a valid way to zero-initialize a struct in C? 
+
+Next up is...
+
+>SPARSE:drivers/media/test-drivers/vidtv/vidtv_pes.c
+>drivers/media/test-drivers/vidtv/vidtv_pes.c:80:54: warning: missing
+>braces around initializer
+
+I assume this refers to the following line, which is the same deal as above.
+
+>struct vidtv_pes_optional_pts pts         = {0};
+
+
+And then there's this, which is an actual mistake. I have mostly
+eliminated these, but this guy has slipped by.
+
+>SPARSE:drivers/media/test-drivers/vidtv/vidtv_s302m.c
+>drivers/media/test-drivers/vidtv/vidtv_s302m.c:430:36: warning:
+>incorrect type in assignment (different base types)
+
+
+Just one more thing. This change on vidtv_bridge.c:
+
+>vidtv_bridge_check_demod_lock(struct vidtv_dvb *dvb, u32 n)
 >
-> > > > > > -         pci_set_power_state(pdev, PCI_D3hot);
-> > > > > > - }
-> > > > > > -
-> > > > > > - return 0;
-> > > > > > + return __e1000_shutdown(pdev, &wake);
-> > > > > >  }
-> > > > > >
-> > > > > > -static int e1000_resume(struct pci_dev *pdev)
-> > > > > > +static int e1000_resume(struct device *dev)
-> > > > > >  {
-> > > > > > + struct pci_dev *pdev = to_pci_dev(dev);
-> > > > > >   struct net_device *netdev = pci_get_drvdata(pdev);
-> > > > > >   struct e1000_adapter *adapter = netdev_priv(netdev);
-> > > > > >   struct e1000_hw *hw = &adapter->hw;
-> > > > > >   u32 err;
-> > > > > >
-> > > > > > - pci_set_power_state(pdev, PCI_D0);
-> > > > > > - pci_restore_state(pdev);
-> > > > > > - pci_save_state(pdev);
-> > > > > > -
-> > > > > >   if (adapter->need_ioport)
-> > > > > >           err = pci_enable_device(pdev);
-> > > > > >   else
-> > > > > > --
-> > > > > > 2.26.0
-> > > > > >
-> > > _______________________________________________
-> > > Linux-kernel-mentees mailing list
-> > > Linux-kernel-mentees@lists.linuxfoundation.org
-> > > https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+>dvb->fe[n]->ops.read_status(dvb->fe[n], &status);
+>
+>-	return status == (FE_HAS_SIGNAL |
+>-	FE_HAS_CARRIER |
+>-	FE_HAS_VITERBI |
+>-	FE_HAS_SYNC |
+>-	FE_HAS_LOCK);
+>+	status = FE_HAS_SIGNAL |
+>+	FE_HAS_CARRIER |
+>+	FE_HAS_VITERBI |
+>+	FE_HAS_SYNC |
+>+	FE_HAS_LOCK;
+>+
+>+	return status;
+>}
+
+I did not understand that. Why was the boolean expression replaced by an
+assignment? This was so eventually we could drop packets or simulate
+some sort of noise in the event that one of these flags was not set, as
+we've discussed at some point.
+
+Thanks,
+
+- Daniel
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
