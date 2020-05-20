@@ -5,93 +5,93 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25883C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:04:06 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B8BC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:04:10 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DE809207D3
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:04:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B8AB8207D3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:04:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lbphj2qs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DE809207D3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hL3uKUZC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8AB8207D3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B68D58818E;
-	Wed, 20 May 2020 07:04:05 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 97C4E816DE;
+	Wed, 20 May 2020 07:04:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mey+AHlvSuqb; Wed, 20 May 2020 07:04:04 +0000 (UTC)
+	with ESMTP id SlUEMNyPBITH; Wed, 20 May 2020 07:04:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A719F88191;
-	Wed, 20 May 2020 07:04:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D48D480793;
+	Wed, 20 May 2020 07:04:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 937DFC088A;
-	Wed, 20 May 2020 07:04:04 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 805A5C0176
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C3E8EC088A;
+	Wed, 20 May 2020 07:04:09 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A3ED6C0176
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:04:03 +0000 (UTC)
+ Wed, 20 May 2020 07:04:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 696D1227E1
+ by whitealder.osuosl.org (Postfix) with ESMTP id A075C80793
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:04:03 +0000 (UTC)
+ Wed, 20 May 2020 07:04:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ISsWfc7rmcVA
+ with ESMTP id k8uxxU6rL3xS
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:04:00 +0000 (UTC)
+ Wed, 20 May 2020 07:04:07 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
- [209.85.222.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 16CD420553
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+ [209.85.222.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A05C086132
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:04:00 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id y22so2606441qki.3
+ Wed, 20 May 2020 07:04:07 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id f13so2622268qkh.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 00:04:00 -0700 (PDT)
+ Wed, 20 May 2020 00:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uLCVXlgBne+yFEqiU/CQ5gAVUjNmGnIWjShnPaU1SPg=;
- b=Lbphj2qsaeTsxwayrNGGp9jF0TUCQn0jAw6/XqThWBQf/QP16IyURqY/jsRaSOdPw3
- +/TxCz8gohorOzF9P3DPp5fVY1ZPAzrLQEj0bG4vnfyNPUWDl0Qx3ABQBWLh1qZQz+mH
- NFIYP2jFijoHJ736Eswb2YbG1nmVTAipCsTvudjMKHfPBbT6Q/Lm7gR3C94KunTqlYLJ
- 7xfmwnNvvF9L34+xkxigVBl0ST7ncU6I2UhKQKdzUchgp72pZZGnl/dmlc2NHeGmWrbL
- qksa11FwYzAcxyIZR0JnVa6WooFBo7RDLTSWfqrROpNmdcdi01kMjOD/bdNPdPv2SuNT
- +7nQ==
+ bh=Eu6zyVAv2okqAu2MpDIX4+uWLByOhOoVUD/ukYkdvtU=;
+ b=hL3uKUZC+ShBYI7GA2vsr0K3vXSxPUe7eJnW9YA+ujZoBCfPsgwzaUXtKgFI+xOghY
+ iCWRM0fxH7gdulYBcV0mF1Ts0QxaPzpbgbiv4PCwITXw6+ZkasZUaQsVqKbOE25wWz78
+ Sob0yDX+m5VKXwPz3UwvMm6lQt4cHDW6ObTQYACHxsIZU5IKa/EtxGsMT9dPRtQLF4b3
+ 7QEiSK1jEHocuxR45g/jXgFGz8p1wYo7vzQJb6TL6wKIDZcZflaljAnLPi9whUvyo16x
+ mgv26ZTYU0x2X7/1nkLz+vAVpugybaMT5RqoytZWl9e4dCtn8aRYicNc2Hfla8SE6tJ2
+ jRHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uLCVXlgBne+yFEqiU/CQ5gAVUjNmGnIWjShnPaU1SPg=;
- b=WcElAfhisg71YNKo1H6+WnvXr6SimBETX6OOhlZEQbUW2zTKfToHYi+oGizPi/CNCr
- mtX+y0Y6ptfnacYhppEY5QhhDPE1fXYxUwaWFD5JoVoWk66u/vBRPt8SVv1KYTVyyunN
- cVX2HGJoE7mczP2pEKP6rhX1OLXJBY3U1timxQXFHgZvjPRmOCGrlYEYsP2xVlQFx3vc
- txq0CLDQRv92AvP8l2AVcLHmLvWf9khRMRntUjGDedV5VDroHoEAjxdSImx9sPyjS26Q
- n71zPe6769Cr6h3y/G72/bNUHI7fc/YCk0s7DHW51U3HBdwp1BxJ2MwxkLCzboRIKbpX
- TvvQ==
-X-Gm-Message-State: AOAM533DkXool+UCdVykgAKqKcEmN7gcocn7sc4cp94TGI2EQ9MIkLs6
- P6MnI1r3TL/RvrrEYeojkf0=
-X-Google-Smtp-Source: ABdhPJwzhVJtc9YMXRYuLtYQaC0RxWdFHLnKb/3GEOasAH6GkJl47vLR7YEDm0cFVVBQy/7uMQ5G4Q==
-X-Received: by 2002:ae9:ebd2:: with SMTP id b201mr3259189qkg.80.1589958238838; 
- Wed, 20 May 2020 00:03:58 -0700 (PDT)
+ bh=Eu6zyVAv2okqAu2MpDIX4+uWLByOhOoVUD/ukYkdvtU=;
+ b=hLM1VxnCMbYLxgixPflw+qjCjhBBHXNnb9WgG9u4mjoVVYaXF7Ly4ZgkYCi5yjgPBz
+ zdb30cuT66t0mMrxBuj99Qx9slZ/GxMnfISd2pj0rKZv375NXKSG27gU6DdhoOglfyZc
+ KdF3lXy/hjSf7j+9hiciydb4HTqnEa0V1RT9heepksWQuIsYPjHy9p0vj4ks9l3cGM9q
+ lTpk+pECvXcKKHD+x+Lf26bx3rwz8MWldfjLLJz7YqohyiUC1exHtyenmxfRR7nV1cZy
+ uivesU/7istzIdgb6I83UI2lyQbzGio31u03EzjcznBbmceFila+Qxo733M7mqb2XrEr
+ jN5Q==
+X-Gm-Message-State: AOAM530a18PA6eAe/fQK+m2IpW5Wg0aEST6RbW5qEtBw0iv1ALGfUjEL
+ hYyfBFjg2mX6xRDt1RkXwUQ=
+X-Google-Smtp-Source: ABdhPJwIM5NOT97Nxp2fyd1Y2xqqHdqgG0DhKVvamSgFiegtoWtz85BmA/oPp1PqnYHz1325W8Qh9A==
+X-Received: by 2002:a37:a7c8:: with SMTP id q191mr3272536qke.214.1589958246511; 
+ Wed, 20 May 2020 00:04:06 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id i23sm1598893qke.65.2020.05.20.00.03.55
+ by smtp.gmail.com with ESMTPSA id i23sm1598893qke.65.2020.05.20.00.04.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 00:03:58 -0700 (PDT)
+ Wed, 20 May 2020 00:04:05 -0700 (PDT)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To: mchehab+huawei@kernel.org, sean@mess.org, kstewart@linuxfoundation.org,
  allison@lohutok.net, tglx@linutronix.de
-Date: Wed, 20 May 2020 04:03:28 -0300
-Message-Id: <20200520070334.1778751-5-dwlsalmeida@gmail.com>
+Date: Wed, 20 May 2020 04:03:30 -0300
+Message-Id: <20200520070334.1778751-7-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200520070334.1778751-1-dwlsalmeida@gmail.com>
 References: <20200520070334.1778751-1-dwlsalmeida@gmail.com>
@@ -100,7 +100,7 @@ Cc: linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
 Subject: [Linux-kernel-mentees] [RFC, WIP,
-	v6 04/10] media: vidtv: add a bridge driver
+	v6 06/10] media: vidtv: add MPEG TS common code
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,80 +120,26 @@ Sender: "Linux-kernel-mentees"
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Digital TV devices consist of several independent hardware components which
-are controlled by different drivers.
-Each media device is controlled by a group of cooperating drivers with the
-bridge driver as the main driver.
-
-This patch adds a bridge driver for the Virtual Digital TV driver [vidtv].
-
-The bridge driver binds to the other drivers, that is, vidtv_tuner and
-vidtv_demod and implements the digital demux logic, providing userspace
-with a MPEG Transport Stream.
-
-Move config structs to a common header so they can be used by the bridge
-driver and by their respective drivers.
+Add code to work with MPEG TS packets, such as TS headers, adaptation
+fields, PCR packets and NULL packets.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-
-BRIDGE WIP
 ---
- arch/Kconfig                                  |   2 +-
- drivers/media/dvb-core/dvbdev.c               |   1 +
- drivers/media/test-drivers/vidtv/Makefile     |   4 +-
- .../media/test-drivers/vidtv/vidtv_bridge.c   | 435 ++++++++++++++++++
- .../media/test-drivers/vidtv/vidtv_bridge.h   |  39 ++
- 5 files changed, 479 insertions(+), 2 deletions(-)
- create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.c
- create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.h
+ drivers/media/test-drivers/vidtv/vidtv_ts.c | 157 ++++++++++++++++++++
+ drivers/media/test-drivers/vidtv/vidtv_ts.h | 120 +++++++++++++++
+ 2 files changed, 277 insertions(+)
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 786a85d4ad40d..ddcb4a68ee940 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -868,7 +868,7 @@ config VMAP_STACK
- 	  be enabled.
- 
- config ARCH_OPTIONAL_KERNEL_RWX
--	def_bool n
-+	def_bool y
- 
- config ARCH_OPTIONAL_KERNEL_RWX_DEFAULT
- 	def_bool n
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 80b6a71aa33e4..38c8b848c921f 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -962,6 +962,7 @@ int dvb_usercopy(struct file *file,
- }
- 
- #if IS_ENABLED(CONFIG_I2C)
-+#pragma clang optimize off
- struct i2c_client *dvb_module_probe(const char *module_name,
- 				    const char *name,
- 				    struct i2c_adapter *adap,
-diff --git a/drivers/media/test-drivers/vidtv/Makefile b/drivers/media/test-drivers/vidtv/Makefile
-index 21e50c11c94d0..c99cd13f4adaf 100644
---- a/drivers/media/test-drivers/vidtv/Makefile
-+++ b/drivers/media/test-drivers/vidtv/Makefile
-@@ -2,5 +2,7 @@
- 
- dvb-vidtv-tuner-objs := vidtv_tuner.o
- dvb-vidtv-demod-objs := vidtv_demod.o
-+dvb-vidtv-bridge-objs := vidtv_bridge.o
- 
--obj-$(CONFIG_DVB_VIDTV)	+= dvb-vidtv-tuner.o dvb-vidtv-demod.o
-+obj-$(CONFIG_DVB_VIDTV)	+= dvb-vidtv-tuner.o dvb-vidtv-demod.o \
-+			   dvb-vidtv-bridge.o
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c b/drivers/media/test-drivers/vidtv/vidtv_ts.c
 new file mode 100644
-index 0000000000000..bc1c612c23013
+index 0000000000000..77908c4e85eef
 --- /dev/null
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-@@ -0,0 +1,435 @@
++++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
+@@ -0,0 +1,157 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * The Virtual DTV test driver serves as a reference DVB driver and helps
++ * The Virtual DVB test driver serves as a reference DVB driver and helps
 + * validate the existing APIs in the media subsystem. It can also aid
 + * developers working on userspace applications.
 + *
@@ -202,475 +148,278 @@ index 0000000000000..bc1c612c23013
 +
 +#define pr_fmt(fmt) KBUILD_MODNAME ":%s, %d: " fmt, __func__, __LINE__
 +
-+#include <linux/moduleparam.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
 +#include <linux/printk.h>
-+#include <linux/time.h>
++#include <linux/ratelimit.h>
 +#include <linux/types.h>
-+#include <linux/workqueue.h>
++#include <asm/byteorder.h>
 +
-+#include "vidtv_bridge.h"
-+#include "vidtv_demod.h"
-+#include "vidtv_tuner.h"
++#include "vidtv_ts.h"
++#include "vidtv_common.h"
 +
-+#define TUNER_DEFAULT_ADDR 0x68
-+#define DEMOD_DEFAULT_ADDR 0x60
-+
-+static unsigned int drop_tslock_prob_on_low_snr;
-+module_param(drop_tslock_prob_on_low_snr, uint, 0);
-+MODULE_PARM_DESC(drop_tslock_prob_on_low_snr,
-+		 "Probability of losing the TS lock if the signal quality is bad");
-+
-+static unsigned int recover_tslock_prob_on_good_snr;
-+module_param(recover_tslock_prob_on_good_snr, uint, 0);
-+MODULE_PARM_DESC(recover_tslock_prob_on_good_snr,
-+		 "Probability recovering the TS lock when the signal improves");
-+
-+static unsigned int mock_power_up_delay_msec;
-+module_param(mock_power_up_delay_msec, uint, 0);
-+MODULE_PARM_DESC(mock_power_up_delay_msec, "Simulate a power up delay");
-+
-+static unsigned int mock_tune_delay_msec;
-+module_param(mock_tune_delay_msec, uint, 0);
-+MODULE_PARM_DESC(mock_tune_delay_msec, "Simulate a tune delay");
-+
-+static unsigned int vidtv_valid_dvb_t_freqs[8];
-+module_param_array(vidtv_valid_dvb_t_freqs, uint, NULL, 0);
-+MODULE_PARM_DESC(vidtv_valid_dvb_t_freqs,
-+		 "Valid DVB-T frequencies to simulate");
-+
-+static unsigned int vidtv_valid_dvb_c_freqs[8];
-+module_param_array(vidtv_valid_dvb_c_freqs, uint, NULL, 0);
-+MODULE_PARM_DESC(vidtv_valid_dvb_c_freqs,
-+		 "Valid DVB-C frequencies to simulate");
-+
-+static unsigned int vidtv_valid_dvb_s_freqs[8];
-+module_param_array(vidtv_valid_dvb_s_freqs, uint, NULL, 0);
-+MODULE_PARM_DESC(vidtv_valid_dvb_s_freqs,
-+		 "Valid DVB-C frequencies to simulate");
-+
-+static unsigned int max_frequency_shift_hz;
-+module_param(max_frequency_shift_hz, uint, 0);
-+MODULE_PARM_DESC(max_frequency_shift_hz,
-+		 "Maximum shift in HZ allowed when tuning in a channel");
-+
-+DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nums);
-+
-+static int vidtv_start_streaming(struct vidtv_dvb *dvb)
++static u32 vidtv_ts_write_pcr_bits(u8 *to, u32 to_offset, u64 pcr)
 +{
-+	if (dvb->streaming) {
-+		pr_warn_ratelimited("Already streaming. Skipping.\n");
-+		return 0;
-+	}
++	/* Exact same from ffmpeg. PCR is a counter driven by a 27Mhz clock */
++	u64 pcr_low = pcr % 300;
++	u64 pcr_high = pcr / 300;
++	u8 *buf = to + to_offset;
 +
-+	dvb->streaming = true;
-+	return 0;
++	*buf++ = pcr_high >> 25;
++	*buf++ = pcr_high >> 17;
++	*buf++ = pcr_high >>  9;
++	*buf++ = pcr_high >>  1;
++	*buf++ = pcr_high <<  7 | pcr_low >> 8 | 0x7e;
++	*buf++ = pcr_low;
++
++	return 6;
 +}
 +
-+static int vidtv_stop_streaming(struct vidtv_dvb *dvb)
++void vidtv_ts_inc_cc(u8 *continuity_counter)
 +{
-+	dvb->streaming = false;
-+
-+	return 0;
++	++*continuity_counter;
++	if (*continuity_counter > TS_CC_MAX_VAL)
++		*continuity_counter = 0;
 +}
 +
-+static int vidtv_start_feed(struct dvb_demux_feed *feed)
++u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
 +{
-+	struct dvb_demux *demux = feed->demux;
-+	struct vidtv_dvb *dvb   = demux->priv;
-+	int rc;
-+	int ret;
++	u32    nbytes                  = 0;
++	struct vidtv_mpeg_ts ts_header = {0};
 +
-+	if (!demux->dmx.frontend)
-+		return -EINVAL;
++	ts_header.sync_byte          = TS_SYNC_BYTE;
++	ts_header.pid                = TS_NULL_PACKET_PID;
++	ts_header.payload            = 1;
++	ts_header.continuity_counter = *args.continuity_counter;
 +
-+	mutex_lock(&dvb->feed_lock);
++	cpu_to_be16s(&ts_header.bitfield);
 +
-+	dvb->nfeeds++;
-+	rc = dvb->nfeeds;
++	/* copy TS header */
++	nbytes += vidtv_memcpy(args.dest_buf,
++			       args.dest_offset + nbytes,
++			       args.buf_sz,
++			       &ts_header,
++			       sizeof(ts_header));
 +
-+	if (dvb->nfeeds == 1) {
-+		ret = vidtv_start_streaming(dvb);
-+		if (ret < 0)
-+			rc = ret;
-+	}
++	be16_to_cpus(&ts_header.bitfield);
 +
-+	mutex_unlock(&dvb->feed_lock);
-+	return rc;
++	/*
++	 * Note:
++	 *	This will cause a discontinuity if the buffer is full,
++	 *	effectively dropping the packet, since nothing will get written
++	 *	but the continuity counter will still be incremented. This way,
++	 *	userspace can detect packet losses.
++	 */
++	vidtv_ts_inc_cc(args.continuity_counter);
++
++	/* fill the rest with empty data */
++	nbytes += vidtv_memset(args.dest_buf,
++			       args.dest_offset + nbytes,
++			       args.buf_sz,
++			       TS_FILL_BYTE,
++			       TS_PACKET_LEN - nbytes);
++
++	/* we should have written exactly _one_ 188byte packet */
++	if (nbytes != TS_PACKET_LEN)
++		pr_warn_ratelimited("Expected exactly %d bytes, got %d\n",
++				    TS_PACKET_LEN,
++				    nbytes);
++
++	return nbytes;
 +}
 +
-+static int vidtv_stop_feed(struct dvb_demux_feed *feed)
++u32 vidtv_ts_pcr_write_into(struct pcr_write_args args)
 +{
-+	struct dvb_demux *demux = feed->demux;
-+	struct vidtv_dvb *dvb   = demux->priv;
-+	int    err              = 0;
++	u32    nbytes                         = 0;
++	struct vidtv_mpeg_ts ts_header        = {0};
++	struct vidtv_mpeg_ts_adaption ts_adap = {0};
 +
-+	mutex_lock(&dvb->feed_lock);
-+	dvb->nfeeds--;
++	ts_header.sync_byte     = TS_SYNC_BYTE;
++	ts_header.tei           = 0;
++	ts_header.payload_start = 0;
++	ts_header.pid           = args.pid;
++	ts_header.priority      = 0;
++	ts_header.scrambling    = 0;
++	/* cc is not incremented, but we need it. see 13818-1 clause 2.4.3.3 */
++	ts_header.continuity_counter = *args.continuity_counter;
++	ts_header.payload            = 0;
++	ts_header.adaptation_field   = 1;
 +
-+	if (!dvb->nfeeds)
-+		err = vidtv_stop_streaming(dvb);
++	/* 13818-1 clause 2.4.3.5 */
++	ts_adap.length = 183;
++	ts_adap.PCR    = 1;
 +
-+	mutex_unlock(&dvb->feed_lock);
-+	return err;
++	/*
++	 * Note:
++	 *	Nothing will get written if the buffer is full, this will
++	 *	essentially drop the packet. The continuity counter is not
++	 *	updated for PCR packets, so it will be as if no PCR packet was
++	 *	sent at all.
++	 */
++
++	cpu_to_be16s(&ts_header.bitfield);
++
++	/* copy TS header */
++	nbytes += vidtv_memcpy(args.dest_buf,
++			       args.dest_offset + nbytes,
++			       args.buf_sz,
++			       &ts_header,
++			       sizeof(ts_header));
++
++	be16_to_cpus(&ts_header.bitfield);
++
++	/* write the adap after the TS header */
++	nbytes += vidtv_memcpy(args.dest_buf,
++			       args.dest_offset + nbytes,
++			       args.buf_sz,
++			       &ts_adap,
++			       sizeof(ts_adap));
++
++	/* write the PCR optional */
++	cpu_to_be64s(&args.pcr);
++	nbytes += vidtv_ts_write_pcr_bits(args.dest_buf,
++					  args.dest_offset + nbytes,
++					  args.pcr);
++	be64_to_cpus(&args.pcr);
++
++	nbytes += vidtv_memset(args.dest_buf,
++			       args.dest_offset + nbytes,
++			       args.buf_sz,
++			       TS_FILL_BYTE,
++			       TS_PACKET_LEN - nbytes);
++
++	/* we should have written exactly _one_ 188byte packet */
++	if (nbytes != TS_PACKET_LEN)
++		pr_warn_ratelimited("Expected exactly %d bytes, got %d\n",
++				    TS_PACKET_LEN,
++				    nbytes);
++
++	return nbytes;
 +}
-+
-+static struct dvb_frontend *vidtv_get_frontend_ptr(struct i2c_client *c)
-+{
-+	/* the demod will set this when its probe function runs */
-+	struct vidtv_demod_state *state = i2c_get_clientdata(c);
-+
-+	return &state->frontend;
-+}
-+
-+static int vidtv_master_xfer(struct i2c_adapter *i2c_adap,
-+			     struct i2c_msg msgs[],
-+			     int num)
-+{
-+	return 0;
-+}
-+
-+static u32 vidtv_i2c_func(struct i2c_adapter *adapter)
-+{
-+	return I2C_FUNC_I2C;
-+}
-+
-+static const struct i2c_algorithm vidtv_i2c_algorithm = {
-+	.master_xfer   = vidtv_master_xfer,
-+	.functionality = vidtv_i2c_func,
-+};
-+
-+static int vidtv_bridge_i2c_register_adap(struct vidtv_dvb *dvb)
-+{
-+	struct i2c_adapter *i2c_adapter = &dvb->i2c_adapter;
-+
-+	strscpy(i2c_adapter->name, "vidtv_i2c", sizeof(i2c_adapter->name));
-+	i2c_adapter->owner      = THIS_MODULE;
-+	i2c_adapter->algo       = &vidtv_i2c_algorithm;
-+	i2c_adapter->algo_data  = NULL;
-+	i2c_adapter->timeout    = 500;
-+	i2c_adapter->retries    = 3;
-+	i2c_adapter->dev.parent = &dvb->pdev->dev;
-+
-+	i2c_set_adapdata(i2c_adapter, dvb);
-+	return i2c_add_adapter(&dvb->i2c_adapter);
-+}
-+
-+static int vidtv_bridge_register_adap(struct vidtv_dvb *dvb)
-+{
-+	int ret = 0;
-+
-+	ret = dvb_register_adapter(&dvb->adapter,
-+				   KBUILD_MODNAME,
-+				   THIS_MODULE,
-+				   &dvb->i2c_adapter.dev,
-+				   adapter_nums);
-+
-+	return ret;
-+}
-+
-+static int vidtv_bridge_dmx_init(struct vidtv_dvb *dvb)
-+{
-+	dvb->demux.dmx.capabilities = DMX_TS_FILTERING |
-+				      DMX_SECTION_FILTERING;
-+
-+	dvb->demux.priv       = dvb;
-+	dvb->demux.filternum  = 256;
-+	dvb->demux.feednum    = 256;
-+	dvb->demux.start_feed = vidtv_start_feed;
-+	dvb->demux.stop_feed  = vidtv_stop_feed;
-+
-+	return dvb_dmx_init(&dvb->demux);
-+}
-+
-+static int vidtv_bridge_dmxdev_init(struct vidtv_dvb *dvb)
-+{
-+	dvb->dmx_dev.filternum    = 256;
-+	dvb->dmx_dev.demux        = &dvb->demux.dmx;
-+	dvb->dmx_dev.capabilities = 0;
-+
-+	return dvb_dmxdev_init(&dvb->dmx_dev, &dvb->adapter);
-+}
-+
-+static int vidtv_bridge_probe_demod(struct vidtv_dvb *dvb, u32 n)
-+{
-+	struct vidtv_demod_config cfg = {};
-+
-+	cfg.drop_tslock_prob_on_low_snr     = drop_tslock_prob_on_low_snr;
-+	cfg.recover_tslock_prob_on_good_snr = recover_tslock_prob_on_good_snr;
-+
-+	dvb->i2c_client_demod[n] = dvb_module_probe("vidtv_demod",
-+						    NULL,
-+						    &dvb->i2c_adapter,
-+						    DEMOD_DEFAULT_ADDR,
-+						    &cfg);
-+
-+	/* driver will not work anyways so bail out */
-+	if (!dvb->i2c_client_demod[n])
-+		return -ENODEV;
-+
-+	/* retrieve a ptr to the frontend state */
-+	dvb->fe[n] = vidtv_get_frontend_ptr(dvb->i2c_client_demod[n]);
-+
-+	return 0;
-+}
-+
-+static int vidtv_bridge_probe_tuner(struct vidtv_dvb *dvb, u32 n)
-+{
-+	struct vidtv_tuner_config cfg = {};
-+
-+	cfg.fe                       = dvb->fe[n];
-+	cfg.mock_power_up_delay_msec = mock_power_up_delay_msec;
-+	cfg.mock_tune_delay_msec     = mock_tune_delay_msec;
-+
-+	memcpy(cfg.vidtv_valid_dvb_t_freqs,
-+	       vidtv_valid_dvb_t_freqs,
-+	       sizeof(vidtv_valid_dvb_t_freqs));
-+
-+	memcpy(cfg.vidtv_valid_dvb_c_freqs,
-+	       vidtv_valid_dvb_c_freqs,
-+	       sizeof(vidtv_valid_dvb_c_freqs));
-+
-+	memcpy(cfg.vidtv_valid_dvb_s_freqs,
-+	       vidtv_valid_dvb_s_freqs,
-+	       sizeof(vidtv_valid_dvb_s_freqs));
-+
-+	cfg.max_frequency_shift_hz = max_frequency_shift_hz;
-+
-+	dvb->i2c_client_tuner[n] = dvb_module_probe("vidtv_tuner",
-+						    NULL,
-+						    &dvb->i2c_adapter,
-+						    TUNER_DEFAULT_ADDR,
-+						    &cfg);
-+
-+	return (dvb->i2c_client_tuner[n]) ? 0 : -ENODEV;
-+}
-+
-+static int vidtv_bridge_dvb_init(struct vidtv_dvb *dvb)
-+{
-+	int ret;
-+	int i;
-+	int j;
-+	int k;
-+	int w;
-+	int l;
-+
-+	ret = vidtv_bridge_i2c_register_adap(dvb);
-+	if (ret < 0)
-+		goto fail_i2c;
-+
-+	ret = vidtv_bridge_register_adap(dvb);
-+	if (ret < 0)
-+		goto fail_adapter;
-+
-+	for (i = 0; i < NUM_FE; ++i) {
-+		ret = vidtv_bridge_probe_demod(dvb, i);
-+		if (ret < 0)
-+			goto fail_demod_probe;
-+
-+		ret = vidtv_bridge_probe_tuner(dvb, i);
-+		if (ret < 0)
-+			goto fail_tuner_probe;
-+
-+		ret = dvb_register_frontend(&dvb->adapter, dvb->fe[i]);
-+		if (ret < 0)
-+			goto fail_fe;
-+	}
-+
-+	ret = vidtv_bridge_dmx_init(dvb);
-+	if (ret < 0)
-+		goto fail_dmx;
-+
-+	ret = vidtv_bridge_dmxdev_init(dvb);
-+	if (ret < 0)
-+		goto fail_dmx_dev;
-+
-+	for (j = 0; j < NUM_FE; ++j) {
-+		ret = dvb->demux.dmx.connect_frontend(&dvb->demux.dmx,
-+						      &dvb->dmx_fe[j]);
-+		if (ret < 0)
-+			goto fail_dmx_conn;
-+
-+		/*
-+		 * The source of the demux is a frontend connected
-+		 * to the demux.
-+		 */
-+		dvb->dmx_fe[j].source = DMX_FRONTEND_0;
-+	}
-+
-+	return ret;
-+
-+fail_dmx_conn:
-+	for (j = j - 1; j >= 0; --j)
-+		dvb->demux.dmx.remove_frontend(&dvb->demux.dmx,
-+					       &dvb->dmx_fe[j]);
-+fail_dmx_dev:
-+	dvb_dmxdev_release(&dvb->dmx_dev);
-+fail_dmx:
-+	dvb_dmx_release(&dvb->demux);
-+fail_fe:
-+	for (k = i; k >= 0; --k)
-+		dvb_unregister_frontend(dvb->fe[k]);
-+fail_tuner_probe:
-+	for (w = i; w >= 0; --w)
-+		dvb_module_release(dvb->i2c_client_tuner[w]);
-+
-+fail_demod_probe:
-+	for (l = i; l >= 0; --l)
-+		dvb_module_release(dvb->i2c_client_demod[l]);
-+
-+fail_adapter:
-+	dvb_unregister_adapter(&dvb->adapter);
-+
-+fail_i2c:
-+	i2c_del_adapter(&dvb->i2c_adapter);
-+
-+	return ret;
-+}
-+
-+static int vidtv_bridge_probe(struct platform_device *pdev)
-+{
-+	int ret;
-+	struct vidtv_dvb *dvb;
-+
-+	dvb = kzalloc(sizeof(*dvb), GFP_KERNEL);
-+	if (!dvb)
-+		return -ENOMEM;
-+
-+	dvb->pdev = pdev;
-+
-+	ret = vidtv_bridge_dvb_init(dvb);
-+	if (ret < 0)
-+		goto err_dvb;
-+
-+	mutex_init(&dvb->feed_lock);
-+
-+	platform_set_drvdata(pdev, dvb);
-+
-+	return ret;
-+
-+err_dvb:
-+	kfree(dvb);
-+	return ret;
-+}
-+
-+static int vidtv_bridge_remove(struct platform_device *pdev)
-+{
-+	struct vidtv_dvb *dvb;
-+	u32 i;
-+
-+	dvb = platform_get_drvdata(pdev);
-+
-+	mutex_destroy(&dvb->feed_lock);
-+
-+	for (i = 0; i < NUM_FE; ++i)
-+		dvb->demux.dmx.remove_frontend(&dvb->demux.dmx,
-+					       &dvb->dmx_fe[i]);
-+
-+	dvb_dmxdev_release(&dvb->dmx_dev);
-+	dvb_dmx_release(&dvb->demux);
-+
-+	for (i = 0; i < NUM_FE; ++i) {
-+		dvb_unregister_frontend(dvb->fe[i]);
-+		dvb_frontend_detach(dvb->fe[i]);
-+	}
-+
-+	dvb_unregister_adapter(&dvb->adapter);
-+
-+	return 0;
-+}
-+
-+static void vidtv_bridge_dev_release(struct device *dev)
-+{
-+}
-+
-+static struct platform_device vidtv_bridge_dev = {
-+	.name		= "vidtv_bridge",
-+	.dev.release	= vidtv_bridge_dev_release,
-+};
-+
-+static struct platform_driver vidtv_bridge_driver = {
-+	.driver = {
-+		.name                = "vidtv_bridge",
-+		.suppress_bind_attrs = true,
-+	},
-+	.probe    = vidtv_bridge_probe,
-+	.remove   = vidtv_bridge_remove,
-+};
-+
-+static void __exit vidtv_bridge_exit(void)
-+{
-+	platform_driver_unregister(&vidtv_bridge_driver);
-+	platform_device_unregister(&vidtv_bridge_dev);
-+}
-+
-+static int __init vidtv_bridge_init(void)
-+{
-+	int ret;
-+
-+	ret = platform_device_register(&vidtv_bridge_dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = platform_driver_register(&vidtv_bridge_driver);
-+	if (ret)
-+		platform_device_unregister(&vidtv_bridge_dev);
-+
-+	return ret;
-+}
-+
-+module_init(vidtv_bridge_init);
-+module_exit(vidtv_bridge_exit);
-+
-+MODULE_DESCRIPTION("Virtual Digital TV Test Driver");
-+MODULE_AUTHOR("Daniel W. S. Almeida");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.h b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.h b/drivers/media/test-drivers/vidtv/vidtv_ts.h
 new file mode 100644
-index 0000000000000..4931bfb73273c
+index 0000000000000..b6c638d13d14f
 --- /dev/null
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
-@@ -0,0 +1,39 @@
++++ b/drivers/media/test-drivers/vidtv/vidtv_ts.h
+@@ -0,0 +1,120 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * The Virtual DTV test driver serves as a reference DVB driver and helps
++ * The Virtual DVB test driver serves as a reference DVB driver and helps
 + * validate the existing APIs in the media subsystem. It can also aid
 + * developers working on userspace applications.
 + *
 + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 + */
 +
-+#ifndef VIDTV_BRIDGE_H
-+#define VIDTV_BRIDGE_H
++#ifndef VIDTV_TS_H
++#define VIDTV_TS_H
 +
-+#define NUM_FE 1
-+
-+#include <linux/i2c.h>
-+#include <linux/platform_device.h>
 +#include <linux/types.h>
-+#include <media/dmxdev.h>
-+#include <media/dvb_demux.h>
-+#include <media/dvb_frontend.h>
++#include <asm/byteorder.h>
 +
-+struct vidtv_dvb {
-+	struct platform_device *pdev;
-+	struct dvb_frontend *fe[NUM_FE];
-+	struct dvb_adapter adapter;
-+	struct dvb_demux demux;
-+	struct dmxdev dmx_dev;
-+	struct dmx_frontend dmx_fe[NUM_FE];
-+	struct i2c_adapter i2c_adapter;
-+	struct i2c_client *i2c_client_demod[NUM_FE];
-+	struct i2c_client *i2c_client_tuner[NUM_FE];
++#define TS_SYNC_BYTE 0x47
++#define TS_PACKET_LEN 188
++#define TS_PAYLOAD_LEN 184
++#define TS_NULL_PACKET_PID 0x1fff
++#define TS_CC_MAX_VAL 0x0f /* 4 bits */
++#define TS_LAST_VALID_PID 8191
++#define TS_FILL_BYTE 0xff /* the byte used in packet stuffing */
 +
-+	u32 nfeeds;
-+	struct mutex feed_lock; /* start/stop feed */
++struct vidtv_mpeg_ts_adaption {
++	u8 length;
++	struct {
++#if defined(__LITTLE_ENDIAN_BITFIELD)
++		u8 extension:1;
++		u8 private_data:1;
++		u8 splicing_point:1;
++		u8 OPCR:1;
++		u8 PCR:1;
++		u8 priority:1;
++		u8 random_access:1;
++		u8 discontinued:1;
++#elif defined(__BIG_ENDIAN_BITFIELD)
++		u8 discontinued:1;
++		u8 random_access:1;
++		u8 priority:1;
++		u8 PCR:1;
++		u8 OPCR:1;
++		u8 splicing_point:1;
++		u8 private_data:1;
++		u8 extension:1;
++#else
++#error  "Unknown bitfield ordering"
++#endif
++	} __packed;
++	u8 data[];
++} __packed;
 +
-+	bool streaming;
++struct vidtv_mpeg_ts {
++	u8 sync_byte;
++	union {
++		u16 bitfield;
++		struct {
++			u16 pid:13;
++			u16 priority:1;
++			u16 payload_start:1;
++			u16 tei:1;
++		} __packed;
++	} __packed;
++	struct {
++#if defined(__LITTLE_ENDIAN_BITFIELD)
++		u8 continuity_counter:4;
++		u8 payload:1;
++		u8 adaptation_field:1;
++		u8 scrambling:2;
++#elif defined(__BIG_ENDIAN_BITFIELD)
++		u8 scrambling:2;
++		u8 adaptation_field:1;
++		u8 payload:1;
++		u8 continuity_counter:4;
++#else
++#error  "Unknown bitfield ordering"
++#endif
++	} __packed;
++	struct vidtv_mpeg_ts_adaption adaption[];
++} __packed;
++
++/**
++ * struct pcr_write_args - Arguments for the pcr_write_into function.
++ * @dest_buf: The buffer to write into.
++ * @dest_offset: The byte offset into the buffer.
++ * @pid: The TS PID for the PCR packets.
++ * @buf_sz: The size of the buffer in bytes.
++ * @countinuity_counter: The TS continuity_counter.
++ * @pcr: A sample from the system clock.
++ */
++struct pcr_write_args {
++	void *dest_buf;
++	u32 dest_offset;
++	u16 pid;
++	u32 buf_sz;
++	u8 *continuity_counter;
++	u64 pcr;
 +};
 +
-+#endif // VIDTV_BRIDG_H
++/**
++ * struct null_packet_write_args - Arguments for the null_write_into function
++ * @dest_buf: The buffer to write into.
++ * @dest_offset: The byte offset into the buffer.
++ * @buf_sz: The size of the buffer in bytes.
++ * @countinuity_counter: The TS continuity_counter.
++ */
++struct null_packet_write_args {
++	void *dest_buf;
++	u32 dest_offset;
++	u32 buf_sz;
++	u8 *continuity_counter;
++};
++
++/* Increment the continuity counter */
++void vidtv_ts_inc_cc(u8 *continuity_counter);
++
++u32 vidtv_ts_null_write_into(struct null_packet_write_args args);
++
++u32 vidtv_ts_pcr_write_into(struct pcr_write_args args);
++
++#endif //VIDTV_TS_H
 -- 
 2.26.2
 
