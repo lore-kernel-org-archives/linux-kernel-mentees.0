@@ -8,90 +8,90 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B8BC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:04:10 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA6FC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:04:13 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B8AB8207D3
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:04:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D01A520885
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:04:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hL3uKUZC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8AB8207D3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p/lyKf/G"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D01A520885
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 97C4E816DE;
-	Wed, 20 May 2020 07:04:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id ACF6C8815D;
+	Wed, 20 May 2020 07:04:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SlUEMNyPBITH; Wed, 20 May 2020 07:04:09 +0000 (UTC)
+	with ESMTP id qMPa7dBP28hq; Wed, 20 May 2020 07:04:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D48D480793;
-	Wed, 20 May 2020 07:04:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F1F7D87FD8;
+	Wed, 20 May 2020 07:04:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C3E8EC088A;
-	Wed, 20 May 2020 07:04:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A3ED6C0176
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E1D4BC088A;
+	Wed, 20 May 2020 07:04:11 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A6299C0176
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:04:08 +0000 (UTC)
+ Wed, 20 May 2020 07:04:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A075C80793
+ by silver.osuosl.org (Postfix) with ESMTP id 8FCD820553
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:04:08 +0000 (UTC)
+ Wed, 20 May 2020 07:04:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id k8uxxU6rL3xS
+ with ESMTP id FxoDRG-8-xV1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:04:07 +0000 (UTC)
+ Wed, 20 May 2020 07:04:04 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
- [209.85.222.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A05C086132
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by silver.osuosl.org (Postfix) with ESMTPS id CF29C2094E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:04:07 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id f13so2622268qkh.2
+ Wed, 20 May 2020 07:04:03 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id 142so2577102qkl.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 00:04:07 -0700 (PDT)
+ Wed, 20 May 2020 00:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Eu6zyVAv2okqAu2MpDIX4+uWLByOhOoVUD/ukYkdvtU=;
- b=hL3uKUZC+ShBYI7GA2vsr0K3vXSxPUe7eJnW9YA+ujZoBCfPsgwzaUXtKgFI+xOghY
- iCWRM0fxH7gdulYBcV0mF1Ts0QxaPzpbgbiv4PCwITXw6+ZkasZUaQsVqKbOE25wWz78
- Sob0yDX+m5VKXwPz3UwvMm6lQt4cHDW6ObTQYACHxsIZU5IKa/EtxGsMT9dPRtQLF4b3
- 7QEiSK1jEHocuxR45g/jXgFGz8p1wYo7vzQJb6TL6wKIDZcZflaljAnLPi9whUvyo16x
- mgv26ZTYU0x2X7/1nkLz+vAVpugybaMT5RqoytZWl9e4dCtn8aRYicNc2Hfla8SE6tJ2
- jRHQ==
+ bh=B45hogykBorpQm91C/FLYv1RqOa4QVoaffagDFE18Qs=;
+ b=p/lyKf/Gdc+2iVQRO4CL5QgtxU90uvVYQTbXEtDJ+qJkmEBdaHBzZtg3EYouUtnqDv
+ KX2OGCe9H50xiuG+xKF1wH7SqNELgTrbP2RYwvBz02CJFpY0vjJWF8oQqAB9I2H1wOlP
+ 7X4ha9uaAyBX4eTHzApnO71O8pp+lba37+gc7wCW2szngDosTNGKkLGYrYMMYKZCNFLF
+ S61Vyck5CVkVVEFJUuqJog26l/S2luLWpWPps1mtevZcnEG1AuGGVZ26PtNzgU553sqM
+ RXywEVAS29Cfen0buKuwimEi7TGKP9xThToFZIYl3QXzeA9jfGwt1n2p7dca09hqpFDk
+ cMHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Eu6zyVAv2okqAu2MpDIX4+uWLByOhOoVUD/ukYkdvtU=;
- b=hLM1VxnCMbYLxgixPflw+qjCjhBBHXNnb9WgG9u4mjoVVYaXF7Ly4ZgkYCi5yjgPBz
- zdb30cuT66t0mMrxBuj99Qx9slZ/GxMnfISd2pj0rKZv375NXKSG27gU6DdhoOglfyZc
- KdF3lXy/hjSf7j+9hiciydb4HTqnEa0V1RT9heepksWQuIsYPjHy9p0vj4ks9l3cGM9q
- lTpk+pECvXcKKHD+x+Lf26bx3rwz8MWldfjLLJz7YqohyiUC1exHtyenmxfRR7nV1cZy
- uivesU/7istzIdgb6I83UI2lyQbzGio31u03EzjcznBbmceFila+Qxo733M7mqb2XrEr
- jN5Q==
-X-Gm-Message-State: AOAM530a18PA6eAe/fQK+m2IpW5Wg0aEST6RbW5qEtBw0iv1ALGfUjEL
- hYyfBFjg2mX6xRDt1RkXwUQ=
-X-Google-Smtp-Source: ABdhPJwIM5NOT97Nxp2fyd1Y2xqqHdqgG0DhKVvamSgFiegtoWtz85BmA/oPp1PqnYHz1325W8Qh9A==
-X-Received: by 2002:a37:a7c8:: with SMTP id q191mr3272536qke.214.1589958246511; 
- Wed, 20 May 2020 00:04:06 -0700 (PDT)
+ bh=B45hogykBorpQm91C/FLYv1RqOa4QVoaffagDFE18Qs=;
+ b=BI9qNFbi4xxlQJDjHdrI6m2XsYHxIe1B6bwshnC+M/MBQdjkT0u+oL9cxcN6o8ACjA
+ fOwxLEOzckHta5Dusmj2n3p3DA6GurH0pHdYnj2MEz/i2K0Y3LVUfGKBLVhA4Kg0C9Dl
+ /a3XI8uxwNe5M4JI83N8QDF7Bgj4GYt9ChBbYgcFQvWIWGhj3ydxlmLUNMiNa08UhRtR
+ O9tIep9Z8tfGl6glIyqZg+r1k0yLU+jzniLHun+2iHY4xf4QPBnTrpVvBOlrcu5YoDRC
+ MdNhtt35tv5+3haW8iwq4wIgHmnOgCFfedTTXcSbNNmFhXP1MRvNAGW48mhHAHrVpwRC
+ d4AQ==
+X-Gm-Message-State: AOAM530GHGlP9sb8l0OMPYpoDIfQa9sItN2z6ZFSQ+ovGAQYDIeGdb79
+ UKp1maDLu7gJDpTEBVtnOEQ=
+X-Google-Smtp-Source: ABdhPJx/lvWZHJwUMrKvIsNzP2GHGpkP7hzzOjMX5m5YuAIDHeHmG50gFRYcLQ/uu8woz2yFi3/vhQ==
+X-Received: by 2002:a37:6e42:: with SMTP id j63mr3198105qkc.495.1589958242727; 
+ Wed, 20 May 2020 00:04:02 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id i23sm1598893qke.65.2020.05.20.00.04.03
+ by smtp.gmail.com with ESMTPSA id i23sm1598893qke.65.2020.05.20.00.03.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 00:04:05 -0700 (PDT)
+ Wed, 20 May 2020 00:04:01 -0700 (PDT)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To: mchehab+huawei@kernel.org, sean@mess.org, kstewart@linuxfoundation.org,
  allison@lohutok.net, tglx@linutronix.de
-Date: Wed, 20 May 2020 04:03:30 -0300
-Message-Id: <20200520070334.1778751-7-dwlsalmeida@gmail.com>
+Date: Wed, 20 May 2020 04:03:29 -0300
+Message-Id: <20200520070334.1778751-6-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200520070334.1778751-1-dwlsalmeida@gmail.com>
 References: <20200520070334.1778751-1-dwlsalmeida@gmail.com>
@@ -100,7 +100,7 @@ Cc: linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
 Subject: [Linux-kernel-mentees] [RFC, WIP,
-	v6 06/10] media: vidtv: add MPEG TS common code
+	v6 05/10] media: vidtv: add wrappers for memcpy and memset
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,23 +120,26 @@ Sender: "Linux-kernel-mentees"
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Add code to work with MPEG TS packets, such as TS headers, adaptation
-fields, PCR packets and NULL packets.
+A lot of code in this driver is for serializing structures. This is
+error prone.
+
+Therefore, prevent buffer overflows by wrapping memcpy and memset,
+comparing the requested length against the buffer size.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- drivers/media/test-drivers/vidtv/vidtv_ts.c | 157 ++++++++++++++++++++
- drivers/media/test-drivers/vidtv/vidtv_ts.h | 120 +++++++++++++++
- 2 files changed, 277 insertions(+)
- create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
- create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
+ .../media/test-drivers/vidtv/vidtv_common.c   | 86 +++++++++++++++++++
+ .../media/test-drivers/vidtv/vidtv_common.h   | 27 ++++++
+ 2 files changed, 113 insertions(+)
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.h
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c b/drivers/media/test-drivers/vidtv/vidtv_ts.c
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.c b/drivers/media/test-drivers/vidtv/vidtv_common.c
 new file mode 100644
-index 0000000000000..77908c4e85eef
+index 0000000000000..6810212087c17
 --- /dev/null
-+++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
-@@ -0,0 +1,157 @@
++++ b/drivers/media/test-drivers/vidtv/vidtv_common.c
+@@ -0,0 +1,86 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * The Virtual DVB test driver serves as a reference DVB driver and helps
@@ -150,156 +153,85 @@ index 0000000000000..77908c4e85eef
 +
 +#include <linux/printk.h>
 +#include <linux/ratelimit.h>
++#include <linux/string.h>
 +#include <linux/types.h>
-+#include <asm/byteorder.h>
 +
-+#include "vidtv_ts.h"
 +#include "vidtv_common.h"
 +
-+static u32 vidtv_ts_write_pcr_bits(u8 *to, u32 to_offset, u64 pcr)
++/**
++ * vidtv_memcpy() - wrapper routine to be used by MPEG-TS
++ *	generator, in order to avoid going past the
++ *	output buffer.
++ * @to:	Starting element to where a MPEG-TS packet will
++ *	be copied.
++ * @to_offset:	Starting position of the @to buffer to be filled.
++ * @to_size:	Size of the @to buffer.
++ * @from:	Starting element of the buffer to be copied.
++ * @len:	Number of elements to be copy from @from buffer
++ *	into @to+ @to_offset buffer.
++ *
++ * Note:
++ *	Real digital TV demod drivers should not have memcpy
++ *	wrappers. We use it here because emulating MPEG-TS
++ *	generation at kernelspace requires some extra care.
++ *
++ * Return:
++ *	Returns the number of bytes written
++ */
++u32 vidtv_memcpy(void *to,
++		 size_t to_offset,
++		 size_t to_size,
++		 const void *from,
++		 size_t len)
 +{
-+	/* Exact same from ffmpeg. PCR is a counter driven by a 27Mhz clock */
-+	u64 pcr_low = pcr % 300;
-+	u64 pcr_high = pcr / 300;
-+	u8 *buf = to + to_offset;
++	if (unlikely(to_offset + len > to_size)) {
++		pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size\n");
++		return 0;
++	}
 +
-+	*buf++ = pcr_high >> 25;
-+	*buf++ = pcr_high >> 17;
-+	*buf++ = pcr_high >>  9;
-+	*buf++ = pcr_high >>  1;
-+	*buf++ = pcr_high <<  7 | pcr_low >> 8 | 0x7e;
-+	*buf++ = pcr_low;
-+
-+	return 6;
++	memcpy(to + to_offset, from, len);
++	return len;
 +}
 +
-+void vidtv_ts_inc_cc(u8 *continuity_counter)
++/**
++ * vidtv_memset() - wrapper routine to be used by MPEG-TS
++ *	generator, in order to avoid going past the
++ *	output buffer.
++ * @to:	Starting element to set
++ * @to_offset:	Starting position of the @to buffer to be filled.
++ * @to_size:	Size of the @to buffer.
++ * @from:	Starting element of the buffer to be copied.
++ * @ten:	Number of elements to be copy from @from buffer
++ *	into @to+ @to_offset buffer.
++ *
++ * Note:
++ *	Real digital TV demod drivers should not have memset
++ *	wrappers. We use it here because emulating MPEG-TS
++ *	generation at kernelspace requires some extra care.
++ *
++ * Return:
++ *	Returns the number of bytes written
++ */
++u32 vidtv_memset(void *to,
++		 size_t to_offset,
++		 size_t to_size,
++		 const int c,
++		 size_t len)
 +{
-+	++*continuity_counter;
-+	if (*continuity_counter > TS_CC_MAX_VAL)
-+		*continuity_counter = 0;
++	if (unlikely(to_offset + len > to_size)) {
++		pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size\n");
++		return 0;
++	}
++
++	memset(to + to_offset, c, len);
++	return len;
 +}
-+
-+u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
-+{
-+	u32    nbytes                  = 0;
-+	struct vidtv_mpeg_ts ts_header = {0};
-+
-+	ts_header.sync_byte          = TS_SYNC_BYTE;
-+	ts_header.pid                = TS_NULL_PACKET_PID;
-+	ts_header.payload            = 1;
-+	ts_header.continuity_counter = *args.continuity_counter;
-+
-+	cpu_to_be16s(&ts_header.bitfield);
-+
-+	/* copy TS header */
-+	nbytes += vidtv_memcpy(args.dest_buf,
-+			       args.dest_offset + nbytes,
-+			       args.buf_sz,
-+			       &ts_header,
-+			       sizeof(ts_header));
-+
-+	be16_to_cpus(&ts_header.bitfield);
-+
-+	/*
-+	 * Note:
-+	 *	This will cause a discontinuity if the buffer is full,
-+	 *	effectively dropping the packet, since nothing will get written
-+	 *	but the continuity counter will still be incremented. This way,
-+	 *	userspace can detect packet losses.
-+	 */
-+	vidtv_ts_inc_cc(args.continuity_counter);
-+
-+	/* fill the rest with empty data */
-+	nbytes += vidtv_memset(args.dest_buf,
-+			       args.dest_offset + nbytes,
-+			       args.buf_sz,
-+			       TS_FILL_BYTE,
-+			       TS_PACKET_LEN - nbytes);
-+
-+	/* we should have written exactly _one_ 188byte packet */
-+	if (nbytes != TS_PACKET_LEN)
-+		pr_warn_ratelimited("Expected exactly %d bytes, got %d\n",
-+				    TS_PACKET_LEN,
-+				    nbytes);
-+
-+	return nbytes;
-+}
-+
-+u32 vidtv_ts_pcr_write_into(struct pcr_write_args args)
-+{
-+	u32    nbytes                         = 0;
-+	struct vidtv_mpeg_ts ts_header        = {0};
-+	struct vidtv_mpeg_ts_adaption ts_adap = {0};
-+
-+	ts_header.sync_byte     = TS_SYNC_BYTE;
-+	ts_header.tei           = 0;
-+	ts_header.payload_start = 0;
-+	ts_header.pid           = args.pid;
-+	ts_header.priority      = 0;
-+	ts_header.scrambling    = 0;
-+	/* cc is not incremented, but we need it. see 13818-1 clause 2.4.3.3 */
-+	ts_header.continuity_counter = *args.continuity_counter;
-+	ts_header.payload            = 0;
-+	ts_header.adaptation_field   = 1;
-+
-+	/* 13818-1 clause 2.4.3.5 */
-+	ts_adap.length = 183;
-+	ts_adap.PCR    = 1;
-+
-+	/*
-+	 * Note:
-+	 *	Nothing will get written if the buffer is full, this will
-+	 *	essentially drop the packet. The continuity counter is not
-+	 *	updated for PCR packets, so it will be as if no PCR packet was
-+	 *	sent at all.
-+	 */
-+
-+	cpu_to_be16s(&ts_header.bitfield);
-+
-+	/* copy TS header */
-+	nbytes += vidtv_memcpy(args.dest_buf,
-+			       args.dest_offset + nbytes,
-+			       args.buf_sz,
-+			       &ts_header,
-+			       sizeof(ts_header));
-+
-+	be16_to_cpus(&ts_header.bitfield);
-+
-+	/* write the adap after the TS header */
-+	nbytes += vidtv_memcpy(args.dest_buf,
-+			       args.dest_offset + nbytes,
-+			       args.buf_sz,
-+			       &ts_adap,
-+			       sizeof(ts_adap));
-+
-+	/* write the PCR optional */
-+	cpu_to_be64s(&args.pcr);
-+	nbytes += vidtv_ts_write_pcr_bits(args.dest_buf,
-+					  args.dest_offset + nbytes,
-+					  args.pcr);
-+	be64_to_cpus(&args.pcr);
-+
-+	nbytes += vidtv_memset(args.dest_buf,
-+			       args.dest_offset + nbytes,
-+			       args.buf_sz,
-+			       TS_FILL_BYTE,
-+			       TS_PACKET_LEN - nbytes);
-+
-+	/* we should have written exactly _one_ 188byte packet */
-+	if (nbytes != TS_PACKET_LEN)
-+		pr_warn_ratelimited("Expected exactly %d bytes, got %d\n",
-+				    TS_PACKET_LEN,
-+				    nbytes);
-+
-+	return nbytes;
-+}
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.h b/drivers/media/test-drivers/vidtv/vidtv_ts.h
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.h b/drivers/media/test-drivers/vidtv/vidtv_common.h
 new file mode 100644
-index 0000000000000..b6c638d13d14f
+index 0000000000000..a3cb303cc7423
 --- /dev/null
-+++ b/drivers/media/test-drivers/vidtv/vidtv_ts.h
-@@ -0,0 +1,120 @@
++++ b/drivers/media/test-drivers/vidtv/vidtv_common.h
+@@ -0,0 +1,27 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * The Virtual DVB test driver serves as a reference DVB driver and helps
@@ -309,117 +241,24 @@ index 0000000000000..b6c638d13d14f
 + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 + */
 +
-+#ifndef VIDTV_TS_H
-+#define VIDTV_TS_H
++#ifndef VIDTV_COMMON_H
++#define VIDTV_COMMON_H
 +
 +#include <linux/types.h>
-+#include <asm/byteorder.h>
 +
-+#define TS_SYNC_BYTE 0x47
-+#define TS_PACKET_LEN 188
-+#define TS_PAYLOAD_LEN 184
-+#define TS_NULL_PACKET_PID 0x1fff
-+#define TS_CC_MAX_VAL 0x0f /* 4 bits */
-+#define TS_LAST_VALID_PID 8191
-+#define TS_FILL_BYTE 0xff /* the byte used in packet stuffing */
++u32 vidtv_memcpy(void *to,
++		 size_t to_offset,
++		 size_t to_size,
++		 const void *from,
++		 size_t len);
 +
-+struct vidtv_mpeg_ts_adaption {
-+	u8 length;
-+	struct {
-+#if defined(__LITTLE_ENDIAN_BITFIELD)
-+		u8 extension:1;
-+		u8 private_data:1;
-+		u8 splicing_point:1;
-+		u8 OPCR:1;
-+		u8 PCR:1;
-+		u8 priority:1;
-+		u8 random_access:1;
-+		u8 discontinued:1;
-+#elif defined(__BIG_ENDIAN_BITFIELD)
-+		u8 discontinued:1;
-+		u8 random_access:1;
-+		u8 priority:1;
-+		u8 PCR:1;
-+		u8 OPCR:1;
-+		u8 splicing_point:1;
-+		u8 private_data:1;
-+		u8 extension:1;
-+#else
-+#error  "Unknown bitfield ordering"
-+#endif
-+	} __packed;
-+	u8 data[];
-+} __packed;
++u32 vidtv_memset(void *to,
++		 size_t to_offset,
++		 size_t to_size,
++		 int c,
++		 size_t len);
 +
-+struct vidtv_mpeg_ts {
-+	u8 sync_byte;
-+	union {
-+		u16 bitfield;
-+		struct {
-+			u16 pid:13;
-+			u16 priority:1;
-+			u16 payload_start:1;
-+			u16 tei:1;
-+		} __packed;
-+	} __packed;
-+	struct {
-+#if defined(__LITTLE_ENDIAN_BITFIELD)
-+		u8 continuity_counter:4;
-+		u8 payload:1;
-+		u8 adaptation_field:1;
-+		u8 scrambling:2;
-+#elif defined(__BIG_ENDIAN_BITFIELD)
-+		u8 scrambling:2;
-+		u8 adaptation_field:1;
-+		u8 payload:1;
-+		u8 continuity_counter:4;
-+#else
-+#error  "Unknown bitfield ordering"
-+#endif
-+	} __packed;
-+	struct vidtv_mpeg_ts_adaption adaption[];
-+} __packed;
-+
-+/**
-+ * struct pcr_write_args - Arguments for the pcr_write_into function.
-+ * @dest_buf: The buffer to write into.
-+ * @dest_offset: The byte offset into the buffer.
-+ * @pid: The TS PID for the PCR packets.
-+ * @buf_sz: The size of the buffer in bytes.
-+ * @countinuity_counter: The TS continuity_counter.
-+ * @pcr: A sample from the system clock.
-+ */
-+struct pcr_write_args {
-+	void *dest_buf;
-+	u32 dest_offset;
-+	u16 pid;
-+	u32 buf_sz;
-+	u8 *continuity_counter;
-+	u64 pcr;
-+};
-+
-+/**
-+ * struct null_packet_write_args - Arguments for the null_write_into function
-+ * @dest_buf: The buffer to write into.
-+ * @dest_offset: The byte offset into the buffer.
-+ * @buf_sz: The size of the buffer in bytes.
-+ * @countinuity_counter: The TS continuity_counter.
-+ */
-+struct null_packet_write_args {
-+	void *dest_buf;
-+	u32 dest_offset;
-+	u32 buf_sz;
-+	u8 *continuity_counter;
-+};
-+
-+/* Increment the continuity counter */
-+void vidtv_ts_inc_cc(u8 *continuity_counter);
-+
-+u32 vidtv_ts_null_write_into(struct null_packet_write_args args);
-+
-+u32 vidtv_ts_pcr_write_into(struct pcr_write_args args);
-+
-+#endif //VIDTV_TS_H
++#endif // VIDTV_COMMON_H
 -- 
 2.26.2
 
