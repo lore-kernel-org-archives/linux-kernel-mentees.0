@@ -1,105 +1,88 @@
-Return-Path: <SRS0=jt7Q=7C=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=YTM5=7E=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 221D0C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:22:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A3BCC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 May 2020 22:40:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DCFA7205CB
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 May 2020 07:22:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A1B88204EA
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 May 2020 22:40:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tkLV7x9Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCFA7205CB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="sLAEowTm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A1B88204EA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B59BF8762A;
-	Wed, 20 May 2020 07:22:08 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nD0sV926-pxf; Wed, 20 May 2020 07:22:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A84F98761B;
-	Wed, 20 May 2020 07:22:07 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A0C0C07FF;
-	Wed, 20 May 2020 07:22:07 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7F5C6C0176
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:22:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 67CAD88091
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:22:06 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5F3AE8923B;
+	Fri, 22 May 2020 22:40:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gJgcdiq3dM6T; Fri, 22 May 2020 22:40:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id F104C8913C;
+	Fri, 22 May 2020 22:40:20 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CD948C0863;
+	Fri, 22 May 2020 22:40:20 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE58EC0176
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 22 May 2020 22:40:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id A594725E5D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 22 May 2020 22:40:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dZdCDp3YK-za
+ with ESMTP id 20KcLbEe5GZY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:22:05 +0000 (UTC)
+ Fri, 22 May 2020 22:40:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0AE2A88018
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id F152220531
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 07:22:05 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id i14so2565525qka.10
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2020 00:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:message-id:in-reply-to:references:subject
- :mime-version:content-transfer-encoding:content-disposition;
- bh=xb21+pzxr3Bmc+f6qLF5vmibm9Z7LktEGEv/X1GH7YU=;
- b=tkLV7x9QQSZ1yO4CF5A+1TfeY8Y/9+0vBFl9+85fDG9QuDaEG8UshBBAyiWgjnQLhF
- Uu82DTzmdrUx7E1TPKUYqYCf5jYi6ZlAYBOdbPNDbi2WI19LVRA819+neLt7E8mfE5y6
- JPgyqeZiMRhBxwWyUn32tBSdwViLCRqqD0XoAOVZH+wzRptfKmgw+b7s5/n1eclfjvBd
- opi9zDvQsd7CeE3UmtZw/Xw6NUQ70C5B8iUgnbyAixo8hVDXy9i2+/sjTC3TgDYqnzQF
- kV2c5Vl7A9iIn+jk0lBbhaPtlow92Y5yI8HuFcZ5Gqfh8eN1nevNgvQIOiqMdAfe+IBY
- XNSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
- :references:subject:mime-version:content-transfer-encoding
- :content-disposition;
- bh=xb21+pzxr3Bmc+f6qLF5vmibm9Z7LktEGEv/X1GH7YU=;
- b=iCYdew2guJN6uzpG/Yn0KubVgiHekxWdUMlQUmk4+hY4lvxITwg0kcpQcR3CHOo5bE
- o/sWaeoKZtG9irYvBGvIJkigcQE/5eVJha8gx+H5CZSQ5tKecR/5kFii2r2/4qnXh21g
- MMihCg2AMDZTG4Fj+tZp9HohZBasXsOACuUugAQl/j6IBTm6QAHEpQV0RtVRhbjjB60Y
- xGApKZnRnvMYM5+i//Qwp0Q5zj5dPDWw/V0weHbqSZbOxlaXRx0n2/p5m54MM7k0bamO
- I16XX6FDz92EO/2IIAoZZQdLcKHg0SlkFDp9/zckWLtpIzPmkczozxXlhsKbv7qgYIqZ
- 9ppQ==
-X-Gm-Message-State: AOAM531iYbPKrdW1CALs4+D3XpQbT0+IdWFhqHJxdv6lqZ9EWus6y1Ws
- 8+oRyJ6daOEY0+JqkFsD+sE=
-X-Google-Smtp-Source: ABdhPJwGKR7dSGZoB8unx9tx1LUpD/bN8rg5EBcGSd5EekHPKy0ul/7QXt7yVV7bcOw9cBmAXngsVA==
-X-Received: by 2002:a37:a508:: with SMTP id o8mr3486973qke.390.1589959323977; 
- Wed, 20 May 2020 00:22:03 -0700 (PDT)
-Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id t88sm1794914qtd.5.2020.05.20.00.22.01
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 20 May 2020 00:22:03 -0700 (PDT)
-Date: Wed, 20 May 2020 04:22:00 -0300
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Message-ID: <222A87CA-F424-4B7D-ABDF-318BF1A6791F@getmailspring.com>
-In-Reply-To: <20200519104834.3c4bf5d7@coco.lan>
-References: <20200519104834.3c4bf5d7@coco.lan>
-X-Mailer: Mailspring
+ Fri, 22 May 2020 22:40:18 +0000 (UTC)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net
+ [24.9.64.241])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 48BAD204EA;
+ Fri, 22 May 2020 22:40:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1590187217;
+ bh=6VBOAlJoPz7ULVbRUKA5Ubh9oBBqQcvYDNDgMR9WFV0=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=sLAEowTmi27guJYKxjE/VKhXLyK8DZ6lvfw1B89SHMNT6kak7yzdTRwF8hFe4AxYK
+ 4b7GNkzsTpyWAmxTxcck5pvku4zKB10WJdFmRyJvE5OYjEF4C+xMboOt+EAbACr2Lt
+ j/hS/M8Q1nTfERX9RPmPq1dxmvnyoTlMLVNQGL5M=
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Vitor Massaru Iha <vitor@massaru.org>
+References: <20200414230950.83665-1-vitor@massaru.org>
+ <CAFd5g47CaeEBiJsiSUtihHQF+OGpfCg76dS2ys2mwy2qn_L5-w@mail.gmail.com>
+From: shuah <shuah@kernel.org>
+Message-ID: <c035d65b-7e93-f948-22f9-73a56193ec36@kernel.org>
+Date: Fri, 22 May 2020 16:40:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org=22=22=22?="
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Subject: Re: [Linux-kernel-mentees] modprobing 'vidtv' doesn't really do
-	anything
+In-Reply-To: <CAFd5g47CaeEBiJsiSUtihHQF+OGpfCg76dS2ys2mwy2qn_L5-w@mail.gmail.com>
+Content-Language: en-US
+Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ shuah <shuah@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Gow <davidgow@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [RESEND] kunit: use --build_dir=.kunit
+	as default
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,52 +94,35 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Mauro,
-
-> Actually, passing 0 is not the right thing there. The init code
-> should either be using gcc style:
+On 4/16/20 5:11 PM, Brendan Higgins wrote:
+> On Tue, Apr 14, 2020 at 4:09 PM Vitor Massaru Iha <vitor@massaru.org> wrote:
+>>
+>> To make KUnit easier to use, and to avoid overwriting object and
+>> .config files, the default KUnit build directory is set to .kunit
+>>
+>>   * Related bug: https://bugzilla.kernel.org/show_bug.cgi?id=205221
+>>
+>> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
 > 
-> 	struct psi_write_args psi_args = {}  
+> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
 > 
 
-I did not know that! Now fixed by replacing " = {0}" with " = {}"
+Applied the patch to kselftest/kunit on top of
 
-As I said, the probing functions are actually called, but now I am
-running into other issues..
+45ba7a893ad89114e773b3dc32f6431354c465d6
+kunit: kunit_tool: Separate out config/build/exec/parse
 
-I have sent a new revision (v6), in which I have squashed your patch
-plus a few changes to the bridge driver.
+from David's work resolving merge conflicts. Please check if it is
+sane.
 
-In vidtv_bridge.c:266, dvb_module_probe always returns NULL. That is
-because i2c_client_has_driver(client) fails, because client->dev.driver
-is NULL.
-
-I suspect this line is to blame, but I am not sure..
->	i2c_adapter->dev.parent = &dvb->pdev->dev;
-
-
-Also, when this happens, some error handling code will run starting at
-vidtv_bridge.c:383, but that will not remove the modules (i.e. lsmod
-will still list the bridge and the demod). Is this expected? Should I
-call vidtv_bridge_exit manually?
-
-Also, should I worry about this?
-
->BUG: KASAN: user-memory-access in >do_init_module+0x1d/0x330
->Read of size 8 at addr 000000008322fe90 by task >modprobe/1290
-
-I did not call this directly and I don't see a way to trace it back to
-my code just by looking at "do_init_module+0x1d/0x330"
-
-Thanks
-
-- Daniel
+thanks,
+-- Shuah
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
