@@ -8,97 +8,96 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1980C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 May 2020 17:20:41 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4458CC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 May 2020 17:20:47 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D4A0206C3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 May 2020 17:20:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 11965206C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 May 2020 17:20:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GD+Aw4zQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D4A0206C3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BPJ0VOlF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 11965206C3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1B9B020022;
-	Sun, 24 May 2020 17:20:40 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JAzHTh3iRqjE; Sun, 24 May 2020 17:20:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5ABBE21F76;
-	Sun, 24 May 2020 17:20:39 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 569F7C0178;
-	Sun, 24 May 2020 17:20:39 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 179B1C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 May 2020 17:20:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 07D72874F7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 May 2020 17:20:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DF8488757D;
+	Sun, 24 May 2020 17:20:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mevewC+aQULF; Sun, 24 May 2020 17:20:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 87EE88746E;
+	Sun, 24 May 2020 17:20:46 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 764C7C0178;
+	Sun, 24 May 2020 17:20:46 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB718C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 24 May 2020 17:20:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id B73D5221FB
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 24 May 2020 17:20:44 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vEnkRRlsZ987
+ with ESMTP id csZc68+GXRhw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 May 2020 17:20:37 +0000 (UTC)
+ Sun, 24 May 2020 17:20:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A9D318746E
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 1FD3F20022
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 May 2020 17:20:37 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id bg4so1322992plb.3
+ Sun, 24 May 2020 17:20:44 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id z64so3343308pfb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 May 2020 10:20:37 -0700 (PDT)
+ Sun, 24 May 2020 10:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IWhjiqCz7sgfQyTp/d6pdTlEkZVv28HycuwtrcC3AHg=;
- b=GD+Aw4zQzV6sd1/pP+VrHlm+tddFn2e4Gl7Qnj/XPBFJ3UAqmoWi4hUuIpJTFNMhYc
- mB77ICRMA2U8fBRdyZq6/cXylteJGIKHxYtjBWgFYGH5Lpw2wyDNRjktJfJKyZKGGPr8
- Erjpqh0rq31kpaH9ykjEslrFoSouqd+9soQnF8+kI2SB/JB5twawgBXkS3hsbOE0FPAS
- xDzD0E33o7KqdlVzv31mlBDZ3h7ed3BrWuu7LTSJAULQK9OqMiTHtITq2X5xTq0ANAf3
- 1+cb/EywJ8bJT8l3kRdIfk5JB5N/+uHtFiU47MzYxRNplx7i0KulRRij4zxB5/xItIpa
- +Sag==
+ bh=CIT4ulcINpSBAMknhc5mGb5HbX9zV5kFWcp1NsjcRxY=;
+ b=BPJ0VOlFfsKKSzPec7CrqCHH8wuGv1L+AUhF2otkAmCqO3LKiHSbwDbQV0H9C+hT2d
+ vlX74CyhLVLre5GWPq5p4p1IF9VD9TL6bu/UgIEJzudgJs47kPwhUOyRru89yok3UcRz
+ 12U/ojy0dRNO6NyShvp8ZmrFdbb64wlXnjhb1g4DfFShXh78weQfDYGUXSgqofi0g5XG
+ DFoRIE5LWB6twzCOiLnVM8rfVoUqc6MVldy+pe1GoHsc/E98JGotaQnQMWjUd2VpccOx
+ DfMDhCiWAXB2UsIz7etzFlAJFh7H+Z4KRB4kSfYljJdu6K8b291v3mUmXj96US/Ebe3i
+ YRag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IWhjiqCz7sgfQyTp/d6pdTlEkZVv28HycuwtrcC3AHg=;
- b=b+mVuBLCgsFm31MD3mBEmBeUBs0ulSjPOJmy1iDLORIzre5+NjJui/o/Wmb83OplEe
- JthFhFecVvPgLnBS13qC9Cmrjf1CWLmyE5PqXOYirJGEvv/LxL0vIpX4bWiJEpdRvHep
- bpA4RXsOkf2VbJ3XhcNldR9j+tfVjYWUWpmVhsBWgE2cPmjfHStmdpRgZUfvuZsYDD72
- p+0yH6Iu3FVxMNtYI8LYkonKeiNthHpROjPcSCTLfkTFdKfZuTWjq/5YWaK+nmiFIgZc
- lRuwQ+45kjQzRC/IirwXentn6ROuRuNQKl+RzX7JICLznQk9IPdPPweOTTdXr+oA0IaD
- 7QLQ==
-X-Gm-Message-State: AOAM5303CIpNs9dEc5tFsnHTZHsa31J2kSv4V9L187Hk/XwAANEd/sAf
- /BCkcf217so+4z7XTxzEulxJJn/VDok=
-X-Google-Smtp-Source: ABdhPJz+0al7k3pzOm/3mf9vPf9KQNhHzx/SU/Eqy3RWqhaJzzlpGvPWId4NMpoxMS7jysG4pe/biQ==
-X-Received: by 2002:a17:902:9a46:: with SMTP id
- x6mr16624239plv.141.1590340837034; 
- Sun, 24 May 2020 10:20:37 -0700 (PDT)
+ bh=CIT4ulcINpSBAMknhc5mGb5HbX9zV5kFWcp1NsjcRxY=;
+ b=WyZGRohoZ+FKfd5QcLyURQAPpIv7TbtoCOha5zwOzBwDcXGpTvOgHqIAqBrPI9J2w6
+ ADpltY7EPqpNlwjtNoChF4ftEgPyLEvszUozkNIzGCUdX8Gc/n+V6zxUcwV8Gs89ybeA
+ tHPvMK+/mZ4lFBMD6K3mdgZ4LEvMfuAzmLbzMCAmZTXl3vtPNcU2T2IEbV97rgmi20AY
+ wxfGE0Nh3YQunFPIocmb2nag60foJJNpRID/ReO0gzzslLqIk7ahO4Ek08K7/b9aTjZ5
+ vn0G/bJZgG9YTwYcr/IMp+ppwjRv+RMsqXTN1f81OJN5+9AnhTrzAveq4CE8UjDRaPQ8
+ WfbQ==
+X-Gm-Message-State: AOAM533CupTDnIDbKYznyrIELQHU6+1WsDT96WgmYMmMuVemY+qtYihM
+ y0iZBOtEYRvEX1d9324GBy8=
+X-Google-Smtp-Source: ABdhPJw+77kDDLQn1On68qbHo3AmPG4Qb40VIxJWOYxg7AEl3IN6KIS3iZDIjRSCpbvZg7jMzetAVA==
+X-Received: by 2002:a63:348b:: with SMTP id b133mr2537096pga.319.1590340843671; 
+ Sun, 24 May 2020 10:20:43 -0700 (PDT)
 Received: from localhost.localdomain ([1.38.220.54])
- by smtp.gmail.com with ESMTPSA id d9sm6556497pfn.72.2020.05.24.10.20.31
+ by smtp.gmail.com with ESMTPSA id d9sm6556497pfn.72.2020.05.24.10.20.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 May 2020 10:20:36 -0700 (PDT)
+ Sun, 24 May 2020 10:20:43 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Sun, 24 May 2020 22:49:12 +0530
-Message-Id: <20200524171935.2504-8-jaskaransingh7654321@gmail.com>
+Date: Sun, 24 May 2020 22:49:13 +0530
+Message-Id: <20200524171935.2504-9-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200524171935.2504-1-jaskaransingh7654321@gmail.com>
 References: <20200524171935.2504-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 07/30] parsing_cocci: type_infer:
-	Reflect Macrodecl attributes
+Subject: [Linux-kernel-mentees] [PATCH 08/30] parsing_cocci: arity: Reflect
+	Macrodecl attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,26 +116,37 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 Macrodecl attributes are added to the SmPL AST. Reflect these changes in
-type_infer.ml.
+arity.ml.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_cocci/type_infer.ml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ parsing_cocci/arity.ml | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/parsing_cocci/type_infer.ml b/parsing_cocci/type_infer.ml
-index e8aad810..34c4aa31 100644
---- a/parsing_cocci/type_infer.ml
-+++ b/parsing_cocci/type_infer.ml
-@@ -380,7 +380,7 @@ let rec propagate_types env =
-     | Ast0.UnInit(_,ty,id,_,_) ->
- 	List.map (function i -> (i,ty)) (strip id)
-     | Ast0.FunProto(fi,nm,lp,params,va,rp,sem) -> []
--    | Ast0.MacroDecl(_,_,_,_,_,_) -> []
-+    | Ast0.MacroDecl(_,_,_,_,_,_,_) -> []
-     | Ast0.MacroDeclInit(_,_,_,_,_,_,exp,_) ->
-         let _ = (propagate_types env).VT0.combiner_rec_initialiser exp in
- 	[]
+diff --git a/parsing_cocci/arity.ml b/parsing_cocci/arity.ml
+index 8ee6d33f..1c74aa8b 100644
+--- a/parsing_cocci/arity.ml
++++ b/parsing_cocci/arity.ml
+@@ -595,7 +595,7 @@ and declaration tgt decl =
+       let rp1 = mcode rp1 in
+       let sem = mcode sem in
+       make_decl decl tgt arity (Ast0.FunProto(fi,name,lp1,params,va,rp1,sem))
+-  | Ast0.MacroDecl(stg,name,lp,args,rp,sem) ->
++  | Ast0.MacroDecl(stg,name,lp,args,rp,attr,sem) ->
+       let arity =
+ 	all_same true tgt (mcode2line lp)
+ 	  ((match stg with None -> [] | Some x -> [mcode2arity x]) @
+@@ -605,8 +605,9 @@ and declaration tgt decl =
+       let lp = mcode lp in
+       let args = dots (expression arity) args in
+       let rp = mcode rp in
++      let attr = List.map mcode attr in
+       let sem = mcode sem in
+-      make_decl decl tgt arity (Ast0.MacroDecl(stg,name,lp,args,rp,sem))
++      make_decl decl tgt arity (Ast0.MacroDecl(stg,name,lp,args,rp,attr,sem))
+   | Ast0.MacroDeclInit(stg,name,lp,args,rp,eq,ini,sem) ->
+       let arity =
+ 	all_same true tgt (mcode2line lp)
 -- 
 2.21.1
 
