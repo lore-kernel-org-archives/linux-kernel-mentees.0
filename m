@@ -2,111 +2,110 @@ Return-Path: <SRS0=2zBv=7I=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C431C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 May 2020 12:34:51 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 767E7C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 May 2020 13:58:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 31B942088E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 May 2020 12:34:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3DD412086A
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 May 2020 13:58:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paul-moore-com.20150623.gappssmtp.com header.i=@paul-moore-com.20150623.gappssmtp.com header.b="Q1G6ImSR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31B942088E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=paul-moore.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dH/zxctH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3DD412086A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D6F2022CCE;
-	Tue, 26 May 2020 12:34:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1327F87722;
+	Tue, 26 May 2020 13:58:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CVyg-mJfNJUu; Tue, 26 May 2020 12:34:49 +0000 (UTC)
+	with ESMTP id hDW+B9GSxglj; Tue, 26 May 2020 13:58:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5C5982049D;
-	Tue, 26 May 2020 12:34:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0B60287708;
+	Tue, 26 May 2020 13:58:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 41086C0888;
-	Tue, 26 May 2020 12:34:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0560BC088D;
+	Tue, 26 May 2020 13:58:54 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2A580C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2E81AC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 12:34:47 +0000 (UTC)
+ Tue, 26 May 2020 13:58:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 19BBE85FB2
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2B0898612B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 12:34:47 +0000 (UTC)
+ Tue, 26 May 2020 13:58:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id v6ekXlgVWmIw
+ with ESMTP id qKkqv_-mGvQQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 12:34:46 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id DE4FD85F91
+ Tue, 26 May 2020 13:58:52 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 85770860F2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 12:34:45 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id b91so17522471edf.3
+ Tue, 26 May 2020 13:58:52 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id z3so16307556otp.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 05:34:45 -0700 (PDT)
+ Tue, 26 May 2020 06:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JUFqBLf1RiIPnvjRp2NeVt7jf0hFenXjeR9kjT+Rdf0=;
- b=Q1G6ImSRc/01YqdhB6mWCmEe/l4IF827QZZCdkXZi5fpxWvRPUQLlrm6r3Aqsf+Q5p
- i7C9AzPEpnqFga5IAaazmqb0xjO2eq24t34iW7ZdFGDkmS8zo8ojsurxUDg1u2enqyFv
- 8Bm/L705TWD6kTYco6/L6nYO7BudiVhZjXMJD7N3P/Cn9wV2pdYXLlrkSPuW/MAWxutu
- Ve1d5ejarNGPbce+dqUHzszZqDGXomMcuIlE4U2wrY11wMy0dF62LuvytGOQmzjqnKvP
- gWn3PVFimungMQz+ZhioqxaziPvDG/GW1qNjStXmyLSCKPkIJChDzfLQyE+4joc9Cpsw
- jX2g==
+ d=linuxfoundation.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XWqm20ortSoNX+nbX7a42upA+Vp64e+AVN09KF9Ad8M=;
+ b=dH/zxctH3oJeLyU5L+BqkAe7IuarlhEZvNhoE61BAaOVZQYyWBIx6XMKPEj9Q2xMWP
+ ZsEFnhvFyiLx3H8BBdfGDHVnBXtNyuTxECLTFxOv9e6JXEKggaRuPijgIy8jOBVnTLmg
+ 810kGA3cnWAe5bxBSO7qekFipcvZXgBSCLPGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JUFqBLf1RiIPnvjRp2NeVt7jf0hFenXjeR9kjT+Rdf0=;
- b=NvFYla5YP+NcayVI+vzTdf0j/W4bSKO3+Hma4IZLALKiAsQRB57eU605Lqn6FM84R8
- LdBDUUbZqkJI4Mi5i/BelLDEjJW3dJX5jJHAXb7LH0GswKpNJDJvfjmuhuv4YCYRZuCq
- ouPg8wIriYxD2obpLgbE9Z9W3av7vUG9CVCVH4AU+MImaO4gAo7eP9qezJjecnHs6Z+i
- YhlsnWCF80VqmTbmovs1zQ3EAODZsAaqYn5gC9MtVQOelhDBUhmR0VEocb2uKYryCdJP
- sQZ16KgGvZHgOFTVcO3/mwGRjJDNcShBHgptQTfIU1sSSy+AGrEE3GUoOmm1q3+uHpxK
- 6LNQ==
-X-Gm-Message-State: AOAM5307XNS50DrDDuwxsF52UsPzXXHzmqjHK9AbQzSzKG/nw/Q0ecas
- OgCzAvRxtk07zGJ0SlcI7b4xfg87LmgP8nJ56Ivg
-X-Google-Smtp-Source: ABdhPJwVhTK/f1+ttt/wIH/DF4otAgZkYmCBshCaTHZu+pV434ay6yyTjaqEoYxYdPBJpQQXAqjcQZ1DMw1Wtx1TaHg=
-X-Received: by 2002:aa7:cf17:: with SMTP id a23mr16099251edy.128.1590496483906; 
- Tue, 26 May 2020 05:34:43 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XWqm20ortSoNX+nbX7a42upA+Vp64e+AVN09KF9Ad8M=;
+ b=PkCpCwiQOyEgmG4sviZhcWcZXm5ELV5d/lj8D8XxykQyvg/O8I0/GDA/p3wVtBFiXN
+ qsE0DQFy+QgYi89UcThpAGyZqzlaL1LX2Exm1vaAJb1Z0thYenO3Eisw0a59miFJw++7
+ o2BsRHwI3f+FgR3zuS9DQf2YSksSPIUgrGk+pZifu+Rdfk5Ko1eB5bqCYqMIsqIoTBVQ
+ O/7ymYT2Ri4cR40VliHeSyEf6bDPibC63aKXQg7ILvmZ0KC3x4w6mdR5qgobxZH+Biba
+ 9+Qje+gDw5QZdjybxoRCa2Nz0vM7WiS6XiaQ7s5YnQ0pJFe4zQwB+VA4aBrz0TQJRNiH
+ EMRQ==
+X-Gm-Message-State: AOAM53390oNd4v+dvHYQ3/0pxAVyQX7d+sqxM0clTprP2Ij9GRYi6ZAX
+ frJ6kztL4ZYdQW1Ovvh2VgEuuQy2
+X-Google-Smtp-Source: ABdhPJz+/zK5moeWMtUn69a8IIKjkkhGLNDtnmG2OwfD8yave3Ngp7r9TvkVF/HxgAP9kKH0Uj/a2A==
+X-Received: by 2002:a9d:2da8:: with SMTP id g37mr932324otb.293.1590501531610; 
+ Tue, 26 May 2020 06:58:51 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
+ [24.9.64.241])
+ by smtp.gmail.com with ESMTPSA id d19sm10979ooa.48.2020.05.26.06.58.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 06:58:50 -0700 (PDT)
+To: Vitor Massaru Iha <vitor@massaru.org>, shuah <shuah@kernel.org>,
+ Brendan Higgins <brendanhiggins@google.com>
+References: <20200414230950.83665-1-vitor@massaru.org>
+ <CAFd5g47CaeEBiJsiSUtihHQF+OGpfCg76dS2ys2mwy2qn_L5-w@mail.gmail.com>
+ <c035d65b-7e93-f948-22f9-73a56193ec36@kernel.org>
+ <b04934ab91fd57e6df35279ad8a2619afb00b452.camel@massaru.org>
+ <6403abc0c60fcb5069e1cdea0bb7f25b6dc8070f.camel@massaru.org>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <5599cbd7-2c2d-7035-deea-25e6e0da407e@linuxfoundation.org>
+Date: Tue, 26 May 2020 07:58:49 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200402055640.6677-1-frextrite@gmail.com>
- <20200524081117.GA29@workstation-LAP.localdomain>
- <20200525131741.s6lgb263fpo5uszk@madcap2.tricolour.ca>
- <20200525180421.GA19@workstation-LAP.localdomain>
-In-Reply-To: <20200525180421.GA19@workstation-LAP.localdomain>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 26 May 2020 08:34:33 -0400
-Message-ID: <CAHC9VhQ_jNbNFChy3i6AfmOkEQtER_pxrd5uCJwpfNeedyUM4Q@mail.gmail.com>
-To: Amol Grover <frextrite@gmail.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- David Howells <dhowells@redhat.com>, Joel Fernandes <joel@joelfernandes.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- James Morris <jamorris@linux.microsoft.com>,
- Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
- Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+In-Reply-To: <6403abc0c60fcb5069e1cdea0bb7f25b6dc8070f.camel@massaru.org>
+Content-Language: en-US
+Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Gow <davidgow@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
- Steven Rostedt <rostedt@goodmis.org>, Shakeel Butt <shakeelb@google.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>,
- Richard Guy Briggs <rgb@redhat.com>, linux-kernel@vger.kernel.org,
- Eric Paris <eparis@redhat.com>, linux-audit@redhat.com,
- "Eric W . Biederman" <ebiederm@xmission.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH 1/3 RESEND] sched: Remove __rcu
-	annotation from cred pointer
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [RESEND] kunit: use --build_dir=.kunit
+	as default
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,63 +117,69 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, May 25, 2020 at 2:04 PM Amol Grover <frextrite@gmail.com> wrote:
-> On Mon, May 25, 2020 at 09:17:41AM -0400, Richard Guy Briggs wrote:
-> > On 2020-05-24 13:41, Amol Grover wrote:
-> > > On Thu, Apr 02, 2020 at 11:26:38AM +0530, Amol Grover wrote:
-> > > > task_struct::cred (subjective credentials) is *always* used
-> > > > task-synchronously, hence, does not require RCU semantics.
-> > > >
-> > > > task_struct::real_cred (objective credentials) can be used in
-> > > > RCU context and its __rcu annotation is retained.
-> > > >
-> > > > However, task_struct::cred and task_struct::real_cred *may*
-> > > > point to the same object, hence, the object pointed to by
-> > > > task_struct::cred *may* have RCU delayed freeing.
-> > > >
-> > > > Suggested-by: Jann Horn <jannh@google.com>
-> > > > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > Signed-off-by: Amol Grover <frextrite@gmail.com>
-> > >
-> > > Hello everyone,
-> > >
-> > > Could you please go through patches 1/3 and 2/3 and if deemed OK, give
-> > > your acks. I sent the original patch in beginning of February (~4 months
-> > > back) and resent the patches again in beginning of April due to lack of
-> > > traffic. Paul Moore was kind enough to ack twice - the 3/3 and its
-> > > resend patch. However these 2 patches still remain. I'd really
-> > > appreciate if someone reviewed them.
-> >
-> > I asked on April 3 which upstream tree you expect this patchset to go
-> > through and I did not see a reply.  Do you have a specific target or is
-> > the large addressee list assuming someone else is taking this set?  All
-> > we have seen is that it is not intended to go through the audit tree.
-> >
->
-> Apologies for it. As Paul Moore replied, initially I assumed this
-> patchset to not go through the audit tree as the audit specific changes
-> were secondary to the main change (though certainly I did not think
-> which upstream tree the patchset would go through). But now I am okay
-> with the patchset making it to upstream via audit tree if it is fine by
-> the maintainers.
+On 5/25/20 8:27 PM, Vitor Massaru Iha wrote:
+> On Mon, 2020-05-25 at 22:52 -0300, Vitor Massaru Iha wrote:
+>> Hi Shuah,
+>>
+>> On Fri, 2020-05-22 at 16:40 -0600, shuah wrote:
+>>> On 4/16/20 5:11 PM, Brendan Higgins wrote:
+>>>> On Tue, Apr 14, 2020 at 4:09 PM Vitor Massaru Iha <
+>>>> vitor@massaru.org> wrote:
+>>>>> To make KUnit easier to use, and to avoid overwriting object
+>>>>> and
+>>>>> .config files, the default KUnit build directory is set to
+>>>>> .kunit
+>>>>>
+>>>>>    * Related bug:
+>>>>> https://bugzilla.kernel.org/show_bug.cgi?id=205221
+>>>>>
+>>>>> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+>>>>
+>>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+>>>>
+>>>
+>>> Applied the patch to kselftest/kunit on top of
+>>>
+>>> 45ba7a893ad89114e773b3dc32f6431354c465d6
+>>> kunit: kunit_tool: Separate out config/build/exec/parse
+>>>
+>>> from David's work resolving merge conflicts. Please check if it is
+>>> sane.
+>>>
+>>> thanks,
+>>> -- Shuah
+>>
+>> The kunit branch had some problems related to identation. KUnit's
+>> code
+>> has mixed identation, and with that, in conflict correction, it ended
+>> up breaking python.
+>>
 
-This patchset is not appropriate for the audit tree as the most
-significant changes are not audit related.
+Thanks for sanity checking my merge.
 
-My ACK on patch 3/3 was, and is, conditional on the previous patches
-being acceptable to the greater kernel community; this is the main
-reason why I didn't ACK patch 1/3 or 2/3.
+>> In addition I found a bug: related to the creation of the
+>> .kunitconfig
+>> file inside the default build directory.
+> 
+> This is actually related to the other patch "kunit: use KUnit defconfig
+> by default"
+> 
+> 
+>>   Should I send the patch again?
+>> Or do I make a bugfix patch?
+>>
 
--- 
-paul moore
-www.paul-moore.com
+Please send the fix.
+
+thanks,
+-- Shuah
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
