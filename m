@@ -2,106 +2,111 @@ Return-Path: <SRS0=2zBv=7I=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BAE5C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 May 2020 08:05:13 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C431C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 May 2020 12:34:51 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6BDF42071A
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 May 2020 08:05:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 31B942088E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 May 2020 12:34:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3CG+oVN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BDF42071A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paul-moore-com.20150623.gappssmtp.com header.i=@paul-moore-com.20150623.gappssmtp.com header.b="Q1G6ImSR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31B942088E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 550AA8834C;
-	Tue, 26 May 2020 08:05:13 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 74iuQ6rvz5X0; Tue, 26 May 2020 08:05:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E9F6787999;
-	Tue, 26 May 2020 08:05:12 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E66A0C0888;
-	Tue, 26 May 2020 08:05:12 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AB3C8C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 08:05:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A0C8B20788
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 08:05:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D6F2022CCE;
+	Tue, 26 May 2020 12:34:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id CVyg-mJfNJUu; Tue, 26 May 2020 12:34:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 5C5982049D;
+	Tue, 26 May 2020 12:34:49 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 41086C0888;
+	Tue, 26 May 2020 12:34:49 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2A580C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 26 May 2020 12:34:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 19BBE85FB2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 26 May 2020 12:34:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ulniq8jGClSA
+ with ESMTP id v6ekXlgVWmIw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 08:05:11 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 0B606204C0
+ Tue, 26 May 2020 12:34:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id DE4FD85F91
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 08:05:11 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id r10so9621504pgv.8
+ Tue, 26 May 2020 12:34:45 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id b91so17522471edf.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 May 2020 01:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ctzNEK9ct3Xheefnk+QOHIxDO7kXYLYdjrWKg/OFEKg=;
- b=X3CG+oVNVMX0lnR1bi1OH2EBx9kaknDBst0b0ZXlD1lfVkqB9xV21QY6KlTOXvqitn
- 0smFZVRkdfWyhtq61P49oHA0xGA6wXQ1JLgF1/G4YuiyR7NlsJEKkw158Nc37bGnGIBn
- 0uAFuFDVBWHSzmJgM2SnNAEhX4pyBRHMNWuZOz9wy8n2/lQUX843A7Q/oSAjs4x22kyB
- 0Ho+PzQcqCnkDcrqqboUJFsG04pfnotwisLoJSeGqAzOrk/klA/a/N6LPb8zyyz5vcaV
- tNpFvwffBFksgUI1WpGWYtkKwHoCUYfl0Yg0zdapn/RkupzOuLVN37cuQ62oKt4Fvl7k
- jd+A==
+ Tue, 26 May 2020 05:34:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JUFqBLf1RiIPnvjRp2NeVt7jf0hFenXjeR9kjT+Rdf0=;
+ b=Q1G6ImSRc/01YqdhB6mWCmEe/l4IF827QZZCdkXZi5fpxWvRPUQLlrm6r3Aqsf+Q5p
+ i7C9AzPEpnqFga5IAaazmqb0xjO2eq24t34iW7ZdFGDkmS8zo8ojsurxUDg1u2enqyFv
+ 8Bm/L705TWD6kTYco6/L6nYO7BudiVhZjXMJD7N3P/Cn9wV2pdYXLlrkSPuW/MAWxutu
+ Ve1d5ejarNGPbce+dqUHzszZqDGXomMcuIlE4U2wrY11wMy0dF62LuvytGOQmzjqnKvP
+ gWn3PVFimungMQz+ZhioqxaziPvDG/GW1qNjStXmyLSCKPkIJChDzfLQyE+4joc9Cpsw
+ jX2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ctzNEK9ct3Xheefnk+QOHIxDO7kXYLYdjrWKg/OFEKg=;
- b=tBTlfEItDbExmmGk6NrGrJmNgribnvLnNf3rT8U620AX/lGiqFf7QRDR6iu44NUead
- M0OlWt9axn+9dsGvxaAy7fdGaOXi7fZcX5+pbycUYs4W24tlRetRRQ/9kIt+B3W5gptN
- AlvUyYlbC5nUlwYq28M8n/FEfaBbF57lGzowu+IfO5vayCzFf5z0ZX8PYq6QN5P/NiEL
- aKOM1WRJ7O2u24L7Y866aLZSX4YAUjnUAkKpEpk9I6gndOPzMFA5iW3xO5b7s0S0T/aI
- sZi8z5DVjK31JFeRHv5IUIr521cbYeD7in7B1cqKWyBxluOzWsutpN4NGahh5k9h4K4y
- o+wA==
-X-Gm-Message-State: AOAM530KISeCAFkXsKejJCLQ4QSv8dGHsqEmHeScQDMIGlIQjOFk9JXh
- KIr34DSlHkP3Xd5Y3LZXUqE=
-X-Google-Smtp-Source: ABdhPJztp+CYa62M7C0UA8/be7wZZ+tfVKlbQCJ9G2m7H6/p2rSXV64EhYvePkYTV3VRwa2BU5ITWA==
-X-Received: by 2002:a05:6a00:a:: with SMTP id
- h10mr21383389pfk.310.1590480310570; 
- Tue, 26 May 2020 01:05:10 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.152.209])
- by smtp.gmail.com with ESMTPSA id fa19sm8614477pjb.18.2020.05.26.01.05.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 01:05:10 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Don Fry <pcnet32@frontier.com>, Tom Lendacky <thomas.lendacky@amd.com>
-Date: Tue, 26 May 2020 13:33:24 +0530
-Message-Id: <20200526080324.69828-4-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200526080324.69828-1-vaibhavgupta40@gmail.com>
-References: <20200526080324.69828-1-vaibhavgupta40@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JUFqBLf1RiIPnvjRp2NeVt7jf0hFenXjeR9kjT+Rdf0=;
+ b=NvFYla5YP+NcayVI+vzTdf0j/W4bSKO3+Hma4IZLALKiAsQRB57eU605Lqn6FM84R8
+ LdBDUUbZqkJI4Mi5i/BelLDEjJW3dJX5jJHAXb7LH0GswKpNJDJvfjmuhuv4YCYRZuCq
+ ouPg8wIriYxD2obpLgbE9Z9W3av7vUG9CVCVH4AU+MImaO4gAo7eP9qezJjecnHs6Z+i
+ YhlsnWCF80VqmTbmovs1zQ3EAODZsAaqYn5gC9MtVQOelhDBUhmR0VEocb2uKYryCdJP
+ sQZ16KgGvZHgOFTVcO3/mwGRjJDNcShBHgptQTfIU1sSSy+AGrEE3GUoOmm1q3+uHpxK
+ 6LNQ==
+X-Gm-Message-State: AOAM5307XNS50DrDDuwxsF52UsPzXXHzmqjHK9AbQzSzKG/nw/Q0ecas
+ OgCzAvRxtk07zGJ0SlcI7b4xfg87LmgP8nJ56Ivg
+X-Google-Smtp-Source: ABdhPJwVhTK/f1+ttt/wIH/DF4otAgZkYmCBshCaTHZu+pV434ay6yyTjaqEoYxYdPBJpQQXAqjcQZ1DMw1Wtx1TaHg=
+X-Received: by 2002:aa7:cf17:: with SMTP id a23mr16099251edy.128.1590496483906; 
+ Tue, 26 May 2020 05:34:43 -0700 (PDT)
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [RFC PATCH v1 3/3] amd-xgbe: Convert to
-	generic power management
+References: <20200402055640.6677-1-frextrite@gmail.com>
+ <20200524081117.GA29@workstation-LAP.localdomain>
+ <20200525131741.s6lgb263fpo5uszk@madcap2.tricolour.ca>
+ <20200525180421.GA19@workstation-LAP.localdomain>
+In-Reply-To: <20200525180421.GA19@workstation-LAP.localdomain>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 26 May 2020 08:34:33 -0400
+Message-ID: <CAHC9VhQ_jNbNFChy3i6AfmOkEQtER_pxrd5uCJwpfNeedyUM4Q@mail.gmail.com>
+To: Amol Grover <frextrite@gmail.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ David Howells <dhowells@redhat.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ James Morris <jamorris@linux.microsoft.com>,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Shakeel Butt <shakeelb@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>,
+ Richard Guy Briggs <rgb@redhat.com>, linux-kernel@vger.kernel.org,
+ Eric Paris <eparis@redhat.com>, linux-audit@redhat.com,
+ "Eric W . Biederman" <ebiederm@xmission.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH 1/3 RESEND] sched: Remove __rcu
+	annotation from cred pointer
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,78 +124,57 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-compile-tested only
+On Mon, May 25, 2020 at 2:04 PM Amol Grover <frextrite@gmail.com> wrote:
+> On Mon, May 25, 2020 at 09:17:41AM -0400, Richard Guy Briggs wrote:
+> > On 2020-05-24 13:41, Amol Grover wrote:
+> > > On Thu, Apr 02, 2020 at 11:26:38AM +0530, Amol Grover wrote:
+> > > > task_struct::cred (subjective credentials) is *always* used
+> > > > task-synchronously, hence, does not require RCU semantics.
+> > > >
+> > > > task_struct::real_cred (objective credentials) can be used in
+> > > > RCU context and its __rcu annotation is retained.
+> > > >
+> > > > However, task_struct::cred and task_struct::real_cred *may*
+> > > > point to the same object, hence, the object pointed to by
+> > > > task_struct::cred *may* have RCU delayed freeing.
+> > > >
+> > > > Suggested-by: Jann Horn <jannh@google.com>
+> > > > Co-developed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> > >
+> > > Hello everyone,
+> > >
+> > > Could you please go through patches 1/3 and 2/3 and if deemed OK, give
+> > > your acks. I sent the original patch in beginning of February (~4 months
+> > > back) and resent the patches again in beginning of April due to lack of
+> > > traffic. Paul Moore was kind enough to ack twice - the 3/3 and its
+> > > resend patch. However these 2 patches still remain. I'd really
+> > > appreciate if someone reviewed them.
+> >
+> > I asked on April 3 which upstream tree you expect this patchset to go
+> > through and I did not see a reply.  Do you have a specific target or is
+> > the large addressee list assuming someone else is taking this set?  All
+> > we have seen is that it is not intended to go through the audit tree.
+> >
+>
+> Apologies for it. As Paul Moore replied, initially I assumed this
+> patchset to not go through the audit tree as the audit specific changes
+> were secondary to the main change (though certainly I did not think
+> which upstream tree the patchset would go through). But now I am okay
+> with the patchset making it to upstream via audit tree if it is fine by
+> the maintainers.
 
-Use dev_pm_ops structure to call generic suspend() and resume() callbacks.
+This patchset is not appropriate for the audit tree as the most
+significant changes are not audit related.
 
-Drivers should avoid saving device register and/or change power states
-using PCI helper functions. With generic approach, all these are handled by
-PCI core.
+My ACK on patch 3/3 was, and is, conditional on the previous patches
+being acceptable to the greater kernel community; this is the main
+reason why I didn't ACK patch 1/3 or 2/3.
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/net/ethernet/amd/xgbe/xgbe-pci.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/net/ethernet/amd/xgbe/xgbe-pci.c b/drivers/net/ethernet/amd/xgbe/xgbe-pci.c
-index 7b86240ecd5f..014cee31a1d4 100644
---- a/drivers/net/ethernet/amd/xgbe/xgbe-pci.c
-+++ b/drivers/net/ethernet/amd/xgbe/xgbe-pci.c
-@@ -421,9 +421,9 @@ static void xgbe_pci_remove(struct pci_dev *pdev)
- 	xgbe_free_pdata(pdata);
- }
- 
--#ifdef CONFIG_PM
--static int xgbe_pci_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused xgbe_pci_suspend(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct xgbe_prv_data *pdata = pci_get_drvdata(pdev);
- 	struct net_device *netdev = pdata->netdev;
- 	int ret = 0;
-@@ -438,8 +438,9 @@ static int xgbe_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 	return ret;
- }
- 
--static int xgbe_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused xgbe_pci_resume(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct xgbe_prv_data *pdata = pci_get_drvdata(pdev);
- 	struct net_device *netdev = pdata->netdev;
- 	int ret = 0;
-@@ -460,7 +461,6 @@ static int xgbe_pci_resume(struct pci_dev *pdev)
- 
- 	return ret;
- }
--#endif /* CONFIG_PM */
- 
- static const struct xgbe_version_data xgbe_v2a = {
- 	.init_function_ptrs_phy_impl	= xgbe_init_function_ptrs_phy_v2,
-@@ -502,15 +502,16 @@ static const struct pci_device_id xgbe_pci_table[] = {
- };
- MODULE_DEVICE_TABLE(pci, xgbe_pci_table);
- 
-+static SIMPLE_DEV_PM_OPS(xgbe_pci_pm_ops, xgbe_pci_suspend, xgbe_pci_resume);
-+
- static struct pci_driver xgbe_driver = {
- 	.name = XGBE_DRV_NAME,
- 	.id_table = xgbe_pci_table,
- 	.probe = xgbe_pci_probe,
- 	.remove = xgbe_pci_remove,
--#ifdef CONFIG_PM
--	.suspend = xgbe_pci_suspend,
--	.resume = xgbe_pci_resume,
--#endif
-+	.driver = {
-+		.pm = &xgbe_pci_pm_ops,
-+	}
- };
- 
- int xgbe_pci_init(void)
 -- 
-2.26.2
-
+paul moore
+www.paul-moore.com
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
