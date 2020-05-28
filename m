@@ -8,97 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A49D9C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:25:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61DFBC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:25:30 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7C15120888
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:25:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3637920888
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:25:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iQwicxwm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C15120888
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O+7Jd6Q8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3637920888
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5CEF8259AB;
-	Thu, 28 May 2020 12:25:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1433F25931;
+	Thu, 28 May 2020 12:25:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aVCReZ4Tloc8; Thu, 28 May 2020 12:25:24 +0000 (UTC)
+	with ESMTP id etkwL04tOhl5; Thu, 28 May 2020 12:25:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id CFDB325931;
-	Thu, 28 May 2020 12:25:24 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EECC225935;
+	Thu, 28 May 2020 12:25:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BDD88C088D;
-	Thu, 28 May 2020 12:25:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DD1FFC088D;
+	Thu, 28 May 2020 12:25:28 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2A77BC016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 95BE9C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:25:23 +0000 (UTC)
+ Thu, 28 May 2020 12:25:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1627225931
+ by silver.osuosl.org (Postfix) with ESMTP id 91C1625935
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:25:23 +0000 (UTC)
+ Thu, 28 May 2020 12:25:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RP2K+BAaQiMm
+ with ESMTP id sA4BQ925PmOp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:25:22 +0000 (UTC)
+ Thu, 28 May 2020 12:25:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by silver.osuosl.org (Postfix) with ESMTPS id A8F1625406
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id E282A25931
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:25:22 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id ci23so3042531pjb.5
+ Thu, 28 May 2020 12:25:26 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id q24so3056986pjd.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 05:25:22 -0700 (PDT)
+ Thu, 28 May 2020 05:25:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SQehgLNKcnkP2r6snLh68vsSiNrWsr6X4sXUN+Ob+dg=;
- b=iQwicxwmzju/u++1nRNKENBNJGU84tdt7O5Zp4K/spTj2C0kijW5vwM92mO2V6zDDL
- yZqnjHUefKGcpo2u1wLkt3biIDibMsewmGXxe5Ht7ddS7Vsgi5k4bIkEWNIxQiuPaUEO
- 4yBPjNBrDsFGAbVPvz9roEpsVikEwHmRFgYeqnbTP1VWeiXHFwfXpXBkw2ZWRmtwgE2R
- yfROh18JGWV9IeqwVj1ir8bfRUIkhQvvn0mD8Bwp89F6vW8lysTd53tqQhtK87oAhvpP
- 9DSybq5j2ccdtOEz5q8lFHzR3Sow/wJZKQR8YXomyz/0Ticsyhx6dVcbsdMUZuQZH199
- BbQg==
+ bh=ufMl+xv8bNr3ftwXMxG2RrjAxFKAfKqTdDmc4xiwlvI=;
+ b=O+7Jd6Q8CQdT8Kq2RVIbSOgnEIR1L/AiYUCZRg4PUWRMs7v8g7ZaWFUmRl19bwJphz
+ oeYIdVlSfRvzDpmm2Sga/xB2TnKi6Licgc4IfDopuedyGXlW847kAy1GOfb7RhlNC5mf
+ ObmAZoagAVxDmKOyKmZDjpOzDO705LG5ZVOA/JMNu6ctvbueXfHSQZXSNnHw1R1qrKBN
+ 1og/1BLwbTjXTvei85SL79fwFlXlP753N19qQf8seSeHC65IakdW1W/3WGI0Rprqs16a
+ H4MSma3T3qOqWYPHXsQjayBDTnut9ILXSJSh9TztMFyAqA01lHf+0i6KW0JoN9APReOV
+ +U/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SQehgLNKcnkP2r6snLh68vsSiNrWsr6X4sXUN+Ob+dg=;
- b=C4U/02ebuEe+u+NZZ5AwOwmzBGnY9kt1SZNVwR5DpzA41MLArQfnoWw78TiyI9bwVD
- 9SYQfSvwGFWyJ8T0ptrWJT9IaUZ9P1ktfmVwzQ0T41tj1fH6I5npkMvWRHkj0iWZRjKA
- GiHOnd81GJSWQ0Vk3DMgO2h0UQAm7vUKn9oF43kr9MILMjpLv+AHZhDheyuBGi3qT7HN
- NZcHiRxgFOyyLAS7rXoMxvac+rllsUzVOTjEgNX24/FRHtDggwMFptgRZYrgJTxERRlm
- 3H6s+t0S5rwfFG9h3y1UkyIkLQaCyNGQy8e+qtLULqa8f+DOUoZZwDajdmqMluJZQvWE
- mcsQ==
-X-Gm-Message-State: AOAM530epd3vlXghNLQmI912kdxeHYBRqF7WnD8Wo6CqLqBXKboZXU+r
- r6aYMLrvEpUjfLSyPmeLR3NuaPzI
-X-Google-Smtp-Source: ABdhPJye24VI1ZPwk7HfjtIIsVlwMydNhPBBKsbfMKQ4JtBWXxvOL6K58Cg8RJF7DWYsNuv+Ak7jfQ==
-X-Received: by 2002:a17:90a:5d06:: with SMTP id
- s6mr3718682pji.88.1590668722196; 
- Thu, 28 May 2020 05:25:22 -0700 (PDT)
+ bh=ufMl+xv8bNr3ftwXMxG2RrjAxFKAfKqTdDmc4xiwlvI=;
+ b=pbXTQDLafuOOxaC8rkwNPQqtZiMlpNWqvnO89/RVmp4HdPG8c7ELSLHe3brfO2vPTG
+ 8QAoAQPBd3Pc8sHIhHSbuhhMIl8fSa0Y4qvb1Sm0NQpmHhgknIyTdGaTLpF7g2HEl8U1
+ tz2NuFpW5Gslk0XXFEBWkEXRX13yyM2VqsyoaxzYlcX+wvs/TLb+1kCj6yAraxrHgt+H
+ K0J+XI3yHuaK4NF9s2LuQwoiwSSYZF1MHvqYUs5Pr1yOJNoZ2mWGil3lm688yMi8nxDa
+ kq3JvXIr21zaRcx0yX1jLF22N6HsoWHI7YnqtMc4PfUJkNlrIGMEfibHFUf3kqVE9KFG
+ P4RA==
+X-Gm-Message-State: AOAM533hpC87cXUrq1/6npo9JpAwuXSRBhn5mt0xN3lHB9rXlxObnnOY
+ vARZ1DHSnKro9uDrd2iFDv0=
+X-Google-Smtp-Source: ABdhPJyjvIwv70j87l6AhrCSB0oeNCIPLizRd7L0qORxeWSunNKxThl8tG6HS6T1XtdDRcJQisSrjg==
+X-Received: by 2002:a17:902:d711:: with SMTP id
+ w17mr3118850ply.139.1590668726409; 
+ Thu, 28 May 2020 05:25:26 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:2183:e360:deba:7bf4:98ef:5568])
- by smtp.gmail.com with ESMTPSA id 1sm5722888pje.26.2020.05.28.05.25.19
+ by smtp.gmail.com with ESMTPSA id 1sm5722888pje.26.2020.05.28.05.25.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 05:25:21 -0700 (PDT)
+ Thu, 28 May 2020 05:25:25 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Thu, 28 May 2020 17:54:14 +0530
-Message-Id: <20200528122428.4212-13-jaskaransingh7654321@gmail.com>
+Date: Thu, 28 May 2020 17:54:15 +0530
+Message-Id: <20200528122428.4212-14-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200528122428.4212-1-jaskaransingh7654321@gmail.com>
 References: <20200528122428.4212-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 12/25] parsing_c: cpp_token_c:
-	Introduce MACROANNOTATION hint
+Subject: [Linux-kernel-mentees] [PATCH v2 13/25] cocci: standard.h: Annotate
+	attributes with MACROANNOTATION
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,38 +116,161 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-A better way of denoting attributes is to pass attribute information
-from SmPL to the C parser. However, a temporary solution is to introduce
-a MACROANNOTATION hint to cpp_token_c.ml so that the parser can identify
-attributes easily.
-
-This hint can be used as follows in standard.h, the user provided
-macro-defs file or the given C file itself:
-
-	#define __attribute_name MACROANNOTATION
-
-By default, __attribute_name would be identified as a comment. Using the
-above hint, __attribute_name would be identified as an attribute and
-transformations from SmPL would be performed as if __attribute_name is
-an attribute, not a comment.
+Apply the MACROANNOTATION hint to select attributes in standard.h. These
+hints can be replaced, removed or added by the user as their use case
+demands.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_c/cpp_token_c.ml | 2 ++
- 1 file changed, 2 insertions(+)
+ standard.h | 116 ++++++++++++++++++++++++++---------------------------
+ 1 file changed, 58 insertions(+), 58 deletions(-)
 
-diff --git a/parsing_c/cpp_token_c.ml b/parsing_c/cpp_token_c.ml
-index 425234e8..0654be26 100644
---- a/parsing_c/cpp_token_c.ml
-+++ b/parsing_c/cpp_token_c.ml
-@@ -81,6 +81,8 @@ let assoc_hint_string = [
-   "YACFE_END_ATTRIBUTE" , HintEndAttribute;
-   "YACFE_IDENT_BUILDER" , HintMacroIdentBuilder;
- 
-+  "MACROANNOTATION"   , HintAttribute;
+diff --git a/standard.h b/standard.h
+index 7a7f96ea..a25d2ae7 100644
+--- a/standard.h
++++ b/standard.h
+@@ -87,46 +87,46 @@
+ // ----------------------------------------------------------------------------
+ // Attributes. could perhaps generalize via "__.*"
+ // ----------------------------------------------------------------------------
+-#define  __init
+-#define  __initconst
+-#define  __page_aligned_data
+-#define  __page_aligned_bss
+-#define  __always_unused
+-#define  __visible
+-#define  __exit
+-#define  __user
+-#define  __iomem
+-#define  __initdata
+-#define  __exitdata
+-#define  __devinit
+-#define  __devexit
+-#define  __devinitdata
+-#define  __cpuinit
+-#define  __cpuinitdata
+-#define  __init_or_module
+-#define  __initdata_or_module
+-#define  __pminit
+-#define  __pminitdata
+-#define  __irq_entry
+-
+-#define  __cacheline_aligned
+-#define  ____cacheline_aligned
+-#define  __cacheline_aligned_in_smp
+-#define  ____cacheline_aligned_in_smp
+-#define  ____cacheline_internodealigned_in_smp
++#define  __init MACROANNOTATION
++#define  __initconst MACROANNOTATION
++#define  __page_aligned_data MACROANNOTATION
++#define  __page_aligned_bss MACROANNOTATION
++#define  __always_unused MACROANNOTATION
++#define  __visible MACROANNOTATION
++#define  __exit MACROANNOTATION
++#define  __user MACROANNOTATION
++#define  __iomem MACROANNOTATION
++#define  __initdata MACROANNOTATION
++#define  __exitdata MACROANNOTATION
++#define  __devinit MACROANNOTATION
++#define  __devexit MACROANNOTATION
++#define  __devinitdata MACROANNOTATION
++#define  __cpuinit MACROANNOTATION
++#define  __cpuinitdata MACROANNOTATION
++#define  __init_or_module MACROANNOTATION
++#define  __initdata_or_module MACROANNOTATION
++#define  __pminit MACROANNOTATION
++#define  __pminitdata MACROANNOTATION
++#define  __irq_entry MACROANNOTATION
 +
-   "MACROSTATEMENT"   , HintMacroStatement; (* backward compatibility *)
- ]
++#define  __cacheline_aligned MACROANNOTATION
++#define  ____cacheline_aligned MACROANNOTATION
++#define  __cacheline_aligned_in_smp MACROANNOTATION
++#define  ____cacheline_aligned_in_smp MACROANNOTATION
++#define  ____cacheline_internodealigned_in_smp MACROANNOTATION
+ 
+ #define  __ALIGNED__
+ #define  __3xp_aligned
+ 
+-#define  __pmac
+-#define  __force
+-#define  __nocast
+-#define  __read_mostly
++#define  __pmac MACROANNOTATION
++#define  __force MACROANNOTATION
++#define  __nocast MACROANNOTATION
++#define  __read_mostly MACROANNOTATION
+ 
+-#define  __must_check
++#define  __must_check MACROANNOTATION
+ // pb
+-#define  __unused
+-#define  __maybe_unused
++#define  __unused MACROANNOTATION
++#define  __maybe_unused MACROANNOTATION
+ 
+ 
+ #define  __attribute_used__
+@@ -139,27 +139,27 @@
+ #define  __xipram
+ 
+ // in the other part of the kernel, in arch/, mm/, etc
+-#define  __sched
+-#define  __initmv
+-#define  __exception
+-#define  __cpuexit
+-#define  __kprobes
+-#define  __meminit
+-#define  __meminitdata
+-#define  __nosavedata
+-#define  __kernel
+-#define  __nomods_init
+-#define  __apicdebuginit
+-#define  __ipc_init
+-#define  __modinit
+-#define  __lockfunc
+-#define  __weak
+-#define  __tlb_handler_align
+-#define  __lock_aligned
+-#define  __force_data
+-#define  __nongprelbss
+-#define  __nongpreldata
+-#define  __noreturn
++#define  __sched MACROANNOTATION
++#define  __initmv MACROANNOTATION
++#define  __exception MACROANNOTATION
++#define  __cpuexit MACROANNOTATION
++#define  __kprobes MACROANNOTATION
++#define  __meminit MACROANNOTATION
++#define  __meminitdata MACROANNOTATION
++#define  __nosavedata MACROANNOTATION
++#define  __kernel MACROANNOTATION
++#define  __nomods_init MACROANNOTATION
++#define  __apicdebuginit MACROANNOTATION
++#define  __ipc_init MACROANNOTATION
++#define  __modinit MACROANNOTATION
++#define  __lockfunc MACROANNOTATION
++#define  __weak MACROANNOTATION
++#define  __tlb_handler_align MACROANNOTATION
++#define  __lock_aligned MACROANNOTATION
++#define  __force_data MACROANNOTATION
++#define  __nongprelbss MACROANNOTATION
++#define  __nongpreldata MACROANNOTATION
++#define  __noreturn MACROANNOTATION
+ 
+ #define  __section_jiffies
+ #define  __vsyscall_fn
+@@ -193,9 +193,9 @@
+ 
+ 
+ // last last
+-#define __net_init
+-#define __net_exit
+-#define __net_initdata
++#define __net_init MACROANNOTATION
++#define __net_exit MACROANNOTATION
++#define __net_initdata MACROANNOTATION
+ 
+ #define __paginginit // in mm
  
 -- 
 2.21.1
