@@ -8,96 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 007FAC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:24:47 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36ECCC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:24:51 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C9D3920888
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:24:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0916720888
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:24:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPoS++oA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C9D3920888
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="osaOr30i"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0916720888
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9E42C8715D;
-	Thu, 28 May 2020 12:24:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D7FE688272;
+	Thu, 28 May 2020 12:24:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ulPihfJGEwOW; Thu, 28 May 2020 12:24:46 +0000 (UTC)
+	with ESMTP id AXWOEaYDSjMu; Thu, 28 May 2020 12:24:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 560E4870F7;
-	Thu, 28 May 2020 12:24:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7FECE880C6;
+	Thu, 28 May 2020 12:24:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 52C89C088D;
-	Thu, 28 May 2020 12:24:46 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C2211C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 701D3C088D;
+	Thu, 28 May 2020 12:24:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1E368C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:24:44 +0000 (UTC)
+ Thu, 28 May 2020 12:24:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B16E788C30
+ by silver.osuosl.org (Postfix) with ESMTP id 131662078C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:24:44 +0000 (UTC)
+ Thu, 28 May 2020 12:24:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id srHfuZDXRFAe
+ with ESMTP id YDab0Ypb2srD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:24:43 +0000 (UTC)
+ Thu, 28 May 2020 12:24:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 91F9D88D55
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id C3E5625877
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:24:43 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id 23so13467338pfy.8
+ Thu, 28 May 2020 12:24:47 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id k22so11513342pls.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 05:24:43 -0700 (PDT)
+ Thu, 28 May 2020 05:24:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J6Of3e9PWPQ3II+PK6sniBNSR/brODCfwu8bVl4lcJ0=;
- b=EPoS++oAX3eVIRPSxuIE/wjnoygvZOc/U/t9lILoUd/oV53euoi5dpvL+W2rWS8GSm
- ddAgI5mFCjk93fYB7o2JUCeWMVSbazMtqSBBEc47rbyma48NAsM+0rKs3ft8Gx2xEov1
- +jKU9vCuMV47sR8mR5M3wy+oK4MFn1w5if0stGiKUWsWYRe8vjkE0OKNiZq9/zvHVPju
- puLnneaABggf6YomI9rolV4rkkA0hvYBUozy0pQDJwlouzxl3XRPUAU5LkMV6uzMU7R/
- MfcwzxW7ozpUQXC9puKrVjjyEFP0N1WvWQe5srChrlUMIodO1VxK2GLT+fId26Cqe4af
- ZcVg==
+ bh=hdwzt3tFXKWyJadRRPoBDmhsTEk2PAGDfRjvzOl8MPs=;
+ b=osaOr30ibutOXeO7u8Q/af6xtS5AxKiJ8tjIr2a2XqdqHKMWmhSQTtVYQkCVLh74Gx
+ DRnzm+Ogzo9+zJntpQ93b5vU2L12bezl5Ap9bWZ8lfplVrvbF/qrDDUjF4H1bBwKrDHD
+ r89BNNeBwdgl0Vzml1sy4toTTvkP3XbrTBNZkfV+O/ejoCJUBNAYAtd7/WTvnz6DMfRJ
+ G4RPbqNSeMVQIg2CvIMeXXtE1lbWl0jGPPBzdH1DgsSd2PfJgmnXzEhI2+15Zg5PNfBt
+ dJUh7R1yRjHy0y/unZ9FxxU9AIEw6SCokpMaXn250Fb/1DfEKhZfbRbqOa+v/mlbVQxi
+ C6Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J6Of3e9PWPQ3II+PK6sniBNSR/brODCfwu8bVl4lcJ0=;
- b=BdMYsu4deWmdITkhTi7ipQAkkcF7ALsPFPnBjD2gtPK7Ow0i9i/FSQUajfjtiZQwgo
- eSLg4Sy9PHEM/VhSdEA39QgWCAwZ9x5Z6XNjXgEgOcmUMI/I0aZz7nzB3M6rXFs+PViQ
- Pn4STmj/O4WTbtDwRI5TJswQYTBVDG1ei3DPWwjS7YFHNmARE6riF2DUGor0NMuINMs7
- kabdTcKJZFLNCqgSF+L06vh/7GIipawCDfNrUcGfSSJ2ncb8QCxpT9Hc4DuxAZnWpUab
- iyHWdsOmSn+SYOXy6svTkQVA4Wrrmp2SGx/yFVUhntn/EDgY83HNKyph2EsAEN1AQQUr
- s4Lg==
-X-Gm-Message-State: AOAM532RLmvIMPOZ6zLu6obVZSiqzya86rtuZpottWbB4Z7Q6iYdV9wY
- EqJ4FmP0/NGiqjKzaW5b2S0=
-X-Google-Smtp-Source: ABdhPJzFwNE5eqaPfxSHS0B4uXuHIDSVHGL3B933Aosl5kWYL7MvpRP6MTu4PVzPtg3/W8MI3F48TA==
-X-Received: by 2002:a62:7d4d:: with SMTP id y74mr2909701pfc.286.1590668683118; 
- Thu, 28 May 2020 05:24:43 -0700 (PDT)
+ bh=hdwzt3tFXKWyJadRRPoBDmhsTEk2PAGDfRjvzOl8MPs=;
+ b=FxDp8HrKDkltzOvQCzRNUhZNiDTuSD2nIgyM31bXJDSflr2KHc5iuxYZUOJgNvISM0
+ KXIoYptct4Az0nbf+8jnLJdo1F5/E3WRGGP+pOX0lSgcMQJkMvkEION9iVYlsFVky2Pa
+ uBFDpaAQhffabqVUX2h99frkVM/DQrtc9IILv9amF162ApUr0RzAbDCTVN82EecwFYke
+ 96bd8PTTg+Q8M9OIlYU1u1WXWO8tNBjart8aOROm///N12uZezfeJAQwTzXM1SOFLueo
+ UvKvuoskp9edRFhlQpZZ/8QliONBoenB/5DIGzHAAuBTlfdRjXWVcmw1/qWEJJj06hqN
+ 78Fg==
+X-Gm-Message-State: AOAM531JzRttwzSJU6tiDlU/hx082CvhxT5ApK3TIDD6QZQBVDCmosli
+ 2AbaNL9C+duNuRUPAZ7ea08=
+X-Google-Smtp-Source: ABdhPJzdk/nFgua8nnwDiV8pxsUPopJp4Ej7KqRGiESqc/FLCHdB5vrUehxLR6Vz+z7VDCSgdG6MRw==
+X-Received: by 2002:a17:902:6b02:: with SMTP id
+ o2mr3415163plk.25.1590668687208; 
+ Thu, 28 May 2020 05:24:47 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:2183:e360:deba:7bf4:98ef:5568])
- by smtp.gmail.com with ESMTPSA id 1sm5722888pje.26.2020.05.28.05.24.40
+ by smtp.gmail.com with ESMTPSA id 1sm5722888pje.26.2020.05.28.05.24.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 05:24:42 -0700 (PDT)
+ Thu, 28 May 2020 05:24:46 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Thu, 28 May 2020 17:54:03 +0530
-Message-Id: <20200528122428.4212-2-jaskaransingh7654321@gmail.com>
+Date: Thu, 28 May 2020 17:54:04 +0530
+Message-Id: <20200528122428.4212-3-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200528122428.4212-1-jaskaransingh7654321@gmail.com>
 References: <20200528122428.4212-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 01/25] parsing_c: parse_c: Ignore
-	TMacroAttr and TMacroEndAttr in passed tokens
+Subject: [Linux-kernel-mentees] [PATCH v2 02/25] parsing_c: parsing_hacks:
+	Label end attributes correctly
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,36 +116,34 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Most cases in parsing_hacks do not consider attributes before or after
-the token in question. So, do not pass TMacroAttr or TMacroEndAttr
-tokens to parsing_hacks in the before list.
+Due to certain conflicts in the grammar, a separate token
+(TMacroEndAttr) is required for attributes before a semicolon or an
+assignment operator. Prior to this, multiple end attributes were not
+labeled correctly, i.e., only the single attribute before the semicolon
+or assignment operator would be.
+
+Add a case to label multiple end attributes correctly.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_c/parse_c.ml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ parsing_c/parsing_hacks.ml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/parsing_c/parse_c.ml b/parsing_c/parse_c.ml
-index 86bebf32..ef4482f5 100644
---- a/parsing_c/parse_c.ml
-+++ b/parsing_c/parse_c.ml
-@@ -612,13 +612,15 @@ let rec lexer_function ~pass tr = fun lexbuf ->
-             | x -> x
-           in
+diff --git a/parsing_c/parsing_hacks.ml b/parsing_c/parsing_hacks.ml
+index 0ee0c6c6..74c3ba60 100644
+--- a/parsing_c/parsing_hacks.ml
++++ b/parsing_c/parsing_hacks.ml
+@@ -2771,6 +2771,10 @@ let lookahead2 ~pass next before =
+ 	  msg_attribute s1;
+ 	  TMacroAttr (s1, i1)
  
-+          let passed_before = filter_noise 10 tr.passed_clean in
++  | (TMacroAttr(s1,i1)::(TPtVirg(ii2)|TEq(ii2))::rest,_)
++      ->
++	  TMacroEndAttr (s1, i1)
 +
-           let v =
- 	    if !in_exec
- 	    then v
- 	    else
- 	      Parsing_hacks.lookahead ~pass
- 		(clean_for_lookahead (v::tr.rest_clean))
--		tr.passed_clean in
-+		passed_before in
- 
-           tr.passed <- v::tr.passed;
- 
+ (*  (* christia: here insert support for macros on top level *)
+   | TIdent (s, ii) :: tl :: _, _ when
+     can_be_on_top_level tl && LP.current_context () = InTopLevel ->
 -- 
 2.21.1
 
