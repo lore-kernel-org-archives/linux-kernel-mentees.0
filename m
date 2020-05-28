@@ -8,97 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64E39C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:24:53 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4697AC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:24:57 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3980B212CC
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:24:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 18E3B20888
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 May 2020 12:24:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p2qbNJbK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3980B212CC
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="va5UpSO/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18E3B20888
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1A85C8715D;
-	Thu, 28 May 2020 12:24:53 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CQIShBIuw_63; Thu, 28 May 2020 12:24:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9B7F7870F7;
-	Thu, 28 May 2020 12:24:52 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B340C088D;
-	Thu, 28 May 2020 12:24:52 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B5214C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:24:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9F13288C3F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:24:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EF52F88C30;
+	Thu, 28 May 2020 12:24:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id E3QgtkUHOnxT; Thu, 28 May 2020 12:24:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9F50488B61;
+	Thu, 28 May 2020 12:24:56 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B065C088D;
+	Thu, 28 May 2020 12:24:56 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C424C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 28 May 2020 12:24:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 868BD25406
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 28 May 2020 12:24:55 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pscLgYegrocC
+ with ESMTP id bYksuwwYCP+W
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:24:51 +0000 (UTC)
+ Thu, 28 May 2020 12:24:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1728A88C30
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by silver.osuosl.org (Postfix) with ESMTPS id 24BFC2078C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 12:24:51 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id ci23so3041997pjb.5
+ Thu, 28 May 2020 12:24:55 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id fs4so3123761pjb.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 May 2020 05:24:51 -0700 (PDT)
+ Thu, 28 May 2020 05:24:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p7rZYxRe2Sz/SF1CBsPRfrtZT5FjMYD5co3xZ8oxX9U=;
- b=p2qbNJbKh1tYHNFAD1TOdvrjaa2Zv6dfWxu6Xj7uoVYtWrAxgMnzMwbdCS0BNFhPv/
- eY8kJdK7DPBVJATJgSwxFaeGdCdIIWMjcJRjLFtzja0tFVtsyRilz9NZ4Ae/vBfgK/Zi
- /Or7uCRQsgokoEaivFolGC1uF9LaGp38r8qrCLl+LlyFYvzb+qqA0m5lbRb/mltOvT+0
- DB449kJrspmftzQVvuPkkxHz/2HEJNuLpae4E3R3/Vqoeni8ZJdcnry+xMgUBq37M1RK
- xt7pK12eVOEJiUsalOnxr4lMlBUTGKXK0dzCy9FGEZHjfEElom2A2iwY21vnpPIEuD2l
- KBBw==
+ bh=KPCzDPIq2ilnpUksJQzqSvAiCCiGo4aSKa+4vJmVh6Q=;
+ b=va5UpSO/cXZ2NtO8USp8dRLbvEukT18HMjGuk6aP2zN2SZmrckme+LuviVyxPzrR0N
+ Y1Y5N6GUuHkaaZYmZ60MG5p3cEjpI+cz6Tfl4c3GA4WtHi8NvwSWsbhDTG/kbAFPBdcT
+ 4FPImaZA60zEPO8UHICjFB87K8DrJNPZQQHf/Avu6l1mBsCkoTTwTHt0AOI+v/1CkGJS
+ CTPzoafB0f3JTyhuGUxu4oyjng771kDEky3TE2MLtwRcprO9WPwqDG9TSHfY65vLGwzS
+ Y2gj65pbzIPic7w+LxqdgpwSexEYJtmH3oKEa8HpumJfYOPOfHHMr7aN5KGnXPCAzJmB
+ vA3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p7rZYxRe2Sz/SF1CBsPRfrtZT5FjMYD5co3xZ8oxX9U=;
- b=VKnl7bVFpDEaOJRG6+6icxZQg1A31Y1jcqOUt4zeTqKI1RTiJh7z9dg4sbvfjno2QA
- xM2RuTZZL5cXrZBI7Z0oFma/ru49MMmKnd7xBglD7wjHQKjeHxBVedfX7roO6xlbCH/t
- /zTTO99d1Ix7/x124dbkKDXkrmbs/ad1C/MdmOGlULAvUYvcw0Gsiy77Sn7K+VKKvtDw
- tZ9LZIRFZB6+ZS5PyWsbSkReny40DJbp8iwRDadGGYkk9g1FZ8A36zL0lT/+6C45oitL
- IRvddqbB1ZYv+yMzjmiSv6woUPdMosE7UUSFMN6wakGqImC/dW+zbhS5hMQexYz5UwDY
- Qf2g==
-X-Gm-Message-State: AOAM531SABaqkKT0Ch4DJR2fn9VlbYgordoGlDlvsDAH5lHmRU43WxER
- Xls3bwgzxNH8+dKiWXPOUfo=
-X-Google-Smtp-Source: ABdhPJwPWX+X3N67i74tHc8wp6Chun7bEhZeV3lFazC8xF0suRajYlLNI5FcCJtUgxQ8mtbl3oCS/Q==
-X-Received: by 2002:a17:90b:80f:: with SMTP id
- bk15mr3628404pjb.51.1590668690457; 
- Thu, 28 May 2020 05:24:50 -0700 (PDT)
+ bh=KPCzDPIq2ilnpUksJQzqSvAiCCiGo4aSKa+4vJmVh6Q=;
+ b=Gr4MN7GYZg4rzXJayn5s6hSdZzWJiQzny051qFMpnUA/bjh2IhqjN3mZ7uydP51OS2
+ T8dCuc7+2KvTrtPWHbm52q+KW0nf2rD4+pO3lCBLGBRRDw61l1JjYPW1AB+j0RWDgjm9
+ sGChIaEbHJwWp4ha5HGZMdKbuG/XYJKh+SYDtkk4OPJHPRk7ETUu/RH7GtUguq4cjMNo
+ qbP78dzEICw4gIyIpjQOZ6pE23ApWUS2So44C6+dEfgu92pYeobWEf7IMwKCAfS9CnYB
+ oYbGAG1zs+Ty0KWz1KiCNkC3KK561TQyDJZXldoz1ocjbuYYndM1o6MQX7/BbCtcIfur
+ Jh4Q==
+X-Gm-Message-State: AOAM531W2npvLXAq36L+x0a7DYeC6Xp9sFOZcSJEJ+9/KiY4isN27y0J
+ sI1DhYLf2jEv/e/RUgywAzA=
+X-Google-Smtp-Source: ABdhPJzfbzXJZEEHbvpnWJfgPhzMp7w1aqkVThhazi27ubhg29/MZB+XAREKvmcdWAoXD6DcxbeUjg==
+X-Received: by 2002:a17:90b:882:: with SMTP id
+ bj2mr3293620pjb.186.1590668694610; 
+ Thu, 28 May 2020 05:24:54 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:2183:e360:deba:7bf4:98ef:5568])
- by smtp.gmail.com with ESMTPSA id 1sm5722888pje.26.2020.05.28.05.24.47
+ by smtp.gmail.com with ESMTPSA id 1sm5722888pje.26.2020.05.28.05.24.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 05:24:49 -0700 (PDT)
+ Thu, 28 May 2020 05:24:54 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Thu, 28 May 2020 17:54:05 +0530
-Message-Id: <20200528122428.4212-4-jaskaransingh7654321@gmail.com>
+Date: Thu, 28 May 2020 17:54:06 +0530
+Message-Id: <20200528122428.4212-5-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200528122428.4212-1-jaskaransingh7654321@gmail.com>
 References: <20200528122428.4212-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 03/25] parsing_c: parsing_hacks:
-	Commentize attributes before qualif/type
+Subject: [Linux-kernel-mentees] [PATCH v2 04/25] parsing_c: parser: Add rule
+	for multiple end attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,75 +116,31 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-For the following example from fs/btrfs/ctree.h in Linux v5.6-rc7:
-
-__cold __noreturn
-static inline void assertfail(const char *expr, const char *file, int line)
-{
-	pr_err("assertion failed: %s, in %s:%d\n", expr, file, line);
-	BUG();
-}
-
-__cold and __noreturn are not labeled correctly, leading to C parsing
-errors. Add a case to commentize attributes before a storage
-qualifier/type qualifier/type correctly.
+There is no rule for productions of multiple end attributes. Add a case
+similar to that of attribute_list for end attributes.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_c/parsing_hacks.ml | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ parsing_c/parser_c.mly | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/parsing_c/parsing_hacks.ml b/parsing_c/parsing_hacks.ml
-index 74c3ba60..0254fc7f 100644
---- a/parsing_c/parsing_hacks.ml
-+++ b/parsing_c/parsing_hacks.ml
-@@ -1952,6 +1952,29 @@ let is_type = function
-   | Tshort _ -> true
-   | _ -> false
+diff --git a/parsing_c/parser_c.mly b/parsing_c/parser_c.mly
+index bfe92e18..d259f12a 100644
+--- a/parsing_c/parser_c.mly
++++ b/parsing_c/parser_c.mly
+@@ -2401,8 +2401,11 @@ attribute_list:
  
-+let is_type_qualif = function
-+  | Tconst _
-+  | Tvolatile _ -> true
-+  | _ -> false
-+
-+let is_storage_spec = function
-+  | Tstatic _
-+  | Tregister _
-+  | Textern _
-+  | Tauto _ -> true
-+  | _ -> false
-+
-+let rec is_idents ?(followed_by=fun _ -> true) ts =
-+  let rec loop l =
-+    match l with
-+    | x::xs when ident x -> loop xs
-+    | x::xs -> followed_by x
-+    | [] -> failwith "unexpected end of token stream" in
-+  match ts with
-+  | x::xs when ident x -> loop xs
-+  | x::xs -> followed_by x
-+  | _ -> false
-+
- let is_cparen = function (TCPar _) -> true | _ -> false
- let is_oparen = function (TOPar _) -> true | _ -> false
+ attributes: attribute_list { $1 }
  
-@@ -2134,6 +2157,16 @@ let lookahead2 ~pass next before =
- 	  else
- 	    TCommentCpp (Token_c.CppDirective, i1)
- 
-+	(* tt xx yy *)
-+  | (TIdent (s, i1)::rest, _)
-+    when not_struct_enum before
-+	&& is_idents
-+           ~followed_by:
-+             (function x ->
-+                is_type x || is_storage_spec x || is_type_qualif x) rest
-+        && s ==~ regexp_annot ->
-+	    TCommentCpp (Token_c.CppMacro, i1)
+-end_attributes:
++end_attribute_list:
+  | TMacroEndAttr { [Attribute (fst $1), [snd $1]] }
++ | end_attribute_list TMacroEndAttr { $1 @ [Attribute(fst $2), [snd $2]] }
 +
-   | (TIdent (s2, i2)::_  , TIdent (s, i1)::seen::_)
-     when not_struct_enum before
- 	&& is_macro s2 && is_type seen ->
++end_attributes: end_attribute_list { $1 }
+ 
+ comma_opt:
+  | TComma {  [$1] }
 -- 
 2.21.1
 
