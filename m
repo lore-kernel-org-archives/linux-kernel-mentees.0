@@ -8,95 +8,95 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7DCFC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 31 May 2020 15:28:26 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B2FC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 31 May 2020 15:28:29 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 787B9206EB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 31 May 2020 15:28:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9C042206DA
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 31 May 2020 15:28:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ED1aNGT0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 787B9206EB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qg5MOcEQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C042206DA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 59DC386B05;
-	Sun, 31 May 2020 15:28:26 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7D91287E62;
+	Sun, 31 May 2020 15:28:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tOt5NGk+mgO6; Sun, 31 May 2020 15:28:26 +0000 (UTC)
+	with ESMTP id h-61Nu1DOefI; Sun, 31 May 2020 15:28:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F39D186ADD;
-	Sun, 31 May 2020 15:28:25 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 21D5A87E3F;
+	Sun, 31 May 2020 15:28:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DF72EC0863;
-	Sun, 31 May 2020 15:28:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09E05C0863;
+	Sun, 31 May 2020 15:28:29 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8E921C0176
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 84257C0176
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 15:28:24 +0000 (UTC)
+ Sun, 31 May 2020 15:28:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8B91485F92
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7026F85F93
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 15:28:24 +0000 (UTC)
+ Sun, 31 May 2020 15:28:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id x9W0Odqa96Im
+ with ESMTP id aVqT1WVQkp_n
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 15:28:24 +0000 (UTC)
+ Sun, 31 May 2020 15:28:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
  [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2AD1B85F11
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 238F085F92
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 15:28:24 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id x207so376056pfc.5
+ Sun, 31 May 2020 15:28:27 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id g5so2262169pfm.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 08:28:24 -0700 (PDT)
+ Sun, 31 May 2020 08:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wqCIwDScet/SSV7xUt/88H3gSHkZyzKqS7t7vQrsTB0=;
- b=ED1aNGT0qZkmpNi2FGH95YkZPgnAX3Un0vMTQw/WLnCiueBToJwkS/orpnemCYs1uD
- 3dT+BRK+ld96nT11+sROqve3yp1H6VXWrxR6clgrPF7V/qa0FAhxHtYxZJfvu4X1sxxh
- f8GagLxA9Epqfsd4wbMUfSAcN0rVETgiPSGuwvr6tsVLzoMtch/FrO6ho7N7oI/LgbdB
- u7uDeMTEPqauXLaS1gF2GhqocUEZ90XyiX+zeGbxXBE2H48u0uZ4MsilpJMSDNBydYav
- ftJNWlFV4hciy0fMgMrhju8kqlh6321ycTf+osM6uCKWbEil/ZduO+FSdDrkqKGYYs7+
- xHSw==
+ bh=86EVu5+u+nNHYvgKzJSdx7Ox/swx4obSjpJyAcAeBA8=;
+ b=qg5MOcEQxSPX/nyDJSnZFHCjLM1RqRIsVJOOGFAN7CF9CaJ0ndfDC1ph2y9C3bjz35
+ EcShk0OY/8/LAjhf9iIAuNNW3674ZK2aTpjh52qSEQbPY9LGj0GC3C0R9aD+WUT+cKpy
+ ZqKK2CeX2Q8WCWFMvxX4Zm4BuAdPx7plMlVQ7bE8amnx78GfC8J5pn7zeRtsm6NY2eqg
+ q3/IOLGMMeeBNTBn+Ua/9udE+aZRiq2+9Qo3y/V3aPggNlnlDeProbPs7typzGVGaRrf
+ iMUbRZJAJeD/MZ8MlyyY6UOK75ZlOwfY2oChTs9CSMj5SQ0lhTpF1uMNXgUVqdNP58vI
+ YxMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wqCIwDScet/SSV7xUt/88H3gSHkZyzKqS7t7vQrsTB0=;
- b=mS6bVk7wEt6KunQEYYdKG3VzFq0fLKAc03XaSjKHb5ujHPDXmELh8PxaIm8PQfVSaO
- JihV9pK2STszgSEyptMZx0RNSFWKmRKB104JbXFF1Pg9OnPMyCN7V4nD+ZMzBHryiIgX
- +UgYvc1dOVx6ynrhTx9mvAfz2wpHzBy3FbtXGpasf3H0a+cXEj/8pYxOxkn/5ZDRHOdT
- 4K1TQZaCyXhIk4mYsaFmO4pnl/5cuTcORok/naiye9i2rgjmXQUsiLUbZzLJTMdcqTK4
- YYqON/os4jhJkOtiyemE7arq52iGLM3wNr1q0C434fgaRyA3pvlApxWtGB06Yl48f7Zw
- armQ==
-X-Gm-Message-State: AOAM532AlOObv961mZxwTOrHv8WwH0oeJW5PyLBTLhdsRwQ8dH8f0QeD
- cBiM29hIlK9t2IgTLBSADlw=
-X-Google-Smtp-Source: ABdhPJxvj6eHj14bRlZ8UXcLWORmsvXbQ4IjVD7Lx7pQbAvf1ENVABb/DTOdTOXbWAu51gJLNogFqg==
-X-Received: by 2002:a63:3756:: with SMTP id g22mr15811789pgn.304.1590938903649; 
- Sun, 31 May 2020 08:28:23 -0700 (PDT)
+ bh=86EVu5+u+nNHYvgKzJSdx7Ox/swx4obSjpJyAcAeBA8=;
+ b=c1Q2YYK6hgIO3D18WrmGLQ0EU1lHd8t9jtPN2uFh0bdhQbxRaSncItgkKWUwvK8XXs
+ fWQsdsm9A54fc1k8fDwgy8oDVyVWrHloGNfNW3Oyb/slOVolm/U0jP0QeR0QtYjLm2Fg
+ cCtAlRD4Bcjwtvr6sWlbxFlCTmC+sTdmCGcHTT1WI6qfThL7w1K88s8fX9PK7BE9vZLE
+ R9aedjgfVLM/0frXibjXWGiGvfGIon7VmG1vc0XP9PEYajsyGWzQQx2PwhElYOhyaqke
+ dMEdzkJ1TyFwqnbqYgUJnrH6EG1u25tX3mh0tRKEy+2v5pWIeiVe6j7TxPLD3qX4FZEa
+ NUXA==
+X-Gm-Message-State: AOAM5302NIo83VliA7PjsD7bY/45CHUtb/IbaaZv9JmycCgJ4egXqHrN
+ 5u08jHmFW/s9e8Kuk9Cg34z3uPNQ
+X-Google-Smtp-Source: ABdhPJyuSMShGJHRbzs1cGtOb4QLMyynrVSKM/6wMyxLjD6iYLBFYYFmWXa5LB6I9QA2ABt9vd7Aow==
+X-Received: by 2002:a63:5f11:: with SMTP id t17mr15348813pgb.177.1590938906689; 
+ Sun, 31 May 2020 08:28:26 -0700 (PDT)
 Received: from localhost.localdomain ([2402:3a80:1863:fef5:a170:128b:8ef:499d])
- by smtp.gmail.com with ESMTPSA id 131sm12310443pfv.139.2020.05.31.08.28.21
+ by smtp.gmail.com with ESMTPSA id 131sm12310443pfv.139.2020.05.31.08.28.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 08:28:23 -0700 (PDT)
+ Sun, 31 May 2020 08:28:26 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Sun, 31 May 2020 20:56:19 +0530
-Message-Id: <20200531152621.2886-26-jaskaransingh7654321@gmail.com>
+Date: Sun, 31 May 2020 20:56:20 +0530
+Message-Id: <20200531152621.2886-27-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200531152621.2886-1-jaskaransingh7654321@gmail.com>
 References: <20200531152621.2886-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 25/27] tests: Add test case to remove
+Subject: [Linux-kernel-mentees] [PATCH 26/27] tests: Add test case to detect
 	a struct end attribute
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -115,25 +115,25 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Stuct end attributes are added to the SmPL and C ASTs. Add a test case
-to remove struct end attributes.
+Struct end attributes are added to the SmPL and C ASTs. Add a test case
+to detect a struct end attribute.
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- tests/remove_struct_endattr.c     | 7 +++++++
- tests/remove_struct_endattr.cocci | 7 +++++++
- tests/remove_struct_endattr.res   | 7 +++++++
- 3 files changed, 21 insertions(+)
- create mode 100644 tests/remove_struct_endattr.c
- create mode 100644 tests/remove_struct_endattr.cocci
- create mode 100644 tests/remove_struct_endattr.res
+ tests/detect_struct_endattr.c     | 13 +++++++++++++
+ tests/detect_struct_endattr.cocci |  9 +++++++++
+ tests/detect_struct_endattr.res   | 12 ++++++++++++
+ 3 files changed, 34 insertions(+)
+ create mode 100644 tests/detect_struct_endattr.c
+ create mode 100644 tests/detect_struct_endattr.cocci
+ create mode 100644 tests/detect_struct_endattr.res
 
-diff --git a/tests/remove_struct_endattr.c b/tests/remove_struct_endattr.c
+diff --git a/tests/detect_struct_endattr.c b/tests/detect_struct_endattr.c
 new file mode 100644
-index 00000000..95aa8610
+index 00000000..240fcde9
 --- /dev/null
-+++ b/tests/remove_struct_endattr.c
-@@ -0,0 +1,7 @@
++++ b/tests/detect_struct_endattr.c
+@@ -0,0 +1,13 @@
 +#define __struct_endattr MACROANNOTATION
 +
 +struct abcd {
@@ -141,26 +141,39 @@ index 00000000..95aa8610
 +	int b;
 +	int c;
 +} __struct_endattr;
-diff --git a/tests/remove_struct_endattr.cocci b/tests/remove_struct_endattr.cocci
++
++struct abcd {
++	int a;
++	int b;
++	int c;
++};
+diff --git a/tests/detect_struct_endattr.cocci b/tests/detect_struct_endattr.cocci
 new file mode 100644
-index 00000000..c4b86864
+index 00000000..8b6ba797
 --- /dev/null
-+++ b/tests/remove_struct_endattr.cocci
-@@ -0,0 +1,7 @@
++++ b/tests/detect_struct_endattr.cocci
+@@ -0,0 +1,9 @@
 +@@
 +attribute name __struct_endattr;
 +@@
 +
-+struct abcd {...}
-+-	__struct_endattr
-+;
-diff --git a/tests/remove_struct_endattr.res b/tests/remove_struct_endattr.res
++struct abcd {
++	...
++-	int b;
++	...
++} __struct_endattr;
+diff --git a/tests/detect_struct_endattr.res b/tests/detect_struct_endattr.res
 new file mode 100644
-index 00000000..dda83724
+index 00000000..71002542
 --- /dev/null
-+++ b/tests/remove_struct_endattr.res
-@@ -0,0 +1,7 @@
++++ b/tests/detect_struct_endattr.res
+@@ -0,0 +1,12 @@
 +#define __struct_endattr MACROANNOTATION
++
++struct abcd {
++	int a;
++	int c;
++} __struct_endattr;
 +
 +struct abcd {
 +	int a;
