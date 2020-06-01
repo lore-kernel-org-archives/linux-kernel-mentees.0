@@ -1,103 +1,107 @@
-Return-Path: <SRS0=a8nb=7N=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=1nBW=7O=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D14C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 31 May 2020 15:28:33 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4F5C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Jun 2020 16:51:45 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EB6F6206DA
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 31 May 2020 15:28:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 10A5F2073B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Jun 2020 16:51:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uA1Opabl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB6F6206DA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JaPe6H9A"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10A5F2073B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B852E20461;
-	Sun, 31 May 2020 15:28:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CF4FB8615E;
+	Mon,  1 Jun 2020 16:51:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QLij1ljtLdMO; Sun, 31 May 2020 15:28:32 +0000 (UTC)
+	with ESMTP id xuZvw9I6VOBm; Mon,  1 Jun 2020 16:51:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2D45420438;
-	Sun, 31 May 2020 15:28:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 328A686031;
+	Mon,  1 Jun 2020 16:51:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A04DC0863;
-	Sun, 31 May 2020 15:28:32 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F2661C0176
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 136EEC0178;
+	Mon,  1 Jun 2020 16:51:44 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 984DBC0176
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 15:28:30 +0000 (UTC)
+ Mon,  1 Jun 2020 16:51:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id E055287E3F
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 55D6C8610F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 15:28:30 +0000 (UTC)
+ Mon,  1 Jun 2020 16:51:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8C7FyMvBp6kB
+ with ESMTP id AfB1bcXUAzKC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 15:28:30 +0000 (UTC)
+ Mon,  1 Jun 2020 16:51:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6FAC387E2E
+Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com
+ [209.85.161.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0E02185F37
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 15:28:30 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id m1so2343778pgk.1
+ Mon,  1 Jun 2020 16:51:38 +0000 (UTC)
+Received: by mail-oo1-f66.google.com with SMTP id v3so1559717oot.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2020 08:28:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1usUHRjT30UJ7SGo5+Abt4NssA1f9Eq27niEio+p3AQ=;
- b=uA1OpablRL1qDQ+32IjoVM1EqWFExrRT61D7NkaC7Yxt4Mcw7tsBN+XjcoxPqeM85R
- UfG7vkKEbhBVIVoI8DKXaPXkezq7RnkW3eWmGWzIxzuUQLtZZL305GFW5UvvdYJwmCDm
- IJv4BA3VKjqdLbQG7GjACk0hJnKLh/1R4s5yucfRTJwL/m62Vqr3BR8KsHgv460tgAC8
- 5R6s/yv5EEUW+ehfuJ9RkkKZ54EPfoftwJLWo1Iy9sx9SRU4feQ/kfs6aLqMgpU5hUFg
- OqepqYy4W7lK+avZpkFg/+7NqHitBTLfK4k61D/bOnPOub1yMzwaolynikAvkupqZ4PE
- e5uw==
+ Mon, 01 Jun 2020 09:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=T7w7j4yQwplmXQxxnc/dAqR0xCmeWec60t3EIHBSr/c=;
+ b=JaPe6H9A/OWTCRY9H5QuCuNhjT4T6J4+XtVy7aU5HUXhaR5LkOr1czyxIYmF6D7lDf
+ EWOcnaDeVZYPoPmxuv/1kjqIseUe0OS8nNvkBEY9+6qinMQarEQc8zWsUx9shc6yPDbg
+ omwwhEDhV5ilKLyWvYOMMKTScvHprq7LR3lLA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1usUHRjT30UJ7SGo5+Abt4NssA1f9Eq27niEio+p3AQ=;
- b=P2JRdqwfQ+4yMqLEd3DSowyD41euGZqifeND7jLcNzsb+vsQKgXkQGimpHBsy3y01y
- Wax+9X3JZ7LVyxJdDpgmts9V0hZqVzs+ii1PrNQlfipHaMqSle1RbwlxERvkmNz9mnVg
- HoeAvDQslyfE50tpl7G3cFQ3eW9R+cDg8ptHKY/IeXQaIvfcDl1GXi+8ViyW97sIqUt0
- gwlUqtvmLqfWd5hL8BJet1/jT10P/SAesMQ5c4K0VMQPjovZdjsBbVdvz77x0sRIOvaC
- N0YAbYV5p1YHy3/4gC96k+Ns25uXZNvH3qvWEyzX4kPuPlRQLM/zhJ+YQ0lGq4fbmj2Z
- fdsQ==
-X-Gm-Message-State: AOAM531sYIefwqHeKBxaSphu30CWrFNwamVXAhY7BTUl/IOXBzsLFdeh
- cErPotSO4YB8jzeU49bnYgI=
-X-Google-Smtp-Source: ABdhPJwViq0wDbk5rN3CW1tNbSkyICnLOyyguALodN7GLC3VEJOomwAzmrIF6P/Jz53N6LNqBVC6ig==
-X-Received: by 2002:a63:f854:: with SMTP id v20mr16298897pgj.0.1590938910026; 
- Sun, 31 May 2020 08:28:30 -0700 (PDT)
-Received: from localhost.localdomain ([2402:3a80:1863:fef5:a170:128b:8ef:499d])
- by smtp.gmail.com with ESMTPSA id 131sm12310443pfv.139.2020.05.31.08.28.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 08:28:29 -0700 (PDT)
-From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-To: cocci@systeme.lip6.fr
-Date: Sun, 31 May 2020 20:56:21 +0530
-Message-Id: <20200531152621.2886-28-jaskaransingh7654321@gmail.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200531152621.2886-1-jaskaransingh7654321@gmail.com>
-References: <20200531152621.2886-1-jaskaransingh7654321@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=T7w7j4yQwplmXQxxnc/dAqR0xCmeWec60t3EIHBSr/c=;
+ b=GjNRde+H1JaMh+1lGcGJ0YDrccV1wvO30IYRtGrnTlthGlbuYkgRz10Vv9tP+YUkt4
+ hV1YRP0XMfx2z8claJRB2EmJHiEsb/vj5T/GXHOtwBnxliFyONzC02Dco9cCYIoxwbL4
+ mjK81CoumTR6EPTxBp+XeiTwPpHqIcOV/MpodJX3ljDdIblp091+NrTrpYU4f6W0Gz9a
+ OlzKCBwYjzHNq9zYnlVk30t05Wit9xcuW2ADAAPfBNbkVUBqQwzoRwZDvPpbLRji5UMk
+ yxemfjgOtyNgtEwVEthQtkpIExmsmeRlPn0gA08rTakm5iZAvYmIpg+z5LbCij3QGEwY
+ CgXg==
+X-Gm-Message-State: AOAM532+TM+IcyBwQ8sO3i1EAXwY6sdrBsj27XVRhv6y9UzHglah1XFj
+ FmVs8hOx0y1rhL/gcL5jcifx1Rkk
+X-Google-Smtp-Source: ABdhPJyeVfnGsjB7FHe6WfKM3RmmWvuRQH99VnMLxtmhXrtfmi5Cw9fJvC5C7Qov1rzbjhrALU9CgA==
+X-Received: by 2002:a4a:2c88:: with SMTP id o130mr17528761ooo.81.1591030297092; 
+ Mon, 01 Jun 2020 09:51:37 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
+ [24.9.64.241])
+ by smtp.gmail.com with ESMTPSA id c184sm5388325oif.3.2020.06.01.09.51.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Jun 2020 09:51:36 -0700 (PDT)
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+ mchehab+huawei@kernel.org, sean@mess.org, kstewart@linuxfoundation.org,
+ allison@lohutok.net, tglx@linutronix.de
+References: <20200520070334.1778751-1-dwlsalmeida@gmail.com>
+ <20200520070334.1778751-6-dwlsalmeida@gmail.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <2b00fc7a-8818-b0be-7e42-a2df9787876b@linuxfoundation.org>
+Date: Mon, 1 Jun 2020 10:51:34 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 27/27] tests: Add test case to check
-	struct endattr allminus
+In-Reply-To: <20200520070334.1778751-6-dwlsalmeida@gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [RFC, WIP,
+ v6 05/10] media: vidtv: add wrappers for memcpy and memset
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,66 +113,171 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Struct end attributes are added to the SmPL and C ASTs. Add a test case
-to check allminus for struct end attributes.
+Hi Daniel,
 
-Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
----
- tests/remove_struct_endattr_allminus.c     | 13 +++++++++++++
- tests/remove_struct_endattr_allminus.cocci |  6 ++++++
- tests/remove_struct_endattr_allminus.res   |  1 +
- 3 files changed, 20 insertions(+)
- create mode 100644 tests/remove_struct_endattr_allminus.c
- create mode 100644 tests/remove_struct_endattr_allminus.cocci
- create mode 100644 tests/remove_struct_endattr_allminus.res
+On 5/20/20 1:03 AM, Daniel W. S. Almeida wrote:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> A lot of code in this driver is for serializing structures. This is
+> error prone.
+> 
+> Therefore, prevent buffer overflows by wrapping memcpy and memset,
+> comparing the requested length against the buffer size.
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>   .../media/test-drivers/vidtv/vidtv_common.c   | 86 +++++++++++++++++++
+>   .../media/test-drivers/vidtv/vidtv_common.h   | 27 ++++++
+>   2 files changed, 113 insertions(+)
+>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.c
+>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.h
+> 
 
-diff --git a/tests/remove_struct_endattr_allminus.c b/tests/remove_struct_endattr_allminus.c
-new file mode 100644
-index 00000000..a99a7e9f
---- /dev/null
-+++ b/tests/remove_struct_endattr_allminus.c
-@@ -0,0 +1,13 @@
-+#define __struct_endattr MACROANNOTATION
-+
-+struct abcd {
-+	int a;
-+	int b;
-+	int c;
-+} __struct_endattr;
-+
-+struct defg {
-+	int a;
-+	int b;
-+	int c;
-+};
-diff --git a/tests/remove_struct_endattr_allminus.cocci b/tests/remove_struct_endattr_allminus.cocci
-new file mode 100644
-index 00000000..f63ab7cd
---- /dev/null
-+++ b/tests/remove_struct_endattr_allminus.cocci
-@@ -0,0 +1,6 @@
-+@@
-+identifier id;
-+attribute name __struct_endattr;
-+@@
-+
-+- struct id {...};
-diff --git a/tests/remove_struct_endattr_allminus.res b/tests/remove_struct_endattr_allminus.res
-new file mode 100644
-index 00000000..e2f74e8f
---- /dev/null
-+++ b/tests/remove_struct_endattr_allminus.res
-@@ -0,0 +1 @@
-+#define __struct_endattr MACROANNOTATION
--- 
-2.21.1
+I don't see these added to Makefile. Building the driver with the patch
+has no effect.
 
+In any case I don't see any value in adding the wrappers here. They
+really do nothing other than doing range checks. It adda a layer of
+indirection that is unnecessary.
+
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.c b/drivers/media/test-drivers/vidtv/vidtv_common.c
+> new file mode 100644
+> index 0000000000000..6810212087c17
+> --- /dev/null
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_common.c
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * The Virtual DVB test driver serves as a reference DVB driver and helps
+> + * validate the existing APIs in the media subsystem. It can also aid
+> + * developers working on userspace applications.
+> + *
+> + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ":%s, %d: " fmt, __func__, __LINE__
+> +
+> +#include <linux/printk.h>
+> +#include <linux/ratelimit.h>
+> +#include <linux/string.h>
+> +#include <linux/types.h>
+> +
+> +#include "vidtv_common.h"
+> +
+> +/**
+> + * vidtv_memcpy() - wrapper routine to be used by MPEG-TS
+> + *	generator, in order to avoid going past the
+> + *	output buffer.
+> + * @to:	Starting element to where a MPEG-TS packet will
+> + *	be copied.
+> + * @to_offset:	Starting position of the @to buffer to be filled.
+> + * @to_size:	Size of the @to buffer.
+> + * @from:	Starting element of the buffer to be copied.
+> + * @len:	Number of elements to be copy from @from buffer
+> + *	into @to+ @to_offset buffer.
+> + *
+> + * Note:
+> + *	Real digital TV demod drivers should not have memcpy
+> + *	wrappers. We use it here because emulating MPEG-TS
+> + *	generation at kernelspace requires some extra care.
+> + *
+> + * Return:
+> + *	Returns the number of bytes written
+> + */
+> +u32 vidtv_memcpy(void *to,
+> +		 size_t to_offset,
+> +		 size_t to_size,
+> +		 const void *from,
+> +		 size_t len)
+> +{
+> +	if (unlikely(to_offset + len > to_size)) {
+
+Use of unlikely isn't necessarily beneficial in all cases.
+
+> +		pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size\n");
+> +		return 0;
+> +	}
+> +
+> +	memcpy(to + to_offset, from, len);
+> +	return len;
+> +}
+> +
+> +/**
+> + * vidtv_memset() - wrapper routine to be used by MPEG-TS
+> + *	generator, in order to avoid going past the
+> + *	output buffer.
+> + * @to:	Starting element to set
+> + * @to_offset:	Starting position of the @to buffer to be filled.
+> + * @to_size:	Size of the @to buffer.
+> + * @from:	Starting element of the buffer to be copied.
+> + * @ten:	Number of elements to be copy from @from buffer
+> + *	into @to+ @to_offset buffer.
+> + *
+> + * Note:
+> + *	Real digital TV demod drivers should not have memset
+> + *	wrappers. We use it here because emulating MPEG-TS
+> + *	generation at kernelspace requires some extra care.
+> + *
+> + * Return:
+> + *	Returns the number of bytes written
+> + */
+> +u32 vidtv_memset(void *to,
+> +		 size_t to_offset,
+> +		 size_t to_size,
+> +		 const int c,
+> +		 size_t len)
+> +{
+> +	if (unlikely(to_offset + len > to_size)) {
+> +		pr_err_ratelimited("overflow detected, skipping. Try increasing the buffer size\n");
+> +		return 0;
+> +	}
+> +
+> +	memset(to + to_offset, c, len);
+> +	return len;
+> +}
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.h b/drivers/media/test-drivers/vidtv/vidtv_common.h
+> new file mode 100644
+> index 0000000000000..a3cb303cc7423
+> --- /dev/null
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_common.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * The Virtual DVB test driver serves as a reference DVB driver and helps
+> + * validate the existing APIs in the media subsystem. It can also aid
+> + * developers working on userspace applications.
+> + *
+> + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> + */
+> +
+> +#ifndef VIDTV_COMMON_H
+> +#define VIDTV_COMMON_H
+> +
+> +#include <linux/types.h>
+> +
+> +u32 vidtv_memcpy(void *to,
+> +		 size_t to_offset,
+> +		 size_t to_size,
+> +		 const void *from,
+> +		 size_t len);
+> +
+> +u32 vidtv_memset(void *to,
+> +		 size_t to_offset,
+> +		 size_t to_size,
+> +		 int c,
+> +		 size_t len);
+> +
+> +#endif // VIDTV_COMMON_H
+> 
+
+thanks,
+-- Shuah
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
