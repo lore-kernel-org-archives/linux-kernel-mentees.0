@@ -2,102 +2,102 @@ Return-Path: <SRS0=7LP4=7S=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87EB8C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:44:58 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B93DC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:49:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CD7B206E6
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:44:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CA81F206E6
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:49:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jco1elIY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CD7B206E6
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iBEVva5a"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CA81F206E6
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3CD42253CA;
-	Fri,  5 Jun 2020 13:44:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A137B88376;
+	Fri,  5 Jun 2020 13:49:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JEnHayf6BfbI; Fri,  5 Jun 2020 13:44:57 +0000 (UTC)
+	with ESMTP id E5oFa4XJgv0b; Fri,  5 Jun 2020 13:49:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 70F572038B;
-	Fri,  5 Jun 2020 13:44:57 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 03E778836D;
+	Fri,  5 Jun 2020 13:49:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DB1CC0888;
-	Fri,  5 Jun 2020 13:44:57 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9C04DC016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EBF01C0888;
+	Fri,  5 Jun 2020 13:49:02 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3ACC6C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Jun 2020 13:44:56 +0000 (UTC)
+ Fri,  5 Jun 2020 13:49:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8C2AE88778
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3310488372
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Jun 2020 13:44:56 +0000 (UTC)
+ Fri,  5 Jun 2020 13:49:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id e806ZUMFQ7Hw
+ with ESMTP id xhJ895w0p3qe
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Jun 2020 13:44:56 +0000 (UTC)
+ Fri,  5 Jun 2020 13:49:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
  [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 11106884DC
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 76AB88836D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Jun 2020 13:44:56 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id b7so3300591pju.0
+ Fri,  5 Jun 2020 13:49:01 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id i12so2612861pju.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 05 Jun 2020 06:44:56 -0700 (PDT)
+ Fri, 05 Jun 2020 06:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ufMl+xv8bNr3ftwXMxG2RrjAxFKAfKqTdDmc4xiwlvI=;
- b=jco1elIY88esd4lvN4ib1FkM04X2Ci2a+T7TQY/IT86WvP16gePldUZgYMrDLZskUS
- yLUyX2za5ozM84o48jhMfyiHSm3k1+2hwKOHpqEdhfq5MliHtkMLhJbm7rupb02Kh9g+
- eMdKvn54RKB90HqGLoaXEKrZw6kxS46I7UqQD+gKH2sqkoV/GqZZZUAujO2W2qcLXZgV
- NtIBiOmI5qVwKZDb+tUKRsj8/skvTBEjOPvjje4/yIx11cnnU67VcvBVmdNqk9SvDZlK
- 5/rnxZm0aA8MJs+ON6nRJ5tGG/iJ1rYkgvaYtZSNWdqwvHA/ioJx7JAI83oX/71yIiFh
- CZ1g==
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=cAN1aXwy651qLNYYl6ffgPV96B8aimkpwNpCz8u1hEY=;
+ b=iBEVva5aGpFerUty12VGTRBcrb9YJ2g7ERMyPBS7JACdhKHNqB+KxJeXmr/kByZ+Vg
+ sBou00l1MnJnsQLwE+bLXchN9HExbBfSSmGHLKnJOH+OaAIaGDLlyXGT1slC8PvfoZMS
+ DdrMTItg4UOQerrEY0o+0+7dvb9Qko1yaRuVIhTfejdMdUsFWun3Biog12pnGZaBbl8H
+ lREcgl8rkWm2B/mMtlTsBmO4qeo8dWCPzDmFLXu11TRfjVHKuSeGaeaw3m0Ca8IorFYO
+ fcPdRcuZuzFEx+/0TSQwwtg96+Bn3vlVnT7Pqdp6roT5Z68IOcn613N1PAEwMAI7KJaU
+ waTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ufMl+xv8bNr3ftwXMxG2RrjAxFKAfKqTdDmc4xiwlvI=;
- b=czZ2mhR7slVmjI6OfI30Yzy2eRyYOnQJMhmNr0tWhjvcbbL0KbxIhpJDbRDysWSIBz
- ErEFVE394RZSIaX7Lbk6ZxtDue2uf2q/5RCugvbBLC9mglHxjuNl98Njvsy8Ovz2qj7j
- OTjqz9g6Q4eNKZo3AiXaMiWL1FGivyfvIhyvfQJri0IaiEdtRpwschAbgLB2BEwAPi7f
- uSt9ok8gT51LG3baT4VpbHY8ZK26J1DzgPoY2uwWzFNlouN6096of3DicUa+1pmWghOm
- B1mbf2qgCpZ4GXsyFZNFNbeyVRqkP7JyqeVrnKBlkWhM08R+d8EvyqelHtFUDHZtEADg
- H12A==
-X-Gm-Message-State: AOAM532Qpt3LW7ovkLRSHo6OovrX8/sVGXL+Z0ABX2DNWu96YeO8U2HN
- yH5VnRMU/4ZzV+xax70USmd6nDirXnI=
-X-Google-Smtp-Source: ABdhPJyWgd8RVFqhI0JH8x9SbBV5wn51O1ubimAVV5zXLgj0Fnmb4XCODLKjwA0zx07mMbbO5KyPiQ==
-X-Received: by 2002:a17:902:301:: with SMTP id 1mr9805577pld.65.1591364695591; 
- Fri, 05 Jun 2020 06:44:55 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=cAN1aXwy651qLNYYl6ffgPV96B8aimkpwNpCz8u1hEY=;
+ b=auQtiD5CTPlQsp4ms19YLIy3fqrrbqzHvK21i8FYnMab0Wt5571lvf4CxRqBabt2gV
+ xe+TwK/puJdhsZG//+rau+eOkB9W6mK7uOdsLFbN6ekdgo9LfrUVdLfOsJtRK6KAjL67
+ 22iG1281yf1zr9OC19watcxlYhaFigVSM5ARFBmErdEikdyjlMRzULNmfcu0mE7mlyUI
+ afd9nDM87mbMaMWn5OlnBO157mmyU4/UQqFXp4WuaedF6YlZmAMo7+XqUSk3pqB8sJHx
+ LYte85ViITCfI8zJzwU3Frnu286HOnXByehCW7v4DxMlZrsEVWrPUSPJoYZlfIu7cpQe
+ 3Puw==
+X-Gm-Message-State: AOAM531qcpJL8SapLJ7zW+ey96UrQfc9atG7AMsKzxgPfXKynCXUpBiq
+ m6emk1IH4VBk5wpjQT8zfKQ=
+X-Google-Smtp-Source: ABdhPJzGiSyrAkjqOyltbryBhn5PUooFTgtFj11FBO21el51ZDMs0+doKGzdGQMlhISZP5sDszEPUw==
+X-Received: by 2002:a17:90a:ec08:: with SMTP id
+ l8mr3087690pjy.46.1591364940854; 
+ Fri, 05 Jun 2020 06:49:00 -0700 (PDT)
 Received: from localhost.localdomain ([1.38.221.125])
- by smtp.gmail.com with ESMTPSA id w186sm7861353pff.83.2020.06.05.06.44.53
+ by smtp.gmail.com with ESMTPSA id gd1sm7799013pjb.14.2020.06.05.06.48.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 06:44:54 -0700 (PDT)
+ Fri, 05 Jun 2020 06:48:59 -0700 (PDT)
+Message-ID: <135dd234af73db1048254c5714e00ea1aa9ad5e1.camel@gmail.com>
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Fri,  5 Jun 2020 19:13:22 +0530
-Message-Id: <20200605134322.15307-15-jaskaransingh7654321@gmail.com>
-X-Mailer: git-send-email 2.21.1
+Date: Fri, 05 Jun 2020 19:18:52 +0530
 In-Reply-To: <20200605134322.15307-1-jaskaransingh7654321@gmail.com>
 References: <20200605134322.15307-1-jaskaransingh7654321@gmail.com>
+User-Agent: Evolution 3.32.5 (3.32.5-1.fc30) 
 MIME-Version: 1.0
-Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
+Cc: julia.lawall@inria.fr, Jas K <jaskaransingh7654321@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v4 14/14] cocci: standard.h: Annotate
-	attributes with MACROANNOTATION
+Subject: Re: [Linux-kernel-mentees] [PATCH v4 00/14] cocci: Improve C
+	parsing of attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,164 +115,148 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Apply the MACROANNOTATION hint to select attributes in standard.h. These
-hints can be replaced, removed or added by the user as their use case
-demands.
+On Fri, 2020-06-05 at 19:13 +0530, Jaskaran Singh wrote:
+> This patch series aims to improve parsing of attributes in C by
+> Coccinelle's C parser.
+> 
+> These parsing errors were discovered by running a build of
+> Coccinelle's
+> master branch on gitlab to parse the source code of Linux v5.5-rc4
+> and Linux
+> v5.6-rc7. Coccinelle currently manages attributes similar to
+> comments, so
+> to explicity state what the attributes are to the C parser, a
+> MACROANNOTATION hint was used in Coccinelle's standard.h file. The
+> hint
+> enables the parser to correctly identify attributes, and thus
+> potentially
+> handle them differently in the AST.
+> 
+> Upon collection of these parsing errors, The GNU C Compiler's
+> grammar was taken as a reference for introducing attributes in
+> correct
+> places in Coccinelle's C parser.
+> 
+> Upon applying the MACROANNOTATION hint to a majority of the
+> attributes in
+> Coccinelle's standard.h file and parsing the source code of Linux
+> v5.6-rc7, the difference between the stats (of --parse-c) before and
+> after applying this patch series are as follows:
+> 
+> Before:
+> 
+>         NB total files = 28268; perfect = 25697; pbs = 2570; timeout
+> = 0; =========> 90%
+>         nb good = 19160664,  nb passed = 135235 =========> 0.70%
+> passed
+>         nb good = 19160664,  nb bad = 129685 =========> 99.33% good
+> or passed
+> 
+> After:
+> 
+>         NB total files = 28268; perfect = 25699; pbs = 2568; timeout
+> = 0; =========> 90%
+>         nb good = 19160856,  nb passed = 71716 =========> 0.37%
+> passed
+>         nb good = 19160856,  nb bad = 129493 =========> 99.33% good
+> or passed
+> 
+> What this patch series does not do:
+> - Add attributes from all the new productions into the C AST. Some of
+>   these are dropped.
+> - Reflect changes from the C parser in the SmPL parser.
+> 
+> Separate patches will be sent for the above.
+> 
+> 
+> Changes in v4:
+> -------------
+> Remove the following patches from the series and add/merge them to
+> [1].
+> 	parsing_c: visitor_c: Add vk_attribute and vk_attribute_s
+> 	parsing_c: lib_parsing_c: Add ii_of_attr
+> 	engine: Add distrf_attr to PARAM functor
+> 	engine: cocci_vs_c: Add allminus argument to attribute_list
+> 	parsing_c: parser: Make abstract_declarator pass attributes
+> 	cocci: Add parameter attributes to C AST
+> 	parsing_c: parser: Place parameter attributes in C AST
+> 	parsing_c: visitor_c: Visit parameter attributes
+> 	parsing_c: unparse_hrule: Add parameter attributes in record
+> 	parsing_c: type_c: Add parameter attributes to record
+> 	engine: cocci_vs_c: "Match" parameter attributes
+> 	engine: c_vs_c: Match parameter attributes
+> 
+> parsing_c: parser: Add rule for optional end attributes
+> - Add to series.
+> 
+> parsing_c: parser: Add field declaration end attributes production
+> - Use end_attributes_opt to avoid duplicate code.
+> 
+> parsing_c: parser: Handle struct/union/enum end attributes
+> - Use end_attributes_opt to avoid duplicate code.
+> 
+> parsing_c: parser: Add MacroDecl end attributes production
+> - Use end_attributes_opt to avoid duplicate code.
+> 
+> parsing_c: parser: cpp_other end attributes production
+> - Use end_attributes_opt to avoid duplicate code.
+> 
+> 
+> Changes in v3:
+> -------------
+> parsing_c: parser: Place parameter attributes in C AST
+> - Remove the "attr is ignored" comments in the declaratorp rule.
+> - Place the attributes from the "declarator attributes" production
+>   in the declaratorp rule in the C AST as well.
+> 
+> 
+> Changes in v2:
+> --------------
+> parsing_c: parser: Add attribute production in spec_qualif_list
+> - This patch applied on its own causes a build error. Fix the error
+> by
+>   removing the let binding for abstract_declaratort in the type_name
+>   rule
+> 
+> parsing_c: parser: Make abstract_declarator pass attributes
+> - Reflect changes from the above build error fix.
+> 
 
-Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
----
- standard.h | 116 ++++++++++++++++++++++++++---------------------------
- 1 file changed, 58 insertions(+), 58 deletions(-)
+[1]
+[PATCH v3 00/23] cocci: Add parameter attributes to SmPL
+https://lore.kernel.org/cocci/20200511101300.11101-1-jaskaransingh7654321@gmail.com/
 
-diff --git a/standard.h b/standard.h
-index 7a7f96ea..a25d2ae7 100644
---- a/standard.h
-+++ b/standard.h
-@@ -87,46 +87,46 @@
- // ----------------------------------------------------------------------------
- // Attributes. could perhaps generalize via "__.*"
- // ----------------------------------------------------------------------------
--#define  __init
--#define  __initconst
--#define  __page_aligned_data
--#define  __page_aligned_bss
--#define  __always_unused
--#define  __visible
--#define  __exit
--#define  __user
--#define  __iomem
--#define  __initdata
--#define  __exitdata
--#define  __devinit
--#define  __devexit
--#define  __devinitdata
--#define  __cpuinit
--#define  __cpuinitdata
--#define  __init_or_module
--#define  __initdata_or_module
--#define  __pminit
--#define  __pminitdata
--#define  __irq_entry
--
--#define  __cacheline_aligned
--#define  ____cacheline_aligned
--#define  __cacheline_aligned_in_smp
--#define  ____cacheline_aligned_in_smp
--#define  ____cacheline_internodealigned_in_smp
-+#define  __init MACROANNOTATION
-+#define  __initconst MACROANNOTATION
-+#define  __page_aligned_data MACROANNOTATION
-+#define  __page_aligned_bss MACROANNOTATION
-+#define  __always_unused MACROANNOTATION
-+#define  __visible MACROANNOTATION
-+#define  __exit MACROANNOTATION
-+#define  __user MACROANNOTATION
-+#define  __iomem MACROANNOTATION
-+#define  __initdata MACROANNOTATION
-+#define  __exitdata MACROANNOTATION
-+#define  __devinit MACROANNOTATION
-+#define  __devexit MACROANNOTATION
-+#define  __devinitdata MACROANNOTATION
-+#define  __cpuinit MACROANNOTATION
-+#define  __cpuinitdata MACROANNOTATION
-+#define  __init_or_module MACROANNOTATION
-+#define  __initdata_or_module MACROANNOTATION
-+#define  __pminit MACROANNOTATION
-+#define  __pminitdata MACROANNOTATION
-+#define  __irq_entry MACROANNOTATION
-+
-+#define  __cacheline_aligned MACROANNOTATION
-+#define  ____cacheline_aligned MACROANNOTATION
-+#define  __cacheline_aligned_in_smp MACROANNOTATION
-+#define  ____cacheline_aligned_in_smp MACROANNOTATION
-+#define  ____cacheline_internodealigned_in_smp MACROANNOTATION
- 
- #define  __ALIGNED__
- #define  __3xp_aligned
- 
--#define  __pmac
--#define  __force
--#define  __nocast
--#define  __read_mostly
-+#define  __pmac MACROANNOTATION
-+#define  __force MACROANNOTATION
-+#define  __nocast MACROANNOTATION
-+#define  __read_mostly MACROANNOTATION
- 
--#define  __must_check
-+#define  __must_check MACROANNOTATION
- // pb
--#define  __unused
--#define  __maybe_unused
-+#define  __unused MACROANNOTATION
-+#define  __maybe_unused MACROANNOTATION
- 
- 
- #define  __attribute_used__
-@@ -139,27 +139,27 @@
- #define  __xipram
- 
- // in the other part of the kernel, in arch/, mm/, etc
--#define  __sched
--#define  __initmv
--#define  __exception
--#define  __cpuexit
--#define  __kprobes
--#define  __meminit
--#define  __meminitdata
--#define  __nosavedata
--#define  __kernel
--#define  __nomods_init
--#define  __apicdebuginit
--#define  __ipc_init
--#define  __modinit
--#define  __lockfunc
--#define  __weak
--#define  __tlb_handler_align
--#define  __lock_aligned
--#define  __force_data
--#define  __nongprelbss
--#define  __nongpreldata
--#define  __noreturn
-+#define  __sched MACROANNOTATION
-+#define  __initmv MACROANNOTATION
-+#define  __exception MACROANNOTATION
-+#define  __cpuexit MACROANNOTATION
-+#define  __kprobes MACROANNOTATION
-+#define  __meminit MACROANNOTATION
-+#define  __meminitdata MACROANNOTATION
-+#define  __nosavedata MACROANNOTATION
-+#define  __kernel MACROANNOTATION
-+#define  __nomods_init MACROANNOTATION
-+#define  __apicdebuginit MACROANNOTATION
-+#define  __ipc_init MACROANNOTATION
-+#define  __modinit MACROANNOTATION
-+#define  __lockfunc MACROANNOTATION
-+#define  __weak MACROANNOTATION
-+#define  __tlb_handler_align MACROANNOTATION
-+#define  __lock_aligned MACROANNOTATION
-+#define  __force_data MACROANNOTATION
-+#define  __nongprelbss MACROANNOTATION
-+#define  __nongpreldata MACROANNOTATION
-+#define  __noreturn MACROANNOTATION
- 
- #define  __section_jiffies
- #define  __vsyscall_fn
-@@ -193,9 +193,9 @@
- 
- 
- // last last
--#define __net_init
--#define __net_exit
--#define __net_initdata
-+#define __net_init MACROANNOTATION
-+#define __net_exit MACROANNOTATION
-+#define __net_initdata MACROANNOTATION
- 
- #define __paginginit // in mm
- 
--- 
-2.21.1
+
+> 
+> Jaskaran Singh (14):
+>       parsing_c: parse_c: Ignore TMacroAttr and TMacroEndAttr in
+> passed tokens
+>       parsing_c: parsing_hacks: Label end attributes correctly
+>       parsing_c: parsing_hacks: Commentize attributes before
+> qualif/type
+>       parsing_c: parser: Add rule for multiple end attributes
+>       parsing_c: parser: Add expression statement attributes
+>       parsing_c: parser: Add rule for optional end attributes
+>       parsing_c: parser: Add attribute production in spec_qualif_list
+>       parsing_c: parser: Add init_declarator_attrs rule
+>       parsing_c: parser: Add field declaration end attributes
+> production
+>       parsing_c: parser: Handle struct/union/enum end attributes
+>       parsing_c: parser: Add MacroDecl end attributes production
+>       parsing_c: parser: cpp_other end attributes production
+>       parsing_c: cpp_token_c: Introduce MACROANNOTATION hint
+>       cocci: standard.h: Annotate attributes with MACROANNOTATION
+> 
+>  parsing_c/cpp_token_c.ml   |    2 
+>  parsing_c/parse_c.ml       |    4 +
+>  parsing_c/parser_c.mly     |   91 ++++++++++++++++++++++++--------
+> ---
+>  parsing_c/parsing_hacks.ml |   37 ++++++++++++++
+>  standard.h                 |  116 ++++++++++++++++++++++----------
+> -------------
+>  5 files changed, 164 insertions(+), 86 deletions(-)
+> 
+> 
 
 _______________________________________________
 Linux-kernel-mentees mailing list
