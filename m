@@ -8,97 +8,97 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA8E0C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:44:41 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F50C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:44:45 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B05A1206E6
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:44:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A8899207D5
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:44:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GMLELhXt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B05A1206E6
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EHN7rrXH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A8899207D5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 88151887E5;
-	Fri,  5 Jun 2020 13:44:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8CE4887179;
+	Fri,  5 Jun 2020 13:44:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id A359q100tObI; Fri,  5 Jun 2020 13:44:41 +0000 (UTC)
+	with ESMTP id 3bUxD2LjxjBQ; Fri,  5 Jun 2020 13:44:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 27D5C884DC;
-	Fri,  5 Jun 2020 13:44:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3365886BA3;
+	Fri,  5 Jun 2020 13:44:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 16B7FC0888;
-	Fri,  5 Jun 2020 13:44:41 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24166C016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 30323C0888;
+	Fri,  5 Jun 2020 13:44:45 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A21D4C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Jun 2020 13:44:40 +0000 (UTC)
+ Fri,  5 Jun 2020 13:44:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1226F88778
+ by whitealder.osuosl.org (Postfix) with ESMTP id 90A878770C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Jun 2020 13:44:40 +0000 (UTC)
+ Fri,  5 Jun 2020 13:44:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id P+KKgWW6031F
+ with ESMTP id kSpWsgzCJBu9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Jun 2020 13:44:39 +0000 (UTC)
+ Fri,  5 Jun 2020 13:44:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id A26B9884DC
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 219EA88175
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Jun 2020 13:44:39 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id q24so2750351pjd.1
+ Fri,  5 Jun 2020 13:44:44 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id h95so2752020pje.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 05 Jun 2020 06:44:39 -0700 (PDT)
+ Fri, 05 Jun 2020 06:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AG7aKTjYrpWO29CJRPMqYtbq2fkHSj17rRnvdb8I1QQ=;
- b=GMLELhXtIhZu3O5zhm2xEv/q6Rb707cFKYmAoi/uMaKvDVpSNIIrweBhPAsQKqBYU0
- uyo1elA3C9u4/M7Puk6w6Jw2VQ4F1k1h4z/Z789euSIVNu20VwJW8wlsSd7tpAZowHHx
- pJZ+oWYuDQ5+EagG4u9C7QbaAbCWNMiYY/Et7kB4laF1kyQB1OMIIsl48vEOjE7urG/d
- uHGwP3erj5K9Uqzsifg/H8YBCaJId3kYmJqUPEGZecL3xRQfzL9Rs8HHmHXE20xHU69+
- pLtZTjzAK0Ox0mCOlw+45vQ+6Zls+Yunj1IGAKAjcf/pOR/n+rvkdPa/RZs22RqLVcPQ
- i3fA==
+ bh=mM0yEkzigxdxEBTLGKgE+cLixX23avYYOLyrqBoWtNw=;
+ b=EHN7rrXH+n6NJOiBwQ9BJvdnDnS7AfK/R+UKibVs6iE0Ub+oPyp+kCBqDuS73mzoQO
+ +i2C9im0YE7dKhZNTmRugcM0WxwsRX+EY4jjtubCQruYjQKIKqwjW2V6mdmAc7fYxcBD
+ tKi1jTSrBaiucLE+ndKtZiRrnsepWvsTFvRF1O4ODfh3JlJjIjT49++698eIH5ZviMv6
+ KSAirShnLDqKT04gDuca+5lESkZFWwptDXsymJpngliSKMiYwhjhGgSnY1C4u2WpS5jx
+ AzzFYOMYrYykcM3PPs+WVECBJwrHc/MvIAy+jlmOZRcdzCfcAT5cyP3j0Ap/ACYFnjHr
+ YVxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AG7aKTjYrpWO29CJRPMqYtbq2fkHSj17rRnvdb8I1QQ=;
- b=MV3T08EzHWfSyvGyQ85YK8S8iWLe0s1YoxCbAR68wbpmnZblPcvtByFkIrwDL5AsJ6
- ZjPIxusA76LGbSip00Gu8DCy+w8K5LfpWcYA64QTdJt74oLggq6+xVWF5z32xcyNjUHy
- /2OziEdwRDmN4qFX/AxyvmKmUsbPYLPocaXyi2N8bktUQVG+hr8Nvu0d9pGYqFrBTwYQ
- lFRviZaTHSrOQTc8MKNOpekeoVagJ74L9HGYxhmbe4YkN4MM9T2TuaI6NheUZKLrrjK6
- 81hmU7d11X2qOUqPw+vRG1T9yUfZYGFE65YWh8cSQF2Lxa5cwxgyZUsCGmKgQGv/+kv7
- vj0A==
-X-Gm-Message-State: AOAM530edJ5S2spZEnK/Rb9lxwsJIiyJNbYIVnbaHEIRpn7Js5Y2fUn6
- xLaQIT9nWy3D4FA4zU8UGlnK5JToyHc=
-X-Google-Smtp-Source: ABdhPJwEHmzCXmTgCaQlLMtflPrrQ46g8M8a/u1NwhPSVWkt2cdYAS7vaM4NUKvcCa3RZC9OEQZWkw==
-X-Received: by 2002:a17:90a:70c6:: with SMTP id
- a6mr2945733pjm.16.1591364679227; 
- Fri, 05 Jun 2020 06:44:39 -0700 (PDT)
+ bh=mM0yEkzigxdxEBTLGKgE+cLixX23avYYOLyrqBoWtNw=;
+ b=rPNPKUHP2sgLN6R5q3L0E7uKDdE0/FAO6jmFoa13M8pbmm6uYIhLsYeqIu+0fZd3Kv
+ p0HMB51B40ryhnJOhyItL3SpkVtj2HcMsfoecAxQgPQ+4Quc70HiK+wcqeBTkJeIfT+t
+ WlRZI5horF6/PaHtk1e44bpo79Em+Qd+ohK+eaH9AoBdigiAk7eVv3UzR1S1cXgvOhvU
+ TQ2WxvjYnWtQxl7zAq4Fsx/hk6siA92t9H94J/9M3ZH/TzDL4YsHp+hpiSvRr+Pda7hT
+ Nw9+iFSp+5UnkIAVMyeFfubVQI++9I6YNyQKm/aTIgApSPtdIae1HVh3/Amzd2hysmLZ
+ TEAA==
+X-Gm-Message-State: AOAM531wlRHT0uz+WifzeAwEBMGtJCt3XWOgPuOuuQa2P0Sly8YIZIuT
+ NxrgoGaFdHlQCwcAQ8KR/vycore/AnA=
+X-Google-Smtp-Source: ABdhPJwEq9LltdJj89b9nPUZaDgiKosPSHexCQubgcmbf5dcVTdoOldEh7OtS2GRrsDd92PiMI+IuQ==
+X-Received: by 2002:a17:902:bf46:: with SMTP id
+ u6mr9778921pls.302.1591364683517; 
+ Fri, 05 Jun 2020 06:44:43 -0700 (PDT)
 Received: from localhost.localdomain ([1.38.221.125])
- by smtp.gmail.com with ESMTPSA id w186sm7861353pff.83.2020.06.05.06.44.30
+ by smtp.gmail.com with ESMTPSA id w186sm7861353pff.83.2020.06.05.06.44.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 06:44:38 -0700 (PDT)
+ Fri, 05 Jun 2020 06:44:43 -0700 (PDT)
 From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 To: cocci@systeme.lip6.fr
-Date: Fri,  5 Jun 2020 19:13:17 +0530
-Message-Id: <20200605134322.15307-10-jaskaransingh7654321@gmail.com>
+Date: Fri,  5 Jun 2020 19:13:18 +0530
+Message-Id: <20200605134322.15307-11-jaskaransingh7654321@gmail.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200605134322.15307-1-jaskaransingh7654321@gmail.com>
 References: <20200605134322.15307-1-jaskaransingh7654321@gmail.com>
 MIME-Version: 1.0
 Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v4 09/14] parsing_c: parser: Add
-	field declaration end attributes production
+Subject: [Linux-kernel-mentees] [PATCH v4 10/14] parsing_c: parser: Handle
+	struct/union/enum end attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,71 +116,73 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-As per GCC's C grammar, the struct-declarator rule has the following
-productions:
+As per GCC's C grammar, the struct-or-union-specifier and enum-specifier
+have the following productions:
 
-	struct-declarator:
-	  declarator gnu-attributes[opt]
-	  declarator[opt] : constant-expression gnu-attributes[opt]
+   struct-or-union-specifier:
+     struct-or-union attribute-specifier-sequence[opt] gnu-attributes[opt]
+       identifier[opt] { struct-contents } gnu-attributes[opt]
 
-While these productions are handled in the struct_declarator rule of
-Coccinelle's C grammar, end attributes are not.
+   enum-specifier:
+     enum gnu-attributes[opt] identifier[opt] { enumerator-list }
+       gnu-attributes[opt]
+     enum gnu-attributes[opt] identifier[opt] { enumerator-list , }
+       gnu-attributes[opt]
 
-Add productions for end attributes in the field_declaration rule of
-Coccinelle's C parser. This parses the following C code from Linux
-v5.6-rc7 successfully:
+Add a production to the decl2 rule of Coccinelle's C parser to handle
+the end attributes here (i.e. gnu-attributes after the } ). This parses
+the following C code from Linux v5.6-rc7:
 
-  kernel/sched/sched.h:
+  drivers/net/wireless/broadcom/b43legacy/b43legacy.h
 
-	struct task_group {
-		...
-		atomic_t load_avg __cacheline_aligned;
-		...
-	};
+	struct b43legacy_iv {
+		__be16 offset_size;
+		union {
+			__be16 d16;
+			__be32 d32;
+		} data __packed;
+	} __packed;
+
+  drivers/scsi/myrs.h:
+
+	enum myrs_cmd_opcode {
+		MYRS_CMD_OP_MEMCOPY		= 0x01,
+		MYRS_CMD_OP_SCSI_10_PASSTHRU	= 0x02,
+		MYRS_CMD_OP_SCSI_255_PASSTHRU	= 0x03,
+		MYRS_CMD_OP_SCSI_10		= 0x04,
+		MYRS_CMD_OP_SCSI_256		= 0x05,
+		MYRS_CMD_OP_IOCTL		= 0x20,
+	} __packed;
 
 Signed-off-by: Jaskaran Singh <jaskaransingh7654321@gmail.com>
 ---
- parsing_c/parser_c.mly | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ parsing_c/parser_c.mly | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/parsing_c/parser_c.mly b/parsing_c/parser_c.mly
-index 9afbd68c..5b7e1faf 100644
+index 5b7e1faf..3412c34e 100644
 --- a/parsing_c/parser_c.mly
 +++ b/parsing_c/parser_c.mly
-@@ -1830,7 +1830,7 @@ struct_decl2:
+@@ -1542,16 +1542,16 @@ abstract_declaratort:
+ /*(*************************************************************************)*/
  
- 
- field_declaration:
-- | spec_qualif_list struct_declarator_list TPtVirg
-+ | spec_qualif_list struct_declarator_list end_attributes_opt TPtVirg
-      {
-        let (attrs, ds) = $1 in
-        let (returnType,storage) = fixDeclSpecForDecl ds in
-@@ -1840,13 +1840,13 @@ field_declaration:
-        let iistart = Ast_c.fakeInfo () in (* for parallelism with DeclList *)
-        FieldDeclList ($2 +> (List.map (fun (f, iivirg) ->
-          f returnType, iivirg))
--                         ,[$3;iistart])
-+                         ,[$4;iistart])
-          (* don't need to check if typedef or func initialised cos
-           * grammar don't allow typedef nor initialiser in struct
-           *)
+ decl2:
+- | decl_spec TPtVirg
++ | decl_spec end_attributes_opt TPtVirg
+      { function local ->
+        let (returnType,storage) = fixDeclSpecForDecl (snd $1) in
+        let iistart = Ast_c.fakeInfo () in
+        DeclList ([{v_namei = None; v_type = returnType;
+                    v_storage = unwrap storage; v_local = local;
+-                   v_attr = fst $1; v_endattr = Ast_c.noattr;
++                   v_attr = fst $1; v_endattr = $2;
+                    v_type_bis = ref None;
+                 },[]],
+-                ($2::iistart::snd storage))
++                ($3::iistart::snd storage))
       }
- 
-- | spec_qualif_list TPtVirg
-+ | spec_qualif_list end_attributes_opt TPtVirg
-      {
-        let (attrs, ds) = $1 in
-        (* gccext: allow empty elements if it is a structdef or enumdef *)
-@@ -1855,7 +1855,7 @@ field_declaration:
-        then internal_error "parsing don't allow this";
- 
-        let iistart = Ast_c.fakeInfo () in (* for parallelism with DeclList *)
--       FieldDeclList ([(Simple (None, returnType)) , []], [$2;iistart])
-+       FieldDeclList ([(Simple (None, returnType)) , []], [$3;iistart])
-      }
- 
- 
+  | decl_spec init_declarator_list TPtVirg
+      { function local ->
 -- 
 2.21.1
 
