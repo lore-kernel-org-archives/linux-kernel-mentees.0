@@ -1,111 +1,100 @@
-Return-Path: <SRS0=6U4U=7Q=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=7LP4=7S=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EE7C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Jun 2020 17:19:21 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EF3FC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:44:01 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DD54720674
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Jun 2020 17:19:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 02A62206E6
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Jun 2020 13:44:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sdX+JwtT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD54720674
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="axdlCXXW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 02A62206E6
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9ED4D86C15;
-	Wed,  3 Jun 2020 17:19:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B296A203AE;
+	Fri,  5 Jun 2020 13:44:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DvC29vmm-J4t; Wed,  3 Jun 2020 17:19:20 +0000 (UTC)
+	with ESMTP id 9V+pdS+xHU+J; Fri,  5 Jun 2020 13:43:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 45D8A86A2B;
-	Wed,  3 Jun 2020 17:19:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6F4562038B;
+	Fri,  5 Jun 2020 13:43:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38AD9C0888;
-	Wed,  3 Jun 2020 17:19:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 61EDCC0888;
+	Fri,  5 Jun 2020 13:43:59 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BCC77C016E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C216CC016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jun 2020 17:19:19 +0000 (UTC)
+ Fri,  5 Jun 2020 13:43:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B05D6816D8
+ by whitealder.osuosl.org (Postfix) with ESMTP id B159E88336
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jun 2020 17:19:19 +0000 (UTC)
+ Fri,  5 Jun 2020 13:43:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZrblxpW47+Vq
+ with ESMTP id YhASVHNMqCg7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jun 2020 17:19:19 +0000 (UTC)
+ Fri,  5 Jun 2020 13:43:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 0A0B68647A
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id EB6C388357
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jun 2020 17:19:19 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id z1so2726303qtn.2
+ Fri,  5 Jun 2020 13:43:57 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id j1so4771463pfe.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 03 Jun 2020 10:19:18 -0700 (PDT)
+ Fri, 05 Jun 2020 06:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:message-id:in-reply-to:references:subject
- :mime-version:content-transfer-encoding:content-disposition;
- bh=c3PA6afDzT37PULo8XPopHFW72TeaOHGUdh70JjkqiQ=;
- b=sdX+JwtTOcSHDVPHCkMe3RL2Avi5w5XjmGvJTDmBiuSiH/lVHfjf06rb/McSeB2f1y
- 6n0wM9n93BczgqRcmt4tjBHKbNOJr/w6dU91qnY8TUo2+EJTzWlauPLMwCS3Q0fnq71u
- br5f7+wBAnq6Ry84pbxwpMKmrb0AatZQijY+yvLGQ0Bjj8YUmayw9mgsBiWwLYPgqE2C
- Rzh041ULMdM5eoEQCUW0xdslGONs74PEPTLu2BZG2GScWoaOuPffn8TZqxBF9yhG/R0W
- NJYaKHhG4gTs34oPNKj8GjMJPSJNoh8iSCc7zCn71dpURbCfLY0OhYQHXvVDEQgV0S9e
- I31A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nV3qp30vahdf2LjeklPIogPl2PZxLdKOXkcxwb0UmnA=;
+ b=axdlCXXW9/5zrn0y7ORU0ObS87xrTBaESr0GZK0YH1jZLyTFGYorbc2YIYia57rl6w
+ hXC2gqmLiAAISp8qHPtjieZALtZstvggXa6+bt2pFnjsaHAYebGEcN3GX4IGUM1jkSCR
+ wNceL+1Cg3jnXD8CMVmtfSlD2fHQQ0x6DHO3wZCMDzcoMj2tKULjU+DrS+PvzO42SN8a
+ pX2PKv/fg24y3E8XFA15wfKMybM+peRflLIc5fHXydJ7HaRJajz6LjvK6TIAATkHXbwa
+ igl1/UNFaxvGHYkmGoFT32XZ/p57A8LNe3V1r08LYQiUWgJ5c8ZvQxTaDOtoF75SJH/Y
+ PXsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
- :references:subject:mime-version:content-transfer-encoding
- :content-disposition;
- bh=c3PA6afDzT37PULo8XPopHFW72TeaOHGUdh70JjkqiQ=;
- b=TNWQEqeO97UKlNW7ndi5CIwkuT+lylOXPd18Xebozek9W2SE0fiRpiYaH39ZSuXi1m
- VR5pdlDI+i716c/UtSmlozB5kdc/pWCLkkXFnColQxhes46OEhyyx7F6ldoDZc3mT6zI
- dqaK9U5jku11ombVV7AlIWMrDc1OspdyiEArqoIhn9/rB8Ym0Gq+QBwElyVToVANG5mt
- hBJuV8QtNCjqZNBStn4yDHl2N9AhU0MgUnvrBwTEj6ohzhh4UByR8R6z3yT0kU3peC0D
- YFhSQmaN83K79hBdDltOEM2ZX7AU48FfllCYbFKN4MMX7fBf8OQlEZjGSTbzs0ZySpF7
- +o7w==
-X-Gm-Message-State: AOAM532EjHdp2K5T3fduuxHRzcyC9nIDJ5SKklDIPm7Y6Sw3fD3IZiBU
- 2iJHTMlp5ARc28Lcynqoc6k=
-X-Google-Smtp-Source: ABdhPJx/268/0e/0dxYlk5ju8LFOP+rpnP7Zq32iFPqUjNzVKdGOt7cuVBFRIvNO0CVYSpgbyp8jFA==
-X-Received: by 2002:ac8:450a:: with SMTP id q10mr358265qtn.328.1591204757842; 
- Wed, 03 Jun 2020 10:19:17 -0700 (PDT)
-Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id u205sm2019632qka.81.2020.06.03.10.19.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jun 2020 10:19:17 -0700 (PDT)
-Date: Wed, 3 Jun 2020 14:19:12 -0300
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <3273ABE6-71E6-4FCE-9901-E02A87B3F48F@getmailspring.com>
-In-Reply-To: <deb6b49a-5f50-1d40-6577-84fe787150ec@linuxfoundation.org>
-References: <deb6b49a-5f50-1d40-6577-84fe787150ec@linuxfoundation.org>
-X-Mailer: Mailspring
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nV3qp30vahdf2LjeklPIogPl2PZxLdKOXkcxwb0UmnA=;
+ b=cAf4xJQsdI5JkyQcQ1OXDZJxml5kEBDkSE/jxwwX+hqVJ5IVkezFFx9/dsr5DSqDQ9
+ nWxpIYF0hsy++CWy5VaSh5zLSfwV4Pw9H7lCKVJ1v6kXLJrwlKhlT336qTTwBNAFojQx
+ 9/CyjoFwVN4jyhaFzkKly7KfZn5O9V+rXzJJOjpG0HOJGTg5M9X6+EWHYb1iz6wZrxNr
+ PCmvkhNgUfCjW8nLmit9YAye6JlxqAOapH8lyUIitgiMGRKlXO6Go7UZ11nlpv905s3x
+ g06Swsg5LA1e9In0bMJ6W/GvY+kwOJZQcRWSAq/5ElbPdwVXZWUXdH2VykhejZxadnh5
+ juFg==
+X-Gm-Message-State: AOAM532/NN9ZTu/68+fxzwd7qXtkOM2JNqH4xTFa0BXa/t9Dz94pVl+9
+ X43a5vypeNfpui5XaZ3BPAA=
+X-Google-Smtp-Source: ABdhPJwy0Ssw0P1Oa6CD+e9LwW25jPbZ00JuOZBceYXoEVLUHQ94zaqFG1k9Dm8OeNtEOkz8ZWFxMQ==
+X-Received: by 2002:a62:7547:: with SMTP id q68mr10064038pfc.202.1591364637251; 
+ Fri, 05 Jun 2020 06:43:57 -0700 (PDT)
+Received: from localhost.localdomain ([1.38.221.125])
+ by smtp.gmail.com with ESMTPSA id w186sm7861353pff.83.2020.06.05.06.43.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jun 2020 06:43:54 -0700 (PDT)
+From: Jaskaran Singh <jaskaransingh7654321@gmail.com>
+To: cocci@systeme.lip6.fr
+Date: Fri,  5 Jun 2020 19:13:08 +0530
+Message-Id: <20200605134322.15307-1-jaskaransingh7654321@gmail.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Disposition: inline
-Cc: "=?utf-8?Q?kstewart=40linuxfoundation.org?="
- <kstewart@linuxfoundation.org>, "=?utf-8?Q?sean=40mess.org?=" <sean@mess.org>,
- "=?utf-8?Q?mchehab+huawei=40kernel.org?=" <mchehab+huawei@kernel.org>,
- "=?utf-8?Q?linux-kernel=40vger.kernel.org?=" <linux-kernel@vger.kernel.org>,
- "=?utf-8?Q?tglx=40linutronix.de?=" <tglx@linutronix.de>,
- "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org?="
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "=?utf-8?Q?allison=40lohutok.net?=" <allison@lohutok.net>,
- "=?utf-8?Q?linux-media=40vger.kernel.org?=" <linux-media@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [RFC, WIP,
-	v6 02/10] media: vidtv: implement a tuner driver
+Cc: julia.lawall@inria.fr, jaskaransingh7654321@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v4 00/14] cocci: Improve C parsing of
+	attributes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -123,45 +112,121 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Shuah, thanks for reviewing this!
+This patch series aims to improve parsing of attributes in C by
+Coccinelle's C parser.
 
->> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> Are you using git send-email to send patches. Why do have this
-> From line in here? Same comment on all other patches in this series.
+These parsing errors were discovered by running a build of Coccinelle's
+master branch on gitlab to parse the source code of Linux v5.5-rc4 and Linux
+v5.6-rc7. Coccinelle currently manages attributes similar to comments, so
+to explicity state what the attributes are to the C parser, a
+MACROANNOTATION hint was used in Coccinelle's standard.h file. The hint
+enables the parser to correctly identify attributes, and thus potentially
+handle them differently in the AST.
 
-I am using 'git format-patch --to=[...] --cc=[...]' and then 'git send-email'.
+Upon collection of these parsing errors, The GNU C Compiler's
+grammar was taken as a reference for introducing attributes in correct
+places in Coccinelle's C parser.
 
-Git format-patch usually adds these two lines for every patch it generates:
-  1 From f966b0ea574a36b96ddfb8a8a716b174bc150eba Mon Sep 17 00:00:00 2001
-  2 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Upon applying the MACROANNOTATION hint to a majority of the attributes in
+Coccinelle's standard.h file and parsing the source code of Linux
+v5.6-rc7, the difference between the stats (of --parse-c) before and
+after applying this patch series are as follows:
 
-I have no idea whether these are necessary, so I just leave them there :)
-The first line is specially weird.
+Before:
+
+        NB total files = 28268; perfect = 25697; pbs = 2570; timeout = 0; =========> 90%
+        nb good = 19160664,  nb passed = 135235 =========> 0.70% passed
+        nb good = 19160664,  nb bad = 129685 =========> 99.33% good or passed
+
+After:
+
+        NB total files = 28268; perfect = 25699; pbs = 2568; timeout = 0; =========> 90%
+        nb good = 19160856,  nb passed = 71716 =========> 0.37% passed
+        nb good = 19160856,  nb bad = 129493 =========> 99.33% good or passed
+
+What this patch series does not do:
+- Add attributes from all the new productions into the C AST. Some of
+  these are dropped.
+- Reflect changes from the C parser in the SmPL parser.
+
+Separate patches will be sent for the above.
 
 
-As for this:
+Changes in v4:
+-------------
+Remove the following patches from the series and add/merge them to [1].
+	parsing_c: visitor_c: Add vk_attribute and vk_attribute_s
+	parsing_c: lib_parsing_c: Add ii_of_attr
+	engine: Add distrf_attr to PARAM functor
+	engine: cocci_vs_c: Add allminus argument to attribute_list
+	parsing_c: parser: Make abstract_declarator pass attributes
+	cocci: Add parameter attributes to C AST
+	parsing_c: parser: Place parameter attributes in C AST
+	parsing_c: visitor_c: Visit parameter attributes
+	parsing_c: unparse_hrule: Add parameter attributes in record
+	parsing_c: type_c: Add parameter attributes to record
+	engine: cocci_vs_c: "Match" parameter attributes
+	engine: c_vs_c: Match parameter attributes
 
->> +	switch (c->delivery_system) {
-> 
-> Add indetation for the below:
-> 
->> +	case SYS_DVBT:
->> +	case SYS_DVBT2:
->> +		valid_freqs = config.vidtv_valid_dvb_t_freqs;
->> +		array_sz    = ARRAY_SIZE(config.vidtv_valid_dvb_t_freqs);
->> +		break;
+parsing_c: parser: Add rule for optional end attributes
+- Add to series.
 
-I am not sure I understand. Indenting the case statements leads to a
-checkpatch complaint: 
+parsing_c: parser: Add field declaration end attributes production
+- Use end_attributes_opt to avoid duplicate code.
 
->SWITCH_CASE_INDENT_LEVEL: switch and case should be at the
->same indent
+parsing_c: parser: Handle struct/union/enum end attributes
+- Use end_attributes_opt to avoid duplicate code.
 
-And the actual statements under 'case' are already indented.
+parsing_c: parser: Add MacroDecl end attributes production
+- Use end_attributes_opt to avoid duplicate code.
 
-Thanks
-- Daniel
+parsing_c: parser: cpp_other end attributes production
+- Use end_attributes_opt to avoid duplicate code.
+
+
+Changes in v3:
+-------------
+parsing_c: parser: Place parameter attributes in C AST
+- Remove the "attr is ignored" comments in the declaratorp rule.
+- Place the attributes from the "declarator attributes" production
+  in the declaratorp rule in the C AST as well.
+
+
+Changes in v2:
+--------------
+parsing_c: parser: Add attribute production in spec_qualif_list
+- This patch applied on its own causes a build error. Fix the error by
+  removing the let binding for abstract_declaratort in the type_name
+  rule
+
+parsing_c: parser: Make abstract_declarator pass attributes
+- Reflect changes from the above build error fix.
+
+
+Jaskaran Singh (14):
+      parsing_c: parse_c: Ignore TMacroAttr and TMacroEndAttr in passed tokens
+      parsing_c: parsing_hacks: Label end attributes correctly
+      parsing_c: parsing_hacks: Commentize attributes before qualif/type
+      parsing_c: parser: Add rule for multiple end attributes
+      parsing_c: parser: Add expression statement attributes
+      parsing_c: parser: Add rule for optional end attributes
+      parsing_c: parser: Add attribute production in spec_qualif_list
+      parsing_c: parser: Add init_declarator_attrs rule
+      parsing_c: parser: Add field declaration end attributes production
+      parsing_c: parser: Handle struct/union/enum end attributes
+      parsing_c: parser: Add MacroDecl end attributes production
+      parsing_c: parser: cpp_other end attributes production
+      parsing_c: cpp_token_c: Introduce MACROANNOTATION hint
+      cocci: standard.h: Annotate attributes with MACROANNOTATION
+
+ parsing_c/cpp_token_c.ml   |    2 
+ parsing_c/parse_c.ml       |    4 +
+ parsing_c/parser_c.mly     |   91 ++++++++++++++++++++++++-----------
+ parsing_c/parsing_hacks.ml |   37 ++++++++++++++
+ standard.h                 |  116 ++++++++++++++++++++++-----------------------
+ 5 files changed, 164 insertions(+), 86 deletions(-)
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
