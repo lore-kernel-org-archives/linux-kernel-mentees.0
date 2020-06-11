@@ -1,100 +1,100 @@
-Return-Path: <SRS0=93Ws=7X=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=u5Cr=7Y=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4110CC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 Jun 2020 23:31:18 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 302C8C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 11 Jun 2020 00:20:52 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C8B682078D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 Jun 2020 23:31:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 96E1220747
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 11 Jun 2020 00:20:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7NRwO63"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C8B682078D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DWEhRDud"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96E1220747
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 812528770C;
-	Wed, 10 Jun 2020 23:31:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5A48125715;
+	Thu, 11 Jun 2020 00:20:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Nx+2w+RmpRvn; Thu, 11 Jun 2020 00:20:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id C228A20436;
+	Thu, 11 Jun 2020 00:20:49 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 99AA6C0865;
+	Thu, 11 Jun 2020 00:20:49 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 319DBC016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 11 Jun 2020 00:20:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1A14F87483
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 11 Jun 2020 00:20:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1Cz_4Ndbx8ye; Wed, 10 Jun 2020 23:31:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B3F6187700;
-	Wed, 10 Jun 2020 23:31:15 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A675BC088C;
-	Wed, 10 Jun 2020 23:31:15 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8E3A6C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Jun 2020 23:31:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7535D84F96
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Jun 2020 23:31:14 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TXHIvOw1aYKU
+ with ESMTP id 9_Mxev6lU3du
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Jun 2020 23:31:14 +0000 (UTC)
+ Thu, 11 Jun 2020 00:20:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by hemlock.osuosl.org (Postfix) with ESMTPS id F36DD84371
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
+ [209.85.161.43])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 906C687475
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Jun 2020 23:31:13 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id i12so1466201pju.3
+ Thu, 11 Jun 2020 00:20:47 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id k7so877311ooo.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Jun 2020 16:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=UT9FnFM5xebfMVQH8K7LhtU4hS4AAveJ9mOb4TNd+NE=;
- b=h7NRwO63hHsUCZQJZkYumA6LYRgIRn0IoRL6iBh2ApZV9uMz6ZScMllD+vxV8uCBNP
- tstmXoU/McL4/qy18rfATaye/a2j0pf59kJClauqRBHe14PLQ4jcPYOKhUZOcUFr6Mwr
- 64ao8Q1ZXDAphKc8pa1/alM81mHqyRnQ3YAX+XN5c9GG2hwjsVMOdQbax6B+tucVYcEw
- ZM+RA0ENBxQfbKKPXou8yNVzuGQ0sY+9gK7fiI+GsCoxFqrwAtzT2wCfqyDumKU7pUuT
- /QaYb5g1MDj1XW5bE8j4WvlYPJhxpldBNz1pVI9pRjY1F3aRwYNjUiEhm8zLOT0bgQSF
- QcjQ==
+ Wed, 10 Jun 2020 17:20:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tekKttlIlBeTZkN8SBxqHrNXc30iKbZ4MuDZvNteBxc=;
+ b=DWEhRDudhTiLYlpTDA0zEA9D6DYW8/yb3lExE2pUU7FsgMth7kZoG6ZIxBdmhdbLNE
+ zc0banvqsmrr7uOn/Qp5EXYgCtU9j4P6hvqpL73aa0szyIB2td//htLT81BO9T2mPN+Q
+ HmT4/Jgzitl52l99FnpWKOk8Qz/nF65RGUjd0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UT9FnFM5xebfMVQH8K7LhtU4hS4AAveJ9mOb4TNd+NE=;
- b=Y3WtFX5/awrOrJHZEKdFtUw+WF7tB6vVfEz70wewkZLwM/JcHRESANKozMUKzvcwxZ
- PRptZQiXws9kfgta1nH7+yDyf2n22+fIv9a+uJnlo/WsrWVAZRu7XFbS9XPTZRXDDZJ6
- fygAymekSniSdMEJSsWeKCwNBBiWmnhPdlyI+eF9Cb1UWe+Fkg2eEd5PPCjxUsCIMSoR
- UBnWQoAyY9fjJ9R68uTPWSsS5qPdwCEt7JKgbNVFrguSMSSyXqcUFEhuwQZpkR82gcGD
- Oj15QnMjnOIgVdELwizEjMzSquMWp/AEq4nGbVzG9WrD2mKbh2yob0Ql85NZAlIE5lIU
- +Xvg==
-X-Gm-Message-State: AOAM5330TZpu+bYEPebFkUt4S3lpRJxKP5vnCuex0wgXXpSSWb0JRXUN
- qiShOKUlk81aST4gyECGCuE=
-X-Google-Smtp-Source: ABdhPJxrz3KwVqGMYv9haGJYVVFgw7qa7llS3q37LpW+Lc8eFtLlsB+ymypQaoGSFQPJF0O1aMp/Gw==
-X-Received: by 2002:a17:90a:ad87:: with SMTP id
- s7mr5568649pjq.225.1591831873500; 
- Wed, 10 Jun 2020 16:31:13 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id 5sm959682pfc.143.2020.06.10.16.31.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 16:31:12 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Thu, 11 Jun 2020 07:31:09 +0800
-To: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <20200610233109.n6pxir5wba5u2f7u@r>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tekKttlIlBeTZkN8SBxqHrNXc30iKbZ4MuDZvNteBxc=;
+ b=YqUDMAjShyhcxylwq5T8UZx5RnG5Hdf+oEPVUKipN4d492Y2PEF7fUKflwMkUBh8fd
+ BkGRp0v3rzIXQgqniQsPkug/cseILMOJQjzRiP51y8iN9inGV0DUjPtdvjw1Um1jNauy
+ a6zim3qx8qznIpER2jEVb+IU8GlDN+GtA+iGlLtIqr2/SE69JFgTZKqhGve7gHKoySsM
+ GHPTPzyBTFoeWPX06V8F5obdc0Jq2KoMHxDaiaEzbjeaWVPxrNgao6HKHyPOselHRUfe
+ lr9UOAm7IHiyMMmPFBZ4EuHFa8LedMMhD3lDZoAI9AbWh8zzXRcrR3i2S7rIL1on+42J
+ R5XA==
+X-Gm-Message-State: AOAM530OQHYk8pbrH5z5Jpx0QDj+o4NNk/f0D+bNQGtxmRKlsOHsyFW5
+ VAyEQfPZfEAOkNItqRKJS34FVgdyU+Lj3g==
+X-Google-Smtp-Source: ABdhPJw9llgd5uvr1pIoR6GWAJIrhVu6kFulyVTqw0Gey42QKm4C2gva/9gvTzE7H4ed7PI7XJvlCQ==
+X-Received: by 2002:a4a:45d5:: with SMTP id y204mr4677851ooa.73.1591834846298; 
+ Wed, 10 Jun 2020 17:20:46 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
+ [24.9.64.241])
+ by smtp.gmail.com with ESMTPSA id l11sm331874oic.15.2020.06.10.17.20.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jun 2020 17:20:45 -0700 (PDT)
+To: Coiby Xu <coiby.xu@gmail.com>
 References: <83bc1b7a-ee84-d074-d04d-5fdb39e777f2@linuxfoundation.org>
+ <20200610233109.n6pxir5wba5u2f7u@r>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <1060c4f0-3408-4537-d471-8371a761d005@linuxfoundation.org>
+Date: Wed, 10 Jun 2020 18:20:44 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <83bc1b7a-ee84-d074-d04d-5fdb39e777f2@linuxfoundation.org>
+In-Reply-To: <20200610233109.n6pxir5wba5u2f7u@r>
+Content-Language: en-US
 Cc: "linux-kernel-mentees@lists.linuxfoundation.org"
  <linux-kernel-mentees@lists.linuxfoundation.org>
 Subject: Re: [Linux-kernel-mentees] New Linux Kernel mentorship projects
@@ -116,27 +116,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Dear Shuah,
+We are working on that. You will have a coding assignment soon.
 
-According to CommunityBridge, a link should be sent to me for a set of follow-on kernel coding tasks after finishing the LFD103 training. But I haven't received one three days after submitting LFD103 Certificate of Completion. Should I send this certificate to you instead?
+thanks,
+-- Shuah
 
-On Wed, Jun 03, 2020 at 10:05:54AM -0600, Shuah Khan wrote:
->Two new Linux Kernel Mentorship projects
->
->LinuxLinux kernel Bug Fixing July-Sept 2020
->Linux kernel: Refurbishing make coccicheck
->
->are accepting applications now. The session starts on
->
->Please visit https://people.communitybridge.org/#projects for
->a full listing of projects and search for Linux in the search bar.
->
->thanks,
->-- Shuah
->_______________________________________________
->Linux-kernel-mentees mailing list
->Linux-kernel-mentees@lists.linuxfoundation.org
->https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+On 6/10/20 5:31 PM, Coiby Xu wrote:
+> Dear Shuah,
+> 
+> According to CommunityBridge, a link should be sent to me for a set of 
+> follow-on kernel coding tasks after finishing the LFD103 training. But I 
+> haven't received one three days after submitting LFD103 Certificate of 
+> Completion. Should I send this certificate to you instead?
+> 
+> On Wed, Jun 03, 2020 at 10:05:54AM -0600, Shuah Khan wrote:
+>> Two new Linux Kernel Mentorship projects
+>>
+>> LinuxLinux kernel Bug Fixing July-Sept 2020
+>> Linux kernel: Refurbishing make coccicheck
+>>
+>> are accepting applications now. The session starts on
+>>
+>> Please visit https://people.communitybridge.org/#projects for
+>> a full listing of projects and search for Linux in the search bar.
+>>
+>> thanks,
+>> -- Shuah
+>> _______________________________________________
+>> Linux-kernel-mentees mailing list
+>> Linux-kernel-mentees@lists.linuxfoundation.org
+>> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
