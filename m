@@ -2,143 +2,97 @@ Return-Path: <SRS0=Wgtg=7Z=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE1EC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 Jun 2020 12:10:48 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A32C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 Jun 2020 19:06:56 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5159720792
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 Jun 2020 12:10:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2EEA620792
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 Jun 2020 19:06:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="nBGpE4Tg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5159720792
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="nWec12JE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2EEA620792
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 0AADB27154;
-	Fri, 12 Jun 2020 12:10:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D9BBC88A01;
+	Fri, 12 Jun 2020 19:06:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wPmokiHOTULn; Fri, 12 Jun 2020 12:10:46 +0000 (UTC)
+	with ESMTP id BL2IoyNaq3nU; Fri, 12 Jun 2020 19:06:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 8704F26FDB;
-	Fri, 12 Jun 2020 12:10:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EB140889F4;
+	Fri, 12 Jun 2020 19:06:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 733ABC0178;
-	Fri, 12 Jun 2020 12:10:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CD6FCC0881;
+	Fri, 12 Jun 2020 19:06:53 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC0C5C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7AA83C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jun 2020 12:10:44 +0000 (UTC)
+ Fri, 12 Jun 2020 19:06:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7828D27106
+ by silver.osuosl.org (Postfix) with ESMTP id 612C6204DB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jun 2020 12:10:44 +0000 (UTC)
+ Fri, 12 Jun 2020 19:06:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T84ZoTlsG7PA
+ with ESMTP id uDpsEyr3Rr-e
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jun 2020 12:10:43 +0000 (UTC)
+ Fri, 12 Jun 2020 19:06:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by silver.osuosl.org (Postfix) with ESMTPS id D5BD526FDB
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id E50112046A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jun 2020 12:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1591963839;
- bh=50yf1rgjSBKMRtz7IkSJ4yHpqSpurXQLfBbd2yI3jck=;
- h=X-UI-Sender-Class:Cc:Subject:From:To:Date;
- b=nBGpE4TgW+5GNhgR0lcAaHAQ6d5Iakf1v2EWCL8Z3zOGQwpAl37SloCCDJJLKl6mq
- 35ltIQ5RWoWh6kSPFIpGT98O+JHstvOHB1R8cRAAC01BbMx23lQ3zdLDAF+DCNPKe9
- OZsz4LZzuHaurYtyOy/oJ0ZzA6nKJo7FwYaFIMik=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.95.40]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MjPPs-1j3U043xzG-00kyq0; Fri, 12
- Jun 2020 14:10:39 +0200
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-To: Jaskaran Singh <jaskaransingh7654321@gmail.com>
-Message-ID: <c1b2ff4b-5d8f-ec79-c02c-958cb54c27c5@web.de>
-Date: Fri, 12 Jun 2020 14:10:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Fri, 12 Jun 2020 19:06:48 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id 64so4733037pfv.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 12 Jun 2020 12:06:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p4OYeJTnlUiwocjCJA6tVKh9CCWsHAiUf4fQydznS+M=;
+ b=nWec12JE2XMpIUuptlUfxEH0W5aAbQSYFuloNX8T/3BurfS2Hf5uaIMkQz1dkGVZ6y
+ AdY5nF30fm4qz+K/KL0Tm14ZfgZ6rrjNaTcQljsZNlaFt7n8RGZW/5aXc3Vk2Z7nJvrj
+ KTOMn2vXTYixdPLt8SBoFPv+4MF2eapCRrak6+3F9I/q1I8P8eK/3voRdmxNl8PQdEWW
+ XN4ENiCfysT7o8538cL4ab1jJH+XxXr2555/NCeLwlqkGR3wvzakIsm4nkEIAI80smwZ
+ iMbIr7f1b+HgnKvF6XqUZ0AJj7YJ6o48eqpk4ADcuTEjx9PyAhBT27mx8l8/5Yo0s9DM
+ XbLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p4OYeJTnlUiwocjCJA6tVKh9CCWsHAiUf4fQydznS+M=;
+ b=lKEZdbvU4fBZVQXp/4iDGfV3Cstm28tCMVo/nW1ovSrSY4WixPbZDO2MmC/hhb5yYY
+ eOuj/yXrIqm/NEiWI3Rc5TQFVFrUDXH44q4bjtlr2EOIjmN5e6JtkMr5XicwgcxNiVMj
+ k5e4mZ7ICoouQ3QFWuU4zhSxuxkelNlDmugFOBVwQ4XPYQqV6mr8fP6RsS3s8+xP1ydQ
+ tNYx17xWWAhgUJKdRqhng6JUTJts8rfGgJMoq9pUQlwIFNugISTS2rawcPuVeKSAcD1z
+ kG3KLrIKMXC9HtTzKzehVoMo4wFhN/d/Bh17OQoWfnEFty4mRzJeFaduPWKEt9AXKQmA
+ qwiA==
+X-Gm-Message-State: AOAM532tuGdPB2yI/eYBRB/qEZQDwygD9eBBWt2zGj7ff17JdwC7BKzT
+ 9NJZvE4V9UU1C5yikGQq3YQ/w2OsssuHb3J866Qq4A==
+X-Google-Smtp-Source: ABdhPJy6EAe9yNGESipjXqYRzW0MTCMEzqaSx/H9GvWXovjTvy5/Bg1y54Ky0UHY1DGizFQfk/NiMuXsk8kHLJREMHI=
+X-Received: by 2002:a62:216:: with SMTP id 22mr10876505pfc.106.1591988807768; 
+ Fri, 12 Jun 2020 12:06:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-GB
-X-Provags-ID: V03:K1:hufinwPi8V2TlO8EjDvXtFPtBV3uPvShnSAD6HvMQyx2p9WnEVp
- 6FGoXUgMzOvT17fXt4CMm30lPvkeE7MdaAPWzro3p0skXtKA4dF3Y8RUIGb++PfqiCcWHSF
- bMUm4IEf9U3HBBnAAQB64rwJlS996cOpL1kbslm4dTmm3N45T5p/QYKiqSh4bsodHxCVQIf
- 2OxicaWK/p1bCJUqrewGQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:31u4vHu4VNw=:Ah5hCmkZMF0cshLC5iIQke
- g6UQWCfeMUQUTYlvvPaj1W+Ll5MqD/N/VQJFL8OzK0hZys8LGW4JXCfSBop8aWHG/6+dag+PK
- XiArNVZq5VpaZ1Hjui9A+WXs/t3BPCBcdEKH9j9b0V6ii9Pn01QWFvvwZttHkiGREcs/jw8Gn
- OeIrirmcMcgfJH3z5uMUAX1KV7oOQjb2BuGkrM74Ko4csoPkAneAZ4jorEquWzg43N9lRlMVR
- i7XsQ5OQX0DU09m0/GEJZFziE9HoHw2J+tbR1SffUQcP2iOlwi0RoSE4pWTt+pGQV7yxT/RE6
- uXE9n2VUTVXx0W06kDk3/+Qm8r6DZjVU2j1w5rAnBG0a53UL13bQ3jvs4r1E9uYm8mGDgxEbB
- jrYO+ObcvaBdeIoWqW34xgwMZzZQm0ee5a8AWeKlxVfV4hrT7YeXYQK28lspVMAAmy028U3cd
- Uar5jkCdHJGRtTpLVH1SDTlOxGSruku1uyYwptUGsVwA+lo6FQTRHNWlzQIcn179ExaRCrs/V
- Ztdn8XVKcwBV0xChBsAqdzCAG4OKfvbWIvtnEQVlk93HrMDHoiT3rWqxc+3jqb36QiL2pHhmz
- TF+6yIrGV2dlGehpYyAqNOSPkl5NDbnFGXQEP8i0Q/UbMe3RI8HEKVmqqsRmmpVQtFBdHHgwr
- aka/x5lw1Ryzua49sfU4ZAE6imozBM/XrRziLw3OuvBZn4BumXM4QqdB2igdR756Gegyx9Y0l
- OUji5Y6IoSKShOHTqT8mNQn1peKhxMe9L3WdpRGwQhURzpB0t8yitl6YDAVHhuoeLcaiRdCUQ
- mQFAzJIBDDGBgj3fT0ah1Q8mrNnaaV26Ia3ehisQx22GrffVfHVU+OmFxIvKqZxNar/AAeS+w
- HI7GjUJh5eKT3DCjkAoXvQmrhBjS6jj+o+iS/Jh57zr56tU5W1xU0ktAacftz37jGPX45G3ai
- qpTMV7lHhwIUKlbdxF6Mvt0c6oIIrL+hFcKBYQqqv7Ua3PpN2/U0/BEG49FXtfeUnElPAuMRp
- PC44ddq7eeFFB0jmY3gC1VwkNLPPsAgXnfjNhDZWShXGScRfmDANW+Z4cogYWatbYbl66tD6O
- Q4N7n6NYayjS+ljAYLqHpUF8tUvySv3jnIG9RCTlozDgm9J1oFhQhmhADTXhi+UYp53AfGHQ/
- Qyj2vwvFyWAY1yGxYOhPk5xN1cfByGViobg0dlVp6YKHizIfemVnSvJHROhpaJnPfl/GiEdoo
- mRtc77AxS7iTIQUba
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, cocci@systeme.lip6.fr
-Subject: Re: [Linux-kernel-mentees] [Cocci] [PATCH 1/3] parsing_cocci:
- arity: Apply mcode2arity on macrodecl/param attrs
+References: <20200611215501.213058-1-vitor@massaru.org>
+In-Reply-To: <20200611215501.213058-1-vitor@massaru.org>
+Date: Fri, 12 Jun 2020 12:06:36 -0700
+Message-ID: <CAFd5g47sPgL6goY3+ee3i_kgZBHnr0jja03ad1npWYcY+DAcXw@mail.gmail.com>
+To: Vitor Massaru Iha <vitor@massaru.org>
+Cc: Kees Cook <keescook@chromium.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] lib: kunit_test_overflow: add
+ KUnit test of check_*_overflow functions
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,20 +104,679 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Brendan Higgins via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-PiBUaGUgZm9sbG93aW5nIGNvbW1pdHMgaW50cm9kdWNlZCBzb21lIHBvb3IgbWFuYWdlbWVudCBv
-ZiBhdHRyaWJ1dGVzIGluCmFyaXR5Lm1sOgo+IAkwOGYxY2Q5ZmI4M2VjNDAwNDM1ZTBhZDhmZGY1
-NzllYzhmOWMwZjIxCj4gCWI0Yjg2NTNiZDVhOTYwNzkyMmUwMDUwZmUyZmVkZTEwZDQyMmIyMTgK
-Ckkgc3VnZ2VzdCB0byBzcGVjaWZ5IGFsc28gc3ViamVjdHMgZm9yIHN1Y2ggY29tbWl0IHJlZmVy
-ZW5jZXMuCgoKPiBBcHBseSBtY29kZTJhcml0eSB0byBtYWNyb2RlY2wgYW5kIHBhcmFtZXRlciBh
-dHRyaWJ1dGVzLgoKVG8gd2hpY2ggaXRlbSBkb2VzIHRoZSBpZGVudGlmaWVyIOKAnG1jb2RlMmFy
-aXR54oCdIHJlZmVyPwoKUmVnYXJkcywKTWFya3VzCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApM
-aW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlz
-dHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50
-ZWVzCg==
+On Thu, Jun 11, 2020 at 2:55 PM Vitor Massaru Iha <vitor@massaru.org> wrote:
+>
+> This adds the convertion of the runtime tests of check_*_overflow fuctions,
+> from `lib/test_overflow.c`to KUnit tests.
+>
+> The log similar to the one seen in dmesg running test_overflow can be
+> seen in `test.log`.
+>
+> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> ---
+>  lib/Kconfig.debug         |  17 ++
+>  lib/Makefile              |   1 +
+>  lib/kunit_overflow_test.c | 590 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 608 insertions(+)
+>  create mode 100644 lib/kunit_overflow_test.c
+>
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 1f4ab7a2bdee..72fcfe1f24a4 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -2075,6 +2075,23 @@ config SYSCTL_KUNIT_TEST
+>
+>           If unsure, say N.
+>
+> +config OVERFLOW_KUNIT_TEST
+> +       tristate "KUnit test for overflow" if !KUNIT_ALL_TESTS
+> +       depends on KUNIT
+> +       default KUNIT_ALL_TESTS
+> +       help
+> +         This builds the overflow KUnit tests.
+> +
+> +         KUnit tests run during boot and output the results to the debug log
+> +         in TAP format (http://testanything.org/). Only useful for kernel devs
+> +         running KUnit test harness and are not for inclusion into a production
+> +         build.
+> +
+> +         For more information on KUnit and unit tests in general please refer
+> +         to the KUnit documentation in Documentation/dev-tools/kunit/.
+> +
+> +         If unsure, say N.
+
+Since this is a migration of the overflow runtime test, I feel like
+you should delete it here. I also think it would probably make this
+easier to read for Kees and the other maintainers since it highlights
+what you are changing in the test.
+
+>  config LIST_KUNIT_TEST
+>         tristate "KUnit Test for Kernel Linked-list structures" if !KUNIT_ALL_TESTS
+>         depends on KUNIT
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 685aee60de1d..a3290adc0019 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -309,3 +309,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
+>
+>  # KUnit tests
+>  obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
+> +obj-$(CONFIG_OVERFLOW_KUNIT_TEST) += kunit_overflow_test.o
+> diff --git a/lib/kunit_overflow_test.c b/lib/kunit_overflow_test.c
+> new file mode 100644
+> index 000000000000..c3eb8f0d3d50
+> --- /dev/null
+> +++ b/lib/kunit_overflow_test.c
+> @@ -0,0 +1,590 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *  This code is the conversion of the overflow test in runtime to KUnit tests.
+> + */
+> +
+> +/*
+> + * Test cases for arithmetic overflow checks.
+> + */
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <kunit/test.h>
+> +#include <linux/device.h>
+> +#include <linux/init.h>
+> +#include <linux/mm.h>
+> +#include <linux/overflow.h>
+> +#include <linux/vmalloc.h>
+> +
+> +#define DEFINE_TEST_ARRAY(t)                   \
+> +       static const struct test_ ## t {        \
+> +               t a, b;                         \
+> +               t sum, diff, prod;              \
+> +               bool s_of, d_of, p_of;          \
+> +       } t ## _tests[]
+> +
+> +DEFINE_TEST_ARRAY(u8) = {
+> +       {0, 0, 0, 0, 0, false, false, false},
+> +       {1, 1, 2, 0, 1, false, false, false},
+> +       {0, 1, 1, U8_MAX, 0, false, true, false},
+> +       {1, 0, 1, 1, 0, false, false, false},
+> +       {0, U8_MAX, U8_MAX, 1, 0, false, true, false},
+> +       {U8_MAX, 0, U8_MAX, U8_MAX, 0, false, false, false},
+> +       {1, U8_MAX, 0, 2, U8_MAX, true, true, false},
+> +       {U8_MAX, 1, 0, U8_MAX-1, U8_MAX, true, false, false},
+> +       {U8_MAX, U8_MAX, U8_MAX-1, 0, 1, true, false, true},
+> +
+> +       {U8_MAX, U8_MAX-1, U8_MAX-2, 1, 2, true, false, true},
+> +       {U8_MAX-1, U8_MAX, U8_MAX-2, U8_MAX, 2, true, true, true},
+> +
+> +       {1U << 3, 1U << 3, 1U << 4, 0, 1U << 6, false, false, false},
+> +       {1U << 4, 1U << 4, 1U << 5, 0, 0, false, false, true},
+> +       {1U << 4, 1U << 3, 3*(1U << 3), 1U << 3, 1U << 7, false, false, false},
+> +       {1U << 7, 1U << 7, 0, 0, 0, true, false, true},
+> +
+> +       {48, 32, 80, 16, 0, false, false, true},
+> +       {128, 128, 0, 0, 0, true, false, true},
+> +       {123, 234, 101, 145, 110, true, true, true},
+> +};
+> +
+> +DEFINE_TEST_ARRAY(u16) = {
+> +       {0, 0, 0, 0, 0, false, false, false},
+> +       {1, 1, 2, 0, 1, false, false, false},
+> +       {0, 1, 1, U16_MAX, 0, false, true, false},
+> +       {1, 0, 1, 1, 0, false, false, false},
+> +       {0, U16_MAX, U16_MAX, 1, 0, false, true, false},
+> +       {U16_MAX, 0, U16_MAX, U16_MAX, 0, false, false, false},
+> +       {1, U16_MAX, 0, 2, U16_MAX, true, true, false},
+> +       {U16_MAX, 1, 0, U16_MAX-1, U16_MAX, true, false, false},
+> +       {U16_MAX, U16_MAX, U16_MAX-1, 0, 1, true, false, true},
+> +
+> +       {U16_MAX, U16_MAX-1, U16_MAX-2, 1, 2, true, false, true},
+> +       {U16_MAX-1, U16_MAX, U16_MAX-2, U16_MAX, 2, true, true, true},
+> +
+> +       {1U << 7, 1U << 7, 1U << 8, 0, 1U << 14, false, false, false},
+> +       {1U << 8, 1U << 8, 1U << 9, 0, 0, false, false, true},
+> +       {1U << 8, 1U << 7, 3*(1U << 7), 1U << 7, 1U << 15, false, false, false},
+> +       {1U << 15, 1U << 15, 0, 0, 0, true, false, true},
+> +
+> +       {123, 234, 357, 65425, 28782, false, true, false},
+> +       {1234, 2345, 3579, 64425, 10146, false, true, true},
+> +};
+> +
+> +DEFINE_TEST_ARRAY(u32) = {
+> +       {0, 0, 0, 0, 0, false, false, false},
+> +       {1, 1, 2, 0, 1, false, false, false},
+> +       {0, 1, 1, U32_MAX, 0, false, true, false},
+> +       {1, 0, 1, 1, 0, false, false, false},
+> +       {0, U32_MAX, U32_MAX, 1, 0, false, true, false},
+> +       {U32_MAX, 0, U32_MAX, U32_MAX, 0, false, false, false},
+> +       {1, U32_MAX, 0, 2, U32_MAX, true, true, false},
+> +       {U32_MAX, 1, 0, U32_MAX-1, U32_MAX, true, false, false},
+> +       {U32_MAX, U32_MAX, U32_MAX-1, 0, 1, true, false, true},
+> +
+> +       {U32_MAX, U32_MAX-1, U32_MAX-2, 1, 2, true, false, true},
+> +       {U32_MAX-1, U32_MAX, U32_MAX-2, U32_MAX, 2, true, true, true},
+> +
+> +       {1U << 15, 1U << 15, 1U << 16, 0, 1U << 30, false, false, false},
+> +       {1U << 16, 1U << 16, 1U << 17, 0, 0, false, false, true},
+> +       {1U << 16, 1U << 15, 3*(1U << 15), 1U << 15, 1U << 31, false, false, false},
+> +       {1U << 31, 1U << 31, 0, 0, 0, true, false, true},
+> +
+> +       {-2U, 1U, -1U, -3U, -2U, false, false, false},
+> +       {-4U, 5U, 1U, -9U, -20U, true, false, true},
+> +};
+> +
+> +DEFINE_TEST_ARRAY(u64) = {
+> +       {0, 0, 0, 0, 0, false, false, false},
+> +       {1, 1, 2, 0, 1, false, false, false},
+> +       {0, 1, 1, U64_MAX, 0, false, true, false},
+> +       {1, 0, 1, 1, 0, false, false, false},
+> +       {0, U64_MAX, U64_MAX, 1, 0, false, true, false},
+> +       {U64_MAX, 0, U64_MAX, U64_MAX, 0, false, false, false},
+> +       {1, U64_MAX, 0, 2, U64_MAX, true, true, false},
+> +       {U64_MAX, 1, 0, U64_MAX-1, U64_MAX, true, false, false},
+> +       {U64_MAX, U64_MAX, U64_MAX-1, 0, 1, true, false, true},
+> +
+> +       {U64_MAX, U64_MAX-1, U64_MAX-2, 1, 2, true, false, true},
+> +       {U64_MAX-1, U64_MAX, U64_MAX-2, U64_MAX, 2, true, true, true},
+> +
+> +       {1ULL << 31, 1ULL << 31, 1ULL << 32, 0, 1ULL << 62, false, false, false},
+> +       {1ULL << 32, 1ULL << 32, 1ULL << 33, 0, 0, false, false, true},
+> +       {1ULL << 32, 1ULL << 31, 3*(1ULL << 31), 1ULL << 31, 1ULL << 63, false, false, false},
+> +       {1ULL << 63, 1ULL << 63, 0, 0, 0, true, false, true},
+> +       {1000000000ULL /* 10^9 */, 10000000000ULL /* 10^10 */,
+> +        11000000000ULL, 18446744064709551616ULL, 10000000000000000000ULL,
+> +        false, true, false},
+> +       {-15ULL, 10ULL, -5ULL, -25ULL, -150ULL, false, false, true},
+> +};
+> +
+> +DEFINE_TEST_ARRAY(s8) = {
+> +       {0, 0, 0, 0, 0, false, false, false},
+> +
+> +       {0, S8_MAX, S8_MAX, -S8_MAX, 0, false, false, false},
+> +       {S8_MAX, 0, S8_MAX, S8_MAX, 0, false, false, false},
+> +       {0, S8_MIN, S8_MIN, S8_MIN, 0, false, true, false},
+> +       {S8_MIN, 0, S8_MIN, S8_MIN, 0, false, false, false},
+> +
+> +       {-1, S8_MIN, S8_MAX, S8_MAX, S8_MIN, true, false, true},
+> +       {S8_MIN, -1, S8_MAX, -S8_MAX, S8_MIN, true, false, true},
+> +       {-1, S8_MAX, S8_MAX-1, S8_MIN, -S8_MAX, false, false, false},
+> +       {S8_MAX, -1, S8_MAX-1, S8_MIN, -S8_MAX, false, true, false},
+> +       {-1, -S8_MAX, S8_MIN, S8_MAX-1, S8_MAX, false, false, false},
+> +       {-S8_MAX, -1, S8_MIN, S8_MIN+2, S8_MAX, false, false, false},
+> +
+> +       {1, S8_MIN, -S8_MAX, -S8_MAX, S8_MIN, false, true, false},
+> +       {S8_MIN, 1, -S8_MAX, S8_MAX, S8_MIN, false, true, false},
+> +       {1, S8_MAX, S8_MIN, S8_MIN+2, S8_MAX, true, false, false},
+> +       {S8_MAX, 1, S8_MIN, S8_MAX-1, S8_MAX, true, false, false},
+> +
+> +       {S8_MIN, S8_MIN, 0, 0, 0, true, false, true},
+> +       {S8_MAX, S8_MAX, -2, 0, 1, true, false, true},
+> +
+> +       {-4, -32, -36, 28, -128, false, false, true},
+> +       {-4, 32, 28, -36, -128, false, false, false},
+> +};
+> +
+> +DEFINE_TEST_ARRAY(s16) = {
+> +       {0, 0, 0, 0, 0, false, false, false},
+> +
+> +       {0, S16_MAX, S16_MAX, -S16_MAX, 0, false, false, false},
+> +       {S16_MAX, 0, S16_MAX, S16_MAX, 0, false, false, false},
+> +       {0, S16_MIN, S16_MIN, S16_MIN, 0, false, true, false},
+> +       {S16_MIN, 0, S16_MIN, S16_MIN, 0, false, false, false},
+> +
+> +       {-1, S16_MIN, S16_MAX, S16_MAX, S16_MIN, true, false, true},
+> +       {S16_MIN, -1, S16_MAX, -S16_MAX, S16_MIN, true, false, true},
+> +       {-1, S16_MAX, S16_MAX-1, S16_MIN, -S16_MAX, false, false, false},
+> +       {S16_MAX, -1, S16_MAX-1, S16_MIN, -S16_MAX, false, true, false},
+> +       {-1, -S16_MAX, S16_MIN, S16_MAX-1, S16_MAX, false, false, false},
+> +       {-S16_MAX, -1, S16_MIN, S16_MIN+2, S16_MAX, false, false, false},
+> +
+> +       {1, S16_MIN, -S16_MAX, -S16_MAX, S16_MIN, false, true, false},
+> +       {S16_MIN, 1, -S16_MAX, S16_MAX, S16_MIN, false, true, false},
+> +       {1, S16_MAX, S16_MIN, S16_MIN+2, S16_MAX, true, false, false},
+> +       {S16_MAX, 1, S16_MIN, S16_MAX-1, S16_MAX, true, false, false},
+> +
+> +       {S16_MIN, S16_MIN, 0, 0, 0, true, false, true},
+> +       {S16_MAX, S16_MAX, -2, 0, 1, true, false, true},
+> +};
+> +
+> +DEFINE_TEST_ARRAY(s32) = {
+> +       {0, 0, 0, 0, 0, false, false, false},
+> +
+> +       {0, S32_MAX, S32_MAX, -S32_MAX, 0, false, false, false},
+> +       {S32_MAX, 0, S32_MAX, S32_MAX, 0, false, false, false},
+> +       {0, S32_MIN, S32_MIN, S32_MIN, 0, false, true, false},
+> +       {S32_MIN, 0, S32_MIN, S32_MIN, 0, false, false, false},
+> +
+> +       {-1, S32_MIN, S32_MAX, S32_MAX, S32_MIN, true, false, true},
+> +       {S32_MIN, -1, S32_MAX, -S32_MAX, S32_MIN, true, false, true},
+> +       {-1, S32_MAX, S32_MAX-1, S32_MIN, -S32_MAX, false, false, false},
+> +       {S32_MAX, -1, S32_MAX-1, S32_MIN, -S32_MAX, false, true, false},
+> +       {-1, -S32_MAX, S32_MIN, S32_MAX-1, S32_MAX, false, false, false},
+> +       {-S32_MAX, -1, S32_MIN, S32_MIN+2, S32_MAX, false, false, false},
+> +
+> +       {1, S32_MIN, -S32_MAX, -S32_MAX, S32_MIN, false, true, false},
+> +       {S32_MIN, 1, -S32_MAX, S32_MAX, S32_MIN, false, true, false},
+> +       {1, S32_MAX, S32_MIN, S32_MIN+2, S32_MAX, true, false, false},
+> +       {S32_MAX, 1, S32_MIN, S32_MAX-1, S32_MAX, true, false, false},
+> +
+> +       {S32_MIN, S32_MIN, 0, 0, 0, true, false, true},
+> +       {S32_MAX, S32_MAX, -2, 0, 1, true, false, true},
+> +};
+> +
+> +DEFINE_TEST_ARRAY(s64) = {
+> +       {0, 0, 0, 0, 0, false, false, false},
+> +
+> +       {0, S64_MAX, S64_MAX, -S64_MAX, 0, false, false, false},
+> +       {S64_MAX, 0, S64_MAX, S64_MAX, 0, false, false, false},
+> +       {0, S64_MIN, S64_MIN, S64_MIN, 0, false, true, false},
+> +       {S64_MIN, 0, S64_MIN, S64_MIN, 0, false, false, false},
+> +
+> +       {-1, S64_MIN, S64_MAX, S64_MAX, S64_MIN, true, false, true},
+> +       {S64_MIN, -1, S64_MAX, -S64_MAX, S64_MIN, true, false, true},
+> +       {-1, S64_MAX, S64_MAX-1, S64_MIN, -S64_MAX, false, false, false},
+> +       {S64_MAX, -1, S64_MAX-1, S64_MIN, -S64_MAX, false, true, false},
+> +       {-1, -S64_MAX, S64_MIN, S64_MAX-1, S64_MAX, false, false, false},
+> +       {-S64_MAX, -1, S64_MIN, S64_MIN+2, S64_MAX, false, false, false},
+> +
+> +       {1, S64_MIN, -S64_MAX, -S64_MAX, S64_MIN, false, true, false},
+> +       {S64_MIN, 1, -S64_MAX, S64_MAX, S64_MIN, false, true, false},
+> +       {1, S64_MAX, S64_MIN, S64_MIN+2, S64_MAX, true, false, false},
+> +       {S64_MAX, 1, S64_MIN, S64_MAX-1, S64_MAX, true, false, false},
+> +
+> +       {S64_MIN, S64_MIN, 0, 0, 0, true, false, true},
+> +       {S64_MAX, S64_MAX, -2, 0, 1, true, false, true},
+> +
+> +       {-1, -1, -2, 0, 1, false, false, false},
+> +       {-1, -128, -129, 127, 128, false, false, false},
+> +       {-128, -1, -129, -127, 128, false, false, false},
+> +       {0, -S64_MAX, -S64_MAX, S64_MAX, 0, false, false, false},
+> +};
+> +
+> +#define check_one_op(test, t, fmt, op, sym, a, b, r, of) do {          \
+> +       t _r;                                                           \
+> +       bool _of;                                                       \
+> +                                                                       \
+> +       _of = check_ ## op ## _overflow(a, b, &_r);                     \
+> +       if (_of != of) {                                                \
+> +               KUNIT_FAIL(test, "Expected "fmt" "sym" "fmt             \
+> +                       " to%s overflow (type %s)\n",                   \
+> +                       a, b, of ? "" : " not", #t);                    \
+> +       }                                                               \
+> +       if (_r != r) {                                                  \
+> +               KUNIT_FAIL(test, "Expected "fmt" "sym" "fmt" == "       \
+> +                       fmt", got "fmt" (type %s)\n",                   \
+> +                       a, b, r, _r, #t);                               \
+> +       }                                                               \
+> +} while (0)
+> +
+> +#define DEFINE_TEST_FUNC(test, t, fmt)                                         \
+> +static void do_test_ ## t(struct kunit *test, const struct test_ ## t *p)      \
+> +{                                                                              \
+> +       check_one_op(test, t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);      \
+> +       check_one_op(test, t, fmt, add, "+", p->b, p->a, p->sum, p->s_of);      \
+> +       check_one_op(test, t, fmt, sub, "-", p->a, p->b, p->diff, p->d_of);     \
+> +       check_one_op(test, t, fmt, mul, "*", p->a, p->b, p->prod, p->p_of);     \
+> +       check_one_op(test, t, fmt, mul, "*", p->b, p->a, p->prod, p->p_of);     \
+> +}                                                                              \
+> +                                                                               \
+> +static void  test_ ## t ## _overflow(struct kunit *test)                       \
+> +{                                                                              \
+> +       unsigned i;                                                             \
+> +                                                                               \
+> +       kunit_warn(test, "%-3s: %zu arithmetic tests\n", #t,                    \
+> +               ARRAY_SIZE(t ## _tests));                                       \
+> +       for (i = 0; i < ARRAY_SIZE(t ## _tests); ++i)                           \
+> +               do_test_ ## t(test, &t ## _tests[i]);                           \
+> +}
+> +
+> +DEFINE_TEST_FUNC(test, u8, "%d");
+> +DEFINE_TEST_FUNC(test, s8, "%d");
+> +DEFINE_TEST_FUNC(test, u16, "%d");
+> +DEFINE_TEST_FUNC(test, s16, "%d");
+> +DEFINE_TEST_FUNC(test, u32, "%u");
+> +DEFINE_TEST_FUNC(test, s32, "%d");
+> +#if BITS_PER_LONG == 64
+> +DEFINE_TEST_FUNC(test, u64, "%llu");
+> +DEFINE_TEST_FUNC(test, s64, "%lld");
+> +#endif
+> +
+> +static void  overflow_calculation_test(struct kunit *test)
+> +{
+> +
+> +       test_u8_overflow(test);
+> +       test_s8_overflow(test);
+> +       test_s8_overflow(test);
+> +       test_u16_overflow(test);
+> +       test_s16_overflow(test);
+> +       test_u32_overflow(test);
+> +       test_s32_overflow(test);
+> +#if BITS_PER_LONG == 64
+> +       test_u64_overflow(test);
+> +       test_s64_overflow(test);
+> +#endif
+> +}
+> +
+> +static void overflow_shift_test(struct kunit *test)
+> +{
+> +/* Args are: value, shift, type, expected result, overflow expected */
+> +#define TEST_ONE_SHIFT(a, s, t, expect, of) ({                                 \
+> +       int __failed = 0;                                                       \
+> +       typeof(a) __a = (a);                                                    \
+> +       typeof(s) __s = (s);                                                    \
+> +       t __e = (expect);                                                       \
+> +       t __d;                                                                  \
+> +       bool __of = check_shl_overflow(__a, __s, &__d);                         \
+> +       if (__of != of) {                                                       \
+> +               KUNIT_FAIL(test, "Expected (%s)(%s << %s) to%s overflow\n",     \
+
+I mentioned this offline: I am of two minds on this. Part of me would
+like to make it more KUnit-y, but part of me thinks that it is best to
+not change the test more than necessary. I am fine either way, I just
+wanted to draw attention to it for other reviewers who may care.
+
+> +                       #t, #a, #s, of ? "" : " not");                          \
+> +               __failed = 1;                                                   \
+> +       } else if (!__of && __d != __e) {                                       \
+> +               KUNIT_FAIL(test, "Expected (%s)(%s << %s) == %s\n",             \
+> +                       #t, #a, #s, #expect);                                   \
+> +               if ((t)-1 < 0)                                                  \
+> +                       KUNIT_FAIL(test, "got %lld\n", (s64)__d);               \
+> +               else                                                            \
+> +                       KUNIT_FAIL(test, "got %llu\n", (u64)__d);               \
+> +               __failed = 1;                                                   \
+> +       }                                                                       \
+> +       if (!__failed)                                                          \
+> +               kunit_info(test, "ok: (%s)(%s << %s) == %s\n", #t, #a, #s,      \
+> +                       of ? "overflow" : #expect);                             \
+> +       __failed;                                                               \
+> +})
+> +
+> +       /* Sane shifts. */
+> +       TEST_ONE_SHIFT(1, 0, u8, 1 << 0, false);
+> +       TEST_ONE_SHIFT(1, 4, u8, 1 << 4, false);
+> +       TEST_ONE_SHIFT(1, 7, u8, 1 << 7, false);
+> +       TEST_ONE_SHIFT(0xF, 4, u8, 0xF << 4, false);
+> +       TEST_ONE_SHIFT(1, 0, u16, 1 << 0, false);
+> +       TEST_ONE_SHIFT(1, 10, u16, 1 << 10, false);
+> +       TEST_ONE_SHIFT(1, 15, u16, 1 << 15, false);
+> +       TEST_ONE_SHIFT(0xFF, 8, u16, 0xFF << 8, false);
+> +       TEST_ONE_SHIFT(1, 0, int, 1 << 0, false);
+> +       TEST_ONE_SHIFT(1, 16, int, 1 << 16, false);
+> +       TEST_ONE_SHIFT(1, 30, int, 1 << 30, false);
+> +       TEST_ONE_SHIFT(1, 0, s32, 1 << 0, false);
+> +       TEST_ONE_SHIFT(1, 16, s32, 1 << 16, false);
+> +       TEST_ONE_SHIFT(1, 30, s32, 1 << 30, false);
+> +       TEST_ONE_SHIFT(1, 0, unsigned int, 1U << 0, false);
+> +       TEST_ONE_SHIFT(1, 20, unsigned int, 1U << 20, false);
+> +       TEST_ONE_SHIFT(1, 31, unsigned int, 1U << 31, false);
+> +       TEST_ONE_SHIFT(0xFFFFU, 16, unsigned int, 0xFFFFU << 16, false);
+> +       TEST_ONE_SHIFT(1, 0, u32, 1U << 0, false);
+> +       TEST_ONE_SHIFT(1, 20, u32, 1U << 20, false);
+> +       TEST_ONE_SHIFT(1, 31, u32, 1U << 31, false);
+> +       TEST_ONE_SHIFT(0xFFFFU, 16, u32, 0xFFFFU << 16, false);
+> +       TEST_ONE_SHIFT(1, 0, u64, 1ULL << 0, false);
+> +       TEST_ONE_SHIFT(1, 40, u64, 1ULL << 40, false);
+> +       TEST_ONE_SHIFT(1, 63, u64, 1ULL << 63, false);
+> +       TEST_ONE_SHIFT(0xFFFFFFFFULL, 32, u64,
+> +                             0xFFFFFFFFULL << 32, false);
+> +
+> +       /* Sane shift: start and end with 0, without a too-wide shift. */
+> +       TEST_ONE_SHIFT(0, 7, u8, 0, false);
+> +       TEST_ONE_SHIFT(0, 15, u16, 0, false);
+> +       TEST_ONE_SHIFT(0, 31, unsigned int, 0, false);
+> +       TEST_ONE_SHIFT(0, 31, u32, 0, false);
+> +       TEST_ONE_SHIFT(0, 63, u64, 0, false);
+> +
+> +       /* Sane shift: start and end with 0, without reaching signed bit. */
+> +       TEST_ONE_SHIFT(0, 6, s8, 0, false);
+> +       TEST_ONE_SHIFT(0, 14, s16, 0, false);
+> +       TEST_ONE_SHIFT(0, 30, int, 0, false);
+> +       TEST_ONE_SHIFT(0, 30, s32, 0, false);
+> +       TEST_ONE_SHIFT(0, 62, s64, 0, false);
+> +
+> +       /* Overflow: shifted the bit off the end. */
+> +       TEST_ONE_SHIFT(1, 8, u8, 0, true);
+> +       TEST_ONE_SHIFT(1, 16, u16, 0, true);
+> +       TEST_ONE_SHIFT(1, 32, unsigned int, 0, true);
+> +       TEST_ONE_SHIFT(1, 32, u32, 0, true);
+> +       TEST_ONE_SHIFT(1, 64, u64, 0, true);
+> +
+> +       /* Overflow: shifted into the signed bit. */
+> +       TEST_ONE_SHIFT(1, 7, s8, 0, true);
+> +       TEST_ONE_SHIFT(1, 15, s16, 0, true);
+> +       TEST_ONE_SHIFT(1, 31, int, 0, true);
+> +       TEST_ONE_SHIFT(1, 31, s32, 0, true);
+> +       TEST_ONE_SHIFT(1, 63, s64, 0, true);
+> +
+> +       /* Overflow: high bit falls off unsigned types. */
+> +       /* 10010110 */
+> +       TEST_ONE_SHIFT(150, 1, u8, 0, true);
+> +       /* 1000100010010110 */
+> +       TEST_ONE_SHIFT(34966, 1, u16, 0, true);
+> +       /* 10000100000010001000100010010110 */
+> +       TEST_ONE_SHIFT(2215151766U, 1, u32, 0, true);
+> +       TEST_ONE_SHIFT(2215151766U, 1, unsigned int, 0, true);
+> +       /* 1000001000010000010000000100000010000100000010001000100010010110 */
+> +       TEST_ONE_SHIFT(9372061470395238550ULL, 1, u64, 0, true);
+> +
+> +       /* Overflow: bit shifted into signed bit on signed types. */
+> +       /* 01001011 */
+> +       TEST_ONE_SHIFT(75, 1, s8, 0, true);
+> +       /* 0100010001001011 */
+> +       TEST_ONE_SHIFT(17483, 1, s16, 0, true);
+> +       /* 01000010000001000100010001001011 */
+> +       TEST_ONE_SHIFT(1107575883, 1, s32, 0, true);
+> +       TEST_ONE_SHIFT(1107575883, 1, int, 0, true);
+> +       /* 0100000100001000001000000010000001000010000001000100010001001011 */
+> +       TEST_ONE_SHIFT(4686030735197619275LL, 1, s64, 0, true);
+> +
+> +       /* Overflow: bit shifted past signed bit on signed types. */
+> +       /* 01001011 */
+> +       TEST_ONE_SHIFT(75, 2, s8, 0, true);
+> +       /* 0100010001001011 */
+> +       TEST_ONE_SHIFT(17483, 2, s16, 0, true);
+> +       /* 01000010000001000100010001001011 */
+> +       TEST_ONE_SHIFT(1107575883, 2, s32, 0, true);
+> +       TEST_ONE_SHIFT(1107575883, 2, int, 0, true);
+> +       /* 0100000100001000001000000010000001000010000001000100010001001011 */
+> +       TEST_ONE_SHIFT(4686030735197619275LL, 2, s64, 0, true);
+> +
+> +       /* Overflow: values larger than destination type. */
+> +       TEST_ONE_SHIFT(0x100, 0, u8, 0, true);
+> +       TEST_ONE_SHIFT(0xFF, 0, s8, 0, true);
+> +       TEST_ONE_SHIFT(0x10000U, 0, u16, 0, true);
+> +       TEST_ONE_SHIFT(0xFFFFU, 0, s16, 0, true);
+> +       TEST_ONE_SHIFT(0x100000000ULL, 0, u32, 0, true);
+> +       TEST_ONE_SHIFT(0x100000000ULL, 0, unsigned int, 0, true);
+> +       TEST_ONE_SHIFT(0xFFFFFFFFUL, 0, s32, 0, true);
+> +       TEST_ONE_SHIFT(0xFFFFFFFFUL, 0, int, 0, true);
+> +       TEST_ONE_SHIFT(0xFFFFFFFFFFFFFFFFULL, 0, s64, 0, true);
+> +
+> +       /* Nonsense: negative initial value. */
+> +       TEST_ONE_SHIFT(-1, 0, s8, 0, true);
+> +       TEST_ONE_SHIFT(-1, 0, u8, 0, true);
+> +       TEST_ONE_SHIFT(-5, 0, s16, 0, true);
+> +       TEST_ONE_SHIFT(-5, 0, u16, 0, true);
+> +       TEST_ONE_SHIFT(-10, 0, int, 0, true);
+> +       TEST_ONE_SHIFT(-10, 0, unsigned int, 0, true);
+> +       TEST_ONE_SHIFT(-100, 0, s32, 0, true);
+> +       TEST_ONE_SHIFT(-100, 0, u32, 0, true);
+> +       TEST_ONE_SHIFT(-10000, 0, s64, 0, true);
+> +       TEST_ONE_SHIFT(-10000, 0, u64, 0, true);
+> +
+> +       /* Nonsense: negative shift values. */
+> +       TEST_ONE_SHIFT(0, -5, s8, 0, true);
+> +       TEST_ONE_SHIFT(0, -5, u8, 0, true);
+> +       TEST_ONE_SHIFT(0, -10, s16, 0, true);
+> +       TEST_ONE_SHIFT(0, -10, u16, 0, true);
+> +       TEST_ONE_SHIFT(0, -15, int, 0, true);
+> +       TEST_ONE_SHIFT(0, -15, unsigned int, 0, true);
+> +       TEST_ONE_SHIFT(0, -20, s32, 0, true);
+> +       TEST_ONE_SHIFT(0, -20, u32, 0, true);
+> +       TEST_ONE_SHIFT(0, -30, s64, 0, true);
+> +       TEST_ONE_SHIFT(0, -30, u64, 0, true);
+> +
+> +       /* Overflow: shifted at or beyond entire type's bit width. */
+> +       TEST_ONE_SHIFT(0, 8, u8, 0, true);
+> +       TEST_ONE_SHIFT(0, 9, u8, 0, true);
+> +       TEST_ONE_SHIFT(0, 8, s8, 0, true);
+> +       TEST_ONE_SHIFT(0, 9, s8, 0, true);
+> +       TEST_ONE_SHIFT(0, 16, u16, 0, true);
+> +       TEST_ONE_SHIFT(0, 17, u16, 0, true);
+> +       TEST_ONE_SHIFT(0, 16, s16, 0, true);
+> +       TEST_ONE_SHIFT(0, 17, s16, 0, true);
+> +       TEST_ONE_SHIFT(0, 32, u32, 0, true);
+> +       TEST_ONE_SHIFT(0, 33, u32, 0, true);
+> +       TEST_ONE_SHIFT(0, 32, int, 0, true);
+> +       TEST_ONE_SHIFT(0, 33, int, 0, true);
+> +       TEST_ONE_SHIFT(0, 32, s32, 0, true);
+> +       TEST_ONE_SHIFT(0, 33, s32, 0, true);
+> +       TEST_ONE_SHIFT(0, 64, u64, 0, true);
+> +       TEST_ONE_SHIFT(0, 65, u64, 0, true);
+> +       TEST_ONE_SHIFT(0, 64, s64, 0, true);
+> +       TEST_ONE_SHIFT(0, 65, s64, 0, true);
+> +
+> +       /*
+> +        * Corner case: for unsigned types, we fail when we've shifted
+> +        * through the entire width of bits. For signed types, we might
+> +        * want to match this behavior, but that would mean noticing if
+> +        * we shift through all but the signed bit, and this is not
+> +        * currently detected (but we'll notice an overflow into the
+> +        * signed bit). So, for now, we will test this condition but
+> +        * mark it as not expected to overflow.
+> +        */
+> +       TEST_ONE_SHIFT(0, 7, s8, 0, false);
+> +       TEST_ONE_SHIFT(0, 15, s16, 0, false);
+> +       TEST_ONE_SHIFT(0, 31, int, 0, false);
+> +       TEST_ONE_SHIFT(0, 31, s32, 0, false);
+> +       TEST_ONE_SHIFT(0, 63, s64, 0, false);
+> +}
+> +
+> +/*
+> + * Deal with the various forms of allocator arguments. See comments above
+> + * the DEFINE_TEST_ALLOC() instances for mapping of the "bits".
+> + */
+> +#define alloc_GFP               (GFP_KERNEL | __GFP_NOWARN)
+> +#define alloc010(alloc, arg, sz) alloc(sz, alloc_GFP)
+> +#define alloc011(alloc, arg, sz) alloc(sz, alloc_GFP, NUMA_NO_NODE)
+> +#define alloc000(alloc, arg, sz) alloc(sz)
+> +#define alloc001(alloc, arg, sz) alloc(sz, NUMA_NO_NODE)
+> +#define alloc110(alloc, arg, sz) alloc(arg, sz, alloc_GFP)
+> +#define free0(free, arg, ptr)   free(ptr)
+> +#define free1(free, arg, ptr)   free(arg, ptr)
+> +
+> +/* Wrap around to 16K */
+> +#define TEST_SIZE              (5 * 4096)
+> +
+> +#define DEFINE_TEST_ALLOC(test, func, free_func, want_arg, want_gfp, want_node)        \
+> +static void test_ ## func (struct kunit *test, void *arg)                      \
+> +{                                                                              \
+> +       volatile size_t a = TEST_SIZE;                                          \
+> +       volatile size_t b = (SIZE_MAX / TEST_SIZE) + 1;                         \
+> +       void *ptr;                                                              \
+> +                                                                               \
+> +       /* Tiny allocation test. */                                             \
+> +       ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg, 1);        \
+> +       KUNIT_EXPECT_NOT_ERR_OR_NULL(test, ptr);                                \
+> +       if (!ptr) {                                                             \
+> +               kunit_err(test, #func " failed regular allocation?!\n");        \
+> +       }                                                                       \
+> +       free ## want_arg (free_func, arg, ptr);                                 \
+> +                                                                               \
+> +       /* Wrapped allocation test. */                                          \
+> +       ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg, a * b);    \
+> +       KUNIT_EXPECT_NOT_ERR_OR_NULL(test, ptr);                                \
+> +       if (!ptr) {                                                             \
+> +               kunit_err(test, #func " unexpectedly failed bad wrapping?!\n"); \
+> +       }                                                                       \
+> +       free ## want_arg (free_func, arg, ptr);                                 \
+> +                                                                               \
+> +       /* Saturated allocation test. */                                        \
+> +       ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,            \
+> +                                                  array_size(a, b));           \
+> +       KUNIT_ASSERT_TRUE(test, IS_ERR_OR_NULL(ptr));                           \
+> +       if (ptr) {                                                              \
+> +               kunit_err(test, #func " missed saturation!\n");                 \
+> +               free ## want_arg (free_func, arg, ptr);                         \
+> +       }                                                                       \
+> +       kunit_info(test, #func " detected saturation\n");                       \
+> +}
+> +
+> +/*
+> + * Allocator uses a trailing node argument -------------------+  (e.g. kmalloc_node())
+> + * Allocator uses the gfp_t argument ----------------------+  |  (e.g. kmalloc())
+> + * Allocator uses a special leading argument -----------+  |  |  (e.g. devm_kmalloc())
+> + *                                                     |  |  |
+> + */
+> +DEFINE_TEST_ALLOC(test, kmalloc,       kfree,          0, 1, 0);
+> +DEFINE_TEST_ALLOC(test, kmalloc_node,  kfree,          0, 1, 1);
+> +DEFINE_TEST_ALLOC(test, kzalloc,       kfree,          0, 1, 0);
+> +DEFINE_TEST_ALLOC(test, kzalloc_node,  kfree,          0, 1, 1);
+> +DEFINE_TEST_ALLOC(test, vmalloc,       vfree,          0, 0, 0);
+> +DEFINE_TEST_ALLOC(test, vmalloc_node,  vfree,          0, 0, 1);
+> +DEFINE_TEST_ALLOC(test, vzalloc,       vfree,          0, 0, 0);
+> +DEFINE_TEST_ALLOC(test, vzalloc_node,  vfree,          0, 0, 1);
+> +DEFINE_TEST_ALLOC(test, kvmalloc,      kvfree,         0, 1, 0);
+> +DEFINE_TEST_ALLOC(test, kvmalloc_node, kvfree,         0, 1, 1);
+> +DEFINE_TEST_ALLOC(test, kvzalloc,      kvfree,         0, 1, 0);
+> +DEFINE_TEST_ALLOC(test, kvzalloc_node, kvfree,         0, 1, 1);
+> +DEFINE_TEST_ALLOC(test, devm_kmalloc,  devm_kfree,     1, 1, 0);
+> +DEFINE_TEST_ALLOC(test, devm_kzalloc,  devm_kfree,     1, 1, 0);
+> +
+> +static void overflow_allocation_test(struct kunit *test)
+> +{
+> +       const char device_name[] = "overflow-test";
+> +       struct device *dev;
+> +
+> +       /* Create dummy device for devm_kmalloc()-family tests. */
+> +       dev = root_device_register(device_name);
+> +       if (IS_ERR(dev))
+> +               kunit_warn(test, "Cannot register test device\n");
+> +
+> +       test_kmalloc(test, NULL);
+> +       test_kmalloc_node(test, NULL);
+> +       test_kzalloc(test, NULL);
+> +       test_kzalloc_node(test, NULL);
+> +       test_kvmalloc(test, NULL);
+> +       test_kvmalloc_node(test, NULL);
+> +       test_kvzalloc(test, NULL);
+> +       test_kvzalloc_node(test, NULL);
+> +       test_vmalloc(test, NULL);
+> +       test_vmalloc_node(test, NULL);
+> +       test_vzalloc(test, NULL);
+> +       test_vzalloc_node(test, NULL);
+> +       test_devm_kmalloc(test, dev);
+> +       test_devm_kzalloc(test, dev);
+> +
+> +       device_unregister(dev);
+> +}
+> +
+> +static struct kunit_case overflow_test_cases[] = {
+> +       KUNIT_CASE(overflow_calculation_test),
+> +       KUNIT_CASE(overflow_shift_test),
+> +       KUNIT_CASE(overflow_allocation_test),
+> +       {}
+> +};
+> +
+> +static struct kunit_suite overflow_test_suite = {
+> +       .name = "overflow",
+> +       .test_cases = overflow_test_cases,
+> +};
+> +
+> +kunit_test_suites(&overflow_test_suite);
+> +
+> +MODULE_LICENSE("GPL v2");
+> --
+> 2.26.2
+>
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
