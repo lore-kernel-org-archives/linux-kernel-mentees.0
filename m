@@ -1,99 +1,104 @@
-Return-Path: <SRS0=EDdC=72=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=8YXb=73=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03C70C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 13 Jun 2020 06:59:02 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 496A0C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Jun 2020 17:48:16 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B9D6F2071A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 13 Jun 2020 06:59:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DF585206D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Jun 2020 17:48:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="rMtVs683"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9D6F2071A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aIwjQl1s"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF585206D7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8DCD287A09;
-	Sat, 13 Jun 2020 06:59:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 95EA0204CF;
+	Sun, 14 Jun 2020 17:48:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XBQ4JTO8001e; Sat, 13 Jun 2020 06:59:00 +0000 (UTC)
+	with ESMTP id QGxQtjK1-hMJ; Sun, 14 Jun 2020 17:48:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id AB072876F1;
-	Sat, 13 Jun 2020 06:59:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DDA4C2046B;
+	Sun, 14 Jun 2020 17:48:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A423CC0881;
-	Sat, 13 Jun 2020 06:59:00 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64870C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE9F0C0888;
+	Sun, 14 Jun 2020 17:48:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F696C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 13 Jun 2020 06:59:00 +0000 (UTC)
+ Sun, 14 Jun 2020 17:48:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4F8DE8965F
+ by whitealder.osuosl.org (Postfix) with ESMTP id 45F3888F6C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 13 Jun 2020 06:59:00 +0000 (UTC)
+ Sun, 14 Jun 2020 17:48:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id W4rtd3BcFedK
+ with ESMTP id T4XQ06hZsqP3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 13 Jun 2020 06:58:57 +0000 (UTC)
+ Sun, 14 Jun 2020 17:48:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 38A348965E
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 675E088F66
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 13 Jun 2020 06:58:57 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id f185so9910654wmf.3
+ Sun, 14 Jun 2020 17:48:12 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id j6so2658921pgh.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jun 2020 23:58:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q2zPWpPgFCMzXv5H7CN4nHl1Vt07w4Zt5NmeJ7/bUCA=;
- b=rMtVs683HPlLLOFlVhjVcDVlYVmGasM8ozFdy/f5+pa33hTK5ttBbNDNQkr7xwcsPd
- CffXa5L8vQ1RkR5PqNChV5JxQ4XyzsRgbsUFFxbCAgiblv7aIRXRDAVd+uzhRuYAe3lc
- pmROpJ7KT0UJCwlr4mQdSiG/+gWTfeh2ScsCiTAXwmuNkABxTSue8q39l5fmkHXYzxmL
- yzZr6d3FI8wPO7PlVWDR7p1Mi4RQWe3Ccn4taALFciVADixLATLqlnGj3u2eUFkf/0as
- AKWPsSLUFY24BjhnQRnn2xsHZDage4MkcAvgf/VAa6gzhIDc6wBAUn9JkbTR+RerONya
- LBBw==
+ Sun, 14 Jun 2020 10:48:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=iVzpsWsc+ucplBrjqeKrqJAgIWgN+U4AVWHu2CnNfCw=;
+ b=aIwjQl1sUiDQ2w0UO6H5e+TIMjXcNjQhvZvthliLOZyfJEdErfxsx9txCoJekTR1hW
+ NzbqMEA2ougHWqc3j9sPog4RX9IBSGvyEBS0Fg4w5wuU6pPuGNmKl5YaEItykcdgw0dl
+ TwnrEKrubrUOYnfVYJoOsGWqnoHEpQ+GfCWYQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q2zPWpPgFCMzXv5H7CN4nHl1Vt07w4Zt5NmeJ7/bUCA=;
- b=bmDr6Bez+M31MWa7wpmABvEsS9ak6qY0bH/e68jbiN3rqVyarYKua5ppOC/ObKvIfu
- eoNrf8VkSz7kLCKwuy0R7K6HH1gFgUYAgmeK/CYH6vGzhz+NPIoRNHUGolOd8t9ApTGE
- 3TM0TuARY7G7NjGd4Y3aML3lhB8QB3xWMvkoMncP7XpoVRB2K1OeySYuI4BG5KFgFEs5
- GsfmQYwogdNc02b7ZZShfg9U/uR6PKrToYdhIbWtcnGUuG57Sp9W0rtUQHAsPy46l8BM
- c2Gsd5CSFc/CbqNNM3Jd5TslAm3JAXtLsHvZPhgvtfLFDIg16nqOB04fJPzuECKTVLFX
- DT1A==
-X-Gm-Message-State: AOAM531abo6fnfdwFKD3fOgZNnWQf0cNh07rXoyXzS745XZsMtR9f7Kn
- YaJil6BHtGsXbL4JbQOCWxyueV4MhM9zgM3hWZJ6khmUOBI=
-X-Google-Smtp-Source: ABdhPJwp4vYyLNyPc7dAZwXRGNHbZSLMreeiEAQArBBrLSn4fidZhTSshA3r2HpEW54ArY/tdXxmPtEluW3yrNB6Iro=
-X-Received: by 2002:a7b:cd94:: with SMTP id y20mr2467771wmj.87.1592031088802; 
- Fri, 12 Jun 2020 23:51:28 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iVzpsWsc+ucplBrjqeKrqJAgIWgN+U4AVWHu2CnNfCw=;
+ b=kMOcDwxDPGvcPir4aQOiPb9lXgncR5W6Xt0p+CxpvRYNgoFCcHoX0dWwT2fBhIUpZQ
+ STS8M2TlCbAT2J3vLC3Tah5yGY14dE4pHG79WiQlA3Pg4zuuKAhRHkuGdsItX1qtVxsz
+ RU42kKhrxD0HPocr3J68Hvd2uZUooebj/GuxP399WwEtAmwhMz6/UWrQt1XOKtn66GZK
+ i8BKJ2grAVjm3M7CVWltooEGgTMOuIrRHnmL8XqrG8GvpFCP95EIUrYpEWhprISvkNa4
+ gZXU4QVzKvBvvwN7KDemse2WiRiZd17mxuYlmZ/Gxv9xPt13j+UgJJCZlMGmTrUWerBI
+ TKyQ==
+X-Gm-Message-State: AOAM533D17RJlJsspBHCaP/KpaXagl7ZOPpfGKhPPMQ2b30L0PRWaku+
+ wGSJyWsNffKN60CrYrXcG71A+A==
+X-Google-Smtp-Source: ABdhPJz0NFGLAM2yH1jkaSAar+jnewZ2I8xuCgJU32vfOT0pkbbbCkbDUG8eaxV2MohCGeOtVouAlg==
+X-Received: by 2002:a63:4f1b:: with SMTP id d27mr18066209pgb.389.1592156891996; 
+ Sun, 14 Jun 2020 10:48:11 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id ca6sm10154511pjb.46.2020.06.14.10.48.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Jun 2020 10:48:11 -0700 (PDT)
+Date: Sun, 14 Jun 2020 10:48:09 -0700
+From: Kees Cook <keescook@chromium.org>
+To: David Gow <davidgow@google.com>
+Message-ID: <202006141005.BA19A9D3@keescook>
 References: <20200611215501.213058-1-vitor@massaru.org>
  <202006121403.CF8D57C@keescook>
-In-Reply-To: <202006121403.CF8D57C@keescook>
-Date: Sat, 13 Jun 2020 14:51:17 +0800
-Message-ID: <CABVgOSnofuJQ_fiCL-8KdKezg3Hnqk3A+X509c4YP_toKeBVBg@mail.gmail.com>
-To: Kees Cook <keescook@chromium.org>
+ <CABVgOSnofuJQ_fiCL-8KdKezg3Hnqk3A+X509c4YP_toKeBVBg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CABVgOSnofuJQ_fiCL-8KdKezg3Hnqk3A+X509c4YP_toKeBVBg@mail.gmail.com>
 Cc: linux@rasmusvillemoes.dk, Brendan Higgins <brendanhiggins@google.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] lib: kunit_test_overflow: add
- KUnit test of check_*_overflow functions
+Subject: [Linux-kernel-mentees] common KUnit Kconfig and file naming (was:
+ Re: [PATCH] lib: kunit_test_overflow: add KUnit test of check_*_overflow
+ functions)
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,266 +110,100 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: David Gow via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Jun 13, 2020 at 6:36 AM Kees Cook <keescook@chromium.org> wrote:
->
-> On Thu, Jun 11, 2020 at 06:55:01PM -0300, Vitor Massaru Iha wrote:
-> > This adds the convertion of the runtime tests of check_*_overflow fuctions,
-> > from `lib/test_overflow.c`to KUnit tests.
-> >
-> > The log similar to the one seen in dmesg running test_overflow can be
-> > seen in `test.log`.
-> >
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > ---
-> >  lib/Kconfig.debug         |  17 ++
-> >  lib/Makefile              |   1 +
-> >  lib/kunit_overflow_test.c | 590 ++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 608 insertions(+)
-> >  create mode 100644 lib/kunit_overflow_test.c
->
-> What tree is this based on? I can't apply it to v5.7, linux-next, nor
-> Linus's latest. I've fixed it up to apply to linux-next for now. :)
+On Sat, Jun 13, 2020 at 02:51:17PM +0800, David Gow wrote:
+> Yeah, _KUNIT_TEST was what we've sort-of implicitly decided on for
+> config names, but the documentation does need to happen.
 
-This applies to the kselftest/kunit branch for me.
+That works for me. It still feels redundant, but all I really want is a
+standard name. :)
 
-> Looking at linux-next, though, I am reminded of my agony over naming:
->
-> obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
-> obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-> obj-$(CONFIG_OVERFLOW_KUNIT_TEST) += kunit_overflow_test.o
->
-> *-test
-> test_*
-> *_test
->
-> This has to get fixed now, and the naming convention needs to be
-> documented. For old tests, the preferred naming was test_*. For kunit, I
-> think it should be kunit_* (and no trailing _test; that's redundant).
->
-> For for this bikeshed, I think it should be kunit_overflow.c
->
-> For the CONFIG name, it seems to be suggested in docs to be
-> *_KUNIT_TEST:
->
-> ...
-> menuconfig). From there, you can enable any KUnit tests you want: they usually
-> have config options ending in ``_KUNIT_TEST``.
-> ...
+> We haven't put as much thought into standardising the filenames much, though.
 
-Yeah, _KUNIT_TEST was what we've sort-of implicitly decided on for
-config names, but the documentation does need to happen.
-We haven't put as much thought into standardising the filenames much, though.
+I actually find this to be much more important because it is more
+end-user-facing (i.e. in module naming, in build logs, in scripts, on
+filesystem, etc -- CONFIG is basically only present during kernel build).
+Trying to do any sorting or greping really needs a way to find all the
+kunit pieces.
 
-Both of these are slightly complicated by cases like this where tests
-are being ported from a non-KUnit test to KUnit. There's a small
-argument there for trying to keep the name the same, though personally
-I suspect consistency is more important.
+> Both of these are slightly complicated by cases like this where tests
+> are being ported from a non-KUnit test to KUnit. There's a small
+> argument there for trying to keep the name the same, though personally
+> I suspect consistency is more important.
 
-> I think much stronger language needs to be added to "Writing your first
-> test" (which actually recommends the wrong thing: "config
-> MISC_EXAMPLE_TEST"). And then doesn't specify a module file name, though
-> it hints at one:
->
-> ...
->         obj-$(CONFIG_MISC_EXAMPLE_TEST) += example-test.o
-> ...
->
-> So, please, let's get this documented: we really really need a single
-> naming convention for these.
->
-> For Kconfig in the tree, I see:
->
-> drivers/base/Kconfig:config PM_QOS_KUNIT_TEST
-> drivers/base/test/Kconfig:config KUNIT_DRIVER_PE_TEST
-> fs/ext4/Kconfig:config EXT4_KUNIT_TESTS
-> lib/Kconfig.debug:config SYSCTL_KUNIT_TEST
-> lib/Kconfig.debug:config OVERFLOW_KUNIT_TEST
-> lib/Kconfig.debug:config LIST_KUNIT_TEST
-> lib/Kconfig.debug:config LINEAR_RANGES_TEST
-> lib/kunit/Kconfig:menuconfig KUNIT
-> lib/kunit/Kconfig:config KUNIT_DEBUGFS
-> lib/kunit/Kconfig:config KUNIT_TEST
-> lib/kunit/Kconfig:config KUNIT_EXAMPLE_TEST
-> lib/kunit/Kconfig:config KUNIT_ALL_TESTS
->
-> Which is:
->
-> *_KUNIT_TEST
-> KUNIT_*_TEST
-> KUNIT_*_TESTS
-> *_TEST
->
-> Nooooo. ;)
->
-> If it should all be *_KUNIT_TEST, let's do that. I think just *_KUNIT
-> would be sufficient (again, adding the word "test" to "kunit" is
-> redundant). And it absolutely should not be a prefix, otherwise it'll
-> get sorted away from the thing it's named after. So my preference is
-> here would be CONFIG_OVERFLOW_KUNIT. (Yes the old convention was
-> CONFIG_TEST_*, but those things tended to be regression tests, not unit
-> tests.)
->
-> Please please, can we fix this before we add anything more?
+Understood. I think consistency is preferred too, especially since the
+driving reason to make this conversions is to gain consistency with the
+actual tests themselves.
 
-Alas, the plans to document test coding style / conventions kept
-getting pre-empted: I'll drag it back up to the top of the to-do list,
-and see if we can't prioritise it. I think we'd hoped to be able to
-catch these in review, but between a bit of forgetfulness and a few
-tests going upstream without our seeing them has made it obvious that
-doesn't work.
+> Alas, the plans to document test coding style / conventions kept
+> getting pre-empted: I'll drag it back up to the top of the to-do list,
+> and see if we can't prioritise it. I think we'd hoped to be able to
+> catch these in review, but between a bit of forgetfulness and a few
+> tests going upstream without our seeing them has made it obvious that
+> doesn't work.
+> 
+> Once something's documented (and the suitable bikeshedding has
+> subsided), we can consider renaming existing tests if that seems
+> worthwhile.
 
-Once something's documented (and the suitable bikeshedding has
-subsided), we can consider renaming existing tests if that seems
-worthwhile.
+Yes please! :)
 
-My feeling is we'll go for:
-- Kconfig name: ~_KUNIT_TEST
-- filename: ~-test.c
+> My feeling is we'll go for:
+> - Kconfig name: ~_KUNIT_TEST
 
-At least for the initial draft documentation, as those seem to be most
-common, but I think a thread on that would probably be the best place
-to add it.
-This would also be a good opportunity to document the "standard" KUnit
-boilerplate help text in the Kconfig options.
+As mentioned, I'm fine with this, but prefer ~_KUNIT
 
-> >
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 1f4ab7a2bdee..72fcfe1f24a4 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -2075,6 +2075,23 @@ config SYSCTL_KUNIT_TEST
-> >
-> >         If unsure, say N.
-> >
-> > +config OVERFLOW_KUNIT_TEST
-> > +     tristate "KUnit test for overflow" if !KUNIT_ALL_TESTS
-> > +     depends on KUNIT
-> > +     default KUNIT_ALL_TESTS
-> > +     help
-> > +       This builds the overflow KUnit tests.
-> > +
-> > +       KUnit tests run during boot and output the results to the debug log
-> > +       in TAP format (http://testanything.org/). Only useful for kernel devs
-> > +       running KUnit test harness and are not for inclusion into a production
-> > +       build.
-> > +
-> > +       For more information on KUnit and unit tests in general please refer
-> > +       to the KUnit documentation in Documentation/dev-tools/kunit/.
-> > +
-> > +       If unsure, say N.
-> > +
-> >  config LIST_KUNIT_TEST
-> >       tristate "KUnit Test for Kernel Linked-list structures" if !KUNIT_ALL_TESTS
-> >       depends on KUNIT
->
-> Regarding output:
->
-> [   36.611358] TAP version 14
-> [   36.611953]     # Subtest: overflow
-> [   36.611954]     1..3
-> ...
-> [   36.622914]     # overflow_calculation_test: s64: 21 arithmetic tests
-> [   36.624020]     ok 1 - overflow_calculation_test
-> ...
-> [   36.731096]     # overflow_shift_test: ok: (s64)(0 << 63) == 0
-> [   36.731840]     ok 2 - overflow_shift_test
-> ...
-> [   36.750294] kunit_try_catch: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0xcc0(GFP_KERNEL), nodemask=(null),cpuset=/,mems_allowed=0
-> ...
-> [   36.805350]     # overflow_allocation_test: devm_kzalloc detected saturation
-> [   36.807763]     ok 3 - overflow_allocation_test
-> [   36.807765] ok 1 - overflow
->
-> A few things here....
+> - filename: ~-test.c
 
-Tim Bird has just sent out an RFC for a "KTAP" specification, which
-we'll hope to support in KUnit:
-https://lore.kernel.org/linux-kselftest/CY4PR13MB1175B804E31E502221BC8163FD830@CY4PR13MB1175.namprd13.prod.outlook.com/T/#u
+I really don't like this. Several reasons reasons:
 
-That's probably where we'll end up trying to hash out exactly what
-this format should be. Fortunately, I don't think any of these will
-require any per-test work, just changes to the KUnit implementation.
+- it does not distinguish it from other tests -- there is no way to
+  identify kunit tests from non-kunit tests from directory listings,
+  build log greps, etc.
 
-> - On the outer test report, there is no "plan" line (I was expecting
->   "1..1"). Technically it's optional, but it seems like the information
->   is available. :)
+- the current "common" naming has been with a leading "test", ignoring
+  kunit, tools/, and samples/:
 
-There's work underway to support this, but it's hit a few minor snags:
-https://lkml.org/lkml/2020/2/27/2155
+	53 test_*.c
+	27 *_test.c
+	19 *[a-z0-9]test.c
+	19 selftest*.c
+	16 test-*.c
+	11 *-test.c
+	11 test[a-z0-9]*.c
+	 8 *-tests.c
+	 5 *-selftest.c
+	 4 *_test_*.c
+	 1 *_selftest_*.c
+	 1 *_selftests.c
 
-> - The subtest should have its own "TAP version 14" line, and it should
->   be using the diagnostic line prefix for the top-level test (this is
->   what kselftest is doing).
+(these counts might be a bit off -- my eyes started to cross while
+constructing regexes)
 
-Alas, TAP itself hasn't standardised subtests. Personally, I think it
-doesn't fundamentally matter which way we do this (I actually prefer
-the way we're doing it currently slightly), but converging with what
-kselftest does would be ideal.
+- dashes are converted to _ in module names, leading to some confusion
+  between .c file and .ko file.
 
-> - There is no way to distinguish top-level TAP output from kernel log
->   lines. I think we should stick with the existing marker, which is
->   "# ", so that kernel output has no way to be interpreted as TAP
->   details -- unless it intentionally starts adding "#"s. ;)
+I'd strongly prefer ~_kunit.c, but could live with _kunit_test.c (even
+though it's redundant).
 
-At the moment, we're doing this in KUnit tool by stripping anything
-before "TAP version 14" (e.g., the timestamp), and then only incuding
-lines which parse correctly (are a test plan, result, or a diagnostic
-line beginning with '#').
-This has worked pretty well thus far, and we do have the ability to
-get results from debugfs instead of the kernel log, which won't have
-the same problems.
+> At least for the initial draft documentation, as those seem to be most
+> common, but I think a thread on that would probably be the best place
+> to add it.
 
-It's worth considering, though, particularly since our parser should
-handle this anyway without any changes.
+I'm ready! :) (Subject updated)
 
-> - There is no summary line (to help humans). For example, the kselftest
->   API produces a final pass/fail report.
+> This would also be a good opportunity to document the "standard" KUnit
+> boilerplate help text in the Kconfig options.
 
-Currently, we're relying on the kunit.py script to produce this, but
-it shouldn't be impossible to add to the kernel, particularly once the
-"KUnit Executor" changes mentioned above land.
+Ah yeah, good idea.
 
-> Taken together, I was expecting the output to be:
->
-> [   36.611358] # TAP version 14
-> [   36.611953] # 1..1
-> [   36.611958] # # TAP version 14
-> [   36.611954] # # 1..3
-> ...
-> [   36.622914] # # # overflow_calculation_test: s64: 21 arithmetic tests
-> [   36.624020] # # ok 1 - overflow_calculation_test
-> ...
-> [   36.731096] # # # overflow_shift_test: ok: (s64)(0 << 63) == 0
-> [   36.731840] # # ok 2 - overflow_shift_test
-> ...
-> [   36.750294] kunit_try_catch: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0xcc0(GFP_KERNEL), nodemask=(null),cpuset=/,mems_allowed=0
-> ...
-> [   36.805350] # # # overflow_allocation_test: devm_kzalloc detected saturation
-> [   36.807763] # # ok 3 - overflow_allocation_test
-> [   36.807763] # # # overflow: PASS
-> [   36.807765] # ok 1 - overflow
-> [   36.807767] # # kunit: PASS
->
-> But I assume there are threads on this that I've not read... :)
->
-
-These discussions all seem to be coming to a head now, so this is
-probably just the kick we need to prioritise this a bit more. The KTAP
-thread hasn't covered all of these (particularly the subtest stuff)
-yet, so I confess I hadn't realised the extent of the divergence
-between KUnit and kselftest here.
-
-Cheers,
--- David
+-- 
+Kees Cook
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
