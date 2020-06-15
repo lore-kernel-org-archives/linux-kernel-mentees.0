@@ -2,104 +2,99 @@ Return-Path: <SRS0=vsPk=74=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 360A7C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 16:34:00 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53131C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 18:37:54 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 07573207F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 16:33:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EDC5820768
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 18:37:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="C4AOwykj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 07573207F5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dpaWrqr3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDC5820768
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B835624D41;
-	Mon, 15 Jun 2020 16:33:59 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9D23E88093;
+	Mon, 15 Jun 2020 18:37:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PY8MHHA7XWaF; Mon, 15 Jun 2020 16:33:59 +0000 (UTC)
+	with ESMTP id WFTyCHT8jm9y; Mon, 15 Jun 2020 18:37:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E5728203B8;
-	Mon, 15 Jun 2020 16:33:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1EA5B87FBE;
+	Mon, 15 Jun 2020 18:37:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D5763C0888;
-	Mon, 15 Jun 2020 16:33:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F499C0888;
+	Mon, 15 Jun 2020 18:37:53 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 489A5C016E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B6670C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 16:33:57 +0000 (UTC)
+ Mon, 15 Jun 2020 18:37:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0BF4224D41
+ by silver.osuosl.org (Postfix) with ESMTP id 8469C24F76
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 16:33:57 +0000 (UTC)
+ Mon, 15 Jun 2020 18:37:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tXFmAHIk4Uvm
+ with ESMTP id bPQ5Wz1mOwiO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 16:33:53 +0000 (UTC)
+ Mon, 15 Jun 2020 18:37:50 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com
- [209.85.219.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 90050203B8
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 852F124E4B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 16:33:53 +0000 (UTC)
-Received: by mail-qv1-f68.google.com with SMTP id e2so8030365qvw.7
+ Mon, 15 Jun 2020 18:37:50 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id u8so200224pje.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 09:33:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=DyQ9X+CHS1SbCZvi5JD/ErZwYHtp+v8iH4fr/ScY52w=;
- b=C4AOwykjBsPT6pKnY+hXtp39Kmr6gtq4gDm7K6Z74U+ZNCtJOjUSpj3bIH7cVR0LqA
- RoUCurTh+rURQM/ZR4ygWRtfhmA3n5kfffLc01eIxcj/0aGRqIsOBkT8sUb77MAJK7Xz
- OisRXR8OKn0QIEwELDc6BQRhqPFD6TzrM5N0LL1nQ/jourBpdnQEIcN3FwU+UiSL6124
- 6fXFxhrWHCldh1IadWF3LiIoZqJ53nP4vYa9P7hzytZuWUmWBLeld32fOcD409DHI7pG
- qWnWAnhnR0sXkwSifTAQBdmrLNL0SiGig78/sn9Qx25FgP6/vFjj9J1CQjvmtzqS+gkX
- 7Waw==
+ Mon, 15 Jun 2020 11:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BXOExHlseDR5lyHBcXzOZz/wvry3WqelFft9LO6SFUk=;
+ b=dpaWrqr3z78F+xpH0gnmbE6vvjL2dNQiiHQAgD5yKHAMh27qX8+aCvXaXKOUToLdIQ
+ sh6A1RfFFvXRlslq5iAHx0a6Zv8quHnCskDIV9U6gjU/arpkc0c7br21WbGk78B6ho1g
+ 7YcMndA5241LA3xc2qlIfpxX1dol0YzIPnDHw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=DyQ9X+CHS1SbCZvi5JD/ErZwYHtp+v8iH4fr/ScY52w=;
- b=MqZWfV1Ye/urQIYQVgqRZkAxtm9tY+AMWppzjHNwfMT3CJoLW/++TdOGpGtDfzGhrW
- 6mEYmIxot1YShF7y07KVP8LZCsuM1YKT2OPIvggOxSK3oIvnzF7oW27S9mlaJcx8rPqO
- qF+XxnxpZVV1R2QCOTW9x8d0lT23lhvwaXSzq8/gRlXaRsATsB8EpU1WLEh1bChXuJTZ
- 3qYG5WtabukuMIQzSLeK9oL62THdm0nxlf6Ie/uQ1P9tjJbeTiZmQEGN96Lgbt7cBFn0
- kMV0WE/POD8oJ4zRM9KjJx4Iv4hY1xM0dGhC7xrCHvqYFTwY8hk7QIfRqS5qEyaYHKf4
- tp5g==
-X-Gm-Message-State: AOAM532voriKV7ZAybjdTFnbecbEnd8wMDM7avHCe7AKCAbb1diteE89
- uQenuNQIKdZIOfwnwSIIiqKPdw==
-X-Google-Smtp-Source: ABdhPJyO/43VFF1QL1zf8f7VKdmUjzSRiSNFeHxeop6ApwS13C/gHwt/b15Uc/m5ORglfdyrvvI8Vw==
-X-Received: by 2002:a0c:e9cd:: with SMTP id q13mr26164373qvo.23.1592238832266; 
- Mon, 15 Jun 2020 09:33:52 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id h19sm10770272qkl.49.2020.06.15.09.33.49
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BXOExHlseDR5lyHBcXzOZz/wvry3WqelFft9LO6SFUk=;
+ b=fNIeUBV+pHmOcsMlKCNT/9R70DpRIjiDxBhQV2Uy+t959joVbeSiRKw3/1MMb966ZX
+ TlyRLs34695ZzDgmcJiAsYbej9HgNACpyVIAfG1xdPFI2EvloQ+go7H2Cxu98JD62Uoy
+ oKYogS57P6vMEK80u0DkQrxVH9rZxIIYgcDG/rOtF8VYWr0ocFT1UKoYprG2thCQVTrQ
+ dAcf7YUnmEn2avSP3kZQEPdHINS4oMgIcSN5vZamdjg6KyWIOEz5680lvoMWFIGKuRwI
+ wBHBjlHNHq34MQriyN6eDyQgHJmz8eX5xJzgDiAj+l5+nueaPYJEzCHE2z4XgF9RDmS9
+ d1lg==
+X-Gm-Message-State: AOAM533mo/UXTfNe5NrzojKUkAraw1fIaa/w7wOqzoPp5qscajmicZYV
+ 1UtXTD7EUbwosDHzpONAoRtM0g==
+X-Google-Smtp-Source: ABdhPJzOmBD8Hz6oTM7AnVhELxZHQ6n3SqTyEwjfJ4bmPUbdCEr5ZOSF2osjWYz/O569gQqlA9YE7A==
+X-Received: by 2002:a17:902:710e:: with SMTP id
+ a14mr23411950pll.199.1592246270133; 
+ Mon, 15 Jun 2020 11:37:50 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id i22sm14427227pfo.92.2020.06.15.11.37.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 09:33:51 -0700 (PDT)
-Message-ID: <b16c0402d866f8a8d5b135086ad93a5a2608e939.camel@massaru.org>
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: David Gow <davidgow@google.com>
-Date: Mon, 15 Jun 2020 13:33:48 -0300
-In-Reply-To: <CABVgOSkMv22GDGin8GCqq4Vd=Bff7-VzEycmzKhUeKj9tErD7Q@mail.gmail.com>
+ Mon, 15 Jun 2020 11:37:49 -0700 (PDT)
+Date: Mon, 15 Jun 2020 11:37:48 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Vitor Massaru Iha <vitor@massaru.org>
+Message-ID: <202006151134.36BAA57@keescook>
 References: <20200611215501.213058-1-vitor@massaru.org>
- <CABVgOSkMv22GDGin8GCqq4Vd=Bff7-VzEycmzKhUeKj9tErD7Q@mail.gmail.com>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+ <202006121403.CF8D57C@keescook>
+ <0c9d09065dca0b71466600e68b64142402a98d24.camel@massaru.org>
 MIME-Version: 1.0
-Cc: Kees Cook <keescook@chromium.org>, linux@rasmusvillemoes.dk,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
+Content-Disposition: inline
+In-Reply-To: <0c9d09065dca0b71466600e68b64142402a98d24.camel@massaru.org>
+Cc: linux@rasmusvillemoes.dk, brendanhiggins@google.com,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
 Subject: Re: [Linux-kernel-mentees] [PATCH] lib: kunit_test_overflow: add
  KUnit test of check_*_overflow functions
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -119,45 +114,42 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, 2020-06-13 at 14:56 +0800, David Gow wrote:
-> On Fri, Jun 12, 2020 at 5:55 AM Vitor Massaru Iha <vitor@massaru.org>
-> wrote:
-> > This adds the convertion of the runtime tests of check_*_overflow
-> > fuctions,
-> > from `lib/test_overflow.c`to KUnit tests.
+On Mon, Jun 15, 2020 at 01:30:42PM -0300, Vitor Massaru Iha wrote:
+> On Fri, 2020-06-12 at 15:36 -0700, Kees Cook wrote:
+> > Why drop the __initconst?
 > 
-> Nit: couple of minor typos here: convertion -> conversion, and
-> functions -> functions
+> I removed __initconst because of these warnings below, as it is used
+> for the kernel during the module initialization, and I do not use the
+> module initialization in this tests. Does this have any side effects in
+> these tests?
 > 
-> > The log similar to the one seen in dmesg running test_overflow can
-> > be
-> > seen in `test.log`.
+> WARNING: modpost: vmlinux.o(.text.unlikely+0x131b7): Section mismatch
+> in reference from the function test_s8_overflow() to the variable
+> .init.rodata:s8_tests
+> The function test_s8_overflow() references
+> the variable __initconst s8_tests.
+> This is often because test_s8_overflow lacks a __initconst 
+> annotation or the annotation of s8_tests is wrong.
+
+Ah, right. I assume there are build modes where the tests don't only
+live in the __init section any more due to how Kunit does its runtime?
+(Before all the tests ran from __init via module_init(), IIRC.)
+
+> > So, yes! I like it. :) Most of my comments here have nothing to do with
+> > specifically this patch (sorry)! But I'd love to see a v2.
 > > 
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> > Thanks for doing this! I'm glad to see more TAP output. :)
 > 
-> I've tested that this builds and runs on my system, and it all seems
-> to be working fine!
-> 
-> Tested-by: David Gow <davidgow@google.com>
-> 
-> > ---
-> >  lib/Kconfig.debug         |  17 ++
-> >  lib/Makefile              |   1 +
-> >  lib/kunit_overflow_test.c | 590
-> > ++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 608 insertions(+)
-> >  create mode 100644 lib/kunit_overflow_test.c
-> 
-> Echoing what Brendan and Kees mentioned, it'd be nicer to have this
-> replace the existing test, both because there's no need for redundant
-> tests (one will get out-of-date), and so that we can have a nice diff
-> showing the changes made as part of the conversion.
-> 
-> Cheers,
-> -- David
+> Thanks Kees, I'm learning a lot from you, and as I said privately with
+> Brendan, I've never seen so much macro in a code. I learned a lot from
+> it.
 
-Thank you David, I will fix your suggestions.
+Heh, yes, for that I must beg forgiveness. ;) The macros are rather
+wild, but it seemed the best way to avoid a ton of cut/paste code
+duplication.
 
+-- 
+Kees Cook
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
