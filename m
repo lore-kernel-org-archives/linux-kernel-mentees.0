@@ -2,101 +2,113 @@ Return-Path: <SRS0=vsPk=74=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B82FC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:50 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03922C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 13:54:53 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4EF420738
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BBCBC207DA
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 13:54:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W/ldJLhC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4EF420738
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="ed8Hh6W1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBCBC207DA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B358724368;
-	Mon, 15 Jun 2020 08:32:49 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 92AB3885A8;
+	Mon, 15 Jun 2020 13:54:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uwtvx97D44hh; Mon, 15 Jun 2020 08:32:48 +0000 (UTC)
+	with ESMTP id oF+bETi2LSmR; Mon, 15 Jun 2020 13:54:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 67802234AC;
-	Mon, 15 Jun 2020 08:32:48 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8D71A88745;
+	Mon, 15 Jun 2020 13:54:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4904CC0888;
-	Mon, 15 Jun 2020 08:32:48 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 52776C016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7AF3DC0890;
+	Mon, 15 Jun 2020 13:54:51 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 65F4DC016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:47 +0000 (UTC)
+ Mon, 15 Jun 2020 13:54:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 322AB23B81
+ by whitealder.osuosl.org (Postfix) with ESMTP id 4EDFA87F76
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:47 +0000 (UTC)
+ Mon, 15 Jun 2020 13:54:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ODmc4zowpomg
+ with ESMTP id MwYbT1+AnEKh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:46 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by silver.osuosl.org (Postfix) with ESMTPS id B439020509
+ Mon, 15 Jun 2020 13:54:48 +0000 (UTC)
+X-Greylist: delayed 00:07:55 by SQLgrey-1.7.6
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+ [209.85.222.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E723487929
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:45 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id l17so13725611wmj.0
+ Mon, 15 Jun 2020 13:54:47 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id w1so15740385qkw.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 01:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=5N7OiTkpW2bbIsUq9FnRk9cirBO+6YwRec/YN067b5E=;
- b=W/ldJLhCdUJj5d05mtV4pK65pjgE+/YRWMSLx9Ubvv++oDnBBIL5FwSU4I1vbGgwuG
- S19kPYUbfK+bbLud6LxLvZOc0qwk3cInUEb4d9luu0OT5Yo1sinR3yBNWJ03r3oP/IgL
- e+KCcuHvL8OqUgoioVPrwkT/CMV3p9DkA+8Nd12c7OI/ntMDv0QsL8hPJnyLTTYfR0Cr
- ZrTtT/JhkbNzcrB4rt+M5vguZV0YJ6NManuAQmbeZHMQXLPFltrw8ilsv/t46Go6sg+Q
- 3mUSGrAahLu1bsuV4x8nlY8jsYO7zJtvYxSvk7PXWVqVbgKDgpUb74sxtkeaIxDqkQLH
- pLZw==
+ Mon, 15 Jun 2020 06:54:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5fbwAPFhj/t9OUXsbkBLa2lLyWbmpKqf/KaN0uZtDRI=;
+ b=ed8Hh6W19/qv58dB6PJ+JDjl39VwebBT6j8EE97r3JHHDfwiJzt2hWVj16rCe6/VyG
+ TGS6SE6ptiPexO04eKRNwcc2SavSPpI4Y+CNvCCPSLOeqvoWAFB5eirFpEK6+oB0wHHn
+ YzrrGXXq34tALTQcvCQ5jV7jNVPV1gaoA7dxV+Ww8bCsTfAxqZWkLH2X+TRnp6v1UY/n
+ 5HvDJCpObIPTLoiUUvWm+Bh/6YdsUHOii7rZ0rTYrZCnagGu2eBunuySbs4KjAKcsich
+ MHcryQhOUqxOkk25chIvq/NKjlr7ebKpn+uV5+YAUDcny6vx0EfBF5i2EahuqiwvnIGH
+ ZLNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=5N7OiTkpW2bbIsUq9FnRk9cirBO+6YwRec/YN067b5E=;
- b=aNFB7oyf0DfTVtEjEVsv9PArEIN440u30TSxyvWzSeZcsCZ2EqQDpYodpTdpqQjTBC
- AoPjeGRbrLP6R+bxxoDiyCNEpeXds7jock9z+zZqcXMLRuD5waZ4Pb21dbb7gFigxUFP
- eAAwFT5UKz5Zker5kNOZyRzWzeccNXskS4IASiFs06gb5l09lELqudvemIIpKDxIp6sj
- XC4S72dmkuD8JYExrlQQmRvJpArHrVvqz2sC/TEoqKi3lSEE1VGSo6MTY3SXUQpiLNbo
- i5VYZExCW6YSxXF+AdLx643+OrUWrohR5D3NBCFqPE9BjiJl/AC20wlqucvzq3Wrql9q
- ZyaA==
-X-Gm-Message-State: AOAM533LQXkfeftlfjztUCnjx5C5A+6uLmdmq6h3Cfrer2V7rlUr25ah
- CKG9tM/o+nYzgXlurHxxgj8=
-X-Google-Smtp-Source: ABdhPJyDOmxsWcHptOCXrlz2DfdRs3ToWlKFmU7sWKf2RWgc6Jg6hrJsDIU8bNUTt2KgGgbCPx8bcA==
-X-Received: by 2002:a7b:c76a:: with SMTP id x10mr12117201wmk.16.1592209964155; 
- Mon, 15 Jun 2020 01:32:44 -0700 (PDT)
-Received: from net.saheed (54006BB0.dsl.pool.telekom.hu. [84.0.107.176])
- by smtp.gmail.com with ESMTPSA id z206sm21954745wmg.30.2020.06.15.01.32.43
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5fbwAPFhj/t9OUXsbkBLa2lLyWbmpKqf/KaN0uZtDRI=;
+ b=aXF9IlTNhedDzYWrWvj45if5EGhT6/M7XunVbiLm3P8HIDhpgGqU4O0bhC29s9Gn/n
+ Co+3+FdOt0bDyQlCI8ml1WLjl0BPMR88Vlloid9IDtQZ0ltpfOTDSwy6X0CfNt3vMOD5
+ A+a4a/EGG4hmjzpJ2QNwJKSPYBVU9IuyAMDiM4F9psFg24j/7ZH0vqlTtuxawxUcX/CR
+ SD8OzEz8qOgvIpSMVHE/wCauog/kl1Z3/2t9GoXGw2VBnBgcIap+RbHnuhMlE5zG3Spk
+ XcL3gog63F+ZaZp250aRnR4NLDl9QuHWuQXO8/Y0kBReAIEQnws6mDsmh4/lH5OpMhJQ
+ zaUA==
+X-Gm-Message-State: AOAM533rhnvNrSFOD/PgiPKCPdMlww6uppjqvZZtAu5zOmYzxSSbH6H+
+ c1YLIvDPspHzJu0iZ3QZtwj+JQovVdU=
+X-Google-Smtp-Source: ABdhPJySxHjK9XxwDJnFQN4DvhgJhASkwz/NHGoO8h3oIBKNCRR+t8iWEXyH5O1Z018vigBdL2M9HQ==
+X-Received: by 2002:a37:bfc1:: with SMTP id
+ p184mr15321144qkf.207.1592228811377; 
+ Mon, 15 Jun 2020 06:46:51 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id 124sm10100237qkn.45.2020.06.15.06.46.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 01:32:43 -0700 (PDT)
-From: refactormyself@gmail.com
-To: helgaas@kernel.org
-Date: Mon, 15 Jun 2020 09:32:25 +0200
-Message-Id: <20200615073225.24061-9-refactormyself@gmail.com>
-X-Mailer: git-send-email 2.18.2
-In-Reply-To: <20200615073225.24061-1-refactormyself@gmail.com>
+ Mon, 15 Jun 2020 06:46:50 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93) (envelope-from <jgg@ziepe.ca>)
+ id 1jkpRq-008aTM-EI; Mon, 15 Jun 2020 10:46:50 -0300
+Date: Mon, 15 Jun 2020 10:46:50 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: refactormyself@gmail.com
+Message-ID: <20200615134650.GA2030477@ziepe.ca>
 References: <20200615073225.24061-1-refactormyself@gmail.com>
-Cc: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200615073225.24061-1-refactormyself@gmail.com>
+Cc: Don Brace <don.brace@microsemi.com>, Sam Bobroff <sbobroff@linux.ibm.com>,
+ Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-scsi@vger.kernel.org,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, linux-rdma@vger.kernel.org,
+ linux-pci@vger.kernel.org, Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ Russell Currey <ruscur@russell.cc>, esc.storagedev@microsemi.com,
+ Doug Ledford <dledford@redhat.com>, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, helgaas@kernel.org,
+ Oliver O'Halloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 8/8] PCI: Align return values of
-	PCIe capability and PCI accessors
+Subject: Re: [Linux-kernel-mentees] [PATCH 0/8 v2] PCI: Align return values
+ of PCIe capability and PCI accessors
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,73 +120,45 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+On Mon, Jun 15, 2020 at 09:32:17AM +0200, refactormyself@gmail.com wrote:
+> From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+> 
+> 
+> PATCH 1/8 to 7/8:
+> PCIBIOS_ error codes have positive values and they are passed down the
+> call heirarchy from accessors. For functions which are meant to return
+> only a negative value on failure, passing on this value is a bug.
+> To mitigate this, call pcibios_err_to_errno() before passing on return
+> value from PCIe capability accessors call heirarchy. This function
+> converts any positive PCIBIOS_ error codes to negative generic error
+> values.
+> 
+> PATCH 8/8:
+> The PCIe capability accessors can return 0, -EINVAL, or any PCIBIOS_ error
+> code. The pci accessor on the other hand can only return 0 or any PCIBIOS_
+> error code.This inconsistency among these accessor makes it harder for
+> callers to check for errors.
+> Return PCIBIOS_BAD_REGISTER_NUMBER instead of -EINVAL in all PCIe
+> capability accessors.
+> 
+> MERGING:
+> These may all be merged via the PCI tree, since it is a collection of
+> similar fixes. This way they all get merged at once.
 
-The PCIe capability accessors can return 0, -EINVAL, or any PCIBIOS_ error
-code. PCIBIOS_ error codes have positive values. The PCI accessor on the
-other hand can only return 0 or any PCIBIOS_ error code. This
-inconsistency among these accessor makes it harder for callers to check 
-for errors.
+I prefer this not happen for active trees, it just risks needless
+merge conflicts.
 
-Return PCIBIOS_BAD_REGISTER_NUMBER instead of -EINVAL in all PCIe
-capability accessors.
+I will take the hfi1 patches at least, let me know when they are
+reviewed
 
-Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
-Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
----
- drivers/pci/access.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/pci/access.c b/drivers/pci/access.c
-index 79c4a2ef269a..cbb3804903a0 100644
---- a/drivers/pci/access.c
-+++ b/drivers/pci/access.c
-@@ -409,7 +409,7 @@ int pcie_capability_read_word(struct pci_dev *dev, int pos, u16 *val)
- 
- 	*val = 0;
- 	if (pos & 1)
--		return -EINVAL;
-+		return PCIBIOS_BAD_REGISTER_NUMBER;
- 
- 	if (pcie_capability_reg_implemented(dev, pos)) {
- 		ret = pci_read_config_word(dev, pci_pcie_cap(dev) + pos, val);
-@@ -444,7 +444,7 @@ int pcie_capability_read_dword(struct pci_dev *dev, int pos, u32 *val)
- 
- 	*val = 0;
- 	if (pos & 3)
--		return -EINVAL;
-+		return PCIBIOS_BAD_REGISTER_NUMBER;
- 
- 	if (pcie_capability_reg_implemented(dev, pos)) {
- 		ret = pci_read_config_dword(dev, pci_pcie_cap(dev) + pos, val);
-@@ -469,7 +469,7 @@ EXPORT_SYMBOL(pcie_capability_read_dword);
- int pcie_capability_write_word(struct pci_dev *dev, int pos, u16 val)
- {
- 	if (pos & 1)
--		return -EINVAL;
-+		return PCIBIOS_BAD_REGISTER_NUMBER;
- 
- 	if (!pcie_capability_reg_implemented(dev, pos))
- 		return 0;
-@@ -481,7 +481,7 @@ EXPORT_SYMBOL(pcie_capability_write_word);
- int pcie_capability_write_dword(struct pci_dev *dev, int pos, u32 val)
- {
- 	if (pos & 3)
--		return -EINVAL;
-+		return PCIBIOS_BAD_REGISTER_NUMBER;
- 
- 	if (!pcie_capability_reg_implemented(dev, pos))
- 		return 0;
--- 
-2.18.2
-
+Thanks,
+Jason
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
