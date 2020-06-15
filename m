@@ -5,101 +5,98 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A29C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:47 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B82FC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 86AB220738
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E4EF420738
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LROVgM3U"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86AB220738
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W/ldJLhC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4EF420738
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4D1D588975;
-	Mon, 15 Jun 2020 08:32:47 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B358724368;
+	Mon, 15 Jun 2020 08:32:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4hOuZ78OIA5j; Mon, 15 Jun 2020 08:32:46 +0000 (UTC)
+	with ESMTP id uwtvx97D44hh; Mon, 15 Jun 2020 08:32:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DDEF1886F8;
-	Mon, 15 Jun 2020 08:32:46 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 67802234AC;
+	Mon, 15 Jun 2020 08:32:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CC34EC0888;
-	Mon, 15 Jun 2020 08:32:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4904CC0888;
+	Mon, 15 Jun 2020 08:32:48 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0DFD1C016E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 52776C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:45 +0000 (UTC)
+ Mon, 15 Jun 2020 08:32:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id DC1DF23337
+ by silver.osuosl.org (Postfix) with ESMTP id 322AB23B81
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:44 +0000 (UTC)
+ Mon, 15 Jun 2020 08:32:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9bR46tktsj6r
+ with ESMTP id ODmc4zowpomg
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:43 +0000 (UTC)
+ Mon, 15 Jun 2020 08:32:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by silver.osuosl.org (Postfix) with ESMTPS id 21B2920509
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id B439020509
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:43 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id d128so13886478wmc.1
+ Mon, 15 Jun 2020 08:32:45 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id l17so13725611wmj.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 01:32:43 -0700 (PDT)
+ Mon, 15 Jun 2020 01:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=LITx0hRUIi2s0zyE1t9RreKX12TROzF0jbPsYEw7a6g=;
- b=LROVgM3UbJsunBVTDQc6YnuCBFFfAkZvrZXlxcwnUE8Y5GVCb7hTTl/WDNhOZy+6Xu
- EaGowoNKFFiyujkvYmfaAGxdQPKziOwvy+LQzF3eBQb9l96HzHbmpfaVgHHnPADSWE2H
- I6Cet/NvMy8f/JfrVkwqIR5JbuOgl4gJBb48gK/f/Tgn/4rImbWs36a2vJtRYiuQ5S4C
- hj9jr1We9pK/qchTQGJYh/Y7VJKlyohhmh3H1wobfz8Pa80zCSQppsxmZdoatZCQSPMX
- 1HLURZqPWoo+gKsZ6+ptU30rJmOO6mBKLhB7E8fSt7K5HOMQ+cddKgmHu8dtWVYLduFz
- 3x5g==
+ bh=5N7OiTkpW2bbIsUq9FnRk9cirBO+6YwRec/YN067b5E=;
+ b=W/ldJLhCdUJj5d05mtV4pK65pjgE+/YRWMSLx9Ubvv++oDnBBIL5FwSU4I1vbGgwuG
+ S19kPYUbfK+bbLud6LxLvZOc0qwk3cInUEb4d9luu0OT5Yo1sinR3yBNWJ03r3oP/IgL
+ e+KCcuHvL8OqUgoioVPrwkT/CMV3p9DkA+8Nd12c7OI/ntMDv0QsL8hPJnyLTTYfR0Cr
+ ZrTtT/JhkbNzcrB4rt+M5vguZV0YJ6NManuAQmbeZHMQXLPFltrw8ilsv/t46Go6sg+Q
+ 3mUSGrAahLu1bsuV4x8nlY8jsYO7zJtvYxSvk7PXWVqVbgKDgpUb74sxtkeaIxDqkQLH
+ pLZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=LITx0hRUIi2s0zyE1t9RreKX12TROzF0jbPsYEw7a6g=;
- b=VD+axES2vZY1dJMDwwNRYP1pJVJkkj5rbKONgyUcQ9hUImI6SpftinRQUpxOG2Qm6g
- XAIxzd4z6EjVE1ttrdgL4whUaXh5xE0PuWzYh8/oJK+zEwVHBsmC8BBnJswRrKeBYHjZ
- FS4F53Lg3PiGOM3REzSv8W6mPVWDsCBiEGIKa4NJoWnIiXU/IBGyDt444mEpOgUWRtCz
- kBFhy8pfsukyy8Op6kMB4H6m3QAuOSocKh/SJWBRSNInhuiyJL85BvHPx4daf+V2yxCi
- X4bE1DGIImZzCS0khxD1szB+Tzlerr6kHSipGvBUkhseuxidwxWE+3e2UKo0XvXlPIS6
- Ed0Q==
-X-Gm-Message-State: AOAM532v/wUw6+zeLmdESLtQ5B0mWSc8VL+GQFmrI4AeyYJiiIus06D7
- MdDwh5K9hLiO6HgRNAQ/8PI=
-X-Google-Smtp-Source: ABdhPJw04FZmglvBQAYa1v3ByqfYKXiOGDZXpDs1UTQSt8C8BmZt7jyni4XR4+j0NGd7DZy+4KCTMw==
-X-Received: by 2002:a1c:678a:: with SMTP id
- b132mr11656022wmc.122.1592209961579; 
- Mon, 15 Jun 2020 01:32:41 -0700 (PDT)
+ bh=5N7OiTkpW2bbIsUq9FnRk9cirBO+6YwRec/YN067b5E=;
+ b=aNFB7oyf0DfTVtEjEVsv9PArEIN440u30TSxyvWzSeZcsCZ2EqQDpYodpTdpqQjTBC
+ AoPjeGRbrLP6R+bxxoDiyCNEpeXds7jock9z+zZqcXMLRuD5waZ4Pb21dbb7gFigxUFP
+ eAAwFT5UKz5Zker5kNOZyRzWzeccNXskS4IASiFs06gb5l09lELqudvemIIpKDxIp6sj
+ XC4S72dmkuD8JYExrlQQmRvJpArHrVvqz2sC/TEoqKi3lSEE1VGSo6MTY3SXUQpiLNbo
+ i5VYZExCW6YSxXF+AdLx643+OrUWrohR5D3NBCFqPE9BjiJl/AC20wlqucvzq3Wrql9q
+ ZyaA==
+X-Gm-Message-State: AOAM533LQXkfeftlfjztUCnjx5C5A+6uLmdmq6h3Cfrer2V7rlUr25ah
+ CKG9tM/o+nYzgXlurHxxgj8=
+X-Google-Smtp-Source: ABdhPJyDOmxsWcHptOCXrlz2DfdRs3ToWlKFmU7sWKf2RWgc6Jg6hrJsDIU8bNUTt2KgGgbCPx8bcA==
+X-Received: by 2002:a7b:c76a:: with SMTP id x10mr12117201wmk.16.1592209964155; 
+ Mon, 15 Jun 2020 01:32:44 -0700 (PDT)
 Received: from net.saheed (54006BB0.dsl.pool.telekom.hu. [84.0.107.176])
- by smtp.gmail.com with ESMTPSA id z206sm21954745wmg.30.2020.06.15.01.32.40
+ by smtp.gmail.com with ESMTPSA id z206sm21954745wmg.30.2020.06.15.01.32.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 01:32:41 -0700 (PDT)
+ Mon, 15 Jun 2020 01:32:43 -0700 (PDT)
 From: refactormyself@gmail.com
 To: helgaas@kernel.org
-Date: Mon, 15 Jun 2020 09:32:23 +0200
-Message-Id: <20200615073225.24061-7-refactormyself@gmail.com>
+Date: Mon, 15 Jun 2020 09:32:25 +0200
+Message-Id: <20200615073225.24061-9-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200615073225.24061-1-refactormyself@gmail.com>
 References: <20200615073225.24061-1-refactormyself@gmail.com>
-Cc: Sam Bobroff <sbobroff@linux.ibm.com>,
- Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
- Russell Currey <ruscur@russell.cc>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, Oliver O'Halloran <oohall@gmail.com>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 6/8] PCI/AER: Convert PCIBIOS_*
-	errors to generic -E* errors
+Cc: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v2 8/8] PCI: Align return values of
+	PCIe capability and PCI accessors
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,45 +117,61 @@ Sender: "Linux-kernel-mentees"
 
 From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 
-pci_enable_pcie_error_reporting() return PCIBIOS_ error codes which were
-passed on down the call heirarchy from PCIe capability accessors.
+The PCIe capability accessors can return 0, -EINVAL, or any PCIBIOS_ error
+code. PCIBIOS_ error codes have positive values. The PCI accessor on the
+other hand can only return 0 or any PCIBIOS_ error code. This
+inconsistency among these accessor makes it harder for callers to check 
+for errors.
 
-PCIBIOS_ error codes have positive values. Passing on these values is
-inconsistent with functions which return only a negative value on failure.
-
-Before passing on the return value of PCIe capability accessors, call
-pcibios_err_to_errno() to convert any positive PCIBIOS_ error codes to
-negative generic error values.
+Return PCIBIOS_BAD_REGISTER_NUMBER instead of -EINVAL in all PCIe
+capability accessors.
 
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 ---
- drivers/pci/pcie/aer.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/pci/access.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index f4274d301235..95d480a52078 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -349,13 +349,17 @@ bool aer_acpi_firmware_first(void)
+diff --git a/drivers/pci/access.c b/drivers/pci/access.c
+index 79c4a2ef269a..cbb3804903a0 100644
+--- a/drivers/pci/access.c
++++ b/drivers/pci/access.c
+@@ -409,7 +409,7 @@ int pcie_capability_read_word(struct pci_dev *dev, int pos, u16 *val)
  
- int pci_enable_pcie_error_reporting(struct pci_dev *dev)
+ 	*val = 0;
+ 	if (pos & 1)
+-		return -EINVAL;
++		return PCIBIOS_BAD_REGISTER_NUMBER;
+ 
+ 	if (pcie_capability_reg_implemented(dev, pos)) {
+ 		ret = pci_read_config_word(dev, pci_pcie_cap(dev) + pos, val);
+@@ -444,7 +444,7 @@ int pcie_capability_read_dword(struct pci_dev *dev, int pos, u32 *val)
+ 
+ 	*val = 0;
+ 	if (pos & 3)
+-		return -EINVAL;
++		return PCIBIOS_BAD_REGISTER_NUMBER;
+ 
+ 	if (pcie_capability_reg_implemented(dev, pos)) {
+ 		ret = pci_read_config_dword(dev, pci_pcie_cap(dev) + pos, val);
+@@ -469,7 +469,7 @@ EXPORT_SYMBOL(pcie_capability_read_dword);
+ int pcie_capability_write_word(struct pci_dev *dev, int pos, u16 val)
  {
-+	int rc;
-+
- 	if (pcie_aer_get_firmware_first(dev))
- 		return -EIO;
+ 	if (pos & 1)
+-		return -EINVAL;
++		return PCIBIOS_BAD_REGISTER_NUMBER;
  
- 	if (!dev->aer_cap)
- 		return -EIO;
+ 	if (!pcie_capability_reg_implemented(dev, pos))
+ 		return 0;
+@@ -481,7 +481,7 @@ EXPORT_SYMBOL(pcie_capability_write_word);
+ int pcie_capability_write_dword(struct pci_dev *dev, int pos, u32 val)
+ {
+ 	if (pos & 3)
+-		return -EINVAL;
++		return PCIBIOS_BAD_REGISTER_NUMBER;
  
--	return pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
-+	rc = pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
-+
-+	return pcibios_err_to_errno(rc);
- }
- EXPORT_SYMBOL_GPL(pci_enable_pcie_error_reporting);
- 
+ 	if (!pcie_capability_reg_implemented(dev, pos))
+ 		return 0;
 -- 
 2.18.2
 
