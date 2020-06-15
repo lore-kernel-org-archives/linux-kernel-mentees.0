@@ -2,102 +2,104 @@ Return-Path: <SRS0=vsPk=74=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CF40C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 16:30:57 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 360A7C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 16:34:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A48F72078A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 16:30:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 07573207F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 16:33:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="rkF7isWp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A48F72078A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="C4AOwykj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 07573207F5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A0A1988C4B;
-	Mon, 15 Jun 2020 16:30:55 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B835624D41;
+	Mon, 15 Jun 2020 16:33:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cKIn4Jfz-Wyq; Mon, 15 Jun 2020 16:30:54 +0000 (UTC)
+	with ESMTP id PY8MHHA7XWaF; Mon, 15 Jun 2020 16:33:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 58CEF88C3F;
-	Mon, 15 Jun 2020 16:30:54 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E5728203B8;
+	Mon, 15 Jun 2020 16:33:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ED64C0888;
-	Mon, 15 Jun 2020 16:30:54 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 375F9C016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D5763C0888;
+	Mon, 15 Jun 2020 16:33:58 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 489A5C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 16:30:53 +0000 (UTC)
+ Mon, 15 Jun 2020 16:33:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2602E88C3F
+ by silver.osuosl.org (Postfix) with ESMTP id 0BF4224D41
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 16:30:53 +0000 (UTC)
+ Mon, 15 Jun 2020 16:33:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Y38096Eei0E8
+ with ESMTP id tXFmAHIk4Uvm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 16:30:51 +0000 (UTC)
+ Mon, 15 Jun 2020 16:33:53 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
- [209.85.219.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5D7EE88C5C
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com
+ [209.85.219.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id 90050203B8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 16:30:51 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id g11so8040228qvs.2
+ Mon, 15 Jun 2020 16:33:53 +0000 (UTC)
+Received: by mail-qv1-f68.google.com with SMTP id e2so8030365qvw.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 09:30:51 -0700 (PDT)
+ Mon, 15 Jun 2020 09:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=message-id:subject:from:to:cc:date:in-reply-to:references
  :user-agent:mime-version:content-transfer-encoding;
- bh=T8XFqDYnmxkpwPdlTRMyXPHAi5pNbZIIDoFByY1jdiM=;
- b=rkF7isWpOt0rAgHnmkAyQXznO3ekA5SFwRBS/Vn7y2AOUTR8wIGwo0MmG60/2vy5nx
- mKMLDML3lWQALNieyXml2ZDhObyKbV2rE3D/ySSskQPKm25PF0L1l6qPTJaVwN/Tvvp3
- inex0ckVaS1JfrOcU0sf644L42RZmAQ+wCqGr74uKzdvzJz/urBKFCPKNUJk/V6RFm5A
- YmAVLWi95644wXywwELtHc792uwjJeUsx0tmGq9zs1XDHQGstSnIsjDmUHMOWQmr3i2x
- sWCUW1V3tNqBEPa9Q2zMgc/0gFICWc2sRLcImEwZpqtzaR6xhDZiV4DQmS7dwSlGAFGH
- NlmA==
+ bh=DyQ9X+CHS1SbCZvi5JD/ErZwYHtp+v8iH4fr/ScY52w=;
+ b=C4AOwykjBsPT6pKnY+hXtp39Kmr6gtq4gDm7K6Z74U+ZNCtJOjUSpj3bIH7cVR0LqA
+ RoUCurTh+rURQM/ZR4ygWRtfhmA3n5kfffLc01eIxcj/0aGRqIsOBkT8sUb77MAJK7Xz
+ OisRXR8OKn0QIEwELDc6BQRhqPFD6TzrM5N0LL1nQ/jourBpdnQEIcN3FwU+UiSL6124
+ 6fXFxhrWHCldh1IadWF3LiIoZqJ53nP4vYa9P7hzytZuWUmWBLeld32fOcD409DHI7pG
+ qWnWAnhnR0sXkwSifTAQBdmrLNL0SiGig78/sn9Qx25FgP6/vFjj9J1CQjvmtzqS+gkX
+ 7Waw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:user-agent:mime-version:content-transfer-encoding;
- bh=T8XFqDYnmxkpwPdlTRMyXPHAi5pNbZIIDoFByY1jdiM=;
- b=i+RpeI4GElzx750hacM7an09aKBdKFcGYknrGvtfOUTDgevDs1FmBh3hSJB0YpOjK/
- 9sR/JL6Gu7rgDVV9VGagNZckoQBruTUjXeZ3uatnAoIekilY4H8ZSxpfTtUbP75DoYi5
- pclxTRJN98gcg6HrmQtfHAZxyjcgEjw0MVcNiTth5mqxcW/4cIsZuGvJ+GlKF2r8/8I8
- vWmQ3uCk/XtAIP04mlwIPZS76K+Si3NFrPSzZQz6wzCcTZdThrTuigm/jAoh0/rYz5iQ
- NKv5/owD3nwTkBaAiUcMOrcg7E9PDryKGoXmAQc3qjGsXPC/tRmhqpIVB5kAORE5ysR5
- rz6w==
-X-Gm-Message-State: AOAM5314eX71R6YhEavf9SYOOrVG5s4/hPty1KXJSjRvzYW5SmU6hKv0
- R4BH+qGMHBZ2Q+Da+7i8kAVONw==
-X-Google-Smtp-Source: ABdhPJzgHoFg4aOYjgYSeonvCC1doXaRe6Xth+QWB9XCoDwjr97ASXbsfdVKMAoNPZ218N8mb3lqiQ==
-X-Received: by 2002:a0c:910c:: with SMTP id q12mr24831589qvq.22.1592238649906; 
- Mon, 15 Jun 2020 09:30:49 -0700 (PDT)
+ bh=DyQ9X+CHS1SbCZvi5JD/ErZwYHtp+v8iH4fr/ScY52w=;
+ b=MqZWfV1Ye/urQIYQVgqRZkAxtm9tY+AMWppzjHNwfMT3CJoLW/++TdOGpGtDfzGhrW
+ 6mEYmIxot1YShF7y07KVP8LZCsuM1YKT2OPIvggOxSK3oIvnzF7oW27S9mlaJcx8rPqO
+ qF+XxnxpZVV1R2QCOTW9x8d0lT23lhvwaXSzq8/gRlXaRsATsB8EpU1WLEh1bChXuJTZ
+ 3qYG5WtabukuMIQzSLeK9oL62THdm0nxlf6Ie/uQ1P9tjJbeTiZmQEGN96Lgbt7cBFn0
+ kMV0WE/POD8oJ4zRM9KjJx4Iv4hY1xM0dGhC7xrCHvqYFTwY8hk7QIfRqS5qEyaYHKf4
+ tp5g==
+X-Gm-Message-State: AOAM532voriKV7ZAybjdTFnbecbEnd8wMDM7avHCe7AKCAbb1diteE89
+ uQenuNQIKdZIOfwnwSIIiqKPdw==
+X-Google-Smtp-Source: ABdhPJyO/43VFF1QL1zf8f7VKdmUjzSRiSNFeHxeop6ApwS13C/gHwt/b15Uc/m5ORglfdyrvvI8Vw==
+X-Received: by 2002:a0c:e9cd:: with SMTP id q13mr26164373qvo.23.1592238832266; 
+ Mon, 15 Jun 2020 09:33:52 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id r37sm12717454qtk.34.2020.06.15.09.30.45
+ by smtp.gmail.com with ESMTPSA id h19sm10770272qkl.49.2020.06.15.09.33.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 09:30:47 -0700 (PDT)
-Message-ID: <0c9d09065dca0b71466600e68b64142402a98d24.camel@massaru.org>
+ Mon, 15 Jun 2020 09:33:51 -0700 (PDT)
+Message-ID: <b16c0402d866f8a8d5b135086ad93a5a2608e939.camel@massaru.org>
 From: Vitor Massaru Iha <vitor@massaru.org>
-To: Kees Cook <keescook@chromium.org>
-Date: Mon, 15 Jun 2020 13:30:42 -0300
-In-Reply-To: <202006121403.CF8D57C@keescook>
+To: David Gow <davidgow@google.com>
+Date: Mon, 15 Jun 2020 13:33:48 -0300
+In-Reply-To: <CABVgOSkMv22GDGin8GCqq4Vd=Bff7-VzEycmzKhUeKj9tErD7Q@mail.gmail.com>
 References: <20200611215501.213058-1-vitor@massaru.org>
- <202006121403.CF8D57C@keescook>
+ <CABVgOSkMv22GDGin8GCqq4Vd=Bff7-VzEycmzKhUeKj9tErD7Q@mail.gmail.com>
 User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-Cc: linux@rasmusvillemoes.dk, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
+Cc: Kees Cook <keescook@chromium.org>, linux@rasmusvillemoes.dk,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
 Subject: Re: [Linux-kernel-mentees] [PATCH] lib: kunit_test_overflow: add
  KUnit test of check_*_overflow functions
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -117,17 +119,27 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, 2020-06-12 at 15:36 -0700, Kees Cook wrote:
-> On Thu, Jun 11, 2020 at 06:55:01PM -0300, Vitor Massaru Iha wrote:
+On Sat, 2020-06-13 at 14:56 +0800, David Gow wrote:
+> On Fri, Jun 12, 2020 at 5:55 AM Vitor Massaru Iha <vitor@massaru.org>
+> wrote:
 > > This adds the convertion of the runtime tests of check_*_overflow
 > > fuctions,
 > > from `lib/test_overflow.c`to KUnit tests.
-> > 
+> 
+> Nit: couple of minor typos here: convertion -> conversion, and
+> functions -> functions
+> 
 > > The log similar to the one seen in dmesg running test_overflow can
 > > be
 > > seen in `test.log`.
 > > 
 > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> 
+> I've tested that this builds and runs on my system, and it all seems
+> to be working fine!
+> 
+> Tested-by: David Gow <davidgow@google.com>
+> 
 > > ---
 > >  lib/Kconfig.debug         |  17 ++
 > >  lib/Makefile              |   1 +
@@ -136,545 +148,15 @@ On Fri, 2020-06-12 at 15:36 -0700, Kees Cook wrote:
 > >  3 files changed, 608 insertions(+)
 > >  create mode 100644 lib/kunit_overflow_test.c
 > 
-> What tree is this based on? I can't apply it to v5.7, linux-next, nor
-> Linus's latest. I've fixed it up to apply to linux-next for now. :)
+> Echoing what Brendan and Kees mentioned, it'd be nicer to have this
+> replace the existing test, both because there's no need for redundant
+> tests (one will get out-of-date), and so that we can have a nice diff
+> showing the changes made as part of the conversion.
 > 
-> Looking at linux-next, though, I am reminded of my agony over naming:
-> 
-> obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
-> obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-> obj-$(CONFIG_OVERFLOW_KUNIT_TEST) += kunit_overflow_test.o
-> 
-> *-test
-> test_*
-> *_test
-> 
-> This has to get fixed now, and the naming convention needs to be
-> documented. For old tests, the preferred naming was test_*. For
-> kunit, I
-> think it should be kunit_* (and no trailing _test; that's redundant).
-> 
-> For for this bikeshed, I think it should be kunit_overflow.c
-> 
-> For the CONFIG name, it seems to be suggested in docs to be
-> *_KUNIT_TEST:
-> 
-> ...
-> menuconfig). From there, you can enable any KUnit tests you want:
-> they usually
-> have config options ending in ``_KUNIT_TEST``.
-> ...
-> 
-> I think much stronger language needs to be added to "Writing your
-> first
-> test" (which actually recommends the wrong thing: "config
-> MISC_EXAMPLE_TEST"). And then doesn't specify a module file name,
-> though
-> it hints at one:
-> 
-> ...
->         obj-$(CONFIG_MISC_EXAMPLE_TEST) += example-test.o
-> ...
-> 
-> So, please, let's get this documented: we really really need a single
-> naming convention for these.
-> 
-> For Kconfig in the tree, I see:
-> 
-> drivers/base/Kconfig:config PM_QOS_KUNIT_TEST
-> drivers/base/test/Kconfig:config KUNIT_DRIVER_PE_TEST
-> fs/ext4/Kconfig:config EXT4_KUNIT_TESTS
-> lib/Kconfig.debug:config SYSCTL_KUNIT_TEST
-> lib/Kconfig.debug:config OVERFLOW_KUNIT_TEST
-> lib/Kconfig.debug:config LIST_KUNIT_TEST
-> lib/Kconfig.debug:config LINEAR_RANGES_TEST
-> lib/kunit/Kconfig:menuconfig KUNIT
-> lib/kunit/Kconfig:config KUNIT_DEBUGFS
-> lib/kunit/Kconfig:config KUNIT_TEST
-> lib/kunit/Kconfig:config KUNIT_EXAMPLE_TEST
-> lib/kunit/Kconfig:config KUNIT_ALL_TESTS
-> 
-> Which is:
-> 
-> *_KUNIT_TEST
-> KUNIT_*_TEST
-> KUNIT_*_TESTS
-> *_TEST
-> 
-> Nooooo. ;)
-> 
-> If it should all be *_KUNIT_TEST, let's do that. I think just *_KUNIT
-> would be sufficient (again, adding the word "test" to "kunit" is
-> redundant). And it absolutely should not be a prefix, otherwise it'll
-> get sorted away from the thing it's named after. So my preference is
-> here would be CONFIG_OVERFLOW_KUNIT. (Yes the old convention was
-> CONFIG_TEST_*, but those things tended to be regression tests, not
-> unit
-> tests.)
-> 
-> Please please, can we fix this before we add anything more?
+> Cheers,
+> -- David
 
-Sure, I'll rewrite with _KUNIT_TEST, as David Gow suggested in the next
-emails.
-
-> 
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 1f4ab7a2bdee..72fcfe1f24a4 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -2075,6 +2075,23 @@ config SYSCTL_KUNIT_TEST
-> > 
-> >  	  If unsure, say N.
-> > 
-> > +config OVERFLOW_KUNIT_TEST
-> > +	tristate "KUnit test for overflow" if !KUNIT_ALL_TESTS
-> > +	depends on KUNIT
-> > +	default KUNIT_ALL_TESTS
-> > +	help
-> > +	  This builds the overflow KUnit tests.
-> > +
-> > +	  KUnit tests run during boot and output the results to the
-> > debug log
-> > +	  in TAP format (http://testanything.org/). Only useful for
-> > kernel devs
-> > +	  running KUnit test harness and are not for inclusion into a
-> > production
-> > +	  build.
-> > +
-> > +	  For more information on KUnit and unit tests in general
-> > please refer
-> > +	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-> > +
-> > +	  If unsure, say N.
-> > +
-> >  config LIST_KUNIT_TEST
-> >  	tristate "KUnit Test for Kernel Linked-list structures" if
-> > !KUNIT_ALL_TESTS
-> >  	depends on KUNIT
-> 
-> Regarding output:
-> 
-> [   36.611358] TAP version 14
-> [   36.611953]     # Subtest: overflow
-> [   36.611954]     1..3
-> ...
-> [   36.622914]     # overflow_calculation_test: s64: 21 arithmetic
-> tests
-> [   36.624020]     ok 1 - overflow_calculation_test
-> ...
-> [   36.731096]     # overflow_shift_test: ok: (s64)(0 << 63) == 0
-> [   36.731840]     ok 2 - overflow_shift_test
-> ...
-> [   36.750294] kunit_try_catch: vmalloc: allocation failure:
-> 18446744073709551615 bytes, mode:0xcc0(GFP_KERNEL),
-> nodemask=(null),cpuset=/,mems_allowed=0
-> ...
-> [   36.805350]     # overflow_allocation_test: devm_kzalloc detected
-> saturation
-> [   36.807763]     ok 3 - overflow_allocation_test
-> [   36.807765] ok 1 - overflow
-> 
-> A few things here....
-> 
-> - On the outer test report, there is no "plan" line (I was expecting
->   "1..1"). Technically it's optional, but it seems like the
-> information
->   is available. :)
-> 
-> - The subtest should have its own "TAP version 14" line, and it
-> should
->   be using the diagnostic line prefix for the top-level test (this is
->   what kselftest is doing).
-> 
-> - There is no way to distinguish top-level TAP output from kernel log
->   lines. I think we should stick with the existing marker, which is
->   "# ", so that kernel output has no way to be interpreted as TAP
->   details -- unless it intentionally starts adding "#"s. ;)
-> 
-> - There is no summary line (to help humans). For example, the
-> kselftest
->   API produces a final pass/fail report.
-> 
-> Taken together, I was expecting the output to be:
-> 
-> [   36.611358] # TAP version 14
-> [   36.611953] # 1..1
-> [   36.611958] # # TAP version 14
-> [   36.611954] # # 1..3
-> ...
-> [   36.622914] # # # overflow_calculation_test: s64: 21 arithmetic
-> tests
-> [   36.624020] # # ok 1 - overflow_calculation_test
-> ...
-> [   36.731096] # # # overflow_shift_test: ok: (s64)(0 << 63) == 0
-> [   36.731840] # # ok 2 - overflow_shift_test
-> ...
-> [   36.750294] kunit_try_catch: vmalloc: allocation failure:
-> 18446744073709551615 bytes, mode:0xcc0(GFP_KERNEL),
-> nodemask=(null),cpuset=/,mems_allowed=0
-> ...
-> [   36.805350] # # # overflow_allocation_test: devm_kzalloc detected
-> saturation
-> [   36.807763] # # ok 3 - overflow_allocation_test
-> [   36.807763] # # # overflow: PASS
-> [   36.807765] # ok 1 - overflow
-> [   36.807767] # # kunit: PASS
-> 
-> But I assume there are threads on this that I've not read... :)
-> 
-> 
-> Now, speaking to actual behavior, I love it. :) All the tests are
-> there
-> (and then some -- noted below).
-> 
-> > diff --git a/lib/Makefile b/lib/Makefile
-> > index 685aee60de1d..a3290adc0019 100644
-> > --- a/lib/Makefile
-> > +++ b/lib/Makefile
-> > @@ -309,3 +309,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
-> > 
-> >  # KUnit tests
-> >  obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
-> > +obj-$(CONFIG_OVERFLOW_KUNIT_TEST) += kunit_overflow_test.o
-> > diff --git a/lib/kunit_overflow_test.c b/lib/kunit_overflow_test.c
-> > new file mode 100644
-> > index 000000000000..c3eb8f0d3d50
-> > --- /dev/null
-> > +++ b/lib/kunit_overflow_test.c
-> 
-> A lot of this file is unchanged, so I would suggest doing this as a
-> "git mv lib/test_overflow.c lib/kunit_overflow.c" and then put the
-> changes into the file. Then it should be easier to track git history,
-> etc.
-> 
-> Without this, it's a lot harder to review this patch since I'm just
-> looking at a 590 new lines. ;) Really, it's a diff (which I'll paste
-> here for the code review...)
-> 
-
-Sure, I'll do it. I didn't know if the runtime tests were going to
-stay.
-
-> > --- a/lib/test_overflow.c	2020-06-12 14:07:11.161999209 -0700
-> > +++ b/lib/kunit_overflow_test.c	2020-06-12 14:07:27.950183116
-> > -0700
-> > @@ -1,17 +1,18 @@
-> > -// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > +// SPDX-License-Identifier: GPL-2.0
-> 
-> Please don't change the license.
-
-Sure I'll fix it.
-
-> 
-> > +/*
-> > + *  This code is the conversion of the overflow test in runtime to
-> > KUnit tests.
-> > + */
-> > +
-> 
-> This can be left off.
-
-Sure I'll fix it.
-> >  /*
-> >   * Test cases for arithmetic overflow checks.
-> >   */
-> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> >  
-> > +#include <kunit/test.h>
-> >  #include <linux/device.h>
-> >  #include <linux/init.h>
-> > -#include <linux/kernel.h>
-> >  #include <linux/mm.h>
-> > -#include <linux/module.h>
-> >  #include <linux/overflow.h>
-> > -#include <linux/slab.h>
-> > -#include <linux/types.h>
-> >  #include <linux/vmalloc.h>
-> >  
-> >  #define DEFINE_TEST_ARRAY(t)			\
-> > @@ -19,7 +20,7 @@
-> >  		t a, b;				\
-> >  		t sum, diff, prod;		\
-> >  		bool s_of, d_of, p_of;		\
-> > -	} t ## _tests[] __initconst
-> > +	} t ## _tests[]
-> 
-> Why drop the __initconst?
-
-I removed __initconst because of these warnings below, as it is used
-for the kernel during the module initialization, and I do not use the
-module initialization in this tests. Does this have any side effects in
-these tests?
-
-WARNING: modpost: vmlinux.o(.text.unlikely+0x131b7): Section mismatch
-in reference from the function test_s8_overflow() to the variable
-.init.rodata:s8_tests
-The function test_s8_overflow() references
-the variable __initconst s8_tests.
-This is often because test_s8_overflow lacks a __initconst 
-annotation or the annotation of s8_tests is wrong.
-
-
-> >  DEFINE_TEST_ARRAY(u8) = {
-> >  	{0, 0, 0, 0, 0, false, false, false},
-> > @@ -44,6 +45,7 @@
-> >  	{128, 128, 0, 0, 0, true, false, true},
-> >  	{123, 234, 101, 145, 110, true, true, true},
-> >  };
-> > +
-> 
-> Style nit: I'd like to avoid the blank lines here.
-> 
-> >  DEFINE_TEST_ARRAY(u16) = {
-> >  	{0, 0, 0, 0, 0, false, false, false},
-> >  	{1, 1, 2, 0, 1, false, false, false},
-> > @@ -66,6 +68,7 @@
-> >  	{123, 234, 357, 65425, 28782, false, true, false},
-> >  	{1234, 2345, 3579, 64425, 10146, false, true, true},
-> >  };
-> > +
-> >  DEFINE_TEST_ARRAY(u32) = {
-> >  	{0, 0, 0, 0, 0, false, false, false},
-> >  	{1, 1, 2, 0, 1, false, false, false},
-> > @@ -163,6 +166,7 @@
-> >  	{S16_MIN, S16_MIN, 0, 0, 0, true, false, true},
-> >  	{S16_MAX, S16_MAX, -2, 0, 1, true, false, true},
-> >  };
-> > +
-> >  DEFINE_TEST_ARRAY(s32) = {
-> >  	{0, 0, 0, 0, 0, false, false, false},
-> >  
-> > @@ -186,6 +190,7 @@
-> >  	{S32_MIN, S32_MIN, 0, 0, 0, true, false, true},
-> >  	{S32_MAX, S32_MAX, -2, 0, 1, true, false, true},
-> >  };
-> > +
-> >  DEFINE_TEST_ARRAY(s64) = {
-> >  	{0, 0, 0, 0, 0, false, false, false},
-> >  
-> > @@ -215,254 +220,243 @@
-> >  	{0, -S64_MAX, -S64_MAX, S64_MAX, 0, false, false, false},
-> >  };
-> >  
-> > -#define check_one_op(t, fmt, op, sym, a, b, r, of) do {		
-> > \
-> > -	t _r;							\
-> > -	bool _of;						\
-> > -								\
-> > -	_of = check_ ## op ## _overflow(a, b, &_r);		\
-> > -	if (_of != of) {					\
-> > -		pr_warn("expected "fmt" "sym" "fmt		\
-> > -			" to%s overflow (type %s)\n",		\
-> > -			a, b, of ? "" : " not", #t);		\
-> > -		err = 1;					\
-> > -	}							\
-> > -	if (_r != r) {						\
-> > -		pr_warn("expected "fmt" "sym" "fmt" == "	\
-> > -			fmt", got "fmt" (type %s)\n",		\
-> > -			a, b, r, _r, #t);			\
-> > -		err = 1;					\
-> > -	}							\
-> > +#define check_one_op(test, t, fmt, op, sym, a, b, r, of) do {	
-> > 	\
-> > +	t _r;								
-> > \
-> > +	bool _of;							\
-> > +									
-> > \
-> > +	_of = check_ ## op ## _overflow(a, b, &_r);			\
-> > +	if (_of != of) {						\
-> > +		KUNIT_FAIL(test, "Expected "fmt" "sym" "fmt		\
-> > +			" to%s overflow (type %s)\n",			
-> > \
-> > +			a, b, of ? "" : " not", #t);			
-> > \
-> > +	}								\
-> > +	if (_r != r) {							
-> > \
-> > +		KUNIT_FAIL(test, "Expected "fmt" "sym" "fmt" == "	\
-> > +			fmt", got "fmt" (type %s)\n",			
-> > \
-> > +			a, b, r, _r, #t);				\
-> > +	}								\
-> >  } while (0)
-> 
-> The trailing \ makes this more awkward to diff, but one thing I'm not
-> quite seeing is why "test" needs to be added. It's not a variable in
-> these macros. i.e. it is used literally:
-> 
-> #define DEFINE_TEST_FUNC(test, t, fmt)				
-> 		\
-> static void do_test_ ## t(struct kunit *test, const struct test_ ## t
-> *p)	\
-> {									
-> 	\
->         check_one_op(test, t, fmt, add, "+", p->a, p->b, p->sum, p-
-> >s_of);	\
-> ...
-> 
-> Only callers of the do_test_*() would need to be changed. I think all
-> of
-> these macros just need the pr_warn/KUNIT_FAIL changes, and the
-> function
-> prototypes updated to include struct kunit *test.
-> 
-> >  
-> > -#define DEFINE_TEST_FUNC(t, fmt)					
-> > \
-> > -static int __init do_test_ ## t(const struct test_ ## t *p)	
-> > 	\
-> > -{							   		\
-> > -	int err = 0;							
-> > \
-> > -									
-> > \
-> > -	check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);	
-> > \
-> > -	check_one_op(t, fmt, add, "+", p->b, p->a, p->sum, p->s_of);	
-> > \
-> > -	check_one_op(t, fmt, sub, "-", p->a, p->b, p->diff, p->d_of);	
-> > \
-> > -	check_one_op(t, fmt, mul, "*", p->a, p->b, p->prod, p->p_of);	
-> > \
-> > -	check_one_op(t, fmt, mul, "*", p->b, p->a, p->prod, p->p_of);	
-> > \
-> > -									
-> > \
-> > -	return err;							\
-> > -}									
-> > \
-> > -									
-> > \
-> > -static int __init test_ ## t ## _overflow(void) {			
-> > \
-> > -	int err = 0;							
-> > \
-> > -	unsigned i;							\
-> > -									
-> > \
-> > -	pr_info("%-3s: %zu arithmetic tests\n", #t,			\
-> > -		ARRAY_SIZE(t ## _tests));				\
-> > -	for (i = 0; i < ARRAY_SIZE(t ## _tests); ++i)			
-> > \
-> > -		err |= do_test_ ## t(&t ## _tests[i]);			
-> > \
-> > -	return err;							\
-> > +#define DEFINE_TEST_FUNC(test, t, fmt)				
-> > 		\
-> > +static void do_test_ ## t(struct kunit *test, const struct test_
-> > ## t *p)	\
-> > +{									
-> > 	\
-> > +	check_one_op(test, t, fmt, add, "+", p->a, p->b, p->sum, p-
-> > >s_of);	\
-> > +	check_one_op(test, t, fmt, add, "+", p->b, p->a, p->sum, p-
-> > >s_of);	\
-> > +	check_one_op(test, t, fmt, sub, "-", p->a, p->b, p->diff, p-
-> > >d_of);	\
-> > +	check_one_op(test, t, fmt, mul, "*", p->a, p->b, p->prod, p-
-> > >p_of);	\
-> > +	check_one_op(test, t, fmt, mul, "*", p->b, p->a, p->prod, p-
-> > >p_of);	\
-> > +}									
-> > 	\
-> 
-> Then these all only need the prototype on the actual function
-> changed.
-> 
-> > +									
-> > 	\
-> > +static void  test_ ## t ## _overflow(struct kunit *test)		
-> > 	\
-> > +{									
-> > 	\
-> > +	unsigned i;								
-> > \
-> > +									
-> > 	\
-> > +	kunit_warn(test, "%-3s: %zu arithmetic tests\n", #t,		
-> > 	\
-> > +		ARRAY_SIZE(t ## _tests));					
-> > \
-> > +	for (i = 0; i < ARRAY_SIZE(t ## _tests); ++i)			
-> > 	\
-> > +		do_test_ ## t(test, &t ## _tests[i]);			
-> > 	\
-> >  }
-> >  
-> > -DEFINE_TEST_FUNC(u8, "%d");
-> > -DEFINE_TEST_FUNC(s8, "%d");
-> > -DEFINE_TEST_FUNC(u16, "%d");
-> > -DEFINE_TEST_FUNC(s16, "%d");
-> > -DEFINE_TEST_FUNC(u32, "%u");
-> > -DEFINE_TEST_FUNC(s32, "%d");
-> > +DEFINE_TEST_FUNC(test, u8, "%d");
-> > +DEFINE_TEST_FUNC(test, s8, "%d");
-> > +DEFINE_TEST_FUNC(test, u16, "%d");
-> > +DEFINE_TEST_FUNC(test, s16, "%d");
-> > +DEFINE_TEST_FUNC(test, u32, "%u");
-> > +DEFINE_TEST_FUNC(test, s32, "%d");
-> >  #if BITS_PER_LONG == 64
-> > -DEFINE_TEST_FUNC(u64, "%llu");
-> > -DEFINE_TEST_FUNC(s64, "%lld");
-> > +DEFINE_TEST_FUNC(test, u64, "%llu");
-> > +DEFINE_TEST_FUNC(test, s64, "%lld");
-> >  #endif
-> 
-> And all the actual uses of the macros can be left unchanged.
-> 
-> >  
-> > -static int __init test_overflow_calculation(void)
-> > +static void  overflow_calculation_test(struct kunit *test)
-> >  {
-> > -	int err = 0;
-> >  
-> > -	err |= test_u8_overflow();
-> > -	err |= test_s8_overflow();
-> > -	err |= test_u16_overflow();
-> > -	err |= test_s16_overflow();
-> > -	err |= test_u32_overflow();
-> > -	err |= test_s32_overflow();
-> > +	test_u8_overflow(test);
-> > +	test_s8_overflow(test);
-> > +	test_s8_overflow(test);
-> 
-> The s8 test got added twice here accidentally.
-> 
-> > +	test_u16_overflow(test);
-> > +	test_s16_overflow(test);
-> > +	test_u32_overflow(test);
-> > +	test_s32_overflow(test);
-> >  #if BITS_PER_LONG == 64
-> > -	err |= test_u64_overflow();
-> > -	err |= test_s64_overflow();
-> > +	test_u64_overflow(test);
-> > +	test_s64_overflow(test);
-> >  #endif
-> > -
-> > -	return err;
-> >  }
-> 
-> I think it might be nice to keep the "err" vars around for a final
-> report
-> line (maybe per test)? (It would keep the diff churn way lower,
-> too...)
-> 
-
-I will correct these other suggestions.
-
-> So, yes! I like it. :) Most of my comments here have nothing to do
-> with
-> specifically this patch (sorry)! But I'd love to see a v2.
-> 
-> Thanks for doing this! I'm glad to see more TAP output. :)
-> 
-
-Thanks Kees, I'm learning a lot from you, and as I said privately with
-Brendan, I've never seen so much macro in a code. I learned a lot from
-it.
-
-
+Thank you David, I will fix your suggestions.
 
 _______________________________________________
 Linux-kernel-mentees mailing list
