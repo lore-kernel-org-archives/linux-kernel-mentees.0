@@ -5,99 +5,101 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4671CC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:36 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F1FC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:44 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 17BFA20714
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5396620738
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Jun 2020 08:32:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZllkfQG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 17BFA20714
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mcFzzO7P"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5396620738
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id DADB923337;
-	Mon, 15 Jun 2020 08:32:35 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 38C41886F8;
+	Mon, 15 Jun 2020 08:32:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Y6n8K4dx6wq5; Mon, 15 Jun 2020 08:32:34 +0000 (UTC)
+	with ESMTP id H16AZD-VpVVI; Mon, 15 Jun 2020 08:32:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B492920509;
-	Mon, 15 Jun 2020 08:32:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BC6BC88111;
+	Mon, 15 Jun 2020 08:32:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C289C0888;
-	Mon, 15 Jun 2020 08:32:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B7AD7C0888;
+	Mon, 15 Jun 2020 08:32:43 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C8A6DC016E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8EA39C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:32 +0000 (UTC)
+ Mon, 15 Jun 2020 08:32:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C58B4889AF
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7BB2C889AF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:32 +0000 (UTC)
+ Mon, 15 Jun 2020 08:32:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0+8hg1NJjlsa
+ with ESMTP id xoDcIWEUjOWx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:32 +0000 (UTC)
+ Mon, 15 Jun 2020 08:32:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 04D6A8898B
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+ [209.85.128.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9C4BE8898B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 08:32:32 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id c3so16091424wru.12
+ Mon, 15 Jun 2020 08:32:41 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id j198so13566099wmj.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2020 01:32:31 -0700 (PDT)
+ Mon, 15 Jun 2020 01:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=M/dNY835TBbenopXfANftVUfONbLdxGaDwu4O0ya0Io=;
- b=mZllkfQGCwng8pRlqCnDf1668UeZ3bMTYHMKIP1Ey/wcpSqEZsDsvc7IQuOWTiZx7F
- 6AEeHI7shVdh/ZBeG6h76mJYyVZ7gQofX0LMdP/CHdTAYElLgnEZIzWPXqn6HpvsiHep
- yKHDK91VHXk/xk0deKCtGYxo1eB+z5rnWqAswblhV6RXclciYmvA7gmjvL+IBaNdWKJD
- 0UyCoDhbM29Vz3Rnu0G4+KppoCb63hhPn4SJe2yTCG7cvX5AMHEJNXZUu8L2LZIdsuK0
- srsTKxYCBTms6qEOeWBK7ogXPJPekbNkgs+YGmZYJOHYo8daqDqHq1VodYYjvgWmDIeD
- QpbQ==
+ bh=molslPGG/aVq7Tfl0f7ZnD8L5065Z3YOyyGkcmzBtPg=;
+ b=mcFzzO7Pllm4E56KkbBug35zu55xy4h9QMjx4nGIEedTIsThHAkIZxHdXpzMw25o/x
+ gmU8d7ik0iCbkoGpssPVodzU2ZARBf/zwQANvWVcZAYRaA5FuNqYlqCoLRVsudaSVRP8
+ y9IhiJFF/IeT6/0QgacbophbcKVLQigsSZZWBac/JmDGEhX+367nM36EVtRPwGrc08Qw
+ hf/ya4oLDiXmDv9aNX24WLVi+e1eNkp+jJ/KosE87xKBSIVWF3t8LEDZTJhOwcI0SK5z
+ y2koNtgG18IDcfHGZdsi+UPJT1GCUdq+3eAwkv5FANQRY7UQxx1lJzl5pr0xbYau3Z2f
+ xQNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=M/dNY835TBbenopXfANftVUfONbLdxGaDwu4O0ya0Io=;
- b=CFCx/S4jEYQAoEvJxDMZwTKLvqK+WNSkiCUDXvLaw4IxPWqiW8s2SIwfnMuFlihmYN
- PGzfnSd7J0uhqjeCHJGtitVBNGuvndmawXNkU1tOLeBfjL3Nkkki9iE/2mLHisCeaFGO
- KtnvNAmWC9ly1auPHPrzTDkKOpA8YkeDvN4iZkF3lgtMp6GqhK8CFA/RuzQngyCPctFq
- 1RwLvuVicrTM2WWG49iqOBKdSB9ZmWV+YBKouTcJt7qLAzEV6fB8EAd9Sv8lohGJgx2O
- UfUfZT+1XUKQooQEu9Lb0u8Uy8GROL14Gvwtm8Y/PL5gKqYZac34vtOt6GZmgdWc+Oh8
- EDBA==
-X-Gm-Message-State: AOAM533I29iBwVRNNi1qju2IprZyzcg8A5H2D4lRtng6w8DghyL54rBj
- 4Qh+sPfwX2X/0j+foQFw8xM=
-X-Google-Smtp-Source: ABdhPJz4V9C1ENgGVqIPkvgCoJkdJ+A5hU166ZOZGB29u4rYCMNZZqZpD7b2MruwA13RR6eraLoO8Q==
-X-Received: by 2002:a05:6000:90:: with SMTP id
- m16mr28561490wrx.191.1592209950561; 
- Mon, 15 Jun 2020 01:32:30 -0700 (PDT)
+ bh=molslPGG/aVq7Tfl0f7ZnD8L5065Z3YOyyGkcmzBtPg=;
+ b=rGsx7BqNpyYnKcOwQJYKx+tKboB215QGTCkZSCRXp5UKkmT/tCsc5YIlzX7zycxaPE
+ FxmIS9o9hErlNTb2tQdqE2g8w1Lni5tZugmS3kwIgPNOpkfYO6jQ6pwUXQKndcz8lcE+
+ lVRndQX1xpQmULPbw868kmhMqRqZMMgfpAq923XgxL/KJQoyan2t+47ch+vOkPFVGPAD
+ Zo8VtEQtI4ymlfAgFGCjkIcmn1Xcb7yQoeEifc7Fo0JJTecxDLsHoXnXpVsH3iCuVnAz
+ DjbwMGIlKfkip0lJ7oaAGBaeIqsTYNg4rS3R22ijlhIjbF+hWajTYpNpdvKGTrmTYCIe
+ WlnQ==
+X-Gm-Message-State: AOAM5337XivSpaP/I2f6WDZA2GpXi+nSpK4Ucp4ojllGWtysjSIqOuNb
+ /sEcxJG1UAFfttQ3OUWuzu8=
+X-Google-Smtp-Source: ABdhPJxFI+cJIQtaQrIgx1Ql/SDePLvWciNxuTw06tHHD+aaiAagUpk2mRdOa+0wrERqwjqlFRpn8w==
+X-Received: by 2002:a7b:c186:: with SMTP id y6mr12602543wmi.82.1592209960130; 
+ Mon, 15 Jun 2020 01:32:40 -0700 (PDT)
 Received: from net.saheed (54006BB0.dsl.pool.telekom.hu. [84.0.107.176])
- by smtp.gmail.com with ESMTPSA id z206sm21954745wmg.30.2020.06.15.01.32.29
+ by smtp.gmail.com with ESMTPSA id z206sm21954745wmg.30.2020.06.15.01.32.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 01:32:29 -0700 (PDT)
+ Mon, 15 Jun 2020 01:32:39 -0700 (PDT)
 From: refactormyself@gmail.com
 To: helgaas@kernel.org
-Date: Mon, 15 Jun 2020 09:32:21 +0200
-Message-Id: <20200615073225.24061-5-refactormyself@gmail.com>
+Date: Mon, 15 Jun 2020 09:32:22 +0200
+Message-Id: <20200615073225.24061-6-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200615073225.24061-1-refactormyself@gmail.com>
 References: <20200615073225.24061-1-refactormyself@gmail.com>
-Cc: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 4/8] PCI: Convert PCIBIOS_* errors
-	to generic -E* errors
+Cc: Don Brace <don.brace@microsemi.com>, linux-scsi@vger.kernel.org,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ esc.storagedev@microsemi.com
+Subject: [Linux-kernel-mentees] [PATCH v2 5/8] scsi: smartpqi: Convert
+	PCIBIOS_* errors to generic -E* errors
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,8 +120,8 @@ Sender: "Linux-kernel-mentees"
 
 From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 
-Both pcie_set_readrq() and pcie_set_readrq() return PCIBIOS_ error codes
-which were passed down the call heirarchy from PCIe capability accessors.
+pqi_set_pcie_completion_timeout() return PCIBIOS_ error codes which were
+passed on down the call heirarchy from PCIe capability accessors.
 
 PCIBIOS_ error codes have positive values. Passing on these values is
 inconsistent with functions which return only a negative value on failure.
@@ -131,53 +133,27 @@ negative generic error values.
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 ---
- drivers/pci/pci.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/scsi/smartpqi/smartpqi_init.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 595fcf59843f..fa49e5f9e4d1 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -5698,6 +5698,7 @@ EXPORT_SYMBOL(pcie_get_readrq);
- int pcie_set_readrq(struct pci_dev *dev, int rq)
+diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
+index cd157f11eb22..bd38c8cea56e 100644
+--- a/drivers/scsi/smartpqi/smartpqi_init.c
++++ b/drivers/scsi/smartpqi/smartpqi_init.c
+@@ -7423,8 +7423,12 @@ static int pqi_ctrl_init_resume(struct pqi_ctrl_info *ctrl_info)
+ static inline int pqi_set_pcie_completion_timeout(struct pci_dev *pci_dev,
+ 	u16 timeout)
  {
- 	u16 v;
-+	int ret;
- 
- 	if (rq < 128 || rq > 4096 || !is_power_of_2(rq))
- 		return -EINVAL;
-@@ -5716,8 +5717,10 @@ int pcie_set_readrq(struct pci_dev *dev, int rq)
- 
- 	v = (ffs(rq) - 8) << 12;
- 
--	return pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
-+	ret = pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
- 						  PCI_EXP_DEVCTL_READRQ, v);
+-	return pcie_capability_clear_and_set_word(pci_dev, PCI_EXP_DEVCTL2,
++	int rc;
 +
-+	return pcibios_err_to_errno(ret);
- }
- EXPORT_SYMBOL(pcie_set_readrq);
- 
-@@ -5748,6 +5751,7 @@ EXPORT_SYMBOL(pcie_get_mps);
- int pcie_set_mps(struct pci_dev *dev, int mps)
- {
- 	u16 v;
-+	int ret;
- 
- 	if (mps < 128 || mps > 4096 || !is_power_of_2(mps))
- 		return -EINVAL;
-@@ -5757,8 +5761,10 @@ int pcie_set_mps(struct pci_dev *dev, int mps)
- 		return -EINVAL;
- 	v <<= 5;
- 
--	return pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
-+	ret = pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
- 						  PCI_EXP_DEVCTL_PAYLOAD, v);
++	rc = pcie_capability_clear_and_set_word(pci_dev, PCI_EXP_DEVCTL2,
+ 		PCI_EXP_DEVCTL2_COMP_TIMEOUT, timeout);
 +
-+	return pcibios_err_to_errno(ret);
++	return pcibios_err_to_errno(rc);
  }
- EXPORT_SYMBOL(pcie_set_mps);
  
+ static int pqi_pci_init(struct pqi_ctrl_info *ctrl_info)
 -- 
 2.18.2
 
