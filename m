@@ -2,93 +2,115 @@ Return-Path: <SRS0=pYs2=75=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C4F5C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 16 Jun 2020 07:25:56 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29230C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 16 Jun 2020 09:40:48 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A7D6820734
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 16 Jun 2020 07:25:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E0E4F2074D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 16 Jun 2020 09:40:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="YOX7/R/n"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7D6820734
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IZbmgH1J"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E0E4F2074D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 71E3D89410;
-	Tue, 16 Jun 2020 07:25:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B7D0F868BC;
+	Tue, 16 Jun 2020 09:40:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mlpqfFjdGRGg; Tue, 16 Jun 2020 07:25:54 +0000 (UTC)
+	with ESMTP id WY_23uXEK0VH; Tue, 16 Jun 2020 09:40:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CCAD9893EC;
-	Tue, 16 Jun 2020 07:25:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 34B33868B4;
+	Tue, 16 Jun 2020 09:40:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B7941C0888;
-	Tue, 16 Jun 2020 07:25:54 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0402BC016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FFA1C0888;
+	Tue, 16 Jun 2020 09:40:47 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B3A3EC016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Jun 2020 07:25:54 +0000 (UTC)
+ Tue, 16 Jun 2020 09:40:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id E1D62893AE
+ by silver.osuosl.org (Postfix) with ESMTP id A15F520442
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Jun 2020 07:25:53 +0000 (UTC)
+ Tue, 16 Jun 2020 09:40:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n4OBB8kY0g6p
+ with ESMTP id 1OWqaALqXanz
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Jun 2020 07:25:53 +0000 (UTC)
+ Tue, 16 Jun 2020 09:40:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id CCDD78939A
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by silver.osuosl.org (Postfix) with ESMTPS id 2C9A920417
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Jun 2020 07:25:52 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id d128so1956352wmc.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Jun 2020 00:25:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ReLB56qZ10jMbfd/XwLbE+h7u1s6t2N5AHB2LA9HRJc=;
- b=YOX7/R/ntGwim1rdWb8oqA+cfePSWRXCc6mgR3bbKFfMWozcJ7QFF+SVhrvCw2LRJX
- aiPn8bIqWvkLrQHgzCfGrBzf7fKHRcfMp7sIeyaQciU5B+yeoJU0PYmDUZ4oNISJwAJF
- KnQm1aH123aD6OXJawdbqLzK77KbJsaCw0VcxIOXOSik85dEBVvM3R36CQ5VFWRrmWZ1
- RHEkrEJSrHNDGiP7rX1+is38scpC6L4UKRM7nfT3pqoVaCORf/qgguvfT/Cic+WZL1g+
- gNe5pv67t0XHQRv43ZWtck5Fw3vkKvihbDqc6p2404tcCx0TzwRX9L8RvmOB29IqLDNV
- /yNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ReLB56qZ10jMbfd/XwLbE+h7u1s6t2N5AHB2LA9HRJc=;
- b=Ny12Xli6TGdiQ6bWmmCHLCAE3CVmcIjhe2NlzEnugnwYk91RrjIgCj49iez1Y8/YOm
- jxLJRXlKlnQUdS+ua/jn/N6//zkzOoMbLGiID8QTLVxrcwzaYWH0s1CwSvZvKhRP2qok
- nyY0s2dGb8z3cbecQrJIdQLDhZrnW+wJW2f96Y5YfjhBvTnlwnJaQcfpQPbMKStlPYuG
- 1eFh/Kw24+rjaXeAfV+dhWLDw54dZa+lIbg7SESqLMnMUFTHL1N+nON48ZWCf2X2a67h
- /XfSfkGslYkDlMC9BnjTshGaQaOChXOUqtkoxlUl4eEm529kSRY9MZWvVnkWPQwBNFRL
- H10w==
-X-Gm-Message-State: AOAM530mJxcOsczq1IvJl/nGIDqnXL/xnf4A2XF7YBuTw0xQPUNoRrTS
- xhadAZ5lYMsG4Z+Qd9KswiXJt07sK/i4EJ+iDi+q7Q==
-X-Google-Smtp-Source: ABdhPJx8hfklJQFGauIXQMrvBedVYDMViCMV7Z1aaLNUVEWy8S9I85zMzuC778fhDQ5NgHUPVgD908IIPoD7OhoU/XY=
-X-Received: by 2002:a7b:cd94:: with SMTP id y20mr1671828wmj.87.1592292350896; 
- Tue, 16 Jun 2020 00:25:50 -0700 (PDT)
-MIME-Version: 1.0
+ Tue, 16 Jun 2020 09:40:45 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05G9bma4018047;
+ Tue, 16 Jun 2020 09:40:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : in-reply-to : message-id : references : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=0k9VuDdTDWXk37fKxUhfT5zXgR3Jcl5X9ukJ/elWqSU=;
+ b=IZbmgH1JhopTT6UpKIysdT7cL61M5dBliI2/Cgaj1xTVW5AHyHxw1OL1oB5MtAEqnJ9k
+ lxYiz1cRaWZJ9ymXK/qNVaBTjWqS31qGEAh7amXyPnUd13sV8EA9fMmXP6spuZItahRU
+ r1T/WYzVRENzUcKT6hmlMaiivC6WZJ11e+0QfexGtgryLqvwcS2a08FRjwhmLezF1JMZ
+ OUk5ag3nP+feATyDlblaElJOHOIhJgY8kg1a1J/MXzPsvU1ADP02zj6FrgddQhUOcGJC
+ 9iT51qxVVHCnzhT2zMt7FGxSavh9NhsmJDxr2iNrk2KGflzMpI4DMSfaF2JDTN5NYRuW 9w== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 31p6s25r9j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 16 Jun 2020 09:40:39 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05G9d6F4149496;
+ Tue, 16 Jun 2020 09:40:38 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 31p6s6xj33-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 16 Jun 2020 09:40:38 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05G9eXn5008473;
+ Tue, 16 Jun 2020 09:40:36 GMT
+Received: from dhcp-10-175-214-123.vpn.oracle.com (/10.175.214.123)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 16 Jun 2020 02:40:32 -0700
+Date: Tue, 16 Jun 2020 10:40:22 +0100 (BST)
+From: Alan Maguire <alan.maguire@oracle.com>
+X-X-Sender: alan@localhost
+To: David Gow <davidgow@google.com>
+In-Reply-To: <CABVgOSkPYBL8Qy9Fsr0owNhh2=tXZmdwCsWhnq+PshJLr06YKA@mail.gmail.com>
+Message-ID: <alpine.LRH.2.21.2006160956170.16027@localhost>
 References: <20200611215501.213058-1-vitor@massaru.org>
  <202006121403.CF8D57C@keescook>
  <CABVgOSnofuJQ_fiCL-8KdKezg3Hnqk3A+X509c4YP_toKeBVBg@mail.gmail.com>
  <202006141005.BA19A9D3@keescook>
-In-Reply-To: <202006141005.BA19A9D3@keescook>
-Date: Tue, 16 Jun 2020 15:25:39 +0800
-Message-ID: <CABVgOSkPYBL8Qy9Fsr0owNhh2=tXZmdwCsWhnq+PshJLr06YKA@mail.gmail.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ <CABVgOSkPYBL8Qy9Fsr0owNhh2=tXZmdwCsWhnq+PshJLr06YKA@mail.gmail.com>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 mlxscore=0
+ suspectscore=3 mlxlogscore=999 phishscore=0 bulkscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006160071
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 impostorscore=0
+ clxscore=1011 mlxscore=0 mlxlogscore=999 priorityscore=1501 phishscore=0
+ malwarescore=0 suspectscore=3 spamscore=0 cotscore=-2147483648 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006160071
+Cc: Kees Cook <keescook@chromium.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Brendan Higgins <brendanhiggins@google.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
@@ -108,160 +130,99 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: David Gow via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-CONFIG_PM_QOS_KUNIT_TESTOn Mon, Jun 15, 2020 at 1:48 AM Kees Cook
-<keescook@chromium.org> wrote:
->
-> On Sat, Jun 13, 2020 at 02:51:17PM +0800, David Gow wrote:
-> > Yeah, _KUNIT_TEST was what we've sort-of implicitly decided on for
-> > config names, but the documentation does need to happen.
->
-> That works for me. It still feels redundant, but all I really want is a
-> standard name. :)
->
-> > We haven't put as much thought into standardising the filenames much, though.
->
-> I actually find this to be much more important because it is more
-> end-user-facing (i.e. in module naming, in build logs, in scripts, on
-> filesystem, etc -- CONFIG is basically only present during kernel build).
-> Trying to do any sorting or greping really needs a way to find all the
-> kunit pieces.
->
+On Tue, 16 Jun 2020, David Gow wrote:
 
-Certainly this is more of an issue now we support building KUnit tests
-as modules, rather than having them always be built-in.
-
-Having some halfway consistent config-name <-> filename <-> test suite
-name could be useful down the line, too. Unfortunately, not
-necessarily a 1:1 mapping, e.g.:
-- CONFIG_KUNIT_TEST compiles both kunit-test.c and string-stream-test.c
-- kunit-test.c has several test suites within it:
-kunit-try-catch-test, kunit-resource-test & kunit-log-test.
-- CONFIG_EXT4_KUNIT_TESTS currently only builds ext4-inode-test.c, but
-as the plural name suggests, might build others later.
-- CONFIG_SECURITY_APPARMOR_KUNIT_TEST doesn't actually have its own
-source file: the test is built into policy_unpack.c
-- &cetera
-
-Indeed, this made me quickly look up the names of suites, and there
-are a few inconsistencies there:
-- most have "-test" as a suffix
-- some have "_test" as a suffix
-- some have no suffix
-
-(I'm inclined to say that these don't need a suffix at all.)
-
-Within test suites, we're also largely prefixing all of the tests with
-a suite name (even if it's not actually the specified suite name). For
-example, CONFIG_PM_QOS_KUNIT_TEST builds
-drivers/base/power/qos-test.c which contains a suite called
-"qos-kunit-test", with tests prefixed "freq_qos_test_". Some of this
-clearly comes down to wanting to namespace things a bit more
-("qos-test" as a name could refer to a few things, I imagine), but
-specifying how to do so consistently could help.
-
-> > Both of these are slightly complicated by cases like this where tests
-> > are being ported from a non-KUnit test to KUnit. There's a small
-> > argument there for trying to keep the name the same, though personally
-> > I suspect consistency is more important.
->
-> Understood. I think consistency is preferred too, especially since the
-> driving reason to make this conversions is to gain consistency with the
-> actual tests themselves.
-
-We'll go with that until someone objects: from what I recall, this is
-largely what people have been doing anyway.
-
-> > Alas, the plans to document test coding style / conventions kept
-> > getting pre-empted: I'll drag it back up to the top of the to-do list,
-> > and see if we can't prioritise it. I think we'd hoped to be able to
-> > catch these in review, but between a bit of forgetfulness and a few
-> > tests going upstream without our seeing them has made it obvious that
-> > doesn't work.
+> CONFIG_PM_QOS_KUNIT_TESTOn Mon, Jun 15, 2020 at 1:48 AM Kees Cook
+> <keescook@chromium.org> wrote:
 > >
-> > Once something's documented (and the suitable bikeshedding has
-> > subsided), we can consider renaming existing tests if that seems
-> > worthwhile.
->
-> Yes please! :)
->
+> > On Sat, Jun 13, 2020 at 02:51:17PM +0800, David Gow wrote:
+> > > Yeah, _KUNIT_TEST was what we've sort-of implicitly decided on for
+> > > config names, but the documentation does need to happen.
+> >
+> > That works for me. It still feels redundant, but all I really want is a
+> > standard name. :)
+> >
+> > > We haven't put as much thought into standardising the filenames much, though.
+> >
+> > I actually find this to be much more important because it is more
+> > end-user-facing (i.e. in module naming, in build logs, in scripts, on
+> > filesystem, etc -- CONFIG is basically only present during kernel build).
+> > Trying to do any sorting or greping really needs a way to find all the
+> > kunit pieces.
+> >
+> 
+> Certainly this is more of an issue now we support building KUnit tests
+> as modules, rather than having them always be built-in.
+> 
+> Having some halfway consistent config-name <-> filename <-> test suite
+> name could be useful down the line, too. Unfortunately, not
+> necessarily a 1:1 mapping, e.g.:
+> - CONFIG_KUNIT_TEST compiles both kunit-test.c and string-stream-test.c
+> - kunit-test.c has several test suites within it:
+> kunit-try-catch-test, kunit-resource-test & kunit-log-test.
+> - CONFIG_EXT4_KUNIT_TESTS currently only builds ext4-inode-test.c, but
+> as the plural name suggests, might build others later.
+> - CONFIG_SECURITY_APPARMOR_KUNIT_TEST doesn't actually have its own
+> source file: the test is built into policy_unpack.c
+> - &cetera
+> 
+> Indeed, this made me quickly look up the names of suites, and there
+> are a few inconsistencies there:
+> - most have "-test" as a suffix
+> - some have "_test" as a suffix
+> - some have no suffix
+> 
+> (I'm inclined to say that these don't need a suffix at all.)
+> 
 
-I'll see if I can find time to draft something this week, then. No
-promises, but hopefully there'll at least be something to build on.
+A good convention for module names - which I _think_ is along the lines
+of what Kees is suggesting - might be something like
 
-> > My feeling is we'll go for:
-> > - Kconfig name: ~_KUNIT_TEST
->
-> As mentioned, I'm fine with this, but prefer ~_KUNIT
->
-> > - filename: ~-test.c
->
-> I really don't like this. Several reasons reasons:
->
-> - it does not distinguish it from other tests -- there is no way to
->   identify kunit tests from non-kunit tests from directory listings,
->   build log greps, etc.
->
-> - the current "common" naming has been with a leading "test", ignoring
->   kunit, tools/, and samples/:
->
->         53 test_*.c
->         27 *_test.c
->         19 *[a-z0-9]test.c
->         19 selftest*.c
->         16 test-*.c
->         11 *-test.c
->         11 test[a-z0-9]*.c
->          8 *-tests.c
->          5 *-selftest.c
->          4 *_test_*.c
->          1 *_selftest_*.c
->          1 *_selftests.c
->
-> (these counts might be a bit off -- my eyes started to cross while
-> constructing regexes)
->
-> - dashes are converted to _ in module names, leading to some confusion
->   between .c file and .ko file.
->
-> I'd strongly prefer ~_kunit.c, but could live with _kunit_test.c (even
-> though it's redundant).
->
+<subsystem>[_<optional_test-area>]_kunit.ko
 
-I suggested -test.c largely because it's seemed to be most popular out
-of existing KUnit tests (and certainly out of the ones that already
-had-KUNIT_TEST config suffixes), but I definitely see your points.
-I think that trying to stick to a "common" test naming is a bit
-contradictory with trying to distinguish KUnit tests from other tests,
-and I'm leaning to the side of distinguishing them, so I definitely
-could be converted to ~_kunit.c.
+So for example
 
-Brendan, any thoughts?
+kunit_test -> test_kunit.ko
+string_stream_test.ko -> test_string_stream_kunit.ko
+kunit_example_test -> example_kunit.ko
+ext4_inode_test.ko -> ext4_inode_kunit.ko
 
-> > At least for the initial draft documentation, as those seem to be most
-> > common, but I think a thread on that would probably be the best place
-> > to add it.
->
-> I'm ready! :) (Subject updated)
->
-> > This would also be a good opportunity to document the "standard" KUnit
-> > boilerplate help text in the Kconfig options.
->
-> Ah yeah, good idea.
->
-> --
-> Kees Cook
+For the kunit selftests, "selftest_" might be a better name
+than "test_", as the latter might encourage people to reintroduce
+a redundant "test" into their module name.  
 
-Cheers,
--- David
+> Within test suites, we're also largely prefixing all of the tests with
+> a suite name (even if it's not actually the specified suite name). For
+> example, CONFIG_PM_QOS_KUNIT_TEST builds
+> drivers/base/power/qos-test.c which contains a suite called
+> "qos-kunit-test", with tests prefixed "freq_qos_test_". Some of this
+> clearly comes down to wanting to namespace things a bit more
+> ("qos-test" as a name could refer to a few things, I imagine), but
+> specifying how to do so consistently could help.
+> 
+
+Could we add some definitions to help standardize this?
+For example, adding a "subsystem" field to "struct kunit_suite"?
+
+So for the ext4 tests the "subsystem" would be "ext4" and the
+name "inode" would specify the test area within that subsystem.
+For the KUnit selftests, the subsystem would be "test"/"selftest".
+Logging could utilize the subsystem definition to allow test
+writers to use less redundant test names too.  For example
+the suite name logged could be constructed from the
+subsystem + area values associated with the kunit_suite,
+and individual test names could be shown as the
+suite area + test_name.
+
+Thanks!
+
+Alan
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
