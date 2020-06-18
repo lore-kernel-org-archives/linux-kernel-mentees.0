@@ -2,103 +2,105 @@ Return-Path: <SRS0=NG44=77=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D34C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Jun 2020 14:08:25 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D59AC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Jun 2020 20:28:11 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CB72720734
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Jun 2020 14:08:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BE7EA208C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Jun 2020 20:28:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="jZD6g78R"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB72720734
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="ljl0z/8F"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BE7EA208C3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A2E772034F;
-	Thu, 18 Jun 2020 14:08:24 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8843987285;
+	Thu, 18 Jun 2020 20:28:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Tc858GpN6pHk; Thu, 18 Jun 2020 14:08:23 +0000 (UTC)
+	with ESMTP id QOs8odZBNG4V; Thu, 18 Jun 2020 20:28:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7032720348;
-	Thu, 18 Jun 2020 14:08:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C02C48714A;
+	Thu, 18 Jun 2020 20:28:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BF11C088C;
-	Thu, 18 Jun 2020 14:08:23 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1E948C016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ABEF4C07FF;
+	Thu, 18 Jun 2020 20:28:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6B4B0C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 14:08:22 +0000 (UTC)
+ Thu, 18 Jun 2020 20:28:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 14AEC2034F
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4F69C8714A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 14:08:22 +0000 (UTC)
+ Thu, 18 Jun 2020 20:28:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lFHLZscYsySV
+ with ESMTP id mRu1ub1lHXqA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 14:08:20 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
- [209.85.219.67])
- by silver.osuosl.org (Postfix) with ESMTPS id DBE8E20348
+ Thu, 18 Jun 2020 20:28:07 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5FAF087115
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 14:08:19 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id di13so2776878qvb.12
+ Thu, 18 Jun 2020 20:28:07 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id b201so3349259pfb.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 07:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JXLha1RTWIXF0lXAQyqwuY9PTZXuY44UcKST+Lha3uU=;
- b=jZD6g78RTmAlMpmUep1/NUJSNYHP2pvki450PEIkzl1gcw8BRYivlYnueRKbdtrbkf
- YCGy/hMZLtFiYCu3SE2ZNh4JgQ6c4IWZvLkni3dnYJ8FNXTdwIpojX3UMN5Cymmw83Rr
- zGe1b4uEwgUOp5OT3dcDCnZnDIwZNEckpzsIG07LYQQj85V6bInFHWYa2/rTR0YTqy5m
- 4lNj0B98GglCyptnw7I8/VmqgNIqAkW6+XoyRgK3tS1qJ69sniBD+EvdUPtWbWDBzqKw
- bNJqup1MXc7weoLPQ5Fe6OSeGGzctvCFXmA0CNwNejYwJ3CiwYLHsGRw96bJ2aZlIyUh
- kC7g==
+ Thu, 18 Jun 2020 13:28:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PaDljQV4s0tsDjPd4KRhxqE94dP0XcNjhHGBsncvb84=;
+ b=ljl0z/8F2OVrnZUPdzWXGnwnJYsUO5294WxIFZQvJlpyY0GKeKofK9oNAEXcgtMRGA
+ Nkf+/zDMpmfMiEIWBzkJTZoGlDymxzpGxxQYzXAY4DSSud1ZlzwVGzg9uqRG8g806HMt
+ 4peYsIrDXi+XxUlErKoZtMpWXpRKrnDELE1mTYTLs71gnsI/Ypv3NLmf9cVKXUc5xqvf
+ ZdECCeJNJs1ui/uOMge6bPexYw6wQly3rceKwKGmcIBzGB3Th8z1POylkBoduS8U2qn/
+ B8d6MsdUXhc/x0LqmVUINBT8hChYQkfL/wgcNfvzypNIGZPtkvLL/OOzTRJ+cmfT+Gse
+ diuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JXLha1RTWIXF0lXAQyqwuY9PTZXuY44UcKST+Lha3uU=;
- b=cnYf5HlBp/3q97Yj/qcz9eyffNYS2G2VVQyyXymUay7vkiuGXODsCQEBNJnYgW/RlN
- 2+M3Baq0bRUNqoFksLto11Umj0XGn1G0zzipnQ21EfRqKDHwbGuVnFR6FCU+eiggCdhy
- gGWWYGa6vKyv0th0MNZiBVo0n25UNObdnGPRzxpEtfwTffs//cOwHq+3a4LNo+MukXfC
- 2KheCsQnajkxMKwLKke9v9bCHcxtZ0o71cq9ZArIot8rmrR2UqUpxNdQbp/HOhHHdC3S
- vAK/FHow044XzVEi022xFpJxXqSVpDWICH2NyhEcII2bBGFyagJLgk5vBlwHzaUJo7jM
- xy8A==
-X-Gm-Message-State: AOAM5319q8gaMH1Uvquto9rmsqTdqGO+3NWEXt4wza33wGbhL+QLdu91
- tj8+mxYo733U4Fo/QpqvOsl+bQ==
-X-Google-Smtp-Source: ABdhPJwFjA1N4L0WlyH0BXXtioLH2Ruv/9nDhNrLkpccWCX1TF4LkSOvfdixWAAKSKLWoYtUHZba5g==
-X-Received: by 2002:a05:6214:11f0:: with SMTP id
- e16mr3780913qvu.37.1592489298846; 
- Thu, 18 Jun 2020 07:08:18 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id a1sm2929823qkn.87.2020.06.18.07.08.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jun 2020 07:08:18 -0700 (PDT)
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: kunit-dev@googlegroups.com
-Date: Thu, 18 Jun 2020 11:08:14 -0300
-Message-Id: <20200618140814.135948-1-vitor@massaru.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PaDljQV4s0tsDjPd4KRhxqE94dP0XcNjhHGBsncvb84=;
+ b=FULdHcEAHUN0kNNGcKpq8d7amYl+V9IVL+DVJABDlzqxManX3I5uZ/sw+EBp7qwLRZ
+ z8T7n/3Kxp2kPqJawxR29L37X8i0KuYx2tOU+hEXVdGth3liYW74yldenwN6+7qthJEj
+ pUNayLjgcNGSGosN+tXzN/zESnl+UayqljuhfC1GQmSjlGZBfAD1WMcaoKfa0dCdiU2Z
+ Gs6JTrdbdXPHAP+mSZDlPCs3jwmRUVG7VkoBnwFfSg+LC9QFKwCXgvLZ9HqTRPNqbq1y
+ tEvhIOOZiJ+0S3NEFpLJ/BAlgILPPccA7nG6ZA08zKaygtj6qO2tKqDZC3gcjK0k9j5U
+ kpvA==
+X-Gm-Message-State: AOAM53167SjRrSzkOeM1AapIN1HZ5WlPIJ4m/g8+oDQ5f8puVo5FWaKE
+ l1XyTqtHxr5iOVitWKFEvptgarX1q/eatYI0UMRK3g==
+X-Google-Smtp-Source: ABdhPJyciZVCGHv5u4C8M75wPUGUizqVIkwf99p0oMyeVXwQcr3tTyYvoRLJDywFWzCaKer6yfA4tXu6GuaLkqIuvds=
+X-Received: by 2002:a63:4c08:: with SMTP id z8mr254875pga.201.1592512086573;
+ Thu, 18 Jun 2020 13:28:06 -0700 (PDT)
 MIME-Version: 1.0
-Cc: keescook@chromium.org, linux@rasmusvillemoes.dk, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- davidgow@google.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RESEND,
-	PATCH v2] lib: overflow-test: add KUnit test of check_*_overflow
-	functions
+References: <20200611215501.213058-1-vitor@massaru.org>
+ <202006121403.CF8D57C@keescook>
+ <CABVgOSnofuJQ_fiCL-8KdKezg3Hnqk3A+X509c4YP_toKeBVBg@mail.gmail.com>
+ <202006141005.BA19A9D3@keescook>
+ <CABVgOSkPYBL8Qy9Fsr0owNhh2=tXZmdwCsWhnq+PshJLr06YKA@mail.gmail.com>
+ <alpine.LRH.2.21.2006160956170.16027@localhost>
+ <CABVgOS=-AHNABkAVV7p=pq67hwoVcXXJSEPvxNbp90Eh_RaxBg@mail.gmail.com>
+In-Reply-To: <CABVgOS=-AHNABkAVV7p=pq67hwoVcXXJSEPvxNbp90Eh_RaxBg@mail.gmail.com>
+Date: Thu, 18 Jun 2020 13:27:55 -0700
+Message-ID: <CAFd5g44kZe7h+qKHmx029Qj15FdqxsFRFD3TEx_iEhPEt0jJmA@mail.gmail.com>
+To: David Gow <davidgow@google.com>
+Cc: Kees Cook <keescook@chromium.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Alan Maguire <alan.maguire@oracle.com>,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] common KUnit Kconfig and file naming
+ (was: Re: [PATCH] lib: kunit_test_overflow: add KUnit test of
+ check_*_overflow functions)
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,216 +112,171 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Brendan Higgins via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This adds the conversion of the runtime tests of check_*_overflow functions,
-from `lib/test_overflow.c`to KUnit tests.
+On Tue, Jun 16, 2020 at 9:21 PM David Gow <davidgow@google.com> wrote:
+>
+> On Tue, Jun 16, 2020 at 5:40 PM Alan Maguire <alan.maguire@oracle.com> wrote:
+> >
+> > On Tue, 16 Jun 2020, David Gow wrote:
+> >
+> > > CONFIG_PM_QOS_KUNIT_TESTOn Mon, Jun 15, 2020 at 1:48 AM Kees Cook
+> > > <keescook@chromium.org> wrote:
+> > > >
+> > > > On Sat, Jun 13, 2020 at 02:51:17PM +0800, David Gow wrote:
+> > > > > Yeah, _KUNIT_TEST was what we've sort-of implicitly decided on for
+> > > > > config names, but the documentation does need to happen.
+> > > >
+> > > > That works for me. It still feels redundant, but all I really want is a
+> > > > standard name. :)
+> > > >
+> > > > > We haven't put as much thought into standardising the filenames much, though.
+> > > >
+> > > > I actually find this to be much more important because it is more
+> > > > end-user-facing (i.e. in module naming, in build logs, in scripts, on
+> > > > filesystem, etc -- CONFIG is basically only present during kernel build).
+> > > > Trying to do any sorting or greping really needs a way to find all the
+> > > > kunit pieces.
+> > > >
+> > >
+> > > Certainly this is more of an issue now we support building KUnit tests
+> > > as modules, rather than having them always be built-in.
+> > >
+> > > Having some halfway consistent config-name <-> filename <-> test suite
+> > > name could be useful down the line, too. Unfortunately, not
+> > > necessarily a 1:1 mapping, e.g.:
+> > > - CONFIG_KUNIT_TEST compiles both kunit-test.c and string-stream-test.c
+> > > - kunit-test.c has several test suites within it:
+> > > kunit-try-catch-test, kunit-resource-test & kunit-log-test.
+> > > - CONFIG_EXT4_KUNIT_TESTS currently only builds ext4-inode-test.c, but
+> > > as the plural name suggests, might build others later.
+> > > - CONFIG_SECURITY_APPARMOR_KUNIT_TEST doesn't actually have its own
+> > > source file: the test is built into policy_unpack.c
+> > > - &cetera
+> > >
+> > > Indeed, this made me quickly look up the names of suites, and there
+> > > are a few inconsistencies there:
+> > > - most have "-test" as a suffix
+> > > - some have "_test" as a suffix
+> > > - some have no suffix
+> > >
+> > > (I'm inclined to say that these don't need a suffix at all.)
+> > >
+> >
+> > A good convention for module names - which I _think_ is along the lines
+> > of what Kees is suggesting - might be something like
+> >
+> > <subsystem>[_<optional_test-area>]_kunit.ko
+> >
+> > So for example
+> >
+> > kunit_test -> test_kunit.ko
+> > string_stream_test.ko -> test_string_stream_kunit.ko
+> > kunit_example_test -> example_kunit.ko
+> > ext4_inode_test.ko -> ext4_inode_kunit.ko
+> >
+> > For the kunit selftests, "selftest_" might be a better name
+> > than "test_", as the latter might encourage people to reintroduce
+> > a redundant "test" into their module name.
+> >
+>
+> I quite like the idea of having the deeper "subsystem:suite:test"
+> hierarchy here. "selftest" possibly would be a bit confusing against
+> kselftest for the KUnit tests -- personally I'd probably go with
+> "kunit", even if that introduces a redundant-looking kunit into the
+> module name.
 
-The log similar to the one seen in dmesg running test_overflow.c can be
-seen in `test.log`.
+Ditto. My first reaction was that it would create too much nesting and
+subsystems are a poorly defined notion in the Linux kernel; however,
+after thinking about it some, I think we are already doing what you
+are proposing with namespacing in identifier names. It makes sense to
+reflect that in test organization and reporting.
 
-Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-Tested-by: David Gow <davidgow@google.com>
----
-v2:
-  * moved lib/test_overflow.c to lib/overflow-test.c; 
-    * back to original license;
-    * fixed style code;
-    * keeps __initconst and added _refdata on overflow_test_cases variable;
-    * keeps macros intact making asserts with the variable err;
-    * removed duplicate test_s8_overflow();
-  * fixed typos on commit message;
----
- lib/Kconfig.debug                        | 20 +++++++--
- lib/Makefile                             |  2 +-
- lib/{test_overflow.c => overflow-test.c} | 54 +++++++++---------------
- 3 files changed, 38 insertions(+), 38 deletions(-)
- rename lib/{test_overflow.c => overflow-test.c} (96%)
+> So, this could look something like:
+> - Kconfig name: CONFIG_<subsystem>_<suite>_KUNIT_TEST, or very
+> possibly CONFIG_<subsystem>_KUNIT_TEST(S?) -- we already have
+> something like that for the ext4 tests.
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index d74ac0fd6b2d..fb8a3955e969 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2000,9 +2000,6 @@ config TEST_UUID
- config TEST_XARRAY
- 	tristate "Test the XArray code at runtime"
- 
--config TEST_OVERFLOW
--	tristate "Test check_*_overflow() functions at runtime"
--
- config TEST_RHASHTABLE
- 	tristate "Perform selftest on resizable hash table"
- 	help
-@@ -2155,6 +2152,23 @@ config SYSCTL_KUNIT_TEST
- 
- 	  If unsure, say N.
- 
-+config OVERFLOW_KUNIT_TEST
-+	tristate "KUnit test for overflow" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This builds the overflow KUnit tests.
-+
-+	  KUnit tests run during boot and output the results to the debug log
-+	  in TAP format (http://testanything.org/). Only useful for kernel devs
-+	  running KUnit test harness and are not for inclusion into a production
-+	  build.
-+
-+	  For more information on KUnit and unit tests in general please refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-+
-+	  If unsure, say N.
-+
- config LIST_KUNIT_TEST
- 	tristate "KUnit Test for Kernel Linked-list structures" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/lib/Makefile b/lib/Makefile
-index b1c42c10073b..3b725c9f92d4 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -75,7 +75,6 @@ obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
- obj-$(CONFIG_TEST_MIN_HEAP) += test_min_heap.o
- obj-$(CONFIG_TEST_LKM) += test_module.o
- obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
--obj-$(CONFIG_TEST_OVERFLOW) += test_overflow.o
- obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
- obj-$(CONFIG_TEST_SORT) += test_sort.o
- obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
-@@ -318,3 +317,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
- # KUnit tests
- obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
- obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-+obj-$(CONFIG_OVERFLOW_KUNIT_TEST) += overflow-test.o
-diff --git a/lib/test_overflow.c b/lib/overflow-test.c
-similarity index 96%
-rename from lib/test_overflow.c
-rename to lib/overflow-test.c
-index 7a4b6f6c5473..d40ef06b1ade 100644
---- a/lib/test_overflow.c
-+++ b/lib/overflow-test.c
-@@ -4,14 +4,11 @@
-  */
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <kunit/test.h>
- #include <linux/device.h>
- #include <linux/init.h>
--#include <linux/kernel.h>
- #include <linux/mm.h>
--#include <linux/module.h>
- #include <linux/overflow.h>
--#include <linux/slab.h>
--#include <linux/types.h>
- #include <linux/vmalloc.h>
- 
- #define DEFINE_TEST_ARRAY(t)			\
-@@ -270,7 +267,7 @@ DEFINE_TEST_FUNC(u64, "%llu");
- DEFINE_TEST_FUNC(s64, "%lld");
- #endif
- 
--static int __init test_overflow_calculation(void)
-+static void __init overflow_calculation_test(struct kunit *test)
- {
- 	int err = 0;
- 
-@@ -285,10 +282,10 @@ static int __init test_overflow_calculation(void)
- 	err |= test_s64_overflow();
- #endif
- 
--	return err;
-+	KUNIT_EXPECT_FALSE(test, err);
- }
- 
--static int __init test_overflow_shift(void)
-+static void __init overflow_shift_test(struct kunit *test)
- {
- 	int err = 0;
- 
-@@ -479,7 +476,7 @@ static int __init test_overflow_shift(void)
- 	err |= TEST_ONE_SHIFT(0, 31, s32, 0, false);
- 	err |= TEST_ONE_SHIFT(0, 63, s64, 0, false);
- 
--	return err;
-+	KUNIT_EXPECT_FALSE(test, err);
- }
- 
- /*
-@@ -555,7 +552,7 @@ DEFINE_TEST_ALLOC(kvzalloc_node, kvfree,     0, 1, 1);
- DEFINE_TEST_ALLOC(devm_kmalloc,  devm_kfree, 1, 1, 0);
- DEFINE_TEST_ALLOC(devm_kzalloc,  devm_kfree, 1, 1, 0);
- 
--static int __init test_overflow_allocation(void)
-+static void __init overflow_allocation_test(struct kunit *test)
- {
- 	const char device_name[] = "overflow-test";
- 	struct device *dev;
-@@ -563,10 +560,8 @@ static int __init test_overflow_allocation(void)
- 
- 	/* Create dummy device for devm_kmalloc()-family tests. */
- 	dev = root_device_register(device_name);
--	if (IS_ERR(dev)) {
--		pr_warn("Cannot register test device\n");
--		return 1;
--	}
-+	if (IS_ERR(dev))
-+		kunit_warn(test, "Cannot register test device\n");
- 
- 	err |= test_kmalloc(NULL);
- 	err |= test_kmalloc_node(NULL);
-@@ -585,30 +580,21 @@ static int __init test_overflow_allocation(void)
- 
- 	device_unregister(dev);
- 
--	return err;
-+	KUNIT_EXPECT_FALSE(test, err);
- }
- 
--static int __init test_module_init(void)
--{
--	int err = 0;
--
--	err |= test_overflow_calculation();
--	err |= test_overflow_shift();
--	err |= test_overflow_allocation();
--
--	if (err) {
--		pr_warn("FAIL!\n");
--		err = -EINVAL;
--	} else {
--		pr_info("all tests passed\n");
--	}
-+static struct kunit_case __refdata overflow_test_cases[] = {
-+	KUNIT_CASE(overflow_calculation_test),
-+	KUNIT_CASE(overflow_shift_test),
-+	KUNIT_CASE(overflow_allocation_test),
-+	{}
-+};
- 
--	return err;
--}
-+static struct kunit_suite overflow_test_suite = {
-+	.name = "overflow",
-+	.test_cases = overflow_test_cases,
-+};
- 
--static void __exit test_module_exit(void)
--{ }
-+kunit_test_suites(&overflow_test_suite);
- 
--module_init(test_module_init);
--module_exit(test_module_exit);
- MODULE_LICENSE("Dual MIT/GPL");
+I think the biggest question there is whether we go with the every
+suite gets its own config approach or all suites in a subsystem are
+turned on by a single config. I don't think there are enough examples
+to determine what the community would prefer, and I can see advantages
+and disadvantages to both.
 
-base-commit: 7bf200b3a4ac10b1b0376c70b8c66ed39eae7cdd
-prerequisite-patch-id: e827b6b22f950b9f69620805a04e4a264cf4cc6a
--- 
-2.26.2
+> - Source filename: <suite>_kunit.c within a subsystem directory. (We
+> probably don't need to enforce suites being in separate files, but
+> whatever file does contain the tests should at least end "kunit.c")
 
+I am cool with changing *-test.c to *-kunit.c. The *-test.c was a hold
+over from when everything was prefixed TEST_* instead of KUNIT_* (back
+in the early days of the RFC). I never liked naming everything KUNIT_*
+or -kunit- whatever; it felt kind of egotistical to me (there was also
+always a part of me that hoped I would come up with a better name than
+KUnit, but that ship sailed a long time ago). However, purely
+logically speaking, I think naming all KUnit tests *-kunit.c makes
+more sense than anything else.
+
+One question: the AppArmor KUnit tests are #included into another .c
+file when the tests are selected. Should tests #included in this
+manner be -kunit.h or should all tests be -kunit.c?
+
+> - Module filename: <subsystem>_<suite>_kunit.ko, or
+> <subsystem>_kunit.ko if all suites are built into the same module (or
+> there's just one suite for the whole subsystem)
+> - Suite name: Either <subsystem>_<suite> or have a separate subsystem
+> field in kunit_suite. If there's only one suite for the subsystem, set
+> suite==subsystem
+
+No strong feelings here.
+
+> - Test names: Personally, I'd kind-of like to not prefix these at all,
+> as they're already part of the suite. If we do want to, though, prefix
+> them with <subsystem> and <suite>.
+
+Eh, I did that to remain consistent with the kernel naming
+conventions, but I think those have diverged too. If maintainers are
+cool with it, I agree that the prefixes are redundant on tests and
+generally way too long.
+
+> > > Within test suites, we're also largely prefixing all of the tests with
+> > > a suite name (even if it's not actually the specified suite name). For
+> > > example, CONFIG_PM_QOS_KUNIT_TEST builds
+> > > drivers/base/power/qos-test.c which contains a suite called
+> > > "qos-kunit-test", with tests prefixed "freq_qos_test_". Some of this
+> > > clearly comes down to wanting to namespace things a bit more
+> > > ("qos-test" as a name could refer to a few things, I imagine), but
+> > > specifying how to do so consistently could help.
+> > >
+> >
+> > Could we add some definitions to help standardize this?
+> > For example, adding a "subsystem" field to "struct kunit_suite"?
+> >
+> > So for the ext4 tests the "subsystem" would be "ext4" and the
+> > name "inode" would specify the test area within that subsystem.
+> > For the KUnit selftests, the subsystem would be "test"/"selftest".
+> > Logging could utilize the subsystem definition to allow test
+> > writers to use less redundant test names too.  For example
+> > the suite name logged could be constructed from the
+> > subsystem + area values associated with the kunit_suite,
+> > and individual test names could be shown as the
+> > suite area + test_name.
+>
+> As above, I quite like this. If we were really brave, we could
+> actually nest the results into subsystem:area/suite:test using the TAP
+> subtests stuff. Generating the longer suite name may be easier on
+> people manually reading large test logs, though, as they wouldn't have
+> to scroll quite as far to determine what subsystem they're in. (Again,
+> something that could be solved with tooling, and probably less of a
+> problem for people accessing results through debugfs.)
+
+SGTM
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
