@@ -4,100 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C1F4C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Jun 2020 14:06:26 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D34C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Jun 2020 14:08:25 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23A2B20734
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Jun 2020 14:06:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CB72720734
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Jun 2020 14:08:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="SWNQqCth"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23A2B20734
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="jZD6g78R"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB72720734
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EA26E87B1D;
-	Thu, 18 Jun 2020 14:06:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A2E772034F;
+	Thu, 18 Jun 2020 14:08:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OrHoFpphKs1r; Thu, 18 Jun 2020 14:06:24 +0000 (UTC)
+	with ESMTP id Tc858GpN6pHk; Thu, 18 Jun 2020 14:08:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 269DF87B19;
-	Thu, 18 Jun 2020 14:06:24 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7032720348;
+	Thu, 18 Jun 2020 14:08:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 15885C088C;
-	Thu, 18 Jun 2020 14:06:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BF11C088C;
+	Thu, 18 Jun 2020 14:08:23 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8791C016E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1E948C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 14:06:22 +0000 (UTC)
+ Thu, 18 Jun 2020 14:08:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 95E7B22803
+ by silver.osuosl.org (Postfix) with ESMTP id 14AEC2034F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 14:06:22 +0000 (UTC)
+ Thu, 18 Jun 2020 14:08:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zCbbsph+ezEs
+ with ESMTP id lFHLZscYsySV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 14:06:21 +0000 (UTC)
+ Thu, 18 Jun 2020 14:08:20 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com
- [209.85.219.65])
- by silver.osuosl.org (Postfix) with ESMTPS id F03E92051A
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
+ [209.85.219.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id DBE8E20348
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 14:06:20 +0000 (UTC)
-Received: by mail-qv1-f65.google.com with SMTP id di13so2773321qvb.12
+ Thu, 18 Jun 2020 14:08:19 +0000 (UTC)
+Received: by mail-qv1-f67.google.com with SMTP id di13so2776878qvb.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 07:06:20 -0700 (PDT)
+ Thu, 18 Jun 2020 07:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=9lVMlOdIyNxLzGMiXNj2N9UYux15sD/EtwgLiUczR68=;
- b=SWNQqCthtE9g0sq3+vBFx/xnVnQdfhX2FgyyrH2jWJFlJQyuF0LHukWNOzeQjqQ3jc
- PoK+nLYaILrXuAC7q5eN4U3mUZlz4Bs1QVX//qlaGU/HtbJPqnAvKeirLKJaGwqnaZ9g
- zRFEbsVSkyv25KzZcI8BjMF2pHWeyIiss/pGdAH4kNuMj3SGwOQ/hzLWycs2mrtOBrFe
- rNBKLYC6lBsASbw/Ah4WJXp7FlfNtL0oWTJVLFE4fLeDLi67BbtXF8gsOEv9zt9WmtA4
- Coh6Rnb5LShAGWr4w4oAgYyJcFnaCLCArUqpTK2RN8JCTanKl2KCVMcA80t4dqbOynyu
- 4FZA==
+ bh=JXLha1RTWIXF0lXAQyqwuY9PTZXuY44UcKST+Lha3uU=;
+ b=jZD6g78RTmAlMpmUep1/NUJSNYHP2pvki450PEIkzl1gcw8BRYivlYnueRKbdtrbkf
+ YCGy/hMZLtFiYCu3SE2ZNh4JgQ6c4IWZvLkni3dnYJ8FNXTdwIpojX3UMN5Cymmw83Rr
+ zGe1b4uEwgUOp5OT3dcDCnZnDIwZNEckpzsIG07LYQQj85V6bInFHWYa2/rTR0YTqy5m
+ 4lNj0B98GglCyptnw7I8/VmqgNIqAkW6+XoyRgK3tS1qJ69sniBD+EvdUPtWbWDBzqKw
+ bNJqup1MXc7weoLPQ5Fe6OSeGGzctvCFXmA0CNwNejYwJ3CiwYLHsGRw96bJ2aZlIyUh
+ kC7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=9lVMlOdIyNxLzGMiXNj2N9UYux15sD/EtwgLiUczR68=;
- b=p4u62YPLiv59MaCEA2Gy7X1uwgpZvDG8I44qfCgWiA/hUy7DV0PcF6dI98nzeBxAUC
- lT3okol3AUapr0pSLbm+Ny9/IRFU6QvOhAq25HtZeaCtntYYwSftLdup8QDtuhfuqm+z
- m+74JxXKPXcy4f5hAqbo0R5Bj38tvXqV0wDyICPI4k25zwOeokmPjqECEB2zLiapUQHJ
- ktj2A+2+tL5NLSSX9M2QsHtwHeV6h64oaFEJj0+rlqBiq9QymiZPOFBRWzpIE+wqz4x8
- qYfOK8B3mEA+agjmtFUWUbMgYSF1s0ZevTUrGUfmDY/LVnfTIq8pAPsd68iGMHcSt4b7
- 0OCg==
-X-Gm-Message-State: AOAM533HQYNEevX2o1YFkI+46PBN9wwLnIXY//UJ25sva8DuAHkkYwmC
- 3FygH8BZ7hA02yOvXWqyru/5Ew==
-X-Google-Smtp-Source: ABdhPJySXdwj3CLQ0yEHHLQIIJimTYgUOu6BXtPn4akRwatVE26vzbLMCKx03UNsHAutW7tfTuBTdA==
-X-Received: by 2002:a05:6214:178e:: with SMTP id
- ct14mr3860484qvb.73.1592489179664; 
- Thu, 18 Jun 2020 07:06:19 -0700 (PDT)
+ bh=JXLha1RTWIXF0lXAQyqwuY9PTZXuY44UcKST+Lha3uU=;
+ b=cnYf5HlBp/3q97Yj/qcz9eyffNYS2G2VVQyyXymUay7vkiuGXODsCQEBNJnYgW/RlN
+ 2+M3Baq0bRUNqoFksLto11Umj0XGn1G0zzipnQ21EfRqKDHwbGuVnFR6FCU+eiggCdhy
+ gGWWYGa6vKyv0th0MNZiBVo0n25UNObdnGPRzxpEtfwTffs//cOwHq+3a4LNo+MukXfC
+ 2KheCsQnajkxMKwLKke9v9bCHcxtZ0o71cq9ZArIot8rmrR2UqUpxNdQbp/HOhHHdC3S
+ vAK/FHow044XzVEi022xFpJxXqSVpDWICH2NyhEcII2bBGFyagJLgk5vBlwHzaUJo7jM
+ xy8A==
+X-Gm-Message-State: AOAM5319q8gaMH1Uvquto9rmsqTdqGO+3NWEXt4wza33wGbhL+QLdu91
+ tj8+mxYo733U4Fo/QpqvOsl+bQ==
+X-Google-Smtp-Source: ABdhPJwFjA1N4L0WlyH0BXXtioLH2Ruv/9nDhNrLkpccWCX1TF4LkSOvfdixWAAKSKLWoYtUHZba5g==
+X-Received: by 2002:a05:6214:11f0:: with SMTP id
+ e16mr3780913qvu.37.1592489298846; 
+ Thu, 18 Jun 2020 07:08:18 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id d140sm3005219qkc.22.2020.06.18.07.06.17
+ by smtp.gmail.com with ESMTPSA id a1sm2929823qkn.87.2020.06.18.07.08.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jun 2020 07:06:19 -0700 (PDT)
+ Thu, 18 Jun 2020 07:08:18 -0700 (PDT)
 From: Vitor Massaru Iha <vitor@massaru.org>
 To: kunit-dev@googlegroups.com
-Date: Thu, 18 Jun 2020 11:06:15 -0300
-Message-Id: <20200618140615.135606-1-vitor@massaru.org>
+Date: Thu, 18 Jun 2020 11:08:14 -0300
+Message-Id: <20200618140814.135948-1-vitor@massaru.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Cc: keescook@chromium.org, linux@rasmusvillemoes.dk, brendanhiggins@google.com,
  linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
  davidgow@google.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2] lib: overflow-test: add KUnit
-	test of check_*_overflow functions
+Subject: [Linux-kernel-mentees] [RESEND,
+	PATCH v2] lib: overflow-test: add KUnit test of check_*_overflow
+	functions
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,6 +123,7 @@ The log similar to the one seen in dmesg running test_overflow.c can be
 seen in `test.log`.
 
 Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+Tested-by: David Gow <davidgow@google.com>
 ---
 v2:
   * moved lib/test_overflow.c to lib/overflow-test.c; 
