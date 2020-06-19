@@ -6,79 +6,80 @@ X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D259C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Jun 2020 06:39:22 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D895C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Jun 2020 20:18:21 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D3DD6207DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Jun 2020 06:39:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B99CC20B80
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Jun 2020 20:18:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="tZpGiUzU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D3DD6207DD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="JhzmdnUX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B99CC20B80
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 88E5F22BCC;
-	Fri, 19 Jun 2020 06:39:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7BC7286EA2;
+	Fri, 19 Jun 2020 20:18:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rWVlnnYLSXbP; Fri, 19 Jun 2020 06:39:20 +0000 (UTC)
+	with ESMTP id l_rNvk8GW6vH; Fri, 19 Jun 2020 20:18:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 792602206D;
-	Fri, 19 Jun 2020 06:39:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0724C86E8A;
+	Fri, 19 Jun 2020 20:18:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 67193C07FF;
-	Fri, 19 Jun 2020 06:39:20 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AE17BC016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6044C0865;
+	Fri, 19 Jun 2020 20:18:17 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0653C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 06:39:19 +0000 (UTC)
+ Fri, 19 Jun 2020 20:18:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9D7EC878E1
+ by hemlock.osuosl.org (Postfix) with ESMTP id B4C0089800
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 06:39:19 +0000 (UTC)
+ Fri, 19 Jun 2020 20:18:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8WKeu0HToUkI
+ with ESMTP id U339XUYvznZb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 06:39:18 +0000 (UTC)
+ Fri, 19 Jun 2020 20:18:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 08B94878A1
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 21EC58973F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 06:39:18 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id u26so8122468wmn.1
+ Fri, 19 Jun 2020 20:18:16 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id t25so9531427oij.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Jun 2020 23:39:17 -0700 (PDT)
+ Fri, 19 Jun 2020 13:18:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s9LRkL9lOFQgOMceMt//SUxeCbRl56x0zEYITGtl7A4=;
- b=tZpGiUzUR073XZND+f9+kJnrTehpx8NYOOCOj5GneN3exQFcaG5JtQCwJ6IS3BHwr3
- 0ru97rsPnbbcbtpRqZsCoyz0fxH4wLwbmhe2F07OyBQiLtnkkviTl0+znGQB7tSR+dbw
- oQ2n3uh1FgBaxAmS7V36Dm/wDPY48GY3pJWqeREGJqmHPz9H1HgFwx1akjwEGprQpY1Q
- qgA+Qii9MzUXGdN/u7Hf7QyXte2k3weu/ktJbLRJyiu+RZHq2MStri0R+DIoLddTVsD5
- rlT3yNDyCZHCKkl9d8idATp24VA5VhWpoTbA9DYPT3UWvFTazWjRL8F4eV1ZffdQB2WS
- xgQw==
+ :cc; bh=CtL6MXEKzIeEStdpWr+Z+AY2ozIEH/pJKXnlCHuuM48=;
+ b=JhzmdnUXuMgHKNez3rF4CNCqDonN/tgdYvlkkcY/gmPsUHMicehnsmLblPolT0WwCP
+ jBS2JJcHqQG1V0nwykQ0NmhmhWrSfYF01b7DLyrDEHJFDrPzR1QitEqoxZXQYFz3FqJR
+ YrKNN9+B5Pb8rAcdwHREZXyWpmcRScK+4i+0ol8nC/KODfzFmCrOrpZ7LA7DzlOFCBLP
+ qjT6ZfI4bFvx0peh229/xx3Bx3hEpB2yDOZURUzmy3toPz6A2Jfkelvpiw7pkmY7K0q8
+ CAPWGRC9EplTK1ob060zhSYPcTqcJQ9rC4nHw4wzmtkOnA/QUBrGlbR3sMJxiI8zzqvp
+ 6/Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=s9LRkL9lOFQgOMceMt//SUxeCbRl56x0zEYITGtl7A4=;
- b=aX0/8NHKgKvu88poPxfpcwziguM4kKSNbKtEh3MW52WZq3U2BWzBNX0ZhqgPR5TCPn
- 869no0/obnnuVw2H1Dg1mZaLBhkMBM3bthLKhV8LKElplMXJ+qP4DCiyvVwGmisPLA+E
- nTNet+nBZAEI77ispthEPcO+7i1WueFFTNpd5h3YggyS8BjbBimLjvomte+5MMueHg6W
- UwaUxes4+SB2uo98PRKtUj0DGhtJmaX6OWk6AS5EuEGPUOGvNEd+z1yXDMAWTAJLr+zS
- HFMvyxLV3+WWe9JFCvvvDcTk5ONSSpJKcTDHFGhffeRthuP89vkKzsZDEIjV1Ef6sFM6
- FPNQ==
-X-Gm-Message-State: AOAM533rMZED5efm6B2ztx+DBP0s0GJx/hp2O3hRu6/ENUnDawS6sw1J
- NBwRP7ZzDfDmSrXHQB098XcK5L+UpPeZFKmsCV8D8Q==
-X-Google-Smtp-Source: ABdhPJx8mIk/t2hF7jthy0vl760vKbU48V+JeaesFdisiTX9CcWK7Y1oViQsJcnvzpE+gUVffxTBS+Oe3/kAZGG2/x0=
-X-Received: by 2002:a1c:750e:: with SMTP id o14mr1912845wmc.86.1592548756057; 
- Thu, 18 Jun 2020 23:39:16 -0700 (PDT)
+ bh=CtL6MXEKzIeEStdpWr+Z+AY2ozIEH/pJKXnlCHuuM48=;
+ b=VmvoSdr10PdKJBjNGz3Q0ZfPWbLS+pOD2NwQtyf+YgbZejHvMkN1RhiL922XLAEkvG
+ lTpS8uXbqeTgxA1T2K+TKxd2xpl//XLj9HDyZWsN2hfjnc5ckJdsbSuKtRkHbmJ1d19P
+ ogmeNUzJL2Nhfhg2c9CXJMb3Abl/tI7Y//ZgHVqCUB5QYU70Ak4jOEocDT0nSKeKn6LY
+ wDjGHsLRnmvs2vk8ZAhUSJh2fqY89TTwsR+1CWrFEN/jYUiOeJeGooWDCa8PLFSgdDif
+ YHErYEGuTNTyCN4X9m0TGt5XBr1kGISlpdr0I4DEza60VQoeszsNHLH36YQy94UmQqlI
+ 7PSQ==
+X-Gm-Message-State: AOAM531dRQeMz1G46bixX0LQxFs8clAg3ZHMwnbbLYjvpBc/yJ+pkJya
+ CSYSAYApxZFcIJmSxrzVphFLjP77Dh+eaQWGNSc3Ooq2
+X-Google-Smtp-Source: ABdhPJypxSlZuKQ8KcK9qjRv+cbeQn6Qu6jLWRyO3vg5JSCH4ChHL8jP7spzL1WH9TUNcBt0eMgqMcv9S+u+44HLvxE=
+X-Received: by 2002:a17:90a:df82:: with SMTP id
+ p2mr5255928pjv.217.1592597546456; 
+ Fri, 19 Jun 2020 13:12:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200611215501.213058-1-vitor@massaru.org>
  <202006121403.CF8D57C@keescook>
@@ -88,10 +89,11 @@ References: <20200611215501.213058-1-vitor@massaru.org>
  <alpine.LRH.2.21.2006160956170.16027@localhost>
  <CABVgOS=-AHNABkAVV7p=pq67hwoVcXXJSEPvxNbp90Eh_RaxBg@mail.gmail.com>
  <CAFd5g44kZe7h+qKHmx029Qj15FdqxsFRFD3TEx_iEhPEt0jJmA@mail.gmail.com>
-In-Reply-To: <CAFd5g44kZe7h+qKHmx029Qj15FdqxsFRFD3TEx_iEhPEt0jJmA@mail.gmail.com>
-Date: Fri, 19 Jun 2020 14:39:04 +0800
-Message-ID: <CABVgOSnjrzfFOMF0VE1-5Ks-e40fc0XZsNZ92jE60ZOhYmZWog@mail.gmail.com>
-To: Brendan Higgins <brendanhiggins@google.com>
+ <CABVgOSnjrzfFOMF0VE1-5Ks-e40fc0XZsNZ92jE60ZOhYmZWog@mail.gmail.com>
+In-Reply-To: <CABVgOSnjrzfFOMF0VE1-5Ks-e40fc0XZsNZ92jE60ZOhYmZWog@mail.gmail.com>
+Date: Fri, 19 Jun 2020 13:12:15 -0700
+Message-ID: <CAFd5g45jHMZV3yHnxO-U3uCvhpPeOesHbuAgnzXOqtP-z7+Gmw@mail.gmail.com>
+To: David Gow <davidgow@google.com>
 Cc: Kees Cook <keescook@chromium.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -113,221 +115,61 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: David Gow via Linux-kernel-mentees
+From: Brendan Higgins via Linux-kernel-mentees
  <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: David Gow <davidgow@google.com>
+Reply-To: Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-I'm in the process of writing up some documentation for this now.
-
-I hope to post a draft soon, but here's the overview of what's going in it:
-- Test filenames should be <suite>_kunit.c
-  - (If the suite name is too long/namespaced, the source filename may
-have prefixes removed, so long as the module name doesn't)
-- Config names should end in _KUNIT_TEST, and follow the other
-existing conventions (re: help text, default values, etc)
-- Suite names should be fully-qualified/unambiguous across the whole
-kernel (i.e., include driver/subsystem names)
-  - Possibly look at the path to the code being tested as inspiration
-for the suite name.
-- Use underscores as separators, and don't decorate test/suite names
-with "test" or "kunit".
-
-Still thinking about:
-- Whether to formalise a "subsystem", or just have it implicitly part
-of the suite name.
-- Whether to talk about having multiple suites in one file and/or Kconfig entry.
-
-
-On Fri, Jun 19, 2020 at 4:28 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> On Tue, Jun 16, 2020 at 9:21 PM David Gow <davidgow@google.com> wrote:
+On Thu, Jun 18, 2020 at 11:39 PM David Gow <davidgow@google.com> wrote:
+[...]
+> On Fri, Jun 19, 2020 at 4:28 AM Brendan Higgins
+> <brendanhiggins@google.com> wrote:
 > >
-> > On Tue, Jun 16, 2020 at 5:40 PM Alan Maguire <alan.maguire@oracle.com> wrote:
+> > On Tue, Jun 16, 2020 at 9:21 PM David Gow <davidgow@google.com> wrote:
 > > >
-> > > On Tue, 16 Jun 2020, David Gow wrote:
-> > >
-> > > > CONFIG_PM_QOS_KUNIT_TESTOn Mon, Jun 15, 2020 at 1:48 AM Kees Cook
-> > > > <keescook@chromium.org> wrote:
-> > > > >
-> > > > > On Sat, Jun 13, 2020 at 02:51:17PM +0800, David Gow wrote:
-> > > > > > Yeah, _KUNIT_TEST was what we've sort-of implicitly decided on for
-> > > > > > config names, but the documentation does need to happen.
-> > > > >
-> > > > > That works for me. It still feels redundant, but all I really want is a
-> > > > > standard name. :)
-> > > > >
-> > > > > > We haven't put as much thought into standardising the filenames much, though.
-> > > > >
-> > > > > I actually find this to be much more important because it is more
-> > > > > end-user-facing (i.e. in module naming, in build logs, in scripts, on
-> > > > > filesystem, etc -- CONFIG is basically only present during kernel build).
-> > > > > Trying to do any sorting or greping really needs a way to find all the
-> > > > > kunit pieces.
-> > > > >
+> > > On Tue, Jun 16, 2020 at 5:40 PM Alan Maguire <alan.maguire@oracle.com> wrote:
 > > > >
-> > > > Certainly this is more of an issue now we support building KUnit tests
-> > > > as modules, rather than having them always be built-in.
-> > > >
-> > > > Having some halfway consistent config-name <-> filename <-> test suite
-> > > > name could be useful down the line, too. Unfortunately, not
-> > > > necessarily a 1:1 mapping, e.g.:
-> > > > - CONFIG_KUNIT_TEST compiles both kunit-test.c and string-stream-test.c
-> > > > - kunit-test.c has several test suites within it:
-> > > > kunit-try-catch-test, kunit-resource-test & kunit-log-test.
-> > > > - CONFIG_EXT4_KUNIT_TESTS currently only builds ext4-inode-test.c, but
-> > > > as the plural name suggests, might build others later.
-> > > > - CONFIG_SECURITY_APPARMOR_KUNIT_TEST doesn't actually have its own
-> > > > source file: the test is built into policy_unpack.c
-> > > > - &cetera
-> > > >
-> > > > Indeed, this made me quickly look up the names of suites, and there
-> > > > are a few inconsistencies there:
-> > > > - most have "-test" as a suffix
-> > > > - some have "_test" as a suffix
-> > > > - some have no suffix
-> > > >
-> > > > (I'm inclined to say that these don't need a suffix at all.)
-> > > >
-> > >
-> > > A good convention for module names - which I _think_ is along the lines
-> > > of what Kees is suggesting - might be something like
-> > >
-> > > <subsystem>[_<optional_test-area>]_kunit.ko
-> > >
-> > > So for example
-> > >
-> > > kunit_test -> test_kunit.ko
-> > > string_stream_test.ko -> test_string_stream_kunit.ko
-> > > kunit_example_test -> example_kunit.ko
-> > > ext4_inode_test.ko -> ext4_inode_kunit.ko
-> > >
-> > > For the kunit selftests, "selftest_" might be a better name
-> > > than "test_", as the latter might encourage people to reintroduce
-> > > a redundant "test" into their module name.
-> > >
+> > > > On Tue, 16 Jun 2020, David Gow wrote:
+[...]
+> > > > > <keescook@chromium.org> wrote:
+> > > > > >
+> > > > > > On Sat, Jun 13, 2020 at 02:51:17PM +0800, David Gow wrote:
+
+[...]
+
+> > > - Test names: Personally, I'd kind-of like to not prefix these at all,
+> > > as they're already part of the suite. If we do want to, though, prefix
+> > > them with <subsystem> and <suite>.
 > >
-> > I quite like the idea of having the deeper "subsystem:suite:test"
-> > hierarchy here. "selftest" possibly would be a bit confusing against
-> > kselftest for the KUnit tests -- personally I'd probably go with
-> > "kunit", even if that introduces a redundant-looking kunit into the
-> > module name.
->
-> Ditto. My first reaction was that it would create too much nesting and
-> subsystems are a poorly defined notion in the Linux kernel; however,
-> after thinking about it some, I think we are already doing what you
-> are proposing with namespacing in identifier names. It makes sense to
-> reflect that in test organization and reporting.
->
-
-The real trick for documenting this is, as you say, defining
-subsystem. I suspect we'll be okay leaving this up to common sense,
-and perhaps suggesting the MAINTAINERS entry or file path as places to
-pull subsystem names from. Having the subsystem be the name of the
-module being tested for drivers, for example, makes some sense, too.
-
-> > So, this could look something like:
-> > - Kconfig name: CONFIG_<subsystem>_<suite>_KUNIT_TEST, or very
-> > possibly CONFIG_<subsystem>_KUNIT_TEST(S?) -- we already have
-> > something like that for the ext4 tests.
->
-> I think the biggest question there is whether we go with the every
-> suite gets its own config approach or all suites in a subsystem are
-> turned on by a single config. I don't think there are enough examples
-> to determine what the community would prefer, and I can see advantages
-> and disadvantages to both.
-
-Yeah: it's really difficult to tell what makes more sense when most
-subsystems will start off with just one suite. I had been favouring
-the config-per-suite approach, but I can definitely see that getting
-really cluttered. Maybe the right thing is to permit both?
-
-> > - Source filename: <suite>_kunit.c within a subsystem directory. (We
-> > probably don't need to enforce suites being in separate files, but
-> > whatever file does contain the tests should at least end "kunit.c")
->
-> I am cool with changing *-test.c to *-kunit.c. The *-test.c was a hold
-> over from when everything was prefixed TEST_* instead of KUNIT_* (back
-> in the early days of the RFC). I never liked naming everything KUNIT_*
-> or -kunit- whatever; it felt kind of egotistical to me (there was also
-> always a part of me that hoped I would come up with a better name than
-> KUnit, but that ship sailed a long time ago). However, purely
-> logically speaking, I think naming all KUnit tests *-kunit.c makes
-> more sense than anything else.
-
-Let's go with _kunit.c as a suffix, then.
-
-> One question: the AppArmor KUnit tests are #included into another .c
-> file when the tests are selected. Should tests #included in this
-> manner be -kunit.h or should all tests be -kunit.c?
-
-I don't think this matters as much -- such tests can't be built as
-modules. I'd lean slightly towards it being _kunit.c, if only because
-it's a simpler rule, and the current AppArmor tests are in a .c file
-anyway. I think we do want to explicitly call out that this is
-something to be avoided if possible, anyway.
-
-> > - Module filename: <subsystem>_<suite>_kunit.ko, or
-> > <subsystem>_kunit.ko if all suites are built into the same module (or
-> > there's just one suite for the whole subsystem)
-> > - Suite name: Either <subsystem>_<suite> or have a separate subsystem
-> > field in kunit_suite. If there's only one suite for the subsystem, set
-> > suite==subsystem
->
-> No strong feelings here.
->
-> > - Test names: Personally, I'd kind-of like to not prefix these at all,
-> > as they're already part of the suite. If we do want to, though, prefix
-> > them with <subsystem> and <suite>.
->
-> Eh, I did that to remain consistent with the kernel naming
-> conventions, but I think those have diverged too. If maintainers are
-> cool with it, I agree that the prefixes are redundant on tests and
-> generally way too long.
->
-
-Do you have a link to the conventions you're talking about?
-
-> > > > Within test suites, we're also largely prefixing all of the tests with
-> > > > a suite name (even if it's not actually the specified suite name). For
-> > > > example, CONFIG_PM_QOS_KUNIT_TEST builds
-> > > > drivers/base/power/qos-test.c which contains a suite called
-> > > > "qos-kunit-test", with tests prefixed "freq_qos_test_". Some of this
-> > > > clearly comes down to wanting to namespace things a bit more
-> > > > ("qos-test" as a name could refer to a few things, I imagine), but
-> > > > specifying how to do so consistently could help.
-> > > >
-> > >
-> > > Could we add some definitions to help standardize this?
-> > > For example, adding a "subsystem" field to "struct kunit_suite"?
-> > >
-> > > So for the ext4 tests the "subsystem" would be "ext4" and the
-> > > name "inode" would specify the test area within that subsystem.
-> > > For the KUnit selftests, the subsystem would be "test"/"selftest".
-> > > Logging could utilize the subsystem definition to allow test
-> > > writers to use less redundant test names too.  For example
-> > > the suite name logged could be constructed from the
-> > > subsystem + area values associated with the kunit_suite,
-> > > and individual test names could be shown as the
-> > > suite area + test_name.
+> > Eh, I did that to remain consistent with the kernel naming
+> > conventions, but I think those have diverged too. If maintainers are
+> > cool with it, I agree that the prefixes are redundant on tests and
+> > generally way too long.
 > >
-> > As above, I quite like this. If we were really brave, we could
-> > actually nest the results into subsystem:area/suite:test using the TAP
-> > subtests stuff. Generating the longer suite name may be easier on
-> > people manually reading large test logs, though, as they wouldn't have
-> > to scroll quite as far to determine what subsystem they're in. (Again,
-> > something that could be solved with tooling, and probably less of a
-> > problem for people accessing results through debugfs.)
 >
-> SGTM
+> Do you have a link to the conventions you're talking about?
 
-Cheers,
--- David
+A link no. This is only of those undocumented rules that most people follow.
+
+The rule is something like this:
+
+Global identifiers should be named:
+<subsystem_name_n>_<subsystem_name_n-1>_..._<subsystem_name_1>_<subsystem_name_0>_foo.
+
+For example, let's say I am working on Synopsis' DesignWare I2C master
+driver. The outermost namespace is i2c, and because DesignWare is
+long, we might prefix each function with i2c_dw_*.
+
+It is a practice that is not universally maintained around the kernel,
+but it seems to be the most common method of namespacing aside from
+just randomly throwing characters together in a prefix that hasn't
+been used before.
+
+Anyway, standardized or not, that is the convention I was trying to follow.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
