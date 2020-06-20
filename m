@@ -1,105 +1,77 @@
-Return-Path: <SRS0=oG7b=AA=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=33ce=AB=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F297C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Jun 2020 21:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 769A9C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Jun 2020 09:18:01 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C3CAC2220D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Jun 2020 21:57:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="mRiPlpOu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C3CAC2220D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	by mail.kernel.org (Postfix) with ESMTPS id 3FFAF23A6B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Jun 2020 09:18:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3FFAF23A6B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6012122BCC;
-	Fri, 19 Jun 2020 21:57:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 29E69241A8;
+	Sat, 20 Jun 2020 09:18:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qd4nandB0ybR; Fri, 19 Jun 2020 21:57:27 +0000 (UTC)
+	with ESMTP id kuId3fK-c127; Sat, 20 Jun 2020 09:17:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 87BB3207A6;
-	Fri, 19 Jun 2020 21:57:27 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EEFD023337;
+	Sat, 20 Jun 2020 09:17:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FB56C07FF;
-	Fri, 19 Jun 2020 21:57:27 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0659CC016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D27C8C0178;
+	Sat, 20 Jun 2020 09:17:58 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90FB7C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 21:57:26 +0000 (UTC)
+ Sat, 20 Jun 2020 09:17:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E31FB86226
+ by hemlock.osuosl.org (Postfix) with ESMTP id 805F288677
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 21:57:25 +0000 (UTC)
+ Sat, 20 Jun 2020 09:17:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LN_y_MJTBXtN
+ with ESMTP id vciNc0kONJj3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 21:57:24 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
- [209.85.160.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 84A5986200
+ Sat, 20 Jun 2020 09:17:55 +0000 (UTC)
+X-Greylist: delayed 00:08:16 by SQLgrey-1.7.6
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
+ [83.223.78.240])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B0925884CE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 21:57:24 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id u17so8424791qtq.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Jun 2020 14:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=rdhxkZX4GmXKSSpsPwGF4bgioI4q0DW5JlXRU/AUlkk=;
- b=mRiPlpOuXbePKoXKYhDFTZ4Jtt6zf1Okl1KJwxQLCsOk74sMT88rOgCfDBrGrWz6F7
- +DE0O4fOnwgtlG3IN91gYWFphtijC32KzwEXJhu5w29ejvAp+98RKifWyXchiMYMCX92
- mZH9Id5OWqXgM6ymZE+c7sazt/Mhu8ki3ndIAKoousXZuQiGULxgVSwjKiStbU6TpPul
- 4ZvjVI1CdsQeLJ698wirI9deBBVy6eXjlqeVxlcyHvXwVMgG+fY46jatAGSNLBElK0A8
- JAdrCGSKtCeblFPMe/mEHvTiHEh/fLjYm32V0ZaiAJ6G84FkXrGHfv1xwNLoYb6cggDe
- hacA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=rdhxkZX4GmXKSSpsPwGF4bgioI4q0DW5JlXRU/AUlkk=;
- b=XJra2fvTiZaQb5FkdJwpGAYuWwOPKWqPN/ur4NcuY2iXMlFS1zMW6IW9uHxcqLOWo5
- qGsEZ9buq9TnVyIzzbyKFyA22EiaCK40A6J31GHBzKit+O4eeHes2b5rPB9YvRl+IkgL
- adP3sMOzNiJr5VCnljFEEOI2ySSwmJy8F54jP5ZXWd3BFaRDsOe+4AqQaOlLT9Nlojqa
- 5x/K1GNFOIjeN7CCmTtuJqXAeZJaDDbBD3qYRKczkK9jXyO2T1GBJkUp6OAGFNx6ohgt
- CDPpRKSQQaA9Q2ApUu3qaZ8NyT98FSs8Tcrv+u4faqW0/DFYDcNloLQNAkNrphHwHHeG
- 55Bg==
-X-Gm-Message-State: AOAM530nRJjYpSeO/qsHcaC2m3eMuwSR+81zPS1xuhPKaKN0MqFrYj7P
- 9RyBfFIKbaujYUfCbamkhfgvSg==
-X-Google-Smtp-Source: ABdhPJzDEbhH9/2WoXmmZH2RrRnKaQv0db5TBB7Xaag8scxB9vAIb4QCZdoLN4qlc8YWSIKcq0cqcA==
-X-Received: by 2002:ac8:688a:: with SMTP id m10mr2810282qtq.254.1592603843298; 
- Fri, 19 Jun 2020 14:57:23 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id g140sm7437850qke.98.2020.06.19.14.57.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jun 2020 14:57:22 -0700 (PDT)
-Message-ID: <2251a43aa773dbd4a417dca20ba12ee0559f9031.camel@massaru.org>
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: Kees Cook <keescook@chromium.org>
-Date: Fri, 19 Jun 2020 18:57:19 -0300
-In-Reply-To: <202006181949.6402C456@keescook>
-References: <20200618140814.135948-1-vitor@massaru.org>
- <202006181949.6402C456@keescook>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+ Sat, 20 Jun 2020 09:17:55 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "*.hostsharing.net",
+ Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
+ by bmailout2.hostsharing.net (Postfix) with ESMTPS id 5FCE728032723;
+ Sat, 20 Jun 2020 11:09:36 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id 38F0B10CB8; Sat, 20 Jun 2020 11:09:36 +0200 (CEST)
+Date: Sat, 20 Jun 2020 11:09:36 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: refactormyself@gmail.com
+Message-ID: <20200620090936.3khh3gj46pnojnrw@wunner.de>
+References: <20200619201219.32126-1-refactormyself@gmail.com>
+ <20200619201219.32126-3-refactormyself@gmail.com>
 MIME-Version: 1.0
-Cc: davidgow@google.com, linux@rasmusvillemoes.dk, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [RESEND,
- PATCH v2] lib: overflow-test: add KUnit test of check_*_overflow
- functions
+Content-Disposition: inline
+In-Reply-To: <20200619201219.32126-3-refactormyself@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Cc: linux-pci@vger.kernel.org, helgaas@kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] PCI: pciehp: Fix wrong
+ failure check on pcie_capability_read_*()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,333 +89,76 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, 2020-06-18 at 20:05 -0700, Kees Cook wrote:
-> On Thu, Jun 18, 2020 at 11:08:14AM -0300, Vitor Massaru Iha wrote:
-> > This adds the conversion of the runtime tests of check_*_overflow
-> > functions,
-> > from `lib/test_overflow.c`to KUnit tests.
-> > 
-> > The log similar to the one seen in dmesg running test_overflow.c
-> > can be
-> > seen in `test.log`.
-> > 
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > Tested-by: David Gow <davidgow@google.com>
-> > ---
-> > v2:
-> >   * moved lib/test_overflow.c to lib/overflow-test.c; 
+On Fri, Jun 19, 2020 at 10:12:19PM +0200, refactormyself@gmail.com wrote:
+> On failure, pcie_capabiility_read_*() will set the status value,
+> its last parameter to 0 and not ~0.
+> This bug fix checks for the proper value.
 
-Sure.
+If a config space read times out, the PCIe controller fabricates
+an "all ones" response.  The code is checking for such a timeout,
+not for an error.  Hence the code is fine.
 
-> I still don't want a dash in the filename, as this creates a
-> difference
-> between the source name and the module name. While I still prefer
-> overflow_kunit.c, I can get over it and accept overflow_test.c :)
-> 
-> >     * back to original license;
-> >     * fixed style code;
-> >     * keeps __initconst and added _refdata on overflow_test_cases
-> > variable;
-> >     * keeps macros intact making asserts with the variable err;
-> >     * removed duplicate test_s8_overflow();
-> >   * fixed typos on commit message;
-> > ---
-> >  lib/Kconfig.debug                        | 20 +++++++--
-> >  lib/Makefile                             |  2 +-
-> >  lib/{test_overflow.c => overflow-test.c} | 54 +++++++++-----------
-> > ----
-> >  3 files changed, 38 insertions(+), 38 deletions(-)
-> >  rename lib/{test_overflow.c => overflow-test.c} (96%)
-> > 
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index d74ac0fd6b2d..fb8a3955e969 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -2000,9 +2000,6 @@ config TEST_UUID
-> >  config TEST_XARRAY
-> >  	tristate "Test the XArray code at runtime"
-> >  
-> > -config TEST_OVERFLOW
-> > -	tristate "Test check_*_overflow() functions at runtime"
-> > -
-> >  config TEST_RHASHTABLE
-> >  	tristate "Perform selftest on resizable hash table"
-> >  	help
-> > @@ -2155,6 +2152,23 @@ config SYSCTL_KUNIT_TEST
-> >  
-> >  	  If unsure, say N.
-> >  
-> > +config OVERFLOW_KUNIT_TEST
-> > +	tristate "KUnit test for overflow" if !KUNIT_ALL_TESTS
-> > +	depends on KUNIT
-> > +	default KUNIT_ALL_TESTS
-> > +	help
-> > +	  This builds the overflow KUnit tests.
-> > +
-> > +	  KUnit tests run during boot and output the results to the
-> > debug log
-> > +	  in TAP format (http://testanything.org/). Only useful for
-> > kernel devs
-> > +	  running KUnit test harness and are not for inclusion into a
-> > production
-> > +	  build.
-> > +
-> > +	  For more information on KUnit and unit tests in general
-> > please refer
-> > +	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-> > +
-> > +	  If unsure, say N.
-> > +
-> >  config LIST_KUNIT_TEST
-> >  	tristate "KUnit Test for Kernel Linked-list structures" if
-> > !KUNIT_ALL_TESTS
-> >  	depends on KUNIT
-> > diff --git a/lib/Makefile b/lib/Makefile
-> > index b1c42c10073b..3b725c9f92d4 100644
-> > --- a/lib/Makefile
-> > +++ b/lib/Makefile
-> > @@ -75,7 +75,6 @@ obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
-> >  obj-$(CONFIG_TEST_MIN_HEAP) += test_min_heap.o
-> >  obj-$(CONFIG_TEST_LKM) += test_module.o
-> >  obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
-> > -obj-$(CONFIG_TEST_OVERFLOW) += test_overflow.o
-> >  obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
-> >  obj-$(CONFIG_TEST_SORT) += test_sort.o
-> >  obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
-> > @@ -318,3 +317,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
-> >  # KUnit tests
-> >  obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
-> >  obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-> > +obj-$(CONFIG_OVERFLOW_KUNIT_TEST) += overflow-test.o
-> > diff --git a/lib/test_overflow.c b/lib/overflow-test.c
-> > similarity index 96%
-> > rename from lib/test_overflow.c
-> > rename to lib/overflow-test.c
-> > index 7a4b6f6c5473..d40ef06b1ade 100644
-> > --- a/lib/test_overflow.c
-> > +++ b/lib/overflow-test.c
-> > @@ -4,14 +4,11 @@
-> >   */
-> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> >  
-> > +#include <kunit/test.h>
-> >  #include <linux/device.h>
-> >  #include <linux/init.h>
-> > -#include <linux/kernel.h>
-> >  #include <linux/mm.h>
-> > -#include <linux/module.h>
-> >  #include <linux/overflow.h>
-> > -#include <linux/slab.h>
-> > -#include <linux/types.h>
-> >  #include <linux/vmalloc.h>
-> >  
-> >  #define DEFINE_TEST_ARRAY(t)			\
-> > @@ -270,7 +267,7 @@ DEFINE_TEST_FUNC(u64, "%llu");
-> >  DEFINE_TEST_FUNC(s64, "%lld");
-> >  #endif
-> >  
-> > -static int __init test_overflow_calculation(void)
-> > +static void __init overflow_calculation_test(struct kunit *test)
-> >  {
-> >  	int err = 0;
-> >  
-> > @@ -285,10 +282,10 @@ static int __init
-> > test_overflow_calculation(void)
-> >  	err |= test_s64_overflow();
-> >  #endif
-> >  
-> > -	return err;
-> > +	KUNIT_EXPECT_FALSE(test, err);
-> >  }
-> 
-> Ah! Well, yes, I guess that is one way to do it. :) I'm just curious:
-> why the change away from doing EXPECTs on individual tests?
+Thanks,
 
-When returning the err variables, I was not sure if it was to make the
-asserts individually, I can do that.
-
-> >  
-> > -static int __init test_overflow_shift(void)
-> > +static void __init overflow_shift_test(struct kunit *test)
-> >  {
-> >  	int err = 0;
-> >  
-> > @@ -479,7 +476,7 @@ static int __init test_overflow_shift(void)
-> >  	err |= TEST_ONE_SHIFT(0, 31, s32, 0, false);
-> >  	err |= TEST_ONE_SHIFT(0, 63, s64, 0, false);
-> >  
-> > -	return err;
-> > +	KUNIT_EXPECT_FALSE(test, err);
-> >  }
-> >  
-> >  /*
-> > @@ -555,7 +552,7 @@ DEFINE_TEST_ALLOC(kvzalloc_node, kvfree,     0,
-> > 1, 1);
-> >  DEFINE_TEST_ALLOC(devm_kmalloc,  devm_kfree, 1, 1, 0);
-> >  DEFINE_TEST_ALLOC(devm_kzalloc,  devm_kfree, 1, 1, 0);
-> >  
-> > -static int __init test_overflow_allocation(void)
-> > +static void __init overflow_allocation_test(struct kunit *test)
-> >  {
-> >  	const char device_name[] = "overflow-test";
-> >  	struct device *dev;
-> > @@ -563,10 +560,8 @@ static int __init
-> > test_overflow_allocation(void)
-> >  
-> >  	/* Create dummy device for devm_kmalloc()-family tests. */
-> >  	dev = root_device_register(device_name);
-> > -	if (IS_ERR(dev)) {
-> > -		pr_warn("Cannot register test device\n");
-> > -		return 1;
-> > -	}
-> > +	if (IS_ERR(dev))
-> > +		kunit_warn(test, "Cannot register test device\n");
-> >  
-> >  	err |= test_kmalloc(NULL);
-> >  	err |= test_kmalloc_node(NULL);
-> > @@ -585,30 +580,21 @@ static int __init
-> > test_overflow_allocation(void)
-> >  
-> >  	device_unregister(dev);
-> >  
-> > -	return err;
-> > +	KUNIT_EXPECT_FALSE(test, err);
-> >  }
-> >  
-> > -static int __init test_module_init(void)
-> > -{
-> > -	int err = 0;
-> > -
-> > -	err |= test_overflow_calculation();
-> > -	err |= test_overflow_shift();
-> > -	err |= test_overflow_allocation();
-> > -
-> > -	if (err) {
-> > -		pr_warn("FAIL!\n");
-> > -		err = -EINVAL;
-> > -	} else {
-> > -		pr_info("all tests passed\n");
-> > -	}
-> > +static struct kunit_case __refdata overflow_test_cases[] = {
-> 
-> Erm, __refdata? This seems like it should be __initdata.
-
-I tried to use __initdata, but the build still gave warnings.
+Lukas
 
 > 
-> > +	KUNIT_CASE(overflow_calculation_test),
-> > +	KUNIT_CASE(overflow_shift_test),
-> > +	KUNIT_CASE(overflow_allocation_test),
-> > +	{}
-> > +};
-> >  
-> > -	return err;
-> > -}
-> > +static struct kunit_suite overflow_test_suite = {
+> Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+> ---
+>  drivers/pci/hotplug/pciehp_hpc.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> And this.
-> 
-> > +	.name = "overflow",
-> > +	.test_cases = overflow_test_cases,
-> > +};
-> >  
-> > -static void __exit test_module_exit(void)
-> > -{ }
-> > +kunit_test_suites(&overflow_test_suite);
-> 
-> I suspect the problem causing the need for __refdata there is the
-> lack
-> of __init markings on the functions in kunit_test_suites()?
-
-From the kunit_test_suites() documentation I saw that I need to write
-the test as a module to solve this problem. I'll fix this.
-
-> 
-> (Or maybe this is explained somewhere else I've missed it.)
-> 
-> For example, would this work? (I haven't tested it all.)
-
-Oops. It doesn't work, I'm sorry.
-
-
-> 
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index 59f3144f009a..aad746d59d2f 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -233,9 +233,9 @@ size_t kunit_suite_num_test_cases(struct
-> kunit_suite *suite);
->  unsigned int kunit_test_case_num(struct kunit_suite *suite,
->  				 struct kunit_case *test_case);
+> diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
+> index 53433b37e181..c1a67054948a 100644
+> --- a/drivers/pci/hotplug/pciehp_hpc.c
+> +++ b/drivers/pci/hotplug/pciehp_hpc.c
+> @@ -89,7 +89,7 @@ static int pcie_poll_cmd(struct controller *ctrl, int timeout)
 >  
-> -int __kunit_test_suites_init(struct kunit_suite **suites);
-> +int __init __kunit_test_suites_init(struct kunit_suite **suites);
+>  	do {
+>  		pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
+> -		if (slot_status == (u16) ~0) {
+> +		if (slot_status == (u16)0) {
+>  			ctrl_info(ctrl, "%s: no response from device\n",
+>  				  __func__);
+>  			return 0;
+> @@ -165,7 +165,7 @@ static void pcie_do_write_cmd(struct controller *ctrl, u16 cmd,
+>  	pcie_wait_cmd(ctrl);
 >  
-> -void __kunit_test_suites_exit(struct kunit_suite **suites);
-> +void __exit __kunit_test_suites_exit(struct kunit_suite **suites);
+>  	pcie_capability_read_word(pdev, PCI_EXP_SLTCTL, &slot_ctrl);
+> -	if (slot_ctrl == (u16) ~0) {
+> +	if (slot_ctrl == (u16)0) {
+>  		ctrl_info(ctrl, "%s: no response from device\n", __func__);
+>  		goto out;
+>  	}
+> @@ -236,7 +236,7 @@ int pciehp_check_link_active(struct controller *ctrl)
+>  	int ret;
 >  
->  /**
->   * kunit_test_suites() - used to register one or more &struct
-> kunit_suite
-> @@ -263,8 +263,9 @@ void __kunit_test_suites_exit(struct kunit_suite
-> **suites);
->   * everything else is definitely initialized.
->   */
->  #define kunit_test_suites(suites_list...)				
-> \
-> -	static struct kunit_suite *suites[] = {suites_list, NULL};	
-> \
-> -	static int kunit_test_suites_init(void)				
-> \
-> +	static struct kunit_suite *suites[] __initdata =		\
-> +		{suites_list, NULL};					
-> \
-> +	static int __init kunit_test_suites_init(void)			
-> \
->  	{								\
->  		return __kunit_test_suites_init(suites);		\
->  	}								\
-> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> index c36037200310..bfb0f563721b 100644
-> --- a/lib/kunit/test.c
-> +++ b/lib/kunit/test.c
-> @@ -381,7 +381,7 @@ static void kunit_init_suite(struct kunit_suite
-> *suite)
->  	kunit_debugfs_create_suite(suite);
->  }
+>  	ret = pcie_capability_read_word(pdev, PCI_EXP_LNKSTA, &lnk_status);
+> -	if (ret == PCIBIOS_DEVICE_NOT_FOUND || lnk_status == (u16)~0)
+> +	if (ret == PCIBIOS_DEVICE_NOT_FOUND || lnk_status == (u16)0)
+>  		return -ENODEV;
 >  
-> -int __kunit_test_suites_init(struct kunit_suite **suites)
-> +int __init __kunit_test_suites_init(struct kunit_suite **suites)
->  {
->  	unsigned int i;
+>  	ret = !!(lnk_status & PCI_EXP_LNKSTA_DLLLA);
+> @@ -440,7 +440,7 @@ int pciehp_card_present(struct controller *ctrl)
+>  	int ret;
 >  
-> @@ -393,7 +393,7 @@ int __kunit_test_suites_init(struct kunit_suite
-> **suites)
->  }
->  EXPORT_SYMBOL_GPL(__kunit_test_suites_init);
+>  	ret = pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
+> -	if (ret == PCIBIOS_DEVICE_NOT_FOUND || slot_status == (u16)~0)
+> +	if (ret == PCIBIOS_DEVICE_NOT_FOUND || slot_status == (u16)0)
+>  		return -ENODEV;
 >  
-> -static void kunit_exit_suite(struct kunit_suite *suite)
-> +static void __exit kunit_exit_suite(struct kunit_suite *suite)
->  {
->  	kunit_debugfs_destroy_suite(suite);
->  }
-> 
-> >  
-> > -module_init(test_module_init);
-> > -module_exit(test_module_exit);
-> >  MODULE_LICENSE("Dual MIT/GPL");
-> > 
-> > base-commit: 7bf200b3a4ac10b1b0376c70b8c66ed39eae7cdd
-> > prerequisite-patch-id: e827b6b22f950b9f69620805a04e4a264cf4cc6a
-> > -- 
-> > 2.26.2
-> > 
-> 
-> Thanks again for the conversion!
-
-
-Thanks for the review.
-
+>  	return !!(slot_status & PCI_EXP_SLTSTA_PDS);
+> @@ -592,7 +592,7 @@ static irqreturn_t pciehp_isr(int irq, void *dev_id)
+>  
+>  read_status:
+>  	pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &status);
+> -	if (status == (u16) ~0) {
+> +	if (status == (u16)0) {
+>  		ctrl_info(ctrl, "%s: no response from device\n", __func__);
+>  		if (parent)
+>  			pm_runtime_put(parent);
+> -- 
+> 2.18.2
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
