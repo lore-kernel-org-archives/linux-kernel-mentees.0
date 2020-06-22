@@ -1,77 +1,103 @@
-Return-Path: <SRS0=33ce=AB=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=5DCt=AD=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 769A9C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Jun 2020 09:18:01 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8C9C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Jun 2020 11:12:37 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3FFAF23A6B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Jun 2020 09:18:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3FFAF23A6B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+	by mail.kernel.org (Postfix) with ESMTPS id C8331206D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Jun 2020 11:12:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AwidX3Ze"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C8331206D7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 29E69241A8;
-	Sat, 20 Jun 2020 09:18:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A5D7D88090;
+	Mon, 22 Jun 2020 11:12:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kuId3fK-c127; Sat, 20 Jun 2020 09:17:59 +0000 (UTC)
+	with ESMTP id 47GGEnmtxEvr; Mon, 22 Jun 2020 11:12:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EEFD023337;
-	Sat, 20 Jun 2020 09:17:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 51DD2853B9;
+	Mon, 22 Jun 2020 11:12:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D27C8C0178;
-	Sat, 20 Jun 2020 09:17:58 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 90FB7C016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AE8EC088F;
+	Mon, 22 Jun 2020 11:12:36 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8501DC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Jun 2020 09:17:57 +0000 (UTC)
+ Mon, 22 Jun 2020 11:12:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 805F288677
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7039A85FEB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Jun 2020 09:17:57 +0000 (UTC)
+ Mon, 22 Jun 2020 11:12:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vciNc0kONJj3
+ with ESMTP id qR9BDNAU2qb7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Jun 2020 09:17:55 +0000 (UTC)
-X-Greylist: delayed 00:08:16 by SQLgrey-1.7.6
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
- [83.223.78.240])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B0925884CE
+ Mon, 22 Jun 2020 11:12:33 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5004D85FD5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Jun 2020 09:17:55 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "*.hostsharing.net",
- Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
- by bmailout2.hostsharing.net (Postfix) with ESMTPS id 5FCE728032723;
- Sat, 20 Jun 2020 11:09:36 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id 38F0B10CB8; Sat, 20 Jun 2020 11:09:36 +0200 (CEST)
-Date: Sat, 20 Jun 2020 11:09:36 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: refactormyself@gmail.com
-Message-ID: <20200620090936.3khh3gj46pnojnrw@wunner.de>
-References: <20200619201219.32126-1-refactormyself@gmail.com>
- <20200619201219.32126-3-refactormyself@gmail.com>
+ Mon, 22 Jun 2020 11:12:33 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id d4so8015599pgk.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 22 Jun 2020 04:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qYAXPW7DT0kbvzrQebyhhIbPbS864IccOljK5pvAni0=;
+ b=AwidX3ZexkpxDTHKyTCGp46jSNW2xMBBWhPBN56AWN4n6wEVZfIQfLnHUtbsVPC/+q
+ vHSkQ68iyNPUheHNKCpbOSIbouDo4Fb6Cq4jawLnxgXqYfSUFwy7Bhlj2B5DaPx/hoOz
+ XmQGM7H/6M7XbjcOe9abIhMO/hLNUvoEF+EqPw7Y/Ju89+cXXG54N1oIAcwtiAbSb7mz
+ +vrTrj2CmD2oqV5dvdp7w2d6m1zhtiGdtm2ECq2Hya31fWGr4QScfV6dtp34YYx8KiLa
+ Kmu1m1VrnvCOas6ZRsUU69J0vlNoZJo8g/qxNJIVmOCbRzrejzbYO7qevtEAHO5zNTqY
+ LtxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qYAXPW7DT0kbvzrQebyhhIbPbS864IccOljK5pvAni0=;
+ b=lIjJcvuMQaL4iqSwO5/Flp1VEGfoa6b/Ylyiic6KzqMVgc8NDT7V0oqy0BbZo4lMLA
+ gSRmyzjdYbfE7cO2zzpAkNQ83UEjxrPmMwt/HckYQ+CJHRVZtBJ0a2/wF4wKEIXM780i
+ zpx0tViFTmgaLX5d+jLLYUVed6ce0LUZyc5QTEKPTjvKdcDEe8wOJb5ViBUh7qhZl4kf
+ dEp7yT/NgfODGe2+F16fdQeUeBgWH3E6kRRfREbDSAvLeyAhAjuOfuSeQoObIRwx7eaL
+ HCZnk/1v0wkhdS4kWfCcudOqQE5+IL/2YZ9aqrpO9nWSiA/uZFcFVPMczL6HrONGvb4L
+ DhGQ==
+X-Gm-Message-State: AOAM533aWn5RxXI8V7fenOvguGBv/z43mKruVNjqZnbQ+AMfjq0m6Cjr
+ IfJPApD3yDgBZ1XYO+ywRC0=
+X-Google-Smtp-Source: ABdhPJxdh9WVIqHVXa/wZqGd4y+AAcv+Apip4Y9P8JN/SwkmLrq/IJHMqUL7J0kc15kn0dVK0K9DKg==
+X-Received: by 2002:aa7:9289:: with SMTP id j9mr21122392pfa.124.1592824352780; 
+ Mon, 22 Jun 2020 04:12:32 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.153.57])
+ by smtp.gmail.com with ESMTPSA id f205sm13467355pfa.218.2020.06.22.04.12.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jun 2020 04:12:32 -0700 (PDT)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Don Fry <pcnet32@frontier.com>, Tom Lendacky <thomas.lendacky@amd.com>
+Date: Mon, 22 Jun 2020 16:41:06 +0530
+Message-Id: <20200622111109.55674-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200619201219.32126-3-refactormyself@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Cc: linux-pci@vger.kernel.org, helgaas@kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] PCI: pciehp: Fix wrong
- failure check on pcie_capability_read_*()
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v2 0/3] ethernet: amd: Convert to
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,76 +115,33 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jun 19, 2020 at 10:12:19PM +0200, refactormyself@gmail.com wrote:
-> On failure, pcie_capabiility_read_*() will set the status value,
-> its last parameter to 0 and not ~0.
-> This bug fix checks for the proper value.
+Linux Kernel Mentee: Remove Legacy Power Management.
 
-If a config space read times out, the PCIe controller fabricates
-an "all ones" response.  The code is checking for such a timeout,
-not for an error.  Hence the code is fine.
+The purpose of this patch series is to remove legacy power management callbacks
+from amd ethernet drivers.
 
-Thanks,
+The callbacks performing suspend() and resume() operations are still calling
+pci_save_state(), pci_set_power_state(), etc. and handling the power management
+themselves, which is not recommended.
 
-Lukas
+The conversion requires the removal of the those function calls and change the
+callback definition accordingly and make use of dev_pm_ops structure.
 
-> 
-> Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
-> ---
->  drivers/pci/hotplug/pciehp_hpc.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
-> index 53433b37e181..c1a67054948a 100644
-> --- a/drivers/pci/hotplug/pciehp_hpc.c
-> +++ b/drivers/pci/hotplug/pciehp_hpc.c
-> @@ -89,7 +89,7 @@ static int pcie_poll_cmd(struct controller *ctrl, int timeout)
->  
->  	do {
->  		pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
-> -		if (slot_status == (u16) ~0) {
-> +		if (slot_status == (u16)0) {
->  			ctrl_info(ctrl, "%s: no response from device\n",
->  				  __func__);
->  			return 0;
-> @@ -165,7 +165,7 @@ static void pcie_do_write_cmd(struct controller *ctrl, u16 cmd,
->  	pcie_wait_cmd(ctrl);
->  
->  	pcie_capability_read_word(pdev, PCI_EXP_SLTCTL, &slot_ctrl);
-> -	if (slot_ctrl == (u16) ~0) {
-> +	if (slot_ctrl == (u16)0) {
->  		ctrl_info(ctrl, "%s: no response from device\n", __func__);
->  		goto out;
->  	}
-> @@ -236,7 +236,7 @@ int pciehp_check_link_active(struct controller *ctrl)
->  	int ret;
->  
->  	ret = pcie_capability_read_word(pdev, PCI_EXP_LNKSTA, &lnk_status);
-> -	if (ret == PCIBIOS_DEVICE_NOT_FOUND || lnk_status == (u16)~0)
-> +	if (ret == PCIBIOS_DEVICE_NOT_FOUND || lnk_status == (u16)0)
->  		return -ENODEV;
->  
->  	ret = !!(lnk_status & PCI_EXP_LNKSTA_DLLLA);
-> @@ -440,7 +440,7 @@ int pciehp_card_present(struct controller *ctrl)
->  	int ret;
->  
->  	ret = pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
-> -	if (ret == PCIBIOS_DEVICE_NOT_FOUND || slot_status == (u16)~0)
-> +	if (ret == PCIBIOS_DEVICE_NOT_FOUND || slot_status == (u16)0)
->  		return -ENODEV;
->  
->  	return !!(slot_status & PCI_EXP_SLTSTA_PDS);
-> @@ -592,7 +592,7 @@ static irqreturn_t pciehp_isr(int irq, void *dev_id)
->  
->  read_status:
->  	pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &status);
-> -	if (status == (u16) ~0) {
-> +	if (status == (u16)0) {
->  		ctrl_info(ctrl, "%s: no response from device\n", __func__);
->  		if (parent)
->  			pm_runtime_put(parent);
-> -- 
-> 2.18.2
+All patches are compile-tested only.
+
+Vaibhav Gupta (3):
+  pcnet32: Convert to generic power management
+  amd8111e: Convert to generic power management
+  amd-xgbe: Convert to generic power management
+
+ drivers/net/ethernet/amd/amd8111e.c      | 30 +++++++++---------------
+ drivers/net/ethernet/amd/pcnet32.c       | 22 ++++++++---------
+ drivers/net/ethernet/amd/xgbe/xgbe-pci.c | 19 +++++++--------
+ 3 files changed, 31 insertions(+), 40 deletions(-)
+
+-- 
+2.27.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
