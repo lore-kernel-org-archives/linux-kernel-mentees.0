@@ -5,93 +5,94 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6F3C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Jun 2020 11:44:30 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB08C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Jun 2020 11:44:37 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1347520716
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Jun 2020 11:44:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7CCF6206BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Jun 2020 11:44:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrBa16eg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1347520716
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EeazGPCw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CCF6206BE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id DD93D20426;
-	Mon, 22 Jun 2020 11:44:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 59D9F86D2D;
+	Mon, 22 Jun 2020 11:44:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ts7sQwjbDt7d; Mon, 22 Jun 2020 11:44:29 +0000 (UTC)
+	with ESMTP id ZJq8HE5S2xpf; Mon, 22 Jun 2020 11:44:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 35BB0203DB;
-	Mon, 22 Jun 2020 11:44:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5FADA863F2;
+	Mon, 22 Jun 2020 11:44:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 32109C0891;
-	Mon, 22 Jun 2020 11:44:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4EA39C0891;
+	Mon, 22 Jun 2020 11:44:36 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DB7E9C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 57F09C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Jun 2020 11:44:27 +0000 (UTC)
+ Mon, 22 Jun 2020 11:44:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id C8DDE87E57
+ by whitealder.osuosl.org (Postfix) with ESMTP id 471EE87F35
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Jun 2020 11:44:27 +0000 (UTC)
+ Mon, 22 Jun 2020 11:44:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XV1TCdUuazck
+ with ESMTP id C4b1jOZD2c3u
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Jun 2020 11:44:27 +0000 (UTC)
+ Mon, 22 Jun 2020 11:44:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3CB7E87DEF
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 41A4587EE7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Jun 2020 11:44:27 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id l63so8021155pge.12
+ Mon, 22 Jun 2020 11:44:34 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id i12so8041801pju.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Jun 2020 04:44:27 -0700 (PDT)
+ Mon, 22 Jun 2020 04:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WzDzrg/pch1EgVKcPwg7I2YaiPXfTbbhSV+G88b8TxU=;
- b=LrBa16egO6ZcXQeENGdXRQ7FIz7WVhoOD47Fz0V1DDN8wUgEvTxyDSjCnq2w32QLLg
- DWTRxEXLYqeiwyIH2VPOZ8fFEG3TCsJ4rUqVGnAWpeexvJ2NG/jznb895mdb5txpUifl
- MPq5saQvtjhNwzGKFs+bNDAcqlXYWf7cO1cXzm3V5qTqgyUl/vCI+LIiNqEzHSweaDbN
- JItcbJi/N8NjMDIwiu561FllXW0nhP9uVxb97qAdf+hcH+dJTikr4J3dTOJfoOaNuAoz
- 8PztmvySg+/OLHx7gEkyz+pJDKgFCqdVVvHiK5/rNIZd5l8U7AqiMrthl048ShMYj633
- /D4w==
+ bh=fPbZUQT1VbLR1XExkOHhJDqfB6VA400G+a21PYV/3fs=;
+ b=EeazGPCwfh2zRSycCdzNh59i+CgRWTtwh5JVoLDA7o2ZIBQc7oJHD5YpMHIsIG0o1d
+ qtCXNe6U+RlUEu12o/GMl2OESvR0StKwfq2WWB3YFurqkjsel1BLQvbEmwJo2MVBdHse
+ STvv2P3lgLHUS9GWfYMk+gt2KcYT4PgTOXo5ALKGDihYq0tiuW5AI0t/Knr2dWqEJIu6
+ 3Cxn3B3sD1qxzbAdZ2weHc5fx/UuvNusplgz4CLxXIO8dp9s9yfVB3A2SbYCEX3GLNTU
+ lgDl6UXt0Hh+zYqReIR0P//hRTGNRrP+xXrHM17H6Js0MASNVBPxscuSIyJfcg660cLL
+ tPLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WzDzrg/pch1EgVKcPwg7I2YaiPXfTbbhSV+G88b8TxU=;
- b=YtdLt5LI5eoptLUv4WsJXE38or+WYHvkeCsdndidhGydrOcaWDwnvKD7Ou7jWzSfzQ
- 1GFMP11IJpv+FdrhABo0gGobQ3sB1eoRUjHoGYMpJ770mRKAQ1MBSt+Oup0fRqsXXDxr
- /mBhbHHx9mT8bkdYwcObpfIFI9mYWW0Ggv76reIdaIbTv7dUYiEau1PVcvmRsJTJpgD9
- 2WpgIo+pwWI2jT0PQzJk1gWd0DMbnPtvCmso5GfdYdF5KkNxIF11M/uoR/KxhiY6IjY5
- SftgZ9pWRNQ432JkCwPdPQqWeB01Pzghv5sNZVhHJQyyqa/2dPfKexX+YswtpLN3SYaN
- MS+g==
-X-Gm-Message-State: AOAM53346dJ5iCZ5iw1ZRZd4Ev9bSqOnZp34+h6Ybu7hNstABqjOoF34
- ERs5gv5pmh9w2Lw/khI5bI4=
-X-Google-Smtp-Source: ABdhPJw5y8pVGRO9YS9EL2B22De7BqsHzxNEVwiayIQ15BCyd9Z7GI041VolqqPSR2j7lDxhzqFXOQ==
-X-Received: by 2002:a63:d317:: with SMTP id b23mr12566402pgg.132.1592826266721; 
- Mon, 22 Jun 2020 04:44:26 -0700 (PDT)
+ bh=fPbZUQT1VbLR1XExkOHhJDqfB6VA400G+a21PYV/3fs=;
+ b=hzQZcx/mn5PiIdKffKq1x+vwW4+zcG68quXO0gTWCLIH8Xn5vG0cfRyOFrZcJtZlUQ
+ Q6o3vWHvog9WnhXMdqWzq4rmtq3vpetqw8eszNb0Xm/c2oSAm7m7OuTUdti7DmzvvKC5
+ LRQHrZqOqwX2Wjn61pfYMyN70XywfQyixubDfVMLqNCOrHYYOTT9KNDSDvf6NixeViDA
+ jC+eD52+hC/hdB9DQxbN7RpZfZJNj5LHOSbyty/eX20yKV1wZZ/h4eXp3gdEZcts27xN
+ afmc4n16inE+yt2eZwssWiyNFJq7GUyszxM0+JmM0XDb3zqjjaBt4UI8LLqhVErmfGeL
+ eKYQ==
+X-Gm-Message-State: AOAM532pfqEKQDLl25R1usdYTQQsAWd+iUQ8KXeL/ZaeBXw894hoofkE
+ GHFdSqlJmeacBsSIArG3mMI=
+X-Google-Smtp-Source: ABdhPJwNzqwp+OTurFYW2OqobXmnFONIUpFUSOsdLqGPvxoglUQTXM7D0MROKehtPSHZWTfKKGGaaw==
+X-Received: by 2002:a17:90a:f198:: with SMTP id
+ bv24mr18192326pjb.206.1592826273778; 
+ Mon, 22 Jun 2020 04:44:33 -0700 (PDT)
 Received: from varodek.localdomain ([2401:4900:b8b:123e:d7ae:5602:b3d:9c0])
- by smtp.gmail.com with ESMTPSA id j17sm14081032pjy.22.2020.06.22.04.44.22
+ by smtp.gmail.com with ESMTPSA id j17sm14081032pjy.22.2020.06.22.04.44.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 04:44:26 -0700 (PDT)
+ Mon, 22 Jun 2020 04:44:33 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, "David S. Miller" <davem@davemloft.net>,
  Jakub Kicinski <kuba@kernel.org>, Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Date: Mon, 22 Jun 2020 17:12:27 +0530
-Message-Id: <20200622114228.60027-5-vaibhavgupta40@gmail.com>
+Date: Mon, 22 Jun 2020 17:12:28 +0530
+Message-Id: <20200622114228.60027-6-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200622114228.60027-1-vaibhavgupta40@gmail.com>
 References: <20200622114228.60027-1-vaibhavgupta40@gmail.com>
@@ -99,8 +100,8 @@ MIME-Version: 1.0
 Cc: linux-parisc@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v1 4/5] tulip: tulip_core: use
-	generic power management
+Subject: [Linux-kernel-mentees] [PATCH v1 5/5] tulip: uli526x: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,134 +120,127 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 With the support of generic PM callbacks, drivers no longer need to use
-legacy .suspend() and .resume() in which they had to maintain PCI
-states changes and device's power state themselves.
+legacy .suspend() and .resume() in which they had to maintain PCI states
+changes and device's power state themselves.
 
-Earlier, .suspend() and .resume() were invoking pci_disable_device()
-and pci_enable_device() respectively to manage the device's power state.
-driver also invoked pci_save/restore_state() and pci_set_power_sitate().
-With generic PM, it is no longer needed. The driver is expected to just
-implement driver-specific operations and leave power transitions to PCI
-core.
+Legacy PM involves usage of PCI helper functions like pci_enable_wake()
+which is no longer recommended.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/net/ethernet/dec/tulip/tulip_core.c | 51 +++++----------------
- 1 file changed, 12 insertions(+), 39 deletions(-)
+ drivers/net/ethernet/dec/tulip/uli526x.c | 48 ++++--------------------
+ 1 file changed, 8 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/net/ethernet/dec/tulip/tulip_core.c b/drivers/net/ethernet/dec/tulip/tulip_core.c
-index 15efc294f513..9db23527275a 100644
---- a/drivers/net/ethernet/dec/tulip/tulip_core.c
-+++ b/drivers/net/ethernet/dec/tulip/tulip_core.c
-@@ -1803,13 +1803,9 @@ static void tulip_set_wolopts (struct pci_dev *pdev, u32 wolopts)
- 	}
+diff --git a/drivers/net/ethernet/dec/tulip/uli526x.c b/drivers/net/ethernet/dec/tulip/uli526x.c
+index f726436b1985..f942399f0f32 100644
+--- a/drivers/net/ethernet/dec/tulip/uli526x.c
++++ b/drivers/net/ethernet/dec/tulip/uli526x.c
+@@ -1163,65 +1163,41 @@ static void uli526x_dynamic_reset(struct net_device *dev)
+ 	netif_wake_queue(dev);
  }
  
+-
 -#ifdef CONFIG_PM
 -
--
--static int tulip_suspend (struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused tulip_suspend(struct device *dev_d)
+ /*
+  *	Suspend the interface.
+  */
+ 
+-static int uli526x_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused uli526x_suspend(struct device *dev_d)
  {
--	pci_power_t pstate;
 -	struct net_device *dev = pci_get_drvdata(pdev);
+-	pci_power_t power_state;
+-	int err;
 +	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct tulip_private *tp = netdev_priv(dev);
  
- 	if (!dev)
-@@ -1825,45 +1821,27 @@ static int tulip_suspend (struct pci_dev *pdev, pm_message_t state)
- 	free_irq(tp->pdev->irq, dev);
+ 	ULI526X_DBUG(0, "uli526x_suspend", 0);
  
- save_state:
 -	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pstate = pci_choose_state(pdev, state);
--	if (state.event == PM_EVENT_SUSPEND && pstate != PCI_D0) {
--		int rc;
--
--		tulip_set_wolopts(pdev, tp->wolinfo.wolopts);
--		rc = pci_enable_wake(pdev, pstate, tp->wolinfo.wolopts);
--		if (rc)
--			pr_err("pci_enable_wake failed (%d)\n", rc);
--	}
--	pci_set_power_state(pdev, pstate);
-+	tulip_set_wolopts(to_pci_dev(dev_d), tp->wolinfo.wolopts);
-+	device_set_wakeup_enable(dev_d, !!tp->wolinfo.wolopts);
- 
- 	return 0;
- }
- 
--
--static int tulip_resume(struct pci_dev *pdev)
-+static int __maybe_unused tulip_resume(struct device *dev_d)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct pci_dev *pdev = to_pci_dev(dev_d);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct tulip_private *tp = netdev_priv(dev);
- 	void __iomem *ioaddr = tp->base_addr;
--	int retval;
- 	unsigned int tmp;
-+	int retval = 0;
- 
- 	if (!dev)
- 		return -EINVAL;
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
 -
  	if (!netif_running(dev))
  		return 0;
  
--	if ((retval = pci_enable_device(pdev))) {
--		pr_err("pci_enable_device failed in resume\n");
--		return retval;
+ 	netif_device_detach(dev);
+ 	uli526x_reset_prepare(dev);
+ 
+-	power_state = pci_choose_state(pdev, state);
+-	pci_enable_wake(pdev, power_state, 0);
+-	err = pci_set_power_state(pdev, power_state);
+-	if (err) {
+-		netif_device_attach(dev);
+-		/* Re-initialize ULI526X board */
+-		uli526x_init(dev);
+-		/* Restart upper layer interface */
+-		netif_wake_queue(dev);
+-	}
++	device_set_wakeup_enable(dev_d, 0);
+ 
+-	return err;
++	return 0;
+ }
+ 
+ /*
+  *	Resume the interface.
+  */
+ 
+-static int uli526x_resume(struct pci_dev *pdev)
++static int __maybe_unused uli526x_resume(struct device *dev_d)
+ {
+-	struct net_device *dev = pci_get_drvdata(pdev);
+-	int err;
++	struct net_device *dev = dev_get_drvdata(dev_d);
+ 
+ 	ULI526X_DBUG(0, "uli526x_resume", 0);
+ 
+-	pci_restore_state(pdev);
+ 
+ 	if (!netif_running(dev))
+ 		return 0;
+ 
+-	err = pci_set_power_state(pdev, PCI_D0);
+-	if (err) {
+-		netdev_warn(dev, "Could not put device into D0\n");
+-		return err;
 -	}
 -
- 	retval = request_irq(pdev->irq, tulip_interrupt, IRQF_SHARED,
- 			     dev->name, dev);
- 	if (retval) {
-@@ -1872,8 +1850,7 @@ static int tulip_resume(struct pci_dev *pdev)
- 	}
- 
- 	if (tp->flags & COMET_PM) {
--		pci_enable_wake(pdev, PCI_D3hot, 0);
--		pci_enable_wake(pdev, PCI_D3cold, 0);
-+		device_set_wakeup_enable(dev_d, 0);
- 
- 		/* Clear the PMES flag */
- 		tmp = ioread32(ioaddr + CSR20);
-@@ -1891,9 +1868,6 @@ static int tulip_resume(struct pci_dev *pdev)
+ 	netif_device_attach(dev);
+ 	/* Re-initialize ULI526X board */
+ 	uli526x_init(dev);
+@@ -1231,14 +1207,6 @@ static int uli526x_resume(struct pci_dev *pdev)
  	return 0;
  }
  
--#endif /* CONFIG_PM */
+-#else /* !CONFIG_PM */
+-
+-#define uli526x_suspend	NULL
+-#define uli526x_resume	NULL
+-
+-#endif /* !CONFIG_PM */
 -
 -
- static void tulip_remove_one(struct pci_dev *pdev)
- {
- 	struct net_device *dev = pci_get_drvdata (pdev);
-@@ -1937,15 +1911,14 @@ static void poll_tulip (struct net_device *dev)
- }
- #endif
+ /*
+  *	free all allocated rx buffer
+  */
+@@ -1761,14 +1729,14 @@ static const struct pci_device_id uli526x_pci_tbl[] = {
+ };
+ MODULE_DEVICE_TABLE(pci, uli526x_pci_tbl);
  
-+static SIMPLE_DEV_PM_OPS(tulip_pm_ops, tulip_suspend, tulip_resume);
-+
- static struct pci_driver tulip_driver = {
- 	.name		= DRV_NAME,
- 	.id_table	= tulip_pci_tbl,
- 	.probe		= tulip_init_one,
- 	.remove		= tulip_remove_one,
--#ifdef CONFIG_PM
--	.suspend	= tulip_suspend,
--	.resume		= tulip_resume,
--#endif /* CONFIG_PM */
-+	.driver.pm	= &tulip_pm_ops,
++static SIMPLE_DEV_PM_OPS(uli526x_pm_ops, uli526x_suspend, uli526x_resume);
+ 
+ static struct pci_driver uli526x_driver = {
+ 	.name		= "uli526x",
+ 	.id_table	= uli526x_pci_tbl,
+ 	.probe		= uli526x_init_one,
+ 	.remove		= uli526x_remove_one,
+-	.suspend	= uli526x_suspend,
+-	.resume		= uli526x_resume,
++	.driver.pm	= &uli526x_pm_ops,
  };
  
- 
+ MODULE_AUTHOR("Peer Chen, peer.chen@uli.com.tw");
 -- 
 2.27.0
 
