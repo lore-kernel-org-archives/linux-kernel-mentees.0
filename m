@@ -2,91 +2,96 @@ Return-Path: <SRS0=UFn2=AE=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 651A7C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Jun 2020 15:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5444BC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Jun 2020 17:49:34 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3B97120780
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Jun 2020 15:43:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1DBC220781
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Jun 2020 17:49:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="XHMK0nkJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B97120780
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lt4FeIyK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1DBC220781
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 15D41896E6;
-	Tue, 23 Jun 2020 15:43:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0F51289690;
+	Tue, 23 Jun 2020 17:49:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FxziarDqyTtZ; Tue, 23 Jun 2020 15:43:10 +0000 (UTC)
+	with ESMTP id bJQJ7NlJOSCP; Tue, 23 Jun 2020 17:49:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 22B1B89564;
-	Tue, 23 Jun 2020 15:43:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6F79389677;
+	Tue, 23 Jun 2020 17:49:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AE8CC0890;
-	Tue, 23 Jun 2020 15:43:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 56271C0890;
+	Tue, 23 Jun 2020 17:49:31 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC835C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2E325C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Jun 2020 15:43:09 +0000 (UTC)
+ Tue, 23 Jun 2020 17:49:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9A90887653
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 18EFC87767
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Jun 2020 15:43:09 +0000 (UTC)
+ Tue, 23 Jun 2020 17:49:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lM1FXFrHYBpb
+ with ESMTP id hXtOI13HArzu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Jun 2020 15:43:08 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
- [209.85.160.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C1E8C86F6A
+ Tue, 23 Jun 2020 17:49:29 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 84E2C87764
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Jun 2020 15:43:08 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id u12so5298509qth.12
+ Tue, 23 Jun 2020 17:49:29 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id u8so1787781pje.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Jun 2020 08:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7VlXbhyUYUJUN03OeBT3cNSBeivqJZy9NZ8rrKrnItc=;
- b=XHMK0nkJpJiB/mfYekI7NlotB7iw2rWvBlNASwjNXbiqVlJx9YPDxzUGpq0I6V0IVz
- 3dUh0t3iOxO3WerytqVG2IQRykKI+aLp6UuCtbiZNmDop7TQ3ieIIG8r3L8MLKLjuzRA
- SAfrE0MaJ8Gym3PJQ6b3U4meIer5hPzZHNolE=
+ Tue, 23 Jun 2020 10:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=mU2Mqb/3Lzu3sqpNfQHlFitWN9RRppFyAwuH1XGEq/o=;
+ b=Lt4FeIyKfPgR3dcCvP2WoEwHlKCPfb+zd+e7g56VPCjojWT8UAkOuMcNuZ8GfO1e9z
+ PLvj9Ie8IethxX+Hvch4tg+PMXZQfAMVl+k1MaZ49GWwd5HLN0nrU3kShISTA8iUUUiy
+ nmqzb/gb/ZMfRS87ayTJxcGIfmgVe9uTycEehOic1Q/13UayHkxdqmzzFHgScG0gfCDa
+ CzyWaQdhZTEt9hHIqWdlW2gIcur5ZpUV5KVNfWlhXTP58vy+DUtzuEl83SxW6UIjxckQ
+ GSn2Y7Zup2rr0S8eh3iENpeAEn8Xdy3XU1N/hIuEWA1Bb35+YYND8xOGo2Du4lwYp0Rr
+ XvKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7VlXbhyUYUJUN03OeBT3cNSBeivqJZy9NZ8rrKrnItc=;
- b=gghYaaxujBK8IFpOI1jhL9xPhWqNkYN8Gqi0kmNfpkBtZ6r+ygayItvWqjZCNMWNLm
- QHrIWZ1hpP5HKQs1z9IS+ZzQfQVq1QzUKG2+fxJ4G63dWdA/D/Fa2MvK2wF32chBgnyA
- swlefWRjC0+8zUV0u6wc6vqxfkUxFD1DjUrE4kn0yv51PtNnCXqUWPCHcyMqk4HAVoNZ
- V2nqlKlnITnvl3tAgv3GRJruQi8YzOWO3W+64lgo4lTIqtf+wcxg+ecvKMaNSGe2cVqp
- TREjIWFq4l/66ikWDaCuQlGMO8AtjvIQVYnTXOI/NCkHQ0q4uSk0DtXpT+pNIy+OPxs1
- XZ9g==
-X-Gm-Message-State: AOAM532tha5za8uJ3TZWGTBc0hpXMxE3wzS0OwQxssUU7f9deZBGsGaj
- OUS/SuDvoT/wt+31K7vzkFGzjA==
-X-Google-Smtp-Source: ABdhPJzS4wZ8vqkhsqbp8WTevzokYycPZg8FJKzmZA1Ni6+5zrRBC2SqmbadEF85GYSZtTl9BbqUEw==
-X-Received: by 2002:aed:221a:: with SMTP id n26mr15773016qtc.8.1592926987737; 
- Tue, 23 Jun 2020 08:43:07 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
- by smtp.gmail.com with ESMTPSA id d140sm881921qkc.22.2020.06.23.08.43.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 08:43:07 -0700 (PDT)
-Date: Tue, 23 Jun 2020 11:43:06 -0400
-From: Joel Fernandes <joel@joelfernandes.org>
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=mU2Mqb/3Lzu3sqpNfQHlFitWN9RRppFyAwuH1XGEq/o=;
+ b=WGpp7nJ2vDjWkfqCByNYQTvr22ofDU0jzBi/ujRstAJnzuYbXs/AtIpsFm05tMzaAI
+ UGbBudF6xiBNPHN5sYX3F+1NbySHxyMqJAcuYyolfwbHovWTPkSa2J/qK3y3M22NA7gJ
+ 4+s6SIPPHP8RTXtKDWXw8ZaiMrHIWOcnO8fbkLHEaQ4Me2fAG/1DUPTT1fy84Ebz5Pvk
+ AgvD5ETPnCk6xfTEGY0t4K3euAGqRppCUysJW69xWAk7T9wFrQ2qyfYDvkfXJPXiEyL2
+ AQg1pcc35PbNMUmo6Up7K64oE8L4ub9QGi5GuGaKzKgZW1t5VPfGVTNeikHfANN5M6HL
+ sl9Q==
+X-Gm-Message-State: AOAM5318LjCpHGgwJxTG3gH+u70yjAUocM/NSQRlc3C7tYHKFvo7Hugm
+ I5IpgERWPB+Q6k7hfyck6w==
+X-Google-Smtp-Source: ABdhPJxw/501/ORteOExfhyBnl/+yEVHkdQ3mDOuLpARGMwKOdFv65cx46gPEERRdrAfgGM6ZQ1jSQ==
+X-Received: by 2002:a17:90a:70c6:: with SMTP id
+ a6mr22379165pjm.16.1592934569041; 
+ Tue, 23 Jun 2020 10:49:29 -0700 (PDT)
+Received: from madhuparna-HP-Notebook ([2402:3a80:ceb:846:8098:13b7:478d:bfe2])
+ by smtp.gmail.com with ESMTPSA id y10sm14768935pgi.54.2020.06.23.10.49.23
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 23 Jun 2020 10:49:28 -0700 (PDT)
+From: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+X-Google-Original-From: Madhuparna Bhowmik <change_this_user_name@gmail.com>
+Date: Tue, 23 Jun 2020 23:19:20 +0530
 To: "Paul E. McKenney" <paulmck@kernel.org>
-Message-ID: <20200623154306.GF9005@google.com>
+Message-ID: <20200623174920.GA13794@madhuparna-HP-Notebook>
 References: <20200516082227.22194-1-madhuparnabhowmik10@gmail.com>
  <9fff3c6b-1978-c647-16f7-563a1cdf62ff@redhat.com>
  <20200623150236.GD9005@google.com>
@@ -95,12 +100,13 @@ References: <20200516082227.22194-1-madhuparnabhowmik10@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20200623153901.GG9247@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Cc: wanpengli@tencent.com, kvm@vger.kernel.org, x86@kernel.org,
  linux-kernel@vger.kernel.org, sean.j.christopherson@intel.com,
  Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>, bp@alien8.de,
- Paolo Bonzini <pbonzini@redhat.com>, vkuznets@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, tglx@linutronix.de,
- jmattson@google.com
+ Joel Fernandes <joel@joelfernandes.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ vkuznets@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ tglx@linutronix.de, jmattson@google.com
 Subject: Re: [Linux-kernel-mentees] [PATCH v2] kvm: Fix false positive RCU
 	usage warning
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -212,13 +218,12 @@ On Tue, Jun 23, 2020 at 08:39:01AM -0700, Paul E. McKenney wrote:
 > the srcu_struct instead of a lockdep expression.  An optional lockdep
 > expression might still be helpful for calls from the update side,
 > of course.
+>
+Sure, I will work on this.
 
-That's true!
-
-thanks,
-
- - Joel
-
+Thanks,
+Madhuparna
+> 							Thanx, Paul
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
