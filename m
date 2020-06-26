@@ -6,83 +6,74 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CDE3C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 18:52:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9793CC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 19:14:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1B1F221473
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 18:52:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 638E3207D8
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 19:14:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="n790PbLz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B1F221473
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="cvleF0Ud"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 638E3207D8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D1F8987EC2;
-	Fri, 26 Jun 2020 18:52:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 420FF8884E;
+	Fri, 26 Jun 2020 19:14:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Upsjg0I83Xtj; Fri, 26 Jun 2020 18:52:07 +0000 (UTC)
+	with ESMTP id h8elmiYHMad7; Fri, 26 Jun 2020 19:14:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E7AC687EB1;
-	Fri, 26 Jun 2020 18:52:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A896B8881F;
+	Fri, 26 Jun 2020 19:14:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 865A6C0863;
-	Fri, 26 Jun 2020 18:52:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 916A8C088C;
+	Fri, 26 Jun 2020 19:14:26 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DAB1CC016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7653DC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 18:52:05 +0000 (UTC)
+ Fri, 26 Jun 2020 19:14:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BA0DF87EB1
+ by whitealder.osuosl.org (Postfix) with ESMTP id 5F912860A8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 18:52:05 +0000 (UTC)
+ Fri, 26 Jun 2020 19:14:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eLTUWlNq7tp8
+ with ESMTP id lL2So2F32fnN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 18:52:04 +0000 (UTC)
+ Fri, 26 Jun 2020 19:14:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id DAA4C87E90
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BC95886457
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 18:52:04 +0000 (UTC)
+ Fri, 26 Jun 2020 19:14:23 +0000 (UTC)
 Received: from localhost (mobile-166-170-222-206.mycingular.net
  [166.170.222.206])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EDAD02075A;
- Fri, 26 Jun 2020 18:52:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 311D3206A1;
+ Fri, 26 Jun 2020 19:14:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593197524;
- bh=E5ZeGIaQ4TvxmK01qXTN6ia+aVwiHoFFaYZso3L47YA=;
+ s=default; t=1593198863;
+ bh=z2oF+alcajhjxoNUuykiKixvNasruwuFGTQMBcBskD0=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=n790PbLzROZKWoZhFf+3iV0hWLyb/W4bEQ791+kAAwLaVp5omcjYgtmZzdRV/vQeO
- QC8lhrpHholCaSmgheL1iCtiGerP/zLk6/3Qqyo8gLLZtwT+jHx0pydM3LZfATP8MY
- GQG89aRpEKi6nyQJjU12vDJcIx8SPa8rhTc3PTCw=
-Date: Fri, 26 Jun 2020 13:52:02 -0500
+ b=cvleF0UdnEtliTWMUd/EQkLaX5l7SVtigqGUCDB5YsAXJBr/9xo9IBRtfT1DSQuvA
+ Bu56ZM0JGSAEM9Qw9Pxql4eRma9YpwgfVZexqcN72JvG/RS3HBuqIgMDI2eLlXqiIh
+ /W0oL64GDhIozpKiRgk2+Z8MEBHmyucoUdZcf//M=
+Date: Fri, 26 Jun 2020 14:14:21 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
-To: refactormyself@gmail.com
-Message-ID: <20200626185202.GA2923565@bjorn-Precision-5520>
+To: Lukas Wunner <lukas@wunner.de>
+Message-ID: <20200626191421.GA2924609@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200615073225.24061-1-refactormyself@gmail.com>
-Cc: Don Brace <don.brace@microsemi.com>, Sam Bobroff <sbobroff@linux.ibm.com>,
- Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-scsi@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, linux-rdma@vger.kernel.org,
- linux-pci@vger.kernel.org, Dennis Dalessandro <dennis.dalessandro@intel.com>,
- Russell Currey <ruscur@russell.cc>, esc.storagedev@microsemi.com,
- Doug Ledford <dledford@redhat.com>, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Oliver O'Halloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 0/8 v2] PCI: Align return values
- of PCIe capability and PCI accessors
+In-Reply-To: <20200620090936.3khh3gj46pnojnrw@wunner.de>
+Cc: refactormyself@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 2/2] PCI: pciehp: Fix wrong
+ failure check on pcie_capability_read_*()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,230 +91,92 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jun 15, 2020 at 09:32:17AM +0200, refactormyself@gmail.com wrote:
-> From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+On Sat, Jun 20, 2020 at 11:09:36AM +0200, Lukas Wunner wrote:
+> On Fri, Jun 19, 2020 at 10:12:19PM +0200, refactormyself@gmail.com wrote:
+> > On failure, pcie_capabiility_read_*() will set the status value,
+> > its last parameter to 0 and not ~0.
+> > This bug fix checks for the proper value.
 > 
-> 
-> PATCH 1/8 to 7/8:
-> PCIBIOS_ error codes have positive values and they are passed down the
-> call heirarchy from accessors. For functions which are meant to return
-> only a negative value on failure, passing on this value is a bug.
-> To mitigate this, call pcibios_err_to_errno() before passing on return
-> value from PCIe capability accessors call heirarchy. This function
-> converts any positive PCIBIOS_ error codes to negative generic error
-> values.
-> 
-> PATCH 8/8:
-> The PCIe capability accessors can return 0, -EINVAL, or any PCIBIOS_ error
-> code. The pci accessor on the other hand can only return 0 or any PCIBIOS_
-> error code.This inconsistency among these accessor makes it harder for
-> callers to check for errors.
-> Return PCIBIOS_BAD_REGISTER_NUMBER instead of -EINVAL in all PCIe
-> capability accessors.
-> 
-> MERGING:
-> These may all be merged via the PCI tree, since it is a collection of
-> similar fixes. This way they all get merged at once.
-> 
-> Version 2:
-> * cc to maintainers and mailing lists
-> * Edit the Subject to conform with previous style
-> * reorder "Signed by" and "Suggested by"
-> * made spelling corrections
-> * fixed redundant initialisation in PATCH 3/8
-> * include missing call to pcibios_err_to_errno() in PATCH 6/8 and 7/8
-> 
-> 
-> Bolarinwa Olayemi Saheed (8):
->   dmaengine: ioatdma: Convert PCIBIOS_* errors to generic -E* errors
->   IB/hfi1: Convert PCIBIOS_* errors to generic -E* errors
->   IB/hfi1: Convert PCIBIOS_* errors to generic -E* errors
->   PCI: Convert PCIBIOS_* errors to generic -E* errors
->   scsi: smartpqi: Convert PCIBIOS_* errors to generic -E* errors
->   PCI/AER: Convert PCIBIOS_* errors to generic -E* errors
->   PCI/AER: Convert PCIBIOS_* errors to generic -E* errors
->   PCI: Align return values of PCIe capability and PCI accessorss
-> 
->  drivers/dma/ioat/init.c               |  4 ++--
->  drivers/infiniband/hw/hfi1/pcie.c     | 18 +++++++++++++-----
->  drivers/pci/access.c                  |  8 ++++----
->  drivers/pci/pci.c                     | 10 ++++++++--
->  drivers/pci/pcie/aer.c                | 12 ++++++++++--
->  drivers/scsi/smartpqi/smartpqi_init.c |  6 +++++-
->  6 files changed, 42 insertions(+), 16 deletions(-)
+> If a config space read times out, the PCIe controller fabricates
+> an "all ones" response.  The code is checking for such a timeout,
+> not for an error.  Hence the code is fine.
 
-Since these are really fixing a single PCI API problem, not individual
-driver-related problems, I squashed the pcibios_err_to_errno() patches
-together (except IB/hfi1, since Jason will take those separately) and
-applied them to pci/misc, thanks!
+In the typical case, the pci_read_config_word() done by
+pcie_capability_read_word() will not return an error, so if the read
+times out, we should see slot_status == ~0.
 
-The squashed patch as applied is:
+But if it's possible to set dev->error_state ==
+pci_channel_io_perm_failure, pci_read_config_word() will return an
+error because pci_dev_is_disconnected(), so slot_status would be 0.
 
-commit d20df83b66cc ("PCI: Convert PCIe capability PCIBIOS errors to errno")
-Author: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
-Date:   Mon Jun 15 09:32:18 2020 +0200
+There are a dozen or so places that set dev->error_state.  It doesn't
+look *likely* that any of them would cause this, but it doesn't
+instill confidence.
 
-    PCI: Convert PCIe capability PCIBIOS errors to errno
-    
-    The PCI config accessors (pci_read_config_word(), et al) return
-    PCIBIOS_SUCCESSFUL (zero) or positive error values like
-    PCIBIOS_FUNC_NOT_SUPPORTED.
-    
-    The PCIe capability accessors (pcie_capability_read_word(), et al)
-    similarly return PCIBIOS errors, but some callers assume they return
-    generic errno values like -EINVAL.
-    
-    For example, the Myri-10G probe function returns a positive PCIBIOS error
-    if the pcie_capability_clear_and_set_word() in pcie_set_readrq() fails:
-    
-      myri10ge_probe
-        status = pcie_set_readrq
-          return pcie_capability_clear_and_set_word
-        if (status)
-          return status
-    
-    A positive return from a PCI driver probe function would cause a "Driver
-    probe function unexpectedly returned" warning from local_pci_probe()
-    instead of the desired probe failure.
-    
-    Convert PCIBIOS errors to generic errno for all callers of:
-    
-      pcie_capability_read_word
-      pcie_capability_read_dword
-      pcie_capability_write_word
-      pcie_capability_write_dword
-      pcie_capability_set_word
-      pcie_capability_set_dword
-      pcie_capability_clear_word
-      pcie_capability_clear_dword
-      pcie_capability_clear_and_set_word
-      pcie_capability_clear_and_set_dword
-    
-    that check the return code for anything other than zero.
-    
-    [bhelgaas: commit log, squash together]
-    Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
-    Link: https://lore.kernel.org/r/20200615073225.24061-1-refactormyself@gmail.com
-    Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
-    Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+It would be a lot nicer if we didn't have to worry about both the 0
+and ~0 cases.  I keep coming back to the idea of removing the "*val
+= 0" code from pcie_capability_read_word() so we wouldn't have that
+special case.
 
-diff --git a/drivers/dma/ioat/init.c b/drivers/dma/ioat/init.c
-index 58d13564f88b..9a6a9ec3cf48 100644
---- a/drivers/dma/ioat/init.c
-+++ b/drivers/dma/ioat/init.c
-@@ -1195,13 +1195,13 @@ static int ioat3_dma_probe(struct ioatdma_device *ioat_dma, int dca)
- 	/* disable relaxed ordering */
- 	err = pcie_capability_read_word(pdev, IOAT_DEVCTRL_OFFSET, &val16);
- 	if (err)
--		return err;
-+		return pcibios_err_to_errno(err);
- 
- 	/* clear relaxed ordering enable */
- 	val16 &= ~IOAT_DEVCTRL_ROE;
- 	err = pcie_capability_write_word(pdev, IOAT_DEVCTRL_OFFSET, val16);
- 	if (err)
--		return err;
-+		return pcibios_err_to_errno(err);
- 
- 	if (ioat_dma->cap & IOAT_CAP_DPS)
- 		writeb(ioat_pending_level + 1,
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index ce096272f52b..45c51aff9c03 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -5688,6 +5688,7 @@ EXPORT_SYMBOL(pcie_get_readrq);
- int pcie_set_readrq(struct pci_dev *dev, int rq)
- {
- 	u16 v;
-+	int ret;
- 
- 	if (rq < 128 || rq > 4096 || !is_power_of_2(rq))
- 		return -EINVAL;
-@@ -5706,8 +5707,10 @@ int pcie_set_readrq(struct pci_dev *dev, int rq)
- 
- 	v = (ffs(rq) - 8) << 12;
- 
--	return pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
-+	ret = pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
- 						  PCI_EXP_DEVCTL_READRQ, v);
-+
-+	return pcibios_err_to_errno(ret);
- }
- EXPORT_SYMBOL(pcie_set_readrq);
- 
-@@ -5738,6 +5741,7 @@ EXPORT_SYMBOL(pcie_get_mps);
- int pcie_set_mps(struct pci_dev *dev, int mps)
- {
- 	u16 v;
-+	int ret;
- 
- 	if (mps < 128 || mps > 4096 || !is_power_of_2(mps))
- 		return -EINVAL;
-@@ -5747,8 +5751,10 @@ int pcie_set_mps(struct pci_dev *dev, int mps)
- 		return -EINVAL;
- 	v <<= 5;
- 
--	return pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
-+	ret = pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
- 						  PCI_EXP_DEVCTL_PAYLOAD, v);
-+
-+	return pcibios_err_to_errno(ret);
- }
- EXPORT_SYMBOL(pcie_set_mps);
- 
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index 3acf56683915..2dbc1fd2910b 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -224,20 +224,25 @@ int pcie_aer_is_native(struct pci_dev *dev)
- 
- int pci_enable_pcie_error_reporting(struct pci_dev *dev)
- {
-+	int rc;
-+
- 	if (!pcie_aer_is_native(dev))
- 		return -EIO;
- 
--	return pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
-+	rc = pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
-+	return pcibios_err_to_errno(rc);
- }
- EXPORT_SYMBOL_GPL(pci_enable_pcie_error_reporting);
- 
- int pci_disable_pcie_error_reporting(struct pci_dev *dev)
- {
-+	int rc;
-+
- 	if (!pcie_aer_is_native(dev))
- 		return -EIO;
- 
--	return pcie_capability_clear_word(dev, PCI_EXP_DEVCTL,
--					  PCI_EXP_AER_FLAGS);
-+	rc = pcie_capability_clear_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
-+	return pcibios_err_to_errno(rc);
- }
- EXPORT_SYMBOL_GPL(pci_disable_pcie_error_reporting);
- 
-diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
-index cd157f11eb22..bd38c8cea56e 100644
---- a/drivers/scsi/smartpqi/smartpqi_init.c
-+++ b/drivers/scsi/smartpqi/smartpqi_init.c
-@@ -7423,8 +7423,12 @@ static int pqi_ctrl_init_resume(struct pqi_ctrl_info *ctrl_info)
- static inline int pqi_set_pcie_completion_timeout(struct pci_dev *pci_dev,
- 	u16 timeout)
- {
--	return pcie_capability_clear_and_set_word(pci_dev, PCI_EXP_DEVCTL2,
-+	int rc;
-+
-+	rc = pcie_capability_clear_and_set_word(pci_dev, PCI_EXP_DEVCTL2,
- 		PCI_EXP_DEVCTL2_COMP_TIMEOUT, timeout);
-+
-+	return pcibios_err_to_errno(rc);
- }
- 
- static int pqi_pci_init(struct pqi_ctrl_info *ctrl_info)
+In any case, this particular patch doesn't seem like quite the right
+fix, so I'll drop it.
 
-
+> > Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+> > ---
+> >  drivers/pci/hotplug/pciehp_hpc.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
+> > index 53433b37e181..c1a67054948a 100644
+> > --- a/drivers/pci/hotplug/pciehp_hpc.c
+> > +++ b/drivers/pci/hotplug/pciehp_hpc.c
+> > @@ -89,7 +89,7 @@ static int pcie_poll_cmd(struct controller *ctrl, int timeout)
+> >  
+> >  	do {
+> >  		pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
+> > -		if (slot_status == (u16) ~0) {
+> > +		if (slot_status == (u16)0) {
+> >  			ctrl_info(ctrl, "%s: no response from device\n",
+> >  				  __func__);
+> >  			return 0;
+> > @@ -165,7 +165,7 @@ static void pcie_do_write_cmd(struct controller *ctrl, u16 cmd,
+> >  	pcie_wait_cmd(ctrl);
+> >  
+> >  	pcie_capability_read_word(pdev, PCI_EXP_SLTCTL, &slot_ctrl);
+> > -	if (slot_ctrl == (u16) ~0) {
+> > +	if (slot_ctrl == (u16)0) {
+> >  		ctrl_info(ctrl, "%s: no response from device\n", __func__);
+> >  		goto out;
+> >  	}
+> > @@ -236,7 +236,7 @@ int pciehp_check_link_active(struct controller *ctrl)
+> >  	int ret;
+> >  
+> >  	ret = pcie_capability_read_word(pdev, PCI_EXP_LNKSTA, &lnk_status);
+> > -	if (ret == PCIBIOS_DEVICE_NOT_FOUND || lnk_status == (u16)~0)
+> > +	if (ret == PCIBIOS_DEVICE_NOT_FOUND || lnk_status == (u16)0)
+> >  		return -ENODEV;
+> >  
+> >  	ret = !!(lnk_status & PCI_EXP_LNKSTA_DLLLA);
+> > @@ -440,7 +440,7 @@ int pciehp_card_present(struct controller *ctrl)
+> >  	int ret;
+> >  
+> >  	ret = pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
+> > -	if (ret == PCIBIOS_DEVICE_NOT_FOUND || slot_status == (u16)~0)
+> > +	if (ret == PCIBIOS_DEVICE_NOT_FOUND || slot_status == (u16)0)
+> >  		return -ENODEV;
+> >  
+> >  	return !!(slot_status & PCI_EXP_SLTSTA_PDS);
+> > @@ -592,7 +592,7 @@ static irqreturn_t pciehp_isr(int irq, void *dev_id)
+> >  
+> >  read_status:
+> >  	pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &status);
+> > -	if (status == (u16) ~0) {
+> > +	if (status == (u16)0) {
+> >  		ctrl_info(ctrl, "%s: no response from device\n", __func__);
+> >  		if (parent)
+> >  			pm_runtime_put(parent);
+> > -- 
+> > 2.18.2
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
