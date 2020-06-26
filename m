@@ -2,80 +2,87 @@ Return-Path: <SRS0=OiW2=AH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 428A6C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 15:35:09 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CDE3C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 18:52:09 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CA3420706
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 15:35:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1B1F221473
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 18:52:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Occ0hBEs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CA3420706
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="n790PbLz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B1F221473
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id CB3BE20134;
-	Fri, 26 Jun 2020 15:35:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D1F8987EC2;
+	Fri, 26 Jun 2020 18:52:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 42aebg2c3u2G; Fri, 26 Jun 2020 15:35:07 +0000 (UTC)
+	with ESMTP id Upsjg0I83Xtj; Fri, 26 Jun 2020 18:52:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2D0AB24E00;
-	Fri, 26 Jun 2020 15:35:06 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E7AC687EB1;
+	Fri, 26 Jun 2020 18:52:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F4235C088C;
-	Fri, 26 Jun 2020 15:35:05 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D9693C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 865A6C0863;
+	Fri, 26 Jun 2020 18:52:07 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DAB1CC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 15:35:04 +0000 (UTC)
+ Fri, 26 Jun 2020 18:52:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id BB26524C93
+ by whitealder.osuosl.org (Postfix) with ESMTP id BA0DF87EB1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 15:35:04 +0000 (UTC)
+ Fri, 26 Jun 2020 18:52:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7lDp-vPTBb39
+ with ESMTP id eLTUWlNq7tp8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 15:35:03 +0000 (UTC)
+ Fri, 26 Jun 2020 18:52:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id D478120134
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DAA4C87E90
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 15:35:02 +0000 (UTC)
+ Fri, 26 Jun 2020 18:52:04 +0000 (UTC)
 Received: from localhost (mobile-166-170-222-206.mycingular.net
  [166.170.222.206])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 44D4B20706;
- Fri, 26 Jun 2020 15:35:02 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id EDAD02075A;
+ Fri, 26 Jun 2020 18:52:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593185702;
- bh=61Aafhz/sebn21egwsMMGm+NbOzYRY3lUCbjT6P131s=;
+ s=default; t=1593197524;
+ bh=E5ZeGIaQ4TvxmK01qXTN6ia+aVwiHoFFaYZso3L47YA=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=Occ0hBEswS0KfEiDUn8Ab9ZytNfsRzopQVvidPVjfnoprbdKkxEYtVtiv7AB4u+7x
- rRslWJ6ZC1NEieDYKoiNI4ymI0qRxj0rhzBhDmIHlZhZylzJhDQHb6DkmqSoTYsRRJ
- Af7htNBpqd23xDGDeNA5qJUnVKXGwRseDDT/bess=
-Date: Fri, 26 Jun 2020 10:35:00 -0500
+ b=n790PbLzROZKWoZhFf+3iV0hWLyb/W4bEQ791+kAAwLaVp5omcjYgtmZzdRV/vQeO
+ QC8lhrpHholCaSmgheL1iCtiGerP/zLk6/3Qqyo8gLLZtwT+jHx0pydM3LZfATP8MY
+ GQG89aRpEKi6nyQJjU12vDJcIx8SPa8rhTc3PTCw=
+Date: Fri, 26 Jun 2020 13:52:02 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Message-ID: <20200626153500.GA2895752@bjorn-Precision-5520>
+To: refactormyself@gmail.com
+Message-ID: <20200626185202.GA2923565@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <202006250611.HDgpcjeu%lkp@intel.com>
-Cc: kbuild-all@lists.01.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 1/4] ide: use generic power
-	management
+In-Reply-To: <20200615073225.24061-1-refactormyself@gmail.com>
+Cc: Don Brace <don.brace@microsemi.com>, Sam Bobroff <sbobroff@linux.ibm.com>,
+ Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-scsi@vger.kernel.org,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-rdma@vger.kernel.org,
+ linux-pci@vger.kernel.org, Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ Russell Currey <ruscur@russell.cc>, esc.storagedev@microsemi.com,
+ Doug Ledford <dledford@redhat.com>, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+ Oliver O'Halloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 0/8 v2] PCI: Align return values
+ of PCIe capability and PCI accessors
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,59 +100,228 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jun 25, 2020 at 06:14:09AM +0800, kernel test robot wrote:
-> Hi Vaibhav,
+On Mon, Jun 15, 2020 at 09:32:17AM +0200, refactormyself@gmail.com wrote:
+> From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 > 
-> Thank you for the patch! Yet something to improve:
 > 
-> [auto build test ERROR on ide/master]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use  as documented in
-> https://git-scm.com/docs/git-format-patch]
+> PATCH 1/8 to 7/8:
+> PCIBIOS_ error codes have positive values and they are passed down the
+> call heirarchy from accessors. For functions which are meant to return
+> only a negative value on failure, passing on this value is a bug.
+> To mitigate this, call pcibios_err_to_errno() before passing on return
+> value from PCIe capability accessors call heirarchy. This function
+> converts any positive PCIBIOS_ error codes to negative generic error
+> values.
 > 
-> url:    https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/drivers-ide-use-generic-power-management/20200625-013242
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/ide.git master
-> config: x86_64-randconfig-a004-20200624 (attached as .config)
+> PATCH 8/8:
+> The PCIe capability accessors can return 0, -EINVAL, or any PCIBIOS_ error
+> code. The pci accessor on the other hand can only return 0 or any PCIBIOS_
+> error code.This inconsistency among these accessor makes it harder for
+> callers to check for errors.
+> Return PCIBIOS_BAD_REGISTER_NUMBER instead of -EINVAL in all PCIe
+> capability accessors.
+> 
+> MERGING:
+> These may all be merged via the PCI tree, since it is a collection of
+> similar fixes. This way they all get merged at once.
+> 
+> Version 2:
+> * cc to maintainers and mailing lists
+> * Edit the Subject to conform with previous style
+> * reorder "Signed by" and "Suggested by"
+> * made spelling corrections
+> * fixed redundant initialisation in PATCH 3/8
+> * include missing call to pcibios_err_to_errno() in PATCH 6/8 and 7/8
+> 
+> 
+> Bolarinwa Olayemi Saheed (8):
+>   dmaengine: ioatdma: Convert PCIBIOS_* errors to generic -E* errors
+>   IB/hfi1: Convert PCIBIOS_* errors to generic -E* errors
+>   IB/hfi1: Convert PCIBIOS_* errors to generic -E* errors
+>   PCI: Convert PCIBIOS_* errors to generic -E* errors
+>   scsi: smartpqi: Convert PCIBIOS_* errors to generic -E* errors
+>   PCI/AER: Convert PCIBIOS_* errors to generic -E* errors
+>   PCI/AER: Convert PCIBIOS_* errors to generic -E* errors
+>   PCI: Align return values of PCIe capability and PCI accessorss
+> 
+>  drivers/dma/ioat/init.c               |  4 ++--
+>  drivers/infiniband/hw/hfi1/pcie.c     | 18 +++++++++++++-----
+>  drivers/pci/access.c                  |  8 ++++----
+>  drivers/pci/pci.c                     | 10 ++++++++--
+>  drivers/pci/pcie/aer.c                | 12 ++++++++++--
+>  drivers/scsi/smartpqi/smartpqi_init.c |  6 +++++-
+>  6 files changed, 42 insertions(+), 16 deletions(-)
 
-This auto build testing is a great service, but is there any way to
-tweak the info above to make it easier to reproduce the problem?
+Since these are really fixing a single PCI API problem, not individual
+driver-related problems, I squashed the pcibios_err_to_errno() patches
+together (except IB/hfi1, since Jason will take those separately) and
+applied them to pci/misc, thanks!
 
-I tried to checkout the source that caused these errors, but failed.
-This is probably because I'm not a git expert, but maybe others are in
-the same boat.  For example, I tried:
+The squashed patch as applied is:
 
-  $ git remote add kbuild https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/drivers-ide-use-generic-power-management/20200625-013242
-  $ git fetch kbuild
-  fatal: repository 'https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/drivers-ide-use-generic-power-management/20200625-013242/' not found
+commit d20df83b66cc ("PCI: Convert PCIe capability PCIBIOS errors to errno")
+Author: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+Date:   Mon Jun 15 09:32:18 2020 +0200
 
-I also visited the github URL in a browser, and I'm sure there must be
-information there that would let me fetch the source, but I don't know
-enough about github to find it.
+    PCI: Convert PCIe capability PCIBIOS errors to errno
+    
+    The PCI config accessors (pci_read_config_word(), et al) return
+    PCIBIOS_SUCCESSFUL (zero) or positive error values like
+    PCIBIOS_FUNC_NOT_SUPPORTED.
+    
+    The PCIe capability accessors (pcie_capability_read_word(), et al)
+    similarly return PCIBIOS errors, but some callers assume they return
+    generic errno values like -EINVAL.
+    
+    For example, the Myri-10G probe function returns a positive PCIBIOS error
+    if the pcie_capability_clear_and_set_word() in pcie_set_readrq() fails:
+    
+      myri10ge_probe
+        status = pcie_set_readrq
+          return pcie_capability_clear_and_set_word
+        if (status)
+          return status
+    
+    A positive return from a PCI driver probe function would cause a "Driver
+    probe function unexpectedly returned" warning from local_pci_probe()
+    instead of the desired probe failure.
+    
+    Convert PCIBIOS errors to generic errno for all callers of:
+    
+      pcie_capability_read_word
+      pcie_capability_read_dword
+      pcie_capability_write_word
+      pcie_capability_write_dword
+      pcie_capability_set_word
+      pcie_capability_set_dword
+      pcie_capability_clear_word
+      pcie_capability_clear_dword
+      pcie_capability_clear_and_set_word
+      pcie_capability_clear_and_set_dword
+    
+    that check the return code for anything other than zero.
+    
+    [bhelgaas: commit log, squash together]
+    Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
+    Link: https://lore.kernel.org/r/20200615073225.24061-1-refactormyself@gmail.com
+    Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+    Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 
-The report doesn't include a SHA1, so even if I *did* manage to fetch
-the sources, I wouldn't be able to validate they were the *correct*
-ones.
-
-> compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
-> reproduce (this is a W=1 build):
->         # save the attached .config to linux build tree
->         make W=1 ARCH=x86_64 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/ide-pci-generic.ko] undefined!
-> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/serverworks.ko] undefined!
-> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/piix.ko] undefined!
-> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/pdc202xx_old.ko] undefined!
-> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/ns87415.ko] undefined!
-> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/hpt366.ko] undefined!
-> 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+diff --git a/drivers/dma/ioat/init.c b/drivers/dma/ioat/init.c
+index 58d13564f88b..9a6a9ec3cf48 100644
+--- a/drivers/dma/ioat/init.c
++++ b/drivers/dma/ioat/init.c
+@@ -1195,13 +1195,13 @@ static int ioat3_dma_probe(struct ioatdma_device *ioat_dma, int dca)
+ 	/* disable relaxed ordering */
+ 	err = pcie_capability_read_word(pdev, IOAT_DEVCTRL_OFFSET, &val16);
+ 	if (err)
+-		return err;
++		return pcibios_err_to_errno(err);
+ 
+ 	/* clear relaxed ordering enable */
+ 	val16 &= ~IOAT_DEVCTRL_ROE;
+ 	err = pcie_capability_write_word(pdev, IOAT_DEVCTRL_OFFSET, val16);
+ 	if (err)
+-		return err;
++		return pcibios_err_to_errno(err);
+ 
+ 	if (ioat_dma->cap & IOAT_CAP_DPS)
+ 		writeb(ioat_pending_level + 1,
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index ce096272f52b..45c51aff9c03 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -5688,6 +5688,7 @@ EXPORT_SYMBOL(pcie_get_readrq);
+ int pcie_set_readrq(struct pci_dev *dev, int rq)
+ {
+ 	u16 v;
++	int ret;
+ 
+ 	if (rq < 128 || rq > 4096 || !is_power_of_2(rq))
+ 		return -EINVAL;
+@@ -5706,8 +5707,10 @@ int pcie_set_readrq(struct pci_dev *dev, int rq)
+ 
+ 	v = (ffs(rq) - 8) << 12;
+ 
+-	return pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
++	ret = pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
+ 						  PCI_EXP_DEVCTL_READRQ, v);
++
++	return pcibios_err_to_errno(ret);
+ }
+ EXPORT_SYMBOL(pcie_set_readrq);
+ 
+@@ -5738,6 +5741,7 @@ EXPORT_SYMBOL(pcie_get_mps);
+ int pcie_set_mps(struct pci_dev *dev, int mps)
+ {
+ 	u16 v;
++	int ret;
+ 
+ 	if (mps < 128 || mps > 4096 || !is_power_of_2(mps))
+ 		return -EINVAL;
+@@ -5747,8 +5751,10 @@ int pcie_set_mps(struct pci_dev *dev, int mps)
+ 		return -EINVAL;
+ 	v <<= 5;
+ 
+-	return pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
++	ret = pcie_capability_clear_and_set_word(dev, PCI_EXP_DEVCTL,
+ 						  PCI_EXP_DEVCTL_PAYLOAD, v);
++
++	return pcibios_err_to_errno(ret);
+ }
+ EXPORT_SYMBOL(pcie_set_mps);
+ 
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index 3acf56683915..2dbc1fd2910b 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -224,20 +224,25 @@ int pcie_aer_is_native(struct pci_dev *dev)
+ 
+ int pci_enable_pcie_error_reporting(struct pci_dev *dev)
+ {
++	int rc;
++
+ 	if (!pcie_aer_is_native(dev))
+ 		return -EIO;
+ 
+-	return pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
++	rc = pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
++	return pcibios_err_to_errno(rc);
+ }
+ EXPORT_SYMBOL_GPL(pci_enable_pcie_error_reporting);
+ 
+ int pci_disable_pcie_error_reporting(struct pci_dev *dev)
+ {
++	int rc;
++
+ 	if (!pcie_aer_is_native(dev))
+ 		return -EIO;
+ 
+-	return pcie_capability_clear_word(dev, PCI_EXP_DEVCTL,
+-					  PCI_EXP_AER_FLAGS);
++	rc = pcie_capability_clear_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
++	return pcibios_err_to_errno(rc);
+ }
+ EXPORT_SYMBOL_GPL(pci_disable_pcie_error_reporting);
+ 
+diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
+index cd157f11eb22..bd38c8cea56e 100644
+--- a/drivers/scsi/smartpqi/smartpqi_init.c
++++ b/drivers/scsi/smartpqi/smartpqi_init.c
+@@ -7423,8 +7423,12 @@ static int pqi_ctrl_init_resume(struct pqi_ctrl_info *ctrl_info)
+ static inline int pqi_set_pcie_completion_timeout(struct pci_dev *pci_dev,
+ 	u16 timeout)
+ {
+-	return pcie_capability_clear_and_set_word(pci_dev, PCI_EXP_DEVCTL2,
++	int rc;
++
++	rc = pcie_capability_clear_and_set_word(pci_dev, PCI_EXP_DEVCTL2,
+ 		PCI_EXP_DEVCTL2_COMP_TIMEOUT, timeout);
++
++	return pcibios_err_to_errno(rc);
+ }
+ 
+ static int pqi_pci_init(struct pqi_ctrl_info *ctrl_info)
 
 
 _______________________________________________
