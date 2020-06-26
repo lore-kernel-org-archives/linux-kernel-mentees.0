@@ -2,162 +2,80 @@ Return-Path: <SRS0=OiW2=AH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E26C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 10:16:08 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 428A6C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 15:35:09 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0ED4D20C09
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 10:16:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0CA3420706
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Jun 2020 15:35:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marvell.com header.i=@marvell.com header.b="sunOw+TB";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="frhSJo4B"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0ED4D20C09
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Occ0hBEs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CA3420706
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C801E87DDC;
-	Fri, 26 Jun 2020 10:16:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CB3BE20134;
+	Fri, 26 Jun 2020 15:35:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cSOmwYfz8dB7; Fri, 26 Jun 2020 10:16:06 +0000 (UTC)
+	with ESMTP id 42aebg2c3u2G; Fri, 26 Jun 2020 15:35:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B4EBA87D75;
-	Fri, 26 Jun 2020 10:16:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2D0AB24E00;
+	Fri, 26 Jun 2020 15:35:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 988A5C0863;
-	Fri, 26 Jun 2020 10:16:06 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AAB79C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F4235C088C;
+	Fri, 26 Jun 2020 15:35:05 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D9693C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 10:16:04 +0000 (UTC)
+ Fri, 26 Jun 2020 15:35:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 93B8586CA1
+ by silver.osuosl.org (Postfix) with ESMTP id BB26524C93
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 10:16:04 +0000 (UTC)
+ Fri, 26 Jun 2020 15:35:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Y_2GFXjFAkT6
+ with ESMTP id 7lDp-vPTBb39
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 10:16:03 +0000 (UTC)
+ Fri, 26 Jun 2020 15:35:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com
- [67.231.148.174])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D2E7F8689C
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id D478120134
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 10:16:03 +0000 (UTC)
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
- by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05QAF7W5007278; Fri, 26 Jun 2020 03:15:57 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pfpt0818;
- bh=5U4hyhyNdWWIjCdi3ioX8TKpshoQQDau3rU0Ycrr+Pw=;
- b=sunOw+TB4+JGH2xgXUR3N8s86JhyMYKUEueiAAlOb43EIdDocQUCISZMU03suW7N5NDx
- ev16CLBIMSVEhTngJASdTD6ZyambVIpAMcztc5qYekFNUm75EgU4h5GCUO7ikGeUhaVZ
- iaGVp0U0zEvmSkLlNnWQ/yVOCmSzEEnHDAUn23DizxYlg6y0RGoLw3Rd0/2K0EYuHw3I
- DmYL/tMDe9OFEMs/EFxZkhr4O0B926G5FyhZORUnUuzTTA6AXLxyPPXsjfq0PPJXzn9z
- /ajVQi6pAuQcgk3QtSv7XHPDj8B2NK0bqefV/rebKRIb+OCtmWkcIM5Slnckh9SExH5S bw== 
-Received: from sc-exch01.marvell.com ([199.233.58.181])
- by mx0a-0016f401.pphosted.com with ESMTP id 31uuqh42wp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Fri, 26 Jun 2020 03:15:57 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by SC-EXCH01.marvell.com
- (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 26 Jun 2020 03:15:56 -0700
-Received: from SC-EXCH03.marvell.com (10.93.176.83) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 26 Jun 2020 03:15:56 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
- by SC-EXCH03.marvell.com (10.93.176.83) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Fri, 26 Jun 2020 03:15:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P/RyjuTCzAfasP/XWP8ln/AiWDBioYguSM5yx9qaC4x4FRJx44JuF87z0jpiJGoPvbDRX7rloaxYRTIrBQTeOrJRk8L9vx4Ve/qzqtn/28UlKjKm+5YKSHCL1SmAyqYXEdW+QEEh8JrCq4RxPBqZXBmueP1hTLCrvBqH8M/Xtk4C7Mm0/a6m9PdQmf/FY6AI0hAShu+7sTh0i5TWseRpbp4W7jVvdHhTjCn1b+nz/CRgjw26+NDVfWk1AQLCjSdBao0CgbbLbzJu+6kVr8ZMKJOg6c7O13jD+ktm31xh5KyktQXIX6SjqJecuTFIAEiWFletH9lgfYZPKzxscwOj2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5U4hyhyNdWWIjCdi3ioX8TKpshoQQDau3rU0Ycrr+Pw=;
- b=X7A7fSdnf3bEprKdwNxQkMWaAZrX6bTcW8cdUMzhs7EI1TWR97ktsevC8BgtqcOXvjtyS+Kkakht+JqHwkaK9bY5E9m23oOe30cFQEh/iqL2UhKaFlt48OQv/DEo5KPcZdy4JvOg1evItBZTpXMmSh5cRBAqyUfOwhDzSikJxSuNmHKUXBOXXuxErjMwy2qCm7kCB6FF5Q4/5Ub4ds6+LsoFWMqb6BY9ekRSqUcn2FsSrJxd00gK8V/82fEZJL20Ez56PAkvkyGoNasKsoXH4WWlGuUS6egN5ycfDCPyaWJdApVnJIBNnXhMYkTcQJgOZnLfUoBJKDUmrtr73w3jHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5U4hyhyNdWWIjCdi3ioX8TKpshoQQDau3rU0Ycrr+Pw=;
- b=frhSJo4BKfOpapKD6i+2UFrbpHwRFfYb3s+YKEykG8RhbqByyu5qMJ1Rqwie9vpxKiz5DXw4yp6qIPGFe9MzVV7KJDaIi04aU3gjPZwo/ph5KHi6Pd/mtcVCzzZRb7A/MrxXJX0JU4MWbTogvKlnL5KrFRZPFatoC6T2pOhbdQ0=
-Received: from MN2PR18MB2528.namprd18.prod.outlook.com (2603:10b6:208:a9::22)
- by MN2PR18MB2720.namprd18.prod.outlook.com (2603:10b6:208:3a::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.24; Fri, 26 Jun
- 2020 10:15:52 +0000
-Received: from MN2PR18MB2528.namprd18.prod.outlook.com
- ([fe80::dcc:95db:afcb:9b1b]) by MN2PR18MB2528.namprd18.prod.outlook.com
- ([fe80::dcc:95db:afcb:9b1b%7]) with mapi id 15.20.3131.025; Fri, 26 Jun 2020
- 10:15:52 +0000
-From: Sudarsana Reddy Kalluru <skalluru@marvell.com>
-To: Igor Russkikh <irusskikh@marvell.com>, Vaibhav Gupta
- <vaibhavgupta40@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- "bjorn@helgaas.com" <bjorn@helgaas.com>, Vaibhav Gupta
- <vaibhav.varodek@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- "Jakub Kicinski" <kuba@kernel.org>, Ariel Elior <aelior@marvell.com>,
- GR-everest-linux-l2 <GR-everest-linux-l2@marvell.com>
-Thread-Topic: [EXT] [PATCH v1] bnx2x: use generic power management
-Thread-Index: AQHWSlCOw9OMOszQmkCOhMRyUSrU5ajpi66AgAEkX1A=
-Date: Fri, 26 Jun 2020 10:15:52 +0000
-Message-ID: <MN2PR18MB2528DB31A7C55B0D69E7FF0ED3930@MN2PR18MB2528.namprd18.prod.outlook.com>
-References: <20200624175116.67911-1-vaibhavgupta40@gmail.com>
- <f685dfe2-9a50-15f5-f94f-c72433f84eb1@marvell.com>
-In-Reply-To: <f685dfe2-9a50-15f5-f94f-c72433f84eb1@marvell.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2401:4900:3295:7c38:e12b:793f:c022:b379]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 156bc86e-cf52-4472-bab2-08d819b9e833
-x-ms-traffictypediagnostic: MN2PR18MB2720:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR18MB272002E3B316528BBB2322DED3930@MN2PR18MB2720.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0446F0FCE1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Oy3Me2VzZB2/Ws8taDyV4NPx7Xp7DrcQe0zO2wOgjPB3cO5kOdh7KYXptkdp1gypKbrLHXkx34mF65BEcrbUjVD7jU/ewli1ZJLRyJOFVHzNUFbFNXpI9ir6D+CtVr47z93VR82jFNjGO+gTekmuNd79IHlbDcOf7nUygCF5ZOpv85NoTYipRSnvhW9KTw/vrf80Up9ODy4TQNwDxGxypJJL2lYRkU3XJXKZZFVVJmim1Cu/uURE/wSl2OjocAX2vA5VxZtXWR05QO/vVmdaWL8rN//9G4GLmPSuqm0sJcHPQLSL6RRxIIuJbtl71GugkW+eJZ+3bhIBCMrDLpwYJs+1un9SxNcyQ9B8N97IxWAE4oD+Yyj7gd0+npu81Xt61Zx2crZp+CZHblDZobOuaQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR18MB2528.namprd18.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(376002)(39860400002)(346002)(396003)(366004)(33656002)(478600001)(2906002)(7416002)(8936002)(110136005)(52536014)(55016002)(8676002)(54906003)(7696005)(9686003)(86362001)(76116006)(66476007)(64756008)(6506007)(6636002)(186003)(316002)(53546011)(83380400001)(66556008)(66446008)(66946007)(71200400001)(4326008)(5660300002)(41533002)(921003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: tcMuxY4lq8co+6QSZgOYdKUos2M33GHX9Hylz5P+PUZsBMx5tME54NGrYfltqBMPUb581/Q7rtNeUNUjyEdG4RqRPQWTbxgMevumt1ThNLFiGZXMLnv2zsA6VhwjjAppQnlrMkyZG7XoVRmCQNMzMwBnAqPEK8XkzpItlEx/bt5YwanAoztI5CD42OlLOi//nE3GRqnM1v6effUbKkRIF7usIBEHf4iGsEJw6A4AkoY6hFY7YIlANXgu2GIMnBPcJnE9FL4a0y8MzU0Ixkkkx6MyD1uUF1HAM3yznovhlKkAyy8bWYbE8c14PvyzVdBENyLg0tgarOwysdBD/4yfg/JFwlzBbHvmMSxlXCwXgbYF3FQEFPnVRzKlLhiC7z+ZzzIyW/4xUUo5edhJol+nVK5v3/FPFbcfOKUzULjH+A+kxC+CI21fD+TIQAY63G8oZ00lWugf/0YHLkAedVMDRdORHkleOgtpczfuPJnz/7XaPHmoddjNCrFliogFrr3UcC8fL0is2WCL7S4Ucp2ToMRgbJW1xdUdeEI0aVDxrGtfyZjRlbKgeAcObhfT9pui
+ Fri, 26 Jun 2020 15:35:02 +0000 (UTC)
+Received: from localhost (mobile-166-170-222-206.mycingular.net
+ [166.170.222.206])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 44D4B20706;
+ Fri, 26 Jun 2020 15:35:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593185702;
+ bh=61Aafhz/sebn21egwsMMGm+NbOzYRY3lUCbjT6P131s=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=Occ0hBEswS0KfEiDUn8Ab9ZytNfsRzopQVvidPVjfnoprbdKkxEYtVtiv7AB4u+7x
+ rRslWJ6ZC1NEieDYKoiNI4ymI0qRxj0rhzBhDmIHlZhZylzJhDQHb6DkmqSoTYsRRJ
+ Af7htNBpqd23xDGDeNA5qJUnVKXGwRseDDT/bess=
+Date: Fri, 26 Jun 2020 10:35:00 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Message-ID: <20200626153500.GA2895752@bjorn-Precision-5520>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR18MB2528.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 156bc86e-cf52-4472-bab2-08d819b9e833
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2020 10:15:52.6914 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +vpxvSe6kJUftx8G9B97c759eaieCQUkm4IyCQPpkapWbPPT6JXvtRt3s0UUPnHvH+8Da3HWdt0CvsFOyKC58Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2720
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-26_05:2020-06-26,
- 2020-06-26 signatures=0
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [EXT] [PATCH v1] bnx2x: use generic
-	power management
+Content-Disposition: inline
+In-Reply-To: <202006250611.HDgpcjeu%lkp@intel.com>
+Cc: kbuild-all@lists.01.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 1/4] ide: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -169,48 +87,68 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IElnb3IgUnVzc2tpa2ggPGly
-dXNza2lraEBtYXJ2ZWxsLmNvbT4NCj4gU2VudDogVGh1cnNkYXksIEp1bmUgMjUsIDIwMjAgMTA6
-MTYgUE0NCj4gVG86IFZhaWJoYXYgR3VwdGEgPHZhaWJoYXZndXB0YTQwQGdtYWlsLmNvbT47IEJq
-b3JuIEhlbGdhYXMNCj4gPGhlbGdhYXNAa2VybmVsLm9yZz47IEJqb3JuIEhlbGdhYXMgPGJoZWxn
-YWFzQGdvb2dsZS5jb20+Ow0KPiBiam9ybkBoZWxnYWFzLmNvbTsgVmFpYmhhdiBHdXB0YSA8dmFp
-Ymhhdi52YXJvZGVrQGdtYWlsLmNvbT47IERhdmlkIFMuDQo+IE1pbGxlciA8ZGF2ZW1AZGF2ZW1s
-b2Z0Lm5ldD47IEpha3ViIEtpY2luc2tpIDxrdWJhQGtlcm5lbC5vcmc+OyBBcmllbCBFbGlvcg0K
-PiA8YWVsaW9yQG1hcnZlbGwuY29tPjsgU3VkYXJzYW5hIFJlZGR5IEthbGx1cnUgPHNrYWxsdXJ1
-QG1hcnZlbGwuY29tPjsgR1ItDQo+IGV2ZXJlc3QtbGludXgtbDIgPEdSLWV2ZXJlc3QtbGludXgt
-bDJAbWFydmVsbC5jb20+DQo+IENjOiBuZXRkZXZAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJu
-ZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWwtDQo+IG1lbnRlZXNAbGlzdHMubGludXhm
-b3VuZGF0aW9uLm9yZzsgc2toYW5AbGludXhmb3VuZGF0aW9uLm9yZw0KPiBTdWJqZWN0OiBSZTog
-W0VYVF0gW1BBVENIIHYxXSBibngyeDogdXNlIGdlbmVyaWMgcG93ZXIgbWFuYWdlbWVudA0KPiAN
-Cj4gDQo+IA0KPiBPbiAyNC8wNi8yMDIwIDg6NTEgcG0sIFZhaWJoYXYgR3VwdGEgd3JvdGU6DQo+
-ID4gRXh0ZXJuYWwgRW1haWwNCj4gPg0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiBXaXRoIGxlZ2Fj
-eSBQTSwgZHJpdmVycyB0aGVtc2VsdmVzIHdlcmUgcmVzcG9uc2libGUgZm9yIG1hbmFnaW5nIHRo
-ZQ0KPiA+IGRldmljZSdzIHBvd2VyIHN0YXRlcyBhbmQgdGFrZXMgY2FyZSBvZiByZWdpc3RlciBz
-dGF0ZXMuDQo+ID4NCj4gPiBBZnRlciB1cGdyYWRpbmcgdG8gdGhlIGdlbmVyaWMgc3RydWN0dXJl
-LCBQQ0kgY29yZSB3aWxsIHRha2UgY2FyZSBvZg0KPiA+IHJlcXVpcmVkIHRhc2tzIGFuZCBkcml2
-ZXJzIHNob3VsZCBkbyBvbmx5IGRldmljZS1zcGVjaWZpYyBvcGVyYXRpb25zLg0KPiA+DQo+ID4g
-VGhlIGRyaXZlciB3YXMgYWxzbyBjYWxsaW5nIGJueDJ4X3NldF9wb3dlcl9zdGF0ZSgpIHRvIHNl
-dCB0aGUgcG93ZXINCj4gPiBzdGF0ZSBvZiB0aGUgZGV2aWNlIGJ5IGNoYW5naW5nIHRoZSBkZXZp
-Y2UncyByZWdpc3RlcnMnIHZhbHVlLiBJdCBpcw0KPiA+IG5vIG1vcmUgbmVlZGVkLg0KPiA+DQo+
-ID4gQ29tcGlsZS10ZXN0ZWQgb25seS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFZhaWJoYXYg
-R3VwdGEgPHZhaWJoYXZndXB0YTQwQGdtYWlsLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9u
-ZXQvZXRoZXJuZXQvYnJvYWRjb20vYm54MngvYm54MnhfY21uLmMgIHwgMTUgKysrKysrLS0tLS0t
-LS0tDQo+ID4gZHJpdmVycy9uZXQvZXRoZXJuZXQvYnJvYWRjb20vYm54MngvYm54MnhfY21uLmgg
-IHwgIDQgKy0tLQ0KPiA+IGRyaXZlcnMvbmV0L2V0aGVybmV0L2Jyb2FkY29tL2JueDJ4L2JueDJ4
-X21haW4uYyB8ICAzICstLQ0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwg
-MTQgZGVsZXRpb25zKC0pDQo+IA0KPiBBY2tlZC1ieTogSWdvciBSdXNza2lraCA8aXJ1c3NraWto
-QG1hcnZlbGwuY29tPg0KPiANCj4gU3VkYXJzYW5hLCBjb3VsZCB5b3UgcGxlYXNlIGdpdmUgaXQg
-YSBzaG9ydCBzYW5pdHkgdGVzdCBhbmQgcmVwb3J0IGJhY2s/DQo+IA0KPiBUaGFua3MsDQo+ICAg
-SWdvcg0KDQpJIGhhdmUgcnVuIHRoZSBiYXNpYyBzYW5pdHkgdGVzdCB3aXRoIHRoZXNlIGNoYW5n
-ZXMgaW4gdGhlIGRyaXZlciwgZGlkbuKAmXQgc2VlIGFueSBpc3N1ZXMuDQoNClRoYW5rcywNClN1
-ZGFyc2FuYQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-TGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxp
-c3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
-L21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+On Thu, Jun 25, 2020 at 06:14:09AM +0800, kernel test robot wrote:
+> Hi Vaibhav,
+> 
+> Thank you for the patch! Yet something to improve:
+> 
+> [auto build test ERROR on ide/master]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use  as documented in
+> https://git-scm.com/docs/git-format-patch]
+> 
+> url:    https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/drivers-ide-use-generic-power-management/20200625-013242
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/ide.git master
+> config: x86_64-randconfig-a004-20200624 (attached as .config)
+
+This auto build testing is a great service, but is there any way to
+tweak the info above to make it easier to reproduce the problem?
+
+I tried to checkout the source that caused these errors, but failed.
+This is probably because I'm not a git expert, but maybe others are in
+the same boat.  For example, I tried:
+
+  $ git remote add kbuild https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/drivers-ide-use-generic-power-management/20200625-013242
+  $ git fetch kbuild
+  fatal: repository 'https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/drivers-ide-use-generic-power-management/20200625-013242/' not found
+
+I also visited the github URL in a browser, and I'm sure there must be
+information there that would let me fetch the source, but I don't know
+enough about github to find it.
+
+The report doesn't include a SHA1, so even if I *did* manage to fetch
+the sources, I wouldn't be able to validate they were the *correct*
+ones.
+
+> compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
+> reproduce (this is a W=1 build):
+>         # save the attached .config to linux build tree
+>         make W=1 ARCH=x86_64 
+> 
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/ide-pci-generic.ko] undefined!
+> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/serverworks.ko] undefined!
+> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/piix.ko] undefined!
+> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/pdc202xx_old.ko] undefined!
+> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/ns87415.ko] undefined!
+> >> ERROR: modpost: "ide_pci_pm_ops" [drivers/ide/hpt366.ko] undefined!
+> 
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
