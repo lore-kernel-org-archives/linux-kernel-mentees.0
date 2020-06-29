@@ -2,103 +2,107 @@ Return-Path: <SRS0=91P4=AK=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19131C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 08:17:17 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 201B1C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 08:17:25 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CE0F12335A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 08:17:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E57882335A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 08:17:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z1jI6aqn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE0F12335A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZKdu8bO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E57882335A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A53A089393;
-	Mon, 29 Jun 2020 08:17:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B7814863DD;
+	Mon, 29 Jun 2020 08:17:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id g7ysY8+AqDqF; Mon, 29 Jun 2020 08:17:16 +0000 (UTC)
+	with ESMTP id X0BFj0vpnYFn; Mon, 29 Jun 2020 08:17:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3B7E989394;
-	Mon, 29 Jun 2020 08:17:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4F2688630F;
+	Mon, 29 Jun 2020 08:17:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2678DC0865;
-	Mon, 29 Jun 2020 08:17:16 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B34ACC016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E5C4C0865;
+	Mon, 29 Jun 2020 08:17:24 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9B69FC016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 08:17:14 +0000 (UTC)
+ Mon, 29 Jun 2020 08:17:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A1FEA204FE
+ by whitealder.osuosl.org (Postfix) with ESMTP id 97A45887E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 08:17:14 +0000 (UTC)
+ Mon, 29 Jun 2020 08:17:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AvIPgkJL4p3d
+ with ESMTP id mP-SIJYcogzP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 08:17:14 +0000 (UTC)
+ Mon, 29 Jun 2020 08:17:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by silver.osuosl.org (Postfix) with ESMTPS id 304FF204F2
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1BCF5887C6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 08:17:14 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id d194so4581986pga.13
+ Mon, 29 Jun 2020 08:17:22 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id d10so6806054pls.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 01:17:14 -0700 (PDT)
+ Mon, 29 Jun 2020 01:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tgDUE0GKIkXmW6aX8lSR4NBOqlcCjZE7PQjmXBJ/lhQ=;
- b=Z1jI6aqnyUAm3q07oAb5HCKKw4uCkN9ddj5DoN/Sg5VrboJwevPNrx5jLcmZc9Dl8O
- ZRcimyRboN1Mw60EMnIE6sg0WqQspyGB1f47XUPbzFnvcL28gzVoEypDV9PSA492B4qB
- LMY0EoGnFUAttLxvYWDvZy+U616IqcnR3Wgrjq3C7ebwO/PSzhVk5D6D61MlfjqhrPcH
- MGdFVCtnMLP+C03SvJiWfyOZSmg78HZ/2Tv10F1tHbg1RZaJEWFtWk5xGCeQHKhIE4Sn
- eUiAQCmCxLZX4NKVOwTXMuZrMaya1tu3C78hwonMTqzMaIKTD5KAdAxDuVuHJLmmfiP3
- 7NKg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4TjEWlxkCQ6jKCxDwmv47XB9uFr9TMvZOX5G8CmUuAM=;
+ b=EZKdu8bOP57qq+jePoS28spu6jXDUcNKNX/SqDXKCfUs8XTvsWvvaNtuGhMo461lk8
+ 8aiEOOLQOfQQZjjdrS3fCnhBHwgQ0IfKCzscQILS+N8cn4a213SmONNRyXr8IWaqvSC1
+ 1+E/LTN3bLQVeASon4K2bizVn77Gx5msFa7EaVu+5UIUrctOyOmlWbHKIZZM5Obj/bY4
+ eQcioLZ/eF8ImQQ/GfZAr7s8/VZ2yfaOpZLo4wthmacuL0PsdV43B9RhZtwpUcp4O2r+
+ /iGOO5VqbkL30LC8Tv8O6rLTYEiGVf/UvJg3I+ygwajstoSEAEczB5j3dmdx+tWm44h9
+ QSMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tgDUE0GKIkXmW6aX8lSR4NBOqlcCjZE7PQjmXBJ/lhQ=;
- b=Hhtw6RlROcebggg4UBVJZnn2OIVTkIqzheX17nKl4beUyuelrZiJpEykDck0rzzyYi
- jvfYozi1uzUlDpcnP7Nc2w9MLE9KAmTPwhEnhkUCUVcBlEjz0KNjViLikAub09cBTup5
- wzF5dqDx8a6AnWzqf60P9BybpxKE/4q4Fp2II4+OQOcm4aJFodHZoTg5jQgXkbiAgqbo
- Xevu4mLUKkjAmhGWnzI7tLEkWh8lE3VrdFG48jb9mgT4f0upSHOq6AGhv+0a1dRWkM4h
- Z2nrWCFZx+gT9YanRQNuSnXnTwq83egj70rvZjOq92EUBZQAamH4iYlXG82TQwiD07bZ
- fMLQ==
-X-Gm-Message-State: AOAM532TrE6pXORDQoX5X/S4Hzu1JBEALdUVjNYYPlVTTuVVM/2El5bO
- R4oRkuCuRwQf9TpOW0fgUrs=
-X-Google-Smtp-Source: ABdhPJzM28IRQ1wZ9naK+e4ccSXlhOR9bkSkq6Iyv0YsLSn5bOc6DAlXFR5zm+eZRxkTJOETv4SPtA==
-X-Received: by 2002:a63:6643:: with SMTP id a64mr9557397pgc.246.1593418633762; 
- Mon, 29 Jun 2020 01:17:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=4TjEWlxkCQ6jKCxDwmv47XB9uFr9TMvZOX5G8CmUuAM=;
+ b=hbrDgu+ZpnlVEVRZQ4CNJ88iFOrP4mbxZ/r9qo1HrcjBNMWQ/H93SohhGPqV1UgDkc
+ Nmtc/Fg398ig7IhoEPSsPMVzVvvIZHTpmo1g0esIXuUXXmmSFaVX5+OIVTwLSzgJb8yB
+ LP9xdK/WrrSq5emgZwbdR/wDQAYPN/HgiKP1MuSc1c2sfRV0+5iAz5L+llPVk46JIoTb
+ q1hc8RM/n8Hg2G+wBRKl95z3q+b8HG1HfIiFCQoijcxUrIJFTHZGIEZfq4PD2A0iaJal
+ 32oGnmxpzVaRvG7XTCQxhPjkqv5nrdBE+Lu4lgFnpJDXGH8vQGZIgOu0d1vRWNZIwyhD
+ cxeQ==
+X-Gm-Message-State: AOAM5311E4BwwslcRy0m/5xyZ+Xgljt7JECJ23sZqBv9LVCl/wBH42XP
+ oEzXhTmnKuIvzNDOmr9dWFE=
+X-Google-Smtp-Source: ABdhPJygQ8DmbhA4ifvNfZdy5+PSbPTWeeSFEQp1uqWB8k23uWji2yFChpuajG9uZYSsbsiBFQB8Cg==
+X-Received: by 2002:a17:90a:c295:: with SMTP id
+ f21mr3800489pjt.208.1593418641726; 
+ Mon, 29 Jun 2020 01:17:21 -0700 (PDT)
 Received: from varodek.localdomain ([106.210.40.90])
- by smtp.gmail.com with ESMTPSA id co1sm3345154pjb.34.2020.06.29.01.17.08
+ by smtp.gmail.com with ESMTPSA id co1sm3345154pjb.34.2020.06.29.01.17.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 01:17:13 -0700 (PDT)
+ Mon, 29 Jun 2020 01:17:21 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  Arnd Bergmann <arnd@arndb.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jiri Slaby <jirislaby@gmail.com>, Alex Dubov <oakad@yahoo.com>
-Date: Mon, 29 Jun 2020 13:45:26 +0530
-Message-Id: <20200629081531.214734-1-vaibhavgupta40@gmail.com>
+Date: Mon, 29 Jun 2020 13:45:27 +0530
+Message-Id: <20200629081531.214734-2-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200629081531.214734-1-vaibhavgupta40@gmail.com>
+References: <20200629081531.214734-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 0/5] misc: use generic power
-	management
+Subject: [Linux-kernel-mentees] [PATCH v1 1/5] cb710/core.c: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,34 +120,86 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Linux Kernel Mentee: Remove Legacy Power Management.
+Drivers should not use legacy power management as they have to manage power
+states and related operations, for the device, themselves. This driver was
+handling them with the help of PCI helper functions like
+pci_save/restore_state(), pci_enable/disable_device(), etc.
 
-The purpose of this patch series is to remove legacy power management callbacks
-from amd ethernet drivers.
+With generic PM, all essentials will be handled by the PCI core. Driver
+needs to do only device-specific operations.
 
-The callbacks performing suspend() and resume() operations are still calling
-pci_save_state(), pci_set_power_state(), etc. and handling the power management
-themselves, which is not recommended.
+Compile-tested only.
 
-The conversion requires the removal of the those function calls and change the
-callback definition accordingly and make use of dev_pm_ops structure.
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/misc/cb710/core.c | 28 +++++++---------------------
+ 1 file changed, 7 insertions(+), 21 deletions(-)
 
-All patches are compile-tested only.
-
-Vaibhav Gupta (5):
-  cb710/core.c: use generic power management
-  cardreader/rtsx_pcr.c: use generic power management
-  misc/tifm_7xx1.c: use generic power management
-  misc/phantom.c: use generic power management
-  misc/pch_phub.c: use generic power management
-
- drivers/misc/cardreader/rtsx_pcr.c | 27 +++++++----------
- drivers/misc/cb710/core.c          | 28 +++++------------
- drivers/misc/pch_phub.c            | 48 ++++++------------------------
- drivers/misc/phantom.c             | 20 +++++--------
- drivers/misc/tifm_7xx1.c           | 30 +++++--------------
- 5 files changed, 42 insertions(+), 111 deletions(-)
-
+diff --git a/drivers/misc/cb710/core.c b/drivers/misc/cb710/core.c
+index b290bc2ee240..55b7ee0e8f93 100644
+--- a/drivers/misc/cb710/core.c
++++ b/drivers/misc/cb710/core.c
+@@ -166,37 +166,24 @@ void cb710_set_irq_handler(struct cb710_slot *slot,
+ }
+ EXPORT_SYMBOL_GPL(cb710_set_irq_handler);
+ 
+-#ifdef CONFIG_PM
+-
+-static int cb710_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused cb710_suspend(struct device *dev_d)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev_d);
+ 	struct cb710_chip *chip = pci_get_drvdata(pdev);
+ 
+ 	devm_free_irq(&pdev->dev, pdev->irq, chip);
+-	pci_save_state(pdev);
+-	pci_disable_device(pdev);
+-	if (state.event & PM_EVENT_SLEEP)
+-		pci_set_power_state(pdev, PCI_D3hot);
+ 	return 0;
+ }
+ 
+-static int cb710_resume(struct pci_dev *pdev)
++static int __maybe_unused cb710_resume(struct device *dev_d)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev_d);
+ 	struct cb710_chip *chip = pci_get_drvdata(pdev);
+-	int err;
+-
+-	pci_set_power_state(pdev, PCI_D0);
+-	pci_restore_state(pdev);
+-	err = pcim_enable_device(pdev);
+-	if (err)
+-		return err;
+ 
+ 	return devm_request_irq(&pdev->dev, pdev->irq,
+ 		cb710_irq_handler, IRQF_SHARED, KBUILD_MODNAME, chip);
+ }
+ 
+-#endif /* CONFIG_PM */
+-
+ static int cb710_probe(struct pci_dev *pdev,
+ 	const struct pci_device_id *ent)
+ {
+@@ -312,15 +299,14 @@ static const struct pci_device_id cb710_pci_tbl[] = {
+ 	{ 0, }
+ };
+ 
++static SIMPLE_DEV_PM_OPS(cb710_pm_ops, cb710_suspend, cb710_resume);
++
+ static struct pci_driver cb710_driver = {
+ 	.name = KBUILD_MODNAME,
+ 	.id_table = cb710_pci_tbl,
+ 	.probe = cb710_probe,
+ 	.remove = cb710_remove_one,
+-#ifdef CONFIG_PM
+-	.suspend = cb710_suspend,
+-	.resume = cb710_resume,
+-#endif
++	.driver.pm = &cb710_pm_ops,
+ };
+ 
+ static int __init cb710_init_module(void)
 -- 
 2.27.0
 
