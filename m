@@ -1,101 +1,104 @@
-Return-Path: <SRS0=+dDq=AI=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=91P4=AK=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1832C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 27 Jun 2020 05:51:42 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 743BCC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 03:33:44 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 99DA3207FC
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 27 Jun 2020 05:51:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2E67A206C0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 03:33:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZbX8WV/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 99DA3207FC
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ccEw8pDg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E67A206C0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5B12787E59;
-	Sat, 27 Jun 2020 05:51:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0481086E7F;
+	Mon, 29 Jun 2020 03:33:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PTYuKWEpJWVi; Sat, 27 Jun 2020 05:51:41 +0000 (UTC)
+	with ESMTP id 3M8Zz_0pxLjZ; Mon, 29 Jun 2020 03:33:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E37E387E58;
-	Sat, 27 Jun 2020 05:51:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EAC1986D36;
+	Mon, 29 Jun 2020 03:33:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C84BEC088C;
-	Sat, 27 Jun 2020 05:51:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CC722C0865;
+	Mon, 29 Jun 2020 03:33:42 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2DEB3C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E5D96C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 27 Jun 2020 05:51:40 +0000 (UTC)
+ Mon, 29 Jun 2020 03:33:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id F0A3F204AB
+ by silver.osuosl.org (Postfix) with ESMTP id D83E622721
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 27 Jun 2020 05:51:39 +0000 (UTC)
+ Mon, 29 Jun 2020 03:33:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7dk2G0ahFfpT
+ with ESMTP id Hk19sX5mgGrx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 27 Jun 2020 05:51:39 +0000 (UTC)
+ Mon, 29 Jun 2020 03:33:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 3D9C8204AA
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 1CE69221C6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 27 Jun 2020 05:51:39 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id k6so10266774ili.6
+ Mon, 29 Jun 2020 03:33:40 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id 35so6559826ple.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Jun 2020 22:51:39 -0700 (PDT)
+ Sun, 28 Jun 2020 20:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/XK9O5e9WYvpLJ8CUU6lWm9WXLh2aPJdj62lrelY7z0=;
- b=PZbX8WV/OaNA6DgZ6Is7kfIwNjE23/oVVVKhrWXOyaLkvljZiKFQePoBr4dSVTBwSC
- E5Ham/C1pDzR++vWFqCyS32++gOZAMbZDS/kW+rKqCg0p3qxQvMVFeTM/zgo4uOQ+0dX
- fh8hQOJiJS5uvlX3uUMpqREYSLfevJbuWyqfoLDtVjVs10d0JqdcC6BPHX4LUs28VTl4
- osf2a3EZCj1YCIXf4AFKI8yQuH3L0vAOBtmOYnBZlOFjr/z6YS14c0oPxOeX7i91wXFQ
- pYM3R4u9W0ySVOKT/fzyficDQ5xuil6YkvUyisGqmOjkhjtA8jc3y4an0/FDNet/PtuQ
- OvEw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fYJKmE7yRo1ixIz8HpJIKtPVneklCF0ayYZCHIK8EeE=;
+ b=ccEw8pDgO7NJNzDs8/7IFb44i/405jgQahmjmw0raESl6GJAwudPJl180HDwTGkU5e
+ m9zB6pFPv73MAAbRbVnUMpdnbfsfT6uSWw81J4okpgmBtFr3tKTSp+wwoIkvMzUAO7BH
+ aGc6sEa3/+MeaXkgXdnUtL7nd/Ze0m6L56MgGDTN3c32wyW6wrb2oXoa/J9miE2qLHT4
+ ByBWtU8m3FeX1BhoZfTUgMZGBF+d5jFkEzkoEjUNwHKIoV4lHjOkdXumOjzRSi0njIBD
+ U0bcJOaNPqsscII0jzSX6EZlbGuSk2uZmqR0jLIslptv4DutAKZ1HN7akNTVlTSFxL/v
+ cWbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/XK9O5e9WYvpLJ8CUU6lWm9WXLh2aPJdj62lrelY7z0=;
- b=UNsvkRgRiV0gh0VhJgNYI61d7b3HrzIxU2VYToEoZBmADfiOGe+bvERuaVZiy6MIZq
- RtCEIs9mWOMQQt/E4aLzhk6M5ZHg10AgiRQv4AUHgoV69KNQEb2rid65wIopb1eYterl
- wHrQRF+0fIrQTLFpuLbCRSLulcMuRI7/v5MaX9MHRtrNfqbDXFy60jgJREdP6rtpaEQU
- kYiAImBggOV51QVYkF/CC8Bzc6YQnFkv1i641Rs4UL2+pCH9gKapq206A1iORoMj52Cu
- SkmvEnbwCjPpsyzYiDUH3nvbFUuwbXARUKhlOCQSmjAEXlRFhj0BB2aMrK1wEeXSS/7/
- 5SPw==
-X-Gm-Message-State: AOAM530M/2aNfRy+6gQ9GJfqwJS6nt7Y4c52pEeSnNq89p9lwZix1CGf
- S9hq4ILQ72hYaW+LmK/y5BIC83zx6snf6/Y7A4I=
-X-Google-Smtp-Source: ABdhPJy6prHvLGtnP9a/NnYKc8hXTVPikrzhNjdmbCOe1v5Ut7+vGkabZpdZwEYEUy+QJdErXgomCSZw1GERy2496/Y=
-X-Received: by 2002:a05:6e02:48e:: with SMTP id
- b14mr6281351ils.143.1593237098484; 
- Fri, 26 Jun 2020 22:51:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fYJKmE7yRo1ixIz8HpJIKtPVneklCF0ayYZCHIK8EeE=;
+ b=prR63tmN4bF1mWiM7HNX4GbFdYZsMzgNgsRIfZ0DDXZJbDzIwlIwpJLm6YQ8+8XNF3
+ emuXpPwf2GhCTS0STgVc7MtBZDQvDUrwmxDSVMdm2q1X8hcx4pkvOsLfJ4PFNUuiPf6x
+ QV4DfVvI+8k/WMIPy/jgC8IwsOFQKqKx/OOGUvKza12B98IyTOTzoXIzPl/741fMfk1L
+ upLxyoFdBSUyUsbxeMZiig7IHwByZlBTp60tcRa7MMr4SvulTO++ey5OsRmOV3KOPDtk
+ L61U4cdS9fg7udENcfisUpQFIn70PbSF+p/J0L5G0aGzlR4J375NwDGlFMf/Z3+K8ewF
+ XEZg==
+X-Gm-Message-State: AOAM531Qu668+Mjqp6d7JWYih7AnzQHxYoiToGi0OTThO2TnU3KuaAkH
+ 4E5UvrQw3k70vY0JZV7yT48=
+X-Google-Smtp-Source: ABdhPJz+JdBvOqVV/+8nOkMDZE+YnbOlM+MtB6ZHTco9p5/atAcS3aB8wtXbL2GHSw//dWLW9U0lww==
+X-Received: by 2002:a17:90a:ea84:: with SMTP id
+ h4mr4007676pjz.128.1593401619651; 
+ Sun, 28 Jun 2020 20:33:39 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.153.57])
+ by smtp.gmail.com with ESMTPSA id e191sm10679196pfh.42.2020.06.28.20.33.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Jun 2020 20:33:38 -0700 (PDT)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+ Kalle Valo <kvalo@codeaurora.org>, Jakub Kicinski <kuba@kernel.org>
+Date: Mon, 29 Jun 2020 09:02:24 +0530
+Message-Id: <20200629033226.160936-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200624175116.67911-1-vaibhavgupta40@gmail.com>
- <20200626.121428.112500348777695663.davem@davemloft.net>
-In-Reply-To: <20200626.121428.112500348777695663.davem@davemloft.net>
-From: Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Date: Sat, 27 Jun 2020 11:20:03 +0530
-Message-ID: <CAPBsFfDBogBbLuzMd2dLwR_DD2hMpoYsXnOpLwMyS7CJ0vUH3A@mail.gmail.com>
-To: David Miller <davem@davemloft.net>
-Cc: aelior@marvell.com, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- netdev@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Bjorn Helgaas <helgaas@kernel.org>, GR-everest-linux-l2@marvell.com,
- Bjorn Helgaas <bhelgaas@google.com>, Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, skalluru@marvell.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] bnx2x: use generic power
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v1 0/2] ipw2x00: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -114,28 +117,31 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, 27 Jun 2020 at 00:44, David Miller <davem@davemloft.net> wrote:
->
-> From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> Date: Wed, 24 Jun 2020 23:21:17 +0530
->
-> > With legacy PM, drivers themselves were responsible for managing the
-> > device's power states and takes care of register states.
-> >
-> > After upgrading to the generic structure, PCI core will take care of
-> > required tasks and drivers should do only device-specific operations.
-> >
-> > The driver was also calling bnx2x_set_power_state() to set the power state
-> > of the device by changing the device's registers' value. It is no more
-> > needed.
-> >
-> > Compile-tested only.
-> >
-> > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
->
-> Applied, thanks.
-Thanks everyone :)
--- Vaibhav Gupta
+Linux Kernel Mentee: Remove Legacy Power Management.
+
+The purpose of this patch series is to remove legacy power management callbacks
+from amd ethernet drivers.
+
+The callbacks performing suspend() and resume() operations are still calling
+pci_save_state(), pci_set_power_state(), etc. and handling the power management
+themselves, which is not recommended.
+
+The conversion requires the removal of the those function calls and change the
+callback definition accordingly and make use of dev_pm_ops structure.
+
+All patches are compile-tested only.
+
+Vaibhav Gupta (2):
+  ipw2100: use generic power management
+  ipw2200: use generic power management
+
+ drivers/net/wireless/intel/ipw2x00/ipw2100.c | 31 +++++---------------
+ drivers/net/wireless/intel/ipw2x00/ipw2200.c | 30 +++++--------------
+ 2 files changed, 14 insertions(+), 47 deletions(-)
+
+-- 
+2.27.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
