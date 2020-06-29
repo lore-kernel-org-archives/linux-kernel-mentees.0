@@ -5,101 +5,100 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB865C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 07:37:32 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5981EC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 07:37:37 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AB1D423158
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 07:37:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 287E023142
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 07:37:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M1hIH6mF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB1D423158
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZoWk5+P4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 287E023142
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 69C8722721;
-	Mon, 29 Jun 2020 07:37:32 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nxYvrxA5VH-j; Mon, 29 Jun 2020 07:37:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9B6FA207B0;
-	Mon, 29 Jun 2020 07:37:31 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89378C07FF;
-	Mon, 29 Jun 2020 07:37:31 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 30D16C016E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 07:37:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2D9E48853B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 07:37:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0786088558;
+	Mon, 29 Jun 2020 07:37:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id euESe+VGYZDT; Mon, 29 Jun 2020 07:37:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id A94148853B;
+	Mon, 29 Jun 2020 07:37:36 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 98743C07FF;
+	Mon, 29 Jun 2020 07:37:36 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BFD7EC016E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 29 Jun 2020 07:37:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id AF69A86AB2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 29 Jun 2020 07:37:34 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XFtZZc-Jiq8j
+ with ESMTP id PrwsM5aMcMPw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 07:37:29 +0000 (UTC)
+ Mon, 29 Jun 2020 07:37:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B5CDB86A0B
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5FAF385F49
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 07:37:29 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id c1so396628pja.5
+ Mon, 29 Jun 2020 07:37:34 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id q17so7531009pfu.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 00:37:29 -0700 (PDT)
+ Mon, 29 Jun 2020 00:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wNBasksRn6HqqFy9YNin3k0xj1oUFrdl5Lr5u3FSELQ=;
- b=M1hIH6mFmORSCGE86XorMiBP7P08Gf4iZf58OyrKtzhu/cv2OISPl0WAHowytkfrXb
- Dxtp9KEV+JThYTPWvaCa029Z+U7sItPFnlKrjYO+P7uwh/rTbA4R4HTUSv5AlaBsq51O
- k8PDB3rzBRmgXTeZ8DdA/U/csAwKlTqGKtV4Y4qJkujlyGSF63nQAmcrkA61IBbPlvXI
- leqBFDNv9s7LvFlq4dGOdA+uUpzsrcRl36VOzX57aTt6Smf7gdRwvxKPLW1qT9TnG3Ds
- WZuuLNR/i/9WGDTcE6PYFhdE5tX2xgAWxR53fnb1MLYIY9J+qFyGGcOgglFfMOV/dy2n
- aiOw==
+ bh=M1eWlmJknPlaq4iBEb26E6JSPq8jyG2XC9mR0Df08JE=;
+ b=ZoWk5+P4rjcM0P7NJzK7080uXsU6qIIS3avQ6XYyaJJKtaWZpbT29DeSJXZg5qoR7M
+ 7CBFX08H84xXbjEGQVj6g57MZ8Cv8uyNbXonrVuHNLgqF46jAdpvi8ocxy8GjNWjC4C3
+ +3LmIIy6TrhWf7m4KllNP6crK/ELeX+2vuDlJ6p25HiG2GP1/1jN7IIqnxQNMeQJmdT4
+ rK6u/59MNeUV7ciVPBV5i83zSsn3/dv35xyVBBysuH/83LhOfG9qZjpZbpoAw28Gd9c4
+ dIvKeEOEaOcc3dE7y8kaqkdzAAFVsqgbX4fAUTWcXu5rX3K4YkPkqmFwx9x8iA+yXOD4
+ uvRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wNBasksRn6HqqFy9YNin3k0xj1oUFrdl5Lr5u3FSELQ=;
- b=BsaSeRsubMuDGjp5KdRyZNaU2L+KOt+KxlxgNIWiX2p/sAlOwqeHAEhJr1F8m/TUzY
- iYdjqFe5K/oZdlHeA61v173J1T1HA8jOdax70An9DEZBMJSTDISvqjZfvaNvaYOmgGz2
- 0i2ZtM5kEYZT2SJJAoPqtRqyx5tDj0obyDiaAxW5SrUe11zg4640nce0qN0VgExPP6lY
- P4qUoB8hMXnb5tUtyuvH8AX5/A93qtNWXSg93slOEZs3BQgzM2Dw2H8OEuvfhHk93SDT
- 27CRnr4l7dmKWwLUGmTn9rUFOUq/6dVFTW+zYAv+INfUpVb4dgLstfGkgjqx5R0Lm42P
- AQUA==
-X-Gm-Message-State: AOAM533huJgP8MaugxugR4L/cXd7Ghp/udPdMLPFZuw2fA8w00hOcIrd
- zXGkVxoqRVHVKraDgBnfdwo=
-X-Google-Smtp-Source: ABdhPJw5JV6v034J4F08OVzJgY5QNT872fYtNd1w2ulu2+H64M023gpnMHfQNOtSd3meU2msqry31Q==
-X-Received: by 2002:a17:902:54f:: with SMTP id
- 73mr12020846plf.76.1593416249351; 
- Mon, 29 Jun 2020 00:37:29 -0700 (PDT)
+ bh=M1eWlmJknPlaq4iBEb26E6JSPq8jyG2XC9mR0Df08JE=;
+ b=dst1Nz/SzCo5KEDjLE7TAH9sDUApct8R8hI7uamQvsY0caZYXmgn9Y2DHTV6ZAPgK7
+ RdyT0q6jzRD+JpFnPis86os28KQZag2MRxCC/Wm2FaI82MrRO97UIyUT1T5BGWoLNMVN
+ fSly9lQwbYE+SLVTFfS6AAqzdf2M13EKfIcW4ywvMQSVVbIUduJRaFRakhcv2k3Ax9LO
+ WDMvFU3Q6Q69+2ioUO5vCITqWPKj+LYexqM6sqmm2q7eWJ7SIeFUNvrd2qHZA4sRCpTw
+ 1gfgQqlMykPfPxuKn+44AR2aNOJwh1Mp8A871yv18ddWY2wLViJTDqBbr+X8jfsplbNI
+ rzfg==
+X-Gm-Message-State: AOAM530LebxcI4kpEFmUnfZlhCQP96r+KyUoB58UbPe/1wXauQZtPXJp
+ ZOUSEFFvE/g/48AN6iaAh1s=
+X-Google-Smtp-Source: ABdhPJydYwb6IghBaB9/JJLG0sM0hcusmh3mXrqhfkRKFx43w7QdBeZoPsQYEN6Kw++x7HYyl1rBYw==
+X-Received: by 2002:a63:5c55:: with SMTP id n21mr8836754pgm.27.1593416253909; 
+ Mon, 29 Jun 2020 00:37:33 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id q10sm34673004pfk.86.2020.06.29.00.37.25
+ by smtp.gmail.com with ESMTPSA id q10sm34673004pfk.86.2020.06.29.00.37.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 00:37:28 -0700 (PDT)
+ Mon, 29 Jun 2020 00:37:33 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Date: Mon, 29 Jun 2020 13:06:00 +0530
-Message-Id: <20200629073604.205478-3-vaibhavgupta40@gmail.com>
+Date: Mon, 29 Jun 2020 13:06:01 +0530
+Message-Id: <20200629073604.205478-4-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
 References: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 2/6] [media] cx23885: use generic
+Subject: [Linux-kernel-mentees] [PATCH v1 3/6] [media] cx25821: use generic
 	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -128,38 +127,34 @@ Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/media/pci/cx23885/cx23885-core.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/media/pci/cx25821/cx25821-core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
-index 7e0b0b7cc2a3..da9ee7270dfd 100644
---- a/drivers/media/pci/cx23885/cx23885-core.c
-+++ b/drivers/media/pci/cx23885/cx23885-core.c
-@@ -2230,14 +2230,18 @@ static const struct pci_device_id cx23885_pci_tbl[] = {
- };
- MODULE_DEVICE_TABLE(pci, cx23885_pci_tbl);
+diff --git a/drivers/media/pci/cx25821/cx25821-core.c b/drivers/media/pci/cx25821/cx25821-core.c
+index 41be22ce66f3..59501939d741 100644
+--- a/drivers/media/pci/cx25821/cx25821-core.c
++++ b/drivers/media/pci/cx25821/cx25821-core.c
+@@ -1369,14 +1369,18 @@ static const struct pci_device_id cx25821_pci_tbl[] = {
  
-+#define cx23885_suspend NULL
-+#define cx23885_resume NULL
+ MODULE_DEVICE_TABLE(pci, cx25821_pci_tbl);
+ 
++#define cx25821_suspend NULL
++#define cx25821_resume NULL
 +
-+static SIMPLE_DEV_PM_OPS(cx23885_pm_ops, cx23885_suspend, cx23885_resume);
++static SIMPLE_DEV_PM_OPS(cx25821_pm_ops, cx25821_suspend, cx25821_resume);
 +
- static struct pci_driver cx23885_pci_driver = {
--	.name     = "cx23885",
--	.id_table = cx23885_pci_tbl,
--	.probe    = cx23885_initdev,
--	.remove   = cx23885_finidev,
-+	.name      = "cx23885",
-+	.id_table  = cx23885_pci_tbl,
-+	.probe     = cx23885_initdev,
-+	.remove    = cx23885_finidev,
+ static struct pci_driver cx25821_pci_driver = {
+ 	.name = "cx25821",
+ 	.id_table = cx25821_pci_tbl,
+ 	.probe = cx25821_initdev,
+ 	.remove = cx25821_finidev,
  	/* TODO */
--	.suspend  = NULL,
--	.resume   = NULL,
-+	.driver.pm = &cx23885_pm_ops,
+-	.suspend = NULL,
+-	.resume = NULL,
++	.driver.pm = &cx25821_pm_ops,
  };
  
- static int __init cx23885_init(void)
+ static int __init cx25821_init(void)
 -- 
 2.27.0
 
