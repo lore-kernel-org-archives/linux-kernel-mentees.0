@@ -8,91 +8,91 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A746AC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 09:31:41 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11719C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 09:31:42 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 79A0920857
+	by mail.kernel.org (Postfix) with ESMTPS id DB88220857
 	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 09:31:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GV0KvGGX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 79A0920857
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gxKy2bwo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB88220857
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 69B3788AA7;
+	by silver.osuosl.org (Postfix) with ESMTP id C0EE825D76;
 	Mon, 29 Jun 2020 09:31:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id h46rq+FEhkhO; Mon, 29 Jun 2020 09:31:40 +0000 (UTC)
+	with ESMTP id TsgAH-vYxvfG; Mon, 29 Jun 2020 09:31:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EB95788A64;
-	Mon, 29 Jun 2020 09:31:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E55E825E23;
+	Mon, 29 Jun 2020 09:31:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E837CC07FF;
-	Mon, 29 Jun 2020 09:31:40 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8E70C0895
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D29CBC0895;
+	Mon, 29 Jun 2020 09:31:35 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3CA52C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 09:31:40 +0000 (UTC)
+ Mon, 29 Jun 2020 09:31:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9239088832
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2BB5287647
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 09:31:40 +0000 (UTC)
+ Mon, 29 Jun 2020 09:31:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6p2E9Cz45nI2
+ with ESMTP id GpWZaDPf_cEa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 09:31:40 +0000 (UTC)
+ Mon, 29 Jun 2020 09:31:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1A7CC88840
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id AF08D8762A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 09:31:40 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id j12so7648732pfn.10
+ Mon, 29 Jun 2020 09:31:33 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id d194so4665480pga.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 02:31:40 -0700 (PDT)
+ Mon, 29 Jun 2020 02:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ayAl0LoNSdRH5ysQrzi9ZVtfNrMXxNYN9qeSjnl571U=;
- b=GV0KvGGX4dJpz/Wcl9nBaTIGm6slYAAJClid5ntya+hSHoQshp9o8aro6FvFHtt3QY
- D9DNF1s9O9XiHhwhAk1gjjifrTGvawv6ZbQnHsxHHkOIrK/rt38r+iaZuYejiSFv8f0H
- vXzVPrjXgzjvl0Bp0LmYH9HKRbWmihJ5KuF1g6LUH/03IsCMryUbichVVlfjSFPpRPw5
- x3fnnUnUovLSp/DqQgHTAMju1MG1BQ2HLkpTYlydRrgeYoPA8ijwr/94gfGkUgRH5N2N
- I7gdEp+00LPtV+avLCRnOgYhiR4Ieg3y5ys2aUj3PM2SGrSB8vccHGahSoNMSpfSa8/Q
- /ctw==
+ bh=qe4WDxIQGl3f8nl5SssfB8C9vc9ueXmXwiDJGu9bR+U=;
+ b=gxKy2bwoStooFIbHMuvcV/ySW4DhExicwX6eDsJRMPKxT3EtXkkzy4XkPZ7XaBAXuL
+ dsCi0E0ZbCRPX9CA6lrQU0ga29adgeFdIRgXJjtuyloMTQnZ4IHAvGO42VKD1JSQtqx4
+ gLo9Ntqaqf1FDwUsl/4tvEBRQlNzQMViHgdFBu8rAY3E++k+ZFaYqfAy29nBtRRXcHPV
+ eudann+dY92ttd2o47kcoebTGocwMq5sNRKo9W31Bk+/Q/c5dQpujD1vq1Y+paMDOxPo
+ 1pFGRPKNa+4nosY5izWIrVe17jk+JELQxI3GZoy1zTCNDM6Vc96RYfSi1wTwKKcqirt2
+ Nmug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ayAl0LoNSdRH5ysQrzi9ZVtfNrMXxNYN9qeSjnl571U=;
- b=E/sU+mQ8YwHq6bheaZY30pRqoXp/0pNeV6RqzZ+dyKqlKEsZQCgT2+/wxiL0P3ntpL
- QdmOKfVz4GNflfC2qihIWhVWzqiOq5Hf8678wb/By07jCp84g/+NrGaZoHM6Z1F9czFD
- h2QNVvUT5WldPmmISeoRSYh0vvA9gMsGa+FnTmRr8geI084kuDkrpM+sR4+KuLhrurHx
- KtHxBm/QjwCHDbzQIDsqugLLdKt/+MoirkmwzQgshJugmh6I2kQTMxoEmp4OcAgaTLwl
- AheoHdrj64CZNS/dcI0XccweWqZafX88F2TWlOIF8j+w9sf9IGo1uMnXDI+rtxrz9HnD
- xmPg==
-X-Gm-Message-State: AOAM531cKzkTrfYpABSd2Bi/wMpxLvs82K5+jrpqROibJ/GKzpGxUpYp
- q6tKWHfz9WDcCI7lV0dB/hE=
-X-Google-Smtp-Source: ABdhPJwRDli2Y2bH5K3wrG95jVuSEXZnknlpezTd2aULIFClM3Bmo5xukNXS6A/E8xgqSTqHNHa17A==
-X-Received: by 2002:a63:5623:: with SMTP id k35mr10075750pgb.325.1593423099692; 
- Mon, 29 Jun 2020 02:31:39 -0700 (PDT)
+ bh=qe4WDxIQGl3f8nl5SssfB8C9vc9ueXmXwiDJGu9bR+U=;
+ b=tacPJLCZeEXvNgyc0QrcZyXAJ0GBn1p8Q9s4JhCZ8iUxtEup3mr44qeKx0AVM1DYUQ
+ Ma0ujKoQBTzrrFbb91N3OW8RmBD/3W1t+bb1RFoEDhu86yv6A5k4nc57oWVx8E08FnXg
+ sHg9dbTQ9NQbOYTi9T+zltUNOz2CXR7rWYQoscffmu0ACWqpW3n3rlqStUM6EMsYAMFm
+ CDera+ZDVBYcuje7nCOr6jqzO+E/5RMcEyvEL6oex7WtRUaBbPOb5B8N/fvxc68vOyuk
+ DICTHFkmdaBNZ85PixreLGLpK4LyzdOusPTsWWxaP8xLgPtaGe+iBzawiIBTKXHl0AS5
+ EDgw==
+X-Gm-Message-State: AOAM533/Xt9srLwiaII6HcRH+MavLI5TRHxuYgy3a5cmcpO8uxX4tVXK
+ nlap+IjRsei6CGRAUk5P/dM=
+X-Google-Smtp-Source: ABdhPJzc/HXeM2Z10CROTyp/Ia6gJiD+wH9o2SbtefVvniYcFcPJgHQUf/d2M3s4RdRVXyc6lOCjcA==
+X-Received: by 2002:a63:1e60:: with SMTP id p32mr9294309pgm.172.1593423093298; 
+ Mon, 29 Jun 2020 02:31:33 -0700 (PDT)
 Received: from varodek.localdomain ([106.210.40.90])
- by smtp.gmail.com with ESMTPSA id q20sm2921286pfn.111.2020.06.29.02.31.34
+ by smtp.gmail.com with ESMTPSA id q20sm2921286pfn.111.2020.06.29.02.31.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 02:31:39 -0700 (PDT)
+ Mon, 29 Jun 2020 02:31:32 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
  Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Date: Mon, 29 Jun 2020 14:59:42 +0530
-Message-Id: <20200629092943.227910-5-vaibhavgupta40@gmail.com>
+Date: Mon, 29 Jun 2020 14:59:41 +0530
+Message-Id: <20200629092943.227910-4-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200629092943.227910-1-vaibhavgupta40@gmail.com>
 References: <20200629092943.227910-1-vaibhavgupta40@gmail.com>
@@ -100,7 +100,7 @@ MIME-Version: 1.0
 Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v1 4/5] ixgbevf: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v1 3/5] ixgbe: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -119,44 +119,85 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-With legacy PM, drivers themselves were responsible for managing the
-device's power states and takes care of register states.
+With legacy PM hooks, it was the responsibility of a driver to manage PCI
+states and also the device's power state. The generic approach is to let
+PCI core handle the work.
 
-After upgrading to the generic structure, PCI core will take care of
-required tasks and drivers should do only device-specific operations.
+ixgbe_suspend() calls __ixgbe_shutdown() to perform intermediate tasks.
+__ixgbe_shutdown() modifies the value of "wake" (device should be wakeup
+enabled or not), responsible for controlling the flow of legacy PM.
 
-The driver was invoking PCI helper functions like pci_save/restore_state(),
-and pci_enable/disable_device(), which is not recommended.
+Since, PCI core has no idea about the value of "wake", new code for generic
+PM may produce unexpected results. Thus, use "device_set_wakeup_enable()"
+to wakeup-enable the device accordingly.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- .../net/ethernet/intel/ixgbevf/ixgbevf_main.c | 44 +++++--------------
- 1 file changed, 10 insertions(+), 34 deletions(-)
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c | 61 +++++--------------
+ 1 file changed, 15 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
-index a39e2cb384dd..988345aeae4a 100644
---- a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
-+++ b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
-@@ -4300,13 +4300,10 @@ static int ixgbevf_change_mtu(struct net_device *netdev, int new_mtu)
+diff --git a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+index 97a423ecf808..145296825e64 100644
+--- a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
++++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+@@ -6861,32 +6861,20 @@ int ixgbe_close(struct net_device *netdev)
  	return 0;
  }
  
--static int ixgbevf_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused ixgbevf_suspend(struct device *dev_d)
+-#ifdef CONFIG_PM
+-static int ixgbe_resume(struct pci_dev *pdev)
++static int __maybe_unused ixgbe_resume(struct device *dev_d)
  {
--	struct net_device *netdev = pci_get_drvdata(pdev);
-+	struct net_device *netdev = dev_get_drvdata(dev_d);
- 	struct ixgbevf_adapter *adapter = netdev_priv(netdev);
++	struct pci_dev *pdev = to_pci_dev(dev_d);
+ 	struct ixgbe_adapter *adapter = pci_get_drvdata(pdev);
+ 	struct net_device *netdev = adapter->netdev;
+ 	u32 err;
+ 
+ 	adapter->hw.hw_addr = adapter->io_addr;
+-	pci_set_power_state(pdev, PCI_D0);
+-	pci_restore_state(pdev);
+-	/*
+-	 * pci_restore_state clears dev->state_saved so call
+-	 * pci_save_state to restore it.
+-	 */
+-	pci_save_state(pdev);
+ 
+-	err = pci_enable_device_mem(pdev);
+-	if (err) {
+-		e_dev_err("Cannot enable PCI device from suspend\n");
+-		return err;
+-	}
+ 	smp_mb__before_atomic();
+ 	clear_bit(__IXGBE_DISABLED, &adapter->state);
+ 	pci_set_master(pdev);
+ 
+-	pci_wake_from_d3(pdev, false);
++	device_wakeup_disable(dev_d);
+ 
+ 	ixgbe_reset(adapter);
+ 
+@@ -6904,7 +6892,6 @@ static int ixgbe_resume(struct pci_dev *pdev)
+ 
+ 	return err;
+ }
+-#endif /* CONFIG_PM */
+ 
+ static int __ixgbe_shutdown(struct pci_dev *pdev, bool *enable_wake)
+ {
+@@ -6913,9 +6900,6 @@ static int __ixgbe_shutdown(struct pci_dev *pdev, bool *enable_wake)
+ 	struct ixgbe_hw *hw = &adapter->hw;
+ 	u32 ctrl;
+ 	u32 wufc = adapter->wol;
 -#ifdef CONFIG_PM
 -	int retval = 0;
 -#endif
  
  	rtnl_lock();
  	netif_device_detach(netdev);
-@@ -4317,37 +4314,16 @@ static int ixgbevf_suspend(struct pci_dev *pdev, pm_message_t state)
- 	ixgbevf_clear_interrupt_scheme(adapter);
+@@ -6926,12 +6910,6 @@ static int __ixgbe_shutdown(struct pci_dev *pdev, bool *enable_wake)
+ 	ixgbe_clear_interrupt_scheme(adapter);
  	rtnl_unlock();
  
 -#ifdef CONFIG_PM
@@ -165,69 +206,64 @@ index a39e2cb384dd..988345aeae4a 100644
 -		return retval;
 -
 -#endif
--	if (!test_and_set_bit(__IXGBEVF_DISABLED, &adapter->state))
--		pci_disable_device(pdev);
--
+ 	if (hw->mac.ops.stop_link_on_d3)
+ 		hw->mac.ops.stop_link_on_d3(hw);
+ 
+@@ -6986,26 +6964,18 @@ static int __ixgbe_shutdown(struct pci_dev *pdev, bool *enable_wake)
  	return 0;
  }
  
 -#ifdef CONFIG_PM
--static int ixgbevf_resume(struct pci_dev *pdev)
-+static int __maybe_unused ixgbevf_resume(struct device *dev_d)
+-static int ixgbe_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused ixgbe_suspend(struct device *dev_d)
  {
 +	struct pci_dev *pdev = to_pci_dev(dev_d);
- 	struct net_device *netdev = pci_get_drvdata(pdev);
- 	struct ixgbevf_adapter *adapter = netdev_priv(netdev);
- 	u32 err;
+ 	int retval;
+ 	bool wake;
  
--	pci_restore_state(pdev);
--	/* pci_restore_state clears dev->state_saved so call
--	 * pci_save_state to restore it.
--	 */
--	pci_save_state(pdev);
--
--	err = pci_enable_device_mem(pdev);
--	if (err) {
--		dev_err(&pdev->dev, "Cannot enable PCI device from suspend\n");
--		return err;
+ 	retval = __ixgbe_shutdown(pdev, &wake);
+-	if (retval)
+-		return retval;
+ 
+-	if (wake) {
+-		pci_prepare_to_sleep(pdev);
+-	} else {
+-		pci_wake_from_d3(pdev, false);
+-		pci_set_power_state(pdev, PCI_D3hot);
 -	}
--
- 	adapter->hw.hw_addr = adapter->io_addr;
- 	smp_mb__before_atomic();
- 	clear_bit(__IXGBEVF_DISABLED, &adapter->state);
-@@ -4368,10 +4344,9 @@ static int ixgbevf_resume(struct pci_dev *pdev)
- 	return err;
- }
++	device_set_wakeup_enable(dev_d, wake);
  
+-	return 0;
++	return retval;
+ }
 -#endif /* CONFIG_PM */
- static void ixgbevf_shutdown(struct pci_dev *pdev)
- {
--	ixgbevf_suspend(pdev, PMSG_SUSPEND);
-+	ixgbevf_suspend(&pdev->dev);
- }
  
- static void ixgbevf_get_tx_ring_stats(struct rtnl_link_stats64 *stats,
-@@ -4891,16 +4866,17 @@ static const struct pci_error_handlers ixgbevf_err_handler = {
- 	.resume = ixgbevf_io_resume,
+ static void ixgbe_shutdown(struct pci_dev *pdev)
+ {
+@@ -11489,16 +11459,15 @@ static const struct pci_error_handlers ixgbe_err_handler = {
+ 	.resume = ixgbe_io_resume,
  };
  
-+static SIMPLE_DEV_PM_OPS(ixgbevf_pm_ops, ixgbevf_suspend, ixgbevf_resume);
++static SIMPLE_DEV_PM_OPS(ixgbe_pm_ops, ixgbe_suspend, ixgbe_resume);
 +
- static struct pci_driver ixgbevf_driver = {
- 	.name		= ixgbevf_driver_name,
- 	.id_table	= ixgbevf_pci_tbl,
- 	.probe		= ixgbevf_probe,
- 	.remove		= ixgbevf_remove,
+ static struct pci_driver ixgbe_driver = {
+-	.name     = ixgbe_driver_name,
+-	.id_table = ixgbe_pci_tbl,
+-	.probe    = ixgbe_probe,
+-	.remove   = ixgbe_remove,
 -#ifdef CONFIG_PM
-+
- 	/* Power Management Hooks */
--	.suspend	= ixgbevf_suspend,
--	.resume		= ixgbevf_resume,
+-	.suspend  = ixgbe_suspend,
+-	.resume   = ixgbe_resume,
 -#endif
-+	.driver.pm	= &ixgbevf_pm_ops,
-+
- 	.shutdown	= ixgbevf_shutdown,
- 	.err_handler	= &ixgbevf_err_handler
+-	.shutdown = ixgbe_shutdown,
++	.name      = ixgbe_driver_name,
++	.id_table  = ixgbe_pci_tbl,
++	.probe     = ixgbe_probe,
++	.remove    = ixgbe_remove,
++	.driver.pm = &ixgbe_pm_ops,
++	.shutdown  = ixgbe_shutdown,
+ 	.sriov_configure = ixgbe_pci_sriov_configure,
+ 	.err_handler = &ixgbe_err_handler
  };
 -- 
 2.27.0
