@@ -5,95 +5,94 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 565DEC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 17:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D91AC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 17:36:39 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 298CA255C4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 17:36:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 53E40255CB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 17:36:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dq6Iz0+a"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 298CA255C4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R0fJ45Lc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 53E40255CB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 05B8A88770;
-	Mon, 29 Jun 2020 17:36:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3614B88735;
+	Mon, 29 Jun 2020 17:36:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BeX2IS4XAnxt; Mon, 29 Jun 2020 17:36:32 +0000 (UTC)
+	with ESMTP id LuM+PSNEt6Q8; Mon, 29 Jun 2020 17:36:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 88DAF88735;
-	Mon, 29 Jun 2020 17:36:32 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A34D086354;
+	Mon, 29 Jun 2020 17:36:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 85583C07FF;
-	Mon, 29 Jun 2020 17:36:32 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7D5D5C016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9DFDAC07FF;
+	Mon, 29 Jun 2020 17:36:38 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 806C3C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 17:36:31 +0000 (UTC)
+ Mon, 29 Jun 2020 17:36:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6C55288735
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 703E18746E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 17:36:31 +0000 (UTC)
+ Mon, 29 Jun 2020 17:36:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n7UqNZyZrdha
+ with ESMTP id bK54KhUPqdXS
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 17:36:31 +0000 (UTC)
+ Mon, 29 Jun 2020 17:36:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 0400886354
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1084487446
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 17:36:31 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id f2so7363357plr.8
+ Mon, 29 Jun 2020 17:36:37 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id 67so4123230pfg.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 10:36:31 -0700 (PDT)
+ Mon, 29 Jun 2020 10:36:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vn4Ze0UHW0gH8hUyyrUyOwtMgWZD0FLbsTJZBjBZlPg=;
- b=dq6Iz0+aaIFnA9xfIUo3OTkmycb/JjV8HMmEDmn8ZTxUXMwHyODbmJGuqd48pjdZtE
- scsfoRB4g0aOsgRye+uIfb1qcbarrNkQAxmSOOhRIdrOPh0YJ15RMS+HIl1NV+Ae+K+Y
- tKkWKlCBLZhaG2ojpEhfItEig0uEZt+lkW+5UoEP+YMdwc76QZuRneQ+Y1q80OdKT+Om
- RI1k6qEFibH9xLVTJl283GjNtA93dH6n18+abrmCn49udkeOQdP/b18npO6tNdR+BWHg
- 33ZFZvjqfJ+8s5bTzM6hLUguBERZq15r2kU0pJyLm8rPuCWhrgbAo3Kn1CH6uxm8PhUY
- Xjbw==
+ bh=0fKzFmJ6swEgieVUVWwiawhKzRLACyYFxC8XDxv8xYs=;
+ b=R0fJ45LcAzqMEfB6noKVYodLWFah632V2+qcF0G9d0sHUN7n7MwsjReJlbHyOxFAgQ
+ Pyqf1TrIb5+jNNbE7Gu2zh7Pev/OIpQYVhr0G06pAc4EvZ3QZti8JaDPPh9JprJ6lqM7
+ tqLA5emrcXMH/+DvgiCyb8A/ClsuRUzKMnIbaTWBxp5GGslGGiGr9HKCHUy1PbvqS24j
+ 60bvSOJ0Nj3W6JRhbdP6caRjgWiAIuXtyAUuqOPa4jCa9O05I1sFDK5lLIaDCRcZodQs
+ B0eEZH4anwaspISF1wAL0KJ23fKcs6Ri+fuakGDCBPHZtFTJikMOeCKnC+N8ARzFsldc
+ kSNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vn4Ze0UHW0gH8hUyyrUyOwtMgWZD0FLbsTJZBjBZlPg=;
- b=cjxyc0vUm8+zxO0nzTEq1E7cO3Pji/RBBWhAtcWkRF60x0LcqBvCN6q9niQ1YJSM5D
- JG8WNHn66zOGB7S/kkv462VZStiDK4lz+Jv9yIuw5a8Rb6OubyqlJZVy1+LOthhzNZwR
- LJjyZO28SmuWuuKkt7oU3QYNnxdWlraqzv/5O5snq8Tx2QGD6re5FwuCX6RaJcVMPsst
- RkNIQoo+bqXxUakRmINMOC4SL7LTWgSHuClPGQu4q3DyySZAADuldvTRReGzeQUw7z2W
- 13CQFw+8PgP/TS80M9U3UEGYMa61xNPY0LEYRcLPBliz6cv9RQaDF9KQ87rEEIHwnNCH
- 87ug==
-X-Gm-Message-State: AOAM533EOglOcFP15WswiCcC9FdDegUERy3HrmFMqRS0CKATwYuXIfCK
- 9FAEyMFuq7nGORZZTzNm3dg=
-X-Google-Smtp-Source: ABdhPJwRo2/RMbT2HVDCkUK8Mm685UCzSBabdPrAch068FvmtZcJlRqvHG199c47RcmRwAAhYGoN/A==
-X-Received: by 2002:a17:90a:6acb:: with SMTP id
- b11mr7747760pjm.71.1593452190549; 
- Mon, 29 Jun 2020 10:36:30 -0700 (PDT)
+ bh=0fKzFmJ6swEgieVUVWwiawhKzRLACyYFxC8XDxv8xYs=;
+ b=W1YkoRKXKvkRKdxcUNMYx8DlMs/TD3GU7KB0mQxB3VvjgOAOcIkMGTURRXPJyYqLTo
+ vpjgL+SRZHWF1fUwWEDFk7lGu5AYxKBOpuZcsMSkZgxMZlPuHEsYERiKvlj0gNRAWdG+
+ F7vcsmdCGcB/fdLjJSfWHKIXxsbCvXlVtTJdQVV8wp2jJy738TRf44uGeallbQasiAF1
+ MRZKUKbW6D5wDNeVQi4vEz6QWe4MztoI76UY3ykOiRNGlJnmfbu70hDEXgMJCop61VFy
+ Uq1TcbYM0Yws9E2zEuf17mvtDUg0y5eWpSEuUgVRMO2KcDc0npDed3QEo18/GWsCdgob
+ FelQ==
+X-Gm-Message-State: AOAM532HHiCrkwjr7m+/6RTFJsPOKiUrcHNJyeQdO8inxrT/lhzQHmja
+ BghIuJsjjYl91NagQPw9YUs=
+X-Google-Smtp-Source: ABdhPJzX3W9pUE3rQzyWQqNZmLpVSpw6IGMNuc9exvw210citymSwYDDB32iKOYKjCaB5XfOf1cKHw==
+X-Received: by 2002:a63:4915:: with SMTP id w21mr5651899pga.134.1593452196587; 
+ Mon, 29 Jun 2020 10:36:36 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id k23sm331461pgb.92.2020.06.29.10.36.26
+ by smtp.gmail.com with ESMTPSA id k23sm331461pgb.92.2020.06.29.10.36.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 10:36:30 -0700 (PDT)
+ Mon, 29 Jun 2020 10:36:36 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Mon, 29 Jun 2020 23:04:58 +0530
-Message-Id: <20200629173459.262075-4-vaibhavgupta40@gmail.com>
+Date: Mon, 29 Jun 2020 23:04:59 +0530
+Message-Id: <20200629173459.262075-5-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200629173459.262075-1-vaibhavgupta40@gmail.com>
 References: <20200629173459.262075-1-vaibhavgupta40@gmail.com>
@@ -101,8 +100,8 @@ MIME-Version: 1.0
 Cc: devel@driverdev.osuosl.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2 3/4] rts5208/rtsx.c: use generic
-	power management
+Subject: [Linux-kernel-mentees] [PATCH v2 4/4] vt6655/device_main.c: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -135,96 +134,69 @@ Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/staging/rts5208/rtsx.c | 30 ++++++++----------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
+ drivers/staging/vt6655/device_main.c | 25 +++++++------------------
+ 1 file changed, 7 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
-index be0053c795b7..6ca90694db8b 100644
---- a/drivers/staging/rts5208/rtsx.c
-+++ b/drivers/staging/rts5208/rtsx.c
-@@ -258,12 +258,12 @@ static int rtsx_acquire_irq(struct rtsx_dev *dev)
- 	return 0;
- }
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 41cbec4134b0..76de1fd568eb 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -1766,48 +1766,37 @@ vt6655_probe(struct pci_dev *pcid, const struct pci_device_id *ent)
+ 
+ /*------------------------------------------------------------------*/
  
 -#ifdef CONFIG_PM
- /*
-  * power management
-  */
--static int rtsx_suspend(struct pci_dev *pci, pm_message_t state)
-+static int __maybe_unused rtsx_suspend(struct device *dev_d)
+-static int vt6655_suspend(struct pci_dev *pcid, pm_message_t state)
++static int __maybe_unused vt6655_suspend(struct device *dev_d)
  {
-+	struct pci_dev *pci = to_pci_dev(dev_d);
- 	struct rtsx_dev *dev = pci_get_drvdata(pci);
- 	struct rtsx_chip *chip;
+-	struct vnt_private *priv = pci_get_drvdata(pcid);
++	struct vnt_private *priv = dev_get_drvdata(dev_d);
+ 	unsigned long flags;
  
-@@ -285,10 +285,7 @@ static int rtsx_suspend(struct pci_dev *pci, pm_message_t state)
- 	if (chip->msi_en)
- 		pci_disable_msi(pci);
+ 	spin_lock_irqsave(&priv->lock, flags);
  
--	pci_save_state(pci);
--	pci_enable_wake(pci, pci_choose_state(pci, state), 1);
--	pci_disable_device(pci);
--	pci_set_power_state(pci, pci_choose_state(pci, state));
-+	device_wakeup_enable(dev_d);
+-	pci_save_state(pcid);
+-
+ 	MACbShutdown(priv);
  
- 	/* unlock the device pointers */
- 	mutex_unlock(&dev->dev_mutex);
-@@ -296,8 +293,9 @@ static int rtsx_suspend(struct pci_dev *pci, pm_message_t state)
+-	pci_disable_device(pcid);
+-
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ 
+-	pci_set_power_state(pcid, pci_choose_state(pcid, state));
+-
  	return 0;
  }
  
--static int rtsx_resume(struct pci_dev *pci)
-+static int __maybe_unused rtsx_resume(struct device *dev_d)
+-static int vt6655_resume(struct pci_dev *pcid)
++static int __maybe_unused vt6655_resume(struct device *dev_d)
  {
-+	struct pci_dev *pci = to_pci_dev(dev_d);
- 	struct rtsx_dev *dev = pci_get_drvdata(pci);
- 	struct rtsx_chip *chip;
- 
-@@ -309,16 +307,6 @@ static int rtsx_resume(struct pci_dev *pci)
- 	/* lock the device pointers */
- 	mutex_lock(&dev->dev_mutex);
- 
--	pci_set_power_state(pci, PCI_D0);
--	pci_restore_state(pci);
--	if (pci_enable_device(pci) < 0) {
--		dev_err(&dev->pci->dev,
--			"%s: pci_enable_device failed, disabling device\n",
--			CR_DRIVER_NAME);
--		/* unlock the device pointers */
--		mutex_unlock(&dev->dev_mutex);
--		return -EIO;
--	}
- 	pci_set_master(pci);
- 
- 	if (chip->msi_en) {
-@@ -340,7 +328,6 @@ static int rtsx_resume(struct pci_dev *pci)
+-	pci_set_power_state(pcid, PCI_D0);
+-	pci_enable_wake(pcid, PCI_D0, 0);
+-	pci_restore_state(pcid);
++	device_wakeup_disable(dev_d);
  
  	return 0;
  }
--#endif /* CONFIG_PM */
- 
- static void rtsx_shutdown(struct pci_dev *pci)
- {
-@@ -999,16 +986,15 @@ static const struct pci_device_id rtsx_ids[] = {
- 
- MODULE_DEVICE_TABLE(pci, rtsx_ids);
- 
-+static SIMPLE_DEV_PM_OPS(rtsx_pm_ops, rtsx_suspend, rtsx_resume);
-+
- /* pci_driver definition */
- static struct pci_driver rtsx_driver = {
- 	.name = CR_DRIVER_NAME,
- 	.id_table = rtsx_ids,
- 	.probe = rtsx_probe,
- 	.remove = rtsx_remove,
--#ifdef CONFIG_PM
--	.suspend = rtsx_suspend,
--	.resume = rtsx_resume,
 -#endif
-+	.driver.pm = &rtsx_pm_ops,
- 	.shutdown = rtsx_shutdown,
+ 
+ MODULE_DEVICE_TABLE(pci, vt6655_pci_id_table);
+ 
++static SIMPLE_DEV_PM_OPS(vt6655_pm_ops, vt6655_suspend, vt6655_resume);
++
+ static struct pci_driver device_driver = {
+ 	.name = DEVICE_NAME,
+ 	.id_table = vt6655_pci_id_table,
+ 	.probe = vt6655_probe,
+ 	.remove = vt6655_remove,
+-#ifdef CONFIG_PM
+-	.suspend = vt6655_suspend,
+-	.resume = vt6655_resume,
+-#endif
++	.driver.pm = &vt6655_pm_ops,
  };
  
+ module_pci_driver(device_driver);
 -- 
 2.27.0
 
