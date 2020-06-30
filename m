@@ -1,86 +1,98 @@
-Return-Path: <SRS0=91P4=AK=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=4dzS=AL=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-8.5 required=3.0 tests=INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04420C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 20:23:05 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC03C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Jun 2020 08:19:48 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D060520656
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Jun 2020 20:23:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D060520656
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 893B720759
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Jun 2020 08:19:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 893B720759
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 95E87892A2;
-	Mon, 29 Jun 2020 20:23:04 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tKruEZUjfINK; Mon, 29 Jun 2020 20:23:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BF3EC892A0;
-	Mon, 29 Jun 2020 20:23:03 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BA75AC0865;
-	Mon, 29 Jun 2020 20:23:03 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54B16C016E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 20:23:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 430AE86549
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 20:23:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 578FA85F7E;
+	Tue, 30 Jun 2020 08:19:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YDrxnA0wq1Tq; Tue, 30 Jun 2020 08:19:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C5D86859C1;
+	Tue, 30 Jun 2020 08:19:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B20F7C088F;
+	Tue, 30 Jun 2020 08:19:47 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4BECDC016E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Jun 2020 08:19:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 439E18669A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Jun 2020 08:19:46 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UMgSNBT8zuik
+ with ESMTP id Zd-11UvZ4vKu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 20:23:02 +0000 (UTC)
+ Tue, 30 Jun 2020 08:19:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A10C686542
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+ [209.85.218.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 309F486354
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jun 2020 20:23:02 +0000 (UTC)
-IronPort-SDR: bMq+cWt7K1xhcj9ww+hRkDfaIb7SMv/De2TjB8dZTn4uZvdmGwjuRAvS5BexK1MA/y/lqe6BCh
- DzXL+e56a6Jw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="211139430"
-X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; d="scan'208";a="211139430"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2020 13:23:02 -0700
-IronPort-SDR: yftIs/JWOAhBU81sWmB9VyvJd86EmAa3JTtUEhlxTGsJKLkXr8QWZCECgVuYq4/IJBy0Kt7W0R
- +Q5DN6Lilc/w==
-X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; d="scan'208";a="454319084"
-Received: from ddalessa-mobl.amr.corp.intel.com (HELO [10.254.206.102])
- ([10.254.206.102])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2020 13:23:00 -0700
-To: refactormyself@gmail.com, helgaas@kernel.org
-References: <20200615073225.24061-1-refactormyself@gmail.com>
- <20200615073225.24061-4-refactormyself@gmail.com>
-From: Dennis Dalessandro <dennis.dalessandro@intel.com>
-Message-ID: <5cf6a566-fded-6e98-f7ad-ff1c2a7608ad@intel.com>
-Date: Mon, 29 Jun 2020 16:22:58 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Tue, 30 Jun 2020 08:19:45 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id lx13so933052ejb.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Jun 2020 01:19:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hvNDb619PND9BSnOO/FTgYwwF+7N75fMEl+ZD4EKqsM=;
+ b=L3SLlleDx/LoQZgxM5eUncknvbnjLQDEyAhg6KbGPxQcUq3N/UYU2NErxH580wbd4l
+ NjubCo0pGMVwEj/kp+CWAy1IAuoeEiGJwbBjSYLPAggGnHqLoFfUvQ97NsOOd1Ju7pwo
+ pckEP9/eSO+1Wog5iRXq6ANX+SFoKH+UfJlKW2lnYCrD7hrmEohuc/6+52hqAnsuJN9E
+ k5iyj0DtDu1RQrkBHcBSUSKCRsUpuiGTdU6Nmdm0mucwGRiqKTGYwHb36KQeP23E1XN2
+ tVTqJ1+GkFqu0IHl4IinE6g6U7a8l6lVhlwn3DLutKvXwt3QOTxzDm5EAYJaogfFTfx5
+ jigA==
+X-Gm-Message-State: AOAM531tlzABx0D17O5LFT6UzUuTznrLIF9pTUmlE+yIQC3woij/MZ6o
+ 9ue+Kk/YMH+aZuC+UQIGTjTahjQ5
+X-Google-Smtp-Source: ABdhPJx1S2bMBQqMtx4WXGh/d/lkwjOBn+S/nzIRGYuA9KRMjCqnTzm3OP/1N3JVGlohhgDY6AJQBw==
+X-Received: by 2002:a17:907:7283:: with SMTP id
+ dt3mr17835137ejc.195.1593505183733; 
+ Tue, 30 Jun 2020 01:19:43 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+ by smtp.gmail.com with ESMTPSA id w8sm1999763eds.41.2020.06.30.01.19.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Jun 2020 01:19:43 -0700 (PDT)
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>
+References: <20200629081531.214734-1-vaibhavgupta40@gmail.com>
+ <20200629081531.214734-5-vaibhavgupta40@gmail.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Message-ID: <164d7366-27f5-c764-3122-5c4a0239e66f@kernel.org>
+Date: Tue, 30 Jun 2020 10:19:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200615073225.24061-4-refactormyself@gmail.com>
+In-Reply-To: <20200629081531.214734-5-vaibhavgupta40@gmail.com>
 Content-Language: en-US
-Cc: Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-rdma@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 3/8] IB/hfi1: Convert
- PCIBIOS_* errors to generic -E* errors
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 4/5] misc/phantom.c: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,35 +104,94 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 6/15/2020 3:32 AM, refactormyself@gmail.com wrote:
-> From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+On 29. 06. 20, 10:15, Vaibhav Gupta wrote:
+> With the support of generic PM callbacks, drivers no longer need to use
+> legacy .suspend() and .resume() in which they had to maintain PCI states
+> changes and device's power state themselves. All required operations are
+> done by PCI core.
 > 
-> restore_pci_variables() and save_pci_variables() return PCIBIOS_ error
-> codes from PCIe capability accessors.
+> Driver needs to do only device-specific operations.
 > 
-> PCIBIOS_ error codes have positive values. Passing on these values is
-> inconsistent with functions which return only a negative value on failure.
+> Compile-tested only.
 > 
-> Before passing on the return value of PCIe capability accessors, call
-> pcibios_err_to_errno() to convert any positive PCIBIOS_ error codes to
-> negative generic error values.
-> 
-> Fix redundant initialisation.
-> 
-> Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
-> Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
+> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 
-Looks like we may have had a problem when calling 
-pci_read_config_dword() from the init dd path and doing a check for < 0 
-to bail. So this looks like goodness to me.
+From the driver's POV:
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
 
-Reviewed-by: Dennis Dalessandro <dennis.dalessandro@intel.com>
+> ---
+>  drivers/misc/phantom.c | 20 ++++++++------------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/misc/phantom.c b/drivers/misc/phantom.c
+> index 6a5ed0e25ff1..ce72e46a2e73 100644
+> --- a/drivers/misc/phantom.c
+> +++ b/drivers/misc/phantom.c
+> @@ -457,31 +457,26 @@ static void phantom_remove(struct pci_dev *pdev)
+>  	pci_disable_device(pdev);
+>  }
+>  
+> -#ifdef CONFIG_PM
+> -static int phantom_suspend(struct pci_dev *pdev, pm_message_t state)
+> +static int __maybe_unused phantom_suspend(struct device *dev_d)
+>  {
+> -	struct phantom_device *dev = pci_get_drvdata(pdev);
+> +	struct phantom_device *dev = dev_get_drvdata(dev_d);
+>  
+>  	iowrite32(0, dev->caddr + PHN_IRQCTL);
+>  	ioread32(dev->caddr + PHN_IRQCTL); /* PCI posting */
+>  
+> -	synchronize_irq(pdev->irq);
+> +	synchronize_irq(to_pci_dev(dev_d)->irq);
+>  
+>  	return 0;
+>  }
+>  
+> -static int phantom_resume(struct pci_dev *pdev)
+> +static int __maybe_unused phantom_resume(struct device *dev_d)
+>  {
+> -	struct phantom_device *dev = pci_get_drvdata(pdev);
+> +	struct phantom_device *dev = dev_get_drvdata(dev_d);
+>  
+>  	iowrite32(0, dev->caddr + PHN_IRQCTL);
+>  
+>  	return 0;
+>  }
+> -#else
+> -#define phantom_suspend	NULL
+> -#define phantom_resume	NULL
+> -#endif
+>  
+>  static struct pci_device_id phantom_pci_tbl[] = {
+>  	{ .vendor = PCI_VENDOR_ID_PLX, .device = PCI_DEVICE_ID_PLX_9050,
+> @@ -491,13 +486,14 @@ static struct pci_device_id phantom_pci_tbl[] = {
+>  };
+>  MODULE_DEVICE_TABLE(pci, phantom_pci_tbl);
+>  
+> +static SIMPLE_DEV_PM_OPS(phantom_pm_ops, phantom_suspend, phantom_resume);
+> +
+>  static struct pci_driver phantom_pci_driver = {
+>  	.name = "phantom",
+>  	.id_table = phantom_pci_tbl,
+>  	.probe = phantom_probe,
+>  	.remove = phantom_remove,
+> -	.suspend = phantom_suspend,
+> -	.resume = phantom_resume
+> +	.driver.pm = &phantom_pm_ops,
+>  };
+>  
+>  static CLASS_ATTR_STRING(version, 0444, PHANTOM_VERSION);
+> 
+
+
+-- 
+js
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
