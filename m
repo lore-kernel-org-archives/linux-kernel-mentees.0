@@ -2,97 +2,173 @@ Return-Path: <SRS0=4dzS=AL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC03C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Jun 2020 08:19:48 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2198C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 893B720759
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Jun 2020 08:19:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 893B720759
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 9BA512074F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="HsMARRVI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BA512074F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 578FA85F7E;
-	Tue, 30 Jun 2020 08:19:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 69B1487EAC;
+	Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YDrxnA0wq1Tq; Tue, 30 Jun 2020 08:19:47 +0000 (UTC)
+	with ESMTP id IDO2ujVTZtqt; Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C5D86859C1;
-	Tue, 30 Jun 2020 08:19:47 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0DFE586DFC;
+	Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B20F7C088F;
-	Tue, 30 Jun 2020 08:19:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E61BFC088F;
+	Tue, 30 Jun 2020 16:24:39 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4BECDC016E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B9652C016E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 08:19:46 +0000 (UTC)
+ Tue, 30 Jun 2020 16:24:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 439E18669A
+ by whitealder.osuosl.org (Postfix) with ESMTP id A5C5686DFC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 08:19:46 +0000 (UTC)
+ Tue, 30 Jun 2020 16:24:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Zd-11UvZ4vKu
+ with ESMTP id bb61wL16nu7m
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 08:19:45 +0000 (UTC)
+ Tue, 30 Jun 2020 16:24:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 309F486354
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2795887EAC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 08:19:45 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id lx13so933052ejb.4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 01:19:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hvNDb619PND9BSnOO/FTgYwwF+7N75fMEl+ZD4EKqsM=;
- b=L3SLlleDx/LoQZgxM5eUncknvbnjLQDEyAhg6KbGPxQcUq3N/UYU2NErxH580wbd4l
- NjubCo0pGMVwEj/kp+CWAy1IAuoeEiGJwbBjSYLPAggGnHqLoFfUvQ97NsOOd1Ju7pwo
- pckEP9/eSO+1Wog5iRXq6ANX+SFoKH+UfJlKW2lnYCrD7hrmEohuc/6+52hqAnsuJN9E
- k5iyj0DtDu1RQrkBHcBSUSKCRsUpuiGTdU6Nmdm0mucwGRiqKTGYwHb36KQeP23E1XN2
- tVTqJ1+GkFqu0IHl4IinE6g6U7a8l6lVhlwn3DLutKvXwt3QOTxzDm5EAYJaogfFTfx5
- jigA==
-X-Gm-Message-State: AOAM531tlzABx0D17O5LFT6UzUuTznrLIF9pTUmlE+yIQC3woij/MZ6o
- 9ue+Kk/YMH+aZuC+UQIGTjTahjQ5
-X-Google-Smtp-Source: ABdhPJx1S2bMBQqMtx4WXGh/d/lkwjOBn+S/nzIRGYuA9KRMjCqnTzm3OP/1N3JVGlohhgDY6AJQBw==
-X-Received: by 2002:a17:907:7283:: with SMTP id
- dt3mr17835137ejc.195.1593505183733; 
- Tue, 30 Jun 2020 01:19:43 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
- by smtp.gmail.com with ESMTPSA id w8sm1999763eds.41.2020.06.30.01.19.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 01:19:43 -0700 (PDT)
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>
-References: <20200629081531.214734-1-vaibhavgupta40@gmail.com>
- <20200629081531.214734-5-vaibhavgupta40@gmail.com>
-From: Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <164d7366-27f5-c764-3122-5c4a0239e66f@kernel.org>
-Date: Tue, 30 Jun 2020 10:19:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Tue, 30 Jun 2020 16:24:36 +0000 (UTC)
+Received: from hkpgpgate102.nvidia.com (Not Verified[10.18.92.77]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5efb67400000>; Wed, 01 Jul 2020 00:24:32 +0800
+Received: from HKMAIL104.nvidia.com ([10.18.16.13])
+ by hkpgpgate102.nvidia.com (PGP Universal service);
+ Tue, 30 Jun 2020 09:24:32 -0700
+X-PGP-Universal: processed;
+ by hkpgpgate102.nvidia.com on Tue, 30 Jun 2020 09:24:32 -0700
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL104.nvidia.com
+ (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
+ 2020 16:24:29 +0000
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
+ by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 30 Jun 2020 16:24:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CcPJsECZHGK9YklLcuvlrPJAa1fBLxBO34FmABzLbZGt2MfNPp34/TI4OBlKF23Lu8syoU5Gb4fSHE13WW4F6SL7zCMUJIzij7XUt9UXgsQpAFw3vj/Qk4Fq55uqCzxYZD/hXxRKGzlAdW6Y8piEgrUUSZAPzkS98RDER1xQhFnJjW6jv2P/mqvZuxnYuT72xiA6Bvk3IoIpIGEG4z46E685+6wF4rH1XVx97p4xDW5A74vVIuT/eORyACh87SvaEsOZi/xHLNTbwnGwo3OCP3dpRAbLuT+hOypmaM+cXybDiflIIW4u+d7gwHCF4R234aIWiMrXVFP/Q97svBNxDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tf2dhcL9+eo1RGk9caIfOU3fOhh/3KtsfCSJI4l1GHw=;
+ b=K0DerbL9pLea0HuE0J896jSYDpAeL0ghQGBt4wAgXZsyQwH68K02qasZmt02oiULGXfxcbhh1gtK7UJKoC6IwpR+hKBGUkHfNWkfp5NARAC1Yc3cZ59KDsahvqWJzHQ78DcFmj2rR1Q5IY6EXb8R030muNtUKfFE722tM2EOJANxOY7+0/86u4IVF4e4MmwSGN704YXxylVbyDtojuxR2Ay+fFKYYiXyvWU0qfTGGYvUpdqlmqFEtphDxgjGCZKFUJJnqTWokSyCt1qv7rAIYmNzugjz/LkqS5wrzbh4/vs3lopuSe5pTtbKRg12DsHpWA2qkZL1DygJZF0d5m/d6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM5PR12MB1148.namprd12.prod.outlook.com (2603:10b6:3:74::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.24; Tue, 30 Jun
+ 2020 16:24:27 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1d53:7cb4:c3d7:2b54]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1d53:7cb4:c3d7:2b54%6]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
+ 16:24:27 +0000
+Date: Tue, 30 Jun 2020 13:24:25 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: <refactormyself@gmail.com>
+Message-ID: <20200630162425.GA442499@nvidia.com>
+References: <20200615073225.24061-1-refactormyself@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200615073225.24061-1-refactormyself@gmail.com>
+X-ClientProxiedBy: YT1PR01CA0101.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::10) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-In-Reply-To: <20200629081531.214734-5-vaibhavgupta40@gmail.com>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 4/5] misc/phantom.c: use
-	generic power management
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (206.223.160.26) by
+ YT1PR01CA0101.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3131.21 via Frontend Transport; Tue, 30 Jun 2020 16:24:26 +0000
+Received: from jgg by mlx with local (Exim 4.93)	(envelope-from
+ <jgg@nvidia.com>)	id 1jqJ3Z-001r7m-BT; Tue, 30 Jun 2020 13:24:25 -0300
+X-Originating-IP: [206.223.160.26]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2a534225-7b32-49c4-4a37-08d81d120ebc
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1148:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1148183C60C0FC008ED7B4DEC26F0@DM5PR12MB1148.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
+X-Forefront-PRVS: 0450A714CB
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3XPA2mmporxd5D9lQSVd/w3UNdpOTkYAyDeRptOQ+3mdoGdmGzeaXYEED+RoOa61P3nzZIpgI9sEW4ClSwxU1wbAkpTbvQBgv5CR0hG2CHA9zaJIN0pNPb5Gjv4JtWPuTVl9L+pbiiVI0wiTo6+oiWYyNuvrbDCJ7GU62o1wOXL9fbBYDjtVIxVaNjinuSxqJSq0g6VDGYBk4ZXJ4bJlM56JYZErSXmclCAlX2z8xLjrSv4x/NUs/0cmxCWM0YaN4JPlju9dIBiIxqWxBOPcZ/mPAXsO5BU2mbQIfM20I7I+LhxH1vezIiWyAZXWBOtayVIs36DedBsEyc8IzUecV1WJ5iydhq+Dmbir6aXZP7pNprziQy+rA3VahyYi5ozE
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(39860400002)(396003)(346002)(136003)(376002)(426003)(54906003)(36756003)(478600001)(186003)(316002)(26005)(33656002)(2906002)(4326008)(5660300002)(66476007)(8676002)(558084003)(7416002)(66556008)(2616005)(9746002)(9786002)(1076003)(8936002)(66946007)(6916009)(86362001)(27376004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 09afyx1Vygn3DWQT3nHWI32fN/JAaWD8eJvQYVH8FzN4Q19YhTtvuTGhY39r6AKCfvmkaISzbTyGlrSrdpEm9p3sla5Cm54NTJCnLlrvTvrxsTSzqpMw2WKBZKAPvHScEKKZXS1v3H7/BgAvLD2TmX/tBCuc9/hfxSbX/tD8a3HcjfOfQDOjQUE49cRPAHhP31mun1sp2SpSjCIYWGZE0irwMIAg1Kzp+BeZkjiGUNlLuGw9eh26BQp4TDcdDTXuVLUU70rR59TVtZLWATNziJ5AOkxcCxHN6qxJiJTJha2PtMfa4DGSbL6eeaj2gU0FPqxJ9Tx6Bfu8N14zdZR4YKtPJeBfTFp3RpDGL/JtglcCF3IhH226mQ0ThHv1d2e7a9p+VS2y/X1CJBS7sL0KCXgBEzA7//z0C24j9rjbJi2sJJ8Zf/iTcGUfCu1eYcSpLzzWURdJzmlw6Z7mBXMO7oKQx17JCV/sAE2gAsyToN0F7ySURKn3U0wOj+NVjGCd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a534225-7b32-49c4-4a37-08d81d120ebc
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2020 16:24:27.0560 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sZyulziyqRoJ09NgMW8dgaI5LP0LWmkpbCsYy5hVK+28abFou1qeF8SSXD7eXi89
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1148
+X-OriginatorOrg: Nvidia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1593534272; bh=Tf2dhcL9+eo1RGk9caIfOU3fOhh/3KtsfCSJI4l1GHw=;
+ h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+ ARC-Authentication-Results:Authentication-Results:Date:From:To:CC:
+ Subject:Message-ID:References:Content-Type:Content-Disposition:
+ In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType:X-Originating-IP:
+ X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id:
+ X-MS-TrafficTypeDiagnostic:X-Microsoft-Antispam-PRVS:
+ X-MS-Oob-TLC-OOBClassifiers:X-Forefront-PRVS:
+ X-MS-Exchange-SenderADCheck:X-Microsoft-Antispam:
+ X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+ X-MS-Exchange-AntiSpam-MessageData:
+ X-MS-Exchange-CrossTenant-Network-Message-Id:
+ X-MS-Exchange-CrossTenant-AuthSource:
+ X-MS-Exchange-CrossTenant-AuthAs:
+ X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+ X-MS-Exchange-CrossTenant-FromEntityHeader:
+ X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+ X-MS-Exchange-CrossTenant-UserPrincipalName:
+ X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+ b=HsMARRVIdCuTSSBs8zmFYQOvzWCzbfgbyUub6vj2coY0KL3H8860ywhgI2ULPBE2d
+ J9bc+8RjX7OLtatIXGW+oQJG2kqpd0T7WH79D9Js68fH/poAGD42OLKJEsATvRVTAU
+ Rh/E+i/elKdbNWvq0P1YT+Sb49BKv3DbMxhsdEw8XT0daEiIzD2cbh2mru2a7T8G5D
+ 8QOFxtNUGBMKubvCACV8N6o8WrS55d2rpwv0uM4Lt/A+UanxXYI/uAResytJ/G5S9u
+ TT9nWmInsNgmwm71mLDLztCIF7GhacpIDFc7uw6hYHysRFDvDY1gWGpJoj/ZiPA3UI
+ 93tIOuis4aCnQ==
+Cc: Don Brace <don.brace@microsemi.com>, Sam Bobroff <sbobroff@linux.ibm.com>,
+ Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-scsi@vger.kernel.org,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, linux-rdma@vger.kernel.org,
+ linux-pci@vger.kernel.org, Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ Russell Currey <ruscur@russell.cc>, esc.storagedev@microsemi.com,
+ Doug Ledford <dledford@redhat.com>, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, helgaas@kernel.org,
+ Oliver O'Halloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 0/8 v2] PCI: Align return values
+ of PCIe capability and PCI accessors
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,88 +186,14 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 29. 06. 20, 10:15, Vaibhav Gupta wrote:
-> With the support of generic PM callbacks, drivers no longer need to use
-> legacy .suspend() and .resume() in which they had to maintain PCI states
-> changes and device's power state themselves. All required operations are
-> done by PCI core.
-> 
-> Driver needs to do only device-specific operations.
-> 
-> Compile-tested only.
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+On Mon, Jun 15, 2020 at 09:32:17AM +0200, refactormyself@gmail.com wrote:
+> Bolarinwa Olayemi Saheed (8):
+>   IB/hfi1: Convert PCIBIOS_* errors to generic -E* errors
+>   IB/hfi1: Convert PCIBIOS_* errors to generic -E* errors
 
-From the driver's POV:
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+Applied to rdma for-next thanks
 
-> ---
->  drivers/misc/phantom.c | 20 ++++++++------------
->  1 file changed, 8 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/misc/phantom.c b/drivers/misc/phantom.c
-> index 6a5ed0e25ff1..ce72e46a2e73 100644
-> --- a/drivers/misc/phantom.c
-> +++ b/drivers/misc/phantom.c
-> @@ -457,31 +457,26 @@ static void phantom_remove(struct pci_dev *pdev)
->  	pci_disable_device(pdev);
->  }
->  
-> -#ifdef CONFIG_PM
-> -static int phantom_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused phantom_suspend(struct device *dev_d)
->  {
-> -	struct phantom_device *dev = pci_get_drvdata(pdev);
-> +	struct phantom_device *dev = dev_get_drvdata(dev_d);
->  
->  	iowrite32(0, dev->caddr + PHN_IRQCTL);
->  	ioread32(dev->caddr + PHN_IRQCTL); /* PCI posting */
->  
-> -	synchronize_irq(pdev->irq);
-> +	synchronize_irq(to_pci_dev(dev_d)->irq);
->  
->  	return 0;
->  }
->  
-> -static int phantom_resume(struct pci_dev *pdev)
-> +static int __maybe_unused phantom_resume(struct device *dev_d)
->  {
-> -	struct phantom_device *dev = pci_get_drvdata(pdev);
-> +	struct phantom_device *dev = dev_get_drvdata(dev_d);
->  
->  	iowrite32(0, dev->caddr + PHN_IRQCTL);
->  
->  	return 0;
->  }
-> -#else
-> -#define phantom_suspend	NULL
-> -#define phantom_resume	NULL
-> -#endif
->  
->  static struct pci_device_id phantom_pci_tbl[] = {
->  	{ .vendor = PCI_VENDOR_ID_PLX, .device = PCI_DEVICE_ID_PLX_9050,
-> @@ -491,13 +486,14 @@ static struct pci_device_id phantom_pci_tbl[] = {
->  };
->  MODULE_DEVICE_TABLE(pci, phantom_pci_tbl);
->  
-> +static SIMPLE_DEV_PM_OPS(phantom_pm_ops, phantom_suspend, phantom_resume);
-> +
->  static struct pci_driver phantom_pci_driver = {
->  	.name = "phantom",
->  	.id_table = phantom_pci_tbl,
->  	.probe = phantom_probe,
->  	.remove = phantom_remove,
-> -	.suspend = phantom_suspend,
-> -	.resume = phantom_resume
-> +	.driver.pm = &phantom_pm_ops,
->  };
->  
->  static CLASS_ATTR_STRING(version, 0444, PHANTOM_VERSION);
-> 
-
-
--- 
-js
+Jason
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
