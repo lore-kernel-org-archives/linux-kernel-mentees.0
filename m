@@ -8,85 +8,85 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B51C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2A33C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:41 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 78A3A20771
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 887B520771
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IsCRLKeC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78A3A20771
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ur1ym4yj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 887B520771
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6D0B089548;
-	Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 69E0289546;
+	Wed,  1 Jul 2020 16:53:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id H0rRdmxN5kTU; Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
+	with ESMTP id Dp5NhSBy0rby; Wed,  1 Jul 2020 16:53:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0629689544;
-	Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0DEE989544;
+	Wed,  1 Jul 2020 16:53:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E962FC0865;
-	Wed,  1 Jul 2020 16:53:31 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9A24EC0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09E52C0865;
+	Wed,  1 Jul 2020 16:53:41 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B999BC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:30 +0000 (UTC)
+ Wed,  1 Jul 2020 16:53:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9618C8ABDE
+ by silver.osuosl.org (Postfix) with ESMTP id 9E7522E2F1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:30 +0000 (UTC)
+ Wed,  1 Jul 2020 16:53:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bRizHMIB+4tl
+ with ESMTP id YQKxLqBbatpo
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:30 +0000 (UTC)
+ Wed,  1 Jul 2020 16:53:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 349B48ABD5
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id 7C9B620109
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:30 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id 35so10153453ple.0
+ Wed,  1 Jul 2020 16:53:38 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id gc9so4714569pjb.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 01 Jul 2020 09:53:30 -0700 (PDT)
+ Wed, 01 Jul 2020 09:53:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JaFJ/hx4zZUnfgo4JKE7j2RfbZZGmBOayqe3X94Vna0=;
- b=IsCRLKeCPOQR9Zw5YRdPj7G45SATNBlQymvw6vVBolFQ60acVX+QKfq+gQzY2zK217
- rK7czxa3vZvN6iTjlNg9gEf/EMvwQD8e61J+YXpMDwI5vMmJNnGO4OkoPWDS9abIAZQD
- ehrjdsVDzN7Y1fCXo9gJuz/kUBJgdAmtaMdipGwrVwCMemG2jfDVdljp/969I8FmyIOt
- K44tAXUhfG/HBv86nqnP2j/TrDSDpjQ7Tin6rFvDeXUlo4sMWcle2hhl9QnFHfSZ0e8S
- n/17GfZst9PESsPgr0CxW9XjXIiCkx7fGiS1ahCqRCcZAbx+CWxNV51b8AmH0y+R8vWY
- dpXQ==
+ bh=kI+jHdY4m6ujscdkGQmRwNx+jC0maQNTY++oXpNulVY=;
+ b=ur1ym4yjHLK++0JCz3oETZ83xil3HXeXa7T9kC4a+zYSqsisr0szH99Xc8SiT19RHz
+ 3BngHbshALJKHeAhMKHuQ2tnLx5fWdb23Zhgogg2o25uriCc12kkaJN0PPKTM59cgQ2t
+ sgPoh/XR+B43OlPRQTLAwwA6xlWNTmew7A9+wfgw3PozrEsdMNIsYGiLp6+zc76wUnvS
+ hJqjIjgVgXfjpfCriNlu/TDlSaWVRpiipPiTUwy4Q3HOzw3c1XEklzvCS2eaeAqOy5xP
+ yb0PnesDGVk6ktCpGYfBD9qYxoDh9rfd0sAdRFfqOpn1k1mAtijFVL+0CwPFTg9Bvpp7
+ M24A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JaFJ/hx4zZUnfgo4JKE7j2RfbZZGmBOayqe3X94Vna0=;
- b=i8MMruUzVlZ1G3emet8Vd98K2O61+oFt0FZzEvRF/QEWCrQaxW6E1aWgOJhXEOeymS
- JzxlR1vWWuw4RJLmSvqleqSrfSr3T9+z/xZy5Yj5Hkeucn5b/XBEzJGLD0N+qVwnSz1v
- 2SZ1B2yVfbnc1RkUdDPFS6rAXGd7UFaTkNxr7ioV4vHZgRvznE2sjDvhnQDhomDDD5rR
- e2vi6eZMYZBWzFlEf2Ww/CJOKdmWiixkX3hf0ZCGug8DmoZZeLDm/cK3ybVdjqDl1fzF
- qRbIO7f9qxxWl5gALiTHXP4IBX+Mu4iqM8tdJJw11wcrqtf8pz4HEZXZPhjfEiOmZukG
- pmbQ==
-X-Gm-Message-State: AOAM530jmLr88KZ87U/6nTRsy0cUq0sjOLTwyqNx4XODmR6aI7OZIMZG
- mi0KcnfkHRZrWhct4K0cJSE=
-X-Google-Smtp-Source: ABdhPJy7rDSHgtOWRCuzZB4mwMqLwjDGoawxA+ZDGBwG4NCUG3h8FCnuS1SwdJw0jykyx3dGxQHZfg==
-X-Received: by 2002:a17:902:b08d:: with SMTP id
- p13mr22360633plr.141.1593622409784; 
- Wed, 01 Jul 2020 09:53:29 -0700 (PDT)
+ bh=kI+jHdY4m6ujscdkGQmRwNx+jC0maQNTY++oXpNulVY=;
+ b=KmWtNOQBqcy3vpYYubl621YmYKF6yxRMIt7QspaLlfdxlRpjekuKXJ4EvYNLSL4toY
+ 4to7/pZypzxDEPpzHhwYvUTilxZB2WB624MfbjtD/hWAHpIMIq9RSYl8ptv3VZvfwnTz
+ /bLD4a49C8aC2aF9XepvbjEyf+1j3uROCsDfOHLKI1xJ12oYdpEnVoJ9d2/BEMf81U08
+ hwHsqvn8GHoW1QmjVElOw++NDp5L5lXzsO6hL5tw2Mc2JPkLTmdUcADSLx9Rf6ysIphI
+ AzmSeYPnCx6583fiAAnll8TyiPnsyOztgjsoVsO6sxYO0zChp9q4PkoVgEOMVPCz49+2
+ CIig==
+X-Gm-Message-State: AOAM53184/mYTBB35/JoS3ycojKCb9fQxKINIYkPuhCFYEWnpq/lg1Em
+ rEGqYvQY7NMJmheW4eC/eYShsFNmAYAsCg==
+X-Google-Smtp-Source: ABdhPJyFgGaA0OqAiw8EI0MoOyikGYnCY9PhRj/BiZUfY8DDTZvrPNzOcPBsFmCTHaiSsZDXfsp8oQ==
+X-Received: by 2002:a17:90b:705:: with SMTP id
+ s5mr22413556pjz.11.1593622418013; 
+ Wed, 01 Jul 2020 09:53:38 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id g140sm6297437pfb.48.2020.07.01.09.53.21
+ by smtp.gmail.com with ESMTPSA id g140sm6297437pfb.48.2020.07.01.09.53.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 09:53:29 -0700 (PDT)
+ Wed, 01 Jul 2020 09:53:37 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
@@ -103,15 +103,15 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
  Somnath Kotur <somnath.kotur@broadcom.com>,
  Tariq Toukan <tariqt@mellanox.com>, Jon Mason <jdmason@kudzu.us>
-Date: Wed,  1 Jul 2020 22:20:53 +0530
-Message-Id: <20200701165057.667799-8-vaibhavgupta40@gmail.com>
+Date: Wed,  1 Jul 2020 22:20:54 +0530
+Message-Id: <20200701165057.667799-9-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200701165057.667799-1-vaibhavgupta40@gmail.com>
 References: <20200701165057.667799-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 07/11] benet: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v2 08/11] mlx4: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -136,75 +136,59 @@ device's power states and takes care of register states.
 After upgrading to the generic structure, PCI core will take care of
 required tasks and drivers should do only device-specific operations.
 
-Thus, there is no need to call the PCI helper functions like
-pci_enable/disable_device(), pci_save/restore_sate() and
-pci_set_power_state().
+Use "struct dev_pm_ops" variable to bind the callbacks.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/net/ethernet/emulex/benet/be_main.c | 22 +++++++--------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ drivers/net/ethernet/mellanox/mlx4/main.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/emulex/benet/be_main.c b/drivers/net/ethernet/emulex/benet/be_main.c
-index a7ac23a6862b..e26f59336cfd 100644
---- a/drivers/net/ethernet/emulex/benet/be_main.c
-+++ b/drivers/net/ethernet/emulex/benet/be_main.c
-@@ -6037,32 +6037,23 @@ static int be_probe(struct pci_dev *pdev, const struct pci_device_id *pdev_id)
- 	return status;
- }
+diff --git a/drivers/net/ethernet/mellanox/mlx4/main.c b/drivers/net/ethernet/mellanox/mlx4/main.c
+index 3d9aa7da95e9..4cae7db8d49c 100644
+--- a/drivers/net/ethernet/mellanox/mlx4/main.c
++++ b/drivers/net/ethernet/mellanox/mlx4/main.c
+@@ -4370,8 +4370,9 @@ static const struct pci_error_handlers mlx4_err_handler = {
+ 	.resume		= mlx4_pci_resume,
+ };
  
--static int be_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused be_suspend(struct device *dev_d)
+-static int mlx4_suspend(struct pci_dev *pdev, pm_message_t state)
++static int mlx4_suspend(struct device *dev_d)
  {
--	struct be_adapter *adapter = pci_get_drvdata(pdev);
-+	struct be_adapter *adapter = dev_get_drvdata(dev_d);
++	struct pci_dev *pdev = to_pci_dev(dev_d);
+ 	struct mlx4_dev_persistent *persist = pci_get_drvdata(pdev);
+ 	struct mlx4_dev	*dev = persist->dev;
  
- 	be_intr_set(adapter, false);
- 	be_cancel_err_detection(adapter);
- 
- 	be_cleanup(adapter);
- 
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+@@ -4384,8 +4385,9 @@ static int mlx4_suspend(struct pci_dev *pdev, pm_message_t state)
  	return 0;
  }
  
--static int be_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused be_pci_resume(struct device *dev_d)
+-static int mlx4_resume(struct pci_dev *pdev)
++static int mlx4_resume(struct device *dev_d)
  {
--	struct be_adapter *adapter = pci_get_drvdata(pdev);
-+	struct be_adapter *adapter = dev_get_drvdata(dev_d);
- 	int status = 0;
++	struct pci_dev *pdev = to_pci_dev(dev_d);
+ 	struct mlx4_dev_persistent *persist = pci_get_drvdata(pdev);
+ 	struct mlx4_dev	*dev = persist->dev;
+ 	struct mlx4_priv *priv = mlx4_priv(dev);
+@@ -4414,14 +4416,15 @@ static int mlx4_resume(struct pci_dev *pdev)
+ 	return ret;
+ }
  
--	status = pci_enable_device(pdev);
--	if (status)
--		return status;
--
--	pci_restore_state(pdev);
--
- 	status = be_resume(adapter);
- 	if (status)
- 		return status;
-@@ -6234,13 +6225,14 @@ static const struct pci_error_handlers be_eeh_handlers = {
- 	.resume = be_eeh_resume,
++static SIMPLE_DEV_PM_OPS(mlx4_pm_ops, mlx4_suspend, mlx4_resume);
++
+ static struct pci_driver mlx4_driver = {
+ 	.name		= DRV_NAME,
+ 	.id_table	= mlx4_pci_table,
+ 	.probe		= mlx4_init_one,
+ 	.shutdown	= mlx4_shutdown,
+ 	.remove		= mlx4_remove_one,
+-	.suspend	= mlx4_suspend,
+-	.resume		= mlx4_resume,
++	.driver.pm	= &mlx4_pm_ops,
+ 	.err_handler    = &mlx4_err_handler,
  };
  
-+static SIMPLE_DEV_PM_OPS(be_pci_pm_ops, be_suspend, be_pci_resume);
-+
- static struct pci_driver be_driver = {
- 	.name = DRV_NAME,
- 	.id_table = be_dev_ids,
- 	.probe = be_probe,
- 	.remove = be_remove,
--	.suspend = be_suspend,
--	.resume = be_pci_resume,
-+	.driver.pm = &be_pci_pm_ops,
- 	.shutdown = be_shutdown,
- 	.sriov_configure = be_pci_sriov_configure,
- 	.err_handler = &be_eeh_handlers
 -- 
 2.27.0
 
