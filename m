@@ -2,108 +2,91 @@ Return-Path: <SRS0=WnLp=AM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC293C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:07:30 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C370EC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 15:58:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 75DB620772
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:07:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 912D3207D0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 15:58:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IPLWvNg7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75DB620772
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="zP1k9Vyg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 912D3207D0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 50D012F936;
-	Wed,  1 Jul 2020 13:07:30 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 302CA89089;
+	Wed,  1 Jul 2020 15:58:12 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sbd72YJ-WxBd; Wed,  1 Jul 2020 15:58:11 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A83F289026;
+	Wed,  1 Jul 2020 15:58:11 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 90EE9C0890;
+	Wed,  1 Jul 2020 15:58:11 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 866C4C0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  1 Jul 2020 15:58:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 6F8C726428
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  1 Jul 2020 15:58:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tjHdWai0Cib2; Wed,  1 Jul 2020 13:07:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 59DA22F7B2;
-	Wed,  1 Jul 2020 13:07:27 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E805C0865;
-	Wed,  1 Jul 2020 13:07:27 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0633C0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:07:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DE80E8AA69
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:07:25 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kvW1dyeXgimv
+ with ESMTP id QHNVMPVHP+Gp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:07:24 +0000 (UTC)
+ Wed,  1 Jul 2020 15:58:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
- [209.85.217.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B71268AA66
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id B85262649E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:07:24 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id m25so13215896vsp.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 01 Jul 2020 06:07:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9kY42uCxSEDlX3revzJlre4DMiKVmK9aSIfC5G3GPgA=;
- b=IPLWvNg7xB9YDM41H4ZIbj7pUqpJxUUf6bQlgAewZm6nplKA41D08FBB6ZmVpl00hv
- 1h+98jspt/qOxgN/IOGAdiraQORCgx6+eTXMLcvsObveq6YxaLQzGRoIS1+gYz+g3ypJ
- egzNj6LteW7RypdcXqYLo83H8hljw7imwE/Io8SDLj0yzw59kpbmu3IGNJTE+N8ytWzQ
- QtDFmf6AVvM9xZHYGHbPZcjBT4xcpppoTf9uDSfzW2g3le6OMvaIfFVsb/StEGLeHV19
- PlOpVAr035HOKZb/Ey9XbFG56mgoNFl7iwrDna4FbkGdQDP/0Ps8pAzUAo/8wqzfFack
- Xq8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9kY42uCxSEDlX3revzJlre4DMiKVmK9aSIfC5G3GPgA=;
- b=SpVqDh+QzeSr3mfsb+T/QXk+dAhWcp0zW9A3P5KHsvAMFoA3LXhinoPcmq5gsK7uhf
- lLcHSKjwjr+sBouB2iRElfdb/ictC6jimSKXNBBo8yqlAO917eobLX6AYYrqefOKCL9T
- Ix1uLIG13NpifB+J1LFahzouLX+H7iJ9i1EjpwbIYEi0aRszwgtXZYeLYEloKfcOwBDP
- whFZvKLkEQ2x5CsUkIxpLbv4uYfOU0VrSNafIFcvP9BOBEkEP9cpUra7/1kfVeEvFZg0
- V21Xk/v0kX0gc4jOU9F2rVUz45O0HkKZ4ZPtm2z1eG+yC5/CnYJ517vc9BncqDillkD7
- Zp/A==
-X-Gm-Message-State: AOAM530zpDpoKgQkJrsMbcZ2/4YYnnBqNPhnGw+gHmGgppgNCxL5QCPc
- 6tYNURxUWqTw8Feoqf/PtqSzLEbFi0dTrdOR/7A=
-X-Google-Smtp-Source: ABdhPJyjFR0M9l39zpGcHnZCjLQxaJLckOeJB2AHY8OMZvl0LFDxshpp3vzcWIusjEU3RwjC/7CX1ccvr+3v8bFzROg=
-X-Received: by 2002:a67:1d02:: with SMTP id d2mr3728739vsd.138.1593608843614; 
- Wed, 01 Jul 2020 06:07:23 -0700 (PDT)
-MIME-Version: 1.0
+ Wed,  1 Jul 2020 15:58:08 +0000 (UTC)
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
+ [163.114.132.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9B614207BB;
+ Wed,  1 Jul 2020 15:58:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593619088;
+ bh=V1iDW3HLHhSqBPcQehF0Rgg3mQVIlF7VSD1AxxlZohs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=zP1k9VygO6HMuMhSsK3Ri5ecwyhKTBVem6tv7+iZlkO2LfWUPUV8kB5w+xwQCC/yb
+ NPWSYrq7lNKdPGH1kSf357yagD/OZvsRD5rkLejuyYhXie53xsFQIUIwXq5sqVL24C
+ QWNqJuqt4nKNy53k2fBP6LoHQEIv1WZqAY2xP7+A=
+Date: Wed, 1 Jul 2020 08:58:05 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Message-ID: <20200701085805.4dac84fb@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20200701125938.639447-5-vaibhavgupta40@gmail.com>
 References: <20200701125938.639447-1-vaibhavgupta40@gmail.com>
-In-Reply-To: <20200701125938.639447-1-vaibhavgupta40@gmail.com>
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Date: Wed, 1 Jul 2020 18:35:45 +0530
-Message-ID: <CAP+cEOM5D3TZhysX=nrwJzSC6MLF1u7yVu6RqZJ3hGc3V=_5=g@mail.gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- David Dillow <dave@thedillows.org>, Ion Badulescu <ionut@badula.org>, 
- Netanel Belgazal <netanel@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>,
- Guy Tzalik <gtzalik@amazon.com>, 
- Saeed Bishara <saeedb@amazon.com>, Zorik Machulsky <zorik@amazon.com>, 
- Derek Chickles <dchickles@marvell.com>, Satanand Burla <sburla@marvell.com>, 
- Felix Manlunas <fmanlunas@marvell.com>, Denis Kirjanov <kda@linux-powerpc.org>,
- Ajit Khaparde <ajit.khaparde@broadcom.com>, 
- Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>, 
- Somnath Kotur <somnath.kotur@broadcom.com>, Tariq Toukan <tariqt@mellanox.com>,
- Jon Mason <jdmason@kudzu.us>
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 00/11] net: ethernet: use
-	generic power management
+ <20200701125938.639447-5-vaibhavgupta40@gmail.com>
+MIME-Version: 1.0
+Cc: Ajit Khaparde <ajit.khaparde@broadcom.com>,
+ Denis Kirjanov <kda@linux-powerpc.org>, David Dillow <dave@thedillows.org>,
+ Somnath Kotur <somnath.kotur@broadcom.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Arthur Kiyanovski <akiyano@amazon.com>,
+ Zorik Machulsky <zorik@amazon.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Guy Tzalik <gtzalik@amazon.com>, Satanand Burla <sburla@marvell.com>,
+ Felix Manlunas <fmanlunas@marvell.com>,
+ Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Ion Badulescu <ionut@badula.org>, Netanel Belgazal <netanel@amazon.com>,
+ Jon Mason <jdmason@kudzu.us>, Saeed Bishara <saeedb@amazon.com>,
+ Derek Chickles <dchickles@marvell.com>, "David S.
+ Miller" <davem@davemloft.net>, Tariq Toukan <tariqt@mellanox.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 04/11] ena_netdev: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,60 +98,25 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 1, 2020 at 6:31 PM Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
->
-> Linux Kernel Mentee: Remove Legacy Power Management.
->
-> The purpose of this patch series is to remove legacy power management callbacks
-> from amd ethernet drivers.
-s/amd/net
---Vaibhav Gupta
->
-> The callbacks performing suspend() and resume() operations are still calling
-> pci_save_state(), pci_set_power_state(), etc. and handling the power management
-> themselves, which is not recommended.
->
-> The conversion requires the removal of the those function calls and change the
-> callback definition accordingly and make use of dev_pm_ops structure.
->
-> All patches are compile-tested only.
->
-> Vaibhav Gupta (11):
->   typhoon: use generic power management
->   ne2k-pci: use generic power management
->   starfire: use generic power management
->   ena_netdev: use generic power management
->   liquidio: use generic power management
->   sundance: use generic power management
->   benet: use generic power management
->   mlx4: use generic power management
->   ksz884x: use generic power management
->   vxge: use generic power management
->   natsemi: use generic power management
->
->  drivers/net/ethernet/3com/typhoon.c           | 53 +++++++++++--------
->  drivers/net/ethernet/8390/ne2k-pci.c          | 29 +++-------
->  drivers/net/ethernet/adaptec/starfire.c       | 23 +++-----
->  drivers/net/ethernet/amazon/ena/ena_netdev.c  | 21 +++-----
->  .../net/ethernet/cavium/liquidio/lio_main.c   | 31 ++---------
->  drivers/net/ethernet/dlink/sundance.c         | 27 +++-------
->  drivers/net/ethernet/emulex/benet/be_main.c   | 22 +++-----
->  drivers/net/ethernet/mellanox/mlx4/main.c     | 11 ++--
->  drivers/net/ethernet/micrel/ksz884x.c         | 25 ++++-----
->  drivers/net/ethernet/natsemi/natsemi.c        | 26 +++------
->  .../net/ethernet/neterion/vxge/vxge-main.c    | 14 ++---
->  11 files changed, 100 insertions(+), 182 deletions(-)
->
-> --
-> 2.27.0
->
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gV2VkLCAgMSBKdWwgMjAyMCAxODoyOTozMSArMDUzMCBWYWliaGF2IEd1cHRhIHdyb3RlOgo+
+IFdpdGggbGVnYWN5IFBNLCBkcml2ZXJzIHRoZW1zZWx2ZXMgd2VyZSByZXNwb25zaWJsZSBmb3Ig
+bWFuYWdpbmcgdGhlCj4gZGV2aWNlJ3MgcG93ZXIgc3RhdGVzIGFuZCB0YWtlcyBjYXJlIG9mIHJl
+Z2lzdGVyIHN0YXRlcy4KPiAKPiBBZnRlciB1cGdyYWRpbmcgdG8gdGhlIGdlbmVyaWMgc3RydWN0
+dXJlLCBQQ0kgY29yZSB3aWxsIHRha2UgY2FyZSBvZgo+IHJlcXVpcmVkIHRhc2tzIGFuZCBkcml2
+ZXJzIHNob3VsZCBkbyBvbmx5IGRldmljZS1zcGVjaWZpYyBvcGVyYXRpb25zLgo+IAo+IENvbXBp
+bGUtdGVzdGVkIG9ubHkuCj4gCj4gU2lnbmVkLW9mZi1ieTogVmFpYmhhdiBHdXB0YSA8dmFpYmhh
+dmd1cHRhNDBAZ21haWwuY29tPgoKVGhpcyBvbmUgcHJvZHVjZXMgYSB3YXJuaW5nIG9uIGEgVz0x
+IGJ1aWxkOgoKZHJpdmVycy9uZXQvZXRoZXJuZXQvYW1hem9uL2VuYS9lbmFfbmV0ZGV2LmM6NDQ2
+NDoyNjogd2FybmluZzog4oCYZW5hX3BtX29wc+KAmSBkZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1
+bnVzZWQtY29uc3QtdmFyaWFibGU9XQogIDQ0NjQgfCBzdGF0aWMgU0lNUExFX0RFVl9QTV9PUFMo
+ZW5hX3BtX29wcywgZW5hX3N1c3BlbmQsIGVuYV9yZXN1bWUpOwpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5n
+IGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRw
+czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJu
+ZWwtbWVudGVlcwo=
