@@ -8,85 +8,85 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B80E6C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B51C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 86D1020748
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 78A3A20771
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmZd7hGk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86D1020748
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IsCRLKeC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78A3A20771
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 617AE8953E;
-	Wed,  1 Jul 2020 16:53:22 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6D0B089548;
+	Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id plreGl6raDqQ; Wed,  1 Jul 2020 16:53:21 +0000 (UTC)
+	with ESMTP id H0rRdmxN5kTU; Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E4E278937E;
-	Wed,  1 Jul 2020 16:53:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0629689544;
+	Wed,  1 Jul 2020 16:53:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D43E1C0865;
-	Wed,  1 Jul 2020 16:53:21 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1CF98C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E962FC0865;
+	Wed,  1 Jul 2020 16:53:31 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9A24EC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:21 +0000 (UTC)
+ Wed,  1 Jul 2020 16:53:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 08B238944C
+ by hemlock.osuosl.org (Postfix) with ESMTP id 9618C8ABDE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:21 +0000 (UTC)
+ Wed,  1 Jul 2020 16:53:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RPq5gVuWivLF
+ with ESMTP id bRizHMIB+4tl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:20 +0000 (UTC)
+ Wed,  1 Jul 2020 16:53:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8E3788937E
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 349B48ABD5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:20 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id s14so10133351plq.6
+ Wed,  1 Jul 2020 16:53:30 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id 35so10153453ple.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 01 Jul 2020 09:53:20 -0700 (PDT)
+ Wed, 01 Jul 2020 09:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GxBM9njwc9t+8wZt245O1720nVEKK0kOwVAxz9sX+f4=;
- b=jmZd7hGknXKUy0a9GgdamQ46AbPd9jgv/R4OLxdEvG2N9rYfAbv/LvSgjMRsE2ZZLC
- 51x+9iissrj7FkAh0f72pBvGkeCN3iHyX3EcGI7nbMc04q5yPpUKBqQEwL1H/qFH7lTq
- pBDshRklIkIp8b1Yojxyk4q1RFF81nN8nDutxL9FFR24k37bih8I8gHD1iMjPJNqHVw8
- B8GWBc6fZzh45dtkLLCskwK5VgtubeOeqU8vXdvPbTW64nsUR4AIwwYy17CpdG5xBBrL
- cflibanG1EDbJ+D4Msj+L86U2toNBqxQuuAilkl8Yyp1aVez68/grwrhAPGfZpNYH+RS
- bAIQ==
+ bh=JaFJ/hx4zZUnfgo4JKE7j2RfbZZGmBOayqe3X94Vna0=;
+ b=IsCRLKeCPOQR9Zw5YRdPj7G45SATNBlQymvw6vVBolFQ60acVX+QKfq+gQzY2zK217
+ rK7czxa3vZvN6iTjlNg9gEf/EMvwQD8e61J+YXpMDwI5vMmJNnGO4OkoPWDS9abIAZQD
+ ehrjdsVDzN7Y1fCXo9gJuz/kUBJgdAmtaMdipGwrVwCMemG2jfDVdljp/969I8FmyIOt
+ K44tAXUhfG/HBv86nqnP2j/TrDSDpjQ7Tin6rFvDeXUlo4sMWcle2hhl9QnFHfSZ0e8S
+ n/17GfZst9PESsPgr0CxW9XjXIiCkx7fGiS1ahCqRCcZAbx+CWxNV51b8AmH0y+R8vWY
+ dpXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GxBM9njwc9t+8wZt245O1720nVEKK0kOwVAxz9sX+f4=;
- b=NNxbsOYdEglvC/DW2dic0r57gpzmZgHVBX3aVa927oauB+4TO5aWBI2ljgSXp1LI2D
- M5QXfNhppmzlQSrulVXRUB0wSTXWTViN+lAzZ6Ak/EJi6blNpOekOnnM4gaZdt+jzCug
- dMPSY0JRlDL+A4N9ALEqFt6wJyZC4jv4bPD+KKJ64HUG7OB7Hbrm5h4xCCpdfaHgKTh1
- HF+mstoRm8nNMvtzmqwgVnJygDR2eNdkvYpgH7SoPU6MkqLD4yNfe1ug6ciAyS0vSdL/
- WeU+8liu4xj1CbCNBxei7xEL569F+xAMF/gyhfibC6mLKde+L75w86t6ODBWDyR+VZVV
- cfSg==
-X-Gm-Message-State: AOAM5319hMSiIonrleQ7JqW9Me06xy4IEiGZltcXVDcW7x6GgN+raeyP
- EbGOMHs4FXHU3sTemDCFsNc=
-X-Google-Smtp-Source: ABdhPJzb5VNDkBrqSO+KMPZQN8fJs+ljNo6yUFPNo9LcbkMNxn00Mh74RDsyWxRFhOaMso8hbwSv+A==
-X-Received: by 2002:a17:902:8342:: with SMTP id
- z2mr23077337pln.300.1593622400123; 
- Wed, 01 Jul 2020 09:53:20 -0700 (PDT)
+ bh=JaFJ/hx4zZUnfgo4JKE7j2RfbZZGmBOayqe3X94Vna0=;
+ b=i8MMruUzVlZ1G3emet8Vd98K2O61+oFt0FZzEvRF/QEWCrQaxW6E1aWgOJhXEOeymS
+ JzxlR1vWWuw4RJLmSvqleqSrfSr3T9+z/xZy5Yj5Hkeucn5b/XBEzJGLD0N+qVwnSz1v
+ 2SZ1B2yVfbnc1RkUdDPFS6rAXGd7UFaTkNxr7ioV4vHZgRvznE2sjDvhnQDhomDDD5rR
+ e2vi6eZMYZBWzFlEf2Ww/CJOKdmWiixkX3hf0ZCGug8DmoZZeLDm/cK3ybVdjqDl1fzF
+ qRbIO7f9qxxWl5gALiTHXP4IBX+Mu4iqM8tdJJw11wcrqtf8pz4HEZXZPhjfEiOmZukG
+ pmbQ==
+X-Gm-Message-State: AOAM530jmLr88KZ87U/6nTRsy0cUq0sjOLTwyqNx4XODmR6aI7OZIMZG
+ mi0KcnfkHRZrWhct4K0cJSE=
+X-Google-Smtp-Source: ABdhPJy7rDSHgtOWRCuzZB4mwMqLwjDGoawxA+ZDGBwG4NCUG3h8FCnuS1SwdJw0jykyx3dGxQHZfg==
+X-Received: by 2002:a17:902:b08d:: with SMTP id
+ p13mr22360633plr.141.1593622409784; 
+ Wed, 01 Jul 2020 09:53:29 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id g140sm6297437pfb.48.2020.07.01.09.53.12
+ by smtp.gmail.com with ESMTPSA id g140sm6297437pfb.48.2020.07.01.09.53.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 09:53:19 -0700 (PDT)
+ Wed, 01 Jul 2020 09:53:29 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
@@ -103,15 +103,15 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
  Somnath Kotur <somnath.kotur@broadcom.com>,
  Tariq Toukan <tariqt@mellanox.com>, Jon Mason <jdmason@kudzu.us>
-Date: Wed,  1 Jul 2020 22:20:52 +0530
-Message-Id: <20200701165057.667799-7-vaibhavgupta40@gmail.com>
+Date: Wed,  1 Jul 2020 22:20:53 +0530
+Message-Id: <20200701165057.667799-8-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200701165057.667799-1-vaibhavgupta40@gmail.com>
 References: <20200701165057.667799-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 06/11] sundance: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v2 07/11] benet: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -144,82 +144,67 @@ Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/net/ethernet/dlink/sundance.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+ drivers/net/ethernet/emulex/benet/be_main.c | 22 +++++++--------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/net/ethernet/dlink/sundance.c b/drivers/net/ethernet/dlink/sundance.c
-index dc566fcc3ba9..ca97e321082d 100644
---- a/drivers/net/ethernet/dlink/sundance.c
-+++ b/drivers/net/ethernet/dlink/sundance.c
-@@ -1928,11 +1928,9 @@ static void sundance_remove1(struct pci_dev *pdev)
- 	}
+diff --git a/drivers/net/ethernet/emulex/benet/be_main.c b/drivers/net/ethernet/emulex/benet/be_main.c
+index a7ac23a6862b..e26f59336cfd 100644
+--- a/drivers/net/ethernet/emulex/benet/be_main.c
++++ b/drivers/net/ethernet/emulex/benet/be_main.c
+@@ -6037,32 +6037,23 @@ static int be_probe(struct pci_dev *pdev, const struct pci_device_id *pdev_id)
+ 	return status;
  }
  
--#ifdef CONFIG_PM
--
--static int sundance_suspend(struct pci_dev *pci_dev, pm_message_t state)
-+static int __maybe_unused sundance_suspend(struct device *dev_d)
+-static int be_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused be_suspend(struct device *dev_d)
  {
--	struct net_device *dev = pci_get_drvdata(pci_dev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct netdev_private *np = netdev_priv(dev);
- 	void __iomem *ioaddr = np->base;
+-	struct be_adapter *adapter = pci_get_drvdata(pdev);
++	struct be_adapter *adapter = dev_get_drvdata(dev_d);
  
-@@ -1942,30 +1940,24 @@ static int sundance_suspend(struct pci_dev *pci_dev, pm_message_t state)
- 	netdev_close(dev);
- 	netif_device_detach(dev);
+ 	be_intr_set(adapter, false);
+ 	be_cancel_err_detection(adapter);
  
--	pci_save_state(pci_dev);
- 	if (np->wol_enabled) {
- 		iowrite8(AcceptBroadcast | AcceptMyPhys, ioaddr + RxMode);
- 		iowrite16(RxEnable, ioaddr + MACCtrl1);
- 	}
--	pci_enable_wake(pci_dev, pci_choose_state(pci_dev, state),
--			np->wol_enabled);
--	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
-+
-+	device_set_wakeup_enable(dev_d, np->wol_enabled);
+ 	be_cleanup(adapter);
  
+-	pci_save_state(pdev);
+-	pci_disable_device(pdev);
+-	pci_set_power_state(pdev, pci_choose_state(pdev, state));
  	return 0;
  }
  
--static int sundance_resume(struct pci_dev *pci_dev)
-+static int __maybe_unused sundance_resume(struct device *dev_d)
+-static int be_pci_resume(struct pci_dev *pdev)
++static int __maybe_unused be_pci_resume(struct device *dev_d)
  {
--	struct net_device *dev = pci_get_drvdata(pci_dev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	int err = 0;
+-	struct be_adapter *adapter = pci_get_drvdata(pdev);
++	struct be_adapter *adapter = dev_get_drvdata(dev_d);
+ 	int status = 0;
  
- 	if (!netif_running(dev))
- 		return 0;
- 
--	pci_set_power_state(pci_dev, PCI_D0);
--	pci_restore_state(pci_dev);
--	pci_enable_wake(pci_dev, PCI_D0, 0);
+-	status = pci_enable_device(pdev);
+-	if (status)
+-		return status;
 -
- 	err = netdev_open(dev);
- 	if (err) {
- 		printk(KERN_ERR "%s: Can't resume interface!\n",
-@@ -1979,17 +1971,14 @@ static int sundance_resume(struct pci_dev *pci_dev)
- 	return err;
- }
- 
--#endif /* CONFIG_PM */
-+static SIMPLE_DEV_PM_OPS(sundance_pm_ops, sundance_suspend, sundance_resume);
- 
- static struct pci_driver sundance_driver = {
- 	.name		= DRV_NAME,
- 	.id_table	= sundance_pci_tbl,
- 	.probe		= sundance_probe1,
- 	.remove		= sundance_remove1,
--#ifdef CONFIG_PM
--	.suspend	= sundance_suspend,
--	.resume		= sundance_resume,
--#endif /* CONFIG_PM */
-+	.driver.pm	= &sundance_pm_ops,
+-	pci_restore_state(pdev);
+-
+ 	status = be_resume(adapter);
+ 	if (status)
+ 		return status;
+@@ -6234,13 +6225,14 @@ static const struct pci_error_handlers be_eeh_handlers = {
+ 	.resume = be_eeh_resume,
  };
  
- static int __init sundance_init(void)
++static SIMPLE_DEV_PM_OPS(be_pci_pm_ops, be_suspend, be_pci_resume);
++
+ static struct pci_driver be_driver = {
+ 	.name = DRV_NAME,
+ 	.id_table = be_dev_ids,
+ 	.probe = be_probe,
+ 	.remove = be_remove,
+-	.suspend = be_suspend,
+-	.resume = be_pci_resume,
++	.driver.pm = &be_pci_pm_ops,
+ 	.shutdown = be_shutdown,
+ 	.sriov_configure = be_pci_sriov_configure,
+ 	.err_handler = &be_eeh_handlers
 -- 
 2.27.0
 
