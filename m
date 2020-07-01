@@ -1,174 +1,101 @@
-Return-Path: <SRS0=4dzS=AL=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=WnLp=AM=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2198C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3EC7C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 06:05:37 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9BA512074F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B5D7C2074D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 06:05:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="HsMARRVI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BA512074F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KfKiRC9t"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5D7C2074D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 69B1487EAC;
-	Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7127D8B2EF;
+	Wed,  1 Jul 2020 06:05:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IDO2ujVTZtqt; Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
+	with ESMTP id E2N7WrJ7AjUh; Wed,  1 Jul 2020 06:05:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0DFE586DFC;
-	Tue, 30 Jun 2020 16:24:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3D95A8975D;
+	Wed,  1 Jul 2020 05:46:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E61BFC088F;
-	Tue, 30 Jun 2020 16:24:39 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B9652C016E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BA33C1798;
+	Wed,  1 Jul 2020 05:46:54 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3EFE3C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 16:24:38 +0000 (UTC)
+ Wed,  1 Jul 2020 05:46:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A5C5686DFC
+ by silver.osuosl.org (Postfix) with ESMTP id 2E9AA2FFAD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 16:24:38 +0000 (UTC)
+ Wed,  1 Jul 2020 05:46:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bb61wL16nu7m
+ with ESMTP id B2KnLHzwZEHd
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 16:24:36 +0000 (UTC)
+ Wed,  1 Jul 2020 05:46:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2795887EAC
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+ [209.85.166.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id 4B6C22FFA6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jun 2020 16:24:36 +0000 (UTC)
-Received: from hkpgpgate102.nvidia.com (Not Verified[10.18.92.77]) by
- nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5efb67400000>; Wed, 01 Jul 2020 00:24:32 +0800
-Received: from HKMAIL104.nvidia.com ([10.18.16.13])
- by hkpgpgate102.nvidia.com (PGP Universal service);
- Tue, 30 Jun 2020 09:24:32 -0700
-X-PGP-Universal: processed;
- by hkpgpgate102.nvidia.com on Tue, 30 Jun 2020 09:24:32 -0700
-Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL104.nvidia.com
- (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
- 2020 16:24:29 +0000
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
- by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Tue, 30 Jun 2020 16:24:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CcPJsECZHGK9YklLcuvlrPJAa1fBLxBO34FmABzLbZGt2MfNPp34/TI4OBlKF23Lu8syoU5Gb4fSHE13WW4F6SL7zCMUJIzij7XUt9UXgsQpAFw3vj/Qk4Fq55uqCzxYZD/hXxRKGzlAdW6Y8piEgrUUSZAPzkS98RDER1xQhFnJjW6jv2P/mqvZuxnYuT72xiA6Bvk3IoIpIGEG4z46E685+6wF4rH1XVx97p4xDW5A74vVIuT/eORyACh87SvaEsOZi/xHLNTbwnGwo3OCP3dpRAbLuT+hOypmaM+cXybDiflIIW4u+d7gwHCF4R234aIWiMrXVFP/Q97svBNxDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tf2dhcL9+eo1RGk9caIfOU3fOhh/3KtsfCSJI4l1GHw=;
- b=K0DerbL9pLea0HuE0J896jSYDpAeL0ghQGBt4wAgXZsyQwH68K02qasZmt02oiULGXfxcbhh1gtK7UJKoC6IwpR+hKBGUkHfNWkfp5NARAC1Yc3cZ59KDsahvqWJzHQ78DcFmj2rR1Q5IY6EXb8R030muNtUKfFE722tM2EOJANxOY7+0/86u4IVF4e4MmwSGN704YXxylVbyDtojuxR2Ay+fFKYYiXyvWU0qfTGGYvUpdqlmqFEtphDxgjGCZKFUJJnqTWokSyCt1qv7rAIYmNzugjz/LkqS5wrzbh4/vs3lopuSe5pTtbKRg12DsHpWA2qkZL1DygJZF0d5m/d6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1148.namprd12.prod.outlook.com (2603:10b6:3:74::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.24; Tue, 30 Jun
- 2020 16:24:27 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1d53:7cb4:c3d7:2b54]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1d53:7cb4:c3d7:2b54%6]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
- 16:24:27 +0000
-Date: Tue, 30 Jun 2020 13:24:25 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: <refactormyself@gmail.com>
-Message-ID: <20200630162425.GA442499@nvidia.com>
-References: <20200615073225.24061-1-refactormyself@gmail.com>
-Content-Disposition: inline
-In-Reply-To: <20200615073225.24061-1-refactormyself@gmail.com>
-X-ClientProxiedBy: YT1PR01CA0101.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::10) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+ Wed,  1 Jul 2020 05:46:52 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id o5so23627025iow.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Jun 2020 22:46:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BToyqAFI5f5u68K+7r1bZ4zx3KgdmDtvzPbHmq3uErs=;
+ b=KfKiRC9tQw4BCTxYEe5fbyThBOQ4OzQNMWT9nS95Dd2MUMUd4FcSRV0ZZbF7URZAPa
+ IOz4B4rhquUvz50tSYGyUG9ddbU4xGCIlCZqlBwuypVK+1NnxFvIovJiyZTRa6CgUXKo
+ fJoPvVBIYPf5P9TD1QpSwrt6Qt1i5rjDug6EjxjrbRCVSM2s+DGwmuTNcl4brScjdo/F
+ mZ5q5gXYBjX/eF67htk0QBbhmYk8+MsIRWkkkIj2+2T/atFwbjXy7PqT2WQ2FkdIHkQ2
+ xb5Z5p+3Bc7HukIhmcAQC8j0OWveM2gFaU9B1N84o58YoXE4joD+STj8nAbMadqSyQcb
+ s9QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BToyqAFI5f5u68K+7r1bZ4zx3KgdmDtvzPbHmq3uErs=;
+ b=DugT3JQdn5cfqzHSfQngRqlFMxEur+aqZl1o9gqI9GVCZXAjg6WDNL3Jdgf4TopylH
+ ixYGJDNjkqEbYooWRKexu4XZZS6IQbAE7sGyM2RBDejIajRR3LToymgxm3lot2bPLaf+
+ LLpnOCw096Bb62ZpmmXR7lnj9CwtX768lNauLAbZJyjixzd5TZQYIytwba2lYFTiDqlu
+ MhshuEWy96TTWLpTJmDPHyN1Gre5/jdKw2939wVV3eNO+4XG+ltTJSxgrWXBSnEzcWDu
+ g1mSG+ZcOD4haaZd9x4LRfHgB2wjqzxWXMDlJul8BNTx1Z6GzyaHThSgYmNlDXduK1E/
+ s3aQ==
+X-Gm-Message-State: AOAM532GqzHR8S8mAKl1nd7johbTI1lsS18LWTZnHNRv1P+A07plqnq4
+ bMCcUixN+4k6RhG6YkUn9Xkfa3z9YozMibIHzLc=
+X-Google-Smtp-Source: ABdhPJxZHh81Bt4nofbb5kaKkT4tjWBeDMkWORXVUhNQejFAOhSFnOLyfE8HJptfnuZMxxjozz4R2n+Jm1Crv+nZgnQ=
+X-Received: by 2002:a5d:9c44:: with SMTP id 4mr629061iof.15.1593582411483;
+ Tue, 30 Jun 2020 22:46:51 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (206.223.160.26) by
- YT1PR01CA0101.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.21 via Frontend Transport; Tue, 30 Jun 2020 16:24:26 +0000
-Received: from jgg by mlx with local (Exim 4.93)	(envelope-from
- <jgg@nvidia.com>)	id 1jqJ3Z-001r7m-BT; Tue, 30 Jun 2020 13:24:25 -0300
-X-Originating-IP: [206.223.160.26]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2a534225-7b32-49c4-4a37-08d81d120ebc
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1148:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1148183C60C0FC008ED7B4DEC26F0@DM5PR12MB1148.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
-X-Forefront-PRVS: 0450A714CB
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3XPA2mmporxd5D9lQSVd/w3UNdpOTkYAyDeRptOQ+3mdoGdmGzeaXYEED+RoOa61P3nzZIpgI9sEW4ClSwxU1wbAkpTbvQBgv5CR0hG2CHA9zaJIN0pNPb5Gjv4JtWPuTVl9L+pbiiVI0wiTo6+oiWYyNuvrbDCJ7GU62o1wOXL9fbBYDjtVIxVaNjinuSxqJSq0g6VDGYBk4ZXJ4bJlM56JYZErSXmclCAlX2z8xLjrSv4x/NUs/0cmxCWM0YaN4JPlju9dIBiIxqWxBOPcZ/mPAXsO5BU2mbQIfM20I7I+LhxH1vezIiWyAZXWBOtayVIs36DedBsEyc8IzUecV1WJ5iydhq+Dmbir6aXZP7pNprziQy+rA3VahyYi5ozE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(39860400002)(396003)(346002)(136003)(376002)(426003)(54906003)(36756003)(478600001)(186003)(316002)(26005)(33656002)(2906002)(4326008)(5660300002)(66476007)(8676002)(558084003)(7416002)(66556008)(2616005)(9746002)(9786002)(1076003)(8936002)(66946007)(6916009)(86362001)(27376004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 09afyx1Vygn3DWQT3nHWI32fN/JAaWD8eJvQYVH8FzN4Q19YhTtvuTGhY39r6AKCfvmkaISzbTyGlrSrdpEm9p3sla5Cm54NTJCnLlrvTvrxsTSzqpMw2WKBZKAPvHScEKKZXS1v3H7/BgAvLD2TmX/tBCuc9/hfxSbX/tD8a3HcjfOfQDOjQUE49cRPAHhP31mun1sp2SpSjCIYWGZE0irwMIAg1Kzp+BeZkjiGUNlLuGw9eh26BQp4TDcdDTXuVLUU70rR59TVtZLWATNziJ5AOkxcCxHN6qxJiJTJha2PtMfa4DGSbL6eeaj2gU0FPqxJ9Tx6Bfu8N14zdZR4YKtPJeBfTFp3RpDGL/JtglcCF3IhH226mQ0ThHv1d2e7a9p+VS2y/X1CJBS7sL0KCXgBEzA7//z0C24j9rjbJi2sJJ8Zf/iTcGUfCu1eYcSpLzzWURdJzmlw6Z7mBXMO7oKQx17JCV/sAE2gAsyToN0F7ySURKn3U0wOj+NVjGCd
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a534225-7b32-49c4-4a37-08d81d120ebc
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2020 16:24:27.0560 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sZyulziyqRoJ09NgMW8dgaI5LP0LWmkpbCsYy5hVK+28abFou1qeF8SSXD7eXi89
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1148
-X-OriginatorOrg: Nvidia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1593534272; bh=Tf2dhcL9+eo1RGk9caIfOU3fOhh/3KtsfCSJI4l1GHw=;
- h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
- ARC-Authentication-Results:Authentication-Results:Date:From:To:CC:
- Subject:Message-ID:References:Content-Type:Content-Disposition:
- In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType:X-Originating-IP:
- X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id:
- X-MS-TrafficTypeDiagnostic:X-Microsoft-Antispam-PRVS:
- X-MS-Oob-TLC-OOBClassifiers:X-Forefront-PRVS:
- X-MS-Exchange-SenderADCheck:X-Microsoft-Antispam:
- X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
- X-MS-Exchange-AntiSpam-MessageData:
- X-MS-Exchange-CrossTenant-Network-Message-Id:
- X-MS-Exchange-CrossTenant-AuthSource:
- X-MS-Exchange-CrossTenant-AuthAs:
- X-MS-Exchange-CrossTenant-OriginalArrivalTime:
- X-MS-Exchange-CrossTenant-FromEntityHeader:
- X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
- X-MS-Exchange-CrossTenant-UserPrincipalName:
- X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
- b=HsMARRVIdCuTSSBs8zmFYQOvzWCzbfgbyUub6vj2coY0KL3H8860ywhgI2ULPBE2d
- J9bc+8RjX7OLtatIXGW+oQJG2kqpd0T7WH79D9Js68fH/poAGD42OLKJEsATvRVTAU
- Rh/E+i/elKdbNWvq0P1YT+Sb49BKv3DbMxhsdEw8XT0daEiIzD2cbh2mru2a7T8G5D
- 8QOFxtNUGBMKubvCACV8N6o8WrS55d2rpwv0uM4Lt/A+UanxXYI/uAResytJ/G5S9u
- TT9nWmInsNgmwm71mLDLztCIF7GhacpIDFc7uw6hYHysRFDvDY1gWGpJoj/ZiPA3UI
- 93tIOuis4aCnQ==
-Cc: Don Brace <don.brace@microsemi.com>, Sam Bobroff <sbobroff@linux.ibm.com>,
- Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-scsi@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>, linux-rdma@vger.kernel.org,
- linux-pci@vger.kernel.org, Dennis Dalessandro <dennis.dalessandro@intel.com>,
- Russell Currey <ruscur@russell.cc>, esc.storagedev@microsemi.com,
- Doug Ledford <dledford@redhat.com>, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, helgaas@kernel.org,
- Oliver O'Halloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 0/8 v2] PCI: Align return values
- of PCIe capability and PCI accessors
+References: <20200624174048.64754-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200624174048.64754-1-vaibhavgupta40@gmail.com>
+From: Vaibhav Gupta <vaibhav.varodek@gmail.com>
+Date: Wed, 1 Jul 2020 11:15:13 +0530
+Message-ID: <CAPBsFfCGfyFkeVvUC0QCnr9J4uvfubHoHjgPR9e+muPkYRj9vg@mail.gmail.com>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>, Kalle Valo <kvalo@codeaurora.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] orinoco: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -186,14 +113,152 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jun 15, 2020 at 09:32:17AM +0200, refactormyself@gmail.com wrote:
-> Bolarinwa Olayemi Saheed (8):
->   IB/hfi1: Convert PCIBIOS_* errors to generic -E* errors
->   IB/hfi1: Convert PCIBIOS_* errors to generic -E* errors
-
-Applied to rdma for-next thanks
-
-Jason
+On Wed, 24 Jun 2020 at 23:14, Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
+>
+> With the support of generic PM callbacks, drivers no longer need to use
+> legacy .suspend() and .resume() in which they had to maintain PCI states
+> changes and device's power state themselves. The required operations are
+> done by PCI core.
+>
+> PCI drivers are not expected to invoke PCI helper functions like
+> pci_save/restore_state(), pci_enable/disable_device(),
+> pci_set_power_state(), etc. Their tasks are completed by PCI core itself.
+>
+> Compile-tested only.
+>
+> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+> ---
+>  .../intersil/orinoco/orinoco_nortel.c         |  3 +-
+>  .../wireless/intersil/orinoco/orinoco_pci.c   |  3 +-
+>  .../wireless/intersil/orinoco/orinoco_pci.h   | 32 ++++++-------------
+>  .../wireless/intersil/orinoco/orinoco_plx.c   |  3 +-
+>  .../wireless/intersil/orinoco/orinoco_tmd.c   |  3 +-
+>  5 files changed, 13 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/net/wireless/intersil/orinoco/orinoco_nortel.c b/drivers/net/wireless/intersil/orinoco/orinoco_nortel.c
+> index 048693b6c6c2..96a03d10a080 100644
+> --- a/drivers/net/wireless/intersil/orinoco/orinoco_nortel.c
+> +++ b/drivers/net/wireless/intersil/orinoco/orinoco_nortel.c
+> @@ -290,8 +290,7 @@ static struct pci_driver orinoco_nortel_driver = {
+>         .id_table       = orinoco_nortel_id_table,
+>         .probe          = orinoco_nortel_init_one,
+>         .remove         = orinoco_nortel_remove_one,
+> -       .suspend        = orinoco_pci_suspend,
+> -       .resume         = orinoco_pci_resume,
+> +       .driver.pm      = &orinoco_pci_pm_ops,
+>  };
+>
+>  static char version[] __initdata = DRIVER_NAME " " DRIVER_VERSION
+> diff --git a/drivers/net/wireless/intersil/orinoco/orinoco_pci.c b/drivers/net/wireless/intersil/orinoco/orinoco_pci.c
+> index 4938a2208a37..f3c86b07b1b9 100644
+> --- a/drivers/net/wireless/intersil/orinoco/orinoco_pci.c
+> +++ b/drivers/net/wireless/intersil/orinoco/orinoco_pci.c
+> @@ -230,8 +230,7 @@ static struct pci_driver orinoco_pci_driver = {
+>         .id_table       = orinoco_pci_id_table,
+>         .probe          = orinoco_pci_init_one,
+>         .remove         = orinoco_pci_remove_one,
+> -       .suspend        = orinoco_pci_suspend,
+> -       .resume         = orinoco_pci_resume,
+> +       .driver.pm      = &orinoco_pci_pm_ops,
+>  };
+>
+>  static char version[] __initdata = DRIVER_NAME " " DRIVER_VERSION
+> diff --git a/drivers/net/wireless/intersil/orinoco/orinoco_pci.h b/drivers/net/wireless/intersil/orinoco/orinoco_pci.h
+> index 43f5b9f5a0b0..d49d940864b4 100644
+> --- a/drivers/net/wireless/intersil/orinoco/orinoco_pci.h
+> +++ b/drivers/net/wireless/intersil/orinoco/orinoco_pci.h
+> @@ -18,51 +18,37 @@ struct orinoco_pci_card {
+>         void __iomem *attr_io;
+>  };
+>
+> -#ifdef CONFIG_PM
+> -static int orinoco_pci_suspend(struct pci_dev *pdev, pm_message_t state)
+> +static int __maybe_unused orinoco_pci_suspend(struct device *dev_d)
+>  {
+> +       struct pci_dev *pdev = to_pci_dev(dev_d);
+>         struct orinoco_private *priv = pci_get_drvdata(pdev);
+>
+>         orinoco_down(priv);
+>         free_irq(pdev->irq, priv);
+> -       pci_save_state(pdev);
+> -       pci_disable_device(pdev);
+> -       pci_set_power_state(pdev, PCI_D3hot);
+>
+>         return 0;
+>  }
+>
+> -static int orinoco_pci_resume(struct pci_dev *pdev)
+> +static int __maybe_unused orinoco_pci_resume(struct device *dev_d)
+>  {
+> +       struct pci_dev *pdev = to_pci_dev(dev_d);
+>         struct orinoco_private *priv = pci_get_drvdata(pdev);
+>         struct net_device *dev = priv->ndev;
+>         int err;
+>
+> -       pci_set_power_state(pdev, PCI_D0);
+> -       err = pci_enable_device(pdev);
+> -       if (err) {
+> -               printk(KERN_ERR "%s: pci_enable_device failed on resume\n",
+> -                      dev->name);
+> -               return err;
+> -       }
+> -       pci_restore_state(pdev);
+> -
+>         err = request_irq(pdev->irq, orinoco_interrupt, IRQF_SHARED,
+>                           dev->name, priv);
+>         if (err) {
+>                 printk(KERN_ERR "%s: cannot re-allocate IRQ on resume\n",
+>                        dev->name);
+> -               pci_disable_device(pdev);
+>                 return -EBUSY;
+>         }
+>
+> -       err = orinoco_up(priv);
+> -
+> -       return err;
+> +       return orinoco_up(priv);
+>  }
+> -#else
+> -#define orinoco_pci_suspend NULL
+> -#define orinoco_pci_resume NULL
+> -#endif
+> +
+> +static SIMPLE_DEV_PM_OPS(orinoco_pci_pm_ops,
+> +                        orinoco_pci_suspend,
+> +                        orinoco_pci_resume);
+>
+>  #endif /* _ORINOCO_PCI_H */
+> diff --git a/drivers/net/wireless/intersil/orinoco/orinoco_plx.c b/drivers/net/wireless/intersil/orinoco/orinoco_plx.c
+> index 221352027779..16dada94c774 100644
+> --- a/drivers/net/wireless/intersil/orinoco/orinoco_plx.c
+> +++ b/drivers/net/wireless/intersil/orinoco/orinoco_plx.c
+> @@ -336,8 +336,7 @@ static struct pci_driver orinoco_plx_driver = {
+>         .id_table       = orinoco_plx_id_table,
+>         .probe          = orinoco_plx_init_one,
+>         .remove         = orinoco_plx_remove_one,
+> -       .suspend        = orinoco_pci_suspend,
+> -       .resume         = orinoco_pci_resume,
+> +       .driver.pm      = &orinoco_pci_pm_ops,
+>  };
+>
+>  static char version[] __initdata = DRIVER_NAME " " DRIVER_VERSION
+> diff --git a/drivers/net/wireless/intersil/orinoco/orinoco_tmd.c b/drivers/net/wireless/intersil/orinoco/orinoco_tmd.c
+> index 20ce569b8a43..9a9d335611ac 100644
+> --- a/drivers/net/wireless/intersil/orinoco/orinoco_tmd.c
+> +++ b/drivers/net/wireless/intersil/orinoco/orinoco_tmd.c
+> @@ -213,8 +213,7 @@ static struct pci_driver orinoco_tmd_driver = {
+>         .id_table       = orinoco_tmd_id_table,
+>         .probe          = orinoco_tmd_init_one,
+>         .remove         = orinoco_tmd_remove_one,
+> -       .suspend        = orinoco_pci_suspend,
+> -       .resume         = orinoco_pci_resume,
+> +       .driver.pm      = &orinoco_pci_pm_ops,
+>  };
+>
+>  static char version[] __initdata = DRIVER_NAME " " DRIVER_VERSION
+> --
+> 2.27.0
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
