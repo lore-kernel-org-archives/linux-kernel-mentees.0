@@ -5,88 +5,87 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F96C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:01:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC33CC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:02:18 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E5CB20780
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:01:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A27B820760
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:02:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E1v7YWBn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E5CB20780
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="np+tZ2jm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A27B820760
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 307628BF7B;
-	Wed,  1 Jul 2020 13:01:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6AD5D8C074;
+	Wed,  1 Jul 2020 13:02:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6Zjvd5IssoSO; Wed,  1 Jul 2020 13:01:39 +0000 (UTC)
+	with ESMTP id 24-9xVzzYkvI; Wed,  1 Jul 2020 13:02:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7097F8BF60;
-	Wed,  1 Jul 2020 13:01:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9E3068BF7B;
+	Wed,  1 Jul 2020 13:02:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D219C0865;
-	Wed,  1 Jul 2020 13:01:39 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 88017C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D44BC0865;
+	Wed,  1 Jul 2020 13:02:17 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D8099C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:01:37 +0000 (UTC)
+ Wed,  1 Jul 2020 13:02:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 696438A85B
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D385D89317
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:01:37 +0000 (UTC)
+ Wed,  1 Jul 2020 13:02:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i++dHCPuTPgd
+ with ESMTP id 7kcb-OLZg33g
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:01:35 +0000 (UTC)
+ Wed,  1 Jul 2020 13:02:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 71DB58A856
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5E6E1882BD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:01:35 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id x11so9885079plo.7
+ Wed,  1 Jul 2020 13:02:15 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id g67so10791180pgc.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 01 Jul 2020 06:01:35 -0700 (PDT)
+ Wed, 01 Jul 2020 06:02:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2OLtDqAl4GQ2i7cTj9ta2eBmWz0EGmYq4wIiRHp9/FE=;
- b=E1v7YWBnZy/6D8OpTUzwkwr/HwxzEV2bD0PivosnKEP8vNMQ18ZyF5/DN+iiB8ZJ0z
- R1jtKjOfwTFc5KkQJfIRkRFWoFNAEyWs0QHabsAWYTacOFSEpKynq5XgeQNcZWTz6V6Y
- IWJWTq7jbnWGBh2wyg1t4XurPAdXJE+FtWOT09GtxUID8EhFotqerSHwXkQPk8umaREf
- 7BYLTVoi3Ama+5QeSK0ZFnKAbR9BkyTNaT6JANWVXLl12MjzdhDZ57Wcru2eQbHo0fGW
- 8Jpxi1juIN1vaUAhCcqHfCI/1Wm05Y6gTrg5FxDCiq9ePpnidLForpbC+x6+tOnp11C3
- iz5g==
+ bh=9tRb3lcQnQNyqSPd2RUudBp4K9fTszNeoadKdLTyh8Y=;
+ b=np+tZ2jmuroP/ACE0gq1rtk344QwU0PDDtd4OKhwpzFSam+YeQkJVTobzT4asxV+N7
+ 5vaGxInqgUw8SDFu5i1qyGtpI2AsSF7tU1r5HUplZJXXqNNCQFxiVx6c1K62JoesC+lb
+ IESzdLyjcNrtj6s1tx9XuoJ7VGlCVp1uMJetLO/uuNy1A+f15CJ9kX2aJ1jkv8wVJqiJ
+ 19vIDyRXhqxIYm0Tsw1DONPxTKciIHCVznpsu43eNBexgFCX9IgSkNBTa7XGxpDEu0of
+ oqmgR/KVPPF2UwVV/jC3pZpvR+W0ZVP6t78UzeE2mts3jbb2aF+Gpi28hCDewFe7mxPS
+ dTdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2OLtDqAl4GQ2i7cTj9ta2eBmWz0EGmYq4wIiRHp9/FE=;
- b=nDIF62BDk3c+IycxGvgrl8ydLVOqHYpVmv6jFRxq7vvSknm4wPi4hWh0iyoy+ZGuCX
- x+XNunw07i2AXAeTgFFtlRY/DDe1L5Iw+rzIUy4dEyqcqFeCdzbT0emrANIlGXTtUmRd
- sATooz+eaTaGM8lKPw68yK6WPUVK2qj7MCFH4gMRUkvcNjddA+Qz/A+b8BxzXE22RkDt
- t0RW5M3lIxLtF4E8D4022dOQd1vb6In+sohGALSlh4N+ZsjWhbBxuenEn/UKd93fp4/c
- HDFOyMLQOrN2HdC540Pn5ouTd97Gd1YHG3sG5TlzlyNkFUxPCMmAN+f1dCo++lL4MK3f
- tH5A==
-X-Gm-Message-State: AOAM532fQCm0PqXyU3eUw2N7BZaeRVSxT7LllU4Nej5vD8DdlYDK+JJI
- 6tkp+d2eBwnKSxdVhGtaFmbUrALs8znzyQ==
-X-Google-Smtp-Source: ABdhPJxdUIQH7axNy8voJMnTkC/MVwjwPe+tBk8ZMmR8fhHtut3Jt9z85yF0t1uUIMkD74vPyuj5Nw==
-X-Received: by 2002:a17:90b:1491:: with SMTP id
- js17mr28856528pjb.118.1593608494762; 
- Wed, 01 Jul 2020 06:01:34 -0700 (PDT)
+ bh=9tRb3lcQnQNyqSPd2RUudBp4K9fTszNeoadKdLTyh8Y=;
+ b=rm/U23TquqPS9HGV32b2d62cuQuCBFw6exSkX/mEsXYHCihLyi8tI0hGb6ZPn7Ge1x
+ oR+fNk5zt1u71ILGbur/sGF5QSTuVUTyJy6gEwkJGGgODGhcgyhkG5PSmt9+bcAYrCd1
+ zIkRx0YKWgby6FZZVX0xo1S5oCwRa02r4EpFXBFP2bDdFP629ZpYBSAVUdU/7XNv8b81
+ D6Rq+p0M1bZWIB+Xl10lyDFQveyXyKNRAUYGjufulFJC7LQCo6y+P0lePpgH1f7H1m+l
+ MPDwOPLudTcsNUm79anENSTM5SXxCViDIMoFWsIzvscQDlbv7eep0DXmVkOl2bC+Bprf
+ dFRA==
+X-Gm-Message-State: AOAM532uLF95joDKZa3ijKs978Jqdh54pwQI2cfFcmsfUW6Sl7XFO37A
+ wA6Q+x7Fiocn2Mt7TwLb3OI=
+X-Google-Smtp-Source: ABdhPJyT6cyR4U2w3jPNfEUYdKRro/S6z/7KSlQcbw2ykn1BefH2zY4ZVM7WN33ZYy9Cnhb1jiYZqA==
+X-Received: by 2002:a63:441c:: with SMTP id r28mr18102161pga.372.1593608534913; 
+ Wed, 01 Jul 2020 06:02:14 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id d9sm6070908pgv.45.2020.07.01.06.01.13
+ by smtp.gmail.com with ESMTPSA id d9sm6070908pgv.45.2020.07.01.06.01.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 06:01:34 -0700 (PDT)
+ Wed, 01 Jul 2020 06:02:14 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
@@ -103,15 +102,15 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
  Somnath Kotur <somnath.kotur@broadcom.com>,
  Tariq Toukan <tariqt@mellanox.com>, Jon Mason <jdmason@kudzu.us>
-Date: Wed,  1 Jul 2020 18:29:28 +0530
-Message-Id: <20200701125938.639447-2-vaibhavgupta40@gmail.com>
+Date: Wed,  1 Jul 2020 18:29:29 +0530
+Message-Id: <20200701125938.639447-3-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200701125938.639447-1-vaibhavgupta40@gmail.com>
 References: <20200701125938.639447-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 01/11] typhoon: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v1 02/11] ne2k-pci: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -131,174 +130,83 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 With legacy PM, drivers themselves were responsible for managing the
-device's power states and takes care of register states. And they use PCI
-helper functions to do it.
+device's power states and takes care of register states.
 
 After upgrading to the generic structure, PCI core will take care of
 required tasks and drivers should do only device-specific operations.
 
-In this driver:
-typhoon_resume() calls typhoon_wakeup() which then calls PCI helper
-functions pci_set_power_state() and pci_restore_state(). The only other
-function, using typhoon_wakeup() is typhoon_open().
-
-Thus remove the pci_*() calls from tyhpoon_wakeup() and place them in
-typhoon_open(), maintaining the order, to retain the normal behavior of
-the function
-
-Now, typhoon_suspend() calls typhoon_sleep() which then calls PCI helper
-functions pci_enable_wake(), pci_disable_device() and
-pci_set_power_state(). Other functions:
- - typhoon_open()
- - typhoon_close()
- - typhoon_init_one()
-are also invoking typhoon_sleep(). Thus, in this case, cannot simply
-move PCI helper functions call.
-
-Hence, define a new function typhoon_sleep_early() which will do all the
-operations, which typhoon_sleep() was doing before calling PCI helper
-functions. Now typhoon_sleep() will call typhoon_sleep_early() to do
-those tasks, hence, the behavior for _open(), _close and _init_one() remain
-unchanged. And typhon_suspend() only requires typhoon_sleep_early().
+Thus, there is no need to call the PCI helper functions like
+pci_enable/disable_device(), pci_save/restore_sate() and
+pci_set_power_state().
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/net/ethernet/3com/typhoon.c | 53 +++++++++++++++++------------
- 1 file changed, 32 insertions(+), 21 deletions(-)
+ drivers/net/ethernet/8390/ne2k-pci.c | 29 ++++++----------------------
+ 1 file changed, 6 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/net/ethernet/3com/typhoon.c b/drivers/net/ethernet/3com/typhoon.c
-index 5ed33c2c4742..d3b30bacc94e 100644
---- a/drivers/net/ethernet/3com/typhoon.c
-+++ b/drivers/net/ethernet/3com/typhoon.c
-@@ -1801,9 +1801,8 @@ typhoon_free_rx_rings(struct typhoon *tp)
- }
- 
- static int
--typhoon_sleep(struct typhoon *tp, pci_power_t state, __le16 events)
-+typhoon_sleep_early(struct typhoon *tp, __le16 events)
- {
--	struct pci_dev *pdev = tp->pdev;
- 	void __iomem *ioaddr = tp->ioaddr;
- 	struct cmd_desc xp_cmd;
- 	int err;
-@@ -1832,20 +1831,29 @@ typhoon_sleep(struct typhoon *tp, pci_power_t state, __le16 events)
- 	 */
- 	netif_carrier_off(tp->dev);
- 
-+	return 0;
-+}
-+
-+static int
-+typhoon_sleep(struct typhoon *tp, pci_power_t state, __le16 events)
-+{
-+	int err;
-+
-+	err = typhoon_sleep_early(tp, events);
-+
-+	if (err)
-+		return err;
-+
- 	pci_enable_wake(tp->pdev, state, 1);
--	pci_disable_device(pdev);
--	return pci_set_power_state(pdev, state);
-+	pci_disable_device(tp->pdev);
-+	return pci_set_power_state(tp->pdev, state);
- }
- 
- static int
- typhoon_wakeup(struct typhoon *tp, int wait_type)
- {
--	struct pci_dev *pdev = tp->pdev;
- 	void __iomem *ioaddr = tp->ioaddr;
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--
- 	/* Post 2.x.x versions of the Sleep Image require a reset before
- 	 * we can download the Runtime Image. But let's not make users of
- 	 * the old firmware pay for the reset.
-@@ -2049,6 +2057,9 @@ typhoon_open(struct net_device *dev)
- 	if (err)
- 		goto out;
- 
-+	pci_set_power_state(tp->pdev, PCI_D0);
-+	pci_restore_state(tp->pdev);
-+
- 	err = typhoon_wakeup(tp, WaitSleep);
- 	if (err < 0) {
- 		netdev_err(dev, "unable to wakeup device\n");
-@@ -2114,11 +2125,10 @@ typhoon_close(struct net_device *dev)
- 	return 0;
+diff --git a/drivers/net/ethernet/8390/ne2k-pci.c b/drivers/net/ethernet/8390/ne2k-pci.c
+index 77d78b4c59c4..e500f0c05725 100644
+--- a/drivers/net/ethernet/8390/ne2k-pci.c
++++ b/drivers/net/ethernet/8390/ne2k-pci.c
+@@ -699,30 +699,18 @@ static void ne2k_pci_remove_one(struct pci_dev *pdev)
+ 	pci_disable_device(pdev);
  }
  
 -#ifdef CONFIG_PM
--static int
--typhoon_resume(struct pci_dev *pdev)
-+static int __maybe_unused
-+typhoon_resume(struct device *dev_d)
+-static int ne2k_pci_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused ne2k_pci_suspend(struct device *dev_d)
  {
 -	struct net_device *dev = pci_get_drvdata(pdev);
 +	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct typhoon *tp = netdev_priv(dev);
  
- 	/* If we're down, resume when we are upped.
-@@ -2144,9 +2154,10 @@ typhoon_resume(struct pci_dev *pdev)
- 	return -EBUSY;
- }
+ 	netif_device_detach(dev);
+-	pci_save_state(pdev);
+-	pci_disable_device(pdev);
+-	pci_set_power_state(pdev, pci_choose_state(pdev, state));
  
--static int
--typhoon_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused
-+typhoon_suspend(struct device *dev_d)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev_d);
- 	struct net_device *dev = pci_get_drvdata(pdev);
- 	struct typhoon *tp = netdev_priv(dev);
- 	struct cmd_desc xp_cmd;
-@@ -2190,18 +2201,19 @@ typhoon_suspend(struct pci_dev *pdev, pm_message_t state)
- 		goto need_resume;
- 	}
- 
--	if (typhoon_sleep(tp, pci_choose_state(pdev, state), tp->wol_events) < 0) {
-+	if (typhoon_sleep_early(tp, tp->wol_events) < 0) {
- 		netdev_err(dev, "unable to put card to sleep\n");
- 		goto need_resume;
- 	}
- 
-+	device_wakeup_enable(dev_d);
-+
  	return 0;
- 
- need_resume:
--	typhoon_resume(pdev);
-+	typhoon_resume(dev_d);
- 	return -EBUSY;
- }
--#endif
- 
- static int
- typhoon_test_mmio(struct pci_dev *pdev)
-@@ -2533,15 +2545,14 @@ typhoon_remove_one(struct pci_dev *pdev)
- 	free_netdev(dev);
  }
  
-+static SIMPLE_DEV_PM_OPS(typhoon_pm_ops, typhoon_suspend, typhoon_resume);
-+
- static struct pci_driver typhoon_driver = {
- 	.name		= KBUILD_MODNAME,
- 	.id_table	= typhoon_pci_tbl,
- 	.probe		= typhoon_init_one,
- 	.remove		= typhoon_remove_one,
+-static int ne2k_pci_resume(struct pci_dev *pdev)
++static int __maybe_unused ne2k_pci_resume(struct device *dev_d)
+ {
+-	struct net_device *dev = pci_get_drvdata(pdev);
+-	int rc;
+-
+-	pci_set_power_state(pdev, PCI_D0);
+-	pci_restore_state(pdev);
+-
+-	rc = pci_enable_device(pdev);
+-	if (rc)
+-		return rc;
++	struct net_device *dev = dev_get_drvdata(dev_d);
+ 
+ 	NS8390_init(dev, 1);
+ 	netif_device_attach(dev);
+@@ -730,19 +718,14 @@ static int ne2k_pci_resume(struct pci_dev *pdev)
+ 	return 0;
+ }
+ 
+-#endif /* CONFIG_PM */
+-
++static SIMPLE_DEV_PM_OPS(ne2k_pci_pm_ops, ne2k_pci_suspend, ne2k_pci_resume);
+ 
+ static struct pci_driver ne2k_driver = {
+ 	.name		= DRV_NAME,
+ 	.probe		= ne2k_pci_init_one,
+ 	.remove		= ne2k_pci_remove_one,
+ 	.id_table	= ne2k_pci_tbl,
 -#ifdef CONFIG_PM
--	.suspend	= typhoon_suspend,
--	.resume		= typhoon_resume,
+-	.suspend	= ne2k_pci_suspend,
+-	.resume		= ne2k_pci_resume,
 -#endif
-+	.driver.pm	= &typhoon_pm_ops,
+-
++	.driver.pm	= &ne2k_pci_pm_ops,
  };
  
- static int __init
+ 
 -- 
 2.27.0
 
