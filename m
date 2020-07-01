@@ -8,85 +8,85 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8FF9C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:48 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2AB1C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:58 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA675207C4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 821C02078A
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 16:53:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sYs89PTZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA675207C4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uf2vE3Sm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 821C02078A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9A1B18ABD5;
-	Wed,  1 Jul 2020 16:53:48 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1F2BC2E2F1;
+	Wed,  1 Jul 2020 16:53:58 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JG74TGYQpx-U; Wed,  1 Jul 2020 16:53:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 5A34D20109;
+	Wed,  1 Jul 2020 16:53:57 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 48943C0865;
+	Wed,  1 Jul 2020 16:53:57 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9BFECC0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  1 Jul 2020 16:53:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 95AD88ABDE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  1 Jul 2020 16:53:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CZ7KzjE0HRgs; Wed,  1 Jul 2020 16:53:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3338A8ABD6;
-	Wed,  1 Jul 2020 16:53:48 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20698C0865;
-	Wed,  1 Jul 2020 16:53:48 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 44FEEC0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 32F9289546
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:47 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5MBzNptwWQ34
+ with ESMTP id bUWKhhX7kzze
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:46 +0000 (UTC)
+ Wed,  1 Jul 2020 16:53:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B8D4289544
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2F64E8ABDD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 16:53:46 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id j1so11248826pfe.4
+ Wed,  1 Jul 2020 16:53:55 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id b92so11283742pjc.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 01 Jul 2020 09:53:46 -0700 (PDT)
+ Wed, 01 Jul 2020 09:53:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VpvTkVw9gP0gieUNtOeeRSACQ5wHhf9d1RaVLsH798Y=;
- b=sYs89PTZINTXJnt11cIafFjIOSJF8HXHsMbz7WOZTmOZKLA309t8bsbkoGqeyY6sr/
- p2P5K8/GDUmAai4s2kbTQdU4TC3BVd8f5WDomk4Xz8uxff2ItFjC/2qabv3ZHvI0LiLK
- i17OaLXNdVEEruJcGC6alMTtqg7ZEyvTbSGCQQhcPnI35fF4TgsVNWO4LxVIZRyWKUP/
- e7qQi0AcBnvyQp09tBJDdz0kXTDCdMFGwod1riaHLj1uNKGOOdltPHU7rdPUveyQi+G0
- kJQy3VC6aHfE7m1yrRNHlZ3QaR/KBtxM6Tv/hj1iYL9/S0AeV8XL+3pmsUnrdPzZdFxs
- WSeA==
+ bh=kPREycfu6FufAZszREhE/oVuVmbyYHJrTGXZmdD6YwE=;
+ b=Uf2vE3SmZc9GDVQCb0LGYBDd9C/ZEqHmMOm+FhErGlLpILmyNio9Plvi8QJHQmi6X5
+ Sg7NsCkSlUR+ZxegJXP/X6yDrK2P5fp4eymAqGOyNaSla1rtz6Y9BpLAMVGj8BGn7+7N
+ 480aTbRVwBRDCLz4lgYqVxQZ0NIjqhe+MUgQ00zTvtNLgiZxV4PAIRQMFIh8+xhcRuj2
+ Wjf9vG+S8qXfiqFcXtCvOwXU6vEq2voi5iztWeXkX+09NXrbGb3mpElKeert43+zV4g6
+ /oFwRarRUe1hSVOI12H3/srj12SRn+khQHGeWY8zrl27tTHNps1hgGIn2QtxSqEyAFBg
+ 8KdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VpvTkVw9gP0gieUNtOeeRSACQ5wHhf9d1RaVLsH798Y=;
- b=dT/boN1v0E8r/nGMn1aahKsXJssQGt6rs/q6BH3/TXXYeAIK3mL29CGdxBsHbWSk1C
- 6UfM3UtTZUWuzKRkhRyqcGvVqBKhsV8dG5shzyH+9NfcwOBrjY7ruQK+4A9MaF+In1dv
- w8K4ZDVjcURj1b3Vb5ewz13IPpTtkSMVxUqITtRnTOwYq9OaD8IkVL7AUSElRKakxLPp
- me4Y/jCyamUy+BfrUBKAGpHxy0V8PaTMhUvJ3TWLuOspEogTUzFXDS3ntF8zVgPLGLtQ
- OLYfvCTRrJU8gGTHlQRmc1EZNII5Z9YEi8X9zf5GM5JW6rRsv1i8s5Sc/iRkMUN56DwF
- wadw==
-X-Gm-Message-State: AOAM531Bbv7qa9tlBGz49BQZOO46pTJ85xLoTFDmXnPJpu5gTYR2YbZd
- /i7lLB2V9iDCO1sGLl9KyzA=
-X-Google-Smtp-Source: ABdhPJxmeXvRoy1T5abLDqP+AB7MFrZOPWJ/Rgrj/k8nAQvYiM8EJUJ7yiNsE0QLiGe2Xw0A8lWuLQ==
-X-Received: by 2002:a63:9d87:: with SMTP id
- i129mr20955167pgd.412.1593622426332; 
- Wed, 01 Jul 2020 09:53:46 -0700 (PDT)
+ bh=kPREycfu6FufAZszREhE/oVuVmbyYHJrTGXZmdD6YwE=;
+ b=G+MZKBwE8y9T5OkOtE/cxF+etbxRqShCZ+SydF2kmZ+vgKJQi5QzKvjrCIE4g0icBs
+ pLUPiJ7ghYFmKdCcYfAopM212gZ5d6wMZDfHw+KXIRLt276zi0c6Su8mDKyTf9XRBc2V
+ yC+BNn3JNMU1OaxqmfVTShBwq075kiTF4JavtRRjbmriwU8+wWiPPzoihDUqxYuQwKMk
+ 4QP9f4bgFeLdsiR0kI1j5+H25djhXBKKsTU9nBAxCvNTbwXXE5cBBJcPiwRl78E+bFlX
+ XcJ4H7cqsDn82Lg/d5yCnf2bGJa6/gQHZ/agZQY+LphvmBouvnvvKHLg1dQQNJGVVmUJ
+ wN/A==
+X-Gm-Message-State: AOAM533nyq2ifO7pol/2sEw5Utc2xDuIFmQgIqwAjABs/rUuA+MwxEK7
+ wn9CqJLKd1PmT/ObUp2LiGw=
+X-Google-Smtp-Source: ABdhPJw1ftgqNuQY9U7LsN0c1RPpFh/kWQx1H8nkaFDTO+wGI7aJwU3zf78geMQzXK3YDxQ4akBWKQ==
+X-Received: by 2002:a17:90b:194f:: with SMTP id
+ nk15mr14517024pjb.189.1593622434777; 
+ Wed, 01 Jul 2020 09:53:54 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id g140sm6297437pfb.48.2020.07.01.09.53.39
+ by smtp.gmail.com with ESMTPSA id g140sm6297437pfb.48.2020.07.01.09.53.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 09:53:45 -0700 (PDT)
+ Wed, 01 Jul 2020 09:53:54 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
@@ -103,15 +103,15 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
  Somnath Kotur <somnath.kotur@broadcom.com>,
  Tariq Toukan <tariqt@mellanox.com>, Jon Mason <jdmason@kudzu.us>
-Date: Wed,  1 Jul 2020 22:20:55 +0530
-Message-Id: <20200701165057.667799-10-vaibhavgupta40@gmail.com>
+Date: Wed,  1 Jul 2020 22:20:56 +0530
+Message-Id: <20200701165057.667799-11-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200701165057.667799-1-vaibhavgupta40@gmail.com>
 References: <20200701165057.667799-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 09/11] ksz884x: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v2 10/11] vxge: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -136,84 +136,67 @@ device's power states and takes care of register states.
 After upgrading to the generic structure, PCI core will take care of
 required tasks and drivers should do only device-specific operations.
 
-Thus, there is no need to call the PCI helper functions like
-pci_enable_wake(), pci_save/restore_sate() and
-pci_set_power_state().
+Use "struct dev_pm_ops" variable to bind the callbacks.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/net/ethernet/micrel/ksz884x.c | 25 +++++++++----------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
+ drivers/net/ethernet/neterion/vxge/vxge-main.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/net/ethernet/micrel/ksz884x.c b/drivers/net/ethernet/micrel/ksz884x.c
-index 4fe6aedca22f..24901342ecc0 100644
---- a/drivers/net/ethernet/micrel/ksz884x.c
-+++ b/drivers/net/ethernet/micrel/ksz884x.c
-@@ -7155,17 +7155,14 @@ static void pcidev_exit(struct pci_dev *pdev)
- 	kfree(info);
- }
- 
--#ifdef CONFIG_PM
--static int pcidev_resume(struct pci_dev *pdev)
-+static int __maybe_unused pcidev_resume(struct device *dev_d)
- {
- 	int i;
--	struct platform_info *info = pci_get_drvdata(pdev);
-+	struct platform_info *info = dev_get_drvdata(dev_d);
- 	struct dev_info *hw_priv = &info->dev_info;
- 	struct ksz_hw *hw = &hw_priv->hw;
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--	pci_enable_wake(pdev, PCI_D0, 0);
-+	device_wakeup_disable(dev_d);
- 
- 	if (hw_priv->wol_enable)
- 		hw_cfg_wol_pme(hw, 0);
-@@ -7182,10 +7179,10 @@ static int pcidev_resume(struct pci_dev *pdev)
- 	return 0;
- }
- 
--static int pcidev_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int pcidev_suspend(struct device *dev_d)
- {
- 	int i;
--	struct platform_info *info = pci_get_drvdata(pdev);
-+	struct platform_info *info = dev_get_drvdata(dev_d);
- 	struct dev_info *hw_priv = &info->dev_info;
- 	struct ksz_hw *hw = &hw_priv->hw;
- 
-@@ -7207,12 +7204,9 @@ static int pcidev_suspend(struct pci_dev *pdev, pm_message_t state)
- 		hw_cfg_wol_pme(hw, 1);
+diff --git a/drivers/net/ethernet/neterion/vxge/vxge-main.c b/drivers/net/ethernet/neterion/vxge/vxge-main.c
+index 9b63574b6202..5de85b9e9e35 100644
+--- a/drivers/net/ethernet/neterion/vxge/vxge-main.c
++++ b/drivers/net/ethernet/neterion/vxge/vxge-main.c
+@@ -3999,12 +3999,11 @@ static void vxge_print_parm(struct vxgedev *vdev, u64 vpath_mask)
  	}
- 
--	pci_save_state(pdev);
--	pci_enable_wake(pdev, pci_choose_state(pdev, state), 1);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
-+	device_wakeup_enable(dev_d);
- 	return 0;
  }
--#endif
  
- static char pcidev_name[] = "ksz884xp";
- 
-@@ -7226,11 +7220,10 @@ static const struct pci_device_id pcidev_table[] = {
- 
- MODULE_DEVICE_TABLE(pci, pcidev_table);
- 
-+static SIMPLE_DEV_PM_OPS(pcidev_pm_ops, pcidev_suspend, pcidev_resume);
-+
- static struct pci_driver pci_device_driver = {
 -#ifdef CONFIG_PM
--	.suspend	= pcidev_suspend,
--	.resume		= pcidev_resume,
+ /**
+  * vxge_pm_suspend - vxge power management suspend entry point
+  *
+  */
+-static int vxge_pm_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused vxge_pm_suspend(struct device *dev_d)
+ {
+ 	return -ENOSYS;
+ }
+@@ -4012,13 +4011,11 @@ static int vxge_pm_suspend(struct pci_dev *pdev, pm_message_t state)
+  * vxge_pm_resume - vxge power management resume entry point
+  *
+  */
+-static int vxge_pm_resume(struct pci_dev *pdev)
++static int __maybe_unused vxge_pm_resume(struct device *dev_d)
+ {
+ 	return -ENOSYS;
+ }
+ 
 -#endif
-+	.driver.pm	= &pcidev_pm_ops,
- 	.name		= pcidev_name,
- 	.id_table	= pcidev_table,
- 	.probe		= pcidev_init,
+-
+ /**
+  * vxge_io_error_detected - called when PCI error is detected
+  * @pdev: Pointer to PCI device
+@@ -4796,15 +4793,14 @@ static const struct pci_error_handlers vxge_err_handler = {
+ 	.resume = vxge_io_resume,
+ };
+ 
++static SIMPLE_DEV_PM_OPS(vxge_pm_ops, vxge_pm_suspend, vxge_pm_resume);
++
+ static struct pci_driver vxge_driver = {
+ 	.name = VXGE_DRIVER_NAME,
+ 	.id_table = vxge_id_table,
+ 	.probe = vxge_probe,
+ 	.remove = vxge_remove,
+-#ifdef CONFIG_PM
+-	.suspend = vxge_pm_suspend,
+-	.resume = vxge_pm_resume,
+-#endif
++	.driver.pm = &vxge_pm_ops,
+ 	.err_handler = &vxge_err_handler,
+ };
+ 
 -- 
 2.27.0
 
