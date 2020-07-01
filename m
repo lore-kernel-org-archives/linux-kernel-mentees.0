@@ -8,85 +8,84 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D79F6C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:02:44 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0087CC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:02:52 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AC45D20760
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:02:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C52F220780
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Jul 2020 13:02:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VdMhGiBH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AC45D20760
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8x39Fr5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C52F220780
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 7193B2FDA8;
-	Wed,  1 Jul 2020 13:02:44 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A03CB8AAC6;
+	Wed,  1 Jul 2020 13:02:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dzOGuCGlR9yI; Wed,  1 Jul 2020 13:02:43 +0000 (UTC)
+	with ESMTP id bjo9VXvz8NJs; Wed,  1 Jul 2020 13:02:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 10DB52FCAA;
-	Wed,  1 Jul 2020 13:02:43 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2D4C48AA9B;
+	Wed,  1 Jul 2020 13:02:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2745C0865;
-	Wed,  1 Jul 2020 13:02:42 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E6928C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 17B45C0865;
+	Wed,  1 Jul 2020 13:02:51 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B153BC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:02:41 +0000 (UTC)
+ Wed,  1 Jul 2020 13:02:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D417189395
+ by hemlock.osuosl.org (Postfix) with ESMTP id 9ECF78AAC1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:02:41 +0000 (UTC)
+ Wed,  1 Jul 2020 13:02:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dv041CHCZ2bx
+ with ESMTP id ETK4q8py3xkg
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:02:40 +0000 (UTC)
+ Wed,  1 Jul 2020 13:02:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id BDC518938A
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 808428AA9B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Jul 2020 13:02:40 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id j4so9896256plk.3
+ Wed,  1 Jul 2020 13:02:49 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id w2so10885688pgg.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 01 Jul 2020 06:02:40 -0700 (PDT)
+ Wed, 01 Jul 2020 06:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZlRjk8zT4O+JvT0opsFaP8uu4DQA96Rwf9GDzwtwPpA=;
- b=VdMhGiBHDnabiz1ww0We+D9xZ9YmY5AgbsQKaGxp9X4Hm+abCnEeOrBoKe9mrC6FqR
- fd37KpKkysUAQZKj0HvlRzy/TKTaWWRJdNeU+gmE003f0d2NX0eeXVLmhdIS+1TBWYEG
- GCXU4tkesPB14EFk24cDw5pNcAjFXBb1+c7BIwnOiOvATlEljHlIUHHOhV11o3gbITdf
- 8/Xn6tZuC5M9hXWrg/4XdKc4tgeEMJCKJonU236n/rFn5A+fPS4xogqADs63+ml2Wgx5
- 8suHPkakVKL2fM3/0Y7sl1tqUE/T2gYYWyw4FexMnIbajICuyWfnAKEwc1EAP455rKsc
- 3YNQ==
+ bh=GxBM9njwc9t+8wZt245O1720nVEKK0kOwVAxz9sX+f4=;
+ b=E8x39Fr5eOXD+lvhdVdIYJZUjHwCPfPjh9s8afGYaGwdfF9LGGiDosxKMlHtPSdlai
+ 4vICc1ddM3/RDbNvPeFDuR2Es5u/ozrZDvV/CrIi2DtIhwBOXhh0UWqBAIEj7+7fQO/T
+ ToUp2cU7mZnlbR1wbQ7ZTMsY7YmqJRVYAC7Ww0nYwaC6cl4Yxwbvr8Kos4OAEORmTzTO
+ GEd4KzeTKDom0SdZU0VMQsB7UsP3Gr2NgUhrWJmDNuseXtHDC6cDKLmtx5/d24SCpIsF
+ E7ohljt1W4EGTgxzVW0YhExDcfKEq0/Qr0gFL981Ft1ytvn70HOU+W6O02gxfrL2tMUO
+ e8gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZlRjk8zT4O+JvT0opsFaP8uu4DQA96Rwf9GDzwtwPpA=;
- b=jeg2npgJUd8Q8wmEpVYRE3ah0O8XoV1MvEgq2fKdsInXQYw21qKoadqdaHqpSQTqWE
- J/AblNEAfHgErz4/K6l4sOdLN/9O24jqBG00fhEwnnEs2Q5J9JSQ0JbXYhdi76KQSzL1
- knGT9h9oMUvo9AVbIV8E8rQnhzMzrckglMmmFxsZR4wnr9Zb/Bbihv8ivchuG/eGj7xG
- 2FU+/raIkz6rwNlEL7UmLMlOwyY7JOa1lY7uQ5cUYVvjRuM1VQAgIlP8ceM96Stq7kX7
- 7JN+AfZpFEGrFu7DL6SIPFaJLcMpz0/LoYwrwFz0MZE4dh5wT9gbQop6XPYYYLRPdgBi
- OCEg==
-X-Gm-Message-State: AOAM533aQQImQLDQns1B3z9nziEAjCoo/VCszs4q1pX0GDNc3pgZfX9O
- OC4SbwIGZrl2C2Ij2s/bYbY=
-X-Google-Smtp-Source: ABdhPJyW6WI+g29dTNawJ1+miqNXQEfKV65sxS6eTTaCmhAfO21hyaIO5yGGqu9+kNECK2Glk9Y4ZQ==
-X-Received: by 2002:a17:90a:9b82:: with SMTP id
- g2mr26144757pjp.187.1593608560269; 
- Wed, 01 Jul 2020 06:02:40 -0700 (PDT)
+ bh=GxBM9njwc9t+8wZt245O1720nVEKK0kOwVAxz9sX+f4=;
+ b=Z13hXDo6cX4zzapSN/yXWMiKyN0jRzGGgwD+YuKWITUoBM6dmBoO28MvIds0yOwsae
+ C1JQLXKM2PWk3vYxII6Gnmrs/IJlsDP22AhGcD18mCMq2fTXkP/8BSTE6ZE1VJ9SjVVA
+ yf5Wwqu45pLCwgDD/G/Y4TEwTJuQWlx4bR9ej1XEhjHQOTohjK9WteF/7VFTUPUNnwrf
+ c+ocymstx8bIMcJ16kYEotRKzcsKHn2c+6DFE4AjooQgj8NFwjdnFmlMw7K7iqDYfIiM
+ oZBRX1IFLpSXeiHSkaf0ch3jb5D56Ys2uME9qlfhx/SBtRrzc6iTQYv9slUagWsA6B8s
+ SaNg==
+X-Gm-Message-State: AOAM533H4w6XnWU+tgTn+9SdvD1kaw8CcbnHthK1yRe/XIr8TFcWtNu/
+ RLSKLDPWUp9GmmDJ8DS5kZo=
+X-Google-Smtp-Source: ABdhPJxcjJk8LSveiZ5+SpT0XFa0GpHtb6e9ktduqAI563qQExBRxsecPBKk59ONk3hjy9yEw04fQQ==
+X-Received: by 2002:aa7:8f08:: with SMTP id x8mr8291854pfr.41.1593608568921;
+ Wed, 01 Jul 2020 06:02:48 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id d9sm6070908pgv.45.2020.07.01.06.02.33
+ by smtp.gmail.com with ESMTPSA id d9sm6070908pgv.45.2020.07.01.06.02.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 06:02:39 -0700 (PDT)
+ Wed, 01 Jul 2020 06:02:48 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
@@ -103,15 +102,15 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
  Somnath Kotur <somnath.kotur@broadcom.com>,
  Tariq Toukan <tariqt@mellanox.com>, Jon Mason <jdmason@kudzu.us>
-Date: Wed,  1 Jul 2020 18:29:32 +0530
-Message-Id: <20200701125938.639447-6-vaibhavgupta40@gmail.com>
+Date: Wed,  1 Jul 2020 18:29:33 +0530
+Message-Id: <20200701125938.639447-7-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200701125938.639447-1-vaibhavgupta40@gmail.com>
 References: <20200701125938.639447-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 05/11] liquidio: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v1 06/11] sundance: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -130,78 +129,96 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers should not use legacy power management as they have to manage power
-states and related operations, for the device, themselves. This driver was
-handling them with the help of PCI helper functions.
+With legacy PM, drivers themselves were responsible for managing the
+device's power states and takes care of register states.
 
-With generic PM, all essentials will be handled by the PCI core. Driver
-needs to do only device-specific operations.
+After upgrading to the generic structure, PCI core will take care of
+required tasks and drivers should do only device-specific operations.
 
-The driver defined empty-body .suspend() and .resume() callbacks earlier.
-They can now be define NULL and bind with "struct dev_pm_ops" variable.
+Thus, there is no need to call the PCI helper functions like
+pci_enable/disable_device(), pci_save/restore_sate() and
+pci_set_power_state().
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- .../net/ethernet/cavium/liquidio/lio_main.c   | 31 +++----------------
- 1 file changed, 5 insertions(+), 26 deletions(-)
+ drivers/net/ethernet/dlink/sundance.c | 27 ++++++++-------------------
+ 1 file changed, 8 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/net/ethernet/cavium/liquidio/lio_main.c b/drivers/net/ethernet/cavium/liquidio/lio_main.c
-index 66d31c018c7e..19689d72bc4e 100644
---- a/drivers/net/ethernet/cavium/liquidio/lio_main.c
-+++ b/drivers/net/ethernet/cavium/liquidio/lio_main.c
-@@ -405,27 +405,8 @@ static void liquidio_pcie_resume(struct pci_dev *pdev __attribute__((unused)))
- 	/* Nothing to be done here. */
+diff --git a/drivers/net/ethernet/dlink/sundance.c b/drivers/net/ethernet/dlink/sundance.c
+index dc566fcc3ba9..ca97e321082d 100644
+--- a/drivers/net/ethernet/dlink/sundance.c
++++ b/drivers/net/ethernet/dlink/sundance.c
+@@ -1928,11 +1928,9 @@ static void sundance_remove1(struct pci_dev *pdev)
+ 	}
  }
  
 -#ifdef CONFIG_PM
--/**
-- * \brief called when suspending
-- * @param pdev Pointer to PCI device
-- * @param state state to suspend to
-- */
--static int liquidio_suspend(struct pci_dev *pdev __attribute__((unused)),
--			    pm_message_t state __attribute__((unused)))
--{
--	return 0;
--}
 -
--/**
-- * \brief called when resuming
-- * @param pdev Pointer to PCI device
-- */
--static int liquidio_resume(struct pci_dev *pdev __attribute__((unused)))
--{
--	return 0;
--}
--#endif
-+#define liquidio_suspend NULL
-+#define liquidio_resume NULL
+-static int sundance_suspend(struct pci_dev *pci_dev, pm_message_t state)
++static int __maybe_unused sundance_suspend(struct device *dev_d)
+ {
+-	struct net_device *dev = pci_get_drvdata(pci_dev);
++	struct net_device *dev = dev_get_drvdata(dev_d);
+ 	struct netdev_private *np = netdev_priv(dev);
+ 	void __iomem *ioaddr = np->base;
  
- /* For PCI-E Advanced Error Recovery (AER) Interface */
- static const struct pci_error_handlers liquidio_err_handler = {
-@@ -451,17 +432,15 @@ static const struct pci_device_id liquidio_pci_tbl[] = {
- };
- MODULE_DEVICE_TABLE(pci, liquidio_pci_tbl);
+@@ -1942,30 +1940,24 @@ static int sundance_suspend(struct pci_dev *pci_dev, pm_message_t state)
+ 	netdev_close(dev);
+ 	netif_device_detach(dev);
  
-+static SIMPLE_DEV_PM_OPS(liquidio_pm_ops, liquidio_suspend, liquidio_resume);
+-	pci_save_state(pci_dev);
+ 	if (np->wol_enabled) {
+ 		iowrite8(AcceptBroadcast | AcceptMyPhys, ioaddr + RxMode);
+ 		iowrite16(RxEnable, ioaddr + MACCtrl1);
+ 	}
+-	pci_enable_wake(pci_dev, pci_choose_state(pci_dev, state),
+-			np->wol_enabled);
+-	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
 +
- static struct pci_driver liquidio_pci_driver = {
- 	.name		= "LiquidIO",
- 	.id_table	= liquidio_pci_tbl,
- 	.probe		= liquidio_probe,
- 	.remove		= liquidio_remove,
- 	.err_handler	= &liquidio_err_handler,    /* For AER */
++	device_set_wakeup_enable(dev_d, np->wol_enabled);
+ 
+ 	return 0;
+ }
+ 
+-static int sundance_resume(struct pci_dev *pci_dev)
++static int __maybe_unused sundance_resume(struct device *dev_d)
+ {
+-	struct net_device *dev = pci_get_drvdata(pci_dev);
++	struct net_device *dev = dev_get_drvdata(dev_d);
+ 	int err = 0;
+ 
+ 	if (!netif_running(dev))
+ 		return 0;
+ 
+-	pci_set_power_state(pci_dev, PCI_D0);
+-	pci_restore_state(pci_dev);
+-	pci_enable_wake(pci_dev, PCI_D0, 0);
 -
+ 	err = netdev_open(dev);
+ 	if (err) {
+ 		printk(KERN_ERR "%s: Can't resume interface!\n",
+@@ -1979,17 +1971,14 @@ static int sundance_resume(struct pci_dev *pci_dev)
+ 	return err;
+ }
+ 
+-#endif /* CONFIG_PM */
++static SIMPLE_DEV_PM_OPS(sundance_pm_ops, sundance_suspend, sundance_resume);
+ 
+ static struct pci_driver sundance_driver = {
+ 	.name		= DRV_NAME,
+ 	.id_table	= sundance_pci_tbl,
+ 	.probe		= sundance_probe1,
+ 	.remove		= sundance_remove1,
 -#ifdef CONFIG_PM
--	.suspend	= liquidio_suspend,
--	.resume		= liquidio_resume,
--#endif
-+	.driver.pm	= &liquidio_pm_ops,
- #ifdef CONFIG_PCI_IOV
- 	.sriov_configure = liquidio_enable_sriov,
- #endif
+-	.suspend	= sundance_suspend,
+-	.resume		= sundance_resume,
+-#endif /* CONFIG_PM */
++	.driver.pm	= &sundance_pm_ops,
+ };
+ 
+ static int __init sundance_init(void)
 -- 
 2.27.0
 
