@@ -2,108 +2,83 @@ Return-Path: <SRS0=sA50=AN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A74C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Jul 2020 13:23:00 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12D7FC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Jul 2020 16:36:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 64F2920885
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Jul 2020 13:23:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CE98820720
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Jul 2020 16:36:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marvell.com header.i=@marvell.com header.b="dpYuNn8q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 64F2920885
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="TSOdujBy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE98820720
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 382DD267EF;
-	Thu,  2 Jul 2020 13:23:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A980E8A11C;
+	Thu,  2 Jul 2020 16:36:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OwoRxHELb9db; Thu,  2 Jul 2020 13:22:59 +0000 (UTC)
+	with ESMTP id chBHw9YfoF3p; Thu,  2 Jul 2020 16:36:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id CB30B2051C;
-	Thu,  2 Jul 2020 13:22:59 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 421428A111;
+	Thu,  2 Jul 2020 16:36:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BACE7C0888;
-	Thu,  2 Jul 2020 13:22:59 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9F595C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 27680C0890;
+	Thu,  2 Jul 2020 16:36:48 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6EF2CC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Jul 2020 13:22:58 +0000 (UTC)
+ Thu,  2 Jul 2020 16:36:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8E4998A71A
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5A83A88F88
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Jul 2020 13:22:58 +0000 (UTC)
+ Thu,  2 Jul 2020 16:36:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 346cGrgO9kI7
+ with ESMTP id UdnuRM3Zb8ES
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Jul 2020 13:22:58 +0000 (UTC)
+ Thu,  2 Jul 2020 16:36:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com
- [67.231.156.173])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E3E0B8A6E1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E8FF488F4A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Jul 2020 13:22:57 +0000 (UTC)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 062DLZtt019972; Thu, 2 Jul 2020 06:22:51 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pfpt0818;
- bh=6Kwa79/B4oYeiDXtVKCW5HHWsBXKxKO2pXdcKdrUd7I=;
- b=dpYuNn8qAZc1T3BMBlze1uXhh2kD+WhaN5vrHR+4qNAQTWWcT+q1HrIPd3RKSzKwj7GW
- eEhPlZjAMx3aeXX8x2Y4fDQpcBO+w1S7jDv/u9p6JE9gCRfWpoXhEqNIIZUT3u8hu+4S
- /kzFnHqSX9tK6QDzAwKsH65bmEZeWiNmGFdcN3SG4IePOG9aAwETzolR6dCBDobrZWR4
- xs1aRYNPso2Qyyi33Gu09Hziwuwm6LcwWOyEGK8fDdPACDEQ4mA8kHcKNzpiOcaq83aj
- sUY14Wp0jGAkp9DgQmUjJUHgU4AtRF7sX3yDT4j5yFBnT0ENa/f0zJvQEtoYkWcwJxKy fQ== 
-Received: from sc-exch02.marvell.com ([199.233.58.182])
- by mx0b-0016f401.pphosted.com with ESMTP id 31x5mnwd53-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Thu, 02 Jul 2020 06:22:51 -0700
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 2 Jul 2020 06:22:49 -0700
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 2 Jul 2020 06:22:49 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 2 Jul 2020 06:22:49 -0700
-Received: from [10.193.54.28] (unknown [10.193.54.28])
- by maili.marvell.com (Postfix) with ESMTP id B6B243F703F;
- Thu,  2 Jul 2020 06:22:45 -0700 (PDT)
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>, Bjorn Helgaas
- <helgaas@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, "David S.
- Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, "Manish
- Chopra" <manishc@marvell.com>
+ Thu,  2 Jul 2020 16:36:46 +0000 (UTC)
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
+ [163.114.132.6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 463C320720;
+ Thu,  2 Jul 2020 16:36:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593707806;
+ bh=1ydFiyyVngUAcsAU9csrnJizTY4RtX1aoV1iBzBWUlI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=TSOdujByBkyI0xINU2tkk0vhYTIWtDh73W4gCqhyvEaWlGwnx+IWwIaE24ysdf1Fj
+ 9q1Qz83OusuUWT8nFFKHu4ErPQ+0Ikb7tT7v86bvJ+PvQY1tHAAOtOh1PdxhsiaXzk
+ wF2H/sV/ZVyDVLypv6l9e5SKv/CIGCaoCth0ZtiI=
+Date: Thu, 2 Jul 2020 09:36:45 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Message-ID: <20200702093645.13e0018a@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20200702063632.289959-3-vaibhavgupta40@gmail.com>
 References: <20200702063632.289959-1-vaibhavgupta40@gmail.com>
  <20200702063632.289959-3-vaibhavgupta40@gmail.com>
-From: Igor Russkikh <irusskikh@marvell.com>
-Message-ID: <3aa3a243-6e9a-c80d-95d1-9c6a143e7eb4@marvell.com>
-Date: Thu, 2 Jul 2020 16:22:44 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.0
 MIME-Version: 1.0
-In-Reply-To: <20200702063632.289959-3-vaibhavgupta40@gmail.com>
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-02_08:2020-07-02,
- 2020-07-02 signatures=0
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [EXT] [PATCH v1 2/2] qlcninc: use
-	generic power management
+Cc: Shahed Shaikh <shshaikh@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+ Manish Chopra <manishc@marvell.com>, Rahul Verma <rahulv@marvell.com>,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+ netdev@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, "David S.
+ Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 2/2] qlcninc: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,44 +90,33 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On 02/07/2020 9:36 am, Vaibhav Gupta wrote:
-> External Email
-> 
-> ----------------------------------------------------------------------
-> With legacy PM, drivers themselves were responsible for managing the
-> device's power states and takes care of register states. And they use PCI
-> helper functions to do it.
-> 
-> After upgrading to the generic structure, PCI core will take care of
-> required tasks and drivers should do only device-specific operations.
-> 
-> .suspend() calls __qlcnic_shutdown, which then calls qlcnic_82xx_shutdown;
-> .resume()  calls __qlcnic_resume,   which then calls qlcnic_82xx_resume;
-> 
-> Both ...82xx..() are define in
-> drivers/net/ethernet/qlogic/qlcnic/qlcnic_hw.c and are used only in
-> drivers/net/ethernet/qlogic/qlcnic/qlcnic_main.c.
-> 
-> Hence upgrade them and remove PCI function calls, like pci_save_state()
-> and
-> pci_enable_wake(), inside them
-> 
-> Compile-tested only.
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-
-Acked-by: Igor Russkikh <irusskikh@marvell.com>
-
-Thanks!
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gVGh1LCAgMiBKdWwgMjAyMCAxMjowNjozMiArMDUzMCBWYWliaGF2IEd1cHRhIHdyb3RlOgo+
+IFdpdGggbGVnYWN5IFBNLCBkcml2ZXJzIHRoZW1zZWx2ZXMgd2VyZSByZXNwb25zaWJsZSBmb3Ig
+bWFuYWdpbmcgdGhlCj4gZGV2aWNlJ3MgcG93ZXIgc3RhdGVzIGFuZCB0YWtlcyBjYXJlIG9mIHJl
+Z2lzdGVyIHN0YXRlcy4gQW5kIHRoZXkgdXNlIFBDSQo+IGhlbHBlciBmdW5jdGlvbnMgdG8gZG8g
+aXQuCj4gCj4gQWZ0ZXIgdXBncmFkaW5nIHRvIHRoZSBnZW5lcmljIHN0cnVjdHVyZSwgUENJIGNv
+cmUgd2lsbCB0YWtlIGNhcmUgb2YKPiByZXF1aXJlZCB0YXNrcyBhbmQgZHJpdmVycyBzaG91bGQg
+ZG8gb25seSBkZXZpY2Utc3BlY2lmaWMgb3BlcmF0aW9ucy4KPiAKPiAuc3VzcGVuZCgpIGNhbGxz
+IF9fcWxjbmljX3NodXRkb3duLCB3aGljaCB0aGVuIGNhbGxzIHFsY25pY184Mnh4X3NodXRkb3du
+Owo+IC5yZXN1bWUoKSAgY2FsbHMgX19xbGNuaWNfcmVzdW1lLCAgIHdoaWNoIHRoZW4gY2FsbHMg
+cWxjbmljXzgyeHhfcmVzdW1lOwo+IAo+IEJvdGggLi4uODJ4eC4uKCkgYXJlIGRlZmluZSBpbgo+
+IGRyaXZlcnMvbmV0L2V0aGVybmV0L3Fsb2dpYy9xbGNuaWMvcWxjbmljX2h3LmMgYW5kIGFyZSB1
+c2VkIG9ubHkgaW4KPiBkcml2ZXJzL25ldC9ldGhlcm5ldC9xbG9naWMvcWxjbmljL3FsY25pY19t
+YWluLmMuCj4gCj4gSGVuY2UgdXBncmFkZSB0aGVtIGFuZCByZW1vdmUgUENJIGZ1bmN0aW9uIGNh
+bGxzLCBsaWtlIHBjaV9zYXZlX3N0YXRlKCkgYW5kCj4gcGNpX2VuYWJsZV93YWtlKCksIGluc2lk
+ZSB0aGVtCj4gCj4gQ29tcGlsZS10ZXN0ZWQgb25seS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBWYWli
+aGF2IEd1cHRhIDx2YWliaGF2Z3VwdGE0MEBnbWFpbC5jb20+Cgpkcml2ZXJzL25ldC9ldGhlcm5l
+dC9xbG9naWMvcWxjbmljL3FsY25pY19ody5jOiBJbiBmdW5jdGlvbiDigJhxbGNuaWNfODJ4eF9z
+aHV0ZG93buKAmToKZHJpdmVycy9uZXQvZXRoZXJuZXQvcWxvZ2ljL3FsY25pYy9xbGNuaWNfaHcu
+YzoxNjUyOjY6IHdhcm5pbmc6IHVudXNlZCB2YXJpYWJsZSDigJhyZXR2YWzigJkgWy1XdW51c2Vk
+LXZhcmlhYmxlXQogMTY1MiB8ICBpbnQgcmV0dmFsOwogICAgICB8ICAgICAgXn5+fn5+Cl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1t
+ZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5k
+YXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
