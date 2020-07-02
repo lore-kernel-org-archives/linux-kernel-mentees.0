@@ -2,106 +2,108 @@ Return-Path: <SRS0=sA50=AN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F011BC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Jul 2020 10:55:25 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A74C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Jul 2020 13:23:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C21EF20772
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Jul 2020 10:55:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 64F2920885
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Jul 2020 13:23:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kjd7ViS0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C21EF20772
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marvell.com header.i=@marvell.com header.b="dpYuNn8q"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 64F2920885
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A19398A67E;
-	Thu,  2 Jul 2020 10:55:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 382DD267EF;
+	Thu,  2 Jul 2020 13:23:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5swWP-pKaF0g; Thu,  2 Jul 2020 10:55:24 +0000 (UTC)
+	with ESMTP id OwoRxHELb9db; Thu,  2 Jul 2020 13:22:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E97E689F67;
-	Thu,  2 Jul 2020 10:55:24 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CB30B2051C;
+	Thu,  2 Jul 2020 13:22:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E3492C0890;
-	Thu,  2 Jul 2020 10:55:24 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C7FADC0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BACE7C0888;
+	Thu,  2 Jul 2020 13:22:59 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F595C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Jul 2020 10:55:23 +0000 (UTC)
+ Thu,  2 Jul 2020 13:22:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B410B88EAD
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8E4998A71A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Jul 2020 10:55:23 +0000 (UTC)
+ Thu,  2 Jul 2020 13:22:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bxDvRiAtEVsz
+ with ESMTP id 346cGrgO9kI7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Jul 2020 10:55:23 +0000 (UTC)
+ Thu,  2 Jul 2020 13:22:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 4924988EA8
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com
+ [67.231.156.173])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E3E0B8A6E1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Jul 2020 10:55:23 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id gc9so5791951pjb.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 02 Jul 2020 03:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mG3Gr9JnbGvredrz4X7c4VX5RS6QFdJXmMVG61A0nk4=;
- b=Kjd7ViS0eLyzMOE0iq6o8MHYcgUsIh2OfMZ+Iq9vu7Hr06kAaHWDMR+R2ch+kg2Ec2
- yWUuKDiJr2IagoMcMG7UpU/uANUf54hW9+B32kXPWPeaOVPM5x8SDvkxHXQRpfy3zG3I
- UpzTpIZ25phMceJ+PiNR6u64bX8agFO+Ezypi9riGxz5XQXlG39HWMCLSVtbIpBMMhbs
- EcT1MRdO90Ye8KrceWqE/Gn90Tf+wVtoRihRKyzBJ2Bo6TsD0WEmVmfq053SKf2ajsJ1
- j+NCMdpmqoPYyq7uBTbnggpZ2gso71kS3i5ZBuisd553mOPbHWs2c/iK12O7kZ3t1721
- c44A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mG3Gr9JnbGvredrz4X7c4VX5RS6QFdJXmMVG61A0nk4=;
- b=Us4v7unIanlIsc9mUg72TQtjMfCuscM4FhazatYJ88hRWSbXhjRlyF71gMGIGmDZHM
- oppdAix2Q86WzJFRJVhDYz3EtQJC73pz7dn0e1UHaIP4RwhapWrjTlRttPTo+kEFD/c9
- sujtme1eknPwlacWfMO15uALjL5C9aRsn5p1VGQlotplXFuBBRot9CUOI4id+lNjHoNA
- XzAio7JQtFXz/Sl9th2hS0PtsmsHmN/rS3x+3JGBJU46Kwgl3FwrgYhwjsXQ1kIs3bp9
- Rmqg6QAxJLboR79FwuwZttE2clqqX0tMpXFpXXopAJ2ab40pZt1iOuqOytmLJ67+CvQo
- PgWA==
-X-Gm-Message-State: AOAM530vWH+RTdG/iGjL7K0E9S+otbZKIUQjsKPqxbn+LGPw+8/+KCrp
- KSa2cttupf+0Ot0jPhhBR3cJGAnj7sAD6g==
-X-Google-Smtp-Source: ABdhPJxAdKbk2Slr8krJZngWpET39lkBpC7eTCVqsa4rAT0jliM7i1u6rLkgRScRRu34oAa/h7lSFw==
-X-Received: by 2002:a17:902:c40c:: with SMTP id
- k12mr26647870plk.105.1593687322799; 
- Thu, 02 Jul 2020 03:55:22 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id z13sm8702393pfq.220.2020.07.02.03.55.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 03:55:22 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Steve Glendinning <steve.glendinning@shawell.net>
-Date: Thu,  2 Jul 2020 16:23:51 +0530
-Message-Id: <20200702105351.363880-3-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200702105351.363880-1-vaibhavgupta40@gmail.com>
-References: <20200702105351.363880-1-vaibhavgupta40@gmail.com>
+ Thu,  2 Jul 2020 13:22:57 +0000 (UTC)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+ by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 062DLZtt019972; Thu, 2 Jul 2020 06:22:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pfpt0818;
+ bh=6Kwa79/B4oYeiDXtVKCW5HHWsBXKxKO2pXdcKdrUd7I=;
+ b=dpYuNn8qAZc1T3BMBlze1uXhh2kD+WhaN5vrHR+4qNAQTWWcT+q1HrIPd3RKSzKwj7GW
+ eEhPlZjAMx3aeXX8x2Y4fDQpcBO+w1S7jDv/u9p6JE9gCRfWpoXhEqNIIZUT3u8hu+4S
+ /kzFnHqSX9tK6QDzAwKsH65bmEZeWiNmGFdcN3SG4IePOG9aAwETzolR6dCBDobrZWR4
+ xs1aRYNPso2Qyyi33Gu09Hziwuwm6LcwWOyEGK8fDdPACDEQ4mA8kHcKNzpiOcaq83aj
+ sUY14Wp0jGAkp9DgQmUjJUHgU4AtRF7sX3yDT4j5yFBnT0ENa/f0zJvQEtoYkWcwJxKy fQ== 
+Received: from sc-exch02.marvell.com ([199.233.58.182])
+ by mx0b-0016f401.pphosted.com with ESMTP id 31x5mnwd53-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Thu, 02 Jul 2020 06:22:51 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH02.marvell.com
+ (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 2 Jul 2020 06:22:49 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 2 Jul 2020 06:22:49 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 2 Jul 2020 06:22:49 -0700
+Received: from [10.193.54.28] (unknown [10.193.54.28])
+ by maili.marvell.com (Postfix) with ESMTP id B6B243F703F;
+ Thu,  2 Jul 2020 06:22:45 -0700 (PDT)
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>, Bjorn Helgaas
+ <helgaas@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, "David S.
+ Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, "Manish
+ Chopra" <manishc@marvell.com>
+References: <20200702063632.289959-1-vaibhavgupta40@gmail.com>
+ <20200702063632.289959-3-vaibhavgupta40@gmail.com>
+From: Igor Russkikh <irusskikh@marvell.com>
+Message-ID: <3aa3a243-6e9a-c80d-95d1-9c6a143e7eb4@marvell.com>
+Date: Thu, 2 Jul 2020 16:22:44 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0
 MIME-Version: 1.0
+In-Reply-To: <20200702063632.289959-3-vaibhavgupta40@gmail.com>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-02_08:2020-07-02,
+ 2020-07-02 signatures=0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 2/2] smsc9420: use generic power
-	management
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [EXT] [PATCH v1 2/2] qlcninc: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,108 +121,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers should not use legacy power management as they have to manage power
-states and related operations, for the device, themselves. This driver was
-handling them with the help of PCI helper functions.
 
-With generic PM, all essentials will be handled by the PCI core. Driver
-needs to do only device-specific operations.
 
-Compile-tested only.
+On 02/07/2020 9:36 am, Vaibhav Gupta wrote:
+> External Email
+> 
+> ----------------------------------------------------------------------
+> With legacy PM, drivers themselves were responsible for managing the
+> device's power states and takes care of register states. And they use PCI
+> helper functions to do it.
+> 
+> After upgrading to the generic structure, PCI core will take care of
+> required tasks and drivers should do only device-specific operations.
+> 
+> .suspend() calls __qlcnic_shutdown, which then calls qlcnic_82xx_shutdown;
+> .resume()  calls __qlcnic_resume,   which then calls qlcnic_82xx_resume;
+> 
+> Both ...82xx..() are define in
+> drivers/net/ethernet/qlogic/qlcnic/qlcnic_hw.c and are used only in
+> drivers/net/ethernet/qlogic/qlcnic/qlcnic_main.c.
+> 
+> Hence upgrade them and remove PCI function calls, like pci_save_state()
+> and
+> pci_enable_wake(), inside them
+> 
+> Compile-tested only.
+> 
+> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/net/ethernet/smsc/smsc9420.c | 39 +++++++---------------------
- 1 file changed, 10 insertions(+), 29 deletions(-)
+Acked-by: Igor Russkikh <irusskikh@marvell.com>
 
-diff --git a/drivers/net/ethernet/smsc/smsc9420.c b/drivers/net/ethernet/smsc/smsc9420.c
-index 7312e522c022..d07f509cb4c7 100644
---- a/drivers/net/ethernet/smsc/smsc9420.c
-+++ b/drivers/net/ethernet/smsc/smsc9420.c
-@@ -1422,11 +1422,9 @@ static int smsc9420_open(struct net_device *dev)
- 	return result;
- }
- 
--#ifdef CONFIG_PM
--
--static int smsc9420_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused smsc9420_suspend(struct device *dev_d)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct smsc9420_pdata *pd = netdev_priv(dev);
- 	u32 int_cfg;
- 	ulong flags;
-@@ -1451,33 +1449,19 @@ static int smsc9420_suspend(struct pci_dev *pdev, pm_message_t state)
- 		netif_device_detach(dev);
- 	}
- 
--	pci_save_state(pdev);
--	pci_enable_wake(pdev, pci_choose_state(pdev, state), 0);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
-+	device_wakeup_disable(dev_d);
- 
- 	return 0;
- }
- 
--static int smsc9420_resume(struct pci_dev *pdev)
-+static int __maybe_unused smsc9420_resume(struct device *dev_d)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
--	struct smsc9420_pdata *pd = netdev_priv(dev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	int err;
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--
--	err = pci_enable_device(pdev);
--	if (err)
--		return err;
-+	pci_set_master(to_pci_dev(dev_d));
- 
--	pci_set_master(pdev);
--
--	err = pci_enable_wake(pdev, PCI_D0, 0);
--	if (err)
--		netif_warn(pd, ifup, pd->dev, "pci_enable_wake failed: %d\n",
--			   err);
-+	device_wakeup_disable(dev_d);
- 
- 	if (netif_running(dev)) {
- 		/* FIXME: gross. It looks like ancient PM relic.*/
-@@ -1487,8 +1471,6 @@ static int smsc9420_resume(struct pci_dev *pdev)
- 	return err;
- }
- 
--#endif /* CONFIG_PM */
--
- static const struct net_device_ops smsc9420_netdev_ops = {
- 	.ndo_open		= smsc9420_open,
- 	.ndo_stop		= smsc9420_stop,
-@@ -1658,15 +1640,14 @@ static void smsc9420_remove(struct pci_dev *pdev)
- 	pci_disable_device(pdev);
- }
- 
-+static SIMPLE_DEV_PM_OPS(smsc9420_pm_ops, smsc9420_suspend, smsc9420_resume);
-+
- static struct pci_driver smsc9420_driver = {
- 	.name = DRV_NAME,
- 	.id_table = smsc9420_id_table,
- 	.probe = smsc9420_probe,
- 	.remove = smsc9420_remove,
--#ifdef CONFIG_PM
--	.suspend = smsc9420_suspend,
--	.resume = smsc9420_resume,
--#endif /* CONFIG_PM */
-+	.driver.pm = &smsc9420_pm_ops,
- };
- 
- static int __init smsc9420_init_module(void)
--- 
-2.27.0
-
+Thanks!
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
