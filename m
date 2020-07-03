@@ -8,98 +8,98 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC24C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 08:16:41 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F95C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A27B9207DA
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 08:16:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BA0FB207FF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LUDbOX7Z"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A27B9207DA
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtQYdBra"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA0FB207FF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8265F88D91;
-	Fri,  3 Jul 2020 08:16:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7D51787DC0;
+	Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gh6qjSYxzYt4; Fri,  3 Jul 2020 08:16:41 +0000 (UTC)
+	with ESMTP id 1RLd_M9ct58U; Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0CB5F88D8B;
-	Fri,  3 Jul 2020 08:16:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1EEE487DB0;
+	Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EFF99C0888;
-	Fri,  3 Jul 2020 08:16:40 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AA0A6C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A113C0888;
+	Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E1879C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 08:16:39 +0000 (UTC)
+ Fri,  3 Jul 2020 08:16:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 95551204D7
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D10A887DB1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 08:16:39 +0000 (UTC)
+ Fri,  3 Jul 2020 08:16:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Nqy3a05Y8k6E
+ with ESMTP id O5e6VwfMO7OK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 08:16:39 +0000 (UTC)
+ Fri,  3 Jul 2020 08:16:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 054F120437
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 60F0F87DB0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 08:16:39 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id d10so346272pll.3
+ Fri,  3 Jul 2020 08:16:44 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id a9so3183805pjh.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 03 Jul 2020 01:16:39 -0700 (PDT)
+ Fri, 03 Jul 2020 01:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xJozJ1j72j2TPhbNEWh15qJXYyA6M4xq/pVyTeWMQoY=;
- b=LUDbOX7ZjE2lg/+Z4HMA7mUyOwRW+tSaegsAS8BVGRtTC6wbrqf88LI563Pw7dUPEu
- a4YlqQxr6SX/+4Bv9OII7MgzT+xbjBHIgWfV2TU3uV1H8674geBDtms/QNycjICzWx+I
- iy1mEPRIMh9/KcuP2wBuOwU41T/NrmGt3+j6U8wFkiXQO3hnfnsWPhM0DH5+YpY8YYJj
- nlGJljJdIGLYtbSoefs8qOlkD20afrW95ZvtxE7PCyKHkLK4sstiWyZO1fX4CY8a+3jE
- /ItoFztt+QKfwyBbVhoBVhPghkqGPVWUGQf7OYxMnbPuokhXsccM/F36BdCzBdz8fe0Q
- 2q4w==
+ bh=x4o+ZvPMksH/mCK/c/HDn/RkcQN7O7pX0UDd4MLfNlo=;
+ b=AtQYdBra+JVvn7sj0HuVvPfyV1r50bN0iVzn7jdSs2k+//yzu6cTSzWBMz8S1hW31d
+ bOKth8SXUtKb7zsPAxXQ+ON/CROJ0PfiTI2wxUkgefQcR3dI9E1lowVXGbGhNS3SHBb8
+ p2Il4tpZmjvqUQU2Vpn3mI1k3QecOwv6y9Q0dX9IJCO4dClSRVNqfsPzA6T0CrqJJGN8
+ 9PPnc9lnfT77XLRLLEp39G2LnAt/V417LsYwto6Dr3NYKay0aSL/2yX9cBTifRBVDfqr
+ Bb5fIJy39QsBGnAR+r2lLk6PXv9+/kv8mKlUvbTn6TmgfgFTscUHOeXFcRADOBiTk4ey
+ dXIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xJozJ1j72j2TPhbNEWh15qJXYyA6M4xq/pVyTeWMQoY=;
- b=ZzhR4CeJjRDWci6sl0BQWSLlkz3+MdP7F5A9SVqpKlfeoyndUiQloqHk0cfLsS03fd
- rg8arfMe81Ak4XsE0eppYfs0JhHxUrFFanAfHu0UYCUtPHlMT86KaLIn+GLLkKxWoX9M
- aOvxvieOO1gnbiAWxxtmST3J7eCxPW5xd2fd24RxF9uV74GEKcVkTYOrFzEQAZtPoA7S
- /VOcIKxXYll0WPlQjIgaxO+Y3x74JBGz9T45o8zrsdr0Qy/4r/tFYkSpvh+Mxv6M6R/m
- Vyw/JRGm6QZ2DRpj7r7G78mXNfi7iVqbsojb7vjhAlb4AEYDv6QTVeEWlLJYubt15e9O
- G3Jw==
-X-Gm-Message-State: AOAM530f/mWKq/RnNT7SuNOIhRMUEqtn7dWv3OXeFawmQD/SviihDtsY
- VpsIaABJoZdhcqYo9vTOuhk=
-X-Google-Smtp-Source: ABdhPJyZIRdDAQWEtma0XTe3g5RjEI9UtTLQefwxFASVjHtZWociJvIv2qiKtVPGaBWqokDp9OWFiQ==
-X-Received: by 2002:a17:902:9b93:: with SMTP id
- y19mr30651940plp.241.1593764198594; 
- Fri, 03 Jul 2020 01:16:38 -0700 (PDT)
+ bh=x4o+ZvPMksH/mCK/c/HDn/RkcQN7O7pX0UDd4MLfNlo=;
+ b=gFKaOwuPrrkjHBd2rIOHT9hlMAfInfaMKQVouFeT/2YV5wmR4plFfRi6XCrrEGEZwL
+ sPWSHDLpfJNDcVk0t1pj4qwsDFo+0+Q76S1R5WApoT9kMOZh/MAU4JD5+Y5BX6UFb51N
+ FPv9UiVof2wZHM3a0ui3w99rrvOQxAP5OyPA3fivk6XMeD74COdR2OsMS3WeAnny6ZRQ
+ gtfMGXWDADEyxlfLZFG1hu5YIV9JMcg5oSGrg9fFVxxtabURnPwEfJxBw10KBP2+kP1a
+ Ctzv5X18zeOiKgALrb56y8ODhjJU8Ljbdow1Y/VywWlSLpf4hPt3X5DAguLwsg0NSpE6
+ lPdQ==
+X-Gm-Message-State: AOAM531zb3E8ZmpT/xzJaztMp99ONqneasZpxBt0eEuXLz1AKZBtkZ0f
+ jJLqTQvBz8HgOmxWahPISHk=
+X-Google-Smtp-Source: ABdhPJwcLuW1N9f00/vsxYLUKzRnYyskZOoTPkdh2DaBblE/O9vUa5fbHi6nQfPhfqUr2oI7fnv7Lw==
+X-Received: by 2002:a17:90a:20ad:: with SMTP id
+ f42mr25987368pjg.96.1593764203990; 
+ Fri, 03 Jul 2020 01:16:43 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id y198sm8437085pfg.116.2020.07.03.01.16.29
+ by smtp.gmail.com with ESMTPSA id y198sm8437085pfg.116.2020.07.03.01.16.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 01:16:38 -0700 (PDT)
+ Fri, 03 Jul 2020 01:16:43 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  "David S. Miller" <davem@davemloft.net>
-Date: Fri,  3 Jul 2020 13:44:27 +0530
-Message-Id: <20200703081428.1011527-4-vaibhavgupta40@gmail.com>
+Date: Fri,  3 Jul 2020 13:44:28 +0530
+Message-Id: <20200703081428.1011527-5-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200703081428.1011527-1-vaibhavgupta40@gmail.com>
 References: <20200703081428.1011527-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: linux-ide@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 3/4] ide: sc1200: use generic
+Subject: [Linux-kernel-mentees] [PATCH v2 4/4] ide: delkin_cb: use generic
 	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -120,105 +120,83 @@ Sender: "Linux-kernel-mentees"
 
 With the support of generic PM callbacks, drivers no longer need to use
 legacy .suspend() and .resume() in which they had to maintain PCI states
-changes and device's power state themselves. The required operations are
+changes and device's power state themselves. All required operations are
 done by PCI core.
+
+After converting it into generic model, suspend() became an empty function.
+Hence, it is defined as NULL.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/ide/sc1200.c | 43 ++++++++++++++-----------------------------
- 1 file changed, 14 insertions(+), 29 deletions(-)
+ drivers/ide/delkin_cb.c | 30 ++++++------------------------
+ 1 file changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/ide/sc1200.c b/drivers/ide/sc1200.c
-index a5b701818405..91a197832d1f 100644
---- a/drivers/ide/sc1200.c
-+++ b/drivers/ide/sc1200.c
-@@ -222,46 +222,33 @@ static void sc1200_set_pio_mode(ide_hwif_t *hwif, ide_drive_t *drive)
- 	sc1200_tunepio(drive, pio);
+diff --git a/drivers/ide/delkin_cb.c b/drivers/ide/delkin_cb.c
+index 300daabaa575..a8a1af6aa1c1 100644
+--- a/drivers/ide/delkin_cb.c
++++ b/drivers/ide/delkin_cb.c
+@@ -123,28 +123,13 @@ delkin_cb_remove (struct pci_dev *dev)
+ 	pci_disable_device(dev);
  }
  
 -#ifdef CONFIG_PM
- struct sc1200_saved_state {
- 	u32 regs[8];
- };
- 
--static int sc1200_suspend (struct pci_dev *dev, pm_message_t state)
-+static int __maybe_unused sc1200_suspend(struct device *dev_d)
- {
--	printk("SC1200: suspend(%u)\n", state.event);
-+	struct pci_dev *dev = to_pci_dev(dev_d);
-+	struct ide_host *host = pci_get_drvdata(dev);
-+	struct sc1200_saved_state *ss = host->host_priv;
-+	unsigned int r;
- 
- 	/*
--	 * we only save state when going from full power to less
-+	 * save timing registers
-+	 * (this may be unnecessary if BIOS also does it)
- 	 */
--	if (state.event == PM_EVENT_ON) {
--		struct ide_host *host = pci_get_drvdata(dev);
--		struct sc1200_saved_state *ss = host->host_priv;
--		unsigned int r;
--
--		/*
--		 * save timing registers
--		 * (this may be unnecessary if BIOS also does it)
--		 */
--		for (r = 0; r < 8; r++)
--			pci_read_config_dword(dev, 0x40 + r * 4, &ss->regs[r]);
--	}
-+	for (r = 0; r < 8; r++)
-+		pci_read_config_dword(dev, 0x40 + r * 4, &ss->regs[r]);
- 
+-static int delkin_cb_suspend(struct pci_dev *dev, pm_message_t state)
+-{
+-	pci_save_state(dev);
 -	pci_disable_device(dev);
 -	pci_set_power_state(dev, pci_choose_state(dev, state));
- 	return 0;
- }
+-
+-	return 0;
+-}
++#define delkin_cb_suspend NULL
  
--static int sc1200_resume (struct pci_dev *dev)
-+static int __maybe_unused sc1200_resume(struct device *dev_d)
+-static int delkin_cb_resume(struct pci_dev *dev)
++static int __maybe_unused delkin_cb_resume(struct device *dev_d)
  {
 +	struct pci_dev *dev = to_pci_dev(dev_d);
  	struct ide_host *host = pci_get_drvdata(dev);
- 	struct sc1200_saved_state *ss = host->host_priv;
- 	unsigned int r;
--	int i;
--
--	i = pci_enable_device(dev);
--	if (i)
--		return i;
+-	int rc;
  
- 	/*
- 	 * restore timing registers
-@@ -272,7 +259,6 @@ static int sc1200_resume (struct pci_dev *dev)
+-	pci_set_power_state(dev, PCI_D0);
+-
+-	rc = pci_enable_device(dev);
+-	if (rc)
+-		return rc;
+-
+-	pci_restore_state(dev);
+ 	pci_set_master(dev);
+ 
+ 	if (host->init_chipset)
+@@ -152,10 +137,6 @@ static int delkin_cb_resume(struct pci_dev *dev)
  
  	return 0;
  }
+-#else
+-#define delkin_cb_suspend NULL
+-#define delkin_cb_resume NULL
 -#endif
  
- static const struct ide_port_ops sc1200_port_ops = {
- 	.set_pio_mode		= sc1200_set_pio_mode,
-@@ -326,15 +312,14 @@ static const struct pci_device_id sc1200_pci_tbl[] = {
+ static struct pci_device_id delkin_cb_pci_tbl[] = {
+ 	{ 0x1145, 0xf021, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
+@@ -164,13 +145,14 @@ static struct pci_device_id delkin_cb_pci_tbl[] = {
  };
- MODULE_DEVICE_TABLE(pci, sc1200_pci_tbl);
+ MODULE_DEVICE_TABLE(pci, delkin_cb_pci_tbl);
  
-+static SIMPLE_DEV_PM_OPS(sc1200_pm_ops, sc1200_suspend, sc1200_resume);
++static SIMPLE_DEV_PM_OPS(delkin_cb_pm_ops, delkin_cb_suspend, delkin_cb_resume);
 +
- static struct pci_driver sc1200_pci_driver = {
- 	.name		= "SC1200_IDE",
- 	.id_table	= sc1200_pci_tbl,
- 	.probe		= sc1200_init_one,
- 	.remove		= ide_pci_remove,
--#ifdef CONFIG_PM
--	.suspend	= sc1200_suspend,
--	.resume		= sc1200_resume,
--#endif
-+	.driver.pm	= &sc1200_pm_ops,
+ static struct pci_driver delkin_cb_pci_driver = {
+ 	.name		= "Delkin-ASKA-Workbit Cardbus IDE",
+ 	.id_table	= delkin_cb_pci_tbl,
+ 	.probe		= delkin_cb_probe,
+ 	.remove		= delkin_cb_remove,
+-	.suspend	= delkin_cb_suspend,
+-	.resume		= delkin_cb_resume,
++	.driver.pm	= &delkin_cb_pm_ops,
  };
  
- static int __init sc1200_ide_init(void)
+ module_pci_driver(delkin_cb_pci_driver);
 -- 
 2.27.0
 
