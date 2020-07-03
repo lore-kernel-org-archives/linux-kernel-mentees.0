@@ -2,105 +2,102 @@ Return-Path: <SRS0=CGmO=AO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16868C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 03:03:19 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24459C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 03:05:38 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E0CC220890
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 03:03:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EBAE820A8B
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 03:05:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YoC4LipQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E0CC220890
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rQB1Gr6B"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EBAE820A8B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9755125DCD;
-	Fri,  3 Jul 2020 03:03:18 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C7B6687C94;
+	Fri,  3 Jul 2020 03:05:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rwglCn2nQjtM; Fri,  3 Jul 2020 03:03:17 +0000 (UTC)
+	with ESMTP id b4cqE-T14WQ2; Fri,  3 Jul 2020 03:05:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B63C125877;
-	Fri,  3 Jul 2020 03:03:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3BB1C87C85;
+	Fri,  3 Jul 2020 03:05:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AF0F4C0888;
-	Fri,  3 Jul 2020 03:03:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 29E39C0888;
+	Fri,  3 Jul 2020 03:05:37 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9B7C9C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D43C3C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 03:03:16 +0000 (UTC)
+ Fri,  3 Jul 2020 03:05:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9333A89868
+ by hemlock.osuosl.org (Postfix) with ESMTP id D00918976B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 03:03:16 +0000 (UTC)
+ Fri,  3 Jul 2020 03:05:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BKtDhRNBQHox
+ with ESMTP id XevxuLb6Vn9U
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 03:03:16 +0000 (UTC)
+ Fri,  3 Jul 2020 03:05:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1F5FB882A1
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+ [209.85.166.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 921898974C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 03:03:16 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id j19so7565237pgm.11
+ Fri,  3 Jul 2020 03:05:35 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id h16so2748930ilj.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 02 Jul 2020 20:03:16 -0700 (PDT)
+ Thu, 02 Jul 2020 20:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7/Ul8qd4qCPb+R/S6l8vvX2AsnTM3XBhH8ONOb+qXLQ=;
- b=YoC4LipQqqn/jldCWdIAwlgUZTF9gieKYuAKku9Tnv3zXhPkcnjN5Ex4YHMxCRg+Tz
- JFR3MBx0V8NkcXOW1tdInY6/PkI4mOD+mJ0y3sxH9WY8mSwoBg8xTjcb22CP7SIqnMQL
- Gnskco/ZvZAZRUlXIcGNJxaP/X2udS9Eb/usJtqYHydr9TT8ZK27jLqN09QX8P+VTIHx
- mAXZ3sP0jVw0wksFjjqFwD3AvTZdY/06V12rjtwPDYgQBvaw3dqHNAKwkF9zYc5MEIRA
- UPLVa0CtmW3dEUAjIida+NqmzndBgaGCkpkJguc0YN+1r/0yNgQvLzqlGVYhkFgIo2NL
- +uhA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=C8+UQwuXxC+Hk3b/RHaKYib5FH1f4hDdnk1vs6FzplY=;
+ b=rQB1Gr6B2JLCZdZMlpDDPYmtUXdmlci/ut3szK2nGMpgrgDKccBRZAdg7fM3tFmJTm
+ SuEKqBqdyoSbj98eRtt5au0pjnW+ssSxt0i0mB6mYkfly1bWvVaww+ki975o0IK/G5+I
+ 6oig7P8QXjKuD4bWBxbVtlJX0bDAPUmg85lXUCYHf/FiXgm1oq5rF1WvAfM4S8JSL8+t
+ Gr2oet6kSZgQcQuZ3H3NsK5sMeOCZlFiwz54Gf+qF0Fcy/FLIvALpVM440td7cnOW+0O
+ upMPb8cz/cqRBhnfWNycYTqsl52w7uE/YMH54czeX3ACQ/yKpavTldf7HhisQzyBwYod
+ BJpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7/Ul8qd4qCPb+R/S6l8vvX2AsnTM3XBhH8ONOb+qXLQ=;
- b=mqdsA3qQD5/C/XLJo/UEcXot7WB3qlb+Rqcx9fqTRimTI4M8km0RMHI0j2ZMwT4Vbv
- ZqynbMtwjtnL7z4R5X/7DRF1jaVXxFzaf2S8dNjdKAw34R5PLxRDm3fCzqppu2hB4sBN
- rmqalFKr9LEqz3ZSi8/efibSMDq8OdMKUo84MZxmRzuv+WwqJGV2zVF+b21jP/E15cka
- Jr9dxagruS2ekNGvP1uwxxxQJxTBM/eNP902xPPeU1/j7xB5ZkfUfMvd2SN3we6m3Uhi
- oC+Ben4h/mPTly4nCYOuAM4U3VyVCB9mHNTiWmIRrLD0UpjpUpPeg8XuhRXMecO5geE0
- nc5Q==
-X-Gm-Message-State: AOAM531JC+6nWSDa0q66mOO4UAl9CKYuhhHUoYJz/ZK0otcyNqrjEbxA
- E9eKl2n95bRiE5LbhOOYWhM=
-X-Google-Smtp-Source: ABdhPJwzVlWrSFL5uLiWLLBMd9oA1y/5jtIF2yAs0j4cPWQ5Io1OPeP+h7Tg01cSpuYLMNCue8Xo3Q==
-X-Received: by 2002:a63:ca11:: with SMTP id n17mr26926924pgi.439.1593745395573; 
- Thu, 02 Jul 2020 20:03:15 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id h194sm9903223pfe.201.2020.07.02.20.03.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 20:03:15 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Steve Glendinning <steve.glendinning@shawell.net>
-Date: Fri,  3 Jul 2020 08:31:38 +0530
-Message-Id: <20200703030138.25724-3-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200703030138.25724-1-vaibhavgupta40@gmail.com>
-References: <20200703030138.25724-1-vaibhavgupta40@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C8+UQwuXxC+Hk3b/RHaKYib5FH1f4hDdnk1vs6FzplY=;
+ b=uNsJYE7Pl6glJk+xcr/MfOuUmwgUjkvMEqxi3hJ99FlXiq77lC61JPF/dCYvopTm/W
+ DXV2ZUJxr3dAwO3JFBvF34iCfNNabBQNveTzINdqPpYcOCStc0j1aIADTiBm6BZsFCgl
+ +3I41lc0824kvBSGwoaDEKjZquEVf+tEybwG5CfJvrazlfMUjYy8xZMe2fZE5NkVa/AU
+ GuGjXUOxsXIRgTdKNKCSVvE2JbpE2iYz/TCzQ7nWkl/S3D7F2tdbcbUccARRJzEi73LG
+ UyKaj+fvI4s400PNlvCKzVy86pRh6B1ZvRkbo+W0UWeMaDbcY9ZB6jA/U9nzIhthPbKA
+ 7TVg==
+X-Gm-Message-State: AOAM530xG2iPnMH9MNSRUe+HYMW8KmLGP5i5e4IMKI72NX4JoIV5INlq
+ CK4Y21DCvYrgxezYUToz0uLw08j9uriLH5t5DbY=
+X-Google-Smtp-Source: ABdhPJz4+ioeA2nP9zgX8fa88ROeI1ZyFyxLz8J8nizj7PhHFLtQKDEM9PXwCV1FqYNWrRydgcUhR8hBHGE4zJATX/A=
+X-Received: by 2002:a92:cc50:: with SMTP id t16mr15622736ilq.180.1593745534863; 
+ Thu, 02 Jul 2020 20:05:34 -0700 (PDT)
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 2/2] smsc9420: use generic power
-	management
+References: <20200702105351.363880-3-vaibhavgupta40@gmail.com>
+ <202007030309.DqqVrhAQ%lkp@intel.com>
+In-Reply-To: <202007030309.DqqVrhAQ%lkp@intel.com>
+From: Vaibhav Gupta <vaibhav.varodek@gmail.com>
+Date: Fri, 3 Jul 2020 08:33:54 +0530
+Message-ID: <CAPBsFfDcugy2=wzd49riVkG+_CZJ01j4i9M44zpdDjGYEHFu8Q@mail.gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Steve Glendinning <steve.glendinning@shawell.net>, kbuild-all@lists.01.org,
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>, netdev@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ clang-built-linux@googlegroups.com, Bjorn Helgaas <helgaas@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 2/2] smsc9420: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,110 +115,77 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers should not use legacy power management as they have to manage power
-states and related operations, for the device, themselves. This driver was
-handling them with the help of PCI helper functions.
+On Fri, 3 Jul 2020 at 01:38, kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Vaibhav,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v5.8-rc3 next-20200702]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use  as documented in
+> https://git-scm.com/docs/git-format-patch]
+>
+> url:    https://github.com/0day-ci/linux/commits/Vaibhav-Gupta/smsc-use-generic-power-management/20200702-185914
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git cd77006e01b3198c75fb7819b3d0ff89709539bb
+> config: x86_64-allyesconfig (attached as .config)
+> compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project 003a086ffc0d1affbb8300b36225fb8150a2d40a)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install x86_64 cross compiling tool for clang build
+>         # apt-get install binutils-x86-64-linux-gnu
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=x86_64
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> drivers/net/ethernet/smsc/smsc9420.c:1466:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+>            if (netif_running(dev)) {
+>                ^~~~~~~~~~~~~~~~~~
+>    drivers/net/ethernet/smsc/smsc9420.c:1471:9: note: uninitialized use occurs here
+>            return err;
+>                   ^~~
+>    drivers/net/ethernet/smsc/smsc9420.c:1466:2: note: remove the 'if' if its condition is always true
+>            if (netif_running(dev)) {
+>            ^~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/net/ethernet/smsc/smsc9420.c:1460:9: note: initialize the variable 'err' to silence this warning
+>            int err;
+>                   ^
+>                    = 0
+>    1 warning generated.
+>
+> vim +1466 drivers/net/ethernet/smsc/smsc9420.c
+>
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1456
+> 7d465053ec82e2 drivers/net/ethernet/smsc/smsc9420.c Vaibhav Gupta     2020-07-02  1457  static int __maybe_unused smsc9420_resume(struct device *dev_d)
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1458  {
+> 7d465053ec82e2 drivers/net/ethernet/smsc/smsc9420.c Vaibhav Gupta     2020-07-02  1459          struct net_device *dev = dev_get_drvdata(dev_d);
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1460          int err;
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1461
+> 7d465053ec82e2 drivers/net/ethernet/smsc/smsc9420.c Vaibhav Gupta     2020-07-02  1462          pci_set_master(to_pci_dev(dev_d));
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1463
+> 7d465053ec82e2 drivers/net/ethernet/smsc/smsc9420.c Vaibhav Gupta     2020-07-02  1464          device_wakeup_disable(dev_d);
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1465
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11 @1466          if (netif_running(dev)) {
+> b5a80837b7e125 drivers/net/ethernet/smsc/smsc9420.c Francois Romieu   2012-03-09  1467                  /* FIXME: gross. It looks like ancient PM relic.*/
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1468                  err = smsc9420_open(dev);
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1469                  netif_device_attach(dev);
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1470          }
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1471          return err;
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1472  }
+> 2cb377283f3469 drivers/net/smsc9420.c               Steve Glendinning 2008-12-11  1473
+>
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-With generic PM, all essentials will be handled by the PCI core. Driver
-needs to do only device-specific operations.
-
-Compile-tested only.
-
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/net/ethernet/smsc/smsc9420.c | 40 ++++++++--------------------
- 1 file changed, 11 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/net/ethernet/smsc/smsc9420.c b/drivers/net/ethernet/smsc/smsc9420.c
-index 7312e522c022..42bef04d65ba 100644
---- a/drivers/net/ethernet/smsc/smsc9420.c
-+++ b/drivers/net/ethernet/smsc/smsc9420.c
-@@ -1422,11 +1422,9 @@ static int smsc9420_open(struct net_device *dev)
- 	return result;
- }
- 
--#ifdef CONFIG_PM
--
--static int smsc9420_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused smsc9420_suspend(struct device *dev_d)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct smsc9420_pdata *pd = netdev_priv(dev);
- 	u32 int_cfg;
- 	ulong flags;
-@@ -1451,34 +1449,21 @@ static int smsc9420_suspend(struct pci_dev *pdev, pm_message_t state)
- 		netif_device_detach(dev);
- 	}
- 
--	pci_save_state(pdev);
--	pci_enable_wake(pdev, pci_choose_state(pdev, state), 0);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
-+	device_wakeup_disable(dev_d);
- 
- 	return 0;
- }
- 
--static int smsc9420_resume(struct pci_dev *pdev)
-+static int __maybe_unused smsc9420_resume(struct device *dev_d)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
--	struct smsc9420_pdata *pd = netdev_priv(dev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	int err;
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--
--	err = pci_enable_device(pdev);
--	if (err)
--		return err;
-+	pci_set_master(to_pci_dev(dev_d));
- 
--	pci_set_master(pdev);
--
--	err = pci_enable_wake(pdev, PCI_D0, 0);
--	if (err)
--		netif_warn(pd, ifup, pd->dev, "pci_enable_wake failed: %d\n",
--			   err);
-+	device_wakeup_disable(dev_d);
- 
-+	err = 0;
- 	if (netif_running(dev)) {
- 		/* FIXME: gross. It looks like ancient PM relic.*/
- 		err = smsc9420_open(dev);
-@@ -1487,8 +1472,6 @@ static int smsc9420_resume(struct pci_dev *pdev)
- 	return err;
- }
- 
--#endif /* CONFIG_PM */
--
- static const struct net_device_ops smsc9420_netdev_ops = {
- 	.ndo_open		= smsc9420_open,
- 	.ndo_stop		= smsc9420_stop,
-@@ -1658,15 +1641,14 @@ static void smsc9420_remove(struct pci_dev *pdev)
- 	pci_disable_device(pdev);
- }
- 
-+static SIMPLE_DEV_PM_OPS(smsc9420_pm_ops, smsc9420_suspend, smsc9420_resume);
-+
- static struct pci_driver smsc9420_driver = {
- 	.name = DRV_NAME,
- 	.id_table = smsc9420_id_table,
- 	.probe = smsc9420_probe,
- 	.remove = smsc9420_remove,
--#ifdef CONFIG_PM
--	.suspend = smsc9420_suspend,
--	.resume = smsc9420_resume,
--#endif /* CONFIG_PM */
-+	.driver.pm = &smsc9420_pm_ops,
- };
- 
- static int __init smsc9420_init_module(void)
--- 
-2.27.0
-
+Fixed. Thanks!
+-- Vaibhav Gupta
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
