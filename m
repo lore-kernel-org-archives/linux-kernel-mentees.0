@@ -2,104 +2,112 @@ Return-Path: <SRS0=CGmO=AO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F95C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D21FC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 16:24:45 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA0FB207FF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5223520870
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Jul 2020 16:24:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtQYdBra"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA0FB207FF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linux-powerpc-org.20150623.gappssmtp.com header.i=@linux-powerpc-org.20150623.gappssmtp.com header.b="De8MqE6o"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5223520870
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-powerpc.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7D51787DC0;
-	Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1565C21503;
+	Fri,  3 Jul 2020 16:24:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1RLd_M9ct58U; Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
+	with ESMTP id jqOih8T8GOlC; Fri,  3 Jul 2020 16:24:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1EEE487DB0;
-	Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C5768231AB;
+	Fri,  3 Jul 2020 16:24:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A113C0888;
-	Fri,  3 Jul 2020 08:16:46 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E1879C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B7864C0888;
+	Fri,  3 Jul 2020 16:24:43 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 217BCC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 08:16:44 +0000 (UTC)
+ Fri,  3 Jul 2020 16:24:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D10A887DB1
+ by hemlock.osuosl.org (Postfix) with ESMTP id 12075897E1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 08:16:44 +0000 (UTC)
+ Fri,  3 Jul 2020 16:24:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O5e6VwfMO7OK
+ with ESMTP id zw4YW40m4Ya7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 08:16:44 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 60F0F87DB0
+ Fri,  3 Jul 2020 16:24:41 +0000 (UTC)
+X-Greylist: delayed 00:06:14 by SQLgrey-1.7.6
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B9570897D8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Jul 2020 08:16:44 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id a9so3183805pjh.5
+ Fri,  3 Jul 2020 16:24:40 +0000 (UTC)
+Received: by mail-ej1-f65.google.com with SMTP id p20so34809540ejd.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 03 Jul 2020 01:16:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=x4o+ZvPMksH/mCK/c/HDn/RkcQN7O7pX0UDd4MLfNlo=;
- b=AtQYdBra+JVvn7sj0HuVvPfyV1r50bN0iVzn7jdSs2k+//yzu6cTSzWBMz8S1hW31d
- bOKth8SXUtKb7zsPAxXQ+ON/CROJ0PfiTI2wxUkgefQcR3dI9E1lowVXGbGhNS3SHBb8
- p2Il4tpZmjvqUQU2Vpn3mI1k3QecOwv6y9Q0dX9IJCO4dClSRVNqfsPzA6T0CrqJJGN8
- 9PPnc9lnfT77XLRLLEp39G2LnAt/V417LsYwto6Dr3NYKay0aSL/2yX9cBTifRBVDfqr
- Bb5fIJy39QsBGnAR+r2lLk6PXv9+/kv8mKlUvbTn6TmgfgFTscUHOeXFcRADOBiTk4ey
- dXIw==
+ Fri, 03 Jul 2020 09:24:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-powerpc-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=qiEZaKZ9FC6yDmrpUiBYeXNjpNa2H+Da4zGNKkrzBmA=;
+ b=De8MqE6obLkfjvoFPW9CRmvzox7ddURkpzlnlbuIHhuhT1ugHuW25ywzcQfHfRQFRf
+ dXOm3vwqSpxXpMngdWyV5KB4W1cVUJC+A7VcC+MIV8qVStAJSY4lE4K6n1/czDejlJhF
+ LK7H2rqhTlcl6dKw2adPgEJwvOqC/bK/52/T78IKh3IiCUDGdlkk2cAoQSKORZdwFMsH
+ n06pPHDrAhU/v4uc+Dz35b+pIg0aCfMLnSy/1bub8Uwf/xrhhOVX3VXgCvSWxA4d7edq
+ mZdTDGKBawOcplvf7HTh3glcWRRanARemg+Vr8567Qn105IeVxQC7IoP5U+dmSXI+ZdP
+ BQKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=x4o+ZvPMksH/mCK/c/HDn/RkcQN7O7pX0UDd4MLfNlo=;
- b=gFKaOwuPrrkjHBd2rIOHT9hlMAfInfaMKQVouFeT/2YV5wmR4plFfRi6XCrrEGEZwL
- sPWSHDLpfJNDcVk0t1pj4qwsDFo+0+Q76S1R5WApoT9kMOZh/MAU4JD5+Y5BX6UFb51N
- FPv9UiVof2wZHM3a0ui3w99rrvOQxAP5OyPA3fivk6XMeD74COdR2OsMS3WeAnny6ZRQ
- gtfMGXWDADEyxlfLZFG1hu5YIV9JMcg5oSGrg9fFVxxtabURnPwEfJxBw10KBP2+kP1a
- Ctzv5X18zeOiKgALrb56y8ODhjJU8Ljbdow1Y/VywWlSLpf4hPt3X5DAguLwsg0NSpE6
- lPdQ==
-X-Gm-Message-State: AOAM531zb3E8ZmpT/xzJaztMp99ONqneasZpxBt0eEuXLz1AKZBtkZ0f
- jJLqTQvBz8HgOmxWahPISHk=
-X-Google-Smtp-Source: ABdhPJwcLuW1N9f00/vsxYLUKzRnYyskZOoTPkdh2DaBblE/O9vUa5fbHi6nQfPhfqUr2oI7fnv7Lw==
-X-Received: by 2002:a17:90a:20ad:: with SMTP id
- f42mr25987368pjg.96.1593764203990; 
- Fri, 03 Jul 2020 01:16:43 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.153.57])
- by smtp.gmail.com with ESMTPSA id y198sm8437085pfg.116.2020.07.03.01.16.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 01:16:43 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- "David S. Miller" <davem@davemloft.net>
-Date: Fri,  3 Jul 2020 13:44:28 +0530
-Message-Id: <20200703081428.1011527-5-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200703081428.1011527-1-vaibhavgupta40@gmail.com>
-References: <20200703081428.1011527-1-vaibhavgupta40@gmail.com>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=qiEZaKZ9FC6yDmrpUiBYeXNjpNa2H+Da4zGNKkrzBmA=;
+ b=JrvY5KJlNZesT+w0es6V14pTVJnItx1QYFpxS+7mqOUlhLI9OtmK7H01JbYW4LUkpS
+ uZBPj1qANsBPIt3ACPez3zUsj2oR74w4ZHbyO7Tkxi/GcwdP4a1eUAvfco6xzvf9h2u3
+ PWgT99sNPUocJGuR/sHTx6SpqDqMlYy5y8VFRI7M21lBFgyxzyYlXpBhcGUDkpFGHUmQ
+ WVVvmHnk1ABx4eVjej8dr2SO4mUOphcw30tuzm4KgJyF2nJePDdFcYxo3/4ZkG9eagp2
+ fcHMMIlPLb4IbXYu416c3q0txskefmppwdj4Nd2Wu7GqniJ8tkhjomakZPN+L7eRAU6J
+ gSOw==
+X-Gm-Message-State: AOAM533J/lCgwqcrQP6g4ZkRCzI0/lzey20+JCjljL1b++SyV+wIZg6+
+ rq9BR0YXoTInF2fxhFYDjcZcdLap7ZbRTlb6e6DFMwzT3bBa2Q==
+X-Google-Smtp-Source: ABdhPJzNQSVXnsqFLLCySL5wP60ViOog3L1iCfEO8JhHHdp4TE/25m2500UQlvy/RsLvr8DPsk5X+QCQrIVMvUtuToA=
+X-Received: by 2002:a17:906:6897:: with SMTP id
+ n23mr31801112ejr.473.1593793104893; 
+ Fri, 03 Jul 2020 09:18:24 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-ide@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 4/4] ide: delkin_cb: use generic
+Received: by 2002:a50:3a1b:0:0:0:0:0 with HTTP;
+ Fri, 3 Jul 2020 09:18:24 -0700 (PDT)
+X-Originating-IP: [5.35.13.201]
+In-Reply-To: <20200701165057.667799-7-vaibhavgupta40@gmail.com>
+References: <20200701165057.667799-1-vaibhavgupta40@gmail.com>
+ <20200701165057.667799-7-vaibhavgupta40@gmail.com>
+From: Denis Kirjanov <kda@linux-powerpc.org>
+Date: Fri, 3 Jul 2020 19:18:24 +0300
+Message-ID: <CAOJe8K0aYeba0fOpSz6dzgWUwAP8FTyOpQc8rckWO=RPTKiprw@mail.gmail.com>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Cc: Ajit Khaparde <ajit.khaparde@broadcom.com>,
+ David Dillow <dave@thedillows.org>, Somnath Kotur <somnath.kotur@broadcom.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Arthur Kiyanovski <akiyano@amazon.com>,
+ Zorik Machulsky <zorik@amazon.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Guy Tzalik <gtzalik@amazon.com>, Satanand Burla <sburla@marvell.com>,
+ Felix Manlunas <fmanlunas@marvell.com>,
+ Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Ion Badulescu <ionut@badula.org>, Netanel Belgazal <netanel@amazon.com>,
+ Jon Mason <jdmason@kudzu.us>, Saeed Bishara <saeedb@amazon.com>,
+ Derek Chickles <dchickles@marvell.com>,
+ "David S. Miller" <davem@davemloft.net>, Tariq Toukan <tariqt@mellanox.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 06/11] sundance: use generic
 	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -118,88 +126,107 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-With the support of generic PM callbacks, drivers no longer need to use
-legacy .suspend() and .resume() in which they had to maintain PCI states
-changes and device's power state themselves. All required operations are
-done by PCI core.
+On 7/1/20, Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
+> With legacy PM, drivers themselves were responsible for managing the
+> device's power states and takes care of register states.
+>
+> After upgrading to the generic structure, PCI core will take care of
+> required tasks and drivers should do only device-specific operations.
+>
+> Thus, there is no need to call the PCI helper functions like
+> pci_enable/disable_device(), pci_save/restore_sate() and
+> pci_set_power_state().
+>
+> Compile-tested only.
+>
+> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 
-After converting it into generic model, suspend() became an empty function.
-Hence, it is defined as NULL.
+Should be fine. I'll try to test it in the upcoming weekend
 
-Compile-tested only.
-
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/ide/delkin_cb.c | 30 ++++++------------------------
- 1 file changed, 6 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/ide/delkin_cb.c b/drivers/ide/delkin_cb.c
-index 300daabaa575..a8a1af6aa1c1 100644
---- a/drivers/ide/delkin_cb.c
-+++ b/drivers/ide/delkin_cb.c
-@@ -123,28 +123,13 @@ delkin_cb_remove (struct pci_dev *dev)
- 	pci_disable_device(dev);
- }
- 
--#ifdef CONFIG_PM
--static int delkin_cb_suspend(struct pci_dev *dev, pm_message_t state)
--{
--	pci_save_state(dev);
--	pci_disable_device(dev);
--	pci_set_power_state(dev, pci_choose_state(dev, state));
--
--	return 0;
--}
-+#define delkin_cb_suspend NULL
- 
--static int delkin_cb_resume(struct pci_dev *dev)
-+static int __maybe_unused delkin_cb_resume(struct device *dev_d)
- {
-+	struct pci_dev *dev = to_pci_dev(dev_d);
- 	struct ide_host *host = pci_get_drvdata(dev);
--	int rc;
- 
--	pci_set_power_state(dev, PCI_D0);
--
--	rc = pci_enable_device(dev);
--	if (rc)
--		return rc;
--
--	pci_restore_state(dev);
- 	pci_set_master(dev);
- 
- 	if (host->init_chipset)
-@@ -152,10 +137,6 @@ static int delkin_cb_resume(struct pci_dev *dev)
- 
- 	return 0;
- }
--#else
--#define delkin_cb_suspend NULL
--#define delkin_cb_resume NULL
--#endif
- 
- static struct pci_device_id delkin_cb_pci_tbl[] = {
- 	{ 0x1145, 0xf021, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
-@@ -164,13 +145,14 @@ static struct pci_device_id delkin_cb_pci_tbl[] = {
- };
- MODULE_DEVICE_TABLE(pci, delkin_cb_pci_tbl);
- 
-+static SIMPLE_DEV_PM_OPS(delkin_cb_pm_ops, delkin_cb_suspend, delkin_cb_resume);
-+
- static struct pci_driver delkin_cb_pci_driver = {
- 	.name		= "Delkin-ASKA-Workbit Cardbus IDE",
- 	.id_table	= delkin_cb_pci_tbl,
- 	.probe		= delkin_cb_probe,
- 	.remove		= delkin_cb_remove,
--	.suspend	= delkin_cb_suspend,
--	.resume		= delkin_cb_resume,
-+	.driver.pm	= &delkin_cb_pm_ops,
- };
- 
- module_pci_driver(delkin_cb_pci_driver);
--- 
-2.27.0
-
+> ---
+>  drivers/net/ethernet/dlink/sundance.c | 27 ++++++++-------------------
+>  1 file changed, 8 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/dlink/sundance.c
+> b/drivers/net/ethernet/dlink/sundance.c
+> index dc566fcc3ba9..ca97e321082d 100644
+> --- a/drivers/net/ethernet/dlink/sundance.c
+> +++ b/drivers/net/ethernet/dlink/sundance.c
+> @@ -1928,11 +1928,9 @@ static void sundance_remove1(struct pci_dev *pdev)
+>  	}
+>  }
+>
+> -#ifdef CONFIG_PM
+> -
+> -static int sundance_suspend(struct pci_dev *pci_dev, pm_message_t state)
+> +static int __maybe_unused sundance_suspend(struct device *dev_d)
+>  {
+> -	struct net_device *dev = pci_get_drvdata(pci_dev);
+> +	struct net_device *dev = dev_get_drvdata(dev_d);
+>  	struct netdev_private *np = netdev_priv(dev);
+>  	void __iomem *ioaddr = np->base;
+>
+> @@ -1942,30 +1940,24 @@ static int sundance_suspend(struct pci_dev *pci_dev,
+> pm_message_t state)
+>  	netdev_close(dev);
+>  	netif_device_detach(dev);
+>
+> -	pci_save_state(pci_dev);
+>  	if (np->wol_enabled) {
+>  		iowrite8(AcceptBroadcast | AcceptMyPhys, ioaddr + RxMode);
+>  		iowrite16(RxEnable, ioaddr + MACCtrl1);
+>  	}
+> -	pci_enable_wake(pci_dev, pci_choose_state(pci_dev, state),
+> -			np->wol_enabled);
+> -	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
+> +
+> +	device_set_wakeup_enable(dev_d, np->wol_enabled);
+>
+>  	return 0;
+>  }
+>
+> -static int sundance_resume(struct pci_dev *pci_dev)
+> +static int __maybe_unused sundance_resume(struct device *dev_d)
+>  {
+> -	struct net_device *dev = pci_get_drvdata(pci_dev);
+> +	struct net_device *dev = dev_get_drvdata(dev_d);
+>  	int err = 0;
+>
+>  	if (!netif_running(dev))
+>  		return 0;
+>
+> -	pci_set_power_state(pci_dev, PCI_D0);
+> -	pci_restore_state(pci_dev);
+> -	pci_enable_wake(pci_dev, PCI_D0, 0);
+> -
+>  	err = netdev_open(dev);
+>  	if (err) {
+>  		printk(KERN_ERR "%s: Can't resume interface!\n",
+> @@ -1979,17 +1971,14 @@ static int sundance_resume(struct pci_dev *pci_dev)
+>  	return err;
+>  }
+>
+> -#endif /* CONFIG_PM */
+> +static SIMPLE_DEV_PM_OPS(sundance_pm_ops, sundance_suspend,
+> sundance_resume);
+>
+>  static struct pci_driver sundance_driver = {
+>  	.name		= DRV_NAME,
+>  	.id_table	= sundance_pci_tbl,
+>  	.probe		= sundance_probe1,
+>  	.remove		= sundance_remove1,
+> -#ifdef CONFIG_PM
+> -	.suspend	= sundance_suspend,
+> -	.resume		= sundance_resume,
+> -#endif /* CONFIG_PM */
+> +	.driver.pm	= &sundance_pm_ops,
+>  };
+>
+>  static int __init sundance_init(void)
+> --
+> 2.27.0
+>
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
