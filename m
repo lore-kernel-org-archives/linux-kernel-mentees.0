@@ -5,98 +5,98 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FFBDC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Jul 2020 10:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8778CC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Jul 2020 10:32:07 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7184B2073E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Jul 2020 10:32:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5B2672073E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Jul 2020 10:32:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r5XcN9Oq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7184B2073E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcaH530k"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B2672073E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 400A6872CC;
-	Mon,  6 Jul 2020 10:32:04 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2847487383;
+	Mon,  6 Jul 2020 10:32:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j4JuiPCcxYyh; Mon,  6 Jul 2020 10:32:03 +0000 (UTC)
+	with ESMTP id dS72L9a4R6P2; Mon,  6 Jul 2020 10:32:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8AF6086F50;
-	Mon,  6 Jul 2020 10:32:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A99B28735E;
+	Mon,  6 Jul 2020 10:32:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 79AE9C0891;
-	Mon,  6 Jul 2020 10:32:03 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1C19CC016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 946B9C0891;
+	Mon,  6 Jul 2020 10:32:06 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 292ADC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Jul 2020 10:32:02 +0000 (UTC)
+ Mon,  6 Jul 2020 10:32:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 18830872CC
+ by silver.osuosl.org (Postfix) with ESMTP id 6B6F522201
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Jul 2020 10:32:02 +0000 (UTC)
+ Mon,  6 Jul 2020 10:32:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6qd_lDa6IVZD
+ with ESMTP id T4iKYpQBIBFz
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Jul 2020 10:32:01 +0000 (UTC)
+ Mon,  6 Jul 2020 10:32:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 116B886FFF
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id E6A7322234
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Jul 2020 10:32:01 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id l17so38666520wmj.0
+ Mon,  6 Jul 2020 10:31:59 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id k6so40260633wrn.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 06 Jul 2020 03:32:00 -0700 (PDT)
+ Mon, 06 Jul 2020 03:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=t6GU51on/sjAi6p+kLT9PGikn6ea3QP4rvjpiDaqtyQ=;
- b=r5XcN9OqOkS0fFKzvOC+DqsZw3O1pmDYS3v9XcE9r6dq5TDKngHKKcBC1bm8x4m6x1
- jiiQxPMHJezkuGHMalDZJE6TZjXVuubFQQLwCdS0odUeQh42P2gSuwlulB8MT7fOJ+gN
- 071Hfr0bxfDdjCPC87n4OW3FqgfVxgyZJ7wBOXN2l4TsuNFEXsqNTUGyNk68OTuyutF5
- 6hScBQAHYBV7GXzixO9133/UvmXgd32Sip+SFkIIfOc85Hh7iD76MBYUafKsnKqabWYr
- YNdwMfvZrBzi7nkSQjbLYgg4W65Md9E6RfHi49VoQfkCj0zNBV5AL+NZ7wpDeFArLWwx
- 0oug==
+ bh=h+kDFiIJUTsKW3n99UHZzrHB6kCAOHxPSRHyJei2C70=;
+ b=hcaH530k48yc7s44pzmTgEgAKe9ym1JiRcDUKaoV18znhk84JN+6UTSautPPpn/KG5
+ nfAWKFT49ue3SEQWExx2mPrSI3lwqdISJCA+tAfHLR9qo0ANtg9CjpYqWlfgTzDLrtL/
+ 6wuwGn0C/Q+amjCZ7I1KJdizN+8zBIkb6vzagJnHabiLCafVUDdKFjoWM0MSZoFiPA7H
+ b5uPNVJrMStmy/Q3pf1Jvf+GOLEBum7VlB+0LXnPuZG6UX34bJD4/XKXzwREw/7jM2wW
+ Su5BSnTS7RGuSww61CwHesVyp4m81v1ME537f62iMgNl8wH/qWgMH9R1YgBFKSwnwEoV
+ 0W5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=t6GU51on/sjAi6p+kLT9PGikn6ea3QP4rvjpiDaqtyQ=;
- b=S9Ddo4j+JZYyFOGNvku1Hp/srtQOW0t+dp238iWQiMKlPiFu+HexNq6MU8/YILJEF0
- il5FjrHq+fkHoAbo65sOdvhb5fv+9/GAPbhAq3huBojo+Ggf/jGlT+9Z3Zb8wxCNS6b+
- EIEoGMrVQGmG/0/YQnkrs+CmljI99/4M8DEDLzUk/s1Ti6Hn87/WS9r0IvkTNmNKPHDy
- oJ/f5fgUy1xZjhL6TtKSNr4FooE9m/qs2XJYqOIdWOOv6JcfPREbtCYsaVkhrDtmBgj7
- jqtFqkq2oarnJGUchdySoouzGvMqhi2tUfovJuJbhh8cbvZx1IlpjjxYlK7TFKgfK4Cy
- pEsA==
-X-Gm-Message-State: AOAM53290Po1SHtwCfbOJFJOvp5G8V2pCnyG0ySmhQppp4Ks42Msa3K7
- Qu15sWLmJ1Y7v+3W1/wbSgE=
-X-Google-Smtp-Source: ABdhPJyjotNeFrSLhXBXdNTY9AWQbsB9ir2KScfaQcnzXL4qoO9Wo945aZ7sxjmUiMKkvBPv4hfp7A==
-X-Received: by 2002:a1c:8117:: with SMTP id c23mr46495692wmd.157.1594031519334; 
- Mon, 06 Jul 2020 03:31:59 -0700 (PDT)
-Received: from net.saheed (51B7C2DF.dsl.pool.telekom.hu. [81.183.194.223])
- by smtp.gmail.com with ESMTPSA id 22sm24216859wmb.11.2020.07.06.03.31.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=h+kDFiIJUTsKW3n99UHZzrHB6kCAOHxPSRHyJei2C70=;
+ b=VrCEcBWWbdrCaPSiIlAajkjR+v8o5SGtLJM5FWully+26T2k0DLVfg8IkM+kd50nLN
+ FTFJTq5qud6twlfweMzl5lw3+1IUSnD7sbleusM7O2Q9G7apPcIdRumMi6hZKeyY5ojq
+ g8BMnanRqClsklWRnau0pJ+Ijo0UZDna9ulOPPjK0FCr8yj6fNAAwYCvI3xwkAIKHPHc
+ ZWiKdzvaAblYR1IXTiB92dYYJaXQqqqOB6SaeZiY+KjISEsu3cLELUnibOqYGsy8aWdL
+ RydIVgcanH28xIulRju0denyr7/jfMcI224bQdnPnp8c8LSi54CHqRSC5eHaXAgWaUMP
+ YaGw==
+X-Gm-Message-State: AOAM533+4J0F2D6c0NuiDW8fOWWk3+vuaBJT2YW8UTtsNHepsssOiwrB
+ U/iSzFWGp1uhC6tmTSIQocc=
+X-Google-Smtp-Source: ABdhPJwVg1BymNode15ugRIv8aKKBbIQzIjGgGl2HqCXAiJO/2zF3/GZe/M/NE/k4imThhnK3ydmwQ==
+X-Received: by 2002:adf:e5d0:: with SMTP id a16mr45907268wrn.48.1594031518242; 
  Mon, 06 Jul 2020 03:31:58 -0700 (PDT)
+Received: from net.saheed (51B7C2DF.dsl.pool.telekom.hu. [81.183.194.223])
+ by smtp.gmail.com with ESMTPSA id 22sm24216859wmb.11.2020.07.06.03.31.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jul 2020 03:31:57 -0700 (PDT)
 From: Saheed Olayemi Bolarinwa <refactormyself@gmail.com>
 To: helgaas@kernel.org
-Date: Mon,  6 Jul 2020 11:31:18 +0200
-Message-Id: <20200706093121.9731-9-refactormyself@gmail.com>
+Date: Mon,  6 Jul 2020 11:31:17 +0200
+Message-Id: <20200706093121.9731-8-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200706093121.9731-1-refactormyself@gmail.com>
 References: <20200706093121.9731-1-refactormyself@gmail.com>
 Cc: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
  linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 8/11 RFC] PCI/PM: Use error return
-	value from pcie_capability_read_*()
+Subject: [Linux-kernel-mentees] [PATCH 7/11 RFC] PCI: Validate with the
+	return value of pcie_capability_read_*()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -130,168 +130,92 @@ Check the return value of pcie_capability_read_dword() to ensure success.
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 ---
- drivers/pci/pci.c | 52 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 33 insertions(+), 19 deletions(-)
+ drivers/pci/probe.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index ce096272f52b..9f18ffbf7bd4 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -3207,6 +3207,7 @@ void pci_configure_ari(struct pci_dev *dev)
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 2f66988cea25..3c87a8a1d4b5 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1121,10 +1121,11 @@ EXPORT_SYMBOL(pci_add_new_bus);
+ static void pci_enable_crs(struct pci_dev *pdev)
  {
- 	u32 cap;
- 	struct pci_dev *bridge;
+ 	u16 root_cap = 0;
 +	int ret;
  
- 	if (pcie_ari_disabled || !pci_is_pcie(dev) || dev->devfn)
- 		return;
-@@ -3215,8 +3216,8 @@ void pci_configure_ari(struct pci_dev *dev)
- 	if (!bridge)
- 		return;
+ 	/* Enable CRS Software Visibility if supported */
+-	pcie_capability_read_word(pdev, PCI_EXP_RTCAP, &root_cap);
+-	if (root_cap & PCI_EXP_RTCAP_CRSVIS)
++	ret = pcie_capability_read_word(pdev, PCI_EXP_RTCAP, &root_cap);
++	if (!ret && (root_cap & PCI_EXP_RTCAP_CRSVIS))
+ 		pcie_capability_set_word(pdev, PCI_EXP_RTCTL,
+ 					 PCI_EXP_RTCTL_CRSSVE);
+ }
+@@ -1519,9 +1520,10 @@ void set_pcie_port_type(struct pci_dev *pdev)
+ void set_pcie_hotplug_bridge(struct pci_dev *pdev)
+ {
+ 	u32 reg32;
++	int ret;
  
--	pcie_capability_read_dword(bridge, PCI_EXP_DEVCAP2, &cap);
--	if (!(cap & PCI_EXP_DEVCAP2_ARI))
-+	ret = pcie_capability_read_dword(bridge, PCI_EXP_DEVCAP2, &cap);
-+	if (ret || !(cap & PCI_EXP_DEVCAP2_ARI))
- 		return;
+-	pcie_capability_read_dword(pdev, PCI_EXP_SLTCAP, &reg32);
+-	if (reg32 & PCI_EXP_SLTCAP_HPC)
++	ret = pcie_capability_read_dword(pdev, PCI_EXP_SLTCAP, &reg32);
++	if (!ret && (reg32 & PCI_EXP_SLTCAP_HPC))
+ 		pdev->is_hotplug_bridge = 1;
+ }
  
- 	if (pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ARI)) {
-@@ -3606,6 +3607,7 @@ int pci_enable_atomic_ops_to_root(struct pci_dev *dev, u32 cap_mask)
- 	struct pci_bus *bus = dev->bus;
+@@ -2057,10 +2059,11 @@ int pci_configure_extended_tags(struct pci_dev *dev, void *ign)
+ bool pcie_relaxed_ordering_enabled(struct pci_dev *dev)
+ {
+ 	u16 v;
++	int ret;
+ 
+-	pcie_capability_read_word(dev, PCI_EXP_DEVCTL, &v);
++	ret = pcie_capability_read_word(dev, PCI_EXP_DEVCTL, &v);
+ 
+-	return !!(v & PCI_EXP_DEVCTL_RELAX_EN);
++	return (!ret && !!(v & PCI_EXP_DEVCTL_RELAX_EN));
+ }
+ EXPORT_SYMBOL(pcie_relaxed_ordering_enabled);
+ 
+@@ -2096,16 +2099,17 @@ static void pci_configure_ltr(struct pci_dev *dev)
+ 	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
  	struct pci_dev *bridge;
- 	u32 cap, ctl2;
+ 	u32 cap, ctl;
 +	int ret;
  
  	if (!pci_is_pcie(dev))
- 		return -EINVAL;
-@@ -3629,28 +3631,29 @@ int pci_enable_atomic_ops_to_root(struct pci_dev *dev, u32 cap_mask)
- 	while (bus->parent) {
- 		bridge = bus->self;
+ 		return;
  
--		pcie_capability_read_dword(bridge, PCI_EXP_DEVCAP2, &cap);
-+		ret = pcie_capability_read_dword(bridge, PCI_EXP_DEVCAP2,
-+								&cap);
+-	pcie_capability_read_dword(dev, PCI_EXP_DEVCAP2, &cap);
+-	if (!(cap & PCI_EXP_DEVCAP2_LTR))
++	ret = pcie_capability_read_dword(dev, PCI_EXP_DEVCAP2, &cap);
++	if (ret || !(cap & PCI_EXP_DEVCAP2_LTR))
+ 		return;
  
- 		switch (pci_pcie_type(bridge)) {
- 		/* Ensure switch ports support AtomicOp routing */
- 		case PCI_EXP_TYPE_UPSTREAM:
- 		case PCI_EXP_TYPE_DOWNSTREAM:
--			if (!(cap & PCI_EXP_DEVCAP2_ATOMIC_ROUTE))
-+			if (ret || !(cap & PCI_EXP_DEVCAP2_ATOMIC_ROUTE))
- 				return -EINVAL;
- 			break;
- 
- 		/* Ensure root port supports all the sizes we care about */
- 		case PCI_EXP_TYPE_ROOT_PORT:
--			if ((cap & cap_mask) != cap_mask)
-+			if (ret || ((cap & cap_mask) != cap_mask))
- 				return -EINVAL;
- 			break;
- 		}
- 
- 		/* Ensure upstream ports don't block AtomicOps on egress */
- 		if (pci_pcie_type(bridge) == PCI_EXP_TYPE_UPSTREAM) {
--			pcie_capability_read_dword(bridge, PCI_EXP_DEVCTL2,
--						   &ctl2);
--			if (ctl2 & PCI_EXP_DEVCTL2_ATOMIC_EGRESS_BLOCK)
-+			ret = pcie_capability_read_dword(bridge,
-+						PCI_EXP_DEVCTL2, &ctl2);
-+			if (!ret && (ctl2 & PCI_EXP_DEVCTL2_ATOMIC_EGRESS_BLOCK)
- 				return -EINVAL;
- 		}
- 
-@@ -4507,12 +4510,13 @@ EXPORT_SYMBOL(pci_wait_for_pending_transaction);
- bool pcie_has_flr(struct pci_dev *dev)
- {
+-	pcie_capability_read_dword(dev, PCI_EXP_DEVCTL2, &ctl);
+-	if (ctl & PCI_EXP_DEVCTL2_LTR_EN) {
++	ret = pcie_capability_read_dword(dev, PCI_EXP_DEVCTL2, &ctl);
++	if (!ret && (ctl & PCI_EXP_DEVCTL2_LTR_EN)) {
+ 		if (pci_pcie_type(dev) == PCI_EXP_TYPE_ROOT_PORT) {
+ 			dev->ltr_path = 1;
+ 			return;
+@@ -2142,12 +2146,13 @@ static void pci_configure_eetlp_prefix(struct pci_dev *dev)
+ 	struct pci_dev *bridge;
+ 	int pcie_type;
  	u32 cap;
 +	int ret;
  
- 	if (dev->dev_flags & PCI_DEV_FLAGS_NO_FLR_RESET)
- 		return false;
+ 	if (!pci_is_pcie(dev))
+ 		return;
  
--	pcie_capability_read_dword(dev, PCI_EXP_DEVCAP, &cap);
--	return cap & PCI_EXP_DEVCAP_FLR;
-+	ret = pcie_capability_read_dword(dev, PCI_EXP_DEVCAP, &cap);
-+	return (!ret && !!(cap & PCI_EXP_DEVCAP_FLR));
- }
- EXPORT_SYMBOL_GPL(pcie_has_flr);
+-	pcie_capability_read_dword(dev, PCI_EXP_DEVCAP2, &cap);
+-	if (!(cap & PCI_EXP_DEVCAP2_EE_PREFIX))
++	ret = pcie_capability_read_dword(dev, PCI_EXP_DEVCAP2, &cap);
++	if (ret || !(cap & PCI_EXP_DEVCAP2_EE_PREFIX))
+ 		return;
  
-@@ -4672,7 +4676,7 @@ static bool pcie_wait_for_link_delay(struct pci_dev *pdev, bool active,
- 		msleep(20);
- 	for (;;) {
- 		pcie_capability_read_word(pdev, PCI_EXP_LNKSTA, &lnk_status);
--		ret = !!(lnk_status & PCI_EXP_LNKSTA_DLLLA);
-+		ret = !!(!ret && (lnk_status & PCI_EXP_LNKSTA_DLLLA));
- 		if (ret == active)
- 			break;
- 		if (timeout <= 0)
-@@ -5774,6 +5778,7 @@ u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev **limiting_dev,
- 	enum pci_bus_speed next_speed;
- 	enum pcie_link_width next_width;
- 	u32 bw, next_bw;
-+	int ret;
- 
- 	if (speed)
- 		*speed = PCI_SPEED_UNKNOWN;
-@@ -5783,7 +5788,12 @@ u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev **limiting_dev,
- 	bw = 0;
- 
- 	while (dev) {
--		pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &lnksta);
-+		ret = pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &lnksta);
-+
-+		if (ret) {
-+			dev = pci_upstream_bridge(dev);
-+			continue;
-+		}
- 
- 		next_speed = pcie_link_speed[lnksta & PCI_EXP_LNKSTA_CLS];
- 		next_width = (lnksta & PCI_EXP_LNKSTA_NLW) >>
-@@ -5820,6 +5830,7 @@ EXPORT_SYMBOL(pcie_bandwidth_available);
- enum pci_bus_speed pcie_get_speed_cap(struct pci_dev *dev)
- {
- 	u32 lnkcap2, lnkcap;
-+	int ret;
- 
- 	/*
- 	 * Link Capabilities 2 was added in PCIe r3.0, sec 7.8.18.  The
-@@ -5830,16 +5841,18 @@ enum pci_bus_speed pcie_get_speed_cap(struct pci_dev *dev)
- 	 * should use the Supported Link Speeds field in Link Capabilities,
- 	 * where only 2.5 GT/s and 5.0 GT/s speeds were defined.
- 	 */
--	pcie_capability_read_dword(dev, PCI_EXP_LNKCAP2, &lnkcap2);
-+	ret = pcie_capability_read_dword(dev, PCI_EXP_LNKCAP2, &lnkcap2);
- 
- 	/* PCIe r3.0-compliant */
--	if (lnkcap2)
-+	if (!ret && lnkcap2)
- 		return PCIE_LNKCAP2_SLS2SPEED(lnkcap2);
- 
--	pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &lnkcap);
--	if ((lnkcap & PCI_EXP_LNKCAP_SLS) == PCI_EXP_LNKCAP_SLS_5_0GB)
-+	ret = pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &lnkcap);
-+	if (!ret &&
-+		((lnkcap & PCI_EXP_LNKCAP_SLS) == PCI_EXP_LNKCAP_SLS_5_0GB))
- 		return PCIE_SPEED_5_0GT;
--	else if ((lnkcap & PCI_EXP_LNKCAP_SLS) == PCI_EXP_LNKCAP_SLS_2_5GB)
-+	else if (!ret &&
-+		((lnkcap & PCI_EXP_LNKCAP_SLS) == PCI_EXP_LNKCAP_SLS_2_5GB))
- 		return PCIE_SPEED_2_5GT;
- 
- 	return PCI_SPEED_UNKNOWN;
-@@ -5856,9 +5869,10 @@ EXPORT_SYMBOL(pcie_get_speed_cap);
- enum pcie_link_width pcie_get_width_cap(struct pci_dev *dev)
- {
- 	u32 lnkcap;
-+	int ret;
- 
--	pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &lnkcap);
--	if (lnkcap)
-+	ret = pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &lnkcap);
-+	if (!ret && lnkcap)
- 		return (lnkcap & PCI_EXP_LNKCAP_MLW) >> 4;
- 
- 	return PCIE_LNK_WIDTH_UNKNOWN;
+ 	pcie_type = pci_pcie_type(dev);
 -- 
 2.18.2
 
