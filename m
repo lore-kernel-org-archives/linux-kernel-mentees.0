@@ -2,107 +2,74 @@ Return-Path: <SRS0=keMi=AS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB777C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jul 2020 17:52:40 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E31C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jul 2020 19:58:16 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBB8B2075B
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jul 2020 17:52:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cb585bb4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBB8B2075B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id E227B206F6
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jul 2020 19:58:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E227B206F6
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=davemloft.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8DA498974E;
-	Tue,  7 Jul 2020 17:52:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 263E387FA6;
+	Tue,  7 Jul 2020 19:58:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QA4e0z-YwDxb; Tue,  7 Jul 2020 17:52:39 +0000 (UTC)
+	with ESMTP id Q3vqDa5mKjuH; Tue,  7 Jul 2020 19:58:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AFF4389701;
-	Tue,  7 Jul 2020 17:52:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 891BC86A9D;
+	Tue,  7 Jul 2020 19:58:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A237EC07FF;
-	Tue,  7 Jul 2020 17:52:39 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 85961C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7484DC07FF;
+	Tue,  7 Jul 2020 19:58:13 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 66507C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jul 2020 17:52:38 +0000 (UTC)
+ Tue,  7 Jul 2020 19:58:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6DF1C89664
+ by silver.osuosl.org (Postfix) with ESMTP id 0555D20499
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jul 2020 17:52:38 +0000 (UTC)
+ Tue,  7 Jul 2020 19:57:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Qp8uVDXzSkv2
+ with ESMTP id vMH0DNRQaxyY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jul 2020 17:52:37 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id AFC2089510
+ Tue,  7 Jul 2020 19:57:25 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [23.128.96.9])
+ by silver.osuosl.org (Postfix) with ESMTPS id 9EF6D20011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jul 2020 17:52:37 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id t6so20367591pgq.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 07 Jul 2020 10:52:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GYX4tTYyxLfkm2WsVXxZPveW6hzan+/DPaAowNfvqLA=;
- b=cb585bb4ltXfoM2cMOXjwfJQzyHTR072WgUGpAWqSWdj4xJMI40dXY8q95yvnMJ3sc
- Wptvu9FnaRYyPnhwpOK/FaUC0NH6NgO8j6WOK7XsIJv8kX3XzYd+ir3kKda4JqGh4sDx
- hbK1swyt2Ukx5wocq6mXcEV52Z8qFmAQpx65ZJ6yMPcMO5cLozL4FtLcVCiKCAvJTuuU
- wV64TZIxJogEfxkFDyZtkwSQUUteJz+kFuS68FZC5uIR1vGDychH95HNgriK2Sr6JJIv
- Z4vu+W1i7WaTc5dQPH9zUgaboftpMf21wzDkBe0/e7HwPbIdFjFfXAxXV4lMa6Jb/MUw
- F0iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GYX4tTYyxLfkm2WsVXxZPveW6hzan+/DPaAowNfvqLA=;
- b=GFXaqz/tkOa/12fruYc8IYjWj8cukvVWI73AZK7YOO+m4xs0+oEbAGVqJ09qRZhUbt
- lXtn/OqXY7/xPNmTaR/KJlDTEp0+knDk+e/BT7kv7w0eHBLmp84y69wFxv2HOGb0nnXM
- zocjSljtSEey5YnuOav7g9rDyXGOZVmkwZTzWIhURytBR3zvVgg2J4IgePUcOZSdNsqr
- i2T1PEPKiOAhKRG0ftr9o6OmrmqCGgif0cjJo0YZ0nEeDHq9N++MCGSgK0cYIAbXOv3H
- povrZG4Ki0aIQ1g5rH8zwCZ405NObpJQ60sGvT5z9JgK2TmK0oFk7sZsR2XRrov/3oZV
- SGxA==
-X-Gm-Message-State: AOAM530hTTj3lLvS5iM1gHoGLrD8jopzmEfJIQOTMc8yR/AXVn041EUN
- t8DN1GiLt3eaWx7Ugjl/vU9/vt5a
-X-Google-Smtp-Source: ABdhPJzRiRAZz9+f3HOJ8YRC8hoFKlqkglXlexmMj/JMKbuMCWnvek4e9ON5JscghSY0tb7ohV/HlQ==
-X-Received: by 2002:a63:481:: with SMTP id 123mr43035507pge.2.1594144356931;
- Tue, 07 Jul 2020 10:52:36 -0700 (PDT)
-Received: from [192.168.86.235] (c-73-241-150-58.hsd1.ca.comcast.net.
- [73.241.150.58])
- by smtp.gmail.com with ESMTPSA id f207sm23576303pfa.107.2020.07.07.10.52.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jul 2020 10:52:36 -0700 (PDT)
-To: izabela.bakollari@gmail.com, nhorman@tuxdriver.com, davem@davemloft.net,
- kuba@kernel.org
-References: <20200707171515.110818-1-izabela.bakollari@gmail.com>
-From: Eric Dumazet <eric.dumazet@gmail.com>
-Message-ID: <647a37da-cd95-b84b-bc76-036a813c00e2@gmail.com>
-Date: Tue, 7 Jul 2020 10:52:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200707171515.110818-1-izabela.bakollari@gmail.com>
-Content-Language: en-US
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH net-next] dropwatch: Support
-	monitoring of dropped frames
+ Tue,  7 Jul 2020 19:57:25 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+ (using TLSv1 with cipher AES256-SHA (256/256 bits))
+ (Client did not present a certificate)
+ (Authenticated sender: davem-davemloft)
+ by shards.monkeyblade.net (Postfix) with ESMTPSA id 0BCD9120F93E0;
+ Tue,  7 Jul 2020 12:57:23 -0700 (PDT)
+Date: Tue, 07 Jul 2020 12:57:22 -0700 (PDT)
+Message-Id: <20200707.125722.100914573433329091.davem@davemloft.net>
+To: vaibhavgupta40@gmail.com
+From: David Miller <davem@davemloft.net>
+In-Reply-To: <20200707074121.230686-1-vaibhavgupta40@gmail.com>
+References: <20200707074121.230686-1-vaibhavgupta40@gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12
+ (shards.monkeyblade.net [149.20.54.216]);
+ Tue, 07 Jul 2020 12:57:23 -0700 (PDT)
+Cc: sfr@canb.auug.org.au, linux-kernel@vger.kernel.org, helgaas@kernel.org,
+ netdev@vger.kernel.org, bhelgaas@google.com, kuba@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH net-next] sun/niu: add
+ __maybe_unused attribute to PM functions
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,207 +87,22 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Date: Tue,  7 Jul 2020 13:11:22 +0530
 
-
-On 7/7/20 10:15 AM, izabela.bakollari@gmail.com wrote:
-> From: Izabela Bakollari <izabela.bakollari@gmail.com>
+> The upgraded .suspend() and .resume() throw
+> "defined but not used [-Wunused-function]" warning for certain
+> configurations.
 > 
-> Dropwatch is a utility that monitors dropped frames by having userspace
-> record them over the dropwatch protocol over a file. This augument
-> allows live monitoring of dropped frames using tools like tcpdump.
+> Mark them with "__maybe_unused" attribute.
 > 
-> With this feature, dropwatch allows two additional commands (start and
-> stop interface) which allows the assignment of a net_device to the
-> dropwatch protocol. When assinged, dropwatch will clone dropped frames,
-> and receive them on the assigned interface, allowing tools like tcpdump
-> to monitor for them.
+> Compile-tested only.
 > 
-> With this feature, create a dummy ethernet interface (ip link add dev
-> dummy0 type dummy), assign it to the dropwatch kernel subsystem, by using
-> these new commands, and then monitor dropped frames in real time by
-> running tcpdump -i dummy0.
-> 
-> Signed-off-by: Izabela Bakollari <izabela.bakollari@gmail.com>
-> ---
->  include/uapi/linux/net_dropmon.h |  3 ++
->  net/core/drop_monitor.c          | 79 +++++++++++++++++++++++++++++++-
->  2 files changed, 80 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/uapi/linux/net_dropmon.h b/include/uapi/linux/net_dropmon.h
-> index 67e31f329190..e8e861e03a8a 100644
-> --- a/include/uapi/linux/net_dropmon.h
-> +++ b/include/uapi/linux/net_dropmon.h
-> @@ -58,6 +58,8 @@ enum {
->  	NET_DM_CMD_CONFIG_NEW,
->  	NET_DM_CMD_STATS_GET,
->  	NET_DM_CMD_STATS_NEW,
-> +	NET_DM_CMD_START_IFC,
-> +	NET_DM_CMD_STOP_IFC,
->  	_NET_DM_CMD_MAX,
->  };
->  
-> @@ -93,6 +95,7 @@ enum net_dm_attr {
->  	NET_DM_ATTR_SW_DROPS,			/* flag */
->  	NET_DM_ATTR_HW_DROPS,			/* flag */
->  	NET_DM_ATTR_FLOW_ACTION_COOKIE,		/* binary */
-> +	NET_DM_ATTR_IFNAME,			/* string */
->  
->  	__NET_DM_ATTR_MAX,
->  	NET_DM_ATTR_MAX = __NET_DM_ATTR_MAX - 1
-> diff --git a/net/core/drop_monitor.c b/net/core/drop_monitor.c
-> index 8e33cec9fc4e..8049bff05abd 100644
-> --- a/net/core/drop_monitor.c
-> +++ b/net/core/drop_monitor.c
-> @@ -30,6 +30,7 @@
->  #include <net/genetlink.h>
->  #include <net/netevent.h>
->  #include <net/flow_offload.h>
-> +#include <net/sock.h>
->  
->  #include <trace/events/skb.h>
->  #include <trace/events/napi.h>
-> @@ -46,6 +47,7 @@
->   */
->  static int trace_state = TRACE_OFF;
->  static bool monitor_hw;
-> +struct net_device *interface;
->  
->  /* net_dm_mutex
->   *
-> @@ -220,9 +222,8 @@ static void trace_drop_common(struct sk_buff *skb, void *location)
->  	struct per_cpu_dm_data *data;
->  	unsigned long flags;
->  
-> -	local_irq_save(flags);
-> +	spin_lock_irqsave(&data->lock, flags);
->  	data = this_cpu_ptr(&dm_cpu_data);
-> -	spin_lock(&data->lock);
->  	dskb = data->skb;
->  
->  	if (!dskb)
-> @@ -255,6 +256,12 @@ static void trace_drop_common(struct sk_buff *skb, void *location)
->  
->  out:
->  	spin_unlock_irqrestore(&data->lock, flags);
-> +
+> Fixes: b0db0cc2f695 ("sun/niu: use generic power management")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 
-What protects interface from being changed under us by another thread/cpu ?
-
-> +	if (interface && interface != skb->dev) {
-> +		skb = skb_clone(skb, GFP_ATOMIC);
-> +		skb->dev = interface;
-> +		netif_receive_skb(skb);
-> +	}
->  }
->  
->  static void trace_kfree_skb_hit(void *ignore, struct sk_buff *skb, void *location)
-> @@ -1315,6 +1322,63 @@ static int net_dm_cmd_trace(struct sk_buff *skb,
->  	return -EOPNOTSUPP;
->  }
->  
-> +static int net_dm_interface_start(struct net *net, const char *ifname)
-> +{
-> +	struct net_device *nd;
-> +
-> +	nd = dev_get_by_name(net, ifname);
-> +
-> +	if (nd) {
-> +		interface = nd;
-
-If interface was already set, you forgot to dev_put() it.
-
-> +		dev_hold(interface);
-
-Note that dev_get_by_name() already did a dev_hold()
-
-> +	} else {
-> +		return -ENODEV;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int net_dm_interface_stop(struct net *net, const char *ifname)
-> +{
-> +	struct net_device *nd;
-> +
-> +	nd = dev_get_by_name(net, ifname);
-> +
-> +	if (nd) {
-
-
-
-> +		interface = nd;
-
-
-You probably meant : interface = NULL; ?
-
-> +		dev_put(interface);
-
-		and dev_put(nd);
-
-
-> +	} else {
-> +		return -ENODEV;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int net_dm_cmd_ifc_trace(struct sk_buff *skb, struct genl_info *info)
-> +{
-> +	struct net *net = sock_net(skb->sk);
-> +	char ifname[IFNAMSIZ];
-> +	int rc;
-> +
-> +	memset(ifname, 0, IFNAMSIZ);
-> +	nla_strlcpy(ifname, info->attrs[NET_DM_ATTR_IFNAME], IFNAMSIZ - 1);
-> +
-> +	switch (info->genlhdr->cmd) {
-> +	case NET_DM_CMD_START_IFC:
-> +		rc = net_dm_interface_start(net, ifname);
-> +		if (rc)
-> +			return rc;
-> +		break;
-> +	case NET_DM_CMD_STOP_IFC:
-> +		if (interface) {
-> +			rc = net_dm_interface_stop(net, interface->ifname);
-> +			return rc;
-> +		} else {
-> +			return -ENODEV;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int net_dm_config_fill(struct sk_buff *msg, struct genl_info *info)
->  {
->  	void *hdr;
-> @@ -1543,6 +1607,7 @@ static const struct nla_policy net_dm_nl_policy[NET_DM_ATTR_MAX + 1] = {
->  	[NET_DM_ATTR_QUEUE_LEN] = { .type = NLA_U32 },
->  	[NET_DM_ATTR_SW_DROPS]	= {. type = NLA_FLAG },
->  	[NET_DM_ATTR_HW_DROPS]	= {. type = NLA_FLAG },
-> +	[NET_DM_ATTR_IFNAME] = {. type = NLA_STRING, .len = IFNAMSIZ },
->  };
->  
->  static const struct genl_ops dropmon_ops[] = {
-> @@ -1570,6 +1635,16 @@ static const struct genl_ops dropmon_ops[] = {
->  		.cmd = NET_DM_CMD_STATS_GET,
->  		.doit = net_dm_cmd_stats_get,
->  	},
-> +	{
-> +		.cmd = NET_DM_CMD_START_IFC,
-> +		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
-> +		.doit = net_dm_cmd_ifc_trace,
-> +	},
-> +	{
-> +		.cmd = NET_DM_CMD_STOP_IFC,
-> +		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
-> +		.doit = net_dm_cmd_ifc_trace,
-> +	},
->  };
->  
->  static int net_dm_nl_pre_doit(const struct genl_ops *ops,
-> 
+Applied.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
