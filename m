@@ -8,97 +8,94 @@ X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B910C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jul 2020 20:49:24 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E310C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jul 2020 20:53:39 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2E62A20771
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jul 2020 20:49:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 43977206F6
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Jul 2020 20:53:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+5WvZ9z"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E62A20771
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TGBMRZ70"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 43977206F6
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0663B894C0;
-	Tue,  7 Jul 2020 20:49:24 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2613689158;
+	Tue,  7 Jul 2020 20:53:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Kq+07Rh3m1e5; Tue,  7 Jul 2020 20:49:23 +0000 (UTC)
+	with ESMTP id bhlRElhT+bQA; Tue,  7 Jul 2020 20:53:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 127D8894A7;
-	Tue,  7 Jul 2020 20:49:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5755889110;
+	Tue,  7 Jul 2020 20:53:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 05F01C0893;
-	Tue,  7 Jul 2020 20:49:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 46CFEC0893;
+	Tue,  7 Jul 2020 20:53:38 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B94E5C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DFFE2C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jul 2020 20:49:21 +0000 (UTC)
+ Tue,  7 Jul 2020 20:53:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id A8B1287D23
+ by fraxinus.osuosl.org (Postfix) with ESMTP id CF16586CD0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jul 2020 20:49:21 +0000 (UTC)
+ Tue,  7 Jul 2020 20:53:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xOSBZ5b-xtSb
+ with ESMTP id j0b3btad-WNe
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jul 2020 20:49:20 +0000 (UTC)
+ Tue,  7 Jul 2020 20:53:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
- [209.85.166.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CD5C187CB4
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
+ [209.85.166.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E6E7A86CA1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Jul 2020 20:49:20 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id l1so2735763ioh.5
+ Tue,  7 Jul 2020 20:53:35 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id x9so37267459ila.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 07 Jul 2020 13:49:20 -0700 (PDT)
+ Tue, 07 Jul 2020 13:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=ggC36aXQ5rJyOPfi4j54leeMlv15yykZmQrx5jdmp+4=;
- b=g+5WvZ9zc5SqIlBhZnxtNLyDnpFSylqGCpHGYuJfpCB29yGVHGn3+ENlPD6PZ5y/Sb
- jl3IZg3KmYAQdP3U3Zf9xGSaQnYC94KrdsKy45Jp9I9uZ2/qPFpa5sWpCQFoPWvyoUk0
- awq6os/21KapxkxjQCrb+IuxT48gzkeUahR2SJxWQ4Imo6ZRQcOG3RB4GR9WlNYbi0XA
- Ev86i74+i6GS/qeUxx59SIPAD2BlLShit+GMWvfJcDXx0RG8ZxAkzDk5VzAVBDrd8vb3
- +YSY/HtZi9REQi0oYj6/o0tnSIJvJjWSIDASv+89naSKbFCozRaAFJJ5BvtkLfOm5hb8
- JHvA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=189AxpwvXIeA0DFsLD/ese/DSA2pesygn+tykXn1Agw=;
+ b=TGBMRZ70H3Z0NPtYMANO+kVYZpBhbcHz6uACq8tNqU7ZbzzwEjp2aE31hG7AI369zO
+ //Bpk+gvvOtkZKE2/ktvaXiWhecc/Mneu9dFQgXwlUjkCFp62dx2Wu0NnpcmlukrT70H
+ nECWAk+oqSzKtFbWHoCmXw0LAyy0ucOrn96e506D6ve8aVdZodktZcXYXGKyZJhKJSAr
+ 8rJX3QWunCdw5/bMDnQKc7+p8OvPLLkaXfhPiNNoD2LUj/QF9IBBECvVevZcOwV9ub69
+ 2MpX3YJQWFHhFMP9ubr38d42IiLhXmgZrz64ATbrI18CSUuHFvQ68KERuc/SGBshQxhs
+ Zvyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ggC36aXQ5rJyOPfi4j54leeMlv15yykZmQrx5jdmp+4=;
- b=YJQu8e7sOoPxE+NlQp20r7ImrVF1vw+zIzMpKfQcGwxmpO5Dc3yx/hUB3RoFaC0MQA
- eQEu5gNwBLw5ImckVg9+kSR2UsZcSHic5NIGsnBA1zUj1zaxEo+Oaye6DVT3JqIQvNWA
- csDylF/VspV0ni4iSh9ssR/h7KlK/S1X5svy9kv0DjCsHM4XnkAPBSTB6eXHMgkOMXNH
- pntBRaxfzSPwq2D3CaR6ka2Lp5mk1W+GKfF1Zch+oiJV8pEtjYMCT9kWiIeKcJxEX9IZ
- MqdxKgbItx9OEQA47/qAgdhDaLmQhsK0xYEX1aiLI/6W3oM3V4qlcx2mC8omtf5ESrwL
- 0C2g==
-X-Gm-Message-State: AOAM531N/6NFAPnWDcaiMTfwq0wv5aOfEXUBCTySP4F0TaHni9KMi/JK
- dHeTpugCj4xkw1wSO+6Q7ezkL2zoRMUvSyQJLjY=
-X-Google-Smtp-Source: ABdhPJxxDAQG0pe66HA7MJhE+A2fpiQfrgx/dPAh9kVHAV5hYLcep+pu0HRi7mHVaeYEiiF0mPp2HqE3qD1gETaojdY=
-X-Received: by 2002:a6b:6b18:: with SMTP id g24mr31487348ioc.8.1594154960035; 
- Tue, 07 Jul 2020 13:49:20 -0700 (PDT)
+ bh=189AxpwvXIeA0DFsLD/ese/DSA2pesygn+tykXn1Agw=;
+ b=bivLJAmpp96qv9M5Sjjudh1GfW8yCW4fEXzgdBuaK+e8XfFnrvua1I8EZmrGalG+A7
+ qUG3ohCfHS/cBLqIEaafHwgXBbxOnemfd+AH2amyYCz6pTdxfPtRoBJUlgZHJzI2Aeho
+ pbPYjJAqmPPbF21QPuzhiWnp5SZly3xPAyrbOrHXXclsD1tEp9XTL29BTae59kwd0i0N
+ 5bS1dxx3QmxFzU1jzP0FJrD1ebI3LRE1AqaWA0glQopgyRNKWKQ6JUdyjyST2ZIxvfWF
+ J9g4sZd6NXoDeblLgjzluDtU3TKMC+TZ4hLc4oxG8iqFdf8NcMdIFd/pjXkS4RL42vhE
+ KOsw==
+X-Gm-Message-State: AOAM5309RO8OvLsJhhyC6gyEqXdwycbgZp69WCdx2sr5uYLWMYkIDRIr
+ enHuAcwydE0tparUORVTLMGaVqe9qNSHwtfZsjI=
+X-Google-Smtp-Source: ABdhPJxtNKmwc5UzEe7R7iG7OjilB82dz3mFAYyaycGCV0DZN6QgLkQk+gC7o/l04ZX8y/7xUN3mHgxl64yPQ+GXF7s=
+X-Received: by 2002:a05:6e02:487:: with SMTP id
+ b7mr39182398ils.100.1594155215226; 
+ Tue, 07 Jul 2020 13:53:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a6b:92d6:0:0:0:0:0 with HTTP;
- Tue, 7 Jul 2020 13:49:19 -0700 (PDT)
-Received: by 2002:a6b:92d6:0:0:0:0:0 with HTTP;
- Tue, 7 Jul 2020 13:49:19 -0700 (PDT)
-In-Reply-To: <20200707204201.GA382915@bjorn-Precision-5520>
 References: <20200703081428.1011527-3-vaibhavgupta40@gmail.com>
  <20200707204201.GA382915@bjorn-Precision-5520>
-From: Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
-Date: Wed, 8 Jul 2020 02:19:19 +0530
-Message-ID: <CAPRy4h2FB3rQ5pni+XaceMtBDyHDxADfj00ZZCWXcdpv1ozPTg@mail.gmail.com>
+In-Reply-To: <20200707204201.GA382915@bjorn-Precision-5520>
+From: Vaibhav Gupta <vaibhav.varodek@gmail.com>
+Date: Wed, 8 Jul 2020 02:23:22 +0530
+Message-ID: <CAPBsFfCdJkXO-V16yO2eTeAwnQnKJZ49yaJepbsF2dNZjLZFhw@mail.gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>, linux-kernel@vger.kernel.org,
- linux-ide@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+Cc: linux-ide@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "David S. Miller" <davem@davemloft.net>
 Subject: Re: [Linux-kernel-mentees] [PATCH v2 2/4] ide: triflex: use generic
- power management
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,29 +107,18 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7169500521948606427=="
+Content-Type: multipart/mixed; boundary="===============6317138463250410308=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============7169500521948606427==
-Content-Type: multipart/alternative; boundary="0000000000001c216f05a9e0209e"
+--===============6317138463250410308==
+Content-Type: multipart/alternative; boundary="000000000000520bd105a9e02f59"
 
---0000000000001c216f05a9e0209e
+--000000000000520bd105a9e02f59
 Content-Type: text/plain; charset="UTF-8"
 
-Hello all,
-
-I have applied to Linux Mentorship on community bridge.
-
-May I know further updates on whether passed Skill evaluation and when can
-i start with application contribution.
-
-
-Hoping for a positive response
-Dhiraj Sharma
-
-On Jul 8, 2020 02:12, "Bjorn Helgaas" <helgaas@kernel.org> wrote:
+On Wed, Jul 8, 2020, 2:12 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
 
 > On Fri, Jul 03, 2020 at 01:44:26PM +0530, Vaibhav Gupta wrote:
 > > While upgrading ide_pci_suspend() and ide_pci_resume(), all other source
@@ -235,6 +221,13 @@ On Jul 8, 2020 02:12, "Bjorn Helgaas" <helgaas@kernel.org> wrote:
 >         return ide_pci_init_one(dev, &triflex_device, NULL);
 >   }
 >
+Seems a better approach. And in that case I won't need this extra patch
+just for triflex. I can put dev->pm_cap=0 change
+in [Patch 1/1] along with other ide drivers.
+
+--Vaibhav Gupta
+
+>
 > >  static struct pci_driver triflex_pci_driver = {
 > >       .name           = "TRIFLEX_IDE",
 > >       .id_table       = triflex_pci_tbl,
@@ -249,34 +242,18 @@ On Jul 8, 2020 02:12, "Bjorn Helgaas" <helgaas@kernel.org> wrote:
 > > --
 > > 2.27.0
 > >
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees@lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 >
 
---0000000000001c216f05a9e0209e
+--000000000000520bd105a9e02f59
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><span style=3D"font-family:sans-serif;font-size:13.44px">=
-Hello all,</span><div dir=3D"auto" style=3D"font-family:sans-serif;font-siz=
-e:13.44px"><br></div><div dir=3D"auto" style=3D"font-family:sans-serif;font=
--size:13.44px">I have applied to Linux Mentorship on community bridge.</div=
-><div dir=3D"auto" style=3D"font-family:sans-serif;font-size:13.44px"><br><=
-/div><div dir=3D"auto" style=3D"font-family:sans-serif;font-size:13.44px">M=
-ay I know further updates on whether passed Skill evaluation and when can i=
- start with application contribution.</div><div dir=3D"auto" style=3D"font-=
-family:sans-serif;font-size:13.44px"><br></div><div dir=3D"auto" style=3D"f=
-ont-family:sans-serif;font-size:13.44px"><br></div><div dir=3D"auto" style=
-=3D"font-family:sans-serif;font-size:13.44px">Hoping for a positive respons=
-e</div><font color=3D"#888888" style=3D"font-family:sans-serif;font-size:13=
-.44px"></font><div dir=3D"auto">Dhiraj Sharma</div></div><div class=3D"gmai=
-l_extra"><br><div class=3D"gmail_quote">On Jul 8, 2020 02:12, &quot;Bjorn H=
-elgaas&quot; &lt;<a href=3D"mailto:helgaas@kernel.org">helgaas@kernel.org</=
-a>&gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri=
-, Jul 03, 2020 at 01:44:26PM +0530, Vaibhav Gupta wrote:<br>
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Jul 8, 2020, 2:12 AM Bjorn Helgaas &lt;<a href=
+=3D"mailto:helgaas@kernel.org">helgaas@kernel.org</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex">On Fri, Jul 03, 2020 at 01:44:26PM +0530, Vai=
+bhav Gupta wrote:<br>
 &gt; While upgrading ide_pci_suspend() and ide_pci_resume(), all other sour=
 ce<br>
 &gt; files, using same callbacks, were also updated except<br>
@@ -285,8 +262,8 @@ er<br>
 &gt; off the device during suspend. A quirk was required for the same.<br>
 &gt; <br>
 &gt; This patch provides the fix. Another driver,<br>
-&gt; drivers/staging/media/atomisp/<wbr>pci/atomisp_gmin_platform.c, makes =
-use of<br>
+&gt; drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c, makes use o=
+f<br>
 &gt; a quirk for similar goal. Hence a similar quirk has been applied for<b=
 r>
 &gt; triflex.<br>
@@ -294,10 +271,11 @@ r>
 &gt; Compile-tested only.<br>
 &gt; <br>
 &gt; Signed-off-by: Vaibhav Gupta &lt;<a href=3D"mailto:vaibhavgupta40@gmai=
-l.com">vaibhavgupta40@gmail.com</a>&gt;<br>
+l.com" target=3D"_blank" rel=3D"noreferrer">vaibhavgupta40@gmail.com</a>&gt=
+;<br>
 &gt; ---<br>
-&gt;=C2=A0 drivers/ide/triflex.c | 45 +++++++++++-------------------<wbr>--=
------------<br>
+&gt;=C2=A0 drivers/ide/triflex.c | 45 +++++++++++--------------------------=
+------<br>
 &gt;=C2=A0 1 file changed, 11 insertions(+), 34 deletions(-)<br>
 &gt; <br>
 &gt; diff --git a/drivers/ide/triflex.c b/drivers/ide/triflex.c<br>
@@ -328,7 +306,7 @@ ssible.<br>
 &gt; + * We must not disable or powerdown the device.<br>
 &gt; + * APM bios refuses to suspend if IDE is not accessible.<br>
 &gt; + */<br>
-&gt; +static void triflex_pci_pm_cap_fixup(<wbr>struct pci_dev *pdev)<br>
+&gt; +static void triflex_pci_pm_cap_fixup(struct pci_dev *pdev)<br>
 &gt;=C2=A0 {<br>
 &gt; -=C2=A0 =C2=A0 =C2=A0struct ide_host *host =3D pci_get_drvdata(dev);<b=
 r>
@@ -365,9 +343,9 @@ more like existing messages:<br>
 &gt; -#define triflex_ide_pci_suspend NULL<br>
 &gt; -#define triflex_ide_pci_resume NULL<br>
 &gt; -#endif<br>
-&gt; +DECLARE_PCI_FIXUP_FINAL(PCI_<wbr>VENDOR_ID_COMPAQ,<br>
+&gt; +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_COMPAQ,<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0PCI_DEVICE_ID_COMPAQ_TRIFLEX_<wbr>IDE,<br>
+ =C2=A0PCI_DEVICE_ID_COMPAQ_TRIFLEX_IDE,<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
  =C2=A0triflex_pci_pm_cap_fixup);<br>
 <br>
@@ -376,7 +354,7 @@ I don&#39;t think this needs to be a fixup.=C2=A0 This could be done in the=
 probe routine (triflex_init_one()).<br>
 <br>
 Doing it as a fixup means the PCI core will check every PCI device<br>
-to see if it matches PCI_DEVICE_ID_COMPAQ_TRIFLEX_<wbr>IDE, which is a<br>
+to see if it matches PCI_DEVICE_ID_COMPAQ_TRIFLEX_IDE, which is a<br>
 little extra useless overhead and quirks are a little bit magic<br>
 because it&#39;s not as obvious how they&#39;re called.<br>
 <br>
@@ -390,7 +368,13 @@ vice_id *id)<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_info(...);<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ide_pci_init_one(dev, &amp;triflex_devic=
 e, NULL);<br>
-=C2=A0 }<br>
+=C2=A0 }<br></blockquote></div></div><div dir=3D"auto">Seems a better appro=
+ach. And in that case I won&#39;t need this extra patch just for triflex. I=
+ can put dev-&gt;pm_cap=3D0 change</div><div dir=3D"auto">in [Patch 1/1] al=
+ong with other ide drivers.</div><div dir=3D"auto"><br></div><div dir=3D"au=
+to">--Vaibhav Gupta</div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">
 <br>
 &gt;=C2=A0 static struct pci_driver triflex_pci_driver =3D {<br>
 &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
@@ -405,27 +389,20 @@ lex_pci_tbl,<br>
 de_pci_suspend,<br>
 &gt; -=C2=A0 =C2=A0 =C2=A0.resume=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D trif=
 lex_ide_pci_resume,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0.<a href=3D"http://driver.pm" rel=3D"noreferrer" =
-target=3D"_blank">driver.pm</a>=C2=A0 =C2=A0 =C2=A0 =3D &amp;ide_pci_pm_ops=
-,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0.<a href=3D"http://driver.pm" rel=3D"noreferrer n=
+oreferrer" target=3D"_blank">driver.pm</a>=C2=A0 =C2=A0 =C2=A0 =3D &amp;ide=
+_pci_pm_ops,<br>
 &gt;=C2=A0 };<br>
 &gt;=C2=A0 <br>
 &gt;=C2=A0 static int __init triflex_ide_init(void)<br>
 &gt; -- <br>
 &gt; 2.27.0<br>
 &gt; <br>
-______________________________<wbr>_________________<br>
-Linux-kernel-mentees mailing list<br>
-<a href=3D"mailto:Linux-kernel-mentees@lists.linuxfoundation.org">Linux-ker=
-nel-mentees@lists.<wbr>linuxfoundation.org</a><br>
-<a href=3D"https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-=
-mentees" rel=3D"noreferrer" target=3D"_blank">https://lists.linuxfoundation=
-.<wbr>org/mailman/listinfo/linux-<wbr>kernel-mentees</a><br>
-</blockquote></div></div>
+</blockquote></div></div></div>
 
---0000000000001c216f05a9e0209e--
+--000000000000520bd105a9e02f59--
 
---===============7169500521948606427==
+--===============6317138463250410308==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -436,4 +413,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============7169500521948606427==--
+--===============6317138463250410308==--
