@@ -8,99 +8,100 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A9CC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jul 2020 05:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37FD0C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jul 2020 13:04:38 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CEFF2053B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jul 2020 05:20:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 090D82073A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  9 Jul 2020 13:04:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rR8wMB0W"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CEFF2053B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sdQvfSnD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 090D82073A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 20DEC87899;
-	Thu,  9 Jul 2020 05:20:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DF64F86E07;
+	Thu,  9 Jul 2020 13:04:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id anfl4SZ6IWpQ; Thu,  9 Jul 2020 05:20:02 +0000 (UTC)
+	with ESMTP id Zb_dgsJUYDTM; Thu,  9 Jul 2020 13:04:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B569E87876;
-	Thu,  9 Jul 2020 05:20:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 781E386DD2;
+	Thu,  9 Jul 2020 13:04:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8942EC077B;
-	Thu,  9 Jul 2020 05:20:02 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 28AF3C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 634A8C077B;
+	Thu,  9 Jul 2020 13:04:37 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1A840C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jul 2020 05:20:01 +0000 (UTC)
+ Thu,  9 Jul 2020 13:04:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 24C6B88703
+ by whitealder.osuosl.org (Postfix) with ESMTP id A412587E57
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jul 2020 05:20:01 +0000 (UTC)
+ Thu,  9 Jul 2020 13:04:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0NrOqsofw4lC
+ with ESMTP id QQ9snbKJIEvy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jul 2020 05:20:00 +0000 (UTC)
+ Thu,  9 Jul 2020 13:04:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
- [209.85.219.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4E6928864D
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+ [209.85.160.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E320687EE0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  9 Jul 2020 05:20:00 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id e3so427529qvo.10
+ Thu,  9 Jul 2020 13:04:09 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id u12so1520215qth.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 08 Jul 2020 22:20:00 -0700 (PDT)
+ Thu, 09 Jul 2020 06:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=h2ey5u0rQyusT9d/zc6U5JsDDVWxF+R85sT24kpAB5c=;
- b=rR8wMB0WbQzJVmK1fG6vrA9QgvikGKfYsQl+iy+CoUKQ+prDnqBeSkuG178FVewnNR
- n7PpgaXv02dMHyYy29chR5Ui46SVLx5QcQvAiSauy9uNwq9Tzt47WxTO3BVMOODMgwaL
- 6MHRhl0+ZwymBPoWbQqUVhWwbqvIjmy86Et/RPKmPJ/ZSKZBZTT/KXXhnS+A6U4IDEfw
- INW6hYTuqzC+srHq80xDOjEV1TEzQbZ1QSWcY9DZzOLwcZzmJDfvKjHy5KbAP3Ll8FgO
- 2aWwhwUq9duT2DQ7p5SbWR3qalA0C9DtOShUzl2J76jUBmG+sDac0gyA0cTw6Y45/Pm4
- yLhA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=QGEwhK7+HOB5UDgh/+KiU6/EDHzIv+5VNqxy139wdGM=;
+ b=sdQvfSnDRAJBUsy+ESk4398OyprIdU0M5hUcZa+PA922C/+M4v0Z9UQNrEC4+TYTfA
+ tYneGiD04EOzzYC+Wkznu3Illuf9QZVpbClghcgrU7TSFQQyCuPQpLR/6axtrYtHm8nN
+ LhQNtvhdmlwyLWO1ggwMrTITgwSXREje0yQ7kTRWIE0N7pr1c9LgHgsaetzb0pTI8cA1
+ 12xew+zGAloXiRL9HDVvy3Tn8A1y0+bpLIgG0SGtaA8Q89Zyosc3trGCo5iDVkGV3D49
+ TQWx0H/rl1dGETXFQgt7j2/rY/bO/iPkk4a7Qv7syqb8RycQ7I7GRnsXSDomWmElG3Hf
+ ditw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=h2ey5u0rQyusT9d/zc6U5JsDDVWxF+R85sT24kpAB5c=;
- b=mkmqZt23xK0aHyxSBLbCmtuKNRzNmSp8d+pnzh9tOaM/HP8QtRf3alSIGKFrSIjg5Z
- cLWqLZZCH1TMtMKZiZjOQtaPEfjs+BAF9XLgjBzIwmPFdeslKnwpmgr37+a2/W4uUHCN
- HQjqvN/dUtnDhJ+7+MLoa3v7EjMWoh7kmTiTHAJ1KymYM5bCylK/74smo/6M56El/Rfy
- S2Mi7QyeFHbkZ2Ht/KTqUemtm2envdrDjvQikXc99VuHmXYHOkLOvSrjzHbZzyIBnALI
- s3dKVf8sIq34DPKy245xzaX3+zLJHdElUTe0jLFAE8p2qPbckhklYaq1dwQx6ZAuBS9Q
- nRDg==
-X-Gm-Message-State: AOAM531fBNy4ahvVQcM7XB2jNB2p68eBcWU/P6/4C2OI8dE4xteqUujd
- V1ZCJ0VPqasdeDN7Wn54EA==
-X-Google-Smtp-Source: ABdhPJysCYkfIBcts8kENFrUYmdr3eXiSmrlK8fWILE44f0rLD8RRzITYv0N2MTnGAM7xAIdtT++8g==
-X-Received: by 2002:a05:6214:4c4:: with SMTP id
- ck4mr59679790qvb.202.1594271999346; 
- Wed, 08 Jul 2020 22:19:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QGEwhK7+HOB5UDgh/+KiU6/EDHzIv+5VNqxy139wdGM=;
+ b=idNLm0/tJSgkAg39XZ7MGNRIqMvkOuixT9+JbVmtZeoYXvaj3YqKOi5sbC5rBJVaE1
+ lHUZS4U48NXpLE4o2HKCqlZlM2E5KJ2IiH7+HxwjxbaMcDxXJ6L2oaqNppf+ld88XntA
+ IISTdmCuqb32MwTmjpioDXZzQSEyOWjsMpMRzjhCgrav6kHZMDNLhYTVs+b2gS2Tb7qq
+ gmwJ9mSReN52VCdgB0GkfkSQjLD988fPIdAJ/PE57jh6RsD29YjGR0QivEH4uh1jj0F/
+ EcbeeOAEEW135ozC75VAIlVlCu0vqlgiHENHrSBq/heOmo1Jcgle3yiM1Gj63jBmc2Sz
+ Vjlw==
+X-Gm-Message-State: AOAM530KFZYG7CGqfHHTH+ZqckgsZn8g+k42nGkeXM1NJKBmy2/5iHAw
+ WkXiQI06kcoaUt3G8A6GjQ==
+X-Google-Smtp-Source: ABdhPJw73GzxPHh95KuS+8iUpcn45BCe3CRu5/OTi7CJ2JO0fCvf4YVaQIXayVOeIH8DOPuKW38axQ==
+X-Received: by 2002:ac8:47d0:: with SMTP id d16mr65906935qtr.349.1594299848927; 
+ Thu, 09 Jul 2020 06:04:08 -0700 (PDT)
 Received: from localhost.localdomain (c-76-119-149-155.hsd1.ma.comcast.net.
  [76.119.149.155])
- by smtp.gmail.com with ESMTPSA id p7sm2502952qki.61.2020.07.08.22.19.57
+ by smtp.gmail.com with ESMTPSA id v62sm3882456qkb.81.2020.07.09.06.04.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jul 2020 22:19:58 -0700 (PDT)
+ Thu, 09 Jul 2020 06:04:08 -0700 (PDT)
 From: Peilin Ye <yepeilin.cs@gmail.com>
 To: Marcel Holtmann <marcel@holtmann.org>,
  Johan Hedberg <johan.hedberg@gmail.com>
-Date: Thu,  9 Jul 2020 01:18:02 -0400
-Message-Id: <20200709051802.185168-1-yepeilin.cs@gmail.com>
+Date: Thu,  9 Jul 2020 09:02:24 -0400
+Message-Id: <20200709130224.214204-1-yepeilin.cs@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200709051802.185168-1-yepeilin.cs@gmail.com>
+References: <20200709051802.185168-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
  Russell King <linux@armlinux.org.uk>, "David S . Miller" <davem@davemloft.net>,
  linux-bluetooth@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  Peilin Ye <yepeilin.cs@gmail.com>, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] net/bluetooth: Fix
+Subject: [Linux-kernel-mentees] [PATCH v2] net/bluetooth: Fix
 	slab-out-of-bounds read in hci_extended_inquiry_result_evt()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -121,7 +122,7 @@ Sender: "Linux-kernel-mentees"
 
 Check upon `num_rsp` is insufficient. A malformed event packet with a
 large `num_rsp` number makes hci_extended_inquiry_result_evt() go out
-of bounds. Fix it. Also, make `num_rsp` unsigned.
+of bounds. Fix it.
 
 This patch fixes the following syzbot bug:
 
@@ -130,27 +131,23 @@ This patch fixes the following syzbot bug:
 Reported-by: syzbot+d8489a79b781849b9c46@syzkaller.appspotmail.com
 Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 ---
- net/bluetooth/hci_event.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v2:
+    - Use `skb->len` instead of `skb->truesize` as the length limit.
+    - Leave `num_rsp` as of type `int`.
+
+ net/bluetooth/hci_event.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-index 03a0759f2fc2..29aff5e7dec2 100644
+index 03a0759f2fc2..91cb3707d20a 100644
 --- a/net/bluetooth/hci_event.c
 +++ b/net/bluetooth/hci_event.c
-@@ -4369,13 +4369,13 @@ static void hci_extended_inquiry_result_evt(struct hci_dev *hdev,
- 					    struct sk_buff *skb)
- {
- 	struct inquiry_data data;
--	struct extended_inquiry_info *info = (void *) (skb->data + 1);
--	int num_rsp = *((__u8 *) skb->data);
-+	struct extended_inquiry_info *info = (void *)(skb->data + 1);
-+	__u8 num_rsp = *((__u8 *)skb->data);
- 	size_t eir_len;
+@@ -4375,7 +4375,7 @@ static void hci_extended_inquiry_result_evt(struct hci_dev *hdev,
  
  	BT_DBG("%s num_rsp %d", hdev->name, num_rsp);
  
 -	if (!num_rsp)
-+	if (!num_rsp || num_rsp * sizeof(*info) > skb->truesize)
++	if (!num_rsp || skb->len < num_rsp * sizeof(*info))
  		return;
  
  	if (hci_dev_test_flag(hdev, HCI_PERIODIC_INQ))
