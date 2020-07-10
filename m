@@ -2,109 +2,101 @@ Return-Path: <SRS0=4Ypl=AV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA8FC433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jul 2020 22:20:15 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48A30C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jul 2020 22:20:19 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0EFC1207BB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jul 2020 22:20:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1C94520674
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jul 2020 22:20:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/WvXIbd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0EFC1207BB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yz/B5qsH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C94520674
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D98D488B19;
-	Fri, 10 Jul 2020 22:20:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C8E622E90A;
+	Fri, 10 Jul 2020 22:20:18 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pAWQQxSaQ6zQ; Fri, 10 Jul 2020 22:20:17 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 090A12E95A;
+	Fri, 10 Jul 2020 22:20:16 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE7B6C077B;
+	Fri, 10 Jul 2020 22:20:16 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B155C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jul 2020 22:20:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1676888B07
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jul 2020 22:20:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id g79lEj4ta4zr; Fri, 10 Jul 2020 22:20:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A812A88B07;
-	Fri, 10 Jul 2020 22:20:13 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9BDAEC077B;
-	Fri, 10 Jul 2020 22:20:13 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 04CDEC016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 22:20:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E0D7F89938
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 22:20:11 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OjhFOn40eRWW
+ with ESMTP id CcYYEdAPMKth
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 22:20:10 +0000 (UTC)
+ Fri, 10 Jul 2020 22:20:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
  [209.85.221.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 4F96289802
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BA5368896A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 22:20:10 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id r12so7302696wrj.13
+ Fri, 10 Jul 2020 22:20:12 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id q5so7348644wru.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 15:20:10 -0700 (PDT)
+ Fri, 10 Jul 2020 15:20:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=sQSNR/BugIoJc6hRmCvyOY2T/BtHesGbyrXiTgar9dI=;
- b=E/WvXIbdBLzBijEIrHjy3ROSLzxYB5kRcgXlTWV5s6nTjk0sIxLxLV8dtFIH5vEf/H
- U3eWv/xfzqF2tIQrGPbwIRR+9fsr3gC+Af8kb4EapkgW9zT1y/O6QsdJtedCfC+yuMe/
- KhighYvpRyQnvVu4JLLuQojc1o28CCTGSLa/Vc7qo5GY/zFYL/85uWjW98zmkPmndBES
- mAL7VvNIpEqvxJ1y9qrWHkQw7gdl6GJkw3mcT+pmgsizutcBpX00cH6+jfPFxCmME6bi
- I2ZMDOM7hADKIDhEsG+aR5z3LW8kLVbqkzK9d8Ey3Xa9e5RkgEjZbSXxXl+6egvtEr7E
- enFQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=i1lY4mOYwbC3YTfhlW/QS2seif89bl0vl1xCMEEs94k=;
+ b=Yz/B5qsHqYqUiq04kd5kePUIy9vGWkUnOtKFFJMfNukQ/Pkj65Vz63fW7GZ9o16B4b
+ jW+3xseRxjwnKDtaKoG7xQCkUukArPJ+twkfFZLws5DGufPIPNTqLKBVl+QX8g8KM+2R
+ f59hTUNb89FfwqLP7+mjT1AfZ+kBsbDTnocvuPCwOCLSzm9CxrVHHRVaFktOF+kIk4Up
+ mPe4IHKxjCMFUaYCUDFmM9zjL/ZyWr0l4+OyjFOEW4RLo5iaIu6ANyZCrc6W28mWt2PO
+ wOTk9Uzjlx3Ffpzz1v51NeYeMaxDppJuqAq5nzBkC014ZBf7RW+9g/kWWfZw4Z/N1v3f
+ iY+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=sQSNR/BugIoJc6hRmCvyOY2T/BtHesGbyrXiTgar9dI=;
- b=F5j1fQzfYxJF/zc57/hPrGvTT9NT6D5H853Br7QcQXgbadtto+P1/eAmreIE4R1/v6
- IyI5KqWnMYsanhkWkhcXxxGe/bzbzND4nz1wg4HVbzqcbhkE/mU45LjLXtf8dKtf6qkA
- M20+AORxJLbvEYRFNuBW0QhXZg/SBy0nIPLxLRV+M/ZONypUnLFJ0xezVy+yNaBxBpNp
- eRaLytOm1VNUUQgu5nBYH025bF658CvnE5AWrwmTifsYDjAdhcVgTloTRNFRqCZTC3Z3
- 4GcebAl9I7tchcKFkn1E2M7yE7URTA/1dvKQq31HAY78jKFIpDkr8s/5b2Hv1skN0vCl
- ap3A==
-X-Gm-Message-State: AOAM533NPwTKd2gVbQ8XocoEuAjl6tFNBnsW93OJENXVHS76KIztxbSW
- 86dsQ/V+xyh6WM3b8MALluk=
-X-Google-Smtp-Source: ABdhPJzS+uPpTiLsWNHg6xiOAW9CUTiS8ft4sXtfvWRv8joGH8d+W+t6FJyQoDufDDsZv9lKN31XXA==
-X-Received: by 2002:adf:ef4d:: with SMTP id c13mr67998573wrp.315.1594419608520; 
- Fri, 10 Jul 2020 15:20:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=i1lY4mOYwbC3YTfhlW/QS2seif89bl0vl1xCMEEs94k=;
+ b=gntS/cU3fNJQ/bjipJQopem7+sYelspUtK5wkisxPeXmolnLyQZ7JJLN83rHiiIHeU
+ ek9uizlYuOA0ZzlNP6S2AcxbyXgy8WfROmefhekGxS13d6qFqd/wAU378jvauqn07Ke/
+ 3MNzK3IpcEzurNemb4ZLUaYqQJ4e/3nDL8QRlbBNhUdCo5rYVatU1nqPoI42otA7Bn66
+ pqvPIZB+NwK/SzR9738J4s+ys6g23pEMcDHyQAjt+f/hR2E6xPjrLNWjFAh1RFwuRxO0
+ NKoAnkl4OZRblV3KSKzNTP2iuKnpFSy/2a5WeVBYxv7mYJ02oFpTXy450frsxcFBNQ+k
+ T+Fg==
+X-Gm-Message-State: AOAM530GXv37wvr7upY/tlcGeIiUex8yuHxNbGgqk44kE04Ur67IokE4
+ /6lG+dkN41bSssELj5vWayOJnJX9pZicnA==
+X-Google-Smtp-Source: ABdhPJzLgCNHcIqTU4KKqGwF2qxzIEG2z5ZfBr1mckA0gtBgXK1kkZVOMPXHxvHWg1dVplPIcC2w+w==
+X-Received: by 2002:adf:eec2:: with SMTP id a2mr68357262wrp.127.1594419611018; 
+ Fri, 10 Jul 2020 15:20:11 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id l18sm12170281wrm.52.2020.07.10.15.20.05
+ by smtp.gmail.com with ESMTPSA id l18sm12170281wrm.52.2020.07.10.15.20.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 15:20:07 -0700 (PDT)
+ Fri, 10 Jul 2020 15:20:10 -0700 (PDT)
 From: Saheed Olayemi Bolarinwa <refactormyself@gmail.com>
-To: helgaas@kernel.org
-Date: Fri, 10 Jul 2020 23:20:12 +0200
-Message-Id: <20200710212026.27136-1-refactormyself@gmail.com>
+To: helgaas@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Fri, 10 Jul 2020 23:20:14 +0200
+Message-Id: <20200710212026.27136-3-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
-Cc: linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org,
- QCA ath9k Development <ath9k-devel@qca.qualcomm.com>, netdev@vger.kernel.org,
- Oliver O'Halloran <oohall@gmail.com>, Russell Currey <ruscur@russell.cc>,
- Stanislaw Gruszka <stf_xl@wp.pl>, linux-acpi@vger.kernel.org,
- linux-rdma@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Doug Ledford <dledford@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, Len Brown <lenb@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Kalle Valo <kvalo@codeaurora.org>,
- Mike Marciniszyn <mike.marciniszyn@intel.com>,
- Sam Bobroff <sbobroff@linux.ibm.com>,
- Dennis Dalessandro <dennis.dalessandro@intel.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- Lukas Wunner <lukas@wunner.de>,
- Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
- linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
-Subject: [Linux-kernel-mentees] [PATCH 0/14 v3] PCI: Remove '*val = 0' from
-	pcie_capability_read_*()
+In-Reply-To: <20200710212026.27136-1-refactormyself@gmail.com>
+References: <20200710212026.27136-1-refactormyself@gmail.com>
+Cc: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH 2/14 v3] misc: rtsx: Check the return
+	value of pcie_capability_read_*()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,115 +117,113 @@ Sender: "Linux-kernel-mentees"
 
 From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 
-v3 CHANGES:
-- Split previous PATCH 6/13 into two : PATCH 6/14 and PATCH 7/14
-- Fix commit message of PATCH 5/14
-- Update Patch numbering and Commit messages
-- Add 'Acked by Greg KH' to PATCH 2/14
-- Add PATCH version
+On failure pcie_capability_read_dword() sets it's last parameter, val
+to 0. In which case (val & PCI_EXP_DEVCTL2_LTR_EN) evaluates to 0.
+However, with Patch 14/14, it is possible that val is set to ~0 on
+failure. This would introduce a bug because (x & x) == (~0 & x).
 
-v2 CHANGES:
-- Fix missing comma, causing the email cc error
-- Fix typos and numbering errors in commit messages
-- Add commit message to 13/13
-- Add two more patches: PATCH 3/13 and PATCH 4/13
+This bug can be avoided without changing the function's behaviour if the
+return value of pcie_capability_read_word is checked to confirm success.
 
-MERGING:
-Patch 7/14 depends on Patch 6/14. However Patch 6/14 has no dependency.
-Please, merge PATCH 7/14 only after Patch 6/14.
-Patch 14/14 depend on all preceeding patchs. Except for Patch 6/14 and
-Patch 7/14, all other patches are independent of one another. Hence,
-please merge Patch 14/14 only after other patches in this series have
-been merged.
+Check the return value of pcie_capability_read_word() to ensure success.
 
+Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 
-PATCH 6/14:
-Make the function set status to "Power On" by default and only set to
-Set "Power Off" only if pcie_capability_read_word() is successful and
-(slot_ctrl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_OFF. 
-
-PATCH 1/14 to 13/14:
-Check the return value of pcie_capability_read_*() to ensure success or
-confirm failure. While maintaining these functions, this ensures that the
-changes in PATCH 14/14 does not introduce any bug. 
-
-PATCH 14/14:
-There are several reasons why a PCI capability read may fail whether the
-device is present or not. If this happens, pcie_capability_read_*() will
-return -EINVAL/PCIBIOS_BAD_REGISTER_NUMBER or PCIBIOS_DEVICE_NOT_FOUND
-and *val is set to 0.
-
-This behaviour if further ensured by this code inside
-pcie_capability_read_*()
-
- ret = pci_read_config_dword(dev, pci_pcie_cap(dev) + pos, val);
- /*
-  * Reset *val to 0 if pci_read_config_dword() fails, it may
-  * have been written as 0xFFFFFFFF if hardware error happens
-  * during pci_read_config_dword().
-  */
- if (ret)
-	 *val = 0;
- return ret;
-
-a) Since all pci_generic_config_read() does is read a register value,
-it may return success after reading a ~0 which *may* have been fabricated
-by the PCI host bridge due to a read timeout. Hence pci_read_config_*() 
-will return success with a fabricated ~0 in *val, indicating a problem.
-In this case, the assumed behaviour of  pcie_capability_read_*() will be
-wrong. To avoid error slipping through, more checks are necessary.
-
-b) pci_read_config_*() will return PCIBIOS_DEVICE_NOT_FOUND only if 
-dev->error_state = pci_channel_io_perm_failure (i.e. 
-pci_dev_is_disconnected()) or if pci_generic_config_read() can't find the
-device. In both cases *val is initially set to ~0 but as shown in the code
-above pcie_capability_read_*() resets it back to 0. Even with this effort,
-drivers still have to perform validation checks more so if 0 is a valid
-value.
-
-Most drivers only consider the case (b) and in some cases, there is the 
-expectation that on timeout *val has a fabricated value of ~0, which *may*
-not always be true as explained in (a).
-
-In any case, checks need to be done to validate the value read and maybe
-confirm which error has occurred. It is better left to the drivers to do.
-
-Check the return value of pcie_capability_read_dword() to ensure success
-and avoid bug as a result of Patch 14/14.
-Remove the reset of *val to 0 when pci_read_config_*() fails.
-
-
-Bolarinwa Olayemi Saheed (14):
-  IB/hfi1: Check the return value of pcie_capability_read_*()
-  misc: rtsx: Check the return value of pcie_capability_read_*()
-  ath9k: Check the return value of pcie_capability_read_*()
-  iwlegacy: Check the return value of pcie_capability_read_*()
-  PCI: pciehp: Check the return value of pcie_capability_read_*()
-  PCI: pciehp: Make "Power On" the default 
-  PCI: pciehp: Check the return value of pcie_capability_read_*()
-  PCI/ACPI: Check the return value of pcie_capability_read_*()
-  PCI: pciehp: Check the return value of pcie_capability_read_*()
-  PCI: Check the return value of pcie_capability_read_*()
-  PCI/PM: Check return value of pcie_capability_read_*()
-  PCI/AER: Check the return value of pcie_capability_read_*()
-  PCI/ASPM: Check the return value of pcie_capability_read_*()
-  PCI: Remove '*val = 0' from pcie_capability_read_*()
-
- drivers/net/wireless/ath/ath9k/pci.c         | 5 +++--
- drivers/net/wireless/intel/iwlegacy/common.c | 4 ++--
- drivers/infiniband/hw/hfi1/aspm.c | 7 ++++---
+---
  drivers/misc/cardreader/rts5227.c | 5 +++--
  drivers/misc/cardreader/rts5249.c | 5 +++--
  drivers/misc/cardreader/rts5260.c | 5 +++--
  drivers/misc/cardreader/rts5261.c | 5 +++--
- drivers/pci/pcie/aer.c  |  5 +++--
- drivers/pci/pcie/aspm.c | 33 +++++++++++++++++----------------
- drivers/pci/hotplug/pciehp_hpc.c | 47 ++++++++++++++++----------------
- drivers/pci/pci-acpi.c           | 10 ++++---
- drivers/pci/probe.c              | 29 ++++++++++++--------
- drivers/pci/access.c | 14 --------------
- 13 files changed, 87 insertions(+), 87 deletions(-)
+ 4 files changed, 12 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/misc/cardreader/rts5227.c b/drivers/misc/cardreader/rts5227.c
+index 3a9467aaa435..7a20a4898d07 100644
+--- a/drivers/misc/cardreader/rts5227.c
++++ b/drivers/misc/cardreader/rts5227.c
+@@ -92,6 +92,7 @@ static void rts5227_force_power_down(struct rtsx_pcr *pcr, u8 pm_state)
+ static int rts5227_extra_init_hw(struct rtsx_pcr *pcr)
+ {
+ 	u16 cap;
++	int ret;
+ 
+ 	rtsx_pci_init_cmd(pcr);
+ 
+@@ -105,8 +106,8 @@ static int rts5227_extra_init_hw(struct rtsx_pcr *pcr)
+ 	/* LED shine disabled, set initial shine cycle period */
+ 	rtsx_pci_add_cmd(pcr, WRITE_REG_CMD, OLT_LED_CTL, 0x0F, 0x02);
+ 	/* Configure LTR */
+-	pcie_capability_read_word(pcr->pci, PCI_EXP_DEVCTL2, &cap);
+-	if (cap & PCI_EXP_DEVCTL2_LTR_EN)
++	ret = pcie_capability_read_word(pcr->pci, PCI_EXP_DEVCTL2, &cap);
++	if (!ret && (cap & PCI_EXP_DEVCTL2_LTR_EN))
+ 		rtsx_pci_add_cmd(pcr, WRITE_REG_CMD, LTR_CTL, 0xFF, 0xA3);
+ 	/* Configure OBFF */
+ 	rtsx_pci_add_cmd(pcr, WRITE_REG_CMD, OBFF_CFG, 0x03, 0x03);
+diff --git a/drivers/misc/cardreader/rts5249.c b/drivers/misc/cardreader/rts5249.c
+index 6c6c9e95a29f..2b05e8663431 100644
+--- a/drivers/misc/cardreader/rts5249.c
++++ b/drivers/misc/cardreader/rts5249.c
+@@ -95,6 +95,7 @@ static void rts5249_init_from_cfg(struct rtsx_pcr *pcr)
+ {
+ 	struct rtsx_cr_option *option = &(pcr->option);
+ 	u32 lval;
++	int ret;
+ 
+ 	if (CHK_PCI_PID(pcr, PID_524A))
+ 		rtsx_pci_read_config_dword(pcr,
+@@ -118,8 +119,8 @@ static void rts5249_init_from_cfg(struct rtsx_pcr *pcr)
+ 	if (option->ltr_en) {
+ 		u16 val;
+ 
+-		pcie_capability_read_word(pcr->pci, PCI_EXP_DEVCTL2, &val);
+-		if (val & PCI_EXP_DEVCTL2_LTR_EN) {
++		ret = pcie_capability_read_word(pcr->pci, PCI_EXP_DEVCTL2, &val);
++		if (!ret && (val & PCI_EXP_DEVCTL2_LTR_EN)) {
+ 			option->ltr_enabled = true;
+ 			option->ltr_active = true;
+ 			rtsx_set_ltr_latency(pcr, option->ltr_active_latency);
+diff --git a/drivers/misc/cardreader/rts5260.c b/drivers/misc/cardreader/rts5260.c
+index 7a9dbb778e84..934aeaeebfaf 100644
+--- a/drivers/misc/cardreader/rts5260.c
++++ b/drivers/misc/cardreader/rts5260.c
+@@ -498,6 +498,7 @@ static void rts5260_init_from_cfg(struct rtsx_pcr *pcr)
+ {
+ 	struct rtsx_cr_option *option = &pcr->option;
+ 	u32 lval;
++	int ret;
+ 
+ 	rtsx_pci_read_config_dword(pcr, PCR_ASPM_SETTING_5260, &lval);
+ 
+@@ -518,8 +519,8 @@ static void rts5260_init_from_cfg(struct rtsx_pcr *pcr)
+ 	if (option->ltr_en) {
+ 		u16 val;
+ 
+-		pcie_capability_read_word(pcr->pci, PCI_EXP_DEVCTL2, &val);
+-		if (val & PCI_EXP_DEVCTL2_LTR_EN) {
++		ret = pcie_capability_read_word(pcr->pci, PCI_EXP_DEVCTL2, &val);
++		if (!ret && (val & PCI_EXP_DEVCTL2_LTR_EN)) {
+ 			option->ltr_enabled = true;
+ 			option->ltr_active = true;
+ 			rtsx_set_ltr_latency(pcr, option->ltr_active_latency);
+diff --git a/drivers/misc/cardreader/rts5261.c b/drivers/misc/cardreader/rts5261.c
+index 195822ec858e..2b6f61696e19 100644
+--- a/drivers/misc/cardreader/rts5261.c
++++ b/drivers/misc/cardreader/rts5261.c
+@@ -438,9 +438,10 @@ static void rts5261_init_from_cfg(struct rtsx_pcr *pcr)
+ 	rtsx_pci_write_register(pcr, ASPM_FORCE_CTL, 0xFF, 0);
+ 	if (option->ltr_en) {
+ 		u16 val;
++		int ret;
+ 
+-		pcie_capability_read_word(pcr->pci, PCI_EXP_DEVCTL2, &val);
+-		if (val & PCI_EXP_DEVCTL2_LTR_EN) {
++		ret = pcie_capability_read_word(pcr->pci, PCI_EXP_DEVCTL2, &val);
++		if (!ret && (val & PCI_EXP_DEVCTL2_LTR_EN)) {
+ 			option->ltr_enabled = true;
+ 			option->ltr_active = true;
+ 			rtsx_set_ltr_latency(pcr, option->ltr_active_latency);
 -- 
 2.18.2
 
