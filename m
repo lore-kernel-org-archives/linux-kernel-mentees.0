@@ -2,101 +2,105 @@ Return-Path: <SRS0=4Ypl=AV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_20,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1869EC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jul 2020 21:31:27 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EC6C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jul 2020 21:41:25 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA4272068F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jul 2020 21:31:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6B773206E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 10 Jul 2020 21:41:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CuEmcx/n"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA4272068F
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VHhl70xJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6B773206E2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9A00829478;
-	Fri, 10 Jul 2020 21:31:26 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VSSi32QX+2-k; Fri, 10 Jul 2020 21:31:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D4C1F21F76;
-	Fri, 10 Jul 2020 21:31:25 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2C20C0890;
-	Fri, 10 Jul 2020 21:31:25 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 04CD1C016F
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 21:31:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E811E883FE
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 21:31:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 47A0A88737;
+	Fri, 10 Jul 2020 21:41:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 0mMSbseWavPZ; Fri, 10 Jul 2020 21:41:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EE82C886D2;
+	Fri, 10 Jul 2020 21:41:24 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D967EC0890;
+	Fri, 10 Jul 2020 21:41:24 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9DBB7C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jul 2020 21:41:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 7ECE02E7F0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jul 2020 21:41:23 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GQX3kYHPeEJT
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 21:31:23 +0000 (UTC)
+ with ESMTP id X91lMErVJtj7
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jul 2020 21:41:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
- [209.85.166.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 54077883F0
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 21:31:23 +0000 (UTC)
-Received: by mail-il1-f196.google.com with SMTP id r12so6300849ilh.4
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Jul 2020 14:31:23 -0700 (PDT)
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+ [209.85.219.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id 7DC102E586
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jul 2020 21:41:22 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id h18so3303087qvl.3
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Jul 2020 14:41:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uLHnt9pPWsAVsorl32sFgKBBl3I+MJKH37bJcFKtyiE=;
- b=CuEmcx/n6O863Mu5ZUwQtJ99bQXkItVEV9ut6UlQm8iF5Bnc9VHXF+JigYGcUvqxuB
- kkEF1d5g4c6/5QHwC4rwQULHUKDyhiTcUYWWdNnZ7oajnE4XmgYBnbWqE0b6zEsbSTt7
- OWYOKR13ww3grCzPZuKK+/xorxqq9pe3Xh3DEvWBtrpU2mfKRRGNP2ckOQ/SbEzUcXFm
- K+xrnqrZR7o5MH5DsE6Rwu9X7MaSzgdomeC6ynZ6Lbot5VvdgUAE0uL0rgVnygbgnPSG
- g75Bzj+sd1YUba64iz9LvBf4Tje0IvM0cLK1x/utX7N4hERMMTMkG054N/LGOR07VEe1
- Xx2g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Da2tkZhxp36WWIM5SU4wWRnWrL+fbZs7REwsgJam7ZQ=;
+ b=VHhl70xJKGvDmkqn9+GFeBcUZmC518WJVEFdfy8ur5HqlFExf0rxCQqHtur+CxOaqb
+ iC/aDjq4YILIXcE9snn6uUpJEJSctpWWeSIcBd1gpIwKFbv+erXR9MKTWreSo0dOQKMo
+ +S2JOme4t+ViPdBBTh2LgOFP78FdMRVZa/KvKW3P12B3HMV4vmIDdLoL79AnN3/2ZMDp
+ GI/pYYdntjQ8qmt2ICS6qw2mjW85VFeM86w2EtTA4jwe+uQ4Zgt9eXxcDc8W1JL+247M
+ SDWh+bYC/tB5vjOXT2GObQ3uC1A7k3UDT3aCQI4VnJ9IcFq51Wrp+jeuyastgyymV+A4
+ D/QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uLHnt9pPWsAVsorl32sFgKBBl3I+MJKH37bJcFKtyiE=;
- b=a5WCIcXFuoJl6dlfLy1ETHPn0x2AwqhJKd0q133TAYy+DUTwDmuvJMxHof8z5pa3eQ
- zRwKGPRw1mRtSn5mYkLdD1xIvBsw8XzzfHKJDu5ipn+D2dQ/3KM3vmp8mORvEHLKi9YQ
- tLFJDa72s/ogX83adz1zXvloySqpgLZFQpOdnArIvIB7FPIQXrv6RO4HEajJGu2nA/m5
- GDK7W2RSxiVM7YO1Su9dHJMb63A//cdKuH3bk/nAQMbjYHSFL6sR/79Ql7SjP2gQ6SRN
- cOVQfb4sDfwe1Ug44j24SEMhTI19JDU4+4UV4OOcx2QeXRBsr9Gu6HXuEtxsbZbAJwnP
- LTMA==
-X-Gm-Message-State: AOAM533ADv5IxYwCOMzuTTz83JrcEoT1vSgBZzcms/eJNuDm3ePO0cDG
- Fkakr9/6VQfwmLQc2xrOcg2fDzkReY7nBdULMvY=
-X-Google-Smtp-Source: ABdhPJxKqRGtaFyBjWau5G2IuSMxMFdHXg7+dBwsmKyVl83AtGWzPZs2ePkSch4ooGgkNVibWeXP+t7cDDmGNZ+c8b8=
-X-Received: by 2002:a05:6e02:11a6:: with SMTP id
- 6mr35326538ilj.64.1594416682487; 
- Fri, 10 Jul 2020 14:31:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Da2tkZhxp36WWIM5SU4wWRnWrL+fbZs7REwsgJam7ZQ=;
+ b=VBk4RI2oP90/m3kgLLX0WsaI8vlTw9+6yEJqi0bYgputJA4YkNdEu/d/CjQqnWap6N
+ wX/R+nEZ3G+YrExXfJoUhN14ZCQ23tcl8rccZipoMmoeGWZEi2TDrT90OAl4LIoG8L3V
+ LAwIlLELkm6ESjFQLv0Yshg+sPaOTh8aPpQlbW+iGFebmi+2vsITA0HSklZgs1JVqMDA
+ BMF4S0QI4Pr8u0U1bssnj+tj7LVLtj9dBRb/SGtuLnHQgpAMQqdb7nzQA+AIJoImLKP9
+ xO1uupSDahuMGiyJm3w5ACQ71Ul4TKGatLSHdZBarYA15LEvxPoMU1wewflx7L0hhV2E
+ vk2w==
+X-Gm-Message-State: AOAM533GxOuRze4X9UWiktJ+T9KtAnEgC1ptts2rXvPdvEC9+lyQLAyB
+ TWCJPSZafkKUzywwGHFrVg==
+X-Google-Smtp-Source: ABdhPJwg0Bs8T3eqvmOkVd+YCSi+G7i0B+ClGVozwdpkm7Ok6mUVGyf25q1e54in3JRQd8S88Lf8gg==
+X-Received: by 2002:a0c:ab55:: with SMTP id i21mr71409390qvb.139.1594417281580; 
+ Fri, 10 Jul 2020 14:41:21 -0700 (PDT)
+Received: from localhost.localdomain (c-76-119-149-155.hsd1.ma.comcast.net.
+ [76.119.149.155])
+ by smtp.gmail.com with ESMTPSA id 2sm8652249qka.42.2020.07.10.14.41.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jul 2020 14:41:21 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>
+Date: Fri, 10 Jul 2020 17:39:18 -0400
+Message-Id: <3f69f09d6eb0bc1430cae2894c635252a1cb09e1.1594414498.git.yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200706080814.of3oftqsbp32nwge@mrinalpandey>
- <CAKXUXMzUGMVEWxBmrsPWvtBTuM=7W1uZWRp4OUN4ZPeqX8=VHA@mail.gmail.com>
- <CAD1=X6m06KWb3=VEGkFWpmmV=UC09ZYbj2qpAOyg6OPFM=8KqA@mail.gmail.com>
- <CAKXUXMy_KAHn+FNWviazVcEqK213uLVksq8_8HhjXAW+_OBrzQ@mail.gmail.com>
- <CAD1=X6==MgT6jaNZ9PsPUqV1QTRFKguq9zvV+TtFSHyajFMjUg@mail.gmail.com>
- <CAKXUXMwU21sUTA6vSm19oFF42eX3dxuBEG-cgSoUQBWcYJDOiQ@mail.gmail.com>
- <CAD1=X6mM0cA-8aVO4YaLiUbSnkw0EKCijL12bDWxNfUCaCh87g@mail.gmail.com>
-In-Reply-To: <CAD1=X6mM0cA-8aVO4YaLiUbSnkw0EKCijL12bDWxNfUCaCh87g@mail.gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 10 Jul 2020 23:31:11 +0200
-Message-ID: <CAKXUXMzFHnW5Yn5gwXgh3YtwCWfhFjeucMV4-JvX--2rFkFirg@mail.gmail.com>
-To: Mrinal Pandey <mrinalmni@gmail.com>
-Cc: Linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Adjust spelling
-	check false positive
+Cc: Russell King <linux@armlinux.org.uk>,
+ "David S . Miller" <davem@davemloft.net>, linux-bluetooth@vger.kernel.org,
+ netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Peilin Ye <yepeilin.cs@gmail.com>, linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH 1/2] net/bluetooth: Prevent
+	out-of-bounds read in hci_inquiry_result_evt()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,34 +118,30 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
->>
->> For Issue 6: Can you provide me the commit hash that caused this
->> checkpatch.pl error? Then, we can reproduce and confirm that issue
->> probably simply with `git format-patch -1 $SHA |
->> ./scripts/checkpatch.pl` and observe the bug and crash ourselves?
->
->
-> These are the commit hashes that crashed the checkpatch:
-> 6b3e0e2e0461
-> 19ce2321739d
-> 059c6d68cfc5
->
+Check `num_rsp` before using it as for-loop counter.
 
-Okay, I checked the output of checkpatch.pl on those three commits and
-I can confirm that checkpatch.pl warns during its own execution with:
+Cc: stable@vger.kernel.org
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+ net/bluetooth/hci_event.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Use of uninitialized value $1 in regexp compilation at
-./scripts/checkpatch.pl line 2638.
+diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
+index 03a0759f2fc2..8b3736c83b8e 100644
+--- a/net/bluetooth/hci_event.c
++++ b/net/bluetooth/hci_event.c
+@@ -2517,7 +2517,7 @@ static void hci_inquiry_result_evt(struct hci_dev *hdev, struct sk_buff *skb)
+ 
+ 	BT_DBG("%s num_rsp %d", hdev->name, num_rsp);
+ 
+-	if (!num_rsp)
++	if (!num_rsp || skb->len < num_rsp * sizeof(*info) + 1)
+ 		return;
+ 
+ 	if (hci_dev_test_flag(hdev, HCI_PERIODIC_INQ))
+-- 
+2.25.1
 
-Mrinal, can you debug and find out why and what specifically in those
-patches cause this warning in line 2638?
-
-Also, what is the intent and when was this introduced to
-checkpatch.pl? It could be that it never worked since it was
-introduced or that it broke due to some refactoring. Can you find what
-happened in this case here?
-
-Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
