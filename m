@@ -8,97 +8,98 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E59C433E8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD30C433E7
 	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:55:18 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A0DCF206F0
+	by mail.kernel.org (Postfix) with ESMTPS id 904262067D
 	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:55:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NSPewnin"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0DCF206F0
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qmI/dKku"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 904262067D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7D91688733;
+	by silver.osuosl.org (Postfix) with ESMTP id 5BED12474E;
 	Mon, 13 Jul 2020 16:55:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VnFH-zBBsgCk; Mon, 13 Jul 2020 16:55:17 +0000 (UTC)
+	with ESMTP id 4P-zfTXfjJDw; Mon, 13 Jul 2020 16:55:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DCEAD88C64;
-	Mon, 13 Jul 2020 16:55:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1522623735;
+	Mon, 13 Jul 2020 16:55:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CCA31C088E;
-	Mon, 13 Jul 2020 16:55:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AEE8AC08A8;
+	Mon, 13 Jul 2020 16:55:16 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CFD86C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2771FC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Mon, 13 Jul 2020 16:55:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BEFE882441
+ by whitealder.osuosl.org (Postfix) with ESMTP id 16D2A8527D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Mon, 13 Jul 2020 16:55:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MwmggnKIxGhh
+ with ESMTP id isfuNLu23Gd9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:55:15 +0000 (UTC)
+ Mon, 13 Jul 2020 16:55:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 04ED888AFC
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 030B282441
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:55:15 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id n2so14278748edr.5
+ Mon, 13 Jul 2020 16:55:14 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id z17so14273577edr.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 09:55:14 -0700 (PDT)
+ Mon, 13 Jul 2020 09:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=e583Pj41mbGa0akKyeW2rYwc3SOFBc4BRiRYVhykVn0=;
- b=NSPewnin+umq+Hpw1VWQZYiIMe8GpYsUXwfzptgWDWoPiRg5JdRkQnTxGPG5XIcKLi
- UUpNEzCE0J/2F+81HVw1NIlylHNjNmYp+qtI8ey59l45x6EqCxhfqzxJLFlE3ViR3tt4
- zBgFSTsenkoT784l1whYtML/oIG5HU9WWWJbol4bUzzLcgUnuK4xRLw49BMrPrYf1CkA
- Jn3hbTiIT1KUEph4CzyOnMiLetZlrOxRM6l/pkEpJA0NtPVqY/sMvCdJVyBd8cwBBf92
- GmQLYC2DxDBpG/6rydAcun+L5sogjQM9CykfTBM+Yux9ijI2LhF9iQWN1rXROIgt8JRC
- jKWw==
+ bh=236yoLO9rvFi7kFEaDT+jdNhQShh5zAyQTJD1cMNwbc=;
+ b=qmI/dKkuGKWs1uJ/X+ORo2j9ZYWZLY//kGgOrJqvN0aGQHXouo9YDB4nmjhqfGS5HE
+ w7TNx7OdD/HGeRKuN/8SUJOm/BYKXqm/oPoQDqXcvJrWQQCyGA2M16n9RvjaO+kfo7Mg
+ vPGH++wf3L1TXs1DHBmVvhPRFmAFDdsoJZz6BPqAbYRpQDk9aHt20GC2FxkITx2TVBCA
+ /2Y2Iz0OfTDCHMcXstLS1S96GW8SIkIfj0gVI9DD0VKL3DMNUdWO27amm2BoqL3uFH94
+ RSyexOquu8pAfOIGi1x4GhBae9z3c/MauTBf+xMYA5e8tncOHKWz9HEGhtvQN9D/oJAv
+ PCkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=e583Pj41mbGa0akKyeW2rYwc3SOFBc4BRiRYVhykVn0=;
- b=qqiK+nK+r753Afd0yvMbxqjvxJVgdnT7PHsICIAbLfe1UCTclu9Nhy50SqKcqujw+3
- DrhyEu4Br1tixVX6U9ZQKjXh0NktLKW1MH68fk/hlotlJ7r7x1MiO80pXaiU+LiYvVXs
- friHatb8XU2d/lEPaggLN0lkUoEV85it7sN6/mYCxnejG6UEXsG/q+wdLpTIBQOAqM81
- LCP7vTrf11JmQ++9ycHkwKpFEzcEjXBaHg+BcvEYNP0dqVdmX3bDTmN40PYFXJcUkddW
- TJzqC0EeRW+DswHmHp0h7tgeADqwCSL3RPJG/rIEje1aqgZjWSbi8AdcNURtI68C2vRP
- ywKA==
-X-Gm-Message-State: AOAM532Pv+YQrfSzm7ZpPZzs4rlmCZGC44gzkO+pBheGQN5Ujj5R+SL/
- Sng9w54RUhQBriJMx8FVI4U=
-X-Google-Smtp-Source: ABdhPJzFuefoL/4Rxcgaj8jw3dS3fKhP7a3GskQbwngqBSIPoeJgKGthmRz4CpvHrLMQeri2oZC1DQ==
-X-Received: by 2002:a05:6402:b86:: with SMTP id
- cf6mr358151edb.42.1594659313535; 
- Mon, 13 Jul 2020 09:55:13 -0700 (PDT)
+ bh=236yoLO9rvFi7kFEaDT+jdNhQShh5zAyQTJD1cMNwbc=;
+ b=mXDlanjo1KOwSkAL8RaEw9rTRuWVER0epNFti4cB4O7HOTnR1J/KkqMttd/vCprri+
+ XSuTA4ni5TDBgGsAVScc+ztsttg4Z9N11+FXpi34+E1SD/5vUeGtTJIXmXilUlp9oiDG
+ NK8JzcgJqfWeKRATTwGYIB4FO18Bm28XZlSKgRQmpGUsopaKgibNKILkQijQDmTjyC80
+ /+ZxyO+sBdXRc9QfKPnOx2jWcegxCVWbjnle9iC1q9eKbVKNPPqUTqzNI21ngdWyMv1+
+ ntvu3bhLCExxGv9Z9GXGcfMlimWGBXW4cPKA3QQH7o2wl15pR883e1d33tZLDWwWN4w+
+ OqhQ==
+X-Gm-Message-State: AOAM532AYqCO+SiWXWmxhjbVghJtVA5lspzLyrYgPTNJwGALvcbMiFU2
+ +kYGQTuHSXjx2jc48i3HcXNFghyC0LQAlQ==
+X-Google-Smtp-Source: ABdhPJzS8bGidfvYhEBX+Vxk3kFa37roPQ//u7I4H6NbrGfX2t/Lv7uDWvR+9xa8wn77M37ExBUJqw==
+X-Received: by 2002:a05:6402:b9b:: with SMTP id
+ cf27mr368195edb.84.1594659312267; 
+ Mon, 13 Jul 2020 09:55:12 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id w3sm11838938edq.65.2020.07.13.09.55.12
+ by smtp.gmail.com with ESMTPSA id w3sm11838938edq.65.2020.07.13.09.55.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 09:55:13 -0700 (PDT)
+ Mon, 13 Jul 2020 09:55:11 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 To: skhan@linuxfoundation.org, linux-pci@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Stanislaw Gruszka <stf_xl@wp.pl>,
+ linux-kernel@vger.kernel.org,
+ QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
  linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-Date: Mon, 13 Jul 2020 19:55:27 +0200
-Message-Id: <20200713175529.29715-3-refactormyself@gmail.com>
+Date: Mon, 13 Jul 2020 19:55:26 +0200
+Message-Id: <20200713175529.29715-2-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200713175529.29715-1-refactormyself@gmail.com>
 References: <20200713175529.29715-1-refactormyself@gmail.com>
 Cc: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>,
  Kalle Valo <kvalo@codeaurora.org>
-Subject: [Linux-kernel-mentees] [PATCH 4/14 v3] iwlegacy: Check the return
+Subject: [Linux-kernel-mentees] [PATCH 3/14 v3] ath9k: Check the return
 	value of pcie_capability_read_*()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -133,24 +134,32 @@ Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 
 ---
- drivers/net/wireless/intel/iwlegacy/common.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/wireless/ath/ath9k/pci.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/wireless/intel/iwlegacy/common.c b/drivers/net/wireless/intel/iwlegacy/common.c
-index 348c17ce72f5..f78e062df572 100644
---- a/drivers/net/wireless/intel/iwlegacy/common.c
-+++ b/drivers/net/wireless/intel/iwlegacy/common.c
-@@ -4286,8 +4286,8 @@ il_apm_init(struct il_priv *il)
- 	 *    power savings, even without L1.
- 	 */
- 	if (il->cfg->set_l0s) {
--		pcie_capability_read_word(il->pci_dev, PCI_EXP_LNKCTL, &lctl);
--		if (lctl & PCI_EXP_LNKCTL_ASPM_L1) {
-+		ret = pcie_capability_read_word(il->pci_dev, PCI_EXP_LNKCTL, &lctl);
-+		if (!ret && (lctl & PCI_EXP_LNKCTL_ASPM_L1)) {
- 			/* L1-ASPM enabled; disable(!) L0S  */
- 			il_set_bit(il, CSR_GIO_REG,
- 				   CSR_GIO_REG_VAL_L0S_ENABLED);
+diff --git a/drivers/net/wireless/ath/ath9k/pci.c b/drivers/net/wireless/ath/ath9k/pci.c
+index f3461b193c7a..cff9af3af38d 100644
+--- a/drivers/net/wireless/ath/ath9k/pci.c
++++ b/drivers/net/wireless/ath/ath9k/pci.c
+@@ -825,6 +825,7 @@ static void ath_pci_aspm_init(struct ath_common *common)
+ 	struct pci_dev *pdev = to_pci_dev(sc->dev);
+ 	struct pci_dev *parent;
+ 	u16 aspm;
++	int ret;
+ 
+ 	if (!ah->is_pciexpress)
+ 		return;
+@@ -866,8 +867,8 @@ static void ath_pci_aspm_init(struct ath_common *common)
+ 	if (AR_SREV_9462(ah))
+ 		pci_read_config_dword(pdev, 0x70c, &ah->config.aspm_l1_fix);
+ 
+-	pcie_capability_read_word(parent, PCI_EXP_LNKCTL, &aspm);
+-	if (aspm & (PCI_EXP_LNKCTL_ASPM_L0S | PCI_EXP_LNKCTL_ASPM_L1)) {
++	ret = pcie_capability_read_word(parent, PCI_EXP_LNKCTL, &aspm);
++	if (!ret && (aspm & (PCI_EXP_LNKCTL_ASPM_L0S | PCI_EXP_LNKCTL_ASPM_L1))) {
+ 		ah->aspm_enabled = true;
+ 		/* Initialize PCIe PM and SERDES registers. */
+ 		ath9k_hw_configpcipowersave(ah, false);
 -- 
 2.18.2
 
