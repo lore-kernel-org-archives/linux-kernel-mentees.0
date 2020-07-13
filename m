@@ -2,117 +2,98 @@ Return-Path: <SRS0=16qS=AY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B0EC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 09:13:55 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C17DC433E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 09:58:18 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2C622067D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 09:13:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 607982068F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 09:58:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="tzeG5ve5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E2C622067D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V5IGwJ8G"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 607982068F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B272588F27;
-	Mon, 13 Jul 2020 09:13:54 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 30BE08963F;
+	Mon, 13 Jul 2020 09:58:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yvhX+649MfYN; Mon, 13 Jul 2020 09:13:53 +0000 (UTC)
+	with ESMTP id 7KJkPOEwzdEy; Mon, 13 Jul 2020 09:58:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E6608888CB;
-	Mon, 13 Jul 2020 09:13:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 635868966C;
+	Mon, 13 Jul 2020 09:58:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D1FE1C0888;
-	Mon, 13 Jul 2020 09:13:53 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E96C2C0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 09:13:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B662C0888;
+	Mon, 13 Jul 2020 09:58:17 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B2B68C0733
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 09:58:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DFEFA88E98
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 09:13:52 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id ABC2386FC9
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 09:57:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4Exe78xbt8u1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 09:13:52 +0000 (UTC)
+ with ESMTP id 381lq3JFFEyY
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 09:57:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 25CF7888CB
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 09:13:52 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06D96nCd150599;
- Mon, 13 Jul 2020 09:13:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=XLvfUS4mbnV209WiCLIZkkPnGW6xeTZVH1WmfCUolWs=;
- b=tzeG5ve5TmruXBYeD9fe3P4ay+Nf1tkBPArT6w+89JT5hNRXDqSZU91+g15xPWrtafNt
- ZLTYImWy1OkIQ7w8fG/d39KP2quYoCC2Yvd1D/U+L+p9jYE2rPBwC9g7pa2ki+6mlrBP
- sQLkCQuENMsJAe01428Hub7ho75G6GAHVicrhf+BvvO+Ie4ELwQccA4lT2DsO8XSnmz2
- gHNLgk0ksBwmu1ock23DP+QK3Iz3biOfIj56Jdmk49tcghTpeh9sTKkYgMorkr8Hy7MZ
- kFzTm6Yw2oiHwD7nauThznUSN4yjcgzy/scVg/eBdjKC15rpAUJKzkmJvvVY+ZP030mj Yw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 32762n5svv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 13 Jul 2020 09:13:40 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06D98X5X145817;
- Mon, 13 Jul 2020 09:13:40 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 327qbv8vbf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jul 2020 09:13:40 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06D9DcU1002442;
- Mon, 13 Jul 2020 09:13:38 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 13 Jul 2020 02:13:37 -0700
-Date: Mon, 13 Jul 2020 12:13:29 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Message-ID: <20200713091329.GP2571@kadam>
-References: <20200712210300.200399-1-yepeilin.cs@gmail.com>
- <20200712213631.GA809@sol.localdomain>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C319286FC6
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 09:57:49 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id x72so5783637pfc.6
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 02:57:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=GJb8wBpXKfaeq0uD/Mku0pz1DCntVD17alciGMLXamw=;
+ b=V5IGwJ8GKTef6QcGuPYfGMbdrBlZF+OKmSdBznouqKtPoQAUfvaPVoJGYzwtxq23cI
+ aLVsveaYHsGT68CVkygAnHGPG10h2COkEfGqYeeM8NzWt1haKsmBFBDfywuI9rc0hOPD
+ cJt9Gsia53PD8TtvMYY97rF3mGmIcwO5DxCRSt3XP33MCxC9O1/piW+Liqndl3CsyPg9
+ BoUip8yeX0H1MHsrCoDA1MxLEvgKC2YwhjdEJ+xo25Mjd/jWl6aVlsk5+wzilRwp8PIh
+ bsmhLmfWgNlwxUaebvam/lfHyOQCD06cFYJy8x1t3vw+n/kyoXZgyKh1MfoIaZl+WKOO
+ 0s/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=GJb8wBpXKfaeq0uD/Mku0pz1DCntVD17alciGMLXamw=;
+ b=K3fazqx6dasMGAylcM+s/ud/emkSsWiUIvtwwoKV2VPA6BKn8DO5SzBRzKQymairR/
+ 0YrdOHY875r6+XsNOu0zqkMNiopeGRlYBYdly13nubThSmVRHzMtQH7zd4Je3YjFBE2W
+ 6eikbwdmlf2HddrthiWJoQLuDojXqY8QnJEQXNLBJrc6y4FFMcy1UIMw9yk8s/S7AOjX
+ Jr4tWEhUvn2byOQgs5dVvQU1kMeeaFBynOZVImQVwSMUUbIlXeZatJbrZwTfNtrdeD20
+ aVyX9MCCvUfMrLdM+kNHDLxDrDTAdbNxX+uVl5f9K/C2mqO7HZMKnFxtxcV7wzVgo1bV
+ OAeA==
+X-Gm-Message-State: AOAM530Rmg1bC2/sNxw8/Uj1c1GEal9TOXzst425o9ffWa4VH5hkz3Ev
+ dytg2hBl9gCb3gH+P0Egpr4=
+X-Google-Smtp-Source: ABdhPJyYQwv+e4OM6Ah1yHb1IKJVTk5T40pDT6tlg/6NvyjkqV74G0Q/OrXQU8tJPFIEGmMTNOqK/Q==
+X-Received: by 2002:a05:6a00:1342:: with SMTP id
+ k2mr72280151pfu.32.1594634269306; 
+ Mon, 13 Jul 2020 02:57:49 -0700 (PDT)
+Received: from localhost ([2401:4900:1692:3ec9:34c4:54d3:ee0a:4af3])
+ by smtp.gmail.com with ESMTPSA id c134sm13857545pfc.115.2020.07.13.02.57.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 02:57:48 -0700 (PDT)
+Date: Mon, 13 Jul 2020 15:27:40 +0530
+From: Mrinal Pandey <mrinalmni@gmail.com>
+To: lukas.bulwahn@gmail.com
+Message-ID: <20200713095740.mi3cnx7tccoetxgc@mrinalpandey>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200712213631.GA809@sol.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9680
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0
- mlxlogscore=999 bulkscore=0 malwarescore=0 mlxscore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007130071
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9680
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- malwarescore=0 spamscore=0
- clxscore=1011 priorityscore=1501 mlxlogscore=999 lowpriorityscore=0
- bulkscore=0 suspectscore=0 phishscore=0 adultscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007130071
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- "David S . Miller" <davem@davemloft.net>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Peilin Ye <yepeilin.cs@gmail.com>, Navid Emamdoost <navid.emamdoost@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH net] qrtr: Fix ZERO_SIZE_PTR
- deref in qrtr_tun_write_iter()
+Cc: Linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: Fix SPDX license check
+	for scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,61 +105,99 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0799920421734888310=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jul 12, 2020 at 02:36:31PM -0700, Eric Biggers wrote:
-> On Sun, Jul 12, 2020 at 05:03:00PM -0400, Peilin Ye wrote:
-> > qrtr_tun_write_iter() is dereferencing `ZERO_SIZE_PTR`s when `from->count`
-> > equals to zero. Fix it by rejecting zero-length kzalloc() requests.
-> > 
-> > This patch fixes the following syzbot bug:
-> > 
-> >     https://syzkaller.appspot.com/bug?id=f56bbe6668873ee245986bbd23312b895fa5a50a
-> > 
-> > Reported-by: syzbot+03e343dbccf82a5242a2@syzkaller.appspotmail.com
-> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> > ---
-> >  net/qrtr/tun.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/net/qrtr/tun.c b/net/qrtr/tun.c
-> > index 15ce9b642b25..5465e94ba8e5 100644
-> > --- a/net/qrtr/tun.c
-> > +++ b/net/qrtr/tun.c
-> > @@ -80,6 +80,9 @@ static ssize_t qrtr_tun_write_iter(struct kiocb *iocb, struct iov_iter *from)
-> >  	ssize_t ret;
-> >  	void *kbuf;
-> >  
-> > +	if (!len)
-> > +		return -EINVAL;
-> > +
-> >  	kbuf = kzalloc(len, GFP_KERNEL);
-> >  	if (!kbuf)
-> >  		return -ENOMEM;
-> 
-> Wasn't this already fixed by:
-> 
->     commit 8ff41cc21714704ef0158a546c3c4d07fae2c952
->     Author: Dan Carpenter <dan.carpenter@oracle.com>
->     Date:   Tue Jun 30 14:46:15 2020 +0300
-> 
->         net: qrtr: Fix an out of bounds read qrtr_endpoint_post()
+
+--===============0799920421734888310==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="44qq7k4ubusxyrgk"
+Content-Disposition: inline
 
 
-Yep.  If you're using kmalloc() you can allocate a zero byte buffer but
-you just can't access the array.  for (i = 0; i < 0; i++) works.
+--44qq7k4ubusxyrgk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It's interesting because at the time, I wrote the patch I thought "len"
-probably couldn't be zero but I just checked it for completeness and
-readability.
+In all the scripts, the SPDX license should be on the second line,
+the first line being the "sh-bang", but checkpatch issues a warning
+"Misplaced SPDX-License-Identifier tag - use line 1 instead" for the
+scripts that have SPDX license in the second line.
 
-regards,
-dan carpenter
+However, this warning is not issued when checkpatch is run on a file using
+`-f` option. The case for files has been handled gracefully by changing
+`$checklicenseline` to `2` but a corresponding check when running checkpatch
+on a commit hash is missing.
+
+I noticed this false positive while running checkpatch on the set of
+commits from v5.7 to v5.8-rc1 of the kernel on the commits which modified
+a script file.
+
+This check is missing in checkpatch since commit a8da38a9cf0e
+("checkpatch: add test for SPDX-License-Identifier on wrong line #")
+when the corresponding rule was first commited.
+
+Fix this by setting `$checklicenseline` to `2` when the diff content that
+is being checked originates from a script, thus, informing checkpatch that
+the SPDX license should be on the second line.
+
+Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
+---
+ scripts/checkpatch.pl | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 4c820607540b..bbffd0c4449d 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3218,6 +3218,9 @@ sub process {
+ 		next if ($realfile !~ /\.(h|c|s|S|sh|dtsi|dts)$/);
+=20
+ # check for using SPDX-License-Identifier on the wrong line number
++		if ($realfile =3D~ /^scripts/) {
++                    $checklicenseline =3D 2;
++	        }
+ 		if ($realline !=3D $checklicenseline &&
+ 		    $rawline =3D~ /\bSPDX-License-Identifier:/ &&
+ 		    substr($line, @-, @+ - @-) eq "$;" x (@+ - @-)) {
+--=20
+2.25.1
+
+
+--44qq7k4ubusxyrgk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE8DwCG1PwaC2uTI99xIwpEWwxhGQFAl8MMA8ACgkQxIwpEWwx
+hGSRJRAAsMYeE4Swt/WwzR5VJdgGPnJVVC6u/27PuoX/usH5APs9oLkP0gY8D7gr
+7zYT4VY2wvRbr/uCDVJV5oLRK0+FBgOl6GqBtjajyRAmnVIJ2CcaPe1QhRkb6nOq
+jXYX/LcQidtWzdw8EAb1UpiiUf8PrI4zUrJ9ZnWhZ9kFHz+K2duRXta3qw4ZTzJH
+6oZiAGggSob3UXuyncjvKlX+OuwOSTW5RTf08keq5PtUrRespPW9rj9VThcbzeLX
+/QA71syi1hr9joZOtPQ5HOKK7CAHrptKQLJfZmnNWnSa9bBPo1G12F/UsRZeevBu
+xGdmTZE3QhP1QRl4IbSlOvY2nBF6pkGBryLB5GG8dYpu0SXha6LRa/GZEz9OxzYo
+QkfjxVXvh4LM5gsHA9qU+monUuvkMzuWG/b8naW2nVBgQsI8WubKH8C7QH8eiRuA
+bfRgS4XTUrs0Y58BykZ92gOlhtO3ld77Tm/dy3vFKvbDJpO1Bb5VIzzxi8lGGFzu
+N6M0iWhDeAThGd9eWJNeTWQl4t1XcJzo67Tgru5utctQWu2uQrQgVJQvgytWjJlK
+LAEDMbHjW6HkrnpYM2kkNX1MOJfPc3tdr+o4pkoNtoulN5fTNqGdh6M1Orv4r3vB
+Aes9BE9LBFQcU8B3YN9bsNNuTRO7XxCwZoyDytx3Q6Hms/DoxOs=
+=+V3B
+-----END PGP SIGNATURE-----
+
+--44qq7k4ubusxyrgk--
+
+--===============0799920421734888310==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============0799920421734888310==--
