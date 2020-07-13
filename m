@@ -8,98 +8,108 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFABAC433EC
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:22:48 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2D0C433F4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:22:52 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 91592206F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:22:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2D3DA2072D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:22:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sio14PR2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 91592206F4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hLYogsEr"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D3DA2072D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7570F8908C;
-	Mon, 13 Jul 2020 13:22:48 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F407F2002A;
+	Mon, 13 Jul 2020 13:22:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IJpF6TK77RYE; Mon, 13 Jul 2020 13:22:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 386B72288E;
+	Mon, 13 Jul 2020 13:22:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 24604C08A8;
+	Mon, 13 Jul 2020 13:22:50 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D33D6C0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 13:22:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id C24AF88FFC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 13:22:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x50UYzLpDIhm; Mon, 13 Jul 2020 13:22:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 019C588F86;
-	Mon, 13 Jul 2020 13:22:48 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F13E2C08A0;
-	Mon, 13 Jul 2020 13:22:47 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C1B7C08A0
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hxio46Nk9JWV
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 13:22:47 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E0C7288F86
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Mon, 13 Jul 2020 13:22:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B428486A59
+Received: by mail-ej1-f65.google.com with SMTP id f12so17130317eja.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:22:43 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PTxtZk9-77wx
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:22:43 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
- [209.85.208.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E3F1C869A5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:22:42 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id e22so13656301edq.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 06:22:42 -0700 (PDT)
+ Mon, 13 Jul 2020 06:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=cLqez7BSyfcefFRd7dwUFrtJ0GHfAxGAdp04dPgWsLE=;
- b=sio14PR2ZhNVYW5pRGQc2jglAo7nTdWWKSefc4gMs+wgVmGhec2a2fyBTfLZ6J14Qp
- coLl1eOLB8d5tKO9spI1RYxQiMgfsiKvvYaimdqIph4H23i9wUbc9MG280qJENvlajSw
- /VN2T/7nNcVFpitKVUM+s06FscbXZj7WUQDOgljFVatIS/RQoOWA14lTYbW+495xaTJy
- TaLylSHSuZwnAHDVc8I1k3YTYCGjgxetjP360T/El0/SU1JdisRR1pj7aP6wJUpLOce6
- 00lgSzAedeQA2Yqg4ZoShFqwzsBOfMVh/JcesPq/SiBokPUANb05LCj7qdrsjvlUOqbi
- FybA==
+ bh=9eSzPhspiWvGf9aT6n+u7h1JAatvbzNtxDm7qgPwQa4=;
+ b=hLYogsErj4MxDifEjs2yaWms0NpgUVako6c8lR/I2R4HV9RllrJIdGqkMDp5APeeDE
+ oWeJOdnNhg7Ug/j0KkKHuaUJSEqiFCugiXFDKBKD08Rf4UCqkHYGXXTk09tPPdekReMl
+ f/Z3N9TMpWpw2xAQtgdR8/N+9F0vAhXDYUe0EU/xGTl4W5zeIioGJduOy6lClM+Y6oFA
+ xnjejrZ8kSmDHyZVOhAaPrgokXgExqfS+EI7cvM+Df1dhlImeqOdm4/lVR+HRcx5xHku
+ Igf8N+NUygg5XttWH+kIcV9FL4bX+s92wGGITkFUVhBz34HIbR1LCVyWtNYcj0CfHCge
+ ox9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=cLqez7BSyfcefFRd7dwUFrtJ0GHfAxGAdp04dPgWsLE=;
- b=ciqf3PjO1DT4w656fg+hVa0wzovz411FSMk4smKOQxvYWny7OVdgZdRF5vXG1G25pv
- bvzmk3RpaSDkChNa3N1ZZK9RNP3mRCCFrkEX8R8o3TRaBQbrhMG7Hs5Sa0dEdOZzdX+c
- eurR6Vez0LPyVHzImFccgornIzjkNa1f2orObxZQupXulK27ma/ykFEa/8ApDDInoBxD
- BfsVPcUmQ+c9A/p5Hrr/eqpGeo+NFdXFqzqX55eO1LJxOEijmxnwYMheILbaCGFMYo0p
- dgV919RQWOQ2X/B6Wctdt6EaRu6qrZ6dr4zQtfwDfQFbW2aMF+LVEcAQ28bGjEsB+hSo
- uyGA==
-X-Gm-Message-State: AOAM5316/4hGi8uAzEXqajBJpLXuQ51+vUwJQKOLkIEMfpE4Phij1wvw
- FofiiAgOGdh2iSyAcTDccwk=
-X-Google-Smtp-Source: ABdhPJw851ydCCL6n3xPVW+bl+icaHvx7ShHFlSz4LStRGij1QNNCQ6hE4bN7pmrcD8LYtZRUcTX8g==
-X-Received: by 2002:a05:6402:359:: with SMTP id
- r25mr66126290edw.177.1594646561310; 
- Mon, 13 Jul 2020 06:22:41 -0700 (PDT)
+ bh=9eSzPhspiWvGf9aT6n+u7h1JAatvbzNtxDm7qgPwQa4=;
+ b=ES3bJGFIU/jxhYHJ1vTcXEdKv6HuXEIxsPMKwZrCCF7Knq29qyeeML92/2LJbS//EA
+ Qp45JaB4MA0iH2yxOuhMd7tBauTK6/4zJHAibe/l1M20QoJCqfpNaaG1Qkd3hw/T9j9M
+ XtJBxpksrsmnGZcoxjqzhlniJGS2y6U6orFchzaZUOsON/L5TPhbxSw+SpQcgoQlvhLx
+ JEtrUWljUL+mWXiWsWG6qhbhtEt4ah9uhIhgV8W9hzQCh/BCejGUVM9dfRbQcdB8pZ3o
+ XjnNof6v171IfMl5MqYmYZjn8UYs9uk3D7sQM0pok6703QNDQSFvxgw0cCWqOTdpTrFu
+ tuig==
+X-Gm-Message-State: AOAM532aFv83x++hMoeWhamJkRd87Ni0Ej1L4aHCk6clbMxC3aNuJft0
+ i0WxX0LqCpGHS6XEHNwRTqU=
+X-Google-Smtp-Source: ABdhPJyNhtJJphGqXF4QW+aGFKHkMsFvQ0ZrswEHN2+kh5oK7be5K3ZFffA96ErJ6GVjCF52Di2gmA==
+X-Received: by 2002:a17:906:d143:: with SMTP id
+ br3mr71266443ejb.268.1594646565435; 
+ Mon, 13 Jul 2020 06:22:45 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.22.40
+ by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.22.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 06:22:40 -0700 (PDT)
+ Mon, 13 Jul 2020 06:22:44 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: helgaas@kernel.org, Brian King <brking@us.ibm.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>
-Date: Mon, 13 Jul 2020 14:22:16 +0200
-Message-Id: <20200713122247.10985-5-refactormyself@gmail.com>
+To: helgaas@kernel.org, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Rob Herring <robh@kernel.org>, Ley Foon Tan <ley.foon.tan@intel.com>,
+ Marek Vasut <marek.vasut+renesas@gmail.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Toan Le <toan@os.amperecomputing.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ Yue Wang <yue.wang@Amlogic.com>, Kevin Hilman <khilman@baylibre.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Date: Mon, 13 Jul 2020 14:22:18 +0200
+Message-Id: <20200713122247.10985-7-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200713122247.10985-1-refactormyself@gmail.com>
 References: <20200713122247.10985-1-refactormyself@gmail.com>
-Cc: linux-scsi@vger.kernel.org,
- "Saheed O. Bolarinwa" <refactormyself@gmail.com>, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH 04/35] scsi: ipr: Tidy
-	Success/Failure checks
+Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ linux-kernel@vger.kernel.org, rfi@lists.rocketboards.org,
+ linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-amlogic@lists.infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [Linux-kernel-mentees] [RFC PATCH 06/35] PCI: Tidy Success/Failure
+	checks
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,92 +132,113 @@ Remove unnecessary check for 0.
 
 Signed-off-by: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 ---
-This patch depends on PATCH 03/35
+This patch depends on PATCH 05/35
 
- drivers/scsi/ipr.c     | 12 ++++++------
- drivers/scsi/pmcraid.c |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/pci/controller/dwc/pci-meson.c            | 2 +-
+ drivers/pci/controller/dwc/pcie-designware-host.c | 2 +-
+ drivers/pci/controller/pci-xgene.c                | 3 +--
+ drivers/pci/controller/pcie-altera.c              | 4 ++--
+ drivers/pci/controller/pcie-iproc.c               | 2 +-
+ drivers/pci/controller/pcie-rcar-host.c           | 4 ++--
+ 6 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/scsi/ipr.c b/drivers/scsi/ipr.c
-index b6c52a04cf52..e714f82769bc 100644
---- a/drivers/scsi/ipr.c
-+++ b/drivers/scsi/ipr.c
-@@ -775,7 +775,7 @@ static int ipr_save_pcix_cmd_reg(struct ipr_ioa_cfg *ioa_cfg)
- 		return 0;
+diff --git a/drivers/pci/controller/dwc/pci-meson.c b/drivers/pci/controller/dwc/pci-meson.c
+index 58142f03d300..8203d5f95d28 100644
+--- a/drivers/pci/controller/dwc/pci-meson.c
++++ b/drivers/pci/controller/dwc/pci-meson.c
+@@ -390,7 +390,7 @@ static int meson_pcie_rd_own_conf(struct pcie_port *pp, int where, int size,
+ 	int ret;
  
- 	if (pci_read_config_word(ioa_cfg->pdev, pcix_cmd_reg + PCI_X_CMD,
--				 &ioa_cfg->saved_pcix_cmd_reg) != 0) {
-+				 &ioa_cfg->saved_pcix_cmd_reg)) {
- 		dev_err(&ioa_cfg->pdev->dev, "Failed to save PCI-X command register\n");
- 		return -EIO;
+ 	ret = dw_pcie_read(pci->dbi_base + where, size, val);
+-	if (ret != 0)
++	if (ret)
+ 		return ret;
+ 
+ 	/*
+diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+index 7c97c54f787c..2dd3965365f6 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-host.c
++++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+@@ -459,7 +459,7 @@ int dw_pcie_host_init(struct pcie_port *pp)
  	}
-@@ -797,7 +797,7 @@ static int ipr_set_pcix_cmd_reg(struct ipr_ioa_cfg *ioa_cfg)
  
- 	if (pcix_cmd_reg) {
- 		if (pci_write_config_word(ioa_cfg->pdev, pcix_cmd_reg + PCI_X_CMD,
--					  ioa_cfg->saved_pcix_cmd_reg) != 0) {
-+					  ioa_cfg->saved_pcix_cmd_reg)) {
- 			dev_err(&ioa_cfg->pdev->dev, "Failed to setup PCI-X command register\n");
- 			return -EIO;
- 		}
-@@ -8748,7 +8748,7 @@ static int ipr_reset_start_bist(struct ipr_cmnd *ipr_cmd)
- 	else
- 		rc = pci_write_config_byte(ioa_cfg->pdev, PCI_BIST, PCI_BIST_START);
+ 	ret = dw_pcie_rd_own_conf(pp, PCI_HEADER_TYPE, 1, &hdr_type);
+-	if (ret != 0) {
++	if (ret) {
+ 		dev_err(pci->dev, "Failed reading PCI_HEADER_TYPE cfg space reg (ret: 0x%x)\n",
+ 			ret);
+ 		ret = pcibios_err_to_errno(ret);
+diff --git a/drivers/pci/controller/pci-xgene.c b/drivers/pci/controller/pci-xgene.c
+index bf74f0a8b451..8d55cfc4ff8a 100644
+--- a/drivers/pci/controller/pci-xgene.c
++++ b/drivers/pci/controller/pci-xgene.c
+@@ -167,8 +167,7 @@ static int xgene_pcie_config_read32(struct pci_bus *bus, unsigned int devfn,
+ {
+ 	struct xgene_pcie_port *port = pcie_bus_to_port(bus);
  
--	if (rc == 0) {
-+	if (!rc) {
- 		ipr_cmd->job_step = ipr_reset_bist_done;
- 		ipr_reset_start_timer(ipr_cmd, IPR_WAIT_FOR_BIST_TIMEOUT);
- 		rc = IPR_RC_JOB_RETURN;
-@@ -8946,7 +8946,7 @@ static int ipr_reset_alert(struct ipr_cmnd *ipr_cmd)
- 	ENTER;
- 	rc = pci_read_config_word(ioa_cfg->pdev, PCI_COMMAND, &cmd_reg);
+-	if (pci_generic_config_read32(bus, devfn, where & ~0x3, 4, val) !=
+-	    0)
++	if (pci_generic_config_read32(bus, devfn, where & ~0x3, 4, val))
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
  
--	if ((rc == 0) && (cmd_reg & PCI_COMMAND_MEMORY)) {
-+	if ((!rc) && (cmd_reg & PCI_COMMAND_MEMORY)) {
- 		ipr_mask_and_clear_interrupts(ioa_cfg, ~0);
- 		writel(IPR_UPROCI_RESET_ALERT, ioa_cfg->regs.set_uproc_interrupt_reg32);
- 		ipr_cmd->job_step = ipr_reset_wait_to_start_bist;
-@@ -10256,7 +10256,7 @@ static int ipr_probe_ioa(struct pci_dev *pdev,
- 	rc = pci_write_config_byte(pdev, PCI_CACHE_LINE_SIZE,
- 				   ioa_cfg->chip_cfg->cache_line_size);
+ 	/*
+diff --git a/drivers/pci/controller/pcie-altera.c b/drivers/pci/controller/pcie-altera.c
+index 96f5bda32b58..9f7b12ad0c04 100644
+--- a/drivers/pci/controller/pcie-altera.c
++++ b/drivers/pci/controller/pcie-altera.c
+@@ -367,7 +367,7 @@ static int tlp_cfg_dword_write(struct altera_pcie *pcie, u8 bus, u32 devfn,
+ 						    value, false);
  
--	if (rc != 0) {
-+	if (rc) {
- 		dev_err(&pdev->dev, "Write of cache line size failed\n");
- 		ipr_wait_for_pci_err_recovery(ioa_cfg);
- 		rc = -EIO;
-@@ -10337,7 +10337,7 @@ static int ipr_probe_ioa(struct pci_dev *pdev,
- 	/* Save away PCI config space for use following IOA reset */
- 	rc = pci_save_state(pdev);
+ 	ret = pcie->pcie_data->ops->tlp_read_pkt(pcie, NULL);
+-	if (ret != 0)
++	if (ret)
+ 		return ret;
  
--	if (rc != 0) {
-+	if (rc) {
- 		dev_err(&pdev->dev, "Failed to save PCI config space\n");
- 		rc = -EIO;
- 		goto cleanup_nolog;
-diff --git a/drivers/scsi/pmcraid.c b/drivers/scsi/pmcraid.c
-index 5f6e440f0dcd..151aa61b674b 100644
---- a/drivers/scsi/pmcraid.c
-+++ b/drivers/scsi/pmcraid.c
-@@ -553,7 +553,7 @@ static void pmcraid_bist_done(struct timer_list *t)
- 	rc = pci_read_config_word(pinstance->pdev, PCI_COMMAND, &pci_reg);
+ 	/*
+@@ -453,7 +453,7 @@ static int _altera_pcie_cfg_read(struct altera_pcie *pcie, u8 busno,
  
- 	/* If PCI config space can't be accessed wait for another two secs */
--	if ((rc != 0 || (!(pci_reg & PCI_COMMAND_MEMORY))) &&
-+	if ((rc || (!(pci_reg & PCI_COMMAND_MEMORY))) &&
- 	    cmd->time_left > 0) {
- 		pmcraid_info("BIST not complete, waiting another 2 secs\n");
- 		cmd->timer.expires = jiffies + cmd->time_left;
-@@ -649,7 +649,7 @@ static void pmcraid_reset_alert(struct pmcraid_cmd *cmd)
- 	 * BIST or slot_reset
- 	 */
- 	rc = pci_read_config_word(pinstance->pdev, PCI_COMMAND, &pci_reg);
--	if ((rc == 0) && (pci_reg & PCI_COMMAND_MEMORY)) {
-+	if ((!rc) && (pci_reg & PCI_COMMAND_MEMORY)) {
+ 	ret = tlp_cfg_dword_read(pcie, busno, devfn,
+ 				 (where & ~DWORD_MASK), byte_en, &data);
+-	if (ret != 0)
++	if (ret)
+ 		return ret;
  
- 		/* wait for IOA permission i.e until CRITICAL_OPERATION bit is
- 		 * reset IOA doesn't generate any interrupts when CRITICAL
+ 	switch (size) {
+diff --git a/drivers/pci/controller/pcie-iproc.c b/drivers/pci/controller/pcie-iproc.c
+index dac9352c0cb2..d34c9457fbe4 100644
+--- a/drivers/pci/controller/pcie-iproc.c
++++ b/drivers/pci/controller/pcie-iproc.c
+@@ -584,7 +584,7 @@ static int iproc_pcie_config_read(struct pci_bus *bus, unsigned int devfn,
+ 	/* root complex access */
+ 	if (busno == 0) {
+ 		ret = pci_generic_config_read32(bus, devfn, where, size, val);
+-		if (ret == 0)
++		if (!ret)
+ 			iproc_pcie_fix_cap(pcie, where, val);
+ 
+ 		return ret;
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 363a8630de28..2bb250c6f767 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -157,7 +157,7 @@ static int rcar_pcie_read_conf(struct pci_bus *bus, unsigned int devfn,
+ 
+ 	ret = rcar_pcie_config_access(host, RCAR_PCI_ACCESS_READ,
+ 				      bus, devfn, where, val);
+-	if (ret != 0) {
++	if (ret) {
+ 		*val = 0xffffffff;
+ 		return ret;
+ 	}
+@@ -184,7 +184,7 @@ static int rcar_pcie_write_conf(struct pci_bus *bus, unsigned int devfn,
+ 
+ 	ret = rcar_pcie_config_access(host, RCAR_PCI_ACCESS_READ,
+ 				      bus, devfn, where, &data);
+-	if (ret != 0)
++	if (ret)
+ 		return ret;
+ 
+ 	dev_dbg(&bus->dev, "pcie-config-write: bus=%3d devfn=0x%04x where=0x%04x size=%d val=0x%08x\n",
 -- 
 2.18.2
 
