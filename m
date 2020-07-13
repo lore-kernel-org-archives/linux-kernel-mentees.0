@@ -8,95 +8,95 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B33C433EA
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D649C433EB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:55:22 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 957E22067D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:55:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D837F2067D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:55:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HmmxQ/aE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 957E22067D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QThq7T/N"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D837F2067D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8783388DAD;
-	Mon, 13 Jul 2020 16:55:20 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BD75788C64;
+	Mon, 13 Jul 2020 16:55:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PL7AOA55c1Ot; Mon, 13 Jul 2020 16:55:20 +0000 (UTC)
+	with ESMTP id UMrr8y5rUuge; Mon, 13 Jul 2020 16:55:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2494588E0D;
-	Mon, 13 Jul 2020 16:55:20 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3F16C88E0D;
+	Mon, 13 Jul 2020 16:55:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 144B0C088E;
-	Mon, 13 Jul 2020 16:55:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B21EC088E;
+	Mon, 13 Jul 2020 16:55:21 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6CAD8C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D315CC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:55:19 +0000 (UTC)
+ Mon, 13 Jul 2020 16:55:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4C18587B00
+ by fraxinus.osuosl.org (Postfix) with ESMTP id C1306868E7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:55:19 +0000 (UTC)
+ Mon, 13 Jul 2020 16:55:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ph13OD41CG7A
+ with ESMTP id xz-JHFtDDVWm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:55:16 +0000 (UTC)
+ Mon, 13 Jul 2020 16:55:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
  [209.85.208.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 4CA99868E7
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C896A86A5B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:55:16 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id z17so14273728edr.9
+ Mon, 13 Jul 2020 16:55:17 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id e22so14276634edq.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 09:55:16 -0700 (PDT)
+ Mon, 13 Jul 2020 09:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=iiHt01yExxr+UGjzI6XflZ+uDY4MKkRXHZbIPXDUuRY=;
- b=HmmxQ/aEsuwnYmu7uvp6iPKhOMZAIHMXP42//F908Nkqa4MLYdR6vM0f8CaAYqWowF
- cmLlcXg6JpO6pxfq/D/zt1YR+ZwGTV4syUfrH+YTz6B1Fs4vVUcsGP19zyzOASXLQlmZ
- qTKgzZNYZoquze0LtCBNYu9CdDrzkE2u3ekNQis8W69z1bxrl9hJzhzv1GepBQWS873d
- gw2++hMdnjYAB3HOhDaTO0eEJ/h40zjf9peBORLPHgXxyloTyKyiPqbw9YGSUU9NprrK
- bMu4dxYW7BLe+/eTe3hwCtah6QY+qHfien1FLHGr9zVADP/vvGBpx56b4RcfHUG+cyQ5
- 6/bw==
+ bh=Vg5seoeyahxUOJ1a2of2OSXbNHc8+N6IhRiLy4XR8Ps=;
+ b=QThq7T/NhE4spupA48w9flKBPIUZMsJ+uy1wChEjqmd9cLUhJNeozt9BNv1EslTKul
+ 9FzUYVh1psv92TVnmY05kmXxx7YOjo4zsDzZUATn9e4zIhaa/IU/l64wBzjWvrwDbAdT
+ yMVtRLi35HfG89vS3VWmX51PcL78Kumuk1a4Y+mb2X5zojZOcrMRGnHmOxMBpNMDphyn
+ WM6skKGt7eauq9PMF4fMY/WlqUw991iJ1Ytz1rk4085GlJxA7KXFCo39uIxgjXQ9fuJN
+ 3z5H1aRueRaa67gizAbiKT/8yQ6CvE9P5qTMm1ibl2NWyp9eZcuTPcv+4+0VHPs7z+dy
+ 9v1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=iiHt01yExxr+UGjzI6XflZ+uDY4MKkRXHZbIPXDUuRY=;
- b=PwOv4RTFPy6efeFH4McNCjaKW8z7a3gPyxH5KLa5iJ2V2g1WXvXqfZAEWTv9yJYFAY
- gaSHvNUNCkMEZocwEq0NRXfPCJ+R750xXp/PCuuF88Rknihi7GSXKJAXI3aE4FzKfGd5
- hCt0MVdAV6i8V1wpw/xt3yobVMBDxiw42E33AoSJ3+WyHwqs6K/BBWN5r3oEml852SrO
- L/AqrdpDMrCcn0x/3118bLm8GiYnFitxYIkgOVxp4Loay7P32kj/hmgaksFP7xJQ/q7W
- m8Qhz5Xn8VsgBKNfmwIhTmJBHblFBCmmRLEx4ilarPOnCWoPFtwgVHepdsksnzpnqUZ4
- pzqA==
-X-Gm-Message-State: AOAM533/DYk4kP7wNZKgyVdKLk+xsVuUut10v1mNxRrUkd5bgIESZk0D
- ruAR6bS34SvlJvkKfsFYHT0=
-X-Google-Smtp-Source: ABdhPJz2hbS/YAxk7ynpXEBxv0L7UVNCdcghPyy01UrXKtCfUacUfQIn8EVUfGf1smzuZiWEtLdarg==
-X-Received: by 2002:a05:6402:3099:: with SMTP id
- de25mr348700edb.228.1594659314697; 
- Mon, 13 Jul 2020 09:55:14 -0700 (PDT)
+ bh=Vg5seoeyahxUOJ1a2of2OSXbNHc8+N6IhRiLy4XR8Ps=;
+ b=M/0gblPhPVKvNbDTW0eGENe3gzQBIFjWzZQMnDpXlLvLNXBqS+oG8ko0XmMebEzqhQ
+ JMltDh59zm3S9uv6vRUkBBKQfW8l6PdLFgY/+dIwbQkfJ19ZDjkudVnD8CRmOQWM9K4P
+ g7vyd6kzHokHcWe3o/hWDpKsH+62D7RlFAjTmaafDQ5IQcPXJoG49Lj30OLyso0lb0Jn
+ qz18PHORGNwtECdO1PxjfFWJ2JZOb2Ck8zu/1iFvyoQdxLh/NhhUXpH5FZL+JzVwKGIV
+ Yd0rGOGRtAOdqCVcEtsCrEFM+l6tftX+LDmVpsOlj8aJO6XXWDj13cAxOExq2PVEpPbz
+ pBpw==
+X-Gm-Message-State: AOAM531NCxQIkm6fQxkrrRgfL1guDls9crJmqsItw9PSGLow+1YFW7zU
+ bU/TRh03Y61OQ6HwWp2/Wq4=
+X-Google-Smtp-Source: ABdhPJwiuJGYBhFGQzVTlihXWfzHv/j6TtpsUC2ukWbQvIDZs82x6qtdrhI4g0KTxQkpdk5UBwbo4Q==
+X-Received: by 2002:aa7:d58c:: with SMTP id r12mr365600edq.160.1594659316271; 
+ Mon, 13 Jul 2020 09:55:16 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id w3sm11838938edq.65.2020.07.13.09.55.13
+ by smtp.gmail.com with ESMTPSA id w3sm11838938edq.65.2020.07.13.09.55.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 09:55:14 -0700 (PDT)
+ Mon, 13 Jul 2020 09:55:15 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: skhan@linuxfoundation.org, linux-acpi@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+To: skhan@linuxfoundation.org, linux-pci@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
-Date: Mon, 13 Jul 2020 19:55:28 +0200
-Message-Id: <20200713175529.29715-4-refactormyself@gmail.com>
+Date: Mon, 13 Jul 2020 19:55:29 +0200
+Message-Id: <20200713175529.29715-5-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200713175529.29715-1-refactormyself@gmail.com>
 References: <20200713175529.29715-1-refactormyself@gmail.com>
 Cc: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH 8/14 v3] PCI/ACPI: Check the return
+Subject: [Linux-kernel-mentees] [PATCH 12/14 v3] PCI/AER: Check the return
 	value of pcie_capability_read_*()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -121,7 +121,7 @@ From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 On failure pcie_capability_read_dword() sets it's last parameter,
 val to 0.
 However, with Patch 14/14, it is possible that val is set to ~0 on
-failure. This would introduce a bug because (x & x) == (~0 & x). 
+failure. This would introduce a bug because (x & x) == (~0 & x).
 
 This bug can be avoided if the return value of pcie_capability_read_word
 is checked to confirm success.
@@ -131,45 +131,32 @@ Check the return value of pcie_capability_read_word() to ensure success.
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
 ---
- drivers/pci/pci-acpi.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/pci/pcie/aer.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
-index 7224b1e5f2a8..39eb816bc3b8 100644
---- a/drivers/pci/pci-acpi.c
-+++ b/drivers/pci/pci-acpi.c
-@@ -248,12 +248,13 @@ static bool pcie_root_rcb_set(struct pci_dev *dev)
- {
- 	struct pci_dev *rp = pcie_find_root_port(dev);
- 	u16 lnkctl;
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index 3acf56683915..f4beb47c622c 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -800,6 +800,7 @@ static bool is_error_source(struct pci_dev *dev, struct aer_err_info *e_info)
+ 	int aer = dev->aer_cap;
+ 	u32 status, mask;
+ 	u16 reg16;
 +	int ret;
  
- 	if (!rp)
+ 	/*
+ 	 * When bus id is equal to 0, it might be a bad id
+@@ -828,8 +829,8 @@ static bool is_error_source(struct pci_dev *dev, struct aer_err_info *e_info)
  		return false;
  
--	pcie_capability_read_word(rp, PCI_EXP_LNKCTL, &lnkctl);
--	if (lnkctl & PCI_EXP_LNKCTL_RCB)
-+	ret = pcie_capability_read_word(rp, PCI_EXP_LNKCTL, &lnkctl);
-+	if (!ret && (lnkctl & PCI_EXP_LNKCTL_RCB))
- 		return true;
- 
- 	return false;
-@@ -792,12 +793,13 @@ bool pciehp_is_native(struct pci_dev *bridge)
- {
- 	const struct pci_host_bridge *host;
- 	u32 slot_cap;
-+	int ret;
- 
- 	if (!IS_ENABLED(CONFIG_HOTPLUG_PCI_PCIE))
+ 	/* Check if AER is enabled */
+-	pcie_capability_read_word(dev, PCI_EXP_DEVCTL, &reg16);
+-	if (!(reg16 & PCI_EXP_AER_FLAGS))
++	ret = pcie_capability_read_word(dev, PCI_EXP_DEVCTL, &reg16);
++	if (ret || !(reg16 & PCI_EXP_AER_FLAGS))
  		return false;
  
--	pcie_capability_read_dword(bridge, PCI_EXP_SLTCAP, &slot_cap);
--	if (!(slot_cap & PCI_EXP_SLTCAP_HPC))
-+	ret = pcie_capability_read_dword(bridge, PCI_EXP_SLTCAP, &slot_cap);
-+	if (ret || !(slot_cap & PCI_EXP_SLTCAP_HPC))
- 		return false;
- 
- 	if (pcie_ports_native)
+ 	if (!aer)
 -- 
 2.18.2
 
