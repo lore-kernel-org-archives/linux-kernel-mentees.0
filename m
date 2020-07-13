@@ -8,97 +8,97 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 045ACC432C3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A734DC433E8
 	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:26 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C5CD9207F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7632220771
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NJ0hp1NN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5CD9207F9
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n80txyCo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7632220771
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9FA9B23223;
-	Mon, 13 Jul 2020 13:23:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5928623143;
+	Mon, 13 Jul 2020 13:23:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id seZRcOGjfc9f; Mon, 13 Jul 2020 13:23:24 +0000 (UTC)
+	with ESMTP id 208ETeWYN3Vq; Mon, 13 Jul 2020 13:23:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A09A32313B;
-	Mon, 13 Jul 2020 13:23:24 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C1D962474E;
+	Mon, 13 Jul 2020 13:23:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D8BCC0888;
-	Mon, 13 Jul 2020 13:23:24 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 28CB6C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B04E4C08A0;
+	Mon, 13 Jul 2020 13:23:25 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14473C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:23 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 18AC6876E6
+ by whitealder.osuosl.org (Postfix) with ESMTP id F079788AEF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Mon, 13 Jul 2020 13:23:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wbf8yOELiTcM
+ with ESMTP id tbcdAVyD5TV2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:22 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 61132876E9
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 265C688C0A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:22 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id a1so17116355ejg.12
+ Mon, 13 Jul 2020 13:23:20 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id e22so13658590edq.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 06:23:22 -0700 (PDT)
+ Mon, 13 Jul 2020 06:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Q0DdfK+UqqJL8YcIl12EqmY6PSz1+/PN6RVfEMMF3Q4=;
- b=NJ0hp1NNApuQU8bw6tjVSWHitDg1vIDtFUaeiDmwx+ow60WBbHEGBeAnEHj2j8qP02
- osWR34BF9/0x8PP9hyxdf/f30PfvtWe+O+aml4jtazke07Tlc8rIfTA/0UyD53kV/T0S
- rWlpmKn5qM3eaFqMksBujvyYkHysClu8JPEN4xHZOp3xZ5xRgzdKkinh7WhCxvY5JY3Y
- fi7mzT8DuGLOGVZz2ptsFk4NskphYU8XMgi3rCJu7VPwP/nDmOJP6fv3IlmWScA3Jgip
- NZMp29fPPm1OhZBhqAwiUhNo+exFWu5DYVBfDT19KBqUrNYPzkbNZqWnzLY0/B5iuezX
- 3aBQ==
+ bh=8wbmK+ya6vHJSgI+MTiDhQKWZMMzmthLgMh2OY4MZvM=;
+ b=n80txyCowMGw0agwpHO34CYMBjnaTUgBZm0NF31BEIRCoPc1JqzuQF5NChyyvnmjJv
+ EUpvNZnOiq6UM7e6uY2eMEmBZq65ptv7RYBcTij58bTpkCJzq0njvYzGReCEwrmNV5RI
+ 5gtzm53oXNXlrL6ExBGPj0YysnmlxyLW4c9ytpXGynG/qwDZkUmE2y1FObO5mcUV0L/0
+ wXMj7CkivYgSB0vhRcKAC9l7aIrh8DGiSAPr8YYTB/t+l2Pe9+0FjBbrXbqkKWATAoxQ
+ Kl2j3veZd4XTP+PnTPMw3T8UA5mOfMyZf+oQlFVmZaEyzIH8DysrASAyAUCQ0M2aVWw3
+ 3lyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Q0DdfK+UqqJL8YcIl12EqmY6PSz1+/PN6RVfEMMF3Q4=;
- b=X6mbTUJw/JPtZVH/B9T3nl2WDSdhlCCG1qQyEa2q+gJEXaPtKEQbXh3Rk/gqJqeXQf
- 06F/CsLU7GRk5Sce1oKpUd5KGSavpjDS2CAnzS3JbmzN8O1LbSqjKhWw7uIlH5lbxyhX
- TmKbhoDXIs5J5MQfXTcjKnxCpKoOMfURYqKvkEp45iAlCN9DRynSBANr+50/SYs2oOfn
- ShYKg1jMTifdJOzveDe3mWAz6Mtk8JJy4pIdcfhjIP0Ia+ssVanBPrcktuX9EWs29nfm
- 3d444FTAk85ptmar+9gb9G4ENCo6+daoxrrF0QbQrl3JM4unA7feb+WMeC8UxPdYvlVS
- qWew==
-X-Gm-Message-State: AOAM530Ox1hJj8XgdYLCHyz/BtssU5DfKm9n3UdVaVaZnJBDQOx+LSE1
- t2bRSnyfOpmZZ7ZBkPZyKhM=
-X-Google-Smtp-Source: ABdhPJwnEBexXFGQz22NWjdykgIfoLXjIHNBfzIIKQCDH2Im79N2tI7W18NL0nmBRmj7cAZNYPAT3w==
-X-Received: by 2002:a17:906:9387:: with SMTP id
- l7mr70963250ejx.274.1594646600908; 
- Mon, 13 Jul 2020 06:23:20 -0700 (PDT)
+ bh=8wbmK+ya6vHJSgI+MTiDhQKWZMMzmthLgMh2OY4MZvM=;
+ b=a0aQRFLFRglpocKaFhztBssm50qXip1z/mWQpJ0fhYCvF+/NYdscOgk7BZvUdu6cU6
+ A4ExmRgIq0xev3NOF9wGXGhWUPOB3/o1QMMjvzKWsLzTwftmN8sYWl/R8lX5yLL+cN5R
+ vByk++BRrkq/v3KzPBQBpWXfydxBDb+/58MWEfFoWS+B7KDQkS5FhWT1rvxTB4zrDkq/
+ H8FOc6g+Dpd0MjGRxTyFgwGD2CLxKRBt0jBnUx41dy0j9QTBm9xNgrxHxa78ySQxNrfF
+ 8O5NqRAxbXptxTU2F49feLV6oaW7R20A21EOCPVS8zdPZFkwIUzEFvBi9xUgLbmp72gS
+ YPQQ==
+X-Gm-Message-State: AOAM533jyC++vUSinM4g5X79hdGZBx8cVmzzaBLNNkieEjs2SimHdn9O
+ Y3fRAvT5pWzRfShw/anZl+A=
+X-Google-Smtp-Source: ABdhPJy+Hs7Ue1IFdlNyMdXk8xV3FtdPl2STdVdjCaLLSaMCCO1/ac6jRmx114IfgaO4SRqNDdJKtg==
+X-Received: by 2002:a05:6402:1ca6:: with SMTP id
+ cz6mr70531295edb.171.1594646598609; 
+ Mon, 13 Jul 2020 06:23:18 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.23.19
+ by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.23.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 06:23:20 -0700 (PDT)
+ Mon, 13 Jul 2020 06:23:18 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: helgaas@kernel.org,
-	Russell King <linux@armlinux.org.uk>
-Date: Mon, 13 Jul 2020 14:22:45 +0200
-Message-Id: <20200713122247.10985-34-refactormyself@gmail.com>
+To: helgaas@kernel.org, Greg Ungerer <gerg@linux-m68k.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 13 Jul 2020 14:22:43 +0200
+Message-Id: <20200713122247.10985-32-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200713122247.10985-1-refactormyself@gmail.com>
 References: <20200713122247.10985-1-refactormyself@gmail.com>
 Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH 33/35] arm/PCI: Tidy
-	Success/Failure checks
+ linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [RFC PATCH 31/35] m68k: Change
+	PCIBIOS_SUCCESSFUL to 0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,28 +117,56 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Remove unnecessary check for 0.
+In reference to the PCI spec (Chapter 2), PCIBIOS* is an x86 concept.
+Their scope should be limited within arch/x86.
+
+Change all PCIBIOS_SUCCESSFUL to 0
 
 Signed-off-by: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 ---
-This patch depends on PATCH 32/35
+ arch/m68k/coldfire/pci.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- arch/arm/mach-cns3xxx/pcie.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm/mach-cns3xxx/pcie.c b/arch/arm/mach-cns3xxx/pcie.c
-index 7020071a2dc5..c249d4cbf4f0 100644
---- a/arch/arm/mach-cns3xxx/pcie.c
-+++ b/arch/arm/mach-cns3xxx/pcie.c
-@@ -92,7 +92,7 @@ static int cns3xxx_pci_read_config(struct pci_bus *bus, unsigned int devfn,
+diff --git a/arch/m68k/coldfire/pci.c b/arch/m68k/coldfire/pci.c
+index 84eab0f5e00a..ecd11a19487a 100644
+--- a/arch/m68k/coldfire/pci.c
++++ b/arch/m68k/coldfire/pci.c
+@@ -64,7 +64,7 @@ static int mcf_pci_readconfig(struct pci_bus *bus, unsigned int devfn,
  
- 	ret = pci_generic_config_read(bus, devfn, where, size, val);
+ 	if (bus->number == 0) {
+ 		if (mcf_host_slot2sid[PCI_SLOT(devfn)] == 0)
+-			return PCIBIOS_SUCCESSFUL;
++			return 0;
+ 	}
  
--	if (ret == 0 && !bus->number && !devfn &&
-+	if (!ret && !bus->number && !devfn &&
- 	    (where & 0xffc) == PCI_CLASS_REVISION)
- 		/*
- 		 * RC's class is 0xb, but Linux PCI driver needs 0x604
+ 	addr = mcf_mk_pcicar(bus->number, devfn, where);
+@@ -86,7 +86,7 @@ static int mcf_pci_readconfig(struct pci_bus *bus, unsigned int devfn,
+ 
+ 	__raw_writel(0, PCICAR);
+ 	__raw_readl(PCICAR);
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int mcf_pci_writeconfig(struct pci_bus *bus, unsigned int devfn,
+@@ -96,7 +96,7 @@ static int mcf_pci_writeconfig(struct pci_bus *bus, unsigned int devfn,
+ 
+ 	if (bus->number == 0) {
+ 		if (mcf_host_slot2sid[PCI_SLOT(devfn)] == 0)
+-			return PCIBIOS_SUCCESSFUL;
++			return 0;
+ 	}
+ 
+ 	addr = mcf_mk_pcicar(bus->number, devfn, where);
+@@ -118,7 +118,7 @@ static int mcf_pci_writeconfig(struct pci_bus *bus, unsigned int devfn,
+ 
+ 	__raw_writel(0, PCICAR);
+ 	__raw_readl(PCICAR);
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops mcf_pci_ops = {
 -- 
 2.18.2
 
