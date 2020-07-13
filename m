@@ -2,110 +2,101 @@ Return-Path: <SRS0=16qS=AY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E12C433E8
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 17:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0584C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 17:39:31 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D3D22206F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 17:24:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6C8CB2075D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 17:39:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nTmeCPcn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D3D22206F5
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DiAjnY2U"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C8CB2075D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A4071231F2;
-	Mon, 13 Jul 2020 17:24:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3E7A225CFB;
+	Mon, 13 Jul 2020 17:39:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c-bH+-jLiBKA; Mon, 13 Jul 2020 17:24:09 +0000 (UTC)
+	with ESMTP id R-W90eCXT9Uy; Mon, 13 Jul 2020 17:39:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id CDD5120469;
-	Mon, 13 Jul 2020 17:24:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B503825521;
+	Mon, 13 Jul 2020 17:39:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BF1CFC0888;
-	Mon, 13 Jul 2020 17:24:09 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 094BEC0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8C00C0888;
+	Mon, 13 Jul 2020 17:39:30 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0D6E7C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 17:24:09 +0000 (UTC)
+ Mon, 13 Jul 2020 17:39:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 05B3B893A5
+ by whitealder.osuosl.org (Postfix) with ESMTP id ED0B888263
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 17:24:09 +0000 (UTC)
+ Mon, 13 Jul 2020 17:39:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MkgV-ercGR-G
+ with ESMTP id 1GtNtx-HTB5x
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 17:24:08 +0000 (UTC)
+ Mon, 13 Jul 2020 17:39:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 47D58893A3
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E4B1A881A6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 17:24:08 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id bm28so12394200edb.2
+ Mon, 13 Jul 2020 17:39:27 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id u185so6331672pfu.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 10:24:08 -0700 (PDT)
+ Mon, 13 Jul 2020 10:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=e0LSuR+yshIoYGz+eEEY3hbB8A+14sBty8Ug4yMkgfM=;
- b=nTmeCPcn+ozK+Ag5RxEELeJLLx9ti8jrlnkSeGn+v7o9o0VF9oqTW9mzAjEAFJQnWc
- qy5WrcnWfHjIf32n1rZMIh7sjY+87PmkNyonBFjkMmm/slYoFKySiIDO6+eFTW7DyjhV
- dcAIkLxDSgKq8n2k3M6w/g/AfcEEasZ0+ubo5y3FP86jcAmIC3Bp4bSbEpCr+H2fGieA
- cWR5TAwnj5PuzxwIQ+aw+2sXxWXcbl3OLOr7p1EQo/nTFJ+CtkPPFFCWRh9nn7Mgar9C
- QL2BtaG9MVgA1PHr+APD1CbIGDru+t9rECcfdiYNqx3sePEn6oCyMM3NaVw/Kh7k8nKA
- G6Sw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dsCSO99ajVdezhsvt46VhG304K0QmMvZ1SLvNQqxCN4=;
+ b=DiAjnY2UF2Ft32HWCeObIacUewyoVucUpWt+zmCyKymcSy2Tsolq8SL/ZuwMUcdXYF
+ UAJkTypS/GsEjJgsC2LuQCTmrKn4t6KBviNwNFx0SI861QbQSPRRWobmEMzGwcWG302T
+ 4QTnwskLtNwxZbO1x01R/YlaygK2dcZ/UeGLpA8tFJkFw30Qwwet8GEYzZYtZRVQ0MLa
+ C9Vft6vQXPd83Bx7mDHuSucaH0to/LlDYAb7Jfw+HxeJrzZpt4hUGMixo5DbkqJTiuQv
+ qRHEQgpzANLRtDvZHx4k7URY7br2LHqFeOYS3qO4XyjxEKGF8mI0GOaNaZcOKDcYZMe7
+ 0YnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=e0LSuR+yshIoYGz+eEEY3hbB8A+14sBty8Ug4yMkgfM=;
- b=ZmNhKm+xE8GzTX+Z5eUObm9kyW95W2MVBzwXPjRncoijbsLhB9Qd0gXaO6CclBQh8W
- FAb8GdIE6+/yuuDydJV/zyUsgF88YXjcq2DyZHqZdkeDXbVIkIWf63OtOpDE0rh5R2aW
- a3hNS+0rQAYOXADyOdId324TCmwV2banMOCDtadc+gCD+lLLrC4GR5zcHQKfXtuECQbO
- 9u2ADUAlr3nzAT9eLzi7v3n2EBpLgPCfhOYtWJR8M3pFtUOgEZFBewZ9OnuNfCLYwFpM
- MTsCeT6FuSEGsi4DBfAlJbcPXaQk5tFuYq4IHquLuIfdJzcCBVtkeq1Bo1trWrKwCVJz
- 7tcg==
-X-Gm-Message-State: AOAM533tn/EZw4MzwRG7hpEebtRPszEE4qyfkCSRiEIanFrbFZsRDzvZ
- 6PTIsdMkMyKJhHfSFjcWt1Ij0R46R/2rDQ==
-X-Google-Smtp-Source: ABdhPJwU6CC1g8gnvm6vkaI0vzF7ML92p+FtcVVEx2//52B6Q3pLKNShFOHB6NyG1tBi9qTBjIHGwg==
-X-Received: by 2002:a05:6402:c82:: with SMTP id
- cm2mr441209edb.293.1594661046520; 
- Mon, 13 Jul 2020 10:24:06 -0700 (PDT)
-Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id t25sm10192694ejc.34.2020.07.13.10.24.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 10:24:05 -0700 (PDT)
-To: "Rajashekar, Revanth" <revanth.rajashekar@intel.com>, helgaas@kernel.org, 
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-References: <20200713122247.10985-1-refactormyself@gmail.com>
- <20200713122247.10985-10-refactormyself@gmail.com>
- <0762f646-90a1-217c-4e4b-6168d85bb08a@intel.com>
-From: Saheed Bolarinwa <refactormyself@gmail.com>
-Message-ID: <f48dece5-7483-73ac-38bb-0dce323f404c@gmail.com>
-Date: Mon, 13 Jul 2020 20:24:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dsCSO99ajVdezhsvt46VhG304K0QmMvZ1SLvNQqxCN4=;
+ b=iotML8uOB47akUD9bMrUV93IE6+U4pJCac6NzWpip7C/bEdagFeyPjjACI/F33wO0S
+ gvXr1OsfPjJAkBKInoGViYIZ2a4Qon2WBvw/rqimaFW1USIutLdYCAMGD+9je/2ohmvp
+ dpSrCL4TG0aEDeSTtXMamUGzFvmb/004rAyWWtGXh1Ynm/GvUyNGX9eaT87N2evrzLCi
+ S2t2A6GUVzyZ2wR6ViiphBvNmf4qvnFDwV1fAqIeL6LfULkIpbqPGnaSqGMygHozQSJ9
+ Agf0FqaPvJ0l52hrkcu8P+frxeLzjDX2tkEG9UO/R75t+ymLf0yBnbkXr0wROUm0Hs6S
+ NmYQ==
+X-Gm-Message-State: AOAM532gNUwWPke4tmqAdmJ1LwrLgcJyST5FPXz0pIAjKkTJZVJ84Scj
+ 3rdnOCfxH3Trc4xLIsqbp8c=
+X-Google-Smtp-Source: ABdhPJxLjkfeTM6u2EPFb0xNzbO7HD66zJ2C9DTOFC/K2UT2od5SKnwJX1jfcQRUGjEjdIYTXhMKFg==
+X-Received: by 2002:a62:1716:: with SMTP id 22mr797676pfx.99.1594661967413;
+ Mon, 13 Jul 2020 10:39:27 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.153.67])
+ by smtp.gmail.com with ESMTPSA id w9sm186540pja.39.2020.07.13.10.39.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 10:39:26 -0700 (PDT)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>
+Date: Mon, 13 Jul 2020 23:06:10 +0530
+Message-Id: <20200713173613.2095-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <0762f646-90a1-217c-4e4b-6168d85bb08a@intel.com>
-Content-Language: en-US
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [RFC PATCH 09/35] nvme-pci: Change
-	PCIBIOS_SUCCESSFUL to 0
+Cc: linux-ide@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v3 0/3] drivers: ide: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,32 +108,78 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Ck9uIDcvMTMvMjAgNjo0MiBQTSwgUmFqYXNoZWthciwgUmV2YW50aCB3cm90ZToKPiBIaSwKPgo+
-IE9uIDcvMTMvMjAyMCA2OjIyIEFNLCBTYWhlZWQgTy4gQm9sYXJpbndhIHdyb3RlOgo+PiBJbiBy
-ZWZlcmVuY2UgdG8gdGhlIFBDSSBzcGVjIChDaGFwdGVyIDIpLCBQQ0lCSU9TKiBpcyBhbiB4ODYg
-Y29uY2VwdC4KPj4gVGhlaXIgc2NvcGUgc2hvdWxkIGJlIGxpbWl0ZWQgd2l0aGluIGFyY2gveDg2
-Lgo+Pgo+PiBDaGFuZ2UgYWxsIFBDSUJJT1NfU1VDQ0VTU0ZVTCB0byAwCj4+Cj4+IFNpZ25lZC1v
-ZmYtYnk6ICJTYWhlZWQgTy4gQm9sYXJpbndhIiA8cmVmYWN0b3JteXNlbGZAZ21haWwuY29tPgo+
-PiAtLS0KPj4gICBkcml2ZXJzL252bWUvaG9zdC9wY2kuYyB8IDIgKy0KPj4gICAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvbnZtZS9ob3N0L3BjaS5jIGIvZHJpdmVycy9udm1lL2hvc3QvcGNpLmMKPj4gaW5kZXgg
-YjFkMThmMDYzM2M3Li5kNDI2ZWZiNTNmNDQgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvbnZtZS9o
-b3N0L3BjaS5jCj4+ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L3BjaS5jCj4+IEBAIC0xMTg1LDcg
-KzExODUsNyBAQCBzdGF0aWMgdm9pZCBudm1lX3dhcm5fcmVzZXQoc3RydWN0IG52bWVfZGV2ICpk
-ZXYsIHUzMiBjc3RzKQo+PiAgIAo+PiAgIAlyZXN1bHQgPSBwY2lfcmVhZF9jb25maWdfd29yZCh0
-b19wY2lfZGV2KGRldi0+ZGV2KSwgUENJX1NUQVRVUywKPj4gICAJCQkJICAgICAgJnBjaV9zdGF0
-dXMpOwo+PiAtCWlmIChyZXN1bHQgPT0gUENJQklPU19TVUNDRVNTRlVMKQo+PiArCWlmIChyZXN1
-bHQgPT0gMCkKPiBIb3cgYWJvdXQgc2ltcGxpZnlpbmcgdGhlIGNoZWNrIHRvIGlmICghcmVzdWx0
-KT8KClRoYW5rIHlvdSBmb3IgdGhlIHJldmlldy7CoCBJIGRpZCBpbiBQQVRDSCAxMC8zNS4gSSB3
-aWxsIG1lcmdlIGJvdGguCgpJIHdhbnRlZCB0byBzZXBhcmF0ZSB0aGUgZ29hbCBmcm9tIHRoZSBm
-aXggYnV0IEkgc2VlIGl0J3MgY29uZnVzaW5nLgoKLSBTYWhlZWQKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxp
-bmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0
-dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtl
-cm5lbC1tZW50ZWVzCg==
+Linux Kernel Mentee: Remove Legacy Power Management.
+
+The purpose of this patch series is to remove legacy power management callbacks
+from ide drivers.
+
+The suspend() and resume() callbacks operations are still invoking
+pci_save/restore_state(), pci_set_power_state(), pci_enable/disable_state(),
+etc. and handling the power management themselves, which is not recommended.
+
+The conversion requires the removal of the those function calls and change the
+callback definition accordingly and make use of dev_pm_ops structure.
+
+All patches are compile-tested only.
+
+v3:
+    - Modpost error for undefined reference by Kbuild in v1.
+    - Another approach to disable PM in drivers/ide/triflex.c suggested by
+      Bjorn Helgaas in v2.
+
+Test tools:
+    - Compiler: gcc (GCC) 10.1.0
+    - allmodconfig build: make -j$(nproc) W=1 all
+
+Vaibhav Gupta (3):
+  ide: use generic power management
+  ide: sc1200: use generic power management
+  ide: delkin_cb: use generic power management
+
+ drivers/ide/aec62xx.c         |  3 +--
+ drivers/ide/alim15x3.c        |  3 +--
+ drivers/ide/amd74xx.c         |  3 +--
+ drivers/ide/atiixp.c          |  3 +--
+ drivers/ide/cmd64x.c          |  3 +--
+ drivers/ide/cs5520.c          |  3 +--
+ drivers/ide/cs5530.c          |  3 +--
+ drivers/ide/cs5535.c          |  3 +--
+ drivers/ide/cs5536.c          |  3 +--
+ drivers/ide/cy82c693.c        |  3 +--
+ drivers/ide/delkin_cb.c       | 32 +++++---------------------
+ drivers/ide/hpt366.c          |  3 +--
+ drivers/ide/ide-pci-generic.c |  3 +--
+ drivers/ide/it8172.c          |  3 +--
+ drivers/ide/it8213.c          |  3 +--
+ drivers/ide/it821x.c          |  3 +--
+ drivers/ide/jmicron.c         |  3 +--
+ drivers/ide/ns87415.c         |  3 +--
+ drivers/ide/opti621.c         |  3 +--
+ drivers/ide/pdc202xx_new.c    |  3 +--
+ drivers/ide/pdc202xx_old.c    |  3 +--
+ drivers/ide/piix.c            |  3 +--
+ drivers/ide/sc1200.c          | 43 ++++++++++++-----------------------
+ drivers/ide/serverworks.c     |  3 +--
+ drivers/ide/setup-pci.c       | 29 +++++------------------
+ drivers/ide/siimage.c         |  3 +--
+ drivers/ide/sis5513.c         |  3 +--
+ drivers/ide/sl82c105.c        |  3 +--
+ drivers/ide/slc90e66.c        |  3 +--
+ drivers/ide/triflex.c         | 24 +++++++------------
+ drivers/ide/via82cxxx.c       |  3 +--
+ include/linux/ide.h           |  8 +------
+ 32 files changed, 62 insertions(+), 155 deletions(-)
+
+-- 
+2.27.0
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
