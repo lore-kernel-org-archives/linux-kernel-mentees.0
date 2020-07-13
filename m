@@ -8,97 +8,97 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE35C43464
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3587EC43465
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:11 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3FDDF20773
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 06FF62072D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfVbLOBw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3FDDF20773
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sor0wqfV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 06FF62072D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 274CE88B48;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EB584876DA;
 	Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id w+5BqgH48ZTO; Mon, 13 Jul 2020 13:23:09 +0000 (UTC)
+	with ESMTP id vFqtjcDkptyN; Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7EC6C88AEF;
-	Mon, 13 Jul 2020 13:23:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9BC87876C5;
+	Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BE3FC0888;
-	Mon, 13 Jul 2020 13:23:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B896C0888;
+	Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6B2C7C08A6
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A73D6C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:08 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4E32A2002A
+ by silver.osuosl.org (Postfix) with ESMTP id 9C2DF231E9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:08 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GvJ0zrY71V8X
+ with ESMTP id U9NkQ4d1WLR8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:07 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by silver.osuosl.org (Postfix) with ESMTPS id 3C9612288E
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8F49B2002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:07 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id b15so13648169edy.7
+ Mon, 13 Jul 2020 13:23:08 +0000 (UTC)
+Received: by mail-ej1-f65.google.com with SMTP id l12so17130187ejn.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 06:23:07 -0700 (PDT)
+ Mon, 13 Jul 2020 06:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1igF4d0BlRch6oTsOMsklRo2hJykPi64NTGjSwxBH2w=;
- b=GfVbLOBwTQM68ys28gmEsLzbrBK1b+c6gCAsHBPLuU1sBU4FxzUQzy/FNV+5JwZOZm
- kR1VcVfpphRXsdfwIXVx0TAIiRR2ezTv5Ddtc5q6AGYct5hmINAtuH2sc4z+kABGsA3q
- MZpWVLyzERoP5ZgKwWxgZ/Bwb6KkGfAYQ9yYfsAF7q7g9s64zC4q4x7y4lMUurO7OOP+
- GRtkarmdVJUSPnTc67hb7A1PCAolXIJeajY5fisQ/pGpWykWJ6NKryHtSJ+mG/rXcimM
- ZkVft5Cj3VHZrbAZSjJNYb5UM7QM1G0i5UELVPbI1106MfxiHosmC6D9IGT7Iu7SHFu8
- L03A==
+ bh=EKTGQqjFsfzqPPjmNL4aUYY57OLmCsGI5alt5eIAZQo=;
+ b=sor0wqfVidp46y23ExI3rsc2tAIgirfY+l2lliUu1vrr+cY4AhVxnL0vWpCtDi/pa5
+ 0P/FVcGFyX2Y+3pe62aArh19MEj55T95wEF+4oO9/2bmfXNg6ZpcRhj2+xOarQfnO3Yi
+ ClS6N9vgqqhyfuzzULu1HTxbdxjEJ3PCZ1/fQN6Vq9ipdpD8QA7XBzpGnmHXYxqzfHy7
+ Im6YnfbXdPENwK0Tv/Tr3ewida6YiRbYRqw18+LV8NcOyemhUVamZyfUC87ZztrdJOXo
+ rpPZAOHjeXFIcgipzq9CQ0IbGmW/5P7Avm2qQZKpCVxQroZ2vCz5Rp2R9aSL5UYVBjCw
+ lWAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=1igF4d0BlRch6oTsOMsklRo2hJykPi64NTGjSwxBH2w=;
- b=En5EkzQvXelzKfoJzArURuPvhyKiY2I9rxSkVeKWRQ7NMOz2EQwoKePCDr3RIqNDPS
- O4IiTXYBwnEAhRRRnS5I6PjR+I2j7F4Q8pVTjfnFljOfwvwuaKnRO/vGjXEdcO1hXdIA
- lyhYKZGlOjXrkHtSg5O5NxylScJL3N9rQva4Z87Sn2uhAU3iZZBsOj+sW4nLUXRTmdot
- 7MJyZjlFpjEIzfkREhtC+gHzk0L65R4RbTcsXTMtqc+yNPpbuFuEJL51tvw7gPodU+9M
- 7C/4gzxM2NLP8SUk9kmW1LK0wAxZmxe4KD0G2Uor16Kh8aMwkGyOxo/nKVijI3bQbLCo
- qaUA==
-X-Gm-Message-State: AOAM533myopijdOQNa06gYvAAPCnUh0vcRIAEF0k0FXCsxupViBSeFR9
- uzv3QZ8crFIMmFvUBGmAuWg=
-X-Google-Smtp-Source: ABdhPJxLeJeo/pnR11earKOB22YmNVCGTeYK935Hvqyg5TcDWyXANgwsI03EL03zM4adEjgBZ464zw==
-X-Received: by 2002:a50:f392:: with SMTP id g18mr67987969edm.151.1594646585767; 
- Mon, 13 Jul 2020 06:23:05 -0700 (PDT)
+ bh=EKTGQqjFsfzqPPjmNL4aUYY57OLmCsGI5alt5eIAZQo=;
+ b=nCh3mNOHgHORck3UqOqNr2rrAfrdgx+qwsZiYV8MBXp1dVwJ4fzbB5ohnl8pJ20HPP
+ mw42cPwBLbc+OmS0UsN7UqzZHexUgZOvxqRLek3EGrRJ/0M8AINgXDk9zuM7bIVrlLQW
+ q1DNJu1BsSYg3oiF3vuRzfKoCELUxHLOAiWgyo7/kNFOaIxKiwo0ZDsSH93XudEu8csn
+ LO/QClRKuisp8470tSGuMg9EBguas6T5kYQJws+57EspcF5+jlkzbsBAYnsGw5P32tNH
+ lFKDwPoyLt3JHbzVJ8KkxnKE/R8p69496ZKa2jTNwWaMKa/HFbSoxM2tzX0yN6jgPQHR
+ Ifnw==
+X-Gm-Message-State: AOAM532EbYyEmiCVZkFiP4jftw4DqWAl0zV7BpNRMIaYNccvzz8eV1rr
+ bKRnxN1PK5C34eXycF9JAbY=
+X-Google-Smtp-Source: ABdhPJzOwIZGspjLgMaEq365pJ5/qMDFTMQ2+msioD//dAatGjVwqe5nQfPgFpq7fjw/LM34pCqEZA==
+X-Received: by 2002:a17:906:3c42:: with SMTP id
+ i2mr78330767ejg.14.1594646587072; 
+ Mon, 13 Jul 2020 06:23:07 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.23.04
+ by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.23.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 06:23:05 -0700 (PDT)
+ Mon, 13 Jul 2020 06:23:06 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 To: helgaas@kernel.org,
-	Chas Williams <3chas3@gmail.com>
-Date: Mon, 13 Jul 2020 14:22:33 +0200
-Message-Id: <20200713122247.10985-22-refactormyself@gmail.com>
+	Guan Xuetao <gxt@pku.edu.cn>
+Date: Mon, 13 Jul 2020 14:22:34 +0200
+Message-Id: <20200713122247.10985-23-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200713122247.10985-1-refactormyself@gmail.com>
 References: <20200713122247.10985-1-refactormyself@gmail.com>
-Cc: linux-atm-general@lists.sourceforge.net,
- "Saheed O. Bolarinwa" <refactormyself@gmail.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH 21/35] atm: Fix Style ERROR-
-	assignment in if condition
+Subject: [Linux-kernel-mentees] [RFC PATCH 22/35] unicore32: Change
+	PCIBIOS_SUCCESSFUL to 0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,44 +117,38 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Move assignment out of the if condition
-Fix style issues in the for-loop
+In reference to the PCI spec (Chapter 2), PCIBIOS* is an x86 concept.
+Their scope should be limited within arch/x86.
+
+Change all PCIBIOS_SUCCESSFUL to 0
 
 Signed-off-by: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 ---
-This patch depends on PATCH 20/35
+ arch/unicore32/kernel/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/atm/iphase.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/atm/iphase.c b/drivers/atm/iphase.c
-index 2c75b82b4e7f..584d9be5fa73 100644
---- a/drivers/atm/iphase.c
-+++ b/drivers/atm/iphase.c
-@@ -2294,13 +2294,19 @@ static int reset_sar(struct atm_dev *dev)
- 	unsigned int pci[64];  
- 	  
- 	iadev = INPH_IA_DEV(dev);  
--	for(i=0; i<64; i++)  
--		if ((error = pci_read_config_dword(iadev->pci, i*4, &pci[i])))
-+	for (i = 0; i < 64; i++) {
-+		error = pci_read_config_dword(iadev->pci, i*4, &pci[i]);
-+		if (error)
- 			return error;
-+	}
-+
- 	writel(0, iadev->reg+IPHASE5575_EXT_RESET);  
--	for(i=0; i<64; i++)  
--		if ((error = pci_write_config_dword(iadev->pci, i*4, pci[i])))
-+	for (i = 0; i < 64; i++) {
-+		error = pci_write_config_dword(iadev->pci, i*4, pci[i]);
-+		if (error)
- 			return error;
-+	}
-+
- 	udelay(5);  
- 	return 0;  
- }  
+diff --git a/arch/unicore32/kernel/pci.c b/arch/unicore32/kernel/pci.c
+index 0d098aa05b47..401ab356c814 100644
+--- a/arch/unicore32/kernel/pci.c
++++ b/arch/unicore32/kernel/pci.c
+@@ -37,7 +37,7 @@ puv3_read_config(struct pci_bus *bus, unsigned int devfn, int where,
+ 		*value = readl(PCICFG_DATA);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int
+@@ -58,7 +58,7 @@ puv3_write_config(struct pci_bus *bus, unsigned int devfn, int where,
+ 		writel(value, PCICFG_DATA);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ struct pci_ops pci_puv3_ops = {
 -- 
 2.18.2
 
