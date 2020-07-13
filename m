@@ -2,107 +2,99 @@ Return-Path: <SRS0=16qS=AY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA10C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 18:12:49 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E36B1C433E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 18:29:53 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 905092075D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 18:12:49 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ialw/PlE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 905092075D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id B8DAA206F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 18:29:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8DAA206F5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 40D8A26284;
-	Mon, 13 Jul 2020 18:12:49 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 79AFB8962A;
+	Mon, 13 Jul 2020 18:29:53 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id veQeGx54Oq-E; Mon, 13 Jul 2020 18:29:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 05AE3895F4;
+	Mon, 13 Jul 2020 18:29:53 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E86A6C088E;
+	Mon, 13 Jul 2020 18:29:52 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9B657C0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 18:29:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 7CDF9262BC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 18:29:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nho9FXDALyu4; Mon, 13 Jul 2020 18:12:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id F3CA323730;
-	Mon, 13 Jul 2020 18:12:47 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5D7FC088E;
-	Mon, 13 Jul 2020 18:12:47 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7A1DAC0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 18:12:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7662C87513
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 18:12:46 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XMJ6UEfi7eVZ
+ with ESMTP id auAWCwIzp1aW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 18:12:45 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id EEEF186FB6
+ Mon, 13 Jul 2020 18:29:49 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+ by silver.osuosl.org (Postfix) with ESMTPS id A73672535C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 18:12:44 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id lx13so18355620ejb.4
+ Mon, 13 Jul 2020 18:29:48 +0000 (UTC)
+Received: from mail-qv1-f44.google.com ([209.85.219.44]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1Ml72g-1kZZZ72fbY-00lQz5 for
+ <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Jul 2020 20:29:45
+ +0200
+Received: by mail-qv1-f44.google.com with SMTP id e3so6224630qvo.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 11:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=wX50ijN1MvREDIsGS5xeUvOvHwSnksvK2NAsbuf3LdM=;
- b=ialw/PlEbuLKxjnilT/9gcUOn1JvXuhjogH2KPopW+8zGMTyzC4cccPQ2FhBzMhUA6
- SNwjeU+EIfxwY/PQbyIFoyIJ9DrYSuGnVOG46YUkzjEVGP10RxniYxGtbY7KAyPLh8np
- 3ks1NrAHC9p2laTyrUpynDLUQ4C4srYgNq4XxjIbJAa+fCZN4Wv1ABG2lIMOdRae6RxN
- 6PynVm1ZogXPdCp2QG3tT+fIpL3Ev/0RATDhAdeszNZ4Qq4Vztyizti8cBNIONgkDW34
- 4l7YLA2wE1qvnxOe6QCLxDJ9gfiLdQa8XUjHs3zkY+qiN6g2AZSgKbJt32PMLYH5bhK0
- 1mDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=wX50ijN1MvREDIsGS5xeUvOvHwSnksvK2NAsbuf3LdM=;
- b=eYYT20CpIonNIs9Q7As/qOFFLAU1n5ept521QqI6gn4/XKqpeXKZQt/xRy3Iu/PPzn
- ZOCCpsz90WJSM2nJ9otYN6rUeyQYmj1BK3EaSqKRgGY3Urfr8PwQ+Jtp5ie+GkEMIdcX
- pMpxzP42+cph061zHYP2FrUj+fPeqAU6Z9QHlsUd1XifGOGGllW7J2hIspogt3ez0Lld
- V4/FAMnXMEpq8xOhlQ3Gyw3bM6RRGsEWMPFYr7LhqsYMf/1P48TVAUePFH/jD0SxjFtE
- I232SbgeFNFKnABBNvMZky+ZMsp6iISQ9EQVHF41QxN6F4pEW6qP2Ctn1bhLU7tSSBjE
- +VYw==
-X-Gm-Message-State: AOAM530/WIqC5pykrJvOOkfO8UqMRHF6b7JervcNyJcA/+bHgMoy4qRE
- lBb2JoKsaebTBuBU9zJaD4I=
-X-Google-Smtp-Source: ABdhPJz/75L97OnteHurSRENk3PzKuEuZsidiUh+ImYU1G4fo56ylorIqQZv+42Mr706DdN0J+VEIA==
-X-Received: by 2002:a17:906:57c6:: with SMTP id
- u6mr945004ejr.194.1594663963454; 
- Mon, 13 Jul 2020 11:12:43 -0700 (PDT)
-Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id z5sm7364786ejw.114.2020.07.13.11.12.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 11:12:42 -0700 (PDT)
-To: Larry Finger <Larry.Finger@lwfinger.net>, helgaas@kernel.org,
- Michael Buesch <m@bues.ch>
+ Mon, 13 Jul 2020 11:29:45 -0700 (PDT)
+X-Gm-Message-State: AOAM531Prz8H/qFx/oAzm1U71l8DCxhFQOQGXvNzwFLW0K1UPCdUpXa4
+ bb7/As73nU0ZpnW+Gy2VPtu61Tjw2YHZG+oYJvM=
+X-Google-Smtp-Source: ABdhPJwfhnh/6z+B3GNkz2O7U2CT1SIj0CHjYLjBXDThJSFXF+6qowbSkHtAc8ui9FKSnAQealaXP5kFF1JbDar0pbQ=
+X-Received: by 2002:a0c:f802:: with SMTP id r2mr733004qvn.197.1594664984224;
+ Mon, 13 Jul 2020 11:29:44 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200713122247.10985-1-refactormyself@gmail.com>
  <20200713122247.10985-3-refactormyself@gmail.com>
  <70e57af0-6a8c-a893-67c9-0181af16ae2b@lwfinger.net>
-From: Saheed Bolarinwa <refactormyself@gmail.com>
-Message-ID: <78b52ad5-015f-4452-0cd0-dbb2c8597672@gmail.com>
-Date: Mon, 13 Jul 2020 21:13:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <70e57af0-6a8c-a893-67c9-0181af16ae2b@lwfinger.net>
-Content-Language: en-US
-Cc: linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+ <78b52ad5-015f-4452-0cd0-dbb2c8597672@gmail.com>
+In-Reply-To: <78b52ad5-015f-4452-0cd0-dbb2c8597672@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 13 Jul 2020 20:29:27 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0Qfojg==hiAGx0BvS1zmOEy+1vchXzcudw4EQZ4YwU4A@mail.gmail.com>
+Message-ID: <CAK8P3a0Qfojg==hiAGx0BvS1zmOEy+1vchXzcudw4EQZ4YwU4A@mail.gmail.com>
+To: Saheed Bolarinwa <refactormyself@gmail.com>
+X-Provags-ID: V03:K1:9sy8jdSeuhWyWPt4ah5qhLAAcb0UbaITQUUBIMD3K/lHuNWGjvv
+ s3Z1m1w9x6pSc7k+O0G+rDYC/6KQk80Xz090t+gYcFn1DQGjw4Tfny5sc7sRLsxaPJpbVHP
+ UyeJ8DRyY7xhF0L0c+6ZSG1qK58E7cpVRwObO5CnCtQq8qkgaW/IdmSQZMLU4hV9H95RO1t
+ buU1bVzjoTpk76O2K6nYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HHS/GVY/P0M=:2QRz5LKTGONGStXC5TcdnF
+ usnzHDVE+iuL8tSWqxJuITm38OuugLgC6hXv4OAO0XvXknnKtcwi99ZgyEojI+a4dBKZSgp+Q
+ 5bgszy7wPSFeqd6dcefIdz6cZ9plR3GZkNtmejkJpZacHA+4nJ7qbWW5VMtyiaxS7ZBQXlDpm
+ N/hPGKF9kPoVjHRzirCwoz3l1IJS5w/PlVrINBA4tu3adAqTkuOpsM/NXVYchAqYNGMphToDx
+ PtTxu4oTSpe0E4MQreoT+EthS+utMtNp4hKKJQXCAsm6V4XMqDavq7bT+SnGYo/DU+KlgZ3fU
+ 6N1HWNfwozpuhOPRffawtFttybd+G3k8vrWgY3uaNelhHN4fAUcHOIcZHfh4jc98hc4+Tsgie
+ cjhpymebYe7+2DqifwtocfXP5h0UQyuA169KytY2OdBkTfM5iFupj6X9MGR9nI/Ixjd1G3AOH
+ WqEF28oXd9hNyj3mw0REZAotZxzkFeBW/8+/teCIw9RA5uon7IPL0hSb0ZsxJCgSRfcrsZdFt
+ ZGUcrrNSDGe8K9J8TZixS4Im9dQoVgrE4H/khBxBNPui7GSJ18QH33YLNzCUj8HIDzBMg7Fss
+ 9Z8n7OOFL2AvHtSverBZBOWaRx7qlR/t4LDeBCtd6SQqNbslvU3KRzinuaqFgGkprIxjDmqp1
+ pBU5bHlDAHX9kdALS79ASTv9hp/j6lBS7aQLlIGCjgq5Ka9DWQx4zKCZMUZO6mSXiLnn+oy02
+ 5xegagB9WD9lLpv9dXkmNysAdbALHpn22FXfprxORHKNvdXZGZL8zPPIsvcHW7zN2vDpiyLQ2
+ c04L26Rfyiso+rna+NAkLbNtgHWt3joHOjJjRCNaQDsnMALXLQREZBpi0i1kEcG2uDRHjSH
+Cc: linux-pci <linux-pci@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Bjorn Helgaas <helgaas@kernel.org>, Michael Buesch <m@bues.ch>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Larry Finger <Larry.Finger@lwfinger.net>
 Subject: Re: [Linux-kernel-mentees] [RFC PATCH 02/35] ssb: Change
 	PCIBIOS_SUCCESSFUL to 0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -116,45 +108,27 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hello Larry,
-
-On 7/13/20 7:16 PM, Larry Finger wrote:
-> On 7/13/20 7:22 AM, Saheed O. Bolarinwa wrote:
->> In reference to the PCI spec (Chapter 2), PCIBIOS* is an x86 concept.
->> Their scope should be limited within arch/x86.
->>
->> Change all PCIBIOS_SUCCESSFUL to 0
->>
->> Signed-off-by: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
+On Mon, Jul 13, 2020 at 8:13 PM Saheed Bolarinwa
+<refactormyself@gmail.com> wrote:
+> On 7/13/20 7:16 PM, Larry Finger wrote:
 >
-> Could you please tell me what difference this makes? It looks like 
-> source churn rather than a substantive change. The symbol is defined 
-> in pci.h and is used in many architures. Certainly, PCIBIOS_SUCCESSFUL 
-> indicates success even more clearly than 0 does.
+> > Why is your name inside quotes in your s-o-b?
+> >
+> To keep me company before I get to know my way within the kernel.
 >
-It is a trivial first step towards a probably significant task. I 
-explained in the Cover Letter, I can see it didn't get through but I Cc 
-linux-wireless (properly this time). Probably, too many addresses.
+> I saw people with >2 names do it, so I did! Please let me know if it is odd.
 
-I have resent it. It is here 
-https://lore.kernel.org/linux-wireless/20200713185559.31967-1-refactormyself@gmail.com/T/#u
+It's required for a proper email header if you have a dor (.) in your cleartext
+name, but it is not required in a Signed-off-by tag, though a number of people
+still do it out of habit. I'm sure it's fine either way.
 
-> Why is your name inside quotes in your s-o-b?
->
-To keep me company before I get to know my way within the kernel.
-
-I saw people with >2 names do it, so I did! Please let me know if it is odd.
-
-Thank you.
-
-- Saheed
-
+     Arnd
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
