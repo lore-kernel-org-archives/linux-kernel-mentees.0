@@ -2,72 +2,86 @@ Return-Path: <SRS0=16qS=AY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C44AC433EC
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:42:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3347C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:42:57 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E9F8020738
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:42:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E9F8020738
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
+	by mail.kernel.org (Postfix) with ESMTPS id A5BE42067D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 16:42:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A5BE42067D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B5E088947D;
-	Mon, 13 Jul 2020 16:42:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7E1C18746E;
+	Mon, 13 Jul 2020 16:42:57 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vtonsgAJPIUk; Mon, 13 Jul 2020 16:42:55 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B607187473;
+	Mon, 13 Jul 2020 16:42:55 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A4A8AC088E;
+	Mon, 13 Jul 2020 16:42:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 81D7DC0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 16:42:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6EBE789460
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 Jul 2020 16:42:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PSP0RC4BH24G; Mon, 13 Jul 2020 16:42:06 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 77CB589429;
-	Mon, 13 Jul 2020 16:42:06 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 563AAC088E;
-	Mon, 13 Jul 2020 16:42:06 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 115B4C0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:42:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EE183896EE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:42:03 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SN07zMEZGu7c
+ with ESMTP id SMDk-yr4CDqp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:42:02 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7157C89753
+ Mon, 13 Jul 2020 16:42:53 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D051789429
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 16:42:02 +0000 (UTC)
-Received: from marcel-macbook.fritz.box (p5b3d2638.dip0.t-ipconnect.de
- [91.61.38.56])
- by mail.holtmann.org (Postfix) with ESMTPSA id 8F230CECC9;
- Mon, 13 Jul 2020 18:51:58 +0200 (CEST)
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <3f69f09d6eb0bc1430cae2894c635252a1cb09e1.1594414498.git.yepeilin.cs@gmail.com>
-Date: Mon, 13 Jul 2020 18:42:00 +0200
-Message-Id: <72AE7F80-CE19-4051-85DB-60A3FD80D390@holtmann.org>
-References: <3f69f09d6eb0bc1430cae2894c635252a1cb09e1.1594414498.git.yepeilin.cs@gmail.com>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-Cc: Johan Hedberg <johan.hedberg@gmail.com>,
- Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH 1/2] net/bluetooth: Prevent
- out-of-bounds read in hci_inquiry_result_evt()
+ Mon, 13 Jul 2020 16:42:53 +0000 (UTC)
+IronPort-SDR: 1NqsH/RwCjWzc9me2t00hWh1Fcs8UV7t6dzxwaJW8sfCD9x2ytd14X9PA39tZhnYjoLu74fbQj
+ Q40DQPp7YVzw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="146141284"
+X-IronPort-AV: E=Sophos;i="5.75,348,1589266800"; d="scan'208";a="146141284"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2020 09:42:53 -0700
+IronPort-SDR: dQgS6KRxXnZehQ6xSY5bScIB1NbPYyLT4+zopdkg5S3fiuf5XsC0QhqYiX7EJ72qjhdGaDOB1f
+ Vf9essvY4UOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,348,1589266800"; d="scan'208";a="485064335"
+Received: from rrajashe-mobl1.amr.corp.intel.com (HELO [10.212.135.176])
+ ([10.212.135.176])
+ by fmsmga006.fm.intel.com with ESMTP; 13 Jul 2020 09:42:52 -0700
+To: "Saheed O. Bolarinwa" <refactormyself@gmail.com>, helgaas@kernel.org,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+References: <20200713122247.10985-1-refactormyself@gmail.com>
+ <20200713122247.10985-10-refactormyself@gmail.com>
+From: "Rajashekar, Revanth" <revanth.rajashekar@intel.com>
+Message-ID: <0762f646-90a1-217c-4e4b-6168d85bb08a@intel.com>
+Date: Mon, 13 Jul 2020 10:42:51 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
+MIME-Version: 1.0
+In-Reply-To: <20200713122247.10985-10-refactormyself@gmail.com>
+Content-Language: en-US
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH 09/35] nvme-pci: Change
+	PCIBIOS_SUCCESSFUL to 0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,22 +99,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Peilin,
+Hi,
 
-> Check `num_rsp` before using it as for-loop counter.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+On 7/13/2020 6:22 AM, Saheed O. Bolarinwa wrote:
+> In reference to the PCI spec (Chapter 2), PCIBIOS* is an x86 concept.
+> Their scope should be limited within arch/x86.
+>
+> Change all PCIBIOS_SUCCESSFUL to 0
+>
+> Signed-off-by: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 > ---
-> net/bluetooth/hci_event.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
-
-patch has been applied to bluetooth-next tree.
-
-Regards
-
-Marcel
-
+>  drivers/nvme/host/pci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index b1d18f0633c7..d426efb53f44 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1185,7 +1185,7 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
+>  
+>  	result = pci_read_config_word(to_pci_dev(dev->dev), PCI_STATUS,
+>  				      &pci_status);
+> -	if (result == PCIBIOS_SUCCESSFUL)
+> +	if (result == 0)
+How about simplifying the check to if (!result)?
+>  		dev_warn(dev->ctrl.device,
+>  			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS=0x%hx\n",
+>  			 csts, pci_status);
+Thanks!
+Revanth
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
