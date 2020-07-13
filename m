@@ -8,97 +8,98 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DADC3C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:20 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE64C4346F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:19 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AAA7220773
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BF09D20773
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hA2Advwg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AAA7220773
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CRJ+eOrF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF09D20773
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9D89C891BC;
-	Mon, 13 Jul 2020 13:23:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A1C39226F3;
+	Mon, 13 Jul 2020 13:23:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wj0RCnDsGMLt; Mon, 13 Jul 2020 13:23:20 +0000 (UTC)
+	with ESMTP id NePBloTRU+rU; Mon, 13 Jul 2020 13:23:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3AEA38915B;
-	Mon, 13 Jul 2020 13:23:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F3AB12002A;
+	Mon, 13 Jul 2020 13:23:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 37C1AC0888;
-	Mon, 13 Jul 2020 13:23:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E2611C0888;
+	Mon, 13 Jul 2020 13:23:16 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B6578C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 96667C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:18 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A1EB188C73
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8601888AEF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:18 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EMi-7E6zZ0fo
+ with ESMTP id pFuWatcqwCEH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:17 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 976C388B48
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BB18C88B48
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:17 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id l12so17130886ejn.10
+ Mon, 13 Jul 2020 13:23:13 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id y10so17169681eje.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 06:23:17 -0700 (PDT)
+ Mon, 13 Jul 2020 06:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=srnOr+oWrll92VFUDRSxv+y9DkOgl2yMHs+bARSxTtw=;
- b=hA2Advwg9sPYlSG9PVyUZ2WxXF2yoKE51xpWubaLGvH0fSblpcRpOX7e6gGzjKV04x
- PMFVOsT0MkAAWHx/FNBm7u+ko/ASFkGJxc26fYHAg1vB6uPjWj33Ye1n4cHZrpXXbaRx
- nhZM8JRv3BAsf3daoqySITIQioWtOixUOHScO7N/T+1fau8RNPEchPtffv6+cIY97p0A
- eAJh12CTy0jakb/slMUfM+jjHRINUVVY3p9U6FLZ1gVHvv7eFB+K1zWa5We3M/VrwWjy
- YYy9yms4BEUIE0AFFnl6IE4d3AA4Egtge7EmhM4QLUcjfFMwcjEwHeibMNPRKjAO2aqm
- rosw==
+ bh=CqnQzLagV907q2DtZUmj9ucC67l45yw7G9UU01xV9po=;
+ b=CRJ+eOrFMBo/lBjr7P0jG106EU1m3aA89WdMkojOKu0fhIqVbeWwawRT8c2JVTNVf6
+ vH31cZc+hmYy4JBBDR1GYH0/j6xZ2sQS3lyKVAXc2BUnm7jDq4vfJKxzOR6ekWAjcZbt
+ lhv/QnWokdFnxK9Z75zldkVpev4+Xi0Bvz9LWwdB9coyrcbhT/lzqGKB6zWUOPkFMsRo
+ 7Sfcg5A90uvkpFutYn8hHL4zypTFhA08sjDbl3TzVROBvggLbkYIcI5HcMXNgkZbyDx9
+ 7+sl9vXOKv3K49AtTf9xCaiB2I+3UQ0duNCCsFfLU16Poi4V9NQITTE4pjsukd7aUvof
+ Z01A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=srnOr+oWrll92VFUDRSxv+y9DkOgl2yMHs+bARSxTtw=;
- b=GjpHy46CKiIQmFa33xH89Wq/uSqXCBe+4s0fmDhwjVH6dtJa0Fe+wGHin3nJM9wAus
- YOwFLCQqtbXkGnaNi82Rfn5eMqPDhCZ1z1Ck9UswDAZpU3r8tyQaIXBM9DCh3Qn7T+4a
- O9iNrVpU5J2f0B42tjIK2b7ZtsT/DWM4TWQzJ8IqrD36vNsaAnkORDJIx5LAtANzzK9k
- viIV2h0SMMAZlMSL1LS5RxltMgI/YADtDPnc+3TLtdRPKq9OQl13SFOksSZIt1xCTItk
- 1aSAWD3ibX1TPe0RDT3IW6aTQrJgjypgqhOcInX5TWV+LCNKIQKKkNT5iOPXaKTFb/fJ
- RsAQ==
-X-Gm-Message-State: AOAM530ymrKjzThrrBuCWlFvrQEvCm2kJ3F+fzJQb3ZhA83dx4UQ9YkZ
- IyrXzrKvnq+6lu8n3cd/MF8=
-X-Google-Smtp-Source: ABdhPJzvG9XEXrWjvWtZEu7yzcF9rZLh2zOC+Ra/3eYp8pyZIsCiFH715AqPn92Kt0ycrF58CyNztg==
-X-Received: by 2002:a17:906:743:: with SMTP id
- z3mr9388063ejb.216.1594646596068; 
- Mon, 13 Jul 2020 06:23:16 -0700 (PDT)
+ bh=CqnQzLagV907q2DtZUmj9ucC67l45yw7G9UU01xV9po=;
+ b=SJkZ398U/n5El8Sb2yB+kfzhhd9W4gZ62QEhDkp9uKlE646PfZqfJfwBdLYHN5pB7U
+ m2o9dSM2JvLg2QoV+Z0n3V6Tko14GvLQzKvt/MM+iJgrd1TcOT2Lg45UUf87oI9+oUD0
+ 30S/sh8xnywBfm9aYjeF/9wy05A5qmypE5eICxDi+IBoadmIvMvp8PBWvIoLONn037pJ
+ cw823yVEBz4jm+WrvSSHWROhdUsdukq+KOJ94WKJFLF7P056PFy9GBJIIS4oIsQ9E+ee
+ Kkqx0MFVjXIerrH01CHpheJ3FlcVGhf6WSlME22EaGTHvkhsCJeR0bvN5xLCLel/6J48
+ xl7Q==
+X-Gm-Message-State: AOAM5316wYNbEzPtwPyhuHrsKbwCjF/lWhp2bez3L/s6mOIraDKYLSSt
+ 8T7jKisMLrslUrQ+XWD0AGs=
+X-Google-Smtp-Source: ABdhPJxC1D2mvva5sNGWa1M2WUYKgdpW17USveAPUEU8MV+xucsXbvB99O2JawyIHGQPK2d7sUsGNg==
+X-Received: by 2002:a17:906:b2c8:: with SMTP id
+ cf8mr73669829ejb.132.1594646592134; 
+ Mon, 13 Jul 2020 06:23:12 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.23.14
+ by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.23.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 06:23:15 -0700 (PDT)
+ Mon, 13 Jul 2020 06:23:11 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: helgaas@kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Date: Mon, 13 Jul 2020 14:22:41 +0200
-Message-Id: <20200713122247.10985-30-refactormyself@gmail.com>
+To: helgaas@kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>
+Date: Mon, 13 Jul 2020 14:22:38 +0200
+Message-Id: <20200713122247.10985-27-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200713122247.10985-1-refactormyself@gmail.com>
 References: <20200713122247.10985-1-refactormyself@gmail.com>
-Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+Cc: linuxppc-dev@lists.ozlabs.org,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>, linux-kernel@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH 29/35] mips: Tidy Success/Failure
-	checks
+Subject: [Linux-kernel-mentees] [RFC PATCH 26/35] powerpc: Change
+	PCIBIOS_SUCCESSFUL to 0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,67 +118,532 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Remove unnecessary check for 0.
+In reference to the PCI spec (Chapter 2), PCIBIOS* is an x86 concept.
+Their scope should be limited within arch/x86.
+
+Change all PCIBIOS_SUCCESSFUL to 0
 
 Signed-off-by: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 ---
-This patch depends on PATCH 28/35
+ arch/powerpc/kernel/rtas_pci.c                 |  4 ++--
+ arch/powerpc/platforms/4xx/pci.c               |  4 ++--
+ arch/powerpc/platforms/52xx/efika.c            |  4 ++--
+ arch/powerpc/platforms/52xx/mpc52xx_pci.c      |  4 ++--
+ arch/powerpc/platforms/82xx/pq2.c              |  2 +-
+ arch/powerpc/platforms/85xx/mpc85xx_cds.c      |  2 +-
+ arch/powerpc/platforms/85xx/mpc85xx_ds.c       |  2 +-
+ arch/powerpc/platforms/86xx/mpc86xx_hpcn.c     |  2 +-
+ arch/powerpc/platforms/chrp/pci.c              |  8 ++++----
+ arch/powerpc/platforms/embedded6xx/holly.c     |  2 +-
+ .../platforms/embedded6xx/mpc7448_hpc2.c       |  2 +-
+ arch/powerpc/platforms/fsl_uli1575.c           |  2 +-
+ arch/powerpc/platforms/maple/pci.c             | 18 +++++++++---------
+ arch/powerpc/platforms/pasemi/pci.c            |  6 +++---
+ arch/powerpc/platforms/powermac/pci.c          |  8 ++++----
+ arch/powerpc/platforms/powernv/eeh-powernv.c   |  4 ++--
+ arch/powerpc/platforms/powernv/pci.c           |  4 ++--
+ arch/powerpc/platforms/pseries/eeh_pseries.c   |  4 ++--
+ arch/powerpc/sysdev/fsl_pci.c                  |  2 +-
+ arch/powerpc/sysdev/indirect_pci.c             |  4 ++--
+ arch/powerpc/sysdev/tsi108_pci.c               |  4 ++--
+ 21 files changed, 46 insertions(+), 46 deletions(-)
 
- arch/mips/pci/ops-bcm63xx.c  | 2 +-
- arch/mips/pci/pci-ar2315.c   | 5 ++---
- arch/mips/txx9/generic/pci.c | 3 +--
- 3 files changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/arch/mips/pci/ops-bcm63xx.c b/arch/mips/pci/ops-bcm63xx.c
-index 3e88e4869f37..f2810af4fa24 100644
---- a/arch/mips/pci/ops-bcm63xx.c
-+++ b/arch/mips/pci/ops-bcm63xx.c
-@@ -295,7 +295,7 @@ static int fake_cb_bridge_write(int where, int size, u32 val)
- 	int ret;
+diff --git a/arch/powerpc/kernel/rtas_pci.c b/arch/powerpc/kernel/rtas_pci.c
+index 781c1869902e..18108ed9284c 100644
+--- a/arch/powerpc/kernel/rtas_pci.c
++++ b/arch/powerpc/kernel/rtas_pci.c
+@@ -71,7 +71,7 @@ int rtas_read_config(struct pci_dn *pdn, int where, int size, u32 *val)
+ 	if (ret)
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
  
- 	ret = fake_cb_bridge_read((where & ~0x3), 4, &data);
--	if (ret != 0)
-+	if (ret)
- 		return ret;
- 
- 	data = preprocess_write(data, val, where, size);
-diff --git a/arch/mips/pci/pci-ar2315.c b/arch/mips/pci/pci-ar2315.c
-index 2268b63d20e8..c2b9e62fbc18 100644
---- a/arch/mips/pci/pci-ar2315.c
-+++ b/arch/mips/pci/pci-ar2315.c
-@@ -259,8 +259,7 @@ static int ar2315_pci_cfg_access(struct ar2315_pci_ctrl *apc, unsigned devfn,
- 	ar2315_pci_reg_mask(apc, AR2315_PCI_MISC_CONFIG, AR2315_PCIMISC_CFG_SEL,
- 			    0);
- 
--	return isr & AR2315_PCI_INT_ABORT ? PCIBIOS_DEVICE_NOT_FOUND :
--					    0;
-+	return isr & AR2315_PCI_INT_ABORT ? PCIBIOS_DEVICE_NOT_FOUND : 0;
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
  }
  
- static inline int ar2315_pci_local_cfg_rd(struct ar2315_pci_ctrl *apc,
-@@ -311,7 +310,7 @@ static int ar2315_pci_host_setup(struct ar2315_pci_ctrl *apc)
- 	u32 id;
+ static int rtas_pci_read_config(struct pci_bus *bus,
+@@ -121,7 +121,7 @@ int rtas_write_config(struct pci_dn *pdn, int where, int size, u32 val)
+ 	if (ret)
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
  
- 	res = ar2315_pci_local_cfg_rd(apc, devfn, PCI_VENDOR_ID, &id);
--	if (res != 0 || id != AR2315_PCI_HOST_DEVID)
-+	if (res || id != AR2315_PCI_HOST_DEVID)
- 		return -ENODEV;
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
  
- 	/* Program MBARs */
-diff --git a/arch/mips/txx9/generic/pci.c b/arch/mips/txx9/generic/pci.c
-index bdff45b6b57d..9da38f8fa036 100644
---- a/arch/mips/txx9/generic/pci.c
-+++ b/arch/mips/txx9/generic/pci.c
-@@ -61,8 +61,7 @@ int __init txx9_pci66_check(struct pci_controller *hose, int top_bus,
- 		if (PCI_FUNC(pci_devfn))
- 			continue;
- 		if (early_read_config_word(hose, top_bus, current_bus,
--					   pci_devfn, PCI_VENDOR_ID, &vid) !=
--		    0)
-+					   pci_devfn, PCI_VENDOR_ID, &vid))
- 			continue;
- 		if (vid == 0xffff)
- 			continue;
+ static int rtas_pci_write_config(struct pci_bus *bus,
+diff --git a/arch/powerpc/platforms/4xx/pci.c b/arch/powerpc/platforms/4xx/pci.c
+index c13d64c3b019..3e6799d987d2 100644
+--- a/arch/powerpc/platforms/4xx/pci.c
++++ b/arch/powerpc/platforms/4xx/pci.c
+@@ -1652,7 +1652,7 @@ static int ppc4xx_pciex_read_config(struct pci_bus *bus, unsigned int devfn,
+ 
+ 	dcr_write(port->dcrs, DCRO_PEGPL_CFG, gpl_cfg);
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int ppc4xx_pciex_write_config(struct pci_bus *bus, unsigned int devfn,
+@@ -1696,7 +1696,7 @@ static int ppc4xx_pciex_write_config(struct pci_bus *bus, unsigned int devfn,
+ 
+ 	dcr_write(port->dcrs, DCRO_PEGPL_CFG, gpl_cfg);
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops ppc4xx_pciex_pci_ops =
+diff --git a/arch/powerpc/platforms/52xx/efika.c b/arch/powerpc/platforms/52xx/efika.c
+index 4514a6f7458a..ef2584eb2dad 100644
+--- a/arch/powerpc/platforms/52xx/efika.c
++++ b/arch/powerpc/platforms/52xx/efika.c
+@@ -44,7 +44,7 @@ static int rtas_read_config(struct pci_bus *bus, unsigned int devfn, int offset,
+ 
+ 	rval = rtas_call(rtas_token("read-pci-config"), 2, 2, &ret, addr, len);
+ 	*val = ret;
+-	return rval ? PCIBIOS_DEVICE_NOT_FOUND : PCIBIOS_SUCCESSFUL;
++	return rval ? PCIBIOS_DEVICE_NOT_FOUND : 0;
+ }
+ 
+ static int rtas_write_config(struct pci_bus *bus, unsigned int devfn,
+@@ -58,7 +58,7 @@ static int rtas_write_config(struct pci_bus *bus, unsigned int devfn,
+ 
+ 	rval = rtas_call(rtas_token("write-pci-config"), 3, 1, NULL,
+ 			 addr, len, val);
+-	return rval ? PCIBIOS_DEVICE_NOT_FOUND : PCIBIOS_SUCCESSFUL;
++	return rval ? PCIBIOS_DEVICE_NOT_FOUND : 0;
+ }
+ 
+ static struct pci_ops rtas_pci_ops = {
+diff --git a/arch/powerpc/platforms/52xx/mpc52xx_pci.c b/arch/powerpc/platforms/52xx/mpc52xx_pci.c
+index af0f79995214..b9c2d0a7077e 100644
+--- a/arch/powerpc/platforms/52xx/mpc52xx_pci.c
++++ b/arch/powerpc/platforms/52xx/mpc52xx_pci.c
+@@ -157,7 +157,7 @@ mpc52xx_pci_read_config(struct pci_bus *bus, unsigned int devfn,
+ 	out_be32(hose->cfg_addr, 0);
+ 	mb();
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int
+@@ -221,7 +221,7 @@ mpc52xx_pci_write_config(struct pci_bus *bus, unsigned int devfn,
+ 	out_be32(hose->cfg_addr, 0);
+ 	mb();
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops mpc52xx_pci_ops = {
+diff --git a/arch/powerpc/platforms/82xx/pq2.c b/arch/powerpc/platforms/82xx/pq2.c
+index 3b5cb39a564c..c15b3b0ed118 100644
+--- a/arch/powerpc/platforms/82xx/pq2.c
++++ b/arch/powerpc/platforms/82xx/pq2.c
+@@ -40,7 +40,7 @@ static int pq2_pci_exclude_device(struct pci_controller *hose,
+ 	if (bus == 0 && PCI_SLOT(devfn) == 0)
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
+ 	else
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ }
+ 
+ static void __init pq2_pci_add_bridge(struct device_node *np)
+diff --git a/arch/powerpc/platforms/85xx/mpc85xx_cds.c b/arch/powerpc/platforms/85xx/mpc85xx_cds.c
+index 172d2b7cfeb7..66f00eb2a8be 100644
+--- a/arch/powerpc/platforms/85xx/mpc85xx_cds.c
++++ b/arch/powerpc/platforms/85xx/mpc85xx_cds.c
+@@ -76,7 +76,7 @@ static int mpc85xx_exclude_device(struct pci_controller *hose,
+ 	if ((bus == 0) && (PCI_SLOT(devfn) == ARCADIA_2ND_BRIDGE_IDSEL))
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
+ 	else
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ }
+ 
+ static int mpc85xx_cds_restart(struct notifier_block *this,
+diff --git a/arch/powerpc/platforms/85xx/mpc85xx_ds.c b/arch/powerpc/platforms/85xx/mpc85xx_ds.c
+index 2157a8017aa4..f33ac8e04da6 100644
+--- a/arch/powerpc/platforms/85xx/mpc85xx_ds.c
++++ b/arch/powerpc/platforms/85xx/mpc85xx_ds.c
+@@ -118,7 +118,7 @@ static int mpc85xx_exclude_device(struct pci_controller *hose,
+ 	if (hose->dn == pci_with_uli)
+ 		return uli_exclude_device(hose, bus, devfn);
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ #endif	/* CONFIG_PCI */
+ 
+diff --git a/arch/powerpc/platforms/86xx/mpc86xx_hpcn.c b/arch/powerpc/platforms/86xx/mpc86xx_hpcn.c
+index b697918b727d..36b38b28d40b 100644
+--- a/arch/powerpc/platforms/86xx/mpc86xx_hpcn.c
++++ b/arch/powerpc/platforms/86xx/mpc86xx_hpcn.c
+@@ -49,7 +49,7 @@ static int mpc86xx_exclude_device(struct pci_controller *hose,
+ 	if (hose->dn == fsl_pci_primary)
+ 		return uli_exclude_device(hose, bus, devfn);
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ #endif /* CONFIG_PCI */
+ 
+diff --git a/arch/powerpc/platforms/chrp/pci.c b/arch/powerpc/platforms/chrp/pci.c
+index b2c2bf35b76c..c8f8356607c7 100644
+--- a/arch/powerpc/platforms/chrp/pci.c
++++ b/arch/powerpc/platforms/chrp/pci.c
+@@ -55,7 +55,7 @@ static int gg2_read_config(struct pci_bus *bus, unsigned int devfn, int off,
+ 		*val = in_le32(cfg_data);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int gg2_write_config(struct pci_bus *bus, unsigned int devfn, int off,
+@@ -82,7 +82,7 @@ static int gg2_write_config(struct pci_bus *bus, unsigned int devfn, int off,
+ 		out_le32(cfg_data, val);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops gg2_pci_ops =
+@@ -106,7 +106,7 @@ static int rtas_read_config(struct pci_bus *bus, unsigned int devfn, int offset,
+ 
+ 	rval = rtas_call(rtas_token("read-pci-config"), 2, 2, &ret, addr, len);
+ 	*val = ret;
+-	return rval? PCIBIOS_DEVICE_NOT_FOUND: PCIBIOS_SUCCESSFUL;
++	return rval ? PCIBIOS_DEVICE_NOT_FOUND : 0;
+ }
+ 
+ static int rtas_write_config(struct pci_bus *bus, unsigned int devfn, int offset,
+@@ -120,7 +120,7 @@ static int rtas_write_config(struct pci_bus *bus, unsigned int devfn, int offset
+ 
+ 	rval = rtas_call(rtas_token("write-pci-config"), 3, 1, NULL,
+ 			 addr, len, val);
+-	return rval? PCIBIOS_DEVICE_NOT_FOUND: PCIBIOS_SUCCESSFUL;
++	return rval ? PCIBIOS_DEVICE_NOT_FOUND : 0;
+ }
+ 
+ static struct pci_ops rtas_pci_ops =
+diff --git a/arch/powerpc/platforms/embedded6xx/holly.c b/arch/powerpc/platforms/embedded6xx/holly.c
+index d8f2e2c737bb..f9fca540c52a 100644
+--- a/arch/powerpc/platforms/embedded6xx/holly.c
++++ b/arch/powerpc/platforms/embedded6xx/holly.c
+@@ -47,7 +47,7 @@ static int holly_exclude_device(struct pci_controller *hose, u_char bus,
+ 	if (bus == 0 && PCI_SLOT(devfn) == 0)
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
+ 	else
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ }
+ 
+ static void holly_remap_bridge(void)
+diff --git a/arch/powerpc/platforms/embedded6xx/mpc7448_hpc2.c b/arch/powerpc/platforms/embedded6xx/mpc7448_hpc2.c
+index 15437abe1f6d..34f6a0ecdf67 100644
+--- a/arch/powerpc/platforms/embedded6xx/mpc7448_hpc2.c
++++ b/arch/powerpc/platforms/embedded6xx/mpc7448_hpc2.c
+@@ -55,7 +55,7 @@ int mpc7448_hpc2_exclude_device(struct pci_controller *hose,
+ 	if (bus == 0 && PCI_SLOT(devfn) == 0)
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
+ 	else
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ }
+ 
+ static void __init mpc7448_hpc2_setup_arch(void)
+diff --git a/arch/powerpc/platforms/fsl_uli1575.c b/arch/powerpc/platforms/fsl_uli1575.c
+index 044a20c1fbde..17c2cb5a8682 100644
+--- a/arch/powerpc/platforms/fsl_uli1575.c
++++ b/arch/powerpc/platforms/fsl_uli1575.c
+@@ -353,5 +353,5 @@ int uli_exclude_device(struct pci_controller *hose,
+ 			return PCIBIOS_DEVICE_NOT_FOUND;
+ 	}
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+diff --git a/arch/powerpc/platforms/maple/pci.c b/arch/powerpc/platforms/maple/pci.c
+index c86a66d5e998..4e49f465056d 100644
+--- a/arch/powerpc/platforms/maple/pci.c
++++ b/arch/powerpc/platforms/maple/pci.c
+@@ -142,7 +142,7 @@ static int u3_agp_read_config(struct pci_bus *bus, unsigned int devfn,
+ 		*val = in_le32(addr);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int u3_agp_write_config(struct pci_bus *bus, unsigned int devfn,
+@@ -173,7 +173,7 @@ static int u3_agp_write_config(struct pci_bus *bus, unsigned int devfn,
+ 		out_le32(addr, val);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops u3_agp_pci_ops =
+@@ -223,7 +223,7 @@ static int u3_ht_root_read_config(struct pci_controller *hose, u8 offset,
+ 		break;
+ 	}
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int u3_ht_root_write_config(struct pci_controller *hose, u8 offset,
+@@ -234,7 +234,7 @@ static int u3_ht_root_write_config(struct pci_controller *hose, u8 offset,
+ 	addr = hose->cfg_addr + ((offset & ~3) << 2) + (4 - len - (offset & 3));
+ 
+ 	if (offset >= PCI_BASE_ADDRESS_0 && offset < PCI_CAPABILITY_LIST)
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ 
+ 	switch (len) {
+ 	case 1:
+@@ -248,7 +248,7 @@ static int u3_ht_root_write_config(struct pci_controller *hose, u8 offset,
+ 		break;
+ 	}
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int u3_ht_read_config(struct pci_bus *bus, unsigned int devfn,
+@@ -286,7 +286,7 @@ static int u3_ht_read_config(struct pci_bus *bus, unsigned int devfn,
+ 		*val = in_le32(addr);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int u3_ht_write_config(struct pci_bus *bus, unsigned int devfn,
+@@ -323,7 +323,7 @@ static int u3_ht_write_config(struct pci_bus *bus, unsigned int devfn,
+ 		out_le32(addr, val);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops u3_ht_pci_ops =
+@@ -397,7 +397,7 @@ static int u4_pcie_read_config(struct pci_bus *bus, unsigned int devfn,
+                 *val = in_le32(addr);
+                 break;
+         }
+-        return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ static int u4_pcie_write_config(struct pci_bus *bus, unsigned int devfn,
+                                 int offset, int len, u32 val)
+@@ -428,7 +428,7 @@ static int u4_pcie_write_config(struct pci_bus *bus, unsigned int devfn,
+                 out_le32(addr, val);
+                 break;
+         }
+-        return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops u4_pcie_pci_ops =
+diff --git a/arch/powerpc/platforms/pasemi/pci.c b/arch/powerpc/platforms/pasemi/pci.c
+index 8779b107d872..e558a402532a 100644
+--- a/arch/powerpc/platforms/pasemi/pci.c
++++ b/arch/powerpc/platforms/pasemi/pci.c
+@@ -166,7 +166,7 @@ static int pa_pxp_read_config(struct pci_bus *bus, unsigned int devfn,
+ 		return PCIBIOS_BAD_REGISTER_NUMBER;
+ 
+ 	if (workaround_5945(bus, devfn, offset, len, val))
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ 
+ 	addr = pa_pxp_cfg_addr(hose, bus->number, devfn, offset);
+ 
+@@ -188,7 +188,7 @@ static int pa_pxp_read_config(struct pci_bus *bus, unsigned int devfn,
+ 		break;
+ 	}
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int pa_pxp_write_config(struct pci_bus *bus, unsigned int devfn,
+@@ -223,7 +223,7 @@ static int pa_pxp_write_config(struct pci_bus *bus, unsigned int devfn,
+ 		out_le32(addr, val);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops pa_pxp_ops = {
+diff --git a/arch/powerpc/platforms/powermac/pci.c b/arch/powerpc/platforms/powermac/pci.c
+index e35eaa9cf938..bdc9a89b5181 100644
+--- a/arch/powerpc/platforms/powermac/pci.c
++++ b/arch/powerpc/platforms/powermac/pci.c
+@@ -307,7 +307,7 @@ static int u3_ht_read_config(struct pci_bus *bus, unsigned int devfn,
+ 		default:
+ 			*val = 0xfffffffful; break;
+ 		}
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ 	default:
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
+ 	}
+@@ -327,7 +327,7 @@ static int u3_ht_read_config(struct pci_bus *bus, unsigned int devfn,
+ 		*val = swap ? in_le32(addr) : in_be32(addr);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int u3_ht_write_config(struct pci_bus *bus, unsigned int devfn,
+@@ -350,7 +350,7 @@ static int u3_ht_write_config(struct pci_bus *bus, unsigned int devfn,
+ 	case 0:
+ 		break;
+ 	case 1:
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ 	default:
+ 		return PCIBIOS_DEVICE_NOT_FOUND;
+ 	}
+@@ -370,7 +370,7 @@ static int u3_ht_write_config(struct pci_bus *bus, unsigned int devfn,
+ 		swap ? out_le32(addr, val) : out_be32(addr, val);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops u3_ht_pci_ops =
+diff --git a/arch/powerpc/platforms/powernv/eeh-powernv.c b/arch/powerpc/platforms/powernv/eeh-powernv.c
+index 79409e005fcd..92f145dc9c1d 100644
+--- a/arch/powerpc/platforms/powernv/eeh-powernv.c
++++ b/arch/powerpc/platforms/powernv/eeh-powernv.c
+@@ -318,7 +318,7 @@ static int pnv_eeh_find_ecap(struct pci_dn *pdn, int cap)
+ 
+ 	if (!edev || !edev->pcie_cap)
+ 		return 0;
+-	if (pnv_pci_cfg_read(pdn, pos, 4, &header) != PCIBIOS_SUCCESSFUL)
++	if (pnv_pci_cfg_read(pdn, pos, 4, &header) != 0)
+ 		return 0;
+ 	else if (!header)
+ 		return 0;
+@@ -331,7 +331,7 @@ static int pnv_eeh_find_ecap(struct pci_dn *pdn, int cap)
+ 		if (pos < 256)
+ 			break;
+ 
+-		if (pnv_pci_cfg_read(pdn, pos, 4, &header) != PCIBIOS_SUCCESSFUL)
++		if (pnv_pci_cfg_read(pdn, pos, 4, &header) != 0)
+ 			break;
+ 	}
+ 
+diff --git a/arch/powerpc/platforms/powernv/pci.c b/arch/powerpc/platforms/powernv/pci.c
+index 091fe1cf386b..b3d5cc3e262a 100644
+--- a/arch/powerpc/platforms/powernv/pci.c
++++ b/arch/powerpc/platforms/powernv/pci.c
+@@ -685,7 +685,7 @@ int pnv_pci_cfg_read(struct pci_dn *pdn,
+ 
+ 	pr_devel("%s: bus: %x devfn: %x +%x/%x -> %08x\n",
+ 		 __func__, pdn->busno, pdn->devfn, where, size, *val);
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ int pnv_pci_cfg_write(struct pci_dn *pdn,
+@@ -710,7 +710,7 @@ int pnv_pci_cfg_write(struct pci_dn *pdn,
+ 		return PCIBIOS_FUNC_NOT_SUPPORTED;
+ 	}
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ #if CONFIG_EEH
+diff --git a/arch/powerpc/platforms/pseries/eeh_pseries.c b/arch/powerpc/platforms/pseries/eeh_pseries.c
+index ace117f99d94..9c023b928f2c 100644
+--- a/arch/powerpc/platforms/pseries/eeh_pseries.c
++++ b/arch/powerpc/platforms/pseries/eeh_pseries.c
+@@ -200,7 +200,7 @@ static int pseries_eeh_find_ecap(struct pci_dn *pdn, int cap)
+ 
+ 	if (!edev || !edev->pcie_cap)
+ 		return 0;
+-	if (rtas_read_config(pdn, pos, 4, &header) != PCIBIOS_SUCCESSFUL)
++	if (rtas_read_config(pdn, pos, 4, &header) != 0)
+ 		return 0;
+ 	else if (!header)
+ 		return 0;
+@@ -213,7 +213,7 @@ static int pseries_eeh_find_ecap(struct pci_dn *pdn, int cap)
+ 		if (pos < 256)
+ 			break;
+ 
+-		if (rtas_read_config(pdn, pos, 4, &header) != PCIBIOS_SUCCESSFUL)
++		if (rtas_read_config(pdn, pos, 4, &header) != 0)
+ 			break;
+ 	}
+ 
+diff --git a/arch/powerpc/sysdev/fsl_pci.c b/arch/powerpc/sysdev/fsl_pci.c
+index 040b9d01c079..f1118c4443f4 100644
+--- a/arch/powerpc/sysdev/fsl_pci.c
++++ b/arch/powerpc/sysdev/fsl_pci.c
+@@ -697,7 +697,7 @@ static int mpc83xx_pcie_exclude_device(struct pci_bus *bus, unsigned int devfn)
+ 			return PCIBIOS_DEVICE_NOT_FOUND;
+ 	}
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static void __iomem *mpc83xx_pcie_remap_cfg(struct pci_bus *bus,
+diff --git a/arch/powerpc/sysdev/indirect_pci.c b/arch/powerpc/sysdev/indirect_pci.c
+index 09b36617425e..35b21276609b 100644
+--- a/arch/powerpc/sysdev/indirect_pci.c
++++ b/arch/powerpc/sysdev/indirect_pci.c
+@@ -70,7 +70,7 @@ int __indirect_read_config(struct pci_controller *hose,
+ 		*val = in_le32(cfg_data);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ int indirect_read_config(struct pci_bus *bus, unsigned int devfn,
+@@ -148,7 +148,7 @@ int indirect_write_config(struct pci_bus *bus, unsigned int devfn,
+ 		out_le32(cfg_data, val);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static struct pci_ops indirect_pci_ops =
+diff --git a/arch/powerpc/sysdev/tsi108_pci.c b/arch/powerpc/sysdev/tsi108_pci.c
+index 49f9541954f8..586dabb4e7ea 100644
+--- a/arch/powerpc/sysdev/tsi108_pci.c
++++ b/arch/powerpc/sysdev/tsi108_pci.c
+@@ -78,7 +78,7 @@ tsi108_direct_write_config(struct pci_bus *bus, unsigned int devfunc,
+ 		break;
+ 	}
+ 
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ void tsi108_clear_pci_error(u32 pci_cfg_base)
+@@ -167,7 +167,7 @@ tsi108_direct_read_config(struct pci_bus *bus, unsigned int devfn, int offset,
+ 		printk("data = 0x%x\n", *val);
+ 	}
+ #endif
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ void tsi108_clear_pci_cfg_error(void)
 -- 
 2.18.2
 
