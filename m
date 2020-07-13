@@ -8,96 +8,96 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE3ADC4346A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC959C4346B
 	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:14 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9A9E0207F9
+	by mail.kernel.org (Postfix) with ESMTPS id 9EA7820849
 	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SaNGQfLV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A9E0207F9
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qOy7ElWW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EA7820849
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C3B1876C5;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4F030891BC;
 	Mon, 13 Jul 2020 13:23:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HH802Ubjc_zj; Mon, 13 Jul 2020 13:23:13 +0000 (UTC)
+	with ESMTP id H-jm1uOeFjR1; Mon, 13 Jul 2020 13:23:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B18B6876C3;
-	Mon, 13 Jul 2020 13:23:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9FABF8908C;
+	Mon, 13 Jul 2020 13:23:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AD905C0888;
-	Mon, 13 Jul 2020 13:23:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C7BAC0888;
+	Mon, 13 Jul 2020 13:23:11 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 01B3BC0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9EC97C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:12 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E5301876E9
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8EC10876E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:11 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AACQkFIGxPux
+ with ESMTP id nyvbgKUgmZ69
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:11 +0000 (UTC)
+ Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1579B876C5
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+ [209.85.218.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B7A55876C5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 13:23:11 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id ga4so17130466ejb.11
+ Mon, 13 Jul 2020 13:23:09 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id w6so17136724ejq.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Jul 2020 06:23:11 -0700 (PDT)
+ Mon, 13 Jul 2020 06:23:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xcKDUJtN8KnVp8SK38Ke0hkXpSNLE2nTiZgewkHzMQw=;
- b=SaNGQfLVx6RqUWzELxm9T+H6i+YLj/d/wFalPHk2qzqpsLYUvY6xsqG5ifZyl5xXoy
- RHUOs4DoBmK3mHxWhLxDqNqNcjjm0z46C6vabdJ9p+CfmRYhNpygqvBxUrO9ijIBAPac
- 6uNj3/qTGxTkv7CXIbf6eBF8B1utWOoErQZBM29hcjWAi4iFZiS2GfpT+wGthIaS/jb6
- NJmNbiBWqExF7WlkzgTsOwl1n12faQczUqZrcILxAoxtlcnHL2LXFmvUpVSnj3Rs8YYg
- VlJVRb227P01Gzajwxc0dSRkTqJuEYitM47cU1sN5shRZIY4d89mqXpxqaUuH80isD47
- U27g==
+ bh=rplWXqoRmMzG/PAypQDSMVo9rsbsvM0HW4mN54VwCPY=;
+ b=qOy7ElWW63EuFj1bTCYdyQLghlNDXNsRyywynTNgzD0Gq2x5qrJkewWFkC7exZ3ZK+
+ WszpqO334hwMhryyStOXx4Lr6yXFcseq6PMIyjonDk24NsGX1T9MUDI2QUBUjO3LWGbM
+ Li9jO95VLMGwEH/ZoYPlMg5XHj1kZ5ppuN+yX9tYvdA/nj3QJiO8zdIXlSNw2qo2a6nH
+ sqbqya0t9Apm7UjW5m5M6YLJRGsvsyAdyWdCif1CyKWabSWLz57vj7tLaSDUILABN/76
+ 3mqzHZzhgpEV/h5XKdKHPT7Sv3o5sk5cKDjcx7xoPTUKFkv62VAV/8RkNo81Aco4xq90
+ zLlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=xcKDUJtN8KnVp8SK38Ke0hkXpSNLE2nTiZgewkHzMQw=;
- b=Pg6tao3xEo1gijqNcb/wt369SlcDoHPMVu2NMFQvzRE++cjZYoFRFS63d/PHOkKaXb
- ldH4xDDBgFGrJ3VIHJxrLThy592f2RK0sJfR87lkwFEnupZCklTTvfPcAydmGAlTvFNJ
- /9zik+GfE6mTApyXcTa8j2dCemPyXZjb0b4u6ySDknhp789yKg3OuKCN8OUQreOoY3lu
- TG/RtgdOhXTJlChgHJ3IK4VvZ66X2xECoajBiysl+4/U1z+wUKl815TUbhZko7EcNmqa
- G/6dhIZA1+4SLQocBEoKAMbBkcGGUzCFQGhtvIL69kExdnHHE81HcQwix3nYW4MHNDb8
- elSw==
-X-Gm-Message-State: AOAM533yc+xVvyH//KFNWG4HIcenWlBW9Oaafu/Ainu04WHpy0o4Q4AA
- 5gDFpq14A6BzTVDmipNexJ8=
-X-Google-Smtp-Source: ABdhPJwsSYVM2+fMyxzB9eGDOoH0392buOi9pzjJVv96vP3BQvWvgtw4YTkrbkHgyoMZV9LLvQIslw==
-X-Received: by 2002:a17:906:f53:: with SMTP id
- h19mr71419486ejj.491.1594646589588; 
- Mon, 13 Jul 2020 06:23:09 -0700 (PDT)
+ bh=rplWXqoRmMzG/PAypQDSMVo9rsbsvM0HW4mN54VwCPY=;
+ b=VaNw8sShJa7Yw57pZgphmx5Wg57Sdk1g7h7E7M8QOS0C5gHWD5aSOStOMZ3ynfzCEY
+ 9dKIQHwwcndKuvBH4BxH8F6wSe/vIyNWmgIFoxufsC5MApgNwG1rIOmRgzqT2w9Pn18m
+ TNf41ENq75wg/xEvcPRFC3OuO42tW3BJqoo1zVa8gVbNgvqChh1U3e1HpMdLgwbvfxFb
+ FICEOw4Wuad9LT4bParwp56/c+DcUEAHUXT5KTArzhdL+O7/BFUTlgbkKHOspaTFiBQ9
+ 1uGkA53kBUImVsGRG+Qy1eTxkKHer/j8J3PaEjRKRN5zEHu6iYCFCLBgFUwwJ/N5PCpY
+ ub1g==
+X-Gm-Message-State: AOAM532+0IW2f1UyqxlBBse3DkjqiAHAxeVIvw4pYKUWlNqeCKl+SQf4
+ VZiekdzkWUJiVM8amABIcl0=
+X-Google-Smtp-Source: ABdhPJwRfcZjb10nMLeLG67GTJhBUEo56JkZJMLUALmO5nYTsFEky+Xkmns5sJRXxh54bY0oHtpWTA==
+X-Received: by 2002:a17:906:7115:: with SMTP id
+ x21mr71985610ejj.86.1594646588253; 
+ Mon, 13 Jul 2020 06:23:08 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.23.08
+ by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.23.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 06:23:09 -0700 (PDT)
+ Mon, 13 Jul 2020 06:23:07 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: helgaas@kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Rich Felker <dalias@libc.org>
-Date: Mon, 13 Jul 2020 14:22:36 +0200
-Message-Id: <20200713122247.10985-25-refactormyself@gmail.com>
+To: helgaas@kernel.org,
+	"David S. Miller" <davem@davemloft.net>
+Date: Mon, 13 Jul 2020 14:22:35 +0200
+Message-Id: <20200713122247.10985-24-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200713122247.10985-1-refactormyself@gmail.com>
 References: <20200713122247.10985-1-refactormyself@gmail.com>
-Cc: linux-sh@vger.kernel.org, "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH 24/35] sh: Change
+Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [RFC PATCH 23/35] sparc/PCI: Change
 	PCIBIOS_SUCCESSFUL to 0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -124,123 +124,132 @@ Change all PCIBIOS_SUCCESSFUL to 0
 
 Signed-off-by: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 ---
- arch/sh/drivers/pci/common.c        | 2 +-
- arch/sh/drivers/pci/ops-dreamcast.c | 4 ++--
- arch/sh/drivers/pci/ops-sh4.c       | 4 ++--
- arch/sh/drivers/pci/ops-sh7786.c    | 8 ++++----
- arch/sh/drivers/pci/pci.c           | 2 +-
- 5 files changed, 10 insertions(+), 10 deletions(-)
+ arch/sparc/kernel/pci_common.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/arch/sh/drivers/pci/common.c b/arch/sh/drivers/pci/common.c
-index fe163ecd0719..ee27cdfd3e68 100644
---- a/arch/sh/drivers/pci/common.c
-+++ b/arch/sh/drivers/pci/common.c
-@@ -61,7 +61,7 @@ int __init pci_is_66mhz_capable(struct pci_channel *hose,
- 			continue;
- 		if (early_read_config_word(hose, top_bus, current_bus,
- 					   pci_devfn, PCI_VENDOR_ID, &vid) !=
--		    PCIBIOS_SUCCESSFUL)
-+		    0)
- 			continue;
- 		if (vid == 0xffff)
- 			continue;
-diff --git a/arch/sh/drivers/pci/ops-dreamcast.c b/arch/sh/drivers/pci/ops-dreamcast.c
-index 517a8a9702f6..431cd006951f 100644
---- a/arch/sh/drivers/pci/ops-dreamcast.c
-+++ b/arch/sh/drivers/pci/ops-dreamcast.c
-@@ -56,7 +56,7 @@ static int gapspci_read(struct pci_bus *bus, unsigned int devfn, int where, int
- 	case 4: *val = inl(GAPSPCI_BBA_CONFIG+where); break;
+diff --git a/arch/sparc/kernel/pci_common.c b/arch/sparc/kernel/pci_common.c
+index 4759ccd542fe..39175f26f401 100644
+--- a/arch/sparc/kernel/pci_common.c
++++ b/arch/sparc/kernel/pci_common.c
+@@ -59,7 +59,7 @@ static int sun4u_read_pci_cfg_host(struct pci_pbm_info *pbm,
+ 
+ 	addr = sun4u_config_mkaddr(pbm, bus, devfn, where);
+ 	if (!addr)
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ 
+ 	switch (size) {
+ 	case 1:
+@@ -102,7 +102,7 @@ static int sun4u_read_pci_cfg_host(struct pci_pbm_info *pbm,
+ 		*value |= tmp32 << 16;
+ 		break;
  	}
- 
--        return PCIBIOS_SUCCESSFUL;
-+	return 0;
- }
- 
- static int gapspci_write(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 val)
-@@ -70,7 +70,7 @@ static int gapspci_write(struct pci_bus *bus, unsigned int devfn, int where, int
- 	case 4: outl((u32)val, GAPSPCI_BBA_CONFIG+where); break;
- 	}
- 
--        return PCIBIOS_SUCCESSFUL;
-+	return 0;
- }
- 
- struct pci_ops gapspci_pci_ops = {
-diff --git a/arch/sh/drivers/pci/ops-sh4.c b/arch/sh/drivers/pci/ops-sh4.c
-index a205be3bfc4a..4d757e5f38c6 100644
---- a/arch/sh/drivers/pci/ops-sh4.c
-+++ b/arch/sh/drivers/pci/ops-sh4.c
-@@ -49,7 +49,7 @@ static int sh4_pci_read(struct pci_bus *bus, unsigned int devfn,
- 		return PCIBIOS_FUNC_NOT_SUPPORTED;
- 	}
- 
 -	return PCIBIOS_SUCCESSFUL;
 +	return 0;
  }
  
- /*
-@@ -90,7 +90,7 @@ static int sh4_pci_write(struct pci_bus *bus, unsigned int devfn,
+ static int sun4u_read_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+@@ -132,7 +132,7 @@ static int sun4u_read_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
  
- 	pci_write_reg(chan, data, SH4_PCIPDR);
+ 	addr = sun4u_config_mkaddr(pbm, bus, devfn, where);
+ 	if (!addr)
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
  
--	return PCIBIOS_SUCCESSFUL;
-+	return 0;
- }
- 
- struct pci_ops sh4_pci_ops = {
-diff --git a/arch/sh/drivers/pci/ops-sh7786.c b/arch/sh/drivers/pci/ops-sh7786.c
-index a10f9f4ebd7f..7c329e467360 100644
---- a/arch/sh/drivers/pci/ops-sh7786.c
-+++ b/arch/sh/drivers/pci/ops-sh7786.c
-@@ -52,7 +52,7 @@ static int sh7786_pcie_config_access(unsigned char access_type,
- 			else
- 				pci_write_reg(chan, *data, PCI_REG(reg));
- 
+ 	switch (size) {
+ 	case 1:
+@@ -144,7 +144,7 @@ static int sun4u_read_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+ 		if (where & 0x01) {
+ 			printk("pci_read_config_word: misaligned reg [%x]\n",
+ 			       where);
 -			return PCIBIOS_SUCCESSFUL;
 +			return 0;
- 		} else if (dev > 1)
- 			return PCIBIOS_DEVICE_NOT_FOUND;
+ 		}
+ 		pci_config_read16((u16 *)addr, &tmp16);
+ 		*value = (u32) tmp16;
+@@ -154,12 +154,12 @@ static int sun4u_read_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+ 		if (where & 0x03) {
+ 			printk("pci_read_config_dword: misaligned reg [%x]\n",
+ 			       where);
+-			return PCIBIOS_SUCCESSFUL;
++			return 0;
+ 		}
+ 		pci_config_read32(addr, value);
+ 		break;
  	}
-@@ -83,7 +83,7 @@ static int sh7786_pcie_config_access(unsigned char access_type,
- 	/* Disable the configuration access */
- 	pci_write_reg(chan, 0, SH4A_PCIEPCTLR);
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int sun4u_write_pci_cfg_host(struct pci_pbm_info *pbm,
+@@ -170,7 +170,7 @@ static int sun4u_write_pci_cfg_host(struct pci_pbm_info *pbm,
+ 
+ 	addr = sun4u_config_mkaddr(pbm, bus, devfn, where);
+ 	if (!addr)
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ 
+ 	switch (size) {
+ 	case 1:
+@@ -206,7 +206,7 @@ static int sun4u_write_pci_cfg_host(struct pci_pbm_info *pbm,
+ 					 where + 2, 2, value >> 16);
+ 		break;
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ static int sun4u_write_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+@@ -222,7 +222,7 @@ static int sun4u_write_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+ 
+ 	addr = sun4u_config_mkaddr(pbm, bus, devfn, where);
+ 	if (!addr)
+-		return PCIBIOS_SUCCESSFUL;
++		return 0;
+ 
+ 	switch (size) {
+ 	case 1:
+@@ -233,7 +233,7 @@ static int sun4u_write_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+ 		if (where & 0x01) {
+ 			printk("pci_write_config_word: misaligned reg [%x]\n",
+ 			       where);
+-			return PCIBIOS_SUCCESSFUL;
++			return 0;
+ 		}
+ 		pci_config_write16((u16 *)addr, value);
+ 		break;
+@@ -242,11 +242,11 @@ static int sun4u_write_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+ 		if (where & 0x03) {
+ 			printk("pci_write_config_dword: misaligned reg [%x]\n",
+ 			       where);
+-			return PCIBIOS_SUCCESSFUL;
++			return 0;
+ 		}
+ 		pci_config_write32(addr, value);
+ 	}
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
+ 
+ struct pci_ops sun4u_pci_ops = {
+@@ -284,7 +284,7 @@ static int sun4v_read_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+ 	}
+ 
  
 -	return PCIBIOS_SUCCESSFUL;
 +	return 0;
  }
  
- static int sh7786_pcie_read(struct pci_bus *bus, unsigned int devfn,
-@@ -101,7 +101,7 @@ static int sh7786_pcie_read(struct pci_bus *bus, unsigned int devfn,
- 	raw_spin_lock_irqsave(&pci_config_lock, flags);
- 	ret = sh7786_pcie_config_access(PCI_ACCESS_READ, bus,
- 					devfn, where, &data);
--	if (ret != PCIBIOS_SUCCESSFUL) {
-+	if (ret != 0) {
- 		*val = 0xffffffff;
- 		goto out;
+ static int sun4v_write_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+@@ -307,7 +307,7 @@ static int sun4v_write_pci_cfg(struct pci_bus *bus_dev, unsigned int devfn,
+ 				     HV_PCI_DEVICE_BUILD(bus, device, func),
+ 				     where, size, value);
  	}
-@@ -137,7 +137,7 @@ static int sh7786_pcie_write(struct pci_bus *bus, unsigned int devfn,
- 	raw_spin_lock_irqsave(&pci_config_lock, flags);
- 	ret = sh7786_pcie_config_access(PCI_ACCESS_READ, bus,
- 					devfn, where, &data);
--	if (ret != PCIBIOS_SUCCESSFUL)
-+	if (ret != 0)
- 		goto out;
+-	return PCIBIOS_SUCCESSFUL;
++	return 0;
+ }
  
- 	dev_dbg(&bus->dev, "pcie-config-write: bus=%3d devfn=0x%04x "
-diff --git a/arch/sh/drivers/pci/pci.c b/arch/sh/drivers/pci/pci.c
-index c7784e156964..77130f035fdd 100644
---- a/arch/sh/drivers/pci/pci.c
-+++ b/arch/sh/drivers/pci/pci.c
-@@ -204,7 +204,7 @@ pcibios_bus_report_status_early(struct pci_channel *hose,
- 			continue;
- 		ret = early_read_config_word(hose, top_bus, current_bus,
- 					     pci_devfn, PCI_STATUS, &status);
--		if (ret != PCIBIOS_SUCCESSFUL)
-+		if (ret != 0)
- 			continue;
- 		if (status == 0xffff)
- 			continue;
+ struct pci_ops sun4v_pci_ops = {
 -- 
 2.18.2
 
