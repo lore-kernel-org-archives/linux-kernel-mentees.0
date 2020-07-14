@@ -2,81 +2,105 @@ Return-Path: <SRS0=uvNB=AZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0B5FC433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 15:49:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9E2C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 17:28:02 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 93A3322464
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 15:49:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C348E22518
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 17:28:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="EaQlvs/T"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93A3322464
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mrk8nP8Z"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C348E22518
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 53F8B892F3;
-	Tue, 14 Jul 2020 15:49:48 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9D49187DCC;
+	Tue, 14 Jul 2020 17:28:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PQefzpB33Z1S; Tue, 14 Jul 2020 15:49:47 +0000 (UTC)
+	with ESMTP id 5ONDaFh_peRl; Tue, 14 Jul 2020 17:28:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 19968892DD;
-	Tue, 14 Jul 2020 15:49:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3C7AB87DBC;
+	Tue, 14 Jul 2020 17:28:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E8391C0891;
-	Tue, 14 Jul 2020 15:49:46 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ABF55C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 13B6FC0891;
+	Tue, 14 Jul 2020 17:28:01 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EE84CC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 15:49:45 +0000 (UTC)
+ Tue, 14 Jul 2020 17:27:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A03948A833
+ by hemlock.osuosl.org (Postfix) with ESMTP id DB6678958E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 15:49:45 +0000 (UTC)
+ Tue, 14 Jul 2020 17:27:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KjXtCSficgRa
+ with ESMTP id l4GrYtlRcKJr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 15:49:45 +0000 (UTC)
+ Tue, 14 Jul 2020 17:27:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 09D6E88A56
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+ [209.85.208.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A6D108956F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 15:49:45 +0000 (UTC)
-Received: from localhost (mobile-166-175-191-139.mycingular.net
- [166.175.191.139])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C781122464;
- Tue, 14 Jul 2020 15:49:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594741784;
- bh=Ulz6kftsIf17MgM1f0YQJELfS5NjvEeQg+27bJIWgUA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=EaQlvs/TC2yUjHJK6smf4ynxhvgNy5wlI9WFj7L3BfuTU4CDzmYYc6S17Kw23RlD1
- ane48ARw0DttiT5GA+ADF+3szgTdBi3G/NGuj6uqbXK7TbOGD28k/kXcKTsDcmnQ/H
- L4Vbv6eXEAxcd1xgmuHjECuy9pqpSHzJy0jUhojw=
-Date: Tue, 14 Jul 2020 10:49:41 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Saheed Olayemi Bolarinwa <refactormyself@gmail.com>
-Message-ID: <20200714154941.GA396741@bjorn-Precision-5520>
+ Tue, 14 Jul 2020 17:27:55 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id r19so24057446ljn.12
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 14 Jul 2020 10:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rJflZjiXOdQ2b9X0uINcJ4Ucju/qSppPTgvRYeR307M=;
+ b=mrk8nP8ZaXDxwoSsyA8k3vVqLdKjX86zxjouhivf+G7iTeVFciVWjDwblY2qlwRa9V
+ 9emGm1OFwkHsv0RNh6k8KhURGH1D+FwH8FkT9vHm1WjxGSwkBcc7aO9Y48XsU2c2Ndfp
+ ncNp8CUw5jw3N9JSVvpdTbpMguEDLfXGvNBMVwFLUb+lT15MUcBJEF7DDDa2ApoKe2px
+ /yca6v25q5b+Ew54GU19aO3kaPD9/jBteoDRN5SWUr1u5ykP8GzprDDHxTAHJoLMATxH
+ L2Itbr80hoTwWdfBBNrcSmyBVo7l9b1xeyICzyCQG5N5jUV/3HnVVjmUfM6PWg6pxsNZ
+ 6wcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rJflZjiXOdQ2b9X0uINcJ4Ucju/qSppPTgvRYeR307M=;
+ b=Aml8tVeAX3SjllxL/an3gYXLMLQzoJ7KlHl4Poyut92PEOG1JrdD09t4n9RHS4qJl9
+ OxTaIBUZo+PJw5IWMatOlqt72Qw2QkrKOl7T8G6V4X/uu7I2PF59goVaEkZYOI8jxu5t
+ kRgYW7yzXUyYb4p6yYtd720JZDr5ROpE9SUbOIjeo5GFPSNHQc/TMScXIhK4T5dxyzc+
+ 7+Fu0KxSahFUZbjBxdi6qZ5bPG4nK86tveVz2r0OdjoJK5jc0ydDWCBb9gSyuKAeDjhM
+ BHK+HJUf0YWRTEccK/H3UEjzQIZcpNBxt8Osql6MX2JFOiHvqsTZzot2HLCeIzVmY8H7
+ nXJQ==
+X-Gm-Message-State: AOAM530wzTHGg1YsUseU5V+Zx9q5vQ6f/qlVtQxYaHdSV/CpvFy4s+V7
+ yu4HdjKVvPJd6MMXTBi5HaWAzkv20Vvky24uV+g=
+X-Google-Smtp-Source: ABdhPJwXkCPdv8pEQTPBzV1xLgwG/Fk/yXhNz7NQyeZbo2FvwLmIalitSURyFPmgQdvxw6/FjTtTVnFu1TFItk7wtV8=
+X-Received: by 2002:a2e:9a4d:: with SMTP id k13mr2946227ljj.283.1594747673686; 
+ Tue, 14 Jul 2020 10:27:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200714110445.32605-1-refactormyself@gmail.com>
-Cc: Mike Marciniszyn <mike.marciniszyn@intel.com>, linux-rdma@vger.kernel.org,
- linux-pci@vger.kernel.org, Dennis Dalessandro <dennis.dalessandro@intel.com>,
- linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Doug Ledford <dledford@redhat.com>,
+References: <CAEf4BzZRGOsTiW3uFWd1aY6K5Yi+QBrTeC5FNOo6uVXviXuX4g@mail.gmail.com>
+ <20200714012732.195466-1-yepeilin.cs@gmail.com>
+ <CAEf4Bzas-C7hKX=AutcV1fz-F_q2P8+OCnrA37h-nCytLHPn1g@mail.gmail.com>
+In-Reply-To: <CAEf4Bzas-C7hKX=AutcV1fz-F_q2P8+OCnrA37h-nCytLHPn1g@mail.gmail.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 14 Jul 2020 10:27:42 -0700
+Message-ID: <CAADnVQ+jUPGJapkvKW=AfXESD6Vz2iuONvJm8eJm5Yd+u9mJ+w@mail.gmail.com>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Song Liu <songliubraving@fb.com>, Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
+ Peilin Ye <yepeilin.cs@gmail.com>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ Networking <netdev@vger.kernel.org>, KP Singh <kpsingh@chromium.org>,
+ Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
+ Andrii Nakryiko <andriin@fb.com>, Martin KaFai Lau <kafai@fb.com>,
+ open list <linux-kernel@vger.kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 0/14 v4] PCI: Remove '*val = 0'
- from pcie_capability_read_*()
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] bpf: Fix NULL pointer
+ dereference in __btf_resolve_helper_id()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,70 +118,38 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 14, 2020 at 01:04:42PM +0200, Saheed Olayemi Bolarinwa wrote:
-> From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
-> ...
+On Mon, Jul 13, 2020 at 9:38 PM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
+>
+> On Mon, Jul 13, 2020 at 6:29 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> >
+> > Prevent __btf_resolve_helper_id() from dereferencing `btf_vmlinux`
+> > as NULL. This patch fixes the following syzbot bug:
+> >
+> >     https://syzkaller.appspot.com/bug?id=5edd146856fd513747c1992442732e5a0e9ba355
 
-> Bolarinwa Olayemi Saheed (14):
->   IB/hfi1: Check the return value of pcie_capability_read_*()
->   misc: rtsx: Check the return value of pcie_capability_read_*()
->   ath9k: Check the return value of pcie_capability_read_*()
->   iwlegacy: Check the return value of pcie_capability_read_*()
->   PCI: pciehp: Check the return value of pcie_capability_read_*()
->   PCI: pciehp: Make "Power On" the default 
->   PCI: pciehp: Check the return value of pcie_capability_read_*()
->   PCI/ACPI: Check the return value of pcie_capability_read_*()
->   PCI: pciehp: Check the return value of pcie_capability_read_*()
->   PCI: Check the return value of pcie_capability_read_*()
->   PCI/PM: Check return value of pcie_capability_read_*()
->   PCI/AER: Check the return value of pcie_capability_read_*()
->   PCI/ASPM: Check the return value of pcie_capability_read_*()
->   PCI: Remove '*val = 0' from pcie_capability_read_*()
+The link looks wrong?
+Nothing in the stack trace indicates this issue.
 
-1) Let's slow down on posting patches.  We need time to think and have
-a conversation about where we're going, and waking up to dozens of new
-patches every day doesn't help.
-
-2) This series claims to have 14 patches, but only 3 made it to the
-list.  I don't know if the others were rejected for too many folks in
-the cc: list or what.  If you only updated these 3, we will still want
-the full set of 14 posted because it's too hard to collect 11 things
-from v3 and 3 things from v4, etc.
-
-  $ b4 am -om/ 20200714110445.32605-1-refactormyself@gmail.com
-  Looking up https://lore.kernel.org/r/20200714110445.32605-1-refactormyself%40gmail.com
-  Grabbing thread from lore.kernel.org/linux-kernel-mentees
-  Analyzing 4 messages in the thread
-  ---
-  Thread incomplete, attempting to backfill
-  Grabbing thread from lore.kernel.org/linux-rdma
-  Grabbing thread from lore.kernel.org/lkml
-  Grabbing thread from lore.kernel.org/linux-pci
-  ---
-  Writing m/v4_20200714_refactormyself_pci_remove_val_0_from_pcie_capability_read.mbx
-    [PATCH 1/14 v4] IB/hfi1: Check the return value of pcie_capability_read_*()
-    ERROR: missing [2/14]!
-    ERROR: missing [3/14]!
-    ERROR: missing [4/14]!
-    ERROR: missing [5/14]!
-    ERROR: missing [6/14]!
-    ERROR: missing [7/14]!
-    ERROR: missing [8/14]!
-    ERROR: missing [9/14]!
-    [PATCH 10/14 v4] PCI: Check return value of pcie_capability_read_*()
-    [PATCH 11/14 v4] PCI/PM: Check return value of pcie_capability_read_*()
-    ERROR: missing [12/14]!
-    ERROR: missing [13/14]!
-    ERROR: missing [14/14]!
-  ---
-  Total patches: 3
-  ---
-  WARNING: Thread incomplete!
-  Cover: m/v4_20200714_refactormyself_pci_remove_val_0_from_pcie_capability_read.cover
-   Link: https://lore.kernel.org/r/20200714110445.32605-1-refactormyself@gmail.com
-   Base: not found
-	 git am m/v4_20200714_refactormyself_pci_remove_val_0_from_pcie_capability_read.mbx
-
+> > Reported-by: syzbot+ee09bda7017345f1fbe6@syzkaller.appspotmail.com
+> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> > ---
+> > Thank you for reviewing my patch! I am new to Linux kernel development; would
+> > the log message and errno be appropriate for this case?
+>
+> I think it's good enough, thanks for the fix.
+>
+> Acked-by: Andrii Nakryiko <andriin@fb.com>
+>
+> >
+> > Change in v2:
+> >     - Split NULL and IS_ERR cases.
+> >
+> >  kernel/bpf/btf.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+>
+> [...]
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
