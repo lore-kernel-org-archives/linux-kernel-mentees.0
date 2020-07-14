@@ -2,139 +2,101 @@ Return-Path: <SRS0=uvNB=AZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73261C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 08:19:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63AE8C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 08:25:55 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3BEA721897
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 08:19:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2AFB621835
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 08:25:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="hRaITEAB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3BEA721897
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Darf2Q0a"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2AFB621835
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 09EA589D9E;
-	Tue, 14 Jul 2020 08:19:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DA3A28A962;
+	Tue, 14 Jul 2020 08:25:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Izan3iJqbK2A; Tue, 14 Jul 2020 08:19:38 +0000 (UTC)
+	with ESMTP id d02cwC8oZ3F2; Tue, 14 Jul 2020 08:25:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5560D8A898;
-	Tue, 14 Jul 2020 08:19:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6B6EA8A17A;
+	Tue, 14 Jul 2020 08:25:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 36384C0888;
-	Tue, 14 Jul 2020 08:19:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 59D55C0888;
+	Tue, 14 Jul 2020 08:25:54 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A3E30C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5610BC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:19:36 +0000 (UTC)
+ Tue, 14 Jul 2020 08:25:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2868088357
+ by whitealder.osuosl.org (Postfix) with ESMTP id 441F58A960
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:19:12 +0000 (UTC)
+ Tue, 14 Jul 2020 08:25:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OP8mtILU21x6
+ with ESMTP id 5idb2x1rnPWw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:19:10 +0000 (UTC)
+ Tue, 14 Jul 2020 08:25:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 393FD88057
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A2D8F8A17A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:19:10 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200714081907euoutp013b1900a795035ae4dc110cc4ee6eeae3~hkJ0kJ9rd2954329543euoutp01Q
+ Tue, 14 Jul 2020 08:25:52 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id s189so2238366pgc.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:19:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200714081907euoutp013b1900a795035ae4dc110cc4ee6eeae3~hkJ0kJ9rd2954329543euoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1594714747;
- bh=3W48R5JZdOlotY4kDUq6GDCqsDBg3zDBeQZwRffH5cQ=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=hRaITEABU3SBPZEGubCdXFsCDoUyWDD7rOB02/zLfRreB8ulARj898kR7N2NpM323
- A/10w0hCCieJgnIcQlR/VMZj7YUKvoT18f+6MheJsmIdX40Odqy42AvwQkKMHtsVxU
- NDTn9lADp4CDjKbIJWus38iTd1uKTHzKfluajA/E=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200714081907eucas1p282d94245ef1c7790fa31b2383110eb27~hkJ0WjwWm2453224532eucas1p2T;
- Tue, 14 Jul 2020 08:19:07 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id D2.29.06318.B7A6D0F5; Tue, 14
- Jul 2020 09:19:07 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200714081906eucas1p2da1533c2e4e8983bb42b20199dc1f977~hkJz17urA2902729027eucas1p2I;
- Tue, 14 Jul 2020 08:19:06 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200714081906eusmtrp1546fb7b152d27cdb0d5186fda9460044~hkJz1S4Oo2221422214eusmtrp10;
- Tue, 14 Jul 2020 08:19:06 +0000 (GMT)
-X-AuditID: cbfec7f5-38bff700000018ae-4c-5f0d6a7b0c0a
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 31.A4.06017.A7A6D0F5; Tue, 14
- Jul 2020 09:19:06 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200714081906eusmtip2f23c200b846080fe8f5e3023cef37df5~hkJzT_jxK0594905949eusmtip2X;
- Tue, 14 Jul 2020 08:19:06 +0000 (GMT)
-To: Vaibhav Gupta <vaibhav.varodek@gmail.com>
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <834eb293-bd4f-626c-4558-fbf71a5999f0@samsung.com>
-Date: Tue, 14 Jul 2020 10:19:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200714075247.GA4859@gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHeXbv7q7LK4/T2Kkka9A7aWXIpUIqQuaX3ijSyGzlbZabxa6z
- rC+lsekQ1CyspWUyX0krMVtWFlOUnJlSiG5qokKmDiWN3pbmdpX89nvO+f+f/zlwaELWIl5O
- n0tK5nRJKo2CkpJ1zb/aN189z8RtGRtbylrSEtjrnzsRW/DhBsmOtlVRbLN1UMSahkZI9mN9
- AcW+zi8Vs9beTBFreTUh3i1V1lb0iJQvzH0SZVGNXlln6yKVNZWZlPJN4SOJ8s/PPKScqll5
- kD4u3RXPac6lcLrQiFPShJHqenRxaPXl8ZxJ8hrqXmZCPjTg7WCdzBeZkJSW4XIEPSUPkfCY
- RtBidFAelQxPIRjrWL/g6CvsnXeUIchyOQhB5EJw+1eqhwNwJLRVu0kPB+LNYGgwUh4Dgd+I
- wP20C3kaFN4BucZKLzM4Atx3Z71pJF4Dt2ayvbwUR8O3gUaxoPGHd3eHvZ/64BBwPP3i1RBY
- Do7hByKBg+G5q4DwhAHul4CpJE8sjL0PqiyDlMABMNpSKxE4COx5WaRgqEbwN2Nk3v0cQVne
- zLxjJ/S2/55jei5iAzyuDxXKe8Da1El6yoD9oNvlLwzhBzfr8gmhzECGQSao18KT0ifUQqzp
- RQWRgxTmRauZF61jXrSO+X9uESIrkZzT81o1x4clcZdCeJWW1yepQ85c0NagufOyz7R8t6IG
- 92kbwjRS+DJwwDdOJlal8KlaGwKaUAQye9/bT8qYeFXqFU53IU6n13C8Da2gSYWcCSv+GivD
- alUyl8hxFzndQldE+yy/hsio0Y1tTK5huin2mPOM5qzTog2I2ZG76YdO1Kp5qQ78FG6UdhYP
- hO9fdfjjifTrz97Z+3lmnQylMZsae6LlvdsiO8TliTiKG7edLg82SCpnj6odfUtKf7e1y20d
- XHx7R8WdTqdvq4KauA87LxdONZiy+w+9jTlyL3FwOsiZriD5BNXWjYSOV/0DK4o4sFoDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrJIsWRmVeSWpSXmKPExsVy+t/xe7pVWbzxBl+PGlssacqwaLx/kdFi
- zvkWFotXZ9ayWRzb8YjJouvxCxaLy7vmsFnsnb6M1WLHnU4miyV73rM6cHlsWXmTyWPnrLvs
- Hgs2lXpsO3SNxWPTqk42j/1z17B7/P4xmdHj8ya5AI4oPZui/NKSVIWM/OISW6VoQwsjPUNL
- Cz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYwX63YxFjxWrHgz4QNLA+MNyS5GTg4JAROJ
- u3PvMHUxcnEICSxllDjwugfI4QBKyEgcX18GUSMs8edaFxtEzWtGiTdfW9lBEsICbhJn1v1h
- AbFFBHQl2va1gxUxC+xnkng67x8zSEJI4CWjRNsDBRCbTcBKYmL7KkYQm1fATuLPzP9sIDaL
- gKrElH/9YLaoQITE4R2zoGoEJU7OfAK2gFNAT+LWxudgNcwC6hJ/5l1ihrDFJW49mc8EYctL
- bH87h3kCo9AsJO2zkLTMQtIyC0nLAkaWVYwiqaXFuem5xUZ6xYm5xaV56XrJ+bmbGIHRuu3Y
- zy07GLveBR9iFOBgVOLhlfDniRdiTSwrrsw9xCjBwawkwut09nScEG9KYmVValF+fFFpTmrx
- IUZToOcmMkuJJucDE0leSbyhqaG5haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU1ILUIpg+Jg5O
- qQbGvYt4i63iCxtUzJfocCrzuVyS+2C8duNVvzP2Wr+nPVumuVtG8O0F3g3Wn7Z2v1/4maO1
- 2aA4RGJ+FiffhEU2Nysc23dlNbU8mhpo/YBlr1tkE/Mel+ioq99eGFbWHj29ne/W28U/Mk0v
- FApuOLfqXIOxXPyaM8+7tpXHlOzpkTe4FqpYW5GmxFKckWioxVxUnAgA/LvsgewCAAA=
-X-CMS-MailID: 20200714081906eucas1p2da1533c2e4e8983bb42b20199dc1f977
-X-Msg-Generator: CA
-X-RootMTR: 20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed
+ Tue, 14 Jul 2020 01:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ZWUwJu20ntegLxeLLUqqY9GoM4PIf6WDr0U1QRPCyz8=;
+ b=Darf2Q0a0jpRgttYMoFvMgwq+LwapC98MDClJbfjYU8niFJTsvIYg6qqG7+YyGSl4g
+ BVANOvMGHizpFJIsXFlORc9YkqZfSREZPfQLDljPrd7WdN//n51wc8ZJ2z6bJZCuYdP4
+ JfhNJ7sK5U/fsWuDuMkaknhLm0fmeiLZrOhJl5rer8nGCqprfezgCAsgCaP86lWGd/RD
+ rz5h0+PEC7Fnob8KbAu/ELHee03RVnZHqTaarQbQcpTjzIm7dXudutq+AT812XR4rye2
+ JWfMWoZkhXeBCrKavWJswfO1LkV6ma0ssNQxlxNEG8NPUQBYt5v9y459teksLszUzRjl
+ yrVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZWUwJu20ntegLxeLLUqqY9GoM4PIf6WDr0U1QRPCyz8=;
+ b=t2mR33STpcXtVtQ5+UscFoHO79es2PG5WZx+PZNL7SzxVltOwxayqMSUO7zo0e3bIc
+ g0lwLJ2+szwiATGP5H/erGELhtp1F4DnOjp+RgGPfXKG61xxUelALLz+jygkWet8q08g
+ nDY5CyZkW7E6fBfO5zHL7J+VAu8Mo9VZykn575ayv16o2g0/ndaaJuOaeprsiOPIGBB8
+ 4rIrBw4y5rdLQPYp5pgLoWfS8wkpM/Ef+N9sY2CNPE2N1mNx/A2YcG//MY8IJ88ysAP1
+ N7OgzQoCJ0yklH93LGr+i1tlOBIpBIhl5wXrIqxnHNVSVe0mR3UkVc0jByBDjIWonX8w
+ +kmA==
+X-Gm-Message-State: AOAM5321PZzE4wV7HZGuC1RN2PAkkaxmVplO24qFayJXygL/47y4XemH
+ 3kMgBPy8k8q0BXmUuciBZQg=
+X-Google-Smtp-Source: ABdhPJygF5X1M5e9T6GC2BhRd2ugrdwtEBpQe4L+h8fYZn97BoUouscBcjxQDAIzI2+9+Tnii+xgvQ==
+X-Received: by 2002:a63:9342:: with SMTP id w2mr2554954pgm.20.1594715152238;
+ Tue, 14 Jul 2020 01:25:52 -0700 (PDT)
+Received: from gmail.com ([103.105.153.67])
+ by smtp.gmail.com with ESMTPSA id i21sm16683167pfa.18.2020.07.14.01.25.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jul 2020 01:25:51 -0700 (PDT)
+Date: Tue, 14 Jul 2020 13:54:26 +0530
+From: Vaibhav Gupta <vaibhav.varodek@gmail.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <20200714082426.GA5817@gmail.com>
 References: <20200713173613.2095-1-vaibhavgupta40@gmail.com>
  <CGME20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed@eucas1p1.samsung.com>
  <3b26bfff-7a42-7bbe-2050-51fe1ce96d4e@samsung.com>
  <20200714075247.GA4859@gmail.com>
+ <834eb293-bd4f-626c-4558-fbf71a5999f0@samsung.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <834eb293-bd4f-626c-4558-fbf71a5999f0@samsung.com>
 Cc: linux-ide@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
  Bjorn Helgaas <bhelgaas@google.com>,
@@ -159,117 +121,56 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-On 7/14/20 9:52 AM, Vaibhav Gupta wrote:
-> On Tue, Jul 14, 2020 at 09:32:56AM +0200, Bartlomiej Zolnierkiewicz wrote:
->>
->> Hi,
->>
->> On 7/13/20 7:36 PM, Vaibhav Gupta wrote:
->>> Linux Kernel Mentee: Remove Legacy Power Management.
->>>
->>> The purpose of this patch series is to remove legacy power management callbacks
->>> from ide drivers.
->>>
->>> The suspend() and resume() callbacks operations are still invoking
->>> pci_save/restore_state(), pci_set_power_state(), pci_enable/disable_state(),
->>> etc. and handling the power management themselves, which is not recommended.
->>>
->>> The conversion requires the removal of the those function calls and change the
->>> callback definition accordingly and make use of dev_pm_ops structure.
->>
->> IDE subsystem (drivers/ide/) is deprecated and has been superseded by libata
->> subsystem (drivers/ata/).
->>
->> libata drivers have the same issue so please concentrate on fixing them
->> first. Later (if desirable) changes can be back-ported to drivers/ide/.
->>
-> Hello, (drivers/ide) and (drivers/ata) are the two major families, I am working
-> on, for generic PM upgradation. I was bit unaware about priority, and also in
-> the last, both ide and ata drivers have to be upgraded.
-
-Well, drivers/ide/ is scheduled for removal in 2021
-(it even prints the warning during initialization of
-every host driver)..
-
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
-
->>> All patches are compile-tested only.
->>
->> This patchset needs (at least) some basic testing. It should be easier with
->> libata subsystem as it also support SATA controllers and devices.
-> To upgrade PM in (drivers/ide) I have made .suspend() and .resume() static. Then
-> bind them in "struct dev_pm_ops" variable (ide_pci_pm_ops) and expose it using
-> EXPORT_SYMBOL_GPL(). This has affected 30 drivers. I was hoping if ide changes
-> can be tested/verified, specially [PATCH 1/3]. As then, I will be sure about
-> similar change in ata, as it also requires similar alteration.
+On Tue, Jul 14, 2020 at 10:19:06AM +0200, Bartlomiej Zolnierkiewicz wrote:
 > 
-> Thanks
-> Vaibhav Gupta
+> On 7/14/20 9:52 AM, Vaibhav Gupta wrote:
+> > On Tue, Jul 14, 2020 at 09:32:56AM +0200, Bartlomiej Zolnierkiewicz wrote:
+> >>
+> >>
+> >> IDE subsystem (drivers/ide/) is deprecated and has been superseded by libata
+> >> subsystem (drivers/ata/).
+> >>
+> >> libata drivers have the same issue so please concentrate on fixing them
+> >> first. Later (if desirable) changes can be back-ported to drivers/ide/.
+> >>
+> > Hello, (drivers/ide) and (drivers/ata) are the two major families, I am working
+> > on, for generic PM upgradation. I was bit unaware about priority, and also in
+> > the last, both ide and ata drivers have to be upgraded.
 > 
->>
->> Best regards,
->> --
->> Bartlomiej Zolnierkiewicz
->> Samsung R&D Institute Poland
->> Samsung Electronics
->>
->>> v3:
->>>     - Modpost error for undefined reference by Kbuild in v1.
->>>     - Another approach to disable PM in drivers/ide/triflex.c suggested by
->>>       Bjorn Helgaas in v2.
->>>
->>> Test tools:
->>>     - Compiler: gcc (GCC) 10.1.0
->>>     - allmodconfig build: make -j$(nproc) W=1 all
->>>
->>> Vaibhav Gupta (3):
->>>   ide: use generic power management
->>>   ide: sc1200: use generic power management
->>>   ide: delkin_cb: use generic power management
->>>
->>>  drivers/ide/aec62xx.c         |  3 +--
->>>  drivers/ide/alim15x3.c        |  3 +--
->>>  drivers/ide/amd74xx.c         |  3 +--
->>>  drivers/ide/atiixp.c          |  3 +--
->>>  drivers/ide/cmd64x.c          |  3 +--
->>>  drivers/ide/cs5520.c          |  3 +--
->>>  drivers/ide/cs5530.c          |  3 +--
->>>  drivers/ide/cs5535.c          |  3 +--
->>>  drivers/ide/cs5536.c          |  3 +--
->>>  drivers/ide/cy82c693.c        |  3 +--
->>>  drivers/ide/delkin_cb.c       | 32 +++++---------------------
->>>  drivers/ide/hpt366.c          |  3 +--
->>>  drivers/ide/ide-pci-generic.c |  3 +--
->>>  drivers/ide/it8172.c          |  3 +--
->>>  drivers/ide/it8213.c          |  3 +--
->>>  drivers/ide/it821x.c          |  3 +--
->>>  drivers/ide/jmicron.c         |  3 +--
->>>  drivers/ide/ns87415.c         |  3 +--
->>>  drivers/ide/opti621.c         |  3 +--
->>>  drivers/ide/pdc202xx_new.c    |  3 +--
->>>  drivers/ide/pdc202xx_old.c    |  3 +--
->>>  drivers/ide/piix.c            |  3 +--
->>>  drivers/ide/sc1200.c          | 43 ++++++++++++-----------------------
->>>  drivers/ide/serverworks.c     |  3 +--
->>>  drivers/ide/setup-pci.c       | 29 +++++------------------
->>>  drivers/ide/siimage.c         |  3 +--
->>>  drivers/ide/sis5513.c         |  3 +--
->>>  drivers/ide/sl82c105.c        |  3 +--
->>>  drivers/ide/slc90e66.c        |  3 +--
->>>  drivers/ide/triflex.c         | 24 +++++++------------
->>>  drivers/ide/via82cxxx.c       |  3 +--
->>>  include/linux/ide.h           |  8 +------
->>>  32 files changed, 62 insertions(+), 155 deletions(-)
->>>
->>
-> 
-> 
+> Well, drivers/ide/ is scheduled for removal in 2021
+> (it even prints the warning during initialization of
+> every host driver)..
+Okay then, I will start with ata family.
 
+Thanks,
+Vaibhav Gupta
+> 
+> Best regards,
+> --
+> Bartlomiej Zolnierkiewicz
+> Samsung R&D Institute Poland
+> Samsung Electronics
+> 
+> >>> All patches are compile-tested only.
+> >>
+> >> This patchset needs (at least) some basic testing. It should be easier with
+> >> libata subsystem as it also support SATA controllers and devices.
+> > To upgrade PM in (drivers/ide) I have made .suspend() and .resume() static. Then
+> > bind them in "struct dev_pm_ops" variable (ide_pci_pm_ops) and expose it using
+> > EXPORT_SYMBOL_GPL(). This has affected 30 drivers. I was hoping if ide changes
+> > can be tested/verified, specially [PATCH 1/3]. As then, I will be sure about
+> > similar change in ata, as it also requires similar alteration.
+> > 
+> > Thanks
+> > Vaibhav Gupta
+> > 
+> >>
+> >> Best regards,
+> >> --
+> >> Bartlomiej Zolnierkiewicz
+> >> Samsung R&D Institute Poland
+> >> Samsung Electronics
+> >>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
