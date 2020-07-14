@@ -2,143 +2,97 @@ Return-Path: <SRS0=uvNB=AZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D82B2C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 07:33:05 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E201C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 07:37:48 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A0C3D207FB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 07:33:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6C4AD2084C
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 07:37:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="hdBHGgcX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0C3D207FB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o1cvy/36"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C4AD2084C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 757218AFA3;
-	Tue, 14 Jul 2020 07:33:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3E24020470;
+	Tue, 14 Jul 2020 07:37:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D2AXXYNxVwgi; Tue, 14 Jul 2020 07:33:04 +0000 (UTC)
+	with ESMTP id lRXWvZrIPr4S; Tue, 14 Jul 2020 07:37:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 444068AF75;
-	Tue, 14 Jul 2020 07:33:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1F80020422;
+	Tue, 14 Jul 2020 07:37:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38735C0888;
-	Tue, 14 Jul 2020 07:33:04 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 67405C0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 07:33:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 085C5C0888;
+	Tue, 14 Jul 2020 07:37:47 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 31BEDC08A0
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 14 Jul 2020 07:37:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E40E387BB9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 07:33:01 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 41615204E6
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 14 Jul 2020 07:37:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1W8_-5N_T98S
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 07:33:00 +0000 (UTC)
+ with ESMTP id XMa5BCYgBo0U
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 14 Jul 2020 07:37:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 468E587BA3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 07:33:00 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200714073257euoutp01922301da7559b0416cdd0ad7390d136f~hjhgtmwqt2315323153euoutp01N
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 07:32:57 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200714073257euoutp01922301da7559b0416cdd0ad7390d136f~hjhgtmwqt2315323153euoutp01N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1594711977;
- bh=iw0HeiMRpihqbVCSNrmwScv7BrswpTC0PE3gJ25M4go=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=hdBHGgcXcu7jb4Wd204Xe+ZFxIwLbr1u7/lX9MJOSUnRQGsdM1hfiJBGnVvYLI0Zo
- f+Iv4Yl0/PAJUoQRbSOoMTG/5/QmQIOqpOxgADG+5NOPeMmXKldgh3pwDbXUqrE0fJ
- cT7CycX997widcuVptxXk0sJJtLxwfIBDY5wLFdY=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200714073257eucas1p21ef036b4a814be1f9b5147dac7013aa1~hjhgX_8AK1514215142eucas1p2E;
- Tue, 14 Jul 2020 07:32:57 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 24.8A.05997.9AF5D0F5; Tue, 14
- Jul 2020 08:32:57 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed~hjhgFvVYd2093720937eucas1p1m;
- Tue, 14 Jul 2020 07:32:56 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200714073256eusmtrp220c20a2722452484e6af4300f87aa0c8~hjhgFDwRJ2064020640eusmtrp2I;
- Tue, 14 Jul 2020 07:32:56 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-01-5f0d5fa9f24a
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 2C.FC.06314.8AF5D0F5; Tue, 14
- Jul 2020 08:32:56 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200714073256eusmtip2ff5b743b8bba026dd992b40f53351ec0~hjhfnSMES1117911179eusmtip2q;
- Tue, 14 Jul 2020 07:32:56 +0000 (GMT)
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <3b26bfff-7a42-7bbe-2050-51fe1ce96d4e@samsung.com>
-Date: Tue, 14 Jul 2020 09:32:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by silver.osuosl.org (Postfix) with ESMTPS id 77FB420439
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 14 Jul 2020 07:37:15 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id 207so7229747pfu.3
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 14 Jul 2020 00:37:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=xQJqBp5VqJDtuIjHQMEsnkjY1Xwr0NOvhXQmyg2tp2E=;
+ b=o1cvy/36kHEP+tieeqEW2nV41r1nYG6345bz6OvTE6/2MMjdGoErtAo2sYpzjhDlx1
+ /dO64A00t13S9B38RojclrtWuN3twdtvFfF/UwqDma42LLYpIf/6KWLLOKtWKwt41k53
+ Aec33YiQEwPJhElHgHy1M41O92gwJ86WZ8Vb7xGUhsDlc667vGp8Irgbl5lJxz6yrqM6
+ tWC9vBvRcxbFZY8JhEl9RnQGrxq15FN3LieW1AOSrWKaOnhk0cZLkgGYzWUFnnDMMgqh
+ 95WC/mVLt1Bd27pa38K38LwgHtRTkFnbNxy9EsxLJAAcOzLBloIUu4tj8Xv6ut6c1O59
+ 1w2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=xQJqBp5VqJDtuIjHQMEsnkjY1Xwr0NOvhXQmyg2tp2E=;
+ b=Wf8nGn04ypoNOo2p/yNNQ33MDW5zPMeA5CedLZ7a+/GLokabQOQs0m3mQy9Kc6yJ1G
+ lT/8yFlWaQnajKMr+MZVOSMSn/WMKySiA5LWkHA9sbohDRgT1YzkWizpxGDjeHmhfCZn
+ uuuK1z0c2Pzs5ib9BiaKdocI5573Ma/uHep2fZpFXsqSw9FQrtPjwsHAj3OSScYv4fpW
+ DclEJqcBOB06Vf08Yu4KkXMQkV8XR2T40sr3icZq6LSEXtk7ehSlCPtdOMBgRuzP1UAO
+ uI4XunwKHetM7iVfAgp88AkpwBWLQJI5blMkrXHQn6Aelp9vNP9JQwxZ9InRgCVl97nb
+ BPQQ==
+X-Gm-Message-State: AOAM531vJxHoiP8rczs2mrZ+OgmeRJ/C3/U99JSm2eS0bgKDiKwkqlGf
+ WTUOIkYEcfxZVpqsZdVq+IdtDTlb7n9yBTf4yII=
+X-Google-Smtp-Source: ABdhPJy2ZlHuKPTDmOdSx+b+L74lbz1XCTEQggj6tYHchXAUD7u6cXOvb/4WLhOsiSw0GzJfdBIjkxyZh/WI4bt1v08=
+X-Received: by 2002:a62:2b0c:: with SMTP id r12mr3298191pfr.122.1594712234930; 
+ Tue, 14 Jul 2020 00:37:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200713173613.2095-1-vaibhavgupta40@gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBKsWRmVeSWpSXmKPExsWy7djPc7or43njDa62cVgsacqwaLx/kdFi
- zvkWFotXZ9ayWRzb8YjJouvxCxaLy7vmsFnsnb6M1WLHnU4miyV73rM6cHlsWXmTyWPnrLvs
- Hgs2lXpsO3SNxWPTqk42j/1z17B7/P4xmdHj8ya5AI4oLpuU1JzMstQifbsEroxbR9tYCw5K
- VFyZ+pq5gbFFqIuRk0NCwERi6qV5jF2MXBxCAisYJT5dWsYC4XxhlOh59hEq85lR4u+Wy+ww
- Ld1zrjJDJJYzStx52QBV9ZZR4ujmKWBVwgJuEmfW/WEBsUUEdCQuHZ3FBGIzC+xjkti01BXE
- ZhOwkpjYvooRxOYVsJPYv/AHWC+LgKrE353HmEFsUYEIiU8PDrNC1AhKnJz5BGwmp4CtxNS5
- x9ggZopL3HoyH2q+vMT2t3PArpMQeMQu8WXHUiaIs10kOreeYIawhSVeHd8C9Y6MxP+dIM0g
- DeuA/ux4AdW9nVFi+eR/bBBV1hJ3zv0CsjmAVmhKrN+lDxF2lNhx5CILSFhCgE/ixltBiCP4
- JCZtm84MEeaV6GiDBraaxIZlG9hg1nbtXMk8gVFpFpLXZiF5ZxaSd2Yh7F3AyLKKUTy1tDg3
- PbXYKC+1XK84Mbe4NC9dLzk/dxMjMH2d/nf8yw7GXX+SDjEKcDAq8fBK+PPEC7EmlhVX5h5i
- lOBgVhLhdTp7Ok6INyWxsiq1KD++qDQntfgQozQHi5I4r/Gil7FCAumJJanZqakFqUUwWSYO
- TqkGxllGK1T+t02snX+kTVgs3f33Lp7wt0uOHLtVsuCebuSixV5dy+6bfl3+69ddo/4JK4Us
- qpLtPA+uNZ+wI8l4jnQ335sfIdnhVUFNyZ4T4l1cQ93TpeTWfQwWibVMvTPr+tk7UzlPNU0u
- viLP/Kj3ibxqW0L2teLlhjo2oV0/1zdufFPmnP5FSomlOCPRUIu5qDgRAPKpCiJbAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrJIsWRmVeSWpSXmKPExsVy+t/xe7or4nnjDY6tNLFY0pRh0Xj/IqPF
- nPMtLBavzqxlszi24xGTRdfjFywWl3fNYbPYO30Zq8WOO51MFkv2vGd14PLYsvImk8fOWXfZ
- PRZsKvXYdugai8emVZ1sHvvnrmH3+P1jMqPH501yARxRejZF+aUlqQoZ+cUltkrRhhZGeoaW
- FnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehm3jraxFhyUqLgy9TVzA2OLUBcjJ4eEgIlE
- 95yrzF2MXBxCAksZJa4dbmHsYuQASshIHF9fBlEjLPHnWhcbRM1rRonje18zgSSEBdwkzqz7
- wwJiiwjoSFw6OosJpIhZYB+TxPmFj8ASQgI2Ejs27QJrYBOwkpjYvooRxOYVsJPYv/AHO4jN
- IqAq8XfnMWYQW1QgQuLwjllQNYISJ2c+AZvDKWArMXXuMTYQm1lAXeLPvEvMELa4xK0n85kg
- bHmJ7W/nME9gFJqFpH0WkpZZSFpmIWlZwMiyilEktbQ4Nz232FCvODG3uDQvXS85P3cTIzBa
- tx37uXkH46WNwYcYBTgYlXh4Jfx54oVYE8uKK3MPMUpwMCuJ8DqdPR0nxJuSWFmVWpQfX1Sa
- k1p8iNEU6LmJzFKiyfnARJJXEm9oamhuYWlobmxubGahJM7bIXAwRkggPbEkNTs1tSC1CKaP
- iYNTqoHRwnDzPIbH5vtKFALM2F6vctJa0XDI4u172SebLok+7vfXUdc+P8dibYCgqLXTlb8v
- J3zT+lXgrHQ05d0qn3IHzVjurnbP/yE76/knHdGqn/btqkGJRefMDZNEw6pcEp0/8T7j+uRd
- 7rKSKXf/l545/dUXNX3/10w01a3Y/b+CaelDuYsLyjqVWIozEg21mIuKEwGKiYcV7AIAAA==
-X-CMS-MailID: 20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed
-X-Msg-Generator: CA
-X-RootMTR: 20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed
-References: <20200713173613.2095-1-vaibhavgupta40@gmail.com>
- <CGME20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed@eucas1p1.samsung.com>
-Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
- Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, "David S.
- Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3 0/3] drivers: ide: use generic
-	power management
+References: <20200714032352.f476hanaj2dlmiot@mrinalpandey>
+ <alpine.DEB.2.21.2007140742570.6558@felia>
+In-Reply-To: <alpine.DEB.2.21.2007140742570.6558@felia>
+From: Mrinal Pandey <mrinalmni@gmail.com>
+Date: Tue, 14 Jul 2020 13:07:03 +0530
+Message-ID: <CAD1=X6kVo26OT2jaPu-D_MremS75=+6U7nrXw89xFbo255pbhg@mail.gmail.com>
+To: apw@canonical.com, joe@perches.com, linux-kernel@vger.kernel.org, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: Fix the usage of
+	capture group ( ... )
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,95 +104,207 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0709879033148980372=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+--===============0709879033148980372==
+Content-Type: multipart/alternative; boundary="00000000000048388d05aa61e046"
 
-Hi,
+--00000000000048388d05aa61e046
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/13/20 7:36 PM, Vaibhav Gupta wrote:
-> Linux Kernel Mentee: Remove Legacy Power Management.
-> 
-> The purpose of this patch series is to remove legacy power management callbacks
-> from ide drivers.
-> 
-> The suspend() and resume() callbacks operations are still invoking
-> pci_save/restore_state(), pci_set_power_state(), pci_enable/disable_state(),
-> etc. and handling the power management themselves, which is not recommended.
-> 
-> The conversion requires the removal of the those function calls and change the
-> callback definition accordingly and make use of dev_pm_ops structure.
+On Tue, Jul 14, 2020 at 11:18 AM Lukas Bulwahn <lukas.bulwahn@gmail.com>
+wrote:
 
-IDE subsystem (drivers/ide/) is deprecated and has been superseded by libata
-subsystem (drivers/ata/).
+>
+>
+> On Tue, 14 Jul 2020, Mrinal Pandey wrote:
+>
+> > The usage of "capture group (...)" in the immediate condition after `&&`
+> > results in `$1` being uninitialized. This issues a warning "Use of
+> > uninitialized value $1 in regexp compilation at ./scripts/checkpatch.pl
+> > line 2638".
+> >
+> > I noticed this bug while running checkpatch on the set of commits from
+> > v5.7 to v5.8-rc1 of the kernel on the commits with a diff content in
+> > their commit message.
+> >
+> > This bug was introduced in the script by commit e518e9a59ec3
+> > ("checkpatch: emit an error when there's a diff in a changelog"). It has
+> > been in the script since then.
+> >
+> > The author intended to store the match made by capture group in variable
+> > `$1`. This should have contained the name of the file as `[\w/]+`
+> matched.
+> > However, this couldn't be accomplished due to usage of capture group and
+> > `$1` in the same regular expression.
+> >
+> > Fix this by placing the capture group in the condition before `&&`.
+> > Thus, `$1` can be initialized to the text that capture group matches
+> > thereby setting it to the desired and required value.
+> >
+> > Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > Tested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
+> > ---
+> > Changes since v1:
+> > Add Reviewed-by and Tested-by tag
+> >
+>
+>
+> Usually, the maintainers pick up those tags when they apply a patch to
+> their tree, and the patch authors do not need to add those tags and resend
+> the patch as a new version on the mailing list.
+>
 
-libata drivers have the same issue so please concentrate on fixing them
-first. Later (if desirable) changes can be back-ported to drivers/ide/.
+Sir,
 
-> All patches are compile-tested only.
+Thank you for your insight. I'll keep this in mind.
 
-This patchset needs (at least) some basic testing. It should be easier with
-libata subsystem as it also support SATA controllers and devices.
 
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+>
+> Mrinal, can you please go through and check the kernel documentation on
+> submitting patches and find the places where it is pointed out that the
+> maintainers usually apply those tags and the authors usually do not need
+> to resend a new version of the patch with the tags applied?
+>
 
-> v3:
->     - Modpost error for undefined reference by Kbuild in v1.
->     - Another approach to disable PM in drivers/ide/triflex.c suggested by
->       Bjorn Helgaas in v2.
-> 
-> Test tools:
->     - Compiler: gcc (GCC) 10.1.0
->     - allmodconfig build: make -j$(nproc) W=1 all
-> 
-> Vaibhav Gupta (3):
->   ide: use generic power management
->   ide: sc1200: use generic power management
->   ide: delkin_cb: use generic power management
-> 
->  drivers/ide/aec62xx.c         |  3 +--
->  drivers/ide/alim15x3.c        |  3 +--
->  drivers/ide/amd74xx.c         |  3 +--
->  drivers/ide/atiixp.c          |  3 +--
->  drivers/ide/cmd64x.c          |  3 +--
->  drivers/ide/cs5520.c          |  3 +--
->  drivers/ide/cs5530.c          |  3 +--
->  drivers/ide/cs5535.c          |  3 +--
->  drivers/ide/cs5536.c          |  3 +--
->  drivers/ide/cy82c693.c        |  3 +--
->  drivers/ide/delkin_cb.c       | 32 +++++---------------------
->  drivers/ide/hpt366.c          |  3 +--
->  drivers/ide/ide-pci-generic.c |  3 +--
->  drivers/ide/it8172.c          |  3 +--
->  drivers/ide/it8213.c          |  3 +--
->  drivers/ide/it821x.c          |  3 +--
->  drivers/ide/jmicron.c         |  3 +--
->  drivers/ide/ns87415.c         |  3 +--
->  drivers/ide/opti621.c         |  3 +--
->  drivers/ide/pdc202xx_new.c    |  3 +--
->  drivers/ide/pdc202xx_old.c    |  3 +--
->  drivers/ide/piix.c            |  3 +--
->  drivers/ide/sc1200.c          | 43 ++++++++++++-----------------------
->  drivers/ide/serverworks.c     |  3 +--
->  drivers/ide/setup-pci.c       | 29 +++++------------------
->  drivers/ide/siimage.c         |  3 +--
->  drivers/ide/sis5513.c         |  3 +--
->  drivers/ide/sl82c105.c        |  3 +--
->  drivers/ide/slc90e66.c        |  3 +--
->  drivers/ide/triflex.c         | 24 +++++++------------
->  drivers/ide/via82cxxx.c       |  3 +--
->  include/linux/ide.h           |  8 +------
->  32 files changed, 62 insertions(+), 155 deletions(-)
-> 
+I read through Submitting patches
+<https://www.kernel.org/doc/html/latest/process/submitting-patches.html>
+and a few related pieces of documentation but
+couldn't infer this information.
+
+
+> If you cannot find such a statement in the documentation, please let us
+> know where it would ideally added in the documentation. We can then create
+> a patch for that together.
+>
+
+The statement might be placed under Respond to review comments
+<https://www.kernel.org/doc/html/latest/process/submitting-patches.html#respond-to-review-comments>
+and maybe
+it could further contain some information about how to send a new version
+of the patch.
+
+Thank you.
+
+>
+>
+> Lukas
+>
+
+--00000000000048388d05aa61e046
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 14, 2020 at 11:18 AM Luka=
+s Bulwahn &lt;<a href=3D"mailto:lukas.bulwahn@gmail.com">lukas.bulwahn@gmai=
+l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><br>
+<br>
+On Tue, 14 Jul 2020, Mrinal Pandey wrote:<br>
+<br>
+&gt; The usage of &quot;capture group (...)&quot; in the immediate conditio=
+n after `&amp;&amp;`<br>
+&gt; results in `$1` being uninitialized. This issues a warning &quot;Use o=
+f<br>
+&gt; uninitialized value $1 in regexp compilation at ./scripts/<a href=3D"h=
+ttp://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a>=
+<br>
+&gt; line 2638&quot;.<br>
+&gt; <br>
+&gt; I noticed this bug while running checkpatch on the set of commits from=
+<br>
+&gt; v5.7 to v5.8-rc1 of the kernel on the commits with a diff content in<b=
+r>
+&gt; their commit message.<br>
+&gt; <br>
+&gt; This bug was introduced in the script by commit e518e9a59ec3<br>
+&gt; (&quot;checkpatch: emit an error when there&#39;s a diff in a changelo=
+g&quot;). It has<br>
+&gt; been in the script since then.<br>
+&gt; <br>
+&gt; The author intended to store the match made by capture group in variab=
+le<br>
+&gt; `$1`. This should have contained the name of the file as `[\w/]+` matc=
+hed.<br>
+&gt; However, this couldn&#39;t be accomplished due to usage of capture gro=
+up and<br>
+&gt; `$1` in the same regular expression.<br>
+&gt; <br>
+&gt; Fix this by placing the capture group in the condition before `&amp;&a=
+mp;`.<br>
+&gt; Thus, `$1` can be initialized to the text that capture group matches<b=
+r>
+&gt; thereby setting it to the desired and required value.<br>
+&gt; <br>
+&gt; Reviewed-by: Lukas Bulwahn &lt;<a href=3D"mailto:lukas.bulwahn@gmail.c=
+om" target=3D"_blank">lukas.bulwahn@gmail.com</a>&gt;<br>
+&gt; Tested-by: Lukas Bulwahn &lt;<a href=3D"mailto:lukas.bulwahn@gmail.com=
+" target=3D"_blank">lukas.bulwahn@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Mrinal Pandey &lt;<a href=3D"mailto:mrinalmni@gmail.com=
+" target=3D"_blank">mrinalmni@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; Changes since v1:<br>
+&gt; Add Reviewed-by and Tested-by tag<br>
+&gt;<br>
+<br>
+<br>
+Usually, the maintainers pick up those tags when they apply a patch to <br>
+their tree, and the patch authors do not need to add those tags and resend =
+<br>
+the patch as a new version on the mailing list.<br></blockquote><div><br></=
+div><div><div>Sir,</div><div><br></div><div>Thank you for your insight. I&#=
+39;ll keep this in mind.</div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+<br>
+Mrinal, can you please go through and check the kernel documentation on <br=
+>
+submitting patches and find the places where it is pointed out that the <br=
+>
+maintainers usually apply those tags and the authors usually do not need <b=
+r>
+to resend a new version of the patch with the tags applied?<br></blockquote=
+><div><br></div><div>I read through <a href=3D"https://www.kernel.org/doc/h=
+tml/latest/process/submitting-patches.html" target=3D"_blank">Submitting pa=
+tches</a> and a few related pieces of documentation but<div>couldn&#39;t in=
+fer this information.</div><div><br></div> </div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
+<br>
+If you cannot find such a statement in the documentation, please let us <br=
+>
+know where it would ideally added in the documentation. We can then create =
+<br>
+a patch for that together.<br></blockquote><div><br></div><div><div>The sta=
+tement might be placed under <a href=3D"https://www.kernel.org/doc/html/lat=
+est/process/submitting-patches.html#respond-to-review-comments" target=3D"_=
+blank">Respond to review comments</a> and maybe</div><div>it could further =
+contain some information about how to send a new version of the patch.<br><=
+/div><div><br></div><div>Thank you.</div></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+<br>
+<br>
+Lukas<br>
+</blockquote></div></div>
+
+--00000000000048388d05aa61e046--
+
+--===============0709879033148980372==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============0709879033148980372==--
