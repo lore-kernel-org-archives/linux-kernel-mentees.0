@@ -2,94 +2,93 @@ Return-Path: <SRS0=uvNB=AZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BEA7C433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 21:02:47 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9CE3C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 22:02:22 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CBB8E2064C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 21:02:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cUVYKmbu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CBB8E2064C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 892C22065E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 22:02:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 892C22065E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8F3E826D8E;
-	Tue, 14 Jul 2020 21:02:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 59E618A354;
+	Tue, 14 Jul 2020 22:02:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GGr5EhPCTrtC; Tue, 14 Jul 2020 21:02:45 +0000 (UTC)
+	with ESMTP id jON-awMxOjbX; Tue, 14 Jul 2020 22:02:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2B40520784;
-	Tue, 14 Jul 2020 21:02:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3E2568A353;
+	Tue, 14 Jul 2020 22:02:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 06F82C0888;
-	Tue, 14 Jul 2020 21:02:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 28E69C0891;
+	Tue, 14 Jul 2020 22:02:21 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64925C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90A16C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 21:02:43 +0000 (UTC)
+ Tue, 14 Jul 2020 22:02:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 575338995D
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7F358896B0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 21:02:43 +0000 (UTC)
+ Tue, 14 Jul 2020 22:02:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DdZ+u+oVfvSa
+ with ESMTP id JJT1KRhg8OaO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 21:02:42 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6C4128987B
+ Tue, 14 Jul 2020 22:02:18 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D8DCF896AF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 21:02:42 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id s21so49224ilk.5
+ Tue, 14 Jul 2020 22:02:17 +0000 (UTC)
+Received: from mail-qv1-f45.google.com ([209.85.219.45]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MfYc4-1kX0kZ00Eq-00fz8b for
+ <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Jul 2020 00:02:15
+ +0200
+Received: by mail-qv1-f45.google.com with SMTP id t11so28050qvk.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 14:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=2npQXh+dkmWmSHKIQodxnxIAaeJj1A/FFr2Ll6AD3Hs=;
- b=cUVYKmbuMquj1tPPomJ3QAhJreggNlTpwsACBo1UIJy8ABrEJRvYcUBJ+BzMm+B8Pw
- MqSqKdxiUZLp3/SF8aRm3MPFEOcuXTXzReaF83C04QfRQHgm5C83Tljo6P1xGnktBhzD
- OT+ejuCCRxGNB8MkOVi2pHeVYazL4B1RPNhoCnI8kHFaP6uAtl1cDWerw9s1oH2TTw0B
- LM7J/Ue++Hb1A6pAPvTDsxvbkSlC8xNFDSx4dnf7ckP1Hwf+uHJfUVUzdHq5jQZARzeY
- kP3Kn/qUbeuD8v9JUHRLTRkHEjvJZJQ63Z+mmdiHUET6RLX7HxZvg2kwWAFQoo3rA3v3
- 6aTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=2npQXh+dkmWmSHKIQodxnxIAaeJj1A/FFr2Ll6AD3Hs=;
- b=FYjqfsIB+Snrd9fwtSHZdJLQTA3FW0W0E/NLR4QPgFmQXyYCY8VY+xUgH6qZVDLv1N
- I4kOMeIhhssv+L0vaUR/RS4AeYnEVc3sEyykx1trAT34aL27e01OYJ8CDPvDX9ghxaLt
- RW+D4OgqdYg1gxpQbiIQF8TUd6CQ/uWkPrRehiEusPr88JOSGH7Olu+XUc1gDOg1LHcK
- Lm3E3HDEIk3t0AO+MTeFlhEIjHXlAtDogz0Uln/COr0DoCEJ8kMVxEQ3Sf73PL72oEHQ
- EBnmI04WfEVHdLJBNd1SmgrL4HONCRp5nab/V1OYHHRcNM9nAesyYayDwLNu0xBF2P/H
- +BBQ==
-X-Gm-Message-State: AOAM532TRFt2QsafCQxp3zVI3/YC+VIuJl0b1sW6ZwN0vthspAkO3XEN
- kUcDW6n1E/W4WYg9cCdW44OBkaGNxfcs0A/q4eY=
-X-Google-Smtp-Source: ABdhPJwkddnl6FvRyOMdkmyyDRG9lWADdbl/Rct2E+/PQzsVJk9f8CH9Av6NUhTRswYDc3FssSb6pCSldchYVLW9F38=
-X-Received: by 2002:a92:9a4f:: with SMTP id t76mr6568425ili.174.1594760561627; 
- Tue, 14 Jul 2020 14:02:41 -0700 (PDT)
+ Tue, 14 Jul 2020 15:02:13 -0700 (PDT)
+X-Gm-Message-State: AOAM533ZUnMUJHqZ14GaqyNTm1wWLgwt8bE3qmeFZGWBgR2YXl/uzdx+
+ T63A796W0WryvewnJ0TReGtOs00pafUFMbLFo30=
+X-Google-Smtp-Source: ABdhPJznSzLhDwcnDZmpeVRogK9o+2OI/Kw97MVSd98PzQaS/otI9FtvjiXpPZMRdXNdxDurpAOdHjSmk9v+bKI3/P4=
+X-Received: by 2002:a0c:f802:: with SMTP id r2mr6638892qvn.197.1594764132842; 
+ Tue, 14 Jul 2020 15:02:12 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6602:21d8:0:0:0:0 with HTTP; Tue, 14 Jul 2020 14:02:40
- -0700 (PDT)
-In-Reply-To: <20200714184550.GA397277@bjorn-Precision-5520>
 References: <CAK8P3a3NWSZw6678k1O2eJ6-c5GuW7484PRvEzU9MEPPrCD-yw@mail.gmail.com>
  <20200714184550.GA397277@bjorn-Precision-5520>
-From: Kjetil Oftedal <oftedal@gmail.com>
-Date: Tue, 14 Jul 2020 23:02:40 +0200
-Message-ID: <CALMQjD9OVTbLVPGX-9+GDekZ02Wsqdz57-k1uCBMXC7cT3K_7w@mail.gmail.com>
+In-Reply-To: <20200714184550.GA397277@bjorn-Precision-5520>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 15 Jul 2020 00:01:56 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3EZX8=649R9cYF6_=ivh1Xyrgsc5mUtS=d5yvQ3doZaQ@mail.gmail.com>
+Message-ID: <CAK8P3a3EZX8=649R9cYF6_=ivh1Xyrgsc5mUtS=d5yvQ3doZaQ@mail.gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>
+X-Provags-ID: V03:K1:w+r6XGGyn2WXpgd2HfZeetfjoUlSTYA8CYtz4AUYnIDbfeP95H3
+ ulV0XZ2Xzs8htni+OojSvJ9WxM0fgkeFWh8mAcRhPcTKOnSFt6elcqlIZ5/FAQwR5jqiYG6
+ YYD42X0abuy4kW69LJhECqSZ9vVlijaZmG7G2gheQIoNaaMI+YY33mt/sa9oNoRjTiYpors
+ poZfj+YgnG3DoPqHLepHQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8CXSXZW7Dh8=:74TPg4jHLXsZwS9LFDpU3+
+ F6FfK1JmKw/iSCBgpdk9iqpZTIxBXFgHi4m73qbQi/0fcCyjG/dg2cBan8u10pyxi8CZgSMCm
+ vgDhoBb254tLkuEs9aaoN2x+fvgt8q2HzvMsDnUJdg8UFDh2DdrZBSpoQ5bQsxR2qa6AlQOK2
+ NHy24xIfEtssKJEsFXop/jCFH0Q3WMp27Su2UvBxQ7Beu1+Gzb+Fi+U+sCkEqwPzj6NyXTD3+
+ e0ksg2kYez53PR6YtQnOthlwFATKXLBLDZB7HFUkTx3E2bK/L4iuAnp4eKeglVgeDzlaYioxh
+ hykYnn6Y5LPrvScbCJWqF6H12kAtxpkB/TQ1tt2Tee9zH3Yzk584K+uC9TtofR3fLL7PgaCuU
+ SfAiiyVK8lqWhRYIDz9vHWIhzW0k3obv4ANoBM6ttaTAMB1WLV0w8bY+xVZw0XHSWXiMyVszc
+ +QbPnLtibpnWUY6xlqg1eHmzyt6Tv7FxjDFzw5KUBuIb58ePC4ooloIYv4XDMKnK5rars8dkA
+ BT8MPMRvCCQyM39SiIIVL95APMF+2Stm5I0TYvab//zPm70CYxgBUNv68cYTndOon1yvwNZZn
+ lcYDx9LxmNxBJy5sqY6+pwf9Ua6l+YSI9bsRz1ZKe8kPP+qlbwZBHNgUtp6DmewtBJPvTpzXa
+ r/eUhStMGjhtEm+6C0PvYMUrJ/lDKDZmWEFnL5oLZ/WT2kOnVmAeXPNUvIUvV876uQS8AP9RP
+ 0V3zsQKjIa9TCmulteTAJtd5yzfWwi3qH5dHygmTYKo6HpCmuc2j+IA9R8IT9+w0LiQMfEo6N
+ XivUKBTVEHQY+ILQ9UVIYBSAMMXvn5onelErvRDVyrkoE7qFYP3tjNieul2tipo1tq1hQ1V1O
+ hWiSscAFjJ4u97RN1uPXPKOdBBPyruR9XeQh7b2TFLzfk8aNOh8KTIe75n/4dXbhycm/byssW
+ isJscgJK9Xo4vVNdslJYrQTa0+XLP6xnEjtetdOG95ATIAQI9Lo5b
 Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Keith Busch <kbusch@kernel.org>, Paul Mackerras <paulus@samba.org>,
  sparclinux <sparclinux@vger.kernel.org>, Toan Le <toan@os.amperecomputing.com>,
@@ -102,9 +101,8 @@ Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Kevin Hilman <khilman@baylibre.com>, linux-pci <linux-pci@vger.kernel.org>,
  Jakub Kicinski <kuba@kernel.org>, Matt Turner <mattst88@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- Guenter Roeck <linux@roeck-us.net>, Arnd Bergmann <arnd@arndb.de>,
- Ray Jui <rjui@broadcom.com>, Jens Axboe <axboe@fb.com>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Guenter Roeck <linux@roeck-us.net>, Ray Jui <rjui@broadcom.com>,
+ Jens Axboe <axboe@fb.com>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
  Boris Ostrovsky <boris.ostrovsky@oracle.com>,
  Richard Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
  Bjorn Helgaas <bhelgaas@google.com>,
@@ -136,23 +134,16 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 14/07/2020, Bjorn Helgaas <helgaas@kernel.org> wrote:
-
->>
->> a) callers of the high-level config space accessors
->>    pci_{write,read}_config_{byte,word,dword}, mostly in device
->>    drivers.
->> b) low-level implementation of the config space accessors
->>     through struct pci_ops
->> c) all other occurrences of these constants
->>
->> Starting with a), my first question is whether any high-level
->> drivers even need to care about errors from these functions. I see
->> 4913 callers that ignore the return code, and 576 that actually
->> check it, and almost none care about the specific error (as you
->> found as well). Unless we conclude that most PCI drivers are wrong,
->> could we just change the return type to 'void' and assume they never
->> fail for valid arguments on a valid pci_device* ?
+On Tue, Jul 14, 2020 at 8:45 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> On Mon, Jul 13, 2020 at 05:08:10PM +0200, Arnd Bergmann wrote:
+> > On Mon, Jul 13, 2020 at 3:22 PM Saheed O. Bolarinwa
+> > Starting with a), my first question is whether any high-level
+> > drivers even need to care about errors from these functions. I see
+> > 4913 callers that ignore the return code, and 576 that actually
+> > check it, and almost none care about the specific error (as you
+> > found as well). Unless we conclude that most PCI drivers are wrong,
+> > could we just change the return type to 'void' and assume they never
+> > fail for valid arguments on a valid pci_device* ?
 >
 > I really like this idea.
 >
@@ -173,7 +164,11 @@ On 14/07/2020, Bjorn Helgaas <helgaas@kernel.org> wrote:
 > Checking the function return value catches programming errors (bad
 > alignment, etc) but misses most of the interesting errors (device was
 > unplugged or reported a PCI error).
->
+
+My thinking was more that most of the time the error checking may
+be completely bogus to start with, and I would just not check for
+errors at all.
+
 > Checking the value returned from PCI is tricky because ~0 is a valid
 > value for some config registers, and only the driver knows for sure.
 > If the driver knows that ~0 is a possible value, it would have to do
@@ -217,43 +212,76 @@ On 14/07/2020, Bjorn Helgaas <helgaas@kernel.org> wrote:
 >
 > Am I understanding you correctly?
 
-Let us not do this. Reading config space is really expensive on some
-architectures. Requiring a driver to do it twice on some values does not
-improve upon that situation. And is quite redundant if the Root Complex
-driver already knows that the first access has failed.
+That would require changing all callers of the function, which
+I think would involve changing some 700 files. What I was
+suggesting was to only change the return type to void and
+categorize all drivers that today check it as either
 
-Additionally since multiple config accesses to the same devices is not
-allowed in the spec, the hardware must block and wait for a timeout if
-a config access does not get a response.
-(Can happen if a intermediate link between the RC and endpoint has to retrain)
-Having to block twice is very much not ideal. And in the case with
-retraining the secondary access might even succeed. As the link might
-recover between reading the first config word and reading PCI_VENDOR_ID.
-Thus allowing the driver to accept invalid data from the device.
+a) checking the return code is not helpful, or possibly even
+    wrong, so we just stop doing it. I expect those to be the
+    vast majority of callers, but that could be wrong.
 
->
->> For b), it might be nice to also change other aspects of the
->> interface, e.g. passing a pci_host_bridge pointer plus bus number
->> instead of a pci_bus pointer, or having the callback in the
->> pci_host_bridge structure.
->
-> I like this idea a lot, too.  I think the fact that
-> pci_bus_read_config_word() requires a pci_bus * complicates things in
-> a few places.
->
-> I think it's completely separate, as you say, and we should defer it
-> for now because even part a) is a lot of work.  I added it to my list
-> of possible future projects.
->
+b) Code that legitimately check the error code and need to
+   take an appropriate action. These could be changed to
+   calling a different interface such as 'pci_bus_read_config_word'
+   or a new 'pci_device_last_error()' function.
 
-What about strange PCI devices such as Non-Transparent bridges?
-They will require their own PCI Config space accessors that is not
-connected to a host bridge if one wants to do some sort of
-punch-through enumeration.
-I guess the kernel doesn't care much about them?
+The reasons I suspect that most callers don't actually need
+to check for errors are:
 
-Best regards,
-Kjetil Oftedal
+- Most error checking is static: PCIBIOS_BAD_REGISTER_NUMBER
+  only happens if you pass an invalid register number, but most
+  callers pass a compile-time constant register number that is
+  known to be correct, or the driver would never work. Similarly,
+  PCIBIOS_DEVICE_NOT_FOUND wouldn't normally happen
+  since you pass a valid pci_device pointer that was already
+  probed.
+
+- config space accesses are very rare compared to memory
+  space access and on the hardware side the error handling
+  would be similar, but readl/writel don't return errors, they just
+  access wrong registers or return 0xffffffff.
+  arch/powerpc/kernel/eeh.c has a ton extra code written to
+  deal with it, but no other architectures do.
+
+- If we add code to detect errors in pci_read_config_*
+  and do some of the stuff from powerpc's
+  eeh_dev_check_failure(), we are more likely to catch
+  intermittent failures when drivers don't check, or bugs
+  with invalid arguments in device drivers than relying on
+  drivers to get their error handling right when those code
+  paths don't ever get covered in normal testing.
+
+Looking at a couple of random drivers that do check the
+return codes, I find:
+
+drivers/edac/amd8131_edac.c: prints the register number,
+then keeps going. This is not useful
+
+drivers/net/ethernet/mellanox/mlx4/reset.c: error handling
+in mlx4_reset() seems reasonable, but it gets called
+from mlx4_pci_resume(), which has a 'void' return code and
+cannot propagate the error further. My guess is that it
+would try to keep going after a failed resume and run into
+random other problems then.
+
+drivers/ata/pata_cs5536.c: error code gets passed to
+caller and then always ignored. Can clearly be changed
+
+drivers/net/wireless/intersil/prism54/islpci_hotplug.c:
+Out of two calls, only one is checked, which seems bogus
+
+drivers/usb/host/pci-quirks.c: only one of many instances
+has a check, again this seems bogus.
+
+drivers/leds/leds-ss4200.c: called from probe(), which
+seems to correctly deal with errors by failing the probe.
+Not sure this can ever fail though, since the driver only does
+it after pci_enable_device() succeeds first. Note that
+pci_enable_device() ignores pci_read_config_byte()
+errors but sanity-checks the register contents/
+
+        Arnd
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
