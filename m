@@ -2,92 +2,146 @@ Return-Path: <SRS0=uvNB=AZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 148CBC433E6
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 08:10:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73261C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 08:19:39 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D625F21582
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 08:10:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D625F21582
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
+	by mail.kernel.org (Postfix) with ESMTPS id 3BEA721897
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Jul 2020 08:19:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="hRaITEAB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3BEA721897
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A8615887D3;
-	Tue, 14 Jul 2020 08:10:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 09EA589D9E;
+	Tue, 14 Jul 2020 08:19:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cUE8gmthdkhH; Tue, 14 Jul 2020 08:10:10 +0000 (UTC)
+	with ESMTP id Izan3iJqbK2A; Tue, 14 Jul 2020 08:19:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2349D887B0;
-	Tue, 14 Jul 2020 08:10:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5560D8A898;
+	Tue, 14 Jul 2020 08:19:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B6EBC0888;
-	Tue, 14 Jul 2020 08:10:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 36384C0888;
+	Tue, 14 Jul 2020 08:19:38 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54643C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A3E30C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:10:08 +0000 (UTC)
+ Tue, 14 Jul 2020 08:19:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 43B29887C0
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2868088357
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:10:08 +0000 (UTC)
+ Tue, 14 Jul 2020 08:19:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S0OBwj8Sqy4z
+ with ESMTP id OP8mtILU21x6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:10:07 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by whitealder.osuosl.org (Postfix) with ESMTPS id CDA91887C4
+ Tue, 14 Jul 2020 08:19:10 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 393FD88057
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 08:10:05 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-47-quVXGfyEOkSmpSddwNFlhw-1; Tue, 14 Jul 2020 09:10:01 +0100
-X-MC-Unique: quVXGfyEOkSmpSddwNFlhw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Tue, 14 Jul 2020 09:10:01 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Tue, 14 Jul 2020 09:10:01 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Saheed Olayemi Bolarinwa' <refactormyself@gmail.com>,
- "helgaas@kernel.org" <helgaas@kernel.org>
-Thread-Topic: [PATCH 11/14 v3] PCI/PM: Check return value of
- pcie_capability_read_*()
-Thread-Index: AQHWVwhf1JBBv8jM7kKvf2XRj4wYvqkGvVFg
-Date: Tue, 14 Jul 2020 08:10:00 +0000
-Message-ID: <80c7a253134b43289ba28a320ba99f9c@AcuMS.aculab.com>
-References: <20200710212026.27136-1-refactormyself@gmail.com>
- <20200710212026.27136-12-refactormyself@gmail.com>
-In-Reply-To: <20200710212026.27136-12-refactormyself@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ Tue, 14 Jul 2020 08:19:10 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200714081907euoutp013b1900a795035ae4dc110cc4ee6eeae3~hkJ0kJ9rd2954329543euoutp01Q
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 14 Jul 2020 08:19:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200714081907euoutp013b1900a795035ae4dc110cc4ee6eeae3~hkJ0kJ9rd2954329543euoutp01Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1594714747;
+ bh=3W48R5JZdOlotY4kDUq6GDCqsDBg3zDBeQZwRffH5cQ=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=hRaITEABU3SBPZEGubCdXFsCDoUyWDD7rOB02/zLfRreB8ulARj898kR7N2NpM323
+ A/10w0hCCieJgnIcQlR/VMZj7YUKvoT18f+6MheJsmIdX40Odqy42AvwQkKMHtsVxU
+ NDTn9lADp4CDjKbIJWus38iTd1uKTHzKfluajA/E=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200714081907eucas1p282d94245ef1c7790fa31b2383110eb27~hkJ0WjwWm2453224532eucas1p2T;
+ Tue, 14 Jul 2020 08:19:07 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id D2.29.06318.B7A6D0F5; Tue, 14
+ Jul 2020 09:19:07 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200714081906eucas1p2da1533c2e4e8983bb42b20199dc1f977~hkJz17urA2902729027eucas1p2I;
+ Tue, 14 Jul 2020 08:19:06 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200714081906eusmtrp1546fb7b152d27cdb0d5186fda9460044~hkJz1S4Oo2221422214eusmtrp10;
+ Tue, 14 Jul 2020 08:19:06 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-4c-5f0d6a7b0c0a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 31.A4.06017.A7A6D0F5; Tue, 14
+ Jul 2020 09:19:06 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200714081906eusmtip2f23c200b846080fe8f5e3023cef37df5~hkJzT_jxK0594905949eusmtip2X;
+ Tue, 14 Jul 2020 08:19:06 +0000 (GMT)
+To: Vaibhav Gupta <vaibhav.varodek@gmail.com>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <834eb293-bd4f-626c-4558-fbf71a5999f0@samsung.com>
+Date: Tue, 14 Jul 2020 10:19:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Cc: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH 11/14 v3] PCI/PM: Check return
- value of pcie_capability_read_*()
+In-Reply-To: <20200714075247.GA4859@gmail.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHeXbv7q7LK4/T2Kkka9A7aWXIpUIqQuaX3ijSyGzlbZabxa6z
+ rC+lsekQ1CyspWUyX0krMVtWFlOUnJlSiG5qokKmDiWN3pbmdpX89nvO+f+f/zlwaELWIl5O
+ n0tK5nRJKo2CkpJ1zb/aN189z8RtGRtbylrSEtjrnzsRW/DhBsmOtlVRbLN1UMSahkZI9mN9
+ AcW+zi8Vs9beTBFreTUh3i1V1lb0iJQvzH0SZVGNXlln6yKVNZWZlPJN4SOJ8s/PPKScqll5
+ kD4u3RXPac6lcLrQiFPShJHqenRxaPXl8ZxJ8hrqXmZCPjTg7WCdzBeZkJSW4XIEPSUPkfCY
+ RtBidFAelQxPIRjrWL/g6CvsnXeUIchyOQhB5EJw+1eqhwNwJLRVu0kPB+LNYGgwUh4Dgd+I
+ wP20C3kaFN4BucZKLzM4Atx3Z71pJF4Dt2ayvbwUR8O3gUaxoPGHd3eHvZ/64BBwPP3i1RBY
+ Do7hByKBg+G5q4DwhAHul4CpJE8sjL0PqiyDlMABMNpSKxE4COx5WaRgqEbwN2Nk3v0cQVne
+ zLxjJ/S2/55jei5iAzyuDxXKe8Da1El6yoD9oNvlLwzhBzfr8gmhzECGQSao18KT0ifUQqzp
+ RQWRgxTmRauZF61jXrSO+X9uESIrkZzT81o1x4clcZdCeJWW1yepQ85c0NagufOyz7R8t6IG
+ 92kbwjRS+DJwwDdOJlal8KlaGwKaUAQye9/bT8qYeFXqFU53IU6n13C8Da2gSYWcCSv+GivD
+ alUyl8hxFzndQldE+yy/hsio0Y1tTK5huin2mPOM5qzTog2I2ZG76YdO1Kp5qQ78FG6UdhYP
+ hO9fdfjjifTrz97Z+3lmnQylMZsae6LlvdsiO8TliTiKG7edLg82SCpnj6odfUtKf7e1y20d
+ XHx7R8WdTqdvq4KauA87LxdONZiy+w+9jTlyL3FwOsiZriD5BNXWjYSOV/0DK4o4sFoDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrJIsWRmVeSWpSXmKPExsVy+t/xe7pVWbzxBl+PGlssacqwaLx/kdFi
+ zvkWFotXZ9ayWRzb8YjJouvxCxaLy7vmsFnsnb6M1WLHnU4miyV73rM6cHlsWXmTyWPnrLvs
+ Hgs2lXpsO3SNxWPTqk42j/1z17B7/P4xmdHj8ya5AI4oPZui/NKSVIWM/OISW6VoQwsjPUNL
+ Cz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYwX63YxFjxWrHgz4QNLA+MNyS5GTg4JAROJ
+ u3PvMHUxcnEICSxllDjwugfI4QBKyEgcX18GUSMs8edaFxtEzWtGiTdfW9lBEsICbhJn1v1h
+ AbFFBHQl2va1gxUxC+xnkng67x8zSEJI4CWjRNsDBRCbTcBKYmL7KkYQm1fATuLPzP9sIDaL
+ gKrElH/9YLaoQITE4R2zoGoEJU7OfAK2gFNAT+LWxudgNcwC6hJ/5l1ihrDFJW49mc8EYctL
+ bH87h3kCo9AsJO2zkLTMQtIyC0nLAkaWVYwiqaXFuem5xUZ6xYm5xaV56XrJ+bmbGIHRuu3Y
+ zy07GLveBR9iFOBgVOLhlfDniRdiTSwrrsw9xCjBwawkwut09nScEG9KYmVValF+fFFpTmrx
+ IUZToOcmMkuJJucDE0leSbyhqaG5haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU1ILUIpg+Jg5O
+ qQbGvYt4i63iCxtUzJfocCrzuVyS+2C8duNVvzP2Wr+nPVumuVtG8O0F3g3Wn7Z2v1/4maO1
+ 2aA4RGJ+FiffhEU2Nysc23dlNbU8mhpo/YBlr1tkE/Mel+ioq99eGFbWHj29ne/W28U/Mk0v
+ FApuOLfqXIOxXPyaM8+7tpXHlOzpkTe4FqpYW5GmxFKckWioxVxUnAgA/LvsgewCAAA=
+X-CMS-MailID: 20200714081906eucas1p2da1533c2e4e8983bb42b20199dc1f977
+X-Msg-Generator: CA
+X-RootMTR: 20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed
+References: <20200713173613.2095-1-vaibhavgupta40@gmail.com>
+ <CGME20200714073256eucas1p13ebe9585c29b766e48506400ba91a8ed@eucas1p1.samsung.com>
+ <3b26bfff-7a42-7bbe-2050-51fe1ce96d4e@samsung.com>
+ <20200714075247.GA4859@gmail.com>
+Cc: linux-ide@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH v3 0/3] drivers: ide: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,58 +159,116 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> From: Saheed Olayemi Bolarinwa
-> Sent: 10 July 2020 22:20
-> To: helgaas@kernel.org
-> From: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
-> 
-> On failure pcie_capability_read_dword() sets it's last parameter,
-> val to 0.
-> However, with Patch 14/14, it is possible that val is set to ~0 on
-> failure. This would introduce a bug because (x & x) == (~0 & x).
-> 
-> This bug can be avoided if the return value of pcie_capability_read_dword
-> is checked to confirm success.
-> 
-> Check the return value of pcie_capability_read_dword() to ensure success.
-> 
-> Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
-> Signed-off-by: Bolarinwa Olayemi Saheed <refactormyself@gmail.com>
-> ---
->  drivers/pci/pci.c | 52 ++++++++++++++++++++++++++++++-----------------
->  1 file changed, 33 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index ce096272f52b..9f18ffbf7bd4 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -3207,6 +3207,7 @@ void pci_configure_ari(struct pci_dev *dev)
->  {
->  	u32 cap;
->  	struct pci_dev *bridge;
-> +	int ret;
-> 
->  	if (pcie_ari_disabled || !pci_is_pcie(dev) || dev->devfn)
->  		return;
-> @@ -3215,8 +3216,8 @@ void pci_configure_ari(struct pci_dev *dev)
->  	if (!bridge)
->  		return;
-> 
-> -	pcie_capability_read_dword(bridge, PCI_EXP_DEVCAP2, &cap);
-> -	if (!(cap & PCI_EXP_DEVCAP2_ARI))
-> +	ret = pcie_capability_read_dword(bridge, PCI_EXP_DEVCAP2, &cap);
-> +	if (ret || !(cap & PCI_EXP_DEVCAP2_ARI))
->  		return;
 
-Why not make the function result 64bit?
-Then you can return ~0ull on failure and the capability value on success.
-Gets rid of the horrid error + return value pair.
+On 7/14/20 9:52 AM, Vaibhav Gupta wrote:
+> On Tue, Jul 14, 2020 at 09:32:56AM +0200, Bartlomiej Zolnierkiewicz wrote:
+>>
+>> Hi,
+>>
+>> On 7/13/20 7:36 PM, Vaibhav Gupta wrote:
+>>> Linux Kernel Mentee: Remove Legacy Power Management.
+>>>
+>>> The purpose of this patch series is to remove legacy power management callbacks
+>>> from ide drivers.
+>>>
+>>> The suspend() and resume() callbacks operations are still invoking
+>>> pci_save/restore_state(), pci_set_power_state(), pci_enable/disable_state(),
+>>> etc. and handling the power management themselves, which is not recommended.
+>>>
+>>> The conversion requires the removal of the those function calls and change the
+>>> callback definition accordingly and make use of dev_pm_ops structure.
+>>
+>> IDE subsystem (drivers/ide/) is deprecated and has been superseded by libata
+>> subsystem (drivers/ata/).
+>>
+>> libata drivers have the same issue so please concentrate on fixing them
+>> first. Later (if desirable) changes can be back-ported to drivers/ide/.
+>>
+> Hello, (drivers/ide) and (drivers/ata) are the two major families, I am working
+> on, for generic PM upgradation. I was bit unaware about priority, and also in
+> the last, both ide and ata drivers have to be upgraded.
 
-	David
+Well, drivers/ide/ is scheduled for removal in 2021
+(it even prints the warning during initialization of
+every host driver)..
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
+
+>>> All patches are compile-tested only.
+>>
+>> This patchset needs (at least) some basic testing. It should be easier with
+>> libata subsystem as it also support SATA controllers and devices.
+> To upgrade PM in (drivers/ide) I have made .suspend() and .resume() static. Then
+> bind them in "struct dev_pm_ops" variable (ide_pci_pm_ops) and expose it using
+> EXPORT_SYMBOL_GPL(). This has affected 30 drivers. I was hoping if ide changes
+> can be tested/verified, specially [PATCH 1/3]. As then, I will be sure about
+> similar change in ata, as it also requires similar alteration.
+> 
+> Thanks
+> Vaibhav Gupta
+> 
+>>
+>> Best regards,
+>> --
+>> Bartlomiej Zolnierkiewicz
+>> Samsung R&D Institute Poland
+>> Samsung Electronics
+>>
+>>> v3:
+>>>     - Modpost error for undefined reference by Kbuild in v1.
+>>>     - Another approach to disable PM in drivers/ide/triflex.c suggested by
+>>>       Bjorn Helgaas in v2.
+>>>
+>>> Test tools:
+>>>     - Compiler: gcc (GCC) 10.1.0
+>>>     - allmodconfig build: make -j$(nproc) W=1 all
+>>>
+>>> Vaibhav Gupta (3):
+>>>   ide: use generic power management
+>>>   ide: sc1200: use generic power management
+>>>   ide: delkin_cb: use generic power management
+>>>
+>>>  drivers/ide/aec62xx.c         |  3 +--
+>>>  drivers/ide/alim15x3.c        |  3 +--
+>>>  drivers/ide/amd74xx.c         |  3 +--
+>>>  drivers/ide/atiixp.c          |  3 +--
+>>>  drivers/ide/cmd64x.c          |  3 +--
+>>>  drivers/ide/cs5520.c          |  3 +--
+>>>  drivers/ide/cs5530.c          |  3 +--
+>>>  drivers/ide/cs5535.c          |  3 +--
+>>>  drivers/ide/cs5536.c          |  3 +--
+>>>  drivers/ide/cy82c693.c        |  3 +--
+>>>  drivers/ide/delkin_cb.c       | 32 +++++---------------------
+>>>  drivers/ide/hpt366.c          |  3 +--
+>>>  drivers/ide/ide-pci-generic.c |  3 +--
+>>>  drivers/ide/it8172.c          |  3 +--
+>>>  drivers/ide/it8213.c          |  3 +--
+>>>  drivers/ide/it821x.c          |  3 +--
+>>>  drivers/ide/jmicron.c         |  3 +--
+>>>  drivers/ide/ns87415.c         |  3 +--
+>>>  drivers/ide/opti621.c         |  3 +--
+>>>  drivers/ide/pdc202xx_new.c    |  3 +--
+>>>  drivers/ide/pdc202xx_old.c    |  3 +--
+>>>  drivers/ide/piix.c            |  3 +--
+>>>  drivers/ide/sc1200.c          | 43 ++++++++++++-----------------------
+>>>  drivers/ide/serverworks.c     |  3 +--
+>>>  drivers/ide/setup-pci.c       | 29 +++++------------------
+>>>  drivers/ide/siimage.c         |  3 +--
+>>>  drivers/ide/sis5513.c         |  3 +--
+>>>  drivers/ide/sl82c105.c        |  3 +--
+>>>  drivers/ide/slc90e66.c        |  3 +--
+>>>  drivers/ide/triflex.c         | 24 +++++++------------
+>>>  drivers/ide/via82cxxx.c       |  3 +--
+>>>  include/linux/ide.h           |  8 +------
+>>>  32 files changed, 62 insertions(+), 155 deletions(-)
+>>>
+>>
+> 
+> 
 
 _______________________________________________
 Linux-kernel-mentees mailing list
