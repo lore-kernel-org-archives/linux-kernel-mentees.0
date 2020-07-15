@@ -6,88 +6,84 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC3BAC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 22:28:55 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7396C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 22:51:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AB12B2067D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 22:28:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB12B2067D
+	by mail.kernel.org (Postfix) with ESMTPS id B27BF20656
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 22:51:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B27BF20656
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 833F026633;
-	Wed, 15 Jul 2020 22:28:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7CE8988775;
+	Wed, 15 Jul 2020 22:51:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id q95JqXStqHgF; Wed, 15 Jul 2020 22:28:54 +0000 (UTC)
+	with ESMTP id OcLJye7FK3my; Wed, 15 Jul 2020 22:51:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DA4F5262BC;
-	Wed, 15 Jul 2020 22:28:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 601588875C;
+	Wed, 15 Jul 2020 22:51:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D0BD4C0891;
-	Wed, 15 Jul 2020 22:28:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 49943C0891;
+	Wed, 15 Jul 2020 22:51:11 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 39134C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 38BE2C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 22:28:53 +0000 (UTC)
+ Wed, 15 Jul 2020 22:51:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 27B07893AA
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2EADD8875C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 22:28:53 +0000 (UTC)
+ Wed, 15 Jul 2020 22:51:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jcbiES7jgyXp
+ with ESMTP id cH2BgoF_nZdY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 22:28:52 +0000 (UTC)
+ Wed, 15 Jul 2020 22:51:09 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8A19E89393
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 95CB0886F4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 22:28:52 +0000 (UTC)
+ Wed, 15 Jul 2020 22:51:09 +0000 (UTC)
 Received: from localhost (gate.crashing.org [63.228.1.57])
  (authenticated bits=0)
- by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 06FMQfq2014030
+ by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 06FMnOHG014418
  (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 15 Jul 2020 17:26:45 -0500
-Message-ID: <627b214e6fc0624093caa8155d7006de111aacfb.camel@kernel.crashing.org>
+ Wed, 15 Jul 2020 17:49:27 -0500
+Message-ID: <5d4b3a716f85017c17c52a85915fba9e19509e81.camel@kernel.crashing.org>
 From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <helgaas@kernel.org>
-Date: Thu, 16 Jul 2020 08:26:40 +1000
-In-Reply-To: <CAK8P3a3OEOosC2VEHb3z7hTA=BjVp0nv9bNxBWzEnmgSDDTX3Q@mail.gmail.com>
-References: <CAK8P3a3EZX8=649R9cYF6_=ivh1Xyrgsc5mUtS=d5yvQ3doZaQ@mail.gmail.com>
- <20200714234625.GA428442@bjorn-Precision-5520>
- <CAK8P3a3OEOosC2VEHb3z7hTA=BjVp0nv9bNxBWzEnmgSDDTX3Q@mail.gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, David Laight <David.Laight@ACULAB.COM>
+Date: Thu, 16 Jul 2020 08:49:21 +1000
+In-Reply-To: <20200715221230.GA563957@bjorn-Precision-5520>
+References: <20200715221230.GA563957@bjorn-Precision-5520>
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 Mime-Version: 1.0
-Cc: linux-pci <linux-pci@vger.kernel.org>, Keith Busch <kbusch@kernel.org>,
- Paul Mackerras <paulus@samba.org>, sparclinux <sparclinux@vger.kernel.org>,
- Toan Le <toan@os.amperecomputing.com>, Kjetil Oftedal <oftedal@gmail.com>,
- Greg Ungerer <gerg@linux-m68k.org>,
- Marek Vasut <marek.vasut+renesas@gmail.com>, Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Sagi Grimberg <sagi@grimberg.me>, Michael Ellerman <mpe@ellerman.id.au>,
+Cc: linux-pci <linux-pci@vger.kernel.org>, Paul Mackerras <paulus@samba.org>,
+ sparclinux <sparclinux@vger.kernel.org>, Toan Le <toan@os.amperecomputing.com>,
+ Christoph Hellwig <hch@lst.de>, Marek Vasut <marek.vasut+renesas@gmail.com>,
+ Rob Herring <robh@kernel.org>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Kevin Hilman <khilman@baylibre.com>,
  Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
- Christoph Hellwig <hch@lst.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Kevin Hilman <khilman@baylibre.com>, Jakub Kicinski <kuba@kernel.org>,
- Matt Turner <mattst88@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Guenter Roeck <linux@roeck-us.net>, Ray Jui <rjui@broadcom.com>,
+ Greg Ungerer <gerg@linux-m68k.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Jakub Kicinski <kuba@kernel.org>, Matt Turner <mattst88@gmail.com>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, Arnd Bergmann <arnd@arndb.de>,
+ Ray Jui <rjui@broadcom.com>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
  Jens Axboe <axboe@fb.com>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Keith Busch <kbusch@kernel.org>, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
  Richard Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Scott Branden <sbranden@broadcom.com>, Jingoo Han <jingoohan1@gmail.com>,
- "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ 'Oliver O'Halloran' <oohall@gmail.com>,
  Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "David S. Miller" <davem@davemloft.net>,
+ Bjorn Helgaas <bhelgaas@google.com>, "David S. Miller" <davem@davemloft.net>,
  Heiner Kallweit <hkallweit1@gmail.com>
 Subject: Re: [Linux-kernel-mentees] [RFC PATCH 00/35] Move all PCIBIOS*
 	definitions into arch/x86
@@ -108,21 +104,34 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 2020-07-15 at 08:47 +0200, Arnd Bergmann wrote:
-> drivers/misc/cardreader/rts5261.c:      retval =
-> rtsx_pci_write_config_dword(pcr, PCR_SETTING_REG2, lval);
+On Wed, 2020-07-15 at 17:12 -0500, Bjorn Helgaas wrote:
+> > I've 'played' with PCIe error handling - without much success.
+> > What might be useful is for a driver that has just read ~0u to
+> > be able to ask 'has there been an error signalled for this device?'.
 > 
-> That last one is interesting because I think this is a case in which
-> we
-> actually want to check for errors, as the driver seems to use it
-> to ensure that accessing extended config space at offset 0x814
-> works before relying on the value. Unfortunately the implementation
-> seems buggy as it a) keeps using the possibly uninitialized value
-> after
-> printing a warning and b) returns the PCIBIOS_* value in place of a
-> negative errno and then ignores it in the caller.
+> In many cases a driver will know that ~0 is not a valid value for the
+> register it's reading.  But if ~0 *could* be valid, an interface like
+> you suggest could be useful.  I don't think we have anything like that
+> today, but maybe we could.  It would certainly be nice if the PCI core
+> noticed, logged, and cleared errors.  We have some of that for AER,
+> but that's an optional feature, and support for the error bits in the
+> garden-variety PCI_STATUS register is pretty haphazard.  As you note
+> below, this sort of SERR/PERR reporting is frequently hard-wired in
+> ways that takes it out of our purview.
 
-In cases like this, usually checking against ~0 is sufficient
+We do have pci_channel_state (via pci_channel_offline()) which covers
+the cases where the underlying error handling (such as EEH or unplug)
+results in the device being offlined though this tend to be
+asynchronous so it might take a few ~0's before you get it.
+
+It's typically used to break potentially infinite loops in some
+drivers.
+
+There is no interface to check whether *an* error happened though for
+the most cases it will be captured in the status register, which is
+harvested (and cleared ?) by some EDAC drivers iirc... 
+
+All this lacks coordination, I agree.
 
 Cheers,
 Ben.
