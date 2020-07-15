@@ -2,101 +2,110 @@ Return-Path: <SRS0=zsCJ=A2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A95E4C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 10:39:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C049C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 14:24:30 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B5D720656
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 10:39:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="jwVnssYw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B5D720656
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1A8292064B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 14:24:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A8292064B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 70D738ABCD;
-	Wed, 15 Jul 2020 10:39:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E3D098AE53;
+	Wed, 15 Jul 2020 14:24:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AnqU02UyXml4; Wed, 15 Jul 2020 10:39:47 +0000 (UTC)
+	with ESMTP id xlPbqAQpuX1B; Wed, 15 Jul 2020 14:24:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0AF998ABD1;
-	Wed, 15 Jul 2020 10:39:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 66D178AE37;
+	Wed, 15 Jul 2020 14:24:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EE31DC0891;
-	Wed, 15 Jul 2020 10:39:46 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DA934C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B8FAC0891;
+	Wed, 15 Jul 2020 14:24:29 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6D194C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 10:39:45 +0000 (UTC)
+ Wed, 15 Jul 2020 14:24:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D6A5D893A7
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6609A8AE53
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 10:39:45 +0000 (UTC)
+ Wed, 15 Jul 2020 14:24:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kjpb5jEQSUyE
+ with ESMTP id NBUlsjUl5lQ6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 10:39:45 +0000 (UTC)
+ Wed, 15 Jul 2020 14:24:27 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 57D5C89393
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A91F98AE37
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 10:39:45 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1594809585; h=Date: Message-Id: Cc: To: References:
- In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
- Content-Type: Sender; bh=D94aB3iFUbAB03ytvbk1mOfOw9Sr0hPBz1uTT/NFTSU=;
- b=jwVnssYw1t4UPOtxKHE7OarSlZTLQcLLc+VMUuzjhqrxcmEpCkFjCuBlE4xzn55gjP9Shagz
- Shi8LM7wQ/PwKtU6luzC3YSyY2/AtBS0XO6fWY7+sffh3zzNlYPzGf/hz07ikg208Xk4pd4U
- KrwW7UZSOq+dmNzvQqnb/SHHb7w=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyI1ODQyZiIsICJsaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5f0edcf103c8596cdb3807f7 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Jul 2020 10:39:45
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 6F162C43395; Wed, 15 Jul 2020 10:39:43 +0000 (UTC)
-Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi
- [88.114.240.156])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: kvalo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id EB745C433C9;
- Wed, 15 Jul 2020 10:39:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EB745C433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=kvalo@codeaurora.org
+ Wed, 15 Jul 2020 14:24:26 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-141-cz9nZDW3NY6HKvk6yRxSLA-1; Wed, 15 Jul 2020 15:24:22 +0100
+X-MC-Unique: cz9nZDW3NY6HKvk6yRxSLA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Wed, 15 Jul 2020 15:24:21 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
+ Wed, 15 Jul 2020 15:24:21 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Arnd Bergmann' <arnd@arndb.de>, Bjorn Helgaas <helgaas@kernel.org>
+Thread-Topic: [RFC PATCH 00/35] Move all PCIBIOS* definitions into arch/x86
+Thread-Index: AQHWWnPXll7fc/pDfESpF9qKWOuIcakIsKIA
+Date: Wed, 15 Jul 2020 14:24:21 +0000
+Message-ID: <4c994d9a804b4a2c8555c50b63e20772@AcuMS.aculab.com>
+References: <CAK8P3a3EZX8=649R9cYF6_=ivh1Xyrgsc5mUtS=d5yvQ3doZaQ@mail.gmail.com>
+ <20200714234625.GA428442@bjorn-Precision-5520>
+ <CAK8P3a3OEOosC2VEHb3z7hTA=BjVp0nv9bNxBWzEnmgSDDTX3Q@mail.gmail.com>
+In-Reply-To: <CAK8P3a3OEOosC2VEHb3z7hTA=BjVp0nv9bNxBWzEnmgSDDTX3Q@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-From: Kalle Valo <kvalo@codeaurora.org>
-In-Reply-To: <20200629072525.156154-2-vaibhavgupta40@gmail.com>
-References: <20200629072525.156154-2-vaibhavgupta40@gmail.com>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
-Message-Id: <20200715103943.6F162C43395@smtp.codeaurora.org>
-Date: Wed, 15 Jul 2020 10:39:43 +0000 (UTC)
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
- netdev@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>,
- Stanislav Yakovlev <stas.yakovlev@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 1/2] ipw2100: use generic
-	power management
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Keith Busch <kbusch@kernel.org>, Paul Mackerras <paulus@samba.org>,
+ sparclinux <sparclinux@vger.kernel.org>, Toan Le <toan@os.amperecomputing.com>,
+ Kjetil Oftedal <oftedal@gmail.com>, Greg Ungerer <gerg@linux-m68k.org>,
+ Marek Vasut <marek.vasut+renesas@gmail.com>, Rob Herring <robh@kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Michael Ellerman <mpe@ellerman.id.au>,
+ Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Kevin Hilman <khilman@baylibre.com>, linux-pci <linux-pci@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Matt Turner <mattst88@gmail.com>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, Ray Jui <rjui@broadcom.com>,
+ Jens Axboe <axboe@fb.com>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Richard
+ Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Scott Branden <sbranden@broadcom.com>, Jingoo Han <jingoohan1@gmail.com>,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, "David S.
+ Miller" <davem@davemloft.net>, Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH 00/35] Move all PCIBIOS*
+	definitions into arch/x86
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,32 +123,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
-
-> With legacy PM, drivers themselves were responsible for managing the
-> device's power states and takes care of register states.
+From: Arnd Bergmann
+> Sent: 15 July 2020 07:47
+> On Wed, Jul 15, 2020 at 1:46 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
 > 
-> After upgrading to the generic structure, PCI core will take care of
-> required tasks and drivers should do only device-specific operations.
+>  So something like:
+> >
+> >   void pci_read_config_word(struct pci_dev *dev, int where, u16 *val)
+> >
+> > and where we used to return anything non-zero, we just set *val = ~0
+> > instead?  I think we do that already in most, maybe all, cases.
 > 
-> The driver was invoking PCI helper functions like pci_save/restore_state(),
-> pci_enable/disable_device() and pci_set_power_state(), which is not
-> recommended.
-> 
-> Compile-tested only.
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+> Right, this is what I had in mind. If we start by removing the handling
+> of the return code in all files that clearly don't need it, looking at
+> whatever remains will give a much better idea of what a good interface
+> should be.
 
-2 patches applied to wireless-drivers-next.git, thanks.
+It would be best to get rid of that nasty 'u16 *' parameter.
+Make the return int and return the read value or -1 on error.
+(Or maybe 0xffff0000 on error??)
 
-814db61adb86 ipw2100: use generic power management
-77b4ad07699f ipw2200: use generic power management
+For a 32bit read (there must be one for the BARs) returning
+a 64bit signed integer would work even for 32bit systems.
 
--- 
-https://patchwork.kernel.org/patch/11632343/
+If code cares about the error, and it can be detected then
+it can check. Otherwise the it all 'just works'.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+	David
 
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
