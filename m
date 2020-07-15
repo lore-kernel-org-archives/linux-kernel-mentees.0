@@ -2,83 +2,104 @@ Return-Path: <SRS0=zsCJ=A2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C90AEC433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 21:07:33 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4108DC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 22:01:42 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9235720657
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 21:07:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9235720657
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=iogearbox.net
+	by mail.kernel.org (Postfix) with ESMTPS id EF0B62067D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 22:01:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="AcJGbRPs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EF0B62067D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id BF7902046A;
-	Wed, 15 Jul 2020 21:07:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ikpnxWSpyYoY; Wed, 15 Jul 2020 21:07:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 839CD20423;
-	Wed, 15 Jul 2020 21:07:29 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6F603C07FF;
-	Wed, 15 Jul 2020 21:07:29 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2FCB8C0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 21:07:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2C5738885D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 21:07:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B5A2E8919A;
+	Wed, 15 Jul 2020 22:01:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id J1hXeWdGxlgs; Wed, 15 Jul 2020 22:01:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B2CA988A71;
+	Wed, 15 Jul 2020 22:01:40 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 994F5C07FF;
+	Wed, 15 Jul 2020 22:01:40 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ECA7CC0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Jul 2020 22:01:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id D82FE899EC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Jul 2020 22:01:38 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 40RdTSfBh1AF
+ with ESMTP id 1n12e9Y8ADbX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 21:07:26 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CC90D88855
+ Wed, 15 Jul 2020 22:01:38 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 4A86A8991C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 21:07:25 +0000 (UTC)
-Received: from sslproxy02.your-server.de ([78.47.166.47])
- by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89_1) (envelope-from <daniel@iogearbox.net>)
- id 1jvocY-0003ol-AP; Wed, 15 Jul 2020 23:07:18 +0200
-Received: from [178.196.57.75] (helo=pc-9.home)
- by sslproxy02.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <daniel@iogearbox.net>)
- id 1jvocY-000Rp7-0q; Wed, 15 Jul 2020 23:07:18 +0200
-To: Peilin Ye <yepeilin.cs@gmail.com>, Andrii Nakryiko <andriin@fb.com>,
- Alexei Starovoitov <ast@kernel.org>
-References: <CAADnVQ+jUPGJapkvKW=AfXESD6Vz2iuONvJm8eJm5Yd+u9mJ+w@mail.gmail.com>
- <20200714180904.277512-1-yepeilin.cs@gmail.com>
-From: Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <3b97c5bf-9f07-0353-ea4d-f90574fbcdc0@iogearbox.net>
-Date: Wed, 15 Jul 2020 23:07:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Wed, 15 Jul 2020 22:01:38 +0000 (UTC)
+Received: from localhost (mobile-166-175-191-139.mycingular.net
+ [166.175.191.139])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6936020657;
+ Wed, 15 Jul 2020 22:01:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594850497;
+ bh=Dz/aXCXx6hEm65ykjKGAALSDHDgV9W4n51TE8HVaNyg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=AcJGbRPssyYC0nJ+ZVPaX639DVjl/UswzmNpCfYtIJ/9lFmLiqEsM8Oe+PVOaMtjA
+ 8PYZFuxwlwNeaxYlaY0rRvuyKueHVRBBr22r3PeGhVh/B0wzpcKP+NZFvlFVPKec7F
+ rA+SlkNjfyr5hBkmPyt0Czd/Rsugt1iAY+IfWurU=
+Date: Wed, 15 Jul 2020 17:01:35 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: David Laight <David.Laight@ACULAB.COM>
+Message-ID: <20200715220135.GA563272@bjorn-Precision-5520>
 MIME-Version: 1.0
-In-Reply-To: <20200714180904.277512-1-yepeilin.cs@gmail.com>
-Content-Language: en-US
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.102.3/25874/Wed Jul 15 16:18:08 2020)
-Cc: Song Liu <songliubraving@fb.com>, John Fastabend <john.fastabend@gmail.com>,
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- clang-built-linux@googlegroups.com, netdev@vger.kernel.org,
- KP Singh <kpsingh@chromium.org>, Yonghong Song <yhs@fb.com>,
- bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Martin KaFai Lau <kafai@fb.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] bpf: Fix NULL pointer
- dereference in __btf_resolve_helper_id()
+Content-Disposition: inline
+In-Reply-To: <4c994d9a804b4a2c8555c50b63e20772@AcuMS.aculab.com>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Keith Busch <kbusch@kernel.org>, Paul Mackerras <paulus@samba.org>,
+ sparclinux <sparclinux@vger.kernel.org>, Toan Le <toan@os.amperecomputing.com>,
+ Kjetil Oftedal <oftedal@gmail.com>, Greg Ungerer <gerg@linux-m68k.org>,
+ Marek Vasut <marek.vasut+renesas@gmail.com>, Rob Herring <robh@kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Michael Ellerman <mpe@ellerman.id.au>,
+ Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Kevin Hilman <khilman@baylibre.com>, linux-pci <linux-pci@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Matt Turner <mattst88@gmail.com>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, 'Arnd Bergmann' <arnd@arndb.de>,
+ Ray Jui <rjui@broadcom.com>, Jens Axboe <axboe@fb.com>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Richard Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Scott Branden <sbranden@broadcom.com>, Jingoo Han <jingoohan1@gmail.com>,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH 00/35] Move all PCIBIOS*
+	definitions into arch/x86
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,69 +111,58 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/14/20 8:09 PM, Peilin Ye wrote:
-> Prevent __btf_resolve_helper_id() from dereferencing `btf_vmlinux`
-> as NULL. This patch fixes the following syzbot bug:
+On Wed, Jul 15, 2020 at 02:24:21PM +0000, David Laight wrote:
+> From: Arnd Bergmann
+> > Sent: 15 July 2020 07:47
+> > On Wed, Jul 15, 2020 at 1:46 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > 
+> >  So something like:
+> > >
+> > >   void pci_read_config_word(struct pci_dev *dev, int where, u16 *val)
+> > >
+> > > and where we used to return anything non-zero, we just set *val = ~0
+> > > instead?  I think we do that already in most, maybe all, cases.
+> > 
+> > Right, this is what I had in mind. If we start by removing the handling
+> > of the return code in all files that clearly don't need it, looking at
+> > whatever remains will give a much better idea of what a good interface
+> > should be.
 > 
->      https://syzkaller.appspot.com/bug?id=f823224ada908fa5c207902a5a62065e53ca0fcc
-> 
-> Reported-by: syzbot+ee09bda7017345f1fbe6@syzkaller.appspotmail.com
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> It would be best to get rid of that nasty 'u16 *' parameter.
 
-Looks good, applied, thanks! As far as I can tell all the other occurrences are
-gated behind btf_parse_vmlinux() where we also init struct_opts, etc.
+Do you mean nasty because it's basically a return value, but not
+returned as the *function's* return value?  I agree that if we were
+starting from scratch it would nicer to have:
 
-So for bpf-next this would then end up looking like ...
+  u16 pci_read_config_word(struct pci_dev *dev, int where)
 
-int btf_resolve_helper_id(struct bpf_verifier_log *log,
-                           const struct bpf_func_proto *fn, int arg)
-{
-         int id;
+but I don't think it's worth changing the thousands of callers just
+for that.
 
-         if (fn->arg_type[arg] != ARG_PTR_TO_BTF_ID)
-                 return -EINVAL;
-         id = fn->btf_id[arg];
-         if (!id || !btf_vmlinux || id > btf_vmlinux->nr_types)
-                 return -EINVAL;
-         return id;
-}
+> Make the return int and return the read value or -1 on error.
+> (Or maybe 0xffff0000 on error??)
+> 
+> For a 32bit read (there must be one for the BARs) returning
+> a 64bit signed integer would work even for 32bit systems.
+> 
+> If code cares about the error, and it can be detected then
+> it can check. Otherwise the it all 'just works'.
 
-> ---
-> Sorry, I got the link wrong. Thank you for pointing that out.
-> 
-> Change in v3:
->      - Fix incorrect syzbot dashboard link.
-> 
-> Change in v2:
->      - Split NULL and IS_ERR cases.
-> 
->   kernel/bpf/btf.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> index 30721f2c2d10..092116a311f4 100644
-> --- a/kernel/bpf/btf.c
-> +++ b/kernel/bpf/btf.c
-> @@ -4088,6 +4088,11 @@ static int __btf_resolve_helper_id(struct bpf_verifier_log *log, void *fn,
->   	const char *tname, *sym;
->   	u32 btf_id, i;
->   
-> +	if (!btf_vmlinux) {
-> +		bpf_log(log, "btf_vmlinux doesn't exist\n");
-> +		return -EINVAL;
-> +	}
-> +
->   	if (IS_ERR(btf_vmlinux)) {
->   		bpf_log(log, "btf_vmlinux is malformed\n");
->   		return -EINVAL;
-> 
+There are u8 (byte), u16 (word), and u32 (dword) config reads &
+writes.  But I don't think it really helps to return something wider
+than the access.  For programmatic errors like invalid alignment, we
+could indeed use the extra bits to return an unambiguous error.  But
+we still have the "device was unplugged" sort of errors where the
+*hardware* typically returns ~0 and the config accessor doesn't know
+whether that's valid data or an error.
 
+Bjorn
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
