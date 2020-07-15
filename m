@@ -6,95 +6,95 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11E5FC433E5
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 10:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C08CC433EB
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 10:39:21 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D3B5A2075B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 10:38:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D647620656
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 10:39:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="XS+t1wm2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D3B5A2075B
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="LzbNdW6/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D647620656
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 93E6922786;
-	Wed, 15 Jul 2020 10:38:54 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A75C8227DB;
+	Wed, 15 Jul 2020 10:39:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qZfmGnVU3mPD; Wed, 15 Jul 2020 10:38:53 +0000 (UTC)
+	with ESMTP id rmEzKL5Gbn0K; Wed, 15 Jul 2020 10:39:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B07A0227FC;
-	Wed, 15 Jul 2020 10:38:53 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D884F22786;
+	Wed, 15 Jul 2020 10:39:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8F6B1C0891;
-	Wed, 15 Jul 2020 10:38:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C2ADDC0891;
+	Wed, 15 Jul 2020 10:39:17 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6B611C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1B136C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 10:38:51 +0000 (UTC)
+ Wed, 15 Jul 2020 10:39:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4B8FE2278E
+ by silver.osuosl.org (Postfix) with ESMTP id EA3FD227DB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 10:38:51 +0000 (UTC)
+ Wed, 15 Jul 2020 10:39:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ubm37u3GYOXB
+ with ESMTP id an2lRcgunOS6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 10:38:49 +0000 (UTC)
+ Wed, 15 Jul 2020 10:39:15 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by silver.osuosl.org (Postfix) with ESMTPS id 43ED822786
+ by silver.osuosl.org (Postfix) with ESMTPS id ECCF922786
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 10:38:45 +0000 (UTC)
+ Wed, 15 Jul 2020 10:39:14 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1594809529; h=Date: Message-Id: Cc: To: References:
+ s=smtp; t=1594809554; h=Date: Message-Id: Cc: To: References:
  In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
- Content-Type: Sender; bh=lmuj4L635dOFeW6CLqdMxBr0KmO6bVimi9ks4elW24c=;
- b=XS+t1wm27MG76bPzjaS46NBCxgZb2QRfzpnFuVu/MXZ156J4eeMS3YtrEvAMc2tK/CJQsxXa
- ZxMDEVUp38NHnhCM/vdTVN40oET1kVC2MReu/CakyaKeDY/d/Jm9rQPUpoQkoFSBC2QeJtwm
- neCY62raFJurLe4g2waX29XQ8U8=
+ Content-Type: Sender; bh=lAvnqX/ZVMt/mESdc2pgjD3f4/qNilQWsHcdnTWed+w=;
+ b=LzbNdW6/l7WB4Jymm0+bzcPSR9zvGkOaHNOET/JaiISxmrZQuU5MhsZoLUvze5qTYrqoLv+v
+ M44gnNJrbWbIYnpYDrktc5/MPf4o3ZoPojTcnzOybhWwhpThnUtcDMnTcxRBXgXUxK2duSbi
+ n6UWHxzNYGPDpA+BTkcCSZ9p5hc=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyI1ODQyZiIsICJsaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5f0edc97166c1c5494a1afc0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Jul 2020 10:38:15
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 5f0edcd203c8596cdb37e84a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Jul 2020 10:39:14
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 165DAC433A0; Wed, 15 Jul 2020 10:38:15 +0000 (UTC)
+ id 98E09C43395; Wed, 15 Jul 2020 10:39:13 +0000 (UTC)
 Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi
  [88.114.240.156])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: kvalo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id DC775C433CA;
- Wed, 15 Jul 2020 10:38:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DC775C433CA
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9C855C433C6;
+ Wed, 15 Jul 2020 10:39:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9C855C433C6
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=kvalo@codeaurora.org
 MIME-Version: 1.0
 From: Kalle Valo <kvalo@codeaurora.org>
-In-Reply-To: <20200623094454.12427-1-vaibhavgupta40@gmail.com>
-References: <20200623094454.12427-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200629035031.169670-1-vaibhavgupta40@gmail.com>
+References: <20200629035031.169670-1-vaibhavgupta40@gmail.com>
 To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
-Message-Id: <20200715103815.165DAC433A0@smtp.codeaurora.org>
-Date: Wed, 15 Jul 2020 10:38:15 +0000 (UTC)
+Message-Id: <20200715103913.98E09C43395@smtp.codeaurora.org>
+Date: Wed, 15 Jul 2020 10:39:13 +0000 (UTC)
 Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+ netdev@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  Jakub Kicinski <kuba@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] rtl818x_pci: use generic
-	power management
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] adm8211: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,14 +114,15 @@ Sender: "Linux-kernel-mentees"
 
 Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
 
-> Earlier, drivers had to manage the device's power states, and related
-> operations, themselves. With the generic approach, these are done by PCI
-> core.
+> With legacy PM, drivers themselves were responsible for managing the
+> device's power states and takes care of register states.
 > 
-> The only driver-specific jobs, .suspend() and .resume() doing were invoking
-> PCI helper functions pci_save/restore_state() and
-> pci_set_power_state(). This is not recommeneded as PCI core takes care of
-> that. Hence they became empty-body functions, thus define them NULL.
+> After upgrading to the generic structure, PCI core will take care of
+> required tasks and drivers should do only device-specific operations.
+> 
+> In the case of adm8211, after removing PCI helper functions, .suspend()
+> and .resume() became empty-body functions. Hence, define them NULL and
+> use dev_pm_ops.
 > 
 > Compile-tested only.
 > 
@@ -129,10 +130,10 @@ Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
 
 Patch applied to wireless-drivers-next.git, thanks.
 
-ef6425107ccc rtl818x_pci: use generic power management
+04bceecdf1e8 adm8211: use generic power management
 
 -- 
-https://patchwork.kernel.org/patch/11620213/
+https://patchwork.kernel.org/patch/11632321/
 
 https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
