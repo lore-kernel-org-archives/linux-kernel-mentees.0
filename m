@@ -2,111 +2,121 @@ Return-Path: <SRS0=zsCJ=A2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D45C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 05:32:41 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C6B7C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 06:47:44 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E7E6F2068F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 05:32:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="egb9jXVx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E7E6F2068F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5DD7320663
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Jul 2020 06:47:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5DD7320663
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A7A2B89380;
-	Wed, 15 Jul 2020 05:32:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1897B20489;
+	Wed, 15 Jul 2020 06:47:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o8gqA8cj+qTH; Wed, 15 Jul 2020 05:32:40 +0000 (UTC)
+	with ESMTP id wA5CUxy52qIi; Wed, 15 Jul 2020 06:47:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 13C5E890FE;
-	Wed, 15 Jul 2020 05:32:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F0A9A20385;
+	Wed, 15 Jul 2020 06:47:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E1F89C0891;
-	Wed, 15 Jul 2020 05:32:39 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 51462C0733
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 05:32:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CAB84C0891;
+	Wed, 15 Jul 2020 06:47:42 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 27924C0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Jul 2020 06:47:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 35E0A898E2
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 05:32:38 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id AB8B320385
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Jul 2020 06:47:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sk3zJuPbhz9x
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 05:32:35 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3A01E8928D
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 05:32:35 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id dm19so640227edb.13
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Jul 2020 22:32:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=z108IIRESYmhbx1QK8rIiv6fHGjuvrxhmuqbJhdfsOE=;
- b=egb9jXVxGsCvLdBGce1HF8ghS6v3XinhSeil9rF/2titx0KG8QpzfW1zHJujAMvGkR
- M8JXbzuCPX0ov/K+tNRdJ1U1GktNJ92Iny1oy6P1jd+43Z0MjYqTpsefkO9+3m91RGVO
- 7vYWzOuV1yfZqe3FaTU/qz2Bb93Cqel1zoQz5S6ujnVTMQSnGpeS/rq85uEDdOT8gZBn
- pGlnuLYMiT6nZ9BDlVAw1m0TryvqI7OjWz9Jklp9IKDX5mVKajVwvIjgBCcmPX1js4Nz
- LWv3vAjCbpYeS7bLgBTD6oy3cp2yj7hb5Fx6flbRHHUAhUR4NFcF4IJsrW0mN0XTOpmh
- n4Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=z108IIRESYmhbx1QK8rIiv6fHGjuvrxhmuqbJhdfsOE=;
- b=cZWcBSQplqrv+09IOzvUFlIcjXkeJhJVYUEFFcbHVBAlTwJh1D/5fxdBordj7furT4
- Jppk88aPCZlkr0GIpER+fCKMw9yQuoM7ieTNsF76x9LsJkbBiuo6WHkgpZ7y+uhcOJz3
- psn5e6SChUpQYs27BGZhT2BvyyFuh0cpfDhkU/8S0khp1WCp8cscC8qjeTdCo0IZXUPL
- BUbhojaU96mdt5O+b6It8hZTPGGdoffGIpLxCVkMIlZ5hXKitmSvfT4XFgIpuMtWzNIi
- NyCtEefOLbdSYAaLZYX6sMZ2QnuRlgbCbwbL/wL666mfbXqi68zC6CKerzJ5Hr0Fxd4U
- hwDw==
-X-Gm-Message-State: AOAM5310YI2GpxAeT/NLKkqCU/JGQux8v3wT7E/9iBWdkGno/sFxieds
- XBhfxY3MlKn6egqPLCmAFek=
-X-Google-Smtp-Source: ABdhPJwhCuNWy407M6lrt6PiJSi1tnrKcp8+sNXsgk8xRJlPE2Zk0kVVgDvsiH2cjxn8mK/zSMUmMQ==
-X-Received: by 2002:aa7:d650:: with SMTP id v16mr7874645edr.361.1594791153382; 
- Tue, 14 Jul 2020 22:32:33 -0700 (PDT)
-Received: from felia ([2001:16b8:2d84:5800:9551:c180:76b7:2dd0])
- by smtp.gmail.com with ESMTPSA id u5sm922689ejz.15.2020.07.14.22.32.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 22:32:32 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 15 Jul 2020 07:32:25 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Mrinal Pandey <mrinalmni@gmail.com>
-In-Reply-To: <CAD1=X6m2Lp-KE-xHN1uE7egZRp5-gkXbGVC4f5EUjyMfJ12rHQ@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2007150706410.13346@felia>
-References: <20200706080814.of3oftqsbp32nwge@mrinalpandey>
- <CAKXUXMzUGMVEWxBmrsPWvtBTuM=7W1uZWRp4OUN4ZPeqX8=VHA@mail.gmail.com>
- <CAD1=X6m06KWb3=VEGkFWpmmV=UC09ZYbj2qpAOyg6OPFM=8KqA@mail.gmail.com>
- <CAKXUXMy_KAHn+FNWviazVcEqK213uLVksq8_8HhjXAW+_OBrzQ@mail.gmail.com>
- <CAD1=X6==MgT6jaNZ9PsPUqV1QTRFKguq9zvV+TtFSHyajFMjUg@mail.gmail.com>
- <CAKXUXMwU21sUTA6vSm19oFF42eX3dxuBEG-cgSoUQBWcYJDOiQ@mail.gmail.com>
- <CAD1=X6mM0cA-8aVO4YaLiUbSnkw0EKCijL12bDWxNfUCaCh87g@mail.gmail.com>
- <CAKXUXMx8RcQrihaYvryhm4N8X4BATLpPmRnDkm6nCmhznugd0g@mail.gmail.com>
- <CAD1=X6m2Lp-KE-xHN1uE7egZRp5-gkXbGVC4f5EUjyMfJ12rHQ@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ with ESMTP id NBq1lBwvq62c
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Jul 2020 06:47:40 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6D33D20116
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 Jul 2020 06:47:39 +0000 (UTC)
+Received: from mail-qk1-f170.google.com ([209.85.222.170]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MLi4c-1kDGbw0zke-00Hi7L for
+ <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Jul 2020 08:47:36
+ +0200
+Received: by mail-qk1-f170.google.com with SMTP id r22so816334qke.13
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 14 Jul 2020 23:47:35 -0700 (PDT)
+X-Gm-Message-State: AOAM530suTnUOSqNhbOKMqt9wA4+JQOXW3p7QQyIWTxXPdEL8pVsA1gt
+ j3ytJaDjJneFJ5gM48fE2b02lR927Oxs0sTEkuE=
+X-Google-Smtp-Source: ABdhPJyFS0Zk4AmYJjgRoHnkDRGYzV2yqrKuev4xpaWExBMOSp+Vk7tlNoV31gVNZsw16288M3SPusHOFA0ODDFCn0I=
+X-Received: by 2002:a37:a496:: with SMTP id n144mr8314087qke.286.1594795654855; 
+ Tue, 14 Jul 2020 23:47:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-459324118-1594791152=:13346"
-Cc: Linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Adjust spelling
-	check false positive
+References: <CAK8P3a3EZX8=649R9cYF6_=ivh1Xyrgsc5mUtS=d5yvQ3doZaQ@mail.gmail.com>
+ <20200714234625.GA428442@bjorn-Precision-5520>
+In-Reply-To: <20200714234625.GA428442@bjorn-Precision-5520>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 15 Jul 2020 08:47:17 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3OEOosC2VEHb3z7hTA=BjVp0nv9bNxBWzEnmgSDDTX3Q@mail.gmail.com>
+Message-ID: <CAK8P3a3OEOosC2VEHb3z7hTA=BjVp0nv9bNxBWzEnmgSDDTX3Q@mail.gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+X-Provags-ID: V03:K1:ZLprmHjAtc3lOQ3yHQxKaVdSKpU1KtsqHcwVHA+ycGYR/Qn88tg
+ UwmwY74te3AWxtzFtg5UpuusJJMPM5RDfL+qYe7UzBLr45ZWKPkCCEZNpinK5yxlHoFLcAU
+ JlnmlYfV4C54paWxG51WAU3gkAM22qFWgUSOeWSLRCjMPskck4BRIbNujVhD7XosduI8z+C
+ sGg93jqMi57M2DjzYbIVQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:p3WszVwTCm8=:eTmhEebr0nnEh1YYzq6Dv2
+ n4L06ZeXX+D3QzhXvmL9+FAsrMIp+9H/M48ssGn6W6LOLdx0vKhoWLByq1FIvw8gifSm3BdZC
+ g+6p55jiF2mFWsWE9Mo7YhPARn6MhtDQONNu2RxFp4tR0H2oFl8fiK39mpePgxVZQd7u2Py8p
+ yUWk6mWi5kIMh527q9b53RRukdoAgv4Zz+reZhaJQjWoVd8re2e8s+hz00P+mUgk0s8Ih86jt
+ ODLwJXs3Ks1PKDD7KagPYBENcR6diXv7KXfUa6cj/KmwZxx/RtTfrk0v4g59djJK2vaCa4pEH
+ 1kb+SQyFs91fRVUpfG+I3oGhI7gKRAkbk5x0P+miYuYzyyMF7E3B5KZC6K0XOKZK4CNVztmHZ
+ k8TYHym4vzGpL/s/ZbkqrQizXwYcQd1pTBDnpmbjaFhZrAjppx130Ya0vVvUy9H/tN0FFmmVM
+ /Gu82C+eqNoB4a+swd0icECSZUwvNgOgYsawaBib+L4eDAvSlHLdOUAHRoG/WsTGgoKOERpAY
+ Ih5cxTVq1GFvB5Xi94WlqRjnNNWmWJREyjCG9y+7F7bNrXY/sh0a6lRLMtEOUEhZEHRI2cNAK
+ S3hdweMyITE10k/lrbjJIVxI6YJGyVpkQ7YMwjKJhvyNh/xjE/piDv1G3np+aoeVdTQsc80XO
+ O/b7KS/ogpZns6M14eZOU5nbskbaEfWV8pHv/nYu00jlTDeYs5uw4s4eJ4mmN7yduCngdahrK
+ UYcvUmwMv83feeYlF57Jbkk7RTkQripAmaHhgCek8rahJ84AXkdsUF4Ncze0foXYCDOuQ5P9e
+ 9oRNV0I1XU9BS2yvMHZweddOjxvjUd3LHQVagVK8IcT3BmfylSWCs3n4fi1hT9NH93VVTQyzg
+ FJk9PNZxQXrPseDECLQQEOGVlTzAlZRTNK16DtNzuj3UWkmvTvv6G5jmkSx3rqWxfcQWXKheS
+ 43JOS0nwY/A+lkew+/NYvaFv/zV4xoEnjEjPZVYfK+muTlnvpVBQz
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Keith Busch <kbusch@kernel.org>, Paul Mackerras <paulus@samba.org>,
+ sparclinux <sparclinux@vger.kernel.org>, Toan Le <toan@os.amperecomputing.com>,
+ Kjetil Oftedal <oftedal@gmail.com>, Greg Ungerer <gerg@linux-m68k.org>,
+ Marek Vasut <marek.vasut+renesas@gmail.com>, Rob Herring <robh@kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Michael Ellerman <mpe@ellerman.id.au>,
+ Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Kevin Hilman <khilman@baylibre.com>, linux-pci <linux-pci@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Matt Turner <mattst88@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Guenter Roeck <linux@roeck-us.net>, Ray Jui <rjui@broadcom.com>,
+ Jens Axboe <axboe@fb.com>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Richard Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Scott Branden <sbranden@broadcom.com>, Jingoo Han <jingoohan1@gmail.com>,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH 00/35] Move all PCIBIOS*
+	definitions into arch/x86
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,108 +128,61 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Wed, Jul 15, 2020 at 1:46 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
 
---8323329-459324118-1594791152=:13346
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-
-
-On Tue, 14 Jul 2020, Mrinal Pandey wrote:
-
-> 
-> 
-> On Sat, Jul 11, 2020 at 3:17 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> 
-> >> For Issue 5: Can you provide me (and the CC: the list) the list of
-> >> false positives (the commit hashes) you found for issue 5 on
-> >> EXPORT_SYMBOL?
-> >
-> >
-> > Here are the commit hashes for which the warning is issued:
-> > 54505a1e2083
-> > 75d75b7a4d54
-> > 8084c99b9af6
-> > bfdaf029c9c9
-> > dfd402a4c4ba
-> >
-> >> Can you also provide a short rationale/explanation for
-> >> each case that you considered a false positive?
-> >
-> >
-> > In each case the `EXPORT_SYMBOL()` is correctly written and the variable/function to be exported
-> > is also inside the parentheses, still, we get the warning. Please let me know if I am wrong here.
-> 
-> I checked those warnings. Some of the patches are good cases to check if we can improve the heuristics on
-> EXPORT_SYMBOL().
-> 
-> E.g., commit bfdaf029c9c9 ("ia64: turn csum_partial_copy_from_user() into csum_and_copy_from_user()") looks
-> sound to me, and checkpatch.pl should not really warn about that.
-> 
-> Mrinal, maybe you can find out why checkpatch.pl believes that this case is wrong and needs to be warned
-> about?
-> 
-> 
-> Sir,
-> 
-> Commit `54505a1e2083`, `8084c99b9af6` and `bfdaf029c9c9` have style issues. The documentation says to use
-> `EXPORT_SYMBOL()` just after the closing bracket `}` of the function, it is exporting. In these commits `EXPORT
-> SYMBOL()`
-> is either defined at a point later or has been defined after leaving a blank line which is totally unneeded.
+ So something like:
 >
+>   void pci_read_config_word(struct pci_dev *dev, int where, u16 *val)
+>
+> and where we used to return anything non-zero, we just set *val = ~0
+> instead?  I think we do that already in most, maybe all, cases.
 
-Possibly, a new line is okay; I think we would some statistics on the 
-overall use of EXPORT_SYMBOL() to see if a new line is generally accepted 
-or if it is really a rare case (<3%) and checkpatch.pl should keep 
-warning about that.
- 
-> However, commits `dfd402a4c4ba` and `75d75b7a4d54` look fine to me and have one thing in common, the
-> `EXPORT_SYMBOL()` in these is used inside of a macro. checkpatch shouldn't warn about these.
-> 
+Right, this is what I had in mind. If we start by removing the handling
+of the return code in all files that clearly don't need it, looking at
+whatever remains will give a much better idea of what a good interface
+should be.
 
-That is probably tricky to handle with checkpatch.pl, though.
+>  git grep -E "(if|return|=).*\<pci_(read|write)_config" drivers
+> finds about 400 matches.
 
-> I have noticed checkpatch denoting wrong line numbers for certain files for several commits.
-> For example, for the above commit
-> `bfdaf029c9c9`, the following warning is issued:
-> 
-> WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-> #74: FILE: arch/ia64/lib/csum_partial_copy.c:122:
-> +EXPORT_SYMBOL(csum_and_copy_from_user);
-> 
-> but the file arch/ia64/lib/csum_partial_copy.c is only 113 lines long.
-> Please let me know if you can reproduce this.
+Right, and this is some 112 files to look at.
 
-Can you find out how the line number is computed?
+I had a slightly different regex, which found more false-positives, but
+also these:
 
-Of course, checkpatch.pl is running on the patch, not on any specific 
-file. So, in general, you really do not know how long the file was that 
-the author based the patch on.
+arch/x86/kernel/amd_nb.c:      : pci_read_config_dword(root, 0x64, value));
+drivers/i2c/busses/i2c-sis630.c:     pci_write_config_byte(sis630_dev,
+SIS630_BIOS_CTL_REG, b | 0x80)) {
+drivers/i2c/busses/i2c-viapro.c:     !pci_read_config_word(pdev,
+SMBBA2, &vt596_smba) &&
+drivers/ide/rz1000.c:     !pci_write_config_word(dev, 0x40, reg & 0xdfff)) {
+drivers/net/ethernet/realtek/r8169_main.c:
+pci_write_config_byte(pdev, 0x070f, val) == PCIBIOS_SUCCESSFUL)
+include/linux/rtsx_pci.h:#define rtsx_pci_read_config_dword(pcr,
+where, val) pci_read_config_dword((pcr)->pci, where, val)
+include/linux/rtsx_pci.h:#define rtsx_pci_write_config_dword(pcr,
+where, val) pci_write_config_dword((pcr)->pci, where, val)
+drivers/misc/cardreader/rts5261.c:              retval =
+rtsx_pci_read_config_dword(pcr,
+drivers/misc/cardreader/rts5261.c:      retval =
+rtsx_pci_write_config_dword(pcr, PCR_SETTING_REG2, lval);
 
-In our case, you need to check the state of the file at the commit above.
+That last one is interesting because I think this is a case in which we
+actually want to check for errors, as the driver seems to use it
+to ensure that accessing extended config space at offset 0x814
+works before relying on the value. Unfortunately the implementation
+seems buggy as it a) keeps using the possibly uninitialized value after
+printing a warning and b) returns the PCIBIOS_* value in place of a
+negative errno and then ignores it in the caller.
 
-I checked that and it seemed correct to me, line 122 refers to 
-EXPORT_SYMBOL. So, I do not see the bug here.
-
-
-
-Lukas
-
---8323329-459324118-1594791152=:13346
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+      Arnd
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---8323329-459324118-1594791152=:13346--
