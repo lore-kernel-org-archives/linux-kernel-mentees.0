@@ -2,112 +2,106 @@ Return-Path: <SRS0=x3JG=A3=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88741C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 08:19:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31CE2C433E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 16:21:28 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5593B2074B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 08:19:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5593B2074B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
+	by mail.kernel.org (Postfix) with ESMTPS id CC6D320739
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 16:21:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="Sid+fUx7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC6D320739
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3402B8949E;
-	Thu, 16 Jul 2020 08:19:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 94F6E898CE;
+	Thu, 16 Jul 2020 16:21:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id u6AGKofhPpNy; Thu, 16 Jul 2020 08:19:08 +0000 (UTC)
+	with ESMTP id f-rFI5oPaIHB; Thu, 16 Jul 2020 16:21:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9784589480;
-	Thu, 16 Jul 2020 08:19:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1324C89BD7;
+	Thu, 16 Jul 2020 16:21:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E594C07FF;
-	Thu, 16 Jul 2020 08:19:08 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DC5DDC0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F069DC07FF;
+	Thu, 16 Jul 2020 16:21:26 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D79BDC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 08:19:06 +0000 (UTC)
+ Thu, 16 Jul 2020 16:21:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CA265884AF
+ by whitealder.osuosl.org (Postfix) with ESMTP id BDB258A0B4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 08:18:49 +0000 (UTC)
+ Thu, 16 Jul 2020 16:21:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DAcvl3XHCU57
+ with ESMTP id tlZKFlWVSafa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 08:18:48 +0000 (UTC)
+ Thu, 16 Jul 2020 16:21:24 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A977187BDE
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+ [209.85.222.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id EBC908AE60
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 08:18:47 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-49-8A3qEGEvNG-fIwJc6vWVRQ-1; Thu, 16 Jul 2020 09:18:43 +0100
-X-MC-Unique: 8A3qEGEvNG-fIwJc6vWVRQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 16 Jul 2020 09:18:41 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Thu, 16 Jul 2020 09:18:41 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Bjorn Helgaas' <helgaas@kernel.org>
-Thread-Topic: [RFC PATCH 00/35] Move all PCIBIOS* definitions into arch/x86
-Thread-Index: AQHWWnPXll7fc/pDfESpF9qKWOuIcakIsKIAgABwtYCAALseUA==
-Date: Thu, 16 Jul 2020 08:18:41 +0000
-Message-ID: <f8022e41f3384d57a3802aafe8187e9a@AcuMS.aculab.com>
-References: <4c994d9a804b4a2c8555c50b63e20772@AcuMS.aculab.com>
- <20200715220135.GA563272@bjorn-Precision-5520>
-In-Reply-To: <20200715220135.GA563272@bjorn-Precision-5520>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ Thu, 16 Jul 2020 16:21:23 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id c139so6025458qkg.12
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 16 Jul 2020 09:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=massaru-org.20150623.gappssmtp.com; s=20150623;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=eVyKsGqcnTfmfgMXI8u61q0DyoLaoA7ADBPKDJXxDGI=;
+ b=Sid+fUx7JJp9lDCQ/ip2Q7z8EKoEUuhmbS8Y/EAimMtaVJ5FieLYEELLhGMAMiQWkx
+ HfDVTNkMwVvg4hvfQ19BuYQ2OQ4X71iMeVw0iyriGM/1aiedV1f0eyAzjNocWufgP6IY
+ zOf8DiqwN/IyuOzMKXGuLMV626s18HFSUSVfCFIAdDfZ64NSz70wh8nAC6Hxt70bimg1
+ LqZtmP+xzip5LMLtZgwigc9G5xSJMChtVzcFwfBHlwh3pJCcVx1HLOIqU3y8P9cwOcIq
+ FtTwr6ur5rj8lGXOZ3cQEhSWkfcXHGn/00jmHeSrYG3iRX8SuQqU8W+bLmVya7t8kI9A
+ CDuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=eVyKsGqcnTfmfgMXI8u61q0DyoLaoA7ADBPKDJXxDGI=;
+ b=fIgR9w2B++SWBAYLMf4oawDbSlD+WsUoMv94eSAdU9cO2yVUAWLkAGT1dIW3Fcc/HN
+ gwJ1iG8KnSL+U6yBbCA1K3UWE7fC8/CtXV44B+QlCY/LpF65wRNushrYgkHWiXGyYuf7
+ ZPh8V8t19abraYas3mm7S6kU4pqvqUeKSMJE1xaFPC69xYQRYJrZKKRdZwfiAFsqDxWd
+ BbPua+onKmge8FuWdFJ9xC7E6R3gi1/GtHs45BLTNGRTaTNJFyC3Sa23m6GH3r5Zguwv
+ sFA4e9sRMkqYSaiscoPY/TPS24b3i26bR0rQymizmSqTTyu0BwM3eg11JRQFf7S8pOaO
+ dIcg==
+X-Gm-Message-State: AOAM533U3RFb8PxVToZ7A0oSm6pawS599d3uh22cirWNe4rPdaD3u32k
+ zDuRMas4NftKpo0TPK9EPlkJpQ==
+X-Google-Smtp-Source: ABdhPJy6UOE3dKvVsKdH0AG9WQWTlh/rT4QaVC1wbblF8tnnqUsGB01aIihBqAVTYeBfYD8X663HVQ==
+X-Received: by 2002:a37:bd84:: with SMTP id n126mr4883951qkf.310.1594916482698; 
+ Thu, 16 Jul 2020 09:21:22 -0700 (PDT)
+Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
+ by smtp.gmail.com with ESMTPSA id o184sm8118760qkd.41.2020.07.16.09.21.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jul 2020 09:21:21 -0700 (PDT)
+Message-ID: <b89947c3216d1e59374672931edc2b14763fd81f.camel@massaru.org>
+From: Vitor Massaru Iha <vitor@massaru.org>
+To: David Gow <davidgow@google.com>
+Date: Thu, 16 Jul 2020 13:21:17 -0300
+In-Reply-To: <CABVgOSkBAiMSMzCx62_CRo_0e2SGdvRWZ0dSC4t628YJBw-3Aw@mail.gmail.com>
+References: <20200715031120.1002016-1-vitor@massaru.org>
+ <CABVgOSkBAiMSMzCx62_CRo_0e2SGdvRWZ0dSC4t628YJBw-3Aw@mail.gmail.com>
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Keith Busch <kbusch@kernel.org>, Paul Mackerras <paulus@samba.org>,
- sparclinux <sparclinux@vger.kernel.org>, Toan Le <toan@os.amperecomputing.com>,
- Kjetil Oftedal <oftedal@gmail.com>, Greg Ungerer <gerg@linux-m68k.org>,
- Marek Vasut <marek.vasut+renesas@gmail.com>, Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Sagi Grimberg <sagi@grimberg.me>, Michael Ellerman <mpe@ellerman.id.au>,
- Russell King <linux@armlinux.org.uk>, Ley Foon Tan <ley.foon.tan@intel.com>,
- Christoph Hellwig <hch@lst.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Kevin Hilman <khilman@baylibre.com>, linux-pci <linux-pci@vger.kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Matt Turner <mattst88@gmail.com>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>, 'Arnd Bergmann' <arnd@arndb.de>,
- Ray Jui <rjui@broadcom.com>, Jens Axboe <axboe@fb.com>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, Richard
- Henderson <rth@twiddle.net>, Juergen Gross <jgross@suse.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Scott Branden <sbranden@broadcom.com>, Jingoo Han <jingoohan1@gmail.com>,
- "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, "David S.
- Miller" <davem@davemloft.net>, Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [RFC PATCH 00/35] Move all PCIBIOS*
-	definitions into arch/x86
+Cc: Kees Cook <keescook@chromium.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "open list:KERNEL
+ SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [RFC 0/3] kunit: add support to use
+	modules
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,59 +119,54 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Bjorn Helgaas
-> Sent: 15 July 2020 23:02
+On Wed, 2020-07-15 at 11:47 +0800, David Gow wrote:
+> On Wed, Jul 15, 2020 at 11:11 AM Vitor Massaru Iha <vitor@massaru.org
+> > wrote:
+> > Currently, KUnit does not allow the use of tests as a module.
+> > This prevents the implementation of tests that require userspace.
 > 
-> On Wed, Jul 15, 2020 at 02:24:21PM +0000, David Laight wrote:
-> > From: Arnd Bergmann
-> > > Sent: 15 July 2020 07:47
-> > > On Wed, Jul 15, 2020 at 1:46 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > >
-> > >  So something like:
-> > > >
-> > > >   void pci_read_config_word(struct pci_dev *dev, int where, u16 *val)
-> > > >
-> > > > and where we used to return anything non-zero, we just set *val = ~0
-> > > > instead?  I think we do that already in most, maybe all, cases.
-> > >
-> > > Right, this is what I had in mind. If we start by removing the handling
-> > > of the return code in all files that clearly don't need it, looking at
-> > > whatever remains will give a much better idea of what a good interface
-> > > should be.
-> >
-> > It would be best to get rid of that nasty 'u16 *' parameter.
+> If this is what I think it is, thanks! I'll hopefully get a chance to
+> play with it over the next few days.
 > 
-> Do you mean nasty because it's basically a return value, but not
-> returned as the *function's* return value?  I agree that if we were
-> starting from scratch it would nicer to have:
+> Can we clarify what this means: the current description is a little
+> misleading, as KUnit tests can already be built and run as modules,
+> and "tests that require userspace" is a bit broad.
 > 
->   u16 pci_read_config_word(struct pci_dev *dev, int where)
+> As I understand it, this patchset does three things:
+> - Let kunit_tool install modules to a root filesystem and boot UML
+> with that filesystem.
+> - Have tests inherit the mm of the process that started them, which
+> (if the test is in a module), provides a user-space memory context so
+> that copy_{from,to}_user() works.
+> - Port the test_user_copy.c tests to KUnit, using this new feature.
 > 
-> but I don't think it's worth changing the thousands of callers just
-> for that.
+> A few comments from my quick glance over it:
+> - The rootfs support is useful: I'm curious how it'll interact with
+> non-UML architectures in [1]. It'd be nice for this to be extensible
+> and to not explicitly state UML where possible.
 
-It'll shrink the kernel text size somewhat.
-It could also be 'fixed' with a static inline.
+Hm, I didn't think about other architectures. Which ones are you
+thinking ?
 
-Actually you don't even want the result to be u16.
-Even though the domain of the value is 0..65535 keeping
-the type as int (or unsigned int) will save the compiler
-having to generate lots of masking instructions.
+> - The inheriting of the mm stuff still means that
+> copy_{from,to}_user() will only work if loaded as a module. This
+> really needs to be documented. (Ideally, we'd find a way of having
+> this work even for built-in tests, but I don't have any real ideas as
+> to how that could be done).
 
-Code performance here will be overwhelmed by the time taken
-for the config space access.
-But more generally all local variables should really be
-the size of cpu registers.
+Sure, I'll write the documentation.
 
-On x86-64 you need to use 'unsigned int' for anything used
-as array subscripts to avoid the 'sign extend' instructions.
-In some code paths it may matter...
+> - It'd be nice to split the test_user_copy.c test port into a
+> separate
+> commit. In fact, it may make sense to also split the kunit_tool
+> changes and the mm changes into separate series, as they're both
+> quite
+> useful independently.
+> 
 
-	David
+I'll do it.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Thanks for the review.
 
 _______________________________________________
 Linux-kernel-mentees mailing list
