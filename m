@@ -7,93 +7,94 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51AF5C433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 16:34:45 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E69C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 16:35:24 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 22A0B20739
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 16:34:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2B3912065E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 16:35:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="kA8Qup/s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 22A0B20739
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="farj/N/v"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2B3912065E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id EA4B026FEB;
-	Thu, 16 Jul 2020 16:34:44 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lHBaq8sTIdAC; Thu, 16 Jul 2020 16:34:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9D4E726E9E;
-	Thu, 16 Jul 2020 16:34:41 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 85258C07FF;
-	Thu, 16 Jul 2020 16:34:41 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 01662C0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 16:34:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EE00588FAF
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 16:34:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D85E588FD0;
+	Thu, 16 Jul 2020 16:35:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fsmcluVglme8; Thu, 16 Jul 2020 16:35:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C5E1B88ECA;
+	Thu, 16 Jul 2020 16:35:22 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3D80C07FF;
+	Thu, 16 Jul 2020 16:35:22 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B57EBC0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 16 Jul 2020 16:35:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id A4F358AA83
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 16 Jul 2020 16:35:21 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5Y7FzluIvLTd
+ with ESMTP id 8LhyVJ-AWDhA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 16:34:38 +0000 (UTC)
+ Thu, 16 Jul 2020 16:35:21 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
- [209.85.160.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 884CB88ECA
+Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com
+ [209.85.219.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DCE6F8AB54
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 16:34:38 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id x62so5364651qtd.3
+ Thu, 16 Jul 2020 16:35:20 +0000 (UTC)
+Received: by mail-qv1-f65.google.com with SMTP id dm12so2982914qvb.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 09:34:38 -0700 (PDT)
+ Thu, 16 Jul 2020 09:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=message-id:subject:from:to:cc:date:in-reply-to:references
  :user-agent:mime-version:content-transfer-encoding;
- bh=lwyaXUfqacdPlpyLu1Ttlgin1z8vmVU0cbnn1bX1Rnk=;
- b=kA8Qup/sWomuaFxIOO6vCCpH5mdq609XlQjKi+LNUueO9HuwKKxGC6ycKuLw6fyBol
- wLx/xqa9aMw+Tb7zPDMr5CkoFvIeqIHuHXotI12d5aP5Jv3a2vGPhs4TdlHks0ze8BIk
- D73euv0PW5AdyXr6+vuojhzPupja4OdU04meNo4eYNulJUulyDt30xoZmgJQKP3fuwdl
- ckeUGwqX5J5Doo1wqfcBh0X6fmTPFPXya51SkViydOnIMXKc0c4Ulr4KRra+sxipelnl
- wOfwChHf31VjNweNSbiBoC1DpA+NEN0weXQTB7lbjc4bg9Rv917i1rn7btn4LLBy5rpG
- 16RA==
+ bh=fNLVxbryOFz0P4iYYN4nq5tJAfgthGwNwlN4AMKfx5s=;
+ b=farj/N/v+ww/83TMrMdBjmvadr5J8dJu08GDa5Tve6Cw2sMPHNaIVTcHH0ZFEV5Kwi
+ NiY2D1Xt8uErC7YPv3kQC3PYDE+gwdKrJ3ApxcyQRSaOYXO/qJ+F/3mQXuS4533nh0cd
+ CqcEznH6H2jGjttpN0nwhYp/vK6gjEhSQ/a9Oa41IlFPOaVxX09ev84NgIYKEqGfBQjN
+ 2sfhwOFwfdkryZ8q66d4MsB4adXy+0a+VLB51dDnO7M7+ZtBBOhD24vmB4rDE760G7SI
+ xqALJZLkbyjkz4BesCT5g/br60aItZRF4KnT16fHXN2oNCeMyy8e2n5U2tWOPWuiytxP
+ 9dcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:user-agent:mime-version:content-transfer-encoding;
- bh=lwyaXUfqacdPlpyLu1Ttlgin1z8vmVU0cbnn1bX1Rnk=;
- b=rATcOb/NTasFpO2Vppvd3ldEudlWzmHWGRrMWnLr+cIk9dvRNs63h8r1V10zf4j2NR
- Y4xlQgkVMW2uapMcXggK/u2rm13WXF8dKAh6oyzmcABKPEPQu1r7O39w3ILUbUrAyzf3
- oakvAK+UAgY+/kEPEBYzfuQ13TW3L7mNnOS//wjbLIR91gt92DYr3QvtjY5lISmTE1f9
- V4dIcvLF8oqIEDmkx84OrfTfm4NWhL+HBr30N9K8TfWZARLi20wF4dhcPfPkbvDAFQeU
- zveUUQZ//UqM+m8Qhr0VEFfqHZ4IZkBY3Hsj5wKAIQdGpe0abDsJkRW6UskGjgtB58uw
- 9DSg==
-X-Gm-Message-State: AOAM532CeeR6OXyLGef2k/56H1nalK1xg221ES7KXBUylzIGLwkZAp10
- wd3DV0/86EzuMquJqpKp1wnGiw==
-X-Google-Smtp-Source: ABdhPJxGLZF555OxEgKFP56c+hng7TNo5R9fG9j2yBMIKe8pI7zjOTXywADBomVaByLYnnx74FbIxQ==
-X-Received: by 2002:ac8:c7:: with SMTP id d7mr6014106qtg.235.1594917277209;
- Thu, 16 Jul 2020 09:34:37 -0700 (PDT)
+ bh=fNLVxbryOFz0P4iYYN4nq5tJAfgthGwNwlN4AMKfx5s=;
+ b=MhO4pbikxPp4TKUGXXTgLaRFhtjyUMHXkoIVwlwrrbjArhkaEMyaYpIDqcfHxUNtDf
+ wpd3jiUHxlI5//fomWHbG7i1OTs2UwSCqr4cIfvgcSHorcUlFuNKKFGlX7yuErk/duo0
+ la1Bjlil5N5PW2I8I1jvTsKI5AfI2L0t9fkA79V+qVyizYebztHw6fKidrbDRgCrs+Yi
+ KqSRVnWxDzdp9+CBB9+Y+CTY6q9MQLwI6eYqNg3HESPPFA7LBrZLCVTvtKT4cDjis6Z2
+ sJ36VKhlDLdRWNKemyVKn5LFkaOdslTk4wpsopu03F2BNqp0x52ExYwbfy0X/Yg+de6v
+ wheQ==
+X-Gm-Message-State: AOAM531xtKPfiOX9fa/jQ1/AqEmJ6aMjwYyQ+eEJ42xlEMe2g5zKMMeS
+ qBWVBHOoYdEAkw8/fNIUuiMKcA==
+X-Google-Smtp-Source: ABdhPJwLiVWEhyy9wE5hXwCJKWEklBwb1sYkeUh8lfEwZJQowdISUQsLFJ8anNvNV9YuVvNhuv80nA==
+X-Received: by 2002:a05:6214:851:: with SMTP id
+ dg17mr5157555qvb.235.1594917319752; 
+ Thu, 16 Jul 2020 09:35:19 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id l202sm7554664qke.109.2020.07.16.09.34.32
+ by smtp.gmail.com with ESMTPSA id l5sm8264754qtd.37.2020.07.16.09.35.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 09:34:34 -0700 (PDT)
-Message-ID: <e73d3e69ca55f5281f23802fb76e2e0a406305ed.camel@massaru.org>
+ Thu, 16 Jul 2020 09:35:18 -0700 (PDT)
+Message-ID: <a1221f11e7ab6926dcca8b4cabfa4ef6dfecf654.camel@massaru.org>
 From: Vitor Massaru Iha <vitor@massaru.org>
 To: Brendan Higgins <brendanhiggins@google.com>
-Date: Thu, 16 Jul 2020 13:34:31 -0300
-In-Reply-To: <CAFd5g47v87+aNyxUfsJna0qQUF5sr_2COcz5JXkfxe9s8kha5w@mail.gmail.com>
+Date: Thu, 16 Jul 2020 13:35:14 -0300
+In-Reply-To: <CAFd5g47HPGjX4AYuBCjH8DqSUMNO+yqjudWH+ZNovStM+aXExA@mail.gmail.com>
 References: <20200715031120.1002016-1-vitor@massaru.org>
- <20200715031120.1002016-2-vitor@massaru.org>
- <CAFd5g47v87+aNyxUfsJna0qQUF5sr_2COcz5JXkfxe9s8kha5w@mail.gmail.com>
+ <20200715031120.1002016-3-vitor@massaru.org>
+ <CAFd5g47HPGjX4AYuBCjH8DqSUMNO+yqjudWH+ZNovStM+aXExA@mail.gmail.com>
 User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
 Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
@@ -102,8 +103,8 @@ Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
  David Gow <davidgow@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [RFC 1/3] kunit: tool: Add support root
-	filesystem in kunit-tool
+Subject: Re: [Linux-kernel-mentees] [RFC 2/3] lib: Allows to borrow mm in
+	userspace on KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,452 +122,91 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 2020-07-15 at 17:29 -0700, 'Brendan Higgins' via KUnit
-Development wrote:
+On Wed, 2020-07-15 at 17:37 -0700, Brendan Higgins wrote:
 > On Tue, Jul 14, 2020 at 8:11 PM Vitor Massaru Iha <vitor@massaru.org>
 > wrote:
-> > This makes it possible to use KUnit tests as modules.
-> > And with that the tests can run in userspace.
-> > 
-> > The filesystem was created using debootstrap:
-> >    sudo debootstrap buster buster_rootfs
-> > 
-> > And change the owner of the root filesystem files
-> > for your user:
-> >    sudo chown -R $USER:$USER buster_rootfs
 > 
-> Probably want to add this to the documentation for KUnit.
+> Probably want to add more of a description here as what you are doing
+> is not entirely trivial to someone not familiar with mm contexts.
 > 
-> > For the kunit-tool to correctly capture the test results,
-> > uml_utilities must be installed on the host to halt uml.
-> > 
 > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> 
-> Overall this looks really good! I am really excited to see this!
-> 
-> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-> 
 > > ---
-> >  tools/testing/kunit/kunit.py        |  37 ++++++++--
-> >  tools/testing/kunit/kunit_kernel.py | 105
-> > ++++++++++++++++++++++++----
-> >  2 files changed, 121 insertions(+), 21 deletions(-)
+> >  include/kunit/test.h  |  1 +
+> >  lib/kunit/try-catch.c | 15 ++++++++++++++-
+> >  2 files changed, 15 insertions(+), 1 deletion(-)
 > > 
-> > diff --git a/tools/testing/kunit/kunit.py
-> > b/tools/testing/kunit/kunit.py
-> > index 787b6d4ad716..6d8ba0215b90 100755
-> > --- a/tools/testing/kunit/kunit.py
-> > +++ b/tools/testing/kunit/kunit.py
-> > @@ -23,16 +23,16 @@ import kunit_parser
-> >  KunitResult = namedtuple('KunitResult',
-> > ['status','result','elapsed_time'])
+> > diff --git a/include/kunit/test.h b/include/kunit/test.h
+> > index 59f3144f009a..49c38bdcb93e 100644
+> > --- a/include/kunit/test.h
+> > +++ b/include/kunit/test.h
+> > @@ -222,6 +222,7 @@ struct kunit {
+> >          * protect it with some type of lock.
+> >          */
+> >         struct list_head resources; /* Protected by lock. */
+> > +       struct mm_struct *mm;
+> 
+> Part of me thinks we should put a better name here, part of me thinks
+> it is fine because it matches the convention.
+> 
+> Either way, this DEFINITELY deserves a comment explaining what it is,
+> why it exists, and how it should/shouldn't be used.
+> 
+> >  };
 > > 
-> >  KunitConfigRequest = namedtuple('KunitConfigRequest',
-> > -                               ['build_dir', 'make_options'])
-> > +                               ['build_dir', 'uml_root_dir',
-> > 'make_options'])
-> >  KunitBuildRequest = namedtuple('KunitBuildRequest',
-> > -                              ['jobs', 'build_dir', 'alltests',
-> > +                              ['jobs', 'build_dir',
-> > 'uml_root_dir', 'alltests',
-> >                                 'make_options'])
-> >  KunitExecRequest = namedtuple('KunitExecRequest',
-> > -                             ['timeout', 'build_dir', 'alltests'])
-> > +                             ['timeout', 'build_dir',
-> > 'uml_root_dir', 'alltests'])
-> >  KunitParseRequest = namedtuple('KunitParseRequest',
-> >                                ['raw_output', 'input_data'])
-> >  KunitRequest = namedtuple('KunitRequest', ['raw_output','timeout',
-> > 'jobs',
-> > -                                          'build_dir', 'alltests',
-> > +                                          'build_dir',
-> > 'uml_root_dir', 'alltests',
-> >                                            'make_options'])
-> > 
-> >  KernelDirectoryPath = sys.argv[0].split('tools/testing/kunit/')[0]
-> > @@ -47,7 +47,6 @@ def create_default_kunitconfig():
-> >         if not os.path.exists(kunit_kernel.kunitconfig_path):
-> >                 shutil.copyfile('arch/um/configs/kunit_defconfig',
-> >                                 kunit_kernel.kunitconfig_path)
+> >  void kunit_init_test(struct kunit *test, const char *name, char
+> > *log);
+> > diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
+> > index 0dd434e40487..f677c2f2a51a 100644
+> > --- a/lib/kunit/try-catch.c
+> > +++ b/lib/kunit/try-catch.c
+> > @@ -11,7 +11,8 @@
+> >  #include <linux/completion.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/kthread.h>
 > > -
-> >  def get_kernel_root_path():
-> >         parts = sys.argv[0] if not __file__ else __file__
-> >         parts =
-> > os.path.realpath(parts).split('tools/testing/kunit')
-> > @@ -58,10 +57,22 @@ def get_kernel_root_path():
-> >  def config_tests(linux: kunit_kernel.LinuxSourceTree,
-> >                  request: KunitConfigRequest) -> KunitResult:
-> >         kunit_parser.print_with_timestamp('Configuring KUnit Kernel
-> > ...')
-> > +       defconfig = False
+> > +#include <linux/sched/mm.h>
+> > +#include <linux/sched/task.h>
+> >  #include "try-catch-impl.h"
 > > 
-> >         config_start = time.time()
-> >         create_default_kunitconfig()
-> > -       success = linux.build_reconfig(request.build_dir,
-> > request.make_options)
+> >  void __noreturn kunit_try_catch_throw(struct kunit_try_catch
+> > *try_catch)
+> > @@ -24,8 +25,17 @@ EXPORT_SYMBOL_GPL(kunit_try_catch_throw);
+> >  static int kunit_generic_run_threadfn_adapter(void *data)
+> >  {
+> >         struct kunit_try_catch *try_catch = data;
+> > +       struct kunit *test = try_catch->test;
 > > +
-> > +       if request.uml_root_dir != None:
-> > +               if os.path.exists(request.uml_root_dir):
-> > +                       kunit_kernel.uml_root_path =
-> > os.path.abspath(request.uml_root_dir)
-> > +                       defconfig = True
-> > +               else:
-> > +                       config_end = time.time()
-> > +                       return
-> > KunitResult(KunitStatus.CONFIG_FAILURE,
-> > +                                       'could not configure
-> > kernel',
-> > +                                       config_end - config_start)
-> > +
-> > +       success = linux.build_reconfig(request.build_dir,
-> > defconfig, request.make_options)
-> >         config_end = time.time()
-> >         if not success:
-> >                 return KunitResult(KunitStatus.CONFIG_FAILURE,
-> > @@ -79,6 +90,7 @@ def build_tests(linux:
-> > kunit_kernel.LinuxSourceTree,
-> >         success = linux.build_um_kernel(request.alltests,
-> >                                         request.jobs,
-> >                                         request.build_dir,
-> > +                                       request.uml_root_dir,
-> >                                         request.make_options)
-> >         build_end = time.time()
-> >         if not success:
-> > @@ -97,7 +109,7 @@ def exec_tests(linux:
-> > kunit_kernel.LinuxSourceTree,
-> >         test_start = time.time()
-> >         result = linux.run_kernel(
-> >                 timeout=None if request.alltests else
-> > request.timeout,
-> > -               build_dir=request.build_dir)
-> > +               build_dir=request.build_dir,
-> > uml_root_dir=request.uml_root_dir)
+> > +       if (test->mm != NULL)
+> > +               kthread_use_mm(try_catch->test->mm);
 > > 
-> >         test_end = time.time()
-> > 
-> > @@ -130,12 +142,14 @@ def run_tests(linux:
-> > kunit_kernel.LinuxSourceTree,
-> >         run_start = time.time()
-> > 
-> >         config_request = KunitConfigRequest(request.build_dir,
-> > +                                           request.uml_root_dir,
-> >                                             request.make_options)
-> >         config_result = config_tests(linux, config_request)
-> >         if config_result.status != KunitStatus.SUCCESS:
-> >                 return config_result
-> > 
-> >         build_request = KunitBuildRequest(request.jobs,
-> > request.build_dir,
-> > +                                         request.uml_root_dir,
-> >                                           request.alltests,
-> >                                           request.make_options)
-> >         build_result = build_tests(linux, build_request)
-> > @@ -143,6 +157,7 @@ def run_tests(linux:
-> > kunit_kernel.LinuxSourceTree,
-> >                 return build_result
-> > 
-> >         exec_request = KunitExecRequest(request.timeout,
-> > request.build_dir,
-> > +                                       request.uml_root_dir,
-> >                                         request.alltests)
-> >         exec_result = exec_tests(linux, exec_request)
-> >         if exec_result.status != KunitStatus.SUCCESS:
-> > @@ -168,6 +183,10 @@ def add_common_opts(parser):
-> >                             help='As in the make command, it
-> > specifies the build '
-> >                             'directory.',
-> >                              type=str, default='.kunit',
-> > metavar='build_dir')
-> > +       parser.add_argument('--uml_root_dir',
-> > +                           help='To load modules, a root
-> > filesystem is '
-> > +                           'required to install and load these
-> > modules.',
-> > +                            type=str, default=None,
-> > metavar='uml_root_dir')
-> >         parser.add_argument('--make_options',
-> >                             help='X=Y make option, can be
-> > repeated.',
-> >                             action='append')
-> > @@ -252,6 +271,7 @@ def main(argv, linux=None):
-> >                                        cli_args.timeout,
-> >                                        cli_args.jobs,
-> >                                        cli_args.build_dir,
-> > +                                      cli_args.uml_root_dir,
-> >                                        cli_args.alltests,
-> >                                        cli_args.make_options)
-> >                 result = run_tests(linux, request)
-> > @@ -272,6 +292,7 @@ def main(argv, linux=None):
-> >                         linux = kunit_kernel.LinuxSourceTree()
-> > 
-> >                 request = KunitConfigRequest(cli_args.build_dir,
-> > +                                            cli_args.uml_root_dir,
-> >                                              cli_args.make_options)
-> >                 result = config_tests(linux, request)
-> >                 kunit_parser.print_with_timestamp((
-> > @@ -295,6 +316,7 @@ def main(argv, linux=None):
-> > 
-> >                 request = KunitBuildRequest(cli_args.jobs,
-> >                                             cli_args.build_dir,
-> > +                                           cli_args.uml_root_dir,
-> >                                             cli_args.alltests,
-> >                                             cli_args.make_options)
-> >                 result = build_tests(linux, request)
-> > @@ -319,6 +341,7 @@ def main(argv, linux=None):
-> > 
-> >                 exec_request = KunitExecRequest(cli_args.timeout,
-> >                                                 cli_args.build_dir,
-> > +                                               cli_args.uml_root_d
-> > ir,
-> >                                                 cli_args.alltests)
-> >                 exec_result = exec_tests(linux, exec_request)
-> >                 parse_request =
-> > KunitParseRequest(cli_args.raw_output,
-> > diff --git a/tools/testing/kunit/kunit_kernel.py
-> > b/tools/testing/kunit/kunit_kernel.py
-> > index 63dbda2d029f..d712f4619eaa 100644
-> > --- a/tools/testing/kunit/kunit_kernel.py
-> > +++ b/tools/testing/kunit/kunit_kernel.py
-> > @@ -11,6 +11,7 @@ import logging
-> >  import subprocess
-> >  import os
-> >  import signal
-> > +import time
-> > 
-> >  from contextlib import ExitStack
-> > 
-> > @@ -19,7 +20,59 @@ import kunit_parser
-> > 
-> >  KCONFIG_PATH = '.config'
-> >  kunitconfig_path = '.kunitconfig'
-> > +X86_64_DEFCONFIG_PATH = 'arch/um/configs/x86_64_defconfig'
-> >  BROKEN_ALLCONFIG_PATH =
-> > 'tools/testing/kunit/configs/broken_on_uml.config'
-> > +uml_root_path = None
+> >         try_catch->try(try_catch->context);
+> > +       if (try_catch->test->mm) {
 > 
-> nit: I don't like global variables. Can we just pass this in or store
-> it in a data structure. The above are all constants.
+> Here and below: You already have a pointer to test. You should use
+> it.
 > 
-> > +
-> > +make_cmd = {
-> 
-> This looks like a constant. Please capitalize it.
-> 
-> > +       'make': {
-> > +               'command': ['make', 'ARCH=um'],
-> > +               'msg_error': 'Could not call execute make: ',
-> > +       },
-> > +       'make_modules': {
-> > +               'command': ['make', 'modules', 'ARCH=um'],
-> > +               'msg_error': 'Could not call execute make modules:
-> > ',
-> > +       },
-> > +       'make_modules_install': {
-> > +               'command': ['make', 'modules_install', 'ARCH=um'],
-> > +               'msg_error': 'Could not call execute make
-> > modules_install: ',
+> > +               if (test->mm != NULL)
+> > +                       kthread_unuse_mm(try_catch->test->mm);
+> > +               try_catch->test->mm = NULL;
 > > +       }
-> > +}
 > > 
-> > +def halt_uml():
-> > +       try:
-> > +               subprocess.call(['uml_mconsole', 'kunitid',
-> > 'halt'])
-> > +       except OSError as e:
-> > +               raise ConfigError('Could not call uml_mconsole ' +
-> > e)
-> > +       except subprocess.CalledProcessError as e:
-> > +                       raise ConfigError(e.output)
+> >         complete_and_exit(try_catch->try_completion, 0);
+> >  }
+> > @@ -65,6 +75,9 @@ void kunit_try_catch_run(struct kunit_try_catch
+> > *try_catch, void *context)
+> >         try_catch->context = context;
+> >         try_catch->try_completion = &try_completion;
+> >         try_catch->try_result = 0;
 > > +
+> > +       test->mm = get_task_mm(current);
 > > +
-> > +def enable_uml_modules_on_boot(output_command):
-> > +       uml_modules_path = None
-> > +       found_kernel_version = False
-> > +       modules = []
-> > +       for i in output_command.decode('utf-8').split():
-> > +               if found_kernel_version:
-> > +                       kernel_version = i
-> > +                       uml_modules_path =
-> > os.path.join(uml_root_path,
-> > +                             'lib/modules/', kernel_version,
-> > 'kernel/lib/')
-> > +                       break
-> > +               if 'DEPMOD' in i:
-> > +                       found_kernel_version = True
-> > +
-> > +       try:
-> > +               if os.path.exists(uml_modules_path):
-> > +                       modules = subprocess.check_output(['ls',
-> > +                                           uml_modules_path]).deco
-> > de('utf-8').split()
-> > +       except OSError as e:
-> > +               raise ConfigError('Could not list directory ' + e)
-> > +       except subprocess.CalledProcessError as e:
-> > +                       raise ConfigError(e.output)
-> > +
-> > +       with open(os.path.join(uml_root_path, 'etc/modules'), 'w')
-> > as f:
-> > +               for i in modules:
-> > +                       f.write(i.replace('.ko', ''))
-> > 
-> >  class ConfigError(Exception):
-> >         """Represents an error trying to configure the Linux
-> > kernel."""
-> > @@ -70,20 +123,27 @@ class LinuxSourceTreeOperations(object):
-> >                 kunit_parser.print_with_timestamp(
-> >                         'Starting Kernel with all configs takes a
-> > few minutes...')
-> > 
-> > -       def make(self, jobs, build_dir, make_options):
-> > -               command = ['make', 'ARCH=um', '--jobs=' +
-> > str(jobs)]
-> > +       def make(self, cmd, jobs, build_dir, make_options):
-> > +               command = make_cmd[cmd]['command'] + ['--jobs=' +
-> > str(jobs)]
-> > +
-> >                 if make_options:
-> >                         command.extend(make_options)
-> >                 if build_dir:
-> >                         command += ['O=' + build_dir]
-> > +
-> > +               if cmd == 'make_modules_install':
-> > +                       command += ['INSTALL_MOD_PATH=' +
-> > uml_root_path]
-> > +
-> >                 try:
-> > -                       subprocess.check_output(command)
-> > +                       output = subprocess.check_output(command)
-> > +                       if cmd == 'make_modules_install':
-> > +                                enable_uml_modules_on_boot(output)
-> >                 except OSError as e:
-> > -                       raise BuildError('Could not call execute
-> > make: ' + e)
-> > +                       raise BuildError(make_cmd[cmd][msg_error] +
-> > e)
-> >                 except subprocess.CalledProcessError as e:
-> >                         raise BuildError(e.output)
-> > 
-> > -       def linux_bin(self, params, timeout, build_dir, outfile):
-> > +       def linux_bin(self, params, timeout, build_dir,
-> > uml_root_dir, outfile):
-> >                 """Runs the Linux UML binary. Must be named
-> > 'linux'."""
-> >                 linux_bin = './linux'
-> >                 if build_dir:
-> > @@ -92,7 +152,11 @@ class LinuxSourceTreeOperations(object):
-> >                         process = subprocess.Popen([linux_bin] +
-> > params,
-> >                                                    stdout=output,
-> >                                                    stderr=subproces
-> > s.STDOUT)
-> > -                       process.wait(timeout)
-> > +                       if uml_root_dir:
-> > +                               time.sleep(timeout)
-> > +                               halt_uml()
-> > +                       else:
-> > +                               process.wait(timeout)
-> > 
-> > 
-> >  def get_kconfig_path(build_dir):
-> > @@ -132,11 +196,16 @@ class LinuxSourceTree(object):
-> >                         return False
-> >                 return True
-> > 
-> > -       def build_config(self, build_dir, make_options):
-> > +       def build_config(self, build_dir, defconfig, make_options):
-> >                 kconfig_path = get_kconfig_path(build_dir)
-> >                 if build_dir and not os.path.exists(build_dir):
-> >                         os.mkdir(build_dir)
-> >                 self._kconfig.write_to_file(kconfig_path)
-> > +
-> > +               if defconfig:
-> > +                       with open(kconfig_path, 'a')  as fw:
-> > +                               with open(X86_64_DEFCONFIG_PATH,
-> > 'r') as fr:
-> > +                                       fw.write(fr.read())
-> >                 try:
-> >                         self._ops.make_olddefconfig(build_dir,
-> > make_options)
-> >                 except ConfigError as e:
-> > @@ -144,7 +213,7 @@ class LinuxSourceTree(object):
-> >                         return False
-> >                 return self.validate_config(build_dir)
-> > 
-> > -       def build_reconfig(self, build_dir, make_options):
-> > +       def build_reconfig(self, build_dir, defconfig,
-> > make_options):
-> >                 """Creates a new .config if it is not a subset of
-> > the .kunitconfig."""
-> >                 kconfig_path = get_kconfig_path(build_dir)
-> >                 if os.path.exists(kconfig_path):
-> > @@ -153,28 +222,36 @@ class LinuxSourceTree(object):
-> >                         if not
-> > self._kconfig.is_subset_of(existing_kconfig):
-> >                                 print('Regenerating .config ...')
-> >                                 os.remove(kconfig_path)
-> > -                               return self.build_config(build_dir,
-> > make_options)
-> > +                               return self.build_config(build_dir,
-> > defconfig, make_options)
-> >                         else:
-> >                                 return True
-> >                 else:
-> >                         print('Generating .config ...')
-> > -                       return self.build_config(build_dir,
-> > make_options)
-> > +                       return self.build_config(build_dir,
-> > defconfig, make_options)
-> > 
-> > -       def build_um_kernel(self, alltests, jobs, build_dir,
-> > make_options):
-> > +       def build_um_kernel(self, alltests, jobs, build_dir,
-> > uml_root_dir, make_options):
-> >                 if alltests:
-> >                         self._ops.make_allyesconfig()
-> >                 try:
-> >                         self._ops.make_olddefconfig(build_dir,
-> > make_options)
-> > -                       self._ops.make(jobs, build_dir,
-> > make_options)
-> > +                       self._ops.make('make', jobs, build_dir,
-> > make_options)
-> > +                       if uml_root_dir:
-> > +                               self._ops.make('make_modules',
-> > jobs, build_dir,
-> > +                                               make_options)
-> > +                               self._ops.make('make_modules_instal
-> > l', jobs,
-> > +                                               build_dir,
-> > make_options)
-> >                 except (ConfigError, BuildError) as e:
-> >                         logging.error(e)
-> >                         return False
-> >                 return self.validate_config(build_dir)
-> > 
-> > -       def run_kernel(self, args=[], build_dir='', timeout=None):
-> > +       def run_kernel(self, args=[], build_dir='',
-> > uml_root_dir=None, timeout=None):
-> >                 args.extend(['mem=1G'])
-> > +               if uml_root_dir:
-> > +                       args.extend(['root=/dev/root',
-> > 'rootfstype=hostfs',
-> > +                                    'rootflags=' + uml_root_path,
-> > 'umid=kunitid'])
-> >                 outfile = 'test.log'
-> > -               self._ops.linux_bin(args, timeout, build_dir,
-> > outfile)
-> > +               self._ops.linux_bin(args, timeout, build_dir,
-> > uml_root_dir, outfile)
-> >                 subprocess.call(['stty', 'sane'])
-> >                 with open(outfile, 'r') as file:
-> >                         for line in file:
+> >         task_struct =
+> > kthread_run(kunit_generic_run_threadfn_adapter,
+> >                                   try_catch,
+> >                                   "kunit_try_catch_thread");
 > > --
 > > 2.26.2
 > > 
-
-I'll fix all comments.
-
-Thanks for the review.
 
 _______________________________________________
 Linux-kernel-mentees mailing list
