@@ -7,100 +7,157 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F9BC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 16:42:29 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 166C7C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 18:09:01 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A74D12065E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 16:42:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CEF6E2070E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 18:09:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="l4b5Hqho"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A74D12065E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="YBM9UiG4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CEF6E2070E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 573B1876A1;
-	Thu, 16 Jul 2020 16:42:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wgNook94h0kW; Thu, 16 Jul 2020 16:42:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C445487694;
-	Thu, 16 Jul 2020 16:42:28 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C032EC07FF;
-	Thu, 16 Jul 2020 16:42:28 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 030DFC0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 16:42:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E16972039E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 16:42:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 87F7D20407;
+	Thu, 16 Jul 2020 18:09:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id l5Hxg30Vk1cH; Thu, 16 Jul 2020 18:08:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id BD1A6203DC;
+	Thu, 16 Jul 2020 18:08:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3052C07FF;
+	Thu, 16 Jul 2020 18:08:58 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 273B5C0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 16 Jul 2020 18:08:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 15ED18B1B9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 16 Jul 2020 18:08:57 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1RzgjmQ0HwSe
+ with ESMTP id 8jeJaB9K3mmK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 16:42:25 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
- [209.85.219.67])
- by silver.osuosl.org (Postfix) with ESMTPS id 419D82038A
+ Thu, 16 Jul 2020 18:08:56 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 39D508B1AC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 16:42:25 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id el4so2970944qvb.13
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 09:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=LMlqxALUY61jlVk3BUiDy9VLg6DTugrK02O4xaMAXeE=;
- b=l4b5Hqho974uh2PmbRJzJutQgFImeAJVlHlLkooGLhdZe1nS7mvf+x6gt/QOZw/qL9
- A84pVZc5FD32JGLt4LlnzFB06rz+hmPXLaI8hDe2fLxz/921s2jVMy4thipSXuNctzI7
- HkMqqpSinh/agWeAyLOt/K2QJIn1uTWJuHTPMTVpaO76a66+rxTTbLjEM8mQcObpOs2+
- 8BUxyfhfHcFtYnPUbTfLKKZrZtVMp7BOCDW5a6netEOHL7Wv1pCOt9WjfJdZ1HyHyp9F
- K/0MQrVQdEzKi3vmuBUuhAa8yjbOADZqvUk0N5rSn5dQnSeMoHx9kweWpQy1527gH79c
- KhnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=LMlqxALUY61jlVk3BUiDy9VLg6DTugrK02O4xaMAXeE=;
- b=QhyHDiI6ld193WHynBgX5LgpraImC4Xq/j2pfoJQh5CVqjTdM3j9UQEYNisgLImtWZ
- +79XgrA03579JMoVZCuUYtsBECRLibx4TDT2XdqlffAHUGoOf3DscP2pKdL6RQpqH3Yt
- q+EBdxWBbFLcHSM+Q0a6AbtugqUPOgdVWtFbJxBMQbYAheppkdN73kNVUoCpvughE9b2
- QnAKpyblHsthlTFh4d1gTTm3LKLtSNiwPHe9S5O8fbVzk06F0xt+DTOUtMrc89n/jd1j
- 5DUxZcZGv2TBHpcxTqs9T8O2iRM/j3xrE4YoKyhi6lCRIGP3V6NT0cw55nufXDYIoXDr
- 1ecw==
-X-Gm-Message-State: AOAM530f1HaEFfhwbiV4+C0XPbhWZIQhiF3FbHXIgUkefMeGRvemrIPW
- mkfuav+Ctwym20tOhh0G90kznA==
-X-Google-Smtp-Source: ABdhPJw8zMN/1FPYzX107TEkRXoQDL7PDsO3bU5e/CmgTIDO5o48Z06Nsfr79DuiczClK4visvbI1A==
-X-Received: by 2002:a0c:dc07:: with SMTP id s7mr5275693qvk.122.1594917744190; 
- Thu, 16 Jul 2020 09:42:24 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id u68sm8060659qkd.59.2020.07.16.09.42.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 09:42:23 -0700 (PDT)
-Message-ID: <b3703bfd299c4156e44e5887dcc47e7dcc88dae7.camel@massaru.org>
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: Kees Cook <keescook@chromium.org>
-Date: Thu, 16 Jul 2020 13:42:20 -0300
-In-Reply-To: <202007151929.7A4E04E@keescook>
-References: <20200715031120.1002016-1-vitor@massaru.org>
- <20200715031120.1002016-4-vitor@massaru.org>
- <202007151929.7A4E04E@keescook>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+ Thu, 16 Jul 2020 18:08:56 +0000 (UTC)
+IronPort-SDR: xd69VwPB10e+Pv+9DPnQ5pdEq5YSrhnx6oigQRcsy637wxyOsX1j35zj7m+w4OBNPl2A2DZhkl
+ ooYyu6R5tqmw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="147454377"
+X-IronPort-AV: E=Sophos;i="5.75,360,1589266800"; d="scan'208";a="147454377"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2020 11:08:55 -0700
+IronPort-SDR: IXXFJUo241OZVD8g/E/Liv8jr4vModYC9OPH5hUpOPhBf50Ev1Tu3b+hJhfRZSUssWL2Wq7eMs
+ pT7cycbSD4vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,360,1589266800"; d="scan'208";a="361115682"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+ by orsmga001.jf.intel.com with ESMTP; 16 Jul 2020 11:08:54 -0700
+Received: from orsmsx153.amr.corp.intel.com (10.22.226.247) by
+ ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 16 Jul 2020 11:08:54 -0700
+Received: from ORSEDG002.ED.cps.intel.com (10.7.248.5) by
+ ORSMSX153.amr.corp.intel.com (10.22.226.247) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 16 Jul 2020 11:08:54 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (134.134.137.101) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 16 Jul 2020 11:08:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lE2Io6+x1nFB4VgH2UgSKVXOStGbNzf3JH3mtFwNFnn5wECYqt5EMfsmrkctQ/TJJzFlmzxuxNW283hIjfHRPSu18m47+dsqc9JRLOCcy+Kl0tY1NB32rQyoU4zo6tKynzNMXgJpm0RLCW3BObUrPbPrwNAH13PxK7DZU3oOH+pAQEHbKcKLPgnoI3p3AdYlMx3VjCUKdOUp889mT2WQBJhB+y3V6o0u8ML2seKxk04TGhiyTwDcll2Fpg7EB6IXay7jjCE2KpNe35co7Zu7iMJH8fjD5cq+oMpzFnEMyIpRUZZg5BjajiUFxfoswflwnHerASVY+hkM/ajQ0oh/3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EzD18s+ZsdrWm+pWD1PhrS8r1axsewygjcTmNw1PV9c=;
+ b=TBptBzwR0/SgPM7Fa0DETDpWhMvINc+FozNcqq/JoXTSRPgNVxQ0/ODbI7HXwdCPnpnLO+pwOEAvC8hEYWXwTQ1f8FUrfZfunQW49odf+VV7VhR5My5ICpQWg2A8947d3wIibFVqZhjhNtm9QGPe3CQ0akLt+agKUeboXLQbJ9SvTp+Pt+kKr6oy8mOfV0+ZS8v4IEmEc3jljeQwmKhoSTclrE9294OCFWfaOz2CmA6FPeLoDbleVJdTS+QPiuMmyuS8hd/9Yejhx+mHw/nbyV/j0buOJYHVpvA0mc3KMr6301ZVLMIX1eRO+E/ocoVahI0C6YQ5p9w/CwAr6M7JFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EzD18s+ZsdrWm+pWD1PhrS8r1axsewygjcTmNw1PV9c=;
+ b=YBM9UiG4njNCnsvK5gasW10bgAQqsUu/oIY+Zu9nbksG3ygz4GYsF4o1+vaPvxPSThLRoM+UmRMJE61wP/niSTbjWESeKQxG37Xj1naHYn1UlYFN09acCAB2v63aff4mrPfJIcoPUESgcYEaNPifwsCvV4u1oy1fuOZqZaA/U50=
+Received: from DM6PR11MB2890.namprd11.prod.outlook.com (2603:10b6:5:63::20) by
+ DM6PR11MB4219.namprd11.prod.outlook.com (2603:10b6:5:14e::18) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3195.17; Thu, 16 Jul 2020 18:08:52 +0000
+Received: from DM6PR11MB2890.namprd11.prod.outlook.com
+ ([fe80::65c2:9ac9:2c52:82bd]) by DM6PR11MB2890.namprd11.prod.outlook.com
+ ([fe80::65c2:9ac9:2c52:82bd%6]) with mapi id 15.20.3174.026; Thu, 16 Jul 2020
+ 18:08:52 +0000
+From: "Brown, Aaron F" <aaron.f.brown@intel.com>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>, Bjorn Helgaas
+ <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ "bjorn@helgaas.com" <bjorn@helgaas.com>, Vaibhav Gupta
+ <vaibhav.varodek@gmail.com>, "David S. Miller" <davem@davemloft.net>, "Jakub
+ Kicinski" <kuba@kernel.org>, "Kirsher, Jeffrey T"
+ <jeffrey.t.kirsher@intel.com>
+Thread-Topic: [Intel-wired-lan] [PATCH v1 2/5] igbvf: netdev: use generic
+ power management
+Thread-Index: AQHWTfgyxYgsGJtzC0qSOWKZgsoK6akKnDTA
+Date: Thu, 16 Jul 2020 18:08:52 +0000
+Message-ID: <DM6PR11MB28906BCEB8DF7B0F7B6C7B1ABC7F0@DM6PR11MB2890.namprd11.prod.outlook.com>
+References: <20200629092943.227910-1-vaibhavgupta40@gmail.com>
+ <20200629092943.227910-3-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200629092943.227910-3-vaibhavgupta40@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.2.0.6
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [97.120.173.209]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5b825bc3-a85e-4e23-8c8b-08d829b34c33
+x-ms-traffictypediagnostic: DM6PR11MB4219:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB421925E367B5A121BF0134EABC7F0@DM6PR11MB4219.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 11cR+52uG+vbebAK+XnFi6ErxsKPKNG3i8TK2UHr64/xiQBjdovtimwuGKYu8w3LIKR//c6ie5BPAJ+FjOls3UWnGhxyDHtXkl/fXTcvrj77EGWuR2KfVbHsg4iEmKoXoWvKz/MrD2qSdvChIoEhODGuj4eWmzxpS0mqg5z6X+6/CUpK0pmBfUfMBTAT/msfWj9lDBw/0JdctkmV7Zhl9ss+SqjSH57LwMZWv2vuqXWlogf3tEgY1AuW5p/TU9QR+zhdyAmN86kiA6V+gA6eOWfYBvH+tZ0SnK5V2BqZoZ2Zjn3UW+v+HHMWBDIx1qFSDe1/6RAttLeNI6dcMN2ujGYAsIDZRpwtGkDp0LSbGRr6ZL8wiV6L0j9KCSQDh+NV
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB2890.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(376002)(366004)(346002)(396003)(136003)(186003)(76116006)(54906003)(110136005)(66946007)(5660300002)(86362001)(66556008)(66446008)(7416002)(26005)(8676002)(64756008)(66476007)(6636002)(6506007)(7696005)(9686003)(71200400001)(2906002)(8936002)(83380400001)(478600001)(55016002)(4326008)(53546011)(52536014)(316002)(33656002)(41533002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: vB2iAR3Z31xjFUdLUH6U9D/v3LvXuI6Z+iD4peumQQlVE9rcTXSdT4fQs15Yhpcf3+PlgNJimVg88FOECFyQqbO5ssHrIzFdoN5c/Bjtl49VVp02ofUBHiox2AwywQkLnkRXC6OBu4mt2U7/0eF8CfOMGhmZFcYCEfjMVFcHpes4/fEa/gOCFgrM4jt6gLb/QA/3jwGG3rS63kX2mSaErT2RkjhMx1Lk169XGvrg057ZPiJ/WWNuSrvwb1obAo13nrLbCgBl0MdYD6Lm0UmvraLrOin2XDnXVMfxC558yl5RtzTwJXLfU28dzL0Pkew0ZUmeR8poihGV8yaz5uTF3A6sCjsL6roEfqxVI6iBZDekDbczR7BvNttJcvnItxc10p/TWBQDuty/HDOmwnrX4llyT4TWRKo/5p3iRmmjB8TmyTkd4r+qV6LHszyPXoVnL0tHUgwimI0S8lHX5fLlzzCIW41jSD7JrenopYQk2LiTcaF+cifBdys8EUsbs46t
 MIME-Version: 1.0
-Cc: linux-kselftest@vger.kernel.org, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, davidgow@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [RFC 3/3] lib: Convert test_user_copy to
-	KUnit test
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2890.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b825bc3-a85e-4e23-8c8b-08d829b34c33
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2020 18:08:52.5447 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ICKNNgUad/tM836gZgRFoQzrDa+la21fyN3QzWjMZyydGoz2EhG1WRYFyMiO/LaxpOWDpp5tx+acRhT5RA2zEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4219
+X-OriginatorOrg: intel.com
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Subject: Re: [Linux-kernel-mentees] [Intel-wired-lan] [PATCH v1 2/5] igbvf:
+ netdev: use generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,76 +175,40 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 2020-07-15 at 19:34 -0700, Kees Cook wrote:
-> On Wed, Jul 15, 2020 at 12:11:20AM -0300, Vitor Massaru Iha wrote:
-> > This adds the conversion of the runtime tests of test_user_copy
-> > fuctions,
-> > from `lib/test_user_copy.c`to KUnit tests.
-> > 
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > [...]
-> > @@ -16,6 +16,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/uaccess.h>
-> >  #include <linux/vmalloc.h>
-> > +#include <kunit/test.h>
-> >  
-> >  /*
-> >   * Several 32-bit architectures support 64-bit {get,put}_user()
-> > calls.
-> > @@ -31,26 +32,16 @@
-> >  # define TEST_U64
-> >  #endif
-> >  
-> > -#define test(condition, msg, ...)					
-> > \
-> > -({									
-> > \
-> > -	int cond = (condition);						
-> > \
-> > -	if (cond)							\
-> > -		pr_warn("[%d] " msg "\n", __LINE__, ##__VA_ARGS__);	\
-> > -	cond;								
-> > \
-> > -})
-> > -
-> >  static bool is_zeroed(void *from, size_t size)
-> >  {
-> >  	return memchr_inv(from, 0x0, size) == NULL;
-> >  }
-> >  
-> > -static int test_check_nonzero_user(char *kmem, char __user *umem,
-> > size_t size)
-> > +static void test_check_nonzero_user(struct kunit *test, char
-> > *kmem, char __user *umem, size_t size)
-> >  {
-> > -	int ret = 0;
-> >  	size_t start, end, i, zero_start, zero_end;
-> >  
-> > -	if (test(size < 2 * PAGE_SIZE, "buffer too small"))
-> > -		return -EINVAL;
-> > +	KUNIT_EXPECT_FALSE_MSG(test, size < 2 * PAGE_SIZE, "buffer too
-> > small");
+> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf Of
+> Vaibhav Gupta
+> Sent: Monday, June 29, 2020 2:30 AM
+> To: Bjorn Helgaas <helgaas@kernel.org>; Bjorn Helgaas
+> <bhelgaas@google.com>; bjorn@helgaas.com; Vaibhav Gupta
+> <vaibhav.varodek@gmail.com>; David S. Miller <davem@davemloft.net>;
+> Jakub Kicinski <kuba@kernel.org>; Kirsher, Jeffrey T
+> <jeffrey.t.kirsher@intel.com>
+> Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>; netdev@vger.kernel.org;
+> linux-kernel@vger.kernel.org; intel-wired-lan@lists.osuosl.org;
+> skhan@linuxfoundation.org; linux-kernel-mentees@lists.linuxfoundation.org
+> Subject: [Intel-wired-lan] [PATCH v1 2/5] igbvf: netdev: use generic power
+> management
 > 
-> I think this could be a much smaller diff if you just replaced the
-> "test" macro:
+> Remove legacy PM callbacks and use generic operations. With legacy code,
+> drivers were responsible for handling PCI PM operations like
+> pci_save_state(). In generic code, all these hre andled by PCI core.
 > 
-> #define test(condition, msg, ...)					
-> \
-> ({									
-> \
-> 	int cond = !!(condition);					\
-> 	KUNIT_EXPECT_FALSE_MSG(kunit_context, cond, msg,
-> ##__VA_ARGS__);\
-> 	cond;								
-> \
-> })
+> The generic suspend() and resume() are called at the same point the legacy
+> ones were called. Thus, it does not affect the normal functioning of the
+> driver.
+> 
+> __maybe_unused attribute is used with .resume() but not with .suspend(), as
+> .suspend() is calleb by .shutdown().
+> 
+> Compile-tested only.
+> 
+> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+> ---
+>  drivers/net/ethernet/intel/igbvf/netdev.c | 37 +++++------------------
+>  1 file changed, 8 insertions(+), 29 deletions(-)
 > 
 
-Sure, I'll do it.
-
-Thanks.
-
+Tested-by: Aaron Brown <aaron.f.brown@intel.com>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
