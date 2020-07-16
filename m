@@ -2,100 +2,101 @@ Return-Path: <SRS0=x3JG=A3=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA89C433E5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 02:34:10 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93028C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 02:41:47 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A2798207BC
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 02:34:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5BA6120663
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 16 Jul 2020 02:41:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iBaOVvOB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A2798207BC
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JHxuqay5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5BA6120663
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7156089D97;
-	Thu, 16 Jul 2020 02:34:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2AABF88FE3;
+	Thu, 16 Jul 2020 02:41:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uMqyN2ybVzKv; Thu, 16 Jul 2020 02:34:09 +0000 (UTC)
+	with ESMTP id YaBMnv6t66Ab; Thu, 16 Jul 2020 02:41:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DF57F89D9E;
-	Thu, 16 Jul 2020 02:34:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BD8A388F7C;
+	Thu, 16 Jul 2020 02:41:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BE054C0891;
-	Thu, 16 Jul 2020 02:34:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0AB4C0891;
+	Thu, 16 Jul 2020 02:41:46 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0120C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7D986C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 02:34:08 +0000 (UTC)
+ Thu, 16 Jul 2020 02:41:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id E622089D9E
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7105C88602
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 02:34:08 +0000 (UTC)
+ Thu, 16 Jul 2020 02:41:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SZq+8gmjpVTM
+ with ESMTP id YKkWsbXFAi2l
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 02:34:08 +0000 (UTC)
+ Thu, 16 Jul 2020 02:41:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6E70489D97
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 60C4D885F0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 02:34:08 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id u185so2993080pfu.1
+ Thu, 16 Jul 2020 02:41:43 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id w2so4088888pgg.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 Jul 2020 19:34:08 -0700 (PDT)
+ Wed, 15 Jul 2020 19:41:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=OBHFrLP+zznPw6dlb+xXG2h+uzB263gsWgoLrOM5A/U=;
- b=iBaOVvOBp/8cpWJBRzkHXXsvpirEoq1CjGUnb1KIpi1G+rcRPDkFLIFlGBCVL54pKM
- s7xII+/8u3NGU8VPmuhB1E288OtTD10FzrwznllqHJ7H13zf+muLeTiFCh3hmbfAJ7bU
- rkAfVlG5pbOycj9rqP2MwkqPEtLXoqGt4BkMQ=
+ bh=jqVUIDpGCAipRS+ecPG15XM7TieBrIaHAd9mloEKAfg=;
+ b=JHxuqay54G74N6vgudi5DVmCfb4LywmFRGcKR/VpugHM8EUk43/s0CR2VP3/5kLIdx
+ UvyJZpGYeun6i18sh6eYGHmfAvaouR2XxCQugfkAC5YUal7+JFzkKqNxJm/QVlqbFxeq
+ Z/OHtPeZEPIIoWCPsB5YvZ+H78MRYn8SrV2cM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=OBHFrLP+zznPw6dlb+xXG2h+uzB263gsWgoLrOM5A/U=;
- b=bDfwSI6l99trXLV9VPGT7Y1+CvDOWt8tGpo7BVUxHrgojkb8X7StqYOdvpWWUq4ry/
- m7GdFf6SjxyF4/FcxSL8rsrAqkRgHjC14u0x9MaiqKt5d19dhH+AgZ+A0aNL1GWRGalu
- masJHB21XEEpnvWMPsMCnravzb6PFT4553KL5KqQqQICPweyOOXV900MQz3MqKXVZVlr
- e2vvqDlw5eWnEN2qvZHB8Tw91yvxRR/ulzUaSHZCJkQ5Wh0pJYLIZuF6hjQiTy/tqa4N
- RYKk9i/Otd/xVPJhP49+k9pigH3JXYznmTk7Of3RuCbzEuNh5jSzUmK3FNZsjgGIH2Og
- HW7w==
-X-Gm-Message-State: AOAM532vGJUZ2yfEdP5e3DY5JzLkiCnEisa5vkakOeEJh7X420/THWLl
- ORcU1qNsPPDVQG2mJ5c/0Nsx7Q==
-X-Google-Smtp-Source: ABdhPJwT2W5XcXGiXUbSxWDU3H1XbGT7OIjiB+N9Wb/ir/tyFHQzD+xKtJnodqbNxpjPU8gbPlwKtA==
-X-Received: by 2002:aa7:8597:: with SMTP id w23mr1732977pfn.219.1594866848006; 
- Wed, 15 Jul 2020 19:34:08 -0700 (PDT)
+ bh=jqVUIDpGCAipRS+ecPG15XM7TieBrIaHAd9mloEKAfg=;
+ b=XV/XTtIpzFB6j0AS24ZtkY/9FoY79SR9gbQdkvEaEp36GcpDOz+Hcw8hh2BTLUBV2r
+ 48vzTRF3IOmByy3dW99nEZ2jGjHuCqzDn91mSWJtdK2xGXs1Y4U9tjifvM8r7kgZMGAp
+ lLItloie8RBhLlK2kbMmA7pXD/t0XBFs/6hukCGH3wXZRLUd374lf4XJ+5exvkbab/zk
+ QnMj5nemDconklkHr2mDo344wD679V53uSc1O6Va0CG739eSV5Dxpr1dhlpfZ6/DrO8x
+ Y6CDRmxW7rrsuaNzygSR/H/WN0uwh1d+7p5C5T1J7fRdqzgeyzsX3oA0cbF9Vv8JuzPL
+ CgJA==
+X-Gm-Message-State: AOAM530zyh/tvpAqsjNu5SwtgzUfdar894XlPyu8ZoIeTxa9nDiBlBU4
+ AQLiTdtmdAClLkfudy3MrOiZ2Q==
+X-Google-Smtp-Source: ABdhPJzMM1zSFnYR3x2DnMDjCvyMLDkK5b+zSz4ErPk651/nIfO+yLt/HL7ZZk7cQTCfVqxRQyJNQw==
+X-Received: by 2002:a65:6883:: with SMTP id e3mr2401712pgt.5.1594867303051;
+ Wed, 15 Jul 2020 19:41:43 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id c139sm3047867pfb.65.2020.07.15.19.34.06
+ by smtp.gmail.com with ESMTPSA id z2sm3271605pff.36.2020.07.15.19.41.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jul 2020 19:34:07 -0700 (PDT)
-Date: Wed, 15 Jul 2020 19:34:06 -0700
+ Wed, 15 Jul 2020 19:41:42 -0700 (PDT)
+Date: Wed, 15 Jul 2020 19:41:41 -0700
 From: Kees Cook <keescook@chromium.org>
-To: Vitor Massaru Iha <vitor@massaru.org>
-Message-ID: <202007151929.7A4E04E@keescook>
+To: David Gow <davidgow@google.com>
+Message-ID: <202007151939.62EFE6F@keescook>
 References: <20200715031120.1002016-1-vitor@massaru.org>
- <20200715031120.1002016-4-vitor@massaru.org>
+ <CABVgOSkBAiMSMzCx62_CRo_0e2SGdvRWZ0dSC4t628YJBw-3Aw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200715031120.1002016-4-vitor@massaru.org>
-Cc: linux-kselftest@vger.kernel.org, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, davidgow@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [RFC 3/3] lib: Convert test_user_copy to
-	KUnit test
+In-Reply-To: <CABVgOSkBAiMSMzCx62_CRo_0e2SGdvRWZ0dSC4t628YJBw-3Aw@mail.gmail.com>
+Cc: Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [RFC 0/3] kunit: add support to use
+	modules
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,56 +114,18 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 15, 2020 at 12:11:20AM -0300, Vitor Massaru Iha wrote:
-> This adds the conversion of the runtime tests of test_user_copy fuctions,
-> from `lib/test_user_copy.c`to KUnit tests.
-> 
-> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> [...]
-> @@ -16,6 +16,7 @@
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->  #include <linux/vmalloc.h>
-> +#include <kunit/test.h>
->  
->  /*
->   * Several 32-bit architectures support 64-bit {get,put}_user() calls.
-> @@ -31,26 +32,16 @@
->  # define TEST_U64
->  #endif
->  
-> -#define test(condition, msg, ...)					\
-> -({									\
-> -	int cond = (condition);						\
-> -	if (cond)							\
-> -		pr_warn("[%d] " msg "\n", __LINE__, ##__VA_ARGS__);	\
-> -	cond;								\
-> -})
-> -
->  static bool is_zeroed(void *from, size_t size)
->  {
->  	return memchr_inv(from, 0x0, size) == NULL;
->  }
->  
-> -static int test_check_nonzero_user(char *kmem, char __user *umem, size_t size)
-> +static void test_check_nonzero_user(struct kunit *test, char *kmem, char __user *umem, size_t size)
->  {
-> -	int ret = 0;
->  	size_t start, end, i, zero_start, zero_end;
->  
-> -	if (test(size < 2 * PAGE_SIZE, "buffer too small"))
-> -		return -EINVAL;
-> +	KUNIT_EXPECT_FALSE_MSG(test, size < 2 * PAGE_SIZE, "buffer too small");
+On Wed, Jul 15, 2020 at 11:47:11AM +0800, David Gow wrote:
+> - The inheriting of the mm stuff still means that
+> copy_{from,to}_user() will only work if loaded as a module. This
+> really needs to be documented. (Ideally, we'd find a way of having
+> this work even for built-in tests, but I don't have any real ideas as
+> to how that could be done).
 
-I think this could be a much smaller diff if you just replaced the
-"test" macro:
+I'd like to better understand this ... are there conditions where
+vm_mmap() doesn't work? I thought this would either use current() (e.g.
+how LKDTM uses it when getting triggered from debugfs), or use init_mm.
 
-#define test(condition, msg, ...)					\
-({									\
-	int cond = !!(condition);					\
-	KUNIT_EXPECT_FALSE_MSG(kunit_context, cond, msg, ##__VA_ARGS__);\
-	cond;								\
-})
+I'd really like to see the mm patch more well described/justified.
 
 -- 
 Kees Cook
