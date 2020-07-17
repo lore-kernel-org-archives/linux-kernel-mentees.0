@@ -8,85 +8,85 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F00B0C433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:36:43 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49D78C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:36:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C52D820704
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:36:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1E7AC20704
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:36:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tla2d0uz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C52D820704
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n9pgpB8b"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E7AC20704
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A63FD8749A;
-	Fri, 17 Jul 2020 06:36:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EDD8C20410;
+	Fri, 17 Jul 2020 06:36:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HCp4bYkEC-9U; Fri, 17 Jul 2020 06:36:43 +0000 (UTC)
+	with ESMTP id UR5Tbcx8omlx; Fri, 17 Jul 2020 06:36:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2B56381EB5;
-	Fri, 17 Jul 2020 06:36:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4C1B420406;
+	Fri, 17 Jul 2020 06:36:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1922FC07FF;
-	Fri, 17 Jul 2020 06:36:43 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9185FC0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3286AC07FF;
+	Fri, 17 Jul 2020 06:36:52 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 414E9C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:36:42 +0000 (UTC)
+ Fri, 17 Jul 2020 06:36:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 803FF8744F
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3067C88092
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:36:42 +0000 (UTC)
+ Fri, 17 Jul 2020 06:36:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Q1BDtEoKrxcM
+ with ESMTP id XAwB-pkbhUOO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:36:40 +0000 (UTC)
+ Fri, 17 Jul 2020 06:36:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id A662481EB5
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2484488093
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:36:40 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id d1so5031500plr.8
+ Fri, 17 Jul 2020 06:36:50 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id a9so411756pjd.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 23:36:40 -0700 (PDT)
+ Thu, 16 Jul 2020 23:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IdweH5iSZf0gdMKKw0PG0GQ37VlTq8MURVu5SpxFL8o=;
- b=Tla2d0uzwL1jiJhk8Xy4SWhGoLxTIV7vpzA3TI0h26Fkn/e6UQnQLbb0DVgTlrJe2d
- 2rg4QtZUhkmmjqoRHXVoF2RvbZLtT0fzYqaq2Z39zXmsJpQDcvYNdyNsD2m6kYAFvbtG
- ZaEXzt/+tf+Us0sBFLJ+7ZvqgPh+NTZHb1aM+HChElK8VZU1jPTNFSWEitdhDUiEBY/d
- GVCr74u5nwTMWzuyZQfXiLx0x9l6ASq+AHw/ndL01AoaXit/ZlUjeypqjbHY46xEqBmi
- J9xM5/VOJh+c7yjCiMdQxqg3BfBdM9P1vf3Jja2R4Qg7+bhkgZFV358NKfnYtXG4sTtm
- 0dQA==
+ bh=0aKAKc3QV9tSVn9rtnXDsVWLu3x/6YoSShniIPxhNVg=;
+ b=n9pgpB8bQLOGLfjLxLeMbtPFcKmi6Xl/eDdz2z3YJMaCgmrX8JpdyOElxOpIjLExcV
+ iQyXZdXbLXVqIxkueyNAsROiWsPe5eTOxR9iX5XA7wmmsOXME9+7Ezoy4lu82xiIU0kD
+ cZBp8gYy2chvC4Cjp66PQrdEFzWGgAqQXIkL3+XiAA9SBz2DEAU5s2QHI0dvdRRVTcKP
+ kXRoqOHadD8NhWd9Krm7i41kHZHL+b0CFN6msqLkv8tpwT+lrn+aQbNF6i/epvr+10jh
+ +C7rkrpoqkmN2oFT0yjxLBSxVIpY8QJHB5Puw3s6lpt9k+r0O/p1ieNc9hTQM+yYjf7P
+ d8OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IdweH5iSZf0gdMKKw0PG0GQ37VlTq8MURVu5SpxFL8o=;
- b=dbwKh3uGemQiFbOQWBY6wP+3ItbmskumtsOwcq3sAAWiV2eHlfF7JUPyzvehGoLQg2
- pn28JzjTyeDK/8QOHZD8q4iffnsu8ZVTATvSPRtIr5AjrrTpB+JtJJgW/IrcjLPkNmYm
- 9VoStVILR06w+ZHyhQu+LbwYmQJHXnJt+pLG/t5EVu2UBdy+mGA5qqRHkD4MSn9zF5Uc
- 1BuIoogaE9l/kCjgo+NvpbTKjWzHLzvGKMAl+4KhbPutA8dTNuIL2sxjIPi1c4DZCvJ/
- N7MZD3iZB+aVk7xbsytEcf7pjvofMx5P4yzJZOW+pjXH+y1LIKCg75vGkg6bSPS5/CWN
- 57kA==
-X-Gm-Message-State: AOAM532XJcgOgkwvrsXCSN0Mk6SYZgO5Tr/S9lNx6gPfOkYwLa7kERnD
- f58qV+rBz8Nue68wp2NIm68=
-X-Google-Smtp-Source: ABdhPJxxEZLAu75l5OO5swXwmM5p5783xFE71Z7eVoXFUTwXL4uCMhKZp0MW6oBEAMMTy0YPKR5HXA==
-X-Received: by 2002:a17:90a:204:: with SMTP id
- c4mr8185240pjc.165.1594967800185; 
- Thu, 16 Jul 2020 23:36:40 -0700 (PDT)
+ bh=0aKAKc3QV9tSVn9rtnXDsVWLu3x/6YoSShniIPxhNVg=;
+ b=g4e07d0Ctv31iVx42j+D4rxTZWhGJxQMnuK0V6HN9v/wsljgeJmGx4n2Bx5pNWAmQm
+ vshpKaLe++qz8H4pW+b3BzMKD3oOqZnRHtooYNbgSiFqwJQfVN92i03w7Cb0rZiMu3p8
+ NpgtJOj5PQA7965CtCq6GBnFHuD8wi6tgFFlflnnWrmAQNlmr9c4/8cLxrNQ8yDJvPRS
+ Ws2AVce9pPsxuiJrdORTXc3+cdF1N/+84hasmMgyCboSCD10+l8t4VvzuLrNWelK+Xqi
+ iKJSfAP7SYon7jlj9Qm3hbw7oOE6JKd7O0YCFJeHQkPtE290x4e56NV58Qiq4diW4hlF
+ NdvQ==
+X-Gm-Message-State: AOAM5312Ti6UuR6Aa8/p6afqMPcdlwwaDAHPmcPe9eja3W9kJrFmGZp+
+ MsJA7aB6gNidrWkIDUGxx+Y=
+X-Google-Smtp-Source: ABdhPJxZmWU9b6pfr/qFTvlbVtaE+f6A7i14Jq/8iwcASIM7NsFEQXR7BELCsdTLfEAPbAYspXVKQA==
+X-Received: by 2002:a17:90a:8904:: with SMTP id
+ u4mr8897461pjn.87.1594967809674; 
+ Thu, 16 Jul 2020 23:36:49 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.36.29
+ by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.36.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 23:36:39 -0700 (PDT)
+ Thu, 16 Jul 2020 23:36:49 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>, Adam Radford <aradford@gmail.com>,
@@ -105,8 +105,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Date: Fri, 17 Jul 2020 12:04:25 +0530
-Message-Id: <20200717063438.175022-3-vaibhavgupta40@gmail.com>
+Date: Fri, 17 Jul 2020 12:04:26 +0530
+Message-Id: <20200717063438.175022-4-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
 References: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
@@ -115,7 +115,7 @@ Cc: linux-scsi@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  MPT-FusionLinux.pdl@broadcom.com, esc.storagedev@microsemi.com,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v1 02/15] scsi: aacraid: use generic
+Subject: [Linux-kernel-mentees] [PATCH v1 03/15] scsi: aic7xxx: use generic
 	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -145,94 +145,179 @@ Driver was using PCI helper functions like pci_save/restore_state(),
 pci_disable/enable_device(), pci_set_power_state() and pci_enable_wake().
 They should not be invoked by the driver.
 
+Also, .suspend() and .resume() are invoking other functions for PM, which
+were againg bounded by "#ifdef CONFIG_PM" directive. Remove the directive
+and mark those functions as "__maybe_unused".
+
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/aacraid/linit.c | 34 ++++++++--------------------------
- 1 file changed, 8 insertions(+), 26 deletions(-)
+ drivers/scsi/aic7xxx/aic7xxx.h         | 10 ++----
+ drivers/scsi/aic7xxx/aic7xxx_core.c    |  6 ++--
+ drivers/scsi/aic7xxx/aic7xxx_osm_pci.c | 46 ++++++--------------------
+ drivers/scsi/aic7xxx/aic7xxx_pci.c     |  4 +--
+ 4 files changed, 17 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/scsi/aacraid/linit.c b/drivers/scsi/aacraid/linit.c
-index a308e86a97f1..1e44868ee953 100644
---- a/drivers/scsi/aacraid/linit.c
-+++ b/drivers/scsi/aacraid/linit.c
-@@ -1910,11 +1910,9 @@ static int aac_acquire_resources(struct aac_dev *dev)
+diff --git a/drivers/scsi/aic7xxx/aic7xxx.h b/drivers/scsi/aic7xxx/aic7xxx.h
+index 88b90f9806c9..11a09798e6b5 100644
+--- a/drivers/scsi/aic7xxx/aic7xxx.h
++++ b/drivers/scsi/aic7xxx/aic7xxx.h
+@@ -1134,9 +1134,7 @@ const struct ahc_pci_identity	*ahc_find_pci_device(ahc_dev_softc_t);
+ int			 ahc_pci_config(struct ahc_softc *,
+ 					const struct ahc_pci_identity *);
+ int			 ahc_pci_test_register_access(struct ahc_softc *);
+-#ifdef CONFIG_PM
+-void			 ahc_pci_resume(struct ahc_softc *ahc);
+-#endif
++void __maybe_unused	 ahc_pci_resume(struct ahc_softc *ahc);
  
+ /*************************** EISA/VL Front End ********************************/
+ struct aic7770_identity *aic7770_find_device(uint32_t);
+@@ -1160,10 +1158,8 @@ int			 ahc_chip_init(struct ahc_softc *ahc);
+ int			 ahc_init(struct ahc_softc *ahc);
+ void			 ahc_intr_enable(struct ahc_softc *ahc, int enable);
+ void			 ahc_pause_and_flushwork(struct ahc_softc *ahc);
+-#ifdef CONFIG_PM
+-int			 ahc_suspend(struct ahc_softc *ahc); 
+-int			 ahc_resume(struct ahc_softc *ahc);
+-#endif
++int __maybe_unused	 ahc_suspend(struct ahc_softc *ahc);
++int __maybe_unused	 ahc_resume(struct ahc_softc *ahc);
+ void			 ahc_set_unit(struct ahc_softc *, int);
+ void			 ahc_set_name(struct ahc_softc *, char *);
+ void			 ahc_free(struct ahc_softc *ahc);
+diff --git a/drivers/scsi/aic7xxx/aic7xxx_core.c b/drivers/scsi/aic7xxx/aic7xxx_core.c
+index 3d4df906fa4f..c7eb238a9599 100644
+--- a/drivers/scsi/aic7xxx/aic7xxx_core.c
++++ b/drivers/scsi/aic7xxx/aic7xxx_core.c
+@@ -5590,8 +5590,7 @@ ahc_pause_and_flushwork(struct ahc_softc *ahc)
+ 	ahc->flags &= ~AHC_ALL_INTERRUPTS;
  }
  
--#if (defined(CONFIG_PM))
--static int aac_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused aac_suspend(struct device *dev)
+-#ifdef CONFIG_PM
+-int
++int __maybe_unused
+ ahc_suspend(struct ahc_softc *ahc)
  {
+ 
+@@ -5617,7 +5616,7 @@ ahc_suspend(struct ahc_softc *ahc)
+ 	return (0);
+ }
+ 
+-int
++int __maybe_unused
+ ahc_resume(struct ahc_softc *ahc)
+ {
+ 
+@@ -5626,7 +5625,6 @@ ahc_resume(struct ahc_softc *ahc)
+ 	ahc_restart(ahc);
+ 	return (0);
+ }
+-#endif
+ /************************** Busy Target Table *********************************/
+ /*
+  * Return the untagged transaction id for a given target/channel lun.
+diff --git a/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c b/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c
+index 9b293b1f0b71..a07e94fac673 100644
+--- a/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c
++++ b/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c
+@@ -121,47 +121,23 @@ static const struct pci_device_id ahc_linux_pci_id_table[] = {
+ 
+ MODULE_DEVICE_TABLE(pci, ahc_linux_pci_id_table);
+ 
+-#ifdef CONFIG_PM
+-static int
+-ahc_linux_pci_dev_suspend(struct pci_dev *pdev, pm_message_t mesg)
++static int __maybe_unused
++ahc_linux_pci_dev_suspend(struct device *dev)
+ {
+-	struct ahc_softc *ahc = pci_get_drvdata(pdev);
+-	int rc;
 -
--	struct Scsi_Host *shost = pci_get_drvdata(pdev);
-+	struct Scsi_Host *shost = dev_get_drvdata(dev);
- 	struct aac_dev *aac = (struct aac_dev *)shost->hostdata;
+-	if ((rc = ahc_suspend(ahc)))
+-		return rc;
++	struct ahc_softc *ahc = dev_get_drvdata(dev);
  
- 	scsi_host_block(shost);
-@@ -1923,29 +1921,16 @@ static int aac_suspend(struct pci_dev *pdev, pm_message_t state)
- 
- 	aac_release_resources(aac);
- 
--	pci_set_drvdata(pdev, shost);
 -	pci_save_state(pdev);
 -	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
 -
- 	return 0;
+-	if (mesg.event & PM_EVENT_SLEEP)
+-		pci_set_power_state(pdev, PCI_D3hot);
+-
+-	return rc;
++	return ahc_suspend(ahc);
  }
  
--static int aac_resume(struct pci_dev *pdev)
-+static int __maybe_unused aac_resume(struct device *dev)
+-static int
+-ahc_linux_pci_dev_resume(struct pci_dev *pdev)
++static int __maybe_unused
++ahc_linux_pci_dev_resume(struct device *dev)
  {
--	struct Scsi_Host *shost = pci_get_drvdata(pdev);
-+	struct Scsi_Host *shost = dev_get_drvdata(dev);
- 	struct aac_dev *aac = (struct aac_dev *)shost->hostdata;
--	int r;
- 
+-	struct ahc_softc *ahc = pci_get_drvdata(pdev);
+-	int rc;
+-
 -	pci_set_power_state(pdev, PCI_D0);
--	pci_enable_wake(pdev, PCI_D0, 0);
 -	pci_restore_state(pdev);
--	r = pci_enable_device(pdev);
-+	device_wakeup_disable(dev);
- 
--	if (r)
--		goto fail_device;
+-
+-	if ((rc = pci_enable_device(pdev))) {
+-		dev_printk(KERN_ERR, &pdev->dev,
+-			   "failed to enable device after resume (%d)\n", rc);
+-		return rc;
+-	}
 -
 -	pci_set_master(pdev);
- 	if (aac_acquire_resources(aac))
- 		goto fail_device;
- 	/*
-@@ -1960,10 +1945,8 @@ static int aac_resume(struct pci_dev *pdev)
- fail_device:
- 	printk(KERN_INFO "%s%d: resume failed.\n", aac->name, aac->id);
- 	scsi_host_put(shost);
--	pci_disable_device(pdev);
- 	return -ENODEV;
++	struct ahc_softc *ahc = dev_get_drvdata(dev);
+ 
+ 	ahc_pci_resume(ahc);
+ 
+ 	return (ahc_resume(ahc));
  }
 -#endif
  
- static void aac_shutdown(struct pci_dev *dev)
- {
-@@ -2108,15 +2091,14 @@ static struct pci_error_handlers aac_pci_err_handler = {
- 	.resume			= aac_pci_resume,
- };
+ static void
+ ahc_linux_pci_dev_remove(struct pci_dev *pdev)
+@@ -319,14 +295,14 @@ ahc_pci_write_config(ahc_dev_softc_t pci, int reg, uint32_t value, int width)
+ 	}
+ }
  
-+static SIMPLE_DEV_PM_OPS(aac_pm_ops, aac_suspend, aac_resume);
-+
- static struct pci_driver aac_pci_driver = {
- 	.name		= AAC_DRIVERNAME,
- 	.id_table	= aac_pci_tbl,
- 	.probe		= aac_probe_one,
- 	.remove		= aac_remove_one,
--#if (defined(CONFIG_PM))
--	.suspend	= aac_suspend,
--	.resume		= aac_resume,
++static SIMPLE_DEV_PM_OPS(ahc_linux_pci_dev_pm_ops,
++			 ahc_linux_pci_dev_suspend,
++			 ahc_linux_pci_dev_resume);
+ 
+ static struct pci_driver aic7xxx_pci_driver = {
+ 	.name		= "aic7xxx",
+ 	.probe		= ahc_linux_pci_dev_probe,
+-#ifdef CONFIG_PM
+-	.suspend	= ahc_linux_pci_dev_suspend,
+-	.resume		= ahc_linux_pci_dev_resume,
 -#endif
-+	.driver.pm	= &aac_pm_ops,
- 	.shutdown	= aac_shutdown,
- 	.err_handler    = &aac_pci_err_handler,
++	.driver.pm	= &ahc_linux_pci_dev_pm_ops,
+ 	.remove		= ahc_linux_pci_dev_remove,
+ 	.id_table	= ahc_linux_pci_id_table
  };
+diff --git a/drivers/scsi/aic7xxx/aic7xxx_pci.c b/drivers/scsi/aic7xxx/aic7xxx_pci.c
+index 656f680c7802..dab3a6d12c4d 100644
+--- a/drivers/scsi/aic7xxx/aic7xxx_pci.c
++++ b/drivers/scsi/aic7xxx/aic7xxx_pci.c
+@@ -2008,8 +2008,7 @@ ahc_pci_chip_init(struct ahc_softc *ahc)
+ 	return (ahc_chip_init(ahc));
+ }
+ 
+-#ifdef CONFIG_PM
+-void
++void __maybe_unused
+ ahc_pci_resume(struct ahc_softc *ahc)
+ {
+ 	/*
+@@ -2040,7 +2039,6 @@ ahc_pci_resume(struct ahc_softc *ahc)
+ 		ahc_release_seeprom(&sd);
+ 	}
+ }
+-#endif
+ 
+ static int
+ ahc_aic785X_setup(struct ahc_softc *ahc)
 -- 
 2.27.0
 
