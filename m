@@ -8,99 +8,99 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE752C433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:56 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FD5C433F1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:59 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8FE7420838
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4A58421741
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bkHpZeDq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FE7420838
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L7uBE6cD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A58421741
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 55E7388118;
-	Fri, 17 Jul 2020 03:58:56 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1A052882F0;
+	Fri, 17 Jul 2020 03:58:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 77nhbv-LBKcz; Fri, 17 Jul 2020 03:58:53 +0000 (UTC)
+	with ESMTP id 9mo5alKDfUuU; Fri, 17 Jul 2020 03:58:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9D711880EE;
-	Fri, 17 Jul 2020 03:58:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A922A882E3;
+	Fri, 17 Jul 2020 03:58:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E50BC0893;
-	Fri, 17 Jul 2020 03:58:53 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 106C1C0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A4D01C0893;
+	Fri, 17 Jul 2020 03:58:58 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6CABFC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:52 +0000 (UTC)
+ Fri, 17 Jul 2020 03:58:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0D50A880D0
+ by hemlock.osuosl.org (Postfix) with ESMTP id 5082B882F0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:52 +0000 (UTC)
+ Fri, 17 Jul 2020 03:58:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PF1CoTvMq7ho
+ with ESMTP id JgGnfQymu6aK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:51 +0000 (UTC)
+ Fri, 17 Jul 2020 03:58:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A5CC38809D
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D6ACA882E3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:51 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id m16so4863930pls.5
+ Fri, 17 Jul 2020 03:58:56 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id t15so5744824pjq.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 20:58:51 -0700 (PDT)
+ Thu, 16 Jul 2020 20:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Oh8xk0TqxiDTOzgBpulOm8nQjP8syH1MFAg9SRwAtT4=;
- b=bkHpZeDqRSgVd8RzRzCZMw6QRew+PPTuu08xAhwIf47nV2SF9HXMNYW5/7FY8z84QE
- Q5h8tth3unWpWI6K9NWW0/qr49YKHx+3npc5kDZ1f0WwQyFUYCN2b1J0tVMPI5hFdHo/
- 303/H8n/zhurSEBFF/5Gm9mN27b/oLWKFwb3F9UAY0M+EKFNE951uWNvp2f5yzUXZh3F
- a30kZYpsCJbg6C4aZklctipGdbqjr1kaAbzKDNNjjQ65qy17k2//p3/fr7ukVvbgeJSe
- PA9d5fjom9SM2YRSBK6O9+lJjpHSjanawrIISO1o5frW1PtvCuXr3RcKzObRp8OiFsPk
- eJsw==
+ bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
+ b=L7uBE6cDRVMj0gHPJGOHTDiheKAZMJIZrfqbe00VOVr73uD1dK32hSHLBzu75ld5A+
+ Ai5h0vpfZWBpdF4SA7BpWBHNdDJdwXGXaH74ccr49lkrPvAjHPLRynhdvE264lupkpx0
+ uOy4IgUC98Eea9OqYKG7WdHC3U25kORnT7fwiIbjHv6DMpYc9oHkzsiSv2xSoPV32QNW
+ RCowtyc3gssZ40NB14OMin2AG3R5MK3JRGYAaUNeDoNrDyH62j/Mwb/uQ1zs9Sf01NaP
+ sPebEiexTuE+hAmVvTA2+QZi+dJRN/FcXKpRY5VaWvxlmopInSontbSzsOF/Q+Cvpk1v
+ 2ClQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Oh8xk0TqxiDTOzgBpulOm8nQjP8syH1MFAg9SRwAtT4=;
- b=qpNJ02U0zlCdOj3IBrNli8f+gDKMdP9njo1/cOgeq1PM/ijcHqv2eLOWn+rz3zFgWZ
- YS+Lk/eW+U1pfmWJsghjKkkHXh5s9KTkRj1RkrXz5I1LRnT4K7VWA6HVU9puD25+3sSP
- Cm6GCy9YKlNDSL8HvfkeS+W+7u05hp1JOrOSKTTIB3O5Y1kGiRotHWNQ9ADL3qqkvxXV
- dl35GGhlUcCnkoeHzkWpmP78AnxDRCbFpdDMMi5qyPaQUGXQcpVhRVQxuRD58F7/yHTw
- gXKpp1PVy7yPe2sjsECR1XQycYbRoV6S1vfmTxbTUNDdJlty/2tHS8HxHaUv6Wni9aMR
- GoCw==
-X-Gm-Message-State: AOAM532N+kMD5V3hnFJ3ufeNzUklXeT4vMGZ6Qmb2ZKcnekIgG+55S7X
- 1WI7L4wP+eMm3q8AvCUDygo=
-X-Google-Smtp-Source: ABdhPJw0oHnWuSQKDv/kiHTnDALLcBGVq79bZJCr3BsisCtiY229vXFMXPyuYHbAnso6Bz65GE5RLA==
-X-Received: by 2002:a17:902:6949:: with SMTP id
- k9mr6098207plt.91.1594958331257; 
- Thu, 16 Jul 2020 20:58:51 -0700 (PDT)
+ bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
+ b=qu2gBh/BiTY8GSdvW/DSXEoT09TBtm7OWznDN5W1RDRIKNZ12Tpb1bRJXy56Hkz2hg
+ C6mdsR/DJNIHIQ44AFx+iFq3UB3bcH/jp2AGyyuHiw+fzl14dxvXuyZaPOwatYW1cBEF
+ 5Dd1ikM7R6AFwW5IwyLLAkIzxQG8zooljT7sFvJ9+O1AD0DgAeeIXniDDrTmO76teD8I
+ 7klCs4b6hLjJjI9sIBMHGdhawVpWa1Rb5q4Z7R0bYaHiCl38KW8YpNKmlRxQdeXHV1La
+ 8YUARyEI1/+JCsxXl3vUbf8V8NSGTgNqhqek8xO4ANxKkiC4tOYRyRuWDQA6h6INb0kh
+ sZag==
+X-Gm-Message-State: AOAM533H8day1cHDKv4F33bE6iwLeIWqCfWKYr+d9jA9QA3I9CwFYQJ6
+ e31WcfU34dbpdFHQbd8TKms=
+X-Google-Smtp-Source: ABdhPJz9RWNqG7kqo+L+MFtbo2hzekR4x6yLSqYQDRE2NFenzzMNtalvwVlrAFC3Z8cmn2EAqPWygQ==
+X-Received: by 2002:a17:90a:cc0f:: with SMTP id
+ b15mr7949017pju.83.1594958336419; 
+ Thu, 16 Jul 2020 20:58:56 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id v11sm6227907pgs.22.2020.07.16.20.58.47
+ by smtp.gmail.com with ESMTPSA id v11sm6227907pgs.22.2020.07.16.20.58.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 20:58:50 -0700 (PDT)
+ Thu, 16 Jul 2020 20:58:55 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Date: Fri, 17 Jul 2020 09:26:07 +0530
-Message-Id: <20200717035608.97254-6-vaibhavgupta40@gmail.com>
+Date: Fri, 17 Jul 2020 09:26:08 +0530
+Message-Id: <20200717035608.97254-7-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
 References: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 5/6] meye: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v2 6/6] tw68: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -128,66 +128,84 @@ required tasks and drivers should do only device-specific operations.
 The driver was invoking PCI helper functions like pci_save/restore_state()
 which is not recommended.
 
-Compile-tested only.
+Compile-Tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/media/pci/meye/meye.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/media/pci/tw68/tw68-core.c | 30 +++++++++++-------------------
+ 1 file changed, 11 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/media/pci/meye/meye.c b/drivers/media/pci/meye/meye.c
-index 73e064e6f56d..7fb3b1853b87 100644
---- a/drivers/media/pci/meye/meye.c
-+++ b/drivers/media/pci/meye/meye.c
-@@ -1528,19 +1528,16 @@ static const struct v4l2_ctrl_ops meye_ctrl_ops = {
- 	.s_ctrl = meye_s_ctrl,
- };
+diff --git a/drivers/media/pci/tw68/tw68-core.c b/drivers/media/pci/tw68/tw68-core.c
+index b45f3ffa3de5..065420b09250 100644
+--- a/drivers/media/pci/tw68/tw68-core.c
++++ b/drivers/media/pci/tw68/tw68-core.c
+@@ -359,10 +359,9 @@ static void tw68_finidev(struct pci_dev *pci_dev)
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+ }
  
 -#ifdef CONFIG_PM
--static int meye_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused meye_suspend(struct device *dev)
+-
+-static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
++static int __maybe_unused tw68_suspend(struct device *dev_d)
  {
--	pci_save_state(pdev);
- 	meye.pm_mchip_mode = meye.mchip_mode;
- 	mchip_hic_stop();
- 	mchip_set(MCHIP_MM_INTA, 0x0);
++	struct pci_dev *pci_dev = to_pci_dev(dev_d);
+ 	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
+ 	struct tw68_dev *dev = container_of(v4l2_dev,
+ 				struct tw68_dev, v4l2_dev);
+@@ -373,24 +372,19 @@ static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
+ 
+ 	synchronize_irq(pci_dev->irq);
+ 
+-	pci_save_state(pci_dev);
+-	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
+ 	vb2_discard_done(&dev->vidq);
+ 
  	return 0;
  }
  
--static int meye_resume(struct pci_dev *pdev)
-+static int __maybe_unused meye_resume(struct device *dev)
+-static int tw68_resume(struct pci_dev *pci_dev)
++static int __maybe_unused tw68_resume(struct device *dev_d)
  {
--	pci_restore_state(pdev);
- 	pci_write_config_word(meye.mchip_dev, MCHIP_PCI_SOFTRESET_SET, 1);
+-	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
++	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
+ 	struct tw68_dev *dev = container_of(v4l2_dev,
+ 					    struct tw68_dev, v4l2_dev);
+ 	struct tw68_buf *buf;
+ 	unsigned long flags;
  
- 	mchip_delay(MCHIP_HIC_CMD, 0);
-@@ -1562,7 +1559,6 @@ static int meye_resume(struct pci_dev *pdev)
- 	}
+-	pci_set_power_state(pci_dev, PCI_D0);
+-	pci_restore_state(pci_dev);
+-
+ 	/* Do things that are done in tw68_initdev ,
+ 		except of initializing memory structures.*/
+ 
+@@ -408,19 +402,17 @@ static int tw68_resume(struct pci_dev *pci_dev)
+ 
  	return 0;
  }
 -#endif
  
- static int meye_probe(struct pci_dev *pcidev, const struct pci_device_id *ent)
- {
-@@ -1788,15 +1784,14 @@ static const struct pci_device_id meye_pci_tbl[] = {
+ /* ----------------------------------------------------------- */
  
- MODULE_DEVICE_TABLE(pci, meye_pci_tbl);
- 
-+static SIMPLE_DEV_PM_OPS(meye_pm_ops, meye_suspend, meye_resume);
++static SIMPLE_DEV_PM_OPS(tw68_pm_ops, tw68_suspend, tw68_resume);
 +
- static struct pci_driver meye_driver = {
- 	.name		= "meye",
- 	.id_table	= meye_pci_tbl,
- 	.probe		= meye_probe,
- 	.remove		= meye_remove,
+ static struct pci_driver tw68_pci_driver = {
+-	.name	  = "tw68",
+-	.id_table = tw68_pci_tbl,
+-	.probe	  = tw68_initdev,
+-	.remove	  = tw68_finidev,
 -#ifdef CONFIG_PM
--	.suspend	= meye_suspend,
--	.resume		= meye_resume,
+-	.suspend  = tw68_suspend,
+-	.resume   = tw68_resume
 -#endif
-+	.driver.pm	= &meye_pm_ops,
++	.name	   = "tw68",
++	.id_table  = tw68_pci_tbl,
++	.probe	   = tw68_initdev,
++	.remove	   = tw68_finidev,
++	.driver.pm = &tw68_pm_ops,
  };
  
- static int __init meye_init(void)
+ module_pci_driver(tw68_pci_driver);
 -- 
 2.27.0
 
