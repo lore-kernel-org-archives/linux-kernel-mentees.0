@@ -8,85 +8,85 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94C86C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:38:44 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA11C433EA
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:38:56 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A35F20737
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:38:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3179C2071A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:38:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VhCnWrlV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A35F20737
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sxs5vUMY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3179C2071A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4A23820410;
-	Fri, 17 Jul 2020 06:38:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 00F5D861AA;
+	Fri, 17 Jul 2020 06:38:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WFCw1QhKj6vH; Fri, 17 Jul 2020 06:38:43 +0000 (UTC)
+	with ESMTP id XHP6b-n9QugM; Fri, 17 Jul 2020 06:38:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 73F132036C;
-	Fri, 17 Jul 2020 06:38:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 804D184B23;
+	Fri, 17 Jul 2020 06:38:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 626F6C07FF;
-	Fri, 17 Jul 2020 06:38:43 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24FBDC0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A3F6C07FF;
+	Fri, 17 Jul 2020 06:38:55 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35273C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:38:42 +0000 (UTC)
+ Fri, 17 Jul 2020 06:38:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0D7552036C
+ by hemlock.osuosl.org (Postfix) with ESMTP id 246948757E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:38:42 +0000 (UTC)
+ Fri, 17 Jul 2020 06:38:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SSANgbeHMNpv
+ with ESMTP id Cx9QRkpaSvfr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:38:40 +0000 (UTC)
+ Fri, 17 Jul 2020 06:38:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by silver.osuosl.org (Postfix) with ESMTPS id B50A41FF59
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8C82F8749A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:38:40 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id cv18so3752701pjb.1
+ Fri, 17 Jul 2020 06:38:53 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id k4so5022313pld.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 23:38:40 -0700 (PDT)
+ Thu, 16 Jul 2020 23:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RikripnxLVJhOyZ4XpmPQ2DJ6E1+wwTxP7b6l3InheE=;
- b=VhCnWrlVuIyz7AwVCui94KEiOuUNmyxncfxqbFZc11QEkHWcxnnJ+iV88ox/biZaip
- XaYJ5BYRSQxlg8+5A310LaFxR7+XOjGIRdDV/8CtAPW+YsOgAj4Bp0lS3FMIaREzVglE
- nAeJafR5YmL6JRZ61jZe7FAwvCSkHYzg6CM3+DTV84yDjW+b7a4//u7u5hRmGRnd0iem
- FiVfKXTzGHrXEfbr2ty44lIX0Z+FCnzg/s+QJaCCFBdS8rR8KhuUJXtvKO4pzLh4lewQ
- 71IgnJkFXcG3xRpOWNf7O/peLrCsnHTj5h8ud4yEyBQqlkIgpMHhoXoBNHcjfFv2zxyQ
- PUjA==
+ bh=WwDPleRnNmF5nIya5pCRA/s+OZ7smPPXMDZ4egsrQq8=;
+ b=Sxs5vUMY0V6BCKr7DKEOTGDZCUt/8u3jqwBpxtsn7i9+oINAXq1UxmNprGzSwGRgae
+ B33pGfemI+QD5yx7KKdb5J8rkcGrOLBJPMe/rUMwkVYmUTCT8i/OA3Li0NsFc+3+VSHu
+ cY39QV5mrxomlxn0m1gBI3bmE6QxqIZEHENHFRq9cnbcbQJEv4oYgWmCHj74OZj3FBln
+ d3Q438HeyqrzkNxFVqzMgDFLZaAR70pBctstQdSawn6ms9esp3q3gE12oPOoEEyq8VwW
+ hqq9teyF1zi3e5a1OOTzAbH1YQTXxiKbpJocrkO7ogpm74d/6ff5bNFYQKFF1Cl09hCn
+ kxfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RikripnxLVJhOyZ4XpmPQ2DJ6E1+wwTxP7b6l3InheE=;
- b=tZrAS06ZMEv1xtT8golSKktg0utcpWvbE8hG7lUUgD4MEn2n9BTpK47gWDUfLZr/tA
- yzk85LqEIZ+PtsxVVbe3EZe979z8USCAxoZNLxEXEMSHC1UQI5FwFPoaNaxkYb7spU8U
- xCo4Ta3HIOYtk/iMU3Xfq7v3fhXptzDTW3c1grrCi3sqDr0IFGcSLELmDLPHU7kc86XI
- AZnaOO4WBSnRkEF/lyOZl6B3LWOZGfkIL0NYZa24YOtimV+Oa3UTEuBv24m8qq80sr0h
- KsqxkQjCTZDMMfNEXRtdHuYgmDUG8OgVcnUW1GwTAMAX2N6kNi2AqUJBGpBVOLqo+ws/
- dXyA==
-X-Gm-Message-State: AOAM530Sd1K2XctE+b7Xnym9B/nN2DgOf4AjMwObCAcwoU9zGWp7KObd
- B8NKK7cS43P4hDnnSc1KLV0=
-X-Google-Smtp-Source: ABdhPJw7YE0e6HZJF+/KkxyNrXDNr/YXVjAKIvA0OlzHmaQS+1qgZgZOiOd5na4GnyGLDQX2K/BZvw==
-X-Received: by 2002:a17:902:7791:: with SMTP id
- o17mr6591565pll.224.1594967920217; 
- Thu, 16 Jul 2020 23:38:40 -0700 (PDT)
+ bh=WwDPleRnNmF5nIya5pCRA/s+OZ7smPPXMDZ4egsrQq8=;
+ b=MuZ2quKtk5RPjXd/RZmuhNiF0BUhtcoT/RGGj8AZzqHThi6YcpBe8CW0DAqw0PQFRM
+ qdHZY14K5L43OLw5F+ST3gAKbASBWizG8r6INjrcQOLl1nlX/d2MD34o0LCKmSMyVwgA
+ m06Yu+//MHHYZ38GLozlQa3sm0oAJcZ+dvzRcVBlrX6Fo3eDBFbdDB8HRPES7cESMzY6
+ O6yFclJKmUJz14xgmzlie0uchlgwGmweFezA+h5r0ZGTNYLGHiMpNlBXVXvaNLD3Zj/J
+ Ca+bOxjr7AUgiU7/9ErKGlDSEyKkOeNQLd36FuvFCQf8vW227KPGZaqcA64gNnvd3gQ9
+ K/rQ==
+X-Gm-Message-State: AOAM531DeBPjrewtBz5NF2Aarrr7xtB9ARISWTkrpYHURJUSfuCOrfb8
+ gqe+sFyvunJadZHa5G2n5AI=
+X-Google-Smtp-Source: ABdhPJwE0+aqHhwRs33VeNQMhFBnZtA0plbn4jp/tWiG1YAVOUBgBYpu6+CkU+pOWkvEzgV5SDeYTQ==
+X-Received: by 2002:a17:902:8697:: with SMTP id
+ g23mr6410059plo.94.1594967933074; 
+ Thu, 16 Jul 2020 23:38:53 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.38.30
+ by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.38.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 23:38:39 -0700 (PDT)
+ Thu, 16 Jul 2020 23:38:52 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>, Adam Radford <aradford@gmail.com>,
@@ -105,8 +105,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Date: Fri, 17 Jul 2020 12:04:36 +0530
-Message-Id: <20200717063438.175022-14-vaibhavgupta40@gmail.com>
+Date: Fri, 17 Jul 2020 12:04:37 +0530
+Message-Id: <20200717063438.175022-15-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
 References: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
@@ -115,7 +115,7 @@ Cc: linux-scsi@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  MPT-FusionLinux.pdl@broadcom.com, esc.storagedev@microsemi.com,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v1 13/15] scsi: 3w-sas: use generic
+Subject: [Linux-kernel-mentees] [PATCH v1 14/15] scsi: mvumi: use generic
 	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -146,102 +146,122 @@ pci_set_power_state() and pci_set_master() to do required operations. In
 generic mode, they are no longer needed.
 
 Change function parameter in both .suspend() and .resume() to
-"struct device*" type. Use to_pci_dev() and dev_get_drvdata() to get
-"struct pci_dev*" variable and drv data.
+"struct device*" type. Use dev_get_drvdata() to get drv data.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/3w-sas.c | 31 ++++++++-----------------------
- 1 file changed, 8 insertions(+), 23 deletions(-)
+ drivers/scsi/mvumi.c | 49 ++++++++++----------------------------------
+ 1 file changed, 11 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/scsi/3w-sas.c b/drivers/scsi/3w-sas.c
-index dda6fa857709..efaba30b0ca8 100644
---- a/drivers/scsi/3w-sas.c
-+++ b/drivers/scsi/3w-sas.c
-@@ -1756,11 +1756,10 @@ static void twl_remove(struct pci_dev *pdev)
- 	twl_device_extension_count--;
- } /* End twl_remove() */
+diff --git a/drivers/scsi/mvumi.c b/drivers/scsi/mvumi.c
+index 8906aceda4c4..7a6ef8264e47 100644
+--- a/drivers/scsi/mvumi.c
++++ b/drivers/scsi/mvumi.c
+@@ -2558,7 +2558,7 @@ static void mvumi_detach_one(struct pci_dev *pdev)
  
--#ifdef CONFIG_PM
- /* This function is called on PCI suspend */
--static int twl_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused twl_suspend(struct device *dev)
+ /**
+  * mvumi_shutdown -	Shutdown entry point
+- * @device:		Generic device structure
++ * @pdev:		PCI device structure
+  */
+ static void mvumi_shutdown(struct pci_dev *pdev)
  {
--	struct Scsi_Host *host = pci_get_drvdata(pdev);
-+	struct Scsi_Host *host = dev_get_drvdata(dev);
- 	TW_Device_Extension *tw_dev = (TW_Device_Extension *)host->hostdata;
+@@ -2567,47 +2567,28 @@ static void mvumi_shutdown(struct pci_dev *pdev)
+ 	mvumi_flush_cache(mhba);
+ }
  
- 	printk(KERN_WARNING "3w-sas: Suspending host %d.\n", tw_dev->host->host_no);
-@@ -1779,32 +1778,21 @@ static int twl_suspend(struct pci_dev *pdev, pm_message_t state)
- 	/* Clear doorbell interrupt */
- 	TWL_CLEAR_DB_INTERRUPT(tw_dev);
+-static int __maybe_unused mvumi_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused mvumi_suspend(struct device *dev)
+ {
+-	struct mvumi_hba *mhba = NULL;
++	struct pci_dev *pdev = to_pci_dev(dev);
  
+-	mhba = pci_get_drvdata(pdev);
++	struct mvumi_hba *mhba = pci_get_drvdata(pdev);
+ 	mvumi_flush_cache(mhba);
+ 
+-	pci_set_drvdata(pdev, mhba);
+ 	mhba->instancet->disable_intr(mhba);
+-	free_irq(mhba->pdev->irq, mhba);
+ 	mvumi_unmap_pci_addr(pdev, mhba->base_addr);
+-	pci_release_regions(pdev);
 -	pci_save_state(pdev);
 -	pci_disable_device(pdev);
 -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
--
+ 
  	return 0;
- } /* End twl_suspend() */
+ }
  
- /* This function is called on PCI resume */
--static int twl_resume(struct pci_dev *pdev)
-+static int __maybe_unused twl_resume(struct device *dev)
+-static int __maybe_unused mvumi_resume(struct pci_dev *pdev)
++static int __maybe_unused mvumi_resume(struct device *dev)
  {
- 	int retval = 0;
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct Scsi_Host *host = pci_get_drvdata(pdev);
- 	TW_Device_Extension *tw_dev = (TW_Device_Extension *)host->hostdata;
- 
- 	printk(KERN_WARNING "3w-sas: Resuming host %d.\n", tw_dev->host->host_no);
+ 	int ret;
+-	struct mvumi_hba *mhba = NULL;
+-
+-	mhba = pci_get_drvdata(pdev);
+-
 -	pci_set_power_state(pdev, PCI_D0);
 -	pci_enable_wake(pdev, PCI_D0, 0);
 -	pci_restore_state(pdev);
++	struct pci_dev *pdev = to_pci_dev(dev);
++	struct mvumi_hba *mhba = pci_get_drvdata(pdev);
  
--	retval = pci_enable_device(pdev);
--	if (retval) {
--		TW_PRINTK(tw_dev->host, TW_DRIVER, 0x24, "Enable device failed during resume");
--		return retval;
+-	ret = pci_enable_device(pdev);
+-	if (ret) {
+-		dev_err(&pdev->dev, "enable device failed\n");
+-		return ret;
 -	}
 +	device_wakeup_disable(dev);
  
--	pci_set_master(pdev);
- 	pci_try_set_mwi(pdev);
+-	ret = mvumi_pci_set_master(pdev);
+ 	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+-	if (ret)
+-		goto fail;
+-	ret = pci_request_regions(mhba->pdev, MV_DRIVER_NAME);
+ 	if (ret)
+ 		goto fail;
+ 	ret = mvumi_map_pci_addr(mhba->pdev, mhba->base_addr);
+@@ -2627,12 +2608,6 @@ static int __maybe_unused mvumi_resume(struct pci_dev *pdev)
+ 		goto unmap_pci_addr;
+ 	}
  
- 	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-@@ -1842,11 +1830,9 @@ static int twl_resume(struct pci_dev *pdev)
+-	ret = request_irq(mhba->pdev->irq, mvumi_isr_handler, IRQF_SHARED,
+-				"mvumi", mhba);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to register IRQ\n");
+-		goto unmap_pci_addr;
+-	}
+ 	mhba->instancet->enable_intr(mhba);
  
- out_disable_device:
- 	scsi_remove_host(host);
+ 	return 0;
+@@ -2642,11 +2617,12 @@ static int __maybe_unused mvumi_resume(struct pci_dev *pdev)
+ release_regions:
+ 	pci_release_regions(pdev);
+ fail:
 -	pci_disable_device(pdev);
  
- 	return retval;
- } /* End twl_resume() */
--#endif
+ 	return ret;
+ }
  
- /* PCI Devices supported by this driver */
- static struct pci_device_id twl_pci_tbl[] = {
-@@ -1855,16 +1841,15 @@ static struct pci_device_id twl_pci_tbl[] = {
- };
- MODULE_DEVICE_TABLE(pci, twl_pci_tbl);
- 
-+static SIMPLE_DEV_PM_OPS(twl_pm_ops, twl_suspend, twl_resume);
++static SIMPLE_DEV_PM_OPS(mvumi_pm_ops, mvumi_suspend, mvumi_resume);
 +
- /* pci_driver initializer */
- static struct pci_driver twl_driver = {
- 	.name		= "3w-sas",
- 	.id_table	= twl_pci_tbl,
- 	.probe		= twl_probe,
- 	.remove		= twl_remove,
+ static struct pci_driver mvumi_pci_driver = {
+ 
+ 	.name = MV_DRIVER_NAME,
+@@ -2654,10 +2630,7 @@ static struct pci_driver mvumi_pci_driver = {
+ 	.probe = mvumi_probe_one,
+ 	.remove = mvumi_detach_one,
+ 	.shutdown = mvumi_shutdown,
 -#ifdef CONFIG_PM
--	.suspend	= twl_suspend,
--	.resume		= twl_resume,
+-	.suspend = mvumi_suspend,
+-	.resume = mvumi_resume,
 -#endif
-+	.driver.pm	= &twl_pm_ops,
- 	.shutdown	= twl_shutdown
++	.driver.pm = &mvumi_pm_ops,
  };
  
+ module_pci_driver(mvumi_pci_driver);
 -- 
 2.27.0
 
