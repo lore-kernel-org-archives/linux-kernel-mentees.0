@@ -8,85 +8,84 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D44C433EB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:37:53 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10597C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:38:04 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BAA7A20704
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:37:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D9E9820704
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:38:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S3I6RbbT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BAA7A20704
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="geP9tlik"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D9E9820704
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id ACB2A880B2;
-	Fri, 17 Jul 2020 06:37:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BF56F861FF;
+	Fri, 17 Jul 2020 06:38:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Tn-kkfxzKjud; Fri, 17 Jul 2020 06:37:50 +0000 (UTC)
+	with ESMTP id We_jaBQQCUWV; Fri, 17 Jul 2020 06:38:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EEA8488092;
-	Fri, 17 Jul 2020 06:37:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1F061861AA;
+	Fri, 17 Jul 2020 06:38:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E7ED7C07FF;
-	Fri, 17 Jul 2020 06:37:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E2AEC07FF;
+	Fri, 17 Jul 2020 06:38:03 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 50909C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B29BC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:37:49 +0000 (UTC)
+ Fri, 17 Jul 2020 06:38:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4C9A988092
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6A65488092
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:37:49 +0000 (UTC)
+ Fri, 17 Jul 2020 06:38:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cXUNfAfvHs-A
+ with ESMTP id WVcv4edHVli1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:37:48 +0000 (UTC)
+ Fri, 17 Jul 2020 06:38:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8183787FD1
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id C8DBC87FD1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:37:48 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id b9so5034101plx.6
+ Fri, 17 Jul 2020 06:38:00 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id l63so6198629pge.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 23:37:48 -0700 (PDT)
+ Thu, 16 Jul 2020 23:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aOCvJ9OMLita4DjSQELNt/vTBzDq7eNN9v6xYwF0scM=;
- b=S3I6RbbTU3S2Zp86U4YVX+nzyRxyo+CG9ci4Em50WtT1g9F2SIUzAL1+XCwRR2/BVp
- nfM7KUjtBVL+m1U+pxx16SpTxU5thNcLpAX3/38fe1kGY4g52NsZsntxENCkh+8By9s8
- aNORnO8Ug4Ec4lmxiujvtO2Lnm5K28YoWPOmRJ1YSKY3JqOhdIPRLgJhtz/NZIp9kAYG
- ha9DDiSDDTL7ViT1FEpf4q5phZhLw4EW9iGwv6bHvkjc5URAUBzmrvaA0TMIttiPWuzP
- ALxfJ/t2AoNnWPEnG8YpPiy+eSim0a6EwBz6YWwMBMyhqz4YX/q/UrcMeABFj2CraRbn
- bGdQ==
+ bh=wtgOcxozUo1A/1oRnre/tApDmIyqZGC9apBsteJq/qw=;
+ b=geP9tlikeeOgb99m2DhIOa+lVY4n89I7VpemFrryKIceCZvdTXbVKN3gKRTNQBCUI9
+ V+lhzf1Wm8hv8FqDG+WyjFS/kZmLQTsljSOIzOX8VhTP2cJcfZQDiX6K8I0dShaioez6
+ lEVAk2bBnW1ejSmieSgtb808UIHyPuFSiuLM019Wi7ZAYJAtyDrjbS05pXBD3Sn6NiXI
+ /f4BBsjfK8Fr+pVnGZeL/m0YoeRRBJBSymhtHAcCBSAophrjSW7mClNgSEQAHBkAQHBz
+ amXV0T3Zi2rWFZ61b2jp3DsnXZWwFMopXrvIHlSVFQ5bRJ7Z8ajLkgIqWbdPcoOpaTsH
+ w8lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aOCvJ9OMLita4DjSQELNt/vTBzDq7eNN9v6xYwF0scM=;
- b=VJgOgAVHkWr7HSJPVuLJce6F8bsQUD5pGPS/ADbG8oP84NroBuXmWGlC6T9canPiLN
- ZI/W8sqc4gjSw83gC9dWnU9ZDp1D3gaLSEdJXTgs7Th95edJkyh7P6c5DMNctFPPM6BN
- QXPVD4BBDHHibH9KPkZ2Hm5/kMGyFfYgxySv+MmtKdf85/Dn21sW1S0BzSMRRzXbKN8Q
- GCEbC/Km7m6AnvtGIctJbPIXgTzUzXPVUxzyhhm8wfSjlodrxU6tSRmFL0Lbv6ffOgLZ
- GwiQqin+JLpJKTX0dVdAKfShrpopvf4CYLt/NsXdNJqIKveBvqajQHgSxnPBqNCzY9k4
- 0Z6w==
-X-Gm-Message-State: AOAM530Bo+F5L+KrM+IRgu9NSumHW6VIXAy+kVLUkWJscDRSwBzbS1JJ
- CvmXHzsNOOC1U5DbCKi7/FM=
-X-Google-Smtp-Source: ABdhPJzchMkZIBjOktmEC1PtrDgbbShM+6vXVmSYLZoMiiAbH7WXETCw/KQPU+X6UiBQaT70APfZNw==
-X-Received: by 2002:a17:902:ab92:: with SMTP id
- f18mr6277999plr.272.1594967867950; 
- Thu, 16 Jul 2020 23:37:47 -0700 (PDT)
+ bh=wtgOcxozUo1A/1oRnre/tApDmIyqZGC9apBsteJq/qw=;
+ b=NWFrDGHiCDYHIrmq9eI4FBbkOnRtEJfCRWZ0NoNjePAwsisf8dDxvvueqFJiBZZAwo
+ aP+rm4+JrTJt9lGwQzBKUGqOmY4vQX6vP1XYc9D4BA5xtfvRDm85N+soIqUSi0/NDtdy
+ cLHEpWCf2Xy3brso8zDbo3BvBNsLny3p6ZdYPTEWBTtwrr89xRDXXPTPCxDVaoR4H9cW
+ SUD8aH2AM2Pnj92oMwlaFPcJ6NxwfhJxDKwDdUhCFZm0dQlol8L+OpJCqEEAPdcdxAgy
+ 5Tw5GCCMcCQlsUW4VPuyrT7q1D87Painy3YJB5iVd+bLCu2i5yfvTVcfCkrQ4/EmWhWR
+ 5U+Q==
+X-Gm-Message-State: AOAM531rqJJE7yEpbxxy4+SU10mryeUfE/H5Hc8GHy15G3vUbWn75XwY
+ tcKIIzOfowaFG/rXjnA7Nb4=
+X-Google-Smtp-Source: ABdhPJwSELLmtmQGLqjUTkpErqmiYkPKogaj4aTRq3vd5MMKo50b/0qylVSUT7c5iKhsYEKVV7EWPw==
+X-Received: by 2002:aa7:8391:: with SMTP id u17mr7167776pfm.156.1594967880278; 
+ Thu, 16 Jul 2020 23:38:00 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.37.38
+ by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.37.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 23:37:47 -0700 (PDT)
+ Thu, 16 Jul 2020 23:37:59 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>, Adam Radford <aradford@gmail.com>,
@@ -105,8 +104,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Date: Fri, 17 Jul 2020 12:04:32 +0530
-Message-Id: <20200717063438.175022-10-vaibhavgupta40@gmail.com>
+Date: Fri, 17 Jul 2020 12:04:33 +0530
+Message-Id: <20200717063438.175022-11-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
 References: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
@@ -115,7 +114,7 @@ Cc: linux-scsi@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  MPT-FusionLinux.pdl@broadcom.com, esc.storagedev@microsemi.com,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v1 09/15] scsi: lpfc: use generic
+Subject: [Linux-kernel-mentees] [PATCH v1 10/15] scsi: pm_8001: use generic
 	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -140,261 +139,127 @@ device's power states and takes care of register states.
 After upgrading to the generic structure, PCI core will take care of
 required tasks and drivers should do only device-specific operations.
 
-The driver was calling pci_save/restore_state(), pci_choose_state() and
-pci_set_power_state() which is no more needed.
+The driver was calling pci_save/restore_state(), pci_choose_state(),
+pci_enable/disable_device() and pci_set_power_state() which is no more
+needed.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/lpfc/lpfc_init.c | 100 +++++++++++-----------------------
- 1 file changed, 33 insertions(+), 67 deletions(-)
+ drivers/scsi/pm8001/pm8001_init.c | 43 ++++++++++++-------------------
+ 1 file changed, 16 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index 6637f84a3d1b..a36309b48144 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -12452,8 +12452,7 @@ lpfc_pci_remove_one_s3(struct pci_dev *pdev)
+diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
+index 9e99262a2b9d..6831760fca59 100644
+--- a/drivers/scsi/pm8001/pm8001_init.c
++++ b/drivers/scsi/pm8001/pm8001_init.c
+@@ -1178,23 +1178,22 @@ static void pm8001_pci_remove(struct pci_dev *pdev)
  
  /**
-  * lpfc_pci_suspend_one_s3 - PCI func to suspend SLI-3 device for power mgmnt
-- * @pdev: pointer to PCI device
-- * @msg: power management message
-+ * @dev_d: pointer to device
+  * pm8001_pci_suspend - power management suspend main entry point
+- * @pdev: PCI device struct
+- * @state: PM state change to (usually PCI_D3)
++ * @dev: Device struct
   *
-  * This routine is to be called from the kernel's PCI subsystem to support
-  * system Power Management (PM) to device with SLI-3 interface spec. When
-@@ -12471,10 +12470,10 @@ lpfc_pci_remove_one_s3(struct pci_dev *pdev)
-  * 	0 - driver suspended the device
-  * 	Error otherwise
-  **/
--static int
--lpfc_pci_suspend_one_s3(struct pci_dev *pdev, pm_message_t msg)
-+static int __maybe_unused
-+lpfc_pci_suspend_one_s3(struct device *dev_d)
+  * Returns 0 success, anything else error.
+  */
+-static int pm8001_pci_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused pm8001_pci_suspend(struct device *dev)
  {
--	struct Scsi_Host *shost = pci_get_drvdata(pdev);
-+	struct Scsi_Host *shost = dev_get_drvdata(dev_d);
- 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
- 
- 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
-@@ -12488,16 +12487,12 @@ lpfc_pci_suspend_one_s3(struct pci_dev *pdev, pm_message_t msg)
- 	/* Disable interrupt from device */
- 	lpfc_sli_disable_intr(phba);
- 
--	/* Save device state to PCI config space */
++	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct sas_ha_struct *sha = pci_get_drvdata(pdev);
+ 	struct pm8001_hba_info *pm8001_ha;
+ 	int  i, j;
+-	u32 device_state;
+ 	pm8001_ha = sha->lldd_ha;
+ 	sas_suspend_ha(sha);
+ 	flush_workqueue(pm8001_wq);
+ 	scsi_block_requests(pm8001_ha->shost);
+ 	if (!pdev->pm_cap) {
+-		dev_err(&pdev->dev, " PCI PM not supported\n");
++		dev_err(dev, " PCI PM not supported\n");
+ 		return -ENODEV;
+ 	}
+ 	PM8001_CHIP_DISP->interrupt_disable(pm8001_ha, 0xFF);
+@@ -1217,24 +1216,21 @@ static int pm8001_pci_suspend(struct pci_dev *pdev, pm_message_t state)
+ 		for (j = 0; j < PM8001_MAX_MSIX_VEC; j++)
+ 			tasklet_kill(&pm8001_ha->tasklet[j]);
+ #endif
+-	device_state = pci_choose_state(pdev, state);
+ 	pm8001_printk("pdev=0x%p, slot=%s, entering "
+-		      "operating state [D%d]\n", pdev,
+-		      pm8001_ha->name, device_state);
 -	pci_save_state(pdev);
--	pci_set_power_state(pdev, PCI_D3hot);
--
+-	pci_disable_device(pdev);
+-	pci_set_power_state(pdev, device_state);
++		      "suspended state\n", pdev,
++		      pm8001_ha->name);
  	return 0;
  }
  
  /**
-  * lpfc_pci_resume_one_s3 - PCI func to resume SLI-3 device for power mgmnt
-- * @pdev: pointer to PCI device
-+ * @dev_d: pointer to device
+  * pm8001_pci_resume - power management resume main entry point
+- * @pdev: PCI device struct
++ * @dev: Device struct
   *
-  * This routine is to be called from the kernel's PCI subsystem to support
-  * system Power Management (PM) to device with SLI-3 interface spec. When PM
-@@ -12514,10 +12509,10 @@ lpfc_pci_suspend_one_s3(struct pci_dev *pdev, pm_message_t msg)
-  * 	0 - driver suspended the device
-  * 	Error otherwise
-  **/
--static int
--lpfc_pci_resume_one_s3(struct pci_dev *pdev)
-+static int __maybe_unused
-+lpfc_pci_resume_one_s3(struct device *dev_d)
+  * Returns 0 success, anything else error.
+  */
+-static int pm8001_pci_resume(struct pci_dev *pdev)
++static int __maybe_unused pm8001_pci_resume(struct device *dev)
  {
--	struct Scsi_Host *shost = pci_get_drvdata(pdev);
-+	struct Scsi_Host *shost = dev_get_drvdata(dev_d);
- 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
- 	uint32_t intr_mode;
- 	int error;
-@@ -12525,19 +12520,6 @@ lpfc_pci_resume_one_s3(struct pci_dev *pdev)
- 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
- 			"0452 PCI device Power Management resume.\n");
++	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct sas_ha_struct *sha = pci_get_drvdata(pdev);
+ 	struct pm8001_hba_info *pm8001_ha;
+ 	int rc;
+@@ -1247,17 +1243,8 @@ static int pm8001_pci_resume(struct pci_dev *pdev)
+ 	pm8001_printk("pdev=0x%p, slot=%s, resuming from previous "
+ 		"operating state [D%d]\n", pdev, pm8001_ha->name, device_state);
  
--	/* Restore device state from PCI config space */
 -	pci_set_power_state(pdev, PCI_D0);
+-	pci_enable_wake(pdev, PCI_D0, 0);
 -	pci_restore_state(pdev);
--
--	/*
--	 * As the new kernel behavior of pci_restore_state() API call clears
--	 * device saved_state flag, need to save the restored state again.
--	 */
--	pci_save_state(pdev);
--
--	if (pdev->is_busmaster)
--		pci_set_master(pdev);
--
- 	/* Startup the kernel thread for this host adapter. */
- 	phba->worker_thread = kthread_run(lpfc_do_work, phba,
- 					"lpfc_worker_%d", phba->brd_no);
-@@ -13294,8 +13276,7 @@ lpfc_pci_remove_one_s4(struct pci_dev *pdev)
+-	rc = pci_enable_device(pdev);
+-	if (rc) {
+-		pm8001_printk("slot=%s Enable device failed during resume\n",
+-			      pm8001_ha->name);
+-		goto err_out_enable;
+-	}
++	device_wakeup_disable(dev);
  
- /**
-  * lpfc_pci_suspend_one_s4 - PCI func to suspend SLI-4 device for power mgmnt
-- * @pdev: pointer to PCI device
-- * @msg: power management message
-+ * @dev_d: pointer to device
-  *
-  * This routine is called from the kernel's PCI subsystem to support system
-  * Power Management (PM) to device with SLI-4 interface spec. When PM invokes
-@@ -13313,10 +13294,10 @@ lpfc_pci_remove_one_s4(struct pci_dev *pdev)
-  * 	0 - driver suspended the device
-  * 	Error otherwise
-  **/
--static int
--lpfc_pci_suspend_one_s4(struct pci_dev *pdev, pm_message_t msg)
-+static int __maybe_unused
-+lpfc_pci_suspend_one_s4(struct device *dev_d)
- {
--	struct Scsi_Host *shost = pci_get_drvdata(pdev);
-+	struct Scsi_Host *shost = dev_get_drvdata(dev_d);
- 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
+-	pci_set_master(pdev);
+ 	rc = pci_go_44(pdev);
+ 	if (rc)
+ 		goto err_out_disable;
+@@ -1318,8 +1305,7 @@ static int pm8001_pci_resume(struct pci_dev *pdev)
  
- 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
-@@ -13331,16 +13312,12 @@ lpfc_pci_suspend_one_s4(struct pci_dev *pdev, pm_message_t msg)
- 	lpfc_sli4_disable_intr(phba);
- 	lpfc_sli4_queue_destroy(phba);
- 
--	/* Save device state to PCI config space */
--	pci_save_state(pdev);
--	pci_set_power_state(pdev, PCI_D3hot);
--
- 	return 0;
- }
- 
- /**
-  * lpfc_pci_resume_one_s4 - PCI func to resume SLI-4 device for power mgmnt
-- * @pdev: pointer to PCI device
-+ * @dev_d: pointer to device
-  *
-  * This routine is called from the kernel's PCI subsystem to support system
-  * Power Management (PM) to device with SLI-4 interface spac. When PM invokes
-@@ -13357,10 +13334,10 @@ lpfc_pci_suspend_one_s4(struct pci_dev *pdev, pm_message_t msg)
-  * 	0 - driver suspended the device
-  * 	Error otherwise
-  **/
--static int
--lpfc_pci_resume_one_s4(struct pci_dev *pdev)
-+static int __maybe_unused
-+lpfc_pci_resume_one_s4(struct device *dev_d)
- {
--	struct Scsi_Host *shost = pci_get_drvdata(pdev);
-+	struct Scsi_Host *shost = dev_get_drvdata(dev_d);
- 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
- 	uint32_t intr_mode;
- 	int error;
-@@ -13368,19 +13345,6 @@ lpfc_pci_resume_one_s4(struct pci_dev *pdev)
- 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
- 			"0292 PCI device Power Management resume.\n");
- 
--	/* Restore device state from PCI config space */
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--
--	/*
--	 * As the new kernel behavior of pci_restore_state() API call clears
--	 * device saved_state flag, need to save the restored state again.
--	 */
--	pci_save_state(pdev);
--
--	if (pdev->is_busmaster)
--		pci_set_master(pdev);
--
- 	 /* Startup the kernel thread for this host adapter. */
- 	phba->worker_thread = kthread_run(lpfc_do_work, phba,
- 					"lpfc_worker_%d", phba->brd_no);
-@@ -13696,8 +13660,7 @@ lpfc_pci_remove_one(struct pci_dev *pdev)
- 
- /**
-  * lpfc_pci_suspend_one - lpfc PCI func to suspend dev for power management
-- * @pdev: pointer to PCI device
-- * @msg: power management message
-+ * @dev: pointer to device
-  *
-  * This routine is to be registered to the kernel's PCI subsystem to support
-  * system Power Management (PM). When PM invokes this method, it dispatches
-@@ -13708,19 +13671,19 @@ lpfc_pci_remove_one(struct pci_dev *pdev)
-  * 	0 - driver suspended the device
-  * 	Error otherwise
-  **/
--static int
--lpfc_pci_suspend_one(struct pci_dev *pdev, pm_message_t msg)
-+static int __maybe_unused
-+lpfc_pci_suspend_one(struct device *dev)
- {
--	struct Scsi_Host *shost = pci_get_drvdata(pdev);
-+	struct Scsi_Host *shost = dev_get_drvdata(dev);
- 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
- 	int rc = -ENODEV;
- 
- 	switch (phba->pci_dev_grp) {
- 	case LPFC_PCI_DEV_LP:
--		rc = lpfc_pci_suspend_one_s3(pdev, msg);
-+		rc = lpfc_pci_suspend_one_s3(dev);
- 		break;
- 	case LPFC_PCI_DEV_OC:
--		rc = lpfc_pci_suspend_one_s4(pdev, msg);
-+		rc = lpfc_pci_suspend_one_s4(dev);
- 		break;
- 	default:
- 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
-@@ -13733,7 +13696,7 @@ lpfc_pci_suspend_one(struct pci_dev *pdev, pm_message_t msg)
- 
- /**
-  * lpfc_pci_resume_one - lpfc PCI func to resume dev for power management
-- * @pdev: pointer to PCI device
-+ * @dev: pointer to device
-  *
-  * This routine is to be registered to the kernel's PCI subsystem to support
-  * system Power Management (PM). When PM invokes this method, it dispatches
-@@ -13744,19 +13707,19 @@ lpfc_pci_suspend_one(struct pci_dev *pdev, pm_message_t msg)
-  * 	0 - driver suspended the device
-  * 	Error otherwise
-  **/
--static int
--lpfc_pci_resume_one(struct pci_dev *pdev)
-+static int __maybe_unused
-+lpfc_pci_resume_one(struct device *dev)
- {
--	struct Scsi_Host *shost = pci_get_drvdata(pdev);
-+	struct Scsi_Host *shost = dev_get_drvdata(dev);
- 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
- 	int rc = -ENODEV;
- 
- 	switch (phba->pci_dev_grp) {
- 	case LPFC_PCI_DEV_LP:
--		rc = lpfc_pci_resume_one_s3(pdev);
-+		rc = lpfc_pci_resume_one_s3(dev);
- 		break;
- 	case LPFC_PCI_DEV_OC:
--		rc = lpfc_pci_resume_one_s4(pdev);
-+		rc = lpfc_pci_resume_one_s4(dev);
- 		break;
- 	default:
- 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
-@@ -13936,14 +13899,17 @@ static const struct pci_error_handlers lpfc_err_handler = {
- 	.resume = lpfc_io_resume,
- };
- 
-+static SIMPLE_DEV_PM_OPS(lpfc_pci_pm_ops_one,
-+			 lpfc_pci_suspend_one,
-+			 lpfc_pci_resume_one);
+ err_out_disable:
+ 	scsi_remove_host(pm8001_ha->shost);
+-	pci_disable_device(pdev);
+-err_out_enable:
 +
- static struct pci_driver lpfc_driver = {
- 	.name		= LPFC_DRIVER_NAME,
- 	.id_table	= lpfc_id_table,
- 	.probe		= lpfc_pci_probe_one,
- 	.remove		= lpfc_pci_remove_one,
- 	.shutdown	= lpfc_pci_remove_one,
--	.suspend        = lpfc_pci_suspend_one,
--	.resume		= lpfc_pci_resume_one,
-+	.driver.pm	= &lpfc_pci_pm_ops_one,
- 	.err_handler    = &lpfc_err_handler,
+ 	return rc;
+ }
+ 
+@@ -1402,13 +1388,16 @@ static struct pci_device_id pm8001_pci_table[] = {
+ 	{} /* terminate list */
  };
  
++static SIMPLE_DEV_PM_OPS(pm8001_pci_pm_ops,
++			 pm8001_pci_suspend,
++			 pm8001_pci_resume);
++
+ static struct pci_driver pm8001_pci_driver = {
+ 	.name		= DRV_NAME,
+ 	.id_table	= pm8001_pci_table,
+ 	.probe		= pm8001_pci_probe,
+ 	.remove		= pm8001_pci_remove,
+-	.suspend	= pm8001_pci_suspend,
+-	.resume		= pm8001_pci_resume,
++	.driver.pm	= &pm8001_pci_pm_ops,
+ };
+ 
+ /**
 -- 
 2.27.0
 
