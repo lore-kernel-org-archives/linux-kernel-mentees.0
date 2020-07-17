@@ -2,89 +2,91 @@ Return-Path: <SRS0=nKGu=A4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEAEFC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:36:21 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1D90C433E6
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:36:31 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B73282071A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:36:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C486720704
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:36:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuhR7AEN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B73282071A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uOV9K5F4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C486720704
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8589320406;
-	Fri, 17 Jul 2020 06:36:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A52C6881EC;
+	Fri, 17 Jul 2020 06:36:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MGNvKpH8IuMP; Fri, 17 Jul 2020 06:36:20 +0000 (UTC)
+	with ESMTP id pzT1alVA4zv5; Fri, 17 Jul 2020 06:36:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E7B57203E4;
-	Fri, 17 Jul 2020 06:36:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F3945881DC;
+	Fri, 17 Jul 2020 06:36:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CCA2CC07FF;
-	Fri, 17 Jul 2020 06:36:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EA290C07FF;
+	Fri, 17 Jul 2020 06:36:30 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DA6D1C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 80B48C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:36:18 +0000 (UTC)
+ Fri, 17 Jul 2020 06:36:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C07B286200
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6F17786203
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:36:18 +0000 (UTC)
+ Fri, 17 Jul 2020 06:36:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SA9M7L0PxSWb
+ with ESMTP id EE5Rur05i_Bt
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:36:18 +0000 (UTC)
+ Fri, 17 Jul 2020 06:36:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 46A9C861FF
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A14AD86200
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:36:18 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id q17so4919488pfu.8
+ Fri, 17 Jul 2020 06:36:28 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id ch3so6049327pjb.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 23:36:18 -0700 (PDT)
+ Thu, 16 Jul 2020 23:36:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fuLbBhPUhKAR3I+8q0SKnGOpN3cxYtGrBhqDxxyRUk8=;
- b=FuhR7AENpGuNAggdn7GFuVjmvAwOLgp5wsm5TjTGHb0s6g3tCkJJWQaAoTZt31h8OK
- pSIvNYxVWnQt0XVwCHUbFzU62AokgKo9SwJvjy/7ggnro6gp5PFuh1+MUCqzNCEdTa4T
- vbTofkSxIL2ohZoZSJj4UtWgw6cfM4GpJAqF/hObVtERDsZoFaiPfaeprsHFVNphMLgw
- xIFRy8PjR6vgHR8xoxhKemhD71CMLJew0yqX54JdlDas03e3JUEaLEJvkc6I0WKRtEwz
- /FEGpid2HHRavSZn3sUiG8qTmwA0rLdCRq+znNkqdXPYVWEMTdxYWUS1lgEhzVCY9XFO
- J4nw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sRkE7ksFL2ebr2n2v9nXbzY1XW3YY8T5bASrkjktDKo=;
+ b=uOV9K5F4ab4r2ImEgZz3T7yRcZwuq3d2y0cXjv84ZmB0wcl2VKO8bKEyIsnnjrERDI
+ +kvchZ6WVHJDiEDAXJ1G+SMZLkETwkZYKRRbu+ma6m8pOw+juKUptrbwxPm4t2VgDtST
+ G06UNh0ujWMLPwY0KUL/uGsXepRhP1LPco9v6mFiY5W4S3/T2MvF2aRINcfd0T+UUH1f
+ Y2wWLFwHXkCs1IEyOKM0VsZnMa5wOlKk+6duJrcKgAHyFCw48TwJMIRaaxPgvKHqwQGq
+ 6F/rKOjiJUvakOtcTtDmA4HskaV8FSCh3Lrbx0DulzS6RtfKtiHh6ZmXe0sJyH//vOYL
+ CkAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fuLbBhPUhKAR3I+8q0SKnGOpN3cxYtGrBhqDxxyRUk8=;
- b=D/W0v674r4Ac7FOKTm/O6LAyHMBtTTiloEqQDBKjKPXu7oUVJPP1d7MDV8mCK7M6+Y
- 7DDGOmUfdJ4oGqYOFAL4ytpObu7DVTzwwCdBeBs00HBJJVX653Chfquf8a+V1q3qN+5x
- MFYC9f6TQtDfwXTMm4/oZTEnKTop5OnUp/PV4+osRWNYFaccY+XxEvnUKAHjO3ZQ7VQk
- HIPgWcuFJez0oCFM3/s15qNQ9sI5AzVjLxVWX/G2v4k7+6pxiPUham84D9WRyIIMNuUz
- ezfTU5+HXmW9a1fMCNm0SiDAgALSgxseGXWErl3S9U9HAejrLiL8qP5YCgIfrCT7KXyC
- Vp0g==
-X-Gm-Message-State: AOAM532uQxcvzxbGUD1zB9HX7aGYgTGKdWN7gITGK9KR6OVEQMtN3hqX
- ianoahtWjzZIqA+hI88xP8w=
-X-Google-Smtp-Source: ABdhPJxmGs8PQMT/xY21Q4L1G8znzEuRE+0Deq1bt+KZPU72UfztLi9k6nCm5FwF046HkfepC1ye6Q==
-X-Received: by 2002:a63:1f11:: with SMTP id f17mr7213867pgf.217.1594967777748; 
- Thu, 16 Jul 2020 23:36:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=sRkE7ksFL2ebr2n2v9nXbzY1XW3YY8T5bASrkjktDKo=;
+ b=MfTTKuJ7wGsrlYaTopZbpWXjTsltc3xl4Yi4qrerzZqHHGo3HFBFQvLpqO4K+g/YKW
+ zAmqPGWybA6p1Bu1F0b17YQifC3jTPzbtVNUajv964n5Iqd8Z2YZmj0WDzTsftLFHAJm
+ WHD/pfVUs0tJwaoPyH0gYksQ9OczRDvJEvkjyuCJJ8CaMmIEVUdpCRGwjm/kGMhhyefK
+ RG1LySElzClpUK5cursm9gBR8VKjiZ4m/7BhbixSAmiNVDPnrmA/z7LjXJ9ysv67kX06
+ 95sBI37tX1yr6fDx5on4aXnoeGKGo/R1umuoGrmDrjZSSfzUwmfBIWYzcdgStEEuDr9w
+ tqeQ==
+X-Gm-Message-State: AOAM530oj8CZTBiSZIpicbZ8JMpNli4mSh5Eo70Qcwk0AoaiRiLGJroh
+ FGA63J70sAq7YOXtgnxAS50=
+X-Google-Smtp-Source: ABdhPJxQYr14KgIsWdXSIy60jgnY/LkACxqU5+78XPFx9k6obCtrSr7pjlmsac0aVOChj13/kUv38A==
+X-Received: by 2002:a17:90b:4910:: with SMTP id
+ kr16mr8409682pjb.126.1594967788167; 
+ Thu, 16 Jul 2020 23:36:28 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.36.06
+ by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.36.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 23:36:17 -0700 (PDT)
+ Thu, 16 Jul 2020 23:36:27 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>, Adam Radford <aradford@gmail.com>,
@@ -103,16 +105,18 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Date: Fri, 17 Jul 2020 12:04:23 +0530
-Message-Id: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
+Date: Fri, 17 Jul 2020 12:04:24 +0530
+Message-Id: <20200717063438.175022-2-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
+References: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: linux-scsi@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  MPT-FusionLinux.pdl@broadcom.com, esc.storagedev@microsemi.com,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v1 00/15] scsi: use generic power
-	management
+Subject: [Linux-kernel-mentees] [PATCH v1 01/15] scsi: megaraid_sas: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -130,66 +134,167 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Linux Kernel Mentee: Remove Legacy Power Management.
+With legacy PM hooks, it was the responsibility of a driver to manage PCI
+states and also the device's power state. The generic approach is to let
+the PCI core handle the work.
 
-The purpose of this patch series is to upgrade power management in scsi
-drivers. This has been done by upgrading .suspend() and .resume() callbacks.
+PCI core passes "struct device*" as an argument to the .suspend() and
+.resume() callbacks. As the .suspend() work with "struct instance*",
+extract it from "struct device*" using dev_get_drv_data().
 
-The upgrade makes sure that the involvement of PCI Core does not change the
-order of operations executed in a driver. Thus, does not change its behavior.
+Driver was also using PCI helper functions like pci_save/restore_state(),
+pci_disable/enable_device(), pci_set_power_state() and pci_enable_wake().
+They should not be invoked by the driver.
 
-In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
-helper functions like pci_request/release_regions(), pci_set_power_state(),
-pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
-their job.
+Compile-tested only.
 
-The conversion requires the removal of those function calls, change the
-callbacks' definition accordingly and make use of dev_pm_ops structure.
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/scsi/megaraid/megaraid_sas_base.c | 57 +++++++----------------
+ 1 file changed, 16 insertions(+), 41 deletions(-)
 
-All patches are compile-tested only.
-
-Vaibhav Gupta (15):
-  scsi: megaraid_sas: use generic power management
-  scsi: aacraid: use generic power management
-  scsi: aic7xxx: use generic power management
-  scsi: aic79xx: use generic power management
-  scsi: arcmsr: use generic power management
-  scsi: esas2r: use generic power management
-  scsi: hisi_sas_v3_hw: use generic power management
-  scsi: mpt3sas_scsih: use generic power management
-  scsi: lpfc: use generic power management
-  scsi: pm_8001: use generic power management
-  scsi: hpsa: use generic power management
-  scsi: 3w-9xxx: use generic power management
-  scsi: 3w-sas: use generic power management
-  scsi: mvumi: use generic power management
-  scsi: pmcraid: use generic power management
-
- drivers/scsi/3w-9xxx.c                    |  30 ++-----
- drivers/scsi/3w-sas.c                     |  31 ++-----
- drivers/scsi/aacraid/linit.c              |  34 ++------
- drivers/scsi/aic7xxx/aic79xx.h            |  12 +--
- drivers/scsi/aic7xxx/aic79xx_core.c       |   8 +-
- drivers/scsi/aic7xxx/aic79xx_osm_pci.c    |  43 +++-------
- drivers/scsi/aic7xxx/aic79xx_pci.c        |   6 +-
- drivers/scsi/aic7xxx/aic7xxx.h            |  10 +--
- drivers/scsi/aic7xxx/aic7xxx_core.c       |   6 +-
- drivers/scsi/aic7xxx/aic7xxx_osm_pci.c    |  46 +++-------
- drivers/scsi/aic7xxx/aic7xxx_pci.c        |   4 +-
- drivers/scsi/arcmsr/arcmsr_hba.c          |  35 +++-----
- drivers/scsi/esas2r/esas2r.h              |   5 +-
- drivers/scsi/esas2r/esas2r_init.c         |  46 +++-------
- drivers/scsi/esas2r/esas2r_main.c         |   3 +-
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    |  32 +++----
- drivers/scsi/hpsa.c                       |  12 +--
- drivers/scsi/lpfc/lpfc_init.c             | 100 +++++++---------------
- drivers/scsi/megaraid/megaraid_sas_base.c |  57 ++++--------
- drivers/scsi/mpt3sas/mpt3sas_scsih.c      |  36 +++-----
- drivers/scsi/mvumi.c                      |  49 +++--------
- drivers/scsi/pm8001/pm8001_init.c         |  43 ++++------
- drivers/scsi/pmcraid.c                    |  42 +++------
- 23 files changed, 208 insertions(+), 482 deletions(-)
-
+diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
+index 00668335c2af..c1bf429d29db 100644
+--- a/drivers/scsi/megaraid/megaraid_sas_base.c
++++ b/drivers/scsi/megaraid/megaraid_sas_base.c
+@@ -7539,25 +7539,23 @@ static void megasas_shutdown_controller(struct megasas_instance *instance,
+ 	megasas_return_cmd(instance, cmd);
+ }
+ 
+-#ifdef CONFIG_PM
+ /**
+  * megasas_suspend -	driver suspend entry point
+- * @pdev:		PCI device structure
+- * @state:		PCI power state to suspend routine
++ * @dev:		Device structure
+  */
+-static int
+-megasas_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused
++megasas_suspend(struct device *dev)
+ {
+ 	struct megasas_instance *instance;
+ 
+-	instance = pci_get_drvdata(pdev);
++	instance = dev_get_drvdata(dev);
+ 
+ 	if (!instance)
+ 		return 0;
+ 
+ 	instance->unload = 1;
+ 
+-	dev_info(&pdev->dev, "%s is called\n", __func__);
++	dev_info(dev, "%s is called\n", __func__);
+ 
+ 	/* Shutdown SR-IOV heartbeat timer */
+ 	if (instance->requestorId && !instance->skip_heartbeat_timer_del)
+@@ -7579,7 +7577,7 @@ megasas_suspend(struct pci_dev *pdev, pm_message_t state)
+ 
+ 	tasklet_kill(&instance->isr_tasklet);
+ 
+-	pci_set_drvdata(instance->pdev, instance);
++	dev_set_drvdata(dev, instance);
+ 	instance->instancet->disable_intr(instance);
+ 
+ 	megasas_destroy_irqs(instance);
+@@ -7587,48 +7585,30 @@ megasas_suspend(struct pci_dev *pdev, pm_message_t state)
+ 	if (instance->msix_vectors)
+ 		pci_free_irq_vectors(instance->pdev);
+ 
+-	pci_save_state(pdev);
+-	pci_disable_device(pdev);
+-
+-	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+-
+ 	return 0;
+ }
+ 
+ /**
+  * megasas_resume-      driver resume entry point
+- * @pdev:               PCI device structure
++ * @dev:              Device structure
+  */
+-static int
+-megasas_resume(struct pci_dev *pdev)
++static int __maybe_unused
++megasas_resume(struct device *dev)
+ {
+ 	int rval;
+ 	struct Scsi_Host *host;
+ 	struct megasas_instance *instance;
+ 	u32 status_reg;
+ 
+-	instance = pci_get_drvdata(pdev);
++	instance = dev_get_drvdata(dev);
+ 
+ 	if (!instance)
+ 		return 0;
+ 
+ 	host = instance->host;
+-	pci_set_power_state(pdev, PCI_D0);
+-	pci_enable_wake(pdev, PCI_D0, 0);
+-	pci_restore_state(pdev);
++	device_wakeup_disable(dev);
+ 
+-	dev_info(&pdev->dev, "%s is called\n", __func__);
+-	/*
+-	 * PCI prepping: enable device set bus mastering and dma mask
+-	 */
+-	rval = pci_enable_device_mem(pdev);
+-
+-	if (rval) {
+-		dev_err(&pdev->dev, "Enable device failed\n");
+-		return rval;
+-	}
+-
+-	pci_set_master(pdev);
++	dev_info(dev, "%s is called\n", __func__);
+ 
+ 	/*
+ 	 * We expect the FW state to be READY
+@@ -7754,14 +7734,8 @@ megasas_resume(struct pci_dev *pdev)
+ fail_set_dma_mask:
+ fail_ready_state:
+ 
+-	pci_disable_device(pdev);
+-
+ 	return -ENODEV;
+ }
+-#else
+-#define megasas_suspend	NULL
+-#define megasas_resume	NULL
+-#endif
+ 
+ static inline int
+ megasas_wait_for_adapter_operational(struct megasas_instance *instance)
+@@ -7931,7 +7905,7 @@ static void megasas_detach_one(struct pci_dev *pdev)
+ 
+ /**
+  * megasas_shutdown -	Shutdown entry point
+- * @device:		Generic device structure
++ * @pdev:		PCI device structure
+  */
+ static void megasas_shutdown(struct pci_dev *pdev)
+ {
+@@ -8508,6 +8482,8 @@ static const struct file_operations megasas_mgmt_fops = {
+ 	.llseek = noop_llseek,
+ };
+ 
++static SIMPLE_DEV_PM_OPS(megasas_pm_ops, megasas_suspend, megasas_resume);
++
+ /*
+  * PCI hotplug support registration structure
+  */
+@@ -8517,8 +8493,7 @@ static struct pci_driver megasas_pci_driver = {
+ 	.id_table = megasas_pci_table,
+ 	.probe = megasas_probe_one,
+ 	.remove = megasas_detach_one,
+-	.suspend = megasas_suspend,
+-	.resume = megasas_resume,
++	.driver.pm = &megasas_pm_ops,
+ 	.shutdown = megasas_shutdown,
+ };
+ 
 -- 
 2.27.0
 
