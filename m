@@ -8,85 +8,85 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F11BC433F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:37:14 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82B8AC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:37:20 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D7F562071A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:37:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 55B982071A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 06:37:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IweNWT3F"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D7F562071A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pZEmdvF8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55B982071A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8F8F21FF59;
-	Fri, 17 Jul 2020 06:37:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3D4A5881DC;
+	Fri, 17 Jul 2020 06:37:20 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id elQm055ebOo6; Fri, 17 Jul 2020 06:37:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9B6B8881E9;
+	Fri, 17 Jul 2020 06:37:19 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 83603C07FF;
+	Fri, 17 Jul 2020 06:37:19 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4C37C0733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 17 Jul 2020 06:37:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 9E6542036C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 17 Jul 2020 06:37:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id y1nmGLdAdBI9; Fri, 17 Jul 2020 06:37:10 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7CA77203E4;
-	Fri, 17 Jul 2020 06:37:10 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 68759C07FF;
-	Fri, 17 Jul 2020 06:37:10 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 76540C0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:37:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6565886200
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:37:09 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lr3GEUYEwm4x
+ with ESMTP id qYBw5zZbkpis
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:37:08 +0000 (UTC)
+ Fri, 17 Jul 2020 06:37:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 40A7A861FF
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id E86E61FF59
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 06:37:08 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id k5so5024319plk.13
+ Fri, 17 Jul 2020 06:37:17 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id l6so5025346plt.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 23:37:08 -0700 (PDT)
+ Thu, 16 Jul 2020 23:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bpDL8hP0A1+XBDIs+//qQv7nf7yzkQKaBmD5iZnM/EU=;
- b=IweNWT3F37KxrySTtbOS9oR9BBnblpwmSbjNHt5+mxd+w9Fa1JuOTIzXAQOyu7P4qk
- FymNOj0SYUs2nArqC0F2SMinNNbQwK888kKqN0wGCnXNu6/XUd7AeejFbggCGKnOlolu
- 0yLPS6M9waAxVMo3JSwtnC7j0gba08ooWEMZ7lx+nzN8lPwmw/C7ZrJ23iXlfif8oL9s
- EtoHOCIdDicj7Q9ZvAaRvEZsX+i8sHvFLUBPNYfv0dxcd1C7pPGEgDkvl3IXBOZCfsq8
- trotl3ZgLzqCd3ew8eCJeqkMeY3McKIY4mSIdX3f3oxwQhN1rpsuw7azajPNrHPpwBG0
- ol2A==
+ bh=Oj3XjMnrzr/KXlllPC7PsU6D+8eVCB8pjXqRivPGKnY=;
+ b=pZEmdvF8fMAyw06fc9xyx9VCFW0YP+T0zKCCYDw6XL6T5IcvXNPrV5PzWc2Gd/7YgZ
+ jXiwAWk3Z/0bdBL2Q1EM7i5K4Zl7PU8MYgAeeYNrKofe1NMxZ1314VqJgt6TALPJKsAT
+ QFGR+Lqi7bX0M5vneTSxxmRPIKjcMe1NdN9i/kzVAgZzchoSsxsD44z+bihWBIGr5INZ
+ xvQQfen/3CirFLKBZudB7MTQjquMAPJI8QTodDLCQmhzpQOvixXl0IjK8z/10ClIpkMp
+ +5RpPdkhC9xgXfE5tVOCWAqsXbF24Kx6z/LbCWJWYbRDlq3AHQZ5TlMHHW1FQJYN6sGL
+ z10A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bpDL8hP0A1+XBDIs+//qQv7nf7yzkQKaBmD5iZnM/EU=;
- b=XgdEEW/hpUYVOXotRFwx1nNqqDWIDqlML8K81mPD6upyrNPy/HDBCyLf1BVunjYbWT
- zOn+/ZYe7TQ/bLewwWHVJud+bPxdpdZ+QWmm5/BM3zUWb/thJq1Ek/jp1gCbin0BVczj
- rgGnsrg9LkGUNaaaeVFEL0Dk/rPhF0trnDTcIl2X9QO3RUVw+X6ewDd0goUeKqhoT/mT
- 4yVMCwdqkL/arSttvbTPThWzRwsPMV7sa+tdNlA8sjfMOCTytBPvz0Sw7cAC6r30INCF
- 3mdyf4VBJfxO2rWrMNjgun+FMb6ti0Dit5IDaFsAjXFptleuWuEx4S4GV7LBgpsPFMJB
- aglA==
-X-Gm-Message-State: AOAM5325BzYg4cVtMq6PF3j1GFgyV/3LSfWOI85mJ4C3PBnwP6LxnS6E
- Ro0wmnIs6fTR6r6gV5J7bEA=
-X-Google-Smtp-Source: ABdhPJw+PiIo4bkP9JRIPLqYBkIFKaXE2tEy/mGPbiN03Pt+08kENWVwHfeH2m5T5g2/tKRQTK45/w==
-X-Received: by 2002:a17:902:c405:: with SMTP id
- k5mr6613793plk.233.1594967827749; 
- Thu, 16 Jul 2020 23:37:07 -0700 (PDT)
+ bh=Oj3XjMnrzr/KXlllPC7PsU6D+8eVCB8pjXqRivPGKnY=;
+ b=jfwxYMEaTp8rttKeMt2JF0hDEO4/VkoflLIwsm7zd7s/htSGcBwwI1U2bGcW1MwGms
+ t4bVhvam5rFp9K/+pJFq3LDltWrH1NNMTmd+fAZFUyQ3kMKj1s+FeZUprfP+sWjMkpCG
+ 7Sydq9l48A0TMrs7rFg1wBJAeSJ5iFP8uw+oj3TukonBPnf1ArJXJ8HbvAtUL9natxD5
+ LzX6OM1HGQEY/hW9ym0kmGbgXXJ856WTQc3VUeJs7gqGr3YsB9S7H7MuEbfY6N+m4/3y
+ 0y51NXHF787dq318KMbzHNVGwncqFREkNd5kgMDQseOSpJcwiSv2DVLMPnhAgNZvzfK4
+ QyAA==
+X-Gm-Message-State: AOAM53162fKxDk5xIYnf9NepbwJVKwwJcDfAxsompKOyUoSeKaN05ZeE
+ CCHuDQ6OyiOrvKK/mfqd7uY=
+X-Google-Smtp-Source: ABdhPJzw0UeA76/vsKD3g4Nf5qJ503fu0aAkL9zuiOLIq+YCd2FsL+cEDPSFq734CCuHPYTafT7lRw==
+X-Received: by 2002:a17:90b:188b:: with SMTP id
+ mn11mr8460686pjb.179.1594967837489; 
+ Thu, 16 Jul 2020 23:37:17 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.36.59
+ by smtp.gmail.com with ESMTPSA id y22sm1683392pjp.41.2020.07.16.23.37.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 23:37:07 -0700 (PDT)
+ Thu, 16 Jul 2020 23:37:17 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>, Adam Radford <aradford@gmail.com>,
@@ -105,8 +105,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>
-Date: Fri, 17 Jul 2020 12:04:28 +0530
-Message-Id: <20200717063438.175022-6-vaibhavgupta40@gmail.com>
+Date: Fri, 17 Jul 2020 12:04:29 +0530
+Message-Id: <20200717063438.175022-7-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
 References: <20200717063438.175022-1-vaibhavgupta40@gmail.com>
@@ -115,7 +115,7 @@ Cc: linux-scsi@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  MPT-FusionLinux.pdl@broadcom.com, esc.storagedev@microsemi.com,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v1 05/15] scsi: arcmsr: use generic
+Subject: [Linux-kernel-mentees] [PATCH v1 06/15] scsi: esas2r: use generic
 	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -134,119 +134,138 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-With legacy PM hooks, it was the responsibility of a driver to manage PCI
-states and also the device's power state. The generic approach is to let
-the PCI core handle the work.
+With legacy PM, drivers themselves were responsible for managing the
+device's power states and takes care of register states.
 
-PCI core passes "struct device*" as an argument to the .suspend() and
-.resume() callbacks.
+After upgrading to the generic structure, PCI core will take care of
+required tasks and drivers should do only device-specific operations.
 
-Driver was also using PCI helper functions like pci_save/restore_state(),
-pci_disable/enable_device(), pci_set_power_state() and pci_enable_wake().
-They should not be invoked by the driver.
+The driver was calling pci_save/restore_state(), pci_choose_state(),
+pci_enable/disable_device() and pci_set_power_state() which is no more
+needed.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/arcmsr/arcmsr_hba.c | 35 ++++++++++++--------------------
- 1 file changed, 13 insertions(+), 22 deletions(-)
+ drivers/scsi/esas2r/esas2r.h      |  5 ++--
+ drivers/scsi/esas2r/esas2r_init.c | 46 +++++++++----------------------
+ drivers/scsi/esas2r/esas2r_main.c |  3 +-
+ 3 files changed, 17 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/scsi/arcmsr/arcmsr_hba.c b/drivers/scsi/arcmsr/arcmsr_hba.c
-index 30914c8f29cc..7e098ddcc4f5 100644
---- a/drivers/scsi/arcmsr/arcmsr_hba.c
-+++ b/drivers/scsi/arcmsr/arcmsr_hba.c
-@@ -113,8 +113,8 @@ static int arcmsr_bios_param(struct scsi_device *sdev,
- static int arcmsr_queue_command(struct Scsi_Host *h, struct scsi_cmnd *cmd);
- static int arcmsr_probe(struct pci_dev *pdev,
- 				const struct pci_device_id *id);
--static int arcmsr_suspend(struct pci_dev *pdev, pm_message_t state);
--static int arcmsr_resume(struct pci_dev *pdev);
-+static int __maybe_unused arcmsr_suspend(struct device *dev);
-+static int __maybe_unused arcmsr_resume(struct device *dev);
- static void arcmsr_remove(struct pci_dev *pdev);
- static void arcmsr_shutdown(struct pci_dev *pdev);
- static void arcmsr_iop_init(struct AdapterControlBlock *acb);
-@@ -213,13 +213,14 @@ static struct pci_device_id arcmsr_device_id_table[] = {
- };
- MODULE_DEVICE_TABLE(pci, arcmsr_device_id_table);
- 
-+static SIMPLE_DEV_PM_OPS(arcmsr_pm_ops, arcmsr_suspend, arcmsr_resume);
+diff --git a/drivers/scsi/esas2r/esas2r.h b/drivers/scsi/esas2r/esas2r.h
+index 7f43b95f4e94..6ad3e0871ef0 100644
+--- a/drivers/scsi/esas2r/esas2r.h
++++ b/drivers/scsi/esas2r/esas2r.h
+@@ -996,8 +996,9 @@ void esas2r_adapter_tasklet(unsigned long context);
+ irqreturn_t esas2r_interrupt(int irq, void *dev_id);
+ irqreturn_t esas2r_msi_interrupt(int irq, void *dev_id);
+ void esas2r_kickoff_timer(struct esas2r_adapter *a);
+-int esas2r_suspend(struct pci_dev *pcid, pm_message_t state);
+-int esas2r_resume(struct pci_dev *pcid);
 +
- static struct pci_driver arcmsr_pci_driver = {
- 	.name			= "arcmsr",
- 	.id_table		= arcmsr_device_id_table,
- 	.probe			= arcmsr_probe,
- 	.remove			= arcmsr_remove,
--	.suspend		= arcmsr_suspend,
--	.resume			= arcmsr_resume,
-+	.driver.pm		= &arcmsr_pm_ops,
- 	.shutdown		= arcmsr_shutdown,
- };
- /*
-@@ -1065,14 +1066,14 @@ static void arcmsr_free_irq(struct pci_dev *pdev,
- 	pci_free_irq_vectors(pdev);
++extern const struct dev_pm_ops esas2r_pm_ops;
++
+ void esas2r_fw_event_off(struct esas2r_adapter *a);
+ void esas2r_fw_event_on(struct esas2r_adapter *a);
+ bool esas2r_nvram_write(struct esas2r_adapter *a, struct esas2r_request *rq,
+diff --git a/drivers/scsi/esas2r/esas2r_init.c b/drivers/scsi/esas2r/esas2r_init.c
+index eb7d139ffc00..d682cc585632 100644
+--- a/drivers/scsi/esas2r/esas2r_init.c
++++ b/drivers/scsi/esas2r/esas2r_init.c
+@@ -640,53 +640,31 @@ void esas2r_kill_adapter(int i)
+ 	}
  }
  
--static int arcmsr_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused arcmsr_suspend(struct device *dev)
+-int esas2r_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused esas2r_suspend(struct device *dev)
  {
--	uint32_t intmask_org;
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct Scsi_Host *host = pci_get_drvdata(pdev);
- 	struct AdapterControlBlock *acb =
- 		(struct AdapterControlBlock *)host->hostdata;
+-	struct Scsi_Host *host = pci_get_drvdata(pdev);
+-	u32 device_state;
++	struct Scsi_Host *host = dev_get_drvdata(dev);
+ 	struct esas2r_adapter *a = (struct esas2r_adapter *)host->hostdata;
  
--	intmask_org = arcmsr_disable_outbound_ints(acb);
-+	arcmsr_disable_outbound_ints(acb);
- 	arcmsr_free_irq(pdev, acb);
- 	del_timer_sync(&acb->eternal_timer);
- 	if (set_date_time)
-@@ -1080,29 +1081,21 @@ static int arcmsr_suspend(struct pci_dev *pdev, pm_message_t state)
- 	flush_work(&acb->arcmsr_do_message_isr_bh);
- 	arcmsr_stop_adapter_bgrb(acb);
- 	arcmsr_flush_adapter_cache(acb);
--	pci_set_drvdata(pdev, host);
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev), "suspending adapter()");
++	esas2r_log_dev(ESAS2R_LOG_INFO, dev, "suspending adapter()");
+ 	if (!a)
+ 		return -ENODEV;
+ 
+ 	esas2r_adapter_power_down(a, 1);
+-	device_state = pci_choose_state(pdev, state);
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev),
+-		       "pci_save_state() called");
 -	pci_save_state(pdev);
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev),
+-		       "pci_disable_device() called");
 -	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev),
+-		       "pci_set_power_state() called");
+-	pci_set_power_state(pdev, device_state);
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev), "esas2r_suspend(): 0");
++	esas2r_log_dev(ESAS2R_LOG_INFO, dev, "esas2r_suspend(): 0");
  	return 0;
  }
  
--static int arcmsr_resume(struct pci_dev *pdev)
-+static int __maybe_unused arcmsr_resume(struct device *dev)
+-int esas2r_resume(struct pci_dev *pdev)
++static int __maybe_unused esas2r_resume(struct device *dev)
  {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct Scsi_Host *host = pci_get_drvdata(pdev);
- 	struct AdapterControlBlock *acb =
- 		(struct AdapterControlBlock *)host->hostdata;
+-	struct Scsi_Host *host = pci_get_drvdata(pdev);
++	struct Scsi_Host *host = dev_get_drvdata(dev);
+ 	struct esas2r_adapter *a = (struct esas2r_adapter *)host->hostdata;
+ 	int rez;
  
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev), "resuming adapter()");
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev),
+-		       "pci_set_power_state(PCI_D0) "
++	esas2r_log_dev(ESAS2R_LOG_INFO, dev, "resuming adapter()");
++	esas2r_log_dev(ESAS2R_LOG_INFO, dev,
++		       "device_wakeup_disable() "
+ 		       "called");
 -	pci_set_power_state(pdev, PCI_D0);
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev),
+-		       "pci_enable_wake(PCI_D0, 0) "
+-		       "called");
 -	pci_enable_wake(pdev, PCI_D0, 0);
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev),
+-		       "pci_restore_state() called");
 -	pci_restore_state(pdev);
--	if (pci_enable_device(pdev)) {
--		pr_warn("%s: pci_enable_device error\n", __func__);
--		return -ENODEV;
--	}
-+	device_wakeup_disable(dev);
-+
- 	if (arcmsr_set_dma_mask(acb))
- 		goto controller_unregister;
+-	esas2r_log_dev(ESAS2R_LOG_INFO, &(pdev->dev),
+-		       "pci_enable_device() called");
+-	rez = pci_enable_device(pdev);
 -	pci_set_master(pdev);
-+
- 	if (arcmsr_request_irq(pdev, acb) == FAILED)
- 		goto controller_stop;
- 	switch (acb->adapter_type) {
-@@ -1137,9 +1130,7 @@ static int arcmsr_resume(struct pci_dev *pdev)
- 	scsi_remove_host(host);
- 	arcmsr_free_ccb_pool(acb);
- 	arcmsr_unmap_pciregion(acb);
--	pci_release_regions(pdev);
- 	scsi_host_put(host);
--	pci_disable_device(pdev);
- 	return -ENODEV;
++	device_wakeup_disable(dev);
+ 
+ 	if (!a) {
+ 		rez = -ENODEV;
+@@ -730,11 +708,13 @@ int esas2r_resume(struct pci_dev *pdev)
+ 	}
+ 
+ error_exit:
+-	esas2r_log_dev(ESAS2R_LOG_CRIT, &(pdev->dev), "esas2r_resume(): %d",
++	esas2r_log_dev(ESAS2R_LOG_CRIT, dev, "esas2r_resume(): %d",
+ 		       rez);
+ 	return rez;
  }
  
++SIMPLE_DEV_PM_OPS(esas2r_pm_ops, esas2r_suspend, esas2r_resume);
++
+ bool esas2r_set_degraded_mode(struct esas2r_adapter *a, char *error_str)
+ {
+ 	set_bit(AF_DEGRADED_MODE, &a->flags);
+diff --git a/drivers/scsi/esas2r/esas2r_main.c b/drivers/scsi/esas2r/esas2r_main.c
+index 7b49e2e9fcde..aab3ea580e6b 100644
+--- a/drivers/scsi/esas2r/esas2r_main.c
++++ b/drivers/scsi/esas2r/esas2r_main.c
+@@ -346,8 +346,7 @@ static struct pci_driver
+ 	.id_table	= esas2r_pci_table,
+ 	.probe		= esas2r_probe,
+ 	.remove		= esas2r_remove,
+-	.suspend	= esas2r_suspend,
+-	.resume		= esas2r_resume,
++	.driver.pm	= &esas2r_pm_ops,
+ };
+ 
+ static int esas2r_probe(struct pci_dev *pcid,
 -- 
 2.27.0
 
