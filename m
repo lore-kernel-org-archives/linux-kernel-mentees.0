@@ -2,106 +2,105 @@ Return-Path: <SRS0=nKGu=A4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FD5C433F1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:59 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84475C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 04:58:18 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4A58421741
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 48E88206BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 04:58:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L7uBE6cD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A58421741
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ABckm4Cp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 48E88206BE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1A052882F0;
-	Fri, 17 Jul 2020 03:58:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2188386277;
+	Fri, 17 Jul 2020 04:58:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9mo5alKDfUuU; Fri, 17 Jul 2020 03:58:58 +0000 (UTC)
+	with ESMTP id Lp6vKI-KnInH; Fri, 17 Jul 2020 04:58:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A922A882E3;
-	Fri, 17 Jul 2020 03:58:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9F44786283;
+	Fri, 17 Jul 2020 04:58:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A4D01C0893;
-	Fri, 17 Jul 2020 03:58:58 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6CABFC0733
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80C87C07FF;
+	Fri, 17 Jul 2020 04:58:17 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 97E3BC0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:57 +0000 (UTC)
+ Fri, 17 Jul 2020 04:58:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5082B882F0
+ by silver.osuosl.org (Postfix) with ESMTP id 7E43D203E9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:57 +0000 (UTC)
+ Fri, 17 Jul 2020 04:58:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JgGnfQymu6aK
+ with ESMTP id MdErbQLa+keV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:56 +0000 (UTC)
+ Fri, 17 Jul 2020 04:58:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
  [209.85.216.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D6ACA882E3
+ by silver.osuosl.org (Postfix) with ESMTPS id B947A203E4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:56 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id t15so5744824pjq.5
+ Fri, 17 Jul 2020 04:58:15 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id ls15so5960482pjb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 20:58:56 -0700 (PDT)
+ Thu, 16 Jul 2020 21:58:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
- b=L7uBE6cDRVMj0gHPJGOHTDiheKAZMJIZrfqbe00VOVr73uD1dK32hSHLBzu75ld5A+
- Ai5h0vpfZWBpdF4SA7BpWBHNdDJdwXGXaH74ccr49lkrPvAjHPLRynhdvE264lupkpx0
- uOy4IgUC98Eea9OqYKG7WdHC3U25kORnT7fwiIbjHv6DMpYc9oHkzsiSv2xSoPV32QNW
- RCowtyc3gssZ40NB14OMin2AG3R5MK3JRGYAaUNeDoNrDyH62j/Mwb/uQ1zs9Sf01NaP
- sPebEiexTuE+hAmVvTA2+QZi+dJRN/FcXKpRY5VaWvxlmopInSontbSzsOF/Q+Cvpk1v
- 2ClQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=/oRewgFvGaQNev9gG1TOwBh1zMOVWvkQU1IczbGLRlU=;
+ b=ABckm4CpOvOAqCXeBoOfCRPNvFAJZ1k5Q6gt189Y4Jj35kUkZY9yVoVjIS/aGTs6hs
+ zDtFsDNyoOQBBgOnbkm2jJuMtPFZ1Inl/usiDSDEqA1bvmln+9PO2mkYkihgHzd1iT1Y
+ spIav2nhi7UrMn1MoITUnQ6b2WbjnG0ndojUfCm0Sv7hmtSVVvD40mzBbIUa2wDHvYaW
+ p9wqURCA+BrZA5/h39vhFHIa5QR7Um0ao5dOIYgBWSH5pAKtl3M0JM+WUCioGkc51lms
+ n8sIHWOU3t/9IaPI9qpnjxd1ICheZHVslJB8IKs7b5o1CRe9alAC3rud/HEmgP+En/EI
+ udcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
- b=qu2gBh/BiTY8GSdvW/DSXEoT09TBtm7OWznDN5W1RDRIKNZ12Tpb1bRJXy56Hkz2hg
- C6mdsR/DJNIHIQ44AFx+iFq3UB3bcH/jp2AGyyuHiw+fzl14dxvXuyZaPOwatYW1cBEF
- 5Dd1ikM7R6AFwW5IwyLLAkIzxQG8zooljT7sFvJ9+O1AD0DgAeeIXniDDrTmO76teD8I
- 7klCs4b6hLjJjI9sIBMHGdhawVpWa1Rb5q4Z7R0bYaHiCl38KW8YpNKmlRxQdeXHV1La
- 8YUARyEI1/+JCsxXl3vUbf8V8NSGTgNqhqek8xO4ANxKkiC4tOYRyRuWDQA6h6INb0kh
- sZag==
-X-Gm-Message-State: AOAM533H8day1cHDKv4F33bE6iwLeIWqCfWKYr+d9jA9QA3I9CwFYQJ6
- e31WcfU34dbpdFHQbd8TKms=
-X-Google-Smtp-Source: ABdhPJz9RWNqG7kqo+L+MFtbo2hzekR4x6yLSqYQDRE2NFenzzMNtalvwVlrAFC3Z8cmn2EAqPWygQ==
-X-Received: by 2002:a17:90a:cc0f:: with SMTP id
- b15mr7949017pju.83.1594958336419; 
- Thu, 16 Jul 2020 20:58:56 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id v11sm6227907pgs.22.2020.07.16.20.58.52
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/oRewgFvGaQNev9gG1TOwBh1zMOVWvkQU1IczbGLRlU=;
+ b=df5ZwFqfYwaW9Ra+3+6WvPL2kSJsMmPIvJCViF2YAcuindH61UXbIJt1o+TmdbNmY2
+ 2LXyQYSKfBuDYRt8Uttww4KK5Db4kGk3TQWFt6KvWcSOuLvfmKmAg++5cmUKm/4Z1kac
+ xKo4WkxEkKcqdq/Uf3T9H5eCmjoE1XllSJluIt1ut/IOOj7s34SDP5ghlOLceJR1P+BH
+ s805wf13tfCWpDPpyemrbmiHdPrmgSo+CBjNQOOt9wjJbOGJ6IgsklllX3Wvd81U4Zyi
+ JyyJ5VBQSXWO+cNY5Ky1Dd1czTDZdFhZXBXrEBWywD0DPOhhXUQE2ldMn4uKh0Oc02RJ
+ VeAw==
+X-Gm-Message-State: AOAM530sUlwd3bijokslsIwTpKi8+WcsdUC5BWYBFrVAua8xMRz9jTc8
+ uRmLVrKN6PzshI25iVveNPM=
+X-Google-Smtp-Source: ABdhPJwlUOr9sLF55zh5BAYeD7nEIBP9B8lwtG4fd7pQmfdqi60iR1n2G7y3RrbmuZf18vKaMpHfCA==
+X-Received: by 2002:a17:902:9890:: with SMTP id
+ s16mr3666000plp.112.1594961895145; 
+ Thu, 16 Jul 2020 21:58:15 -0700 (PDT)
+Received: from gmail.com ([103.105.153.67])
+ by smtp.gmail.com with ESMTPSA id m3sm6498708pfk.171.2020.07.16.21.58.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 20:58:55 -0700 (PDT)
+ Thu, 16 Jul 2020 21:58:14 -0700 (PDT)
+Date: Fri, 17 Jul 2020 10:26:48 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Date: Fri, 17 Jul 2020 09:26:08 +0530
-Message-Id: <20200717035608.97254-7-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
+Message-ID: <20200717045648.GA121727@gmail.com>
 References: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
-Cc: linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 6/6] tw68: use generic power
-	management
+Content-Disposition: inline
+In-Reply-To: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 0/6] [media] pci: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,96 +118,51 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-With legacy PM, drivers themselves were responsible for managing the
-device's power states and takes care of register states.
-
-After upgrading to the generic structure, PCI core will take care of
-required tasks and drivers should do only device-specific operations.
-
-The driver was invoking PCI helper functions like pci_save/restore_state()
-which is not recommended.
-
-Compile-Tested only.
-
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/media/pci/tw68/tw68-core.c | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/media/pci/tw68/tw68-core.c b/drivers/media/pci/tw68/tw68-core.c
-index b45f3ffa3de5..065420b09250 100644
---- a/drivers/media/pci/tw68/tw68-core.c
-+++ b/drivers/media/pci/tw68/tw68-core.c
-@@ -359,10 +359,9 @@ static void tw68_finidev(struct pci_dev *pci_dev)
- 	v4l2_device_unregister(&dev->v4l2_dev);
- }
- 
--#ifdef CONFIG_PM
--
--static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
-+static int __maybe_unused tw68_suspend(struct device *dev_d)
- {
-+	struct pci_dev *pci_dev = to_pci_dev(dev_d);
- 	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
- 	struct tw68_dev *dev = container_of(v4l2_dev,
- 				struct tw68_dev, v4l2_dev);
-@@ -373,24 +372,19 @@ static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
- 
- 	synchronize_irq(pci_dev->irq);
- 
--	pci_save_state(pci_dev);
--	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
- 	vb2_discard_done(&dev->vidq);
- 
- 	return 0;
- }
- 
--static int tw68_resume(struct pci_dev *pci_dev)
-+static int __maybe_unused tw68_resume(struct device *dev_d)
- {
--	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
-+	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
- 	struct tw68_dev *dev = container_of(v4l2_dev,
- 					    struct tw68_dev, v4l2_dev);
- 	struct tw68_buf *buf;
- 	unsigned long flags;
- 
--	pci_set_power_state(pci_dev, PCI_D0);
--	pci_restore_state(pci_dev);
--
- 	/* Do things that are done in tw68_initdev ,
- 		except of initializing memory structures.*/
- 
-@@ -408,19 +402,17 @@ static int tw68_resume(struct pci_dev *pci_dev)
- 
- 	return 0;
- }
--#endif
- 
- /* ----------------------------------------------------------- */
- 
-+static SIMPLE_DEV_PM_OPS(tw68_pm_ops, tw68_suspend, tw68_resume);
-+
- static struct pci_driver tw68_pci_driver = {
--	.name	  = "tw68",
--	.id_table = tw68_pci_tbl,
--	.probe	  = tw68_initdev,
--	.remove	  = tw68_finidev,
--#ifdef CONFIG_PM
--	.suspend  = tw68_suspend,
--	.resume   = tw68_resume
--#endif
-+	.name	   = "tw68",
-+	.id_table  = tw68_pci_tbl,
-+	.probe	   = tw68_initdev,
-+	.remove	   = tw68_finidev,
-+	.driver.pm = &tw68_pm_ops,
- };
- 
- module_pci_driver(tw68_pci_driver);
--- 
-2.27.0
-
+On Fri, Jul 17, 2020 at 09:26:02AM +0530, Vaibhav Gupta wrote:
+> Linux Kernel Mentee: Remove Legacy Power Management.
+> 
+> The purpose of this patch series is to upgrade power management in media
+> drivers. This has been done by upgrading .suspend() and .resume() callbacks.
+> 
+> The upgrade makes sure that the involvement of PCI Core does not change the
+> order of operations executed in a driver. Thus, does not change its behavior.
+> 
+> In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
+> helper functions like pci_enable/disable_device_mem(), pci_set_power_state(),
+> pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
+> their job.
+> 
+> The conversion requires the removal of those function calls, change the
+> callbacks' definition accordingly and make use of dev_pm_ops structure.
+> 
+> v2: v1 possibly broke cx23885 and cx25821.
+v1 didn't break anything in real as patch was not applied. But it could have.
+> 
+> All patches are compile-tested only.
+> 
+> Test tools:
+>     - Compiler: gcc (GCC) 10.1.0
+>     - allmodconfig build: make -j$(nproc) W=1 all
+> 
+> Vaibhav Gupta (6):
+>   sta2x11: use generic power management
+>   cx23885: use generic power management
+>   cx25821: use generic power management
+>   cx88: use generic power management
+>   meye: use generic power management
+>   tw68: use generic power management
+> 
+>  drivers/media/pci/cx23885/cx23885-core.c |  3 --
+>  drivers/media/pci/cx25821/cx25821-core.c |  3 --
+>  drivers/media/pci/cx88/cx88-video.c      | 52 +++++--------------
+>  drivers/media/pci/meye/meye.c            | 15 ++----
+>  drivers/media/pci/sta2x11/sta2x11_vip.c  | 63 ++++++------------------
+>  drivers/media/pci/tw68/tw68-core.c       | 30 +++++------
+>  6 files changed, 44 insertions(+), 122 deletions(-)
+> 
+> -- 
+> 2.27.0
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
