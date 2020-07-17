@@ -8,99 +8,98 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4FBC433E8
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:28 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71EE5C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:44 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBC3F20739
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4510C20838
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Jul 2020 03:58:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lhuvquXT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBC3F20739
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bKpE8LOj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4510C20838
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 98C2A864B3;
-	Fri, 17 Jul 2020 03:58:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F3B32203E7;
+	Fri, 17 Jul 2020 03:58:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fASK8B7KRqQK; Fri, 17 Jul 2020 03:58:28 +0000 (UTC)
+	with ESMTP id 9olWMwR7XxRD; Fri, 17 Jul 2020 03:58:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4A58C864AD;
-	Fri, 17 Jul 2020 03:58:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 66BC62035B;
+	Fri, 17 Jul 2020 03:58:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 37773C0893;
-	Fri, 17 Jul 2020 03:58:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5509AC0893;
+	Fri, 17 Jul 2020 03:58:43 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 720B9C0733
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E29A2C0733
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:26 +0000 (UTC)
+ Fri, 17 Jul 2020 03:58:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 67217203E0
+ by silver.osuosl.org (Postfix) with ESMTP id D16B9203E7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:26 +0000 (UTC)
+ Fri, 17 Jul 2020 03:58:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xRegXNDsVCOb
+ with ESMTP id F3LNEyLLsGef
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:25 +0000 (UTC)
+ Fri, 17 Jul 2020 03:58:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by silver.osuosl.org (Postfix) with ESMTPS id D83D42035B
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 4AC3E2035B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 03:58:25 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id b92so5743265pjc.4
+ Fri, 17 Jul 2020 03:58:41 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id u5so4739156pfn.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 16 Jul 2020 20:58:25 -0700 (PDT)
+ Thu, 16 Jul 2020 20:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zkwfq5Uv+GY1uwPYszvR2jSGTXRIJ42mdhpNQh9+c3E=;
- b=lhuvquXTh98LzGrLH3A6gsJcb/6gr9Yecke49um+BtmAznQ7j2KoJdKAYYMrCJ4jtu
- q+E31pDYVZ5SY8mIlr+06VbIncUv3I5fluiXXnFVCmFxFmEqw9T1XiF3ziRuG9IYvoBp
- 8Qs+P7bdPnmXdydbtcQP56KBvIFF+8JLIAfKiKZPv6YNlBs7isW9PGf/aMbKIfqT26MF
- s2CG9YSISdUW4sMafArMv0X0stcOZH2rGTBYZ6kZLw9QuXRjIzOZ1/hZ2PXx9SufkOQp
- MeVz4WDm+3DdKP2htXG89eLCmTIgEYNNFXawb9i+mpcxQevDy70rIBJZw9gu4r2eRNxD
- tn6A==
+ bh=uoIcD6K+jqu+zRT0DyWA5LlYkttEC1REY3iS6fetokg=;
+ b=bKpE8LOjMvFIC6gWt1Rw1tJ7UdBTguCQsj3+hovT5dVVSMINoc2pucCNbUUnbTkIup
+ fOYndAIcKasKzo2sCIFJpj5z2pHQ3zW/YBhK2UyErJpjDAWzD5xMZBE0IuazYc6yoagl
+ llPHEsuW3TyFWfs878gNgNyoBaLbYyTYXtg9VfTLnwMuIJQKImcSTwpm19AlK763gDiU
+ xHvkPpTMGSwUBvAL/fzqaiTXm4fXHYuPOCvys5xTQYqSLXoCpg9jjYXRiDCHbEdY0g7c
+ 7qV8vNk6VLM0S/6N8kh1yI/xJ7FhojVNW1Fb40c0h9pktvLb9x4XRyfG4StDAy8nVS/f
+ iUcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zkwfq5Uv+GY1uwPYszvR2jSGTXRIJ42mdhpNQh9+c3E=;
- b=WCA1EEVgyjrBT+qllYORxVjXKJib6fw/sD3lNdUVv7QFYVpX5Y8kgskWLCY91urGnz
- 0l+uIpoNIm1vJ7HFY4Pw8dxQU5Z+oYRPMRwKUDkO5ouQUcHGv/jeoaYY33VBYfBv0y1Q
- i+mP9F1x948bpTCDwA15SGkFbPHZIpsDObji8MMk41ueiYmNnh599zcI0XKb4JAs0uM3
- eV1FxW6vwNsDBHSFQwNQ5uTgAb3P4ib2yE0b69Kr1rx1SAfGm3DK7euSZAYoQaiIMKP5
- di4nvnoNF5WSubpaASkewzkRmiLXlhZ3grF/JO3qF023z+6PT6B8oQ+GOJTl32GYXMfk
- 5nnw==
-X-Gm-Message-State: AOAM532haKXCsP+lOWCBzMXBMF9a1cfdfWQ57Gf6PrFGPd9YvMuYjm7A
- I15yDhUZVRYdbFVBDG8sa1Y=
-X-Google-Smtp-Source: ABdhPJyb7s566EgEI5F+X4b7pgZcGEbw6DNOfk6/Xm3jbpNrZLoR3mhRC866dwJSjrm+XyUgMWdrVg==
-X-Received: by 2002:a17:90a:db82:: with SMTP id
- h2mr8156594pjv.162.1594958305431; 
- Thu, 16 Jul 2020 20:58:25 -0700 (PDT)
+ bh=uoIcD6K+jqu+zRT0DyWA5LlYkttEC1REY3iS6fetokg=;
+ b=Uv2tR/lWSqwZH8ftGC9cFycn3rTey9XXOBs36SizYL0PD73ni5s6Ev8xkhUu1hnB+D
+ Q8sJ6NTXeCszuAsUQeeYlciH+z8t1X91Swx38ccxP9865yUXgGrPJhnORjfoPDEVsAaa
+ NDHEobEkPscaxDeDstbMoRkzieSg0lXN/CTF2pExN64UGXoW+vjll14B4Xvihzx5SRBj
+ Ns9aaG0yjHbD8WmU6CurqmeSPHGdgQCBU534ixut75r4Asj3UapLtLaQcNWLObwgpvBO
+ zMs3pww4wZ9gPsEHFuzWp0C5CLBe0i2GD32nJA0qEVH9JKaruZDcomTDpeygVAYUjk9T
+ P1dA==
+X-Gm-Message-State: AOAM533rGjopQieOvXi3bwefRaA5hDso4MN2BwV1XrwOImGED/5gVpaf
+ etwWWXxBFkrPN0QliEK4JaQ+IloSjKk=
+X-Google-Smtp-Source: ABdhPJwuoPA25J5s/ea5ilueDEYzrTbRAno/FQjJKgAyD7vJ0/bwceFuK19x/GbKuYSaE4iOASm8rA==
+X-Received: by 2002:a65:4502:: with SMTP id n2mr7042061pgq.132.1594958320850; 
+ Thu, 16 Jul 2020 20:58:40 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id v11sm6227907pgs.22.2020.07.16.20.58.16
+ by smtp.gmail.com with ESMTPSA id v11sm6227907pgs.22.2020.07.16.20.58.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 20:58:25 -0700 (PDT)
+ Thu, 16 Jul 2020 20:58:40 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Date: Fri, 17 Jul 2020 09:26:04 +0530
-Message-Id: <20200717035608.97254-3-vaibhavgupta40@gmail.com>
+Date: Fri, 17 Jul 2020 09:26:05 +0530
+Message-Id: <20200717035608.97254-4-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
 References: <20200717035608.97254-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 2/6] cx23885: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v2 3/6] cx25821: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -128,23 +127,23 @@ Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/media/pci/cx23885/cx23885-core.c | 3 ---
+ drivers/media/pci/cx25821/cx25821-core.c | 3 ---
  1 file changed, 3 deletions(-)
 
-diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
-index 7e0b0b7cc2a3..4b0c53f61fb7 100644
---- a/drivers/media/pci/cx23885/cx23885-core.c
-+++ b/drivers/media/pci/cx23885/cx23885-core.c
-@@ -2235,9 +2235,6 @@ static struct pci_driver cx23885_pci_driver = {
- 	.id_table = cx23885_pci_tbl,
- 	.probe    = cx23885_initdev,
- 	.remove   = cx23885_finidev,
+diff --git a/drivers/media/pci/cx25821/cx25821-core.c b/drivers/media/pci/cx25821/cx25821-core.c
+index 41be22ce66f3..55018d9e439f 100644
+--- a/drivers/media/pci/cx25821/cx25821-core.c
++++ b/drivers/media/pci/cx25821/cx25821-core.c
+@@ -1374,9 +1374,6 @@ static struct pci_driver cx25821_pci_driver = {
+ 	.id_table = cx25821_pci_tbl,
+ 	.probe = cx25821_initdev,
+ 	.remove = cx25821_finidev,
 -	/* TODO */
--	.suspend  = NULL,
--	.resume   = NULL,
+-	.suspend = NULL,
+-	.resume = NULL,
  };
  
- static int __init cx23885_init(void)
+ static int __init cx25821_init(void)
 -- 
 2.27.0
 
