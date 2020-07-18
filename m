@@ -2,102 +2,105 @@ Return-Path: <SRS0=awrY=A5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCEE3C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 18 Jul 2020 00:51:49 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E4BC433F8
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 18 Jul 2020 07:00:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9FB962074B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 18 Jul 2020 00:51:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4FDFD20724
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 18 Jul 2020 07:00:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="JKdJdOWo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FB962074B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YTZca6CW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4FDFD20724
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7D42687FB5;
-	Sat, 18 Jul 2020 00:51:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 28BF186493;
+	Sat, 18 Jul 2020 07:00:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 84Rz-YXZLbm1; Sat, 18 Jul 2020 00:51:48 +0000 (UTC)
+	with ESMTP id 6unJOzqNhbFe; Sat, 18 Jul 2020 07:00:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CDCB887F3F;
-	Sat, 18 Jul 2020 00:51:48 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6577C86362;
+	Sat, 18 Jul 2020 07:00:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B7B8FC0865;
-	Sat, 18 Jul 2020 00:51:48 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A03A2C0733
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 18 Jul 2020 00:51:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D488C0890;
+	Sat, 18 Jul 2020 07:00:46 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4E073C0733
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 18 Jul 2020 07:00:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8A84587787
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 18 Jul 2020 00:51:47 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 394BA20427
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 18 Jul 2020 07:00:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JtfisygwVrIQ
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 18 Jul 2020 00:51:46 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
- [209.85.222.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8967487784
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 18 Jul 2020 00:51:46 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id z63so10412639qkb.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Jul 2020 17:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4lR3PL+tlav6Sd3AKsZVkdyRuT1gdsNfBg2d9bO4Ybw=;
- b=JKdJdOWoLbE63zmjfhu9UnfMu+KTlFFcste0tnpG53kEQSd+TyAuBDwTYKyLJnj/9Q
- 7YdpDHel5BWIE0wV8SMcrbCxBxy5ZNhfOCR3hDbL+nS4U1HQynZZXcM3nDI/HMzWkfHk
- wxFzuoPHjpN7WpTOS2yHO1N/z+f1NnmzUaD7PMXpep9XdiR2e3xeZhgNQ8BBowRxGRi5
- 4QGnA2ev/gV/A5QkI4xyIiUeH39t+h78XlqhClCrhMspeR/mJ97nweM27pBNojAoSRC8
- vElpGEzvULRIUidS+/Ckxe8n/AhXzkrHlZZ+VIBqpZrFlcM6KhM4oFFA9Fng02ERJHT8
- EmiA==
+ with ESMTP id YVBNcrVt8nhk
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 18 Jul 2020 07:00:42 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by silver.osuosl.org (Postfix) with ESMTPS id CE77C2038B
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 18 Jul 2020 07:00:42 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id t6so6349047plo.3
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 18 Jul 2020 00:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=GyGCIuKekWr3Ka7WIEyTTDDXTRM0BTd2I5tUSUxdRSI=;
+ b=YTZca6CWOihhiJ1g6MW5GkxdQDbgTL1JVHpMukJKUcqTyh5HGPiJgq60eQqUF5cxJ7
+ IYwg8QctWwy9Qor5r7onWaOSCZODbBGspkEFjVYsXulB/+3v61RlYNnpt/yo69obyrxE
+ XkSbNQh2PUZGBpB3Ytg4WB7DYR29b23Sylc5UXatjssjYwkOXt4EC/daIyPMwSgyBldk
+ dmBwLNpZaWLCzVdKqSZhFI+VWpYXumpx5AyD/oBpyH1rKTl4nXneSXCYpDrtybYC9YkK
+ yRascEZ6Rh5lRgBqrc0aK/V89b7XceDh1UO6KfcGVbDRL8emLmMj/9NCgR/lWvOWyiXp
+ VQBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4lR3PL+tlav6Sd3AKsZVkdyRuT1gdsNfBg2d9bO4Ybw=;
- b=eJrH6fKQrKSosF5/ePihvZ6rETKfU4TcWb1UJg/R/R2NvmVZ59hzulVRqT0HL+pxGr
- LmoNDNdnqcAa2wS2aRBph28IE28BcOCf8GruPiG4gyyMJZuEUFoKCMwb+p0wHnA18tn1
- tvuWmLtB6mBZUEBoVgfsEWUUIyHR8w6+T3UHiro5IHnr46uX9VlleARtmhHyqPaUDB1A
- Wtzv+Zx33Ya6aUZBj2RANgfs2Z2rvSbbyKuka/DmcgzpfreqmkN7oH2vBPx7uW4G5hgo
- 8HNUbcxyfhu5NLnMfD8c0hDPF6+R/MGIUBeJrXWB1Gg/em2TlO6TCIW8f3ejW3skt9bq
- Xi5Q==
-X-Gm-Message-State: AOAM533S1vOkc0sfUV//4qm/Mr1NFumE4MNqWmULwGQ8PJ3Fc6ru6zpm
- RTBfjMZhYLhXbiwLA4WgAdaQ2Q==
-X-Google-Smtp-Source: ABdhPJyL15m0TxuDLsuYT9qyN02p4DwZ4mgfiDhARFqC9WoQENmBgtZ6gZRbT76CZf0OhAjlASlZyw==
-X-Received: by 2002:a05:620a:79a:: with SMTP id
- 26mr11825826qka.169.1595033505432; 
- Fri, 17 Jul 2020 17:51:45 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id 79sm11998188qkd.134.2020.07.17.17.51.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jul 2020 17:51:44 -0700 (PDT)
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: kunit-dev@googlegroups.com
-Date: Fri, 17 Jul 2020 21:51:41 -0300
-Message-Id: <20200718005141.440405-1-vitor@massaru.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=GyGCIuKekWr3Ka7WIEyTTDDXTRM0BTd2I5tUSUxdRSI=;
+ b=ZEtIwM3+ULaN9+7cuYXayiS59fKGJNazUCrlXjG1sxsRSPKbA2lpjoQje1NovfocbH
+ FSs+8AsQD4CQ6nK8R4lYOs3Wsr+PJGc28mX3GPCV9Dc96WTjRHNNMLiepJN933yLAtsD
+ q4wWWrr9sFLrMc+4X14sbg/ZHRIgmfyuTi/yzVn0kbdJnsF1eS26OX0VeLcHhTD086cN
+ 7IgVV5QiAAcQwZf0IA/sTK9se/fZwjob0Q+Vpl+BPMt0VHCdoZGLy00qABp5XVyBFLsU
+ YfCOcyY+ZXmP+InYzdUYEoeLme6VGpvGzRCRulQ7g7lSvVOTNMMhXPnsLx9VvoDIQHzG
+ +hSQ==
+X-Gm-Message-State: AOAM530/4aiRRZJkITxyZfEOBh6hUAp5pKduVLbJzY6H+tTiOEsWIdbV
+ rUnxxnSDLvEuwjA82cwobIT2xeM1QGNts1eAsuc=
+X-Google-Smtp-Source: ABdhPJzPVpkyjv4snpAI/ySmSdnO1O4nav+Iio0YeaJaRRHmoAq6qyxxJOCI6x/tsb9jltSkiwfu5oBcQInpzZI3g6A=
+X-Received: by 2002:a17:90b:4c8b:: with SMTP id
+ my11mr13363604pjb.153.1595055642264; 
+ Sat, 18 Jul 2020 00:00:42 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kselftest@vger.kernel.org, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, davidgow@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org, keescook@chromium.org
-Subject: [Linux-kernel-mentees] [PATCH v2] lib: Convert test_user_copy to
-	KUnit test
+References: <20200706080814.of3oftqsbp32nwge@mrinalpandey>
+ <CAKXUXMzUGMVEWxBmrsPWvtBTuM=7W1uZWRp4OUN4ZPeqX8=VHA@mail.gmail.com>
+ <CAD1=X6m06KWb3=VEGkFWpmmV=UC09ZYbj2qpAOyg6OPFM=8KqA@mail.gmail.com>
+ <CAKXUXMy_KAHn+FNWviazVcEqK213uLVksq8_8HhjXAW+_OBrzQ@mail.gmail.com>
+ <CAD1=X6==MgT6jaNZ9PsPUqV1QTRFKguq9zvV+TtFSHyajFMjUg@mail.gmail.com>
+ <CAKXUXMwU21sUTA6vSm19oFF42eX3dxuBEG-cgSoUQBWcYJDOiQ@mail.gmail.com>
+ <CAD1=X6mM0cA-8aVO4YaLiUbSnkw0EKCijL12bDWxNfUCaCh87g@mail.gmail.com>
+ <CAKXUXMx8RcQrihaYvryhm4N8X4BATLpPmRnDkm6nCmhznugd0g@mail.gmail.com>
+ <CAD1=X6m2Lp-KE-xHN1uE7egZRp5-gkXbGVC4f5EUjyMfJ12rHQ@mail.gmail.com>
+ <alpine.DEB.2.21.2007150706410.13346@felia>
+In-Reply-To: <alpine.DEB.2.21.2007150706410.13346@felia>
+From: Mrinal Pandey <mrinalmni@gmail.com>
+Date: Sat, 18 Jul 2020 12:30:30 +0530
+Message-ID: <CAD1=X6kv+PxEu8CBaEHORyVcgQz33obgheJ8FtTu30vG6VOaGQ@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Adjust spelling
+	check false positive
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,222 +112,279 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============5226358234279183547=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This adds the conversion of the runtime tests of test_user_copy fuctions,
-from `lib/test_user_copy.c` to KUnit tests.
+--===============5226358234279183547==
+Content-Type: multipart/alternative; boundary="000000000000f4482205aab1d4e4"
 
-Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
----
-v2:
-    * splitted patch in 3:
-        - Allows to install and load modules in root filesystem;
-        - Provides an userspace memory context when tests are compiled
-          as module;
-        - Convert test_user_copy to KUnit test;
-    * removed entry for CONFIG_TEST_USER_COPY;
-    * replaced pr_warn to KUNIT_EXPECT_FALSE_MSG in test macro to
-      decrease the diff;
----
- lib/Kconfig.debug                           | 28 ++++++++------
- lib/Makefile                                |  2 +-
- lib/{test_user_copy.c => user_copy_kunit.c} | 42 +++++++++------------
- 3 files changed, 35 insertions(+), 37 deletions(-)
- rename lib/{test_user_copy.c => user_copy_kunit.c} (91%)
+--000000000000f4482205aab1d4e4
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 9ad9210d70a1..f699a3624ae7 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2078,18 +2078,6 @@ config TEST_VMALLOC
- 
- 	  If unsure, say N.
- 
--config TEST_USER_COPY
--	tristate "Test user/kernel boundary protections"
--	depends on m
--	help
--	  This builds the "test_user_copy" module that runs sanity checks
--	  on the copy_to/from_user infrastructure, making sure basic
--	  user/kernel boundary testing is working. If it fails to load,
--	  a regression has been detected in the user/kernel memory boundary
--	  protections.
--
--	  If unsure, say N.
--
- config TEST_BPF
- 	tristate "Test BPF filter functionality"
- 	depends on m && NET
-@@ -2154,6 +2142,22 @@ config SYSCTL_KUNIT_TEST
- 
- 	  If unsure, say N.
- 
-+config USER_COPY_KUNIT
-+	tristate "KUnit Test for user/kernel boundary protections"
-+	depends on KUNIT
-+	depends on m
-+	help
-+	  This builds the "user_copy_kunit" module that runs sanity checks
-+	  on the copy_to/from_user infrastructure, making sure basic
-+	  user/kernel boundary testing is working. If it fails to load,
-+	  a regression has been detected in the user/kernel memory boundary
-+	  protections.
-+
-+	  For more information on KUnit and unit tests in general please refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-+
-+	  If unsure, say N.
-+
- config LIST_KUNIT_TEST
- 	tristate "KUnit Test for Kernel Linked-list structures" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/lib/Makefile b/lib/Makefile
-index b1c42c10073b..8c145f85accc 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -78,7 +78,6 @@ obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
- obj-$(CONFIG_TEST_OVERFLOW) += test_overflow.o
- obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
- obj-$(CONFIG_TEST_SORT) += test_sort.o
--obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
- obj-$(CONFIG_TEST_PRINTF) += test_printf.o
-@@ -318,3 +317,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
- # KUnit tests
- obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
- obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-+obj-$(CONFIG_USER_COPY_KUNIT) += user_copy_kunit.o
-diff --git a/lib/test_user_copy.c b/lib/user_copy_kunit.c
-similarity index 91%
-rename from lib/test_user_copy.c
-rename to lib/user_copy_kunit.c
-index 5ff04d8fe971..a10ddd15b4cd 100644
---- a/lib/test_user_copy.c
-+++ b/lib/user_copy_kunit.c
-@@ -16,6 +16,7 @@
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- #include <linux/vmalloc.h>
-+#include <kunit/test.h>
- 
- /*
-  * Several 32-bit architectures support 64-bit {get,put}_user() calls.
-@@ -35,7 +36,7 @@
- ({									\
- 	int cond = (condition);						\
- 	if (cond)							\
--		pr_warn("[%d] " msg "\n", __LINE__, ##__VA_ARGS__);	\
-+		KUNIT_EXPECT_FALSE_MSG(test, cond, msg, ##__VA_ARGS__);	\
- 	cond;								\
- })
- 
-@@ -44,7 +45,7 @@ static bool is_zeroed(void *from, size_t size)
- 	return memchr_inv(from, 0x0, size) == NULL;
- }
- 
--static int test_check_nonzero_user(char *kmem, char __user *umem, size_t size)
-+static int test_check_nonzero_user(struct kunit *test, char *kmem, char __user *umem, size_t size)
- {
- 	int ret = 0;
- 	size_t start, end, i, zero_start, zero_end;
-@@ -102,7 +103,7 @@ static int test_check_nonzero_user(char *kmem, char __user *umem, size_t size)
- 	return ret;
- }
- 
--static int test_copy_struct_from_user(char *kmem, char __user *umem,
-+static int test_copy_struct_from_user(struct kunit *test, char *kmem, char __user *umem,
- 				      size_t size)
- {
- 	int ret = 0;
-@@ -177,7 +178,7 @@ static int test_copy_struct_from_user(char *kmem, char __user *umem,
- 	return ret;
- }
- 
--static int __init test_user_copy_init(void)
-+static void user_copy_test(struct kunit *test)
- {
- 	int ret = 0;
- 	char *kmem;
-@@ -192,16 +193,14 @@ static int __init test_user_copy_init(void)
- #endif
- 
- 	kmem = kmalloc(PAGE_SIZE * 2, GFP_KERNEL);
--	if (!kmem)
--		return -ENOMEM;
-+	KUNIT_EXPECT_FALSE_MSG(test, kmem == NULL, "kmalloc failed");
- 
- 	user_addr = vm_mmap(NULL, 0, PAGE_SIZE * 2,
- 			    PROT_READ | PROT_WRITE | PROT_EXEC,
- 			    MAP_ANONYMOUS | MAP_PRIVATE, 0);
- 	if (user_addr >= (unsigned long)(TASK_SIZE)) {
--		pr_warn("Failed to allocate user memory\n");
- 		kfree(kmem);
--		return -ENOMEM;
-+		KUNIT_FAIL(test, "Failed to allocate user memory");
- 	}
- 
- 	usermem = (char __user *)user_addr;
-@@ -245,9 +244,9 @@ static int __init test_user_copy_init(void)
- #undef test_legit
- 
- 	/* Test usage of check_nonzero_user(). */
--	ret |= test_check_nonzero_user(kmem, usermem, 2 * PAGE_SIZE);
-+	ret |= test_check_nonzero_user(test, kmem, usermem, 2 * PAGE_SIZE);
- 	/* Test usage of copy_struct_from_user(). */
--	ret |= test_copy_struct_from_user(kmem, usermem, 2 * PAGE_SIZE);
-+	ret |= test_copy_struct_from_user(test, kmem, usermem, 2 * PAGE_SIZE);
- 
- 	/*
- 	 * Invalid usage: none of these copies should succeed.
-@@ -309,23 +308,18 @@ static int __init test_user_copy_init(void)
- 
- 	vm_munmap(user_addr, PAGE_SIZE * 2);
- 	kfree(kmem);
--
--	if (ret == 0) {
--		pr_info("tests passed.\n");
--		return 0;
--	}
--
--	return -EINVAL;
- }
- 
--module_init(test_user_copy_init);
--
--static void __exit test_user_copy_exit(void)
--{
--	pr_info("unloaded.\n");
--}
-+static struct kunit_case user_copy_test_cases[] = {
-+	KUNIT_CASE(user_copy_test),
-+	{}
-+};
- 
--module_exit(test_user_copy_exit);
-+static struct kunit_suite user_copy_test_suite = {
-+	.name = "user_copy",
-+	.test_cases = user_copy_test_cases,
-+};
- 
-+kunit_test_suites(&user_copy_test_suite);
- MODULE_AUTHOR("Kees Cook <keescook@chromium.org>");
- MODULE_LICENSE("GPL");
+On Wed, Jul 15, 2020 at 11:02 AM Lukas Bulwahn <lukas.bulwahn@gmail.com>
+wrote:
 
-base-commit: 725aca9585956676687c4cb803e88f770b0df2b2
-prerequisite-patch-id: 5e5f9a8a05c5680fda1b04c9ab1b95ce91dc88b2
-prerequisite-patch-id: 4d997940f4a9f303424af9bac412de1af861f9d9
-prerequisite-patch-id: 582b6d9d28ce4b71628890ec832df6522ca68de0
-prerequisite-patch-id: 5cd745ed9bbb0b36010c5de8adc19bfa86ad8be0
-prerequisite-patch-id: 42f17b389ec15baf50dd1c43f6e30b8d2dff7964
--- 
-2.26.2
+>
+>
+> On Tue, 14 Jul 2020, Mrinal Pandey wrote:
+>
+> >
+> >
+> > On Sat, Jul 11, 2020 at 3:17 AM Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> wrote:
+> >
+> > >> For Issue 5: Can you provide me (and the CC: the list) the list of
+> > >> false positives (the commit hashes) you found for issue 5 on
+> > >> EXPORT_SYMBOL?
+> > >
+> > >
+> > > Here are the commit hashes for which the warning is issued:
+> > > 54505a1e2083
+> > > 75d75b7a4d54
+> > > 8084c99b9af6
+> > > bfdaf029c9c9
+> > > dfd402a4c4ba
+> > >
+> > >> Can you also provide a short rationale/explanation for
+> > >> each case that you considered a false positive?
+> > >
+> > >
+> > > In each case the `EXPORT_SYMBOL()` is correctly written and the
+> variable/function to be exported
+> > > is also inside the parentheses, still, we get the warning. Please let
+> me know if I am wrong here.
+> >
+> > I checked those warnings. Some of the patches are good cases to check if
+> we can improve the heuristics on
+> > EXPORT_SYMBOL().
+> >
+> > E.g., commit bfdaf029c9c9 ("ia64: turn csum_partial_copy_from_user()
+> into csum_and_copy_from_user()") looks
+> > sound to me, and checkpatch.pl should not really warn about that.
+> >
+> > Mrinal, maybe you can find out why checkpatch.pl believes that this
+> case is wrong and needs to be warned
+> > about?
+> >
+> >
+> > Sir,
+> >
+> > Commit `54505a1e2083`, `8084c99b9af6` and `bfdaf029c9c9` have style
+> issues. The documentation says to use
+> > `EXPORT_SYMBOL()` just after the closing bracket `}` of the function, it
+> is exporting. In these commits `EXPORT
+> > SYMBOL()`
+> > is either defined at a point later or has been defined after leaving a
+> blank line which is totally unneeded.
+> >
+>
+> Possibly, a new line is okay; I think we would some statistics on the
+> overall use of EXPORT_SYMBOL() to see if a new line is generally accepted
+> or if it is really a rare case (<3%) and checkpatch.pl should keep
+> warning about that.
+>
+
+Sir,
+
+I checked 2000 uses of EXPORT_SYMBOL, the total usages being 15800 approx.
+and only 74 of them used a blank line.
+That's 0.037% so probably checkpatch.pl is correct there. There are cases
+where multiple exports are written together but these are also only
+117 out of 2000.
+
+>
+> > However, commits `dfd402a4c4ba` and `75d75b7a4d54` look fine to me and
+> have one thing in common, the
+> > `EXPORT_SYMBOL()` in these is used inside of a macro. checkpatch
+> shouldn't warn about these.
+> >
+>
+> That is probably tricky to handle with checkpatch.pl, though.
+>
+
+I will let you know if I find something that works here. This is probably
+the only case that is worth noticing.
+
+>
+> > I have noticed checkpatch denoting wrong line numbers for certain files
+> for several commits.
+> > For example, for the above commit
+> > `bfdaf029c9c9`, the following warning is issued:
+> >
+> > WARNING: EXPORT_SYMBOL(foo); should immediately follow its
+> function/variable
+> > #74: FILE: arch/ia64/lib/csum_partial_copy.c:122:
+> > +EXPORT_SYMBOL(csum_and_copy_from_user);
+> >
+> > but the file arch/ia64/lib/csum_partial_copy.c is only 113 lines long.
+> > Please let me know if you can reproduce this.
+>
+> Can you find out how the line number is computed?
+>
+> Of course, checkpatch.pl is running on the patch, not on any specific
+> file. So, in general, you really do not know how long the file was that
+> the author based the patch on.
+>
+> In our case, you need to check the state of the file at the commit above.
+>
+> I checked that and it seemed correct to me, line 122 refers to
+> EXPORT_SYMBOL. So, I do not see the bug here.
+>
+> Yes, the file is checked at that point in the commit and everything seems
+to be correct. I was checking the
+the current version of the file and that's why couldn't get line 122.
+
+>
+>
+> Lukas
+>
+
+--000000000000f4482205aab1d4e4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 15, 2020 at 11:02 AM Luka=
+s Bulwahn &lt;<a href=3D"mailto:lukas.bulwahn@gmail.com">lukas.bulwahn@gmai=
+l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><br>
+<br>
+On Tue, 14 Jul 2020, Mrinal Pandey wrote:<br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; On Sat, Jul 11, 2020 at 3:17 AM Lukas Bulwahn &lt;<a href=3D"mailto:lu=
+kas.bulwahn@gmail.com" target=3D"_blank">lukas.bulwahn@gmail.com</a>&gt; wr=
+ote:<br>
+&gt; <br>
+&gt; &gt;&gt; For Issue 5: Can you provide me (and the CC: the list) the li=
+st of<br>
+&gt; &gt;&gt; false positives (the commit hashes) you found for issue 5 on<=
+br>
+&gt; &gt;&gt; EXPORT_SYMBOL?<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Here are the commit hashes for which the warning is issued:<br>
+&gt; &gt; 54505a1e2083<br>
+&gt; &gt; 75d75b7a4d54<br>
+&gt; &gt; 8084c99b9af6<br>
+&gt; &gt; bfdaf029c9c9<br>
+&gt; &gt; dfd402a4c4ba<br>
+&gt; &gt;<br>
+&gt; &gt;&gt; Can you also provide a short rationale/explanation for<br>
+&gt; &gt;&gt; each case that you considered a false positive?<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; In each case the `EXPORT_SYMBOL()` is correctly written and the v=
+ariable/function to be exported<br>
+&gt; &gt; is also inside the parentheses, still, we get the warning. Please=
+ let me know if I am wrong here.<br>
+&gt; <br>
+&gt; I checked those warnings. Some of the patches are good cases to check =
+if we can improve the heuristics on<br>
+&gt; EXPORT_SYMBOL().<br>
+&gt; <br>
+&gt; E.g., commit bfdaf029c9c9 (&quot;ia64: turn csum_partial_copy_from_use=
+r() into csum_and_copy_from_user()&quot;) looks<br>
+&gt; sound to me, and <a href=3D"http://checkpatch.pl" rel=3D"noreferrer" t=
+arget=3D"_blank">checkpatch.pl</a> should not really=C2=A0warn about that.<=
+br>
+&gt; <br>
+&gt; Mrinal, maybe you can find out why <a href=3D"http://checkpatch.pl" re=
+l=3D"noreferrer" target=3D"_blank">checkpatch.pl</a> believes that this cas=
+e is wrong and needs to be warned<br>
+&gt; about?<br>
+&gt; <br>
+&gt; <br>
+&gt; Sir,<br>
+&gt; <br>
+&gt; Commit `54505a1e2083`, `8084c99b9af6` and `bfdaf029c9c9` have style is=
+sues. The documentation says to use<br>
+&gt; `EXPORT_SYMBOL()` just after the closing bracket `}` of the function, =
+it is exporting. In these commits `EXPORT<br>
+&gt; SYMBOL()`<br>
+&gt; is either defined at a point later or has been defined after leaving a=
+ blank line which is totally unneeded.<br>
+&gt;<br>
+<br>
+Possibly, a new line is okay; I think we would some statistics on the <br>
+overall use of EXPORT_SYMBOL() to see if a new line is generally accepted <=
+br>
+or if it is really a rare case (&lt;3%) and <a href=3D"http://checkpatch.pl=
+" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a> should keep <br>
+warning about that.<br></blockquote><div><br></div><div>Sir,</div><div><br>=
+</div><div>I checked 2000 uses of EXPORT_SYMBOL, the total usages being 158=
+00 approx. and only 74 of them used a blank line.</div><div>That&#39;s 0.03=
+7% so probably <a href=3D"http://checkpatch.pl">checkpatch.pl</a> is correc=
+t there. There are cases where multiple exports are written together but th=
+ese are also only</div><div>117 out of 2000.<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+<br>
+&gt; However, commits `dfd402a4c4ba` and `75d75b7a4d54` look fine to me and=
+ have one thing in common, the<br>
+&gt; `EXPORT_SYMBOL()` in these is used inside of a macro. checkpatch shoul=
+dn&#39;t warn about these.<br>
+&gt; <br>
+<br>
+That is probably tricky to handle with <a href=3D"http://checkpatch.pl" rel=
+=3D"noreferrer" target=3D"_blank">checkpatch.pl</a>, though.<br></blockquot=
+e><div><br></div><div>I will let you know if I find something that works he=
+re. This is probably the only case that is worth noticing.<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; I have noticed checkpatch denoting wrong line numbers for certain file=
+s for several commits.<br>
+&gt; For example, for the above commit<br>
+&gt; `bfdaf029c9c9`, the following warning is issued:<br>
+&gt; <br>
+&gt; WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/va=
+riable<br>
+&gt; #74: FILE: arch/ia64/lib/csum_partial_copy.c:122:<br>
+&gt; +EXPORT_SYMBOL(csum_and_copy_from_user);<br>
+&gt; <br>
+&gt; but the file arch/ia64/lib/csum_partial_copy.c is only 113 lines long.=
+<br>
+&gt; Please let me know if you can reproduce this.<br>
+<br>
+Can you find out how the line number is computed?<br>
+<br>
+Of course, <a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_b=
+lank">checkpatch.pl</a> is running on the patch, not on any specific <br>
+file. So, in general, you really do not know how long the file was that <br=
+>
+the author based the patch on.<br>
+<br>
+In our case, you need to check the state of the file at the commit above.<b=
+r>
+<br>
+I checked that and it seemed correct to me, line 122 refers to <br>
+EXPORT_SYMBOL. So, I do not see the bug here.<br>
+<br></blockquote><div>Yes, the file is checked at that point in the commit =
+and everything seems to be correct. I was checking the <br></div><div>the c=
+urrent version of the file and that&#39;s why couldn&#39;t get line 122.<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<br>
+Lukas<br>
+</blockquote></div></div>
+
+--000000000000f4482205aab1d4e4--
+
+--===============5226358234279183547==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============5226358234279183547==--
