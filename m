@@ -8,95 +8,98 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E55A6C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 19 Jul 2020 09:21:22 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC1E5C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 19 Jul 2020 17:16:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A0B4020734
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 19 Jul 2020 09:21:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6EBA3208B3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 19 Jul 2020 17:16:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUVH9hYd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0B4020734
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rn+hcmkU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6EBA3208B3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 62D6186657;
-	Sun, 19 Jul 2020 09:21:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 55A5C81D62;
+	Sun, 19 Jul 2020 17:16:06 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id GMLjHLX1Tqv6; Sun, 19 Jul 2020 17:16:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 86C4987AF4;
+	Sun, 19 Jul 2020 17:16:05 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A14EC0890;
+	Sun, 19 Jul 2020 17:16:05 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 56F10C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 19 Jul 2020 17:16:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 52DB686773
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 19 Jul 2020 17:16:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 37bXoX6ffrSy; Sun, 19 Jul 2020 09:21:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C8CF086651;
-	Sun, 19 Jul 2020 09:21:21 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AEEAFC0890;
-	Sun, 19 Jul 2020 09:21:21 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DCE7EC016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 19 Jul 2020 09:21:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C05D585B5B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 19 Jul 2020 09:21:20 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Co5JqlEAiXia
+ with ESMTP id BCgAf7RXWIoJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 19 Jul 2020 09:21:20 +0000 (UTC)
+ Sun, 19 Jul 2020 17:16:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5BE8285AF1
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B684C86762
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 19 Jul 2020 09:21:20 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id gc9so8614960pjb.2
+ Sun, 19 Jul 2020 17:16:03 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id s26so7897242pfm.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 19 Jul 2020 02:21:20 -0700 (PDT)
+ Sun, 19 Jul 2020 10:16:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OWbYFYIu0qmpjpMid4/cfRGsYGBLqRNDtWeBkoqnf5A=;
- b=IUVH9hYdYtKdmEr0iL7kFbFPAoYNKsQUo9o3D7vRj/LRtCEjaIiOK+/ZpYLkPsKCSw
- LNvC77PektZN0gD4G7hezWii5cmrwZpUuFjbqzGrljbQWw7o9DBtZdft9p79v/D1BdTr
- zoEro0gnT7J0JC5EUKFZjkCDKDDq3E19wODbX7nCgusPybXLQiAsruNLwlJ7bEOKUiPU
- 25IrxNRjWJd8uJ4OGZf8cRUswu8FOHHZROuwxFsChSqDCPX8s36RPSUgF5kkyKKQHpDL
- No2pvA+TyuCIctP71IySo/55gyRG5bae2WH8maI0fVBotDRs+PFFra8R+JvyqCxJotOS
- t34A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jluuUTdevNi+OhGASbZE6Sv7mwM7JdJgAbLh330Jkdc=;
+ b=rn+hcmkUPSFkuIEH+iy3Hmw9CxxCfUQ1miMsh6u/h7cpjy4y2feL1872yuvQjVwFHL
+ Th/YzXn11xhz9T4UZFuS3o5B1Sb39Uj5OaD5FU9vitxA6VncP0ldxi1wgVSvKDr9fn75
+ xYN/sDmDyR1aAiua+G8R7A5Ff06N9aR75M96yNII6WWJEfu0BaEKRjWWzNA5AjpDyrvV
+ 47OuT1fLaoSMFJHrOzqn/7tnyzG96O1vPdIAxjeY62+LuT3RAAtxMTlhc8cDO3EBRhmU
+ g+66tpJQLWeLPTWA4rrljvXOPtQ7plCI07mUPUaEnZZozCLo97VnBvP6jdveViWBKEOH
+ lkrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OWbYFYIu0qmpjpMid4/cfRGsYGBLqRNDtWeBkoqnf5A=;
- b=nUqtCH4xnY8rk4Bfc9msjy2VqoSW9/9daPZD/jnOjn7fzGntq8aPWmRerRFbq3zFCn
- fe1g7CZlF+bU/NGfNxA1/AS7AGwyCIWkgWSpvBQFmtXHQowizpVxKxsUGjXuCtoYKe22
- dNoYqwjH481zOWWX3X9fj4y+iRmo6CszymHTRART8t8JZoVKbvJbhkgvUBStILI9W5kV
- McHlYHTlsVyi5D6hCpIhLvo0TI5qwm2nHLS6X4OFUJZ1rJvH13vtUn78X0JIj8grMl/m
- +oQ4y6c/2pI/44viPWjNihf1Eke4C77MZve0Lu8py5bHbU93WhVuDfZOp0+WychGWWI8
- YoMw==
-X-Gm-Message-State: AOAM533PjVp64BD0NhzpA3iRapY9n789AvTH1k9ppjgSvYmFRvHOS2KT
- dyK+kE6UK3Tz/6pEKNSAbEQ=
-X-Google-Smtp-Source: ABdhPJz/cm9/Ert5FZhVfv5koR2QvbD+NIBbWfvRk7/Gkcle9QzzGZo+yDtuqUuMeBrFuIli+t/9mQ==
-X-Received: by 2002:a17:90b:102:: with SMTP id
- p2mr18831244pjz.227.1595150479861; 
- Sun, 19 Jul 2020 02:21:19 -0700 (PDT)
-Received: from localhost.localdomain ([124.253.248.36])
- by smtp.googlemail.com with ESMTPSA id s10sm11145207pjf.3.2020.07.19.02.21.16
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jluuUTdevNi+OhGASbZE6Sv7mwM7JdJgAbLh330Jkdc=;
+ b=pJMa17eAsaHliWNkhqwj2nZFMqtp+2toKQlRfBk7B2v9U8rMdn3rHRILdQ7nAjsPPF
+ FU4M6ZF0gJgy6aO4fwDNykWiYfQHHSxALJ4HviOl6tQBnLerJKxkl3Myj0zDUhWKdSro
+ ZvDCQ7LtnD5IynnaH/b5ZvxumQ+SuXMkMNBHGYqNDam/jhdLy1v0uAtELDmyjZpiuP8s
+ Cuj/xuKpgeocI2XsjGztP4ex7GH2j18r/+8Usl40+cvinvGT/cy1piIfEhcAHh8HuW5j
+ CE5CFQEupqCTED305Pf6DxJ+a5iy8q62/hPoX5pcXHnQiZ+qtdhb/S51fMM+iWXVslWb
+ xu5g==
+X-Gm-Message-State: AOAM530EBLwWmrNppPCCuRuGxg2I0lv07SbW09vwu55EEkHEVHJ6UQzk
+ Os4joZjitOs9Kw9nSflRMaY=
+X-Google-Smtp-Source: ABdhPJw6//eGtHZaQfTTpDwUoCzN5NqLZqvvt6nxMUrjHMj8Lm4OeryyUGfiG2Ri6cAMjAgnyNhSeg==
+X-Received: by 2002:a63:931b:: with SMTP id b27mr15461487pge.135.1595178963346; 
+ Sun, 19 Jul 2020 10:16:03 -0700 (PDT)
+Received: from endurance.iB-W4G311N.setup.in ([59.95.37.11])
+ by smtp.googlemail.com with ESMTPSA id
+ u73sm14225823pfc.113.2020.07.19.10.16.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Jul 2020 02:21:19 -0700 (PDT)
-From: Puranjay Mohan <puranjay12@gmail.com>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Date: Sun, 19 Jul 2020 14:51:09 +0530
-Message-Id: <20200719092109.21762-1-puranjay12@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Sun, 19 Jul 2020 10:16:02 -0700 (PDT)
+From: Nachiket Naganure <nachiketun8@gmail.com>
+To: lukas.bulwahn@gmail.com,
+	skhan@linuxfoundation.org
+Date: Sun, 19 Jul 2020 22:45:54 +0530
+Message-Id: <20200719171554.264462-1-nachiketun8@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <nachiketun8@gmail.com>
+References: <nachiketun8@gmail.com>
 MIME-Version: 1.0
-Cc: linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Puranjay Mohan <puranjay12@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH] PCI: Add _DSM Function definiton for
-	Latency Tolerance Reporting
+Cc: NachiketUN <nachiketun8@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] Checkpatch: Disables commit length
+	check/warning in commit log in case of valid signature tags
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,28 +117,28 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-PCI Firmware spec rev 3.2 defines function index 6 for LTR _DSM
-Add a define for usage in LTR mechanism.
+From: NachiketUN <nachiketun8@gmail.com>
 
-Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+Signed-off-by: NachiketUN <nachiketun8@gmail.com>
 ---
- include/linux/pci-acpi.h | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/checkpatch.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/pci-acpi.h b/include/linux/pci-acpi.h
-index 5ba475ca9078..2889bf7f2a39 100644
---- a/include/linux/pci-acpi.h
-+++ b/include/linux/pci-acpi.h
-@@ -110,6 +110,7 @@ extern const guid_t pci_acpi_dsm_guid;
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 197436b20288..8db0f26601c5 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2799,7 +2799,7 @@ sub process {
  
- /* _DSM Definitions for PCI */
- #define DSM_PCI_PRESERVE_BOOT_CONFIG		0x05
-+#define DSM_PCI_LTR				0x06
- #define DSM_PCI_DEVICE_NAME			0x07
- #define DSM_PCI_POWER_ON_RESET_DELAY		0x08
- #define DSM_PCI_DEVICE_READINESS_DURATIONS	0x09
+ # Check for line lengths > 75 in commit log, warn once
+ 		if ($in_commit_log && !$commit_log_long_line &&
+-		    length($line) > 75 &&
++		    length($line) > 75 && $line !~ /$signature_tags/ &&
+ 		    !($line =~ /^\s*[a-zA-Z0-9_\/\.]+\s+\|\s+\d+/ ||
+ 					# file delta changes
+ 		      $line =~ /^\s*(?:[\w\.\-]+\/)++[\w\.\-]+:/ ||
 -- 
-2.27.0
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
