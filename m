@@ -8,98 +8,99 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0AD5C433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 10:19:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0441C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 10:33:06 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 87BC62068F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 10:19:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 98D9A22C9C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 10:33:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C+SAuNve"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 87BC62068F
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="t/koDa48"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98D9A22C9C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 47B2D857CE;
-	Mon, 20 Jul 2020 10:19:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6413585C05;
+	Mon, 20 Jul 2020 10:33:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BLKRJZaYlhFS; Mon, 20 Jul 2020 10:19:40 +0000 (UTC)
+	with ESMTP id Blz9jJjeZpWo; Mon, 20 Jul 2020 10:33:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4BBF2857B0;
-	Mon, 20 Jul 2020 10:19:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C20E585BD5;
+	Mon, 20 Jul 2020 10:33:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B633C0894;
-	Mon, 20 Jul 2020 10:19:40 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4F1CC016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3475C0894;
+	Mon, 20 Jul 2020 10:33:05 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C1476C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 10:19:38 +0000 (UTC)
+ Mon, 20 Jul 2020 10:33:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 92935857CB
+ by whitealder.osuosl.org (Postfix) with ESMTP id 9FEA386B48
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 10:19:38 +0000 (UTC)
+ Mon, 20 Jul 2020 10:33:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oZ3uChmRAR4p
+ with ESMTP id 170zaYj7yDBw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 10:19:37 +0000 (UTC)
+ Mon, 20 Jul 2020 10:33:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9720F857B0
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2B50685F9B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 10:19:37 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id x8so8479160plm.10
+ Mon, 20 Jul 2020 10:33:03 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id t6so10110440pgq.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 03:19:37 -0700 (PDT)
+ Mon, 20 Jul 2020 03:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=uw12KCEbxaEVUpmwEUZh3Vc73Xt/78y5dWsYQGsjwSE=;
- b=C+SAuNve5q8758x7nw/tUYMoy5ksYjPm44RXGbm6g26eTpJbBBDY6jyj0v7oM8qv3t
- 4aanmG/iRxS7/FWeYyl7arrpzdZ+7LE1Pk0tB1uWiDW96CDcD0fq+DCyAh8TVGSXYEeY
- /IH9pi/ikS94dz/XVZSC9uHYrlY9pM9VwNiiGr5RFWJpGBjvn6X847/zQCA1N06wUQ2O
- vmgy5yV4OEAbu6XnRyzA4wSs1VZu8LoVoqDmurAH+3rmC8H2LtYN3PIy6qCGqCD3A+1Y
- xPIBmqux55cPg2OecP9uogUbS7AEnq57fwe3LSZgJKMG0LCcK+c2uAo7Adb78SnYsmKw
- wALQ==
+ bh=6hevPUmGQ66hCXkNyonbVBGz6ryQo6snqDBjlm4ZlRA=;
+ b=t/koDa4817hL+YgrfCUpkhYDx+MSqZ2FHSvZqWNL4e4jbaiSvM6lqOIjTh4hOoq6tU
+ hxCAbeO+8GzyqDRrObVMRjQjnBQ9rY/sDK0dPCwYejFBqHa6Cino5/+ZyOEJCt6MDPBO
+ YOFnb6HAeuaH/ez5bTvJJ78vQYAPTBxcjq164TcScI8Sutqe6Lb55yrO8oK3e6Osb+r7
+ jnr0bohhBoGN+9X7al1guRNdfuNXLQjFHWs+VQEcJ/NaXc4QrVoWbwcTCKth29Rkj6j9
+ CvDO79MJoe/LCUjcccJUjK1wNBRprB6WbQjTndS1lvxWtmOch1RyyMP5+PrwEtgGmXmu
+ DLdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=uw12KCEbxaEVUpmwEUZh3Vc73Xt/78y5dWsYQGsjwSE=;
- b=Q13U7N/w0QVC99vrcHOyZCi6P3TRUDYT8kFz4BvXYnF2R8rRE6XeBFJ791Wq43KaRt
- /L4GT4s93O7EV2iMa4k2CcJNpd3PCfy7EySHLpx7Pv4235RUb5RQ5xk7lj02rQ8alHn+
- i08I5uaqeJSKT0/cwCTnNqr/QzNUso1mXIMvEF/X/Lj119q3xZ43mhwUQYzarcUf5UGd
- +dqbVAMG8rLsFW31K/2G1E3pQNWw1msaXpY+5FcBuFKtvyOb1TnYA8mMa3+QIRkryB3e
- Q4RhmoK/1IHThKWqs9qMo5sujYRkdLm0izwHaQ6xfvM31HDpj0sgu+K+uvF4ti1fKPb1
- 8jxw==
-X-Gm-Message-State: AOAM5329As42Wa3H1sfELRt41qzvJHMd+rSgRPqm2fA14LuiCbT8i5cW
- VF/vtilu2RREMMSNG2Z0Di0=
-X-Google-Smtp-Source: ABdhPJwdPDo+9RE6DH2W2saAHqLQGFzMJDpz3VokXzCWGyfZMpznD5dilZTagO7S95m0jr7ggRmx5w==
-X-Received: by 2002:a17:902:7241:: with SMTP id
- c1mr18153906pll.79.1595240377108; 
- Mon, 20 Jul 2020 03:19:37 -0700 (PDT)
+ bh=6hevPUmGQ66hCXkNyonbVBGz6ryQo6snqDBjlm4ZlRA=;
+ b=caraJ5UfNv+p9+vpzK5pDQI3k9QkaVWYeS9f7kVqfw22pYyr8jxbcijcnn1fiKk7gv
+ LfNyVI8GDepesZ/E6R36ROyqWIMtxjSosNbylSs3G6foKB+1WtTVaVxQfsePLwEqw+ve
+ sl7odJEsbPHeQOwMeP0M6U9w8EfGvdJW6KwBZyX+cG3XGuly/hNYb5ZKyHqrZWG//km8
+ NOJrvq6CQ7kQ4NXFqL3JkO1C8MyeYX7NVwQSNvV2CbDz5mAGbrqQsPbChykA9+EHWzx9
+ p6L8WhnCPZ5PMpCtKxRO4t+Dq4ebaFnAL3dcf7am3p0V+TBXdgKBevzdEuHLNv/YoFTG
+ ZElg==
+X-Gm-Message-State: AOAM533KqQjGHyEm1122OSxlWp4XQoE+/ijpdg0uzfNLZuAPcGlb+YZy
+ KOvjK7fZbTcXPji/zoAGeq8=
+X-Google-Smtp-Source: ABdhPJzLwORkHMw6BCcQKdOeZ30UkE01yU0r5rdC/F8LYunnbY0f9/dtf3kjjljQEMwv5WzOcMJPMQ==
+X-Received: by 2002:a63:7b15:: with SMTP id w21mr18971517pgc.386.1595241182623; 
+ Mon, 20 Jul 2020 03:33:02 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id 22sm16019433pfh.157.2020.07.20.03.19.33
+ by smtp.gmail.com with ESMTPSA id e18sm16412186pff.37.2020.07.20.03.32.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 03:19:36 -0700 (PDT)
+ Mon, 20 Jul 2020 03:33:02 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Mon, 20 Jul 2020 15:47:23 +0530
-Message-Id: <20200720101722.145211-1-vaibhavgupta40@gmail.com>
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
+ Hans Verkuil <hans.verkuil@cisco.com>, Hans Verkuil <hverkuil@xs4all.nl>
+Date: Mon, 20 Jul 2020 15:57:01 +0530
+Message-Id: <20200720102700.191371-1-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2] cardreader/rtsx_pcr.c: use
-	generic power management
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v2] [media] saa7164: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,126 +118,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers should not use legacy power management as they have to manage power
-states and related operations, for the device, themselves. This driver was
-handling them with the help of PCI helper functions like
-pci_save/restore_state(), pci_enable/disable_device(), etc.
-
-With generic PM, all essentials will be handled by the  PCI core. Driver
-needs to do only device-specific operations.
-
-The driver was also using pci_enable_wake(...,..., 0) to disable wake. Use
-device_wakeup_disable() instead.
+The .suspend() and .resume() callbacks are not defined for this driver.
+Still, their power management structure follows the legacy framework. To
+bring it under the generic framework, simply remove the binding of
+callbacks from struct "pci_driver".
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/misc/cardreader/rtsx_pcr.c | 33 ++++++++++--------------------
- 1 file changed, 11 insertions(+), 22 deletions(-)
+ drivers/media/pci/saa7164/saa7164-core.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/misc/cardreader/rtsx_pcr.c b/drivers/misc/cardreader/rtsx_pcr.c
-index 0d5928bc1b6d..24474419bfc4 100644
---- a/drivers/misc/cardreader/rtsx_pcr.c
-+++ b/drivers/misc/cardreader/rtsx_pcr.c
-@@ -1111,8 +1111,7 @@ static void rtsx_pci_idle_work(struct work_struct *work)
- 	mutex_unlock(&pcr->pcr_mutex);
- }
- 
--#ifdef CONFIG_PM
--static void rtsx_pci_power_off(struct rtsx_pcr *pcr, u8 pm_state)
-+static void __maybe_unused rtsx_pci_power_off(struct rtsx_pcr *pcr, u8 pm_state)
- {
- 	if (pcr->ops->turn_off_led)
- 		pcr->ops->turn_off_led(pcr);
-@@ -1126,7 +1125,6 @@ static void rtsx_pci_power_off(struct rtsx_pcr *pcr, u8 pm_state)
- 	if (pcr->ops->force_power_down)
- 		pcr->ops->force_power_down(pcr, pm_state);
- }
--#endif
- 
- void rtsx_pci_enable_ocp(struct rtsx_pcr *pcr)
- {
-@@ -1604,10 +1602,9 @@ static void rtsx_pci_remove(struct pci_dev *pcidev)
- 		pci_name(pcidev), (int)pcidev->vendor, (int)pcidev->device);
- }
- 
--#ifdef CONFIG_PM
--
--static int rtsx_pci_suspend(struct pci_dev *pcidev, pm_message_t state)
-+static int __maybe_unused rtsx_pci_suspend(struct device *dev_d)
- {
-+	struct pci_dev *pcidev = to_pci_dev(dev_d);
- 	struct pcr_handle *handle;
- 	struct rtsx_pcr *pcr;
- 
-@@ -1623,17 +1620,15 @@ static int rtsx_pci_suspend(struct pci_dev *pcidev, pm_message_t state)
- 
- 	rtsx_pci_power_off(pcr, HOST_ENTER_S3);
- 
--	pci_save_state(pcidev);
--	pci_enable_wake(pcidev, pci_choose_state(pcidev, state), 0);
--	pci_disable_device(pcidev);
--	pci_set_power_state(pcidev, pci_choose_state(pcidev, state));
-+	device_wakeup_disable(dev_d);
- 
- 	mutex_unlock(&pcr->pcr_mutex);
- 	return 0;
- }
- 
--static int rtsx_pci_resume(struct pci_dev *pcidev)
-+static int __maybe_unused rtsx_pci_resume(struct device *dev_d)
- {
-+	struct pci_dev *pcidev = to_pci_dev(dev_d);
- 	struct pcr_handle *handle;
- 	struct rtsx_pcr *pcr;
- 	int ret = 0;
-@@ -1645,13 +1640,6 @@ static int rtsx_pci_resume(struct pci_dev *pcidev)
- 
- 	mutex_lock(&pcr->pcr_mutex);
- 
--	pci_set_power_state(pcidev, PCI_D0);
--	pci_restore_state(pcidev);
--	ret = pci_enable_device(pcidev);
--	if (ret)
--		goto out;
--	pci_set_master(pcidev);
--
- 	ret = rtsx_pci_write_register(pcr, HOST_SLEEP_STATE, 0x03, 0x00);
- 	if (ret)
- 		goto out;
-@@ -1667,6 +1655,8 @@ static int rtsx_pci_resume(struct pci_dev *pcidev)
- 	return ret;
- }
- 
-+#ifdef CONFIG_PM
-+
- static void rtsx_pci_shutdown(struct pci_dev *pcidev)
- {
- 	struct pcr_handle *handle;
-@@ -1686,19 +1676,18 @@ static void rtsx_pci_shutdown(struct pci_dev *pcidev)
- 
- #else /* CONFIG_PM */
- 
--#define rtsx_pci_suspend NULL
--#define rtsx_pci_resume NULL
- #define rtsx_pci_shutdown NULL
- 
- #endif /* CONFIG_PM */
- 
-+static SIMPLE_DEV_PM_OPS(rtsx_pci_pm_ops, rtsx_pci_suspend, rtsx_pci_resume);
-+
- static struct pci_driver rtsx_pci_driver = {
- 	.name = DRV_NAME_RTSX_PCI,
- 	.id_table = rtsx_pci_ids,
- 	.probe = rtsx_pci_probe,
- 	.remove = rtsx_pci_remove,
--	.suspend = rtsx_pci_suspend,
--	.resume = rtsx_pci_resume,
-+	.driver.pm = &rtsx_pci_pm_ops,
- 	.shutdown = rtsx_pci_shutdown,
+diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
+index 126d085be9a7..4b637891b79a 100644
+--- a/drivers/media/pci/saa7164/saa7164-core.c
++++ b/drivers/media/pci/saa7164/saa7164-core.c
+@@ -1539,9 +1539,6 @@ static struct pci_driver saa7164_pci_driver = {
+ 	.id_table = saa7164_pci_tbl,
+ 	.probe    = saa7164_initdev,
+ 	.remove   = saa7164_finidev,
+-	/* TODO */
+-	.suspend  = NULL,
+-	.resume   = NULL,
  };
- module_pci_driver(rtsx_pci_driver);
+ 
+ static int __init saa7164_init(void)
 -- 
 2.27.0
 
