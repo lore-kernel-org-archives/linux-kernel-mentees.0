@@ -2,104 +2,101 @@ Return-Path: <SRS0=pTPf=A7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F3AAC433EA
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 16:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA28C433EA
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 16:23:26 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 53A15206E9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 16:22:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 725FC2070A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 16:23:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A17M+Gb9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 53A15206E9
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WWh4HW8Q"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 725FC2070A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2B7B58731C;
-	Mon, 20 Jul 2020 16:22:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4837486C11;
+	Mon, 20 Jul 2020 16:23:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tZEfocEoCKgv; Mon, 20 Jul 2020 16:22:48 +0000 (UTC)
+	with ESMTP id Q70mbErItMIY; Mon, 20 Jul 2020 16:23:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3400286C11;
-	Mon, 20 Jul 2020 16:22:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 571CA8696A;
+	Mon, 20 Jul 2020 16:23:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FFB6C0894;
-	Mon, 20 Jul 2020 16:22:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 45060C0894;
+	Mon, 20 Jul 2020 16:23:25 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CB8EEC016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E7AF3C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 16:22:46 +0000 (UTC)
+ Mon, 20 Jul 2020 16:23:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B47E186C11
+ by whitealder.osuosl.org (Postfix) with ESMTP id D547886C11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 16:22:46 +0000 (UTC)
+ Mon, 20 Jul 2020 16:23:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9YbHuxlPMQf7
+ with ESMTP id F5P-CLYGCrIy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 16:22:46 +0000 (UTC)
+ Mon, 20 Jul 2020 16:23:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 259C28696A
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
+ [209.85.166.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 003E38696A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 16:22:46 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id m22so10487652pgv.9
+ Mon, 20 Jul 2020 16:23:22 +0000 (UTC)
+Received: by mail-il1-f196.google.com with SMTP id t27so13784335ill.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 09:22:46 -0700 (PDT)
+ Mon, 20 Jul 2020 09:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nnDDY7IX3v4medtpXGPdXY1iT0mYb0tLN6RrGWdwErQ=;
- b=A17M+Gb9yAQCkiEsHp1GN5Hgm6to1S70lc+I5sny7onNXnTMXpIGw0rxYa3HyRAFTF
- EHzuXZiN0PrVqSXi/QmZ03PpuxD3wqo0Ej0MHbfYpufERXznei6xPYaU2pnpr1hEw/P3
- YXdYohfyeDlnFXpgWw0Gj/3uIueARBVT7JkmuVXfoU+CAYtgBaBBntTcYkNOJtuLAhBS
- 3CeUProdPmHFMcuj8pjLxjbKYjndPF4TKbcwUepCmwBSSHdw/1VqtNpJTqu1n7W73/j/
- Ohc2uW7Wkl9CfjwBq4+3cw5TTMOAX/vmAuNeTiC4xAHSGmffrUWcOew6eoDXU29nlS7i
- SgvQ==
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=OWFAaYoN+XCoJ7AgiWORga1TI9spDAaDAukT4gXW2bI=;
+ b=WWh4HW8QHbh38QjtWamy8pjKHek67OYoPXbXu/t8qdSUvxpxAvvwRcd1e8ghA65ZQW
+ BdO98zGhkfvSUuQ2l4T02KCFddz+7wA9S21Ubz/66RhBld+K9U8sWYd3GE/QqTizJy8K
+ ouljlySRxiRljjjBHEBs3SSpEcECTwgxP2+CqjCGNOBc4m+mhtL5lVBhXaV9dHFcejMg
+ pypo57WOF52np6QYS5CthqWEmBbWdWXOzAz6DDoduTD6n6AcBLhASvB2MD9WeXAlqCA2
+ KEN0u8dZ2JQDltsObVpK2ioZFd0tQynvcF3ByaM8Ht32T7YYBwDH93tOm80xRJk6b9zP
+ Lc7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nnDDY7IX3v4medtpXGPdXY1iT0mYb0tLN6RrGWdwErQ=;
- b=fSNQXPZ6bsq2Jvs4gXkR33inJFUS1c2r2nIQnwl1+zN1VO6q5xrl6k6aGm6USer3HB
- npWMZQIRF/k4X2aeTXQQbnMuBBejdai2Q2AlY3chKoDRoVwV/GxtsxE58C1tB+owIgOS
- +6f3YZnVSYke4vhZYLMWGbEM37mrUS1fksP2uO5kaNuynQ/z80IYGeMyco6bAenfsV3t
- 3zje6U9n0406IcOQ3ytostY+37b+Vgjmg+/PfTCFNxMZJcxLRJIZN36HQmNQICy+Xi5x
- oXuttMC+EMAFvCKksHbAt3aLx30YbyhdbDYUg6D4pxYR2xTxfPIxkoT6UmdMn2ZTY5eF
- 9cxA==
-X-Gm-Message-State: AOAM530wKAkrme3CQ4beKHZOElbr2WOsLwYDLf+joun4JiWo+wkxVmG/
- 130mPeLrMELR3xBsqxXzh1c=
-X-Google-Smtp-Source: ABdhPJyV19tnS/w6rmKS67FPtr8WvyuBYwXnr0WSfBWxPzcPsoHAVVNX2vFNeLQe7tQxnvt+Ak0Alg==
-X-Received: by 2002:a62:7e51:: with SMTP id z78mr20531383pfc.3.1595262165631; 
- Mon, 20 Jul 2020 09:22:45 -0700 (PDT)
-Received: from varodek.localdomain ([110.225.71.189])
- by smtp.gmail.com with ESMTPSA id z25sm17314468pfg.140.2020.07.20.09.22.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 09:22:44 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Chris Lee <christopher.lee@cspi.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Date: Mon, 20 Jul 2020 21:49:31 +0530
-Message-Id: <20200720161930.777974-1-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=OWFAaYoN+XCoJ7AgiWORga1TI9spDAaDAukT4gXW2bI=;
+ b=HcLODOvEo7aLlPcbM3TroQdqZezSHGwPKVlBUfa4u61J5GF9ZohEHy9qfQPXFtQEDT
+ Lu22SzDd56f6g/GsH4pAlTL5BbM7CprHtWUk+1eNTcQsqMipJjqsozosfQEcHmOh+J14
+ p+UqBNnMdYTyKG4hzAG7dUuCPXbB6EKuHmF62wlvUDYbnLHx/QbnROOcij7x4a81Jjr0
+ o00v3iADONwNH4JMBy0FAby9Q+A0k5u9emTuRTs2tVW/aOllu8wAP/Tyt+UMXNkmwbDk
+ FIBpLuwZTl416liDEp4+HZl21felzTX94omvzAEULJktEfqH8XyoDcIJNskKPQFZwzW+
+ Sr0g==
+X-Gm-Message-State: AOAM533M6rG7nFTzKbYvW8hSyX1K6xTAxKyWXSsh8LI5PbfFJ7g58tyF
+ UR431Vq98NWckaaU+QKLse7cG4w7IDtFcWlcdPQ=
+X-Google-Smtp-Source: ABdhPJwydeMoqycuRoz99SqTUeGodwoMjiPEKCrupMlT/1sWhOs1A2jppjnTRN7jP4zbGLVKTE/rZ6l8dTnLFxJfWCo=
+X-Received: by 2002:a92:dc0c:: with SMTP id t12mr24400002iln.260.1595262202307; 
+ Mon, 20 Jul 2020 09:23:22 -0700 (PDT)
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1] ethernet: myri10ge: use generic
-	power management
+Received: by 2002:a05:6602:22d1:0:0:0:0 with HTTP; Mon, 20 Jul 2020 09:23:21
+ -0700 (PDT)
+In-Reply-To: <CA+Dc07iQKrjZ7tPf1EpeT3c1w91aX1-tEbqzUX76Vh3X=1z9vA@mail.gmail.com>
+References: <nachiketun8@gmail.com>
+ <20200719171554.264462-1-nachiketun8@gmail.com>
+ <CAKXUXMx3pkpY9Ud=VRf5EVVpr2ThvBTyF9Lr6Hw+CCRFvO7AbQ@mail.gmail.com>
+ <CA+Dc07iQKrjZ7tPf1EpeT3c1w91aX1-tEbqzUX76Vh3X=1z9vA@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 20 Jul 2020 18:23:21 +0200
+Message-ID: <CAKXUXMw6xPe8=hmY9o9XptTURBSsbPtiH01CuLLEm+8kWg04Pg@mail.gmail.com>
+To: Nachiket N <nachiketun8@gmail.com>
+Cc: "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH] Checkpatch: Disables commit
+ length check/warning in commit log in case of valid signature tags
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,139 +108,171 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============3025128257034857410=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers using legacy PM have to manage PCI states and device's PM states
-themselves. They also need to take care of configuration registers.
+--===============3025128257034857410==
+Content-Type: multipart/alternative; boundary="000000000000e4681005aae1ec6d"
 
-With improved and powerful support of generic PM, PCI Core takes care of
-above mentioned, device-independent, jobs.
+--000000000000e4681005aae1ec6d
+Content-Type: text/plain; charset="UTF-8"
 
-This driver makes use of PCI helper functions like
-pci_save/restore_state(), pci_enable/disable_device(),
-pci_set_power_state() and pci_set_master() to do required operations. In
-generic mode, they are no longer needed.
+On Monday, July 20, 2020, Nachiket N <nachiketun8@gmail.com> wrote:
 
-Change function parameter in both .suspend() and .resume() to
-"struct device*" type. Use to_pci_dev() and dev_get_drvdata() to get
-"struct pci_dev*" variable and drv data.
+> I did run checkpatch on the patch in the previous mail.
+> Checkpatch.pl outputs warnings for commit description lines that exceed
+> beyond 75 chars. Sometimes these lines might contain signature tags that
+> cannot be
+> shortened. The patch checks if the line has any valid signature tags and
+> disables
+> the warning in such a case.
+> I tested it on patches which contain long commit log lines such as
+> Reported-and-tested-by: syzbot+db339689b2101f6f6071@
+> syzkaller.appspotmail.com
+> in patch generated by commit ID ac854131d984.
+> It does not output commit warning for in such cases.
+>
+>>
+>>
+Okay, this patch below is not ready for submission to the general mailing
+list.
 
-Compile-tested only.
+Please read the kernel documentation on proper preparation of a patch
+submission.
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- .../net/ethernet/myricom/myri10ge/myri10ge.c  | 37 ++++---------------
- 1 file changed, 8 insertions(+), 29 deletions(-)
+Lukas
 
-diff --git a/drivers/net/ethernet/myricom/myri10ge/myri10ge.c b/drivers/net/ethernet/myricom/myri10ge/myri10ge.c
-index e1e1f4e3639e..4a5beafa0493 100644
---- a/drivers/net/ethernet/myricom/myri10ge/myri10ge.c
-+++ b/drivers/net/ethernet/myricom/myri10ge/myri10ge.c
-@@ -3257,13 +3257,12 @@ static void myri10ge_mask_surprise_down(struct pci_dev *pdev)
- 	}
- }
- 
--#ifdef CONFIG_PM
--static int myri10ge_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused myri10ge_suspend(struct device *dev)
- {
- 	struct myri10ge_priv *mgp;
- 	struct net_device *netdev;
- 
--	mgp = pci_get_drvdata(pdev);
-+	mgp = dev_get_drvdata(dev);
- 	if (mgp == NULL)
- 		return -EINVAL;
- 	netdev = mgp->dev;
-@@ -3276,14 +3275,13 @@ static int myri10ge_suspend(struct pci_dev *pdev, pm_message_t state)
- 		rtnl_unlock();
- 	}
- 	myri10ge_dummy_rdma(mgp, 0);
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
- 
--	return pci_set_power_state(pdev, pci_choose_state(pdev, state));
-+	return 0;
- }
- 
--static int myri10ge_resume(struct pci_dev *pdev)
-+static int __maybe_unused myri10ge_resume(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct myri10ge_priv *mgp;
- 	struct net_device *netdev;
- 	int status;
-@@ -3293,7 +3291,6 @@ static int myri10ge_resume(struct pci_dev *pdev)
- 	if (mgp == NULL)
- 		return -EINVAL;
- 	netdev = mgp->dev;
--	pci_set_power_state(pdev, PCI_D0);	/* zeros conf space as a side effect */
- 	msleep(5);		/* give card time to respond */
- 	pci_read_config_word(mgp->pdev, PCI_VENDOR_ID, &vendor);
- 	if (vendor == 0xffff) {
-@@ -3301,23 +3298,9 @@ static int myri10ge_resume(struct pci_dev *pdev)
- 		return -EIO;
- 	}
- 
--	pci_restore_state(pdev);
--
--	status = pci_enable_device(pdev);
--	if (status) {
--		dev_err(&pdev->dev, "failed to enable device\n");
--		return status;
--	}
--
--	pci_set_master(pdev);
--
- 	myri10ge_reset(mgp);
- 	myri10ge_dummy_rdma(mgp, 1);
- 
--	/* Save configuration space to be restored if the
--	 * nic resets due to a parity error */
--	pci_save_state(pdev);
--
- 	if (netif_running(netdev)) {
- 		rtnl_lock();
- 		status = myri10ge_open(netdev);
-@@ -3331,11 +3314,8 @@ static int myri10ge_resume(struct pci_dev *pdev)
- 	return 0;
- 
- abort_with_enabled:
--	pci_disable_device(pdev);
- 	return -EIO;
--
- }
--#endif				/* CONFIG_PM */
- 
- static u32 myri10ge_read_reboot(struct myri10ge_priv *mgp)
- {
-@@ -4017,15 +3997,14 @@ static const struct pci_device_id myri10ge_pci_tbl[] = {
- 
- MODULE_DEVICE_TABLE(pci, myri10ge_pci_tbl);
- 
-+static SIMPLE_DEV_PM_OPS(myri10ge_pm_ops, myri10ge_suspend, myri10ge_resume);
-+
- static struct pci_driver myri10ge_driver = {
- 	.name = "myri10ge",
- 	.probe = myri10ge_probe,
- 	.remove = myri10ge_remove,
- 	.id_table = myri10ge_pci_tbl,
--#ifdef CONFIG_PM
--	.suspend = myri10ge_suspend,
--	.resume = myri10ge_resume,
--#endif
-+	.driver.pm = &myri10ge_pm_ops,
- };
- 
- #ifdef CONFIG_MYRI10GE_DCA
--- 
-2.27.0
+
+On Sun, Jul 19, 2020 at 11:07 PM Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> wrote:
+>
+>> Did you checkpatch this patch?
+>>
+>> You need to provide a rationale. Use a full checkpatch.pl evaluation
+>> data for showing the difference before and after applying the patch.
+>>
+>> Lukas
+>>
+>> On So., 19. Juli 2020 at 19:16, Nachiket Naganure <nachiketun8@gmail.com>
+>> wrote:
+>>
+>>> From: NachiketUN <nachiketun8@gmail.com>
+>>>
+>>> Signed-off-by: NachiketUN <nachiketun8@gmail.com>
+>>> ---
+>>>  scripts/checkpatch.pl | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+>>> index 197436b20288..8db0f26601c5 100755
+>>> --- a/scripts/checkpatch.pl
+>>> +++ b/scripts/checkpatch.pl
+>>> @@ -2799,7 +2799,7 @@ sub process {
+>>>
+>>>  # Check for line lengths > 75 in commit log, warn once
+>>>                 if ($in_commit_log && !$commit_log_long_line &&
+>>> -                   length($line) > 75 &&
+>>> +                   length($line) > 75 && $line !~ /$signature_tags/ &&
+>>>                     !($line =~ /^\s*[a-zA-Z0-9_\/\.]+\s+\|\s+\d+/ ||
+>>>                                         # file delta changes
+>>>                       $line =~ /^\s*(?:[\w\.\-]+\/)++[\w\.\-]+:/ ||
+>>> --
+>>> 2.25.1
+>>>
+>>>
+
+--000000000000e4681005aae1ec6d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Monday, July 20, 2020, Nachiket N &lt;<a href=3D"mailto:nachiket=
+un8@gmail.com">nachiketun8@gmail.com</a>&gt; wrote:<br><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex"><div dir=3D"ltr"><div>I did run checkpatch on the patch in the p=
+revious mail.</div><div>Checkpatch.pl outputs warnings for commit descripti=
+on lines that exceed<br>beyond 75 chars. Sometimes these lines might contai=
+n signature tags that cannot be<br>shortened. The patch checks if the line =
+has any valid signature tags and disables<br>the warning in such a case.</d=
+iv><div>I tested it on patches which contain long commit log lines such as<=
+/div><div>Reported-and-tested-by: <a href=3D"mailto:syzbot%2Bdb339689b2101f=
+6f6071@syzkaller.appspotmail.com" target=3D"_blank">syzbot+db339689b2101f6f=
+6071@<wbr>syzkaller.appspotmail.com</a></div><div>in patch generated by com=
+mit ID ac854131d984.</div><div>It does not output commit warning for in suc=
+h cases.</div></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><br></blockquote></block=
+quote><div><br></div><div>Okay, this patch below is not ready for submissio=
+n to the general mailing list.</div><div><br></div><div>Please read the ker=
+nel documentation on proper preparation of a patch submission.</div><div><b=
+r></div><div>Lukas</div><div><br></div><div><br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Sun, Jul 19, 2020 at 11:07 PM Lukas Bulwahn &lt;<a href=3D"mailto:lukas.=
+bulwahn@gmail.com" target=3D"_blank">lukas.bulwahn@gmail.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div dir=
+=3D"auto">Did you checkpatch this patch?</div></div><div dir=3D"auto"><br><=
+/div><div dir=3D"auto">You need to provide a rationale. Use a full <a href=
+=3D"http://checkpatch.pl" target=3D"_blank">checkpatch.pl</a> evaluation da=
+ta for showing the difference before and after applying the patch.</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">Lukas</div><div><br><div class=
+=3D"gmail_quote"><div>On So., 19. Juli 2020 at 19:16, Nachiket Naganure &lt=
+;<a href=3D"mailto:nachiketun8@gmail.com" target=3D"_blank">nachiketun8@gma=
+il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">From: NachiketUN &lt;<a href=3D"mailto:nachiketun8@gmail.com" target=
+=3D"_blank">nachiketun8@gmail.com</a>&gt;<br>
+<br>
+Signed-off-by: NachiketUN &lt;<a href=3D"mailto:nachiketun8@gmail.com" targ=
+et=3D"_blank">nachiketun8@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
+"_blank">checkpatch.pl</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" ta=
+rget=3D"_blank">checkpatch.pl</a> b/scripts/<a href=3D"http://checkpatch.pl=
+" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a><br>
+index 197436b20288..8db0f26601c5 100755<br>
+--- a/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
+"_blank">checkpatch.pl</a><br>
++++ b/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
+"_blank">checkpatch.pl</a><br>
+@@ -2799,7 +2799,7 @@ sub process {<br>
+<br>
+=C2=A0# Check for line lengths &gt; 75 in commit log, warn once<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ($in_commit_log =
+&amp;&amp; !$commit_log_long_line &amp;&amp;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lengt=
+h($line) &gt; 75 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lengt=
+h($line) &gt; 75 &amp;&amp; $line !~ /$signature_tags/ &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 !($li=
+ne =3D~ /^\s*[a-zA-Z0-9_\/\.]+\s+\|\s+<wbr>\d+/ ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # file d=
+elta changes<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 $line =3D~ /^\s*(?:[\w\.\-]+\/)++[\w\.\-]<wbr>+:/ ||<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div></div>
+</blockquote></div>
+</blockquote>
+
+--000000000000e4681005aae1ec6d--
+
+--===============3025128257034857410==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============3025128257034857410==--
