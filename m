@@ -2,165 +2,101 @@ Return-Path: <SRS0=pTPf=A7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 723C4C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 22:23:18 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2907FC433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 22:44:31 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 36503206E9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 22:23:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E11712080D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 22:44:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="hf2g2+js";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=microchiptechnology.onmicrosoft.com header.i=@microchiptechnology.onmicrosoft.com header.b="lpf8aldr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36503206E9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="MijXTMv2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E11712080D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 019B12262F;
-	Mon, 20 Jul 2020 22:23:18 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9E3FE864B3;
+	Mon, 20 Jul 2020 22:44:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j0afbf1DYCxz; Mon, 20 Jul 2020 22:23:17 +0000 (UTC)
+	with ESMTP id nv6XYUNC3F24; Mon, 20 Jul 2020 22:44:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 44E7A20465;
-	Mon, 20 Jul 2020 22:23:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D18658638F;
+	Mon, 20 Jul 2020 22:44:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ACB4C0894;
-	Mon, 20 Jul 2020 22:23:17 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E0BA4C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8516C0894;
+	Mon, 20 Jul 2020 22:44:28 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D4325C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 22:23:15 +0000 (UTC)
+ Mon, 20 Jul 2020 22:44:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id CCD678835E
+ by whitealder.osuosl.org (Postfix) with ESMTP id C37A784BE9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 22:23:15 +0000 (UTC)
+ Mon, 20 Jul 2020 22:44:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MCE-S3eMC-7r
+ with ESMTP id ZBwAuv11bDsw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 22:23:15 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from esa1.microchip.iphmx.com (esa1.microchip.iphmx.com
- [68.232.147.91])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 2486888389
+ Mon, 20 Jul 2020 22:44:25 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+ [209.85.160.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9805884B22
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 22:23:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1595283795; x=1626819795;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=KBq5TieBJ7Bge6Kciydx5wKad/vehBZAPCB+X9VKwrI=;
- b=hf2g2+jse452W57BTJJScCP4sSigfB0d7Iex8nLwalPwoF+AdbRWy12Q
- q9XYT8hrO87oLzsgRWI9K83s7jJ3Zw3TU0bg6iHMxwtimmQ0yjWgeW1/U
- MPAC/8kqmbzyJjd+DM9oETd+b/T+X01by2o/jUHKOGNWftXqs/Hkg9eN/
- zp09C+1EWw9cxU6tiTTqfEl2Y4htLYri3MDWP1IvaCU2EehUHpu5jk72V
- KmE4EsBDLRFpomtotqTakw1YoMBWtOV85WmqdoQgKo8QLqoa+q3WD8yXb
- sFfmHub3WHjfp2eS4XG28UFcg+pJpkF2qJuJXUMMLN1wnbNbQwEIAyWeU w==;
-IronPort-SDR: qngjZkVhIEGACus5j99psBzgu3QdMCfLxYE00bOqwFkdTvzTA0CynyWsKni7HzUh1Z6ngzV6Iv
- E7d/QSsi29EZaf4PvqykAQCYt/diQ9fi+Kp1M+4pMiK42NP1N/6DmUB51Rnrc19qNPJjUuqj+C
- laTbxN4HZplF/mtlwIgbCopBKTvHY8Jx9F5BJ9ZH9Cdyod3NelZ4zE+Mz7LQg+1axE5gVlFkSp
- E4iiBQi734t291wnCV1W6OEsQVSegfFsqadLngqYe+uaYLO+k2WSMLdcX6+egbgUGtgbWsbcXj
- gIs=
-X-IronPort-AV: E=Sophos;i="5.75,375,1589266800"; d="scan'208";a="88397410"
-Received: from smtpout.microchip.com (HELO email.microchip.com)
- ([198.175.253.82])
- by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 20 Jul 2020 15:23:13 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Mon, 20 Jul 2020 15:23:13 -0700
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3
- via Frontend Transport; Mon, 20 Jul 2020 15:23:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZvKMnNwgjYaH1sHmk4WQadPIMTXMRXWIOX+uUx3DYyVe88MSx6RPwHr48ZQ326SiwcfQQnlpj2am1eiH6OGvCrTFSw+bflhRPjIf4b2U2TqCiA59x0UoSljleJ4a3NR4fIoZxK++N8g28K2iIRKbMJD71E9cnrPXIdO49gahJkydfQCFjp9/44cwWFDazlC0IXty5r4PWieaPUxUVwHP722CM1Sv26At/2/iTA76HHumWycQooUfJCjJTBFrSbLrZzIvz19XGrRpb+G7GP6XOLNX9C57tVpWbFyXeWjgZrkmzWFeXJBCLhe2jD6po6Uw4Fm5QRfRcMgZ3KcKl59z9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=icEE2gecJX+QvQweDC3hpVqu8IL1yXK5J2ctKWqjdKE=;
- b=dohOVpf4h4U9epYedqAP5Qk2UM4Dv+63KKefm1AsVEzFDMY4184nZHEUKaHFwCXMTTMJ5nOV+W97RRSjSVTNeJ1xwXByH09CAPVuwViIbzm/6dbk6/2Y0/0TV78TYIhZ8w3nsEhE+URmn66fTYxMT7z7/jFQ+WfwMH2g4Z7MP7YS32FGwlQGH5F+Xsj/jieW7JifxrXamK6us0gAe9l3OKYFpacZWNrZt8Aa0OKIqpRaj7QE7mt350G2z5ZRQya5jTDg/ne0PEtJ5vMAgokWQcyJzeyQHyJNkCLrvd+P+9Flf24C29XqDF+lmwx482LHmWSP9ekZuN890fqIPUcgZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+ Mon, 20 Jul 2020 22:44:25 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id d27so14735128qtg.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Jul 2020 15:44:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=icEE2gecJX+QvQweDC3hpVqu8IL1yXK5J2ctKWqjdKE=;
- b=lpf8aldrOriecYVqJdBEFly/l7RMo1fzRlzsyRoOFU+yElpa11BSTX9JacZjRzaJd+jNMIh/OMmtPDrB6xWDCVx1xe98hVt7SYXCYi8RDt1T8HIGVz9xtI/S8a2PpF42xileIx5yyUqxACa3mknpUa6v68VdWf//TpvZ3YgLv7M=
-Received: from SN6PR11MB2848.namprd11.prod.outlook.com (2603:10b6:805:5d::20)
- by SN6PR11MB3517.namprd11.prod.outlook.com (2603:10b6:805:dc::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.24; Mon, 20 Jul
- 2020 22:23:09 +0000
-Received: from SN6PR11MB2848.namprd11.prod.outlook.com
- ([fe80::14d2:e9a7:be92:6dbb]) by SN6PR11MB2848.namprd11.prod.outlook.com
- ([fe80::14d2:e9a7:be92:6dbb%7]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
- 22:23:09 +0000
-To: <vaibhavgupta40@gmail.com>, <helgaas@kernel.org>, <bhelgaas@google.com>,
- <bjorn@helgaas.com>, <vaibhav.varodek@gmail.com>, <aradford@gmail.com>,
- <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <aacraid@microsemi.com>,
- <hare@suse.com>, <linuxdrivers@attotech.com>, <john.garry@huawei.com>,
- <don.brace@microsemi.com>, <james.smart@broadcom.com>,
- <dick.kennedy@broadcom.com>, <kashyap.desai@broadcom.com>,
- <sumit.saxena@broadcom.com>, <shivasharan.srikanteshwara@broadcom.com>,
- <sathya.prakash@broadcom.com>, <sreekanth.reddy@broadcom.com>,
- <suganath-prabu.subramani@broadcom.com>, <jinpu.wang@cloud.ionos.com>
-Thread-Topic: [PATCH v2 11/15] scsi: hpsa: use generic power management
-Thread-Index: AQHWXpsPj+PmluvQUUS87R/oE7A5jakRCnCA
-Date: Mon, 20 Jul 2020 22:23:09 +0000
-Message-ID: <SN6PR11MB28485B659DDF20AEA09753A2E17B0@SN6PR11MB2848.namprd11.prod.outlook.com>
-References: <20200720133427.454400-1-vaibhavgupta40@gmail.com>
- <20200720133427.454400-12-vaibhavgupta40@gmail.com>
-In-Reply-To: <20200720133427.454400-12-vaibhavgupta40@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=microchip.com;
-x-originating-ip: [76.30.208.15]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 386e9487-c8d2-4f8d-6de9-08d82cfb7b9f
-x-ms-traffictypediagnostic: SN6PR11MB3517:
-x-microsoft-antispam-prvs: <SN6PR11MB351723490A15834C41B1FB66E17B0@SN6PR11MB3517.namprd11.prod.outlook.com>
-x-bypassexternaltag: True
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: J3m3rkoyqQOMFdgK8pHfpbJkXCZ2/K2atu7WX2Xld9r9QoCB4EkhdLs7MjxX6yGvwMzpJ/LGRmCRAop6sy6WqqLiObZvrErBp66dsY001rxXrU73CN0Mn4vhKtG0bOIAP0jwJvS5yJCIGYkQNbs9hbOWoxJMsK0iDmRGzxKkhhwPvqNYvtI0OCb5Zgmjq3Cu5A2tjEQrzec4P6J96FBNcXoxqbJtLVjGsTDA83cSfg3akx+vE9C7U+6h3uj5oHK/O/C574iLM52vOmAlAdRjAX4JcOITnWLI/clQbXaIiw3O34JIUlvv5+nzupQXMhbKq7SGBNBIWQosnRn2FBV3X9C6tKjou5ToBYmNL9dlsi46FRuCVrX/BmB5vjU23huvS2hyW3yjq2MNzRTmoWeDaA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR11MB2848.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(346002)(366004)(396003)(376002)(39860400002)(136003)(71200400001)(54906003)(110136005)(33656002)(83380400001)(52536014)(2906002)(55016002)(9686003)(4326008)(478600001)(66446008)(64756008)(316002)(5660300002)(4744005)(8676002)(66476007)(66946007)(26005)(76116006)(66556008)(86362001)(7416002)(8936002)(7696005)(186003)(6506007)(41533002)(921003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: TrMu1DgXAg3v06jxCnq91iHNUi9niVL0CXLvpEujIqDnWgapu3QA0+lPWUTgzYxV0mditOpnIzGSRgSxaAMBWH2lbHygPseVbfba4REfSyJTHsh9FTnoampt2Q6nQlspSGEw6kYLisBPd9vYw1eyfOCrrAVupmhPs8E5VGNohdUYScWRBO6CGJDoFxHHUR7cllK9tea6jeC33uBgpmR9awQQqBmNqv2sXiaGQ5LPZhZgr4Qr9h4TJaZtnHL9l+t4xMxvVi0McyA02z8JJCenfEmdwOYITvszacmoqGOhyE1BnQdCbmNthmtz0XqG+xSN4OrhoI4Di3LuoJCga3PkcU4SVB+FIVl275UALR2s7/XCLCTxEbG+H3RMn/1OiNZlr0QRf0HiX0+1dDwHGxpjCTer2JhCpb99SapHj5BhJb3kGnoIJ+8meq8KHGhaKxllf8l8v5u4ykhRZkgHXBzhMunPRMQXviEKY4bAyz54AEM=
-x-ms-exchange-transport-forked: True
+ d=massaru-org.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ag3CH9gIrCGq60wqLtIh8GQRzVO4EAvpufO2Zb/zlwc=;
+ b=MijXTMv2wmOpRT0tSxn67usaHrw7v5/wM9T09O2XbEPBquJps5+8tk8hPgi+9s8haX
+ DwenNjaAEUmqapQyTASXTIMFLrqfJ5maiAbJQLOCfogISvfTxHrXjb/P3vx8ORIPJZON
+ IKLq7gwEwA4XcBWmR2Z24Pi7TAlfL9mNK6ntT2H9RvN/4/UbbmwNRY/A9QLg8S1sVL4p
+ kQBzA5Al3O8Ct7hjyr+Q6j6YqSAcL+/GJIPjnN6I9OuxTl2lrbQPHmJy048u9YeXUZDo
+ /0Y5h6zcEukIuboddjdF2QFrEnX1ablLh0vlr2c8qn2PzSq2CTzpap7gEEC7oJdQxH6k
+ JlYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ag3CH9gIrCGq60wqLtIh8GQRzVO4EAvpufO2Zb/zlwc=;
+ b=Qow/z/n9lGSSa2togsbrOAKIq2K71elOl64T55wyXz94g6EKCvFzyfFF7SyogmCIFN
+ vO+AZdy0IgOztuPTp2nlMMoMsWHQ6fLy+1vOkq9S8YDVXkEE+vDpnh9zgP4kisHJdYtm
+ QuUQwYrd8YTXFCt2axd2cSrUp0K5NCuj3PU33Tr59jZ/WtUudB20uJ4x42CP8giMLevS
+ EbG4aLXOdcebH90Nh4xpyoOFtYSZH5UDE4bF77PYJ8GAM1ZAQzfBvi4YcBL2nO1rD3To
+ bhVZhuKUf+c8Dnap3Ao1xF/fTCSqiJnfn1lEzsUhraacz9kblStWIhhNzXt6kAMLUWKU
+ IaVA==
+X-Gm-Message-State: AOAM531L83FoUWy1SJ3ciGMK81IhVkTbJovNDxGMqT38+6hu/OM+LRhE
+ 0D7xjoCadyN1Tc7MZfZEwtqjuQ==
+X-Google-Smtp-Source: ABdhPJwpZN6+9Bs9wz4nAsemF8PM8GzrSfDmAGPEYHHS4VKn288EfCse8gYvM/GJ6JWxwBpXQ1D0RQ==
+X-Received: by 2002:ac8:3985:: with SMTP id v5mr25758367qte.337.1595285064006; 
+ Mon, 20 Jul 2020 15:44:24 -0700 (PDT)
+Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
+ by smtp.gmail.com with ESMTPSA id g136sm795513qke.82.2020.07.20.15.44.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 15:44:22 -0700 (PDT)
+From: Vitor Massaru Iha <vitor@massaru.org>
+To: kunit-dev@googlegroups.com
+Date: Mon, 20 Jul 2020 19:44:18 -0300
+Message-Id: <20200720224418.200495-1-vitor@massaru.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2848.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 386e9487-c8d2-4f8d-6de9-08d82cfb7b9f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2020 22:23:09.3335 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZnJbVawbAQM4gztVRhNusFdDN0MDZ7dWeeqqvT1w8RbO7RuW8S0ooDyZ0RRDcNCIPm97S3U3IOR0/Ihjrgh8zw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3517
-Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
- esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 11/15] scsi: hpsa: use generic
-	power management
+Cc: linux-kselftest@vger.kernel.org, brendanhiggins@google.com,
+ linux-kernel@vger.kernel.org, davidgow@google.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, keescook@chromium.org
+Subject: [Linux-kernel-mentees] [PATCH v3] lib: overflow_kunit: add KUnit
+	test conversion of check_*_overflow
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -172,30 +108,322 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: "Don.Brace--- via Linux-kernel-mentees"
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Don.Brace@microchip.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers using legacy PM have to manage PCI states and device's PM states themselves. They also need to take care of configuration registers.
+This adds the conversion of the runtime tests of check_*_overflow functions,
+from `lib/test_overflow.c`to KUnit tests.
 
-With improved and powerful support of generic PM, PCI Core takes care of above mentioned, device-independent, jobs.
+The log similar to the one seen in dmesg running test_overflow.c can be
+seen in `test.log`.
 
-Change function parameter in both .suspend() and .resume() to "struct device*" type. The function body remains unchanged as it was empty.
-Also, bind callbacks with "static const struct dev_pm_ops" variable.
+Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+Tested-by: David Gow <davidgow@google.com>
+---
+v2:
+  * moved lib/test_overflow.c to lib/overflow-test.c;
+    * back to original license;
+    * fixed style code;
+    * keeps __initconst and added _refdata on overflow_test_cases variable;
+    * keeps macros intact making asserts with the variable err;
+    * removed duplicate test_s8_overflow();
+  * fixed typos on commit message;
 
-Compile-tested only.
+v3:
+  * changed filename to overflow_kunit.c;
+  * replace _refdata by _inidata;
+  * added expects/asserts on individual tests;
+---
+ lib/Kconfig.debug                         |  20 +++-
+ lib/Makefile                              |   2 +-
+ lib/{test_overflow.c => overflow_kunit.c} | 122 +++++++++-------------
+ 3 files changed, 70 insertions(+), 74 deletions(-)
+ rename lib/{test_overflow.c => overflow_kunit.c} (91%)
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 9ad9210d70a1..230aaf418dc0 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1999,9 +1999,6 @@ config TEST_UUID
+ config TEST_XARRAY
+ 	tristate "Test the XArray code at runtime"
 
-Acked-by: Don Brace <don.brace@microsemi.com>
-Compile-tested: no compile/sparse issues found.
-Tested-by: Don Brace <don.brace@microsemi.com>
-   (for hpsa driver)
+-config TEST_OVERFLOW
+-	tristate "Test check_*_overflow() functions at runtime"
+-
+ config TEST_RHASHTABLE
+ 	tristate "Perform selftest on resizable hash table"
+ 	help
+@@ -2154,6 +2151,23 @@ config SYSCTL_KUNIT_TEST
+
+ 	  If unsure, say N.
+
++config OVERFLOW_KUNIT
++	tristate "KUnit test for overflow" if !KUNIT_ALL_TESTS
++	depends on KUNIT
++	default KUNIT_ALL_TESTS
++	help
++	  This builds the overflow KUnit tests.
++
++	  KUnit tests run during boot and output the results to the debug log
++	  in TAP format (http://testanything.org/). Only useful for kernel devs
++	  running KUnit test harness and are not for inclusion into a production
++	  build.
++
++	  For more information on KUnit and unit tests in general please refer
++	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++
++	  If unsure, say N.
++
+ config LIST_KUNIT_TEST
+ 	tristate "KUnit Test for Kernel Linked-list structures" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT
+diff --git a/lib/Makefile b/lib/Makefile
+index b1c42c10073b..c3cf72ec6c52 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -75,7 +75,6 @@ obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
+ obj-$(CONFIG_TEST_MIN_HEAP) += test_min_heap.o
+ obj-$(CONFIG_TEST_LKM) += test_module.o
+ obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
+-obj-$(CONFIG_TEST_OVERFLOW) += test_overflow.o
+ obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
+ obj-$(CONFIG_TEST_SORT) += test_sort.o
+ obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
+@@ -318,3 +317,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
+ # KUnit tests
+ obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
+ obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
++obj-$(CONFIG_OVERFLOW_KUNIT) += overflow_kunit.o
+diff --git a/lib/test_overflow.c b/lib/overflow_kunit.c
+similarity index 91%
+rename from lib/test_overflow.c
+rename to lib/overflow_kunit.c
+index 7a4b6f6c5473..475d0daeb801 100644
+--- a/lib/test_overflow.c
++++ b/lib/overflow_kunit.c
+@@ -4,14 +4,11 @@
+  */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
++#include <kunit/test.h>
+ #include <linux/device.h>
+ #include <linux/init.h>
+-#include <linux/kernel.h>
+ #include <linux/mm.h>
+-#include <linux/module.h>
+ #include <linux/overflow.h>
+-#include <linux/slab.h>
+-#include <linux/types.h>
+ #include <linux/vmalloc.h>
+
+ #define DEFINE_TEST_ARRAY(t)			\
+@@ -248,7 +245,7 @@ static int __init do_test_ ## t(const struct test_ ## t *p)		\
+ 	return err;							\
+ }									\
+ 									\
+-static int __init test_ ## t ## _overflow(void) {			\
++static int __init test_ ## t ## _overflow(struct kunit *test) {	\
+ 	int err = 0;							\
+ 	unsigned i;							\
+ 									\
+@@ -256,6 +253,7 @@ static int __init test_ ## t ## _overflow(void) {			\
+ 		ARRAY_SIZE(t ## _tests));				\
+ 	for (i = 0; i < ARRAY_SIZE(t ## _tests); ++i)			\
+ 		err |= do_test_ ## t(&t ## _tests[i]);			\
++	KUNIT_EXPECT_FALSE(test, err);					\
+ 	return err;							\
+ }
+
+@@ -270,25 +268,25 @@ DEFINE_TEST_FUNC(u64, "%llu");
+ DEFINE_TEST_FUNC(s64, "%lld");
+ #endif
+
+-static int __init test_overflow_calculation(void)
++static void __init overflow_calculation_test(struct kunit *test)
+ {
+ 	int err = 0;
+
+-	err |= test_u8_overflow();
+-	err |= test_s8_overflow();
+-	err |= test_u16_overflow();
+-	err |= test_s16_overflow();
+-	err |= test_u32_overflow();
+-	err |= test_s32_overflow();
++	err |= test_u8_overflow(test);
++	err |= test_s8_overflow(test);
++	err |= test_u16_overflow(test);
++	err |= test_s16_overflow(test);
++	err |= test_u32_overflow(test);
++	err |= test_s32_overflow(test);
+ #if BITS_PER_LONG == 64
+-	err |= test_u64_overflow();
+-	err |= test_s64_overflow();
++	err |= test_u64_overflow(test);
++	err |= test_s64_overflow(test);
+ #endif
+
+-	return err;
++	KUNIT_EXPECT_FALSE(test, err);
+ }
+
+-static int __init test_overflow_shift(void)
++static void __init overflow_shift_test(struct kunit *test)
+ {
+ 	int err = 0;
+
+@@ -313,9 +311,9 @@ static int __init test_overflow_shift(void)
+ 			pr_warn("got %llu\n", (u64)__d);		\
+ 		__failed = 1;						\
+ 	}								\
+-	if (!__failed)							\
+-		pr_info("ok: (%s)(%s << %s) == %s\n", #t, #a, #s,	\
+-			of ? "overflow" : #expect);			\
++	KUNIT_EXPECT_FALSE_MSG(test, __failed,				\
++			       "ok: (%s)(%s << %s) == %s\n", #t, #a, #s,\
++			       of ? "overflow" : #expect);		\
+ 	__failed;							\
+ })
+
+@@ -479,7 +477,7 @@ static int __init test_overflow_shift(void)
+ 	err |= TEST_ONE_SHIFT(0, 31, s32, 0, false);
+ 	err |= TEST_ONE_SHIFT(0, 63, s64, 0, false);
+
+-	return err;
++	KUNIT_EXPECT_FALSE(test, err);
+ }
+
+ /*
+@@ -499,7 +497,7 @@ static int __init test_overflow_shift(void)
+ #define TEST_SIZE		(5 * 4096)
+
+ #define DEFINE_TEST_ALLOC(func, free_func, want_arg, want_gfp, want_node)\
+-static int __init test_ ## func (void *arg)				\
++static int __init test_ ## func (struct kunit *test, void *arg)		\
+ {									\
+ 	volatile size_t a = TEST_SIZE;					\
+ 	volatile size_t b = (SIZE_MAX / TEST_SIZE) + 1;			\
+@@ -507,19 +505,15 @@ static int __init test_ ## func (void *arg)				\
+ 									\
+ 	/* Tiny allocation test. */					\
+ 	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg, 1);\
+-	if (!ptr) {							\
+-		pr_warn(#func " failed regular allocation?!\n");	\
+-		return 1;						\
+-	}								\
++	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
++			#func " failed regular allocation?!\n");	\
+ 	free ## want_arg (free_func, arg, ptr);				\
+ 									\
+ 	/* Wrapped allocation test. */					\
+ 	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,	\
+ 							  a * b);	\
+-	if (!ptr) {							\
+-		pr_warn(#func " unexpectedly failed bad wrapping?!\n");	\
+-		return 1;						\
+-	}								\
++	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
++			#func " unexpectedly failed bad wrapping?!\n"); \
+ 	free ## want_arg (free_func, arg, ptr);				\
+ 									\
+ 	/* Saturated allocation test. */				\
+@@ -555,7 +549,7 @@ DEFINE_TEST_ALLOC(kvzalloc_node, kvfree,     0, 1, 1);
+ DEFINE_TEST_ALLOC(devm_kmalloc,  devm_kfree, 1, 1, 0);
+ DEFINE_TEST_ALLOC(devm_kzalloc,  devm_kfree, 1, 1, 0);
+
+-static int __init test_overflow_allocation(void)
++static void __init overflow_allocation_test(struct kunit *test)
+ {
+ 	const char device_name[] = "overflow-test";
+ 	struct device *dev;
+@@ -563,52 +557,40 @@ static int __init test_overflow_allocation(void)
+
+ 	/* Create dummy device for devm_kmalloc()-family tests. */
+ 	dev = root_device_register(device_name);
+-	if (IS_ERR(dev)) {
+-		pr_warn("Cannot register test device\n");
+-		return 1;
+-	}
+-
+-	err |= test_kmalloc(NULL);
+-	err |= test_kmalloc_node(NULL);
+-	err |= test_kzalloc(NULL);
+-	err |= test_kzalloc_node(NULL);
+-	err |= test_kvmalloc(NULL);
+-	err |= test_kvmalloc_node(NULL);
+-	err |= test_kvzalloc(NULL);
+-	err |= test_kvzalloc_node(NULL);
+-	err |= test_vmalloc(NULL);
+-	err |= test_vmalloc_node(NULL);
+-	err |= test_vzalloc(NULL);
+-	err |= test_vzalloc_node(NULL);
+-	err |= test_devm_kmalloc(dev);
+-	err |= test_devm_kzalloc(dev);
++	KUNIT_ASSERT_FALSE_MSG(test, IS_ERR(dev), "Cannot register test device\n");
++
++	err |= test_kmalloc(test, NULL);
++	err |= test_kmalloc_node(test, NULL);
++	err |= test_kzalloc(test, NULL);
++	err |= test_kzalloc_node(test, NULL);
++	err |= test_kvmalloc(test, NULL);
++	err |= test_kvmalloc_node(test, NULL);
++	err |= test_kvzalloc(test, NULL);
++	err |= test_kvzalloc_node(test, NULL);
++	err |= test_vmalloc(test, NULL);
++	err |= test_vmalloc_node(test, NULL);
++	err |= test_vzalloc(test, NULL);
++	err |= test_vzalloc_node(test, NULL);
++	err |= test_devm_kmalloc(test, dev);
++	err |= test_devm_kzalloc(test, dev);
+
+ 	device_unregister(dev);
+
+-	return err;
++	KUNIT_EXPECT_FALSE(test, err);
+ }
+
+-static int __init test_module_init(void)
+-{
+-	int err = 0;
+-
+-	err |= test_overflow_calculation();
+-	err |= test_overflow_shift();
+-	err |= test_overflow_allocation();
+-
+-	if (err) {
+-		pr_warn("FAIL!\n");
+-		err = -EINVAL;
+-	} else {
+-		pr_info("all tests passed\n");
+-	}
++static struct kunit_case __initdata overflow_test_cases[] = {
++	KUNIT_CASE(overflow_calculation_test),
++	KUNIT_CASE(overflow_shift_test),
++	KUNIT_CASE(overflow_allocation_test),
++	{}
++};
+
+-	return err;
+-}
++static struct kunit_suite __initdata overflow_test_suite = {
++	.name = "overflow",
++	.test_cases = overflow_test_cases,
++};
+
+-static void __exit test_module_exit(void)
+-{ }
++kunit_test_suites(&overflow_test_suite);
+
+-module_init(test_module_init);
+-module_exit(test_module_exit);
+ MODULE_LICENSE("Dual MIT/GPL");
+
+base-commit: c63d2dd7e134ebddce4745c51f9572b3f0d92b26
+--
+2.26.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
