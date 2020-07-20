@@ -8,85 +8,84 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BD4C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 13:31:54 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D8FC433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 13:32:05 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5B18522BF3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 13:31:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DC99B22C9C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 13:32:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bzw05a6g"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B18522BF3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kgwbPooM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC99B22C9C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4943387E60;
-	Mon, 20 Jul 2020 13:31:54 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C62612153B;
+	Mon, 20 Jul 2020 13:32:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id B4FrDILKEfqt; Mon, 20 Jul 2020 13:31:53 +0000 (UTC)
+	with ESMTP id hxoobA7RDcuD; Mon, 20 Jul 2020 13:32:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AFC2C878A8;
-	Mon, 20 Jul 2020 13:31:53 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CAE572050E;
+	Mon, 20 Jul 2020 13:32:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96AADC089F;
-	Mon, 20 Jul 2020 13:31:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C6DDCC089F;
+	Mon, 20 Jul 2020 13:32:03 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3D5C4C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 43739C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 13:31:52 +0000 (UTC)
+ Mon, 20 Jul 2020 13:32:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 39FD187688
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3C7F18768A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 13:31:52 +0000 (UTC)
+ Mon, 20 Jul 2020 13:32:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CjCLPqvvIo30
+ with ESMTP id xyQhSr-OGt8z
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 13:31:51 +0000 (UTC)
+ Mon, 20 Jul 2020 13:32:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id AC95787680
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B8FD887677
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 13:31:51 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id gc9so10245688pjb.2
+ Mon, 20 Jul 2020 13:32:01 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id z5so10297973pgb.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 06:31:51 -0700 (PDT)
+ Mon, 20 Jul 2020 06:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PZjzGiciE1mRdv57FSEZmpziMkegKz0PO+BIzmQwRfA=;
- b=bzw05a6gk51C2yd1FBssAkJPG1LVfOBywHQPUwbmRKXfu+jA+DfssuhmxRncn9dQNQ
- oJgenuKpN1Dus8Hv2Vd5nLa/6NOdeX47TonvsvMDe14cysjtEAZ0nu/mMbacAJqboqnm
- gpDwvCUEexQjN/7qSUOVdtadjTUw2nXNonRa40T3LrzuUbgZXUfV/lTY0/h7i0t0HDjx
- t86vBPEncGHX1M+pvNOXozW00K15BoLKJGPwSdMpm2eqziCaZQjaalw+IXp1PEizhLG+
- TMsJ800WHopDFIRzCKctMPasxhnWj2OtqNfUBX93KeU6OKcQ7ItFn1s9egJ/tawpzFFp
- X3kg==
+ bh=FdW8YVkSwsvSdafwpx9CmQx9hyj6eB3CIWhrxwTQhLk=;
+ b=kgwbPooMUcUzPyWrDty06nlIw0qmtTGM39h5cjjSeTPDwBxA1YCFWGfeXBibM0dd3t
+ Wlrs/87RF6llLbVofGVHWqXQ6q9AYCQz0SXfyilzbCXjhgcNuL1wV0C2BuwyT4dgMm7l
+ O/Hkv18sIxWQ9EGPkSOq7KrgxQDH64OEtttiJV1urY8miLFKDtoxdcpOHqi8/vOCOZKf
+ TSyvtiYZoAs19S4DS+jD91Pmih63XM1HDyFXkDX1y4N57p6yDADKc8QxSxmAmuTmy4WV
+ /l/T+S8vlZDoWxUUxLZstzgliEW/wTuhlSFy2TgOci8pmvszolQkS2C3gKyFPEkVtDiF
+ uIbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PZjzGiciE1mRdv57FSEZmpziMkegKz0PO+BIzmQwRfA=;
- b=mpstXLz6/lygyk9jijg/L99My6WmShDaWQxUaU8TudCZaQPCf2d8FWCZxuJXPNCmAx
- XwM+8amJSfnRc9+eLhCifoElog4h+tuhpjzEYv2u9RXgrPczHDUladUOnwO7E1EgeO2d
- 7v6pEkDmFQfCeGd/OMYXSEKqmknLqoErn4adDVe9EtaOFFNe5ykQTX47CaINsoOCh2EU
- 0UEODy3108G9amex5aLCDFDxOz0JsGFyx3FMD0yaaEZ/MfxMmRbXsOCQvmgw1eTGNACu
- PApjWkxG/Zymr146SID1JHu1OONtG2ga/J5p3ZPZxZam3Nj52ViUw+EepDF1TerSGaQX
- o1Ow==
-X-Gm-Message-State: AOAM532rvwV0hxFsnQLDLMBri2nR4jnLWjbqmRXZrHi859roXrU7+QZ5
- Sv1YH1i2D55WUW0p/nYWosY=
-X-Google-Smtp-Source: ABdhPJw9vk9NP6XxFmMyM/2EeMLZVUTlXr1BsNwtGbmp/wnpbXjTGcXLG/qRRf5LzwMhMZUyvqln6g==
-X-Received: by 2002:a17:902:6bc2:: with SMTP id
- m2mr18658312plt.158.1595251911142; 
- Mon, 20 Jul 2020 06:31:51 -0700 (PDT)
+ bh=FdW8YVkSwsvSdafwpx9CmQx9hyj6eB3CIWhrxwTQhLk=;
+ b=GMCii1br6k/bDpTK2yml9z2SG3v70BAWLRBdCW5PmCNSD1FGo2T4N60XNkhAHVm0NZ
+ pqJCVibGN4ctdChVrVfDEX7xIW0thrp3pszX2TOdtOExWVqumKmcnJXr9X50Nju1cTNj
+ qdAKpkCVLLq+QVdxUDVuaNWZlR2Kxxs8QFU52BvzWIqJBZej0+fSBhqx8lEQuErJF8sr
+ ruht6hTtxcJO5V9S8jziKvQQBVA06PC9DBBQekP6x6/++65xqHwZTULAtffCxatFmWby
+ X01tloNBMwraSrk5IkHF8sF8qzQQREBeAhh+1XzS631kyB8gG92kMzBNH61MROai62uV
+ W2hw==
+X-Gm-Message-State: AOAM530qbDhATccdER2ym1m3McKYwfzAGWc82zOJXGJ1/zxYhMvslHlA
+ adkDHisj3Ysqhy9/cgOjS1A=
+X-Google-Smtp-Source: ABdhPJy12Yuf+XpijjM8gyY91+QuWc0SM7s6y96fC7u0GiPzAtGGAchfZs27Gz0rI5qAg7EnjB7sxA==
+X-Received: by 2002:a63:6c0a:: with SMTP id h10mr18720104pgc.11.1595251921328; 
+ Mon, 20 Jul 2020 06:32:01 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id t5sm14814356pgl.38.2020.07.20.06.31.46
+ by smtp.gmail.com with ESMTPSA id t5sm14814356pgl.38.2020.07.20.06.31.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 06:31:50 -0700 (PDT)
+ Mon, 20 Jul 2020 06:32:00 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -94,8 +93,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Joshua Morris <josh.h.morris@us.ibm.com>,
  Philip Kelleher <pjk1939@linux.ibm.com>,
  Damien Le Moal <Damien.LeMoal@wdc.com>
-Date: Mon, 20 Jul 2020 19:00:00 +0530
-Message-Id: <20200720133002.448809-2-vaibhavgupta40@gmail.com>
+Date: Mon, 20 Jul 2020 19:00:02 +0530
+Message-Id: <20200720133002.448809-4-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200720133002.448809-1-vaibhavgupta40@gmail.com>
 References: <CY4PR04MB37516C5544A7DCAD84921937E77B0@CY4PR04MB3751.namprd04.prod.outlook.com>
@@ -103,7 +102,7 @@ References: <CY4PR04MB37516C5544A7DCAD84921937E77B0@CY4PR04MB3751.namprd04.prod.
 MIME-Version: 1.0
 Cc: linux-block@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 1/3] mtip32xx: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v2 3/3] skd: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -129,129 +128,111 @@ With improved and powerful support of generic PM, PCI Core takes care of
 above mentioned, device-independent, jobs.
 
 This driver makes use of PCI helper functions like
-pci_save/restore_state(), pci_disable_device(), pcim_enable_device(),
-pci_set_power_state() and pci_set_master() to do required operations. In
-generic mode, they are no longer needed.
+pci_save/restore_state(), pci_enable/disable_device(),
+pci_request/release_regions(), pci_set_power_state() and
+pci_set_master() to do required operations. In generic mode, they are no
+longer needed.
 
 Change function parameter in both .suspend() and .resume() to
-"struct device*" type. Use dev_get_drvdata() to get drv data.
+"struct device*" type. Use to_pci_dev() to get "struct pci_dev*" variable.
 
 Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/block/mtip32xx/mtip32xx.c | 54 +++++++------------------------
- 1 file changed, 12 insertions(+), 42 deletions(-)
+ drivers/block/skd_main.c | 30 ++++++++----------------------
+ 1 file changed, 8 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
-index f6bafa9a68b9..7d1280952b35 100644
---- a/drivers/block/mtip32xx/mtip32xx.c
-+++ b/drivers/block/mtip32xx/mtip32xx.c
-@@ -4246,14 +4246,13 @@ static void mtip_pci_remove(struct pci_dev *pdev)
-  *	0  Success
-  *	<0 Error
-  */
--static int mtip_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
-+static int __maybe_unused mtip_pci_suspend(struct device *dev)
+diff --git a/drivers/block/skd_main.c b/drivers/block/skd_main.c
+index 51569c199a6c..7f2d42900b38 100644
+--- a/drivers/block/skd_main.c
++++ b/drivers/block/skd_main.c
+@@ -3315,10 +3315,11 @@ static void skd_pci_remove(struct pci_dev *pdev)
+ 	return;
+ }
+ 
+-static int skd_pci_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused skd_pci_suspend(struct device *dev)
  {
- 	int rv = 0;
--	struct driver_data *dd = pci_get_drvdata(pdev);
-+	struct driver_data *dd = dev_get_drvdata(dev);
+ 	int i;
+ 	struct skd_device *skdev;
++	struct pci_dev *pdev = to_pci_dev(dev);
  
- 	if (!dd) {
--		dev_err(&pdev->dev,
--			"Driver private datastructure is NULL\n");
-+		dev_err(dev, "Driver private datastructure is NULL\n");
- 		return -EFAULT;
- 	}
+ 	skdev = pci_get_drvdata(pdev);
+ 	if (!skdev) {
+@@ -3337,18 +3338,15 @@ static int skd_pci_suspend(struct pci_dev *pdev, pm_message_t state)
+ 	if (skdev->pcie_error_reporting_is_enabled)
+ 		pci_disable_pcie_error_reporting(pdev);
  
-@@ -4261,21 +4260,8 @@ static int mtip_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
- 
- 	/* Disable ports & interrupts then send standby immediate */
- 	rv = mtip_block_suspend(dd);
--	if (rv < 0) {
--		dev_err(&pdev->dev,
--			"Failed to suspend controller\n");
--		return rv;
--	}
--
--	/*
--	 * Save the pci config space to pdev structure &
--	 * disable the device
--	 */
+-	pci_release_regions(pdev);
 -	pci_save_state(pdev);
 -	pci_disable_device(pdev);
--
--	/* Move to Low power state*/
--	pci_set_power_state(pdev, PCI_D3hot);
-+	if (rv < 0)
-+		dev_err(dev, "Failed to suspend controller\n");
- 
- 	return rv;
+-	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+ 	return 0;
  }
-@@ -4287,42 +4273,25 @@ static int mtip_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
-  *      0  Success
-  *      <0 Error
-  */
--static int mtip_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused mtip_pci_resume(struct device *dev)
- {
- 	int rv = 0;
- 	struct driver_data *dd;
  
--	dd = pci_get_drvdata(pdev);
-+	dd = dev_get_drvdata(dev);
- 	if (!dd) {
--		dev_err(&pdev->dev,
--			"Driver private datastructure is NULL\n");
-+		dev_err(dev, "Driver private datastructure is NULL\n");
- 		return -EFAULT;
+-static int skd_pci_resume(struct pci_dev *pdev)
++static int __maybe_unused skd_pci_resume(struct device *dev)
+ {
+ 	int i;
+ 	int rc = 0;
+ 	struct skd_device *skdev;
++	struct pci_dev *pdev = to_pci_dev(dev);
+ 
+ 	skdev = pci_get_drvdata(pdev);
+ 	if (!skdev) {
+@@ -3356,16 +3354,8 @@ static int skd_pci_resume(struct pci_dev *pdev)
+ 		return -1;
  	}
  
--	/* Move the device to active State */
 -	pci_set_power_state(pdev, PCI_D0);
--
--	/* Restore PCI configuration space */
+-	pci_enable_wake(pdev, PCI_D0, 0);
 -	pci_restore_state(pdev);
--
--	/* Enable the PCI device*/
--	rv = pcim_enable_device(pdev);
--	if (rv < 0) {
--		dev_err(&pdev->dev,
--			"Failed to enable card during resume\n");
--		goto err;
--	}
++	device_wakeup_disable(dev);
+ 
+-	rc = pci_enable_device(pdev);
+-	if (rc)
+-		return rc;
+-	rc = pci_request_regions(pdev, DRV_NAME);
+-	if (rc)
+-		goto err_out;
+ 	rc = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (rc)
+ 		rc = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+@@ -3374,7 +3364,6 @@ static int skd_pci_resume(struct pci_dev *pdev)
+ 		goto err_out_regions;
+ 	}
+ 
 -	pci_set_master(pdev);
+ 	rc = pci_enable_pcie_error_reporting(pdev);
+ 	if (rc) {
+ 		dev_err(&pdev->dev,
+@@ -3427,10 +3416,6 @@ static int skd_pci_resume(struct pci_dev *pdev)
+ 		pci_disable_pcie_error_reporting(pdev);
+ 
+ err_out_regions:
+-	pci_release_regions(pdev);
 -
- 	/*
- 	 * Calls hbaReset, initPort, & startPort function
- 	 * then enables interrupts
- 	 */
- 	rv = mtip_block_resume(dd);
- 	if (rv < 0)
--		dev_err(&pdev->dev, "Unable to resume\n");
-+		dev_err(dev, "Unable to resume\n");
+-err_out:
+-	pci_disable_device(pdev);
+ 	return rc;
+ }
  
--err:
- 	clear_bit(MTIP_DDF_RESUME_BIT, &dd->dd_flag);
+@@ -3450,13 +3435,14 @@ static void skd_pci_shutdown(struct pci_dev *pdev)
+ 	skd_stop_device(skdev);
+ }
  
- 	return rv;
-@@ -4353,14 +4322,15 @@ static const struct pci_device_id mtip_pci_tbl[] = {
- 	{ 0 }
- };
- 
-+static SIMPLE_DEV_PM_OPS(mtip_pci_pm_ops, mtip_pci_suspend, mtip_pci_resume);
++static SIMPLE_DEV_PM_OPS(skd_pci_pm_ops, skd_pci_suspend, skd_pci_resume);
 +
- /* Structure that describes the PCI driver functions. */
- static struct pci_driver mtip_pci_driver = {
- 	.name			= MTIP_DRV_NAME,
- 	.id_table		= mtip_pci_tbl,
- 	.probe			= mtip_pci_probe,
- 	.remove			= mtip_pci_remove,
--	.suspend		= mtip_pci_suspend,
--	.resume			= mtip_pci_resume,
-+	.driver.pm		= &mtip_pci_pm_ops,
- 	.shutdown		= mtip_pci_shutdown,
+ static struct pci_driver skd_driver = {
+ 	.name		= DRV_NAME,
+ 	.id_table	= skd_pci_tbl,
+ 	.probe		= skd_pci_probe,
+ 	.remove		= skd_pci_remove,
+-	.suspend	= skd_pci_suspend,
+-	.resume		= skd_pci_resume,
++	.driver.pm	= &skd_pci_pm_ops,
+ 	.shutdown	= skd_pci_shutdown,
  };
  
 -- 
