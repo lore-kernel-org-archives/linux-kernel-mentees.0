@@ -2,115 +2,97 @@ Return-Path: <SRS0=pTPf=A7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD993C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 12:13:16 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E32C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 12:23:03 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 722D522B4D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 12:13:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9B2C12080D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 12:23:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XJlNiMDM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 722D522B4D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLvyiyck"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B2C12080D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3EF9F85E60;
-	Mon, 20 Jul 2020 12:13:16 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8A4B6872AA;
+	Mon, 20 Jul 2020 12:23:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id F3udIrh9MISp; Mon, 20 Jul 2020 12:13:15 +0000 (UTC)
+	with ESMTP id 3M9hRJWVEt90; Mon, 20 Jul 2020 12:23:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 21C3C8577C;
-	Mon, 20 Jul 2020 12:13:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C4CD987221;
+	Mon, 20 Jul 2020 12:23:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 080FEC0894;
-	Mon, 20 Jul 2020 12:13:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ACAA6C0894;
+	Mon, 20 Jul 2020 12:23:02 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B5F75C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 31FB7C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 12:13:13 +0000 (UTC)
+ Mon, 20 Jul 2020 12:23:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B13D286C12
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2DDF18723E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 12:13:13 +0000 (UTC)
+ Mon, 20 Jul 2020 12:23:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id o44ThybHAg33
+ with ESMTP id Fz3LYwsyD6vB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 12:13:12 +0000 (UTC)
+ Mon, 20 Jul 2020 12:23:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D381B86C11
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+ [209.85.217.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DE1578706B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 12:13:12 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06KC6NxC057775;
- Mon, 20 Jul 2020 12:13:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=0+ix7ZEm4VFAuwo6OlsOeoc/om4TtnCdHwDbQ5/UpYY=;
- b=XJlNiMDM/cpQljikRcQE0OX4lCB2ryAb5aSUcb70TjOXv4g1LQkX6X2FjTSGUsfjtT62
- DGG7SQvmjzRhdHIV5UT5OtdzreW7vsCogJA2v16KYwAFzRxh0lCpKF3hct8t4ndoIdOt
- 4o0LE0LMkFrygh7pO/6kBl+xbuFPQMA+wnAOGmpPFQw8CRrADU8ItZdFcFc0JrZjzuqc
- laHkJF9cMrfp4kguC2LxN+K/hoi5WMERGt8pVIY89Owv3BXaUfTV4XQa3zVd501Al6y+
- lwt9F3d9BAvoQ+6yqQ2NuMP4Zl7UbI7NRnUGeuU3NWl0WfTCOtcmsGzdGQplCKPxB/bv gg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 32brgr6hpd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 20 Jul 2020 12:13:07 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06KC8AOE032829;
- Mon, 20 Jul 2020 12:13:06 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 32d9wb3jw5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 20 Jul 2020 12:13:06 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06KCD4JR009291;
- Mon, 20 Jul 2020 12:13:05 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 20 Jul 2020 12:13:04 +0000
-Date: Mon, 20 Jul 2020 15:12:57 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Message-ID: <20200720121257.GJ2571@kadam>
-References: <20200718231218.170730-1-yepeilin.cs@gmail.com>
- <20200720115400.GI2549@kadam>
+ Mon, 20 Jul 2020 12:22:59 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id x205so8350073vsc.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Jul 2020 05:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8R4cXC26/KuqUKdcpf+pJ2nUEQ29VFMSyLtNBu1umPw=;
+ b=SLvyiyckoFptwhf1lSobNDOXLPM9i4jADwSWZAKu11KsUVjzLa697I7iYe2AQVAx+U
+ sDtJyHv+j7WsEmNTzJO5cTtWuuj5WGHg5VKBKfqLSpnBRvALbjN9y5yCGIX6X1hJ+6jg
+ uA4AS4sTxKRSebL1u/H1ZOHOO5yaU1FB/OFPkI2W88BZqpZQtHJ9mOuEP9A7Br7ERhw7
+ MkykGeczymEzb/M/u/mk5k+t+KPUyBENZUhPrTTAvG85tT1ZpjGyMkkd9rHhNx1iBeb8
+ K29z+rGPoK87QRRxqQz4DJXE6iBIUlYn6Mo/mzOJXyrYM5ykpBVB50tsklVye+Av/E0o
+ XBNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8R4cXC26/KuqUKdcpf+pJ2nUEQ29VFMSyLtNBu1umPw=;
+ b=I4PgvcYYjwe6CBz0YR3xD+0mlpj5HoGL52vz7KmqnWXl005LQ+l1v07h2iyd4jUuBK
+ CGOSZQ9zOWpKUQbHUcXab3AXSYgR0GehmhTOHXgmZMNxs+VmeqjilHfgj1FSH0cHrUuh
+ BLvE29zTIO5gs05SBf4OUeKMMQo89cwO4ZGtH8bqb/LUZSGiYKZ3foBZucx/HDhia8i5
+ oH6sOlPGDbfSpz6GVegYSGEka/YL0Moh85JMcZbmJbm+hSssD2Qi3ZDEWNF/m9PvMJ9M
+ ui5/xA3YUaIUXaaOTsHItFCKEs/oTLsuHHPoE8Q1iUlAuEDe1mmu9zWgm4HLMHi0F7D/
+ 2ojQ==
+X-Gm-Message-State: AOAM530mk/mBsi6bPhIyX6pS8ZikUCUbXYp0UAiwlOXa5hSdoUHyXgn5
+ B7J6GU/5HB8H6od5cLLupU1eoXS+StQQiwvkCDo=
+X-Google-Smtp-Source: ABdhPJwEMDAf4Zd3VYdj5jebozmHAzWvugNprEGGU0nrPTXGdu5aUpxcKSp/5j53i9ISf1xxp/Q8Ugq/8xcym5igbck=
+X-Received: by 2002:a67:ebd7:: with SMTP id y23mr5670633vso.228.1595247778909; 
+ Mon, 20 Jul 2020 05:22:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200720115400.GI2549@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9687
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxlogscore=983 mlxscore=0
- spamscore=0 adultscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007200084
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9687
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- bulkscore=0 spamscore=0
- impostorscore=0 suspectscore=0 adultscore=0 clxscore=1015 mlxlogscore=992
- priorityscore=1501 phishscore=0 lowpriorityscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007200084
-Cc: linux-usb@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] usbhid: Fix
- slab-out-of-bounds write in hiddev_ioctl_usage()
+References: <nachiketun8@gmail.com>
+ <20200719171554.264462-1-nachiketun8@gmail.com>
+ <CAKXUXMx3pkpY9Ud=VRf5EVVpr2ThvBTyF9Lr6Hw+CCRFvO7AbQ@mail.gmail.com>
+In-Reply-To: <CAKXUXMx3pkpY9Ud=VRf5EVVpr2ThvBTyF9Lr6Hw+CCRFvO7AbQ@mail.gmail.com>
+From: Nachiket N <nachiketun8@gmail.com>
+Date: Mon, 20 Jul 2020 17:52:47 +0530
+Message-ID: <CA+Dc07iQKrjZ7tPf1EpeT3c1w91aX1-tEbqzUX76Vh3X=1z9vA@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] Checkpatch: Disables commit
+ length check/warning in commit log in case of valid signature tags
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,137 +104,147 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============2572489376603165640=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The problem is there is another bug on the lines before...
+--===============2572489376603165640==
+Content-Type: multipart/alternative; boundary="00000000000030d1cc05aade91dc"
 
-drivers/hid/usbhid/hiddev.c
-   475          default:
-   476                  if (cmd != HIDIOCGUSAGE &&
-   477                      cmd != HIDIOCGUSAGES &&
-   478                      uref->report_type == HID_REPORT_TYPE_INPUT)
-   479                          goto inval;
-   480  
-   481                  if (uref->report_id == HID_REPORT_ID_UNKNOWN) {
-   482                          field = hiddev_lookup_usage(hid, uref);
+--00000000000030d1cc05aade91dc
+Content-Type: text/plain; charset="UTF-8"
 
-This code is obviously buggy because syzkaller triggers an Oops and it's
-pretty complicated to review (meaning that you have to jump around to a
-lot of different places instead of just reading it from top to bottom
-as static analysis would).
+I did run checkpatch on the patch in the previous mail.
+Checkpatch.pl outputs warnings for commit description lines that exceed
+beyond 75 chars. Sometimes these lines might contain signature tags that
+cannot be
+shortened. The patch checks if the line has any valid signature tags and
+disables
+the warning in such a case.
+I tested it on patches which contain long commit log lines such as
+Reported-and-tested-by:
+syzbot+db339689b2101f6f6071@syzkaller.appspotmail.com
+in patch generated by commit ID ac854131d984.
+It does not output commit warning for in such cases.
 
-The user controlls "uref->report_id".  If hiddev_lookup_usage() finds
-something we know that uref->usage_index is a valid offset into the
-field->usage[] array but it might be too large for the field->value[]
-array.
+On Sun, Jul 19, 2020 at 11:07 PM Lukas Bulwahn <lukas.bulwahn@gmail.com>
+wrote:
 
-   483                          if (field == NULL)
-   484                                  goto inval;
-   485                  } else {
-   486                          rinfo.report_type = uref->report_type;
-   487                          rinfo.report_id = uref->report_id;
-   488                          if ((report = hiddev_lookup_report(hid, &rinfo)) == NULL)
-   489                                  goto inval;
-   490  
-   491                          if (uref->field_index >= report->maxfield)
-   492                                  goto inval;
-   493                          uref->field_index = array_index_nospec(uref->field_index,
-   494                                                                 report->maxfield);
-   495  
-   496                          field = report->field[uref->field_index];
-   497  
-   498                          if (cmd == HIDIOCGCOLLECTIONINDEX) {
-   499                                  if (uref->usage_index >= field->maxusage)
-   500                                          goto inval;
-   501                                  uref->usage_index =
-   502                                          array_index_nospec(uref->usage_index,
-   503                                                             field->maxusage);
-   504                          } else if (uref->usage_index >= field->report_count)
-   505                                  goto inval;
-   506                  }
-   507  
-   508                  if (cmd == HIDIOCGUSAGES || cmd == HIDIOCSUSAGES) {
-   509                          if (uref_multi->num_values > HID_MAX_MULTI_USAGES ||
-   510                              uref->usage_index + uref_multi->num_values >
-   511                              field->report_count)
-   512                                  goto inval;
-   513  
-   514                          uref->usage_index =
-   515                                  array_index_nospec(uref->usage_index,
-   516                                                     field->report_count -
-   517                                                     uref_multi->num_values);
+> Did you checkpatch this patch?
+>
+> You need to provide a rationale. Use a full checkpatch.pl evaluation data
+> for showing the difference before and after applying the patch.
+>
+> Lukas
+>
+> On So., 19. Juli 2020 at 19:16, Nachiket Naganure <nachiketun8@gmail.com>
+> wrote:
+>
+>> From: NachiketUN <nachiketun8@gmail.com>
+>>
+>> Signed-off-by: NachiketUN <nachiketun8@gmail.com>
+>> ---
+>>  scripts/checkpatch.pl | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+>> index 197436b20288..8db0f26601c5 100755
+>> --- a/scripts/checkpatch.pl
+>> +++ b/scripts/checkpatch.pl
+>> @@ -2799,7 +2799,7 @@ sub process {
+>>
+>>  # Check for line lengths > 75 in commit log, warn once
+>>                 if ($in_commit_log && !$commit_log_long_line &&
+>> -                   length($line) > 75 &&
+>> +                   length($line) > 75 && $line !~ /$signature_tags/ &&
+>>                     !($line =~ /^\s*[a-zA-Z0-9_\/\.]+\s+\|\s+\d+/ ||
+>>                                         # file delta changes
+>>                       $line =~ /^\s*(?:[\w\.\-]+\/)++[\w\.\-]+:/ ||
+>> --
+>> 2.25.1
+>>
+>>
 
-We check that it is a valid offset into the ->value[] array for these
-two ioctl cmds.
+--00000000000030d1cc05aade91dc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-   518                  }
-   519  
-   520                  switch (cmd) {
-   521                  case HIDIOCGUSAGE:
-   522                          uref->value = field->value[uref->usage_index];
-                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Not checked.
+<div dir=3D"ltr"><div>I did run checkpatch on the patch in the previous mai=
+l.</div><div>Checkpatch.pl outputs warnings for commit description lines th=
+at exceed<br>beyond 75 chars. Sometimes these lines might contain signature=
+ tags that cannot be<br>shortened. The patch checks if the line has any val=
+id signature tags and disables<br>the warning in such a case.</div><div>I t=
+ested it on patches which contain long commit log lines such as</div><div>R=
+eported-and-tested-by: <a href=3D"mailto:syzbot%2Bdb339689b2101f6f6071@syzk=
+aller.appspotmail.com" target=3D"_blank">syzbot+db339689b2101f6f6071@syzkal=
+ler.appspotmail.com</a></div><div>in patch generated by commit ID ac854131d=
+984.</div><div>It does not output commit warning for in such cases.</div></=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Sun, Jul 19, 2020 at 11:07 PM Lukas Bulwahn &lt;<a href=3D"mailto:lukas.bu=
+lwahn@gmail.com">lukas.bulwahn@gmail.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex"><div><div dir=3D"auto">Did you chec=
+kpatch this patch?</div></div><div dir=3D"auto"><br></div><div dir=3D"auto"=
+>You need to provide a rationale. Use a full <a href=3D"http://checkpatch.p=
+l" target=3D"_blank">checkpatch.pl</a> evaluation data for showing the diff=
+erence before and after applying the patch.</div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">Lukas</div><div><br><div class=3D"gmail_quote"><div>On =
+So., 19. Juli 2020 at 19:16, Nachiket Naganure &lt;<a href=3D"mailto:nachik=
+etun8@gmail.com" target=3D"_blank">nachiketun8@gmail.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">From: NachiketUN &l=
+t;<a href=3D"mailto:nachiketun8@gmail.com" target=3D"_blank">nachiketun8@gm=
+ail.com</a>&gt;<br>
+<br>
+Signed-off-by: NachiketUN &lt;<a href=3D"mailto:nachiketun8@gmail.com" targ=
+et=3D"_blank">nachiketun8@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
+"_blank">checkpatch.pl</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" ta=
+rget=3D"_blank">checkpatch.pl</a> b/scripts/<a href=3D"http://checkpatch.pl=
+" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a><br>
+index 197436b20288..8db0f26601c5 100755<br>
+--- a/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
+"_blank">checkpatch.pl</a><br>
++++ b/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
+"_blank">checkpatch.pl</a><br>
+@@ -2799,7 +2799,7 @@ sub process {<br>
+<br>
+=C2=A0# Check for line lengths &gt; 75 in commit log, warn once<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ($in_commit_log =
+&amp;&amp; !$commit_log_long_line &amp;&amp;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lengt=
+h($line) &gt; 75 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lengt=
+h($line) &gt; 75 &amp;&amp; $line !~ /$signature_tags/ &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 !($li=
+ne =3D~ /^\s*[a-zA-Z0-9_\/\.]+\s+\|\s+\d+/ ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # file d=
+elta changes<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 $line =3D~ /^\s*(?:[\w\.\-]+\/)++[\w\.\-]+:/ ||<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div></div>
+</blockquote></div>
 
-   523                          if (copy_to_user(user_arg, uref, sizeof(*uref)))
-   524                                  goto fault;
-   525                          goto goodreturn;
-   526  
-   527                  case HIDIOCSUSAGE:
-   528                          field->value[uref->usage_index] = uref->value;
-                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This one you fixed.
+--00000000000030d1cc05aade91dc--
 
-   529                          goto goodreturn;
-   530  
-   531                  case HIDIOCGCOLLECTIONINDEX:
-   532                          i = field->usage[uref->usage_index].collection_index;
-   533                          kfree(uref_multi);
-   534                          return i;
-   535                  case HIDIOCGUSAGES:
-   536                          for (i = 0; i < uref_multi->num_values; i++)
-   537                                  uref_multi->values[i] =
-   538                                      field->value[uref->usage_index + i];
+--===============2572489376603165640==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-fine.
-
-   539                          if (copy_to_user(user_arg, uref_multi,
-   540                                           sizeof(*uref_multi)))
-   541                                  goto fault;
-   542                          goto goodreturn;
-   543                  case HIDIOCSUSAGES:
-   544                          for (i = 0; i < uref_multi->num_values; i++)
-   545                                  field->value[uref->usage_index + i] =
-
-also fine.
-
-   546                                      uref_multi->values[i];
-   547                          goto goodreturn;
-   548                  }
-   549  
-   550  goodreturn:
-   551                  kfree(uref_multi);
-   552                  return 0;
-   553  fault:
-   554                  kfree(uref_multi);
-   555                  return -EFAULT;
-   556  inval:
-   557                  kfree(uref_multi);
-   558                  return -EINVAL;
-   559          }
-   560  }
-
-So another option would be to just add HIDIOCGUSAGE and HIDIOCSUSAGE to
-the earlier check.  That risks breaking userspace.  Another option is to
-just add a check like you did earlier to the HIDIOCGUSAGE case.
-Probably just do option #2 and resend.
-
-regards,
-dan carpenter
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============2572489376603165640==--
