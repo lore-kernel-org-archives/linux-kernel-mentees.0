@@ -2,103 +2,114 @@ Return-Path: <SRS0=pTPf=A7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBF1C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 11:40:04 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE5BC433EA
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 11:54:19 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A9A3F22CAF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 11:40:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 001D82070A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 20 Jul 2020 11:54:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BgFDZByi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A9A3F22CAF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EGDNMaDL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 001D82070A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 747E02050E;
-	Mon, 20 Jul 2020 11:40:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A6DAE8616F;
+	Mon, 20 Jul 2020 11:54:18 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 26ROtXGia5aG; Mon, 20 Jul 2020 11:54:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 40EFA86165;
+	Mon, 20 Jul 2020 11:54:18 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3D0BCC089F;
+	Mon, 20 Jul 2020 11:54:18 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2980FC016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Jul 2020 11:54:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 150BF204B0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 Jul 2020 11:54:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1ZzQpzu2x5YI; Mon, 20 Jul 2020 11:40:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2F39320445;
-	Mon, 20 Jul 2020 11:40:03 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FDD9C089F;
-	Mon, 20 Jul 2020 11:40:03 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6EFC5C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 11:40:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6456E85DC0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 11:40:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zcSUx6PEJZhi
+ with ESMTP id 9oCWGxt+NbjA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 11:40:01 +0000 (UTC)
+ Mon, 20 Jul 2020 11:54:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id DFC1785DA5
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+ by silver.osuosl.org (Postfix) with ESMTPS id C48B0204AC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 11:40:01 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id m9so8930414pfh.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 20 Jul 2020 04:40:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9ydUkxccpldgiDYqKvhXSUOUhAioZWR9Lw+8lusKjv0=;
- b=BgFDZByinpOxZ38qajfri4IVASZaQbqNn3xQlgqO5+WLJKENmfGAJScC1n2EgkPMY8
- xa8MsYYh+lFA/8zNAh94CGvxNm3l6YHIbhPY3nQBy/k+BlYvMDctWeXPo//vzivmr5Ni
- 5DXWg5LcTlbzGykAIDew2X0P5rmqiVjMsvT0Bs6XBiujPXaKE5aBmP+pDU4iCf7x3HrK
- Q1LikTjRMygbayjDDoRqUQq4glc0fC2VEV3CwFDhhMwpSexqhxuWZx09mgi5a05L4B82
- EVtd6NQZS0BA+Edr5RJdfGdR0/Tg4KPnjgYaar0LBWTYAA1+x8rDNd8wS5MxjzpdQwxi
- Vgkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9ydUkxccpldgiDYqKvhXSUOUhAioZWR9Lw+8lusKjv0=;
- b=FPBbcqTCrwSs637A7p5Wfkv8RqKo+L1kb9CPX9cJpA3p2CMMp1kIBqxaJCfmWEL3sm
- ZwmsHFne9oH1IN9lQkw5qvDt0XgQjO6o/T5CSHDgn4yi7NOhK/sWzlyUSeB4BkjtXvBj
- e5MXmrk6mGeSib09b2H5e7juPPWUohjP5paC2hT+Xo0LSTcUUIXox51k8t3OKMASYP/o
- /J5jp3WXB4WvUsLO/IFEQPfMUSbCBnARaXeY8v3BNE8Flcp/PRiA2aERirwTWY0F2TeM
- pudL0iCAe0SXBHsgVfIVYW/cdUDibxyk3L0qNkZdjKrye2R/tzbKGmZLCkDvPMUaxeTx
- 6oDA==
-X-Gm-Message-State: AOAM5325ROuwJWrB4RRA/kxagodeZ0CCGuFRZeAsZr1ACIdjCD3IFC9V
- ck9iFE6+RSAuSlP16x0Iu/g=
-X-Google-Smtp-Source: ABdhPJzn4/Nkjxymf/WNDQhYvjrNU7KoFMAW3Hpf2OEMoq7mFr4jtW2Lu4qzp5HEX54aNZfjTp1pzQ==
-X-Received: by 2002:a63:b74f:: with SMTP id w15mr7259245pgt.314.1595245201447; 
- Mon, 20 Jul 2020 04:40:01 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id 83sm16680114pfu.60.2020.07.20.04.39.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 04:40:00 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>, Vinod Koul <vkoul@kernel.org>
-Date: Mon, 20 Jul 2020 17:07:41 +0530
-Message-Id: <20200720113740.353479-1-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Mon, 20 Jul 2020 11:54:14 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06KBgE1W113693;
+ Mon, 20 Jul 2020 11:54:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=/YXYJgmTLLawI09r+e1//mSAR/9LYPumoks746wreuI=;
+ b=EGDNMaDLd+galPObfcvba4RicKEZv8G9eN7N1NBumwkfvVN7uJ+yRjA0Fh8l7szyr6Do
+ Azhg98EboiE3x6X3KmL25ZCG78NC0WfHCZKRLJc9/pyKR+jop8Fig/j0khw+2N0lrfBS
+ iCkzwtqW+dC8tnhKBfJ9P4Dk7eNFchp0MoguJUW2+uDukzx3zRMol3xxbi4M6BB5Z9sh
+ xOfdEoaQ52l2AgL1H2n03CQuiGUpZ4HhssbEZiZQVZlKMkCdZSGBCN85u4v5Cbz4H6HP
+ /Tg3RVc5VIoO55h706SXCeq+BWhjf/olPX6HAPKWBBLfbWil+gJ0ouSZAY542GUdSPe1 uA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 32bpkaxnh9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 20 Jul 2020 11:54:10 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06KBi7Gm143755;
+ Mon, 20 Jul 2020 11:54:09 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 32d9wb2np4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 20 Jul 2020 11:54:09 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06KBs8fI012686;
+ Mon, 20 Jul 2020 11:54:08 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 20 Jul 2020 04:54:08 -0700
+Date: Mon, 20 Jul 2020 14:54:01 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Message-ID: <20200720115400.GI2549@kadam>
+References: <20200718231218.170730-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-Cc: dmaengine@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1] dmaengine: pch_dma: use generic
-	power management
+Content-Disposition: inline
+In-Reply-To: <20200718231218.170730-1-yepeilin.cs@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9687
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxlogscore=999 mlxscore=0
+ spamscore=0 adultscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007200082
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9687
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ bulkscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007200082
+Cc: linux-usb@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] usbhid: Fix
+ slab-out-of-bounds write in hiddev_ioctl_usage()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,116 +127,28 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers using legacy PM have to manage PCI states and device's PM states
-themselves. They also need to take care of configuration registers.
+On Sat, Jul 18, 2020 at 07:12:18PM -0400, Peilin Ye wrote:
+> `uref->usage_index` is not always being properly checked, causing
+> hiddev_ioctl_usage() to go out of bounds under some cases. Fix it.
+> 
 
-With improved and powerful support of generic PM, PCI Core takes care of
-above mentioned, device-independent, jobs.
+Yeah.  This code is not obvious.  It doesn't come from the user directly
+so we don't have to worry about nospec.  It comes from hiddev_lookup_usage()
+where we set:
 
-This driver makes use of PCI helper functions like
-pci_save/restore_state(), pci_enable/disable_device(),
-and pci_set_power_state() to do required operations. In generic mode, they
-are no longer needed.
+	uref->usage_index = j;
 
-Change function parameter in both .suspend() and .resume() to
-"struct device*" type. Use dev_get_drvdata() to get drv data.
+We know that j is less than field->maxusage but we do need to check
+against field->report_count like your patch does...  The two arrays
+are allocated in hid_register_field().
 
-Compile-tested only.
+I don't know the code well enough to say how these arrays are used or
+why the one is larger than the other so I can't give a proper
+reviewed-by.  But the patch looks reasonable and doesn't introduce any
+bugs which weren't there in the original code.
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/dma/pch_dma.c | 35 +++++++++--------------------------
- 1 file changed, 9 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/dma/pch_dma.c b/drivers/dma/pch_dma.c
-index a3b0b4c56a19..e93005837e3f 100644
---- a/drivers/dma/pch_dma.c
-+++ b/drivers/dma/pch_dma.c
-@@ -735,8 +735,7 @@ static irqreturn_t pd_irq(int irq, void *devid)
- 	return ret0 | ret2;
- }
- 
--#ifdef	CONFIG_PM
--static void pch_dma_save_regs(struct pch_dma *pd)
-+static void __maybe_unused pch_dma_save_regs(struct pch_dma *pd)
- {
- 	struct pch_dma_chan *pd_chan;
- 	struct dma_chan *chan, *_c;
-@@ -759,7 +758,7 @@ static void pch_dma_save_regs(struct pch_dma *pd)
- 	}
- }
- 
--static void pch_dma_restore_regs(struct pch_dma *pd)
-+static void __maybe_unused pch_dma_restore_regs(struct pch_dma *pd)
- {
- 	struct pch_dma_chan *pd_chan;
- 	struct dma_chan *chan, *_c;
-@@ -782,40 +781,25 @@ static void pch_dma_restore_regs(struct pch_dma *pd)
- 	}
- }
- 
--static int pch_dma_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused pch_dma_suspend(struct device *dev)
- {
--	struct pch_dma *pd = pci_get_drvdata(pdev);
-+	struct pch_dma *pd = dev_get_drvdata(dev);
- 
- 	if (pd)
- 		pch_dma_save_regs(pd);
- 
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
--
- 	return 0;
- }
- 
--static int pch_dma_resume(struct pci_dev *pdev)
-+static int __maybe_unused pch_dma_resume(struct device *dev)
- {
--	struct pch_dma *pd = pci_get_drvdata(pdev);
--	int err;
--
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--
--	err = pci_enable_device(pdev);
--	if (err) {
--		dev_dbg(&pdev->dev, "failed to enable device\n");
--		return err;
--	}
-+	struct pch_dma *pd = dev_get_drvdata(dev);
- 
- 	if (pd)
- 		pch_dma_restore_regs(pd);
- 
- 	return 0;
- }
--#endif
- 
- static int pch_dma_probe(struct pci_dev *pdev,
- 				   const struct pci_device_id *id)
-@@ -993,15 +977,14 @@ static const struct pci_device_id pch_dma_id_table[] = {
- 	{ 0, },
- };
- 
-+static SIMPLE_DEV_PM_OPS(pch_dma_pm_ops, pch_dma_suspend, pch_dma_resume);
-+
- static struct pci_driver pch_dma_driver = {
- 	.name		= DRV_NAME,
- 	.id_table	= pch_dma_id_table,
- 	.probe		= pch_dma_probe,
- 	.remove		= pch_dma_remove,
--#ifdef CONFIG_PM
--	.suspend	= pch_dma_suspend,
--	.resume		= pch_dma_resume,
--#endif
-+	.driver.pm	= &pch_dma_pm_ops,
- };
- 
- module_pci_driver(pch_dma_driver);
--- 
-2.27.0
+regards,
+dan carpenter
 
 _______________________________________________
 Linux-kernel-mentees mailing list
