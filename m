@@ -2,91 +2,93 @@ Return-Path: <SRS0=c8zi=BA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C467C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 19:38:40 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31544C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 21:50:46 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0E926206C1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 19:38:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CE86F206E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 21:50:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="0QY3aCK1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0E926206C1
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="yJ+Z1CIy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE86F206E3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E0A9E88659;
-	Tue, 21 Jul 2020 19:38:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9A795882AC;
+	Tue, 21 Jul 2020 21:50:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NzYLMgA1rqfI; Tue, 21 Jul 2020 19:38:39 +0000 (UTC)
+	with ESMTP id s3-f1ekOaAS5; Tue, 21 Jul 2020 21:50:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 04D1F88649;
-	Tue, 21 Jul 2020 19:38:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A221488166;
+	Tue, 21 Jul 2020 21:50:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DCD4DC088E;
-	Tue, 21 Jul 2020 19:38:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8EADDC088E;
+	Tue, 21 Jul 2020 21:50:44 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D5501C016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2C678C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 19:38:37 +0000 (UTC)
+ Tue, 21 Jul 2020 21:50:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id BE5EF86214
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1563686A3C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 19:38:37 +0000 (UTC)
+ Tue, 21 Jul 2020 21:50:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vjtRu8qpALe1
+ with ESMTP id 8l_CNMI8W_Wp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 19:38:36 +0000 (UTC)
+ Tue, 21 Jul 2020 21:50:42 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
- [209.85.219.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A4FF884E97
+Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com
+ [209.85.219.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0C4DA854DB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 19:38:36 +0000 (UTC)
-Received: by mail-yb1-f194.google.com with SMTP id f5so10565420ybq.2
+ Tue, 21 Jul 2020 21:50:41 +0000 (UTC)
+Received: by mail-yb1-f196.google.com with SMTP id f5so10736786ybq.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 12:38:36 -0700 (PDT)
+ Tue, 21 Jul 2020 14:50:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yNJCh3phf+rCdlg8FFfmPMe2qMeoUk4tz3pbmAX7aY8=;
- b=0QY3aCK1qH9XoPtKYFzwnqZPIbop2okaD01HSyajDXz1Z4eGC7jdHRvFIj/rHR5UpL
- BbKsrzZAPprkV6w/dnhaCH249vIsvN0hhGzh+gwxsQMWKcLlQZNe4f2qvbMeWXYOngH4
- YP0+gp4eQ2d8/kjIX6/8vG4lZjFXbDxd6De8f9HUFG8dapg/Usag8rinPWfs8xlyUTrE
- NDXB0xQsDBI7gm/tl2lt6MnWkaikYG3IUU7muwZBAV0lmn+7vCuJvMTndDIVwKkyx0nq
- dUzHepCtYNACmJfel0GcPoN6iRsDqO3ul4jTs0ked/g5/2qd41eMRwudDsspPQSnHwlM
- pgIg==
+ :cc; bh=kLMDiGczciFjSsOj3dZDq7sO5iSQNRSWpLVbsp1EiI0=;
+ b=yJ+Z1CIy1mq/LzN/hH8uLcG40OzKefS7+5Bg/NswbBmn8MKxf/kKxj6mZmlP+q7mgF
+ 61hll9Qjw6QqpPXgOyQDtLOrFxxlSrrfANYbpCqxgwUD2MPYOPryqui0sffIk6SxmTGu
+ yk+VWw8NsjDNDO9Ev5bJxPO6XM4s4ugokO6dTC52BdtaxaTqThLi0HD4NG4GXIVeqnGa
+ Reojvl6PKuUxlyjqNWnkw5U6dTBCORhBFPoOuRA1NBUvGVjh1SQvV+NVxqNjGivu1tmb
+ XB8kCjXh9ymKFwhfBLmAAS/Hs3ph1vncbo7yD/z+k+DHW6xTKdo3UiHIfl0IJ6H7S3wH
+ /T4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yNJCh3phf+rCdlg8FFfmPMe2qMeoUk4tz3pbmAX7aY8=;
- b=pieAPftFZOHNNnh3KykRuC+0oEcydOHXIwNykyBftaaM4/oBVyTAlrJo6nqHBvNi5T
- WVwB/4P9z01XUJcl87ZAJP0xfy4fX70w4PBgRspk3PtkNGo4zkjNmq4csm1X1ZLdsyDy
- rRcKA35iLFhmSqxbHwifS65LIz4PASPCgnS5uN5fKxELKsru3EP+5MNnoQurWWGM0tkt
- n+LbdyDlyBD7+6nMhAPUEb3gdtmrqIB8wAmUCues4iSFbDaRqhuwpvoAUJYGvcelKIri
- lIcj33BGePFwZBNUDsFpYoKma3JUZb2Rg7/fG26X10RhUNS65bKHiH1mEeG09OIoJ+Ca
- nEDA==
-X-Gm-Message-State: AOAM5320mJn7sIOzDYCH5+MX/yHEuwuvAyVj8Nt7WSQUaImMLwpfrbbT
- 8lZd9CYdHhe5q3Xf7+CsFoGVv8Jp8fTe1PF771jJeA==
-X-Google-Smtp-Source: ABdhPJzQTM4KeBrIhYHxsPjf73rfrz5f1LTSh4nrR+7Uo2Za5LNtBCynusRil+iIHeTTycUVhLtxyljNyAzLyC1yGRY=
-X-Received: by 2002:a25:3b4c:: with SMTP id i73mr46133482yba.129.1595360315488; 
- Tue, 21 Jul 2020 12:38:35 -0700 (PDT)
+ bh=kLMDiGczciFjSsOj3dZDq7sO5iSQNRSWpLVbsp1EiI0=;
+ b=tsPfTDe9MBSQKW6yq8Jxf1Sjx6VAmEI+tOhPzQzV+ffDsPBJiK6g/NwzkmQFgu3Xmj
+ gacG8Y5lP4atmmB+cJp2dAMSZWY5CXqn1esMQA9m3U8BVwXcRDOSoJTGrQAYy43jtVT+
+ G468wZBS0fK0hWoQ7vBQJTDnKigmcENjHtNuneLZqe22Mb9C5vmkV1C/7Ih5koCZpVZ/
+ ahtfjhyDga70QLIy6k6SHM1H8cm2WnSPJ+iBrWrKtjF9/M8fE5FtBjURqdM+6t+OZcw1
+ nx2BAeWNOLc2jYoPe0daBuPTXi4Bmq0nG8tPNKCoNliKvNM6n9JR3ZNHajyqRh0GFX5U
+ KP3Q==
+X-Gm-Message-State: AOAM530kLrpyFaNbUuDscD1I8Z4N6tqYgM+4gJw2MV72pJeIrtjVSgaa
+ yQY0QN+LQDx7Bc4xeR60tBwI9v+opymhAQn/TH8vkQ==
+X-Google-Smtp-Source: ABdhPJy68bX+ByEEwPuuMTF4k+NRbvWooV+CsEwnm8IuYSK8Pqsbeq/9PyEnxgdLO8OZ26n5SdppRrvdKekIiQY4vEM=
+X-Received: by 2002:a25:cfd2:: with SMTP id
+ f201mr45418368ybg.286.1595368240752; 
+ Tue, 21 Jul 2020 14:50:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200720224418.200495-1-vitor@massaru.org>
- <202007211150.73CF60A9@keescook>
-In-Reply-To: <202007211150.73CF60A9@keescook>
+References: <20200721174036.71072-1-vitor@massaru.org>
+ <202007211203.6CFE2F19BE@keescook>
+In-Reply-To: <202007211203.6CFE2F19BE@keescook>
 From: Vitor Massaru Iha <vitor@massaru.org>
-Date: Tue, 21 Jul 2020 16:37:59 -0300
-Message-ID: <CADQ6JjUm10vPcSO5Wto=BjfM7dtdQZ924d0x-C6kxQKKZJr=qQ@mail.gmail.com>
+Date: Tue, 21 Jul 2020 18:50:04 -0300
+Message-ID: <CADQ6JjWGqOG568TmBvM-ZxK9j4n=WWsLTBJvzCCswC-SgW59rQ@mail.gmail.com>
 To: Kees Cook <keescook@chromium.org>
 Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
  Brendan Higgins <brendanhiggins@google.com>,
@@ -94,8 +96,8 @@ Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
  David Gow <davidgow@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: overflow_kunit: add
-	KUnit test conversion of check_*_overflow
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: kunit: Provides a
+ userspace memory context when tests are compiled as module
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,288 +115,157 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 21, 2020 at 3:55 PM Kees Cook <keescook@chromium.org> wrote:
+On Tue, Jul 21, 2020 at 4:06 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> On Mon, Jul 20, 2020 at 07:44:18PM -0300, Vitor Massaru Iha wrote:
-> > This adds the conversion of the runtime tests of check_*_overflow functions,
-> > from `lib/test_overflow.c`to KUnit tests.
+> On Tue, Jul 21, 2020 at 02:40:36PM -0300, Vitor Massaru Iha wrote:
+> > KUnit test cases run on kthreads, and kthreads don't have an
+> > adddress space (current->mm is NULL), but processes have mm.
 > >
-> > The log similar to the one seen in dmesg running test_overflow.c can be
-> > seen in `test.log`.
+> > The purpose of this patch is to allow to borrow mm to KUnit kthread
+> > after userspace is brought up, because we know that there are processes
+> > running, at least the process that loaded the module to borrow mm.
 > >
+> > This allows, for example, tests such as user_copy_kunit, which uses
+> > vm_mmap, which needs current->mm.
+>
+> Ah! In the case of kunit starting before there IS a userspace...
+> interesting.
+
+I didn't think that way, but I can rewrite if it looked like that.
+
 > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > Tested-by: David Gow <davidgow@google.com>
 > > ---
 > > v2:
-> >   * moved lib/test_overflow.c to lib/overflow-test.c;
-> >     * back to original license;
-> >     * fixed style code;
-> >     * keeps __initconst and added _refdata on overflow_test_cases variable;
-> >     * keeps macros intact making asserts with the variable err;
-> >     * removed duplicate test_s8_overflow();
-> >   * fixed typos on commit message;
-> >
+> >     * splitted patch in 3:
+> >         - Allows to install and load modules in root filesystem;
+> >         - Provides an userspace memory context when tests are compiled
+> >           as module;
+> >         - Convert test_user_copy to KUnit test;
+> >     * added documentation;
+> >     * added more explanation;
+> >     * added a missed test pointer;
+> >     * released mm with mmput();
 > > v3:
-> >   * changed filename to overflow_kunit.c;
-> >   * replace _refdata by _inidata;
->
-> It looks like this still needs to be _refdata (says the test bot)
-
-I replaced it because you said `Erm, __refdata? This seems like it
-should be __initdata.` in v2.
-
->
-> > -static int __init test_ ## t ## _overflow(void) {                    \
-> > +static int __init test_ ## t ## _overflow(struct kunit *test) {      \
->
-> style nit: it seems like "test" isn't a great variable name. Why not
-> make this "kunit" or "context" or something more specific?
-
-I tried to follow the pattern I saw in other KUnit tests.
-
->
-> >       int err = 0;                                                    \
-> >       unsigned i;                                                     \
-> >                                                                       \
-> > @@ -256,6 +253,7 @@ static int __init test_ ## t ## _overflow(void) {                 \
-> >               ARRAY_SIZE(t ## _tests));                               \
-> >       for (i = 0; i < ARRAY_SIZE(t ## _tests); ++i)                   \
-> >               err |= do_test_ ## t(&t ## _tests[i]);                  \
-> > +     KUNIT_EXPECT_FALSE(test, err);                                  \
-> >       return err;                                                     \
-> >  }
->
-> Also, if the caller is being made "void", probably this can be made void
-> too?
->
-> And if that's happening, maybe just plumb the EXPECT into the
-> do_test_... call instead?
-
-I did something similar in v1, but you said:
-"Only callers of the do_test_*() would need to be changed. I think all of
-these macros just need the pr_warn/KUNIT_FAIL changes, and the function
-prototypes updated to include struct kunit *test."
-
->
+> >     * rebased with last kunit branch
+> >     * Please apply this commit from kunit-fixes:
+> >         3f37d14b8a3152441f36b6bc74000996679f0998
 > >
-> > @@ -270,25 +268,25 @@ DEFINE_TEST_FUNC(u64, "%llu");
-> >  DEFINE_TEST_FUNC(s64, "%lld");
-> >  #endif
+> >  Documentation/dev-tools/kunit/usage.rst | 14 ++++++++++++++
+> >  include/kunit/test.h                    | 12 ++++++++++++
+> >  lib/kunit/try-catch.c                   | 15 ++++++++++++++-
+> >  3 files changed, 40 insertions(+), 1 deletion(-)
+> > ---
+> > diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> > index 3c3fe8b5fecc..9f909157be34 100644
+> > --- a/Documentation/dev-tools/kunit/usage.rst
+> > +++ b/Documentation/dev-tools/kunit/usage.rst
+> > @@ -448,6 +448,20 @@ We can now use it to test ``struct eeprom_buffer``:
 > >
-> > -static int __init test_overflow_calculation(void)
-> > +static void __init overflow_calculation_test(struct kunit *test)
-> >  {
-> >       int err = 0;
+> >  .. _kunit-on-non-uml:
 > >
-> > -     err |= test_u8_overflow();
-> > -     err |= test_s8_overflow();
-> > -     err |= test_u16_overflow();
-> > -     err |= test_s16_overflow();
-> > -     err |= test_u32_overflow();
-> > -     err |= test_s32_overflow();
-> > +     err |= test_u8_overflow(test);
-> > +     err |= test_s8_overflow(test);
-> > +     err |= test_u16_overflow(test);
-> > +     err |= test_s16_overflow(test);
-> > +     err |= test_u32_overflow(test);
-> > +     err |= test_s32_overflow(test);
-> >  #if BITS_PER_LONG == 64
-> > -     err |= test_u64_overflow();
-> > -     err |= test_s64_overflow();
-> > +     err |= test_u64_overflow(test);
-> > +     err |= test_s64_overflow(test);
-> >  #endif
-> >
-> > -     return err;
-> > +     KUNIT_EXPECT_FALSE(test, err);
->
-> This seems redundant (the tests were already tested)?
-
-Yep, I just tried to do something you said in v1:
-
-"I think it might be nice to keep the "err" vars around for a final report
-line (maybe per test)? (It would keep the diff churn way lower, too...)"
-
-> >  }
-> >
-> > -static int __init test_overflow_shift(void)
-> > +static void __init overflow_shift_test(struct kunit *test)
-> >  {
-> >       int err = 0;
-> >
-> > @@ -313,9 +311,9 @@ static int __init test_overflow_shift(void)
-> >                       pr_warn("got %llu\n", (u64)__d);                \
-> >               __failed = 1;                                           \
-> >       }                                                               \
-> > -     if (!__failed)                                                  \
-> > -             pr_info("ok: (%s)(%s << %s) == %s\n", #t, #a, #s,       \
-> > -                     of ? "overflow" : #expect);                     \
-> > +     KUNIT_EXPECT_FALSE_MSG(test, __failed,                          \
-> > +                            "ok: (%s)(%s << %s) == %s\n", #t, #a, #s,\
-> > +                            of ? "overflow" : #expect);              \
-> >       __failed;                                                       \
-> >  })
-> >
-> > @@ -479,7 +477,7 @@ static int __init test_overflow_shift(void)
-> >       err |= TEST_ONE_SHIFT(0, 31, s32, 0, false);
-> >       err |= TEST_ONE_SHIFT(0, 63, s64, 0, false);
-> >
-> > -     return err;
-> > +     KUNIT_EXPECT_FALSE(test, err);
-> >  }
-> >
-> >  /*
-> > @@ -499,7 +497,7 @@ static int __init test_overflow_shift(void)
-> >  #define TEST_SIZE            (5 * 4096)
-> >
-> >  #define DEFINE_TEST_ALLOC(func, free_func, want_arg, want_gfp, want_node)\
-> > -static int __init test_ ## func (void *arg)                          \
-> > +static int __init test_ ## func (struct kunit *test, void *arg)              \
-> >  {                                                                    \
-> >       volatile size_t a = TEST_SIZE;                                  \
-> >       volatile size_t b = (SIZE_MAX / TEST_SIZE) + 1;                 \
-> > @@ -507,19 +505,15 @@ static int __init test_ ## func (void *arg)                             \
-> >                                                                       \
-> >       /* Tiny allocation test. */                                     \
-> >       ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg, 1);\
-> > -     if (!ptr) {                                                     \
-> > -             pr_warn(#func " failed regular allocation?!\n");        \
-> > -             return 1;                                               \
-> > -     }                                                               \
-> > +     KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,                     \
-> > +                     #func " failed regular allocation?!\n");        \
-> >       free ## want_arg (free_func, arg, ptr);                         \
-> >                                                                       \
-> >       /* Wrapped allocation test. */                                  \
-> >       ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,    \
-> >                                                         a * b);       \
-> > -     if (!ptr) {                                                     \
-> > -             pr_warn(#func " unexpectedly failed bad wrapping?!\n"); \
-> > -             return 1;                                               \
-> > -     }                                                               \
-> > +     KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,                     \
-> > +                     #func " unexpectedly failed bad wrapping?!\n"); \
-> >       free ## want_arg (free_func, arg, ptr);                         \
-> >                                                                       \
-> >       /* Saturated allocation test. */                                \
-> > @@ -555,7 +549,7 @@ DEFINE_TEST_ALLOC(kvzalloc_node, kvfree,     0, 1, 1);
-> >  DEFINE_TEST_ALLOC(devm_kmalloc,  devm_kfree, 1, 1, 0);
-> >  DEFINE_TEST_ALLOC(devm_kzalloc,  devm_kfree, 1, 1, 0);
-> >
-> > -static int __init test_overflow_allocation(void)
-> > +static void __init overflow_allocation_test(struct kunit *test)
-> >  {
-> >       const char device_name[] = "overflow-test";
-> >       struct device *dev;
-> > @@ -563,52 +557,40 @@ static int __init test_overflow_allocation(void)
-> >
-> >       /* Create dummy device for devm_kmalloc()-family tests. */
-> >       dev = root_device_register(device_name);
-> > -     if (IS_ERR(dev)) {
-> > -             pr_warn("Cannot register test device\n");
-> > -             return 1;
-> > -     }
-> > -
-> > -     err |= test_kmalloc(NULL);
-> > -     err |= test_kmalloc_node(NULL);
-> > -     err |= test_kzalloc(NULL);
-> > -     err |= test_kzalloc_node(NULL);
-> > -     err |= test_kvmalloc(NULL);
-> > -     err |= test_kvmalloc_node(NULL);
-> > -     err |= test_kvzalloc(NULL);
-> > -     err |= test_kvzalloc_node(NULL);
-> > -     err |= test_vmalloc(NULL);
-> > -     err |= test_vmalloc_node(NULL);
-> > -     err |= test_vzalloc(NULL);
-> > -     err |= test_vzalloc_node(NULL);
-> > -     err |= test_devm_kmalloc(dev);
-> > -     err |= test_devm_kzalloc(dev);
-> > +     KUNIT_ASSERT_FALSE_MSG(test, IS_ERR(dev), "Cannot register test device\n");
+> > +User-space context
+> > +------------------
 > > +
-> > +     err |= test_kmalloc(test, NULL);
-> > +     err |= test_kmalloc_node(test, NULL);
-> > +     err |= test_kzalloc(test, NULL);
-> > +     err |= test_kzalloc_node(test, NULL);
-> > +     err |= test_kvmalloc(test, NULL);
-> > +     err |= test_kvmalloc_node(test, NULL);
-> > +     err |= test_kvzalloc(test, NULL);
-> > +     err |= test_kvzalloc_node(test, NULL);
-> > +     err |= test_vmalloc(test, NULL);
-> > +     err |= test_vmalloc_node(test, NULL);
-> > +     err |= test_vzalloc(test, NULL);
-> > +     err |= test_vzalloc_node(test, NULL);
-> > +     err |= test_devm_kmalloc(test, dev);
-> > +     err |= test_devm_kzalloc(test, dev);
+> > +I case you need a user-space context, for now this is only possible through
+>
+> typo: In case ...
+
+Oops, thanks!
+
+>
+> > +tests compiled as a module. And it will be necessary to use a root filesystem
+> > +and uml_utilities.
+> > +
+> > +Example:
+> > +
+> > +.. code-block:: bash
+> > +
+> > +   ./tools/testing/kunit/kunit.py run --timeout=60 --uml_rootfs_dir=.uml_rootfs
+> > +
+> > +
+> >  KUnit on non-UML architectures
+> >  ==============================
 > >
-> >       device_unregister(dev);
+> > diff --git a/include/kunit/test.h b/include/kunit/test.h
+> > index 59f3144f009a..ae3337139c65 100644
+> > --- a/include/kunit/test.h
+> > +++ b/include/kunit/test.h
+> > @@ -222,6 +222,18 @@ struct kunit {
+> >        * protect it with some type of lock.
+> >        */
+> >       struct list_head resources; /* Protected by lock. */
+> > +     /*
+> > +      * KUnit test cases run on kthreads, and kthreads don't have an
+> > +      * adddress space (current->mm is NULL), but processes have mm.
+> > +      *
+> > +      * The purpose of this mm_struct is to allow to borrow mm to KUnit kthread
+> > +      * after userspace is brought up, because we know that there are processes
+> > +      * running, at least the process that loaded the module to borrow mm.
+> > +      *
+> > +      * This allows, for example, tests such as user_copy_kunit, which uses
+> > +      * vm_mmap, which needs current->mm.
+> > +      */
+> > +     struct mm_struct *mm;
+>
+> I have a general concern that this will need more careful solving in the
+> future as there are likely to be many tests that need a userspace
+> context to operate sanely. But that's just a note; this solves the
+> specific case now.
+>
+> >  };
 > >
-> > -     return err;
-> > +     KUNIT_EXPECT_FALSE(test, err);
+> >  void kunit_init_test(struct kunit *test, const char *name, char *log);
+> > diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
+> > index 0dd434e40487..d03e2093985b 100644
+> > --- a/lib/kunit/try-catch.c
+> > +++ b/lib/kunit/try-catch.c
+> > @@ -11,7 +11,8 @@
+> >  #include <linux/completion.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/kthread.h>
+> > -
+> > +#include <linux/sched/mm.h>
+> > +#include <linux/sched/task.h>
+> >  #include "try-catch-impl.h"
+> >
+> >  void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)
+> > @@ -24,8 +25,17 @@ EXPORT_SYMBOL_GPL(kunit_try_catch_throw);
+> >  static int kunit_generic_run_threadfn_adapter(void *data)
+> >  {
+> >       struct kunit_try_catch *try_catch = data;
+> > +     struct kunit *test = try_catch->test;
+> > +
+> > +     if (test != NULL && test->mm != NULL)
+> > +             kthread_use_mm(test->mm);
+> >
+> >       try_catch->try(try_catch->context);
+> > +     if (test != NULL && test->mm != NULL) {
+> > +             kthread_unuse_mm(test->mm);
+> > +             mmput(test->mm);
+> > +             test->mm = NULL;
+>
+> This mmput() seems unbalanced... see below.
+>
+> > +     }
+> >
+> >       complete_and_exit(try_catch->try_completion, 0);
 > >  }
-> >
-> > -static int __init test_module_init(void)
-> > -{
-> > -     int err = 0;
-> > -
-> > -     err |= test_overflow_calculation();
-> > -     err |= test_overflow_shift();
-> > -     err |= test_overflow_allocation();
-> > -
-> > -     if (err) {
-> > -             pr_warn("FAIL!\n");
-> > -             err = -EINVAL;
-> > -     } else {
-> > -             pr_info("all tests passed\n");
-> > -     }
+> > @@ -65,6 +75,9 @@ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
+> >       try_catch->context = context;
+> >       try_catch->try_completion = &try_completion;
+> >       try_catch->try_result = 0;
+> > +
+> > +     test->mm = get_task_mm(current);
+> > +
+> >       task_struct = kthread_run(kunit_generic_run_threadfn_adapter,
+> >                                 try_catch,
+> >                                 "kunit_try_catch_thread");
 >
-> The reason for older feedback on leaving "err" as it was, was to make
-> sure it was easy for a human to see if everything passed or not. If
-> KUnit provides a summary of all the tests at the end, then I don't need
-> to preserve that here (in which case "err" can go away). However, if
-> that summary does not exist for KUnit yet, then I'd like to keep the
-> summary that is being removed here.
+> Isn't there something that destroys a "struct kunit"? I would expect
+> that to perform the mmput(). Why is it up in the threadfn?
 
-Kunit shows the result this way:
-
-[16:24:44] ======== [PASSED] overflow ========
-[16:24:44] [PASSED] overflow_calculation_test
-[16:24:44] [PASSED] overflow_shift_test
-[16:24:44] [PASSED] overflow_allocation_test
-[16:24:44] ============================================================
-
->
-> > +static struct kunit_case __initdata overflow_test_cases[] = {
-> > +     KUNIT_CASE(overflow_calculation_test),
-> > +     KUNIT_CASE(overflow_shift_test),
-> > +     KUNIT_CASE(overflow_allocation_test),
-> > +     {}
-> > +};
-> >
-> > -     return err;
-> > -}
-> > +static struct kunit_suite __initdata overflow_test_suite = {
-> > +     .name = "overflow",
-> > +     .test_cases = overflow_test_cases,
-> > +};
-> >
-> > -static void __exit test_module_exit(void)
-> > -{ }
-> > +kunit_test_suites(&overflow_test_suite);
-> >
-> > -module_init(test_module_init);
-> > -module_exit(test_module_exit);
-> >  MODULE_LICENSE("Dual MIT/GPL");
-> >
-> > base-commit: c63d2dd7e134ebddce4745c51f9572b3f0d92b26
-> > --
-> > 2.26.2
-> >
->
-> --
-> Kees Cook
-
-In this version I tried to leave as few changes as possible.
-It seemed to me that it would be better to leave a smaller diff.
+My bad. From what I saw, there's nothing that would destroy "struct
+kunit", but I will fix this umbalance.
 
 Thanks for the review!
 _______________________________________________
