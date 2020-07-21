@@ -2,102 +2,100 @@ Return-Path: <SRS0=c8zi=BA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89CCBC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 17:47:06 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77074C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 18:55:44 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5DCDE206F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 17:47:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3CB9D2065F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 18:55:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="zEwJmhVq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5DCDE206F5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DjUFGZd5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3CB9D2065F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 376DC88141;
-	Tue, 21 Jul 2020 17:47:06 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id re5T29Fnz6Gj; Tue, 21 Jul 2020 17:47:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 748C888136;
-	Tue, 21 Jul 2020 17:47:03 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 63FC6C088E;
-	Tue, 21 Jul 2020 17:47:03 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 03806C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 17:47:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id F2F9388572
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 17:47:01 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0F74385C9D;
+	Tue, 21 Jul 2020 18:55:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wxewFxNZnTxV; Tue, 21 Jul 2020 18:55:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2B24F8523B;
+	Tue, 21 Jul 2020 18:55:43 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EB81C089F;
+	Tue, 21 Jul 2020 18:55:43 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 537C6C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 21 Jul 2020 18:55:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 358AB22731
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 21 Jul 2020 18:55:42 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id B+zNWf4SE+MY
+ with ESMTP id s1LWTSLDM+9l
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 17:47:00 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
- [209.85.219.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 90EB8884A2
+ Tue, 21 Jul 2020 18:55:40 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6370422730
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 17:47:00 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id di5so9710760qvb.11
+ Tue, 21 Jul 2020 18:55:40 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id md7so2123702pjb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 10:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RSgwIt6Xmnq65csieZBPIE7le00gy1RleefALsLtM4I=;
- b=zEwJmhVqE2bAhuFmQJlX3mCSLHWVovSFHx0Q4fLD0PEk5EDpGO0VUCO2JXg95YDfp9
- xL8t/2JnEFJsbT98iDtYg49ZZYEMQNsNfbVKw9rNRRiN8ySRDXEfcdv+tAuBAoGu2rVh
- yDVa3XfV2l5MByer36m6uZZsnz8UMqkDLgKnwCcM7dQ7QyVIuAc2kXjuo9bOtewV+Nk+
- krhNkHqjmR+JZe6uEkZ1s3umNGGhLOFAUSvPMYC7UxwiisQqtJbDP6Czq+wrKKSEp0wH
- 2OgGbvK3vrUiwJZFJWzZJWqpFJM56HxxSCZCuRMCL/ox8PK0g+GmpUghSEM0iqcO0ttD
- wIBw==
+ Tue, 21 Jul 2020 11:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=sa4evJdXF/XDbFHEBNhlzmxlS/sWp3bcVQWe3733ZCQ=;
+ b=DjUFGZd50SOCaZ4BUrg0JNH00bQgXsFWHbiQ5e6H6lfOG7+dm2UGTW5jOoXmsp4O03
+ N21hvUvXR1pbVlblSlkHs4V7VW/Fn0qWg+ftu9fhLqNJTLujiAjBGW6qVKnsBqM/wcol
+ pvpFQMUlI3yBy7Fhg2qPDaeLQfJ6yIG2ceMy8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RSgwIt6Xmnq65csieZBPIE7le00gy1RleefALsLtM4I=;
- b=hVWLfOwfyDPpo3pqXla7MTZZkPqHvZ/mze38uGCBdlPbsTv/pQyyF7obPfiBGVfdZb
- 5ojBw+fhQcxXje3Q9dBpFNdsADVL2CfrYDzhFL8OE31YUhwYhvxO5yoLg2Z/1PguAGmR
- 0ZXTQgtnzYoXVmedlGdCkq1cBXOCOFCsTP0u8IGOEO8UJw1P1amk+bZD9GkwJocfbPK3
- FoT0nV/OSSo7+Q463rqAoil/dHjycZTOkfmDLb+BxFX/O5cFKlu7BPd9MCT6+8KplEWD
- 0+mJzVNOklzpiduUGAD3mprvRcUHitkNU3Ds/NTuhhDqZFivy3npE0ap9220Qo+op2id
- DgOA==
-X-Gm-Message-State: AOAM532//O08hzTw3OqhjiGUuhfQ2YCmCNOaL+YYxBovGuDd9eQyGO+s
- tvkRwvnUUbMzaO3Ogrg3GZauGA==
-X-Google-Smtp-Source: ABdhPJwypcJw5kfuZyhj7RMU5LynsnJ4EioBDJ25IoR9AN6RQ1S4FWzLQSOCrt9/2nH4CdHVjConrg==
-X-Received: by 2002:a05:6214:942:: with SMTP id
- dn2mr27879858qvb.161.1595353619482; 
- Tue, 21 Jul 2020 10:46:59 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id n81sm2898255qke.11.2020.07.21.10.46.56
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sa4evJdXF/XDbFHEBNhlzmxlS/sWp3bcVQWe3733ZCQ=;
+ b=fXQq2YOA9P4//4CO+i5qrO69jNW1ScdDqV0T/PXK9VL5CWdV7VaNFnUldmc2LCNpXv
+ f//ovllSv9jo8KwSWieay+k3JuPH2sWO7pg9TmPAHD2gDbSHXt2sPMKjjxyYSzaHvR86
+ PoCbwDZTQBXeWmlJ66OTlq6mAJ+HppUd4ltrp1ztNwnbzv4FiUvZZUjarAgcXQMAIL1V
+ tXC4agh8TK9HrE60WuXWlIMUqlU1gQJdzIrBdc8SysHFl24DC5pmFuKIhUd4TgNtTSsv
+ DTI4MvluHa8SDu0OAhecUzPaHRBvBEIklBi29wcPdFbudqUSfiw+GDQY16GL6nwOZ6Y0
+ DLSw==
+X-Gm-Message-State: AOAM531Jp7HaUiW+Bip6xVvsl27f376zwaMOTCdQPK9wTX0x8PNPRDQE
+ fWUFEowVAL7FkLC4jJgDmfa67A==
+X-Google-Smtp-Source: ABdhPJxRpnm3k8+zl/g0bTQFkDAedEqwYWR+brTwFDhLXTh4mxvfGZnX0l8rT1w+6V0skUokb/DlgQ==
+X-Received: by 2002:a17:90b:30d0:: with SMTP id
+ hi16mr6437503pjb.65.1595357739861; 
+ Tue, 21 Jul 2020 11:55:39 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id i128sm21193742pfe.74.2020.07.21.11.55.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 10:46:58 -0700 (PDT)
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: kunit-dev@googlegroups.com
-Date: Tue, 21 Jul 2020 14:46:54 -0300
-Message-Id: <20200721174654.72132-1-vitor@massaru.org>
-X-Mailer: git-send-email 2.26.2
+ Tue, 21 Jul 2020 11:55:39 -0700 (PDT)
+Date: Tue, 21 Jul 2020 11:55:38 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Vitor Massaru Iha <vitor@massaru.org>
+Message-ID: <202007211150.73CF60A9@keescook>
+References: <20200720224418.200495-1-vitor@massaru.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200720224418.200495-1-vitor@massaru.org>
 Cc: linux-kselftest@vger.kernel.org, brendanhiggins@google.com,
  linux-kernel@vger.kernel.org, davidgow@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org, keescook@chromium.org
-Subject: [Linux-kernel-mentees] [PATCH v3] lib: Convert test_user_copy to
-	KUnit test
+ linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: overflow_kunit: add
+ KUnit test conversion of check_*_overflow
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,217 +113,256 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This adds the conversion of the runtime tests of test_user_copy fuctions,
-from `lib/test_user_copy.c`to KUnit tests.
+On Mon, Jul 20, 2020 at 07:44:18PM -0300, Vitor Massaru Iha wrote:
+> This adds the conversion of the runtime tests of check_*_overflow functions,
+> from `lib/test_overflow.c`to KUnit tests.
+> 
+> The log similar to the one seen in dmesg running test_overflow.c can be
+> seen in `test.log`.
+> 
+> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> Tested-by: David Gow <davidgow@google.com>
+> ---
+> v2:
+>   * moved lib/test_overflow.c to lib/overflow-test.c;
+>     * back to original license;
+>     * fixed style code;
+>     * keeps __initconst and added _refdata on overflow_test_cases variable;
+>     * keeps macros intact making asserts with the variable err;
+>     * removed duplicate test_s8_overflow();
+>   * fixed typos on commit message;
+> 
+> v3:
+>   * changed filename to overflow_kunit.c;
+>   * replace _refdata by _inidata;
 
-Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
----
-v2:
-    * splitted patch in 3:
-        - Allows to install and load modules in root filesystem;
-        - Provides an userspace memory context when tests are compiled
-          as module;
-        - Convert test_user_copy to KUnit test;
-    * removed entry for CONFIG_TEST_USER_COPY;
-    * replaced pr_warn to KUNIT_EXPECT_FALSE_MSG in test macro to
-      decrease the diff;
-v3:
-    * rebased with last kunit branch
-    * Please apply this commit from kunit-fixes:
-        3f37d14b8a3152441f36b6bc74000996679f0998
-      And these from patchwork:
-        https://patchwork.kernel.org/patch/11676331/
-        https://patchwork.kernel.org/patch/11676335/
----
- lib/Kconfig.debug                           | 28 ++++++++------
- lib/Makefile                                |  2 +-
- lib/{test_user_copy.c => user_copy_kunit.c} | 42 +++++++++------------
- 3 files changed, 35 insertions(+), 37 deletions(-)
- rename lib/{test_user_copy.c => user_copy_kunit.c} (91%)
+It looks like this still needs to be _refdata (says the test bot)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 9ad9210d70a1..f699a3624ae7 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2078,18 +2078,6 @@ config TEST_VMALLOC
+> -static int __init test_ ## t ## _overflow(void) {			\
+> +static int __init test_ ## t ## _overflow(struct kunit *test) {	\
 
- 	  If unsure, say N.
+style nit: it seems like "test" isn't a great variable name. Why not
+make this "kunit" or "context" or something more specific?
 
--config TEST_USER_COPY
--	tristate "Test user/kernel boundary protections"
--	depends on m
--	help
--	  This builds the "test_user_copy" module that runs sanity checks
--	  on the copy_to/from_user infrastructure, making sure basic
--	  user/kernel boundary testing is working. If it fails to load,
--	  a regression has been detected in the user/kernel memory boundary
--	  protections.
--
--	  If unsure, say N.
--
- config TEST_BPF
- 	tristate "Test BPF filter functionality"
- 	depends on m && NET
-@@ -2154,6 +2142,22 @@ config SYSCTL_KUNIT_TEST
+>  	int err = 0;							\
+>  	unsigned i;							\
+>  									\
+> @@ -256,6 +253,7 @@ static int __init test_ ## t ## _overflow(void) {			\
+>  		ARRAY_SIZE(t ## _tests));				\
+>  	for (i = 0; i < ARRAY_SIZE(t ## _tests); ++i)			\
+>  		err |= do_test_ ## t(&t ## _tests[i]);			\
+> +	KUNIT_EXPECT_FALSE(test, err);					\
+>  	return err;							\
+>  }
 
- 	  If unsure, say N.
+Also, if the caller is being made "void", probably this can be made void
+too?
 
-+config USER_COPY_KUNIT
-+	tristate "KUnit Test for user/kernel boundary protections"
-+	depends on KUNIT
-+	depends on m
-+	help
-+	  This builds the "user_copy_kunit" module that runs sanity checks
-+	  on the copy_to/from_user infrastructure, making sure basic
-+	  user/kernel boundary testing is working. If it fails to load,
-+	  a regression has been detected in the user/kernel memory boundary
-+	  protections.
-+
-+	  For more information on KUnit and unit tests in general please refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-+
-+	  If unsure, say N.
-+
- config LIST_KUNIT_TEST
- 	tristate "KUnit Test for Kernel Linked-list structures" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/lib/Makefile b/lib/Makefile
-index b1c42c10073b..8c145f85accc 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -78,7 +78,6 @@ obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
- obj-$(CONFIG_TEST_OVERFLOW) += test_overflow.o
- obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
- obj-$(CONFIG_TEST_SORT) += test_sort.o
--obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
- obj-$(CONFIG_TEST_PRINTF) += test_printf.o
-@@ -318,3 +317,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
- # KUnit tests
- obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
- obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-+obj-$(CONFIG_USER_COPY_KUNIT) += user_copy_kunit.o
-diff --git a/lib/test_user_copy.c b/lib/user_copy_kunit.c
-similarity index 91%
-rename from lib/test_user_copy.c
-rename to lib/user_copy_kunit.c
-index 5ff04d8fe971..a10ddd15b4cd 100644
---- a/lib/test_user_copy.c
-+++ b/lib/user_copy_kunit.c
-@@ -16,6 +16,7 @@
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- #include <linux/vmalloc.h>
-+#include <kunit/test.h>
+And if that's happening, maybe just plumb the EXPECT into the
+do_test_... call instead?
 
- /*
-  * Several 32-bit architectures support 64-bit {get,put}_user() calls.
-@@ -35,7 +36,7 @@
- ({									\
- 	int cond = (condition);						\
- 	if (cond)							\
--		pr_warn("[%d] " msg "\n", __LINE__, ##__VA_ARGS__);	\
-+		KUNIT_EXPECT_FALSE_MSG(test, cond, msg, ##__VA_ARGS__);	\
- 	cond;								\
- })
+> 
+> @@ -270,25 +268,25 @@ DEFINE_TEST_FUNC(u64, "%llu");
+>  DEFINE_TEST_FUNC(s64, "%lld");
+>  #endif
+> 
+> -static int __init test_overflow_calculation(void)
+> +static void __init overflow_calculation_test(struct kunit *test)
+>  {
+>  	int err = 0;
+> 
+> -	err |= test_u8_overflow();
+> -	err |= test_s8_overflow();
+> -	err |= test_u16_overflow();
+> -	err |= test_s16_overflow();
+> -	err |= test_u32_overflow();
+> -	err |= test_s32_overflow();
+> +	err |= test_u8_overflow(test);
+> +	err |= test_s8_overflow(test);
+> +	err |= test_u16_overflow(test);
+> +	err |= test_s16_overflow(test);
+> +	err |= test_u32_overflow(test);
+> +	err |= test_s32_overflow(test);
+>  #if BITS_PER_LONG == 64
+> -	err |= test_u64_overflow();
+> -	err |= test_s64_overflow();
+> +	err |= test_u64_overflow(test);
+> +	err |= test_s64_overflow(test);
+>  #endif
+> 
+> -	return err;
+> +	KUNIT_EXPECT_FALSE(test, err);
 
-@@ -44,7 +45,7 @@ static bool is_zeroed(void *from, size_t size)
- 	return memchr_inv(from, 0x0, size) == NULL;
- }
+This seems redundant (the tests were already tested)?
 
--static int test_check_nonzero_user(char *kmem, char __user *umem, size_t size)
-+static int test_check_nonzero_user(struct kunit *test, char *kmem, char __user *umem, size_t size)
- {
- 	int ret = 0;
- 	size_t start, end, i, zero_start, zero_end;
-@@ -102,7 +103,7 @@ static int test_check_nonzero_user(char *kmem, char __user *umem, size_t size)
- 	return ret;
- }
+>  }
+> 
+> -static int __init test_overflow_shift(void)
+> +static void __init overflow_shift_test(struct kunit *test)
+>  {
+>  	int err = 0;
+> 
+> @@ -313,9 +311,9 @@ static int __init test_overflow_shift(void)
+>  			pr_warn("got %llu\n", (u64)__d);		\
+>  		__failed = 1;						\
+>  	}								\
+> -	if (!__failed)							\
+> -		pr_info("ok: (%s)(%s << %s) == %s\n", #t, #a, #s,	\
+> -			of ? "overflow" : #expect);			\
+> +	KUNIT_EXPECT_FALSE_MSG(test, __failed,				\
+> +			       "ok: (%s)(%s << %s) == %s\n", #t, #a, #s,\
+> +			       of ? "overflow" : #expect);		\
+>  	__failed;							\
+>  })
+> 
+> @@ -479,7 +477,7 @@ static int __init test_overflow_shift(void)
+>  	err |= TEST_ONE_SHIFT(0, 31, s32, 0, false);
+>  	err |= TEST_ONE_SHIFT(0, 63, s64, 0, false);
+> 
+> -	return err;
+> +	KUNIT_EXPECT_FALSE(test, err);
+>  }
+> 
+>  /*
+> @@ -499,7 +497,7 @@ static int __init test_overflow_shift(void)
+>  #define TEST_SIZE		(5 * 4096)
+> 
+>  #define DEFINE_TEST_ALLOC(func, free_func, want_arg, want_gfp, want_node)\
+> -static int __init test_ ## func (void *arg)				\
+> +static int __init test_ ## func (struct kunit *test, void *arg)		\
+>  {									\
+>  	volatile size_t a = TEST_SIZE;					\
+>  	volatile size_t b = (SIZE_MAX / TEST_SIZE) + 1;			\
+> @@ -507,19 +505,15 @@ static int __init test_ ## func (void *arg)				\
+>  									\
+>  	/* Tiny allocation test. */					\
+>  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg, 1);\
+> -	if (!ptr) {							\
+> -		pr_warn(#func " failed regular allocation?!\n");	\
+> -		return 1;						\
+> -	}								\
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
+> +			#func " failed regular allocation?!\n");	\
+>  	free ## want_arg (free_func, arg, ptr);				\
+>  									\
+>  	/* Wrapped allocation test. */					\
+>  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,	\
+>  							  a * b);	\
+> -	if (!ptr) {							\
+> -		pr_warn(#func " unexpectedly failed bad wrapping?!\n");	\
+> -		return 1;						\
+> -	}								\
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
+> +			#func " unexpectedly failed bad wrapping?!\n"); \
+>  	free ## want_arg (free_func, arg, ptr);				\
+>  									\
+>  	/* Saturated allocation test. */				\
+> @@ -555,7 +549,7 @@ DEFINE_TEST_ALLOC(kvzalloc_node, kvfree,     0, 1, 1);
+>  DEFINE_TEST_ALLOC(devm_kmalloc,  devm_kfree, 1, 1, 0);
+>  DEFINE_TEST_ALLOC(devm_kzalloc,  devm_kfree, 1, 1, 0);
+> 
+> -static int __init test_overflow_allocation(void)
+> +static void __init overflow_allocation_test(struct kunit *test)
+>  {
+>  	const char device_name[] = "overflow-test";
+>  	struct device *dev;
+> @@ -563,52 +557,40 @@ static int __init test_overflow_allocation(void)
+> 
+>  	/* Create dummy device for devm_kmalloc()-family tests. */
+>  	dev = root_device_register(device_name);
+> -	if (IS_ERR(dev)) {
+> -		pr_warn("Cannot register test device\n");
+> -		return 1;
+> -	}
+> -
+> -	err |= test_kmalloc(NULL);
+> -	err |= test_kmalloc_node(NULL);
+> -	err |= test_kzalloc(NULL);
+> -	err |= test_kzalloc_node(NULL);
+> -	err |= test_kvmalloc(NULL);
+> -	err |= test_kvmalloc_node(NULL);
+> -	err |= test_kvzalloc(NULL);
+> -	err |= test_kvzalloc_node(NULL);
+> -	err |= test_vmalloc(NULL);
+> -	err |= test_vmalloc_node(NULL);
+> -	err |= test_vzalloc(NULL);
+> -	err |= test_vzalloc_node(NULL);
+> -	err |= test_devm_kmalloc(dev);
+> -	err |= test_devm_kzalloc(dev);
+> +	KUNIT_ASSERT_FALSE_MSG(test, IS_ERR(dev), "Cannot register test device\n");
+> +
+> +	err |= test_kmalloc(test, NULL);
+> +	err |= test_kmalloc_node(test, NULL);
+> +	err |= test_kzalloc(test, NULL);
+> +	err |= test_kzalloc_node(test, NULL);
+> +	err |= test_kvmalloc(test, NULL);
+> +	err |= test_kvmalloc_node(test, NULL);
+> +	err |= test_kvzalloc(test, NULL);
+> +	err |= test_kvzalloc_node(test, NULL);
+> +	err |= test_vmalloc(test, NULL);
+> +	err |= test_vmalloc_node(test, NULL);
+> +	err |= test_vzalloc(test, NULL);
+> +	err |= test_vzalloc_node(test, NULL);
+> +	err |= test_devm_kmalloc(test, dev);
+> +	err |= test_devm_kzalloc(test, dev);
+> 
+>  	device_unregister(dev);
+> 
+> -	return err;
+> +	KUNIT_EXPECT_FALSE(test, err);
+>  }
+> 
+> -static int __init test_module_init(void)
+> -{
+> -	int err = 0;
+> -
+> -	err |= test_overflow_calculation();
+> -	err |= test_overflow_shift();
+> -	err |= test_overflow_allocation();
+> -
+> -	if (err) {
+> -		pr_warn("FAIL!\n");
+> -		err = -EINVAL;
+> -	} else {
+> -		pr_info("all tests passed\n");
+> -	}
 
--static int test_copy_struct_from_user(char *kmem, char __user *umem,
-+static int test_copy_struct_from_user(struct kunit *test, char *kmem, char __user *umem,
- 				      size_t size)
- {
- 	int ret = 0;
-@@ -177,7 +178,7 @@ static int test_copy_struct_from_user(char *kmem, char __user *umem,
- 	return ret;
- }
+The reason for older feedback on leaving "err" as it was, was to make
+sure it was easy for a human to see if everything passed or not. If
+KUnit provides a summary of all the tests at the end, then I don't need
+to preserve that here (in which case "err" can go away). However, if
+that summary does not exist for KUnit yet, then I'd like to keep the
+summary that is being removed here.
 
--static int __init test_user_copy_init(void)
-+static void user_copy_test(struct kunit *test)
- {
- 	int ret = 0;
- 	char *kmem;
-@@ -192,16 +193,14 @@ static int __init test_user_copy_init(void)
- #endif
+> +static struct kunit_case __initdata overflow_test_cases[] = {
+> +	KUNIT_CASE(overflow_calculation_test),
+> +	KUNIT_CASE(overflow_shift_test),
+> +	KUNIT_CASE(overflow_allocation_test),
+> +	{}
+> +};
+> 
+> -	return err;
+> -}
+> +static struct kunit_suite __initdata overflow_test_suite = {
+> +	.name = "overflow",
+> +	.test_cases = overflow_test_cases,
+> +};
+> 
+> -static void __exit test_module_exit(void)
+> -{ }
+> +kunit_test_suites(&overflow_test_suite);
+> 
+> -module_init(test_module_init);
+> -module_exit(test_module_exit);
+>  MODULE_LICENSE("Dual MIT/GPL");
+> 
+> base-commit: c63d2dd7e134ebddce4745c51f9572b3f0d92b26
+> --
+> 2.26.2
+> 
 
- 	kmem = kmalloc(PAGE_SIZE * 2, GFP_KERNEL);
--	if (!kmem)
--		return -ENOMEM;
-+	KUNIT_EXPECT_FALSE_MSG(test, kmem == NULL, "kmalloc failed");
-
- 	user_addr = vm_mmap(NULL, 0, PAGE_SIZE * 2,
- 			    PROT_READ | PROT_WRITE | PROT_EXEC,
- 			    MAP_ANONYMOUS | MAP_PRIVATE, 0);
- 	if (user_addr >= (unsigned long)(TASK_SIZE)) {
--		pr_warn("Failed to allocate user memory\n");
- 		kfree(kmem);
--		return -ENOMEM;
-+		KUNIT_FAIL(test, "Failed to allocate user memory");
- 	}
-
- 	usermem = (char __user *)user_addr;
-@@ -245,9 +244,9 @@ static int __init test_user_copy_init(void)
- #undef test_legit
-
- 	/* Test usage of check_nonzero_user(). */
--	ret |= test_check_nonzero_user(kmem, usermem, 2 * PAGE_SIZE);
-+	ret |= test_check_nonzero_user(test, kmem, usermem, 2 * PAGE_SIZE);
- 	/* Test usage of copy_struct_from_user(). */
--	ret |= test_copy_struct_from_user(kmem, usermem, 2 * PAGE_SIZE);
-+	ret |= test_copy_struct_from_user(test, kmem, usermem, 2 * PAGE_SIZE);
-
- 	/*
- 	 * Invalid usage: none of these copies should succeed.
-@@ -309,23 +308,18 @@ static int __init test_user_copy_init(void)
-
- 	vm_munmap(user_addr, PAGE_SIZE * 2);
- 	kfree(kmem);
--
--	if (ret == 0) {
--		pr_info("tests passed.\n");
--		return 0;
--	}
--
--	return -EINVAL;
- }
-
--module_init(test_user_copy_init);
--
--static void __exit test_user_copy_exit(void)
--{
--	pr_info("unloaded.\n");
--}
-+static struct kunit_case user_copy_test_cases[] = {
-+	KUNIT_CASE(user_copy_test),
-+	{}
-+};
-
--module_exit(test_user_copy_exit);
-+static struct kunit_suite user_copy_test_suite = {
-+	.name = "user_copy",
-+	.test_cases = user_copy_test_cases,
-+};
-
-+kunit_test_suites(&user_copy_test_suite);
- MODULE_AUTHOR("Kees Cook <keescook@chromium.org>");
- MODULE_LICENSE("GPL");
-
-base-commit: d43c7fb05765152d4d4a39a8ef957c4ea14d8847
---
-2.26.2
-
+-- 
+Kees Cook
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
