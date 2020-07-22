@@ -1,100 +1,105 @@
-Return-Path: <SRS0=c8zi=BA=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=MEeH=BB=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3915EC433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 23:53:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E43EC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 02:12:43 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EDFD4207DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 21 Jul 2020 23:53:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 631BE20792
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 02:12:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="p1xsv+Js"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDFD4207DD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="atGnOu7x"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 631BE20792
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CABAE88494;
-	Tue, 21 Jul 2020 23:53:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2D56788494;
+	Wed, 22 Jul 2020 02:12:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DJSfzlp8GhlK; Tue, 21 Jul 2020 23:53:05 +0000 (UTC)
+	with ESMTP id XspQM+VeR-Mp; Wed, 22 Jul 2020 02:12:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 701FE883FF;
-	Tue, 21 Jul 2020 23:53:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BB85F87DAF;
+	Wed, 22 Jul 2020 02:12:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 56026C088E;
-	Tue, 21 Jul 2020 23:53:05 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 20A0EC016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A138FC088E;
+	Wed, 22 Jul 2020 02:12:42 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 18956C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 23:53:04 +0000 (UTC)
+ Wed, 22 Jul 2020 02:12:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id B9E9A20365
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1551A85427
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 23:53:03 +0000 (UTC)
+ Wed, 22 Jul 2020 02:12:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5XZ6UCCAp4Pb
+ with ESMTP id BS4eTFeI_vIb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 23:53:03 +0000 (UTC)
+ Wed, 22 Jul 2020 02:12:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 0FA3B20357
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9E673853C3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 23:53:03 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id o1so80471plk.1
+ Wed, 22 Jul 2020 02:12:41 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id j20so378531pfe.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Jul 2020 16:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9GAANOVEkg7Oss4DpDH0gr9ifNPUbhRTyDcGnsT2WTE=;
- b=p1xsv+JsYJXhYalj5ZZCc9wnW1uf56mVn0Gc1i+QWyJBhVm2oAo15ONIoGH5a++qc3
- nS8vtFYiWBbBZN/ZbGkIgOWNPX3q2HAp+ZRYAz0yz6yBgjgbaVNRv9jJYBy2nfqY++4s
- 49RCXlqcN1Khtcr2FHPAlM6wIONJZ/uQkd34FX01Bue6DVy0I1d2B1vmNGTCO94yzDW+
- Fsd6zuBB7YB7X0nSbZNQjQSwkxI+h8rk5XJzp/8bgnBgal//1dKnFv7A0QGSbptnJ7tf
- 1JcrpYnLejhIZ2RRFRpcz+Ki1fmJRs7nlyLeVDnnreujKpiOcnohfnZRviTLvcVEKJgB
- pezg==
+ Tue, 21 Jul 2020 19:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=9rx2ICY1n/mQSkvQxm3DqiqKMym6DrzmjM7s6SFLwEo=;
+ b=atGnOu7xHD1d7gov5LcXUyObLmqvtY+NKSNPa6d6jiajFGLijXYs76qCGG2MyxBXpt
+ B4bCLJke54FioXB7TsLyXbctIuODAyg16qUDhNP9VyX7cVOdVgazx2VRtEkJCvESrShA
+ D5FCyYUeM4oFS5jlVeUgWWTs6v7LIjj7XbbAw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9GAANOVEkg7Oss4DpDH0gr9ifNPUbhRTyDcGnsT2WTE=;
- b=IhvLzUze5y23guU5nGsmQytaA0EVv076MY6JFsJlEOwZYgKgn600HVHvjs/ofuQ5dS
- sevHrUFtRccDpkaSpCac0XASWELTVhdaERnvWAtHRbGnhLyaq9iB9aVSzShoYP84Hztx
- wAumAB6zX3VqbEuByEy4lHzCwma/KBbCMrB9tHFR47ZweK9MZtNOyPww75U3+1xvyM4M
- JUM33xcAb4mcRUXLBcXhdzU2w//R14Pgu8L7/cOCDqn7ej6OIQnwmgUU/8HeI+rcDIoM
- S5cTkB+Lkirtite3Wd5oiYn1+pzefTlLirovz7B8NXEbIqo6DRk5zzUOB8VwjD9suHiV
- 02cw==
-X-Gm-Message-State: AOAM5333nUkiCs1uFI8l6ryHchpbB7xjFFkLeoUsgxk0JkeVVBU3+MTN
- H9gaxNys2A1T6/qllMbtn44Bcr6Mm1fT/YXbvOLfWQ==
-X-Google-Smtp-Source: ABdhPJwlgYLxoZWZx8+svKNEBY0q6bxsav7DHLE6pxfIoOZcXdRkc72QEfSINPDlzRr5arUe6DKa0UAUjzPNjGbgJMA=
-X-Received: by 2002:a17:902:10e:: with SMTP id
- 14mr23017886plb.297.1595375582338; 
- Tue, 21 Jul 2020 16:53:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200721174036.71072-1-vitor@massaru.org>
-In-Reply-To: <20200721174036.71072-1-vitor@massaru.org>
-Date: Tue, 21 Jul 2020 16:52:51 -0700
-Message-ID: <CAFd5g45DrBCA2Oq0RCb5FDWybt9NnXj=tN7pZFqjMLhuWWQoew@mail.gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9rx2ICY1n/mQSkvQxm3DqiqKMym6DrzmjM7s6SFLwEo=;
+ b=cnOB2TnjazB2QyFMu4EsyksjI5UoxMNOkzJlUUSE3gZ8pYi+o6ahhu2zB4dXG0dW1B
+ fJJum8xBN2iSV4t1C2WHlpPBVk0E0H5KZOl1ZojuchlAV+pBe69Mc0/kUoE0TnTWRpgL
+ 55dQtU5n8EJpm9rJ/UbHJh+tDcM3bhGMPWBJ+xkBcT8D+fLTVKRMI6+4/oAfUvlJ5NxS
+ zn5drhSz1HdvaLu8Fixo5Fl4xJ6ksrPhl8785zYUdVbEd7XZWXKCeOwmYzzygCwm2V8Z
+ sh6wIBJhP9GO64Tj//qvZ8Hdzy/ySpGPxyk4YyYsIhjDp4XbDQzZ4OxyiRWL2LwPFhSM
+ iCrg==
+X-Gm-Message-State: AOAM533R0hURCpwZQiXM+OXjPq8nLa7jZGc7fn49bydw172jOP+yKUq1
+ 0ssWbZbhhzxhRHgo7kcrprntrA==
+X-Google-Smtp-Source: ABdhPJxqnoNNPu7Gh1zJCb1n8eFvBd5/4XYBGHD0TD6QA8KDFgS1fU3XMMQqJud4CqpFOVMOBEqe9Q==
+X-Received: by 2002:a62:cd89:: with SMTP id
+ o131mr26386979pfg.195.1595383961041; 
+ Tue, 21 Jul 2020 19:12:41 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id i67sm22574975pfg.13.2020.07.21.19.12.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 19:12:40 -0700 (PDT)
+Date: Tue, 21 Jul 2020 19:12:39 -0700
+From: Kees Cook <keescook@chromium.org>
 To: Vitor Massaru Iha <vitor@massaru.org>
+Message-ID: <202007211911.666E080@keescook>
+References: <20200721174654.72132-1-vitor@massaru.org>
+ <202007211207.5BAA9D8D@keescook>
+ <CADQ6JjU8rX2F_iBqth3u0EiA+CBgz4H+YL_-nbQ_cojYeLFXKQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CADQ6JjU8rX2F_iBqth3u0EiA+CBgz4H+YL_-nbQ_cojYeLFXKQ@mail.gmail.com>
 Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  David Gow <davidgow@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: kunit: Provides a
- userspace memory context when tests are compiled as module
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: Convert test_user_copy
+	to KUnit test
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,33 +111,21 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Brendan Higgins via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 21, 2020 at 10:40 AM Vitor Massaru Iha <vitor@massaru.org> wrote:
->
-> KUnit test cases run on kthreads, and kthreads don't have an
-> adddress space (current->mm is NULL), but processes have mm.
->
-> The purpose of this patch is to allow to borrow mm to KUnit kthread
-> after userspace is brought up, because we know that there are processes
-> running, at least the process that loaded the module to borrow mm.
->
-> This allows, for example, tests such as user_copy_kunit, which uses
-> vm_mmap, which needs current->mm.
->
-> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+On Tue, Jul 21, 2020 at 07:19:12PM -0300, Vitor Massaru Iha wrote:
+> When you talk about end-of-test summary, is it what is written in
+> dmesg and not the kunit-tool?
 
-Isn't this a dependency for the test_user_copy? Also, don't we also
-need the change that makes kunit_tool build modules? It seems like you
-should put these together in a patchset like you did before. If not,
-you should at least reference the dependencies in each patch.
+Right, if I build this as a module and do "modprobe user_copy_kunit",
+what will show up in dmesg?
+
+-- 
+Kees Cook
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
