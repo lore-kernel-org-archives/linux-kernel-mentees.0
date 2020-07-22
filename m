@@ -2,106 +2,103 @@ Return-Path: <SRS0=MEeH=BB=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A7CC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 19:45:15 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16776C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 20:03:03 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2A4D420825
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 19:45:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CF12A22B42
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 20:03:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Rvheysi+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2A4D420825
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aaUhQwdp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CF12A22B42
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E268B204B8;
-	Wed, 22 Jul 2020 19:45:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A750A88622;
+	Wed, 22 Jul 2020 20:03:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kHCjyFkiOpMk; Wed, 22 Jul 2020 19:45:14 +0000 (UTC)
+	with ESMTP id 2YqdwbTadEtE; Wed, 22 Jul 2020 20:03:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 4E33F2035D;
-	Wed, 22 Jul 2020 19:45:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D86DF88604;
+	Wed, 22 Jul 2020 20:03:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3097AC004D;
-	Wed, 22 Jul 2020 19:45:14 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 58903C004C
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BEA2DC004F;
+	Wed, 22 Jul 2020 20:03:00 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8B0CAC004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 19:45:13 +0000 (UTC)
+ Wed, 22 Jul 2020 20:02:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5503086C24
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7553287FAF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 19:45:13 +0000 (UTC)
+ Wed, 22 Jul 2020 20:02:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KjM751iSE8Vw
+ with ESMTP id Dkpk1aKQ3iDU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 19:45:12 +0000 (UTC)
+ Wed, 22 Jul 2020 20:02:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D9DD086A5B
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B20BB87FA5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 19:45:12 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id k5so1935255pjg.3
+ Wed, 22 Jul 2020 20:02:58 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id u5so1839387pfn.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 12:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ Wed, 22 Jul 2020 13:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=nWRg8habjmwUq/aSOIs5oJ/PIMDu1J2enCdaZpnqjtI=;
- b=Rvheysi+PYCBmuMOpzRtK6Oze6jqgkcolfrm0c2G06ZfucZ7GN0cNoCE00nMt2FymF
- bAeDzTaaaM7LEWiVN/ByX7unj0u0rupZmXTT/6dfvTS1tdTa5UQ1K1x+SZPtoxk/hjTq
- +c06od/fOU5c0Kj4Evbb/bGw1U4B0Ub2f8v6k=
+ bh=8TVQ7HTR8nifrCWHMhxbEqy5HUNl692zo6KwqDMUDFg=;
+ b=aaUhQwdpSSqQAOd8p+RQ6hjlLiXsro6kTfFRenpOHNUr54L83Cn2lKYvx2pRrJDvz2
+ PxXF7upKVpZHr1oO1sPSw3fO43vqI2XTrjWBZq1BRtizqK3Xbd3MWZIcq4FZLbWz9faJ
+ Guxda7heJJ5HJVvH79ZBIloLMatu5ulxpAKLjzV2ifVoaw9xWA3ays3lr4thSkfOgkmP
+ xCoInG6+I71AKonlaWkmoOShsDIb+564rm3ADis4h/8hav6RXGU/3qusOiNhBIL7QDtz
+ b7NIlfnOfW0OwtX7MeZuHGjnGvS3x91oe9radk3OVPuwcmV2Jjm5k9737YyqF070ifWw
+ vLCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=nWRg8habjmwUq/aSOIs5oJ/PIMDu1J2enCdaZpnqjtI=;
- b=fcHqzlCNJGwWkQccEngYbCNd/flwisl6aBOg1LsaolL6pJ0UT5YYbfexS2jo8r2L8n
- S8cWjXx5HvwbFNfBO2AwL10ZVF9Ze1lmkIP8ERG+wz/JHIBHORyYAgSTPUPCVQdHysZr
- 99DongQGwh/7ZN2OUpQlL4YSI9eh9xftv0kb6Z/BYBuT0IJoT4T2zVaYbttRZ0EDI//p
- 7vlxPzQ81TqY7Hb49GQeElKm7p0ltvvEPFXIHgZQXCoC7lOitlSIbpTCGcIDksKo2slg
- XM2lWBTqiT15GE37xR7f0r7bKjgPuBgrrmkMRIuWFw8cK8qULapnhQq7t2zQgZpdzRzf
- skUg==
-X-Gm-Message-State: AOAM532dNWz/km0VptQtlt7Iz1plgkSCu8j/4+9uDxYOQngxewL/EEtW
- yIjZS8DzUOICc9sa5Rfl83p3Mw==
-X-Google-Smtp-Source: ABdhPJxp0OPbK17T/FisysBhZk0+gpPejV6bgMq7eWQizEQTOQ0sgf0Q3VWKJW6xGgrHmxb3WQ5IuA==
-X-Received: by 2002:a17:90a:a50d:: with SMTP id
- a13mr837453pjq.95.1595447112507; 
- Wed, 22 Jul 2020 12:45:12 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id t29sm432106pfq.50.2020.07.22.12.45.11
+ bh=8TVQ7HTR8nifrCWHMhxbEqy5HUNl692zo6KwqDMUDFg=;
+ b=D4x44g6DxBmAQp+0dx+8tI8yokDqExpAzezlMn5MeqInJXR06Puu16i+s2Pi8FjPy5
+ oVRCPOA8/9T8Du7a2zmHOPlVaoMgkOZeTqjOT47p0PR8tAOSm9+NFVJGu3pnTvMQQn3N
+ LK250SBWOkzfcBzucanLMEl1mzuvdDgQUvaFry3JX8UQHNDY9vLrPXkVt0IPWuHjsj4J
+ tUwDlnyw+05sqlS4OnqF5kyyj5v4auPzeDTqrPgmsAxbfJz2MKn5fXbKKpAxG/wcspSF
+ Lqxj6+0IlRIvE6zbAkBc8gcdGhrX7bl0fMl+U4ozoUWjw/czY9o3KjJjc+hcTY4XotqM
+ pRHA==
+X-Gm-Message-State: AOAM531yqO35HSsagFsBgheMFwMVSb2G0uGZ+Mh0vsqrHU3Ix3BtksW4
+ Qt/CmAZvR59NP5MvJsg2hFA=
+X-Google-Smtp-Source: ABdhPJx+nD2Z4T0ULOHNz5iOvh4C/4EGxLKGNQcm83/T4FTLUSIEIG20sO3SvYGvakj67hBBPM0yVA==
+X-Received: by 2002:a63:cb05:: with SMTP id p5mr1359392pgg.120.1595448178313; 
+ Wed, 22 Jul 2020 13:02:58 -0700 (PDT)
+Received: from gmail.com ([103.105.153.67])
+ by smtp.gmail.com with ESMTPSA id y7sm421071pgk.93.2020.07.22.13.02.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 12:45:11 -0700 (PDT)
-Date: Wed, 22 Jul 2020 12:45:10 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Vitor Massaru Iha <vitor@massaru.org>
-Message-ID: <202007221244.4E3C9E45@keescook>
-References: <20200721174654.72132-1-vitor@massaru.org>
- <202007211207.5BAA9D8D@keescook>
- <CADQ6JjU8rX2F_iBqth3u0EiA+CBgz4H+YL_-nbQ_cojYeLFXKQ@mail.gmail.com>
- <202007211911.666E080@keescook>
- <CADQ6JjUgVXBfHfb=V2ajwm=rHi12rxiqEtpivjY03xZbp6k7wg@mail.gmail.com>
+ Wed, 22 Jul 2020 13:02:57 -0700 (PDT)
+Date: Thu, 23 Jul 2020 01:31:34 +0530
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Message-ID: <20200722200134.GA4310@gmail.com>
+References: <20200720155714.714114-1-vaibhavgupta40@gmail.com>
+ <159542550175.19884.5724047291778558359.b4-ty@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CADQ6JjUgVXBfHfb=V2ajwm=rHi12rxiqEtpivjY03xZbp6k7wg@mail.gmail.com>
-Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- David Gow <davidgow@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: Convert test_user_copy
-	to KUnit test
+In-Reply-To: <159542550175.19884.5724047291778558359.b4-ty@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] spi: spi-topcliff-pch: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,23 +116,50 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 22, 2020 at 03:29:27PM -0300, Vitor Massaru Iha wrote:
-> On Tue, Jul 21, 2020 at 11:12 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Tue, Jul 21, 2020 at 07:19:12PM -0300, Vitor Massaru Iha wrote:
-> > > When you talk about end-of-test summary, is it what is written in
-> > > dmesg and not the kunit-tool?
-> >
-> > Right, if I build this as a module and do "modprobe user_copy_kunit",
-> > what will show up in dmesg?
+On Wed, Jul 22, 2020 at 02:45:17PM +0100, Mark Brown wrote:
+> On Mon, 20 Jul 2020 21:27:15 +0530, Vaibhav Gupta wrote:
+> > Drivers using legacy PM have to manage PCI states and device's PM states
+> > themselves. They also need to take care of configuration registers.
+> > 
+> > With improved and powerful support of generic PM, PCI Core takes care of
+> > above mentioned, device-independent, jobs.
+> > 
+> > This driver makes use of PCI helper functions like
+> > pci_save/restore_state(), pci_enable/disable_device(), pci_enable_wake()
+> > and pci_set_power_state() to do required operations. In generic mode, they
+> > are no longer needed.
+> > 
+> > [...]
 > 
-> No, It doesn't. I'll put the messages again.
-
-Would it be possible to add that behavior to the core KUnit output? Then
-all module-based tests would include a summary line?
-
--- 
-Kees Cook
+> Applied to
+> 
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> 
+> Thanks!
+> 
+> [1/1] spi: spi-topcliff-pch: use generic power management
+>       commit: f185bcc779808df5d31bc332b79b5f1455ee910b
+> 
+> All being well this means that it will be integrated into the linux-next
+> tree (usually sometime in the next 24 hours) and sent to Linus during
+> the next merge window (or sooner if it is a bug fix), however if
+> problems are discovered then the patch may be dropped or reverted.
+> 
+> You may get further e-mails resulting from automated or manual testing
+> and review of the tree, please engage with people reporting problems and
+> send followup patches addressing any issues that are reported if needed.
+> 
+> If any updates are required or you are submitting further changes they
+> should be sent as incremental updates against current git, existing
+> patches will not be replaced.
+> 
+> Please add any relevant lists and maintainers to the CCs when replying
+> to this mail.
+Thanks,
+--Vaibhav Gupta
+> 
+> Thanks,
+> Mark
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
