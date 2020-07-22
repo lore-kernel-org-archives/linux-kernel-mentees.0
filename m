@@ -8,102 +8,103 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F310C433F2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 08:35:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A857FC433E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 09:35:00 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D4B33207BB
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 08:35:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6876820787
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 09:35:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5mjbVyJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D4B33207BB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="u4B0jnZF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6876820787
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B6E65880DD;
-	Wed, 22 Jul 2020 08:35:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 404CB877E3;
+	Wed, 22 Jul 2020 09:35:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BSr+YfL7CZ-t; Wed, 22 Jul 2020 08:35:23 +0000 (UTC)
+	with ESMTP id 3Ck2g3QmHew2; Wed, 22 Jul 2020 09:34:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4B80888091;
-	Wed, 22 Jul 2020 08:35:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 830D788056;
+	Wed, 22 Jul 2020 09:34:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 30859C004E;
-	Wed, 22 Jul 2020 08:35:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6723AC004D;
+	Wed, 22 Jul 2020 09:34:57 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2FFFEC004C
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4B47C004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 08:35:21 +0000 (UTC)
+ Wed, 22 Jul 2020 09:34:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2C7C486B93
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9DEBB86A61
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 08:35:21 +0000 (UTC)
+ Wed, 22 Jul 2020 09:34:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wv_20cOn1z2w
+ with ESMTP id r98KwdsFYMad
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 08:35:20 +0000 (UTC)
+ Wed, 22 Jul 2020 09:34:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A35AA869C8
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id F2BEB8666C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 08:35:20 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id z3so792392pfn.12
+ Wed, 22 Jul 2020 09:34:54 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id u185so897531pfu.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 01:35:20 -0700 (PDT)
+ Wed, 22 Jul 2020 02:34:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9HO2KdHTG8CWRvUWixHHguAvRh8U1JUtcNnQoDE9NJ0=;
- b=B5mjbVyJZ28XLKNNuTPsCQ2bHZiK3f7R81S9TV/ugmZxnh3o0zlKPuacx5FU+trUnb
- AcdY3P0T2l/jeHkfkGAngdXYHBrjLDyafgM3ktkEoGbqnI4YUqHr1WB2at1x0tcvWATx
- SQxzG9FlSh0oW2Q4wZIzEsJRXW4WaqRLs7ip5O+qnqA/fc68BtE0XL5tdc64WYBsiLoh
- qErNJHJuVRC1va4D0SMTSQIduCSWdWop7Z4H9WRoNvWFqKBLZXhxCMTl4G8PmMKbdGZF
- nrg7PtG1/xXE1n6nPnSsVEPg9SmvmXtWCprIRiANxke/oU8QZ5DA673Pcvkq/MawEE+W
- ykyw==
+ bh=k5E+V6ct6HyLJ6yKPQ9T6SLmM+2VDiZ6UKk3SsdlnAc=;
+ b=u4B0jnZFr5l1a+refeXSmVWldsk+ZDFx993cLNpD6979m8ayY0j7qLoX0EsWyIR3gG
+ jbCgHqOXkJcmgpvaGNNy86qLHJdosY2BIJAq5MR5mZzDHfE7eVlMgTQjM8uQUqyAwXS8
+ TyW5jpySSyg25Z1CqBZn9C6ZYedNfYO/Kf/k68qMj338YZmBIoGpyEw5DQadqM+lcZpK
+ 9qooTRtiLmPWJ9lZEAP80xWXlzEZEiqiXleHgx155dgKxMGPiKVAn2iTldjsEMFV2Q2p
+ sWsnf1NNJO66Jzz0tD2TltbuH24RGoLfkyp/OU0zVKU9MwNuROjUn3nj33rPWMxHe79G
+ cg3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9HO2KdHTG8CWRvUWixHHguAvRh8U1JUtcNnQoDE9NJ0=;
- b=hOFfd/TYu4+17yOLn+InP8iCdh3BnOXUdBWTCOU5wqVy+uIzM3YK0pWFQ9LC7Rh+3u
- CpjeKKwsxVjqCSe+w++rdOG5J5eiY0NyoIfE1Dw1MxFsy103X8Nf90H8DOUxaKooWFu0
- n/5dp8aUC1VFf0Cra1OSYigRzOpyrdjvmQjAo/0WsOoQtYMzWa126vhMhis34Q5cHPqK
- xQNqdZoZCh6HS++agpqiGg0dI9SD/+/G6rG3bgkrGAsH1gd7eeGRUasumRj00hporgBI
- F71M4Ed9Mg2YboSx0ZGh1stksdr2XhGxjfdA3miqQc/P3EwiKmYphLBX4dLpImvaMYsb
- nVAQ==
-X-Gm-Message-State: AOAM533RBedURPjcwiFJINpAOMz5WPt3pw7MSWuGcPI6jtNOFY5OmOY8
- t/xPDrn7mq5GqsNcI+/fE8o=
-X-Google-Smtp-Source: ABdhPJxoD+asLmN+X4Kni/JrR8aEg1m0w9rLbNcvu3qHjQBL8mcRuLHj6gJ3gf40pij6nNmKGWPSMA==
-X-Received: by 2002:a62:8342:: with SMTP id h63mr26886028pfe.183.1595406920209; 
- Wed, 22 Jul 2020 01:35:20 -0700 (PDT)
+ bh=k5E+V6ct6HyLJ6yKPQ9T6SLmM+2VDiZ6UKk3SsdlnAc=;
+ b=fmTSBiMJOCEBdQf79z1Iz1SnfYjKG8pnXFJf38nmCFAcYypcUS7naVauXSXiLmQR8j
+ DiC+EYD63hlK80kEg1pX4rBtbKnyxRb3EVtFw/sGFwcykK4T4tL0D6byUnhnzCQ8mVy5
+ AkNW2xqhUcfUW/4mqyrnC+SJUD67MuYcukoaqefyAukSxqN5mNAlwId9u6IpmxQajgZ2
+ ++gbO3ZFpiGn8pDKHDvM28XIazzKWrHwi2ld2fqpfgfSUrjtJEkwQeA/iu9eNpYCC1pS
+ q3KtvqJ3Ho224Y2pNLRF80WP+lrpdDfmwlJXbeZ81dHj3bti30AZcTmxaZgaWJdH7r3R
+ j5gQ==
+X-Gm-Message-State: AOAM530J+3VDCPfkgkxIFkJ0Rn9qMwU783kJIVKYVSqmhmyhxRvrFGb5
+ qhHfi2PqwnpR/YlwHTU52Bk=
+X-Google-Smtp-Source: ABdhPJyhAeLuCtJ1p7M4iB/fKrlUHccP0jnK2PCgVftmV1SPQBIY6yVZhi1Gkc8zmLp+iJJXr8LvdA==
+X-Received: by 2002:a05:6a00:78a:: with SMTP id
+ g10mr28487647pfu.0.1595410494405; 
+ Wed, 22 Jul 2020 02:34:54 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.67])
- by smtp.gmail.com with ESMTPSA id g13sm5777319pje.29.2020.07.22.01.35.15
+ by smtp.gmail.com with ESMTPSA id b22sm5775644pju.26.2020.07.22.02.34.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 01:35:19 -0700 (PDT)
+ Wed, 22 Jul 2020 02:34:53 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, Jens Axboe <axboe@kernel.dk>,
- Joshua Morris <josh.h.morris@us.ibm.com>,
- Philip Kelleher <pjk1939@linux.ibm.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>
-Date: Wed, 22 Jul 2020 14:03:35 +0530
-Message-Id: <20200722083335.50068-4-vaibhavgupta40@gmail.com>
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>
+Date: Wed, 22 Jul 2020 15:00:58 +0530
+Message-Id: <20200722093057.98551-1-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200722083335.50068-1-vaibhavgupta40@gmail.com>
-References: <ea5881cdfd4d612193feed646ce89f253a36db69.camel@wdc.com>
- <20200722083335.50068-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <95db9ba2-ffbb-ca92-6a70-1ee401920eed@amd.com>
+References: <95db9ba2-ffbb-ca92-6a70-1ee401920eed@amd.com>
 MIME-Version: 1.0
-Cc: linux-block@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v3 3/3] skd: use generic power
-	management
+Cc: linux-crypto@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v2] crypto: ccp: sp-pci: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -128,107 +129,170 @@ need to take care of standard configuration registers.
 Switch to generic power management framework using a single
 "struct dev_pm_ops" variable to take the unnecessary load from the driver.
 This also avoids the need for the driver to directly call most of the PCI
-helper functions and device power state control functions, as through
-the generic framework PCI Core takes care of the necessary operations,
+helper functions and device power state control functions as through
+the generic framework, PCI Core takes care of the necessary operations,
 and drivers are required to do only device-specific jobs.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/block/skd_main.c | 30 ++++++++----------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
+ drivers/crypto/ccp/ccp-dev.c     |  4 +---
+ drivers/crypto/ccp/sp-dev.c      |  6 ++----
+ drivers/crypto/ccp/sp-dev.h      |  6 +++---
+ drivers/crypto/ccp/sp-pci.c      | 17 ++++++-----------
+ drivers/crypto/ccp/sp-platform.c |  2 +-
+ 5 files changed, 13 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/block/skd_main.c b/drivers/block/skd_main.c
-index 51569c199a6c..7f2d42900b38 100644
---- a/drivers/block/skd_main.c
-+++ b/drivers/block/skd_main.c
-@@ -3315,10 +3315,11 @@ static void skd_pci_remove(struct pci_dev *pdev)
- 	return;
+diff --git a/drivers/crypto/ccp/ccp-dev.c b/drivers/crypto/ccp/ccp-dev.c
+index 19ac509ed76e..0971ee60f840 100644
+--- a/drivers/crypto/ccp/ccp-dev.c
++++ b/drivers/crypto/ccp/ccp-dev.c
+@@ -531,7 +531,6 @@ int ccp_trng_read(struct hwrng *rng, void *data, size_t max, bool wait)
+ 	return len;
  }
  
--static int skd_pci_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused skd_pci_suspend(struct device *dev)
+-#ifdef CONFIG_PM
+ bool ccp_queues_suspended(struct ccp_device *ccp)
  {
- 	int i;
- 	struct skd_device *skdev;
-+	struct pci_dev *pdev = to_pci_dev(dev);
+ 	unsigned int suspended = 0;
+@@ -549,7 +548,7 @@ bool ccp_queues_suspended(struct ccp_device *ccp)
+ 	return ccp->cmd_q_count == suspended;
+ }
  
- 	skdev = pci_get_drvdata(pdev);
- 	if (!skdev) {
-@@ -3337,18 +3338,15 @@ static int skd_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 	if (skdev->pcie_error_reporting_is_enabled)
- 		pci_disable_pcie_error_reporting(pdev);
+-int ccp_dev_suspend(struct sp_device *sp, pm_message_t state)
++int ccp_dev_suspend(struct sp_device *sp)
+ {
+ 	struct ccp_device *ccp = sp->ccp_data;
+ 	unsigned long flags;
+@@ -601,7 +600,6 @@ int ccp_dev_resume(struct sp_device *sp)
  
--	pci_release_regions(pdev);
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
  	return 0;
  }
+-#endif
  
--static int skd_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused skd_pci_resume(struct device *dev)
+ int ccp_dev_init(struct sp_device *sp)
  {
- 	int i;
- 	int rc = 0;
- 	struct skd_device *skdev;
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 
- 	skdev = pci_get_drvdata(pdev);
- 	if (!skdev) {
-@@ -3356,16 +3354,8 @@ static int skd_pci_resume(struct pci_dev *pdev)
- 		return -1;
- 	}
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_enable_wake(pdev, PCI_D0, 0);
--	pci_restore_state(pdev);
-+	device_wakeup_disable(dev);
- 
--	rc = pci_enable_device(pdev);
--	if (rc)
--		return rc;
--	rc = pci_request_regions(pdev, DRV_NAME);
--	if (rc)
--		goto err_out;
- 	rc = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
- 	if (rc)
- 		rc = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-@@ -3374,7 +3364,6 @@ static int skd_pci_resume(struct pci_dev *pdev)
- 		goto err_out_regions;
- 	}
- 
--	pci_set_master(pdev);
- 	rc = pci_enable_pcie_error_reporting(pdev);
- 	if (rc) {
- 		dev_err(&pdev->dev,
-@@ -3427,10 +3416,6 @@ static int skd_pci_resume(struct pci_dev *pdev)
- 		pci_disable_pcie_error_reporting(pdev);
- 
- err_out_regions:
--	pci_release_regions(pdev);
--
--err_out:
--	pci_disable_device(pdev);
- 	return rc;
+diff --git a/drivers/crypto/ccp/sp-dev.c b/drivers/crypto/ccp/sp-dev.c
+index ce42675d3274..6284a15e5047 100644
+--- a/drivers/crypto/ccp/sp-dev.c
++++ b/drivers/crypto/ccp/sp-dev.c
+@@ -211,13 +211,12 @@ void sp_destroy(struct sp_device *sp)
+ 	sp_del_device(sp);
  }
  
-@@ -3450,13 +3435,14 @@ static void skd_pci_shutdown(struct pci_dev *pdev)
- 	skd_stop_device(skdev);
+-#ifdef CONFIG_PM
+-int sp_suspend(struct sp_device *sp, pm_message_t state)
++int sp_suspend(struct sp_device *sp)
+ {
+ 	int ret;
+ 
+ 	if (sp->dev_vdata->ccp_vdata) {
+-		ret = ccp_dev_suspend(sp, state);
++		ret = ccp_dev_suspend(sp);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -237,7 +236,6 @@ int sp_resume(struct sp_device *sp)
+ 
+ 	return 0;
+ }
+-#endif
+ 
+ struct sp_device *sp_get_psp_master_device(void)
+ {
+diff --git a/drivers/crypto/ccp/sp-dev.h b/drivers/crypto/ccp/sp-dev.h
+index f913f1494af9..0218d0670eee 100644
+--- a/drivers/crypto/ccp/sp-dev.h
++++ b/drivers/crypto/ccp/sp-dev.h
+@@ -119,7 +119,7 @@ int sp_init(struct sp_device *sp);
+ void sp_destroy(struct sp_device *sp);
+ struct sp_device *sp_get_master(void);
+ 
+-int sp_suspend(struct sp_device *sp, pm_message_t state);
++int sp_suspend(struct sp_device *sp);
+ int sp_resume(struct sp_device *sp);
+ int sp_request_ccp_irq(struct sp_device *sp, irq_handler_t handler,
+ 		       const char *name, void *data);
+@@ -134,7 +134,7 @@ struct sp_device *sp_get_psp_master_device(void);
+ int ccp_dev_init(struct sp_device *sp);
+ void ccp_dev_destroy(struct sp_device *sp);
+ 
+-int ccp_dev_suspend(struct sp_device *sp, pm_message_t state);
++int ccp_dev_suspend(struct sp_device *sp);
+ int ccp_dev_resume(struct sp_device *sp);
+ 
+ #else	/* !CONFIG_CRYPTO_DEV_SP_CCP */
+@@ -145,7 +145,7 @@ static inline int ccp_dev_init(struct sp_device *sp)
+ }
+ static inline void ccp_dev_destroy(struct sp_device *sp) { }
+ 
+-static inline int ccp_dev_suspend(struct sp_device *sp, pm_message_t state)
++static inline int ccp_dev_suspend(struct sp_device *sp)
+ {
+ 	return 0;
+ }
+diff --git a/drivers/crypto/ccp/sp-pci.c b/drivers/crypto/ccp/sp-pci.c
+index cb6cb47053f4..f471dbaef1fb 100644
+--- a/drivers/crypto/ccp/sp-pci.c
++++ b/drivers/crypto/ccp/sp-pci.c
+@@ -252,23 +252,19 @@ static void sp_pci_remove(struct pci_dev *pdev)
+ 	sp_free_irqs(sp);
  }
  
-+static SIMPLE_DEV_PM_OPS(skd_pci_pm_ops, skd_pci_suspend, skd_pci_resume);
+-#ifdef CONFIG_PM
+-static int sp_pci_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused sp_pci_suspend(struct device *dev)
+ {
+-	struct device *dev = &pdev->dev;
+ 	struct sp_device *sp = dev_get_drvdata(dev);
+ 
+-	return sp_suspend(sp, state);
++	return sp_suspend(sp);
+ }
+ 
+-static int sp_pci_resume(struct pci_dev *pdev)
++static int __maybe_unused sp_pci_resume(struct device *dev)
+ {
+-	struct device *dev = &pdev->dev;
+ 	struct sp_device *sp = dev_get_drvdata(dev);
+ 
+ 	return sp_resume(sp);
+ }
+-#endif
+ 
+ #ifdef CONFIG_CRYPTO_DEV_SP_PSP
+ static const struct sev_vdata sevv1 = {
+@@ -365,15 +361,14 @@ static const struct pci_device_id sp_pci_table[] = {
+ };
+ MODULE_DEVICE_TABLE(pci, sp_pci_table);
+ 
++static SIMPLE_DEV_PM_OPS(sp_pci_pm_ops, sp_pci_suspend, sp_pci_resume);
 +
- static struct pci_driver skd_driver = {
- 	.name		= DRV_NAME,
- 	.id_table	= skd_pci_tbl,
- 	.probe		= skd_pci_probe,
- 	.remove		= skd_pci_remove,
--	.suspend	= skd_pci_suspend,
--	.resume		= skd_pci_resume,
-+	.driver.pm	= &skd_pci_pm_ops,
- 	.shutdown	= skd_pci_shutdown,
+ static struct pci_driver sp_pci_driver = {
+ 	.name = "ccp",
+ 	.id_table = sp_pci_table,
+ 	.probe = sp_pci_probe,
+ 	.remove = sp_pci_remove,
+-#ifdef CONFIG_PM
+-	.suspend = sp_pci_suspend,
+-	.resume = sp_pci_resume,
+-#endif
++	.driver.pm = &sp_pci_pm_ops,
  };
  
+ int sp_pci_init(void)
+diff --git a/drivers/crypto/ccp/sp-platform.c b/drivers/crypto/ccp/sp-platform.c
+index 831aac1393a2..9dba52fbee99 100644
+--- a/drivers/crypto/ccp/sp-platform.c
++++ b/drivers/crypto/ccp/sp-platform.c
+@@ -207,7 +207,7 @@ static int sp_platform_suspend(struct platform_device *pdev,
+ 	struct device *dev = &pdev->dev;
+ 	struct sp_device *sp = dev_get_drvdata(dev);
+ 
+-	return sp_suspend(sp, state);
++	return sp_suspend(sp);
+ }
+ 
+ static int sp_platform_resume(struct platform_device *pdev)
 -- 
 2.27.0
 
