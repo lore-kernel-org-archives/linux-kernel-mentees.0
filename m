@@ -8,97 +8,98 @@ X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9846C433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 10:21:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E3AC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 10:23:47 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6CA6620729
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 10:21:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 939D820729
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 10:23:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qigg42fP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CA6620729
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkrekXXK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 939D820729
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 36AD7886C0;
-	Wed, 22 Jul 2020 10:21:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6CE20884A2;
+	Wed, 22 Jul 2020 10:23:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vZIgnFJQH0QY; Wed, 22 Jul 2020 10:21:10 +0000 (UTC)
+	with ESMTP id WW8waYp+zW9W; Wed, 22 Jul 2020 10:23:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A4D0C886C6;
-	Wed, 22 Jul 2020 10:21:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 08FF0883B6;
+	Wed, 22 Jul 2020 10:23:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 92AAEC004E;
-	Wed, 22 Jul 2020 10:21:10 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E31AC004C
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 01E3BC004E;
+	Wed, 22 Jul 2020 10:23:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BDB4EC004C
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 10:21:09 +0000 (UTC)
+ Wed, 22 Jul 2020 10:23:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3918088668
+ by fraxinus.osuosl.org (Postfix) with ESMTP id ACC85862BE
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 10:21:09 +0000 (UTC)
+ Wed, 22 Jul 2020 10:23:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wjWY-xyCNeuw
+ with ESMTP id wcY0Rafu6PyG
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 10:21:06 +0000 (UTC)
+ Wed, 22 Jul 2020 10:23:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 50507886C0
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
+ [209.85.218.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EEF9E8623B
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 10:21:06 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id d18so1251654edv.6
+ Wed, 22 Jul 2020 10:23:44 +0000 (UTC)
+Received: by mail-ej1-f66.google.com with SMTP id y10so1657154eje.1
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 03:21:06 -0700 (PDT)
+ Wed, 22 Jul 2020 03:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:date:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=kIC18AZSpAx8R7LInUe2mo7V6lp/fVDt7K+uu7leBDQ=;
- b=Qigg42fPHfOzRZ9/Gkf2Pteszo/NjsZRnp3raHt482rAn9uJhZ2jiVHvxamFZxNsqa
- Sd9tqNYrFSwEH8LOQn6SNBDJJHdCYEYgh0NuuZhL81nulyFwe/eZOS/wtxvdtJPZTuWc
- mw9AwXIZwGnrXCuuV8M9mBQ3A91PfU/5mudzOA/oMdfTLRqE3esiwumJ1fKyCOeBItvn
- fwEArNsG/rzcVu1nuxPODqJYTJkVLBE8bEueHyU6FBS+3kEG5u1ApWNH0DSRBq/Qdh09
- U9vDabtWdd9CkuM6wd5ZQfcoxNTsSXI7yCsCvOQbHcpLeBvLcA0wg7DR4hIyI2/vo1Ub
- Vqvw==
+ bh=8Lv+luVDPtcVKAC8K2H6ktm/UZRo9ZSjg7XwTLDyjyo=;
+ b=HkrekXXKH2vMhT61LrinoYQT2WebgecrYbLEFUVgfI25j/J89qPu4DEB2bzUhECKFY
+ qB6DrggVwp4rpNBz/lBFlZIC5mJh2v6MsAgZVSlxS1LFkw89zLE/nIX9z2F6B9yir9b2
+ 1ikvZXB6Nc1M1loJFwtMiA+4BJONnAwp0GmM98hGpMkbXIF3TOqYN4mddlzMFhl9C8o6
+ yA6E3PDNxY607CJXsIacbXC7pm+UeoV00wTc1j7acdfUrgr3AnqXgXydNzDK7YdRFnup
+ kqycAhUN0NVTNPRohVkH2oFZ1CHRq4Uor8ndSbR7kQvv8QfHH5KExEStjS+ax+WjbYwY
+ UDTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=kIC18AZSpAx8R7LInUe2mo7V6lp/fVDt7K+uu7leBDQ=;
- b=OMfdVvtr4mhjR2pLtuXPLHiMLcxlMX9kwUrCWzSCgUdfEDWOoqc+j018s45xdmgjUv
- PUBGMuSEphqbGwplwzrAujD2Jo0bgKRnYTTZnOf/CQOG5AOK4i6RzxrPmu+7qWYqLPrv
- U3lhOgvHyceUHKW0lCW3rE/N/kDWM95/nB2OzximI1ecyWLllIJsAs7rNpYw1RrPCLG0
- yCRUYqyCjubZvCtOWQad++WvhRan7iwnuFprFJ4ZncUE5L18iMziURSKYaLKTfzW2n3M
- DEj6mbranjr6I15S20SW7Ufe81RFBV++gjM7JNiQORlb8YwxImTSU+8nGJDOGP76rlsc
- 60Uw==
-X-Gm-Message-State: AOAM530vA6qWWgxlnXZ78ljx1koUcKmi2eI9odxtA1zYSprTKjJwzq/o
- CvRMbXb279AI0KnWUHlUhnQ=
-X-Google-Smtp-Source: ABdhPJw6/FU6OhM0bdESUWXw6d6E+PfoaJ19AJuw99jTAu/yb8ajtMhxTC7cw7CyF/3ioLLULNzxFQ==
-X-Received: by 2002:a50:fd84:: with SMTP id o4mr29729904edt.117.1595413264541; 
- Wed, 22 Jul 2020 03:21:04 -0700 (PDT)
+ bh=8Lv+luVDPtcVKAC8K2H6ktm/UZRo9ZSjg7XwTLDyjyo=;
+ b=ecMCDEVrSy4r/OExhR/0N7+BQShOs0ux59AjKq4kNfEl0d6Aea5V6NQi/6snjrVpPm
+ ZO83MLhtG6twDJ4UMKjyinKlfnNjwVEJKQ0UE4KHYzQMVyPDT70/GqKrVDCIYdIT4+jG
+ AGDiAXMZWi0j1vCDyHo89oSIi0uII9r44J/i+o2BCrk3aizJp5TcAqcg30gfqZof6RAd
+ Fm7Q5xbDoMEXrTbEREZNaJtX1mF5Y03eamNMNyinNQB1OAlTsk5KcrBsWu9u8aiCvSRa
+ nGCUzRHmN/+/WRFwFRml7mhuZGXTaOCQv8DQTzuzChDGRw1gwAxiM52LHGUA2tpZTqmG
+ E5kg==
+X-Gm-Message-State: AOAM533tTALOeOMa2o3yPj0FQ4YijLlSrxJsokmUetRGSkrEjX0GP93A
+ R+hwyA/6uy2SetjTUuC7XX4=
+X-Google-Smtp-Source: ABdhPJyVkP2Ssl/D5UHULWR0YTrzJLd576QhGQDYsP2rKx2/9xZuF7a4onVNgeu+Ns+pVYLiZu+NgA==
+X-Received: by 2002:a17:906:d963:: with SMTP id
+ rp3mr28546712ejb.54.1595413423425; 
+ Wed, 22 Jul 2020 03:23:43 -0700 (PDT)
 Received: from felia ([2001:16b8:2d99:5b00:39e7:5cec:d6f4:a49a])
- by smtp.gmail.com with ESMTPSA id cw19sm18277123ejb.39.2020.07.22.03.21.03
+ by smtp.gmail.com with ESMTPSA id f16sm18331251ejr.0.2020.07.22.03.23.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 03:21:03 -0700 (PDT)
+ Wed, 22 Jul 2020 03:23:42 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 22 Jul 2020 12:20:57 +0200 (CEST)
+Date: Wed, 22 Jul 2020 12:23:40 +0200 (CEST)
 X-X-Sender: lukas@felia
 To: Mrinal Pandey <mrinalmni@gmail.com>
-In-Reply-To: <20200721054419.kab7i6l6zkioddh5@mrinalpandey>
-Message-ID: <alpine.DEB.2.21.2007221207260.10005@felia>
-References: <20200721054419.kab7i6l6zkioddh5@mrinalpandey>
+In-Reply-To: <20200721054438.z7nhvykoqztofoui@mrinalpandey>
+Message-ID: <alpine.DEB.2.21.2007221221180.10005@felia>
+References: <20200721054438.z7nhvykoqztofoui@mrinalpandey>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Cc: Linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Fix SPDX license
-	check for scripts
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Warn about missing
+	shebang in scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,123 +121,42 @@ Sender: "Linux-kernel-mentees"
 
 On Tue, 21 Jul 2020, Mrinal Pandey wrote:
 
-> In all the scripts, the SPDX license should be on the second line,
-> the first line being the shebang, but checkpatch issues a warning
-> "Misplaced SPDX-License-Identifier tag - use line 1 instead" for the
-> scripts that have SPDX license in the second line.
->
-
-That what you wrote is actually wrong. Checkpatch only wrongly warns if 
-the first line is not included in the diff, right? Otherwise, it does not 
-warn as intended.
- 
-> However, this warning is not issued when checkpatch is run on a file.
-> The case for files has been handled gracefully by checking first line of
-> the file to be a shebang and then setting `$checklicenseline` to `2`but
-> this doesn't work when we don't have shebang in diff content of a patch
-> and `$checklicenseline` continues to be `1` in such cases. Therefore,
-> checkpatch expects the line `1` to contain the SPDX license when it
-> should have been `2` instead.
->
-
-It is described very complicated here. Maybe think about rephrasing it, so 
-it becomes more clear.
-
-> I noticed this false positive while running checkpatch on the set of
-> commits from v5.7 to v5.8-rc1 of the kernel on the commits which modified
-> a script file.
->
-
-How about naming the commits and providing a statistics how often that 
-happens?
- 
-> This false positive exists in checkpatch since commit a8da38a9cf0e
-> ("checkpatch: add test for SPDX-License-Identifier on wrong line #")
-> when the corresponding rule was first commited.
+> checkpatch should warn if a script doesn't seem to have a shebang in the
+> first line. There is no such check present currently.
 > 
-> Fix this by setting `$checklicenseline` to `2` whenever the file or diff
-> content we are checking comes from a script instead of checking first
-> line to be a shebang, thus, informing checkpatch that the SPDX license
-> should be expected on the second line.
->
-
-Well, now the critical part:
-
-It seems that this now makes the situation worse compared to before.
-
-I quickly ran this evaluation:
-
-$ cat first-line.sh 
-#!/bin/bash
-
-for file in $(git ls-files)
-do
-	firstline="$(head --silent -n 1 $file)"
-	echo "$file: $firstline"
-done
-
-$ sh ./first-line.sh > first-lines
-
-$ grep "#!" first-lines | wc -l
-810
-
-$ grep "#!" first-lines | sed 's/^\(.*[^\]*\):.*$/\1/' | grep -v "\."
-
-$ grep "#!" first-lines | sed 's/^\(.*[^\]*\):.*$/\1/' | grep -v "\." | wc 
--l
-120
-
-$ grep "#!" first-lines | sed 's/^\(.*[^\]*\):.*$/\1/' | rev | cut -d"/" 
--f1 | rev | grep  "\." | cut -d"." -f2 | sort | uniq -c | sort -nr
-    509 sh
-     91 tc
-     45 pl
-     37 py
-      6 awk
-      1 config
-
-So, in 120 cases you actually would now warn on line 1 where the should be
-a shebang as intended.
-
-Also, I cross-checked .yaml files:
-
-$ grep "\.yaml:" first-lines | grep "SPDX-License-Identifier"  | wc -l
-1035
-
-$ grep "\.yaml:" first-lines | wc -l
-1037
-
-
-So, for yaml, SPDX is actually in line 1.
-
-
-I guess you need to think about this a bit more.
-
-
+> Issue this warning by checking if the file is a script and checking
+> `$realline` to be `1`, i.e. the first line. If these conditions are
+> satisfied and the first line is not a shebang, issue a missing or
+> mispaced shebang warning.
+> 
 > Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
 > ---
->  scripts/checkpatch.pl | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  scripts/checkpatch.pl | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
 > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 4c820607540b..bdd2f9a80891 100755
+> index 4c820607540b..c79233c64cee 100755
 > --- a/scripts/checkpatch.pl
 > +++ b/scripts/checkpatch.pl
-> @@ -3166,10 +3166,11 @@ sub process {
+> @@ -3165,6 +3165,13 @@ sub process {
+>  			}
 >  		}
 >  
+> +# check for missing shebang in scripts
+> +                if ($realline == 1 && $realfile =~ /.*\.\(py\|sh\|pl\|awk\|tc\|yaml\)/) {
+
+yaml files do not have a shebang...
+
+This whole check can probably placed elsewhere better.
+
+> +                        if ($rawline !~ /^[ \+]\s*\#\!\s*\//) {
+> +                                WARN("MISSING_SHEBANG", "Missing or misplaced shebang for '$realfile'");
+> +                        }
+> +                }
+> +
 >  # check for using SPDX license tag at beginning of files
-> +		if ($realfile =~ /.*\.\(py\|sh\|pl\|awk\|tc\|yaml\)/) {
-> +			$checklicenseline = 2;
-> +		}
 >  		if ($realline == $checklicenseline) {
-> -			if ($rawline =~ /^[ \+]\s*\#\!\s*\//) {
-> -				$checklicenseline = 2;
-> -			} elsif ($rawline =~ /^\+/) {
-> +			if ($rawline =~ /^\+/) {
->  				my $comment = "";
->  				if ($realfile =~ /\.(h|s|S)$/) {
->  					$comment = '/*';
+>  			if ($rawline =~ /^[ \+]\s*\#\!\s*\//) {
 > -- 
 > 2.25.1
 > 
