@@ -2,87 +2,113 @@ Return-Path: <SRS0=mJtO=BC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 229E0C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jul 2020 08:04:53 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B563C433E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jul 2020 08:08:23 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 01B8A20658
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jul 2020 08:04:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 01B8A20658
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 390F42086A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jul 2020 08:08:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=cloud.ionos.com header.i=@cloud.ionos.com header.b="YTspYUzC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 390F42086A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=cloud.ionos.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D5159879FD;
-	Thu, 23 Jul 2020 08:04:52 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EAACD26E75;
+	Thu, 23 Jul 2020 08:08:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id K-B5Nek0RN5u; Thu, 23 Jul 2020 08:04:52 +0000 (UTC)
+	with ESMTP id lQs3iN8jgojR; Thu, 23 Jul 2020 08:08:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 836958799A;
-	Thu, 23 Jul 2020 08:04:52 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1C26D20242;
+	Thu, 23 Jul 2020 08:08:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C9F6C004E;
-	Thu, 23 Jul 2020 08:04:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F0312C004E;
+	Thu, 23 Jul 2020 08:08:21 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DCDCDC004C
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7AEABC004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jul 2020 08:04:50 +0000 (UTC)
+ Thu, 23 Jul 2020 08:08:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D1F5C879E2
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 68FDF86FD8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jul 2020 08:04:50 +0000 (UTC)
+ Thu, 23 Jul 2020 08:08:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9ifdNKkER2mk
+ with ESMTP id 21QJjsSdWzoS
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jul 2020 08:04:50 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2C8848799A
+ Thu, 23 Jul 2020 08:08:19 +0000 (UTC)
+X-Greylist: delayed 01:05:30 by SQLgrey-1.7.6
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+ [209.85.208.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 51BC786FD3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Jul 2020 08:04:50 +0000 (UTC)
-IronPort-SDR: JdOrkvnEkEoCkmSgyWISrazX1Z9GggS78h2JgKD42926+kOpqvaZHuJrgAwEaLJzG2VJtd4Qk4
- TAabLh3Pus3g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="137981059"
-X-IronPort-AV: E=Sophos;i="5.75,386,1589266800"; d="scan'208";a="137981059"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2020 01:04:48 -0700
-IronPort-SDR: 4g07lofFm/wx2Qvqdq5W0HHQtsEwXsbuBkxr+Ya88F0tNcUn942NqXJvZVUK5IX5NFfF4tr4H3
- zATUMg/MTEjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,386,1589266800"; d="scan'208";a="310940898"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga004.fm.intel.com with ESMTP; 23 Jul 2020 01:04:45 -0700
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1jyWDc-003PA8-G0; Thu, 23 Jul 2020 11:04:44 +0300
-Date: Thu, 23 Jul 2020 11:04:44 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Vitor Massaru Iha <vitor@massaru.org>
-Message-ID: <20200723080444.GE3703480@smile.fi.intel.com>
-References: <20200723000807.171940-1-vitor@massaru.org>
+ Thu, 23 Jul 2020 08:08:19 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id s9so5343237ljm.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 23 Jul 2020 01:08:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cloud.ionos.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SfS8nf99hq7DuEx/kHoPEqmrbwoIsST4mSyABQnVZSQ=;
+ b=YTspYUzCTPwfyoE5AgUNWSWm/7lHjJgCkRwdVPwjww4zm9w3luUg460JDLNEVmx1x4
+ S8BzLS4eHF/AiT2KSekme/fJuTc299z1dMIieW3HNDHKNesyG4kuklzMgMc0mXC9i6Ri
+ 7exLlox951kHvcQ1jcaafBTZtD4ViRjp7LpkEijd+1SORDeMiJJ26Rk7dQpZb1Kmh/II
+ N7eNo+2K9D/uEjEVKD2sm7L6rJhX3kWVqJHrWdN5ne+KS0ej7Wrr+44ARtQjBBj/xVEP
+ vP0yRnG9nSBKsMs0yYa2LAP6r9iDmyaropf9IRUsYvOxdKphMs7SIGx3OUQIAYcAZyQC
+ +ijg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SfS8nf99hq7DuEx/kHoPEqmrbwoIsST4mSyABQnVZSQ=;
+ b=DY0BNBs+KrSIkjJ/Yoknqc6fmz6+yqy20O0IwOQfN2MpJjs2PRkeXJdmZ7dKcEIkcU
+ LomDCT+IXXhk7k1fZqJes0K7TILXD0VtSeh3xhUFAOl9Fh8o5S4YHpyrIg8+lwPp3VAF
+ Tjxp09gXITH/tpZIpTuoJKJXNJKJr/8HogvTU3xd6ji9yoYkutp2SZ0UhzlO6EbDnzd9
+ fviP0yD2mnMIrbudI1/P/Y0Z90rZISsgPZgZJF4MzY5HoSxg8D69X0GuHhyqVkv8J+2h
+ ilaqa4zupgLL2XZ/bzV2ZuaDm2nWimb1DLQwliw4iaznE0RACOiMWpglPGZczePHBIWB
+ +RnA==
+X-Gm-Message-State: AOAM530y44lL9yZpW1zwpSVA7WA7G7Cx7zaLH54AurAjbYFgCDi0FpWA
+ pgq/raepWNb/kCmQJvo5bXygehmhgynPShOIphqYPZKUnM1CjnMc
+X-Google-Smtp-Source: ABdhPJxTduRJ5al4/frVVD9fDofIlJ7ztuk37FWYsBSe0cNzQyQ+mBrOBScQo6owEDNSjYITuNkfVSMC62ellntxR68=
+X-Received: by 2002:a05:6402:559:: with SMTP id
+ i25mr2816567edx.35.1595487767298; 
+ Thu, 23 Jul 2020 00:02:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200723000807.171940-1-vitor@massaru.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Cc: fkostenzer@live.at, torvalds@linux-foundation.org,
- brendanhiggins@google.com, linux-kernel@vger.kernel.org,
- paul.gortmaker@windriver.com, geert@linux-m68k.org,
- linux-kselftest@vger.kernel.org, tglx@linutronix.de,
- linux-kernel-mentees@lists.linuxfoundation.org, akpm@linux-foundation.org,
- kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [PATCH] lib: kunit: Convert test_sort to
-	KUnit test
+References: <20200720133427.454400-1-vaibhavgupta40@gmail.com>
+ <20200720133427.454400-11-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200720133427.454400-11-vaibhavgupta40@gmail.com>
+From: Jinpu Wang <jinpu.wang@cloud.ionos.com>
+Date: Thu, 23 Jul 2020 09:02:36 +0200
+Message-ID: <CAMGffE=K4Tx6oduwS1=_1pgOCpXPnrOF9XZghOvR2taTwnhn3A@mail.gmail.com>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Cc: Don Brace <don.brace@microsemi.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Hannes Reinecke <hare@suse.com>, Bradley Grove <linuxdrivers@attotech.com>,
+ Linux SCSI Mailinglist <linux-scsi@vger.kernel.org>,
+ Sathya Prakash <sathya.prakash@broadcom.com>, esc.storagedev@microsemi.com,
+ James Smart <james.smart@broadcom.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Dick Kennedy <dick.kennedy@broadcom.com>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ John Garry <john.garry@huawei.com>, Adam Radford <aradford@gmail.com>,
+ Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+ megaraidlinux.pdl@broadcom.com, Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ MPT-FusionLinux.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+ Sumit Saxena <sumit.saxena@broadcom.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 10/15] scsi: pm_8001: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,31 +126,24 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 22, 2020 at 09:08:07PM -0300, Vitor Massaru Iha wrote:
-> This adds the conversion of the test_sort.c to KUnit test.
-> 
-> Please apply this commit first (linux-kselftest/kunit-fixes):
-> 3f37d14b8a3152441f36b6bc74000996679f0998 kunit: kunit_config: Fix parsing of CONFIG options with space
-
-...
-
->  lib/{test_sort.c => sort_kunit.c} | 31 +++++++++++++++----------------
-
-Is it established practice to put kunit as a suffix?
-For me much better to do
-	ls .../test* # and note shell completions
-then drop shell completions and always do something like
-	ls .../*_kunit.[cSsh]
-
-Consider this, please.
-
-P.S. Same question to KUnit folks.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+On Mon, Jul 20, 2020 at 3:38 PM Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
+>
+> With legacy PM, drivers themselves were responsible for managing the
+> device's power states and takes care of register states.
+>
+> After upgrading to the generic structure, PCI core will take care of
+> required tasks and drivers should do only device-specific operations.
+>
+> The driver was calling pci_save/restore_state(), pci_choose_state(),
+> pci_enable/disable_device() and pci_set_power_state() which is no more
+> needed.
+>
+> Compile-tested only.
+>
+> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+nit: subject should be pm8001
+Thanks!
+Acked-by: Jack Wang <jinpu.wang@cloud.ionos.com>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
