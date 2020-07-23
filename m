@@ -1,105 +1,105 @@
-Return-Path: <SRS0=MEeH=BB=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=mJtO=BC=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6BB3C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 22:29:24 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE46EC433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jul 2020 00:08:21 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CDF92071A
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Jul 2020 22:29:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 67F9222B3F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Jul 2020 00:08:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="fhWMlcxq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CDF92071A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="iFlAbOWW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 67F9222B3F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2D43D87122;
-	Wed, 22 Jul 2020 22:29:24 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3038D2420F;
+	Thu, 23 Jul 2020 00:08:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CM_sPlzOPsRK; Wed, 22 Jul 2020 22:29:23 +0000 (UTC)
+	with ESMTP id 7aNc8HaWV8ay; Thu, 23 Jul 2020 00:08:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B2BF9870EE;
-	Wed, 22 Jul 2020 22:29:23 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 44655241F9;
+	Thu, 23 Jul 2020 00:08:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 97A10C004E;
-	Wed, 22 Jul 2020 22:29:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 260B0C004E;
+	Thu, 23 Jul 2020 00:08:20 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 72D3EC004C
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0EEFCC004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 22:29:21 +0000 (UTC)
+ Thu, 23 Jul 2020 00:08:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 50F422344A
+ by silver.osuosl.org (Postfix) with ESMTP id 07E852420F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 22:29:21 +0000 (UTC)
+ Thu, 23 Jul 2020 00:08:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jmgf0RnBKERc
+ with ESMTP id WVpr7pgZ5CuI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 22:29:18 +0000 (UTC)
+ Thu, 23 Jul 2020 00:08:17 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
- [209.85.219.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 3CF162343B
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+ [209.85.160.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8D5B6241F9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 22:29:18 +0000 (UTC)
-Received: by mail-yb1-f193.google.com with SMTP id 2so1800981ybr.13
+ Thu, 23 Jul 2020 00:08:17 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id g13so3211256qtv.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Jul 2020 15:29:18 -0700 (PDT)
+ Wed, 22 Jul 2020 17:08:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hDU5F+lKnx2jbAbcQ8EdWpqtNDoD+1zrWyM5bAIpN5w=;
- b=fhWMlcxqko5jvxwun7u9Uh71irn2Il2ZaOvNhovugAKiQoGmJ9IDiPrToHA8cjDMRu
- x1VrYa/E0VvPZoA+NaZhZXbLqncS8YhFZHpYr0fz0yhxXm9p5ySMNW38C59WR90QeHIN
- kWZ4lbpJlxdBM/tAzlp6Aj4Twlsi8M1xoZanH3IeoZa029h5A781Eq8/2XYuLuPXNnUZ
- r/RdyDA+lFa6N7kQAAG4rnbsYAyFVjv9fgJaUVY06JmjP2AsOflm13HWTc3BgsiQLiG/
- t3SwYffYY1obba81noPsvPY03PPzwOCaRAq0ZEtJmkURsIdWLd/Lf5moo2ds+3peAf40
- Zsqg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wIJE53JQkkzN5LFSQElzrK2dsjCi+Qx4vXk/TwFFyZo=;
+ b=iFlAbOWWbZfvrAlTvRFOi3RUaabnAITRT/KxJ3GYUkN5crnBC9miqwoa7Dqh5p5y2z
+ NKO8hTYz5votR4D2q68XcqzIyL/TO+DfLeGNdyHYPL9LATmCFjVXa1YoUwh9+HwA9UX0
+ r4qWmmQmkpQ6xkp4rdjwJY8rGAHAU9oHeotOxdedTu3jMXvUi4UEO90IFexVLhyxR3Ee
+ 0aP7eKaSHwHQPIeS0qqONOFhW36Jol0SrQZi/UouQxm4V7FkfpdiEbpzurlf3yYs4N1y
+ OJnlLFCcS7f616yGhk5fTAN96LD/4ARV8G84+aqrer7EWgemmNZcBzOTToP6xmmY9d9a
+ EB1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hDU5F+lKnx2jbAbcQ8EdWpqtNDoD+1zrWyM5bAIpN5w=;
- b=qc4vB3q/y37oceC+A1TIofRh+rGGh7k7KF+UxsFJZy1Ap1QnVVcxERkKNPKBaOQEsY
- tODUjDRdOuUuA6xHcegpqAHaiiKDMGLnIVTeBJTeUGjCE5iTgDoIqupy5qOOeWi/D8/H
- 1CNF8kVu20GQHG7lbSFEqonu6pEU8CbQho+75hKdxPu9ry6wYlhjLsK3RIYrs2jfQjvm
- g25LuCTzfFHRKLPfWJ4A0fzJHxkB6WYic2dbSLHI2IysnTh9UiJRzaPaifRf12Vzy6i7
- 5R+RUoQEHtHsfbv4zCTxgiYr/R3NeOti8MQW8+NSiiunajS7OqptNT5kmYVNUgrjXdgo
- fiig==
-X-Gm-Message-State: AOAM532YldEmM1RYZSQynSYE5ZlTqDOLvd4UWBNFVFblrpGBC+Vomgtx
- S7vREymwu675dK2yZUwU2gTnf6+9bttWPZvDT9TvYw==
-X-Google-Smtp-Source: ABdhPJyLKRl2cLOz/lGg7WJPCuMu3otLZQXrSRuCWupUdKjm0eoPDEEAPrS2s+m18HN0tAIQub01+IJfHDQ0XRTs6cM=
-X-Received: by 2002:a25:ae01:: with SMTP id a1mr2350192ybj.119.1595456957139; 
- Wed, 22 Jul 2020 15:29:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200721174654.72132-1-vitor@massaru.org>
- <202007211207.5BAA9D8D@keescook>
- <CADQ6JjU8rX2F_iBqth3u0EiA+CBgz4H+YL_-nbQ_cojYeLFXKQ@mail.gmail.com>
- <202007211911.666E080@keescook>
- <CADQ6JjUgVXBfHfb=V2ajwm=rHi12rxiqEtpivjY03xZbp6k7wg@mail.gmail.com>
- <202007221244.4E3C9E45@keescook>
-In-Reply-To: <202007221244.4E3C9E45@keescook>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wIJE53JQkkzN5LFSQElzrK2dsjCi+Qx4vXk/TwFFyZo=;
+ b=AeMa2zUwi0lnX5OstybUuPLRw/tKI9mNjQ8TFi/BVTvNXHLrIroKlnxDNHJ0FyTsww
+ HaVZFVL5xDlBSl1B1UNzWjjae6rgS8Orj6e+tCERA5IGXrr0qkRT1Dj0+uOq5Jyl5I37
+ 3iKAo3f93cHXmheSS9dDkHwp92fNBSVzamnG34kjGiJuWQcYNFmVWRWXidMuxuy1Z4HM
+ B8MNgulZjBPjVwCc0S3mcwzDBVYFIjSakiOetPu8jfVFedoVgpXU4d2Gphsf1W1FiWAw
+ eFw30ABnVZD4lbRrYaisNm70UA1EQ0YoZCOEwOKMx5dB3Ib+mZFRuVCIICyCbZIxXybC
+ InIw==
+X-Gm-Message-State: AOAM531osGTlkOkr2/Ine551HeBwXzPy7sHHfbIP0Kli5VCVp9589WQM
+ 9uM9tJ1VUS5wVSqDAJEAMMNPFw==
+X-Google-Smtp-Source: ABdhPJyoCLDw96+G5vz569EAbwZkgms47TpFmM8GeL89ABrUkEkgBQQH2U2yceS+o56uKcTJOxf4tA==
+X-Received: by 2002:ac8:3963:: with SMTP id t32mr1962263qtb.152.1595462896422; 
+ Wed, 22 Jul 2020 17:08:16 -0700 (PDT)
+Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
+ by smtp.gmail.com with ESMTPSA id l67sm1160598qkd.7.2020.07.22.17.08.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jul 2020 17:08:15 -0700 (PDT)
 From: Vitor Massaru Iha <vitor@massaru.org>
-Date: Wed, 22 Jul 2020 19:28:41 -0300
-Message-ID: <CADQ6JjV8cXsEKX-Yn2udhnZgJQWkbtS4XL+yaRzfydaWV5EbSQ@mail.gmail.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- David Gow <davidgow@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: Convert test_user_copy
-	to KUnit test
+To: kunit-dev@googlegroups.com
+Date: Wed, 22 Jul 2020 21:08:07 -0300
+Message-Id: <20200723000807.171940-1-vitor@massaru.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Cc: fkostenzer@live.at, torvalds@linux-foundation.org,
+ brendanhiggins@google.com, linux-kernel@vger.kernel.org,
+ paul.gortmaker@windriver.com, geert@linux-m68k.org,
+ linux-kselftest@vger.kernel.org, tglx@linutronix.de,
+ andriy.shevchenko@linux.intel.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, akpm@linux-foundation.org
+Subject: [Linux-kernel-mentees] [PATCH] lib: kunit: Convert test_sort to
+	KUnit test
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,37 +117,154 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 22, 2020 at 4:45 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Wed, Jul 22, 2020 at 03:29:27PM -0300, Vitor Massaru Iha wrote:
-> > On Tue, Jul 21, 2020 at 11:12 PM Kees Cook <keescook@chromium.org> wrote:
-> > >
-> > > On Tue, Jul 21, 2020 at 07:19:12PM -0300, Vitor Massaru Iha wrote:
-> > > > When you talk about end-of-test summary, is it what is written in
-> > > > dmesg and not the kunit-tool?
-> > >
-> > > Right, if I build this as a module and do "modprobe user_copy_kunit",
-> > > what will show up in dmesg?
-> >
-> > No, It doesn't. I'll put the messages again.
->
-> Would it be possible to add that behavior to the core KUnit output? Then
-> all module-based tests would include a summary line?
+This adds the conversion of the test_sort.c to KUnit test.
 
-Nowadays with modprobe this is shown, is it necessary to add anything else?
+Please apply this commit first (linux-kselftest/kunit-fixes):
+3f37d14b8a3152441f36b6bc74000996679f0998 kunit: kunit_config: Fix parsing of CONFIG options with space
 
-root@(none):/# modprobe user_copy_kunit
-TAP version 14
-    # Subtest: user_copy
-    1..1
-random: fast init done
-    ok 1 - user_copy_test
-ok 1 - user_copy
-root@(none):/#
+Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+---
+ lib/Kconfig.debug                 | 26 +++++++++++++++++---------
+ lib/Makefile                      |  2 +-
+ lib/{test_sort.c => sort_kunit.c} | 31 +++++++++++++++----------------
+ 3 files changed, 33 insertions(+), 26 deletions(-)
+ rename lib/{test_sort.c => sort_kunit.c} (55%)
 
->
-> --
-> Kees Cook
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 9ad9210d70a1..1fe19e78d7ca 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1874,15 +1874,6 @@ config TEST_MIN_HEAP
+
+ 	  If unsure, say N.
+
+-config TEST_SORT
+-	tristate "Array-based sort test"
+-	depends on DEBUG_KERNEL || m
+-	help
+-	  This option enables the self-test function of 'sort()' at boot,
+-	  or at module load time.
+-
+-	  If unsure, say N.
+-
+ config KPROBES_SANITY_TEST
+ 	bool "Kprobes sanity tests"
+ 	depends on DEBUG_KERNEL
+@@ -2185,6 +2176,23 @@ config LINEAR_RANGES_TEST
+
+ 	  If unsure, say N.
+
++config SORT_KUNIT
++	tristate "KUnit test for Array-based sort"
++	depends on DEBUG_KERNEL || m
++	help
++	  This option enables the KUnit function of 'sort()' at boot,
++	  or at module load time.
++
++	  KUnit tests run during boot and output the results to the debug log
++	  in TAP format (http://testanything.org/). Only useful for kernel devs
++	  running the KUnit test harness, and not intended for inclusion into a
++	  production build.
++
++	  For more information on KUnit and unit tests in general please refer
++	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++
++	  If unsure, say N.
++
+ config TEST_UDELAY
+ 	tristate "udelay test driver"
+ 	help
+diff --git a/lib/Makefile b/lib/Makefile
+index b1c42c10073b..c22bb13b0a08 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -77,7 +77,6 @@ obj-$(CONFIG_TEST_LKM) += test_module.o
+ obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
+ obj-$(CONFIG_TEST_OVERFLOW) += test_overflow.o
+ obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
+-obj-$(CONFIG_TEST_SORT) += test_sort.o
+ obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
+ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
+ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
+@@ -318,3 +317,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
+ # KUnit tests
+ obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
+ obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
++obj-$(CONFIG_SORT_KUNIT) += sort_kunit.o
+diff --git a/lib/test_sort.c b/lib/sort_kunit.c
+similarity index 55%
+rename from lib/test_sort.c
+rename to lib/sort_kunit.c
+index 52edbe10f2e5..03ba1cf1285c 100644
+--- a/lib/test_sort.c
++++ b/lib/sort_kunit.c
+@@ -1,7 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ #include <linux/sort.h>
+-#include <linux/slab.h>
+-#include <linux/module.h>
++#include <kunit/test.h>
+
+ /* a simple boot-time regression test */
+
+@@ -12,13 +11,12 @@ static int __init cmpint(const void *a, const void *b)
+ 	return *(int *)a - *(int *)b;
+ }
+
+-static int __init test_sort_init(void)
++static void __init sort_test(struct kunit *test)
+ {
+-	int *a, i, r = 1, err = -ENOMEM;
++	int *a, i, r = 1;
+
+ 	a = kmalloc_array(TEST_LEN, sizeof(*a), GFP_KERNEL);
+-	if (!a)
+-		return err;
++	KUNIT_ASSERT_FALSE_MSG(test, a == NULL, "kmalloc_array failed");
+
+ 	for (i = 0; i < TEST_LEN; i++) {
+ 		r = (r * 725861) % 6599;
+@@ -27,24 +25,25 @@ static int __init test_sort_init(void)
+
+ 	sort(a, TEST_LEN, sizeof(*a), cmpint, NULL);
+
+-	err = -EINVAL;
+ 	for (i = 0; i < TEST_LEN-1; i++)
+ 		if (a[i] > a[i+1]) {
+-			pr_err("test has failed\n");
++			KUNIT_FAIL(test, "test has failed");
+ 			goto exit;
+ 		}
+-	err = 0;
+-	pr_info("test passed\n");
+ exit:
+ 	kfree(a);
+-	return err;
+ }
+
+-static void __exit test_sort_exit(void)
+-{
+-}
++static struct kunit_case sort_test_cases[] = {
++	KUNIT_CASE(sort_test),
++	{}
++};
++
++static struct kunit_suite sort_test_suite = {
++	.name = "sort",
++	.test_cases = sort_test_cases,
++};
+
+-module_init(test_sort_init);
+-module_exit(test_sort_exit);
++kunit_test_suites(&sort_test_suite);
+
+ MODULE_LICENSE("GPL");
+
+base-commit: d43c7fb05765152d4d4a39a8ef957c4ea14d8847
+--
+2.26.2
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
