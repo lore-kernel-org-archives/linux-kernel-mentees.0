@@ -2,82 +2,104 @@ Return-Path: <SRS0=EU8F=BE=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E1CBC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Jul 2020 18:25:13 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC037C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Jul 2020 19:50:49 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DA5592070B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Jul 2020 18:25:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6BBA9206D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Jul 2020 19:50:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2n1xKBv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA5592070B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kt77VASD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BBA9206D7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B8D0588254;
-	Sat, 25 Jul 2020 18:25:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3412220396;
+	Sat, 25 Jul 2020 19:50:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id R8pMJZX509Un; Sat, 25 Jul 2020 18:25:12 +0000 (UTC)
+	with ESMTP id W15gh6R+bFxH; Sat, 25 Jul 2020 19:50:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 636AB880A0;
-	Sat, 25 Jul 2020 18:25:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EF2A020378;
+	Sat, 25 Jul 2020 19:50:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A1C4C004D;
-	Sat, 25 Jul 2020 18:25:12 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 605B8C004C
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D5809C004E;
+	Sat, 25 Jul 2020 19:50:47 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A9453C004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Jul 2020 18:25:11 +0000 (UTC)
+ Sat, 25 Jul 2020 19:50:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 592BA88254
+ by hemlock.osuosl.org (Postfix) with ESMTP id 756A0880C5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Jul 2020 18:25:11 +0000 (UTC)
+ Sat, 25 Jul 2020 19:50:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UZ9R5p-alrwa
+ with ESMTP id 1aObv3GhrwVM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Jul 2020 18:25:10 +0000 (UTC)
+ Sat, 25 Jul 2020 19:50:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id DFA6B880A0
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+ [209.85.160.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C51CA880A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Jul 2020 18:25:10 +0000 (UTC)
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de
- [95.90.213.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 88CC5206D7;
- Sat, 25 Jul 2020 18:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595701510;
- bh=Dq8mUWOBlA+CBHS/3t+mQ9cNSU1dWsOLOi1XG49t8hM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=G2n1xKBvRbijSrFphE2XU2ZGjv478I3RfCkDSELHUv000Xni/x4J58J1pzLJIRCTL
- D4TmaMr1sn7yH7BH9vsQnUrM3tBlX0Aju3Atdgg+lQ3Ea7qaGDdiIVXG5oSDYHxhZp
- ZW+jINN+N3ZXma0l7P5zkSjoDq6E7034huYJwPsw=
-Date: Sat, 25 Jul 2020 20:25:06 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <20200725202506.1db9dd3b@coco.lan>
-In-Reply-To: <1cd01ac5-55f7-68f5-791b-ae4955d916d7@linuxfoundation.org>
-References: <20200608191333.1784963-1-dwlsalmeida@gmail.com>
- <1cd01ac5-55f7-68f5-791b-ae4955d916d7@linuxfoundation.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ Sat, 25 Jul 2020 19:50:41 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id s23so9417381qtq.12
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 25 Jul 2020 12:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e08VaL7U6vcRwt77EFzQ26KfIcvSUB32fpWd9IVs9Bs=;
+ b=kt77VASDEmQbVAz4Uvdk29D1TC+84NUnd+mgBDeBIxhJSHHVN1GNaYwHzRUJnVgwYJ
+ L5FlOI/L7SKhAaXsF4O1W4MJAdo28oYFcGKqYUr+rNQNphq5ls1VVvOn9mCbap4Ig0Gy
+ rDgrrXFHn2Wyd1K68kMWEzpRjAGS+65G9lo87TtBYE6UP4JjwJzl4yqG4JJfRroRSLLl
+ WYEf+9YwxqVa6hUzNhIkZzHsM4efa2a4x9qYTfdChHwKUF1IDIzYY+Bc2ee2nIIQFeA+
+ KeE2C3Pf4APGBDVnJhPQ4CICyYxIGAvcpDMU4gxqHclzRWoUiVzkk6yiIPsIa2V0ETiG
+ uSOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e08VaL7U6vcRwt77EFzQ26KfIcvSUB32fpWd9IVs9Bs=;
+ b=Edkodlf+cDAhhzJCvqmBukuX88QLZj8ZIZ/b3cUtOFumd/KhVmWXG3QqAzpj2WOyVU
+ jU/6/dGjEGrQIZRQTrCpibC19q71fknsVQrEufLmvgc8qM5AoJZ4MFBX39eqQPokrnhs
+ 1Cahl8+D2D7sF6mm42+toAFBGUGLI4LH7oGc0BLI3gdTmCqgSwMoGXzxJjWzNgApZyrv
+ fMFJjrAzYrnDOErHo3HV+shLwj3r8wK3hcdgpyyyiceF8RTsLc4f5vAyYtyTOiLT+kwn
+ HBvtxPiTs0TZbg4D5i+UBZ26jz/lpKzDk5QXkO0z69efx4csn7fMjDHTntdbW95+1rvB
+ Woig==
+X-Gm-Message-State: AOAM532ZvBhLPWIilGJwrYxq6q4BgX/ApeLPR210vlCLKR8y0XtrjAj2
+ LiXzjRs1bt19zmK6M5bolg==
+X-Google-Smtp-Source: ABdhPJy2dOu0lT+ZNEf0I8fySl5RLPKWHC67dEp991MzbpceBkId+9TlOp8LdSJkMc9uH8ZrYznGdA==
+X-Received: by 2002:ac8:44b9:: with SMTP id a25mr11234149qto.356.1595706640781; 
+ Sat, 25 Jul 2020 12:50:40 -0700 (PDT)
+Received: from localhost.localdomain (c-76-119-149-155.hsd1.ma.comcast.net.
+ [76.119.149.155])
+ by smtp.gmail.com with ESMTPSA id h144sm12680373qke.83.2020.07.25.12.50.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 25 Jul 2020 12:50:40 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Doug Ledford <dledford@redhat.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Date: Sat, 25 Jul 2020 15:48:39 -0400
+Message-Id: <20200725194839.623653-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: kstewart@linuxfoundation.org, sean@mess.org, linux-kernel@vger.kernel.org,
- tglx@linutronix.de, linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, allison@lohutok.net,
- linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [RFC, WIP,
-	v7 0/4] media: vidtv: implement a virtual DVB driver
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Peilin Ye <yepeilin.cs@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH] infiniband: Fix uninit-value in
+	ucma_connect()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,39 +117,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Em Fri, 24 Jul 2020 17:43:55 -0600
-Shuah Khan <skhan@linuxfoundation.org> escreveu:
+ucma_connect() is reading uninitialized memory when `in_len` is less than
+`offsetof(struct rdma_ucm_connect, ece)`. Fix it.
 
-> Hi Mauro,
-> 
-> On 6/8/20 1:13 PM, Daniel W. S. Almeida wrote:
-> > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> > 
-> > This series is work in progress. It represents the current work done on a
-> > virtual DVB driver for the Linux media subsystem. I am new to the media
-> > subsystem and to kernel development in general.
-> > 
-> > This driver aims to:
-> > 	- Serve as template for new DVB driver writers
-> > 	- Help userspace application writers in general
-> > 	- Push fake audio/video to userspace for testing
-> > 		purposes
-> > 	- Push debug information to userspace via debugfs
-> > The Virtual Digital TV Driver (vidtv)  
-> 
-> Any feedback on this patch series for Daniel. He has been waiting for
-> reviews and feedback from media developers for a while now.
-> 
-> Please review the patches and give him feedback and help him with
-> next steps.
+Reported-and-tested-by: syzbot+7446526858b83c8828b2@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?id=2c85ca2b1aedb22ed1029383751e36cee3f7d047
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+ drivers/infiniband/core/ucma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll seek for some time to look and review them next week.
+diff --git a/drivers/infiniband/core/ucma.c b/drivers/infiniband/core/ucma.c
+index 5b87eee8ccc8..a591fdccdce0 100644
+--- a/drivers/infiniband/core/ucma.c
++++ b/drivers/infiniband/core/ucma.c
+@@ -1079,7 +1079,7 @@ static ssize_t ucma_connect(struct ucma_file *file, const char __user *inbuf,
+ {
+ 	struct rdma_conn_param conn_param;
+ 	struct rdma_ucm_ece ece = {};
+-	struct rdma_ucm_connect cmd;
++	struct rdma_ucm_connect cmd = {};
+ 	struct ucma_context *ctx;
+ 	size_t in_size;
+ 	int ret;
+-- 
+2.25.1
 
-What's the current status of it? Is it probing properly and working
-fine, or are there any known bugs at the code?
-
-Thanks,
-Mauro
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
