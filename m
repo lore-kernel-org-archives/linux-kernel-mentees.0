@@ -7,88 +7,88 @@ X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FE9C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 26 Jul 2020 18:08:00 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62404C433E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 26 Jul 2020 18:12:29 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 040D02065C
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 26 Jul 2020 18:07:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3AE9520714
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 26 Jul 2020 18:12:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V7TMauH/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 040D02065C
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MVyeUEfb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AE9520714
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D22A2878A6;
-	Sun, 26 Jul 2020 18:07:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C18DB204DA;
+	Sun, 26 Jul 2020 18:12:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iTdHNTS7ZJ8Q; Sun, 26 Jul 2020 18:07:59 +0000 (UTC)
+	with ESMTP id rYWC46XusA9X; Sun, 26 Jul 2020 18:12:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 625CB87677;
-	Sun, 26 Jul 2020 18:07:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 296A2204B2;
+	Sun, 26 Jul 2020 18:12:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 46B37C004F;
-	Sun, 26 Jul 2020 18:07:59 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D5C0FC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 111C5C0050;
+	Sun, 26 Jul 2020 18:12:28 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE75AC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Jul 2020 18:07:57 +0000 (UTC)
+ Sun, 26 Jul 2020 18:12:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BD4E2878A6
+ by silver.osuosl.org (Postfix) with ESMTP id AF26C204B2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Jul 2020 18:07:57 +0000 (UTC)
+ Sun, 26 Jul 2020 18:12:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9whaFGpyLLz1
+ with ESMTP id bPFLXMaVwaID
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Jul 2020 18:07:56 +0000 (UTC)
+ Sun, 26 Jul 2020 18:12:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
- [209.85.160.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B71DD87677
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+ [209.85.160.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id A346B204CF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Jul 2020 18:07:56 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id s23so10581961qtq.12
+ Sun, 26 Jul 2020 18:12:25 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id c12so1600262qtn.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Jul 2020 11:07:56 -0700 (PDT)
+ Sun, 26 Jul 2020 11:12:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=7QCobyC2ItfhaGKp9vOhyilsu/vFD41abiIi+idKUH4=;
- b=V7TMauH/w1Ana1kFtHdtvCoOzYrzEicGu1Y7VQh+OX3RqgbbGWUHjJE7KhUY4Jb5Iw
- a+65Vhwltu8vpzbWEN+I1yK0lPn056HV170KEzcbegvE9RjLoU5sXY3fndO2Wq8woeiZ
- +JuaBGuqq2/3Pz1ecRT4b3Kt3CbVKzYTXJFMlqCo2kDilOfdc1p0Hw32zWJp1ejySpyx
- fghCDWp2SwfsXbHL90T0OIVSErQLREljP415kl50bQoX8vrP6Zw5PC1Hhljc4O+X5ljY
- RrRyICT32tUlTSPRMLM4JnP/vJjSFg4o+naE6YvGC1A1YRiIvdMV/6TjgVSl41hPQI9h
- 2fkQ==
+ bh=sWvoytYgdWuVZpnsHNqepIQUSxkaD87xtrtLEKkqxWY=;
+ b=MVyeUEfbyS3VZjAkUDRUL1xOAzcfaQcd8KU7aoJ4z62BDQBGfr8iG0+ajJoqOZqJIK
+ YQRZOu53+llVUz4LPxfdqQUWLZ4umPzuU+Djvnfx4znXYIT5DI2j1IKfxzS/3z8AcSMV
+ g/kTOEIb7fqZm0t6iOpgttv1EM7rot3vi9eH2Y+dZcLgljzLwP++VjViuQ5QslcR0EnW
+ sdKyWU9FBJW8VyZZPjrOnb1cjzh6zu6GCN6fhCaFCxpVFK/x3DXLYTGGdQLcb3d7/kGA
+ B5EUJmrLgMbxDNeJJ1J5FqDy/nchpFM56Z7LLHFhRmJQuS7oBhaOW83FWcB4PvteEm5/
+ fdqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=7QCobyC2ItfhaGKp9vOhyilsu/vFD41abiIi+idKUH4=;
- b=UqRTWk/mS9ETxE9N+eH+fVKYiBwICQybAJ5klP+ofOL1+mzjAUfkwKjurEnjKzX4ws
- IxKdIemMxLStJJ2LauhPXmLLJjkzndPr7hA94NxUzpp+jQcw6qiJ3qV+f75oCfIIN6Bk
- NC9MavEOQRImen5CjKlNrDBv0ymWEDQIFgeimiSAUsfhJU88COmYnBgH6HfvTF3P8srC
- qr1NT0DG2S8ByLMMgeuU22dACJSmkf2ZQNacjisJZhrwyZW8jQmvnhAGOL+bon/yHG1x
- a+UpBfPsUTbZODC6D+M3VLy0j6L7y5SiAjEFi5wUz4Zww+15CoG/BMEdTnRa8USDkoOO
- iG7A==
-X-Gm-Message-State: AOAM533f+QY/MNXb8ALi9MtKvUBRDd6OWMKW2/1HUmaTgU0SHU49/Gm7
- JYTSu8DeMDoJnRI68+n1qg==
-X-Google-Smtp-Source: ABdhPJzlzTapl0f9uK6uWdZz8aGCLIpRNKb6qZDpaJ4z35xH941T2u8rGNiKrd05M+B8qqVCtQAnhw==
-X-Received: by 2002:ac8:47c8:: with SMTP id d8mr17743991qtr.32.1595786875627; 
- Sun, 26 Jul 2020 11:07:55 -0700 (PDT)
+ bh=sWvoytYgdWuVZpnsHNqepIQUSxkaD87xtrtLEKkqxWY=;
+ b=FYfYxAv7qTuJ+s/zchFgRNIX/oVaUqoec7vYPvPo55nj15MVdcI6cNYrHdkXbTVzpv
+ DDB4gMRYWMdy+YZv4Tlmo5CqfVPkCglNZQjQCeBxKeK6jh03czvdUytpoUV2VzWFQv8K
+ THTe6CmojopDmUIQ8gUUcgKVcAXvQx6k2uPVXPftpKVB2sPAiG6W6HXDuL2i+aXy4Lex
+ dJPLrZaE1x7KXygihZHoTXgBgUesLX2ahcGdElybRwdmFD035EYnUh4u1MI3Nd3VE454
+ nLXkJsRyK7uo9eL59UHx6BemNo7OU0duPB/edfStO0m1P0Csjpy1USHjPrAPwXCdCjgX
+ Ys6Q==
+X-Gm-Message-State: AOAM533sn2Vweli6s3ssc4fCK2/ikkHWr1voFB95p65sxncK8JdcuuEG
+ qy14gznIaHH6yt2iivk03g==
+X-Google-Smtp-Source: ABdhPJxKGSTuzHcLZGMGS82EEnlAeefUmZtiIGxBpjEXSvwnMIf7j9zEmOsoxXFdzO5wAarhaL0o7g==
+X-Received: by 2002:ac8:6793:: with SMTP id b19mr9261706qtp.333.1595787144680; 
+ Sun, 26 Jul 2020 11:12:24 -0700 (PDT)
 Received: from PWN (c-76-119-149-155.hsd1.ma.comcast.net. [76.119.149.155])
- by smtp.gmail.com with ESMTPSA id s5sm15852823qke.120.2020.07.26.11.07.54
+ by smtp.gmail.com with ESMTPSA id j15sm1885535qkl.63.2020.07.26.11.12.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 11:07:55 -0700 (PDT)
-Date: Sun, 26 Jul 2020 14:07:52 -0400
+ Sun, 26 Jul 2020 11:12:24 -0700 (PDT)
+Date: Sun, 26 Jul 2020 14:12:22 -0400
 From: Peilin Ye <yepeilin.cs@gmail.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-ID: <20200726180752.GA49356@PWN>
+Message-ID: <20200726181222.GB49356@PWN>
 References: <20200726164439.48973-1-yepeilin.cs@gmail.com>
  <20200726173044.GA14755@pendragon.ideasonboard.com>
 MIME-Version: 1.0
@@ -121,75 +121,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jul 26, 2020 at 08:30:44PM +0300, Laurent Pinchart wrote:
-> Hi Peilin,
-> 
-> Thank you for the patch.
-> 
-> On Sun, Jul 26, 2020 at 12:44:39PM -0400, Peilin Ye wrote:
-> > video_put_user() is copying uninitialized stack memory to userspace. Fix
-> > it by initializing `vb32` using memset().
-> 
-> What makes you think this will fix the issue ? When initializing a
-> structure at declaration time, the fields that are not explicitly
-> specified should be initialized to 0 by the compiler. See
-> https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.3.0/com.ibm.zos.v2r3.cbclx01/strin.htm:
+Sorry, by this code example:
 
-Hi Mr. Pinchart!
+        char *p = (char *)&vb32;
+        int i;
 
-First of all, syzbot tested this patch, and it says it's "OK":
+        for (i = 0; i < sizeof(struct vb32); i++, p++)
+                printk("*(p + i): %d", *(p + i));
 
-	https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
+actually I meant:
 
-> If a structure variable is partially initialized, all the uninitialized
-> structure members are implicitly initialized to zero no matter what the
-> storage class of the structure variable is. See the following example:
-> 
-> struct one {
->     int a;
->     int b;
->     int c;
-> };
-> 
-> void main() {
->     struct one z1;         // Members in z1 do not have default initial values.
->     static struct one z2;  // z2.a=0, z2.b=0, and z2.c=0.
->     struct one z3 = {1};   // z3.a=1, z3.b=0, and z3.c=0.
-> }
+        char *p = (char *)&vb32;
+        int i;
 
-Yes, I understand that. I can safely printk() all members of that struct
-without triggering a KMSAN warning, which means they have been properly
-initialized.
+        for (i = 0; i < sizeof(struct vb32); i++)
+                printk("*(p + i): %d", *(p + i));
 
-However, if I do something like:
+But the idea is the same.
 
-	char *p = (char *)&vb32;
-	int i;
-
-	for (i = 0; i < sizeof(struct vb32); i++, p++)
-		printk("*(p + i): %d", *(p + i));
-
-This tries to print out `vb32` as "raw memory" one byte at a time, and
-triggers a KMSAN warning somewhere in the middle (when `i` equals to 25
-or 26).
-
-According to a previous discussion with Mr. Kroah-Hartman, as well as
-this LWN article:
-
-	"Structure holes and information leaks"
-	https://lwn.net/Articles/417989/
-
-Initializing a struct by assigning (both partially or fully) leaves the
-"padding" part of it uninitialized, thus potentially leads to kernel
-information leak if the structure in question is going to be copied to
-userspace.
-
-memset() sets these "uninitialized paddings" to zero, therefore (I
-think) should solve the problem.
-
-Thank you!
+Thank you,
 Peilin Ye
-
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
