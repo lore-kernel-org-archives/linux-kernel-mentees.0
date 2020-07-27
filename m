@@ -2,103 +2,107 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7517AC433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 20:42:09 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3BFC433E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 21:04:39 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3CB942074F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 20:42:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D07E120792
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 21:04:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PnhDzR/V"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3CB942074F
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c0dl7GcE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D07E120792
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 0FF9822624;
-	Mon, 27 Jul 2020 20:42:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 82891863F4;
+	Mon, 27 Jul 2020 21:04:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5SqmlpR71rOh; Mon, 27 Jul 2020 20:42:08 +0000 (UTC)
+	with ESMTP id AWlXAg8JCHEV; Mon, 27 Jul 2020 21:04:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 472942266F;
-	Mon, 27 Jul 2020 20:42:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D27A886252;
+	Mon, 27 Jul 2020 21:04:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 321EAC004F;
-	Mon, 27 Jul 2020 20:42:08 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 92DDBC004D
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 20:42:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B355CC0050;
+	Mon, 27 Jul 2020 21:04:37 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EA9E8C004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 21:04:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id B331D22624
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 20:42:04 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id DFC03867C6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 21:04:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DhjRg2NR0luj
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 20:42:03 +0000 (UTC)
+ with ESMTP id UFwZc27niIZr
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 21:04:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 8EFC8204E3
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 20:42:03 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id v22so2356310edy.0
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:42:03 -0700 (PDT)
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0A52286783
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 21:04:34 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id l6so16685244qkc.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 14:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=/zFxAOc30imDU5SgVXTR1qKoIDWuwOAmyMKdnUSllc8=;
- b=PnhDzR/VFZRS7rLcn+JF0fJekqgPtii0Y8wVB/HSZXVom1jH2uCUj4LLIubagiC6LB
- RbT/hXu7DWF4K1akGG+1W1FItX3N7SxDxmmB/xorAyndmM3ZkZRcN5wP7ZNNLZeqnaeG
- dI4DxgYbzoHvetca0bn2vyHSHCejGjyJbUeb/WQOdQpvqJ5RBMruIc7lwKxRyraQEOoH
- o9e3qQOnNdWeQ/PzRggsUi609XjBiNEnX7BEYOc8tGDDcZ+guOzRLpxH7DRGX0kEgRx1
- Yqsu2KPlvf4pojfiFccE/uNWRpnFRkO6StlWiOk0VIn6KCzIjwn+TEIL8Zm+n5zEV1zp
- JLHg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fmK6L/0QiUgIiYwBxTGcL+joJ1wkGcxNcczqzti8GgY=;
+ b=c0dl7GcE3qXrMwLhOyjCKdHyJDcA7m5LeZ3ATOvuptnRH+viC3uFNrauwRs93IgcOo
+ P4UOGQvq9tIWAxrDwItERdsK410OCjjyclMBJFN+cgOk0VnLVwcQW2Hh5oEE5mqvr/sy
+ Wp2YwKveou+lupv1qxLro38uV9x6lR7/iDOKfz5rfHmJ9xNmzjrCVvCtMeOZW6J+gq9/
+ Mdz0yl3w6rZhpQRZyDKvcG+pfgBvm3EoYzycuT5KMx63zKkwwfyCQeBuPVVZcxpVrDXm
+ W0lNdPqNBv+aT8T1t/pPhrftQIrYQ9BA9OHHIOw+bdlCQre/JI9Ds/Lit7p0ipW0aN3z
+ kvbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=/zFxAOc30imDU5SgVXTR1qKoIDWuwOAmyMKdnUSllc8=;
- b=hgvRk4ed+bSmPkf4xnoUK2o1ztvDzWMCz/izGtg3jQ67paGhamiOK3OUNw1zsOzclA
- vKvOrfdnz1pq8G0bWUHsI8L0WSAyQp/X4WsxtmjZUTOUGl+LGgMt1SV1LLNrkqaeNFYf
- c4fpqlmXJ10njMeK6pwcmu7CRA/j49NxtX0eq6deb4wvZ0O5W/E3yxrOWBVivMutldmJ
- chaBtdlIZMeGCPuA0SUPGhET2i/6LJSXsKeKspmnfMk6tLr2PwqfvDWJse9/9Xkf/GQ0
- YkuO7GkN1weZ8dm4QZ3XfyFlAHrkXpqn9H9FxWpUk8mu06T6AAiQ/Zu2KZ40jvuh/VCs
- Qpjw==
-X-Gm-Message-State: AOAM530sP3dR2xhPbJnT1W9iIaWwrE0BnLQRqDrfpQ9ORmnlto6gDNQB
- neZgfSZp2OGTLpcWMcAv0tg=
-X-Google-Smtp-Source: ABdhPJzy+MF7WeATrGGN22zEoC5u1/vyItgidAG3X3FSmWFPQzOUyPDHWtTpfCPh/1zXnibDqdl9cQ==
-X-Received: by 2002:aa7:d299:: with SMTP id w25mr10980285edq.209.1595882522035; 
- Mon, 27 Jul 2020 13:42:02 -0700 (PDT)
-Received: from felia ([2001:16b8:2daf:f700:54de:db5:3d20:437c])
- by smtp.gmail.com with ESMTPSA id g25sm6624102ejh.110.2020.07.27.13.42.01
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fmK6L/0QiUgIiYwBxTGcL+joJ1wkGcxNcczqzti8GgY=;
+ b=gQdlM4fP8hX62FRWhBSA0EcUppXgeYA2br4kPYm/o/VZeWWb1lSdihr1us7VyEtZ3g
+ MVaMCnLP23j5fcRRibaT6bdvjsJ6JxO0oiuzicVLXsmNZl4cnZDOhCvjKVIEdSNqn34a
+ tG4IYdmTFR06LqS4HnGiUrUzHUOw60rGsVeVQxbqpEumti58LwL+OXR2uYOG5CeA93TA
+ 4jrxpWM2Sl//fKukoIvH8ssBiZzKBpzi1I7+iMwb3E5cDmzSrtcHwt8lLIo+st1IMbkD
+ bAy1c9fAw5p9zxLb2ViSESJILas6XzYU1VmF9AQpzCCLFWt0S4RSipE+muparJrW5Yxk
+ Qe0Q==
+X-Gm-Message-State: AOAM532COY1RQUzOtGf7uAAdhHBMRY+pytTSr8fgOaFmXOK5Q1FM/yj0
+ 5efNe+XQ14vxMGMa/EaqSw==
+X-Google-Smtp-Source: ABdhPJwB0/ozeneo/2CVyhyaxpaK56OJSASvgnRELqqALjaQFssdkweq7IKzB/8rlXefcfcoKqrb/w==
+X-Received: by 2002:ae9:ef8d:: with SMTP id
+ d135mr24189692qkg.109.1595883873133; 
+ Mon, 27 Jul 2020 14:04:33 -0700 (PDT)
+Received: from localhost.localdomain ([209.94.141.207])
+ by smtp.gmail.com with ESMTPSA id k2sm20964994qkf.127.2020.07.27.14.04.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 13:42:01 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Mon, 27 Jul 2020 22:42:00 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Mrinal Pandey <mrinalmni@gmail.com>
-In-Reply-To: <20200727115006.7eccxuxcqu2qxx77@mrinalpandey>
-Message-ID: <alpine.DEB.2.21.2007272235190.15655@felia>
-References: <20200727115006.7eccxuxcqu2qxx77@mrinalpandey>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Mon, 27 Jul 2020 14:04:32 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Kashyap Desai <kashyap.desai@broadcom.com>,
+ Sumit Saxena <sumit.saxena@broadcom.com>
+Date: Mon, 27 Jul 2020 17:02:35 -0400
+Message-Id: <20200727210235.327835-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: Linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Improve SPDX license
- check for script files
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [Linux-kernel-mentees] [PATCH] scsi/megaraid: Prevent
+	kernel-infoleak in kioc_to_mimd()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,81 +120,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+hinfo_to_cinfo() does no operation on `cinfo` when `hinfo` is NULL,
+causing kioc_to_mimd() to copy uninitialized stack memory to userspace.
+Fix it by initializing `cinfo` with memset().
 
+Cc: stable@vger.kernel.org
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+ drivers/scsi/megaraid/megaraid_mm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Mon, 27 Jul 2020, Mrinal Pandey wrote:
-
-> In all the script files, SPDX license identifier is expected on the second
-> line, the first line being the shebang.
-> 
-> The diff content includes the SPDX licensing information but excludes the
-> shebang when a change is made to a script file in commit 37f8173dd849
-> ("locking/atomics: Flip fallbacks and  instrumentation") and commit
-> 075c8aa79d54 ("selftests: forwarding: tc_actions.sh: add matchall mirror
-> test"). In these cases checkpatch issues a false positive warning:
-> "Misplaced SPDX-License-Identifier tag - use line 1 instead".
-> 
-> I noticed this false positive, while running checkpatch on the set of
-> commits from v5.7 to v5.8-rc1 of the kernel, on the said commits.
-> This false positive exists in checkpatch since commit a8da38a9cf0e
-> ("checkpatch: add test for SPDX-License-Identifier on wrong line #")
-> when the corresponding rule was first added.
-> 
-> Currently, if checkpatch finds a shebang in line 1, it expects the
-> license identifier in line 2. However, this doesn't work when a shebang
-> isn't found on the line 1.
-> 
-> Reduce the number of false warnings for such patches on scripts by
-> checking the permissions of the file.
->
-
-I would certainly explain the different options you considered and why you 
-finally decided for the solution you propose.
+diff --git a/drivers/scsi/megaraid/megaraid_mm.c b/drivers/scsi/megaraid/megaraid_mm.c
+index 8df53446641a..9df0e6b253a8 100644
+--- a/drivers/scsi/megaraid/megaraid_mm.c
++++ b/drivers/scsi/megaraid/megaraid_mm.c
+@@ -816,6 +816,8 @@ kioc_to_mimd(uioc_t *kioc, mimd_t __user *mimd)
  
-> Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
-> ---
->  scripts/checkpatch.pl | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 4c820607540b..695300839f48 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -3166,6 +3166,10 @@ sub process {
->  		}
->  
->  # check for using SPDX license tag at beginning of files
-> +		my $filepermissions = `stat -c "%a" $realfile`;
+ 		case MEGAIOC_QADAPINFO:
+ 
++			memset(&cinfo, 0, sizeof(cinfo));
++
+ 			hinfo = (mraid_hba_info_t *)(unsigned long)
+ 					kioc->buf_vaddr;
+ 
+-- 
+2.25.1
 
-I fear this is now placed somewhere, so you are running stat on every line 
-again and again and ...
-
-How about determining permissions when the realfile is set?
-
-I bet that is already done anyway by getting the information from the 
-patch, as you cannot assume the $realfile to exist.
-
-You only can use the information in the patch file.
-
-Read more code in checkpatch.pl.
-
-> +		if (int(substr($filepermissions, 0, 1)) % 2) {
-
-That is a really complicated way to express it. I will bet you will find a 
-better way already implemented in checkpatch.pl.
-
-> +			$checklicenseline = 2;
-> +		}
->  		if ($realline == $checklicenseline) {
->  			if ($rawline =~ /^[ \+]\s*\#\!\s*\//) {
->  				$checklicenseline = 2;
-> -- 
-> 2.25.1
-
-
-I guess we will need another iteration of this patch.
-
-Lukas 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
