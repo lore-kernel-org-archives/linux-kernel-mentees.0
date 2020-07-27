@@ -2,105 +2,108 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D02C433E5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 13:09:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C70C433EA
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 13:10:29 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 01D1A206D8
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 13:09:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 15FB3206D8
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 13:10:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MIlJM9Xz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 01D1A206D8
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tfe0RUHc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15FB3206D8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id DD46020481;
-	Mon, 27 Jul 2020 13:09:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DA16620461;
+	Mon, 27 Jul 2020 13:10:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aULU5S2mJL1z; Mon, 27 Jul 2020 13:09:38 +0000 (UTC)
+	with ESMTP id tgh2wuqg54Oz; Mon, 27 Jul 2020 13:10:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 414E6203F4;
-	Mon, 27 Jul 2020 13:09:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6E616203B5;
+	Mon, 27 Jul 2020 13:10:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 27A74C004F;
-	Mon, 27 Jul 2020 13:09:38 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 496BAC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 63EB9C0050;
+	Mon, 27 Jul 2020 13:10:28 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 398A5C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:09:36 +0000 (UTC)
+ Mon, 27 Jul 2020 13:10:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2DF1E203F4
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 28F2085E8A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:09:36 +0000 (UTC)
+ Mon, 27 Jul 2020 13:10:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zH+MsvAVZ9Sq
+ with ESMTP id DjuJ9Ro_6i81
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:09:35 +0000 (UTC)
+ Mon, 27 Jul 2020 13:10:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 155FC203B5
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1F53C85E60
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:09:35 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id l2so2706329pff.0
+ Mon, 27 Jul 2020 13:10:25 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id j20so9036102pfe.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 06:09:35 -0700 (PDT)
+ Mon, 27 Jul 2020 06:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=V2H1tlMLXxYxucqE7fzBGTDFcMq1gtGJ4rquGrh2ZhI=;
- b=MIlJM9Xzo58AFvW6Fy6A5plY/aankHz0/bF/5QpI8pCOSRwmmQKZQgxfbewFXSFRqq
- auBb7mhhQlZ6SBlipvkDLaKNatoNYi+OTmFFv9YmJhx6iUvtJ4Qn/XTafA9G3Q+cNVZm
- 4pal2Pq4R9UPMuXTZT6yQuuRw8TB9VCAsuExrFjE/wa3sCCEljimv6dXXE1vkwwvoVrr
- nEY9rFTTZjQZqXAYSxxioJGLu/42ONwmbgUqAAi2pujPg8HIv9Br8V3AHMEE5eZjeSkm
- HK6v7wGsRcT0pi5nrfdHcHOX24htw+bi3aGtXFG2jcESmlrz3qWpqR+RviABgdKwns7W
- alHw==
+ bh=m8ss2q7X9z9vWtUgWZuhapv2kDOMmjklHJYu5RbP5UQ=;
+ b=tfe0RUHcG6oEB/pYDfPsKbNlouoLw0dJgAttdqMZmC+zxCa/y4vF/dDFzGevJjNZvH
+ cBQT3JQLt5EnDjE4rTePPuKCj1AaL56IC2TphWX1/5fnCdys4Rl/wDYqdE0Qi7uRvYE6
+ 0oK7ZkmnNGgA7wJSRU5NcJt+rshEcFyoMSukxUhyoB1IfeHhivqMO0bGgkHWwxLSSt62
+ sEnNrtGDxf5e/i0e+pnAbhSsh0jYdYT8ORkwoFoPOQUxBHU1Pgg1vIYL4E+rGViAKCpM
+ F2fuW8Dg2ZEun0pd/DnorX8w3ZC5o4jVcSlfDl60+7kOdWxBRnomw/s5TkiuhPv/loXX
+ S/ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=V2H1tlMLXxYxucqE7fzBGTDFcMq1gtGJ4rquGrh2ZhI=;
- b=sNCKE1CNt1syBO9n+y2mzxLrUFCjfJyV4kPxAFQaRTDsZ1Gz9RDtbLPGBe00K0CxRO
- tDYnSFjmXgcKErFqigU5nFoCQwIF9MTz9xHhEIy0F4I/HkqKhGk/nehR3iAEWVTet+qP
- ndbvLdEwhCsGPae27rsUGxiC5u7+YXFv4omEjt4Q8a08EkpLnclMcV1ndVW3rRLzBLDh
- cy5B5O4rP+O7V4wjBVADRoKo7qu0kSHB2XUYgWs0MLZ+phLbQbJFhb/XTXrcJ71hqdzm
- CMMtckkA2uej3/NOzzJDenewUK5TlrZ6cWK4knOepvp6/jRy2dmrFmpQA9kRhgqG+kQH
- 8t0w==
-X-Gm-Message-State: AOAM5307wCpiDi/YQtey4PGIrci17rS3MvvNTiLBJRB7/dkTtatJUlLa
- y6fn2ZnN8FM10uuwlri4liU=
-X-Google-Smtp-Source: ABdhPJzmW4MB+8kyEVPNT2dKVYcXMow76EuwUPI+GPmwmKEC003b4GlrTMTumZ3rTmpPvjb2voj96Q==
-X-Received: by 2002:a63:7b15:: with SMTP id w21mr20524655pgc.386.1595855374446; 
- Mon, 27 Jul 2020 06:09:34 -0700 (PDT)
+ bh=m8ss2q7X9z9vWtUgWZuhapv2kDOMmjklHJYu5RbP5UQ=;
+ b=MHJ8vNLaWL5UXlqc4yUM6zEMQDE/DJBmN7q+Tgp5CJfOlHI/ZfiAVXewbKGn/UyCyd
+ F9aoWJvvWLR9byQy6U4FpwaeZDrvIP5c6tHzASdywvOjcm1hOtBkunxg8cU/KrasOaOf
+ 41qQR8YS5RzRYGcsrGYQGTzvOlnRUSFOTJpWaeMUwNyP/W8djuuH0anliep72pDMdI1F
+ RL/wgVSobRj0XXBIKlIVVKYpnyVWm5vzFVPYYFZQTiP6LMoJCSGfvNKgC3rrd6YrQKel
+ UpnimIbZbQ9EhAiv+t9rCBpGF6NPBWy118n9dqqrF/Kq346STXYEXuhJZ2sJvU1X/Hhn
+ tIAA==
+X-Gm-Message-State: AOAM530jrFzOXD/X3AECNz3n34t7OBHCG4PeY058AnbpFc8tRRO6JUIu
+ rUATkxDaHPqac4M+quSSmyI=
+X-Google-Smtp-Source: ABdhPJyLY2OZt4FGCKBTtRcO9W18r2z79wDn+b8Jv3UNdFD4X2mpSxav3uGwaI20ww39In/zyxqTBw==
+X-Received: by 2002:aa7:94a7:: with SMTP id a7mr19562705pfl.83.1595855423688; 
+ Mon, 27 Jul 2020 06:10:23 -0700 (PDT)
 Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id 186sm14925807pfe.1.2020.07.27.06.09.30
+ by smtp.gmail.com with ESMTPSA id e15sm14802124pgt.17.2020.07.27.06.10.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 06:09:33 -0700 (PDT)
-Date: Mon, 27 Jul 2020 18:38:09 +0530
+ Mon, 27 Jul 2020 06:10:23 -0700 (PDT)
+Date: Mon, 27 Jul 2020 18:38:58 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Message-ID: <20200727130809.GA82098@gmail.com>
-References: <20200720113740.353479-1-vaibhavgupta40@gmail.com>
- <20200727085621.GL12965@vkoul-mobl>
- <CAHp75VesTCOffxiy6=HG=g2t4=js3SnTm4LcdrgAGYiNvSS65Q@mail.gmail.com>
+Message-ID: <20200727130858.GB82098@gmail.com>
+References: <CAHp75Vdo22ofbCktupFYbfYy6PQ609fsk5B6u2b3FpfKxs8OQg@mail.gmail.com>
+ <20200724223746.GA1538991@bjorn-Precision-5520>
+ <CAHp75VdSr1rguc9HJVh_rA1nBh1uyCdr18eyPosWPzCH1K2=zg@mail.gmail.com>
+ <CAHp75VfKeTCBOne3tDSM46q6m_FE+7hS3H9Hx5C3RRPvueqZAQ@mail.gmail.com>
+ <20200727070652.GA5400@gmail.com>
+ <CAHp75VdzAk6U_mKn32+dmw1aNyREtaXMB6sHubE8G9imtv5=3g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAHp75VesTCOffxiy6=HG=g2t4=js3SnTm4LcdrgAGYiNvSS65Q@mail.gmail.com>
-Cc: dmaengine <dmaengine@vger.kernel.org>,
+In-Reply-To: <CAHp75VdzAk6U_mKn32+dmw1aNyREtaXMB6sHubE8G9imtv5=3g@mail.gmail.com>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <dan.j.williams@intel.com>,
+ linux-spi <linux-spi@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] dmaengine: pch_dma: use
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] spi: spi-topcliff-pch: use
 	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -119,156 +122,38 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 02:19:14PM +0300, Andy Shevchenko wrote:
-> On Mon, Jul 27, 2020 at 1:16 PM Vinod Koul <vkoul@kernel.org> wrote:
-> > On 20-07-20, 17:07, Vaibhav Gupta wrote:
-> > > Drivers using legacy PM have to manage PCI states and device's PM states
-> > > themselves. They also need to take care of configuration registers.
+On Mon, Jul 27, 2020 at 02:12:16PM +0300, Andy Shevchenko wrote:
+> On Mon, Jul 27, 2020 at 10:08 AM Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
+> > On Sat, Jul 25, 2020 at 01:44:44PM +0300, Andy Shevchenko wrote:
+> > > On Sat, Jul 25, 2020 at 1:42 PM Andy Shevchenko
+> > > <andy.shevchenko@gmail.com> wrote:
+> 
+> ...
+> 
+> > > The only problem here, is that the 2nd is already in the Mark's tree
+> > > and he doesn't do rebases.
+> > > So, it will be the other way around.
 > > >
-> > > With improved and powerful support of generic PM, PCI Core takes care of
-> > > above mentioned, device-independent, jobs.
-> > >
-> > > This driver makes use of PCI helper functions like
-> > > pci_save/restore_state(), pci_enable/disable_device(),
-> > > and pci_set_power_state() to do required operations. In generic mode, they
-> > > are no longer needed.
-> > >
-> > > Change function parameter in both .suspend() and .resume() to
-> > > "struct device*" type. Use dev_get_drvdata() to get drv data.
+> > Concluding from yours and Bjorn's suggestion, I will drop the
+> > device_wakeup_disable() call form .resume() and send the fix. I will also track
+> > the drivers who got similar upgrades and went un-noticed.
+> 
+> Thanks for doing this!
+> 
+> > As Bjorn mentioned, the problem is that I don't have hardware to test, so I just
+> > replicated the legacy behaviour in generic by replacing
+> > pci_enable_wake(....,false) with device_wakeup_disable().
 > >
-> > You are doing too many things in One patch. Do consider splitting them
-> > up to a change per patch. for example using __maybe could be one patch,
-> > removing code is suspend-resume callbacks would be other one.
+> > So, from now, while upgrading drivers with generic PM, should I completely drop
+> > the pci_enable_wake(....,false) calls if both .suspend() and .resume() try to
+> > wakeup-disable the device?
 > 
-> Vinod, while I completely agree with you in general, in this case it
-> would make more unnecessary churn and will be rather unhelpful in all
-> ways: for the contributor to do this work, for the reader to collect
-> all the pieces. It also will be a bisectability issue, because the
-> #ifdeffery replacement (IIRC you need to move from CONFIG_PM to
-> CONFIG_PM_SLEEP). I really don't see any advantages of the splitting
-> here.
+> I guess the best approach is to rely on the PCI core to do the right thing.
+> But mention this change in the commit message that we will have a
+> track of the changes properly.
 > 
-> > > Compile-tested only.
-> >
-> > I would like to see some testing before we merge this
-> 
-> I have hardware to test (Intel Minnowboard v1) but have no time. And
-> taking into account that I did similar changes for many other drivers,
-> I can give my
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> and take responsibility if somebody complains in the future (I don't
-> believe it will be one).
->
-Thanks! :D 
-> P.S. Another scenario if Vaibhav can find that board (there were
-> dozens of thousands at least produced and floating on the second hand
-> market) and test himself. It may be good since he touches the full lot
-> of PCH (EGT20) drivers.
-> 
-I cannot promise, but surely will try to get my hands on it :)
-
-Thanks
+Okay. Thanks !
 Vaibhav Gupta
-> > > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > > ---
-> > >  drivers/dma/pch_dma.c | 35 +++++++++--------------------------
-> > >  1 file changed, 9 insertions(+), 26 deletions(-)
-> > >
-> > > diff --git a/drivers/dma/pch_dma.c b/drivers/dma/pch_dma.c
-> > > index a3b0b4c56a19..e93005837e3f 100644
-> > > --- a/drivers/dma/pch_dma.c
-> > > +++ b/drivers/dma/pch_dma.c
-> > > @@ -735,8 +735,7 @@ static irqreturn_t pd_irq(int irq, void *devid)
-> > >       return ret0 | ret2;
-> > >  }
-> > >
-> > > -#ifdef       CONFIG_PM
-> > > -static void pch_dma_save_regs(struct pch_dma *pd)
-> > > +static void __maybe_unused pch_dma_save_regs(struct pch_dma *pd)
-> > >  {
-> > >       struct pch_dma_chan *pd_chan;
-> > >       struct dma_chan *chan, *_c;
-> > > @@ -759,7 +758,7 @@ static void pch_dma_save_regs(struct pch_dma *pd)
-> > >       }
-> > >  }
-> > >
-> > > -static void pch_dma_restore_regs(struct pch_dma *pd)
-> > > +static void __maybe_unused pch_dma_restore_regs(struct pch_dma *pd)
-> > >  {
-> > >       struct pch_dma_chan *pd_chan;
-> > >       struct dma_chan *chan, *_c;
-> > > @@ -782,40 +781,25 @@ static void pch_dma_restore_regs(struct pch_dma *pd)
-> > >       }
-> > >  }
-> > >
-> > > -static int pch_dma_suspend(struct pci_dev *pdev, pm_message_t state)
-> > > +static int __maybe_unused pch_dma_suspend(struct device *dev)
-> > >  {
-> > > -     struct pch_dma *pd = pci_get_drvdata(pdev);
-> > > +     struct pch_dma *pd = dev_get_drvdata(dev);
-> > >
-> > >       if (pd)
-> > >               pch_dma_save_regs(pd);
-> > >
-> > > -     pci_save_state(pdev);
-> > > -     pci_disable_device(pdev);
-> > > -     pci_set_power_state(pdev, pci_choose_state(pdev, state));
-> > > -
-> > >       return 0;
-> > >  }
-> > >
-> > > -static int pch_dma_resume(struct pci_dev *pdev)
-> > > +static int __maybe_unused pch_dma_resume(struct device *dev)
-> > >  {
-> > > -     struct pch_dma *pd = pci_get_drvdata(pdev);
-> > > -     int err;
-> > > -
-> > > -     pci_set_power_state(pdev, PCI_D0);
-> > > -     pci_restore_state(pdev);
-> > > -
-> > > -     err = pci_enable_device(pdev);
-> > > -     if (err) {
-> > > -             dev_dbg(&pdev->dev, "failed to enable device\n");
-> > > -             return err;
-> > > -     }
-> > > +     struct pch_dma *pd = dev_get_drvdata(dev);
-> > >
-> > >       if (pd)
-> > >               pch_dma_restore_regs(pd);
-> > >
-> > >       return 0;
-> > >  }
-> > > -#endif
-> > >
-> > >  static int pch_dma_probe(struct pci_dev *pdev,
-> > >                                  const struct pci_device_id *id)
-> > > @@ -993,15 +977,14 @@ static const struct pci_device_id pch_dma_id_table[] = {
-> > >       { 0, },
-> > >  };
-> > >
-> > > +static SIMPLE_DEV_PM_OPS(pch_dma_pm_ops, pch_dma_suspend, pch_dma_resume);
-> > > +
-> > >  static struct pci_driver pch_dma_driver = {
-> > >       .name           = DRV_NAME,
-> > >       .id_table       = pch_dma_id_table,
-> > >       .probe          = pch_dma_probe,
-> > >       .remove         = pch_dma_remove,
-> > > -#ifdef CONFIG_PM
-> > > -     .suspend        = pch_dma_suspend,
-> > > -     .resume         = pch_dma_resume,
-> > > -#endif
-> > > +     .driver.pm      = &pch_dma_pm_ops,
-> > >  };
-> > >
-> > >  module_pci_driver(pch_dma_driver);
-> > > --
-> > > 2.27.0
-> >
-> > --
-> > ~Vinod
-> 
-> 
-> 
 > -- 
 > With Best Regards,
 > Andy Shevchenko
