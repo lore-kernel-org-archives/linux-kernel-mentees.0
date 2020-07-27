@@ -2,100 +2,104 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C83C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 05:07:40 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB37C433F1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 05:20:01 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 03671206E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 05:07:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7F49D20775
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 05:20:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aipglmc2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 03671206E7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=pesu-pes-edu.20150623.gappssmtp.com header.i=@pesu-pes-edu.20150623.gappssmtp.com header.b="N+phtonw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F49D20775
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=pesu.pes.edu
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D3B8B87DFF;
-	Mon, 27 Jul 2020 05:07:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 383C8875F0;
+	Mon, 27 Jul 2020 05:20:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Dk3aFzR2kF42; Mon, 27 Jul 2020 05:07:38 +0000 (UTC)
+	with ESMTP id lfjFf8HNjSQs; Mon, 27 Jul 2020 05:20:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0BE2487D7F;
-	Mon, 27 Jul 2020 05:07:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 39F8E875EB;
+	Mon, 27 Jul 2020 05:20:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E37DCC0050;
-	Mon, 27 Jul 2020 05:07:37 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99400C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 25E4FC004F;
+	Mon, 27 Jul 2020 05:20:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 20EF0C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 05:07:36 +0000 (UTC)
+ Mon, 27 Jul 2020 05:19:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 79E1B2038D
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0C21585C54
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 05:07:36 +0000 (UTC)
+ Mon, 27 Jul 2020 05:19:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6H7zrap4kwTw
+ with ESMTP id 5_UoWgrMCuBl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 05:07:35 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by silver.osuosl.org (Postfix) with ESMTPS id DD01320131
+ Mon, 27 Jul 2020 05:19:57 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+ [209.85.167.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0AB3885C52
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 05:07:35 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id t6so8714065pgq.1
+ Mon, 27 Jul 2020 05:19:56 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id 140so8285612lfi.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Jul 2020 22:07:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UGWIuwdMtZTOoSuQVQNMVyQoWTT0FqCbci1iZWDfg0M=;
- b=aipglmc2iR3fuQW12oGJaTJQwxjSscPmrBsdwJd3rqa85qs3ji4gsuSz6WJTpOBNdK
- hi0AFlURGfzbNsYwFRWCkY20vYJ/sPp8A0peuxQGldpj1GqMUdS/OuU6WBnznS2bZRg4
- uZzon3hUO8bHjgoG040E35vU5EkyHAldMjrxv+AY2TcAS0BXhijqk2micN+BXMlsKdu5
- Fe/7ohG4bXpUXmWr4+ya9d98NSRL3Noy++t0hsATFO2bCq1WVGDC5vdLAERpO/hqQEAy
- HwlZp3oDyx7mFXcqA4BpFUvmusHKTvvwAIxrsxPysZjd7S+1JWJm8R/kNxZDBEYe6r0G
- E2fw==
+ Sun, 26 Jul 2020 22:19:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ozt9OYkcD6AjbMEqO1NrB1cTbEGxVehRnBtW5ShPGTE=;
+ b=N+phtonw/dLSV8xFacy0xHc1wofpvI9z3iQxJQwYwoEXtwfSpEPSi1hVNut4CuuvW1
+ tanKnHYJGp/zyWkmdRyClrxB5CGH6z9xpKgkuxzTJXXwJrUbarnS4POKJaxuECOuWYUV
+ uYFbWVBoP1grcT0vbngIsGoi9q6ukeITNW4mBpFW2za6vClqsSRwvtXr2TXr4RtaeOg5
+ ObpwnkCcJO1mvVGlsxSsGTOfw1i5zrdqGzOnaZzKjB9MXRn7Y4M8NfLExIZfcWRiqP8Q
+ EsMyHuOoeU3hvws/PJX+CcFfGH7bV+1ZTtF3cwkaBMdoiMVtAIgnkxDNar79iUtG+ADU
+ fR6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UGWIuwdMtZTOoSuQVQNMVyQoWTT0FqCbci1iZWDfg0M=;
- b=LVCv/xcPnVWJ4LbbCpCKaL0C+LRiEZtlzuRpMaJlMYljVQGMDrJSHfWiUkWlf+LyQW
- 86KeVExHOuXgi1l9Ik6Br44Al033rQ8m1UwZ/YfiQ6LnNsiZja5cLVAmFx/DzqtpfrSw
- bKXVo2PHIMxdqfvop6Jxi+9bG+Ad5ffenwhcWPVZs9r9bNVzVi5FplrH7vs39QBIawDf
- oOxA8hA6OX02/GLjlx6iS79YF2jmmkdE8JcKyb7SYI150J44VpDwk3nJkU6H2OjwtnrE
- 0LABX77DYZI6P1x1W4RY8pY5AI7MyE8QUjmK/fv4lYPfOsggSt9OZUO8gcsKAParqP17
- 5e8g==
-X-Gm-Message-State: AOAM530wNhd241X4VrMpXQOL3DmUK18zUt1hGi0RXlBdsVmHiwhInPAL
- 2n/5QQ4DUtksiW7u9Fs3zPE=
-X-Google-Smtp-Source: ABdhPJxQAv2Flj/jaQMJECwaPSg6h6ZfZW391y2x6AUOPQss4wgT/RtqWUGs4cTJ5wr5g+GYnow+0g==
-X-Received: by 2002:aa7:9357:: with SMTP id 23mr129909pfn.278.1595826455461;
- Sun, 26 Jul 2020 22:07:35 -0700 (PDT)
-Received: from endurance.iB-W4G311N.setup.in ([59.95.38.168])
- by smtp.googlemail.com with ESMTPSA id w71sm13678038pfd.6.2020.07.26.22.07.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 22:07:34 -0700 (PDT)
-From: Nachiket Naganure <nachiketun8@gmail.com>
-To: lukas.bulwahn@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Date: Mon, 27 Jul 2020 10:37:24 +0530
-Message-Id: <20200727050724.554063-1-nachiketun8@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ozt9OYkcD6AjbMEqO1NrB1cTbEGxVehRnBtW5ShPGTE=;
+ b=cSSm2XmvBbUTQdVmV1sff/FrdLJC4kopEdIMtq6LGwgd19I78OuRlEc/J0KUERrMRB
+ NPu6A69xSnyWYqVbPN+coFheC5iShVK7A3+22uruJETsZFFJFTcw3U5U6lpho6ATi7l5
+ 3lhEFZXpBVe0Ndt7Ygh3ot/8GZYLhLW3/G0ifYjZOWpMHOg6PJ86InnbecdxKU+hJd74
+ ExMz8pKIIgoSoAhU3h8nlQW1nHkWeJT9tT5Idh3YyZ2wjVnV9xlpw7wkiVVv8l4Ng0aM
+ nK1YP2+DkaRFAZlXuOD7u5MX9eOfu0PfURDYOEacW9plPyfsuoQnKMsHifyo6UXeVVqk
+ 7Mxw==
+X-Gm-Message-State: AOAM533naDzu+0y6mXC/Y/N94Tsr3KJt3YWOfgXc4HuvtUl/hb7xpueQ
+ nfPAc/k//BnxCtXwgcHxVC96KbOyP5F/44Pp5Rxzyw==
+X-Google-Smtp-Source: ABdhPJztlE0965bqCYFX7suGiujXvJJ3ywyoZaR6TB+veUzG5oUH+5xrRYioBMIf1tP3Ihlkzp5YBmatVk9njhY+7vw=
+X-Received: by 2002:ac2:4144:: with SMTP id c4mr10880776lfi.118.1595827194783; 
+ Sun, 26 Jul 2020 22:19:54 -0700 (PDT)
 MIME-Version: 1.0
-Cc: nachiketun8@gmail.com
-Subject: [Linux-kernel-mentees] [PATCH v2] Checkpatch: Disable commit log
-	length check warning for signature tag
+References: <20200726030855.q6dfjekazfzl5usw@pesu.pes.edu>
+ <CAM_iQpUFL7VdCKSgUa6N3pg7ijjZRu6-6UAs2oNosM-EzgXbaQ@mail.gmail.com>
+ <CAAhDqq28h9_ji=ANttUyx2Q1Md=bZD3-JVCwQRW06W7aikPN0A@mail.gmail.com>
+ <CAM_iQpX+iw+5AALriNZLfx5P-LV_ratiwhMRiHXmuLE2z81aaw@mail.gmail.com>
+In-Reply-To: <CAM_iQpX+iw+5AALriNZLfx5P-LV_ratiwhMRiHXmuLE2z81aaw@mail.gmail.com>
+From: B K Karthik <bkkarthik@pesu.pes.edu>
+Date: Mon, 27 Jul 2020 10:49:43 +0530
+Message-ID: <CAAhDqq3kf-XPB5nEEr76YOT=DifuCWM4HagB9R7brs1TaDbzZw@mail.gmail.com>
+To: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+ Linux Kernel Network Developers <netdev@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] net: ipv6: fix use-after-free
+	Read in __xfrm6_tunnel_spi_lookup
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,35 +117,100 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Disable commit log length check in case of signature tag. If the commit
-log line has valid signature tags such as "Reported-and-tested-by" with
-more than 75 characters, suppress the long length warning.
+On Mon, Jul 27, 2020 at 1:37 AM Cong Wang <xiyou.wangcong@gmail.com> wrote:
+>
+> On Sat, Jul 25, 2020 at 11:12 PM B K Karthik <bkkarthik@pesu.pes.edu> wrote:
+> >
+> > On Sun, Jul 26, 2020 at 11:05 AM Cong Wang <xiyou.wangcong@gmail.com> wrote:
+> > >
+> > > On Sat, Jul 25, 2020 at 8:09 PM B K Karthik <bkkarthik@pesu.pes.edu> wrote:
+> > > > @@ -103,10 +103,10 @@ static int __xfrm6_tunnel_spi_check(struct net *net, u32 spi)
+> > > >  {
+> > > >         struct xfrm6_tunnel_net *xfrm6_tn = xfrm6_tunnel_pernet(net);
+> > > >         struct xfrm6_tunnel_spi *x6spi;
+> > > > -       int index = xfrm6_tunnel_spi_hash_byspi(spi);
+> > > > +       int index = xfrm6_tunnel_spi_hash_byaddr((const xfrm_address_t *)spi);
+> > > >
+> > > >         hlist_for_each_entry(x6spi,
+> > > > -                            &xfrm6_tn->spi_byspi[index],
+> > > > +                            &xfrm6_tn->spi_byaddr[index],
+> > > >                              list_byspi) {
+> > > >                 if (x6spi->spi == spi)
+> > >
+> > > How did you convince yourself this is correct? This lookup is still
+> > > using spi. :)
+> >
+> > I'm sorry, but my intention behind writing this patch was not to fix
+> > the UAF, but to fix a slab-out-of-bound.
+>
+> Odd, your $subject is clearly UAF, so is the stack trace in your changelog.
+> :)
+>
+>
+> > If required, I can definitely change the subject line and resend the
+> > patch, but I figured this was correct for
+> > https://syzkaller.appspot.com/bug?id=058d05f470583ab2843b1d6785fa8d0658ef66ae
+> > . since that particular report did not have a reproducer,
+> > Dmitry Vyukov <dvyukov@google.com> suggested that I test this patch on
+> > other reports for xfrm/spi .
+>
+> You have to change it to avoid misleading.
 
-For instance in commit ac854131d984 ("USB: core: Fix misleading driver bug
-report"), the corresponding patch contains a "Reported by" tag line which
-exceeds 75 chars. And there is no valid way to shorten the length.
+I will do that once somebody tells me this patch is reasonable to
+avoid wasting people's time.
+>
+> >
+> > Forgive me if this was the wrong way to send a patch for that
+> > particular report, but I guessed since the reproducer did not trigger
+> > the crash
+> > for UAF, I would leave the subject line as 'fix UAF' :)
+> >
+> > xfrm6_spi_hash_by_hash seemed more convincing because I had to prevent
+> > a slab-out-of-bounds because it uses ipv6_addr_hash.
+> > It would be of great help if you could help me understand how this was
+> > able to fix a UAF.
+>
+> Sure, you just avoid a pointer deref, which of course can fix the UAF,
+> but I still don't think it is correct in any aspect.
 
-Signed-off-by: Nachiket Naganure <nachiketun8@gmail.com>
----
- scripts/checkpatch.pl | 2 ++
- 1 file changed, 2 insertions(+)
+I saw a function call being made to tomoyo_check_acl(). the next thing
+happening is a kfree().
+Also, spi_hash_byspi just returns spi % XFRM6_TUNNEL_SPI_BYSPI_HSIZE .
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 197436b20288..46237e9e0550 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2806,6 +2806,8 @@ sub process {
- 					# filename then :
- 		      $line =~ /^\s*(?:Fixes:|Link:)/i ||
- 					# A Fixes: or Link: line
-+		      $line =~ /$signature_tags/ ||
-+					# Check for signature_tags
- 		      $commit_log_possible_stack_dump)) {
- 			WARN("COMMIT_LOG_LONG_LINE",
- 			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
--- 
-2.25.1
+I'm a mentee, hence I would say my knowledge is very limited, please
+let me know if I am making a horrible mistake somewhere,
+but return (__force u32)(a->s6_addr32[0] ^ a->s6_addr32[1] ^
+a->s6_addr32[2] ^ a->s6_addr32[3]); seems like a better because
+as David S. Miller <davem@davemloft.net> said "It is doing a XOR on
+all bits of an IPv6 address, it is doing more bit shifting which the
+existing hash was ignoring" .
 
+Please help me understand this better if I am going wrong.
+
+>
+> Even if it is a OOB, you still have to explain why it happened. Once
+> again, I can't see how it could happen either.
+>
+> >
+> > >
+> > > More importantly, can you explain how UAF happens? Apparently
+> > > the syzbot stack traces you quote make no sense at all. I also
+> > > looked at other similar reports, none of them makes sense to me.
+> >
+> > Forgive me, but I do not understand what you mean by the stack traces
+> > (this or other similar reports) "make no sense".
+>
+> Because the stack trace in your changelog clearly shows it is allocated
+> in tomoyo_init_log(), which is a buffer in struct tomoyo_query, but
+> none of xfrm paths uses it. Or do you see anything otherwise?
+
+Aren't there indirect inet calls and netfilter hooks? I'm sorry I do
+not see anything otherwise.
+Please help me understand.
+
+thanks,
+
+karthik
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
