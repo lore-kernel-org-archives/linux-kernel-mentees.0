@@ -2,112 +2,108 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97135C433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:56:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C5DC433E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 08:02:53 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5253F20738
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:56:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5F3672073E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 08:02:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MG5CBLty"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5253F20738
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dbO4DzeJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F3672073E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 2BFA1203D2;
-	Mon, 27 Jul 2020 07:56:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 27C64203F7;
+	Mon, 27 Jul 2020 08:02:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gbSntcp48mWP; Mon, 27 Jul 2020 07:56:44 +0000 (UTC)
+	with ESMTP id lQ85rX8yDcze; Mon, 27 Jul 2020 08:02:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A5FCB2002B;
-	Mon, 27 Jul 2020 07:56:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0C60E203EA;
+	Mon, 27 Jul 2020 08:02:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 911C6C004F;
-	Mon, 27 Jul 2020 07:56:44 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BDD99C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E9A90C004F;
+	Mon, 27 Jul 2020 08:02:51 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61105C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:56:42 +0000 (UTC)
+ Mon, 27 Jul 2020 08:02:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 97C40203D2
+ by whitealder.osuosl.org (Postfix) with ESMTP id 5512C86223
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:56:42 +0000 (UTC)
+ Mon, 27 Jul 2020 08:02:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LxhBa9dkDDHA
+ with ESMTP id TFYaM1Mb2Y9s
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:56:41 +0000 (UTC)
+ Mon, 27 Jul 2020 08:02:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- by silver.osuosl.org (Postfix) with ESMTPS id 2744F2002B
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+ [209.85.219.66])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6ED6885B9D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:56:41 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id b79so14432931qkg.9
+ Mon, 27 Jul 2020 08:02:48 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id m9so7030186qvx.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 00:56:41 -0700 (PDT)
+ Mon, 27 Jul 2020 01:02:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=N6upqxCfyW0GVZHe453idrIKQhFzkY5bo/oAq5M3uGE=;
- b=MG5CBLtyWpDp74hy9XAMKqGEpWa8mR8mZm6FLz3EmFUhHuNS6Cc+ucxF/8J3Kwilww
- ctoLd7ZrsXx6WGMNMV4rJbnd27tJ1/e4rtMyJBuCTqpVNAAoNo99DbKA44lj0OjjfjF3
- SNqKyxqlob+pKDiCPnI21KXkXmZNE53JjrZ3oENbp1qhQTFUoABDRLmgacaHzT4HdKI4
- tBXnGOlWKicNc5GHjatI5XupCQPIIbGS5yKAF0NRmIBtDgzck+d0RDxmQyQh1BrnGohf
- L7vVZJdawFwAO9/0fnkuLd6z7+8TZ0QuPIM0GgkOvt+scBTGTnMDfHPP4eA37TtOMW0V
- Z1LA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=J3cQXzpZBg3Vtk5bdGvdVAHaa0sFWRNtivX5Db04OBA=;
+ b=dbO4DzeJoT4j/TG1g7aRqmAN97/rmvbXCgY0YIU+CKb91Nf2TrIJR0nnw1SpeI4Us3
+ 8LT+osFW8Hg45Zhs9ffuzPawoTve2Buq0CelaGklZTuUecawIWX9rdUIGP7bZkKwj1mY
+ r/vf2FL+CNrfHec3DM8auarsv2yyXhY831G+200uHV0Au8aiEaYxd2WC0NF2l5R0+6t9
+ xh/tRtP+x5LRl2sgUsXEhnP3RvpHg02OA2SXbEOUHUb7R9HkjeBkQqXHiw8jtb1RNEgm
+ cPek2E6EtSE7T64GAhal8elJmXCTELnGUIxdACayGdK0sYUgNLOsHmyIyb+1LaJ2XgVN
+ dtBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=N6upqxCfyW0GVZHe453idrIKQhFzkY5bo/oAq5M3uGE=;
- b=jzRNkptYaY2YNNQSoPVuHRx3fG8tzmKLeDDmC00giMovaeaRRLLPFMDt+KO8tdxylG
- K8MZYn0UuXZcDh/9nxw04sMPM19W3c5nrnWA+5dCgGB9Q1i/jK7ST7TkVARMS7XQkJ9D
- Wc/eAY8k37Cp6RUN8CgXPyWSK1FDBdikZHxGEzf6dHUgy1ZKs6UwZH8yCXr5eZsutLVh
- mKvYgNV+XDHN2Bs+msb0ebfB6fG0EHpGYlhRVqSfHYj0dxfyAch/NBFARTTlm037IjvQ
- qoyees/aeM6WCky6fo1+eP7y5lIaQAEcTJTkqgAfP+jN7imhOQK8b00wfuBTpRAyjUeO
- ZlLA==
-X-Gm-Message-State: AOAM533PvhABkzeVtbiuiPWcut/k4nAQy0/jIZRp457sHlMKgu/ryg+Q
- U6/c9R68/L1tQb9SxbVaHg==
-X-Google-Smtp-Source: ABdhPJxAQQcavuqSCw162hVKCvTa60uFZJYYJ8f5F0oIw3F8nSrx6KfVDkWkp/ov+7P3mP9y4r3j/A==
-X-Received: by 2002:a37:61ce:: with SMTP id v197mr2776425qkb.44.1595836600043; 
- Mon, 27 Jul 2020 00:56:40 -0700 (PDT)
-Received: from PWN ([209.94.141.207])
- by smtp.gmail.com with ESMTPSA id p4sm17340859qkj.135.2020.07.27.00.56.38
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=J3cQXzpZBg3Vtk5bdGvdVAHaa0sFWRNtivX5Db04OBA=;
+ b=c5Of4wH2T6Exr9FhHoQb9PDejJg44PKqb5IXIeK0HKcvKcConcEYf8ZZj5nKAc3w9V
+ xKX1y08AM96dgk3bSCJ/hrQI1x1/Cc9D894+NO2ES/W4iVE184TyY9M+KChxM9ASqS6F
+ 6BGsXfb4DFctn7D1WS4CjX8vl0h07sCX79YfuQIZ4WcOeIxLKOAGX8/cOKztZol9DWCv
+ L0cJelI+3Vh60JB8PI5dM3hO/+mnJjcCo+QIJGb9xjrUTKXI7AXnHGEHHSJHFHgUDQ60
+ MiKIRzVXpsHiS+xDdA3t4tCmnxKHkb5iqv9WgXp8sEB/8gbnl++JZtY951nNEiKxHACD
+ xc2Q==
+X-Gm-Message-State: AOAM5301xwkRfsVAeizUZLQdyGZFR3u1iqM0iCCGQzCg/A5Hgvz6Dg4O
+ GRSwzpQtlrFKCUb0abTHpQ==
+X-Google-Smtp-Source: ABdhPJwvxrtKoMtBAPuC4VlZNTYeK4YEu4Wojy+ZJZ2qlzy3urGbyD2J2QlSRJJ01NqjCRiDc/OKyA==
+X-Received: by 2002:a0c:e789:: with SMTP id x9mr20072948qvn.135.1595836967417; 
+ Mon, 27 Jul 2020 01:02:47 -0700 (PDT)
+Received: from localhost.localdomain ([209.94.141.207])
+ by smtp.gmail.com with ESMTPSA id 130sm16105123qkf.61.2020.07.27.01.02.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 00:56:39 -0700 (PDT)
-Date: Mon, 27 Jul 2020 03:56:37 -0400
+ Mon, 27 Jul 2020 01:02:46 -0700 (PDT)
 From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Message-ID: <20200727075637.GA205716@PWN>
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Date: Mon, 27 Jul 2020 04:00:02 -0400
+Message-Id: <20200727080002.208829-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200726222703.102701-1-yepeilin.cs@gmail.com>
+References: <20200726222703.102701-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>, Arnd Bergmann <arnd@arndb.de>,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
+ Ezequiel Garcia <ezequiel@collabora.com>, Peilin Ye <yepeilin.cs@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
+Subject: [Linux-kernel-mentees] [PATCH v4] media/v4l2-core: Fix
+	kernel-infoleak in video_put_user()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,42 +121,103 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 09:25:16AM +0200, Arnd Bergmann wrote:
-> On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> >
-> > video_put_user() is copying uninitialized stack memory to userspace due
-> > to the compiler not initializing holes in the structures declared on the
-> > stack. Fix it by initializing `ev32` and `vb32` using memset().
-> >
-> > Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
-> > Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> 
-> Thanks a lot for addressing this! I now see that I actually created a similar
-> bugfix for it back in January, but for some reason that got stuck in my
-> backlog and I never wrote a proper description for it or sent it out to the
-> list, sorry about that. I would hope we could find a way to have either
-> the compiler or sparse warn if we copy uninitialized data to user space,
-> but we now don't even check for that within the kernel any more.
+video_put_user() is copying uninitialized stack memory to userspace due
+to the compiler not initializing holes in the structures declared on the
+stack. Fix it by initializing `ev32` and `vb32` using memset().
 
-I am glad to be of help!
+Cc: stable@vger.kernel.org
+Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
+Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for time64 ABI")
+Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+Change in v4:
+    - Add `Cc:` and `Fixes:` tags. (Suggested by Arnd Bergmann <arnd@arndb.de>)
 
-> I would suggest adding these tags to the patch, to ensure it gets backported
-> to stable kernels as needed:
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
-> Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for
-> time64 ABI")
-> 
-> In addition to
-> 
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Change in v3:
+    - Improve the commit description. (Suggested by Laurent Pinchart
+      <laurent.pinchart@ideasonboard.com>)
 
-Sure, I will send a v4 soon. Thank you for reviewing the patch.
+Change in v2:
+    - Do the same thing for `case VIDIOC_DQEVENT_TIME32`.
 
-Peilin Ye
+ drivers/media/v4l2-core/v4l2-ioctl.c | 50 +++++++++++++++-------------
+ 1 file changed, 27 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index a556880f225a..e3a25ea913ac 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -3189,14 +3189,16 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
+ #ifdef CONFIG_COMPAT_32BIT_TIME
+ 	case VIDIOC_DQEVENT_TIME32: {
+ 		struct v4l2_event *ev = parg;
+-		struct v4l2_event_time32 ev32 = {
+-			.type		= ev->type,
+-			.pending	= ev->pending,
+-			.sequence	= ev->sequence,
+-			.timestamp.tv_sec  = ev->timestamp.tv_sec,
+-			.timestamp.tv_nsec = ev->timestamp.tv_nsec,
+-			.id		= ev->id,
+-		};
++		struct v4l2_event_time32 ev32;
++
++		memset(&ev32, 0, sizeof(ev32));
++
++		ev32.type	= ev->type;
++		ev32.pending	= ev->pending;
++		ev32.sequence	= ev->sequence;
++		ev32.timestamp.tv_sec	= ev->timestamp.tv_sec;
++		ev32.timestamp.tv_nsec	= ev->timestamp.tv_nsec;
++		ev32.id		= ev->id;
+ 
+ 		memcpy(&ev32.u, &ev->u, sizeof(ev->u));
+ 		memcpy(&ev32.reserved, &ev->reserved, sizeof(ev->reserved));
+@@ -3210,21 +3212,23 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
+ 	case VIDIOC_DQBUF_TIME32:
+ 	case VIDIOC_PREPARE_BUF_TIME32: {
+ 		struct v4l2_buffer *vb = parg;
+-		struct v4l2_buffer_time32 vb32 = {
+-			.index		= vb->index,
+-			.type		= vb->type,
+-			.bytesused	= vb->bytesused,
+-			.flags		= vb->flags,
+-			.field		= vb->field,
+-			.timestamp.tv_sec	= vb->timestamp.tv_sec,
+-			.timestamp.tv_usec	= vb->timestamp.tv_usec,
+-			.timecode	= vb->timecode,
+-			.sequence	= vb->sequence,
+-			.memory		= vb->memory,
+-			.m.userptr	= vb->m.userptr,
+-			.length		= vb->length,
+-			.request_fd	= vb->request_fd,
+-		};
++		struct v4l2_buffer_time32 vb32;
++
++		memset(&vb32, 0, sizeof(vb32));
++
++		vb32.index	= vb->index;
++		vb32.type	= vb->type;
++		vb32.bytesused	= vb->bytesused;
++		vb32.flags	= vb->flags;
++		vb32.field	= vb->field;
++		vb32.timestamp.tv_sec	= vb->timestamp.tv_sec;
++		vb32.timestamp.tv_usec	= vb->timestamp.tv_usec;
++		vb32.timecode	= vb->timecode;
++		vb32.sequence	= vb->sequence;
++		vb32.memory	= vb->memory;
++		vb32.m.userptr	= vb->m.userptr;
++		vb32.length	= vb->length;
++		vb32.request_fd	= vb->request_fd;
+ 
+ 		if (copy_to_user(arg, &vb32, sizeof(vb32)))
+ 			return -EFAULT;
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
