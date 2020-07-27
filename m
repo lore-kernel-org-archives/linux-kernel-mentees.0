@@ -2,106 +2,105 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 463BAC433EA
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:20:39 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4862AC433E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:25:42 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0552520759
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:20:38 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EDK8obBO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0552520759
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1A3202070B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:25:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A3202070B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C32948804A;
-	Mon, 27 Jul 2020 07:20:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 81329203D2;
+	Mon, 27 Jul 2020 07:25:41 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UnisFyjZnfx1; Mon, 27 Jul 2020 07:25:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 4DA0820385;
+	Mon, 27 Jul 2020 07:25:39 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BC82C004F;
+	Mon, 27 Jul 2020 07:25:39 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EC57DC004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 07:25:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id D9A9888055
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 07:25:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8OcloK31JwjU; Mon, 27 Jul 2020 07:20:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A286B87D8E;
-	Mon, 27 Jul 2020 07:20:37 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 83A65C004F;
-	Mon, 27 Jul 2020 07:20:37 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D9D1FC004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:20:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D18F585D37
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:20:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cr_31r5538mk
+ with ESMTP id g+us5sdlqC1B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:20:35 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3C53F85D2B
+ Mon, 27 Jul 2020 07:25:36 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 806E48804A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:20:35 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 74so311462pfx.13
+ Mon, 27 Jul 2020 07:25:35 +0000 (UTC)
+Received: from mail-qt1-f169.google.com ([209.85.160.169]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MTRIi-1kNAmn1UnU-00TnJJ for
+ <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Jul 2020 09:25:33
+ +0200
+Received: by mail-qt1-f169.google.com with SMTP id b25so11505776qto.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 00:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=YJXjh4GmMEW7XN5/tplqsYhfZdl3H6taMH5axLntfAw=;
- b=EDK8obBOfKHNTjFkgxYJ9+5FEXC9QIaLLHJwM0UjYRXgbOW/WYsNnkfJKS0zWMKRBl
- 5G+RoaiMjvm8LFeedDpWGTIR/HiNGJAhklG0TJk6dIgJOkeY9HZqlYV4DmrwKNByys3P
- Elrq6P9TpGDjVCIsjqjmlSQSNhqePcgaXZ2gp2jdGvOjgzFlD1EPa0Ew4mslTyOCTsbc
- RxP6CfefjoGYcqCDH7LsOEVFU1yVVSZIft1lpudYstiGuLQmnhN6Q+bMVFtx7HH+PYgn
- CJO0YLupfA5nXjCK/E5cpOjpZeLw9avWbMDPZSOU24yLLKwOvFteoZ0YEZYH5WRFPh6l
- NuQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YJXjh4GmMEW7XN5/tplqsYhfZdl3H6taMH5axLntfAw=;
- b=KUGVaZq5mR3Tr9Q8ZqAmUBcW1kWIka40BK+17qU6doWaZ0PZGiKzzkF8NB4besZJC6
- 6W+XqU9Qrhj9Ba7uVrhQBFjCSBDyTFujw4hokKfVwbBjQCz8pqak/Si2wGnmdVpqClM5
- e6NE5MUxGOwuneviNm1NSRln8UGZQy5ZrY2uAmlIbZzzwAmGYl/dsNpb17siWHejzFuK
- B+OX5yog0u2yicQeMN0W4swW64YNsKaCPQ9nOepM/EnddYX3JS++ZxDoFtwe3/T/n0dF
- qFYIVsP8GPK+pCCiLubjecSSA6pt3U49SLqXj6XGY93wYRGEg7CHy7epztOBV2wcdSGI
- Mm3Q==
-X-Gm-Message-State: AOAM5337NT2kjGNI0AvnKsOg76vm5trFNsNzCf09XnLn8N2nSjDdJYn+
- feBw0jMvz68IQcszC4Ax8Cw=
-X-Google-Smtp-Source: ABdhPJzo4zlFjXMsAfOgM4X3zAg74cxBAhosgrhd7WC+wNNgCrrv4S9sv/p1zxTGJSCjmjnxOwQ/tg==
-X-Received: by 2002:aa7:8e0c:: with SMTP id c12mr18974880pfr.38.1595834434715; 
- Mon, 27 Jul 2020 00:20:34 -0700 (PDT)
-Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id lb13sm7971701pjb.9.2020.07.27.00.20.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 00:20:34 -0700 (PDT)
-Date: Mon, 27 Jul 2020 12:49:10 +0530
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Message-ID: <20200727071910.GA6368@gmail.com>
-References: <20200724110630.1219882-1-vaibhavgupta40@gmail.com>
- <202007250808.yhgHBmpJ%lkp@intel.com>
+ Mon, 27 Jul 2020 00:25:33 -0700 (PDT)
+X-Gm-Message-State: AOAM532x4JsbJspaxTl5FQMPkiVHTRkxq9PZ+PL4fgQkV+CqtyXdBgH4
+ M67kq4Nkhl+gQT3+iUs/gLlkHgJAAAYgym2aP24=
+X-Google-Smtp-Source: ABdhPJwWLr1eTQmOXplkFU6XSrVj3kjpURsSxQSIWVgU+rgY8vc+FCSJgM46ph7HyxcrmOsXIwIa1wuoiXAbMCg8mWw=
+X-Received: by 2002:aed:33e7:: with SMTP id v94mr18147736qtd.18.1595834732135; 
+ Mon, 27 Jul 2020 00:25:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <202007250808.yhgHBmpJ%lkp@intel.com>
-Cc: Jens Axboe <axboe@kernel.dk>, kbuild-all@lists.01.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
- clang-built-linux@googlegroups.com, Bjorn Helgaas <helgaas@kernel.org>,
+References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
+ <20200726222703.102701-1-yepeilin.cs@gmail.com>
+In-Reply-To: <20200726222703.102701-1-yepeilin.cs@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 27 Jul 2020 09:25:16 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+Message-ID: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+X-Provags-ID: V03:K1:0s5eHMXq04fMocP++umqyUbRy7dJr/2DC7t69jEqOsbNHjHr2gF
+ bTbZHLM/AFxyixSy6f6Tuz1XYY1S3ptwgLj8LM3RIclwAJ21ZBmUECdVnVM5ibEfTvW9Up4
+ ZrLBR5Y66DRQfTmv8OTmiZWRe6bbrUsblR2Kz+Xc3zqanrn+6BUFj+J2g7qZYAAfWgiUfXt
+ FZWhzoUgpjQ69hJ/lrPxA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:shXpg5QNoM4=:9Epr4jNMCWSha/Jb2OyOg8
+ 00KYNyQfOqvppiWef54x44GwnKaoYomSxB/bS17QddSV9d7XGuEG+jFiAN3fKVHKnjJ7/KolV
+ r/kscezCf+jlVX7nvzJM/+50Uu8kPLqjz/zI2GkctrVEKA8nV+MNtnv5szTmYAPQKK7vwqMG5
+ mVxoH9DU8Bnkprexvmp2xEfbGZtKFGS18IxfWqE94A5WJLOk6bHGNcdJUhkK9sWa2loQETLk5
+ 71s1o7iMB64Iun1y78Tx7bjAzvNi/rMVBTT0nbldcIAz0ZcIlodVjOame87vqGEsYCuD5Xk1o
+ EM/egvDGPGN1V3//Mv+NJ5C9l/MgpZXWYiDOrNboF/vXynRHj7kA615Wm7QnuUmX9g6EqFGQQ
+ g94K13U2SXHqWuhFrlk8VKtxMdmdIMSpR5tOrdUbEjr6N1SguZm+W4BUEXtvz0maQRoFjr6+r
+ JnXCeMoB0Bom23dsT6l6R0T61SVchM9yu48zOkvjaJ8Icf88sjkIewLQm2L3wtVjLeXPEirOw
+ 2S4CA+J0FPFirNx+uXVs96UwgZpMeO6PLt2ozfnjOLszsl2Z9GYmZRYOhgfGnCD78QPLiQptq
+ DRfo1a1ooZY7hAoCofq7jHgbBUYzxWivTe4LX6HcoGc4iKS6A0qAbgpGY1oc+n+F+ZAzRyh0f
+ MlbUZ1QISlFuWF6TwL9Fe4GI7AB5lj7WmebABoDkZqs2trXq/uef7HOdQLduxhKWtEi38mdns
+ wUnIZgBkhGq5biWrMGtQIL+SHI6x/xQjmahSRW0FNESPVkYQ1X9te44GL6NU5YTCtdhZFopiS
+ 8aF1Dw4v7Ow1D8h0PhXVAv1w60tszC1HmhNoJUc27zgYQWwLOrwEgNwVh08D1A9QjsQKx2r9O
+ ZvUzNXE6LDcw5BrJKSCyJLG4R7ADHFUDv42KNvo9dzM5Srsh7PucOVoZ8dFj9ctuKF1q8MSUo
+ eWhRTJiXq7WhehSGyAllYGTDJYUFhmoqHeBd58xgdtHQI7r2C8qES
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] ata: use generic power
-	management
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
+ kernel-infoleak in video_put_user()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,78 +112,42 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gU2F0LCBKdWwgMjUsIDIwMjAgYXQgMDk6MDA6MTJBTSArMDgwMCwga2VybmVsIHRlc3Qgcm9i
-b3Qgd3JvdGU6Cj4gSGkgVmFpYmhhdiwKPiAKPiBUaGFuayB5b3UgZm9yIHRoZSBwYXRjaCEgUGVy
-aGFwcyBzb21ldGhpbmcgdG8gaW1wcm92ZToKPiAKPiBbYXV0byBidWlsZCB0ZXN0IFdBUk5JTkcg
-b24gYmxvY2svZm9yLW5leHRdCj4gW2Fsc28gYnVpbGQgdGVzdCBXQVJOSU5HIG9uIHY1LjgtcmM2
-IG5leHQtMjAyMDA3MjRdCj4gW0lmIHlvdXIgcGF0Y2ggaXMgYXBwbGllZCB0byB0aGUgd3Jvbmcg
-Z2l0IHRyZWUsIGtpbmRseSBkcm9wIHVzIGEgbm90ZS4KPiBBbmQgd2hlbiBzdWJtaXR0aW5nIHBh
-dGNoLCB3ZSBzdWdnZXN0IHRvIHVzZSAnLS1iYXNlJyBhcyBkb2N1bWVudGVkIGluCj4gaHR0cHM6
-Ly9naXQtc2NtLmNvbS9kb2NzL2dpdC1mb3JtYXQtcGF0Y2hdCj4gCj4gdXJsOiAgICBodHRwczov
-L2dpdGh1Yi5jb20vMGRheS1jaS9saW51eC9jb21taXRzL1ZhaWJoYXYtR3VwdGEvYXRhLXVzZS1n
-ZW5lcmljLXBvd2VyLW1hbmFnZW1lbnQvMjAyMDA3MjQtMTkwOTI5Cj4gYmFzZTogICBodHRwczov
-L2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9heGJvZS9saW51eC1ibG9j
-ay5naXQgZm9yLW5leHQKPiBjb25maWc6IHg4Nl82NC1hbGx5ZXNjb25maWcgKGF0dGFjaGVkIGFz
-IC5jb25maWcpCj4gY29tcGlsZXI6IGNsYW5nIHZlcnNpb24gMTIuMC4wIChodHRwczovL2dpdGh1
-Yi5jb20vbGx2bS9sbHZtLXByb2plY3QgMWQwOWVjZjM2MTc1Zjc5MTBmZmVkZDZkNDk3YzA3YjVj
-NzRjMjJmYikKPiByZXByb2R1Y2UgKHRoaXMgaXMgYSBXPTEgYnVpbGQpOgo+ICAgICAgICAgd2dl
-dCBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vaW50ZWwvbGtwLXRlc3RzL21hc3Rl
-ci9zYmluL21ha2UuY3Jvc3MgLU8gfi9iaW4vbWFrZS5jcm9zcwo+ICAgICAgICAgY2htb2QgK3gg
-fi9iaW4vbWFrZS5jcm9zcwo+ICAgICAgICAgIyBpbnN0YWxsIHg4Nl82NCBjcm9zcyBjb21waWxp
-bmcgdG9vbCBmb3IgY2xhbmcgYnVpbGQKPiAgICAgICAgICMgYXB0LWdldCBpbnN0YWxsIGJpbnV0
-aWxzLXg4Ni02NC1saW51eC1nbnUKPiAgICAgICAgICMgc2F2ZSB0aGUgYXR0YWNoZWQgLmNvbmZp
-ZyB0byBsaW51eCBidWlsZCB0cmVlCj4gICAgICAgICBDT01QSUxFUl9JTlNUQUxMX1BBVEg9JEhP
-TUUvMGRheSBDT01QSUxFUj1jbGFuZyBtYWtlLmNyb3NzIEFSQ0g9eDg2XzY0IAo+IAo+IElmIHlv
-dSBmaXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgYXMgYXBwcm9wcmlhdGUK
-PiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gCj4gQWxs
-IHdhcm5pbmdzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6Cj4gCj4gPj4gZHJpdmVycy9hdGEv
-cGF0YV90cmlmbGV4LmM6MTg2OjM2OiB3YXJuaW5nOiBJU08gQzkwIGZvcmJpZHMgbWl4aW5nIGRl
-Y2xhcmF0aW9ucyBhbmQgY29kZSBbLVdkZWNsYXJhdGlvbi1hZnRlci1zdGF0ZW1lbnRdCj4gICAg
-ICAgICAgICBzdGF0aWMgY29uc3Qgc3RydWN0IGF0YV9wb3J0X2luZm8gaW5mbyA9IHsKPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCj4gICAgMSB3YXJuaW5n
-IGdlbmVyYXRlZC4KPiAKPiB2aW0gKzE4NiBkcml2ZXJzL2F0YS9wYXRhX3RyaWZsZXguYwo+IAo+
-IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAyMDA2LTA4LTI5ICAxNzYgIAo+IDY2OWE1
-ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAyMDA2LTA4LTI5ICAxNzcgIHN0YXRpYyBpbnQgdHJp
-ZmxleF9pbml0X29uZShzdHJ1Y3QgcGNpX2RldiAqZGV2LCBjb25zdCBzdHJ1Y3QgcGNpX2Rldmlj
-ZV9pZCAqaWQpCj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgIDIwMDYtMDgtMjkgIDE3
-OCAgewo+IDVhY2Q3NGI1OTI5MzNmIFZhaWJoYXYgR3VwdGEgICAyMDIwLTA3LTI0ICAxNzkgIAkv
-Kgo+IDVhY2Q3NGI1OTI5MzNmIFZhaWJoYXYgR3VwdGEgICAyMDIwLTA3LTI0ICAxODAgIAkgKiBX
-ZSBtdXN0IG5vdCBkaXNhYmxlIG9yIHBvd2VyZG93biB0aGUgZGV2aWNlLgo+IDVhY2Q3NGI1OTI5
-MzNmIFZhaWJoYXYgR3VwdGEgICAyMDIwLTA3LTI0ICAxODEgIAkgKiBBUE0gYmlvcyByZWZ1c2Vz
-IHRvIHN1c3BlbmQgaWYgSURFIGlzIG5vdCBhY2Nlc3NpYmxlLgo+IDVhY2Q3NGI1OTI5MzNmIFZh
-aWJoYXYgR3VwdGEgICAyMDIwLTA3LTI0ICAxODIgIAkgKi8KPiA1YWNkNzRiNTkyOTMzZiBWYWli
-aGF2IEd1cHRhICAgMjAyMC0wNy0yNCAgMTgzICAJZGV2LT5wbV9jYXAgPSAwOwo+IDVhY2Q3NGI1
-OTI5MzNmIFZhaWJoYXYgR3VwdGEgICAyMDIwLTA3LTI0ICAxODQgIAlkZXZfaW5mbygmZGV2LT5k
-ZXYsICJEaXNhYmxlIHRyaWZsZXggdG8gYmUgdHVybmVkIG9mZiBieSBQQ0kgQ09SRVxuIik7Cj4g
-NWFjZDc0YjU5MjkzM2YgVmFpYmhhdiBHdXB0YSAgIDIwMjAtMDctMjQgIDE4NSAgCj4gMTYyNmFl
-Yjg4MTIzNmMgVGVqdW4gSGVvICAgICAgIDIwMDctMDUtMDQgQDE4NiAgCXN0YXRpYyBjb25zdCBz
-dHJ1Y3QgYXRhX3BvcnRfaW5mbyBpbmZvID0gewo+IDFkMjgwOGZkM2QyZDVkIEplZmYgR2Fyemlr
-ICAgICAyMDA3LTA1LTI4ICAxODcgIAkJLmZsYWdzID0gQVRBX0ZMQUdfU0xBVkVfUE9TUywKPiAx
-NGJkZWY5ODJjYWVkYSBFcmlrIEluZ2UgQm9sc8O4IDIwMDktMDMtMTQgIDE4OCAgCQkucGlvX21h
-c2sgPSBBVEFfUElPNCwKPiAxNGJkZWY5ODJjYWVkYSBFcmlrIEluZ2UgQm9sc8O4IDIwMDktMDMt
-MTQgIDE4OSAgCQkubXdkbWFfbWFzayA9IEFUQV9NV0RNQTIsCj4gNjY5YTVkYjQxMWQ4NWEgSmVm
-ZiBHYXJ6aWsgICAgIDIwMDYtMDgtMjkgIDE5MCAgCQkucG9ydF9vcHMgPSAmdHJpZmxleF9wb3J0
-X29wcwo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAyMDA2LTA4LTI5ICAxOTEgIAl9
-Owo+IDE2MjZhZWI4ODEyMzZjIFRlanVuIEhlbyAgICAgICAyMDA3LTA1LTA0ICAxOTIgIAljb25z
-dCBzdHJ1Y3QgYXRhX3BvcnRfaW5mbyAqcHBpW10gPSB7ICZpbmZvLCBOVUxMIH07Cj4gNjY5YTVk
-YjQxMWQ4NWEgSmVmZiBHYXJ6aWsgICAgIDIwMDYtMDgtMjkgIDE5MyAgCj4gMDYyOTZhMWU2ODRi
-Y2QgSm9lIFBlcmNoZXMgICAgIDIwMTEtMDQtMTUgIDE5NCAgCWF0YV9wcmludF92ZXJzaW9uX29u
-Y2UoJmRldi0+ZGV2LCBEUlZfVkVSU0lPTik7Cj4gNjY5YTVkYjQxMWQ4NWEgSmVmZiBHYXJ6aWsg
-ICAgIDIwMDYtMDgtMjkgIDE5NSAgCj4gMWM1YWZkZjdhNjI5ZDIgVGVqdW4gSGVvICAgICAgIDIw
-MTAtMDUtMTkgIDE5NiAgCXJldHVybiBhdGFfcGNpX2JtZG1hX2luaXRfb25lKGRldiwgcHBpLCAm
-dHJpZmxleF9zaHQsIE5VTEwsIDApOwo+IDY2OWE1ZGI0MTFkODVhIEplZmYgR2FyemlrICAgICAy
-MDA2LTA4LTI5ICAxOTcgIH0KPiA2NjlhNWRiNDExZDg1YSBKZWZmIEdhcnppayAgICAgMjAwNi0w
-OC0yOSAgMTk4ICAKPiAKPiAtLS0KPiAwLURBWSBDSSBLZXJuZWwgVGVzdCBTZXJ2aWNlLCBJbnRl
-bCBDb3Jwb3JhdGlvbgo+IGh0dHBzOi8vbGlzdHMuMDEub3JnL2h5cGVya2l0dHkvbGlzdC9rYnVp
-bGQtYWxsQGxpc3RzLjAxLm9yZwoKRml4ZWQgaW4gdjIuIFdpbGwgZmxvYXQgdjIgYWZ0ZXIgZmV3
-IG1vcmUgY2hlY2tzLgoKVGhhbmtzClZhaWJoYXYgR3VwdGEKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBs
-aXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6
-Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVs
-LW1lbnRlZXMK
+On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+>
+> video_put_user() is copying uninitialized stack memory to userspace due
+> to the compiler not initializing holes in the structures declared on the
+> stack. Fix it by initializing `ev32` and `vb32` using memset().
+>
+> Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+
+Thanks a lot for addressing this! I now see that I actually created a similar
+bugfix for it back in January, but for some reason that got stuck in my
+backlog and I never wrote a proper description for it or sent it out to the
+list, sorry about that. I would hope we could find a way to have either
+the compiler or sparse warn if we copy uninitialized data to user space,
+but we now don't even check for that within the kernel any more.
+
+I would suggest adding these tags to the patch, to ensure it gets backported
+to stable kernels as needed:
+
+Cc: stable@vger.kernel.org
+Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
+Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for
+time64 ABI")
+
+In addition to
+
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
