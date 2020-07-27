@@ -2,113 +2,107 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F253C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 20:30:13 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18ED0C433EB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 20:34:52 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2C4020759
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 20:30:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DF302207BB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 20:34:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="bzNK7nJk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E2C4020759
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFIlcTtp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF302207BB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A408222170;
-	Mon, 27 Jul 2020 20:30:12 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B1273877EC;
+	Mon, 27 Jul 2020 20:34:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lG4IF5bkFTex; Mon, 27 Jul 2020 20:30:11 +0000 (UTC)
+	with ESMTP id OsuTct8WIGYV; Mon, 27 Jul 2020 20:34:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 72180226A9;
-	Mon, 27 Jul 2020 20:30:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0D4DB877E3;
+	Mon, 27 Jul 2020 20:34:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6464BC004F;
-	Mon, 27 Jul 2020 20:30:10 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 45141C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F131AC004F;
+	Mon, 27 Jul 2020 20:34:50 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4F421C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 20:30:09 +0000 (UTC)
+ Mon, 27 Jul 2020 20:34:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 344DE882CC
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3E5A585815
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 20:30:09 +0000 (UTC)
+ Mon, 27 Jul 2020 20:34:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l8nYH4r8EToQ
+ with ESMTP id gAeC-SNpX453
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 20:30:08 +0000 (UTC)
-X-Greylist: delayed 02:47:15 by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 42FC5882ED
+ Mon, 27 Jul 2020 20:34:49 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 640A98545F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 20:30:08 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 1so9713999pfn.9
+ Mon, 27 Jul 2020 20:34:49 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id l4so18344326ejd.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:30:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2KZJwIkhy/CrWVZLuUHvj+D7ETG92ZsCbDsCh9LqsAY=;
- b=bzNK7nJkhpcctw8iEyrGD9i++PcZ+43Z5mANXDqbCuWyHCiTPy2OM0p3QDbLplwOe6
- R947pngpVc+vbgYMZdf2t5it6MdECh44JwVFT4vhDi9h+AghbzXODHeZ5jXTz92BjLtl
- HfnI6jVQYnOV/rif7oCo6/hCjVKvyciSlAKe4WSub77dvopPM4L40sggklvl14EhyzsW
- nvJASc1EpYMgdBX1NZusbdAloNCuSENRlioBwBbJaOFTSHLUkk+uwQMfErLIn2/pnA7D
- Gqbncdv0tc7FBNAV4YDB74amIK+9LjC1m97MqA+T9VGH215VB/UR8y+78tUxuSXguhNA
- +EoQ==
+ Mon, 27 Jul 2020 13:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=YkkYId0qfscEeVLanlp+9fO+1FJwDeA+iuhChUKUNzw=;
+ b=TFIlcTtpMEaEdu6Obq566fed0LcNw+s440FAiZQNexu+CUbPGjDfb6nfXkHqleRqLN
+ tFOWBKFUPOfYQfMhOzBu1gwFG3/lFKYYHAtzejaA3o80NVCQQBpWunZMbprtdV95VAQA
+ 7oKbk07ix9uEjSfcBHu33BiBYrp3JewmWGPWZFc9dIxvibmjsf6sfVqun4jW2E0wdQRJ
+ 6N/qH4NmO8N0JLZ/mlcOFUe3MiIrJ42nBaluJFCeseAgOhsthgqyN6YGACf7IyPgTRYe
+ vIln5m6LNeabOu9Cqhn4yO+CltTQS9EN1HRs5zy5Iu+rdho1AvMPfbPTMtwTQg1AHDG5
+ necQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2KZJwIkhy/CrWVZLuUHvj+D7ETG92ZsCbDsCh9LqsAY=;
- b=RHyRQH/ju+knsG3bWFSgke0r/US+megWZ1VkEXxthA7t4VCESEmBTo3/jeA9ou+DAe
- 7eV/sv3VXi+/ocUvJu4W8Kji0Q9EVcQJFuJR2vsOwsDovwRaBBKZPyfeBkQbdoNQX2qs
- qU/ulUAq/raezDZrp+i8wbWInoVM/qAVXdGQTVNEte6P9hHMrBF6zzGZ/YrfDZR9QTuv
- iJ6GXbeJs3sh/WywVpysY/hTWV+XHGkn0djkAxIsjsIAh9DHg2rVmhd6lUSR1WxEUxPb
- NAii04W2tWtL69rXNnnSREfDOZmTnsx110UQkTLELp1q/9a11ANPxXJtBhgtsDkmOo9I
- vE2Q==
-X-Gm-Message-State: AOAM5325HZu4WGN9BXwgb2rW2piZKUZ29RdxIZt8TFc1PsJOqNeQDct2
- niPXrq57Y4/X5q6kmQ4BBCgAIg==
-X-Google-Smtp-Source: ABdhPJxTWacB6EGQGaEQ+NPmcYzQG9/x9QEKKKQnyObZnzJ8sFdEm+YpGl6oy3JUs2H8dTaltB7V2g==
-X-Received: by 2002:a62:7942:: with SMTP id u63mr21266195pfc.54.1595881807704; 
- Mon, 27 Jul 2020 13:30:07 -0700 (PDT)
-Received: from [192.168.1.182] ([66.219.217.173])
- by smtp.gmail.com with ESMTPSA id y6sm467347pji.2.2020.07.27.13.30.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jul 2020 13:30:07 -0700 (PDT)
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-References: <20200727173923.694872-1-vaibhavgupta40@gmail.com>
- <20200727174012.GA696265@gmail.com>
- <2b4738b0-5c2c-8ee2-83f9-10b961a5d0d3@kernel.dk>
- <20200727175119.GA700880@gmail.com>
- <99b7cc57-1b4f-6c0b-00c6-08e22021c373@kernel.dk>
- <20200727181144.GA543@gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <9718954b-2152-1bc2-e702-ebe8799fdfb3@kernel.dk>
-Date: Mon, 27 Jul 2020 14:30:03 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=YkkYId0qfscEeVLanlp+9fO+1FJwDeA+iuhChUKUNzw=;
+ b=mlrtJ1Q79eisd7O1cXp3gEtRSgmgJVa6qloj+jdo+rqEP+fwskIcySmRSLdm4InHTj
+ WMv6A6Fyt6uco6O0Hyf38vg6KquBR7HHPWuZnkq7SP2MaMV29xqcYAFIhXjg5AyoHVJc
+ h5iokvlYqNwRn3guP8g4yZhyEOH1li4BrFbyMDq8+HJ9D82e12K0Lts5p51OlyMU5Atn
+ L+ZzgHP4pTAY9KuAagAlDECpyyPbDdqj/UY2kPhLjzzcyaHXEN5T5wf0tJzapdpU0KOz
+ e0kIcEplKrjP8bVa5pBs0vnOOKKjWqNRXhkS07E8Ia05rT7d3WoVAWDFQ3E0PRqtob5c
+ aSXA==
+X-Gm-Message-State: AOAM531gN3IQMcejw4xhDm6cGbdLOAZ1kk0Gw4MU2hMO/lJ5sIzbOgQY
+ V96dr/ZXdDaqsbgdvAjCvV0=
+X-Google-Smtp-Source: ABdhPJylqd2aCo4OdWacO1NzkdhKrkGlngvsgTCA2pPxab/QetyviXICeIv/c4d1XODXuH8f7xOATw==
+X-Received: by 2002:a17:906:60d0:: with SMTP id
+ f16mr22112045ejk.17.1595882087821; 
+ Mon, 27 Jul 2020 13:34:47 -0700 (PDT)
+Received: from felia ([2001:16b8:2daf:f700:54de:db5:3d20:437c])
+ by smtp.gmail.com with ESMTPSA id q6sm7758159ejn.30.2020.07.27.13.34.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 13:34:47 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Mon, 27 Jul 2020 22:34:37 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Nachiket Naganure <nachiketun8@gmail.com>
+In-Reply-To: <20200727071159.GA595854@endurance>
+Message-ID: <alpine.DEB.2.21.2007272229280.15655@felia>
+References: <20200727055458.559558-1-nachiketun8@gmail.com>
+ <66bbaec73d8f69541535db5390c0f12b304c0467.camel@perches.com>
+ <20200727071159.GA595854@endurance>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20200727181144.GA543@gmail.com>
-Content-Language: en-US
-Cc: linux-ide@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] ata: use generic power
-	management
+Cc: linux-kernel@vger.kernel.org, apw@canonical.com,
+ Joe Perches <joe@perches.com>, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: disable commit log
+ length check warning for signature tag
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,57 +120,62 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/27/20 12:11 PM, Vaibhav Gupta wrote:
-> On Mon, Jul 27, 2020 at 11:59:05AM -0600, Jens Axboe wrote:
->> On 7/27/20 11:51 AM, Vaibhav Gupta wrote:
->>> On Mon, Jul 27, 2020 at 11:42:51AM -0600, Jens Axboe wrote:
->>>> On 7/27/20 11:40 AM, Vaibhav Gupta wrote:
->>>>> The patch is compile-tested only.
->>>>
->>>> Please test and verify actual functionality, if you're serious
->>>> about potentially getting this into the kernel.
->>>>
->>> Hello Jens,
->>>
->>> Sadly I don't have the hardware. This upgrade is part of my Linux
->>> Kernel Mentorship Program project. Like other PCI drivers which I
->>> have updated, I could do compile-testing only. Though this patch
->>> covers 54 drivers but the actual change is done only in
->>> drivers/ata/libata-core. Since rest of the drivers make use of the
->>> same ata_pci_device_suspend/resume(), it was a chain reaction. I
->>> only had to change variable binding in "struct pci_driver" variable
->>> of dependent drivers.
->>
->> That's understandable, but you should find at least some hardware
->> (maybe remotely accessible) to test this on. I'm not going to apply
->> this without some confidence that it actually works, and compile only
->> testing is a far cry from that. Lots of code compiles, but fails
->> miserably at runtime.
->>
->> While it's touching 54 drivers, at least basic coverage of the most
->> popular choices will give everybody some confidence that it works in
->> general.
->>
-> Yes, I agree. Actually with previous drivers, I was able to get help
-> from maintainers and/or supporters for the hardware testing. Is that
-> possible for this patch?
 
-It might be, you'll have to ask people to help you, very rarely do people
-just test patches unsolicited unless they have some sort of interest in the
-feature.
 
-This is all part of what it takes to get code upstream. Writing the code
-is just a small part of it, the bigger part is usually getting it tested
-and providing some assurance that you are willing to fix issues when/if
-they come up.
+On Mon, 27 Jul 2020, Nachiket Naganure wrote:
 
-You might want to consider splitting up the patchset a bit - you could
-have one patch for the generic bits, then one for each chipset. That
-would allow you to at least get some of the work upstream, once tested.
+> On Sun, Jul 26, 2020 at 11:14:42PM -0700, Joe Perches wrote:
+> > On Mon, 2020-07-27 at 11:24 +0530, Nachiket Naganure wrote:
+> > > Disable commit log length check in case of signature tag. If the commit
+> > > log line has valid signature tags such as "Reported-and-tested-by" with
+> > > more than 75 characters, suppress the long length warning.
+> > > 
+> > > For instance in commit ac854131d984 ("USB: core: Fix misleading driver bug
+> > > report"), the corresponding patch contains a "Reported by" tag line which
+> > > exceeds 75 chars. And there is no valid way to shorten the length.
+> > > 
+> > > Signed-off-by: Nachiket Naganure <nachiketun8@gmail.com>
+> > > ---
+> > >  scripts/checkpatch.pl | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > > index 197436b20288..46237e9e0550 100755
+> > > --- a/scripts/checkpatch.pl
+> > > +++ b/scripts/checkpatch.pl
+> > > @@ -2806,6 +2806,8 @@ sub process {
+> > >  					# filename then :
+> > >  		      $line =~ /^\s*(?:Fixes:|Link:)/i ||
+> > >  					# A Fixes: or Link: line
+> > > +		      $line =~ /$signature_tags/ ||
+> > > +					# Check for signature_tags
+> > >  		      $commit_log_possible_stack_dump)) {
+> > >  			WARN("COMMIT_LOG_LONG_LINE",
+> > >  			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
+> > 
+> > OK, but the test should be:
+> > 
+> > 		      $line =~ /^\s*$signature_tags/ ||
+> > 
+> > so the line has to start with a signature and
+> > it won't match on signature tags in the middle
+> > of other content on the same line.
+> > 
+> > 
+> But the suggested won't work in case of merged signatures.
+> Such as "Reported-and-tested-by: user@email.com"
+> 
 
--- 
-Jens Axboe
+But Joe's remark is valid; we do not want to match on signature tags in 
+the middle. These cases are probably mentioning signature tags as part of 
+a sentence or some explanation.
 
+Nachiket, think about a proper solution for this issue.
+
+The evaluation data from running checkpatch.pl on previous commits will 
+provide you some guidance on which heuristics might work and which not.
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
