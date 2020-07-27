@@ -2,80 +2,97 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9DF3C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 08:56:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26724C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 09:58:10 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B1E012072E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 08:56:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="w7V0Rk7+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B1E012072E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id E95DD2075D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 09:58:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E95DD2075D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8739B85D70;
-	Mon, 27 Jul 2020 08:56:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C542985CFE;
+	Mon, 27 Jul 2020 09:58:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ivT18w-v7wR6; Mon, 27 Jul 2020 08:56:27 +0000 (UTC)
+	with ESMTP id ANjN0Bk3B7uA; Mon, 27 Jul 2020 09:58:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 112CD85D39;
-	Mon, 27 Jul 2020 08:56:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AF56E85CD8;
+	Mon, 27 Jul 2020 09:58:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E6D2BC0050;
-	Mon, 27 Jul 2020 08:56:26 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2F68FC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A2591C0050;
+	Mon, 27 Jul 2020 09:58:08 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E9ED0C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 08:56:26 +0000 (UTC)
+ Mon, 27 Jul 2020 09:58:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 16BED85D45
+ by hemlock.osuosl.org (Postfix) with ESMTP id CE70787B5E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 08:56:26 +0000 (UTC)
+ Mon, 27 Jul 2020 09:58:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tZ7GYwPZiKdU
+ with ESMTP id HLjuFmUqTC1R
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 08:56:25 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9111385D39
+ Mon, 27 Jul 2020 09:58:05 +0000 (UTC)
+X-Greylist: delayed 00:07:18 by SQLgrey-1.7.6
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4E97D87134
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 08:56:25 +0000 (UTC)
-Received: from localhost (unknown [122.171.202.192])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ Mon, 27 Jul 2020 09:58:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by a.mx.secunet.com (Postfix) with ESMTP id 64AA420561;
+ Mon, 27 Jul 2020 11:50:44 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+ by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ufs28DryHkk0; Mon, 27 Jul 2020 11:50:44 +0200 (CEST)
+Received: from cas-essen-01.secunet.de (201.40.53.10.in-addr.arpa
+ [10.53.40.201])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 64F0520719;
- Mon, 27 Jul 2020 08:56:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595840185;
- bh=ckrzN6x1hBtNGks7Ouqr9lQX/r6n4nBW5be26Bg/ZCg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=w7V0Rk7+G2pBeE7TNO5yE9PaBiyD86DJaUifty8MDZfy+IcqnRFn9vsAJ6HkBKvem
- LMWb4s/DDoTTlgCDZ441WzPrgoF4YKM+WQN+vdf3p5zfG8oFY5AWxnxXa5oG63KfoQ
- kdIgLCe+0H3myAnjbOEWhgyxExwtjjsBLmm17jPE=
-Date: Mon, 27 Jul 2020 14:26:21 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <20200727085621.GL12965@vkoul-mobl>
-References: <20200720113740.353479-1-vaibhavgupta40@gmail.com>
+ by a.mx.secunet.com (Postfix) with ESMTPS id 01B4920482;
+ Mon, 27 Jul 2020 11:50:44 +0200 (CEST)
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Mon, 27 Jul 2020 11:50:43 +0200
+Received: from gauss2.secunet.de (10.182.7.193) by mbx-essen-01.secunet.de
+ (10.53.40.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Mon, 27 Jul
+ 2020 11:50:43 +0200
+Received: by gauss2.secunet.de (Postfix, from userid 1000)
+ id 671043184651; Mon, 27 Jul 2020 11:50:43 +0200 (CEST)
+Date: Mon, 27 Jul 2020 11:50:43 +0200
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: Cong Wang <xiyou.wangcong@gmail.com>
+Message-ID: <20200727095043.GA20687@gauss3.secunet.de>
+References: <20200726030855.q6dfjekazfzl5usw@pesu.pes.edu>
+ <CAM_iQpUFL7VdCKSgUa6N3pg7ijjZRu6-6UAs2oNosM-EzgXbaQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200720113740.353479-1-vaibhavgupta40@gmail.com>
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
- Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Dan Williams <dan.j.williams@intel.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] dmaengine: pch_dma: use
-	generic power management
+In-Reply-To: <CAM_iQpUFL7VdCKSgUa6N3pg7ijjZRu6-6UAs2oNosM-EzgXbaQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
+ mbx-essen-01.secunet.de (10.53.40.197)
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+Cc: Herbert Xu <herbert@gondor.apana.org.au>,
+ Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, Linux Kernel
+ Network Developers <netdev@vger.kernel.org>,
+ B K Karthik <bkkarthik@pesu.pes.edu>, LKML <linux-kernel@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] net: ipv6: fix use-after-free
+ Read in __xfrm6_tunnel_spi_lookup
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,129 +110,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Vaibhav,
+On Sat, Jul 25, 2020 at 10:35:12PM -0700, Cong Wang wrote:
+> On Sat, Jul 25, 2020 at 8:09 PM B K Karthik <bkkarthik@pesu.pes.edu> wrote:
+> > @@ -103,10 +103,10 @@ static int __xfrm6_tunnel_spi_check(struct net *net, u32 spi)
+> >  {
+> >         struct xfrm6_tunnel_net *xfrm6_tn = xfrm6_tunnel_pernet(net);
+> >         struct xfrm6_tunnel_spi *x6spi;
+> > -       int index = xfrm6_tunnel_spi_hash_byspi(spi);
+> > +       int index = xfrm6_tunnel_spi_hash_byaddr((const xfrm_address_t *)spi);
+> >
+> >         hlist_for_each_entry(x6spi,
+> > -                            &xfrm6_tn->spi_byspi[index],
+> > +                            &xfrm6_tn->spi_byaddr[index],
+> >                              list_byspi) {
+> >                 if (x6spi->spi == spi)
+> 
+> How did you convince yourself this is correct? This lookup is still
+> using spi. :)
 
-On 20-07-20, 17:07, Vaibhav Gupta wrote:
-> Drivers using legacy PM have to manage PCI states and device's PM states
-> themselves. They also need to take care of configuration registers.
-> 
-> With improved and powerful support of generic PM, PCI Core takes care of
-> above mentioned, device-independent, jobs.
-> 
-> This driver makes use of PCI helper functions like
-> pci_save/restore_state(), pci_enable/disable_device(),
-> and pci_set_power_state() to do required operations. In generic mode, they
-> are no longer needed.
-> 
-> Change function parameter in both .suspend() and .resume() to
-> "struct device*" type. Use dev_get_drvdata() to get drv data.
-
-You are doing too many things in One patch. Do consider splitting them
-up to a change per patch. for example using __maybe could be one patch,
-removing code is suspend-resume callbacks would be other one.
-> 
-> Compile-tested only.
-
-I would like to see some testing before we merge this
-
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> ---
->  drivers/dma/pch_dma.c | 35 +++++++++--------------------------
->  1 file changed, 9 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/dma/pch_dma.c b/drivers/dma/pch_dma.c
-> index a3b0b4c56a19..e93005837e3f 100644
-> --- a/drivers/dma/pch_dma.c
-> +++ b/drivers/dma/pch_dma.c
-> @@ -735,8 +735,7 @@ static irqreturn_t pd_irq(int irq, void *devid)
->  	return ret0 | ret2;
->  }
->  
-> -#ifdef	CONFIG_PM
-> -static void pch_dma_save_regs(struct pch_dma *pd)
-> +static void __maybe_unused pch_dma_save_regs(struct pch_dma *pd)
->  {
->  	struct pch_dma_chan *pd_chan;
->  	struct dma_chan *chan, *_c;
-> @@ -759,7 +758,7 @@ static void pch_dma_save_regs(struct pch_dma *pd)
->  	}
->  }
->  
-> -static void pch_dma_restore_regs(struct pch_dma *pd)
-> +static void __maybe_unused pch_dma_restore_regs(struct pch_dma *pd)
->  {
->  	struct pch_dma_chan *pd_chan;
->  	struct dma_chan *chan, *_c;
-> @@ -782,40 +781,25 @@ static void pch_dma_restore_regs(struct pch_dma *pd)
->  	}
->  }
->  
-> -static int pch_dma_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused pch_dma_suspend(struct device *dev)
->  {
-> -	struct pch_dma *pd = pci_get_drvdata(pdev);
-> +	struct pch_dma *pd = dev_get_drvdata(dev);
->  
->  	if (pd)
->  		pch_dma_save_regs(pd);
->  
-> -	pci_save_state(pdev);
-> -	pci_disable_device(pdev);
-> -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
-> -
->  	return 0;
->  }
->  
-> -static int pch_dma_resume(struct pci_dev *pdev)
-> +static int __maybe_unused pch_dma_resume(struct device *dev)
->  {
-> -	struct pch_dma *pd = pci_get_drvdata(pdev);
-> -	int err;
-> -
-> -	pci_set_power_state(pdev, PCI_D0);
-> -	pci_restore_state(pdev);
-> -
-> -	err = pci_enable_device(pdev);
-> -	if (err) {
-> -		dev_dbg(&pdev->dev, "failed to enable device\n");
-> -		return err;
-> -	}
-> +	struct pch_dma *pd = dev_get_drvdata(dev);
->  
->  	if (pd)
->  		pch_dma_restore_regs(pd);
->  
->  	return 0;
->  }
-> -#endif
->  
->  static int pch_dma_probe(struct pci_dev *pdev,
->  				   const struct pci_device_id *id)
-> @@ -993,15 +977,14 @@ static const struct pci_device_id pch_dma_id_table[] = {
->  	{ 0, },
->  };
->  
-> +static SIMPLE_DEV_PM_OPS(pch_dma_pm_ops, pch_dma_suspend, pch_dma_resume);
-> +
->  static struct pci_driver pch_dma_driver = {
->  	.name		= DRV_NAME,
->  	.id_table	= pch_dma_id_table,
->  	.probe		= pch_dma_probe,
->  	.remove		= pch_dma_remove,
-> -#ifdef CONFIG_PM
-> -	.suspend	= pch_dma_suspend,
-> -	.resume		= pch_dma_resume,
-> -#endif
-> +	.driver.pm	= &pch_dma_pm_ops,
->  };
->  
->  module_pci_driver(pch_dma_driver);
-> -- 
-> 2.27.0
-
--- 
-~Vinod
+This can not be correct, it takes a u32 spi value and casts it to a
+pointer to an IP address.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
