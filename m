@@ -2,116 +2,101 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80743C433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 14:14:23 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A43E4C433EB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 14:16:22 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4A3832173E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 14:14:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 75BAF2070A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 14:16:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nuZF0Mj0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A3832173E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=pesu-pes-edu.20150623.gappssmtp.com header.i=@pesu-pes-edu.20150623.gappssmtp.com header.b="fbHGlTFf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75BAF2070A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=pesu.pes.edu
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id EFE5D204CB;
-	Mon, 27 Jul 2020 14:14:22 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7XMDpW-Z1eiw; Mon, 27 Jul 2020 14:14:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 4DC5E2042E;
-	Mon, 27 Jul 2020 14:14:22 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 44C6AC004F;
-	Mon, 27 Jul 2020 14:14:22 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 59DC9C004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 14:14:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 42FE285EC0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 14:14:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4A10485FA2;
+	Mon, 27 Jul 2020 14:16:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uTMQBpzjzda7; Mon, 27 Jul 2020 14:16:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9B55985F9D;
+	Mon, 27 Jul 2020 14:16:21 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 96CECC004F;
+	Mon, 27 Jul 2020 14:16:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7BB47C004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 14:16:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 73E55881B7
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 14:16:20 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Nu_lJ7k7WG9r
+ with ESMTP id Onyu0AvbHrRW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 14:14:20 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
- [209.85.160.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 869F885D7D
+ Mon, 27 Jul 2020 14:16:19 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+ [209.85.167.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4089D881A8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 14:14:20 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id b25so12271015qto.2
+ Mon, 27 Jul 2020 14:16:19 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id i80so9070128lfi.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=y9lbwhpNkXDEPrCqs4m21x/DyaLmLEGxvTObYoYswfg=;
- b=nuZF0Mj0owgt6tEsiTXfnJ2eI2ujMyxvOF5pbIRSQUbOvAb/wtVocAFwgKr/er65gC
- C+d5tZT5DB2J9mjk94BGMWgb/W/f0Vh23B440hN+Aq88n/FP8GewmdyNeyXWAY21tTmJ
- t7bpomd1mNoPFxL9K6XpFtfMGuNmL1KfpMUHbjJnOUwLskuli1JzIReFdu0ImyICn0Pc
- bHqtCJKDiGzoWZQxs7GdkkLzBpuZN00UJrdoU41KBPiXmuQleavSAW/ACB/IMRJoGSNs
- v70CMNmIuhXeq/Q/fMM7fndWFHAhGhxWyS0imUpzLXQpQyOWhMwb6GXeQ/hKgLZ0w5gb
- t6PQ==
+ Mon, 27 Jul 2020 07:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xXHUq+GPzg8FK4S6+EdRbVWjybtJrgatUKy7SXDL+iQ=;
+ b=fbHGlTFf6UiyosFji1yVJnin+2GpGhwuMIPQk7R8Cqngdmtmmg1w4zzgLnMdEpBEuT
+ Mmt2zAwdmQpGxnKbdugxOngK/qljcak+sVw4DgmLFFotPEWfxXneTVPUzftqhVUQwMq5
+ n/q6XExE/jCJ4L0yjPt6zNXF7WVpGxZk4m7mPEllW6Xt4Gi1DwdFlkIS3j/nJAwpJYLX
+ 7xEYVflxmjWCSY/WVFfbArZ+84/KIb/+Cgx28PsngTO9BIhoCfA9UOzGEf0ETh97unxY
+ 91VoWjO1fCd54WjlybfBQlCDiyAFK6DD8wnnYSFjibzBCsXJwd/jihIBgjO/PA2TTceg
+ Caug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=y9lbwhpNkXDEPrCqs4m21x/DyaLmLEGxvTObYoYswfg=;
- b=HYZmNaRP3f8WvjQENTZCh5Ux1lsWfLhf+ImzKLdDGdja86JeLME+EqpXq+3qK/Huhf
- fJLcs4v7I7hX7elOlZasgSOwd4dPJS64QG4nmlhsDH+evdxLVefZboURPv9FPQUNv7PG
- ICdU2UBtXO6R5ihX3Tbqhu7kJrrX/xiSiJBUiU17NaWedrGm77wT0c8jDg7B7E0mmRzj
- L4Oia7w8kxPYsnq/Q3ho/24swl1BtFp0D1RtY2JNx6Yarnbxo3rXtDS/E6Aozpi1ZJIx
- oOiTBu2hHB1fdoxhroMt8tlbVUYf5cq2fCzlbb34y4C9zF3v967nfT6AeS3kOKjOjyeC
- F8TA==
-X-Gm-Message-State: AOAM533LX/hU1AWNwV3OAUMlCgJSeE4nWzNOgSZ1FwZ+vJ6dzzrL92kO
- Bu8K1O+BRo6i2ImU9RidRQ==
-X-Google-Smtp-Source: ABdhPJy1E319z1D33SixUBWRgVTxX65uy8ONSuGjV3Q4iaZunOwRcDqmSGKsYBSkw3Ql8PSuJxAW0g==
-X-Received: by 2002:ac8:5207:: with SMTP id r7mr22026332qtn.191.1595859259370; 
- Mon, 27 Jul 2020 07:14:19 -0700 (PDT)
-Received: from PWN ([209.94.141.207])
- by smtp.gmail.com with ESMTPSA id y24sm2422196qtv.71.2020.07.27.07.14.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 07:14:18 -0700 (PDT)
-Date: Mon, 27 Jul 2020 10:14:16 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Message-ID: <20200727141416.GA306745@PWN>
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam>
- <CAK8P3a3+9Gr6G6KDWu=iW3316O9cPH+XupBBajJaxrq20xQcyQ@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xXHUq+GPzg8FK4S6+EdRbVWjybtJrgatUKy7SXDL+iQ=;
+ b=c8m6sM88E7pbLr96IKYCajiVskB881fl4J1vrgCzwmT6wfQVudPdWpmzm3D0pejx1x
+ 9ad1qslhwlkpKgk3QEV8MZT2znUxEb/HguV+J04Y36FsUOytkYyzA1tJjQdSkz6J89j/
+ JaU8oRbUg+Xp8K0mDAfqQqO33qwrkE8AGTF12vmtWluTtPJLXQQ1cabJ19s3NyitdZcw
+ mk+wD4WLYSENsXUfDWfMW8rdKnqyvRT9MHLyTveRUI82cPIlAPeczSPTwqg3q52yjUGM
+ KfAhyynFbqXaegVwu1EM+uSeaW1ymz4xSzsPhYQLSoklVUafWJL7TBuMNqmo+ZWUWIs1
+ FA+A==
+X-Gm-Message-State: AOAM530iMFrPBOzGFiSQdwI6pxn9Bf8nbHZiXUwVy1l/kP31Ul08KJBu
+ Cbd7aC7SxAPVKTrQnbq5N7Uy/6ls+mlOsN6buAkcaw==
+X-Google-Smtp-Source: ABdhPJxBBdhHhJDhPI/I8NlecIrpo2ELWEx0rUO4NX/elZOnTncGFz78jyf4SCcCXLSNshfYOoEt/z0QAG9tUI0/pPM=
+X-Received: by 2002:ac2:4144:: with SMTP id c4mr11891945lfi.118.1595859377115; 
+ Mon, 27 Jul 2020 07:16:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a3+9Gr6G6KDWu=iW3316O9cPH+XupBBajJaxrq20xQcyQ@mail.gmail.com>
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Linus Walleij <linus.walleij@linaro.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
+References: <20200727131057.7a3of3hhsld4ng5t@pesu.pes.edu>
+ <20200727132256.GA3933866@kroah.com>
+In-Reply-To: <20200727132256.GA3933866@kroah.com>
+From: B K Karthik <bkkarthik@pesu.pes.edu>
+Date: Mon, 27 Jul 2020 19:46:05 +0530
+Message-ID: <CAAhDqq2N6nTHpz_CNTwh-ZRK-rQO0uUXO41iOouKn690R494Ww@mail.gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linux Kernel Network Developers <netdev@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Jon Maloy <jmaloy@redhat.com>,
+ tipc-discussion@lists.sourceforge.net, Ying Xue <ying.xue@windriver.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH] net: tipc: fix general
+	protection fault in tipc_conn_delete_sub
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -129,81 +114,91 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 04:05:38PM +0200, Arnd Bergmann wrote:
-> On Mon, Jul 27, 2020 at 3:16 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+On Mon, Jul 27, 2020 at 6:53 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, Jul 27, 2020 at 06:40:57PM +0530, B K Karthik wrote:
+> > fix a general protection fault in tipc_conn_delete_sub
+> > by checking for the existance of con->server.
+> > prevent a null-ptr-deref by returning -EINVAL when
+> > con->server is NULL
 > >
-> > On Mon, Jul 27, 2020 at 09:25:16AM +0200, Arnd Bergmann wrote:
-> > > On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> > > >
-> > > > video_put_user() is copying uninitialized stack memory to userspace due
-> > > > to the compiler not initializing holes in the structures declared on the
-> > > > stack. Fix it by initializing `ev32` and `vb32` using memset().
-> > > >
-> > > > Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
-> > > > Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> > >
-> > > Thanks a lot for addressing this! I now see that I actually created a similar
-> > > bugfix for it back in January, but for some reason that got stuck in my
-> > > backlog and I never wrote a proper description for it or sent it out to the
-> > > list, sorry about that. I would hope we could find a way to have either
-> > > the compiler or sparse warn if we copy uninitialized data to user space,
-> > > but we now don't even check for that within the kernel any more.
+> > general protection fault, probably for non-canonical address 0xdffffc0000000014: 0000 [#1] PREEMPT SMP KASAN
+> > KASAN: null-ptr-deref in range [0x00000000000000a0-0x00000000000000a7]
+> > CPU: 1 PID: 113 Comm: kworker/u4:3 Not tainted 5.6.0-syzkaller #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> > Workqueue: tipc_send tipc_conn_send_work
+> > RIP: 0010:tipc_conn_delete_sub+0x54/0x440 net/tipc/topsrv.c:231
+> > Code: 48 c1 ea 03 80 3c 02 00 0f 85 f0 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 18 48 8d bd a0 00 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 c0 03 00 00 48 c7 c0 34 0b 8a 8a 4c 8b a5 a0 00
+> > RSP: 0018:ffffc900012d7b58 EFLAGS: 00010206
+> > RAX: dffffc0000000000 RBX: ffff8880a8269c00 RCX: ffffffff8789ca01
+> > RDX: 0000000000000014 RSI: ffffffff8789a059 RDI: 00000000000000a0
+> > RBP: 0000000000000000 R08: ffff8880a8d88380 R09: fffffbfff18577a8
+> > R10: fffffbfff18577a7 R11: ffffffff8c2bbd3f R12: dffffc0000000000
+> > R13: ffff888093d35a18 R14: ffff8880a8269c00 R15: ffff888093d35a00
+> > FS:  0000000000000000(0000) GS:ffff8880ae700000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 000000000076c000 CR3: 000000009441d000 CR4: 00000000001406e0
+> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > Call Trace:
+> >  tipc_conn_send_to_sock+0x380/0x560 net/tipc/topsrv.c:266
+> >  tipc_conn_send_work+0x6f/0x90 net/tipc/topsrv.c:304
+> >  process_one_work+0x965/0x16a0 kernel/workqueue.c:2266
+> >  worker_thread+0x96/0xe20 kernel/workqueue.c:2412
+> >  kthread+0x388/0x470 kernel/kthread.c:268
+> >  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+> > Modules linked in:
+> > ---[ end trace 2c161a84be832606 ]---
+> > RIP: 0010:tipc_conn_delete_sub+0x54/0x440 net/tipc/topsrv.c:231
+> > Code: 48 c1 ea 03 80 3c 02 00 0f 85 f0 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 18 48 8d bd a0 00 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 c0 03 00 00 48 c7 c0 34 0b 8a 8a 4c 8b a5 a0 00
+> > RSP: 0018:ffffc900012d7b58 EFLAGS: 00010206
+> > RAX: dffffc0000000000 RBX: ffff8880a8269c00 RCX: ffffffff8789ca01
+> > RDX: 0000000000000014 RSI: ffffffff8789a059 RDI: 00000000000000a0
+> > RBP: 0000000000000000 R08: ffff8880a8d88380 R09: fffffbfff18577a8
+> > R10: fffffbfff18577a7 R11: ffffffff8c2bbd3f R12: dffffc0000000000
+> > R13: ffff888093d35a18 R14: ffff8880a8269c00 R15: ffff888093d35a00
+> > FS:  0000000000000000(0000) GS:ffff8880ae700000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 0000000020800000 CR3: 0000000091b8e000 CR4: 00000000001406e0
+> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 > >
-> > Here are my latest warnings on linux-next from Friday.
-> 
-> Ah, I forgot you had that kind of list already, thanks for checking!
-> 
-> > block/scsi_ioctl.c:707 scsi_put_cdrom_generic_arg() warn: check that 'cgc32' doesn't leak information (struct has a hole after 'data_direction')
-> 
-> I see no padding in this one, should be fine AFAICT. Any idea why you
-> get a warning
-> for this instance?
-> 
-> > drivers/input/misc/uinput.c:743 uinput_ff_upload_to_user() warn: check that 'ff_up_compat' doesn't leak information (struct has a hole after 'replay')
-> 
-> This one hs padding in it and looks broken.
-> 
-> > drivers/input/misc/uinput.c:958 uinput_ioctl_handler() warn: check that 'ff_up' doesn't leak information (struct has a hole after 'replay')
-> 
-> hard to tell.
-> 
-> > drivers/firewire/core-cdev.c:463 ioctl_get_info() warn: check that 'bus_reset' doesn't leak information (struct has a hole after 'generation')
-> 
-> broken, trivial to fix
-> 
-> > drivers/scsi/megaraid/megaraid_mm.c:824 kioc_to_mimd() warn: check that 'cinfo.base' doesn't leak information
-> 
-> Seems fine due to __packed annotation.
-> 
-> > drivers/gpio/gpiolib-cdev.c:473 lineevent_read() warn: check that 'ge' doesn't leak information (struct has a hole after 'id')
-> 
-> The driver seems to initialize the elements correctly before putting
-> them into the kfifo, so there is no infoleak. However the structure layout
-> of "struct gpioevent_data" is incompatible between x86-32 and x86-64
-> calling conventions, so this is likely broken in x86 compat mode,
-> unless user space can explicitly deal with the difference.
-> 
-> > drivers/gpu/drm/i915/i915_query.c:136 query_engine_info() warn: check that 'query.num_engines' doesn't leak information
-> 
-> I don't think this leaks any state, as it just copies data to user space that
-> it copied from there originally.
-> 
-> Stopping here for now.
-> 
-> Peilin Ye, is this something you are interested in fixing for the other drivers
-> as well? I'd be happy to help review any further patches if you Cc me.
+> > Reported-and-tested-by: syzbot+55a38037455d0351efd3@syzkaller.appspotmail.com
+> > Signed-off-by: B K Karthik <bkkarthik@pesu.pes.edu>
+> > ---
+> >  net/tipc/topsrv.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/net/tipc/topsrv.c b/net/tipc/topsrv.c
+> > index 1489cfb941d8..6c8d0c6bb112 100644
+> > --- a/net/tipc/topsrv.c
+> > +++ b/net/tipc/topsrv.c
+> > @@ -255,6 +255,9 @@ static void tipc_conn_send_to_sock(struct tipc_conn *con)
+> >       int count = 0;
+> >       int ret;
+> >
+> > +     if (!con->server)
+> > +             return -EINVAL;
+>
+> What is wrong with looking at the srv local variable instead?
+>
+> And how is server getting set to NULL and this function still being
+> called?
 
-Yes, I would like to! I will start from:
+tipc_conn_send_work makes a call to connected() which just returns con
+&& test_bit(CF_CONNECTED, &con->flags)
+maybe we can add this check to the implementation of connection() if
+you agree, but I found this solution to be fairly simpler because I'm
+not sure where else connected() is being used, and I did not want to
+introduce redundant function calls.
 
-	drivers/firewire/core-cdev.c:463
-	drivers/input/misc/uinput.c:743
+Yes we can replace con->server with the local variable srv. Extremely
+sorry, I hadn't noticed it earlier.
 
-...as you mentioned above.
+please let me know if i've wrongly understood any of these.
+thanks,
 
-Thank you!
-Peilin Ye
+karthik
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
