@@ -2,112 +2,103 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0D6C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 18:23:47 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 548F4C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 19:02:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 568212073E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 18:23:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 18AC42074F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 19:02:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="I1T7nVAH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 568212073E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CIpehUOt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18AC42074F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 00A702206D;
-	Mon, 27 Jul 2020 18:23:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D98BC85D11;
+	Mon, 27 Jul 2020 19:02:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nsZ4fvCmqsQd; Mon, 27 Jul 2020 18:23:46 +0000 (UTC)
+	with ESMTP id bAs57VjzLEOg; Mon, 27 Jul 2020 19:02:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EC09D203D6;
-	Mon, 27 Jul 2020 18:23:45 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6DEB685D56;
+	Mon, 27 Jul 2020 19:02:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B9CF6C004F;
-	Mon, 27 Jul 2020 18:23:45 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0C160C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6733BC004F;
+	Mon, 27 Jul 2020 19:02:11 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1CBEFC004F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 18:23:44 +0000 (UTC)
+ Mon, 27 Jul 2020 19:02:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 07C4C87F5C
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 172C285D56
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 18:23:44 +0000 (UTC)
+ Mon, 27 Jul 2020 19:02:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HMsNoFPnbFbW
+ with ESMTP id OdjYHyEPe4Kj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 18:23:43 +0000 (UTC)
-X-Greylist: delayed 00:17:14 by SQLgrey-1.7.6
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 052FE87F38
+ Mon, 27 Jul 2020 19:02:09 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
+ [209.85.219.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6D49185D11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 18:23:43 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id y22so15124471oie.8
+ Mon, 27 Jul 2020 19:02:09 +0000 (UTC)
+Received: by mail-qv1-f67.google.com with SMTP id j10so1313725qvo.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 11:23:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mFDUQmogg46Posu3w903aMyaH9JFMPS/SgmwZ4I8ccU=;
- b=I1T7nVAHC3vzto7UQ9hEUXPS9L7N6JIHGvzV+CxpjYgmTe+ds1sKddaNfOp5Lz3zFa
- gwq29Ta3R+Ik6gTSzyHZj/QZTNGF+3YjxvH/oCQsmR39XPWWUgXlruApbZuRv4+UO6m+
- F+qJsD58I3vBK2wxxeMXuf1z2fVrikDTjLjbR3nvBVLAacLbU8HVbI0K7jV8MOuA6Bxz
- 4oT6R6utDcWVEFQn1fppwmwQNvzuhRptA2GEPRg7km6J4qyewnJSZB9xyCMkLRSxVBOr
- HSqr07ARxowQi2ya25mF7GPbk4Gk2mFcDQT0lHnrh3jPX2oUlHgOexqhi5yZie7+ZxLf
- N3HQ==
+ Mon, 27 Jul 2020 12:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uPEUCGwUhu6gC7effbwPg+v6omwHm9FSYu/MnszzrTw=;
+ b=CIpehUOt0pFLGtZUceSvBaC7bKoxZRO5SIVUlQxu72u1BpL2T7RsEqJZkmlZgbQlNI
+ ytkyQCLn2n1RnVX+H6GtBKDp9qt8SAvZpm+2KnCzJD1HwCKKDqzR1jYaRyopVDaNCv9s
+ wXE2QZvRW2KliOdYmLGCiSjgteZdqeX6yWfWIceG+rdnBhUECimGxWr4I/vf0lIeubN/
+ 092IvLfWVygDK6Uzi4Fjb4JPPrGBf2Lz5twZNdFtfUgwfT6lg5vUcDV/tD0uGvNIFGg4
+ QX4TrAF1mhaZZhLCC0oWLJOgeYHHZOlxlDWwZ4ztcNmURs54knHDYuGFLPELdHHT9TCB
+ /K1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mFDUQmogg46Posu3w903aMyaH9JFMPS/SgmwZ4I8ccU=;
- b=icuOBKbgbFZJTlyZXEYzcX6ygWJ0JsqoLp9c8xrRnVMQuzh1IaBIBrnWayVAUEb625
- lVI5O+X5PKqZRVyMtnkks4q0bi56X/CmV7lBfepvi7nzZSZa6XHMgaaqFT0I75lfeSjS
- DpHkbGQTOaFY8j73jKlKFBS3WURGsnASxTSnbLfFmK0q2AOjHWzGhsJREZwKLYGwypCo
- 5foQ9Op9nQ4SkZM/kq/uXXN+tLLZH1gr9xFbpJF06JOGwPlDSngbVipLwbUdNCzSGjNb
- cmO24ZfODj90tHX7kT2kB61lMdpwR1r5l+KecjPFl3kfzth4/q9ZCwy/2wmwn6QsPRlP
- vm6w==
-X-Gm-Message-State: AOAM532oummXj+UxTLi86ZagiNB7oy0xbntPRlvqXm7bhl5/qO+y50Zx
- O+lhf1TPKbNeZOXFuwjKeZAc2do6scI=
-X-Google-Smtp-Source: ABdhPJxmYU88VTup/scAe1Pwy/mPgv3UJuWHJtQ3YU8xLR7QKaHQ2gI4MwOQdpbgduq0ybJfvL0uCg==
-X-Received: by 2002:a17:90b:1116:: with SMTP id
- gi22mr495293pjb.8.1595872748151; 
- Mon, 27 Jul 2020 10:59:08 -0700 (PDT)
-Received: from [192.168.1.182] ([66.219.217.173])
- by smtp.gmail.com with ESMTPSA id w70sm8378070pfc.98.2020.07.27.10.59.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jul 2020 10:59:07 -0700 (PDT)
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-References: <20200727173923.694872-1-vaibhavgupta40@gmail.com>
- <20200727174012.GA696265@gmail.com>
- <2b4738b0-5c2c-8ee2-83f9-10b961a5d0d3@kernel.dk>
- <20200727175119.GA700880@gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <99b7cc57-1b4f-6c0b-00c6-08e22021c373@kernel.dk>
-Date: Mon, 27 Jul 2020 11:59:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uPEUCGwUhu6gC7effbwPg+v6omwHm9FSYu/MnszzrTw=;
+ b=tFtfOCMBG8ra+kauKOjG0l8V2rs62j/NMtk90tLY52NvF906R5P1Hh1O/mNRhUHX/m
+ 65bmwAfGOFHIyweTGMWvWPszkcR4zMIss/dH1OC591Qjk9EtbL1Nurq2a7NjhULaivI1
+ 4yc7aWOHboEGTEOdZlBXvBChok4JJ7sxnvyf30ZOG+h+HaDttHS8Cl4WS10IpJ4H1Jt1
+ E6QUbBBo9F3cpzBsITy12zzLlyTcRNvz/4SAx4cyJO22vUi+UQRe8Lx6y5hhyKHrd2nk
+ tPvxLBeZqW6ImKSwz0QGTFDp9a5/HodgGrYbPzNansRXPuuI8EetSrQT7Yja7O5GHgq6
+ v4AQ==
+X-Gm-Message-State: AOAM530CklrPrMMDZhFm1Yu0bHItypbrWugjN/5KGDSU8KHrZneMG0Dw
+ etzYbKz5RhOQwQm57ToClw==
+X-Google-Smtp-Source: ABdhPJxl55vKVbiqhnwds/IIJ1yz9AlsuPAU+JHNpS/sdbZCaQOhnqlEjfFyhJfVgvLP1VrKW1oURQ==
+X-Received: by 2002:ad4:4ead:: with SMTP id ed13mr8757280qvb.161.1595876528455; 
+ Mon, 27 Jul 2020 12:02:08 -0700 (PDT)
+Received: from localhost.localdomain ([209.94.141.207])
+ by smtp.gmail.com with ESMTPSA id 6sm18964139qkj.134.2020.07.27.12.02.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 12:02:07 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Mon, 27 Jul 2020 15:00:13 -0400
+Message-Id: <20200727190013.324812-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200727161932.322955-1-yepeilin.cs@gmail.com>
+References: <20200727161932.322955-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200727175119.GA700880@gmail.com>
-Content-Language: en-US
-Cc: linux-ide@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] ata: use generic power
-	management
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [Linux-kernel-mentees] [PATCH v2] block/scsi-ioctl: Prevent
+	kernel-infoleak in scsi_put_cdrom_generic_arg()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,34 +116,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/27/20 11:51 AM, Vaibhav Gupta wrote:
-> On Mon, Jul 27, 2020 at 11:42:51AM -0600, Jens Axboe wrote:
->> On 7/27/20 11:40 AM, Vaibhav Gupta wrote:
->>> The patch is compile-tested only.
->>
->> Please test and verify actual functionality, if you're serious about
->> potentially getting this into the kernel.
->>
-> Hello Jens,
-> 
-> Sadly I don't have the hardware. This upgrade is part of my Linux Kernel
-> Mentorship Program project. Like other PCI drivers which I have updated, I could
-> do compile-testing only. Though this patch covers 54 drivers but the actual
-> change is done only in drivers/ata/libata-core. Since rest of the drivers
-> make use of the same ata_pci_device_suspend/resume(), it was a chain reaction. I
-> only had to change variable binding in "struct pci_driver" variable of dependent
-> drivers.
+scsi_put_cdrom_generic_arg() is copying uninitialized stack memory to
+userspace due to the compiler not initializing holes in statically
+allocated structures. Fix it by adding a padding field to `struct
+compat_cdrom_generic_command`.
 
-That's understandable, but you should find at least some hardware (maybe remotely
-accessible) to test this on. I'm not going to apply this without some confidence
-that it actually works, and compile only testing is a far cry from that. Lots of
-code compiles, but fails miserably at runtime.
+Cc: stable@vger.kernel.org
+Fixes: f3ee6e63a9df ("compat_ioctl: move CDROM_SEND_PACKET handling into scsi")
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+Change in v2:
+    - Add a padding field to `struct compat_cdrom_generic_command`,
+      instead of doing memset() on `cgc32`. (Suggested by Jens Axboe
+      <axboe@kernel.dk>)
 
-While it's touching 54 drivers, at least basic coverage of the most popular
-choices will give everybody some confidence that it works in general.
+ block/scsi_ioctl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/block/scsi_ioctl.c b/block/scsi_ioctl.c
+index ef722f04f88a..72108404718f 100644
+--- a/block/scsi_ioctl.c
++++ b/block/scsi_ioctl.c
+@@ -651,6 +651,7 @@ struct compat_cdrom_generic_command {
+ 	compat_int_t	stat;
+ 	compat_caddr_t	sense;
+ 	unsigned char	data_direction;
++	unsigned char	pad[3];
+ 	compat_int_t	quiet;
+ 	compat_int_t	timeout;
+ 	compat_caddr_t	reserved[1];
 -- 
-Jens Axboe
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
