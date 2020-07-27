@@ -2,123 +2,105 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A63EC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 13:17:06 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95219C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 13:21:14 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E5DB206D8
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 13:17:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 65DA62074F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 13:21:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="oFOGwTQx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E5DB206D8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IO7Asnw1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 65DA62074F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2350D87A60;
-	Mon, 27 Jul 2020 13:17:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 36082204A4;
+	Mon, 27 Jul 2020 13:21:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jPFVd3oMJwYA; Mon, 27 Jul 2020 13:17:05 +0000 (UTC)
+	with ESMTP id e2W53KSMfsRl; Mon, 27 Jul 2020 13:21:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5994A864E6;
-	Mon, 27 Jul 2020 13:17:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DBAF920493;
+	Mon, 27 Jul 2020 13:21:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 39FC2C0050;
-	Mon, 27 Jul 2020 13:17:05 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8462FC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C0763C0050;
+	Mon, 27 Jul 2020 13:21:12 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4031BC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:17:03 +0000 (UTC)
+ Mon, 27 Jul 2020 13:21:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 78B3785E60
+ by silver.osuosl.org (Postfix) with ESMTP id 2DAFE20481
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:17:03 +0000 (UTC)
+ Mon, 27 Jul 2020 13:21:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id x6izlrtZrGPU
+ with ESMTP id MCaJ3oKteAex
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:17:02 +0000 (UTC)
+ Mon, 27 Jul 2020 13:21:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B689585C11
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id C6F17204C2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 13:17:02 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06RD6ulU071929;
- Mon, 27 Jul 2020 13:16:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=f0tYF1Lyo1O+rXlsLaTIUXOTNe5xa73rA7qmFjlVp0A=;
- b=oFOGwTQxPC173fC1DK090kUF5pNI5jAfbtAQqQpea9b2D5KpIZOljmzt2wx05XvTtxCr
- g8umNtuDMbZV2mji+0hWtvhXOg9TbI49T2js6YdR8cBLXy/ATKagGmnjXD5OzjQ+kUOG
- +BHWW9FeUfPnilypy51M8WPPIut03u8+EFs1RfmwhtYpveoicpkgzzLi6HvFbnLXnh9T
- GCwus5EXpF9HeQql/glssT+fHDwg+2cD0PEDJEz2h0VKb2/XCbBpeaUcjpxNvk0YkTmb
- fTfAK64N2E+hviFHnHYzb2vnWK+htgvLZcxFiIlM1bauKlYc8d6kajBczbBnIR9bzx6T Iw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 32hu1j1ehn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 27 Jul 2020 13:16:26 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06RD9Hrm063932;
- Mon, 27 Jul 2020 13:16:26 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 32hu5qpa5n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Jul 2020 13:16:26 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06RDGHxF009068;
- Mon, 27 Jul 2020 13:16:18 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 27 Jul 2020 06:16:17 -0700
-Date: Mon, 27 Jul 2020 16:16:08 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Message-ID: <20200727131608.GD1913@kadam>
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+ Mon, 27 Jul 2020 13:21:05 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id g67so9502460pgc.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 06:21:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lCrFxpLw5jwB0ZWba+VhbgCI7p4GpK2jg/E4s1AB/yM=;
+ b=IO7Asnw1x5jaHrPrBYcTWUlGNNMyYH8tet7FkILH4HmzUn9u+meMUVh7296Xg4Rcrw
+ 26mjFiFrtobGZP6/JQgzxcGK4uQo2Ig3wmk7+u7qj0oChgvGHJ5G9KhIY810qGt9ivDU
+ ecmte3moVCfdGcTryICQuGadpX09WZv7fo/TBHNX0iVyai2I1ajQfLVDjDziQuCVg66d
+ Op9jGMYmfwrIRYRcsmdDWYl1LEML4CLEJmejHa22x3gGRBecWBIPddPw5Uv7QAQUHlzf
+ sAX2Uzq+xrcpElEoZ7YiGfd1t7G8ipJ6UnABh/A6XbzkyEMxuz72nuyz0qykT0qrGyq2
+ K9VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lCrFxpLw5jwB0ZWba+VhbgCI7p4GpK2jg/E4s1AB/yM=;
+ b=meIdFNork8HMl40Hda7gmDaD8Y6HjwOELSPghiF2+X8mmd3czIaYDQfoHmpYm+/G9f
+ QoWINm5ugaxTiEre6J9nHNrU9K8Hq5sz5tSDyS79dazuLkJadAkokLQXKg+zr7gwBQ30
+ g796L4l7r78QnP1jUlNSZQccZ3/nWhs4D9W8Tju/UDyV3mugZ+ItqfuRnzRL35nCfXK8
+ S9Uf7kNE5dpk4b9XdFfrs/7jaLpDhv1jSYaA7plZjac1hwNDq5xh4fXaNCfNI2KKv0m+
+ ToRjcRLszlpKclE+0UTmTIFz4MKWb27SQBhRaQVfiDSUIdTgBU6JYUIauMmRVcyFbPk1
+ Cvow==
+X-Gm-Message-State: AOAM530X7P0KBxxjo09K+JznqyTjI/L+KbHdPLyddGkVA0HavbQESOhV
+ c4lybrnjyCmn1e9gai8uq8o=
+X-Google-Smtp-Source: ABdhPJxRloIPWLVUZ2/SuwNrfH74RWEzbhOzbwrdKU/RikSvAOSrIk2YgZzbcFwz0HqrECq6wOxFhQ==
+X-Received: by 2002:a63:5a20:: with SMTP id o32mr20002948pgb.15.1595856064511; 
+ Mon, 27 Jul 2020 06:21:04 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.152.86])
+ by smtp.gmail.com with ESMTPSA id my16sm12206087pjb.43.2020.07.27.06.21.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 06:21:03 -0700 (PDT)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Mark Brown <broonie@kernel.org>
+Date: Mon, 27 Jul 2020 18:47:43 +0530
+Message-Id: <20200727131742.82289-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <CAHp75Vdo22ofbCktupFYbfYy6PQ609fsk5B6u2b3FpfKxs8OQg@mail.gmail.com>
+References: <CAHp75Vdo22ofbCktupFYbfYy6PQ609fsk5B6u2b3FpfKxs8OQg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9694
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=999 mlxscore=0
- suspectscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007270096
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9694
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- clxscore=1011
- malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007270096
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
+Cc: linux-spi@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v2] spi: spi-topcliff-pch: drop call
+	to wakeup-disable
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -136,62 +118,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 09:25:16AM +0200, Arnd Bergmann wrote:
-> On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> >
-> > video_put_user() is copying uninitialized stack memory to userspace due
-> > to the compiler not initializing holes in the structures declared on the
-> > stack. Fix it by initializing `ev32` and `vb32` using memset().
-> >
-> > Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
-> > Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> 
-> Thanks a lot for addressing this! I now see that I actually created a similar
-> bugfix for it back in January, but for some reason that got stuck in my
-> backlog and I never wrote a proper description for it or sent it out to the
-> list, sorry about that. I would hope we could find a way to have either
-> the compiler or sparse warn if we copy uninitialized data to user space,
-> but we now don't even check for that within the kernel any more.
+Before generic upgrade, both .suspend() and .resume() were invoking
+pci_enable_wake(pci_dev, PCI_D3hot, 0). Hence, disabling wakeup in both
+states. (Normal trend is .suspend() enables and .resume() disables the
+wakeup.)
 
-Here are my latest warnings on linux-next from Friday.
+This was ambiguous and may be buggy. Instead of replicating the legacy
+behavior, drop the wakeup-disable call.
 
-block/scsi_ioctl.c:707 scsi_put_cdrom_generic_arg() warn: check that 'cgc32' doesn't leak information (struct has a hole after 'data_direction')
-drivers/input/misc/uinput.c:743 uinput_ff_upload_to_user() warn: check that 'ff_up_compat' doesn't leak information (struct has a hole after 'replay')
-drivers/input/misc/uinput.c:958 uinput_ioctl_handler() warn: check that 'ff_up' doesn't leak information (struct has a hole after 'replay')
-drivers/firewire/core-cdev.c:463 ioctl_get_info() warn: check that 'bus_reset' doesn't leak information (struct has a hole after 'generation')
-drivers/scsi/megaraid/megaraid_mm.c:824 kioc_to_mimd() warn: check that 'cinfo.base' doesn't leak information
-drivers/gpio/gpiolib-cdev.c:473 lineevent_read() warn: check that 'ge' doesn't leak information (struct has a hole after 'id')
-drivers/gpu/drm/i915/i915_query.c:136 query_engine_info() warn: check that 'query.num_engines' doesn't leak information
-drivers/gpu/drm/drm_bufs.c:1357 copy_one_buf() warn: check that 'v' doesn't leak information (struct has a hole after 'flags')
-drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:785 amdgpu_info_ioctl() warn: check that 'dev_info' doesn't leak information (struct has a hole after 'pa_sc_tile_steering_override')
-drivers/block/floppy.c:3132 raw_cmd_copyout() warn: check that 'cmd' doesn't leak information (struct has a hole after 'flags')
-drivers/char/hpet.c:675 hpet_ioctl() warn: check that 'info' doesn't leak information (struct has a hole after 'hi_timer')
-drivers/media/v4l2-core/v4l2-ioctl.c:3204 video_put_user() warn: check that 'ev32' doesn't leak information (struct has a hole after 'type')
-drivers/media/v4l2-core/v4l2-ioctl.c:3229 video_put_user() warn: check that 'vb32' doesn't leak information (struct has a hole after 'memory')
-drivers/net/wan/sbni.c:1320 sbni_ioctl() warn: check that 'flags' doesn't leak information (struct has a hole after 'rxl')
-drivers/infiniband/hw/qedr/verbs.c:1816 qedr_create_user_qp() warn: check that 'uresp' doesn't leak information (struct has a hole after 'sq_icid')
-drivers/infiniband/hw/cxgb4/provider.c:107 c4iw_alloc_ucontext() warn: check that 'uresp.reserved' doesn't leak information
-drivers/tty/vt/vt_ioctl.c:1218 vt_compat_ioctl() warn: check that 'op' doesn't leak information (struct has a hole after 'charcount')
-net/smc/smc_diag.c:181 __smc_diag_dump() warn: check that 'dinfo' doesn't leak information (struct has a hole after 'linkid')
-net/sched/act_ife.c:638 tcf_ife_dump() warn: check that 'opt' doesn't leak information (struct has a hole after 'flags')
-net/sched/act_skbmod.c:232 tcf_skbmod_dump() warn: check that 'opt' doesn't leak information (struct has a hole after 'bindcnt')
-net/sched/act_connmark.c:187 tcf_connmark_dump() warn: check that 'opt' doesn't leak information (struct has a hole after 'zone')
-net/openvswitch/conntrack.c:311 ovs_ct_put_key() warn: check that 'orig' doesn't leak information (struct has a hole after 'ipv4_proto')
-net/openvswitch/conntrack.c:322 ovs_ct_put_key() warn: check that 'orig' doesn't leak information (struct has a hole after 'ipv6_proto')
-net/rds/recv.c:492 rds_notify_queue_get() warn: check that 'cmsg' doesn't leak information (struct has a hole after 'status')
-net/xdp/xsk.c:870 xsk_getsockopt() warn: check that 'stats.rx_ring_full' doesn't leak information
-kernel/signal.c:3524 __do_sys_rt_sigtimedwait() warn: check that 'info' doesn't leak information (struct has a hole after 'si_code')
-kernel/signal.c:3524 __do_sys_rt_sigtimedwait() warn: check that 'info' doesn't leak information (struct has a hole after 'si_code')
-kernel/signal.c:3556 __do_sys_rt_sigtimedwait_time32() warn: check that 'info' doesn't leak information (struct has a hole after 'si_code')
-kernel/signal.c:3556 __do_sys_rt_sigtimedwait_time32() warn: check that 'info' doesn't leak information (struct has a hole after 'si_code')
-kernel/signal.c:4055 __do_sys_sigaltstack() warn: check that 'old' doesn't leak information (struct has a hole after 'ss_flags')
-kernel/signal.c:4055 __do_sys_sigaltstack() warn: check that 'old' doesn't leak information (struct has a hole after 'ss_flags')
-kernel/ptrace.c:998 ptrace_get_syscall_info() warn: check that 'info' doesn't leak information (struct has a hole after 'op')
+Fix: f185bcc77980("spi: spi-topcliff-pch: use generic power management")
+Reported by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/spi/spi-topcliff-pch.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/spi/spi-topcliff-pch.c b/drivers/spi/spi-topcliff-pch.c
+index 281a90f1b5d8..c73a03ddf5f3 100644
+--- a/drivers/spi/spi-topcliff-pch.c
++++ b/drivers/spi/spi-topcliff-pch.c
+@@ -1648,8 +1648,6 @@ static int __maybe_unused pch_spi_resume(struct device *dev)
+ 
+ 	dev_dbg(dev, "%s ENTRY\n", __func__);
+ 
+-	device_wakeup_disable(dev);
+-
+ 	/* set suspend status to false */
+ 	pd_dev_save->board_dat->suspend_sts = false;
+ 
+-- 
+2.27.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
