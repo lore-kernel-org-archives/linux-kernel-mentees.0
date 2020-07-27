@@ -2,94 +2,101 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4862AC433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97135C433E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:56:45 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A3202070B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:25:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A3202070B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+	by mail.kernel.org (Postfix) with ESMTPS id 5253F20738
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 07:56:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MG5CBLty"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5253F20738
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 81329203D2;
-	Mon, 27 Jul 2020 07:25:41 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2BFA1203D2;
+	Mon, 27 Jul 2020 07:56:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UnisFyjZnfx1; Mon, 27 Jul 2020 07:25:39 +0000 (UTC)
+	with ESMTP id gbSntcp48mWP; Mon, 27 Jul 2020 07:56:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 4DA0820385;
-	Mon, 27 Jul 2020 07:25:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A5FCB2002B;
+	Mon, 27 Jul 2020 07:56:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BC82C004F;
-	Mon, 27 Jul 2020 07:25:39 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EC57DC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 911C6C004F;
+	Mon, 27 Jul 2020 07:56:44 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BDD99C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:25:36 +0000 (UTC)
+ Mon, 27 Jul 2020 07:56:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D9A9888055
+ by silver.osuosl.org (Postfix) with ESMTP id 97C40203D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:25:36 +0000 (UTC)
+ Mon, 27 Jul 2020 07:56:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id g+us5sdlqC1B
+ with ESMTP id LxhBa9dkDDHA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:25:36 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 806E48804A
+ Mon, 27 Jul 2020 07:56:41 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 2744F2002B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:25:35 +0000 (UTC)
-Received: from mail-qt1-f169.google.com ([209.85.160.169]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MTRIi-1kNAmn1UnU-00TnJJ for
- <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Jul 2020 09:25:33
- +0200
-Received: by mail-qt1-f169.google.com with SMTP id b25so11505776qto.2
+ Mon, 27 Jul 2020 07:56:41 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id b79so14432931qkg.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 00:25:33 -0700 (PDT)
-X-Gm-Message-State: AOAM532x4JsbJspaxTl5FQMPkiVHTRkxq9PZ+PL4fgQkV+CqtyXdBgH4
- M67kq4Nkhl+gQT3+iUs/gLlkHgJAAAYgym2aP24=
-X-Google-Smtp-Source: ABdhPJwWLr1eTQmOXplkFU6XSrVj3kjpURsSxQSIWVgU+rgY8vc+FCSJgM46ph7HyxcrmOsXIwIa1wuoiXAbMCg8mWw=
-X-Received: by 2002:aed:33e7:: with SMTP id v94mr18147736qtd.18.1595834732135; 
- Mon, 27 Jul 2020 00:25:32 -0700 (PDT)
-MIME-Version: 1.0
+ Mon, 27 Jul 2020 00:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=N6upqxCfyW0GVZHe453idrIKQhFzkY5bo/oAq5M3uGE=;
+ b=MG5CBLtyWpDp74hy9XAMKqGEpWa8mR8mZm6FLz3EmFUhHuNS6Cc+ucxF/8J3Kwilww
+ ctoLd7ZrsXx6WGMNMV4rJbnd27tJ1/e4rtMyJBuCTqpVNAAoNo99DbKA44lj0OjjfjF3
+ SNqKyxqlob+pKDiCPnI21KXkXmZNE53JjrZ3oENbp1qhQTFUoABDRLmgacaHzT4HdKI4
+ tBXnGOlWKicNc5GHjatI5XupCQPIIbGS5yKAF0NRmIBtDgzck+d0RDxmQyQh1BrnGohf
+ L7vVZJdawFwAO9/0fnkuLd6z7+8TZ0QuPIM0GgkOvt+scBTGTnMDfHPP4eA37TtOMW0V
+ Z1LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=N6upqxCfyW0GVZHe453idrIKQhFzkY5bo/oAq5M3uGE=;
+ b=jzRNkptYaY2YNNQSoPVuHRx3fG8tzmKLeDDmC00giMovaeaRRLLPFMDt+KO8tdxylG
+ K8MZYn0UuXZcDh/9nxw04sMPM19W3c5nrnWA+5dCgGB9Q1i/jK7ST7TkVARMS7XQkJ9D
+ Wc/eAY8k37Cp6RUN8CgXPyWSK1FDBdikZHxGEzf6dHUgy1ZKs6UwZH8yCXr5eZsutLVh
+ mKvYgNV+XDHN2Bs+msb0ebfB6fG0EHpGYlhRVqSfHYj0dxfyAch/NBFARTTlm037IjvQ
+ qoyees/aeM6WCky6fo1+eP7y5lIaQAEcTJTkqgAfP+jN7imhOQK8b00wfuBTpRAyjUeO
+ ZlLA==
+X-Gm-Message-State: AOAM533PvhABkzeVtbiuiPWcut/k4nAQy0/jIZRp457sHlMKgu/ryg+Q
+ U6/c9R68/L1tQb9SxbVaHg==
+X-Google-Smtp-Source: ABdhPJxAQQcavuqSCw162hVKCvTa60uFZJYYJ8f5F0oIw3F8nSrx6KfVDkWkp/ov+7P3mP9y4r3j/A==
+X-Received: by 2002:a37:61ce:: with SMTP id v197mr2776425qkb.44.1595836600043; 
+ Mon, 27 Jul 2020 00:56:40 -0700 (PDT)
+Received: from PWN ([209.94.141.207])
+ by smtp.gmail.com with ESMTPSA id p4sm17340859qkj.135.2020.07.27.00.56.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 00:56:39 -0700 (PDT)
+Date: Mon, 27 Jul 2020 03:56:37 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Message-ID: <20200727075637.GA205716@PWN>
 References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
  <20200726222703.102701-1-yepeilin.cs@gmail.com>
-In-Reply-To: <20200726222703.102701-1-yepeilin.cs@gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 27 Jul 2020 09:25:16 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
-Message-ID: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-X-Provags-ID: V03:K1:0s5eHMXq04fMocP++umqyUbRy7dJr/2DC7t69jEqOsbNHjHr2gF
- bTbZHLM/AFxyixSy6f6Tuz1XYY1S3ptwgLj8LM3RIclwAJ21ZBmUECdVnVM5ibEfTvW9Up4
- ZrLBR5Y66DRQfTmv8OTmiZWRe6bbrUsblR2Kz+Xc3zqanrn+6BUFj+J2g7qZYAAfWgiUfXt
- FZWhzoUgpjQ69hJ/lrPxA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:shXpg5QNoM4=:9Epr4jNMCWSha/Jb2OyOg8
- 00KYNyQfOqvppiWef54x44GwnKaoYomSxB/bS17QddSV9d7XGuEG+jFiAN3fKVHKnjJ7/KolV
- r/kscezCf+jlVX7nvzJM/+50Uu8kPLqjz/zI2GkctrVEKA8nV+MNtnv5szTmYAPQKK7vwqMG5
- mVxoH9DU8Bnkprexvmp2xEfbGZtKFGS18IxfWqE94A5WJLOk6bHGNcdJUhkK9sWa2loQETLk5
- 71s1o7iMB64Iun1y78Tx7bjAzvNi/rMVBTT0nbldcIAz0ZcIlodVjOame87vqGEsYCuD5Xk1o
- EM/egvDGPGN1V3//Mv+NJ5C9l/MgpZXWYiDOrNboF/vXynRHj7kA615Wm7QnuUmX9g6EqFGQQ
- g94K13U2SXHqWuhFrlk8VKtxMdmdIMSpR5tOrdUbEjr6N1SguZm+W4BUEXtvz0maQRoFjr6+r
- JnXCeMoB0Bom23dsT6l6R0T61SVchM9yu48zOkvjaJ8Icf88sjkIewLQm2L3wtVjLeXPEirOw
- 2S4CA+J0FPFirNx+uXVs96UwgZpMeO6PLt2ozfnjOLszsl2Z9GYmZRYOhgfGnCD78QPLiQptq
- DRfo1a1ooZY7hAoCofq7jHgbBUYzxWivTe4LX6HcoGc4iKS6A0qAbgpGY1oc+n+F+ZAzRyh0f
- MlbUZ1QISlFuWF6TwL9Fe4GI7AB5lj7WmebABoDkZqs2trXq/uef7HOdQLduxhKWtEi38mdns
- wUnIZgBkhGq5biWrMGtQIL+SHI6x/xQjmahSRW0FNESPVkYQ1X9te44GL6NU5YTCtdhZFopiS
- 8aF1Dw4v7Ow1D8h0PhXVAv1w60tszC1HmhNoJUc27zgYQWwLOrwEgNwVh08D1A9QjsQKx2r9O
- ZvUzNXE6LDcw5BrJKSCyJLG4R7ADHFUDv42KNvo9dzM5Srsh7PucOVoZ8dFj9ctuKF1q8MSUo
- eWhRTJiXq7WhehSGyAllYGTDJYUFhmoqHeBd58xgdtHQI7r2C8qES
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+Cc: Niklas =?iso-8859-1?Q?S=F6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
  syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
  Linux Media Mailing List <linux-media@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -118,35 +125,42 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
->
-> video_put_user() is copying uninitialized stack memory to userspace due
-> to the compiler not initializing holes in the structures declared on the
-> stack. Fix it by initializing `ev32` and `vb32` using memset().
->
-> Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
-> Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+On Mon, Jul 27, 2020 at 09:25:16AM +0200, Arnd Bergmann wrote:
+> On Mon, Jul 27, 2020 at 12:28 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> >
+> > video_put_user() is copying uninitialized stack memory to userspace due
+> > to the compiler not initializing holes in the structures declared on the
+> > stack. Fix it by initializing `ev32` and `vb32` using memset().
+> >
+> > Reported-and-tested-by: syzbot+79d751604cb6f29fbf59@syzkaller.appspotmail.com
+> > Link: https://syzkaller.appspot.com/bug?extid=79d751604cb6f29fbf59
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> 
+> Thanks a lot for addressing this! I now see that I actually created a similar
+> bugfix for it back in January, but for some reason that got stuck in my
+> backlog and I never wrote a proper description for it or sent it out to the
+> list, sorry about that. I would hope we could find a way to have either
+> the compiler or sparse warn if we copy uninitialized data to user space,
+> but we now don't even check for that within the kernel any more.
 
-Thanks a lot for addressing this! I now see that I actually created a similar
-bugfix for it back in January, but for some reason that got stuck in my
-backlog and I never wrote a proper description for it or sent it out to the
-list, sorry about that. I would hope we could find a way to have either
-the compiler or sparse warn if we copy uninitialized data to user space,
-but we now don't even check for that within the kernel any more.
+I am glad to be of help!
 
-I would suggest adding these tags to the patch, to ensure it gets backported
-to stable kernels as needed:
+> I would suggest adding these tags to the patch, to ensure it gets backported
+> to stable kernels as needed:
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
+> Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for
+> time64 ABI")
+> 
+> In addition to
+> 
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
-Cc: stable@vger.kernel.org
-Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
-Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for
-time64 ABI")
+Sure, I will send a v4 soon. Thank you for reviewing the patch.
 
-In addition to
-
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Peilin Ye
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
