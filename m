@@ -2,101 +2,112 @@ Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A43E4C433EB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 14:16:22 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 318CBC433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 14:20:53 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 75BAF2070A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 14:16:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=pesu-pes-edu.20150623.gappssmtp.com header.i=@pesu-pes-edu.20150623.gappssmtp.com header.b="fbHGlTFf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75BAF2070A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=pesu.pes.edu
+	by mail.kernel.org (Postfix) with ESMTPS id 036E12070A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 14:20:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 036E12070A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4A10485FA2;
-	Mon, 27 Jul 2020 14:16:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B9B5488192;
+	Mon, 27 Jul 2020 14:20:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uTMQBpzjzda7; Mon, 27 Jul 2020 14:16:21 +0000 (UTC)
+	with ESMTP id DWPb21ZB5mJu; Mon, 27 Jul 2020 14:20:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9B55985F9D;
-	Mon, 27 Jul 2020 14:16:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 43B8F88191;
+	Mon, 27 Jul 2020 14:20:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96CECC004F;
-	Mon, 27 Jul 2020 14:16:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 262DAC004F;
+	Mon, 27 Jul 2020 14:20:52 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7BB47C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ED622C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 14:16:20 +0000 (UTC)
+ Mon, 27 Jul 2020 14:20:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 73E55881B7
+ by hemlock.osuosl.org (Postfix) with ESMTP id E292D88192
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 14:16:20 +0000 (UTC)
+ Mon, 27 Jul 2020 14:20:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Onyu0AvbHrRW
+ with ESMTP id wZy5w8fuFnuR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 14:16:19 +0000 (UTC)
+ Mon, 27 Jul 2020 14:20:50 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
- [209.85.167.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4089D881A8
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A82FA88191
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 14:16:19 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id i80so9070128lfi.13
+ Mon, 27 Jul 2020 14:20:49 +0000 (UTC)
+Received: from mail-qk1-f169.google.com ([209.85.222.169]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1M42X0-1k03zj0SVE-0004xR for
+ <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Jul 2020 16:20:47
+ +0200
+Received: by mail-qk1-f169.google.com with SMTP id h7so15329676qkk.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 07:16:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xXHUq+GPzg8FK4S6+EdRbVWjybtJrgatUKy7SXDL+iQ=;
- b=fbHGlTFf6UiyosFji1yVJnin+2GpGhwuMIPQk7R8Cqngdmtmmg1w4zzgLnMdEpBEuT
- Mmt2zAwdmQpGxnKbdugxOngK/qljcak+sVw4DgmLFFotPEWfxXneTVPUzftqhVUQwMq5
- n/q6XExE/jCJ4L0yjPt6zNXF7WVpGxZk4m7mPEllW6Xt4Gi1DwdFlkIS3j/nJAwpJYLX
- 7xEYVflxmjWCSY/WVFfbArZ+84/KIb/+Cgx28PsngTO9BIhoCfA9UOzGEf0ETh97unxY
- 91VoWjO1fCd54WjlybfBQlCDiyAFK6DD8wnnYSFjibzBCsXJwd/jihIBgjO/PA2TTceg
- Caug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xXHUq+GPzg8FK4S6+EdRbVWjybtJrgatUKy7SXDL+iQ=;
- b=c8m6sM88E7pbLr96IKYCajiVskB881fl4J1vrgCzwmT6wfQVudPdWpmzm3D0pejx1x
- 9ad1qslhwlkpKgk3QEV8MZT2znUxEb/HguV+J04Y36FsUOytkYyzA1tJjQdSkz6J89j/
- JaU8oRbUg+Xp8K0mDAfqQqO33qwrkE8AGTF12vmtWluTtPJLXQQ1cabJ19s3NyitdZcw
- mk+wD4WLYSENsXUfDWfMW8rdKnqyvRT9MHLyTveRUI82cPIlAPeczSPTwqg3q52yjUGM
- KfAhyynFbqXaegVwu1EM+uSeaW1ymz4xSzsPhYQLSoklVUafWJL7TBuMNqmo+ZWUWIs1
- FA+A==
-X-Gm-Message-State: AOAM530iMFrPBOzGFiSQdwI6pxn9Bf8nbHZiXUwVy1l/kP31Ul08KJBu
- Cbd7aC7SxAPVKTrQnbq5N7Uy/6ls+mlOsN6buAkcaw==
-X-Google-Smtp-Source: ABdhPJxBBdhHhJDhPI/I8NlecIrpo2ELWEx0rUO4NX/elZOnTncGFz78jyf4SCcCXLSNshfYOoEt/z0QAG9tUI0/pPM=
-X-Received: by 2002:ac2:4144:: with SMTP id c4mr11891945lfi.118.1595859377115; 
- Mon, 27 Jul 2020 07:16:17 -0700 (PDT)
+ Mon, 27 Jul 2020 07:20:46 -0700 (PDT)
+X-Gm-Message-State: AOAM531aX/Aw16tDUk766FOtl8Eilou5t03mJMfzp1AyiHWNscXsUkYc
+ qHaNSEIDXkqRCDklr2ZI8XfPqhNdHUsGhkGg9jU=
+X-Google-Smtp-Source: ABdhPJw7HU4DkkeUrMcak+NpsOXmslOO3+jYmC/8AEojsfZg/P4wKNKY0WLTL5LRBq4hmj1FpqBJPo8pIawzXbM9u3M=
+X-Received: by 2002:a37:b484:: with SMTP id
+ d126mr23013501qkf.394.1595859645873; 
+ Mon, 27 Jul 2020 07:20:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200727131057.7a3of3hhsld4ng5t@pesu.pes.edu>
- <20200727132256.GA3933866@kroah.com>
-In-Reply-To: <20200727132256.GA3933866@kroah.com>
-From: B K Karthik <bkkarthik@pesu.pes.edu>
-Date: Mon, 27 Jul 2020 19:46:05 +0530
-Message-ID: <CAAhDqq2N6nTHpz_CNTwh-ZRK-rQO0uUXO41iOouKn690R494Ww@mail.gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linux Kernel Network Developers <netdev@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, Jon Maloy <jmaloy@redhat.com>,
- tipc-discussion@lists.sourceforge.net, Ying Xue <ying.xue@windriver.com>,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: tipc: fix general
-	protection fault in tipc_conn_delete_sub
+References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
+ <20200726222703.102701-1-yepeilin.cs@gmail.com>
+ <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+ <20200727131608.GD1913@kadam>
+ <CAK8P3a3+9Gr6G6KDWu=iW3316O9cPH+XupBBajJaxrq20xQcyQ@mail.gmail.com>
+ <20200727141416.GA306745@PWN>
+In-Reply-To: <20200727141416.GA306745@PWN>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 27 Jul 2020 16:20:28 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3qBs8CsAeTqk7aKgdxsfR677sSwaEHR9+V1vn_4RKRbw@mail.gmail.com>
+Message-ID: <CAK8P3a3qBs8CsAeTqk7aKgdxsfR677sSwaEHR9+V1vn_4RKRbw@mail.gmail.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+X-Provags-ID: V03:K1:MXtL2FieZwoZ71XOirTQEMTFITzyR7u0OCAvXG9DoGSqpftjggX
+ h6YFdpyik2m1AUOnogOfufX/y/70mJJ1SBluLeoDXzYlIpI5a71nDa3292e/WRhEQp7wVGo
+ ykITexiXX7dI41moaOcUu5XcZNyqLaajIVNXJhK6enxIDbOAxKekzTyhh1Qnoo5OE4ad7Jl
+ peHpi6vMwlAjz6YNhlTYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:45lT7e45CxM=:9HTtS3kWdsnyYai4uPmN/o
+ G7vW8YzBSRo3p3+KtLFq+eOtcbvoZWr8ktJZUYxrY49mvDcZMapwlFCW9qkxr+RNvvH212ycj
+ 9FJ8tF5BHosNuUGFcUN9P3AM+zokh8psoGdNdkDyWmDWWymdrXYCCMPkvynoN2Z0TFonmxlEw
+ mXAxl0HgMWOCfV+m5HQBvyfNatcydmvLyEw7mtJ0kRzinunp+SQRGAYzWUw/8HDanAFW8kjqa
+ Vnt6DM7PG58tsu/ilN1WXfFTNWgmPZMUkAQByBcAdsB0/qdz/1W7TnvnP0yIPq7gxIP6u30fB
+ FwEttmBCXpqzncU/er6Ews/2WQpzlXuOVtgOAYfhs7prXhXEFdvojw6FDyDlfNvNmAw8+wfq7
+ bW8KQAmPs5vltmBNxaIibrY6d7mc1TCn7lDEO+jZcPYjbsjdLN6XgPFEj2IC9WoUOWxm2aLYB
+ Qm2SBntpkyYfTFtm8vODnfhVjBs+9kiB2yAlhnlFDxgGRqKIy4Ilvdk/rqt39Sop5C2j/eN/y
+ MXbFVF6O7LeRytoR7opHeL4YbCI89Q8pCZ7QPt++n6zcT9IpiKDiV9mAfhPswg/1iCtSKERH7
+ 07lpv/dxWST7Yo7i+0fVO8PbZxWhDVfBkvuZIMjRqyyCalpSaJSrjpSByJD9brje0T2/9F08T
+ 6KAcMajjBHgFbqCKTaIPL+0J9ot/LgS9XFWikemPpn3q+omU7JZYZKWSZO0aUrg2diLdhN7il
+ zRqv5Z/fRdeRvNrdVpRh2GewG1vZWZcG9iwfvAvo+R/LmHcAw/csXgoQqLYMzvTgbv2bkr+22
+ x+prodOkmobjWMUvTTwMPl3emCL7bUhkJ6vtYz6YNuBo8hR9N1dJMYZOdrKO2GPoIYFtURaXW
+ nrLul3SVcfCCKvq25wwyLVByc1rGhYzCozA3Nk4jvZE1YVYDW3oNsx/IwPAYkP7r7bwLphMry
+ rIcxwjwBztnvxmnFrG+rAW248QaEFTxoIX6OmU54yl8UlI7e19UmW
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
+ kernel-infoleak in video_put_user()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,91 +125,21 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 6:53 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+On Mon, Jul 27, 2020 at 4:14 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> On Mon, Jul 27, 2020 at 04:05:38PM +0200, Arnd Bergmann wrote:
+> > Peilin Ye, is this something you are interested in fixing for the other drivers
+> > as well? I'd be happy to help review any further patches if you Cc me.
 >
-> On Mon, Jul 27, 2020 at 06:40:57PM +0530, B K Karthik wrote:
-> > fix a general protection fault in tipc_conn_delete_sub
-> > by checking for the existance of con->server.
-> > prevent a null-ptr-deref by returning -EINVAL when
-> > con->server is NULL
-> >
-> > general protection fault, probably for non-canonical address 0xdffffc0000000014: 0000 [#1] PREEMPT SMP KASAN
-> > KASAN: null-ptr-deref in range [0x00000000000000a0-0x00000000000000a7]
-> > CPU: 1 PID: 113 Comm: kworker/u4:3 Not tainted 5.6.0-syzkaller #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> > Workqueue: tipc_send tipc_conn_send_work
-> > RIP: 0010:tipc_conn_delete_sub+0x54/0x440 net/tipc/topsrv.c:231
-> > Code: 48 c1 ea 03 80 3c 02 00 0f 85 f0 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 18 48 8d bd a0 00 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 c0 03 00 00 48 c7 c0 34 0b 8a 8a 4c 8b a5 a0 00
-> > RSP: 0018:ffffc900012d7b58 EFLAGS: 00010206
-> > RAX: dffffc0000000000 RBX: ffff8880a8269c00 RCX: ffffffff8789ca01
-> > RDX: 0000000000000014 RSI: ffffffff8789a059 RDI: 00000000000000a0
-> > RBP: 0000000000000000 R08: ffff8880a8d88380 R09: fffffbfff18577a8
-> > R10: fffffbfff18577a7 R11: ffffffff8c2bbd3f R12: dffffc0000000000
-> > R13: ffff888093d35a18 R14: ffff8880a8269c00 R15: ffff888093d35a00
-> > FS:  0000000000000000(0000) GS:ffff8880ae700000(0000) knlGS:0000000000000000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 000000000076c000 CR3: 000000009441d000 CR4: 00000000001406e0
-> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> > Call Trace:
-> >  tipc_conn_send_to_sock+0x380/0x560 net/tipc/topsrv.c:266
-> >  tipc_conn_send_work+0x6f/0x90 net/tipc/topsrv.c:304
-> >  process_one_work+0x965/0x16a0 kernel/workqueue.c:2266
-> >  worker_thread+0x96/0xe20 kernel/workqueue.c:2412
-> >  kthread+0x388/0x470 kernel/kthread.c:268
-> >  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-> > Modules linked in:
-> > ---[ end trace 2c161a84be832606 ]---
-> > RIP: 0010:tipc_conn_delete_sub+0x54/0x440 net/tipc/topsrv.c:231
-> > Code: 48 c1 ea 03 80 3c 02 00 0f 85 f0 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 18 48 8d bd a0 00 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 c0 03 00 00 48 c7 c0 34 0b 8a 8a 4c 8b a5 a0 00
-> > RSP: 0018:ffffc900012d7b58 EFLAGS: 00010206
-> > RAX: dffffc0000000000 RBX: ffff8880a8269c00 RCX: ffffffff8789ca01
-> > RDX: 0000000000000014 RSI: ffffffff8789a059 RDI: 00000000000000a0
-> > RBP: 0000000000000000 R08: ffff8880a8d88380 R09: fffffbfff18577a8
-> > R10: fffffbfff18577a7 R11: ffffffff8c2bbd3f R12: dffffc0000000000
-> > R13: ffff888093d35a18 R14: ffff8880a8269c00 R15: ffff888093d35a00
-> > FS:  0000000000000000(0000) GS:ffff8880ae700000(0000) knlGS:0000000000000000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 0000000020800000 CR3: 0000000091b8e000 CR4: 00000000001406e0
-> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> >
-> > Reported-and-tested-by: syzbot+55a38037455d0351efd3@syzkaller.appspotmail.com
-> > Signed-off-by: B K Karthik <bkkarthik@pesu.pes.edu>
-> > ---
-> >  net/tipc/topsrv.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/net/tipc/topsrv.c b/net/tipc/topsrv.c
-> > index 1489cfb941d8..6c8d0c6bb112 100644
-> > --- a/net/tipc/topsrv.c
-> > +++ b/net/tipc/topsrv.c
-> > @@ -255,6 +255,9 @@ static void tipc_conn_send_to_sock(struct tipc_conn *con)
-> >       int count = 0;
-> >       int ret;
-> >
-> > +     if (!con->server)
-> > +             return -EINVAL;
+> Yes, I would like to! I will start from:
 >
-> What is wrong with looking at the srv local variable instead?
+>         drivers/firewire/core-cdev.c:463
+>         drivers/input/misc/uinput.c:743
 >
-> And how is server getting set to NULL and this function still being
-> called?
+> ...as you mentioned above.
 
-tipc_conn_send_work makes a call to connected() which just returns con
-&& test_bit(CF_CONNECTED, &con->flags)
-maybe we can add this check to the implementation of connection() if
-you agree, but I found this solution to be fairly simpler because I'm
-not sure where else connected() is being used, and I did not want to
-introduce redundant function calls.
+Sounds good, thanks!
 
-Yes we can replace con->server with the local variable srv. Extremely
-sorry, I hadn't noticed it earlier.
-
-please let me know if i've wrongly understood any of these.
-thanks,
-
-karthik
+     Arnd
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
