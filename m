@@ -7,96 +7,92 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1238BC433EA
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 11:19:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF450C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 11:50:17 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C9B302078A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 11:19:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7545F206E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 11:50:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tnPmAVCa"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C9B302078A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tHZM8+D9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7545F206E7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A2F4B87E65;
-	Mon, 27 Jul 2020 11:19:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4CE0887C66;
+	Mon, 27 Jul 2020 11:50:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qZwBl-wX7bwx; Mon, 27 Jul 2020 11:19:32 +0000 (UTC)
+	with ESMTP id f-ALBpR9EM1V; Mon, 27 Jul 2020 11:50:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 15B1D87E68;
-	Mon, 27 Jul 2020 11:19:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C197887CD2;
+	Mon, 27 Jul 2020 11:50:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E6788C0050;
-	Mon, 27 Jul 2020 11:19:31 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 83AB4C004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 11:19:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9ED1AC0050;
+	Mon, 27 Jul 2020 11:50:16 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E09A0C004D
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 11:50:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 72BBD85D7E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 11:19:30 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id D688C87CD2
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 11:50:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UwYfieFhrjF5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 11:19:29 +0000 (UTC)
+ with ESMTP id j-twznIjyu3P
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 11:50:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B2F09851CB
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 11:19:29 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id e22so2067931pjt.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 04:19:29 -0700 (PDT)
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3AE7387C66
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 11:50:14 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id 72so7876666ple.0
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Jul 2020 04:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WlZG7+7DASiAzqRKJZMw2+Puq2+bYr5zSYxEeHcy5yE=;
- b=tnPmAVCazQgMI6svqYEuWU5taBJyw947KUxPTAau0I/QZbDyWIrbIpF91LGxjwuXGS
- LRPhm0xQXCIHj6tLs3yJMPYfYpDu6C2ECNaIk4i+MVZtfJSrr3XrrO8UUwTiZNve2FKx
- tt61tOCsJ7vzFAXkYye3SH7Ypg93rIZ6DSgW08NfmYPzTXpbStrm3Apl1ZWnrYNHLvWD
- OBldOrdbRoK6cSzFCmd5prG6Tm8BCV2/TP0GPyY4scENzh9f169OGou9zJOOMnO77e2T
- BtfzRoDkSg4mYSwTZbYir+6sEgEO3hafKHhPd/Dxho5+HIiA0vuqcDXdyTYNzbfldbHo
- Wldw==
+ h=date:from:to:subject:message-id:mime-version:content-disposition;
+ bh=oJunrlFAEEwhvbCLJRB3+Wm9QZpBB2WzV4o2hAD5fGI=;
+ b=tHZM8+D9WgwvlitMZBEeRs7nwn8L2b00h29NdXXsPlux7cKK3HAbVA4ITsRkpacn7m
+ VoPZ89KVBKNrezGBgQp2WfPW0uaXlEaYgijef7qdi2knKkO3/JzSXIZ3e2QBbWxVRmnm
+ hmA52+5/w8s+L5KdyeFV7dayGFk0WqHytjUA1P7tIIuMrPH6OBVqPnuIJZPrelY7WDiw
+ 8DpKZejyLRavdIm2S7NbhhncL6P4layQ5juG7uPC/bJjSVl3oMnoZJOTJ0AUTUG9CjCs
+ uOdxilZ9eVbrl0852tQe1EvbqQIsmLWjciDT+8Wd+W4iiWiMNAlHRVkJsaTtj8nCRuGp
+ 1U/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WlZG7+7DASiAzqRKJZMw2+Puq2+bYr5zSYxEeHcy5yE=;
- b=XypWt9VTDTvOhKSR1OI1V2cwuEbiQGAJBwfxWQKllHneeo8Dx1g7Xitlg6yI1jL7Mc
- Vr0hiz0QSX8J2ImRHzLeOQMgJjoV9P2+9CX6RA6sCPYKk2PhMKh6yi26EyYyeFJxWPma
- XVK2/i0kDqXTj/fVoNQ6I5Sdvj3Kde4q9v7aDGEA7+u4YzFD6XUiNCZV3xGaHdwPZmNx
- PDtz2orT+xae3Z00KO5QlNffUU9dWuet7rCnymIXcKcIiCGPVJOUC/1kabiq/pS532hn
- +AXy6Np0lYJNYiVK/Ipu13sdueBmMyinY1c+2SZ5QUWXtlCIz4qBbNSuN3iFKM2S9p4f
- /ahg==
-X-Gm-Message-State: AOAM530hXiLGR/DtbaclwYmMfyFgy6kXUBBVumfh1EwnxoGLtVhyKYSY
- W4AYqm8bsrZsZYLBH6Rir9jmLCXHtZ6a/FyD13E=
-X-Google-Smtp-Source: ABdhPJyXz/W9tfXLQ1P01pH1D/POYketJG+WWNnTcbGfmsPrhZC3owwch/SJ3tmfvaxowkKhGEHHRFKy/88Ks6iHGfQ=
-X-Received: by 2002:a17:90a:8985:: with SMTP id
- v5mr2785017pjn.181.1595848769238; 
- Mon, 27 Jul 2020 04:19:29 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition;
+ bh=oJunrlFAEEwhvbCLJRB3+Wm9QZpBB2WzV4o2hAD5fGI=;
+ b=TTwrBZhMN7NfhdOOzr15jN/ED0H0nMysdQ8AZo3D7nFl/CgHL5pchtsGbFNQVkt8Oh
+ fkFhGXiHzHzoI7s2f7h+/4lZaqCmxu8DqlXm1b+oGO40kMErUESIMnUqxa7rED9onml5
+ 962Ydo2FoHwBqZDsphwffZY0j3cF+IWpb+l7810rMrYwRjD/XoRRLbhQ7RPUcxeuGWt3
+ PDem+NSc9Tl5BFKXmLXqFs/3GE0jWULIoHvxZinuIKBLEgYq/b/5NJkIDWai2Vskwno3
+ 4PrP/Gtl9yIjmjc4P55pLtO9n3BZHdrLGy4BeLTlxBI0Yw83ck3MaPgvy+EwMVMSkCUZ
+ 7ReA==
+X-Gm-Message-State: AOAM533cU0CQOWaRSznMoyOgcTRnp943a22LRcPnmAkuXMiSKPJqjdpk
+ SoXrYkaODr5ZHJJ4pDMM0Lc=
+X-Google-Smtp-Source: ABdhPJyMdRPdg8RzZQOFDa0UhIEWAMPLcQO1uwMva4zlsX6vBOGahcBoTAmfiU0+fF9HvUGxLfqiJA==
+X-Received: by 2002:a17:90b:378d:: with SMTP id
+ mz13mr2788335pjb.98.1595850613737; 
+ Mon, 27 Jul 2020 04:50:13 -0700 (PDT)
+Received: from localhost ([1.22.79.77])
+ by smtp.gmail.com with ESMTPSA id f1sm18152872pjo.1.2020.07.27.04.50.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 04:50:12 -0700 (PDT)
+Date: Mon, 27 Jul 2020 17:20:06 +0530
+From: Mrinal Pandey <mrinalmni@gmail.com>
+To: lukas.bulwahn@gmail.com, skhan@linuxfoundation.org,
+ Linux-kernel-mentees@lists.linuxfoundation.org
+Message-ID: <20200727115006.7eccxuxcqu2qxx77@mrinalpandey>
 MIME-Version: 1.0
-References: <20200720113740.353479-1-vaibhavgupta40@gmail.com>
- <20200727085621.GL12965@vkoul-mobl>
-In-Reply-To: <20200727085621.GL12965@vkoul-mobl>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 27 Jul 2020 14:19:14 +0300
-Message-ID: <CAHp75VesTCOffxiy6=HG=g2t4=js3SnTm4LcdrgAGYiNvSS65Q@mail.gmail.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: dmaengine <dmaengine@vger.kernel.org>,
- Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Dan Williams <dan.j.williams@intel.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] dmaengine: pch_dma: use
-	generic power management
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: Improve SPDX license
+	check for script files
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,160 +104,101 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1746477659696103633=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 1:16 PM Vinod Koul <vkoul@kernel.org> wrote:
-> On 20-07-20, 17:07, Vaibhav Gupta wrote:
-> > Drivers using legacy PM have to manage PCI states and device's PM states
-> > themselves. They also need to take care of configuration registers.
-> >
-> > With improved and powerful support of generic PM, PCI Core takes care of
-> > above mentioned, device-independent, jobs.
-> >
-> > This driver makes use of PCI helper functions like
-> > pci_save/restore_state(), pci_enable/disable_device(),
-> > and pci_set_power_state() to do required operations. In generic mode, they
-> > are no longer needed.
-> >
-> > Change function parameter in both .suspend() and .resume() to
-> > "struct device*" type. Use dev_get_drvdata() to get drv data.
->
-> You are doing too many things in One patch. Do consider splitting them
-> up to a change per patch. for example using __maybe could be one patch,
-> removing code is suspend-resume callbacks would be other one.
 
-Vinod, while I completely agree with you in general, in this case it
-would make more unnecessary churn and will be rather unhelpful in all
-ways: for the contributor to do this work, for the reader to collect
-all the pieces. It also will be a bisectability issue, because the
-#ifdeffery replacement (IIRC you need to move from CONFIG_PM to
-CONFIG_PM_SLEEP). I really don't see any advantages of the splitting
-here.
-
-> > Compile-tested only.
->
-> I would like to see some testing before we merge this
-
-I have hardware to test (Intel Minnowboard v1) but have no time. And
-taking into account that I did similar changes for many other drivers,
-I can give my
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-and take responsibility if somebody complains in the future (I don't
-believe it will be one).
-
-P.S. Another scenario if Vaibhav can find that board (there were
-dozens of thousands at least produced and floating on the second hand
-market) and test himself. It may be good since he touches the full lot
-of PCH (EGT20) drivers.
-
-> > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > ---
-> >  drivers/dma/pch_dma.c | 35 +++++++++--------------------------
-> >  1 file changed, 9 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/drivers/dma/pch_dma.c b/drivers/dma/pch_dma.c
-> > index a3b0b4c56a19..e93005837e3f 100644
-> > --- a/drivers/dma/pch_dma.c
-> > +++ b/drivers/dma/pch_dma.c
-> > @@ -735,8 +735,7 @@ static irqreturn_t pd_irq(int irq, void *devid)
-> >       return ret0 | ret2;
-> >  }
-> >
-> > -#ifdef       CONFIG_PM
-> > -static void pch_dma_save_regs(struct pch_dma *pd)
-> > +static void __maybe_unused pch_dma_save_regs(struct pch_dma *pd)
-> >  {
-> >       struct pch_dma_chan *pd_chan;
-> >       struct dma_chan *chan, *_c;
-> > @@ -759,7 +758,7 @@ static void pch_dma_save_regs(struct pch_dma *pd)
-> >       }
-> >  }
-> >
-> > -static void pch_dma_restore_regs(struct pch_dma *pd)
-> > +static void __maybe_unused pch_dma_restore_regs(struct pch_dma *pd)
-> >  {
-> >       struct pch_dma_chan *pd_chan;
-> >       struct dma_chan *chan, *_c;
-> > @@ -782,40 +781,25 @@ static void pch_dma_restore_regs(struct pch_dma *pd)
-> >       }
-> >  }
-> >
-> > -static int pch_dma_suspend(struct pci_dev *pdev, pm_message_t state)
-> > +static int __maybe_unused pch_dma_suspend(struct device *dev)
-> >  {
-> > -     struct pch_dma *pd = pci_get_drvdata(pdev);
-> > +     struct pch_dma *pd = dev_get_drvdata(dev);
-> >
-> >       if (pd)
-> >               pch_dma_save_regs(pd);
-> >
-> > -     pci_save_state(pdev);
-> > -     pci_disable_device(pdev);
-> > -     pci_set_power_state(pdev, pci_choose_state(pdev, state));
-> > -
-> >       return 0;
-> >  }
-> >
-> > -static int pch_dma_resume(struct pci_dev *pdev)
-> > +static int __maybe_unused pch_dma_resume(struct device *dev)
-> >  {
-> > -     struct pch_dma *pd = pci_get_drvdata(pdev);
-> > -     int err;
-> > -
-> > -     pci_set_power_state(pdev, PCI_D0);
-> > -     pci_restore_state(pdev);
-> > -
-> > -     err = pci_enable_device(pdev);
-> > -     if (err) {
-> > -             dev_dbg(&pdev->dev, "failed to enable device\n");
-> > -             return err;
-> > -     }
-> > +     struct pch_dma *pd = dev_get_drvdata(dev);
-> >
-> >       if (pd)
-> >               pch_dma_restore_regs(pd);
-> >
-> >       return 0;
-> >  }
-> > -#endif
-> >
-> >  static int pch_dma_probe(struct pci_dev *pdev,
-> >                                  const struct pci_device_id *id)
-> > @@ -993,15 +977,14 @@ static const struct pci_device_id pch_dma_id_table[] = {
-> >       { 0, },
-> >  };
-> >
-> > +static SIMPLE_DEV_PM_OPS(pch_dma_pm_ops, pch_dma_suspend, pch_dma_resume);
-> > +
-> >  static struct pci_driver pch_dma_driver = {
-> >       .name           = DRV_NAME,
-> >       .id_table       = pch_dma_id_table,
-> >       .probe          = pch_dma_probe,
-> >       .remove         = pch_dma_remove,
-> > -#ifdef CONFIG_PM
-> > -     .suspend        = pch_dma_suspend,
-> > -     .resume         = pch_dma_resume,
-> > -#endif
-> > +     .driver.pm      = &pch_dma_pm_ops,
-> >  };
-> >
-> >  module_pci_driver(pch_dma_driver);
-> > --
-> > 2.27.0
->
-> --
-> ~Vinod
+--===============1746477659696103633==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pkt44ijw7idtfksx"
+Content-Disposition: inline
 
 
+--pkt44ijw7idtfksx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-With Best Regards,
-Andy Shevchenko
+In all the script files, SPDX license identifier is expected on the second
+line, the first line being the shebang.
+
+The diff content includes the SPDX licensing information but excludes the
+shebang when a change is made to a script file in commit 37f8173dd849
+("locking/atomics: Flip fallbacks and  instrumentation") and commit
+075c8aa79d54 ("selftests: forwarding: tc_actions.sh: add matchall mirror
+test"). In these cases checkpatch issues a false positive warning:
+"Misplaced SPDX-License-Identifier tag - use line 1 instead".
+
+I noticed this false positive, while running checkpatch on the set of
+commits from v5.7 to v5.8-rc1 of the kernel, on the said commits.
+This false positive exists in checkpatch since commit a8da38a9cf0e
+("checkpatch: add test for SPDX-License-Identifier on wrong line #")
+when the corresponding rule was first added.
+
+Currently, if checkpatch finds a shebang in line 1, it expects the
+license identifier in line 2. However, this doesn't work when a shebang
+isn't found on the line 1.
+
+Reduce the number of false warnings for such patches on scripts by
+checking the permissions of the file.
+
+Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
+---
+ scripts/checkpatch.pl | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 4c820607540b..695300839f48 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3166,6 +3166,10 @@ sub process {
+ 		}
+=20
+ # check for using SPDX license tag at beginning of files
++		my $filepermissions =3D `stat -c "%a" $realfile`;
++		if (int(substr($filepermissions, 0, 1)) % 2) {
++			$checklicenseline =3D 2;
++		}
+ 		if ($realline =3D=3D $checklicenseline) {
+ 			if ($rawline =3D~ /^[ \+]\s*\#\!\s*\//) {
+ 				$checklicenseline =3D 2;
+--=20
+2.25.1
+
+
+--pkt44ijw7idtfksx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE8DwCG1PwaC2uTI99xIwpEWwxhGQFAl8ev2gACgkQxIwpEWwx
+hGQlJxAAkaFO+7LbsSAomw9gYRfaCqwwrr1p/Wuu/U1r0I8+4A69F0JFilNUoGMw
+Hl4X9/BiGOSWwttBnSev8vav3ez7Wtk7ojmIf83riLBkP1lQqtCoNukkZnUTF2sJ
+2HtObB8ksggO5iIpZ4OLhTrIfHUYoftSq9Qf+C69odyOCrdzZcJNl0vdudQWb+0k
+dpueOD5I206ox9TZivzbkrAlL7I6yjaVHzoA4FsrHK4lQp3Wdk4WQTmYfVA3+NbH
+rdOGS3KJFrHa/SCbQK3kvclYbN3Bi/1WqGqXiGNKtU4Z1bFN+KN1JBSsFYN8DTax
+6ZB0BZTJykq3HOp29wC4bS8qsXtswY/vfAPeLlJ+DgrL5/ygZJY1dihbLNzop2MO
+ycBlusxXxU/9EAOjhKENreGS5YjaOf5NfemtMltDuf1gektQA70ZrI7pslWsBlSI
+IW1oL2ixBTH0+sgCyS2JCQ7vaSJt3bqNS0OvoQ+kVOSzc0jrRaP3/UTo9pidyyMO
+t7PTt4WXP8mbK9S0Xbgo52YutM9d26lsFdhhsCSfPwGkF8GWQ0FdlrTSaJlcM6mV
+cQ3XZerr2DBohHlRHTRxzYcfztdGGZAtycSX5JZspyK5KEGtw1UmO1Kc7XFXW13x
+RYavL9EWfiGVa0PQJ+NGl2/lWFlXCqhX39DQWD3gR8DINda7Syg=
+=X4W5
+-----END PGP SIGNATURE-----
+
+--pkt44ijw7idtfksx--
+
+--===============1746477659696103633==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============1746477659696103633==--
