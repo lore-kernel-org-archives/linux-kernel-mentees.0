@@ -2,137 +2,111 @@ Return-Path: <SRS0=RTaY=BH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BD59C433E8
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 19:05:21 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C6FEC433E8
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 19:32:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A1022074F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 19:05:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0299920656
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 19:32:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=windriversystems.onmicrosoft.com header.i=@windriversystems.onmicrosoft.com header.b="inmBPBfL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A1022074F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=windriver.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DnBLXKs2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0299920656
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C61C38867E;
-	Tue, 28 Jul 2020 19:05:20 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TjiHt2gTL5d4; Tue, 28 Jul 2020 19:05:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8E8FB8868C;
-	Tue, 28 Jul 2020 19:05:19 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D4B8C004F;
-	Tue, 28 Jul 2020 19:05:19 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 10101C004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 19:05:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 09B06880F8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 19:05:19 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BB2BB8647A;
+	Tue, 28 Jul 2020 19:32:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2YItdyN69Kqh; Tue, 28 Jul 2020 19:32:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 319BB86B55;
+	Tue, 28 Jul 2020 19:32:03 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 23292C004F;
+	Tue, 28 Jul 2020 19:32:03 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6E838C004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Jul 2020 19:32:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 3F41120485
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Jul 2020 19:31:36 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lVuK6ZJgK3UZ
+ with ESMTP id hzW48OsbLc1S
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 19:05:18 +0000 (UTC)
-X-Greylist: delayed 02:00:22 by SQLgrey-1.7.6
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr690083.outbound.protection.outlook.com [40.107.69.83])
- by whitealder.osuosl.org (Postfix) with ESMTPS id E057B880D0
+ Tue, 28 Jul 2020 19:31:34 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+ [209.85.160.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8F9BD2046D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 19:05:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZjaICE/3kgImeJVhIBvlhhln3ySfdPbH3nFGiB7fHpQjXog9np4kslxUozTpnrii9xB7i8K1O+dllrMQFShQ+kz7O5KCk6lkkSFg4acKwC5Qp8iLmsE3Y6SdQAShtEFccyAkt4M0v4BK7yIkodFJO+E+nLHQUVWVUDsPzr+5XF0zrLJI60mB3UbDhh+/gl+ZHvabtgqTFaJdEKwTnlIfintNIRlOoN/xym1HahKBXstGdoMRc309PyXre3ov57wPlfRYUe2DNBcE1HkfWMQ87rP1my140EptZXt326wmJGigprRwZcHpAcHliAEA+NdEro02ELfTvqsaCHDIy1Wt5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/+PNPvN2mgSRx6Qcev8P+OPpjySEeEbmHvjVKUqu7is=;
- b=mttsbbeHB24xSeCsEZT1fVZ+cTg9UhDx0hGrPKumn5BjDJN0IkXAd8F5m7TJDSDmmwcPI1vi2RTlwB6nWWHWqUSedAKMz71eb+tn3g8gNaCtUC1FsuI8pAqkig0TD1dYmq7Opaa5zsp5x3NkCoex3Ky1sYCuQj1E+0gCG8cEWNkQ58iWFpiyw9dh0Sb9tedLlV7dXl7X6NJzwjs+cLkw0MfOgAQBlhPbqTB6usu3Lhxwdx+FFYsaV/5zCVBpaaTgUxArvlsXCMqX40LfQk9R3S3e9zlV5pxGB/Wf+WmEYQIBAFdBi22SrQlF53GfTO4i/gRx96mrUmAYW4WoJSZvEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/+PNPvN2mgSRx6Qcev8P+OPpjySEeEbmHvjVKUqu7is=;
- b=inmBPBfLm+dQBwa7/vye7I12FXKQOb/lt2jhX9TEa+BF2MGbKVhMDfjkwLLBEhygVOVeKJavfJ/OVRHK3tB0/34bx4MrND88OFjBn+ksc15cr9DxbI7yIIJAbAlNyGp+TZ5v2gmFE7WDrV00bwd8MjmJM5lyiaefaGxqPsy6Tvs=
-Authentication-Results: lists.linuxfoundation.org; dkim=none (message not
- signed) header.d=none;lists.linuxfoundation.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB2603.namprd11.prod.outlook.com (2603:10b6:5:c6::21) by
- DM5PR11MB1308.namprd11.prod.outlook.com (2603:10b6:3:e::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3216.23; Tue, 28 Jul 2020 16:31:54 +0000
-Received: from DM6PR11MB2603.namprd11.prod.outlook.com
- ([fe80::b16c:41d1:7e54:1c4e]) by DM6PR11MB2603.namprd11.prod.outlook.com
- ([fe80::b16c:41d1:7e54:1c4e%6]) with mapi id 15.20.3216.034; Tue, 28 Jul 2020
- 16:31:54 +0000
-To: Greg KH <gregkh@linuxfoundation.org>, B K Karthik <bkkarthik@pesu.pes.edu>
-References: <20200727131057.7a3of3hhsld4ng5t@pesu.pes.edu>
- <20200727132256.GA3933866@kroah.com>
- <CAAhDqq2N6nTHpz_CNTwh-ZRK-rQO0uUXO41iOouKn690R494Ww@mail.gmail.com>
- <20200727142416.GA186956@kroah.com>
-From: Ying Xue <ying.xue@windriver.com>
-Message-ID: <6d6197ba-ce38-09ec-78a1-7feb59cd7a90@windriver.com>
-Date: Wed, 29 Jul 2020 00:15:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200727142416.GA186956@kroah.com>
-Content-Language: en-US
-X-ClientProxiedBy: HK2PR04CA0075.apcprd04.prod.outlook.com
- (2603:1096:202:15::19) To DM6PR11MB2603.namprd11.prod.outlook.com
- (2603:10b6:5:c6::21)
+ Tue, 28 Jul 2020 19:31:34 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id v22so9852973qtq.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Jul 2020 12:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UjriuwUrFe3JnfpGcdrsyLfiemXOEMJgHirDygAb170=;
+ b=DnBLXKs29zvI1lqMHtzOQmUYICRL0HV7SdVxAYUWpDzp+OeQNWAsihxrWRmrLqx5hw
+ V/mz4yk8dR+/HiOKLkukQF+iH/1wV+lXCEU5IpLdFR+Nr4KvMDIOV4IpAaa4Sc1a6cI5
+ uEZO4sFf0YAiOi8NlYlVXqof05YNkMYlNhcHzOKDtCcZgqKaN6JLihS+FXwhlVssJ5nC
+ ZFXXkrQW6Ck691VYbNY77aXTTJSUE5cW+/D4gUKH18Q3ilU7/qdTfRP2V7nhHjvdKcId
+ H4TbmeefL4EYTkjGeTSy9mhEGEPi9HlVpoHAxyxY/VcwiFn4Ff4lVcQlgQoqlJlIfzS/
+ UcDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UjriuwUrFe3JnfpGcdrsyLfiemXOEMJgHirDygAb170=;
+ b=oUKyfD0pb9WlKkR7Pe93O7RKgghwuFxGWfaTSwKVwBsR6qeqT4Dv9nSy48bKQQrcYL
+ qCpQ99uGutjjuB7eepqH8aGRseARoE91+cg1MmDIGfAr5yiNY7+goUXtmsxOvV7/DhwY
+ hdKn+D3oyw0QwxZQhwhA75FNWPAt+fTnrvMcuUceFuS1nHiC+6Wy6yRN8g0A+zdHH27J
+ aJXkuJOAlklKpTX60y+JvN1UeTC2RqMvunJuejEAvcS0RoHbeFVK7zVNrQFQC5woDO+y
+ 1tppwviRFo/5LG/z2QaZCtZtmOeSiqoWI/Pxee07NWrgbfnEYSvJMJ8OLyUwtA+Kf6Pj
+ 4haA==
+X-Gm-Message-State: AOAM532olY2lsZzXFcxPutBNFjTFyNpcttHj7jN/0rMnroU55Ulfgm7u
+ HCyYz3nteSnP2iQqbig+1g==
+X-Google-Smtp-Source: ABdhPJwlAVn0RKlarj2u/vVBCsz1lO9982RRjCktsDisJ/Vchh3TVzj5DBbDoXFoTnmL0GLH7OmGGA==
+X-Received: by 2002:ac8:6f4a:: with SMTP id n10mr24304675qtv.363.1595964693541; 
+ Tue, 28 Jul 2020 12:31:33 -0700 (PDT)
+Received: from localhost.localdomain (c-76-119-149-155.hsd1.ma.comcast.net.
+ [76.119.149.155])
+ by smtp.gmail.com with ESMTPSA id k48sm21410544qtc.14.2020.07.28.12.31.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jul 2020 12:31:33 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 28 Jul 2020 15:29:24 -0400
+Message-Id: <20200728192924.441570-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.155.99] (60.247.85.82) by
- HK2PR04CA0075.apcprd04.prod.outlook.com (2603:1096:202:15::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3216.26 via Frontend Transport; Tue, 28 Jul 2020 16:31:50 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7c1610d2-7d57-4d9c-820d-08d83313bd05
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1308:
-X-Microsoft-Antispam-PRVS: <DM5PR11MB1308F678E538FEB1DAC715B384730@DM5PR11MB1308.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K3dkVMIrlle2nViNIvYy/YZn2d6Jk/NyrX830jPjmh1r7AyldZ7CuCK25B3+Lm2aVoCH6zb/fCFLcna9HpZAD4mlnySU3CNCpNwJLKDjXVsgNySiZpvpPW8f+mb0yn7DPtJO1TXIPH+rMJm+TrYuppfgDw97CG+e6GMIlqj3Jq++nPheQPVkjFD4h3XnLAbp1xvpR4/vKi51K6s7E4Cz070q05gtdE3IF2BLsEudbMTeW1UXWE/kVmWGQosS863KtXmFXBQr0UnviL4UxLlVfGuuLOOW10aLQPfBs19FZIUByoliDcL9N0ApYzmi3FiuzBkyJt++4tRA5+oZuKJaH5Kq7KRAeb6fd6OSPv6FkuWmPacoUm6D80ELY2oHf2jQuOUL8IztcIjfQC3fMBZ1kKAnsHWQm2wVjVjkhggxiYw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB2603.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(396003)(366004)(346002)(136003)(39850400004)(376002)(4326008)(7416002)(26005)(52116002)(6486002)(66946007)(186003)(16526019)(31686004)(53546011)(66476007)(5660300002)(66556008)(110136005)(8936002)(6706004)(31696002)(2616005)(86362001)(6666004)(956004)(478600001)(44832011)(2906002)(36756003)(16576012)(316002)(54906003)(8676002)(78286006)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: cAsyHxW7oyfvM9z06l9zOe9w+Td11WlQwxxGrwaCj3twyUx3CgrcFnPiPpYhIC3FWQtLCDf9r130tZpeQ3AQonNgqckCtdov2O5iU/f/Vw5v6nrgAdEE9ElljUsnQfOYZXIv9B0TxTZ0FzAh0D4awb8x3wJaVvB9QQ/ntC1VEdNGW1fitas2eRylPxj0cJGkl1fwSaIAcGD7uXpy24p3t23yHMB0cShJIzHKoCQWN5GvtXk3H4aIBs/wnwhUWOq4jAafuHGi0YM5FGN0PlcM9g/Dr88/jyYUO7v9uYJ3ep+IfQ6amEF+J0jE/0LWYgOvtVNcu9RS5tSJdh0CD2I5+jjQLdbA4LF1Z+eSvh+gqcfMQXWZMu1qOGY62RruiHXb00xqWYUzo4/jG4Yo12+QrXtCvDx0YkcJOC59j1TDVHsoMJhyoZibmN5gyHCCXwpqfTQItSx1l8D5w4WFxr8l2NiwscYMlohQn1m4/zqMGac=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c1610d2-7d57-4d9c-820d-08d83313bd05
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 16:31:54.4013 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XHwmvmknEscZTXZ0qowsfoFUcKz26uIHd4RnNrXoSJywNfhf9PT4zDf6ZSTFsAN5ffIfZEd13zEBfhfBiEnbjA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1308
-Cc: Linux Kernel Network Developers <netdev@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, Jon Maloy <jmaloy@redhat.com>,
- tipc-discussion@lists.sourceforge.net, Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: tipc: fix general
- protection fault in tipc_conn_delete_sub
+Cc: Arnd Bergmann <arnd@arndb.de>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, Trek <trek00@inbox.ru>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Evan Quan <evan.quan@amd.com>, Leo Liu <leo.liu@amd.com>,
+ Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ Xiaojie Yuan <xiaojie.yuan@amd.com>
+Subject: [Linux-kernel-mentees] [PATCH] drm/amdgpu: Prevent kernel-infoleak
+	in amdgpu_info_ioctl()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,43 +124,107 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/27/20 10:24 PM, Greg KH wrote:
->>>> diff --git a/net/tipc/topsrv.c b/net/tipc/topsrv.c
->>>> index 1489cfb941d8..6c8d0c6bb112 100644
->>>> --- a/net/tipc/topsrv.c
->>>> +++ b/net/tipc/topsrv.c
->>>> @@ -255,6 +255,9 @@ static void tipc_conn_send_to_sock(struct tipc_conn *con)
->>>>       int count = 0;
->>>>       int ret;
->>>>
->>>> +     if (!con->server)
->>>> +             return -EINVAL;
->>> What is wrong with looking at the srv local variable instead?
->>>
->>> And how is server getting set to NULL and this function still being
->>> called?
->> tipc_conn_send_work makes a call to connected() which just returns con
->> && test_bit(CF_CONNECTED, &con->flags)
->> maybe we can add this check to the implementation of connection() if
->> you agree, but I found this solution to be fairly simpler because I'm
->> not sure where else connected() is being used, and I did not want to
->> introduce redundant function calls.
-> That's not what I asked here at all
-I agreed with Greg. The key problem is that we need to understand why
-con->server got NULL, otherwise, we probably just hide the issue by
-checking if it's NULL.
+Compiler leaves a 4-byte hole near the end of `dev_info`, causing
+amdgpu_info_ioctl() to copy uninitialized kernel stack memory to userspace
+when `size` is greater than 356.
 
-The topology server is created in kernel space as an internal TIPC
-server and its life cycle is the same as TIPC network namespace.
-Whenever the topology server accepts a connection from its client, it
-will create a "con" which will be used to talk to the client and the
-topology server instance (ie, "topsrv") will be attached to
-"con->server". In theory, "con" cannot be died before its server, as a
-result, con->server cannot become NULL in tipc_conn_send_to_sock().
+In 2015 we tried to fix this issue by doing `= {};` on `dev_info`, which
+unfortunately does not initialize that 4-byte hole. Fix it by using
+memset() instead.
 
-So I suspect there is other potential issues which caused this problem,
-for example, the refcount of "con" is not properly taken or put and this
-case is triggered before of use-after-free, or race condition etc.
+Cc: stable@vger.kernel.org
+Fixes: c193fa91b918 ("drm/amdgpu: information leak in amdgpu_info_ioctl()")
+Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+$ pahole -C "drm_amdgpu_info_device" drivers/gpu/drm/amd/amdgpu/amdgpu_kms.o
+struct drm_amdgpu_info_device {
+	__u32                      device_id;            /*     0     4 */
+	__u32                      chip_rev;             /*     4     4 */
+	__u32                      external_rev;         /*     8     4 */
+	__u32                      pci_rev;              /*    12     4 */
+	__u32                      family;               /*    16     4 */
+	__u32                      num_shader_engines;   /*    20     4 */
+	__u32                      num_shader_arrays_per_engine; /*    24     4 */
+	__u32                      gpu_counter_freq;     /*    28     4 */
+	__u64                      max_engine_clock;     /*    32     8 */
+	__u64                      max_memory_clock;     /*    40     8 */
+	__u32                      cu_active_number;     /*    48     4 */
+	__u32                      cu_ao_mask;           /*    52     4 */
+	__u32                      cu_bitmap[4][4];      /*    56    64 */
+	/* --- cacheline 1 boundary (64 bytes) was 56 bytes ago --- */
+	__u32                      enabled_rb_pipes_mask; /*   120     4 */
+	__u32                      num_rb_pipes;         /*   124     4 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	__u32                      num_hw_gfx_contexts;  /*   128     4 */
+	__u32                      _pad;                 /*   132     4 */
+	__u64                      ids_flags;            /*   136     8 */
+	__u64                      virtual_address_offset; /*   144     8 */
+	__u64                      virtual_address_max;  /*   152     8 */
+	__u32                      virtual_address_alignment; /*   160     4 */
+	__u32                      pte_fragment_size;    /*   164     4 */
+	__u32                      gart_page_size;       /*   168     4 */
+	__u32                      ce_ram_size;          /*   172     4 */
+	__u32                      vram_type;            /*   176     4 */
+	__u32                      vram_bit_width;       /*   180     4 */
+	__u32                      vce_harvest_config;   /*   184     4 */
+	__u32                      gc_double_offchip_lds_buf; /*   188     4 */
+	/* --- cacheline 3 boundary (192 bytes) --- */
+	__u64                      prim_buf_gpu_addr;    /*   192     8 */
+	__u64                      pos_buf_gpu_addr;     /*   200     8 */
+	__u64                      cntl_sb_buf_gpu_addr; /*   208     8 */
+	__u64                      param_buf_gpu_addr;   /*   216     8 */
+	__u32                      prim_buf_size;        /*   224     4 */
+	__u32                      pos_buf_size;         /*   228     4 */
+	__u32                      cntl_sb_buf_size;     /*   232     4 */
+	__u32                      param_buf_size;       /*   236     4 */
+	__u32                      wave_front_size;      /*   240     4 */
+	__u32                      num_shader_visible_vgprs; /*   244     4 */
+	__u32                      num_cu_per_sh;        /*   248     4 */
+	__u32                      num_tcc_blocks;       /*   252     4 */
+	/* --- cacheline 4 boundary (256 bytes) --- */
+	__u32                      gs_vgt_table_depth;   /*   256     4 */
+	__u32                      gs_prim_buffer_depth; /*   260     4 */
+	__u32                      max_gs_waves_per_vgt; /*   264     4 */
+	__u32                      _pad1;                /*   268     4 */
+	__u32                      cu_ao_bitmap[4][4];   /*   272    64 */
+	/* --- cacheline 5 boundary (320 bytes) was 16 bytes ago --- */
+	__u64                      high_va_offset;       /*   336     8 */
+	__u64                      high_va_max;          /*   344     8 */
+	__u32                      pa_sc_tile_steering_override; /*   352     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	__u64                      tcc_disabled_mask;    /*   360     8 */
+
+	/* size: 368, cachelines: 6, members: 49 */
+	/* sum members: 364, holes: 1, sum holes: 4 */
+	/* last cacheline: 48 bytes */
+};
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index a8c47aecd342..0047da06041f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -707,9 +707,10 @@ static int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file
+ 		return n ? -EFAULT : 0;
+ 	}
+ 	case AMDGPU_INFO_DEV_INFO: {
+-		struct drm_amdgpu_info_device dev_info = {};
++		struct drm_amdgpu_info_device dev_info;
+ 		uint64_t vm_size;
+ 
++		memset(&dev_info, 0, sizeof(dev_info));
+ 		dev_info.device_id = dev->pdev->device;
+ 		dev_info.chip_rev = adev->rev_id;
+ 		dev_info.external_rev = adev->external_rev_id;
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
