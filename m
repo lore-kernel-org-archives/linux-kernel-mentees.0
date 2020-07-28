@@ -2,107 +2,106 @@ Return-Path: <SRS0=RTaY=BH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FA3CC433E8
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 12:35:39 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A694C433EA
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 12:37:52 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D880D2075D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 12:35:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1F0B62074F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 12:37:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i62XuHJ3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D880D2075D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qHe7dAnw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1F0B62074F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B87D387D75;
-	Tue, 28 Jul 2020 12:35:38 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E68BD8535D;
+	Tue, 28 Jul 2020 12:37:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xwFnO1JaNBVZ; Tue, 28 Jul 2020 12:37:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A140880ED2;
+	Tue, 28 Jul 2020 12:37:51 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 824C9C0050;
+	Tue, 28 Jul 2020 12:37:51 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35B57C004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Jul 2020 12:37:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2485D8666F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Jul 2020 12:37:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rJgN19TAbGgM; Tue, 28 Jul 2020 12:35:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 256F087D45;
-	Tue, 28 Jul 2020 12:35:38 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D61DC0050;
-	Tue, 28 Jul 2020 12:35:38 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 28A58C004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 12:35:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1652524214
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 12:35:37 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nrHcdKdaKjwB
+ with ESMTP id N-Hr0PYxTJ-N
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 12:35:36 +0000 (UTC)
+ Tue, 28 Jul 2020 12:37:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 3B70E23B88
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0EB91853C5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 12:35:36 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id r11so2990752pfl.11
+ Tue, 28 Jul 2020 12:37:49 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id ha11so4273118pjb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 05:35:36 -0700 (PDT)
+ Tue, 28 Jul 2020 05:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DB5gyJklH+drcKXDEIOz7SJHYpIMiUo27IS8OMRfS6w=;
- b=i62XuHJ3oZqPQ8sCE+TqRzVITj2tIjqRXOHEA7r93wHyb/0t8Q5b3HtJ7B4c9c1cr9
- 5mRcnCYwABHkNa1PCwoUyTxYeLKA+tDJF6+fmtw6gAYcubVG9s7vmE8V28L1PnvmEtkG
- 3JWPmSVEScns5VZfQ4+6tQwih+cEZ/g5f2izR21XWglx2qU00kTy+cR/YseYEU5+JVty
- y2h1GaSMxPz9GpFLymuV3qEu/iQh5PsHXKcVzcjCGeLgBMCtxTq9GC/rbcVI4fhl5qhY
- WRgvIxITdOG46ibGv4RoTdUoTjp7SDDq9HxlsO/h2YZZQwJVKEGGo6/DDx1Aj5osKgyN
- G5sQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Fie8IAXWZ8a1f4IBdyXwUsTRAo2+ebUYgUxfo3SFpeA=;
+ b=qHe7dAnwegbl8DFADwHo8PEhSZ+7zbY4GEkjbh4YRgoBOr7ttuUIZd3W/lLbgvLXtH
+ Nmw48d7CCQlwK/k1SgCBId7AiMOZT4EXk0h2LojeErsKRtc6QPNKwLxAhFQd6hR5NDyh
+ 9oHwM248bQKXcys1dFKO9l1neCAYAMuaCiwJCWlW/ZkIe96vqwtjeAMSYa2tbq9x3o88
+ BGtALXe6t+2pHo3RJtR9tsUzxejGbCniBGGmlSIs46uPSGgc49ttoIf+wh2we7OmML0/
+ E/BVTKjEZGGX3/hQPfkvDwAN/xv8xFQbuW6LGOAazLbs95E03Y8rFQJ+pEPZpx4h4qn+
+ vIVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DB5gyJklH+drcKXDEIOz7SJHYpIMiUo27IS8OMRfS6w=;
- b=CJsVJATvguEK5h7nRYLFH7dy94E4LgcUgnSCjmVGEI9LFl6fglRliDfxjyqfSIEGe0
- HsJzue/uZrIsgVIbGAs4+aXOcVnIYB2uuE4fgkWz1TNP0/6DVkqxfqR6Bpqn+wl6GQ7C
- 9NaT3pjYlQDbXdnpsUyWQErwEFnNaCc6LOjE2OMkJpFGEIw3S2zl+brV7cFyQp16bzqX
- U03y5K0lsLaA/duKgSDytAw9vwLDe+nMfBON2bFkojbSAkmTJQFnqwrkAQy0IskLeJtP
- YbDPf/N7KwmdljOBnxwwwcZRrukL24rl4tKGJImptFx3wTWjACvZOnLHIi4cKM7Z1jce
- D4Gw==
-X-Gm-Message-State: AOAM5336gXNWzWmawBfMYaithKOFJy/RX9uKKoc63TmVGIKPME4mwdBS
- JoKF9xhf79GBSLRg3toA5ao=
-X-Google-Smtp-Source: ABdhPJzx5zvY/MCava3Cds0S4W9/FVEmPEvzE3Ra1pPlKsvo2qVOo8Z3stEDz7aIIlOqK7xv1L3N3A==
-X-Received: by 2002:a63:504a:: with SMTP id q10mr23558549pgl.377.1595939735584; 
- Tue, 28 Jul 2020 05:35:35 -0700 (PDT)
-Received: from varodek.localdomain ([2401:4900:2eef:ca92:3545:4a68:f406:d612])
- by smtp.gmail.com with ESMTPSA id
- f15sm18375458pfk.58.2020.07.28.05.35.29
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Fie8IAXWZ8a1f4IBdyXwUsTRAo2+ebUYgUxfo3SFpeA=;
+ b=RnAKrvQ/reEIR6HVJPsXPvsKmMm+nxwyO4g1npgmMKj56RjVwI5vERhLLtLMP0YNSz
+ HRv2QScZ+XoQM0yOsg47AlmvsMp8hktuHrqphLdR+5/ZX2L+uUyqZo0pEVt928Nmzw+f
+ HZvX/qFGfNJ19NRZ1tVNrraYm9M8W4/zvCgUbbpPhTLyv1ZmUuxD88Yd0rO9KdoJB1AD
+ kU63NBQzr413Pme+Z9rNyJ2mXR5It9APyLpsxIOMsPUHgL89AnL+oHtzCJtKIwREAtkw
+ fJZC7gH1KULu3NCazAv5IuNs107c60a86KDNa/JFoBSKPDOLfjd0aKKbi4bR8rpRiw2d
+ TlGQ==
+X-Gm-Message-State: AOAM5322ZIXnmY7bJYc+B/84PJQNYO0SwYoK2lRHuu6Jz+M/eA+8VD7s
+ MW8DmBC9DpW9uxOl1pAJfQk=
+X-Google-Smtp-Source: ABdhPJxMwzS10JHnifAZmdNYC8YAZkIcOFzizwBro4Xw8cdcIQLhzKEz7J7HdS2SEjQ2Po+YluXXBg==
+X-Received: by 2002:a17:902:7b90:: with SMTP id
+ w16mr21425536pll.253.1595939868491; 
+ Tue, 28 Jul 2020 05:37:48 -0700 (PDT)
+Received: from gmail.com ([2401:4900:2eef:ca92:3545:4a68:f406:d612])
+ by smtp.gmail.com with ESMTPSA id l134sm18030158pga.50.2020.07.28.05.37.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 05:35:34 -0700 (PDT)
+ Tue, 28 Jul 2020 05:37:47 -0700 (PDT)
+Date: Tue, 28 Jul 2020 18:06:19 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Teddy Wang <teddy.wang@siliconmotion.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Tue, 28 Jul 2020 18:03:49 +0530
-Message-Id: <20200728123349.1331679-1-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Kevin Curtis <kevin.curtis@farsite.co.uk>
+Message-ID: <20200728123619.GA1331847@gmail.com>
+References: <20200728042809.91436-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- Vaibhav Gupta <vaibhavgupta40@gmail.com>, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v1] staging: sm750fb: use generic
-	power management
+Content-Disposition: inline
+In-Reply-To: <20200728042809.91436-1-vaibhavgupta40@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] farsync: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,169 +119,10 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers using legacy power management .suspen()/.resume() callbacks
-have to manage PCI states and device's PM states themselves. They also
-need to take care of standard configuration registers.
+This patch is compile-tested only.
 
-Switch to generic power management framework using a single
-"struct dev_pm_ops" variable to take the unnecessary load from the driver.
-This also avoids the need for the driver to directly call most of the PCI
-helper functions and device power state control functions, as through
-the generic framework PCI Core takes care of the necessary operations,
-and drivers are required to do only device-specific jobs.
-
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/staging/sm750fb/sm750.c | 91 ++++++---------------------------
- 1 file changed, 17 insertions(+), 74 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index a1a82e59dfee..84fb585a5739 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -407,61 +407,29 @@ static inline unsigned int chan_to_field(unsigned int chan,
- 	return chan << bf->offset;
- }
- 
--#ifdef CONFIG_PM
--static int lynxfb_suspend(struct pci_dev *pdev, pm_message_t mesg)
-+static int __maybe_unused lynxfb_suspend(struct device *dev)
- {
- 	struct fb_info *info;
- 	struct sm750_dev *sm750_dev;
--	int ret;
--
--	if (mesg.event == pdev->dev.power.power_state.event)
--		return 0;
--
--	ret = 0;
--	sm750_dev = pci_get_drvdata(pdev);
--	switch (mesg.event) {
--	case PM_EVENT_FREEZE:
--	case PM_EVENT_PRETHAW:
--		pdev->dev.power.power_state = mesg;
--		return 0;
--	}
-+	sm750_dev = dev_get_drvdata(dev);
- 
- 	console_lock();
--	if (mesg.event & PM_EVENT_SLEEP) {
--		info = sm750_dev->fbinfo[0];
--		if (info)
--			/* 1 means do suspend */
--			fb_set_suspend(info, 1);
--		info = sm750_dev->fbinfo[1];
--		if (info)
--			/* 1 means do suspend */
--			fb_set_suspend(info, 1);
--
--		ret = pci_save_state(pdev);
--		if (ret) {
--			dev_err(&pdev->dev,
--				"error:%d occurred in pci_save_state\n", ret);
--			goto lynxfb_suspend_err;
--		}
--
--		ret = pci_set_power_state(pdev, pci_choose_state(pdev, mesg));
--		if (ret) {
--			dev_err(&pdev->dev,
--				"error:%d occurred in pci_set_power_state\n",
--				ret);
--			goto lynxfb_suspend_err;
--		}
--	}
--
--	pdev->dev.power.power_state = mesg;
-+	info = sm750_dev->fbinfo[0];
-+	if (info)
-+		/* 1 means do suspend */
-+		fb_set_suspend(info, 1);
-+	info = sm750_dev->fbinfo[1];
-+	if (info)
-+		/* 1 means do suspend */
-+		fb_set_suspend(info, 1);
- 
--lynxfb_suspend_err:
- 	console_unlock();
--	return ret;
-+	return 0;
- }
- 
--static int lynxfb_resume(struct pci_dev *pdev)
-+static int __maybe_unused lynxfb_resume(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct fb_info *info;
- 	struct sm750_dev *sm750_dev;
- 
-@@ -469,32 +437,10 @@ static int lynxfb_resume(struct pci_dev *pdev)
- 	struct lynxfb_crtc *crtc;
- 	struct lynx_cursor *cursor;
- 
--	int ret;
--
--	ret = 0;
- 	sm750_dev = pci_get_drvdata(pdev);
- 
- 	console_lock();
- 
--	ret = pci_set_power_state(pdev, PCI_D0);
--	if (ret) {
--		dev_err(&pdev->dev,
--			"error:%d occurred in pci_set_power_state\n", ret);
--		goto lynxfb_resume_err;
--	}
--
--	if (pdev->dev.power.power_state.event != PM_EVENT_FREEZE) {
--		pci_restore_state(pdev);
--		ret = pci_enable_device(pdev);
--		if (ret) {
--			dev_err(&pdev->dev,
--				"error:%d occurred in pci_enable_device\n",
--				ret);
--			goto lynxfb_resume_err;
--		}
--		pci_set_master(pdev);
--	}
--
- 	hw_sm750_inithw(sm750_dev, pdev);
- 
- 	info = sm750_dev->fbinfo[0];
-@@ -523,11 +469,9 @@ static int lynxfb_resume(struct pci_dev *pdev)
- 
- 	pdev->dev.power.power_state.event = PM_EVENT_RESUME;
- 
--lynxfb_resume_err:
- 	console_unlock();
--	return ret;
-+	return 0;
- }
--#endif
- 
- static int lynxfb_ops_check_var(struct fb_var_screeninfo *var,
- 				struct fb_info *info)
-@@ -1210,15 +1154,14 @@ static const struct pci_device_id smi_pci_table[] = {
- 
- MODULE_DEVICE_TABLE(pci, smi_pci_table);
- 
-+static SIMPLE_DEV_PM_OPS(lynxfb_pm_ops, lynxfb_suspend, lynxfb_resume);
-+
- static struct pci_driver lynxfb_driver = {
- 	.name =		"sm750fb",
- 	.id_table =	smi_pci_table,
- 	.probe =	lynxfb_pci_probe,
- 	.remove =	lynxfb_pci_remove,
--#ifdef CONFIG_PM
--	.suspend = lynxfb_suspend,
--	.resume = lynxfb_resume,
--#endif
-+	.driver.pm =	&lynxfb_pm_ops,
- };
- 
- static int __init lynxfb_init(void)
--- 
-2.27.0
-
+Thanks
+Vaibhav Gupta
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
