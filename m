@@ -2,104 +2,108 @@ Return-Path: <SRS0=RTaY=BH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 931C7C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 13:13:35 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8852C433E8
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 13:58:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5D3092074F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 13:13:35 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pL1VEAIF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D3092074F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id C337A2074F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 13:58:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C337A2074F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2C0D287F58;
-	Tue, 28 Jul 2020 13:13:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TUARTgzCKvxg; Tue, 28 Jul 2020 13:13:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A1A21866F0;
-	Tue, 28 Jul 2020 13:13:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95DB4C004F;
-	Tue, 28 Jul 2020 13:13:34 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5DD94C004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 13:13:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 542FB85187
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 13:13:33 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 97FFC8458F;
+	Tue, 28 Jul 2020 13:58:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6STR1p6wVvfL; Tue, 28 Jul 2020 13:58:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E118B8459B;
+	Tue, 28 Jul 2020 13:58:45 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C5A8BC004F;
+	Tue, 28 Jul 2020 13:58:45 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 63DA5C004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Jul 2020 13:58:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 4C47E226EA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Jul 2020 13:58:44 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nVVqG-ZI5gwu
+ with ESMTP id HiJaHP6pEI-3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 13:13:32 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
- [209.85.219.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 945BD8511F
+ Tue, 28 Jul 2020 13:58:42 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6453B226D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 13:13:32 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id u8so9037236qvj.12
+ Tue, 28 Jul 2020 13:58:42 +0000 (UTC)
+Received: from mail-qt1-f173.google.com ([209.85.160.173]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1M5xDJ-1k7qmS0Sdv-007TtC for
+ <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Jul 2020 15:58:39
+ +0200
+Received: by mail-qt1-f173.google.com with SMTP id x12so6341924qtp.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 06:13:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=wVQ4PCIk/Mi+M+QeA/Wca4Cre04s8hgp15ZLx5XfDZg=;
- b=pL1VEAIFMSgD3WD2ciXOwyWiQoTMEvG6XL7SyqSWpiABvpcc2rO2EdXKjFV8xD1lYg
- GNa/yBNZnQO2TMGeoptsApl90kDiJxOFe560qW2avPXvLhtuSxr6PM56HqH/D2yTpR4W
- A9lumU99tKynCllpYhOZmqFC/txXwd22MAwmMG97kVlSetVIujR6IJvngw3jd54H5N5u
- DB+ALBuED2jut236BveYoqI8QiicwZetSaW70xlO3Gd0FhzHhQ3tIJHNkYtNKHtniOYR
- O808Xsd7dyg9KQZUtMVz2awkTt7J0OHzoTs0lTRBcG6LVGKz+tvke6GYErsCZHpsZ4ia
- JT5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wVQ4PCIk/Mi+M+QeA/Wca4Cre04s8hgp15ZLx5XfDZg=;
- b=FB1LB6RQ5llp+STHpEVQs3PBmBqdVlislpRN8eyp9jjgPs+3ez0FST/l9p2wKv8LQR
- uuFQo3VQSLAEkzW8A+bVPVAgHLRterKzu+y2zPBTZ1GA0HtuEWSlMtlA3y813vDWTpS5
- tt3OE+767KNik/RbEYfJCoYH5EPTxClz54NTVsMpDjzMfVaAne2+6ULFIHkvdyI48Xys
- d0t5QUQx6UKoA6FihWwDy9ZhvRSJXbiHnzRReUkNhfTVtauHufJua29DpAcecykrpB6F
- 2cTB5a2fcnN2C5L+9F/hct3v7mpZoR2cGOCr2SzHpqZ0gF9HIQDf2pN2ztYi4wvahrry
- XA/Q==
-X-Gm-Message-State: AOAM531tbPxLvNfuky38D3ADRrYvZUv+3qDeoG6fbB9CDh7ICBm6TLg8
- H88v1GJFQglkPhFqJF109w==
-X-Google-Smtp-Source: ABdhPJy6Yk6QbdnipbQ8OQ58GUMrB3Xz1lgcBJcOXLEaYFkhBZnlkY1lFBZAQIoTm0QmsSp5YAdNfQ==
-X-Received: by 2002:ad4:5912:: with SMTP id ez18mr25898937qvb.24.1595942011649; 
- Tue, 28 Jul 2020 06:13:31 -0700 (PDT)
-Received: from PWN (c-76-119-149-155.hsd1.ma.comcast.net. [76.119.149.155])
- by smtp.gmail.com with ESMTPSA id 65sm18057540qkn.103.2020.07.28.06.13.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 06:13:31 -0700 (PDT)
-Date: Tue, 28 Jul 2020 09:13:28 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Message-ID: <20200728131328.GA410244@PWN>
+ Tue, 28 Jul 2020 06:58:38 -0700 (PDT)
+X-Gm-Message-State: AOAM5328uVP5J2AOOba859/mBxKSDrPAJNro7WxeGvz7WQkIQzjjKJE0
+ FV04Zb9cti2m2qEu/NouXYwyDVYqOlzZTGrZFJc=
+X-Google-Smtp-Source: ABdhPJwcnjVzdXtH0ZMmkoqshSACaXjuaYnltOnaP33Va8Er6+9hKFR05vX7mZbNRjlSOGS84rqh1JYn+h/D4FTuw+M=
+X-Received: by 2002:ac8:5195:: with SMTP id c21mr12200851qtn.304.1595944717799; 
+ Tue, 28 Jul 2020 06:58:37 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
  <20200726222703.102701-1-yepeilin.cs@gmail.com>
  <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam> <20200727223357.GA329006@PWN>
- <20200728094707.GF2571@kadam>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200728094707.GF2571@kadam>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ <20200727131608.GD1913@kadam>
+ <CACRpkda7k4L+nqAYE6z2FVZF-WT2Pm3CHH_=fW24xz_u+QCMRQ@mail.gmail.com>
+ <20200728130632.GI1913@kadam>
+In-Reply-To: <20200728130632.GI1913@kadam>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 28 Jul 2020 15:58:21 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3MEUYH3qG-+dxgH1Omx2gtcqSRXzKLLaAw21Xho6HAeQ@mail.gmail.com>
+Message-ID: <CAK8P3a3MEUYH3qG-+dxgH1Omx2gtcqSRXzKLLaAw21Xho6HAeQ@mail.gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+X-Provags-ID: V03:K1:qtlvZXRfkw4S8NRHNJToKsX8GhdThBwdg07Rd+Ic4lEvPBfnNKU
+ vnWKi+mcdS/3S58PhY27lh+k6i0kMVt12xdeL8gUxrWWw3ryFAPcsdkAhnIT9jGgPiDFQYQ
+ jQfFf4pMWAnDrCHmfDfKusFFk0pavb+4/ldKSjLqli+yVog0Qdphb4Iz5MEPl2PgZK/nBpx
+ m6G+kZ7Nf5oIBg4QgWz6Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yxGCDAJF+TU=:x0tcAVUMkCNB0rW9C1jHIM
+ O/t7cA4HM0IZqWngkD/no+JM+5tS2zKSkfz/885RhB7h6c4u3Gq1jnQYqZ+JPXhO8XJ1CBsTZ
+ ydpO6c8zBrCAHpYnxnL2yBmUMpV2Vev3PjhS27yhlNFKe3iiPWU+CaSpxYNBvMiExnYvO0lJb
+ HYT8bbCwcHKBdsHN29TilqjZPRaq7LXeH1rRMy9+f0ZIWk3u68uf3g5ropHkRRnf+y+NXKNlt
+ sM7+zRznZczlWBYg5/8d9HMqoc8NxvSHaOFdm4KRTNnppMsUjJWxSRZ0JQeIB9Uw4P0/MqZF1
+ njLZ/90M++wDwnw6PrIE9BRCvy7eIZKo77hrNtzPPlwxnc7ExYNxHki4IBnvupWdxR3ByL12q
+ NnbdopMUqnsj8ATLNS7WNR4mlSqPtZ7vnHWD0yTS7+TRGXN/CI+LADxfJbayC0O4Pc0ZU8NVH
+ xXVNn+GXmg712fbO4zpIUWI/213nTjWqOcfjPzNTZOoroXiPfKz/QXN/aOP1VKLJY6ONN2nkb
+ w1uavdkbUh+6L3/lbzL4MhigYd78NagqcxJYrpra3JnTln2VRW0IDvzo9BosAvQh/Awi+O4sK
+ +tqYnqU0rZgFCHcHkr4ShMB+nkkXKUm86x4SLgmZWb2Gs12wopYzlh86Y6XwT65HkXQdAyIUe
+ 9VolWHJV+C4FQLs0FPSNlUz1EpHAMZ/QnjAqUXnxwywpftjfTy+ezguUNFnsCJmzH1zvphuo9
+ rCuoX8FUU0J1JAxzAg2hkZkitIMJdyltPNIj1CqwnBCWekgb47tF3zHxd5TXM6ib+ZY6yJOQ0
+ kB2u98Z3Cn+7YMLSwv08XPUnnkjeLB07aN+gonhvJZJtMgPnGqwxaHVX2n/fMiUvrdSFeflCg
+ mG42XuB9SQrN+97dF8OHjclMlQbZo78jMre3KPvYahqLfPK+8TjfOaBG63fMFVCYU4Fy0rkkM
+ w3EqHJTJts3YR1w+u1aFWUOd/+r4FNmjM+zw4rg6DBSY1to1JtA42
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
  kernel-infoleak in video_put_user()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -119,78 +123,54 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 28, 2020 at 12:47:07PM +0300, Dan Carpenter wrote:
-> On Mon, Jul 27, 2020 at 06:33:57PM -0400, Peilin Ye wrote:
-> > On Mon, Jul 27, 2020 at 04:16:08PM +0300, Dan Carpenter wrote:
-> > > drivers/block/floppy.c:3132 raw_cmd_copyout() warn: check that 'cmd' doesn't leak information (struct has a hole after 'flags')
-> > 
-> > (Removed some Cc: recipients from the list.)
-> > 
-> > I'm not very sure, but I think this one is also a false positive.
-> 
-> No, it's a potential bug.  You're over thinking what Smatch is
-> complaining about.  Arnd is right.
-> 
->   3123  static int raw_cmd_copyout(int cmd, void __user *param,
->   3124                                    struct floppy_raw_cmd *ptr)
->   3125  {
->   3126          int ret;
->   3127  
->   3128          while (ptr) {
->   3129                  struct floppy_raw_cmd cmd = *ptr;
->                                               ^^^^^^^^^^
-> The compiler can either do this assignment as an memcpy() or as a
-> series of struct member assignments.  So the assignment can leave the
-> struct hole uninitialized.
+On Tue, Jul 28, 2020 at 3:06 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Tue, Jul 28, 2020 at 02:22:29PM +0200, Linus Walleij wrote:
+> > On Mon, Jul 27, 2020 at 3:17 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> >
+> > > Here are my latest warnings on linux-next from Friday.
+> >
+> > Thanks for sharing this Dan, very interesting findings.
+> >
+> > > drivers/gpio/gpiolib-cdev.c:473 lineevent_read() warn: check that 'ge' doesn't leak information (struct has a hole after 'id')
+> >
+> > We are revamping the ABI for 64bit compatibility so we are now running
+> > pahole on our stuff. I suppose we need to think about mending this old ABI
+> > as well.
+>
+> Yeah...  But this one is a false positive.  It's not super hard for me
+> to silence it actually.  I'll take care of it.  It could be a while
+> before I push this to the public repository though...
 
-I see, I didn't realize this line could cause the issue. Thank you for
-pointing this out, I will do this then send a patch:
+The lineevent_read() function still needs to be fixed to support
+32-bit compat mode on x86, which is independent of the warning.
 
-diff --git a/drivers/block/floppy.c b/drivers/block/floppy.c
-index 09079aee8dc4..398c261fd174 100644
---- a/drivers/block/floppy.c
-+++ b/drivers/block/floppy.c
-@@ -3126,7 +3126,8 @@ static int raw_cmd_copyout(int cmd, void __user *param,
-        int ret;
+Something like
 
-        while (ptr) {
--               struct floppy_raw_cmd cmd = *ptr;
-+               struct floppy_raw_cmd cmd;
-+               memcpy(&cmd, ptr, sizeof(cmd));
-                cmd.next = NULL;
-                cmd.kernel_data = NULL;
-                ret = copy_to_user(param, &cmd, sizeof(cmd));
+static int lineevent_put_data(void __user *uptr, struct gpioevent_data *ge)
+{
+#ifdef __x86_64__
+        /* i386 has no padding after 'id' */
+        if (in_ia32_syscall()) {
+                struct {
+                        compat_u64      timestamp __packed;
+                        u32             id;
+                } compat_ge = { ge->timestamp, ge->id };
 
-Thank you,
-Peilin Ye
+                if (copy_to_user(uptr, &compat_ge, sizeof(compat_ge)))
+                        return -EFAULT;
 
->   3130                  cmd.next = NULL;
->   3131                  cmd.kernel_data = NULL;
->   3132                  ret = copy_to_user(param, &cmd, sizeof(cmd));
->                                                   ^^^^
-> potential info leak.
-> 
->   3133                  if (ret)
->   3134                          return -EFAULT;
->   3135                  param += sizeof(struct floppy_raw_cmd);
->   3136                  if ((ptr->flags & FD_RAW_READ) && ptr->buffer_length) {
->   3137                          if (ptr->length >= 0 &&
->   3138                              ptr->length <= ptr->buffer_length) {
->   3139                                  long length = ptr->buffer_length - ptr->length;
->   3140                                  ret = fd_copyout(ptr->data, ptr->kernel_data,
->   3141                                                   length);
->   3142                                  if (ret)
->   3143                                          return ret;
->   3144                          }
->   3145                  }
->   3146                  ptr = ptr->next;
->   3147          }
->   3148  
->   3149          return 0;
->   3150  }
-> 
-> regards,
-> dan carpenter
+                return sizeof(compat_ge);
+        }
+#endif
+
+        if (copy_to_user(uptr, ge, sizeof(*ge))
+                return -EFAULT;
+
+        return sizeof(*ge);
+}
+
+       Arnd
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
