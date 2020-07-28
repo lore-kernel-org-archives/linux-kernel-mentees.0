@@ -8,105 +8,98 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C93C433E8
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 02:30:16 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBEB2C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 04:31:24 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BCB35207FC
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 02:30:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7A615206D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 04:31:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnJMCKAI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCB35207FC
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dHFpNLnB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A615206D7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8FBB38788B;
-	Tue, 28 Jul 2020 02:30:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3B78188292;
+	Tue, 28 Jul 2020 04:31:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TN4VHl1ENecz; Tue, 28 Jul 2020 02:30:14 +0000 (UTC)
+	with ESMTP id a92-4U9KR3OQ; Tue, 28 Jul 2020 04:31:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 85C8487880;
-	Tue, 28 Jul 2020 02:30:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C77AA8828C;
+	Tue, 28 Jul 2020 04:31:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 76160C004F;
-	Tue, 28 Jul 2020 02:30:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B6663C004F;
+	Tue, 28 Jul 2020 04:31:23 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4FCA5C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1FFF7C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 02:30:13 +0000 (UTC)
+ Tue, 28 Jul 2020 04:31:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3F24B85FA5
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0EBF2869C0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 02:30:13 +0000 (UTC)
+ Tue, 28 Jul 2020 04:31:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pz19ppGO7wXd
+ with ESMTP id 82bAco0qHbc7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 02:30:12 +0000 (UTC)
+ Tue, 28 Jul 2020 04:31:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 89F3585E60
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 95DB586982
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 02:30:12 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id u64so17328262qka.12
+ Tue, 28 Jul 2020 04:31:21 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id r11so2340323pfl.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 19:30:12 -0700 (PDT)
+ Mon, 27 Jul 2020 21:31:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LghMRY0eJz69FvNdTsfGPJkdBB+xNH9H4rz/7MbnCRI=;
- b=bnJMCKAIkqv0DGEntX13OzGGsZW0+aLpEjGvdVH+nwpdCRplj4EbvcqI8cbWbjSJBt
- ESwvwcvL3cM/CMZjuhngVhK6SR/K9NLKWx1wgtzSxQsFKhuHTBvbY+oisLuA9J/fUvLZ
- W+32kca1wzmT/Hl7g1nITD/8xfQJShz4P/N2EEOexgDzSpRxuq66oPEaUrLncjzd/bea
- oamgmazXldhBcjM32ClHTQ110SD4Og1HV4BekIr4hfA78fLILc8ilNwuHGFCGGcTBdim
- 3HmJzPqwMwpu81xHRInRsucvn0hkNc2h1EPFLrK4blGnw2CSM/RPHLJ7KBY+2sP85y4U
- ijJg==
+ bh=v+vZ5D4lzefV/m6Wri5yBEiubcUZ9dLbHVAGhnF8Sco=;
+ b=dHFpNLnBI7i7q/GgeRddp2ijwrw3IwVr0tWLgS+N0fmjwKV853MwLy70ChD1bZFUO1
+ wl5wRHC1MgjqvggoTT3AuZo57TTkAr11qpEHEFbTpsHOUWNb6tfx16bX0tp7sRZ3A0J9
+ 66dIYDQ6dWJz2IVqGpRng1iNq7TN36GtwWceIsL70xAvFWh12VyD4QLWPhEiBuD3uhZe
+ c6yN0+iQaREWBLptbBivah1QzKhJniHcb0w42gUgyQwwcM/+GtJ3EkYBy02AEiNT1G5c
+ W5IVhAOqoSOkNPkZm1PVZ9LBCVJnf9SYFbDdviBAMqc6BzE/TFCdytDb5k1QNMu7yZb9
+ XmGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LghMRY0eJz69FvNdTsfGPJkdBB+xNH9H4rz/7MbnCRI=;
- b=rMNFobOfu5v6husHZ/35gv3PtVfi8ijJCvRz8NES+vSVNqvEYOjrHalHB9f6gmEt/O
- azPH4FU+IAl4rFwwM8rOCNNnuCq7Bw3ClhBg63N/+JM320iUps+2Bih3lxgXN/vxQFUM
- ElvXV4Ps43uX42e3rPOQ8xT27BEsA/Z/WCp3Vi8sq4qgpxRhxIlN1xEi2n0wtfqXGD2t
- 2m/GkMUURa/6p+WcmKEbe5icIF1ogEjHCRCQ/WnqF8KQQneoptP/b6WPCHIbMo3Zig1+
- 036JQH2XKWzXMVJgnzZ3c6tSQDZLm5yPtMJv54H22wS6rE7GsCbcqrBbAADs0dUm7Wn6
- Myfw==
-X-Gm-Message-State: AOAM533oMpsgyFBDdMPao2hHPNHBTZz0Z0/RgNwF4ugk9DN9pG7ScSYT
- +xnU+BLWPR3GbcD0c41ZiQ==
-X-Google-Smtp-Source: ABdhPJxMp6DcUWEKQIocOpTM4d9HTvWLZLU8wxIErmHS9bFo53Aq3b3460+pTV09zE/YLSONmTToNA==
-X-Received: by 2002:a37:4916:: with SMTP id w22mr26521332qka.246.1595903411573; 
- Mon, 27 Jul 2020 19:30:11 -0700 (PDT)
-Received: from localhost.localdomain (c-76-119-149-155.hsd1.ma.comcast.net.
- [76.119.149.155])
- by smtp.gmail.com with ESMTPSA id x12sm19496229qta.67.2020.07.27.19.30.09
+ bh=v+vZ5D4lzefV/m6Wri5yBEiubcUZ9dLbHVAGhnF8Sco=;
+ b=RfT6sxj1zeD5nwsulDkzlSwvMSZdV33KaylX99oH63iINy1KcpZGFcbzMabI17o6yT
+ l6MtB6oO5zNs5v+vyXOgkhp4aw06jslaCKDqY/HaeFercj34VSkU9v21scBsVD/LwW5t
+ zd6XKeH//qSR+w58OKAMPfxtJJbYYndh/mp3IXVHxDcV4rKz4ffK4cl1wQhgK5o1xZ0m
+ aMryubixER9wywuYAni8s9lCwbPbO2AuK/8ApY+nQ8lQKC1JA5y8S/1uvExde4EqBIv5
+ x495jSOYC7CeCpE7dF6wUfnU6DDePLs15UEPX7/A0OMKywB/WZDYlMhXx5QVXONxt11b
+ HJQw==
+X-Gm-Message-State: AOAM532LIjTIx3ZUwHxTARKxt5VxNq2RQ4A+1/38PKDpi1ieIw0Wpmpa
+ XUJlbVZw2YECjj61quvAKxI=
+X-Google-Smtp-Source: ABdhPJxNSKY8nqzWNqUmpduCVcvLv5t3RJfq1EJosoCcXwZzA8Tp2Mh5firF6Od4Bd4KmDGn77+BDQ==
+X-Received: by 2002:a62:e202:: with SMTP id a2mr23719262pfi.8.1595910680994;
+ Mon, 27 Jul 2020 21:31:20 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.152.86])
+ by smtp.gmail.com with ESMTPSA id b82sm16914992pfb.215.2020.07.27.21.31.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 19:30:10 -0700 (PDT)
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
- Magnus Karlsson <magnus.karlsson@intel.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>
-Date: Mon, 27 Jul 2020 22:28:59 -0400
-Message-Id: <20200728022859.381819-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Mon, 27 Jul 2020 21:31:20 -0700 (PDT)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Kevin Curtis <kevin.curtis@farsite.co.uk>
+Date: Tue, 28 Jul 2020 09:58:10 +0530
+Message-Id: <20200728042809.91436-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Cc: Song Liu <songliubraving@fb.com>, Martin KaFai Lau <kafai@fb.com>,
- linux-kernel@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>,
- Arnd Bergmann <arnd@arndb.de>, John Fastabend <john.fastabend@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- linux-kernel-mentees@lists.linuxfoundation.org, netdev@vger.kernel.org,
- Yonghong Song <yhs@fb.com>, KP Singh <kpsingh@chromium.org>,
- Jakub Kicinski <kuba@kernel.org>, bpf@vger.kernel.org,
- Andrii Nakryiko <andriin@fb.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>
-Subject: [Linux-kernel-mentees] [PATCH net] xdp: Prevent kernel-infoleak in
-	xsk_getsockopt()
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v1] farsync: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,32 +117,41 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-xsk_getsockopt() is copying uninitialized stack memory to userspace when
-`extra_stats` is `false`. Fix it by initializing `stats` with memset().
+The .suspend() and .resume() callbacks are not defined for this driver.
+Still, their power management structure follows the legacy framework. To
+bring it under the generic framework, simply remove the binding of
+callbacks from "struct pci_driver".
 
-Cc: stable@vger.kernel.org
-Fixes: 8aa5a33578e9 ("xsk: Add new statistics")
-Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+Change code indentation from space to tab in "struct pci_driver".
+
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- net/xdp/xsk.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/net/wan/farsync.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
-index 26e3bba8c204..acf001908a0d 100644
---- a/net/xdp/xsk.c
-+++ b/net/xdp/xsk.c
-@@ -844,6 +844,8 @@ static int xsk_getsockopt(struct socket *sock, int level, int optname,
- 		bool extra_stats = true;
- 		size_t stats_size;
+diff --git a/drivers/net/wan/farsync.c b/drivers/net/wan/farsync.c
+index 7916efce7188..15dacfde6b83 100644
+--- a/drivers/net/wan/farsync.c
++++ b/drivers/net/wan/farsync.c
+@@ -2636,12 +2636,10 @@ fst_remove_one(struct pci_dev *pdev)
+ }
  
-+		memset(&stats, 0, sizeof(stats));
-+
- 		if (len < sizeof(struct xdp_statistics_v1)) {
- 			return -EINVAL;
- 		} else if (len < sizeof(stats)) {
+ static struct pci_driver fst_driver = {
+-        .name		= FST_NAME,
+-        .id_table	= fst_pci_dev_id,
+-        .probe		= fst_add_one,
+-        .remove	= fst_remove_one,
+-        .suspend	= NULL,
+-        .resume	= NULL,
++	.name		= FST_NAME,
++	.id_table	= fst_pci_dev_id,
++	.probe		= fst_add_one,
++	.remove		= fst_remove_one,
+ };
+ 
+ static int __init
 -- 
-2.25.1
+2.27.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
