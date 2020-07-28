@@ -2,115 +2,80 @@ Return-Path: <SRS0=RTaY=BH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CABB3C433EB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 15:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD9CC433F2
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 16:31:42 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 92C54206F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 15:51:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E94D22074F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="lUyKTfB3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92C54206F5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="XsRz5Yx7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E94D22074F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 69C4F86072;
-	Tue, 28 Jul 2020 15:51:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id CAD9B869B6;
+	Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RM417ABCIGhc; Tue, 28 Jul 2020 15:51:37 +0000 (UTC)
+	with ESMTP id pCnEX1N-NzBe; Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7B07585FED;
-	Tue, 28 Jul 2020 15:51:37 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1AD06867DF;
+	Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60A86C004F;
-	Tue, 28 Jul 2020 15:51:37 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A015C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0415FC0050;
+	Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 66C18C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 15:51:36 +0000 (UTC)
+ Tue, 28 Jul 2020 16:31:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 81E4F87CB1
+ by silver.osuosl.org (Postfix) with ESMTP id 53035203D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 15:51:34 +0000 (UTC)
+ Tue, 28 Jul 2020 16:31:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DpPAH+xWXpI4
+ with ESMTP id RXNtQVsLjV-g
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 15:51:33 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
- [209.85.166.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 588F487C9C
+ Tue, 28 Jul 2020 16:31:38 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id ABA3920485
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 15:51:33 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id v6so6012186iow.11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 08:51:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dH6pnqUmNf/i6iHZHPZfywyFLxvK6otPa1F0GV7pPjo=;
- b=lUyKTfB3WctkmeX1eVNXVJsib+4c9wLasaDqX42aNbolOJ/Db81up7EUZaq5uewE5y
- IYU3oqcYaUYZ454VgTeKMXmydqHpW3FyOYn/40dsD0ilLFMApi5T3FxPp+3rdDBh60FX
- AAuXKSKF3tYTwuqD/Gx4yfyKi94EvY5+Et/0l8HFOSUPhcTeNCKKXVZ04RennniWcntG
- BtkTCl7zFLu+lcTpQh0oNliQK/j/bKCKCakhJ6O37xgNOgI185wqYqZi4NWm8FubelAJ
- WdOnUnarGCi7BWPyCcpDKh1TIv1eHcyRwj1KpbE6KZHFT48Pl0SoKcfNqJWURzwsQoVN
- MoVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dH6pnqUmNf/i6iHZHPZfywyFLxvK6otPa1F0GV7pPjo=;
- b=PgY2YQi0zZBvaqgrkN/T2f/RmZvBynDltfvE9FsfO8a+5HsbJrRx3z6FGcAxVHZjCx
- 3RmxyytJnVfqdXfwNJQdw+DMe9Eg7NAI2q1reFgP/8y/hpWPbLuvx0J8AJLhSv0kszQP
- 1wpELSThhZ+RZUR4U/i8lSpvAhwtxxAvMfBe2ZxfJjREOb8GlOJKtJoVaYgdhMn4pu1n
- vB7+tvTH5p0/1aZVcQMgKGzqun/QmumpozuEjNQJZsmTpy1rMGWT53nPvbRrxNqdb4vX
- Egd0FAO12LFAgp0IqKPD33O8S4YkswGxL9su1gCp9pIq3FwFBv84nIPVx76zM8IQknxC
- AhEg==
-X-Gm-Message-State: AOAM5335j81sU96/2sQVZGSF2/TyHzd7GvaH60gZ/fjrVTszB35BcErB
- GGuXh9ntQE/kVR6S6hkrNTWbuA==
-X-Google-Smtp-Source: ABdhPJyYLGifiiVBXQbvt/BcnUbYuXMillxP6k4q0gn80oLYD1wDMGPlzF0lDW5ajNIzGkaOI+jY1g==
-X-Received: by 2002:a02:5502:: with SMTP id e2mr32643518jab.56.1595951492249; 
- Tue, 28 Jul 2020 08:51:32 -0700 (PDT)
-Received: from [192.168.1.58] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id j4sm10596866iog.35.2020.07.28.08.51.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jul 2020 08:51:31 -0700 (PDT)
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-References: <20200727173923.694872-1-vaibhavgupta40@gmail.com>
- <20200727174012.GA696265@gmail.com>
- <2b4738b0-5c2c-8ee2-83f9-10b961a5d0d3@kernel.dk>
- <20200727175119.GA700880@gmail.com>
- <99b7cc57-1b4f-6c0b-00c6-08e22021c373@kernel.dk>
- <20200727181144.GA543@gmail.com>
- <9718954b-2152-1bc2-e702-ebe8799fdfb3@kernel.dk>
- <20200728051742.GA198538@gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <f8ae9a1a-ba89-497a-c539-30f3f6dac5e9@kernel.dk>
-Date: Tue, 28 Jul 2020 09:51:30 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200728051742.GA198538@gmail.com>
-Content-Language: en-US
-Cc: linux-ide@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] ata: use generic power
-	management
+ Tue, 28 Jul 2020 16:31:38 +0000 (UTC)
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D35132074F;
+ Tue, 28 Jul 2020 16:31:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1595953898;
+ bh=Y0EPEDkatR+hm/L7ATXN1AYrEx5ot0z2XTn8p1lfn9k=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=XsRz5Yx7Izihr2u416eX8IBjcMS96IE8jzSRuNznwvv0+/j95cjao21EeiSrmjeZ3
+ 65A97uQibhrgzNSHlpxwWWbCufCCH30RGGIlVKkElq2eLBIvQnWU3Imy2fYJJZVZt6
+ hArbZ6K4Vaqk3RsJ82a0O9wfFKLSIN2lacNA8/0k=
+Date: Tue, 28 Jul 2020 17:31:20 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>, Bjorn Helgaas <bjorn@helgaas.com>,
+ Bjorn Helgaas <helgaas@kernel.org>
+In-Reply-To: <20200727131742.82289-1-vaibhavgupta40@gmail.com>
+References: <CAHp75Vdo22ofbCktupFYbfYy6PQ609fsk5B6u2b3FpfKxs8OQg@mail.gmail.com>
+ <20200727131742.82289-1-vaibhavgupta40@gmail.com>
+Message-Id: <159595388005.15302.1247752401935651695.b4-ty@kernel.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] spi: spi-topcliff-pch: drop
+	call to wakeup-disable
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,56 +87,51 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/27/20 11:17 PM, Vaibhav Gupta wrote:
-> On Mon, Jul 27, 2020 at 02:30:03PM -0600, Jens Axboe wrote:
->> On 7/27/20 12:11 PM, Vaibhav Gupta wrote:
->>> On Mon, Jul 27, 2020 at 11:59:05AM -0600, Jens Axboe wrote:
->>>> On 7/27/20 11:51 AM, Vaibhav Gupta wrote:
->>>>> On Mon, Jul 27, 2020 at 11:42:51AM -0600, Jens Axboe wrote:
->>>>>> On 7/27/20 11:40 AM, Vaibhav Gupta wrote:
->>> Yes, I agree. Actually with previous drivers, I was able to get help
->>> from maintainers and/or supporters for the hardware testing. Is that
->>> possible for this patch?
->>
->> It might be, you'll have to ask people to help you, very rarely do people
->> just test patches unsolicited unless they have some sort of interest in the
->> feature.
->>
->> This is all part of what it takes to get code upstream. Writing the code
->> is just a small part of it, the bigger part is usually getting it tested
->> and providing some assurance that you are willing to fix issues when/if
->> they come up.
->>
->> You might want to consider splitting up the patchset a bit - you could
->> have one patch for the generic bits, then one for each chipset. That
->> would allow you to at least get some of the work upstream, once tested.
->>
-> I think I can break this patch into one commit per driver. The reason that
-> all updates got into one single patch is that I made
-> ata_pci_device_suspend/resume() static and exported just the
-> ata_pci_device_pm_ops variable. Thus, all the driver using .suspend/.resume()
-> had to be updated in a single patch.
+On Mon, 27 Jul 2020 18:47:43 +0530, Vaibhav Gupta wrote:
+> Before generic upgrade, both .suspend() and .resume() were invoking
+> pci_enable_wake(pci_dev, PCI_D3hot, 0). Hence, disabling wakeup in both
+> states. (Normal trend is .suspend() enables and .resume() disables the
+> wakeup.)
 > 
-> First I will make changes in drivers/ata/libata-core.c, but won't make any
-> function static. Thus, each driver can be updated in independent commits
-> without breaking anything. And then in the last commit, I can hide the
-> unnecessary .suspend()/.resume() callbacks. This will create patch-series of 55
-> or 56 patches.
+> This was ambiguous and may be buggy. Instead of replicating the legacy
+> behavior, drop the wakeup-disable call.
 > 
-> Will this approach work?
+> [...]
 
-That should work, but more importantly, ensure you get some folks signed up
-for testing this functionality.
+Applied to
 
--- 
-Jens Axboe
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
+Thanks!
+
+[1/1] spi: spi-topcliff-pch: drop call to wakeup-disable
+      commit: 15b413d93ccd0d26c29f005df82c299c8f14cbd6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
