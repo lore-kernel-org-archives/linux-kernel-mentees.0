@@ -7,102 +7,102 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76121C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 12:39:43 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC9EC433E8
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 12:41:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4C94C2074F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 12:39:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DAB6020759
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 12:41:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWFrXSF2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C94C2074F
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="haoCqu+L"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DAB6020759
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1B76188289;
-	Tue, 28 Jul 2020 12:39:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B2825246FD;
+	Tue, 28 Jul 2020 12:41:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CA4V1ptkEo+F; Tue, 28 Jul 2020 12:39:43 +0000 (UTC)
+	with ESMTP id GB8k2vI1p1Lt; Tue, 28 Jul 2020 12:41:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 00FEF87E3D;
-	Tue, 28 Jul 2020 12:39:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 88B4D22F26;
+	Tue, 28 Jul 2020 12:41:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E47CAC0050;
-	Tue, 28 Jul 2020 12:39:42 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 635EEC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7706DC0050;
+	Tue, 28 Jul 2020 12:41:21 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E59EBC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 12:39:41 +0000 (UTC)
+ Tue, 28 Jul 2020 12:41:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 522F687E3D
+ by whitealder.osuosl.org (Postfix) with ESMTP id E25788742D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 12:39:41 +0000 (UTC)
+ Tue, 28 Jul 2020 12:41:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S67A+sx-CBgs
+ with ESMTP id yfjd8WH3vep7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 12:39:40 +0000 (UTC)
+ Tue, 28 Jul 2020 12:41:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C0FCE87E39
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 84F6886689
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 12:39:40 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id mt12so4105351pjb.4
+ Tue, 28 Jul 2020 12:41:19 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id k1so11521740pjt.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 05:39:40 -0700 (PDT)
+ Tue, 28 Jul 2020 05:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
  bh=Fie8IAXWZ8a1f4IBdyXwUsTRAo2+ebUYgUxfo3SFpeA=;
- b=ZWFrXSF2M1/Ti68YVAyL5qat6asJcr2dbzM4Tvn2CA+WYRnO/6E7QnaX5uwWeDMjIV
- DwkHCuKOxWj4MFRCKmR0y5BeGZ3cN6es32gUrgKqG+solcw/pQZaUUmun1w5G5hjMWfK
- rP7Y3nCCVvj9MYLmTXCoqG7H49/aaLDn03FaVgEhybIBJqV/OdlYHL/xXc4UqDHGDgJ6
- YtKmEYsCGkHq6Mb8TlNgEDnWyCuK6xtEdtKmtrYQLK+0rS85ExySzP8QzZGBX8QuUz7V
- 2UriFwuu3JjVCPWje1fIpNIDpwnd690NMMpBZpjhlYIiwaHRSVc+iNo+xngS4NxFF/Ky
- dWfg==
+ b=haoCqu+L8GW/U4OWwDQnTgb9GtXYeSPf/3t+tetw4UjMKCpOcKW9zEnJX+SwLZ17LL
+ BW2HDc1XLMcKdoK0p3xutk4REkdxx/RTEqfmqaPQZ6gd3tprs77Fsbv56tzrXJUsfN8H
+ 2HN8kNTWkCQ0guBjpN74s+oAf3YAehWjQrxT/F3jAFnj7TumR4+r70BFy9ku8o+lHHuk
+ MB6HNeuF3yOVbLRmGdHmyRVIVCPQmsygQFILPj9+DOJdZSPJszFKZXjHo/NjsSx2m/we
+ i5dvQMD8HdIGLmKHCWiBQPVC/OBk+W+iYpVUP4hifZQHXqgZrgyxzdv3UA0qX6eyLxIV
+ 7y8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
  bh=Fie8IAXWZ8a1f4IBdyXwUsTRAo2+ebUYgUxfo3SFpeA=;
- b=Z25cJY/q4om3VM2sT4b/zFoEWrLWnCbPZoTEsLqIcHSxxeoz+oBolX261NmmwjQpjQ
- 9Xfx2HP2K+NqqoG2pLCflRHpuxVs/3K4xgsGS8tp+QNFtSNpT/z8cu0PMo7nGjuslB0T
- mPDQeaq+EURDe0rv6uzIl1C51pdlzvudeCvM0Lyq96ArH2vvnG0K8L7Jc83noRB6/Xjd
- X92NPWpZPFu3bQUwh/haPTRD9MsPRqZazWjWrsa4OFvB3DA1+abwVVJN2Y+TWeidCSs1
- ZhxqxUQu5TYNkbmMj+b56SEipXkdKG1oMcJgBKh81Y307VDpRzqmbRJuBZnL+MILzi07
- O+vQ==
-X-Gm-Message-State: AOAM533Vs3zMRoFJkWEK7b3Bt093x4/SPGffOdSX+atxiP4VQCr+/dG/
- 1bFI7BkE/SX5fqjoy3z/fo0=
-X-Google-Smtp-Source: ABdhPJz97qasknYQoT+fY7yWXUWMcSSg+xxuQQMwXn/CTLKMheIuNy7RyQvTXCQd8r41XxEASfXvUg==
-X-Received: by 2002:a17:90a:eb17:: with SMTP id
- j23mr4116840pjz.151.1595939980318; 
- Tue, 28 Jul 2020 05:39:40 -0700 (PDT)
+ b=f6c+xrT/Pl0ufE64P/Fr0xq7+y+607phtAjX1P+vBbMqKMKlOfrfo27lPKenMOM6ul
+ dB0wGIgnr1HvV/eQKr1E59zyROZs+MHCw5kKCkrxyUYZs4sQS8drndek2lFrXzdLqI73
+ zrzXoR/lbyiRxcDGbvMKmJuc/S1QanVidU1XNMKCQSHqrFxcUIP9Irkx4v7tIrg8JJAY
+ j/jj3jbAFd9jqP+Wfy2jflshchkC4Vx49WxAn2YV1J2UfyD5SREVXXHXCjjz0WPKdEMP
+ b7hM/tb5n+uUAEDt/Ei79QqmdhW+JpBsD9SqmvU1Hua5Q8OB2e2MSksLGHoz6ZWd2gl0
+ T+tw==
+X-Gm-Message-State: AOAM5309zRSTwN4DfW8T+FhZowaxwNlcBIySLtAsujYIr6bDBUEYFjAh
+ Uf0mpSzSznvFTnuCFjSen50=
+X-Google-Smtp-Source: ABdhPJyOrg3NwW9cQWlvOe1YfodJHn7NnaR+jSpc77kZqqqtD5XzGFf31FbitFJd5NZAB025aWtEhw==
+X-Received: by 2002:a17:90a:ba92:: with SMTP id
+ t18mr4267672pjr.121.1595940079182; 
+ Tue, 28 Jul 2020 05:41:19 -0700 (PDT)
 Received: from gmail.com ([2401:4900:2eef:ca92:3545:4a68:f406:d612])
- by smtp.gmail.com with ESMTPSA id j13sm2234164pfa.149.2020.07.28.05.39.35
+ by smtp.gmail.com with ESMTPSA id m4sm11387168pgh.9.2020.07.28.05.41.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 05:39:39 -0700 (PDT)
-Date: Tue, 28 Jul 2020 18:08:10 +0530
+ Tue, 28 Jul 2020 05:41:18 -0700 (PDT)
+Date: Tue, 28 Jul 2020 18:09:48 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
- Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <20200728123810.GC1331847@gmail.com>
-References: <20200728092717.937023-1-vaibhavgupta40@gmail.com>
+ "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Message-ID: <20200728123948.GE1331847@gmail.com>
+References: <20200728114128.1218310-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200728092717.937023-1-vaibhavgupta40@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] [media] netup_unidvb: use
-	generic power management
+In-Reply-To: <20200728114128.1218310-1-vaibhavgupta40@gmail.com>
+Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] wireless: airo: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
