@@ -2,124 +2,105 @@ Return-Path: <SRS0=RTaY=BH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0A9C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 10:03:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 392F4C433E8
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 10:25:54 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A6B9220786
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 10:03:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0817120775
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 10:25:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZllVecSY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A6B9220786
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wmz69gtA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0817120775
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 56C8022FD5;
-	Tue, 28 Jul 2020 10:03:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8ED3822FF0;
+	Tue, 28 Jul 2020 10:25:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ezB1IHKNAU8J; Tue, 28 Jul 2020 10:03:11 +0000 (UTC)
+	with ESMTP id 3mNxEv2-7hJK; Tue, 28 Jul 2020 10:25:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 080212267B;
-	Tue, 28 Jul 2020 10:03:10 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B819F22879;
+	Tue, 28 Jul 2020 10:25:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E396AC004F;
-	Tue, 28 Jul 2020 10:03:10 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F1E2DC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A81EFC0050;
+	Tue, 28 Jul 2020 10:25:52 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 82802C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 10:03:09 +0000 (UTC)
+ Tue, 28 Jul 2020 10:25:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DC596854B3
+ by silver.osuosl.org (Postfix) with ESMTP id 6188A22FF0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 10:03:09 +0000 (UTC)
+ Tue, 28 Jul 2020 10:25:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zZZzSdqTFav1
+ with ESMTP id LI-r2RcS1MVz
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 10:03:09 +0000 (UTC)
+ Tue, 28 Jul 2020 10:25:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3519386995
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6EDE622879
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 10:03:08 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06S9vbJ9024190;
- Tue, 28 Jul 2020 10:02:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=rY2vB0P0/tyjyjLirqTSdg6vE+kWv7ysFIAp+6VnZjk=;
- b=ZllVecSYmeFo12UYNjUyMiX3cwsufWaPC1rydm5AJtCgWr6p5D/nL6U/1kvQdqYz1tK9
- BgfO4qc9t4zuRjR4xnW2uBx+mTPriBegnjnF0IK7yQPceai+3UN33QfSmHWInkbRFuYe
- G+UI1dvfPC8otgbnKalrbEFIlIXm9Hib8tuHwegHAGq3y8bMCn/iaEQYjgKPcbf701Ol
- cb4Z+8hDcz8QdK9xTAzrVSkTeTnF+42QG6WFxnl84NyAV9YkNR0YejqytxkBiRw/MpBs
- Y0+apsWepOc23H6zsTVv1TaY7gEwQEP1FCRNet4IVD9XrpGFN9ESzO5k3WEhi0++5ct1 ow== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 32hu1j6j8e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 28 Jul 2020 10:02:52 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06SA2ZpS082878;
- Tue, 28 Jul 2020 10:02:51 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 32hu5skcft-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Jul 2020 10:02:51 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06SA2kKG021605;
- Tue, 28 Jul 2020 10:02:46 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 28 Jul 2020 03:02:46 -0700
-Date: Tue, 28 Jul 2020 13:02:37 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Message-ID: <20200728100237.GG2571@kadam>
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam> <20200727220456.GA328887@PWN>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200727220456.GA328887@PWN>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9695
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007280076
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9695
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxscore=0 impostorscore=0
- phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007280075
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Arnd Bergmann <arnd@arndb.de>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Tue, 28 Jul 2020 10:25:50 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id k71so11277568pje.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 Jul 2020 03:25:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aAK7NZIIkVIKxbhw+1qDbbbtZdz+xeC5teBUBWJVzQI=;
+ b=Wmz69gtAJ/8KHH9ECmxzv3ZOuWv5DZ0Uz6a5vygrxjfsooBYBQfIJDbjnVvs58z7bn
+ 3PCWAZA17+61JdwYRbakstPRLIOXhKGtTycCBBdfUtWPPbd5QWrjNelnWXZ5CLVzuFcc
+ Jw/1pMHBhfLoENQNdnlcXF9lglMgB4VIx83hbl+eQ4Dbsv1npCm1cOosvz9MapH7/FQj
+ rG2t/KgZzxQniLMXFlSc/HsGECD8YBRo8YWtLVBiKcDv/Kz/h47GzWF9MPZsQ4nVDNbQ
+ USkL5/AZSjI9+c3xQti2wt6zqvSlKmoR7FRmjuEmRAcw5ZkEs73Kif5YKV/03h98WShB
+ AmQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aAK7NZIIkVIKxbhw+1qDbbbtZdz+xeC5teBUBWJVzQI=;
+ b=gqYptIOef/p0EdkJJQd9/jwnoqj0tP3sbLTulno5ZlqzwwxBHwKQjO2l+f1XdRBlej
+ UGv/Zrci9SAm3up9rnVonNYv0h2+KCzkzCbZwPhk1/iL5AkseJOJ6HnV1Hnwpsi/xLtB
+ W96ipkgBuTEvaBfpmHvrHPSd03IT49BG4dGA+wNVjgfvBgSkDqhp7S7sB2rxV8goNPKy
+ uVtFWubJjK+1UnPSl4Yr1y5nq7+tOrKQ+RKkVIg5cBWdql03wwldWFehpclxHHFt4aEp
+ ebKv3dGmTA6o3g8ADz/6GuDmmmU/Koi36ydM2AJrT7HYhfmarFeysjyjAoP9GNoO0eYq
+ A05w==
+X-Gm-Message-State: AOAM533STNIR9fqy8ix/vdlilrrNYYmEFTly/1YmeiIHDGZI07YTsrXl
+ D4g1eZDW0B8gVENORg9z4Y0=
+X-Google-Smtp-Source: ABdhPJyJFtv0gmRygzPhKe0KCjZFn8qDgVt/D1013y/toOihztfTXZVKr2fL1XiKuK26eTyPzA5ApQ==
+X-Received: by 2002:a17:90a:8985:: with SMTP id
+ v5mr3698662pjn.181.1595931949843; 
+ Tue, 28 Jul 2020 03:25:49 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.152.86])
+ by smtp.gmail.com with ESMTPSA id q73sm2709295pjc.11.2020.07.28.03.25.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jul 2020 03:25:49 -0700 (PDT)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Date: Tue, 28 Jul 2020 15:54:18 +0530
+Message-Id: <20200728102418.1069512-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Cc: linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v1] [media] bttv: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -137,47 +118,128 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 06:04:56PM -0400, Peilin Ye wrote:
-> On Mon, Jul 27, 2020 at 04:16:08PM +0300, Dan Carpenter wrote:
-> > drivers/char/hpet.c:675 hpet_ioctl() warn: check that 'info' doesn't leak information (struct has a hole after 'hi_timer')
-> 
-> This one seems like a false positive.
+Drivers using legacy power management .suspen()/.resume() callbacks
+have to manage PCI states and device's PM states themselves. They also
+need to take care of standard configuration registers.
 
-Yep.
+Switch to generic power management framework using a single
+"struct dev_pm_ops" variable to take the unnecessary load from the driver.
+This also avoids the need for the driver to directly call most of the PCI
+helper functions and device power state control functions, as through
+the generic framework PCI Core takes care of the necessary operations,
+and drivers are required to do only device-specific jobs.
 
-> 
-> drivers/char/hpet.c:670:
-> 
-> 	mutex_lock(&hpet_mutex);
-> 	err = hpet_ioctl_common(file->private_data, cmd, arg, &info);
-> 	mutex_unlock(&hpet_mutex);
-> 
-> 	if ((cmd == HPET_INFO) && !err &&
-> 	    (copy_to_user((void __user *)arg, &info, sizeof(info))))
-> 		err = -EFAULT;
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/media/pci/bt8xx/bttv-driver.c | 56 ++++++++-------------------
+ 1 file changed, 16 insertions(+), 40 deletions(-)
 
-When Smatch parses hpet_ioctl_common() it says there are two success
-paths:
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index 9144f795fb93..cb8d955d1d5d 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -4263,15 +4263,14 @@ static void bttv_remove(struct pci_dev *pci_dev)
+ 	return;
+ }
+ 
+-#ifdef CONFIG_PM
+-static int bttv_suspend(struct pci_dev *pci_dev, pm_message_t state)
++static int __maybe_unused bttv_suspend(struct device *dev)
+ {
+-	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
++	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev);
+ 	struct bttv *btv = to_bttv(v4l2_dev);
+ 	struct bttv_buffer_set idle;
+ 	unsigned long flags;
+ 
+-	dprintk("%d: suspend %d\n", btv->c.nr, state.event);
++	dprintk("%d: suspend\n", btv->c.nr);
+ 
+ 	/* stop dma + irqs */
+ 	spin_lock_irqsave(&btv->s_lock,flags);
+@@ -4291,42 +4290,19 @@ static int bttv_suspend(struct pci_dev *pci_dev, pm_message_t state)
+ 	btv->state.gpio_enable = btread(BT848_GPIO_OUT_EN);
+ 	btv->state.gpio_data   = gpio_read();
+ 
+-	/* save pci state */
+-	pci_save_state(pci_dev);
+-	if (0 != pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state))) {
+-		pci_disable_device(pci_dev);
+-		btv->state.disabled = 1;
+-	}
++	btv->state.disabled = 1;
+ 	return 0;
+ }
+ 
+-static int bttv_resume(struct pci_dev *pci_dev)
++static int __maybe_unused bttv_resume(struct device *dev)
+ {
+-	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
++	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev);
+ 	struct bttv *btv = to_bttv(v4l2_dev);
+ 	unsigned long flags;
+-	int err;
+ 
+ 	dprintk("%d: resume\n", btv->c.nr);
+ 
+-	/* restore pci state */
+-	if (btv->state.disabled) {
+-		err=pci_enable_device(pci_dev);
+-		if (err) {
+-			pr_warn("%d: Can't enable device\n", btv->c.nr);
+-			return err;
+-		}
+-		btv->state.disabled = 0;
+-	}
+-	err=pci_set_power_state(pci_dev, PCI_D0);
+-	if (err) {
+-		pci_disable_device(pci_dev);
+-		pr_warn("%d: Can't enable device\n", btv->c.nr);
+-		btv->state.disabled = 1;
+-		return err;
+-	}
+-
+-	pci_restore_state(pci_dev);
++	btv->state.disabled = 0;
+ 
+ 	/* restore bt878 state */
+ 	bttv_reinit_bt848(btv);
+@@ -4344,7 +4320,6 @@ static int bttv_resume(struct pci_dev *pci_dev)
+ 	spin_unlock_irqrestore(&btv->s_lock,flags);
+ 	return 0;
+ }
+-#endif
+ 
+ static const struct pci_device_id bttv_pci_tbl[] = {
+ 	{PCI_VDEVICE(BROOKTREE, PCI_DEVICE_ID_BT848), 0},
+@@ -4357,15 +4332,16 @@ static const struct pci_device_id bttv_pci_tbl[] = {
+ 
+ MODULE_DEVICE_TABLE(pci, bttv_pci_tbl);
+ 
++static SIMPLE_DEV_PM_OPS(bttv_pm_ops,
++			 bttv_suspend,
++			 bttv_resume);
++
+ static struct pci_driver bttv_pci_driver = {
+-	.name     = "bttv",
+-	.id_table = bttv_pci_tbl,
+-	.probe    = bttv_probe,
+-	.remove   = bttv_remove,
+-#ifdef CONFIG_PM
+-	.suspend  = bttv_suspend,
+-	.resume   = bttv_resume,
+-#endif
++	.name      = "bttv",
++	.id_table  = bttv_pci_tbl,
++	.probe     = bttv_probe,
++	.remove    = bttv_remove,
++	.driver.pm = &bttv_pm_ops,
+ };
+ 
+ static int __init bttv_init_module(void)
+-- 
+2.27.0
 
-drivers/char/hpet.c | hpet_ioctl_common | 170 |             0 |   PARAM_LIMIT |   1 |                    $ |                26625 |
-
-The first success path is for when cmd is HPET_IE_ON.  We don't care
-about that.
-
-drivers/char/hpet.c | hpet_ioctl_common | 185 |             0 |   PARAM_LIMIT |   1 |                    $ | 26626,26628-26629,1074292742,2149083139 |
-
-The second success path is for when cmd is HPET_IE_OFF, HPET_INFO,
-HPET_EPI, HPET_DPI, or HPET_IRQFREQ.  If Smatch tracked the HPET_INFO
-by itself then this wouldn't print a warning, but since Smatch groups
-all those cmds together then it does print a warning.
-
-It's not impossible to make Smatch split apart the success paths some
-more but it's complicated because it means storing more data and slows
-down the parsing.  The cross function database is already 27GB on my
-system.
-
-regards,
-dan carpenter
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
