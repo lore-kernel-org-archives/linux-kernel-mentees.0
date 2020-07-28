@@ -2,102 +2,117 @@ Return-Path: <SRS0=RTaY=BH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E869C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 08:11:35 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88814C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 08:42:02 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6184020656
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 08:11:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6184020656
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+	by mail.kernel.org (Postfix) with ESMTPS id 4A03F20838
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 08:42:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="kMgubnmU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A03F20838
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5258785A56;
-	Tue, 28 Jul 2020 08:11:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1C88E87A8D;
+	Tue, 28 Jul 2020 08:42:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TFxibcF7ocvr; Tue, 28 Jul 2020 08:11:32 +0000 (UTC)
+	with ESMTP id 8oNtvWZRPFrV; Tue, 28 Jul 2020 08:42:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A166985A37;
-	Tue, 28 Jul 2020 08:11:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1B13986416;
+	Tue, 28 Jul 2020 08:42:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8F019C0050;
-	Tue, 28 Jul 2020 08:11:32 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 066B1C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 04985C0050;
+	Tue, 28 Jul 2020 08:42:01 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E5B25C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 08:11:31 +0000 (UTC)
+ Tue, 28 Jul 2020 08:41:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0289E86294
+ by silver.osuosl.org (Postfix) with ESMTP id E14B7227E1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 08:11:31 +0000 (UTC)
+ Tue, 28 Jul 2020 08:41:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9dCln+bqGJ-2
+ with ESMTP id 5SP7kvACH3Qa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 08:11:30 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7381A86256
+ Tue, 28 Jul 2020 08:41:59 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by silver.osuosl.org (Postfix) with ESMTPS id 49DF2227CD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 08:11:29 +0000 (UTC)
-Received: from mail-qt1-f173.google.com ([209.85.160.173]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MsI0K-1koAOy2xrO-00tmxx for
- <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Jul 2020 10:11:26
- +0200
-Received: by mail-qt1-f173.google.com with SMTP id h21so7853717qtp.11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 01:11:26 -0700 (PDT)
-X-Gm-Message-State: AOAM531LX6bqKY7J94HL70UY2nGlQdV6i5uEyz2agYTCOxUWNKHqA9ou
- aC9YOHBg07sbE5NTby1khpT+N34rwFkNa3R1/MQ=
-X-Google-Smtp-Source: ABdhPJxCGAB7BbsjfSD7bgaCnwv1WyrC1BKE9mDKkcAW39Ma3IJ37NCcsslzqEKXCuFNjQfzfNsrIHGbS8NsRXh+AwY=
-X-Received: by 2002:aed:2946:: with SMTP id s64mr5570242qtd.204.1595923885496; 
- Tue, 28 Jul 2020 01:11:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200728014343.341303-1-yepeilin.cs@gmail.com>
-In-Reply-To: <20200728014343.341303-1-yepeilin.cs@gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 28 Jul 2020 10:11:09 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a29=CugbGtZRQc0abGXvexp=gBk+LwOCG3yNCPakup+NQ@mail.gmail.com>
-Message-ID: <CAK8P3a29=CugbGtZRQc0abGXvexp=gBk+LwOCG3yNCPakup+NQ@mail.gmail.com>
+ Tue, 28 Jul 2020 08:41:59 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06S8bbMY129456;
+ Tue, 28 Jul 2020 08:41:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=z486fM3ZhuFnXdp1xbJVRVkSwBqhKdWlnxMDY3kdnag=;
+ b=kMgubnmUmgo7kM82YyziHNH1ujv8Uv2jAZi1T2EEy+yUE2YMEDMtvYIjtc4j1ltM3TT+
+ wWgKvMpq3twx7nzMB/+MpXMkL6MHMNj2zV8/vBNn7U6YcijuRC744xqVuU8KeYLobt1C
+ u2YhhHLxwHZ8gbKk+wmgXUDEBaI1ozcXnA8OSLfZVdYTE33IDCIqIQcQ4LDoSvI+dF2w
+ N0JR5G/hxcbZePeWAx+hE1VoMpHx10q44S18xyVX0KsIxNwtekcaGkq/o/60AYs4WyUH
+ D07j6qKhL/q4mABUrYalC2ZsOK3dJzlg9gcyhXg/RnTTLRI/qYo2gICx16+L4Me2Ab5r Zg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 32hu1je402-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 28 Jul 2020 08:41:51 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06S8cirs084276;
+ Tue, 28 Jul 2020 08:41:50 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 32hu5tu5a5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Jul 2020 08:41:50 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06S8fkYw030454;
+ Tue, 28 Jul 2020 08:41:46 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 28 Jul 2020 01:41:45 -0700
+Date: Tue, 28 Jul 2020 11:41:37 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Peilin Ye <yepeilin.cs@gmail.com>
-X-Provags-ID: V03:K1:szPMkeVArdzGy9LzP1PHQgIMODVcJL8KKsGqWoh5YBzkyqlqAwu
- lvYhZIr1KMiENBfVBe+TmEPRQZy2L5/Yn/QPD06BzBxZXbJHP/w7zegn5dX94G2sfyhKvVe
- IDSfP9YlpT63B9dqT+zFIgWPWHDLtkqkYhMvDogIo5zlj+1X+9roY/QtkR0kkiiNFhB6sRD
- U9S3dLul+/WBZRmZwl2+Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:edApv2Srfos=:cedxa3vRTUFnXvql2rmQXk
- h156yI1/37fUjJBh4jwIOmv+7iakjL/Gp4Sl9hEa+ig2vVlxJiN9SoSkYP1jAs02EAFpj5jUw
- QYB1Vcd5sAlfU+6cSPwfDIv5VIdCstAQvtE5wqAxWDkMe8hf1ccGrpZ6L22ACxkY7sZnbXL4E
- /wPxvQY+MXbTJqxmf5yGV3q1Z/xLe8U8v/ZV7f/tzP6kqJptWdzd8TbqS0xR72Y4x2EJRbskS
- 7rF2Eb2RoJPV6trLrg+DXaa2pt1VFrG0JyE9nC/vvOLM/T9La04YabmoKiNuRQseb1LoODT7z
- Zr9lwg4A3RlQPvNr+X3GkHbHgq7KLwjM4/9nu7ackBysQrhu5CrK39iPYISV6Y++z3ealta3U
- 6muyFVqqNqB5je7SFF8tK04SBZfYlORJJavO2FKKEaLtJqA4FmjZxekxL1NE8GGhl6tLmx+JB
- qve8B1Tl7FIuOfhtbzNjbdZlqbOC2KoaB8SBkK4Kh6mUHc6sRMleCqbvqb8bp2sF9rANEsK/j
- Yr7kCkbxxjT5oDDKowfEuUbTWA9SaeznDWmNhT9m6bbgjR+VVwZtsQ+1tfeCCASzrd28I3Yaq
- wJo7w3pYBTpw/pK4zhhl6a1PIi8l3S1L/DAl6HM71QS69sYHRTH3wdBZCvdkBwHpmryMHrv0F
- zzkz3K1hGv+lQxrvxoL1+FkMIVPAhxiK5tU0yjQ3zmEUB2u9sFhV+qB2ysdLl6/L36xhCGiqe
- tXjUCvZhXJvHgOSizh6tZxvWT57hVcJHg2xZ2IxHaL2kxUXSMLfj9PPQ2JrSixmMrYRtivXBv
- xrmuyfwksMDolMUV07iEvt03t4pNCYY49HFXmMeCK/73+W8evD7CJKhiyK17X4gK7qhH4xduW
- /duzFXlT/PnoYBvkWBOivz7OGPWRpaGA8HYpVfLyg8Rw/Q2ZZmpcdw8ICvBgCN2Uo2n/7Cmpk
- k+GeuR+dVjFf0BKUuhiX1G/FA1sWP9o7lv2m6B2qy1TqljOweazJ3
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] drm/bufs: Prevent
- kernel-infoleak in copy_one_buf()
+Message-ID: <20200728084137.GC2571@kadam>
+References: <20200727210235.327835-1-yepeilin.cs@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200727210235.327835-1-yepeilin.cs@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9695
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ mlxscore=0 adultscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007280065
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9695
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
+ mlxlogscore=999
+ malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ suspectscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007280065
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Sumit Saxena <sumit.saxena@broadcom.com>, linux-scsi@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] scsi/megaraid: Prevent
+ kernel-infoleak in kioc_to_mimd()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,56 +130,25 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 28, 2020 at 3:45 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
->
-> copy_one_buf() is copying uninitialized stack memory to userspace due to
-> the compiler not initializing holes in statically allocated structures.
-> Fix it by initializing `v` with memset().
+On Mon, Jul 27, 2020 at 05:02:35PM -0400, Peilin Ye wrote:
+> hinfo_to_cinfo() does no operation on `cinfo` when `hinfo` is NULL,
+> causing kioc_to_mimd() to copy uninitialized stack memory to userspace.
+> Fix it by initializing `cinfo` with memset().
 
-I would add 'potentially' somewhere in that description: it is architecture
-dependent whether there are holes in this structure as 'enum' types
-and 'long' are both dependent on the ABI, and even if there is a hole,
-it is undefined behavior whether the hold gets initialized.
+But "hinfo" can't be NULL so this patch isn't required.  It's a bit
+hard for Smatch to follow the code.
 
-Other than that, the patch looks good.
+We know that "opcode" is 82 so the buffer is allocated by mimd_to_kioc()
+-> mraid_mm_attach_buf().
 
-> Cc: stable@vger.kernel.org
-> Fixes: 5c7640ab6258 ("switch compat_drm_infobufs() to drm_ioctl_kernel()")
-> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+Generally, don't silence static checker warnings unless it makes the
+code more readable.  It's the checker writer's job to fix their own code.
+In this case, that's me, but parsing the code is quite complicated and I
+don't have a plan for how to fix it.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+regards,
+dan carpenter
 
-> ---
->  drivers/gpu/drm/drm_bufs.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-> index a0735fbc144b..f99cd4a3f951 100644
-> --- a/drivers/gpu/drm/drm_bufs.c
-> +++ b/drivers/gpu/drm/drm_bufs.c
-> @@ -1349,10 +1349,14 @@ static int copy_one_buf(void *data, int count, struct drm_buf_entry *from)
->  {
->         struct drm_buf_info *request = data;
->         struct drm_buf_desc __user *to = &request->list[count];
-> -       struct drm_buf_desc v = {.count = from->buf_count,
-> -                                .size = from->buf_size,
-> -                                .low_mark = from->low_mark,
-> -                                .high_mark = from->high_mark};
-> +       struct drm_buf_desc v;
-> +
-> +       memset(&v, 0, sizeof(v));
-> +
-> +       v.count = from->buf_count;
-> +       v.size = from->buf_size;
-> +       v.low_mark = from->low_mark;
-> +       v.high_mark = from->high_mark;
->
->         if (copy_to_user(to, &v, offsetof(struct drm_buf_desc, flags)))
->                 return -EFAULT;
-> --
-> 2.25.1
->
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
