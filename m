@@ -6,75 +6,75 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD9CC433F2
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 16:31:42 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D33C4C433EC
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 16:32:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E94D22074F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A7CE120792
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 16:32:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="XsRz5Yx7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E94D22074F
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5LDSWxe"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7CE120792
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CAD9B869B6;
-	Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 873A486A79;
+	Tue, 28 Jul 2020 16:32:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pCnEX1N-NzBe; Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
+	with ESMTP id Xs49tKZ9Lxm3; Tue, 28 Jul 2020 16:32:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1AD06867DF;
-	Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 25C6586A63;
+	Tue, 28 Jul 2020 16:32:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0415FC0050;
-	Tue, 28 Jul 2020 16:31:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 22A40C0050;
+	Tue, 28 Jul 2020 16:32:00 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 66C18C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E6997C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 16:31:39 +0000 (UTC)
+ Tue, 28 Jul 2020 16:31:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 53035203D4
+ by silver.osuosl.org (Postfix) with ESMTP id DBD7120400
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 16:31:39 +0000 (UTC)
+ Tue, 28 Jul 2020 16:31:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RXNtQVsLjV-g
+ with ESMTP id g00nlytToTeJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 16:31:38 +0000 (UTC)
+ Tue, 28 Jul 2020 16:31:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id ABA3920485
+ by silver.osuosl.org (Postfix) with ESMTPS id 6518D203D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 16:31:38 +0000 (UTC)
+ Tue, 28 Jul 2020 16:31:58 +0000 (UTC)
 Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D35132074F;
- Tue, 28 Jul 2020 16:31:37 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 64575207F5;
+ Tue, 28 Jul 2020 16:31:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595953898;
- bh=Y0EPEDkatR+hm/L7ATXN1AYrEx5ot0z2XTn8p1lfn9k=;
+ s=default; t=1595953918;
+ bh=fMNQi5A+NN2YwKr4BGffFEl5pIiiOIfMgqPkYAoC4Ts=;
  h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=XsRz5Yx7Izihr2u416eX8IBjcMS96IE8jzSRuNznwvv0+/j95cjao21EeiSrmjeZ3
- 65A97uQibhrgzNSHlpxwWWbCufCCH30RGGIlVKkElq2eLBIvQnWU3Imy2fYJJZVZt6
- hArbZ6K4Vaqk3RsJ82a0O9wfFKLSIN2lacNA8/0k=
-Date: Tue, 28 Jul 2020 17:31:20 +0100
+ b=J5LDSWxez+sdvsG5Q86BG2VchGVcuv+Ij5o934S/xyclHizLJ/DeUsKu94yFSRiyF
+ zNwCTBa0xwGxWL6dTrstVII8B1s3mfB1uLSceZ3HCheQ7am8GFyOsG2DpO0hh/SH35
+ YHc30CVV2cx04Nx81hneZecSPYBBAikJZ+xk4m6c=
+Date: Tue, 28 Jul 2020 17:31:40 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Vaibhav Gupta <vaibhavgupta40@gmail.com>, Bjorn Helgaas <bjorn@helgaas.com>,
- Bjorn Helgaas <helgaas@kernel.org>
-In-Reply-To: <20200727131742.82289-1-vaibhavgupta40@gmail.com>
-References: <CAHp75Vdo22ofbCktupFYbfYy6PQ609fsk5B6u2b3FpfKxs8OQg@mail.gmail.com>
- <20200727131742.82289-1-vaibhavgupta40@gmail.com>
-Message-Id: <159595388005.15302.1247752401935651695.b4-ty@kernel.org>
+To: Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>, Bjorn Helgaas <helgaas@kernel.org>
+In-Reply-To: <20200727172936.661567-1-vaibhavgupta40@gmail.com>
+References: <CAHp75VfmKvAy6bSk70g3c2qJcUzzo0AUhzxR6dFja+ZppGMLRg@mail.gmail.com>
+ <20200727172936.661567-1-vaibhavgupta40@gmail.com>
+Message-Id: <159595388005.15302.729932493645865477.b4-ty@kernel.org>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] spi: spi-topcliff-pch: drop
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] spi: spi-topcliff-pch: drop
 	call to wakeup-disable
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -94,7 +94,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 27 Jul 2020 18:47:43 +0530, Vaibhav Gupta wrote:
+On Mon, 27 Jul 2020 22:59:37 +0530, Vaibhav Gupta wrote:
 > Before generic upgrade, both .suspend() and .resume() were invoking
 > pci_enable_wake(pci_dev, PCI_D3hot, 0). Hence, disabling wakeup in both
 > states. (Normal trend is .suspend() enables and .resume() disables the
@@ -102,8 +102,6 @@ On Mon, 27 Jul 2020 18:47:43 +0530, Vaibhav Gupta wrote:
 > 
 > This was ambiguous and may be buggy. Instead of replicating the legacy
 > behavior, drop the wakeup-disable call.
-> 
-> [...]
 
 Applied to
 
