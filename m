@@ -5,103 +5,104 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3EAC433E8
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 11:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC016C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 11:53:43 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 165D82075D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 11:43:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BBAE4206D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 11:53:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qSE8zMPz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 165D82075D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tebaVCGF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBAE4206D7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BDB8A876FE;
-	Tue, 28 Jul 2020 11:43:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8F4AC87C57;
+	Tue, 28 Jul 2020 11:53:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HKIrO1U1qljC; Tue, 28 Jul 2020 11:43:01 +0000 (UTC)
+	with ESMTP id lQMgkB8NZ+Uy; Tue, 28 Jul 2020 11:53:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0E7528695C;
-	Tue, 28 Jul 2020 11:43:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 85D178770B;
+	Tue, 28 Jul 2020 11:53:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D85A4C004F;
-	Tue, 28 Jul 2020 11:43:00 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E7CAC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7CA1DC004F;
+	Tue, 28 Jul 2020 11:53:42 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AC437C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 11:42:59 +0000 (UTC)
+ Tue, 28 Jul 2020 11:53:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 46CF0235AE
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9BB3385633
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 11:42:59 +0000 (UTC)
+ Tue, 28 Jul 2020 11:53:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aNbw9srFW-71
+ with ESMTP id 5DhycVxl-cly
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 11:42:58 +0000 (UTC)
+ Tue, 28 Jul 2020 11:53:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by silver.osuosl.org (Postfix) with ESMTPS id 8450623426
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+ [209.85.219.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C967A85618
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 11:42:58 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id d1so9759450plr.8
+ Tue, 28 Jul 2020 11:53:38 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id j10so2272003qvo.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 04:42:58 -0700 (PDT)
+ Tue, 28 Jul 2020 04:53:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=f5JgTl1mn5uTL5N69LqaGIrNSHZWhpmutap+rp0hNP0=;
- b=qSE8zMPz4HChumx8PDMwOaYF2rRJWxIIMo8kuHhth2sYL9IYEIb3bChYfV3oa/kSKv
- sZ4OGF199JWu+Hc1qr/mGhMFHaRXzlepCvLSAD9lUJvs4uupqAIcwLgUY1I25tLGKZj/
- p4gfzXLs41fKxuUPjegTGU1x2WI2i7651GdHCCbLrmmuWrnkrVn+cH5JtI+c9dlREyde
- qyTVbXjUFVv/onHHSuhncCINST4ERMc1qBndiKDfS+lLzZ3hkItgqgJ1/lOpcyV1c5W3
- s+TEY/H1QxuhZisKKsCwnGskAYUYlW3CS1tVU9oK2b67eCA8OeJt3E8mSD+ZCDKdT6Qx
- 4ZQA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9b0/x+SNOsArF0QozJjz6aJQuh2KJ70gscVHnalujy4=;
+ b=tebaVCGFtEwcxHEM2mSMLHj+/y/YIqY5F9PfjQr+R28mNZgbYk25oEbZZId/XZ0s3P
+ tyGFy7H5tAKQH/KcvFG7RcKLdtt/qqcX2osS0vTQJ/3rUpnTnbtfiDJ18KDKt9nZIzGb
+ jioEWFF54X/RJ4UBRAI9O+jT36f7HD+T/xOTD9lKZ+UDK636bylzcmIRkD7DOA9185ON
+ jJG7VOHFIS3KDo49DOPfTt8B8gh1BvSt7q/oevhavy3mNdL7jkhDMD98eP3cCfzNmA6a
+ 4JHhj/cTKGPEzg0ULWSgB+t3qfMc0wvywvSPhcRbk49lv6ar4UEgPv6Ss42pOY9LvMo+
+ N4zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=f5JgTl1mn5uTL5N69LqaGIrNSHZWhpmutap+rp0hNP0=;
- b=cLgWZdyWOxkpvhW0sjsdK0CAcrLGkcTrqiR5LUnbRFz94GB/8ZBHsjrLaS8Up6nL2R
- Y2vnWbZyFCLJG7n9ZmQVIGnJEo5LKWG0R+kW0WyzItCOfjHZNDcThv+ARdkQYYplRpTq
- d4uRID0bu+tdy2FyFyDyP82WiHRmzW50LdTrcK8sYowc1ne8HWwHmabGczqK6vufjMjl
- IaeCjuLiR6AJoyl5khyEaWkBufdVZoe/zNcGaHJYAh7r63Gq4bud1UuXfBxnJe/KqP0s
- Z1z5MpS5f0KHCzzdVXYzPGJzQ5EUyygz6IOr2A7F0J1wV6QP5cEzRC6nk4uNJbOrKuyg
- HY5A==
-X-Gm-Message-State: AOAM5321876ui96yPgDALtTG2BNcSb4QP9EliYr0y6zxXbIg6gd7caM2
- K0N5+LYNs2sck67FMQ+Kvsk=
-X-Google-Smtp-Source: ABdhPJyp4u8cmwBfLx7giHjgA2KCYor0/RYxbOjGsQ/FZqFeau9qvpJOeeLDow5oAtz4aszE55hIVg==
-X-Received: by 2002:a17:902:b18b:: with SMTP id
- s11mr23283675plr.152.1595936577971; 
- Tue, 28 Jul 2020 04:42:57 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id 66sm19157012pfg.63.2020.07.28.04.42.52
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9b0/x+SNOsArF0QozJjz6aJQuh2KJ70gscVHnalujy4=;
+ b=JRjGj0Ke5NyDU1Y3l9rhPHpf80eZZcsGKQepEmO8lek8xBlUgNl0uIEgwo3ZBdsyrm
+ UmHamN+UBmcdkj8yvxCphLLWfxiUAZgBzzXy0vdAcBJ+i5m436rtmNk8VskxXmCl3kgm
+ 5v5h/lycxfA+2ygI7TxKIL2o1XNzzHJNJmKZAtRAS1DDszVarkPUEp2PS/VjFCfR1uPH
+ V4Y5x6GFXtz3Oc/duC1gXZtQKu5wh2Oufhac26hCb0eHvBmvZdKvDm/rpE2vCCdVdRgf
+ Cdby6HhUrbi7E8tIMU6lqkVFOsr2blDXDfOpbyHhijr8CqQoF6AORpvH3rF4domSj3cG
+ Pn6A==
+X-Gm-Message-State: AOAM5310NJgKY6lLNzYm1vaxlrAlGoAP7Z2Px6Hd9cvEI5bm1Bn+lv+Z
+ 4WmS/KgCVLXcMvebJUsT/Q==
+X-Google-Smtp-Source: ABdhPJytWHbSuKSgdqrZHnoY6Cfo5vrUorIiwqfDq+wpVnip+5M/a1iy0umq4my1/dRXaNveQev4oQ==
+X-Received: by 2002:ad4:4152:: with SMTP id z18mr154690qvp.42.1595937217951;
+ Tue, 28 Jul 2020 04:53:37 -0700 (PDT)
+Received: from localhost.localdomain (c-76-119-149-155.hsd1.ma.comcast.net.
+ [76.119.149.155])
+ by smtp.gmail.com with ESMTPSA id t65sm21273750qkf.119.2020.07.28.04.53.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 04:42:57 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Kalle Valo <kvalo@codeaurora.org>, Dan Carpenter <dan.carpenter@oracle.com>
-Date: Tue, 28 Jul 2020 17:11:28 +0530
-Message-Id: <20200728114128.1218310-1-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Tue, 28 Jul 2020 04:53:37 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Date: Tue, 28 Jul 2020 07:52:10 -0400
+Message-Id: <20200728115210.408486-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200728014343.341303-1-yepeilin.cs@gmail.com>
+References: <20200728014343.341303-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v1] wireless: airo: use generic power
-	management
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [Linux-kernel-mentees] [PATCH v2] drm/bufs: Prevent kernel-infoleak
+	in copy_one_buf()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,100 +120,66 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers using legacy power management .suspen()/.resume() callbacks
-have to manage PCI states and device's PM states themselves. They also
-need to take care of standard configuration registers.
+Currently `struct drm_buf_desc` is defined as follows:
 
-Switch to generic power management framework using a single
-"struct dev_pm_ops" variable to take the unnecessary load from the driver.
-This also avoids the need for the driver to directly call most of the PCI
-helper functions and device power state control functions, as through
-the generic framework PCI Core takes care of the necessary operations,
-and drivers are required to do only device-specific jobs.
+struct drm_buf_desc {
+	int count;
+	int size;
+	int low_mark;
+	int high_mark;
+	enum {
+		_DRM_PAGE_ALIGN = 0x01,
+		_DRM_AGP_BUFFER = 0x02,
+		_DRM_SG_BUFFER = 0x04,
+		_DRM_FB_BUFFER = 0x08,
+		_DRM_PCI_BUFFER_RO = 0x10
+	} flags;
+	unsigned long agp_start;
+};
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+copy_one_buf() is potentially copying uninitialized kernel stack memory
+to userspace, since the compiler may leave such "holes" (around `.flags`
+and `.agp_start` fields) in this statically allocated structure. Prevent
+it by initializing `v` with memset().
+
+Cc: stable@vger.kernel.org
+Fixes: 5c7640ab6258 ("switch compat_drm_infobufs() to drm_ioctl_kernel()")
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 ---
- drivers/net/wireless/cisco/airo.c | 39 +++++++++++++++----------------
- 1 file changed, 19 insertions(+), 20 deletions(-)
+Change in v2:
+    - Improve commit description. (Suggested by Arnd Bergmann
+      <arnd@arndb.de>)
 
-diff --git a/drivers/net/wireless/cisco/airo.c b/drivers/net/wireless/cisco/airo.c
-index 827bb6d74815..f9627fa360a2 100644
---- a/drivers/net/wireless/cisco/airo.c
-+++ b/drivers/net/wireless/cisco/airo.c
-@@ -74,16 +74,19 @@ MODULE_DEVICE_TABLE(pci, card_ids);
- 
- static int airo_pci_probe(struct pci_dev *, const struct pci_device_id *);
- static void airo_pci_remove(struct pci_dev *);
--static int airo_pci_suspend(struct pci_dev *pdev, pm_message_t state);
--static int airo_pci_resume(struct pci_dev *pdev);
-+static int __maybe_unused airo_pci_suspend(struct device *dev);
-+static int __maybe_unused airo_pci_resume(struct device *dev);
+ drivers/gpu/drm/drm_bufs.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+index a0735fbc144b..f99cd4a3f951 100644
+--- a/drivers/gpu/drm/drm_bufs.c
++++ b/drivers/gpu/drm/drm_bufs.c
+@@ -1349,10 +1349,14 @@ static int copy_one_buf(void *data, int count, struct drm_buf_entry *from)
+ {
+ 	struct drm_buf_info *request = data;
+ 	struct drm_buf_desc __user *to = &request->list[count];
+-	struct drm_buf_desc v = {.count = from->buf_count,
+-				 .size = from->buf_size,
+-				 .low_mark = from->low_mark,
+-				 .high_mark = from->high_mark};
++	struct drm_buf_desc v;
 +
-+static SIMPLE_DEV_PM_OPS(airo_pci_pm_ops,
-+			 airo_pci_suspend,
-+			 airo_pci_resume);
++	memset(&v, 0, sizeof(v));
++
++	v.count = from->buf_count;
++	v.size = from->buf_size;
++	v.low_mark = from->low_mark;
++	v.high_mark = from->high_mark;
  
- static struct pci_driver airo_driver = {
--	.name     = DRV_NAME,
--	.id_table = card_ids,
--	.probe    = airo_pci_probe,
--	.remove   = airo_pci_remove,
--	.suspend  = airo_pci_suspend,
--	.resume   = airo_pci_resume,
-+	.name      = DRV_NAME,
-+	.id_table  = card_ids,
-+	.probe     = airo_pci_probe,
-+	.remove    = airo_pci_remove,
-+	.driver.pm = &airo_pci_pm_ops,
- };
- #endif /* CONFIG_PCI */
- 
-@@ -5573,9 +5576,9 @@ static void airo_pci_remove(struct pci_dev *pdev)
- 	pci_disable_device(pdev);
- }
- 
--static int airo_pci_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused airo_pci_suspend(struct device *dev_d)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct airo_info *ai = dev->ml_priv;
- 	Cmd cmd;
- 	Resp rsp;
-@@ -5591,25 +5594,21 @@ static int airo_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 		return -EAGAIN;
- 	disable_MAC(ai, 0);
- 	netif_device_detach(dev);
--	ai->power = state;
-+	ai->power = PMSG_SUSPEND;
- 	cmd.cmd = HOSTSLEEP;
- 	issuecommand(ai, &cmd, &rsp);
- 
--	pci_enable_wake(pdev, pci_choose_state(pdev, state), 1);
--	pci_save_state(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
-+	device_wakeup_enable(dev_d);
- 	return 0;
- }
- 
--static int airo_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused airo_pci_resume(struct device *dev_d)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct airo_info *ai = dev->ml_priv;
--	pci_power_t prev_state = pdev->current_state;
-+	pci_power_t prev_state = to_pci_dev(dev_d)->current_state;
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--	pci_enable_wake(pdev, PCI_D0, 0);
-+	device_wakeup_disable(dev_d);
- 
- 	if (prev_state != PCI_D1) {
- 		reset_card(dev, 0);
+ 	if (copy_to_user(to, &v, offsetof(struct drm_buf_desc, flags)))
+ 		return -EFAULT;
 -- 
-2.27.0
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
