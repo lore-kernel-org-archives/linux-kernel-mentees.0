@@ -1,106 +1,107 @@
-Return-Path: <SRS0=tUVd=BG=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=RTaY=BH=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CBEC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 22:34:43 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4044C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 01:45:34 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 192F220729
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Jul 2020 22:34:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AA8E220672
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 01:45:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hh3U81Gh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 192F220729
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qPuGtMvX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AA8E220672
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CC1F487909;
-	Mon, 27 Jul 2020 22:34:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 78CC78841F;
+	Tue, 28 Jul 2020 01:45:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ojD6-V3UbYjd; Mon, 27 Jul 2020 22:34:42 +0000 (UTC)
+	with ESMTP id aZUvQaMVWEl3; Tue, 28 Jul 2020 01:45:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 08DB687695;
-	Mon, 27 Jul 2020 22:34:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 085D0881E9;
+	Tue, 28 Jul 2020 01:45:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EE773C004F;
-	Mon, 27 Jul 2020 22:34:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EFC48C0050;
+	Tue, 28 Jul 2020 01:45:33 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2136EC004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6EC40C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 22:34:40 +0000 (UTC)
+ Tue, 28 Jul 2020 01:45:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 95AAB22735
+ by silver.osuosl.org (Postfix) with ESMTP id 5879322843
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 22:34:01 +0000 (UTC)
+ Tue, 28 Jul 2020 01:45:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YTplrWGQP4Zr
+ with ESMTP id F8nZ0KDuoV0H
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 22:34:00 +0000 (UTC)
+ Tue, 28 Jul 2020 01:45:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
- [209.85.219.67])
- by silver.osuosl.org (Postfix) with ESMTPS id A2917226FF
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 5646A22782
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 22:34:00 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id o2so8269549qvk.6
+ Tue, 28 Jul 2020 01:45:32 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id d14so17261273qke.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jul 2020 15:34:00 -0700 (PDT)
+ Mon, 27 Jul 2020 18:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qdRJPfeh5unLgeU8AmitK4ZcKNveusAvABQiizyUCDs=;
- b=hh3U81GhCy8kQSwX8BCigvuYF0zagijulCGFoytEaIYbrGxnz4puPKlCb9AuPxk+aF
- 2Quut0UsjOaOClJRMvcjQjVts5Sm6ipo3/Hktv7Iep6RzEfEsHKgOoiUlN6IWLwc0J9L
- PrFlFUwd7PqM4vj2owBZuLDLHCugFabY/GeNK/iiKjUpSYfYv/lxgBUNisVgzeZu/26Y
- epEqhW8VSn0VRxB8QKM5y7aPJpsTl7Z4JbQwqZjKIs/nmo3VX1F4OBNbKPctT0Jt4DEh
- T6wwYLfXTcFheUSUkCnjuU2m8FTj8iviMFQuZejdEXBCcs0BeglwCcJKn3CbgOy5IuK+
- xHuw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YjnA1D1K7ElpFXMn7MlHX1aExmoTvW00G3z3st5LogM=;
+ b=qPuGtMvXjFKTqPMP4hVzimuIwTZQ1FlTw4vqUKaNSKU99KqaO6Im988hL6y6XkP5V2
+ qVOFVZeATU9MV0hSUENBapGZ7GLtyN/Zblmf/4fCo1UH9ehlDGFpi9aqTjRKGiQ6zRBU
+ ZnBAzkC5VY3aa0sUUqOhdrf+7j42xFbvu//GIiSzF9TiQsOp/yfcYIX1oGvGIKFyxM9S
+ k6HkJu8JFS6URc1k9uYTJoCOa4PJ5UY0inf+26gI6iMl69ihRgNzPEzBeVcRFFJQcV9I
+ jbLBMpuzcqx06gqVV3mMyG3T5p5MGCTM/NG7cd9z8NytqeSC9Ht4zrrYiKX3jZsT64Y/
+ p3Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qdRJPfeh5unLgeU8AmitK4ZcKNveusAvABQiizyUCDs=;
- b=fvGkIPBV8KUA9+sIAVwyPDVH44nUmVkH9tDg9b9BYMHwlDjclmS1rKpuzTTAZv31B1
- /B7CwWCnpswPUj9TUhJCfLdAwH8QkQdTqyE4ZhGRt0N+GoSCCXUTHLprKKukwJV8P7dD
- vMdB877j+Vp21OPAfvegjmRUBHR8Kdcph3xSvHjPiz/63VYrIqp93q1thwTjXgRbULTL
- 5tE7EGTus8cqrirDYOnsL3JzZqnGUD31mdIoaS97Kgbp659BT/OU1mhOcHOcmH6dUsT6
- 21gwn8UPA5NyIlT2oYgnVOMpqpfGt+V++Pj6HAih3YkOgyuajf9OwCkn0yvPF5j+Mkui
- Y8xA==
-X-Gm-Message-State: AOAM532q//d1G3J0q7IAlfTLJY21tZ8zqIkzH0qOsU3aO7dR3zf5dfrR
- z0sSFIpAnngQQMMiFg/qTw==
-X-Google-Smtp-Source: ABdhPJwZ1I1WmUcL7yD7/isTmdXBnVJZX/XmomlAIyrrdEd1/vNKh8c+rv/2d9uwmtKD0r5KESK3iQ==
-X-Received: by 2002:a0c:a306:: with SMTP id u6mr24953891qvu.88.1595889239764; 
- Mon, 27 Jul 2020 15:33:59 -0700 (PDT)
-Received: from PWN ([209.94.141.207])
- by smtp.gmail.com with ESMTPSA id n68sm21044944qkd.89.2020.07.27.15.33.58
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YjnA1D1K7ElpFXMn7MlHX1aExmoTvW00G3z3st5LogM=;
+ b=gBqblwikV260QfdJbboiIYzvZgRk3X9G0sQAYug/WMN9h8r3y0pTd4om+J8FZwwv6j
+ 5Z1K8YgZhGn8KrFAvBqnJxy4fTD9snIgZ/LzhU5LKEkZGKacedDZlmk1r9bmNmR4GahU
+ lb/VrSRGRVERmvyUSCoyT52hoeuWoP1pCo+azC2GKMxgZrxJuQTLhEHuB55VzyuJhyW8
+ u9I0eSEUBElj4fEIqotjerqQf88zfw2dZkQtqOffAeC5oSFGFRGOFwAHxb/4/i5vx6Ps
+ g7sXOJ1Lzw+6ExGEm2RmVjaWahrZExaIuVjtmY+mD0vTnoEydNtpeqJsnIACY32sa7a9
+ 0G6A==
+X-Gm-Message-State: AOAM532x7Frft2mNCBcZn5cMtAiX1/8KWBpl158aW7tGFXysUojvJBf9
+ rK8K/wJp1DsFIpbaByI+aw==
+X-Google-Smtp-Source: ABdhPJxbAIs557upvT1yY+aGvvScvjxCli+NZkmPpkJ7H5akQf1y/Q9yw/gGLnLoqu78WGuR11jD5A==
+X-Received: by 2002:a05:620a:553:: with SMTP id
+ o19mr24583291qko.46.1595900731268; 
+ Mon, 27 Jul 2020 18:45:31 -0700 (PDT)
+Received: from localhost.localdomain (c-76-119-149-155.hsd1.ma.comcast.net.
+ [76.119.149.155])
+ by smtp.gmail.com with ESMTPSA id d14sm16585473qti.41.2020.07.27.18.45.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 15:33:59 -0700 (PDT)
-Date: Mon, 27 Jul 2020 18:33:57 -0400
+ Mon, 27 Jul 2020 18:45:30 -0700 (PDT)
 From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Message-ID: <20200727223357.GA329006@PWN>
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Date: Mon, 27 Jul 2020 21:43:43 -0400
+Message-Id: <20200728014343.341303-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200727131608.GD1913@kadam>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [Linux-kernel-mentees] [PATCH] drm/bufs: Prevent kernel-infoleak in
+	copy_one_buf()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,39 +119,44 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 27, 2020 at 04:16:08PM +0300, Dan Carpenter wrote:
-> drivers/block/floppy.c:3132 raw_cmd_copyout() warn: check that 'cmd' doesn't leak information (struct has a hole after 'flags')
+copy_one_buf() is copying uninitialized stack memory to userspace due to
+the compiler not initializing holes in statically allocated structures.
+Fix it by initializing `v` with memset().
 
-(Removed some Cc: recipients from the list.)
+Cc: stable@vger.kernel.org
+Fixes: 5c7640ab6258 ("switch compat_drm_infobufs() to drm_ioctl_kernel()")
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+ drivers/gpu/drm/drm_bufs.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-I'm not very sure, but I think this one is also a false positive.
+diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+index a0735fbc144b..f99cd4a3f951 100644
+--- a/drivers/gpu/drm/drm_bufs.c
++++ b/drivers/gpu/drm/drm_bufs.c
+@@ -1349,10 +1349,14 @@ static int copy_one_buf(void *data, int count, struct drm_buf_entry *from)
+ {
+ 	struct drm_buf_info *request = data;
+ 	struct drm_buf_desc __user *to = &request->list[count];
+-	struct drm_buf_desc v = {.count = from->buf_count,
+-				 .size = from->buf_size,
+-				 .low_mark = from->low_mark,
+-				 .high_mark = from->high_mark};
++	struct drm_buf_desc v;
++
++	memset(&v, 0, sizeof(v));
++
++	v.count = from->buf_count;
++	v.size = from->buf_size;
++	v.low_mark = from->low_mark;
++	v.high_mark = from->high_mark;
+ 
+ 	if (copy_to_user(to, &v, offsetof(struct drm_buf_desc, flags)))
+ 		return -EFAULT;
+-- 
+2.25.1
 
-Here Smatch is complaining about a linked list called `my_raw_cmd`
-defined in raw_cmd_ioctl():
-
-drivers/block/floppy.c:3249:
-
-	ret = raw_cmd_copyin(cmd, param, &my_raw_cmd);
-
-In raw_cmd_copyin(), each element of the linked list is allocated by
-kmalloc() then copied from user:
-
-drivers/block/floppy.c:3180:
-
-loop:
-	ptr = kmalloc(sizeof(struct floppy_raw_cmd), GFP_KERNEL);
-	      ^^^^^^^
-	if (!ptr)
-		return -ENOMEM;
-	*rcmd = ptr;
-	ret = copy_from_user(ptr, param, sizeof(*ptr));
-	      ^^^^^^^^^^^^^^
-
-I think copy_from_user() is filling in the paddings inside `struct
-floppy_raw_cmd`?
-
-Thank you,
-Peilin Ye
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
