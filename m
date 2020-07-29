@@ -7,98 +7,100 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F8DC433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 17:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E79B1C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 19:12:02 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D54C20809
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 17:59:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AFF282075F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 19:12:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="CXPoDUsE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D54C20809
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="QQyoFB/3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AFF282075F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D85562474E;
-	Wed, 29 Jul 2020 17:58:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6930A24074;
+	Wed, 29 Jul 2020 19:12:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WQUSqogP4Bpe; Wed, 29 Jul 2020 17:58:57 +0000 (UTC)
+	with ESMTP id xEFrN+1MAi6w; Wed, 29 Jul 2020 19:12:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EC74E203CA;
-	Wed, 29 Jul 2020 17:58:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4D4F724763;
+	Wed, 29 Jul 2020 19:12:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C93A5C0050;
-	Wed, 29 Jul 2020 17:58:57 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EE2BCC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 24DD8C004F;
+	Wed, 29 Jul 2020 19:12:01 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CD2F9C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 17:58:56 +0000 (UTC)
+ Wed, 29 Jul 2020 19:11:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EA0938543A
+ by silver.osuosl.org (Postfix) with ESMTP id 94224240DF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 17:58:56 +0000 (UTC)
+ Wed, 29 Jul 2020 19:11:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id I-_GLEfbC1pW
+ with ESMTP id NGojIcse2Ved
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 17:58:56 +0000 (UTC)
+ Wed, 29 Jul 2020 19:11:58 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
- [209.85.222.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D9B2C85429
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 3941E23771
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 17:58:55 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id b79so23057734qkg.9
+ Wed, 29 Jul 2020 19:11:58 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id e13so23322735qkg.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 10:58:55 -0700 (PDT)
+ Wed, 29 Jul 2020 12:11:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IR8kl6q02JQVV7/sYzqm1Sm6y7ctVZjq+Lwk1QFsbIY=;
- b=CXPoDUsEGcDQYbZMW+Rn6nD+0PCCPwiwRLZExgj5iUx1tW06qD45DsVfCnJnkTXJeq
- pnTo4s7uRNKDygqcufUAMIrMxLqiKqrqI0a6JW/IKEsTTCLVWji4LA3kwZMTDxoo87WO
- c56vVUR2OKwY9BtXTqUAqdPYnfzp0vBso1Yp5f87ObH63BWUUDhoXA3VjCZlGm+G0Tez
- ZxxRTyWNuUBYDqyUFHkIOv+vUH6Ko0pZH6ANv+x84zO85KRARuwNvLkSzMxU8GAInQz3
- e34Wb2/H97fjDaWiJ9hDjt9zLuisSiK0hmvFMa8F9SpWbG75282gnMNA452o+iG+EC8U
- TrTQ==
+ bh=JiXGvEaxlR+R/poUy+KkKDbPSSxw+vYE0tU7qSg7Gr0=;
+ b=QQyoFB/3QZEIbqjLrh11jmrIQZShit6LKFxmT1o2Ns8Njgxj/67t76WMxdNauZLpS4
+ xggeFCt7js2asoG0lTI31libhtwx/Lf2xwN4/IrW7bnpfpxZd5bhcYk4HzKyIOeIiorP
+ 8/zPd7XdHYxn8xGkUSF4VZBxeKK8Sn5ZR2a9eS19DPoml2a8U4MV22tXnE6MWjKbyjBu
+ FlGRUBXIKokZJcw+PnvLDfFUTnNTffEzcRlyUu3NSnYDaNYHhZ91WTjvs0q0ZJwfWLFW
+ w9tgtFmu70K9611GmIQrGq2lAfz20yktcmYJEql5EpU25w+vk/V5UpzcRAuem45Do2qW
+ qXMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IR8kl6q02JQVV7/sYzqm1Sm6y7ctVZjq+Lwk1QFsbIY=;
- b=eiTT/RrMqoBI1eRxWV9UD3M5jl1lKbUJdF5lhNA+w19afZ+qKOnPKtp+X+HNjHt+T7
- UFlWsQa35VjI7EISnL1xz0Md+umvdcnpXDdN+IIyHIiEeuo8VEY5POM2A0VQ48W33ZFr
- YKQsquM0cjFgTUoguPSjXCiO6O1yKG2h4Ve/9DJrKChPLq0R7vkBLs7lYA7J3xGuzQjr
- 78cCR8AMyNZs/4K0H2RGFdyqBakJRcF3DH3yLRhOFftbAVfePtMHrZWc1H/mYHqL2bZK
- vbT+uGzA1dydi+QiYEMR08MJsHHSRunrJx75jN9xMMRh5esXA75lt2XSFNNqbP0+EA9/
- hL7w==
-X-Gm-Message-State: AOAM5328nPqedRGPmhgbF1mCPFPU9pNjBTvemYXYgAtCgJid+PCz0pd0
- ZcQohqflE+bvWlSkh9Ul/IRFMQ==
-X-Google-Smtp-Source: ABdhPJzLCTFy8pCLR85PV/ZE79tLd8wUmFZrt7pruhZOb0N5M7MYNCV+YDocdMWsEc9EgXrgW9Dmmg==
-X-Received: by 2002:a37:4185:: with SMTP id
- o127mr34187889qka.478.1596045534623; 
- Wed, 29 Jul 2020 10:58:54 -0700 (PDT)
+ bh=JiXGvEaxlR+R/poUy+KkKDbPSSxw+vYE0tU7qSg7Gr0=;
+ b=JKnup0Jj4ccryVa81M4j5+vf+zS/3gofosaJRDM+aqqvE1JeoS5rTh+a4nCCr9AqB+
+ PDhY8uss7C0tCjI7gH1uH8Tb4XDBlTWCELDF4ImiwhfJsCxWm6oUZLLDSMQyxHZByB3C
+ ZInBtSCL7whBi7upK9O6SKVn2PGPbsvJzyzX/7GWL/uggwGpWT7kfY+Prub91xfNzjCD
+ xjC5RfjSLTZ1gsZe4efQ0dZ1D/r7v2nPaM6vO9rEm5ahhrP4juuvvAov28CuCPlRlxdb
+ t4tcktBH/1FcHRHjjcvco4fcoPI0Dupr+4A2JNhk3j/rC4uW+/H5z45SSJXsUFgMT36w
+ hCGQ==
+X-Gm-Message-State: AOAM533SNY+aLEEzVZ+FJoE7yh56B9YAy0jIZwcRo+GEQ7Gph9/r+k1K
+ Nimou5jFMqDMR63GkeEWrXwXRg==
+X-Google-Smtp-Source: ABdhPJzdBKqmAa7A60uajE8zyLjbuhxiZgjk+/Vh30Ar+K7BeZ3r90QOcK/43nsamnzbaFjsmAZ5NA==
+X-Received: by 2002:a05:620a:4d9:: with SMTP id
+ 25mr29737348qks.411.1596049917086; 
+ Wed, 29 Jul 2020 12:11:57 -0700 (PDT)
 Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
- by smtp.gmail.com with ESMTPSA id s128sm2026340qkd.108.2020.07.29.10.58.51
+ by smtp.gmail.com with ESMTPSA id o187sm2270967qkd.112.2020.07.29.12.11.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jul 2020 10:58:54 -0700 (PDT)
+ Wed, 29 Jul 2020 12:11:56 -0700 (PDT)
 From: Vitor Massaru Iha <vitor@massaru.org>
 To: kunit-dev@googlegroups.com
-Date: Wed, 29 Jul 2020 14:58:49 -0300
-Message-Id: <20200729175849.148332-1-vitor@massaru.org>
+Date: Wed, 29 Jul 2020 16:11:51 -0300
+Message-Id: <20200729191151.476368-1-vitor@massaru.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Cc: brendanhiggins@google.com, linux-kernel@vger.kernel.org,
- andy.shevchenko@gmail.com, linux-kselftest@vger.kernel.org,
- johannes@sipsolutions.net, linux-kernel-mentees@lists.linuxfoundation.org,
- kvalo@codeaurora.org
-Subject: [Linux-kernel-mentees] [PATCH] lib: kunit: add bitfield test
-	conversion to KUnit
+Cc: fkostenzer@live.at, torvalds@linux-foundation.org,
+ brendanhiggins@google.com, linux-kernel@vger.kernel.org,
+ paul.gortmaker@windriver.com, geert@linux-m68k.org,
+ linux-kselftest@vger.kernel.org, tglx@linutronix.de,
+ andriy.shevchenko@linux.intel.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, akpm@linux-foundation.org
+Subject: [Linux-kernel-mentees] [PATCH v2] lib: kunit: Convert test_sort to
+	KUnit test
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,50 +118,69 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This adds the conversion of the runtime tests of test_bitfield,
-from `lib/test_bitfield.c` to KUnit tests.
+This adds the conversion of the test_sort.c to KUnit test.
 
 Please apply this commit first (linux-kselftest/kunit-fixes):
 3f37d14b8a3152441f36b6bc74000996679f0998 kunit: kunit_config: Fix parsing of CONFIG options with space
 
 Code Style Documentation: [0]
 
+Fix these warnings Reported-by lkp@intel.com
+
+WARNING: modpost: vmlinux.o(.data+0x4fc70): Section mismatch in reference from the variable sort_test_cases to the variable .init.text:sort_test
+   The variable sort_test_cases references
+   the variable __init sort_test
+   If the reference is valid then annotate the
+   variable with or __refdata (see linux/init.h) or name the variable
+
+WARNING: modpost: lib/sort_kunit.o(.data+0x11c): Section mismatch in reference from the variable sort_test_cases to the function .init.text:sort_test()
+   The variable sort_test_cases references
+   the function __init sort_test()
+
 Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+Reported-by: kernel test robot <lkp@intel.com>
 Link: [0] https://lore.kernel.org/linux-kselftest/20200620054944.167330-1-davidgow@google.com/T/#u
 ---
- lib/Kconfig.debug                         | 23 ++++--
- lib/Makefile                              |  2 +-
- lib/{test_bitfield.c => bitfield_kunit.c} | 92 ++++++++++-------------
- 3 files changed, 57 insertions(+), 60 deletions(-)
- rename lib/{test_bitfield.c => bitfield_kunit.c} (66%)
+v2:
+    * Add Kunit Code Style reference in commit message;
+    * Fix lkp@intel.com warning report;
+---
+ lib/Kconfig.debug                 | 26 +++++++++++++++++---------
+ lib/Makefile                      |  2 +-
+ lib/{test_sort.c => sort_kunit.c} | 31 +++++++++++++++----------------
+ 3 files changed, 33 insertions(+), 26 deletions(-)
+ rename lib/{test_sort.c => sort_kunit.c} (55%)
 
 diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 9ad9210d70a1..16c5574bf103 100644
+index 9ad9210d70a1..1fe19e78d7ca 100644
 --- a/lib/Kconfig.debug
 +++ b/lib/Kconfig.debug
-@@ -1986,13 +1986,6 @@ config TEST_BITMAP
- 
+@@ -1874,15 +1874,6 @@ config TEST_MIN_HEAP
+
  	  If unsure, say N.
- 
--config TEST_BITFIELD
--	tristate "Test bitfield functions at runtime"
+
+-config TEST_SORT
+-	tristate "Array-based sort test"
+-	depends on DEBUG_KERNEL || m
 -	help
--	  Enable this option to test the bitfield functions at boot.
+-	  This option enables the self-test function of 'sort()' at boot,
+-	  or at module load time.
 -
 -	  If unsure, say N.
 -
- config TEST_UUID
- 	tristate "Test functions located in the uuid module at runtime"
- 
-@@ -2142,6 +2135,22 @@ config TEST_SYSCTL
- 
+ config KPROBES_SANITY_TEST
+ 	bool "Kprobes sanity tests"
+ 	depends on DEBUG_KERNEL
+@@ -2185,6 +2176,23 @@ config LINEAR_RANGES_TEST
+
  	  If unsure, say N.
- 
-+config BITFIELD_KUNIT
-+	tristate "KUnit test bitfield functions at runtime"
-+	depends on KUNIT
+
++config SORT_KUNIT
++	tristate "KUnit test for Array-based sort"
++	depends on DEBUG_KERNEL || m
 +	help
-+	  Enable this option to test the bitfield functions at boot.
++	  This option enables the KUnit function of 'sort()' at boot,
++	  or at module load time.
 +
 +	  KUnit tests run during boot and output the results to the debug log
 +	  in TAP format (http://testanything.org/). Only useful for kernel devs
@@ -171,199 +192,98 @@ index 9ad9210d70a1..16c5574bf103 100644
 +
 +	  If unsure, say N.
 +
- config SYSCTL_KUNIT_TEST
- 	tristate "KUnit test for sysctl" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
+ config TEST_UDELAY
+ 	tristate "udelay test driver"
+ 	help
 diff --git a/lib/Makefile b/lib/Makefile
-index b1c42c10073b..56019c34f5ed 100644
+index b1c42c10073b..c22bb13b0a08 100644
 --- a/lib/Makefile
 +++ b/lib/Makefile
-@@ -84,7 +84,6 @@ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
- obj-$(CONFIG_TEST_PRINTF) += test_printf.o
- obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
- obj-$(CONFIG_TEST_STRSCPY) += test_strscpy.o
--obj-$(CONFIG_TEST_BITFIELD) += test_bitfield.o
- obj-$(CONFIG_TEST_UUID) += test_uuid.o
- obj-$(CONFIG_TEST_XARRAY) += test_xarray.o
- obj-$(CONFIG_TEST_PARMAN) += test_parman.o
-@@ -316,5 +315,6 @@ obj-$(CONFIG_GENERIC_LIB_UCMPDI2) += ucmpdi2.o
- obj-$(CONFIG_OBJAGG) += objagg.o
- 
+@@ -77,7 +77,6 @@ obj-$(CONFIG_TEST_LKM) += test_module.o
+ obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
+ obj-$(CONFIG_TEST_OVERFLOW) += test_overflow.o
+ obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
+-obj-$(CONFIG_TEST_SORT) += test_sort.o
+ obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
+ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
+ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
+@@ -318,3 +317,4 @@ obj-$(CONFIG_OBJAGG) += objagg.o
  # KUnit tests
-+obj-$(CONFIG_BITFIELD_KUNIT) += bitfield_kunit.o
  obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
  obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-diff --git a/lib/test_bitfield.c b/lib/bitfield_kunit.c
-similarity index 66%
-rename from lib/test_bitfield.c
-rename to lib/bitfield_kunit.c
-index 5b8f4108662d..d63a2be5aff8 100644
---- a/lib/test_bitfield.c
-+++ b/lib/bitfield_kunit.c
-@@ -5,8 +5,7 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
--#include <linux/kernel.h>
++obj-$(CONFIG_SORT_KUNIT) += sort_kunit.o
+diff --git a/lib/test_sort.c b/lib/sort_kunit.c
+similarity index 55%
+rename from lib/test_sort.c
+rename to lib/sort_kunit.c
+index 52edbe10f2e5..602a234f1e7d 100644
+--- a/lib/test_sort.c
++++ b/lib/sort_kunit.c
+@@ -1,7 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ #include <linux/sort.h>
+-#include <linux/slab.h>
 -#include <linux/module.h>
 +#include <kunit/test.h>
- #include <linux/bitfield.h>
- 
- #define CHECK_ENC_GET_U(tp, v, field, res) do {				\
-@@ -14,13 +13,11 @@
- 			u##tp _res;					\
- 									\
- 			_res = u##tp##_encode_bits(v, field);		\
--			if (_res != res) {				\
--				pr_warn("u" #tp "_encode_bits(" #v ", " #field ") is 0x%llx != " #res "\n",\
--					(u64)_res);			\
--				return -EINVAL;				\
--			}						\
--			if (u##tp##_get_bits(_res, field) != v)		\
--				return -EINVAL;				\
-+			KUNIT_ASSERT_FALSE_MSG(context, _res != res,	\
-+				       "u" #tp "_encode_bits(" #v ", " #field ") is 0x%llx != " #res "\n",	\
-+				       (u64)_res);			\
-+			KUNIT_ASSERT_FALSE(context,			\
-+				   u##tp##_get_bits(_res, field) != v);	\
- 		}							\
- 	} while (0)
- 
-@@ -29,14 +26,13 @@
- 			__le##tp _res;					\
- 									\
- 			_res = le##tp##_encode_bits(v, field);		\
--			if (_res != cpu_to_le##tp(res)) {		\
--				pr_warn("le" #tp "_encode_bits(" #v ", " #field ") is 0x%llx != 0x%llx\n",\
--					(u64)le##tp##_to_cpu(_res),	\
--					(u64)(res));			\
--				return -EINVAL;				\
--			}						\
--			if (le##tp##_get_bits(_res, field) != v)	\
--				return -EINVAL;				\
-+			KUNIT_ASSERT_FALSE_MSG(context,			\
-+				       _res != cpu_to_le##tp(res),	\
-+				       "le" #tp "_encode_bits(" #v ", " #field ") is 0x%llx != 0x%llx",\
-+				       (u64)le##tp##_to_cpu(_res),	\
-+				       (u64)(res));			\
-+			KUNIT_ASSERT_FALSE(context,			\
-+				   le##tp##_get_bits(_res, field) != v);\
- 		}							\
- 	} while (0)
- 
-@@ -45,14 +41,13 @@
- 			__be##tp _res;					\
- 									\
- 			_res = be##tp##_encode_bits(v, field);		\
--			if (_res != cpu_to_be##tp(res)) {		\
--				pr_warn("be" #tp "_encode_bits(" #v ", " #field ") is 0x%llx != 0x%llx\n",\
--					(u64)be##tp##_to_cpu(_res),	\
--					(u64)(res));			\
--				return -EINVAL;				\
--			}						\
--			if (be##tp##_get_bits(_res, field) != v)	\
--				return -EINVAL;				\
-+			KUNIT_ASSERT_FALSE_MSG(context,			\
-+				       _res != cpu_to_be##tp(res),	\
-+				       "be" #tp "_encode_bits(" #v ", " #field ") is 0x%llx != 0x%llx",	\
-+				       (u64)be##tp##_to_cpu(_res),	\
-+				       (u64)(res));			\
-+			KUNIT_ASSERT_FALSE(context,			\
-+				   be##tp##_get_bits(_res, field) != v);\
- 		}							\
- 	} while (0)
- 
-@@ -62,7 +57,7 @@
- 		CHECK_ENC_GET_BE(tp, v, field, res);			\
- 	} while (0)
- 
--static int test_constants(void)
-+static void __init test_bitfields_constants(struct kunit *context)
- {
- 	/*
- 	 * NOTE
-@@ -95,19 +90,17 @@ static int test_constants(void)
- 	CHECK_ENC_GET(64,  7, 0x00f0000000000000ull, 0x0070000000000000ull);
- 	CHECK_ENC_GET(64, 14, 0x0f00000000000000ull, 0x0e00000000000000ull);
- 	CHECK_ENC_GET(64, 15, 0xf000000000000000ull, 0xf000000000000000ull);
--
--	return 0;
+
+ /* a simple boot-time regression test */
+
+@@ -12,13 +11,12 @@ static int __init cmpint(const void *a, const void *b)
+ 	return *(int *)a - *(int *)b;
  }
- 
- #define CHECK(tp, mask) do {						\
- 		u64 v;							\
- 									\
- 		for (v = 0; v < 1 << hweight32(mask); v++)		\
--			if (tp##_encode_bits(v, mask) != v << __ffs64(mask)) \
--				return -EINVAL;				\
-+			KUNIT_ASSERT_FALSE(context,			\
-+				tp##_encode_bits(v, mask) != v << __ffs64(mask));\
- 	} while (0)
- 
--static int test_variables(void)
-+static void __init test_bitfields_variables(struct kunit *context)
+
+-static int __init test_sort_init(void)
++static void __init sort_test(struct kunit *test)
  {
- 	CHECK(u8, 0x0f);
- 	CHECK(u8, 0xf0);
-@@ -130,39 +123,34 @@ static int test_variables(void)
- 	CHECK(u64, 0x000000007f000000ull);
- 	CHECK(u64, 0x0000000018000000ull);
- 	CHECK(u64, 0x0000001f8000000ull);
--
--	return 0;
+-	int *a, i, r = 1, err = -ENOMEM;
++	int *a, i, r = 1;
+
+ 	a = kmalloc_array(TEST_LEN, sizeof(*a), GFP_KERNEL);
+-	if (!a)
+-		return err;
++	KUNIT_ASSERT_FALSE_MSG(test, a == NULL, "kmalloc_array failed");
+
+ 	for (i = 0; i < TEST_LEN; i++) {
+ 		r = (r * 725861) % 6599;
+@@ -27,24 +25,25 @@ static int __init test_sort_init(void)
+
+ 	sort(a, TEST_LEN, sizeof(*a), cmpint, NULL);
+
+-	err = -EINVAL;
+ 	for (i = 0; i < TEST_LEN-1; i++)
+ 		if (a[i] > a[i+1]) {
+-			pr_err("test has failed\n");
++			KUNIT_FAIL(test, "test has failed");
+ 			goto exit;
+ 		}
+-	err = 0;
+-	pr_info("test passed\n");
+ exit:
+ 	kfree(a);
+-	return err;
  }
- 
--static int __init test_bitfields(void)
+
+-static void __exit test_sort_exit(void)
 -{
--	int ret = test_constants();
--
--	if (ret) {
--		pr_warn("constant tests failed!\n");
--		return ret;
--	}
--
--	ret = test_variables();
--	if (ret) {
--		pr_warn("variable tests failed!\n");
--		return ret;
--	}
- 
--#ifdef TEST_BITFIELD_COMPILE
-+static void __init test_bitfields_compile(struct kunit *context)
-+{
- 	/* these should fail compilation */
- 	CHECK_ENC_GET(16, 16, 0x0f00, 0x1000);
- 	u32_encode_bits(7, 0x06000000);
- 
- 	/* this should at least give a warning */
- 	u16_encode_bits(0, 0x60000);
-+}
-+
-+static struct kunit_case __refdata bitfields_test_cases[] = {
-+	KUNIT_CASE(test_bitfields_constants),
-+	KUNIT_CASE(test_bitfields_variables),
-+#ifdef TEST_BITFIELD_COMPILE
-+	KUNIT_CASE(test_bitfields_compile),
- #endif
+-}
++static struct kunit_case __refdata sort_test_cases[] = {
++	KUNIT_CASE(sort_test),
 +	{}
 +};
- 
--	pr_info("tests passed\n");
-+static struct kunit_suite bitfields_test_suite = {
-+	.name = "bitfields",
-+	.test_cases = bitfields_test_cases,
++
++static struct kunit_suite sort_test_suite = {
++	.name = "sort",
++	.test_cases = sort_test_cases,
 +};
- 
--	return 0;
--}
--module_init(test_bitfields)
-+kunit_test_suites(&bitfields_test_suite);
- 
- MODULE_AUTHOR("Johannes Berg <johannes@sipsolutions.net>");
+
+-module_init(test_sort_init);
+-module_exit(test_sort_exit);
++kunit_test_suites(&sort_test_suite);
+
  MODULE_LICENSE("GPL");
 
 base-commit: d43c7fb05765152d4d4a39a8ef957c4ea14d8847
--- 
+--
 2.26.2
 
 _______________________________________________
