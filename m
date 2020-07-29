@@ -2,79 +2,80 @@ Return-Path: <SRS0=ZpoD=BI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A802CC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 09:07:29 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE534C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 09:18:48 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 72B31206D4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 09:07:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72B31206D4
+	by mail.kernel.org (Postfix) with ESMTPS id AD94D20838
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 09:18:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD94D20838
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3521622920;
-	Wed, 29 Jul 2020 09:07:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 51SDHCxLcSLo; Wed, 29 Jul 2020 09:07:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7B340228BA;
-	Wed, 29 Jul 2020 09:07:27 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 76556C004F;
-	Wed, 29 Jul 2020 09:07:27 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 19AF0C004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 09:07:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1521A861A7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 09:07:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6F80286BB7;
+	Wed, 29 Jul 2020 09:18:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Z3d9YUTJt8Qg; Wed, 29 Jul 2020 09:18:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 022B0869BA;
+	Wed, 29 Jul 2020 09:18:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D59FBC0050;
+	Wed, 29 Jul 2020 09:18:47 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5738EC004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 29 Jul 2020 09:18:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 2D34520491
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 29 Jul 2020 09:18:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wmLiPaEns8hm
+ with ESMTP id SykgwvCK4Cs1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 09:07:25 +0000 (UTC)
+ Wed, 29 Jul 2020 09:18:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
- [209.85.208.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 95CEC8619A
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+ [209.85.167.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0250820356
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 09:07:24 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id s16so8990130ljc.8
+ Wed, 29 Jul 2020 09:18:45 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id d2so6987982lfj.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 02:07:24 -0700 (PDT)
+ Wed, 29 Jul 2020 02:18:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:to:cc:references:from:autocrypt:subject
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=0ixb1jJgq4PcU3Usk6ZmktN5ND8M3VvBo7EWZku4aSU=;
- b=EMkV1druD+9pZwrRYYkUZD1PzKyBH7bTDHmPjQjbaRf4AEuIOKS9n5gmyz15jULgH8
- PSLGWD21YZJcaNje8wNBzTBuyTMgshUSZlW6nfMlRVoY6qoChmQOxLwO/TDp1OI/Rzy4
- 6Ix00f8RTsc/evMnxiTNMr8nQo2zovdW3N1Y6z9c8Ab0ilrNoZmwy7OlgGdj2fXqJudH
- t+4LfiQmFnIyhihddp+ulmle3CQhSdNvxK/s0J6TUFpqxmB1OeCYrqRhkRpHk5asFiZr
- uHcufo8mDG2OgNftg/6yR6MPsLQF2svfsACPomqFa9q/Wr1MrrZ6NFDy5ybsBS48akUX
- 7LeA==
-X-Gm-Message-State: AOAM5328gTjVs8bpkO+CfVGIn/rJlWYAxa/RxcHj/CHizgWdhszRgoOw
- LkhpLgbFTE9Ye1PSWS9RCmI=
-X-Google-Smtp-Source: ABdhPJz9wf5QNR65CUpnlh+TUZNMEDvEXktIZ0HKeeIx2T09rKAAfP4I9f9dvG9YIgjg0Z8Oj+VLrQ==
-X-Received: by 2002:a2e:7601:: with SMTP id r1mr15299166ljc.111.1596013642633; 
- Wed, 29 Jul 2020 02:07:22 -0700 (PDT)
+ bh=5QxkY45+uCy195vrLbQYBt0kHQqjeOPMda3MxmvESpo=;
+ b=fFxV42b5PDyhRJ+yAaRV3cK910MksvXTQ/xxjLVZNj4o/dfg+h22se3MTIMn7IQ/fq
+ XtgyHwuGTsP6RwZAMESm23NMw7nR8SxPPW0eEyvoO9/JJATlg/Iof37SmSY7lQ8YEGlx
+ RgNWr/DM3UxtRKKbVddUT/fC3/NWHgRpHjHhK4gaUWIvQcepBQV+qGJzfmcn8Vld7Bdt
+ 14+zV/8UXLiiN6T5Shypqs/jJBYgLpB2JDWGfn664AHv1NmjDM4hywRxY3Mi4GRUeFCQ
+ 3siHS6i6/tNVgJnSPuBo9xiQR7I7ED4hnbBa+onl2qzRBn056NeDBJfsnNcwW/PJcHox
+ BZcw==
+X-Gm-Message-State: AOAM5306hKCRHAMyTakDbAcOL0zUC+uPxdTVKFDZDsjJkB+W+FIWfCJh
+ Yj6vnU4foo4qU/v81SR9kqk=
+X-Google-Smtp-Source: ABdhPJxUtN4D/kIeSqIdHGZhpYfyQqlo5gDTMNn8jl5XcXrXmDY/FqRDWRKOkx4Y/DYIK6PFs8DkuQ==
+X-Received: by 2002:a05:6512:752:: with SMTP id
+ c18mr16550623lfs.53.1596014324266; 
+ Wed, 29 Jul 2020 02:18:44 -0700 (PDT)
 Received: from [10.68.32.147] (broadband-37-110-38-130.ip.moscow.rt.ru.
  [37.110.38.130])
- by smtp.gmail.com with ESMTPSA id s2sm272584ljg.84.2020.07.29.02.07.21
+ by smtp.gmail.com with ESMTPSA id d14sm325942lfj.30.2020.07.29.02.18.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jul 2020 02:07:22 -0700 (PDT)
+ Wed, 29 Jul 2020 02:18:43 -0700 (PDT)
 To: Peilin Ye <yepeilin.cs@gmail.com>, Jens Axboe <axboe@kernel.dk>
 References: <20200728141946.426245-1-yepeilin.cs@gmail.com>
 From: Denis Efremov <efremov@linux.com>
@@ -121,8 +122,8 @@ Autocrypt: addr=efremov@linux.com; keydata=
  EahrGMfRngbdp/mKs9aBR56ECMfFFUPyI3VJsNbgpcIJjV/0N+JdJKQpJ/4uQ2zNm0wH/RU8
  CRJvEwtKemX6fp/zLI36Gvz8zJIjSBIEqCb7vdgvWarksrhmi6/Jay5zRZ03+k6YwiqgX8t7
  ANwvYa1h1dQ36OiTqm1cIxRCGl4wrypOVGx3OjCar7sBLD+NkwO4RaqFvdv0xuuy4x01VnOF
-Message-ID: <40446b2c-3885-1b30-c0b3-5f544a96ed78@linux.com>
-Date: Wed, 29 Jul 2020 12:07:20 +0300
+Message-ID: <f80acf0f-3e7e-89c5-a00e-d5a89553f0b4@linux.com>
+Date: Wed, 29 Jul 2020 12:18:42 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -151,7 +152,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
+
 
 On 7/28/20 5:19 PM, Peilin Ye wrote:
 > raw_cmd_copyout() is potentially copying uninitialized kernel stack memory
@@ -161,81 +162,12 @@ On 7/28/20 5:19 PM, Peilin Ye wrote:
 > 
 > Cc: stable@vger.kernel.org
 > Fixes: 2145e15e0557 ("floppy: don't write kernel-only members to FDRAWCMD ioctl output")
+
+Nitpick, I would say this fix is not related to commit 2145e15e0557.
+
 > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
 > Suggested-by: Arnd Bergmann <arnd@arndb.de>
 > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-
-Reviewed-by: Denis Efremov <efremov@linux.com>
-
-ptr comes from raw_cmd_copyin and it should be ok to use memcpy.
-
-Jens, could you please take this one to your 5.9 branch?
-
-
-> ---
-> $ pahole -C "floppy_raw_cmd" drivers/block/floppy.o
-> struct floppy_raw_cmd {
-> 	unsigned int               flags;                /*     0     4 */
-> 
-> 	/* XXX 4 bytes hole, try to pack */
-> 
-> 	void *                     data;                 /*     8     8 */
-> 	char *                     kernel_data;          /*    16     8 */
-> 	struct floppy_raw_cmd *    next;                 /*    24     8 */
-> 	long int                   length;               /*    32     8 */
-> 	long int                   phys_length;          /*    40     8 */
-> 	int                        buffer_length;        /*    48     4 */
-> 	unsigned char              rate;                 /*    52     1 */
-> 	unsigned char              cmd_count;            /*    53     1 */
-> 	union {
-> 		struct {
-> 			unsigned char cmd[16];           /*    54    16 */
-> 			/* --- cacheline 1 boundary (64 bytes) was 6 bytes ago --- */
-> 			unsigned char reply_count;       /*    70     1 */
-> 			unsigned char reply[16];         /*    71    16 */
-> 		};                                       /*    54    33 */
-> 		unsigned char      fullcmd[33];          /*    54    33 */
-> 	};                                               /*    54    33 */
-> 
-> 	/* XXX 1 byte hole, try to pack */
-> 
-> 	/* --- cacheline 1 boundary (64 bytes) was 24 bytes ago --- */
-> 	int                        track;                /*    88     4 */
-> 	int                        resultcode;           /*    92     4 */
-> 	int                        reserved1;            /*    96     4 */
-> 	int                        reserved2;            /*   100     4 */
-> 
-> 	/* size: 104, cachelines: 2, members: 14 */
-> 	/* sum members: 99, holes: 2, sum holes: 5 */
-> 	/* last cacheline: 40 bytes */
-> };
-> 
-
-It would be nice to add lkml links with discussion on the issue or
-https://www.nccgroup.com/us/about-us/newsroom-and-events/blog/2019/october/padding-the-struct-how-a-compiler-optimization-can-disclose-stack-memory/
-in addition to pahole output.
-
->  drivers/block/floppy.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/block/floppy.c b/drivers/block/floppy.c
-> index 09079aee8dc4..b8ea98f7a9cb 100644
-> --- a/drivers/block/floppy.c
-> +++ b/drivers/block/floppy.c
-> @@ -3126,7 +3126,9 @@ static int raw_cmd_copyout(int cmd, void __user *param,
->  	int ret;
->  
->  	while (ptr) {
-> -		struct floppy_raw_cmd cmd = *ptr;
-> +		struct floppy_raw_cmd cmd;
-> +
-> +		memcpy(&cmd, ptr, sizeof(cmd))>  		cmd.next = NULL;
->  		cmd.kernel_data = NULL;
->  		ret = copy_to_user(param, &cmd, sizeof(cmd));
-> 
-
-Thanks,
-Denis
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
