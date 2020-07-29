@@ -2,80 +2,114 @@ Return-Path: <SRS0=ZpoD=BI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8A7EC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 12:30:08 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D115C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 13:00:45 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A20A622BF3
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 12:30:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C9BB4206D4
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 13:00:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="EiLcXo4h"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A20A622BF3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="mDT87QBq"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C9BB4206D4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 62CA68816C;
-	Wed, 29 Jul 2020 12:30:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 70B912048D;
+	Wed, 29 Jul 2020 13:00:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D4IaF56P4Qfq; Wed, 29 Jul 2020 12:30:07 +0000 (UTC)
+	with ESMTP id AvLlTyw7LFMP; Wed, 29 Jul 2020 13:00:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DA7558816D;
-	Wed, 29 Jul 2020 12:30:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D55A22046D;
+	Wed, 29 Jul 2020 13:00:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C43EFC004F;
-	Wed, 29 Jul 2020 12:30:07 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BFD84C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B5EFBC004F;
+	Wed, 29 Jul 2020 13:00:42 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E684FC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 12:30:06 +0000 (UTC)
+ Wed, 29 Jul 2020 13:00:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id AB2E488172
+ by hemlock.osuosl.org (Postfix) with ESMTP id CF17588585
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 12:30:06 +0000 (UTC)
+ Wed, 29 Jul 2020 13:00:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VN0yJ-vX67KF
+ with ESMTP id wk0-G5I2rVCD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 12:30:04 +0000 (UTC)
+ Wed, 29 Jul 2020 13:00:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 981DB8816D
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 5334F87D73
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 12:30:04 +0000 (UTC)
-Received: from localhost (unknown [166.175.62.240])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1AD562070B;
- Wed, 29 Jul 2020 12:30:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596025804;
- bh=5gdtqyYzHNXUduyS3z6Fo+0DDu3Naabec0c2Ib17zHE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=EiLcXo4hnqx4SVOp3nLa2QptpSC6bi46vKjrpt5NPK3l0Wsjs4XOeBNeL/YR6Np69
- w2WjOjcqTT8xxQV+08q4BZSbVKJ6YS5QsBbqdH0siXw07EwYYu52GKiTKLMpwNZwv0
- FJVtFbjbepPQv93Zol3/MdTF3A626eZvEAvmmjqU=
-Date: Wed, 29 Jul 2020 07:29:54 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <20200729122954.GA1920458@bjorn-Precision-5520>
+ Wed, 29 Jul 2020 13:00:40 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06TCvndZ152566;
+ Wed, 29 Jul 2020 13:00:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=jaQuyA6C1jRHiZELKKWMXOfPZ+D3+22J6ZUEhDnItjM=;
+ b=mDT87QBqMdBvvU9frqss3iVQYCN/e4/VkJkT7M7GsU4uePNMxn8J6bYbfO0kuM/qioXt
+ vgDBdOvWMwmqFu9X6bnc6lg4FxAIHMqxqsqsVFqLGTnFdOYE3GKD/aHT9LAD/jO/C9S9
+ y86CEbYrqfHANp0SrMa6Hzb8hNQSMJkqsobIu4ksF4HXkgY514F7fI75alhX3fuTeiRv
+ WjUao04UA7DPFuqmMLPS9xX4Pq/Kl5R/fPSmIOrZ1nj1x9lxdk7W4htvtuyi+Av/owTx
+ 5+O0190yt+DYazFeXPp1O6rBMz84coQVL7OuoBPIRMwye5vvqUbwUxSKhaqhKNohZiLa dw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 32hu1jndpj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 29 Jul 2020 13:00:32 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06TCqk4a134381;
+ Wed, 29 Jul 2020 12:58:32 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 32hu5vqcd3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Jul 2020 12:58:31 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06TCwRQi030074;
+ Wed, 29 Jul 2020 12:58:27 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 29 Jul 2020 05:58:27 -0700
+Date: Wed, 29 Jul 2020 15:58:20 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Message-ID: <20200729125820.GB1840@kadam>
+References: <20200728141946.426245-1-yepeilin.cs@gmail.com>
+ <20200729115157.8519-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200729101730.GA215923@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Kevin Curtis <kevin.curtis@farsite.co.uk>,
- netdev@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] farsync: use generic power
-	management
+In-Reply-To: <20200729115157.8519-1-yepeilin.cs@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9696
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ mlxscore=0 adultscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007290085
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9696
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
+ mlxlogscore=999
+ malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ suspectscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007290085
+Cc: Jens Axboe <axboe@kernel.dk>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, Denis Efremov <efremov@linux.com>,
+ linux-block@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] block/floppy: Prevent
+ kernel-infoleak in raw_cmd_copyout()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,50 +127,17 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 29, 2020 at 03:47:30PM +0530, Vaibhav Gupta wrote:
-> On Tue, Jul 28, 2020 at 03:04:13PM -0500, Bjorn Helgaas wrote:
-> > On Tue, Jul 28, 2020 at 09:58:10AM +0530, Vaibhav Gupta wrote:
-> > > The .suspend() and .resume() callbacks are not defined for this driver.
-> > > Still, their power management structure follows the legacy framework. To
-> > > bring it under the generic framework, simply remove the binding of
-> > > callbacks from "struct pci_driver".
-> > 
-> > FWIW, this commit log is slightly misleading because .suspend and
-> > .resume are NULL by default, so this patch actually is a complete
-> > no-op as far as code generation is concerned.
-> > 
-> > This change is worthwhile because it simplifies the code a little, but
-> > it doesn't convert the driver from legacy to generic power management.
-> > This driver doesn't supply a .pm structure, so it doesn't seem to do
-> > *any* power management.
->
-> Agreed. Actually, as their presence only causes PCI core to call
-> pci_legacy_suspend/resume() for them, I thought that after removing
-> the binding from "struct pci_driver", this driver qualifies to be
-> grouped under genric framework, so used "use generic power
-> management" for the heading.
-> 
-> I should have written "remove legacy bindning".
+Argh...  This isn't right still.  The "ptr" comes from raw_cmd_copyin()
 
-This removed the *mention* of fst_driver.suspend and fst_driver.resume,
-which is important because we want to eventually remove those members
-completely from struct pci_driver.
+ptr = kmalloc(sizeof(struct floppy_raw_cmd), GFP_KERNEL);
 
-But fst_driver.suspend and fst_driver.resume *exist* before and after
-this patch, and they're initialized to zero before and after this
-patch.
+The struct hole could still be uninitialized from kmalloc() and instead
+of from the stack.  Smatch is only looking for the common stack info
+leaks and doesn't worn about holes in kmalloc()ed memory.
 
-Since they were zero before, and they're still zero after this patch,
-the PCI core doesn't call pci_legacy_suspend/resume().  This patch
-doesn't change that at all.
+regards,
+dan carpenter
 
-> But David has applied the patch, should I send a v2 or fix to update
-> message?
-
-No, I don't think David updates patches after he's applied them.  But
-if the situation comes up again, you'll know how to describe it :)
-
-Bjorn
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
