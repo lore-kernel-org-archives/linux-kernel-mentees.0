@@ -1,82 +1,76 @@
-Return-Path: <SRS0=RTaY=BH=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=ZpoD=BI=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5D43C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 20:04:18 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6625BC433EA
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 00:36:36 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6CF212065E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jul 2020 20:04:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbcJ1DiA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CF212065E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 3A3DC20663
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 00:36:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A3DC20663
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=davemloft.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 35671883D7;
-	Tue, 28 Jul 2020 20:04:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id F21F986477;
+	Wed, 29 Jul 2020 00:36:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qv6HeKQihUUB; Tue, 28 Jul 2020 20:04:17 +0000 (UTC)
+	with ESMTP id uOYFBKXr31+z; Wed, 29 Jul 2020 00:36:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C423C883B7;
-	Tue, 28 Jul 2020 20:04:17 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 242FF86397;
+	Wed, 29 Jul 2020 00:36:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AA2B8C0050;
-	Tue, 28 Jul 2020 20:04:17 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B450DC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A6F5C0050;
+	Wed, 29 Jul 2020 00:36:35 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AB19CC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 20:04:16 +0000 (UTC)
+ Wed, 29 Jul 2020 00:36:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 74060883B7
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 98BA385F59
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 20:04:16 +0000 (UTC)
+ Wed, 29 Jul 2020 00:36:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t5fK58P7i063
+ with ESMTP id vSh-0Q0sxw5H
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 20:04:15 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id AF815883B2
+ Wed, 29 Jul 2020 00:36:32 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [23.128.96.9])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5514585B80
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jul 2020 20:04:15 +0000 (UTC)
-Received: from localhost (mobile-166-175-62-240.mycingular.net
- [166.175.62.240])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2BEF22065C;
- Tue, 28 Jul 2020 20:04:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595966655;
- bh=HK9+5a3U0dOMIeI24gLVh05vN2DyqhK9yZq8rvNgwyk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=VbcJ1DiA/1z3TFiwQzadcYJoGqKMQKFyWA1TZUuqLqRlwKX7rO/akEgvZGFokCMRN
- iLc4KnCOvB22INR4XqzgZ79U+P8DSSsYd91wqgoXQ8UKR2Df3eTCb0c6hwoutzkPkZ
- ON8qZGEOWQxNKLvHnqbEdOo7ywhzhaXU+mgzxvJ0=
-Date: Tue, 28 Jul 2020 15:04:13 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <20200728200413.GA1857901@bjorn-Precision-5520>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200728042809.91436-1-vaibhavgupta40@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Kevin Curtis <kevin.curtis@farsite.co.uk>,
- netdev@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] farsync: use generic power
-	management
+ Wed, 29 Jul 2020 00:36:32 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+ (using TLSv1 with cipher AES256-SHA (256/256 bits))
+ (Client did not present a certificate)
+ (Authenticated sender: davem-davemloft)
+ by shards.monkeyblade.net (Postfix) with ESMTPSA id CAF50128D3F8B;
+ Tue, 28 Jul 2020 17:19:44 -0700 (PDT)
+Date: Tue, 28 Jul 2020 17:36:29 -0700 (PDT)
+Message-Id: <20200728.173629.741539582090080322.davem@davemloft.net>
+To: bkkarthik@pesu.pes.edu
+From: David Miller <davem@davemloft.net>
+In-Reply-To: <20200726030855.q6dfjekazfzl5usw@pesu.pes.edu>
+References: <20200726030855.q6dfjekazfzl5usw@pesu.pes.edu>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12
+ (shards.monkeyblade.net [149.20.54.216]);
+ Tue, 28 Jul 2020 17:19:45 -0700 (PDT)
+Cc: steffen.klassert@secunet.com, herbert@gondor.apana.org.au,
+ yoshfuji@linux-ipv6.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kuba@kernel.org, kuznet@ms2.inr.ac.ru,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] net: ipv6: fix use-after-free
+ Read in __xfrm6_tunnel_spi_lookup
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,52 +88,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 28, 2020 at 09:58:10AM +0530, Vaibhav Gupta wrote:
-> The .suspend() and .resume() callbacks are not defined for this driver.
-> Still, their power management structure follows the legacy framework. To
-> bring it under the generic framework, simply remove the binding of
-> callbacks from "struct pci_driver".
+From: B K Karthik <bkkarthik@pesu.pes.edu>
+Date: Sun, 26 Jul 2020 08:38:55 +0530
 
-FWIW, this commit log is slightly misleading because .suspend and
-.resume are NULL by default, so this patch actually is a complete
-no-op as far as code generation is concerned.
+> @@ -103,10 +103,10 @@ static int __xfrm6_tunnel_spi_check(struct net *net, u32 spi)
+>  {
+>  	struct xfrm6_tunnel_net *xfrm6_tn = xfrm6_tunnel_pernet(net);
+>  	struct xfrm6_tunnel_spi *x6spi;
+> -	int index = xfrm6_tunnel_spi_hash_byspi(spi);
+> +	int index = xfrm6_tunnel_spi_hash_byaddr((const xfrm_address_t *)spi);
 
-This change is worthwhile because it simplifies the code a little, but
-it doesn't convert the driver from legacy to generic power management.
-This driver doesn't supply a .pm structure, so it doesn't seem to do
-*any* power management.
+We can cast this a thousand times to make the compiler quiet, but the
+fact is that this function does not expect an integer SPI as an
+argument.
 
-> Change code indentation from space to tab in "struct pci_driver".
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> ---
->  drivers/net/wan/farsync.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/net/wan/farsync.c b/drivers/net/wan/farsync.c
-> index 7916efce7188..15dacfde6b83 100644
-> --- a/drivers/net/wan/farsync.c
-> +++ b/drivers/net/wan/farsync.c
-> @@ -2636,12 +2636,10 @@ fst_remove_one(struct pci_dev *pdev)
->  }
->  
->  static struct pci_driver fst_driver = {
-> -        .name		= FST_NAME,
-> -        .id_table	= fst_pci_dev_id,
-> -        .probe		= fst_add_one,
-> -        .remove	= fst_remove_one,
-> -        .suspend	= NULL,
-> -        .resume	= NULL,
-> +	.name		= FST_NAME,
-> +	.id_table	= fst_pci_dev_id,
-> +	.probe		= fst_add_one,
-> +	.remove		= fst_remove_one,
->  };
->  
->  static int __init
-> -- 
-> 2.27.0
-> 
+It expects a protocol address.
+
+Please stop forcing this fix, I fear you don't understand how this code
+works.  Come back to us when you do.
+
+Thank you.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
