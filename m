@@ -2,106 +2,117 @@ Return-Path: <SRS0=ZpoD=BI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 980CFC433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 13:22:52 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40901C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 13:42:41 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6F1CA20809
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 13:22:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0331521744
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 13:42:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWKI0VB4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F1CA20809
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XYXveadh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0331521744
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3E07588092;
-	Wed, 29 Jul 2020 13:22:52 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MUpFDPyyLPUA; Wed, 29 Jul 2020 13:22:51 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C030C877EC;
-	Wed, 29 Jul 2020 13:22:51 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A16E2C0050;
-	Wed, 29 Jul 2020 13:22:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 68C2FC004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:22:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 580848851D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:22:50 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CA924884C1;
+	Wed, 29 Jul 2020 13:42:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7ke6PcAw7sNG; Wed, 29 Jul 2020 13:42:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6420787941;
+	Wed, 29 Jul 2020 13:42:40 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5AB58C0050;
+	Wed, 29 Jul 2020 13:42:40 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 77406C004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 29 Jul 2020 13:42:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 73F7B87EBE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 29 Jul 2020 13:42:39 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XZxsEB0w32bk
+ with ESMTP id zqhmynudfeMr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:22:49 +0000 (UTC)
+ Wed, 29 Jul 2020 13:42:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D303C883C6
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D9F2D81439
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:22:49 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id u10so2294759plr.7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 06:22:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dZVkEmQto56AmO9M+KODR9+FXiNg4THi2B1DDl0qH74=;
- b=RWKI0VB42RHJGqcMkvesW4CLvXoeicTe46yk22J3WanwTaBUL4YtE8IKorU9KiKCNN
- vJyYbYPBBOokZboD5Trd8uT2uAFLLebivVHhMI9pdWYgfa/ZNExmBQZqLPT/MZhfm2eX
- 8uRX8wOQqTPALEFZ1e2rCkbcL5HlR3XEGfJC+BVImp39oPZkbPhABKXht8aaOH93iTdB
- zxgjEKDcTx9bV2MXWc0cwek+1catpwycUsTk1AUN294kBGM46lfAgtCYe9ejGQYyVLR6
- ZvCx6XwQehErsZMxDhgDmCECRU4V/QF5yEC8ncrzKpweoK5P/HtJDd8MXfrMiTzUytpC
- Bm5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dZVkEmQto56AmO9M+KODR9+FXiNg4THi2B1DDl0qH74=;
- b=fvIJSMNseSwQOxvsRuv8mT0gHOojX/USIpmcQLWwh4QwzO9FqBjCjMFJItqfAT0SfN
- jSYri6kjoeAMCJ4NE7LAntWE/PvCg/aUGBXmHsPHVU/pAUneBurpeW/D5i4CLCKI/7Iy
- 6aoFQ74LfrHFCvGzyt+EPPV2A5XaobFOynMlS7bSD7ELk1zee2kmy73dy9fjkMAy+o3x
- V9vfoGKw3rmjjVAsM7CLmathNkJXSvB3nPs6HkPoA7nu64o+PqCOSvd8Uawg6ZS0C1sz
- fgmh/pbQKJH7yvKaV/GwOVCaU2+0Kq0sxLRzutC/MEXp7fKfJZjwabAA0f6q3dFsIF5Q
- J9UA==
-X-Gm-Message-State: AOAM5300OeMSl/W8xmrS8lTAICgkizYdjrjwOFqcZbyymOiRCpK24lSx
- 9HntVqfPuDhqEH0kdAHiV48=
-X-Google-Smtp-Source: ABdhPJxn+Kx8ezIh3hRWCXBEAP2NSusIhx5YhewG4epzxBfAUTrNmzqbreB9W9/ynlMFo9omo1skgQ==
-X-Received: by 2002:a17:902:b20a:: with SMTP id
- t10mr26885947plr.185.1596028969400; 
- Wed, 29 Jul 2020 06:22:49 -0700 (PDT)
-Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id r25sm2244428pgv.88.2020.07.29.06.22.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jul 2020 06:22:48 -0700 (PDT)
-Date: Wed, 29 Jul 2020 18:51:10 +0530
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Message-ID: <20200729132110.GA605@gmail.com>
-References: <20200729101730.GA215923@gmail.com>
- <20200729122954.GA1920458@bjorn-Precision-5520>
+ Wed, 29 Jul 2020 13:42:38 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06TDfg86026932;
+ Wed, 29 Jul 2020 13:42:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=7hDTZcL1H+gqmTNV7vM++HGqFdvOXEKkjw3kBgyuJMA=;
+ b=XYXveadhbNeiaCS88febDCmnLiYPEYTnjJhz8Kek/8vzmaDmF4y8f/4bmA2m2V1MVvlR
+ uKlNt5vq2gjKn5KvB6Way2OoqRw1rsZ2Ur9GG6p9GlGDzRZFUvpSXRojKSzFvEU3/wae
+ oqUpuU8ozEHJSRxmABQ8RA0sX21N7Bs4RTr2dNdhzUodvVgHi6OKi/pP4lpFiQWqsaiA
+ JkusBgTBXdGs/Zl4cwBt8H33C44BZBWtp2ENl6yqUBdmbAGScdmkiuh0Q3JdVDzZknO7
+ bMkK50fkBz+fx7YytlP8VrOcIEkJDWcIunu+RTjKmymQrlw3OnDFknuW3YADgURfMW1L Qg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 32hu1jnn52-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 29 Jul 2020 13:42:32 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06TDgUtJ073072;
+ Wed, 29 Jul 2020 13:42:31 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 32hu5x0nfm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Jul 2020 13:42:30 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06TDgL8a017184;
+ Wed, 29 Jul 2020 13:42:21 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 29 Jul 2020 06:42:20 -0700
+Date: Wed, 29 Jul 2020 16:42:14 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Denis Efremov <efremov@linux.com>
+Message-ID: <20200729134214.GA5493@kadam>
+References: <20200728141946.426245-1-yepeilin.cs@gmail.com>
+ <20200729115157.8519-1-yepeilin.cs@gmail.com>
+ <20200729125820.GB1840@kadam>
+ <f2cf6137-987a-ab41-d88a-6828d46c255f@linux.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200729122954.GA1920458@bjorn-Precision-5520>
-Cc: linux-kernel@vger.kernel.org, Kevin Curtis <kevin.curtis@farsite.co.uk>,
- netdev@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- Jakub Kicinski <kuba@kernel.org>,
+In-Reply-To: <f2cf6137-987a-ab41-d88a-6828d46c255f@linux.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9696
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 bulkscore=0
+ malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007290092
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9696
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
+ mlxlogscore=999
+ malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ suspectscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007290092
+Cc: Jens Axboe <axboe@kernel.dk>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] farsync: use generic power
-	management
+ Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] block/floppy: Prevent
+ kernel-infoleak in raw_cmd_copyout()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,40 +130,34 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 29, 2020 at 07:29:54AM -0500, Bjorn Helgaas wrote:
-> On Wed, Jul 29, 2020 at 03:47:30PM +0530, Vaibhav Gupta wrote:
-> >
-> > Agreed. Actually, as their presence only causes PCI core to call
-> > pci_legacy_suspend/resume() for them, I thought that after removing
-> > the binding from "struct pci_driver", this driver qualifies to be
-> > grouped under genric framework, so used "use generic power
-> > management" for the heading.
+On Wed, Jul 29, 2020 at 04:22:41PM +0300, Denis Efremov wrote:
+> 
+> On 7/29/20 3:58 PM, Dan Carpenter wrote:
+> > Argh...  This isn't right still.  The "ptr" comes from raw_cmd_copyin()
 > > 
-> > I should have written "remove legacy bindning".
+> > ptr = kmalloc(sizeof(struct floppy_raw_cmd), GFP_KERNEL);
+> > 
 > 
-> This removed the *mention* of fst_driver.suspend and fst_driver.resume,
-> which is important because we want to eventually remove those members
-> completely from struct pci_driver.
+> copy_from_user overwrites the padding bytes:
+> 	ptr = kmalloc(sizeof(struct floppy_raw_cmd), GFP_KERNEL);
+> 	if (!ptr)
+> 		return -ENOMEM;
+> 	*rcmd = ptr;
+> 	ret = copy_from_user(ptr, param, sizeof(*ptr));
 > 
-> But fst_driver.suspend and fst_driver.resume *exist* before and after
-> this patch, and they're initialized to zero before and after this
-> patch.
-> 
-> Since they were zero before, and they're still zero after this patch,
-> the PCI core doesn't call pci_legacy_suspend/resume().  This patch
-> doesn't change that at all.
->
-Got it. Thanks :) 
-> > But David has applied the patch, should I send a v2 or fix to update
-> > message?
-> 
-> No, I don't think David updates patches after he's applied them.  But
-> if the situation comes up again, you'll know how to describe it :)
-> 
-Thanks a lot. :D
+> I think memcpy should be safe in this patch.
 
-Vaibhav Gupta
-> Bjorn
+Oh yeah.  You're right.  My bad.  I just saw the:
+
+	ptr->next = NULL;
+	ptr->buffer_length = 0;
+	ptr->kernel_data = NULL;
+
+Assignments and I missed the copy_from_user.
+
+regards,
+dan carpenter
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
