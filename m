@@ -2,108 +2,115 @@ Return-Path: <SRS0=ZpoD=BI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A23C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 13:49:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F06C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 14:35:42 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08D7922D00
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 13:49:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 108B42065C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 14:35:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kyntGUky"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08D7922D00
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="gG3zm+Jf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 108B42065C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CB9C68671E;
-	Wed, 29 Jul 2020 13:49:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DC1408594B;
+	Wed, 29 Jul 2020 14:35:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id p5xFT6LzpWpI; Wed, 29 Jul 2020 13:49:55 +0000 (UTC)
+	with ESMTP id hMhlT9wLxLOY; Wed, 29 Jul 2020 14:35:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D13BD86702;
-	Wed, 29 Jul 2020 13:49:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8225D858B6;
+	Wed, 29 Jul 2020 14:35:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B6DF2C0050;
-	Wed, 29 Jul 2020 13:49:55 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0A8BC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7540EC004F;
+	Wed, 29 Jul 2020 14:35:41 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 59DB6C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:49:54 +0000 (UTC)
+ Wed, 29 Jul 2020 14:35:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id ACCB588231
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4824985A74
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:49:54 +0000 (UTC)
+ Wed, 29 Jul 2020 14:35:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oixQrLLTT0cF
+ with ESMTP id 9BU_l0S8Km-e
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:49:53 +0000 (UTC)
+ Wed, 29 Jul 2020 14:35:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 104F4881EC
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1A88C8594B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:49:53 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id b6so21711239wrs.11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 06:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Et5z1sZLk52/qbAVghdHR+awPZijgneg8JJ3iKi6Rk8=;
- b=kyntGUkyFBHeFFulXmAK7oxUUkHGYZm466Zwno9ogC+/uNaltAeVLdoGuDUWI2FhBv
- /5e9KVb8f5DIKK9utWXmQ+6oX/j4pajp9xcjuyoIxCB7EYNM2lzQLmQinPyI+L76Ork4
- I87E5McdibOS8eYKSE6Do5hYP5MlPH6oHVoLsloXyRa7Ot+awzgAbWVkc63iedz5xHyz
- TrQRxVy7TmyU33DKkbKJ8SK51km7qA6LuVaYvsoaSSBqgwNqIR13NPAsdhlikegwL5Vw
- iBsQLiAwD9wjdRES/NsnSjhyuEeF6stpWTGFfdB9oZJ/FTJ+aojYfTPhWAzmy1zQnPob
- my8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Et5z1sZLk52/qbAVghdHR+awPZijgneg8JJ3iKi6Rk8=;
- b=UOQjDUtpZ6IzS5AV3e994J5PADrDgAF0UOkSvxrsiaZWT7ZctG/2cs3Wp7zKnMkGpz
- PsG/8N5znciwFI61Svz8wGtNlrc97rfG9ss96s01epBYsvLv0JwLX3tIYVOiJBBg87v9
- fpdA7aylRamDoeI9lQs7DeUNwDCtzinUiX9CETAa5JbBmbwGhHxhobz6lYVFkl1Qoigz
- +rTeWSdkrAUwOOqOGsck2hcdTQbBYCARkliM5q/NDxsI5eFig9ChAzKbjMtaB8CP5ggp
- 2LxY7rE7sHtHqj6IQFi6xGPa168PCsvakM8yNbt+erI/CpCAp5WY3XSqY8z3HslLipzw
- UKZw==
-X-Gm-Message-State: AOAM530fnyAbaBboMXcoC186tS3ESEu1vdwqob1tUJV/bdCx9OtUyuq8
- Bo+qP4Dhfsym4MGkXpKFxuDQOFdqyAfXGYHrkng=
-X-Google-Smtp-Source: ABdhPJywk6ijppdcoRlKnHHdOxSHVkyV9Agq0nu+FKodR1k6hExLtTGKd/4Lw5IfpryQJdNh1ud1q0KhoQPyi1x1Q0w=
-X-Received: by 2002:adf:a351:: with SMTP id d17mr29291191wrb.111.1596030591452; 
- Wed, 29 Jul 2020 06:49:51 -0700 (PDT)
+ Wed, 29 Jul 2020 14:35:37 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06TEVfEO135564;
+ Wed, 29 Jul 2020 14:35:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=rO/cn8lSL/k1UwcwgfqEWwmSiV10mpaOIq5H049wwYI=;
+ b=gG3zm+JfQzzuSKqgJ0l4/XFKicqJn0T2rdEKZEjmkrGBNGhMvqhdHRRrp5L0pi4HQsou
+ /NiqhMNr3n9TXDPZZfROzPE+r0UM5gJWmggouQ8vAeCyfZaMYtHyFD0E7ekT0u2UeCOG
+ Ywt/e9q78IVgEeSPVq0+ARrdgBMHH/eHl0hMdxDFdJJY3pqEKNzRkgw0oEXqrXVE6AYI
+ 0TPC/A2fhj2RQSV2S1HUxFy4bN57+y35UNxMJDrIb/YJ4cPCm6lIKlcN4wB6UndlMXfo
+ /j9yspUzhBHf+xIW5CpYiE3AeP2RZcN7f+MMsqm8jkLT0r6ad5YL/fJVyKYJeCFgVwd3 kw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 32hu1jdyug-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 29 Jul 2020 14:35:33 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06TESkit099523;
+ Wed, 29 Jul 2020 14:35:33 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 32hu5vuqet-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Jul 2020 14:35:33 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06TEZWcc017066;
+ Wed, 29 Jul 2020 14:35:32 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 29 Jul 2020 07:35:31 -0700
+Date: Wed, 29 Jul 2020 17:35:22 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Message-ID: <20200729143522.GB5493@kadam>
+References: <20200718231218.170730-1-yepeilin.cs@gmail.com>
+ <20200729113712.8097-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-References: <20200728192924.441570-1-yepeilin.cs@gmail.com>
- <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
-In-Reply-To: <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 Jul 2020 09:49:40 -0400
-Message-ID: <CADnq5_NXOiAc7q5gQqF_wwtJD1o6nHjXM4O3gY6EwAQe9iOtXw@mail.gmail.com>
-To: Christian Koenig <christian.koenig@amd.com>
-Cc: Xiaojie Yuan <xiaojie.yuan@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Hans de Goede <hdegoede@redhat.com>, Trek <trek00@inbox.ru>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Evan Quan <evan.quan@amd.com>, Leo Liu <leo.liu@amd.com>,
- Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] drm/amdgpu: Prevent
- kernel-infoleak in amdgpu_info_ioctl()
+Content-Disposition: inline
+In-Reply-To: <20200729113712.8097-1-yepeilin.cs@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9696
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ mlxscore=0 adultscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007290098
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9696
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007290098
+Cc: linux-usb@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 RESEND] usbhid: Fix
+ slab-out-of-bounds write in hiddev_ioctl_usage()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,133 +122,31 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gV2VkLCBKdWwgMjksIDIwMjAgYXQgNDoxMSBBTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
-LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAyOC4wNy4yMCB1bSAyMToy
-OSBzY2hyaWViIFBlaWxpbiBZZToKPiA+IENvbXBpbGVyIGxlYXZlcyBhIDQtYnl0ZSBob2xlIG5l
-YXIgdGhlIGVuZCBvZiBgZGV2X2luZm9gLCBjYXVzaW5nCj4gPiBhbWRncHVfaW5mb19pb2N0bCgp
-IHRvIGNvcHkgdW5pbml0aWFsaXplZCBrZXJuZWwgc3RhY2sgbWVtb3J5IHRvIHVzZXJzcGFjZQo+
-ID4gd2hlbiBgc2l6ZWAgaXMgZ3JlYXRlciB0aGFuIDM1Ni4KPiA+Cj4gPiBJbiAyMDE1IHdlIHRy
-aWVkIHRvIGZpeCB0aGlzIGlzc3VlIGJ5IGRvaW5nIGA9IHt9O2Agb24gYGRldl9pbmZvYCwgd2hp
-Y2gKPiA+IHVuZm9ydHVuYXRlbHkgZG9lcyBub3QgaW5pdGlhbGl6ZSB0aGF0IDQtYnl0ZSBob2xl
-LiBGaXggaXQgYnkgdXNpbmcKPiA+IG1lbXNldCgpIGluc3RlYWQuCj4gPgo+ID4gQ2M6IHN0YWJs
-ZUB2Z2VyLmtlcm5lbC5vcmcKPiA+IEZpeGVzOiBjMTkzZmE5MWI5MTggKCJkcm0vYW1kZ3B1OiBp
-bmZvcm1hdGlvbiBsZWFrIGluIGFtZGdwdV9pbmZvX2lvY3RsKCkiKQo+ID4gRml4ZXM6IGQzOGNl
-YWY5OWVkMCAoImRybS9hbWRncHU6IGFkZCBjb3JlIGRyaXZlciAodjQpIikKPiA+IFN1Z2dlc3Rl
-ZC1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPgo+ID4gU2lnbmVk
-LW9mZi1ieTogUGVpbGluIFllIDx5ZXBlaWxpbi5jc0BnbWFpbC5jb20+Cj4KPiBSZXZpZXdlZC1i
-eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+Cj4gSSBjYW4n
-dCBjb3VudCBob3cgbWFueSBvZiB0aG9zZSB3ZSBoYXZlIGZpeGVkIG92ZXIgdGhlIHllYXJzLgo+
-Cj4gQXQgc29tZSBwb2ludCB3ZSBzaG91bGQgcHJvYmFibHkgZG9jdW1lbnQgdGhhdCB1c2luZyAi
-PSB7fSIgb3IgIj0geyAwIH0iCj4gaW4gdGhlIGtlcm5lbCBpcyBhIHJlYWxseSBiYWQgaWRlYSBh
-bmQgc2hvdWxkIGJlIGF2b2lkZWQuCgpNb3Jlb3ZlciwgaXQgc2VlbXMgbGlrZSBkaWZmZXJlbnQg
-Y29tcGlsZXJzIHNlZW0gdG8gYmVoYXZlIHJlbGF0aXZlbHkKZGlmZmVyZW50bHkgd2l0aCB0aGVz
-ZSBhbmQgd2Ugb2Z0ZW4gZ2V0IHJlcG9ydHMgb2Ygd2FybmluZ3Mgd2l0aCB0aGVzZQpvbiBjbGFu
-Zy4gIFdoZW4gaW4gZG91YnQsIG1lbXNldC4KCkFsZXgKCj4KPiBUaGFua3MsCj4gQ2hyaXN0aWFu
-Lgo+Cj4gPiAtLS0KPiA+ICQgcGFob2xlIC1DICJkcm1fYW1kZ3B1X2luZm9fZGV2aWNlIiBkcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLm8KPiA+IHN0cnVjdCBkcm1fYW1kZ3B1
-X2luZm9fZGV2aWNlIHsKPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGRldmlj
-ZV9pZDsgICAgICAgICAgICAvKiAgICAgMCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAg
-ICAgICAgICAgICAgICAgY2hpcF9yZXY7ICAgICAgICAgICAgIC8qICAgICA0ICAgICA0ICovCj4g
-PiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBleHRlcm5hbF9yZXY7ICAgICAgICAg
-LyogICAgIDggICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIHBj
-aV9yZXY7ICAgICAgICAgICAgICAvKiAgICAxMiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAg
-ICAgICAgICAgICAgICAgICAgZmFtaWx5OyAgICAgICAgICAgICAgIC8qICAgIDE2ICAgICA0ICov
-Cj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBudW1fc2hhZGVyX2VuZ2luZXM7
-ICAgLyogICAgMjAgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAg
-IG51bV9zaGFkZXJfYXJyYXlzX3Blcl9lbmdpbmU7IC8qICAgIDI0ICAgICA0ICovCj4gPiAgICAg
-ICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBncHVfY291bnRlcl9mcmVxOyAgICAgLyogICAg
-MjggICAgIDQgKi8KPiA+ICAgICAgIF9fdTY0ICAgICAgICAgICAgICAgICAgICAgIG1heF9lbmdp
-bmVfY2xvY2s7ICAgICAvKiAgICAzMiAgICAgOCAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAg
-ICAgICAgICAgICAgbWF4X21lbW9yeV9jbG9jazsgICAgIC8qICAgIDQwICAgICA4ICovCj4gPiAg
-ICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBjdV9hY3RpdmVfbnVtYmVyOyAgICAgLyog
-ICAgNDggICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGN1X2Fv
-X21hc2s7ICAgICAgICAgICAvKiAgICA1MiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAg
-ICAgICAgICAgICAgICAgY3VfYml0bWFwWzRdWzRdOyAgICAgIC8qICAgIDU2ICAgIDY0ICovCj4g
-PiAgICAgICAvKiAtLS0gY2FjaGVsaW5lIDEgYm91bmRhcnkgKDY0IGJ5dGVzKSB3YXMgNTYgYnl0
-ZXMgYWdvIC0tLSAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZW5hYmxl
-ZF9yYl9waXBlc19tYXNrOyAvKiAgIDEyMCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAg
-ICAgICAgICAgICAgICAgbnVtX3JiX3BpcGVzOyAgICAgICAgIC8qICAgMTI0ICAgICA0ICovCj4g
-PiAgICAgICAvKiAtLS0gY2FjaGVsaW5lIDIgYm91bmRhcnkgKDEyOCBieXRlcykgLS0tICovCj4g
-PiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBudW1faHdfZ2Z4X2NvbnRleHRzOyAg
-LyogICAxMjggICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIF9w
-YWQ7ICAgICAgICAgICAgICAgICAvKiAgIDEzMiAgICAgNCAqLwo+ID4gICAgICAgX191NjQgICAg
-ICAgICAgICAgICAgICAgICAgaWRzX2ZsYWdzOyAgICAgICAgICAgIC8qICAgMTM2ICAgICA4ICov
-Cj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAgICAgICB2aXJ0dWFsX2FkZHJlc3Nfb2Zm
-c2V0OyAvKiAgIDE0NCAgICAgOCAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAgICAgICAgICAg
-ICAgdmlydHVhbF9hZGRyZXNzX21heDsgIC8qICAgMTUyICAgICA4ICovCj4gPiAgICAgICBfX3Uz
-MiAgICAgICAgICAgICAgICAgICAgICB2aXJ0dWFsX2FkZHJlc3NfYWxpZ25tZW50OyAvKiAgIDE2
-MCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgcHRlX2ZyYWdt
-ZW50X3NpemU7ICAgIC8qICAgMTY0ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICBnYXJ0X3BhZ2Vfc2l6ZTsgICAgICAgLyogICAxNjggICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGNlX3JhbV9zaXplOyAgICAgICAgICAvKiAg
-IDE3MiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgdnJhbV90
-eXBlOyAgICAgICAgICAgIC8qICAgMTc2ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAg
-ICAgICAgICAgICAgICB2cmFtX2JpdF93aWR0aDsgICAgICAgLyogICAxODAgICAgIDQgKi8KPiA+
-ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIHZjZV9oYXJ2ZXN0X2NvbmZpZzsgICAv
-KiAgIDE4NCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZ2Nf
-ZG91YmxlX29mZmNoaXBfbGRzX2J1ZjsgLyogICAxODggICAgIDQgKi8KPiA+ICAgICAgIC8qIC0t
-LSBjYWNoZWxpbmUgMyBib3VuZGFyeSAoMTkyIGJ5dGVzKSAtLS0gKi8KPiA+ICAgICAgIF9fdTY0
-ICAgICAgICAgICAgICAgICAgICAgIHByaW1fYnVmX2dwdV9hZGRyOyAgICAvKiAgIDE5MiAgICAg
-OCAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAgICAgICAgICAgICAgcG9zX2J1Zl9ncHVfYWRk
-cjsgICAgIC8qICAgMjAwICAgICA4ICovCj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAg
-ICAgICBjbnRsX3NiX2J1Zl9ncHVfYWRkcjsgLyogICAyMDggICAgIDggKi8KPiA+ICAgICAgIF9f
-dTY0ICAgICAgICAgICAgICAgICAgICAgIHBhcmFtX2J1Zl9ncHVfYWRkcjsgICAvKiAgIDIxNiAg
-ICAgOCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgcHJpbV9idWZfc2l6
-ZTsgICAgICAgIC8qICAgMjI0ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAg
-ICAgICAgICBwb3NfYnVmX3NpemU7ICAgICAgICAgLyogICAyMjggICAgIDQgKi8KPiA+ICAgICAg
-IF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGNudGxfc2JfYnVmX3NpemU7ICAgICAvKiAgIDIz
-MiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgcGFyYW1fYnVm
-X3NpemU7ICAgICAgIC8qICAgMjM2ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICB3YXZlX2Zyb250X3NpemU7ICAgICAgLyogICAyNDAgICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG51bV9zaGFkZXJfdmlzaWJsZV92Z3Byczsg
-LyogICAyNDQgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG51
-bV9jdV9wZXJfc2g7ICAgICAgICAvKiAgIDI0OCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAg
-ICAgICAgICAgICAgICAgICAgbnVtX3RjY19ibG9ja3M7ICAgICAgIC8qICAgMjUyICAgICA0ICov
-Cj4gPiAgICAgICAvKiAtLS0gY2FjaGVsaW5lIDQgYm91bmRhcnkgKDI1NiBieXRlcykgLS0tICov
-Cj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBnc192Z3RfdGFibGVfZGVwdGg7
-ICAgLyogICAyNTYgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAg
-IGdzX3ByaW1fYnVmZmVyX2RlcHRoOyAvKiAgIDI2MCAgICAgNCAqLwo+ID4gICAgICAgX191MzIg
-ICAgICAgICAgICAgICAgICAgICAgbWF4X2dzX3dhdmVzX3Blcl92Z3Q7IC8qICAgMjY0ICAgICA0
-ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBfcGFkMTsgICAgICAgICAg
-ICAgICAgLyogICAyNjggICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAg
-ICAgIGN1X2FvX2JpdG1hcFs0XVs0XTsgICAvKiAgIDI3MiAgICA2NCAqLwo+ID4gICAgICAgLyog
-LS0tIGNhY2hlbGluZSA1IGJvdW5kYXJ5ICgzMjAgYnl0ZXMpIHdhcyAxNiBieXRlcyBhZ28gLS0t
-ICovCj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAgICAgICBoaWdoX3ZhX29mZnNldDsg
-ICAgICAgLyogICAzMzYgICAgIDggKi8KPiA+ICAgICAgIF9fdTY0ICAgICAgICAgICAgICAgICAg
-ICAgIGhpZ2hfdmFfbWF4OyAgICAgICAgICAvKiAgIDM0NCAgICAgOCAqLwo+ID4gICAgICAgX191
-MzIgICAgICAgICAgICAgICAgICAgICAgcGFfc2NfdGlsZV9zdGVlcmluZ19vdmVycmlkZTsgLyog
-ICAzNTIgICAgIDQgKi8KPiA+Cj4gPiAgICAgICAvKiBYWFggNCBieXRlcyBob2xlLCB0cnkgdG8g
-cGFjayAqLwo+ID4KPiA+ICAgICAgIF9fdTY0ICAgICAgICAgICAgICAgICAgICAgIHRjY19kaXNh
-YmxlZF9tYXNrOyAgICAvKiAgIDM2MCAgICAgOCAqLwo+ID4KPiA+ICAgICAgIC8qIHNpemU6IDM2
-OCwgY2FjaGVsaW5lczogNiwgbWVtYmVyczogNDkgKi8KPiA+ICAgICAgIC8qIHN1bSBtZW1iZXJz
-OiAzNjQsIGhvbGVzOiAxLCBzdW0gaG9sZXM6IDQgKi8KPiA+ICAgICAgIC8qIGxhc3QgY2FjaGVs
-aW5lOiA0OCBieXRlcyAqLwo+ID4gfTsKPiA+Cj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9rbXMuYyB8IDMgKystCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKyksIDEgZGVsZXRpb24oLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X2ttcy5jCj4gPiBpbmRleCBhOGM0N2FlY2QzNDIuLjAwNDdkYTA2MDQxZiAxMDA2NDQKPiA+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9rbXMuYwo+ID4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5jCj4gPiBAQCAtNzA3LDkgKzcw
-NywxMCBAQCBzdGF0aWMgaW50IGFtZGdwdV9pbmZvX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsIHZvaWQgKmRhdGEsIHN0cnVjdCBkcm1fZmlsZQo+ID4gICAgICAgICAgICAgICByZXR1cm4g
-biA/IC1FRkFVTFQgOiAwOwo+ID4gICAgICAgfQo+ID4gICAgICAgY2FzZSBBTURHUFVfSU5GT19E
-RVZfSU5GTzogewo+ID4gLSAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2FtZGdwdV9pbmZvX2Rldmlj
-ZSBkZXZfaW5mbyA9IHt9Owo+ID4gKyAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2FtZGdwdV9pbmZv
-X2RldmljZSBkZXZfaW5mbzsKPiA+ICAgICAgICAgICAgICAgdWludDY0X3Qgdm1fc2l6ZTsKPiA+
-Cj4gPiArICAgICAgICAgICAgIG1lbXNldCgmZGV2X2luZm8sIDAsIHNpemVvZihkZXZfaW5mbykp
-Owo+ID4gICAgICAgICAgICAgICBkZXZfaW5mby5kZXZpY2VfaWQgPSBkZXYtPnBkZXYtPmRldmlj
-ZTsKPiA+ICAgICAgICAgICAgICAgZGV2X2luZm8uY2hpcF9yZXYgPSBhZGV2LT5yZXZfaWQ7Cj4g
-PiAgICAgICAgICAgICAgIGRldl9pbmZvLmV4dGVybmFsX3JldiA9IGFkZXYtPmV4dGVybmFsX3Jl
-dl9pZDsKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Cj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeApf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJu
-ZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhm
-b3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+On Wed, Jul 29, 2020 at 07:37:12AM -0400, Peilin Ye wrote:
+> `uref->usage_index` is not always being properly checked, causing
+> hiddev_ioctl_usage() to go out of bounds under some cases. Fix it.
+> 
+> Reported-by: syzbot+34ee1b45d88571c2fa8b@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?id=f2aebe90b8c56806b050a20b36f51ed6acabe802
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> ---
+> Change in v2:
+>     - Add the same check for the `HIDIOCGUSAGE` case. (Suggested by
+>       Dan Carpenter <dan.carpenter@oracle.com>)
+
+Why are you resending this?
+
+regards,
+dan carpenter
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
