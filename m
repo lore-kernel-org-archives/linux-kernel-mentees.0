@@ -2,109 +2,100 @@ Return-Path: <SRS0=ZpoD=BI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F122C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 21:55:58 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2511C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 21:57:57 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 53B302082E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 21:55:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A52952082E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 21:57:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gKqQtSnc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 53B302082E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="rJaH5wiX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A52952082E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 11C1287F3F;
-	Wed, 29 Jul 2020 21:55:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 71D0386427;
+	Wed, 29 Jul 2020 21:57:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EMKqFo7Rs1ov; Wed, 29 Jul 2020 21:55:57 +0000 (UTC)
+	with ESMTP id AJe-99ZQSLU8; Wed, 29 Jul 2020 21:57:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 73F2987EC4;
-	Wed, 29 Jul 2020 21:55:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C78CD863C5;
+	Wed, 29 Jul 2020 21:57:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64464C0050;
-	Wed, 29 Jul 2020 21:55:57 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 776A0C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ABF93C0050;
+	Wed, 29 Jul 2020 21:57:56 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C343C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 21:55:56 +0000 (UTC)
+ Wed, 29 Jul 2020 21:57:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7343587F3F
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3B58A86CC5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 21:55:56 +0000 (UTC)
+ Wed, 29 Jul 2020 21:57:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KPOX2ukWUJu6
+ with ESMTP id oBQRgJ44WFm0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 21:55:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 689A387EC4
+ Wed, 29 Jul 2020 21:57:54 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-yb1-f195.google.com (mail-yb1-f195.google.com
+ [209.85.219.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6D39481E2B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 21:55:55 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id d190so3995270wmd.4
+ Wed, 29 Jul 2020 21:57:54 +0000 (UTC)
+Received: by mail-yb1-f195.google.com with SMTP id c14so13363938ybj.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 14:55:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ Wed, 29 Jul 2020 14:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=massaru-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TiiQwPk5+wOcxrYMTcSS5MR4bewjoZWHQZN/jXHtdiY=;
- b=gKqQtSncl3aZQrpCwzujZGt/kEYgdOrn7K97OchbFtV6qAJ+AerT2QZqhONhgsO/BU
- z+eftmao4cxw//G57++dPfV1FINhUppAQQhsT/QrFjwtFMpp0cbQ4Zi23vy1lOABTSfj
- DzemwfZLHraQOvZsxJbCJkPlK9Ony3NEQ3qaXfkuESwBjY9Iq7Bs3wpIq1xs9FgYubT7
- tGqLmMzUrrdj4wIkU08sVubHzFgyX5R57qpvcSNPBUk904JItj1EfOSZ1VlkIXYDUnqF
- bl/Ew4Jtn9PCNpDGKyrYbSdgFV+iWzNy1G+Wj3EKEpi+WNyhKLt/DjD+c7afiDOu4c2v
- 5GEg==
+ :cc; bh=d/ukW0X/5BiKbJEKr2oeHvITKKVidatQzqB3tkKKQNg=;
+ b=rJaH5wiXRvUWjGwEt7fJ1cni+QUEQC+KArZY6p9dqwr+4i9DiQKMSTcR2iiDPSaH8u
+ fs+PexYNdlCvXC5wsnATdxceiAcJXPGlFX2e9AmEodp+cXu385RH3dMPBV1cVaFZ8sWv
+ DQ823qFab2ZxTt4iFeEC9dVOjJgenL7Ch/RIR1u/PCbMpZXEOui01nlr3cARdxjtAy9L
+ CzpjWgxyXcgh931rMjLjrAVgbhTDVmK0kglNHoNPDvJhLXtUMjjdo47t8tApp/WMUli+
+ +Veo/yRPfOpoJnwAamAlxDyucbmT1wpFRznchCnqhxMgKido4q6VF/LK607lXukFaMP1
+ AX0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TiiQwPk5+wOcxrYMTcSS5MR4bewjoZWHQZN/jXHtdiY=;
- b=hIKlbtBYwyymeNZKAaHdovxuQr5ICH0G14dEmqpoeLs1iesGd2ehOKd/s5CWiFhthG
- wqQuGCD4VxP1vFGKZEUd+sJgDzU9tQ3w/urqcGnvYI3ZRDfhX3/gwi4XeovW/phioOus
- M4mTyZKFwMvyIU64n1NNpq+Y/7PriNcNTKAlaD0nlukcrD2kH6XoZUbmCwQ+O7+ce6LY
- np7X7tGv0HtTfPyaq8mFoy9Z5hcZdOVQrCH1512Q9EjUAC0HdtM/dzFnkAlzq8CrWo1Q
- AJc+A2toeZeC6HKbRTbU9X/cL/ayaFCr2I05CIvG8uGzTcwht+iYIKb7cE3ZADwNQT+w
- +KvQ==
-X-Gm-Message-State: AOAM532sRNp9otuYqOWlG5iosTsjXuGH4lxzGuNcrVCTg2XfMUfWKQd4
- XlHLg//WGs2LRrI8wDZAaS4fj1L18Pmyln3te2c=
-X-Google-Smtp-Source: ABdhPJy6xeXbe287qC13KOwKNKQS5Im4azlgXn6R3Xvzb5UezGM3otbEEztVP2ILmuILeliBoMojwbe/rnAUjzLzlrs=
-X-Received: by 2002:a1c:2:: with SMTP id 2mr10798884wma.79.1596059753614; Wed,
- 29 Jul 2020 14:55:53 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=d/ukW0X/5BiKbJEKr2oeHvITKKVidatQzqB3tkKKQNg=;
+ b=SAGXYVBnuHyTUeiDke4bEHOCxnG5/+Yl3ATTo21HHKckCt4hV/LPGZOqRyK1PnhWn0
+ nNsCSbdjLNZrWPMgkzEuRfP8dwiSj/SO17GX6R0c+lprbafDql44vU3dpoFllYa9J2jc
+ 2QLVhrM371zC749P4qYzva/Y5YDkB3mkAO5oJDF1BZ9H5Bh2rJ4QCLs4wuNTzj6JXsjM
+ lEoDdgDbdMIupH5is7hIkFBUPpVvgdXBOmnvtnvxvJgIxfhM6wVTR+UUzi/PNw5mQiGH
+ lAteFGJFeYqzsRFLXVHTKJrcQBAsuwUbrkMsf5o4vdrZIRr/Q7tQKJk4B4+uD5aBymMo
+ Lbag==
+X-Gm-Message-State: AOAM531jTQBaiIX1+nfzBbt+YmgSld48xhudwbh903/AMd7MqDQ9136t
+ O8JC+a6Q50FNoH8tk+qjMc1WTcfOxJ78txH4dCFJUw==
+X-Google-Smtp-Source: ABdhPJz9dkLbOEKynG62lQISCs1yNneZEmgV3y/1OTZdR9Y2aBJ9odsOuCArdCa9NY4jjb6DO9llKm9ES6IszlsGFk4=
+X-Received: by 2002:a25:361b:: with SMTP id d27mr66842yba.348.1596059873438;
+ Wed, 29 Jul 2020 14:57:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200728192924.441570-1-yepeilin.cs@gmail.com>
- <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
-In-Reply-To: <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 Jul 2020 17:55:42 -0400
-Message-ID: <CADnq5_Pzz5A4kRyF061K+0hjsBEe7GT6j3zrfKZUrbjGcy1GBQ@mail.gmail.com>
-To: Christian Koenig <christian.koenig@amd.com>
-Cc: Xiaojie Yuan <xiaojie.yuan@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Hans de Goede <hdegoede@redhat.com>, Trek <trek00@inbox.ru>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Evan Quan <evan.quan@amd.com>, Leo Liu <leo.liu@amd.com>,
- Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] drm/amdgpu: Prevent
- kernel-infoleak in amdgpu_info_ioctl()
+References: <20200729201146.537433-1-vitor@massaru.org>
+ <20200729203908.GD2655@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200729203908.GD2655@hirez.programming.kicks-ass.net>
+From: Vitor Massaru Iha <vitor@massaru.org>
+Date: Wed, 29 Jul 2020 18:57:17 -0300
+Message-ID: <CADQ6JjW-=SNjV-abGpGA9NfHD4yGG_bD5FmvW99W-Vo06twkbw@mail.gmail.com>
+To: peterz@infradead.org
+Cc: irogers@google.com, Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, mingo@kernel.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] lib: kunit: add test_min_heap
+	test conversion to KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,130 +107,116 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIFdlZCwgSnVsIDI5LCAyMDIwIGF0IDQ6MTEgQU0g
-Q2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3Rl
-Ogo+Cj4gQW0gMjguMDcuMjAgdW0gMjE6Mjkgc2NocmllYiBQZWlsaW4gWWU6Cj4gPiBDb21waWxl
-ciBsZWF2ZXMgYSA0LWJ5dGUgaG9sZSBuZWFyIHRoZSBlbmQgb2YgYGRldl9pbmZvYCwgY2F1c2lu
-Zwo+ID4gYW1kZ3B1X2luZm9faW9jdGwoKSB0byBjb3B5IHVuaW5pdGlhbGl6ZWQga2VybmVsIHN0
-YWNrIG1lbW9yeSB0byB1c2Vyc3BhY2UKPiA+IHdoZW4gYHNpemVgIGlzIGdyZWF0ZXIgdGhhbiAz
-NTYuCj4gPgo+ID4gSW4gMjAxNSB3ZSB0cmllZCB0byBmaXggdGhpcyBpc3N1ZSBieSBkb2luZyBg
-PSB7fTtgIG9uIGBkZXZfaW5mb2AsIHdoaWNoCj4gPiB1bmZvcnR1bmF0ZWx5IGRvZXMgbm90IGlu
-aXRpYWxpemUgdGhhdCA0LWJ5dGUgaG9sZS4gRml4IGl0IGJ5IHVzaW5nCj4gPiBtZW1zZXQoKSBp
-bnN0ZWFkLgo+ID4KPiA+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCj4gPiBGaXhlczogYzE5
-M2ZhOTFiOTE4ICgiZHJtL2FtZGdwdTogaW5mb3JtYXRpb24gbGVhayBpbiBhbWRncHVfaW5mb19p
-b2N0bCgpIikKPiA+IEZpeGVzOiBkMzhjZWFmOTllZDAgKCJkcm0vYW1kZ3B1OiBhZGQgY29yZSBk
-cml2ZXIgKHY0KSIpCj4gPiBTdWdnZXN0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50
-ZXJAb3JhY2xlLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IFBlaWxpbiBZZSA8eWVwZWlsaW4uY3NA
-Z21haWwuY29tPgo+Cj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5r
-b2VuaWdAYW1kLmNvbT4KPgo+IEkgY2FuJ3QgY291bnQgaG93IG1hbnkgb2YgdGhvc2Ugd2UgaGF2
-ZSBmaXhlZCBvdmVyIHRoZSB5ZWFycy4KPgo+IEF0IHNvbWUgcG9pbnQgd2Ugc2hvdWxkIHByb2Jh
-Ymx5IGRvY3VtZW50IHRoYXQgdXNpbmcgIj0ge30iIG9yICI9IHsgMCB9Igo+IGluIHRoZSBrZXJu
-ZWwgaXMgYSByZWFsbHkgYmFkIGlkZWEgYW5kIHNob3VsZCBiZSBhdm9pZGVkLgo+Cj4gVGhhbmtz
-LAo+IENocmlzdGlhbi4KPgo+ID4gLS0tCj4gPiAkIHBhaG9sZSAtQyAiZHJtX2FtZGdwdV9pbmZv
-X2RldmljZSIgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5vCj4gPiBzdHJ1
-Y3QgZHJtX2FtZGdwdV9pbmZvX2RldmljZSB7Cj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAg
-ICAgICAgICBkZXZpY2VfaWQ7ICAgICAgICAgICAgLyogICAgIDAgICAgIDQgKi8KPiA+ICAgICAg
-IF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGNoaXBfcmV2OyAgICAgICAgICAgICAvKiAgICAg
-NCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZXh0ZXJuYWxf
-cmV2OyAgICAgICAgIC8qICAgICA4ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICBwY2lfcmV2OyAgICAgICAgICAgICAgLyogICAgMTIgICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGZhbWlseTsgICAgICAgICAgICAgICAvKiAg
-ICAxNiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgbnVtX3No
-YWRlcl9lbmdpbmVzOyAgIC8qICAgIDIwICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAg
-ICAgICAgICAgICAgICBudW1fc2hhZGVyX2FycmF5c19wZXJfZW5naW5lOyAvKiAgICAyNCAgICAg
-NCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZ3B1X2NvdW50ZXJfZnJl
-cTsgICAgIC8qICAgIDI4ICAgICA0ICovCj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAg
-ICAgICBtYXhfZW5naW5lX2Nsb2NrOyAgICAgLyogICAgMzIgICAgIDggKi8KPiA+ICAgICAgIF9f
-dTY0ICAgICAgICAgICAgICAgICAgICAgIG1heF9tZW1vcnlfY2xvY2s7ICAgICAvKiAgICA0MCAg
-ICAgOCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgY3VfYWN0aXZlX251
-bWJlcjsgICAgIC8qICAgIDQ4ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAg
-ICAgICAgICBjdV9hb19tYXNrOyAgICAgICAgICAgLyogICAgNTIgICAgIDQgKi8KPiA+ICAgICAg
-IF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGN1X2JpdG1hcFs0XVs0XTsgICAgICAvKiAgICA1
-NiAgICA2NCAqLwo+ID4gICAgICAgLyogLS0tIGNhY2hlbGluZSAxIGJvdW5kYXJ5ICg2NCBieXRl
-cykgd2FzIDU2IGJ5dGVzIGFnbyAtLS0gKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAg
-ICAgICAgIGVuYWJsZWRfcmJfcGlwZXNfbWFzazsgLyogICAxMjAgICAgIDQgKi8KPiA+ICAgICAg
-IF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG51bV9yYl9waXBlczsgICAgICAgICAvKiAgIDEy
-NCAgICAgNCAqLwo+ID4gICAgICAgLyogLS0tIGNhY2hlbGluZSAyIGJvdW5kYXJ5ICgxMjggYnl0
-ZXMpIC0tLSAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgbnVtX2h3X2dm
-eF9jb250ZXh0czsgIC8qICAgMTI4ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICBfcGFkOyAgICAgICAgICAgICAgICAgLyogICAxMzIgICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTY0ICAgICAgICAgICAgICAgICAgICAgIGlkc19mbGFnczsgICAgICAgICAgICAvKiAg
-IDEzNiAgICAgOCAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAgICAgICAgICAgICAgdmlydHVh
-bF9hZGRyZXNzX29mZnNldDsgLyogICAxNDQgICAgIDggKi8KPiA+ICAgICAgIF9fdTY0ICAgICAg
-ICAgICAgICAgICAgICAgIHZpcnR1YWxfYWRkcmVzc19tYXg7ICAvKiAgIDE1MiAgICAgOCAqLwo+
-ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgdmlydHVhbF9hZGRyZXNzX2FsaWdu
-bWVudDsgLyogICAxNjAgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAg
-ICAgIHB0ZV9mcmFnbWVudF9zaXplOyAgICAvKiAgIDE2NCAgICAgNCAqLwo+ID4gICAgICAgX191
-MzIgICAgICAgICAgICAgICAgICAgICAgZ2FydF9wYWdlX3NpemU7ICAgICAgIC8qICAgMTY4ICAg
-ICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBjZV9yYW1fc2l6ZTsg
-ICAgICAgICAgLyogICAxNzIgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAg
-ICAgICAgIHZyYW1fdHlwZTsgICAgICAgICAgICAvKiAgIDE3NiAgICAgNCAqLwo+ID4gICAgICAg
-X191MzIgICAgICAgICAgICAgICAgICAgICAgdnJhbV9iaXRfd2lkdGg7ICAgICAgIC8qICAgMTgw
-ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICB2Y2VfaGFydmVz
-dF9jb25maWc7ICAgLyogICAxODQgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAg
-ICAgICAgICAgIGdjX2RvdWJsZV9vZmZjaGlwX2xkc19idWY7IC8qICAgMTg4ICAgICA0ICovCj4g
-PiAgICAgICAvKiAtLS0gY2FjaGVsaW5lIDMgYm91bmRhcnkgKDE5MiBieXRlcykgLS0tICovCj4g
-PiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAgICAgICBwcmltX2J1Zl9ncHVfYWRkcjsgICAg
-LyogICAxOTIgICAgIDggKi8KPiA+ICAgICAgIF9fdTY0ICAgICAgICAgICAgICAgICAgICAgIHBv
-c19idWZfZ3B1X2FkZHI7ICAgICAvKiAgIDIwMCAgICAgOCAqLwo+ID4gICAgICAgX191NjQgICAg
-ICAgICAgICAgICAgICAgICAgY250bF9zYl9idWZfZ3B1X2FkZHI7IC8qICAgMjA4ICAgICA4ICov
-Cj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAgICAgICBwYXJhbV9idWZfZ3B1X2FkZHI7
-ICAgLyogICAyMTYgICAgIDggKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAg
-IHByaW1fYnVmX3NpemU7ICAgICAgICAvKiAgIDIyNCAgICAgNCAqLwo+ID4gICAgICAgX191MzIg
-ICAgICAgICAgICAgICAgICAgICAgcG9zX2J1Zl9zaXplOyAgICAgICAgIC8qICAgMjI4ICAgICA0
-ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBjbnRsX3NiX2J1Zl9zaXpl
-OyAgICAgLyogICAyMzIgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAg
-ICAgIHBhcmFtX2J1Zl9zaXplOyAgICAgICAvKiAgIDIzNiAgICAgNCAqLwo+ID4gICAgICAgX191
-MzIgICAgICAgICAgICAgICAgICAgICAgd2F2ZV9mcm9udF9zaXplOyAgICAgIC8qICAgMjQwICAg
-ICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBudW1fc2hhZGVyX3Zp
-c2libGVfdmdwcnM7IC8qICAgMjQ0ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICBudW1fY3VfcGVyX3NoOyAgICAgICAgLyogICAyNDggICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG51bV90Y2NfYmxvY2tzOyAgICAgICAvKiAg
-IDI1MiAgICAgNCAqLwo+ID4gICAgICAgLyogLS0tIGNhY2hlbGluZSA0IGJvdW5kYXJ5ICgyNTYg
-Ynl0ZXMpIC0tLSAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZ3Nfdmd0
-X3RhYmxlX2RlcHRoOyAgIC8qICAgMjU2ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAg
-ICAgICAgICAgICAgICBnc19wcmltX2J1ZmZlcl9kZXB0aDsgLyogICAyNjAgICAgIDQgKi8KPiA+
-ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG1heF9nc193YXZlc19wZXJfdmd0OyAv
-KiAgIDI2NCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgX3Bh
-ZDE7ICAgICAgICAgICAgICAgIC8qICAgMjY4ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAg
-ICAgICAgICAgICAgICAgICBjdV9hb19iaXRtYXBbNF1bNF07ICAgLyogICAyNzIgICAgNjQgKi8K
-PiA+ICAgICAgIC8qIC0tLSBjYWNoZWxpbmUgNSBib3VuZGFyeSAoMzIwIGJ5dGVzKSB3YXMgMTYg
-Ynl0ZXMgYWdvIC0tLSAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAgICAgICAgICAgICAgaGln
-aF92YV9vZmZzZXQ7ICAgICAgIC8qICAgMzM2ICAgICA4ICovCj4gPiAgICAgICBfX3U2NCAgICAg
-ICAgICAgICAgICAgICAgICBoaWdoX3ZhX21heDsgICAgICAgICAgLyogICAzNDQgICAgIDggKi8K
-PiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIHBhX3NjX3RpbGVfc3RlZXJpbmdf
-b3ZlcnJpZGU7IC8qICAgMzUyICAgICA0ICovCj4gPgo+ID4gICAgICAgLyogWFhYIDQgYnl0ZXMg
-aG9sZSwgdHJ5IHRvIHBhY2sgKi8KPiA+Cj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAg
-ICAgICB0Y2NfZGlzYWJsZWRfbWFzazsgICAgLyogICAzNjAgICAgIDggKi8KPiA+Cj4gPiAgICAg
-ICAvKiBzaXplOiAzNjgsIGNhY2hlbGluZXM6IDYsIG1lbWJlcnM6IDQ5ICovCj4gPiAgICAgICAv
-KiBzdW0gbWVtYmVyczogMzY0LCBob2xlczogMSwgc3VtIGhvbGVzOiA0ICovCj4gPiAgICAgICAv
-KiBsYXN0IGNhY2hlbGluZTogNDggYnl0ZXMgKi8KPiA+IH07Cj4gPgo+ID4gICBkcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLmMgfCAzICsrLQo+ID4gICAxIGZpbGUgY2hhbmdl
-ZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2FtZGdwdV9rbXMuYwo+ID4gaW5kZXggYThjNDdhZWNkMzQyLi4wMDQ3ZGEwNjA0
-MWYgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21z
-LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9rbXMuYwo+ID4g
-QEAgLTcwNyw5ICs3MDcsMTAgQEAgc3RhdGljIGludCBhbWRncHVfaW5mb19pb2N0bChzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLCBzdHJ1Y3QgZHJtX2ZpbGUKPiA+ICAgICAgICAg
-ICAgICAgcmV0dXJuIG4gPyAtRUZBVUxUIDogMDsKPiA+ICAgICAgIH0KPiA+ICAgICAgIGNhc2Ug
-QU1ER1BVX0lORk9fREVWX0lORk86IHsKPiA+IC0gICAgICAgICAgICAgc3RydWN0IGRybV9hbWRn
-cHVfaW5mb19kZXZpY2UgZGV2X2luZm8gPSB7fTsKPiA+ICsgICAgICAgICAgICAgc3RydWN0IGRy
-bV9hbWRncHVfaW5mb19kZXZpY2UgZGV2X2luZm87Cj4gPiAgICAgICAgICAgICAgIHVpbnQ2NF90
-IHZtX3NpemU7Cj4gPgo+ID4gKyAgICAgICAgICAgICBtZW1zZXQoJmRldl9pbmZvLCAwLCBzaXpl
-b2YoZGV2X2luZm8pKTsKPiA+ICAgICAgICAgICAgICAgZGV2X2luZm8uZGV2aWNlX2lkID0gZGV2
-LT5wZGV2LT5kZXZpY2U7Cj4gPiAgICAgICAgICAgICAgIGRldl9pbmZvLmNoaXBfcmV2ID0gYWRl
-di0+cmV2X2lkOwo+ID4gICAgICAgICAgICAgICBkZXZfaW5mby5leHRlcm5hbF9yZXYgPSBhZGV2
-LT5leHRlcm5hbF9yZXZfaWQ7Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwo+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2FtZC1nZngKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVz
-QGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24u
-b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+Hi Peter,
+
+On Wed, Jul 29, 2020 at 5:39 PM <peterz@infradead.org> wrote:
+>
+> On Wed, Jul 29, 2020 at 05:11:46PM -0300, Vitor Massaru Iha wrote:
+> > This adds the conversion of the runtime tests of test_min_heap,
+> > from `lib/test_min_heap.c` to KUnit tests.
+> >
+> > Please apply this commit first (linux-kselftest/kunit-fixes):
+> > 3f37d14b8a3152441f36b6bc74000996679f0998 kunit: kunit_config: Fix parsing of CONFIG options with space
+> >
+> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> > ---
+> >  lib/Kconfig.debug                         |  29 ++++--
+> >  lib/Makefile                              |   2 +-
+> >  lib/{test_min_heap.c => min_heap_kunit.c} | 117 ++++++++++++----------
+> >  3 files changed, 83 insertions(+), 65 deletions(-)
+> >  rename lib/{test_min_heap.c => min_heap_kunit.c} (60%)
+>
+> So where's the win? What's KUnit, why should I care and more lines.
+
+KUnit is a unit testing and mocking framework for the Linux kernel. [0]
+
+In Kconfig.debug you only have some more information about KUnit.
+
+If the number of lines is a parameter that should be considered, I can
+change sections like this
+
+-                       if (last > values[0]) {
+-                               pr_err("error: expected %d <= %d\n", last,
+-                                       values[0]);
+-                               err++;
+-                       }
++                       KUNIT_EXPECT_FALSE_MSG(context,
++                                              last > values[0],
++                                              "expected %d <= %d\n",
++                                              last, values[0]);
+
+To this:
+
+-                       if (last > values[0]) {
+-                               pr_err("error: expected %d <= %d\n", last,
+-                                       values[0]);
+-                               err++;
+-                       }
++                       KUNIT_EXPECT_FALSE_MSG(context, last >
+values[0],  "expected %d <= %d\n",  last, values[0]);
+
+And from this:
+
++static struct kunit_case __refdata min_heap_test_cases[] = {
++       KUNIT_CASE(test_heapify_all_true),
++       KUNIT_CASE(test_heapify_all_false),
++       KUNIT_CASE(test_heap_push_true),
++       KUNIT_CASE(test_heap_push_false),
++       KUNIT_CASE(test_heap_pop_push_true),
++       KUNIT_CASE(test_heap_pop_push_false),
++       {}
+
+To this:
+
++static struct kunit_case __refdata min_heap_test_cases[] = {
++       KUNIT_CASE(test_min_heap),
++       {}
+
+I did the latter this way to be more informative, but if the goal is
+to reduce lines of code, this is possible.
+
+The results can be seen this way:
+
+This is an excerpt from the test.log with the result in TAP format:
+[snip]
+ok 5 - example
+    # Subtest: min-heap
+    1..6
+    ok 1 - test_heapify_all_true
+    ok 2 - test_heapify_all_false
+    ok 3 - test_heap_push_true
+    ok 4 - test_heap_push_false
+    ok 5 - test_heap_pop_push_true
+    ok 6 - test_heap_pop_push_false
+[snip]
+
+And this from kunit-tool:
+[snip]
+[18:43:32] ============================================================
+[18:43:32] ======== [PASSED] min-heap ========
+[18:43:32] [PASSED] test_heapify_all_true
+[18:43:32] [PASSED] test_heapify_all_false
+[18:43:32] [PASSED] test_heap_push_true
+[18:43:32] [PASSED] test_heap_push_false
+[18:43:32] [PASSED] test_heap_pop_push_true
+[18:43:32] [PASSED] test_heap_pop_push_false
+[18:43:32] ============================================================
+[18:43:32] Testing complete. 20 tests run. 0 failed. 0 crashed.
+[18:43:32] Elapsed time: 9.758s total, 0.001s configuring, 6.012s
+building, 0.000s running
+[snip]
+
+BR,
+Vitor
+
+[0] https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html#what-is-kunit
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
