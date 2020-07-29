@@ -7,97 +7,86 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C331C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 20:17:16 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72F58C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 20:39:20 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1EB662074B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 20:17:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 36B5F20663
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 29 Jul 2020 20:39:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="Sdzx2Sqp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1EB662074B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Uaia+u2y"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36B5F20663
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EBF278630F;
-	Wed, 29 Jul 2020 20:17:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0E02887B8A;
+	Wed, 29 Jul 2020 20:39:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id M1JAvRzCCJBO; Wed, 29 Jul 2020 20:17:15 +0000 (UTC)
+	with ESMTP id zsC7CPdiP1OL; Wed, 29 Jul 2020 20:39:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7F1598608D;
-	Wed, 29 Jul 2020 20:17:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7EACE87B62;
+	Wed, 29 Jul 2020 20:39:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 68D1AC004F;
-	Wed, 29 Jul 2020 20:17:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 72DE8C004F;
+	Wed, 29 Jul 2020 20:39:19 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E62FBC004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35426C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 20:17:13 +0000 (UTC)
+ Wed, 29 Jul 2020 20:39:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CCBBE86239
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2BC6E84E77
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 20:17:13 +0000 (UTC)
+ Wed, 29 Jul 2020 20:39:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pw3qtBMqjUH9
+ with ESMTP id aFNSE2N50KOn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 20:17:13 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
- [209.85.219.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 416DF8608D
+ Wed, 29 Jul 2020 20:39:17 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7E8A584E74
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 20:17:13 +0000 (UTC)
-Received: by mail-yb1-f194.google.com with SMTP id e187so895478ybc.5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 13:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jsAi/yM0dYoTsEAduerPAEeoeBRABFVM36ZfoeomatY=;
- b=Sdzx2SqpXH3YztrrLNOADE5QjX5DPMw9qzcr7aHGCh/zp+I48O4kqqRZpqulQK7b2A
- C0RuSwWADNheZUXSP4rEN1wGIvAHpzoqMuGaY9bfPEyvF7S943eq2s4cUgghOcvSf/gF
- pgSXR0NUIxtUVLHek5C2iWFuwwFK1cYRX3ViHbez65SiI4fPMcJckFrPEMykGyiQCS78
- qAbpP8IMzkK2emxhZ0eXkv50SN/md9uBSLITI1PlvPb8m7/drlC3Ebg9l9hlt1cSmd1U
- zk+/6KjyjmyFpbWHSa1K7nCrIHFc4aSgPROhI0PTheyPL6km/Re6ghueTxNzyrTKrFW1
- WtBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jsAi/yM0dYoTsEAduerPAEeoeBRABFVM36ZfoeomatY=;
- b=K7xjajXol6EM7MhxFdmctYztbqod8MBf5kUxtFPrWh1T0V5Ehfd8Fyaqhh+txaLaku
- NfzmSKVGVZpxFnIg9KFf8kmWnZsuMgi5ZZU3uJ0MOwmvxwv6YoPLFNJ1A+EdfZPsBUJ/
- mV+6XgYjjzSGa5pG8j/Mpqznlv3h25op381A/R+01lnQhuGw/dhZ5Hse54tZFrj+KCuX
- LNGbwOvpOvDF7MoHlMrQW621z2CVqSoYUlh+Eb8YO+qHVLIPiL01BR3dd1l22FI00Z9o
- IiV85VjMuj24EO0l8X8adnIHqhOfUU+prtXtRUCWfuSTYYdPFXx3Ve0YoMhSLDpbASyG
- /lug==
-X-Gm-Message-State: AOAM530ea93W07P2vXxtFTff0z1M98C/xPQi5FwrYjqU8BwCw4MEU2Q7
- Va8hiOXhR+bMTB9dTx+7Qz9JGQKyp/kbV/BBwni2yA==
-X-Google-Smtp-Source: ABdhPJyPk3kjiGNYFFk4yzHPEbfFcoZIfz0gAfhNJ3Fsk1YWxiMbGPNT80Yqs2GsCLymQyrnK2dqTUc8spmJdwVOFPE=
-X-Received: by 2002:a25:bb0d:: with SMTP id z13mr229226ybg.488.1596053832271; 
- Wed, 29 Jul 2020 13:17:12 -0700 (PDT)
+ Wed, 29 Jul 2020 20:39:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=5Qs3p6P4FMzOMl5aW3FKm/tj+DXE8Wr/ANqUkYSmnxo=; b=Uaia+u2ySpbc2h1Ps6QsIoNc4p
+ jSX+q1S6Vuha5uj+6BOSmzBjVaLlLpVyA4bKQfJyjhtt+LOVevmfaCrMIjB5lOmwXfGsuQAoKbmZH
+ 5sGGvNXTp/raCi/HqwvMSfcn2rG/NPsoV482CScDRYydGZ8Dfqk/QFg+7FLfrY78GhPpH9e3mlacA
+ X0Qbf3j1EzEP8zTY7EmVZ6uxsHYkigr4enOa1pITW8HB3zk1X4OiLfPB5CucQfIqmoEBL+V92zpO/
+ CZZ2VsrRocPPhFROKYJekMt+zw4QHnFCH8E7+EregovfsE+um4XCVi07pWZn+RYlSImNThJySzJEw
+ RJGyNquA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1k0sr2-0007I0-GB; Wed, 29 Jul 2020 20:39:12 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CFD8D304D28;
+ Wed, 29 Jul 2020 22:39:08 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id B6947200D4162; Wed, 29 Jul 2020 22:39:08 +0200 (CEST)
+Date: Wed, 29 Jul 2020 22:39:08 +0200
+From: peterz@infradead.org
+To: Vitor Massaru Iha <vitor@massaru.org>
+Message-ID: <20200729203908.GD2655@hirez.programming.kicks-ass.net>
+References: <20200729201146.537433-1-vitor@massaru.org>
 MIME-Version: 1.0
-References: <20200729191151.476368-1-vitor@massaru.org>
- <20200729191948.GZ3703480@smile.fi.intel.com>
-In-Reply-To: <20200729191948.GZ3703480@smile.fi.intel.com>
-From: Vitor Massaru Iha <vitor@massaru.org>
-Date: Wed, 29 Jul 2020 17:16:29 -0300
-Message-ID: <CADQ6JjU1wg_mrhuGkgiNWmJLCvNcOVwS0Hysda+OXuDcCj8y=Q@mail.gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: fkostenzer@live.at, torvalds@linux-foundation.org,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- paul.gortmaker@windriver.com, geert@linux-m68k.org,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- tglx@linutronix.de, linux-kernel-mentees@lists.linuxfoundation.org,
- akpm@linux-foundation.org, KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] lib: kunit: Convert test_sort
-	to KUnit test
+Content-Disposition: inline
+In-Reply-To: <20200729201146.537433-1-vitor@massaru.org>
+Cc: irogers@google.com, brendanhiggins@google.com, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, mingo@kernel.org,
+ kunit-dev@googlegroups.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] lib: kunit: add test_min_heap
+	test conversion to KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,51 +104,22 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 29, 2020 at 4:19 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Wed, Jul 29, 2020 at 04:11:51PM -0300, Vitor Massaru Iha wrote:
-> > This adds the conversion of the test_sort.c to KUnit test.
-> >
-> > Please apply this commit first (linux-kselftest/kunit-fixes):
-> > 3f37d14b8a3152441f36b6bc74000996679f0998 kunit: kunit_config: Fix parsing of CONFIG options with space
->
-> Looks like you mixed up commit message and changelog / comments.
->
-> > Code Style Documentation: [0]
-> >
-> > Fix these warnings Reported-by lkp@intel.com
-> >
-> > WARNING: modpost: vmlinux.o(.data+0x4fc70): Section mismatch in reference from the variable sort_test_cases to the variable .init.text:sort_test
-> >    The variable sort_test_cases references
-> >    the variable __init sort_test
-> >    If the reference is valid then annotate the
-> >    variable with or __refdata (see linux/init.h) or name the variable
-> >
-> > WARNING: modpost: lib/sort_kunit.o(.data+0x11c): Section mismatch in reference from the variable sort_test_cases to the function .init.text:sort_test()
-> >    The variable sort_test_cases references
-> >    the function __init sort_test()
->
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Link: [0] https://lore.kernel.org/linux-kselftest/20200620054944.167330-1-davidgow@google.com/T/#u
->
-> This should be in different order: Link, Reported-by, SoB.
-> Also [0] is unnecessary
+On Wed, Jul 29, 2020 at 05:11:46PM -0300, Vitor Massaru Iha wrote:
+> This adds the conversion of the runtime tests of test_min_heap,
+> from `lib/test_min_heap.c` to KUnit tests.
+> 
+> Please apply this commit first (linux-kselftest/kunit-fixes):
+> 3f37d14b8a3152441f36b6bc74000996679f0998 kunit: kunit_config: Fix parsing of CONFIG options with space
+> 
+> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> ---
+>  lib/Kconfig.debug                         |  29 ++++--
+>  lib/Makefile                              |   2 +-
+>  lib/{test_min_heap.c => min_heap_kunit.c} | 117 ++++++++++++----------
+>  3 files changed, 83 insertions(+), 65 deletions(-)
+>  rename lib/{test_min_heap.c => min_heap_kunit.c} (60%)
 
-Sure, thanks!
-
->
-> >  lib/{test_sort.c => sort_kunit.c} | 31 +++++++++++++++----------------
->
-> Still opened question why kunit is a suffix? Can't we leave same name? Can't we
-> do it rather prefix?
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+So where's the win? What's KUnit, why should I care and more lines.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
