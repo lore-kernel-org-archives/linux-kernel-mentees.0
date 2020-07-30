@@ -2,105 +2,102 @@ Return-Path: <SRS0=tqep=BJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FDD4C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 11:48:52 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73DA0C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 12:18:26 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3C6AF21D95
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 11:48:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C6AF21D95
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3F37D208A9
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 12:18:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SCERfalj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F37D208A9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0CC5586A7F;
-	Thu, 30 Jul 2020 11:48:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1B8F387775;
+	Thu, 30 Jul 2020 12:18:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VAF7Ban-R2yW; Thu, 30 Jul 2020 11:48:51 +0000 (UTC)
+	with ESMTP id QGm9+r4jkY10; Thu, 30 Jul 2020 12:18:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 68766862D4;
-	Thu, 30 Jul 2020 11:48:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 797B786B50;
+	Thu, 30 Jul 2020 12:18:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C30EC004F;
-	Thu, 30 Jul 2020 11:48:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24664C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75A91C0050;
+	Thu, 30 Jul 2020 12:18:25 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 30327C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 11:48:50 +0000 (UTC)
+ Thu, 30 Jul 2020 12:18:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0CBBE87ADB
+ by silver.osuosl.org (Postfix) with ESMTP id 1C0172036C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 11:48:50 +0000 (UTC)
+ Thu, 30 Jul 2020 12:18:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HIR5t-dQmFKL
+ with ESMTP id Cvm877gCdJvP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 11:48:47 +0000 (UTC)
+ Thu, 30 Jul 2020 12:18:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 84EE68664E
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id BAEA320763
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 11:48:47 +0000 (UTC)
-IronPort-SDR: MlavBrHr7Gc+d4sIkiIHvenbVivW6NX8uipDYv3XNd0OhKss2IF1qeP8wJdNogpBrBCKjJcx/c
- EczEnbFaLqDw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9697"; a="149415531"
-X-IronPort-AV: E=Sophos;i="5.75,414,1589266800"; d="scan'208";a="149415531"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2020 04:48:47 -0700
-IronPort-SDR: wmlhB2ZzttBFINXRufelrxv8L53CImhLZ6YLEBjkVR5V0gkzH1JXuIS1XD0H6dLKepNgiLNPuq
- Qw0S9w3OkVZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,414,1589266800"; d="scan'208";a="491097611"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga005.fm.intel.com with ESMTP; 30 Jul 2020 04:48:43 -0700
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1k173C-004ugB-9a; Thu, 30 Jul 2020 14:48:42 +0300
-Date: Thu, 30 Jul 2020 14:48:42 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Message-ID: <20200730114842.GH3703480@smile.fi.intel.com>
-References: <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam>
- <CACRpkda7k4L+nqAYE6z2FVZF-WT2Pm3CHH_=fW24xz_u+QCMRQ@mail.gmail.com>
- <20200728130632.GI1913@kadam>
- <CAK8P3a3MEUYH3qG-+dxgH1Omx2gtcqSRXzKLLaAw21Xho6HAeQ@mail.gmail.com>
- <CAMRc=MciXb152=CHAi1kfpwFuELLN55-BfNOo8hBg8Tzp4wMnQ@mail.gmail.com>
- <CAK8P3a1m7C0rGGEHvndhxun2TyFh-cweNnPHp-rDtu7Z=YyUKw@mail.gmail.com>
- <20200730083833.GD3703480@smile.fi.intel.com>
- <CAK8P3a2i2mnRPZ-f9UNxPNJcjyjdTOA7-fgcMqavsV8Ab17RkQ@mail.gmail.com>
+ Thu, 30 Jul 2020 12:18:22 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id u10so4442110plr.7
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 Jul 2020 05:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BWcupHG1mhYkAKx/dy8TBzw4I8ChGdzaP3QPFWlXFhU=;
+ b=SCERfaljin7+1GMBuo1tAr6qj36cEB4ODEub6UroXGTIC8HGiQaqdHAGczdnceUWgP
+ zpT2BG72kyT0uGe1HwcEgJpy2DV59l0kIa/SalRtvjdFC1pUxolTk9nQbXe4OxEqOK22
+ PuGjAE9ss0iPIWPabmMQdq++B5fSpbyzgXP+NsztTNZTxCg9f3peXVtFxzo96CntpxCW
+ yqLk89Hp+MCHCTgVg+MXgduHljb1QIxXG2uROprw2whuSMeKpMTA/zrrWYlbvppQZq0m
+ qa4azl8DlfHQA4LG3HneA14HvuxMWHZ5hg5jQeSEf2eN9TLWZE3bhfeuW1+maeRGBgpq
+ ClTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BWcupHG1mhYkAKx/dy8TBzw4I8ChGdzaP3QPFWlXFhU=;
+ b=afGBsqZhztiuc17lcAbQ3JCTOfX8uXjLJk5UV+C0MBaPfYs9WAjuBH8+aZ+kblKMIh
+ cSKg6O4mpt9HirO8jol28fvp3EJOLuto9s8PyYYz+qOoaEydZQT5EuSg4M3UmFOWZyO8
+ VZ6FbvXWjnK/DpfiSCHjzFDvjSEbzPWgtJGXap7BtTxLlYAYTzxYd84ztmwz6UmIP/0l
+ /ZYrQsIr5qERc89YdHNDwFwb7AKfz4VVjvBEh1Y1d2FEvRKaSbz5R31IedR5vkveEFiF
+ IEfrANHQJzM/8//dgHtUT3yDnVKD81b1mbfEb0RUEflipBTq1n7+fiDloAI5F2KstAIu
+ wmqQ==
+X-Gm-Message-State: AOAM531jROw+WopY8unGIrOZsGNfkEk3gU9VWkOWqQf5w6V2ljzln6sY
+ p/VfjPrUfgMbPaW8hkqwnvg=
+X-Google-Smtp-Source: ABdhPJyky7gP0f/vjyTeyGWzHxMzT+NSR/DK2UIvM7ADGohkTEu/p+599JS/86wzLivsb9w6/M/DNA==
+X-Received: by 2002:a17:902:7585:: with SMTP id
+ j5mr15898476pll.168.1596111502234; 
+ Thu, 30 Jul 2020 05:18:22 -0700 (PDT)
+Received: from arpitha-Inspiron-7570.lan ([49.206.12.123])
+ by smtp.gmail.com with ESMTPSA id a184sm5886600pfa.83.2020.07.30.05.18.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jul 2020 05:18:21 -0700 (PDT)
+From: Arpitha Raghunandan <98.arpi@gmail.com>
+To: brendanhiggins@google.com, skhan@linuxfoundation.org,
+ andriy.shevchenko@linux.intel.com
+Date: Thu, 30 Jul 2020 17:46:56 +0530
+Message-Id: <20200730121656.45302-1-98.arpi@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a2i2mnRPZ-f9UNxPNJcjyjdTOA7-fgcMqavsV8Ab17RkQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Peilin Ye <yepeilin.cs@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Subject: [Linux-kernel-mentees] [PATCH] lib: Convert test_uuid.c to KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,53 +115,195 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jul 30, 2020 at 11:18:04AM +0200, Arnd Bergmann wrote:
-> On Thu, Jul 30, 2020 at 10:38 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Jul 30, 2020 at 10:15:24AM +0200, Arnd Bergmann wrote:
-> > > On Thu, Jul 30, 2020 at 10:07 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+Converts test lib/test_uuid.c to KUnit
 
-...
+Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+---
+ lib/Kconfig.debug                 |  7 +--
+ lib/Makefile                      |  2 +-
+ lib/{test_uuid.c => uuid_kunit.c} | 84 +++++++++----------------------
+ 3 files changed, 28 insertions(+), 65 deletions(-)
+ rename lib/{test_uuid.c => uuid_kunit.c} (48%)
 
-> > > I would argue that it needs to be fixed anyway, unless you also want
-> > > to remove the v1 interface for native mode. If this works on 32-bit
-> > > kernels, on 64-bit kernels with 64-bit user space and on compat
-> > > 32-bit user space on 64-bit non-x86 architectures, I see no reason
-> > > to leave it broken specifically on x86 compat user space. There are
-> > > still reasons to use 32-bit x86 user space for low-memory machines
-> > > even though native i386 kernels are getting increasingly silly.
-> >
-> > It was possible to "fix" (mitigate to some extent) before libgpiod got support
-> > for several events in a request. Now it seems to be impossible to fix. AFAIU we
-> > must discard any request to more than one event in it.
-> 
-> Any reason why the workaround I suggested above would not work?
-
-That is the question to somebody who has better understanding. If it works,
-I vote up to get it fixed with little effort. I would be glad to test patches!
-
-> The in_ia32_syscall() check should be completely reliable in telling whether
-> we are called from read() by an ia32 task or not, and we use the same
-> logic for input_event, which has a similar problem (on all compat architectures,
-> not just x86).
-
-By the way any reason why we have to have in_ia32_syscall() instead of
-in_compat_syscall()?
-
-> > However I'm not an expert in compat IOCTL code (you are :-) and perhaps you may
-> > provide ideas better than mine.
-> 
-> What makes this interface tricky is that this is actually a read() call, not
-> ioctl() which is usually easier because it encodes the data length in the
-> command code. As far as I could tell from skimming the interface, the
-> ioctls are actually fine here.
-
-Right.
-
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index f174f8887ae7..330c0d1de50b 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2070,9 +2070,6 @@ config TEST_BITFIELD
+ 
+ 	  If unsure, say N.
+ 
+-config TEST_UUID
+-	tristate "Test functions located in the uuid module at runtime"
+-
+ config TEST_XARRAY
+ 	tristate "Test the XArray code at runtime"
+ 
+@@ -2273,6 +2270,10 @@ config BITS_TEST
+ 
+ 	  If unsure, say N.
+ 
++config UUID_KUNIT_TEST
++	tristate "KUnit test for functions located in the uuid module at runtime"
++	depends on KUNIT
++
+ config TEST_UDELAY
+ 	tristate "udelay test driver"
+ 	help
+diff --git a/lib/Makefile b/lib/Makefile
+index 032cc6c71a3a..62ef383c7563 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -81,7 +81,6 @@ obj-$(CONFIG_TEST_PRINTF) += test_printf.o
+ obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
+ obj-$(CONFIG_TEST_STRSCPY) += test_strscpy.o
+ obj-$(CONFIG_TEST_BITFIELD) += test_bitfield.o
+-obj-$(CONFIG_TEST_UUID) += test_uuid.o
+ obj-$(CONFIG_TEST_XARRAY) += test_xarray.o
+ obj-$(CONFIG_TEST_PARMAN) += test_parman.o
+ obj-$(CONFIG_TEST_KMOD) += test_kmod.o
+@@ -342,5 +341,6 @@ obj-$(CONFIG_PLDMFW) += pldmfw/
+ obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
+ obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
+ obj-$(CONFIG_BITS_TEST) += test_bits.o
++obj-$(CONFIG_UUID_KUNIT_TEST) += uuid_kunit.o
+ 
+ obj-$(CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED) += devmem_is_allowed.o
+diff --git a/lib/test_uuid.c b/lib/uuid_kunit.c
+similarity index 48%
+rename from lib/test_uuid.c
+rename to lib/uuid_kunit.c
+index cd819c397dc7..f7f219ddecc2 100644
+--- a/lib/test_uuid.c
++++ b/lib/uuid_kunit.c
+@@ -3,6 +3,7 @@
+  */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <kunit/test.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+@@ -39,95 +40,56 @@ static const char * const test_uuid_wrong_data[] = {
+ 	"0cb4ddff-a545-4401-9d06-688af53e",	/* not enough data */
+ };
+ 
+-static unsigned total_tests __initdata;
+-static unsigned failed_tests __initdata;
+-
+-static void __init test_uuid_failed(const char *prefix, bool wrong, bool be,
+-				    const char *data, const char *actual)
+-{
+-	pr_err("%s test #%u %s %s data: '%s'\n",
+-	       prefix,
+-	       total_tests,
+-	       wrong ? "passed on wrong" : "failed on",
+-	       be ? "BE" : "LE",
+-	       data);
+-	if (actual && *actual)
+-		pr_err("%s test #%u actual data: '%s'\n",
+-		       prefix,
+-		       total_tests,
+-		       actual);
+-	failed_tests++;
+-}
+-
+-static void __init test_uuid_test(const struct test_uuid_data *data)
++static void test_uuid_test(struct kunit *test, const struct test_uuid_data *data)
+ {
+ 	guid_t le;
+ 	uuid_t be;
+ 	char buf[48];
+ 
+ 	/* LE */
+-	total_tests++;
+-	if (guid_parse(data->uuid, &le))
+-		test_uuid_failed("conversion", false, false, data->uuid, NULL);
+-
+-	total_tests++;
+-	if (!guid_equal(&data->le, &le)) {
+-		sprintf(buf, "%pUl", &le);
+-		test_uuid_failed("cmp", false, false, data->uuid, buf);
+-	}
++	KUNIT_EXPECT_EQ(test, 0, guid_parse(data->uuid, &le));
++	KUNIT_EXPECT_TRUE(test, guid_equal(&data->le, &le));
+ 
+ 	/* BE */
+-	total_tests++;
+-	if (uuid_parse(data->uuid, &be))
+-		test_uuid_failed("conversion", false, true, data->uuid, NULL);
+-
+-	total_tests++;
+-	if (!uuid_equal(&data->be, &be)) {
+-		sprintf(buf, "%pUb", &be);
+-		test_uuid_failed("cmp", false, true, data->uuid, buf);
+-	}
++	KUNIT_EXPECT_EQ(test, 0, uuid_parse(data->uuid, &be));
++	KUNIT_EXPECT_TRUE(test, uuid_equal(&data->be, &be));
+ }
+ 
+-static void __init test_uuid_wrong(const char *data)
++static void test_uuid_wrong(struct kunit *test, const char *data)
+ {
+ 	guid_t le;
+ 	uuid_t be;
+ 
+ 	/* LE */
+-	total_tests++;
+-	if (!guid_parse(data, &le))
+-		test_uuid_failed("negative", true, false, data, NULL);
++	KUNIT_EXPECT_NE(test, 0, guid_parse(data, &le));
+ 
+ 	/* BE */
+-	total_tests++;
+-	if (!uuid_parse(data, &be))
+-		test_uuid_failed("negative", true, true, data, NULL);
++	KUNIT_EXPECT_NE(test, 0, uuid_parse(data, &be));
+ }
+ 
+-static int __init test_uuid_init(void)
++static void test_uuid_init(struct kunit *test)
+ {
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(test_uuid_test_data); i++)
+-		test_uuid_test(&test_uuid_test_data[i]);
++		test_uuid_test(test, &test_uuid_test_data[i]);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(test_uuid_wrong_data); i++)
+-		test_uuid_wrong(test_uuid_wrong_data[i]);
++		test_uuid_wrong(test, test_uuid_wrong_data[i]);
++}
+ 
+-	if (failed_tests == 0)
+-		pr_info("all %u tests passed\n", total_tests);
+-	else
+-		pr_err("failed %u out of %u tests\n", failed_tests, total_tests);
++static struct kunit_case uuid_test_cases[] = {
++	KUNIT_CASE(test_uuid_init),
++	{}
++};
+ 
+-	return failed_tests ? -EINVAL : 0;
+-}
+-module_init(test_uuid_init);
++static struct kunit_suite uuid_test_suite = {
++	.name = "uuid-kunit-test",
++	.test_cases = uuid_test_cases,
++};
++
++kunit_test_suite(uuid_test_suite);
+ 
+-static void __exit test_uuid_exit(void)
+-{
+-	/* do nothing */
+-}
+-module_exit(test_uuid_exit);
+ 
+ MODULE_AUTHOR("Andy Shevchenko <andriy.shevchenko@linux.intel.com>");
+ MODULE_LICENSE("Dual BSD/GPL");
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
