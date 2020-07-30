@@ -6,97 +6,110 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C4A9C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 08:11:32 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9066C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 08:15:48 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 151512173E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 08:11:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 151512173E
+	by mail.kernel.org (Postfix) with ESMTPS id AFAC22074B
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 08:15:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AFAC22074B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E620D855EF;
-	Thu, 30 Jul 2020 08:11:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6C3D523109;
+	Thu, 30 Jul 2020 08:15:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jJvsIbxFMU-k; Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
+	with ESMTP id R0A59NmwTg4F; Thu, 30 Jul 2020 08:15:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EE0C1855CC;
-	Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 828D620416;
+	Thu, 30 Jul 2020 08:15:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D690CC0050;
-	Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 68BEEC0050;
+	Thu, 30 Jul 2020 08:15:47 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27693C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6AFC9C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
+ Thu, 30 Jul 2020 08:15:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 10A0087D46
+ by hemlock.osuosl.org (Postfix) with ESMTP id 535A387D92
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
+ Thu, 30 Jul 2020 08:15:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DK5ckXPBxtwI
+ with ESMTP id AfzC6DwzCUbC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:11:28 +0000 (UTC)
+ Thu, 30 Jul 2020 08:15:45 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
- by hemlock.osuosl.org (Postfix) with ESMTPS id A841387D0B
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4C22A87D65
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:11:27 +0000 (UTC)
-Received: from mail-qt1-f182.google.com ([209.85.160.182]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N4i3d-1kjqwN3UQx-011juD for
- <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Jul 2020 10:11:25
+ Thu, 30 Jul 2020 08:15:45 +0000 (UTC)
+Received: from mail-qt1-f178.google.com ([209.85.160.178]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1M7bND-1k93wZ0pkj-007zRM for
+ <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Jul 2020 10:15:42
  +0200
-Received: by mail-qt1-f182.google.com with SMTP id e5so5688463qth.5
+Received: by mail-qt1-f178.google.com with SMTP id v22so13802593qtq.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 01:11:24 -0700 (PDT)
-X-Gm-Message-State: AOAM533ifDDVbzDXQSnODiEikltmFzoTTNusluPa9KIYVj1ikYbpkwhH
- RSn5gaWtWTV9joBJm2k/hvqQKZAToAJXVErR0Rk=
-X-Google-Smtp-Source: ABdhPJyi8EKI+AIaFPt4gm4DpxtwBsJeU20bhkDhmCW6PRTBeUF30Hz/fPEst/ZpzIRbEjFkzYHg8KIN+OaDxrvgq9w=
-X-Received: by 2002:aed:2946:: with SMTP id s64mr1820401qtd.204.1596096683269; 
- Thu, 30 Jul 2020 01:11:23 -0700 (PDT)
+ Thu, 30 Jul 2020 01:15:42 -0700 (PDT)
+X-Gm-Message-State: AOAM530rjqElWkClm0+YayMMX7MkYFb7Ojp3NDT7A2GqgAMxht4QI7T+
+ j7m3IWQVPxR4BZSDQYRKCVLZqjZNkHSY0+NFY+I=
+X-Google-Smtp-Source: ABdhPJy9qE8d6D2vfgEVw6kVbtwQLGW5Rqh6b1z9O7UyiXPqU5prrGsm5t9N2iViOWRfC5+t73qPilDnnD91WD12O3g=
+X-Received: by 2002:ac8:5195:: with SMTP id c21mr1813995qtn.304.1596096941108; 
+ Thu, 30 Jul 2020 01:15:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200728141946.426245-1-yepeilin.cs@gmail.com>
- <20200729115157.8519-1-yepeilin.cs@gmail.com> <20200729125820.GB1840@kadam>
- <f2cf6137-987a-ab41-d88a-6828d46c255f@linux.com>
-In-Reply-To: <f2cf6137-987a-ab41-d88a-6828d46c255f@linux.com>
+References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
+ <20200726222703.102701-1-yepeilin.cs@gmail.com>
+ <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
+ <20200727131608.GD1913@kadam>
+ <CACRpkda7k4L+nqAYE6z2FVZF-WT2Pm3CHH_=fW24xz_u+QCMRQ@mail.gmail.com>
+ <20200728130632.GI1913@kadam>
+ <CAK8P3a3MEUYH3qG-+dxgH1Omx2gtcqSRXzKLLaAw21Xho6HAeQ@mail.gmail.com>
+ <CAMRc=MciXb152=CHAi1kfpwFuELLN55-BfNOo8hBg8Tzp4wMnQ@mail.gmail.com>
+In-Reply-To: <CAMRc=MciXb152=CHAi1kfpwFuELLN55-BfNOo8hBg8Tzp4wMnQ@mail.gmail.com>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 30 Jul 2020 10:11:07 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a20SEoYCrp3jOK32oZc9OkiPv+1KTjNZ2GxLbHpY4WexQ@mail.gmail.com>
-Message-ID: <CAK8P3a20SEoYCrp3jOK32oZc9OkiPv+1KTjNZ2GxLbHpY4WexQ@mail.gmail.com>
-To: Denis Efremov <efremov@linux.com>
-X-Provags-ID: V03:K1:m779y6h4Uwl/lg1iQkHoIusm4nR8d2X+AhyYYbfbRzxH7w3poDW
- LaR6mkF378UgkuNxZrHu+Mr7CE3CxpmetCy4I55AOq4vkDpwbd+g6ddyp1npVE+bAV2ruRB
- lmpsvixHIOwT6vDA75yeW7G+aof08RhH5Y+8G6tZlis6QsXAfviy5O+49MuK3CGkdUDU6bU
- jYCRcRrpXCI50ssRlX36Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:l0GH9x0kb6o=:h+AFDYppBGULdkTuHDXVYE
- 5gqeaXIPGDhLaHr8lcajShfqYul8e8MF+3iNBIGnzOqpD0gAOPCBRxQgrNBJnVPS3gui1cVfX
- jS5jXQYHsXcZeRWUzdbDz7S/r9cZa1a7BZwrlY+TcKcD0LtSVpYy0A77P1xyt5TGn+ZYgDLpz
- nDalkbxBLKishJgvpP9SKUDm4mrEpxLKnmG3hBDqin20E9Q4dHjC3L3GooyCjXc9F8LwOlPlq
- 6De98DR+4E1ghZbMumudi34pfb5KQrP7enqZBQpbb+Eraatyk9SaHkXpNhPqxT//rssvYrDzP
- RR6ri8zQP2plAPe+5yy+0O2r1TGW/C2mKRSA6g8wH7bgPcC4EWajDn8Q9yBce6JwQPxp7VvH8
- QbPRZ/ELZSekWTaXMFlUKt6etO0+6AglCv7k8yU6RexUJOz12so68l9whqJZO1rZ1LH0UzWmL
- 9jYy6QGMz2G1NCILcon+g7uUM6SsKLsb0Gs5XKDt3O7MB5uvX08QxdiNdHzNVLl26CXphqrDP
- BUCEYmEE3QnECF1QoSqSJodiouFFxqQomY/ssOX3l50q576bUiGGK1qwJPGrsHfvcPXyMSPUx
- GP5GkIBK127ENfcyiq6YV67aXAN87n6Zdq+ydBT2munNtmDsgNQeir8wYWBV8XAeckcIUHXbh
- tzDQhMSdYLJwncDWzjYd/q5EdEC1lNJxzpLg52JH8J4sWaH5OmPUY43dAxruAbcEvjSjuWdBZ
- V63zxagvo+j0AyPUEWl2EdkkK5zaR4RyqXv84zg2flweXpSiinDWewxJSuzYWUapQx5OKWWH/
- AvVzsrcfxwgO1+KxbTFXfn3eh5YKqqets65gVOksV7JgEcf+dmeRJ6pmsqzaH1nZRQD31IYfy
- Pd5P2N1S5m6vf+zYGGHJiw0Yxx26fXNUVoIbMwuk100W1WMf/NHQwT+w8UG0nEr+NvxdzI2y6
- 5STP7kZXpiFUlUIR+CBwmyIHWQK60ugZl+LMlZGeJ+gQx2L9K+rus
-Cc: Jens Axboe <axboe@kernel.dk>, Kees Cook <keescook@chromium.org>,
+Date: Thu, 30 Jul 2020 10:15:24 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1m7C0rGGEHvndhxun2TyFh-cweNnPHp-rDtu7Z=YyUKw@mail.gmail.com>
+Message-ID: <CAK8P3a1m7C0rGGEHvndhxun2TyFh-cweNnPHp-rDtu7Z=YyUKw@mail.gmail.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+X-Provags-ID: V03:K1:RnDqqp2+PgC+fX5ZG0CHuQhdu8DjS68FWEwdOuvZI4jH6G3BGjo
+ Fy4AqeSs1MUs8+wuiUk9KiqBIWnyRNIzWK/WWRvdehuaYYdTz9lnPksUAsyThSkiHNyUt33
+ gK5NNY03xeg2QsbhKn28X4Wfn2Hh17p4ZXyg7diROBHFuImXD1DqRlMHGe1Nn/X704MFnnB
+ 07g1oE9Fpds3gy+bDaRKw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+i19WcfOYSI=:2decvDUGA3lFyTtlvj0KNf
+ gsdxrsmCHg80hkv73uHCbs/GZ6JKYwrigyrwIzNRs/mEeJVZES2rM8LpK0XYIzmDOz3b+Pwe3
+ 3YvDchSz9WGyiZzWiovmYVZUhYGToUwXDEIHMgrWCxfe1+xhBKbPKHWRhxV+HxUOhLNff43qn
+ v4i188rHKhhwrjgScljN9ynrlTkWa0oYJFjwcUJ99YqALcAUddbrDgJIKBwox7rf7GTDbzysL
+ pheRiwD2eIEu/XWZ/50nXd1Hi7fbqjOwW5lZWkwWpneOF8pT/hKrFd/rO8A2SSpcUn0jm35yx
+ TIFpLw+SdmCbc8Y9qZe/Pix0/2DzSBrlPwdIaKCvuP8MuCJQTI5N6g6WI3Fd7ZyeTUxFkyf3S
+ +pIaasamwmSPc5xSYlv20O8z8qOJHgFjtUngpnwDrHc7ZLv4OGFRaoNHW6hIDlkGLXx/lyRbE
+ dsmsguYvrl2CiQGwZStiuBMfQTsd/zPgggvTxmYlS13X3c9f9CTF4aPc6E/j6EzmvSpQyG1n1
+ Dkh3c6lTCZH8o+Br/F0er1Ypst7RSjnsQDieRgYf2eQ6fdoQhuh90+2b1E5FbL7yftTKwTWvk
+ h86NnTYZoLcAlTqQih6FS6H7nSnQ9Q/dEZE7WFzk25iLD2hGADM7cAuBmGP61yJFLvqWKONad
+ vG0w2h9zfUzdqB7WOC1C8nOAY2zBHUdWZHckYI1zEgvLRBa//OkVix0F5cgYzGChOiI91NX1G
+ yEFjXiOqw71KrOXUY592yJdLOU6HUqFM7fndZeNdYbyomVcFine3hUUGBpbEN2WWmubR7gvWR
+ +gOuIY+cIMubWXE4dA39ecJ3ZWTcMVG9qN6ltguk+0OSJpM6Ga9xS5Qq6z6H2iZqSUPjub9P3
+ 8vQnSA37qddGYfWKJlKE3TcCqEwjdu/y4tW4ZA6BMMN0OfGRDgQ9ueMFIS9pqj/kWYcS1hDoG
+ 5rrqGOxf4RP0/knwae/bldzYU/+opJqO59eisODfTbB9jtjlFOkRc
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- linux-block <linux-block@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] block/floppy: Prevent
- kernel-infoleak in raw_cmd_copyout()
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
+ kernel-infoleak in video_put_user()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,54 +127,53 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> On Wed, Jul 29, 2020 at 3:22 PM Denis Efremov <efremov@linux.com> wrote:
-
-> And checked for leaks on x86_64 with the script test.sh
-> $ cat test.sh
-> #!/bin/bash
+On Thu, Jul 30, 2020 at 10:07 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 >
-> for i in 4.8 5 6 7 8 9 10
-> do
-> ./run_container.sh gcc-$i $(pwd)/src $(pwd)/out bash -c 'gcc test.c; ./a.out'
-> ./run_container.sh gcc-$i $(pwd)/src $(pwd)/out bash -c 'gcc -O2 test.c; ./a.out'
-> ./run_container.sh gcc-$i $(pwd)/src $(pwd)/out bash -c 'gcc -O3 test.c; ./a.out'
-> done
+> On Tue, Jul 28, 2020 at 3:58 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> >
+> > On Tue, Jul 28, 2020 at 3:06 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> > Something like
+> >
+> > static int lineevent_put_data(void __user *uptr, struct gpioevent_data *ge)
+> > {
+> > #ifdef __x86_64__
+> >         /* i386 has no padding after 'id' */
+> >         if (in_ia32_syscall()) {
+> >                 struct {
+> >                         compat_u64      timestamp __packed;
+> >                         u32             id;
+> >                 } compat_ge = { ge->timestamp, ge->id };
+> >
+> >                 if (copy_to_user(uptr, &compat_ge, sizeof(compat_ge)))
+> >                         return -EFAULT;
+> >
+> >                 return sizeof(compat_ge);
+> >         }
+> > #endif
+> >
+> >         if (copy_to_user(uptr, ge, sizeof(*ge))
+> >                 return -EFAULT;
+> >
+> >         return sizeof(*ge);
+> > }
+> >
+> >        Arnd
 >
-> No leaks reported. Is it really possible this this kind of init, i.e. cmd = *ptr?
+> Hi Arnd,
+>
+> Andy actually had a patch for that but since this isn't a regression
+> (it never worked), we decided to leave it as it is and get it right in
+> v2 API.
 
-The problem is that the behavior is dependent not just on the compiler
-version but
-also optimization flags, target architecture and specific structure
-layouts. Most
-of the time, both gcc and clang will initialize the whole structure
-rather than just
-the individual members, but you still can't be sure that this is true
-for all configurations
-that this code runs on, except by using CONFIG_GCC_PLUGIN_STRUCTLEAK.
+I would argue that it needs to be fixed anyway, unless you also want
+to remove the v1 interface for native mode. If this works on 32-bit
+kernels, on 64-bit kernels with 64-bit user space and on compat
+32-bit user space on 64-bit non-x86 architectures, I see no reason
+to leave it broken specifically on x86 compat user space. There are
+still reasons to use 32-bit x86 user space for low-memory machines
+even though native i386 kernels are getting increasingly silly.
 
-Kees pointed me to the lib/test_stackinit.c file in the kernel in which he has
-collected a number of combinations that are known to trigger the problem.
-
-What I see there though are only cases of struct initializers like
-
-  struct test_big_hole var = { .one = arg->one, .two=arg->two, .three
-= arg->three, .four = arg->four };
-
-but not the syntax used in the floppy driver:
-
-   struct test_big_hole var = *arg;
-
-or the a constructor like
-
-  struct test_big_hole var;
-  var = (struct test_big_hole){ .one = arg->one, .two=arg->two, .three
-= arg->three, .four = arg->four };
-
-Kees, do you know whether those two would behave differently?
-Would it make sense to also check for those, or am I perhaps
-misreading your code and it already gets checked?
-
-      Arnd
+     Arnd
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
