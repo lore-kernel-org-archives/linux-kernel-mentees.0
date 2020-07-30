@@ -6,87 +6,86 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0B6C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 06:55:34 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3DCDC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 06:55:38 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 948C820656
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 06:55:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A66DA20656
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 06:55:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MUAoLL1d"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 948C820656
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8Ml+Xnk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A66DA20656
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4BE9622660;
-	Thu, 30 Jul 2020 06:55:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7B6CB8608B;
+	Thu, 30 Jul 2020 06:55:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id I3GQzqWZa0QF; Thu, 30 Jul 2020 06:55:32 +0000 (UTC)
+	with ESMTP id rbUex5++ZVLH; Thu, 30 Jul 2020 06:55:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DB126204FD;
-	Thu, 30 Jul 2020 06:55:32 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EF6628550D;
+	Thu, 30 Jul 2020 06:55:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C602DC004F;
-	Thu, 30 Jul 2020 06:55:32 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 16B0AC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DBF12C004F;
+	Thu, 30 Jul 2020 06:55:37 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0853CC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 06:55:31 +0000 (UTC)
+ Thu, 30 Jul 2020 06:55:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1365386BB9
+ by whitealder.osuosl.org (Postfix) with ESMTP id EACFE8608B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 06:55:31 +0000 (UTC)
+ Thu, 30 Jul 2020 06:55:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id byppPVezkWCc
+ with ESMTP id VSibOuty3M77
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 06:55:30 +0000 (UTC)
+ Thu, 30 Jul 2020 06:55:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8B3C186BB5
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 845278550D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 06:55:30 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id w19so268747plq.3
+ Thu, 30 Jul 2020 06:55:36 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id z188so6634289pfc.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 23:55:30 -0700 (PDT)
+ Wed, 29 Jul 2020 23:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=txXh6bMNLO/zbmwd7UTGY/9gRZdmj9zCt/b5o3lUEMw=;
- b=MUAoLL1dsW7L9u9qnIArr4QTzJIq5qwdDhtAM6o5gFp+RO0ETWg8PnyJ9mfnjlEBNh
- eI2FDsI3KO717W1lithr/7wMFwthVMBpcevFOdJeeqzIGxjBHbA/hu5s5gdflBFoNPSv
- PSBNh+6zfWtv+ALFBEYFI7dHH7XTd0CiRR0gF+9/21CBPkxg+7GRnrofv4bDGN0a+9x7
- Ls6W55jtVmGvt2L9S1fiyypLe0XnPVkQKkxyeWoH8ytGsC2t0+Hd+HKI1D0hdYtHWs7i
- G7EUTLQnvrBw6dDO+B/F+gOjMLddfQpwrkBEMRBNXgRgHI5POREhp8+ZPTexGftkhsjn
- RGWg==
+ bh=FxW9b/q+4sJNPVzuIBcNVUFU45uGZZ5i5gNq3WgDQXk=;
+ b=V8Ml+Xnk/3Sx7gR5456fsIVmPbCiTzHSXcgcEIj5PZjGhlix6IoZkqR3umOoImk8uq
+ njbzH7HCbMc50IcFtseFfnFD4zoZNoFYNL2Uw0avOkcKtddgmbqhJXn30LX1PKbmw12V
+ 47fOXMGVW71YoNh0AEMqOpaMHwH6WOKxJ3OVF2tbvUGj0MtF9HYEECrU1/sWuvyvcySN
+ geePm0m+keM9ES9ExYdTO2KpYUcg8bF5er0Q7Uu5IZPHeulhVqrosdha8hml7f7KUrl4
+ jS7EMAEK0Rd27A2992XeqhoTa4vBBgv+4R+u63QYckmLe0NYuWep1wpAT4QUPYDj7keT
+ kCsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=txXh6bMNLO/zbmwd7UTGY/9gRZdmj9zCt/b5o3lUEMw=;
- b=e8FeUorzTrOko2ZuhZoa40UelKutQxBq7O2wQPQYuDFKPmU6E6NKdOU1+7OI4tPc8O
- kJVJUNzD4/g2/LYGYVI48C7DfEihKnYfT/yATe+USJIwV6cv2vRyHYGPjlXzKujj0ri1
- 3HAPWExzqwjpB05gSjX+c0q1MYD39VdZQUtg1d4rTnvUP0cAe1+0V9VniEkoG/oI4sKl
- JMbiow/QrxmHW3CcL7iW1RSbyxqflWZ8mxdLFgUjUMDMg2RrGeFABdLGAo20bz79FW9C
- kDcK3LRizxhvPqewBs6wKv4LfLIyrX2fC96oG02MahzqplgWI+oI3AUbqOM3Y3SFuW7Y
- bUTA==
-X-Gm-Message-State: AOAM532DrTnBGuDRIomIxwIvqQXkW8S5Mq/SfkglRb1gglHeOW0kMr0G
- f91BxtEQTJf5DU4sdORstr0=
-X-Google-Smtp-Source: ABdhPJzxKjX0bjs+VafLwqQWplTEBD89GEGiSW8R3+5QUtyQzsU1qh9BZjKZJVpDE5JoZtCiCIiFvA==
-X-Received: by 2002:a17:902:8bc6:: with SMTP id
- r6mr18620760plo.289.1596092130138; 
- Wed, 29 Jul 2020 23:55:30 -0700 (PDT)
+ bh=FxW9b/q+4sJNPVzuIBcNVUFU45uGZZ5i5gNq3WgDQXk=;
+ b=dsC/M/p8UgP1pYk6XlvRk/1izMqWqbhcTOU80wIjsQrMIdk8TeUsyPLFHuPSlgKrRE
+ TiMv/YnkBgijsCJJn+nZmZYsaEva4S3ln3QgHm8l08Csboa10gs9eAlB2LfUcw8fuUeR
+ eBAjGy//Ef2seSGTOzd+G9oUmS31v1jHqqpuDD8O5UbTLPNj2oGH9v1CZ+ZPF1V0rQHM
+ 5SYGFeBeG+WNh2/ZOFTJhmRgqUJ6lHWrfxC1291sztIa1A/rICSBd4sxxQm9Uh0ImsYq
+ CBVT9SIjJElFNSRKW3ADHVGto/EFwO/NofutKSA4WGNMK0CwOOst3iyzASMqdvc5wKrI
+ V7ag==
+X-Gm-Message-State: AOAM530d54msiZdkPBY1KZY5u/HEMFYmKDwaObw7kQ1NjuMAAeN3bTDp
+ opR5sEuSIJTIKpoIK+9XcaU=
+X-Google-Smtp-Source: ABdhPJxOE5s0tndKBfHkuFL0NM6Oz2rP0sYzx/wQfhvMQgLEEwymbZO6LPqTZTuIeE0DgdO9JtlV4A==
+X-Received: by 2002:a63:cf49:: with SMTP id b9mr31966967pgj.31.1596092136120; 
+ Wed, 29 Jul 2020 23:55:36 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id v2sm4232299pje.19.2020.07.29.23.55.25
+ by smtp.gmail.com with ESMTPSA id v2sm4232299pje.19.2020.07.29.23.55.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jul 2020 23:55:29 -0700 (PDT)
+ Wed, 29 Jul 2020 23:55:35 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -94,15 +93,15 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
  Daniele Venzano <venza@brownhat.org>, Samuel Chessman <chessman@tux.org>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Date: Thu, 30 Jul 2020 12:23:34 +0530
-Message-Id: <20200730065336.198315-2-vaibhavgupta40@gmail.com>
+Date: Thu, 30 Jul 2020 12:23:35 +0530
+Message-Id: <20200730065336.198315-3-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200730065336.198315-1-vaibhavgupta40@gmail.com>
 References: <20200730065336.198315-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 1/3] sc92031: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v1 2/3] sis900: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -134,83 +133,73 @@ and drivers are required to do only device-specific jobs.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/net/ethernet/silan/sc92031.c | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+ drivers/net/ethernet/sis/sis900.c | 23 +++++++----------------
+ 1 file changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/net/ethernet/silan/sc92031.c b/drivers/net/ethernet/silan/sc92031.c
-index cb043eb1bdc1..f94078f8ebe5 100644
---- a/drivers/net/ethernet/silan/sc92031.c
-+++ b/drivers/net/ethernet/silan/sc92031.c
-@@ -1499,15 +1499,13 @@ static void sc92031_remove(struct pci_dev *pdev)
- 	pci_disable_device(pdev);
+diff --git a/drivers/net/ethernet/sis/sis900.c b/drivers/net/ethernet/sis/sis900.c
+index 81ed7589e33c..2af2c9816dfc 100644
+--- a/drivers/net/ethernet/sis/sis900.c
++++ b/drivers/net/ethernet/sis/sis900.c
+@@ -2493,11 +2493,9 @@ static void sis900_remove(struct pci_dev *pci_dev)
+ 	pci_release_regions(pci_dev);
  }
  
--static int sc92031_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused sc92031_suspend(struct device *dev_d)
- {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct sc92031_priv *priv = netdev_priv(dev);
- 
--	pci_save_state(pdev);
+-#ifdef CONFIG_PM
 -
- 	if (!netif_running(dev))
--		goto out;
-+		return 0;
+-static int sis900_suspend(struct pci_dev *pci_dev, pm_message_t state)
++static int __maybe_unused sis900_suspend(struct device *dev)
+ {
+-	struct net_device *net_dev = pci_get_drvdata(pci_dev);
++	struct net_device *net_dev = dev_get_drvdata(dev);
+ 	struct sis900_private *sis_priv = netdev_priv(net_dev);
+ 	void __iomem *ioaddr = sis_priv->ioaddr;
  
- 	netif_device_detach(dev);
+@@ -2510,22 +2508,17 @@ static int sis900_suspend(struct pci_dev *pci_dev, pm_message_t state)
+ 	/* Stop the chip's Tx and Rx Status Machine */
+ 	sw32(cr, RxDIS | TxDIS | sr32(cr));
  
-@@ -1521,22 +1519,16 @@ static int sc92031_suspend(struct pci_dev *pdev, pm_message_t state)
- 
- 	spin_unlock_bh(&priv->lock);
- 
--out:
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+-	pci_set_power_state(pci_dev, PCI_D3hot);
+-	pci_save_state(pci_dev);
 -
  	return 0;
  }
  
--static int sc92031_resume(struct pci_dev *pdev)
-+static int __maybe_unused sc92031_resume(struct device *dev_d)
+-static int sis900_resume(struct pci_dev *pci_dev)
++static int __maybe_unused sis900_resume(struct device *dev)
  {
--	struct net_device *dev = pci_get_drvdata(pdev);
-+	struct net_device *dev = dev_get_drvdata(dev_d);
- 	struct sc92031_priv *priv = netdev_priv(dev);
+-	struct net_device *net_dev = pci_get_drvdata(pci_dev);
++	struct net_device *net_dev = dev_get_drvdata(dev);
+ 	struct sis900_private *sis_priv = netdev_priv(net_dev);
+ 	void __iomem *ioaddr = sis_priv->ioaddr;
  
--	pci_restore_state(pdev);
--	pci_set_power_state(pdev, PCI_D0);
--
- 	if (!netif_running(dev))
--		goto out;
-+		return 0;
+ 	if(!netif_running(net_dev))
+ 		return 0;
+-	pci_restore_state(pci_dev);
+-	pci_set_power_state(pci_dev, PCI_D0);
  
- 	/* Interrupts already disabled by sc92031_suspend */
- 	spin_lock_bh(&priv->lock);
-@@ -1553,7 +1545,6 @@ static int sc92031_resume(struct pci_dev *pdev)
- 	else
- 		netif_tx_disable(dev);
+ 	sis900_init_rxfilter(net_dev);
  
--out:
+@@ -2549,17 +2542,15 @@ static int sis900_resume(struct pci_dev *pci_dev)
+ 
  	return 0;
  }
- 
-@@ -1565,13 +1556,14 @@ static const struct pci_device_id sc92031_pci_device_id_table[] = {
- };
- MODULE_DEVICE_TABLE(pci, sc92031_pci_device_id_table);
- 
-+static SIMPLE_DEV_PM_OPS(sc92031_pm_ops, sc92031_suspend, sc92031_resume);
+-#endif /* CONFIG_PM */
 +
- static struct pci_driver sc92031_pci_driver = {
- 	.name		= SC92031_NAME,
- 	.id_table	= sc92031_pci_device_id_table,
- 	.probe		= sc92031_probe,
- 	.remove		= sc92031_remove,
--	.suspend	= sc92031_suspend,
--	.resume		= sc92031_resume,
-+	.driver.pm	= &sc92031_pm_ops,
++static SIMPLE_DEV_PM_OPS(sis900_pm_ops, sis900_suspend, sis900_resume);
+ 
+ static struct pci_driver sis900_pci_driver = {
+ 	.name		= SIS900_MODULE_NAME,
+ 	.id_table	= sis900_pci_tbl,
+ 	.probe		= sis900_probe,
+ 	.remove		= sis900_remove,
+-#ifdef CONFIG_PM
+-	.suspend	= sis900_suspend,
+-	.resume		= sis900_resume,
+-#endif /* CONFIG_PM */
++	.driver.pm	= &sis900_pm_ops,
  };
  
- module_pci_driver(sc92031_pci_driver);
+ static int __init sis900_init_module(void)
 -- 
 2.27.0
 
