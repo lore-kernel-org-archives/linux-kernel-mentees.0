@@ -2,115 +2,106 @@ Return-Path: <SRS0=tqep=BJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF1ACC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 09:18:29 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10431C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 10:18:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A76D120672
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 09:18:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A76D120672
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+	by mail.kernel.org (Postfix) with ESMTPS id CAEE520809
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 10:18:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1090J5l"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAEE520809
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7F57F87D65;
-	Thu, 30 Jul 2020 09:18:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pbYxjDv0TBhw; Thu, 30 Jul 2020 09:18:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B486687D63;
-	Thu, 30 Jul 2020 09:18:28 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8828FC004F;
-	Thu, 30 Jul 2020 09:18:28 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2D69AC004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 09:18:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1A44484B26
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 09:18:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 955F485621;
+	Thu, 30 Jul 2020 10:18:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hupNOhnooK2K; Thu, 30 Jul 2020 10:18:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 98EF08034E;
+	Thu, 30 Jul 2020 10:18:45 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8FC7CC0050;
+	Thu, 30 Jul 2020 10:18:45 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B861FC004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 Jul 2020 10:18:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id A760287E1D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 Jul 2020 10:18:44 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id brluLIgU09Wv
+ with ESMTP id WiMlxtzc4SZL
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 09:18:26 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 708B684789
+ Thu, 30 Jul 2020 10:18:44 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3248F865F6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 09:18:25 +0000 (UTC)
-Received: from mail-qt1-f174.google.com ([209.85.160.174]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MGygv-1jwQ8r1pIJ-00E9UO for
- <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Jul 2020 11:18:22
- +0200
-Received: by mail-qt1-f174.google.com with SMTP id o22so19569644qtt.13
+ Thu, 30 Jul 2020 10:18:44 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id t10so8314866plz.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 02:18:21 -0700 (PDT)
-X-Gm-Message-State: AOAM532+p0kLWGfsH2lNCWAgODcglnBA5KAfeMc4AXr9hcThpM4Iujv6
- u27txctSoTJHk4yD75lSgbViTdT9YT4thUHyfCI=
-X-Google-Smtp-Source: ABdhPJxTFkRhqtuLhXAsNUlZ9J0TZfkHL99w5pWpprWMX0g7dJ5QSuxxz8xtNYzXVB7FSGpCxdmyitm5GsMtlvmucAc=
-X-Received: by 2002:aed:33e7:: with SMTP id v94mr1965217qtd.18.1596100700959; 
- Thu, 30 Jul 2020 02:18:20 -0700 (PDT)
+ Thu, 30 Jul 2020 03:18:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wfvGgVXPE//hQYiCJ3Y28E2/v0p7YSlsyuVMVmFQhXI=;
+ b=P1090J5lZ/jfkYaE5ZKSv1PwN+iPKcSAuV3/SGSLcuTP1BtTfqjBuaHOTWCCt9PyAb
+ gqZJGBwC/RUbq8fiAvrXge70fnhp76kNeWXJnus0Zds2LPPusFp/P1Wv14MwcVgQP7OV
+ uhRoSZpMQa0gQtWtVCjPWngBfeja1LipkB5cEVyWrmlqlc145r1jP/JeUp6wpoSR1ad9
+ V+fzMsM5pZWxFcmAKQ0KSlKgkItZ2evK5XLi51NVZQcu7RdjzxnZY0gH+DhsLu27Gtrz
+ KjIJ/6ho83UYIE7Uy0mafzuXLGBwKDv2IHngxTnQWVbflS4NOVxZchYoO55wiYG8iRKX
+ J6OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wfvGgVXPE//hQYiCJ3Y28E2/v0p7YSlsyuVMVmFQhXI=;
+ b=HfaRZUy1cgKe+nyg0dtrn8N3G4mjIz5Zy9GQoMG0k2Otc5YCN5huMazAhm/3dIto8s
+ WddOY/HjEc5Ytfuz63Rw7CzluzGPjpmmreHwz7XrMgFg54klvGQlqwi6P6EcQOkjcZmS
+ 0Vhl0cxY7cf9xMtqAbdKyIbWF8Lsl0ELoK8RPNKiR/v0DWTCCNCKZ1Na+htzopNQQO4o
+ tExeVbSMDNWG1ETdHTAqTXiySjmLaGo61yW+Yo746YOtWn7y/2OXUPIgOtn7+GnVh2YL
+ yRDt/tIPBYa0tkCQOBWc5EmrJu096dVjmDnEJBtei8VoxiZmYnJrsGMqitDubm1GXQ2a
+ m/wQ==
+X-Gm-Message-State: AOAM532/9MFQ/5tSnYQjEHhn4sqWHGpZYUc7t12d11LJoBsakDoLYh+h
+ mjT1Nxlmpi36cCAGslIzzdA=
+X-Google-Smtp-Source: ABdhPJxpg6lp4/yuJVJsGNsNy/UKwch0Tz803qNvlZsB90/Bhx8andlF4XkhRn8gU3mnFkWx0P+i1Q==
+X-Received: by 2002:a17:902:8491:: with SMTP id
+ c17mr31587981plo.262.1596104323577; 
+ Thu, 30 Jul 2020 03:18:43 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.152.86])
+ by smtp.gmail.com with ESMTPSA id p5sm5456870pgi.83.2020.07.30.03.18.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jul 2020 03:18:42 -0700 (PDT)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Date: Thu, 30 Jul 2020 15:46:58 +0530
+Message-Id: <20200730101658.576205-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam>
- <CACRpkda7k4L+nqAYE6z2FVZF-WT2Pm3CHH_=fW24xz_u+QCMRQ@mail.gmail.com>
- <20200728130632.GI1913@kadam>
- <CAK8P3a3MEUYH3qG-+dxgH1Omx2gtcqSRXzKLLaAw21Xho6HAeQ@mail.gmail.com>
- <CAMRc=MciXb152=CHAi1kfpwFuELLN55-BfNOo8hBg8Tzp4wMnQ@mail.gmail.com>
- <CAK8P3a1m7C0rGGEHvndhxun2TyFh-cweNnPHp-rDtu7Z=YyUKw@mail.gmail.com>
- <20200730083833.GD3703480@smile.fi.intel.com>
-In-Reply-To: <20200730083833.GD3703480@smile.fi.intel.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 30 Jul 2020 11:18:04 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2i2mnRPZ-f9UNxPNJcjyjdTOA7-fgcMqavsV8Ab17RkQ@mail.gmail.com>
-Message-ID: <CAK8P3a2i2mnRPZ-f9UNxPNJcjyjdTOA7-fgcMqavsV8Ab17RkQ@mail.gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-X-Provags-ID: V03:K1:lcO8QGGef0nMF7rKjitvRoMagyTrGJC8x/iS6laXyNkzKmoaSbf
- SCKpHINsKXjS56Gxk7atFADD8imhaUygPco09WWdvZgJwH3G/tsaY/gvwHWN/kl/42ID13G
- clLdU1Id1baRJtapmswPylLOiubxKjTOLZuz4QSmZCF6nVkFiD21lbKJpwFL+AY6el6E3Q6
- 9lpvZdGnCIBne2oqjFsFg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GMohn1DQvsg=:e0q3zcFTcN7E/QCtvCyI/T
- aJW6qe3FhcpYIDjzyGt+x7u2cK22r5EZiv794cQjlIASMhuiwadCjIclOK7FzNEQb1e+82ZWI
- JT9PWlf2yENJnlKs2Aw0R4PdPk4E3pjQ/Cs7XCnSktlo69pSiQO447qAwrd1+PqEZ6Tog2wn4
- P3hJuWfrDSjm1nIlEReebxxIOoN75ZqpYTjiqtHQCzXn6QsObwpSm3gwQjHRxUSqdTk8oOl+D
- oYhSj2DUbc00siD6n5qK+/aBqPJE+yldMFoTfUm72UIElf/wmKxjRX8V8VKEI/sCRf/ZeSo6D
- hEBDZojiz8sPehp2DNF0XQXOXGO/myGWGpqQkZdl9bknYOR8NitRFanbtUXqvJxGOgW2XkNgR
- KYwnQth8uSg7XYDsmYoEeB0KyslTcPI1LvddbwwyZo1FOce9tnvOxMp5wvEuyNHdhP5d1mgD7
- Tz+44ws7vqIiUK4jASnjWxUlWoRLgBqZkVKFyQ7on7+hV16d1Q5YsprUJZChAcvBlpwMoCh+x
- rJDANpz8mzTDne9ge8D5Bl5K6f0kwCoR+6je6ML54cyQ1JJnvXE+VEwFVhDTIC1uQSDBh9B0W
- Hz1cPJwb4CXRYShtyw2NAUBiajUiSetoN8DUviBb0hUxg+lWHxZZDNQQMBm61/PalBKkNHaO4
- NdS0nqK+sxHNaaYVPB6MKoEvykvDUy1QcEF4+R1t2s8fSuvXQZ8ea5cWaIgACScIxxZmrqNzj
- aF+yGo1LbjtDr0xJui65h0hClW6untdNFtKRYuRuYcViYvcxiOk5qh3SCawiHA+gza5f8PuGd
- KyPR2mrrN7py911iYUZ+AUrmxth2o9hgMs85FHa9WkuFSHtA4oR0JYwXnQc8buX10EfYvxV
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Peilin Ye <yepeilin.cs@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v2] scsi: stex: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -128,74 +119,95 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jul 30, 2020 at 10:38 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Thu, Jul 30, 2020 at 10:15:24AM +0200, Arnd Bergmann wrote:
-> > On Thu, Jul 30, 2020 at 10:07 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> > >
-> > > On Tue, Jul 28, 2020 at 3:58 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > >
-> > > > On Tue, Jul 28, 2020 at 3:06 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> > > > Something like
-> > > >
-> > > > static int lineevent_put_data(void __user *uptr, struct gpioevent_data *ge)
-> > > > {
-> > > > #ifdef __x86_64__
-> > > >         /* i386 has no padding after 'id' */
-> > > >         if (in_ia32_syscall()) {
-> > > >                 struct {
-> > > >                         compat_u64      timestamp __packed;
-> > > >                         u32             id;
-> > > >                 } compat_ge = { ge->timestamp, ge->id };
-> > > >
-> > > >                 if (copy_to_user(uptr, &compat_ge, sizeof(compat_ge)))
-> > > >                         return -EFAULT;
-> > > >
-> > > >                 return sizeof(compat_ge);
-> > > >         }
-> > > > #endif
-> > > >
-> > > >         if (copy_to_user(uptr, ge, sizeof(*ge))
-> > > >                 return -EFAULT;
-> > > >
-> > > >         return sizeof(*ge);
-> > > > }
-> > > >
-> > > >        Arnd
-> > >
-> > > Hi Arnd,
-> > >
-> > > Andy actually had a patch for that but since this isn't a regression
-> > > (it never worked), we decided to leave it as it is and get it right in
-> > > v2 API.
-> >
-> > I would argue that it needs to be fixed anyway, unless you also want
-> > to remove the v1 interface for native mode. If this works on 32-bit
-> > kernels, on 64-bit kernels with 64-bit user space and on compat
-> > 32-bit user space on 64-bit non-x86 architectures, I see no reason
-> > to leave it broken specifically on x86 compat user space. There are
-> > still reasons to use 32-bit x86 user space for low-memory machines
-> > even though native i386 kernels are getting increasingly silly.
->
-> It was possible to "fix" (mitigate to some extent) before libgpiod got support
-> for several events in a request. Now it seems to be impossible to fix. AFAIU we
-> must discard any request to more than one event in it.
+Drivers using legacy power management .suspen()/.resume() callbacks
+have to manage PCI states and device's PM states themselves. They also
+need to take care of standard configuration registers.
 
-Any reason why the workaround I suggested above would not work?
-The in_ia32_syscall() check should be completely reliable in telling whether
-we are called from read() by an ia32 task or not, and we use the same
-logic for input_event, which has a similar problem (on all compat architectures,
-not just x86).
+Switch to generic power management framework using a single
+"struct dev_pm_ops" variable to take the unnecessary load from the driver.
+This also avoids the need for the driver to directly call most of the PCI
+helper functions and device power state control functions, as through
+the generic framework PCI Core takes care of the necessary operations,
+and drivers are required to do only device-specific jobs.
 
-> However I'm not an expert in compat IOCTL code (you are :-) and perhaps you may
-> provide ideas better than mine.
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/scsi/stex.c | 37 +++++++++++++++++++++++++++++++------
+ 1 file changed, 31 insertions(+), 6 deletions(-)
 
-What makes this interface tricky is that this is actually a read() call, not
-ioctl() which is usually easier because it encodes the data length in the
-command code. As far as I could tell from skimming the interface, the
-ioctls are actually fine here.
+diff --git a/drivers/scsi/stex.c b/drivers/scsi/stex.c
+index d4f10c0d813c..5ef6f3cbac11 100644
+--- a/drivers/scsi/stex.c
++++ b/drivers/scsi/stex.c
+@@ -1972,9 +1972,9 @@ static int stex_choice_sleep_mic(struct st_hba *hba, pm_message_t state)
+ 	}
+ }
+ 
+-static int stex_suspend(struct pci_dev *pdev, pm_message_t state)
++static int stex_suspend_late(struct device *dev, pm_message_t state)
+ {
+-	struct st_hba *hba = pci_get_drvdata(pdev);
++	struct st_hba *hba = dev_get_drvdata(dev);
+ 
+ 	if ((hba->cardtype == st_yel || hba->cardtype == st_P3)
+ 		&& hba->supports_pm == 1)
+@@ -1984,9 +1984,24 @@ static int stex_suspend(struct pci_dev *pdev, pm_message_t state)
+ 	return 0;
+ }
+ 
+-static int stex_resume(struct pci_dev *pdev)
++static int __maybe_unused stex_suspend(struct device *dev)
+ {
+-	struct st_hba *hba = pci_get_drvdata(pdev);
++	return stex_suspend_late(dev, PMSG_SUSPEND);
++}
++
++static int __maybe_unused stex_hibernate(struct device *dev)
++{
++	return stex_suspend_late(dev, PMSG_HIBERNATE);
++}
++
++static int __maybe_unused stex_freeze(struct device *dev)
++{
++	return stex_suspend_late(dev, PMSG_FREEZE);
++}
++
++static int __maybe_unused stex_resume(struct device *dev)
++{
++	struct st_hba *hba = dev_get_drvdata(dev);
+ 
+ 	hba->mu_status = MU_STATE_STARTING;
+ 	stex_handshake(hba);
+@@ -2000,14 +2015,24 @@ static int stex_halt(struct notifier_block *nb, unsigned long event, void *buf)
+ }
+ MODULE_DEVICE_TABLE(pci, stex_pci_tbl);
+ 
++static const struct dev_pm_ops stex_pm_ops = {
++#ifdef CONFIG_PM_SLEEP
++	.suspend	= stex_suspend,
++	.resume		= stex_resume,
++	.freeze		= stex_freeze,
++	.thaw		= stex_resume,
++	.poweroff	= stex_hibernate,
++	.restore	= stex_resume,
++#endif
++};
++
+ static struct pci_driver stex_pci_driver = {
+ 	.name		= DRV_NAME,
+ 	.id_table	= stex_pci_tbl,
+ 	.probe		= stex_probe,
+ 	.remove		= stex_remove,
+ 	.shutdown	= stex_shutdown,
+-	.suspend	= stex_suspend,
+-	.resume		= stex_resume,
++	.driver.pm	= &stex_pm_ops,
+ };
+ 
+ static int __init stex_init(void)
+-- 
+2.27.0
 
-    Arnd
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
