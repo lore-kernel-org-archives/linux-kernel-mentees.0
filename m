@@ -8,84 +8,84 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3DCDC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 06:55:38 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C94E6C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 06:55:43 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A66DA20656
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 06:55:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9B23020656
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 06:55:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8Ml+Xnk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A66DA20656
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IeyTY+OH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B23020656
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7B6CB8608B;
-	Thu, 30 Jul 2020 06:55:38 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 67D9686BCF;
+	Thu, 30 Jul 2020 06:55:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rbUex5++ZVLH; Thu, 30 Jul 2020 06:55:37 +0000 (UTC)
+	with ESMTP id IYms0dszT-wB; Thu, 30 Jul 2020 06:55:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EF6628550D;
-	Thu, 30 Jul 2020 06:55:37 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 003C686BB5;
+	Thu, 30 Jul 2020 06:55:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DBF12C004F;
-	Thu, 30 Jul 2020 06:55:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F13CFC004F;
+	Thu, 30 Jul 2020 06:55:42 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0853CC004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 28E3FC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 06:55:37 +0000 (UTC)
+ Thu, 30 Jul 2020 06:55:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EACFE8608B
+ by whitealder.osuosl.org (Postfix) with ESMTP id 25ABF8608B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 06:55:36 +0000 (UTC)
+ Thu, 30 Jul 2020 06:55:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VSibOuty3M77
+ with ESMTP id vV+bYKE3hi56
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 06:55:36 +0000 (UTC)
+ Thu, 30 Jul 2020 06:55:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 845278550D
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B9BAD8550D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 06:55:36 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id z188so6634289pfc.6
+ Thu, 30 Jul 2020 06:55:41 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id m22so15989810pgv.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Jul 2020 23:55:36 -0700 (PDT)
+ Wed, 29 Jul 2020 23:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FxW9b/q+4sJNPVzuIBcNVUFU45uGZZ5i5gNq3WgDQXk=;
- b=V8Ml+Xnk/3Sx7gR5456fsIVmPbCiTzHSXcgcEIj5PZjGhlix6IoZkqR3umOoImk8uq
- njbzH7HCbMc50IcFtseFfnFD4zoZNoFYNL2Uw0avOkcKtddgmbqhJXn30LX1PKbmw12V
- 47fOXMGVW71YoNh0AEMqOpaMHwH6WOKxJ3OVF2tbvUGj0MtF9HYEECrU1/sWuvyvcySN
- geePm0m+keM9ES9ExYdTO2KpYUcg8bF5er0Q7Uu5IZPHeulhVqrosdha8hml7f7KUrl4
- jS7EMAEK0Rd27A2992XeqhoTa4vBBgv+4R+u63QYckmLe0NYuWep1wpAT4QUPYDj7keT
- kCsQ==
+ bh=/vlI3SS5LvqfdvM+r/BRxyq9xbnF0HtDqy+K6GhzXBQ=;
+ b=IeyTY+OHDs3axg/+m/60sKy64hsxJz6vIgqYhE6Iz6K12qqw/hsugFDau/PBn8WFV3
+ JGQGAcFjBIEXxo0/VcnzQEFRhlWgm9IdPUdmzmwhFizSkecC2hZluT61Uqq6D005neYu
+ +Lhsq4df0bJBHJSrWY0DUvFJa7psUHeAnTY+8W1mCXMlqiPyzTni1n3uwciUA6J9VmUS
+ S6najC8IxhfEx6WzNXnrq4qzFli00UiTBX7CLifCNEf4+81x0tGGDSjxYSye1htoFIDX
+ Hq+hUVgBt0ep49YZHEJlW53pldG9t8pu9wz/EmvEiroJ5SyApHesf2QEC2dFLP1sty74
+ iqzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FxW9b/q+4sJNPVzuIBcNVUFU45uGZZ5i5gNq3WgDQXk=;
- b=dsC/M/p8UgP1pYk6XlvRk/1izMqWqbhcTOU80wIjsQrMIdk8TeUsyPLFHuPSlgKrRE
- TiMv/YnkBgijsCJJn+nZmZYsaEva4S3ln3QgHm8l08Csboa10gs9eAlB2LfUcw8fuUeR
- eBAjGy//Ef2seSGTOzd+G9oUmS31v1jHqqpuDD8O5UbTLPNj2oGH9v1CZ+ZPF1V0rQHM
- 5SYGFeBeG+WNh2/ZOFTJhmRgqUJ6lHWrfxC1291sztIa1A/rICSBd4sxxQm9Uh0ImsYq
- CBVT9SIjJElFNSRKW3ADHVGto/EFwO/NofutKSA4WGNMK0CwOOst3iyzASMqdvc5wKrI
- V7ag==
-X-Gm-Message-State: AOAM530d54msiZdkPBY1KZY5u/HEMFYmKDwaObw7kQ1NjuMAAeN3bTDp
- opR5sEuSIJTIKpoIK+9XcaU=
-X-Google-Smtp-Source: ABdhPJxOE5s0tndKBfHkuFL0NM6Oz2rP0sYzx/wQfhvMQgLEEwymbZO6LPqTZTuIeE0DgdO9JtlV4A==
-X-Received: by 2002:a63:cf49:: with SMTP id b9mr31966967pgj.31.1596092136120; 
- Wed, 29 Jul 2020 23:55:36 -0700 (PDT)
+ bh=/vlI3SS5LvqfdvM+r/BRxyq9xbnF0HtDqy+K6GhzXBQ=;
+ b=qYNqwPvri/XOIteWfgvz0AMrnemOQ93otynNJOdsae8Uvuik0ePJBQuEc98EyaRq+1
+ h+P8tUYHSM4Z4cWdhu4Il3CvaEy3SBDYIHNesAisyQQvAKnjEz7htj9MCUi7gz4AFcZj
+ hqLVFIVcxkOEyj3kDi2cczY/cybWASkhGrM/yxATUDXjIZt3h58KZYAyT6SJIgVcE+QW
+ pwqLNQgGE84LqdZFhqOJRMoW69aEYPkvOU6Kl6sJSENIrPb826iDJ0BlQZ4tPSie346l
+ 2moBzHUFLloRgkEuPvaBtWFzB3f1wdani1lWL8TQfiCx4NgZhjZ2SQAAtk+24XxLR9V8
+ ZrLQ==
+X-Gm-Message-State: AOAM531q/7ELRrTAmA/jixWybq5EQ1EW5l+AbQ00K3f4UJZtki71X7rc
+ d3YD/xI9QeVW4TtSxThpeKE=
+X-Google-Smtp-Source: ABdhPJwYGhi+sY/oimQBy5vqYoOm292XvKwZ6vkA9xlHyQ2ck1XAnfc6tDfqNmjF+sYua3WD3W05Cg==
+X-Received: by 2002:a63:f04d:: with SMTP id s13mr27043273pgj.100.1596092141275; 
+ Wed, 29 Jul 2020 23:55:41 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id v2sm4232299pje.19.2020.07.29.23.55.31
+ by smtp.gmail.com with ESMTPSA id v2sm4232299pje.19.2020.07.29.23.55.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jul 2020 23:55:35 -0700 (PDT)
+ Wed, 29 Jul 2020 23:55:40 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -93,15 +93,15 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
  Daniele Venzano <venza@brownhat.org>, Samuel Chessman <chessman@tux.org>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Date: Thu, 30 Jul 2020 12:23:35 +0530
-Message-Id: <20200730065336.198315-3-vaibhavgupta40@gmail.com>
+Date: Thu, 30 Jul 2020 12:23:36 +0530
+Message-Id: <20200730065336.198315-4-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200730065336.198315-1-vaibhavgupta40@gmail.com>
 References: <20200730065336.198315-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v1 2/3] sis900: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v1 3/3] tlan: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -133,73 +133,75 @@ and drivers are required to do only device-specific jobs.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/net/ethernet/sis/sis900.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ drivers/net/ethernet/ti/tlan.c | 31 ++++++-------------------------
+ 1 file changed, 6 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/net/ethernet/sis/sis900.c b/drivers/net/ethernet/sis/sis900.c
-index 81ed7589e33c..2af2c9816dfc 100644
---- a/drivers/net/ethernet/sis/sis900.c
-+++ b/drivers/net/ethernet/sis/sis900.c
-@@ -2493,11 +2493,9 @@ static void sis900_remove(struct pci_dev *pci_dev)
- 	pci_release_regions(pci_dev);
+diff --git a/drivers/net/ethernet/ti/tlan.c b/drivers/net/ethernet/ti/tlan.c
+index 857709828058..c799945a39ef 100644
+--- a/drivers/net/ethernet/ti/tlan.c
++++ b/drivers/net/ethernet/ti/tlan.c
+@@ -345,33 +345,21 @@ static void tlan_stop(struct net_device *dev)
+ 	}
  }
  
 -#ifdef CONFIG_PM
 -
--static int sis900_suspend(struct pci_dev *pci_dev, pm_message_t state)
-+static int __maybe_unused sis900_suspend(struct device *dev)
+-static int tlan_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused tlan_suspend(struct device *dev_d)
  {
--	struct net_device *net_dev = pci_get_drvdata(pci_dev);
-+	struct net_device *net_dev = dev_get_drvdata(dev);
- 	struct sis900_private *sis_priv = netdev_priv(net_dev);
- 	void __iomem *ioaddr = sis_priv->ioaddr;
+-	struct net_device *dev = pci_get_drvdata(pdev);
++	struct net_device *dev = dev_get_drvdata(dev_d);
  
-@@ -2510,22 +2508,17 @@ static int sis900_suspend(struct pci_dev *pci_dev, pm_message_t state)
- 	/* Stop the chip's Tx and Rx Status Machine */
- 	sw32(cr, RxDIS | TxDIS | sr32(cr));
+ 	if (netif_running(dev))
+ 		tlan_stop(dev);
  
--	pci_set_power_state(pci_dev, PCI_D3hot);
--	pci_save_state(pci_dev);
+ 	netif_device_detach(dev);
+-	pci_save_state(pdev);
+-	pci_disable_device(pdev);
+-	pci_wake_from_d3(pdev, false);
+-	pci_set_power_state(pdev, PCI_D3hot);
+ 
+ 	return 0;
+ }
+ 
+-static int tlan_resume(struct pci_dev *pdev)
++static int __maybe_unused tlan_resume(struct device *dev_d)
+ {
+-	struct net_device *dev = pci_get_drvdata(pdev);
+-	int rc = pci_enable_device(pdev);
 -
+-	if (rc)
+-		return rc;
+-	pci_restore_state(pdev);
+-	pci_enable_wake(pdev, PCI_D0, 0);
++	struct net_device *dev = dev_get_drvdata(dev_d);
+ 	netif_device_attach(dev);
+ 
+ 	if (netif_running(dev))
+@@ -380,21 +368,14 @@ static int tlan_resume(struct pci_dev *pdev)
  	return 0;
  }
  
--static int sis900_resume(struct pci_dev *pci_dev)
-+static int __maybe_unused sis900_resume(struct device *dev)
- {
--	struct net_device *net_dev = pci_get_drvdata(pci_dev);
-+	struct net_device *net_dev = dev_get_drvdata(dev);
- 	struct sis900_private *sis_priv = netdev_priv(net_dev);
- 	void __iomem *ioaddr = sis_priv->ioaddr;
- 
- 	if(!netif_running(net_dev))
- 		return 0;
--	pci_restore_state(pci_dev);
--	pci_set_power_state(pci_dev, PCI_D0);
- 
- 	sis900_init_rxfilter(net_dev);
- 
-@@ -2549,17 +2542,15 @@ static int sis900_resume(struct pci_dev *pci_dev)
- 
- 	return 0;
- }
+-#else /* CONFIG_PM */
+-
+-#define tlan_suspend   NULL
+-#define tlan_resume    NULL
+-
 -#endif /* CONFIG_PM */
-+
-+static SIMPLE_DEV_PM_OPS(sis900_pm_ops, sis900_suspend, sis900_resume);
+-
++static SIMPLE_DEV_PM_OPS(tlan_pm_ops, tlan_suspend, tlan_resume);
  
- static struct pci_driver sis900_pci_driver = {
- 	.name		= SIS900_MODULE_NAME,
- 	.id_table	= sis900_pci_tbl,
- 	.probe		= sis900_probe,
- 	.remove		= sis900_remove,
--#ifdef CONFIG_PM
--	.suspend	= sis900_suspend,
--	.resume		= sis900_resume,
--#endif /* CONFIG_PM */
-+	.driver.pm	= &sis900_pm_ops,
+ static struct pci_driver tlan_driver = {
+ 	.name		= "tlan",
+ 	.id_table	= tlan_pci_tbl,
+ 	.probe		= tlan_init_one,
+ 	.remove		= tlan_remove_one,
+-	.suspend	= tlan_suspend,
+-	.resume		= tlan_resume,
++	.driver.pm	= &tlan_pm_ops,
  };
  
- static int __init sis900_init_module(void)
+ static int __init tlan_probe(void)
 -- 
 2.27.0
 
