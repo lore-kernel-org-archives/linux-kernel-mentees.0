@@ -2,112 +2,101 @@ Return-Path: <SRS0=tqep=BJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC7CC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 08:07:29 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C4A9C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 08:11:32 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6003820809
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 08:07:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="pE6CSjWS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6003820809
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+	by mail.kernel.org (Postfix) with ESMTPS id 151512173E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 08:11:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 151512173E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 382EB20767;
-	Thu, 30 Jul 2020 08:07:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E620D855EF;
+	Thu, 30 Jul 2020 08:11:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id N4gJ216XdlAw; Thu, 30 Jul 2020 08:07:28 +0000 (UTC)
+	with ESMTP id jJvsIbxFMU-k; Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7D611203D7;
-	Thu, 30 Jul 2020 08:07:28 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EE0C1855CC;
+	Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 59D86C004F;
-	Thu, 30 Jul 2020 08:07:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D690CC0050;
+	Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 88B15C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 27693C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:07:26 +0000 (UTC)
+ Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7C74D87D0B
+ by hemlock.osuosl.org (Postfix) with ESMTP id 10A0087D46
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:07:26 +0000 (UTC)
+ Thu, 30 Jul 2020 08:11:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MV9a9Z+LoBHn
+ with ESMTP id DK5ckXPBxtwI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:07:25 +0000 (UTC)
+ Thu, 30 Jul 2020 08:11:28 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
- [209.85.166.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 72D4782333
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A841387D0B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:07:25 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id w12so13722912iom.4
+ Thu, 30 Jul 2020 08:11:27 +0000 (UTC)
+Received: from mail-qt1-f182.google.com ([209.85.160.182]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1N4i3d-1kjqwN3UQx-011juD for
+ <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Jul 2020 10:11:25
+ +0200
+Received: by mail-qt1-f182.google.com with SMTP id e5so5688463qth.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 01:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xk9Rc7RW0dpZR2H7aQdCd9x/8Qyf+LufFcyvFMA4TRc=;
- b=pE6CSjWSaGf1LyVds1/RMgYF8RUGn5TZJHXjYS/z/3WaD/zI5X1T9UbxdlEfExt4ww
- fiqw/WQL2m4SbqfCbmmkBHeRQhdJSW9DpRLqk8AR9klNEzDn7/B/DxPU58pcTa/roMhX
- q+NiInRLqX2FCBQqSqR6dwQePoBJg1KF++pHOAaL1fbTI2Pt7YBGj0qEbkSBbQ+gLBVT
- f1wmkKBYvpRYP+sJwr0AaAzhTNcWtqdtQ00XyCegbxhSgtCxlXIZ5LsbRBM4B2/sMoNW
- AIdPy1KUeQ6cltA6WKnQG6UCU/dajwelb3Ze02nd0x9mlUt6DJJGOH8d6VqI6qpXvQHi
- 9byg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xk9Rc7RW0dpZR2H7aQdCd9x/8Qyf+LufFcyvFMA4TRc=;
- b=F1//NQtZpWA7z11N/pMVFMWco8V3Zry3ke4cWfGGdTp2IlcKlJQDEztqp+EnHMUgou
- Q9WRX+YrBaZf5AnNm0h1PUgWWgOVT5OHQzTzdx7DMIgpaBT/oFw0s886j0Jn8qpEfYRq
- 0b4xvKd/pv68Ogc9gjLCMAtRIzntIFxdqjiH72PBdddHPXQqEeTBhvVaask+XPbebfO2
- 9A6QYMuAHABApd4tfcAgiRKPSwE2ui2ZAxhIjJ241sATDNdV0H2yeA4/CYnkPXlw7bKu
- Fl/g5q1PhTwHXEDR+k1xywZ3oD3j7L+pmYZ1yPsfRyVBAuiQUyx9n7d4UN9StzE7Jd5T
- W5bQ==
-X-Gm-Message-State: AOAM53303w3tNU8r+Wm/Ic8MRSbG86tU3VO3RHOz0rkg5vdkZ41yncw5
- uNKts8rIjsbUSi7X33fYES+86C6ZVc4ewNs+9mOr/Q==
-X-Google-Smtp-Source: ABdhPJxfkHJ3U7r6qBlC/pLcD5o2kytIEOIjvVwTzQ/51wksja7qhQ1JZwpuFNgqoFoF8gdCdxryLyzWjzfDs75oQlc=
-X-Received: by 2002:a02:854a:: with SMTP id g68mr2156366jai.24.1596096444677; 
- Thu, 30 Jul 2020 01:07:24 -0700 (PDT)
+ Thu, 30 Jul 2020 01:11:24 -0700 (PDT)
+X-Gm-Message-State: AOAM533ifDDVbzDXQSnODiEikltmFzoTTNusluPa9KIYVj1ikYbpkwhH
+ RSn5gaWtWTV9joBJm2k/hvqQKZAToAJXVErR0Rk=
+X-Google-Smtp-Source: ABdhPJyi8EKI+AIaFPt4gm4DpxtwBsJeU20bhkDhmCW6PRTBeUF30Hz/fPEst/ZpzIRbEjFkzYHg8KIN+OaDxrvgq9w=
+X-Received: by 2002:aed:2946:: with SMTP id s64mr1820401qtd.204.1596096683269; 
+ Thu, 30 Jul 2020 01:11:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200726220557.102300-1-yepeilin.cs@gmail.com>
- <20200726222703.102701-1-yepeilin.cs@gmail.com>
- <CAK8P3a3NB2BVo9fH-Wcinrhhs-QJ=9dK59Ds83TvgLmEkRy3qA@mail.gmail.com>
- <20200727131608.GD1913@kadam>
- <CACRpkda7k4L+nqAYE6z2FVZF-WT2Pm3CHH_=fW24xz_u+QCMRQ@mail.gmail.com>
- <20200728130632.GI1913@kadam>
- <CAK8P3a3MEUYH3qG-+dxgH1Omx2gtcqSRXzKLLaAw21Xho6HAeQ@mail.gmail.com>
-In-Reply-To: <CAK8P3a3MEUYH3qG-+dxgH1Omx2gtcqSRXzKLLaAw21Xho6HAeQ@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 30 Jul 2020 10:07:13 +0200
-Message-ID: <CAMRc=MciXb152=CHAi1kfpwFuELLN55-BfNOo8hBg8Tzp4wMnQ@mail.gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
+References: <20200728141946.426245-1-yepeilin.cs@gmail.com>
+ <20200729115157.8519-1-yepeilin.cs@gmail.com> <20200729125820.GB1840@kadam>
+ <f2cf6137-987a-ab41-d88a-6828d46c255f@linux.com>
+In-Reply-To: <f2cf6137-987a-ab41-d88a-6828d46c255f@linux.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Thu, 30 Jul 2020 10:11:07 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a20SEoYCrp3jOK32oZc9OkiPv+1KTjNZ2GxLbHpY4WexQ@mail.gmail.com>
+Message-ID: <CAK8P3a20SEoYCrp3jOK32oZc9OkiPv+1KTjNZ2GxLbHpY4WexQ@mail.gmail.com>
+To: Denis Efremov <efremov@linux.com>
+X-Provags-ID: V03:K1:m779y6h4Uwl/lg1iQkHoIusm4nR8d2X+AhyYYbfbRzxH7w3poDW
+ LaR6mkF378UgkuNxZrHu+Mr7CE3CxpmetCy4I55AOq4vkDpwbd+g6ddyp1npVE+bAV2ruRB
+ lmpsvixHIOwT6vDA75yeW7G+aof08RhH5Y+8G6tZlis6QsXAfviy5O+49MuK3CGkdUDU6bU
+ jYCRcRrpXCI50ssRlX36Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l0GH9x0kb6o=:h+AFDYppBGULdkTuHDXVYE
+ 5gqeaXIPGDhLaHr8lcajShfqYul8e8MF+3iNBIGnzOqpD0gAOPCBRxQgrNBJnVPS3gui1cVfX
+ jS5jXQYHsXcZeRWUzdbDz7S/r9cZa1a7BZwrlY+TcKcD0LtSVpYy0A77P1xyt5TGn+ZYgDLpz
+ nDalkbxBLKishJgvpP9SKUDm4mrEpxLKnmG3hBDqin20E9Q4dHjC3L3GooyCjXc9F8LwOlPlq
+ 6De98DR+4E1ghZbMumudi34pfb5KQrP7enqZBQpbb+Eraatyk9SaHkXpNhPqxT//rssvYrDzP
+ RR6ri8zQP2plAPe+5yy+0O2r1TGW/C2mKRSA6g8wH7bgPcC4EWajDn8Q9yBce6JwQPxp7VvH8
+ QbPRZ/ELZSekWTaXMFlUKt6etO0+6AglCv7k8yU6RexUJOz12so68l9whqJZO1rZ1LH0UzWmL
+ 9jYy6QGMz2G1NCILcon+g7uUM6SsKLsb0Gs5XKDt3O7MB5uvX08QxdiNdHzNVLl26CXphqrDP
+ BUCEYmEE3QnECF1QoSqSJodiouFFxqQomY/ssOX3l50q576bUiGGK1qwJPGrsHfvcPXyMSPUx
+ GP5GkIBK127ENfcyiq6YV67aXAN87n6Zdq+ydBT2munNtmDsgNQeir8wYWBV8XAeckcIUHXbh
+ tzDQhMSdYLJwncDWzjYd/q5EdEC1lNJxzpLg52JH8J4sWaH5OmPUY43dAxruAbcEvjSjuWdBZ
+ V63zxagvo+j0AyPUEWl2EdkkK5zaR4RyqXv84zg2flweXpSiinDWewxJSuzYWUapQx5OKWWH/
+ AvVzsrcfxwgO1+KxbTFXfn3eh5YKqqets65gVOksV7JgEcf+dmeRJ6pmsqzaH1nZRQD31IYfy
+ Pd5P2N1S5m6vf+zYGGHJiw0Yxx26fXNUVoIbMwuk100W1WMf/NHQwT+w8UG0nEr+NvxdzI2y6
+ 5STP7kZXpiFUlUIR+CBwmyIHWQK60ugZl+LMlZGeJ+gQx2L9K+rus
+Cc: Jens Axboe <axboe@kernel.dk>, Kees Cook <keescook@chromium.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vandana BN <bnvandana@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] media/v4l2-core: Fix
- kernel-infoleak in video_put_user()
+ linux-block <linux-block@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] block/floppy: Prevent
+ kernel-infoleak in raw_cmd_copyout()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,64 +114,54 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 28, 2020 at 3:58 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Tue, Jul 28, 2020 at 3:06 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> >
-> > On Tue, Jul 28, 2020 at 02:22:29PM +0200, Linus Walleij wrote:
-> > > On Mon, Jul 27, 2020 at 3:17 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> > >
-> > > > Here are my latest warnings on linux-next from Friday.
-> > >
-> > > Thanks for sharing this Dan, very interesting findings.
-> > >
-> > > > drivers/gpio/gpiolib-cdev.c:473 lineevent_read() warn: check that 'ge' doesn't leak information (struct has a hole after 'id')
-> > >
-> > > We are revamping the ABI for 64bit compatibility so we are now running
-> > > pahole on our stuff. I suppose we need to think about mending this old ABI
-> > > as well.
-> >
-> > Yeah...  But this one is a false positive.  It's not super hard for me
-> > to silence it actually.  I'll take care of it.  It could be a while
-> > before I push this to the public repository though...
->
-> The lineevent_read() function still needs to be fixed to support
-> 32-bit compat mode on x86, which is independent of the warning.
->
-> Something like
->
-> static int lineevent_put_data(void __user *uptr, struct gpioevent_data *ge)
-> {
-> #ifdef __x86_64__
->         /* i386 has no padding after 'id' */
->         if (in_ia32_syscall()) {
->                 struct {
->                         compat_u64      timestamp __packed;
->                         u32             id;
->                 } compat_ge = { ge->timestamp, ge->id };
->
->                 if (copy_to_user(uptr, &compat_ge, sizeof(compat_ge)))
->                         return -EFAULT;
->
->                 return sizeof(compat_ge);
->         }
-> #endif
->
->         if (copy_to_user(uptr, ge, sizeof(*ge))
->                 return -EFAULT;
->
->         return sizeof(*ge);
-> }
->
->        Arnd
+> On Wed, Jul 29, 2020 at 3:22 PM Denis Efremov <efremov@linux.com> wrote:
 
-Hi Arnd,
+> And checked for leaks on x86_64 with the script test.sh
+> $ cat test.sh
+> #!/bin/bash
+>
+> for i in 4.8 5 6 7 8 9 10
+> do
+> ./run_container.sh gcc-$i $(pwd)/src $(pwd)/out bash -c 'gcc test.c; ./a.out'
+> ./run_container.sh gcc-$i $(pwd)/src $(pwd)/out bash -c 'gcc -O2 test.c; ./a.out'
+> ./run_container.sh gcc-$i $(pwd)/src $(pwd)/out bash -c 'gcc -O3 test.c; ./a.out'
+> done
+>
+> No leaks reported. Is it really possible this this kind of init, i.e. cmd = *ptr?
 
-Andy actually had a patch for that but since this isn't a regression
-(it never worked), we decided to leave it as it is and get it right in
-v2 API.
+The problem is that the behavior is dependent not just on the compiler
+version but
+also optimization flags, target architecture and specific structure
+layouts. Most
+of the time, both gcc and clang will initialize the whole structure
+rather than just
+the individual members, but you still can't be sure that this is true
+for all configurations
+that this code runs on, except by using CONFIG_GCC_PLUGIN_STRUCTLEAK.
 
-Bartosz
+Kees pointed me to the lib/test_stackinit.c file in the kernel in which he has
+collected a number of combinations that are known to trigger the problem.
+
+What I see there though are only cases of struct initializers like
+
+  struct test_big_hole var = { .one = arg->one, .two=arg->two, .three
+= arg->three, .four = arg->four };
+
+but not the syntax used in the floppy driver:
+
+   struct test_big_hole var = *arg;
+
+or the a constructor like
+
+  struct test_big_hole var;
+  var = (struct test_big_hole){ .one = arg->one, .two=arg->two, .three
+= arg->three, .four = arg->four };
+
+Kees, do you know whether those two would behave differently?
+Would it make sense to also check for those, or am I perhaps
+misreading your code and it already gets checked?
+
+      Arnd
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
