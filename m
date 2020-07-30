@@ -2,96 +2,96 @@ Return-Path: <SRS0=tqep=BJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE40C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 15:35:43 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFDA5C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 15:35:48 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D92F82082E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 15:35:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9F4F02082E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Jul 2020 15:35:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4wk2oAS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D92F82082E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ad8uW5Jn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F4F02082E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A8D8A8831C;
-	Thu, 30 Jul 2020 15:35:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7640A86BEF;
+	Thu, 30 Jul 2020 15:35:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NvaKR9P0mmMV; Thu, 30 Jul 2020 15:35:41 +0000 (UTC)
+	with ESMTP id dJkEEgXWgCs8; Thu, 30 Jul 2020 15:35:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2996E88354;
-	Thu, 30 Jul 2020 15:35:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4711986BE2;
+	Thu, 30 Jul 2020 15:35:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1823BC004F;
-	Thu, 30 Jul 2020 15:35:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3636FC004F;
+	Thu, 30 Jul 2020 15:35:47 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7708EC004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2CF81C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 15:35:39 +0000 (UTC)
+ Thu, 30 Jul 2020 15:35:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 65D9F8683F
+ by whitealder.osuosl.org (Postfix) with ESMTP id 293EE8683F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 15:35:39 +0000 (UTC)
+ Thu, 30 Jul 2020 15:35:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EE7D0IfjeePv
+ with ESMTP id 9f2aYylPblX7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 15:35:34 +0000 (UTC)
+ Thu, 30 Jul 2020 15:35:44 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
- [209.85.222.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 91A9E88365
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+ [209.85.160.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5D82288354
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 15:35:34 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id j187so25924130qke.11
+ Thu, 30 Jul 2020 15:35:44 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id w9so20623397qts.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Jul 2020 08:35:34 -0700 (PDT)
+ Thu, 30 Jul 2020 08:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mgJes0x0uF1hod+04RcRCJyYNjcGljRZPKnjPkPNz/M=;
- b=S4wk2oAST6SmgRV7YA8hLufdZ7gMv1XFwcsZed+1xTYExDICSz8x54YK0jL9h+NxV6
- tZLZSwe6r42lnizeSNRLohXmBRcw9zHUvNkLTVdEkE6H76rpZzfbPHionh8x2skBCJU6
- 3s+MlryeDE1iqpAagKODUWD8AV9sPm0mIwCk+z/MSKtmsbzyFGGVb+PQ0gWSgTAcZoN/
- 5sc30FIkOSjVy7oB3KWZoV4Aor+OZnHa+IhVgo7KLJZ/800AOyiNgTKgKe3wz4gO6L1R
- 8cfrniF13Oxduyvcpq3ieQmXlYnfr9DRvryCYrsp239qpwL7geogtQ94OzkEChvun3ml
- 92xg==
+ bh=5i1xL3mrgd2mTOzDZy8q1PBflUFQY+JRM6EFERP0ytk=;
+ b=ad8uW5Jn9YMrE50dGpNNEnlNgANqBVxHxPTkVqafh/hiP3Z7+vfIa3wWCdnOZdHcW/
+ FSoMOHiAKC/h2/TPTWe7UJs5F2rlsm2ZWuicqyycZGwKWxJRhgkoU38f/p35W1YaOfPC
+ /FjOTtHvPTd/fXd+DWBbwUXzzwvbNYmDKMANX3LNk6+YNEp3Pg21JpwnDCekrclxCF9t
+ vvvInuc99GsnKdVYm6O7/rHbtfErZD/6UQu7mCyX2852c64RDqSQ7WWyXzpx9g5le9Ve
+ qXKiDsOt40F5OcZAV+G0x6uRtwtCqEPfQlNDEuYEdw0tiM9SroJS50/gCcgZpT+B73Oj
+ TwRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mgJes0x0uF1hod+04RcRCJyYNjcGljRZPKnjPkPNz/M=;
- b=fsLgb3BVZpjRckD6zZJn6X5zYbG/TOoJUQHESCrg91Md0inoIZbqEIJl5EIaMCkubn
- gjecoTIic6txTOX2vGYFA+D952qMHLYKJZYAv8vwQt0ztgn++gHxlqJD7alz37mvcbOd
- 9fxKEISTN0RF5EID+8CrdggxGTKdAvtnHhftGVJvccnF8LTVamI+M/tBORQl3IBZaguX
- anEh15vKaHsjbBNkuGylmP7w/mAwxrRWPN2hhCOgG2cZM15go5rst0me+3xgkRkjnOIc
- fld4lnI2cknhLBdJjuSSPhVhJMaQaXDkhoUTcta2jyEQiwJ8ALTQDVxWVi1vbd/FxF23
- dBeg==
-X-Gm-Message-State: AOAM531I4IMGomS1EKtMkmluAybdQ56jVsVh4CTUZ6mp3JJbGlXKQMEU
- OeblTXmkRutH8MPMNsZfYJ4=
-X-Google-Smtp-Source: ABdhPJw0yhHaRWpKfgXmbZDqnNtsOQKqLWsypTlw75fAqUwiDRGjb3VW+vxQpdfFe3D7jBEU+vaivQ==
-X-Received: by 2002:a37:80c:: with SMTP id 12mr39978906qki.149.1596123333465; 
- Thu, 30 Jul 2020 08:35:33 -0700 (PDT)
+ bh=5i1xL3mrgd2mTOzDZy8q1PBflUFQY+JRM6EFERP0ytk=;
+ b=ofdmBDjjppFU1gSsJYMB1OfCKMS0isZG9zWmpl/6YpFkJpQuw9de28/65ZRXRIyVrI
+ D1OrsyH/U81VpadLkmeyB62yA1pz5mPVT2CoIZSwbrNtMGqgmWOcGRAkxF7k+PCzoWVG
+ e/a1n7SR2+FtfOLHGb6eufoazDp0ZYbU5ZOhWRdltFAZRsASZpCpHaAEqKLV4bJsHGbP
+ fXr24Fasc82XInjoYt7QAL1K/qcSDV1CC2F+sVmHy+q6mN7mz3ttvSX6mbPc7urwInrk
+ CuJLQKODsuFK2KXZeP+/ezcaruUpyYmolBYUU4NV2xAksW+EYpBRa6NeBk+okRAgnUZU
+ jR2Q==
+X-Gm-Message-State: AOAM533IZ4lD2QbbZYUUjAriPDItpIN8PhMO+NRPBc7GoqqfTxfZg6ok
+ QEoA2moYTm2JDE/y2srsvYo=
+X-Google-Smtp-Source: ABdhPJxewDCgQ5VF2AhJ8+T9tVqUGTAbvvCPJGsYEklnF04MrJjyXpp/iAHjpc9ZClSWC9jYeylMuQ==
+X-Received: by 2002:ac8:774f:: with SMTP id g15mr3454605qtu.145.1596123343062; 
+ Thu, 30 Jul 2020 08:35:43 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id i7sm659047qtb.27.2020.07.30.08.35.29
+ by smtp.gmail.com with ESMTPSA id i7sm659047qtb.27.2020.07.30.08.35.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jul 2020 08:35:32 -0700 (PDT)
+ Thu, 30 Jul 2020 08:35:42 -0700 (PDT)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To: mchehab+huawei@kernel.org, sean@mess.org, kstewart@linuxfoundation.org,
  allison@lohutok.net, tglx@linutronix.de
-Date: Thu, 30 Jul 2020 12:34:59 -0300
-Message-Id: <20200730153501.742993-3-dwlsalmeida@gmail.com>
+Date: Thu, 30 Jul 2020 12:35:01 -0300
+Message-Id: <20200730153501.742993-5-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200730153501.742993-1-dwlsalmeida@gmail.com>
 References: <20200730153501.742993-1-dwlsalmeida@gmail.com>
@@ -99,8 +99,8 @@ MIME-Version: 1.0
 Cc: linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [v8 2/4] media: vidtv: implement a
-	demodulator driver
+Subject: [Linux-kernel-mentees] [v8 4/4] media: Documentation: vidtv: Add
+	ReST documentation for vidtv
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,571 +112,273 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-
-Implement a I2C demodulator driver, simulating support for DVB-T, DVB-C
-and DVB-S.
-
-This demodulator will periodically check the signal quality against a table
-and drop the TS lock if it drops below a threshold value, regaining it in
-the event that the signal improves.
-
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- drivers/media/test-drivers/vidtv/Makefile     |   3 +-
- .../media/test-drivers/vidtv/vidtv_demod.c    | 440 ++++++++++++++++++
- .../media/test-drivers/vidtv/vidtv_demod.h    |  73 +++
- 3 files changed, 515 insertions(+), 1 deletion(-)
- create mode 100644 drivers/media/test-drivers/vidtv/vidtv_demod.c
- create mode 100644 drivers/media/test-drivers/vidtv/vidtv_demod.h
-
-diff --git a/drivers/media/test-drivers/vidtv/Makefile b/drivers/media/test-drivers/vidtv/Makefile
-index 58e022c094e5..21e50c11c94d 100644
---- a/drivers/media/test-drivers/vidtv/Makefile
-+++ b/drivers/media/test-drivers/vidtv/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- dvb-vidtv-tuner-objs := vidtv_tuner.o
-+dvb-vidtv-demod-objs := vidtv_demod.o
- 
--obj-$(CONFIG_DVB_VIDTV)	+= dvb-vidtv-tuner.o
-+obj-$(CONFIG_DVB_VIDTV)	+= dvb-vidtv-tuner.o dvb-vidtv-demod.o
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_demod.c b/drivers/media/test-drivers/vidtv/vidtv_demod.c
-new file mode 100644
-index 000000000000..25c895912505
---- /dev/null
-+++ b/drivers/media/test-drivers/vidtv/vidtv_demod.c
-@@ -0,0 +1,440 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * The Virtual DVB test driver serves as a reference DVB driver and helps
-+ * validate the existing APIs in the media subsystem. It can also aid
-+ * developers working on userspace applications.
-+ *
-+ * Copyright (C) 2020 Daniel W. S. Almeida
-+ * Based on the example driver written by Emard <emard@softhome.net>
-+ */
-+
-+#include <linux/errno.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/printk.h>
-+#include <linux/random.h>
-+#include <linux/ratelimit.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/workqueue.h>
-+#include <media/dvb_frontend.h>
-+
-+#include "vidtv_demod.h"
-+
-+#define POLL_THRD_TIME 2000 /* ms */
-+
-+static const struct vidtv_demod_cnr_to_qual_s vidtv_demod_c_cnr_2_qual[] = {
-+	/* from libdvbv5 source code, in milli db */
-+	{ QAM_256, FEC_NONE,  34000, 38000},
-+	{ QAM_64,  FEC_NONE,  30000, 34000},
-+};
-+
-+static const struct vidtv_demod_cnr_to_qual_s vidtv_demod_s_cnr_2_qual[] = {
-+	/* from libdvbv5 source code, in milli db */
-+	{ QPSK, FEC_1_2,  7000, 10000},
-+	{ QPSK, FEC_2_3,  9000, 12000},
-+	{ QPSK, FEC_3_4, 10000, 13000},
-+	{ QPSK, FEC_5_6, 11000, 14000},
-+	{ QPSK, FEC_7_8, 12000, 15000},
-+};
-+
-+static const struct vidtv_demod_cnr_to_qual_s vidtv_demod_s2_cnr_2_qual[] = {
-+	/* from libdvbv5 source code, in milli db */
-+	{ QPSK,  FEC_1_2,   9000,  12000},
-+	{ QPSK,  FEC_2_3,  11000,  14000},
-+	{ QPSK,  FEC_3_4,  12000,  15000},
-+	{ QPSK,  FEC_5_6,  12000,  15000},
-+	{ QPSK,  FEC_8_9,  13000,  16000},
-+	{ QPSK,  FEC_9_10, 13500,  16500},
-+	{ PSK_8, FEC_2_3,  14500,  17500},
-+	{ PSK_8, FEC_3_4,  16000,  19000},
-+	{ PSK_8, FEC_5_6,  17500,  20500},
-+	{ PSK_8, FEC_8_9,  19000,  22000},
-+};
-+
-+static const struct vidtv_demod_cnr_to_qual_s vidtv_demod_t_cnr_2_qual[] = {
-+	/* from libdvbv5 source code, in milli db*/
-+	{   QPSK, FEC_1_2,  4100,  5900},
-+	{   QPSK, FEC_2_3,  6100,  9600},
-+	{   QPSK, FEC_3_4,  7200, 12400},
-+	{   QPSK, FEC_5_6,  8500, 15600},
-+	{   QPSK, FEC_7_8,  9200, 17500},
-+	{ QAM_16, FEC_1_2,  9800, 11800},
-+	{ QAM_16, FEC_2_3, 12100, 15300},
-+	{ QAM_16, FEC_3_4, 13400, 18100},
-+	{ QAM_16, FEC_5_6, 14800, 21300},
-+	{ QAM_16, FEC_7_8, 15700, 23600},
-+	{ QAM_64, FEC_1_2, 14000, 16000},
-+	{ QAM_64, FEC_2_3, 19900, 25400},
-+	{ QAM_64, FEC_3_4, 24900, 27900},
-+	{ QAM_64, FEC_5_6, 21300, 23300},
-+	{ QAM_64, FEC_7_8, 22000, 24000},
-+};
-+
-+static const struct vidtv_demod_cnr_to_qual_s
-+	     *vidtv_match_cnr_s(struct dvb_frontend *fe)
-+{
-+	struct dtv_frontend_properties *c;
-+	const struct vidtv_demod_cnr_to_qual_s *cnr2qual = NULL;
-+	u32 array_size = 0;
-+	u32 i;
-+
-+	c = &fe->dtv_property_cache;
-+
-+	switch (c->delivery_system) {
-+	case SYS_DVBT:
-+	case SYS_DVBT2:
-+		cnr2qual   = vidtv_demod_t_cnr_2_qual;
-+		array_size = ARRAY_SIZE(vidtv_demod_t_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBS:
-+		cnr2qual   = vidtv_demod_s_cnr_2_qual;
-+		array_size = ARRAY_SIZE(vidtv_demod_s_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBS2:
-+		cnr2qual   = vidtv_demod_s2_cnr_2_qual;
-+		array_size = ARRAY_SIZE(vidtv_demod_s2_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBC_ANNEX_A:
-+		cnr2qual   = vidtv_demod_c_cnr_2_qual;
-+		array_size = ARRAY_SIZE(vidtv_demod_c_cnr_2_qual);
-+		break;
-+
-+	default:
-+		pr_warn_ratelimited("%s: unsupported delivery system: %u\n",
-+				    __func__,
-+				    c->delivery_system);
-+		break;
-+	}
-+
-+	for (i = 0; i < array_size; i++)
-+		if (cnr2qual[i].modulation == c->modulation &&
-+		    cnr2qual[i].fec == c->fec_inner)
-+			return &cnr2qual[i];
-+
-+	return NULL; /* not found */
-+}
-+
-+static void vidtv_demod_poll_snr_handler(struct work_struct *work)
-+{
-+	/*
-+	 * periodically check the signal quality and eventually
-+	 * lose the TS lock if it dips too low
-+	 */
-+	struct vidtv_demod_state *state;
-+	const struct vidtv_demod_cnr_to_qual_s *cnr2qual = NULL;
-+	struct vidtv_demod_config *config;
-+	u16 snr = 0;
-+
-+	state  = container_of(work, struct vidtv_demod_state, poll_snr.work);
-+	config = &state->config;
-+
-+	if (!state->frontend.ops.tuner_ops.get_rf_strength)
-+		return;
-+
-+	state->frontend.ops.tuner_ops.get_rf_strength(&state->frontend, &snr);
-+
-+	cnr2qual = vidtv_match_cnr_s(&state->frontend);
-+	if (!cnr2qual)
-+		return;
-+
-+	if (snr < cnr2qual->cnr_ok) {
-+		/* eventually lose the TS lock */
-+		if (prandom_u32_max(100) < config->drop_tslock_prob_on_low_snr)
-+			state->status = 0;
-+	} else {
-+		/* recover if the signal improves */
-+		if (prandom_u32_max(100) <
-+		    config->recover_tslock_prob_on_good_snr)
-+			state->status = FE_HAS_SIGNAL  |
-+					FE_HAS_CARRIER |
-+					FE_HAS_VITERBI |
-+					FE_HAS_SYNC    |
-+					FE_HAS_LOCK;
-+	}
-+
-+	schedule_delayed_work(&state->poll_snr,
-+			      msecs_to_jiffies(POLL_THRD_TIME));
-+}
-+
-+static int vidtv_demod_read_status(struct dvb_frontend *fe,
-+				   enum fe_status *status)
-+{
-+	struct vidtv_demod_state *state = fe->demodulator_priv;
-+
-+	*status = state->status;
-+
-+	return 0;
-+}
-+
-+static int vidtv_demod_read_ber(struct dvb_frontend *fe, u32 *ber)
-+{
-+	*ber = 0;
-+	return 0;
-+}
-+
-+static int vidtv_demod_read_signal_strength(struct dvb_frontend *fe,
-+					    u16 *strength)
-+{
-+	*strength = 0;
-+	return 0;
-+}
-+
-+static int vidtv_demod_read_snr(struct dvb_frontend *fe, u16 *snr)
-+{
-+	*snr = 0;
-+	return 0;
-+}
-+
-+static int vidtv_demod_read_ucblocks(struct dvb_frontend *fe, u32 *ucblocks)
-+{
-+	*ucblocks = 0;
-+	return 0;
-+}
-+
-+/*
-+ * NOTE:
-+ * This is implemented here just to be used as an example for real
-+ * demod drivers.
-+ *
-+ * Should only be implemented if it actually reads something from the hardware.
-+ * Also, it should check for the locks, in order to avoid report wrong data
-+ * to userspace.
-+ */
-+static int vidtv_demod_get_frontend(struct dvb_frontend *fe,
-+				    struct dtv_frontend_properties *p)
-+{
-+	return 0;
-+}
-+
-+static int vidtv_demod_set_frontend(struct dvb_frontend *fe)
-+{
-+	struct vidtv_demod_state *state            = fe->demodulator_priv;
-+	const struct vidtv_demod_cnr_to_qual_s *cnr2qual = NULL;
-+	u32 tuner_status                        = 0;
-+
-+	if (fe->ops.tuner_ops.set_params) {
-+		fe->ops.tuner_ops.set_params(fe);
-+
-+		/* store the CNR returned by the tuner */
-+		fe->ops.tuner_ops.get_rf_strength(fe, &state->tuner_cnr);
-+
-+		fe->ops.tuner_ops.get_status(fe, &tuner_status);
-+		state->status = (state->tuner_cnr > 0) ?  FE_HAS_SIGNAL  |
-+							  FE_HAS_CARRIER |
-+							  FE_HAS_VITERBI |
-+							  FE_HAS_SYNC    |
-+							  FE_HAS_LOCK	 :
-+							  0;
-+		cnr2qual = vidtv_match_cnr_s(fe);
-+
-+		/* signal isn't good: might lose the lock eventually */
-+		if (tuner_status == TUNER_STATUS_LOCKED &&
-+		    state->tuner_cnr < cnr2qual->cnr_good) {
-+			schedule_delayed_work(&state->poll_snr,
-+					      msecs_to_jiffies(POLL_THRD_TIME));
-+
-+			state->poll_snr_thread_running = true;
-+		}
-+
-+		if (fe->ops.i2c_gate_ctrl)
-+			fe->ops.i2c_gate_ctrl(fe, 0);
-+	}
-+
-+	return 0;
-+}
-+
-+static int vidtv_demod_sleep(struct dvb_frontend *fe)
-+{
-+	struct vidtv_demod_state *state = fe->demodulator_priv;
-+
-+	if (state->poll_snr_thread_running) {
-+		cancel_delayed_work_sync(&state->poll_snr);
-+		state->poll_snr_thread_running = false;
-+		state->poll_snr_thread_restart = true;
-+	}
-+	return 0;
-+}
-+
-+static int vidtv_demod_init(struct dvb_frontend *fe)
-+{
-+	struct vidtv_demod_state *state = fe->demodulator_priv;
-+	u32    tuner_status             = 0;
-+
-+	if (state->cold_start)
-+		INIT_DELAYED_WORK(&state->poll_snr,
-+				  &vidtv_demod_poll_snr_handler);
-+
-+	/*
-+	 * At resume, start the snr poll thread only if it was suspended with
-+	 * the thread running. Extra care should be taken here, as some tuner
-+	 * status change might happen at resume time (for example, due to an
-+	 * ioctl syscall to set_frontend, or due to a release syscall).
-+	 */
-+	fe->ops.tuner_ops.get_status(fe, &tuner_status);
-+
-+	if (tuner_status == TUNER_STATUS_LOCKED &&
-+	    state->poll_snr_thread_restart) {
-+		schedule_delayed_work(&state->poll_snr,
-+				      msecs_to_jiffies(POLL_THRD_TIME));
-+
-+		state->poll_snr_thread_restart = false;
-+	}
-+
-+	state->cold_start = false;
-+	return 0;
-+}
-+
-+/*
-+ * NOTE:
-+ * This is implemented here just to be used as an example for real
-+ * demod drivers.
-+ *
-+ * Should only be implemented if the demod has support for DVB-S or DVB-S2
-+ */
-+static int vidtv_demod_set_tone(struct dvb_frontend *fe,
-+				enum fe_sec_tone_mode tone)
-+{
-+	return 0;
-+}
-+
-+/*
-+ * NOTE:
-+ * This is implemented here just to be used as an example for real
-+ * demod drivers.
-+ *
-+ * Should only be implemented if the demod has support for DVB-S or DVB-S2
-+ */
-+static int vidtv_demod_set_voltage(struct dvb_frontend *fe,
-+				   enum fe_sec_voltage voltage)
-+{
-+	return 0;
-+}
-+
-+static void vidtv_demod_release(struct dvb_frontend *fe)
-+{
-+	struct vidtv_demod_state *state = fe->demodulator_priv;
-+
-+	if (state->poll_snr_thread_running)
-+		cancel_delayed_work_sync(&state->poll_snr);
-+
-+	kfree(state);
-+}
-+
-+static const struct dvb_frontend_ops vidtv_demod_ops = {
-+	.delsys = {
-+		SYS_DVBT,
-+		SYS_DVBT2,
-+		SYS_DVBC_ANNEX_A,
-+		SYS_DVBS,
-+		SYS_DVBS2,
-+	},
-+
-+	.info = {
-+		.name                   = "Dummy demod for DVB-T/T2/C/S/S2",
-+		.frequency_min_hz       = 51 * MHz,
-+		.frequency_max_hz       = 2150 * MHz,
-+		.frequency_stepsize_hz  = 62500,
-+		.frequency_tolerance_hz = 29500 * kHz,
-+		.symbol_rate_min        = 1000000,
-+		.symbol_rate_max        = 45000000,
-+
-+		.caps = FE_CAN_FEC_1_2 |
-+			FE_CAN_FEC_2_3 |
-+			FE_CAN_FEC_3_4 |
-+			FE_CAN_FEC_4_5 |
-+			FE_CAN_FEC_5_6 |
-+			FE_CAN_FEC_6_7 |
-+			FE_CAN_FEC_7_8 |
-+			FE_CAN_FEC_8_9 |
-+			FE_CAN_QAM_16 |
-+			FE_CAN_QAM_64 |
-+			FE_CAN_QAM_32 |
-+			FE_CAN_QAM_128 |
-+			FE_CAN_QAM_256 |
-+			FE_CAN_QAM_AUTO |
-+			FE_CAN_QPSK |
-+			FE_CAN_FEC_AUTO |
-+			FE_CAN_INVERSION_AUTO |
-+			FE_CAN_TRANSMISSION_MODE_AUTO |
-+			FE_CAN_GUARD_INTERVAL_AUTO |
-+			FE_CAN_HIERARCHY_AUTO,
-+	},
-+
-+	.release = vidtv_demod_release,
-+
-+	.init  = vidtv_demod_init,
-+	.sleep = vidtv_demod_sleep,
-+
-+	.set_frontend = vidtv_demod_set_frontend,
-+	.get_frontend = vidtv_demod_get_frontend,
-+
-+	.read_status          = vidtv_demod_read_status,
-+	.read_ber             = vidtv_demod_read_ber,
-+	.read_signal_strength = vidtv_demod_read_signal_strength,
-+	.read_snr             = vidtv_demod_read_snr,
-+	.read_ucblocks        = vidtv_demod_read_ucblocks,
-+
-+	/* For DVB-S/S2 */
-+	.set_voltage = vidtv_demod_set_voltage,
-+	.set_tone    = vidtv_demod_set_tone,
-+};
-+
-+static const struct i2c_device_id vidtv_demod_i2c_id_table[] = {
-+	{"dvb_vidtv_demod", 0},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, vidtv_demod_i2c_id_table);
-+
-+static int vidtv_demod_i2c_probe(struct i2c_client *client,
-+				 const struct i2c_device_id *id)
-+{
-+	struct vidtv_demod_state *state;
-+
-+	/* allocate memory for the internal state */
-+	state = kzalloc(sizeof(*state), GFP_KERNEL);
-+	if (!state)
-+		return -ENOMEM;
-+
-+	/* create dvb_frontend */
-+	memcpy(&state->frontend.ops,
-+	       &vidtv_demod_ops,
-+	       sizeof(struct dvb_frontend_ops));
-+
-+	state->frontend.demodulator_priv = state;
-+	i2c_set_clientdata(client, state);
-+
-+	return 0;
-+}
-+
-+static int vidtv_demod_i2c_remove(struct i2c_client *client)
-+{
-+	struct vidtv_demod_state *state = i2c_get_clientdata(client);
-+
-+	memset(&state->frontend.ops, 0, sizeof(struct dvb_frontend_ops));
-+	state->frontend.demodulator_priv = NULL;
-+	kfree(state);
-+
-+	return 0;
-+}
-+
-+static struct i2c_driver vidtv_demod_i2c_driver = {
-+	.driver = {
-+		.name                = "dvb_vidtv_demod",
-+		.suppress_bind_attrs = true,
-+	},
-+	.probe    = vidtv_demod_i2c_probe,
-+	.remove   = vidtv_demod_i2c_remove,
-+	.id_table = vidtv_demod_i2c_id_table,
-+};
-+
-+module_i2c_driver(vidtv_demod_i2c_driver);
-+
-+MODULE_DESCRIPTION("Virtual DVB Demodulator Driver");
-+MODULE_AUTHOR("Daniel W. S. Almeida");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_demod.h b/drivers/media/test-drivers/vidtv/vidtv_demod.h
-new file mode 100644
-index 000000000000..dfb36c515e4d
---- /dev/null
-+++ b/drivers/media/test-drivers/vidtv/vidtv_demod.h
-@@ -0,0 +1,73 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * The Virtual DTV test driver serves as a reference DVB driver and helps
-+ * validate the existing APIs in the media subsystem. It can also aid
-+ * developers working on userspace applications.
-+ *
-+ * Copyright (C) 2020 Daniel W. S. Almeida
-+ * Based on the example driver written by Emard <emard@softhome.net>
-+ */
-+
-+#ifndef VIDTV_DEMOD_H
-+#define VIDTV_DEMOD_H
-+
-+#include <linux/dvb/frontend.h>
-+#include <media/dvb_frontend.h>
-+
-+/**
-+ * struct vidtv_demod_cnr_to_qual_s - Map CNR values to a given combination of
-+ * modulation and fec_inner
-+ * @modulation: see enum fe_modulation
-+ * @fec: see enum fe_fec_rate
-+ *
-+ * This struct matches values for 'good' and 'ok' CNRs given the combination
-+ * of modulation and fec_inner in use. We might simulate some noise if the
-+ * signal quality is not too good.
-+ *
-+ * The values were taken from libdvbv5.
-+ */
-+struct vidtv_demod_cnr_to_qual_s {
-+	u32 modulation;
-+	u32 fec;
-+	u32 cnr_ok;
-+	u32 cnr_good;
-+};
-+
-+/**
-+ * struct vidtv_demod_config - Configuration used to init the demod
-+ * @drop_tslock_prob_on_low_snr: probability of losing the lock due to low snr
-+ * @recover_tslock_prob_on_good_snr: probability of recovering when the signal
-+ * improves
-+ *
-+ * The configuration used to init the demodulator module, usually filled
-+ * by a bridge driver. For vidtv, this is filled by vidtv_bridge before the
-+ * demodulator module is probed.
-+ */
-+struct vidtv_demod_config {
-+	u8 drop_tslock_prob_on_low_snr;
-+	u8 recover_tslock_prob_on_good_snr;
-+};
-+
-+/**
-+ * struct vidtv_demod_state - The demodulator state
-+ * @frontend: The frontend structure allocated by the demod.
-+ * @config: The config used to init the demod.
-+ * @poll_snr: The task responsible for periodically checking the simulated
-+ * signal quality, eventually dropping or reacquiring the TS lock.
-+ * @status: the demod status.
-+ * @cold_start: Whether the demod has not been init yet.
-+ * @poll_snr_thread_running: Whether the task responsible for periodically
-+ * checking the simulated signal quality is running.
-+ * @poll_snr_thread_restart: Whether we should restart the poll_snr task.
-+ */
-+struct vidtv_demod_state {
-+	struct dvb_frontend frontend;
-+	struct vidtv_demod_config config;
-+	struct delayed_work poll_snr;
-+	enum fe_status status;
-+	u16 tuner_cnr;
-+	bool cold_start;
-+	bool poll_snr_thread_running;
-+	bool poll_snr_thread_restart;
-+};
-+#endif // VIDTV_DEMOD_H
--- 
-2.27.0
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+RnJvbTogRGFuaWVsIFcuIFMuIEFsbWVpZGEgPGR3bHNhbG1laWRhQGdtYWlsLmNvbT4KCkFkZCBk
+b2N1bWVudGF0aW9uIGZvciB0aGUgVmlydHVhbCBEaWdpdGFsIFRWIGRyaXZlciAodmlkdHYpIGlu
+IHRoZQpSZXN0cnVjdHVyZWQgVGV4dCAoUmVTVCkgZm9ybWF0LgoKVGhpcyBkaXNjdXNzZXM6Ci0g
+V2hhdCBpcyB2aWR0dgotIFdoeSB2aWR0diBpcyBuZWVkZWQKLSBIb3cgdG8gYnVpbGQgYW5kIHJ1
+biB2aWR0dgotIEhvdyB2aWR0diBpcyBzdHJ1Y3R1cmVkCi0gSG93IHRvIHRlc3QgdmlkdHYKLSBI
+b3cgdG8gaW1wcm92ZSB2aWR0dgoKU2lnbmVkLW9mZi1ieTogRGFuaWVsIFcuIFMuIEFsbWVpZGEg
+PGR3bHNhbG1laWRhQGdtYWlsLmNvbT4KLS0tCiAuLi4vZHJpdmVyLWFwaS9tZWRpYS9kcml2ZXJz
+L2luZGV4LnJzdCAgICAgICAgfCAgIDEgKwogLi4uL2RyaXZlci1hcGkvbWVkaWEvZHJpdmVycy92
+aWR0di5yc3QgICAgICAgIHwgNDE3ICsrKysrKysrKysrKysrKysrKwogMiBmaWxlcyBjaGFuZ2Vk
+LCA0MTggaW5zZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZHJp
+dmVyLWFwaS9tZWRpYS9kcml2ZXJzL3ZpZHR2LnJzdAoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
+b24vZHJpdmVyLWFwaS9tZWRpYS9kcml2ZXJzL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vZHJp
+dmVyLWFwaS9tZWRpYS9kcml2ZXJzL2luZGV4LnJzdAppbmRleCAwZGY4NWZjOTY2MDUuLjVmMzQw
+Y2ZkYjRjYyAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL21lZGlhL2RyaXZl
+cnMvaW5kZXgucnN0CisrKyBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9tZWRpYS9kcml2ZXJz
+L2luZGV4LnJzdApAQCAtMzUsNCArMzUsNSBAQCBEaWdpdGFsIFRWIGRyaXZlcnMKIAogCWR2Yi11
+c2IKIAlmcm9udGVuZHMKKwl2aWR0dgogCWNvbnRyaWJ1dG9ycwpkaWZmIC0tZ2l0IGEvRG9jdW1l
+bnRhdGlvbi9kcml2ZXItYXBpL21lZGlhL2RyaXZlcnMvdmlkdHYucnN0IGIvRG9jdW1lbnRhdGlv
+bi9kcml2ZXItYXBpL21lZGlhL2RyaXZlcnMvdmlkdHYucnN0Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0
+CmluZGV4IDAwMDAwMDAwMDAwMC4uMzAzMjI3YTY3ZjYwCi0tLSAvZGV2L251bGwKKysrIGIvRG9j
+dW1lbnRhdGlvbi9kcml2ZXItYXBpL21lZGlhL2RyaXZlcnMvdmlkdHYucnN0CkBAIC0wLDAgKzEs
+NDE3IEBACisuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAorCis9PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PQordmlkdHY6IFZpcnR1YWwgRGlnaXRhbCBUViBkcml2ZXIK
+Kz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CisKK0F1dGhvcjogRGFuaWVsIFcuIFMu
+IEFsbWVpZGEgPGR3bHNhbG1laWRhQGdtYWlsLmNvbT4sIEp1bmUgMjAyMC4KKworQmFja2dyb3Vu
+ZAorLS0tLS0tLS0tLQorCitWaWR0diBpcyBhIHZpcnR1YWwgRFZCIGRyaXZlciB0aGF0IGFpbXMg
+dG8gc2VydmUgYXMgYSByZWZlcmVuY2UgZm9yIGRyaXZlcgord3JpdGVycyBieSBzZXJ2aW5nIGFz
+IGEgdGVtcGxhdGUuIEl0IGFsc28gdmFsaWRhdGVzIHRoZSBleGlzdGluZyBtZWRpYSBEVkIKK0FQ
+SXMsIHRodXMgaGVscGluZyB1c2Vyc3BhY2UgYXBwbGljYXRpb24gd3JpdGVycy4KKworQ3VycmVu
+dGx5LCBpdCBjb25zaXN0cyBvZjoKKworLSBBIGZha2UgdHVuZXIgZHJpdmVyLCB3aGljaCB3aWxs
+IHJlcG9ydCBhIGJhZCBzaWduYWwgcXVhbGl0eSBpZiB0aGUgY2hvc2VuCisgIGZyZXF1ZW5jeSBp
+cyB0b28gZmFyIGF3YXkgZnJvbSBhIHRhYmxlIG9mIHZhbGlkIGZyZXF1ZW5jaWVzIGZvciBhCisg
+IHBhcnRpY3VsYXIgZGVsaXZlcnkgc3lzdGVtLgorCistIEEgZmFrZSBkZW1vZCBkcml2ZXIsIHdo
+aWNoIHdpbGwgY29uc3RhbnRseSBwb2xsIHRoZSBmYWtlIHNpZ25hbCBxdWFsaXR5CisgIHJldHVy
+bmVkIGJ5IHRoZSB0dW5lciwgc2ltdWxhdGluZyBhIGRldmljZSB0aGF0IGNhbiBsb3NlL3JlYWNx
+dWlyZSBhIGxvY2sKKyAgb24gdGhlIHNpZ25hbCBkZXBlbmRpbmcgb24gdGhlIENOUiBsZXZlbHMu
+CisKKy0gQSBmYWtlIGJyaWRnZSBkcml2ZXIsIHdoaWNoIGlzIHRoZSBtb2R1bGUgcmVzcG9uc2li
+bGUgZm9yIG1vZHByb2JpbmcgdGhlCisgIGZha2UgdHVuZXIgYW5kIGRlbW9kIG1vZHVsZXMgYW5k
+IGltcGxlbWVudGluZyB0aGUgZGVtdXggbG9naWMuIFRoaXMgbW9kdWxlCisgIHRha2VzIHBhcmFt
+ZXRlcnMgYXQgaW5pdGlhbGl6YXRpb24gdGhhdCB3aWxsIGRpY3RhdGUgaG93IHRoZSBzaW11bGF0
+aW9uCisgIGJlaGF2ZXMuCisKKy0gQ29kZSByZXBvbnNpYmxlIGZvciBlbmNvZGluZyBhIHZhbGlk
+IE1QRUcgVHJhbnNwb3J0IFN0cmVhbSwgd2hpY2ggaXMgdGhlbgorICBwYXNzZWQgdG8gdGhlIGJy
+aWRnZSBkcml2ZXIuIFRoaXMgZmFrZSBzdHJlYW0gY29udGFpbnMgc29tZSBoYXJkY29kZWQgY29u
+dGVudC4KKyAgRm9yIG5vdywgd2UgaGF2ZSBhIHNpbmdsZSwgYXVkaW8tb25seSBjaGFubmVsIGNv
+bnRhaW5pbmcgYSBzaW5nbGUgTVBFRworICBFbGVtZW50YXJ5IFN0cmVhbSwgd2hpY2ggaW4gdHVy
+biBjb250YWlucyBhIFNNUFRFIDMwMm0gZW5jb2RlZCBzaW5lLXdhdmUuCisgIE5vdGUgdGhhdCB0
+aGlzIHBhcnRpY3VsYXIgZW5jb2RlciB3YXMgY2hvc2VuIGJlY2F1c2UgaXQgaXMgdGhlIGVhc2ll
+c3QKKyAgd2F5IHRvIGVuY29kZSBQQ00gYXVkaW8gZGF0YSBpbiBhIE1QRUcgVHJhbnNwb3J0IFN0
+cmVhbS4KKworQnVpbGRpbmcgdmlkdHYKKy0tLS0tLS0tLS0tLS0tCit2aWR0diBpcyBhIHRlc3Qg
+ZHJpdmVyIGFuZCB0aHVzIGlzICoqbm90KiogZW5hYmxlZCBieSBkZWZhdWx0IHdoZW4KK2NvbXBp
+bGluZyB0aGUga2VybmVsLgorCitJbiBvcmRlciB0byBlbmFibGUgY29tcGlsYXRpb24gb2Ygdmlk
+dHY6CisKKy0gRW5hYmxlICoqRFZCX1RFU1RfRFJJVkVSUyoqLCB0aGVuCistIEVuYWJsZSAqKkRW
+Ql9WSURUVioqCisKK1doZW4gY29tcGlsZWQgYXMgYSBtb2R1bGUsIGV4cGVjdCB0aGUgZm9sbG93
+aW5nIC5rbyBmaWxlczoKKworLSBkdmJfdmlkdHZfdHVuZXIua28KKworLSBkdmJfdmlkdHZfZGVt
+b2Qua28KKworLSBkdmJfdmlkdHZfYnJpZGdlLmtvCisKK1J1bm5pbmcgdmlkdHYKKy0tLS0tLS0t
+LS0tLS0KK1doZW4gY29tcGlsZWQgYXMgYSBtb2R1bGUsIHJ1bjo6CisKKwltb2Rwcm9iZSBkdmJf
+dmlkdHZfYnJpZGdlCisKK1RoYXQncyBpdCEgVGhlIGJyaWRnZSBkcml2ZXIgd2lsbCBpbml0aWFs
+aXplIHRoZSB0dW5lciBhbmQgZGVtb2QgZHJpdmVycyBhcworcGFydCBvZiBpdHMgb3duIGluaXRp
+YWxpemF0aW9uLgorCitZb3UgY2FuIG9wdGlvbmFsbHkgZGVmaW5lIHNvbWUgY29tbWFuZC1saW5l
+IGFyZ3VtZW50cyB0byB2aWR0di4KKworQ29tbWFuZC1saW5lIGFyZ3VtZW50cyB0byB2aWR0dgor
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorQmVsb3cgaXMgYSBsaXN0IG9mIGFsbCBh
+cmd1bWVudHMgdGhhdCBjYW4gYmUgc3VwcGxpZWQgdG8gdmlkdHY6CisKK2Ryb3BfdHNsb2NrX3By
+b2Jfb25fbG93X3NucgorCVByb2JhYmlsaXR5IG9mIGxvc2luZyB0aGUgVFMgbG9jayBpZiB0aGUg
+c2lnbmFsIHF1YWxpdHkgaXMgYmFkLgorCVRoaXMgcHJvYmFiaWxpdHkgYmUgdXNlZCBieSB0aGUg
+ZmFrZSBkZW1vZHVsYXRvciBkcml2ZXIgdG8KKwlldmVudHVhbGx5IHJldHVybiBhIHN0YXR1cyBv
+ZiAwIHdoZW4gdGhlIHNpZ25hbCBxdWFsaXR5IGlzIG5vdAorCWdvb2QuCisKK3JlY292ZXJfdHNs
+b2NrX3Byb2Jfb25fZ29vZF9zbnI6CisJUHJvYmFiaWxpdHkgcmVjb3ZlcmluZyB0aGUgVFMgbG9j
+ayB3aGVuIHRoZSBzaWduYWwgaW1wcm92ZXMuIFRoaXMKKwlwcm9iYWJpbGl0eSBiZSB1c2VkIGJ5
+IHRoZSBmYWtlIGRlbW9kdWxhdG9yIGRyaXZlciB0byBldmVudHVhbGx5CisJcmV0dXJuIGEgc3Rh
+dHVzIG9mIDB4MWYgd2hlbi9pZiB0aGUgc2lnbmFsIHF1YWxpdHkgaW1wcm92ZXMuCisKK21vY2tf
+cG93ZXJfdXBfZGVsYXlfbXNlYworCVNpbXVsYXRlIGEgcG93ZXIgdXAgZGVsYXkuICBEZWZhdWx0
+OiAwLgorCittb2NrX3R1bmVfZGVsYXlfbXNlYworCVNpbXVsYXRlIGEgdHVuZSBkZWxheS4gIERl
+ZmF1bHQgMC4KKwordmlkdHZfdmFsaWRfZHZiX3RfZnJlcXMKKwlWYWxpZCBEVkItVCBmcmVxdWVu
+Y2llcyB0byBzaW11bGF0ZS4KKwordmlkdHZfdmFsaWRfZHZiX2NfZnJlcXMKKyAJVmFsaWQgRFZC
+LUMgZnJlcXVlbmNpZXMgdG8gc2ltdWxhdGUuCisKK3ZpZHR2X3ZhbGlkX2R2Yl9zX2ZyZXFzCisJ
+VmFsaWQgRFZCLUMgZnJlcXVlbmNpZXMgdG8gc2ltdWxhdGUuCisKK21heF9mcmVxdWVuY3lfc2hp
+ZnRfaHosCisJTWF4aW11bSBzaGlmdCBpbiBIWiBhbGxvd2VkIHdoZW4gdHVuaW5nIGluIGEgY2hh
+bm5lbC4KKworc2lfcGVyaW9kX21zZWMKKwlIb3cgb2Z0ZW4gdG8gc2VuZCBTSSBwYWNrZXRzLiAg
+RGVmYXVsdDogNDBtcy4KKworcGNyX3BlcmlvZF9tc2VjCisJSG93IG9mdGVuIHRvIHNlbmQgUENS
+IHBhY2tldHMuICBEZWZhdWx0OiA0MG1zLgorCittdXhfcmF0ZV9rYnl0ZXNfc2VjCisJQXR0ZW1w
+dCB0byBtYWludGFpbiB0aGlzIGJpdCByYXRlIGJ5IGluc2VydGluZyBUUyBudWxsIHBhY2tldHMs
+IGlmCisJbmVjZXNzYXJ5LiAgRGVmYXVsdDogNDA5Ni4KKworcGNyX3BpZCwKKwlQQ1IgUElEIGZv
+ciBhbGwgY2hhbm5lbHMuICBEZWZhdWx0OiAweDIwMC4KKworbXV4X2J1Zl9zel9wa3RzLAorCVNp
+emUgZm9yIHRoZSBtdXggYnVmZmVyIGluIG11bHRpcGxlcyBvZiAxODggYnl0ZXMuCisKK3ZpZHR2
+IGludGVybmFsIHN0cnVjdHVyZQorLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCitUaGUga2VybmVs
+IG1vZHVsZXMgYXJlIHNwbGl0IGluIHRoZSBmb2xsb3dpbmcgd2F5OgorCit2aWR0dl90dW5lci5b
+Y2hdCisJSW1wbGVtZW50cyBhIGZha2UgdHVuZXIgRFZCIGRyaXZlci4KKwordmlkdHZfZGVtb2Qu
+W2NoXQorCUltcGxlbWVudHMgYSBmYWtlIGRlbW9kdWxhdG9yIERWQiBkcml2ZXIuCisKK3ZpZHR2
+X2JyaWRnZS5bY2hdCisJSW1wbGVtZW50cyBhIGJyaWRnZSBkcml2ZXIuCisKK1RoZSBNUEVHIHJl
+bGF0ZWQgY29kZSBpcyBzcGxpdCBpbiB0aGUgZm9sbG93aW5nIHdheToKKwordmlkdHZfdHMuW2No
+XQorCUNvZGUgdG8gd29yayB3aXRoIE1QRUcgVFMgcGFja2V0cywgc3VjaCBhcyBUUyBoZWFkZXJz
+LCBhZGFwdGF0aW9uCisJZmllbGRzLCBQQ1IgcGFja2V0cyBhbmQgTlVMTCBwYWNrZXRzLgorCit2
+aWR0dl9wc2kuW2NoXQorCVRoaXMgaXMgdGhlIFBTSSBnZW5lcmF0b3IuICBQU0kgcGFja2V0cyBj
+b250YWluIGdlbmVyYWwgaW5mb3JtYXRpb24KKwlhYm91dCBhIE1QRUcgVHJhbnNwb3J0IFN0cmVh
+bS4gIEEgUFNJIGdlbmVyYXRvciBpcyBuZWVkZWQgc28KKwl1c2Vyc3BhY2UgYXBwcyBjYW4gcmV0
+cmlldmUgaW5mb3JtYXRpb24gYWJvdXQgdGhlIFRyYW5zcG9ydCBTdHJlYW0KKwlhbmQgZXZlbnR1
+YWxseSB0dW5lIGludG8gYSAoZHVtbXkpIGNoYW5uZWwuCisKKwlCZWNhdXNlIHRoZSBnZW5lcmF0
+b3IgaXMgaW1wbGVtZW50ZWQgaW4gYSBzZXBhcmF0ZSBmaWxlLCBpdCBjYW4gYmUKKwlyZXVzZWQg
+ZWxzZXdoZXJlIGluIHRoZSBtZWRpYSBzdWJzeXN0ZW0uCisKKwlDdXJyZW50bHkgdmlkdHYgc3Vw
+cG9ydHMgd29ya2luZyB3aXRoIDMgUFNJIHRhYmxlczogUEFULCBQTVQgYW5kCisJU0RULgorCisJ
+VGhlIHNwZWNpZmljYXRpb24gZm9yIFBBVCBhbmQgUE1UIGNhbiBiZSBmb3VuZCBpbiAqSVNPIDEz
+ODE4LTE6CisJU3lzdGVtcyosIHdoaWxlIHRoZSBzcGVjaWZpY2F0aW9uIGZvciB0aGUgU0RUIGNh
+biBiZSBmb3VuZCBpbiAqRVRTSQorCUVOIDMwMCA0Njg6IFNwZWNpZmljYXRpb24gZm9yIFNlcnZp
+Y2UgSW5mb3JtYXRpb24gKFNJKSBpbiBEVkIKKwlzeXN0ZW1zKi4KKworCUl0IGlzbid0IHN0cmlj
+dGx5IG5lY2Vzc2FyeSwgYnV0IHVzaW5nIGEgcmVhbCBUUyBmaWxlIGhlbHBzIHdoZW4KKwlkZWJ1
+Z2dpbmcgUFNJIHRhYmxlcy4gVmlkdHYgY3VycmVudGx5IHRyaWVzIHRvIHJlcGxpY2F0ZSB0aGUg
+UFNJCisJc3RydWN0dXJlIGZvdW5kIGluIHRoaXMgZmlsZTogYFRTMUdsb2JvLnRzCisJPGh0dHBz
+Oi8vdHNkdWNrLmlvL3N0cmVhbXMvYnJhemlsLWlzZGItdGIvVFMxZ2xvYm8udHM+YF8uCisKKwlB
+IGdvb2Qgd2F5IHRvIHZpc3VhbGl6ZSB0aGUgc3RydWN0dXJlIG9mIHN0cmVhbXMgaXMgYnkgdXNp
+bmcKKwlgRFZCSW5zcGVjdG9yIDxodHRwczovL3NvdXJjZWZvcmdlLm5ldC9wcm9qZWN0cy9kdmJp
+bnNwZWN0b3IvPmBfLgorCit2aWR0dl9wZXMuW2NoXQorCUltcGxlbWVudHMgdGhlIFBFUyBsb2dp
+YyB0byBjb252ZXJ0IGVuY29kZXIgZGF0YSBpbnRvIE1QRUcgVFMKKwlwYWNrZXRzLiBUaGVzZSBj
+YW4gdGhlbiBiZSBmZWQgaW50byBhIFRTIG11bHRpcGxleGVyIGFuZCBldmVudHVhbGx5CisJaW50
+byB1c2Vyc3BhY2UuCisKK3ZpZHR2X2VuY29kZXIuaAorCUFuIGludGVyZmFjZSBmb3IgdmlkdHYg
+ZW5jb2RlcnMuIE5ldyBlbmNvZGVycyBjYW4gYmUgYWRkZWQgdG8gdGhpcworCWRyaXZlciBieSBp
+bXBsZW1lbnRpbmcgdGhlIGNhbGxzIGluIHRoaXMgZmlsZS4KKwordmlkdHZfczMwMm0uW2NoXQor
+CUltcGxlbWVudHMgYSBTMzAyTSBlbmNvZGVyIHRvIG1ha2UgaXQgcG9zc2libGUgdG8gaW5zZXJ0
+IFBDTSBhdWRpbworCWRhdGEgaW4gdGhlIGdlbmVyYXRlZCBNUEVHIFRyYW5zcG9ydCBTdHJlYW0u
+IFRoZSByZWxldmFudAorCXNwZWNpZmljYXRpb24gaXMgYXZhaWxhYmxlIG9ubGluZSBhcyAqU01Q
+VEUgMzAyTS0yMDA3OiBUZWxldmlzaW9uIC0KKwlNYXBwaW5nIG9mIEFFUzMgRGF0YSBpbnRvIE1Q
+RUctMiBUcmFuc3BvcnQgU3RyZWFtKi4KKworCisJVGhlIHJlc3VsdGluZyBNUEVHIEVsZW1lbnRh
+cnkgU3RyZWFtIGlzIGNvbnZleWVkIGluIGEgcHJpdmF0ZQorCXN0cmVhbSB3aXRoIGEgUzMwMk0g
+cmVnaXN0cmF0aW9uIGRlc2NyaXB0b3IgYXR0YWNoZWQuCisKKwlUaGlzIHNoYWxsIGVuYWJsZSBw
+YXNzaW5nIGFuIGF1ZGlvIHNpZ25hbCBpbnRvIHVzZXJzcGFjZSBzbyBpdCBjYW4KKwliZSBkZWNv
+ZGVkIGFuZCBwbGF5ZWQgYnkgbWVkaWEgc29mdHdhcmUuIFRoZSBjb3JyZXNwb25kaW5nIGRlY29k
+ZXIKKwlpbiBmZm1wZWcgaXMgbG9jYXRlZCBpbiAnbGliYXZjb2RlYy9zMzAybS5jJyBhbmQgaXMg
+ZXhwZXJpbWVudGFsLgorCit2aWR0dl9jaGFubmVsLltjaF0KKwlJbXBsZW1lbnRzIGEgJ2NoYW5u
+ZWwnIGFic3RyYWN0aW9uLgorCisJV2hlbiB2aWR0diBib290cywgaXQgd2lsbCBjcmVhdGUgc29t
+ZSBoYXJkY29kZWQgY2hhbm5lbHM6CisKKwkjLiBUaGVpciBzZXJ2aWNlcyB3aWxsIGJlIGNvbmNh
+dGVuYXRlZCB0byBwb3B1bGF0ZSB0aGUgU0RULgorCisJIy4gVGhlaXIgcHJvZ3JhbXMgd2lsbCBi
+ZSBjb25jYXRlbmF0ZWQgdG8gcG9wdWxhdGUgdGhlIFBBVAorCisJIy4gRm9yIGVhY2ggcHJvZ3Jh
+bSBpbiB0aGUgUEFULCBhIFBNVCBzZWN0aW9uIHdpbGwgYmUgY3JlYXRlZAorCisJIy4gVGhlIFBN
+VCBzZWN0aW9uIGZvciBhIGNoYW5uZWwgd2lsbCBiZSBhc3NpZ25lZCBpdHMgc3RyZWFtcy4KKwor
+CSMuIEV2ZXJ5IHN0cmVhbSB3aWxsIGhhdmUgaXRzIGNvcnJlc3BvbmRpbmcgZW5jb2RlciBwb2xs
+ZWQgaW4gYQorCSAgIGxvb3AgdG8gcHJvZHVjZSBUUyBwYWNrZXRzLgorCSAgIFRoZXNlIHBhY2tl
+dHMgbWF5IGJlIGludGVybGVhdmVkIGJ5IHRoZSBtdXhlciBhbmQgdGhlbiBkZWxpdmVyZWQKKwkg
+ICB0byB0aGUgYnJpZGdlLgorCit2aWR0dl9tdXguW2NoXQorCUltcGxlbWVudHMgYSBNUEVHIFRT
+IG11eCwgbG9vc2VseSBiYXNlZCBvbiB0aGUgZmZtcGVnCisJaW1wbGVtZW50YXRpb24gaW4gImxp
+YmF2Y29kZWMvbXBlZ3RzZW5jLmMiCisKKwlUaGUgbXV4ZXIgcnVucyBhIGxvb3Agd2hpY2ggaXMg
+cmVzcG9uc2libGUgZm9yOgorCisJIy4gS2VlcGluZyB0cmFjayBvZiB0aGUgYW1vdW50IG9mIHRp
+bWUgZWxhcHNlZCBzaW5jZSB0aGUgbGFzdAorCSAgIGl0ZXJhdGlvbi4KKworCSMuIFBvbGxpbmcg
+ZW5jb2RlcnMgaW4gb3JkZXIgdG8gZmV0Y2ggJ2VsYXBzZWRfdGltZScgd29ydGggb2YgZGF0YS4K
+KworCSMuIEluc2VydGluZyBQU0kgYW5kL29yIFBDUiBwYWNrZXRzLCBpZiBuZWVkZWQuCisKKwkj
+LiBQYWRkaW5nIHRoZSByZXN1bHRpbmcgc3RyZWFtIHdpdGggTlVMTCBwYWNrZXRzIGlmCisJICAg
+bmVjZXNzYXJ5IGluIG9yZGVyIHRvIG1haW50YWluIHRoZSBjaG9zZW4gYml0IHJhdGUuCisKKwkj
+LiBEZWxpdmVyaW5nIHRoZSByZXN1bHRpbmcgVFMgcGFja2V0cyB0byB0aGUgYnJpZGdlCisJICAg
+ZHJpdmVyIHNvIGl0IGNhbiBwYXNzIHRoZW0gdG8gdGhlIGRlbXV4LgorCitUZXN0aW5nIHZpZHR2
+IHdpdGggdjRsLXV0aWxzCistLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisKK1VzaW5nIHRo
+ZSB0b29scyBpbiB2NGwtdXRpbHMgaXMgYSBncmVhdCB3YXkgdG8gdGVzdCBhbmQgaW5zcGVjdCB0
+aGUgb3V0cHV0IG9mCit2aWR0di4gSXQgaXMgaG9zdGVkIGhlcmU6IGB2NGwtdXRpbHMgRG9jdW1l
+bnRhdGlvbgorPGh0dHBzOi8vbGludXh0di5vcmcvd2lraS9pbmRleC5waHAvVjRsLXV0aWxzPmBf
+LgorCitGcm9tIGl0cyB3ZWJwYWdlOjoKKworCVRoZSB2NGwtdXRpbHMgYXJlIGEgc2VyaWVzIG9m
+IHBhY2thZ2VzIGZvciBoYW5kbGluZyBtZWRpYSBkZXZpY2VzLgorCisJSXQgaXMgaG9zdGVkIGF0
+IGh0dHA6Ly9naXQubGludXh0di5vcmcvdjRsLXV0aWxzLmdpdCwgYW5kIHBhY2thZ2VkCisJb24g
+bW9zdCBkaXN0cmlidXRpb25zLgorCisJSXQgcHJvdmlkZXMgYSBzZXJpZXMgb2YgbGlicmFyaWVz
+IGFuZCB1dGlsaXRpZXMgdG8gYmUgdXNlZCB0bworCWNvbnRyb2wgc2V2ZXJhbCBhc3BlY3Qgb2Yg
+dGhlIG1lZGlhIGJvYXJkcy4KKworCitTdGFydCBieSBpbnN0YWxsaW5nIHY0bC11dGlscyBhbmQg
+dGhlbiBtb2Rwcm9iaW5nIHZpZHR2OjoKKworCW1vZHByb2JlIGR2Yl92aWR0dl9icmlkZ2UKKwor
+SWYgdGhlIGRyaXZlciBpcyBPSywgaXQgc2hvdWxkIGxvYWQgYW5kIGl0cyBwcm9iaW5nIGNvZGUg
+d2lsbCBydW4uIFRoaXMgd2lsbAorcHVsbCBpbiB0aGUgdHVuZXIgYW5kIGRlbW9kIGRyaXZlcnMu
+CisKK1VzaW5nIGR2Yi1mZS10b29sCit+fn5+fn5+fn5+fn5+fn5+fgorCitUaGUgZmlyc3Qgc3Rl
+cCB0byBjaGVjayB3aGV0aGVyIHRoZSBkZW1vZCBsb2FkZWQgc3VjY2Vzc2Z1bGx5IGlzIHRvIHJ1
+bjo6CisKKwkkIGR2Yi1mZS10b29sCisKK1RoaXMgc2hvdWxkIHJldHVybiB3aGF0IGlzIGN1cnJl
+bnRseSBzZXQgdXAgYXQgdGhlIGRlbW9kIHN0cnVjdCwgaS5lLjo6CisKKwlzdGF0aWMgY29uc3Qg
+c3RydWN0IGR2Yl9mcm9udGVuZF9vcHMgdmlkdHZfZGVtb2Rfb3BzID0geworCQkuZGVsc3lzID0g
+eworCQkJU1lTX0RWQlQsCisJCQlTWVNfRFZCVDIsCisJCQlTWVNfRFZCQ19BTk5FWF9BLAorCQkJ
+U1lTX0RWQlMsCisJCQlTWVNfRFZCUzIsCisJCX0sCisKKwkJLmluZm8gPSB7CisJCQkubmFtZSAg
+ICAgICAgICAgICAgICAgICA9ICJEdW1teSBkZW1vZCBmb3IgRFZCLVQvVDIvQy9TL1MyIiwKKwkJ
+CS5mcmVxdWVuY3lfbWluX2h6ICAgICAgID0gNTEgKiBNSHosCisJCQkuZnJlcXVlbmN5X21heF9o
+eiAgICAgICA9IDIxNTAgKiBNSHosCisJCQkuZnJlcXVlbmN5X3N0ZXBzaXplX2h6ICA9IDYyNTAw
+LAorCQkJLmZyZXF1ZW5jeV90b2xlcmFuY2VfaHogPSAyOTUwMCAqIGtIeiwKKwkJCS5zeW1ib2xf
+cmF0ZV9taW4gICAgICAgID0gMTAwMDAwMCwKKwkJCS5zeW1ib2xfcmF0ZV9tYXggICAgICAgID0g
+NDUwMDAwMDAsCisKKwkJCS5jYXBzID0gRkVfQ0FOX0ZFQ18xXzIgfAorCQkJCUZFX0NBTl9GRUNf
+Ml8zIHwKKwkJCQlGRV9DQU5fRkVDXzNfNCB8CisJCQkJRkVfQ0FOX0ZFQ180XzUgfAorCQkJCUZF
+X0NBTl9GRUNfNV82IHwKKwkJCQlGRV9DQU5fRkVDXzZfNyB8CisJCQkJRkVfQ0FOX0ZFQ183Xzgg
+fAorCQkJCUZFX0NBTl9GRUNfOF85IHwKKwkJCQlGRV9DQU5fUUFNXzE2IHwKKwkJCQlGRV9DQU5f
+UUFNXzY0IHwKKwkJCQlGRV9DQU5fUUFNXzMyIHwKKwkJCQlGRV9DQU5fUUFNXzEyOCB8CisJCQkJ
+RkVfQ0FOX1FBTV8yNTYgfAorCQkJCUZFX0NBTl9RQU1fQVVUTyB8CisJCQkJRkVfQ0FOX1FQU0sg
+fAorCQkJCUZFX0NBTl9GRUNfQVVUTyB8CisJCQkJRkVfQ0FOX0lOVkVSU0lPTl9BVVRPIHwKKwkJ
+CQlGRV9DQU5fVFJBTlNNSVNTSU9OX01PREVfQVVUTyB8CisJCQkJRkVfQ0FOX0dVQVJEX0lOVEVS
+VkFMX0FVVE8gfAorCQkJCUZFX0NBTl9ISUVSQVJDSFlfQVVUTywKKwkJfQorCisJCS4uLi4KKwor
+Rm9yIG1vcmUgaW5mb3JtYXRpb24gb24gZHZiLWZlLXRvb2xzIGNoZWNrIGl0cyBvbmxpbmUgZG9j
+dW1lbnRhdGlvbiBoZXJlOgorYGR2Yi1mZS10b29sIERvY3VtZW50YXRpb24KKzxodHRwczovL3d3
+dy5saW51eHR2Lm9yZy93aWtpL2luZGV4LnBocC9EdmItZmUtdG9vbD5gXy4KKworVXNpbmcgZHZi
+LXNjYW4KK35+fn5+fn5+fn5+fn5+CisKK0luIG9yZGVyIHRvIHR1bmUgaW50byBhIGNoYW5uZWwg
+YW5kIHJlYWQgdGhlIFBTSSB0YWJsZXMsIHdlIGNhbiB1c2UgZHZiLXNjYW4uCisKK0ZvciB0aGlz
+LCBvbmUgc2hvdWxkIHByb3ZpZGUgYSBjb25maWd1cmF0aW9uIGZpbGUga25vd24gYXMgYSAnc2Nh
+biBmaWxlJywKK2hlcmUncyBhbiBleGFtcGxlOjoKKworCVtDaGFubmVsXQorCUZSRVFVRU5DWSA9
+IDMzMDAwMDAwMAorCU1PRFVMQVRJT04gPSBRQU0vQVVUTworCVNZTUJPTF9SQVRFID0gNjk0MDAw
+MAorCUlOTkVSX0ZFQyA9IEFVVE8KKwlERUxJVkVSWV9TWVNURU0gPSBEVkJDL0FOTkVYX0EKKwor
+Li4gbm90ZTo6CisJVGhlIHBhcmFtZXRlcnMgZGVwZW5kIG9uIHRoZSB2aWRlbyBzdGFuZGFyZCB5
+b3UncmUgdGVzdGluZy4KKworLi4gbm90ZTo6CisJVmlkdHYgaXMgYSBmYWtlIGRyaXZlciBhbmQg
+ZG9lcyBub3QgdmFsaWRhdGUgbXVjaCBvZiB0aGUgaW5mb3JtYXRpb24KKwlpbiB0aGUgc2NhbiBm
+aWxlLiBKdXN0IHNwZWNpZnlpbmcgJ0ZSRVFVRU5DWScgYW5kICdERUxJVkVSWV9TWVNURU0nCisJ
+c2hvdWxkIGJlIGVub3VnaCBmb3IgRFZCLVQvRFZCLVQyLiBGb3IgRFZCLVMvRFZCLUMgaG93ZXZl
+ciwgeW91CisJc2hvdWxkIGFsc28gcHJvdmlkZSAnU1lNQk9MX1JBVEUnLgorCitZb3UgY2FuIGJy
+b3dzZSBzY2FuIHRhYmxlcyBvbmxpbmUgaGVyZTogYGR2Yi1zY2FuLXRhYmxlcworPGh0dHBzOi8v
+Z2l0LmxpbnV4dHYub3JnL2R0di1zY2FuLXRhYmxlcy5naXQ+YF8uCisKK0Fzc3VtaW5nIHRoaXMg
+Y2hhbm5lbCBpcyBuYW1lZCAnY2hhbm5lbC5jb25mJywgeW91IGNhbiB0aGVuIHJ1bjo6CisKKyAg
+ICAgICAgJCBkdmJ2NS1zY2FuIGNoYW5uZWwuY29uZgorCitGb3IgbW9yZSBpbmZvcm1hdGlvbiBv
+biBkdmItc2NhbiwgY2hlY2sgaXRzIGRvY3VtZW50YXRpb24gb25saW5lIGhlcmU6CitgZHZiLXNj
+YW4gRG9jdW1lbnRhdGlvbiA8aHR0cHM6Ly93d3cubGludXh0di5vcmcvd2lraS9pbmRleC5waHAv
+RHZic2Nhbj5gXy4KKworVXNpbmcgZHZiLXphcAorfn5+fn5+fn5+fn5+fgorCitkdmJ2NS16YXAg
+aXMgYSBjb21tYW5kIGxpbmUgdG9vbCB0aGF0IGNhbiBiZSB1c2VkIHRvIHJlY29yZCBNUEVHLVRT
+IHRvIGRpc2suIFRoZQordHlwaWNhbCB1c2UgaXMgdG8gdHVuZSBpbnRvIGEgY2hhbm5lbCBhbmQg
+cHV0IGl0IGludG8gcmVjb3JkIG1vZGUuIFRoZSBleGFtcGxlCitiZWxvdyAtIHdoaWNoIGlzIHRh
+a2VuIGZyb20gdGhlIGRvY3VtZW50YXRpb24gLSBpbGx1c3RyYXRlcyB0aGF0OjoKKworICAgICAg
+ICAkIGR2YnY1LXphcCAtYyBkdmJfY2hhbm5lbC5jb25mICJ0cmlsaGFzIHNvbm9yYXMiIC1yCisg
+ICAgICAgIHVzaW5nIGRlbXV4ICcvZGV2L2R2Yi9hZGFwdGVyMC9kZW11eDAnCisgICAgICAgIHJl
+YWRpbmcgY2hhbm5lbHMgZnJvbSBmaWxlICdkdmJfY2hhbm5lbC5jb25mJworICAgICAgICBzZXJ2
+aWNlIGhhcyBwaWQgdHlwZSAwNTogIDIwNAorICAgICAgICB0dW5pbmcgdG8gNTczMDAwMDAwIEh6
+CisgICAgICAgIGF1ZGlvIHBpZCAxMDQKKyAgICAgICAgICBkdmJfc2V0X3Blc2ZpbHRlciAxMDQK
+KyAgICAgICAgTG9jayAgICgweDFmKSBRdWFsaXR5PSBHb29kIFNpZ25hbD0gMTAwLjAwJSBDL049
+IC0xMy44MGRCIFVDQj0gNzAgcG9zdEJFUj0gMy4xNHgxMF4tMyBQRVI9IDAKKyAgICAgICAgRFZS
+IGludGVyZmFjZSAnL2Rldi9kdmIvYWRhcHRlcjAvZHZyMCcgY2FuIG5vdyBiZSBvcGVuZWQKKwor
+VGhlIGNoYW5uZWwgY2FuIGJlIHdhdGNoZWQgYnkgcGxheWluZyB0aGUgY29udGVudHMgb2YgdGhl
+IERWUiBpbnRlcmZhY2UsIHdpdGgKK3NvbWUgcGxheWVyIHRoYXQgcmVjb2duaXplcyB0aGUgTVBF
+Ry1UUyBmb3JtYXQsIHN1Y2ggYXMgKm1wbGF5ZXIqIG9yICp2bGMqLgorCitCeSBwbGF5aW5nIHRo
+ZSBjb250ZW50cyBvZiB0aGUgc3RyZWFtIG9uZSBjYW4gdmlzdWFsbHkgaW5zcGVjdCB0aGUgd29y
+a2luZ3Mgb2YKK3ZpZHR2LCBlLmcuOjoKKworCSQgbXBsYXllciAvZGV2L2R2Yi9hZGFwdGVyMC9k
+dnIwCisKK0ZvciBtb3JlIGluZm9ybWF0aW9uIG9uIGR2Yi16YXAgY2hlY2sgaXRzIG9ubGluZSBk
+b2N1bWVudGF0aW9uIGhlcmU6CitgZHZiLXphcCBEb2N1bWVudGF0aW9uCis8aHR0cHM6Ly93d3cu
+bGludXh0di5vcmcvd2lraS9pbmRleC5waHAvRHZidjUtemFwPmBfLgorU2VlIGFsc286IGB6YXAg
+PGh0dHBzOi8vd3d3LmxpbnV4dHYub3JnL3dpa2kvaW5kZXgucGhwL1phcD5gXy4KKworCitXaGF0
+IGNhbiBzdGlsbCBiZSBpbXByb3ZlZCBpbiB2aWR0dgorLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0KKworQWRkICpkZWJ1Z2ZzKiBpbnRlZ3JhdGlvbgorfn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fgorCitBbHRob3VnaCBmcm9udGVuZCBkcml2ZXJzIHByb3ZpZGUgRFZCdjUgc3Rh
+dGlzdGljcyB2aWEgdGhlIC5yZWFkX3N0YXR1cworY2FsbCwgYSBuaWNlIGFkZGl0aW9uIHdvdWxk
+IGJlIHRvIG1ha2UgYWRkaXRpb25hbCBzdGF0aXN0aWNzIGF2YWlsYWJsZSB0bwordXNlcnNwYWNl
+IHZpYSBkZWJ1Z2ZzLCB3aGljaCBpcyBhIHNpbXBsZS10by11c2UsIFJBTS1iYXNlZCBmaWxlc3lz
+dGVtCitzcGVjaWZpY2FsbHkgZGVzaWduZWQgZm9yIGRlYnVnIHB1cnBvc2VzLgorCitUaGUgbG9n
+aWMgZm9yIHRoaXMgd291bGQgYmUgaW1wbGVtZW50ZWQgb24gYSBzZXBhcmF0ZSBmaWxlIHNvIGFz
+IG5vdCB0bworcG9sbHV0ZSB0aGUgZnJvbnRlbmQgZHJpdmVyLiAgVGhlc2Ugc3RhdGlzdGljcyBh
+cmUgZHJpdmVyLXNwZWNpZmljIGFuZCBjYW4KK2JlIHVzZWZ1bCBkdXJpbmcgdGVzdHMuCisKK1Ro
+ZSBTaWFubyBkcml2ZXIgaXMgb25lIGV4YW1wbGUgb2YgYSBkcml2ZXIgdXNpbmcKK2RlYnVnZnMg
+dG8gY29udmV5IGRyaXZlci1zcGVjaWZpYyBzdGF0aXN0aWNzIHRvIHVzZXJzcGFjZSBhbmQgaXQg
+Y2FuIGJlCit1c2VkIGFzIGEgcmVmZXJlbmNlLgorCitUaGlzIHNob3VsZCBiZSBmdXJ0aGVyIGVu
+YWJsZWQgYW5kIGRpc2FibGVkIHZpYSBhIEtjb25maWcKK29wdGlvbiBmb3IgY29udmVuaWVuY2Uu
+CisKK0FkZCBhIHdheSB0byB0ZXN0IHZpZGVvCit+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgorCitD
+dXJyZW50bHksIHZpZHR2IGNhbiBvbmx5IGVuY29kZSBQQ00gYXVkaW8uIEl0IHdvdWxkIGJlIGdy
+ZWF0IHRvIGltcGxlbWVudAorYSBiYXJlYm9uZXMgdmVyc2lvbiBvZiBNUEVHLTIgdmlkZW8gZW5j
+b2Rpbmcgc28gd2UgY2FuIGFsc28gdGVzdCB2aWRlby4gVGhlCitmaXJzdCBwbGFjZSB0byBsb29r
+IGludG8gaXMgKklTTyAxMzgxOC0yOiBJbmZvcm1hdGlvbiB0ZWNobm9sb2d5IOKAlCBHZW5lcmlj
+Citjb2Rpbmcgb2YgbW92aW5nIHBpY3R1cmVzIGFuZCBhc3NvY2lhdGVkIGF1ZGlvIGluZm9ybWF0
+aW9uIOKAlCBQYXJ0IDI6IFZpZGVvKiwKK3doaWNoIGNvdmVycyB0aGUgZW5jb2Rpbmcgb2YgY29t
+cHJlc3NlZCB2aWRlbyBpbiBNUEVHIFRyYW5zcG9ydCBTdHJlYW1zLgorCitUaGlzIG1pZ2h0IG9w
+dGlvbmFsbHkgdXNlIHRoZSBWaWRlbzRMaW51eDIgVGVzdCBQYXR0ZXJuIEdlbmVyYXRvciwgdjRs
+Mi10cGcsCit3aGljaCByZXNpZGVzIGF0OjoKKworCWRyaXZlcnMvbWVkaWEvY29tbW9uL3Y0bDIt
+dHBnLworCisKK0FkZCB3aGl0ZSBub2lzZSBzaW11bGF0aW9uCit+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fgorCitUaGUgdmlkdHYgdHVuZXIgYWxyZWFkeSBoYXMgY29kZSB0byBpZGVudGlmeSB3
+aGV0aGVyIHRoZSBjaG9zZW4gZnJlcXVlbmN5CitpcyB0b28gZmFyIGF3YXkgZnJvbSBhIHRhYmxl
+IG9mIHZhbGlkIGZyZXF1ZW5jaWVzLiBGb3Igbm93LCB0aGlzIG1lYW5zIHRoYXQKK3RoZSBkZW1v
+ZHVsYXRvciBjYW4gZXZlbnR1YWxseSBsb3NlIHRoZSBsb2NrIG9uIHRoZSBzaWduYWwsIHNpbmNl
+IHRoZSB0dW5lciB3aWxsCityZXBvcnQgYSBiYWQgc2lnbmFsIHF1YWxpdHkuCisKK0EgbmljZSBh
+ZGRpdGlvbiBpcyB0byBzaW11bGF0ZSBzb21lIG5vaXNlIHdoZW4gdGhlIHNpZ25hbCBxdWFsaXR5
+IGlzIGJhZCBieToKKworLSBSYW5kb21seSBkcm9wcGluZyBzb21lIFRTIHBhY2tldHMuIFRoaXMg
+d2lsbCB0cmlnZ2VyIGEgY29udGludWl0eSBlcnJvciBpZiB0aGUKKyAgY29udGludWl0eSBjb3Vu
+dGVyIGlzIHVwZGF0ZWQgYnV0IHRoZSBwYWNrZXQgaXMgbm90IHBhc3NlZCBvbiB0byB0aGUgZGVt
+dXguCisKKy0gVXBkYXRpbmcgdGhlIGVycm9yIHN0YXRpc3RpY3MgYWNjb3JkaW5nbHkgKGUuZy4g
+QkVSLCBldGMpLgorCistIFNpbXVsYXRpbmcgc29tZSBub2lzZSBpbiB0aGUgZW5jb2RlZCBkYXRh
+LgotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRl
+ZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlv
+bi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
