@@ -6,98 +6,110 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B907DC433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:43:18 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB440C433E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:43:20 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8DD6C21D95
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:43:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9F20F21744
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:43:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ld0t00pE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8DD6C21D95
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Boub8lNC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F20F21744
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 78DF7886D9;
-	Fri, 31 Jul 2020 12:43:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5E9572010D;
+	Fri, 31 Jul 2020 12:43:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id feR+i63FPOUp; Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
+	with ESMTP id iHsiCeDTpW35; Fri, 31 Jul 2020 12:43:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 771DC886E1;
-	Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8B220203A3;
+	Fri, 31 Jul 2020 12:43:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53E28C004F;
-	Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7765CC004F;
+	Fri, 31 Jul 2020 12:43:19 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8A5A8C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4240BC0864
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:43:15 +0000 (UTC)
+ Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8431086AB1
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3612B86AB7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:43:15 +0000 (UTC)
+ Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X8MnjeKp7qmT
+ with ESMTP id DEZSb6Yup18L
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
+ Fri, 31 Jul 2020 12:43:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7E47E86AB0
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+ [209.85.218.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6A01586AB1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id jp10so4723700ejb.0
+ Fri, 31 Jul 2020 12:43:16 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id o18so31264256eje.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:43:14 -0700 (PDT)
+ Fri, 31 Jul 2020 05:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=W3jrzpfEeWtPMNu6ebBkWvuMrQ1sgOT+1rw4Pu7mEnM=;
- b=ld0t00pEM0MZcb/2HS5Hxc5/1Alb6cpV0465TUImsXBfXqlUiXv3qgnP5THp7GdyWt
- 8PN897B99gz/5u30giINZNvDMT6/mWuvIXe+TcNMuLxTvnH9PCytRwpSraftTJMgQpWe
- spoy/g9Lh0dsyUDMi87W9NTpVJ2/JlZ3B2T3++DAouHdqUuMr4fStgrbobkymQoX5/nx
- LG/NUMGNDA29W4D704MLbhgeamT2vFggAA15Dd8orS57Vd6d1CNKgfLP7fpy87FzJkLH
- UPK/9ubqDzWSkKxoO8jdts69q2aW31ePssin6RT9S8aPsvQphdqn8XgF5w3oA6zSoxmE
- Dw9g==
+ bh=Z7WaVDyC31Xqp9aG4vaiaHbvwp6b775oA7lj7CzrKBo=;
+ b=Boub8lNC8OOZzaDP7HakRmCigQ9s+TmAZKT/FvTXISovow+eY1+3iv9s7tVr5dADQb
+ tIF5zqqI08ULoL0yyrXmhoapYfXxmRW0lyX2RCJXcewDU1EB9xdyPBrZABXn08aJJ28c
+ Ix6TlonWfWSChmEA3cZnWfApy3SwFu1s8TocFkM7yBDwtH78cBXTAF1xTDgYs+VIg8UE
+ kcTAWODekL0CEEpa/XJHHc7Z1xM6Zm5QjgRxMYhQQz3mO4eSz2plfe9QNw1SAJHLLj1J
+ ZA6BNEbFTnFQK6vaB1h+hfyveE/uv2QDJ4RmDfBaoT3ERtSvXRg9SGL9BruBwod71w3x
+ jyzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=W3jrzpfEeWtPMNu6ebBkWvuMrQ1sgOT+1rw4Pu7mEnM=;
- b=YI6BZPQzZfWwYuIcJXgb0qw7o6BFsAz69L3VcJCjsfZprkg2zT3FWe0lcx0T+zvBSk
- 6kiOtUK8h7dNYQLmJtk+xcSbYni87sZZp6UoZldc4a1x675tU8IJ6PNv14iWPDAfHPui
- wJaKCfgszxaffR5Abi9IT7x+j+wknTUNHzwQZ/nZ5PDWfGOlK8BvBrgCSCxAEGUHD5QM
- F5G4cw/2/2oU11V/sb8yPPWDAqVRalzJWWgzpPe2R28aMe7NClrTXXSpMww30Qp7y1Mx
- M0C8BnsxS73mRn+CFmR+n4TLN8d/R2AK5urn+RPya8LuFihY654fJ1nK81O/7snpWqxp
- N6qw==
-X-Gm-Message-State: AOAM533uN2lcSC/ec734n1QVie9NruzWKR4FWkGdXKT2Us+ehTuXxNU2
- 7eGZNuT24v3pNPbNnlcTvr0=
-X-Google-Smtp-Source: ABdhPJyJ0iZIhz348o3l6wmkHxHvqln6F0gnPCiag58gIVbti5JjZMxnOWyTHRJJZGkCk1hWy3BckA==
-X-Received: by 2002:a17:906:1f53:: with SMTP id
- d19mr3799144ejk.327.1596199392870; 
- Fri, 31 Jul 2020 05:43:12 -0700 (PDT)
+ bh=Z7WaVDyC31Xqp9aG4vaiaHbvwp6b775oA7lj7CzrKBo=;
+ b=jqq+j4JaqlD999lSMXRSnvxJziPAgTK65APV/xDK+CNm9K2PQFgVIeT4W969X6cZ8F
+ 19hgBqhtgrX2pFRR7xpc3MmgdgD5hrp+k0PMO2CwOs0AzyvqaTvTOqoP8wDb6pknUQMT
+ Sbqg+eQKm7+1AE0N9djmo7cOj5Uhs9+w/x5n3fpb+ymmGjM2PJVwE6fUPABQCMb5/WSD
+ qt1cfA3DIVsW1F3H+EwKmns/IujETYY4jlan9DUHBSoMRQERIMfinOPu2/Uv7Il/o3Uy
+ b4Dx0NqwNLPknYULSyQp/zEfZ1kWF+IaMomdG5fYsK7ybkSOTZSTE2zJHr27MU24SXKM
+ SDFA==
+X-Gm-Message-State: AOAM53299Y9bqsYynt5po0hPUfKms2z6nf+vdUVa1z4Feu6C4j2G8Mzv
+ 41kAXECZCASzMsYRdnpWbqE=
+X-Google-Smtp-Source: ABdhPJz2I4wMlXEMP6P1KRM4mmo8+jpv64fXNEUIP720yCcVBp2o7uTyVYR6ab20bRx5VLVhSw6mFA==
+X-Received: by 2002:a17:906:3281:: with SMTP id
+ 1mr3932259ejw.132.1596199394967; 
+ Fri, 31 Jul 2020 05:43:14 -0700 (PDT)
 Received: from net.saheed (95C84E0A.dsl.pool.telekom.hu. [149.200.78.10])
- by smtp.gmail.com with ESMTPSA id g23sm8668514ejb.24.2020.07.31.05.43.11
+ by smtp.gmail.com with ESMTPSA id g23sm8668514ejb.24.2020.07.31.05.43.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jul 2020 05:43:12 -0700 (PDT)
+ Fri, 31 Jul 2020 05:43:14 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 To: helgaas@kernel.org
-Date: Fri, 31 Jul 2020 13:43:28 +0200
-Message-Id: <20200731114329.100848-4-refactormyself@gmail.com>
+Date: Fri, 31 Jul 2020 13:43:29 +0200
+Message-Id: <20200731114329.100848-5-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200731114329.100848-1-refactormyself@gmail.com>
 References: <20200731114329.100848-1-refactormyself@gmail.com>
-Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v4 11/12] PCI/ASPM: Check if
-	pcie_capability_read_*() reads ~0
+Cc: linux-wireless@vger.kernel.org,
+ QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
+ Oliver O'Halloran <oohall@gmail.com>, Russell Currey <ruscur@russell.cc>,
+ linux-acpi@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
+ linux-pci@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, Len Brown <lenb@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Kalle Valo <kvalo@codeaurora.org>,
+ Mike Marciniszyn <mike.marciniszyn@intel.com>,
+ Sam Bobroff <sbobroff@linux.ibm.com>,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: [Linux-kernel-mentees] [PATCH v4 12/12] PCI: Remove '*val = 0' from
+	pcie_capability_read_*()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,62 +128,86 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On failure pcie_capability_read_*() sets it's last parameter, val
-to 0. However, with Patch 12/12, it is possible that val is set
-to ~0 on failure. This would introduce a bug because
-(x & x) == (~0 & x).
+There are several reasons why a PCI capability read may fail whether the
+device is present or not. If this happens, pcie_capability_read_*() will
+return -EINVAL/PCIBIOS_BAD_REGISTER_NUMBER or PCIBIOS_DEVICE_NOT_FOUND
+and *val is set to 0.
 
-Since ~0 is an invalid value in here,
+This behaviour if further ensured by this code inside
+pcie_capability_read_*()
 
-Add extra check for ~0 to the if condition to confirm failure.
+ ret = pci_read_config_dword(dev, pci_pcie_cap(dev) + pos, val);
+ /*
+  * Reset *val to 0 if pci_read_config_dword() fails, it may
+  * have been written as 0xFFFFFFFF if hardware error happens
+  * during pci_read_config_dword().
+  */
+ if (ret)
+	 *val = 0;
+ return ret;
+
+a) Since all pci_generic_config_read() does is read a register value,
+it may return success after reading a ~0 which *may* have been fabricated
+by the PCI host bridge due to a read timeout. Hence pci_read_config_*()
+will return success with a fabricated ~0 in *val, indicating a problem.
+In this case, the assumed behaviour of  pcie_capability_read_*() will be
+wrong. To avoid error slipping through, more checks are necessary.
+
+b) pci_read_config_*() will return PCIBIOS_DEVICE_NOT_FOUND only if
+dev->error_state = pci_channel_io_perm_failure (i.e.
+pci_dev_is_disconnected()) or if pci_generic_config_read() can't find the
+device. In both cases *val is initially set to ~0 but as shown in the code
+above pcie_capability_read_*() resets it back to 0. Even with this effort,
+drivers still have to perform validation checks more so if 0 is a valid
+value.
+
+Most drivers only consider the case (b) and in some cases, there is the
+expectation that on timeout *val has a fabricated value of ~0, which *may*
+not always be true as explained in (a).
+
+In any case, checks need to be done to validate the value read and maybe
+confirm which error has occurred. It is better left to the drivers to do.
+
+Remove the reset of *val to 0 when pci_read_config_*() fails.
 
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
 ---
- drivers/pci/pcie/aspm.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/pci/access.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-index b17e5ffd31b1..5e84a5ee94b0 100644
---- a/drivers/pci/pcie/aspm.c
-+++ b/drivers/pci/pcie/aspm.c
-@@ -223,7 +223,7 @@ static bool pcie_retrain_link(struct pcie_link_state *link)
- 	end_jiffies = jiffies + LINK_RETRAIN_TIMEOUT;
- 	do {
- 		pcie_capability_read_word(parent, PCI_EXP_LNKSTA, &reg16);
--		if (!(reg16 & PCI_EXP_LNKSTA_LT))
-+		if ((reg16 == (u16)~0) || !(reg16 & PCI_EXP_LNKSTA_LT))
- 			break;
- 		msleep(1);
- 	} while (time_before(jiffies, end_jiffies));
-@@ -250,23 +250,23 @@ static void pcie_aspm_configure_common_clock(struct pcie_link_state *link)
+diff --git a/drivers/pci/access.c b/drivers/pci/access.c
+index 79c4a2ef269a..ec95edbb1ac8 100644
+--- a/drivers/pci/access.c
++++ b/drivers/pci/access.c
+@@ -413,13 +413,6 @@ int pcie_capability_read_word(struct pci_dev *dev, int pos, u16 *val)
  
- 	/* Check downstream component if bit Slot Clock Configuration is 1 */
- 	pcie_capability_read_word(child, PCI_EXP_LNKSTA, &reg16);
--	if (!(reg16 & PCI_EXP_LNKSTA_SLC))
-+	if ((reg16 == (u16)~0) || !(reg16 & PCI_EXP_LNKSTA_SLC))
- 		same_clock = 0;
+ 	if (pcie_capability_reg_implemented(dev, pos)) {
+ 		ret = pci_read_config_word(dev, pci_pcie_cap(dev) + pos, val);
+-		/*
+-		 * Reset *val to 0 if pci_read_config_word() fails, it may
+-		 * have been written as 0xFFFF if hardware error happens
+-		 * during pci_read_config_word().
+-		 */
+-		if (ret)
+-			*val = 0;
+ 		return ret;
+ 	}
  
- 	/* Check upstream component if bit Slot Clock Configuration is 1 */
- 	pcie_capability_read_word(parent, PCI_EXP_LNKSTA, &reg16);
--	if (!(reg16 & PCI_EXP_LNKSTA_SLC))
-+	if ((reg16 == (u16)~0) || !(reg16 & PCI_EXP_LNKSTA_SLC))
- 		same_clock = 0;
+@@ -448,13 +441,6 @@ int pcie_capability_read_dword(struct pci_dev *dev, int pos, u32 *val)
  
- 	/* Port might be already in common clock mode */
- 	pcie_capability_read_word(parent, PCI_EXP_LNKCTL, &reg16);
--	if (same_clock && (reg16 & PCI_EXP_LNKCTL_CCC)) {
-+	if ((reg16 != (u16)~0) && same_clock && (reg16 & PCI_EXP_LNKCTL_CCC)) {
- 		bool consistent = true;
+ 	if (pcie_capability_reg_implemented(dev, pos)) {
+ 		ret = pci_read_config_dword(dev, pci_pcie_cap(dev) + pos, val);
+-		/*
+-		 * Reset *val to 0 if pci_read_config_dword() fails, it may
+-		 * have been written as 0xFFFFFFFF if hardware error happens
+-		 * during pci_read_config_dword().
+-		 */
+-		if (ret)
+-			*val = 0;
+ 		return ret;
+ 	}
  
- 		list_for_each_entry(child, &linkbus->devices, bus_list) {
- 			pcie_capability_read_word(child, PCI_EXP_LNKCTL,
- 						  &reg16);
--			if (!(reg16 & PCI_EXP_LNKCTL_CCC)) {
-+			if ((reg16 == (u16)~0) || !(reg16 & PCI_EXP_LNKCTL_CCC)) {
- 				consistent = false;
- 				break;
- 			}
 -- 
 2.18.4
 
