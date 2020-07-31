@@ -2,84 +2,96 @@ Return-Path: <SRS0=tCTQ=BK=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_05,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2975C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A83C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 05:58:57 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A8045208E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 801592084D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 05:58:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="FwnmgM0L"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A8045208E4
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="Os677kuu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 801592084D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7EAA98840B;
-	Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 684E58840B;
+	Fri, 31 Jul 2020 05:58:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UYVqDybwc-rq; Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
+	with ESMTP id 81tDyIOJPYHm; Fri, 31 Jul 2020 05:58:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 08AB288376;
-	Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0D701883DD;
+	Fri, 31 Jul 2020 05:58:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E13F7C004F;
-	Fri, 31 Jul 2020 05:33:38 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 702CDC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0085BC004F;
+	Fri, 31 Jul 2020 05:58:57 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2249DC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:33:37 +0000 (UTC)
+ Fri, 31 Jul 2020 05:58:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5F535885B4
+ by whitealder.osuosl.org (Postfix) with ESMTP id 146F88840B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:33:37 +0000 (UTC)
+ Fri, 31 Jul 2020 05:58:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T956uDwy39fp
+ with ESMTP id PIgNVfK-EkOJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:33:36 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id DA05B88236
+ Fri, 31 Jul 2020 05:58:55 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5A05E883DD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:33:36 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D6D79208E4;
- Fri, 31 Jul 2020 05:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596173616;
- bh=SrMzJYfTMQLBsXyhVjLLCmvenkRswzPK65sqy1cHK2g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FwnmgM0LtXhYrZbihPSWdfHqpy+DSzZ09TwFtOWT8N9S6rPrAdA2tKlVwkYDVpYI7
- /WGlgrGBWt6dS8efzXij7J2/2EIt43xsBoMyJbQjG+ff8WnhikCXp0JZMHcr82mxWq
- +EWy9cKwBRc78VgQG7aPqhbBW+dx32cNhinrGwQk=
-Date: Fri, 31 Jul 2020 07:33:33 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Leon Romanovsky <leon@kernel.org>
-Message-ID: <20200731053333.GB466103@kroah.com>
-References: <20200730192026.110246-1-yepeilin.cs@gmail.com>
- <20200731045301.GI75549@unreal> <20200731053306.GA466103@kroah.com>
+ Fri, 31 Jul 2020 05:58:55 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id z6so30682548iow.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 Jul 2020 22:58:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lPQTMMuUie6XJgopmwRnDGUbsFO8oXkWbGOWjLGiBQo=;
+ b=Os677kuuNvMKQYx2pXT/cjvVadrtcqtx9pUBxd76a5AQsJuD7IXHqglgWnx4ml0RuS
+ mgynRnZcACLF6szDB3raYg3Bga416fU/r90Q4NnJlRsPGANHjc7gpdqh+vtxHijU8u0B
+ 3lTwGRJxqoUfBi7kLAyQ/Z45PXxBCNrQGWu3seGH30CeW5/d7rIqqRprhJAWsqVPbyeq
+ zFcT9ljJbdXFRy12xu2ssJYeVyi/1z12UcaN4xszgG4oR3ynQFQkQ8iodBfsQi8mc52Z
+ goRLFkCzZQS4w/B8K8n+L8P8k/xtjz9D9p97VQHCHjSrBfDCr3s3IWGyi/O8jADOgVdv
+ AjQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lPQTMMuUie6XJgopmwRnDGUbsFO8oXkWbGOWjLGiBQo=;
+ b=ApuHXxOeNOCeO5VPQIw834r3oDyotRQ8krzrcYEbaA7AveV7HSWPn7f0wNS5S0yDcp
+ HFabf7LLLLLN/LPcUxEz1N0PTALj/6FwyfYxlQxA7e8Lti11y47x0OpBF9vJktq1vlTA
+ LfUVPrh4/v8vPxN6cjJnkWFmhqo3ML+FWP+sCC4iAgHlpWDv6AWGYyr5UbhkLKk1Uiyb
+ SsryUMRJJs2WhSf1QCwYKvwnaNcA3cmB10xt/klTEfHHPxFQXrsgbzUg2tdlgzEbuTD+
+ XFXzEH4V69IhMLNqLGu/BWuQ6rteq7Y3x9kMV3EMmAoBc+wk0U9SCAZB50RTDnCBvuQp
+ KPmw==
+X-Gm-Message-State: AOAM531bdORJj/GhaAuvgko3sBKeX+4w+bGwCjcLEA7uRH7eiW8zHGNc
+ q2wPfYVruuNweLnFbE3GHT15APQrjcZFozvhO9JRT1a9
+X-Google-Smtp-Source: ABdhPJxKv2g8sKZeB55V/Np8ZzNtHyGySCg0eNp27a92WFk7ob3lUVGsyrtY2NRfNBuyj2fhT8mxdMZAjDxcjKfw5VU=
+X-Received: by 2002:a63:d501:: with SMTP id c1mr2185919pgg.159.1596174649335; 
+ Thu, 30 Jul 2020 22:50:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200731053306.GA466103@kroah.com>
-Cc: rds-devel@oss.oracle.com, Arnd Bergmann <arnd@arndb.de>,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- Santosh Shilimkar <santosh.shilimkar@oracle.com>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+References: <20200730121656.45302-1-98.arpi@gmail.com>
+In-Reply-To: <20200730121656.45302-1-98.arpi@gmail.com>
+Date: Thu, 30 Jul 2020 22:50:38 -0700
+Message-ID: <CAFd5g46wpYxF1=bs3LvXeVg6mPHrT6Ggp=QxScaf87O=yqcpBA@mail.gmail.com>
+To: Arpitha Raghunandan <98.arpi@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH net] rds: Prevent kernel-infoleak
- in rds_notify_queue_get()
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] lib: Convert test_uuid.c to KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,33 +103,25 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Brendan Higgins via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jul 31, 2020 at 07:33:06AM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Jul 31, 2020 at 07:53:01AM +0300, Leon Romanovsky wrote:
-> > On Thu, Jul 30, 2020 at 03:20:26PM -0400, Peilin Ye wrote:
-> > > rds_notify_queue_get() is potentially copying uninitialized kernel stack
-> > > memory to userspace since the compiler may leave a 4-byte hole at the end
-> > > of `cmsg`.
-> > >
-> > > In 2016 we tried to fix this issue by doing `= { 0 };` on `cmsg`, which
-> > > unfortunately does not always initialize that 4-byte hole. Fix it by using
-> > > memset() instead.
-> > 
-> > Of course, this is the difference between "{ 0 }" and "{}" initializations.
-> 
-> Really?  Neither will handle structures with holes in it, try it and
-> see.
+On Thu, Jul 30, 2020 at 5:18 AM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
+>
+> Converts test lib/test_uuid.c to KUnit
 
-And if true, where in the C spec does it say that?
+Can you add some more detail to the commit message? Maybe link to
+KUnit and say something about why this change is beneficial.
 
-thanks,
+> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
 
-greg k-h
+Change mostly looks good to me.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
