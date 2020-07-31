@@ -6,72 +6,72 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E032C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 05:33:13 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2975C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 53FD9208E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 05:33:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A8045208E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="kFeznJvl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 53FD9208E4
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="FwnmgM0L"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A8045208E4
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3368586890;
-	Fri, 31 Jul 2020 05:33:13 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7EAA98840B;
+	Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xw9SlxLh3FNr; Fri, 31 Jul 2020 05:33:12 +0000 (UTC)
+	with ESMTP id UYVqDybwc-rq; Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CC19C86881;
-	Fri, 31 Jul 2020 05:33:12 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 08AB288376;
+	Fri, 31 Jul 2020 05:33:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C4424C004F;
-	Fri, 31 Jul 2020 05:33:12 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C2D32C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E13F7C004F;
+	Fri, 31 Jul 2020 05:33:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 702CDC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:33:10 +0000 (UTC)
+ Fri, 31 Jul 2020 05:33:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B2A9286879
+ by hemlock.osuosl.org (Postfix) with ESMTP id 5F535885B4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:33:10 +0000 (UTC)
+ Fri, 31 Jul 2020 05:33:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Po_mXErisEdu
+ with ESMTP id T956uDwy39fp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:33:10 +0000 (UTC)
+ Fri, 31 Jul 2020 05:33:36 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 4CAAF860C2
+ by hemlock.osuosl.org (Postfix) with ESMTPS id DA05B88236
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:33:10 +0000 (UTC)
+ Fri, 31 Jul 2020 05:33:36 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 76248208E4;
- Fri, 31 Jul 2020 05:33:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D6D79208E4;
+ Fri, 31 Jul 2020 05:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596173590;
- bh=Ey9Sbx63l35tpZRAlTqbhj39QlhEfAk6lnnRJ0GbmKc=;
+ s=default; t=1596173616;
+ bh=SrMzJYfTMQLBsXyhVjLLCmvenkRswzPK65sqy1cHK2g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kFeznJvlJLIKGU7a+xR/vPryMW1/HRaqLnnUF8/Qo9g6GwLSGNzszKYgVuTEhqbG6
- 0/R1y0qxc/7LAYy7huXZwxN+Y9gTkHmcNjKtknfvJBjTzGimo7HvXBtoTBhj+Fgb1a
- vbwF4a5Fi9jQ/BLnkYOhKx9ZOxfSppQidXBY8AvU=
-Date: Fri, 31 Jul 2020 07:33:06 +0200
+ b=FwnmgM0LtXhYrZbihPSWdfHqpy+DSzZ09TwFtOWT8N9S6rPrAdA2tKlVwkYDVpYI7
+ /WGlgrGBWt6dS8efzXij7J2/2EIt43xsBoMyJbQjG+ff8WnhikCXp0JZMHcr82mxWq
+ +EWy9cKwBRc78VgQG7aPqhbBW+dx32cNhinrGwQk=
+Date: Fri, 31 Jul 2020 07:33:33 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Leon Romanovsky <leon@kernel.org>
-Message-ID: <20200731053306.GA466103@kroah.com>
+Message-ID: <20200731053333.GB466103@kroah.com>
 References: <20200730192026.110246-1-yepeilin.cs@gmail.com>
- <20200731045301.GI75549@unreal>
+ <20200731045301.GI75549@unreal> <20200731053306.GA466103@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200731045301.GI75549@unreal>
+In-Reply-To: <20200731053306.GA466103@kroah.com>
 Cc: rds-devel@oss.oracle.com, Arnd Bergmann <arnd@arndb.de>,
  linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
  Santosh Shilimkar <santosh.shilimkar@oracle.com>, linux-kernel@vger.kernel.org,
@@ -97,20 +97,23 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jul 31, 2020 at 07:53:01AM +0300, Leon Romanovsky wrote:
-> On Thu, Jul 30, 2020 at 03:20:26PM -0400, Peilin Ye wrote:
-> > rds_notify_queue_get() is potentially copying uninitialized kernel stack
-> > memory to userspace since the compiler may leave a 4-byte hole at the end
-> > of `cmsg`.
-> >
-> > In 2016 we tried to fix this issue by doing `= { 0 };` on `cmsg`, which
-> > unfortunately does not always initialize that 4-byte hole. Fix it by using
-> > memset() instead.
+On Fri, Jul 31, 2020 at 07:33:06AM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Jul 31, 2020 at 07:53:01AM +0300, Leon Romanovsky wrote:
+> > On Thu, Jul 30, 2020 at 03:20:26PM -0400, Peilin Ye wrote:
+> > > rds_notify_queue_get() is potentially copying uninitialized kernel stack
+> > > memory to userspace since the compiler may leave a 4-byte hole at the end
+> > > of `cmsg`.
+> > >
+> > > In 2016 we tried to fix this issue by doing `= { 0 };` on `cmsg`, which
+> > > unfortunately does not always initialize that 4-byte hole. Fix it by using
+> > > memset() instead.
+> > 
+> > Of course, this is the difference between "{ 0 }" and "{}" initializations.
 > 
-> Of course, this is the difference between "{ 0 }" and "{}" initializations.
+> Really?  Neither will handle structures with holes in it, try it and
+> see.
 
-Really?  Neither will handle structures with holes in it, try it and
-see.
+And if true, where in the C spec does it say that?
 
 thanks,
 
