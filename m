@@ -2,110 +2,103 @@ Return-Path: <SRS0=tCTQ=BK=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E74C433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB50C433E4
 	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:02:23 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C5E722CA1
+	by mail.kernel.org (Postfix) with ESMTPS id 3384422BF3
 	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:02:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IV77SFHd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C5E722CA1
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JcMW1Amz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3384422BF3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id ED84B886F4;
-	Fri, 31 Jul 2020 12:02:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 27893886FC;
+	Fri, 31 Jul 2020 12:02:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Rrj23kx8v1f7; Fri, 31 Jul 2020 12:02:22 +0000 (UTC)
+	with ESMTP id Cpi-U6wj-Jty; Fri, 31 Jul 2020 12:02:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 68789886B7;
+	by hemlock.osuosl.org (Postfix) with ESMTP id BC98188639;
 	Fri, 31 Jul 2020 12:02:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1ADD1C0050;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97F54C0864;
 	Fri, 31 Jul 2020 12:02:22 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E4797C004D
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74477C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:02:20 +0000 (UTC)
+ Fri, 31 Jul 2020 12:02:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DF6C188318
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 63B85869E2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 31 Jul 2020 12:02:21 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uYYGWabQSApa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Fri, 31 Jul 2020 12:02:20 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6Mv-0ymntoFZ
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:02:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 849B987784
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6B1C0869C9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:02:18 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id c16so10782639ejx.12
+ Fri, 31 Jul 2020 12:02:20 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id bs17so3431013edb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:02:18 -0700 (PDT)
+ Fri, 31 Jul 2020 05:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=ZPoeO3tTC7ewTWnbFijLfWrL4pIpzl5ZB76dv/p6S+8=;
- b=IV77SFHdlJClAFDI4KSZtVJdC2DAtGrxQmIzbw7GOFGworBySBIYMfm9Yv26Y/SKyP
- rJ/5xlxCVrVFPq8kGTy8sYSnl8lJJRNSCrGsHmSuT/Q/6f6ZNhMo+IUMump4oyHXnbT4
- zdg6GnXC6I2EnnmIO+QWUt/QBdgUQDiMTBzZ1MF6LcHzPH6p6WiuMJRqgKLwdVXr0w6T
- A41vxNL3Pbxy7zwarGyvn0JkT7Sx1d9otfI42XD75uRhNvxzHSotK52Z7UcRx/7L0KoB
- ev5oiKfqKrPihVeHMlZvAQD8DrotfvZAdy9sCn3f87cYflYMriFMzeKWHMdJMTvHmefD
- 7wSQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=amVhr7R4Tl+AZRhIhKHpLA6uHviyCSc4sbl+N98Jdpg=;
+ b=JcMW1AmzuSS8oG65Inbid1bJUW/hbncZI7QS2d5UfMrtraGXnzfDKeDWUDIhuDP/6T
+ a5oy1TmPN7ZBWRpPUELAvSc5ujNSi1+DihJnVMqL9vW2Zx+Gqyawvb1ZEH1Jfv3gEIrJ
+ Lb33FgO9+8s5fiMLgtNRSIsBQ/8O1duwSGT7dVS7uZoRDhjo39sJfhzJWtn4xdYsjJ2u
+ Ap3vuoboz/YeojnQZcGlmicmKam1fnTIigSdb5tkXlt1czDa2nbdWRmVzLSyOYzUiz0Q
+ HEQsp232s4YkFDK8tN4PaxGlzYevBgaH5JeG75wkyNZjaVXbkGPtcdIWaK1VnBc5/gUK
+ kRUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=ZPoeO3tTC7ewTWnbFijLfWrL4pIpzl5ZB76dv/p6S+8=;
- b=QWZrVl4yvucHHHeClxmaSBP9Xw3rslc4pN0UkaXyeKBnuBBWDrVBau9M2awVUYToXQ
- VfHaEUCqX3bhQnXMiyZIiOFdfDkbdoGFrZ8SBqjDLTHUytouWFbcMbqtAtJrj3TOSzc2
- uMVpzydc3y0LqWOh2QXjUPXF7w3O7xLxFa07W1em1wzKa8y8A2WKrUCoFh4GRQ91otmx
- HwbA38HMeb7MtThcG9Jd9u4dp+YvKhbn238DyyLqU+IvcVac+rZVsCjrnaJwI5lhfHB5
- gaQ+Aqxgnh0+6YByCuqFabVrpzJ9YYnksisgLQqttb5wP0dPTylYgXZXy2cQx9c1eir3
- bjtQ==
-X-Gm-Message-State: AOAM5308xjFOwreKr1B5XM3YhHIr1uVKSQGkfe3NEHw/7Tu+W/cCeEEa
- VYC5QICxgwaDt6Ujf6LwlRQ=
-X-Google-Smtp-Source: ABdhPJzjoTcnAvyDzlAqwJiXlviIPrdknthesuHRXw6Drk1Mxsa9h9E21KaWBpHYtCNmp+wuQyAJqg==
-X-Received: by 2002:a17:906:d7b1:: with SMTP id
- pk17mr3684852ejb.554.1596196936900; 
- Fri, 31 Jul 2020 05:02:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=amVhr7R4Tl+AZRhIhKHpLA6uHviyCSc4sbl+N98Jdpg=;
+ b=WICF2pXSXYGjsz88JlShCsYoNP9SpNZ6C/qjd/rEE57C7RBKM4gYd8WZQfTgNklzAd
+ zXLAAVb376zHcyhbaSwnHJUT/X96cGd7bwfMQobO2yvombsiWuDDDWnyjnvklk5vMlWu
+ DkkWUI5ZyCnsdnrMPcRwLrHG3BI57ExQ4STYnu1keN7Mwhvug26M/0r/YPD9HJPrzPGW
+ bSmh4AAXtE/UdvkjqyldAmlxN2cZBs76862Me9wS5ff/qFcB/zmzAXI1ab06pBMrEg6z
+ qcc9LFJEGPAZYV+jQKSzbdYdQcpDfN/ump65llZ86oKF8fHrF/1LzU50r/9ArKkU/+GA
+ wbGw==
+X-Gm-Message-State: AOAM533/C44NgcM56yIjdRd/eLwpQAUNMDhOSkQ3yra2Ojv5SStcYKkC
+ oDmcvT4zVJo/gAcBXIm3ji0=
+X-Google-Smtp-Source: ABdhPJxxcaYV0fL7ANNAzpxeHZXM0MM7VCpGGNBUD6uol8RNcQxADNTtg7/dBuH2xZETfFkTuu3WUQ==
+X-Received: by 2002:aa7:ce90:: with SMTP id y16mr3597463edv.325.1596196938310; 
+ Fri, 31 Jul 2020 05:02:18 -0700 (PDT)
 Received: from net.saheed (95C84E0A.dsl.pool.telekom.hu. [149.200.78.10])
- by smtp.gmail.com with ESMTPSA id j5sm9091734ejk.87.2020.07.31.05.02.14
+ by smtp.gmail.com with ESMTPSA id j5sm9091734ejk.87.2020.07.31.05.02.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jul 2020 05:02:16 -0700 (PDT)
+ Fri, 31 Jul 2020 05:02:17 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 To: helgaas@kernel.org, Mike Marciniszyn <mike.marciniszyn@intel.com>,
  Dennis Dalessandro <dennis.dalessandro@intel.com>,
- Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "David S. Miller" <davem@davemloft.net>, Kalle Valo <kvalo@codeaurora.org>,
- Jakub Kicinski <kuba@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Len Brown <lenb@kernel.org>, Russell Currey <ruscur@russell.cc>,
- Sam Bobroff <sbobroff@linux.ibm.com>,
- "Oliver O'Halloran" <oohall@gmail.com>
-Date: Fri, 31 Jul 2020 13:02:28 +0200
-Message-Id: <20200731110240.98326-1-refactormyself@gmail.com>
+ Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Date: Fri, 31 Jul 2020 13:02:29 +0200
+Message-Id: <20200731110240.98326-2-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
-Cc: linuxppc-dev@lists.ozlabs.org, linux-rdma@vger.kernel.org,
- "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
- linux-acpi@vger.kernel.org, netdev@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v4 00/12] PCI: Remove '*val = 0' from
-	pcie_capability_read_*()
+In-Reply-To: <20200731110240.98326-1-refactormyself@gmail.com>
+References: <20200731110240.98326-1-refactormyself@gmail.com>
+Cc: linux-rdma@vger.kernel.org,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v4 01/12] IB/hfi1: Check if
+	pcie_capability_read_*() reads ~0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,121 +117,47 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-v4 CHANGES:
-- Drop uses of pcie_capability_read_*() return value. This related to
-  [1] which is pointing towards making the accessors return void.
-- Remove patches found to be unnecessary
-- Reword some commit messages
+On failure pcie_capability_read_dword() sets it's last parameter,
+val to 0. In this case dn and up will be 0, so aspm_hw_l1_supported()
+will return false.
+However, with Patch 12/12, it is possible that val is set to ~0 on
+failure. This would introduce a bug because (x & x) == (~0 & x). So
+with dn and up being 0x02, a true value is return when the read has
+actually failed.
 
-v3 CHANGES:
-- Split previous PATCH 6/13 into two : PATCH 6/14 and PATCH 7/14
-- Fix commit message of PATCH 5/14
-- Update Patch numbering and Commit messages
-- Add 'Acked by Greg KH' to PATCH 2/14
-- Add PATCH version
+Since, the value ~0 is invalid here,
 
-v2 CHANGES:
-- Fix missing comma, causing the email cc error
-- Fix typos and numbering errors in commit messages
-- Add commit message to 13/13
-- Add two more patches: PATCH 3/13 and PATCH 4/13
+Reset dn and up to 0 when a value of ~0 is read into them, this
+ensures false is returned on failure in this case.
 
-MERGING:
-- Patch 6/12 depends on Patch 5/12. However Patch 5/12 has no dependency.
-  Please, merge PATCH 6/12 only after Patch 5/12.
-- Patch 12/12 depends on all preceding patches. Please merge Patch 12/12
-  only after other patches in this series have been merged.
-- All other patches have no dependencies besides those mentioned above and
-  can be merge individually.
+Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
+Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
+---
 
-PATCH 5/12:
-Set the default case in the switch-statement to set status
-to "Power On".
+ drivers/infiniband/hw/hfi1/aspm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-PATCH 1/12 to 11/12:
-Use the value read by pcie_capability_read_*() to determine success or
-failure. This is done by checking if it is ~0, while maintaining the
-functions' behaviour. This ensures that the changes in PATCH 12/12 does
-not introduce any bug.
-
-PATCH 12/12:
-There are several reasons why a PCI capability read may fail whether the
-device is present or not. If this happens, pcie_capability_read_*() will
-return -EINVAL/PCIBIOS_BAD_REGISTER_NUMBER or PCIBIOS_DEVICE_NOT_FOUND
-and *val is set to 0.
-
-This behaviour if further ensured by this code inside
-pcie_capability_read_*()
-
- ret = pci_read_config_dword(dev, pci_pcie_cap(dev) + pos, val);
- /*
-  * Reset *val to 0 if pci_read_config_dword() fails, it may
-  * have been written as 0xFFFFFFFF if hardware error happens
-  * during pci_read_config_dword().
-  */
- if (ret)
-	 *val = 0;
- return ret;
-
-a) Since all pci_generic_config_read() does is read a register value,
-it may return success after reading a ~0 which *may* have been fabricated
-by the PCI host bridge due to a read timeout. Hence pci_read_config_*() 
-will return success with a fabricated ~0 in *val, indicating a problem.
-In this case, the assumed behaviour of  pcie_capability_read_*() will be
-wrong. To avoid error slipping through, more checks are necessary.
-
-b) pci_read_config_*() will return PCIBIOS_DEVICE_NOT_FOUND only if 
-dev->error_state = pci_channel_io_perm_failure (i.e. 
-pci_dev_is_disconnected()) or if pci_generic_config_read() can't find the
-device. In both cases *val is initially set to ~0 but as shown in the code
-above pcie_capability_read_*() resets it back to 0. Even with this effort,
-drivers still have to perform validation checks more so if 0 is a valid
-value.
-
-Most drivers only consider the case (b) and in some cases, there is the 
-expectation that on timeout *val has a fabricated value of ~0, which *may*
-not always be true as explained in (a).
-
-In any case, checks need to be done to validate the value read and maybe
-confirm which error has occurred. It is better left to the drivers to do.
-
-Check the return value of pcie_capability_read_dword() to ensure success
-and avoid bug as a result of Patch 14/14.
-Remove the reset of *val to 0 when pci_read_config_*() fails.
-
-[1] https://lore.kernel.org/linux-pci/20200714234625.GA428442@bjorn-Precision-5520/
-
-
-Saheed O. Bolarinwa (12):
-  IB/hfi1: Check if pcie_capability_read_*() reads ~0
-  misc: rtsx: Check if pcie_capability_read_*() reads ~0
-  ath9k: Check if pcie_capability_read_*() reads ~0
-  iwlegacy: Check if pcie_capability_read_*() reads ~0
-  PCI: pciehp: Set "Power On" as the default get_power_status
-  PCI: pciehp: Check if pcie_capability_read_*() reads ~0
-  PCI/ACPI: Check if pcie_capability_read_*() reads ~0
-  PCI: Check if pcie_capability_read_*() reads ~0
-  PCI/PM: Check if pcie_capability_read_*() reads ~0
-  PCI/AER: Check if pcie_capability_read_*() reads ~0
-  PCI/ASPM: Check if pcie_capability_read_*() reads ~0
-  PCI: Remove '*val = 0' from pcie_capability_read_*()
-
- drivers/infiniband/hw/hfi1/aspm.c            |  6 ++--
- drivers/misc/cardreader/rts5227.c            |  2 +-
- drivers/misc/cardreader/rts5249.c            |  2 +-
- drivers/misc/cardreader/rts5260.c            |  2 +-
- drivers/misc/cardreader/rts5261.c            |  2 +-
- drivers/net/wireless/ath/ath9k/pci.c         |  3 +-
- drivers/net/wireless/intel/iwlegacy/common.c |  2 +-
- drivers/pci/access.c                         | 14 --------
- drivers/pci/hotplug/pciehp_hpc.c             | 13 +++++---
- drivers/pci/pci-acpi.c                       |  4 +--
- drivers/pci/pci.c                            | 34 ++++++++++++++------
- drivers/pci/pcie/aer.c                       |  2 +-
- drivers/pci/pcie/aspm.c                      | 10 +++---
- drivers/pci/probe.c                          | 12 +++----
- 14 files changed, 56 insertions(+), 52 deletions(-)
-
+diff --git a/drivers/infiniband/hw/hfi1/aspm.c b/drivers/infiniband/hw/hfi1/aspm.c
+index a3c53be4072c..9605b2145d19 100644
+--- a/drivers/infiniband/hw/hfi1/aspm.c
++++ b/drivers/infiniband/hw/hfi1/aspm.c
+@@ -33,13 +33,13 @@ static bool aspm_hw_l1_supported(struct hfi1_devdata *dd)
+ 		return false;
+ 
+ 	pcie_capability_read_dword(dd->pcidev, PCI_EXP_LNKCAP, &dn);
+-	dn = ASPM_L1_SUPPORTED(dn);
++	dn = (dn == (u32)~0) ? 0 : ASPM_L1_SUPPORTED(dn);
+ 
+ 	pcie_capability_read_dword(parent, PCI_EXP_LNKCAP, &up);
+-	up = ASPM_L1_SUPPORTED(up);
++	up = (up == (u32)~0) ? 0 : ASPM_L1_SUPPORTED(up);
+ 
+ 	/* ASPM works on A-step but is reported as not supported */
+-	return (!!dn || is_ax(dd)) && !!up;
++	return (dn || is_ax(dd)) && up;
+ }
+ 
+ /* Set L1 entrance latency for slower entry to L1 */
 -- 
 2.18.4
 
