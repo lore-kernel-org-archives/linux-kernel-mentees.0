@@ -8,95 +8,95 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 981BAC433EB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:02:31 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 959BDC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:02:32 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6D71722B40
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:02:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6515622B40
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:02:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHoHf9/m"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D71722B40
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mX+NGt0G"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6515622B40
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 2228A2201C;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 53689886F5;
+	Fri, 31 Jul 2020 12:02:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TaEdzKXdhUiV; Fri, 31 Jul 2020 12:02:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id E943288639;
 	Fri, 31 Jul 2020 12:02:31 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C7B5AC0050;
+	Fri, 31 Jul 2020 12:02:31 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4CFE4C004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 31 Jul 2020 12:02:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 3F7C323771
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 31 Jul 2020 12:02:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bgXhECl4iakA; Fri, 31 Jul 2020 12:02:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A3DA221511;
-	Fri, 31 Jul 2020 12:02:29 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 958F4C0050;
-	Fri, 31 Jul 2020 12:02:29 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0A61CC004D
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IfEP+vy0mvt8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Fri, 31 Jul 2020 12:02:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E979D88318
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:02:27 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YvRgULnMgHBh
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:02:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id E36E487784
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id 7165521551
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:02:26 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id a21so31150712ejj.10
+ Fri, 31 Jul 2020 12:02:28 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id a14so5212464edx.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:02:26 -0700 (PDT)
+ Fri, 31 Jul 2020 05:02:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=MwqyF9CqW8A2iZOP3zewT7pOoo+Y4wjTCBBLr9pFHV8=;
- b=lHoHf9/m1kx7BZ7ww7TnAOjVdHgOjMgE7yLieOTnDqQNJxPrzZpx4X7luLE6X5qwZS
- MSfM/WDG7Z7cYyAiYMXIgsf1/QIs51JUxiIZRyCPeJq5PHrzXYxoL9BclsHkuD1PanUC
- KN2TTvAcBF4bg2m0vXqdzEoStoCvDD/GLmoS+SebIRyOdOr6Eg6ZksoFBxWVKMYxIfo+
- bIEm18ANbRdC7thEM0MAPhXn+OJ1s0C2E7tVzn6L91sQsZhNgOe88CHyvFgroBFxhBlS
- 26c6SmuBWXqQk1wEhtz7P/KBka4UMvcRd8VoKGhOPGOWlRPPvTUpLoV1+aGynqXJqYbq
- 2UqQ==
+ bh=iuQy8w3jTC6B7f+e5+v+su2hWV/K85XhH+2elaMKuus=;
+ b=mX+NGt0GAao51iB7oaEfO5+Btfka8TE/iCN9cnpXnNXnPfsggcBwStFE9SJ7n5EFNY
+ jdMFPXe/UGbl0eBCTUV/gPshZTOV/RtMC0+K0sWnHYgY8gJr334m9IIIelnNoSDq6RAm
+ PPvOdXtA4osZ4abuOYMB1Irc9HnBU7cxU0kwk0eejbhv9hq6X3XyYT4inmGtiS53gIgR
+ ZiZb/sRX3OSs5GpMMr80sJDOqSQ8YpXdt51eHE3GJ5JtzQOMS1cw+lx/A6r33aMSGKLo
+ Q/lJ4lkI9ut0SlODtbMP5L4nvqXTGYkyAPQ/6BgtdlGRVhRdb2rl8Cp163guf8Cg6IdL
+ Uw7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=MwqyF9CqW8A2iZOP3zewT7pOoo+Y4wjTCBBLr9pFHV8=;
- b=V0uZVds3kVlLqUUfmIiVB6ZOvI3Djgh+62Lzmgi7cjy1ebaEM3HIXD/p9LbD2bsTiR
- cRAjlt5DKvV9sXLgSBZXQReYW0Ji5vByAwupqeGv45AqNZ45ytGNFvBXwSNkG9u30s/5
- 3rF/iOyqh0opW5cCYPKcH1pbAHU3LbjhzgdmX1IVo5G0HBnMcYw6bzBw4l/Z8/qfrg4R
- JdxaETOZbgEkyUiRSo+ZnvWq2AiEV9BB/chT83pkV67txfhkQYp3eEMXnI3/mwrpDfJB
- /WcwXqczf2BD0BIs/bSCIa4ieY1ogmlumJJukMc0ayrJSsc0r3crOelKodEi1WkbATE3
- lqtA==
-X-Gm-Message-State: AOAM530G4pDYZBcyHXKlqueWmx689YeMNfZmCrZ3PF4XY4nOCY7++vv/
- qNot0yYLcP9VX1rKq9ArepE=
-X-Google-Smtp-Source: ABdhPJxTrzSFodIyak2PVFdWY/r/1cAygHW7Lv6TgpA0BgOnyI9xtpwXpNfkEtXqEA40584a4tXzpA==
-X-Received: by 2002:a17:906:8748:: with SMTP id
- hj8mr3778605ejb.477.1596196945471; 
- Fri, 31 Jul 2020 05:02:25 -0700 (PDT)
+ bh=iuQy8w3jTC6B7f+e5+v+su2hWV/K85XhH+2elaMKuus=;
+ b=BEFztIj5CvVwhGwrSI686W1YPqaKKTOY2ZYFTaEN6AFxpJTRTqFjv3DB0ge7NHzPVH
+ WJKb0D2XgMTvq1jdaAk/xBJ/yInmQ7g6GDtEo2MFG1R96nYLFz8+V0uleWYK/SwVKMsb
+ iZMzNSQgUYvhaMiqjZKVKPM5/8P0x8uYcxkWlbiMSu/QjJAfQgZ0E6enldWTc6cdVSwQ
+ NEraQuuDavDGGtG1lKAJc/FZ9X1y+Bo+1/EXcTaDFZ8JSk+00q6vQc9pucitNgOG5Nuz
+ cz+3FDqMupMaQcWJ0z4Vx6QCm9zdNOhdv3bJdyxXhImSJXRADy6qJvkR17hN4Wf9jQNZ
+ 045w==
+X-Gm-Message-State: AOAM53191dQfcRmMCS/xvfhj2Aq67fEGYoYxGJGpD9VumlTY/a3YLDpB
+ FQFmpJ5bsq+t+KdzelDNUQA=
+X-Google-Smtp-Source: ABdhPJzSf08P3jMuQU718EQhoumM6CT4AGAq2dZFlEfSRpdPJLSq+0WSaj54UAXLkHWN8FeZq8vKKg==
+X-Received: by 2002:aa7:ce91:: with SMTP id y17mr3587091edv.105.1596196946844; 
+ Fri, 31 Jul 2020 05:02:26 -0700 (PDT)
 Received: from net.saheed (95C84E0A.dsl.pool.telekom.hu. [149.200.78.10])
- by smtp.gmail.com with ESMTPSA id j5sm9091734ejk.87.2020.07.31.05.02.24
+ by smtp.gmail.com with ESMTPSA id j5sm9091734ejk.87.2020.07.31.05.02.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jul 2020 05:02:24 -0700 (PDT)
+ Fri, 31 Jul 2020 05:02:26 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: helgaas@kernel.org
-Date: Fri, 31 Jul 2020 13:02:34 +0200
-Message-Id: <20200731110240.98326-7-refactormyself@gmail.com>
+To: helgaas@kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Len Brown <lenb@kernel.org>
+Date: Fri, 31 Jul 2020 13:02:35 +0200
+Message-Id: <20200731110240.98326-8-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200731110240.98326-1-refactormyself@gmail.com>
 References: <20200731110240.98326-1-refactormyself@gmail.com>
 Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v4 06/12] PCI: pciehp: Check if
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v4 07/12] PCI/ACPI: Check if
 	pcie_capability_read_*() reads ~0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -116,50 +116,44 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On failure pcie_capability_read_word() sets it's last parameter, val
-to 0. However, with Patch 12/12, it is possible that val is set to
-~0 on failure. This introduces a bug because (x & x) == (~0 & x).
+On failure pcie_capability_read_*() sets it's last parameter, val
+to 0. However, with Patch 12/12, it is possible that val is set
+to ~0 on failure. This would introduces a bug because
+(x & x) == (~0 & x).
 
-Since ~0 is an invalid value here,
+Since ~0 is an invalid value in here,
 
-pciehp_get_power_status():
-Add an extra check for ~0 on the value read. If found, set status
-to 'Power On' and return.
-
-pcie_wait_for_presence():
-Add an extra check for no ~0 to the exit condition of the loop
+Add extra check for ~0 in the if condition to ensure success or
+failure.
 
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
 ---
- drivers/pci/hotplug/pciehp_hpc.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/pci/pci-acpi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
-index b89c9ee4a3b5..39305aabc3a2 100644
---- a/drivers/pci/hotplug/pciehp_hpc.c
-+++ b/drivers/pci/hotplug/pciehp_hpc.c
-@@ -278,7 +278,7 @@ static void pcie_wait_for_presence(struct pci_dev *pdev)
+diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
+index 7224b1e5f2a8..873b005947e4 100644
+--- a/drivers/pci/pci-acpi.c
++++ b/drivers/pci/pci-acpi.c
+@@ -253,7 +253,7 @@ static bool pcie_root_rcb_set(struct pci_dev *dev)
+ 		return false;
  
- 	do {
- 		pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
--		if (slot_status & PCI_EXP_SLTSTA_PDS)
-+		if ((slot_status != (u16)~0) && (slot_status & PCI_EXP_SLTSTA_PDS))
- 			return;
- 		msleep(10);
- 		timeout -= 10;
-@@ -399,6 +399,11 @@ void pciehp_get_power_status(struct controller *ctrl, u8 *status)
- 	ctrl_dbg(ctrl, "%s: SLOTCTRL %x value read %x\n", __func__,
- 		 pci_pcie_cap(ctrl->pcie->port) + PCI_EXP_SLTCTL, slot_ctrl);
+ 	pcie_capability_read_word(rp, PCI_EXP_LNKCTL, &lnkctl);
+-	if (lnkctl & PCI_EXP_LNKCTL_RCB)
++	if ((lnkctl != (u16)~0) && (lnkctl & PCI_EXP_LNKCTL_RCB))
+ 		return true;
  
-+	if (slot_ctrl == (u16)~0) {
-+		*status = 1;    /* On */
-+		return;
-+	}
-+
- 	switch (slot_ctrl & PCI_EXP_SLTCTL_PCC) {
- 	case PCI_EXP_SLTCTL_PWR_OFF:
- 		*status = 0;	/* Off */
+ 	return false;
+@@ -797,7 +797,7 @@ bool pciehp_is_native(struct pci_dev *bridge)
+ 		return false;
+ 
+ 	pcie_capability_read_dword(bridge, PCI_EXP_SLTCAP, &slot_cap);
+-	if (!(slot_cap & PCI_EXP_SLTCAP_HPC))
++	if ((slot_cap == (u32)~0) || !(slot_cap & PCI_EXP_SLTCAP_HPC))
+ 		return false;
+ 
+ 	if (pcie_ports_native)
 -- 
 2.18.4
 
