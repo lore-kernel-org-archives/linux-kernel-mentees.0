@@ -8,95 +8,97 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7AA8C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 333E6C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:43:18 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBB3221D95
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 031A022D04
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GMfvm+H2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBB3221D95
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="la4y7H95"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 031A022D04
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B02FE88627;
-	Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A43388873F;
+	Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QtBrxp5QURgJ; Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
+	with ESMTP id qNuL2kC4zuig; Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1156888606;
-	Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4560C88688;
+	Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B8DDC004F;
-	Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 37BB3C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 31C2DC004F;
+	Fri, 31 Jul 2020 12:43:17 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2CFF9C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:43:13 +0000 (UTC)
+ Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 206CA88606
+ by hemlock.osuosl.org (Postfix) with ESMTP id 152828869D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 31 Jul 2020 12:43:14 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id byVdlOCZgaIn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Fri, 31 Jul 2020 12:43:13 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SWobge0kYOgF
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
+ [209.85.218.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id F346F885C4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Fri, 31 Jul 2020 12:43:12 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 03238885D6
+Received: by mail-ej1-f66.google.com with SMTP id l4so31208782ejd.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 12:43:11 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id o18so31264004eje.7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 05:43:11 -0700 (PDT)
+ Fri, 31 Jul 2020 05:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=mu3KVS+jjnoE6TtDYHUGs04kgKz7VUXIOhtqaMe4L8k=;
- b=GMfvm+H2DwlxEhK0B+zbV8ssTcAL/5E/KjNfTanwFqrgfEUOmkR2UszOuUm7NVCrQN
- H2yKipSG9Y/TmMbjseu0nl0keYDGluJ3fDRpgdZMJeRxgqTstTW1wzvsWGDuVuoDlVaG
- bFRd5gafMnXo9eD/Euk/xm9KE8aw4gVr92jhqjEGso5l+IGn0sc4KAhJwkE5lN3sZ9Ww
- tLF3HFcNAuCgtTL7/81bU/WDHJahrvkMneLlHmiZpZgEuiTaOEBcpzcnrcI68OL9WVn+
- 6m93gwcBBdMRa2MIn6d7Il9Aus1rFT1xzX9fJLS00rEOMyzvX5yoky8uGiW+iKYQci1j
- PHKA==
+ bh=/Ag7HqTEQtYdyspkqndjVsChgoDS9cn0cuUanYprdzE=;
+ b=la4y7H95zYX+4CoEy2KWgnwHd0vnmrS28bchsmakne3qS/Vr/Sky6Ev/YjdhUqhr2M
+ XV6t+xXPeSq67btafNbmmSQyX6H9Yjj6rqvQ4qQ10ZNZfft55b6Mu1XvNLySCyeIhlo+
+ FYjF95d8mEvYs/i4achpXV9/bc03XFcBlPd3IgZ1pmjARJ4NohyI4Ci0XDdgUmxZR6fL
+ FiKXofe+k246mlqbVeBqo6MOCPJ9krPxzZ63zpFAoCbdXgJzl4i9pTg+xBnSFRcz8Css
+ jdo5DKuyFa+YL0IdzZjS76IB3PCVBEPaTgDrC7DSGknO1gOfOpC1534vpFnEVCQUWdy4
+ 6Hjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=mu3KVS+jjnoE6TtDYHUGs04kgKz7VUXIOhtqaMe4L8k=;
- b=qBLkotfm6nylWJ3fWl0ii7+4Lm39v/+6yzQv81AzB7jn91OuEzWBOY/QSc8j3VNCJo
- PHJ7BpA+2R7QmBjFRnj1uffsMaQg7Ut7IVmFZdCEKkwjYqTBurZZDKQg+m9gwGNE1mvT
- naabwy47hYINJYfa3rBG9i4KuHaCdTy5Y8LeQ+v8ZKNmLceWq2huMFwQeqWbarFnKhbS
- E/vPtXWnI8YZCoKOBZV58hilFLXOreSRRu55pGoRy29lf6dkKiqvf88lkc2naheq82dV
- og24jW3P5UtTm5CemNaP7cY2svsyorKEePBYmNq1WyMFH0WOvUv/6wmLhWAqS80F02Np
- xlsg==
-X-Gm-Message-State: AOAM531IIhIJrymc6rDrDVJRbufOeSf5DCEBvU283l9pYBEeVkNNvl9F
- ClMERdkTFtRZEuRvsqJ5ojQ=
-X-Google-Smtp-Source: ABdhPJzFvrIqdL0TTLhGyuFNtlAocl0tVTusk/30IvWSRwDYeEoMZH80mm/NNJqy7fAqpVg+0+r2Gg==
-X-Received: by 2002:a17:906:26d6:: with SMTP id
- u22mr4066761ejc.271.1596199390289; 
- Fri, 31 Jul 2020 05:43:10 -0700 (PDT)
+ bh=/Ag7HqTEQtYdyspkqndjVsChgoDS9cn0cuUanYprdzE=;
+ b=NhkH6IjDD9WAc/q0eHnj99XdJV5NjAMQLn/oGZmUKQ+Vufqm2LrPWffYGydJ9ge/IS
+ J4W2j4zuQ2uQfQg6mpv85q2Npyi3QfaVolX286aR696EPs3B4tWwNGberqPVRIwCArjE
+ HNfWOmI4CJKLuAlqQ/XKwln8GjLWJSMTz+ufzIAcBGv1dqqjnqmW9SGQADJb7TAg64ue
+ z8PGWvhHyj8eJ9+HYAStUtMiaI5QqVYengzqxm57Qrik3b8jQ7TLS6yrXrR0gOIOe1M5
+ pTAvZ2oTCfU3XReTNecv5VbQrXXjsncLzNOoAlF32mF4/kM9nYRAYT2Gyqv0pgmD7+DC
+ 3EhQ==
+X-Gm-Message-State: AOAM531hVZu4n9VJsAgM+SDjwuUnwtUj5yv37PTU1Ya3KjIVXvt3v9V1
+ xTmkrXxs1R36voRe0Z010ss=
+X-Google-Smtp-Source: ABdhPJxazhT1zvPbkIt354Q4EdFJPin4xMuEu5PAgWug8jOv4Gl1YG1P2lHcWL7ADSCeylA9M/RQ7Q==
+X-Received: by 2002:a17:906:7855:: with SMTP id
+ p21mr3869401ejm.492.1596199391572; 
+ Fri, 31 Jul 2020 05:43:11 -0700 (PDT)
 Received: from net.saheed (95C84E0A.dsl.pool.telekom.hu. [149.200.78.10])
- by smtp.gmail.com with ESMTPSA id g23sm8668514ejb.24.2020.07.31.05.43.09
+ by smtp.gmail.com with ESMTPSA id g23sm8668514ejb.24.2020.07.31.05.43.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jul 2020 05:43:09 -0700 (PDT)
+ Fri, 31 Jul 2020 05:43:11 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: helgaas@kernel.org
-Date: Fri, 31 Jul 2020 13:43:26 +0200
-Message-Id: <20200731114329.100848-2-refactormyself@gmail.com>
+To: helgaas@kernel.org, Russell Currey <ruscur@russell.cc>,
+ Sam Bobroff <sbobroff@linux.ibm.com>,
+ "Oliver O'Halloran" <oohall@gmail.com>
+Date: Fri, 31 Jul 2020 13:43:27 +0200
+Message-Id: <20200731114329.100848-3-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200731114329.100848-1-refactormyself@gmail.com>
 References: <20200731114329.100848-1-refactormyself@gmail.com>
 Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
  linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v4 09/12] PCI/PM: Check if
+ linuxppc-dev@lists.ozlabs.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v4 10/12] PCI/AER: Check if
 	pcie_capability_read_*() reads ~0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -123,142 +125,27 @@ to ~0 on failure. This would introduce a bug because
 
 Since ~0 is an invalid value in here,
 
-Add extra check for ~0 to ensure success or failure.
-
-pci_enable_atomic_ops_to_root():
-Continue looping through the device heirarchy on failure.
-
-pcie_wait_for_link_delay():
-Add extra check for ~0 to the condition for breaking out of the
-loop. Delay only on success otherwise report error and return
-false.
-
-pcie_bandwidth_available():
-On read failure move up the device heirarchy and continue.
-
-pcie_get_speed_cap():
-On read failure, report error and return PCI_SPEED_UNKNOWN
+Add extra check for ~0 to the if condition to confirm failure.
 
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
 ---
- drivers/pci/pci.c | 34 ++++++++++++++++++++++++----------
- 1 file changed, 24 insertions(+), 10 deletions(-)
+ drivers/pci/pcie/aer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index c9338f914a0e..1dd3659f1388 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -3216,7 +3216,7 @@ void pci_configure_ari(struct pci_dev *dev)
- 		return;
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index 3acf56683915..dbeabc370efc 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -829,7 +829,7 @@ static bool is_error_source(struct pci_dev *dev, struct aer_err_info *e_info)
  
- 	pcie_capability_read_dword(bridge, PCI_EXP_DEVCAP2, &cap);
--	if (!(cap & PCI_EXP_DEVCAP2_ARI))
-+	if ((cap == (u32)~0) || !(cap & PCI_EXP_DEVCAP2_ARI))
- 		return;
- 
- 	if (pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ARI)) {
-@@ -3635,13 +3635,13 @@ int pci_enable_atomic_ops_to_root(struct pci_dev *dev, u32 cap_mask)
- 		/* Ensure switch ports support AtomicOp routing */
- 		case PCI_EXP_TYPE_UPSTREAM:
- 		case PCI_EXP_TYPE_DOWNSTREAM:
--			if (!(cap & PCI_EXP_DEVCAP2_ATOMIC_ROUTE))
-+			if ((cap == (u32)~0) || !(cap & PCI_EXP_DEVCAP2_ATOMIC_ROUTE))
- 				return -EINVAL;
- 			break;
- 
- 		/* Ensure root port supports all the sizes we care about */
- 		case PCI_EXP_TYPE_ROOT_PORT:
--			if ((cap & cap_mask) != cap_mask)
-+			if ((cap == (u32)~0) || ((cap & cap_mask) != cap_mask)
- 				return -EINVAL;
- 			break;
- 		}
-@@ -3650,7 +3650,7 @@ int pci_enable_atomic_ops_to_root(struct pci_dev *dev, u32 cap_mask)
- 		if (pci_pcie_type(bridge) == PCI_EXP_TYPE_UPSTREAM) {
- 			pcie_capability_read_dword(bridge, PCI_EXP_DEVCTL2,
- 						   &ctl2);
--			if (ctl2 & PCI_EXP_DEVCTL2_ATOMIC_EGRESS_BLOCK)
-+			if ((ctl2 != (u32)~0) && (ctl2 & PCI_EXP_DEVCTL2_ATOMIC_EGRESS_BLOCK))
- 				return -EINVAL;
- 		}
- 
-@@ -4512,7 +4512,7 @@ bool pcie_has_flr(struct pci_dev *dev)
+ 	/* Check if AER is enabled */
+ 	pcie_capability_read_word(dev, PCI_EXP_DEVCTL, &reg16);
+-	if (!(reg16 & PCI_EXP_AER_FLAGS))
++	if ((reg16 == (u16)~0) || !(reg16 & PCI_EXP_AER_FLAGS))
  		return false;
  
- 	pcie_capability_read_dword(dev, PCI_EXP_DEVCAP, &cap);
--	return cap & PCI_EXP_DEVCAP_FLR;
-+	return ((cap != (u32)~0) && (cap & PCI_EXP_DEVCAP_FLR));
- }
- EXPORT_SYMBOL_GPL(pcie_has_flr);
- 
-@@ -4672,19 +4672,19 @@ static bool pcie_wait_for_link_delay(struct pci_dev *pdev, bool active,
- 	for (;;) {
- 		pcie_capability_read_word(pdev, PCI_EXP_LNKSTA, &lnk_status);
- 		ret = !!(lnk_status & PCI_EXP_LNKSTA_DLLLA);
--		if (ret == active)
-+		if ((lnk_status != (u16)~0) && (ret == active))
- 			break;
- 		if (timeout <= 0)
- 			break;
- 		msleep(10);
- 		timeout -= 10;
- 	}
--	if (active && ret)
-+	if ((lnk_status != (u16)~0) && active && ret)
- 		msleep(delay);
--	else if (ret != active)
-+	else if ((lnk_status == (u16)~0) || (ret != active))
- 		pci_info(pdev, "Data Link Layer Link Active not %s in 1000 msec\n",
- 			active ? "set" : "cleared");
--	return ret == active;
-+	return ((lnk_status != (u16)~0) && (ret == active));
- }
- 
- /**
-@@ -5773,6 +5773,11 @@ u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev **limiting_dev,
- 	while (dev) {
- 		pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &lnksta);
- 
-+		if (lnksta == (u16)~0) {
-+			dev = pci_upstream_bridge(dev);
-+			continue;
-+		}
-+
- 		next_speed = pcie_link_speed[lnksta & PCI_EXP_LNKSTA_CLS];
- 		next_width = (lnksta & PCI_EXP_LNKSTA_NLW) >>
- 			PCI_EXP_LNKSTA_NLW_SHIFT;
-@@ -5819,12 +5824,21 @@ enum pci_bus_speed pcie_get_speed_cap(struct pci_dev *dev)
- 	 * where only 2.5 GT/s and 5.0 GT/s speeds were defined.
- 	 */
- 	pcie_capability_read_dword(dev, PCI_EXP_LNKCAP2, &lnkcap2);
-+	if (lnkcap2 == (u32)~0) {
-+		dev_err(dev, "Read link speed capability has failed.\n");
-+		return PCI_SPEED_UNKNOWN;
-+	}
- 
- 	/* PCIe r3.0-compliant */
- 	if (lnkcap2)
- 		return PCIE_LNKCAP2_SLS2SPEED(lnkcap2);
- 
- 	pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &lnkcap);
-+	if (lnkcap == (u32)~0) {
-+		dev_err(dev, "Read link speed capability has failed.\n");
-+		return PCI_SPEED_UNKNOWN;
-+	}
-+
- 	if ((lnkcap & PCI_EXP_LNKCAP_SLS) == PCI_EXP_LNKCAP_SLS_5_0GB)
- 		return PCIE_SPEED_5_0GT;
- 	else if ((lnkcap & PCI_EXP_LNKCAP_SLS) == PCI_EXP_LNKCAP_SLS_2_5GB)
-@@ -5846,7 +5860,7 @@ enum pcie_link_width pcie_get_width_cap(struct pci_dev *dev)
- 	u32 lnkcap;
- 
- 	pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &lnkcap);
--	if (lnkcap)
-+	if (lnkcap && (lnkcap != (u32)~0))
- 		return (lnkcap & PCI_EXP_LNKCAP_MLW) >> 4;
- 
- 	return PCIE_LNK_WIDTH_UNKNOWN;
+ 	if (!aer)
 -- 
 2.18.4
 
