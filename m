@@ -8,95 +8,96 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F359CC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:24:44 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AACAC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:24:47 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C493C2076A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:24:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D2E232080C
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:24:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYcYgSrZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C493C2076A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncnCAE+5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D2E232080C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A71CA887DD;
-	Sat,  1 Aug 2020 12:24:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B871D203E5;
+	Sat,  1 Aug 2020 12:24:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 27NqeLY95OOm; Sat,  1 Aug 2020 12:24:42 +0000 (UTC)
+	with ESMTP id QGW-M20emOjX; Sat,  1 Aug 2020 12:24:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 05783887D1;
-	Sat,  1 Aug 2020 12:24:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 45077203DF;
+	Sat,  1 Aug 2020 12:24:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E86B7C0864;
-	Sat,  1 Aug 2020 12:24:41 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99458C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CDCAC0050;
+	Sat,  1 Aug 2020 12:24:45 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B6968C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:24:39 +0000 (UTC)
+ Sat,  1 Aug 2020 12:24:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 963F488686
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A6ED287040
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:24:39 +0000 (UTC)
+ Sat,  1 Aug 2020 12:24:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MpU5cR8BVHH6
+ with ESMTP id h3uE7wOfWnCj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:24:39 +0000 (UTC)
+ Sat,  1 Aug 2020 12:24:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D39B08867E
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A51A587051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:24:38 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id l23so10420165edv.11
+ Sat,  1 Aug 2020 12:24:42 +0000 (UTC)
+Received: by mail-ej1-f65.google.com with SMTP id l4so33946772ejd.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 01 Aug 2020 05:24:38 -0700 (PDT)
+ Sat, 01 Aug 2020 05:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=bdwFdqR8uTJkBxeLE6+6M0ZT6V7Ev5F6Fk3j55l8Z9k=;
- b=iYcYgSrZmWlo3R6AUjHZkTUqWlOCuvWQfp9o/jYHquATEwsySoI7qb/5R298C4XuP6
- 41LiSJR2F+wAaeJbMOPDCVFPHsL0+Fo4vxG7q9em4PQJboP6PNqu/EZa36fMsM/zZbBz
- JCHW/o6zUF9a2HzOkDNo+9vZ2c5PCBRDQeUpdDN2BOT+MMhqCt4g8i2V0lS4IiBQw05V
- he5n2kloQO33fgxJyOaPrLYN0f7EOtJSixf210mNPyBCU5yXE9oEPpuWtwkow02lziQ5
- AygMJ24A5io1qUJTTJ+itzp+4YiuCii7XbUXLOjJXwTJ52oP7dmycNBHJfJeLprStDPf
- kBJA==
+ bh=f7EHkSWbrjhplB2d+YIJIh5vLQH5GmykUiEqLTIStB4=;
+ b=ncnCAE+5L7BB5/YjIaWKdov1rz6HP5TvXA9nZA3PXndUUW1xK5+ufbrRdCYCwHcqHm
+ t1EMuhi4tuEBdBJ5YsN9BB5sxWFTI0+q//E8z9o5Ck0ZyU+V5BrrZ5nZXdtol4sWPkxZ
+ b9MIFjQEbPFh3ySpTdLCOFWSkzspCjS2kD4irjY0YxXuW38z5ndkVpebr288Yek4HTE7
+ +2vr3ZHRUJaZVRsq+jCq8P6pvvPOtSBdlH0LEq1DjZSQP5YlhLmDT7iewerLkZWaqc/g
+ VR8PYab69Ni5ovDIAYK7FvMde3VGmx+R28fsxL9Zyq9QmFLaLLeo+1pPbnbJL/G3y8oR
+ c/IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=bdwFdqR8uTJkBxeLE6+6M0ZT6V7Ev5F6Fk3j55l8Z9k=;
- b=Z5ivl3sHLkEaPcWlWH/TdztXtWY89e01aOaYKAdQUVF0PGbCh+TVmVEsBdfU+l0bpF
- VwqOSIRyVEQ6MDe6LHwN1uGl+mR1mfO9sk5mSIaQYum4FPegtffubACcart8IvaGtF+F
- JR/2wCQqqrJHRlw6Ujt98PakKuAPMK0O4+EBRptRP6BKYoMrQnh7CcuW//nbztBqbYmO
- 4dRlUmz8OgmQrDJxIV1QJKHWcSg0z0+VDs89a7ASfv4NFXZEM2Com0hMbP/mbSpobM63
- 9YON99suiR77jmGdPkZb4nTNWk4gyADZxYFUVmp7x3afuOXZ0iqxaIkxB5wdXlJ1FQOa
- JujQ==
-X-Gm-Message-State: AOAM5321LgichrXDwxbOJ+LJIHY+NWvSzVXK0SHVS8KfmKnCxv7dK2vk
- Im7jvpllUCmP4xdxGw1Cwhk=
-X-Google-Smtp-Source: ABdhPJwD7rV3Z2sHm2Urux9ibnAQJLnjp5J8GSKRJQtu26ivkTzM9jU1IBe5MLhlZErz7vNjd6oCBw==
-X-Received: by 2002:aa7:da0e:: with SMTP id r14mr8200605eds.236.1596284677325; 
- Sat, 01 Aug 2020 05:24:37 -0700 (PDT)
+ bh=f7EHkSWbrjhplB2d+YIJIh5vLQH5GmykUiEqLTIStB4=;
+ b=TAoLux702StiSRF9beXHZ/XnzrKV449V/vskox4mR+gWSKDiMcZnrP2IiF73eTmpfD
+ 4pj86Aw2DdSuZZg8koMHExyKJgRs/7NKiyDNP7tbWhbaNd1r+qjLHoETUI7EFMS/NaSX
+ 3Z6DPYrH10SK4PM9WEW7QgV4kFzw72QB2rL/iaGyb0TuEsalOR20QkA0zUKpDkrCPlfV
+ VmF65eTu5zK4xAey/zCE/ipYv0GGr0VKLOOIWDddjbCuaQrzUru/955fxmQWWcbUavrw
+ /wdHiJKQQ3HP59m5CbqGswXTx7Y14l1+Iy0gHmh+YUBxS5Q26rwFFWTM5ZjQZKSecYx1
+ lzQw==
+X-Gm-Message-State: AOAM530RJJA9fKpe0bRFQbAfIjR9kTJ6eWQSJgCWVcL7M+XxmSzz2eWE
+ VeM6478NZWUwsf0A2gJIgj8=
+X-Google-Smtp-Source: ABdhPJxK6QsCLubg/13FQ7axRtOuPxj8lfRiykbHYiquSlkMilSMcUUDzaC4VkaClUghhqDZwK4BZw==
+X-Received: by 2002:a17:906:c002:: with SMTP id
+ e2mr8812396ejz.244.1596284681233; 
+ Sat, 01 Aug 2020 05:24:41 -0700 (PDT)
 Received: from net.saheed (95C84E0A.dsl.pool.telekom.hu. [149.200.78.10])
- by smtp.gmail.com with ESMTPSA id a101sm12083131edf.76.2020.08.01.05.24.36
+ by smtp.gmail.com with ESMTPSA id a101sm12083131edf.76.2020.08.01.05.24.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Aug 2020 05:24:36 -0700 (PDT)
+ Sat, 01 Aug 2020 05:24:40 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: helgaas@kernel.org, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>
-Date: Sat,  1 Aug 2020 13:24:39 +0200
-Message-Id: <20200801112446.149549-11-refactormyself@gmail.com>
+To: helgaas@kernel.org,
+	"David S. Miller" <davem@davemloft.net>
+Date: Sat,  1 Aug 2020 13:24:42 +0200
+Message-Id: <20200801112446.149549-14-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200801112446.149549-1-refactormyself@gmail.com>
 References: <20200801112446.149549-1-refactormyself@gmail.com>
-Cc: linux-hwmon@vger.kernel.org,
- "Saheed O. Bolarinwa" <refactormyself@gmail.com>, linux-kernel@vger.kernel.org,
+Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH 10/17] hwmon: Drop uses of
+Subject: [Linux-kernel-mentees] [RFC PATCH 13/17] ide: Drop uses of
 	pci_read_config_*() return value
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -126,78 +127,126 @@ dependency on the return value of these functions is removed, then it
 can later be made to return void.
 
 Remove all uses of the return value of pci_read_config_*().
-Check the actual value read for ~0. In this case, ~0 is an invalid
-value thus it indicates some kind of error.
+Check the actual value read for ~0. In this case, ~0 is an invalid value
+thus it indicates some kind of error.
+
+drivers/ide/cs5536.c cs5536_read() :
+None of the callers of cs5536_read() uses the return value. The obtained
+value can be checked for validity to confirm success.
+
+Change the return type of cs5536_read() to void.
 
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
 ---
- drivers/hwmon/i5k_amb.c | 12 ++++++++----
- drivers/hwmon/vt8231.c  |  8 ++++----
- 2 files changed, 12 insertions(+), 8 deletions(-)
+ drivers/ide/cs5536.c    |  6 +++---
+ drivers/ide/rz1000.c    |  3 ++-
+ drivers/ide/setup-pci.c | 26 ++++++++++++++++----------
+ 3 files changed, 21 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/hwmon/i5k_amb.c b/drivers/hwmon/i5k_amb.c
-index eeac4b04df27..b7497510323c 100644
---- a/drivers/hwmon/i5k_amb.c
-+++ b/drivers/hwmon/i5k_amb.c
-@@ -427,11 +427,13 @@ static int i5k_find_amb_registers(struct i5k_amb_data *data,
- 	if (!pcidev)
- 		return -ENODEV;
+diff --git a/drivers/ide/cs5536.c b/drivers/ide/cs5536.c
+index 8b5ca145191b..58d1cf37c013 100644
+--- a/drivers/ide/cs5536.c
++++ b/drivers/ide/cs5536.c
+@@ -55,16 +55,16 @@ enum {
  
--	if (pci_read_config_dword(pcidev, I5K_REG_AMB_BASE_ADDR, &val32))
-+	pci_read_config_dword(pcidev, I5K_REG_AMB_BASE_ADDR, &val32);
-+	if (val32 == (u32)~0)
- 		goto out;
- 	data->amb_base = val32;
+ static int use_msr;
  
--	if (pci_read_config_dword(pcidev, I5K_REG_AMB_LEN_ADDR, &val32))
-+	pci_read_config_dword(pcidev, I5K_REG_AMB_LEN_ADDR, &val32);
-+	if (val32 == (u32)~0)
- 		goto out;
- 	data->amb_len = val32;
+-static int cs5536_read(struct pci_dev *pdev, int reg, u32 *val)
++static void cs5536_read(struct pci_dev *pdev, int reg, u32 *val)
+ {
+ 	if (unlikely(use_msr)) {
+ 		u32 dummy;
  
-@@ -458,11 +460,13 @@ static int i5k_channel_probe(u16 *amb_present, unsigned long dev_id)
- 	if (!pcidev)
- 		return -ENODEV;
- 
--	if (pci_read_config_word(pcidev, I5K_REG_CHAN0_PRESENCE_ADDR, &val16))
-+	pci_read_config_word(pcidev, I5K_REG_CHAN0_PRESENCE_ADDR, &val16);
-+	if (val16 == (u16)~0)
- 		goto out;
- 	amb_present[0] = val16;
- 
--	if (pci_read_config_word(pcidev, I5K_REG_CHAN1_PRESENCE_ADDR, &val16))
-+	pci_read_config_word(pcidev, I5K_REG_CHAN1_PRESENCE_ADDR, &val16);
-+	if (val16 == (u16)~0)
- 		goto out;
- 	amb_present[1] = val16;
- 
-diff --git a/drivers/hwmon/vt8231.c b/drivers/hwmon/vt8231.c
-index 2335d440f72d..6603727e15a0 100644
---- a/drivers/hwmon/vt8231.c
-+++ b/drivers/hwmon/vt8231.c
-@@ -992,8 +992,8 @@ static int vt8231_pci_probe(struct pci_dev *dev,
- 			return -ENODEV;
+ 		rdmsr(MSR_IDE_CFG + reg, *val, dummy);
+-		return 0;
++		return;
  	}
  
--	if (PCIBIOS_SUCCESSFUL != pci_read_config_word(dev, VT8231_BASE_REG,
--							&val))
-+	pci_read_config_word(dev, VT8231_BASE_REG, &val);
-+	if (val == (u16)~0)
- 		return -ENODEV;
+-	return pci_read_config_dword(pdev, PCI_IDE_CFG + reg * 4, val);
++	pci_read_config_dword(pdev, PCI_IDE_CFG + reg * 4, val);
+ }
  
- 	address = val & ~(VT8231_EXTENT - 1);
-@@ -1002,8 +1002,8 @@ static int vt8231_pci_probe(struct pci_dev *dev,
+ static int cs5536_write(struct pci_dev *pdev, int reg, int val)
+diff --git a/drivers/ide/rz1000.c b/drivers/ide/rz1000.c
+index fce2b7de5a19..19ac4328e707 100644
+--- a/drivers/ide/rz1000.c
++++ b/drivers/ide/rz1000.c
+@@ -27,7 +27,8 @@ static int rz1000_disable_readahead(struct pci_dev *dev)
+ {
+ 	u16 reg;
+ 
+-	if (!pci_read_config_word (dev, 0x40, &reg) &&
++	pci_read_config_word(dev, 0x40, &reg);
++	if ((reg != (u16)~0) &&
+ 	    !pci_write_config_word(dev, 0x40, reg & 0xdfff)) {
+ 		printk(KERN_INFO "%s: disabled chipset read-ahead "
+ 			"(buggy RZ1000/RZ1001)\n", pci_name(dev));
+diff --git a/drivers/ide/setup-pci.c b/drivers/ide/setup-pci.c
+index fdc8e813170c..a7b93ccd55d1 100644
+--- a/drivers/ide/setup-pci.c
++++ b/drivers/ide/setup-pci.c
+@@ -37,7 +37,8 @@ static int ide_setup_pci_baseregs(struct pci_dev *dev, const char *name)
+ 	/*
+ 	 * Place both IDE interfaces into PCI "native" mode:
+ 	 */
+-	if (pci_read_config_byte(dev, PCI_CLASS_PROG, &progif) ||
++	pci_read_config_byte(dev, PCI_CLASS_PROG, &progif);
++	if ((progif == (u8)~0) ||
+ 			 (progif & 5) != 5) {
+ 		if ((progif & 0xa) != 0xa) {
+ 			printk(KERN_INFO "%s %s: device not capable of full "
+@@ -47,7 +48,8 @@ static int ide_setup_pci_baseregs(struct pci_dev *dev, const char *name)
+ 		printk(KERN_INFO "%s %s: placing both ports into native PCI "
+ 			"mode\n", name, pci_name(dev));
+ 		(void) pci_write_config_byte(dev, PCI_CLASS_PROG, progif|5);
+-		if (pci_read_config_byte(dev, PCI_CLASS_PROG, &progif) ||
++		pci_read_config_byte(dev, PCI_CLASS_PROG, &progif);
++		if ((progif == (u8)~0) ||
+ 		    (progif & 5) != 5) {
+ 			printk(KERN_ERR "%s %s: rewrite of PROGIF failed, "
+ 				"wanted 0x%04x, got 0x%04x\n",
+@@ -251,7 +253,8 @@ static int ide_pci_configure(struct pci_dev *dev, const struct ide_port_info *d)
+ 			d->name, pci_name(dev));
  		return -ENODEV;
  	}
+-	if (pci_read_config_word(dev, PCI_COMMAND, &pcicmd)) {
++	pci_read_config_word(dev, PCI_COMMAND, &pcicmd);
++	if (pcicmd == (u16)~0) {
+ 		printk(KERN_ERR "%s %s: error accessing PCI regs\n",
+ 			d->name, pci_name(dev));
+ 		return -EIO;
+@@ -415,8 +418,8 @@ static int ide_setup_pci_controller(struct pci_dev *dev, int bars,
+ 	if (ret < 0)
+ 		goto out;
  
--	if (PCIBIOS_SUCCESSFUL != pci_read_config_word(dev, VT8231_ENABLE_REG,
--							&val))
-+	pci_read_config_word(dev, VT8231_ENABLE_REG, &val);
-+	if (val == (u16)~0)
- 		return -ENODEV;
+-	ret = pci_read_config_word(dev, PCI_COMMAND, &pcicmd);
+-	if (ret < 0) {
++	pci_read_config_word(dev, PCI_COMMAND, &pcicmd);
++	if (pcicmd == (u16)~0) {
+ 		printk(KERN_ERR "%s %s: error accessing PCI regs\n",
+ 			d->name, pci_name(dev));
+ 		goto out_free_bars;
+@@ -466,11 +469,14 @@ void ide_pci_setup_ports(struct pci_dev *dev, const struct ide_port_info *d,
+ 	for (port = 0; port < channels; ++port) {
+ 		const struct ide_pci_enablebit *e = &d->enablebits[port];
  
- 	if (!(val & 0x0001)) {
+-		if (e->reg && (pci_read_config_byte(dev, e->reg, &tmp) ||
+-		    (tmp & e->mask) != e->val)) {
+-			printk(KERN_INFO "%s %s: IDE port disabled\n",
+-				d->name, pci_name(dev));
+-			continue;	/* port not enabled */
++		if (e->reg) {
++			pci_read_config_byte(dev, e->reg, &tmp);
++
++			if ((tmp == (u8)~0) || ((tmp & e->mask) != e->val)) {
++				printk(KERN_INFO "%s %s: IDE port disabled\n",
++					d->name, pci_name(dev));
++				continue;	/* port not enabled */
++			}
+ 		}
+ 
+ 		if (ide_hw_configure(dev, d, port, hw + port))
 -- 
 2.18.4
 
