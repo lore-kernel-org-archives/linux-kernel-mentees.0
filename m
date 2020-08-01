@@ -6,89 +6,113 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 502CEC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:56:51 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2474C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 14:40:36 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 20CF52083E
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:56:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AF6A92072A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 14:40:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="n/7VNWjN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 20CF52083E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=alien8.de
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Sle3mw/0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF6A92072A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F16FB88012;
-	Sat,  1 Aug 2020 12:56:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8B47385617;
+	Sat,  1 Aug 2020 14:40:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pah3un8U20xk; Sat,  1 Aug 2020 12:56:49 +0000 (UTC)
+	with ESMTP id N9AIC-9gkyRO; Sat,  1 Aug 2020 14:40:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2B11D88007;
-	Sat,  1 Aug 2020 12:56:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0F0B8854FC;
+	Sat,  1 Aug 2020 14:40:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 143DBC0050;
-	Sat,  1 Aug 2020 12:56:49 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D56CAC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0432EC0050;
+	Sat,  1 Aug 2020 14:40:36 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A1FF6C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:56:46 +0000 (UTC)
+ Sat,  1 Aug 2020 14:40:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id C5D5620113
+ by hemlock.osuosl.org (Postfix) with ESMTP id 90A4788579
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:56:46 +0000 (UTC)
+ Sat,  1 Aug 2020 14:40:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id giFYYYhbw47B
+ with ESMTP id sGpKMv2Y0HQR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:56:45 +0000 (UTC)
+ Sat,  1 Aug 2020 14:40:33 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by silver.osuosl.org (Postfix) with ESMTPS id 13B952010E
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+ [209.85.222.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 54ED388561
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:56:44 +0000 (UTC)
-Received: from nazgul.tnic (unknown [78.130.214.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B8CAE1EC02FA;
- Sat,  1 Aug 2020 14:56:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1596286602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=NfmlZOrLaBmBGlzbXE5z6x4RKpqqJJmlzC4+91fmYUA=;
- b=n/7VNWjNwrVYldmM5JNyqQEVZd3Vp3hpjJSMuFhfSkrW8mQhIHtpfasKy9w1BEromsKKyZ
- /CdJ8nlcvZTCqyn05aBVgUH+WGtmqEhe61zMEoDcH8PmujGuHYORgBg9sVbSuZSh5qLljK
- uihuEhdcnAWg6tPbjyrRXoOKhqTEw/0=
-Date: Sat, 1 Aug 2020 14:56:57 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-Message-ID: <20200801125657.GA25391@nazgul.tnic>
-References: <20200801112446.149549-1-refactormyself@gmail.com>
+ Sat,  1 Aug 2020 14:40:33 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id l6so31505249qkc.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 01 Aug 2020 07:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=mRmB4+8PRxBevydZGBnRlc3z9/QvoJxis+WEAA2l688=;
+ b=Sle3mw/0UURgSSq5deGhktvSJ9UQXTd9fDmY2doUhJQ3xiPm3nxmtC8U/ayxaSKVwd
+ 6XH1TNg4uHvRdKlCr3i2GfW4yFjDZCIpGm9rOZwquuIGRMoN4u30hBUXPvrXHrv4d1fp
+ vCsYQuv/8VodNDTU/+zdMznVROHKV3h5mkrrBDQ3urmyAhroscFDZBOvL2QGLeJkvLK3
+ hGTqu853GgkLnhg1d9PK9ilpO8AIWQOlyr7cxGQQtBtXGhTO8im8YCn6G4zD6+nndoBo
+ LuaBGqzqxKZ122RDlCvtk7MhPLRMTqS0ZBWTXQ7y/iodvvBmD/ehmrLLck+DGX55MV3l
+ jyTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mRmB4+8PRxBevydZGBnRlc3z9/QvoJxis+WEAA2l688=;
+ b=kteEaz4v5QJ5pEhfNxFeCVSMcpWPP92sDuCPIoX+ShvV3SMtNOZC/BpImiFBqahnQu
+ v2HeUsv/h7CIN4DKfP8p7MuRB2bAQDeL3sBdoQPjiKI4r0ba71HjFSiNZ6xPYuBaat8W
+ Iqczqc8P3xgkB5DzCyPDF820fdAVLUPRRelKujRZbj+VasI9s/6osAzpHWuOovcubfA5
+ OxfVYSlvo8upo6L1uQ6DDFJrbBGt6yfLkego+FWpsoG9Ek2rSL1x77B96GmJN2yLFsFw
+ 3Nf99gv4Ay1/Bsl8zhuZQzrDuTLyHkhV9N55G7/7FLKZ29OXyQQudi5OB/TbQZJU+Yjw
+ gKYA==
+X-Gm-Message-State: AOAM5315VJ1DTjpqLoXMxDCJUAeEizpGJM6t2qnv897X355KkUKCsy6y
+ nZ90SUeVGfNeowXbbml0BzlS2w==
+X-Google-Smtp-Source: ABdhPJzbwskN0/DtlHJAnLQ+QGQOrP7nWCPTapxvskUZYyaFE6IclN+YtQFx90fJdJW1BNlHHFUELw==
+X-Received: by 2002:a05:620a:150f:: with SMTP id
+ i15mr8871793qkk.152.1596292832181; 
+ Sat, 01 Aug 2020 07:40:32 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id f53sm14352016qta.84.2020.08.01.07.40.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Aug 2020 07:40:31 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1k1sgY-002RlQ-Ap; Sat, 01 Aug 2020 11:40:30 -0300
+Date: Sat, 1 Aug 2020 11:40:30 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Message-ID: <20200801144030.GM24045@ziepe.ca>
+References: <20200730192026.110246-1-yepeilin.cs@gmail.com>
+ <20200731045301.GI75549@unreal> <20200731053306.GA466103@kroah.com>
+ <20200731053333.GB466103@kroah.com>
+ <20200731140452.GE24045@ziepe.ca>
+ <20200731142148.GA1718799@kroah.com>
+ <20200731143604.GF24045@ziepe.ca>
+ <20200731171924.GA2014207@kroah.com>
+ <20200731182712.GI24045@ziepe.ca> <20200801080026.GJ5493@kadam>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200801112446.149549-1-refactormyself@gmail.com>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-pci@vger.kernel.org,
- linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-ide@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-rdma@vger.kernel.org, Richard Weinberger <richard@nod.at>,
- Joerg Roedel <joro@8bytes.org>, linux-atm-general@lists.sourceforge.net,
- helgaas@kernel.org, Jakub Kicinski <kuba@kernel.org>,
+In-Reply-To: <20200801080026.GJ5493@kadam>
+Cc: rds-devel@oss.oracle.com, Arnd Bergmann <arnd@arndb.de>,
+ Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- Wolfgang Grandegger <wg@grandegger.com>, intel-gfx@lists.freedesktop.org,
- linux-gpio@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
- Kalle Valo <kvalo@codeaurora.org>, linux-edac@vger.kernel.org,
- linux-hwmon@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
- dmaengine@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [RFC PATCH 00/17] Drop uses of
-	pci_read_config_*() return value
+ Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH net] rds: Prevent kernel-infoleak
+ in rds_notify_queue_get()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,31 +130,69 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Aug 01, 2020 at 01:24:29PM +0200, Saheed O. Bolarinwa wrote:
-> The return value of pci_read_config_*() may not indicate a device error.
-> However, the value read by these functions is more likely to indicate
-> this kind of error. This presents two overlapping ways of reporting
-> errors and complicates error checking.
+On Sat, Aug 01, 2020 at 11:00:26AM +0300, Dan Carpenter wrote:
+> > Without an actual example where this doesn't work right it is hard to
+> > say anything more..
+> 
+> Here is the example that set off the recent patches:
+> 
+> https://lkml.org/lkml/2020/7/27/199
 
-So why isn't the *value check done in the pci_read_config_* functions
-instead of touching gazillion callers?
+Oh, that is something completely different. This thread was talking
+about '= {}'.
 
-For example, pci_conf{1,2}_read() could check whether the u32 *value it
-just read depending on the access method, whether that value is ~0 and
-return proper PCIBIOS_ error in that case.
+From a C11 perspective the above link is complete initialization of an
+aggregate and does not trigger the rule requiring that padding be
+zero'd.
 
-The check you're replicating
+C11 only zeros padding during *partial* initialization of an aggregate.
 
-	if (val32 == (u32)~0)
+ie this does not zero padding:
 
-everywhere, instead, is just ugly and tests a naked value ~0 which
-doesn't mean anything...
+void test(void)
+{
+        extern void copy(const void *ptr, size_t len);
+	struct rds_rdma_notify {
+		unsigned long user_token;
+		unsigned char status __attribute__((aligned(32)));
+	} foo = {1, 1};
 
--- 
-Regards/Gruss,
-    Boris.
+	// Padding NOT zeroed
+	copy(&foo, sizeof(foo));
+}
 
-https://people.kernel.org/tglx/notes-about-netiquette
+While the addition of a xxx member to make it partial initialization
+does zero:
+
+void test(void)
+{
+        extern void copy(const void *ptr, size_t len);
+	struct rds_rdma_notify {
+		unsigned long user_token;
+		unsigned char status __attribute__((aligned(32)));
+		unsigned long xx;
+	} foo = {1, 1};
+
+	// Padding NOT zeroed
+	copy(&foo, sizeof(foo));
+}
+
+(and godbolt confirms this on a wide range of compilers)
+
+> The rest of these patches were based on static analysis from Smatch.
+> They're all "theoretical" bugs based on the C standard but it's
+> impossible to know if and when they'll turn into real life bugs.
+
+Any patches replaing '= {}' (and usually '= {0}') with memset are not
+fixing anything.
+
+The C11 standard requires zeroing padding in these case. It is just
+useless churn and in some cases results in worse codegen.
+
+smatch should only warn about this if the aggregate initialization is
+not partial.
+
+Jason
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
