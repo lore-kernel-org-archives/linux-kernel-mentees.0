@@ -8,96 +8,98 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F9FFC433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:24:38 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C95C8C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:24:41 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4478F2076A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:24:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9D81E2087C
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 12:24:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMcFJpRf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4478F2076A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MxXS7aXG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D81E2087C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 272C08881E;
-	Sat,  1 Aug 2020 12:24:38 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JqBmbOlICGi8; Sat,  1 Aug 2020 12:24:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AA2DC887E2;
-	Sat,  1 Aug 2020 12:24:37 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 964FFC0050;
-	Sat,  1 Aug 2020 12:24:37 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D6A02C004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:24:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C617C88686
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:24:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 80C68887D9;
+	Sat,  1 Aug 2020 12:24:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7P1p1uyfUGDM; Sat,  1 Aug 2020 12:24:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id D60D9887BB;
+	Sat,  1 Aug 2020 12:24:40 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BFCE5C0888;
+	Sat,  1 Aug 2020 12:24:40 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B1A8AC004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  1 Aug 2020 12:24:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id A75C9203E7
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  1 Aug 2020 12:24:38 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id osj4KWclf7Jy
+ with ESMTP id C4kFNKuLHsCT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:24:36 +0000 (UTC)
+ Sat,  1 Aug 2020 12:24:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0A3D78867E
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8F343203DF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 12:24:36 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id o23so6562929ejr.1
+ Sat,  1 Aug 2020 12:24:37 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id o10so14440004edh.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 01 Aug 2020 05:24:35 -0700 (PDT)
+ Sat, 01 Aug 2020 05:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=epPKirRj4kip4paapWF+wmIvk6STec5g/eZ1qAPHqnE=;
- b=WMcFJpRf/lOxCS+UFtLRYapRWoI4RITRNpKoH0WYIEdRtQzRhdoJM2m+oowu10XQVF
- b5yyHM+bxdKOZwzUyFNMeVE0Y6pD916gDf+ubV+SJLsjKZhZKbMi6/41b1IZQfC0gX4z
- iHWbsPoAMIAr7CmBfOVmZA3Mm8zN9YJXKSe43HPcEzI+TBnGB3uESwep6+cCCJLvdYQO
- k3Pq9Rp6gCCZqAq8yzQ1WmyM1fXSxNSUSIlGAg+LcnL+b+VgXM3bpxQijNN2G4f+VA1Y
- TGPNWlVCuRTIuCWVZ/ljxMkjt8i7dsBo+m9iPBIADCaJcBBBwjV4T7Eult2TR9cZ8wZk
- Lyaw==
+ bh=mTab8JNvsgo4CL+J2E65GCxL4zVDcvJICP1+e2MGiww=;
+ b=MxXS7aXGg49OI8aq1o2JxQSacx3GEkx7XRc4h3ldURK6zBJgpz5BCs4TCQi9vzW8bw
+ 6N5rmJ/Bc2EsNZmNEy95m4VrSdD6S36XHIE0bXDvbmHdvv8Ihd/DN3YqOot8+XNsBn4K
+ uH6Ip0XLj/CLkS7OQbIMeU5cG1JmDbAF6R4dkjrmVllWjiJc6lq/K7WJN3y20CFnB+Zq
+ Veh4WXw6cFj5wfDJzSErjSaJ/GQ1p/YmseYNttpG96RLDnixkmg9o75N4xiBxD0qqPsJ
+ 1iL8Qj7buxqLPP29VEWOUOsDSz4OPW5lGkFWyKdBy9bfKl3Yd4OWQ3uoiFlz2n2kpCGD
+ NGZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=epPKirRj4kip4paapWF+wmIvk6STec5g/eZ1qAPHqnE=;
- b=uWDjRuqKU8/UkEL+vqJfQeZBeB2ChHvamvvuMMUkcIvt3A/+6sKc5JN+duCIX1SIeE
- UJ7Zyk+xRqLQwdfGhTVvVTH/nKmCmm7ONTgoD2MckezZfAHmmFpkrZqpuGfhFcadG6ng
- G9GFDk0W2S3+ApGBgkzQhtBS6Nk/AW69phufr4DvGoHilIFR7HUbB716i9gzeXBQlX+u
- 1Ua+HSnt5PGF5FOsNpnqt9Uya//5DkZIL3oyGI6tgIBcJKJ68rLYy+NHdXTWM1klGFsT
- Vd6rwQjoDevH2ZZV9dOiubtN5sRxWoMKPqXAkIjgwJGcqcRCJKmNxhoLVLgCFb3C1JjG
- JdCw==
-X-Gm-Message-State: AOAM532VioF/SkZpkxoQYPjE8kxJlUP3xGSjRACBTpp/qPmJJ4ZzV8S1
- 38Uv8Sm88a+L8XGY/uDV7jA=
-X-Google-Smtp-Source: ABdhPJwuExwGM+Muatp1WuT205GPGAkYdwooFfx/4UjM/AxNCA9IZ5/VWUebqtI+PF1sFL/q0k+PDA==
-X-Received: by 2002:a17:906:7f0b:: with SMTP id
- d11mr8932095ejr.116.1596284674567; 
- Sat, 01 Aug 2020 05:24:34 -0700 (PDT)
+ bh=mTab8JNvsgo4CL+J2E65GCxL4zVDcvJICP1+e2MGiww=;
+ b=VpNQXLMqbmrHeEC1hT1LKWHKcq/nNdu7EdEsoyb35tRQ14YHFUZZf3NpCXYqfbDrrM
+ VqdUFx5C6R3tuEfpoR6NG4xcDuxdqVmVpc1IyGkFD9Fy9fKmJDkYrG4J1mYZWWNIIoBz
+ GvwhTI+PqYb1Es3JY9V6Gf+yAz11Gj6fTtumoUNUmT/vrMnURjtAGmtT/zEp2ADGrIaE
+ fCHkn/ZJZjk6b5e08uCxnw50tVQfY9wV/VvjiEGohOc2qLQci8Y0JITYSQWNazeeFS1i
+ REECQTWgypD4YCiuJ+hrakKY0PeUqaCuXoOC9OzyLP+MGgMFm2/g4X78jcohg95LsgV7
+ sX1w==
+X-Gm-Message-State: AOAM530RcWyFZ8nTgLfCF7vHlMruwan5r79YTP3/yxjVNl0CLuF2WDD0
+ KXC5WEn7w0E8Um4Mg3ko9GE=
+X-Google-Smtp-Source: ABdhPJyNuqCc/8r6/A/7Q7T/LnVDBWUQ9SzPEt/TNIqjoVA3EMIMDnSI53A+QOmplMa8tW5cITLjzA==
+X-Received: by 2002:aa7:d5d0:: with SMTP id d16mr7805559eds.212.1596284675988; 
+ Sat, 01 Aug 2020 05:24:35 -0700 (PDT)
 Received: from net.saheed (95C84E0A.dsl.pool.telekom.hu. [149.200.78.10])
- by smtp.gmail.com with ESMTPSA id a101sm12083131edf.76.2020.08.01.05.24.33
+ by smtp.gmail.com with ESMTPSA id a101sm12083131edf.76.2020.08.01.05.24.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Aug 2020 05:24:34 -0700 (PDT)
+ Sat, 01 Aug 2020 05:24:35 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-To: helgaas@kernel.org, Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Linus Walleij <linus.walleij@linaro.org>
-Date: Sat,  1 Aug 2020 13:24:37 +0200
-Message-Id: <20200801112446.149549-9-refactormyself@gmail.com>
+To: helgaas@kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Date: Sat,  1 Aug 2020 13:24:38 +0200
+Message-Id: <20200801112446.149549-10-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200801112446.149549-1-refactormyself@gmail.com>
 References: <20200801112446.149549-1-refactormyself@gmail.com>
-Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH 08/17] gpio: Drop uses of
+Subject: [Linux-kernel-mentees] [RFC PATCH 09/17] drm/i915/vga: Drop uses of
 	pci_read_config_*() return value
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -133,74 +135,23 @@ value thus it indicates some kind of error.
 Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
 Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
 ---
- drivers/gpio/gpio-amd8111.c |  7 +++++--
- drivers/gpio/gpio-rdc321x.c | 21 ++++++++++++---------
- 2 files changed, 17 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/display/intel_vga.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpio/gpio-amd8111.c b/drivers/gpio/gpio-amd8111.c
-index fdcebe59510d..7b9882380cbc 100644
---- a/drivers/gpio/gpio-amd8111.c
-+++ b/drivers/gpio/gpio-amd8111.c
-@@ -198,9 +198,12 @@ static int __init amd_gpio_init(void)
- 	goto out;
+diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
+index be333699c515..6f9406699c9d 100644
+--- a/drivers/gpu/drm/i915/display/intel_vga.c
++++ b/drivers/gpu/drm/i915/display/intel_vga.c
+@@ -99,7 +99,8 @@ intel_vga_set_state(struct drm_i915_private *i915, bool enable_decode)
+ 	unsigned int reg = INTEL_GEN(i915) >= 6 ? SNB_GMCH_CTRL : INTEL_GMCH_CTRL;
+ 	u16 gmch_ctrl;
  
- found:
--	err = pci_read_config_dword(pdev, 0x58, &gp.pmbase);
--	if (err)
-+	pci_read_config_dword(pdev, 0x58, &gp.pmbase);
-+	if (gp.pmbase == (u32)~0) {
-+		err = -ENODEV;
- 		goto out;
-+	}
-+
- 	err = -EIO;
- 	gp.pmbase &= 0x0000FF00;
- 	if (gp.pmbase == 0)
-diff --git a/drivers/gpio/gpio-rdc321x.c b/drivers/gpio/gpio-rdc321x.c
-index 01ed2517e9fd..03f1ff07b844 100644
---- a/drivers/gpio/gpio-rdc321x.c
-+++ b/drivers/gpio/gpio-rdc321x.c
-@@ -85,10 +85,13 @@ static int rdc_gpio_config(struct gpio_chip *chip,
- 	gpch = gpiochip_get_data(chip);
- 
- 	spin_lock(&gpch->lock);
--	err = pci_read_config_dword(gpch->sb_pdev, gpio < 32 ?
--			gpch->reg1_ctrl_base : gpch->reg2_ctrl_base, &reg);
--	if (err)
-+	pci_read_config_dword(gpch->sb_pdev,
-+				(gpio < 32) ? gpch->reg1_ctrl_base
-+					: gpch->reg2_ctrl_base, &reg);
-+	if (reg == (u32)~0) {
-+		err = -ENODEV;
- 		goto unlock;
-+	}
- 
- 	reg |= 1 << (gpio & 0x1f);
- 
-@@ -166,17 +169,17 @@ static int rdc321x_gpio_probe(struct platform_device *pdev)
- 	/* This might not be, what others (BIOS, bootloader, etc.)
- 	   wrote to these registers before, but it's a good guess. Still
- 	   better than just using 0xffffffff. */
--	err = pci_read_config_dword(rdc321x_gpio_dev->sb_pdev,
-+	pci_read_config_dword(rdc321x_gpio_dev->sb_pdev,
- 					rdc321x_gpio_dev->reg1_data_base,
- 					&rdc321x_gpio_dev->data_reg[0]);
--	if (err)
--		return err;
-+	if (rdc321x_gpio_dev->data_reg[0] == (u32)~0)
-+		return -ENODEV;
- 
--	err = pci_read_config_dword(rdc321x_gpio_dev->sb_pdev,
-+	pci_read_config_dword(rdc321x_gpio_dev->sb_pdev,
- 					rdc321x_gpio_dev->reg2_data_base,
- 					&rdc321x_gpio_dev->data_reg[1]);
--	if (err)
--		return err;
-+	if (rdc321x_gpio_dev->data_reg[1] == (u32)~0)
-+		return -ENODEV;
- 
- 	dev_info(&pdev->dev, "registering %d GPIOs\n",
- 					rdc321x_gpio_dev->chip.ngpio);
+-	if (pci_read_config_word(i915->bridge_dev, reg, &gmch_ctrl)) {
++	pci_read_config_word(i915->bridge_dev, reg, &gmch_ctrl);
++	if (gmch_ctrl == (u16)~0) {
+ 		drm_err(&i915->drm, "failed to read control word\n");
+ 		return -EIO;
+ 	}
 -- 
 2.18.4
 
