@@ -2,107 +2,107 @@ Return-Path: <SRS0=CeKo=BL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 488E9C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 02:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC3EC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 05:34:13 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 11EB620838
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 02:11:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 382F320725
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Aug 2020 05:34:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXMcgP3D"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 11EB620838
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P10FY8t9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 382F320725
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CBE178886A;
-	Sat,  1 Aug 2020 02:11:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0409E88373;
+	Sat,  1 Aug 2020 05:34:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DsIK8P4DQF05; Sat,  1 Aug 2020 02:11:14 +0000 (UTC)
+	with ESMTP id T1iJFc1WjV2t; Sat,  1 Aug 2020 05:34:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3B05088869;
-	Sat,  1 Aug 2020 02:11:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BE3F088363;
+	Sat,  1 Aug 2020 05:34:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 328ABC004F;
-	Sat,  1 Aug 2020 02:11:14 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 84286C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3D02C004F;
+	Sat,  1 Aug 2020 05:34:10 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B0EB9C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 02:11:12 +0000 (UTC)
+ Sat,  1 Aug 2020 05:34:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6A66486E28
+ by silver.osuosl.org (Postfix) with ESMTP id 83AAE220C5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 02:11:12 +0000 (UTC)
+ Sat,  1 Aug 2020 05:34:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UtZJQ7V5s4OQ
+ with ESMTP id wT3RswXR6gWU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 02:11:11 +0000 (UTC)
+ Sat,  1 Aug 2020 05:34:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
- [209.85.160.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 90F448502B
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id B7A7020444
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Aug 2020 02:11:11 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id v22so18580194qtq.8
+ Sat,  1 Aug 2020 05:34:06 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id mt12so8338063pjb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 31 Jul 2020 19:11:11 -0700 (PDT)
+ Fri, 31 Jul 2020 22:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IIe2V6KflGKZOn7QS908wW8BYLPFtbcpWHZAEz1hDgk=;
- b=mXMcgP3DvievUcucf9BrqQ22yf8OdRUoL1AQd4ThWeT+18r9T0fzV+eqSJtsgLgCBB
- Ni77ATuwQ2LnJZSdptYkPj79QukVZzQZn3+B6xuWUj8ko/cBtJMkKYV/FDf0EZ0qrpBf
- wiajaeLLGDf9egGDsjA+qx1bd+Gl/D3w78ylBNma2xH+XRarnNCdezW/VqNJhWJhyksx
- E83K84l4gyWp5ps0Lgmkjz6hSVxDeDHpK06O00ZYwcep4zgeKCrOwaZMdr65l4RKxfqc
- gC/ADU4V0/2ZQQGNk+0VD1VoQ2NsMeTP+voulYaYnZZHTjUIUzU8AWF9OEE46KFHowHu
- LHeg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1TQDWlhtOphocCqRWnO12Oowtj66Ozztswpjd6Br1ME=;
+ b=P10FY8t9DFhbP2LrF/seKSO64NGjM0Fxh8iyoxHYEka9Cjs31RQSglzPn7M9K1PSHE
+ tNFbvxBTwG89WvCNZRTNvksbKApNNNUb3TRfWjnRLF6FNi515lD7h9x0364dRr2AJxkz
+ GVytwGczXN8CEV2ds8VLJeGY2E2Regz9SGYUdkD2HExdUKXG6K9b0HXnSGtEpl4jZmM3
+ I9daV2466gKRtOKZKE4clHILqgLMQG1vQnp01W+B5gKBZ+hzTE8TVWBDx1dK3sDlkS4B
+ pcYvD8vyCwTj7bdDVX7WsUtIo5rwRWI1CEg0rO8e5DzYn5BmYvZh/pxxcAjQmO+W8+yL
+ uxxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IIe2V6KflGKZOn7QS908wW8BYLPFtbcpWHZAEz1hDgk=;
- b=LsJGIGSz2MsbSm4mbZ24KdUIMoB0pBAEEFaNdfhoh23YK4Rv6D7pNP42AOUOqhiH2Q
- ZA1MGs5hMDkQUMOOW1gHbQwS1LHriYdj4xyasifZ5XDjVtMa9FY9pZ7XEbycJlImNm4t
- 58BvH3apoX5GDS35uSYC9fnZuf50J8Yq/lKZY5pM0R6B+2ffXwKCPevvtOxknAAY9e6a
- uvqh6eVPsujDUZekI2Bn4ay7WAbEfu/8Q8gUu7t/Km4BeSiBJy8NKWsFyjy2Zy+RF+Bv
- v/zL+wnK5e0kXHceGkejDbmyYtTGdW2ljQp+WKagkluols2TV3BKWFi7yKu5eBMWrtqq
- wn1w==
-X-Gm-Message-State: AOAM531QcP2jeCH+EBo8NDDLyk0SkR4GnruohTQthkx2S6YnmixhLJKP
- oEuxwIKvo9MrVpD65r49GA==
-X-Google-Smtp-Source: ABdhPJydwIv8QJlCp4ZKsqgnbMvVuKUYEfD9Rdd//kTJdWgOkb13Fj6frDPsYMF7imm96R5yvQFUKg==
-X-Received: by 2002:ac8:4652:: with SMTP id f18mr6468424qto.142.1596247870562; 
- Fri, 31 Jul 2020 19:11:10 -0700 (PDT)
-Received: from localhost.localdomain
- (146-115-88-66.s3894.c3-0.sbo-ubr1.sbo.ma.cable.rcncustomer.com.
- [146.115.88.66])
- by smtp.gmail.com with ESMTPSA id u37sm12278160qtj.47.2020.07.31.19.11.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jul 2020 19:11:10 -0700 (PDT)
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Oleg Nesterov <oleg@redhat.com>
-Date: Fri, 31 Jul 2020 22:08:41 -0400
-Message-Id: <20200801020841.227522-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200727213644.328662-1-yepeilin.cs@gmail.com>
-References: <20200727213644.328662-1-yepeilin.cs@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1TQDWlhtOphocCqRWnO12Oowtj66Ozztswpjd6Br1ME=;
+ b=o8MQcbmK8D1X2rIFn2JuOh8sG16vBtyOqLoDyUXKxT18n1ZAoR+ofXF2KkBfi8luPE
+ /zRfdiSvBbmwv+MRUYYD3SbuUy+Xg/ABsrwSxboZXwAsr2s+Wagm+ELlbbNWKNoeunNs
+ YKhPgoQsslzap4S/SP4JCzbLbaj93bQkI0jMRMWCJaFuKm2pod8+xlbwFsJCkVWJVgK/
+ W6w25kevDaRkCu6GdVZ08qyLPBUSxDT5Iuh70Nd/YOAdbN2tk55tIDIVxY3fSUwqKYq6
+ dPo+j2WhGAWWmgWyE7lyuwQQQo4dZnbuUaatkn4zlnpoBwu1vYTpl/HljDtuRXHqd1yk
+ xYtw==
+X-Gm-Message-State: AOAM532EiFN2qIYJmQCtJTx45KT9bF5G6juJAkQ30Vdcx/FiBjIJKIe9
+ XbZ19HmHtxzZeVsDkZEjVMNGCE22l/FFsA==
+X-Google-Smtp-Source: ABdhPJynN7v62CK8YvHCBJB81lE9wGVDwVtkZZiIaUMWckfcBezDzoCoI13qYX9ssOHoQcD+9CfhNA==
+X-Received: by 2002:a17:90a:fa8c:: with SMTP id
+ cu12mr7498920pjb.229.1596260045906; 
+ Fri, 31 Jul 2020 22:34:05 -0700 (PDT)
+Received: from [192.168.86.81] ([49.206.12.123])
+ by smtp.gmail.com with ESMTPSA id 144sm8745967pfx.116.2020.07.31.22.34.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Jul 2020 22:34:05 -0700 (PDT)
+To: brendanhiggins@google.com, skhan@linuxfoundation.org,
+ andriy.shevchenko@linux.intel.com
+References: <20200730121656.45302-1-98.arpi@gmail.com>
+From: Arpitha Raghunandan <98.arpi@gmail.com>
+Message-ID: <4747b45c-0429-bf2e-8c64-3f4bc6b95749@gmail.com>
+Date: Sat, 1 Aug 2020 11:04:01 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- "Dmitry V. Levin" <ldv@altlinux.org>,
- Elvira Khabirova <lineprinter@altlinux.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [Linux-kernel-mentees] [PATCH v2] ptrace: Prevent kernel-infoleak
-	in ptrace_get_syscall_info()
+In-Reply-To: <20200730121656.45302-1-98.arpi@gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] lib: Convert test_uuid.c to KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,104 +120,103 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-ptrace_get_syscall_info() is potentially copying uninitialized stack
-memory to userspace, since the compiler may leave a 3-byte hole near the
-beginning of `info`. Fix it by adding a padding field to `struct
-ptrace_syscall_info`.
+On 30/07/20 5:46 pm, Arpitha Raghunandan wrote:
+> Converts test lib/test_uuid.c to KUnit
+> 
+> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+> ---
+>  lib/Kconfig.debug                 |  7 +--
+>  lib/Makefile                      |  2 +-
+>  lib/{test_uuid.c => uuid_kunit.c} | 84 +++++++++----------------------
+>  3 files changed, 28 insertions(+), 65 deletions(-)
+>  rename lib/{test_uuid.c => uuid_kunit.c} (48%)
+> 
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index f174f8887ae7..330c0d1de50b 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -2070,9 +2070,6 @@ config TEST_BITFIELD
+>  
+>  	  If unsure, say N.
+>  
+> -config TEST_UUID
+> -	tristate "Test functions located in the uuid module at runtime"
+> -
+>  config TEST_XARRAY
+>  	tristate "Test the XArray code at runtime"
+>  
+> @@ -2273,6 +2270,10 @@ config BITS_TEST
+>  
+>  	  If unsure, say N.
+>  
+> +config UUID_KUNIT_TEST
+> +	tristate "KUnit test for functions located in the uuid module at runtime"
+> +	depends on KUNIT
+> +
+>  config TEST_UDELAY
+>  	tristate "udelay test driver"
+>  	help
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 032cc6c71a3a..62ef383c7563 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -81,7 +81,6 @@ obj-$(CONFIG_TEST_PRINTF) += test_printf.o
+>  obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
+>  obj-$(CONFIG_TEST_STRSCPY) += test_strscpy.o
+>  obj-$(CONFIG_TEST_BITFIELD) += test_bitfield.o
+> -obj-$(CONFIG_TEST_UUID) += test_uuid.o
+>  obj-$(CONFIG_TEST_XARRAY) += test_xarray.o
+>  obj-$(CONFIG_TEST_PARMAN) += test_parman.o
+>  obj-$(CONFIG_TEST_KMOD) += test_kmod.o
+> @@ -342,5 +341,6 @@ obj-$(CONFIG_PLDMFW) += pldmfw/
+>  obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
+>  obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
+>  obj-$(CONFIG_BITS_TEST) += test_bits.o
+> +obj-$(CONFIG_UUID_KUNIT_TEST) += uuid_kunit.o
+>  
+>  obj-$(CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED) += devmem_is_allowed.o
+> diff --git a/lib/test_uuid.c b/lib/uuid_kunit.c
+> similarity index 48%
+> rename from lib/test_uuid.c
+> rename to lib/uuid_kunit.c
+> index cd819c397dc7..f7f219ddecc2 100644
+> --- a/lib/test_uuid.c
+> +++ b/lib/uuid_kunit.c
+> @@ -3,6 +3,7 @@
+>   */
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+> +#include <kunit/test.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> @@ -39,95 +40,56 @@ static const char * const test_uuid_wrong_data[] = {
+>  	"0cb4ddff-a545-4401-9d06-688af53e",	/* not enough data */
+>  };
+>  
+> -static unsigned total_tests __initdata;
+> -static unsigned failed_tests __initdata;
+> -
+> -static void __init test_uuid_failed(const char *prefix, bool wrong, bool be,
+> -				    const char *data, const char *actual)
+> -{
+> -	pr_err("%s test #%u %s %s data: '%s'\n",
+> -	       prefix,
+> -	       total_tests,
+> -	       wrong ? "passed on wrong" : "failed on",
+> -	       be ? "BE" : "LE",
+> -	       data);
+> -	if (actual && *actual)
+> -		pr_err("%s test #%u actual data: '%s'\n",
+> -		       prefix,
+> -		       total_tests,
+> -		       actual);
+> -	failed_tests++;
+> -}
+> -
 
-Cc: stable@vger.kernel.org
-Fixes: 201766a20e30 ("ptrace: add PTRACE_GET_SYSCALL_INFO request")
-Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
-Change in v2:
-    - Add a padding field to `struct ptrace_syscall_info`, instead of
-      doing memset() on `info`. (Suggested by Dmitry V. Levin
-      <ldv@altlinux.org>)
 
-Reference: https://lwn.net/Articles/417989/
-
-$ # before:
-$ pahole -C "ptrace_syscall_info" kernel/ptrace.o
-struct ptrace_syscall_info {
-	__u8                       op;                   /*     0     1 */
-
-	/* XXX 3 bytes hole, try to pack */
-
-	__u32                      arch __attribute__((__aligned__(4))); /*     4     4 */
-	__u64                      instruction_pointer;  /*     8     8 */
-	__u64                      stack_pointer;        /*    16     8 */
-	union {
-		struct {
-			__u64      nr;                   /*    24     8 */
-			__u64      args[6];              /*    32    48 */
-		} entry;                                 /*    24    56 */
-		struct {
-			__s64      rval;                 /*    24     8 */
-			__u8       is_error;             /*    32     1 */
-		} exit;                                  /*    24    16 */
-		struct {
-			__u64      nr;                   /*    24     8 */
-			__u64      args[6];              /*    32    48 */
-			/* --- cacheline 1 boundary (64 bytes) was 16 bytes ago --- */
-			__u32      ret_data;             /*    80     4 */
-		} seccomp;                               /*    24    64 */
-	};                                               /*    24    64 */
-
-	/* size: 88, cachelines: 2, members: 5 */
-	/* sum members: 85, holes: 1, sum holes: 3 */
-	/* forced alignments: 1, forced holes: 1, sum forced holes: 3 */
-	/* last cacheline: 24 bytes */
-} __attribute__((__aligned__(8)));
-$
-$ # after:
-$ pahole -C "ptrace_syscall_info" kernel/ptrace.o
-struct ptrace_syscall_info {
-	__u8                       op;                   /*     0     1 */
-	__u8                       pad[3];               /*     1     3 */
-	__u32                      arch __attribute__((__aligned__(4))); /*     4     4 */
-	__u64                      instruction_pointer;  /*     8     8 */
-	__u64                      stack_pointer;        /*    16     8 */
-	union {
-		struct {
-			__u64      nr;                   /*    24     8 */
-			__u64      args[6];              /*    32    48 */
-		} entry;                                 /*    24    56 */
-		struct {
-			__s64      rval;                 /*    24     8 */
-			__u8       is_error;             /*    32     1 */
-		} exit;                                  /*    24    16 */
-		struct {
-			__u64      nr;                   /*    24     8 */
-			__u64      args[6];              /*    32    48 */
-			/* --- cacheline 1 boundary (64 bytes) was 16 bytes ago --- */
-			__u32      ret_data;             /*    80     4 */
-		} seccomp;                               /*    24    64 */
-	};                                               /*    24    64 */
-
-	/* size: 88, cachelines: 2, members: 6 */
-	/* forced alignments: 1 */
-	/* last cacheline: 24 bytes */
-} __attribute__((__aligned__(8)));
-$ _
-
- include/uapi/linux/ptrace.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
-index a71b6e3b03eb..a518ba514bac 100644
---- a/include/uapi/linux/ptrace.h
-+++ b/include/uapi/linux/ptrace.h
-@@ -81,6 +81,7 @@ struct seccomp_metadata {
- 
- struct ptrace_syscall_info {
- 	__u8 op;	/* PTRACE_SYSCALL_INFO_* */
-+	__u8 pad[3];
- 	__u32 arch __attribute__((__aligned__(sizeof(__u32))));
- 	__u64 instruction_pointer;
- 	__u64 stack_pointer;
--- 
-2.25.1
+I have removed the above test_uuid_failed function while converting to KUnit, as mentioned earlier. Is this required?
 
 _______________________________________________
 Linux-kernel-mentees mailing list
