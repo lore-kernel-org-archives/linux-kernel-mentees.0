@@ -2,92 +2,124 @@ Return-Path: <SRS0=1dzN=BN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D27CC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 08:57:30 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1D0FC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 09:36:40 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 09E1320738
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 08:57:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09E1320738
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 86A4120719
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 09:36:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IdhZIY/V"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86A4120719
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7650185ABB;
-	Mon,  3 Aug 2020 08:57:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 10E5E86388;
+	Mon,  3 Aug 2020 09:36:41 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Wi5uV26nVLdX; Mon,  3 Aug 2020 09:36:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id A10FF8637D;
+	Mon,  3 Aug 2020 09:36:40 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A5FDC0051;
+	Mon,  3 Aug 2020 09:36:40 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BCACFC004C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Aug 2020 09:36:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A9C3085D3F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Aug 2020 09:36:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PL3xyXrqVMW3; Mon,  3 Aug 2020 08:57:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id ED8E3855C6;
-	Mon,  3 Aug 2020 08:57:29 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CD995C0050;
-	Mon,  3 Aug 2020 08:57:29 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F3F9EC004C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 08:57:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id DB787204AD
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 08:57:27 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Gq+SubSRLiUj
+ with ESMTP id hMhNJ0m1PU6n
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 08:57:27 +0000 (UTC)
+ Mon,  3 Aug 2020 09:36:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by silver.osuosl.org (Postfix) with ESMTPS id E0DDF2035D
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1A49684837
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 08:57:26 +0000 (UTC)
-IronPort-SDR: Np1vB/p9YJumOPwgClmXGxWLz1+UlIlyQb+v8oq+chYyLB9fyNDQUUcUOEPUsOao9HQfZtojKs
- Ing8lXHOcGmA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9701"; a="216490574"
-X-IronPort-AV: E=Sophos;i="5.75,429,1589266800"; d="scan'208";a="216490574"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2020 01:57:26 -0700
-IronPort-SDR: JK5u0nRI6ANficLgflI38qkeaJUkSIEq5iob74fmR3fksiXcD3CCwuq0KTyBu2bO7ciksosoe+
- J9ZAbCPwSYbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,429,1589266800"; d="scan'208";a="323978428"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga002.fm.intel.com with ESMTP; 03 Aug 2020 01:57:22 -0700
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1k2WHZ-005tfH-PH; Mon, 03 Aug 2020 11:57:21 +0300
-Date: Mon, 3 Aug 2020 11:57:21 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Brendan Higgins <brendanhiggins@google.com>
-Message-ID: <20200803085721.GX3703480@smile.fi.intel.com>
-References: <20200729191151.476368-1-vitor@massaru.org>
- <20200729191948.GZ3703480@smile.fi.intel.com>
- <CAFd5g47MGZTo0k4s1ohRNT09D=NrsBQHOHQwLVq=uh8ezCuAQA@mail.gmail.com>
+ Mon,  3 Aug 2020 09:36:39 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0739H7gc054959;
+ Mon, 3 Aug 2020 09:36:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=IM7JPKhzENSyYGDL/C7fWaTdj+MTBkjqO/862CoRfz8=;
+ b=IdhZIY/VQCGYYE4ZcaOwrsrMvJ26+J6VKhPX2OIwmRbnNwsfcQrAbj5M5SS8Ge82UApy
+ bnRo4Qxk5O/vAbO2DEOYpdI6EujgzX9f+zAPVG5EKTXzqaT7VxZOXOgDnLSp0eqtwcYT
+ N5xe7zq5KQNYdwXv0D024Zyq/2jDiCP732JoU90stmHNtCP6gIbg6znBT5w54izyJufW
+ Q77/QCZdnSwSxo49Uv3kj32dHtEjY/eO8WzGo5QhEmr0/CyYwd5AVzXDOM1AoJSXVOgO
+ MGgIykhTYK3BiwFicoWZdS4A6HfVXNTYrFEP45DqkMIEZMR7eDyzXgzHGLxAHO1GzRRF wQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 32pdnq0rpm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 03 Aug 2020 09:36:29 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0739X3aW020788;
+ Mon, 3 Aug 2020 09:34:29 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3030.oracle.com with ESMTP id 32p5gqgpfq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 03 Aug 2020 09:34:29 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0739YSQk023748;
+ Mon, 3 Aug 2020 09:34:28 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 32p5gqgpfa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 03 Aug 2020 09:34:28 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0739YOdY020620;
+ Mon, 3 Aug 2020 09:34:24 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 03 Aug 2020 02:34:23 -0700
+Date: Mon, 3 Aug 2020 12:34:14 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Message-ID: <20200803093414.GL5493@kadam>
+References: <20200731045301.GI75549@unreal> <20200731053306.GA466103@kroah.com>
+ <20200731053333.GB466103@kroah.com>
+ <20200731140452.GE24045@ziepe.ca>
+ <20200731142148.GA1718799@kroah.com>
+ <20200731143604.GF24045@ziepe.ca>
+ <20200731171924.GA2014207@kroah.com>
+ <20200731182712.GI24045@ziepe.ca> <20200801080026.GJ5493@kadam>
+ <20200801144030.GM24045@ziepe.ca>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAFd5g47MGZTo0k4s1ohRNT09D=NrsBQHOHQwLVq=uh8ezCuAQA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Cc: fkostenzer@live.at, Linus Torvalds <torvalds@linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Paul Gortmaker <paul.gortmaker@windriver.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
+In-Reply-To: <20200801144030.GM24045@ziepe.ca>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9701
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ mlxscore=0
+ suspectscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 adultscore=0
+ malwarescore=0 phishscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008030068
+Cc: rds-devel@oss.oracle.com, Arnd Bergmann <arnd@arndb.de>,
+ Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] lib: kunit: Convert test_sort
-	to KUnit test
+ Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH net] rds: Prevent kernel-infoleak
+ in rds_notify_queue_get()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,52 +137,11 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 29, 2020 at 12:59:28PM -0700, Brendan Higgins wrote:
-> On Wed, Jul 29, 2020 at 12:19 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Wed, Jul 29, 2020 at 04:11:51PM -0300, Vitor Massaru Iha wrote:
+Ah, thanks.  We've had a bunch of discussions about these leaks but I
+wasn't aware of this.
 
-...
-
-> > >  lib/{test_sort.c => sort_kunit.c} | 31 +++++++++++++++----------------
-> >
-> > Still opened question why kunit is a suffix? Can't we leave same name? Can't we
-> > do it rather prefix?
-> 
-> Sorry to jump in now; I thought Vitor's reply with a link to the new
-> proposed documentation[1] addressed this. The naming convention issue
-> came up about a month ago[2]. The people in the discussion (including
-> myself) came to an agreement on _kunit.c. That being said, the
-> documentation hasn't been accepted yet, so if you really feel strongly
-> about it, now is the time to change it.
-
-My argument is to do something like
-
-  - ls .../test* vs. ls .../*_kunit.c
-
-  - use shell completion vs. no completion when looking if there is a test
-    module for something
-
-But I agree that this is matter of style.
-
-> All that being said, I would rather not discuss that issue here for
-> the benefit of the participants in the preceding discussions.
-> 
-> I posted lore links for the relevant threads, which should be easy
-> enough to In-Reply-To your way into. Nevertheless, if it makes it
-> easier, let me know and I can CC you into the discussions.
-
-No need. I think you have enough clever folks and good ideas behind this. Just
-put a reference to all these conversion patches to the summary of pros and cons
-of renaming.
-
-> [1] https://lore.kernel.org/linux-kselftest/20200620054944.167330-1-davidgow@google.com/T/#u
-> [2] https://lore.kernel.org/linux-kselftest/202006141005.BA19A9D3@keescook/t/#u
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
 _______________________________________________
 Linux-kernel-mentees mailing list
