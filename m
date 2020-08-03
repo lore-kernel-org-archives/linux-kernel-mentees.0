@@ -2,104 +2,104 @@ Return-Path: <SRS0=1dzN=BN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 979A2C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 10:59:39 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D514C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 11:46:37 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CA742064B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 10:59:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C457020738
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 11:46:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MbpTYvVj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CA742064B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="azYzpy5g"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C457020738
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EDBC2862A0;
-	Mon,  3 Aug 2020 10:59:39 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CZgh4hDhrWGa; Mon,  3 Aug 2020 10:59:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6FCE786816;
-	Mon,  3 Aug 2020 10:59:39 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A114C0050;
-	Mon,  3 Aug 2020 10:59:39 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BA6FFC004C
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 10:59:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B6AED87A2E
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 10:59:38 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6E8E287874;
+	Mon,  3 Aug 2020 11:46:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NygWV87F70gH; Mon,  3 Aug 2020 11:46:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7ABCA8782A;
+	Mon,  3 Aug 2020 11:46:36 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FB8BC0051;
+	Mon,  3 Aug 2020 11:46:36 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 51A71C004C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Aug 2020 11:46:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3D2CA861CF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Aug 2020 11:46:35 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tjsmKLUONRDy
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 10:59:38 +0000 (UTC)
+ with ESMTP id aw6WN4m0d6ha
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Aug 2020 11:46:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D9301875C2
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 10:59:37 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id qc22so23352425ejb.4
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 03 Aug 2020 03:59:37 -0700 (PDT)
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+ [209.85.160.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E627A81B81
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Aug 2020 11:46:33 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id k18so27888406qtm.10
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 03 Aug 2020 04:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=JuHSfFEy2D5hpg7dkiQdIY+1pWr35ytSHUqvj3WVil0=;
- b=MbpTYvVjx6GiG75buQIS9eQIECfNGhQB8gBuObhw5F49Gccvpqo8udNay2tdnci3tn
- QhY9Hj35sqjDAidO21TPmIjB4/RWT38rnD/5z3DI0n5XlzIlo1WJLxfHZVB3PLWiWWev
- uf8pAF37ewJbSAt7jQOl+lMyQKTl65EKohqVE0BRBWXYrSvrXtQW35RV0pyyeeMmoYzO
- A/9eLO8edCbuuFAR9rYgi6V+5iqOuYYv5sx34SnPOJ5Iq8S4KMpC0l80u5uIYTdyT2Qf
- CTrrjziJcy92kwcManknI1jHeD486F9DdwH7vuPLtbGWOIByTdIGXrzPGGeuKSLT5B5i
- kjqg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v9w9fbn7yNkef9TLs+zTkzQZ7s1zWhU0/ovW77dwUdg=;
+ b=azYzpy5gBWy177C2zEz3nN8T4CAY59qloyuh1SPx61pASUlcEu3g4Ah2btjKaENBAO
+ ktyNtc2EgorVTn3Ys2vzLcrbORPK6HckUVmWfSL7D6YlKA5WFkWGM1Kysmn51x7RrJsB
+ mRNbCggdhgHJAuzvNXtXb3jv3wsqq/Lh/Fc3Ai4hbv8v+NZ/RhWUV1BYaCKO+RCD0TsU
+ 7oaGZmCN4ph2etPxyWqaFPGXsEL8f2wsXAxWCGEfSRvdc1jiisy4yeWbu4G9lN9RuZqd
+ 0rEmHyQ9kVPuY9O5zToguFyU01CNyB7e8R8lq4iL95BMHkVn5j3MtxnaEFRXiIuKZ/24
+ 0Deg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=JuHSfFEy2D5hpg7dkiQdIY+1pWr35ytSHUqvj3WVil0=;
- b=Wzbq1Yk36IqsTnWPeZOTQumRuYoEIO+D9iyymoH6Qfm6JO+NAAH4N41l+iZ14KTG1R
- BQAN4GUJ5byAanbLJqiNoqoNjPLe5PhgWUuorQF0Dxkef70DiigzXbJMA4GPSORVkf9S
- ioBgdaqPe20FgVVTviCtPY7lRMxgEzx4/dkvLI4aq4aux2eYCizZTlsQxgSB5FmwAjxE
- gzMr5F1QwWJ0LVx/sEv7M3dGASQUo6wZNNL+CccileU6R5q+3bOMejtcpkFWa4HsSaA4
- V/B0iqGIbzMZbKIfXfnrQ+RrapjmXGRKhgVSh+8my2HDCmPgYFXd9GHFy1ym5+8AVICE
- ItqA==
-X-Gm-Message-State: AOAM532n322ic+JltcRn5H0IfaerTFF7QCJwKwtWcrIw6POQgkWs2PBi
- HXKa7Cw46SsNfyVDqes1Qwk=
-X-Google-Smtp-Source: ABdhPJxEtjZ6hPFajIPtHFD2BkQjFZrJzkXoIgsh+Kcx+PX0Qyvw2AzZ0wALkdDPUMed9hJhxUugMg==
-X-Received: by 2002:a17:907:20f5:: with SMTP id
- rh21mr15775026ejb.194.1596452376276; 
- Mon, 03 Aug 2020 03:59:36 -0700 (PDT)
-Received: from felia ([2001:16b8:2dc4:9300:b9a0:3f92:5ce1:e11f])
- by smtp.gmail.com with ESMTPSA id g21sm9074119edm.65.2020.08.03.03.59.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Aug 2020 03:59:35 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Mon, 3 Aug 2020 12:59:33 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Mrinal Pandey <mrinalmni@gmail.com>
-In-Reply-To: <20200803075841.6bp4pcx3av2ow72s@mrinalpandey>
-Message-ID: <alpine.DEB.2.21.2008031251410.8346@felia>
-References: <20200803075841.6bp4pcx3av2ow72s@mrinalpandey>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v9w9fbn7yNkef9TLs+zTkzQZ7s1zWhU0/ovW77dwUdg=;
+ b=sCYzLCjiP2DDZ1dklxpHb6pJ78MVjcbIbfRJMCldgy/9aDYKaDsGPaXpOXMnB4ov96
+ MuGFlwsbNrsVL56yYsKq42Mx/MupwxZx55YKIC/JE1PVeoNjLf7edbJfOlNjW1MNTu/B
+ jQaCj/8iO/F8+VyNoNDCBaQBYyvzp4gCSRVZ3kO83QIGnxoPv9f2Qcq5aPI2LnTRfe33
+ ZVflh6kbgmsI2uI2bZdoxeEu0k3wD3oP1Ga6L2JDGbrl7WLZkMUpjF/w59WZc9cu6BMX
+ 0xO6O5CqodZ/B1l+bwCkEkSmc9pWGSWfjQg6X9BMo6S0rKAwEh2RXzoeucLvWt5ZBnNE
+ ZENA==
+X-Gm-Message-State: AOAM5337OgaVywdNXbRcRYEqlDOmRfJkrECiBZ5VV2MjEy+H0SQ7bhve
+ 3jwHmkNEZn8S9SHmrgRGsk2kw2FV0lYt7wGpPtA=
+X-Google-Smtp-Source: ABdhPJy6gn2ytTr6DFZ70N7zNh22A3+ulj9QDSMWwwPeofE/1A22C8/kgSZ6X3X+Ddv4X0eRYpIXJKAkFUV3CAgvKlk=
+X-Received: by 2002:aed:33a5:: with SMTP id v34mr16035859qtd.262.1596455192588; 
+ Mon, 03 Aug 2020 04:46:32 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Improve SPDX license
- identifier check for script files
+References: <20200731110240.98326-2-refactormyself@gmail.com>
+ <20200731135523.GA3717@bjorn-Precision-5520>
+In-Reply-To: <20200731135523.GA3717@bjorn-Precision-5520>
+From: Ian Kumlien <ian.kumlien@gmail.com>
+Date: Mon, 3 Aug 2020 13:46:21 +0200
+Message-ID: <CAA85sZt1_dwpxXMrjHc+5wEH-1w9X4km95UvCzEXqJ_o-OS6Hw@mail.gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Content-Type: multipart/mixed; boundary="000000000000a7ee6b05abf7b098"
+Cc: Mike Marciniszyn <mike.marciniszyn@intel.com>,
+ Puranjay Mohan <puranjay12@gmail.com>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>, linux-rdma@vger.kernel.org,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>, linux-pci@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v4 01/12] IB/hfi1: Check if
+	pcie_capability_read_*() reads ~0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,93 +111,253 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+--000000000000a7ee6b05abf7b098
+Content-Type: text/plain; charset="UTF-8"
 
-
-On Mon, 3 Aug 2020, Mrinal Pandey wrote:
-
-> The diff content includes the SPDX licensing information but excludes the
-> shebang when a change is made to a script file in commit 37f8173dd849
-> ("locking/atomics: Flip fallbacks and  instrumentation") and commit
-> 075c8aa79d54 ("selftests: forwarding: tc_actions.sh: add matchall mirror
-> test"). In these cases checkpatch issues a false positive warning:
-> "Misplaced SPDX-License-Identifier tag - use line 1 instead".
-> 
-> Currently, if checkpatch finds a shebang in line 1, it expects the
-> license identifier in line 2. However, this doesn't work when a shebang
-> isn't found on the line 1.
-
-It does not work when the diff does not contain line 1, but only line 2,
-because then the shebang check for line 1 cannot work.
-
-> 
-> I noticed this false positive, while running checkpatch on the set of
-> commits from v5.7 to v5.8-rc1 of the kernel, on the said commits.
-> This false positive exists in checkpatch since commit a8da38a9cf0e
-> ("checkpatch: add test for SPDX-License-Identifier on wrong line #")
-> when the corresponding rule was first added.
-> 
-> The alternatives considered to improve this check were looking the file
-> to be a script by either examining the file extension or file permissions.
+On Fri, Jul 31, 2020 at 3:55 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
 >
-
-Make this sentence shorter. Try.
- 
-> The evaluation on former option resulted in 120 files which had a shebang
-> in the first line but no file extension. This didn't look like a promising
-> result and hence I dropped the idea of using this approach.
-> 
-> The evaluation on the latter approach shows that there are 53 files in the
-> kernel which have an executable bit set but don't have a shebang in the
-> first line.
-> 
-> At the first sight on these 53 files, it seems that they either have a
-> wrong file permission set or could be reasonably extended with a shebang
-> and SPDX license information. Thus, further cleanup in the repository
-> would make the latter approach to work even more precisely.
-> 
-> Hence, I chose to check the file permissions to determine if the file is a
-> script and notify checkpatch to expect SPDX on second line for such files.
+> [+cc Michael, Ashutosh, Ian, Puranjay]
 >
+> On Fri, Jul 31, 2020 at 01:02:29PM +0200, Saheed O. Bolarinwa wrote:
+> > On failure pcie_capability_read_dword() sets it's last parameter,
+> > val to 0. In this case dn and up will be 0, so aspm_hw_l1_supported()
+> > will return false.
+> > However, with Patch 12/12, it is possible that val is set to ~0 on
+> > failure. This would introduce a bug because (x & x) == (~0 & x). So
+> > with dn and up being 0x02, a true value is return when the read has
+> > actually failed.
+> >
+> > Since, the value ~0 is invalid here,
+> >
+> > Reset dn and up to 0 when a value of ~0 is read into them, this
+> > ensures false is returned on failure in this case.
+> >
+> > Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
+> > Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
+> > ---
+> >
+> >  drivers/infiniband/hw/hfi1/aspm.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/infiniband/hw/hfi1/aspm.c b/drivers/infiniband/hw/hfi1/aspm.c
+> > index a3c53be4072c..9605b2145d19 100644
+> > --- a/drivers/infiniband/hw/hfi1/aspm.c
+> > +++ b/drivers/infiniband/hw/hfi1/aspm.c
+> > @@ -33,13 +33,13 @@ static bool aspm_hw_l1_supported(struct hfi1_devdata *dd)
+> >               return false;
+> >
+> >       pcie_capability_read_dword(dd->pcidev, PCI_EXP_LNKCAP, &dn);
+> > -     dn = ASPM_L1_SUPPORTED(dn);
+> > +     dn = (dn == (u32)~0) ? 0 : ASPM_L1_SUPPORTED(dn);
+> >
+> >       pcie_capability_read_dword(parent, PCI_EXP_LNKCAP, &up);
+> > -     up = ASPM_L1_SUPPORTED(up);
+> > +     up = (up == (u32)~0) ? 0 : ASPM_L1_SUPPORTED(up);
+>
+> I don't want to change this.  The driver shouldn't be mucking with
+> ASPM at all.  The PCI core should take care of this automatically.  If
+> it doesn't, we need to fix the core.
+>
+> If the driver needs to disable ASPM to work around device errata or
+> something, the core has an interface for that.  But the driver should
+> not override the system-wide policy for managing ASPM.
+>
+> Ah, some archaeology finds affa48de8417 ("staging/rdma/hfi1: Add
+> support for enabling/disabling PCIe ASPM"), which says:
+>
+>   hfi1 HW has a high PCIe ASPM L1 exit latency and also advertises an
+>   acceptable latency less than actual ASPM latencies.
+>
+> That suggests that either there is a device defect, e.g., advertising
+> incorrect ASPM latencies, or a PCI core defect, e.g., incorrectly
+> enabling ASPM when the path exit latency exceeds that hfi1 can
+> tolerate.
+>
+> Coincidentally, Ian recently debugged a problem in how the PCI core
+> computes exit latencies over a path [1].
+>
+> Can anybody supply details about the hfi1 ASPM parameters, e.g., the
+> output of "sudo lspci -vv"?  Any details about the configuration where
+> the problem occurs?  Is there a switch in the path?
+>
+> [1] https://lore.kernel.org/r/20200727213045.2117855-1-ian.kumlien@gmail.com
+>
+> >       /* ASPM works on A-step but is reported as not supported */
+> > -     return (!!dn || is_ax(dd)) && !!up;
+> > +     return (dn || is_ax(dd)) && up;
+> >  }
+> >
+> >  /* Set L1 entrance latency for slower entry to L1 */
+> > --
+> > 2.18.4
+> >
 
-There is no notification here. Think about better wording.
- 
-> Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
-> ---
->  scripts/checkpatch.pl | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 4c820607540b..bae1dd824518 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -3166,6 +3166,9 @@ sub process {
->  		}
->  
->  # check for using SPDX license tag at beginning of files
-> +		if ($line =~ /^index\ .*\.\..*\ .*[7531]\d{0,2}$/) {
-> +			$checklicenseline = 2;
-> +		}
+My experience with pcie is very limited, but the more I look at things
+the more I get worried...
 
-That check looks good now.
+Anyway, I have made some changes, could you try the attached patch and
+see if it makes a difference?
 
->  		if ($realline == $checklicenseline) {
->  			if ($rawline =~ /^[ \+]\s*\#\!\s*\//) {
->  				$checklicenseline = 2;
+Changes:
+L0s and L1 should only apply to links that actually has it enabled,
+don't store or increase values if they don't.
+Work on L0s as well, currently it clobbers since I'm not certain about
+upstream/downstream distinctions.
 
-This is probably broken now. It should check for shebang in line 1 and 
-then set checklicenseline to line 2, right?
+diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
+index b17e5ffd31b1..0d93ae065f73 100644
+--- a/drivers/pci/pcie/aspm.c
++++ b/drivers/pci/pcie/aspm.c
+@@ -434,7 +434,8 @@ static void pcie_get_aspm_reg(struct pci_dev *pdev,
 
-> -- 
-> 2.25.1
-> 
-> 
+ static void pcie_aspm_check_latency(struct pci_dev *endpoint)
+ {
+-       u32 latency, l1_switch_latency = 0;
++       u32 latency, l1_max_latency = 0, l1_switch_latency = 0,
++               l0s_max_latency = 0;
+        struct aspm_latency *acceptable;
+        struct pcie_link_state *link;
+
+@@ -447,15 +448,24 @@ static void pcie_aspm_check_latency(struct
+pci_dev *endpoint)
+        acceptable = &link->acceptable[PCI_FUNC(endpoint->devfn)];
+
+        while (link) {
+-               /* Check upstream direction L0s latency */
+-               if ((link->aspm_capable & ASPM_STATE_L0S_UP) &&
+-                   (link->latency_up.l0s > acceptable->l0s))
+-                       link->aspm_capable &= ~ASPM_STATE_L0S_UP;
+-
+-               /* Check downstream direction L0s latency */
+-               if ((link->aspm_capable & ASPM_STATE_L0S_DW) &&
+-                   (link->latency_dw.l0s > acceptable->l0s))
+-                       link->aspm_capable &= ~ASPM_STATE_L0S_DW;
++               if (link->aspm_capable & ASPM_STATE_L0S) {
++                       u32 l0s_up = 0, l0s_dw = 0;
++
++                       /* Check upstream direction L0s latency */
++                       if (link->aspm_capable & ASPM_STATE_L0S_UP)
++                               l0s_up = link->latency_up.l0s;
++
++                       /* Check downstream direction L0s latency */
++                       if (link->aspm_capable & ASPM_STATE_L0S_DW)
++                               l0s_dw = link->latency_dw.l0s;
++
++                       l0s_max_latency += max_t(u32, l0s_up, l0s_dw);
++
++                       /* If the latency exceeds, disable both */
++                       if (l0s_max_latency > acceptable->l0s)
++                               link->aspm_capable &= ~ASPM_STATE_L0S;
++               }
++
+                /*
+                 * Check L1 latency.
+                 * Every switch on the path to root complex need 1
+@@ -469,11 +479,13 @@ static void pcie_aspm_check_latency(struct
+pci_dev *endpoint)
+                 * L1 exit latencies advertised by a device include L1
+                 * substate latencies (and hence do not do any check).
+                 */
+-               latency = max_t(u32, link->latency_up.l1, link->latency_dw.l1);
+-               if ((link->aspm_capable & ASPM_STATE_L1) &&
+-                   (latency + l1_switch_latency > acceptable->l1))
+-                       link->aspm_capable &= ~ASPM_STATE_L1;
+-               l1_switch_latency += 1000;
++               if (link->aspm_capable & ASPM_STATE_L1) {
++                       latency = max_t(u32, link->latency_up.l1,
+link->latency_dw.l1);
++                       l1_max_latency = max_t(u32, latency, l1_max_latency);
++                       if (l1_max_latency + l1_switch_latency > acceptable->l1)
++                               link->aspm_capable &= ~ASPM_STATE_L1;
++                       l1_switch_latency += 1000;
++               }
+
+                link = link->parent;
+        }
+
+--000000000000a7ee6b05abf7b098
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-Use-maximum-latency-when-determining-L1-L0s-ASPM.patch"
+Content-Disposition: attachment; 
+	filename="0001-Use-maximum-latency-when-determining-L1-L0s-ASPM.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kdeg1dxx0>
+X-Attachment-Id: f_kdeg1dxx0
+
+RnJvbSA5NzE3MzViZDMyZDdhOGNiN2NkMWE4ZDQzMTZmYzJhMmUxOTJmOGUyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBJYW4gS3VtbGllbiA8aWFuLmt1bWxpZW5AZ21haWwuY29tPgpE
+YXRlOiBTdW4sIDI2IEp1bCAyMDIwIDE2OjAxOjE1ICswMjAwClN1YmplY3Q6IFtQQVRDSF0gVXNl
+IG1heGltdW0gbGF0ZW5jeSB3aGVuIGRldGVybWluaW5nIEwxL0wwcyBBU1BNCgpDdXJyZW50bHkg
+d2UgY2hlY2sgdGhlIG1heGltdW0gbGF0ZW5jeSBvZiB1cHN0cmVhbSBhbmQgZG93bnN0cmVhbQpw
+ZXIgbGluaywgbm90IHRoZSBtYXhpbXVtIGZvciB0aGUgcGF0aAoKVGhpcyB3b3VsZCB3b3JrIGlm
+IGFsbCBsaW5rcyBoYXZlIHRoZSBzYW1lIGxhdGVuY3ksIGJ1dDoKZW5kcG9pbnQgLT4gYyAtPiBi
+IC0+IGEgLT4gcm9vdCAgKGluIHRoZSBvcmRlciB3ZSB3YWxrIHRoZSBwYXRoKQoKSWYgYyBvciBi
+IGhhcyB0aGUgaGlnZXN0IGxhdGVuY3ksIGl0IHdpbGwgbm90IHJlZ2lzdGVyCgpGaXggdGhpcyBi
+eSBtYWludGFpbmluZyB0aGUgbWF4aW11bSBsYXRlbmN5IHZhbHVlIGZvciB0aGUgcGF0aAoKQWxz
+bywgTDBzIHNlZW1zIHRvIGJlIGEgY3VtdWxhdGl2ZSBtYXhpbXVtIG92ZXIgdGhlIHBhdGgsIGZp
+eCB0aGlzIGFzCndlbGwKClRoaXMgY2hhbmdlIGZpeGVzIGEgcmVncmVzc2lvbiBpbnRyb2R1Y2Vk
+IChidXQgbm90IGNhdXNlZCkgYnk6CjY2ZmYxNGU1OWU4YSAoUENJL0FTUE06IEFsbG93IEFTUE0g
+b24gbGlua3MgdG8gUENJZS10by1QQ0kvUENJLVggQnJpZGdlcykKClNpZ25lZC1vZmYtYnk6IElh
+biBLdW1saWVuIDxpYW4ua3VtbGllbkBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9wY2kvcGNpZS9h
+c3BtLmMgfCA0MiArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLQogMSBm
+aWxlIGNoYW5nZWQsIDI3IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvcGNpL3BjaWUvYXNwbS5jIGIvZHJpdmVycy9wY2kvcGNpZS9hc3BtLmMKaW5k
+ZXggYjE3ZTVmZmQzMWIxLi4wZDkzYWUwNjVmNzMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGNpL3Bj
+aWUvYXNwbS5jCisrKyBiL2RyaXZlcnMvcGNpL3BjaWUvYXNwbS5jCkBAIC00MzQsNyArNDM0LDgg
+QEAgc3RhdGljIHZvaWQgcGNpZV9nZXRfYXNwbV9yZWcoc3RydWN0IHBjaV9kZXYgKnBkZXYsCiAK
+IHN0YXRpYyB2b2lkIHBjaWVfYXNwbV9jaGVja19sYXRlbmN5KHN0cnVjdCBwY2lfZGV2ICplbmRw
+b2ludCkKIHsKLQl1MzIgbGF0ZW5jeSwgbDFfc3dpdGNoX2xhdGVuY3kgPSAwOworCXUzMiBsYXRl
+bmN5LCBsMV9tYXhfbGF0ZW5jeSA9IDAsIGwxX3N3aXRjaF9sYXRlbmN5ID0gMCwKKwkJbDBzX21h
+eF9sYXRlbmN5ID0gMDsKIAlzdHJ1Y3QgYXNwbV9sYXRlbmN5ICphY2NlcHRhYmxlOwogCXN0cnVj
+dCBwY2llX2xpbmtfc3RhdGUgKmxpbms7CiAKQEAgLTQ0NywxNSArNDQ4LDI0IEBAIHN0YXRpYyB2
+b2lkIHBjaWVfYXNwbV9jaGVja19sYXRlbmN5KHN0cnVjdCBwY2lfZGV2ICplbmRwb2ludCkKIAlh
+Y2NlcHRhYmxlID0gJmxpbmstPmFjY2VwdGFibGVbUENJX0ZVTkMoZW5kcG9pbnQtPmRldmZuKV07
+CiAKIAl3aGlsZSAobGluaykgewotCQkvKiBDaGVjayB1cHN0cmVhbSBkaXJlY3Rpb24gTDBzIGxh
+dGVuY3kgKi8KLQkJaWYgKChsaW5rLT5hc3BtX2NhcGFibGUgJiBBU1BNX1NUQVRFX0wwU19VUCkg
+JiYKLQkJICAgIChsaW5rLT5sYXRlbmN5X3VwLmwwcyA+IGFjY2VwdGFibGUtPmwwcykpCi0JCQls
+aW5rLT5hc3BtX2NhcGFibGUgJj0gfkFTUE1fU1RBVEVfTDBTX1VQOwotCi0JCS8qIENoZWNrIGRv
+d25zdHJlYW0gZGlyZWN0aW9uIEwwcyBsYXRlbmN5ICovCi0JCWlmICgobGluay0+YXNwbV9jYXBh
+YmxlICYgQVNQTV9TVEFURV9MMFNfRFcpICYmCi0JCSAgICAobGluay0+bGF0ZW5jeV9kdy5sMHMg
+PiBhY2NlcHRhYmxlLT5sMHMpKQotCQkJbGluay0+YXNwbV9jYXBhYmxlICY9IH5BU1BNX1NUQVRF
+X0wwU19EVzsKKwkJaWYgKGxpbmstPmFzcG1fY2FwYWJsZSAmIEFTUE1fU1RBVEVfTDBTKSB7CisJ
+CQl1MzIgbDBzX3VwID0gMCwgbDBzX2R3ID0gMDsKKworCQkJLyogQ2hlY2sgdXBzdHJlYW0gZGly
+ZWN0aW9uIEwwcyBsYXRlbmN5ICovCisJCQlpZiAobGluay0+YXNwbV9jYXBhYmxlICYgQVNQTV9T
+VEFURV9MMFNfVVApCisJCQkJbDBzX3VwID0gbGluay0+bGF0ZW5jeV91cC5sMHM7CisKKwkJCS8q
+IENoZWNrIGRvd25zdHJlYW0gZGlyZWN0aW9uIEwwcyBsYXRlbmN5ICovCisJCQlpZiAobGluay0+
+YXNwbV9jYXBhYmxlICYgQVNQTV9TVEFURV9MMFNfRFcpCisJCQkJbDBzX2R3ID0gbGluay0+bGF0
+ZW5jeV9kdy5sMHM7CisKKwkJCWwwc19tYXhfbGF0ZW5jeSArPSBtYXhfdCh1MzIsIGwwc191cCwg
+bDBzX2R3KTsKKworCQkJLyogSWYgdGhlIGxhdGVuY3kgZXhjZWVkcywgZGlzYWJsZSBib3RoICov
+CisJCQlpZiAobDBzX21heF9sYXRlbmN5ID4gYWNjZXB0YWJsZS0+bDBzKQorCQkJCWxpbmstPmFz
+cG1fY2FwYWJsZSAmPSB+QVNQTV9TVEFURV9MMFM7CisJCX0KKwogCQkvKgogCQkgKiBDaGVjayBM
+MSBsYXRlbmN5LgogCQkgKiBFdmVyeSBzd2l0Y2ggb24gdGhlIHBhdGggdG8gcm9vdCBjb21wbGV4
+IG5lZWQgMQpAQCAtNDY5LDExICs0NzksMTMgQEAgc3RhdGljIHZvaWQgcGNpZV9hc3BtX2NoZWNr
+X2xhdGVuY3koc3RydWN0IHBjaV9kZXYgKmVuZHBvaW50KQogCQkgKiBMMSBleGl0IGxhdGVuY2ll
+cyBhZHZlcnRpc2VkIGJ5IGEgZGV2aWNlIGluY2x1ZGUgTDEKIAkJICogc3Vic3RhdGUgbGF0ZW5j
+aWVzIChhbmQgaGVuY2UgZG8gbm90IGRvIGFueSBjaGVjaykuCiAJCSAqLwotCQlsYXRlbmN5ID0g
+bWF4X3QodTMyLCBsaW5rLT5sYXRlbmN5X3VwLmwxLCBsaW5rLT5sYXRlbmN5X2R3LmwxKTsKLQkJ
+aWYgKChsaW5rLT5hc3BtX2NhcGFibGUgJiBBU1BNX1NUQVRFX0wxKSAmJgotCQkgICAgKGxhdGVu
+Y3kgKyBsMV9zd2l0Y2hfbGF0ZW5jeSA+IGFjY2VwdGFibGUtPmwxKSkKLQkJCWxpbmstPmFzcG1f
+Y2FwYWJsZSAmPSB+QVNQTV9TVEFURV9MMTsKLQkJbDFfc3dpdGNoX2xhdGVuY3kgKz0gMTAwMDsK
+KwkJaWYgKGxpbmstPmFzcG1fY2FwYWJsZSAmIEFTUE1fU1RBVEVfTDEpIHsKKwkJCWxhdGVuY3kg
+PSBtYXhfdCh1MzIsIGxpbmstPmxhdGVuY3lfdXAubDEsIGxpbmstPmxhdGVuY3lfZHcubDEpOwor
+CQkJbDFfbWF4X2xhdGVuY3kgPSBtYXhfdCh1MzIsIGxhdGVuY3ksIGwxX21heF9sYXRlbmN5KTsK
+KwkJCWlmIChsMV9tYXhfbGF0ZW5jeSArIGwxX3N3aXRjaF9sYXRlbmN5ID4gYWNjZXB0YWJsZS0+
+bDEpCisJCQkJbGluay0+YXNwbV9jYXBhYmxlICY9IH5BU1BNX1NUQVRFX0wxOworCQkJbDFfc3dp
+dGNoX2xhdGVuY3kgKz0gMTAwMDsKKwkJfQogCiAJCWxpbmsgPSBsaW5rLT5wYXJlbnQ7CiAJfQot
+LSAKMi4yOC4wCgo=
+--000000000000a7ee6b05abf7b098
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--000000000000a7ee6b05abf7b098--
