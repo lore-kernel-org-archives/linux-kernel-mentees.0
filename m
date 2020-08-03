@@ -2,98 +2,74 @@ Return-Path: <SRS0=1dzN=BN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_20,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD333C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 21:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C43C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 22:10:45 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ADD7822BF3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 21:14:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="BIJROpGS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADD7822BF3
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 09A6422B40
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Aug 2020 22:10:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09A6422B40
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=davemloft.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E9A2120003;
-	Mon,  3 Aug 2020 21:14:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7C8EA204D6;
+	Mon,  3 Aug 2020 22:10:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Be4x8xSwe7uo; Mon,  3 Aug 2020 21:14:56 +0000 (UTC)
+	with ESMTP id pD4djAwRpDyg; Mon,  3 Aug 2020 22:10:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 6864A2051A;
-	Mon,  3 Aug 2020 21:14:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F30D421541;
+	Mon,  3 Aug 2020 22:10:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 48876C0051;
-	Mon,  3 Aug 2020 21:14:56 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 38309C004C
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B333FC088E;
+	Mon,  3 Aug 2020 22:10:43 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 84BBCC004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 21:14:55 +0000 (UTC)
+ Mon,  3 Aug 2020 22:10:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 21068877D1
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7205E85E9F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 21:14:55 +0000 (UTC)
+ Mon,  3 Aug 2020 22:10:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id G316vKVnjC8q
+ with ESMTP id 9967MqS9haSM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 21:14:54 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 86E6586DA5
+ Mon,  3 Aug 2020 22:10:41 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [23.128.96.9])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 41A8185816
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Aug 2020 21:14:54 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id r11so11065358pfl.11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 03 Aug 2020 14:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vFs5N7Aj94X2p4Itvu8tYvN2B3/GsCmBFKnespcHSO0=;
- b=BIJROpGSryxlCfoh5rldvY+j0NKCC0TMSDj/SFN4RZMbQXx5jWPcy71uC+SEtNDxX7
- BqHAgLfMCOWFh5CNKROZfxPZ7EGqxWAg93Z6IjH7NzGlBMXrZcz89dtyCQzcWdK51/rc
- 4fcRl1C9vlx4ysv8yE4M/BFzdQHtnm+whqM3MeFrq5DQOznOUiZWtnNMCG0/nmJ4d/7y
- rB4POQCJpPpNHFNFza1crYxYA9RRemn99Fll6ery5GoKvTgmgHezyhpPaFZuHLcvyRsN
- GEAKftb1k0JcKY4VpjWXVi9+noA+0KYRnOD0pfyJCTCONpF6xVqUst0vVvw9lVpCHj9e
- mamA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vFs5N7Aj94X2p4Itvu8tYvN2B3/GsCmBFKnespcHSO0=;
- b=Kizq4XQeB2JJeT6Fs2LYgF6EziN+PuKabfngUtXLignTmpzwpB9DRyPRzIE1fJGAJ5
- 8KIznaA0tVb1W/EcXto13m92Mjp9t3M+NlkijNExaUp+VqD6pY60/HTlwyeGh5WivoIB
- Xw3qKKMqnrXsuS3RfthksqmcfPe7EqMTAwNQMUTrTLKT7WRx/guHi4gQ36ikZugUl4On
- LCLSSvOykd6eBa/pdKbj3yA9jI3tCVE2bB9JB6xYdfAKBSkChAfcr6wXa5RyS0IWliOs
- r16wDdnXRg5+0NX6JJit53XBEAOWdyDDa3MURo4vO8dh68dw0mtmtM3ITxQ7SkN0BqgO
- E3ng==
-X-Gm-Message-State: AOAM532Jqw7L2yrqr968JSXWp90DtW56vkLcSdcurlviWagDmW7OxyQx
- V5xcEOY8JSTv2Frin/ixS2G/8BetLQo1/NJoeh+e5g==
-X-Google-Smtp-Source: ABdhPJxN74uGPSyFq/sMHzSrAyVNydvv3a1KRtp+ugVWRWUR4XzuGsQSZAk1SzJ3Mge5oZFXZ7/TRU4deckwnTL4Mdg=
-X-Received: by 2002:a62:7b89:: with SMTP id
- w131mr16526946pfc.284.1596489293882; 
- Mon, 03 Aug 2020 14:14:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200803025939.21106-1-98.arpi@gmail.com>
-In-Reply-To: <20200803025939.21106-1-98.arpi@gmail.com>
-Date: Mon, 3 Aug 2020 14:14:42 -0700
-Message-ID: <CAFd5g47u5u=cVAM_5rBj0mA4YcKjanebb35Po1EN13mNrEH7KA@mail.gmail.com>
-To: Arpitha Raghunandan <98.arpi@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] lib: Convert test_uuid.c to
-	KUnit
+ Mon,  3 Aug 2020 22:10:41 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+ (using TLSv1 with cipher AES256-SHA (256/256 bits))
+ (Client did not present a certificate)
+ (Authenticated sender: davem-davemloft)
+ by shards.monkeyblade.net (Postfix) with ESMTPSA id 95F0712771D66;
+ Mon,  3 Aug 2020 14:53:53 -0700 (PDT)
+Date: Mon, 03 Aug 2020 15:10:38 -0700 (PDT)
+Message-Id: <20200803.151038.440269686968773655.davem@davemloft.net>
+To: yepeilin.cs@gmail.com
+From: David Miller <davem@davemloft.net>
+In-Reply-To: <20200731044838.213975-1-yepeilin.cs@gmail.com>
+References: <20200731044838.213975-1-yepeilin.cs@gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12
+ (shards.monkeyblade.net [149.20.54.216]);
+ Mon, 03 Aug 2020 14:53:54 -0700 (PDT)
+Cc: dev@openvswitch.org, arnd@arndb.de, linux-kernel@vger.kernel.org,
+ pshelar@ovn.org, netdev@vger.kernel.org, kuba@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, dan.carpenter@oracle.com
+Subject: Re: [Linux-kernel-mentees] [PATCH net] openvswitch: Prevent
+ kernel-infoleak in ovs_ct_put_key()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,28 +81,29 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Brendan Higgins via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Aug 2, 2020 at 8:00 PM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
->
-> Converts test lib/test_uuid.c to KUnit.
-> More information about KUnit can be found at
-> https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html.
-> This change is beneficial as KUnit provides a common framework for
-> unit tests in the kernel. KUnit is fast as well.
->
-> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+From: Peilin Ye <yepeilin.cs@gmail.com>
+Date: Fri, 31 Jul 2020 00:48:38 -0400
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> ovs_ct_put_key() is potentially copying uninitialized kernel stack memory
+> into socket buffers, since the compiler may leave a 3-byte hole at the end
+> of `struct ovs_key_ct_tuple_ipv4` and `struct ovs_key_ct_tuple_ipv6`. Fix
+> it by initializing `orig` with memset().
+> 
+> Cc: stable@vger.kernel.org
 
-Thanks!
+Please don't CC: stable for networking fixes.
+
+> Fixes: 9dd7f8907c37 ("openvswitch: Add original direction conntrack tuple to sw_flow_key.")
+> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+
+Applied and queued up for -stable, thank you.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
