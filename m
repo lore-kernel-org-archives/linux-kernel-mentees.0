@@ -2,101 +2,101 @@ Return-Path: <SRS0=ILBb=BO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9454DC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Aug 2020 15:48:59 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D46C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Aug 2020 15:56:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 65EBC21744
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Aug 2020 15:48:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 679DE208A9
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Aug 2020 15:56:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MxG/dpyM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 65EBC21744
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EKW8OhVk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 679DE208A9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1DDCC85FBA;
-	Tue,  4 Aug 2020 15:48:59 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2123084FA4;
+	Tue,  4 Aug 2020 15:56:49 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6vpcz9-lYBEd; Tue,  4 Aug 2020 15:56:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3D06F84F27;
+	Tue,  4 Aug 2020 15:56:48 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 221FDC0050;
+	Tue,  4 Aug 2020 15:56:48 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93157C004C
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Aug 2020 15:56:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 81A238610E
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Aug 2020 15:56:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cfTIjv2Gac7l; Tue,  4 Aug 2020 15:48:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C9BB85FA2;
-	Tue,  4 Aug 2020 15:48:58 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6844CC0050;
-	Tue,  4 Aug 2020 15:48:58 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CD70EC004C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Aug 2020 15:48:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id BC8A787E74
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Aug 2020 15:48:56 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E+g5eZR2QlSA
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Aug 2020 15:48:56 +0000 (UTC)
+ with ESMTP id uYbW6ktziUnl
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Aug 2020 15:56:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id AE16987E72
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Aug 2020 15:48:55 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id g19so29162767ejc.9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 04 Aug 2020 08:48:55 -0700 (PDT)
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CF4E386108
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Aug 2020 15:56:45 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id 17so220342pfw.9
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 04 Aug 2020 08:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=aHpL707Nss711rXrUizpThLuemDkqB5ODmR6Us/BMpc=;
- b=MxG/dpyMaF6vYnVh6cmGFs2sWeiZm+D1y5e+wPKRIQHAckDajxPdgAPQWawbopVVZC
- 731wC5XDRn8ehsL4GKW6TgjYQ3S+Rnl/MRVDB2d3w7KM8hcGjH5s1s49jzGYJLTIfT2L
- +jPDLE1woC+77z3Pnk4cxhOsNxA+vH1Pvkeaj9Lzu3PXtLlr8kZdtcONi17AkXOqLwoK
- kY/4EANA3lBd0/8ZRubKxgdaGarZ0XR7g27zO4UGCgJ+g0tI7z99TDlc1U/5U/2CxZSN
- ktcB8EareRzLEbU+g4P0CLxKgPnsYM4GejeJg954pD5GHK2+ScB3Ye1gWWCT9VFJRoLi
- mrSw==
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=eRdipcPz3HlwV+R/LfBjdGdCeB0VM3WbPE45efmJt+E=;
+ b=EKW8OhVkEE+DMqrYxEjDqKZyVxmtynTVB9miBp81Sk6vs1xEIh4DTPBLVd5KqQth28
+ UPJ89DV2bDleoe3wbbTQOy5sjT3QcwUq6O0ioi8rbbYVee5y7C1Vx+sCo3FMbTineroG
+ aeRpOn25KGJdRKjKzjzI6J84QNioebc92VqoifHB1JA815ILZ61+33NWfbEWeLAcMDE2
+ m2Fv7KpzKovNZ0V9bs+U5x7gCFfCtZmHLzLAqAxeAYK2AE6utZZL3L8l6fV6UqiKaOeR
+ 8sS2s3kI0pJV9USnIc67hyLZhfyK2gakMeIKVCp6xXGl2GnOkfCEmWrNABw852rqeqYC
+ IBtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=aHpL707Nss711rXrUizpThLuemDkqB5ODmR6Us/BMpc=;
- b=gE4f9adW3tT/r+Af53uGH0OfnF+VPmmPBdDZLfeh7bmIjc8A2TYk47XoNmMNVFNbRc
- YFQaSaM/WBJ1TSJb3u2p9TMPcHze3Bj4pPJbK+rhTcHbKoaCGOzHZ8oEO3eNbV8Ijl/a
- Sc67g92LM7criR3r+kdS1JTX2O6ao1yQIiwQfGNGBh+omudjE1OwsPdAUMDpb1sBbtSU
- 7Ll5ifbCboscuMvFnJEoxmx2n5RSvcVmO17LMkyidufdvkdlPSy1clLB3DtGCGAsJbKw
- 8+pnn6OfH6y0rh2MviOHgRFjaZj/Osk1u6fChyUo20KnUDRINBVerT9fEJoh2ukl7KS+
- tsuA==
-X-Gm-Message-State: AOAM53273CnNSOF834J3F+6jG+mBuC+rjthiJ2PJOPj6+iKIdrbEfysl
- fY7hrTITMqnlBAWD8QhRhcc=
-X-Google-Smtp-Source: ABdhPJx2ys+HLh3jETOmrP6+gdnOSBsONXpK15a0Qi+Y2ZO5ZSSbKWg6FJqq9i71dQgv/BSsF4LqiQ==
-X-Received: by 2002:a17:907:398:: with SMTP id
- ss24mr5841408ejb.311.1596556133900; 
- Tue, 04 Aug 2020 08:48:53 -0700 (PDT)
-Received: from localhost.localdomain ([185.200.214.168])
- by smtp.gmail.com with ESMTPSA id m24sm18686780eje.80.2020.08.04.08.48.52
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eRdipcPz3HlwV+R/LfBjdGdCeB0VM3WbPE45efmJt+E=;
+ b=ss1L2Z4IK2o4ozbUvs/HZWXYzcZjXg2ywgdTwrHjlr4iEg9+uvgl8AaPx3BLG4RbUG
+ aGjiUAnvYE+auiMPELiNhyyLneXpJ0yjjyYo9O21b+c1sKqfJQ2QEB7nbHdaOF3GH3z3
+ xkxgYholZ7xymFxrGW335Ozs60CJJgKrpejlE0X8FiJ6LuggZ1iadi1W4hte73o/Vv6m
+ Tj9iDiE68mFDwWKcauGW3ujo8aMhF/X7RmHsQDu6fcWGccm5YtMX9xDY8jXDn2bwAmz9
+ b+PuW3eY52c0ZB9sxJiE8q0ksrTFyPnGuoOr3o1L/NoOY31LLc/9xNWS1W6zG6uDRhvL
+ VwPg==
+X-Gm-Message-State: AOAM530qCoWfATgPqJfTv3JtjMyS/b/a37qRKPwaaquF1bJcLVuCONvp
+ 6RRUmTvNwEHJ2dNjNudqIb8=
+X-Google-Smtp-Source: ABdhPJyagQAk+4MlprJP3ipax2oHYtqbNdwU0kxs0YiU91qw8pLv9Z+iSnRpoXbNNlfN/AI+/Ndx/Q==
+X-Received: by 2002:a63:2324:: with SMTP id j36mr20169066pgj.221.1596556605324; 
+ Tue, 04 Aug 2020 08:56:45 -0700 (PDT)
+Received: from localhost ([203.90.99.21])
+ by smtp.gmail.com with ESMTPSA id t10sm2885296pgp.15.2020.08.04.08.56.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 08:48:53 -0700 (PDT)
-From: izabela.bakollari@gmail.com
-To: nhorman@tuxdriver.com,
-	davem@davemloft.net,
-	kuba@kernel.org
-Date: Tue,  4 Aug 2020 17:48:51 +0200
-Message-Id: <20200804154851.44141-1-izabela.bakollari@gmail.com>
-X-Mailer: git-send-email 2.18.4
-Cc: netdev@vger.kernel.org, izabela.bakollari@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCHv2
-	net-next--in-reply-to=<20200707171515.110818-1-izabela.bakollari@gmail.com>]
-	dropwatch: Support monitoring of dropped frames
+ Tue, 04 Aug 2020 08:56:44 -0700 (PDT)
+Date: Tue, 4 Aug 2020 21:26:40 +0530
+From: Mrinal Pandey <mrinalmni@gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, skhan@linuxfoundation.org,
+ Linux-kernel-mentees@lists.linuxfoundation.org
+Message-ID: <20200804155640.x3kzgqfsmmkj5z2b@mrinalpandey>
+References: <20200803075841.6bp4pcx3av2ow72s@mrinalpandey>
+ <alpine.DEB.2.21.2008031251410.8346@felia>
+MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.21.2008031251410.8346@felia>
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Improve SPDX license
+ identifier check for script files
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,216 +108,161 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6008589835366872376=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Izabela Bakollari <izabela.bakollari@gmail.com>
 
-Dropwatch is a utility that monitors dropped frames by having userspace
-record them over the dropwatch protocol over a file. This augument
-allows live monitoring of dropped frames using tools like tcpdump.
+--===============6008589835366872376==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="q36ujxdczindw6nz"
+Content-Disposition: inline
 
-With this feature, dropwatch allows two additional commands (start and
-stop interface) which allows the assignment of a net_device to the
-dropwatch protocol. When assinged, dropwatch will clone dropped frames,
-and receive them on the assigned interface, allowing tools like tcpdump
-to monitor for them.
 
-With this feature, create a dummy ethernet interface (ip link add dev
-dummy0 type dummy), assign it to the dropwatch kernel subsystem, by using
-these new commands, and then monitor dropped frames in real time by
-running tcpdump -i dummy0.
+--q36ujxdczindw6nz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Izabela Bakollari <izabela.bakollari@gmail.com>
----
-Changes in v2:
-- protect the dummy ethernet interface from being changed by another
-thread/cpu
----
- include/uapi/linux/net_dropmon.h |  3 ++
- net/core/drop_monitor.c          | 84 ++++++++++++++++++++++++++++++++
- 2 files changed, 87 insertions(+)
+On 20/08/03 12:59PM, Lukas Bulwahn wrote:
+>=20
+>=20
+> On Mon, 3 Aug 2020, Mrinal Pandey wrote:
+>=20
+> > The diff content includes the SPDX licensing information but excludes t=
+he
+> > shebang when a change is made to a script file in commit 37f8173dd849
+> > ("locking/atomics: Flip fallbacks and  instrumentation") and commit
+> > 075c8aa79d54 ("selftests: forwarding: tc_actions.sh: add matchall mirror
+> > test"). In these cases checkpatch issues a false positive warning:
+> > "Misplaced SPDX-License-Identifier tag - use line 1 instead".
+> >=20
+> > Currently, if checkpatch finds a shebang in line 1, it expects the
+> > license identifier in line 2. However, this doesn't work when a shebang
+> > isn't found on the line 1.
+>=20
+> It does not work when the diff does not contain line 1, but only line 2,
+> because then the shebang check for line 1 cannot work.
+>=20
+> >=20
+> > I noticed this false positive, while running checkpatch on the set of
+> > commits from v5.7 to v5.8-rc1 of the kernel, on the said commits.
+> > This false positive exists in checkpatch since commit a8da38a9cf0e
+> > ("checkpatch: add test for SPDX-License-Identifier on wrong line #")
+> > when the corresponding rule was first added.
+> >=20
+> > The alternatives considered to improve this check were looking the file
+> > to be a script by either examining the file extension or file permissio=
+ns.
+> >
+>=20
+> Make this sentence shorter. Try.
+> =20
+> > The evaluation on former option resulted in 120 files which had a sheba=
+ng
+> > in the first line but no file extension. This didn't look like a promis=
+ing
+> > result and hence I dropped the idea of using this approach.
+> >=20
+> > The evaluation on the latter approach shows that there are 53 files in =
+the
+> > kernel which have an executable bit set but don't have a shebang in the
+> > first line.
+> >=20
+> > At the first sight on these 53 files, it seems that they either have a
+> > wrong file permission set or could be reasonably extended with a shebang
+> > and SPDX license information. Thus, further cleanup in the repository
+> > would make the latter approach to work even more precisely.
+> >=20
+> > Hence, I chose to check the file permissions to determine if the file i=
+s a
+> > script and notify checkpatch to expect SPDX on second line for such fil=
+es.
+> >
+>=20
+> There is no notification here. Think about better wording.
+> =20
+> > Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
+> > ---
+> >  scripts/checkpatch.pl | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >=20
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > index 4c820607540b..bae1dd824518 100755
+> > --- a/scripts/checkpatch.pl
+> > +++ b/scripts/checkpatch.pl
+> > @@ -3166,6 +3166,9 @@ sub process {
+> >  		}
+> > =20
+> >  # check for using SPDX license tag at beginning of files
+> > +		if ($line =3D~ /^index\ .*\.\..*\ .*[7531]\d{0,2}$/) {
+> > +			$checklicenseline =3D 2;
+> > +		}
+>=20
+> That check looks good now.
+>=20
+> >  		if ($realline =3D=3D $checklicenseline) {
+> >  			if ($rawline =3D~ /^[ \+]\s*\#\!\s*\//) {
+> >  				$checklicenseline =3D 2;
+>=20
+> This is probably broken now. It should check for shebang in line 1 and=20
+> then set checklicenseline to line 2, right?
 
-diff --git a/include/uapi/linux/net_dropmon.h b/include/uapi/linux/net_dropmon.h
-index 67e31f329190..e8e861e03a8a 100644
---- a/include/uapi/linux/net_dropmon.h
-+++ b/include/uapi/linux/net_dropmon.h
-@@ -58,6 +58,8 @@ enum {
- 	NET_DM_CMD_CONFIG_NEW,
- 	NET_DM_CMD_STATS_GET,
- 	NET_DM_CMD_STATS_NEW,
-+	NET_DM_CMD_START_IFC,
-+	NET_DM_CMD_STOP_IFC,
- 	_NET_DM_CMD_MAX,
- };
- 
-@@ -93,6 +95,7 @@ enum net_dm_attr {
- 	NET_DM_ATTR_SW_DROPS,			/* flag */
- 	NET_DM_ATTR_HW_DROPS,			/* flag */
- 	NET_DM_ATTR_FLOW_ACTION_COOKIE,		/* binary */
-+	NET_DM_ATTR_IFNAME,			/* string */
- 
- 	__NET_DM_ATTR_MAX,
- 	NET_DM_ATTR_MAX = __NET_DM_ATTR_MAX - 1
-diff --git a/net/core/drop_monitor.c b/net/core/drop_monitor.c
-index 8e33cec9fc4e..781e69876d2f 100644
---- a/net/core/drop_monitor.c
-+++ b/net/core/drop_monitor.c
-@@ -30,6 +30,7 @@
- #include <net/genetlink.h>
- #include <net/netevent.h>
- #include <net/flow_offload.h>
-+#include <net/sock.h>
- 
- #include <trace/events/skb.h>
- #include <trace/events/napi.h>
-@@ -46,6 +47,7 @@
-  */
- static int trace_state = TRACE_OFF;
- static bool monitor_hw;
-+struct net_device *interface;
- 
- /* net_dm_mutex
-  *
-@@ -54,6 +56,8 @@ static bool monitor_hw;
-  */
- static DEFINE_MUTEX(net_dm_mutex);
- 
-+static DEFINE_SPINLOCK(interface_lock);
-+
- struct net_dm_stats {
- 	u64 dropped;
- 	struct u64_stats_sync syncp;
-@@ -255,6 +259,21 @@ static void trace_drop_common(struct sk_buff *skb, void *location)
- 
- out:
- 	spin_unlock_irqrestore(&data->lock, flags);
-+	spin_lock_irqsave(&interface_lock, flags);
-+	if (interface && interface != skb->dev) {
-+		skb = skb_clone(skb, GFP_ATOMIC);
-+		if (skb) {
-+			skb->dev = interface;
-+			spin_unlock_irqrestore(&interface_lock, flags);
-+			netif_receive_skb(skb);
-+		} else {
-+			spin_unlock_irqrestore(&interface_lock, flags);
-+			pr_err("dropwatch: Not enough memory to clone dropped skb\n");
-+			return;
-+		}
-+	} else {
-+		spin_unlock_irqrestore(&interface_lock, flags);
-+	}
- }
- 
- static void trace_kfree_skb_hit(void *ignore, struct sk_buff *skb, void *location)
-@@ -1315,6 +1334,53 @@ static int net_dm_cmd_trace(struct sk_buff *skb,
- 	return -EOPNOTSUPP;
- }
- 
-+static int net_dm_interface_start(struct net *net, const char *ifname)
-+{
-+	struct net_device *nd = dev_get_by_name(net, ifname);
-+
-+	if (nd)
-+		interface = nd;
-+	else
-+		return -ENODEV;
-+
-+	return 0;
-+}
-+
-+static int net_dm_interface_stop(struct net *net, const char *ifname)
-+{
-+	dev_put(interface);
-+	interface = NULL;
-+
-+	return 0;
-+}
-+
-+static int net_dm_cmd_ifc_trace(struct sk_buff *skb, struct genl_info *info)
-+{
-+	struct net *net = sock_net(skb->sk);
-+	char ifname[IFNAMSIZ];
-+
-+	if (net_dm_is_monitoring())
-+		return -EBUSY;
-+
-+	memset(ifname, 0, IFNAMSIZ);
-+	nla_strlcpy(ifname, info->attrs[NET_DM_ATTR_IFNAME], IFNAMSIZ - 1);
-+
-+	switch (info->genlhdr->cmd) {
-+	case NET_DM_CMD_START_IFC:
-+		if (!interface)
-+			return net_dm_interface_start(net, ifname);
-+		else
-+			return -EBUSY;
-+	case NET_DM_CMD_STOP_IFC:
-+		if (interface)
-+			return net_dm_interface_stop(net, interface->name);
-+		else
-+			return -ENODEV;
-+	}
-+
-+	return 0;
-+}
-+
- static int net_dm_config_fill(struct sk_buff *msg, struct genl_info *info)
- {
- 	void *hdr;
-@@ -1503,6 +1569,7 @@ static int dropmon_net_event(struct notifier_block *ev_block,
- 	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
- 	struct dm_hw_stat_delta *new_stat = NULL;
- 	struct dm_hw_stat_delta *tmp;
-+	unsigned long flags;
- 
- 	switch (event) {
- 	case NETDEV_REGISTER:
-@@ -1529,6 +1596,12 @@ static int dropmon_net_event(struct notifier_block *ev_block,
- 				}
- 			}
- 		}
-+		spin_lock_irqsave(&interface_lock, flags);
-+		if (interface && interface == dev) {
-+			dev_put(interface);
-+			interface = NULL;
-+		}
-+		spin_unlock_irqrestore(&interface_lock, flags);
- 		mutex_unlock(&net_dm_mutex);
- 		break;
- 	}
-@@ -1543,6 +1616,7 @@ static const struct nla_policy net_dm_nl_policy[NET_DM_ATTR_MAX + 1] = {
- 	[NET_DM_ATTR_QUEUE_LEN] = { .type = NLA_U32 },
- 	[NET_DM_ATTR_SW_DROPS]	= {. type = NLA_FLAG },
- 	[NET_DM_ATTR_HW_DROPS]	= {. type = NLA_FLAG },
-+	[NET_DM_ATTR_IFNAME] = {. type = NLA_STRING, .len = IFNAMSIZ },
- };
- 
- static const struct genl_ops dropmon_ops[] = {
-@@ -1570,6 +1644,16 @@ static const struct genl_ops dropmon_ops[] = {
- 		.cmd = NET_DM_CMD_STATS_GET,
- 		.doit = net_dm_cmd_stats_get,
- 	},
-+	{
-+		.cmd = NET_DM_CMD_START_IFC,
-+		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
-+		.doit = net_dm_cmd_ifc_trace,
-+	},
-+	{
-+		.cmd = NET_DM_CMD_STOP_IFC,
-+		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
-+		.doit = net_dm_cmd_ifc_trace,
-+	},
- };
- 
- static int net_dm_nl_pre_doit(const struct genl_ops *ops,
--- 
-2.18.4
+Sir,
+
+Should we remove this check? Earlier when I checked for file extension
+we had 120 cases where this check was also needed but now we have a
+better heuristic which is going to work for all cases where license
+should be on line 2 irrespective of the fact that we know the first line
+or not.
+
+If I am missing out on something and we should not be removing this check,
+then I suggest placing the new heuristics below this block so that it doesn=
+'t
+interfere with the existing logic.
+
+Please let me know which path should I go about and then I shall resend
+the patch with the modified commit message.
+
+Thank you.
+>=20
+> > --=20
+> > 2.25.1
+> >=20
+> >=20
+
+--q36ujxdczindw6nz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE8DwCG1PwaC2uTI99xIwpEWwxhGQFAl8phTEACgkQxIwpEWwx
+hGTwIw/+IhDiq5Qqtga89yGpe7wrHdRhn6hyXnQdKJs+EcEB8kYONkTcV0xtmhEk
+OsQCEZ5Om+gS8SZS5QpGITUSN8SJwb1w1VSWTwCyzbB3hNHhSLFZ8HKzS2Npx4XC
+sN7aE2laeFfdIBV7E4G5wDMIJzifJOhFj+3BZRo7okCkylaMFM+MAxFasY2jSPkZ
+B66TAQXUUvrv9gJZG9dF0NRFXBeTIWX2EZAh2otCiFqh0lBz1gUCV5h9lFCWrHoN
+HH0uuQDPszcGRv24K6Jv5478NuIQzQXAfRvUFkA9SHoPF/MfyY/Zp0TV6PV+x6I5
+zjpd8hRErKUBgCqbnezCHX9MRf6JsnZA/l3f1B7oHAyMPt1JYsxdxtCalI1ZLDVe
+moM42wEYDGA+QqrOEA/n7JVCAK5kPyKRxduvqpIkGJKB9nPimjMmERVbUeyG/Dor
+H9E6wJLTKR6GrhjSltyHxlBPBvQeRJbcuqv7GiTxR2vZkKzVJRbSgLQqdn4k0Z15
+BRveL+qCs7RK/JgVwxkCBTrRgA8TXxa9PF7o6hXeaZ4PMsysxD2CbiMbBwLttsd8
+ReYgQYtvew2kXbJbKNUFkhV79UMm7BUIdkBMZo4+qyguKGKmIGj4tRE2VRFnhfiV
+e72oOnGdocgSzcJJUlwbSbsuApy03rh+pnw/G4vfwlu4bbQnou8=
+=MNVe
+-----END PGP SIGNATURE-----
+
+--q36ujxdczindw6nz--
+
+--===============6008589835366872376==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============6008589835366872376==--
