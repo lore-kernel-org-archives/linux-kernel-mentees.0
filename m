@@ -2,105 +2,118 @@ Return-Path: <SRS0=ILBb=BO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51870C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Aug 2020 09:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E07FAC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Aug 2020 09:43:17 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 432C22075D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Aug 2020 09:39:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DC0632086A
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Aug 2020 09:43:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZSzidZsF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 432C22075D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="nAtgpS7L";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="efU+VnGc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC0632086A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kroah.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B125B857EB;
-	Tue,  4 Aug 2020 09:39:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 94278860E1;
+	Tue,  4 Aug 2020 09:43:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 28dlavMUStbJ; Tue,  4 Aug 2020 09:39:45 +0000 (UTC)
+	with ESMTP id VsAQd-H+hgnr; Tue,  4 Aug 2020 09:43:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 39CCD85582;
-	Tue,  4 Aug 2020 09:39:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E693885DBB;
+	Tue,  4 Aug 2020 09:43:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 36087C0050;
-	Tue,  4 Aug 2020 09:39:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CFC73C0050;
+	Tue,  4 Aug 2020 09:43:16 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8B442C004C
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 43E7EC004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Aug 2020 09:39:43 +0000 (UTC)
+ Tue,  4 Aug 2020 09:43:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 86727877D1
+ by hemlock.osuosl.org (Postfix) with ESMTP id 328B3878F0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Aug 2020 09:39:43 +0000 (UTC)
+ Tue,  4 Aug 2020 09:43:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7lRPsfiNVNmC
+ with ESMTP id z54h50uW8DC6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Aug 2020 09:39:43 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 00703878F0
+ Tue,  4 Aug 2020 09:43:14 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id ED6FF87C0D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Aug 2020 09:39:42 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id e8so21777952pgc.5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 04 Aug 2020 02:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lVM8DPgIzaCBPlmdMpwhgrG6jaxJmkvPn7CWbb/dTlA=;
- b=ZSzidZsFNsMMcg+cnTYShgZHrAbKJaPoiT7zCW38D6fUKoVYti7+S11nWF1L/y22/K
- 5O7K9aLgn3BSCNFjxZTFrEzTrHmTJHSk8gTaXqXQ1FPLgTWo8DxJUfWESFwARo9lxQ1T
- uDtL8eOVZcusQBHPWuCd/buOUyrenWARwMZil8qP9aqxHbE+T60lvxWB30PgrSVhno7G
- CsShOmJJbW+kIOifBJ7v998dwBRt5blF45VskwRTPMGoYvlvMHMSdbZ750T3Qcpx0/BU
- AKRhsxk14RqUJ0pPO/A05gRWr1+za0kHkGbvc1SmWvfe1N9Vy0q6lS7LzINrAZDgCtrK
- RUkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lVM8DPgIzaCBPlmdMpwhgrG6jaxJmkvPn7CWbb/dTlA=;
- b=hMX3xPEy4LszyXvrvmPvx5J2lP7a2A7wVoBtHE4z6Onm+0+WoXB3YMSGYWGMBb+5mb
- dxf9MeAz1hfId7feS2MNfKd1JZKaJuXYhXul5CxvTJr+mvB6dFBphnsySKRgZp6PfNhI
- fA0RKLF145/x1A65uzjpiDGM4Z4QvP8fXkX5AAvJT1GEqbWcsxKHRmzgd1NjnN5tD9eN
- VOrsP/W3/wkys976rftxZarZ7oq6CKbSWuXat7Kaj7PmiJSLDARzhXVeWstWFVYJRDsE
- Y18x3r/4IZtTsMtbKUN9uYEmo2iqZe54UcHL3GmCamamkIDKQh65NkaZ8UfcEySXHGJx
- 1c9A==
-X-Gm-Message-State: AOAM533A0mjOOantKnOMqv5nsKMOIDYnV1IcildaUxZO6/KSI9oDKyaq
- gZYnbl7CgsRLxp827y3Y0mA=
-X-Google-Smtp-Source: ABdhPJwEx8K2nBJam5PzEaCRjHbdokQrFW8yhQuhwwD2yzjx1fHT5E4IzG/zJp8W+PCj2IQgjapvhw==
-X-Received: by 2002:a62:2c48:: with SMTP id s69mr19348795pfs.63.1596533982563; 
- Tue, 04 Aug 2020 02:39:42 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id f3sm3514155pfj.206.2020.08.04.02.39.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 02:39:41 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-To: linux-bluetooth@vger.kernel.org
-Date: Tue,  4 Aug 2020 17:39:37 +0800
-Message-Id: <20200804093937.772961-1-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Tue,  4 Aug 2020 09:43:13 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0BC6B5C0200;
+ Tue,  4 Aug 2020 05:43:13 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Tue, 04 Aug 2020 05:43:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=cjBmqIM9+5mv2uiP07cYDoPaonT
+ iqBxD1XI04vEZs68=; b=nAtgpS7LWMG6/2CgXZn0XgBEo6SGNf+0Zmx5YLC5lL0
+ bOPCXbcOONVwb9ClrSXuAz3AeQ7R0tfCr5bpkVCfx1du1sPga3uoFh58mpwuoq3J
+ uH7Mss1O/rqWwulrZFXlfkemagThxzbJkm5W4klZRUQUZmlAPKSV/gIPvcWpRdMM
+ f9mVKNsdiopykUjx/QEBrpWhdF2VlIfNoiiFaFqO/BlxwNtL8uTTtKfI20CPGIun
+ Fys7cxmLZ4SbgHuQFDBoYYWK/tz6MW0qCJyeYOWdFNArEeKqy9hKaQua+3vJbCjr
+ VTfkVE5CuSRqzM55v9VxVRDxboR5wfvY2ULpsfOKuKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=cjBmqI
+ M9+5mv2uiP07cYDoPaonTiqBxD1XI04vEZs68=; b=efU+VnGc/SEcIFLkan12oR
+ 6ey8zxF5TlXEi9+e2D9/pdQECvxXRT04hGehE6xKVxJZRdusFuFNswe6JgqCgVO3
+ pN0RwNn2j1yggX3kMx1+BNiX0GKxo3qWTs6MFZD8iCxpXZbAWc3hSFyAKIWjU64N
+ 8WPoX7HQzhevn2OuK4eNRTgQLLXXznnYeRpruwSDz8gTSSI0BJQA8P9MbIR/omWV
+ 479PXZhxsYdjp5YYTmsVUX+6KZ1IQT9UKoYstHu8cT2alLr0XQ5Vz+IBiVgOiH9j
+ pqygEDDcz5Qx8v3VjtSwzdUpwcwgSPs1JvCN+MnRxxGwPkIFyeDr/tSjJsSdAHLg
+ ==
+X-ME-Sender: <xms:sC0pX5ce8V0YCMHf-IPaCTLG7jEve0j_XrdmaEX0Gs-S_cx03oT1yA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjeeigddulecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
+ fuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpeffhffvuffkfhggtggujges
+ thdtredttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtg
+ homheqnecuggftrfgrthhtvghrnhepfeefteeuhfffleehvddtleejudekiedthfejjedt
+ tdetkefgledtvdejgfeuteefnecuffhomhgrihhnpegrphhpshhpohhtrdgtohhmnecukf
+ hppeekfedrkeeirdekledruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
+ mhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:sC0pX3PMTw5qwCJgqnXtEGgRncmFEn821-QMPRsSO6leY07HjDQdLg>
+ <xmx:sC0pXyi3DfWtNMKPBN0-4DtyG9msFx-6ZXSCNtAfIPOC3vtGnHFabA>
+ <xmx:sC0pXy9YKHdOVX4EnfjJEN-15W-EIbc_Tmp3EvEvTvqGxcACPpid6A>
+ <xmx:sS0pX5hXT-Q3wCBEx5lmxkto-WSQAtmnHhrPn0T6Bui5Rn67LaSLsw>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2741930600A3;
+ Tue,  4 Aug 2020 05:43:12 -0400 (EDT)
+Date: Tue, 4 Aug 2020 11:42:53 +0200
+From: Greg KH <greg@kroah.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Message-ID: <20200804094253.GA2667430@kroah.com>
+References: <20200804093937.772961-1-coiby.xu@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200804093937.772961-1-coiby.xu@gmail.com>
 Cc: Johan Hedberg <johan.hedberg@gmail.com>,
  "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
  Marcel Holtmann <marcel@holtmann.org>,
- open list <linux-kernel@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, linux-bluetooth@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>,
  syzbot+fadfba6a911f6bf71842@syzkaller.appspotmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "David S. Miller" <davem@davemloft.net>
-Subject: [Linux-kernel-mentees] [PATCH] Bluetooth: Initialize the TX queue
-	lock when creating struct l2cap_chan in 6LOWPAN
+Subject: Re: [Linux-kernel-mentees] [PATCH] Bluetooth: Initialize the TX
+ queue lock when creating struct l2cap_chan in 6LOWPAN
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,35 +131,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-When L2CAP channel is destroyed by hci_unregister_dev, it will
-acquire the spin lock of the (struct l2cap_chan *)->tx_q list to
-delete all the buffers. But sometimes when hci_unregister_dev is
-being called, this lock may have not bee initialized. Initialize
-the TX queue lock when creating struct l2cap_chan in 6LOWPAN to fix
-this problem.
+On Tue, Aug 04, 2020 at 05:39:37PM +0800, Coiby Xu wrote:
+> When L2CAP channel is destroyed by hci_unregister_dev, it will
+> acquire the spin lock of the (struct l2cap_chan *)->tx_q list to
+> delete all the buffers. But sometimes when hci_unregister_dev is
+> being called, this lock may have not bee initialized. Initialize
+> the TX queue lock when creating struct l2cap_chan in 6LOWPAN to fix
+> this problem.
+> 
+> Reported-by: syzbot+fadfba6a911f6bf71842@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=fadfba6a911f6bf71842
+> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+> ---
+>  net/bluetooth/6lowpan.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/net/bluetooth/6lowpan.c b/net/bluetooth/6lowpan.c
+> index bb55d92691b0..713c618a73df 100644
+> --- a/net/bluetooth/6lowpan.c
+> +++ b/net/bluetooth/6lowpan.c
+> @@ -651,6 +651,7 @@ static struct l2cap_chan *chan_create(void)
+>  
+>  	l2cap_chan_set_defaults(chan);
+>  
+> +	skb_queue_head_init(&chan->tx_q);
+>  	chan->chan_type = L2CAP_CHAN_CONN_ORIENTED;
+>  	chan->mode = L2CAP_MODE_LE_FLOWCTL;
+>  	chan->imtu = 1280;
 
-Reported-by: syzbot+fadfba6a911f6bf71842@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?extid=fadfba6a911f6bf71842
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
----
- net/bluetooth/6lowpan.c | 1 +
- 1 file changed, 1 insertion(+)
+Nice, did syzbot verify that this resolves the issue?
 
-diff --git a/net/bluetooth/6lowpan.c b/net/bluetooth/6lowpan.c
-index bb55d92691b0..713c618a73df 100644
---- a/net/bluetooth/6lowpan.c
-+++ b/net/bluetooth/6lowpan.c
-@@ -651,6 +651,7 @@ static struct l2cap_chan *chan_create(void)
- 
- 	l2cap_chan_set_defaults(chan);
- 
-+	skb_queue_head_init(&chan->tx_q);
- 	chan->chan_type = L2CAP_CHAN_CONN_ORIENTED;
- 	chan->mode = L2CAP_MODE_LE_FLOWCTL;
- 	chan->imtu = 1280;
--- 
-2.27.0
+thanks,
 
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
