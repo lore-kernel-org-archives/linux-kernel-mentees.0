@@ -8,85 +8,84 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0664C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Aug 2020 18:10:19 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56268C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Aug 2020 18:10:25 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A38FC20656
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Aug 2020 18:10:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 267CA2084D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Aug 2020 18:10:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sJdfVwrs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A38FC20656
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BrpYJEVk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 267CA2084D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 7EAA42155D;
-	Wed,  5 Aug 2020 18:10:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1C5B7868E4;
+	Wed,  5 Aug 2020 18:10:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IYOeiRQSs3L3; Wed,  5 Aug 2020 18:10:18 +0000 (UTC)
+	with ESMTP id K4N7lW_HssLj; Wed,  5 Aug 2020 18:10:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 819DE20421;
-	Wed,  5 Aug 2020 18:10:18 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9F06F864E6;
+	Wed,  5 Aug 2020 18:10:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7AD16C0050;
-	Wed,  5 Aug 2020 18:10:18 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3F420C004C
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E412C0050;
+	Wed,  5 Aug 2020 18:10:24 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 85418C004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Aug 2020 18:10:17 +0000 (UTC)
+ Wed,  5 Aug 2020 18:10:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3B848878A1
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6DE7888306
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Aug 2020 18:10:17 +0000 (UTC)
+ Wed,  5 Aug 2020 18:10:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NpveyGC8j72V
+ with ESMTP id qosV8yR164mM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Aug 2020 18:10:16 +0000 (UTC)
+ Wed,  5 Aug 2020 18:10:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C771E8789F
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D027487E7D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Aug 2020 18:10:16 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id z20so4999191plo.6
+ Wed,  5 Aug 2020 18:10:22 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id u20so1248361pfn.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 05 Aug 2020 11:10:16 -0700 (PDT)
+ Wed, 05 Aug 2020 11:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wr1R0/Ze2G4IecD2JkfhRTVYXHTVK1Tx0wo+bfHFfJI=;
- b=sJdfVwrs67VSWJ5Urnu3dK5b8A8dylK7mh1xnF8wRETervUk9RNicZKtC+qvch4EFV
- k26HGRHycRlUbPnzAzmeVzlHJHTPxIuPT0hzGI/0edcqMTs6QxFztZsAYKTzI/3AuyW9
- Q+MMx6BOgb47Xcgt8E6FTwNIFije/ztkRl9lifaif5/f0H0F29Wha7hVxyCaJ3YcoGHu
- aqSTjF1lsue7sZtzPF9fQvJOlQrT5+iWp+K1nLpsudiy+Cuqa1oF9H9EsLdYlmamTQuL
- dQuQQUvftJye8+UOMCuoEqKOivnQGMZ9Ut9CFVD3GznkJVvB9d2ltjwYLrY6OnsjR27k
- mRqw==
+ bh=oVv4Wzhn3JTwGtZviwAnr4HC2ws5LBgl7lYKjJuNKZY=;
+ b=BrpYJEVk8N/XVlt4jsasznf003BTu7lhnJ1yz6JbHpFcdbh0Jgwy5vrSZZzMMpXNuG
+ rOCr8SOkoAUK5ZMGdgz4COUznIrU9pfS1GFtceCstYb8ZmuWiqwS9T01VCXsRcny3SD0
+ 8SK+j9Lv9xT4IBuOUEiGFY9p2ilme1znS6pOMaj//glr5nnDJI8CJUmOFiFQD0f7NoRF
+ 5Q7c1ON8o7dzq+Dq8i6ssclH+jsM/2vInABBoozfXimoPjvFEv1eGrBXTITf3ANqucbK
+ e8MtS3enVGZa5I4TOXD50C2ibKk8cBoPjYGBQLEZSATPyhJDUErPbVmNDHEqOEa4M05x
+ WhgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wr1R0/Ze2G4IecD2JkfhRTVYXHTVK1Tx0wo+bfHFfJI=;
- b=aK28VS+LCmD4ar1OjT5ESXUqPJtLQtqSt5v1nGO5wuRIlII74MOLMXp9GdCOuTBb2f
- sHz8Bx1zpOfagym/+5pSXGOizCzXj+8SV6GH8rvsIypXxcbzIfXKRpBUB43jQY2QAaRA
- Qdkjqpir6CUuA2fIfuTotu5l//Lv/0+mrvpZNVx/cLLsuqfglKSPyiv1jGHfjzSIJN5z
- bmzX+nADeHDJOd+UejEjQyNrBAjbWqt5GNtms5sVyJV/EdhTvtIHd2zrRkVxHuux7PFJ
- TUpOFgAMmtB2pYX+O+bVzblRh+mlWM+AT3OCweweuBhTxhUlKRv1Jg4BUmGxGpP+u0FJ
- X+lg==
-X-Gm-Message-State: AOAM531ku/V541bEqN27Wa0KXtfpei68PM79iObYqPfv+PB5dSbJmuXX
- ifExvxdAAjfAmO59RgxRAIA=
-X-Google-Smtp-Source: ABdhPJxyu6VM6PZNHf9Q6CWK4FZqzh1F468GpS4fZ5DdCQVfyzwWEr5vdgsuKzP6qjzcCo2AdWK0ag==
-X-Received: by 2002:a17:90b:4a0a:: with SMTP id
- kk10mr4520046pjb.30.1596651016370; 
- Wed, 05 Aug 2020 11:10:16 -0700 (PDT)
+ bh=oVv4Wzhn3JTwGtZviwAnr4HC2ws5LBgl7lYKjJuNKZY=;
+ b=QpvB6biOjedEFMvs38OoJVU7bH9nT+F96Uo5iH8pq4iXUl5kXfPzPryTbNypMWFuUu
+ mwd2P2mRqgn36p1nbc0grhE+4Jon2ZRaXjVanubDFMcVbC93qm977q3SP7YIS7wI3d0m
+ k+HwDwsTFlMLCcnIyiI4ULHyUWGN6UNDw/1Oq6r/G9szaasZ0+uNU8JGQYHB94R8mlG5
+ AU2FKeLaJeRuJ+8mA8j52nkFDqStew4Gpq93QaP2XvKh5KvXbfgIfJq+QGDeJLn7Rrdu
+ kqOUELNR7n4XjZVsy+Bjbd4lWvnGzI0YN+a8H/eiaPDRFKBrqUC/WgAp0BgMGskROO3S
+ Diog==
+X-Gm-Message-State: AOAM532fgUDtyN2HjRvRh5IbQ30KwaoVoAFQFfQkeBX7qXit/WP/xLsb
+ ekT+W4hd/KjhA0d5Kjw/ecI=
+X-Google-Smtp-Source: ABdhPJwDZAcI2ajtEzbJOnXXP2LJhU/UuVb3xTgiB80quyQR0y4N5pspuNUgpRuAZpoI77zZkWfobg==
+X-Received: by 2002:a65:524b:: with SMTP id q11mr4075709pgp.372.1596651022278; 
+ Wed, 05 Aug 2020 11:10:22 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id t63sm4977510pfb.210.2020.08.05.11.10.11
+ by smtp.gmail.com with ESMTPSA id t63sm4977510pfb.210.2020.08.05.11.10.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Aug 2020 11:10:15 -0700 (PDT)
+ Wed, 05 Aug 2020 11:10:21 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -95,8 +94,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Paul Mackerras <paulus@samba.org>, Russell King <linux@armlinux.org.uk>,
  Andres Salomon <dilinger@queued.net>, Antonino Daplas <adaplas@gmail.com>,
  Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
-Date: Wed,  5 Aug 2020 23:37:19 +0530
-Message-Id: <20200805180722.244008-10-vaibhavgupta40@gmail.com>
+Date: Wed,  5 Aug 2020 23:37:20 +0530
+Message-Id: <20200805180722.244008-11-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
 References: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
@@ -106,8 +105,8 @@ Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  linux-geode@lists.infradead.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [Linux-kernel-mentees] [PATCH v1 09/12] fbdev: i740fb: use generic
-	power management
+Subject: [Linux-kernel-mentees] [PATCH v1 10/12] fbdev: vt8623fb: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -138,33 +137,38 @@ and drivers are required to do only device-specific jobs.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/i740fb.c | 40 +++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 24 deletions(-)
+ drivers/video/fbdev/vt8623fb.c | 41 ++++++++++++++--------------------
+ 1 file changed, 17 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
-index c65ec7386e87..8d7f06fc8a5a 100644
---- a/drivers/video/fbdev/i740fb.c
-+++ b/drivers/video/fbdev/i740fb.c
-@@ -1175,16 +1175,11 @@ static void i740fb_remove(struct pci_dev *dev)
- 	}
+diff --git a/drivers/video/fbdev/vt8623fb.c b/drivers/video/fbdev/vt8623fb.c
+index 7b3eef1b893f..c488e0117758 100644
+--- a/drivers/video/fbdev/vt8623fb.c
++++ b/drivers/video/fbdev/vt8623fb.c
+@@ -815,12 +815,11 @@ static void vt8623_pci_remove(struct pci_dev *dev)
  }
  
+ 
 -#ifdef CONFIG_PM
--static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
-+static int __maybe_unused i740fb_suspend(struct device *dev)
+ /* PCI suspend */
+ 
+-static int vt8623_pci_suspend(struct pci_dev* dev, pm_message_t state)
++static int __maybe_unused vt8623_pci_suspend(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(dev);
 +	struct fb_info *info = dev_get_drvdata(dev);
- 	struct i740fb_par *par = info->par;
+ 	struct vt8623fb_info *par = info->par;
  
--	/* don't disable console during hibernation and wakeup from it */
--	if (state.event == PM_EVENT_FREEZE || state.event == PM_EVENT_PRETHAW)
--		return 0;
--
+ 	dev_info(info->device, "suspend\n");
+@@ -828,7 +827,7 @@ static int vt8623_pci_suspend(struct pci_dev* dev, pm_message_t state)
  	console_lock();
  	mutex_lock(&(par->open_lock));
  
-@@ -1197,19 +1192,15 @@ static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
+-	if ((state.event == PM_EVENT_FREEZE) || (par->ref_count == 0)) {
++	if (par->ref_count == 0) {
+ 		mutex_unlock(&(par->open_lock));
+ 		console_unlock();
+ 		return 0;
+@@ -836,10 +835,6 @@ static int vt8623_pci_suspend(struct pci_dev* dev, pm_message_t state)
  
  	fb_set_suspend(info, 1);
  
@@ -175,61 +179,65 @@ index c65ec7386e87..8d7f06fc8a5a 100644
  	mutex_unlock(&(par->open_lock));
  	console_unlock();
  
- 	return 0;
- }
+@@ -849,9 +844,9 @@ static int vt8623_pci_suspend(struct pci_dev* dev, pm_message_t state)
  
--static int i740fb_resume(struct pci_dev *dev)
-+static int __maybe_unused i740fb_resume(struct device *dev)
+ /* PCI resume */
+ 
+-static int vt8623_pci_resume(struct pci_dev* dev)
++static int __maybe_unused vt8623_pci_resume(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(dev);
 +	struct fb_info *info = dev_get_drvdata(dev);
- 	struct i740fb_par *par = info->par;
+ 	struct vt8623fb_info *par = info->par;
  
- 	console_lock();
-@@ -1218,11 +1209,6 @@ static int i740fb_resume(struct pci_dev *dev)
+ 	dev_info(info->device, "resume\n");
+@@ -862,14 +857,6 @@ static int vt8623_pci_resume(struct pci_dev* dev)
  	if (par->ref_count == 0)
  		goto fail;
  
 -	pci_set_power_state(dev, PCI_D0);
 -	pci_restore_state(dev);
+-
 -	if (pci_enable_device(dev))
 -		goto fail;
 -
- 	i740fb_set_par(info);
+-	pci_set_master(dev);
+-
+ 	vt8623fb_set_par(info);
  	fb_set_suspend(info, 0);
  
-@@ -1231,10 +1217,17 @@ static int i740fb_resume(struct pci_dev *dev)
- 	console_unlock();
+@@ -879,10 +866,17 @@ static int vt8623_pci_resume(struct pci_dev* dev)
+ 
  	return 0;
  }
 -#else
--#define i740fb_suspend NULL
--#define i740fb_resume NULL
+-#define vt8623_pci_suspend NULL
+-#define vt8623_pci_resume NULL
 -#endif /* CONFIG_PM */
 +
-+static const struct dev_pm_ops i740fb_pm_ops = {
++static const struct dev_pm_ops vt8623_pci_pm_ops = {
 +#ifdef CONFIG_PM_SLEEP
-+	.suspend	= i740fb_suspend,
-+	.resume		= i740fb_resume,
++	.suspend	= vt8623_pci_suspend,
++	.resume		= vt8623_pci_resume,
 +	.freeze		= NULL,
-+	.thaw		= i740fb_resume,
-+	.poweroff	= i740fb_suspend,
-+	.restore	= i740fb_resume,
++	.thaw		= vt8623_pci_resume,
++	.poweroff	= vt8623_pci_suspend,
++	.restore	= vt8623_pci_resume,
 +#endif /* CONFIG_PM_SLEEP */
 +};
  
- #define I740_ID_PCI 0x00d1
- #define I740_ID_AGP 0x7800
-@@ -1251,8 +1244,7 @@ static struct pci_driver i740fb_driver = {
- 	.id_table	= i740fb_id_table,
- 	.probe		= i740fb_probe,
- 	.remove		= i740fb_remove,
--	.suspend	= i740fb_suspend,
--	.resume		= i740fb_resume,
-+	.driver.pm	= &i740fb_pm_ops,
+ /* List of boards that we are trying to support */
+ 
+@@ -898,8 +892,7 @@ static struct pci_driver vt8623fb_pci_driver = {
+ 	.id_table	= vt8623_devices,
+ 	.probe		= vt8623_pci_probe,
+ 	.remove		= vt8623_pci_remove,
+-	.suspend	= vt8623_pci_suspend,
+-	.resume		= vt8623_pci_resume,
++	.driver.pm	= &vt8623_pci_pm_ops,
  };
  
- #ifndef MODULE
+ /* Cleanup */
 -- 
 2.27.0
 
