@@ -7,94 +7,94 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4D06C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Aug 2020 06:34:38 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AC1C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Aug 2020 06:40:17 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 687BA204EA
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Aug 2020 06:34:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AED2A22B40
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Aug 2020 06:40:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ckLt2Hja"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 687BA204EA
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pp1F3Gn3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AED2A22B40
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3753687C10;
-	Wed,  5 Aug 2020 06:34:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6DE712047F;
+	Wed,  5 Aug 2020 06:40:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pemGHL3bgnCX; Wed,  5 Aug 2020 06:40:16 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id C0B0720460;
+	Wed,  5 Aug 2020 06:40:16 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8419C0050;
+	Wed,  5 Aug 2020 06:40:16 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C2B2AC004C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  5 Aug 2020 06:40:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id BE60987D5D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  5 Aug 2020 06:40:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id s67vJwk7iZhS; Wed,  5 Aug 2020 06:34:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2214F87635;
-	Wed,  5 Aug 2020 06:34:37 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 07F93C0050;
-	Wed,  5 Aug 2020 06:34:37 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 40757C004C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Aug 2020 06:34:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2CD3D876E1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Aug 2020 06:34:36 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zXiB1m-wm1UE
+ with ESMTP id xdln-jKhK5PC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Aug 2020 06:34:35 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
- [209.85.221.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 383B4876CC
+ Wed,  5 Aug 2020 06:40:15 +0000 (UTC)
+X-Greylist: delayed 00:05:33 by SQLgrey-1.7.6
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+ [209.85.217.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 04D4187C30
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Aug 2020 06:34:35 +0000 (UTC)
-Received: by mail-vk1-f194.google.com with SMTP id i20so1159310vkk.2
+ Wed,  5 Aug 2020 06:40:15 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id o184so22143935vsc.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 04 Aug 2020 23:34:35 -0700 (PDT)
+ Tue, 04 Aug 2020 23:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Izm9CrPLohryxU3MDcr4vOdCg89l4cBAjIrruJENdp0=;
- b=ckLt2HjalR4fWHRxNoET0unnn2lxQb7Gdmn+8jgKHcHj6KUBZNW5cYd1C0og9dqMkm
- rTunozbRodwFbCT5D9790M813rgEb3Ich+lQg9nezzX+bifywuafpGRryopnFhr4bvnf
- siuDdd+tAlWXfwnqGTk620BIEuk84JAyps9JgLbJRFboTH6lKk2HCcVOFLT//ZjxpvzH
- KlagF+zSZFnCTOMZRCWhaOQXynxfx8ZCAfhtw6Rb35f0cfZR3g0YMQuGP3LlFUBS/RDo
- ZRGOq+yPKId5vZfkp0vwwnSyQ5/NCDoI2r2G+w0+gMAgAKuT+GYqiLBpdfiWZ9Fw0L/9
- wsiA==
+ :cc; bh=d2ZiF+evfZ66+HifnXyioxGC5MxoHunhZYeIelbyLK0=;
+ b=Pp1F3Gn30EM5c6aAAsf4shLRD0JwsRXxIpCpLuM6vKt8rKp33GZvzZ+lkDYgPiLsXf
+ eZwJXF2sV30Uy39U3ktkOCtPYxfRQDoKF8HyLrQ67D7BH1Cm1DDOl5XtHacb3vD3t33M
+ ePteu5fZNSYNfBFgtbMuuYdHzw4y6ljHTkMVNGyB/Je9JUXjGtCTsvIo2HYb4vh45Cj9
+ W+Kg3fsbkojGqSnPmK36SFLOcR82MXJZlJiWN5AW24RZaL+bAfHt7LVNvoy74RLeo6pR
+ mauo67Usaupye6fc94QefbVEMyISOeirNMqzbZtMs9NJDtfjJK60+UIcTNdJDVAtNQ43
+ 0VDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Izm9CrPLohryxU3MDcr4vOdCg89l4cBAjIrruJENdp0=;
- b=BvN/b/a5HvUpedUeGKnGIxNM04/29xAK16QntvW3arqi+R1zHlZ9pn3nB36fJshOZR
- EA1FSZtCe0u+Pb8sNDgQxlh8BA+SJHPKAnj3bq64K9Z2oSOYfkRicUlwwHon/NQd9duW
- joISCnr6ZWxHRtcshuTDF7ATz7gcQO4pwOFGLlyzPj7vMbyTKcbA1zh//Kp8TWaH4Ry8
- F2JYkdolsn8FeVWm8bIPIxBUXVXX9f135sKT/DMUObUibp8F3/j5KxBYT2cUx+2o/uB4
- QBuUjyVZaX0gfcHj6dsDZniERja56Sv9xH5S5tahXenSNU4LaVCOLAvIYn9wNurFv0Tv
- laAw==
-X-Gm-Message-State: AOAM531FxdRm3jyskTJdVY0vy40iw91Uz2Wxhg5d8WvQRiW+h06gpGUX
- Wd7fpTAytfw7NqYCRoK/nbHDnKfIez602WtHOtxFWg==
-X-Google-Smtp-Source: ABdhPJwjmHEG+n503eEdN9m4EYLCPgDwJUUK64dQ97cRm46R32hGYZGULEUvMG3ioxWlxIk1R/m3RFa0ZCeKhSZoMBo=
-X-Received: by 2002:a1f:7c45:: with SMTP id x66mr1304488vkc.53.1596609273140; 
- Tue, 04 Aug 2020 23:34:33 -0700 (PDT)
+ bh=d2ZiF+evfZ66+HifnXyioxGC5MxoHunhZYeIelbyLK0=;
+ b=nzf3jmvNQXN9aXdidVP1CIulWb5I1hoUAYArdfKAQGNr5LkQIOH4JDWqjKq2dBxDTb
+ ePM3Fn3K8FS8oPcrDOKQoT5avXnUzkVuTWMtnT3b3fHM35ATgw1y+cO2r9VGBsEiB/aq
+ fxs+5OqTklU1pLMK83xCi+XPKvc4B4ziKDz0bIwE9VbmW1p7UMbj3RZGvwnZoQjC1v1x
+ HmP9ntZogYo8VZ5vTffs1w+t+sLppgityk2E08dTSJAbbb9ehL0HXJLuMx4YGRz1VKgM
+ o+uikwlbYVRlVTTLrZ81ukwWw/WXn6rf/2ZURRkNzeemqA2EgJGoKPZ9AJyHmejTXiaC
+ V8Bg==
+X-Gm-Message-State: AOAM530Y92OSrwblTvA0JBT/mE4QpGtyxdoW5r8MigYKImCB1BqcZF9H
+ THnbCXcXM9lnZ+Gq2GK0E8d6IVzTvDvSC3YiwS9jyMBAXZqTGg==
+X-Google-Smtp-Source: ABdhPJyRAxMGxKHCQASdyGMOW+VV/QwhN4h2J8nDZRBTQ8jRAAZ8+Pi9OLVoeV6w/H/WWYuftedBrzdoXivBkBl/+EM=
+X-Received: by 2002:a67:8c06:: with SMTP id o6mr912216vsd.200.1596609281713;
+ Tue, 04 Aug 2020 23:34:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200720111625.306681-1-vaibhavgupta40@gmail.com>
-In-Reply-To: <20200720111625.306681-1-vaibhavgupta40@gmail.com>
+References: <20200720142603.577323-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200720142603.577323-1-vaibhavgupta40@gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 5 Aug 2020 08:33:55 +0200
-Message-ID: <CAPDyKFo_skSjZ0gfLNNgx2rdDDu3gTJ4Lc+40t=Jb1KPoBBaiA@mail.gmail.com>
+Date: Wed, 5 Aug 2020 08:34:04 +0200
+Message-ID: <CAPDyKFpHxf7xWOy+-qX+DQVtufbD50_imfi51TtsEp6P=iGs7g@mail.gmail.com>
 To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Cc: Maxim Levitsky <maximlevitsky@gmail.com>, Alex Dubov <oakad@yahoo.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+Cc: Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Harald Welte <HaraldWelte@viatech.com>, Bruce Chang <brucechang@via.com.tw>,
  Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] memstick: jmb38x_ms: use
-	generic power management
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] mmc: via-sdmmc: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,7 +112,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 20 Jul 2020 at 13:19, Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
+On Mon, 20 Jul 2020 at 16:28, Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
 >
 > Drivers using legacy PM have to manage PCI states and device's PM states
 > themselves. They also need to take care of configuration registers.
@@ -122,12 +122,11 @@ On Mon, 20 Jul 2020 at 13:19, Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
 >
 > This driver makes use of PCI helper functions like
 > pci_save/restore_state(), pci_enable/disable_device(),
-> pci_set_power_state() and pci_set_master() to do required operations. In
-> generic mode, they are no longer needed.
+> pci_enable_wake() and pci_set_power_state() and to do required operations.
+> In generic mode, they are no longer needed.
 >
 > Change function parameter in both .suspend() and .resume() to
-> "struct device*" type. Use to_pci_dev() and dev_get_drvdata() to get
-> "struct pci_dev*" variable and drv data.
+> "struct device*" type. Use dev_get_drvdata() to get drv data.
 >
 > Compile-tested only.
 >
@@ -139,91 +138,95 @@ Uffe
 
 
 > ---
->  drivers/memstick/host/jmb38x_ms.c | 38 +++++++++----------------------
->  1 file changed, 11 insertions(+), 27 deletions(-)
+>  drivers/mmc/host/via-sdmmc.c | 33 ++++++++-------------------------
+>  1 file changed, 8 insertions(+), 25 deletions(-)
 >
-> diff --git a/drivers/memstick/host/jmb38x_ms.c b/drivers/memstick/host/jmb38x_ms.c
-> index 0a9c5ddf2f59..2aa9592917d9 100644
-> --- a/drivers/memstick/host/jmb38x_ms.c
-> +++ b/drivers/memstick/host/jmb38x_ms.c
-> @@ -793,11 +793,10 @@ static int jmb38x_ms_pmos(struct pci_dev *pdev, int flag)
->          return 0;
+> diff --git a/drivers/mmc/host/via-sdmmc.c b/drivers/mmc/host/via-sdmmc.c
+> index ef95bce50889..49dab9f42b6d 100644
+> --- a/drivers/mmc/host/via-sdmmc.c
+> +++ b/drivers/mmc/host/via-sdmmc.c
+> @@ -1220,9 +1220,7 @@ static void via_sd_remove(struct pci_dev *pcidev)
+>                 pci_name(pcidev), (int)pcidev->vendor, (int)pcidev->device);
 >  }
 >
 > -#ifdef CONFIG_PM
 > -
-> -static int jmb38x_ms_suspend(struct pci_dev *dev, pm_message_t state)
-> +static int __maybe_unused jmb38x_ms_suspend(struct device *dev)
+> -static void via_init_sdc_pm(struct via_crdr_mmc_host *host)
+> +static void __maybe_unused via_init_sdc_pm(struct via_crdr_mmc_host *host)
 >  {
-> -       struct jmb38x_ms *jm = pci_get_drvdata(dev);
-> +       struct jmb38x_ms *jm = dev_get_drvdata(dev);
-> +
->         int cnt;
+>         struct sdhcreg *pm_sdhcreg;
+>         void __iomem *addrbase;
+> @@ -1256,30 +1254,27 @@ static void via_init_sdc_pm(struct via_crdr_mmc_host *host)
+>         via_print_sdchc(host);
+>  }
 >
->         for (cnt = 0; cnt < jm->host_cnt; ++cnt) {
-> @@ -806,26 +805,17 @@ static int jmb38x_ms_suspend(struct pci_dev *dev, pm_message_t state)
->                 memstick_suspend_host(jm->hosts[cnt]);
->         }
+> -static int via_sd_suspend(struct pci_dev *pcidev, pm_message_t state)
+> +static int __maybe_unused via_sd_suspend(struct device *dev)
+>  {
+>         struct via_crdr_mmc_host *host;
 >
-> -       pci_save_state(dev);
-> -       pci_enable_wake(dev, pci_choose_state(dev, state), 0);
-> -       pci_disable_device(dev);
-> -       pci_set_power_state(dev, pci_choose_state(dev, state));
-> +       device_wakeup_disable(dev);
-> +
+> -       host = pci_get_drvdata(pcidev);
+> +       host = dev_get_drvdata(dev);
+>
+>         via_save_pcictrlreg(host);
+>         via_save_sdcreg(host);
+>
+> -       pci_save_state(pcidev);
+> -       pci_enable_wake(pcidev, pci_choose_state(pcidev, state), 0);
+> -       pci_disable_device(pcidev);
+> -       pci_set_power_state(pcidev, pci_choose_state(pcidev, state));
+> +       device_wakeup_enable(dev);
+>
 >         return 0;
 >  }
 >
-> -static int jmb38x_ms_resume(struct pci_dev *dev)
-> +static int __maybe_unused jmb38x_ms_resume(struct device *dev)
+> -static int via_sd_resume(struct pci_dev *pcidev)
+> +static int __maybe_unused via_sd_resume(struct device *dev)
 >  {
-> -       struct jmb38x_ms *jm = pci_get_drvdata(dev);
-> +       struct jmb38x_ms *jm = dev_get_drvdata(dev);
->         int rc;
+>         struct via_crdr_mmc_host *sdhost;
+>         int ret = 0;
+>         u8 gatt;
 >
-> -       pci_set_power_state(dev, PCI_D0);
-> -       pci_restore_state(dev);
-> -       rc = pci_enable_device(dev);
-> -       if (rc)
-> -               return rc;
-> -       pci_set_master(dev);
+> -       sdhost = pci_get_drvdata(pcidev);
+> +       sdhost = dev_get_drvdata(dev);
+>
+>         gatt = VIA_CRDR_PCICLKGATT_PAD_PWRON;
+>         if (sdhost->power == MMC_VDD_165_195)
+> @@ -1294,32 +1289,20 @@ static int via_sd_resume(struct pci_dev *pcidev)
+>
+>         msleep(100);
+>
+> -       pci_set_power_state(pcidev, PCI_D0);
+> -       pci_restore_state(pcidev);
+> -       ret = pci_enable_device(pcidev);
+> -       if (ret)
+> -               return ret;
 > -
-> -       jmb38x_ms_pmos(dev, 1);
-> +       jmb38x_ms_pmos(to_pci_dev(dev), 1);
+>         via_restore_pcictrlreg(sdhost);
+>         via_init_sdc_pm(sdhost);
 >
->         for (rc = 0; rc < jm->host_cnt; ++rc) {
->                 if (!jm->hosts[rc])
-> @@ -837,13 +827,6 @@ static int jmb38x_ms_resume(struct pci_dev *dev)
->         return 0;
+>         return ret;
 >  }
 >
-> -#else
+> -#else /* CONFIG_PM */
 > -
-> -#define jmb38x_ms_suspend NULL
-> -#define jmb38x_ms_resume NULL
+> -#define via_sd_suspend NULL
+> -#define via_sd_resume NULL
 > -
 > -#endif /* CONFIG_PM */
-> -
->  static int jmb38x_ms_count_slots(struct pci_dev *pdev)
->  {
->         int cnt, rc = 0;
-> @@ -1030,13 +1013,14 @@ static struct pci_device_id jmb38x_ms_id_tbl [] = {
->         { }
+> +static SIMPLE_DEV_PM_OPS(via_sd_pm_ops, via_sd_suspend, via_sd_resume);
+>
+>  static struct pci_driver via_sd_driver = {
+>         .name = DRV_NAME,
+>         .id_table = via_ids,
+>         .probe = via_sd_probe,
+>         .remove = via_sd_remove,
+> -       .suspend = via_sd_suspend,
+> -       .resume = via_sd_resume,
+> +       .driver.pm = &via_sd_pm_ops,
 >  };
 >
-> +static SIMPLE_DEV_PM_OPS(jmb38x_ms_pm_ops, jmb38x_ms_suspend, jmb38x_ms_resume);
-> +
->  static struct pci_driver jmb38x_ms_driver = {
->         .name = DRIVER_NAME,
->         .id_table = jmb38x_ms_id_tbl,
->         .probe = jmb38x_ms_probe,
->         .remove = jmb38x_ms_remove,
-> -       .suspend = jmb38x_ms_suspend,
-> -       .resume = jmb38x_ms_resume
-> +       .driver.pm = &jmb38x_ms_pm_ops,
->  };
->
->  module_pci_driver(jmb38x_ms_driver);
+>  module_pci_driver(via_sd_driver);
 > --
 > 2.27.0
 >
