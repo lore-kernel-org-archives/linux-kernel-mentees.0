@@ -2,111 +2,99 @@ Return-Path: <SRS0=sW3u=BQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB97C433E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Aug 2020 11:08:04 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8669FC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Aug 2020 11:11:22 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8B206221E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Aug 2020 11:08:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9AA3B22D00
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Aug 2020 11:11:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OCwl2xDw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8B206221E2
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XiWGQvg9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AA3B22D00
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 16316228EB;
-	Thu,  6 Aug 2020 07:28:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3152A88270;
+	Thu,  6 Aug 2020 09:53:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lv9jxGFkq8Q9; Thu,  6 Aug 2020 07:28:56 +0000 (UTC)
+	with ESMTP id NBIq1JROs+n7; Thu,  6 Aug 2020 09:53:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 94EAD2152E;
-	Thu,  6 Aug 2020 07:28:56 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B2F4088267;
+	Thu,  6 Aug 2020 09:53:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 80D39C0050;
-	Thu,  6 Aug 2020 07:28:56 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 19609C004C
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93879C0050;
+	Thu,  6 Aug 2020 09:53:15 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5EAA3C004C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Aug 2020 07:28:55 +0000 (UTC)
+ Thu,  6 Aug 2020 09:53:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0EB76228EB
+ by hemlock.osuosl.org (Postfix) with ESMTP id 54B0C8888A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Aug 2020 07:28:55 +0000 (UTC)
+ Thu,  6 Aug 2020 09:53:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hGqYgg3ReQvq
+ with ESMTP id x+UHOttaZhx7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Aug 2020 07:28:54 +0000 (UTC)
+ Thu,  6 Aug 2020 09:53:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 4F0112152E
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CD63D8887E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Aug 2020 07:28:54 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id q17so27033885pls.9
+ Thu,  6 Aug 2020 09:53:13 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id ep8so6208108pjb.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 06 Aug 2020 00:28:54 -0700 (PDT)
+ Thu, 06 Aug 2020 02:53:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=otRXxNiL4gSVNa6K+8BQSdss/DJNJyTyG/m0dhQQX4E=;
- b=OCwl2xDwvE1snTQ5bo+L1m2eYeuMLJAcfBA+IBsEjQA1yyteEZ5hUzzWYUYFSVs7yE
- gv135n4/e7GmIEGn47sKsk9WnNJbuZ+k3vITt26kDjAl1GLIjI3Jh9/7qWuXNXiBd30x
- aJWw5cjXnaS7Kt0AqQxYk0THyVlQruYmNozroghu8a0R+afmWWOW9tfpoKoKfqCN8W6f
- i+6cS6P5NhQwUQtP7SQaW7tou6klf4XncZYLp8DmdAq+EQklaNt7Zg073W60d+2c5bc1
- QMixkQAb4VlmD5hRMbPN71xHotttPfZ0oCIgX8NsVgvUcZSkv7Zjh5D0H3kHWsNCGe+F
- jiqw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SXSnxxCYD2md6x19BIcV4dv3O6O3P24XFKvfPThGQJo=;
+ b=XiWGQvg9Bit4nzKJF4qTwKdmAD1Q2E8m0XLXObi9vRO8M1t4VdTiK64oHbv/HyOTvg
+ Iph0ndBegJGa710ZTHuhZ+ZoFOjKdukKozcCicBgLXX3y6uliKL/WS9BOsbd6KMTNBYV
+ +nEGz4/MJztzxsjdU/7KBRNvEeW9+FJvkqwX5EIGlY58knyzPMbs/i/pkxxlRStNhW01
+ u7mJDA/obpT1Enlojzjpv/fmkrEJ9Ni+5i1QasAQ8DjJ7xYVjUF1+dZQi3PfCMhkOGLq
+ y6MLVqLBGMJKSb8/DYc6unpKl++YUtTzIvAXUpCK53ktVcgNw5a/VRRZUvPZh4Xo/Qsh
+ vKgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=otRXxNiL4gSVNa6K+8BQSdss/DJNJyTyG/m0dhQQX4E=;
- b=M57mICKkSE+brXOrqae8bZvFXLi1qecGD9sNEwZH7orn2fA4kOOsbD/yssyBesCRdt
- BoK7ktZ/Ja+5XHMHAf2FOZd4sdpkMGOIrn1HYR+ILRRaSrVmSZ++P6zzua+6rDMVZp40
- N6Qd7wFQfylP0lMddEChvhD8ittjC3k4arlvTStZ+v7bP2dPG+Imxz1a8vIjetQ7Z1Iq
- 33YSSAqJzRL8d+Ypa25GmozXbTtfEF1NNLOybB5A5WWsyD8AiDcbmAOYcXA89Ciqptod
- 6RdvQDDWb2bXGtE7YwbundmLSpO9wR0iLbkzGu/SGYSLxgDG1JWlKjmw3wWNFSPlKvFF
- X0kg==
-X-Gm-Message-State: AOAM5336pXhD+Hf9dCV3t0ESLh4wBP/LpF6wHEo2ylYmAd1pTUHnwF96
- OlJYCJDZaYz75GRbhm2XVss=
-X-Google-Smtp-Source: ABdhPJxB33J8in6hVmRJzWA2XAc3HXbCnIXx134loDG2q0NXHME3BjsXKW01wmOFkf7S9wmJfTzxPg==
-X-Received: by 2002:a17:902:9a94:: with SMTP id
- w20mr6975803plp.59.1596698933892; 
- Thu, 06 Aug 2020 00:28:53 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id e125sm6654646pfh.69.2020.08.06.00.28.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 00:28:53 -0700 (PDT)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>
-Date: Thu,  6 Aug 2020 12:56:58 +0530
-Message-Id: <20200806072658.592444-3-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200806072658.592444-1-vaibhavgupta40@gmail.com>
-References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
- <20200806072658.592444-1-vaibhavgupta40@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SXSnxxCYD2md6x19BIcV4dv3O6O3P24XFKvfPThGQJo=;
+ b=FK5EX0dLNi7NSuZcaQJAu6u2yq3GEsudDegjkS5TthPoqRq/jddn9TKdqeOenOMuoA
+ uvyxB7YG+jsZ2bAo2cJJyH+o+eEUL8Z3awmkqF3cNjfQxqHH9xn/OkOkvPLhrpshElpL
+ 86VNzbEW5MqMEQ9jy5EnvKesBNr19CyJdWJMR/erMQ4qyv7KunldoNqdWIxanPXVqa8S
+ PugLRJ0v8xlckA6eXr4OMWdTslDo9VdMqcNWxq/AwO03vb3Uoy7kAoQhHntJ7zehmtDS
+ J2fQ7feOc7zb3lrMjyekn73/x5kCpZ2PJkEAyvQ7/O/3EQ5KZyXbAIOH0mGG8dbuR/OQ
+ wXag==
+X-Gm-Message-State: AOAM532DpjoOo2RprOyrLHEkuLk4o8vdPSL9dGFdGQzGtIrdl6W/ms1S
+ e2bfE9Bc/8CiOctZiIqnJ2nWqgEeOpzVBVIH1DQ=
+X-Google-Smtp-Source: ABdhPJzZw1D9NdNDiy6amHPeR9pus0fXPnyBQGsA7oVjd8LW6an5Aly4sIaPIHNzyMhPT2bcLdXfSKW/9XHV18gYBRo=
+X-Received: by 2002:a17:90a:fa06:: with SMTP id
+ cm6mr7815995pjb.129.1596707593391; 
+ Thu, 06 Aug 2020 02:53:13 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v1 2/2] fbdev: radeonfb:use generic
-	power management
+References: <20200806094440.14962-1-98.arpi@gmail.com>
+In-Reply-To: <20200806094440.14962-1-98.arpi@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 6 Aug 2020 12:52:57 +0300
+Message-ID: <CAHp75Vdpyr=LiOsjgoJ1YscrvFwivtfg58dePtF9aQDYp6V9-A@mail.gmail.com>
+To: Arpitha Raghunandan <98.arpi@gmail.com>
+Cc: Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] lib: Convert test_hexdump.c to
+	KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,152 +112,24 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers using legacy PCI power management .suspend()/.resume() callbacks
-have to manage PCI states and device's PM states themselves. They also
-need to take care of standard configuration registers.
+On Thu, Aug 6, 2020 at 12:48 PM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
+>
+> Converts test lib/test_hexdump.c to KUnit.
+> More information about KUnit can be found at
+> https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html.
+> KUnit provides a common framework for unit tests in the kernel.
 
-Switch to generic power management framework using a "struct dev_pm_ops"
-variable to take the unnecessary load from the driver.
-This also avoids the need for the driver to directly call most of the PCI
-helper functions and device power state control functions, as through
-the generic framework PCI Core takes care of the necessary operations,
-and drivers are required to do only device-specific jobs.
+> -config TEST_HEXDUMP
+> -       tristate "Test functions located in the hexdump module at runtime"
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/video/fbdev/aty/radeon_base.c | 10 +++++---
- drivers/video/fbdev/aty/radeon_pm.c   | 36 +++++++++++++++++++++------
- drivers/video/fbdev/aty/radeonfb.h    |  3 +--
- 3 files changed, 35 insertions(+), 14 deletions(-)
+We have a nice collection of tests starting with TEST_ in the
+configuration, now it's gone.
+I'm strongly against this change.
+Code itself okay, but without addressing above - NAK.
 
-diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
-index e116a3f9ad56..232dbe154666 100644
---- a/drivers/video/fbdev/aty/radeon_base.c
-+++ b/drivers/video/fbdev/aty/radeon_base.c
-@@ -2559,16 +2559,18 @@ static void radeonfb_pci_unregister(struct pci_dev *pdev)
-         framebuffer_release(info);
- }
- 
-+#ifdef CONFIG_PM
-+#define RADEONFB_PCI_PM_OPS (&radeonfb_pci_pm_ops)
-+#else
-+#define RADEONFB_PCI_PM_OPS NULL
-+#endif
- 
- static struct pci_driver radeonfb_driver = {
- 	.name		= "radeonfb",
- 	.id_table	= radeonfb_pci_table,
- 	.probe		= radeonfb_pci_register,
- 	.remove		= radeonfb_pci_unregister,
--#ifdef CONFIG_PM
--	.suspend       	= radeonfb_pci_suspend,
--	.resume		= radeonfb_pci_resume,
--#endif /* CONFIG_PM */
-+	.driver.pm	= RADEONFB_PCI_PM_OPS,
- };
- 
- #ifndef MODULE
-diff --git a/drivers/video/fbdev/aty/radeon_pm.c b/drivers/video/fbdev/aty/radeon_pm.c
-index b9af70bd656a..352d0bb4773a 100644
---- a/drivers/video/fbdev/aty/radeon_pm.c
-+++ b/drivers/video/fbdev/aty/radeon_pm.c
-@@ -2611,8 +2611,9 @@ static void radeon_set_suspend(struct radeonfb_info *rinfo, int suspend)
- 	}
- }
- 
--int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
-+static int radeonfb_pci_suspend_late(struct device *dev, pm_message_t mesg)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
-         struct fb_info *info = pci_get_drvdata(pdev);
-         struct radeonfb_info *rinfo = info->par;
- 
-@@ -2660,11 +2661,6 @@ int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
- 	pmac_suspend_agp_for_card(pdev);
- #endif /* CONFIG_PPC_PMAC */
- 
--	/* It's unclear whether or when the generic code will do that, so let's
--	 * do it ourselves. We save state before we do any power management
--	 */
--	pci_save_state(pdev);
--
- 	/* If we support wakeup from poweroff, we save all regs we can including cfg
- 	 * space
- 	 */
-@@ -2689,7 +2685,6 @@ int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
- 			msleep(20);
- 			OUTREG(LVDS_GEN_CNTL, INREG(LVDS_GEN_CNTL) & ~(LVDS_DIGON));
- 		}
--		pci_disable_device(pdev);
- 	}
- 	/* If we support D2, we go to it (should be fixed later with a flag forcing
- 	 * D3 only for some laptops)
-@@ -2705,6 +2700,21 @@ int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
- 	return 0;
- }
- 
-+static int radeonfb_pci_suspend(struct device *dev)
-+{
-+	return radeonfb_pci_suspend_late(dev, PMSG_SUSPEND);
-+}
-+
-+static int radeonfb_pci_hibernate(struct device *dev)
-+{
-+	return radeonfb_pci_suspend_late(dev, PMSG_HIBERNATE);
-+}
-+
-+static int radeonfb_pci_freeze(struct device *dev)
-+{
-+	return radeonfb_pci_suspend_late(dev, PMSG_FREEZE);
-+}
-+
- static int radeon_check_power_loss(struct radeonfb_info *rinfo)
- {
- 	return rinfo->save_regs[4] != INPLL(CLK_PIN_CNTL) ||
-@@ -2712,8 +2722,9 @@ static int radeon_check_power_loss(struct radeonfb_info *rinfo)
- 	       rinfo->save_regs[3] != INPLL(SCLK_CNTL);
- }
- 
--int radeonfb_pci_resume(struct pci_dev *pdev)
-+static int radeonfb_pci_resume(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
-         struct fb_info *info = pci_get_drvdata(pdev);
-         struct radeonfb_info *rinfo = info->par;
- 	int rc = 0;
-@@ -2795,6 +2806,15 @@ int radeonfb_pci_resume(struct pci_dev *pdev)
- 	return rc;
- }
- 
-+const struct dev_pm_ops radeonfb_pci_pm_ops = {
-+	.suspend	= radeonfb_pci_suspend,
-+	.resume		= radeonfb_pci_resume,
-+	.freeze		= radeonfb_pci_freeze,
-+	.thaw		= radeonfb_pci_resume,
-+	.poweroff	= radeonfb_pci_hibernate,
-+	.restore	= radeonfb_pci_resume,
-+};
-+
- #ifdef CONFIG_PPC__disabled
- static void radeonfb_early_resume(void *data)
- {
-diff --git a/drivers/video/fbdev/aty/radeonfb.h b/drivers/video/fbdev/aty/radeonfb.h
-index 131b34dd65af..93f403cbb415 100644
---- a/drivers/video/fbdev/aty/radeonfb.h
-+++ b/drivers/video/fbdev/aty/radeonfb.h
-@@ -483,8 +483,7 @@ extern void radeon_delete_i2c_busses(struct radeonfb_info *rinfo);
- extern int radeon_probe_i2c_connector(struct radeonfb_info *rinfo, int conn, u8 **out_edid);
- 
- /* PM Functions */
--extern int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t state);
--extern int radeonfb_pci_resume(struct pci_dev *pdev);
-+extern const struct dev_pm_ops radeonfb_pci_pm_ops;
- extern void radeonfb_pm_init(struct radeonfb_info *rinfo, int dynclk, int ignore_devlist, int force_sleep);
- extern void radeonfb_pm_exit(struct radeonfb_info *rinfo);
- 
 -- 
-2.27.0
-
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
