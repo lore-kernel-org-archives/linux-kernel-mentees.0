@@ -2,82 +2,99 @@ Return-Path: <SRS0=1TFu=BR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60C73C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Aug 2020 20:23:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 434E4C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Aug 2020 21:33:25 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D0A72075A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Aug 2020 20:23:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0CDAA20866
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q+hpo1S9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D0A72075A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="j5fGpkuV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CDAA20866
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 023DD88B5D;
-	Fri,  7 Aug 2020 20:23:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id CB69888BEF;
+	Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6BhgmItc8SwA; Fri,  7 Aug 2020 20:23:26 +0000 (UTC)
+	with ESMTP id 337ji67G+Gvi; Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6AF2888B59;
-	Fri,  7 Aug 2020 20:23:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5DC0888AA6;
+	Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 55750C088E;
-	Fri,  7 Aug 2020 20:23:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 59FCCC013C;
+	Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9DF0AC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B091DC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Aug 2020 20:23:25 +0000 (UTC)
+ Fri,  7 Aug 2020 21:33:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8160380EBE
+ by fraxinus.osuosl.org (Postfix) with ESMTP id ADB86875A2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Aug 2020 20:23:24 +0000 (UTC)
+ Fri,  7 Aug 2020 21:33:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DSfZjS9yWVMi
+ with ESMTP id G1l1sLapkNVx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Aug 2020 20:23:23 +0000 (UTC)
+ Fri,  7 Aug 2020 21:33:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3F2E587277
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EB9F987568
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Aug 2020 20:23:23 +0000 (UTC)
-Received: from localhost (130.sub-72-107-113.myvzw.com [72.107.113.130])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C24172074D;
- Fri,  7 Aug 2020 20:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596831803;
- bh=eZ11znaZyBQszlg13DinqaMSmiV/14OwQJjM/YVoM+c=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=Q+hpo1S9CCaw7/RboOmuRIq5Ozpy9Hdj0Hf44V38d2eDCxlcW+VH8u6vVQkYUeyUl
- flExzj3W5bnBE9Ff7v7xOJyfdoYbK1r0jQE8q9j1KEkFK6giGkFBUL2hekm9yOMFLn
- 8o2cIPiustbpSOxrNK9i+etfjHb3UYpZEsZSk0U0=
-Date: Fri, 7 Aug 2020 15:23:21 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <20200807202321.GA753887@bjorn-Precision-5520>
+ Fri,  7 Aug 2020 21:33:22 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id l2so2880879wrc.7
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 07 Aug 2020 14:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Kb51K/JMx93SnPedI+EIdFTSAF1IqBeo/q6vamdS4A8=;
+ b=j5fGpkuVmHIE5Ps7zFBfy2Pdo1F76BJ2oz5uWWb95k6tuAOeu9Lp4hnY+11pqXqX1f
+ eW1WZpc91IM6WYWcp4j7Pc0/kUgOqrwv13XpEAuwqgjmvnwoIIzpfOy3OE4k4/KCmI8w
+ ra9stYzuUfw82bKAJG8gGxGsX6WJE2a3T138c12Td/HoyQKB2GU84ST0lk/zf/LbdF/d
+ IBWP4IIg1oHczrZH/o2MdqLogojr6xaCupKt9SwIPIiPSkUipTJx5ONXLtq+8Og5YlNT
+ 8S80SBjxPsK8ALFVuDrRJDapxKxuC1Z1yAZquhI6AWArhrAHO3gS9bAYqZpoMK3/hxu6
+ mVPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Kb51K/JMx93SnPedI+EIdFTSAF1IqBeo/q6vamdS4A8=;
+ b=HKIPJvBWFfgZYAh8/bStcniz8pC/Z/cnxisQMPuuB8qBfpZM1aZcaTE9Zgrh8alWkn
+ Th6jTzxzbcZL+1GWjvIWndAsHA4O9XMsdyzUHgERUUNUJ9PXceN/FPJrs3J5fzdGSul8
+ 0BWVL1GTjKIT6dMIm5cDLNqTp6u1OpQhCpEPF/euxiGMSLsnwavHCQSzAwmupL93dfJY
+ c1FrHcNQD760eovX44qhuMWelk1G5tq2S3+bFEX4WqVLE7TPUyA8sSvRA6k9Opu42kDf
+ u3xzlu7lEZhs0PkHphiazL1IG4un6nL4YI8mK56R6VTnUwKeGfW0UbaHhFHJpW7qasDS
+ 2FJQ==
+X-Gm-Message-State: AOAM530uKLlvdDobKteSw+ZqXSO5rC3yba8pLnp4Vw05Vz18/2rwt4o1
+ ZcpgqgGtPHUeO8c5en9So6CKVXfXA9uKZ8ztRRcJdg==
+X-Google-Smtp-Source: ABdhPJxXQmEyH/oQ6CHELZFCo1U1iD2D6vbAatj8wgGfSPKfqffSXXd1hCvHhnXMVMh8U7IDXpV1HbyO9BWtNAzpZjA=
+X-Received: by 2002:adf:f511:: with SMTP id q17mr9909904wro.414.1596836001220; 
+ Fri, 07 Aug 2020 14:33:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200805193616.384313-3-vaibhavgupta40@gmail.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Tomoya MORINAGA <tomoya.rohm@gmail.com>, linux-kernel@vger.kernel.org,
- Tomoya MORINAGA <tomoya-linux@dsn.okisemi.com>,
- Ben Dooks <ben.dooks@codethink.co.uk>, linux-i2c@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 2/2] i2c: eg20t: use generic
-	power management
+References: <20200806094440.14962-1-98.arpi@gmail.com>
+ <CAHp75Vdpyr=LiOsjgoJ1YscrvFwivtfg58dePtF9aQDYp6V9-A@mail.gmail.com>
+In-Reply-To: <CAHp75Vdpyr=LiOsjgoJ1YscrvFwivtfg58dePtF9aQDYp6V9-A@mail.gmail.com>
+Date: Sat, 8 Aug 2020 05:33:09 +0800
+Message-ID: <CABVgOSmXFZL+uxKY9yAn9JVzChZxQDsucSQGAGBxM6OpOkCwJg@mail.gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] lib: Convert test_hexdump.c to
+	KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,122 +106,50 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: David Gow via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-[+cc Jean for i801 question below]
+On Thu, Aug 6, 2020 at 5:53 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Thu, Aug 6, 2020 at 12:48 PM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
+> >
+> > Converts test lib/test_hexdump.c to KUnit.
+> > More information about KUnit can be found at
+> > https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html.
+> > KUnit provides a common framework for unit tests in the kernel.
+>
+> > -config TEST_HEXDUMP
+> > -       tristate "Test functions located in the hexdump module at runtime"
+>
+> We have a nice collection of tests starting with TEST_ in the
+> configuration, now it's gone.
+> I'm strongly against this change.
+> Code itself okay, but without addressing above - NAK.
+>
 
-On Thu, Aug 06, 2020 at 01:06:16AM +0530, Vaibhav Gupta wrote:
-> Drivers using legacy power management .suspen()/.resume() callbacks
-> have to manage PCI states and device's PM states themselves. They also
-> need to take care of standard configuration registers.
-> 
-> Switch to generic power management framework using a single
-> "struct dev_pm_ops" variable to take the unnecessary load from the driver.
-> This also avoids the need for the driver to directly call most of the PCI
-> helper functions and device power state control functions, as through
-> the generic framework PCI Core takes care of the necessary operations,
-> and drivers are required to do only device-specific jobs.
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+This change is to make the test naming compliant with the proposed
+KUnit test naming guidelines:
+- https://lore.kernel.org/linux-kselftest/20200702071416.1780522-1-davidgow@google.com/
 
-s/.suspen/.suspend/ above
+The hope is that tests built on KUnit will all end up with the same
+[x]_KUNIT_TEST config options (which at least preserves the
+consistency of the test naming, even if they'll not all sort
+together), and should make it easier for people to know that the test
+results will be in a common format, and that the test can also be run
+using the KUnit tools.
 
-These both look right to me.
-
-Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
-
-Looking at neighboring drivers, it looks like some already use generic
-PM but have unnecessary PCI code, e.g., amd_mp2_pci_suspend().
-Probably already on your list.
-
-Also, i801_suspend() looks suspicious because it writes SMBHSTCFG, but
-I don't see anything corresponding in i801_resume().
-
-> ---
->  drivers/i2c/busses/i2c-eg20t.c | 36 +++++++---------------------------
->  1 file changed, 7 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-eg20t.c b/drivers/i2c/busses/i2c-eg20t.c
-> index eb41de22d461..843b31a0f752 100644
-> --- a/drivers/i2c/busses/i2c-eg20t.c
-> +++ b/drivers/i2c/busses/i2c-eg20t.c
-> @@ -846,11 +846,10 @@ static void pch_i2c_remove(struct pci_dev *pdev)
->  	kfree(adap_info);
->  }
->  
-> -#ifdef CONFIG_PM
-> -static int pch_i2c_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused pch_i2c_suspend(struct device *dev)
->  {
-> -	int ret;
->  	int i;
-> +	struct pci_dev *pdev = to_pci_dev(dev);
->  	struct adapter_info *adap_info = pci_get_drvdata(pdev);
->  	void __iomem *p = adap_info->pch_data[0].pch_base_address;
->  
-> @@ -872,31 +871,13 @@ static int pch_i2c_suspend(struct pci_dev *pdev, pm_message_t state)
->  		ioread32(p + PCH_I2CSR), ioread32(p + PCH_I2CBUFSTA),
->  		ioread32(p + PCH_I2CESRSTA));
->  
-> -	ret = pci_save_state(pdev);
-> -
-> -	if (ret) {
-> -		pch_pci_err(pdev, "pci_save_state\n");
-> -		return ret;
-> -	}
-> -
-> -	pci_disable_device(pdev);
-> -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
-> -
->  	return 0;
->  }
->  
-> -static int pch_i2c_resume(struct pci_dev *pdev)
-> +static int __maybe_unused pch_i2c_resume(struct device *dev)
->  {
->  	int i;
-> -	struct adapter_info *adap_info = pci_get_drvdata(pdev);
-> -
-> -	pci_set_power_state(pdev, PCI_D0);
-> -	pci_restore_state(pdev);
-> -
-> -	if (pci_enable_device(pdev) < 0) {
-> -		pch_pci_err(pdev, "pch_i2c_resume:pci_enable_device FAILED\n");
-> -		return -EIO;
-> -	}
-> +	struct adapter_info *adap_info = dev_get_drvdata(dev);
->  
->  	for (i = 0; i < adap_info->ch_num; i++)
->  		pch_i2c_init(&adap_info->pch_data[i]);
-> @@ -905,18 +886,15 @@ static int pch_i2c_resume(struct pci_dev *pdev)
->  
->  	return 0;
->  }
-> -#else
-> -#define pch_i2c_suspend NULL
-> -#define pch_i2c_resume NULL
-> -#endif
-> +
-> +static SIMPLE_DEV_PM_OPS(pch_i2c_pm_ops, pch_i2c_suspend, pch_i2c_resume);
->  
->  static struct pci_driver pch_pcidriver = {
->  	.name = KBUILD_MODNAME,
->  	.id_table = pch_pcidev_id,
->  	.probe = pch_i2c_probe,
->  	.remove = pch_i2c_remove,
-> -	.suspend = pch_i2c_suspend,
-> -	.resume = pch_i2c_resume
-> +	.driver.pm = &pch_i2c_pm_ops,
->  };
->  
->  module_pci_driver(pch_pcidriver);
-> -- 
-> 2.27.0
-> 
+The naming guidelines haven't been upstreamed yet, though, so we'd
+definitely appreciate input on that thread if you've got comments more
+broadly than for this particular patch. Ultimately, I don't think it
+matters too much what we end up using, but having some consistency is
+the goal.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
