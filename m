@@ -1,100 +1,108 @@
-Return-Path: <SRS0=1TFu=BR=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=UpBJ=BS=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 434E4C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Aug 2020 21:33:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B1D6C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  8 Aug 2020 04:06:47 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CDAA20866
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F24BC2087C
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  8 Aug 2020 04:06:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="j5fGpkuV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CDAA20866
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ImMnrn3Z"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F24BC2087C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CB69888BEF;
-	Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id AED6C889F6;
+	Sat,  8 Aug 2020 04:06:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 337ji67G+Gvi; Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
+	with ESMTP id WU8AFiRucvOb; Sat,  8 Aug 2020 04:06:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5DC0888AA6;
-	Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9C99988995;
+	Sat,  8 Aug 2020 04:06:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 59FCCC013C;
-	Fri,  7 Aug 2020 21:33:24 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B091DC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 81E32C013C;
+	Sat,  8 Aug 2020 04:06:45 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6B7E5C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Aug 2020 21:33:23 +0000 (UTC)
+ Sat,  8 Aug 2020 04:06:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id ADB86875A2
+ by silver.osuosl.org (Postfix) with ESMTP id 4726926081
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Aug 2020 21:33:23 +0000 (UTC)
+ Sat,  8 Aug 2020 04:06:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id G1l1sLapkNVx
+ with ESMTP id f5EA8jj678WS
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Aug 2020 21:33:23 +0000 (UTC)
+ Sat,  8 Aug 2020 04:06:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
- [209.85.221.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id EB9F987568
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+ [209.85.222.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id BD7BA2048C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  7 Aug 2020 21:33:22 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id l2so2880879wrc.7
+ Sat,  8 Aug 2020 04:06:42 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id b14so3617507qkn.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 07 Aug 2020 14:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Kb51K/JMx93SnPedI+EIdFTSAF1IqBeo/q6vamdS4A8=;
- b=j5fGpkuVmHIE5Ps7zFBfy2Pdo1F76BJ2oz5uWWb95k6tuAOeu9Lp4hnY+11pqXqX1f
- eW1WZpc91IM6WYWcp4j7Pc0/kUgOqrwv13XpEAuwqgjmvnwoIIzpfOy3OE4k4/KCmI8w
- ra9stYzuUfw82bKAJG8gGxGsX6WJE2a3T138c12Td/HoyQKB2GU84ST0lk/zf/LbdF/d
- IBWP4IIg1oHczrZH/o2MdqLogojr6xaCupKt9SwIPIiPSkUipTJx5ONXLtq+8Og5YlNT
- 8S80SBjxPsK8ALFVuDrRJDapxKxuC1Z1yAZquhI6AWArhrAHO3gS9bAYqZpoMK3/hxu6
- mVPg==
+ Fri, 07 Aug 2020 21:06:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eBX2STd6CRBk1vKmSlEBQtLB8UUMASbhavMeJ1WJR0A=;
+ b=ImMnrn3Z4k3xH3d5wjuGGYN5dCY5Wg7yTR6mWwxE/0/bqZN2eh0ux/M635crPwEWDO
+ RUqUkjgZ166oTo3IMuMmnuMHsSMhkDzoRms1MNwfTUorcMFXA6UACHWMaal1MUaCARlN
+ RUqIlF2x87k23WZtrRs2/GqwsDiG1blYKkLittDuyJQzNHsFAhC5NfgMSB0kFmP2VIYD
+ 2X3iQoriLLXUSbdBDPmnR2S8YGDLWYyiyAjU6JfeQLkoIAcUMa/itMhvlGFDVDWyx3bU
+ osogjoRLH9tdNW8lQiZdZcy9WzfK4K3DIN248WTy1sj5QRBgygAtyaU6lmCPxULnuLC6
+ DqYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Kb51K/JMx93SnPedI+EIdFTSAF1IqBeo/q6vamdS4A8=;
- b=HKIPJvBWFfgZYAh8/bStcniz8pC/Z/cnxisQMPuuB8qBfpZM1aZcaTE9Zgrh8alWkn
- Th6jTzxzbcZL+1GWjvIWndAsHA4O9XMsdyzUHgERUUNUJ9PXceN/FPJrs3J5fzdGSul8
- 0BWVL1GTjKIT6dMIm5cDLNqTp6u1OpQhCpEPF/euxiGMSLsnwavHCQSzAwmupL93dfJY
- c1FrHcNQD760eovX44qhuMWelk1G5tq2S3+bFEX4WqVLE7TPUyA8sSvRA6k9Opu42kDf
- u3xzlu7lEZhs0PkHphiazL1IG4un6nL4YI8mK56R6VTnUwKeGfW0UbaHhFHJpW7qasDS
- 2FJQ==
-X-Gm-Message-State: AOAM530uKLlvdDobKteSw+ZqXSO5rC3yba8pLnp4Vw05Vz18/2rwt4o1
- ZcpgqgGtPHUeO8c5en9So6CKVXfXA9uKZ8ztRRcJdg==
-X-Google-Smtp-Source: ABdhPJxXQmEyH/oQ6CHELZFCo1U1iD2D6vbAatj8wgGfSPKfqffSXXd1hCvHhnXMVMh8U7IDXpV1HbyO9BWtNAzpZjA=
-X-Received: by 2002:adf:f511:: with SMTP id q17mr9909904wro.414.1596836001220; 
- Fri, 07 Aug 2020 14:33:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eBX2STd6CRBk1vKmSlEBQtLB8UUMASbhavMeJ1WJR0A=;
+ b=AEeQJC/CbGbPegS342FdjTsBlHjzb+wbJWHKu2li5FI3qh4yNuSRLnzS737KAHpPf6
+ 7zDQHJyPqhj4Kpa7FtKv83AtKnmfHGO+VMtEvWaxXbIuf8lxoOTOXayYNi1tHorL8KZc
+ QpCYi13unlZEk8W922GvW5qT+RwMVePQVEL8GA1NVKHfICbeK7pN9Ou43nFp2t9ie/Nn
+ m8QInhRb5/peWuJmSeWiigFNpoFWlWH9nXqrpC/BWAU6yhxPRfmUa6sHn8IJNE2oRAZv
+ 1lmnwPzMDPaseJyzOCItRD78xb/LJDTqLe+25KKLr1ug7qfA5Tse07q0+tiL415nVwja
+ hAWw==
+X-Gm-Message-State: AOAM531nt7PVeRX7GIFV/D/WIAPxgyNtQTMoP+9I3gFLrPgkwgMegJ35
+ n9R472piiRzkqszOcoxyYw==
+X-Google-Smtp-Source: ABdhPJyiVi2TyBkfekwvTN8eseV1M60k4LZxF4cWE/pBssVqKoNRkt5Jy/31+Zj0ox2uqwcG0951nA==
+X-Received: by 2002:a37:a503:: with SMTP id o3mr16204813qke.162.1596859601722; 
+ Fri, 07 Aug 2020 21:06:41 -0700 (PDT)
+Received: from localhost.localdomain
+ (146-115-88-66.s3894.c3-0.sbo-ubr1.sbo.ma.cable.rcncustomer.com.
+ [146.115.88.66])
+ by smtp.gmail.com with ESMTPSA id i7sm9264630qtb.27.2020.08.07.21.06.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Aug 2020 21:06:41 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>
+Date: Sat,  8 Aug 2020 00:04:40 -0400
+Message-Id: <20200808040440.255578-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200806094440.14962-1-98.arpi@gmail.com>
- <CAHp75Vdpyr=LiOsjgoJ1YscrvFwivtfg58dePtF9aQDYp6V9-A@mail.gmail.com>
-In-Reply-To: <CAHp75Vdpyr=LiOsjgoJ1YscrvFwivtfg58dePtF9aQDYp6V9-A@mail.gmail.com>
-Date: Sat, 8 Aug 2020 05:33:09 +0800
-Message-ID: <CABVgOSmXFZL+uxKY9yAn9JVzChZxQDsucSQGAGBxM6OpOkCwJg@mail.gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+Cc: Andrei Emeltchenko <andrei.emeltchenko@intel.com>,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ Peilin Ye <yepeilin.cs@gmail.com>, linux-bluetooth@vger.kernel.org,
+ netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] lib: Convert test_hexdump.c to
-	KUnit
+ "David S. Miller" <davem@davemloft.net>
+Subject: [Linux-kernel-mentees] [PATCH net] Bluetooth: Fix NULL pointer
+	dereference in amp_read_loc_assoc_final_data()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,50 +114,38 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: David Gow via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Aug 6, 2020 at 5:53 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Thu, Aug 6, 2020 at 12:48 PM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
-> >
-> > Converts test lib/test_hexdump.c to KUnit.
-> > More information about KUnit can be found at
-> > https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html.
-> > KUnit provides a common framework for unit tests in the kernel.
->
-> > -config TEST_HEXDUMP
-> > -       tristate "Test functions located in the hexdump module at runtime"
->
-> We have a nice collection of tests starting with TEST_ in the
-> configuration, now it's gone.
-> I'm strongly against this change.
-> Code itself okay, but without addressing above - NAK.
->
+Prevent amp_read_loc_assoc_final_data() from dereferencing `mgr` as NULL.
 
-This change is to make the test naming compliant with the proposed
-KUnit test naming guidelines:
-- https://lore.kernel.org/linux-kselftest/20200702071416.1780522-1-davidgow@google.com/
+Reported-and-tested-by: syzbot+f4fb0eaafdb51c32a153@syzkaller.appspotmail.com
+Fixes: 9495b2ee757f ("Bluetooth: AMP: Process Chan Selected event")
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+ net/bluetooth/amp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-The hope is that tests built on KUnit will all end up with the same
-[x]_KUNIT_TEST config options (which at least preserves the
-consistency of the test naming, even if they'll not all sort
-together), and should make it easier for people to know that the test
-results will be in a common format, and that the test can also be run
-using the KUnit tools.
+diff --git a/net/bluetooth/amp.c b/net/bluetooth/amp.c
+index 9c711f0dfae3..be2d469d6369 100644
+--- a/net/bluetooth/amp.c
++++ b/net/bluetooth/amp.c
+@@ -297,6 +297,9 @@ void amp_read_loc_assoc_final_data(struct hci_dev *hdev,
+ 	struct hci_request req;
+ 	int err;
+ 
++	if (!mgr)
++		return;
++
+ 	cp.phy_handle = hcon->handle;
+ 	cp.len_so_far = cpu_to_le16(0);
+ 	cp.max_len = cpu_to_le16(hdev->amp_assoc_size);
+-- 
+2.25.1
 
-The naming guidelines haven't been upstreamed yet, though, so we'd
-definitely appreciate input on that thread if you've got comments more
-broadly than for this particular patch. Ultimately, I don't think it
-matters too much what we end up using, but having some consistency is
-the goal.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
