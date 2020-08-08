@@ -2,84 +2,118 @@ Return-Path: <SRS0=UpBJ=BS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 942D5C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  8 Aug 2020 11:19:45 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C5FC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  8 Aug 2020 22:57:40 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 74EBF20855
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  8 Aug 2020 11:19:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 74EBF20855
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
+	by mail.kernel.org (Postfix) with ESMTPS id E5413206C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  8 Aug 2020 22:57:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZU/Tvgq"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5413206C3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 53D5F86F16;
-	Sat,  8 Aug 2020 11:19:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DD1U9bm9znr6; Sat,  8 Aug 2020 11:19:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1B44E86EFE;
-	Sat,  8 Aug 2020 11:19:44 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 12D49C0733;
-	Sat,  8 Aug 2020 11:19:44 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C51CFC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  8 Aug 2020 11:19:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B3BA688933
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  8 Aug 2020 11:19:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B8FD488541;
+	Sat,  8 Aug 2020 22:57:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XTZQvB9Z89aj; Sat,  8 Aug 2020 22:57:38 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id EBDC48853D;
+	Sat,  8 Aug 2020 22:57:38 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DDCA5C013C;
+	Sat,  8 Aug 2020 22:57:38 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E14D6C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  8 Aug 2020 22:57:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D0DB486F5A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  8 Aug 2020 22:57:37 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cFonvrXcrTrW
+ with ESMTP id SAeBtIoo305N
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  8 Aug 2020 11:19:41 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E77CD87952
+ Sat,  8 Aug 2020 22:57:37 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2D5FC86B6D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  8 Aug 2020 11:19:40 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 2B8B220021;
- Sat,  8 Aug 2020 13:19:36 +0200 (CEST)
-Date: Sat, 8 Aug 2020 13:19:34 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <20200808111934.GB24172@ravnborg.org>
-References: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
- <20200805180722.244008-3-vaibhavgupta40@gmail.com>
+ Sat,  8 Aug 2020 22:57:37 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id u10so2901511plr.7
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 08 Aug 2020 15:57:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9sPtCXARRDyoJ9gED6VcstU3ZnY0CN85dWocZ7ctG2E=;
+ b=QZU/Tvgq78IUEtDcC1+6C6xvjHGuXJHXguScPFEZz+aS8foez55jwUhTUnx6KF7Il+
+ M4iZheUMXLzs7xSlWXfG7H+dM0oO1GHdyFlV0iYOxUVqXT3hfmdNyhfIzRT+rq9ZVN0p
+ lRJeSK58lKVj6qy80rOKm5wmcgQJxk8Egn9Qe4S2LdY9PTEFAUCSDT509S/C9+IxX6PH
+ sNXvvUkN+iMb38o1tJ6uK54VtqU/ZK2fQsTq02a3T44B4e6sPjqwCS08rXMMlOJD1Akz
+ yjwAl/o38v5nzut99M9Sbzr9YLxJdAPl/n+p9mtauvxWllfoTls6vC9FiQQ+0wzanl/6
+ Aeyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9sPtCXARRDyoJ9gED6VcstU3ZnY0CN85dWocZ7ctG2E=;
+ b=QLVzvyr0E+McWov/9VxlEaVuqYEqDp1+6Vevl0WGeLNgagAeUTqowcC1CWlztF9r7U
+ 9WjloEZAajxESk6QUL6CE0oAbwp3dO58sKVGyLjTjp63L4mw11ARRVcoDoAOpiKnumBi
+ CheXWrcB2xXZoR0LM1j28dq01ttofUpvYG362QECLHjEiX4oj8yd8Po9FRmj9Bgjw+Ze
+ 4rffDthcmxbWMH/pn5XlX3DXHdYrYezblN2s/H6MNxRrVQmlnCjXryHV8UOHzg7PUs8y
+ vLn5ZPN3A8SAD9+OQEaPRDcdq0xa6KvWyr/kVv06EyWmksI7xiVJvdhx5oI1p0O0YcrS
+ Q7xw==
+X-Gm-Message-State: AOAM533cNQMlzt/7+gd0Nk+Au363B1OzPOXxeCfo49R1yFkzIcGH+ifz
+ mn3P6sLtZzxzOP9R1c2SU8w=
+X-Google-Smtp-Source: ABdhPJxC1hb5eucKSMPhCKqbRKPCMGw/TpygTR/MPLb0wTD4LcgT7LTAWUFr7XtyF2eqj7hNOfB1oQ==
+X-Received: by 2002:a17:90a:d482:: with SMTP id
+ s2mr19980811pju.140.1596927456678; 
+ Sat, 08 Aug 2020 15:57:36 -0700 (PDT)
+Received: from [100.115.92.198] (18.48.24.136.in-addr.arpa. [136.24.48.18])
+ by smtp.gmail.com with ESMTPSA id y17sm17167551pfe.30.2020.08.08.15.57.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Aug 2020 15:57:36 -0700 (PDT)
+To: Jason Gunthorpe <jgg@ziepe.ca>, Joe Perches <joe@perches.com>
+References: <20200731053333.GB466103@kroah.com>
+ <20200731140452.GE24045@ziepe.ca> <20200731142148.GA1718799@kroah.com>
+ <20200731143604.GF24045@ziepe.ca> <20200731171924.GA2014207@kroah.com>
+ <20200801053833.GK75549@unreal> <20200802221020.GN24045@ziepe.ca>
+ <fb7ec4d4ed78e6ae7fa6c04abb24d1c00dc2b0f7.camel@perches.com>
+ <20200802222843.GP24045@ziepe.ca>
+ <60584f4c0303106b42463ddcfb108ec4a1f0b705.camel@perches.com>
+ <20200803230627.GQ24045@ziepe.ca>
+From: Jack Leadford <leadford.jack@gmail.com>
+Message-ID: <ff066616-3bb8-b6c8-d329-7de5ab8ee982@gmail.com>
+Date: Sat, 8 Aug 2020 15:57:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200805180722.244008-3-vaibhavgupta40@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8
- a=9vxFon6PXiDQMAcgzJ0A:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
-Cc: linux-fbdev@vger.kernel.org, Antonino Daplas <adaplas@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Andres Salomon <dilinger@queued.net>,
- Bjorn Helgaas <bhelgaas@google.com>, Paul Mackerras <paulus@samba.org>,
+In-Reply-To: <20200803230627.GQ24045@ziepe.ca>
+Content-Language: en-US
+Cc: rds-devel@oss.oracle.com, Arnd Bergmann <arnd@arndb.de>,
+ Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- linux-geode@lists.infradead.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 02/12] fbdev: lxfb: use
-	generic power management
+ Peilin Ye <yepeilin.cs@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH net] rds: Prevent kernel-infoleak
+ in rds_notify_queue_get()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,174 +125,64 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Vaibhav
+Hello!
 
-On Wed, Aug 05, 2020 at 11:37:12PM +0530, Vaibhav Gupta wrote:
-> Drivers using legacy power management .suspen()/.resume() callbacks
-> have to manage PCI states and device's PM states themselves. They also
-> need to take care of standard configuration registers.
-> 
-> Switch to generic power management framework using a single
-> "struct dev_pm_ops" variable to take the unnecessary load from the driver.
-> This also avoids the need for the driver to directly call most of the PCI
-> helper functions and device power state control functions, as through
-> the generic framework PCI Core takes care of the necessary operations,
-> and drivers are required to do only device-specific jobs.
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Thanks to Jason for getting this conversation back on track.
 
-Some of the same comments from fxfb applies to lxfb.
-Please address these and re-submit.
+Yes: in general, {} or a partial initializer /will/ zero padding bits.
 
-	Sam
+However, there is a bug in some versions of GCC where {} will /not/ zero
+padding bits; actually, Jason's test program in this mail 
+https://lore.kernel.org/lkml/20200731143604.GF24045@ziepe.ca/
+has the right ingredients to trigger the bug, but the GCC
+versions used are outside of the bug window. :)
 
-> ---
->  drivers/video/fbdev/geode/lxfb.h      |  5 ----
->  drivers/video/fbdev/geode/lxfb_core.c | 37 +++++++++++++++------------
->  drivers/video/fbdev/geode/lxfb_ops.c  |  4 ---
->  3 files changed, 20 insertions(+), 26 deletions(-)
+For more details on these cases and more (including said GCC bug), see 
+my paper at:
+
+https://www.nccgroup.com/us/about-us/newsroom-and-events/blog/2019/october/padding-the-struct-how-a-compiler-optimization-can-disclose-stack-memory/
+
+Hopefully this paper can serve as a helpful reference when these cases 
+are encountered in the kernel.
+
+Thank you.
+
+Jack Leadford
+
+On 8/3/20 4:06 PM, Jason Gunthorpe wrote:
+> On Sun, Aug 02, 2020 at 03:45:40PM -0700, Joe Perches wrote:
+>> On Sun, 2020-08-02 at 19:28 -0300, Jason Gunthorpe wrote:
+>>> On Sun, Aug 02, 2020 at 03:23:58PM -0700, Joe Perches wrote:
+>>>> On Sun, 2020-08-02 at 19:10 -0300, Jason Gunthorpe wrote:
+>>>>> On Sat, Aug 01, 2020 at 08:38:33AM +0300, Leon Romanovsky wrote:
+>>>>>
+>>>>>> I'm using {} instead of {0} because of this GCC bug.
+>>>>>> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
+>>>>>
+>>>>> This is why the {} extension exists..
+>>>>
+>>>> There is no guarantee that the gcc struct initialization {}
+>>>> extension also zeros padding.
+>>>
+>>> We just went over this. Yes there is, C11 requires it.
+>>
+>> c11 is not c90.  The kernel uses c90.
 > 
-> diff --git a/drivers/video/fbdev/geode/lxfb.h b/drivers/video/fbdev/geode/lxfb.h
-> index ef24bf6d49dc..d37b32dbcd68 100644
-> --- a/drivers/video/fbdev/geode/lxfb.h
-> +++ b/drivers/video/fbdev/geode/lxfb.h
-> @@ -29,7 +29,6 @@ struct lxfb_par {
->  	void __iomem *gp_regs;
->  	void __iomem *dc_regs;
->  	void __iomem *vp_regs;
-> -#ifdef CONFIG_PM
->  	int powered_down;
->  
->  	/* register state, for power mgmt functionality */
-> @@ -50,7 +49,6 @@ struct lxfb_par {
->  	uint32_t hcoeff[DC_HFILT_COUNT * 2];
->  	uint32_t vcoeff[DC_VFILT_COUNT];
->  	uint32_t vp_coeff[VP_COEFF_SIZE / 4];
-> -#endif
->  };
->  
->  static inline unsigned int lx_get_pitch(unsigned int xres, int bpp)
-> @@ -64,11 +62,8 @@ int lx_blank_display(struct fb_info *, int);
->  void lx_set_palette_reg(struct fb_info *, unsigned int, unsigned int,
->  			unsigned int, unsigned int);
->  
-> -#ifdef CONFIG_PM
->  int lx_powerdown(struct fb_info *info);
->  int lx_powerup(struct fb_info *info);
-> -#endif
-> -
->  
->  /* Graphics Processor registers (table 6-29 from the data book) */
->  enum gp_registers {
-> diff --git a/drivers/video/fbdev/geode/lxfb_core.c b/drivers/video/fbdev/geode/lxfb_core.c
-> index adc2d9c2395e..66c81262d18f 100644
-> --- a/drivers/video/fbdev/geode/lxfb_core.c
-> +++ b/drivers/video/fbdev/geode/lxfb_core.c
-> @@ -443,17 +443,14 @@ static struct fb_info *lxfb_init_fbinfo(struct device *dev)
->  	return info;
->  }
->  
-> -#ifdef CONFIG_PM
-> -static int lxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused lxfb_suspend(struct device *dev)
->  {
-> -	struct fb_info *info = pci_get_drvdata(pdev);
-> +	struct fb_info *info = dev_get_drvdata(dev);
->  
-> -	if (state.event == PM_EVENT_SUSPEND) {
-> -		console_lock();
-> -		lx_powerdown(info);
-> -		fb_set_suspend(info, 1);
-> -		console_unlock();
-> -	}
-> +	console_lock();
-> +	lx_powerdown(info);
-> +	fb_set_suspend(info, 1);
-> +	console_unlock();
->  
->  	/* there's no point in setting PCI states; we emulate PCI, so
->  	 * we don't end up getting power savings anyways */
-> @@ -461,9 +458,9 @@ static int lxfb_suspend(struct pci_dev *pdev, pm_message_t state)
->  	return 0;
->  }
->  
-> -static int lxfb_resume(struct pci_dev *pdev)
-> +static int __maybe_unused lxfb_resume(struct device *dev)
->  {
-> -	struct fb_info *info = pci_get_drvdata(pdev);
-> +	struct fb_info *info = dev_get_drvdata(dev);
->  	int ret;
->  
->  	console_lock();
-> @@ -477,10 +474,6 @@ static int lxfb_resume(struct pci_dev *pdev)
->  	console_unlock();
->  	return 0;
->  }
-> -#else
-> -#define lxfb_suspend NULL
-> -#define lxfb_resume NULL
-> -#endif
->  
->  static int lxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  {
-> @@ -600,13 +593,23 @@ static struct pci_device_id lxfb_id_table[] = {
->  
->  MODULE_DEVICE_TABLE(pci, lxfb_id_table);
->  
-> +static const struct dev_pm_ops lxfb_pm_ops = {
-> +#ifdef CONFIG_PM_SLEEP
-> +	.suspend	= lxfb_suspend,
-> +	.resume		= lxfb_resume,
-> +	.freeze		= NULL,
-> +	.thaw		= lxfb_resume,
-> +	.poweroff	= NULL,
-> +	.restore	= lxfb_resume,
-> +#endif
-> +};
-> +
->  static struct pci_driver lxfb_driver = {
->  	.name		= "lxfb",
->  	.id_table	= lxfb_id_table,
->  	.probe		= lxfb_probe,
->  	.remove		= lxfb_remove,
-> -	.suspend	= lxfb_suspend,
-> -	.resume		= lxfb_resume,
-> +	.driver.pm	= &lxfb_pm_ops,
->  };
->  
->  #ifndef MODULE
-> diff --git a/drivers/video/fbdev/geode/lxfb_ops.c b/drivers/video/fbdev/geode/lxfb_ops.c
-> index 5be8bc62844c..b3a041fce570 100644
-> --- a/drivers/video/fbdev/geode/lxfb_ops.c
-> +++ b/drivers/video/fbdev/geode/lxfb_ops.c
-> @@ -580,8 +580,6 @@ int lx_blank_display(struct fb_info *info, int blank_mode)
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM
-> -
->  static void lx_save_regs(struct lxfb_par *par)
->  {
->  	uint32_t filt;
-> @@ -837,5 +835,3 @@ int lx_powerup(struct fb_info *info)
->  	par->powered_down = 0;
->  	return 0;
->  }
-> -
-> -#endif
-> -- 
-> 2.27.0
+> The kernel already relies on a lot of C11/C99 features and
+> behaviors. For instance Linus just bumped the minimum compiler version
+> so that C11's _Generic is usable.
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Why do you think this particular part of C11 shouldn't be relied on?
+> 
+> Jason
+> 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
