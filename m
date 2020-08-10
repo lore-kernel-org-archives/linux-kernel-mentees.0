@@ -8,103 +8,107 @@ X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF03C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 09:19:57 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F01CBC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 09:41:35 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3334820709
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 09:19:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B72B02070B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 09:41:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ax7gqxfG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3334820709
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BhHI6QrI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B72B02070B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 04D902268D;
-	Mon, 10 Aug 2020 09:19:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 81CDA8701F;
+	Mon, 10 Aug 2020 09:41:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xga86Z-OLDFT; Mon, 10 Aug 2020 09:19:55 +0000 (UTC)
+	with ESMTP id wnLwnWaSFpdV; Mon, 10 Aug 2020 09:41:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 85B522042D;
-	Mon, 10 Aug 2020 09:19:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CB7E586FD8;
+	Mon, 10 Aug 2020 09:41:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 70BD6C0864;
-	Mon, 10 Aug 2020 09:19:55 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6CB28C0864
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C4AE8C0864;
+	Mon, 10 Aug 2020 09:41:34 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 75BFDC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 09:19:54 +0000 (UTC)
+ Mon, 10 Aug 2020 09:41:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 68A8987775
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6511E863E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 09:19:54 +0000 (UTC)
+ Mon, 10 Aug 2020 09:41:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ee6A9vYp7NPm
+ with ESMTP id aJ2-uT7BMrfV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 09:19:53 +0000 (UTC)
+ Mon, 10 Aug 2020 09:41:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 5E52287744
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 5590085E1A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 09:19:53 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id r4so4477187pls.2
+ Mon, 10 Aug 2020 09:41:32 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id d4so4687588pjx.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 02:19:53 -0700 (PDT)
+ Mon, 10 Aug 2020 02:41:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=LG+fIp5OZ25It71Wra3d8yfu2prbPEMG5KpZ0CWWGCc=;
- b=Ax7gqxfGIMFUTMwsQKBmRknt4QVEZlySJYJG1TRzYusE6XvTmcOEpv8tKf3kBk00cX
- ElKMU+sWP7NxGBs4dvW8mIRqLwbUtKRX8tsgz+Qt/3N0vKNZ2cqqW0W4fiReomKI9khn
- RKk8brgclZZsgdpuvH9NCvFkSy90nsuhWs/maKtp9738zFm47LNjKZmdDuOjxnDi6m4c
- 5jNvE+Z45Iqj9ky3pLQpBzps3ZU5/6Yfg7MBZL1yshWFIXSjeUolc+B+NytARzbwpdhC
- 8wyxvA6qwoJXixTxoyeBMnT+MZ8r+4pvM8u1uo3KJH6hj/+oa8hNfZaQX56qIBx/wNZ/
- xi0A==
+ bh=z3ulW2VxpkqtQgW6r5h1dF3y8SsTkgQ0jTlNBIbDSYs=;
+ b=BhHI6QrI59CCp9aOeqg0rtMs2ISonD+r8bVrNsB10xf3Chv8koFMrz9OE8b6a5acs8
+ 558t3l2AnmWvtVKfOJceNXRhuk53EWvBOUZT97b3bWvOPCPwbJKCiO01meo0M1gWnJqQ
+ Cg9RhFCRr1SdRa3ZewFFTkx7Qq0s2NLpSBDxdyOr45J/Sgmf0764JOoJofb5Hy+wxhnP
+ ivzrBRmxYCbcDZ4Qo0WI5YJuWvk+aycAdYyaIKXvUtF9Cawlix6ruh/5cnRZrRaIQTdB
+ zgAFuCYU35QSQ/BD8/VzLKiHfOWznMZK31lEEKIW24+HyVTBtxyFaDxIwDY0SbSmSJDH
+ dDhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=LG+fIp5OZ25It71Wra3d8yfu2prbPEMG5KpZ0CWWGCc=;
- b=FekXQutv3/LgrgIuZfDoQ5XI2c8QCfS2pQPSySSxxTlrWcLjLeTDy8UEkP7v2CtbM8
- 1693We4LYDjTpNikGPb8qnReHK9IX5AvHU+mH6LzAZnW4XOpzfJfBcYWt2CNPjXqyodb
- ouJ+xeBDtsFqzrxVhdCGExrSEJVLpM8gTclhvToUcCgqlDFyZDZbJIz5gZFqhac/OciG
- o7EbbwCM2wh3aRK+B5/nod0Uz5hSeUzmXdGnoqhcFLDL2KFMnrWsoI0STPkpW8tERNd3
- 0Zyy6deN4uLg+Sdpts9Yv2gUMVR3+yTfwM7Jhrg9mv6ATSP1p3ie2M5ATwAjMyeaVu3d
- Y7tg==
-X-Gm-Message-State: AOAM531uPLa2zRXIeRWb/w1VPnrJJwCRhO6Qok9EGkN2OtGpGoqun6lK
- LRyTYfTuD1FGayexd1RWwl0=
-X-Google-Smtp-Source: ABdhPJx7x4fvEeZF1zvMGSiHBSqpbplJv6jIiVbs9RahcOYpDup1KSq1TWn/T1OM81CeqnCBgD6+oA==
-X-Received: by 2002:a17:90b:a45:: with SMTP id
- gw5mr25112629pjb.80.1597051192832; 
- Mon, 10 Aug 2020 02:19:52 -0700 (PDT)
+ bh=z3ulW2VxpkqtQgW6r5h1dF3y8SsTkgQ0jTlNBIbDSYs=;
+ b=iEAM8zWYILIOHowL/05NPrLFVBMBW4IxSNcuxH3ErskqyDw4Dsj6eSqYshUNcQ0THw
+ d0rMtzm9a+vT7hU9Yh37xAsPgahdMSVHSW6AHxn2aliFr3eJ1KqI6p66m+NOCZcY+AQ9
+ i7sXgU33IWNHoJBVQ1isf6bNRjknEJe27t8huYK9Y3Xc0Y4L0WEJkj+kWSTPOQatlloY
+ rBuQdGxRkz5lIOCW7I6A4KKGsoKMYBa9M5OHv9lZO6Z3mcjzq2cPR2HhIsSbHFMwuEft
+ m1d55NNyn6t2OriS3eQ2SZ0G4+yXGSS3/o0vPYuEFpXfKjMHsuftberZtb3pZFYqSch/
+ UJaQ==
+X-Gm-Message-State: AOAM533g9JHSM4H3+AUIw956nFlhlUX7ZYEefiWruda3MHV1BCisjvz9
+ 1AI5aS0BBLoEX5/1/KMnBqw=
+X-Google-Smtp-Source: ABdhPJxRp1VjaaWXXrOdi8Azm9qKK7cq1QmeZD/8Knibe1gjjmeI3cd+iMmFGz7lYAvYXmTHmMZ+9Q==
+X-Received: by 2002:a17:90b:e83:: with SMTP id
+ fv3mr25419713pjb.193.1597052491734; 
+ Mon, 10 Aug 2020 02:41:31 -0700 (PDT)
 Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id x12sm7776750pff.48.2020.08.10.02.19.48
+ by smtp.gmail.com with ESMTPSA id o4sm13500555pjs.51.2020.08.10.02.41.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 02:19:52 -0700 (PDT)
-Date: Mon, 10 Aug 2020 14:48:19 +0530
+ Mon, 10 Aug 2020 02:41:31 -0700 (PDT)
+Date: Mon, 10 Aug 2020 15:09:48 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Message-ID: <20200810091819.GA6615@gmail.com>
-References: <20200805193616.384313-3-vaibhavgupta40@gmail.com>
- <20200807202321.GA753887@bjorn-Precision-5520>
+To: Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <20200810093948.GB6615@gmail.com>
+References: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
+ <20200805180722.244008-2-vaibhavgupta40@gmail.com>
+ <20200808111746.GA24172@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200807202321.GA753887@bjorn-Precision-5520>
-Cc: Jean Delvare <jdelvare@suse.com>, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Tomoya MORINAGA <tomoya.rohm@gmail.com>, linux-kernel@vger.kernel.org,
- Tomoya MORINAGA <tomoya-linux@dsn.okisemi.com>,
- Ben Dooks <ben.dooks@codethink.co.uk>, linux-i2c@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 2/2] i2c: eg20t: use generic
-	power management
+In-Reply-To: <20200808111746.GA24172@ravnborg.org>
+Cc: linux-fbdev@vger.kernel.org, Antonino Daplas <adaplas@gmail.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Andres Salomon <dilinger@queued.net>,
+ Bjorn Helgaas <bhelgaas@google.com>, Paul Mackerras <paulus@samba.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-geode@lists.infradead.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 01/12] fbdev: gxfb: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,122 +126,203 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Aug 07, 2020 at 03:23:21PM -0500, Bjorn Helgaas wrote:
-> [+cc Jean for i801 question below]
+On Sat, Aug 08, 2020 at 01:17:46PM +0200, Sam Ravnborg wrote:
+> Hi Vaibhav
 > 
-> On Thu, Aug 06, 2020 at 01:06:16AM +0530, Vaibhav Gupta wrote:
+> On Wed, Aug 05, 2020 at 11:37:11PM +0530, Vaibhav Gupta wrote:
 > > Drivers using legacy power management .suspen()/.resume() callbacks
 > > have to manage PCI states and device's PM states themselves. They also
 > > need to take care of standard configuration registers.
 > > 
 > > Switch to generic power management framework using a single
-> > "struct dev_pm_ops" variable to take the unnecessary load from the driver.
+> > "struct dev_pm_ops" variable
+> 
+> "to take the unnecessary load from the driver."
+> - I do not parse the above - I cannot see what load is removed.
+> But the code is simpler which is fine. The drawback is that we now
+> always link in the suspend_gx functions but hopefultl the linker drops
+> them later.
+> 
 > > This also avoids the need for the driver to directly call most of the PCI
 > > helper functions and device power state control functions, as through
 > > the generic framework PCI Core takes care of the necessary operations,
 > > and drivers are required to do only device-specific jobs.
+> Again, I do not see what calles are removed.
+> A single check for the state is dropped - anything else?
+>
+Yeah, the commit messages are bit misleading, I have modified them. 
 > > 
 > > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> 
-> s/.suspen/.suspend/ above
-> 
-> These both look right to me.
-> 
-> Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> Looking at neighboring drivers, it looks like some already use generic
-> PM but have unnecessary PCI code, e.g., amd_mp2_pci_suspend().
-> Probably already on your list.
-Yes :)
-> 
-> Also, i801_suspend() looks suspicious because it writes SMBHSTCFG, but
-> I don't see anything corresponding in i801_resume().
-I will look into it.
-
-Thanks
-Vaibhav Gupta
-> 
 > > ---
-> >  drivers/i2c/busses/i2c-eg20t.c | 36 +++++++---------------------------
-> >  1 file changed, 7 insertions(+), 29 deletions(-)
+> >  drivers/video/fbdev/geode/gxfb.h       |  5 ----
+> >  drivers/video/fbdev/geode/gxfb_core.c  | 36 ++++++++++++++------------
+> >  drivers/video/fbdev/geode/suspend_gx.c |  4 ---
+> >  3 files changed, 20 insertions(+), 25 deletions(-)
 > > 
-> > diff --git a/drivers/i2c/busses/i2c-eg20t.c b/drivers/i2c/busses/i2c-eg20t.c
-> > index eb41de22d461..843b31a0f752 100644
-> > --- a/drivers/i2c/busses/i2c-eg20t.c
-> > +++ b/drivers/i2c/busses/i2c-eg20t.c
-> > @@ -846,11 +846,10 @@ static void pch_i2c_remove(struct pci_dev *pdev)
-> >  	kfree(adap_info);
+> > diff --git a/drivers/video/fbdev/geode/gxfb.h b/drivers/video/fbdev/geode/gxfb.h
+> > index d2e9c5c8e294..792c111c21e4 100644
+> > --- a/drivers/video/fbdev/geode/gxfb.h
+> > +++ b/drivers/video/fbdev/geode/gxfb.h
+> > @@ -21,7 +21,6 @@ struct gxfb_par {
+> >  	void __iomem *dc_regs;
+> >  	void __iomem *vid_regs;
+> >  	void __iomem *gp_regs;
+> > -#ifdef CONFIG_PM
+> >  	int powered_down;
+> >  
+> >  	/* register state, for power management functionality */
+> > @@ -36,7 +35,6 @@ struct gxfb_par {
+> >  	uint64_t fp[FP_REG_COUNT];
+> >  
+> >  	uint32_t pal[DC_PAL_COUNT];
+> > -#endif
+> >  };
+> >  
+> >  unsigned int gx_frame_buffer_size(void);
+> > @@ -49,11 +47,8 @@ void gx_set_dclk_frequency(struct fb_info *info);
+> >  void gx_configure_display(struct fb_info *info);
+> >  int gx_blank_display(struct fb_info *info, int blank_mode);
+> >  
+> > -#ifdef CONFIG_PM
+> >  int gx_powerdown(struct fb_info *info);
+> >  int gx_powerup(struct fb_info *info);
+> > -#endif
+> > -
+> >  
+> >  /* Graphics Processor registers (table 6-23 from the data book) */
+> >  enum gp_registers {
+> > diff --git a/drivers/video/fbdev/geode/gxfb_core.c b/drivers/video/fbdev/geode/gxfb_core.c
+> > index d38a148d4746..44089b331f91 100644
+> > --- a/drivers/video/fbdev/geode/gxfb_core.c
+> > +++ b/drivers/video/fbdev/geode/gxfb_core.c
+> > @@ -322,17 +322,14 @@ static struct fb_info *gxfb_init_fbinfo(struct device *dev)
+> >  	return info;
 > >  }
 > >  
 > > -#ifdef CONFIG_PM
-> > -static int pch_i2c_suspend(struct pci_dev *pdev, pm_message_t state)
-> > +static int __maybe_unused pch_i2c_suspend(struct device *dev)
+> > -static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
+> > +static int __maybe_unused gxfb_suspend(struct device *dev)
 > >  {
-> > -	int ret;
-> >  	int i;
-> > +	struct pci_dev *pdev = to_pci_dev(dev);
-> >  	struct adapter_info *adap_info = pci_get_drvdata(pdev);
-> >  	void __iomem *p = adap_info->pch_data[0].pch_base_address;
+> > -	struct fb_info *info = pci_get_drvdata(pdev);
+> > +	struct fb_info *info = dev_get_drvdata(dev);
+> I do not see any dev_set_drvdata() so I guess we get a NULL pointer
+> here which is not intended.
+> Adding a dev_set_data() to gxfb_probe() would do the trick.
+> 
+gxfb_probe() invokes pci_set_drvdata(pdev, info) which in turn calls
+dev_set_drvdata(&pdev->dev, data). Adding dev_get_drvdata() will be redundant.
+
 > >  
-> > @@ -872,31 +871,13 @@ static int pch_i2c_suspend(struct pci_dev *pdev, pm_message_t state)
-> >  		ioread32(p + PCH_I2CSR), ioread32(p + PCH_I2CBUFSTA),
-> >  		ioread32(p + PCH_I2CESRSTA));
-> >  
-> > -	ret = pci_save_state(pdev);
-> > -
-> > -	if (ret) {
-> > -		pch_pci_err(pdev, "pci_save_state\n");
-> > -		return ret;
+> > -	if (state.event == PM_EVENT_SUSPEND) {
+> > -		console_lock();
+> > -		gx_powerdown(info);
+> > -		fb_set_suspend(info, 1);
+> > -		console_unlock();
 > > -	}
-> > -
-> > -	pci_disable_device(pdev);
-> > -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
-> > -
+> > +	console_lock();
+> > +	gx_powerdown(info);
+> > +	fb_set_suspend(info, 1);
+> > +	console_unlock();
+> >  
+> >  	/* there's no point in setting PCI states; we emulate PCI, so
+> >  	 * we don't end up getting power savings anyways */
+> > @@ -340,9 +337,9 @@ static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
 > >  	return 0;
 > >  }
 > >  
-> > -static int pch_i2c_resume(struct pci_dev *pdev)
-> > +static int __maybe_unused pch_i2c_resume(struct device *dev)
+> > -static int gxfb_resume(struct pci_dev *pdev)
+> > +static int __maybe_unused gxfb_resume(struct device *dev)
 > >  {
-> >  	int i;
-> > -	struct adapter_info *adap_info = pci_get_drvdata(pdev);
-> > -
-> > -	pci_set_power_state(pdev, PCI_D0);
-> > -	pci_restore_state(pdev);
-> > -
-> > -	if (pci_enable_device(pdev) < 0) {
-> > -		pch_pci_err(pdev, "pch_i2c_resume:pci_enable_device FAILED\n");
-> > -		return -EIO;
-> > -	}
-> > +	struct adapter_info *adap_info = dev_get_drvdata(dev);
+> > -	struct fb_info *info = pci_get_drvdata(pdev);
+> > +	struct fb_info *info = dev_get_drvdata(dev);
+> >  	int ret;
 > >  
-> >  	for (i = 0; i < adap_info->ch_num; i++)
-> >  		pch_i2c_init(&adap_info->pch_data[i]);
-> > @@ -905,18 +886,15 @@ static int pch_i2c_resume(struct pci_dev *pdev)
-> >  
+> >  	console_lock();
+> > @@ -356,7 +353,6 @@ static int gxfb_resume(struct pci_dev *pdev)
+> >  	console_unlock();
 > >  	return 0;
 > >  }
-> > -#else
-> > -#define pch_i2c_suspend NULL
-> > -#define pch_i2c_resume NULL
 > > -#endif
-> > +
-> > +static SIMPLE_DEV_PM_OPS(pch_i2c_pm_ops, pch_i2c_suspend, pch_i2c_resume);
 > >  
-> >  static struct pci_driver pch_pcidriver = {
-> >  	.name = KBUILD_MODNAME,
-> >  	.id_table = pch_pcidev_id,
-> >  	.probe = pch_i2c_probe,
-> >  	.remove = pch_i2c_remove,
-> > -	.suspend = pch_i2c_suspend,
-> > -	.resume = pch_i2c_resume
-> > +	.driver.pm = &pch_i2c_pm_ops,
+> >  static int gxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> >  {
+> > @@ -467,15 +463,23 @@ static const struct pci_device_id gxfb_id_table[] = {
+> >  
+> >  MODULE_DEVICE_TABLE(pci, gxfb_id_table);
+> >  
+> > +static const struct dev_pm_ops gxfb_pm_ops = {
+> > +#ifdef CONFIG_PM_SLEEP
+> > +	.suspend	= gxfb_suspend,
+> > +	.resume		= gxfb_resume,
+> > +	.freeze		= NULL,
+> > +	.thaw		= gxfb_resume,
+> > +	.poweroff	= NULL,
+> > +	.restore	= gxfb_resume,
+> > +#endif
+> > +};
+> Can we use SET_SYSTEM_SLEEP_PM_OPS here?
+> .freeze will be assigned gxfb_suspend, but gxfb_suspend will anyway be
+> called as far as I read the code.
+> Likewise for poweroff.
+> 
+Earlier, gxfb_suspend() performed each operation just for suspend event.
+And as it was legacy code, it was invoked by pci_legacy_suspend() for
+pci_pm_suspend(), pci_pm_freeze() and pci_pm_poweroff().
+Thus, the code was wrapped inside "if" container:
+	if (state.event == PM_EVENT_SUSPEND) { }
+
+After binding it with dev_pm_ops variable, pm->suspend() is invoked by just
+pci_pm_suspend() which is required.
+
+So I removed the "if" container and bind the callback with pm->suspend pointer
+only.
+
+Using SET_SYSTEM_PM_OPS will bring back the extra step of invoking gxfb_suspend()
+for freeze and poweroff, even though the function will do nothing in that case.
+
+Vaibhav Gupta
+> 	Sam
+> 
+> > +
+> >  static struct pci_driver gxfb_driver = {
+> >  	.name		= "gxfb",
+> >  	.id_table	= gxfb_id_table,
+> >  	.probe		= gxfb_probe,
+> >  	.remove		= gxfb_remove,
+> > -#ifdef CONFIG_PM
+> > -	.suspend	= gxfb_suspend,
+> > -	.resume		= gxfb_resume,
+> > -#endif
+> > +	.driver.pm	= &gxfb_pm_ops,
 > >  };
 > >  
-> >  module_pci_driver(pch_pcidriver);
+> >  #ifndef MODULE
+> > diff --git a/drivers/video/fbdev/geode/suspend_gx.c b/drivers/video/fbdev/geode/suspend_gx.c
+> > index 1110a527c35c..8c49d4e98772 100644
+> > --- a/drivers/video/fbdev/geode/suspend_gx.c
+> > +++ b/drivers/video/fbdev/geode/suspend_gx.c
+> > @@ -11,8 +11,6 @@
+> >  
+> >  #include "gxfb.h"
+> >  
+> > -#ifdef CONFIG_PM
+> > -
+> >  static void gx_save_regs(struct gxfb_par *par)
+> >  {
+> >  	int i;
+> > @@ -259,5 +257,3 @@ int gx_powerup(struct fb_info *info)
+> >  	par->powered_down  = 0;
+> >  	return 0;
+> >  }
+> > -
+> > -#endif
 > > -- 
 > > 2.27.0
 > > 
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
