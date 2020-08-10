@@ -8,84 +8,85 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 735E8C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:00 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A02C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:10 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4473220774
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 813BD20774
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dXiBXr6E"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4473220774
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bigsBtDZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 813BD20774
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0819E877C9;
-	Mon, 10 Aug 2020 19:00:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 361EC20370;
+	Mon, 10 Aug 2020 19:00:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DXcJDAkUwz81; Mon, 10 Aug 2020 18:59:57 +0000 (UTC)
+	with ESMTP id suoKfehwSH+M; Mon, 10 Aug 2020 19:00:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5726D87781;
-	Mon, 10 Aug 2020 18:59:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7E2EE20027;
+	Mon, 10 Aug 2020 19:00:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 537EFC013C;
-	Mon, 10 Aug 2020 18:59:57 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2B35C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 78BEBC013C;
+	Mon, 10 Aug 2020 19:00:04 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A19E6C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 18:59:56 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 91FA887C41
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8108D85DC4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 18:59:56 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id F6tvNm+RnjKk
+ with ESMTP id u0uZfGLgAifZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 18:59:55 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EA8AA87C30
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E5B4785D7E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 18:59:55 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id r11so6119602pfl.11
+ Mon, 10 Aug 2020 19:00:02 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id mw10so477488pjb.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 11:59:55 -0700 (PDT)
+ Mon, 10 Aug 2020 12:00:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=puMAU16yPRJjcWrBBbirtIhNXaGIaRb087rXL9a93dY=;
- b=dXiBXr6E0TYKVe5evLcBJVsXAmowNxpsmGxjs5usDMfgqZiDNBp07ub/f1J2Tn/lk2
- 30Ye7V77uvvn1d0xyyH5N2KwzDyNy9YtTyjXu8Oe3mZCf7acoTgeg0D/c40WRn+Zx9AV
- YLh5bOGmIOHuunBZ9CmRl1j+pacYeNhMpghSYprgJ0CXYtd1LoEF3oWPBVWQHhRsaKCA
- S21MN1pNfEesIxslEGmKrp4RxeHSa8TUV5B1G8NmqfyDxQ29+o1xJjwPATWw8JzzEJ/4
- 7AhZwkOz205ia1OGQv1FWyDyUwl+tx+hfZzMKwVUv7GQQk8IVLRv5L/oqa8cPkKNYE/y
- pbsQ==
+ bh=B3xuxPCTDSagW3xzL4fG+ocHNWklWNizDyTgB78WOog=;
+ b=bigsBtDZSW3nOEhsH9wJDhxPzbB0qI4gIf/X8MwmqFua6RE4mtL8HEXDK/o8ryll37
+ UB8dnk+fMML76ml/Izn965dTLDf5MMMu95fqZ8GT0pb7urHTuyCIH6U3NvgEZTfGatcq
+ Q96NnN33EwNmB9rikhvHlBm93KbiEy/GPdIH61iatn2wFT/Apqe6JiF5IWptCVQdb/nx
+ 8sl61J+3GwJASDOrigK0c22GgKC4HliOlsigJlPFGJh2vsZP2qQpzpFmO7Uudvp/dfo+
+ tIuA3Lc2e7s2eL8tnL45LAzKDpPWYd5awUKXIIeYR+E1y+rOMP33STpgso6KXepnoDYy
+ 6SPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=puMAU16yPRJjcWrBBbirtIhNXaGIaRb087rXL9a93dY=;
- b=FB4GBfJbeWPHPEP0yyNFMgG2VVLJBPlr1BaRr5KMJ48Fw+xxLCGczoTwiEjsRmxM73
- LWFrQKzyxYPmnR6aIzoNlyaDRx/7ZCwsGGbb1v9FBejXlkQwkf+oK2jAYvugEa0aZ8aw
- SIFfjd2CVJeBLChbxVZF93LLnALyY10EP8Abn8dZZHrTG/V5EGa7NRJvprBabxGXArBN
- I/Ff0GFSrrvMmqNn/N+aP7q1PvAFIr1qYIzqHCgE++VYD5DLoGphuwE3xg2LTxC8LXpm
- u2MbaPlyW9YqhwhLUJ7bkjn4HIZ2d6NbBa7mXUSt0I0ehew8nZCY2UuuGgqkC+qKiCeo
- f/bw==
-X-Gm-Message-State: AOAM533t1tXpzcSriMceChQIx+CCjVHtNQiyrygKC/+647YJUiUVYfaw
- ns7JWdvppMNgFdk3249nLQI=
-X-Google-Smtp-Source: ABdhPJw/8SWq4UyW3sAzJltPdzA+52NELmb6lAQ+XEPrB165bwZBbAYZXhx32FFAx3Jit3f0k7T6fQ==
-X-Received: by 2002:a63:aa04:: with SMTP id e4mr7515802pgf.318.1597085995343; 
- Mon, 10 Aug 2020 11:59:55 -0700 (PDT)
+ bh=B3xuxPCTDSagW3xzL4fG+ocHNWklWNizDyTgB78WOog=;
+ b=KTR2DYxMhgzscMizSNYO9mIf8lHEvMZLNXo8YmRcNItX35udgSeqw7WT6jNG5ZN4ye
+ qG0UcOKWMcSJktqfeNGEPQnuSrUwMiXluHbt/UEc7c5hueQJUrOqv7EiLzRXcKhRNtjM
+ izv9LzWqfiMgtM8TQXE7rPFGDWBMQEloUAjcWb1x7O7rYYY3jJ3w0oyknlpko40yLD9O
+ gHoia+lLP7ixHFFuL+Po/1FBAoJWOhfaKMm0LkP3yOSlwN/ZKA1qpIGmW7avMv4Xk32/
+ JSsyPr4kTJAtdt9P/pct/iCJT61CwK+XHQNcn5bD6H+cMpThb4nouEoilgN1JRnmEIFW
+ dP9g==
+X-Gm-Message-State: AOAM533XW65y0ayz5DvSHjhLa5Vi356nqbdYmmtGTgimOn+GhNjDCXad
+ rJ4pV++gKzMpV/Fk9OnSaUs=
+X-Google-Smtp-Source: ABdhPJwUeW+XUspMQ56W2MqWPkYpzKYQZsuakITfMlwnTpMV/2zAZ1IWlloRRTLWjsowW7RwwgOr9A==
+X-Received: by 2002:a17:902:c286:: with SMTP id
+ i6mr24403571pld.219.1597086002471; 
+ Mon, 10 Aug 2020 12:00:02 -0700 (PDT)
 Received: from varodek.localdomain ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.11.59.50
+ by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.11.59.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 11:59:54 -0700 (PDT)
+ Mon, 10 Aug 2020 12:00:02 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -94,8 +95,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
  Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
  Antonino Daplas <adaplas@gmail.com>
-Date: Tue, 11 Aug 2020 00:27:16 +0530
-Message-Id: <20200810185723.15540-6-vaibhavgupta40@gmail.com>
+Date: Tue, 11 Aug 2020 00:27:17 +0530
+Message-Id: <20200810185723.15540-7-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200810185723.15540-1-vaibhavgupta40@gmail.com>
 References: <20200810165458.GA292825@ravnborg.org>
@@ -106,8 +107,8 @@ Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  linux-geode@lists.infradead.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [Linux-kernel-mentees] [PATCH v2 05/12] fbdev: aty128fb: use
-	generic power management
+Subject: [Linux-kernel-mentees] [PATCH v2 06/12] fbdev: nvidia: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -138,119 +139,119 @@ unnecessary calls to the PCI Helper functions along with the legacy
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/aty/aty128fb.c | 51 ++++++++++++++++++++----------
- 1 file changed, 34 insertions(+), 17 deletions(-)
+ drivers/video/fbdev/nvidia/nvidia.c | 64 ++++++++++++++++-------------
+ 1 file changed, 35 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
-index d05d4195acad..dd7762fea058 100644
---- a/drivers/video/fbdev/aty/aty128fb.c
-+++ b/drivers/video/fbdev/aty/aty128fb.c
-@@ -162,10 +162,22 @@ static char * const r128_family[] = {
- static int aty128_probe(struct pci_dev *pdev,
-                                const struct pci_device_id *ent);
- static void aty128_remove(struct pci_dev *pdev);
--static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state);
--static int aty128_pci_resume(struct pci_dev *pdev);
-+static int aty128_pci_suspend_late(struct device *dev, pm_message_t state);
-+static int __maybe_unused aty128_pci_suspend(struct device *dev);
-+static int __maybe_unused aty128_pci_hibernate(struct device *dev);
-+static int __maybe_unused aty128_pci_freeze(struct device *dev);
-+static int __maybe_unused aty128_pci_resume(struct device *dev);
- static int aty128_do_resume(struct pci_dev *pdev);
- 
-+static const struct dev_pm_ops aty128_pci_pm_ops = {
-+	.suspend	= aty128_pci_suspend,
-+	.resume		= aty128_pci_resume,
-+	.freeze		= aty128_pci_freeze,
-+	.thaw		= aty128_pci_resume,
-+	.poweroff	= aty128_pci_hibernate,
-+	.restore	= aty128_pci_resume,
-+};
-+
- /* supported Rage128 chipsets */
- static const struct pci_device_id aty128_pci_tbl[] = {
- 	{ PCI_VENDOR_ID_ATI, PCI_DEVICE_ID_ATI_RAGE128_LE,
-@@ -272,8 +284,7 @@ static struct pci_driver aty128fb_driver = {
- 	.id_table	= aty128_pci_tbl,
- 	.probe		= aty128_probe,
- 	.remove		= aty128_remove,
--	.suspend	= aty128_pci_suspend,
--	.resume		= aty128_pci_resume,
-+	.driver.pm	= &aty128_pci_pm_ops,
+diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
+index c24de9107958..3a1a4330e0d3 100644
+--- a/drivers/video/fbdev/nvidia/nvidia.c
++++ b/drivers/video/fbdev/nvidia/nvidia.c
+@@ -1041,10 +1041,9 @@ static struct fb_ops nvidia_fb_ops = {
+ 	.fb_sync        = nvidiafb_sync,
  };
  
- /* packed BIOS settings */
-@@ -2320,7 +2331,6 @@ static int aty128fb_ioctl(struct fb_info *info, u_int cmd, u_long arg)
- static void aty128_set_suspend(struct aty128fb_par *par, int suspend)
+-#ifdef CONFIG_PM
+-static int nvidiafb_suspend(struct pci_dev *dev, pm_message_t mesg)
++static int nvidiafb_suspend_late(struct device *dev, pm_message_t mesg)
  {
- 	u32	pmgt;
--	struct pci_dev *pdev = par->pdev;
+-	struct fb_info *info = pci_get_drvdata(dev);
++	struct fb_info *info = dev_get_drvdata(dev);
+ 	struct nvidia_par *par = info->par;
  
- 	if (!par->pdev->pm_cap)
- 		return;
-@@ -2347,23 +2357,15 @@ static void aty128_set_suspend(struct aty128fb_par *par, int suspend)
- 		aty_st_le32(BUS_CNTL1, 0x00000010);
- 		aty_st_le32(MEM_POWER_MISC, 0x0c830000);
- 		msleep(100);
--
--		/* Switch PCI power management to D2 */
--		pci_set_power_state(pdev, PCI_D2);
+ 	if (mesg.event == PM_EVENT_PRETHAW)
+@@ -1056,46 +1055,54 @@ static int nvidiafb_suspend(struct pci_dev *dev, pm_message_t mesg)
+ 		fb_set_suspend(info, 1);
+ 		nvidiafb_blank(FB_BLANK_POWERDOWN, info);
+ 		nvidia_write_regs(par, &par->SavedReg);
+-		pci_save_state(dev);
+-		pci_disable_device(dev);
+-		pci_set_power_state(dev, pci_choose_state(dev, mesg));
  	}
- }
+-	dev->dev.power.power_state = mesg;
++	dev->power.power_state = mesg;
  
--static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int aty128_pci_suspend_late(struct device *dev, pm_message_t state)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct fb_info *info = pci_get_drvdata(pdev);
- 	struct aty128fb_par *par = info->par;
- 
--	/* Because we may change PCI D state ourselves, we need to
--	 * first save the config space content so the core can
--	 * restore it properly on resume.
--	 */
--	pci_save_state(pdev);
--
- 	/* We don't do anything but D2, for now we return 0, but
- 	 * we may want to change that. How do we know if the BIOS
- 	 * can properly take care of D3 ? Also, with swsusp, we
-@@ -2422,6 +2424,21 @@ static int aty128_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 	return 0;
- }
- 
-+static int __maybe_unused aty128_pci_suspend(struct device *dev)
-+{
-+	return aty128_pci_suspend_late(dev, PMSG_SUSPEND);
-+}
-+
-+static int __maybe_unused aty128_pci_hibernate(struct device *dev)
-+{
-+	return aty128_pci_suspend_late(dev, PMSG_HIBERNATE);
-+}
-+
-+static int __maybe_unused aty128_pci_freeze(struct device *dev)
-+{
-+	return aty128_pci_suspend_late(dev, PMSG_FREEZE);
-+}
-+
- static int aty128_do_resume(struct pci_dev *pdev)
- {
- 	struct fb_info *info = pci_get_drvdata(pdev);
-@@ -2468,12 +2485,12 @@ static int aty128_do_resume(struct pci_dev *pdev)
- 	return 0;
- }
- 
--static int aty128_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused aty128_pci_resume(struct device *dev)
- {
- 	int rc;
- 
- 	console_lock();
--	rc = aty128_do_resume(pdev);
-+	rc = aty128_do_resume(to_pci_dev(dev));
  	console_unlock();
+ 	return 0;
+ }
  
- 	return rc;
+-static int nvidiafb_resume(struct pci_dev *dev)
++static int __maybe_unused nvidiafb_suspend(struct device *dev)
+ {
+-	struct fb_info *info = pci_get_drvdata(dev);
+-	struct nvidia_par *par = info->par;
++	return nvidiafb_suspend_late(dev, PMSG_SUSPEND);
++}
+ 
+-	console_lock();
+-	pci_set_power_state(dev, PCI_D0);
++static int __maybe_unused nvidiafb_hibernate(struct device *dev)
++{
++	return nvidiafb_suspend_late(dev, PMSG_HIBERNATE);
++}
+ 
+-	if (par->pm_state != PM_EVENT_FREEZE) {
+-		pci_restore_state(dev);
++static int __maybe_unused nvidiafb_freeze(struct device *dev)
++{
++	return nvidiafb_suspend_late(dev, PMSG_FREEZE);
++}
+ 
+-		if (pci_enable_device(dev))
+-			goto fail;
++static int __maybe_unused nvidiafb_resume(struct device *dev)
++{
++	struct fb_info *info = dev_get_drvdata(dev);
++	struct nvidia_par *par = info->par;
+ 
+-		pci_set_master(dev);
+-	}
++	console_lock();
+ 
+ 	par->pm_state = PM_EVENT_ON;
+ 	nvidiafb_set_par(info);
+ 	fb_set_suspend (info, 0);
+ 	nvidiafb_blank(FB_BLANK_UNBLANK, info);
+ 
+-fail:
+ 	console_unlock();
+ 	return 0;
+ }
+-#else
+-#define nvidiafb_suspend NULL
+-#define nvidiafb_resume NULL
+-#endif
++
++static const struct dev_pm_ops nvidiafb_pm_ops = {
++#ifdef CONFIG_PM_SLEEP
++	.suspend	= nvidiafb_suspend,
++	.resume		= nvidiafb_resume,
++	.freeze		= nvidiafb_freeze,
++	.thaw		= nvidiafb_resume,
++	.poweroff	= nvidiafb_hibernate,
++	.restore	= nvidiafb_resume,
++#endif /* CONFIG_PM_SLEEP */
++};
+ 
+ static int nvidia_set_fbinfo(struct fb_info *info)
+ {
+@@ -1496,12 +1503,11 @@ static int nvidiafb_setup(char *options)
+ #endif				/* !MODULE */
+ 
+ static struct pci_driver nvidiafb_driver = {
+-	.name = "nvidiafb",
+-	.id_table = nvidiafb_pci_tbl,
+-	.probe    = nvidiafb_probe,
+-	.suspend  = nvidiafb_suspend,
+-	.resume   = nvidiafb_resume,
+-	.remove   = nvidiafb_remove,
++	.name      = "nvidiafb",
++	.id_table  = nvidiafb_pci_tbl,
++	.probe     = nvidiafb_probe,
++	.driver.pm = &nvidiafb_pm_ops,
++	.remove    = nvidiafb_remove,
+ };
+ 
+ /* ------------------------------------------------------------------------- *
 -- 
 2.27.0
 
