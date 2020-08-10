@@ -6,87 +6,86 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 037B7C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:46 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7159FC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BD65420782
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3CCA2207FF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfIC0l+q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BD65420782
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ef7/XI6f"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3CCA2207FF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 745DB85D6C;
-	Mon, 10 Aug 2020 19:00:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F0A9820370;
+	Mon, 10 Aug 2020 19:00:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZlNS9MEozSMU; Mon, 10 Aug 2020 19:00:45 +0000 (UTC)
+	with ESMTP id REKRdIgH4yCt; Mon, 10 Aug 2020 19:00:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 004AC85D59;
-	Mon, 10 Aug 2020 19:00:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 22FD920110;
+	Mon, 10 Aug 2020 19:00:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F0BCEC013C;
-	Mon, 10 Aug 2020 19:00:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 10807C013C;
+	Mon, 10 Aug 2020 19:00:52 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 68F78C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93B8EC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 19:00:43 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4A9B620380
+ by silver.osuosl.org (Postfix) with ESMTP id 81A9D20370
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 19:00:43 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5TUDbcjvL2YY
+ with ESMTP id rsZtxAzdm6WH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 19:00:42 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 6F8E220110
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 5D4B120110
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 19:00:42 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id g19so5544553plq.0
+ Mon, 10 Aug 2020 19:00:49 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id d188so6141487pfd.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 12:00:42 -0700 (PDT)
+ Mon, 10 Aug 2020 12:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R+174NPN5cAUcf6KvtsV0Xpgm37coEdke8RyoD2D7Ak=;
- b=XfIC0l+qtuFLY5WzdRxHWjMwbOKObVzDTzniqDiZ1cjXBSyr01K921ZPVsmzFKeO/8
- /KfYYuOz+4H63OM45aMQ2cAYNVs0izkwa0eHLowgDJZ84f9TOTNHwPuKo3WHWS8YispL
- j1nwaXnnFtcHlIdENaQIlwfdWl98bx0IqDAhuOKwIVkkI7McegP6DJVotXolhVp69OMY
- ev7FJeNLM/wyWr8TPU2arOhEerY3oyHUMl0CrRarjueBjEAKJM8/PRvvt3vfCqn9cMR2
- 8pArOdp5XsEj5hq6j/Cb9E7+uk2gzm67X7bL2AtWUDsuCABpfEmW9+QmkSUlMVjsT92e
- S/GA==
+ bh=vUB+rA3wMgyIGCTgDMTDExS1DTdL7k930vthzu2b58I=;
+ b=Ef7/XI6fXp2PdOxr7kRX47309hXJcNbM4NqFwiRvuciUILVKoTxZjSAF4uICpm6euz
+ 2BN5Vy5ogfx/lcIwuk8Ue20WASNEkJXthoHnQ3FgGXtdTO/d8FWdxfLIbrWwO038bdL7
+ h/CykS470RoIf8oW7CJOk0IycTobYDdd3MDciM39KC7SPyQSgEpKavf3vLL2EILk01/E
+ okP9VZFtNxIS6Abu5JVjtxtvx5/9uFBGhizqpC7SGjDi4/ECicadSN1GHRuu8hKC6KJ/
+ Q4/n/ov/5jioDN+gpDIra1uQadVW0eS9VVsYGeka0qL9LRbSkOUHHoixo0+glJ4RvhLS
+ IfEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R+174NPN5cAUcf6KvtsV0Xpgm37coEdke8RyoD2D7Ak=;
- b=QpxDKO09l4PgjkaUcfuQpKJRYiVQSmOr1Xki8H+E6KPQFZrOMmReKrvUEkMQydC6RN
- X0oVxB2r70GAwDMl5rklybN4FL8jdeyHhYkdeTd3jQ+TuZ0CZEm9G/QqHhBGhUY52d7u
- ts6AXcml2ObnxGYxpWRUatTFzMSFppL9dPI+tnZ0kLF+2gkNLf3ARbpoKZEMTxwb7Orj
- RLMGGjNDvDQi12qbeRPwQhI7PG4gfVrd0nGfG1S9JEoYli3H5WL/lruZ1Wu52laqs3pc
- D6gdJE0jAUxG92Auq5ziMcKN0Tgq0sZOQ8NMM38q1khoOo4myyYrYaSJ3f4HyOZeM5C3
- ZM1Q==
-X-Gm-Message-State: AOAM531RpT1bDZ/DaSpmSHRHH6/tT+ZPpSbwv/Ap70DEubqDg6MH4lz5
- oHMUmpsbN7T4lOyIj6Og8W8=
-X-Google-Smtp-Source: ABdhPJxt23r0SFVVEHLjk3fUIuS+XluMj98GM01cCkKsQcmnOLrOSdIgi+TvLREGQy1zK92jrxYbjg==
-X-Received: by 2002:a17:90a:4e8f:: with SMTP id
- o15mr685304pjh.220.1597086041938; 
- Mon, 10 Aug 2020 12:00:41 -0700 (PDT)
+ bh=vUB+rA3wMgyIGCTgDMTDExS1DTdL7k930vthzu2b58I=;
+ b=qUOeznfWpYeqFlNT7l9y/GLPwwB+R3EfmSc9R66crX53wLu4G90Wz6D6kvgYj71UiZ
+ eqg0GeyZvmDT9o0U9g2Ajx4ZicUEb8EvNnr5h4sanDPaArTHXvLYVDXV34oSY7iIaSd9
+ Sl6YNS/P2C35tMBfu8WOK7jQCppE62NyJ56dgm9te42ml6ojdpqyZh82HGfCPEn5IS7k
+ PiusfoHvoyOVAE866C2p65LwIOWNhyNSzfXaA43NvHYw37a+MvxR3RT9L3X1I5RqVa72
+ WRJBUwrUowdr8NN3pXxMLvnCX5YcUv1ZNbr2Iid5SQoAUL/HWYQe1s0OMe0EH0RK91YB
+ 2Kew==
+X-Gm-Message-State: AOAM531g9JtWVjC0UnGxUKvZrwnYdTipJT7yzf1riylKDAVXyOoTAInu
+ 343EJ9OdEM86samACvHjg+o=
+X-Google-Smtp-Source: ABdhPJxEmlFDCZfhZX0GJe9P/FvsH260+WSzBurbLHgA3ag3KBCOkHuX9/WWHwNw2rTdcLEYiEeGvQ==
+X-Received: by 2002:a62:1a49:: with SMTP id a70mr2488335pfa.297.1597086048906; 
+ Mon, 10 Aug 2020 12:00:48 -0700 (PDT)
 Received: from varodek.localdomain ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.12.00.36
+ by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.12.00.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 12:00:41 -0700 (PDT)
+ Mon, 10 Aug 2020 12:00:48 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -95,8 +94,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
  Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
  Antonino Daplas <adaplas@gmail.com>
-Date: Tue, 11 Aug 2020 00:27:22 +0530
-Message-Id: <20200810185723.15540-12-vaibhavgupta40@gmail.com>
+Date: Tue, 11 Aug 2020 00:27:23 +0530
+Message-Id: <20200810185723.15540-13-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200810185723.15540-1-vaibhavgupta40@gmail.com>
 References: <20200810165458.GA292825@ravnborg.org>
@@ -107,7 +106,7 @@ Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  linux-geode@lists.infradead.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [Linux-kernel-mentees] [PATCH v2 11/12] fbdev: s3fb: use generic
+Subject: [Linux-kernel-mentees] [PATCH v2 12/12] fbdev: arkfb: use generic
 	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -139,26 +138,29 @@ unnecessary calls to the PCI Helper functions along with the legacy
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/s3fb.c | 39 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 23 deletions(-)
+ drivers/video/fbdev/arkfb.c | 41 +++++++++++++++----------------------
+ 1 file changed, 17 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/video/fbdev/s3fb.c b/drivers/video/fbdev/s3fb.c
-index 60c424fae988..5c74253e7b2c 100644
---- a/drivers/video/fbdev/s3fb.c
-+++ b/drivers/video/fbdev/s3fb.c
-@@ -1410,9 +1410,9 @@ static void s3_pci_remove(struct pci_dev *dev)
+diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
+index 11ab9a153860..6a4114db0dfd 100644
+--- a/drivers/video/fbdev/arkfb.c
++++ b/drivers/video/fbdev/arkfb.c
+@@ -1085,12 +1085,11 @@ static void ark_pci_remove(struct pci_dev *dev)
+ }
  
+ 
+-#ifdef CONFIG_PM
  /* PCI suspend */
  
--static int s3_pci_suspend(struct pci_dev* dev, pm_message_t state)
-+static int __maybe_unused s3_pci_suspend(struct device *dev)
+-static int ark_pci_suspend (struct pci_dev* dev, pm_message_t state)
++static int __maybe_unused ark_pci_suspend(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(dev);
 +	struct fb_info *info = dev_get_drvdata(dev);
- 	struct s3fb_info *par = info->par;
+ 	struct arkfb_info *par = info->par;
  
  	dev_info(info->device, "suspend\n");
-@@ -1420,7 +1420,7 @@ static int s3_pci_suspend(struct pci_dev* dev, pm_message_t state)
+@@ -1098,7 +1097,7 @@ static int ark_pci_suspend (struct pci_dev* dev, pm_message_t state)
  	console_lock();
  	mutex_lock(&(par->open_lock));
  
@@ -167,7 +169,7 @@ index 60c424fae988..5c74253e7b2c 100644
  		mutex_unlock(&(par->open_lock));
  		console_unlock();
  		return 0;
-@@ -1428,10 +1428,6 @@ static int s3_pci_suspend(struct pci_dev* dev, pm_message_t state)
+@@ -1106,10 +1105,6 @@ static int ark_pci_suspend (struct pci_dev* dev, pm_message_t state)
  
  	fb_set_suspend(info, 1);
  
@@ -178,65 +180,65 @@ index 60c424fae988..5c74253e7b2c 100644
  	mutex_unlock(&(par->open_lock));
  	console_unlock();
  
-@@ -1441,11 +1437,10 @@ static int s3_pci_suspend(struct pci_dev* dev, pm_message_t state)
+@@ -1119,9 +1114,9 @@ static int ark_pci_suspend (struct pci_dev* dev, pm_message_t state)
  
  /* PCI resume */
  
--static int s3_pci_resume(struct pci_dev* dev)
-+static int __maybe_unused s3_pci_resume(struct device *dev)
+-static int ark_pci_resume (struct pci_dev* dev)
++static int __maybe_unused ark_pci_resume(struct device *dev)
  {
 -	struct fb_info *info = pci_get_drvdata(dev);
 +	struct fb_info *info = dev_get_drvdata(dev);
- 	struct s3fb_info *par = info->par;
--	int err;
+ 	struct arkfb_info *par = info->par;
  
  	dev_info(info->device, "resume\n");
- 
-@@ -1458,17 +1453,6 @@ static int s3_pci_resume(struct pci_dev* dev)
- 		return 0;
- 	}
+@@ -1132,14 +1127,6 @@ static int ark_pci_resume (struct pci_dev* dev)
+ 	if (par->ref_count == 0)
+ 		goto fail;
  
 -	pci_set_power_state(dev, PCI_D0);
 -	pci_restore_state(dev);
--	err = pci_enable_device(dev);
--	if (err) {
--		mutex_unlock(&(par->open_lock));
--		console_unlock();
--		dev_err(info->device, "error %d enabling device for resume\n", err);
--		return err;
--	}
+-
+-	if (pci_enable_device(dev))
+-		goto fail;
+-
 -	pci_set_master(dev);
 -
- 	s3fb_set_par(info);
+ 	arkfb_set_par(info);
  	fb_set_suspend(info, 0);
  
-@@ -1478,6 +1462,16 @@ static int s3_pci_resume(struct pci_dev* dev)
+@@ -1148,10 +1135,17 @@ static int ark_pci_resume (struct pci_dev* dev)
+ 	console_unlock();
  	return 0;
  }
- 
-+static const struct dev_pm_ops s3_pci_pm_ops = {
+-#else
+-#define ark_pci_suspend NULL
+-#define ark_pci_resume NULL
+-#endif /* CONFIG_PM */
++
++static const struct dev_pm_ops ark_pci_pm_ops = {
 +#ifdef CONFIG_PM_SLEEP
-+	.suspend	= s3_pci_suspend,
-+	.resume		= s3_pci_resume,
-+	.freeze		= NULL,
-+	.thaw		= s3_pci_resume,
-+	.poweroff	= s3_pci_suspend,
-+	.restore	= s3_pci_resume,
++	.suspend	= ark_pci_suspend,
++	.resume		= ark_pci_resume,
++	.freeze		= ark_pci_suspend,
++	.thaw		= ark_pci_resume,
++	.poweroff	= ark_pci_suspend,
++	.restore	= ark_pci_resume,
 +#endif
 +};
  
  /* List of boards that we are trying to support */
  
-@@ -1510,8 +1504,7 @@ static struct pci_driver s3fb_pci_driver = {
- 	.id_table	= s3_devices,
- 	.probe		= s3_pci_probe,
- 	.remove		= s3_pci_remove,
--	.suspend	= s3_pci_suspend,
--	.resume		= s3_pci_resume,
-+	.driver.pm	= &s3_pci_pm_ops,
+@@ -1168,8 +1162,7 @@ static struct pci_driver arkfb_pci_driver = {
+ 	.id_table	= ark_devices,
+ 	.probe		= ark_pci_probe,
+ 	.remove		= ark_pci_remove,
+-	.suspend	= ark_pci_suspend,
+-	.resume		= ark_pci_resume,
++	.driver.pm	= &ark_pci_pm_ops,
  };
  
- /* Parse user specified options */
+ /* Cleanup */
 -- 
 2.27.0
 
