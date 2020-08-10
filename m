@@ -2,114 +2,100 @@ Return-Path: <SRS0=Vbn0=BU=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC32C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 18:00:13 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADCBFC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 18:21:46 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DE6ED20866
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 18:00:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6DC09207FF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 18:21:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OG3YOqJT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DE6ED20866
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhbLVoAm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6DC09207FF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8E07B88136;
-	Mon, 10 Aug 2020 18:00:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2262E2262B;
+	Mon, 10 Aug 2020 18:21:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S5do9ukL1EWA; Mon, 10 Aug 2020 18:00:11 +0000 (UTC)
+	with ESMTP id I9tEaYfKXoPI; Mon, 10 Aug 2020 18:21:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BC35B8788C;
-	Mon, 10 Aug 2020 18:00:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 18138221F8;
+	Mon, 10 Aug 2020 18:21:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2B7FC0864;
-	Mon, 10 Aug 2020 18:00:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E844BC013C;
+	Mon, 10 Aug 2020 18:21:42 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EB436C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 83917C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 18:00:09 +0000 (UTC)
+ Mon, 10 Aug 2020 18:21:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id CE07288136
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7E14A878F0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 18:00:09 +0000 (UTC)
+ Mon, 10 Aug 2020 18:21:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DFIj2uC70XEg
+ with ESMTP id NXpzP23ajsFO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 18:00:08 +0000 (UTC)
+ Mon, 10 Aug 2020 18:21:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A68C48788C
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0720B878BE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 18:00:08 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id t10so5392286plz.10
+ Mon, 10 Aug 2020 18:21:41 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 128so5387393pgd.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 11:00:08 -0700 (PDT)
+ Mon, 10 Aug 2020 11:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=CVnt4d+5Wgp08r0J7kB3+z69GIQYYz/zExR5olEcjBk=;
- b=OG3YOqJTj856emQJ3jR409bssaVQwfnYH0xuv2WQ0GHOM4s2pRjpkpDcWzBP7lsonY
- akKkViAu32WuxL3jDgt22x0Uk6iTqdVmrUJlITyNP4CuY5oYVULrhQXxpolyq6lzx5+b
- PeNDcVAOTuKyYGLZjEUrVEnMNhIMw5UIynPS+7uxG81umBjsI1m0fIME2EbErEXi59fQ
- rW4ximTQ+LcZ4E7XyV010NsoMjs2FrvMra9vDp9kc+RvEEeJHqzzfVKLBYZlDwKX99Ve
- 5Yb+7qolIojRPM2Bj7+eZI3na8bE2vx+eW0V1k6IZ+BqeQyWhr6CHFX2t9q/hRCdS5lN
- 5MgA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+JFD8DByOq2aanx0SZRhh+Vls72xH1YM2iTf6wGQD9M=;
+ b=OhbLVoAmgO0WtSwfbFIuvITgBG1A+Us1nAmbkAZn3bFQeE3X+l4rBRnyDfNAcPhS9G
+ X/caSXxnAEXwluvvK8fIO0LBn5uuVKLykPO5/CzgZeOeIHVk5kSyfZ3YCQPPbgRS2cPV
+ poQmNOEIEmD1ElgvvH1ThkKafEsPYVdLZSBn7QV0vumFefyCRldQNb/AZsaQmiSZi7pn
+ 459o0a16rVd6HWW+OjqZ0xqOs8HEb2dBLOImDUfrZ6gqXhvCVMhhqZVfdGiqeBF1f8sl
+ e1dPLxwbXVgq4lkQIiab7Q36BFbHMtie6AwDT81jmITyz2/65UCkZg6oqyfP1sFDEk2H
+ bWkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CVnt4d+5Wgp08r0J7kB3+z69GIQYYz/zExR5olEcjBk=;
- b=M9tjvaGdiK2MbeWOAvAjWhosj5K1Q4AbpqB4j49gp7dHjruWDhX3T0Tz+udDDRkz03
- EUirGPhNl5HYLK2RawhvNHnrCTTl2xkUctxtXJZPthp0lErnjXVTvksShFkTfTQU9gAc
- tSiWcC5EEhDZjIJaGxjhNuuZ6TiYpkvn4qJzBM/ooSERDfBMy2bWBLK4DUEj3DrUwijY
- S9r64+dzezdlgyy0FGkPCUZ4hlQQssG+TJeBht1beST2xiqp6zEKAlxt6442Y6OzLIRf
- Bv7sjEMjoKJ0xGAZzCXojssO35MBrUY/TrMT27/tSRQ0cFOLign2QUImpmE2xwneZSin
- +KgA==
-X-Gm-Message-State: AOAM532uy4laeWRBeh7kYdhSdKXv7vyXODkEd0B9pq3PjstFFJJTaQHC
- mzM0jlfNSfnltWap56PJYY4=
-X-Google-Smtp-Source: ABdhPJyLO10tNKJfrNNNS8apU2Jzw6LHJjonfo4M/fgSFqV01U0K0zEx/p1yzdsH7qunDhTB4a4HNA==
-X-Received: by 2002:a17:90a:c7:: with SMTP id v7mr470303pjd.139.1597082408007; 
- Mon, 10 Aug 2020 11:00:08 -0700 (PDT)
-Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id l12sm192017pjq.31.2020.08.10.11.00.02
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+JFD8DByOq2aanx0SZRhh+Vls72xH1YM2iTf6wGQD9M=;
+ b=UQLH0+07q2yDHZRu4se4ojthqnI7GUTaCI7pUZ5OKkEWt/cku3OFNwI+TkFJWZNeyc
+ DFaocTGntAEFhzOZeGVDAMNRKJjtQQ0b7bh5hOo+RJ2I6QIP/b14A7J6p9kG8Ow2//Gj
+ e+kzqmUJBr5+CA2MCQF+yihY6IrG0NBcXYNvyniYjVxwnda6OYixp+4ufzVKjTJXLn3Q
+ KSvUsEqd0tjebMGjmPIEar6sSVnx2fHXo7viA6mBLSWBxv7UiEJ7ftRKlSyEiymYgiv4
+ rJ6K7b4I01YW6ylbOma6QIQr37yA71s7HRKqSsNxXRyKtECCshd69SCJok7Xfvr6l4oX
+ xudA==
+X-Gm-Message-State: AOAM533Wk1NAEqcDdV3qdiyrZuTBpyypgElCqR0mAomBjGRkkwMxEvQF
+ DsVf7LRVWl3aVQ1rfxrEM9A=
+X-Google-Smtp-Source: ABdhPJwu+iKNRl9MVy9gLlxJdubMRx/+OdkJRXm4XqpZdr9WoC9uMx9DnGcenr2NxNJ6nOoQFzk8RA==
+X-Received: by 2002:a63:4b63:: with SMTP id k35mr23855342pgl.235.1597083700496; 
+ Mon, 10 Aug 2020 11:21:40 -0700 (PDT)
+Received: from localhost.localdomain ([124.253.77.168])
+ by smtp.googlemail.com with ESMTPSA id 80sm23176615pfy.147.2020.08.10.11.21.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 11:00:07 -0700 (PDT)
-Date: Mon, 10 Aug 2020 23:28:27 +0530
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <20200810175827.GA14392@gmail.com>
-References: <20200805180722.244008-1-vaibhavgupta40@gmail.com>
- <20200805180722.244008-2-vaibhavgupta40@gmail.com>
- <20200808111746.GA24172@ravnborg.org>
- <20200810093948.GB6615@gmail.com>
- <20200810165458.GA292825@ravnborg.org>
+ Mon, 10 Aug 2020 11:21:38 -0700 (PDT)
+From: Puranjay Mohan <puranjay12@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Date: Mon, 10 Aug 2020 23:51:07 +0530
+Message-Id: <20200810182107.18577-1-puranjay12@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200810165458.GA292825@ravnborg.org>
-Cc: linux-fbdev@vger.kernel.org, Antonino Daplas <adaplas@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Andres Salomon <dilinger@queued.net>,
- Bjorn Helgaas <bhelgaas@google.com>, Paul Mackerras <paulus@samba.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-geode@lists.infradead.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 01/12] fbdev: gxfb: use
-	generic power management
+Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Puranjay Mohan <puranjay12@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH] Driver-API: Documentation: Replace
+	deprecated :c:func: Usage
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -127,224 +113,71 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Aug 10, 2020 at 06:54:58PM +0200, Sam Ravnborg wrote:
-> Hi Vaibhav
-> On Mon, Aug 10, 2020 at 03:09:48PM +0530, Vaibhav Gupta wrote:
-> > On Sat, Aug 08, 2020 at 01:17:46PM +0200, Sam Ravnborg wrote:
-> > > Hi Vaibhav
-> > > 
-> > > On Wed, Aug 05, 2020 at 11:37:11PM +0530, Vaibhav Gupta wrote:
-> > > > Drivers using legacy power management .suspen()/.resume() callbacks
-> > > > have to manage PCI states and device's PM states themselves. They also
-> > > > need to take care of standard configuration registers.
-> > > > 
-> > > > Switch to generic power management framework using a single
-> > > > "struct dev_pm_ops" variable
-> > > 
-> > > "to take the unnecessary load from the driver."
-> > > - I do not parse the above - I cannot see what load is removed.
-> > > But the code is simpler which is fine. The drawback is that we now
-> > > always link in the suspend_gx functions but hopefultl the linker drops
-> > > them later.
-> > > 
-> > > > This also avoids the need for the driver to directly call most of the PCI
-> > > > helper functions and device power state control functions, as through
-> > > > the generic framework PCI Core takes care of the necessary operations,
-> > > > and drivers are required to do only device-specific jobs.
-> > > Again, I do not see what calles are removed.
-> > > A single check for the state is dropped - anything else?
-> > >
-> > Yeah, the commit messages are bit misleading, I have modified them. 
-> > > > 
-> > > > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-> > > > ---
-> > > >  drivers/video/fbdev/geode/gxfb.h       |  5 ----
-> > > >  drivers/video/fbdev/geode/gxfb_core.c  | 36 ++++++++++++++------------
-> > > >  drivers/video/fbdev/geode/suspend_gx.c |  4 ---
-> > > >  3 files changed, 20 insertions(+), 25 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/video/fbdev/geode/gxfb.h b/drivers/video/fbdev/geode/gxfb.h
-> > > > index d2e9c5c8e294..792c111c21e4 100644
-> > > > --- a/drivers/video/fbdev/geode/gxfb.h
-> > > > +++ b/drivers/video/fbdev/geode/gxfb.h
-> > > > @@ -21,7 +21,6 @@ struct gxfb_par {
-> > > >  	void __iomem *dc_regs;
-> > > >  	void __iomem *vid_regs;
-> > > >  	void __iomem *gp_regs;
-> > > > -#ifdef CONFIG_PM
-> > > >  	int powered_down;
-> > > >  
-> > > >  	/* register state, for power management functionality */
-> > > > @@ -36,7 +35,6 @@ struct gxfb_par {
-> > > >  	uint64_t fp[FP_REG_COUNT];
-> > > >  
-> > > >  	uint32_t pal[DC_PAL_COUNT];
-> > > > -#endif
-> > > >  };
-> > > >  
-> > > >  unsigned int gx_frame_buffer_size(void);
-> > > > @@ -49,11 +47,8 @@ void gx_set_dclk_frequency(struct fb_info *info);
-> > > >  void gx_configure_display(struct fb_info *info);
-> > > >  int gx_blank_display(struct fb_info *info, int blank_mode);
-> > > >  
-> > > > -#ifdef CONFIG_PM
-> > > >  int gx_powerdown(struct fb_info *info);
-> > > >  int gx_powerup(struct fb_info *info);
-> > > > -#endif
-> > > > -
-> > > >  
-> > > >  /* Graphics Processor registers (table 6-23 from the data book) */
-> > > >  enum gp_registers {
-> > > > diff --git a/drivers/video/fbdev/geode/gxfb_core.c b/drivers/video/fbdev/geode/gxfb_core.c
-> > > > index d38a148d4746..44089b331f91 100644
-> > > > --- a/drivers/video/fbdev/geode/gxfb_core.c
-> > > > +++ b/drivers/video/fbdev/geode/gxfb_core.c
-> > > > @@ -322,17 +322,14 @@ static struct fb_info *gxfb_init_fbinfo(struct device *dev)
-> > > >  	return info;
-> > > >  }
-> > > >  
-> > > > -#ifdef CONFIG_PM
-> > > > -static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-> > > > +static int __maybe_unused gxfb_suspend(struct device *dev)
-> > > >  {
-> > > > -	struct fb_info *info = pci_get_drvdata(pdev);
-> > > > +	struct fb_info *info = dev_get_drvdata(dev);
-> > > I do not see any dev_set_drvdata() so I guess we get a NULL pointer
-> > > here which is not intended.
-> > > Adding a dev_set_data() to gxfb_probe() would do the trick.
-> > > 
-> > gxfb_probe() invokes pci_set_drvdata(pdev, info) which in turn calls
-> > dev_set_drvdata(&pdev->dev, data). Adding dev_get_drvdata() will be redundant.
-> OK, not obvious but you are right that calling dev_get_drvdata() would
-> be redundant and no need.
-> There is a pci_get_drvdata() user left so we cannot just skip it and use
-> the dev_set_drvdata() direct.
-> 
-> > 
-> > > >  
-> > > > -	if (state.event == PM_EVENT_SUSPEND) {
-> > > > -		console_lock();
-> > > > -		gx_powerdown(info);
-> > > > -		fb_set_suspend(info, 1);
-> > > > -		console_unlock();
-> > > > -	}
-> > > > +	console_lock();
-> > > > +	gx_powerdown(info);
-> > > > +	fb_set_suspend(info, 1);
-> > > > +	console_unlock();
-> > > >  
-> > > >  	/* there's no point in setting PCI states; we emulate PCI, so
-> > > >  	 * we don't end up getting power savings anyways */
-> > > > @@ -340,9 +337,9 @@ static int gxfb_suspend(struct pci_dev *pdev, pm_message_t state)
-> > > >  	return 0;
-> > > >  }
-> > > >  
-> > > > -static int gxfb_resume(struct pci_dev *pdev)
-> > > > +static int __maybe_unused gxfb_resume(struct device *dev)
-> > > >  {
-> > > > -	struct fb_info *info = pci_get_drvdata(pdev);
-> > > > +	struct fb_info *info = dev_get_drvdata(dev);
-> > > >  	int ret;
-> > > >  
-> > > >  	console_lock();
-> > > > @@ -356,7 +353,6 @@ static int gxfb_resume(struct pci_dev *pdev)
-> > > >  	console_unlock();
-> > > >  	return 0;
-> > > >  }
-> > > > -#endif
-> > > >  
-> > > >  static int gxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> > > >  {
-> > > > @@ -467,15 +463,23 @@ static const struct pci_device_id gxfb_id_table[] = {
-> > > >  
-> > > >  MODULE_DEVICE_TABLE(pci, gxfb_id_table);
-> > > >  
-> > > > +static const struct dev_pm_ops gxfb_pm_ops = {
-> > > > +#ifdef CONFIG_PM_SLEEP
-> > > > +	.suspend	= gxfb_suspend,
-> > > > +	.resume		= gxfb_resume,
-> > > > +	.freeze		= NULL,
-> > > > +	.thaw		= gxfb_resume,
-> > > > +	.poweroff	= NULL,
-> > > > +	.restore	= gxfb_resume,
-> > > > +#endif
-> > > > +};
-> > > Can we use SET_SYSTEM_SLEEP_PM_OPS here?
-> > > .freeze will be assigned gxfb_suspend, but gxfb_suspend will anyway be
-> > > called as far as I read the code.
-> > > Likewise for poweroff.
-> > > 
-> > Earlier, gxfb_suspend() performed each operation just for suspend event.
-> > And as it was legacy code, it was invoked by pci_legacy_suspend() for
-> > pci_pm_suspend(), pci_pm_freeze() and pci_pm_poweroff().
-> > Thus, the code was wrapped inside "if" container:
-> > 	if (state.event == PM_EVENT_SUSPEND) { }
-> > 
-> > After binding it with dev_pm_ops variable, pm->suspend() is invoked by just
-> > pci_pm_suspend() which is required.
-> > 
-> > So I removed the "if" container and bind the callback with pm->suspend pointer
-> > only.
-> Looking at platform.c I got the impression that freeze() would call
-> pci_legacy_suspend() anyway - but I may have missind something.
-> So I guess this is OK then.
-> 
-> I look forward for next revision with updated changelogs.
-Hello Sam,
+Replace :c:func: with func() as the previous usage is deprecated.
 
-Yeah, I have updated the logs, will be sending the v2 soon. :)
+Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+---
+ Documentation/driver-api/device-io.rst | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-Thanks
-Vaibhav Gupta
-> 
-> 	Sam
-> > 
-> > Using SET_SYSTEM_PM_OPS will bring back the extra step of invoking gxfb_suspend()
-> > for freeze and poweroff, even though the function will do nothing in that case.
-> > 
-> > Vaibhav Gupta
-> > > 	Sam
-> > > 
-> > > > +
-> > > >  static struct pci_driver gxfb_driver = {
-> > > >  	.name		= "gxfb",
-> > > >  	.id_table	= gxfb_id_table,
-> > > >  	.probe		= gxfb_probe,
-> > > >  	.remove		= gxfb_remove,
-> > > > -#ifdef CONFIG_PM
-> > > > -	.suspend	= gxfb_suspend,
-> > > > -	.resume		= gxfb_resume,
-> > > > -#endif
-> > > > +	.driver.pm	= &gxfb_pm_ops,
-> > > >  };
-> > > >  
-> > > >  #ifndef MODULE
-> > > > diff --git a/drivers/video/fbdev/geode/suspend_gx.c b/drivers/video/fbdev/geode/suspend_gx.c
-> > > > index 1110a527c35c..8c49d4e98772 100644
-> > > > --- a/drivers/video/fbdev/geode/suspend_gx.c
-> > > > +++ b/drivers/video/fbdev/geode/suspend_gx.c
-> > > > @@ -11,8 +11,6 @@
-> > > >  
-> > > >  #include "gxfb.h"
-> > > >  
-> > > > -#ifdef CONFIG_PM
-> > > > -
-> > > >  static void gx_save_regs(struct gxfb_par *par)
-> > > >  {
-> > > >  	int i;
-> > > > @@ -259,5 +257,3 @@ int gx_powerup(struct fb_info *info)
-> > > >  	par->powered_down  = 0;
-> > > >  	return 0;
-> > > >  }
-> > > > -
-> > > > -#endif
-> > > > -- 
-> > > > 2.27.0
-> > > > 
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+diff --git a/Documentation/driver-api/device-io.rst b/Documentation/driver-api/device-io.rst
+index 0e389378f71d..764963876d08 100644
+--- a/Documentation/driver-api/device-io.rst
++++ b/Documentation/driver-api/device-io.rst
+@@ -36,14 +36,14 @@ are starting with one. Physical addresses are of type unsigned long.
+ 
+ This address should not be used directly. Instead, to get an address
+ suitable for passing to the accessor functions described below, you
+-should call :c:func:`ioremap()`. An address suitable for accessing
++should call ioremap(). An address suitable for accessing
+ the device will be returned to you.
+ 
+ After you've finished using the device (say, in your module's exit
+-routine), call :c:func:`iounmap()` in order to return the address
++routine), call iounmap() in order to return the address
+ space to the kernel. Most architectures allocate new address space each
+-time you call :c:func:`ioremap()`, and they can run out unless you
+-call :c:func:`iounmap()`.
++time you call ioremap(), and they can run out unless you
++call iounmap().
+ 
+ Accessing the device
+ --------------------
+@@ -60,8 +60,8 @@ readb_relaxed(), readw_relaxed(), readl_relaxed(), readq_relaxed(),
+ writeb(), writew(), writel() and writeq().
+ 
+ Some devices (such as framebuffers) would like to use larger transfers than
+-8 bytes at a time. For these devices, the :c:func:`memcpy_toio()`,
+-:c:func:`memcpy_fromio()` and :c:func:`memset_io()` functions are
++8 bytes at a time. For these devices, the memcpy_toio(),
++memcpy_fromio() and memset_io() functions are
+ provided. Do not use memset or memcpy on IO addresses; they are not
+ guaranteed to copy data in order.
+ 
+@@ -135,15 +135,15 @@ Accessing Port Space
+ 
+ Accesses to this space are provided through a set of functions which
+ allow 8-bit, 16-bit and 32-bit accesses; also known as byte, word and
+-long. These functions are :c:func:`inb()`, :c:func:`inw()`,
+-:c:func:`inl()`, :c:func:`outb()`, :c:func:`outw()` and
+-:c:func:`outl()`.
++long. These functions are inb(), inw(),
++inl(), outb(), outw() and
++outl().
+ 
+ Some variants are provided for these functions. Some devices require
+ that accesses to their ports are slowed down. This functionality is
+ provided by appending a ``_p`` to the end of the function.
+-There are also equivalents to memcpy. The :c:func:`ins()` and
+-:c:func:`outs()` functions copy bytes, words or longs to the given
++There are also equivalents to memcpy. The ins() and
++outs() functions copy bytes, words or longs to the given
+ port.
+ 
+ Public Functions Provided
+-- 
+2.27.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
