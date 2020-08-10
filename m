@@ -6,87 +6,86 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73BDDC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:15 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F717C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:24 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 387E520774
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D59D3207FF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 19:00:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KO+/AjBT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 387E520774
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e09DB0UN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D59D3207FF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0BFFC87C9F;
-	Mon, 10 Aug 2020 19:00:15 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 898F020110;
+	Mon, 10 Aug 2020 19:00:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c2rbGaPoFZnf; Mon, 10 Aug 2020 19:00:14 +0000 (UTC)
+	with ESMTP id l53CwrRZ9xPc; Mon, 10 Aug 2020 19:00:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8F9BD87C30;
-	Mon, 10 Aug 2020 19:00:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BACDD20022;
+	Mon, 10 Aug 2020 19:00:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C3DFC013C;
-	Mon, 10 Aug 2020 19:00:14 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3CC64C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A088AC013C;
+	Mon, 10 Aug 2020 19:00:22 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 96A73C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 19:00:13 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3934A877C9
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8F4A285D6C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 19:00:13 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YW6MMrjBdG2U
+ with ESMTP id EiGqcaNARJ1J
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 19:00:12 +0000 (UTC)
+ Mon, 10 Aug 2020 19:00:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B785687781
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9202B85D59
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 19:00:12 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id t11so5522157plr.5
+ Mon, 10 Aug 2020 19:00:20 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id u20so6139898pfn.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 12:00:12 -0700 (PDT)
+ Mon, 10 Aug 2020 12:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3mzrXpDqX5i6vQZwjLr9S3RbpzEaKALa8Egnl+iixcM=;
- b=KO+/AjBTIwJEYPClBBf++vl71rCcmJ6mVDRfCXBJWqjCIwlWBlZVjNwoLJDK0XKw0J
- KN1e/UyOXJAsM2VUeFpXLMM6ud22P/z6v/vYXN+O/LKJNGBk0AC3l3TrCiFw8SnHFVP4
- gt4CE3k7Nr6fBjXgtRPWoRJwEcxY2BW1c6b3pMvhoti86z0RlVEVUsvrnkIfuFuS8LmU
- KsoXacgTEcozPBXOnWR8DAo5Rp1vbsr0KhvWKeEEVJKceJUHj4bVB48DCjeILPxd6jvo
- GRIfTX7Sw0nNtnZ3Ji6MoDu0fbhjq20+lgDqGpNl/CNSxN9QBCnJ66NGElsHEFDpBZt2
- yUBA==
+ bh=tUIX3oUq+BAamlZJBJ9IeD9BMm5oq8vVqQ2hIGTjUng=;
+ b=e09DB0UN479Wa7sOUsksxC+y9mEDbv+QeRkQHDjr1Qt60svQT4MdFY5VxfTOAgjpMG
+ L2+ffCpqK+8lUCtZBwah6ByxwCJKvDg2mHB/CgdkOGiaHT1wwuaTZ0nc5XZCeh/fVWSx
+ CsbfQPYrnMT/pQioI2J0aYhe5Eh4n8J/QCY6CRT3l9DmE9u6qJ84s/nqRZuTDclF29cb
+ pqV5FFy+FT7854Vmt9PpZM90yCBBxgKysyJTJlAibeexsE0L+cNlw07wHrNsPODw01jL
+ YwohlLPyb0Gs8uCOGcM3IAUfCAOIYV4tGd4CUusvtfcXWq8W7hIcdaAt7pJq1yDPcpWA
+ XcqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3mzrXpDqX5i6vQZwjLr9S3RbpzEaKALa8Egnl+iixcM=;
- b=i2MW6mJkhcpSuWwFEu9oVKTqCib4aryOBMUOqo7Ra//MwibMHmz5LTkmbtfxqv0bxw
- zSCFZRu+V3+jJOnlLcPyK50y5MEAkixr+abRCa/2FozHB4dGP4GpImkX9zkYAGDpphmn
- J73ruKjkKjkAIThCfheqVbML6B2xLmCoMUOc27XzZy32rcEPD1SVB42k9yDolzFvvcQk
- mqa1RvBHrFn+k5MNfjyOfGDE5ngp0oiMktvlrN+JYpkeRuyPIlinE5ivgrxXP41LgHS5
- 9iFF7Hfh1TdQ7KbHKtH6nCaGkbsjIBkDON2ZNL0pTmfSBFDxfQWj4Pif1J8Nez0+lczH
- 9gLw==
-X-Gm-Message-State: AOAM532lbu6bqO4SLuj7YNsVDNjXonS53WGxkG2UNOhX7mPvipCucWMR
- SKr+Flb4/V1Xtq1VDYGcDD0=
-X-Google-Smtp-Source: ABdhPJw0ejL2XMFYue6TPVCj5nsTa/sv61cNxlaGSOGH2vUT0Pg61qnaVXZudCp2WQgRwKmPh13J1Q==
-X-Received: by 2002:a17:90a:f98e:: with SMTP id
- cq14mr719824pjb.51.1597086012300; 
- Mon, 10 Aug 2020 12:00:12 -0700 (PDT)
+ bh=tUIX3oUq+BAamlZJBJ9IeD9BMm5oq8vVqQ2hIGTjUng=;
+ b=a4P7ykyv8d2j8Pyh2k/40pdPBhvJaiLAspnoI7tO6JuADYsAp+lUaJrs0CknRKTals
+ T0fd8JrM4fT0k03fSAvUSCyee1p6FvLDVd5JgcwmDIPt5GPcnYmoDv704wbDTPnNAMXb
+ irZUOU5/qx9EtHzvN5l8OZRUK55MX+Kk/YOJyqj6HQdE0zjtmPJaaasu6GpbbdY0TzLc
+ ciYyJ1d2wUBD8XIZtBrtjKF6kq4miC9Rw6L22cFlqVN0zGI0Tzs5SW3pR778erTIHPXv
+ BQ8/ScSLpKBvV58rJCorVbGmBtg1gdB7QUC9c3gzVufUiNciwzDJY9t+AvdjlvY0c+n5
+ 76tQ==
+X-Gm-Message-State: AOAM530+KLGnl3KDv5/xx5jj5xc36um9vo/Q0ExbkcmigmBItA2qyXYw
+ g3HWBVxusIs1PYVcA1yq00Y=
+X-Google-Smtp-Source: ABdhPJzqgUCaTLlwt9nMhPO/MyOHNOXTkAdRl1Eno3KtywE7hA2LRQfyZ5RFqehkSxqUE0saJ+h5Yw==
+X-Received: by 2002:aa7:9a09:: with SMTP id w9mr2398983pfj.206.1597086020112; 
+ Mon, 10 Aug 2020 12:00:20 -0700 (PDT)
 Received: from varodek.localdomain ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.12.00.06
+ by smtp.gmail.com with ESMTPSA id f27sm22683547pfk.217.2020.08.10.12.00.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 12:00:11 -0700 (PDT)
+ Mon, 10 Aug 2020 12:00:19 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -95,8 +94,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
  Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
  Antonino Daplas <adaplas@gmail.com>
-Date: Tue, 11 Aug 2020 00:27:18 +0530
-Message-Id: <20200810185723.15540-8-vaibhavgupta40@gmail.com>
+Date: Tue, 11 Aug 2020 00:27:19 +0530
+Message-Id: <20200810185723.15540-9-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200810185723.15540-1-vaibhavgupta40@gmail.com>
 References: <20200810165458.GA292825@ravnborg.org>
@@ -107,7 +106,7 @@ Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  linux-geode@lists.infradead.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [Linux-kernel-mentees] [PATCH v2 07/12] fbdev: savagefb: use
+Subject: [Linux-kernel-mentees] [PATCH v2 08/12] fbdev: cyber2000fb: use
 	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -132,123 +131,57 @@ PM-related tasks themselves which can be done by PCI Core itself. This
 brings extra load on the driver and it directly calls PCI helper functions
 to handle them.
 
-Switch to the new generic framework by updating function signatures and
-define a "struct dev_pm_ops" variable to bind PM callbacks. Also, remove
-unnecessary calls to the PCI Helper functions along with the legacy
-.suspend & .resume bindings.
+Although the cyber2000fb driver does not have that extra load, we should
+switch to the new generic framework by updating function signatures and
+define a "struct dev_pm_ops" variable to bind PM callbacks so that we can
+remove the legacy .suspend & .resume bindings.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/savage/savagefb_driver.c | 52 ++++++++++++--------
- 1 file changed, 32 insertions(+), 20 deletions(-)
+ drivers/video/fbdev/cyber2000fb.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/fbdev/savage/savagefb_driver.c b/drivers/video/fbdev/savage/savagefb_driver.c
-index 3c8ae87f0ea7..d6aae759e90f 100644
---- a/drivers/video/fbdev/savage/savagefb_driver.c
-+++ b/drivers/video/fbdev/savage/savagefb_driver.c
-@@ -2346,9 +2346,9 @@ static void savagefb_remove(struct pci_dev *dev)
+diff --git a/drivers/video/fbdev/cyber2000fb.c b/drivers/video/fbdev/cyber2000fb.c
+index 42d37bed518a..d45355b9a58c 100644
+--- a/drivers/video/fbdev/cyber2000fb.c
++++ b/drivers/video/fbdev/cyber2000fb.c
+@@ -1810,7 +1810,7 @@ static void cyberpro_pci_remove(struct pci_dev *dev)
  	}
  }
  
--static int savagefb_suspend(struct pci_dev *dev, pm_message_t mesg)
-+static int savagefb_suspend_late(struct device *dev, pm_message_t mesg)
+-static int cyberpro_pci_suspend(struct pci_dev *dev, pm_message_t state)
++static int __maybe_unused cyberpro_pci_suspend(struct device *dev)
  {
--	struct fb_info *info = pci_get_drvdata(dev);
-+	struct fb_info *info = dev_get_drvdata(dev);
- 	struct savagefb_par *par = info->par;
- 
- 	DBG("savagefb_suspend");
-@@ -2356,7 +2356,7 @@ static int savagefb_suspend(struct pci_dev *dev, pm_message_t mesg)
- 	if (mesg.event == PM_EVENT_PRETHAW)
- 		mesg.event = PM_EVENT_FREEZE;
- 	par->pm_state = mesg.event;
--	dev->dev.power.power_state = mesg;
-+	dev->power.power_state = mesg;
- 
- 	/*
- 	 * For PM_EVENT_FREEZE, do not power down so the console
-@@ -2374,17 +2374,29 @@ static int savagefb_suspend(struct pci_dev *dev, pm_message_t mesg)
- 	savagefb_blank(FB_BLANK_POWERDOWN, info);
- 	savage_set_default_par(par, &par->save);
- 	savage_disable_mmio(par);
--	pci_save_state(dev);
--	pci_disable_device(dev);
--	pci_set_power_state(dev, pci_choose_state(dev, mesg));
- 	console_unlock();
- 
  	return 0;
  }
- 
--static int savagefb_resume(struct pci_dev* dev)
-+static int __maybe_unused savagefb_suspend(struct device *dev)
+@@ -1818,9 +1818,9 @@ static int cyberpro_pci_suspend(struct pci_dev *dev, pm_message_t state)
+ /*
+  * Re-initialise the CyberPro hardware
+  */
+-static int cyberpro_pci_resume(struct pci_dev *dev)
++static int __maybe_unused cyberpro_pci_resume(struct device *dev)
  {
--	struct fb_info *info = pci_get_drvdata(dev);
-+	return savagefb_suspend_late(dev, PMSG_SUSPEND);
-+}
+-	struct cfb_info *cfb = pci_get_drvdata(dev);
++	struct cfb_info *cfb = dev_get_drvdata(dev);
+ 
+ 	if (cfb) {
+ 		cyberpro_pci_enable_mmio(cfb);
+@@ -1846,12 +1846,15 @@ static struct pci_device_id cyberpro_pci_table[] = {
+ 
+ MODULE_DEVICE_TABLE(pci, cyberpro_pci_table);
+ 
++static SIMPLE_DEV_PM_OPS(cyberpro_pci_pm_ops,
++			 cyberpro_pci_suspend,
++			 cyberpro_pci_resume);
 +
-+static int __maybe_unused savagefb_hibernate(struct device *dev)
-+{
-+	return savagefb_suspend_late(dev, PMSG_HIBERNATE);
-+}
-+
-+static int __maybe_unused savagefb_freeze(struct device *dev)
-+{
-+	return savagefb_suspend_late(dev, PMSG_FREEZE);
-+}
-+
-+static int __maybe_unused savagefb_resume(struct device *dev)
-+{
-+	struct fb_info *info = dev_get_drvdata(dev);
- 	struct savagefb_par *par = info->par;
- 	int cur_state = par->pm_state;
- 
-@@ -2396,20 +2408,11 @@ static int savagefb_resume(struct pci_dev* dev)
- 	 * The adapter was not powered down coming back from a
- 	 * PM_EVENT_FREEZE.
- 	 */
--	if (cur_state == PM_EVENT_FREEZE) {
--		pci_set_power_state(dev, PCI_D0);
-+	if (cur_state == PM_EVENT_FREEZE)
- 		return 0;
--	}
- 
- 	console_lock();
- 
--	pci_set_power_state(dev, PCI_D0);
--	pci_restore_state(dev);
--
--	if (pci_enable_device(dev))
--		DBG("err");
--
--	pci_set_master(dev);
- 	savage_enable_mmio(par);
- 	savage_init_hw(par);
- 	savagefb_set_par(info);
-@@ -2420,6 +2423,16 @@ static int savagefb_resume(struct pci_dev* dev)
- 	return 0;
- }
- 
-+static const struct dev_pm_ops savagefb_pm_ops = {
-+#ifdef CONFIG_PM_SLEEP
-+	.suspend	= savagefb_suspend,
-+	.resume		= savagefb_resume,
-+	.freeze		= savagefb_freeze,
-+	.thaw		= savagefb_resume,
-+	.poweroff	= savagefb_hibernate,
-+	.restore	= savagefb_resume,
-+#endif
-+};
- 
- static const struct pci_device_id savagefb_devices[] = {
- 	{PCI_VENDOR_ID_S3, PCI_CHIP_SUPSAV_MX128,
-@@ -2500,8 +2513,7 @@ static struct pci_driver savagefb_driver = {
- 	.name =     "savagefb",
- 	.id_table = savagefb_devices,
- 	.probe =    savagefb_probe,
--	.suspend =  savagefb_suspend,
--	.resume =   savagefb_resume,
-+	.driver.pm = &savagefb_pm_ops,
- 	.remove =   savagefb_remove,
+ static struct pci_driver cyberpro_driver = {
+ 	.name		= "CyberPro",
+ 	.probe		= cyberpro_pci_probe,
+ 	.remove		= cyberpro_pci_remove,
+-	.suspend	= cyberpro_pci_suspend,
+-	.resume		= cyberpro_pci_resume,
++	.driver.pm	= &cyberpro_pci_pm_ops,
+ 	.id_table	= cyberpro_pci_table
  };
  
 -- 
