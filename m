@@ -2,104 +2,109 @@ Return-Path: <SRS0=Vbn0=BU=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7617C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 05:07:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF03C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 09:19:57 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5AA312075D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 05:07:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3334820709
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 09:19:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UxHPO6Ru"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5AA312075D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ax7gqxfG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3334820709
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E92262048E;
-	Mon, 10 Aug 2020 05:07:52 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 04D902268D;
+	Mon, 10 Aug 2020 09:19:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6ra0nPptFx5V; Mon, 10 Aug 2020 05:07:52 +0000 (UTC)
+	with ESMTP id xga86Z-OLDFT; Mon, 10 Aug 2020 09:19:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 1750D2037E;
-	Mon, 10 Aug 2020 05:07:52 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 85B522042D;
+	Mon, 10 Aug 2020 09:19:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F12F9C013C;
-	Mon, 10 Aug 2020 05:07:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DAE26C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70BD6C0864;
+	Mon, 10 Aug 2020 09:19:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6CB28C0864
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 05:07:50 +0000 (UTC)
+ Mon, 10 Aug 2020 09:19:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D109787EE8
+ by whitealder.osuosl.org (Postfix) with ESMTP id 68A8987775
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 05:07:50 +0000 (UTC)
+ Mon, 10 Aug 2020 09:19:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6r-Q5stWAH0A
+ with ESMTP id Ee6A9vYp7NPm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 05:07:49 +0000 (UTC)
+ Mon, 10 Aug 2020 09:19:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
- [209.85.160.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id AACCB87ECD
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5E52287744
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 05:07:49 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id x12so5914834qtp.1
+ Mon, 10 Aug 2020 09:19:53 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id r4so4477187pls.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 09 Aug 2020 22:07:49 -0700 (PDT)
+ Mon, 10 Aug 2020 02:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aPHXTL52nZ8TnYruo+TUHBbc33RfRH/y9aR6NOzaRVo=;
- b=UxHPO6Ru8IFAHFgMeMWp54jGqzTiCihLYmV0zJhgBUaAyfmPsEx2LJAwXw2fLA0KG5
- D6OBIvkJn0g+qtixsVSWnsCjzrD17UtQ2vDuWxkusNN8VNYdgH97X2zs0vSgRxY+vWw3
- tMSsgwW2UHXCGWh/Puol387O+IctIO//VkkPqRZO3JICdKshwUwWUnmnANxLqsyLekQl
- gsknh7pR3vmTc8F3jfQ9r6mVvmf23C+Y5fCPZpE1CshJsxvNrp7uScL24EwAEc7WWBFI
- yePF2V597Y8LZKSPYmP+DUJIFgT+djJL7a+ax7YwAIu6SUfPHDI05nrBN57WQE4Wgw8h
- KNzA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=LG+fIp5OZ25It71Wra3d8yfu2prbPEMG5KpZ0CWWGCc=;
+ b=Ax7gqxfGIMFUTMwsQKBmRknt4QVEZlySJYJG1TRzYusE6XvTmcOEpv8tKf3kBk00cX
+ ElKMU+sWP7NxGBs4dvW8mIRqLwbUtKRX8tsgz+Qt/3N0vKNZ2cqqW0W4fiReomKI9khn
+ RKk8brgclZZsgdpuvH9NCvFkSy90nsuhWs/maKtp9738zFm47LNjKZmdDuOjxnDi6m4c
+ 5jNvE+Z45Iqj9ky3pLQpBzps3ZU5/6Yfg7MBZL1yshWFIXSjeUolc+B+NytARzbwpdhC
+ 8wyxvA6qwoJXixTxoyeBMnT+MZ8r+4pvM8u1uo3KJH6hj/+oa8hNfZaQX56qIBx/wNZ/
+ xi0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aPHXTL52nZ8TnYruo+TUHBbc33RfRH/y9aR6NOzaRVo=;
- b=kz1XnVeUPuzC9/9u3so0EYDv1BiLxxzDiCFQQ0BIaCZCAAlxTCRX/udm2klAh2thEj
- dDbx/NtCadNmR/jl4WX96sIOnrWapZ09CDSlsJg9CVSHEbLehmOm8TGhCmoUZdNehw90
- cuSrZrxoVC0tAnTh/bhDgBoqkOBqZerbnRWAAFumD4960cOyW4WwK4b0Oknv0S9oosMo
- kUmnpwC2ExG6BXzPK4obGExhIlufIR+ey03q1GbRI+s2Vj6SS78WWh9oyga6nwIuJkhd
- Ar8kLGkqpem1s6E/ST/aUVAZvu9Ht1BYPPW506Efygh8xwVBSnuC+DYOXhFCDkK1rZ/o
- NAdQ==
-X-Gm-Message-State: AOAM531W1a5pgsom1kTpVgIdM5dUrgN/pWYhIufe/Fh595+yfnNkpnro
- qGObSkHajKz0h+UQ+weslw==
-X-Google-Smtp-Source: ABdhPJxeZ9jmhF6jSAkll2vnf9FoWW3KrIT9DdSlTQiwoFC7RC0e4phvSPS3a0ljAS4WeWvC0RiN9A==
-X-Received: by 2002:ac8:1382:: with SMTP id h2mr25882364qtj.228.1597036068667; 
- Sun, 09 Aug 2020 22:07:48 -0700 (PDT)
-Received: from localhost.localdomain
- (146-115-88-66.s3894.c3-0.sbo-ubr1.sbo.ma.cable.rcncustomer.com.
- [146.115.88.66])
- by smtp.gmail.com with ESMTPSA id w20sm13125325qki.108.2020.08.09.22.07.47
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LG+fIp5OZ25It71Wra3d8yfu2prbPEMG5KpZ0CWWGCc=;
+ b=FekXQutv3/LgrgIuZfDoQ5XI2c8QCfS2pQPSySSxxTlrWcLjLeTDy8UEkP7v2CtbM8
+ 1693We4LYDjTpNikGPb8qnReHK9IX5AvHU+mH6LzAZnW4XOpzfJfBcYWt2CNPjXqyodb
+ ouJ+xeBDtsFqzrxVhdCGExrSEJVLpM8gTclhvToUcCgqlDFyZDZbJIz5gZFqhac/OciG
+ o7EbbwCM2wh3aRK+B5/nod0Uz5hSeUzmXdGnoqhcFLDL2KFMnrWsoI0STPkpW8tERNd3
+ 0Zyy6deN4uLg+Sdpts9Yv2gUMVR3+yTfwM7Jhrg9mv6ATSP1p3ie2M5ATwAjMyeaVu3d
+ Y7tg==
+X-Gm-Message-State: AOAM531uPLa2zRXIeRWb/w1VPnrJJwCRhO6Qok9EGkN2OtGpGoqun6lK
+ LRyTYfTuD1FGayexd1RWwl0=
+X-Google-Smtp-Source: ABdhPJx7x4fvEeZF1zvMGSiHBSqpbplJv6jIiVbs9RahcOYpDup1KSq1TWn/T1OM81CeqnCBgD6+oA==
+X-Received: by 2002:a17:90b:a45:: with SMTP id
+ gw5mr25112629pjb.80.1597051192832; 
+ Mon, 10 Aug 2020 02:19:52 -0700 (PDT)
+Received: from gmail.com ([103.105.152.86])
+ by smtp.gmail.com with ESMTPSA id x12sm7776750pff.48.2020.08.10.02.19.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Aug 2020 22:07:48 -0700 (PDT)
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Date: Mon, 10 Aug 2020 01:05:32 -0400
-Message-Id: <20200810050532.640075-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Mon, 10 Aug 2020 02:19:52 -0700 (PDT)
+Date: Mon, 10 Aug 2020 14:48:19 +0530
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Message-ID: <20200810091819.GA6615@gmail.com>
+References: <20200805193616.384313-3-vaibhavgupta40@gmail.com>
+ <20200807202321.GA753887@bjorn-Precision-5520>
 MIME-Version: 1.0
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- Hans Verkuil <hans.verkuil@cisco.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Peilin Ye <yepeilin.cs@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] v4l2-tpg: Fix global-out-of-bounds
-	read in precalculate_color()
+Content-Disposition: inline
+In-Reply-To: <20200807202321.GA753887@bjorn-Precision-5520>
+Cc: Jean Delvare <jdelvare@suse.com>, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Tomoya MORINAGA <tomoya.rohm@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomoya MORINAGA <tomoya-linux@dsn.okisemi.com>,
+ Ben Dooks <ben.dooks@codethink.co.uk>, linux-i2c@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 2/2] i2c: eg20t: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,35 +122,122 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-precalculate_color() is reading out of `sin` since `tpg->hue` is not being
-properly checked. Fix it. `cos` is safe, as long as `tpg->hue` is higher
-than or equal to -192.
+On Fri, Aug 07, 2020 at 03:23:21PM -0500, Bjorn Helgaas wrote:
+> [+cc Jean for i801 question below]
+> 
+> On Thu, Aug 06, 2020 at 01:06:16AM +0530, Vaibhav Gupta wrote:
+> > Drivers using legacy power management .suspen()/.resume() callbacks
+> > have to manage PCI states and device's PM states themselves. They also
+> > need to take care of standard configuration registers.
+> > 
+> > Switch to generic power management framework using a single
+> > "struct dev_pm_ops" variable to take the unnecessary load from the driver.
+> > This also avoids the need for the driver to directly call most of the PCI
+> > helper functions and device power state control functions, as through
+> > the generic framework PCI Core takes care of the necessary operations,
+> > and drivers are required to do only device-specific jobs.
+> > 
+> > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+> 
+> s/.suspen/.suspend/ above
+> 
+> These both look right to me.
+> 
+> Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
+> 
+> Looking at neighboring drivers, it looks like some already use generic
+> PM but have unnecessary PCI code, e.g., amd_mp2_pci_suspend().
+> Probably already on your list.
+Yes :)
+> 
+> Also, i801_suspend() looks suspicious because it writes SMBHSTCFG, but
+> I don't see anything corresponding in i801_resume().
+I will look into it.
 
-Fixes: 63881df94d3e ("[media] vivid: add the Test Pattern Generator")
-Reported-and-tested-by: syzbot+02d9172bf4c43104cd70@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=db50123c788e2cc5a9d90de569c398b66293ee48
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-index 50f1e0b28b25..52205fe096f7 100644
---- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-+++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-@@ -930,6 +930,9 @@ static void precalculate_color(struct tpg_data *tpg, int k)
- 		/* Implement these operations */
- 		int tmp_cb, tmp_cr;
- 
-+		if (tpg->hue < -128 || tpg->hue > 128)
-+			return;
-+
- 		/* First convert to YCbCr */
- 
- 		color_to_ycbcr(tpg, r, g, b, &y, &cb, &cr);
--- 
-2.25.1
-
+Thanks
+Vaibhav Gupta
+> 
+> > ---
+> >  drivers/i2c/busses/i2c-eg20t.c | 36 +++++++---------------------------
+> >  1 file changed, 7 insertions(+), 29 deletions(-)
+> > 
+> > diff --git a/drivers/i2c/busses/i2c-eg20t.c b/drivers/i2c/busses/i2c-eg20t.c
+> > index eb41de22d461..843b31a0f752 100644
+> > --- a/drivers/i2c/busses/i2c-eg20t.c
+> > +++ b/drivers/i2c/busses/i2c-eg20t.c
+> > @@ -846,11 +846,10 @@ static void pch_i2c_remove(struct pci_dev *pdev)
+> >  	kfree(adap_info);
+> >  }
+> >  
+> > -#ifdef CONFIG_PM
+> > -static int pch_i2c_suspend(struct pci_dev *pdev, pm_message_t state)
+> > +static int __maybe_unused pch_i2c_suspend(struct device *dev)
+> >  {
+> > -	int ret;
+> >  	int i;
+> > +	struct pci_dev *pdev = to_pci_dev(dev);
+> >  	struct adapter_info *adap_info = pci_get_drvdata(pdev);
+> >  	void __iomem *p = adap_info->pch_data[0].pch_base_address;
+> >  
+> > @@ -872,31 +871,13 @@ static int pch_i2c_suspend(struct pci_dev *pdev, pm_message_t state)
+> >  		ioread32(p + PCH_I2CSR), ioread32(p + PCH_I2CBUFSTA),
+> >  		ioread32(p + PCH_I2CESRSTA));
+> >  
+> > -	ret = pci_save_state(pdev);
+> > -
+> > -	if (ret) {
+> > -		pch_pci_err(pdev, "pci_save_state\n");
+> > -		return ret;
+> > -	}
+> > -
+> > -	pci_disable_device(pdev);
+> > -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+> > -
+> >  	return 0;
+> >  }
+> >  
+> > -static int pch_i2c_resume(struct pci_dev *pdev)
+> > +static int __maybe_unused pch_i2c_resume(struct device *dev)
+> >  {
+> >  	int i;
+> > -	struct adapter_info *adap_info = pci_get_drvdata(pdev);
+> > -
+> > -	pci_set_power_state(pdev, PCI_D0);
+> > -	pci_restore_state(pdev);
+> > -
+> > -	if (pci_enable_device(pdev) < 0) {
+> > -		pch_pci_err(pdev, "pch_i2c_resume:pci_enable_device FAILED\n");
+> > -		return -EIO;
+> > -	}
+> > +	struct adapter_info *adap_info = dev_get_drvdata(dev);
+> >  
+> >  	for (i = 0; i < adap_info->ch_num; i++)
+> >  		pch_i2c_init(&adap_info->pch_data[i]);
+> > @@ -905,18 +886,15 @@ static int pch_i2c_resume(struct pci_dev *pdev)
+> >  
+> >  	return 0;
+> >  }
+> > -#else
+> > -#define pch_i2c_suspend NULL
+> > -#define pch_i2c_resume NULL
+> > -#endif
+> > +
+> > +static SIMPLE_DEV_PM_OPS(pch_i2c_pm_ops, pch_i2c_suspend, pch_i2c_resume);
+> >  
+> >  static struct pci_driver pch_pcidriver = {
+> >  	.name = KBUILD_MODNAME,
+> >  	.id_table = pch_pcidev_id,
+> >  	.probe = pch_i2c_probe,
+> >  	.remove = pch_i2c_remove,
+> > -	.suspend = pch_i2c_suspend,
+> > -	.resume = pch_i2c_resume
+> > +	.driver.pm = &pch_i2c_pm_ops,
+> >  };
+> >  
+> >  module_pci_driver(pch_pcidriver);
+> > -- 
+> > 2.27.0
+> > 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
