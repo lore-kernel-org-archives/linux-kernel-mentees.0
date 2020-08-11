@@ -1,109 +1,104 @@
-Return-Path: <SRS0=Vbn0=BU=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=BcdZ=BV=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6333C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 22:09:06 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBBEC433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Aug 2020 03:57:35 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8D366206E9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Aug 2020 22:09:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BB6522075F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Aug 2020 03:57:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elE8gXGF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D366206E9
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dy6m6mzp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BB6522075F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3DDEF865C1;
-	Mon, 10 Aug 2020 22:09:06 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6482487750;
+	Tue, 11 Aug 2020 03:57:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yL2qBTJG5YWm; Mon, 10 Aug 2020 22:09:05 +0000 (UTC)
+	with ESMTP id 0IMH9GbsCNC5; Tue, 11 Aug 2020 03:57:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A97B08623E;
-	Mon, 10 Aug 2020 22:09:05 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4760687689;
+	Tue, 11 Aug 2020 03:57:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 94D5AC013C;
-	Mon, 10 Aug 2020 22:09:05 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2EFFFC004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3780DC07FF;
+	Tue, 11 Aug 2020 03:57:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4EB3C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 22:09:05 +0000 (UTC)
+ Tue, 11 Aug 2020 03:57:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 16E5787EA9
+ by silver.osuosl.org (Postfix) with ESMTP id A3903203E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 22:09:05 +0000 (UTC)
+ Tue, 11 Aug 2020 03:57:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0m12IRUddY9W
+ with ESMTP id DWy0odGP2czJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 22:09:04 +0000 (UTC)
+ Tue, 11 Aug 2020 03:57:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
- [209.85.222.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 7159387E7B
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
+ [209.85.166.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 5ED20203C9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 22:09:04 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id d14so9912817qke.13
+ Tue, 11 Aug 2020 03:57:31 +0000 (UTC)
+Received: by mail-il1-f196.google.com with SMTP id x1so9445682ilp.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Aug 2020 15:09:04 -0700 (PDT)
+ Mon, 10 Aug 2020 20:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3ZbMbahrrNkhzXHol1Zr0zVJbIcJ6vrUXkY246I6Gww=;
- b=elE8gXGFCgxGb+WPV22Nwena1f+CuNWdGDIMre+3IYPlJ/dgFxnsv/Nif8jf/9So9g
- Jfq6u/NSq38DCrgFyDUCnVrtGGmwME440my9SPaB2eKBvqacSCkWOroSb302H/A+6/NC
- aFFqf3hnQoBHQs4bfAIRRTwhGKzSgh+tqHkZiR1s4ZRMDUflziWLspPza1JmWtc5x5BH
- hu4Tzumv1CTdCpFez/JNDr9TK5nh5chZTSr0bzMdsoAMlEO6Hm717BFu50YmP2Huc7uT
- O71KhjXh8z3c2xG1Y5UMQPdQCh0Jh59+6yuOQHl1iV7kGHoV8J8a70s1YKxmLmGKTxYf
- aS6A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/Ej3O/P5forMr7lkh8Irj0X/aIJv290wNqPXSY+K8SQ=;
+ b=Dy6m6mzpsrA6AiUFbCE/bSjm0Ha27RRY29MhbJd/pIkrgoNaBTwHAWHseayvDnrnCA
+ HwxjeaxYINZHazGU3LyZTfhUmoxozHW8eUuuTVJ2bChVO3S4jc5gnpGqdixrngOjOvZb
+ pT0JrlO6rdHNLUXHOw+rGQRqzehZQ2t0HR9Ie3vLxrt+zMZ3FFs1DyT/jBuUMxkJfg6h
+ cMxGGUnbb16zLxzIVzIFBfrt08riVQ01vqyYYEiqsVUQRbTPP4a+aQTdOpE7Um4t77vW
+ SGhixNnowuHWYLNeYCXspG6tRjf8su5CFtSR4DePU5Ta+mGtOJLAs6rjesqLj0qHV7qj
+ PU3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3ZbMbahrrNkhzXHol1Zr0zVJbIcJ6vrUXkY246I6Gww=;
- b=ugxqmhQNIy8f6BdD9S+ayzkYlddMNs+QerXn4nrM5m/o8S05lrT5AELqeaCbQGGwIN
- MlCU6q8MLbrLlpcfWsCb7IjGKNaV802g3TalrRo65Alaz9BPt4bCa1Wdrh7Z1v/2jUhv
- hCn4u1iqQOU0Z6+dbx+yTLKnNCcMdB3JAbUq5W57HSfQKnLsK8zoCDkz5K4ZCMZeCv4V
- WtNnOFKwxbflSGeFfjY+cYdq1p8amsWKcp4zd5YUYhrUPCZofttj+TFl3DnjKLCDn0P9
- z3XjqU4fkTKxoVeLlbyjf2EkJhFIGSZXpakGLJBB4Fvqrq5xrd6lr3HauxdQRC/dPYlR
- B8uA==
-X-Gm-Message-State: AOAM530ZyY2qwHsqb20SV4eH2GTw5QqleNhcvue1RIDmBpMsdkSJhanS
- Ey3nzrA9+DXhsStNE9GVZA==
-X-Google-Smtp-Source: ABdhPJwB2LGr4Sy6Pe9wMfFj8Jm3p4RuM27hgGOAJBeSaFB5Lh3TbuSGIbsqy+oIYf6RDWfJ0KnCgg==
-X-Received: by 2002:a37:bd46:: with SMTP id n67mr29206337qkf.190.1597097343411; 
- Mon, 10 Aug 2020 15:09:03 -0700 (PDT)
-Received: from localhost.localdomain
- (146-115-88-66.s3894.c3-0.sbo-ubr1.sbo.ma.cable.rcncustomer.com.
- [146.115.88.66])
- by smtp.gmail.com with ESMTPSA id w12sm14192544qkj.116.2020.08.10.15.09.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Aug 2020 15:09:02 -0700 (PDT)
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Wensong Zhang <wensong@linux-vs.org>, Simon Horman <horms@verge.net.au>,
- Julian Anastasov <ja@ssi.bg>
-Date: Mon, 10 Aug 2020 18:07:03 -0400
-Message-Id: <20200810220703.796718-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/Ej3O/P5forMr7lkh8Irj0X/aIJv290wNqPXSY+K8SQ=;
+ b=U0n9+pzZLHOrxRKRyriUP9ULs8RmRzIsaxmbVucyqonwWIXW6Jf0oSW58/TA8eVGi5
+ B3TisnLjFjPi6ZvQFTaQY0nWccnhHmsVEaC36GjzbHkRGxNaLrR8VH49Zx8cS9wyzIjB
+ nlP8W7NoOWKxLYdpD1vWLUF77yKX7GhdLJFwhkVdzMoFPXHggi4tAyOFV/bJm9MCcQhX
+ oIWICDb5sON83NGQn0Hd13NHYYOPznXFI7UJNM9r0tPD2yFMrqcCaK+wnW1auK7Jg+h2
+ CjQJIR2BmqFY+TGSddeDEAZQ8GtVNxhwupt0RFTUkIozt5ELFsGK3Xa4m+QfPLcmJpFW
+ AGHg==
+X-Gm-Message-State: AOAM532p0XdrBTxp0S3HRUdctJVTm/vbbuUocFJzSwUcfzVs5fah+2Kr
+ ypfDYMJv4znICGHEVGK6h8noQY7hZyrRLGGanIo=
+X-Google-Smtp-Source: ABdhPJxJs7CjX3vzQq4fwm46ZTzG5HJ9oYGcb02FW6eIoE2VtGxgiQ6jHAgG+NKiJD5eiy2VkBGZYzjktmLVzpEwS1A=
+X-Received: by 2002:a92:bad5:: with SMTP id t82mr3521374ill.22.1597118250579; 
+ Mon, 10 Aug 2020 20:57:30 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
- Peilin Ye <yepeilin.cs@gmail.com>, lvs-devel@vger.kernel.org,
- coreteam@netfilter.org, netfilter-devel@vger.kernel.org,
- netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- syzkaller-bugs@googlegroups.com, Jozsef Kadlecsik <kadlec@netfilter.org>,
+References: <20200810220703.796718-1-yepeilin.cs@gmail.com>
+In-Reply-To: <20200810220703.796718-1-yepeilin.cs@gmail.com>
+From: Cong Wang <xiyou.wangcong@gmail.com>
+Date: Mon, 10 Aug 2020 20:57:19 -0700
+Message-ID: <CAM_iQpWsQubVJ-AYaLHujHwz68+nsHBcbgbf8XPMEPD=Vu+zaA@mail.gmail.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Cc: Wensong Zhang <wensong@linux-vs.org>, coreteam@netfilter.org,
+ Florian Westphal <fw@strlen.de>, LKML <linux-kernel@vger.kernel.org>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, lvs-devel@vger.kernel.org,
+ Julian Anastasov <ja@ssi.bg>, Simon Horman <horms@verge.net.au>,
+ NetFilter <netfilter-devel@vger.kernel.org>,
+ Linux Kernel Network Developers <netdev@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "David S. Miller" <davem@davemloft.net>,
  Pablo Neira Ayuso <pablo@netfilter.org>
-Subject: [Linux-kernel-mentees] [PATCH net] ipvs: Fix uninit-value in
+Subject: Re: [Linux-kernel-mentees] [PATCH net] ipvs: Fix uninit-value in
 	do_ip_vs_set_ctl()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -122,32 +117,21 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-do_ip_vs_set_ctl() is referencing uninitialized stack value when `len` is
-zero. Fix it.
+On Mon, Aug 10, 2020 at 3:10 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+>
+> do_ip_vs_set_ctl() is referencing uninitialized stack value when `len` is
+> zero. Fix it.
 
-Reported-and-tested-by: syzbot+23b5f9e7caf61d9a3898@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=46ebfb92a8a812621a001ef04d90dfa459520fe2
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
- net/netfilter/ipvs/ip_vs_ctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Which exact 'cmd' is it here?
 
-diff --git a/net/netfilter/ipvs/ip_vs_ctl.c b/net/netfilter/ipvs/ip_vs_ctl.c
-index 412656c34f20..c050b6a42786 100644
---- a/net/netfilter/ipvs/ip_vs_ctl.c
-+++ b/net/netfilter/ipvs/ip_vs_ctl.c
-@@ -2418,7 +2418,7 @@ do_ip_vs_set_ctl(struct sock *sk, int cmd, void __user *user, unsigned int len)
- {
- 	struct net *net = sock_net(sk);
- 	int ret;
--	unsigned char arg[MAX_SET_ARGLEN];
-+	unsigned char arg[MAX_SET_ARGLEN] = {};
- 	struct ip_vs_service_user *usvc_compat;
- 	struct ip_vs_service_user_kern usvc;
- 	struct ip_vs_service *svc;
--- 
-2.25.1
+I _guess_ it is one of those uninitialized in set_arglen[], which is 0.
+But if that is the case, should it be initialized to
+sizeof(struct ip_vs_service_user) instead because ip_vs_copy_usvc_compat()
+is called anyway. Or, maybe we should just ban len==0 case.
 
+In either case, it does not look like you fix it correctly.
+
+Thanks.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
