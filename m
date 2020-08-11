@@ -2,99 +2,75 @@ Return-Path: <SRS0=BcdZ=BV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 771AEC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Aug 2020 09:14:58 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7DE0C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Aug 2020 10:29:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3412D20772
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Aug 2020 09:14:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ox3gkoZt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3412D20772
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7E555205CB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Aug 2020 10:29:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E555205CB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ssi.bg
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D55EB85D61;
-	Tue, 11 Aug 2020 09:14:57 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3CjG3g3bVUv6; Tue, 11 Aug 2020 09:14:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6CC2D85D48;
-	Tue, 11 Aug 2020 09:14:57 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60137C013C;
-	Tue, 11 Aug 2020 09:14:57 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5BF0DC004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Aug 2020 09:14:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3F2E32040E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Aug 2020 09:14:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5719B204A8;
+	Tue, 11 Aug 2020 10:29:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6Kaa0llitZza; Tue, 11 Aug 2020 10:29:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 624071FDFB;
+	Tue, 11 Aug 2020 10:29:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A40DC07FF;
+	Tue, 11 Aug 2020 10:29:50 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39980C004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 11 Aug 2020 10:29:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2659287BFE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 11 Aug 2020 10:29:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gqtrQlG0Y6wF
+ with ESMTP id 2CeDDCpVPtJ5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Aug 2020 09:14:53 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by silver.osuosl.org (Postfix) with ESMTPS id D5B54203B0
+ Tue, 11 Aug 2020 10:29:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from ja.ssi.bg (unknown [178.16.129.10])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 54D9787B96
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Aug 2020 09:14:53 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id o13so6429434pgf.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Aug 2020 02:14:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:message-id:mime-version:content-disposition;
- bh=Q9F9+Rb1CaCq0SUanAE3bPlZu5UOFvtgn0DMfNsZSWA=;
- b=ox3gkoZtIzuaSEHMjt6KTlmULdhixFh9jG32MGrz1ypheXywLl16Bv3LhSF9vkqKa2
- 1bzQgx4AIwCWRPvoAYJlZbbi9inLnJqAe6aNipqHzGqbczzIrq8e1LvmEOJiqZLmT3Bd
- GHCH/GUyV4/DT7HBsOc7MAUGwAlW/NQBtqQ0xXt5jvi6LmenYCsnCEXkI1UYWnZdR4KG
- h5bT7Vy3pKE+sqAMfIwT7BgmtH8F6NJ28HWePVKqcbAhyPB8tGhwXOuQ7RoT4E8AOKl+
- aM/btmnr3ZCKGoAzE5+tKOCCnWTKxOpV4sMQ/KkQ1FODvQk180WnX1iGbEkojtRNN8Ra
- 7XqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=Q9F9+Rb1CaCq0SUanAE3bPlZu5UOFvtgn0DMfNsZSWA=;
- b=M08lB0kMXjX1XiPnKVJJqxzs1+SaaDYSCToPTIwgBAafIWuptW1LA3Ee6Y9lP7xsjy
- 3iBwoWRxynlldkoupRieM9J3DcajS6DyNgXGShfxP7sGVpDKH+4NIbwWA3Bp8UAeJOZR
- L5ATS8NDOlPEOgQl/QsvtIxzW5cdbl0wiuPbuPbeFU0QpZdZXNv393Po7MuADbvtoD66
- dlLM0PAFAoOUvhEDdoUqA0nI8uAyPQXm6ZpciwDxYfSxM/FV8HFCCgabl5LAk3Aee1UU
- w5jdOq7EsbLvtVuVzsYQkZp3slMo6Potc4DmbaCOUPeFn9A0Py8kOT6yZAv0mi64uNOl
- 0zSA==
-X-Gm-Message-State: AOAM530DswY++5T+T6R5I9MkYB/GBChQ7E/pOmbqC9a8gty7//QaGTAm
- uVtaW8heyeODJzowKa9RuDY=
-X-Google-Smtp-Source: ABdhPJwfu6T8OJjO5efjguESbBGEqhczsOHXcDkrpKMwge0Ozv65vI1sgHYrAxaB8YicOrTbfwlRsg==
-X-Received: by 2002:a63:220a:: with SMTP id i10mr82838pgi.88.1597137293410;
- Tue, 11 Aug 2020 02:14:53 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id d81sm25096483pfd.174.2020.08.11.02.14.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Aug 2020 02:14:52 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Tue, 11 Aug 2020 17:14:45 +0800
-To: linux-input@vger.kernel.org
-Message-ID: <20200811091445.erp2b23xmx3ceyzp@Rk>
+ Tue, 11 Aug 2020 10:29:45 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+ by ja.ssi.bg (8.15.2/8.15.2) with ESMTP id 07BAT4fo009688;
+ Tue, 11 Aug 2020 13:29:04 +0300
+Date: Tue, 11 Aug 2020 13:29:04 +0300 (EEST)
+From: Julian Anastasov <ja@ssi.bg>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+In-Reply-To: <20200811074640.841693-1-yepeilin.cs@gmail.com>
+Message-ID: <alpine.LFD.2.23.451.2008111324570.7428@ja.home.ssi.bg>
+References: <20200810220703.796718-1-yepeilin.cs@gmail.com>
+ <20200811074640.841693-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Jiri Kosina <jikos@kernel.org>, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] Advice on fixing the bug of MSFT0001:00
- 04F3:Touchpad being handled by hid_multitouch by mistake
+Cc: Wensong Zhang <wensong@linux-vs.org>, coreteam@netfilter.org,
+ syzkaller-bugs@googlegroups.com, Florian Westphal <fw@strlen.de>,
+ linux-kernel@vger.kernel.org, Jozsef Kadlecsik <kadlec@netfilter.org>,
+ lvs-devel@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+ netfilter-devel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ Cong Wang <xiyou.wangcong@gmail.com>, netdev@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Pablo Neira Ayuso <pablo@netfilter.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH net-next v2] ipvs: Fix
+ uninit-value in do_ip_vs_set_ctl()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,53 +82,71 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
 
-I'm working on a touchpad device issue as reported on
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190.
+	Hello,
 
-This touchpad device MSFT0001:00 04F3:Touchpad should be handled by
-hid_rmi. But currently hid-core.c chooses hid_multitouch by mistake,
+On Tue, 11 Aug 2020, Peilin Ye wrote:
 
-     1. When scanning this device's report descriptor, HID_DG_CONTACTID
-        usage is found. Thus group HID_GROUP_MULTITOUCH is assigned to
-        the device.
-     2. The flag HID_SCAN_FLAG_MT_WIN_8 is also found. Thus group
-        HID_GROUP_MULTITOUCH_WIN_8 is assigned to the device.
-     3. hid-multitouch.c claims handling devices with the group of
-        HID_GROUP_MULTITOUCH_WIN_8
+> do_ip_vs_set_ctl() is referencing uninitialized stack value when `len` is
+> zero. Fix it.
+> 
+> Reported-by: syzbot+23b5f9e7caf61d9a3898@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?id=46ebfb92a8a812621a001ef04d90dfa459520fe2
+> Suggested-by: Julian Anastasov <ja@ssi.bg>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 
-         static const struct hid_device_id mt_devices[] = {
-	        /* Generic MT device */
-	        { HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH, HID_ANY_ID, HID_ANY_ID) },
+	Looks good to me, thanks!
 
-	        /* Generic Win 8 certified MT device */
-	        {  .driver_data = MT_CLS_WIN_8,
-		        HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
-			        HID_ANY_ID, HID_ANY_ID) },
-	        { }
-         };
+Acked-by: Julian Anastasov <ja@ssi.bg>
 
-There are several potential solutions,
-     - Let the device vendor fix this problem since this device's report
-       descriptor shouldn't have the HID_DG_CONTACTID usage.
-     - Make it a special case by setting the device's group to
-       HID_GROUP_RMI in hid_scan_report when vendor id and product ID
-       are matched.
-     - hid-quirks.c seems to be designed to handle special cases, is it
-       suitable for this case?
+> ---
+> Changes in v2:
+>     - Target net-next tree. (Suggested by Julian Anastasov <ja@ssi.bg>)
+>     - Reject all `len == 0` requests except `IP_VS_SO_SET_FLUSH`, instead
+>       of initializing `arg`. (Suggested by Cong Wang
+>       <xiyou.wangcong@gmail.com>, Julian Anastasov <ja@ssi.bg>)
+> 
+>  net/netfilter/ipvs/ip_vs_ctl.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/net/netfilter/ipvs/ip_vs_ctl.c b/net/netfilter/ipvs/ip_vs_ctl.c
+> index 412656c34f20..beeafa42aad7 100644
+> --- a/net/netfilter/ipvs/ip_vs_ctl.c
+> +++ b/net/netfilter/ipvs/ip_vs_ctl.c
+> @@ -2471,6 +2471,10 @@ do_ip_vs_set_ctl(struct sock *sk, int cmd, void __user *user, unsigned int len)
+>  		/* Set timeout values for (tcp tcpfin udp) */
+>  		ret = ip_vs_set_timeout(ipvs, (struct ip_vs_timeout_user *)arg);
+>  		goto out_unlock;
+> +	} else if (!len) {
+> +		/* No more commands with len == 0 below */
+> +		ret = -EINVAL;
+> +		goto out_unlock;
+>  	}
+>  
+>  	usvc_compat = (struct ip_vs_service_user *)arg;
+> @@ -2547,9 +2551,6 @@ do_ip_vs_set_ctl(struct sock *sk, int cmd, void __user *user, unsigned int len)
+>  		break;
+>  	case IP_VS_SO_SET_DELDEST:
+>  		ret = ip_vs_del_dest(svc, &udest);
+> -		break;
+> -	default:
+> -		ret = -EINVAL;
+>  	}
+>  
+>    out_unlock:
+> -- 
+> 2.25.1
 
-Can anyone give an advice on which direction I should take? Thank you!
+Regards
 
 --
-Best regards,
-Coiby
+Julian Anastasov <ja@ssi.bg>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
