@@ -2,96 +2,104 @@ Return-Path: <SRS0=//YW=BW=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEBA0C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Aug 2020 11:42:29 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89286C433EC
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Aug 2020 16:33:22 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 92536207DA
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Aug 2020 11:42:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 582892076B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Aug 2020 16:33:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LS6vuvBz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92536207DA
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J3O0jz2W"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 582892076B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5F23A85FC9;
-	Wed, 12 Aug 2020 11:42:29 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0D84C88268;
+	Wed, 12 Aug 2020 16:33:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rsVYRDuLoXwb; Wed, 12 Aug 2020 11:42:28 +0000 (UTC)
+	with ESMTP id iMVtKI1LBfxS; Wed, 12 Aug 2020 16:33:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E17FE85A82;
-	Wed, 12 Aug 2020 11:42:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9EC6C8818E;
+	Wed, 12 Aug 2020 16:33:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C6519C07FF;
-	Wed, 12 Aug 2020 11:42:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A9E9C013C;
+	Wed, 12 Aug 2020 16:33:21 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EEF86C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62E8DC004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 11:42:26 +0000 (UTC)
+ Wed, 12 Aug 2020 16:33:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EBBBF87942
+ by whitealder.osuosl.org (Postfix) with ESMTP id 5EE6088268
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 11:42:26 +0000 (UTC)
+ Wed, 12 Aug 2020 16:33:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0SDFgHhFA6u1
+ with ESMTP id jU2qBd52axP1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 11:42:26 +0000 (UTC)
+ Wed, 12 Aug 2020 16:33:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 192A3877B4
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+ [209.85.222.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 991378818E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 11:42:26 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id t14so1624500wmi.3
+ Wed, 12 Aug 2020 16:33:19 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id p4so2639443qkf.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 04:42:26 -0700 (PDT)
+ Wed, 12 Aug 2020 09:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=C0QJHCCDLxp0HshSqS2PYsQhdcu/ZwGpLx2gOZFU9mQ=;
- b=LS6vuvBzb9MruSo/tl/p5URuiF8AO6EgEHfjuhQXRnGxXSyJ/Ou+Mc+xvlQzohSqV0
- TccZ7VXGWjx78gaiHxBNXifVWABLxWQP7fgQs5jxLjAzJE6pGNHwA/M4p2LmHm0DeKDt
- AjjsDZipo9tb9sMDjH/2e90RVpXYlKxPfb+AWywsORiu4/5bXF41OMIgvwYFQNdvZVYF
- K49jrSvutkMLRnu9W1sLE+6JKp2K6kk2qylHxxl3qR2DiqpK66XiZHsV1ixLiomqK3IR
- Dbj+YuA2L5SRhGpBIFTTvmEc7SlBx/o+KS1EgwTvrV9V9OAzzR3GiFwQC3emEsxsmgWU
- 7VeQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Pyg5JoU3Fv3hJ1Z98ffv3KXTpLWCtFk1r43AMQgVAmY=;
+ b=J3O0jz2WYkxvyYsCWwzt/EjFmc7Vp7j7amRkVhcJadyj7A+YTd/IloXL79833ZxyvI
+ 3cQ9mWke53sf18ebRgc91M9g1+Q2Q2svRXdqjTzCCkeijCeEVaMqbNV7OFcW5niSyLMC
+ 1nfKnufXtPeRYYJ1/CPA2X1Q6HlJWJoVLrWm5g2sXbiZRFvHcYpXPfNSXS7d+QgMb7ig
+ 10Iv2/J0WoGtk3e4n2kqPTnw2cw4Be4cCKn1w6xz9GJSme3OQ8Itvc58dIusp6TIMayy
+ 3OPv/ZLWQ3uZd2zZacds74DjBp0wXhwHnguFelP+YsJJ2qnR1sSZDpBEolZyqsA3+juJ
+ kTtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C0QJHCCDLxp0HshSqS2PYsQhdcu/ZwGpLx2gOZFU9mQ=;
- b=YeX+MHkIQjaS2yhpnsaD75SD8Gg2LqCN+NWBkJGGF46SmvLXxqlOjHrCFs7KxlMlwG
- oUANS8zkXoH8SPm72IYrIQoWIGM6GfMYrDIXL+vYXu6IbLw3Fp5buf1QQ2VO1yFSqPFy
- TUQ6W4P0uhDtCTDZj4mpBZBuBfiuIos3aQTXISZPfYrtHvWFL1kBEgvIz/fh4yiqk72d
- PZ2r1e1O73X6atd1ANq1DsIxMeF6kyW96L3wpbzYRm01IW4++whHIwjA5H94T1ecPqal
- tLzpfn5dM1udAY9GMOafiznzNqEo7mMrzAyNHUT+Z9AH3r5UpCen7cDSzu5XzhnFrGdK
- exNA==
-X-Gm-Message-State: AOAM532FN90S4aulySHxf716ZSEIdH9MfjkUiVxLGC2HZOkKsgcuvn9g
- lAXI5aOVumuMy4UicFEW5tSFQ4yUHUoPvcuVm5U=
-X-Google-Smtp-Source: ABdhPJxVufo8mW4BBKk/h6t40DRjJxK27SLayv1VMoDXIzyk8rAzAOjq9swKGRGCJk3hWtzfXlMxgpNfMlYgepmekQI=
-X-Received: by 2002:a1c:6557:: with SMTP id z84mr7812025wmb.19.1597232544660; 
- Wed, 12 Aug 2020 04:42:24 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Pyg5JoU3Fv3hJ1Z98ffv3KXTpLWCtFk1r43AMQgVAmY=;
+ b=Lw0KNL72qJGAkPtGyXOrSd+BNXK+VQ7Zc5hSFR8h96JXbBVm8t+4CQRXz7vRdo+RUo
+ SMIg1BEYw9WcaaNMEbcWzZoutn0/hiHA3nfBbf/Pa6olSivS7yAWgaMPuYtl9bQIelLQ
+ X4owfaEiYa9kKsiLfvyxaLL7rZ1icA3C6L7ai9a7IJCQWC1Ky6E8b/mC2bh1T7lECQdK
+ 3LQ4bvsNHy8dnz2S7bXq+aGLBzwGNvjzN8UUJmxSZGZgdhHGuBZ01foaRWMNI2PGvDEy
+ kNxxTgUNGs8d6/FxCzfdfidfy5ygluqCMvXX1NXhR/ni7nXihPpJljgAAm71w9VgkUT/
+ uezg==
+X-Gm-Message-State: AOAM531hQ7BdHu5DZgxEXJvWqZHuUz3Yanl0um41ruEtnDhSMuwJPRgm
+ NtHiKg96Wk3r5DglbNTZkQ==
+X-Google-Smtp-Source: ABdhPJxgMqoHuBHR0sLoharq5kTnq4koFN9MBVRkMZpK4OQe0AF8osIodMChLpYNWfA8EzIpQ6flfg==
+X-Received: by 2002:a05:620a:48c:: with SMTP id
+ 12mr791183qkr.452.1597249998577; 
+ Wed, 12 Aug 2020 09:33:18 -0700 (PDT)
+Received: from PWN
+ (146-115-88-66.s3894.c3-0.sbo-ubr1.sbo.ma.cable.rcncustomer.com.
+ [146.115.88.66])
+ by smtp.gmail.com with ESMTPSA id m30sm3254831qtm.46.2020.08.12.09.33.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Aug 2020 09:33:17 -0700 (PDT)
+Date: Wed, 12 Aug 2020 12:33:15 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-ID: <20200812163315.GA888969@PWN>
 References: <20200812065556.869508-1-yepeilin.cs@gmail.com>
  <20200812070827.GA1304640@kroah.com> <20200812071306.GA869606@PWN>
- <20200812085904.GA16441@kadam>
-In-Reply-To: <20200812085904.GA16441@kadam>
-From: Big Budsupply <bigbudsupply1@gmail.com>
-Date: Wed, 12 Aug 2020 12:42:13 +0100
-Message-ID: <CAHwJNhOMUJO2nMMqmfLXJt1ki-3fFbEW=K4h_KEpCobe8r_+iQ@mail.gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Peilin Ye <yepeilin.cs@gmail.com>
+ <20200812081852.GA851575@kroah.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200812081852.GA851575@kroah.com>
+Cc: linux-fsdevel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 Subject: Re: [Linux-kernel-mentees] [PATCH] hfs,
  hfsplus: Fix NULL pointer dereference in hfs_find_init()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -105,139 +113,69 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8687198901138145876=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============8687198901138145876==
-Content-Type: multipart/alternative; boundary="00000000000072c16505acacae6c"
+On Wed, Aug 12, 2020 at 10:18:52AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Aug 12, 2020 at 03:13:06AM -0400, Peilin Ye wrote:
+> > On Wed, Aug 12, 2020 at 09:08:27AM +0200, Greg Kroah-Hartman wrote:
+> > > On Wed, Aug 12, 2020 at 02:55:56AM -0400, Peilin Ye wrote:
+> > > > Prevent hfs_find_init() from dereferencing `tree` as NULL.
+> > > > 
+> > > > Reported-and-tested-by: syzbot+7ca256d0da4af073b2e2@syzkaller.appspotmail.com
+> > > > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> > > > ---
+> > > >  fs/hfs/bfind.c     | 3 +++
+> > > >  fs/hfsplus/bfind.c | 3 +++
+> > > >  2 files changed, 6 insertions(+)
+> > > > 
+> > > > diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
+> > > > index 4af318fbda77..880b7ea2c0fc 100644
+> > > > --- a/fs/hfs/bfind.c
+> > > > +++ b/fs/hfs/bfind.c
+> > > > @@ -16,6 +16,9 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
+> > > >  {
+> > > >  	void *ptr;
+> > > >  
+> > > > +	if (!tree)
+> > > > +		return -EINVAL;
+> > > > +
+> > > >  	fd->tree = tree;
+> > > >  	fd->bnode = NULL;
+> > > >  	ptr = kmalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
+> > > > diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
+> > > > index ca2ba8c9f82e..85bef3e44d7a 100644
+> > > > --- a/fs/hfsplus/bfind.c
+> > > > +++ b/fs/hfsplus/bfind.c
+> > > > @@ -16,6 +16,9 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
+> > > >  {
+> > > >  	void *ptr;
+> > > >  
+> > > > +	if (!tree)
+> > > > +		return -EINVAL;
+> > > > +
+> > > 
+> > > How can tree ever be NULL in these calls?  Shouldn't that be fixed as
+> > > the root problem here?
+> > 
+> > I see, I will try to figure out what is going on with the reproducer.
+> 
+> That's good to figure out.  Note, your patch might be the correct thing
+> to do, as that might be an allowed way to call the function.  But in
+> looking at all the callers, they seem to think they have a valid pointer
+> at the moment, so perhaps if this check is added, some other root
+> problem is papered over to be only found later on?
 
---00000000000072c16505acacae6c
-Content-Type: text/plain; charset="UTF-8"
+That's right - Yesterday I noticed that this function has a number of
+callers who don't check `tree` at all, so I thought maybe we just add
+the check here...Turned out to be quite the opposite.
 
-Hello guys hope you are doing good! we are Bigbudsupply we grow and sell
-the best medical marijuana product, we are looking for long time customers,
-you can Email us /Bigbudsupply1@gmail.com
-Text/+14432672189
-Looking forward to working with you guys
-
-On Wed, 12 Aug 2020 at 09:59 Dan Carpenter <dan.carpenter@oracle.com> wrote:
-
-> Yeah, the patch doesn't work at all.  I looked at one call tree and it
->
-> is:
->
->
->
-> hfs_mdb_get() tries to allocate HFS_SB(sb)->ext_tree.
->
->
->
->         HFS_SB(sb)->ext_tree = hfs_btree_open(sb, HFS_EXT_CNID,
-> hfs_ext_keycmp);
->
->                     ^^^^^^^^
->
->
->
-> hfs_btree_open() calls page = read_mapping_page(mapping, 0, NULL);
->
-> read_mapping_page() calls mapping->a_ops->readpage() which leads to
->
-> hfs_readpage() which leads to hfs_ext_read_extent() which calls
->
-> res = hfs_find_init(HFS_SB(inode->i_sb)->ext_tree, &fd);
->
->                                          ^^^^^^^^
->
->
->
-> So we need ->ext_tree to be non-NULL before we can set ->ext_tree to be
->
-> non-NULL...  :/
->
->
->
-> I wonder how long this has been broken and if we should just delete the
->
-> AFS file system.
->
->
->
-> regards,
->
-> dan carpenter
->
->
->
-> --
->
-> You received this message because you are subscribed to the Google Groups
-> "syzkaller-bugs" group.
->
-> To unsubscribe from this group and stop receiving emails from it, send an
-> email to syzkaller-bugs+unsubscribe@googlegroups.com.
->
-> To view this discussion on the web visit
-> https://groups.google.com/d/msgid/syzkaller-bugs/20200812085904.GA16441%40kadam
-> .
->
->
-
---00000000000072c16505acacae6c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div dir=3D"auto" style=3D"font-size:1rem;color:rgb(49,49,49);word-spa=
-cing:1px">Hello guys hope you are doing good! we are Bigbudsupply we grow a=
-nd sell the best medical marijuana product, we are looking for long time cu=
-stomers, you can Email us /<a href=3D"mailto:Bigbudsupply1@gmail.com">Bigbu=
-dsupply1@gmail.com</a></div><div dir=3D"auto" style=3D"font-size:1rem;color=
-:rgb(49,49,49);word-spacing:1px">Text/+14432672189</div><div dir=3D"auto" s=
-tyle=3D"font-size:1rem;color:rgb(49,49,49);word-spacing:1px">Looking forwar=
-d to working with you guys</div><div dir=3D"auto" style=3D"font-size:1rem;c=
-olor:rgb(49,49,49);word-spacing:1px"><br></div><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Wed, 12 Aug 2020 at 09:59 Dan Carpe=
-nter &lt;<a href=3D"mailto:dan.carpenter@oracle.com">dan.carpenter@oracle.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Yeah, the patch d=
-oesn&#39;t work at all.=C2=A0 I looked at one call tree and it<br><br>is:<b=
-r><br><br><br>hfs_mdb_get() tries to allocate HFS_SB(sb)-&gt;ext_tree.<br><=
-br><br><br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 HFS_SB(sb)-&gt;ext_tree =3D hfs_btre=
-e_open(sb, HFS_EXT_CNID, hfs_ext_keycmp);<br><br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^^^^^^^^<br><br><br><br>hfs_b=
-tree_open() calls page =3D read_mapping_page(mapping, 0, NULL);<br><br>read=
-_mapping_page() calls mapping-&gt;a_ops-&gt;readpage() which leads to<br><b=
-r>hfs_readpage() which leads to hfs_ext_read_extent() which calls<br><br>re=
-s =3D hfs_find_init(HFS_SB(inode-&gt;i_sb)-&gt;ext_tree, &amp;fd);<br><br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^^=
-^^^^^^<br><br><br><br>So we need -&gt;ext_tree to be non-NULL before we can=
- set -&gt;ext_tree to be<br><br>non-NULL...=C2=A0 :/<br><br><br><br>I wonde=
-r how long this has been broken and if we should just delete the<br><br>AFS=
- file system.<br><br><br><br>regards,<br><br>dan carpenter<br><br><br><br>-=
-- <br><br>You received this message because you are subscribed to the Googl=
-e Groups &quot;syzkaller-bugs&quot; group.<br><br>To unsubscribe from this =
-group and stop receiving emails from it, send an email to <a href=3D"mailto=
-:syzkaller-bugs%2Bunsubscribe@googlegroups.com" target=3D"_blank">syzkaller=
--bugs+unsubscribe@googlegroups.com</a>.<br><br>To view this discussion on t=
-he web visit <a href=3D"https://groups.google.com/d/msgid/syzkaller-bugs/20=
-200812085904.GA16441%40kadam" rel=3D"noreferrer" target=3D"_blank">https://=
-groups.google.com/d/msgid/syzkaller-bugs/20200812085904.GA16441%40kadam</a>=
-.<br><br></blockquote></div></div>
-
---00000000000072c16505acacae6c--
-
---===============8687198901138145876==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thank you,
+Peilin Ye
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============8687198901138145876==--
