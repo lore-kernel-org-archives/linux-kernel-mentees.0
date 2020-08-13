@@ -2,105 +2,101 @@ Return-Path: <SRS0=MBlu=BX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26202C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Aug 2020 04:44:44 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D19C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Aug 2020 18:01:20 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BDE5D206A4
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Aug 2020 04:44:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B5CB420774
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Aug 2020 18:01:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mxcASnIB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BDE5D206A4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZbqoJidj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5CB420774
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6DB0686935;
-	Thu, 13 Aug 2020 04:44:43 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6F80E88568;
+	Thu, 13 Aug 2020 18:01:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oJwOX1E5todV; Thu, 13 Aug 2020 04:44:42 +0000 (UTC)
+	with ESMTP id b7TyRlYdGoOk; Thu, 13 Aug 2020 18:01:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9C0F386934;
-	Thu, 13 Aug 2020 04:44:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1263C88561;
+	Thu, 13 Aug 2020 18:01:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82B84C07FF;
-	Thu, 13 Aug 2020 04:44:42 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0E235C004D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B988C013C;
+	Thu, 13 Aug 2020 18:01:20 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E9A22C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Aug 2020 04:44:42 +0000 (UTC)
+ Thu, 13 Aug 2020 18:01:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id BDCCF204AB
+ by whitealder.osuosl.org (Postfix) with ESMTP id CF3A288568
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Aug 2020 04:44:41 +0000 (UTC)
+ Thu, 13 Aug 2020 18:01:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RlUc-3WWdpXw
+ with ESMTP id XQ4ZGheG+yRO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Aug 2020 04:44:40 +0000 (UTC)
+ Thu, 13 Aug 2020 18:01:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 534AA2045B
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6433E88561
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Aug 2020 04:44:40 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id df16so3168450edb.9
+ Thu, 13 Aug 2020 18:01:17 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id k23so8186890iom.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 21:44:40 -0700 (PDT)
+ Thu, 13 Aug 2020 11:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=6qr1b+cnr9zflKGb3kO37miKN7yYFQJiP9RPv40rsPw=;
- b=mxcASnIB5YGqSHbWFYGMVibDPENVFL0rKhoiGYA0JYu5oDbJxiQxFD42M1EERC4Spq
- iIOFkc6eQ5uUd8dKjIodPNcDuwWJ9IGNH2pf0YeX5mi1yRaaGjix7AHhdd6D9MFppUIy
- d30KcnTPoFRtOWN5unm6fObXLHLuR871vUGshViuDq+o9BezOC7O1iHG4pUjySA9twEF
- At0UYEYOAoIB8SmYt/DmefsS0uOWuel1uCs6IE79oMpVYMGdFS2dINgIZyYLk7800Df8
- 2ERk51ZU1vP0MWhP4P/6FvM38hDQMwnM7fP0lopEMtB+r7czHJs8oNk19DhdPQqrvaji
- g3AA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UqddixExcqxXg35kSDFa1zhiGYKNPA0drKWc7j2/Ik8=;
+ b=ZbqoJidjUcZQYtmgmM3BwzncSYNnvzHtgss9WOeClusfEYDdO++dZ7b7qBfy4D5wFo
+ kFqhCXYGzKaDuX2kwl515qEEgLi9nzNCbS4nSC/xXLoLE1P3UZ9bI+jU85QTwJpzm/gk
+ kT48ZJwGLiu1YnC2e08BvqR8mJzGRoDFY0Y1KwQz8ZM9qjeuodjowHeHgal8GW/PYGnO
+ Fcp+39bRgQIBy8/itNSKpYnqwrm2ywcJRegcP+33tDLI3XxC+rEIkjm/7HB7I42Y/RPb
+ X5zFTv4N2nyiQ8zGVkXyoO7o8+UThEcVAg3xjz8z5GxKQtdyLWAxmGHa4d5sXV6314jN
+ BVlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=6qr1b+cnr9zflKGb3kO37miKN7yYFQJiP9RPv40rsPw=;
- b=Zu+3mUTfoZqDrP37Va4iO9i92Py9x5pBLP7fPfNYpHA/e8eBujy96y1QghMZSkaqiI
- L1vOKM6tZK3E+eDmeJGZ6S7+v+yxat89SHlkgbQOJcEk/Aoe37YHT+vwIE0RrMszIHQ4
- nfbQGiX3DYSx6KZFBQwgZB4uv3eNBT2IxN5sy1vh7Finm6OIkZgxFVvhtbpbY07ZKvIc
- RaBnLpx0V4YmUpjw4/6zJCM/12G8lqyIoIBMPEMH5L0OTsX7/Agv/Z+TaltT4Wg/+ych
- 8+TSBOTbTujBt2QGty5tW5a6oKP44ngjIlI0Cy1slpVgo5cIAagQUKGMY+Rfsv38GJ3l
- MitQ==
-X-Gm-Message-State: AOAM531y0sYY1YCFwLiesDZI263BqULOhW6tqVV6YuHKmjTimP7wPzs+
- 2fiBTI4vzqld7glPS6BrjUk=
-X-Google-Smtp-Source: ABdhPJyJxdWGhnN6uB88Xda6e7Jbom0XhGTl7eqQnn3QNMJUJr7eoc0RsdEoyWfFeVPWg3ArI9qhZg==
-X-Received: by 2002:a50:935a:: with SMTP id n26mr3042546eda.107.1597293878496; 
- Wed, 12 Aug 2020 21:44:38 -0700 (PDT)
-Received: from felia ([2001:16b8:2dab:1900:b8e6:a865:cc51:e88c])
- by smtp.gmail.com with ESMTPSA id js19sm3009088ejb.76.2020.08.12.21.44.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 21:44:37 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Thu, 13 Aug 2020 06:44:30 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: ishan srivastava <ishan.srt@gmail.com>
-In-Reply-To: <0fd328a1-63d0-42ce-8963-0bafad4c9675@Spark>
-Message-ID: <alpine.DEB.2.21.2008130641260.3561@felia>
-References: <20200803181312.GA28716@Ishans-MacBook-Pro.local>
- <CAKXUXMz166AREJEQLBcvvj4nx4CpTKG=LDe=Ubdzpp1+8cxANA@mail.gmail.com>
- <0fd328a1-63d0-42ce-8963-0bafad4c9675@Spark>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UqddixExcqxXg35kSDFa1zhiGYKNPA0drKWc7j2/Ik8=;
+ b=oaGwQjo/ecCVmJ1FXzlTdxYRlOLyvefxXSptWGz+36OBf7BLPZvhcZeimqrARfhMhP
+ Uoa6IL+Z6KsSY0iNX4H6zk64xgMh7UGDnZNGu+CLYuGIadgrfNkvkTzulw6a0aT3Qr8X
+ 77kblWu9ju5akJy/DN5paLPMi6PZGObHzple7yiSPH8wVBSkZtDmjSBCb5Am9mJVvEYn
+ fwInoH4itd2IUNDGw/ufrCKdDMP6E8/h8gPipwOHdRIk7JwDWIWLkwX61os2T7tD7ToB
+ T5t3WYCmlaGnVZtyYq9K67Z2z3lzU8Hy53ZtMZ9/deQuEZO71IXHbVD+nqMjLQPVlAnK
+ DB3Q==
+X-Gm-Message-State: AOAM532i3wQ+tjzu90s3/RFprR4n64DpqQF8CTdS8flXqan96n1r9dQh
+ LJZ3teMm/72iM/Najb4Hq7evyge+kqedrvr6/28=
+X-Google-Smtp-Source: ABdhPJzLkmvynCvHtY2PDfJ9+YpurnZ1eeJSwDpCQM6QDdyV4O4jnNFCLIpv1Ygyg22DXPkiBxG2bv7B2Qd+Ki4e7o4=
+X-Received: by 2002:a5d:9d11:: with SMTP id j17mr6174561ioj.140.1597341676627; 
+ Thu, 13 Aug 2020 11:01:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-609103937-1597293877=:3561"
+References: <CACFir3g8CPiN=63am0aLfEU3n9Ft5+ZQ_qJUHQGqqzj96ePHBA@mail.gmail.com>
+ <CACFir3jGNRKgcmdAHYDFeLJeO2mXokG5p6yc0WPS0qwCEKNJ6Q@mail.gmail.com>
+ <CAKXUXMx81VxEGEzOX1zhh7ZdGsFGASVMn2Xn9e_MMXyNKjHtRQ@mail.gmail.com>
+ <CACFir3giaV-hyAJ4EoQakznJ271WM9GhXv+tS3S1BvFUoLbz_g@mail.gmail.com>
+ <CAKXUXMzpeUyv8b-KbcR7AAiudi_rU1W+2NyBRtZKHzk15TgrPA@mail.gmail.com>
+ <CACFir3j9PvqJG8Akaa5+3CStwNhfR9JZKvXLuk-GPP9y5DXW0w@mail.gmail.com>
+ <CACFir3ihTHVJjGuEuQ6DZp=QFG+-O8HVzQOK=0nOWsJ-v6C+fw@mail.gmail.com>
+ <CAKXUXMyXmoeFnm2nxLUWYHL=sLCqJAdSZBaCsVPCPLscKztAPA@mail.gmail.com>
+ <CACFir3jCY6kNyzr_7F+r1aRwt9nr78iiPw5b1BtnHfEu_Cxi5w@mail.gmail.com>
+In-Reply-To: <CACFir3jCY6kNyzr_7F+r1aRwt9nr78iiPw5b1BtnHfEu_Cxi5w@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 13 Aug 2020 20:01:05 +0200
+Message-ID: <CAKXUXMxL-jF80vhfgv7Pwy3_AGU42a7PtM_m10HMaQdHuNBW6Q@mail.gmail.com>
+To: Jay Rajput <jay24rajput@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Application for Linux CommunityBridge
-	Mentorship Programme
+Subject: Re: [Linux-kernel-mentees] Community Bridge Klever Project
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,94 +108,57 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-609103937-1597293877=:3561
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-
-
-On Thu, 13 Aug 2020, ishan srivastava wrote:
-
-> Hello Lukas, thanks for the reply. I have been trying to come up with a solution to the bug https://bugzilla.kernel.org/show_bug.cgi?id=207085 and I have to say that I haven’t been able to come up with one that is neat and clean.
+On Thu, Aug 13, 2020 at 7:15 PM Jay Rajput <jay24rajput@gmail.com> wrote:
+>
+> Hello Lukas,
+>
+> I was trying to compile the Linux kernel on my Ubuntu 18.04 machine.
+>
+> I executed the steps in the attached screenshot but I am running into the following error. I tried searching for the fix on this error but wasn't able to figure it out. I was hoping perhaps you could help me fix it.
+>
+> Please let me know if you can help me with this.
 >
 
-Okay, let us start easy here.
+First, please do not send screenshots; my mailbox and others you might
+communicate with have limited space and your png file is huge. Just
+copy the relevant text and output from the terminal.
 
-1. Please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
-2. Your email client is broken; you will not be able to communicate with 
-the kernel community with a broken email client. Please follow the 
-recommendation:
-https://www.kernel.org/doc/html/latest/process/email-clients.html#email-clients. 
- 
-> The problem described in the bug refers to false positive warnings that are encountered for missing blank lines after declarations inside a struct.
-> While I found no rule regarding this on https://www.kernel.org/doc/html/v4.10/process/coding-style.html#codingstyle, I presumed that this is a problem and went ahead to devise a solution.
->
+Second, please do not top-post.
 
-3. What is the latest kernel version? From which year is the documentation 
-you looked at and referred to? Please always look at the latest version 
-(at least the latest tag in torvalds' tree) of the documentation and 
-refer to that.
+    A: Because we read from top to bottom, left to right.
+    Q: Why should I start my reply below the quoted text?
 
-> The code in checkpatch.pl lines 3484-3523 ensures that there is a blank line in between declarations. To ensure that these checks are skipped when the line being checked by checkpatch.pl is inside a struct, we need to maintain a
-> counter as to the depth of nested structs the current line in and skip the checks whenever inside even a single struct (keeping aside further complications like do different struct declarations still need line break between them)
->
+    A: Because it messes up the order in which people normally read text.
+    Q: Why is top-posting such a bad thing?
 
-4. Why are line numbers alone meaningless in an email? Think about the 
-needed information that the reader can actually know what part of code you 
-are referring to? (Hint: There is only one version of the kernel sources 
-and it has not changed a single bit in the last 15 years, right?)
-What conveys the complete state of a git source code repository in a short 
-and unambiguous way?
+    A: The lost context.
+    Q: What makes top-posted replies harder to read than bottom-posted?
 
-Now to the technical discussion:
+    A: Yes.
+    Q: Should I trim down the quoted part of an email to which I'm replying?
 
-> If I have conveyed my concerns correctly then we can see that we will introduce a level of complication to checkpatch.pl as to which kind of paradigms the current line is in, which is currently not supported.
-> 
-> I can go ahead and submit a patch and also show that to you if you wish so but I am not sure whether it would be accepted by the maintainers as from what I have inferred, this level of complication hasn’t been introduced in
-> checkpatch.pl.
->
+Third, please always CC: linux-kernel-mentees@linux-foundation.org.
 
-Has this issue of a false positive from checkpatch.pl appeared on 
-multiple commits in the last 10 years? How about finding out how often 
-this rule would have emitted a true positive and a false positive on the 
-commits of the last 10 years?
+Fourth, please use google first and summarize what you found when
+reading the relevant articles.
 
-> I believe some other linters or static analysis tools can perform this with a few lines of code in their config file.
->
+Now to your issue:
 
-That is certainly an alternative; do you a specific tool in mind and can 
-you share the configuration to obtain the cases you consider true positive 
-findings?
- 
-> Please let me know what you think about this and what should be my next steps regarding this. I also find this interesting since even though not mentioned anywhere I see this coding style being followed in most places and might just be
-> one of the false positives that we are looking forward to fix through this project. I would also like to know if you have any framework/methodology in mind to approaching these problem (as this is a problem that needs to be addressed
-> by this project) or should we directly introduce this complexity to checkpatch.pl?
->
+You need to install the latest version of clang, which provides
+asm-goto support. Check the release notes of the compiler to see if
+asm-goto support is provided by the version you downloaded.
 
-Please address the points 1. to 4. correctly first; if you cannot get that 
-solved, set up and you cannot follow the process, there is no chance for a 
-kernel-related mentorship.
-
-Once you solved that, think about how to send an email correctly now and 
-compare it to first email. Send this improved email addressing the points 
-1 to 4. above. Then we can continue the technical discussion.
+Follow the rules above and the selection for a potential mentorship
+can continue.
 
 Lukas
---8323329-609103937-1597293877=:3561
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---8323329-609103937-1597293877=:3561--
