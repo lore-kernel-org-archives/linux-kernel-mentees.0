@@ -1,106 +1,100 @@
-Return-Path: <SRS0=//YW=BW=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=MBlu=BX=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CDDC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Aug 2020 20:34:21 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF54AC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Aug 2020 01:28:50 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E082C20774
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 12 Aug 2020 20:34:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JJYKq7rh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E082C20774
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 84BFB20675
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Aug 2020 01:28:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 84BFB20675
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A4D25813F4;
-	Wed, 12 Aug 2020 20:34:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 60A3E86224;
+	Thu, 13 Aug 2020 01:28:50 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5EWOfBCu8XcQ; Thu, 13 Aug 2020 01:28:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2E16685F55;
+	Thu, 13 Aug 2020 01:28:49 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 161EEC07FF;
+	Thu, 13 Aug 2020 01:28:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 73F7CC004D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 13 Aug 2020 01:28:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7054688278
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 13 Aug 2020 01:28:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OIkJ6E-ZlIjM; Wed, 12 Aug 2020 20:34:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 470598637D;
-	Wed, 12 Aug 2020 20:34:20 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 312D7C013C;
-	Wed, 12 Aug 2020 20:34:20 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B0F37C004D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 20:34:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5A49A241AE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 20:34:19 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nSyztmI3fGyy
+ with ESMTP id DPPw3ExFhBm6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 20:34:18 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
- [209.85.160.195])
- by silver.osuosl.org (Postfix) with ESMTPS id E18CF241A8
+ Thu, 13 Aug 2020 01:28:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.us.es (correo.us.es [193.147.175.20])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id C4D0988270
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 20:34:17 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id s23so2580821qtq.12
+ Thu, 13 Aug 2020 01:28:45 +0000 (UTC)
+Received: from antivirus1-rhel7.int (unknown [192.168.2.11])
+ by mail.us.es (Postfix) with ESMTP id 4BD26DA7B0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 12 Aug 2020 13:34:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=8AbcIfen2Mh3O6xshAeb42qMiceFCwU8VY+DtJghWKc=;
- b=JJYKq7rhGfoskc0IOYL0mQ2UgiV0NUPZnUMJqm0x4+mN+Jnr5eSGxbVsmV3va+QmiF
- wjNsakLNmG8Snq4Ka54NHi+FMZOfkPc/P2UAnRuTKgJxYoDYNvYxnt9ubGhb/1D4XEbF
- R5s86RQJgzcMqdEQLZP6mi/nb4RuLVBQmVI4891ly/7eIdpFM1zpDZkPWag8mXnTxtoy
- vTo5GBX5MwVspiDm8HromEAg+ZMCdOxBmSjbfjM12ucPoyMLi6Jr1WBIZ8qAoOffTuuf
- J8cG90cIOw+EUXScq3d98Z/wlHZasQ2HIKPuWFa0h1c1TvCj5gslLqFBv4AiKd9iNLAP
- uURg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=8AbcIfen2Mh3O6xshAeb42qMiceFCwU8VY+DtJghWKc=;
- b=hER2hUpR94pOBSo/uqdwOfhodECJmNWynNF7b9Dtl4llBXlhF1VfnDtD8bkR/ykYN6
- e0pqcDIOqps4t4DTfbZwkAhiNkP84E5vcJYQIvSz5hWs0IT0cRi2gm9jZ8CyAapjt5Uv
- 5T+MqEebjKQjLAg52gwj+5mgEHZc/clFmgL0bJfQM2duVE9tuHIFl0/z8sD1MCVjEthQ
- lkLEZfMyGU3Gv/mZucfE7spg1CtsN/+T7fI12zULSNRysKzZGWBzsIpFKZRSOWcbduoH
- lpDh9wXBtiPr/z8ZLhFBPBSi8Fh+gF+iist4XwcseEmU86af0z2BIpcTdAn7bhhXDJnR
- GF8A==
-X-Gm-Message-State: AOAM531F7kaIRo1Ynqfe1OPZhOadMq2HDjf6dIsKLX2vYfueb3xK5Cyu
- g1BqhOFrCDb6u3dh9HRXRz8=
-X-Google-Smtp-Source: ABdhPJx64TW/NqTIbSDn9AtxCM0KEpE57asspn5bN7J15aOPfo8WvWruSQ6i+zwyQrbngY2hClZEPw==
-X-Received: by 2002:ac8:130a:: with SMTP id e10mr1710881qtj.38.1597264456887; 
- Wed, 12 Aug 2020 13:34:16 -0700 (PDT)
-Received: from eaf ([190.19.79.86])
- by smtp.gmail.com with ESMTPSA id o13sm3651241qko.48.2020.08.12.13.34.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 13:34:16 -0700 (PDT)
-Date: Wed, 12 Aug 2020 17:34:10 -0300
-From: Ernesto =?utf-8?Q?A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Message-ID: <20200812203410.GA6168@eaf>
-References: <20200812065556.869508-1-yepeilin.cs@gmail.com>
- <20200812070827.GA1304640@kroah.com> <20200812071306.GA869606@PWN>
- <20200812085904.GA16441@kadam> <20200812202420.GA5873@eaf>
+ Thu, 13 Aug 2020 03:28:41 +0200 (CEST)
+Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
+ by antivirus1-rhel7.int (Postfix) with ESMTP id 3DCDFDA797
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 13 Aug 2020 03:28:41 +0200 (CEST)
+Received: by antivirus1-rhel7.int (Postfix, from userid 99)
+ id 31BF9DA78D; Thu, 13 Aug 2020 03:28:41 +0200 (CEST)
+Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
+ by antivirus1-rhel7.int (Postfix) with ESMTP id 9C6DEDA704;
+ Thu, 13 Aug 2020 03:28:38 +0200 (CEST)
+Received: from 192.168.1.97 (192.168.1.97)
+ by antivirus1-rhel7.int (F-Secure/fsigk_smtp/550/antivirus1-rhel7.int);
+ Thu, 13 Aug 2020 03:28:38 +0200 (CEST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/antivirus1-rhel7.int)
+Received: from us.es (246.pool85-48-185.static.orange.es [85.48.185.246])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: 1984lsi)
+ by entrada.int (Postfix) with ESMTPSA id 111A542EE38E;
+ Thu, 13 Aug 2020 03:28:37 +0200 (CEST)
+Date: Thu, 13 Aug 2020 03:28:35 +0200
+X-SMTPAUTHUS: auth mail.us.es
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Simon Horman <horms@verge.net.au>
+Message-ID: <20200813012835.GA1851@salvia>
+References: <20200810220703.796718-1-yepeilin.cs@gmail.com>
+ <20200811074640.841693-1-yepeilin.cs@gmail.com>
+ <alpine.LFD.2.23.451.2008111324570.7428@ja.home.ssi.bg>
+ <20200811125956.GA31293@vergenet.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200812202420.GA5873@eaf>
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+In-Reply-To: <20200811125956.GA31293@vergenet.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Virus-Scanned: ClamAV using ClamSMTP
+Cc: Wensong Zhang <wensong@linux-vs.org>, coreteam@netfilter.org,
+ "David S. Miller" <davem@davemloft.net>, Florian Westphal <fw@strlen.de>,
+ linux-kernel@vger.kernel.org, Jozsef Kadlecsik <kadlec@netfilter.org>,
+ lvs-devel@vger.kernel.org, Julian Anastasov <ja@ssi.bg>,
+ netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, Cong Wang <xiyou.wangcong@gmail.com>,
+ syzkaller-bugs@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
  Peilin Ye <yepeilin.cs@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] hfs,
- hfsplus: Fix NULL pointer dereference in hfs_find_init()
+Subject: Re: [Linux-kernel-mentees] [PATCH net-next v2] ipvs: Fix
+ uninit-value in do_ip_vs_set_ctl()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,19 +106,37 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gV2VkLCBBdWcgMTIsIDIwMjAgYXQgMDU6MjQ6MjBQTSAtMDMwMCwgRXJuZXN0byBBLiBGZXJu
-w6FuZGV6IHdyb3RlOgo+IElmIHRoYXQncyB3aGF0IHRoZSByZXByb2R1Y2VyIGlzIGFib3V0LCBJ
-IHRoaW5rIGp1c3QgcmV0dXJuaW5nIGFuIGVycm9yIGlzCj4gcmVhc29uYWJsZS4KCkkgZ3Vlc3Mg
-aXQgd291bGQgYmUgYmV0dGVyIHRvIHB1dCBhIGNoZWNrIGluc2lkZSBoZnNwbHVzX2lub2RlX3Jl
-YWRfZm9yaygpLAp0byB2ZXJpZnkgdGhhdCB0aGUgZmlyc3QgZXh0ZW50IGlzIGFsd2F5cyBpbiB0
-aGUgcmlnaHQgcGxhY2UgYW5kIHdpZGUKZW5vdWdoLgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QK
-TGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xp
-c3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVu
-dGVlcwo=
+On Tue, Aug 11, 2020 at 02:59:59PM +0200, Simon Horman wrote:
+> On Tue, Aug 11, 2020 at 01:29:04PM +0300, Julian Anastasov wrote:
+> > 
+> > 	Hello,
+> > 
+> > On Tue, 11 Aug 2020, Peilin Ye wrote:
+> > 
+> > > do_ip_vs_set_ctl() is referencing uninitialized stack value when `len` is
+> > > zero. Fix it.
+> > > 
+> > > Reported-by: syzbot+23b5f9e7caf61d9a3898@syzkaller.appspotmail.com
+> > > Link: https://syzkaller.appspot.com/bug?id=46ebfb92a8a812621a001ef04d90dfa459520fe2
+> > > Suggested-by: Julian Anastasov <ja@ssi.bg>
+> > > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> > 
+> > 	Looks good to me, thanks!
+> > 
+> > Acked-by: Julian Anastasov <ja@ssi.bg>
+> 
+> Pablo, could you consider this for nf-next or should we repost when
+> net-next re-opens?
+
+No worries, it will sit in netfilter's patchwork until net-next
+reopens.
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
