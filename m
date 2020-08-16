@@ -5,102 +5,103 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC31AC433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Aug 2020 02:56:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B53C433E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Aug 2020 02:57:25 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 76025206C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Aug 2020 02:56:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4F6D820675
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Aug 2020 02:57:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="u+OpWrD0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 76025206C0
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZREbcnX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4F6D820675
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 392F18776C;
-	Sun, 16 Aug 2020 02:56:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 18AFB882EE;
+	Sun, 16 Aug 2020 02:57:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3pjpM2P6-mxV; Sun, 16 Aug 2020 02:56:50 +0000 (UTC)
+	with ESMTP id mdseIu62Gd8R; Sun, 16 Aug 2020 02:57:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7AC72874E0;
-	Sun, 16 Aug 2020 02:56:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A80B987D7C;
+	Sun, 16 Aug 2020 02:57:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DC18C07FF;
-	Sun, 16 Aug 2020 02:56:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 921ACC07FF;
+	Sun, 16 Aug 2020 02:57:24 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5DC12C004D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C1498C004D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Aug 2020 02:56:49 +0000 (UTC)
+ Sun, 16 Aug 2020 02:57:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 466F286356
+ by fraxinus.osuosl.org (Postfix) with ESMTP id BD82886381
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Aug 2020 02:56:49 +0000 (UTC)
+ Sun, 16 Aug 2020 02:57:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zkcPxJmDtJ5p
+ with ESMTP id MqpebWUNWdbI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Aug 2020 02:56:47 +0000 (UTC)
+ Sun, 16 Aug 2020 02:57:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 376088634C
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 50BA786356
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Aug 2020 02:56:47 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id a79so6442429pfa.8
+ Sun, 16 Aug 2020 02:57:22 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id m8so6460604pfh.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 15 Aug 2020 19:56:47 -0700 (PDT)
+ Sat, 15 Aug 2020 19:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=nxRS4sovf6GjtcJdjWXmM4G6i1tYTrf7XYtnALv+02A=;
- b=u+OpWrD0xShZqRnowsZ+j9C/wDb3pI7Q2Lhmozbz+U68ef/uIpJcUza/iUSjp8zdvt
- B+vgWw2uhMcFfLZT9iSMKLFqBhRked1h7xYwspPP3S4Nd5xWzPv2knbmYcLe/nLOZmco
- 1q2OG1Rw4sHkfXzmsiUXhxhfbZSdqp6kT5ZtLjDzmEfAzfo6zQTCGLY7mgS2vRbxx/DT
- cqZ4BxubTiD1QmpMfX+YoxCPuPv6FLIYQRaUyktClAQ/bcYj6OzZH4ecCK5GjKM21WCi
- tI0adCL8Qk3NkY6E+yNskpLyAg/KhcWFfWATX1q47nHa9Ot2GFD51gEYJZDjPHR+BY0A
- 1/GQ==
+ bh=JIK358VUoo1CD174mKzy+Qk9J6wTA6d4kRpN62If/zg=;
+ b=RZREbcnXErKUQleWvwvYCoWzsPsm9cnxIX1aghrSxuphK7/2JqT8r6KyxBFZU9gRUg
+ Wz149j8KIArOMwfTCTDe0/Ncc6rTabEZkhq9QIz+qXZ10UfAuuvHR5pvNAkpflYIoCoy
+ bHodDeXuzktpMm0P0mxJtT9YbU5hNs000rYifo/479k/qCRTU1Ltq7JX1pfBhQl9/ACq
+ KFgfWPn6mvIYFQF0ARBiRnStCaNm5Bp6pQuXRxejEjXvTpSvuTOJUgqF4/4jP/yi+UQL
+ nG+r/6AFOyfHKxFrYTUaZeS7xU+JMZZ09iDdQjBH76qutOMJLEp/OJJHIZaRqb0c+Frr
+ Kw9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=nxRS4sovf6GjtcJdjWXmM4G6i1tYTrf7XYtnALv+02A=;
- b=XU2lXUac+xmDj73/atGQnpU6mcyWd44Xkj5TSAifE7LuDsXfPzgGGOapxNhkgrflLc
- Pwd7YX3DB6NGi5lYowK0To2VpcOANI3w7DU3m5gXX4eN6be4FkfcUMZa1Lio3JrxCwiP
- Sm7wAWp01KbqIOlbOTRUT1yzgPz2z4zghIOx2Q5WTScAzFpYl4/z2EsY7GMSLjXFSlpX
- n/JwnpX5HB4dmYS0tvSBcgkAk0NjZmk5oDX3WJPLy8jU8oZuLxQoKsKpSIlUdYav+o+D
- e6JJxkA88SifG0/P9JHlc9QlC6nPy4Zs5JdgGYH6/SZ4sDvxxitMe8CP7BvRJCJniMEp
- 3+wg==
-X-Gm-Message-State: AOAM530/qYK24qx0386qxZ362lefyV7qt3jtjLKvUhrZ9l6TLHoMGc6f
- aRMCPOcbtqxc1I+n2jCkwDE=
-X-Google-Smtp-Source: ABdhPJyT/sTWHOZi9Lnw9jLyJtS7mOlgCDSJuClYdBR63itdEpMGQLJWxxZq1NnqawqJhGrCpLX04Q==
-X-Received: by 2002:a62:1ad0:: with SMTP id a199mr7068906pfa.56.1597546606564; 
- Sat, 15 Aug 2020 19:56:46 -0700 (PDT)
+ bh=JIK358VUoo1CD174mKzy+Qk9J6wTA6d4kRpN62If/zg=;
+ b=nJ1ML+9zfK0LLW0V4gvHAy+NytcT9fpIcKVtXJSHCG+zt51HwzM6aCMnSTH3FdqEzt
+ z5WIMBe3ICfJGWb25pQHhry64HAOoGxxqqKq6yKW0chj16lvHsgHWa2nu5S5qhfaf8z2
+ NxLBs0nbrIdgT4RAHJ2F2qa4PV/hhRkHGb60Ym53Ff3Cha3GtyUQ9zJF+2F5Qa3M2yXJ
+ D4gFOhCMDscWcxm2AJt157XxY9iio+km32dezvPkgYpHZUiwVsA46x7P5bRxEpS57TVY
+ 0z35uSuLQtOFCABw25iFWX76yRIeWEL+iFsOlqerEE4wWXaKKgQOXK3moN11t/nx27Fw
+ E9Ow==
+X-Gm-Message-State: AOAM530/fOofloP7YLPOFtqEyU9Ep0RNQflb7eFOeIzAPWitga/5u6sl
+ W4NH8ZGTMUsM9+rzmyRiK3M=
+X-Google-Smtp-Source: ABdhPJxqxC64YNpIV4UVBdpa3RDRiVyqOYxgw5o33bHO2Vs+UCh8QRRk6SiXqTNqGgB7TPxjCTvCiQ==
+X-Received: by 2002:a63:d812:: with SMTP id b18mr5844818pgh.353.1597546641805; 
+ Sat, 15 Aug 2020 19:57:21 -0700 (PDT)
 Received: from f3 (ae055068.dynamic.ppp.asahi-net.or.jp. [14.3.55.68])
- by smtp.gmail.com with ESMTPSA id w7sm13597208pfi.164.2020.08.15.19.56.42
+ by smtp.gmail.com with ESMTPSA id z9sm12935865pfn.59.2020.08.15.19.57.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Aug 2020 19:56:44 -0700 (PDT)
-Date: Sun, 16 Aug 2020 11:56:40 +0900
+ Sat, 15 Aug 2020 19:57:21 -0700 (PDT)
+Date: Sun, 16 Aug 2020 11:57:17 +0900
 From: Benjamin Poirier <benjamin.poirier@gmail.com>
 To: Coiby Xu <coiby.xu@gmail.com>
-Message-ID: <20200816025640.GA27529@f3>
+Message-ID: <20200816025717.GA28176@f3>
 References: <20200814160601.901682-1-coiby.xu@gmail.com>
- <20200814160601.901682-2-coiby.xu@gmail.com>
+ <20200814160601.901682-4-coiby.xu@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200814160601.901682-2-coiby.xu@gmail.com>
+In-Reply-To: <20200814160601.901682-4-coiby.xu@gmail.com>
 Cc: Michal Kubecek <mkubecek@suse.cz>,
  "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
  GR-Linux-NIC-Dev@marvell.com, Manish Chopra <manishc@marvell.com>,
  netdev@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [RFC 1/3] Initialize devlink health dump
- framework for the dlge driver
+Subject: Re: [Linux-kernel-mentees] [RFC 3/3] staging: qlge: clean up code
+	that dump info to dmesg
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,209 +119,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2020-08-15 00:05 +0800, Coiby Xu wrote:
-> Initialize devlink health dump framework for the dlge driver so the
-> coredump could be done via devlink.
+On 2020-08-15 00:06 +0800, Coiby Xu wrote:
+> The related code are not necessary because,
+> - Device status and general registers can be obtained by ethtool.
+> - Coredump can be done via devlink health reporter.
+> - Structure related to the hardware (struct ql_adapter) can be obtained
+>   by crash or drgn.
+
+I would suggest to add the drgn script from the cover letter to
+Documentation/networking/device_drivers/qlogic/
+
+I would also suggest to submit a separate patch now which fixes the
+build breakage reported in <20200629053004.GA6165@f3> while you work on
+removing that code.
+
 > 
 > Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 > ---
->  drivers/staging/qlge/Makefile      |  2 +-
->  drivers/staging/qlge/qlge.h        |  9 +++++++
->  drivers/staging/qlge/qlge_health.c | 43 ++++++++++++++++++++++++++++++
->  drivers/staging/qlge/qlge_health.h |  2 ++
->  drivers/staging/qlge/qlge_main.c   | 21 +++++++++++++++
->  5 files changed, 76 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/staging/qlge/qlge_health.c
->  create mode 100644 drivers/staging/qlge/qlge_health.h
+>  drivers/staging/qlge/qlge.h         |  82 ----
+>  drivers/staging/qlge/qlge_dbg.c     | 672 ----------------------------
+>  drivers/staging/qlge/qlge_ethtool.c |   1 -
+>  drivers/staging/qlge/qlge_main.c    |   6 -
+>  4 files changed, 761 deletions(-)
 > 
-> diff --git a/drivers/staging/qlge/Makefile b/drivers/staging/qlge/Makefile
-> index 1dc2568e820c..0a1e4c8dd546 100644
-> --- a/drivers/staging/qlge/Makefile
-> +++ b/drivers/staging/qlge/Makefile
-> @@ -5,4 +5,4 @@
->  
->  obj-$(CONFIG_QLGE) += qlge.o
->  
-> -qlge-objs := qlge_main.o qlge_dbg.o qlge_mpi.o qlge_ethtool.o
-> +qlge-objs := qlge_main.o qlge_dbg.o qlge_mpi.o qlge_ethtool.o qlge_health.o
-> diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
-> index fc8c5ca8935d..055ded6dab60 100644
-> --- a/drivers/staging/qlge/qlge.h
-> +++ b/drivers/staging/qlge/qlge.h
-> @@ -2061,6 +2061,14 @@ struct nic_operations {
->  	int (*port_initialize) (struct ql_adapter *);
->  };
->  
-
-This patch doesn't apply over the latest staging tree. I think your tree
-is missing commit d923bb6bf508 ("staging: qlge: qlge.h: Function
-definition arguments should have names.")
-
-> +
-> +
-> +struct qlge_devlink {
-> +        struct ql_adapter *qdev;
-> +        struct net_device *ndev;
-
-I don't have experience implementing devlink callbacks but looking at
-some other devlink users (mlx4, ionic, ice), all of them use devlink
-priv space for their main private structure. That would be struct
-ql_adapter in this case. Is there a good reason to stray from that
-pattern?
-
-> +        struct devlink_health_reporter *reporter;
-> +};
-> +
->  /*
->   * The main Adapter structure definition.
->   * This structure has all fields relevant to the hardware.
-> @@ -2078,6 +2086,7 @@ struct ql_adapter {
->  	struct pci_dev *pdev;
->  	struct net_device *ndev;	/* Parent NET device */
->  
-> +	struct qlge_devlink *devlink;
->  	/* Hardware information */
->  	u32 chip_rev_id;
->  	u32 fw_rev_id;
-> diff --git a/drivers/staging/qlge/qlge_health.c b/drivers/staging/qlge/qlge_health.c
-> new file mode 100644
-> index 000000000000..292f6b1827e1
-> --- /dev/null
-> +++ b/drivers/staging/qlge/qlge_health.c
-> @@ -0,0 +1,43 @@
-> +#include "qlge.h"
-> +#include "qlge_health.h"
-> +
-> +static int
-> +qlge_reporter_coredump(struct devlink_health_reporter *reporter,
-> +			struct devlink_fmsg *fmsg, void *priv_ctx,
-> +			struct netlink_ext_ack *extack)
-> +{
-> +	return 0;
-> +}
-> +
-> +static const struct devlink_health_reporter_ops qlge_reporter_ops = {
-> +		.name = "dummy",
-> +		.dump = qlge_reporter_coredump,
-> +};
-
-I think
-	select NET_DEVLINK
-should be added to drivers/staging/qlge/Kconfig
-
-> +
-> +int qlge_health_create_reporters(struct qlge_devlink *priv)
-> +{
-> +	int err;
-> +
-> +	struct devlink_health_reporter *reporter;
-> +	struct devlink *devlink;
-> +
-> +	devlink = priv_to_devlink(priv);
-> +	reporter =
-> +		devlink_health_reporter_create(devlink, &qlge_reporter_ops,
-> +					       0,
-> +					       priv);
-> +	if (IS_ERR(reporter)) {
-> +		netdev_warn(priv->ndev,
-> +			    "Failed to create reporter, err = %ld\n",
-> +			    PTR_ERR(reporter));
-> +		return PTR_ERR(reporter);
-> +	}
-> +	priv->reporter = reporter;
-> +
-> +	if (err)
-> +		return err;
-> +
-> +	return 0;
-> +}
-> +
-> +
-
-Stray newlines
-
-> diff --git a/drivers/staging/qlge/qlge_health.h b/drivers/staging/qlge/qlge_health.h
-> new file mode 100644
-> index 000000000000..07d3bafab845
-> --- /dev/null
-> +++ b/drivers/staging/qlge/qlge_health.h
-> @@ -0,0 +1,2 @@
-> +#include <net/devlink.h>
-> +int qlge_health_create_reporters(struct qlge_devlink *priv);
-
-I would suggest to put this in qlge.h instead of creating a new file.
-
-> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> index 1650de13842f..b2be7f4b7dd6 100644
-> --- a/drivers/staging/qlge/qlge_main.c
-> +++ b/drivers/staging/qlge/qlge_main.c
-> @@ -42,6 +42,7 @@
->  #include <net/ip6_checksum.h>
->  
->  #include "qlge.h"
-> +#include "qlge_health.h"
->  
->  char qlge_driver_name[] = DRV_NAME;
->  const char qlge_driver_version[] = DRV_VERSION;
-> @@ -4550,6 +4551,8 @@ static void ql_timer(struct timer_list *t)
->  	mod_timer(&qdev->timer, jiffies + (5 * HZ));
+[...]
+> diff --git a/drivers/staging/qlge/qlge_dbg.c b/drivers/staging/qlge/qlge_dbg.c
+> index 058889687907..368394123d16 100644
+> --- a/drivers/staging/qlge/qlge_dbg.c
+> +++ b/drivers/staging/qlge/qlge_dbg.c
+> @@ -1326,675 +1326,3 @@ void ql_mpi_core_to_log(struct work_struct *work)
+>  		       sizeof(*qdev->mpi_coredump), false);
 >  }
->  
-> +static const struct devlink_ops qlge_devlink_ops;
-> +
->  static int qlge_probe(struct pci_dev *pdev,
->  		      const struct pci_device_id *pci_entry)
->  {
-> @@ -4557,6 +4560,13 @@ static int qlge_probe(struct pci_dev *pdev,
->  	struct ql_adapter *qdev = NULL;
->  	static int cards_found;
->  	int err = 0;
-> +	struct devlink *devlink;
-> +	struct qlge_devlink *qlge_dl;
-> +
-> +	devlink = devlink_alloc(&qlge_devlink_ops, sizeof(struct qlge_devlink));
-> +	if (!devlink)
-> +		return -ENOMEM;
-> +	qlge_dl = devlink_priv(devlink);
->  
->  	ndev = alloc_etherdev_mq(sizeof(struct ql_adapter),
->  				 min(MAX_CPUS,
-> @@ -4615,6 +4625,15 @@ static int qlge_probe(struct pci_dev *pdev,
->  		free_netdev(ndev);
->  		return err;
->  	}
-> +
-> +	err = devlink_register(devlink, &pdev->dev);
-> +	if (err)
-> +		devlink_free(devlink);
-
-Are you sure it's safe to continue devlink init after an error here?
-Again, that does not resemble usage of devlink in other drivers (ex.
-bnxt).
-
-> +
-> +	qlge_health_create_reporters(qlge_dl);
-> +	qlge_dl->qdev = qdev;
-> +	qlge_dl->ndev = ndev;
-> +	qdev->devlink = qlge_dl;
->  	/* Start up the timer to trigger EEH if
->  	 * the bus goes dead
->  	 */
-> @@ -4647,6 +4666,8 @@ static void qlge_remove(struct pci_dev *pdev)
->  	unregister_netdev(ndev);
->  	ql_release_all(pdev);
->  	pci_disable_device(pdev);
-> +	devlink_unregister(priv_to_devlink(qdev->devlink));
-> +	devlink_health_reporter_destroy(qdev->devlink->reporter);
-
-Isn't the order of those two calls mixed up?
-
->  	free_netdev(ndev);
->  }
->  
-> -- 
-> 2.27.0
 > 
+> -#ifdef QL_REG_DUMP
+> -static void ql_dump_intr_states(struct ql_adapter *qdev)
+> -{
+[...]
+> -	}
+> -}
+> -#endif
+
+This leaves a stray newline at the end of the file and also does not
+apply over latest staging.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
