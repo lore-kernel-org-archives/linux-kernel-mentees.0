@@ -5,105 +5,99 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 673F9C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 07:41:05 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCB4DC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 07:44:08 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 32A1020738
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 07:41:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9BAEE2177B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 07:44:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B2jPb1zN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32A1020738
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cVPgV/X2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BAEE2177B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E1EF488137;
-	Mon, 17 Aug 2020 07:41:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4EEAD87E5F;
+	Mon, 17 Aug 2020 07:44:08 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5Jdi2D5A91F8; Mon, 17 Aug 2020 07:44:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id B5B7C872E9;
+	Mon, 17 Aug 2020 07:44:07 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B209BC07FF;
+	Mon, 17 Aug 2020 07:44:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AA199C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 17 Aug 2020 07:44:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 9921A8813E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 17 Aug 2020 07:44:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FCdf2hB9Igg5; Mon, 17 Aug 2020 07:41:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DC55C88127;
-	Mon, 17 Aug 2020 07:41:03 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C0289C07FF;
-	Mon, 17 Aug 2020 07:41:03 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8CB7FC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 07:41:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 751A320392
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 07:41:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LuR5H8S1pnKU
+ with ESMTP id 6eKEQFpA4qUZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 07:41:00 +0000 (UTC)
+ Mon, 17 Aug 2020 07:44:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by silver.osuosl.org (Postfix) with ESMTPS id 42A1320378
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2536D87CB5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 07:41:00 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id q19so7098221pll.0
+ Mon, 17 Aug 2020 07:44:06 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id y206so7804645pfb.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 00:41:00 -0700 (PDT)
+ Mon, 17 Aug 2020 00:44:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=RM7j56GIbY2XZQvIJvFYJfc76JLevpY4j9bfd6IB8PM=;
- b=B2jPb1zNf6ZAsLlmkE35hVF+l8cn20ifAn+x251i5y3n60gsemf0JdE/T5qWJDSEg0
- WZktiFFIKwf9o93dBrsMvzP35J0H3wrl26g8ashCvCw/6EWboyaRAfonP+8Pa8I9Jy5D
- d5DwzgQy81ktHTnEEtYv0hkGeqapPzl4HFcntCKsHLM6QVxJEKXHrT9wO6oqCA/KIqbg
- oHH3cbMvr7sxxoU1QgCRoJ741ofLd2xNWQ5xTT7bwReq+u0c/NIsLAYTZzK1su/GQ8cY
- dcv2UkgF7ybn3xVOkDk9PNBN95puQbkKVcGDVFsZtbXm0y8LONNXuHDmnAw48CRLCZGO
- AvhA==
+ bh=dyqpdq5z1tV4VGcNVcGfrr6ZWrqS+ezelgjUrIGuMOY=;
+ b=cVPgV/X2Wys5BSUaCqslmYpTyAJtSfcqQjAtJ25PxE1bfi6QFMip/+YUNsGYJVlT+0
+ fXDpLXtueD0UY8a3VnYymeANd2d7ULnAldZ/eXoIt9hN/eQ5zHJzohxOoJATmYTOPZz0
+ bMG7Js45uAPDKsG2z3UE/v7pBolErl8xOmBoWIQMrQV0CvHDSKISsjS6OYbXTV7w5A3i
+ ZMMF0wU6IPdqazs+Cr4qE+i4IsIOGUDgzgHBmYOZAu2lVJVohKmQdNtRuQo0p4bNmgNI
+ 4qAaXddUlKfFUvKHnbH1vP1t58TcAqD8BOAGMTs0QphZN7Elrj43DFQs4ZO4bCE5ljwQ
+ f6lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=RM7j56GIbY2XZQvIJvFYJfc76JLevpY4j9bfd6IB8PM=;
- b=OdNNemekvFC2U7xpAlWK6EaN5lZwsbYMnaoI08Nu20syazCI7MxNE66Nh7EPdsruPR
- amE55P8qvnBrIUxxbvcJgptAkNCIKRSTLMfWxQzqGDKgBCDKTcetfipe5YVYYIw5wHKv
- 848IpyvpXlmihVgyBiPOOYVUzWiO4YWzXT9zXRc/HEDzTrvCRtfUcGlzOFOcWobQd9J2
- 8DdJ0xx+4d+tPg/Vg0LUwvPI7uexgKhQjXvIF3HU/2mIR7iI0KfX3w/ACd3D6H6nJ7my
- RHKLKu8qUVBkXAZxaeKZs3Ce6wf1/p5FQe36oFfLA26sZPJt17v2iZhXSrs0W4NGZv+L
- BK9w==
-X-Gm-Message-State: AOAM533KI3ovtF4Iiakm4/dCbAnCjcdku7w70MnsAZ2NE6Xv03Xh5dW4
- 9kYU4OM9AfHkqyVqkaYhQY0=
-X-Google-Smtp-Source: ABdhPJxSy5/FMM0HJ0/af0ZF1zBcmMyDQxg6J0+q5z0IpnrvbNusAdYb9w/wZu0aF7I3xcbOgAjPvw==
-X-Received: by 2002:a17:90b:788:: with SMTP id
- l8mr11585703pjz.25.1597650059638; 
- Mon, 17 Aug 2020 00:40:59 -0700 (PDT)
+ bh=dyqpdq5z1tV4VGcNVcGfrr6ZWrqS+ezelgjUrIGuMOY=;
+ b=CxJJWCwUvQXTO61mAS6+M3SfZey/SqQhk1OBBf6IWIa2s4us2ZFyr+cXBMQbjhxVAg
+ x47y/N/SpspQuQJcPUytNSeW9nrapqChLETwHlJ/VcCon4lP52Z02kIFNxx2uNgA5hy8
+ /b7I7za2kAOxn73mqN9sV8640MIk7os8wrUovyPzNr1+BNSCjy78kTACWa2Y/X9Y+9nz
+ RoNlEqxbtN5bdWtTWm2rG5A3CjprEndl+VytCiyWV5o3vBddcf3lMcInLEP/IwCy689p
+ /6g0GIyGOx9F4Pu0QtsdAKyOywnhLVnd66nxCbpem95qe2Nm+krS5dNzptemG/bu8wiL
+ D79g==
+X-Gm-Message-State: AOAM532AYPwi+MNsYpn71xO8ukNfcX5Oph+de7b0pfsDYbIdH3f3pZgl
+ oCl3JYAQiquYVfLinRloq1E=
+X-Google-Smtp-Source: ABdhPJzbfbQ/uiCg2uwPwKHRn+2dYffKumh3NKqwFNqCskJdyyJPr79StlzHRuaoRMXJeVgxADokSA==
+X-Received: by 2002:a63:541e:: with SMTP id i30mr9448058pgb.416.1597650245662; 
+ Mon, 17 Aug 2020 00:44:05 -0700 (PDT)
 Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id q18sm18473566pfn.106.2020.08.17.00.40.55
+ by smtp.gmail.com with ESMTPSA id y135sm18998916pfg.148.2020.08.17.00.44.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 00:40:59 -0700 (PDT)
-Date: Mon, 17 Aug 2020 13:09:15 +0530
+ Mon, 17 Aug 2020 00:44:05 -0700 (PDT)
+Date: Mon, 17 Aug 2020 13:12:29 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Sathya Prakash <sathya.prakash@broadcom.com>,
- Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
- Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>
-Message-ID: <20200817073915.GA5869@gmail.com>
-References: <20200721142423.304231-1-vaibhavgupta40@gmail.com>
+ bjorn@helgaas.com, Vaibhav Gupta <vaibhav.varodek@gmail.com>
+Message-ID: <20200817074229.GB5869@gmail.com>
+References: <20200622120229.89610-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200721142423.304231-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200622120229.89610-1-vaibhavgupta40@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- MPT-FusionLinux.pdl@broadcom.com, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] mptfusion: use generic power
-	management
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1] [media] saa7134: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,334 +115,97 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 21, 2020 at 07:54:24PM +0530, Vaibhav Gupta wrote:
-> Drivers using legacy power management .suspen()/.resume() callbacks
-> have to manage PCI states and device's PM states themselves. They also
-> need to take care of standard configuration registers.
+On Mon, Jun 22, 2020 at 05:32:30PM +0530, Vaibhav Gupta wrote:
+> With the support of generic PM callbacks, drivers no longer need to use
+> legacy .suspend() and .resume() in which they had to maintain PCI states
+> changes and device's power state themselves. The required operations are
+> done by PCI core.
 > 
-> Switch to generic power management framework using a single
-> "struct dev_pm_ops" variable to take the unnecessary load from the driver.
-> This also avoids the need for the driver to directly call most of the PCI
-> helper functions and device power state control functions as through
-> the generic framework, PCI Core takes care of the necessary operations,
-> and drivers are required to do only device-specific jobs.
+> Compile-tested only.
 > 
 > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 > ---
->  drivers/message/fusion/mptbase.c  | 36 +++++++++++--------------------
->  drivers/message/fusion/mptbase.h  |  7 +++---
->  drivers/message/fusion/mptfc.c    |  5 +----
->  drivers/message/fusion/mptsas.c   |  5 +----
->  drivers/message/fusion/mptscsih.c | 36 +++++++++++++++----------------
->  drivers/message/fusion/mptscsih.h |  7 +++---
->  drivers/message/fusion/mptspi.c   | 26 +++++++++++++---------
->  7 files changed, 53 insertions(+), 69 deletions(-)
+>  drivers/media/pci/saa7134/saa7134-core.c | 25 ++++++++----------------
+>  1 file changed, 8 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/message/fusion/mptbase.c b/drivers/message/fusion/mptbase.c
-> index 5216487db4fb..13a839c855a1 100644
-> --- a/drivers/message/fusion/mptbase.c
-> +++ b/drivers/message/fusion/mptbase.c
-> @@ -2139,23 +2139,19 @@ mpt_detach(struct pci_dev *pdev)
->  /**************************************************************************
->   * Power Management
->   */
+> diff --git a/drivers/media/pci/saa7134/saa7134-core.c b/drivers/media/pci/saa7134/saa7134-core.c
+> index e4623ed2f831..eb01109d4f98 100644
+> --- a/drivers/media/pci/saa7134/saa7134-core.c
+> +++ b/drivers/media/pci/saa7134/saa7134-core.c
+> @@ -1370,10 +1370,8 @@ static void saa7134_finidev(struct pci_dev *pci_dev)
+>  	kfree(dev);
+>  }
+>  
 > -#ifdef CONFIG_PM
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
->  /**
->   *	mpt_suspend - Fusion MPT base driver suspend routine.
-> - *	@pdev: Pointer to pci_dev structure
-> - *	@state: new state to enter
-> + *	@dev: Pointer to device structure
->   */
-> -int
-> -mpt_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused
-> +mpt_suspend(struct device *dev)
+> -
+>  /* resends a current buffer in queue after resume */
+> -static int saa7134_buffer_requeue(struct saa7134_dev *dev,
+> +static int __maybe_unused saa7134_buffer_requeue(struct saa7134_dev *dev,
+>  				  struct saa7134_dmaqueue *q)
 >  {
-> -	u32 device_state;
-> +	struct pci_dev *pdev = to_pci_dev(dev);
->  	MPT_ADAPTER *ioc = pci_get_drvdata(pdev);
->  
-> -	device_state = pci_choose_state(pdev, state);
->  	printk(MYIOC_s_INFO_FMT "pci-suspend: pdev=0x%p, slot=%s, Entering "
-> -	    "operating state [D%d]\n", ioc->name, pdev, pci_name(pdev),
-> -	    device_state);
-> +	    "suspend state\n", ioc->name, pdev, pci_name(pdev));
->  
->  	/* put ioc into READY_STATE */
->  	if (SendIocReset(ioc, MPI_FUNCTION_IOC_MESSAGE_UNIT_RESET, CAN_SLEEP)) {
-> @@ -2174,21 +2170,18 @@ mpt_suspend(struct pci_dev *pdev, pm_message_t state)
->  	if (ioc->msi_enable)
->  		pci_disable_msi(ioc->pcidev);
->  	ioc->pci_irq = -1;
-> -	pci_save_state(pdev);
-> -	pci_disable_device(pdev);
-> -	pci_release_selected_regions(pdev, ioc->bars);
-> -	pci_set_power_state(pdev, device_state);
+>  	struct saa7134_buf *buf, *next;
+> @@ -1397,8 +1395,9 @@ static int saa7134_buffer_requeue(struct saa7134_dev *dev,
 >  	return 0;
 >  }
 >  
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
->  /**
->   *	mpt_resume - Fusion MPT base driver resume routine.
-> - *	@pdev: Pointer to pci_dev structure
-> + *	@dev: Pointer to device structure
->   */
-> -int
-> -mpt_resume(struct pci_dev *pdev)
-> +static int __maybe_unused
-> +mpt_resume(struct device *dev)
+> -static int saa7134_suspend(struct pci_dev *pci_dev , pm_message_t state)
+> +static int __maybe_unused saa7134_suspend(struct device *dev_d)
 >  {
-> +	struct pci_dev *pdev = to_pci_dev(dev);
->  	MPT_ADAPTER *ioc = pci_get_drvdata(pdev);
->  	u32 device_state = pdev->current_state;
->  	int recovery_state;
-> @@ -2198,9 +2191,6 @@ mpt_resume(struct pci_dev *pdev)
->  	    "operating state [D%d]\n", ioc->name, pdev, pci_name(pdev),
->  	    device_state);
+> +	struct pci_dev *pci_dev = to_pci_dev(dev_d);
+>  	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
+>  	struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
 >  
-> -	pci_set_power_state(pdev, PCI_D0);
-> -	pci_enable_wake(pdev, PCI_D0, 0);
-> -	pci_restore_state(pdev);
->  	ioc->pcidev = pdev;
->  	err = mpt_mapresources(ioc);
->  	if (err)
-> @@ -2256,7 +2246,9 @@ mpt_resume(struct pci_dev *pdev)
+> @@ -1428,21 +1427,15 @@ static int saa7134_suspend(struct pci_dev *pci_dev , pm_message_t state)
+>  	if (dev->remote && dev->remote->dev->users)
+>  		saa7134_ir_close(dev->remote->dev);
+>  
+> -	pci_save_state(pci_dev);
+> -	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
+> -
 >  	return 0;
+>  }
 >  
+> -static int saa7134_resume(struct pci_dev *pci_dev)
+> +static int __maybe_unused saa7134_resume(struct device *dev_d)
+>  {
+> -	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
+> +	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
+>  	struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
+>  	unsigned long flags;
+>  
+> -	pci_set_power_state(pci_dev, PCI_D0);
+> -	pci_restore_state(pci_dev);
+> -
+>  	/* Do things that are done in saa7134_initdev ,
+>  		except of initializing memory structures.*/
+>  
+> @@ -1490,7 +1483,6 @@ static int saa7134_resume(struct pci_dev *pci_dev)
+>  
+>  	return 0;
 >  }
 > -#endif
-> +
-> +SIMPLE_DEV_PM_OPS(mpt_pm_ops, mpt_suspend, mpt_resume);
-> +EXPORT_SYMBOL(mpt_pm_ops);
 >  
->  static int
->  mpt_signal_reset(u8 index, MPT_ADAPTER *ioc, int reset_phase)
-> @@ -8440,10 +8432,6 @@ mpt_iocstatus_info(MPT_ADAPTER *ioc, u32 ioc_status, MPT_FRAME_HDR *mf)
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
->  EXPORT_SYMBOL(mpt_attach);
->  EXPORT_SYMBOL(mpt_detach);
-> -#ifdef CONFIG_PM
-> -EXPORT_SYMBOL(mpt_resume);
-> -EXPORT_SYMBOL(mpt_suspend);
-> -#endif
->  EXPORT_SYMBOL(ioc_list);
->  EXPORT_SYMBOL(mpt_register);
->  EXPORT_SYMBOL(mpt_deregister);
-> diff --git a/drivers/message/fusion/mptbase.h b/drivers/message/fusion/mptbase.h
-> index 813d46311f6a..b4ae350acd6c 100644
-> --- a/drivers/message/fusion/mptbase.h
-> +++ b/drivers/message/fusion/mptbase.h
-> @@ -909,10 +909,9 @@ typedef struct _x_config_parms {
->   */
->  extern int	 mpt_attach(struct pci_dev *pdev, const struct pci_device_id *id);
->  extern void	 mpt_detach(struct pci_dev *pdev);
-> -#ifdef CONFIG_PM
-> -extern int	 mpt_suspend(struct pci_dev *pdev, pm_message_t state);
-> -extern int	 mpt_resume(struct pci_dev *pdev);
-> -#endif
+>  /* ----------------------------------------------------------- */
+>  
+> @@ -1522,15 +1514,14 @@ EXPORT_SYMBOL(saa7134_ts_unregister);
+>  
+>  /* ----------------------------------------------------------- */
+>  
+> +static SIMPLE_DEV_PM_OPS(saa7134_pm_ops, saa7134_suspend, saa7134_resume);
 > +
-> +extern const struct dev_pm_ops mpt_pm_ops;
-> +
->  extern u8	 mpt_register(MPT_CALLBACK cbfunc, MPT_DRIVER_CLASS dclass,
->  		char *func_name);
->  extern void	 mpt_deregister(u8 cb_idx);
-> diff --git a/drivers/message/fusion/mptfc.c b/drivers/message/fusion/mptfc.c
-> index 4314a3352b96..5aae60bdd6c4 100644
-> --- a/drivers/message/fusion/mptfc.c
-> +++ b/drivers/message/fusion/mptfc.c
-> @@ -1357,10 +1357,7 @@ static struct pci_driver mptfc_driver = {
->  	.probe		= mptfc_probe,
->  	.remove		= mptfc_remove,
->  	.shutdown	= mptscsih_shutdown,
+>  static struct pci_driver saa7134_pci_driver = {
+>  	.name     = "saa7134",
+>  	.id_table = saa7134_pci_tbl,
+>  	.probe    = saa7134_initdev,
+>  	.remove   = saa7134_finidev,
 > -#ifdef CONFIG_PM
-> -	.suspend	= mptscsih_suspend,
-> -	.resume		= mptscsih_resume,
+> -	.suspend  = saa7134_suspend,
+> -	.resume   = saa7134_resume
 > -#endif
-> +	.driver.pm	= &mptscsih_pm_ops,
+> +	.driver.pm = &saa7134_pm_ops,
 >  };
 >  
->  static int
-> diff --git a/drivers/message/fusion/mptsas.c b/drivers/message/fusion/mptsas.c
-> index 6a79cd0ebe2b..158b59336b8f 100644
-> --- a/drivers/message/fusion/mptsas.c
-> +++ b/drivers/message/fusion/mptsas.c
-> @@ -5376,10 +5376,7 @@ static struct pci_driver mptsas_driver = {
->  	.probe		= mptsas_probe,
->  	.remove		= mptsas_remove,
->  	.shutdown	= mptsas_shutdown,
-> -#ifdef CONFIG_PM
-> -	.suspend	= mptscsih_suspend,
-> -	.resume		= mptscsih_resume,
-> -#endif
-> +	.driver.pm	= &mptscsih_pm_ops,
->  };
->  
->  static int __init
-> diff --git a/drivers/message/fusion/mptscsih.c b/drivers/message/fusion/mptscsih.c
-> index 1491561d2e5c..2861e51841da 100644
-> --- a/drivers/message/fusion/mptscsih.c
-> +++ b/drivers/message/fusion/mptscsih.c
-> @@ -113,10 +113,12 @@ mptscsih_taskmgmt_reply(MPT_ADAPTER *ioc, u8 type,
->  				SCSITaskMgmtReply_t *pScsiTmReply);
->  void 		mptscsih_remove(struct pci_dev *);
->  void 		mptscsih_shutdown(struct pci_dev *);
-> -#ifdef CONFIG_PM
-> -int 		mptscsih_suspend(struct pci_dev *pdev, pm_message_t state);
-> -int 		mptscsih_resume(struct pci_dev *pdev);
-> -#endif
-> +
-> +static int __maybe_unused
-> +mptscsih_suspend(struct device *dev);
-> +
-> +static int __maybe_unused
-> +mptscsih_resume(struct device *dev);
->  
->  
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
-> @@ -1215,22 +1217,21 @@ mptscsih_shutdown(struct pci_dev *pdev)
->  {
->  }
->  
-> -#ifdef CONFIG_PM
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
->  /*
->   *	mptscsih_suspend - Fusion MPT scsi driver suspend routine.
->   *
->   *
->   */
-> -int
-> -mptscsih_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused
-> +mptscsih_suspend(struct device *dev)
->  {
-> -	MPT_ADAPTER 		*ioc = pci_get_drvdata(pdev);
-> +	MPT_ADAPTER 		*ioc = dev_get_drvdata(dev);
->  
->  	scsi_block_requests(ioc->sh);
->  	flush_scheduled_work();
-> -	mptscsih_shutdown(pdev);
-> -	return mpt_suspend(pdev,state);
-> +	mptscsih_shutdown(to_pci_dev(dev));
-> +	return mpt_pm_ops.suspend(dev);
->  }
->  
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
-> @@ -1239,18 +1240,19 @@ mptscsih_suspend(struct pci_dev *pdev, pm_message_t state)
->   *
->   *
->   */
-> -int
-> -mptscsih_resume(struct pci_dev *pdev)
-> +static int __maybe_unused
-> +mptscsih_resume(struct device *dev)
->  {
-> -	MPT_ADAPTER 		*ioc = pci_get_drvdata(pdev);
-> +	MPT_ADAPTER 		*ioc = dev_get_drvdata(dev);
->  	int rc;
->  
-> -	rc = mpt_resume(pdev);
-> +	rc = mpt_pm_ops.resume(dev);
->  	scsi_unblock_requests(ioc->sh);
->  	return rc;
->  }
->  
-> -#endif
-> +SIMPLE_DEV_PM_OPS(mptscsih_pm_ops, mptscsih_suspend, mptscsih_resume);
-> +EXPORT_SYMBOL(mptscsih_pm_ops);
->  
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
->  /**
-> @@ -3236,10 +3238,6 @@ EXPORT_SYMBOL(mptscsih_host_attrs);
->  
->  EXPORT_SYMBOL(mptscsih_remove);
->  EXPORT_SYMBOL(mptscsih_shutdown);
-> -#ifdef CONFIG_PM
-> -EXPORT_SYMBOL(mptscsih_suspend);
-> -EXPORT_SYMBOL(mptscsih_resume);
-> -#endif
->  EXPORT_SYMBOL(mptscsih_show_info);
->  EXPORT_SYMBOL(mptscsih_info);
->  EXPORT_SYMBOL(mptscsih_qcmd);
-> diff --git a/drivers/message/fusion/mptscsih.h b/drivers/message/fusion/mptscsih.h
-> index 2baeefd9be7a..57ebb22977ee 100644
-> --- a/drivers/message/fusion/mptscsih.h
-> +++ b/drivers/message/fusion/mptscsih.h
-> @@ -107,10 +107,9 @@ typedef struct _internal_cmd {
->  
->  extern void mptscsih_remove(struct pci_dev *);
->  extern void mptscsih_shutdown(struct pci_dev *);
-> -#ifdef CONFIG_PM
-> -extern int mptscsih_suspend(struct pci_dev *pdev, pm_message_t state);
-> -extern int mptscsih_resume(struct pci_dev *pdev);
-> -#endif
-> +
-> +extern const struct dev_pm_ops mptscsih_pm_ops;
-> +
->  extern int mptscsih_show_info(struct seq_file *, struct Scsi_Host *);
->  extern const char * mptscsih_info(struct Scsi_Host *SChost);
->  extern int mptscsih_qcmd(struct scsi_cmnd *SCpnt);
-> diff --git a/drivers/message/fusion/mptspi.c b/drivers/message/fusion/mptspi.c
-> index eabc4de5816c..19994d5d034c 100644
-> --- a/drivers/message/fusion/mptspi.c
-> +++ b/drivers/message/fusion/mptspi.c
-> @@ -1321,23 +1321,30 @@ mptspi_ioc_reset(MPT_ADAPTER *ioc, int reset_phase)
->  	return rc;
->  }
->  
-> -#ifdef CONFIG_PM
-> +/*
-> + * spi module suspend handler
-> + */
-> +static int __maybe_unused
-> +mptspi_suspend(struct device *dev)
-> +{
-> +	return mptscsih_pm_ops.suspend(dev);
-> +}
-> +
->  /*
->   * spi module resume handler
->   */
-> -static int
-> -mptspi_resume(struct pci_dev *pdev)
-> +static int __maybe_unused
-> +mptspi_resume(struct device *dev)
->  {
-> -	MPT_ADAPTER 	*ioc = pci_get_drvdata(pdev);
-> +	MPT_ADAPTER 	*ioc = dev_get_drvdata(dev);
->  	struct _MPT_SCSI_HOST *hd = shost_priv(ioc->sh);
->  	int rc;
->  
-> -	rc = mptscsih_resume(pdev);
-> +	rc = mptscsih_pm_ops.resume(dev);
->  	mptspi_dv_renegotiate(hd);
->  
->  	return rc;
->  }
-> -#endif
->  
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
-> @@ -1550,16 +1557,15 @@ static void mptspi_remove(struct pci_dev *pdev)
->  	mptscsih_remove(pdev);
->  }
->  
-> +static SIMPLE_DEV_PM_OPS(mptspi_pm_ops, mptspi_suspend, mptspi_resume);
-> +
->  static struct pci_driver mptspi_driver = {
->  	.name		= "mptspi",
->  	.id_table	= mptspi_pci_table,
->  	.probe		= mptspi_probe,
->  	.remove		= mptspi_remove,
->  	.shutdown	= mptscsih_shutdown,
-> -#ifdef CONFIG_PM
-> -	.suspend	= mptscsih_suspend,
-> -	.resume		= mptspi_resume,
-> -#endif
-> +	.driver.pm	= &mptspi_pm_ops,
->  };
->  
->  /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
+>  static int __init saa7134_init(void)
 > -- 
 > 2.27.0
 > 
