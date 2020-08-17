@@ -1,86 +1,89 @@
-Return-Path: <SRS0=pkQQ=B2=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=pv6u=B3=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75475C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Aug 2020 20:24:53 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6033FC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 02:07:43 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 499482078D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Aug 2020 20:24:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 499482078D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1826E2078A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 02:07:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="Y5P7UBdU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1826E2078A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=canb.auug.org.au
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 47B8887E3C;
-	Sun, 16 Aug 2020 20:24:52 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C0D102051D;
+	Mon, 17 Aug 2020 02:07:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 189nbf7CQR+Q; Sun, 16 Aug 2020 20:24:51 +0000 (UTC)
+	with ESMTP id ZxtmvyFJAls0; Mon, 17 Aug 2020 02:07:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2D64287CB2;
-	Sun, 16 Aug 2020 20:24:51 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9655120507;
+	Mon, 17 Aug 2020 02:07:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AE5DC0889;
-	Sun, 16 Aug 2020 20:24:51 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 11FADC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A7E3C088B;
+	Mon, 17 Aug 2020 02:07:41 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16ED7C07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Aug 2020 20:24:50 +0000 (UTC)
+ Mon, 17 Aug 2020 02:07:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0EE9885C67
+ by whitealder.osuosl.org (Postfix) with ESMTP id F37CF87896
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Aug 2020 20:24:50 +0000 (UTC)
+ Mon, 17 Aug 2020 02:07:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4zGZ4sbxbNQn
+ with ESMTP id bP-QbD4ZaLvd
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Aug 2020 20:24:48 +0000 (UTC)
+ Mon, 17 Aug 2020 02:07:38 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 53FCC85C4A
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B02238780A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Aug 2020 20:24:47 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 1C02720023;
- Sun, 16 Aug 2020 22:24:44 +0200 (CEST)
-Date: Sun, 16 Aug 2020 22:24:42 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <20200816202442.GB1426650@ravnborg.org>
-References: <20200810165458.GA292825@ravnborg.org>
- <20200810185723.15540-1-vaibhavgupta40@gmail.com>
- <20200810185723.15540-10-vaibhavgupta40@gmail.com>
+ Mon, 17 Aug 2020 02:07:37 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4BVHVt2tgsz9sTK;
+ Mon, 17 Aug 2020 12:07:34 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1597630055;
+ bh=NUVL7wCS3C8AjNkO2+T076Su0229oneQ8GpXoq1sVvU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Y5P7UBdUOrLfq15c3+yrX4hNJWlKwBdrKEbO8tlxw0ZVi2cZFHtIr+yJ4e8YPwmzR
+ g46Pt4KUM4u7jB+Mv9FqHIDw1vwRlBY7kasTmjYHk0L5KQRHDJz/qG1FQh+pDLwZ6D
+ W6aVMYc/yWy9CLPsDlep0dlgdut718OAA4BgbZqLhKZ3y/CNVKrH0/hZ/nxdGf/v25
+ qBIJqNXV+/Y254JsnPQD0UU8KReuWTA5iQ4icYxTxEsyWRrtleh0QpEVOFpDKdUnG3
+ H2IIqDFGIVPF8tlY6sUHJFalhjnD3/cImvI4GJNx2bwyDYu9tPq4IoXediWbO4L4y1
+ N97kpC0IJMJJQ==
+Date: Mon, 17 Aug 2020 12:07:31 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Amol Grover <frextrite@gmail.com>, James Morris <jmorris@namei.org>
+Message-ID: <20200817120731.218e1bc5@canb.auug.org.au>
+In-Reply-To: <20200608041734.GA10911@mail.hallyn.com>
+References: <20200406105950.GA2285@workstation-kernel-dev>
+ <20200607062340.7be7e8d5@canb.auug.org.au>
+ <20200607190840.GG4455@paulmck-ThinkPad-P72>
+ <20200608041734.GA10911@mail.hallyn.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200810185723.15540-10-vaibhavgupta40@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=MP0Wb9vCekDogQPHZHEA:9
- a=CjuIK1q_8ugA:10
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Antonino Daplas <adaplas@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- linux-geode@lists.infradead.org, Bjorn Helgaas <helgaas@kernel.org>,
- Andres Salomon <dilinger@queued.net>, Bjorn Helgaas <bhelgaas@google.com>,
- Paul Mackerras <paulus@samba.org>,
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
+ Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>,
+ linux-security-module@vger.kernel.org, Joel Fernandes <joel@joelfernandes.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 09/12] fbdev: i740fb: use
-	generic power management
+ "Serge E. Hallyn" <serge@hallyn.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH RESEND] device_cgroup: Fix RCU
+	list debugging warning
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,135 +95,111 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0225572120343982759=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Vaibhav
+--===============0225572120343982759==
+Content-Type: multipart/signed; boundary="Sig_//6LbZg5fP0ZKmOnWMaIHeAu";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Tue, Aug 11, 2020 at 12:27:20AM +0530, Vaibhav Gupta wrote:
-> Drivers should do only device-specific jobs. But in general, drivers using
-> legacy PCI PM framework for .suspend()/.resume() have to manage many PCI
-> PM-related tasks themselves which can be done by PCI Core itself. This
-> brings extra load on the driver and it directly calls PCI helper functions
-> to handle them.
-> 
-> Switch to the new generic framework by updating function signatures and
-> define a "struct dev_pm_ops" variable to bind PM callbacks. Also, remove
-> unnecessary calls to the PCI Helper functions along with the legacy
-> .suspend & .resume bindings.
-> 
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+--Sig_//6LbZg5fP0ZKmOnWMaIHeAu
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I several of the drivers I briefly looked at a new set of helpers were
-introduced for the different types of pm actions.
-They then called a more generic function that uses the passes
-enumeration to decide what to do.
+Hi all,
 
-But in this driver the test "state.event == PM_EVENT_FREEZE" is dropped
-and there is no freeze operation.
-Please explain this change so the reader is not left wondering.
+On Sun, 7 Jun 2020 23:17:34 -0500 "Serge E. Hallyn" <serge@hallyn.com> wrot=
+e:
+> On Sun, Jun 07, 2020 at 12:08:40PM -0700, Paul E. McKenney wrote:
+> > On Sun, Jun 07, 2020 at 06:23:40AM +1000, Stephen Rothwell wrote: =20
+> > >=20
+> > > On Mon, 6 Apr 2020 16:29:50 +0530 Amol Grover <frextrite@gmail.com> w=
+rote: =20
+> > > >
+> > > > exceptions may be traversed using list_for_each_entry_rcu()
+> > > > outside of an RCU read side critical section BUT under the
+> > > > protection of decgroup_mutex. Hence add the corresponding
+> > > > lockdep expression to fix the following false-positive
+> > > > warning:
+> > > >=20
+> > > > [    2.304417] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > [    2.304418] WARNING: suspicious RCU usage
+> > > > [    2.304420] 5.5.4-stable #17 Tainted: G            E
+> > > > [    2.304422] -----------------------------
+> > > > [    2.304424] security/device_cgroup.c:355 RCU-list traversed in n=
+on-reader section!!
+> > > >=20
+> > > > Signed-off-by: Amol Grover <frextrite@gmail.com>
+> > > > ---
+> > > >  security/device_cgroup.c | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > >=20
+> > > > diff --git a/security/device_cgroup.c b/security/device_cgroup.c
+> > > > index 7d0f8f7431ff..b7da9e0970d9 100644
+> > > > --- a/security/device_cgroup.c
+> > > > +++ b/security/device_cgroup.c
+> > > > @@ -352,7 +352,8 @@ static bool match_exception_partial(struct list=
+_head *exceptions, short type,
+> > > >  {
+> > > >  	struct dev_exception_item *ex;
+> > > > =20
+> > > > -	list_for_each_entry_rcu(ex, exceptions, list) {
+> > > > +	list_for_each_entry_rcu(ex, exceptions, list,
+> > > > +				lockdep_is_held(&devcgroup_mutex)) {
+> > > >  		if ((type & DEVCG_DEV_BLOCK) && !(ex->type & DEVCG_DEV_BLOCK))
+> > > >  			continue;
+> > > >  		if ((type & DEVCG_DEV_CHAR) && !(ex->type & DEVCG_DEV_CHAR))
+> > >=20
+> > > I have been carrying the above patch in linux-next for some time now.
+> > > I have been carrying it because it fixes problems for syzbot (see the
+> > > third warning in
+> > > https://lore.kernel.org/linux-next/CACT4Y+YnjK+kq0pfb5fe-q1bqe2T1jq_m=
+vKHf--Z80Z3wkyK1Q@mail.gmail.com/).
+> > > Is there some reason it has not been applied to some tree? =20
+> >=20
+> > The RCU changes on which this patch depends have long since made it to
+> > mainline, so it can go up any tree.  I can take it if no one else will,
+> > but it might be better going in via the security tree.
+>=20
+> James, do you mind pulling it in?
 
-	Sam
+I am still carrying this patch.  Has it been superceded, or is it still
+necessary?
 
-> ---
->  drivers/video/fbdev/i740fb.c | 40 +++++++++++++++---------------------
->  1 file changed, 16 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
-> index c65ec7386e87..8d7f06fc8a5a 100644
-> --- a/drivers/video/fbdev/i740fb.c
-> +++ b/drivers/video/fbdev/i740fb.c
-> @@ -1175,16 +1175,11 @@ static void i740fb_remove(struct pci_dev *dev)
->  	}
->  }
->  
-> -#ifdef CONFIG_PM
-> -static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
-> +static int __maybe_unused i740fb_suspend(struct device *dev)
->  {
-> -	struct fb_info *info = pci_get_drvdata(dev);
-> +	struct fb_info *info = dev_get_drvdata(dev);
->  	struct i740fb_par *par = info->par;
->  
-> -	/* don't disable console during hibernation and wakeup from it */
-> -	if (state.event == PM_EVENT_FREEZE || state.event == PM_EVENT_PRETHAW)
-> -		return 0;
-> -
->  	console_lock();
->  	mutex_lock(&(par->open_lock));
->  
-> @@ -1197,19 +1192,15 @@ static int i740fb_suspend(struct pci_dev *dev, pm_message_t state)
->  
->  	fb_set_suspend(info, 1);
->  
-> -	pci_save_state(dev);
-> -	pci_disable_device(dev);
-> -	pci_set_power_state(dev, pci_choose_state(dev, state));
-> -
->  	mutex_unlock(&(par->open_lock));
->  	console_unlock();
->  
->  	return 0;
->  }
->  
-> -static int i740fb_resume(struct pci_dev *dev)
-> +static int __maybe_unused i740fb_resume(struct device *dev)
->  {
-> -	struct fb_info *info = pci_get_drvdata(dev);
-> +	struct fb_info *info = dev_get_drvdata(dev);
->  	struct i740fb_par *par = info->par;
->  
->  	console_lock();
-> @@ -1218,11 +1209,6 @@ static int i740fb_resume(struct pci_dev *dev)
->  	if (par->ref_count == 0)
->  		goto fail;
->  
-> -	pci_set_power_state(dev, PCI_D0);
-> -	pci_restore_state(dev);
-> -	if (pci_enable_device(dev))
-> -		goto fail;
-> -
->  	i740fb_set_par(info);
->  	fb_set_suspend(info, 0);
->  
-> @@ -1231,10 +1217,17 @@ static int i740fb_resume(struct pci_dev *dev)
->  	console_unlock();
->  	return 0;
->  }
-> -#else
-> -#define i740fb_suspend NULL
-> -#define i740fb_resume NULL
-> -#endif /* CONFIG_PM */
-> +
-> +static const struct dev_pm_ops i740fb_pm_ops = {
-> +#ifdef CONFIG_PM_SLEEP
-> +	.suspend	= i740fb_suspend,
-> +	.resume		= i740fb_resume,
-> +	.freeze		= NULL,
-> +	.thaw		= i740fb_resume,
-> +	.poweroff	= i740fb_suspend,
-> +	.restore	= i740fb_resume,
-> +#endif /* CONFIG_PM_SLEEP */
-> +};
->  
->  #define I740_ID_PCI 0x00d1
->  #define I740_ID_AGP 0x7800
-> @@ -1251,8 +1244,7 @@ static struct pci_driver i740fb_driver = {
->  	.id_table	= i740fb_id_table,
->  	.probe		= i740fb_probe,
->  	.remove		= i740fb_remove,
-> -	.suspend	= i740fb_suspend,
-> -	.resume		= i740fb_resume,
-> +	.driver.pm	= &i740fb_pm_ops,
->  };
->  
->  #ifndef MODULE
-> -- 
-> 2.27.0
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_//6LbZg5fP0ZKmOnWMaIHeAu
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl855mMACgkQAVBC80lX
+0Gz3+Qf7B8fFdkNeo/Cqcxhz3GWuAnNd4IeG9m8dsl67F77sOJ7U8WNnX95ZsmAw
+TWCTwMDVm07rUAoqBu6uz3GxgpYTpP8lM/j4Q37kSuR3xVb6spXMyIM4J3hHC2Tz
+J9pHZyBomsYrRdcAMIY2WumPPo2euve4S1MesruCJLvcA7kRrgsO3VMtPMdY72LC
+5xFffg3NVRvkrJb4njqABLk9SgQObnMzBQdXYpKEy3b2XTGtQHb0T8JMc101xrnA
+PxlA2JQP2T7h/HEDuK4+Nm2PbeNonAviErZjnTvRpAP6krQ9YM0wdxPVmfaFjoa3
+5X0NEOx5ikRI+XktkfuPmLUeiAzmYQ==
+=Nz8C
+-----END PGP SIGNATURE-----
+
+--Sig_//6LbZg5fP0ZKmOnWMaIHeAu--
+
+--===============0225572120343982759==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============0225572120343982759==--
