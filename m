@@ -2,103 +2,82 @@ Return-Path: <SRS0=pv6u=B3=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAC74C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 09:46:13 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B95C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 10:21:47 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B317206C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 09:46:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E03102078A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 10:21:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eTRbsO++"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B317206C0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="zgDDLsZC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E03102078A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 30FAF204B4;
-	Mon, 17 Aug 2020 09:46:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B0F0D87475;
+	Mon, 17 Aug 2020 10:21:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id H9u14TkIVjSs; Mon, 17 Aug 2020 09:46:11 +0000 (UTC)
+	with ESMTP id q5K-ca3k9GO9; Mon, 17 Aug 2020 10:21:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 23B6E20474;
-	Mon, 17 Aug 2020 09:46:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 560F58739A;
+	Mon, 17 Aug 2020 10:21:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 14DBFC07FF;
-	Mon, 17 Aug 2020 09:46:11 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 67018C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3FCBBC088B;
+	Mon, 17 Aug 2020 10:21:46 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F3F3C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 09:46:09 +0000 (UTC)
+ Mon, 17 Aug 2020 10:21:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5FC3686355
+ by whitealder.osuosl.org (Postfix) with ESMTP id 4614886B48
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 09:46:09 +0000 (UTC)
+ Mon, 17 Aug 2020 10:21:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KRY5pGuhbA0p
+ with ESMTP id 2Rwr0wgmJHor
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 09:46:08 +0000 (UTC)
+ Mon, 17 Aug 2020 10:21:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9925A85F90
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id C9A6486B43
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 09:46:08 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id t10so16955823ejs.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 02:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=iBj+FndMyVbHgjcjFZ55eKl5rnf4vSJMTPoH3b5fiOc=;
- b=eTRbsO++5OpyPOEnWsAvazyPYKgyikjXlUmmJSiLb0+x6W6K8i4FaqMLuD/6qUWE04
- EbHV11qL8iCLUeO+0lVgIY0j3GtXL4JTq0PwdWI49lHJgfj6qMlUxwBywMPKhYnLdzom
- q+LRiQDhtRoQBFpCzfJAjQslo+hL3JrfHidVQvcNQrxdfRg4YvkD4miSUxNBPomeLX8r
- 8buJtMZdn6YARFI8LBhMcujIxBioK2WaOy+O7pqiNG5d/z9pelubTvJiuG3YVcvaY819
- /pCtEfTII7YTTSll0+FbPNkyz6neT2UfezGwDrQVE3HZL116Z61uTP26P2u8R+IJ2Ka1
- K3Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=iBj+FndMyVbHgjcjFZ55eKl5rnf4vSJMTPoH3b5fiOc=;
- b=FR/EKJrZGtYyNSqVbtzIPnkMpm1BGUJd+bEPiELVMFys1z+GQHhyVxwkUmaOieEbJg
- Eaeg396W/xoAoqaIWF/tM3hyIa2LoYkoG20EiL+V9CnQtg8GqaDMYyWkjpFCpsEzjY3d
- osTHWTyUlmZTt+7OKEA1xKERMkaKi832oMbMuQTc58trlDxwMDV5lOJ9UvrRN86Io6JF
- 3m5Wbp4JiRi/Bu9wXWLOl8b8pPymKRrUQPOquABfoyy2ptN4cGeTam1g/566RzlDAmUc
- j7jDBB9NmKtE5T43LvA1hsakP3q10LnTH60n9sQXLJwWVUHIxkKm/h7jtewgi3Iqp4an
- +ZpA==
-X-Gm-Message-State: AOAM530UzkUyBYtT8vdgzcpfJprAs/vU3Q+xYUtUud+M/1RoBp1bJcBT
- LJINPUWUQb+vjSS7xXVNbTY=
-X-Google-Smtp-Source: ABdhPJwzFllM6hAkX/G4+2aBxg4xC/yt2890UOZwsJb8kYJhq1kU6vU9j+V4gHfXamfZEilH+PmifQ==
-X-Received: by 2002:a17:907:11c3:: with SMTP id
- va3mr14730663ejb.497.1597657567054; 
- Mon, 17 Aug 2020 02:46:07 -0700 (PDT)
-Received: from felia ([2001:16b8:2d33:f300:9831:2be0:da37:973a])
- by smtp.gmail.com with ESMTPSA id m12sm13339601edv.94.2020.08.17.02.46.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:46:06 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Mon, 17 Aug 2020 11:46:05 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Shubham Gupta <shubham.gupta2956@gmail.com>
-In-Reply-To: <CABeqVEv6eBUt2EB7SUpmv5xO=hzigJ37k3m2jRJSMX-w1m9ybA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2008171144330.8645@felia>
-References: <CABeqVEv6eBUt2EB7SUpmv5xO=hzigJ37k3m2jRJSMX-w1m9ybA@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Mon, 17 Aug 2020 10:21:44 +0000 (UTC)
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 004132078A;
+ Mon, 17 Aug 2020 10:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597659704;
+ bh=ovtTW2fCfcjd32QufVbUkaQHW26qGINnQJXinpGHiU8=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=zgDDLsZChMNRGx0G1LVTQMnzzPd6AUnV6kVFSIf1/2Ru0+ZBP5khL9w7417w94J0s
+ bdmHmULUaaVykYETE0nrGpeGWYEUm6L3Nkbeyn2xBy3USAG0BBdiLfPUiNM1in1Pv9
+ qkPUI9iYQZHpf116y4niqlpZwIsadmypTk/nchtM=
+Date: Mon, 17 Aug 2020 12:21:41 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+In-Reply-To: <20200729113712.8097-1-yepeilin.cs@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2008171221290.27422@cbobk.fhfr.pm>
+References: <20200718231218.170730-1-yepeilin.cs@gmail.com>
+ <20200729113712.8097-1-yepeilin.cs@gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Information regarding Linux Kernel:
- Evaluate and Improve checkpatch.pl
+Cc: linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 RESEND] usbhid: Fix
+ slab-out-of-bounds write in hiddev_ioctl_usage()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,76 +95,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Dear Shubham,
+On Wed, 29 Jul 2020, Peilin Ye wrote:
 
+> `uref->usage_index` is not always being properly checked, causing
+> hiddev_ioctl_usage() to go out of bounds under some cases. Fix it.
+> 
+> Reported-by: syzbot+34ee1b45d88571c2fa8b@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?id=f2aebe90b8c56806b050a20b36f51ed6acabe802
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> ---
+> Change in v2:
+>     - Add the same check for the `HIDIOCGUSAGE` case. (Suggested by
+>       Dan Carpenter <dan.carpenter@oracle.com>)
 
-The zeroth task is to learn suitable netiquette for the communication with 
-the kernel community.
+Applied, thanks.
 
-First, please do not top-post.
+-- 
+Jiri Kosina
+SUSE Labs
 
-    A: Because we read from top to bottom, left to right.
-    Q: Why should I start my reply below the quoted text?
-
-    A: Because it messes up the order in which people normally read text.
-    Q: Why is top-posting such a bad thing?
-
-    A: The lost context.
-    Q: What makes top-posted replies harder to read than bottom-posted?
-
-    A: Yes.
-    Q: Should I trim down the quoted part of an email to which I'm 
-replying?
-
-Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
-
-Third, set up your email client according to the kernel community rules.
-
-
-
-Then, the first task is to run checkpatch.pl on a few kernel patches and
-collect the results. When you have that, please share your script with
-me, e.g., in a github repository.
-
-
-Hints to the first task:
-
-Can you create a list of all non-merge commits that were added in the
-version v5.8 of the kernel, i.e., all non-merge commits that are in v5.8
-and not already in v5.7?
-
-Can you share the script/command you executed and the resulting list on 
-github?
-
-Can you run your script on all commits of this list above and record
-all checkpatch.pl reports, and store them in your github repository?
-
-Can you suggest ideas how to aggregate the findings and create a
-statistics? For example: Which type of error is reported most?
-Can you implement that idea?
-
-
-I also suggest to have a look at
-the options ./scripts/checkpatch.pl --list-types and
-./scripts/checkpatch.pl --show-types. The option --show-types changes
-the output of checkpatch.pl to list type identifiers, so it is easier
-to parse and aggregate the output.
-
-Please also share the script you create for that purpose on your
-github repository.
-
-
-
-The second task is to pick one warning that appears often and improve
-checkpatch.pl to handle that better and get it accepted by the kernel
-community.
-
-Hints to the second task follow when the first task is solved.
-
-If you fail on any of those tasks, you are out of the selection process.
-
-
-Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
