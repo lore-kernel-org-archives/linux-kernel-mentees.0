@@ -7,97 +7,98 @@ X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 155F7C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 09:41:43 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F0A8C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 09:43:55 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D14F520758
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 09:41:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D412220758
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Aug 2020 09:43:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="juXxrUNM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D14F520758
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iclJ8twb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D412220758
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 92C74204A7;
-	Mon, 17 Aug 2020 09:41:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B33E387A4D;
+	Mon, 17 Aug 2020 09:43:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VLQu3TyrNova; Mon, 17 Aug 2020 09:41:41 +0000 (UTC)
+	with ESMTP id bYhPUPC1YFOo; Mon, 17 Aug 2020 09:43:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 86D1420474;
-	Mon, 17 Aug 2020 09:41:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C4BB887A2E;
+	Mon, 17 Aug 2020 09:43:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B266C07FF;
-	Mon, 17 Aug 2020 09:41:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B8A8EC07FF;
+	Mon, 17 Aug 2020 09:43:52 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9DEF5C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B63A3C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 09:41:40 +0000 (UTC)
+ Mon, 17 Aug 2020 09:43:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 86194861FF
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A62DD85F90
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 09:41:39 +0000 (UTC)
+ Mon, 17 Aug 2020 09:43:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kZVHImoU5MK9
+ with ESMTP id y4-gcsg3Hy7X
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 09:41:37 +0000 (UTC)
+ Mon, 17 Aug 2020 09:43:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id ABDA2861CE
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+ [209.85.218.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EA1B985F84
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 09:41:36 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id c10so11744361edk.6
+ Mon, 17 Aug 2020 09:43:50 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id f24so16967946ejx.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Aug 2020 02:41:36 -0700 (PDT)
+ Mon, 17 Aug 2020 02:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:date:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=BEUqYMEuMNy+9jvN9Pr/3HzHfv805zNgYcW7+x1q1F0=;
- b=juXxrUNMLVeayoLvb+0iiJfKPQrfqELHQCabdE2sV6n88UHgEurU16ZTayGWAslpuN
- ePGdxU8NTO+GPRxj/yBBMqVeN/4bNLV3xzCUovEXD5G5refNOcvgLZKyE+hEUcnBAIRx
- nuSVU22t7HQOWSQZpIxBxkc1Ev0m4aIvBGEpFw/qQUJs7aEPqCkeFq/cTIZCNk7p396M
- kCr2H2SNBRgn/isHTIZVgfzXSLQpa4UYfqTy7kyn+Z3iyVjTaiI/d+gzWAWM/uHsLBj2
- zPd/ucfBKsYDM/AqogqiOpkcRO6QdKSVjda+abnOdL6zO0doJrs98KZP9DoUOixfcz0c
- BdwA==
+ bh=641+fi8G+CD/G6tPxDyo2lAgJdgLmYRymVhV8FSJDHs=;
+ b=iclJ8twb3oT6yBkLad7+k+6X1VQQBTJDIz5g5XbKJErTiiYdytlgSy4JMFdC/ODU0+
+ 8rMHuh2abLr8JKt8IfvoGVO7SiZA9UQSgWsFFx9OY9PxrgPztSep3pckuMMXxTwplztd
+ sWCcLJet1zb7KhpdM8CHCjDzz9P/3lKczivan2GW5vQV1v22h3zf2SlkT4ukwTQYFcqm
+ LFMG+1cWEbI8K/VpdKUU9Bt2GRXKGbB1+4K58Tb+1Wl9cTxfyGlBLYWQL6Zoya0EM1rD
+ f/BunMMsNB5S7NF2gC3ZO2TIJajFrfHtqdpOaEaDm3FjzkziynJ+CUVKuiMG5G5RRAxj
+ i4Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=BEUqYMEuMNy+9jvN9Pr/3HzHfv805zNgYcW7+x1q1F0=;
- b=jFSgz1280OO9nu3aZcqigeqHWpUPLTdCkXF/rUFOwdWXDGtOkKzyKDKcIVDXCX3Rab
- G33eGCCid+mhtsHixxbdhVgi6mPsRwFNpCdbzq7b/+aMHBaBL4SqMb6CXuG8vevGQJLq
- ypZLMGKzaJZRZw+LpHr5RdByC/Z4NO1RGOnRxKUPE1S1UMfhCtuX8k2IQvZ+7YrXn9Ed
- MVNXL4xh4Vvl5I6SoZ57/olv5wxc00Es65uJd/0f4XjnRGp07Di6xaCsBwBz6CwfBKNz
- y7YhfiShjCG7fJJcfPoVYpe0ZmTiP9ZJqlgUTs02IJf3xKjNeVZGfObvLCgqwCD0lv5M
- qt6A==
-X-Gm-Message-State: AOAM533PCUJcqQ7rUFjEdvREvUmaAkKdC5USTpyCxS+MqNsp9jrXHGdA
- NT4KbkDX31E/PL2HfDzymYowunrYElyiIA==
-X-Google-Smtp-Source: ABdhPJz1SNyZzDpootYxbESyCp9VX4Qm1uCDvwDOWXJkK66ATEF2gxpZad0e8coi2Sa+d+Q+T8JrRg==
-X-Received: by 2002:a50:fb94:: with SMTP id e20mr14317252edq.103.1597657294903; 
- Mon, 17 Aug 2020 02:41:34 -0700 (PDT)
+ bh=641+fi8G+CD/G6tPxDyo2lAgJdgLmYRymVhV8FSJDHs=;
+ b=HMFZGTMYRHTF6TO5QShIVO8d+MeYeS4GZGYDk82HaIphBiTXZcuxeyVODXmnp3srHO
+ 8LN/JEEQVps4xOkOm9s0B3WzZGkOXjW9YJw4wZ1zEBdvwrvu8QO8CJeYcLRnvIDxa/OF
+ yEg4BwP6sko6R12fmaXt8jZEI2elBPBL7spfzWmhOx4nay1Tcx0Cl8JpEYyXx0xXTb5j
+ aCZZP382/1l27O6zhOLqiT1o7TKOh7LwItdn/UAQ1Pthsjs4Wx0V6O72hWQIBRj9qann
+ 7ivAPEIVX8Z0I4G5SfMPSh65xG/37jLBZaneA9h3yaXRVk947ibE0SGVZKXrqlNFXV0V
+ 71Xg==
+X-Gm-Message-State: AOAM533nGcAJGJvw+Vb4+XFBFOVM3JLIjEDBMJGcWQ4EHOo0VsIjyD0Q
+ vfveNRpStAOTc8IADKCe2ng=
+X-Google-Smtp-Source: ABdhPJzqtlODdlH/1IyjrI99ZCd61dmmTY2eYMkpTLHDsbjGe7AF3aFE6/1jF31XPaT64UvYapFxBQ==
+X-Received: by 2002:a17:906:2542:: with SMTP id
+ j2mr13804721ejb.442.1597657429299; 
+ Mon, 17 Aug 2020 02:43:49 -0700 (PDT)
 Received: from felia ([2001:16b8:2d33:f300:9831:2be0:da37:973a])
- by smtp.gmail.com with ESMTPSA id di5sm13374031edb.16.2020.08.17.02.41.34
+ by smtp.gmail.com with ESMTPSA id rv14sm13835365ejb.33.2020.08.17.02.43.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 02:41:34 -0700 (PDT)
+ Mon, 17 Aug 2020 02:43:48 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Mon, 17 Aug 2020 11:41:33 +0200 (CEST)
+Date: Mon, 17 Aug 2020 11:43:47 +0200 (CEST)
 X-X-Sender: lukas@felia
-To: Dinesh Bhagat <db.dineshbhagat07@gmail.com>
-In-Reply-To: <CAPsWyckZfNnBtOS7h+2Zxjeai5FpaPgs7OwumMFn9SAT7QAA3g@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2008171140231.8645@felia>
-References: <CAPsWyc=499DuOz_XXmT+DktO3ap1Q0DQ_UFy8aSyyJOSQBtFxA@mail.gmail.com>
- <CAPsWyckZfNnBtOS7h+2Zxjeai5FpaPgs7OwumMFn9SAT7QAA3g@mail.gmail.com>
+To: Ayush <ayush@disroot.org>
+In-Reply-To: <20200810125354.xeijyh3v5upatrez@salamander>
+Message-ID: <alpine.DEB.2.21.2008171142310.8645@felia>
+References: <20200810125354.xeijyh3v5upatrez@salamander>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] checkpatch.pl project in Community Bridge
+Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
+	Improve checkpatch.pl"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,8 +116,8 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Dinesh,
 
+Dear Ayush,
 
 The zeroth task is to learn suitable netiquette for the communication with 
 the kernel community.
@@ -136,7 +137,7 @@ First, please do not top-post.
     Q: Should I trim down the quoted part of an email to which I'm 
 replying?
 
-Second, please always CC: linux-kernel-mentees@lists.linux-foundation.org.
+Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
 
 Third, set up your email client according to the kernel community rules.
 
