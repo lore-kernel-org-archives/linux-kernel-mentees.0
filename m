@@ -2,101 +2,119 @@ Return-Path: <SRS0=9k96=B4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82875C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Aug 2020 13:00:31 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD0BC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Aug 2020 13:05:26 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 220FA206DA
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Aug 2020 13:00:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F0A6A204FD
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Aug 2020 13:05:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXg8p5VM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 220FA206DA
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkJQeBD5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0A6A204FD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A64BD87447;
-	Tue, 18 Aug 2020 13:00:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2EF4B203C2;
+	Tue, 18 Aug 2020 13:05:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bv1qSKfxfY1m; Tue, 18 Aug 2020 13:00:29 +0000 (UTC)
+	with ESMTP id RUvHSrIVTVuO; Tue, 18 Aug 2020 13:05:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 905DF873BC;
-	Tue, 18 Aug 2020 13:00:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4895020034;
+	Tue, 18 Aug 2020 13:05:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82BC7C088B;
-	Tue, 18 Aug 2020 13:00:29 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9372EC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1BD94C088B;
+	Tue, 18 Aug 2020 13:05:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C8381C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 13:00:28 +0000 (UTC)
+ Tue, 18 Aug 2020 13:05:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7648B85EA8
+ by silver.osuosl.org (Postfix) with ESMTP id ACB5820034
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 13:00:28 +0000 (UTC)
+ Tue, 18 Aug 2020 13:05:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9am7bk3N75Ja
+ with ESMTP id 7uHxCG-vW2ER
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 13:00:27 +0000 (UTC)
+ Tue, 18 Aug 2020 13:05:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com
- [209.85.221.173])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9493384D22
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id 286DC203A6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 13:00:27 +0000 (UTC)
-Received: by mail-vk1-f173.google.com with SMTP id r197so4273240vkf.13
+ Tue, 18 Aug 2020 13:05:16 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id c6so9388486pje.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 06:00:27 -0700 (PDT)
+ Tue, 18 Aug 2020 06:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=h4dVOdNAvyeV+cDbPjTm+40FrkED8j0IYMnpj3Z0P6E=;
- b=lXg8p5VMfjh95ZmIpCMvSBBUEaDZeX9+NZUj+mvlA79HZfwv+6klKOED937O7u9lg8
- YZY+ZWlUWbBV7hwg4ogcOmQobBxtS1spVrTxbeHp9GYHp9twK9MGJ14A9QB4hJu/0wUv
- RQpLTc2UihFtLuBRmn3LfpJcWbxKA8qMY6pG8WhEviNjgggTxtsfgzWEESezyqRUWRod
- eTgEzdgF9MHB87vAZZer5Sm8iteaQWrhTaVxsQlW6Ap7Wu+Jdn8NYZo3N4a7Qn7Gt0uI
- mzILucmadXEIBEjqvBcr1Wm0xK+co6u042silp8R6pIlNdEKrWrlY0z38gBG6PzZxAEO
- viBw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=pwfLT3a+GHxpttTxhdKznWycfaefCqBgiAPgz6BJmtY=;
+ b=HkJQeBD5RoedbtQ3hdyc9mVT3V3Wm52mIEQ8fUV+kXzwwZ+jTgbFyiKb7RmZ93qqme
+ gAavNE7bb8gNdldcQR87zIEPLrakfEJ0pJkp7GQtVliBebOjI/wNHC65s4Ihpt2DsCMq
+ WbycO9JRo46e4OBf+gsAbvjWRRYRJXfZpZKm63fkuY3ChIv5u3+VTNTLAo6QVRbw3yNZ
+ dhO3lOf4RR2e8pwI1gfrxw4Dbak6tLWCRJAONIMi1OxTGt4e1ap+pLsHM3wxEAMVrGp7
+ G1ovOufmVmk/ZUluGDT+SCK+i5IhKIV/Hd+XE+9ViiokyP9nhXvRBnRdFzlxuDyJeob7
+ q97Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=h4dVOdNAvyeV+cDbPjTm+40FrkED8j0IYMnpj3Z0P6E=;
- b=fo9Ruvy4iPYMZCj/W0kpFkx/wskhuV0RHlnUULMxwi1H9OUm/BnylQ86aAth5qQgSZ
- Ijlhs8pZBsx+ha/pqzVuQmgs+iwkYOZRJKeIiY973+1v2+vw4tHJvdBw7+LIEk3VW+0d
- B58UDBkyB7XvOuiw7r4O0vNVEAMqrU/8urUyU5/s0yxn6tNsiIM013ChWT0rVMCAC5+n
- G8r7DLOMWBOA1eUx/PPnsKgU6hUunj4FZC7s/7nWWNB7wGUn0TTImlPwmQqnnlOD2oz2
- ijJo4L6lgYYu0ZO1V8ou9gP1GQHdQagzEcq+UiuglX1ILPldoqG6/xzV1jWeN7DAv9MG
- 2JZg==
-X-Gm-Message-State: AOAM531WvgpcT+ej31ws2GIhosN99Mn07qR1JUXVtNE455CoWD5ouMmn
- Zuvf6l+SRy6MUuk8TchEU6Z4ftFuu92/+g5U/hM=
-X-Google-Smtp-Source: ABdhPJygoCQw5trbrHof0u8UC/1HNjZr3oljcTNs+3qDqiw+son1V1+ZSD92tCohMzKhmIwishjnzpG+i0IRWWkiSaM=
-X-Received: by 2002:a1f:bdcd:: with SMTP id n196mr11103406vkf.10.1597755626476; 
- Tue, 18 Aug 2020 06:00:26 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pwfLT3a+GHxpttTxhdKznWycfaefCqBgiAPgz6BJmtY=;
+ b=Dmv1Evz7a01QhjDgLnMT6f3yQaqRcHAzjz7Wehl3M60QNiDK1Zi2PjkhIhsMBfFc56
+ mUnkjCsFtXvjqTnxhcDq7jGnZS9vYQpeUK1HAPktDtaU6Mj3MHUDjB9PByAQU2t3/b75
+ E91COsGEW4kLs+qh6TbA88y4Rty6Ow+tbEZeGtG7yPLMOF50lJ7L+bvoeJTX62JC7gPs
+ 3m937tqfco78Nxc5wOd+xPK3Ma0whoXVNItGAXoNIIC2YfCMNOzOF5NjqhtfPUa0dBsj
+ +ApQI+3ZqHO+gWToLpoBwxVhPm/aOxfnSlk94lj9UCHFXAFOXuxaqpBnvkBR1x4YJRvl
+ o5WA==
+X-Gm-Message-State: AOAM530fCHTilqhJsEwHDZ7+Zg0d/DMyFfLex9PuLczP/QHcQASpWRZ3
+ fmoJF7qAk9Bl0DfD0KrR4sw=
+X-Google-Smtp-Source: ABdhPJwc5hrEFoEiKPxK3iuQJNxaRnHhfTDQfAxZpVW8kajYdWW9rkzCpNpBtHszvSibdhdi1EB6Nw==
+X-Received: by 2002:a17:90a:ea0b:: with SMTP id
+ w11mr15397420pjy.80.1597755915458; 
+ Tue, 18 Aug 2020 06:05:15 -0700 (PDT)
+Received: from gmail.com ([103.105.152.86])
+ by smtp.gmail.com with ESMTPSA id u14sm25042508pfm.103.2020.08.18.06.05.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Aug 2020 06:05:14 -0700 (PDT)
+Date: Tue, 18 Aug 2020 18:33:29 +0530
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Message-ID: <20200818130329.GA39194@gmail.com>
+References: <20200817092245.10478-1-vaibhavgupta40@gmail.com>
+ <20200817092511.GA10566@gmail.com>
+ <11190a0b-1009-caf8-9cbe-6cf296b614bf@kernel.dk>
 MIME-Version: 1.0
-References: <CACFir3g8CPiN=63am0aLfEU3n9Ft5+ZQ_qJUHQGqqzj96ePHBA@mail.gmail.com>
- <CACFir3jGNRKgcmdAHYDFeLJeO2mXokG5p6yc0WPS0qwCEKNJ6Q@mail.gmail.com>
- <CAKXUXMx81VxEGEzOX1zhh7ZdGsFGASVMn2Xn9e_MMXyNKjHtRQ@mail.gmail.com>
- <CACFir3jhPhyU1kVkQdzgQ+e4Lq8aqZeT3+dZ6ZsW2b7L9RrBeA@mail.gmail.com>
- <CAKXUXMxqv_bz+FL1Nckq2FD8gMs9Ymmw3j2MukJKsmgX5ambNA@mail.gmail.com>
- <CACFir3iwBLcZoS8UqOy4qvtf8gRaQgbvhHWyCREk4XD-ap+BsQ@mail.gmail.com>
- <CAKXUXMy6waZDaEPWY8g5yyASkoVgCgz6caBqxkZpMMELWOHOcw@mail.gmail.com>
- <CACFir3jUvTFfoF5CxLw3NSAy+bfLx+9qmaJHMoSpFcC0SPsChw@mail.gmail.com>
- <CAKXUXMxJdUiR_u6Kh=5SC-i7yc0fo=2JD_syaEPmQwNHCo57ng@mail.gmail.com>
-In-Reply-To: <CAKXUXMxJdUiR_u6Kh=5SC-i7yc0fo=2JD_syaEPmQwNHCo57ng@mail.gmail.com>
-From: Jay Rajput <jay24rajput@gmail.com>
-Date: Tue, 18 Aug 2020 18:30:14 +0530
-Message-ID: <CACFir3jfu7P+2r6XYmXLB6Qf6p3=UeJcCXLE=Mi-Q8_Ues1F5w@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Community Bridge Klever Project
+Content-Disposition: inline
+In-Reply-To: <11190a0b-1009-caf8-9cbe-6cf296b614bf@kernel.dk>
+Cc: Vaibhav Gupta <vaibhav.varodek@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-ide@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>,
+ Alex Shi <alex.shi@linux.alibaba.com>, Jiri Slaby <jslaby@suse.cz>,
+ Christoph Hellwig <hch@lst.de>,
+ Javier Martinez Canillas <javier@osg.samsung.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Prabhakar Kushwaha <pkushwaha@marvell.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Paul Gortmaker <paul.gortmaker@windriver.com>,
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] ata: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,62 +126,56 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5094565627454991664=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============5094565627454991664==
-Content-Type: multipart/alternative; boundary="0000000000008ddc0c05ad26786c"
+On Mon, Aug 17, 2020 at 07:06:03AM -0700, Jens Axboe wrote:
+> On 8/17/20 2:25 AM, Vaibhav Gupta wrote:
+> > Hello,
+> > 
+> > I am working to upgrade power management framework support for PCI drivers, as
+> > my project under the Linux Kernel Mentorship Program.
+> > 
+> > The ultimate goal is to completely remove the legacy framework. And for this we
+> > need to remove ".suspend" and ".resume" pointers from "struct pci_driver".
+> > 
+> > The patch is doing the change for the same. The actual suspend() and
+> > resume() callbacks are defined in drivers/ata/libata-core.c and are exported.
+> > Which are then used by other files.
+> > 
+> > Thus removing those pointers, included 54 files in this patch. Although, the
+> > actual changes are done in few files only. The changes should work fine as I
+> > have done similar changes for other drivers too which made their way into the
+> > kernel. Still, tests on few ata devices are necessary.
+> 
+> Didn't we agree to split this up into separate patches??
+> 
+> > I tried but unfortunately, I couldn't find or arrange devices to test upon. I
+> > have added the authors of the previous commit(s) for respective drivers as
+> > recipients. It would be very helpful if someone can test it on a device.
+> 
+> Does qemu support any of the affected drivers?
+> 
+Hello Jens,
+Yes we discussed about splitting it and I will surely do it. I just thought that
+still it has not got tested and in that case keeping check on patch-series with
+55+ patches may become somewhat messy. Moreover, to test any driver one will
+have to apply the patch for libata-core and then that of the driver.
+So, I sent this v3 in order to get some help for the testing purpose. Once it
+goes successful, I can split it and send it for the submission.
 
---0000000000008ddc0c05ad26786c
-Content-Type: text/plain; charset="UTF-8"
+I am not sure about qemu, I haven't checked for it. Qemu will be appropriate
+for testing power management for .suspend() and .resume() callbacks?
 
->
-> Okay, I had a look. Terminal buffer overflow? Do you have an idea how to
-> pass the terminal output into a file?
->
-Yes, I will keep that in mind and do it the next time
-
-
-> The next task is to run coccinelle on the kernel sources. You will find
-> documentation on how to set up and run coccinelle in the kernel
-> documentation.
->
-> I suggest you run coccinelle on the latest kernel source, v5.9-rc1.
->
-Alright, I will have a look and get back to you
-
---0000000000008ddc0c05ad26786c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div>=C2=A0</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_qu=
-ote"><div>=C2=A0</div><div>Okay, I had a look. Terminal buffer overflow? Do=
- you have an idea how to pass the terminal output into a file?</div></div><=
-/div></blockquote><div>Yes, I will keep that in mind and do it the next tim=
-e</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
-div dir=3D"ltr"><div class=3D"gmail_quote"><div>The next task is to run coc=
-cinelle on the kernel sources. You will find documentation on how to set up=
- and run coccinelle in the kernel documentation.</div><div><br></div><div>I=
- suggest you run coccinelle on the latest kernel source, v5.9-rc1.</div></d=
-iv></div></blockquote><div>Alright, I will have a look and get back to you=
-=C2=A0</div></div></div>
-
---0000000000008ddc0c05ad26786c--
-
---===============5094565627454991664==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks
+Vaibhav Gupta
+> -- 
+> Jens Axboe
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============5094565627454991664==--
