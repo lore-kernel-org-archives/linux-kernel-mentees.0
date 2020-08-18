@@ -2,100 +2,101 @@ Return-Path: <SRS0=9k96=B4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A64DCC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Aug 2020 20:08:23 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32363C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Aug 2020 22:50:54 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C1C520786
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Aug 2020 20:08:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EA78E2065D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Aug 2020 22:50:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="mY9/qM2M"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C1C520786
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nNQy9jcA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA78E2065D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CBA5E86AA1;
-	Tue, 18 Aug 2020 20:08:22 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id ABEC285BDF;
+	Tue, 18 Aug 2020 22:50:53 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Xb049sSbSxuv; Tue, 18 Aug 2020 22:50:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AE0A885BB5;
+	Tue, 18 Aug 2020 22:50:52 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A15A1C088B;
+	Tue, 18 Aug 2020 22:50:52 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 71B83C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 18 Aug 2020 22:50:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 65C9286C5C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 18 Aug 2020 22:50:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id prYXrHTJBFlf; Tue, 18 Aug 2020 20:08:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BA88786A26;
-	Tue, 18 Aug 2020 20:08:21 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A4E0DC07FF;
-	Tue, 18 Aug 2020 20:08:21 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 122FCC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 20:08:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0101C2002B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 20:08:19 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id maB-YeIKYoco
+ with ESMTP id AAw0naItHMTv
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 20:08:17 +0000 (UTC)
-X-Greylist: delayed 00:08:15 by SQLgrey-1.7.6
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
- [209.85.222.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 5FEB21FF98
+ Tue, 18 Aug 2020 22:50:50 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com
+ [209.85.219.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id F1BEB86A10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 20:08:17 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id b79so19487264qkg.9
+ Tue, 18 Aug 2020 22:50:49 +0000 (UTC)
+Received: by mail-qv1-f65.google.com with SMTP id l13so10381268qvt.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Aug 2020 13:08:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/ZDCPDwW9euB1yf1r32n/nOxApA5CLlHLcrrfHIoPe0=;
- b=mY9/qM2MC8h80QmH/L2o3ebU+oUQNUCW63wm7YBmbeK4YBE5Xe3Rjqtwof4g90Gl5j
- Nashil2BSJxW/GC+DcTms+MTs3zm8+LkClOf/U2jUP/YJlxAmvLXG+Y1SxzjQuQdOmRe
- FaeRrNHm7nBp0Ire6IgS6r1s0gdLxjr1afa0E+smJ3xN4nEInrIvlWBT7CW0TEmor1mO
- FIgviwqTSYceSMveg047w1orQVPvufjnGz94qi/TKhCr8AbTj6GPs3BxF/aFHmnO4n+M
- XlWMZtYVdzdVxOkWy4H/ual/TZMNFFmE2xwQGOV4ybgkF4mcBltQ5wgUueSnWH61nlUt
- zm4w==
+ Tue, 18 Aug 2020 15:50:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=stvJSEiRQlkQk1xgxGeEI5VeClVnzATPsmgtcnuI91Y=;
+ b=nNQy9jcADzVsy8w2nob4APiooUOhoqeqYoBLwzwcU7+V5rmI8M0dFVLhnLrXnVXCs1
+ T3iFIxdy1fcgSiVuFl2PFqBna+SFmHtgH17eB+gmEwsx5hnbQrs/JSOCkJYA1N+fmkSv
+ DuKW9Vqr8GHx/OkoLTztwpWW8EOz1i1dslrvytmQhGKB8DWhbQYhuc7URwImyXtzQeow
+ Hdaf94W/qNBKwBrcyWPwMNHyUjoqKMyPMGs2AHgkm67tidcEVL7xuEXRaeCySwavzjE7
+ VUG1z+6YtCddXDLDg70QqDPswoopgn28ChHSSHI4fGsrrfbzVC2PaQ4Bsf+cL1xPCcTD
+ 2hxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/ZDCPDwW9euB1yf1r32n/nOxApA5CLlHLcrrfHIoPe0=;
- b=clAVC+zdWGi6ojXG0snZvinZTYzMWoNYwG5WbcbjB9L3HQ/OrrdzYP3E7Ob7SnUtjS
- dMe9jXzpl2KpK/ubkrZoDqrWdJwTCGZYWUrJeY61FVzPa++o2PwYg+9p+Rfalcg28j2l
- lDVlf8HqeSyIoo8Es6OwiH0+XunxjkkUhzBYQamm67VNYLus7eDGQ/8Kx63uapBmcwy0
- p9R+CXz2AP7oAwe72nZv2htPAUtUAwJ1T8jmMPPaIJm0IzxyepPkXppAxi2Sr+75bVnq
- 3Jym2aGDcyqVzQdg/hM5DTb5MR8ODkGZPXUIbtE18uKGaLBQz0vi2FmS8ZqvEbUXikBC
- 2C6Q==
-X-Gm-Message-State: AOAM533HGvDSMksxOOcG9xAW9EScJgx0XFTHYLNu1fZNieaSzEdF+EA0
- DCLj6rJxVOPBDlKdPj2mgnBNhxxqmvDMrLzMxw8lfo/gHCM=
-X-Google-Smtp-Source: ABdhPJzURAYX1VluYbg81khU/4BFMEQ5XggeNrYg7amfOd007KJmuQPkzQNHuZnA3kRR7pjm2ZwfV6zrZkG75TYorqc=
-X-Received: by 2002:a37:a495:: with SMTP id
- n143mr19146148qke.330.1597780801253; 
- Tue, 18 Aug 2020 13:00:01 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=stvJSEiRQlkQk1xgxGeEI5VeClVnzATPsmgtcnuI91Y=;
+ b=Y0OtfcX/agzQXM4ewf8WSjLQqSQXaXbE9KNJaHtCwehTxdlCH1Qnke8UF5Nw0YF3RD
+ 8/+gqaqKr4Y/dR7q6y+4RJQCs/cNHYYfv0TGPZxzxeKU/GToG4/2UNrJKGiRoEs/+UBG
+ WkljyvB38aWBexb9zXI2f7XKlwfDzUHQu+Bk8uMgk8dEOFWEzhvhf1nLz/emUxSxgeAn
+ sqjTBr6Qj40K2hDQbyMsS/pXpgLodYlEpETTm1eQCX6+IpHtqSnwHX0CMR1J+EuGjgyg
+ T/b9gtRXD2qT5305/EEixvbwMgRP3bRfm055p7lNZVJMoYGMb1sZ3KI8mt2I/ZcBrnzQ
+ yMPQ==
+X-Gm-Message-State: AOAM531JweWIfJagzt73RfgE9Kn/bDzdtb85I8ZpX/CxCwChHmiZI/gT
+ 3cwiWqTsr4mRBRR9ZlUYvzU=
+X-Google-Smtp-Source: ABdhPJxSq6PBUmtqppAEiA6LEO/D0duMhcF5PPgzELPA2JsT6QAUhFlndit2Tnh1ANzz71/V+BQvUw==
+X-Received: by 2002:a0c:a9c6:: with SMTP id c6mr20074239qvb.151.1597791048669; 
+ Tue, 18 Aug 2020 15:50:48 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id h13sm24566519qtu.7.2020.08.18.15.50.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Aug 2020 15:50:48 -0700 (PDT)
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To: mchehab+huawei@kernel.org
+Date: Tue, 18 Aug 2020 19:50:37 -0300
+Message-Id: <20200818225041.1133770-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200801112446.149549-1-refactormyself@gmail.com>
- <20200801112446.149549-9-refactormyself@gmail.com>
-In-Reply-To: <20200801112446.149549-9-refactormyself@gmail.com>
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date: Tue, 18 Aug 2020 21:59:50 +0200
-Message-ID: <CAMpxmJX8SV6RTgy4vKNRPzKvnVaJZpZKQmOf1pX1wGd+H2zaeA@mail.gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-gpio <linux-gpio@vger.kernel.org>, linux-pci@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [RFC PATCH 08/17] gpio: Drop uses of
-	pci_read_config_*() return value
+Cc: linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] [v9 0/4] media: vidtv: Implement a virtual
+	DVB driver
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,102 +114,265 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Aug 1, 2020 at 2:24 PM Saheed O. Bolarinwa
-<refactormyself@gmail.com> wrote:
->
-> The return value of pci_read_config_*() may not indicate a device error.
-> However, the value read by these functions is more likely to indicate
-> this kind of error. This presents two overlapping ways of reporting
-> errors and complicates error checking.
->
-> It is possible to move to one single way of checking for error if the
-> dependency on the return value of these functions is removed, then it
-> can later be made to return void.
->
-> Remove all uses of the return value of pci_read_config_*().
-> Check the actual value read for ~0. In this case, ~0 is an invalid
-> value thus it indicates some kind of error.
->
-> Suggested-by: Bjorn Helgaas <bjorn@helgaas.com>
-> Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
-> ---
->  drivers/gpio/gpio-amd8111.c |  7 +++++--
->  drivers/gpio/gpio-rdc321x.c | 21 ++++++++++++---------
->  2 files changed, 17 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-amd8111.c b/drivers/gpio/gpio-amd8111.c
-> index fdcebe59510d..7b9882380cbc 100644
-> --- a/drivers/gpio/gpio-amd8111.c
-> +++ b/drivers/gpio/gpio-amd8111.c
-> @@ -198,9 +198,12 @@ static int __init amd_gpio_init(void)
->         goto out;
->
->  found:
-> -       err = pci_read_config_dword(pdev, 0x58, &gp.pmbase);
-> -       if (err)
-> +       pci_read_config_dword(pdev, 0x58, &gp.pmbase);
-> +       if (gp.pmbase == (u32)~0) {
-> +               err = -ENODEV;
->                 goto out;
-> +       }
-> +
->         err = -EIO;
->         gp.pmbase &= 0x0000FF00;
->         if (gp.pmbase == 0)
-> diff --git a/drivers/gpio/gpio-rdc321x.c b/drivers/gpio/gpio-rdc321x.c
-> index 01ed2517e9fd..03f1ff07b844 100644
-> --- a/drivers/gpio/gpio-rdc321x.c
-> +++ b/drivers/gpio/gpio-rdc321x.c
-> @@ -85,10 +85,13 @@ static int rdc_gpio_config(struct gpio_chip *chip,
->         gpch = gpiochip_get_data(chip);
->
->         spin_lock(&gpch->lock);
-> -       err = pci_read_config_dword(gpch->sb_pdev, gpio < 32 ?
-> -                       gpch->reg1_ctrl_base : gpch->reg2_ctrl_base, &reg);
-> -       if (err)
-> +       pci_read_config_dword(gpch->sb_pdev,
-> +                               (gpio < 32) ? gpch->reg1_ctrl_base
-> +                                       : gpch->reg2_ctrl_base, &reg);
-> +       if (reg == (u32)~0) {
-> +               err = -ENODEV;
->                 goto unlock;
-> +       }
->
->         reg |= 1 << (gpio & 0x1f);
->
-> @@ -166,17 +169,17 @@ static int rdc321x_gpio_probe(struct platform_device *pdev)
->         /* This might not be, what others (BIOS, bootloader, etc.)
->            wrote to these registers before, but it's a good guess. Still
->            better than just using 0xffffffff. */
-> -       err = pci_read_config_dword(rdc321x_gpio_dev->sb_pdev,
-> +       pci_read_config_dword(rdc321x_gpio_dev->sb_pdev,
->                                         rdc321x_gpio_dev->reg1_data_base,
->                                         &rdc321x_gpio_dev->data_reg[0]);
-> -       if (err)
-> -               return err;
-> +       if (rdc321x_gpio_dev->data_reg[0] == (u32)~0)
-> +               return -ENODEV;
->
-> -       err = pci_read_config_dword(rdc321x_gpio_dev->sb_pdev,
-> +       pci_read_config_dword(rdc321x_gpio_dev->sb_pdev,
->                                         rdc321x_gpio_dev->reg2_data_base,
->                                         &rdc321x_gpio_dev->data_reg[1]);
-> -       if (err)
-> -               return err;
-> +       if (rdc321x_gpio_dev->data_reg[1] == (u32)~0)
-> +               return -ENODEV;
->
->         dev_info(&pdev->dev, "registering %d GPIOs\n",
->                                         rdc321x_gpio_dev->chip.ngpio);
-> --
-> 2.18.4
->
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Bjorn,
+This series is work in progress. It represents the current work done on a
+virtual DVB driver for the Linux media subsystem. I am new to the media
+subsystem and to kernel development in general.
 
-I don't know the pci sub-system at all. Does this look good to you?
+This driver aims to:
+	- Serve as template for new DVB driver writers
+	- Help userspace application writers in general
+	- Push fake audio/video to userspace for testing
+	purposes
+	- Push debug information to userspace via debugfs
 
-Bartosz
+Current state for this driver:
+	- Driver generates PSI information (PAT, PMT, SDT)
+	- Driver generates PCR packets
+	- Driver generates NULL packets for padding
+	- PCM audio stream is not decoded by ffmpeg yet
+
+
+The Virtual Digital TV Driver (vidtv)
+
+Background
+----------
+
+Vidtv is a virtual DVB driver that aims to serve as a reference for driver
+writers by serving as a template. It also validates the existing media DVB
+APIs, thus helping userspace application writers.
+
+Currently, it consists of:
+
+- A fake tuner driver, which will report a bad signal quality if the chosen
+  frequency is too far away from a table of valid frequencies for a
+  particular delivery system.
+
+- A fake demod driver, which will constantly poll the fake signal quality
+  returned by the tuner, simulating a device that can lose/reacquire a lock
+  on the signal depending on the CNR levels.
+
+- A fake bridge driver, which is the module responsible for modprobing the
+  fake tuner and demod modules and implementing the demux logic. This module
+  takes parameters at initialization that will dictate how the simulation
+  behaves.
+
+- Code reponsible for encoding a valid MPEG Transport Stream, which is then
+  passed to the bridge driver. This fake stream contains some hardcoded content.
+  For now, we have a single, audio-only channel containing a single MPEG
+  Elementary Stream, which in turn contains a SMPTE 302m encoded sine-wave.
+  Note that this particular encoder was chosen because it is the easiest
+  way to encode PCM audio data in a MPEG Transport Stream.
+
+Building vidtv
+--------------
+vidtv is a test driver and thus is **not** enabled by default when
+compiling the kernel.
+
+In order to enable compilation of vidtv:
+
+- Enable **DVB_TEST_DRIVERS**, then
+- Enable **DVB_VIDTV**
+
+When compiled as a module, expect the following .ko files:
+
+- dvb_vidtv_tuner.ko
+
+- dvb_vidtv_demod.ko
+
+- dvb_vidtv_bridge.ko
+
+Running vidtv
+-------------
+When compiled as a module, run::
+
+	modprobe dvb_vidtv_bridge
+
+That's it! The bridge driver will initialize the tuner and demod drivers as
+part of its own initialization.
+
+You can optionally define some command-line arguments to vidtv, see the
+documentation for more info.
+
+Testing vidtv with v4l-utils
+============================
+
+Start by installing v4l-utils and then modprobing vidtv::
+
+	modprobe dvb_vidtv_bridge
+
+If the driver is OK, it should load and its probing code will run. This will
+pull in the tuner and demod drivers.
+
+Using dvb-fe-tool
+-----------------
+
+The first step to check whether the demod loaded successfully is to run::
+
+	$ dvb-fe-tool
+
+This should return what is currently set up at the demod struct, i.e.::
+
+	static const struct dvb_frontend_ops vidtv_demod_ops = {
+		.delsys = {
+			SYS_DVBT,
+			SYS_DVBT2,
+			SYS_DVBC_ANNEX_A,
+			SYS_DVBS,
+			SYS_DVBS2,
+		},
+
+		.info = {
+			.name                   = "Dummy demod for DVB-T/T2/C/S/S2",
+			.frequency_min_hz       = 51 * MHz,
+			.frequency_max_hz       = 2150 * MHz,
+			.frequency_stepsize_hz  = 62500,
+			.frequency_tolerance_hz = 29500 * kHz,
+			.symbol_rate_min        = 1000000,
+			.symbol_rate_max        = 45000000,
+
+			.caps = FE_CAN_FEC_1_2 |
+				FE_CAN_FEC_2_3 |
+				FE_CAN_FEC_3_4 |
+				FE_CAN_FEC_4_5 |
+				FE_CAN_FEC_5_6 |
+				FE_CAN_FEC_6_7 |
+				FE_CAN_FEC_7_8 |
+				FE_CAN_FEC_8_9 |
+				FE_CAN_QAM_16 |
+				FE_CAN_QAM_64 |
+				FE_CAN_QAM_32 |
+				FE_CAN_QAM_128 |
+				FE_CAN_QAM_256 |
+				FE_CAN_QAM_AUTO |
+				FE_CAN_QPSK |
+				FE_CAN_FEC_AUTO |
+				FE_CAN_INVERSION_AUTO |
+				FE_CAN_TRANSMISSION_MODE_AUTO |
+				FE_CAN_GUARD_INTERVAL_AUTO |
+				FE_CAN_HIERARCHY_AUTO,
+		}
+
+		....
+
+Using dvb-scan
+--------------
+
+In order to tune into a channel and read the PSI tables, we can use dvb-scan.
+
+For this, one should provide a configuration file known as a 'scan file',
+here's an example::
+
+	[Channel]
+	FREQUENCY = 330000000
+	MODULATION = QAM/AUTO
+	SYMBOL_RATE = 6940000
+	INNER_FEC = AUTO
+	DELIVERY_SYSTEM = DVBC/ANNEX_A
+
+	NOTE:
+	The parameters depend on the video standard you're testing.
+
+	NOTE:
+	Vidtv is a fake driver and does not validate much of the information
+	in the scan file. Just specifying 'FREQUENCY' and 'DELIVERY_SYSTEM'
+	should be enough for DVB-T/DVB-T2. For DVB-S/DVB-C however, you
+	should also provide 'SYMBOL_RATE'.
+
+Assuming this channel is named 'channel.conf', you can then run::
+
+        $ dvbv5-scan dresden_dvbc_channel.conf
+
+Using dvb-zap
+-------------
+
+dvbv5-zap is a command line tool that can be used to record MPEG-TS to disk. The
+typical use is to tune into a channel and put it into record mode. The example
+below - which is taken from the documentation - illustrates that::
+
+        $ dvbv5-zap -c dvb_channel.conf "trilhas sonoras" -r
+        using demux '/dev/dvb/adapter0/demux0'
+        reading channels from file 'dvb_channel.conf'
+        service has pid type 05:  204
+        tuning to 573000000 Hz
+        audio pid 104
+          dvb_set_pesfilter 104
+        Lock   (0x1f) Quality= Good Signal= 100.00% C/N= -13.80dB UCB= 70 postBER= 3.14x10^-3 PER= 0
+        DVR interface '/dev/dvb/adapter0/dvr0' can now be opened
+
+The channel can be watched by playing the contents of the DVR interface, with
+some player that recognizes the MPEG-TS format, such as *mplayer* or *vlc*.
+
+By playing the contents of the stream one can visually inspect the workings of
+vidtv, e.g.::
+
+	$ mplayer /dev/dvb/adapter0/dvr0
+
+
+Daniel W. S. Almeida (4):
+  media: vidtv: implement a tuner driver
+  media: vidtv: implement a demodulator driver
+  media: vidtv: add a bridge driver
+  media: Documentation: vidtv: Add ReST documentation for vidtv
+
+ .../driver-api/media/drivers/index.rst        |    1 +
+ .../driver-api/media/drivers/vidtv.rst        |  417 +++++
+ MAINTAINERS                                   |    8 +
+ drivers/media/test-drivers/Kconfig            |   16 +
+ drivers/media/test-drivers/Makefile           |    1 +
+ drivers/media/test-drivers/vidtv/Kconfig      |   11 +
+ drivers/media/test-drivers/vidtv/Makefile     |    9 +
+ .../media/test-drivers/vidtv/vidtv_bridge.c   |  548 +++++++
+ .../media/test-drivers/vidtv/vidtv_bridge.h   |   60 +
+ .../media/test-drivers/vidtv/vidtv_channel.c  |  364 +++++
+ .../media/test-drivers/vidtv/vidtv_channel.h  |   85 ++
+ .../media/test-drivers/vidtv/vidtv_common.c   |   90 ++
+ .../media/test-drivers/vidtv/vidtv_common.h   |   33 +
+ .../media/test-drivers/vidtv/vidtv_demod.c    |  440 ++++++
+ .../media/test-drivers/vidtv/vidtv_demod.h    |   73 +
+ .../media/test-drivers/vidtv/vidtv_encoder.h  |   96 ++
+ drivers/media/test-drivers/vidtv/vidtv_mux.c  |  479 ++++++
+ drivers/media/test-drivers/vidtv/vidtv_mux.h  |  160 ++
+ drivers/media/test-drivers/vidtv/vidtv_pes.c  |  396 +++++
+ drivers/media/test-drivers/vidtv/vidtv_pes.h  |  189 +++
+ drivers/media/test-drivers/vidtv/vidtv_psi.c  | 1350 +++++++++++++++++
+ drivers/media/test-drivers/vidtv/vidtv_psi.h  |  593 ++++++++
+ .../media/test-drivers/vidtv/vidtv_s302m.c    |  627 ++++++++
+ .../media/test-drivers/vidtv/vidtv_s302m.h    |  110 ++
+ drivers/media/test-drivers/vidtv/vidtv_ts.c   |  137 ++
+ drivers/media/test-drivers/vidtv/vidtv_ts.h   |  130 ++
+ .../media/test-drivers/vidtv/vidtv_tuner.c    |  427 ++++++
+ .../media/test-drivers/vidtv/vidtv_tuner.h    |   43 +
+ 28 files changed, 6893 insertions(+)
+ create mode 100644 Documentation/driver-api/media/drivers/vidtv.rst
+ create mode 100644 drivers/media/test-drivers/vidtv/Kconfig
+ create mode 100644 drivers/media/test-drivers/vidtv/Makefile
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_channel.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_channel.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_demod.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_demod.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_encoder.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_mux.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_mux.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_pes.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_pes.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_psi.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_psi.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_s302m.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_s302m.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_tuner.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_tuner.h
+
+-- 
+2.28.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
