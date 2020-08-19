@@ -2,121 +2,108 @@ Return-Path: <SRS0=uOMe=B5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 066ACC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Aug 2020 18:53:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8495C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Aug 2020 18:59:01 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C2BBE2083B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Aug 2020 18:53:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 93D55208E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Aug 2020 18:59:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="skCBsF03"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2BBE2083B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ddg2juEO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93D55208E4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8BBF387E6E;
-	Wed, 19 Aug 2020 18:53:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4EA3287E93;
+	Wed, 19 Aug 2020 18:59:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id J-9+FWLQp3L0; Wed, 19 Aug 2020 18:53:09 +0000 (UTC)
+	with ESMTP id 8-iCDJ+IkWvj; Wed, 19 Aug 2020 18:59:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D02C387E40;
-	Wed, 19 Aug 2020 18:53:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C5B6087E91;
+	Wed, 19 Aug 2020 18:59:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B18D4C07FF;
-	Wed, 19 Aug 2020 18:53:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24563C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B0D0CC07FF;
+	Wed, 19 Aug 2020 18:59:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7AC1AC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 18:53:08 +0000 (UTC)
+ Wed, 19 Aug 2020 18:58:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0BB7C87619
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 69587860EA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 18:53:08 +0000 (UTC)
+ Wed, 19 Aug 2020 18:58:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sIU-lof14SqJ
+ with ESMTP id isU18O9vd44U
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 18:53:07 +0000 (UTC)
+ Wed, 19 Aug 2020 18:58:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7BA3E8760E
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id F05AB860DE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 18:53:07 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id t11so11267674plr.5
+ Wed, 19 Aug 2020 18:58:58 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id c10so1516029pjn.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 11:53:07 -0700 (PDT)
+ Wed, 19 Aug 2020 11:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ojo0vVfxMF4kGimsv0YT84fT9cZgWR2PgPBwNlWXlnI=;
- b=skCBsF03o+nKy1/X62nQs3ZlUExK97yXVDTlRaA8GO72wwa24H1C7qm2MuhrUyaALi
- mpZzXM9DozoVnhGuFMyeGT4y/xG3sviD5GzhhEOku6+iKvJK4t3So16vPlCDSBVw1Y6E
- vjyslNPnU+Ku+7fni24xc9moG9pHb+l08VL1GcDp6yualyjc5WbW86Z2cQQ1FYvroIo/
- 0o0CG8HvML5rh5X5QEYPitjvapemHzuaNan08+aYY8bdP+uzd3ROmHemiDph51bwCjl1
- q2yzBJcwp9rpY6gC++vSo4O3mJqFqAYF6o8JaTp7NuP3hY7sEZs06cKm1I+D/ivrvMTT
- YNRw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=teSA+VF9m0g0fiG8uR8fbDhA8YjsqGp+oSZrp5d7n9U=;
+ b=Ddg2juEOoCmHUuQArhnsFSay6iY0S9DecklI+21FdyRNq5jSHiDoGK2hZWZBN6dXxf
+ uSJdgdBW2SbPPdcGEqOMILtPKUxDod5d+CniKZp2b9MMNxkLNIZ9CK9XHrf9XlMwFH9O
+ BeXKAXjBjqp0U9QnBE5dElE/lfDh3muuiVY6RpzO/DhO6iUxwXPd5OAYGwEccOmKeUok
+ AvH+PzbcQtdlJZ5v7PYUomw2GhVLghruNZsxqBFTdfvF4HpNxBpH79FXQtn/7ZQ+Sj7r
+ hymuwHpjetoojCk3aJJ83r3Okn2hZlhsU7kOFsAeMPrODkHd/n01iMWK8C4/fxGbXpjO
+ +Psg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ojo0vVfxMF4kGimsv0YT84fT9cZgWR2PgPBwNlWXlnI=;
- b=CteN8FQcFQ94lkULLrc1mw0mWGfOX1yUE5GkyofnQ0ScNAJtE1g7yMdy6MjwgX2+rT
- YdZVojlGgDmoSSQwCnVuvH1o0at1Cuxgc2bhRmVxv7EhyXvBhErjtrFNXoYpC1g9ASo1
- KQDiAGHnqBYJuaxYx9dyYMEHedpsK6Pz+Ka4wdUtqsybbbcWd5nbXlCJLNMoQRXG0noO
- aJPY7aC804lEOL1S4gE5h09PndOy2Rs6x08KEKJUuqeRvV1OA+1dF3xnFWkGAAXMJnV1
- 3WcSdfOy7ZIp6mx1OCUuw0vupyGFktOLJgVjsQHj7ig4WXhQLc0XnluGrpsi0k3dpZYD
- pDGw==
-X-Gm-Message-State: AOAM533yo7eaJdcNri1GuVmmP978YWz9DV7hYMmcp/1TQh/ttW+gIaZf
- Zz4cQCLXrl+KiFkKFJVqpiU=
-X-Google-Smtp-Source: ABdhPJz8qgSUSMAh8sRZsex9BAVPb7wEOcm30G8p5x+PLRkaNGEKbLX19pSFlFe30lZkVGjNFsyTWw==
-X-Received: by 2002:a17:902:968d:: with SMTP id
- n13mr10893239plp.260.1597863186960; 
- Wed, 19 Aug 2020 11:53:06 -0700 (PDT)
-Received: from gmail.com ([103.105.152.86])
- by smtp.gmail.com with ESMTPSA id x6sm25815940pge.61.2020.08.19.11.52.47
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=teSA+VF9m0g0fiG8uR8fbDhA8YjsqGp+oSZrp5d7n9U=;
+ b=dvCbeqnIvZ1gVjR5ifO0kK0SpOsKHLtZcbn8NIV2OVBKL8ManvIDOVCwUr9o13QLxw
+ Ak5h/ukOcG816woGnXbyvQna1+Z+w+iFt/u0z/WfycSIznGRUzCz4yCOsWV7rMpwYijy
+ K301kkcyRR7dWuETjBI0tv2ZTfnsJ8aDUEWL9TZBsosf+ejBxhvXf5AsjV+hrO748A+q
+ yogFC6RhRuP/bn1I0dmt3Ujk9bF7xVQ7R49Q53xq7N6VMfL7HXsLLEvTqOOMcSDMRtuc
+ zL6qZkE/DkcKDG7lVxdTOKKOGvymkR7E8fyem5HiQUegcLPPgj/5u0xtKB0qTbXfhIcP
+ Fdnw==
+X-Gm-Message-State: AOAM533Ek9NfFWnTssu7AT3tqHo64SqnvQaBm52e/cNjIA3zTT2cVMGI
+ /Z+JTltpgsnUbhQWj5cNG9A=
+X-Google-Smtp-Source: ABdhPJwNFdqnCDQRO/tySZxGOWZIe3t9mcFk7yheydz6bXCndpt/TagKm0lrSk7e+WHEmyBWkUYYHQ==
+X-Received: by 2002:a17:90b:4c0c:: with SMTP id
+ na12mr4980552pjb.24.1597863538514; 
+ Wed, 19 Aug 2020 11:58:58 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.152.86])
+ by smtp.gmail.com with ESMTPSA id o134sm29149305pfg.200.2020.08.19.11.58.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 11:53:06 -0700 (PDT)
-Date: Thu, 20 Aug 2020 00:21:08 +0530
+ Wed, 19 Aug 2020 11:58:58 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Jens Axboe <axboe@kernel.dk>
-Message-ID: <20200819184738.GA108131@gmail.com>
-References: <20200817092245.10478-1-vaibhavgupta40@gmail.com>
- <20200817092511.GA10566@gmail.com>
- <11190a0b-1009-caf8-9cbe-6cf296b614bf@kernel.dk>
- <20200818130329.GA39194@gmail.com>
- <a1937b38-055f-0fc7-0d08-16af7c42660b@kernel.dk>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a1937b38-055f-0fc7-0d08-16af7c42660b@kernel.dk>
-Cc: Vaibhav Gupta <vaibhav.varodek@gmail.com>, linux-kernel@vger.kernel.org,
- linux-ide@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>,
- Alex Shi <alex.shi@linux.alibaba.com>, Jiri Slaby <jslaby@suse.cz>,
- Christoph Hellwig <hch@lst.de>,
- Javier Martinez Canillas <javier@osg.samsung.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Prabhakar Kushwaha <pkushwaha@marvell.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Paul Gortmaker <paul.gortmaker@windriver.com>,
- "Gustavo A . R . Silva" <gustavoars@kernel.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] ata: use generic power
-	management
+ Sam Ravnborg <sam@ravnborg.org>, Paul Mackerras <paulus@samba.org>,
+ Russell King <linux@armlinux.org.uk>, Andres Salomon <dilinger@queued.net>,
+ Antonino Daplas <adaplas@gmail.com>
+Date: Thu, 20 Aug 2020 00:26:42 +0530
+Message-Id: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-geode@lists.infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [Linux-kernel-mentees] [PATCH v3 00/12] video: fbdev: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -134,58 +121,64 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Aug 19, 2020 at 12:40:20PM -0600, Jens Axboe wrote:
-> On 8/18/20 6:03 AM, Vaibhav Gupta wrote:
-> > On Mon, Aug 17, 2020 at 07:06:03AM -0700, Jens Axboe wrote:
-> >> On 8/17/20 2:25 AM, Vaibhav Gupta wrote:
-> >>> Hello,
-> >>>
-> >>> I am working to upgrade power management framework support for PCI drivers, as
-> >>> my project under the Linux Kernel Mentorship Program.
-> >>>
-> >>> The ultimate goal is to completely remove the legacy framework. And for this we
-> >>> need to remove ".suspend" and ".resume" pointers from "struct pci_driver".
-> >>>
-> >>> The patch is doing the change for the same. The actual suspend() and
-> >>> resume() callbacks are defined in drivers/ata/libata-core.c and are exported.
-> >>> Which are then used by other files.
-> >>>
-> >>> Thus removing those pointers, included 54 files in this patch. Although, the
-> >>> actual changes are done in few files only. The changes should work fine as I
-> >>> have done similar changes for other drivers too which made their way into the
-> >>> kernel. Still, tests on few ata devices are necessary.
-> >>
-> >> Didn't we agree to split this up into separate patches??
-> >>
-> >>> I tried but unfortunately, I couldn't find or arrange devices to test upon. I
-> >>> have added the authors of the previous commit(s) for respective drivers as
-> >>> recipients. It would be very helpful if someone can test it on a device.
-> >>
-> >> Does qemu support any of the affected drivers?
-> >>
-> > Hello Jens,
-> > Yes we discussed about splitting it and I will surely do it. I just thought that
-> > still it has not got tested and in that case keeping check on patch-series with
-> > 55+ patches may become somewhat messy. Moreover, to test any driver one will
-> > have to apply the patch for libata-core and then that of the driver.
-> > So, I sent this v3 in order to get some help for the testing purpose. Once it
-> > goes successful, I can split it and send it for the submission.
-> > 
-> > I am not sure about qemu, I haven't checked for it. Qemu will be appropriate
-> > for testing power management for .suspend() and .resume() callbacks?
-> 
-> Well, that's your homework then, it seems pretty ideal for testing that
-> kind of thing and way easier than getting your hands on hardware. It
-> won't have support for everything, but so far you are at 0 things
-> tested, so any piix and ahci testing would be a win as far as I'm
-> concerned.
-> 
-Okay. Thanks for hinting about qemu. I will get started with it then.
+Linux Kernel Mentee: Remove Legacy Power Management.
 
-Vaibhav Gupta
-> -- 
-> Jens Axboe
-> 
+The purpose of this patch series is to upgrade power management in video fbdev
+drivers. This has been done by upgrading .suspend() and .resume() callbacks.
+
+The upgrade makes sure that the involvement of PCI Core does not change the
+order of operations executed in a driver. Thus, does not change its behavior.
+
+In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
+helper functions like pci_enable/disable_device_mem(), pci_set_power_state(),
+pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
+their job.
+
+The conversion requires the removal of those function calls, change the
+callbacks' definition accordingly and make use of dev_pm_ops structure.
+
+All patches are compile-tested only.
+
+Test tools:
+    - Compiler: gcc (GCC) 10.1.0
+    - allmodconfig build: make -j$(nproc) W=1 all
+
+Vaibhav Gupta (12):
+  fbdev: gxfb: use generic power management
+  fbdev: lxfb: use generic power management
+  fbdev: via-core: use generic power management
+  fbdev: aty: use generic power management
+  fbdev: aty128fb: use generic power management
+  fbdev: nvidia: use generic power management
+  fbdev: savagefb: use generic power management
+  fbdev: cyber2000fb: use generic power management
+  fbdev: i740fb: use generic power management
+  fbdev: vt8623fb: use generic power management
+  fbdev: s3fb: use generic power management
+  fbdev: arkfb: use generic power management
+
+ drivers/video/fbdev/arkfb.c                  | 41 ++++++-------
+ drivers/video/fbdev/aty/aty128fb.c           | 51 ++++++++++------
+ drivers/video/fbdev/aty/atyfb_base.c         | 50 ++++++++++-----
+ drivers/video/fbdev/cyber2000fb.c            | 13 ++--
+ drivers/video/fbdev/geode/gxfb.h             |  5 --
+ drivers/video/fbdev/geode/gxfb_core.c        | 36 ++++++-----
+ drivers/video/fbdev/geode/lxfb.h             |  5 --
+ drivers/video/fbdev/geode/lxfb_core.c        | 37 +++++------
+ drivers/video/fbdev/geode/lxfb_ops.c         |  4 --
+ drivers/video/fbdev/geode/suspend_gx.c       |  4 --
+ drivers/video/fbdev/i740fb.c                 | 40 +++++-------
+ drivers/video/fbdev/nvidia/nvidia.c          | 64 +++++++++++---------
+ drivers/video/fbdev/s3fb.c                   | 39 +++++-------
+ drivers/video/fbdev/savage/savagefb_driver.c | 52 ++++++++++------
+ drivers/video/fbdev/via/via-core.c           | 39 +++++-------
+ drivers/video/fbdev/vt8623fb.c               | 41 ++++++-------
+ include/linux/via-core.h                     |  2 -
+ 17 files changed, 267 insertions(+), 256 deletions(-)
+
+-- 
+2.28.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
