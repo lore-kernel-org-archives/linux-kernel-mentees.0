@@ -2,100 +2,99 @@ Return-Path: <SRS0=uOMe=B5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B41F1C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Aug 2020 19:46:43 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EDA7C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Aug 2020 21:06:56 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4844E207BB
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Aug 2020 19:46:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D50AE207FF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 19 Aug 2020 21:06:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=massaru-org.20150623.gappssmtp.com header.i=@massaru-org.20150623.gappssmtp.com header.b="c/WAoo8K"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4844E207BB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=massaru.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="n3gXik2Q"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D50AE207FF
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E7030870A9;
-	Wed, 19 Aug 2020 19:46:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 64E4D22640;
+	Wed, 19 Aug 2020 21:06:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ez6eyOxsUyya; Wed, 19 Aug 2020 19:46:42 +0000 (UTC)
+	with ESMTP id ULVFLbpisl35; Wed, 19 Aug 2020 21:06:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 66B9186DC6;
-	Wed, 19 Aug 2020 19:46:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2528522610;
+	Wed, 19 Aug 2020 21:06:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B53CC0889;
-	Wed, 19 Aug 2020 19:46:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 18E93C0889;
+	Wed, 19 Aug 2020 21:06:54 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27B40C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4748AC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 19:46:41 +0000 (UTC)
+ Wed, 19 Aug 2020 21:06:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1663E86166
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 36CCE86205
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 19:46:41 +0000 (UTC)
+ Wed, 19 Aug 2020 21:06:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6LGBIp00-oYa
+ with ESMTP id CHvwZgoKpTRu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 19:46:40 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
- [209.85.222.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CD3A486160
+ Wed, 19 Aug 2020 21:06:51 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 00D6286204
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 19:46:39 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id 77so22726815qkm.5
+ Wed, 19 Aug 2020 21:06:50 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id f5so11418097plr.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 12:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=massaru-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BwdlULMTaTE30yELl6QtQGZwxv6wjr+YnW2F2X4a+zg=;
- b=c/WAoo8K/Yqw75x+/yTAPBMGd8P18fZS2iAYS5ipm3w9Ruq3JxzeY1uwAFab9Luan/
- q1Fke9T39saOlrB5er41jfEkGH7Oa8bzUUqQI99WQkWv5uIRX8Bp1nMKYey3cKqqe5Qg
- pT3TD8hxoFTgm6BkOdgWgE5+XQjB37NDanXj5Wd3Q5D+i/0ndalNkrkIYN6pVMhaeBjI
- LJ5bAt1W8x6IESQXPWp/1EJEdl/L1kkbBgyhYoptE07q6EhGOblUKFDCMbtnIfJUVeIU
- 5KCHiHL6FiVDBhBtcAjx91kT1gnPB3n2RMJq4eCFM0tKusGe3od9t9WITGeWrhv4jUkE
- EMRA==
+ Wed, 19 Aug 2020 14:06:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=O1fpazQzH5RzZYR8qQqnmyk9zH8WRFTB4V0IGSi9KdM=;
+ b=n3gXik2Qgwut2dnhopHSM0ZTpUHIi6gVTF4XJRmDIngPNixlUNtHw0BoOxGRErlh+A
+ NEUpm5nS07FYpoIukKItm8njOq+7W7HIDGDyeNyMu9V6y77m0BVMDgF60gWCiJ/yhILr
+ rNBZhONTRkFZP0avtwKAX2L2fx7u95liCYCVGJy1fUyFFO6kG470mjAaO9JnjSrhlg4E
+ LOqr5LEaNL9zO47CAFdHNfn0m79qaXwsCP0VcKQpsHDPRQN34/mBhVJpm+X+wCPQM7fE
+ H/4G3VkM0prcDUokq+cvOa2llDTOpuWhWTPHey8eqP0ZulPhWDigdy6rWy4IJigjzjUo
+ OeDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BwdlULMTaTE30yELl6QtQGZwxv6wjr+YnW2F2X4a+zg=;
- b=sZXSyMRX1tOLiSSrrq3mCT/M/MtLrGmq0t5jZQ5omJkXpSX8VdubNRs1mwt+EDQXo9
- b4qgePn7diSDzFMqI5tS9g01N7XpHoiruH/vDVkV0mSQCaVWyN9Uc4OsHiyLYm3B+p8A
- wb9mHr3YLLbBt2pI1QE6OptB9712fKpG5DQ25DNFrrbKBDEBCfJJPg4EaBM+ytoQMw9G
- 4aDwiTAQnF7R7UCej2f1Ld6nTDHzeY+QUEVSTqhlnuxu4qGw49rRidtCO+dCLxmWn1jW
- csupV3efS1OmcJRiy0p+9ocFRTXb4hBVrqK3wtAqaattxhzrGCTHitblbgtFWXLDuJyV
- U8rQ==
-X-Gm-Message-State: AOAM531sAGK095ArMTexHpdkZ51LT+90HBHepWM/8wcFwAMamc5gWevu
- iBg0Gkpp0LEUg269ScPKKeH3wg==
-X-Google-Smtp-Source: ABdhPJyKX/MDCHQWdQ7HhGON2G6xeCj2o3kWMNc+YE32/pZH7fM1NWt9kefHSiCJXUl04z31vwRgZA==
-X-Received: by 2002:a37:a64a:: with SMTP id p71mr23616034qke.296.1597866398525; 
- Wed, 19 Aug 2020 12:46:38 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:4a5:288::1001])
- by smtp.gmail.com with ESMTPSA id x28sm25448344qki.55.2020.08.19.12.46.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 12:46:38 -0700 (PDT)
-From: Vitor Massaru Iha <vitor@massaru.org>
-To: kunit-dev@googlegroups.com
-Date: Wed, 19 Aug 2020 16:46:34 -0300
-Message-Id: <20200819194634.68976-1-vitor@massaru.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=O1fpazQzH5RzZYR8qQqnmyk9zH8WRFTB4V0IGSi9KdM=;
+ b=pzvDw+BjFScHUQEbr2jq48AxRv9BuJmLPiMjkdCsn8bWLHZwwH6KtJG6CPRPVOQl5K
+ 6plfgftvawPhy6uwdHQBJAheZ2mqafA4k9kXFKaUwBDtUx2UuLLGeDbB2Z8ZATyqj0Kh
+ 359xXvQln9aWshTrdmook0h2sGnO/7Evrx/s5iotoSQ/oC/Joku/ocC8fYce7H3LG1dt
+ Fd+UD3wgi8ZK6RT1wPhNsq1ch03JNRm+ZG5l04xm9D+zfj2dGFqErw6PyypjjG8tiFId
+ noXramELyV0FeverQxr1HbDz8Dr7UgMm0WkDPtCkEZpCXqNNM5Rlqw+cAwikYltLpvSO
+ VHug==
+X-Gm-Message-State: AOAM5319HwG9FqBrzgjJqOzx8C1GMDTGVhOdR4mUHWQxK7pexIKndQma
+ FzoMlu7ilpw0uYuqvj7C3AZTMhFAK02MH0STbaYV0g==
+X-Google-Smtp-Source: ABdhPJzzCiHuuzGcxULeosyTXBOlK4ZIt+/tGPvNknk5TvX+B4AW7O4jdcVufduouBXWPpOhHI87w0ZcR36cvNaGFFs=
+X-Received: by 2002:a17:902:7405:: with SMTP id
+ g5mr305146pll.325.1597871210318; 
+ Wed, 19 Aug 2020 14:06:50 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, brendanhiggins@google.com,
- linux-kselftest@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] kunit: fix:
-	kunit_binary_assert_format() only prints signed int
+References: <20200718005141.440405-1-vitor@massaru.org>
+In-Reply-To: <20200718005141.440405-1-vitor@massaru.org>
+Date: Wed, 19 Aug 2020 14:06:39 -0700
+Message-ID: <CAFd5g47orvwzPOnFepDCjkv0nd08Ad2mmVp+XZgVmpGr5C2HwA@mail.gmail.com>
+To: Vitor Massaru Iha <vitor@massaru.org>
+Cc: "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Gow <davidgow@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] lib: Convert test_user_copy
+	to KUnit test
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,57 +106,25 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Brendan Higgins via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Some tests, such as overflow_kunit(), uses unsigned int,
-But kunit_binary_assert_format() only prints signed int,
-this commit also deals with the unsigned int print.
+On Fri, Jul 17, 2020 at 5:51 PM Vitor Massaru Iha <vitor@massaru.org> wrote:
+>
+> This adds the conversion of the runtime tests of test_user_copy fuctions,
+> from `lib/test_user_copy.c` to KUnit tests.
+>
+> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
 
-Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
----
- lib/kunit/assert.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
 
-diff --git a/lib/kunit/assert.c b/lib/kunit/assert.c
-index 202f9fdeed0e..3ae90c09986a 100644
---- a/lib/kunit/assert.c
-+++ b/lib/kunit/assert.c
-@@ -104,12 +104,23 @@ void kunit_binary_assert_format(const struct kunit_assert *assert,
- 				  binary_assert->left_text,
- 				  binary_assert->operation,
- 				  binary_assert->right_text);
--		string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld\n",
-+
-+		if (binary_assert->left_value - 1 < 0) {
-+			string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld\n",
-+				  binary_assert->left_text,
-+				  binary_assert->left_value);
-+			string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld",
-+				  binary_assert->right_text,
-+				  binary_assert->right_value);
-+		}
-+		else {
-+			string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %llu\n",
- 				  binary_assert->left_text,
- 				  binary_assert->left_value);
--		string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %lld",
-+			string_stream_add(stream, KUNIT_SUBSUBTEST_INDENT "%s == %llu",
- 				  binary_assert->right_text,
- 				  binary_assert->right_value);
-+		}
- 	}
- 	kunit_assert_print_msg(assert, stream);
- }
-
-base-commit: d43c7fb05765152d4d4a39a8ef957c4ea14d8847
-prerequisite-patch-id: bf4b0962b0b955e4e45f5d25fece889562118158
--- 
-2.26.2
-
+Thanks!
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
