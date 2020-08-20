@@ -2,102 +2,107 @@ Return-Path: <SRS0=EZza=B6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BEC0C433E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 20 Aug 2020 04:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2700FC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 20 Aug 2020 06:07:31 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2264B2078B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 20 Aug 2020 04:52:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D80D3207DE
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 20 Aug 2020 06:07:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sg30RJgw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2264B2078B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rtRjDmt5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D80D3207DE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D4D79868A9;
-	Thu, 20 Aug 2020 04:52:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9281D8671C;
+	Thu, 20 Aug 2020 06:07:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sgEUi6N703fr; Thu, 20 Aug 2020 04:52:47 +0000 (UTC)
+	with ESMTP id 1_pgINqij1G5; Thu, 20 Aug 2020 06:07:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 57893868B6;
-	Thu, 20 Aug 2020 04:52:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 64BD2866AD;
+	Thu, 20 Aug 2020 06:07:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 39EBEC0889;
-	Thu, 20 Aug 2020 04:52:47 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9D7E0C0051
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Aug 2020 04:52:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5999FC088E;
+	Thu, 20 Aug 2020 06:07:29 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D1C44C07FF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 20 Aug 2020 06:07:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 99BD5868B6
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Aug 2020 04:52:46 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 9E2082048D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 20 Aug 2020 06:07:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gkeKHBjR0Ht7
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Aug 2020 04:52:45 +0000 (UTC)
+ with ESMTP id mcWAbYBR1Izd
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 20 Aug 2020 06:07:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 22BDB868A9
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Aug 2020 04:52:45 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id x6so562771pgx.12
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 19 Aug 2020 21:52:45 -0700 (PDT)
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id DD9632047B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 20 Aug 2020 06:07:26 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id j13so519943pjd.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 19 Aug 2020 23:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
+ h=from:date:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=5VWHI9n0+G3Tugiglsr+/xN2YwY1eAl4mqxcjHXV038=;
- b=sg30RJgwK8Lv5XRHi/WimqIf3rB9gatyZVHbgFDOwMn7DjJxESwLjKeUKI2qYM5QF4
- nTFUfN0Y+S9GN2ac/6llvCHHe0Lo5YX0H+8ITh+k2JsR1uztzHIK2d34f0VJUrZLcyhx
- h/YQ2oVahy/2yRuf7hAaey+KgMV+xdQUgbaEBal1/4jQoYeJUk4Rr4g0BhS+79D9ezMp
- xJTz/olwauOaZme+0lHGzyRNUSwtxL9ZMJnrsIl0wGyvuNjQVIi0OkiGLi9O4xopuhkt
- /R3IbmbP/0LM91dhD9sEfL8VuuTfSlbHlt9VsqOotqNn0nXj4wwMcyCzSCFWbsn3augQ
- j93A==
+ bh=TEwV+gAKUnRj1mZL3fDfuQy8JyNw5xNO138gnCj19os=;
+ b=rtRjDmt5UUfqpo78XbWEZ0IEW77Ap958XcFh9IZO8Hib9H8QEMwK7C51gmFTGrZfCM
+ CZHHmTNMZGdFyOsts960HDKghxtIW9DtASK5kkSFqmo6fCQq/w9uqgthLq9JtGhJ5wYL
+ /vOu79veUaG9At6gwBacYEywMAZFFN5FT4ssaCys8bp2kfpuOkJ8ulLy1HLY3ythM9Nq
+ SKqAvKtK6TxUqGdXKHyCk5PSx/jPiby4IO8AQDusBcqJvdb61eeeBT5X4Ds/LXIWtFL7
+ LuvYF5/yGBnQtzSrJsD7k3FT2z7u0YPd8WxI5cpOpYmdcZEEt+MoquiOY/sCNvEi0Dyi
+ 4vzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=5VWHI9n0+G3Tugiglsr+/xN2YwY1eAl4mqxcjHXV038=;
- b=kKDkba54xl2PjUmgnG7Ix4qApw450IGoywQyoa2Iikzpog0cOwHOLTANHKov5M5FEF
- lQ0lkOMxCvROdqNvGvYuTC8XJ06horUldUrzQOzgWGk0vktctD1IbVblRpJVwrMvgReH
- lLA5jQYhC0NDMaOQwlfiCfYrZ9pV1HzOHMLgXnvyWNDbc8JtaL7VZJ/XZ3ZcCRhcTVje
- 62igZlS9EwVAgucvMSHXslPoFYKJ2xPzW7KwiR6U0ACrjEk1liD+2KsMGzC0YKecdNhE
- cOt+orJISWQgzRbfer2vw3vh1SmSVvn50WPL6MP44A957kVDwasvBboR+CGOUNoEr1/G
- kiDw==
-X-Gm-Message-State: AOAM532YhUmQiIOP1w4m6dSmJnsL2sf4a2KTOWmCYj1cFiKDDJ07CzQ6
- daVyBEdhcIci80GDK68OJ3E=
-X-Google-Smtp-Source: ABdhPJwk8QJnC9KbOI5ziFvW6UbllAaSRg+AL5gHNG6xLAWMh2Mh0hNlihlPpcjmyT2/1uEAMMDVPg==
-X-Received: by 2002:a63:64b:: with SMTP id 72mr1201470pgg.157.1597899164625;
- Wed, 19 Aug 2020 21:52:44 -0700 (PDT)
-Received: from localhost ([1.23.143.142])
- by smtp.gmail.com with ESMTPSA id lk16sm572071pjb.13.2020.08.19.21.52.35
+ bh=TEwV+gAKUnRj1mZL3fDfuQy8JyNw5xNO138gnCj19os=;
+ b=kwZ29eS5VNIx79d1v4Z767cYttOrO0KTeSN+EobquABNt+n1EWYs1hKWmTt4igwlui
+ T542ybAGG13KyyNhrrYeDGkzpO9BGwnHbfeoncxmUhoBBmtYF1bf/gF0qdYUYZjZYZji
+ Z6nNOkl71x9grtz/p/wPehQAEUfkYQ9bmcZKibNvVuVsFyfptLaajmb5VtWUrn14qg83
+ TQVWzEtE6BykMfR+649n/j7l4XEbFF3BIuJltIPEIVwmCwFD7wve6flAWC9AIMDMMcn4
+ jgQxxxjh89TdOBiZWW3uhnsjFRdhRaFggqN862KoX+RHylzrnIAxKfzMdZYNnXZiZp1A
+ qqKw==
+X-Gm-Message-State: AOAM531TC/6rsXhw8vSbyoYAKnGKT+8YS5UR/sX0fpOYIp2GP4Cp7G0q
+ 7b9IaoYH9WCMnqSJGp52ICo=
+X-Google-Smtp-Source: ABdhPJysPg7llFDXEbdNkggy0Zx6PGaskljQ8fbdAgXP/6VPUKIjhm441S5NYlkXYmxsHbjfymoimw==
+X-Received: by 2002:a17:902:b589:: with SMTP id
+ a9mr1395800pls.98.1597903646343; 
+ Wed, 19 Aug 2020 23:07:26 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+ by smtp.gmail.com with ESMTPSA id g1sm1250773pfr.97.2020.08.19.23.07.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Aug 2020 21:52:36 -0700 (PDT)
-Date: Thu, 20 Aug 2020 10:22:32 +0530
-From: Mrinal Pandey <mrinalmni@gmail.com>
-To: apw@canonical.com, joe@perches.com, linux-kernel@vger.kernel.org,
- lukas.bulwahn@gmail.com, skhan@linuxfoundation.org,
- Linux-kernel-mentees@lists.linuxfoundation.org
-Message-ID: <20200820045232.tmun7jlppeeesg4p@mrinalpandey>
-References: <20200714032352.f476hanaj2dlmiot@mrinalpandey>
- <alpine.DEB.2.21.2007300746330.13710@felia>
- <a2773089a844047407855f2da7bd72c2970d2e6b.camel@perches.com>
+ Wed, 19 Aug 2020 23:07:25 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Thu, 20 Aug 2020 14:07:13 +0800
+To: syzbot <syzbot+dd768a260f7358adbaf9@syzkaller.appspotmail.com>
+Message-ID: <20200820060713.smilfw3otuunnepe@Rk>
+References: <000000000000c57f2d05ac4c5b8e@google.com>
 MIME-Version: 1.0
-In-Reply-To: <a2773089a844047407855f2da7bd72c2970d2e6b.camel@perches.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: Fix the usage of
-	capture group ( ... )
+Content-Disposition: inline
+In-Reply-To: <000000000000c57f2d05ac4c5b8e@google.com>
+Cc: johan.hedberg@gmail.com, rafael@kernel.org, marcel@holtmann.org,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, netdev@vger.kernel.org,
+ abhishekpandit@chromium.org, kuba@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] BUG: corrupted list in
+	kobject_add_internal
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,86 +114,139 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7979509816298083648=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+On Fri, Aug 07, 2020 at 09:47:20AM -0700, syzbot wrote:
+>Hello,
+>
+>syzbot found the following issue on:
+>
+>HEAD commit:    5a30a789 Merge tag 'x86-urgent-2020-08-02' of git://git.ke..
+>git tree:       upstream
+>console output: https://syzkaller.appspot.com/x/log.txt?x=1660c858900000
+>kernel config:  https://syzkaller.appspot.com/x/.config?x=c0cfcf935bcc94d2
+>dashboard link: https://syzkaller.appspot.com/bug?extid=dd768a260f7358adbaf9
+>compiler:       gcc (GCC) 10.1.0-syz 20200507
+>syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14b73afc900000
+>C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=124893a4900000
+>
+>The issue was bisected to:
+>
+>commit 4f40afc6c76451daff7d0dcfc8a3d113ccf65bfc
+>Author: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+>Date:   Wed Mar 11 15:54:01 2020 +0000
+>
+>    Bluetooth: Handle BR/EDR devices during suspend
+>
+>bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11cb1e0a900000
+>final oops:     https://syzkaller.appspot.com/x/report.txt?x=13cb1e0a900000
+>console output: https://syzkaller.appspot.com/x/log.txt?x=15cb1e0a900000
+>
+>IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>Reported-by: syzbot+dd768a260f7358adbaf9@syzkaller.appspotmail.com
+>Fixes: 4f40afc6c764 ("Bluetooth: Handle BR/EDR devices during suspend")
+>
+>debugfs: Directory '200' with parent 'hci0' already present!
+>list_add double add: new=ffff88808e9b6418, prev=ffff88808e9b6418, next=ffff8880a973ef00.
+>------------[ cut here ]------------
+>kernel BUG at lib/list_debug.c:29!
+>invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+>CPU: 1 PID: 6882 Comm: kworker/u5:1 Not tainted 5.8.0-rc7-syzkaller #0
+>Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+>Workqueue: hci0 hci_rx_work
+>RIP: 0010:__list_add_valid.cold+0x26/0x3c lib/list_debug.c:29
+>Code: 57 ff ff ff 4c 89 e1 48 c7 c7 20 92 93 88 e8 b1 f1 c1 fd 0f 0b 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 60 93 93 88 e8 9a f1 c1 fd <0f> 0b 48 89 f1 48 c7 c7 e0 92 93 88 4c 89 e6 e8 86 f1 c1 fd 0f 0b
+>RSP: 0018:ffffc90001777830 EFLAGS: 00010282
+>RAX: 0000000000000058 RBX: ffff8880a973ef00 RCX: 0000000000000000
+>RDX: ffff888094f1c200 RSI: ffffffff815d4ef7 RDI: fffff520002eeef8
+>RBP: ffff88808e9b6418 R08: 0000000000000058 R09: ffff8880ae7318e7
+>R10: 0000000000000000 R11: 0000000000000000 R12: ffff8880a973ef00
+>R13: ffff888087315270 R14: ffff88808e9b6430 R15: ffff88808e9b6418
+>FS:  0000000000000000(0000) GS:ffff8880ae700000(0000) knlGS:0000000000000000
+>CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>CR2: 00007ffdcd6db747 CR3: 000000009ba09000 CR4: 00000000001406e0
+>DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>Call Trace:
+> __list_add include/linux/list.h:67 [inline]
+> list_add_tail include/linux/list.h:100 [inline]
+> kobj_kset_join lib/kobject.c:196 [inline]
+> kobject_add_internal+0x18d/0x940 lib/kobject.c:246
+> kobject_add_varg lib/kobject.c:390 [inline]
+> kobject_add+0x150/0x1c0 lib/kobject.c:442
+> device_add+0x35a/0x1be0 drivers/base/core.c:2633
+> hci_conn_add_sysfs+0x84/0xe0 net/bluetooth/hci_sysfs.c:53
+> hci_conn_complete_evt net/bluetooth/hci_event.c:2607 [inline]
+> hci_event_packet+0xe0b/0x86f5 net/bluetooth/hci_event.c:6033
+> hci_rx_work+0x22e/0xb10 net/bluetooth/hci_core.c:4705
+> process_one_work+0x94c/0x1670 kernel/workqueue.c:2269
+> worker_thread+0x64c/0x1120 kernel/workqueue.c:2415
+> kthread+0x3b5/0x4a0 kernel/kthread.c:291
+> ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
+>Modules linked in:
+>---[ end trace b1bcc552c32d25e9 ]---
+>RIP: 0010:__list_add_valid.cold+0x26/0x3c lib/list_debug.c:29
+>Code: 57 ff ff ff 4c 89 e1 48 c7 c7 20 92 93 88 e8 b1 f1 c1 fd 0f 0b 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 60 93 93 88 e8 9a f1 c1 fd <0f> 0b 48 89 f1 48 c7 c7 e0 92 93 88 4c 89 e6 e8 86 f1 c1 fd 0f 0b
+>RSP: 0018:ffffc90001777830 EFLAGS: 00010282
+>RAX: 0000000000000058 RBX: ffff8880a973ef00 RCX: 0000000000000000
+>RDX: ffff888094f1c200 RSI: ffffffff815d4ef7 RDI: fffff520002eeef8
+>RBP: ffff88808e9b6418 R08: 0000000000000058 R09: ffff8880ae7318e7
+>R10: 0000000000000000 R11: 0000000000000000 R12: ffff8880a973ef00
+>R13: ffff888087315270 R14: ffff88808e9b6430 R15: ffff88808e9b6418
+>FS:  0000000000000000(0000) GS:ffff8880ae700000(0000) knlGS:0000000000000000
+>CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>CR2: 00007ffdcd6db747 CR3: 0000000009a79000 CR4: 00000000001406e0
+>DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>
+>
+>---
+>This report is generated by a bot. It may contain errors.
+>See https://goo.gl/tpsmEJ for more information about syzbot.
+>syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+>syzbot will keep track of this issue. See:
+>https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>syzbot can test patches for this issue, for details see:
+>https://goo.gl/tpsmEJ#testing-patches
+>
+>--
+>You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+>To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+>To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000c57f2d05ac4c5b8e%40google.com.
 
---===============7979509816298083648==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ux4q3enrmoiq3cjy"
-Content-Disposition: inline
+This problem occurs because the HCI_EV_CONN_COMPLETE event packet is sent
+twice for the same HCI connection,
 
+     struct hci_ev_conn_complete complete;
+     memset(&complete, 0, sizeof(complete));
+     complete.status = 0;
+     complete.handle = HCI_HANDLE_1;
+     memset(&complete.bdaddr, 0xaa, 6);
+     *(uint8_t*)&complete.bdaddr.b[5] = 0x10;
+     complete.link_type = ACL_LINK;
+     complete.encr_mode = 0;
+     hci_send_event_packet(vhci_fd, HCI_EV_CONN_COMPLETE, &complete,
+                             sizeof(complete));
 
---ux4q3enrmoiq3cjy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+which leads to kobject_add being called twice. Thus duplicate
+(struct hci_conn *conn)->dev.kobj.entry is inserted into
+(struct hci_conn *conn)->dev.kobj.kset->list.
 
-On 20/07/30 12:31AM, Joe Perches wrote:
-> On Thu, 2020-07-30 at 07:58 +0200, Lukas Bulwahn wrote:
-> > Hi Joe,
-> >=20
-> > did you see this quick fix to checkpatch.pl? Can you comment on the=20
-> > commit and can we get a quick ack on that fix, please?
->=20
-> Yes, in a bit.
->=20
-> > General question on patches for ./scripts/checkpatch.pl:
-> > How do they travel to Linus?
->=20
-> Generally via Andrew Morton.
->=20
-> > Do you pick those patches and provide them to Andrew Morton?
-> > Or do you just ack them and we need to send them to Andrew Morton to ge=
-t=20
-> > them into mainline?
->=20
-> Generally, ack and forward.
->=20
->=20
-Respected maintainers,
+But if it's the HCI connection creator's responsibility to
+not send the HCI_EV_CONN_COMPLETE event packet twice, then it's not a
+valid bug. Or should we make the kernel more robust by defending against
+this case?
 
-Did you get the time to check this patch out? This patch is a part of my
-mentorship project and your comments on it would help me to make the
-best out of this learning process.
-Please review it as time permits and let me know if what I propose makes
-sense at all.
-
-Thank you.
-
---ux4q3enrmoiq3cjy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE8DwCG1PwaC2uTI99xIwpEWwxhGQFAl8+AZAACgkQxIwpEWwx
-hGSRYhAAsnHeGya+r57xffK0LAGoAC8gmK0pURMm8cSkIuwN8Q6pUQoqHR5lT6U0
-HnKCqnDhdyivZLHpM2ApQtZ3eAAVyJyRwzbltybExm74IOdNTGdfvUoonDmzWq4j
-9AacN7giMY5BHtrhaGuq4ULSD6Nh45wl/yYfVIqAhKZxYLAAZyQzCIwIiY62YB5z
-QWF15M8GwzS5XJM3qqyuA5gmngljnQ11fd1AcRSvdBQLDVRcFO/7OwCkvZQFxsgl
-wB2TF2FB6u2MP/7j2DoCfGTwSSlOp1rOQN1mMsLT+EoxWbIpX+yd1aw+4Igm07De
-7R0lOcMQ6V0M1kvO+Kos38kW5HqeJ7YsSSsSx7FlFCbxVUpvK42jrAtbFY9RTofA
-SBPTrb1SaFNXVZEM3yO05kkgPx5aF3IveOxZnBjT0A8IrfFERYXEEIVytOhR5IoB
-xJp41qx6C8F9hhDXrvwcflxqt5vueJLth100xZaklc0/1DO4FtPcxwJYwflLz1C3
-Jn+lzC6v7QBgyXHEI1lWCN2PLODjW2RZd+QkRIoMQjVCeqnDmhBEKfeAF3Ru1wux
-yCDiQrmrqxHZGJLi/1oOCM+xICd6Xh89YFn24YQXv7lEw6OIdgy2fhqMoU0+Z4ab
-4kbEI1D6sDan0mNjvs/iQvkU/GRpkt4JQygvafVHpJLPoZ+IRc4=
-=GBtR
------END PGP SIGNATURE-----
-
---ux4q3enrmoiq3cjy--
-
---===============7979509816298083648==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+--
+Best regards,
+Coiby
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============7979509816298083648==--
