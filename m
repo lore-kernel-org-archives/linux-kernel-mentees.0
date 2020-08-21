@@ -2,110 +2,106 @@ Return-Path: <SRS0=fjKG=B7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F70C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Aug 2020 04:54:48 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E8AC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Aug 2020 05:23:19 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0E9462075E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Aug 2020 04:54:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EDD0A21744
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Aug 2020 05:23:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cwe7WcRu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0E9462075E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DfmN6vb4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDD0A21744
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A0C35227A3;
-	Fri, 21 Aug 2020 04:54:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C5CBD86CF4;
+	Fri, 21 Aug 2020 05:23:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pEyo1j-aFuJO; Fri, 21 Aug 2020 04:54:45 +0000 (UTC)
+	with ESMTP id 1wx-kmt28zIf; Fri, 21 Aug 2020 05:23:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 6825522193;
-	Fri, 21 Aug 2020 04:54:45 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6E0CC86CA6;
+	Fri, 21 Aug 2020 05:23:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B097C0889;
-	Fri, 21 Aug 2020 04:54:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A99CC07FF;
+	Fri, 21 Aug 2020 05:23:18 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BFF8FC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A8F0FC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 04:54:44 +0000 (UTC)
+ Fri, 21 Aug 2020 05:23:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id A8A6986BA5
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 97B8886CF4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 04:54:44 +0000 (UTC)
+ Fri, 21 Aug 2020 05:23:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jywM3JHgC6ka
+ with ESMTP id PQymG4EC-qeT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 04:54:43 +0000 (UTC)
+ Fri, 21 Aug 2020 05:23:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 819D986B7B
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1E7E986CA6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 04:54:43 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id t11so345306plr.5
+ Fri, 21 Aug 2020 05:23:16 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id h12so461482pgm.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Aug 2020 21:54:43 -0700 (PDT)
+ Thu, 20 Aug 2020 22:23:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FeLWSTdoM4nf+36Zjzc7ne8kyEInVTO4IOni7rUwpas=;
- b=cwe7WcRuGsa6f/zGPnLYLtWyVucgzXqUMN+gDwsJfZZ8jjhKvHxJOX30r7GqxWs7Qd
- qfh9x+hbvHjsz/jwN2Pc/brQaR0Kaaa67FRBA2VicBgJqjmoaV/Wi/JYnwxrHhW4zgxX
- P7wYR1zBZLOGPqK3Hrx/FjuFz3i7oWT9a9+D5VZUSvFx9A3DyjjaXTbWLZGqdqyx0cd0
- 9Rx/UzHI3cP1klYZhfnNeraGjE8tb9MdCUg0bIE5kQ50QJRRBXronFnF8iytC3ml/Frd
- c83dKCeL+Hwei5yesXlif/HeqnQ/6cRJHSGeY86DxYzhlUzWBqoNK6W+A0u3ntzUJAwM
- zVaA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kIrZF45/BAvVQh8mbn5wXf5JnEyRG1slRn5cBPdhKss=;
+ b=DfmN6vb4B8kr6tDcwzZIlusSYb6WCJA3RduM6NIddsXJ65ZCz0UVsNaSyZ/NUR94yX
+ ad0zV3EMKOJ83IR0u+lHcjAwgFJDJKkeH8FmYfKUKTx8pEf/X9xczjahG5CklZRDaYt8
+ LGWLqc39N+77WCD/ZUtlc0C2QUrBUbV/3Cp95Y2kGvBEF/Je37P3NW8CK/uZ0psozI2W
+ Njup1s9Cp5s4PD4P24sGOxLs4YGeB9pgtv7xzwS9RKjuBetZSzMD8hENsgFAwHcyxgTD
+ A/6NranznkC+nF4OyGfyN1j0af4E4UTcwGaAvyfxYW/tksZsXad+V5CDtj+USGPUUaNb
+ 5ruw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FeLWSTdoM4nf+36Zjzc7ne8kyEInVTO4IOni7rUwpas=;
- b=pP1mnP7nWJUuZ+AmEnTVyWfoNquRxOxjEULjf1OAkmdBvHWdix/YojfspMUI5zxafu
- 6XQVfE6vcnQz0NReDeCpKfrIadEyGwfdY7QbHuozBRwefPv3OIA9KSEYUSXYGY4NiTN0
- JDgT+r3trrVk55T9dFkIQmGBO2vnbT4DmJ49jJhS/ugMlZLZ1Lnmv42YfyYkdsQnPaiM
- CvGLTRDhJgqE5qktpZtClZonnlrrjzZhO+A18bvEd0Ln4URrZ51M2mVCRDYK4dPKrJRl
- YixSru5Ky9CzI9fvRzcKDOAMqNyzdMoWS+emIIDg0ueHYgNp8cwsBFBbiiiTwowLWsIj
- abTg==
-X-Gm-Message-State: AOAM531r/zODWAT8DoCLUgh+9Ya8eXN9lY6f9goZ+iypbwrteYlFsPbB
- z6CBnuaM/DpwjYC8zTSshlNJ1DYWhqUb0K7n
-X-Google-Smtp-Source: ABdhPJwSYeHb6R0XOe+q1qknq8go0JYAceoF6n2aOzvEaYKe5W+Xf6Gec0ftsAnTCpKMlQp/dhtA3g==
-X-Received: by 2002:a17:902:b681:: with SMTP id
- c1mr1017367pls.214.1597985682615; 
- Thu, 20 Aug 2020 21:54:42 -0700 (PDT)
-Received: from [192.168.86.81] ([49.206.11.137])
- by smtp.gmail.com with ESMTPSA id b185sm829596pfg.71.2020.08.20.21.54.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Aug 2020 21:54:41 -0700 (PDT)
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>, brendanhiggins@google.com,
- skhan@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
- pmladek@suse.com, rostedt@goodmis.org, sergey.senozhatsky@gmail.com
-References: <20200817043028.76502-1-98.arpi@gmail.com>
- <f408efbd-10f7-f1dd-9baa-0f1233cafffc@rasmusvillemoes.dk>
-From: Arpitha Raghunandan <98.arpi@gmail.com>
-Message-ID: <2e1d1e40-b448-9389-d7d2-93841af60a88@gmail.com>
-Date: Fri, 21 Aug 2020 10:24:36 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kIrZF45/BAvVQh8mbn5wXf5JnEyRG1slRn5cBPdhKss=;
+ b=K88RX2YuAmYmAAPkBK6ob6D6OZLgWjB16jIj3D2neEKu2D9Yt1051EtW7BJTelWfUI
+ Z3hw1Tju+PSnCYJ+v7Nz4+eVT918WDEq3QstcjSsdm/Rqteefgacahjcw6ew8cqH5NRH
+ mZzskHf3xndK8I/Kv5IFoSyqUOpYoKdbYHmtiPrTTje+CQ0p0uEFkGTJndl562DDnLiw
+ 0Pp2IZnSflgpIG0S/xXSE+Ck3YqCH1TfXLY/LyYIlmRDcSpCBxcN6gG9rE5OHOjAhzL0
+ ZYHtTusdOz8m5GsFmTDt+EGCLjHE5ELM6D4OprCzCyuwN0Ylz3XADVSf2sZgTBltXWmU
+ E9qg==
+X-Gm-Message-State: AOAM532lLQnBykioMUJAuzMK6e9iMLLO7LUfPTpvUx8efCGbdxvY4RGw
+ uiSDh/asressCvsLGWAhSQc=
+X-Google-Smtp-Source: ABdhPJwGMTHU2migh+Vtz36GIcyJKI0+/w+/wl9eaIpMSvJqvm5WwNJmFhE51zJndWVMYSVxv0mnRw==
+X-Received: by 2002:a62:3583:: with SMTP id c125mr1136819pfa.1.1597987395542; 
+ Thu, 20 Aug 2020 22:23:15 -0700 (PDT)
+Received: from f3 (ae055068.dynamic.ppp.asahi-net.or.jp. [14.3.55.68])
+ by smtp.gmail.com with ESMTPSA id l7sm593466pjf.43.2020.08.20.22.23.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Aug 2020 22:23:14 -0700 (PDT)
+Date: Fri, 21 Aug 2020 14:23:08 +0900
+From: Benjamin Poirier <benjamin.poirier@gmail.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Message-ID: <20200821052308.GA12235@f3>
+References: <20200814160601.901682-1-coiby.xu@gmail.com>
+ <20200814160601.901682-2-coiby.xu@gmail.com>
+ <20200816025640.GA27529@f3> <20200821030822.huyuxa5o5tcvtv2o@Rk>
 MIME-Version: 1.0
-In-Reply-To: <f408efbd-10f7-f1dd-9baa-0f1233cafffc@rasmusvillemoes.dk>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [PATCH] lib: Convert test_printf.c to
-	KUnit
+Content-Disposition: inline
+In-Reply-To: <20200821030822.huyuxa5o5tcvtv2o@Rk>
+Cc: Michal Kubecek <mkubecek@suse.cz>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ GR-Linux-NIC-Dev@marvell.com, Manish Chopra <manishc@marvell.com>,
+ netdev@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [RFC 1/3] Initialize devlink health dump
+ framework for the dlge driver
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -123,201 +119,30 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 17/08/20 12:36 pm, Rasmus Villemoes wrote:
-> On 17/08/2020 06.30, Arpitha Raghunandan wrote:
->> Converts test lib/test_printf.c to KUnit.
->> More information about KUnit can be found at
->> https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html.
->> KUnit provides a common framework for unit tests in the kernel.
+On 2020-08-21 11:08 +0800, Coiby Xu wrote:
+[...]
+> > > diff --git a/drivers/staging/qlge/qlge_health.h b/drivers/staging/qlge/qlge_health.h
+> > > new file mode 100644
+> > > index 000000000000..07d3bafab845
+> > > --- /dev/null
+> > > +++ b/drivers/staging/qlge/qlge_health.h
+> > > @@ -0,0 +1,2 @@
+> > > +#include <net/devlink.h>
+> > > +int qlge_health_create_reporters(struct qlge_devlink *priv);
+> > 
+> > I would suggest to put this in qlge.h instead of creating a new file.
 > 
-> So I can continue to build a kernel with some appropriate CONFIG set to
-> y, boot it under virt-me, run dmesg and see if I broke printf? That's
-> what I do now, and I don't want to have to start using some enterprisy
-> framework.
-> 
+> Although there are only two lines for now, is it possible qlge will add
+> more devlink code? If that's the case, a file to single out these code
 
-Yes, the test can be run on boot up. More information about this can be found here: https://www.kernel.org/doc/html/latest/dev-tools/kunit/start.html#running-tests-without-the-kunit-wrapper.
+I would say that if there's more content in the future, it can move to a
+separate file in the future.
 
->> diff --git a/lib/test_printf.c b/lib/printf_kunit.c
->> similarity index 45%
->> rename from lib/test_printf.c
->> rename to lib/printf_kunit.c
->> index 7ac87f18a10f..68ac5f9b8d28 100644
->> --- a/lib/test_printf.c
->> +++ b/lib/printf_kunit.c
->> @@ -5,6 +5,7 @@
->>  
->>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->>  
->> +#include <kunit/test.h>
->>  #include <linux/init.h>
->>  #include <linux/kernel.h>
->>  #include <linux/module.h>
->> @@ -30,79 +31,61 @@
->>  #define PAD_SIZE 16
->>  #define FILL_CHAR '$'
->>  
->> -static unsigned total_tests __initdata;
->> -static unsigned failed_tests __initdata;
->> -static char *test_buffer __initdata;
->> -static char *alloced_buffer __initdata;
->> +static char *test_buffer;
->> +static char *alloced_buffer;
->>  
->> -static int __printf(4, 0) __init
->> -do_test(int bufsize, const char *expect, int elen,
->> +static void __printf(5, 0)
->> +do_test(struct kunit *kunittest, int bufsize, const char *expect, int elen,
->>  	const char *fmt, va_list ap)
->>  {
->>  	va_list aq;
->>  	int ret, written;
->>  
->> -	total_tests++;
->> -
->>  	memset(alloced_buffer, FILL_CHAR, BUF_SIZE + 2*PAD_SIZE);
->>  	va_copy(aq, ap);
->>  	ret = vsnprintf(test_buffer, bufsize, fmt, aq);
->>  	va_end(aq);
->>  
->> -	if (ret != elen) {
->> -		pr_warn("vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d\n",
->> +	KUNIT_EXPECT_EQ_MSG(kunittest, ret, elen,
->> +			"vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d\n",
->>  			bufsize, fmt, ret, elen);
->> -		return 1;
->> -	}
-> 
-> 
-> IIRC, some of these early returns are required to ensure the following
-> checks do not fail (as in, potentially crash the kernel) simply because
-> they go off into the weeds. Please double-check that they are all safe
-> to continue to perform (though, another reason I might have put them in
-> is to simply avoid lots of useless collateral).
-> 
-
-These are safe to perform. I will check once again though.
-
-> 
->> -	if (memchr_inv(alloced_buffer, FILL_CHAR, PAD_SIZE)) {
->> +	KUNIT_EXPECT_EQ_MSG(kunittest, memchr_inv(alloced_buffer, FILL_CHAR, PAD_SIZE), NULL,
-> 
->> -		if (memchr_inv(test_buffer, FILL_CHAR, BUF_SIZE + PAD_SIZE)) {
->> +		KUNIT_EXPECT_FALSE_MSG(kunittest,
-> 
->> -	if (memchr_inv(test_buffer + written + 1, FILL_CHAR, BUF_SIZE + PAD_SIZE - (written + 1))) {
->> +	KUNIT_EXPECT_FALSE_MSG(kunittest,
->> +			memchr_inv(test_buffer + written + 1, FILL_CHAR, BUF_SIZE + PAD_SIZE - (written + 1))
-> 
-> Why the inconsistency in what a memchr_inv != NULL check gets converted to?
-> 
-
-Oh my bad. I will make this consistent.
-
-> 
->>  
->> -static void __printf(3, 4) __init
->> -__test(const char *expect, int elen, const char *fmt, ...)
->> +static void __printf(4, 5)
->> +__test(struct kunit *kunittest, const char *expect, int elen, const char *fmt, ...)
->>  {
->>  	va_list ap;
->>  	int rand;
->>  	char *p;
->>  
->> -	if (elen >= BUF_SIZE) {
->> -		pr_err("error in test suite: expected output length %d too long. Format was '%s'.\n",
->> -		       elen, fmt);
->> -		failed_tests++;
->> -		return;
->> -	}
->> +	KUNIT_EXPECT_LT_MSG(kunittest, elen, BUF_SIZE,
->> +			"error in test suite: expected output length %d too long. Format was '%s'.\n",
->> +			elen, fmt);
-> 
-> And it's ok to continue with the tests when the test suite itself is
-> buggy because? [*]
-> 
->>  	va_start(ap, fmt);
->>  
->> @@ -112,49 +95,46 @@ __test(const char *expect, int elen, const char *fmt, ...)
->>  	 * enough and 0), and then we also test that kvasprintf would
->>  	 * be able to print it as expected.
->>  	 */
->> -	failed_tests += do_test(BUF_SIZE, expect, elen, fmt, ap);
->> +	do_test(kunittest, BUF_SIZE, expect, elen, fmt, ap);
->>  	rand = 1 + prandom_u32_max(elen+1);
->>  	/* Since elen < BUF_SIZE, we have 1 <= rand <= BUF_SIZE. */
->> -	failed_tests += do_test(rand, expect, elen, fmt, ap);
-> 
-> [*] Certainly this invariant gets violated, so we (may) provide do_test
-> with a buffer size larger than, well, BUF_SIZE.
-> 
->>  
->> -#define test(expect, fmt, ...)					\
->> -	__test(expect, strlen(expect), fmt, ##__VA_ARGS__)
->> +#define test(kunittest, expect, fmt, ...)					\
->> +	__test(kunittest, expect, strlen(expect), fmt, ##__VA_ARGS__)
->>  
->> -static void __init
->> -test_basic(void)
->> +static void
->> +test_basic(struct kunit *kunittest)
->>  {
->>  	/* Work around annoying "warning: zero-length gnu_printf format string". */
->>  	char nul = '\0';
->>  
->> -	test("", &nul);
->> -	test("100%", "100%%");
->> -	test("xxx%yyy", "xxx%cyyy", '%');
->> -	__test("xxx\0yyy", 7, "xxx%cyyy", '\0');
->> +	test(kunittest, "", &nul);
->> +	test(kunittest, "100%", "100%%");
->> +	test(kunittest, "xxx%yyy", "xxx%cyyy", '%');
->> +	__test(kunittest, "xxx\0yyy", 7, "xxx%cyyy", '\0');
-> 
-> Am I reading this right that all this is simply to prepend kunittest to
-> the arguments? How about just redefining the test macro so it
-> automagically does that instead of all this churn? The few cases that
-> use __test may need to be handled specially.
-> 
->> +
->> +static void selftest(struct kunit *kunittest)
->>  {
->>  	alloced_buffer = kmalloc(BUF_SIZE + 2*PAD_SIZE, GFP_KERNEL);
->>  	if (!alloced_buffer)
->>  		return;
->>  	test_buffer = alloced_buffer + PAD_SIZE;
->>  
->> -	test_basic();
->> -	test_number();
->> -	test_string();
->> -	test_pointer();
->> +	test_basic(kunittest);
->> +	test_number(kunittest);
->> +	test_string(kunittest);
->> +	test_pointer(kunittest);
->>  
->>  	kfree(alloced_buffer);
->>  }
-> 
-> Even better, since the whole thing still relies on the static variables
-> test_buffer and alloced_buffer, why not just stash the struct kunit*
-> that the framework passes in a file-scope static and avoid even more
-> churn? Then only the newly introduce KUNIT_CHECK_* macros need to refer
-> to it, and none of the existing code (or future cases) needs that piece
-> of boilerplate.
-> 
-
-Yes, using file-scope static will be better. I will make this change.
-
-> BTW, does the framework have some kind of logic that ensures nobody runs
-> the printf suite twice in parallel?
-> 
-
-Brendan would have a better idea about this. But, it wouldn't be possible at boot up because KUnit only dispatches each test once. The other way for a KUnit test to be executed currently is as a module, and a module can only be loaded once until it is unloaded.
-
-Thanks for the review.
+If you feel strongly about putting this in its own file right away, then
+make sure to add the usual
+#ifndef QLGE_HEALTH_H
+#define QLGE_HEALTH_H
+...
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
