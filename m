@@ -2,106 +2,82 @@ Return-Path: <SRS0=fjKG=B7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10F8AC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Aug 2020 15:39:11 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D84EC433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Aug 2020 16:18:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CAEE92063A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Aug 2020 15:39:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 209E322CF8
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Aug 2020 16:18:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ceCUd4dF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAEE92063A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="bco/78fI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 209E322CF8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6E09285C92;
-	Fri, 21 Aug 2020 15:39:10 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E04D7204D1;
+	Fri, 21 Aug 2020 16:18:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2gZ8hWfcc5D3; Fri, 21 Aug 2020 15:39:09 +0000 (UTC)
+	with ESMTP id TVTdbrcj-jAa; Fri, 21 Aug 2020 16:18:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A230A8113D;
-	Fri, 21 Aug 2020 15:39:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0208D20398;
+	Fri, 21 Aug 2020 16:18:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 91B0CC0889;
-	Fri, 21 Aug 2020 15:39:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E0078C088B;
+	Fri, 21 Aug 2020 16:18:19 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 214B4C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E6A80C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 15:39:09 +0000 (UTC)
+ Fri, 21 Aug 2020 16:18:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1090786A34
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D5A9686C22
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 15:39:09 +0000 (UTC)
+ Fri, 21 Aug 2020 16:18:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id f7PFiUGtowso
+ with ESMTP id DNyLmJLscZXo
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 15:39:08 +0000 (UTC)
+ Fri, 21 Aug 2020 16:18:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id F1759869F4
+Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5F04186BA9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 15:39:07 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id p14so2348385wmg.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Aug 2020 08:39:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=mPiTCrBSqWya08UcNMy9Znx0rPWnggmgFm53SdtibGs=;
- b=ceCUd4dFnyZgQAarHl2ajjCqQ8xlVH2fcOOBw96H4yTMWj0h2b7ielIFx6up5Tuc5E
- XXlHFb1KIZI0pPvLNUVjhJdASrCG5Z+8hMC0QcKIG+MkzihbMIXlYqWtfhfXilZIERI4
- Wzak+kmudes7FDlFsXGNNffSS2rTG9tJAXciP3+uMrrbQlrvFKveHNXbxSBRqxFGwo6N
- /tc5L1+H9uAYfBO4yOt0LivZPYtvhJbXHZYivk1Durbdw4OcT1778+Wctr2kQBbW5Qwh
- Fyga1nYjfQmpnpUWIh1Z+jNR2WUMA3+nQyOioM96Brun271BDEASAPcHwEzO/U51Aqha
- ZXVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=mPiTCrBSqWya08UcNMy9Znx0rPWnggmgFm53SdtibGs=;
- b=suzTlOFk+5MIeKS1Y0WiiehE1J1/rH/ERvFwzRYVse4lrszTrKrgy6qEXxngFUYNV6
- iWshNrxMxrn1CtJlbdOZs7wMy1++zlMrl6g/Ec1AewKjdttD6iqFlekdWwy0+I6jN9i5
- Tp83+XbyqzZQnszwGq2ANonDjAQLGqT2e7yT+gVxS/aZR/uex3PEve/AhKIHHW9gPa+z
- 6Rr66E7hopCcXcTkFJMbAd6eAnvUe+thQ9p21oAqWJungcc4wUgE0wby1zIfjbTsMmEV
- gGvbylkSa1euY0mDqIMbWcpIdmnqGbLHDWQomrzm/2N6h9PxX71eqQiZ0Ex9fB9ax1ds
- fx3g==
-X-Gm-Message-State: AOAM532IWNVIrhtL8Wu97ALfsmKH5jpKJ01K37lAkv5OI/HnOy+S6CbG
- SYaLQsJEKESsQhKBm7cTb98=
-X-Google-Smtp-Source: ABdhPJxc4Iz6bG6Ej6lFcn0fXGH9ZfnH8VoF3ucfsrqQ81ofx6Wc1MtsMviAEJK4+H1skie3/27h6g==
-X-Received: by 2002:a7b:c775:: with SMTP id x21mr4272501wmk.47.1598024345462; 
- Fri, 21 Aug 2020 08:39:05 -0700 (PDT)
-Received: from felia ([2001:16b8:2d49:ff00:41e8:4c7c:9604:7ed4])
- by smtp.gmail.com with ESMTPSA id x11sm4992810wrl.28.2020.08.21.08.39.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 08:39:04 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Fri, 21 Aug 2020 17:38:57 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Piyush Thange <pthange19@gmail.com>
-In-Reply-To: <953524ab-8cee-0c72-7c33-c942a5800104@gmail.com>
-Message-ID: <alpine.DEB.2.21.2008211736140.6494@felia>
-References: <b842e923-f7b0-e732-7c0e-bdd795d905ae@gmail.com>
- <alpine.DEB.2.21.2008171132050.8645@felia>
- <0e4f5ecc-0708-b64f-288b-a232afc46ac6@gmail.com>
- <alpine.DEB.2.21.2008210921370.27424@felia>
- <953524ab-8cee-0c72-7c33-c942a5800104@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
+ Fri, 21 Aug 2020 16:18:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 6E7915299A;
+ Fri, 21 Aug 2020 18:18:13 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+ with UTF8SMTP id 5Ntkex4fzIXQ; Fri, 21 Aug 2020 18:18:11 +0200 (CEST)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1598026690; bh=8yNSk+lcEP7lIyCPZYLfT+/na4Cj+K248MUsBPujNKo=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References;
+ b=bco/78fIYak+QWqDmf29+zbmEJx+a7kRmPvXEnE2b4A86NrmUSGLLb+Yvp7LwHsty
+ K/6VU0y3/ssNljIskkejuwsLfPYb3Ay/UWIy2XOqQt/SNS4XFBAvf9qp2nUT/3C3tQ
+ riUnUXpf/HNCS5Ool/w3Wr7TO6+8hZgiiGQzADltmQguYz3BAqVq2R8qTHlZpraV3i
+ MG5k1zUEma3ZFXNFdVWcQpxqyvJ6j04vy8ZyLob7RWmvdS6paXq/HyZotJVIuziAeD
+ kL82noVp4+M0+Qhe0weIuZ40+TSl8TJZpZgXi0aYFNXOMW59CaKDWPKl87We4Nq+84
+ LXtruOp3fqsjg==
+Date: Fri, 21 Aug 2020 16:18:10 +0000
+From: "Ayush" <ayush@disroot.org>
+Message-ID: <4f5612540c184970157a98d103d7cd04@disroot.org>
+To: "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
+In-Reply-To: <alpine.DEB.2.21.2008171142310.8645@felia>
+References: <alpine.DEB.2.21.2008171142310.8645@felia>
+ <20200810125354.xeijyh3v5upatrez@salamander>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Evaluate and Improve checkpatch
+Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
+	Improve checkpatch.pl"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,40 +95,83 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+August 17, 2020 3:13 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
 
-
-On Fri, 21 Aug 2020, Piyush Thange wrote:
-
-> On 21/08/20 12:54 pm, Lukas Bulwahn wrote:
-> Hello sir
-> > My request below is not addressed yet:
-> > 
-> > > > Can you run your script on all commits of this list above and record
-> > > > all checkpatch.pl reports, and store them in your github repository?
-> > > > 
-> > > > Can you suggest ideas how to aggregate the findings and create a
-> > > > statistics? For example: Which type of error is reported most?
-> > 
-> > Can you answer the question: Which type of error is reported most on all
-> > commits from v5.8?
-> > 
-> > Lukas
-> > 
-> Hello sir,
-> I've update the files on github. please check if it's correct
+> Dear Ayush,
 > 
-> https://github.com/its-crypted/Evaluate-and-Improve-checkpatch.pl/blob/master/README.md
->
+> The zeroth task is to learn suitable netiquette for the communication with 
+> the kernel community.
+> 
+> First, please do not top-post.
+> 
+> A: Because we read from top to bottom, left to right.
+> Q: Why should I start my reply below the quoted text?
+> 
+> A: Because it messes up the order in which people normally read text.
+> Q: Why is top-posting such a bad thing?
+> 
+> A: The lost context.
+> Q: What makes top-posted replies harder to read than bottom-posted?
+> 
+> A: Yes.
+> Q: Should I trim down the quoted part of an email to which I'm 
+> replying?
+> 
+> Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
+> 
+> Third, set up your email client according to the kernel community rules.
+> 
+> Then, the first task is to run checkpatch.pl on a few kernel patches and
+> collect the results. When you have that, please share your script with
+> me, e.g., in a github repository.
+> 
+> Hints to the first task:
+> 
+> Can you create a list of all non-merge commits that were added in the
+> version v5.8 of the kernel, i.e., all non-merge commits that are in v5.8
+> and not already in v5.7?
+> 
+> Can you share the script/command you executed and the resulting list on 
+> github?
+> 
+> Can you run your script on all commits of this list above and record
+> all checkpatch.pl reports, and store them in your github repository?
+> 
+> Can you suggest ideas how to aggregate the findings and create a
+> statistics? For example: Which type of error is reported most?
+> Can you implement that idea?
+> 
+> I also suggest to have a look at
+> the options ./scripts/checkpatch.pl --list-types and
+> ./scripts/checkpatch.pl --show-types. The option --show-types changes
+> the output of checkpatch.pl to list type identifiers, so it is easier
+> to parse and aggregate the output.
+> 
+> Please also share the script you create for that purpose on your
+> github repository.
+> 
+> The second task is to pick one warning that appears often and improve
+> checkpatch.pl to handle that better and get it accepted by the kernel
+> community.
+> 
+> Hints to the second task follow when the first task is solved.
+> 
+> If you fail on any of those tasks, you are out of the selection process.
+> 
+> Lukas
 
-You still have not aggregated the data that checkpatch.pl reports, such 
-that you can answer the question above.
+Sir,
 
-Let's make it simple for both of us:
+I have attempted the task 1 and pushed the same to GitHub.
 
-If you cannot answer with your next email response, you finished the 
-selection process for this mentorship.
+Please have a look and suggest improvements.
 
-Lukas
+https://github.com/eldraco19/evalute_improve_checkpatch_pl
+
+Please let me know if there are any issues with this.
+
+Thanks,
+Ayush Karn
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
