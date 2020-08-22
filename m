@@ -8,94 +8,94 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C221C433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A8FC433E3
 	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Aug 2020 21:04:04 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2E58C2078A
+	by mail.kernel.org (Postfix) with ESMTPS id 9B8F72078A
 	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Aug 2020 21:04:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lgudLSRd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E58C2078A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iD36xYUD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B8F72078A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0FF47883C9;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6633E8839E;
 	Sat, 22 Aug 2020 21:04:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mIjT8QZY-5Uw; Sat, 22 Aug 2020 21:04:03 +0000 (UTC)
+	with ESMTP id AEW5lGFsId5J; Sat, 22 Aug 2020 21:04:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4C7CA883CB;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 37A69883C1;
 	Sat, 22 Aug 2020 21:04:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B7D7C089F;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 24B40C07FF;
 	Sat, 22 Aug 2020 21:04:03 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 032A5C07FF
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D98E0C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:04:02 +0000 (UTC)
+ Sat, 22 Aug 2020 21:04:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E79A82050A
+ by fraxinus.osuosl.org (Postfix) with ESMTP id C940485F92
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Sat, 22 Aug 2020 21:04:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nHz6uIaeL5zf
+ with ESMTP id vCO15PhHs_pO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:56 +0000 (UTC)
+ Sat, 22 Aug 2020 21:04:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by silver.osuosl.org (Postfix) with ESMTPS id 37AF52076B
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7AE3284E49
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:54 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id p14so4959798wmg.1
+ Sat, 22 Aug 2020 21:04:00 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id u18so4934625wmc.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 14:03:54 -0700 (PDT)
+ Sat, 22 Aug 2020 14:04:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=F2IpI55YekRxtMyB8KuDI2X1fQ94JZldeqC/RK+OTRY=;
- b=lgudLSRdEfJhborr9PR36GP6TasPLJwxzS0keYHvVNalEKNkG7ZCGDk/IDtzAI3CfV
- u2eqPB0SO4EvLvUNV6Ngk6qju7LgGTmyUHWaKv13/hbg/2F9JqgZlvgaeuI8GVRcxega
- TC/EDC2lUx4cvx01Fy2m3L4wgOcwBUWqHZIoTqzwCoSH0JWsp7/p9VUU9DeEmSgxJxeT
- AqQhj593AlWrdeTIb8C7EsDAAmq9G+ZCBqEsWWa4VwCbd6yQKhBGaODkrqZW1xi2cf5V
- ZoWfJeW6Qf7GfiUHMP5R0PsTScJAUyWcmwYUK+9fLtHpIQmuv1t9CO0raJ8R0jb+mmgS
- OEdw==
+ bh=z+AZ+XQ9i8uHA/Mp58NMXcLLZEQgmWcSlsPASdwTqI4=;
+ b=iD36xYUDUKCa/fZD68gHav7UeVkdCfEadsHpC2SJ+xL42/GRO3YX7oeUrxmguj3xFR
+ brFDO9LkPNQSZu/y9JS7dH1S441wgRCKoIWtFHlEbAkBrrEEEce2yDB5nK7YDlavSxcm
+ zCLlfJ3WhsuItggYjSQJcX6GksgTepaXh/uQm8W74qL5H4Vkh4M/2v6+6bAU/lZH3pc3
+ xoNDRTOnDAaeVBVxdkkRhAzVeeSEh9DjSmMyymXk/iE5LYlrEF15zmP4Rp1w1W2vblTR
+ +8lV2UrZZzASnLU5KpkAVhvB6IVh4gqODuB7Vass0RFRH9wuA+ZLyLMjohitj2i5ZZHQ
+ ZbDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=F2IpI55YekRxtMyB8KuDI2X1fQ94JZldeqC/RK+OTRY=;
- b=fBG+D4t5zneT3MawYGH0w8HJjbF9OpR+egm6UqOceym391Z0SiyCIfu3eFmnPszPJR
- xKGK/f1X5DS/tTTVosccFKY64CIdv1suQ+CnKiHraI/qkWwVZH7VoYi/vJ8SqcOMkNG8
- 0i6PjQCq4Ulpv7tBF3XbyLiLjGX8vUo/8LH6ZY0Y+toIWr3mhZGvvq45ZiZyz+xqnsNj
- ntYCRh8aw5liCdDAmsjhVEPu1Vewv12tkfx5AKjCOcazmKxKSHmfbxZ6l2ts1Ui2H5PL
- /zsq+rDvH1Jm+zx6Mao5vJF8eM9SAxWEe7aUHjDblDctrhwRnFLDNpfELrBKnpusumR4
- t8CQ==
-X-Gm-Message-State: AOAM531Cy6gW1TMCA9/4QltRG10CIfGa2RBzk9YLV+hMuUhk30gbBG0B
- 9Z+vllhFRmIRivLBMPfWfhc=
-X-Google-Smtp-Source: ABdhPJwXo12aMrA0KfyfUJ1MfSriuUm/0NFy34QUVPBgc/cqICn69rRNlRsko05GKERvjk2U3hlL9g==
-X-Received: by 2002:a7b:c8da:: with SMTP id f26mr9246106wml.126.1598130232546; 
- Sat, 22 Aug 2020 14:03:52 -0700 (PDT)
+ bh=z+AZ+XQ9i8uHA/Mp58NMXcLLZEQgmWcSlsPASdwTqI4=;
+ b=nwvjlynSS1NlSbUb96MejSwftHOA8kJorTSByUDhe+6ONBTMfCHxCTKsF76+lpIZ9o
+ GJRKVm9MfNDQo8gwacaJfiBCXR7tRC8J8sl5Rl1lcWfmVY3q6vKghZcesJ4iVL/ScO8o
+ lI34yypjb2Lc/QCO8NGf59Fm30OSRmSYkCsPS9ffmn4V0DD9HqSFjCjDo4f/jkx0j1b3
+ yMlsJogYG18PAw3hfwzI3PHaAnMNW+KigAm6noCMjIKelAHfQqBexo/6A6C4GdNxMzAY
+ m/+OjDDLArzbrSlqnQYuYUulvcdnlwO+lz/eewvbqpGMVHoixdGKfHJjW8F4N3iudDFT
+ i22A==
+X-Gm-Message-State: AOAM533CkcCCZ1v26bPv76/Z3A+C017zbkrliDLp33Lm5VbEO7k5vT8i
+ 5RGHIj4//xSbiN2XCn6xui0=
+X-Google-Smtp-Source: ABdhPJxb/rCZ19ku5W/y6F43M6SCLDIC2aPKsDIvoNvVO3b6bqw2JZbWuBUYFBQkFa9M5QFZmWSYkQ==
+X-Received: by 2002:a1c:740c:: with SMTP id p12mr8677116wmc.53.1598130238545; 
+ Sat, 22 Aug 2020 14:03:58 -0700 (PDT)
 Received: from net.saheed (563BDA2C.dsl.pool.telekom.hu. [86.59.218.44])
- by smtp.gmail.com with ESMTPSA id y2sm14868321wmg.25.2020.08.22.14.03.51
+ by smtp.gmail.com with ESMTPSA id y2sm14868321wmg.25.2020.08.22.14.03.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Aug 2020 14:03:51 -0700 (PDT)
+ Sat, 22 Aug 2020 14:03:58 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 To: helgaas@kernel.org
-Date: Sat, 22 Aug 2020 22:03:50 +0200
-Message-Id: <20200822200358.252967-16-refactormyself@gmail.com>
+Date: Sat, 22 Aug 2020 22:03:53 +0200
+Message-Id: <20200822200358.252967-19-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200822200358.252967-1-refactormyself@gmail.com>
 References: <20200822200358.252967-1-refactormyself@gmail.com>
 Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH v5 15/23] PCI: Replace
-	pcie_link_state based device list with a pci_dev one
+Subject: [Linux-kernel-mentees] [RFC PATCH v5 18/23] PCI: Remove .aspm_*
+	from struct pcie_link_state
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,111 +114,335 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
- - Replace existing pcie_link_state based device list with one
-   based on struct pci_dev one.
- - Remove initialisation and declaration of existing list.
- - Replace pcie_link_state.sibling with pci_dev.sibling.
- - Remove pcie_link_state.sibling.
+ - Remove initiations of pcie_link_state.aspm_*
+ - Replace all access to pcie_link_state.aspm_* with pci_pdev.aspm_*
+ - Remove pcie_link_state.aspm_*
+ - Do few cleaups
 
 Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
 ---
- drivers/pci/pcie/aspm.c | 27 +++++++++++----------------
- 1 file changed, 11 insertions(+), 16 deletions(-)
+ drivers/pci/pcie/aspm.c | 137 +++++++++++-----------------------------
+ 1 file changed, 38 insertions(+), 99 deletions(-)
 
 diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-index 6f73eb2ca0bd..9ca06f00e98d 100644
+index 27a590fe6b23..8d5a38081753 100644
 --- a/drivers/pci/pcie/aspm.c
 +++ b/drivers/pci/pcie/aspm.c
-@@ -46,7 +46,6 @@ struct pcie_link_state {
+@@ -46,13 +46,6 @@ struct pcie_link_state {
  	struct pci_dev *downstream;	/* Downstream component, function 0 */
  	struct pcie_link_state *root;	/* pointer to the root port link */
  	struct pcie_link_state *parent;	/* pointer to the parent Link state */
--	struct list_head sibling;	/* node in link_list */
+-
+-	/* ASPM state */
+-	u32 aspm_support:7;		/* Supported ASPM state */
+-	u32 aspm_enabled:7;		/* Enabled ASPM state */
+-	u32 aspm_capable:7;		/* Capable ASPM state with latency */
+-	u32 aspm_default:7;		/* Default ASPM state by BIOS */
+-	u32 aspm_disable:7;		/* Disabled ASPM state */
+ };
  
- 	/* ASPM state */
- 	u32 aspm_support:7;		/* Supported ASPM state */
-@@ -74,7 +73,6 @@ struct pcie_link_state {
  static int aspm_disabled, aspm_force;
- static bool aspm_support_enabled = true;
- static DEFINE_MUTEX(aspm_lock);
--static LIST_HEAD(link_list);
- static LIST_HEAD(pdev_link_list);
+@@ -97,7 +90,7 @@ static int policy_to_aspm_state(struct pci_dev *pdev)
+ 		/* Enable Everything */
+ 		return ASPM_STATE_ALL;
+ 	case POLICY_DEFAULT:
+-		return pdev->link_state->aspm_default;
++		return pdev->aspm_default;
+ 	}
+ 	return 0;
+ }
+@@ -373,18 +366,14 @@ static void pcie_aspm_check_latency(struct pci_dev *endpoint)
  
- #define POLICY_DEFAULT 0	/* BIOS default setting */
-@@ -856,7 +854,6 @@ static int alloc_pcie_link_state(struct pci_dev *pdev)
- 	if (!link)
- 		return -1;
+ 	while (link) {
+ 		/* Check upstream direction L0s latency */
+-		if ((link->aspm_capable & ASPM_STATE_L0S_UP) &&
+-		    (link->pdev->latency_up.l0s > acceptable->l0s)) {
+-			link->aspm_capable &= ~ASPM_STATE_L0S_UP;
++		if ((link->pdev->aspm_capable & ASPM_STATE_L0S_UP) &&
++		    (link->pdev->latency_up.l0s > acceptable->l0s))
+ 			pdev->aspm_capable &= ~ASPM_STATE_L0S_UP;
+-		}
  
--	INIT_LIST_HEAD(&link->sibling);
- 	INIT_LIST_HEAD(&pdev->sibling);
- 	link->pdev = pdev;
- 	link->downstream = pci_function_0(pdev->subordinate);
-@@ -889,7 +886,6 @@ static int alloc_pcie_link_state(struct pci_dev *pdev)
- 		pdev->root = pdev->parent->root;
+ 		/* Check downstream direction L0s latency */
+-		if ((link->aspm_capable & ASPM_STATE_L0S_DW) &&
+-		    (link->pdev->latency_dw.l0s > acceptable->l0s)) {
+-			link->aspm_capable &= ~ASPM_STATE_L0S_DW;
++		if ((link->pdev->aspm_capable & ASPM_STATE_L0S_DW) &&
++		    (link->pdev->latency_dw.l0s > acceptable->l0s))
+ 			pdev->aspm_capable &= ~ASPM_STATE_L0S_DW;
+-		}
+ 
+ 		/*
+ 		 * Check L1 latency.
+@@ -401,11 +390,9 @@ static void pcie_aspm_check_latency(struct pci_dev *endpoint)
+ 		 */
+ 		latency = max_t(u32, link->pdev->latency_up.l1,
+ 						link->pdev->latency_dw.l1);
+-		if ((link->aspm_capable & ASPM_STATE_L1) &&
+-		    (latency + l1_switch_latency > acceptable->l1)) {
+-			link->aspm_capable &= ~ASPM_STATE_L1;
++		if ((link->pdev->aspm_capable & ASPM_STATE_L1) &&
++		    (latency + l1_switch_latency > acceptable->l1))
+ 			pdev->aspm_capable &= ~ASPM_STATE_L1;
+-		}
+ 
+ 		l1_switch_latency += 1000;
+ 
+@@ -438,7 +425,7 @@ static void aspm_calc_l1ss_ctl_values(struct pci_dev *pdev,
+ 	struct pci_dev *dw_pdev = link->downstream;
+ 	struct pci_dev *up_pdev = link->pdev;
+ 
+-	if (!(link->aspm_support & ASPM_STATE_L1_2_MASK))
++	if (!(link->pdev->aspm_support & ASPM_STATE_L1_2_MASK))
+ 		return;
+ 
+ 	/* Choose the greater of the two Port Common_Mode_Restore_Times */
+@@ -493,8 +480,6 @@ static void pcie_aspm_cap_init(struct pci_dev *pdev, int blacklist)
+ 
+ 	if (blacklist) {
+ 		/* Set enabled/disable so that we will disable ASPM later */
+-		link->aspm_enabled = ASPM_STATE_ALL;
+-		link->aspm_disable = ASPM_STATE_ALL;
+ 		parent->aspm_enabled = ASPM_STATE_ALL;
+ 		parent->aspm_disable = ASPM_STATE_ALL;
+ 		return;
+@@ -525,20 +510,14 @@ static void pcie_aspm_cap_init(struct pci_dev *pdev, int blacklist)
+ 	 */
+ 	if (((parent->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
+ 			((child->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
+-			PCIE_LINK_STATE_L0S) {
+-		link->aspm_support |= ASPM_STATE_L0S;
++			PCIE_LINK_STATE_L0S)
+ 		parent->aspm_support |= ASPM_STATE_L0S;
+-	}
+ 
+-	if (get_aspm_enable(child) & PCIE_LINK_STATE_L0S) {
+-		link->aspm_enabled |= ASPM_STATE_L0S_UP;
++	if (get_aspm_enable(child) & PCIE_LINK_STATE_L0S)
+ 		parent->aspm_enabled |= ASPM_STATE_L0S_UP;
+-	}
+ 
+-	if (get_aspm_enable(parent) & PCIE_LINK_STATE_L0S) {
+-		link->aspm_enabled |= ASPM_STATE_L0S_DW;
++	if (get_aspm_enable(parent) & PCIE_LINK_STATE_L0S)
+ 		parent->aspm_enabled |= ASPM_STATE_L0S_DW;
+-	}
+ 
+ 	parent->latency_up.l0s = calc_l0s_latency(parent);
+ 	parent->latency_dw.l0s = calc_l0s_latency(child);
+@@ -546,61 +525,39 @@ static void pcie_aspm_cap_init(struct pci_dev *pdev, int blacklist)
+ 	/* Setup L1 state */
+ 	if (((parent->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
+ 			((child->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
+-			PCIE_LINK_STATE_L1) {
+-		link->aspm_support |= ASPM_STATE_L1;
++			PCIE_LINK_STATE_L1)
+ 		parent->aspm_support |= ASPM_STATE_L1;
+-	}
+ 
+ 	if (get_aspm_enable(parent) & get_aspm_enable(child) &
+-			    PCIE_LINK_STATE_L1) {
+-		link->aspm_enabled |= ASPM_STATE_L1;
++			    PCIE_LINK_STATE_L1)
+ 		parent->aspm_enabled |= ASPM_STATE_L1;
+-	}
+ 
+ 	parent->latency_up.l1 = calc_l1_latency(parent);
+ 	parent->latency_dw.l1 = calc_l1_latency(child);
+ 
+ 	/* Setup L1 substate */
+-	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_ASPM_L1_1) {
+-		link->aspm_support |= ASPM_STATE_L1_1;
++	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_ASPM_L1_1)
+ 		parent->aspm_support |= ASPM_STATE_L1_1;
+-	}
+-	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_ASPM_L1_2) {
+-		link->aspm_support |= ASPM_STATE_L1_2;
++	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_ASPM_L1_2)
+ 		parent->aspm_support |= ASPM_STATE_L1_2;
+-	}
+-	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_PCIPM_L1_1) {
+-		link->aspm_support |= ASPM_STATE_L1_1_PCIPM;
++	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_PCIPM_L1_1)
+ 		parent->aspm_support |= ASPM_STATE_L1_1_PCIPM;
+-	}
+-	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_PCIPM_L1_2) {
+-		link->aspm_support |= ASPM_STATE_L1_2_PCIPM;
++	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_PCIPM_L1_2)
+ 		parent->aspm_support |= ASPM_STATE_L1_2_PCIPM;
+-	}
+ 
+-	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_ASPM_L1_1) {
+-		link->aspm_enabled |= ASPM_STATE_L1_1;
++	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_ASPM_L1_1)
+ 		parent->aspm_enabled |= ASPM_STATE_L1_1;
+-	}
+-	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_ASPM_L1_2) {
+-		link->aspm_enabled |= ASPM_STATE_L1_2;
++	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_ASPM_L1_2)
+ 		parent->aspm_enabled |= ASPM_STATE_L1_2;
+-	}
+-	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_PCIPM_L1_1) {
+-		link->aspm_enabled |= ASPM_STATE_L1_1_PCIPM;
++	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_PCIPM_L1_1)
+ 		parent->aspm_enabled |= ASPM_STATE_L1_1_PCIPM;
+-	}
+-	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_PCIPM_L1_2) {
+-		link->aspm_enabled |= ASPM_STATE_L1_2_PCIPM;
++	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_PCIPM_L1_2)
+ 		parent->aspm_enabled |= ASPM_STATE_L1_2_PCIPM;
+-	}
+ 
+ 	/* Save default state */
+-	link->aspm_default = link->aspm_enabled;
+ 	parent->aspm_default = parent->aspm_enabled;
+ 
+ 	/* Setup initial capable state. Will be updated later */
+-	link->aspm_capable = link->aspm_support;
+ 	parent->aspm_capable = parent->aspm_support;
+ 
+ 	/* Get and check endpoint acceptable latencies */
+@@ -729,7 +686,7 @@ static void pcie_config_aspm_link(struct pci_dev *pdev, u32 state)
+ 	struct pci_bus *linkbus = parent->subordinate;
+ 
+ 	/* Enable only the states that were not explicitly disabled */
+-	state &= (link->aspm_capable & ~link->aspm_disable);
++	state &= (link->pdev->aspm_capable & ~link->pdev->aspm_disable);
+ 
+ 	/* Can't enable any substates if L1 is not enabled */
+ 	if (!(state & ASPM_STATE_L1))
+@@ -738,11 +695,11 @@ static void pcie_config_aspm_link(struct pci_dev *pdev, u32 state)
+ 	/* Spec says both ports must be in D0 before enabling PCI PM substates*/
+ 	if (parent->current_state != PCI_D0 || child->current_state != PCI_D0) {
+ 		state &= ~ASPM_STATE_L1_SS_PCIPM;
+-		state |= (link->aspm_enabled & ASPM_STATE_L1_SS_PCIPM);
++		state |= (link->pdev->aspm_enabled & ASPM_STATE_L1_SS_PCIPM);
  	}
  
--	list_add(&link->sibling, &link_list);
- 	list_add(&pdev->sibling, &pdev_link_list);
- 	pdev->link_state = link;
- 	return 0;
-@@ -975,20 +971,19 @@ void pcie_aspm_init_link_state(struct pci_dev *pdev)
+ 	/* Nothing to do if the link is already in the requested state */
+-	if (link->aspm_enabled == state)
++	if (link->pdev->aspm_enabled == state)
+ 		return;
+ 	/* Convert ASPM state to upstream/downstream ASPM register state */
+ 	if (state & ASPM_STATE_L0S_UP)
+@@ -754,7 +711,7 @@ static void pcie_config_aspm_link(struct pci_dev *pdev, u32 state)
+ 		dwstream |= PCI_EXP_LNKCTL_ASPM_L1;
+ 	}
+ 
+-	if (link->aspm_capable & ASPM_STATE_L1SS)
++	if (link->pdev->aspm_capable & ASPM_STATE_L1SS)
+ 		pcie_config_aspm_l1ss(parent, state);
+ 
+ 	/*
+@@ -770,7 +727,6 @@ static void pcie_config_aspm_link(struct pci_dev *pdev, u32 state)
+ 	if (!(state & ASPM_STATE_L1))
+ 		pcie_config_aspm_dev(parent, upstream);
+ 
+-	link->aspm_enabled = state;
+ 	parent->aspm_enabled = state;
  }
  
- /* Recheck latencies and update aspm_capable for links under the root */
--static void pcie_update_aspm_capable(struct pci_dev *root_pdev)
-+static void pcie_update_aspm_capable(struct pci_dev *root)
- {
--	struct pcie_link_state *root = root_pdev->link_state;
--	struct pcie_link_state *link;
-+	struct pci_dev *link;
-+
- 	BUG_ON(root->parent);
--	list_for_each_entry(link, &link_list, sibling) {
-+	list_for_each_entry(link, &pdev_link_list, sibling) {
- 		if (link->root != root)
- 			continue;
- 		link->aspm_capable = link->aspm_support;
--		link->pdev->aspm_capable = link->aspm_support;
- 	}
--	list_for_each_entry(link, &link_list, sibling) {
-+	list_for_each_entry(link, &pdev_link_list, sibling) {
- 		struct pci_dev *child;
--		struct pci_bus *linkbus = link->pdev->subordinate;
-+		struct pci_bus *linkbus = link->subordinate;
- 		if (link->root != root)
- 			continue;
- 		list_for_each_entry(child, &linkbus->devices, bus_list) {
-@@ -1024,7 +1019,7 @@ void pcie_aspm_exit_link_state(struct pci_dev *pdev)
- 
- 	/* All functions are removed, so just disable ASPM for the link */
- 	pcie_config_aspm_link(parent, 0);
--	list_del(&link->sibling);
-+	list_del(&link->pdev->sibling);
- 	/* Clock PM is for endpoint device */
- 	free_link_state(parent);
- 
-@@ -1177,7 +1172,7 @@ static int pcie_aspm_set_policy(const char *val,
- 				const struct kernel_param *kp)
- {
- 	int i;
--	struct pcie_link_state *link;
-+	struct pci_dev *link;
- 
- 	if (aspm_disabled)
- 		return -EPERM;
-@@ -1190,9 +1185,9 @@ static int pcie_aspm_set_policy(const char *val,
- 	down_read(&pci_bus_sem);
+@@ -1085,31 +1041,20 @@ static int __pci_disable_link_state(struct pci_dev *pdev, int state, bool sem)
+ 	if (sem)
+ 		down_read(&pci_bus_sem);
  	mutex_lock(&aspm_lock);
- 	aspm_policy = i;
--	list_for_each_entry(link, &link_list, sibling) {
--		pcie_config_aspm_link(link->pdev, policy_to_aspm_state(link->pdev));
--		pcie_set_clkpm(link->pdev, policy_to_clkpm_state(link->pdev));
-+	list_for_each_entry(link, &pdev_link_list, sibling) {
-+		pcie_config_aspm_link(link, policy_to_aspm_state(link));
-+		pcie_set_clkpm(link, policy_to_clkpm_state(link));
- 	}
- 	mutex_unlock(&aspm_lock);
- 	up_read(&pci_bus_sem);
+-	if (state & PCIE_LINK_STATE_L0S) {
+-		link->aspm_disable |= ASPM_STATE_L0S;
++	if (state & PCIE_LINK_STATE_L0S)
+ 		bridge->aspm_disable |= ASPM_STATE_L0S;
+-	}
+-	if (state & PCIE_LINK_STATE_L1) {
++	if (state & PCIE_LINK_STATE_L1)
+ 		/* L1 PM substates require L1 */
+-		link->aspm_disable |= ASPM_STATE_L1 | ASPM_STATE_L1SS;
+ 		bridge->aspm_disable |= ASPM_STATE_L1 | ASPM_STATE_L1SS;
+-	}
+-	if (state & PCIE_LINK_STATE_L1_1) {
+-		link->aspm_disable |= ASPM_STATE_L1_1;
++	if (state & PCIE_LINK_STATE_L1_1)
+ 		bridge->aspm_disable |= ASPM_STATE_L1_1;
+-	}
+-	if (state & PCIE_LINK_STATE_L1_2) {
+-		link->aspm_disable |= ASPM_STATE_L1_2;
++	if (state & PCIE_LINK_STATE_L1_2)
+ 		bridge->aspm_disable |= ASPM_STATE_L1_2;
+-	}
+-	if (state & PCIE_LINK_STATE_L1_1_PCIPM) {
+-		link->aspm_disable |= ASPM_STATE_L1_1_PCIPM;
++	if (state & PCIE_LINK_STATE_L1_1_PCIPM)
+ 		bridge->aspm_disable |= ASPM_STATE_L1_1_PCIPM;
+-	}
+-	if (state & PCIE_LINK_STATE_L1_2_PCIPM) {
+-		link->aspm_disable |= ASPM_STATE_L1_2_PCIPM;
++	if (state & PCIE_LINK_STATE_L1_2_PCIPM)
+ 		bridge->aspm_disable |= ASPM_STATE_L1_2_PCIPM;
+-	}
++
+ 	pcie_config_aspm_link(link->pdev, policy_to_aspm_state(link->pdev));
+ 
+ 	if (state & PCIE_LINK_STATE_CLKPM) {
+@@ -1200,7 +1145,7 @@ bool pcie_aspm_enabled(struct pci_dev *pdev)
+ 	if (!dev)
+ 		return false;
+ 
+-	return dev->link_state->aspm_enabled;
++	return dev->aspm_enabled;
+ }
+ EXPORT_SYMBOL_GPL(pcie_aspm_enabled);
+ 
+@@ -1211,7 +1156,7 @@ static ssize_t aspm_attr_show_common(struct device *dev,
+ 	struct pci_dev *pdev = pcie_aspm_get_link(to_pci_dev(dev));
+ 
+ 	return sprintf(buf, "%d\n",
+-		(pdev->link_state->aspm_enabled & state) ? 1 : 0);
++		(pdev->aspm_enabled & state) ? 1 : 0);
+ }
+ 
+ static ssize_t aspm_attr_store_common(struct device *dev,
+@@ -1230,17 +1175,12 @@ static ssize_t aspm_attr_store_common(struct device *dev,
+ 	mutex_lock(&aspm_lock);
+ 
+ 	if (state_enable) {
+-		link->aspm_disable &= ~state;
+ 		bridge->aspm_disable &= ~state;
+ 		/* need to enable L1 for substates */
+-		if (state & ASPM_STATE_L1SS) {
+-			link->aspm_disable &= ~ASPM_STATE_L1;
++		if (state & ASPM_STATE_L1SS)
+ 			bridge->aspm_disable &= ~ASPM_STATE_L1;
+-		}
+-	} else {
+-		link->aspm_disable |= state;
++	} else
+ 		bridge->aspm_disable |= state;
+-	}
+ 
+ 	pcie_config_aspm_link(link->pdev, policy_to_aspm_state(link->pdev));
+ 
+@@ -1322,7 +1262,6 @@ static umode_t aspm_ctrl_attrs_are_visible(struct kobject *kobj,
+ {
+ 	struct device *dev = kobj_to_dev(kobj);
+ 	struct pci_dev *pdev = pcie_aspm_get_link(to_pci_dev(dev));
+-	struct pcie_link_state *link = pdev->link_state;
+ 	static const u8 aspm_state_map[] = {
+ 		ASPM_STATE_L0S,
+ 		ASPM_STATE_L1,
+@@ -1332,13 +1271,13 @@ static umode_t aspm_ctrl_attrs_are_visible(struct kobject *kobj,
+ 		ASPM_STATE_L1_2_PCIPM,
+ 	};
+ 
+-	if (aspm_disabled || !link)
++	if (aspm_disabled || !pdev)
+ 		return 0;
+ 
+ 	if (n == 0)
+ 		return pdev->clkpm_capable ? a->mode : 0;
+ 
+-	return link->aspm_capable & aspm_state_map[n - 1] ? a->mode : 0;
++	return pdev->aspm_capable & aspm_state_map[n - 1] ? a->mode : 0;
+ }
+ 
+ const struct attribute_group aspm_ctrl_attr_group = {
 -- 
 2.18.4
 
