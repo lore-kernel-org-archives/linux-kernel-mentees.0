@@ -8,94 +8,94 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3894C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Aug 2020 21:03:46 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56313C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Aug 2020 21:03:48 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8722E2078A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Aug 2020 21:03:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 279952078A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Aug 2020 21:03:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DKEhR/cL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8722E2078A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUAWkMv7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 279952078A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 089B884F48;
-	Sat, 22 Aug 2020 21:03:46 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E14F2883C9;
+	Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Nk1xeEJCdn9D; Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3EE8788395;
+	Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 360A6C08A2;
+	Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4250CC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Aug 2020 21:03:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5687584F48
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Aug 2020 21:03:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iuKirMi8zaCX; Sat, 22 Aug 2020 21:03:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0898B84E5D;
-	Sat, 22 Aug 2020 21:03:44 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 054C6C07FF;
-	Sat, 22 Aug 2020 21:03:44 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99666C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 83FF887E30
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:42 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qWgSSBackwNV
+ with ESMTP id D1YZTMONQg_W
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:41 +0000 (UTC)
+ Sat, 22 Aug 2020 21:03:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A0B1487E2F
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EB41E84E6B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Sat, 22 Aug 2020 21:03:41 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id g75so4890083wme.4
+Received: by mail-wr1-f66.google.com with SMTP id a5so5054757wrm.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Sat, 22 Aug 2020 14:03:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QtFLCNI246XEo30eMorO6BZLjW9a5OmMUXJH2C8o35I=;
- b=DKEhR/cLfloXzyJDfmA2dgzl7OgxHsHQzhbaVxoontinDmoRXJl3CcFsFwt+5EkUjh
- 0VFHc0jew/a6K6wWD/186ww8JGrXmN5L+dpiyTMNIW/ccyuXtKxcpbQ6r8o4JpL+Ytfs
- SS0pj4FXdZ8b1Uk412wjOEuwxcNVAj1qXc5Y8ivKqzvJQI3oHbpNFe1BehwN95/H+/jK
- /NI83T4ThlwWzynzH1e0p8u6TVrwlAZJPkSQqStquHQSd4W3uRuC2mriNjoNzXuIJKaE
- 7V5uAFqzvYWXEURJHTJnzlD8bHBSj3DOzqkAn8QvT23dFydvdSOg3d05vpzJLkjWeWeO
- v3mw==
+ bh=F9s6VEDKP02m9dkcReoClAIp0sUIe1v7UKyJLxqbwkk=;
+ b=HUAWkMv7GaSIxfjyVE2ZSu+zAUyL9I5HjjX7u4A2iZjh7rh81vobwd72LlLerQuPVn
+ 8nGFYs9Fi74UJJbYNmJ9mRS73FKiCKxLsQ95yIUvfJzz/9WAP4kvFeAVme+kUusSu7x7
+ NXWFm7kzP3B5lbtdyuPwoCxsKnzUfoWQh0JHLHV89ESX7BVD1/yENCRKCdaoOWoTvmSj
+ VAlzwtOW4kkZeGX5Se+zhdSxsRcHiQadpfuVzBSSk3T7qKgrcuCibr49883fe0Z8gHPa
+ 8IqXXus33Gq6dNQxQB9gpk855Tx4TrD/AdVoLRr8euwqFjp2W9fBS8z3wo+YkAzGTrYz
+ i/og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=QtFLCNI246XEo30eMorO6BZLjW9a5OmMUXJH2C8o35I=;
- b=ov3aA8wa94chVUNClqUf+7ElPt2wlMNHA5ORpMU7bew8vvc87xNePCzaj50iadMbMm
- C4pful1CdnJGTb3jj3+DTprdBvpVR7V/XYTTAD6xC1sOOsD2N74QEf4rnZcBrU5pXbEp
- V4yBvhqwF8b3M1VzcNTEcRIjkVJaWV4FLJ6+RJsjfaioievKkO2P8gm3XLSEkzFv6Zg0
- U+0URdqLlai1vbTo1K2ECVHX0U465tOKXSN5PvPS+ko6VA4rg1dCvwvNrD8Zz8xYZC7r
- 79uXnDPlejLkrdvo0I0h7Qhh3Z2+O6y8Lt/WzERRvdaXyLZWbdRUjW3Hr91IWg71anFJ
- bbwA==
-X-Gm-Message-State: AOAM530bPlSkOD8z3XAKxUMuGEw1LctEuNt6iiHuXxNkl9Bn/mGyvCtx
- wqL6T9fXPKTTKH9l4IXhibo=
-X-Google-Smtp-Source: ABdhPJwor+g019/6231UEAOmgMd3BirMjDzKD1nWvwFkaM7O5mUjtYEnxVr1FyDBkUXle83C5X13eg==
-X-Received: by 2002:a7b:c306:: with SMTP id k6mr9906910wmj.86.1598130219972;
- Sat, 22 Aug 2020 14:03:39 -0700 (PDT)
+ bh=F9s6VEDKP02m9dkcReoClAIp0sUIe1v7UKyJLxqbwkk=;
+ b=nlJE9+7/wvaJE5oXcvRpdOplsTITfVOb2zaaATmYXFaJpcY2pQhznQ2GlToJgphRIm
+ ltvzKAgPViqFbVHSNa7z87b2E7VntjHu/1qcOMTCJAqbRhv1+uePoNHd9WTNibyi1DAR
+ Rz4OeNHViS2mCzBLx/8xtYBkWir2JxHEHcV/i5ALzSCH8tMOZdw5T+enC3zH2vIQwfSg
+ JbMQBk9HZK/r5HSsOVq6jSbQK8XMnDImtyMykXmNiOmEEguKEDQYMK6ifwGrR9UCGm9v
+ BjT9Ogncf1EZKafSmO5V+ipfisoAX1APIWQWsrKyGznwB7z07EWMAKbubaoDErUgl5cx
+ EmQA==
+X-Gm-Message-State: AOAM531cx2XgRImEByuInltqRZAq875AjDolNuinfG5aHjnSmrs3dwCz
+ 7pBiKwbOOwZ7Ecuw+72NweA=
+X-Google-Smtp-Source: ABdhPJy/g5X/7zxL1m16CI0roBpswJQSupLGQ2TXMUxuSvM4OJPc1TGlUGe7bca+Keg0goQ4b+fiRQ==
+X-Received: by 2002:a5d:5486:: with SMTP id h6mr7887001wrv.136.1598130218825; 
+ Sat, 22 Aug 2020 14:03:38 -0700 (PDT)
 Received: from net.saheed (563BDA2C.dsl.pool.telekom.hu. [86.59.218.44])
- by smtp.gmail.com with ESMTPSA id y2sm14868321wmg.25.2020.08.22.14.03.39
+ by smtp.gmail.com with ESMTPSA id y2sm14868321wmg.25.2020.08.22.14.03.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Aug 2020 14:03:39 -0700 (PDT)
+ Sat, 22 Aug 2020 14:03:38 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 To: helgaas@kernel.org
-Date: Sat, 22 Aug 2020 22:03:39 +0200
-Message-Id: <20200822200358.252967-5-refactormyself@gmail.com>
+Date: Sat, 22 Aug 2020 22:03:38 +0200
+Message-Id: <20200822200358.252967-4-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200822200358.252967-1-refactormyself@gmail.com>
 References: <20200822200358.252967-1-refactormyself@gmail.com>
 Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH v5 04/23] PCI: Compute
-	aspm_register_info.support directly
+Subject: [Linux-kernel-mentees] [RFC PATCH v5 03/23] PCI: Rework
+	calc_l*_latency() to take a pci_dev *
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,52 +114,65 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Replace all references to aspm_register_info.support with its
-computation.
+ - Change the argument of calc_l0s_latency() to  pci_dev *,
+ - Change the argument of calc_l1_latency() to  pci_dev *,
+ - Compute encodings inside the function
+ - Change callers to pass in pci_dev *
 
 Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
 ---
- drivers/pci/pcie/aspm.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/pci/pcie/aspm.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-index 629737125b36..64224be52435 100644
+index 3ada61828014..629737125b36 100644
 --- a/drivers/pci/pcie/aspm.c
 +++ b/drivers/pci/pcie/aspm.c
-@@ -565,7 +565,8 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
- 	 * If ASPM not supported, don't mess with the clocks and link,
- 	 * bail out now.
- 	 */
--	if (!(upreg.support & dwreg.support))
-+	if (!(((parent->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
-+		((child->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10)))
- 		return;
+@@ -306,8 +306,10 @@ static void pcie_aspm_configure_common_clock(struct pcie_link_state *link)
+ }
  
- 	/* Configure common clock before checking latencies */
-@@ -585,8 +586,11 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
- 	 * given link unless components on both sides of the link each
- 	 * support L0s.
- 	 */
--	if (dwreg.support & upreg.support & PCIE_LINK_STATE_L0S)
-+	if (((parent->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
-+			((child->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
-+			PCIE_LINK_STATE_L0S)
- 		link->aspm_support |= ASPM_STATE_L0S;
+ /* Convert L0s latency encoding to ns */
+-static u32 calc_l0s_latency(u32 encoding)
++static u32 calc_l0s_latency(struct pci_dev *pdev)
+ {
++	u32 encoding = (pdev->lnkcap & PCI_EXP_LNKCAP_L0SEL) >> 12;
 +
- 	if (dwreg.enabled & PCIE_LINK_STATE_L0S)
+ 	if (encoding == 0x7)
+ 		return (5 * 1000);	/* > 4us */
+ 	return (64 << encoding);
+@@ -322,8 +324,10 @@ static u32 calc_l0s_acceptable(u32 encoding)
+ }
+ 
+ /* Convert L1 latency encoding to ns */
+-static u32 calc_l1_latency(u32 encoding)
++static u32 calc_l1_latency(struct pci_dev *pdev)
+ {
++	u32 encoding = (pdev->lnkcap & PCI_EXP_LNKCAP_L1EL) >> 15;
++
+ 	if (encoding == 0x7)
+ 		return (65 * 1000);	/* > 64us */
+ 	return (1000 << encoding);
+@@ -587,16 +591,16 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
  		link->aspm_enabled |= ASPM_STATE_L0S_UP;
  	if (upreg.enabled & PCIE_LINK_STATE_L0S)
-@@ -595,7 +599,9 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
- 	link->latency_dw.l0s = calc_l0s_latency(child);
+ 		link->aspm_enabled |= ASPM_STATE_L0S_DW;
+-	link->latency_up.l0s = calc_l0s_latency(upreg.latency_encoding_l0s);
+-	link->latency_dw.l0s = calc_l0s_latency(dwreg.latency_encoding_l0s);
++	link->latency_up.l0s = calc_l0s_latency(parent);
++	link->latency_dw.l0s = calc_l0s_latency(child);
  
  	/* Setup L1 state */
--	if (upreg.support & dwreg.support & PCIE_LINK_STATE_L1)
-+	if (((parent->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
-+			((child->lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10) &
-+			PCIE_LINK_STATE_L1)
+ 	if (upreg.support & dwreg.support & PCIE_LINK_STATE_L1)
  		link->aspm_support |= ASPM_STATE_L1;
  	if (upreg.enabled & dwreg.enabled & PCIE_LINK_STATE_L1)
  		link->aspm_enabled |= ASPM_STATE_L1;
+-	link->latency_up.l1 = calc_l1_latency(upreg.latency_encoding_l1);
+-	link->latency_dw.l1 = calc_l1_latency(dwreg.latency_encoding_l1);
++	link->latency_up.l1 = calc_l1_latency(parent);
++	link->latency_dw.l1 = calc_l1_latency(child);
+ 
+ 	/* Setup L1 substate */
+ 	if (upreg.l1ss_cap & dwreg.l1ss_cap & PCI_L1SS_CAP_ASPM_L1_1)
 -- 
 2.18.4
 
