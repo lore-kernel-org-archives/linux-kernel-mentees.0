@@ -8,94 +8,94 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A5C2C433E3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E52AC433E1
 	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Aug 2020 21:03:50 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2F5D12078A
+	by mail.kernel.org (Postfix) with ESMTPS id 646812078A
 	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Aug 2020 21:03:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HqSBQEPy"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F5D12078A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UAK8D7kU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 646812078A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 15ED620504;
+	by silver.osuosl.org (Postfix) with ESMTP id 51F43204AE;
 	Sat, 22 Aug 2020 21:03:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U7RfpSL2yWiC; Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
+	with ESMTP id RK6cXtxJpIBK; Sat, 22 Aug 2020 21:03:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3611A204AE;
-	Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 59C8E20395;
+	Sat, 22 Aug 2020 21:03:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 25825C07FF;
-	Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 55B87C08A2;
+	Sat, 22 Aug 2020 21:03:48 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5CF0CC07FF
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F3C54C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:45 +0000 (UTC)
+ Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 44F3920504
+ by silver.osuosl.org (Postfix) with ESMTP id E120C2050A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:45 +0000 (UTC)
+ Sat, 22 Aug 2020 21:03:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tgqwAEhzSfGT
+ with ESMTP id DMclRFTEOl8I
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:44 +0000 (UTC)
+ Sat, 22 Aug 2020 21:03:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
  [209.85.221.66])
- by silver.osuosl.org (Postfix) with ESMTPS id B421F20395
+ by silver.osuosl.org (Postfix) with ESMTPS id E29AD20395
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 21:03:43 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id a15so5027842wrh.10
+ Sat, 22 Aug 2020 21:03:45 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id w13so4721640wrk.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Aug 2020 14:03:43 -0700 (PDT)
+ Sat, 22 Aug 2020 14:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hdvKdXB5nYl/IIjpOs9NVJrPed8Lrl8pjTwDRDZI9q4=;
- b=HqSBQEPykgpl9grV4Kml0fvBBMG4NPNVAWvt7frQ7taW7Np4+V8l4E8wvbdmCTej4D
- 6foNLt2P4ruSgQwU5lxKEZUEi5wDnrKQitfa+7rJex/QkO9OiOmDifqeCHLGMzEKsDbn
- KGk2tfogLOyA2TUPsLil8JWk7gEaAAMuZlju/jZk75KXmgiUL//HTpCdz8IFzzApyGdN
- b3b9bszzJx44zwxmU+v3H0fkWNqIg6fHM7Tvtx96YGncQycrLNCkykgQu1q8EAjWrByI
- cjLcyh6tuJtZsMwVdGnbenzw5G2uH9eMIbJJkX7dPJvPPyHgE/HBwerQAnpi1p2NKj98
- R7PQ==
+ bh=c6Ukl5rvkJHg4Pxjf5Lwc2zkxsoVVxL+grMavPqSwKM=;
+ b=UAK8D7kUdZEWhEVOSJTSmNVT/+03WsuUs03wWNOcMgXF4Im7Y6W8UcKjZsc3yHlPiB
+ ERz1fdj1RZliXlIpB8k84sa/vqM5BaD19PpTmbwb2bDwCOBSLz5Zmqk14RH65agRfcdj
+ IM6216noAf0PoNkxC+f90MLeeW8cq8bKEDDPQ/L7hfZCnV1soRd46MVThXw6wVukSiJv
+ LLTt+Mynj6iRzEyeLorlq/WdSRICIMO+Jayc+eUaQHV3KWumbja7Zfrxz9vLmq9fNT0S
+ 1BHzXr750CNqQXz8gZKkZyPU52XC0l914TUaICFFylCwtPEp4moVOIEEsUGpvXX14hxU
+ pwqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=hdvKdXB5nYl/IIjpOs9NVJrPed8Lrl8pjTwDRDZI9q4=;
- b=NlCUCu7jwn1NGum/IZP7quIoH324sfK5rNJ5WT59O/FSwAmF9prR8sbd+SoHGFol8/
- 5ux76EvOz9K1iQZs+oZMPX3sVofbZoQ3FCdEM4ARlI+Z9RXfgHXrbopM1U5PW8mN6MZP
- KtEIR6h8xCnDSVUutDnuK4fegzhgCnLdIirQt/iIse3sWlBb5xsD2oXkkGbplhJgfTya
- pCnmWE4n0VlMbM05uhknXsCfv7U25MILblINBx55ZVJA9M74yTNWEYN0Yb8xUK+GFIdT
- tmqRbvle9HXwE1TTiTyRnl99mDXICVaWAi8pFk3egmsrlV4OxeorMInhuvtud69aq1Sz
- ocNA==
-X-Gm-Message-State: AOAM532QCiSft3gYYZRsqmDy6F1ktj0/qiS6jx3ioXTWxQoiNo0xbHm+
- mzpq9gQ+FsyhoYSI1wLzvZ4=
-X-Google-Smtp-Source: ABdhPJzvbCdjrarBrsMxtUgb2jkL6nvGDROk+K2UuIM3fI9Di9RaJdcjzr2ISOZalvFX545MeUZ1mg==
-X-Received: by 2002:adf:f785:: with SMTP id q5mr8271334wrp.298.1598130222233; 
- Sat, 22 Aug 2020 14:03:42 -0700 (PDT)
+ bh=c6Ukl5rvkJHg4Pxjf5Lwc2zkxsoVVxL+grMavPqSwKM=;
+ b=LSNfTkLu1EJT3ZEiLw+r47rrGOZH2zcbsZr6MEFzAGJJBveIGfnZnS88nwaxzKkk2I
+ YXmyLk8l4HwHnOfEksbHTWloiVo8/gHc0NPCgMD4dyz+2I5UHdE6ngPa+f2nmiYIUaci
+ KKBEvuJYbUPQgW73UXkZKkog6UvixlicR1XIuKJjF7gsJ3ZKmq5IrehLKsuVaAlm4hhA
+ jExqFhJ5+233sFiv/oOOctDYblp2X5WTHwjAheEaZTlXjy9oz7Sc4CJ33aPae6N5WUnP
+ 7sGcKOsREbQFb8/T2hH6w8IymegVg7w+a896yIilCakWcyrdnup0EX7cMgiIKpENGOs0
+ pU5g==
+X-Gm-Message-State: AOAM531l/Ac7O2Ryb+kd+pnvd8NsdlnJCtQ5u4SmNQxuglDRacXqdg1b
+ KtdIMyezCLEBD2mcDodX5ZY=
+X-Google-Smtp-Source: ABdhPJwRM2THgXG5dj6UpmY0ewpLkX7kvt+p0IpLLDrwcEJHCaOa8ORwqB1s2jb3CygJnX9t9AxBXQ==
+X-Received: by 2002:a5d:6992:: with SMTP id g18mr8104368wru.15.1598130224401; 
+ Sat, 22 Aug 2020 14:03:44 -0700 (PDT)
 Received: from net.saheed (563BDA2C.dsl.pool.telekom.hu. [86.59.218.44])
- by smtp.gmail.com with ESMTPSA id y2sm14868321wmg.25.2020.08.22.14.03.41
+ by smtp.gmail.com with ESMTPSA id y2sm14868321wmg.25.2020.08.22.14.03.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Aug 2020 14:03:41 -0700 (PDT)
+ Sat, 22 Aug 2020 14:03:43 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 To: helgaas@kernel.org
-Date: Sat, 22 Aug 2020 22:03:41 +0200
-Message-Id: <20200822200358.252967-7-refactormyself@gmail.com>
+Date: Sat, 22 Aug 2020 22:03:43 +0200
+Message-Id: <20200822200358.252967-9-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200822200358.252967-1-refactormyself@gmail.com>
 References: <20200822200358.252967-1-refactormyself@gmail.com>
 Cc: "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [RFC PATCH v5 06/23] PCI: Replace
-	aspm_register_info.l1ss_cap* with their pci_dev version
+Subject: [Linux-kernel-mentees] [RFC PATCH v5 08/23] PCI: Remove unused
+	aspm_calc_l1ss_info() arguments
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,83 +114,41 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Replace all references to aspm_register_info.(l1ss_cap | l1ss_cap_ptr) with
-pci_dev.(l1ss_cap | l1ss_cap_ptr)
+The two struct aspm_register_info arguments of aspm_calc_l1ss_info()
+are now redundant.
+
+ - Remove redundant arguments.
+ - Refactor callers to also remove redundant parameters
 
 Signed-off-by: Saheed O. Bolarinwa <refactormyself@gmail.com>
 ---
- drivers/pci/pcie/aspm.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ drivers/pci/pcie/aspm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-index d622affdbbcc..0657cad5f290 100644
+index c5f18d280892..506552f8dd2b 100644
 --- a/drivers/pci/pcie/aspm.c
 +++ b/drivers/pci/pcie/aspm.c
-@@ -501,32 +501,34 @@ static void aspm_calc_l1ss_info(struct pcie_link_state *link,
+@@ -495,9 +495,7 @@ static struct pci_dev *pci_function_0(struct pci_bus *linkbus)
+ }
+ 
+ /* Calculate L1.2 PM substate timing parameters */
+-static void aspm_calc_l1ss_info(struct pcie_link_state *link,
+-				struct aspm_register_info *upreg,
+-				struct aspm_register_info *dwreg)
++static void aspm_calc_l1ss_info(struct pcie_link_state *link)
  {
  	u32 val1, val2, scale1, scale2;
  	u32 t_common_mode, t_power_on, l1_2_threshold, scale, value;
-+	struct pci_dev *dw_pdev = link->downstream;
-+	struct pci_dev *up_pdev = link->pdev;
+@@ -644,7 +642,7 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
+ 		link->aspm_enabled |= ASPM_STATE_L1_2_PCIPM;
  
--	link->l1ss.up_cap_ptr = upreg->l1ss_cap_ptr;
--	link->l1ss.dw_cap_ptr = dwreg->l1ss_cap_ptr;
-+	link->l1ss.up_cap_ptr = up_pdev->l1ss_cap_ptr;
-+	link->l1ss.dw_cap_ptr = dw_pdev->l1ss_cap_ptr;
- 	link->l1ss.ctl1 = link->l1ss.ctl2 = 0;
+ 	if (link->aspm_support & ASPM_STATE_L1SS)
+-		aspm_calc_l1ss_info(link, &upreg, &dwreg);
++		aspm_calc_l1ss_info(link);
  
- 	if (!(link->aspm_support & ASPM_STATE_L1_2_MASK))
- 		return;
- 
- 	/* Choose the greater of the two Port Common_Mode_Restore_Times */
--	val1 = (upreg->l1ss_cap & PCI_L1SS_CAP_CM_RESTORE_TIME) >> 8;
--	val2 = (dwreg->l1ss_cap & PCI_L1SS_CAP_CM_RESTORE_TIME) >> 8;
-+	val1 = (up_pdev->l1ss_cap & PCI_L1SS_CAP_CM_RESTORE_TIME) >> 8;
-+	val2 = (dw_pdev->l1ss_cap & PCI_L1SS_CAP_CM_RESTORE_TIME) >> 8;
- 	t_common_mode = max(val1, val2);
- 
- 	/* Choose the greater of the two Port T_POWER_ON times */
--	val1   = (upreg->l1ss_cap & PCI_L1SS_CAP_P_PWR_ON_VALUE) >> 19;
--	scale1 = (upreg->l1ss_cap & PCI_L1SS_CAP_P_PWR_ON_SCALE) >> 16;
--	val2   = (dwreg->l1ss_cap & PCI_L1SS_CAP_P_PWR_ON_VALUE) >> 19;
--	scale2 = (dwreg->l1ss_cap & PCI_L1SS_CAP_P_PWR_ON_SCALE) >> 16;
-+	val1   = (up_pdev->l1ss_cap & PCI_L1SS_CAP_P_PWR_ON_VALUE) >> 19;
-+	scale1 = (up_pdev->l1ss_cap & PCI_L1SS_CAP_P_PWR_ON_SCALE) >> 16;
-+	val2   = (dw_pdev->l1ss_cap & PCI_L1SS_CAP_P_PWR_ON_VALUE) >> 19;
-+	scale2 = (dw_pdev->l1ss_cap & PCI_L1SS_CAP_P_PWR_ON_SCALE) >> 16;
- 
--	if (calc_l1ss_pwron(link->pdev, scale1, val1) >
--	    calc_l1ss_pwron(link->downstream, scale2, val2)) {
-+	if (calc_l1ss_pwron(up_pdev, scale1, val1) >
-+	    calc_l1ss_pwron(dw_pdev, scale2, val2)) {
- 		link->l1ss.ctl2 |= scale1 | (val1 << 3);
--		t_power_on = calc_l1ss_pwron(link->pdev, scale1, val1);
-+		t_power_on = calc_l1ss_pwron(up_pdev, scale1, val1);
- 	} else {
- 		link->l1ss.ctl2 |= scale2 | (val2 << 3);
--		t_power_on = calc_l1ss_pwron(link->downstream, scale2, val2);
-+		t_power_on = calc_l1ss_pwron(dw_pdev, scale2, val2);
- 	}
- 
- 	/*
-@@ -615,13 +617,13 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
- 	link->latency_dw.l1 = calc_l1_latency(child);
- 
- 	/* Setup L1 substate */
--	if (upreg.l1ss_cap & dwreg.l1ss_cap & PCI_L1SS_CAP_ASPM_L1_1)
-+	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_ASPM_L1_1)
- 		link->aspm_support |= ASPM_STATE_L1_1;
--	if (upreg.l1ss_cap & dwreg.l1ss_cap & PCI_L1SS_CAP_ASPM_L1_2)
-+	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_ASPM_L1_2)
- 		link->aspm_support |= ASPM_STATE_L1_2;
--	if (upreg.l1ss_cap & dwreg.l1ss_cap & PCI_L1SS_CAP_PCIPM_L1_1)
-+	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_PCIPM_L1_1)
- 		link->aspm_support |= ASPM_STATE_L1_1_PCIPM;
--	if (upreg.l1ss_cap & dwreg.l1ss_cap & PCI_L1SS_CAP_PCIPM_L1_2)
-+	if (parent->l1ss_cap & child->l1ss_cap & PCI_L1SS_CAP_PCIPM_L1_2)
- 		link->aspm_support |= ASPM_STATE_L1_2_PCIPM;
- 
- 	if (up_l1ss_ctl1 & dw_l1ss_ctl1 & PCI_L1SS_CTL1_ASPM_L1_1)
+ 	/* Save default state */
+ 	link->aspm_default = link->aspm_enabled;
 -- 
 2.18.4
 
