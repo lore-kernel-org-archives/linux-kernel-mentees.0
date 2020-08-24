@@ -2,84 +2,101 @@ Return-Path: <SRS0=ht7Q=CC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E861C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Aug 2020 10:06:46 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C0CFC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Aug 2020 17:43:28 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A14D12074D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Aug 2020 10:06:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 29BD62067C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Aug 2020 17:43:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="h+S3kw/9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A14D12074D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkEHSvIR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 29BD62067C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7128187CD6;
-	Mon, 24 Aug 2020 10:06:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id F1B0186373;
+	Mon, 24 Aug 2020 17:43:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gKKOhjKNhV88; Mon, 24 Aug 2020 10:06:44 +0000 (UTC)
+	with ESMTP id X2RAsGsJYmkg; Mon, 24 Aug 2020 17:43:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9DFAB87987;
-	Mon, 24 Aug 2020 10:06:44 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5B4F5862F4;
+	Mon, 24 Aug 2020 17:43:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 856CCC07FF;
-	Mon, 24 Aug 2020 10:06:44 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 47624C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 452BAC07FF;
+	Mon, 24 Aug 2020 17:43:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A0A3FC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 10:06:43 +0000 (UTC)
+ Mon, 24 Aug 2020 17:43:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3061720781
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3802D84808
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 10:06:43 +0000 (UTC)
+ Mon, 24 Aug 2020 17:43:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zoU+3MpSrlmD
+ with ESMTP id l6Ih35N4MJux
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 10:06:41 +0000 (UTC)
+ Mon, 24 Aug 2020 17:43:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
- by silver.osuosl.org (Postfix) with ESMTPS id 978B02076E
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 8D8CB85551
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 10:06:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 59D6A52936;
- Mon, 24 Aug 2020 12:06:38 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at disroot.org
-Received: from knopi.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iwak4ifH3_Xw; Mon, 24 Aug 2020 12:06:36 +0200 (CEST)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1598263596; bh=cbJqtrQ/HIGh2TuOJ1PoMN9VygbdIvXxxTVvU1nfFyM=;
- h=Date:From:Subject:To:Cc:In-Reply-To:References;
- b=h+S3kw/9c39N8BiFxkr0pHd2qkNKykwDnDscLfGtoB/xrM3PMvS4J2eIsgWOmQk3R
- dm3JXNVlmaFjUTYtSrZCSartDGdBRUM7cmYVRSCnW4wxc0/3T+VDPoOda1z8awS+Qy
- 6TWtW2D+o2VXZKVsGeOYdtPs2BZYeJXFALB72YHGAHXNSEbCNMQkERP3mEZWeWMGf1
- OwO0dSN8LkIn7egRrJvqirksmww3j2gsjQJYIASQ0Ltk9nHDFXxp5h3cLmPf3Vsbox
- Gv7sTXEL6rYiMPYA6d4cOWbwPvG/17wALh8VOCcq/35bOED9aAICXJT7tv6ef9ryct
- Q0+obaj/24BSw==
-Date: Mon, 24 Aug 2020 10:06:36 +0000
-From: "Ayush" <ayush@disroot.org>
-Message-ID: <32595de077ee7d674a628df11c58152f@disroot.org>
-To: "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
-In-Reply-To: <alpine.DEB.2.21.2008221002290.12792@felia>
-References: <alpine.DEB.2.21.2008221002290.12792@felia>
- <alpine.DEB.2.21.2008171142310.8645@felia>
- <20200810125354.xeijyh3v5upatrez@salamander>
- <4f5612540c184970157a98d103d7cd04@disroot.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
-	Improve checkpatch.pl"
+ Mon, 24 Aug 2020 17:43:24 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id k13so4564893plk.13
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 24 Aug 2020 10:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XQnYboBSOiUFVbrpn6Up5SRW0z7sTQ+dpcpNXbiY/Jc=;
+ b=WkEHSvIR2JlIcxvS6dwEy2wvHFGodjLNJEOSpCafmITNu/Tgp39VDFjRGFWb3HWyYo
+ MA4ZrnSsK7cvKKSdU95mwuXyKBxpohYH6iGF9wZE5q0wOmv1uBBLJiihgCmcz9fLlg+w
+ v2gcx/RVCX7TFaIqOGVPTglYHdNZj/0a/7h5aZZly6Vu1UF4nMTnW4WwgpXRxnUe0V1q
+ hRCmw1uBl9RQOAI7WzXgwLQUq0JW/dWkEsJbA4lR+bxbJ/vVfEuUAu8fl27UZ2t3bMHS
+ bq8l8h4cyKoLOcOHp/A2D1Jq8vZiuS5qZQodv8hrRwd28ny/2wdwgJHv6cCnGsuczdrA
+ cSTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XQnYboBSOiUFVbrpn6Up5SRW0z7sTQ+dpcpNXbiY/Jc=;
+ b=L+y6ZzfpJnK5jpQqoI5m2DmwcibBJDd0BooPx+L7lF4uBx//uTV8jC3+6mq1bLqmMT
+ NkiS94yupQQ+eQ0yPE9kEoiEIj+Si5AM2A8Vz6Bm7+kMxOMIcnaO/KvAbVmbmcxD8DgR
+ O/IW/bJXsCMRXaosizhDnecLSFpr/67m5zw1f55KBMDQ7faAYPwLpXhYPvHK7FWIT3ZL
+ wl651VNmoBMxkHvQvnov/Qrm0MPLa0uG3OIzB2j1gYcUW94PwXx5vXTqzc+PBO4NPpR9
+ 5aPQBZEV3L3plR4uyc/lxLZE+DHLsXG65Bm1iWPV1tRb+ZfZ3Oc2naC4zGgMwUpkvJVC
+ Pf5A==
+X-Gm-Message-State: AOAM532hxeQHl/SwKfZEZGyZHJp/R+FDi5XhTBxa/DvbIFZiOMnBjdZN
+ 9yst3hDAMVo45RI/fZIe0ds=
+X-Google-Smtp-Source: ABdhPJyQvYlpSCj+MsaZ74YiA5/vht/qHq2t/g0D9CbA5sS83ApEY+rOQsNlbDk61FI8Qf+qegYJHg==
+X-Received: by 2002:a17:90b:3284:: with SMTP id
+ ks4mr317818pjb.116.1598291004000; 
+ Mon, 24 Aug 2020 10:43:24 -0700 (PDT)
+Received: from localhost.localdomain ([124.253.194.149])
+ by smtp.googlemail.com with ESMTPSA id
+ w187sm11939436pfd.87.2020.08.24.10.43.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Aug 2020 10:43:23 -0700 (PDT)
+From: Puranjay Mohan <puranjay12@gmail.com>
+To: bjorn@helgaas.com
+Date: Mon, 24 Aug 2020 23:12:50 +0530
+Message-Id: <20200824174250.5507-1-puranjay12@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Cc: linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Puranjay Mohan <puranjay12@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v1] PCI: Add support for LTR
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,111 +114,179 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-August 22, 2020 1:36 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
+Add a new function pci_ltr_init() which will be called from
+pci_init_capabilities() to initialize every PCIe device's LTR values.
+Add code in probe.c to evaluate LTR _DSM and save the latencies in pci_dev.
 
-> On Fri, 21 Aug 2020, Ayush wrote:
-> 
->> August 17, 2020 3:13 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
->> 
->> Dear Ayush,
->> 
->> The zeroth task is to learn suitable netiquette for the communication with
->> the kernel community.
->> 
->> First, please do not top-post.
->> 
->> A: Because we read from top to bottom, left to right.
->> Q: Why should I start my reply below the quoted text?
->> 
->> A: Because it messes up the order in which people normally read text.
->> Q: Why is top-posting such a bad thing?
->> 
->> A: The lost context.
->> Q: What makes top-posted replies harder to read than bottom-posted?
->> 
->> A: Yes.
->> Q: Should I trim down the quoted part of an email to which I'm
->> replying?
->> 
->> Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
->> 
->> Third, set up your email client according to the kernel community rules.
->> 
->> Then, the first task is to run checkpatch.pl on a few kernel patches and
->> collect the results. When you have that, please share your script with
->> me, e.g., in a github repository.
->> 
->> Hints to the first task:
->> 
->> Can you create a list of all non-merge commits that were added in the
->> version v5.8 of the kernel, i.e., all non-merge commits that are in v5.8
->> and not already in v5.7?
->> 
->> Can you share the script/command you executed and the resulting list on
->> github?
->> 
->> Can you run your script on all commits of this list above and record
->> all checkpatch.pl reports, and store them in your github repository?
->> 
->> Can you suggest ideas how to aggregate the findings and create a
->> statistics? For example: Which type of error is reported most?
->> Can you implement that idea?
->> 
->> I also suggest to have a look at
->> the options ./scripts/checkpatch.pl --list-types and
->> ./scripts/checkpatch.pl --show-types. The option --show-types changes
->> the output of checkpatch.pl to list type identifiers, so it is easier
->> to parse and aggregate the output.
->> 
->> Please also share the script you create for that purpose on your
->> github repository.
->> 
->> The second task is to pick one warning that appears often and improve
->> checkpatch.pl to handle that better and get it accepted by the kernel
->> community.
->> 
->> Hints to the second task follow when the first task is solved.
->> 
->> If you fail on any of those tasks, you are out of the selection process.
->> 
->> Lukas
->> 
->> Sir,
->> 
->> I have attempted the task 1 and pushed the same to GitHub.
->> 
->> Please have a look and suggest improvements.
->> 
->> https://github.com/eldraco19/evalute_improve_checkpatch_pl
->> 
->> Please let me know if there are any issues with this.
-> 
-> So far, so good.
-> 
-> Here are the questions we want to answer:
-> 
-> - So what are the 20 categories that occur most?
-> 
-> You are getting close to that answer, but you are not there yet.
-> 
-> Then look at the findings. For those 20 categories, are there specific
-> findings that are multiple times false positives?
-> 
-> So, the script complains about something, but it does not get that the
-> patch author wrote something completely unrelated to the error message.
-> 
-> Lukas
+Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+---
+v1 - based the patch on v5.9-rc1 so it applies correctly
+---
+ drivers/pci/pci-acpi.c   | 28 ++++++++++++++++++++++++++++
+ drivers/pci/pci.c        | 27 +++++++++++++++++++++++++++
+ drivers/pci/pci.h        |  5 +++++
+ drivers/pci/probe.c      |  6 ++++++
+ include/linux/pci-acpi.h |  1 +
+ include/linux/pci.h      |  2 ++
+ 6 files changed, 69 insertions(+)
 
-Sir,
+diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
+index d5869a03f748..c77e47b53751 100644
+--- a/drivers/pci/pci-acpi.c
++++ b/drivers/pci/pci-acpi.c
+@@ -1213,6 +1213,34 @@ static void pci_acpi_optimize_delay(struct pci_dev *pdev,
+ 	ACPI_FREE(obj);
+ }
+ 
++/* pci_acpi_evaluate_ltr_latency
++ *
++ * @dev - the pci_dev to evaluate and save latencies
++ */
++void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev)
++{
++	union acpi_object *obj, *elements;
++	struct acpi_device *handle;
++
++	handle = ACPI_HANDLE(&dev->dev);
++	if (!handle)
++		return;
++
++	obj = acpi_evaluate_dsm(handle, &pci_acpi_dsm_guid, 0x2,
++				DSM_PCI_LTR_MAX_LATENCY, NULL);
++	if (!obj)
++		return;
++
++	if (obj->type == ACPI_TYPE_PACKAGE && obj->package.count == 4) {
++		elements = obj->package.elements;
++		dev->max_snoop_latency = (u16)elements[1].integer.value |
++				((u16)elements[0].integer.value << PCI_LTR_SCALE_SHIFT);
++		dev->max_nosnoop_latency = (u16)elements[3].integer.value |
++				((u16)elements[2].integer.value << PCI_LTR_SCALE_SHIFT);
++	}
++	ACPI_FREE(obj);
++}
++
+ static void pci_acpi_set_external_facing(struct pci_dev *dev)
+ {
+ 	u8 val;
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index a458c46d7e39..b5531272b865 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -3056,6 +3056,33 @@ void pci_pm_init(struct pci_dev *dev)
+ 		dev->imm_ready = 1;
+ }
+ 
++/**
++ * pci_ltr_init - Initialize Latency Tolerance Information of given PCI device
++ * @dev: PCI device to handle.
++ */
++void pci_ltr_init(struct pci_dev *dev)
++{
++#ifdef CONFIG_PCIASPM
++	int ltr;
++	struct pci_dev *endpoint_dev = dev;
++	u16 max_snoop_sum = 0;
++	u16 max_nosnoop_sum = 0;
++
++	ltr = pci_find_ext_capability(endpoint_dev, PCI_EXT_CAP_ID_LTR);
++	if (!ltr)
++		return;
++
++	dev = pci_upstream_bridge(dev);
++	while (dev) {
++		max_snoop_sum += dev->max_snoop_latency;
++		max_nosnoop_sum += dev->max_nosnoop_latency;
++		dev = pci_upstream_bridge(dev);
++	}
++	pci_write_config_word(endpoint_dev, ltr + PCI_LTR_MAX_SNOOP_LAT, max_snoop_sum);
++	pci_write_config_word(endpoint_dev, ltr + PCI_LTR_MAX_NOSNOOP_LAT, max_nosnoop_sum);
++#endif
++}
++
+ static unsigned long pci_ea_flags(struct pci_dev *dev, u8 prop)
+ {
+ 	unsigned long flags = IORESOURCE_PCI_FIXED | IORESOURCE_PCI_EA_BEI;
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index fa12f7cbc1a0..ef3d22b82200 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -110,6 +110,7 @@ void pci_free_cap_save_buffers(struct pci_dev *dev);
+ bool pci_bridge_d3_possible(struct pci_dev *dev);
+ void pci_bridge_d3_update(struct pci_dev *dev);
+ void pci_bridge_wait_for_secondary_bus(struct pci_dev *dev);
++void pci_ltr_init(struct pci_dev *dev);
+ 
+ static inline void pci_wakeup_event(struct pci_dev *dev)
+ {
+@@ -680,11 +681,15 @@ static inline int pci_aer_raw_clear_status(struct pci_dev *dev) { return -EINVAL
+ 
+ #ifdef CONFIG_ACPI
+ int pci_acpi_program_hp_params(struct pci_dev *dev);
++void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev);
+ #else
+ static inline int pci_acpi_program_hp_params(struct pci_dev *dev)
+ {
+ 	return -ENODEV;
+ }
++static inline void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev)
++{
++}
+ #endif
+ 
+ #ifdef CONFIG_PCIEASPM
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 03d37128a24f..0257aa615665 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -2140,6 +2140,11 @@ static void pci_configure_ltr(struct pci_dev *dev)
+ 		dev->ltr_path = 1;
+ 	}
+ #endif
++
++	/*
++	 * Read latency values from _DSM and save in pci_dev
++	 */
++	pci_acpi_evaluate_ltr_latency(dev);
+ }
+ 
+ static void pci_configure_eetlp_prefix(struct pci_dev *dev)
+@@ -2400,6 +2405,7 @@ static void pci_init_capabilities(struct pci_dev *dev)
+ 	pci_ptm_init(dev);		/* Precision Time Measurement */
+ 	pci_aer_init(dev);		/* Advanced Error Reporting */
+ 	pci_dpc_init(dev);		/* Downstream Port Containment */
++	pci_ltr_init(dev);		/* Latency Tolerance Reporting */
+ 
+ 	pcie_report_downtraining(dev);
+ 
+diff --git a/include/linux/pci-acpi.h b/include/linux/pci-acpi.h
+index 5ba475ca9078..e23236a4ff66 100644
+--- a/include/linux/pci-acpi.h
++++ b/include/linux/pci-acpi.h
+@@ -110,6 +110,7 @@ extern const guid_t pci_acpi_dsm_guid;
+ 
+ /* _DSM Definitions for PCI */
+ #define DSM_PCI_PRESERVE_BOOT_CONFIG		0x05
++#define DSM_PCI_LTR_MAX_LATENCY			0x06
+ #define DSM_PCI_DEVICE_NAME			0x07
+ #define DSM_PCI_POWER_ON_RESET_DELAY		0x08
+ #define DSM_PCI_DEVICE_READINESS_DURATIONS	0x09
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 835530605c0d..9de6b290ed81 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -380,6 +380,8 @@ struct pci_dev {
+ 	struct pcie_link_state	*link_state;	/* ASPM link state */
+ 	unsigned int	ltr_path:1;	/* Latency Tolerance Reporting
+ 					   supported from root to here */
++	u16 max_snoop_latency;		/* LTR Max Snoop latency */
++	u16 max_nosnoop_latency;	/* LTR Max No Snoop latency */
+ #endif
+ 	unsigned int	eetlp_prefix_path:1;	/* End-to-End TLP Prefix */
+ 
+-- 
+2.27.0
 
-I tried the given tasks and it can be found here,
-
-https://github.com/eldraco19/evalute_improve_checkpatch_pl/blob/master/STATS.md
-
-Please look into it.
-
-Thanks,
-Ayush
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
