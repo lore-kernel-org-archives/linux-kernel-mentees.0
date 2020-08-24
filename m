@@ -2,110 +2,102 @@ Return-Path: <SRS0=ht7Q=CC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA18FC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Aug 2020 08:54:43 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD80C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Aug 2020 08:55:44 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 95C83204FD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Aug 2020 08:54:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 718872074D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 24 Aug 2020 08:55:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWB5Fly9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95C83204FD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="MH1x+F6H"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 718872074D
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4A5C785D4B;
-	Mon, 24 Aug 2020 08:54:43 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3E8E787775;
+	Mon, 24 Aug 2020 08:55:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gkybWGIeb5QS; Mon, 24 Aug 2020 08:54:42 +0000 (UTC)
+	with ESMTP id unmVnq8JOzUo; Mon, 24 Aug 2020 08:55:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 38CFE85D54;
-	Mon, 24 Aug 2020 08:54:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 74A2687747;
+	Mon, 24 Aug 2020 08:55:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20580C016F;
-	Mon, 24 Aug 2020 08:54:42 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CD4D9C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5DC99C016F;
+	Mon, 24 Aug 2020 08:55:43 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0D968C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 08:54:40 +0000 (UTC)
+ Mon, 24 Aug 2020 08:55:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A3EED87DAA
+ by silver.osuosl.org (Postfix) with ESMTP id DABA5204B1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 08:54:40 +0000 (UTC)
+ Mon, 24 Aug 2020 08:55:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ElmH6G1wGbCM
+ with ESMTP id JpY13IIDT5c4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 08:54:39 +0000 (UTC)
+ Mon, 24 Aug 2020 08:55:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3706187D9F
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+ [209.85.222.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 2EE8A20491
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 08:54:39 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id o21so7411541wmc.0
+ Mon, 24 Aug 2020 08:55:41 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id b14so6705982qkn.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Aug 2020 01:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=pxhlg57M8iaFVNab814mqpwjZNXkkioJZcopKhuOpSM=;
- b=LWB5Fly9uNN3nzsE1G4Zu1BWtF3e1q0pNl2o3oY4plCvx4fow/q76QPsWgoCNO7H1L
- WCnKeIZvZWK+VWwaXaUJ3f6IAo0RNszalArwjbdRUkDAzskNfG5RHKxtZMkUK0qHQiqT
- qSJgtoA/pADtelUB4Ri6nrrux/YDxG4wxkIMyVEiLccK6BMSidOObYymo/yfhhtaXuQp
- rlQO0WWPTKJiRBlgSdA11Qc9Dq+iVbn8js6U5RC0VM1gZFh1WYafEyHr5DVUE6PaurGJ
- IaLOIJ0U0AwuZm5Ft1qOtrBav9hUNCCg2ipUel1XlHxWq4fKtTJO41k1oLIIElK2+V4G
- zVlw==
+ Mon, 24 Aug 2020 01:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4+DPdTdqNuyBoVS4RbQIr9UMaA1D5lYrJkHWf4GkHBQ=;
+ b=MH1x+F6HuXwDNwXoyQJcunv0GP2bLigkIo02yDGCp7PNi8rBk8ujHLvQ40AyCg0Ish
+ bVOgBrCJBjKQDAsN2axhHWiMVDLlNaLSa4jVdTFGsyD1bxAY7bAUKWfGLCh66oKH7HXm
+ r5S1vNkuLKXbrXt+Kkx8kg+ZOzUiA+qTnK9115FlM3dbVxZ8wwd8Ws+FCr/iWe8iYcmQ
+ fioom413+yIGdKEYzOfAOqEv5jVs4G9hm7XluPo+/08F33geafgjLLW0u30RPSJoxMNR
+ JkPRvuciD+M1L7XY/rePVkakQNglMsQgKBXPRfN203c5Q8bcg3/dsDr8ij0k3buKaSDp
+ uaww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=pxhlg57M8iaFVNab814mqpwjZNXkkioJZcopKhuOpSM=;
- b=m22YK5Hcibi0uQKe/elc9e6y/Kd+17bGNSsOgMsA0siK5cbBqKr0C+xBhrGKm2y/ua
- hZXpx5h5VO/ZSGNnYy/p/djkD+4fyUmsajJCHGi4vuZebBsetQAJVFDJOrTka+p1HTwE
- dLKW1myvf3UE/QslQTn7yUT9nm3Uhx54IfAgt/IZUHiaCXp761KVlP/gYPkoD8412/Bw
- y/DIOQLRf+OHeqDDiA0U7bV055y/QIoOCHs/TQaogqF8YkX0tSAyyoDpkhF/rgs4R4HO
- IhrXBSZ/kE1MGnffW73imAYNc2YQ3V6elbOEXH+r8p1UxagFW7ntApBrYKI7uXL4haLQ
- jl2A==
-X-Gm-Message-State: AOAM5327/0jFuOOuxtQTXtIipM71jZhIey/GJuIsgKulKB2MwElycRzV
- Uo0vDR/QUXZUqYiMQg8xX0g=
-X-Google-Smtp-Source: ABdhPJxn/fHdSizOPeD40Fp4ApFefk7MP1Y45Gy+qZNx78MXd30tr+8si4lf2ITB11Tp+Hoi45mE8Q==
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr4680894wmc.150.1598259277465; 
- Mon, 24 Aug 2020 01:54:37 -0700 (PDT)
-Received: from felia ([2001:16b8:2d4c:8a00:f0ec:b5d5:8c1c:a145])
- by smtp.gmail.com with ESMTPSA id g9sm2971848wrw.63.2020.08.24.01.54.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 01:54:36 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Mon, 24 Aug 2020 10:54:29 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Mrinal Pandey <mrinalmni@gmail.com>
-In-Reply-To: <20200824082325.4prwz56p2ppgfojl@mrinalpandey>
-Message-ID: <alpine.DEB.2.21.2008241052310.2932@felia>
-References: <20200803075841.6bp4pcx3av2ow72s@mrinalpandey>
- <alpine.DEB.2.21.2008031251410.8346@felia>
- <20200804155640.x3kzgqfsmmkj5z2b@mrinalpandey>
- <alpine.DEB.2.21.2008042131530.4346@felia>
- <20200809072240.lvuuwscinkfqpwxo@mrinalpandey>
- <20200820044241.4ivtq5co6cm4aze6@mrinalpandey>
- <alpine.DEB.2.21.2008221014310.12792@felia>
- <20200824082325.4prwz56p2ppgfojl@mrinalpandey>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4+DPdTdqNuyBoVS4RbQIr9UMaA1D5lYrJkHWf4GkHBQ=;
+ b=EKrQ2o5GhKqVRVZllaaJRRJhpz2D10EWD4wkmToX1n78f/pXSTaWPXzw3yhDgL4hWb
+ FGusoOiGNtxkVM0hhyV6ymtojSaxo2zT682iDNAM/84SiWgPFiOw33iKwO+vFJlBtQCx
+ rUiFfTzMcQbh8N5XDUOsDEMwISpnpB9eNoVYfRg7FE/dx9fGmxqh/Cu5NZd/lks+MlB6
+ 2iiDWE/kl/Cx0TyNmiDuCtA/yi6RR2CC66PNed4QNekQ90SZb4JOObi2Ut0ROnUMtSCw
+ zn0/1pyS+Xrucr4OtNRrKKkZ7PqPatzbZgwxbyVIuNC8YkA+grFpbBYr3PhL31aw2ANH
+ kzkA==
+X-Gm-Message-State: AOAM532dOEjLimozzV0dm+VBUR6+jQ8v5/V9XH0JwE4BlZKidUUBH1OO
+ 6/x63Q5hIpn/9lcp6OU4cV0D5qr2dM36qobR9nlJqQ==
+X-Google-Smtp-Source: ABdhPJweKUqUpQomWynHHhtNTqvLsvrsIrDv2Gk4h+l3xzPB0RswtWfNznQ1EDCUE/qCzmGdN7Zdxc63Y4doRjkGvHY=
+X-Received: by 2002:a05:620a:134b:: with SMTP id
+ c11mr1857358qkl.256.1598259339701; 
+ Mon, 24 Aug 2020 01:55:39 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Improve SPDX license
- identifier check for script files
+References: <20200823082042.20816-1-himadrispandya@gmail.com>
+ <CACT4Y+Y1TpqYowNXj+OTcQwH-7T4n6PtPPa4gDWkV-np5KhKAQ@mail.gmail.com>
+ <20200823101924.GA3078429@kroah.com>
+ <CACT4Y+YbDODLRFn8M5QcY4CazhpeCaunJnP_udXtAs0rYoASSg@mail.gmail.com>
+ <20200823105808.GB87391@kroah.com>
+In-Reply-To: <20200823105808.GB87391@kroah.com>
+Date: Mon, 24 Aug 2020 10:55:28 +0200
+Message-ID: <CACT4Y+ZiZQK8WBre9E4777NPaRK4UDOeZOeMZOQC=5tDsDu23A@mail.gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev <netdev@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ LKML <linux-kernel@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ David Miller <davem@davemloft.net>, Himadri Pandya <himadrispandya@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] net: usb: Fix uninit-was-stored
+	issue in asix_read_cmd()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,254 +109,145 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Dmitry Vyukov via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On Mon, 24 Aug 2020, Mrinal Pandey wrote:
-
-> On 20/08/22 10:24AM, Lukas Bulwahn wrote:
-> > 
-> > 
-> > On Thu, 20 Aug 2020, Mrinal Pandey wrote:
-> > 
-> > > On 20/08/09 12:52PM, Mrinal Pandey wrote:
-> > > > On 20/08/04 09:37PM, Lukas Bulwahn wrote:
-> > > > > 
-> > > > > 
-> > > > > On Tue, 4 Aug 2020, Mrinal Pandey wrote:
-> > > > > 
-> > > > > > On 20/08/03 12:59PM, Lukas Bulwahn wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > On Mon, 3 Aug 2020, Mrinal Pandey wrote:
-> > > > > > > 
-> > > > > > > > The diff content includes the SPDX licensing information but excludes the
-> > > > > > > > shebang when a change is made to a script file in commit 37f8173dd849
-> > > > > > > > ("locking/atomics: Flip fallbacks and  instrumentation") and commit
-> > > > > > > > 075c8aa79d54 ("selftests: forwarding: tc_actions.sh: add matchall mirror
-> > > > > > > > test"). In these cases checkpatch issues a false positive warning:
-> > > > > > > > "Misplaced SPDX-License-Identifier tag - use line 1 instead".
-> > > > > > > > 
-> > > > > > > > Currently, if checkpatch finds a shebang in line 1, it expects the
-> > > > > > > > license identifier in line 2. However, this doesn't work when a shebang
-> > > > > > > > isn't found on the line 1.
-> > > > > > > 
-> > > > > > > It does not work when the diff does not contain line 1, but only line 2,
-> > > > > > > because then the shebang check for line 1 cannot work.
-> > > > > > > 
-> > > > > > > > 
-> > > > > > > > I noticed this false positive, while running checkpatch on the set of
-> > > > > > > > commits from v5.7 to v5.8-rc1 of the kernel, on the said commits.
-> > > > > > > > This false positive exists in checkpatch since commit a8da38a9cf0e
-> > > > > > > > ("checkpatch: add test for SPDX-License-Identifier on wrong line #")
-> > > > > > > > when the corresponding rule was first added.
-> > > > > > > > 
-> > > > > > > > The alternatives considered to improve this check were looking the file
-> > > > > > > > to be a script by either examining the file extension or file permissions.
-> > > > > > > >
-> > > > > > > 
-> > > > > > > Make this sentence shorter. Try.
-> > > > > > >  
-> > > > > > > > The evaluation on former option resulted in 120 files which had a shebang
-> > > > > > > > in the first line but no file extension. This didn't look like a promising
-> > > > > > > > result and hence I dropped the idea of using this approach.
-> > > > > > > > 
-> > > > > > > > The evaluation on the latter approach shows that there are 53 files in the
-> > > > > > > > kernel which have an executable bit set but don't have a shebang in the
-> > > > > > > > first line.
-> > > > > > > > 
-> > > > > > > > At the first sight on these 53 files, it seems that they either have a
-> > > > > > > > wrong file permission set or could be reasonably extended with a shebang
-> > > > > > > > and SPDX license information. Thus, further cleanup in the repository
-> > > > > > > > would make the latter approach to work even more precisely.
-> > > > > > > > 
-> > > > > > > > Hence, I chose to check the file permissions to determine if the file is a
-> > > > > > > > script and notify checkpatch to expect SPDX on second line for such files.
-> > > > > > > >
-> > > > > > > 
-> > > > > > > There is no notification here. Think about better wording.
-> > > > > > >  
-> > > > > > > > Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
-> > > > > > > > ---
-> > > > > > > >  scripts/checkpatch.pl | 3 +++
-> > > > > > > >  1 file changed, 3 insertions(+)
-> > > > > > > > 
-> > > > > > > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > > > > > > > index 4c820607540b..bae1dd824518 100755
-> > > > > > > > --- a/scripts/checkpatch.pl
-> > > > > > > > +++ b/scripts/checkpatch.pl
-> > > > > > > > @@ -3166,6 +3166,9 @@ sub process {
-> > > > > > > >  		}
-> > > > > > > >  
-> > > > > > > >  # check for using SPDX license tag at beginning of files
-> > > > > > > > +		if ($line =~ /^index\ .*\.\..*\ .*[7531]\d{0,2}$/) {
-> > > > > > > > +			$checklicenseline = 2;
-> > > > > > > > +		}
-> > > > > > > 
-> > > > > > > That check looks good now.
-> > > > > > > 
-> > > > > > > >  		if ($realline == $checklicenseline) {
-> > > > > > > >  			if ($rawline =~ /^[ \+]\s*\#\!\s*\//) {
-> > > > > > > >  				$checklicenseline = 2;
-> > > > > > > 
-> > > > > > > This is probably broken now. It should check for shebang in line 1 and 
-> > > > > > > then set checklicenseline to line 2, right?
-> > > > > > 
-> > > > > > Sir,
-> > > > > > 
-> > > > > > Should we remove this check? Earlier when I checked for file extension
-> > > > > > we had 120 cases where this check was also needed but now we have a
-> > > > > > better heuristic which is going to work for all cases where license
-> > > > > > should be on line 2 irrespective of the fact that we know the first line
-> > > > > > or not.
-> > > > > >
-> > > > > 
-> > > > > Are you sure about that? Where is the evaluation that proves your point?
-> > > > > 
-> > > > > E.g., are all files that contain a shebang really with an executable flag?
-> > > > > 
-> > > > > Which commands did you run to check this?
-> > > > >  
-> > > > > > If I am missing out on something and we should not be removing this check,
-> > > > > > then I suggest placing the new heuristics below this block so that it doesn't
-> > > > > > interfere with the existing logic.
-> > > > > > 
-> > > > > > Please let me know which path should I go about and then I shall resend
-> > > > > > the patch with the modified commit message.
-> > > > > > 
-> > > > > 
-> > > > > Think about the strengths and weaknesses of the potential solutions, then 
-> > > > > show with some commands (as I did for example, for finding the first 
-> > > > > lines previously) that you can show that it practically makes a 
-> > > > > difference and you can numbers on those differences.
-> > > > > 
-> > > > > When you did that, send a new patch.
-> > > > > 
-> > > > > Lukas
-> > > > > 
-> > > > Sir,
-> > > > 
-> > > > I ran the evaluation as:
-> > > > 
-> > > > mrinalpandey@mrinalpandey:~/linux/linux$ cat get_permissions.sh
-> > > > #!/bin/bash
-> > > > 
-> > > > for file in $(git ls-files)
-> > > > do
-> > > >         permissions="$(stat -c "%a %n" $file)"
-> > > >         echo "$permissions"
-> > > > done
-> > > > 
-> > > > mrinalpandey@mrinalpandey:~/linux/linux$ sh get_permissions.sh | grep ^[7531] > temp
-> > > > 
-> > > > mrinalpandey@mrinalpandey:~/linux/linux$ cut -d ' ' -f 2 temp > executables
-> > > > 
-> > > > mrinalpandey@mrinalpandey:~/linux/linux$ cat first_line.sh
-> > > > #!/bin/bash
-> > > > file="executables"
-> > > > while IFS= read -r line
-> > > > do
-> > > >         firstline=`head -n 1 $line`
-> > > >         printf '%s:%s\n' "$firstline" "$line"
-> > > > done <"$file"
-> > > > 
-> > > > mrinalpandey@mrinalpandey:~/linux/linux$ cat executables | wc -l
-> > > > 611
-> > > > 
-> > > > mrinalpandey@mrinalpandey:~/linux/linux$ sh first_line.sh | grep ^#! | wc -l
-> > > > head: error reading 'scripts/dtc/include-prefixes/arc': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/arm': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/arm64': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/c6x': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/dt-bindings': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/h8300': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/microblaze': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/mips': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/nios2': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/openrisc': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/powerpc': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/sh': Is a directory
-> > > > head: error reading 'scripts/dtc/include-prefixes/xtensa': Is a directory
-> > > > 540
-> > > > 
-> > > > We can see that there are 71 files where the executable bit is set but
-> > > > the first line is not a shebang. These include 13 directories which
-> > > > throw the error above. Remaining 58 files(earlier the number was 53)
-> > > > could be cleaned so that this heuristic works better as we saw. So, by
-> > > > checking only for the executable bit we can say that license should be
-> > > > on second line, we probably don't need to check for the shebang on line
-> > > > 1.
-> > > > Please let me know if the evaluation makes sense.
-> > > >
-> > 
-> > This evaluation makes sense to find the cases that should be cleaned up.
-> > 
-> > Either the executable flag is simply set wrongly and should be dropped or 
-> > it is actually a script and should get a shebang in the beginning.
-> > 
-> > I actually already started cleaning up. See:
-> > 
-> > https://lore.kernel.org/lkml/20200819081808.26796-1-lukas.bulwahn@gmail.com/
-> > 
-> > We can discuss how to continue this cleanup.
-> >
-> 
-> Sir,
-> 
-> Sure. I would love to discuss that.
-> Should I send cleanup related patches directly to lkml or do they need to
-> go through you, Shuah ma'am and mentee list first?
-> 
-> > However, you cannot use this evaluation to say the checking the executable 
-> > bit is enough, simply as from this evaluation, you do not know how many 
-> > files have a shebang in the first line and are not set with executable 
-> > flag. For those files, we expect the SPDX identifier in the second line 
-> > but your suggested approach would expect it in the first line.
-> > 
-> > So we need an evaluation to find out how many cases of that situation 
-> > exist?
-> > 
-> > Then, can we easily fix those as well?
-> 
-> Here is the evaluation I ran to find such cases:
-> 
-> mrinalpandey@mrinalpandey:~/linux/linux$ cat first_lines.sh
-> #!/bin/bash
-> 
-> for file in $(git ls-files)
-> do
-> 	permissions="$(stat -c '%a %n' $file)"
-> 	firstline="$(head -n 1 $file)"
-> 	echo "$permissions : $firstline"
-> done
-> mrinalpandey@mrinalpandey:~/linux/linux$ sh first_lines.sh | grep ^[642].*#! | wc -l
-> head: error reading 'scripts/dtc/include-prefixes/arc': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/arm': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/arm64': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/c6x': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/dt-bindings': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/h8300': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/microblaze': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/mips': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/nios2': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/openrisc': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/powerpc': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/sh': Is a directory
-> head: error reading 'scripts/dtc/include-prefixes/xtensa': Is a directory
-> 82
-> 
-> The last line in these 82 lines is "Binary file (standard input) matches" so we have 81 instances
-> where we have shebang in the first line but the file is non-executable.
+On Sun, Aug 23, 2020 at 12:57 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
+> On Sun, Aug 23, 2020 at 12:31:03PM +0200, Dmitry Vyukov wrote:
+> > On Sun, Aug 23, 2020 at 12:19 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Sun, Aug 23, 2020 at 11:26:27AM +0200, Dmitry Vyukov wrote:
+> > > > On Sun, Aug 23, 2020 at 10:21 AM Himadri Pandya
+> > > > <himadrispandya@gmail.com> wrote:
+> > > > >
+> > > > > Initialize the buffer before passing it to usb_read_cmd() function(s) to
+> > > > > fix the uninit-was-stored issue in asix_read_cmd().
+> > > > >
+> > > > > Fixes: KMSAN: kernel-infoleak in raw_ioctl
+> > > > > Reported by: syzbot+a7e220df5a81d1ab400e@syzkaller.appspotmail.com
+> > > > >
+> > > > > Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
+> > > > > ---
+> > > > >  drivers/net/usb/asix_common.c | 2 ++
+> > > > >  1 file changed, 2 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
+> > > > > index e39f41efda3e..a67ea1971b78 100644
+> > > > > --- a/drivers/net/usb/asix_common.c
+> > > > > +++ b/drivers/net/usb/asix_common.c
+> > > > > @@ -17,6 +17,8 @@ int asix_read_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
+> > > > >
+> > > > >         BUG_ON(!dev);
+> > > > >
+> > > > > +       memset(data, 0, size);
+> > > >
+> > > > Hi Himadri,
+> > > >
+> > > > I think the proper fix is to check
+> > > > usbnet_read_cmd/usbnet_read_cmd_nopm return value instead.
+> > > > Memsetting data helps to fix the warning at hand, but the device did
+> > > > not send these 0's and we use them as if the device did send them.
+> > >
+> > > But, for broken/abusive devices, that really is the safest thing to do
+> > > here.  They are returning something that is obviously not correct, so
+> > > either all callers need to check the size received really is the size
+> > > they asked for, or we just plod onward with a 0 value like this.  Or we
+> > > could pick some other value, but that could cause other problems if it
+> > > is treated as an actual value.
+> >
+> > Do we want callers to do at least some error check (e.g. device did
+> > not return anything at all, broke, hang)?
+> > If yes, then with a separate helper function that fails on short
+> > reads, we can get both benefits at no additional cost. User code will
+> > say "I want 4 bytes, anything that is not 4 bytes is an error" and
+> > then 1 error check will do. In fact, it seems that that was the
+> > intention of whoever wrote this code (they assumed no short reads),
+> > it's just they did not actually implement that "anything that is not 4
+> > bytes is an error" part.
+> >
+> >
+> > > > Perhaps we need a separate helper function (of a bool flag) that will
+> > > > fail on incomplete reads. Maybe even in the common USB layer because I
+> > > > think we've seen this type of bug lots of times and I guess there are
+> > > > dozens more.
+> > >
+> > > It's not always a failure, some devices have protocols that are "I could
+> > > return up to a max X bytes but could be shorter" types of messages, so
+> > > it's up to the caller to check that they got what they really asked for.
+> >
+> > Yes, that's why I said _separate_ helper function. There seems to be
+> > lots of callers that want exactly this -- "I want 4 bytes, anything
+> > else is an error". With the current API it's harder to do - you need
+> > additional checks, additional code, maybe even additional variables to
+> > store the required size. APIs should make correct code easy to write.
+>
+> I guess I already answered both of these in my previous email...
+>
+> > > Yes, it's more work to do this checking.  However converting the world
+> > > over to a "give me an error value if you don't read X number of bytes"
+> > > function would also be the same amount of work, right?
+> >
+> > Should this go into the common USB layer then?
+> > It's weird to have such a special convention on the level of a single
+> > driver. Why are rules for this single driver so special?...
+>
+> They aren't special at all, so yes, we should be checking for a short
+> read everywhere.  That would be the "correct" thing to do, I was just
+> suggesting a "quick fix" here, sorry.
 
-How about removing the symbolic link files and then sharing that list?
+Re quick fix, I guess it depends on the amount of work for the larger
+fix and if we can find volunteers (thanks Himadri!). We need to be
+practical as well.
 
-Lukas
+Re:
+        retval = usb_control_msg(....., data, data_size, ...);
+        if (retval < buf_size) {
+
+There may be a fine line between interfaces and what code they
+provoke. Let me describe my reasoning.
+
+Yes, the current interface allows writing correct code with moderate
+amount of effort. Yet we see cases where it's used incorrectly, maybe
+people were just a little bit lazy, or maybe they did not understand
+how to use it properly (nobody reads the docs, and it's also
+reasonable to assume that if you ask for N bytes and the function does
+not fail, then you get N bytes).
+
+Currently to write correct code (1) we need a bit of duplication,
+which gets worse if data_size is actually some lengthy expression
+(X+Y*Z), maybe one will need an additional variable to use it
+correctly.
+(2) one needs to understand the contract;
+(3) may be subject to the following class of bugs (after some copy-paste:
+        retval = usb_control_msg(....., data, 4, ...);
+        if (retval < 2) {
+This class of bugs won't be necessary immediately caught by kernel
+testing systems (can have long life-time).
+
+I would add a "default" function (with shorter name) that does full read:
+
+if (!usb_control_msg(, ...., data, 4))
+
+and a function with longer name to read variable-size data:
+
+n = usb_control_msg_variable_length(, ...., data, sizeof(data)));
+
+The full read should be "the default" (shorter name), because if you
+need full read and use the wrong function, it won't be caught by
+testing (most likely long-lived bug). Whereas if you use full read for
+lengthy variable size data read, this will be immediately caught
+during any testing (even manual) -- you ask for 4K, you get fewer
+bytes, all your reads fail.
+So having "full read" easier to spell will lead to fewer bugs by design.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
