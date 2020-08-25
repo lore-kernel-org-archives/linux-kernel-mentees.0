@@ -2,91 +2,101 @@ Return-Path: <SRS0=1t6x=CD=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED1CDC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Aug 2020 15:44:18 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19DF5C433E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Aug 2020 16:49:15 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B53BA207BC
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Aug 2020 15:44:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DCB6020782
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Aug 2020 16:49:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="IKrg3F2v"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B53BA207BC
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LqBYNQvY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCB6020782
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 81400886E5;
-	Tue, 25 Aug 2020 15:44:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AF28520C45;
+	Tue, 25 Aug 2020 16:49:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6zW3eF71yM2x; Tue, 25 Aug 2020 15:44:18 +0000 (UTC)
+	with ESMTP id fb-SFvTxSjXV; Tue, 25 Aug 2020 16:49:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 09CFD886E1;
-	Tue, 25 Aug 2020 15:44:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4275E204D5;
+	Tue, 25 Aug 2020 16:49:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DF668C07FF;
-	Tue, 25 Aug 2020 15:44:17 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F3644C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 28104C016F;
+	Tue, 25 Aug 2020 16:49:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8D462C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Aug 2020 15:44:16 +0000 (UTC)
+ Tue, 25 Aug 2020 16:49:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8F67086934
+ by whitealder.osuosl.org (Postfix) with ESMTP id 83128860A3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Aug 2020 15:44:00 +0000 (UTC)
+ Tue, 25 Aug 2020 16:49:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IcoBvgp6pDsw
+ with ESMTP id u2zhwfCX80bh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Aug 2020 15:44:00 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id EF5ED86918
+ Tue, 25 Aug 2020 16:49:11 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DD27E848F4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Aug 2020 15:43:59 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1EDA420782;
- Tue, 25 Aug 2020 15:43:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598370239;
- bh=DgFyxOdNOTi3TG94BiEuLcvBwr2/zo4bHO/PeqCjCx4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IKrg3F2vFQXnqAASePy/mMuLsPQW7IEiL+Xux1qbWn0qGtd1OeKAs6//mcqd5evcH
- FplyaJzVGuDTO1NiHzr441tAkqzWhwayfwfl5jDKAJkZMHemuEv0dp2dMbGVIreylT
- pochdB6GTVu2BLXiAolfJbfQGA4AiPxAdKQgbtQI=
-Date: Tue, 25 Aug 2020 17:44:15 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Alan Stern <stern@rowland.harvard.edu>
-Message-ID: <20200825154415.GA1513396@kroah.com>
-References: <20200823082042.20816-1-himadrispandya@gmail.com>
- <CACT4Y+Y1TpqYowNXj+OTcQwH-7T4n6PtPPa4gDWkV-np5KhKAQ@mail.gmail.com>
- <20200823101924.GA3078429@kroah.com>
- <CACT4Y+YbDODLRFn8M5QcY4CazhpeCaunJnP_udXtAs0rYoASSg@mail.gmail.com>
- <20200823105808.GB87391@kroah.com>
- <CACT4Y+ZiZQK8WBre9E4777NPaRK4UDOeZOeMZOQC=5tDsDu23A@mail.gmail.com>
- <20200825065135.GA1316856@kroah.com>
- <20200825143946.GA365901@rowland.harvard.edu>
- <20200825144437.GA1484901@kroah.com>
+ Tue, 25 Aug 2020 16:49:11 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id q1so1534869pjd.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 25 Aug 2020 09:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=hOmXAx+g6AYdmKcdtOAJb/8DkoFuv5X12lGh19wTah0=;
+ b=LqBYNQvYi+P0BNF3Y12On1ZZO83Cj2Ctnu1HX1scg2WJpZ2vCQ3YXvazQgyvJpa9hw
+ 6mAlLdbF1SqQfhzJut9yZ+Y6QsnQ7Y2J+1CK19IL/ZyLJcs3H4VQydH2SXLSI8BSuRiJ
+ JKNVr2T4J6YyMvAxxwrZmOmEdBQ2FTH/lZTKYe61H9FFuRbdqTb/GlPIYixoOAIB52oh
+ vRBftreDlVMP6H/8H/q/c5ss+l/2FgZAD8KtWu6eZbiLkA0KwSz0LveVpnRrrA43Gspa
+ O6V+vt8vmQwA152KJ9sM8CVs7FFv4fTSBLlt/hYbILOLOcDHb+GbD8ynt5hMebg95lvH
+ MjhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=hOmXAx+g6AYdmKcdtOAJb/8DkoFuv5X12lGh19wTah0=;
+ b=e5pley1sdeyegSPzdj14ByaOkqvyK+u95YotO65acmc85G2ueU4TF1IlflZQ4Enpm1
+ Vlrqkk8RzVNW+6wCTq0pOrqN7+tpIMJstSNVzHvWHgQ6OVF4uBohUT+glEMzWnokpriX
+ ObUNmU6hWHaCKmEJBfy5my25yPJVE+1MzCy/lPZWJmuYBvmDKMm0yePgrtmy4fVVCJMW
+ 1oRvB0MuW/V8SSV1zMB2o9o7fpMc3nhesMZuRWEFycKONBkSK8AaMgKGBHpmRBv56EcO
+ p+tn8wax1yxtbP/AuBplpv0ABT/NQJM4Xwzm7jiGBabafhVBlRtkphAVN8HS0PulVJOk
+ 4szQ==
+X-Gm-Message-State: AOAM5330VzbdvmLs00JAw7XQ+amdWg4mBqOiReEjUOmnZcCl72uXjlZm
+ eVRxhOIzl7uqb+J3n+75PA==
+X-Google-Smtp-Source: ABdhPJxJniaH/TLwosXRVvYOc5w1FpSJBIScyt++FcpHV0j2yRV/ev3rIRUqe6DE4jbPsVTPpLuqHg==
+X-Received: by 2002:a17:90a:9103:: with SMTP id k3mr2353650pjo.4.1598374151495; 
+ Tue, 25 Aug 2020 09:49:11 -0700 (PDT)
+Received: from localhost.localdomain ([161.117.80.159])
+ by smtp.gmail.com with ESMTPSA id t5sm3314443pji.51.2020.08.25.09.49.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Aug 2020 09:49:11 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: jslaby@suse.cz
+Date: Tue, 25 Aug 2020 12:48:04 -0400
+Message-Id: <20200825164804.860743-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200818085706.12163-15-jslaby@suse.cz>
+References: <20200818085706.12163-15-jslaby@suse.cz>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200825144437.GA1484901@kroah.com>
-Cc: netdev <netdev@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- LKML <linux-kernel@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- David Miller <davem@davemloft.net>, Dmitry Vyukov <dvyukov@google.com>,
- Himadri Pandya <himadrispandya@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: usb: Fix uninit-was-stored
-	issue in asix_read_cmd()
+Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 15/16] vc_screen: extract
+	vcs_read_buf_header
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,57 +114,25 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Aug 25, 2020 at 04:44:37PM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Aug 25, 2020 at 10:39:46AM -0400, Alan Stern wrote:
-> > On Tue, Aug 25, 2020 at 08:51:35AM +0200, Greg Kroah-Hartman wrote:
-> > > At first glance, I think this can all be cleaned up, but it will take a
-> > > bit of tree-wide work.  I agree, we need a "read this message and error
-> > > if the whole thing is not there", as well as a "send this message and
-> > > error if the whole thing was not sent", and also a way to handle
-> > > stack-provided data, which seems to be the primary reason subsystems
-> > > wrap this call (they want to make it easier on their drivers to use it.)
-> > > 
-> > > Let me think about this in more detail, but maybe something like:
-> > > 	usb_control_msg_read()
-> > > 	usb_control_msg_send()
-> > > is a good first step (as the caller knows this) and stack provided data
-> > > would be allowed, and it would return an error if the whole message was
-> > > not read/sent properly.  That way we can start converting everything
-> > > over to a sane, and checkable, api and remove a bunch of wrapper
-> > > functions as well.
-> > 
-> > Suggestion: _read and _send are not a natural pair.  Consider instead
-> > _read and _write.  _recv and _send don't feel right either, because it
-> > both cases the host sends the control message -- the difference lies
-> > in who sends the data.
-> 
-> Yes, naming is hard :)
-> 
-> 	usb_control_read_msg()
-> 	usb_control_write_msg()
-> 
-> feels good to me, let me try this out and see if it actually makes sense
-> to do this on a few in-usb-core files and various drivers...
+Hi all,
 
-Turns out we have a long history of using snd/rcv for USB control
-messages:
-	usb_rcvctrlpipe()
-	usb_sndctrlpipe()
+Link: https://syzkaller.appspot.com/bug?id=f332576321998d36cd07d09c9c1268cfed1895c9
 
-so while _recv and _send might feel a bit "odd", it is what we are used
-to using, and when converting existing users, I can drop the pipe macro
-from the calls, turning something like:
-	usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0), ...);
-into:
-	usb_control_send_msg(hdev, 0, ...);
+As reported by syzbot, vcs_read_buf() is overflowing `con_buf16`, since
+this patch removed the following check:
 
-or maybe:
-	usb_control_msg_send(hdev, 0, ...);
-with a full noun_verb pairing, instead of noun_verb_noun.
+-		if (count > CON_BUF_SIZE) {
+-			count = CON_BUF_SIZE;
+-			filled = count - pos;
+-		}
 
-thanks,
+Decreasing `count` by `min(HEADER_SIZE - pos, count)` bypasses this check.
+Additionally, this patch also removed updates to `skip` and `filled`.
 
-greg k-h
+What should we do in order to fix it?
+
+Thank you,
+Peilin Ye
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
