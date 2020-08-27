@@ -7,93 +7,89 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0170C433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 27 Aug 2020 06:13:17 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 187B5C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 27 Aug 2020 06:16:50 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5BA5A20786
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 27 Aug 2020 06:13:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C4B082078A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 27 Aug 2020 06:16:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJ7IDALj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5BA5A20786
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z6aEDl4y"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C4B082078A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3C2CE204D6;
-	Thu, 27 Aug 2020 06:13:17 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 782AF86AFD;
+	Thu, 27 Aug 2020 06:16:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uQgRevEXasoE; Thu, 27 Aug 2020 06:13:16 +0000 (UTC)
+	with ESMTP id dJ50d7dr4zWG; Thu, 27 Aug 2020 06:16:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 68A46203AF;
-	Thu, 27 Aug 2020 06:13:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id ED05A86A4F;
+	Thu, 27 Aug 2020 06:16:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60A6AC0890;
-	Thu, 27 Aug 2020 06:13:15 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9C6E3C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D4058C016F;
+	Thu, 27 Aug 2020 06:16:48 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 54295C0051
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Aug 2020 06:13:14 +0000 (UTC)
+ Thu, 27 Aug 2020 06:16:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 87E18867F6
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4A1A487A60
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Aug 2020 06:13:14 +0000 (UTC)
+ Thu, 27 Aug 2020 06:16:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MxZ-suVYHdes
+ with ESMTP id aXYvN4S0rM8f
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Aug 2020 06:13:13 +0000 (UTC)
+ Thu, 27 Aug 2020 06:16:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5F23A85551
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+ [209.85.166.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1BA3588158
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Aug 2020 06:13:13 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id m34so2574239pgl.11
+ Thu, 27 Aug 2020 06:16:45 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id m23so4653882iol.8
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 26 Aug 2020 23:13:13 -0700 (PDT)
+ Wed, 26 Aug 2020 23:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7MiJnnCB7gA9xNLiLdoYWbkWU1ENIMWv1Ue7ThJkkSg=;
- b=VJ7IDALj3eCK89RASzq43VLVDEUVCjDhPf2iKceJrBoDU3gtBZMa6ZPcFjPcTTOdVh
- qiVtzqiEYBkcfMNd9cqH0qvSWL7NSAqWYhzk3Kl03BPQWCfdQsWzg3yMfVr+eeDGBTBi
- nB+GtuNjbPaiHlwffNh2boqPVZKHz0ZUa1USez7HEf3gNk9l5qcP5gYFPHzCqrSsNwY5
- WHhAv5kDrd2IJNUGHUhglMEEcFz+tEbyEB2oEh1IsJhuI5XayOVCbV5T4I3tnsr5/bab
- H4wGCm53ADG7zGC6IPqFkLGdgkHsw1LUyfeRMx/yBLZfZmERfb/vakQKlQ+HkuhXU+W2
- D2og==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=H4bpUY/yr5Mb+SigUHOEz3j9fnCLv4ZKr92JvnrRqXE=;
+ b=Z6aEDl4yOz2Q1O93P4KQNxa/0oMIMOI9DtZRkXNzxh3hsjmIxvOU5f1O7mtQPWzv+8
+ YBAKN6ANR9G7JW2VGg/pqLcbCB5z+Hh9w8sKIJJhev3oqvGDBXS7LmoXXrCgKl4KA2xb
+ iy11w/3wMVHMLGqgRR7wpguONDPjIhzI8aytMTBlEYcr+M9DauuF1ekROzE2EQyrCh4K
+ Rp2Trk3LXK1E3ZUzT/Jze32doRPa6o4j9S73ZCp73PSlNDe8rBK0QpDvsCtgB3jBTBGx
+ /rrXoGEjQS3GBZDjoIJbn5eTirV998Wet5WHbBPKCPhJcrw6QQHz0D7H2EFh6p/LhxPz
+ yuhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7MiJnnCB7gA9xNLiLdoYWbkWU1ENIMWv1Ue7ThJkkSg=;
- b=hQiyHnpnIupvTM3bETL29rhFit/hWNE8RpEUN0A008lsQZaX+aM3ZSG4PfnRzIA3ss
- rUl7r8VUyWLFaftWF7Rkv9r7E8485gxGx3n8L0xS/XET6rvSf9vBQZrj/Q3OUmALtZaD
- CodHnh791MaSe5M1RhoSarqF6kiYWJ7QSAlBMO9rLSOChR58EtRYfC7bwQI13LijkUfM
- fXw8jS4261jUzEV58LcI7EqVldQgE1+bMgkUws68Y6udQZkzh2TrsVX8pg3Dxo+G8xjJ
- mmvxcKRWf1TcLYUkdngYkxuTBgmN0z4+cxXk73oJAasGPTEPq0jBU6knc4b4rcl2ozVi
- 9uEg==
-X-Gm-Message-State: AOAM530QoPwsPNkiSAE2FBB/Vn3M7KoGFddqjNrVe79z12pQBSgkKn2B
- E8U1yDZm+qad5OffB5RIcio=
-X-Google-Smtp-Source: ABdhPJxsnvGh+UpxXc7fL3jCzBXil3Jc/yzbZYcCT6WA9PvD8AUWt9OwrZmO+lllZcV4TRikbGrSzA==
-X-Received: by 2002:a17:902:c286:: with SMTP id
- i6mr14602297pld.219.1598508792870; 
- Wed, 26 Aug 2020 23:13:12 -0700 (PDT)
-Received: from localhost ([1.23.143.13])
- by smtp.gmail.com with ESMTPSA id z127sm1239420pfc.113.2020.08.26.23.13.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 23:13:12 -0700 (PDT)
-Date: Thu, 27 Aug 2020 11:43:07 +0530
-From: Mrinal Pandey <mrinalmni@gmail.com>
-To: lukas.bulwahn@gmail.com, skhan@linuxfoundation.org,
- Linux-kernel-mentees@lists.linuxfoundation.org, mrinalmni@gmail.com
-Message-ID: <20200827061307.54526dz54p3gd45u@mrinalpandey>
-References: <20200827060523.6fi34tcrg5xndzuu@mrinalpandey>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=H4bpUY/yr5Mb+SigUHOEz3j9fnCLv4ZKr92JvnrRqXE=;
+ b=ohRRa+eZyTJ4NZb0FgedZc7n5KsgoIloTQVxIaulinIuOJxmn1EXwo+1gHspj3NrkV
+ /2keQum5Yo3fD74tKcmawLuMZ8AStaoZoCJb/V9qa3YMRZ6/Ygs9oLQuMCltVsk/wpeO
+ wwlhi8Iz4/PRjKgG6ijep3Abgaf81lWgtyXXkJc6fE8f56izawm/T3/ExEpp5NVF3GUu
+ mThtSJKCaWP4gCoBfi/s4U3nIBpWmWYU1EWmFcrGZA58/LZVeT6R5OPB/oGiqy7J/j8W
+ X2pYkNsGKRZwLp0mgNchIs465TEy53B3dZzDhLVYcfWRhMaoHT2FSETVH1/cCHcD7k2t
+ hpxQ==
+X-Gm-Message-State: AOAM530tX3h4wvaYcK47miOhoQOI59VApJrgd7hLFeFDWODgAI6Gb5j7
+ hOZwnl4ABG+9oQznwLe+uPqff0HMiAPrO1r/tuE=
+X-Google-Smtp-Source: ABdhPJwEEjBiM2gT9Zfzb2EdjqHArczWDxmHnisR5jZKgxKay3D6DJJ6U5S0KqsDBePFbJuCXviu6H9xrdSkpCcXhBA=
+X-Received: by 2002:a05:6638:24d1:: with SMTP id
+ y17mr18643983jat.42.1598509004374; 
+ Wed, 26 Aug 2020 23:16:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200827060523.6fi34tcrg5xndzuu@mrinalpandey>
+References: <20200827060523.6fi34tcrg5xndzuu@mrinalpandey>
+ <20200827061307.54526dz54p3gd45u@mrinalpandey>
+In-Reply-To: <20200827061307.54526dz54p3gd45u@mrinalpandey>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 27 Aug 2020 08:16:33 +0200
+Message-ID: <CAKXUXMyZsENwp2jM106N_uao+yj=R-tGJDLerSO-GqtL+Qd3qg@mail.gmail.com>
+To: Mrinal Pandey <mrinalmni@gmail.com>
+Cc: Linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH] scripts: Add intended executable
 	mode and SPDX license
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -107,117 +103,83 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7475510899670483951=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+On Thu, Aug 27, 2020 at 8:13 AM Mrinal Pandey <mrinalmni@gmail.com> wrote:
+>
+> On 20/08/27 11:35AM, Mrinal Pandey wrote:
+> > commit b72231eb7084 ("scripts: add spdxcheck.py self test") added the file
+> > spdxcheck-test.sh to repository without the executable flag and license
 
---===============7475510899670483951==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="who45lfp6fkm33xn"
-Content-Disposition: inline
+s/to/to the/
 
+> > information.
+> >
+> > commit eb8305aecb95 ("scripts: Coccinelle script for namespace
+> > dependencies.") added the file nsdeps, commit 313dd1b62921 ("gcc-plugins:
+> > Add the randstruct plugin") added the file gcc-plugins/gen-random-seed.sh
+> > and commit 9b4ade226f74 ("xen: build infrastructure for generating
+> > hypercall depending symbols") added the file xen-hypercalls.sh without the
+> > executable bit.
+> >
+> > Set to usual modes for these files and provide the SPDX license for
+> > spdxcheck-test.sh. No functional changes.
+> >
+> > Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
+> > ---
+> >  scripts/gcc-plugins/gen-random-seed.sh | 0
+> >  scripts/nsdeps                         | 0
+> >  scripts/spdxcheck-test.sh              | 2 +-
+> >  scripts/xen-hypercalls.sh              | 0
+> >  4 files changed, 1 insertion(+), 1 deletion(-)
+> >  mode change 100644 => 100755 scripts/gcc-plugins/gen-random-seed.sh
+> >  mode change 100644 => 100755 scripts/nsdeps
+> >  mode change 100644 => 100755 scripts/spdxcheck-test.sh
+> >  mode change 100644 => 100755 scripts/xen-hypercalls.sh
+> >
+> > diff --git a/scripts/gcc-plugins/gen-random-seed.sh b/scripts/gcc-plugins/gen-random-seed.sh
+> > old mode 100644
+> > new mode 100755
+> > diff --git a/scripts/nsdeps b/scripts/nsdeps
+> > old mode 100644
+> > new mode 100755
+> > diff --git a/scripts/spdxcheck-test.sh b/scripts/spdxcheck-test.sh
+> > old mode 100644
+> > new mode 100755
+> > index cfea6a0d1cc0..758fa645ed99
+> > --- a/scripts/spdxcheck-test.sh
+> > +++ b/scripts/spdxcheck-test.sh
+> > @@ -1,5 +1,5 @@
+> >  #!/bin/sh
+> > -
 
---who45lfp6fkm33xn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Why do you delete the newline?
 
-On 20/08/27 11:35AM, Mrinal Pandey wrote:
-> commit b72231eb7084 ("scripts: add spdxcheck.py self test") added the file
-> spdxcheck-test.sh to repository without the executable flag and license
-> information.
->=20
-> commit eb8305aecb95 ("scripts: Coccinelle script for namespace
-> dependencies.") added the file nsdeps, commit 313dd1b62921 ("gcc-plugins:
-> Add the randstruct plugin") added the file gcc-plugins/gen-random-seed.sh
-> and commit 9b4ade226f74 ("xen: build infrastructure for generating
-> hypercall depending symbols") added the file xen-hypercalls.sh without the
-> executable bit.
->=20
-> Set to usual modes for these files and provide the SPDX license for
-> spdxcheck-test.sh. No functional changes.
->=20
-> Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
-> ---
->  scripts/gcc-plugins/gen-random-seed.sh | 0
->  scripts/nsdeps                         | 0
->  scripts/spdxcheck-test.sh              | 2 +-
->  scripts/xen-hypercalls.sh              | 0
->  4 files changed, 1 insertion(+), 1 deletion(-)
->  mode change 100644 =3D> 100755 scripts/gcc-plugins/gen-random-seed.sh
->  mode change 100644 =3D> 100755 scripts/nsdeps
->  mode change 100644 =3D> 100755 scripts/spdxcheck-test.sh
->  mode change 100644 =3D> 100755 scripts/xen-hypercalls.sh
->=20
-> diff --git a/scripts/gcc-plugins/gen-random-seed.sh b/scripts/gcc-plugins=
-/gen-random-seed.sh
-> old mode 100644
-> new mode 100755
-> diff --git a/scripts/nsdeps b/scripts/nsdeps
-> old mode 100644
-> new mode 100755
-> diff --git a/scripts/spdxcheck-test.sh b/scripts/spdxcheck-test.sh
-> old mode 100644
-> new mode 100755
-> index cfea6a0d1cc0..758fa645ed99
-> --- a/scripts/spdxcheck-test.sh
-> +++ b/scripts/spdxcheck-test.sh
-> @@ -1,5 +1,5 @@
->  #!/bin/sh
-> -
-> +# SPDX-License-Identifier: GPL-2.0
->  for PYTHON in python2 python3; do
->  	# run check on a text and a binary file
->  	for FILE in Makefile Documentation/logo.gif; do
-> diff --git a/scripts/xen-hypercalls.sh b/scripts/xen-hypercalls.sh
-> old mode 100644
-> new mode 100755
-> --=20
-> 2.25.1
->=20
+> > +# SPDX-License-Identifier: GPL-2.0
+> >  for PYTHON in python2 python3; do
+> >       # run check on a text and a binary file
+> >       for FILE in Makefile Documentation/logo.gif; do
+> > diff --git a/scripts/xen-hypercalls.sh b/scripts/xen-hypercalls.sh
+> > old mode 100644
+> > new mode 100755
+> > --
+> > 2.25.1
+> >
+>
 
-Sir,
+I think it is fine to have this as a single patch. It is local enough
+to say that we are touching all those files in a single go.
 
-I realized this was not supposed to be a single patch. I apologize for
-the mistake. Kindly ignore this patch. I will send new separate patches
-to the concerned developers.
-Kindly let me know if those patches need to go through you first.
+Other than that, it looks good to me.
 
-Thank you.
+Please state to whom you intend to send this patch.
 
---who45lfp6fkm33xn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE8DwCG1PwaC2uTI99xIwpEWwxhGQFAl9HTvMACgkQxIwpEWwx
-hGTjRA//fseUFzC6NHdsdgXC21urwrvDaRE4VtOjJk3R0DCO5Tj//VBuUM6ad62y
-R2E7TYkBL0/UwAKpahcP8MfPpMPrOL8RD250dv+DI+yY5MrzKmITDrCg33v7FQbn
-EaMMMGBo1v1NDy45EQf573y7nvul0rIyfuxJOsuWr3/i/yZWwco3o7eLD1uuDPmm
-cWV8VP0JcKyEaRNRM0bdfrRaRynLbBSKkLAB1FiQBbnQgiYxXYkbkR6/zOuszsWa
-CMLjXTH8BUkhapkcVzjBVBZ5rbX1TSqefutQaSTxKhXRMxT989PXESDCk9jaxHJ6
-QM157KXqEzUzZ1TrHlJsgbEVwGjkcsFUdzSnwQgYNoZ8CdkJrDTPewVZf3too+vG
-bQiIjzC8gvx3BrPvr25q56u1WPpMD4UbXiZPTegO3HVNsxWa+s8of7udMlflzT/6
-j46g4e8/W+8IgFrLwF817Lh/Xh0mdW8JqJ2p1D9UjiuSPvV5/AcNfn8GPSGhMXUa
-mpcIiPxPZljs1iC0IKbESHyjzNIo22+PR9CML0CxEarbqjh0rqTDsrualxK81Q72
-dAfuJqC4RKEDBotvdybHaYfp/Baz4YTVSki9rd5bkW+jDoVxKNuAIdSZHM60MLuV
-pXgJNm6gSYYXyGmlTyE+ypw2AIEiR5g32ZXMFgletJhGk4V+JrI=
-=Sikk
------END PGP SIGNATURE-----
-
---who45lfp6fkm33xn--
-
---===============7475510899670483951==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============7475510899670483951==--
