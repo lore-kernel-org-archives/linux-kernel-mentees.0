@@ -2,107 +2,97 @@ Return-Path: <SRS0=GPwV=CF=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B898EC433E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 27 Aug 2020 05:29:09 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C23C433E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 27 Aug 2020 06:05:34 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6F72F20786
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 27 Aug 2020 05:29:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 11CE820786
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 27 Aug 2020 06:05:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMkuAM84"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F72F20786
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tb6Qz8Nf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 11CE820786
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3604220408;
-	Thu, 27 Aug 2020 05:29:09 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iRQvybszSvgp; Thu, 27 Aug 2020 05:29:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id CAA4F20405;
-	Thu, 27 Aug 2020 05:29:07 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A4695C0890;
-	Thu, 27 Aug 2020 05:29:07 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F26CDC016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Aug 2020 05:29:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DB12D86928
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Aug 2020 05:29:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D06D886C6A;
+	Thu, 27 Aug 2020 06:05:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3osd-T8j2AAn; Thu, 27 Aug 2020 06:05:33 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6B83C86C67;
+	Thu, 27 Aug 2020 06:05:33 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 50EABC0890;
+	Thu, 27 Aug 2020 06:05:33 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F618C016F
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 27 Aug 2020 06:05:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 771F0204C8
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 27 Aug 2020 06:05:31 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qIVqhiv6XNQM
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Aug 2020 05:29:06 +0000 (UTC)
+ with ESMTP id mbUCu5RN-aGI
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 27 Aug 2020 06:05:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D78658688B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Aug 2020 05:29:05 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id o4so4081490wrn.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 26 Aug 2020 22:29:05 -0700 (PDT)
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id A0C80203E4
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 27 Aug 2020 06:05:30 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id m71so2667084pfd.1
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 26 Aug 2020 23:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=bJYyzP6z6/ioUP/D/vJ6aBQOdctg7T6P7Y0MoUfLEag=;
- b=aMkuAM84Es4iSIQs6RY58OaPLwLCP4kph+vFGYkwsyY34OaXrTY93GSdQz6O6JHHif
- CB3QYHeOKxdHjyOIBi+E8nLb5B+doHxwahI/WUIq7AvjO+f8yBvkq8R8zXDHHddH0TVb
- Yhb367VGxXPj5/uqjOmFoCg/nuHAYCcc8wRzc1f4EpklrOuIKEEJMPWFAQEemjKeMlk5
- fKJw7/k6eCnJsdunkwhpoTJWqQdXa9srXL8H6gCsbxEGvgoCzYU6GlB+aFrtaldIpIyn
- ebXmID7Hi4dEjWV6UgSBYTnQY4lE1dVZfMaMjK5/7mOX2m2uLrgNwkD+IJ+1Ux99JLzJ
- E1WQ==
+ h=date:from:to:subject:message-id:mime-version:content-disposition;
+ bh=XQbEXt3fZ/W7+BiIQkzUc9SkudfADulAy0GscFpS1UY=;
+ b=tb6Qz8NfwhkIf02zLR+0QuIQpfujCimZtKsFhZD6Uqa5qvb6RJkeMW45R1gIocWDNF
+ 1/HoMeLzZEtXrLFlRMvKy1hBOtLNM4+Gdg3Vj/68eVbx7XbL9FM9PVOYzm1U4z8bANsG
+ 7klma/gJSoc8g/qzAgq6EGsFx347KiVs9p1y+YGvAIVJiZVHVEdqyQ0rbF8mwxYNJ5bc
+ uXmSWwKkQRomqZPeAVOSzd/kwq9B9ozPCHRuqBFzEVT9JN1gNmcKuso/a0KcWGWJD7Gs
+ qk15R9EfRxEZ1zCZhWn5G+kfisYJYn6KoSQX0WAUPmAKwr48fjUgP0GGA2aowu+lNUur
+ 8S5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=bJYyzP6z6/ioUP/D/vJ6aBQOdctg7T6P7Y0MoUfLEag=;
- b=WXbgQ4G+U+DuoeHt0+H/Y/W+232WjtF/o4qw1CBHpw8+8DMEuQ8ALqFsBc6eoDYGsX
- 5m4/QUGasUxeAq1bFF9gdBjASVovPhYJfnYWp90iWMg8uCGa8MCajFINTuC2ny4CPvak
- UAuIdz7k2Qpg7xVTcMcck8PcdqrRqnOuJaj55zwDl9I74GSpDxpzYVomglX9Ep5JhUrW
- VWQZo1Eg/BlsEx+IN4teT0Zyn7AqBTuFpQMra+xBPQdNt+lsaTYnD9rkuSxLZQYgHxCp
- fATV8GyGbjjJ2s0eK5uEo/Tz4utLJaXlwUTYF74s/KzYrWXv18kd3/XYMBPm+8YXTtO0
- Qnmw==
-X-Gm-Message-State: AOAM530IZeEX2dj7iFYiCAwvmDEJVsJ04MnknBrJxS6FQoCKCag4AeF2
- jOYRKjtnUvUYQl8hnMg0IU0=
-X-Google-Smtp-Source: ABdhPJwZ9SyLTs8LopmaVJED2g5qpq3l/hzwzA4aXRGi8sX6Lk7IbMz3Ig/e08/PDVlvqep6XJryVw==
-X-Received: by 2002:adf:9387:: with SMTP id 7mr1913730wrp.332.1598506144168;
- Wed, 26 Aug 2020 22:29:04 -0700 (PDT)
-Received: from felia ([2001:16b8:2d0c:fc00:340b:71b8:4541:aa75])
- by smtp.gmail.com with ESMTPSA id f125sm2430993wmf.48.2020.08.26.22.29.02
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition;
+ bh=XQbEXt3fZ/W7+BiIQkzUc9SkudfADulAy0GscFpS1UY=;
+ b=BqBepxz9vMxu6cdU+CLhOGtAEyV3MJHHWCFDS9cQh0ehrfnc0dZ/d6iLfTmnk5sxRd
+ 1XI0d5RyNphoTpaXWXTrbjcewift3H1Yj6L1g3EpAm7L0YZXhyrLpubRVmVsWiNxUVtz
+ ZXaHafkCC/UBX6gu4eUMugjGjr2Rsb5c4bXAnF7u6vimsiC0ZdVpQHFkzK5hwaS4g6Ol
+ IVy+Ud8VIpdiSQl1KFhu0eAJNm14lsIlCjnAFHIz7AnAmXr/j2n+xtk7LTOULlE/dgvS
+ rfry0Q0oXIXv1eb75MENV5eWrIX/t1okH+cXjw769Zaar9qFN9syQDIfSkizmV6CdrKG
+ psQA==
+X-Gm-Message-State: AOAM532r0KgDj1iFDEXl0X5ndJXmaDB2VtYEiX/90uOVLYRFpQxnAoXn
+ GO9bOQt+LQHeSf4qnQ7I6Qo=
+X-Google-Smtp-Source: ABdhPJwfGAWj573Ym9bLjNbW1XJPAOkTfBscn/eL7Q3E3TopOqrf9rFBTpjmiS58agFiCMQf8240ZQ==
+X-Received: by 2002:a17:902:c214:: with SMTP id
+ 20mr4002619pll.138.1598508330107; 
+ Wed, 26 Aug 2020 23:05:30 -0700 (PDT)
+Received: from localhost ([1.23.143.13])
+ by smtp.gmail.com with ESMTPSA id f13sm1218101pfd.215.2020.08.26.23.05.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 22:29:03 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Thu, 27 Aug 2020 07:28:56 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Ayush <ayush@disroot.org>
-In-Reply-To: <32595de077ee7d674a628df11c58152f@disroot.org>
-Message-ID: <alpine.DEB.2.21.2008270707440.9436@felia>
-References: <alpine.DEB.2.21.2008221002290.12792@felia>
- <alpine.DEB.2.21.2008171142310.8645@felia>
- <20200810125354.xeijyh3v5upatrez@salamander>
- <4f5612540c184970157a98d103d7cd04@disroot.org>
- <32595de077ee7d674a628df11c58152f@disroot.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Wed, 26 Aug 2020 23:05:29 -0700 (PDT)
+Date: Thu, 27 Aug 2020 11:35:23 +0530
+From: Mrinal Pandey <mrinalmni@gmail.com>
+To: lukas.bulwahn@gmail.com, skhan@linuxfoundation.org,
+ Linux-kernel-mentees@lists.linuxfoundation.org, mrinalmni@gmail.com
+Message-ID: <20200827060523.6fi34tcrg5xndzuu@mrinalpandey>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
-	Improve checkpatch.pl"
+Subject: [Linux-kernel-mentees] [PATCH] scripts: Add intended executable
+	mode and SPDX license
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,121 +104,107 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============4733820740886237545=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 
+--===============4733820740886237545==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yniducff3thbscrp"
+Content-Disposition: inline
 
-On Mon, 24 Aug 2020, Ayush wrote:
 
-> August 22, 2020 1:36 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
-> 
-> > On Fri, 21 Aug 2020, Ayush wrote:
-> > 
-> >> Hints to the first task:
-> >> 
-> >> Can you create a list of all non-merge commits that were added in the
-> >> version v5.8 of the kernel, i.e., all non-merge commits that are in v5.8
-> >> and not already in v5.7?
-> >> 
-> >> Can you share the script/command you executed and the resulting list on
-> >> github?
-> >> 
-> >> Can you run your script on all commits of this list above and record
-> >> all checkpatch.pl reports, and store them in your github repository?
-> >> 
-> >> Can you suggest ideas how to aggregate the findings and create a
-> >> statistics? For example: Which type of error is reported most?
-> >> Can you implement that idea?
-> >> 
-> >> I also suggest to have a look at
-> >> the options ./scripts/checkpatch.pl --list-types and
-> >> ./scripts/checkpatch.pl --show-types. The option --show-types changes
-> >> the output of checkpatch.pl to list type identifiers, so it is easier
-> >> to parse and aggregate the output.
-> >> 
-> >> Please also share the script you create for that purpose on your
-> >> github repository.
-> >> 
-> >> The second task is to pick one warning that appears often and improve
-> >> checkpatch.pl to handle that better and get it accepted by the kernel
-> >> community.
-> >> 
-> >> Hints to the second task follow when the first task is solved.
-> >> 
-> >> If you fail on any of those tasks, you are out of the selection process.
-> >> 
-> >> Lukas
-> >> 
-> >> Sir,
-> >> 
-> >> I have attempted the task 1 and pushed the same to GitHub.
-> >> 
-> >> Please have a look and suggest improvements.
-> >> 
-> >> https://github.com/eldraco19/evalute_improve_checkpatch_pl
-> >> 
-> >> Please let me know if there are any issues with this.
-> > 
-> > So far, so good.
-> > 
-> > Here are the questions we want to answer:
-> > 
-> > - So what are the 20 categories that occur most?
-> > 
-> > You are getting close to that answer, but you are not there yet.
-> > 
-> > Then look at the findings. For those 20 categories, are there specific
-> > findings that are multiple times false positives?
-> > 
-> > So, the script complains about something, but it does not get that the
-> > patch author wrote something completely unrelated to the error message.
-> > 
-> > Lukas
-> 
-> Sir,
-> 
-> I tried the given tasks and it can be found here,
-> 
-> https://github.com/eldraco19/evalute_improve_checkpatch_pl/blob/master/STATS.md
->
+--yniducff3thbscrp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The solution is implemented a bit complicated, but well, at least, it 
-works if I believe your report. (I only read the code, but did not run 
-it.)
+commit b72231eb7084 ("scripts: add spdxcheck.py self test") added the file
+spdxcheck-test.sh to repository without the executable flag and license
+information.
 
-The goal now is to find a class of false positives and improve 
-checkpatch.pl accordingly.
+commit eb8305aecb95 ("scripts: Coccinelle script for namespace
+dependencies.") added the file nsdeps, commit 313dd1b62921 ("gcc-plugins:
+Add the randstruct plugin") added the file gcc-plugins/gen-random-seed.sh
+and commit 9b4ade226f74 ("xen: build infrastructure for generating
+hypercall depending symbols") added the file xen-hypercalls.sh without the
+executable bit.
 
-I suggest that you look at the specific DIFF_IN_COMMIT_MSG reported 
-errors?
+Set to usual modes for these files and provide the SPDX license for
+spdxcheck-test.sh. No functional changes.
 
-Provide a short assessment for each DIFF_IN_COMMIT_MSG error in the 
-10 commits.
+Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
+---
+ scripts/gcc-plugins/gen-random-seed.sh | 0
+ scripts/nsdeps                         | 0
+ scripts/spdxcheck-test.sh              | 2 +-
+ scripts/xen-hypercalls.sh              | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ mode change 100644 =3D> 100755 scripts/gcc-plugins/gen-random-seed.sh
+ mode change 100644 =3D> 100755 scripts/nsdeps
+ mode change 100644 =3D> 100755 scripts/spdxcheck-test.sh
+ mode change 100644 =3D> 100755 scripts/xen-hypercalls.sh
 
-It should tell:
-  - what lines in the commit message did checkpatch.pl complain about?
-  - what is the pattern in the commit message?
-  - does patch(1) really stumble over that pattern?
-  - how would this pattern need to be provided to patch(1) so that it 
-would stumble over it?
-  - if no, why not?
-  - can we change checkpatch.pl to not raise an error for such a 
-situation? So, only raise an error when the pattern would really make 
-patch stumble on it?
+diff --git a/scripts/gcc-plugins/gen-random-seed.sh b/scripts/gcc-plugins/g=
+en-random-seed.sh
+old mode 100644
+new mode 100755
+diff --git a/scripts/nsdeps b/scripts/nsdeps
+old mode 100644
+new mode 100755
+diff --git a/scripts/spdxcheck-test.sh b/scripts/spdxcheck-test.sh
+old mode 100644
+new mode 100755
+index cfea6a0d1cc0..758fa645ed99
+--- a/scripts/spdxcheck-test.sh
++++ b/scripts/spdxcheck-test.sh
+@@ -1,5 +1,5 @@
+ #!/bin/sh
+-
++# SPDX-License-Identifier: GPL-2.0
+ for PYTHON in python2 python3; do
+ 	# run check on a text and a binary file
+ 	for FILE in Makefile Documentation/logo.gif; do
+diff --git a/scripts/xen-hypercalls.sh b/scripts/xen-hypercalls.sh
+old mode 100644
+new mode 100755
+--=20
+2.25.1
 
-Depending on the evaluation, we might continue to improve checkpatch.pl 
-for reporting this error type, or we decide to look at GIT_COMMIT_ID 
-errors, where I can quickly spot some false positives.
 
-Best regards,
+--yniducff3thbscrp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Lukas
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE8DwCG1PwaC2uTI99xIwpEWwxhGQFAl9HTR0ACgkQxIwpEWwx
+hGSdmw/9FiwO34jdPo9tty2XeTf5PfdrAmwrZMBLy2SwudMmNB8ZAq84hTDfiVsn
+fW1dPlfKYNY5KjVh0mBsIBeeUUXoBBnZAdYwPAM/gbLImlBzqsNtEUKtGe08Hnu4
+I+SFjkzqOy3oDSWvm+NDwrGMGt5WmV0c2k81G3u0P3L4cYnXSp9+HJOs5jpylgY1
+ld3UtR2WfOMnn1Gmw27M2SVVKDKfyqRn3XJ44Dj4hgRclSWfeKQQi83Q6JbdmIOn
+aGcPqw6HpOTTTF4Sa8QlEN6FjgnTCxAvVaxUM9aP4WHh8eGTnHmQUXYuSX1ElOb+
+/+34o6Q2aodEW8L2O/tlm4fbgP4NXdZBEus5E7XpHKXN1by0c01YQQKGp7oZugH4
+oRzzKKsVhk8370Mbz3uvOYVB90jqalSxbUNgpplG21rIMft8JHHh7/2AZPiatnzt
+ZsP01QyIJemlGO3D43l4m8DC057H1/pX27kVx+QRC7i1zbkydBF41zhgY5LcSz3o
+OlqnJzz4+A9RlNbeLrmWSQbKFO4CH24xtlfnWu3VbdgkGO2tqLBUAP5aZtMtRVMh
+XvmlKAXciRu9CYemSmojMcPH3h8BEMRtqxRUk6h9zKlfISo9HkGAxdg59/ItxyxY
+g5vczJdsLkiecXMLKd/3xUWBJAGTO4NJn+LGODcmOFeyR7Oep8M=
+=71vf
+-----END PGP SIGNATURE-----
+
+--yniducff3thbscrp--
+
+--===============4733820740886237545==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============4733820740886237545==--
