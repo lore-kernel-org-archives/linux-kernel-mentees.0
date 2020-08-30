@@ -2,85 +2,86 @@ Return-Path: <SRS0=kRYb=CI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D026EC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 30 Aug 2020 17:30:06 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0CCC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 30 Aug 2020 18:51:17 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D7C320714
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 30 Aug 2020 17:30:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D3C752071B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 30 Aug 2020 18:51:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/zT74G2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D7C320714
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="cAIahZRh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D3C752071B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6653B87397;
-	Sun, 30 Aug 2020 17:30:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B97BD20452;
+	Sun, 30 Aug 2020 18:51:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Z1Ja5kv3K3Nt; Sun, 30 Aug 2020 17:30:05 +0000 (UTC)
+	with ESMTP id B2Id4bRnR+lc; Sun, 30 Aug 2020 18:51:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2676987360;
-	Sun, 30 Aug 2020 17:30:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 31455204C3;
+	Sun, 30 Aug 2020 18:51:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 17C82C07FF;
-	Sun, 30 Aug 2020 17:30:05 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0F9A0C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EC86C0052;
+	Sun, 30 Aug 2020 18:51:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E1A3FC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Aug 2020 17:30:04 +0000 (UTC)
+ Sun, 30 Aug 2020 18:51:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 04B978575A
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D0E63854DB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Aug 2020 17:30:04 +0000 (UTC)
+ Sun, 30 Aug 2020 18:51:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id u90LPDyd8ieB
+ with ESMTP id l3AcumQlZnaU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Aug 2020 17:30:02 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7A40A8573E
+ Sun, 30 Aug 2020 18:51:06 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2142184D3A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Aug 2020 17:30:02 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B598020714;
- Sun, 30 Aug 2020 17:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598808602;
- bh=BopSRUDvmAHu4C4ZgQT5LSsunJM/+eyFrpOMQmKj4+I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=a/zT74G2muYeReBEmL01IvpBsAYzbg5InWmKENnYGXCe/CJs+n+lN7YGS5w2Ku2LU
- W43mtTTjg1YBcBEAMCLFOTpRHcgS2bhXQ/tMU4azm211lZA0UXM36AIMRTSlJOAWNP
- R5fHsy4/+y4oBWFiAvdI4SDnogWOvna90R4xEJTs=
-Date: Sun, 30 Aug 2020 19:30:10 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Anmol Karn <anmol.karan123@gmail.com>
-Message-ID: <20200830173010.GA1872728@kroah.com>
-References: <20200829124112.227133-1-anmol.karan123@gmail.com>
- <20200829165712.229437-1-anmol.karan123@gmail.com>
- <20200830091917.GB122343@kroah.com>
- <20200830122623.GA235919@Thinkpad>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200830122623.GA235919@Thinkpad>
-Cc: netdev@vger.kernel.org,
- syzbot+0bef568258653cff272f@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: bluetooth: Fix null pointer
- deref in hci_phy_link_complete_evt
+ Sun, 30 Aug 2020 18:51:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 940235291F;
+ Sun, 30 Aug 2020 20:51:03 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id wX5z8epEo0Va; Sun, 30 Aug 2020 20:51:01 +0200 (CEST)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1598813461; bh=ntQ2urAA8DcabGNm8nvg87m1Jg9RTCSyMRJ121z6c98=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References;
+ b=cAIahZRh1MdbvXOh0aflc2YF0xh3eyK89fKv+VG0AgTm1NdSLEBKvRT4sC6m+csAb
+ Mw/9v4yHdJ2pIDkLXBTjmPOTjmsjLWyMnpFe6KRRJ7YuQSZFFqA+UXL29lFJ4EXbOE
+ +H3Rg8dK8nUfEpMjPZAfd6+XjXI1DlnoJbyDz+DQGOL/JjCorfw02cvvPQHpYAzVQQ
+ M2RuVb5pFk7TjuJS6uQlUNPsweAHKlug4KIlaIFBrS6eoksRLFUKlz9tmKRhVqyWWA
+ 8+g0ZzjgHCG2O1HyQL7HsK18KCGvTvFEol3ylKdlD4jmbHnNNA9HmdT/eKjA/Ubzco
+ gJLQqaI5em4vw==
+Date: Sun, 30 Aug 2020 18:51:00 +0000
+From: "Ayush" <ayush@disroot.org>
+Message-ID: <97cef44dfa6c692c20ef7a0d981e4863@disroot.org>
+To: "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
+In-Reply-To: <alpine.DEB.2.21.2008270707440.9436@felia>
+References: <alpine.DEB.2.21.2008270707440.9436@felia>
+ <alpine.DEB.2.21.2008221002290.12792@felia>
+ <alpine.DEB.2.21.2008171142310.8645@felia>
+ <20200810125354.xeijyh3v5upatrez@salamander>
+ <4f5612540c184970157a98d103d7cd04@disroot.org>
+ <32595de077ee7d674a628df11c58152f@disroot.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
+	Improve checkpatch.pl"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,84 +99,123 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Aug 30, 2020 at 05:56:23PM +0530, Anmol Karn wrote:
-> On Sun, Aug 30, 2020 at 11:19:17AM +0200, Greg KH wrote:
-> > On Sat, Aug 29, 2020 at 10:27:12PM +0530, Anmol Karn wrote:
-> > > Fix null pointer deref in hci_phy_link_complete_evt, there was no 
-> > > checking there for the hcon->amp_mgr->l2cap_conn->hconn, and also 
-> > > in hci_cmd_work, for hdev->sent_cmd.
-> > > 
-> > > To fix this issue Add pointer checking in hci_cmd_work and
-> > > hci_phy_link_complete_evt.
-> > > [Linux-next-20200827]
-> > > 
-> > > This patch corrected some mistakes from previous patch.
-> > > 
-> > > Reported-by: syzbot+0bef568258653cff272f@syzkaller.appspotmail.com
-> > > Link: https://syzkaller.appspot.com/bug?id=0d93140da5a82305a66a136af99b088b75177b99
-> > > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
-> > > ---
-> > >  net/bluetooth/hci_core.c  | 5 ++++-
-> > >  net/bluetooth/hci_event.c | 4 ++++
-> > >  2 files changed, 8 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/net/bluetooth/hci_core.c b/net/bluetooth/hci_core.c
-> > > index 68bfe57b6625..996efd654e7a 100644
-> > > --- a/net/bluetooth/hci_core.c
-> > > +++ b/net/bluetooth/hci_core.c
-> > > @@ -4922,7 +4922,10 @@ static void hci_cmd_work(struct work_struct *work)
-> > >  
-> > >  		kfree_skb(hdev->sent_cmd);
-> > >  
-> > > -		hdev->sent_cmd = skb_clone(skb, GFP_KERNEL);
-> > > +		if (hdev->sent_cmd) {
-> > > +			hdev->sent_cmd = skb_clone(skb, GFP_KERNEL);
-> > > +		}
-> > 
-> > How can sent_cmd be NULL here?  Are you sure something previous to this
-> > shouldn't be fixed instead?
+August 27, 2020 10:59 AM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
+
+> On Mon, 24 Aug 2020, Ayush wrote:
 > 
-> Sir, sent_cmd was freed before this condition check, thats why i checked it,
-
-But it can not be NULL at that point in time, as nothing set it to NULL,
-correct?
-
-> i think i should check it before the free of hdev->sent_cmd like,
+>> August 22, 2020 1:36 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
+>> 
+>> On Fri, 21 Aug 2020, Ayush wrote:
+>> 
+>> Hints to the first task:
+>> 
+>> Can you create a list of all non-merge commits that were added in the
+>> version v5.8 of the kernel, i.e., all non-merge commits that are in v5.8
+>> and not already in v5.7?
+>> 
+>> Can you share the script/command you executed and the resulting list on
+>> github?
+>> 
+>> Can you run your script on all commits of this list above and record
+>> all checkpatch.pl reports, and store them in your github repository?
+>> 
+>> Can you suggest ideas how to aggregate the findings and create a
+>> statistics? For example: Which type of error is reported most?
+>> Can you implement that idea?
+>> 
+>> I also suggest to have a look at
+>> the options ./scripts/checkpatch.pl --list-types and
+>> ./scripts/checkpatch.pl --show-types. The option --show-types changes
+>> the output of checkpatch.pl to list type identifiers, so it is easier
+>> to parse and aggregate the output.
+>> 
+>> Please also share the script you create for that purpose on your
+>> github repository.
+>> 
+>> The second task is to pick one warning that appears often and improve
+>> checkpatch.pl to handle that better and get it accepted by the kernel
+>> community.
+>> 
+>> Hints to the second task follow when the first task is solved.
+>> 
+>> If you fail on any of those tasks, you are out of the selection process.
+>> 
+>> Lukas
+>> 
+>> Sir,
+>> 
+>> I have attempted the task 1 and pushed the same to GitHub.
+>> 
+>> Please have a look and suggest improvements.
+>> 
+>> https://github.com/eldraco19/evalute_improve_checkpatch_pl
+>> 
+>> Please let me know if there are any issues with this.
+>> 
+>> So far, so good.
+>> 
+>> Here are the questions we want to answer:
+>> 
+>> - So what are the 20 categories that occur most?
+>> 
+>> You are getting close to that answer, but you are not there yet.
+>> 
+>> Then look at the findings. For those 20 categories, are there specific
+>> findings that are multiple times false positives?
+>> 
+>> So, the script complains about something, but it does not get that the
+>> patch author wrote something completely unrelated to the error message.
+>> 
+>> Lukas
+>> 
+>> Sir,
+>> 
+>> I tried the given tasks and it can be found here,
+>> 
+>> https://github.com/eldraco19/evalute_improve_checkpatch_pl/blob/master/STATS.md
 > 
-> if (hdev->sent_cmd)
-> 	kfree_skb(hdev->sent_cmd);
-
-No, that's not needed.
-
-What is the problem with these lines that you are trying to solve?
-
-> > > +
-> > >  		if (hdev->sent_cmd) {
-> > >  			if (hci_req_status_pend(hdev))
-> > >  				hci_dev_set_flag(hdev, HCI_CMD_PENDING);
-> > > diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-> > > index 4b7fc430793c..1e7d9bee9111 100644
-> > > --- a/net/bluetooth/hci_event.c
-> > > +++ b/net/bluetooth/hci_event.c
-> > > @@ -4941,6 +4941,10 @@ static void hci_phy_link_complete_evt(struct hci_dev *hdev,
-> > >  		hci_dev_unlock(hdev);
-> > >  		return;
-> > >  	}
-> > > +	if (!(hcon->amp_mgr->l2cap_conn->hcon)) {
-> > > +		hci_dev_unlock(hdev);
-> > > +		return;
-> > > +	}
-> > 
-> > How can this be triggered?
+> The solution is implemented a bit complicated, but well, at least, it
+> works if I believe your report. (I only read the code, but did not run
+> it.)
 > 
-> syzbot showed that this line is accessed irrespective of the null value it contains, so  added a 
-> pointer check for that.
+> The goal now is to find a class of false positives and improve
+> checkpatch.pl accordingly.
+> 
+> I suggest that you look at the specific DIFF_IN_COMMIT_MSG reported
+> errors?
+> 
+> Provide a short assessment for each DIFF_IN_COMMIT_MSG error in the
+> 10 commits.
+> 
+> It should tell:
+> - what lines in the commit message did checkpatch.pl complain about?
+> - what is the pattern in the commit message?
+> - does patch(1) really stumble over that pattern?
+> - how would this pattern need to be provided to patch(1) so that it
+> would stumble over it?
+> - if no, why not?
+> - can we change checkpatch.pl to not raise an error for such a
+> situation? So, only raise an error when the pattern would really make
+> patch stumble on it?
+> 
+> Depending on the evaluation, we might continue to improve checkpatch.pl
+> for reporting this error type, or we decide to look at GIT_COMMIT_ID
+> errors, where I can quickly spot some false positives.
+> 
+> Best regards,
+> 
+> Lukas
 
-But does hcon->amp_mgr->l2cap_conn->hcon become NULL here?
+Sir,
 
-thanks,
+I analysed the given error type and my analysis can be found here:
 
-greg k-h
+https://github.com/eldraco19/evalute_improve_checkpatch_pl/blob/master/DIFF_IN_COMMIT_MSG.md
+
+Please review it.
+
+Thanks.
+Ayush
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
