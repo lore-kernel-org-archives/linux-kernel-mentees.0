@@ -2,113 +2,98 @@ Return-Path: <SRS0=1JxM=CL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE1BC433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Sep 2020 12:31:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CAB6C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Sep 2020 16:06:15 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4B4A20767
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Sep 2020 12:31:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EA27B20773
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Sep 2020 16:06:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VD0OSq39"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4B4A20767
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hviSWVzB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA27B20773
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 88F378688B;
-	Wed,  2 Sep 2020 12:31:36 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C5CEB86A32;
+	Wed,  2 Sep 2020 16:06:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZxOtzwrVXNzs; Wed,  2 Sep 2020 12:31:35 +0000 (UTC)
+	with ESMTP id Bxd4mPJmEZ7l; Wed,  2 Sep 2020 16:06:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0379E8687B;
-	Wed,  2 Sep 2020 12:31:34 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3A30E86A27;
+	Wed,  2 Sep 2020 16:06:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DDEA2C07FF;
-	Wed,  2 Sep 2020 12:31:34 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B4A55C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CB8AC0052;
+	Wed,  2 Sep 2020 16:06:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DC410C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Sep 2020 12:31:33 +0000 (UTC)
+ Wed,  2 Sep 2020 16:06:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id AE71A86886
+ by whitealder.osuosl.org (Postfix) with ESMTP id BF96384EB9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Sep 2020 12:31:33 +0000 (UTC)
+ Wed,  2 Sep 2020 16:06:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MzKsDimxleQa
+ with ESMTP id pSy-s7S3aTpY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Sep 2020 12:31:31 +0000 (UTC)
+ Wed,  2 Sep 2020 16:06:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C1F1F8687B
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 35686869C0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Sep 2020 12:31:31 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id l9so2219351plt.8
+ Wed,  2 Sep 2020 16:06:11 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id e11so3471018wme.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 02 Sep 2020 05:31:31 -0700 (PDT)
+ Wed, 02 Sep 2020 09:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=nWY+6erNVM6Xl8glEmPwXLUrDWTRISXUW1W403933l8=;
- b=VD0OSq39q348n1v0uQAp3k88+WIjjZosqgA9X8iTDSWTjcUIiBYN3MZ9VOTTkyBU/Q
- Q8A5ixCGv3EdEq1ELmY51HVWXGc6dVFfTsdeZMCnFDhjOZa2FlBInUpVq5Vrea0B3Ij5
- 8KFVifnTJ3frLnDMCOfvogXrKpMfrvqfZLCnChDBdXM6iRJ7ccpTaCPtYApB6msTmr5a
- TnM7Y9wvDxm0xsxg79JeuF/yIcTYKrAts5AAKNZD1I2OSDSdVrPUR2F+rRVe/9YNR+5R
- Faa2IUmCjlH7Il+4Irn4qnbm9MEs4rRa8geygx0mGNnyegeHbk7GuA/2LUGvi/S/7vF1
- aabQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0O4dQf9ijqc3DJHTRqGfgFX/txsOCHtKdPYLLD83pqA=;
+ b=hviSWVzBIYj8FNGXfXWECTBNPGc00bdNjjr2aNz5Ks38vUJmN1Xf2Ktai2CSbcmP2S
+ VvVfkEJVTeeT8V5676PV1cEYtiupuQd2cmCPoDWsb8O45qWpgYCDj5hmBmTUf+yaYQj2
+ ho0JukZbw5l6AthWRtrRgKEaUdei8Yvv8JGta1uPTbu0y4mNdP58YOjK0zHReNBkYfUw
+ cyHjeulLy9QARdE0qADfPB4+xI7aklJAj5ZTPNJWR9gvncijU+56BV9RF7pOkf4q1h+x
+ N9xBb3+Y5ci4a1WR9dBxtbUOf37eGOdWZXhCXrFZjHssMLzFh6A1MoB+6BxbazbPY/bB
+ CjGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nWY+6erNVM6Xl8glEmPwXLUrDWTRISXUW1W403933l8=;
- b=d15x7E0Sug5jkZLJCENE1MdChD2k6iN3qw6jjJk3DJ7PiKBMbIVXiGx4oLnrIxTvbs
- A0RSalWojlRJrWAMeLnQmV2sXevlBjNlscu68QuqyxgJ/WfgVVhnpC0EEyEk54cVlMNs
- o/HnLEz4VQ9YhnR2qcTbSC7IGk19ojkuC99zaTT3ZsjCyLU0RJ58OppVPf6I9YoY+GFM
- tHz6knQLEiHLoEQd5l4iZhQu/B6HQ8/4cYgckxKajOqjGhq5cYC+mOHkWpbsJvVLxGtp
- tNytFCFJ+UhtFW01CZADDyNDSRw3k+pUmVkrbWbNPvr9qOtRyvIYlb0vv3hccf3KsVfv
- ZiAQ==
-X-Gm-Message-State: AOAM5332XJlJwIhaws2Y0Zt/0LzMuUPlBwWivcMHCkInen1ol/e2abiG
- jRA08xBkr43bDadRsMPnFzE=
-X-Google-Smtp-Source: ABdhPJy5I6Gyc/KFdPbcmJPMUULGfd168li2aLRy3APbEPCpTrTUdoGGSsFGxSMYWgDx+YsfSquKCw==
-X-Received: by 2002:a17:90a:bf8d:: with SMTP id
- d13mr2160253pjs.100.1599049891350; 
- Wed, 02 Sep 2020 05:31:31 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id gx5sm1062511pjb.57.2020.09.02.05.31.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 05:31:30 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Wed, 2 Sep 2020 20:31:25 +0800
-To: Marcel Holtmann <marcel@holtmann.org>
-Message-ID: <20200902122357.ca2fztgah7gwz7yp@Rk>
-References: <000000000000c57f2d05ac4c5b8e@google.com>
- <20200823010022.938532-1-coiby.xu@gmail.com>
- <C0A907BA-9C0D-4124-A2AF-3748055DB062@holtmann.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0O4dQf9ijqc3DJHTRqGfgFX/txsOCHtKdPYLLD83pqA=;
+ b=dCv5Qbrk4QOiZ3Wt70OM4Umtdve/MCbPPafKEhLq+aBVV83dihdreNVoXOZSgCROT7
+ p6P3IWLBVe/mLDzy1uTmduDGzQ1/3LggewkB5F9FJCXOn2za8xP8LDEqdMMfJXYgPeKe
+ vTBgAeDVeXOs7kCCnE8jz6VOQLDYW/y0bJMWIqVht8J1DP1npWjJPUvfIIDdFEMtnMoC
+ XYEbLS/IBHVJzRdjArPzJV7uv7nZL/Yf4dMEVgFV3WeolDI/N2L1sXtYd+z2HBZNcxw/
+ TGg//Ahww4yD1qJUj48XI3YRovXjwY573cZ7aZth+vIsH2IsTl00mJe7PL/cFQlwGkZg
+ 2yFg==
+X-Gm-Message-State: AOAM5330SG9cpKgXw07u0bpbIO/z0Xty57fErKlp5WvQr9SQJ8r2HLMa
+ FvcxW5u9XQMIKLOBrITgxr3KPTs4zdVTispelVY=
+X-Google-Smtp-Source: ABdhPJxdfC3mgIvbt6wua8mzM+KmTyM8048m+AYjGnIYLBeF9SqkT0az/f0O5TPKGpss8BXufe9V77wBncKPW7hIYZ4=
+X-Received: by 2002:a1c:f605:: with SMTP id w5mr1358007wmc.26.1599062769544;
+ Wed, 02 Sep 2020 09:06:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="yijhrv2ys2svaijk"
-Content-Disposition: inline
-In-Reply-To: <C0A907BA-9C0D-4124-A2AF-3748055DB062@holtmann.org>
-Cc: syzbot+dd768a260f7358adbaf9@syzkaller.appspotmail.com,
- Johan Hedberg <johan.hedberg@gmail.com>, syzkaller-bugs@googlegroups.com,
- open list <linux-kernel@vger.kernel.org>,
- linux-bluetooth <linux-bluetooth@vger.kernel.org>,
- "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] Bluetooth: fix "list_add double
- add" in hci_conn_complete_evt
+References: <20200707171515.110818-1-izabela.bakollari@gmail.com>
+ <20200804160908.46193-1-izabela.bakollari@gmail.com>
+ <e971a990-4c92-9d64-8bc6-61516d874370@redhat.com>
+In-Reply-To: <e971a990-4c92-9d64-8bc6-61516d874370@redhat.com>
+From: Izabela Bakollari <izabela.bakollari@gmail.com>
+Date: Wed, 2 Sep 2020 18:05:58 +0200
+Message-ID: <CAC8tkWD03qhxqB2G06f4e_-xiuXBYc4GsrKftx30MnUuFtNnJg@mail.gmail.com>
+To: Michal Schmidt <mschmidt@redhat.com>
+Cc: nhorman@tuxdriver.com, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kuba@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] [PATCHv2 net-next] dropwatch: Support
+	monitoring of dropped frames
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,637 +105,156 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+Thank you for your review. I am working on a patch v3 and will apply
+your suggestions where possible.
 
---yijhrv2ys2svaijk
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+Best,
+Izabela
 
-On Mon, Aug 31, 2020 at 06:06:18PM +0200, Marcel Holtmann wrote:
->Hi Coiby,
-
-Hi Marcel,
-
-Thank you for reviewing this patch!
-
+On Mon, Aug 31, 2020 at 3:18 PM Michal Schmidt <mschmidt@redhat.com> wrote:
 >
->> When two HCI_EV_CONN_COMPLETE event packets with status=0 of the same
->> HCI connection are received, device_add would be called twice which
->> leads to kobject_add being called twice. Thus duplicate
->> (struct hci_conn *conn)->dev.kobj.entry would be inserted into
->> (struct hci_conn *conn)->dev.kobj.kset->list.
->>
->> This issue can be fixed by checking (struct hci_conn *conn)->debugfs.
->> If it's not NULL, it means the HCI connection has been completed and we
->> won't duplicate the work as for processing the first
->> HCI_EV_CONN_COMPLETE event.
+> Dne 04. 08. 20 v 18:09 izabela.bakollari@gmail.com napsala:
+> > From: Izabela Bakollari <izabela.bakollari@gmail.com>
+> >
+> > Dropwatch is a utility that monitors dropped frames by having userspace
+> > record them over the dropwatch protocol over a file. This augument
+> > allows live monitoring of dropped frames using tools like tcpdump.
+> >
+> > With this feature, dropwatch allows two additional commands (start and
+> > stop interface) which allows the assignment of a net_device to the
+> > dropwatch protocol. When assinged, dropwatch will clone dropped frames,
+> > and receive them on the assigned interface, allowing tools like tcpdump
+> > to monitor for them.
+> >
+> > With this feature, create a dummy ethernet interface (ip link add dev
+> > dummy0 type dummy), assign it to the dropwatch kernel subsystem, by using
+> > these new commands, and then monitor dropped frames in real time by
+> > running tcpdump -i dummy0.
+> >
+> > Signed-off-by: Izabela Bakollari <izabela.bakollari@gmail.com>
+> > ---
+> > Changes in v2:
+> > - protect the dummy ethernet interface from being changed by another
+> > thread/cpu
+> > ---
+> >   include/uapi/linux/net_dropmon.h |  3 ++
+> >   net/core/drop_monitor.c          | 84 ++++++++++++++++++++++++++++++++
+> >   2 files changed, 87 insertions(+)
+> [...]
+> > @@ -255,6 +259,21 @@ static void trace_drop_common(struct sk_buff *skb, void *location)
+> >
+> >   out:
+> >       spin_unlock_irqrestore(&data->lock, flags);
+> > +     spin_lock_irqsave(&interface_lock, flags);
+> > +     if (interface && interface != skb->dev) {
+> > +             skb = skb_clone(skb, GFP_ATOMIC);
 >
->do you have a btmon trace for this happening?
-
-Please see the attachment "btmon_output" which is a plain text file.
-I couldn't find a way to save traces in btsnoop format (the kernel would
-panic immediately after running the re-producer before QEMU has a chance
-to write the btsnoop file to the disk image).
-
-I've also also attached a simplified re-producer rep9_min.c if it interests you.
+> I suggest naming the cloned skb "nskb". Less potential for confusion
+> that way.
 >
->> Reported-and-tested-by: syzbot+dd768a260f7358adbaf9@syzkaller.appspotmail.com
->> Link: https://syzkaller.appspot.com/bug?extid=dd768a260f7358adbaf9
->> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
->> ---
->> net/bluetooth/hci_event.c | 5 +++++
->> 1 file changed, 5 insertions(+)
->>
->> diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
->> index 4b7fc430793c..1233739ce760 100644
->> --- a/net/bluetooth/hci_event.c
->> +++ b/net/bluetooth/hci_event.c
->> @@ -2605,6 +2605,11 @@ static void hci_conn_complete_evt(struct hci_dev *hdev, struct sk_buff *skb)
->> 	}
->>
->> 	if (!ev->status) {
->> +		if (conn->debugfs) {
->> +			bt_dev_err(hdev, "The connection has been completed");
->> +			goto unlock;
->> +		}
->> +
+> > +             if (skb) {
+> > +                     skb->dev = interface;
+> > +                     spin_unlock_irqrestore(&interface_lock, flags);
+> > +                     netif_receive_skb(skb);
+> > +             } else {
+> > +                     spin_unlock_irqrestore(&interface_lock, flags);
+> > +                     pr_err("dropwatch: Not enough memory to clone dropped skb\n");
 >
->And instead of doing papering over a hole, I would rather detect that the HCI event is not valid since we already received one for this connection.
-
-To check conn->debugfs is what I think could be used to detect this
-duplicate HCI event. Or you are suggesting this is not sufficient
-and implement something like a state machine instead?
-
+> Maybe avoid logging the error here. In NET_DM_ALERT_MODE_PACKET mode,
+> drop monitor does not log about the skb_clone() failure either.
+> We don't want to open the possibility to flood the logs in case this
+> somehow gets triggered by every packet.
 >
->Regards
+> A coding style suggestion - can you rearrange it so that the error path
+> code is spelled out first? Then the regular path does not have to be
+> indented further:
 >
->Marcel
+>        nskb = skb_clone(skb, GFP_ATOMIC);
+>        if (!nskb) {
+>                spin_unlock_irqrestore(&interface_lock, flags);
+>                return;
+>        }
 >
-
---
-Best regards,
-Coiby
-
---yijhrv2ys2svaijk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=btmon_output
-
-Bluetooth monitor ver 5.54
-= Note: Linux version 5.8.0+ (x86_64)                                  0.447880
-= Note: Bluetooth subsystem version 2.22                               0.447950
-@ MGMT Open: btmon (privileged) version 1.18                  {0x0001} 0.449370
-= New Index: 00:00:00:00:00:00 (Primary,Virtual,hci0)           [hci0] 5.834012
-@ RAW Open: rep9_ (privileged) version 2.22                   {0x0002} 5.840840
-= Open Index: 00:00:00:00:00:00                                 [hci0] 5.843719
-< HCI Command: Reset (0x03|0x0003) plen 0                    #1 [hci0] 5.844689
-> HCI Event: Command Complete (0x0e) plen 252                #2 [hci0] 5.844982
-      Reset (0x03|0x0003) ncmd 1
-        invalid packet size
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00                       .........
-< HCI Command: Read Local Supported... (0x04|0x0003) plen 0  #3 [hci0] 5.845194
-> HCI Event: Command Complete (0x0e) plen 252                #4 [hci0] 5.845356
-      Read Local Supported Features (0x04|0x0003) ncmd 1
-        invalid packet size
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00                       .........
-< HCI Command: Read Local Version In.. (0x04|0x0001) plen 0  #5 [hci0] 5.845522
-> HCI Event: Command Complete (0x0e) plen 252                #6 [hci0] 5.845593
-      Read Local Version Information (0x04|0x0001) ncmd 1
-        invalid packet size
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00                       .........
-< HCI Command: Read BD ADDR (0x04|0x0009) plen 0             #7 [hci0] 5.845849
-> HCI Event: Command Complete (0x0e) plen 10                 #8 [hci0] 5.845914
-      Read BD ADDR (0x04|0x0009) ncmd 1
-        Status: Success (0x00)
-[   50.133219][ T8087] kobject_add_internal failed for hci0:200 with -EEXIST, don't try to register things with the same name in the same directory.
-[   50.135031][ T8087] Bluetooth: hci0: failed to register connection device
-        Address: AA:AA:AA:AA:AA:AA (OUI AA-AA-AA)
-< HCI Command: Read Buffer Size (0x04|0x0005) plen 0         #9 [hci0] 5.846623
-> HCI Event: Command Complete (0x0e) plen 11                #10 [hci0] 5.846710
-      Read Buffer Size (0x04|0x0005) ncmd 1
-        Status: Success (0x00)
-        ACL MTU: 1021 ACL max packet: 4
-        SCO MTU: 96   SCO max packet: 6
-< HCI Command: Read Class of Device (0x03|0x0023) plen 0    #11 [hci0] 5.846806
-> HCI Event: Command Complete (0x0e) plen 252               #12 [hci0] 5.846862
-      Read Class of Device (0x03|0x0023) ncmd 1
-        invalid packet size
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00                       .........
-< HCI Command: Read Local Name (0x03|0x0014) plen 0         #13 [hci0] 5.893252
-> HCI Event: Command Complete (0x0e) plen 252               #14 [hci0] 5.893318
-      Read Local Name (0x03|0x0014) ncmd 1
-        Status: Success (0x00)
-        Name:
-< HCI Command: Read Voice Setting (0x03|0x0025) plen 0      #15 [hci0] 5.893439
-> HCI Event: Command Complete (0x0e) plen 252               #16 [hci0] 5.893490
-      Read Voice Setting (0x03|0x0025) ncmd 1
-        invalid packet size
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00                       .........
-< HCI Command: Read Number of Suppo.. (0x03|0x0038) plen 0  #17 [hci0] 5.893559
-> HCI Event: Command Complete (0x0e) plen 252               #18 [hci0] 5.893600
-      Read Number of Supported IAC (0x03|0x0038) ncmd 1
-        invalid packet size
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00                       .........
-< HCI Command: Read Current IAC LAP (0x03|0x0039) plen 0    #19 [hci0] 5.893666
-> HCI Event: Command Complete (0x0e) plen 252               #20 [hci0] 5.893710
-      Read Current IAC LAP (0x03|0x0039) ncmd 1
-        Status: Success (0x00)
-        Number of IAC: 0
-< HCI Command: Set Event Filter (0x03|0x0005) plen 1        #21 [hci0] 5.893777
-        Type: Clear All Filters (0x00)
-> HCI Event: Command Complete (0x0e) plen 252               #22 [hci0] 5.893818
-      Set Event Filter (0x03|0x0005) ncmd 1
-        invalid packet size
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00                       .........
-< HCI Command: Write Connection Acc.. (0x03|0x0016) plen 2  #23 [hci0] 5.893884
-        Timeout: 20000.000 msec (0x7d00)
-> HCI Event: Command Complete (0x0e) plen 252               #24 [hci0] 5.893925
-      Write Connection Accept Timeout (0x03|0x0016) ncmd 1
-        invalid packet size
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-        00 00 00 00 00 00 00 00 00                       .........
-= Index Info: AA:AA:AA:AA:AA.. (Ericsson Technology Licensing)  [hci0] 5.894458
-@ MGMT Event: Index Added (0x0004) plen 0              {0x0001} [hci0] 5.894531
-< HCI Command: Write Scan Enable (0x03|0x001a) plen 1       #25 [hci0] 5.895481
-        Scan enable: Page Scan (0x02)
-> HCI Event: Command Complete (0x0e) plen 4                 #26 [hci0] 5.895547
-      Write Scan Enable (0x03|0x001a) ncmd 1
-        Status: Success (0x00)
-> HCI Event: Connect Request (0x04) plen 10                 #27 [hci0] 5.895786
-        Address: 10:AA:AA:AA:AA:AA (OUI 10-AA-AA)
-        Class: 0x000000
-          Major class: Miscellaneous
-          Minor class: 0x00
-        Link type: ACL (0x01)
-> HCI Event: Connect Complete (0x03) plen 11                #28 [hci0] 5.895828
-        Status: Success (0x00)
-        Handle: 200
-        Address: 10:AA:AA:AA:AA:AA (OUI 10-AA-AA)
-        Link type: ACL (0x01)
-        Encryption: Disabled (0x00)
-> HCI Event: Connect Complete (0x03) plen 11                #29 [hci0] 5.895842
-        Status: Success (0x00)
-        Handle: 200
-        Address: 10:AA:AA:AA:AA:AA (OUI 10-AA-AA)
-        Link type: ACL (0x01)
-        Encryption: Disabled (0x00)
-@ RAW Close: rep9_                                            {0x0002} 5.951790
-< HCI Command: Accept Connection Re.. (0x01|0x0009) plen 7  #30 [hci0] 6.130913
-        Address: 10:AA:AA:AA:AA:AA (OUI 10-AA-AA)
-        Role: Slave (0x01)
-
---yijhrv2ys2svaijk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="rep9_min.c"
-
-// based on the reproducer
-// https://syzkaller.appspot.com/bug?id=f0ec9a394925aafbdf13d0a7e6af4cff860f0ed6
-// wich is autogenerated by syzkaller (https://github.com/google/syzkaller)
-
-#define _GNU_SOURCE
-
-#include <dirent.h>
-#include <endian.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <pthread.h>
-#include <sched.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/epoll.h>
-#include <sys/ioctl.h>
-#include <sys/mount.h>
-#include <sys/prctl.h>
-#include <sys/resource.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-#include <sys/syscall.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <sys/wait.h>
-#include <time.h>
-#include <unistd.h>
-
-#include <linux/capability.h>
-
-const int kInitNetNsFd = 239;
-
-#define MAX_FDS 30
-
-static long syz_init_net_socket(volatile long domain, volatile long type,
-                                volatile long proto)
-{
-  int netns = open("/proc/self/ns/net", O_RDONLY);
-
-  if (netns == -1)
-    return netns;
-
-  int sock = syscall(__NR_socket, domain, type, proto);
-  int err = errno;
-
-  /** if (setns(netns, 0)) */
-  /**   exit(1); */
-
-  close(netns);
-  errno = err;
-  return sock;
-}
-
-#define BTPROTO_HCI 1
-#define ACL_LINK 1
-#define SCAN_PAGE 2
-
-typedef struct {
-  uint8_t b[6];
-} __attribute__((packed)) bdaddr_t;
-
-#define HCI_COMMAND_PKT 1
-#define HCI_EVENT_PKT 4
-#define HCI_VENDOR_PKT 0xff
-
-struct hci_command_hdr {
-  uint16_t opcode;
-  uint8_t plen;
-} __attribute__((packed));
-
-struct hci_event_hdr {
-  uint8_t evt;
-  uint8_t plen;
-} __attribute__((packed));
-
-#define HCI_EV_CONN_COMPLETE 0x03
-struct hci_ev_conn_complete {
-  uint8_t status;
-  uint16_t handle;
-  bdaddr_t bdaddr;
-  uint8_t link_type;
-  uint8_t encr_mode;
-} __attribute__((packed));
-
-#define HCI_EV_CONN_REQUEST 0x04
-struct hci_ev_conn_request {
-  bdaddr_t bdaddr;
-  uint8_t dev_class[3];
-  uint8_t link_type;
-} __attribute__((packed));
-
-#define HCI_EV_REMOTE_FEATURES 0x0b
-struct hci_ev_remote_features {
-  uint8_t status;
-  uint16_t handle;
-  uint8_t features[8];
-} __attribute__((packed));
-
-#define HCI_EV_CMD_COMPLETE 0x0e
-struct hci_ev_cmd_complete {
-  uint8_t ncmd;
-  uint16_t opcode;
-} __attribute__((packed));
-
-#define HCI_OP_WRITE_SCAN_ENABLE 0x0c1a
-
-#define HCI_OP_READ_BUFFER_SIZE 0x1005
-struct hci_rp_read_buffer_size {
-  uint8_t status;
-  uint16_t acl_mtu;
-  uint8_t sco_mtu;
-  uint16_t acl_max_pkt;
-  uint16_t sco_max_pkt;
-} __attribute__((packed));
-
-#define HCI_OP_READ_BD_ADDR 0x1009
-struct hci_rp_read_bd_addr {
-  uint8_t status;
-  bdaddr_t bdaddr;
-} __attribute__((packed));
-
-#define HCI_EV_LE_META 0x3e
-struct hci_ev_le_meta {
-  uint8_t subevent;
-} __attribute__((packed));
-
-#define HCI_EV_LE_CONN_COMPLETE 0x01
-struct hci_ev_le_conn_complete {
-  uint8_t status;
-  uint16_t handle;
-  uint8_t role;
-  uint8_t bdaddr_type;
-  bdaddr_t bdaddr;
-  uint16_t interval;
-  uint16_t latency;
-  uint16_t supervision_timeout;
-  uint8_t clk_accurancy;
-} __attribute__((packed));
-
-struct hci_dev_req {
-  uint16_t dev_id;
-  uint32_t dev_opt;
-};
-
-struct vhci_vendor_pkt {
-  uint8_t type;
-  uint8_t opcode;
-  uint16_t id;
-};
-
-#define HCIDEVUP _IOW('H', 201, int)
-#define HCISETSCAN _IOW('H', 221, int)
-
-static int vhci_fd = -1;
-
-static void hci_send_event_packet(int fd, uint8_t evt, void* data,
-                                  size_t data_len)
-{
-  struct iovec iv[3];
-  struct hci_event_hdr hdr;
-  hdr.evt = evt;
-  hdr.plen = data_len;
-  uint8_t type = HCI_EVENT_PKT;
-  iv[0].iov_base = &type;
-  iv[0].iov_len = sizeof(type);
-  iv[1].iov_base = &hdr;
-  iv[1].iov_len = sizeof(hdr);
-  iv[2].iov_base = data;
-  iv[2].iov_len = data_len;
-  if (writev(fd, iv, sizeof(iv) / sizeof(struct iovec)) < 0)
-    exit(1);
-}
-
-static void hci_send_event_cmd_complete(int fd, uint16_t opcode, void* data,
-                                        size_t data_len)
-{
-  struct iovec iv[4];
-  struct hci_event_hdr hdr;
-  hdr.evt = HCI_EV_CMD_COMPLETE;
-  hdr.plen = sizeof(struct hci_ev_cmd_complete) + data_len;
-  struct hci_ev_cmd_complete evt_hdr;
-  evt_hdr.ncmd = 1;
-  evt_hdr.opcode = opcode;
-  uint8_t type = HCI_EVENT_PKT;
-  iv[0].iov_base = &type;
-  iv[0].iov_len = sizeof(type);
-  iv[1].iov_base = &hdr;
-  iv[1].iov_len = sizeof(hdr);
-  iv[2].iov_base = &evt_hdr;
-  iv[2].iov_len = sizeof(evt_hdr);
-  iv[3].iov_base = data;
-  iv[3].iov_len = data_len;
-  if (writev(fd, iv, sizeof(iv) / sizeof(struct iovec)) < 0)
-    exit(1);
-}
-
-#define HCI_HANDLE_1 200
-#define HCI_HANDLE_2 201
-
-static void send_complte_ev()
-{
-  struct hci_ev_conn_complete complete;
-  memset(&complete, 0, sizeof(complete));
-  complete.status = 0;
-  complete.handle = HCI_HANDLE_1;
-  memset(&complete.bdaddr, 0xaa, 6);
-  *(uint8_t*)&complete.bdaddr.b[5] = 0x10;
-  complete.link_type = ACL_LINK;
-  complete.encr_mode = 0;
-  hci_send_event_packet(vhci_fd, HCI_EV_CONN_COMPLETE, &complete,
-                        sizeof(complete));
-}
-
-static bool process_command_pkt(int fd, char* buf, ssize_t buf_size)
-{
-  struct hci_command_hdr* hdr = (struct hci_command_hdr*)buf;
-  if (buf_size < (ssize_t)sizeof(struct hci_command_hdr) ||
-      hdr->plen != buf_size - sizeof(struct hci_command_hdr)) {
-    exit(1);
-  }
-  switch (hdr->opcode) {
-  case HCI_OP_WRITE_SCAN_ENABLE: {
-    uint8_t status = 0;
-    hci_send_event_cmd_complete(fd, hdr->opcode, &status, sizeof(status));
-    return true;
-  }
-  case HCI_OP_READ_BD_ADDR: {
-    struct hci_rp_read_bd_addr rp = {0};
-    rp.status = 0;
-    memset(&rp.bdaddr, 0xaa, 6);
-    hci_send_event_cmd_complete(fd, hdr->opcode, &rp, sizeof(rp));
-    return false;
-  }
-  case HCI_OP_READ_BUFFER_SIZE: {
-    struct hci_rp_read_buffer_size rp = {0};
-    rp.status = 0;
-    rp.acl_mtu = 1021;
-    rp.sco_mtu = 96;
-    rp.acl_max_pkt = 4;
-    rp.sco_max_pkt = 6;
-    hci_send_event_cmd_complete(fd, hdr->opcode, &rp, sizeof(rp));
-    return false;
-  }
-  }
-  char dummy[0xf9] = {0};
-  hci_send_event_cmd_complete(fd, hdr->opcode, dummy, sizeof(dummy));
-  return false;
-}
-
-static void* event_thread(void* arg)
-{
-  while (1) {
-    char buf[1024] = {0};
-    ssize_t buf_size = read(vhci_fd, buf, sizeof(buf));
-    if (buf_size < 0)
-      exit(1);
-    if (buf_size > 0 && buf[0] == HCI_COMMAND_PKT) {
-      if (process_command_pkt(vhci_fd, buf + 1, buf_size - 1))
-        break;
-    }
-  }
-  return NULL;
-}
-static void initialize_vhci()
-{
-  int hci_sock = syz_init_net_socket(AF_BLUETOOTH, SOCK_RAW, BTPROTO_HCI);
-  if (hci_sock < 0)
-    exit(1);
-
-  vhci_fd = open("/dev/vhci", O_RDWR);
-  if (vhci_fd == -1)
-    exit(1);
-
-  struct vhci_vendor_pkt vendor_pkt;
-  if (read(vhci_fd, &vendor_pkt, sizeof(vendor_pkt)) != sizeof(vendor_pkt))
-    exit(1);
-
-  if (vendor_pkt.type != HCI_VENDOR_PKT)
-    exit(1);
-
-  pthread_t th;
-  if (pthread_create(&th, NULL, event_thread, NULL))
-    exit(1);
-
-  if (ioctl(hci_sock, HCIDEVUP, vendor_pkt.id) && errno != EALREADY)
-    exit(1);
-
-  struct hci_dev_req dr = {0};
-  dr.dev_id = vendor_pkt.id;
-  dr.dev_opt = SCAN_PAGE;
-  if (ioctl(hci_sock, HCISETSCAN, &dr))
-    exit(1);
-  struct hci_ev_conn_request request;
-  memset(&request, 0, sizeof(request));
-  memset(&request.bdaddr, 0xaa, 6);
-  *(uint8_t*)&request.bdaddr.b[5] = 0x10;
-  request.link_type = ACL_LINK;
-  hci_send_event_packet(vhci_fd, HCI_EV_CONN_REQUEST, &request,
-                        sizeof(request));
-
-  send_complte_ev();
-  send_complte_ev();
-  pthread_join(th, NULL);
-  close(hci_sock);
-}
-
-int main(void)
-{
-  initialize_vhci();
-  return 0;
-}
-
---yijhrv2ys2svaijk
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>        /* ... implicit else ... Proceed normally ... */
+>
+> > +                     return;
+> > +             }
+> > +     } else {
+> > +             spin_unlock_irqrestore(&interface_lock, flags);
+> > +     }
+> >   }
+> >
+> >   static void trace_kfree_skb_hit(void *ignore, struct sk_buff *skb, void *location)
+> > @@ -1315,6 +1334,53 @@ static int net_dm_cmd_trace(struct sk_buff *skb,
+> >       return -EOPNOTSUPP;
+> >   }
+> >
+> > +static int net_dm_interface_start(struct net *net, const char *ifname)
+> > +{
+> > +     struct net_device *nd = dev_get_by_name(net, ifname);
+> > +
+> > +     if (nd)
+> > +             interface = nd;
+> > +     else
+> > +             return -ENODEV;
+> > +
+> > +     return 0;
+>
+> Similarly here, consider:
+>
+>    if (!nd)
+>            return -ENODEV;
+>
+>    interface = nd;
+>    return 0;
+>
+> But maybe I'm nitpicking ...
+>
+> > +}
+> > +
+> > +static int net_dm_interface_stop(struct net *net, const char *ifname)
+> > +{
+> > +     dev_put(interface);
+> > +     interface = NULL;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int net_dm_cmd_ifc_trace(struct sk_buff *skb, struct genl_info *info)
+> > +{
+> > +     struct net *net = sock_net(skb->sk);
+> > +     char ifname[IFNAMSIZ];
+> > +
+> > +     if (net_dm_is_monitoring())
+> > +             return -EBUSY;
+> > +
+> > +     memset(ifname, 0, IFNAMSIZ);
+> > +     nla_strlcpy(ifname, info->attrs[NET_DM_ATTR_IFNAME], IFNAMSIZ - 1);
+> > +
+> > +     switch (info->genlhdr->cmd) {
+> > +     case NET_DM_CMD_START_IFC:
+> > +             if (!interface)
+> > +                     return net_dm_interface_start(net, ifname);
+> > +             else
+> > +                     return -EBUSY;
+> > +     case NET_DM_CMD_STOP_IFC:
+> > +             if (interface)
+> > +                     return net_dm_interface_stop(net, interface->name);
+> > +             else
+> > +                     return -ENODEV;
+>
+> ... and here too.
+>
+> Best regards,
+> Michal
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---yijhrv2ys2svaijk--
