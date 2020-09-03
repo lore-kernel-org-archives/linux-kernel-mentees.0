@@ -2,64 +2,100 @@ Return-Path: <SRS0=oh/h=CM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8153C433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Sep 2020 06:59:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38771C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Sep 2020 07:24:16 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9143A2071B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Sep 2020 06:59:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9143A2071B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id CDF5020775
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Sep 2020 07:24:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iTf3qyc4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CDF5020775
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 476B486B85;
-	Thu,  3 Sep 2020 06:59:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6F19D86AF2;
+	Thu,  3 Sep 2020 07:24:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m8VOYjHOKTOq; Thu,  3 Sep 2020 06:59:58 +0000 (UTC)
+	with ESMTP id KVILj1zqhl8R; Thu,  3 Sep 2020 07:24:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1B09A86B82;
-	Thu,  3 Sep 2020 06:59:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 15DEA86AB3;
+	Thu,  3 Sep 2020 07:24:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 05A0AC07FF;
-	Thu,  3 Sep 2020 06:59:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F0958C0052;
+	Thu,  3 Sep 2020 07:24:14 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 91078C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6517EC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Sep 2020 06:59:56 +0000 (UTC)
+ Thu,  3 Sep 2020 07:24:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4EFC520434
+ by silver.osuosl.org (Postfix) with ESMTP id 3955820450
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Sep 2020 06:59:56 +0000 (UTC)
+ Thu,  3 Sep 2020 07:24:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Yis11MYqhasQ
+ with ESMTP id iBfe0cTFQfxH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Sep 2020 06:59:54 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by silver.osuosl.org (Postfix) with ESMTPS id 9CDC32041E
+ Thu,  3 Sep 2020 07:24:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 613592E0F5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Sep 2020 06:59:54 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 30B2968BEB; Thu,  3 Sep 2020 08:59:50 +0200 (CEST)
-Date: Thu, 3 Sep 2020 08:59:50 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Message-ID: <20200903065950.GA19012@lst.de>
+ Thu,  3 Sep 2020 07:24:06 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id o68so1583712pfg.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 03 Sep 2020 00:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=xtCcxTYMpjBSX+MDnv73jbCTU3aLiCTczQOMAgWGsmE=;
+ b=iTf3qyc48zHHpG2gTxA5HZEc9keVFMo5eH2gF9icUZl1zSpN2ZTRZV7PdUEezjnT+z
+ vgTRUTJMcL+QztuWJ60M2bIKT0GQck0D80pD55uvOdS8CC1BzIT5aP8yV1P8WLGq4dDZ
+ wkROWgJorCnGpD2Y42FVo58Ps1IRNoYoJZLamkFOIjEcnNbS8FnTgPGupe8whjX4a2Ba
+ cii6fWuw5dwmJaRww2XPTT/dCca6jlzVY5Jy3bnizPr9oLXMO2TUTpK8Wcud/0RL4xg9
+ 5TVVL70AU0WIF9/HGAF6rADMUjm0lCQSRUvw6gUjAMgDPzzKS11/ot+klu9fnxBBaaap
+ UA1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xtCcxTYMpjBSX+MDnv73jbCTU3aLiCTczQOMAgWGsmE=;
+ b=td7avh2HPQG3d9Dlc2i4sxJAf1nAZck1X0pvdT2stUrD0BWrPu8xtPGyfDD9HVLV/+
+ 5twMMmRCUNo84IzIM/SpbJ0LfIThVSYV1cSV0vern5SnWPzRHEbl+P+f43aNZKpNbM8b
+ F9Gxh2NZVKR20jiQ18/Lbour321a1kyKQGYhSqhlI0pu1N3I0OrDPjitSWyqp48dSTv5
+ wqay7Ga9sSzL8RmWqBecyiu9NfUX+0BpxXadOYGC9ifkA11Mnv7KHrLWcesgmBhMs8E6
+ opk9bQDKR/J53sRCNduNzcoEzD5qJBYF1LKcJBlPzegcaXjpNrWAQcn1TeEIOyptNpTj
+ JGgg==
+X-Gm-Message-State: AOAM530rFQ1V1VbeRm8dbaqmNbPBNS+tyVxDVnWu2IzSzNnu5E7ukT5G
+ mTTfkL9roz47dxJLQzI7/w==
+X-Google-Smtp-Source: ABdhPJxyg4RbEhd2Qj9AvXQ7rOsm/jCPegx9vLDmxy5uCZWZR1WITO7Q4SBRzQ9uR8r8nG70ko7icQ==
+X-Received: by 2002:a05:6a00:23c5:: with SMTP id
+ g5mr2554151pfc.160.1599117845943; 
+ Thu, 03 Sep 2020 00:24:05 -0700 (PDT)
+Received: from PWN ([161.117.80.159])
+ by smtp.gmail.com with ESMTPSA id 1sm1841092pfe.70.2020.09.03.00.24.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Sep 2020 00:24:05 -0700 (PDT)
+Date: Thu, 3 Sep 2020 03:23:57 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Message-ID: <20200903072357.GA623968@PWN>
 References: <000000000000520ffc05ae2f4fee@google.com>
  <20200903065534.623691-1-yepeilin.cs@gmail.com>
+ <20200903065950.GA19012@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200903065534.623691-1-yepeilin.cs@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200903065950.GA19012@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Hillf Danton <hdanton@sina.com>,
  Jan Kara <jack@suse.cz>, Johannes Thumshirn <johannes.thumshirn@wdc.com>,
  syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
@@ -85,14 +121,21 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Sep 03, 2020 at 02:55:34AM -0400, Peilin Ye wrote:
-> In bdev_del_partition(), `part` is being looked up outside the critical
-> section. This is causing bdev_del_partition() to delete the same partition
-> more than once. Fix it by reverting commit cddae808aeb7.
+On Thu, Sep 03, 2020 at 08:59:50AM +0200, Christoph Hellwig wrote:
+> On Thu, Sep 03, 2020 at 02:55:34AM -0400, Peilin Ye wrote:
+> > In bdev_del_partition(), `part` is being looked up outside the critical
+> > section. This is causing bdev_del_partition() to delete the same partition
+> > more than once. Fix it by reverting commit cddae808aeb7.
+> 
+> We've already fix the problem properly:
+> 
+> https://git.kernel.dk/cgit/linux-block/commit/?h=block-5.9&id=08fc1ab6d748ab1a690fd483f41e2938984ce353
 
-We've already fix the problem properly:
+Ah, I searched linux-kernel but didn't see your patch, sorry about
+that. I should have searched linux-block too.
 
-https://git.kernel.dk/cgit/linux-block/commit/?h=block-5.9&id=08fc1ab6d748ab1a690fd483f41e2938984ce353
+Thank you,
+Peilin
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
