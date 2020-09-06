@@ -2,109 +2,88 @@ Return-Path: <SRS0=W7xB=CP=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C47C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Sep 2020 04:27:37 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA1AC43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Sep 2020 10:00:02 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3FBEC20757
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Sep 2020 04:27:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5943C20C09
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Sep 2020 10:00:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dybQv1ZM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3FBEC20757
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="OkqcoDWt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5943C20C09
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C43AA87414;
-	Sun,  6 Sep 2020 04:27:36 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0314A85F08;
+	Sun,  6 Sep 2020 10:00:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id W+4MEquHXMmF; Sun,  6 Sep 2020 04:27:34 +0000 (UTC)
+	with ESMTP id VAzkKX9DaRYb; Sun,  6 Sep 2020 09:59:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DC965873A4;
-	Sun,  6 Sep 2020 04:27:34 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B873C85EF3;
+	Sun,  6 Sep 2020 09:59:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CAB41C0052;
-	Sun,  6 Sep 2020 04:27:34 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EA2D5C0051
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Sep 2020 04:27:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C9D0C0859;
+	Sun,  6 Sep 2020 09:59:59 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C459FC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  6 Sep 2020 09:59:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D296187414
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Sep 2020 04:27:33 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 945442038B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  6 Sep 2020 09:59:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pR23O9Hr2lqH
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Sep 2020 04:27:32 +0000 (UTC)
+ with ESMTP id TqjXsT7wy0yo
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  6 Sep 2020 09:59:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4AF46873A4
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Sep 2020 04:27:32 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 17so6807062pfw.9
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 05 Sep 2020 21:27:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=8shsnvDXis6+7ZUbes6+2PtGGUKwjpz8OIwC0oOp5Lk=;
- b=dybQv1ZMlQbbEeqw7X/KM0J/krJg+KzWmUyC8v+TfemMeTYMsTWcWuvVh0vIlApYlv
- hYsl2qIP1u3oxgf2jz6VVrLdZ3xBhhjOy+ISKWWcylqJ2zi75whBGygCzKosmDooTLKk
- 1bTCIl2gvEarB2trhr7KYNK+wgINBCpu29N37In8ZChRhi6LwDJflMmsXWMfME6mo4JN
- 4Ybs2Ba/7RqEPlY1en1BWcBDZRbRKYZ08iaLmyPgEwn3Eynk8bRVw6j5O24YuT6i9bGL
- bSzxnlml+mgmFUzWUOx9AJjj8BptHLMIn4bpYx/P7XDjWnLo5unonCgcYYmiGlx+++Ew
- 1xFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8shsnvDXis6+7ZUbes6+2PtGGUKwjpz8OIwC0oOp5Lk=;
- b=mzyRuUH1QiF078XzLJF5thE8o6/pQZkZa6TGsbrypsft9G/iGcnCnrZhGkszE5TvIM
- L7IwVfjrWWHSx2psn3qDz0hvyXOP2f2StI8N0x/SYXkTQvWgcZTPaVFb/Pm/vD+9PMG4
- 5UAt70WYIF8NfyURuUXm4UppFMakxYLgTAgnwivNqHbwdSiNTXRU6f46u1yRo9MuH9UQ
- fubRrm1T6OxSPIVa+z0Qde4humskz0WkaxlF8jwl2FeFdNac4tRyF4FS/aW+1YVWojll
- i8KUnzmpdeczKQGTm/G6KgzggZ/IO5WgDoH1llobBaLdYM+WngU6p0Ew4D6lUu8z1gwY
- iAxQ==
-X-Gm-Message-State: AOAM530oF2MfsNc6jAb8bNWLv6HgNGDxlJH5GXCpY9aFnB//ctUC+VPF
- xpJM+vvJTKIlKctxRzSMPkCGhhgwJok0Mg==
-X-Google-Smtp-Source: ABdhPJzC/J6U/4ew58tO982LDokDBcJGwx+h4vr2Zbth6tl1MxPhT4Lfx+nwu/RRBUZp7UojS3lZdw==
-X-Received: by 2002:a63:50c:: with SMTP id 12mr12636010pgf.173.1599366451439; 
- Sat, 05 Sep 2020 21:27:31 -0700 (PDT)
-Received: from localhost ([1.22.41.54])
- by smtp.gmail.com with ESMTPSA id c1sm10810082pfi.136.2020.09.05.21.27.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Sep 2020 21:27:30 -0700 (PDT)
-Date: Sun, 6 Sep 2020 09:57:24 +0530
-From: Mrinal Pandey <mrinalmni@gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, skhan@linuxfoundation.org,
- Linux-kernel-mentees@lists.linuxfoundation.org, mrinalmni@gmail.com
-Message-ID: <20200906042724.p6gbirsugnvslmh7@mrinalpandey>
-References: <20200803075841.6bp4pcx3av2ow72s@mrinalpandey>
- <alpine.DEB.2.21.2008031251410.8346@felia>
- <20200804155640.x3kzgqfsmmkj5z2b@mrinalpandey>
- <alpine.DEB.2.21.2008042131530.4346@felia>
- <20200809072240.lvuuwscinkfqpwxo@mrinalpandey>
- <20200820044241.4ivtq5co6cm4aze6@mrinalpandey>
- <alpine.DEB.2.21.2008221014310.12792@felia>
- <20200824082325.4prwz56p2ppgfojl@mrinalpandey>
- <alpine.DEB.2.21.2008241052310.2932@felia>
- <20200825045358.hygtrkm6qxyiwjft@mrinalpandey>
-MIME-Version: 1.0
-In-Reply-To: <20200825045358.hygtrkm6qxyiwjft@mrinalpandey>
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Improve SPDX license
- identifier check for script files
+Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
+ by silver.osuosl.org (Postfix) with ESMTPS id EEC2B2037A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  6 Sep 2020 09:59:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id B4171529B5;
+ Sun,  6 Sep 2020 11:59:52 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2fza_7aRBkGP; Sun,  6 Sep 2020 11:59:51 +0200 (CEST)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1599386390; bh=9szsjSVjl0qTdDS1/uS6NIyJTD1/Y9aeXx6aN1njXgo=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References;
+ b=OkqcoDWtXmx/IV5FBxzbvJ8g76t9NAkFrUy2ceWg8fRkrrsChlbTMMn1/PK1DtRJw
+ fLS6KTysKsueE1EDPc/FO26wq3ZmW1d8J6jYRDYmr2XJw1vwn4ETgkyP5DcNvXlOVf
+ xE2PMj2iZU2ZfO8NiqAHQfCxQsslBiAXVTLOyi4buL3YT6/cwHXgHcXxeNTSKkNMkc
+ QOJtg3NtcVsvsq8loZBVC2SSY/sG+tZ7bUhUqbAH0ZcqkjiHQsfy5yNHXQ15yfynKz
+ T4V5UOfpZfQHwxCHJg27VsnFR3Ll6ciBJmD7kB1jaN3zkjwq3GTKp8+qIw8ctwwBMx
+ jvHviKCxjKZ8A==
+Date: Sun, 06 Sep 2020 09:59:48 +0000
+From: "Ayush" <ayush@disroot.org>
+Message-ID: <a6f436fe39f48d9b7e537bdfad07fc7e@disroot.org>
+To: "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
+In-Reply-To: <alpine.DEB.2.21.2008310702520.8556@felia>
+References: <alpine.DEB.2.21.2008310702520.8556@felia>
+ <alpine.DEB.2.21.2008270707440.9436@felia>
+ <alpine.DEB.2.21.2008221002290.12792@felia>
+ <alpine.DEB.2.21.2008171142310.8645@felia>
+ <20200810125354.xeijyh3v5upatrez@salamander>
+ <4f5612540c184970157a98d103d7cd04@disroot.org>
+ <32595de077ee7d674a628df11c58152f@disroot.org>
+ <97cef44dfa6c692c20ef7a0d981e4863@disroot.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
+	Improve checkpatch.pl"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,491 +95,203 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8435797598156364567=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+August 31, 2020 10:44 AM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
 
---===============8435797598156364567==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5cbt5yspfxa5u7qf"
-Content-Disposition: inline
-
-
---5cbt5yspfxa5u7qf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 20/08/25 10:23AM, Mrinal Pandey wrote:
-> On 20/08/24 10:54AM, Lukas Bulwahn wrote:
-> >=20
-> >=20
-> > On Mon, 24 Aug 2020, Mrinal Pandey wrote:
-> >=20
-> > > On 20/08/22 10:24AM, Lukas Bulwahn wrote:
-> > > >=20
-> > > >=20
-> > > > On Thu, 20 Aug 2020, Mrinal Pandey wrote:
-> > > >=20
-> > > > > On 20/08/09 12:52PM, Mrinal Pandey wrote:
-> > > > > > On 20/08/04 09:37PM, Lukas Bulwahn wrote:
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > On Tue, 4 Aug 2020, Mrinal Pandey wrote:
-> > > > > > >=20
-> > > > > > > > On 20/08/03 12:59PM, Lukas Bulwahn wrote:
-> > > > > > > > >=20
-> > > > > > > > >=20
-> > > > > > > > > On Mon, 3 Aug 2020, Mrinal Pandey wrote:
-> > > > > > > > >=20
-> > > > > > > > > > The diff content includes the SPDX licensing informatio=
-n but excludes the
-> > > > > > > > > > shebang when a change is made to a script file in commi=
-t 37f8173dd849
-> > > > > > > > > > ("locking/atomics: Flip fallbacks and  instrumentation"=
-) and commit
-> > > > > > > > > > 075c8aa79d54 ("selftests: forwarding: tc_actions.sh: ad=
-d matchall mirror
-> > > > > > > > > > test"). In these cases checkpatch issues a false positi=
-ve warning:
-> > > > > > > > > > "Misplaced SPDX-License-Identifier tag - use line 1 ins=
-tead".
-> > > > > > > > > >=20
-> > > > > > > > > > Currently, if checkpatch finds a shebang in line 1, it =
-expects the
-> > > > > > > > > > license identifier in line 2. However, this doesn't wor=
-k when a shebang
-> > > > > > > > > > isn't found on the line 1.
-> > > > > > > > >=20
-> > > > > > > > > It does not work when the diff does not contain line 1, b=
-ut only line 2,
-> > > > > > > > > because then the shebang check for line 1 cannot work.
-> > > > > > > > >=20
-> > > > > > > > > >=20
-> > > > > > > > > > I noticed this false positive, while running checkpatch=
- on the set of
-> > > > > > > > > > commits from v5.7 to v5.8-rc1 of the kernel, on the sai=
-d commits.
-> > > > > > > > > > This false positive exists in checkpatch since commit a=
-8da38a9cf0e
-> > > > > > > > > > ("checkpatch: add test for SPDX-License-Identifier on w=
-rong line #")
-> > > > > > > > > > when the corresponding rule was first added.
-> > > > > > > > > >=20
-> > > > > > > > > > The alternatives considered to improve this check were =
-looking the file
-> > > > > > > > > > to be a script by either examining the file extension o=
-r file permissions.
-> > > > > > > > > >
-> > > > > > > > >=20
-> > > > > > > > > Make this sentence shorter. Try.
-> > > > > > > > > =20
-> > > > > > > > > > The evaluation on former option resulted in 120 files w=
-hich had a shebang
-> > > > > > > > > > in the first line but no file extension. This didn't lo=
-ok like a promising
-> > > > > > > > > > result and hence I dropped the idea of using this appro=
-ach.
-> > > > > > > > > >=20
-> > > > > > > > > > The evaluation on the latter approach shows that there =
-are 53 files in the
-> > > > > > > > > > kernel which have an executable bit set but don't have =
-a shebang in the
-> > > > > > > > > > first line.
-> > > > > > > > > >=20
-> > > > > > > > > > At the first sight on these 53 files, it seems that the=
-y either have a
-> > > > > > > > > > wrong file permission set or could be reasonably extend=
-ed with a shebang
-> > > > > > > > > > and SPDX license information. Thus, further cleanup in =
-the repository
-> > > > > > > > > > would make the latter approach to work even more precis=
-ely.
-> > > > > > > > > >=20
-> > > > > > > > > > Hence, I chose to check the file permissions to determi=
-ne if the file is a
-> > > > > > > > > > script and notify checkpatch to expect SPDX on second l=
-ine for such files.
-> > > > > > > > > >
-> > > > > > > > >=20
-> > > > > > > > > There is no notification here. Think about better wording.
-> > > > > > > > > =20
-> > > > > > > > > > Signed-off-by: Mrinal Pandey <mrinalmni@gmail.com>
-> > > > > > > > > > ---
-> > > > > > > > > >  scripts/checkpatch.pl | 3 +++
-> > > > > > > > > >  1 file changed, 3 insertions(+)
-> > > > > > > > > >=20
-> > > > > > > > > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch=
-=2Epl
-> > > > > > > > > > index 4c820607540b..bae1dd824518 100755
-> > > > > > > > > > --- a/scripts/checkpatch.pl
-> > > > > > > > > > +++ b/scripts/checkpatch.pl
-> > > > > > > > > > @@ -3166,6 +3166,9 @@ sub process {
-> > > > > > > > > >  		}
-> > > > > > > > > > =20
-> > > > > > > > > >  # check for using SPDX license tag at beginning of fil=
-es
-> > > > > > > > > > +		if ($line =3D~ /^index\ .*\.\..*\ .*[7531]\d{0,2}$/)=
- {
-> > > > > > > > > > +			$checklicenseline =3D 2;
-> > > > > > > > > > +		}
-> > > > > > > > >=20
-> > > > > > > > > That check looks good now.
-> > > > > > > > >=20
-> > > > > > > > > >  		if ($realline =3D=3D $checklicenseline) {
-> > > > > > > > > >  			if ($rawline =3D~ /^[ \+]\s*\#\!\s*\//) {
-> > > > > > > > > >  				$checklicenseline =3D 2;
-> > > > > > > > >=20
-> > > > > > > > > This is probably broken now. It should check for shebang =
-in line 1 and=20
-> > > > > > > > > then set checklicenseline to line 2, right?
-> > > > > > > >=20
-> > > > > > > > Sir,
-> > > > > > > >=20
-> > > > > > > > Should we remove this check? Earlier when I checked for fil=
-e extension
-> > > > > > > > we had 120 cases where this check was also needed but now w=
-e have a
-> > > > > > > > better heuristic which is going to work for all cases where=
- license
-> > > > > > > > should be on line 2 irrespective of the fact that we know t=
-he first line
-> > > > > > > > or not.
-> > > > > > > >
-> > > > > > >=20
-> > > > > > > Are you sure about that? Where is the evaluation that proves =
-your point?
-> > > > > > >=20
-> > > > > > > E.g., are all files that contain a shebang really with an exe=
-cutable flag?
-> > > > > > >=20
-> > > > > > > Which commands did you run to check this?
-> > > > > > > =20
-> > > > > > > > If I am missing out on something and we should not be remov=
-ing this check,
-> > > > > > > > then I suggest placing the new heuristics below this block =
-so that it doesn't
-> > > > > > > > interfere with the existing logic.
-> > > > > > > >=20
-> > > > > > > > Please let me know which path should I go about and then I =
-shall resend
-> > > > > > > > the patch with the modified commit message.
-> > > > > > > >=20
-> > > > > > >=20
-> > > > > > > Think about the strengths and weaknesses of the potential sol=
-utions, then=20
-> > > > > > > show with some commands (as I did for example, for finding th=
-e first=20
-> > > > > > > lines previously) that you can show that it practically makes=
- a=20
-> > > > > > > difference and you can numbers on those differences.
-> > > > > > >=20
-> > > > > > > When you did that, send a new patch.
-> > > > > > >=20
-> > > > > > > Lukas
-> > > > > > >=20
-> > > > > > Sir,
-> > > > > >=20
-> > > > > > I ran the evaluation as:
-> > > > > >=20
-> > > > > > mrinalpandey@mrinalpandey:~/linux/linux$ cat get_permissions.sh
-> > > > > > #!/bin/bash
-> > > > > >=20
-> > > > > > for file in $(git ls-files)
-> > > > > > do
-> > > > > >         permissions=3D"$(stat -c "%a %n" $file)"
-> > > > > >         echo "$permissions"
-> > > > > > done
-> > > > > >=20
-> > > > > > mrinalpandey@mrinalpandey:~/linux/linux$ sh get_permissions.sh =
-| grep ^[7531] > temp
-> > > > > >=20
-> > > > > > mrinalpandey@mrinalpandey:~/linux/linux$ cut -d ' ' -f 2 temp >=
- executables
-> > > > > >=20
-> > > > > > mrinalpandey@mrinalpandey:~/linux/linux$ cat first_line.sh
-> > > > > > #!/bin/bash
-> > > > > > file=3D"executables"
-> > > > > > while IFS=3D read -r line
-> > > > > > do
-> > > > > >         firstline=3D`head -n 1 $line`
-> > > > > >         printf '%s:%s\n' "$firstline" "$line"
-> > > > > > done <"$file"
-> > > > > >=20
-> > > > > > mrinalpandey@mrinalpandey:~/linux/linux$ cat executables | wc -l
-> > > > > > 611
-> > > > > >=20
-> > > > > > mrinalpandey@mrinalpandey:~/linux/linux$ sh first_line.sh | gre=
-p ^#! | wc -l
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/arc': Is a di=
-rectory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/arm': Is a di=
-rectory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/arm64': Is a =
-directory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/c6x': Is a di=
-rectory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/dt-bindings':=
- Is a directory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/h8300': Is a =
-directory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/microblaze': =
-Is a directory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/mips': Is a d=
-irectory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/nios2': Is a =
-directory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/openrisc': Is=
- a directory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/powerpc': Is =
-a directory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/sh': Is a dir=
-ectory
-> > > > > > head: error reading 'scripts/dtc/include-prefixes/xtensa': Is a=
- directory
-> > > > > > 540
-> > > > > >=20
-> > > > > > We can see that there are 71 files where the executable bit is =
-set but
-> > > > > > the first line is not a shebang. These include 13 directories w=
-hich
-> > > > > > throw the error above. Remaining 58 files(earlier the number wa=
-s 53)
-> > > > > > could be cleaned so that this heuristic works better as we saw.=
- So, by
-> > > > > > checking only for the executable bit we can say that license sh=
-ould be
-> > > > > > on second line, we probably don't need to check for the shebang=
- on line
-> > > > > > 1.
-> > > > > > Please let me know if the evaluation makes sense.
-> > > > > >
-> > > >=20
-> > > > This evaluation makes sense to find the cases that should be cleane=
-d up.
-> > > >=20
-> > > > Either the executable flag is simply set wrongly and should be drop=
-ped or=20
-> > > > it is actually a script and should get a shebang in the beginning.
-> > > >=20
-> > > > I actually already started cleaning up. See:
-> > > >=20
-> > > > https://lore.kernel.org/lkml/20200819081808.26796-1-lukas.bulwahn@g=
-mail.com/
-> > > >=20
-> > > > We can discuss how to continue this cleanup.
-> > > >
-> > >=20
-> > > Sir,
-> > >=20
-> > > Sure. I would love to discuss that.
-> > > Should I send cleanup related patches directly to lkml or do they nee=
-d to
-> > > go through you, Shuah ma'am and mentee list first?
-> > >=20
-> > > > However, you cannot use this evaluation to say the checking the exe=
-cutable=20
-> > > > bit is enough, simply as from this evaluation, you do not know how =
-many=20
-> > > > files have a shebang in the first line and are not set with executa=
-ble=20
-> > > > flag. For those files, we expect the SPDX identifier in the second =
-line=20
-> > > > but your suggested approach would expect it in the first line.
-> > > >=20
-> > > > So we need an evaluation to find out how many cases of that situati=
-on=20
-> > > > exist?
-> > > >=20
-> > > > Then, can we easily fix those as well?
-> > >=20
-> > > Here is the evaluation I ran to find such cases:
-> > >=20
-> > > mrinalpandey@mrinalpandey:~/linux/linux$ cat first_lines.sh
-> > > #!/bin/bash
-> > >=20
-> > > for file in $(git ls-files)
-> > > do
-> > > 	permissions=3D"$(stat -c '%a %n' $file)"
-> > > 	firstline=3D"$(head -n 1 $file)"
-> > > 	echo "$permissions : $firstline"
-> > > done
-> > > mrinalpandey@mrinalpandey:~/linux/linux$ sh first_lines.sh | grep ^[6=
-42].*#! | wc -l
-> > > head: error reading 'scripts/dtc/include-prefixes/arc': Is a directory
-> > > head: error reading 'scripts/dtc/include-prefixes/arm': Is a directory
-> > > head: error reading 'scripts/dtc/include-prefixes/arm64': Is a direct=
-ory
-> > > head: error reading 'scripts/dtc/include-prefixes/c6x': Is a directory
-> > > head: error reading 'scripts/dtc/include-prefixes/dt-bindings': Is a =
-directory
-> > > head: error reading 'scripts/dtc/include-prefixes/h8300': Is a direct=
-ory
-> > > head: error reading 'scripts/dtc/include-prefixes/microblaze': Is a d=
-irectory
-> > > head: error reading 'scripts/dtc/include-prefixes/mips': Is a directo=
-ry
-> > > head: error reading 'scripts/dtc/include-prefixes/nios2': Is a direct=
-ory
-> > > head: error reading 'scripts/dtc/include-prefixes/openrisc': Is a dir=
-ectory
-> > > head: error reading 'scripts/dtc/include-prefixes/powerpc': Is a dire=
-ctory
-> > > head: error reading 'scripts/dtc/include-prefixes/sh': Is a directory
-> > > head: error reading 'scripts/dtc/include-prefixes/xtensa': Is a direc=
-tory
-> > > 82
-> > >=20
-> > > The last line in these 82 lines is "Binary file (standard input) matc=
-hes" so we have 81 instances
-> > > where we have shebang in the first line but the file is non-executabl=
-e.
-> > >
-> >=20
-> > How about removing the symbolic link files and then sharing that list?
->=20
-> Sir,
->=20
-> I couldn't find any symbolic links in these 81 files. The list is
-> attached herewith.
-> The list is in the format:
-> <permissions> <file-name> : <first-line>
->=20
-> Thank you.
-> >=20
-> > Lukas
-
-> 664 Documentation/admin-guide/aoe/autoload.sh : #!/bin/sh
-> 664 Documentation/admin-guide/aoe/status.sh : #! /bin/sh
-> 664 Documentation/arm64/kasan-offsets.sh : #!/bin/sh
-> 664 Documentation/firmware_class/hotplug-script : #!/bin/sh
-> 664 Documentation/networking/device_drivers/atm/cxacru-cf.py : #!/usr/bin=
-/env python
-> 664 Documentation/s390/config3270.sh : #!/bin/sh
-> 664 Documentation/sphinx/parallel-wrapper.sh : #!/bin/sh
-> 664 Documentation/trace/postprocess/decode_msr.py : #!/usr/bin/python
-> 664 Documentation/trace/postprocess/trace-pagealloc-postprocess.pl : #!/u=
-sr/bin/perl
-> 664 Documentation/trace/postprocess/trace-vmscan-postprocess.pl : #!/usr/=
-bin/perl
-> 664 arch/alpha/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/alpha/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/arm/boot/install.sh : #!/bin/sh
-> 664 arch/arm/crypto/poly1305-armv4.pl : #!/usr/bin/env perl
-> 664 arch/arm/crypto/sha256-armv4.pl : #!/usr/bin/env perl
-> 664 arch/arm/crypto/sha512-armv4.pl : #!/usr/bin/env perl
-> 664 arch/arm/tools/gen-mach-types : #!/bin/awk
-> 664 arch/arm/tools/syscallhdr.sh : #!/bin/sh
-> 664 arch/arm/tools/syscallnr.sh : #!/bin/sh
-> 664 arch/arm/tools/syscalltbl.sh : #!/bin/sh
-> 664 arch/arm64/boot/install.sh : #!/bin/sh
-> 664 arch/arm64/crypto/poly1305-armv8.pl : #!/usr/bin/env perl
-> 664 arch/arm64/crypto/sha512-armv8.pl : #! /usr/bin/env perl
-> 664 arch/ia64/install.sh : #!/bin/sh
-> 664 arch/ia64/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/ia64/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/ia64/scripts/unwcheck.py : #!/usr/bin/python
-> 664 arch/m68k/install.sh : #!/bin/sh
-> 664 arch/m68k/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/m68k/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/microblaze/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/microblaze/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/mips/crypto/poly1305-mips.pl : #!/usr/bin/env perl
-> 664 arch/mips/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/mips/kernel/syscalls/syscallnr.sh : #!/bin/sh
-> 664 arch/mips/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/nios2/boot/install.sh : #!/bin/sh
-> 664 arch/parisc/boot/install.sh : #!/bin/sh
-> 664 arch/parisc/install.sh : #!/bin/sh
-> 664 arch/parisc/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/parisc/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/parisc/nm : #!/bin/sh
-> 664 arch/powerpc/boot/install.sh : #!/bin/sh
-> 664 arch/powerpc/kernel/prom_init_check.sh : #!/bin/sh
-> 664 arch/powerpc/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/powerpc/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/powerpc/kernel/systbl_chk.sh : #!/bin/sh
-> 664 arch/riscv/boot/install.sh : #!/bin/sh
-> 664 arch/s390/boot/install.sh : #!/bin/sh
-> 664 arch/sh/boot/compressed/install.sh : #!/bin/sh
-> 664 arch/sh/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/sh/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/sh/tools/gen-mach-types : #!/bin/awk
-> 664 arch/sparc/boot/install.sh : #!/bin/sh
-> 664 arch/sparc/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/sparc/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 arch/sparc/vdso/checkundef.sh : #!/bin/sh
-> 664 arch/x86/boot/genimage.sh : #!/bin/sh
-> 664 arch/x86/boot/install.sh : #!/bin/sh
-> 664 arch/x86/crypto/poly1305-x86_64-cryptogams.pl : #!/usr/bin/env perl
-> 664 arch/x86/entry/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/x86/entry/syscalls/syscalltbl.sh : #!/bin/bash
-> 664 arch/x86/kernel/cpu/mkcapflags.sh : #!/bin/sh
-> 664 arch/x86/tools/gen-insn-attr-x86.awk : #!/bin/awk -f
-> 664 arch/x86/tools/objdump_reformat.awk : #!/bin/awk -f
-> 664 arch/x86/um/vdso/checkundef.sh : #!/bin/sh
-> 664 arch/xtensa/kernel/syscalls/syscallhdr.sh : #!/bin/sh
-> 664 arch/xtensa/kernel/syscalls/syscalltbl.sh : #!/bin/sh
-> 664 drivers/block/paride/mkd : #!/bin/bash
-> 664 drivers/crypto/vmx/aesp8-ppc.pl : #! /usr/bin/env perl
-> 664 drivers/crypto/vmx/ghashp8-ppc.pl : #!/usr/bin/env perl
-> 664 drivers/crypto/vmx/ppc-xlate.pl : #!/usr/bin/env perl
-> 664 drivers/scsi/script_asm.pl : #!/usr/bin/perl -s
-> 664 drivers/usb/serial/ezusb_convert.pl : #! /usr/bin/perl -w
-> 664 samples/bpf/lwt_len_hist.sh : #!/bin/bash
-> 664 samples/bpf/test_lwt_bpf.sh : #!/bin/bash
-> 664 scripts/atomic/gen-atomics.sh : #!/bin/sh
-> 664 scripts/gcc-plugins/gen-random-seed.sh : #!/bin/sh
-> 664 scripts/nsdeps : #!/bin/sh
-> 664 scripts/spdxcheck-test.sh : #!/bin/sh
-> 664 scripts/xen-hypercalls.sh : #!/bin/sh
+> On Sun, 30 Aug 2020, Ayush wrote:
+> 
+>> August 27, 2020 10:59 AM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
+>> 
+>> On Mon, 24 Aug 2020, Ayush wrote:
+>> 
+>> August 22, 2020 1:36 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
+>> 
+>> On Fri, 21 Aug 2020, Ayush wrote:
+>> 
+>> Hints to the first task:
+>> 
+>> Can you create a list of all non-merge commits that were added in the
+>> version v5.8 of the kernel, i.e., all non-merge commits that are in v5.8
+>> and not already in v5.7?
+>> 
+>> Can you share the script/command you executed and the resulting list on
+>> github?
+>> 
+>> Can you run your script on all commits of this list above and record
+>> all checkpatch.pl reports, and store them in your github repository?
+>> 
+>> Can you suggest ideas how to aggregate the findings and create a
+>> statistics? For example: Which type of error is reported most?
+>> Can you implement that idea?
+>> 
+>> I also suggest to have a look at
+>> the options ./scripts/checkpatch.pl --list-types and
+>> ./scripts/checkpatch.pl --show-types. The option --show-types changes
+>> the output of checkpatch.pl to list type identifiers, so it is easier
+>> to parse and aggregate the output.
+>> 
+>> Please also share the script you create for that purpose on your
+>> github repository.
+>> 
+>> The second task is to pick one warning that appears often and improve
+>> checkpatch.pl to handle that better and get it accepted by the kernel
+>> community.
+>> 
+>> Hints to the second task follow when the first task is solved.
+>> 
+>> If you fail on any of those tasks, you are out of the selection process.
+>> 
+>> Lukas
+>> 
+>> Sir,
+>> 
+>> I have attempted the task 1 and pushed the same to GitHub.
+>> 
+>> Please have a look and suggest improvements.
+>> 
+>> https://github.com/eldraco19/evalute_improve_checkpatch_pl
+>> 
+>> Please let me know if there are any issues with this.
+>> 
+>> So far, so good.
+>> 
+>> Here are the questions we want to answer:
+>> 
+>> - So what are the 20 categories that occur most?
+>> 
+>> You are getting close to that answer, but you are not there yet.
+>> 
+>> Then look at the findings. For those 20 categories, are there specific
+>> findings that are multiple times false positives?
+>> 
+>> So, the script complains about something, but it does not get that the
+>> patch author wrote something completely unrelated to the error message.
+>> 
+>> Lukas
+>> 
+>> Sir,
+>> 
+>> I tried the given tasks and it can be found here,
+>> 
+>> https://github.com/eldraco19/evalute_improve_checkpatch_pl/blob/master/STATS.md
+>> 
+>> The solution is implemented a bit complicated, but well, at least, it
+>> works if I believe your report. (I only read the code, but did not run
+>> it.)
+>> 
+>> The goal now is to find a class of false positives and improve
+>> checkpatch.pl accordingly.
+>> 
+>> I suggest that you look at the specific DIFF_IN_COMMIT_MSG reported
+>> errors?
+>> 
+>> Provide a short assessment for each DIFF_IN_COMMIT_MSG error in the
+>> 10 commits.
+>> 
+>> It should tell:
+>> - what lines in the commit message did checkpatch.pl complain about?
+>> - what is the pattern in the commit message?
+>> - does patch(1) really stumble over that pattern?
+>> - how would this pattern need to be provided to patch(1) so that it
+>> would stumble over it?
+>> - if no, why not?
+>> - can we change checkpatch.pl to not raise an error for such a
+>> situation? So, only raise an error when the pattern would really make
+>> patch stumble on it?
+>> 
+>> Depending on the evaluation, we might continue to improve checkpatch.pl
+>> for reporting this error type, or we decide to look at GIT_COMMIT_ID
+>> errors, where I can quickly spot some false positives.
+>> 
+>> Best regards,
+>> 
+>> Lukas
+>> 
+>> Sir,
+>> 
+>> I analysed the given error type and my analysis can be found here:
+>> 
+>> https://github.com/eldraco19/evalute_improve_checkpatch_pl/blob/master/DIFF_IN_COMMIT_MSG.md
+> 
+> Evaluation looks sound. Although, I cannot really see the analysis of all
+> 10 commits. You say the 10 commits fall into two classes, but how can
+> anyone else judge this from your report?
+> 
+> I also do not fully understand your conclusion; to me, it seems to
+> contradict itself. Fortunately, I think your analysis suggests that there
+> is not a clear improvement to checkpatch.pl, as far as I see.
+> 
+> So, I do not think that this is a good starting point for a change of
+> checkpatch.pl.
+> 
+> I suggest that you look at the error type GIT_COMMIT_ID. I have found some
+> cases that seem to be suitable for improvement of the checkpatch.pl
+> script.
+> 
+> Lukas
 
 Sir,
 
-I was wondering how should I go about the original patch? Should I keep
-both the checks or just the executable one and let be the patch as it is
-as further cleanup can lead to better performance as we have already
-seen with the evaluations.
+I have been looking for more improvements in checkpatch.pl, especially with GIT_COMMIT_ID.
 
-Also, I have completed all the tasks related to this project on Community
-Bridge's site. What are the next steps of mentorship? By when can I
-expect the results sir/ma'am?
+I found that commits which mentioned "revert commits" in their description will get error
+even if they follow the proper syntax.
 
-Thank you.
+for example: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20200903&id=e8a170ff9a3576730e43c0dbdd27b7cd3dc56848
 
---5cbt5yspfxa5u7qf
-Content-Type: application/pgp-signature; name="signature.asc"
+In this example,
+commit description has,
 
------BEGIN PGP SIGNATURE-----
+commit 193392ed9f69 ("Revert "drm/amd/display: add -msse2 to prevent Clang from emitting libcalls to undefined SW FP routines"")
 
-iQIzBAEBCgAdFiEE8DwCG1PwaC2uTI99xIwpEWwxhGQFAl9UZScACgkQxIwpEWwx
-hGTSWxAAptaCxQ6Q525t5uoiDfCoDSOWlvZGf0a38KD2Elvd0wfe6GXn/1rZoUVr
-8laSbdyIXnW05Sp83+BWPf4w3Oi9SSQe721V3PZt3FtukRNxYkr6YiMzQ69rZ1Xa
-g4qO0oWPo1e+1fFkTF71lTeuXBiTdH467OrNP3VgDBfjoj0cFADIYX1/9OTFQank
-QIHVfJQVPHwkqQedjdILT6fSKbq2erl0MNUlGaZhCGagsP+87/mvsIr3BmkB48nK
-r9k5b8RJBvM1Kv+oLEru7ZTLU+c3rvaHAD1qiVK8UL6uari4MbHEtGMjVrQ5PTTl
-869LbgLduesG5e0OKUcLRuJHtW/KPwkOUQmNe89pPydTBwdea1mtKeQaAoDReizG
-qWUY4xiHFRaIRSli9RS3bnRhwvzfJsLKp7nrppJu6suGSeXT6++g3Zzxx8AmeKJO
-kMksbM0shTOeU1BPxNliPgN9CR3Z3Mp3ahj4lKmSbqvudj9EoisQ9AbOTrv4LPN/
-0IpKtTQjDXA+CfY8uEyah3znavwGL7s6lx39kumwytoEBXh8qvERGoRlvKk3linm
-h2eZ6KC+0W996T9z/sRZZNc2mc0pnN/I6RwA7mYXmmstvMiuAvCzkL3B/mtFS/x6
-9eMpPjZd4/LlUiL98YmdP2X1jvvp1W5FUXPGBafrBBVGfzOLgEk=
-=mFL0
------END PGP SIGNATURE-----
+which is correct as per the syntax, but checkpatch still gives an error.
 
---5cbt5yspfxa5u7qf--
+So, I tried to fix this by:
 
---===============8435797598156364567==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+---
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 149518d2a6a7..01df2b9b2236 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2874,6 +2874,9 @@ sub process {
+                                $rawlines[$linenr] =~ /^\s*([^"]+)"\)/;
+                                $orig_desc .= " " . $1;
+                                $hasparens = 1;
++                       } elsif ($line =~ /\bcommit\s+[0-9a-f]{5,}\s+\("(Revert "[^"]+[^"]")"\)/i) {
++                               $orig_desc = $1;
++                               $hasparens = 1;
+                        }
+ 
+                        ($id, $description) = git_commit_info($orig_commit,
+---
+(on linux next-20200903)
 
+This patch fixes the issues with commits of the similar type given in the above example but some cases like
+
+- commit 1234567890ab ("Revert
+"foo bar"")
+
+- commit 1234567890ab ("Revert "foo
+bar"")
+
+- commit 1234567890ab
+("Revert "foo bar"")
+
+
+basically the cases where next-line comes are not handled. But there can a lot of different patterns where next-line is coming, so do we add a separate if condition for all the patterns? or we just continue giving 
+an error in case of next-line?
+
+Please look into this.
+
+
+Thanks,
+Ayush
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============8435797598156364567==--
