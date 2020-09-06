@@ -2,88 +2,106 @@ Return-Path: <SRS0=W7xB=CP=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA1AC43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Sep 2020 10:00:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7720C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Sep 2020 20:12:13 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5943C20C09
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Sep 2020 10:00:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1FC93208B3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Sep 2020 20:12:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="OkqcoDWt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5943C20C09
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L4BXwmWD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1FC93208B3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0314A85F08;
-	Sun,  6 Sep 2020 10:00:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C58A85B3B;
+	Sun,  6 Sep 2020 20:12:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VAzkKX9DaRYb; Sun,  6 Sep 2020 09:59:59 +0000 (UTC)
+	with ESMTP id tCHOCZrux6Pr; Sun,  6 Sep 2020 20:12:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B873C85EF3;
-	Sun,  6 Sep 2020 09:59:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 99CCC85B11;
+	Sun,  6 Sep 2020 20:12:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C9D0C0859;
-	Sun,  6 Sep 2020 09:59:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A340C0859;
+	Sun,  6 Sep 2020 20:12:10 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C459FC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 238CFC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Sep 2020 09:59:57 +0000 (UTC)
+ Sun,  6 Sep 2020 20:12:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 945442038B
+ by silver.osuosl.org (Postfix) with ESMTP id F0E0F203FB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Sep 2020 09:59:57 +0000 (UTC)
+ Sun,  6 Sep 2020 20:12:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TqjXsT7wy0yo
+ with ESMTP id 1Og9rZonqbai
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Sep 2020 09:59:55 +0000 (UTC)
+ Sun,  6 Sep 2020 20:12:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
- by silver.osuosl.org (Postfix) with ESMTPS id EEC2B2037A
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id C8840203FA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Sep 2020 09:59:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id B4171529B5;
- Sun,  6 Sep 2020 11:59:52 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at disroot.org
-Received: from knopi.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2fza_7aRBkGP; Sun,  6 Sep 2020 11:59:51 +0200 (CEST)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1599386390; bh=9szsjSVjl0qTdDS1/uS6NIyJTD1/Y9aeXx6aN1njXgo=;
- h=Date:From:Subject:To:Cc:In-Reply-To:References;
- b=OkqcoDWtXmx/IV5FBxzbvJ8g76t9NAkFrUy2ceWg8fRkrrsChlbTMMn1/PK1DtRJw
- fLS6KTysKsueE1EDPc/FO26wq3ZmW1d8J6jYRDYmr2XJw1vwn4ETgkyP5DcNvXlOVf
- xE2PMj2iZU2ZfO8NiqAHQfCxQsslBiAXVTLOyi4buL3YT6/cwHXgHcXxeNTSKkNMkc
- QOJtg3NtcVsvsq8loZBVC2SSY/sG+tZ7bUhUqbAH0ZcqkjiHQsfy5yNHXQ15yfynKz
- T4V5UOfpZfQHwxCHJg27VsnFR3Ll6ciBJmD7kB1jaN3zkjwq3GTKp8+qIw8ctwwBMx
- jvHviKCxjKZ8A==
-Date: Sun, 06 Sep 2020 09:59:48 +0000
-From: "Ayush" <ayush@disroot.org>
-Message-ID: <a6f436fe39f48d9b7e537bdfad07fc7e@disroot.org>
-To: "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
-In-Reply-To: <alpine.DEB.2.21.2008310702520.8556@felia>
-References: <alpine.DEB.2.21.2008310702520.8556@felia>
- <alpine.DEB.2.21.2008270707440.9436@felia>
- <alpine.DEB.2.21.2008221002290.12792@felia>
- <alpine.DEB.2.21.2008171142310.8645@felia>
- <20200810125354.xeijyh3v5upatrez@salamander>
- <4f5612540c184970157a98d103d7cd04@disroot.org>
- <32595de077ee7d674a628df11c58152f@disroot.org>
- <97cef44dfa6c692c20ef7a0d981e4863@disroot.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
-	Improve checkpatch.pl"
+ Sun,  6 Sep 2020 20:12:07 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 67so7004693pgd.12
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 06 Sep 2020 13:12:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fMygZrwawBCdGQ2bBFDMvJ3Y2e+cfl4sBDGo7UGztys=;
+ b=L4BXwmWDvemqRJGMuLN9aM59ZoBRJbDiKherzXRYsVuFip8Ct5P0Xo8HzEgxOnEJLk
+ fEyfQiKDUZOHF7XLgfXFHdnmZV23yYOSKwrO+2/N5ssNQqqzPcbIFZSzGkLgJkbe3i62
+ jVEIcuIDzeDD26X5lY8scOfzlkXBvamq5dkXqjiDZFCv3RgLpISw25ly12G/Cwk6S48R
+ MFu21cff5CVj4VjLwvZnL7yQqKjP2MNNMaf4lZ5rn4QRtDxvA3usHQiJiCMZMPGo5szU
+ zEn3dnxBuKOgnQ72NzwoQBdCEQMXWuzfwh0XH5wGr5Hf4M0fWz1Xf8slBxWjg0Dedy/p
+ lBQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fMygZrwawBCdGQ2bBFDMvJ3Y2e+cfl4sBDGo7UGztys=;
+ b=WquT/QuqVy+n3sKcpmjAG+MU4VU4Dbp/2gn/wRRoprZ6UXCY6Iinm3jMMT64L74TDG
+ mhXBRfblXkdAC+lFy5ft+RLaN2u33AAiLrobAM6lAL9v9d35j4Z3i6eS8MLEH3KVMbSC
+ 6kvvlkM0ZaJf/wPqF8pNrsgazudYmxiZStxQqmZPP8YKztdrufujlrKlXguOFIMkvx2L
+ AzfsrDoHELyvDldeIA78c0NNbOsxa6hO2CTNB+VLEVhL3gr6YjFGCTM0RpsQwsRXh1XX
+ xxQZZ4mCpdVo1grS951ILiKBAsQvQ05mAgGwkE8rQOkra4WAz8fXIMF/APNqKhf9c2LY
+ rMgg==
+X-Gm-Message-State: AOAM5329hIdl8G744V0AexR8ApITHS/C/cKKlDWjYr5Z2LyH+5Bz9PGz
+ Tr2utAJbY+ioN7qqsMCDSXADR+OIh25wvjv0
+X-Google-Smtp-Source: ABdhPJwnui4bywCc/fybs+kbVubILOVIYNhTsWjZV7ufrjbUJTklHsHiivFQmhkzH7GUlBTPus5McA==
+X-Received: by 2002:a62:5e04:: with SMTP id s4mr17619755pfb.67.1599423126651; 
+ Sun, 06 Sep 2020 13:12:06 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.209.246])
+ by smtp.gmail.com with ESMTPSA id v12sm10705735pgk.81.2020.09.06.13.12.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Sep 2020 13:12:05 -0700 (PDT)
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+To: 
+Date: Mon,  7 Sep 2020 01:41:56 +0530
+Message-Id: <20200906201158.14014-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+ Joerg Roedel <jroedel@suse.de>, Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ syzbot+b8639c8dcb5ec4483d4f@syzkaller.appspotmail.com,
+ Dan Williams <dan.j.williams@intel.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] block : Fix use-after-free Read in
+	delete_partition
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,196 +119,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-August 31, 2020 10:44 AM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
+A use-after-free read of the kobject member being casted out to the
+device structure containing it seems to be potentially possible
+due to unsafe casting using container_of (since an edge case such
+as when the ptr being casted might be NULL or problematic is not
+accounted for).
+Using container_of_safe resolves this issue, with no obvious tradeoffs
+and without considerable expense.
 
-> On Sun, 30 Aug 2020, Ayush wrote:
-> 
->> August 27, 2020 10:59 AM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
->> 
->> On Mon, 24 Aug 2020, Ayush wrote:
->> 
->> August 22, 2020 1:36 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
->> 
->> On Fri, 21 Aug 2020, Ayush wrote:
->> 
->> Hints to the first task:
->> 
->> Can you create a list of all non-merge commits that were added in the
->> version v5.8 of the kernel, i.e., all non-merge commits that are in v5.8
->> and not already in v5.7?
->> 
->> Can you share the script/command you executed and the resulting list on
->> github?
->> 
->> Can you run your script on all commits of this list above and record
->> all checkpatch.pl reports, and store them in your github repository?
->> 
->> Can you suggest ideas how to aggregate the findings and create a
->> statistics? For example: Which type of error is reported most?
->> Can you implement that idea?
->> 
->> I also suggest to have a look at
->> the options ./scripts/checkpatch.pl --list-types and
->> ./scripts/checkpatch.pl --show-types. The option --show-types changes
->> the output of checkpatch.pl to list type identifiers, so it is easier
->> to parse and aggregate the output.
->> 
->> Please also share the script you create for that purpose on your
->> github repository.
->> 
->> The second task is to pick one warning that appears often and improve
->> checkpatch.pl to handle that better and get it accepted by the kernel
->> community.
->> 
->> Hints to the second task follow when the first task is solved.
->> 
->> If you fail on any of those tasks, you are out of the selection process.
->> 
->> Lukas
->> 
->> Sir,
->> 
->> I have attempted the task 1 and pushed the same to GitHub.
->> 
->> Please have a look and suggest improvements.
->> 
->> https://github.com/eldraco19/evalute_improve_checkpatch_pl
->> 
->> Please let me know if there are any issues with this.
->> 
->> So far, so good.
->> 
->> Here are the questions we want to answer:
->> 
->> - So what are the 20 categories that occur most?
->> 
->> You are getting close to that answer, but you are not there yet.
->> 
->> Then look at the findings. For those 20 categories, are there specific
->> findings that are multiple times false positives?
->> 
->> So, the script complains about something, but it does not get that the
->> patch author wrote something completely unrelated to the error message.
->> 
->> Lukas
->> 
->> Sir,
->> 
->> I tried the given tasks and it can be found here,
->> 
->> https://github.com/eldraco19/evalute_improve_checkpatch_pl/blob/master/STATS.md
->> 
->> The solution is implemented a bit complicated, but well, at least, it
->> works if I believe your report. (I only read the code, but did not run
->> it.)
->> 
->> The goal now is to find a class of false positives and improve
->> checkpatch.pl accordingly.
->> 
->> I suggest that you look at the specific DIFF_IN_COMMIT_MSG reported
->> errors?
->> 
->> Provide a short assessment for each DIFF_IN_COMMIT_MSG error in the
->> 10 commits.
->> 
->> It should tell:
->> - what lines in the commit message did checkpatch.pl complain about?
->> - what is the pattern in the commit message?
->> - does patch(1) really stumble over that pattern?
->> - how would this pattern need to be provided to patch(1) so that it
->> would stumble over it?
->> - if no, why not?
->> - can we change checkpatch.pl to not raise an error for such a
->> situation? So, only raise an error when the pattern would really make
->> patch stumble on it?
->> 
->> Depending on the evaluation, we might continue to improve checkpatch.pl
->> for reporting this error type, or we decide to look at GIT_COMMIT_ID
->> errors, where I can quickly spot some false positives.
->> 
->> Best regards,
->> 
->> Lukas
->> 
->> Sir,
->> 
->> I analysed the given error type and my analysis can be found here:
->> 
->> https://github.com/eldraco19/evalute_improve_checkpatch_pl/blob/master/DIFF_IN_COMMIT_MSG.md
-> 
-> Evaluation looks sound. Although, I cannot really see the analysis of all
-> 10 commits. You say the 10 commits fall into two classes, but how can
-> anyone else judge this from your report?
-> 
-> I also do not fully understand your conclusion; to me, it seems to
-> contradict itself. Fortunately, I think your analysis suggests that there
-> is not a clear improvement to checkpatch.pl, as far as I see.
-> 
-> So, I do not think that this is a good starting point for a change of
-> checkpatch.pl.
-> 
-> I suggest that you look at the error type GIT_COMMIT_ID. I have found some
-> cases that seem to be suitable for improvement of the checkpatch.pl
-> script.
-> 
-> Lukas
-
-Sir,
-
-I have been looking for more improvements in checkpatch.pl, especially with GIT_COMMIT_ID.
-
-I found that commits which mentioned "revert commits" in their description will get error
-even if they follow the proper syntax.
-
-for example: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20200903&id=e8a170ff9a3576730e43c0dbdd27b7cd3dc56848
-
-In this example,
-commit description has,
-
-commit 193392ed9f69 ("Revert "drm/amd/display: add -msse2 to prevent Clang from emitting libcalls to undefined SW FP routines"")
-
-which is correct as per the syntax, but checkpatch still gives an error.
-
-So, I tried to fix this by:
-
+Reported-by: syzbot+b8639c8dcb5ec4483d4f@syzkaller.appspotmail.com
+Tested-by: syzbot+b8639c8dcb5ec4483d4f@syzkaller.appspotmail.com
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 149518d2a6a7..01df2b9b2236 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2874,6 +2874,9 @@ sub process {
-                                $rawlines[$linenr] =~ /^\s*([^"]+)"\)/;
-                                $orig_desc .= " " . $1;
-                                $hasparens = 1;
-+                       } elsif ($line =~ /\bcommit\s+[0-9a-f]{5,}\s+\("(Revert "[^"]+[^"]")"\)/i) {
-+                               $orig_desc = $1;
-+                               $hasparens = 1;
-                        }
+ include/linux/device.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/device.h b/include/linux/device.h
+index ca18da4768e3..aeb70b7a37e6 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -643,7 +643,7 @@ struct device_link {
  
-                        ($id, $description) = git_commit_info($orig_commit,
----
-(on linux next-20200903)
+ static inline struct device *kobj_to_dev(struct kobject *kobj)
+ {
+-	return container_of(kobj, struct device, kobj);
++	return container_of_safe(kobj, struct device, kobj);
+ }
+ 
+ /**
+-- 
+2.25.1
 
-This patch fixes the issues with commits of the similar type given in the above example but some cases like
-
-- commit 1234567890ab ("Revert
-"foo bar"")
-
-- commit 1234567890ab ("Revert "foo
-bar"")
-
-- commit 1234567890ab
-("Revert "foo bar"")
-
-
-basically the cases where next-line comes are not handled. But there can a lot of different patterns where next-line is coming, so do we add a separate if condition for all the patterns? or we just continue giving 
-an error in case of next-line?
-
-Please look into this.
-
-
-Thanks,
-Ayush
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
