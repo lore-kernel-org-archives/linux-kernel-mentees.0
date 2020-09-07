@@ -8,85 +8,85 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D58EC43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 07:04:36 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C741C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 07:04:42 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 389CB206B8
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 07:04:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C67E1206D4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 07:04:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQTXqB70"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 389CB206B8
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d/9XZbf8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C67E1206D4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C003A85ABF;
-	Mon,  7 Sep 2020 07:04:35 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 88D86204C1;
+	Mon,  7 Sep 2020 07:04:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cSPqcouwhcsZ; Mon,  7 Sep 2020 07:04:35 +0000 (UTC)
+	with ESMTP id U6ZvyLidOmMS; Mon,  7 Sep 2020 07:04:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5F513858D4;
-	Mon,  7 Sep 2020 07:04:35 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6D87A2047B;
+	Mon,  7 Sep 2020 07:04:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 492F9C0859;
-	Mon,  7 Sep 2020 07:04:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BE17C0859;
+	Mon,  7 Sep 2020 07:04:40 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 347CEC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CCCA9C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 07:04:34 +0000 (UTC)
+ Mon,  7 Sep 2020 07:04:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3129986670
+ by whitealder.osuosl.org (Postfix) with ESMTP id B58C786672
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 07:04:34 +0000 (UTC)
+ Mon,  7 Sep 2020 07:04:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id q9SWZCg6NjxS
+ with ESMTP id hwM0Z2EyZksC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 07:04:33 +0000 (UTC)
+ Mon,  7 Sep 2020 07:04:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A950886669
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 24AC386669
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 07:04:33 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id c142so8145938pfb.7
+ Mon,  7 Sep 2020 07:04:39 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id a8so4074403plm.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 07 Sep 2020 00:04:33 -0700 (PDT)
+ Mon, 07 Sep 2020 00:04:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FqAG9igPFBIm5I71RECWWlWkVlr9xLx/8DgDVT5uKZw=;
- b=YQTXqB70FOxoYbplD1RyiH/vGAqYc+eq5To12NwEwkCENc6+zHRu7a+LrGAIrDvBw0
- 1RzYjqvjIXebbVeyrXzS1RkVhAv4EeTZo/jUY3/2mDvpGAE7hTSoXSb+7a3pF/2qGCJ9
- FQ0l53OKgDEJL+paMUH3zuNfh4jlZ9s/daOMF3LRGLPiUNBTPPhjP/m11bQ6DNPvM2aT
- 33w7AsCd5YCOU00n5BbvyhrPK26KVvlbAiTs/3KuT9B4R/mZFViVvZaRXPw5DbNAlc8d
- pGjEZz08S5EuTr7+X/ZO8pRJFcA977W2yhK+TnWQxEwhPWEFBjhZR7Nv6iv1Ya5jEOZA
- /vzw==
+ bh=otRXxNiL4gSVNa6K+8BQSdss/DJNJyTyG/m0dhQQX4E=;
+ b=d/9XZbf8zBLic3hhAGLncVNdyG0TwyTfynJpAld5tq79kmX0SOkdpmDyqAIBL30wlb
+ aULzdbdV+lJvW3nEfzrmlVWkA4YIJSOLrTeUmi7aQQ+pkVLgEw7OqOud1NeumKrId6N1
+ Ktk/DAsQYVBQBGoHTyk86gZhkQ2SV0/Mdws9Y01qnoAjNYevPWVql7n9do/M7CNK7bsS
+ wELmhMdL4kmdkrd20bytyRPo/+a6+7Y/Q/uQ0Tydn7kRdbN1czFETmusI44MhYF8LVe9
+ yPF8mMXcwIgwj8uZgI4wf02cvNF3JsfJBpcahHN9JslE2567YXvYEZDZ3UZkT51MoviL
+ 3hdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FqAG9igPFBIm5I71RECWWlWkVlr9xLx/8DgDVT5uKZw=;
- b=EzX2T9c9mk3KNub/vNaHOcHr9H6/L6HC+zhzXroW0UHtK4rmHiVJhPKc4oLMqnbpz3
- myBoOc2BFb75MLj7fyAK46StAuU/bXg9u/uMaq+vgIj5I5o9vLjkq6lN4nWVWdkbElT0
- mfwgnFvwoa4qFeJTkHhG5gw3emqlp458O+E3OyRhj6iPxf83hE+N6fcmcuofpnqSYZeH
- 5llQ0YkV2FanYV1hMWlTHHUBu5RAv9yVwQG8Z6W3kSi+hpjW62as2wZMtjuWil5enpec
- qrVFBmZHGLQK590Kiny5X07Yjp9oquVyxxM0BiByDKcGstpP2E3ZfkJXGmI9xqE7bj/T
- oEPg==
-X-Gm-Message-State: AOAM533h7oXPrWl84CxlEQVoTMxWRyWAncQZSBqy51G7m9DBkKUqhN/r
- 9c6ye7G+TJB6d9r4EjPDlrs=
-X-Google-Smtp-Source: ABdhPJyD3ea1SKxV0y/fkOts7IPF7fAry7BYAtFdP95oJdb+n9w9Ob7nfkX1K7RX16sJHgCqyTyFTQ==
-X-Received: by 2002:a63:8ac8:: with SMTP id
- y191mr15696084pgd.159.1599462273169; 
- Mon, 07 Sep 2020 00:04:33 -0700 (PDT)
+ bh=otRXxNiL4gSVNa6K+8BQSdss/DJNJyTyG/m0dhQQX4E=;
+ b=mHRm2S/OJ+4kQmCKwgb/pEb4fC5SM7igDNVExKKUqhFPqXaDuVDVolF4uUw18XrJ+W
+ 4ULRTvJotQkRpMpQGVteySaEmos4Q4j1RnLCOuLEJSgAkm+A65/9kPpioN+kYErWJtMl
+ 9mhZ8u6Ab0KAwvhsZtr9kWvxwdKx+78cpZ8HV1SHJUMKZoegUMoHzkuKyogZ04sGBqds
+ hdwtVa4PFCUVG1FxUjjjFoALDycuLHWZwqRJYk7KlK9dkHkYnr6i+6cYdvUc+6F/2BeN
+ N6TzBjhAqPol9Y88Lplk5fPmDuF0ARWxMiLzq4GselMsWMgTbpMxGVfCBVDVmK9YJEdw
+ Sgvg==
+X-Gm-Message-State: AOAM531JUpGkzTXikAhWms3IEhS6Z+Nj3nDsUpmLVR/3E69B2E9TV6ZA
+ xka/6fa5+HSEI0hVF+cAv9Q=
+X-Google-Smtp-Source: ABdhPJziIj0PK6yoiJ5wRQoy70TbrlXD62vEEh0t/EONVWa+t0n3CsaU5tuooBUNzIBa8VXeI3MeXA==
+X-Received: by 2002:a17:902:ac8b:b029:d0:89f4:6220 with SMTP id
+ h11-20020a170902ac8bb02900d089f46220mr16867680plr.8.1599462278714; 
+ Mon, 07 Sep 2020 00:04:38 -0700 (PDT)
 Received: from varodek.localdomain ([106.201.26.241])
- by smtp.gmail.com with ESMTPSA id 204sm6804733pfc.200.2020.09.07.00.04.28
+ by smtp.gmail.com with ESMTPSA id 204sm6804733pfc.200.2020.09.07.00.04.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 00:04:32 -0700 (PDT)
+ Mon, 07 Sep 2020 00:04:38 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -95,8 +95,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>
-Date: Mon,  7 Sep 2020 12:32:20 +0530
-Message-Id: <20200907070221.29938-2-vaibhavgupta40@gmail.com>
+Date: Mon,  7 Sep 2020 12:32:21 +0530
+Message-Id: <20200907070221.29938-3-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200907070221.29938-1-vaibhavgupta40@gmail.com>
 References: <20200907070221.29938-1-vaibhavgupta40@gmail.com>
@@ -104,8 +104,8 @@ MIME-Version: 1.0
 Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v1 1/2] video: fbdev: aty: radeon_pm:
-	remove redundant CONFIG_PM container
+Subject: [Linux-kernel-mentees] [PATCH v1 2/2] fbdev: radeonfb:use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -123,46 +123,149 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fixes commit 42ddb453a0cd ("radeon: Conditionally compile PM code")
+Drivers using legacy PCI power management .suspend()/.resume() callbacks
+have to manage PCI states and device's PM states themselves. They also
+need to take care of standard configuration registers.
 
-Before the above mentioned patch, codes between the line number 547 and
-2803 were already inside "#ifdef CONFIG_PM" container. Thus, addition of
-"#if defined(CONFIG_PM)" was not required in the patch. It also affected
-the "#ifdef CONFIG_PPC_OF" container (line 1943-2510).
-
-From the current snapshot of radeon_pm.c, remove:
-    1434 | #if defined(CONFIG_PM)
-and,
-    2213 | #endif
-
-This removes the redundant CONFIG_PM directive as well as fixes the
-CONFIG_PPC (earlier CONFIG_PPC_OF) container.
+Switch to generic power management framework using a "struct dev_pm_ops"
+variable to take the unnecessary load from the driver.
+This also avoids the need for the driver to directly call most of the PCI
+helper functions and device power state control functions, as through
+the generic framework PCI Core takes care of the necessary operations,
+and drivers are required to do only device-specific jobs.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/video/fbdev/aty/radeon_pm.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/video/fbdev/aty/radeon_base.c | 10 +++++---
+ drivers/video/fbdev/aty/radeon_pm.c   | 36 +++++++++++++++++++++------
+ drivers/video/fbdev/aty/radeonfb.h    |  3 +--
+ 3 files changed, 35 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
+index e116a3f9ad56..232dbe154666 100644
+--- a/drivers/video/fbdev/aty/radeon_base.c
++++ b/drivers/video/fbdev/aty/radeon_base.c
+@@ -2559,16 +2559,18 @@ static void radeonfb_pci_unregister(struct pci_dev *pdev)
+         framebuffer_release(info);
+ }
+ 
++#ifdef CONFIG_PM
++#define RADEONFB_PCI_PM_OPS (&radeonfb_pci_pm_ops)
++#else
++#define RADEONFB_PCI_PM_OPS NULL
++#endif
+ 
+ static struct pci_driver radeonfb_driver = {
+ 	.name		= "radeonfb",
+ 	.id_table	= radeonfb_pci_table,
+ 	.probe		= radeonfb_pci_register,
+ 	.remove		= radeonfb_pci_unregister,
+-#ifdef CONFIG_PM
+-	.suspend       	= radeonfb_pci_suspend,
+-	.resume		= radeonfb_pci_resume,
+-#endif /* CONFIG_PM */
++	.driver.pm	= RADEONFB_PCI_PM_OPS,
+ };
+ 
+ #ifndef MODULE
 diff --git a/drivers/video/fbdev/aty/radeon_pm.c b/drivers/video/fbdev/aty/radeon_pm.c
-index 7c4483c7f313..b9af70bd656a 100644
+index b9af70bd656a..352d0bb4773a 100644
 --- a/drivers/video/fbdev/aty/radeon_pm.c
 +++ b/drivers/video/fbdev/aty/radeon_pm.c
-@@ -1431,7 +1431,6 @@ static void radeon_pm_full_reset_sdram(struct radeonfb_info *rinfo)
- 	mdelay( 15);
+@@ -2611,8 +2611,9 @@ static void radeon_set_suspend(struct radeonfb_info *rinfo, int suspend)
+ 	}
  }
  
--#if defined(CONFIG_PM)
- #if defined(CONFIG_X86) || defined(CONFIG_PPC_PMAC)
- static void radeon_pm_reset_pad_ctlr_strength(struct radeonfb_info *rinfo)
+-int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
++static int radeonfb_pci_suspend_late(struct device *dev, pm_message_t mesg)
  {
-@@ -2210,7 +2209,6 @@ static void radeon_reinitialize_M9P(struct radeonfb_info *rinfo)
- 	radeon_pm_m10_enable_lvds_spread_spectrum(rinfo);
- }
- #endif
--#endif
++	struct pci_dev *pdev = to_pci_dev(dev);
+         struct fb_info *info = pci_get_drvdata(pdev);
+         struct radeonfb_info *rinfo = info->par;
  
- #if 0 /* Not ready yet */
- static void radeon_reinitialize_QW(struct radeonfb_info *rinfo)
+@@ -2660,11 +2661,6 @@ int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
+ 	pmac_suspend_agp_for_card(pdev);
+ #endif /* CONFIG_PPC_PMAC */
+ 
+-	/* It's unclear whether or when the generic code will do that, so let's
+-	 * do it ourselves. We save state before we do any power management
+-	 */
+-	pci_save_state(pdev);
+-
+ 	/* If we support wakeup from poweroff, we save all regs we can including cfg
+ 	 * space
+ 	 */
+@@ -2689,7 +2685,6 @@ int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
+ 			msleep(20);
+ 			OUTREG(LVDS_GEN_CNTL, INREG(LVDS_GEN_CNTL) & ~(LVDS_DIGON));
+ 		}
+-		pci_disable_device(pdev);
+ 	}
+ 	/* If we support D2, we go to it (should be fixed later with a flag forcing
+ 	 * D3 only for some laptops)
+@@ -2705,6 +2700,21 @@ int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
+ 	return 0;
+ }
+ 
++static int radeonfb_pci_suspend(struct device *dev)
++{
++	return radeonfb_pci_suspend_late(dev, PMSG_SUSPEND);
++}
++
++static int radeonfb_pci_hibernate(struct device *dev)
++{
++	return radeonfb_pci_suspend_late(dev, PMSG_HIBERNATE);
++}
++
++static int radeonfb_pci_freeze(struct device *dev)
++{
++	return radeonfb_pci_suspend_late(dev, PMSG_FREEZE);
++}
++
+ static int radeon_check_power_loss(struct radeonfb_info *rinfo)
+ {
+ 	return rinfo->save_regs[4] != INPLL(CLK_PIN_CNTL) ||
+@@ -2712,8 +2722,9 @@ static int radeon_check_power_loss(struct radeonfb_info *rinfo)
+ 	       rinfo->save_regs[3] != INPLL(SCLK_CNTL);
+ }
+ 
+-int radeonfb_pci_resume(struct pci_dev *pdev)
++static int radeonfb_pci_resume(struct device *dev)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev);
+         struct fb_info *info = pci_get_drvdata(pdev);
+         struct radeonfb_info *rinfo = info->par;
+ 	int rc = 0;
+@@ -2795,6 +2806,15 @@ int radeonfb_pci_resume(struct pci_dev *pdev)
+ 	return rc;
+ }
+ 
++const struct dev_pm_ops radeonfb_pci_pm_ops = {
++	.suspend	= radeonfb_pci_suspend,
++	.resume		= radeonfb_pci_resume,
++	.freeze		= radeonfb_pci_freeze,
++	.thaw		= radeonfb_pci_resume,
++	.poweroff	= radeonfb_pci_hibernate,
++	.restore	= radeonfb_pci_resume,
++};
++
+ #ifdef CONFIG_PPC__disabled
+ static void radeonfb_early_resume(void *data)
+ {
+diff --git a/drivers/video/fbdev/aty/radeonfb.h b/drivers/video/fbdev/aty/radeonfb.h
+index 131b34dd65af..93f403cbb415 100644
+--- a/drivers/video/fbdev/aty/radeonfb.h
++++ b/drivers/video/fbdev/aty/radeonfb.h
+@@ -483,8 +483,7 @@ extern void radeon_delete_i2c_busses(struct radeonfb_info *rinfo);
+ extern int radeon_probe_i2c_connector(struct radeonfb_info *rinfo, int conn, u8 **out_edid);
+ 
+ /* PM Functions */
+-extern int radeonfb_pci_suspend(struct pci_dev *pdev, pm_message_t state);
+-extern int radeonfb_pci_resume(struct pci_dev *pdev);
++extern const struct dev_pm_ops radeonfb_pci_pm_ops;
+ extern void radeonfb_pm_init(struct radeonfb_info *rinfo, int dynclk, int ignore_devlist, int force_sleep);
+ extern void radeonfb_pm_exit(struct radeonfb_info *rinfo);
+ 
 -- 
 2.27.0
 
