@@ -2,83 +2,109 @@ Return-Path: <SRS0=YKtx=CQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-1.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 652F4C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 05:47:37 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF01C2BC11
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 06:34:03 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F26A72137B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 05:47:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5733E21582
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 06:34:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="rENsCMts"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F26A72137B
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oKcX83qN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5733E21582
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B4A812047B;
-	Mon,  7 Sep 2020 05:47:36 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id CE3C886569;
+	Mon,  7 Sep 2020 06:34:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id utxIvasrcg57; Mon,  7 Sep 2020 05:47:35 +0000 (UTC)
+	with ESMTP id 0FhntRwJ+XNG; Mon,  7 Sep 2020 06:34:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 987D22026D;
-	Mon,  7 Sep 2020 05:47:35 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7227485FED;
+	Mon,  7 Sep 2020 06:34:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89528C0052;
-	Mon,  7 Sep 2020 05:47:35 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C12BC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F480C0859;
+	Mon,  7 Sep 2020 06:34:02 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4F681C0859
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 05:47:33 +0000 (UTC)
+ Mon,  7 Sep 2020 06:34:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 617518702D
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3EA658651C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 05:47:33 +0000 (UTC)
+ Mon,  7 Sep 2020 06:34:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PDj86aATvpIT
+ with ESMTP id Mvbsj3mg9GyW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 05:47:33 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id F24C58702C
+ Mon,  7 Sep 2020 06:34:00 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D2EAE85FED
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 05:47:32 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 03DB820732;
- Mon,  7 Sep 2020 05:47:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599457652;
- bh=a5/cEIfWcSChJxUlNOZzqt8Opy8n1npVY2hwYGW1gGU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rENsCMts3CvNXOxvQBkjMQXGS5wtwS44RE0bhwLam9rSZ+OsWVcRPdF7G58SeUhV0
- 2ntcJk2vA/cIz9Y/3pBEQuJ9NN8v/Bir93iVS+w24XHg66aLFcm0+LB63plNIdEhtB
- MEf0R+O/LZnf08NcwP6Im3nD7uQk4E2g5ZC32cJ8=
-Date: Mon, 7 Sep 2020 07:47:29 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <20200907054729.GA280798@kroah.com>
-References: <20200906201158.14014-1-anant.thazhemadam@gmail.com>
+ Mon,  7 Sep 2020 06:34:00 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id g29so7567266pgl.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 06 Sep 2020 23:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=m15jCTtsBAUKP+0jfB9in9HIjBdPjBE4Y+TgmZ5/xE0=;
+ b=oKcX83qNAmH/enHKgQVFuUZrgn1v592Ii5llp56wrH1uuq47AuZF7tgvVTEacw8m5X
+ 67Ha0oF50dm2WcuelnBDh7hoqksWVFv232g7FbvwYXSjOqnAxRGNrnBqxkuCn41Jk907
+ KGmT2IDHdkSTpTO7vySyW4tq1LLXCMObaVHpaPcUkV95g6ScpC8AuUk3d3DHA0Vfp/nj
+ WfGbFYRiW4klopM/ON/sZuPQKlaNz/uRCshXvOq5aat/oTI4z864Ux2Xa8tGvloE2UiV
+ drbQdLjifGkxsl/NBlYH1b8VSLUrm4bWyRrzVYrr8h0Z2RPhc0Wgw71cWYavkTCCdtzn
+ 3BoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=m15jCTtsBAUKP+0jfB9in9HIjBdPjBE4Y+TgmZ5/xE0=;
+ b=SLhwlWXGE0tb2KXcCRWhezGneOydTfCXeUGu2rE6uZz1RcYYWq49tQZ7Si0G9NLkHU
+ hWYhil3g8HrMfmhaMA3vnlhqrHUeidptKWuDR5e2W3ENBteANY7uVLYow8E438Gzwb06
+ U+QjshhI04G1s7j/Inki/Iad4AL5vgvjSs4dDu8sHUP+SpXR2T4JucLNeUukUme5U7zk
+ YYtroZTDcYUUf678aQCJZPEfSWuaPzEVtX7/neED/O/w2df3gmo4LP2g+SPwJfPYVu2Z
+ Rr+RqXQWyKIF6GkBitAhVdGUMLo8n+HOkAnxqPBc1tzUNB6cmW0pZa3j3tTIGW+MfJBn
+ NN5g==
+X-Gm-Message-State: AOAM53278e9y/EK/djRXVwEs/sab90UgbqFP/n0pEYg/fNbZlM8KAZEe
+ CVeWKFH8vgRHeNc4cBl4ThI=
+X-Google-Smtp-Source: ABdhPJw6ZH79o8HU3/QSSp52qMLeXwXaUJN0ob6XhOQCKSaHK7Tzit4rT2kSbg628qUever7ECTm0A==
+X-Received: by 2002:a62:8607:0:b029:13c:1611:6593 with SMTP id
+ x7-20020a6286070000b029013c16116593mr16912878pfd.16.1599460440268; 
+ Sun, 06 Sep 2020 23:34:00 -0700 (PDT)
+Received: from gmail.com ([106.201.26.241])
+ by smtp.gmail.com with ESMTPSA id q82sm14767933pfc.139.2020.09.06.23.33.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Sep 2020 23:33:59 -0700 (PDT)
+Date: Mon, 7 Sep 2020 12:01:53 +0530
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>
+Message-ID: <20200907063153.GA29062@gmail.com>
+References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
+ <20200806072658.592444-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200906201158.14014-1-anant.thazhemadam@gmail.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <jroedel@suse.de>, Saravana Kannan <saravanak@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- syzbot+b8639c8dcb5ec4483d4f@syzkaller.appspotmail.com,
- Dan Williams <dan.j.williams@intel.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] block : Fix use-after-free Read
- in delete_partition
+In-Reply-To: <20200806072658.592444-1-vaibhavgupta40@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 0/2] video: fbdev: radeonfb:
+ PCI PM framework upgrade and fix-ups.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,24 +122,10 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Sep 07, 2020 at 01:41:56AM +0530, Anant Thazhemadam wrote:
-> A use-after-free read of the kobject member being casted out to the
-> device structure containing it seems to be potentially possible
-> due to unsafe casting using container_of (since an edge case such
-> as when the ptr being casted might be NULL or problematic is not
-> accounted for).
-> Using container_of_safe resolves this issue, with no obvious tradeoffs
-> and without considerable expense.
+Please review this patch-series.
 
-No, now every caller has to check for NULL, and that would mean that you
-now need to fix up hundreds of different places in the kernel.
-
-Please fix the root cause that would cause NULL to be passed to this
-call in the block code, don't paper over the issue here.
-
-thanks,
-
-greg k-h
+Thank you
+Vaibhav Gupta
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
