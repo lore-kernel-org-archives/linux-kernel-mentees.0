@@ -7,86 +7,86 @@ X-Spam-Status: No, score=-1.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67343C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 06:35:47 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE7BC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 06:36:16 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E7073206E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 06:35:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6BCEF215A4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 06:36:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lght7Ifr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E7073206E7
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fbHCaOCT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BCEF215A4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8620220113;
-	Mon,  7 Sep 2020 06:35:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 00B2086519;
+	Mon,  7 Sep 2020 06:36:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cPSnAR8wvs5q; Mon,  7 Sep 2020 06:35:45 +0000 (UTC)
+	with ESMTP id ih6w1tNiVBUK; Mon,  7 Sep 2020 06:36:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id C6B812046E;
-	Mon,  7 Sep 2020 06:35:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D7AA784F5A;
+	Mon,  7 Sep 2020 06:36:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A1173C0859;
-	Mon,  7 Sep 2020 06:35:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C69B1C0859;
+	Mon,  7 Sep 2020 06:36:15 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D6A65C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39D52C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 06:35:43 +0000 (UTC)
+ Mon,  7 Sep 2020 06:36:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C5B068702A
+ by hemlock.osuosl.org (Postfix) with ESMTP id 287098702A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 06:35:43 +0000 (UTC)
+ Mon,  7 Sep 2020 06:36:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CQtsyAtAmzL6
+ with ESMTP id hFXLHjvmkRHx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 06:35:41 +0000 (UTC)
+ Mon,  7 Sep 2020 06:36:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D9FDA86FFC
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CE16586FFC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 06:35:41 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id c3so3766064plz.5
+ Mon,  7 Sep 2020 06:36:13 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id x18so4028537pll.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
+ Sun, 06 Sep 2020 23:36:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
  bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
- b=Lght7Ifr1LpMt8ODv/ddonkYDgzWp8nZkg1/c/SjWJ8F+ZngJs82vf/xcGWrzRvqY7
- ou1W681VqX+F9lu2Xqc0ZpV4i6UUyob9coYjA5tVJMOg07ZWGsDugXBqZBJWuaGCP+BS
- IfGVH9pKNnx82dDz/31NRPQDtBYa2qeQEUGBeXAiBUqJB+6B7fsASnM0vRbJTHMC9Qmj
- Wp5QykCr96OApc0FAUkWbPieinRUqhfSyP017+3ldlThqh0gNqvvYGQzol0Fi6Cm/Sp8
- pdT+pA8htrY9tVfsBb6O2UMBh8LZF5FBkt/j1e/oP9MkvS737M2GOLwfKA0H7Cyfa2f5
- lKJA==
+ b=fbHCaOCT73QEitsORT8A7jULECshSkNFsfN0lqxLnv9NqtLuZTNiX299eqFsSn/i0H
+ XMaY+57ZpeMCy9gD/sNhsDPGufEugVn3KjnZ+OJuMYTDHy967E6y5zQ+tY8J0ehM58Q9
+ okbx0KCZthd774jTBDaqQ82+5V5gM1Qw9yhGYtouHWThA3P7v1+gpX4t/J88Jj7BGNE7
+ CbiK2/6h2plBhRy9hZdcNAioNjc4IXErPDRGh/NcyVYimkrJ9ffD/2cJFyHnQ6isZM+T
+ OwSW01Va2UNJWrGX5dr3UwV15jtf/OqmS4qGkgKEEVfJaE0e+R2/litSe+ceLyzu9iSY
+ zJXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
  bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
- b=Csql2GGf7Hqybsf1/iJw88JNtcAwGeMNZEfWYmEUzsNSTLHYzpb2KDfLfnadaFoxTd
- I+D8CEbmRSpKOH66JuKTVgty639IQaTg+WCD76BoLv+MXInAnjRaas0Nwe6kamvoe7op
- i2kq6LSKnxKjGmc9TnnArZcjtOOi4wqRojHtCFCN1usXaOEWobdWsZv9uSpZo6KPeRIL
- GX5BGyuKJAyy8Qh20MlM4RkqbzEzmOu7cF0H0CmVsoIXrAGaxY5PVVjvSxinrKRFXGrF
- tvajMaUTcWb6WLIGRdqyrE1y0QlL0mY7QfDoqEnTDkvVxuj/8Nmf1YSHC5QLvZ36ZwHZ
- ergg==
-X-Gm-Message-State: AOAM530RPhvewo/yLRTDkm7BdVk3d6QriqtrwL7gKZkaQowheN9LzmTn
- TCzK5cUMeqb4Xl1m5q5il4w=
-X-Google-Smtp-Source: ABdhPJwOD5kJx+DFcApvOWX+p/5e9qXZZ2sVaWifSzXJ6UpEB+RbV7/BqVTOwMBbgqsIz5Cei42hAg==
-X-Received: by 2002:a17:902:8c94:: with SMTP id
- t20mr17926553plo.76.1599460541415; 
- Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
+ b=ghnzYa8tsgIWfB42001MBKBMC51m1oBRhnoq8My3+BZ7Xt/HZGeapx5caU6jC5LQzF
+ aMTefbug4BHTk+xEoA8A6Tr+wcaT3YiPOy/qCXg1Irjbb2xHuo5gltZjL6rUDQjhEKKc
+ IPv/5ZJkigxgY04vqGBQ0eszKGZmh5R2a/nslWVN50H9i4OLhUwg4vL3uGA4laGH77ed
+ uXd4+vMGMXGiKoHuoKC3mW8uHDg/SO9kr4aPETvaP4Vc/ppCDMCuRe51uNapiqsR3NXc
+ NgBblfdAnMLgdPrgtkc6zrld1K83kGSD9/SsClpMJo194jXqqAzM9xacp6wvUO/bO5hV
+ pexg==
+X-Gm-Message-State: AOAM532QGfjOzmbtRXPFPCMAIyrScBmHbuVPtRbZvR/E3T+SfeC1eRPo
+ FyldWQRUW7WzT6mjhNPFOGI=
+X-Google-Smtp-Source: ABdhPJwgx99BRCDhQRZTixm/9uPVMLMpWFBKTUcxE26SgTtzeQ5XhqrvRSSOK6jPTDclOjwHDi/NDw==
+X-Received: by 2002:a17:902:a50b:: with SMTP id
+ s11mr11590419plq.136.1599460573455; 
+ Sun, 06 Sep 2020 23:36:13 -0700 (PDT)
 Received: from gmail.com ([106.201.26.241])
- by smtp.gmail.com with ESMTPSA id y3sm11660330pjg.8.2020.09.06.23.35.37
+ by smtp.gmail.com with ESMTPSA id md10sm11631756pjb.45.2020.09.06.23.36.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Sep 2020 23:35:41 -0700 (PDT)
-Date: Mon, 7 Sep 2020 12:03:47 +0530
+ Sun, 06 Sep 2020 23:36:13 -0700 (PDT)
+Date: Mon, 7 Sep 2020 12:04:14 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -95,17 +95,17 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>
-Message-ID: <20200907063347.GB29062@gmail.com>
+Message-ID: <20200907063414.GC29062@gmail.com>
 References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
  <20200806072658.592444-1-vaibhavgupta40@gmail.com>
- <20200806072658.592444-2-vaibhavgupta40@gmail.com>
+ <20200806072658.592444-3-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200806072658.592444-2-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200806072658.592444-3-vaibhavgupta40@gmail.com>
 Cc: linux-fbdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 1/2] video: fbdev: aty:
- radeon_pm: remove redundant CONFIG_PM container
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 2/2] fbdev: radeonfb:use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
