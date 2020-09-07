@@ -2,108 +2,86 @@ Return-Path: <SRS0=YKtx=CQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D1DC43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 09:18:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF27C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 10:29:31 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0B62E2078E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 09:18:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0nVzEt0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B62E2078E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7CA472067C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 10:29:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CA472067C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=daenzer.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AF8C3870BA;
-	Mon,  7 Sep 2020 09:18:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3F2D1870D6;
+	Mon,  7 Sep 2020 10:29:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o5lmhjIYbng1; Mon,  7 Sep 2020 09:18:34 +0000 (UTC)
+	with ESMTP id MUlT0PTYtQx0; Mon,  7 Sep 2020 10:29:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1E0F5870B7;
-	Mon,  7 Sep 2020 09:18:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AC98B8710B;
+	Mon,  7 Sep 2020 10:29:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B544C0859;
-	Mon,  7 Sep 2020 09:18:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 979E0C0052;
+	Mon,  7 Sep 2020 10:29:29 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 61AF3C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D8AFFC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 09:18:33 +0000 (UTC)
+ Mon,  7 Sep 2020 10:29:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4FC858452D
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D2C4085184
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 09:18:33 +0000 (UTC)
+ Mon,  7 Sep 2020 10:29:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uZWeUDi6QkdW
+ with ESMTP id vwOTCB9Z6iHQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 09:18:32 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id AA03184516
+ Mon,  7 Sep 2020 10:29:27 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 79F4A85168
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 09:18:32 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id kk9so3834568pjb.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 07 Sep 2020 02:18:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=kpwNni5DZsL81VsUzOEF6fgBNL8irinRHr++pS6DIH4=;
- b=O0nVzEt0to+Hpt5DmVNSrpKsB5pOnDvRJ8682q1tjqS9v/Qx3Bmbmcd8+okOLCi3Ci
- FjWoetYIYjZznCRSXunkH7DUavf55Gq7vRf958XI9iG/HYsQIrNfJpNlhebrFk0nL8sn
- Zht4yGQs7+PF5kJyNUh2Fn+CjmW4Vpp8DIzMgswenMi9y9jHnEeEoBy6OnYMcDqxYgkb
- 0rmPSbRH8mKBId82tj1AdNhjksNhIqlXe7b0dbwEFqxCNq1T4a04DRFhs5vXccFg99Bo
- L/DoH3fIdmoqbfxRybBFcOB09axnPvtjZ2ivlNSmNFMInppDv8rhq+A27pmtroCDe0vq
- SwDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kpwNni5DZsL81VsUzOEF6fgBNL8irinRHr++pS6DIH4=;
- b=WKUoVyf85qrLgdn9bYI1P5f1yn/NcmPxIf29WtXCzlZejVAMcKTS70g6+UITz4qdyf
- NnPUNUJWShpj+UgRHsTi7XJX5eVH1coMRjIoMtlM/fnn4T7uZJ92E23aMEGZyKSAxJjl
- eVsaiGvfojspvCl9DqNawFACzsBl+57Ann5lNX48swqSqpm+1OS7q6HCwLvXeaG+pAkM
- +AtQH4UFLuyDAJnaRA8E3haL+i/oERAuE0XZL5vbea5KSjc6K0blX/OgjS3nzIO+dBjj
- wKYawVqYzc5VXU0E4AUSAA4Gmd53nJZxda+PlDnTb/FAztHEbHlIydH8ZT1DHN8+2L7W
- sbbg==
-X-Gm-Message-State: AOAM533wokXlyW2heO3p2+8P230wbooByBNkc5eC2QA9lyZ0+n/svJ0K
- xPd5QXFKo9ryn0eHClHU6sE=
-X-Google-Smtp-Source: ABdhPJz8OyFdACQ/fUoHKevIftBWifFC0ICyCifnJiqsqaCt6U+OjFvMmXblon5SpVeKNm99E3VMxA==
-X-Received: by 2002:a17:902:8bc7:: with SMTP id
- r7mr17695124plo.92.1599470312191; 
- Mon, 07 Sep 2020 02:18:32 -0700 (PDT)
-Received: from gmail.com ([106.201.26.241])
- by smtp.gmail.com with ESMTPSA id h1sm5934980pji.52.2020.09.07.02.18.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 02:18:31 -0700 (PDT)
-Date: Mon, 7 Sep 2020 14:46:21 +0530
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Message-ID: <20200907091621.GA30377@gmail.com>
+ Mon,  7 Sep 2020 10:29:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 0C0B02A6042;
+ Mon,  7 Sep 2020 12:29:25 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id qXTjMtX9lbI6; Mon,  7 Sep 2020 12:29:24 +0200 (CEST)
+Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.174.212])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id CE6672A6016;
+ Mon,  7 Sep 2020 12:29:23 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1kFEOw-000Lc5-KY; Mon, 07 Sep 2020 12:29:22 +0200
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
  <20200907075559.GN2352366@phenom.ffwll.local>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Message-ID: <5ea9e575-e2ba-1f12-4894-3c0d271ea294@daenzer.net>
+Date: Mon, 7 Sep 2020 12:29:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.1
 MIME-Version: 1.0
-Content-Disposition: inline
 In-Reply-To: <20200907075559.GN2352366@phenom.ffwll.local>
+Content-Language: en-CA
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thierry Reding <treding@nvidia.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH v1 0/2] video: fbdev: radeonfb:
  PCI PM framework upgrade and fix-ups.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -117,126 +95,33 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Sep 07, 2020 at 09:55:59AM +0200, Daniel Vetter wrote:
-> On Thu, Aug 06, 2020 at 12:52:54PM +0530, Vaibhav Gupta wrote:
-> > Linux Kernel Mentee: Remove Legacy Power Management. 
-> > 
-> > The original goal of the patch series is to upgrade the power management
-> > framework of radeonfb fbdev driver. This has been done by upgrading .suspend()
-> > and .resume() callbacks.
-> > 
-> > The upgrade makes sure that the involvement of PCI Core does not change the
-> > order of operations executed in a driver. Thus, does not change its behavior.
-> > 
-> > During this process, it was found that "#if defined(CONFIG_PM)" at line 1434 is
-> > redundant. This was introduced in the commit
-> > 42ddb453a0cd ("radeon: Conditionally compile PM code").
-> 
-> I do wonder whether it wouldn't be better to just outright delete these,
-> we have the drm radeon driver for pretty much all the same hardware ...
-> -Daniel
-> 
-Hello Daniel,
-I don't have any problem in either way. My priority is to get rid of the
-legacy .suspend and .resume pointers from "struct pci_driver" . Hence, modifying
-every driver that is using them.
-
-Vaibhav Gupta
-> > 
-> > ------------
-> > 
-> > Before 42ddb453a0cd:
-> > $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> > 
-> > Based on output in terminal:
-> > 
-> > 547:#ifdef CONFIG_PM
-> >        |-- 959:#ifdef CONFIG_PPC_PMAC
-> >        |-- 972:#endif
-> >        |-- 1291:#ifdef CONFIG_PPC_OF
-> >        |-- 1301:#endif /* CONFIG_PPC_OF */
-> >        |-- 1943:#ifdef CONFIG_PPC_OF
-> >                    |-- 2206:#if 0 /* Not ready yet */
-> >                    |-- 2508:#endif /* 0 */
-> >        |-- 2510:#endif /* CONFIG_PPC_OF */
-> >        |-- 2648:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2654:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2768:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2774:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
-> >        |-- 2801:#endif /* CONFIG_PPC_OF */
-> > 2803:#endif /* CONFIG_PM */
-> > 
-> > ------------
-> > 
-> > After 42ddb453a0cd:
-> > $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> > 
-> > Based on output in terminal:
-> > 
-> > 547:#ifdef CONFIG_PM
-> >        |-- 959:#ifdef CONFIG_PPC_PMAC
-> >        |-- 972:#endif
-> >        |-- 1291:#ifdef CONFIG_PPC_OF
-> >        |-- 1301:#endif /* CONFIG_PPC_OF */
-> >        |-- 1430:#if defined(CONFIG_PM)
-> >                    |-- 1431:#if defined(CONFIG_X86) || defined(CONFIG_PPC_PMAC)
-> >                    |-- 1944:#endif
-> >                    |-- 1946:#ifdef CONFIG_PPC_OF
-> >                                |-- 1947:#ifdef CONFIG_PPC_PMAC
-> >                                |-- 2208:#endif
-> >                    |-- 2209:#endif
-> >                    |-- 2211:#if 0 /* Not ready yet */
-> >                    |-- 2513:#endif /* 0 */
-> >        |-- 2515:#endif /* CONFIG_PPC_OF */
-> >        |-- 2653:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2659:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2773:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2779:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
-> >        |-- 2806:#endif /* CONFIG_PPC_OF */
-> > 2808:#endif /* CONFIG_PM */
-> > 
-> > ------------
-> > 
-> > This also affected the CONFIG_PPC_OF container (line 1943 at commit 65122f7e80b5)
-> > 
-> > The patch-series fixes it along with PM upgrade.
-> > 
-> > All patches are compile-tested only.
-> > 
-> > Test tools:
-> >     - Compiler: gcc (GCC) 10.1.0
-> >     - allmodconfig build: make -j$(nproc) W=1 all
-> > 
-> > Vaibhav Gupta (2):
-> >   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM container
-> >   fbdev: radeonfb:use generic power management
-> > 
-> >  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
-> >  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++-------
-> >  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
-> >  3 files changed, 35 insertions(+), 16 deletions(-)
-> > 
-> > -- 
-> > 2.27.0
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gMjAyMC0wOS0wNyA5OjU1IGEubS4sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gT24gVGh1LCBB
+dWcgMDYsIDIwMjAgYXQgMTI6NTI6NTRQTSArMDUzMCwgVmFpYmhhdiBHdXB0YSB3cm90ZToKPj4g
+TGludXggS2VybmVsIE1lbnRlZTogUmVtb3ZlIExlZ2FjeSBQb3dlciBNYW5hZ2VtZW50Lgo+Pgo+
+PiBUaGUgb3JpZ2luYWwgZ29hbCBvZiB0aGUgcGF0Y2ggc2VyaWVzIGlzIHRvIHVwZ3JhZGUgdGhl
+IHBvd2VyIG1hbmFnZW1lbnQKPj4gZnJhbWV3b3JrIG9mIHJhZGVvbmZiIGZiZGV2IGRyaXZlci4g
+VGhpcyBoYXMgYmVlbiBkb25lIGJ5IHVwZ3JhZGluZyAuc3VzcGVuZCgpCj4+IGFuZCAucmVzdW1l
+KCkgY2FsbGJhY2tzLgo+Pgo+PiBUaGUgdXBncmFkZSBtYWtlcyBzdXJlIHRoYXQgdGhlIGludm9s
+dmVtZW50IG9mIFBDSSBDb3JlIGRvZXMgbm90IGNoYW5nZSB0aGUKPj4gb3JkZXIgb2Ygb3BlcmF0
+aW9ucyBleGVjdXRlZCBpbiBhIGRyaXZlci4gVGh1cywgZG9lcyBub3QgY2hhbmdlIGl0cyBiZWhh
+dmlvci4KPj4KPj4gRHVyaW5nIHRoaXMgcHJvY2VzcywgaXQgd2FzIGZvdW5kIHRoYXQgIiNpZiBk
+ZWZpbmVkKENPTkZJR19QTSkiIGF0IGxpbmUgMTQzNCBpcwo+PiByZWR1bmRhbnQuIFRoaXMgd2Fz
+IGludHJvZHVjZWQgaW4gdGhlIGNvbW1pdAo+PiA0MmRkYjQ1M2EwY2QgKCJyYWRlb246IENvbmRp
+dGlvbmFsbHkgY29tcGlsZSBQTSBjb2RlIikuCj4gCj4gSSBkbyB3b25kZXIgd2hldGhlciBpdCB3
+b3VsZG4ndCBiZSBiZXR0ZXIgdG8ganVzdCBvdXRyaWdodCBkZWxldGUgdGhlc2UsCj4gd2UgaGF2
+ZSB0aGUgZHJtIHJhZGVvbiBkcml2ZXIgZm9yIHByZXR0eSBtdWNoIGFsbCB0aGUgc2FtZSBoYXJk
+d2FyZSAuLi4KCkluIGNvbnRyYXN0IHRvIHJhZGVvbmZiLCB0aGUgcmFkZW9uIGRyaXZlciBkb2Vz
+bid0IHN1cHBvcnQgCnN1c3BlbmQtdG8tUkFNIG9uIEFwcGxlIFBvd2VyUEMgbm90ZWJvb2tzLgoK
+Ci0tIApFYXJ0aGxpbmcgTWljaGVsIETDpG56ZXIgICAgICAgICAgICAgICB8ICAgICAgICAgICAg
+ICAgaHR0cHM6Ly9yZWRoYXQuY29tCkxpYnJlIHNvZnR3YXJlIGVudGh1c2lhc3QgICAgICAgICAg
+ICAgfCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRldmVsb3BlcgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5n
+IGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRw
+czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJu
+ZWwtbWVudGVlcwo=
