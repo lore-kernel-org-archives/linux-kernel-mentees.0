@@ -2,75 +2,90 @@ Return-Path: <SRS0=YKtx=CQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6C8C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 11:59:21 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 599A0C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 14:28:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5706F207C3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 11:59:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5706F207C3
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org
+	by mail.kernel.org (Postfix) with ESMTPS id 2BD442064B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Sep 2020 14:28:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="OLaAfO9U"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BD442064B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F31E486554;
-	Mon,  7 Sep 2020 11:59:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AD9F987117;
+	Mon,  7 Sep 2020 14:28:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NpuUAbj90it7; Mon,  7 Sep 2020 11:59:18 +0000 (UTC)
+	with ESMTP id 4gWXvoeJiOhc; Mon,  7 Sep 2020 14:28:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6E5A68667B;
-	Mon,  7 Sep 2020 11:59:18 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F30EE8710D;
+	Mon,  7 Sep 2020 14:28:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 568E4C0859;
-	Mon,  7 Sep 2020 11:59:18 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4DDD6C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DEFF0C0052;
+	Mon,  7 Sep 2020 14:28:23 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EACC5C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 11:59:17 +0000 (UTC)
+ Mon,  7 Sep 2020 14:28:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 37CDD2026D
+ by hemlock.osuosl.org (Postfix) with ESMTP id CC05887117
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 11:59:17 +0000 (UTC)
+ Mon,  7 Sep 2020 14:28:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OaJGWAckO8TV
+ with ESMTP id jVBIrMQNFAsO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 11:59:15 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by silver.osuosl.org (Postfix) with ESMTPS id 40BD92012D
+ Mon,  7 Sep 2020 14:28:20 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 672288710D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2020 11:59:14 +0000 (UTC)
-Received: from localhost (gate.crashing.org [63.228.1.57])
- (authenticated bits=0)
- by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 087Bwjb2023420
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 7 Sep 2020 06:58:49 -0500
-Message-ID: <6161b96a30e51ff77a387a71eee6a46400530155.camel@kernel.crashing.org>
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Daniel Vetter <daniel@ffwll.ch>, Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Date: Mon, 07 Sep 2020 21:58:44 +1000
-In-Reply-To: <20200907075559.GN2352366@phenom.ffwll.local>
-References: <20200806072256.585705-1-vaibhavgupta40@gmail.com>
- <20200907075559.GN2352366@phenom.ffwll.local>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+ Mon,  7 Sep 2020 14:28:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 0010F51C71;
+ Mon,  7 Sep 2020 16:28:17 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id VeD7siAsxbW7; Mon,  7 Sep 2020 16:28:16 +0200 (CEST)
 Mime-Version: 1.0
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Thierry Reding <treding@nvidia.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 0/2] video: fbdev: radeonfb:
- PCI PM framework upgrade and fix-ups.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1599488870; bh=JxmZzKiTa84XYsrPySzAS8ruU+nKUf+6uYlW9eRS5QY=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References;
+ b=OLaAfO9UqyVBgRvR9ElxV9xFP8RznLH1nxiSRz/0oZ8W714Hri0jpoorOaH1btVja
+ 5fbpblXyylfVD/IV99zk7pL7l7IsyOcZjL1LjySAVlGpnDlQ475vqBVvbSAoCrjLMi
+ P1OiuP3Q5t5LEfENXJUgA/gxpgm5RoBWgg8I40FQHzuyFmcKp6bE0kJMT7D4ZGvjF+
+ eTwPJvO3jFvGvOm22FIQju4h6t3cLVPRl24//pwINxqPpYJC3j0bFEfQbyD7K7qNPl
+ fS4swEJcRYAv5Sg2/88hH/J20sh8l5EoHU7jEmKgPUO4GcYxpIy7AmPdOQa/nx42O8
+ ilMQxcBNSLM+Q==
+Date: Mon, 07 Sep 2020 14:27:50 +0000
+From: "Ayush" <ayush@disroot.org>
+Message-ID: <8802360392ba3dd9ded3999c3f57560b@disroot.org>
+To: "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
+In-Reply-To: <CAKXUXMz8MphA5PYtLe_mB+3qNV-PSimmSVS2+P5vpv=4+VsBFw@mail.gmail.com>
+References: <CAKXUXMz8MphA5PYtLe_mB+3qNV-PSimmSVS2+P5vpv=4+VsBFw@mail.gmail.com>
+ <alpine.DEB.2.21.2008270707440.9436@felia>
+ <alpine.DEB.2.21.2008221002290.12792@felia>
+ <alpine.DEB.2.21.2008171142310.8645@felia>
+ <20200810125354.xeijyh3v5upatrez@salamander>
+ <4f5612540c184970157a98d103d7cd04@disroot.org>
+ <32595de077ee7d674a628df11c58152f@disroot.org>
+ <97cef44dfa6c692c20ef7a0d981e4863@disroot.org>
+ <alpine.DEB.2.21.2008310702520.8556@felia>
+ <a6f436fe39f48d9b7e537bdfad07fc7e@disroot.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
+	Improve checkpatch.pl"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,131 +103,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 2020-09-07 at 09:55 +0200, Daniel Vetter wrote:
-> On Thu, Aug 06, 2020 at 12:52:54PM +0530, Vaibhav Gupta wrote:
-> > Linux Kernel Mentee: Remove Legacy Power Management. 
-> > 
-> > The original goal of the patch series is to upgrade the power
-> > management
-> > framework of radeonfb fbdev driver. This has been done by upgrading
-> > .suspend()
-> > and .resume() callbacks.
-> > 
-> > The upgrade makes sure that the involvement of PCI Core does not
-> > change the
-> > order of operations executed in a driver. Thus, does not change its
-> > behavior.
-> > 
-> > During this process, it was found that "#if defined(CONFIG_PM)" at
-> > line 1434 is
-> > redundant. This was introduced in the commit
-> > 42ddb453a0cd ("radeon: Conditionally compile PM code").
-> 
-> I do wonder whether it wouldn't be better to just outright delete
-> these,
-> we have the drm radeon driver for pretty much all the same hardware
-> ...
+September 7, 2020 1:09 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
+ 
+> I think you should extend this whole check to work properly with line
+> breaks. You can see how this is implemented currently in checkpatch.pl
+> just a few lines above, right?
 
-The only thing is, afaik, the DRM drivers never got the D2/D3 code that
-I wrote for radeonfb to get old powerbooks to suspend/resume.
+I have written the conditions for handling line breaks.
 
-Cheers,
-Ben.
+I will be sending the patch to the mailing list after this mail.
 
-> -Daniel
+> Can you provide a full list of checkpatch.pl findings in v5.4..v5.8
+> where all the different commit 1234567890ab ("Revert "..."") variants
+> in the commit message appear?
 > 
-> > 
-> > ------------
-> > 
-> > Before 42ddb453a0cd:
-> > $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n
-> > "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> > 
-> > Based on output in terminal:
-> > 
-> > 547:#ifdef CONFIG_PM
-> >        |-- 959:#ifdef CONFIG_PPC_PMAC
-> >        |-- 972:#endif
-> >        |-- 1291:#ifdef CONFIG_PPC_OF
-> >        |-- 1301:#endif /* CONFIG_PPC_OF */
-> >        |-- 1943:#ifdef CONFIG_PPC_OF
-> >                    |-- 2206:#if 0 /* Not ready yet */
-> >                    |-- 2508:#endif /* 0 */
-> >        |-- 2510:#endif /* CONFIG_PPC_OF */
-> >        |-- 2648:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2654:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2768:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2774:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
-> >        |-- 2801:#endif /* CONFIG_PPC_OF */
-> > 2803:#endif /* CONFIG_PM */
-> > 
-> > ------------
-> > 
-> > After 42ddb453a0cd:
-> > $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n
-> > "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> > 
-> > Based on output in terminal:
-> > 
-> > 547:#ifdef CONFIG_PM
-> >        |-- 959:#ifdef CONFIG_PPC_PMAC
-> >        |-- 972:#endif
-> >        |-- 1291:#ifdef CONFIG_PPC_OF
-> >        |-- 1301:#endif /* CONFIG_PPC_OF */
-> >        |-- 1430:#if defined(CONFIG_PM)
-> >                    |-- 1431:#if defined(CONFIG_X86) ||
-> > defined(CONFIG_PPC_PMAC)
-> >                    |-- 1944:#endif
-> >                    |-- 1946:#ifdef CONFIG_PPC_OF
-> >                                |-- 1947:#ifdef CONFIG_PPC_PMAC
-> >                                |-- 2208:#endif
-> >                    |-- 2209:#endif
-> >                    |-- 2211:#if 0 /* Not ready yet */
-> >                    |-- 2513:#endif /* 0 */
-> >        |-- 2515:#endif /* CONFIG_PPC_OF */
-> >        |-- 2653:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2659:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2773:#ifdef CONFIG_PPC_PMAC
-> >        |-- 2779:#endif /* CONFIG_PPC_PMAC */
-> >        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
-> >        |-- 2806:#endif /* CONFIG_PPC_OF */
-> > 2808:#endif /* CONFIG_PM */
-> > 
-> > ------------
-> > 
-> > This also affected the CONFIG_PPC_OF container (line 1943 at commit
-> > 65122f7e80b5)
-> > 
-> > The patch-series fixes it along with PM upgrade.
-> > 
-> > All patches are compile-tested only.
-> > 
-> > Test tools:
-> >     - Compiler: gcc (GCC) 10.1.0
-> >     - allmodconfig build: make -j$(nproc) W=1 all
-> > 
-> > Vaibhav Gupta (2):
-> >   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM
-> > container
-> >   fbdev: radeonfb:use generic power management
-> > 
-> >  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
-> >  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++---
-> > ----
-> >  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
-> >  3 files changed, 35 insertions(+), 16 deletions(-)
-> > 
-> > -- 
-> > 2.27.0
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-> 
+> Then, we can use those commits directly as test cases for your extension?
 
+Actually, I have made a list for some of the similar commits which are correct but
+checkpatch.pl will give GIT_COMMIT_ID error on them. I have tested my patch with 30+ commits.
+
+Here is the list of commits: 
+
+https://gist.githubusercontent.com/eldraco19/f78e637ead0e47e1bb187f83a391a904/raw/1ee853ab1b7db86d663f6537b7c43e284e30dad2/commits.txt
+
+Some doubts I still have:
+- commit
+1234567890ab ("Revert "foo bar"")
+
+is not allowed as per the rules, right? 
+
+- if the commit mentioned has double-quotes like:
+commit 1234567890ab ("Revert "foo "lorem ipsum" bar"")
+
+example: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-5.8.y&id=9d7c249a1ef9bf0d5696df14e6bc067004f16979
+
+For now, checkpatch.pl is giving an error in such cases too. But there can be `n` cases like these, we 
+can have so many quotes nested, so I think it's better to avoid this pattern, please give your opinions on this.
+
+Thanks,
+Ayush
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
