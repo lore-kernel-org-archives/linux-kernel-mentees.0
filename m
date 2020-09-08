@@ -4,149 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 275A6C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 11:37:24 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE63C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 11:38:07 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8ECEF21741
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 11:37:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B718221532
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 11:38:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="D1G2dvPj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8ECEF21741
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Ci26dG2o"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B718221532
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 54D9387297;
-	Tue,  8 Sep 2020 11:37:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4D47485C19;
+	Tue,  8 Sep 2020 11:38:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id chRfGeu5pZK9; Tue,  8 Sep 2020 11:37:22 +0000 (UTC)
+	with ESMTP id DIVvLCl88xYY; Tue,  8 Sep 2020 11:38:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A1355871F1;
-	Tue,  8 Sep 2020 11:37:22 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B518585955;
+	Tue,  8 Sep 2020 11:38:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 70DD5C0859;
-	Tue,  8 Sep 2020 11:37:22 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0FF7C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3D93C0859;
+	Tue,  8 Sep 2020 11:38:05 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 75DD7C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:37:20 +0000 (UTC)
+ Tue,  8 Sep 2020 11:38:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id BBDB787293
+ by silver.osuosl.org (Postfix) with ESMTP id 2F8E52746F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:37:20 +0000 (UTC)
+ Tue,  8 Sep 2020 11:38:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id D3w945yqnJk6
+ with ESMTP id fLwCurFaQSSl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:37:19 +0000 (UTC)
+ Tue,  8 Sep 2020 11:38:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
  [210.118.77.12])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E6E7B871F1
+ by silver.osuosl.org (Postfix) with ESMTPS id C77CC20436
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:37:18 +0000 (UTC)
+ Tue,  8 Sep 2020 11:38:01 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113716euoutp02a6de771bf5c8b7eef80aab8f34d1bf96~yy_z_WTG33214932149euoutp02U
+ 20200908113759euoutp02e8208b5a94d4d16650e40f0a9e990dd3~yy-cCe7lL0099700997euoutp02e
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:37:16 +0000 (GMT)
+ Tue,  8 Sep 2020 11:37:59 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200908113716euoutp02a6de771bf5c8b7eef80aab8f34d1bf96~yy_z_WTG33214932149euoutp02U
+ 20200908113759euoutp02e8208b5a94d4d16650e40f0a9e990dd3~yy-cCe7lL0099700997euoutp02e
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1599565036;
- bh=EHIPiCsP6+EBTPA70jdMAHPbGC9Ru4tdCPsKuauXX10=;
+ s=mail20170921; t=1599565079;
+ bh=0s4Ik3+RTnNQIV6PDJ+CNOxzRLFQDzKVLXECY7JWkyM=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=D1G2dvPjSqdqWIDsXk6cd6cysNKM1Tjs3L+cpikP2X3ntpzvuZ/WtMALckD/ySr8m
- 4ksKJi8d23xTkeWPmCu12CAAU9C0h+rYQ7wb8af68rwK/Q/LgefVGY10ftP/FWVePJ
- KUpe7/Ypyh8vEa847/Bm0DH+H23A27f9/lCfPz1w=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200908113716eucas1p26d54b11bf79e4e64f958932054c85698~yy_zwFGvi2028820288eucas1p2J;
- Tue,  8 Sep 2020 11:37:16 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id DF.45.05997.CEC675F5; Tue,  8
- Sep 2020 12:37:16 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ b=Ci26dG2obB34PGBbpcoK3/8aXkWZccE2Q/NYKd9rxM/dP88l4hcJtM2441U11gcG+
+ T4Gn8XsB0ZutjBOOcG1QFvWK+iQ86H08q5XaGMNJQdoJaiaOSVq0ul5/+zr9qNmKC0
+ zZkubkZUIZJ14tCxrhmI3RprBLZ1cFyyFXcVN/4Q=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200908113758eucas1p1f922c5bbb2463f540d70f4e219a8362c~yy-bULu0c1732217322eucas1p1K;
+ Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id D5.6E.06456.61D675F5; Tue,  8
+ Sep 2020 12:37:58 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113715eucas1p24824cc43d260e04b6bc2ddbd146b6673~yy_zZPlz23077930779eucas1p2D;
- Tue,  8 Sep 2020 11:37:15 +0000 (GMT)
+ 20200908113758eucas1p29aad7c57574221fd154e74662a3bc75d~yy-a6Ng_02679626796eucas1p23;
+ Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200908113715eusmtrp2f5c113360443c68dec92b751de7f6275~yy_zW_ODq3046530465eusmtrp2J;
- Tue,  8 Sep 2020 11:37:15 +0000 (GMT)
-X-AuditID: cbfec7f4-65dff7000000176d-ae-5f576cec7dfb
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200908113758eusmtrp11702a45991d6c386cce0918636f8b8e4~yy-a5eimt2072320723eusmtrp1K;
+ Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
+X-AuditID: cbfec7f2-809ff70000001938-43-5f576d16396f
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 00.D1.06314.BEC675F5; Tue,  8
- Sep 2020 12:37:15 +0100 (BST)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 27.E1.06314.61D675F5; Tue,  8
+ Sep 2020 12:37:58 +0100 (BST)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113714eusmtip29ca97490ca12427a9b62f099359ca829~yy_yiViA11658216582eusmtip2U;
- Tue,  8 Sep 2020 11:37:14 +0000 (GMT)
+ 20200908113757eusmtip2ecc970bf5132f075feb3c4300f5e357e~yy-aUvAui1663016630eusmtip2e;
+ Tue,  8 Sep 2020 11:37:57 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <7660f403-ff17-04c2-91d3-1d1ff0510e87@samsung.com>
-Date: Tue, 8 Sep 2020 13:37:14 +0200
+Message-ID: <9798158d-ef29-e5a4-c792-fd51ba64b91b@samsung.com>
+Date: Tue, 8 Sep 2020 13:37:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200907070221.29938-1-vaibhavgupta40@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+e0+dhVvXpePo4bRjKAwewo/e9iTuAhhCT0oypZeNJwPtmZl
- 0cPQUmn5yKSbpphomVmsMjccwcp8rIyyTFMxyMA0c9qKNLOcd5L/fc453+/vnC/8GEJxnvZj
- jiQeFTSJKrWSdiVrn4+9WvpVvSdqee8VEo9l22lcnhaHz/W+RniyalyO3/4YpvHAi7s0Nnxq
- p3CT3kbhy61WEmd96idxm6mIxpYCM8LVz27K8a2xRwibCysoXNedKcPl9cPURg++rf01wRvF
- HjlfatDxtZZ2kjdUZdL8k+JqOd+b3SjjH5Sf4X//ykf837R+OV9+9R3NF5v0iP9uCNjB7nNd
- FyOoj6QImmVhh1zj6lsikru9jxtzS6mzqMEjC7kwwK2GwYE+Igu5MgruFoKhV2YkFXYEzePN
- pFR8R/AiXU/PWGy5Zrk0qETQXmNwqoYQ1FgbCIeK5tZA7oUq5OC5HA/6nkGZgz25IHjTIMoc
- BoLrIuHGYIvcMWC5MMjsyps2kNxCmBDLptmL2wujH59SksYDmq/1kQ524TbAo6Z3048SnA98
- 6Ctx8nx4PFQ0nQi4hwyYO22UdPdWGKmvdmaYCwOND+USz4O/xhKZZKhB8Odiv9P9GEFl/qTT
- sRa6W8enmJlasRjumZZJ7U1gS89EjjZwc6BjyEM6Yg7k1RYSUpuFixkKSb0I7lfcp2fWZhlv
- EzlIKc6KJs6KI86KI/7fW4rIKuQj6LQJsYJ2ZaJwLFirStDqEmODo5MSDGjqa1onG+11yDRx
- 2II4BindWFv47igFpUrRnkiwIGAIpSe7+aX1oIKNUZ1IFTRJURqdWtBakD9DKn3YVWVfDii4
- WNVRIV4QkgXNzFTGuPidRSXzii/Z2364BAWcCak91dnf4jZK+Ee8X5CaFNnbc/JzUIBahO2+
- sdb9ezNGq6MLhn+ylr4LGzLMIV7eviPUnSLx+vqO7G+7GU38tkI9Eb9EHfeghNvZ4V4WvSaQ
- DT2t89lVp4zsCLdHpZvcfYUtxpziidAQr/qKnrfWz36BaVuUpDZOtWIJodGq/gFz83HulgMA
- AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsVy+t/xe7qvc8LjDZZN1bH42f2FzWJJU4ZF
- 4/2LjBb/Vv1it7jy9T2bxasza9ksNj2+xmpxou8Dq0X/udMsFl2PX7BYXN41h83i0NS9jBZr
- jixmt1jxcyujxd7py1gtdtzpZLJYsuc9q4Ogx+VrF5k9ds66y+6xYFOpx7ZD11g8Nq3qZPPY
- P3cNu8f97uNMHpuX1Hv8/jGZ0eN/0wt2jyXTrrJ5zN3Vx+jxeZNcAG+Unk1RfmlJqkJGfnGJ
- rVK0oYWRnqGlhZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsaeU/4Fd8Qqdk5cwNrAeFSw
- i5GTQ0LAROLDxL3sXYxcHEICSxklNj/cA+RwACVkJI6vL4OoEZb4c62LDaLmNaPE2/NTmUAS
- bAJWEhPbVzGC2MICHhJ9d1+DxUUEdCQuHZ3FBNLALHCbReJGey8TRPckRol7W36AVfEK2El0
- 3p4E1s0ioCLxZ9YiMFtUIELi8I5ZjBA1ghInZz5hAbE5Bewltp64CtbLLKAu8WfeJWYIW1zi
- 1pP5UHF5ie1v5zBPYBSahaR9FpKWWUhaZiFpWcDIsopRJLW0ODc9t9hQrzgxt7g0L10vOT93
- EyMwRWw79nPzDsZLG4MPMQpwMCrx8H7wCosXYk0sK67MPcQowcGsJMLrdPZ0nBBvSmJlVWpR
- fnxRaU5q8SFGU6DnJjJLiSbnA9NXXkm8oamhuYWlobmxubGZhZI4b4fAwRghgfTEktTs1NSC
- 1CKYPiYOTqkGxk43lfXFTTrf3Of+6I6oXeRUccrYPMhtyZ0f0sJKbinvDnvd37rw8AH57O1f
- TMIKJ6RztUgyrP4tWK1fe5dN0M7bdP7qC8x7pm/+JvjnfH7H3g1SPbxVJ1QubPhRftHWef35
- uEPKD2XOPzjxaWLM4VK1lHslqpxVly916ZkeNp2xVHtngqeKvhJLcUaioRZzUXEiALK1rWon
- AwAA
-X-CMS-MailID: 20200908113715eucas1p24824cc43d260e04b6bc2ddbd146b6673
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm2zk7O44mn2ttL7MSRhRJWVLRqcTK+nGQqP6YXShbdZiiW7I5
+ SxHUylK7YKlJa6aJmVo5MfFaBCvTsK20K2lO0pWZy7GKtEjzdJT893zP5X3fBz6akPeJ1XSc
+ IYkzGrQJGkpKNjwedy5X6qNjVrY6NIz3RBbBlJ+IZTJdXYh5+WOUYoaf3qGYjgteMZM7MEQy
+ L1qsFHO/qELMjLdcI5me3/5MU2+OiCm/NyreJGObLe8lbGmdmW2wvybZcyOnxGxddQ7FPii+
+ LWFdZ9tF7O+xfMSeP/mVYr/VLdwp3SsNO8IlxCVzxhXhB6WxnoEPosSRwOMFdhuZgcoUuciP
+ Brwa2u67UC6S0nJcieCn1UsJj+8IPr90TD++IfDmjUtmIv23aiSCcBNBz6lCES/IsQdBTU8A
+ jym8Hi6eqZ6aS9Nz8T4o7FLztAIvg+42i4jPEriPgKL+ZwQvyHA4vOooo3hM4kUw9thK8nge
+ 3g2+/odiwRMAT64MkvxMvym/79ICniawCt4NlogEHASNHivBzwecQ0NWhw0JR2+Fy1cd0wXm
+ wnB7/TSeD53550ghUIPgT/bQdLoRwc38CUpwbYBe5y+K30zgpWBrWSHQm6HyyY1/JQH7w1tP
+ gHCEP1xqKCIEWgbZp+WCezHUVtRSM2tzm6uIPKSxzGpmmVXHMquO5f/eUkRWIxVnNul1nCnU
+ wB0LMWn1JrNBF3L4qL4OTf26zol2XxP60X3IjjCNNHNk3shdMXKxNtmUorcjoAmNQhbh6Dwg
+ lx3RpqRyxqMxRnMCZ7KjQJrUqGSryj7vl2OdNomL57hEzjijimg/dQZaU79tY9BYnmvgj84d
+ /FEd5yqJvtt3YOFklM2xhxt2BkWnOzIfnYyMf7NamZzlS6rIq5ImNp13y9MG20LtT8O/VJX0
+ hj5PmySXdDW2Br/J7vbumCweK98y/1Mrjq9kAwqDwraoIppfX1+nWevcHpXq3r1HYX6gLIAR
+ pTvsco4rXUOaYrWhwYTRpP0LxD5Yr3EDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRmVeSWpSXmKPExsVy+t/xe7piueHxBjuOsVl8aGpltljSlGHR
+ eP8io8WVr+/ZLF6dWctmcaLvA6tF1+MXLBaXd81hs9g7fRmrxc9d81gsbv/ms9hxp5PJYsme
+ 96wOvB47Z91l91iwqdRj26FrLB49b1pYPTat6mTz2D93DbvH/e7jTB6/f0xm9Ohtfsfm8XmT
+ XABXlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7G
+ 28ePmAreSFdMObSepYFxkUgXIyeHhICJxIPV69i7GLk4hASWMkqsubqQtYuRAyghI3F8fRlE
+ jbDEn2tdbBA1rxklGo5NZQRJsAlYSUxsX8UIUi8sEC0x9aIUSFhEQEfi0tFZTCD1zAIPmCUO
+ vHjFDNE8kVFi34SNLCBVvAJ2EldPLGIDsVkEVCR+HJsDFhcViJA4vGMWI0SNoMTJmU9YQBZw
+ AtV/miQLEmYWUJf4M+8SM4QtLnHryXwmCFteYvvbOcwTGIVmIemehaRlFpKWWUhaFjCyrGIU
+ SS0tzk3PLTbUK07MLS7NS9dLzs/dxAiM7W3Hfm7ewXhpY/AhRgEORiUe3g9eYfFCrIllxZW5
+ hxglOJiVRHidzp6OE+JNSaysSi3Kjy8qzUktPsRoCvTbRGYp0eR8YNrJK4k3NDU0t7A0NDc2
+ NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXAGDfn++vtAsv3ZUzZ3DNtjUqo0xeBBVWz
+ lT1srvYnZ0TfmTrvxKqZBuHpDHrfzLKE9996d6puAqc0e+G/j7t+9Tm/0b3/0/j9tjMi5uLm
+ U06/4f+pHxwx7X6nou0DPYYp/D8uLpLWu7yNU/J/29U5irO49suyL1/KHP/k57Elz9qznt9d
+ Pf2B13olluKMREMt5qLiRAClTHXlAwMAAA==
+X-CMS-MailID: 20200908113758eucas1p29aad7c57574221fd154e74662a3bc75d
 X-Msg-Generator: CA
-X-RootMTR: 20200819185901eucas1p2a6c54c905c199e6a04de8477cfa6539e
+X-RootMTR: 20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200819185901eucas1p2a6c54c905c199e6a04de8477cfa6539e
-References: <CGME20200819185901eucas1p2a6c54c905c199e6a04de8477cfa6539e@eucas1p2.samsung.com>
- <20200819185654.151170-1-vaibhavgupta40@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Antonino Daplas <adaplas@gmail.com>, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- linux-geode@lists.infradead.org, Paul Mackerras <paulus@samba.org>,
- Andres Salomon <dilinger@queued.net>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org,
+X-CMS-RootMailID: 20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74
+References: <CGME20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74@eucas1p2.samsung.com>
+ <20200907070221.29938-1-vaibhavgupta40@gmail.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thierry Reding <treding@nvidia.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3 00/12] video: fbdev: use
-	generic power management
+Subject: Re: [Linux-kernel-mentees] [PATCH v1 0/2] video: fbdev: radeonfb:
+ PCI PM framework upgrade and fix-ups.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -165,22 +162,79 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 
-On 8/19/20 8:56 PM, Vaibhav Gupta wrote:
-> Linux Kernel Mentee: Remove Legacy Power Management.
+On 9/7/20 9:02 AM, Vaibhav Gupta wrote:
+> Linux Kernel Mentee: Remove Legacy Power Management. 
 > 
-> The purpose of this patch series is to upgrade power management in video fbdev
-> drivers. This has been done by upgrading .suspend() and .resume() callbacks.
+> The original goal of the patch series is to upgrade the power management
+> framework of radeonfb fbdev driver. This has been done by upgrading .suspend()
+> and .resume() callbacks.
 > 
 > The upgrade makes sure that the involvement of PCI Core does not change the
 > order of operations executed in a driver. Thus, does not change its behavior.
 > 
-> In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
-> helper functions like pci_enable/disable_device_mem(), pci_set_power_state(),
-> pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
-> their job.
+> During this process, it was found that "#if defined(CONFIG_PM)" at line 1434 is
+> redundant. This was introduced in the commit
+> 42ddb453a0cd ("radeon: Conditionally compile PM code").
 > 
-> The conversion requires the removal of those function calls, change the
-> callbacks' definition accordingly and make use of dev_pm_ops structure.
+> ------------
+> 
+> Before 42ddb453a0cd:
+> $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
+> 
+> Based on output in terminal:
+> 
+> 547:#ifdef CONFIG_PM
+>        |-- 959:#ifdef CONFIG_PPC_PMAC
+>        |-- 972:#endif
+>        |-- 1291:#ifdef CONFIG_PPC_OF
+>        |-- 1301:#endif /* CONFIG_PPC_OF */
+>        |-- 1943:#ifdef CONFIG_PPC_OF
+>                    |-- 2206:#if 0 /* Not ready yet */
+>                    |-- 2508:#endif /* 0 */
+>        |-- 2510:#endif /* CONFIG_PPC_OF */
+>        |-- 2648:#ifdef CONFIG_PPC_PMAC
+>        |-- 2654:#endif /* CONFIG_PPC_PMAC */
+>        |-- 2768:#ifdef CONFIG_PPC_PMAC
+>        |-- 2774:#endif /* CONFIG_PPC_PMAC */
+>        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
+>        |-- 2801:#endif /* CONFIG_PPC_OF */
+> 2803:#endif /* CONFIG_PM */
+> 
+> ------------
+> 
+> After 42ddb453a0cd:
+> $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
+> 
+> Based on output in terminal:
+> 
+> 547:#ifdef CONFIG_PM
+>        |-- 959:#ifdef CONFIG_PPC_PMAC
+>        |-- 972:#endif
+>        |-- 1291:#ifdef CONFIG_PPC_OF
+>        |-- 1301:#endif /* CONFIG_PPC_OF */
+>        |-- 1430:#if defined(CONFIG_PM)
+>                    |-- 1431:#if defined(CONFIG_X86) || defined(CONFIG_PPC_PMAC)
+>                    |-- 1944:#endif
+>                    |-- 1946:#ifdef CONFIG_PPC_OF
+>                                |-- 1947:#ifdef CONFIG_PPC_PMAC
+>                                |-- 2208:#endif
+>                    |-- 2209:#endif
+>                    |-- 2211:#if 0 /* Not ready yet */
+>                    |-- 2513:#endif /* 0 */
+>        |-- 2515:#endif /* CONFIG_PPC_OF */
+>        |-- 2653:#ifdef CONFIG_PPC_PMAC
+>        |-- 2659:#endif /* CONFIG_PPC_PMAC */
+>        |-- 2773:#ifdef CONFIG_PPC_PMAC
+>        |-- 2779:#endif /* CONFIG_PPC_PMAC */
+>        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
+>        |-- 2806:#endif /* CONFIG_PPC_OF */
+> 2808:#endif /* CONFIG_PM */
+> 
+> ------------
+> 
+> This also affected the CONFIG_PPC_OF container (line 1943 at commit 65122f7e80b5)
+> 
+> The patch-series fixes it along with PM upgrade.
 > 
 > All patches are compile-tested only.
 > 
@@ -188,38 +242,14 @@ On 8/19/20 8:56 PM, Vaibhav Gupta wrote:
 >     - Compiler: gcc (GCC) 10.1.0
 >     - allmodconfig build: make -j$(nproc) W=1 all
 > 
-> Vaibhav Gupta (12):
->   fbdev: gxfb: use generic power management
->   fbdev: lxfb: use generic power management
->   fbdev: via-core: use generic power management
->   fbdev: aty: use generic power management
->   fbdev: aty128fb: use generic power management
->   fbdev: nvidia: use generic power management
->   fbdev: savagefb: use generic power management
->   fbdev: cyber2000fb: use generic power management
->   fbdev: i740fb: use generic power management
->   fbdev: vt8623fb: use generic power management
->   fbdev: s3fb: use generic power management
->   fbdev: arkfb: use generic power management
+> Vaibhav Gupta (2):
+>   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM container
+>   fbdev: radeonfb:use generic power management
 > 
->  drivers/video/fbdev/arkfb.c                  | 41 ++++++-------
->  drivers/video/fbdev/aty/aty128fb.c           | 51 ++++++++++------
->  drivers/video/fbdev/aty/atyfb_base.c         | 50 ++++++++++-----
->  drivers/video/fbdev/cyber2000fb.c            | 13 ++--
->  drivers/video/fbdev/geode/gxfb.h             |  5 --
->  drivers/video/fbdev/geode/gxfb_core.c        | 36 ++++++-----
->  drivers/video/fbdev/geode/lxfb.h             |  5 --
->  drivers/video/fbdev/geode/lxfb_core.c        | 37 +++++------
->  drivers/video/fbdev/geode/lxfb_ops.c         |  4 --
->  drivers/video/fbdev/geode/suspend_gx.c       |  4 --
->  drivers/video/fbdev/i740fb.c                 | 40 +++++-------
->  drivers/video/fbdev/nvidia/nvidia.c          | 64 +++++++++++---------
->  drivers/video/fbdev/s3fb.c                   | 39 +++++-------
->  drivers/video/fbdev/savage/savagefb_driver.c | 52 ++++++++++------
->  drivers/video/fbdev/via/via-core.c           | 39 +++++-------
->  drivers/video/fbdev/vt8623fb.c               | 41 ++++++-------
->  include/linux/via-core.h                     |  2 -
->  17 files changed, 267 insertions(+), 256 deletions(-)
+>  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
+>  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++-------
+>  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
+>  3 files changed, 35 insertions(+), 16 deletions(-)
 
 Applied to drm-misc-next tree, thanks.
 
