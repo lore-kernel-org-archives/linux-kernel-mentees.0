@@ -8,86 +8,86 @@ X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 591D8C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 17:07:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 757CEC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 17:08:36 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CB2B2087C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 17:07:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0A4A8207DE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 17:08:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tG/YUPF7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CB2B2087C
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VUz6BhKL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0A4A8207DE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A604C873AD;
-	Tue,  8 Sep 2020 17:07:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D483C873B6;
+	Tue,  8 Sep 2020 17:08:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xycPxIUFwy1l; Tue,  8 Sep 2020 17:07:55 +0000 (UTC)
+	with ESMTP id iMtMxbyXN8YB; Tue,  8 Sep 2020 17:08:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 29092873A5;
-	Tue,  8 Sep 2020 17:07:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 48F98873AA;
+	Tue,  8 Sep 2020 17:08:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 15500C0052;
-	Tue,  8 Sep 2020 17:07:55 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1FBF1C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 37E3FC0052;
+	Tue,  8 Sep 2020 17:08:35 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6FB62C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 17:07:54 +0000 (UTC)
+ Tue,  8 Sep 2020 17:08:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0FB96275A6
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5E83285B99
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 17:07:54 +0000 (UTC)
+ Tue,  8 Sep 2020 17:08:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 44fcen0AoVgA
+ with ESMTP id G9gm_r-EFFnf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 17:07:53 +0000 (UTC)
+ Tue,  8 Sep 2020 17:08:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 0B5B7274ED
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BBB0285A92
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 17:07:53 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id n14so3541533pff.6
+ Tue,  8 Sep 2020 17:08:32 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id l126so4463703pfd.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 08 Sep 2020 10:07:53 -0700 (PDT)
+ Tue, 08 Sep 2020 10:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=Vkm3URthXwvfCz2X/0Dh5umMnxjwLofZTcBfaZl0Z6Y=;
- b=tG/YUPF7peaPAP9CfK209Pn38yxJyOy8OHKCwmmqVxJ0gETyFt5E47yypeNVZlb0WW
- vzSrLbR71gHvWpEnbgdYI1Xjom5ZjiE6euinp+gISUzKn7g9rhYwU/3Gms63brYZ3oP6
- 5djflAAHKKiCLS/xeeT7uFxDOasbEPszX6z74lQeQGxDYN3KXOPjMt4w+3FMTmczQc4v
- cO+KrOQTnkS9y3godo4V8gLjVbu5JdYF0mcK5XxdOc4fwUy9Xo2RTMrGfv6ynzKDzXqm
- nlVz4SXWSn0BFDXJQCrMXlZTnfBnhd143sO2H7sxeondeXhdg0bq1xoatGNL7RRJiiAl
- gd8Q==
+ bh=FPMDkvAk1iaVD1/CfgpOrTqFeHdT/s4HmA4Aa+dW56w=;
+ b=VUz6BhKLCRVxV/oCUBanPke25beWlVy7T7usC0n/+MpiMz0voCKBzSAQbTfe9i4eCN
+ kRwwhyTS22N/OIP+IxnPFhoRkMTxr2GRhmP7NtcJzFQcj/S3F3gOasmwroELnJrC7/tU
+ tzDD7YmHbUxPFktmb54YDPxolANYAYVOY3LyMy5thI5hMhyA6B17XIEXirqOS8FNkisN
+ +5YktBbjakzbf5y2e4s6NFrvlVF1L0tRsKKPOdNlcNNUzSZDZjwiWv9OCsJqXP80jf1W
+ 2alUmUeCttsN3v7RrCNNQyZdg7h+8g1XZ9sZj26I86n7De6sBShliPC474maQWWscEP5
+ BU2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Vkm3URthXwvfCz2X/0Dh5umMnxjwLofZTcBfaZl0Z6Y=;
- b=CDneHQD0AEi1vKZclaf6OYOkUWbfZ9RYga+cpGlNejIxh0k0fCcNtGzPI18XrP1q9H
- Yi4pFv/IVcO5XOQYovwePWA2rs/lGyKVPPtv6XaD46Q/4lkVSCpsKQop490Qo5oCUqnf
- YCpCmPYGa63ryeQ8i5NN/lhi5rri6//CB/t16cBtwHV1li8afzGWXJWX6moZGzIeTSh1
- xSV0qnv/JDHLXBzuveTyUTEY4NOgk2Tkl7g+M3wYGfgdcHcI70reQwNoWprWEwnZBsh7
- lh8TY9eI8Io73rP/3fu4FIGQPLhB32sXiZJtva3vUFT+/rnQolXKSoN7QRIsoca9YosM
- oe8Q==
-X-Gm-Message-State: AOAM5336vfbjRQN5MIVMgAeQfHrRMkAcadpGNXM+6QfZMkN2x/CQ131L
- 97PEU9rkSU67jxe8r3AGh4k=
-X-Google-Smtp-Source: ABdhPJzjf3ma939UXz/wlJ5BHxhf5CnuqeUC1sRoD1AIWGssRazx9QXjeHH5ONg+i+f1WoTcQBDdAA==
-X-Received: by 2002:a17:902:70c8:b029:d0:cbe1:e748 with SMTP id
- l8-20020a17090270c8b02900d0cbe1e748mr2028914plt.35.1599584872526; 
- Tue, 08 Sep 2020 10:07:52 -0700 (PDT)
+ bh=FPMDkvAk1iaVD1/CfgpOrTqFeHdT/s4HmA4Aa+dW56w=;
+ b=SQCogwk+0Y84/re0KsESHctVr2/XUfLntvYY3pRTY8sPOrAN8a61b7Okx72f2tBmcw
+ fQ+ZVv5rHjSiAGMcMiUbeUCU/yzEie0OqutmSck3LCVwt2t5bwQwr2ATqdm6PnytGIUu
+ 0gK/vo5K03TgHf92AE8gZq399GbkU3MLZQ4N7C8+Ux+Q+6KIwHtskYOd4IjU0d7hCtD+
+ n+vpYUv0eAYjCDB1domhZNMXODUxbwcdgTwwpL87l0xbOpa+kYytHXk9mELNo7dV5rYa
+ 1a/xAkEmJRCjcXcFix3xxTyGCTO18Znm2/mejZDIu3ABZ9+Hy56ScXgZweGJW5g/CNRg
+ Q7Cw==
+X-Gm-Message-State: AOAM530O7XfIoBoy0whRD1G8Xb0LJDihCiOF10w2+HLvCUKZCxTyZduV
+ f5kMBdaULxzV09v8N7kslUw=
+X-Google-Smtp-Source: ABdhPJyuwDZJQpN1wt5oGKzDbNipkknmAC/uQO+n7ifbMCvdDWvDU7Ep9Ne2YkU8Hf9GOpMdeFhUQw==
+X-Received: by 2002:a62:55c5:: with SMTP id
+ j188mr12901555pfb.103.1599584912263; 
+ Tue, 08 Sep 2020 10:08:32 -0700 (PDT)
 Received: from gmail.com ([106.201.26.241])
- by smtp.gmail.com with ESMTPSA id q71sm41669pja.9.2020.09.08.10.07.44
+ by smtp.gmail.com with ESMTPSA id f3sm15412564pgf.32.2020.09.08.10.08.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 10:07:52 -0700 (PDT)
-Date: Tue, 8 Sep 2020 22:35:59 +0530
+ Tue, 08 Sep 2020 10:08:31 -0700 (PDT)
+Date: Tue, 8 Sep 2020 22:36:38 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -107,16 +107,16 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>
-Message-ID: <20200908170559.GM9948@gmail.com>
+Message-ID: <20200908170626.GN9948@gmail.com>
 References: <20200720133427.454400-1-vaibhavgupta40@gmail.com>
- <20200720133427.454400-13-vaibhavgupta40@gmail.com>
+ <20200720133427.454400-14-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200720133427.454400-13-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200720133427.454400-14-vaibhavgupta40@gmail.com>
 Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
  esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 12/15] scsi: 3w-9xxx: use
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 13/15] scsi: 3w-sas: use
 	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -135,7 +135,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 20, 2020 at 07:04:25PM +0530, Vaibhav Gupta wrote:
+On Mon, Jul 20, 2020 at 07:04:26PM +0530, Vaibhav Gupta wrote:
 > Drivers using legacy PM have to manage PCI states and device's PM states
 > themselves. They also need to take care of configuration registers.
 > 
@@ -155,54 +155,55 @@ On Mon, Jul 20, 2020 at 07:04:25PM +0530, Vaibhav Gupta wrote:
 > 
 > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 > ---
->  drivers/scsi/3w-9xxx.c | 30 ++++++++----------------------
->  1 file changed, 8 insertions(+), 22 deletions(-)
+>  drivers/scsi/3w-sas.c | 31 ++++++++-----------------------
+>  1 file changed, 8 insertions(+), 23 deletions(-)
 > 
-> diff --git a/drivers/scsi/3w-9xxx.c b/drivers/scsi/3w-9xxx.c
-> index 3337b1e80412..c15dcfda3957 100644
-> --- a/drivers/scsi/3w-9xxx.c
-> +++ b/drivers/scsi/3w-9xxx.c
-> @@ -2191,10 +2191,10 @@ static void twa_remove(struct pci_dev *pdev)
->  	twa_device_extension_count--;
->  } /* End twa_remove() */
+> diff --git a/drivers/scsi/3w-sas.c b/drivers/scsi/3w-sas.c
+> index dda6fa857709..efaba30b0ca8 100644
+> --- a/drivers/scsi/3w-sas.c
+> +++ b/drivers/scsi/3w-sas.c
+> @@ -1756,11 +1756,10 @@ static void twl_remove(struct pci_dev *pdev)
+>  	twl_device_extension_count--;
+>  } /* End twl_remove() */
 >  
 > -#ifdef CONFIG_PM
 >  /* This function is called on PCI suspend */
-> -static int twa_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused twa_suspend(struct device *dev)
+> -static int twl_suspend(struct pci_dev *pdev, pm_message_t state)
+> +static int __maybe_unused twl_suspend(struct device *dev)
 >  {
-> +	struct pci_dev *pdev = to_pci_dev(dev);
->  	struct Scsi_Host *host = pci_get_drvdata(pdev);
+> -	struct Scsi_Host *host = pci_get_drvdata(pdev);
+> +	struct Scsi_Host *host = dev_get_drvdata(dev);
 >  	TW_Device_Extension *tw_dev = (TW_Device_Extension *)host->hostdata;
 >  
-> @@ -2214,32 +2214,21 @@ static int twa_suspend(struct pci_dev *pdev, pm_message_t state)
->  	}
->  	TW_CLEAR_ALL_INTERRUPTS(tw_dev);
+>  	printk(KERN_WARNING "3w-sas: Suspending host %d.\n", tw_dev->host->host_no);
+> @@ -1779,32 +1778,21 @@ static int twl_suspend(struct pci_dev *pdev, pm_message_t state)
+>  	/* Clear doorbell interrupt */
+>  	TWL_CLEAR_DB_INTERRUPT(tw_dev);
 >  
 > -	pci_save_state(pdev);
 > -	pci_disable_device(pdev);
 > -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
 > -
 >  	return 0;
->  } /* End twa_suspend() */
+>  } /* End twl_suspend() */
 >  
 >  /* This function is called on PCI resume */
-> -static int twa_resume(struct pci_dev *pdev)
-> +static int __maybe_unused twa_resume(struct device *dev)
+> -static int twl_resume(struct pci_dev *pdev)
+> +static int __maybe_unused twl_resume(struct device *dev)
 >  {
 >  	int retval = 0;
 > +	struct pci_dev *pdev = to_pci_dev(dev);
 >  	struct Scsi_Host *host = pci_get_drvdata(pdev);
 >  	TW_Device_Extension *tw_dev = (TW_Device_Extension *)host->hostdata;
 >  
->  	printk(KERN_WARNING "3w-9xxx: Resuming host %d.\n", tw_dev->host->host_no);
+>  	printk(KERN_WARNING "3w-sas: Resuming host %d.\n", tw_dev->host->host_no);
 > -	pci_set_power_state(pdev, PCI_D0);
 > -	pci_enable_wake(pdev, PCI_D0, 0);
 > -	pci_restore_state(pdev);
 >  
 > -	retval = pci_enable_device(pdev);
 > -	if (retval) {
-> -		TW_PRINTK(tw_dev->host, TW_DRIVER, 0x39, "Enable device failed during resume");
+> -		TW_PRINTK(tw_dev->host, TW_DRIVER, 0x24, "Enable device failed during resume");
 > -		return retval;
 > -	}
 > +	device_wakeup_disable(dev);
@@ -211,36 +212,36 @@ On Mon, Jul 20, 2020 at 07:04:25PM +0530, Vaibhav Gupta wrote:
 >  	pci_try_set_mwi(pdev);
 >  
 >  	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-> @@ -2277,11 +2266,9 @@ static int twa_resume(struct pci_dev *pdev)
+> @@ -1842,11 +1830,9 @@ static int twl_resume(struct pci_dev *pdev)
 >  
 >  out_disable_device:
 >  	scsi_remove_host(host);
 > -	pci_disable_device(pdev);
 >  
 >  	return retval;
->  } /* End twa_resume() */
+>  } /* End twl_resume() */
 > -#endif
 >  
 >  /* PCI Devices supported by this driver */
->  static struct pci_device_id twa_pci_tbl[] = {
-> @@ -2297,16 +2284,15 @@ static struct pci_device_id twa_pci_tbl[] = {
+>  static struct pci_device_id twl_pci_tbl[] = {
+> @@ -1855,16 +1841,15 @@ static struct pci_device_id twl_pci_tbl[] = {
 >  };
->  MODULE_DEVICE_TABLE(pci, twa_pci_tbl);
+>  MODULE_DEVICE_TABLE(pci, twl_pci_tbl);
 >  
-> +static SIMPLE_DEV_PM_OPS(twa_pm_ops, twa_suspend, twa_resume);
+> +static SIMPLE_DEV_PM_OPS(twl_pm_ops, twl_suspend, twl_resume);
 > +
 >  /* pci_driver initializer */
->  static struct pci_driver twa_driver = {
->  	.name		= "3w-9xxx",
->  	.id_table	= twa_pci_tbl,
->  	.probe		= twa_probe,
->  	.remove		= twa_remove,
+>  static struct pci_driver twl_driver = {
+>  	.name		= "3w-sas",
+>  	.id_table	= twl_pci_tbl,
+>  	.probe		= twl_probe,
+>  	.remove		= twl_remove,
 > -#ifdef CONFIG_PM
-> -	.suspend	= twa_suspend,
-> -	.resume		= twa_resume,
+> -	.suspend	= twl_suspend,
+> -	.resume		= twl_resume,
 > -#endif
-> +	.driver.pm	= &twa_pm_ops,
->  	.shutdown	= twa_shutdown
+> +	.driver.pm	= &twl_pm_ops,
+>  	.shutdown	= twl_shutdown
 >  };
 >  
 > -- 
