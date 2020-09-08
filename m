@@ -2,82 +2,151 @@ Return-Path: <SRS0=zeZA=CR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B191C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 08:32:57 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 275A6C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 11:37:24 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6BC90215A4
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 08:32:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8ECEF21741
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 11:37:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="UL12KF8I"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BC90215A4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="D1G2dvPj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8ECEF21741
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1EEDB86847;
-	Tue,  8 Sep 2020 08:32:56 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 54D9387297;
+	Tue,  8 Sep 2020 11:37:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LbqCQaG4EE7x; Tue,  8 Sep 2020 08:32:55 +0000 (UTC)
+	with ESMTP id chRfGeu5pZK9; Tue,  8 Sep 2020 11:37:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 42F2E8680F;
-	Tue,  8 Sep 2020 08:32:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A1355871F1;
+	Tue,  8 Sep 2020 11:37:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 31BCAC0052;
-	Tue,  8 Sep 2020 08:32:55 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 92E6DC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70DD5C0859;
+	Tue,  8 Sep 2020 11:37:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0FF7C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 08:32:53 +0000 (UTC)
+ Tue,  8 Sep 2020 11:37:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 72EAF2052F
+ by hemlock.osuosl.org (Postfix) with ESMTP id BBDB787293
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 08:32:53 +0000 (UTC)
+ Tue,  8 Sep 2020 11:37:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qTkXzU7hm9d8
+ with ESMTP id D3w945yqnJk6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 08:32:48 +0000 (UTC)
+ Tue,  8 Sep 2020 11:37:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
- by silver.osuosl.org (Postfix) with ESMTPS id 7CEB427261
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E6E7B871F1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 08:32:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 97CA251BBF;
- Tue,  8 Sep 2020 10:32:46 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at disroot.org
-Received: from knopi.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Yhz0DXSapah2; Tue,  8 Sep 2020 10:32:45 +0200 (CEST)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1599553965; bh=MtTkkrjUArcAs0hadvKRy5v5FwaP4zALze6rrGVH8yI=;
- h=Date:From:Subject:To:Cc:In-Reply-To:References;
- b=UL12KF8Iv8VO3iSfSVMnBnYwXLSspHQbo6YAP8dVAceoioWuARTDnhvSTj5ht64Yy
- OVnnBqiaS34hxCzVki+7sToTM1RxFJccFMvD9EZGPInBLXpOatjlbWOHhJmgp5N96N
- t6np8bLbrOfQzLMYumY8jKtLoHowFhQs+5iVo3v21P7sSuzITdXdAJr8y5XIn0l2Fh
- aD7WPBudiwdjV6R8ODguCHrcItZ43o45vHW4ZGa4yeDMGIUX3KVIDPeZ84qE9VEX2j
- Bm6pfZvI4CI61VABl4+cqFa04eVCWigy5YOW2pW8AmiYLGohLhr9+6aweiP0gmkg6n
- aUdsMH0ZtHjjA==
-Date: Tue, 08 Sep 2020 08:32:45 +0000
-From: "Ayush" <ayush@disroot.org>
-Message-ID: <22db634e7be36f4514f0c9b3ecf0060a@disroot.org>
-To: "Joe Perches" <joe@perches.com>, apw@canonical.com
-In-Reply-To: <beed63208cc412f122fe273602675801add08ede.camel@perches.com>
-References: <beed63208cc412f122fe273602675801add08ede.camel@perches.com>
- <20200907151417.44453-1-ayush@disroot.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: GIT_COMMIT_ID:
- handle commit messages with multiple quotes
+ Tue,  8 Sep 2020 11:37:18 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200908113716euoutp02a6de771bf5c8b7eef80aab8f34d1bf96~yy_z_WTG33214932149euoutp02U
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  8 Sep 2020 11:37:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200908113716euoutp02a6de771bf5c8b7eef80aab8f34d1bf96~yy_z_WTG33214932149euoutp02U
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1599565036;
+ bh=EHIPiCsP6+EBTPA70jdMAHPbGC9Ru4tdCPsKuauXX10=;
+ h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
+ b=D1G2dvPjSqdqWIDsXk6cd6cysNKM1Tjs3L+cpikP2X3ntpzvuZ/WtMALckD/ySr8m
+ 4ksKJi8d23xTkeWPmCu12CAAU9C0h+rYQ7wb8af68rwK/Q/LgefVGY10ftP/FWVePJ
+ KUpe7/Ypyh8vEa847/Bm0DH+H23A27f9/lCfPz1w=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200908113716eucas1p26d54b11bf79e4e64f958932054c85698~yy_zwFGvi2028820288eucas1p2J;
+ Tue,  8 Sep 2020 11:37:16 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id DF.45.05997.CEC675F5; Tue,  8
+ Sep 2020 12:37:16 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200908113715eucas1p24824cc43d260e04b6bc2ddbd146b6673~yy_zZPlz23077930779eucas1p2D;
+ Tue,  8 Sep 2020 11:37:15 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200908113715eusmtrp2f5c113360443c68dec92b751de7f6275~yy_zW_ODq3046530465eusmtrp2J;
+ Tue,  8 Sep 2020 11:37:15 +0000 (GMT)
+X-AuditID: cbfec7f4-65dff7000000176d-ae-5f576cec7dfb
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 00.D1.06314.BEC675F5; Tue,  8
+ Sep 2020 12:37:15 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200908113714eusmtip29ca97490ca12427a9b62f099359ca829~yy_yiViA11658216582eusmtip2U;
+ Tue,  8 Sep 2020 11:37:14 +0000 (GMT)
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Message-ID: <7660f403-ff17-04c2-91d3-1d1ff0510e87@samsung.com>
+Date: Tue, 8 Sep 2020 13:37:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200819185654.151170-1-vaibhavgupta40@gmail.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+e0+dhVvXpePo4bRjKAwewo/e9iTuAhhCT0oypZeNJwPtmZl
+ 0cPQUmn5yKSbpphomVmsMjccwcp8rIyyTFMxyMA0c9qKNLOcd5L/fc453+/vnC/8GEJxnvZj
+ jiQeFTSJKrWSdiVrn4+9WvpVvSdqee8VEo9l22lcnhaHz/W+RniyalyO3/4YpvHAi7s0Nnxq
+ p3CT3kbhy61WEmd96idxm6mIxpYCM8LVz27K8a2xRwibCysoXNedKcPl9cPURg++rf01wRvF
+ HjlfatDxtZZ2kjdUZdL8k+JqOd+b3SjjH5Sf4X//ykf837R+OV9+9R3NF5v0iP9uCNjB7nNd
+ FyOoj6QImmVhh1zj6lsikru9jxtzS6mzqMEjC7kwwK2GwYE+Igu5MgruFoKhV2YkFXYEzePN
+ pFR8R/AiXU/PWGy5Zrk0qETQXmNwqoYQ1FgbCIeK5tZA7oUq5OC5HA/6nkGZgz25IHjTIMoc
+ BoLrIuHGYIvcMWC5MMjsyps2kNxCmBDLptmL2wujH59SksYDmq/1kQ524TbAo6Z3048SnA98
+ 6Ctx8nx4PFQ0nQi4hwyYO22UdPdWGKmvdmaYCwOND+USz4O/xhKZZKhB8Odiv9P9GEFl/qTT
+ sRa6W8enmJlasRjumZZJ7U1gS89EjjZwc6BjyEM6Yg7k1RYSUpuFixkKSb0I7lfcp2fWZhlv
+ EzlIKc6KJs6KI86KI/7fW4rIKuQj6LQJsYJ2ZaJwLFirStDqEmODo5MSDGjqa1onG+11yDRx
+ 2II4BindWFv47igFpUrRnkiwIGAIpSe7+aX1oIKNUZ1IFTRJURqdWtBakD9DKn3YVWVfDii4
+ WNVRIV4QkgXNzFTGuPidRSXzii/Z2364BAWcCak91dnf4jZK+Ee8X5CaFNnbc/JzUIBahO2+
+ sdb9ezNGq6MLhn+ylr4LGzLMIV7eviPUnSLx+vqO7G+7GU38tkI9Eb9EHfeghNvZ4V4WvSaQ
+ DT2t89lVp4zsCLdHpZvcfYUtxpziidAQr/qKnrfWz36BaVuUpDZOtWIJodGq/gFz83HulgMA
+ AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsVy+t/xe7qvc8LjDZZN1bH42f2FzWJJU4ZF
+ 4/2LjBb/Vv1it7jy9T2bxasza9ksNj2+xmpxou8Dq0X/udMsFl2PX7BYXN41h83i0NS9jBZr
+ jixmt1jxcyujxd7py1gtdtzpZLJYsuc9q4Ogx+VrF5k9ds66y+6xYFOpx7ZD11g8Nq3qZPPY
+ P3cNu8f97uNMHpuX1Hv8/jGZ0eN/0wt2jyXTrrJ5zN3Vx+jxeZNcAG+Unk1RfmlJqkJGfnGJ
+ rVK0oYWRnqGlhZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsaeU/4Fd8Qqdk5cwNrAeFSw
+ i5GTQ0LAROLDxL3sXYxcHEICSxklNj/cA+RwACVkJI6vL4OoEZb4c62LDaLmNaPE2/NTmUAS
+ bAJWEhPbVzGC2MICHhJ9d1+DxUUEdCQuHZ3FBNLALHCbReJGey8TRPckRol7W36AVfEK2El0
+ 3p4E1s0ioCLxZ9YiMFtUIELi8I5ZjBA1ghInZz5hAbE5Bewltp64CtbLLKAu8WfeJWYIW1zi
+ 1pP5UHF5ie1v5zBPYBSahaR9FpKWWUhaZiFpWcDIsopRJLW0ODc9t9hQrzgxt7g0L10vOT93
+ EyMwRWw79nPzDsZLG4MPMQpwMCrx8H7wCosXYk0sK67MPcQowcGsJMLrdPZ0nBBvSmJlVWpR
+ fnxRaU5q8SFGU6DnJjJLiSbnA9NXXkm8oamhuYWlobmxubGZhZI4b4fAwRghgfTEktTs1NSC
+ 1CKYPiYOTqkGxk43lfXFTTrf3Of+6I6oXeRUccrYPMhtyZ0f0sJKbinvDnvd37rw8AH57O1f
+ TMIKJ6RztUgyrP4tWK1fe5dN0M7bdP7qC8x7pm/+JvjnfH7H3g1SPbxVJ1QubPhRftHWef35
+ uEPKD2XOPzjxaWLM4VK1lHslqpxVly916ZkeNp2xVHtngqeKvhJLcUaioRZzUXEiALK1rWon
+ AwAA
+X-CMS-MailID: 20200908113715eucas1p24824cc43d260e04b6bc2ddbd146b6673
+X-Msg-Generator: CA
+X-RootMTR: 20200819185901eucas1p2a6c54c905c199e6a04de8477cfa6539e
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200819185901eucas1p2a6c54c905c199e6a04de8477cfa6539e
+References: <CGME20200819185901eucas1p2a6c54c905c199e6a04de8477cfa6539e@eucas1p2.samsung.com>
+ <20200819185654.151170-1-vaibhavgupta40@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Antonino Daplas <adaplas@gmail.com>, Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ linux-geode@lists.infradead.org, Paul Mackerras <paulus@samba.org>,
+ Andres Salomon <dilinger@queued.net>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v3 00/12] video: fbdev: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,25 +164,70 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> I think all your examples are broken.
+
+On 8/19/20 8:56 PM, Vaibhav Gupta wrote:
+> Linux Kernel Mentee: Remove Legacy Power Management.
 > 
-> I think all should start with revert
-> i.e.: Reverts commit <SHA-1> ("description...")
+> The purpose of this patch series is to upgrade power management in video fbdev
+> drivers. This has been done by upgrading .suspend() and .resume() callbacks.
+> 
+> The upgrade makes sure that the involvement of PCI Core does not change the
+> order of operations executed in a driver. Thus, does not change its behavior.
+> 
+> In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
+> helper functions like pci_enable/disable_device_mem(), pci_set_power_state(),
+> pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
+> their job.
+> 
+> The conversion requires the removal of those function calls, change the
+> callbacks' definition accordingly and make use of dev_pm_ops structure.
+> 
+> All patches are compile-tested only.
+> 
+> Test tools:
+>     - Compiler: gcc (GCC) 10.1.0
+>     - allmodconfig build: make -j$(nproc) W=1 all
+> 
+> Vaibhav Gupta (12):
+>   fbdev: gxfb: use generic power management
+>   fbdev: lxfb: use generic power management
+>   fbdev: via-core: use generic power management
+>   fbdev: aty: use generic power management
+>   fbdev: aty128fb: use generic power management
+>   fbdev: nvidia: use generic power management
+>   fbdev: savagefb: use generic power management
+>   fbdev: cyber2000fb: use generic power management
+>   fbdev: i740fb: use generic power management
+>   fbdev: vt8623fb: use generic power management
+>   fbdev: s3fb: use generic power management
+>   fbdev: arkfb: use generic power management
+> 
+>  drivers/video/fbdev/arkfb.c                  | 41 ++++++-------
+>  drivers/video/fbdev/aty/aty128fb.c           | 51 ++++++++++------
+>  drivers/video/fbdev/aty/atyfb_base.c         | 50 ++++++++++-----
+>  drivers/video/fbdev/cyber2000fb.c            | 13 ++--
+>  drivers/video/fbdev/geode/gxfb.h             |  5 --
+>  drivers/video/fbdev/geode/gxfb_core.c        | 36 ++++++-----
+>  drivers/video/fbdev/geode/lxfb.h             |  5 --
+>  drivers/video/fbdev/geode/lxfb_core.c        | 37 +++++------
+>  drivers/video/fbdev/geode/lxfb_ops.c         |  4 --
+>  drivers/video/fbdev/geode/suspend_gx.c       |  4 --
+>  drivers/video/fbdev/i740fb.c                 | 40 +++++-------
+>  drivers/video/fbdev/nvidia/nvidia.c          | 64 +++++++++++---------
+>  drivers/video/fbdev/s3fb.c                   | 39 +++++-------
+>  drivers/video/fbdev/savage/savagefb_driver.c | 52 ++++++++++------
+>  drivers/video/fbdev/via/via-core.c           | 39 +++++-------
+>  drivers/video/fbdev/vt8623fb.c               | 41 ++++++-------
+>  include/linux/via-core.h                     |  2 -
+>  17 files changed, 267 insertions(+), 256 deletions(-)
 
-Actually I am talking about those commits which referenced a revert commit.
+Applied to drm-misc-next tree, thanks.
 
-For example:
-
-If I want to mention a revert commit in my commit message, I will do something like.
-
-This bug appeared first in commit 1234567890ab ("Revert "abc: foo bar"").
-(Just an example)
-
-Here, according to syntax, it is right but checkpatch.pl gives an error as multiple
-quotes in commit messages are not handled in checkpatch.pl.
-
-Regards,
-Ayush
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
