@@ -8,85 +8,86 @@ X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F084C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 16:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD0B3C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 17:00:15 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9E738207DE
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 16:59:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7947B2080C
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 17:00:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jx+X8veF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9E738207DE
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acYgkvgA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7947B2080C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3AC56873B2;
-	Tue,  8 Sep 2020 16:59:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0EFDD872EF;
+	Tue,  8 Sep 2020 17:00:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id y+dlYRFAK0sk; Tue,  8 Sep 2020 16:59:04 +0000 (UTC)
+	with ESMTP id bk09aapFUIJw; Tue,  8 Sep 2020 17:00:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4631C873AA;
-	Tue,  8 Sep 2020 16:59:04 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6BDD1873A8;
+	Tue,  8 Sep 2020 17:00:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2EDDEC0052;
-	Tue,  8 Sep 2020 16:59:04 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 410EDC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 66EDAC0052;
+	Tue,  8 Sep 2020 17:00:14 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8C6D9C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 16:59:03 +0000 (UTC)
+ Tue,  8 Sep 2020 17:00:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2E61C228E2
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 883F086CB2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 16:59:03 +0000 (UTC)
+ Tue,  8 Sep 2020 17:00:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lC2C3LC-mKDb
+ with ESMTP id zbyi8a6nTWZh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 16:59:01 +0000 (UTC)
+ Tue,  8 Sep 2020 17:00:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
  [209.85.216.67])
- by silver.osuosl.org (Postfix) with ESMTPS id E0B57203BF
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id D389086CA5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 16:59:01 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id b17so36248pji.1
+ Tue,  8 Sep 2020 17:00:12 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id s2so30117pjr.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 08 Sep 2020 09:59:01 -0700 (PDT)
+ Tue, 08 Sep 2020 10:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=OsDHF9l8KLweJEV4F/UUUN9AsWj6Q1K3HzbgaaqAR+c=;
- b=Jx+X8veFdJOPa0X0J9oKcogx9QwoQksOBY8M2bOMrLsgJCHlinQ/6KLsmsI0BCpcdb
- 6zYDjx7hgf5J/7JWlK75dlCWqSULL6JwIAa9Mh0vsu8EaQj+D9Cy6WwXpeW9YuHhj82u
- lvhRFQP+QacUHjn5tHoRSmX4ohlwS5d7tfGfqXrQzw9G3863ccMTWfD7KG72g6YD6nNw
- fN2u4N8aZCQgNss+QauNu0Ko4KYHHd9sldTEuMtsHejcL6bDTooF+X3dqAHMCmW4HxDl
- WIRcdrVrA3unnQ+ysCT5WJOskUfT0Dpxp0Z1skyncyJV3tG0Vi04mv+unGzoJK3b56vj
- yGeA==
+ bh=iKuzfMMNhC5TJ+c7Fua7oTap7vymNcWtBzASKBpHXMA=;
+ b=acYgkvgABuHjEKMgfiqkimbPBka+X6yG3/OejaxPCBtLpcyAcsbqyhwvQqlgjDZOA0
+ 8EvIyY76gDQcmL5FSdZTxH08ZQQCdkoO/ZPM/5KPHr3sL8UoAUz/fAko3p2UsI2wtPDZ
+ xo3WEQ66kj9+ies/7OFNVu6Q/CpoW3KVz9IekekMO/3U6YNDz2yLRJMAC06qLPjFe4Qs
+ TnFKKIn4TYbvJTMUAtOOJTHYbQA+w9lb3ARvzD4YtpDkyb/1J8kVHIokOFxMa1JeG8Mt
+ mb7yzlkuWQ4ia5lDgklbNZmvq/8y3I5Q07XiOGjiA9XzIaQzj3LpsUBtOFYFySK1FvN4
+ NiLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=OsDHF9l8KLweJEV4F/UUUN9AsWj6Q1K3HzbgaaqAR+c=;
- b=JftSd7gx4NR+3WgqkRlpiHLMo7t11F1CGsfjNDIm9+Y5uWpWzmtB3+4nCj0sI9Jbou
- JTjHNh6aYV+1YwGXJ3Q8yKH0nQHDEV5nwPgdTQZAxCFq9tcc1isJcr8yztVIyorumQ66
- VmlM2WCoQy9x+a8G46JRw13PjQULsQxoMwZ7KJBGeRXVh29hT56KH//zYtWej03HSbZn
- NVHOS2z30TkQsr1gfsVHVTe0Pmq+cimGqjU6rHSZTOmca2it1IKIcBHHqRZD9sgIlKT6
- km0V9xlxdkahGmXzqIHHc34o0D0LZztwgDjj6CRCr4q0/rQq47mWVrskWSfejgr5YRWZ
- xiOg==
-X-Gm-Message-State: AOAM532xMZr7nu9nYSZ3NwSKX9OOnkjhr2iEyNv/GIMgRe27wDdiZqsC
- AKVk708OCAwsNtNjSqmmXc8=
-X-Google-Smtp-Source: ABdhPJw73yuN92T7L31s/Mu5c6yngdnp2uuE+tJOLHPn8pMUo7b77Is0I+rofpf1nrbe69tjZ1uaGg==
-X-Received: by 2002:a17:90a:6848:: with SMTP id e8mr32374pjm.221.1599584341427; 
- Tue, 08 Sep 2020 09:59:01 -0700 (PDT)
+ bh=iKuzfMMNhC5TJ+c7Fua7oTap7vymNcWtBzASKBpHXMA=;
+ b=rysLMyn7WNngfMT2U2fVfec/A49r/h2AorCH8WdxS00MSd0P9c0eEHI9t+lBsQYJyl
+ gMLIYwM5TbxwFi6kzFN5mWLaP0EUmpfzN+wSi7qE/+saa7QeeyS5hYe50OFcQlguP/0T
+ bND9uZkRIfE9h82nNF5xvk/vDh2UKOXalFU19HLaQMDiZ+hy4Y9pGJGPOk8hqZe4zm+N
+ fFtK9XFpfkQbYeNDXdp0FX5X9ZFFFu7OlLIdnrgVdvrMuaA2MiwZlggv3aCgAhFQGd13
+ NxDKOlmsJ9GKhjZEEJFzFZZ+URElBDAMdzx+Dxl8Oyr8SFFgPj8R/Jk3xHJWbQHwxiFx
+ AvRA==
+X-Gm-Message-State: AOAM533t74qmb0uguj4Cc+ouVcQn6fkpJMlqbLk60bucKnfAW2Xb0hqW
+ ODbkyF/fOxVlUrnGbxMaZ3E=
+X-Google-Smtp-Source: ABdhPJxDDiTHs3utTJZoGKbwiCgqc0v2PDE0cUAb7ZeCzLBsKSuvjEX8RF0+OmgJJ14cK7JfUAlf+w==
+X-Received: by 2002:a17:90a:ed8e:: with SMTP id
+ k14mr73895pjy.178.1599584412423; 
+ Tue, 08 Sep 2020 10:00:12 -0700 (PDT)
 Received: from gmail.com ([106.201.26.241])
- by smtp.gmail.com with ESMTPSA id a20sm3393pfa.59.2020.09.08.09.58.51
+ by smtp.gmail.com with ESMTPSA id a10sm18845942pfn.219.2020.09.08.09.59.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 09:59:00 -0700 (PDT)
-Date: Tue, 8 Sep 2020 22:27:02 +0530
+ Tue, 08 Sep 2020 10:00:11 -0700 (PDT)
+Date: Tue, 8 Sep 2020 22:28:04 +0530
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -106,16 +107,16 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>
-Message-ID: <20200908165702.GB9948@gmail.com>
+Message-ID: <20200908165804.GC9948@gmail.com>
 References: <20200720133427.454400-1-vaibhavgupta40@gmail.com>
- <20200720133427.454400-2-vaibhavgupta40@gmail.com>
+ <20200720133427.454400-3-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200720133427.454400-2-vaibhavgupta40@gmail.com>
+In-Reply-To: <20200720133427.454400-3-vaibhavgupta40@gmail.com>
 Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
  esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 01/15] scsi: megaraid_sas: use
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 02/15] scsi: aacraid: use
 	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -134,16 +135,15 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jul 20, 2020 at 07:04:14PM +0530, Vaibhav Gupta wrote:
+On Mon, Jul 20, 2020 at 07:04:15PM +0530, Vaibhav Gupta wrote:
 > With legacy PM hooks, it was the responsibility of a driver to manage PCI
 > states and also the device's power state. The generic approach is to let
 > the PCI core handle the work.
 > 
 > PCI core passes "struct device*" as an argument to the .suspend() and
-> .resume() callbacks. As the .suspend() work with "struct instance*",
-> extract it from "struct device*" using dev_get_drv_data().
+> .resume() callbacks.
 > 
-> Driver was also using PCI helper functions like pci_save/restore_state(),
+> Driver was using PCI helper functions like pci_save/restore_state(),
 > pci_disable/enable_device(), pci_set_power_state() and pci_enable_wake().
 > They should not be invoked by the driver.
 > 
@@ -151,151 +151,90 @@ On Mon, Jul 20, 2020 at 07:04:14PM +0530, Vaibhav Gupta wrote:
 > 
 > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 > ---
->  drivers/scsi/megaraid/megaraid_sas_base.c | 61 ++++++-----------------
->  1 file changed, 16 insertions(+), 45 deletions(-)
+>  drivers/scsi/aacraid/linit.c | 34 ++++++++--------------------------
+>  1 file changed, 8 insertions(+), 26 deletions(-)
 > 
-> diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-> index 00668335c2af..4a6ee7778977 100644
-> --- a/drivers/scsi/megaraid/megaraid_sas_base.c
-> +++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-> @@ -7539,25 +7539,21 @@ static void megasas_shutdown_controller(struct megasas_instance *instance,
->  	megasas_return_cmd(instance, cmd);
+> diff --git a/drivers/scsi/aacraid/linit.c b/drivers/scsi/aacraid/linit.c
+> index a308e86a97f1..1e44868ee953 100644
+> --- a/drivers/scsi/aacraid/linit.c
+> +++ b/drivers/scsi/aacraid/linit.c
+> @@ -1910,11 +1910,9 @@ static int aac_acquire_resources(struct aac_dev *dev)
+>  
 >  }
 >  
-> -#ifdef CONFIG_PM
->  /**
->   * megasas_suspend -	driver suspend entry point
-> - * @pdev:		PCI device structure
-> - * @state:		PCI power state to suspend routine
-> + * @dev:		Device structure
->   */
-> -static int
-> -megasas_suspend(struct pci_dev *pdev, pm_message_t state)
-> +static int __maybe_unused
-> +megasas_suspend(struct device *dev)
+> -#if (defined(CONFIG_PM))
+> -static int aac_suspend(struct pci_dev *pdev, pm_message_t state)
+> +static int __maybe_unused aac_suspend(struct device *dev)
 >  {
-> -	struct megasas_instance *instance;
 > -
-> -	instance = pci_get_drvdata(pdev);
-> +	struct megasas_instance *instance = dev_get_drvdata(dev);
+> -	struct Scsi_Host *shost = pci_get_drvdata(pdev);
+> +	struct Scsi_Host *shost = dev_get_drvdata(dev);
+>  	struct aac_dev *aac = (struct aac_dev *)shost->hostdata;
 >  
->  	if (!instance)
->  		return 0;
+>  	scsi_host_block(shost);
+> @@ -1923,29 +1921,16 @@ static int aac_suspend(struct pci_dev *pdev, pm_message_t state)
 >  
->  	instance->unload = 1;
+>  	aac_release_resources(aac);
 >  
-> -	dev_info(&pdev->dev, "%s is called\n", __func__);
-> +	dev_info(dev, "%s is called\n", __func__);
->  
->  	/* Shutdown SR-IOV heartbeat timer */
->  	if (instance->requestorId && !instance->skip_heartbeat_timer_del)
-> @@ -7579,7 +7575,7 @@ megasas_suspend(struct pci_dev *pdev, pm_message_t state)
->  
->  	tasklet_kill(&instance->isr_tasklet);
->  
-> -	pci_set_drvdata(instance->pdev, instance);
-> +	dev_set_drvdata(dev, instance);
->  	instance->instancet->disable_intr(instance);
->  
->  	megasas_destroy_irqs(instance);
-> @@ -7587,48 +7583,28 @@ megasas_suspend(struct pci_dev *pdev, pm_message_t state)
->  	if (instance->msix_vectors)
->  		pci_free_irq_vectors(instance->pdev);
->  
+> -	pci_set_drvdata(pdev, shost);
 > -	pci_save_state(pdev);
 > -	pci_disable_device(pdev);
-> -
 > -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
 > -
 >  	return 0;
 >  }
 >  
->  /**
->   * megasas_resume-      driver resume entry point
-> - * @pdev:               PCI device structure
-> + * @dev:              Device structure
->   */
-> -static int
-> -megasas_resume(struct pci_dev *pdev)
-> +static int __maybe_unused
-> +megasas_resume(struct device *dev)
+> -static int aac_resume(struct pci_dev *pdev)
+> +static int __maybe_unused aac_resume(struct device *dev)
 >  {
->  	int rval;
->  	struct Scsi_Host *host;
-> -	struct megasas_instance *instance;
-> +	struct megasas_instance *instance = dev_get_drvdata(dev);
->  	u32 status_reg;
+> -	struct Scsi_Host *shost = pci_get_drvdata(pdev);
+> +	struct Scsi_Host *shost = dev_get_drvdata(dev);
+>  	struct aac_dev *aac = (struct aac_dev *)shost->hostdata;
+> -	int r;
 >  
-> -	instance = pci_get_drvdata(pdev);
-> -
->  	if (!instance)
->  		return 0;
->  
->  	host = instance->host;
 > -	pci_set_power_state(pdev, PCI_D0);
 > -	pci_enable_wake(pdev, PCI_D0, 0);
 > -	pci_restore_state(pdev);
+> -	r = pci_enable_device(pdev);
 > +	device_wakeup_disable(dev);
 >  
-> -	dev_info(&pdev->dev, "%s is called\n", __func__);
-> -	/*
-> -	 * PCI prepping: enable device set bus mastering and dma mask
-> -	 */
-> -	rval = pci_enable_device_mem(pdev);
-> -
-> -	if (rval) {
-> -		dev_err(&pdev->dev, "Enable device failed\n");
-> -		return rval;
-> -	}
+> -	if (r)
+> -		goto fail_device;
 > -
 > -	pci_set_master(pdev);
-> +	dev_info(dev, "%s is called\n", __func__);
->  
+>  	if (aac_acquire_resources(aac))
+>  		goto fail_device;
 >  	/*
->  	 * We expect the FW state to be READY
-> @@ -7754,14 +7730,8 @@ megasas_resume(struct pci_dev *pdev)
->  fail_set_dma_mask:
->  fail_ready_state:
->  
+> @@ -1960,10 +1945,8 @@ static int aac_resume(struct pci_dev *pdev)
+>  fail_device:
+>  	printk(KERN_INFO "%s%d: resume failed.\n", aac->name, aac->id);
+>  	scsi_host_put(shost);
 > -	pci_disable_device(pdev);
-> -
 >  	return -ENODEV;
 >  }
-> -#else
-> -#define megasas_suspend	NULL
-> -#define megasas_resume	NULL
 > -#endif
 >  
->  static inline int
->  megasas_wait_for_adapter_operational(struct megasas_instance *instance)
-> @@ -7931,7 +7901,7 @@ static void megasas_detach_one(struct pci_dev *pdev)
->  
->  /**
->   * megasas_shutdown -	Shutdown entry point
-> - * @device:		Generic device structure
-> + * @pdev:		PCI device structure
->   */
->  static void megasas_shutdown(struct pci_dev *pdev)
+>  static void aac_shutdown(struct pci_dev *dev)
 >  {
-> @@ -8508,6 +8478,8 @@ static const struct file_operations megasas_mgmt_fops = {
->  	.llseek = noop_llseek,
+> @@ -2108,15 +2091,14 @@ static struct pci_error_handlers aac_pci_err_handler = {
+>  	.resume			= aac_pci_resume,
 >  };
 >  
-> +static SIMPLE_DEV_PM_OPS(megasas_pm_ops, megasas_suspend, megasas_resume);
+> +static SIMPLE_DEV_PM_OPS(aac_pm_ops, aac_suspend, aac_resume);
 > +
->  /*
->   * PCI hotplug support registration structure
->   */
-> @@ -8517,8 +8489,7 @@ static struct pci_driver megasas_pci_driver = {
->  	.id_table = megasas_pci_table,
->  	.probe = megasas_probe_one,
->  	.remove = megasas_detach_one,
-> -	.suspend = megasas_suspend,
-> -	.resume = megasas_resume,
-> +	.driver.pm = &megasas_pm_ops,
->  	.shutdown = megasas_shutdown,
+>  static struct pci_driver aac_pci_driver = {
+>  	.name		= AAC_DRIVERNAME,
+>  	.id_table	= aac_pci_tbl,
+>  	.probe		= aac_probe_one,
+>  	.remove		= aac_remove_one,
+> -#if (defined(CONFIG_PM))
+> -	.suspend	= aac_suspend,
+> -	.resume		= aac_resume,
+> -#endif
+> +	.driver.pm	= &aac_pm_ops,
+>  	.shutdown	= aac_shutdown,
+>  	.err_handler    = &aac_pci_err_handler,
 >  };
->  
 > -- 
 > 2.27.0
 > 
