@@ -8,101 +8,104 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C86BC43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 20:07:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CD6C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 23:33:57 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F1A4E207DE
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 20:07:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 780E72080C
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 23:33:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CrmexfeQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1A4E207DE
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gD/1uUIj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 780E72080C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9E45C86D54;
-	Tue,  8 Sep 2020 20:07:16 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2737987096;
+	Tue,  8 Sep 2020 23:33:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cdJzAr8F1zGN; Tue,  8 Sep 2020 20:07:15 +0000 (UTC)
+	with ESMTP id 3bYlxTxmg6ug; Tue,  8 Sep 2020 23:33:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B8B1586EB5;
-	Tue,  8 Sep 2020 20:07:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8B6CA86E5E;
+	Tue,  8 Sep 2020 23:33:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9FE3CC0859;
-	Tue,  8 Sep 2020 20:07:15 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 41B3EC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D2B8C0859;
+	Tue,  8 Sep 2020 23:33:56 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 45FE0C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 20:07:15 +0000 (UTC)
+ Tue,  8 Sep 2020 23:33:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2F1DB86EBB
+ by silver.osuosl.org (Postfix) with ESMTP id 19B0427E4C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 20:07:15 +0000 (UTC)
+ Tue,  8 Sep 2020 23:33:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1U2GGdIubJiL
+ with ESMTP id WDHotQh5Kfkw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 20:07:14 +0000 (UTC)
+ Tue,  8 Sep 2020 23:33:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 87DF386D54
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0181322F05
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 20:07:14 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id z19so70213pfn.8
+ Tue,  8 Sep 2020 23:33:53 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id x123so484204pfc.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 08 Sep 2020 13:07:14 -0700 (PDT)
+ Tue, 08 Sep 2020 16:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=J2k9xpa9l+tbRJ/+vvItQDXmC64/jEuH8zJsr0tf6oA=;
- b=CrmexfeQlkBwXK5cG+ePO2sdpsUPZnONXxWr/hg8KJjUjcaV7j/aXOa2NIQiuCONLC
- 90PGOGuGJhs+tn/dOaOybPQI3hkDS9/DYthQ4whqkws8ZDBOxHCqgZ9XQE/r1QO1SGHt
- X3nIm8ttt4u91GG04u4UY4Bz9DZFr8zMg4JqV2Hd+WSMRI7t2FqSQW3pqmmHs0NvrUia
- zwRwSHSpIbU9SQm2gT3tA6M+scVRa1erkkve0Ylf9GJqUJJOxh5ecCoK+RqswTulVpFI
- bKRF/HqLkmb2i/japcvxpqX7E6ulyFgq1VRhJcXTzZ77FJH0PuByZFK1tQlTpc1PoKty
- IXFQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DY5gbi/kg3mlXEWhK+AT4noIdeJ5tpruTcO86qQV2fw=;
+ b=gD/1uUIjxxvndXA66bjpe84ydOX7OCQ6pi8H39SCb1WcPm9hzkQBnoZFpEvLIgTf6B
+ oAOvXXy3rXuK0i4ORtK7eJJFZNYcD9cD/HIOKI+ioF69hJKgSwlOZ9hlW0hsOlbCtXKu
+ WoMBhlib6KwG6qMtjiXjXPPka8kCdQNheTBjyeSlzLe0i+GfJJvCObe8WRNFsDW/G0eb
+ 7gEu970QLGJlhG9fc6NdH/sL7yN94Lr784NdQN+UKXs7sG2FC3dpzjpAuxl1E55ZBPdB
+ qguXxEEs1ocql+7X/dMt4av1HnCsEPFTjLADZLIIof6W5BbyfDBNZvbjE9b3oMEE1802
+ bRdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=J2k9xpa9l+tbRJ/+vvItQDXmC64/jEuH8zJsr0tf6oA=;
- b=mClIsKZFdVDfUC57LPzc+yI+vX1XyWvesdOSsZ2oKyrTkRAPGtk2Wg8QWy2IZcEdk3
- 5sYhWfy+Eu2wOP38JbZQZ01Zh/WuROU4T3fSgVLSXMX8VR3UFDN7V2vNHRz2ugsS+BUo
- ZC2VktOS7ufLjE41tVMGMfk5ksTQ8xeQVZH4E1tSXX819BPbuMKjf1ku5fVjPWYFlc6c
- 15uFU0y0MsrRYBWCmje7EPE5Zf4RHeSYquGJhT2zVJDT4CjuyqAmvfxy5HUMUaVOH8UP
- bz/3UtkSHHLXo5V4dlD1HNH4mHBetfVj9uTHPEplNKVRTBB0TYDa7uHORHncHLEC1VWX
- djCw==
-X-Gm-Message-State: AOAM532I6c+85hK9a6Z+1ijsCVl5vA6/iKu7XXYTazLVKjbQW59FiFGB
- tiUi3GQUhc8guaAnK01hrg==
-X-Google-Smtp-Source: ABdhPJxwCwMDHBJXt83pjdnBKyh00EzfcLx4+iauDRFDYP1OihfBxFjkVtwmkrQFVz2ZgIbAEjY48w==
-X-Received: by 2002:a63:fd01:: with SMTP id d1mr319176pgh.350.1599595634182;
- Tue, 08 Sep 2020 13:07:14 -0700 (PDT)
-Received: from localhost.localdomain (n11212042027.netvigator.com.
- [112.120.42.27])
- by smtp.gmail.com with ESMTPSA id y24sm237023pfn.161.2020.09.08.13.07.11
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DY5gbi/kg3mlXEWhK+AT4noIdeJ5tpruTcO86qQV2fw=;
+ b=fvkgK6aD3N/C7Qx67k4nVUiyxeoi7s6Vqw6PhImSxv/ndZ18hl1ml6XY5JpnUvnUwu
+ yYeEuaeERvLLqXxq9WsU85Haac/7FqBFgqFV2kgox+QEbC4rbxXvIhCsVw3dVnQ3puzU
+ Tf938/5PeoDERP1r8pTPCALZ2GNi2oyzdx1CkkaaDpLVnXbMXHG9ESCW38dwUOfRK+pQ
+ Revtj59qCk8QAdT6pZ3DaL1AbnA8goguNjm/e2pYeaVpIBAzxgkJQhB5x0R8BQ7HB5Zn
+ rUdKR3lRcRQFvMKbj03OOOnEomDo+mBWrrDczabMqBi80CJuYVWlJe6OQ92QVKxrnZbY
+ v2vA==
+X-Gm-Message-State: AOAM532c0E4wwI87fHHeGHdR2gOdENsJ2UrM+5wGWEWLradfgL4y+G2B
+ it1x+Y+J7buEwVzTa4LitGCY5KXNcfgaRv9Wr40=
+X-Google-Smtp-Source: ABdhPJyb8T9C7v1d33kdgNugE+3TPB7VCXh6XyWU6MplW7h01SgEPXkLa6ESccu35w5loo09tNI3iA==
+X-Received: by 2002:a17:902:b088:b029:d1:8388:e6f8 with SMTP id
+ p8-20020a170902b088b02900d18388e6f8mr71790plr.40.1599608032937; 
+ Tue, 08 Sep 2020 16:33:52 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.193.206])
+ by smtp.gmail.com with ESMTPSA id c7sm473216pfj.100.2020.09.08.16.33.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 13:07:13 -0700 (PDT)
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>
-Date: Tue,  8 Sep 2020 16:06:35 -0400
-Message-Id: <20200908200635.1099360-1-yepeilin.cs@gmail.com>
+ Tue, 08 Sep 2020 16:33:52 -0700 (PDT)
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+To: 
+Date: Wed,  9 Sep 2020 05:03:28 +0530
+Message-Id: <20200908233329.200473-1-anant.thazhemadam@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <00000000000033913705acedbd6b@google.com>
-References: <00000000000033913705acedbd6b@google.com>
 MIME-Version: 1.0
-Cc: Miao-chen Chou <mcchou@chromium.org>, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- linux-bluetooth@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+ syzbot+c613e88b3093ebf3686e@syzkaller.appspotmail.com,
+ syzbot+0f84f6eed90503da72fc@syzkaller.appspotmail.com,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ linux-kernel@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ netdev@vger.kernel.org, syzbot+d0f27d9af17914bf253b@syzkaller.appspotmail.com,
+ syzbot+3025b9294f8cb0ede850@syzkaller.appspotmail.com,
+ Jakub Kicinski <kuba@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- Peilin Ye <yepeilin.cs@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH] Bluetooth: Fix memory leak in
-	read_adv_mon_features()
+ "David S. Miller" <davem@davemloft.net>
+Subject: [Linux-kernel-mentees] [PATCH] net: qrtr: Reintroduce ARCH_QCOM as
+	a dependency for QRTR
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,45 +123,51 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-read_adv_mon_features() is leaking memory. Free `rp` before returning.
+Removing ARCH_QCOM, as a dependency for QRTR begins to give rise to
+issues with respect to maintaining reference count integrity and
+suspicious rcu usage.
 
-Fixes: e5e1e7fd470c ("Bluetooth: Add handler of MGMT_OP_READ_ADV_MONITOR_FEATURES")
-Reported-and-tested-by: syzbot+f7f6e564f4202d8601c6@syzkaller.appspotmail.com
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+The bugs resolved by making QRTR dependent on ARCH_QCOM include:
+
+* WARNING: refcount bug in qrtr_node_lookup
+Reported-by: syzbot+c613e88b3093ebf3686e@syzkaller.appspotmail.com
+* WARNING: refcount bug in qrtr_recvmsg
+Reported-by: syzbot+d0f27d9af17914bf253b@syzkaller.appspotmail.com
+* WARNING: suspicious RCU usage in ctrl_cmd_new_lookup
+Reported-by: syzbot+3025b9294f8cb0ede850@syzkaller.appspotmail.com
+* WARNING: suspicious RCU usage in qrtr_ns_worker
+Reported-by: syzbot+0f84f6eed90503da72fc@syzkaller.appspotmail.com
+
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
- net/bluetooth/mgmt.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+As I understand it, QRTR was initially dependent upon ARCH_QCOM, but was 
+removed since not all modems using IPC Router protocol required the 
+support provided for Qualcomm platforms. 
+However, wouldn't ARCH_QCOM be required by the modems that require the 
+support provided for Qualcomm platforms?
+The configuration ARCH_QCOM isn't exactly the easiest to find, especially, 
+for those who don't know what they're looking for (syzbot included, I 
+guess).
+I don't feel like the tradeoff of not depending on ARCH_QCOM over giving 
+rise to potential bugs is worth it. 
+Is NOT having QRTR depend on ARCH_QCOM so critical that it supersedes the 
+priority of not giving rise to potential bugs?
 
-diff --git a/net/bluetooth/mgmt.c b/net/bluetooth/mgmt.c
-index 5bbe71002fb9..f96251f818fc 100644
---- a/net/bluetooth/mgmt.c
-+++ b/net/bluetooth/mgmt.c
-@@ -4157,7 +4157,7 @@ static int read_adv_mon_features(struct sock *sk, struct hci_dev *hdev,
- {
- 	struct adv_monitor *monitor = NULL;
- 	struct mgmt_rp_read_adv_monitor_features *rp = NULL;
--	int handle;
-+	int handle, err;
- 	size_t rp_size = 0;
- 	__u32 supported = 0;
- 	__u16 num_handles = 0;
-@@ -4192,9 +4192,13 @@ static int read_adv_mon_features(struct sock *sk, struct hci_dev *hdev,
- 	if (num_handles)
- 		memcpy(&rp->handles, &handles, (num_handles * sizeof(u16)));
+ net/qrtr/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/qrtr/Kconfig b/net/qrtr/Kconfig
+index b4020b84760f..8156d0f3656b 100644
+--- a/net/qrtr/Kconfig
++++ b/net/qrtr/Kconfig
+@@ -4,6 +4,7 @@
  
--	return mgmt_cmd_complete(sk, hdev->id,
--				 MGMT_OP_READ_ADV_MONITOR_FEATURES,
--				 MGMT_STATUS_SUCCESS, rp, rp_size);
-+	err = mgmt_cmd_complete(sk, hdev->id,
-+				MGMT_OP_READ_ADV_MONITOR_FEATURES,
-+				MGMT_STATUS_SUCCESS, rp, rp_size);
-+
-+	kfree(rp);
-+
-+	return err;
- }
- 
- static int add_adv_patterns_monitor(struct sock *sk, struct hci_dev *hdev,
+ config QRTR
+ 	tristate "Qualcomm IPC Router support"
++	depends on ARCH_QCOM
+ 	help
+ 	  Say Y if you intend to use Qualcomm IPC router protocol.  The
+ 	  protocol is used to communicate with services provided by other
 -- 
 2.25.1
 
