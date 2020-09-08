@@ -2,148 +2,120 @@ Return-Path: <SRS0=zeZA=CR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE63C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 11:38:07 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13FB7C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 16:57:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B718221532
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 11:38:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AA419207DE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Sep 2020 16:57:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Ci26dG2o"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B718221532
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ele0Rrax"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AA419207DE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4D47485C19;
-	Tue,  8 Sep 2020 11:38:06 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6B2F986DB0;
+	Tue,  8 Sep 2020 16:57:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DIVvLCl88xYY; Tue,  8 Sep 2020 11:38:05 +0000 (UTC)
+	with ESMTP id F0rEouUEAdqS; Tue,  8 Sep 2020 16:57:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B518585955;
-	Tue,  8 Sep 2020 11:38:05 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E192A86D94;
+	Tue,  8 Sep 2020 16:57:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A3D93C0859;
-	Tue,  8 Sep 2020 11:38:05 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 75DD7C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CCC24C0052;
+	Tue,  8 Sep 2020 16:57:02 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3354CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:38:04 +0000 (UTC)
+ Tue,  8 Sep 2020 16:57:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2F8E52746F
+ by hemlock.osuosl.org (Postfix) with ESMTP id 22B3C872D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:38:04 +0000 (UTC)
+ Tue,  8 Sep 2020 16:57:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fLwCurFaQSSl
+ with ESMTP id q5tU7yf51VKE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:38:01 +0000 (UTC)
+ Tue,  8 Sep 2020 16:57:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by silver.osuosl.org (Postfix) with ESMTPS id C77CC20436
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 925B4872C6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:38:01 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113759euoutp02e8208b5a94d4d16650e40f0a9e990dd3~yy-cCe7lL0099700997euoutp02e
+ Tue,  8 Sep 2020 16:57:01 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id z19so9296026pfn.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Sep 2020 11:37:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200908113759euoutp02e8208b5a94d4d16650e40f0a9e990dd3~yy-cCe7lL0099700997euoutp02e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1599565079;
- bh=0s4Ik3+RTnNQIV6PDJ+CNOxzRLFQDzKVLXECY7JWkyM=;
- h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=Ci26dG2obB34PGBbpcoK3/8aXkWZccE2Q/NYKd9rxM/dP88l4hcJtM2441U11gcG+
- T4Gn8XsB0ZutjBOOcG1QFvWK+iQ86H08q5XaGMNJQdoJaiaOSVq0ul5/+zr9qNmKC0
- zZkubkZUIZJ14tCxrhmI3RprBLZ1cFyyFXcVN/4Q=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113758eucas1p1f922c5bbb2463f540d70f4e219a8362c~yy-bULu0c1732217322eucas1p1K;
- Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id D5.6E.06456.61D675F5; Tue,  8
- Sep 2020 12:37:58 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113758eucas1p29aad7c57574221fd154e74662a3bc75d~yy-a6Ng_02679626796eucas1p23;
- Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200908113758eusmtrp11702a45991d6c386cce0918636f8b8e4~yy-a5eimt2072320723eusmtrp1K;
- Tue,  8 Sep 2020 11:37:58 +0000 (GMT)
-X-AuditID: cbfec7f2-809ff70000001938-43-5f576d16396f
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 27.E1.06314.61D675F5; Tue,  8
- Sep 2020 12:37:58 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200908113757eusmtip2ecc970bf5132f075feb3c4300f5e357e~yy-aUvAui1663016630eusmtip2e;
- Tue,  8 Sep 2020 11:37:57 +0000 (GMT)
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Message-ID: <9798158d-ef29-e5a4-c792-fd51ba64b91b@samsung.com>
-Date: Tue, 8 Sep 2020 13:37:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Tue, 08 Sep 2020 09:57:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kBD1EJXPjVAPBpvdc8wf1ILIVz5P8vX0mxtXEPwALzw=;
+ b=Ele0Rrax+SxCArR7vCT+Ep4XzRpupXA++JWD3kHsYCsN5NDhZAVsIEGGQQ88ehNC5R
+ 46X0/j2chtpx+hmu9XItNJmS3if7iMfnXSYDV1uEJMrQHQDW22kF9ka/I3di4/dJSFYF
+ 4mtMnPvRlqjWvbhmtg21sQpyMB8u4w4i21teNB+X3EFAJhMHaLCu5aKE2z+IrKZzcuRB
+ 8LmD1TVvq7PW+2h4Y8+DchxExEX+odbLBhJV+TqhWyBPLlyj/IFZkOOwXg5f6T1hM9cn
+ I1yEt6NQJu3QdvQoIL6YzFaipMpF4S26ypm5drRygYvWFfuiOGAdfr8wrkQXzy2hLNNH
+ xKCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kBD1EJXPjVAPBpvdc8wf1ILIVz5P8vX0mxtXEPwALzw=;
+ b=um9itBGFUDD/6o41C/XUHc1wp5kqHlfbenDRFvwjcnswX+HjK2O6qKOZdfuRdjQvT1
+ AHmwlCI0Be9ounPuV0ByRYLFqeKoAjKPRscKJW5axb959q1sT/jxULcQhMDliBwwLEKy
+ myQTdFxviuwGn58QUCaqOMPA7OrMWcYMlHq9XQmbUJrX4TRtQOMxyw+izd1PDRvQIMh+
+ F2l4Nys6hsKfeAi3r/gbCUGdNctxTppZULTlttoVcaNJ6zFhJsVF3L5CnbBBvEHgNhlN
+ Ta3EUj3QJBy1bTAim0U5GCYuW5nyvJZw+dnIMPVh+avU2OHN7je7a5y24bfcGIcIT7w8
+ b2PA==
+X-Gm-Message-State: AOAM533COxGDtC+uTYpGzU217POBwzuahAjSx1tOFOF13SUq9wZb6IKg
+ UvstML4zqts29dKfoQo+DDs=
+X-Google-Smtp-Source: ABdhPJwZxemNY6Dve6ZxiSwz4vCGjA5iIlNIPUHL3l9AnM4JkFzTMbYq7IAQKVpAR9CjNuYYwMBgSQ==
+X-Received: by 2002:a05:6a00:8c5:b029:13e:ce2c:88bd with SMTP id
+ s5-20020a056a0008c5b029013ece2c88bdmr96593pfu.0.1599584221085; 
+ Tue, 08 Sep 2020 09:57:01 -0700 (PDT)
+Received: from gmail.com ([106.201.26.241])
+ by smtp.gmail.com with ESMTPSA id h15sm4467pfo.23.2020.09.08.09.56.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 09:57:00 -0700 (PDT)
+Date: Tue, 8 Sep 2020 22:24:58 +0530
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ Adam Radford <aradford@gmail.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+ Hannes Reinecke <hare@suse.com>, Bradley Grove <linuxdrivers@attotech.com>,
+ John Garry <john.garry@huawei.com>, Don Brace <don.brace@microsemi.com>,
+ James Smart <james.smart@broadcom.com>,
+ Dick Kennedy <dick.kennedy@broadcom.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Sumit Saxena <sumit.saxena@broadcom.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ Sathya Prakash <sathya.prakash@broadcom.com>,
+ Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>
+Message-ID: <20200908165458.GA9948@gmail.com>
+References: <20200720133427.454400-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200907070221.29938-1-vaibhavgupta40@gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm2zk7O44mn2ttL7MSRhRJWVLRqcTK+nGQqP6YXShbdZiiW7I5
- SxHUylK7YKlJa6aJmVo5MfFaBCvTsK20K2lO0pWZy7GKtEjzdJT893zP5X3fBz6akPeJ1XSc
- IYkzGrQJGkpKNjwedy5X6qNjVrY6NIz3RBbBlJ+IZTJdXYh5+WOUYoaf3qGYjgteMZM7MEQy
- L1qsFHO/qELMjLdcI5me3/5MU2+OiCm/NyreJGObLe8lbGmdmW2wvybZcyOnxGxddQ7FPii+
- LWFdZ9tF7O+xfMSeP/mVYr/VLdwp3SsNO8IlxCVzxhXhB6WxnoEPosSRwOMFdhuZgcoUuciP
- Brwa2u67UC6S0nJcieCn1UsJj+8IPr90TD++IfDmjUtmIv23aiSCcBNBz6lCES/IsQdBTU8A
- jym8Hi6eqZ6aS9Nz8T4o7FLztAIvg+42i4jPEriPgKL+ZwQvyHA4vOooo3hM4kUw9thK8nge
- 3g2+/odiwRMAT64MkvxMvym/79ICniawCt4NlogEHASNHivBzwecQ0NWhw0JR2+Fy1cd0wXm
- wnB7/TSeD53550ghUIPgT/bQdLoRwc38CUpwbYBe5y+K30zgpWBrWSHQm6HyyY1/JQH7w1tP
- gHCEP1xqKCIEWgbZp+WCezHUVtRSM2tzm6uIPKSxzGpmmVXHMquO5f/eUkRWIxVnNul1nCnU
- wB0LMWn1JrNBF3L4qL4OTf26zol2XxP60X3IjjCNNHNk3shdMXKxNtmUorcjoAmNQhbh6Dwg
- lx3RpqRyxqMxRnMCZ7KjQJrUqGSryj7vl2OdNomL57hEzjijimg/dQZaU79tY9BYnmvgj84d
- /FEd5yqJvtt3YOFklM2xhxt2BkWnOzIfnYyMf7NamZzlS6rIq5ImNp13y9MG20LtT8O/VJX0
- hj5PmySXdDW2Br/J7vbumCweK98y/1Mrjq9kAwqDwraoIppfX1+nWevcHpXq3r1HYX6gLIAR
- pTvsco4rXUOaYrWhwYTRpP0LxD5Yr3EDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRmVeSWpSXmKPExsVy+t/xe7piueHxBjuOsVl8aGpltljSlGHR
- eP8io8WVr+/ZLF6dWctmcaLvA6tF1+MXLBaXd81hs9g7fRmrxc9d81gsbv/ms9hxp5PJYsme
- 96wOvB47Z91l91iwqdRj26FrLB49b1pYPTat6mTz2D93DbvH/e7jTB6/f0xm9Ohtfsfm8XmT
- XABXlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7G
- 28ePmAreSFdMObSepYFxkUgXIyeHhICJxIPV69i7GLk4hASWMkqsubqQtYuRAyghI3F8fRlE
- jbDEn2tdbBA1rxklGo5NZQRJsAlYSUxsX8UIUi8sEC0x9aIUSFhEQEfi0tFZTCD1zAIPmCUO
- vHjFDNE8kVFi34SNLCBVvAJ2EldPLGIDsVkEVCR+HJsDFhcViJA4vGMWI0SNoMTJmU9YQBZw
- AtV/miQLEmYWUJf4M+8SM4QtLnHryXwmCFteYvvbOcwTGIVmIemehaRlFpKWWUhaFjCyrGIU
- SS0tzk3PLTbUK07MLS7NS9dLzs/dxAiM7W3Hfm7ewXhpY/AhRgEORiUe3g9eYfFCrIllxZW5
- hxglOJiVRHidzp6OE+JNSaysSi3Kjy8qzUktPsRoCvTbRGYp0eR8YNrJK4k3NDU0t7A0NDc2
- NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXAGDfn++vtAsv3ZUzZ3DNtjUqo0xeBBVWz
- lT1srvYnZ0TfmTrvxKqZBuHpDHrfzLKE9996d6puAqc0e+G/j7t+9Tm/0b3/0/j9tjMi5uLm
- U06/4f+pHxwx7X6nou0DPYYp/D8uLpLWu7yNU/J/29U5irO49suyL1/KHP/k57Elz9qznt9d
- Pf2B13olluKMREMt5qLiRAClTHXlAwMAAA==
-X-CMS-MailID: 20200908113758eucas1p29aad7c57574221fd154e74662a3bc75d
-X-Msg-Generator: CA
-X-RootMTR: 20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74
-References: <CGME20200907070432eucas1p27ce44eec5f3eaf3644c868c7a965ee74@eucas1p2.samsung.com>
- <20200907070221.29938-1-vaibhavgupta40@gmail.com>
-Cc: linux-fbdev@vger.kernel.org,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Thierry Reding <treding@nvidia.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1 0/2] video: fbdev: radeonfb:
- PCI PM framework upgrade and fix-ups.
+Content-Disposition: inline
+In-Reply-To: <20200720133427.454400-1-vaibhavgupta40@gmail.com>
+Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
+ esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 00/15] scsi: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -161,80 +133,24 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-On 9/7/20 9:02 AM, Vaibhav Gupta wrote:
-> Linux Kernel Mentee: Remove Legacy Power Management. 
+On Mon, Jul 20, 2020 at 07:04:13PM +0530, Vaibhav Gupta wrote:
+> Linux Kernel Mentee: Remove Legacy Power Management.
 > 
-> The original goal of the patch series is to upgrade the power management
-> framework of radeonfb fbdev driver. This has been done by upgrading .suspend()
-> and .resume() callbacks.
+> The purpose of this patch series is to upgrade power management in scsi
+> drivers. This has been done by upgrading .suspend() and .resume() callbacks.
 > 
 > The upgrade makes sure that the involvement of PCI Core does not change the
 > order of operations executed in a driver. Thus, does not change its behavior.
 > 
-> During this process, it was found that "#if defined(CONFIG_PM)" at line 1434 is
-> redundant. This was introduced in the commit
-> 42ddb453a0cd ("radeon: Conditionally compile PM code").
+> In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
+> helper functions like pci_request/release_regions(), pci_set_power_state(),
+> pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
+> their job.
 > 
-> ------------
+> The conversion requires the removal of those function calls, change the
+> callbacks' definition accordingly and make use of dev_pm_ops structure.
 > 
-> Before 42ddb453a0cd:
-> $ git show 65122f7e80b5:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> 
-> Based on output in terminal:
-> 
-> 547:#ifdef CONFIG_PM
->        |-- 959:#ifdef CONFIG_PPC_PMAC
->        |-- 972:#endif
->        |-- 1291:#ifdef CONFIG_PPC_OF
->        |-- 1301:#endif /* CONFIG_PPC_OF */
->        |-- 1943:#ifdef CONFIG_PPC_OF
->                    |-- 2206:#if 0 /* Not ready yet */
->                    |-- 2508:#endif /* 0 */
->        |-- 2510:#endif /* CONFIG_PPC_OF */
->        |-- 2648:#ifdef CONFIG_PPC_PMAC
->        |-- 2654:#endif /* CONFIG_PPC_PMAC */
->        |-- 2768:#ifdef CONFIG_PPC_PMAC
->        |-- 2774:#endif /* CONFIG_PPC_PMAC */
->        |-- 2791:#ifdef CONFIG_PPC_OF__disabled
->        |-- 2801:#endif /* CONFIG_PPC_OF */
-> 2803:#endif /* CONFIG_PM */
-> 
-> ------------
-> 
-> After 42ddb453a0cd:
-> $ git show 42ddb453a0cd:drivers/video/aty/radeon_pm.c | grep -n "#ifdef\|#if\|#else\|#endif\|#elif\|#ifndef"
-> 
-> Based on output in terminal:
-> 
-> 547:#ifdef CONFIG_PM
->        |-- 959:#ifdef CONFIG_PPC_PMAC
->        |-- 972:#endif
->        |-- 1291:#ifdef CONFIG_PPC_OF
->        |-- 1301:#endif /* CONFIG_PPC_OF */
->        |-- 1430:#if defined(CONFIG_PM)
->                    |-- 1431:#if defined(CONFIG_X86) || defined(CONFIG_PPC_PMAC)
->                    |-- 1944:#endif
->                    |-- 1946:#ifdef CONFIG_PPC_OF
->                                |-- 1947:#ifdef CONFIG_PPC_PMAC
->                                |-- 2208:#endif
->                    |-- 2209:#endif
->                    |-- 2211:#if 0 /* Not ready yet */
->                    |-- 2513:#endif /* 0 */
->        |-- 2515:#endif /* CONFIG_PPC_OF */
->        |-- 2653:#ifdef CONFIG_PPC_PMAC
->        |-- 2659:#endif /* CONFIG_PPC_PMAC */
->        |-- 2773:#ifdef CONFIG_PPC_PMAC
->        |-- 2779:#endif /* CONFIG_PPC_PMAC */
->        |-- 2796:#ifdef CONFIG_PPC_OF__disabled
->        |-- 2806:#endif /* CONFIG_PPC_OF */
-> 2808:#endif /* CONFIG_PM */
-> 
-> ------------
-> 
-> This also affected the CONFIG_PPC_OF container (line 1943 at commit 65122f7e80b5)
-> 
-> The patch-series fixes it along with PM upgrade.
+> v2: kbuild error in v1.
 > 
 > All patches are compile-tested only.
 > 
@@ -242,22 +158,55 @@ On 9/7/20 9:02 AM, Vaibhav Gupta wrote:
 >     - Compiler: gcc (GCC) 10.1.0
 >     - allmodconfig build: make -j$(nproc) W=1 all
 > 
-> Vaibhav Gupta (2):
->   video: fbdev: aty: radeon_pm: remove redundant CONFIG_PM container
->   fbdev: radeonfb:use generic power management
+> Vaibhav Gupta (15):
+>   scsi: megaraid_sas: use generic power management
+>   scsi: aacraid: use generic power management
+>   scsi: aic7xxx: use generic power management
+>   scsi: aic79xx: use generic power management
+>   scsi: arcmsr: use generic power management
+>   scsi: esas2r: use generic power management
+>   scsi: hisi_sas_v3_hw: use generic power management
+>   scsi: mpt3sas_scsih: use generic power management
+>   scsi: lpfc: use generic power management
+>   scsi: pm_8001: use generic power management
+>   scsi: hpsa: use generic power management
+>   scsi: 3w-9xxx: use generic power management
+>   scsi: 3w-sas: use generic power management
+>   scsi: mvumi: use generic power management
+>   scsi: pmcraid: use generic power management
 > 
->  drivers/video/fbdev/aty/radeon_base.c | 10 ++++---
->  drivers/video/fbdev/aty/radeon_pm.c   | 38 ++++++++++++++++++++-------
->  drivers/video/fbdev/aty/radeonfb.h    |  3 +--
->  3 files changed, 35 insertions(+), 16 deletions(-)
+>  drivers/scsi/3w-9xxx.c                    |  30 ++-----
+>  drivers/scsi/3w-sas.c                     |  31 ++-----
+>  drivers/scsi/aacraid/linit.c              |  34 ++------
+>  drivers/scsi/aic7xxx/aic79xx.h            |  12 +--
+>  drivers/scsi/aic7xxx/aic79xx_core.c       |   8 +-
+>  drivers/scsi/aic7xxx/aic79xx_osm_pci.c    |  43 +++-------
+>  drivers/scsi/aic7xxx/aic79xx_pci.c        |   6 +-
+>  drivers/scsi/aic7xxx/aic7xxx.h            |  10 +--
+>  drivers/scsi/aic7xxx/aic7xxx_core.c       |   6 +-
+>  drivers/scsi/aic7xxx/aic7xxx_osm_pci.c    |  46 +++-------
+>  drivers/scsi/aic7xxx/aic7xxx_pci.c        |   4 +-
+>  drivers/scsi/arcmsr/arcmsr_hba.c          |  35 +++-----
+>  drivers/scsi/esas2r/esas2r.h              |   5 +-
+>  drivers/scsi/esas2r/esas2r_init.c         |  48 +++--------
+>  drivers/scsi/esas2r/esas2r_main.c         |   3 +-
+>  drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    |  32 +++----
+>  drivers/scsi/hpsa.c                       |  12 +--
+>  drivers/scsi/lpfc/lpfc_init.c             | 100 +++++++---------------
+>  drivers/scsi/megaraid/megaraid_sas_base.c |  61 ++++---------
+>  drivers/scsi/mpt3sas/mpt3sas_scsih.c      |  36 +++-----
+>  drivers/scsi/mvumi.c                      |  49 +++--------
+>  drivers/scsi/pm8001/pm8001_init.c         |  46 ++++------
+>  drivers/scsi/pmcraid.c                    |  44 +++-------
+>  23 files changed, 212 insertions(+), 489 deletions(-)
+> 
+> -- 
+> 2.27.0
+> 
+Please review the patch-series.
 
-Applied to drm-misc-next tree, thanks.
-
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+Thanks
+Vaibhav Gupta
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
