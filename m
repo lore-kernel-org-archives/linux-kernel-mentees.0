@@ -2,115 +2,120 @@ Return-Path: <SRS0=P4BV=CS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B51B8C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 09:52:16 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E04C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 10:05:28 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1097121D79
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 09:52:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7F5FA21973
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 10:05:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lowr0Kdj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1097121D79
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CP9aECFZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F5FA21973
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 93C802E173;
-	Wed,  9 Sep 2020 09:52:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1F2F387105;
+	Wed,  9 Sep 2020 10:05:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id DCp24MGPk5up; Wed,  9 Sep 2020 10:05:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4E193870F7;
+	Wed,  9 Sep 2020 10:05:26 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 27F79C0859;
+	Wed,  9 Sep 2020 10:05:26 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7AF5AC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  9 Sep 2020 10:05:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id C20292E17B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  9 Sep 2020 10:05:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Xqs30e+qk4Vf; Wed,  9 Sep 2020 09:52:13 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DAC1523265;
-	Wed,  9 Sep 2020 09:52:13 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C8988C0859;
-	Wed,  9 Sep 2020 09:52:13 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A68CDC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 09:52:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9519F86EAC
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 09:52:12 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id j9nrqYjGsP0L
+ with ESMTP id asE-zdLOnJr8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 09:52:12 +0000 (UTC)
+ Wed,  9 Sep 2020 10:05:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
- [209.85.208.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C245A86E97
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id 505D4204DD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 09:52:11 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id i1so2025747edv.2
+ Wed,  9 Sep 2020 10:05:20 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id b16so1094986pjp.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 09 Sep 2020 02:52:11 -0700 (PDT)
+ Wed, 09 Sep 2020 03:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=1ogT5JHq4/PyB6IIAkr48NNGs8xe6eI+wc2wy6UpSC0=;
- b=Lowr0KdjSZe/iGkl4Zgn6tiNqpdSDpEZ1CH4jYBOgunIeQ+rllKM5HDEkBB7HMHTK+
- dP8tPOxea4sSfmkFsI9lElFW/WNx71MFMWLKFu4X1uRVlRqk8iwM1T3vqHLPzd0PS1aC
- fo6NC/IVc0m2ai/1jOTv/KdVOZOV3El969+5CVQ0alAPJ0iSo+sbNxFyXSfYkhXnSKQw
- 4I/K1rfGdEFxYxJ3aezxNdpSRgI6f1ZMDFIfzSZUYXhG7Hcj6S6njc5qejtTEV9+hnzJ
- dA+4nwy7YPR3EFv3bmsYh/aQGHcauY0VdtZxYPIE6Yuwbf5vWv3ENt2ZbhIKKSjSX+Xa
- rzeg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XB3RLON5qcBthb/U8/A/O+8sQ7Tgn2KHnSYoALIjbSE=;
+ b=CP9aECFZyZL9cNPC6KblFfjHnAeIdhRWfiNbIoAx5Bbi0lvpDWFQXeebyLf80tMdzx
+ sMXsLSW6Y0qPhAmJjbsIP8Xx7GiprSnRuc83FpiCT3NcsiyETFbsK4OOo12gfCybKKtj
+ 37eVSUMylMLjGaMgeG4lqDh6DmoQAG8leelQkKYQJ5WwfxKDu9FFz7MrXx/G6yOgwzdx
+ BVM0WTwbs5HcmMiG3dlCjDJ3/n2PFzA9nvyGu6V5NakdDsP5TRLRk+K8bU9bCMXXBgvj
+ xKisg4nlLlnZM79rB/B/FzOPbFVbvZqRXk1qCmGHFbnqBBQYNwC8g4+5dRvescvPp9Zm
+ cBkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=1ogT5JHq4/PyB6IIAkr48NNGs8xe6eI+wc2wy6UpSC0=;
- b=M6rVWLyY1fGlHiXL4Sc2SsE7EuGbIKDAKMSRxQrDdyQVDweiGzUdEKfiEgtUyXVKA0
- e8wvUdv+WWm5s24Wbn2W6OHVtR4cFILYw2D6ycyWuK34PXhFe3dPY7OTWnwvTxfQR680
- RJFlpwt0lNKajvR9eqqIL1fYSH8+CuUPE7iCGDZoB13Lu2bUGbgAWUHbt6e6XMhiAckQ
- WopPGwzvi6+Y7xRnH8GyT8Sdr2oIfNWWtKgomYG9/mkoxlqPfhC6vRr+mu3F4mj3jRM5
- NGS4C1/2Ix/yd7DINxOj7tSgGjbYFbvDyt/VNtCC8GmShyRzaiq93rJaruTtVYwYmGkZ
- lrgg==
-X-Gm-Message-State: AOAM5324qmTV8XSkG0wsshe8tO8peFot3a8KgPmqiuqisofbyEpUkvw2
- V2p84mFwqsybf2ooG0oOCIY=
-X-Google-Smtp-Source: ABdhPJwoztuNpTu4zwuNWjKd9qloTBsXUUvzKU/EjObWUWbZ1/P+GGQulHUkKiSrkhvH9pXYDpWoIw==
-X-Received: by 2002:a05:6402:304f:: with SMTP id
- bu15mr3246463edb.201.1599645130253; 
- Wed, 09 Sep 2020 02:52:10 -0700 (PDT)
-Received: from felia ([2001:16b8:2d44:6000:6108:df55:7b8e:67d4])
- by smtp.gmail.com with ESMTPSA id l10sm1573144edr.12.2020.09.09.02.52.09
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XB3RLON5qcBthb/U8/A/O+8sQ7Tgn2KHnSYoALIjbSE=;
+ b=QZCMdwTMt91RnL/9s/LCDatAmn6sweAL9JgJ/yzP6a2heovBJQJpr+OtPCf8Yd+qZR
+ 8dz0rSYSP4sHJstbXeCCHI8J761Hi0iVP+5t2Twin14pJl7DWD+TrpIHB52oZ1BnOvTf
+ qjHiWUWOYr6cpYaTd2QcNDRsqkmLkD0aiuQwp27gbrRTosuaLvjZoAFK5T5deYfc3o/B
+ /KER8VfDVGmH6lhCCy2vb0C10OOnn3R+Kks0CNzlOxs4/CIi8+mG0oqV7djIJiqB8TIC
+ ImoPmYGjzatSwcqTwW5c2T9FtjJvn4/EACcnoW2NDwJdgLnrdjZWFLFTn8QGbYTuzbVE
+ GijQ==
+X-Gm-Message-State: AOAM533rZI+Z8VxZhnBerzi4CUoE/ia+VJA+f0hPVEUmtEYwmJlJnmjP
+ kv7lPMrW4SedXws09WiHvZQ=
+X-Google-Smtp-Source: ABdhPJxhipPJcCxZ+k1YRv2vZByYBjQ1zjv+RABOUsx9MSpGzEONZGUieuPo5vYeNuljeYpsEhsgUw==
+X-Received: by 2002:a17:90b:1916:: with SMTP id
+ mp22mr170102pjb.132.1599645919622; 
+ Wed, 09 Sep 2020 03:05:19 -0700 (PDT)
+Received: from gmail.com ([106.201.26.241])
+ by smtp.gmail.com with ESMTPSA id h1sm1577255pji.52.2020.09.09.03.05.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:52:09 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 9 Sep 2020 11:52:08 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Ayush <ayush@disroot.org>
-In-Reply-To: <65d03f2a884a92f5094dc417d0bf47e0@disroot.org>
-Message-ID: <alpine.DEB.2.21.2009091145130.5622@felia>
-References: <CAKXUXMxBxyQ9KM1d92d0vGuaGRLe6+aVHa3s_O=E-YTq_jLPJA@mail.gmail.com>
- <alpine.DEB.2.21.2008270707440.9436@felia>
- <alpine.DEB.2.21.2008221002290.12792@felia>
- <alpine.DEB.2.21.2008171142310.8645@felia>
- <20200810125354.xeijyh3v5upatrez@salamander>
- <4f5612540c184970157a98d103d7cd04@disroot.org>
- <32595de077ee7d674a628df11c58152f@disroot.org>
- <97cef44dfa6c692c20ef7a0d981e4863@disroot.org>
- <alpine.DEB.2.21.2008310702520.8556@felia>
- <a6f436fe39f48d9b7e537bdfad07fc7e@disroot.org>
- <CAKXUXMz8MphA5PYtLe_mB+3qNV-PSimmSVS2+P5vpv=4+VsBFw@mail.gmail.com>
- <8802360392ba3dd9ded3999c3f57560b@disroot.org>
- <65d03f2a884a92f5094dc417d0bf47e0@disroot.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Wed, 09 Sep 2020 03:05:19 -0700 (PDT)
+Date: Wed, 9 Sep 2020 15:33:15 +0530
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Message-ID: <20200909100315.GA13015@gmail.com>
+References: <20200720133427.454400-2-vaibhavgupta40@gmail.com>
+ <20200908173209.GA607806@bjorn-Precision-5520>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
-	Improve checkpatch.pl"
+Content-Disposition: inline
+In-Reply-To: <20200908173209.GA607806@bjorn-Precision-5520>
+Cc: Don Brace <don.brace@microsemi.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Hannes Reinecke <hare@suse.com>, Bradley Grove <linuxdrivers@attotech.com>,
+ linux-scsi@vger.kernel.org, Sathya Prakash <sathya.prakash@broadcom.com>,
+ esc.storagedev@microsemi.com, James Smart <james.smart@broadcom.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Dick Kennedy <dick.kennedy@broadcom.com>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ John Garry <john.garry@huawei.com>, Adam Radford <aradford@gmail.com>,
+ Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+ megaraidlinux.pdl@broadcom.com, Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ MPT-FusionLinux.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+ Sumit Saxena <sumit.saxena@broadcom.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 01/15] scsi: megaraid_sas: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -128,61 +133,207 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On Wed, 9 Sep 2020, Ayush wrote:
-
-> > No, that is allowed. There can be of course a line break after commit
-> > and before the hash, it is just that the current checkpatch.pl script
-> > does not handle this case yet.
+On Tue, Sep 08, 2020 at 12:32:09PM -0500, Bjorn Helgaas wrote:
+> On Mon, Jul 20, 2020 at 07:04:14PM +0530, Vaibhav Gupta wrote:
+> > With legacy PM hooks, it was the responsibility of a driver to manage PCI
+> > states and also the device's power state. The generic approach is to let
+> > the PCI core handle the work.
 > > 
-> > That would need improvement.
+> > PCI core passes "struct device*" as an argument to the .suspend() and
+> > .resume() callbacks. As the .suspend() work with "struct instance*",
+> > extract it from "struct device*" using dev_get_drv_data().
+> > 
+> > Driver was also using PCI helper functions like pci_save/restore_state(),
+> > pci_disable/enable_device(), pci_set_power_state() and pci_enable_wake().
+> > They should not be invoked by the driver.
+> > 
+> > Compile-tested only.
+> > 
+> > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+> > ---
+> >  drivers/scsi/megaraid/megaraid_sas_base.c | 61 ++++++-----------------
+> >  1 file changed, 16 insertions(+), 45 deletions(-)
+> > 
+> > diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
+> > index 00668335c2af..4a6ee7778977 100644
+> > --- a/drivers/scsi/megaraid/megaraid_sas_base.c
+> > +++ b/drivers/scsi/megaraid/megaraid_sas_base.c
+> > @@ -7539,25 +7539,21 @@ static void megasas_shutdown_controller(struct megasas_instance *instance,
+> >  	megasas_return_cmd(instance, cmd);
+> >  }
+> >  
+> > -#ifdef CONFIG_PM
+> >  /**
+> >   * megasas_suspend -	driver suspend entry point
+> > - * @pdev:		PCI device structure
+> > - * @state:		PCI power state to suspend routine
+> > + * @dev:		Device structure
+> >   */
+> > -static int
+> > -megasas_suspend(struct pci_dev *pdev, pm_message_t state)
+> > +static int __maybe_unused
+> > +megasas_suspend(struct device *dev)
+> >  {
+> > -	struct megasas_instance *instance;
+> > -
+> > -	instance = pci_get_drvdata(pdev);
+> > +	struct megasas_instance *instance = dev_get_drvdata(dev);
+> >  
+> >  	if (!instance)
+> >  		return 0;
+> >  
+> >  	instance->unload = 1;
+> >  
+> > -	dev_info(&pdev->dev, "%s is called\n", __func__);
+> > +	dev_info(dev, "%s is called\n", __func__);
+> >  
+> >  	/* Shutdown SR-IOV heartbeat timer */
+> >  	if (instance->requestorId && !instance->skip_heartbeat_timer_del)
+> > @@ -7579,7 +7575,7 @@ megasas_suspend(struct pci_dev *pdev, pm_message_t state)
+> >  
+> >  	tasklet_kill(&instance->isr_tasklet);
+> >  
+> > -	pci_set_drvdata(instance->pdev, instance);
+> > +	dev_set_drvdata(dev, instance);
 > 
-> I have already sent a patch for handling quotes in commit messages.
-> (https://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/2020-September/004026.html)
->
-
-Yes, I have seen that. I do not think it will be accepted (it is just too 
-unclear), but you will see.
-
-> I have created another patch which fixes line breaks after commit and
-> before hash.
+> It *might* be correct to replace "instance->pdev" with "dev", but it's
+> not obvious and deserves some explanation.  It's true that you can
+> replace &pdev->dev with dev, but I don't know anything about
+> instance->dev.
 > 
-> It can handles cases like:
+> I don't think this change is actually necessary, is it?
+> "instance->pdev" is still a pci_dev pointer, so pci_set_drvdata()
+> should work fine.
 > 
-> - commit
-> 1234567890ab ("foo bar")
+> It looks goofy to use pci_set_drvdata() or dev_set_drvdata() in a
+> suspend routine, but I didn't bother trying to figure out what's going
+> on here.
 > 
-> - commit
-> 1234567890ab ("Revert "foo bar"")
+There is no instance->dev . The 'dev' passed dev_set_drvdata() is same
+&pdev->dev. The dev pointer used here, points to same value.
+
+pci_get_drvdata() and pci_set_drvdata() invoke dev_get_drvdata() and
+dev_set_drvdata() respectively. And they do nothing else. Seems like additional
+unnecessary function calls and operations.
+
+We can get rid of these PCI helper functions too.
+> >  	instance->instancet->disable_intr(instance);
+> >  
+> >  	megasas_destroy_irqs(instance);
+> > @@ -7587,48 +7583,28 @@ megasas_suspend(struct pci_dev *pdev, pm_message_t state)
+> >  	if (instance->msix_vectors)
+> >  		pci_free_irq_vectors(instance->pdev);
+> >  
+> > -	pci_save_state(pdev);
+> > -	pci_disable_device(pdev);
+> > -
+> > -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+> > -
+> >  	return 0;
+> >  }
+> >  
+> >  /**
+> >   * megasas_resume-      driver resume entry point
+> > - * @pdev:               PCI device structure
+> > + * @dev:              Device structure
+> >   */
+> > -static int
+> > -megasas_resume(struct pci_dev *pdev)
+> > +static int __maybe_unused
+> > +megasas_resume(struct device *dev)
+> >  {
+> >  	int rval;
+> >  	struct Scsi_Host *host;
+> > -	struct megasas_instance *instance;
+> > +	struct megasas_instance *instance = dev_get_drvdata(dev);
+> >  	u32 status_reg;
+> >  
+> > -	instance = pci_get_drvdata(pdev);
+> > -
+> >  	if (!instance)
+> >  		return 0;
+> >  
+> >  	host = instance->host;
+> > -	pci_set_power_state(pdev, PCI_D0);
+> > -	pci_enable_wake(pdev, PCI_D0, 0);
+> > -	pci_restore_state(pdev);
+> > +	device_wakeup_disable(dev);
 > 
-> But, my question is, should I send this as a new patch or append it with
-> my last patch and make a patch v2?
-
-Create a separate patch that can be applied independently. As a mentor, I 
-suggest to first send the patch only to me and the linux-kernel-mentees 
-list, so that you get some first feedback without bothering the 
-maintainers and them losing patience to work with you.
-
-I suggest to work on this patch here first and then revisit the other 
-patch for revert commits you created.
-
-> My last patch is still under review.
+> Shouldn't there be a corresponding device_wakeup_enable() or similar
+> elsewhere?
 > 
-> > I do not think that it is disallowed, but maybe a new check in
-> > checkpatch.pl is recommended to make aware that quotes in commit
-> > message subject lines cannot be properly handled and are discouraged.
+> Maybe the fact that megasas disables wakeup but never enables it is a
+> latent bug?
 > 
-> So, should we give a warning if (no. of quotes > 4)?
+Yeah, I guess I sent this patch a lot earlier than we figured this out and
+didn't notice it later. I will send v3 for it.
+> > -	dev_info(&pdev->dev, "%s is called\n", __func__);
+> > -	/*
+> > -	 * PCI prepping: enable device set bus mastering and dma mask
+> > -	 */
+> > -	rval = pci_enable_device_mem(pdev);
+> > -
+> > -	if (rval) {
+> > -		dev_err(&pdev->dev, "Enable device failed\n");
+> > -		return rval;
+> > -	}
+> > -
+> > -	pci_set_master(pdev);
+> > +	dev_info(dev, "%s is called\n", __func__);
+> >  
+> >  	/*
+> >  	 * We expect the FW state to be READY
+> > @@ -7754,14 +7730,8 @@ megasas_resume(struct pci_dev *pdev)
+> >  fail_set_dma_mask:
+> >  fail_ready_state:
+> >  
+> > -	pci_disable_device(pdev);
+> > -
+> >  	return -ENODEV;
+> >  }
+> > -#else
+> > -#define megasas_suspend	NULL
+> > -#define megasas_resume	NULL
+> > -#endif
+> >  
+> >  static inline int
+> >  megasas_wait_for_adapter_operational(struct megasas_instance *instance)
+> > @@ -7931,7 +7901,7 @@ static void megasas_detach_one(struct pci_dev *pdev)
+> >  
+> >  /**
+> >   * megasas_shutdown -	Shutdown entry point
+> > - * @device:		Generic device structure
+> > + * @pdev:		PCI device structure
 > 
-
-I suggest to implement a check if a commit message contains quotes. Then, 
-we can check on previous commits how often that would trigger and see if 
-we find legitimate cases where quotes really make sense; then we can 
-improve checkpatch.pl to handle those well when refering to such commits.
-
-
-Lukas
+> Looks like an unrelated typo fix?  I would put this in a separate
+> patch.
+> 
+Okay.
+> >   */
+> >  static void megasas_shutdown(struct pci_dev *pdev)
+> >  {
+> > @@ -8508,6 +8478,8 @@ static const struct file_operations megasas_mgmt_fops = {
+> >  	.llseek = noop_llseek,
+> >  };
+> >  
+> > +static SIMPLE_DEV_PM_OPS(megasas_pm_ops, megasas_suspend, megasas_resume);
+> > +
+> >  /*
+> >   * PCI hotplug support registration structure
+> >   */
+> > @@ -8517,8 +8489,7 @@ static struct pci_driver megasas_pci_driver = {
+> >  	.id_table = megasas_pci_table,
+> >  	.probe = megasas_probe_one,
+> >  	.remove = megasas_detach_one,
+> > -	.suspend = megasas_suspend,
+> > -	.resume = megasas_resume,
+> > +	.driver.pm = &megasas_pm_ops,
+> >  	.shutdown = megasas_shutdown,
+> >  };
+> >  
+> > -- 
+> > 2.27.0
+> > 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
