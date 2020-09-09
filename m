@@ -2,101 +2,80 @@ Return-Path: <SRS0=P4BV=CS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1649C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 10:06:14 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD79C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 10:31:35 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 33C2B215A4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 10:06:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0180221D79
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 10:31:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GWj2iioF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33C2B215A4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="ZaX6Lnby"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0180221D79
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B708D87108;
-	Wed,  9 Sep 2020 10:06:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AB85B86DD6;
+	Wed,  9 Sep 2020 10:31:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XOtV223BMNcw; Wed,  9 Sep 2020 10:06:13 +0000 (UTC)
+	with ESMTP id o-3xEHUuG2xg; Wed,  9 Sep 2020 10:31:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1E47687111;
-	Wed,  9 Sep 2020 10:06:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 125A38492B;
+	Wed,  9 Sep 2020 10:31:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D537C0859;
-	Wed,  9 Sep 2020 10:06:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 01B5FC0052;
+	Wed,  9 Sep 2020 10:31:33 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 50D41C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AF9F5C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 10:06:12 +0000 (UTC)
+ Wed,  9 Sep 2020 10:31:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DE5F281E21
+ by hemlock.osuosl.org (Postfix) with ESMTP id A5F96875A7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 10:06:10 +0000 (UTC)
+ Wed,  9 Sep 2020 10:31:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EIc0onXNjppM
+ with ESMTP id WZJyH3FM4bRt
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 10:06:09 +0000 (UTC)
+ Wed,  9 Sep 2020 10:31:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 68C9787511
+Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 669DF875A5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 10:06:09 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id i1so2066723edv.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 09 Sep 2020 03:06:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=rYuQ9FT+4m9DZF/zl6tu1R42tR6bJhq4IHrczHtHxTo=;
- b=GWj2iioFTE0yKF2+rMUo93NPAu9EfreyVb6Xkw1GODQRyL/neHXuuXOYtjxrIRldJZ
- 016K09m57fsMl6gEoBUfy2TeDR6WZyxKzKeIQS4F7NQAlEIa2lqrDznlJTQKwlokuLUA
- isI9SfjW7/m9dpJFCaRLVmdkxqzTYWhLcMpiD8eeJZBpd7ysVoiv9qLwNzRh3PlQXRrD
- rrPq6e+1gfSw3XN+JiWfR9O5E1at1VnnnOIyfN3D4ktWRJ/+fkiGZwiNbH4M+PzzELpd
- Ct1OU6BxQhDmJsUyiKDOhBtOpLb1IA8x0bQxUtbelbuP4J8LlHeiZ1HRwojMMmq2kNSF
- 7ccA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=rYuQ9FT+4m9DZF/zl6tu1R42tR6bJhq4IHrczHtHxTo=;
- b=iwoxjU3KflfhmTwK7IzfYaRNEm1SRYmfPFwnSuStDzJU9KT6CuqxW4E+WJH7xkVYvB
- rumUf4X3ccoqfPmvDjlBWUqrevHeboL+0bIsNRcFmt+ZYNq6Tdq8Rfq5gMn9TP3vIBWI
- wu0JJcFDSYRh1J734/7NYlnHnnhL20yAuat9+iB13q/n8UrV1vwWA8UmT6vVWwU06ZSy
- 86TSHXzONv3QgJUPYyMcOTB7KoIvHEopl4hSJHvKbxK8HAp/7pXDIGJHwBjMKpldpZ9e
- qOZn5fZ6yBUeavHo3IK7s8YpN51X8UwasHLNcHXPMi2PPMLlwlxaODWm8ApdLqbtiWZ7
- ivuw==
-X-Gm-Message-State: AOAM531x/WiGPpZj/KZkJPDv/62CLPbtgQDUQDryP1y0RThR0w3WzSSD
- lEFcfLK49R4gpwymAt58TRY=
-X-Google-Smtp-Source: ABdhPJwqzsZFPacwfD7vzqPUXRVINBaFATYFLDGAMQz0Vz7Fr8o3Rx1HqXczCJ/z/yfAPVlUlsk2ZA==
-X-Received: by 2002:aa7:d558:: with SMTP id u24mr3342099edr.336.1599645967911; 
- Wed, 09 Sep 2020 03:06:07 -0700 (PDT)
-Received: from felia ([2001:16b8:2d44:6000:6108:df55:7b8e:67d4])
- by smtp.gmail.com with ESMTPSA id t4sm1593478ejj.6.2020.09.09.03.06.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 03:06:07 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 9 Sep 2020 12:06:06 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Ayush <ayush@disroot.org>
-In-Reply-To: <22db634e7be36f4514f0c9b3ecf0060a@disroot.org>
-Message-ID: <alpine.DEB.2.21.2009091152530.5622@felia>
-References: <beed63208cc412f122fe273602675801add08ede.camel@perches.com>
+ Wed,  9 Sep 2020 10:31:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 56F4D51B36;
+ Wed,  9 Sep 2020 12:31:28 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ja2_fiPKpOBg; Wed,  9 Sep 2020 12:31:27 +0200 (CEST)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1599647487; bh=IVeXskU+Qqu4tY5/GPpaoI2n6jg3iP1Bl/OYq/UHtq4=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References;
+ b=ZaX6Lnby3J9xBdOo8VH7/XkiMPo/lL29Xs/Rj/4Bbq1TKSVAZLAAFyo6C4UT0D6Yd
+ klICS9AQuGEUq2Hg+8rzy7mWh32WQiyqptjdGvm+eeeUVJgUwlyyE1vaTamoFs063E
+ b5ATVv0Mst5ftHopmUVyJoqk13PsBMYL3BZUs68A9S6jRuHeqfMqJfr7RxgZj+KxVy
+ iozNMBPWmJGF7ON2eMVx0Fmj/8LgWBggdnn+7Bz13a1J/Y6SIzFTmdyG1Q0l02CEnN
+ NHJW8ymQK2B9j/Wc37vzoipssskKGutGMER4LOg4MD7zqNNotsiuXdXdjI1KeCgPGO
+ +hN8PnNvijMrg==
+Date: Wed, 09 Sep 2020 10:31:26 +0000
+From: "Ayush" <ayush@disroot.org>
+Message-ID: <3dea1eefdbbf97791bed3f838d4f06a7@disroot.org>
+To: "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
+In-Reply-To: <alpine.DEB.2.21.2009091152530.5622@felia>
+References: <alpine.DEB.2.21.2009091152530.5622@felia>
+ <beed63208cc412f122fe273602675801add08ede.camel@perches.com>
  <20200907151417.44453-1-ayush@disroot.org>
  <22db634e7be36f4514f0c9b3ecf0060a@disroot.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
 Cc: Joe Perches <joe@perches.com>, apw@canonical.com,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: GIT_COMMIT_ID:
@@ -118,54 +97,42 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+Sir,
 
-
-On Tue, 8 Sep 2020, Ayush wrote:
-
-> > I think all your examples are broken.
-> > 
-> > I think all should start with revert
-> > i.e.: Reverts commit <SHA-1> ("description...")
+> As the mentor in the linux kernel community bridge program, I usually
+> inform the mentees when the review on the mentee mailing list has
+> successfully concluded to a first acceptable state and I think it is well
+> advised to reach out to the maintainers for further discussion.
 > 
-> Actually I am talking about those commits which referenced a revert commit.
+> You did not do that, but just send some patch to the maintainers.
+> That is fully up to you, but I will not support the patch acceptance in
+> any way, and it suggests that you do not see the need to be mentored.
 > 
-> For example:
+> If you can land patches without mentoring support successfully, that is
+> great, but then you do not need a mentorship.
+
+I am extremely sorry for my mistakes. It won't happen again.
+ 
+> Now, to the commit:
 > 
-> If I want to mention a revert commit in my commit message, I will do something like.
+> Ayush, your commit message is largely incomprehensible.
 > 
-> This bug appeared first in commit 1234567890ab ("Revert "abc: foo bar"").
-> (Just an example)
-> 
-> Here, according to syntax, it is right but checkpatch.pl gives an error as multiple
-> quotes in commit messages are not handled in checkpatch.pl.
->
+> Your follow-up explanation that was needed should have been in the commit
+> message in the first place.
 
-As the mentor in the linux kernel community bridge program, I usually 
-inform the mentees when the review on the mentee mailing list has 
-successfully concluded to a first acceptable state and I think it is well 
-advised to reach out to the maintainers for further discussion.
+It was my first patch, so I had very little idea of forming commit messages. 
+I will discuss it with mentors next time before sending the patch next time.
 
-You did not do that, but just send some patch to the maintainers.
-That is fully up to you, but I will not support the patch acceptance in 
-any way, and it suggests that you do not see the need to be mentored.
+> Ayush, you did not sign-off with your full legal name.
 
-If you can land patches without mentoring support successfully, that is 
-great, but then you do not need a mentorship.
+My legal name according to all official identification documents of India is Ayush. 
+I have no surname registered legally.
+So should I include "Ayush <ayush@disroot.org>"  or do I need to include my last name too (Which is Ayush only)?
 
-Now, to the commit:
+Please accept my apology.
 
-Ayush, your commit message is largely incomprehensible.
-
-Your follow-up explanation that was needed should have been in the commit 
-message in the first place.
-
-Ayush, you did not sign-off with your full legal name.
-
-So, I advice NOT TO TAKE this patch.
-
-I did not even start testing and reviewing the code yet.
-
-Lukas
+Thanks,
+Ayush
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
