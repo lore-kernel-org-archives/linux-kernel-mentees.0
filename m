@@ -2,98 +2,120 @@ Return-Path: <SRS0=P4BV=CS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 092ABC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 15:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B2D3C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 15:23:08 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8713D22269
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 15:04:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 811E721D81
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Sep 2020 15:23:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZizDnXjH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8713D22269
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7Nu/Gdk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 811E721D81
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2ABAD874D2;
-	Wed,  9 Sep 2020 15:04:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 322CD8751D;
+	Wed,  9 Sep 2020 15:23:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Herfi1sMOSLB; Wed,  9 Sep 2020 15:04:11 +0000 (UTC)
+	with ESMTP id xsfJo2kYWXm3; Wed,  9 Sep 2020 15:23:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9C80E8748A;
-	Wed,  9 Sep 2020 15:04:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 345B487518;
+	Wed,  9 Sep 2020 15:23:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82273C0052;
-	Wed,  9 Sep 2020 15:04:11 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AAC69C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 207AEC0859;
+	Wed,  9 Sep 2020 15:23:05 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C3FCFC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 15:04:10 +0000 (UTC)
+ Wed,  9 Sep 2020 15:23:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A624C8748C
+ by whitealder.osuosl.org (Postfix) with ESMTP id A78008728F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 15:04:10 +0000 (UTC)
+ Wed,  9 Sep 2020 15:23:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GnxtIoxFem-S
+ with ESMTP id 2BUnETDta+J9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 15:04:09 +0000 (UTC)
+ Wed,  9 Sep 2020 15:23:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 221678748A
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 006CB8728C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  9 Sep 2020 15:04:09 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id z22so4030824ejl.7
+ Wed,  9 Sep 2020 15:23:02 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id mm21so1493743pjb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 09 Sep 2020 08:04:09 -0700 (PDT)
+ Wed, 09 Sep 2020 08:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uRYSYGVNTbUhIJxX7nCBQWsCOLokTTerCXyXIr7bZas=;
- b=ZizDnXjHi2KASweGw/0A+HI/WhpD+7Fp25mEMuH2OqRb8/18jJaMRWUItKdKo6V0uo
- uA63fVvLXCiNN5vEp894sjoiRg6C7+KH4TEZbJRO9JyK6CHEWOFXayvnQsCnfuA7poMC
- xiJKpGurynNbg4uS4nabQsHzEzpzY7IwKimDpwKjYB+OIFTJnW95PwcLTHS0pSPbw3YO
- IZsggDR6wacyuOFeClth43+D9JeyxryMJUaSRfCw61uPiFZN+yyvrOK9DYioIHK4Rh/L
- uL+iMlccST8glLqGE3xq5+8Ub4D0oR+QVAhRAj9+z5TyfdFml7Jzc+JpzOEC8/UUT1Ul
- zwAA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=noQeIbbfRoQ0vZidOFhwWAtZHlg8KZn5Mi7qKiUoSv0=;
+ b=R7Nu/GdkZmEC7TSLlP7R1O7TOyafDUdN6tay9lOSACMBaKb1nIEA9caWMlBIvIwEqg
+ RurBwTc+FMV4gdRWQ8bJl3G9VT88ykR+HHjd6z8slJDU9De2K7HpRqzQX3kuaqgR6hYe
+ dKFg24ew0Usg/YH1H/W5nCJ/v2vtNS7+SqMuedsfBWHtLNzkR3tm+/xoKIKBYRLuTeau
+ ujAKFaMr2va34hxRNKG6vZ1lmb69TUCABv+08mggUQencSE3Ru58Yp5sbvYw7zJvLK8b
+ Jjz7BS6emhbrlfTmO9kkfNf4nFZo7r96hXE3g1AnidGnRlJzngcHCMxvAlHKeltpYRIn
+ Ozug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uRYSYGVNTbUhIJxX7nCBQWsCOLokTTerCXyXIr7bZas=;
- b=CPHkO9I/kFbOlNPEG9vkpehy/8bL96kaxzUtpStAkxHRFra1+tRVVkXdX4l4ALjL+9
- /DnYxHbrLWH0lD3gh3+lFU6ZmVrcNWah8DrLPsO0Xf0p3qCOeIsACbb6retvuivUBvZh
- /LeyMvv0r2MCZCgiQqex7FWO5OpJzCengrEjz8ZgPH6Gzt4hvY78MfN1Oz3V6a1jEb24
- o7VPCcOaFA5tfvp7up4xnIqE3SnHY+Fu630fuTcMf3R8m4A1Ap8l3tYYIRS/4dNCI/FW
- xLBbMoZHneU3gyfnmj9nIE7nhHx/eEy9mz3f1bkVlFEoII1knvuN6efY103D839n+Wq3
- FA3g==
-X-Gm-Message-State: AOAM532hj2Vl9GG22kIoqhmDoHZNWp9/M7KrXgK8OsamJc+3FDUQSP4j
- xzUdSiAdORhGrtpSF86vl1H1VQsQjUm2PMlZP4s=
-X-Google-Smtp-Source: ABdhPJy961SlT//IcO0B0u6z6hr+lF+AMqggH4kkKbu5b/pgs/9Axfs1FvjRB8x1Aj/v7z656pbk9s63+aAZfZigUK8=
-X-Received: by 2002:a17:906:ae50:: with SMTP id
- lf16mr3221364ejb.343.1599663847547; 
- Wed, 09 Sep 2020 08:04:07 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=noQeIbbfRoQ0vZidOFhwWAtZHlg8KZn5Mi7qKiUoSv0=;
+ b=dvc2o/f2MbE6sWieIawMB3kngDcz30/dnXMO3ERXmHq58YY7HNV3EX6Cb9Mq35lrsC
+ p1Pa0OTODuht8xlTOHFGZAq9DSOlbqQv+pCaxqCuAZFBcmyz17JRqOJ/SngbcasDQr+J
+ +DF4J9dHAHc/ektxmBmUASgQ1Ku6l4/CjxGe6x283Umzt3ke87GCr3ItUx5jygYbDbmG
+ tbPOk3LLgPVnJi4wpJ36J8N/27zZrQjVxtWzCVA0n9EZav8AKkb3MeTx7pCkbpWs+sUk
+ NGIN5Rf47Ir7OqABU/4Uk7iV/w1DYbXupDxxQU5fZcr0qGkDXrHcoupbG5gbozJ1qeZS
+ bc+A==
+X-Gm-Message-State: AOAM532HYGkCkrirJA+cKVtHtPZwocQ9U3t84lekAnSrVDkjqEEjMVIU
+ QvUtTb90A0ZRuPDA7fTB5ZY=
+X-Google-Smtp-Source: ABdhPJxqyDSxATruhior6ZQs2kvioJaM7ed7VFeMTMm6hLUtqFjHtkirT8TP5qyBahgoWiWYiapPww==
+X-Received: by 2002:a17:90a:a40d:: with SMTP id
+ y13mr1187741pjp.183.1599664982471; 
+ Wed, 09 Sep 2020 08:23:02 -0700 (PDT)
+Received: from gmail.com ([106.201.26.241])
+ by smtp.gmail.com with ESMTPSA id a2sm3014910pfr.104.2020.09.09.08.22.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Sep 2020 08:23:01 -0700 (PDT)
+Date: Wed, 9 Sep 2020 20:50:58 +0530
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Message-ID: <20200909152058.GA14223@gmail.com>
+References: <20200909100315.GA13015@gmail.com>
+ <20200909132332.GA696701@bjorn-Precision-5520>
 MIME-Version: 1.0
-References: <CAM1DhOivT_U=N6K-J0A7aDpG9QwEng4n9nZyS5knDKofqeunuA@mail.gmail.com>
- <alpine.DEB.2.21.2009091511200.23843@felia>
- <CAM1DhOjACW=BGQvOvfbQZGexYdwa0wf-CCNHQ=XvXdWkUC3XpA@mail.gmail.com>
- <alpine.DEB.2.21.2009091611130.23843@felia>
-In-Reply-To: <alpine.DEB.2.21.2009091611130.23843@felia>
-From: Alaa Emad <alaaemadhossney.ae@gmail.com>
-Date: Wed, 9 Sep 2020 17:03:51 +0200
-Message-ID: <CAM1DhOitTkiKXdFwFZoZzSbN70LgbXVQ2CnDbS9vwfuX1H41Kg@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Linux Kernel: Evaluate and Improve
-	checkpatch.pl
+Content-Disposition: inline
+In-Reply-To: <20200909132332.GA696701@bjorn-Precision-5520>
+Cc: Don Brace <don.brace@microsemi.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Hannes Reinecke <hare@suse.com>, Bradley Grove <linuxdrivers@attotech.com>,
+ linux-scsi@vger.kernel.org, Sathya Prakash <sathya.prakash@broadcom.com>,
+ esc.storagedev@microsemi.com, James Smart <james.smart@broadcom.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Dick Kennedy <dick.kennedy@broadcom.com>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ John Garry <john.garry@huawei.com>, Adam Radford <aradford@gmail.com>,
+ Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+ megaraidlinux.pdl@broadcom.com, Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ MPT-FusionLinux.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+ Sumit Saxena <sumit.saxena@broadcom.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 01/15] scsi: megaraid_sas: use
+	generic power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,117 +127,119 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============4287123487148340343=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============4287123487148340343==
-Content-Type: multipart/alternative; boundary="00000000000064a68005aee2c3e5"
+On Wed, Sep 09, 2020 at 08:23:32AM -0500, Bjorn Helgaas wrote:
+> On Wed, Sep 09, 2020 at 03:33:15PM +0530, Vaibhav Gupta wrote:
+> > On Tue, Sep 08, 2020 at 12:32:09PM -0500, Bjorn Helgaas wrote:
+> > > On Mon, Jul 20, 2020 at 07:04:14PM +0530, Vaibhav Gupta wrote:
+> > > > With legacy PM hooks, it was the responsibility of a driver to manage PCI
+> > > > states and also the device's power state. The generic approach is to let
+> > > > the PCI core handle the work.
+> > > > 
+> > > > PCI core passes "struct device*" as an argument to the .suspend() and
+> > > > .resume() callbacks. As the .suspend() work with "struct instance*",
+> > > > extract it from "struct device*" using dev_get_drv_data().
+> > > > 
+> > > > Driver was also using PCI helper functions like pci_save/restore_state(),
+> > > > pci_disable/enable_device(), pci_set_power_state() and pci_enable_wake().
+> > > > They should not be invoked by the driver.
+> > > > 
+> > > > Compile-tested only.
+> > > > 
+> > > > Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+> > > > ---
+> > > >  drivers/scsi/megaraid/megaraid_sas_base.c | 61 ++++++-----------------
+> > > >  1 file changed, 16 insertions(+), 45 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
+> > > > index 00668335c2af..4a6ee7778977 100644
+> > > > --- a/drivers/scsi/megaraid/megaraid_sas_base.c
+> > > > +++ b/drivers/scsi/megaraid/megaraid_sas_base.c
+> > > > @@ -7539,25 +7539,21 @@ static void megasas_shutdown_controller(struct megasas_instance *instance,
+> > > >  	megasas_return_cmd(instance, cmd);
+> > > >  }
+> > > >  
+> > > > -#ifdef CONFIG_PM
+> > > >  /**
+> > > >   * megasas_suspend -	driver suspend entry point
+> > > > - * @pdev:		PCI device structure
+> > > > - * @state:		PCI power state to suspend routine
+> > > > + * @dev:		Device structure
+> > > >   */
+> > > > -static int
+> > > > -megasas_suspend(struct pci_dev *pdev, pm_message_t state)
+> > > > +static int __maybe_unused
+> > > > +megasas_suspend(struct device *dev)
+> > > >  {
+> > > > -	struct megasas_instance *instance;
+> > > > -
+> > > > -	instance = pci_get_drvdata(pdev);
+> > > > +	struct megasas_instance *instance = dev_get_drvdata(dev);
+> > > >  
+> > > >  	if (!instance)
+> > > >  		return 0;
+> > > >  
+> > > >  	instance->unload = 1;
+> > > >  
+> > > > -	dev_info(&pdev->dev, "%s is called\n", __func__);
+> > > > +	dev_info(dev, "%s is called\n", __func__);
+> > > >  
+> > > >  	/* Shutdown SR-IOV heartbeat timer */
+> > > >  	if (instance->requestorId && !instance->skip_heartbeat_timer_del)
+> > > > @@ -7579,7 +7575,7 @@ megasas_suspend(struct pci_dev *pdev, pm_message_t state)
+> > > >  
+> > > >  	tasklet_kill(&instance->isr_tasklet);
+> > > >  
+> > > > -	pci_set_drvdata(instance->pdev, instance);
+> > > > +	dev_set_drvdata(dev, instance);
+> > > 
+> > > It *might* be correct to replace "instance->pdev" with "dev", but it's
+> > > not obvious and deserves some explanation.  It's true that you can
+> > > replace &pdev->dev with dev, but I don't know anything about
+> > > instance->dev.
+> 
+> Sorry, I meant "instance->pdev" here.
+> 
+> > > I don't think this change is actually necessary, is it?
+> > > "instance->pdev" is still a pci_dev pointer, so pci_set_drvdata()
+> > > should work fine. ...
+> > > 
+> > There is no instance->dev . The 'dev' passed dev_set_drvdata() is
+> > same &pdev->dev. 
+> 
+> Yes, it's true that "dev" here is the same as the "&pdev->dev" we had
+> previously.  But we passed "instance->pdev" (not "pdev") to
+> pci_set_drvdata().  So the question is whether instance->pdev->dev ==
+> dev.
+> 
+> They *might* be the same, but I don't think it's obvious.
+> 
+Yes, they are same.
+driver/pci/pci-driver.c :
+'dev' is passed as parameter to both pci_device_probe() and pci_pm_suspend()
+From 'dev', pci_device_probe() extracts "struct pci_dev*" and passes it to the
+probe callback of this driver.
 
---00000000000064a68005aee2c3e5
-Content-Type: text/plain; charset="UTF-8"
+In the proble function - megasas_probe_one()
+:7347	instance->pdev = pdev;
+:7386	pci_set_drvdata(pdev, instance);
 
-Ok, I will check,Thank you
+The proble function is using "struct pci_dev*" variable "pdev" provided by core
+and same we replaced &pdev->dev with "struct device *dev".
 
-On Wed, Sep 9, 2020, 4:13 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-
->
->
-> On Wed, 9 Sep 2020, Alaa Emad wrote:
->
-> >
-> >
-> > On Wed, Sep 9, 2020, 3:19 PM Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> wrote:
-> >
-> >
-> >       On Wed, 9 Sep 2020, Alaa Emad wrote:
-> >
-> >       > Hello Lukas Bulwahn,
-> >       > i hope this email finds you well , i applied for  Linux Kernel:
-> Evaluate and Improve checkpatch.pl
-> >       >
-> >       > according to the first two tasks, i am unemployed how should i
-> respond to these?
-> >       >
-> >
-> >       I do not know which list of tasks you are referring to. So, I
-> cannot
-> >       comment on the first two tasks.
-> >
-> >
-> >    1.Participation permission from school or employer.
-> >     2.School Enrollment Verification.
-> >
->
-> Please check the CommunityBridge organisation if mentorships on the Linux
-> kernel are also open to mentees that are not enrolled in the university?
->
-> I do not know the exact expectations for the mentorship selection.
->
-> Lukas
-
---00000000000064a68005aee2c3e5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Ok, I will check,Thank you=C2=A0</div><br><div class=3D"g=
-mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 9, 2020, 4:13=
- PM Lukas Bulwahn &lt;<a href=3D"mailto:lukas.bulwahn@gmail.com">lukas.bulw=
-ahn@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-On Wed, 9 Sep 2020, Alaa Emad wrote:<br>
-<br>
-&gt; <br>
-&gt; <br>
-&gt; On Wed, Sep 9, 2020, 3:19 PM Lukas Bulwahn &lt;<a href=3D"mailto:lukas=
-.bulwahn@gmail.com" target=3D"_blank" rel=3D"noreferrer">lukas.bulwahn@gmai=
-l.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0On Wed, 9 Sep 2020, Alaa Emad wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; Hello=C2=A0Lukas Bulwahn,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; i hope this email finds you well , i ap=
-plied for=C2=A0 Linux Kernel: Evaluate and Improve <a href=3D"http://checkp=
-atch.pl" rel=3D"noreferrer noreferrer" target=3D"_blank">checkpatch.pl</a><=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; according to the first two tasks, i am =
-unemployed how should i respond to these?<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0I do not know which list of tasks you are re=
-ferring to. So, I cannot<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0comment on the first two tasks.<br>
-&gt; <br>
-&gt; =C2=A0 =C2=A0<br>
-&gt; =C2=A0 =C2=A01.Participation permission from school or employer.<br>
-&gt; =C2=A0 =C2=A0 2.School Enrollment Verification.<br>
-&gt;<br>
-<br>
-Please check the CommunityBridge organisation if mentorships on the Linux <=
-br>
-kernel are also open to mentees that are not enrolled in the university?<br=
->
-<br>
-I do not know the exact expectations for the mentorship selection.<br>
-<br>
-Lukas</blockquote></div>
-
---00000000000064a68005aee2c3e5--
-
---===============4287123487148340343==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+So the instance->pdev->dev and 'dev' can only differ if 'dev' passed to
+pci_device_probe() and pci_pm_suspend() are different.
+> > The dev pointer used here, points to same value.
+> > 
+> > pci_get_drvdata() and pci_set_drvdata() invoke dev_get_drvdata() and
+> > dev_set_drvdata() respectively. And they do nothing else. Seems like
+> > additional unnecessary function calls and operations.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============4287123487148340343==--
