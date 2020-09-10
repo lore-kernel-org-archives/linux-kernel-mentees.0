@@ -2,107 +2,118 @@ Return-Path: <SRS0=Icdq=CT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9499C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Sep 2020 06:02:23 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A66DEC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Sep 2020 06:04:16 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 231BA20756
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Sep 2020 06:02:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 25B4A20756
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Sep 2020 06:04:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g88HRhuz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 231BA20756
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6RIBZs6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 25B4A20756
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 947AF204B9;
-	Thu, 10 Sep 2020 06:02:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B9548875D7;
+	Thu, 10 Sep 2020 06:04:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JqHrkz3aiEql; Thu, 10 Sep 2020 06:02:21 +0000 (UTC)
+	with ESMTP id xxOs0cRYBN2H; Thu, 10 Sep 2020 06:04:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 39019204B7;
-	Thu, 10 Sep 2020 06:02:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 592B087574;
+	Thu, 10 Sep 2020 06:04:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0DAC8C0859;
-	Thu, 10 Sep 2020 06:02:21 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D8ABEC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 50B64C0859;
+	Thu, 10 Sep 2020 06:04:15 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 82970C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Sep 2020 06:02:19 +0000 (UTC)
+ Thu, 10 Sep 2020 06:04:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 81A92204B9
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6C1FC875D7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Sep 2020 06:02:19 +0000 (UTC)
+ Thu, 10 Sep 2020 06:04:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wWCWML-u9E96
+ with ESMTP id r2rSMEwRSKFx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Sep 2020 06:02:18 +0000 (UTC)
+ Thu, 10 Sep 2020 06:04:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 01C83204B7
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+ [209.85.218.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 17F7587574
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Sep 2020 06:02:17 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id u3so2508877pjr.3
+ Thu, 10 Sep 2020 06:04:13 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id z22so6925507ejl.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 09 Sep 2020 23:02:17 -0700 (PDT)
+ Wed, 09 Sep 2020 23:04:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1p1Yvpbl2hUtzS0Tbph8bRvhvEzrq/brMLlo+7qJTmo=;
- b=g88HRhuzR/tEUwOcTqCszmjAXNiJCm0J1vOe3sumDx3uHfUPjReXHmKT0PJpUGjbxz
- bCaYFJiGreJYRkyHL7n7izvSJPMLq9/tKv/Fqq09cLPKqrLyLl3sB3HdaMyemi2IV/Gy
- T40tnjziOVI/j7zTSWEHdgu0WxCDRfgpoyiImuf2W6fpRSq+HdIhR6CFtHVEJrC5ybbQ
- hyc2e9t+l638olaiw54lHUFjKF2O9wVjDtN5dn01LQ9PlWyOlQDEVgbty1smMbVcSgPk
- Fnc/gjwFzfa22dmde9gU0EoLkuvAOMEJmxubwlLBrgWXojL6oNGAZnDlepN0gjKmQwbe
- I7Ew==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=Nlzq5JCrdcazIHIGBfCFR/q6rLOGrb56BuSeIs6lLKw=;
+ b=b6RIBZs6M72wzqE7mqjwv4tznp5hRzixRlVsW07tbEg9hye5vs5HTj/V7mZB1TaMj3
+ KBirFsqewebj9ewl0wQkOBJF5ibssFXtOiLhtp1p+hS33XbCsshd507hT2W21kg0BCJz
+ GbEDnFMWZkm5SG1emC645abdktnXimUhCpWcEYSIhnf5J4EKvy8gbzm2IhZ5mZfHCamw
+ wSdRkYu5f2qDRklYQoyiDN2pPOrG2Sak3tJe1q2W+Va0OmK+kOUBRrbYDjaG29JKv2+H
+ AGLjfl2BSs/NFHpX7zIHIlHzinudbZwfBgR3u8ObdLsXeic6CY5dcosdzr/pXeg/j963
+ RPbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1p1Yvpbl2hUtzS0Tbph8bRvhvEzrq/brMLlo+7qJTmo=;
- b=Ewq00kzdfNo+VH3LJy5AxlOJ6mxWNxXstFCrU/dwqQe+IyL+m8hhNitQ0BiCbkRlsn
- g6XXw37Ng4b+J0HY16jJF0fWhxW2mvN5/NS6wYEPeeRKMHBOIRr/jRAvXFJzz1jKq1EP
- 8mCf4C6rLnkdv+kBDXU277B2LcrHFKFXIuTKSR6c+cqCvy75fq43wiRuEnV2CLWxzxXh
- m7yOQPrvIl92aBXwOJ1iVpn9vIjdILRI6+/GA9SecCu3thp4SaOMrz86P162YIGIn8Hm
- tC5AIpgzfMxo0QmP4qzcnw3tNdpaeTiXkatX7AHtyUd4PfMthpMH0ZTfrczixdOJpmlJ
- SeLQ==
-X-Gm-Message-State: AOAM533/msZWRmfrpbr3GzAtc4qvzMEYGvM9D5HiiRTYNeO+/s8vdtZ9
- gQITGKOM5HDLMVwBD0CY+ro=
-X-Google-Smtp-Source: ABdhPJzZ/CS0vTHPATpbUVEI5Yr2tYgH4VeZ6BMrwtFl2Cq9kNkZf1EdtQhp3tBvECFs97TwVRV6BQ==
-X-Received: by 2002:a17:90a:bc8d:: with SMTP id
- x13mr3938065pjr.229.1599717737265; 
- Wed, 09 Sep 2020 23:02:17 -0700 (PDT)
-Received: from Thinkpad ([45.118.165.156])
- by smtp.gmail.com with ESMTPSA id l23sm3831070pgt.16.2020.09.09.23.02.12
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=Nlzq5JCrdcazIHIGBfCFR/q6rLOGrb56BuSeIs6lLKw=;
+ b=rgRGuLG7WAPuM7j6/Z5U+8MiGiGUVEYFiCecTwYnadgm69NvMm46KMn9+jkwh73lJh
+ nPt8flYJPe7a6jgcXizZhnMm+Dj2aZw7QrUf4LiaW/dcQeTQAqApOy78owixPsHwD9h6
+ JOl80CWvkrel6noXd6HhZIViALHcTXT07J6YTOo1jIblWJ3bzUulKs+Z1scDDhIjQ4Gh
+ fD2HI4FSZFbFqAcrVhqn4T47QmK+kF3cy6eaoP/pwk3ixIwoegiz5JWiTBHGLx72On9w
+ LJJFJZy+Unw86tun2QLl+r1kLLINf9EDT75UKKl1cGqqS7HT+8NXevahLtyzUG8kRGMA
+ WBEg==
+X-Gm-Message-State: AOAM530UVU3X23oD49GvBaXe1N5feX1R/YXu6ugWXAwTBPS28Lv1sQa4
+ SRLtk+UaO0EDJ9yVN8pUxu0=
+X-Google-Smtp-Source: ABdhPJwe3XnzSvEyj5rSwd1opjry3eIj2PgQ7dOPNp3O3D+j5DY/XG6TjFDdUH+bsjMCDXawGzee/A==
+X-Received: by 2002:a17:906:2786:: with SMTP id
+ j6mr7014242ejc.73.1599717851455; 
+ Wed, 09 Sep 2020 23:04:11 -0700 (PDT)
+Received: from felia ([2001:16b8:2d2b:3f00:adbe:f1da:86fc:8df])
+ by smtp.gmail.com with ESMTPSA id y25sm5482919edv.15.2020.09.09.23.04.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 23:02:16 -0700 (PDT)
-Date: Thu, 10 Sep 2020 11:32:08 +0530
-From: Anmol Karn <anmol.karan123@gmail.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Message-ID: <20200910060208.GA22165@Thinkpad>
-References: <20200910043424.19894-1-anmol.karan123@gmail.com>
- <20200910050659.GD828@sol.localdomain>
+ Wed, 09 Sep 2020 23:04:10 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Thu, 10 Sep 2020 08:04:04 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Ayush <ayush@disroot.org>
+In-Reply-To: <7edaf9ca48af99a1f288111320e263b5@disroot.org>
+Message-ID: <alpine.DEB.2.21.2009100759130.5893@felia>
+References: <alpine.DEB.2.21.2009091145130.5622@felia>
+ <CAKXUXMxBxyQ9KM1d92d0vGuaGRLe6+aVHa3s_O=E-YTq_jLPJA@mail.gmail.com>
+ <alpine.DEB.2.21.2008270707440.9436@felia>
+ <alpine.DEB.2.21.2008221002290.12792@felia>
+ <alpine.DEB.2.21.2008171142310.8645@felia>
+ <20200810125354.xeijyh3v5upatrez@salamander>
+ <4f5612540c184970157a98d103d7cd04@disroot.org>
+ <32595de077ee7d674a628df11c58152f@disroot.org>
+ <97cef44dfa6c692c20ef7a0d981e4863@disroot.org>
+ <alpine.DEB.2.21.2008310702520.8556@felia>
+ <a6f436fe39f48d9b7e537bdfad07fc7e@disroot.org>
+ <CAKXUXMz8MphA5PYtLe_mB+3qNV-PSimmSVS2+P5vpv=4+VsBFw@mail.gmail.com>
+ <8802360392ba3dd9ded3999c3f57560b@disroot.org>
+ <65d03f2a884a92f5094dc417d0bf47e0@disroot.org>
+ <7edaf9ca48af99a1f288111320e263b5@disroot.org>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200910050659.GD828@sol.localdomain>
-Cc: syzbot+0bef568258653cff272f@syzkaller.appspotmail.com,
- johan.hedberg@gmail.com, netdev@vger.kernel.org, marcel@holtmann.org,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: bluetooth: Fix null pointer
- dereference in hci_event_packet()
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Regarding "Linux Kernel: Evaluate and
+	Improve checkpatch.pl"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,53 +131,41 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Sep 09, 2020 at 10:06:59PM -0700, Eric Biggers wrote:
-> On Thu, Sep 10, 2020 at 10:04:24AM +0530, Anmol Karn wrote:
-> > Prevent hci_phy_link_complete_evt() from dereferencing 'hcon->amp_mgr'
-> > as NULL. Fix it by adding pointer check for it.
-> > 
-> > Reported-and-tested-by: syzbot+0bef568258653cff272f@syzkaller.appspotmail.com
-> > Link: https://syzkaller.appspot.com/bug?extid=0bef568258653cff272f
-> > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
-> > ---
-> >  net/bluetooth/hci_event.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-> > index 4b7fc430793c..871e16804433 100644
-> > --- a/net/bluetooth/hci_event.c
-> > +++ b/net/bluetooth/hci_event.c
-> > @@ -4936,6 +4936,11 @@ static void hci_phy_link_complete_evt(struct hci_dev *hdev,
-> >  		return;
-> >  	}
-> >  
-> > +	if (IS_ERR_OR_NULL(hcon->amp_mgr)) {
-> > +		hci_dev_unlock(hdev);
-> > +		return;
-> > +	}
-> > +
+
+
+On Wed, 9 Sep 2020, Ayush wrote:
+
+> September 9, 2020 3:22 PM, "Lukas Bulwahn" <lukas.bulwahn@gmail.com> wrote:
+>  
+> > Create a separate patch that can be applied independently. As a mentor, I
+> > suggest to first send the patch only to me and the linux-kernel-mentees
+> > list, so that you get some first feedback without bothering the
+> > maintainers and them losing patience to work with you.
 > 
-
-Hello Sir,
-
-> In patches that fix a NULL pointer dereference, please include a brief
-> explanation of why the pointer can be NULL, including what it means
-> semantically; and why the proposed change is the best fix for the problem.
 > 
-
-I will surely add more explaination in v2.
-
-> Also, why IS_ERR_OR_NULL()?
+> I created a patch which handles line break between commit and hash value,
 > 
+> It can be found here:
+> 
+> https://gist.github.com/eldraco19/1631a75f859a07541d3c7c73c4958ca1
+> 
+> Please review it and suggest any improvements.
+>
 
-I used IS_ERR_OR_NULL() to check if the 'hcon->amp_mgr' is a valid pointer or not, 
-and unregister the 'hcon' and signal error, but will make changes in v2 with only
-NULL check included, if you think it's incorrect to use IS_ERR check here along with
-NULL.
+Ayush, that is NOT how the review process in the kernel community works.
+
+The process is You send a patch to a mailing list for review, reviewers 
+review and send back emails with comments. Then, you rework and send out a 
+new patch and it repeats. That is the process.
+
+For mentees, we have the linux-kernel-mentees mailing list, so that you 
+can send patches to reviewers that are willing to provide dedicated 
+feedback to mentees.
 
 
-Thanks,
-Anmol Karn
+Lukas
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
