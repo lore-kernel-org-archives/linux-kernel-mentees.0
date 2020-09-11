@@ -2,79 +2,108 @@ Return-Path: <SRS0=DgfW=CU=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D762C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Sep 2020 08:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C20C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Sep 2020 10:16:42 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CEF5320659
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Sep 2020 08:06:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9B70D20663
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Sep 2020 10:16:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="0sIYIF3b"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CEF5320659
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GzjEmw3w"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B70D20663
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1565920451;
-	Fri, 11 Sep 2020 08:06:54 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F34302E204;
+	Fri, 11 Sep 2020 10:16:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id y0ffTQ-IvESt; Fri, 11 Sep 2020 08:06:43 +0000 (UTC)
+	with ESMTP id D2gGi+EdZ5Eq; Fri, 11 Sep 2020 10:16:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3C9D022925;
-	Fri, 11 Sep 2020 08:06:33 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0F96F20485;
+	Fri, 11 Sep 2020 10:16:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21E8AC0859;
-	Fri, 11 Sep 2020 08:06:33 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EBD07C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 08:06:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ECDB4C0052;
+	Fri, 11 Sep 2020 10:16:39 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A679C0051
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Sep 2020 10:16:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id BD95F2079C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 08:06:31 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4791A8735D
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Sep 2020 10:16:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t6CyymP7Rr7k
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 08:06:17 +0000 (UTC)
+ with ESMTP id hcrm7SoAkk4j
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Sep 2020 10:16:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id D19FD2E244
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 08:02:05 +0000 (UTC)
-Received: from coco.lan (ip5f5ad5a5.dynamic.kabel-deutschland.de
- [95.90.213.165])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B7864208FE;
- Fri, 11 Sep 2020 08:02:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599811325;
- bh=liJmqmE5sfRfjoJRcU2wgDJUNyJI6EOposRIL6uuu4I=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=0sIYIF3bPzLkoVDh65SUp5mC+envroHxE33JIpx00CqHDW5YRVghPDt8uXYRGc+3q
- q1ZAIpykbzGnZxKiRCymBeQ88zFRVITF4bF39L2Nh+SA8oHWZdTrEYXDIRD8762tY3
- 3XwcUbmqqVCjOsf8RgKcKagRZ5lRWerDUS5BuH6E=
-Date: Fri, 11 Sep 2020 10:02:00 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Message-ID: <20200911100200.25214c37@coco.lan>
-In-Reply-To: <20200821125848.1092958-1-dwlsalmeida@gmail.com>
-References: <20200821125848.1092958-1-dwlsalmeida@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 672CB8731B
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Sep 2020 10:16:38 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id g29so6337308pgl.2
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Sep 2020 03:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Y2D0zRwJCnEFVuJ3Jd1F8RmkGb177PJyTvMjl5ioqfc=;
+ b=GzjEmw3wRrGU6WNctnBiB9CmZL3m+MMKMlUfKvPZMqlw1is2fRk9N2+dO23XYsrQvZ
+ UGOLvKfnYLOSNTvjB2KNEEEqqccGSNAzE+BQQElLn0tRRYWfI4defT8gnUPMP1uRw2El
+ j+pStW76FwM4GQJwPUP+1G+mFloZ0xQBw0Lk8Y/07LG4fx0isGUoWUlgrKjjSW2XZ16w
+ 8ZUi3Sgarq9HpRtNmIC+wuKmSpWtHSRgKDiwcL+b9pSd/ubUewh+RfI4hwwPq4Mp3NyB
+ 0ybvbTOzsfG6PK2Nd3T1agDU0XkdgN139kWxPl7JkHqvXRFyd2IN5Pklc40mnhKFukIh
+ s5pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Y2D0zRwJCnEFVuJ3Jd1F8RmkGb177PJyTvMjl5ioqfc=;
+ b=AbuWBZ8zpMGvf5d+kAk+XmGv3Qvp8hkG4kG/xDC1IoMmXFH0encO4upmjOcyO93nFW
+ iiLXs0Ns2TvQnkc2f4g5qw436K7MkOsHeVvHQjPAXNkFHVu54MduCM/ndLshlfnTToNK
+ tmG16gsgCA26KrJvDJibd4BniXm1uzzIJgdgEBKgWtt4ubDKJPX4Sx8JnxHL7km6V68t
+ LHrAsU/8QxkRICGKhGrt7S0FMJWXsFAwLsQHX26BqjgTDY+IhY+bbKDWJicbVRJZjR0i
+ SvAEAJF/y6ar5dskHIP/UYiJBt1I1qy2w+J9NoNalSvwLSFCuNd4QJqqoOka+gcLnkE1
+ AfwA==
+X-Gm-Message-State: AOAM530hm8ieB35LQLcb4WpUZqjyTW1kkSCA0Gk/gBXuGRy80MgWEOeK
+ 3XSDCpUdF9VecnIyPFJYeMI=
+X-Google-Smtp-Source: ABdhPJw828uomWC4R3NRtDxLedl3T6B3+tb+Os2GXMXMV7zYw6ULol/KNLyKS7WOzoPYn6epp348ig==
+X-Received: by 2002:a63:a23:: with SMTP id 35mr1200554pgk.333.1599819397740;
+ Fri, 11 Sep 2020 03:16:37 -0700 (PDT)
+Received: from localhost ([203.90.99.113])
+ by smtp.gmail.com with ESMTPSA id y195sm1793569pfc.137.2020.09.11.03.16.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Sep 2020 03:16:36 -0700 (PDT)
+Date: Fri, 11 Sep 2020 15:46:31 +0530
+From: Mrinal Pandey <mrinalmni@gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, skhan@linuxfoundation.org,
+ Linux-kernel-mentees@lists.linuxfoundation.org, mrinalmni@gmail.com
+Message-ID: <20200911101631.4lylpsbaog5g5jdj@mrinalpandey>
+References: <20200804155640.x3kzgqfsmmkj5z2b@mrinalpandey>
+ <alpine.DEB.2.21.2008042131530.4346@felia>
+ <20200809072240.lvuuwscinkfqpwxo@mrinalpandey>
+ <20200820044241.4ivtq5co6cm4aze6@mrinalpandey>
+ <alpine.DEB.2.21.2008221014310.12792@felia>
+ <20200824082325.4prwz56p2ppgfojl@mrinalpandey>
+ <alpine.DEB.2.21.2008241052310.2932@felia>
+ <20200825045358.hygtrkm6qxyiwjft@mrinalpandey>
+ <20200906042724.p6gbirsugnvslmh7@mrinalpandey>
+ <CAKXUXMyh1eVusXc+2DAN9H9WfyXHkTuCuhaiG8dfM54Km+rW4A@mail.gmail.com>
 MIME-Version: 1.0
-Cc: r.verdejo@samsung.com, linux-kernel@vger.kernel.org, nicolas@ndufresne.ca,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [v10 0/4] media: vidtv: Implement a
-	virtual DVB driver
+In-Reply-To: <CAKXUXMyh1eVusXc+2DAN9H9WfyXHkTuCuhaiG8dfM54Km+rW4A@mail.gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Improve SPDX license
+ identifier check for script files
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,260 +115,101 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============9193492118409688114=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Daniel,
 
-Em Fri, 21 Aug 2020 09:58:44 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
+--===============9193492118409688114==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rnngrpyiogruxkqu"
+Content-Disposition: inline
 
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> This series is work in progress. It represents the current work done on a
-> virtual DVB driver for the Linux media subsystem. I am new to the media
-> subsystem and to kernel development in general.
-> 
-> This driver aims to:
-> 	- Serve as template for new DVB driver writers
-> 	- Help userspace application writers in general
-> 	- Push fake audio/video to userspace for testing
-> 	purposes
-> 	- Push debug information to userspace via debugfs
-> 
-> Current state for this driver:
-> 	- Driver generates PSI information (PAT, PMT, SDT)
-> 	- Driver generates PCR packets
-> 	- Driver generates NULL packets for padding
-> 	- PCM audio stream is decoded by ffmpeg, but no audio is heard yet.
-> 
-> changes in v10:
-> 	s302m encoder got reworked
 
-Thanks for all the hard work on it. Very much appreciated!
+--rnngrpyiogruxkqu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I finally found some time to test it. For now, just a quick
-test from my side, without passing any arguments to the
-driver.
+On 20/09/07 09:10AM, Lukas Bulwahn wrote:
+> > I was wondering how should I go about the original patch? Should I keep
+> > both the checks or just the executable one and let be the patch as it is
+> > as further cleanup can lead to better performance as we have already
+> > seen with the evaluations.
+> >
+>=20
+> Kees Cook and Andrew Morton pointed out that a tool may not rely on
+> the executable flag. So, checkpatch.pl may not rely on the executable
+> flag; the patch we created here is misdesigned, now we know that.
 
-See enclosed.
+Sir,
 
-While there are still a few issues there, I'm considering applying
-this series for Kernel 5.10.
+Yes.
+>=20
+> > Also, I have completed all the tasks related to this project on Communi=
+ty
+> > Bridge's site. What are the next steps of mentorship? By when can I
+> > expect the results sir/ma'am?
+> >
+>=20
+> Mentorship can begin by October 1st. We need to develop a project plan
+> for the mentorship, you are in the lead to write that. We need a
+> project plan for the mentorship to start.
+>=20
+Eagerly looking forward to writing the plan. How, when and to whom am I
+required to submit this plan and what should it broadly contain?
 
-My plan is to write some patches on the top of yours, in order to
-address the problems I'll find on it. If not something more critical
-won't be solved in time, we may still add it at staging/media. 
-Let's see.
+> In the process of the checkpatch.pl patch creation, we identified that
+> we can check if we find any invocations that rely on the executable
+> flag. This could be a first set of tasks to do in the mentorship.
+>
+Yes, sure sir.
 
-The problems I noticed so far are:
+> Maybe, you can find another aspect to look into the checkpatch.pl
+> evaluation? Maybe the check for the line of the SPDX-Identifier was
+> not the best case to start with, because it is more complex than
+> initially thought.
+>
+I suggested few patches before, guess they can sip into mentorship if
+you find them fit enough.
+Apart from those I have a few other observations on checkpatch.pl and I
+am continuously evaluating the output file for more.
+I will share these evaluations on a different thread.
+>=20
+> Lukas
 
-	1. rmmod doesn't work;
-	2. dvbv5-stats doesn't seem to be working properly, as
-	   it is reporting signal strengh with a percentage
-	   (same for Carrier S/N ratio);
-	3. dvbv5-zap wrote an empty audio file (without -P flag).
-	   Probably there are still some issues at the program
-	   channel descriptor or service;
-	4. The provider service field is null. Perhaps we could
-	   add some string there, like "linuxtv.org".
-	5. Maybe we could also add a simple NIT table, just to
-	   avoid dvbv5-scan to wait for it until timeout.
+--rnngrpyiogruxkqu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Also, it probably makes sense to add a debugfs interface in
-order to allow injecting errors at the stream at runtime.
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-Mauro
+iQIzBAEBCgAdFiEE8DwCG1PwaC2uTI99xIwpEWwxhGQFAl9bTnoACgkQxIwpEWwx
+hGRsMxAAveKuWP7hf80l8ZKVQ36nMNIlmV0OcjUAdPX2U10qg9T7zGnyq/u5YVGN
+9nACsgoq2oLRqfPSoL1y9NcCsG7PpVuWFfz7u8/YPHHAwk1ne4cfES95kJbVtOLI
+QBSKRcv03+YRyzq0FfZKm4uJD6PrXA9nBcFdQ6ab8a7upPPFK+26JNIppsi+Taam
+SyoBai6muthl1O+ZledDzArAlPDbC5eJQTCy+b8ug0xikMhyQosIty/vCjEsy11X
+y4oVenFkuAoeldlFcuLNkPlc9TDTkufScjAoqa9OMqnZU1yAvzoqdquuoWmevAC7
+ibCfLWNkUWyQrY8+Dx8uD0JQYxA22by3zZtfIVjAKQqcodkjoaiaSsNbd14lM+yx
+AOkJhCz2bFNtWt5vp/X+bYIjBsdGC/xViU34XOVZTDDTpmFGSs7lSVviYcEFAuQU
+HsYH+R4KmaOe0Zk8HS5WSq87a2qaJQe8gFX6GiDljGnfdCMUruRSwFukaEw7x9J1
+EZdbQgZEXAHxZMHDuj9HnJJD+BYXpdE6+iKeZKugVcFzTyqOrldY6+vIYCHVmkf9
+eXA+QC26ugOfOPNGrbZoogcMK3s8ur2mLiVeK6TdFKUd1lp/JYkR6a1pRXtvV67o
+g2Cx8BsCAIjjBVyvc70RYXYWFDzhC4tI2wOfKJi81tZLGVJQtwo=
+=8U4q
+-----END PGP SIGNATURE-----
 
----
+--rnngrpyiogruxkqu--
 
-	$ dvbv5-scan -v foobar
-	using demux 'dvb0.demux0'
-	Device Dummy demod for DVB-T/T2/C/S/S2 (/dev/dvb/adapter0/frontend0) capabilities:
-	     CAN_FEC_1_2
-	     CAN_FEC_2_3
-	     CAN_FEC_3_4
-	     CAN_FEC_4_5
-	     CAN_FEC_5_6
-	     CAN_FEC_6_7
-	     CAN_FEC_7_8
-	     CAN_FEC_8_9
-	     CAN_FEC_AUTO
-	     CAN_GUARD_INTERVAL_AUTO
-	     CAN_HIERARCHY_AUTO
-	     CAN_INVERSION_AUTO
-	     CAN_QAM_16
-	     CAN_QAM_32
-	     CAN_QAM_64
-	     CAN_QAM_128
-	     CAN_QAM_256
-	     CAN_QAM_AUTO
-	     CAN_QPSK
-	     CAN_TRANSMISSION_MODE_AUTO
-	DVB API Version 5.11, Current v5 delivery system: DVBC/ANNEX_A
-	Supported delivery systems: 
-	     DVBT
-	     DVBT2
-	    [DVBC/ANNEX_A]
-	     DVBS
-	     DVBS2
-	Frequency range for the current standard: 
-	From:            51.0 MHz
-	To:              2.15 GHz
-	Step:            62.5 kHz
-	Tolerance:       29.5 MHz
-	Symbol rate ranges for the current standard: 
-	From:            1.00 MBauds
-	To:              45.0 MBauds
-	Failed to guess country from the current locale setting.
-	
-	ERROR    command BANDWIDTH_HZ (5) not found during retrieve
-	Cannot calc frequency shift. Either bandwidth/symbol-rate is unavailable (yet).
-	Scanning frequency #1 330000000
-	FREQUENCY = 330000000
-	MODULATION = QAM/AUTO
-	INVERSION = AUTO
-	SYMBOL_RATE = 6940000
-	INNER_FEC = AUTO
-	DELIVERY_SYSTEM = DVBC/ANNEX_A
-	Got parameters for DVBC/ANNEX_A:
-	FREQUENCY = 330000000
-	MODULATION = QAM/AUTO
-	INVERSION = AUTO
-	SYMBOL_RATE = 6940000
-	INNER_FEC = AUTO
-	DELIVERY_SYSTEM = DVBC/ANNEX_A
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	dvb_read_sections: waiting for table ID 0x00, program ID 0x00
-	dvb_parse_section: received table 0x00, extension ID 0x0744, section 0/0
-	dvb_parse_section: table 0x00, extension ID 0x0744: done
-	PAT
-	| table_id         0x00
-	| section_length      13
-	| one                 2
-	| zero                0
-	| syntax              1
-	| transport_stream_id 1860
-	| current_next        1
-	| version             1
-	| one2                3
-	| section_number      0
-	| last_section_number 0
-	|\ 1 program pid
-	|  pid 0x0101: service 0x0880
-	Program #0 ID 0x0101, service ID 0x0880
-	dvb_read_sections: waiting for table ID 0x02, program ID 0x101
-	dvb_parse_section: received table 0x02, extension ID 0x0880, section 0/0
-	dvb_parse_section: table 0x02, extension ID 0x0880: done
-	PMT
-	| table_id         0x02
-	| section_length      24
-	| one                 2
-	| zero                0
-	| syntax              1
-	| transport_stream_id 2176
-	| current_next        1
-	| version             1
-	| one2                3
-	| section_number      0
-	| last_section_number 0
-	|- pcr_pid          0200
-	|  reserved2           7
-	|  descriptor length   0
-	|  zero3               0
-	|  reserved3          15
-	|\
-	|- stream 0x0111: ISO/IEC 13818-1 Private Data (6)
-	|    descriptor length   6
-	|        0x05: registration_descriptor
-	|           42 53 53 44                                        BSSD
-	|_  1 streams
-	dvb_read_sections: waiting for table ID 0x40, program ID 0x10
-	ERROR    dvb_read_sections: no data read on section filter
-	ERROR    error while reading the NIT table
-	dvb_read_sections: waiting for table ID 0x42, program ID 0x11
-	dvb_parse_section: received table 0x42, extension ID 0x0744, section 0/0
-	dvb_parse_section: table 0x42, extension ID 0x0744: done
-	SDT
-	| table_id         0x42
-	| section_length      48
-	| one                 2
-	| zero                1
-	| syntax              1
-	| transport_stream_id 1860
-	| current_next        1
-	| version             1
-	| one2                3
-	| section_number      0
-	| last_section_number 0
-	| network_id          1860
-	| reserved            255
-	|\
-	|- service 0x0880
-	|   EIT schedule          0
-	|   EIT present following 0
-	|   free CA mode          0
-	|   running status        4
-	|   descriptor length     31
-	|        0x48: service_descriptor
-	|           service type  1
-	|           provider      '(null)'
-	|           name          'S302m: Sine Wave PCM Audio'
-	|_  1 services
-	Service S302m: Sine Wave PCM Audio, provider (null): digital television
-	Storing as channel S302m: Sine Wave PCM Audio
-	
-	$ dvbv5-zap -c dvb_channel.conf "S302m: Sine Wave PCM Audio" -m
-...
-	 PID           FREQ         SPEED       TOTAL
-	    0     25.07 p/s   36.826 Kbps       55 KB
-	   17     25.07 p/s   36.826 Kbps       55 KB
-	  257     25.07 p/s   36.826 Kbps       55 KB
-	  273   1335.19 p/s    1.915 Mbps     2943 KB
-	  512     25.07 p/s   36.826 Kbps       55 KB
-	 8191  16775.59 p/s   24.062 Mbps    36974 KB
-	TOT    18211.08 p/s   26.121 Mbps    40138 KB
-	
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	
-	
-	$ dvbv5-zap -c dvb_channel.conf "S302m: Sine Wave PCM Audio" -t 30 -o pcm_audio.ts
-	using demux 'dvb0.demux0'
-	reading channels from file 'dvb_channel.conf'
-	service has pid type 06:  273
-	tuning to 330000000 Hz
-	       (0x00) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Record to file 'pcm_audio.ts' started
-	Forcing program stop due to timeout or terminate signal
-	
-	$ ls -l pcm_audio.ts
-	-rw-r--r-- 1 mchehab mchehab 0 Sep 11 09:46 pcm_audio.ts
-
-	$ dvbv5-zap -c dvb_channel.conf "S302m: Sine Wave PCM Audio" -t 30 -o pcm_audio.ts -P
-	using demux 'dvb0.demux0'
-	reading channels from file 'dvb_channel.conf'
-	service has pid type 06:  273
-	tuning to 330000000 Hz
-	pass all PID's to TS
-	  dvb_set_pesfilter 8192
-	dvb_dev_set_bufsize: buffer set to 6160384
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-	Record to file 'pcm_audio.ts' started
-	received 103809840 bytes (3379 Kbytes/sec)
-	Lock   (0x1f) Signal= 0.00% C/N= 0.00% UCB= 0 postBER= 0
-
-	$ ls -lh pcm_audio.ts
-	-rw-r--r-- 1 mchehab mchehab 100M Sep 11 09:54 pcm_audio.ts
-
+--===============9193492118409688114==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============9193492118409688114==--
