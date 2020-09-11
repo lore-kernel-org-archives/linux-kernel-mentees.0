@@ -2,111 +2,86 @@ Return-Path: <SRS0=DgfW=CU=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4072EC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Sep 2020 12:29:38 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 332EBC43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Sep 2020 13:10:57 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A536F21D92
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Sep 2020 12:29:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AB146224B1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Sep 2020 13:10:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TQ4nJMbD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A536F21D92
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="dxqVbQBO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB146224B1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3D9432E248;
-	Fri, 11 Sep 2020 12:29:37 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 423548780D;
+	Fri, 11 Sep 2020 13:10:56 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uBiYikMDUoVk; Fri, 11 Sep 2020 13:10:55 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 300158780C;
+	Fri, 11 Sep 2020 13:10:55 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 140F3C0052;
+	Fri, 11 Sep 2020 13:10:55 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C6BBEC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Sep 2020 13:10:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 87C6F2052D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 11 Sep 2020 13:10:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nBeTRkGkr2hz; Fri, 11 Sep 2020 12:29:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id C7E732E21C;
-	Fri, 11 Sep 2020 12:29:26 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B2D11C0052;
-	Fri, 11 Sep 2020 12:29:26 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3887CC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 12:29:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 268F987852
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 12:29:25 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m+vQBh2VK+1Z
+ with ESMTP id jJ5mJXwHJiD9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 12:29:23 +0000 (UTC)
+ Fri, 11 Sep 2020 13:10:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 2B58687851
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 31486204FE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 12:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599827362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4cmK+jEtDKKanHKXe6ISW6QcXLS9lq2MRljBnTGtLZE=;
- b=TQ4nJMbDXC3XbaahG6GL1g3Xds+6DoMNyRmlLWEH3/+0tXh33QEen7e/pZII3xP9ASsDnT
- SiUSsylea9l4W21O09rcFM2kYBguibfWGZD2dAmDWR3dlcI1mjN02w5QMPFl4XTgzifXt9
- oZGTNuwhpQKoG1MVgtBh6D53HEQZxlM=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-Qh_GXNzEM3SAcECm49QnXA-1; Fri, 11 Sep 2020 08:29:16 -0400
-X-MC-Unique: Qh_GXNzEM3SAcECm49QnXA-1
-Received: by mail-pf1-f198.google.com with SMTP id x2so6885284pfd.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 11 Sep 2020 05:29:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4cmK+jEtDKKanHKXe6ISW6QcXLS9lq2MRljBnTGtLZE=;
- b=Cc8d9r+DgxmmQ9HQi6hrUvUi9bZqJEnhYjsH/xfAwyyKBppepjEuBIe3eOJ0CrxKfs
- kdIrdE+SUZzgIylstMt8+lSvLODxn0QJU84LBdnro/JhTRtX5EgX2IqJ4g3NDZUPsZ1z
- 8UA57pyyLXJPb0vTgxLWCfOtdvN/0QxLKTw59K/IcT6Jy82qayDsybSubNh66d05zp3s
- 2In6bSY7HNDp4qMYCiXMDOkqwBrOlNNNmIfwsLexGZ/9FZAQYJVKXeeaEE9znevNoiGH
- 2hrQHKb/j/9DL4SQ8Ei+mFGUnC29BzjC1j0RoMEgLoE5HyFAyowAB0M909qU0SXha2qY
- L2DQ==
-X-Gm-Message-State: AOAM5312dRWseBwBV/SYayHb0NaNq58PisiY6k9tgnAuYj0+xA1xuMsa
- liEs2PDlzozCrbsx2b1hU13p/XeoDk340r/bcnacdq9MpikLETw3snOxAiMa2I/RbVgVMTfgLZO
- ngmQi1CyJ9vRAFRbZ1EoRkBB4QZfq/s8XyZ2fkEv1IcmZQn5dVQsrCwXvCHZDwPgu
-X-Received: by 2002:a62:ce8c:: with SMTP id y134mr1937609pfg.125.1599827355050; 
- Fri, 11 Sep 2020 05:29:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHtQ2PhSKhNtF2SRjYFsQM1aCgLkHVRKm8wUJCdiOX0Eqy1uyc0iEZF3DY5GzMMF8OG0zvCsfKHOJTAcCD9eU=
-X-Received: by 2002:a62:ce8c:: with SMTP id y134mr1937575pfg.125.1599827354501; 
- Fri, 11 Sep 2020 05:29:14 -0700 (PDT)
+ Fri, 11 Sep 2020 13:10:51 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5a5.dynamic.kabel-deutschland.de
+ [95.90.213.165])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 308E022483;
+ Fri, 11 Sep 2020 13:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599829850;
+ bh=BcM7kvJc/NEQeF2oAWCIqYl2oGSFLPVniYem0zj6ZoE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=dxqVbQBOAA5BAwUk+uiTuS5T4u9SVvaBp84K2d9HA2pLUjq1nxHp4qekAc73sSX5U
+ UcVBk5OhbonbsxfbW2Vk5mAn60b2lBunRvqJPCVjr+mKgA8yoYQKcmlZOF+no2/tSN
+ StyPtdbPhdtuwZslf+NZ5FmG7gMbuyAFAdnFV5k0=
+Date: Fri, 11 Sep 2020 15:10:46 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <20200911151046.076abb79@coco.lan>
+In-Reply-To: <25F257A6-C651-4BE7-8482-14FCF121D88F@getmailspring.com>
+References: <20200911100200.25214c37@coco.lan>
+ <25F257A6-C651-4BE7-8482-14FCF121D88F@getmailspring.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200811091445.erp2b23xmx3ceyzp@Rk>
- <CAO-hwJ+3LTUviWxDGQoXaBO-USwP4n6LRscJEzHJShqBEJ3oBg@mail.gmail.com>
- <20200904145916.nighviqyrvbm2ybx@Rk>
- <CAO-hwJJAOGNVnu1_dwXTMUyoSsNQifGFDUV6e9g96wHKmaZqSA@mail.gmail.com>
- <20200910163729.z6gmpeg7x2ocjvpt@Rk>
-In-Reply-To: <20200910163729.z6gmpeg7x2ocjvpt@Rk>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Fri, 11 Sep 2020 14:29:03 +0200
-Message-ID: <CAO-hwJ+P3iU87Ra=3bzJ2f53hPPxGKb+v1+kPSNj5TJVy+NqGA@mail.gmail.com>
-To: Coiby Xu <coiby.xu@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=btissoir@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Cc: Jiri Kosina <jikos@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] Advice on fixing the bug of MSFT0001:00
- 04F3:Touchpad being handled by hid_multitouch by mistake
+Cc: "r.verdejo@samsung.com" <r.verdejo@samsung.com>,
+	"nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+	"  <skhan@linuxfoundation.org>,  "@lists.linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation,
+	"linux-media@vger.kernel.org\"          <linux-media@vger.kernel.org>,  "@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	"org\"" <linux-kernel-mentees@lists.linuxfoundation.org>,
+	"linux-kernel@vger.kernel.org\" <linux-kernel@vger.kernel.org>"@osuosl.org
+Subject: Re: [Linux-kernel-mentees] [v10 0/4] media: vidtv: Implement a
+	virtual DVB driver
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,346 +99,171 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
+Em Fri, 11 Sep 2020 09:18:20 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-On Thu, Sep 10, 2020 at 6:37 PM Coiby Xu <coiby.xu@gmail.com> wrote:
->
-> On Fri, Sep 04, 2020 at 06:47:42PM +0200, Benjamin Tissoires wrote:
-> >On Fri, Sep 4, 2020 at 4:59 PM Coiby Xu <coiby.xu@gmail.com> wrote:
-> >>
-> >> On Fri, Sep 04, 2020 at 10:16:51AM +0200, Benjamin Tissoires wrote:
-> >> >Hi,
-> >> >
-> >> >On Tue, Aug 11, 2020 at 11:15 AM Coiby Xu <coiby.xu@gmail.com> wrote:
-> >> >>
-> >> >> Hi,
-> >> >>
-> >> >> I'm working on a touchpad device issue as reported on
-> >> >> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190.
-> >> >>
-> >> >> This touchpad device MSFT0001:00 04F3:Touchpad should be handled by
-> >> >> hid_rmi. But currently hid-core.c chooses hid_multitouch by mistake,
-> >> >>
-> >> >>      1. When scanning this device's report descriptor, HID_DG_CONTACTID
-> >> >>         usage is found. Thus group HID_GROUP_MULTITOUCH is assigned to
-> >> >>         the device.
-> >> >>      2. The flag HID_SCAN_FLAG_MT_WIN_8 is also found. Thus group
-> >> >>         HID_GROUP_MULTITOUCH_WIN_8 is assigned to the device.
-> >> >>      3. hid-multitouch.c claims handling devices with the group of
-> >> >>         HID_GROUP_MULTITOUCH_WIN_8
-> >> >>
-> >> >>          static const struct hid_device_id mt_devices[] = {
-> >> >>                 /* Generic MT device */
-> >> >>                 { HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH, HID_ANY_ID, HID_ANY_ID) },
-> >> >>
-> >> >>                 /* Generic Win 8 certified MT device */
-> >> >>                 {  .driver_data = MT_CLS_WIN_8,
-> >> >>                         HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
-> >> >>                                 HID_ANY_ID, HID_ANY_ID) },
-> >> >>                 { }
-> >> >>          };
-> >> >>
-> >> >> There are several potential solutions,
-> >> >>      - Let the device vendor fix this problem since this device's report
-> >> >>        descriptor shouldn't have the HID_DG_CONTACTID usage.
-> >> >>      - Make it a special case by setting the device's group to
-> >> >>        HID_GROUP_RMI in hid_scan_report when vendor id and product ID
-> >> >>        are matched.
-> >> >>      - hid-quirks.c seems to be designed to handle special cases, is it
-> >> >>        suitable for this case?
-> >> >
-> >> >AFAIU, the touchpad doesn't work at all with hid-multitouch. So I
-> >> >guess the best is to add the VID/PID to hid-quirks.c in
-> >> >hid_have_special_driver[], and add it to the hid-rmi driver too.
-> >> >This way, you will ensure hid-rmi will pick up the device all the time.
-> >> >
-> >> >Cheers,
-> >> >Benjamin
-> >>
-> >> Thank you for the advice! I have exactly adopted this approach by looking
-> >> at commit e9287099ba6539bccb20cd791269186f3ae28b85
-> >> ("HID: rmi: Add support for the touchpad in the Razer Blade 14 laptop")
-> >> as an example.
-> >>
-> >> My previous email is a bit misleading because 0x04F3 is the vendor code
-> >> of ELAN while hid-rmi is for the Synaptics touchpad. And actually this
-> >> laptop model of Lenovo Legion-5 15ARH05 is shipped with both kinds of
-> >> touchpads,
-> >>
-> >> - for the Synaptics touchpad, hid-rmi could almost handle it perfectly
-> >>    except the clicking is not sensitive enough. I need to let my finger
-> >>    linger on the touchpad for a while. I notice when I click on the touchpad,
-> >>    an HID report would be received by hid-recorder. But evtest couldn't receive
-> >>    any EV_ event. If hid-multitouch is handling the device, the cursor
-> >>    won't move but 2-4 finger touching events could still be received by
-> >>    evtest.
-> >>
-> >> - for the ELAN touchpad, only HID reporters can be read and parsed by
-> >>    hid-core then two input devices (mouse and touchpad) could created by
-> >>    hid-multitouch as seen from /proc/bus/input/devices. But hid-recorder
-> >>    could never get any HID report.
-> >
-> >huh. So in both cases you have a buggy touchpad with hid-multitouch :(
-> >
-> >Do both touchpads share the same VID/PID? If so, this is going to be
-> >interesting to decide how any of those touchpad should be handled.
->
-> No, they have different VID/PIDs,
->   - 04F3:3140 (Elan)
->   - 06CB:7F28 (Synaptics)
+> Hey Mauro,
+> 
+> > Thanks for all the hard work on it. Very much appreciated!
+> > 
+> > I finally found some time to test it. For now, just a quick
+> > test from my side, without passing any arguments to the
+> > driver.
+> >   
+> 
+> That's nice!
+> 
+> > My plan is to write some patches on the top of yours, in order to
+> > address the problems I'll find on it. If not something more critical
+> > won't be solved in time, we may still add it at staging/media. 
+> > Let's see.  
+> 
+> OK
+> 
+> > 	3. dvbv5-zap wrote an empty audio file (without -P flag).
+> > 	   Probably there are still some issues at the program
+> > 	   channel descriptor or service;  
+> 
+> I don't remember whether I tried this. I tried dumping the stream to a
+> file with dvbzap, which should work. By the way, I guess we should be
+> comparing the output to this
+> 
+> $ ffmpeg -f lavfi -i sine=frequency=1000:duration=5 -ac 2 -c:a s302m
+> -strict -2 out.ts
+> 
+> Since it produces a playable transport stream file that actually sounds
+> like a sine tone.
+> 
+> Inspecting ffmpeg & vidtv output side by side in dvbinspector, you'll
+> see that they're mostly the same. I have a separate PID for the PCR and
+> some other minor differences.
 
-That's good to know :)
+The problem is here:
 
->
-> >
-> >>
-> >> AFAIU, isn't hid-multitouch supposed to be the implementation of Windows
-> >> Precision Touchpad?
-> >
-> >yes, it works for most of those. The only ones that are not working
-> >are usually because OEM or device makers tend to do "fun" things.
-> >
-> >>  And since Precision touchpad is mandatory for
-> >> Windows 10 notebooks and this laptop model of Lenovo Legion-5 15ARH05
-> >> seem to have been certificated by Windows 10, does it mean by theory
-> >> hid-multiouch could handle these two touchpad devices?
-> >
-> >Well, it should, yes, but it clearly can not. You can try to give a
-> >try at hid-recorder from
-> >https://gitlab.freedesktop.org/libevdev/hid-tools. This will show what
-> >is actually exported by the hardware before any processing by the
-> >kernel. Maybe there is a new simple thing to do in hid-multitouch to
-> >handle those devices.
-> >
-> >Also, last time I heard, Synaptics dropped the use of hid-rmi in favor
-> >of hid-multitouch. Any hid-rmi touchpad should be able to use
-> >hid-multitouch, as this is the preferred way on Windows. But sometimes
-> >the various teams decide to change the rules.
-> >
-> >>
-> >> Anyway, it seems I need to install Windows Driver Kit to capture&analyze
-> >> HID reports to see what's happening. Or do you have any suggestion?
-> >
-> >Unless it changed recently (I think I have seen something like that
-> >recently), I had to write a I2C man-in-the-middle to dump the logs
-> >from Windows. Project is at
-> >https://github.com/bentiss/SimplePeripheralBusProbe and requires a
-> >little bit of manual work to be able to start capturing data :(
-> >
-> >Cheers,
-> >Benjamin
-> >
-> >>
-> >> --
-> >> Best regards,
-> >> Coiby
-> >>
-> >
->
-> Thank you for developing hid-tools and SimplePeripheralBusProbe!
+	$ dvbv5-zap -c dvb_channel.conf "S302m: Sine Wave PCM Audio" -t 30 -o pcm_audio.ts -P
+	using demux 'dvb0.demux0'
+	reading channels from file 'dvb_channel.conf'
+	service has pid type 06:  273
 
-No worries.
+See, it identified the EL type ID as type 6, which is handled by
+dvbv5 library here:
 
-Wow, I am really impressed in how quickly you managed to get all that
-data. I think it's the first time I ever point somebody at
-SimplePeripheralBusProbe, and I don't have to do anything to get this
-up and running, and analyzed :)
+		case 0x06: /* private data */
+			/*
+			* Those can be used by sub-titling, teletext and/or
+			* DVB AC-3. So, need to seek for the AC-3 descriptors
+			*/
+			dvb_desc_find(struct dvb_desc_service, desc, stream, AC_3_descriptor)
+				has_ac3 = 1;
 
->
-> The problem with the Synaptics touchpad when it's handled by hid-multiouch
-> is the pointer won't move. A few days ago, I took another look at the
-> results produced by hid-recorder and evtest and noticed something abnormal
-> for the Synaptics touchpad. For a straight continuous motion of one finger,
-> the value of ABS_MT_TRACKING_ID kept changing,
->
-> $ sudo evtest
-> ...
-> Event: time 1599651409.969002, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 68
-> Event: time 1599651409.969002, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 401
-> Event: time 1599651409.969002, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 201
-> Event: time 1599651409.969002, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-> Event: time 1599651409.969002, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
-> Event: time 1599651409.969002, type 3 (EV_ABS), code 0 (ABS_X), value 401
-> Event: time 1599651409.969002, type 3 (EV_ABS), code 1 (ABS_Y), value 201
-> Event: time 1599651409.969002, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 0
-> Event: time 1599651409.969002, -------------- SYN_REPORT ------------
-> Event: time 1599651410.070105, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
-> Event: time 1599651410.070105, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
-> Event: time 1599651410.070105, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
-> Event: time 1599651410.070105, -------------- SYN_REPORT ------------
-> Event: time 1599651410.093740, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 69
-> Event: time 1599651410.093740, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-> Event: time 1599651410.093740, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
-> Event: time 1599651410.093740, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 7200
-> Event: time 1599651410.093740, -------------- SYN_REPORT ------------
-> Event: time 1599651410.196576, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
-> Event: time 1599651410.196576, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
-> Event: time 1599651410.196576, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
-> Event: time 1599651410.196576, -------------- SYN_REPORT ------------
-> Event: time 1599651410.219020, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 70
-> Event: time 1599651410.219020, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 406
-> Event: time 1599651410.219020, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 204
-> Event: time 1599651410.219020, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-> Event: time 1599651410.219020, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
-> Event: time 1599651410.219020, type 3 (EV_ABS), code 0 (ABS_X), value 406
-> Event: time 1599651410.219020, type 3 (EV_ABS), code 1 (ABS_Y), value 204
-> Event: time 1599651410.219020, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 129000
-> Event: time 1599651410.219020, -------------- SYN_REPORT ------------
-> Event: time 1599651410.320097, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
-> Event: time 1599651410.320097, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
-> Event: time 1599651410.320097, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
-> Event: time 1599651410.320097, -------------- SYN_REPORT ------------
-> Event: time 1599651410.343867, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 71
-> Event: time 1599651410.343867, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 424
-> Event: time 1599651410.343867, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 218
-> Event: time 1599651410.343867, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-> Event: time 1599651410.343867, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
-> Event: time 1599651410.343867, type 3 (EV_ABS), code 0 (ABS_X), value 424
-> Event: time 1599651410.343867, type 3 (EV_ABS), code 1 (ABS_Y), value 218
-> Event: time 1599651410.343867, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 250900
-> ...
->
-> while hid-recorder showed "Tip Switch" remained 1 and the "contact Id"
-> remained 0 for this set of reports,
->
-> $ sudo hid-recorder
->
-> # ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    401 | Y:    201
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  14579 | Contact Count:    1 | Button: 0 | #
-> E: 000000.000000 30 03 03 91 01 c9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f3 38 01 00
-> # ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    401 | Y:    201
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  14651 | Contact Count:    1 | Button: 0 | #
-> E: 000000.124738 30 03 03 91 01 c9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3b 39 01 00
-> # ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    406 | Y:    204
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  15869 | Contact Count:    1 | Button: 0 | #
-> E: 000000.249932 30 03 03 96 01 cc 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fd 3d 01 00
-> # ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    424 | Y:    218
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  17088 | Contact Count:    1 | Button: 0 | #
-> E: 000000.374781 30 03 03 a8 01 da 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 c0 42 01 00
-> # ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    449 | Y:    251
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  18379 | Contact Count:    1 | Button: 0 | #
-> E: 000000.499704 30 03 03 c1 01 fb 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 cb 47 01 00
-> # ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    475 | Y:    281
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-> #             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  19598 | Contact Count:    1 | Button: 0 | #
->
->
-> I managed to let hid-multitouch to send the set of input events with the
-> same ABS_MT_TRACKING_ID by disabling the release_timer via commenting out
-> the following code,
->
-> // drivers/hid/hid-multitouch.c
-> static void mt_touch_report(struct hid_device *hid,
->                             struct mt_report_data *rdata)
+			dvb_desc_find(struct dvb_desc_service, desc, stream, enhanced_AC_3_descriptor)
+				has_ac3 = 1;
+
+			if (has_ac3) {
+				entry->audio_pid = realloc(entry->audio_pid,
+							   sizeof(*entry->audio_pid) *
+							   (audio_len + 1));
+				entry->audio_pid[audio_len] = pid;
+				audio_len++;
+			} else {
+				entry->other_el_pid = realloc(entry->other_el_pid,
+							   sizeof(*entry->other_el_pid) *
+							   (other_len + 1));
+				entry->other_el_pid[other_len].type = stream->type;
+				entry->other_el_pid[other_len].pid = pid;
+				other_len++;
+			}
+			break;
+
+Basically, it is not recognizing the stream as an audio PID, but
+as some other random data. Due to that, the output of
+dvb_channel.conf will be wrong.
+
+As type 6 seems to be the correct one for SMPTE 302M, we need to fix
+dvbv5-tools (and likely other tools like kaffeine), in order to
+recognize it as audio as well.
+
+> > 	4. The provider service field is null. Perhaps we could
+> > 	   add some string there, like "linuxtv.org".
+> > 	5. Maybe we could also add a simple NIT table, just to
+> > 	   avoid dvbv5-scan to wait for it until timeout.
+> > 
+> > Also, it probably makes sense to add a debugfs interface in
+> > order to allow injecting errors at the stream at runtime.  
+> 
+> Sure. This is fun, sign me up for it.
+
+Well, if you have some spare time, you could try to write
+a debugfs binding for vidtv. The best would be to have it
+on a separate file. Failing to bind debugfs should not
+prevent loading the bridge driver.
+
+> As I said in a previous email, I think the buffer in vidtv_s302m.c is
+> not exactly what we want. It sounds like noise.
+
+Yeah, after changing dvb_channel.conf to:
+
+    [S302m: Sine Wave PCM Audio]
+	SERVICE_ID = 2176
+	AUDIO_PID = 273
+	FREQUENCY = 330000000
+	MODULATION = QAM/AUTO
+	INVERSION = AUTO
+	SYMBOL_RATE = 6940000
+	INNER_FEC = AUTO
+	DELIVERY_SYSTEM = DVBC/ANNEX_A
+
+   (e. g. changing "PID_06" to "AUDIO_PID")
+
+I was able to record and play it.
+
+Anyway, the actual sound doesn't matter much here, at least for
+the first version, as this could be changed later on. 
+
+> I got it from here:
+> https://www.daycounter.com/Calculators/Sine-Generator-Calculator.phtml
+
+On a quick look at the s302m_sin_lut table, it is indeed a sinal
+waveform, with a DC offset on it (in order to convert it to unsigned),
+as "0" is 0x8000. 
+
+The "noise" is actually looks like "humm". This is periodic, it seems. 
+
+> By the way, after some time trying out stuff, I guess this is actually
+> what we need in vidtv_s302m_write_frame:
+> 
+> static u32 vidtv_s302m_write_frame(struct vidtv_encoder *e,
+> 				   u16 sample)
 > {
->      ...
->          * Windows 8 specs says 2 things:
->          * - once a contact has been reported, it has to be reported in each
->          *   subsequent report
->          * - the report rate when fingers are present has to be at least
->          *   the refresh rate of the screen, 60 or 120 Hz
->          *
->          * I interprete this that the specification forces a report rate of
->          * at least 60 Hz for a touchscreen to be certified.
->          * Which means that if we do not get a report whithin 16 ms, either
->          * something wrong happens, either the touchscreen forgets to send
->          * a release. Taking a reasonable margin allows to remove issues
->          * with USB communication or the load of the machine.
->          *
->          * Given that Win 8 devices are forced to send a release, this will
->          * only affect laggish machines and the ones that have a firmware
->          * defect.
->          */
->         /* if (app->quirks & MT_QUIRK_STICKY_FINGERS) {
->                 if (test_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags))
->                         mod_timer(&td->release_timer,
->                                   jiffies + msecs_to_jiffies(100));
->                 else
->                         del_timer(&td->release_timer);
->         } */
->      ...
-> }
->
-> Now the pointer can move but there is a noticeable lag as I move my
-> finger. evhz shows the report rate is only ~7Hz. While under Windows,
-> SimplePeripheralBusProbe shows there are 25+ reports for one finger
-> sliding event. This also explains why under Linux release_timer keeping
-> inactivating report slots.
+> 	u32 nbytes = 0;
+> 	struct vidtv_s302m_frame_16 f = {};
+> 	struct vidtv_s302m_ctx *ctx = e->ctx;
+> 
+> 	/* from ffmpeg: see s302enc.c */
+> 
+> 	u8 vucf = ctx->frame_index == 0 ? 1 : 0;
+> 
+> 	f.data[0] = reverse[sample & 0xff];
+> 	f.data[1] = reverse[(sample & 0xff00) >>  8];
+> 	f.data[2] = (vucf << 4)  | (reverse[(sample & 0x0f)] >> 4);
+> 	f.data[3] = reverse[(sample & 0x0ff0) >>  4];
+> 	f.data[4] = reverse[(sample & 0xf000) >> 12] >> 4;
 
-Yep, you found the root cause. We don't have enough reports to ensure
-a proper reporting mechanism.
+doing that didn't work. Yet, this check inside the driver:
+ 
+        #ifdef __LITTLE_ENDIAN
+        f.data[0] = reverse[f.data[0]];
+        f.data[1] = reverse[f.data[1]];
+        f.data[2] = reverse[f.data[2]];
+        f.data[3] = reverse[f.data[3]];
+        f.data[4] = reverse[f.data[4]];
+        #endif
 
->
->
-> Comparing the hid commands sent between Windows and Linux, they are
-> almost identical. SimplePeripheralBusProbe doesn't record hid commands
-> like fetching HID descriptor, report descriptor, resetting the device.
-> I haven't yet found a clue about why this Synaptics touchpad operates
-> with such a report rate under Linux.
->
-> Under Linux, the follow hid commands are sent to the touchpad device.
->
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=20 00
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 08
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 01
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 08
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=21 00
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 38 02 23 00
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 38 02 23 00
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 37 02 23 00
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 3d 03 23 00 04 00 0d 00
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 34 03 23 00 04 00 04 03
-> Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 36 03 23 00 04 00 06 03
->
-> whereas under Windows,
->
-> [0]0000.0000::09/09/2020-14:41:47.732 [SimplePeripheralBusProbe]device   1: ##00 write    6 -  0000: 22 00 38 02 23 00
-> [0]0000.0000::09/09/2020-14:41:47.740 [SimplePeripheralBusProbe]device   1: ##00 write    6 -  0000: 22 00 37 02 23 00
-> [0]0000.0000::09/09/2020-14:41:47.741 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 34 03 23 00 04 00 04 03
-> [0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 36 03 23 00 04 00 06 03
-> [0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 34 03 23 00 04 00 04 03
-> [0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 3d 03 23 00 04 00 0d 00
-> [0]1AB4.3074::09/09/2020-14:41:47.743 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 36 03 23 00 04 00 06 03
->
+Seems plain wrong, as you're already ensuring the endiannes
+it is needed when you're doing things like "sample & 0xff".
 
-Thanks for comparing the 2. As you noticed, there doesn't seem to be
-any differences.
-My initial thoughts were that we were wrongly setting the "Latency
-mode" [0]. But this should have been shown in the differences. I
-*think* we set it in hid-multitouch, but it can't hurt to do a couple
-of additional tests on this side.
-
-The other thing that might explain the difference, is at the I2C
-level. I see on the dmesg that the touchpad is attached to
-AMDI0010:03. I wonder if there is not a misconfiguration on the AMD
-I2C adapter driver that prevents the touchpad from using the correct
-report rate.
-
-Unfortunately, I don't know much about this driver, but maybe given
-all you showed to me you could have a look too? :)
-
-Cheers,
-Benjamin
-
-[0] https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-required-hid-top-level-collections#latency-mode-feature-report
-
+Thanks,
+Mauro
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
