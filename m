@@ -2,101 +2,78 @@ Return-Path: <SRS0=2/a+=CV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B8EC43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 12 Sep 2020 12:42:37 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 807EAC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 12 Sep 2020 13:35:08 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 09FF021D6C
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 12 Sep 2020 12:42:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 78BB7207FB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 12 Sep 2020 13:35:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lng31QjD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09FF021D6C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="DeD6p62a"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78BB7207FB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=disroot.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9FC5D20417;
-	Sat, 12 Sep 2020 12:42:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0FBBA876A0;
+	Sat, 12 Sep 2020 13:35:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ob7NZnCvzv2k; Sat, 12 Sep 2020 12:42:35 +0000 (UTC)
+	with ESMTP id ayngmNKsJR4s; Sat, 12 Sep 2020 13:35:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3DA6C203F5;
-	Sat, 12 Sep 2020 12:42:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 59EE987699;
+	Sat, 12 Sep 2020 13:35:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 24256C0859;
-	Sat, 12 Sep 2020 12:42:35 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C8C5AC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3738AC0052;
+	Sat, 12 Sep 2020 13:35:06 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C823AC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Sep 2020 12:42:34 +0000 (UTC)
+ Sat, 12 Sep 2020 13:35:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BE1BE86E97
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A450785478
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Sep 2020 12:42:34 +0000 (UTC)
+ Sat, 12 Sep 2020 13:35:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id v4QYHPIw7r6k
+ with ESMTP id hYyPh96iED6T
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Sep 2020 12:42:34 +0000 (UTC)
+ Sat, 12 Sep 2020 13:35:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id CB17E86E8F
+Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7DACA853FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Sep 2020 12:42:33 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id lo4so16990136ejb.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Sep 2020 05:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=OdTdco6Gio2Sf8yLBk+xgpt6whcK+HBCntaiF2uSvXg=;
- b=Lng31QjD+wvvlEaBTDMmiS6XOOkYAvjkFWYdf4cXUDO8OpS1fBlnusQ3Fsm4Q5/U+Y
- 5M4+ekd7XnURudtgk7s6TpsfJpzYn/IeBd4PfMuNL9BHCTJ7GNT6r+Er4t65r+lGyJ16
- 5crdWbNjjIdWu9g3f+qPNlk3Od/mUPA1j94ALss15iKJsr9XEg41+aluJQxhAZmloLXD
- OO5rRSkCfj5H2TRVQMtBHAXDbVVAYC+RnnXkWTk9fYY+ibKGlwp2JIj69ZLbefZ65yF4
- affQRa2I/7I391dTnroj1pzIS5awPxvgwHlmZBVEEfsN80+50Ob1ZwkPOlYVGh6ZrcRY
- ZdCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=OdTdco6Gio2Sf8yLBk+xgpt6whcK+HBCntaiF2uSvXg=;
- b=n/Z/BuYjS2FMWNrD5zrNXQv/HOr9OeNoTyqx6WLw7Ym0LHc4yC6m1mcLLBCQeqHHzN
- U1WoTv/okHgAcPaNt6JTg7bx045FWtyMWrUIEvjAmmWm4a1YHD0fqsWwUp9L54hHU7K4
- OOABC7fPfgyyi+uff7FoMAzyzfu/FyBVtm9nzBG9fzQbtbCsYGroPda44bUfDzpqNsmM
- kF4yEsPiJxHJs3RaXUvWfD8oy5EvzJx289Y/DyByRZfsOINlbW/8ThQL0kzQo1qnePG4
- vj4IPdl8auHEi5QaSGD78u8GxKm+aOO87HHX8WNCivLhSx8edzutB4LSZ+x1/KKHXB10
- BIjg==
-X-Gm-Message-State: AOAM533HTcxFI/lRc2szr9sqFXE13rkuGLbbFBHkjinngAR94lQIQ4NN
- 0M+xFGWqYTTTpQ8hH8NkEMo=
-X-Google-Smtp-Source: ABdhPJzrG2w8CJX7uDo5vbHLsEOgArxGFBi72ZFiDLXhuPORhdsKjgGktlpGm62qiten87VExy2AFA==
-X-Received: by 2002:a17:906:fa81:: with SMTP id
- lt1mr5789172ejb.459.1599914552280; 
- Sat, 12 Sep 2020 05:42:32 -0700 (PDT)
-Received: from felia ([2001:16b8:2dd9:a000:782a:45ff:c1e1:cfe9])
- by smtp.gmail.com with ESMTPSA id gc19sm3107314ejb.106.2020.09.12.05.42.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 05:42:31 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Sat, 12 Sep 2020 14:42:30 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Ayush <ayush@disroot.org>
-In-Reply-To: <20200912094826.150170-1-ayush@disroot.org>
-Message-ID: <alpine.DEB.2.21.2009121436470.3770@felia>
-References: <20200912094826.150170-1-ayush@disroot.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
+ Sat, 12 Sep 2020 13:35:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 3F78352ED1;
+ Sat, 12 Sep 2020 15:35:01 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RQm6feeT3nZr; Sat, 12 Sep 2020 15:35:00 +0200 (CEST)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1599917699; bh=iEu1izxySnSVXfxJv0k+srWW/6hjkyXYwgXHGO/kNmU=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References;
+ b=DeD6p62a2YEmzqXstqiJch6aQaW25a+UPAkDLTSMhYm6EGKIcaWN+Ie93Qzgp9rqW
+ z/HjgfrGpVX8L1M9m0vFYvwCoFXjimuFDg8A4wbuk/QaE/TGlSvCHDQ+wHjzra7Rn8
+ vSV2xQd3zEMd85J/kgHzd4UPohURQH5Suu71n5xZoOloCtpgd4IOHigr1tJcIyhGb4
+ AmYT0Fjt8GB6zBej2X0eXmedjXpQ1EELqIbvOyPluLfbZqmoJc95mm3Tj7b0OEOguQ
+ xWX+OTssmsp3wKL1GMOYtnqxZXxJIpXYvTDElT7v25vSyE65cRwT0M36m7AayXBtNS
+ X/z4J+UREOGvg==
+Date: Sat, 12 Sep 2020 13:34:58 +0000
+From: "Ayush" <ayush@disroot.org>
+Message-ID: <a5da600e164d8131692209b554a6e536@disroot.org>
+To: "Lukas Bulwahn" <lukas.bulwahn@gmail.com>
+In-Reply-To: <alpine.DEB.2.21.2009121436470.3770@felia>
+References: <alpine.DEB.2.21.2009121436470.3770@felia>
+ <20200912094826.150170-1-ayush@disroot.org>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: handle line break
  between commit and hash value
@@ -117,64 +94,20 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+Hello sir,
 
-
-On Sat, 12 Sep 2020, Ayush wrote:
-
-> checkpatch.pl checks for proper references to other commits with
-> the intended format, commit <12+ characters of SHA-1 ID> ("<commit
-> message") and warns about typical mistakes. Currently, it does
-> not handle the case where there is a line break between commit and the
-> hash value.
-> It falsely warns that the hash is not prefixed by the word commit.
+> What commit is your patch based on?
 > 
-> This adds new conditions to parse and identify such commits and
-> to not report an error in such cases.
-> 
-> following type of commit reference is handled:
-> 
-> - commit
-> f4d51dffc6c01 ("Linux 5.9-rc4")
-> 
-> This issue was discovered through a thorough analysis of checkpatch.pl
-> errors and warnings of type GIT_COMMIT_ID on commits between v5.7 and v5.8.
-> 
-> Before applying this patch, checkpatch.pl reported 342 errors of type
-> GIT_COMMIT_ID. After applying patch, errors reduced to 284.
-> 
-> Signed-off-by: Ayush <ayush@disroot.org>
+> Try always to test that the commit applies on the current master and on
+> the latest linux-next.
 
-The patch does not apply on commit f4d51dffc6c0 ("Linux 5.9-rc4").
+This patch is tested on linux-next (tag: next-20200911).
+It won't merge on master as it is some commits behind the next-20200911
+and that is maybe causing conflict.
 
-Applying: checkpatch: handle line break between commit and hash value
-Checking patch scripts/checkpatch.pl...
-error: while searching for:
-my $git_command ='export LANGUAGE=en_US.UTF-8; git';
-my $tabsize = 8;
-my ${CONFIG_} = "CONFIG_";
-
-sub help {
-	my ($exitcode) = @_;
-
-
-error: patch failed: scripts/checkpatch.pl:68
-Hunk #2 succeeded at 2825 (offset -6 lines).
-Hunk #3 succeeded at 2841 (offset -6 lines).
-Hunk #4 succeeded at 2872 (offset -6 lines).
-Applying patch scripts/checkpatch.pl with 1 reject...
-Rejected hunk #1.
-Hunk #2 applied cleanly.
-Hunk #3 applied cleanly.
-Hunk #4 applied cleanly.
-Patch failed at 0001 checkpatch: handle line break between commit and hash value
-
-
-What commit is your patch based on?
-
-Try always to test that the commit applies on the current master and on 
-the latest linux-next.
-
-Lukas
+ 
+Thanks,
+Ayush
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
