@@ -2,105 +2,103 @@ Return-Path: <SRS0=DUpp=CW=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F83C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 11:01:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66361C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 11:03:42 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1B1F420829
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 11:01:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D975420829
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 11:03:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTeN+eJQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B1F420829
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WwzVDfwf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D975420829
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6865F20429;
-	Sun, 13 Sep 2020 11:01:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6733D2042C;
+	Sun, 13 Sep 2020 11:03:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KosJ36YI8bhX; Sun, 13 Sep 2020 11:01:44 +0000 (UTC)
+	with ESMTP id 8JgPxQdouo7f; Sun, 13 Sep 2020 11:03:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 6F31820426;
-	Sun, 13 Sep 2020 11:01:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AD58F20434;
+	Sun, 13 Sep 2020 11:03:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4552BC0864;
-	Sun, 13 Sep 2020 11:01:44 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2FD76C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 987B0C0864;
+	Sun, 13 Sep 2020 11:03:40 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ECA2FC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:01:43 +0000 (UTC)
+ Sun, 13 Sep 2020 11:03:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1F5BB85F61
+ by silver.osuosl.org (Postfix) with ESMTP id B9B312043B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:01:43 +0000 (UTC)
+ Sun, 13 Sep 2020 11:03:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tjJifoTVjg8P
+ with ESMTP id TopVVvkwGFUF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:01:41 +0000 (UTC)
+ Sun, 13 Sep 2020 11:03:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
- [209.85.208.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9080885F35
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 37A5720426
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:01:41 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id b12so14753372edz.11
+ Sun, 13 Sep 2020 11:03:38 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id y1so3010389pgk.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 04:01:41 -0700 (PDT)
+ Sun, 13 Sep 2020 04:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=O0KzH4ksd2xth3LJkXkEpWra2DK1YbZlGZdmAStNY4M=;
- b=gTeN+eJQIvGG0HeyaY8LIXShy63fEJ3NnexyK7wtY/XnwLxARf/2jYx436sDGmDdgH
- YYNzJKFB+CmzUbTAbPr6FqfPpWIbqPsCJFFFceR/5OORXtAO29LpkAjaNs+p2141QcfO
- XcmXm4a4sy405WqGCzGB/6v3YMXgrh69tgSGJFjQvlvseaMwnwf5/REI72I4NUSZfU2R
- SH9jxJFXtBhznPlu2nLk2F9OIrzHZZJ5DVWyL1lwDHHXeagU71gjgO3bK+VZJtplSHhr
- kmZbxAujEitZafBHXXyK7Ue3sZ8ygBW+qbE4jYWOT8h7C/dg7Y/TYl2LUxj/08Q8aPLu
- pgyA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=D5zxQJ9/bBNYxcKz8x5u3JOFZbRfXW/8iPbkH3tADRk=;
+ b=WwzVDfwfq5k/cz21r4yOwQr0MPeyuymAI3rmT9bpZzWw94dlc5EpMg0KXVqTyTxVLS
+ Zp1gNxVXWyE3tddvm1ErkTdno02A0+1vvoCCLt7y6bgd0sxJXXTp+WINElVkf2YdtRBM
+ CMqJC/EeXszT7ySApINm94SZlyTTM0hFM9EIkJpQnUEPDxWzIuZhoxT/PRtqTOTRZdGu
+ 2NkWKAe1HGg/oSFOuA3MvUyrJGZEIu4hKWgs4NrJ5VbLxy0m6in5iVF5tQnT1wKL+mwR
+ 41/2M5a7llz7NvvEjXswhWW6nEDsUeRNnoekqukdL1jmI8KClj3jGvvclOHaz6n/0XSX
+ DyAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=O0KzH4ksd2xth3LJkXkEpWra2DK1YbZlGZdmAStNY4M=;
- b=AFqrpnRvqP0zasfWnsWU0SbqIUDeYAIslESPAqa4WbP26yyTEddywaaNBidmZgMlvv
- pMBjbOaC2RFP+UVC53B7pkqyQUyJ6EXsoqLEhgVLjEwFCwaQ/Hos7hF//X+ZNXc7z4VV
- RN2H8f3EZgr85H9gQSM0dd5r7pkX7c2PSiomfyro0gOPuhCa5ozGRsOsSjxp3Bq687cl
- p0Ac1Jhz/0BBXmk4Riy7O3iQq2D47k8CNGK+rpxtG05r5cYrhDUtp/qX3t0s0UtcQQAy
- dp2HXNf+BNxRwxUsnsjHjPSsU1OLJF7BQ318X0y9Uw/PMHrVO5gwIldo33I2LFbeubOq
- tL5g==
-X-Gm-Message-State: AOAM531E8hepmB9oYAjHvT7hwbh/tQjdTipH1FJn0wq3wXeRfYKZ1q6X
- hafqgCQqmOxQ7pRqlWX5fA4=
-X-Google-Smtp-Source: ABdhPJxxmXxkniSkgzIWAZyqdzk5C5YtYV4OwTrOr+oQFAtDnQoYpUYxO2XOZbUyQR9Esr1TbD1d3A==
-X-Received: by 2002:a50:fe98:: with SMTP id d24mr12033550edt.223.1599994899863; 
- Sun, 13 Sep 2020 04:01:39 -0700 (PDT)
-Received: from felia ([2001:16b8:2d3b:f900:79af:10ed:f757:91c8])
- by smtp.gmail.com with ESMTPSA id ly16sm5215549ejb.58.2020.09.13.04.01.39
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=D5zxQJ9/bBNYxcKz8x5u3JOFZbRfXW/8iPbkH3tADRk=;
+ b=INWPKtONTvZarUigiO40R3cl37FwyOJl+hITlZLAsfLPB8APrxkaEF4ECsdnk2d//G
+ dGYzJ/cYSeyz6H8qIpA9JDRqhMfcxut0irYXnmXN/mSUykRENnXs3fmlUMvj0C5V/5Bp
+ 2dj9/F1hm8n06R6BgZOzkb2Bkbbfj2F1KtKk3Z4ZCa/HxRBaQMSlxMzaLpv0KTJwzrWs
+ ilzcRtl4bu6XuTGX0wFJEkeGbhBJBoAwjSVET6/4TdasDKdfrPQYJ/kqSg/Xj9G5IemK
+ Yi6vivgWpmfa0QR1XdNLuvO7bRJMD1at4i7tXAbHK+js4pTF8xc5oGNh0QhG5QpWXZJg
+ ar8g==
+X-Gm-Message-State: AOAM5311S6rtgc49OXAJfwQrCWP1Kd9uh9q9al6ECYAQoERoTPpjX9V1
+ n9BTiEBLlH5wJ87ewS3+FDHrLKELAk9712PiJIU=
+X-Google-Smtp-Source: ABdhPJzgyMnyi1zmfqskqELOP69Zjnz6hMotwDpxSOh/rRa4Mw/GuOyrcKpz38L52Hfnhptq4wvIfg==
+X-Received: by 2002:a63:2063:: with SMTP id r35mr7627594pgm.320.1599995017178; 
+ Sun, 13 Sep 2020 04:03:37 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.209.61])
+ by smtp.gmail.com with ESMTPSA id i17sm7319199pfa.29.2020.09.13.04.03.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Sep 2020 04:01:39 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Sun, 13 Sep 2020 13:01:33 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Ayush <ayush@disroot.org>
-In-Reply-To: <2f6509d8dfcf8eb7322771aec1817104@disroot.org>
-Message-ID: <alpine.DEB.2.21.2009131220070.22585@felia>
-References: <193982aa3ddb7fcc7ee790d254cbdee0@disroot.org>
- <alpine.DEB.2.21.2009121608490.22523@felia>
- <20200912094826.150170-1-ayush@disroot.org>
- <2f6509d8dfcf8eb7322771aec1817104@disroot.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Sun, 13 Sep 2020 04:03:36 -0700 (PDT)
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+To: 
+Date: Sun, 13 Sep 2020 16:33:13 +0530
+Message-Id: <20200913110313.4239-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: handle line break
- between commit and hash value
+Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v2] net: fix uninit value error in
+	__sys_sendmmsg
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,41 +116,44 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+The crash report indicated that there was a local variable;
+----iovstack.i@__sys_sendmmsg created at:
+ ___sys_sendmsg net/socket.c:2388 [inline]
+ __sys_sendmmsg+0x6db/0xc90 net/socket.c:2480
 
+ that was left uninitialized.
 
-On Sat, 12 Sep 2020, Ayush wrote:
+Initializing this stack to 0s prevents this bug from happening.
+Since the memory pointed to by *iov is freed at the end of the function
+call, memory leaks are not likely to be an issue.
 
-> September 12, 2020 9:09 PM, "Ayush" <ayush@disroot.org> wrote:
-> 
-> > I am re-evaluating my output and will give you a analysis of all commits
-> > which are getting affected by my patch.
-> > It will take time to run checkpatch.pl again on those commits, so I will
-> > share as soon as it's finished.
-> 
-> I fixed my script used for analysis and re-evaluated the affect of my patch.
-> 
-> I have made a list of commits which are fixed with this patch, It can be found here:
-> 
-> https://gist.githubusercontent.com/eldraco19/e7bf729b04cf6e2eee6ec52785b318d4/raw/74e13760fe01deee3285a1ec047ea0ac036cae76/commit_report.txt
-> 
->
+syzbot seems to have triggered this error by passing an array of 0's as
+a parameter while making the system call.
 
-Did checkpatch.pl output on other types change?
+Reported-by: syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com
+Tested-by: syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+---
+Changes from v1:
+	* Fixed the build warning that v1 had introduced
+ net/socket.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-One of the testers on this list reported that two COMMIT_LOG_LONG_LINE 
-reports disappeared. That should not have happened, right?
+diff --git a/net/socket.c b/net/socket.c
+index 0c0144604f81..1e6f9b54982c 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -2398,6 +2398,7 @@ static int ___sys_sendmsg(struct socket *sock, struct user_msghdr __user *msg,
+ 	struct iovec iovstack[UIO_FASTIOV], *iov = iovstack;
+ 	ssize_t err;
+ 
++	memset(iov, 0, UIO_FASTIOV);
+ 	msg_sys->msg_name = &address;
+ 
+ 	err = sendmsg_copy_msghdr(msg_sys, msg, flags, &iov);
+-- 
+2.25.1
 
-I had a look at the checkpatch.pl output for commit 0a2bd55c194a ("dm 
-integrity: document allow_discard option").
-
-I think the reported line is wrong here.
-
-Also, the line number for other cases have changed.
-
-Generally, the line number should point to the line where the error really 
-happens.
-
-Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
