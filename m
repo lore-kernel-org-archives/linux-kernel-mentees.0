@@ -2,109 +2,107 @@ Return-Path: <SRS0=DUpp=CW=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C8FAC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 11:05:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95900C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 11:15:50 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A31A920829
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 11:05:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 12E9620665
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 11:15:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LvvKtJT/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A31A920829
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BABzC+yp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 12E9620665
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5BB4E85F35;
-	Sun, 13 Sep 2020 11:05:12 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CB23586078;
+	Sun, 13 Sep 2020 11:15:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TFhewTS8Wpvn; Sun, 13 Sep 2020 11:05:11 +0000 (UTC)
+	with ESMTP id ynHr49ts77UF; Sun, 13 Sep 2020 11:15:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E915D85F61;
-	Sun, 13 Sep 2020 11:05:11 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 482FF8605E;
+	Sun, 13 Sep 2020 11:15:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D4FC4C0864;
-	Sun, 13 Sep 2020 11:05:11 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A125CC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FF9CC0859;
+	Sun, 13 Sep 2020 11:15:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 28C46C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:05:10 +0000 (UTC)
+ Sun, 13 Sep 2020 11:15:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8FDA085F61
+ by whitealder.osuosl.org (Postfix) with ESMTP id 122AD86977
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:05:10 +0000 (UTC)
+ Sun, 13 Sep 2020 11:15:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WeFvPQU_d_Hy
+ with ESMTP id FvrYY0dN2qub
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:05:10 +0000 (UTC)
+ Sun, 13 Sep 2020 11:15:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B923585F35
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
+ [209.85.218.66])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2DC34868F1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:05:09 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id z22so19261722ejl.7
+ Sun, 13 Sep 2020 11:15:47 +0000 (UTC)
+Received: by mail-ej1-f66.google.com with SMTP id i26so19277223ejb.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 04:05:09 -0700 (PDT)
+ Sun, 13 Sep 2020 04:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:date:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=bz3eq0lG3ZOrg/uBk9srUOMASNFUslZglRnZtcEvrkI=;
- b=LvvKtJT/RRYH1QdIChuZdke8f4kP9xPN43H7wEn4iks6znR8EoMAP0+w0DTolTXkvB
- +MVRQC3LNLEPmINvYqrLKscsfsO8MEBPGfcaK0orGibpy991Y+oVXa/aMtqlms9xkE95
- MmuGASJ+b6tAof9EwGRtiwNp+OTFORi747Ft7WU8+4/JuDry3YhJprq8ibWV7Q+8vfV9
- QULVFAC30yceRx4EWVEHyfX+Ak9qQGgeA46MH6Y1IUSx1LdOfQoDrH9IGEZ6TZNVnijO
- EuxU+VFWyZdjT000xXrcIS/sGTS2p89TaqWJeaJ0vOgMO1BXhONHKctsEUJSrxEHZ5y+
- CbMA==
+ bh=npMu4OSA7M+mqJu0ooZp206DZ27c/P6e5reuLjeQnf0=;
+ b=BABzC+ypKtxq4KQD/eLIxc+EjccbuutLkWdocoxPw5GVACxG0ye9q0OmGjAbbwcCh+
+ hPIhXxvYPezQQLrVwBaG5l+wI4vQhyhYrs+KlLGlxnjwFkLiqd58sRlz1PNHrKvRYOuR
+ uduvIqOktfA51tJR8AipxyvfJQl9CFZGzUtUgNmYvAFXj0wrz65WcUIoLVRSI51I/kLq
+ MhkcH6n4fbt3zvaA4vt0Q1kimEJ1yptaBz1bEGe+9asbDU8VWppxN7AcsDcFTf3CxgLl
+ yrCLbPnqtMypBU5LCMYohFcMhTcJZJS5p9Nrb3bH5VyWcAj4bNEY9HPhcV/1Wg06flCT
+ a/cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=bz3eq0lG3ZOrg/uBk9srUOMASNFUslZglRnZtcEvrkI=;
- b=Op8F5c7HuD6R0ZlITPekM1D6fw5ZD1Air3QVpZTZehBqSEQfLX3XicwD/dobq+4L/u
- dLyvgFRQBhz7Fs/USPc0HeiCFF6x9nGNY+EcYSWC7r6iZmgF4prmMwXju7Qxh1TBJT7J
- pq963Ojad9LQIg+oP2x84hxTRliEBnpkSt8UHXU7ajrelIt0QvwTwHpRNA7z5JfhJWyq
- TKM6sLl0Se2mvOmLYfsvFQ25hs0E7MtQW6s+y4pgVWVQk6dx3t8bB8LUgTCY+qZM/WhB
- 3acBrfFhj2g5aJ3fQu2QmVREBxSeyZFHitR3UDWEVQ+OMpjUwiyKsP3B1elkFf3cOPjZ
- Q+SA==
-X-Gm-Message-State: AOAM530hcAIF75Z7G3DELTuqRhYIGu2Fn5R+vTCElUqet9yiQNum322Z
- F4f4PcEg8Cjcjff54K+anUQ=
-X-Google-Smtp-Source: ABdhPJyPb7AcCRPTtYdJEldzvRCqxCtasoSlib4A9+9o44s/gNMvwyt2B2vxkKG34+amrRVA/jEnHg==
-X-Received: by 2002:a17:906:7e42:: with SMTP id
- z2mr9637091ejr.206.1599995108001; 
- Sun, 13 Sep 2020 04:05:08 -0700 (PDT)
+ bh=npMu4OSA7M+mqJu0ooZp206DZ27c/P6e5reuLjeQnf0=;
+ b=dbSf/rUTsBftgFXf1B5fN7/94yB06S7AuH+q/LOHtxzrtoopjpY4tepx0dIrtprMUN
+ y+KWPtXb3XOo/1cSmc+uZljGhCZvjxLhbVqi/6s2zKhY7iONJ7vpkVbtFQJNip9oKIYR
+ LiRHSggJrJGFhOLRrCyxmm3dg4jv/ydf8zyi7PoYsFhztMUIua2bTHmjOYxhgb6jWRDp
+ SJCFDTSt6PuDMG5GiBuz6pCxsT59U8fIPK+P8Dk+MdGZlJcH04SE+sQ/awga6S2c6Wgs
+ eXqxr4EQmFOdkfjgUL4BfwJyvKJmT2oam1XbThH3GNFkuVEwgRQExV9R7SBydDCCFxUW
+ RXWQ==
+X-Gm-Message-State: AOAM5318GzoDPCHImT7ZwlCuExvLKI2xEr6HALJZZ0Dqg1y+pu5+LHVg
+ uaA3KIjbkQR2dIWI4U2Xnw7sN5U12ogL2w==
+X-Google-Smtp-Source: ABdhPJxnOfd9NU5Whm/5/8639wAWNY5dZOx6FY8YkzfyZY5LIPstby3EKnOoTDNQTdGQvq0EU0IBkw==
+X-Received: by 2002:a17:906:4a81:: with SMTP id
+ x1mr5637897eju.541.1599995745623; 
+ Sun, 13 Sep 2020 04:15:45 -0700 (PDT)
 Received: from felia ([2001:16b8:2d3b:f900:79af:10ed:f757:91c8])
- by smtp.gmail.com with ESMTPSA id v17sm5292827ejj.55.2020.09.13.04.05.07
+ by smtp.gmail.com with ESMTPSA id g25sm6694537edu.53.2020.09.13.04.15.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Sep 2020 04:05:07 -0700 (PDT)
+ Sun, 13 Sep 2020 04:15:45 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Sun, 13 Sep 2020 13:05:06 +0200 (CEST)
+Date: Sun, 13 Sep 2020 13:15:44 +0200 (CEST)
 X-X-Sender: lukas@felia
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-In-Reply-To: <CABJPP5BFNjBhdcvBWqDYnR-o2sZ0oY77bYr9PxducXW4Y=482Q@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2009131301570.22585@felia>
-References: <CABJPP5CSa_QowD-O3_E5ndoQJvuBv=n2x5WG-acwQKE=rt5+Rw@mail.gmail.com>
- <alpine.DEB.2.21.2009110925160.9220@felia>
- <CABJPP5AWNpYyx5asMNZccqbq07ZW+pH+EwJ+KTZ+SSOAnWZwVQ@mail.gmail.com>
- <alpine.DEB.2.21.2009121252280.13082@felia>
- <CABJPP5DMF9OpZR0agobunb3i3hLGkqedbeL-YohNn0X6Juk64w@mail.gmail.com>
- <alpine.DEB.2.21.2009121419430.3770@felia>
- <CABJPP5BFNjBhdcvBWqDYnR-o2sZ0oY77bYr9PxducXW4Y=482Q@mail.gmail.com>
+To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+In-Reply-To: <4fe9f9e4-f016-6c1c-4ac6-7af82212d392@gmail.com>
+Message-ID: <alpine.DEB.2.21.2009131307420.22585@felia>
+References: <6a2bdeea-265b-5cd0-78c2-aa865b0d5bb7@gmail.com>
+ <alpine.DEB.2.21.2009121343290.13082@felia>
+ <23226f28-dcc4-dba3-dac9-636464d37b03@gmail.com>
+ <alpine.DEB.2.21.2009121422520.3770@felia>
+ <4fe9f9e4-f016-6c1c-4ac6-7af82212d392@gmail.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-2060476258-1599995107=:22585"
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Linux kernel checkpatch.pl mentorship
+Subject: Re: [Linux-kernel-mentees] Evaluate and Improve checkpatch: tasks
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,62 +114,103 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-2060476258-1599995107=:22585
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+
+On Sun, 13 Sep 2020, Ujjwal Kumar wrote:
+
+> On 12/09/20 6:02 pm, Lukas Bulwahn wrote:
+> > On Sat, 12 Sep 2020, Ujjwal Kumar wrote:
+> > 
+> >> On 12/09/20 5:14 pm, Lukas Bulwahn wrote:
+> >>>
+> >>>
+> >>> On Sat, 12 Sep 2020, Ujjwal Kumar wrote:
+> >>>
+> >>>> Hello Lukas,
+> >>>>
+> >>>> I attempted the tasks.
+> >>>>
+> >>>> Below is the link of GitHub repository containing my write-up and findings.
+> >>>> https://github.com/Ujjwal0501/lkmp-checkpatch
+> >>>>
+> >>>
+> >>> Thanks, it shows 404. Good luck next time.
+> >>
+> >> I'm really sorry for the noise. The link is active now.
+> > 
+> > Okay, scripts and data looks sound. So, let us try those scripts.
+> > 
+> > Please have a look at this patch:
+> > 
+> > https://lore.kernel.org/linux-kernel-mentees/20200912094826.150170-1-ayush@disroot.org/
+> > 
+> > The author states:
+> > 
+> > This issue was discovered through a thorough analysis of checkpatch.pl
+> > errors and warnings of type GIT_COMMIT_ID on commits between v5.7 and
+> > v5.8.
+> > 
+> > Before applying this patch, checkpatch.pl reported 342 errors of type
+> > GIT_COMMIT_ID. After applying patch, errors reduced to 284.
+> > 
+> > 
+> > If your scripts work, you should be able to confirm the statement.
+> > 
+> 
+> I'm unable to reproduce the same count as above because the script is run 
+> on different sets of commits.
+>
+
+So, you say the evaluation from Ayush was not really a good evaluation of 
+v5.7..v.5.8 due to some misconception of Ayush how to obtain the set of 
+proper commits from v5.7..v5.8?
 
 > 
-> As you told, I applied the patch and compared the statistics. In my case however the statistics 
-> vary. Before patching total no. of errors of type GIT_COMMIT_ID was 270, and after patching,
-> the number went down to 251. This is in constrast to the author's finding but the number 
-> reduces, so the patch works apparently.
+> > The tasks are:
+> > 
+> > 1. Run your scripts and create a full statistics of all error types with
+> > their according count for v5.7..v5.8.
+> > 
+> > 2. Apply the patch with git am.
+> > 
+> > 3. Run your scripts again and create a new statistics.
+> > 
+> > 4. Compare before and after
+> > 
+> > 5. Make all results available on your github repository.
+> > 
 > 
-> I am posting the diff of statistics before and after the patch:
+> The results are available at the link 
+> https://github.com/Ujjwal0501/lkmp-checkpatch/blob/master/tasks.md
 > 
-> 99c99
-> < COMMIT_LOG_LONG_LINE: 1059
-> ---
-> > COMMIT_LOG_LONG_LINE: 1057
-> 126c126
-> < GIT_COMMIT_ID: 270
-> ---
-> > GIT_COMMIT_ID: 251
-> 142,143c142,143
-> < Warnings generated: 25661
-> < Errors generated: 4768
-> ---
-> > Warnings generated: 25659
-> > Errors generated: 4749
-> 
-> As you can see, the warnings of type COMMIT_LOG_LONG_LINE decreased too.
+> Kindly take a look at it.
 >
 
 Can you share the errors that have changed after the patch was applied?
 
-- Which two cases of COMMIT_LOG_LONG_LINE have disappeared?
 - Which cases of GIT_COMMIT_ID have disappeared?
 - Which cases of GIT_COMMIT_ID are new?
 - Which cases of GIT_COMMIT_ID have changed?
+- Have cases of other type of errors/warnings/checks/notes disappeared, 
+been added or changed?
+
+You state GIT_COMMIT_ID changed from 272 to 230, but the tester in
+
+https://lore.kernel.org/linux-kernel-mentees/CABJPP5BFNjBhdcvBWqDYnR-o2sZ0oY77bYr9PxducXW4Y=482Q@mail.gmail.com/
+
+claimed that it changed from 270 to 251.
+
+Which numbers are right? Why is there a difference in both statistics?
 
 
 Lukas
-
---8323329-2060476258-1599995107=:22585
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---8323329-2060476258-1599995107=:22585--
