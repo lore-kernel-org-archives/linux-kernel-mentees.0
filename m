@@ -5,81 +5,81 @@ X-Spam-Level:
 X-Spam-Status: No, score=-0.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C95DAC43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 18:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 996CCC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 18:39:27 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 32F152098B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 18:23:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 062002168B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Sep 2020 18:39:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQNp2tVQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32F152098B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dM4BK10M"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 062002168B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CC43984828;
-	Sun, 13 Sep 2020 18:23:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 91BC6855B1;
+	Sun, 13 Sep 2020 18:39:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vfvodcebhtmW; Sun, 13 Sep 2020 18:23:39 +0000 (UTC)
+	with ESMTP id JbBLSrxlnAyT; Sun, 13 Sep 2020 18:39:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 56A1784771;
-	Sun, 13 Sep 2020 18:23:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 163278558A;
+	Sun, 13 Sep 2020 18:39:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 43455C0864;
-	Sun, 13 Sep 2020 18:23:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE2C1C0864;
+	Sun, 13 Sep 2020 18:39:25 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B1790C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E1768C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 18:23:38 +0000 (UTC)
+ Sun, 13 Sep 2020 18:39:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id ADA4A84821
+ by fraxinus.osuosl.org (Postfix) with ESMTP id CC4A6855B1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 18:23:38 +0000 (UTC)
+ Sun, 13 Sep 2020 18:39:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xvi4QfnhX6mP
+ with ESMTP id PhxKOgfGON5j
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 18:23:38 +0000 (UTC)
+ Sun, 13 Sep 2020 18:39:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
- [209.85.167.178])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1CF3B84771
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+ [209.85.210.53])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1EB448558A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 18:23:38 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id i17so15364965oig.10
+ Sun, 13 Sep 2020 18:39:24 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id w25so11695887otk.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 11:23:38 -0700 (PDT)
+ Sun, 13 Sep 2020 11:39:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B/PIJDJXLHw0jOWwOQCRC3NLOUOfGtuhE+7a1kovfoY=;
- b=OQNp2tVQqtCeIyj5okzbEsa/76luwxXePf1+l/g3e8okuhGZgz4cGQmmd6iYPTbMhE
- zKxJ1+IkjiOjFZBIsWeZ4MXKKgfko/dmnw1AlYGP7FWLxE0xXG6ohhyCZgaotfHp72IC
- cTk7Q3indOO7IWCL/w5PEB/q76p6CBGlJ9Vv0M/H2IZPa2RczFhwwjUzazdu3mEOFnKN
- +PbUZZOL7yD756vCS6T+7UGQKuS6HsqRW+C+Eq9y+/D+Wue1bYDchB1tXPNGYzcPOsh4
- 6QI+692ClffycAPGrxRS5FaxlRrsc4TP5oHnmAUgzBtFQHdHGMxmbtb2imB0t5xNnLZW
- IzCg==
+ :cc; bh=/SoK/6TUXIGFsMym/t/2t4rmuyb++u3P0HHC8m0RNeE=;
+ b=dM4BK10MzZnfaMXGv9LjQCdFlbe7MEBxdUxXVwA+saF4xxN7tuWrvduubJZtGUuSEK
+ 8CqfZ2HQ9/MpuwcpcO24/0Pjx1uOxjq7HhA5c0zopWwVusFrxZwHNtdwHm5Ie74JqNh8
+ SfS8XtMc2isbYNqvrba9eZaByMZV9peuCN/9xa1KRrndEwLu0eNoIVfh8o/hri5xfhVP
+ WsgyYhMCxgwTgA9RGv1xypIXFrY5UHWI/TzK+mQG6xKNmUqfINuFNARZlBrGPEft/RgO
+ yHGLS3cUu1U3you+tTwGRGPsIMAH6DgeBDgOyacneHgTEzxKNNwZYHPjQCibfRlrGHAX
+ ckOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=B/PIJDJXLHw0jOWwOQCRC3NLOUOfGtuhE+7a1kovfoY=;
- b=RuQG7Yzcbne6IPnImSfU8A0d++5C5WOf0oV7Jo0GgxmWQIMg7ZIdzFoIR01EG+X8SH
- hDSnoKiLvYRAJBf+iU1fuS8fItmC/Bbqo6Ct1voZMxlOOOb8o7l8FUgsxlaTEXbWV9kp
- SgPrfrCWlfua42/ljTsPiD2LL14j91NjnLDjh3Hndqrk1za7HUNZrSudh6n7V7OsoMCG
- bkQODrpzeqZTLxxkmQTHOtWXXhmN4qeFXeXlax93LY/bviTfH+p8dyGfXcA/P3+8eGz0
- S/iLMuaOH3z8sOj/MY5/6KDgyKJN4LWFmlvV4vHyC3gkUg4dWxd1kVwiCQABIPl+57dE
- IWZA==
-X-Gm-Message-State: AOAM531xaOSmKNtFTyhdALomOchrgosfmJjBh5OHSIUsBf5gM6iFyJlu
- KVKj5EtQx1X4uA6Okw7yD+OtvH2itwqiRB+MU00=
-X-Google-Smtp-Source: ABdhPJyXFHhRpUhUhjezHEZQOVgFGmWBs8NIVuaFXIyOslisvDglnvwVph5ELnfzUds8K1JpRaeizzwOOdVrw4o1poM=
-X-Received: by 2002:aca:4d58:: with SMTP id a85mr6927396oib.110.1600021417146; 
- Sun, 13 Sep 2020 11:23:37 -0700 (PDT)
+ bh=/SoK/6TUXIGFsMym/t/2t4rmuyb++u3P0HHC8m0RNeE=;
+ b=GoamnJQIBv7diHqvu9jjAuWb1JdB52EhoJjbgkz9yXh2rGxSVhfA5MYyWAm7M9c4NW
+ /dm5IcVcZINYYOUuvRNuXEI5ovUFlHxP09JPpSdUtuy/sZ+HJttwk6AIGVDvCzNBhiwi
+ wiGurDBnu/FXp/vaSNCYiubwMDRemkx6VVbWzXR3RbDDVrg64mxNkc5rMIID5f/AXS2j
+ zwmWXD7g/KPw5vtKihOjNGSCLtMKLvxHOTef6ILyExcKSuewpBW3IS5RVk/KU5zc84J0
+ ffijuyKVt/xRaOb2f7K5Jtq3DoYeZcpx8YV3ZBFbZ3E0AWTitMSnfivTh6xUtcWZF6WP
+ jpxA==
+X-Gm-Message-State: AOAM5335NTfkTgDMrH/1Lx7uSYkCWX9XlitJxByBNfaMgHLOMiSB4W4Z
+ V8ZzS8DoniRnmY89CjxhR3RPMivN0locaugKbqE=
+X-Google-Smtp-Source: ABdhPJwaCazbB6uxauP3nELOYDtSPUsSVns2Irg/BpkTsdAJ/fAeXcAMHuRLzyjp9yNogTj9kOsY2idldpfL1QD+9dg=
+X-Received: by 2002:a9d:8f2:: with SMTP id 105mr4273059otf.215.1600022363130; 
+ Sun, 13 Sep 2020 11:39:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <CABJPP5CSa_QowD-O3_E5ndoQJvuBv=n2x5WG-acwQKE=rt5+Rw@mail.gmail.com>
  <alpine.DEB.2.21.2009110925160.9220@felia>
@@ -90,11 +90,11 @@ References: <CABJPP5CSa_QowD-O3_E5ndoQJvuBv=n2x5WG-acwQKE=rt5+Rw@mail.gmail.com>
  <CABJPP5BFNjBhdcvBWqDYnR-o2sZ0oY77bYr9PxducXW4Y=482Q@mail.gmail.com>
  <alpine.DEB.2.21.2009131301570.22585@felia>
  <CABJPP5BmRcC+OTSjuX_QrYononVq__DkhjGOgiKrP147MAXK+g@mail.gmail.com>
- <alpine.DEB.2.21.2009132015570.6806@felia>
-In-Reply-To: <alpine.DEB.2.21.2009132015570.6806@felia>
+ <alpine.DEB.2.21.2009132010300.6806@felia>
+In-Reply-To: <alpine.DEB.2.21.2009132010300.6806@felia>
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Sun, 13 Sep 2020 23:53:25 +0530
-Message-ID: <CABJPP5AgSv92Du1n4Xax=X01RAD627jRrwydVMiO89stZ2reMA@mail.gmail.com>
+Date: Mon, 14 Sep 2020 00:09:11 +0530
+Message-ID: <CABJPP5BaUss9pWq=e+UDmVvr-puJsBtSVppST+CTcB8JkEdLmQ@mail.gmail.com>
 To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] Linux kernel checkpatch.pl mentorship
@@ -109,129 +109,63 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2944553585445353946=="
+Content-Type: multipart/mixed; boundary="===============7246813903157015882=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============2944553585445353946==
-Content-Type: multipart/alternative; boundary="00000000000033bf2a05af3604e2"
+--===============7246813903157015882==
+Content-Type: multipart/alternative; boundary="000000000000964f5b05af363c62"
 
---00000000000033bf2a05af3604e2
+--000000000000964f5b05af363c62
 Content-Type: text/plain; charset="UTF-8"
 
-I missed to CC linux kernel mentees list in my previous mail. The contents
-follow:
-
-Posting the abbrev. commit hashes for the changed cases:
-
-> Can you share the errors that have changed after the patch was applied?
+> You should also try to find a case where checkpatch.pl can be improved:
 >
-> - Which two cases of COMMIT_LOG_LONG_LINE have disappeared?
+> - It is best if you look at the checkpatch.pl error/warning reports and
+> check if you can find a class of typical false positives in the reported
+> data. Then, think about how to make the pattern in checkpatch and propose
+> a patch to checkpatch.pl on this mailing list; with the evaluation data
+> backing that your patch really improves the situation. We will then test
+> and check your patch as well.
+>
+> - If you really cannot find a typical false positive, maybe you can take
+> the task from Ayush to fix checkpatch with git ranges?
+>
+Hi,
+I will try to find and evaluate the possiblity of such a case, and report
+my finding
+as soon as I find something substantial.
 
-The following commits have disappeared which earlier had a
-COMMIT_LOG_LONG_LINE warning:
-4714d13791f8
-6536993371fa
+I may also require some advice from you on the patch submission process.
 
-> - Which cases of GIT_COMMIT_ID have disappeared?
-
-The following commits which threw GIT_COMMIT_ID have disappeared:
-0b987032f8b5
-4557ac6b344b
-ad0f75e5f57c
-c3dbe541ef77
-da785a87787c
-e575fb9e76c8
-0b22c25e1b81
-ba8c90c61847
-0ae705f3d2b2
-490705888107
-0828137e8f16
-e9e81b634303
-e9e4ef9116b1
-68cda40d9f3c
-1ca0c2f61211
-6f8b12d661d0
-97a37c919f62
-
-> - Which cases of GIT_COMMIT_ID are new?
-
-Only one case is new:
-ebf57440ec59
-
-> - Which cases of GIT_COMMIT_ID have changed?
-
-As there can be multiple GIT_COMMIT_ID errors per commit hash processed, I
-am
-giving the change in occurrence per commit hash:
-
-e9e4ef9116b1: 1-> 0
-490705888107: 1-> 0
-ba8c90c61847: 1-> 0
-97a37c919f62: 1-> 0
-e9e81b634303: 1-> 0
-0828137e8f16: 1-> 0
-5fdbe136ae19: 2-> 3
-0b22c25e1b81: 1-> 0
-e575fb9e76c8: 1-> 0
-c3dbe541ef77: 1-> 0
-ad0f75e5f57c: 1-> 0
-e0a851fe6b9b: 2-> 1
-0ae705f3d2b2: 1-> 0
-064c73afe738: 3-> 2
-4557ac6b344b: 1-> 0
-6f8b12d661d0: 1-> 0
-da785a87787c: 1-> 0
-68cda40d9f3c: 1-> 0
-1ca0c2f61211: 1-> 0
-bcf41dc480b1: 4-> 2
-0b987032f8b5: 1-> 0
-ebf57440ec59: 0-> 1
-
-The aggregation of the occurences will tell you that there has been a net
-decrease of 19
-GIT_COMMIT_ID errors.
-
-Thanks,
+Thanking you,
 Dwaipayan
 
---00000000000033bf2a05af3604e2
+--000000000000964f5b05af363c62
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br>I missed to CC linux kernel mentees list in my previou=
-s mail. The contents follow:<div><br></div><div>Posting the abbrev. commit =
-hashes for the changed cases:</div><div><br></div><div><font color=3D"#741b=
-47">&gt; Can you share the errors that have changed after the patch was app=
-lied?<br>&gt;<br>&gt; - Which two cases of COMMIT_LOG_LONG_LINE have disapp=
-eared?<br></font><br>The following commits have disappeared which earlier h=
-ad a COMMIT_LOG_LONG_LINE warning:<br>4714d13791f8<br>6536993371fa<br><br><=
-font color=3D"#741b47">&gt; - Which cases of GIT_COMMIT_ID have disappeared=
-?</font><br><br>The following commits which threw GIT_COMMIT_ID have disapp=
-eared:<br>0b987032f8b5<br>4557ac6b344b<br>ad0f75e5f57c<br>c3dbe541ef77<br>d=
-a785a87787c<br>e575fb9e76c8<br>0b22c25e1b81<br>ba8c90c61847<br>0ae705f3d2b2=
-<br>490705888107<br>0828137e8f16<br>e9e81b634303<br>e9e4ef9116b1<br>68cda40=
-d9f3c<br>1ca0c2f61211<br>6f8b12d661d0<br>97a37c919f62<br><br><font color=3D=
-"#741b47">&gt; - Which cases of GIT_COMMIT_ID are new?</font><br><br>Only o=
-ne case is new:<br>ebf57440ec59<br><br><font color=3D"#741b47">&gt; - Which=
- cases of GIT_COMMIT_ID have changed?</font><br><br>As there can be multipl=
-e GIT_COMMIT_ID errors per commit hash processed, I am <br>giving the chang=
-e in occurrence per commit hash:<br><br>e9e4ef9116b1: 1-&gt; 0<br>490705888=
-107: 1-&gt; 0<br>ba8c90c61847: 1-&gt; 0<br>97a37c919f62: 1-&gt; 0<br>e9e81b=
-634303: 1-&gt; 0<br>0828137e8f16: 1-&gt; 0<br>5fdbe136ae19: 2-&gt; 3<br>0b2=
-2c25e1b81: 1-&gt; 0<br>e575fb9e76c8: 1-&gt; 0<br>c3dbe541ef77: 1-&gt; 0<br>=
-ad0f75e5f57c: 1-&gt; 0<br>e0a851fe6b9b: 2-&gt; 1<br>0ae705f3d2b2: 1-&gt; 0<=
-br>064c73afe738: 3-&gt; 2<br>4557ac6b344b: 1-&gt; 0<br>6f8b12d661d0: 1-&gt;=
- 0<br>da785a87787c: 1-&gt; 0<br>68cda40d9f3c: 1-&gt; 0<br>1ca0c2f61211: 1-&=
-gt; 0<br>bcf41dc480b1: 4-&gt; 2<br>0b987032f8b5: 1-&gt; 0<br>ebf57440ec59: =
-0-&gt; 1<br><br>The aggregation of the occurences will tell you that there =
-has been a net decrease of 19 <br>GIT_COMMIT_ID errors.<br><br>Thanks,<br>D=
-waipayan<br></div></div>
+<div dir=3D"ltr"><br><br><font color=3D"#741b47">&gt; You should also try t=
+o find a case where <a href=3D"http://checkpatch.pl">checkpatch.pl</a> can =
+be improved:<br>&gt;<br>&gt; - It is best if you look at the <a href=3D"htt=
+p://checkpatch.pl">checkpatch.pl</a> error/warning reports and<br>&gt; chec=
+k if you can find a class of typical false positives in the reported<br>&gt=
+; data. Then, think about how to make the pattern in checkpatch and propose=
+<br>&gt; a patch to <a href=3D"http://checkpatch.pl">checkpatch.pl</a> on t=
+his mailing list; with the evaluation data<br>&gt; backing that your patch =
+really improves the situation. We will then test<br>&gt; and check your pat=
+ch as well.<br>&gt;<br>&gt; - If you really cannot find a typical false pos=
+itive, maybe you can take<br>&gt; the task from Ayush to fix checkpatch wit=
+h git ranges?<br>&gt;<br></font>Hi,<div><div>I will try to find and evaluat=
+e the possiblity of such a case, and report my finding=C2=A0</div><div>as s=
+oon as I find something substantial.</div><div><br></div><div>I may also re=
+quire some advice from you on the patch submission process.</div><div><br><=
+/div><div>Thanking you,</div><div>Dwaipayan</div></div></div>
 
---00000000000033bf2a05af3604e2--
+--000000000000964f5b05af363c62--
 
---===============2944553585445353946==
+--===============7246813903157015882==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -242,4 +176,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============2944553585445353946==--
+--===============7246813903157015882==--
