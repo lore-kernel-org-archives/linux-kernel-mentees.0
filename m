@@ -2,95 +2,108 @@ Return-Path: <SRS0=UGpm=CX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MALFORMED_FREEMAIL,MISSING_HEADERS,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 692E2C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 07:59:06 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F82AC43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 08:14:47 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 12F7920829
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 07:59:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 12F7920829
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
+	by mail.kernel.org (Postfix) with ESMTPS id F07252074B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 08:14:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kdeY9ESV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F07252074B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8838686764;
-	Mon, 14 Sep 2020 07:59:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 70D3420420;
+	Mon, 14 Sep 2020 08:14:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X7o0X-cGfkQI; Mon, 14 Sep 2020 07:59:02 +0000 (UTC)
+	with ESMTP id Hmz5Wwto2Tps; Mon, 14 Sep 2020 08:14:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E79AC86750;
-	Mon, 14 Sep 2020 07:59:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 17582203DD;
+	Mon, 14 Sep 2020 08:14:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D33D5C088B;
-	Mon, 14 Sep 2020 07:59:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EC01DC0864;
+	Mon, 14 Sep 2020 08:14:44 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0A688C0859
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 70EB3C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 07:59:02 +0000 (UTC)
+ Mon, 14 Sep 2020 08:14:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EDAE886750
+ by whitealder.osuosl.org (Postfix) with ESMTP id 66E2E86816
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 07:59:01 +0000 (UTC)
+ Mon, 14 Sep 2020 08:14:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 108M8gOC5fxx
+ with ESMTP id 0hr0PjsxN5TB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 07:59:00 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 729158674F
+ Mon, 14 Sep 2020 08:14:42 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BF792867C5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 07:58:59 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-215-wJUKj1CvOB2KCgXzcGT9iA-1; Mon, 14 Sep 2020 08:58:55 +0100
-X-MC-Unique: wJUKj1CvOB2KCgXzcGT9iA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Mon, 14 Sep 2020 08:58:54 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Mon, 14 Sep 2020 08:58:54 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Greg KH' <greg@kroah.com>, Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Thread-Topic: [Linux-kernel-mentees] [PATCH] net: fix uninit value error in
- __sys_sendmmsg
-Thread-Index: AQHWiZUUFtyl13ctBkOLZWcXDFPGWKlnweqA
-Date: Mon, 14 Sep 2020 07:58:54 +0000
-Message-ID: <346bcf816616429abb01a475dd8d87fc@AcuMS.aculab.com>
-References: <20200913055639.15639-1-anant.thazhemadam@gmail.com>
- <20200913061351.GA585618@kroah.com>
-In-Reply-To: <20200913061351.GA585618@kroah.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ Mon, 14 Sep 2020 08:14:42 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id f18so11958475pfa.10
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Sep 2020 01:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:cc:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=bfli47mnxZDlXaGAUiz/B4BePF6dibgax6S36KEh7f4=;
+ b=kdeY9ESVzVF3+Q6NsEEiLky675RJZcJrgdbApwJCmCHBtL7313VB4m9S5+i0VzTw88
+ bZ0kMDArw06QERzUQsSi0r1vl1cU+woa+Q9BRtv8/SZx5BEJB8BGWRABc5K1dM30Hs4W
+ zC9iiuZAaBQsnSzyl7MfPCZjqo1evsYA3NaDIqgKnVFyN3PzuC3ADX+FlwnJQyYeVCkU
+ tTIF+aoR0ZYofD/SybDOFNK8T2C2rjQAJpkTRbni7lHynXleLjYXo5uK7tsvBLE4ZYAK
+ 7D4735Eu/et6kLghLJLCBKHECP9Y2/jC1CR4XlN8m9oIyS1nLv7cVr1iS5YFaCg+t8Tp
+ ZsaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=bfli47mnxZDlXaGAUiz/B4BePF6dibgax6S36KEh7f4=;
+ b=eHjHdjQxvmBpnL1HkXDBfnVcJtIRrGI7KWwIDlLKgLmtDCy7YEYLG7NYgW24OrmETB
+ 31keITo4Ht4n74zFPs6JBPjKuHTNDRWm5jr2BhIaRecLJ2x9B9Q2bOef7sTLdwyE9WLy
+ hYFXgiXDcfOjPx5/4n9ZBRinFXYpQSpznjLT5TmuZWzSMyFIBkqnqaJqJ9JYaB1JZsLD
+ tF6ywheDSmIIh3RHRYyijcPooGIXdbSGOA/TC8Mxkc4jIAMY0NcXO/5O0E+f7M3l1LCg
+ 9gL2WZk/coHcrNh6IMzK8A7pa3EmyijLapH4OqLsk3PHzez1QnnuCFm4e3Dg/FX3NqLR
+ dgDA==
+X-Gm-Message-State: AOAM531nyyKHy8Xmc1aYXwcL6tFsNwvk1/4orqjaQYOF4SaVIvqlC0oR
+ FAtVZuyq+IMfG2em63z8SUo=
+X-Google-Smtp-Source: ABdhPJzHNbDE2odrsmXsPmIzt3RbJsasIL/ZT1Zm5k9b+IkFKJBzCceoAXBYaAN1lNntaO0Y4OaFcg==
+X-Received: by 2002:a17:902:ec03:: with SMTP id
+ l3mr13677394pld.56.1600071282105; 
+ Mon, 14 Sep 2020 01:14:42 -0700 (PDT)
+Received: from [192.168.0.104] ([49.207.209.61])
+ by smtp.gmail.com with ESMTPSA id m25sm9286567pfa.32.2020.09.14.01.14.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Sep 2020 01:14:41 -0700 (PDT)
+References: <20200913110313.4239-1-anant.thazhemadam@gmail.com>
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Message-ID: <6adeef07-7dcb-3d05-df26-204a9d43301c@gmail.com>
+Date: Mon, 14 Sep 2020 13:44:37 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: aculab.com
+In-Reply-To: <20200913110313.4239-1-anant.thazhemadam@gmail.com>
 Content-Language: en-US
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jakub Kicinski <kuba@kernel.org>,
- "syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com"
- <syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com>,
+ syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com,
  "David S. Miller" <davem@davemloft.net>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: fix uninit value error in
- __sys_sendmmsg
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] net: fix uninit value error
+	in __sys_sendmmsg
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,75 +121,49 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Greg KH
-> Sent: 13 September 2020 07:14
-> On Sun, Sep 13, 2020 at 11:26:39AM +0530, Anant Thazhemadam wrote:
-> > The crash report showed that there was a local variable;
-> >
-> > ----iovstack.i@__sys_sendmmsg created at:
-> >  ___sys_sendmsg net/socket.c:2388 [inline]
-> >  __sys_sendmmsg+0x6db/0xc90 net/socket.c:2480
-> >
-> >  that was left uninitialized.
-> >
-> > The contents of iovstack are of interest, since the respective pointer
-> > is passed down as an argument to sendmsg_copy_msghdr as well.
-> > Initializing this contents of this stack prevents this bug from happening.
-> >
-> > Since the memory that was initialized is freed at the end of the function
-> > call, memory leaks are not likely to be an issue.
-> >
-> > syzbot seems to have triggered this error by passing an array of 0's as
-> > a parameter while making the initial system call.
-> >
-> > Reported-by: syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com
-> > Tested-by: syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com
-> > Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-> > ---
-> >  net/socket.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/net/socket.c b/net/socket.c
-> > index 0c0144604f81..d74443dfd73b 100644
-> > --- a/net/socket.c
-> > +++ b/net/socket.c
-> > @@ -2396,6 +2396,7 @@ static int ___sys_sendmsg(struct socket *sock, struct user_msghdr __user *msg,
-> >  {
-> >  	struct sockaddr_storage address;
-> >  	struct iovec iovstack[UIO_FASTIOV], *iov = iovstack;
-> > +	memset(iov, 0, UIO_FASTIOV);
-> >  	ssize_t err;
-> >
-> >  	msg_sys->msg_name = &address;
-> 
-> I don't think you built this code change, otherwise you would have seen
-> that it adds a build warning to the system, right?
 
-Also it can't be the right 'fix' for whatever sysbot found.
-(I can't find the sysbot report.)
+On 13/09/20 4:33 pm, Anant Thazhemadam wrote:
+> The crash report indicated that there was a local variable;
+> ----iovstack.i@__sys_sendmmsg created at:
+>  ___sys_sendmsg net/socket.c:2388 [inline]
+>  __sys_sendmmsg+0x6db/0xc90 net/socket.c:2480
+>
+>  that was left uninitialized.
+>
+> Initializing this stack to 0s prevents this bug from happening.
+> Since the memory pointed to by *iov is freed at the end of the function
+> call, memory leaks are not likely to be an issue.
+>
+> syzbot seems to have triggered this error by passing an array of 0's as
+> a parameter while making the system call.
+>
+> Reported-by: syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com
+> Tested-by: syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com
+> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+> ---
+> Changes from v1:
+> 	* Fixed the build warning that v1 had introduced
+>  net/socket.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/net/socket.c b/net/socket.c
+> index 0c0144604f81..1e6f9b54982c 100644
+> --- a/net/socket.c
+> +++ b/net/socket.c
+> @@ -2398,6 +2398,7 @@ static int ___sys_sendmsg(struct socket *sock, struct user_msghdr __user *msg,
+>  	struct iovec iovstack[UIO_FASTIOV], *iov = iovstack;
+>  	ssize_t err;
+>  
+> +	memset(iov, 0, UIO_FASTIOV);
+>  	msg_sys->msg_name = &address;
+>  
+>  	err = sendmsg_copy_msghdr(msg_sys, msg, flags, &iov);
+It has since been determined that this patch is incorrect, and even if it were correct,
+provides a huge performance overhead, that is not welcome. Kindly ignore this patch.
+Sorry.
 
-Zeroing iov[] just slows down a path that is already too slow because
-of the contorted functions used to read in iov[].
-
-If it does need to be zerod then it would be needed in a lot
-of other code paths that read in iov[].
-
-If a zero length iov[] needs converting into a single entity
-with a zero length - then that needs to be done elsewhere.
-
-I've a patch series I might redo that changes the code that
-reads in iov[] to return the address of any buffer that
-needed to be malloced (more than UIV_FASTIO buffers) rather
-than using the iov parameter to pass in the cache and
-return the buffer to free.
-It would be less confusing and error prone.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Thanks,
+Anant
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
