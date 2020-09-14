@@ -2,108 +2,95 @@ Return-Path: <SRS0=UGpm=CX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MALFORMED_FREEMAIL,MISSING_HEADERS,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F82AC43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 08:14:47 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA373C433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 08:33:45 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F07252074B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 08:14:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A159C22204
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 08:33:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kdeY9ESV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F07252074B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="s0tLnr4f"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A159C22204
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xs4all.nl
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 70D3420420;
-	Mon, 14 Sep 2020 08:14:46 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Hmz5Wwto2Tps; Mon, 14 Sep 2020 08:14:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 17582203DD;
-	Mon, 14 Sep 2020 08:14:45 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EC01DC0864;
-	Mon, 14 Sep 2020 08:14:44 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 70EB3C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 08:14:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 66E2E86816
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 08:14:43 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2D7D38669C;
+	Mon, 14 Sep 2020 08:33:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id e+8Xpxcxft6X; Mon, 14 Sep 2020 08:33:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1779686673;
+	Mon, 14 Sep 2020 08:33:43 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F0820C0864;
+	Mon, 14 Sep 2020 08:33:42 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4ABE2C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Sep 2020 08:33:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 3078E870AD
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Sep 2020 08:33:41 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0hr0PjsxN5TB
+ with ESMTP id wzLt5hAxJpI4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 08:14:42 +0000 (UTC)
+ Mon, 14 Sep 2020 08:33:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id BF792867C5
+Received: from lb3-smtp-cloud9.xs4all.net (lb3-smtp-cloud9.xs4all.net
+ [194.109.24.30])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id DE420870AC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 08:14:42 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id f18so11958475pfa.10
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 01:14:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:cc:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=bfli47mnxZDlXaGAUiz/B4BePF6dibgax6S36KEh7f4=;
- b=kdeY9ESVzVF3+Q6NsEEiLky675RJZcJrgdbApwJCmCHBtL7313VB4m9S5+i0VzTw88
- bZ0kMDArw06QERzUQsSi0r1vl1cU+woa+Q9BRtv8/SZx5BEJB8BGWRABc5K1dM30Hs4W
- zC9iiuZAaBQsnSzyl7MfPCZjqo1evsYA3NaDIqgKnVFyN3PzuC3ADX+FlwnJQyYeVCkU
- tTIF+aoR0ZYofD/SybDOFNK8T2C2rjQAJpkTRbni7lHynXleLjYXo5uK7tsvBLE4ZYAK
- 7D4735Eu/et6kLghLJLCBKHECP9Y2/jC1CR4XlN8m9oIyS1nLv7cVr1iS5YFaCg+t8Tp
- ZsaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=bfli47mnxZDlXaGAUiz/B4BePF6dibgax6S36KEh7f4=;
- b=eHjHdjQxvmBpnL1HkXDBfnVcJtIRrGI7KWwIDlLKgLmtDCy7YEYLG7NYgW24OrmETB
- 31keITo4Ht4n74zFPs6JBPjKuHTNDRWm5jr2BhIaRecLJ2x9B9Q2bOef7sTLdwyE9WLy
- hYFXgiXDcfOjPx5/4n9ZBRinFXYpQSpznjLT5TmuZWzSMyFIBkqnqaJqJ9JYaB1JZsLD
- tF6ywheDSmIIh3RHRYyijcPooGIXdbSGOA/TC8Mxkc4jIAMY0NcXO/5O0E+f7M3l1LCg
- 9gL2WZk/coHcrNh6IMzK8A7pa3EmyijLapH4OqLsk3PHzez1QnnuCFm4e3Dg/FX3NqLR
- dgDA==
-X-Gm-Message-State: AOAM531nyyKHy8Xmc1aYXwcL6tFsNwvk1/4orqjaQYOF4SaVIvqlC0oR
- FAtVZuyq+IMfG2em63z8SUo=
-X-Google-Smtp-Source: ABdhPJzHNbDE2odrsmXsPmIzt3RbJsasIL/ZT1Zm5k9b+IkFKJBzCceoAXBYaAN1lNntaO0Y4OaFcg==
-X-Received: by 2002:a17:902:ec03:: with SMTP id
- l3mr13677394pld.56.1600071282105; 
- Mon, 14 Sep 2020 01:14:42 -0700 (PDT)
-Received: from [192.168.0.104] ([49.207.209.61])
- by smtp.gmail.com with ESMTPSA id m25sm9286567pfa.32.2020.09.14.01.14.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Sep 2020 01:14:41 -0700 (PDT)
-References: <20200913110313.4239-1-anant.thazhemadam@gmail.com>
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <6adeef07-7dcb-3d05-df26-204a9d43301c@gmail.com>
-Date: Mon, 14 Sep 2020 13:44:37 +0530
+ Mon, 14 Sep 2020 08:33:38 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud9.xs4all.net with ESMTPA
+ id HjvakANHZXgwIHjvbkiHlg; Mon, 14 Sep 2020 10:33:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+ t=1600072416; bh=6cBkkDse8EnkRRQ/hU3Yx+Zl6dVYvWZOTnnSJT950bY=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=s0tLnr4fNdm34rCsFKkod1eZ0480CjguoMSroHrjyp8pK34KS1X3DdtgPhH1blAmS
+ kykcz88t+rIwjuwdg40KnZDmmjKaxh4HnjMnsulxBB6vBnrLmFZExSqBtxzt/SQHZw
+ csoBRI3Y7ufjUsxuLHuZC6dlIvF1RPVmHiWS26a6GurLqIe/M3zruWvR0n3867VGsN
+ AF14zo6ow8h5IoKl8FNxMGV8Ygl33XtCsCjMvZgfU9DfcWtM378MUmmPPk9JnCQjfu
+ Z+TtROGUzkZ+yHFM5km96w7FVf5BvBiex5LEsH+FYuUGqWJWYhNnhxnPe8IkyoZSwR
+ kJFDKuf6PDuHQ==
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+References: <20200912111506.2d2bd512@coco.lan>
+ <15028D87-A496-4CAD-91A6-E4467489C4D0@getmailspring.com>
+ <20200912195702.58f71f8f@coco.lan>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2cbf772e-59e7-36ca-8d39-320fc62d47d8@xs4all.nl>
+Date: Mon, 14 Sep 2020 10:33:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200913110313.4239-1-anant.thazhemadam@gmail.com>
+In-Reply-To: <20200912195702.58f71f8f@coco.lan>
 Content-Language: en-US
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>,
- syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com,
- "David S. Miller" <davem@davemloft.net>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] net: fix uninit value error
-	in __sys_sendmmsg
+X-CMAE-Envelope: MS4wfPKHkAZdeQCjfnPgss7wjvVcjUHwSU5iEEbYywCPuNhxACJ4n7sXNoZAlo6glpN0NU1gS4c+/tMu3PBThBoM1rz9A04oIarcIfwPyDJZn1H0guZ/yOiR
+ myT/m7FcmVxRJimNEsbEZPL/4iW9LxCE/a2Q8fzulMCEGzd3qAqgtr94ob+kNGkNX8Nq6S7nsq1iZBGeQnAp5loT5a0S07qDfjbIwMCEolWA9In8pmhzeJsZ
+ OWZRVSWly/UDqtCuPFNpatLFzyOPgefB0bPcRLo7zZMaZxMwFWFp9uJd+2pEYSUErzM3jnlEGf41yTXAStrFh/D32YLchBP4f+dlAxxE+O8S+3PxaT37CbgB
+ hApSq/jFlZjJ2VQ2piaCg+DCy124SQfL94dHhiYkDJd8l5qtYPqQlacqsdpGEZhTc3JgeuRz9BcptX2RuwR4h66cvGo5efxiKMfcUe1txOVvkBj0EMVns+fm
+ SdwsaXX3sC24ZiGd5izF2kNznC4iP/aM+qX/Y20JWD/NRWp2ZSNThkazxbkOwQvVkbgSNnmF89p4LwCwZldjtUUYQtl9nR2OnigzYg==
+Cc: "r.verdejo@samsung.com" <r.verdejo@samsung.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [v10 0/4] media: vidtv: Implement a
+	virtual DVB driver
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,49 +108,100 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+On 12/09/2020 19:57, Mauro Carvalho Chehab wrote:
+> Em Sat, 12 Sep 2020 11:49:01 -0300
+> "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
+> 
+>> Hi Hans and Mauro & all
+>>
+>>
+>>> Why the dvb_ prefix? All virtual drivers just start with 'vi'.
+>>>
+>>> And wouldn't it make more sense to call dvb_vidtv_bridge.ko just vidtv.ko?
+>>> Just like the other virtual media drivers?  
+>>
+>> I guess Mauro was the one to come up with the dvb_* prefix for the
+>> kernel modules for the reasons he explicited up in this thread. 
+>>
+>> As far as dvb_vidtv_bridge.ko and vidtv_bridge.c, I just wanted to be
+>> verbose so that people would look at this and see that it is the code
+>> for a bridge driver, since this is also supposed to be a template. 
+>>
+>> Also because I had some trouble myself figuring out what was what when
+>> first browsing through other dvb drivers. That said, I am 100% onboard
+>> with renaming this to vidtv.ko or whatever seems more appropiate :)
+> 
+> Let us think a little bit about that. 
+> 
+>>
+>>
+>>> Yet, I agree with you that at least an alias is needed.
+>>> earlier today, I wrote a patch with such purpose:  
+>>
+>> If you all would like to just leave this at that ^ I am also ok with it.
+>>
+>>> For regression testing of vidtv during the daily build it would be  
+>> great if
+>>> the contrib/test/test-media script can be enhanced to include vidtv.  
+>>
+>> Sure, I can do that if you'd like. Can you provide some tips on how to
+>> get started? :)
+> 
+> Hans can explain it better, but the hole idea is to have a set of
+> userspace apps that will ensure that drivers will properly implement
+> the DVB API.
+> 
+> I suspect that, before that (or together with such tooling), we need
+> to properly implement the frontend ioctl, validating the per delivery
+> system parameters, as, right now, it just accepts anything from
+> userspace. 
 
-On 13/09/20 4:33 pm, Anant Thazhemadam wrote:
-> The crash report indicated that there was a local variable;
-> ----iovstack.i@__sys_sendmmsg created at:
->  ___sys_sendmsg net/socket.c:2388 [inline]
->  __sys_sendmmsg+0x6db/0xc90 net/socket.c:2480
->
->  that was left uninitialized.
->
-> Initializing this stack to 0s prevents this bug from happening.
-> Since the memory pointed to by *iov is freed at the end of the function
-> call, memory leaks are not likely to be an issue.
->
-> syzbot seems to have triggered this error by passing an array of 0's as
-> a parameter while making the system call.
->
-> Reported-by: syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com
-> Tested-by: syzbot+09a5d591c1f98cf5efcb@syzkaller.appspotmail.com
-> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-> ---
-> Changes from v1:
-> 	* Fixed the build warning that v1 had introduced
->  net/socket.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/net/socket.c b/net/socket.c
-> index 0c0144604f81..1e6f9b54982c 100644
-> --- a/net/socket.c
-> +++ b/net/socket.c
-> @@ -2398,6 +2398,7 @@ static int ___sys_sendmsg(struct socket *sock, struct user_msghdr __user *msg,
->  	struct iovec iovstack[UIO_FASTIOV], *iov = iovstack;
->  	ssize_t err;
->  
-> +	memset(iov, 0, UIO_FASTIOV);
->  	msg_sys->msg_name = &address;
->  
->  	err = sendmsg_copy_msghdr(msg_sys, msg, flags, &iov);
-It has since been determined that this patch is incorrect, and even if it were correct,
-provides a huge performance overhead, that is not welcome. Kindly ignore this patch.
-Sorry.
+Daniel, if you look at the test-media script, then you'll see that it has
+separate sections for each virtual driver. It's probably best to look at
+the vim2m driver tests since that's the easiest.
 
-Thanks,
-Anant
+It loads the module, then it starts v4l2-compliance to test the API. This
+utility basically tries all V4L2 APIs and checks that the driver conforms to
+the spec.
+
+Note that you see options like '-m platform:vim2m' that selects which /dev/media
+device to use based on the name and v4l2-compliance (or v4l2-ctl with the -z option)
+then walks the topology of the media device and tests all interfaces it finds.
+
+Hence my question about media controller support in vidtv: this should be
+supported there as well since it allows you to write these test sequences without
+having to know which /dev/fooX device should be used.
+
+After the compliance test is run the script tests unbind/bind (always a nasty test)
+and checks for memory leaks (if enabled in the kernel).
+
+Much of this test sequence can be copied for vidtv, but you need something else for
+the compliance test. It would for now be enough to have some quick check with the
+existing dvb utils from v4l-utils to see that the basics work.
+
+IMHO I think a dtv-compliance utility along the lines of v4l2-compliance and
+cec-compliance should be created.
+
+I'm actually wondering whether the dtv compliance tests shouldn't be part of
+v4l2-compliance (which would have to be renamed to media-compliance in that case)
+since there are hybrid drivers supporting both in the same media topology.
+
+This would make compliance tests possible where analog/digital TV mode handling
+is tested (i.e. if analog TV is in use, then trying to use digital TV would return
+EBUSY and vice versa).
+
+It would require some work in v4l2-compliance.cpp to make this possible, but I
+can do that myself.
+
+Compliance tests have proven to be a great method of testing for regressions and
+testing drivers in general.
+
+Note that it takes a lot of time to create good compliance tests, but you just start
+with some simple tests and expand it over time.
+
+Regards,
+
+	Hans
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
