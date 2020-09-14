@@ -2,111 +2,113 @@ Return-Path: <SRS0=UGpm=CX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B31C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 05:12:16 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8821C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 05:17:59 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DDCBB214F1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 05:12:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3F67F214F1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 05:17:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hvGmo8rD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDCBB214F1
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AHrWfLEo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F67F214F1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7E6D885F79;
-	Mon, 14 Sep 2020 05:12:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F20EF871B3;
+	Mon, 14 Sep 2020 05:17:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zR2cBW8_Fqj8; Mon, 14 Sep 2020 05:12:15 +0000 (UTC)
+	with ESMTP id 8FzHCF8f7D7u; Mon, 14 Sep 2020 05:17:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EEC1585F77;
-	Mon, 14 Sep 2020 05:12:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 92109871B0;
+	Mon, 14 Sep 2020 05:17:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D5156C088B;
-	Mon, 14 Sep 2020 05:12:14 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CCF27C0859
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 84F8DC088B;
+	Mon, 14 Sep 2020 05:17:58 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DDD8FC0859
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 05:12:13 +0000 (UTC)
+ Mon, 14 Sep 2020 05:17:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B5EEE85F77
+ by hemlock.osuosl.org (Postfix) with ESMTP id C9837871B3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 05:12:13 +0000 (UTC)
+ Mon, 14 Sep 2020 05:17:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nC99kSsiErsd
+ with ESMTP id MCuqJJV79mJy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 05:12:13 +0000 (UTC)
+ Mon, 14 Sep 2020 05:17:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D413885F75
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 150B7871B0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 05:12:12 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id r7so21262960ejs.11
+ Mon, 14 Sep 2020 05:17:56 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id p9so21321948ejf.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Sep 2020 22:12:12 -0700 (PDT)
+ Sun, 13 Sep 2020 22:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:date:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=r/kPEICVkmCB7ZXrYZMgoQ7sz8+zlwLXXhZLaVuTWVU=;
- b=hvGmo8rDY9/Z/nrJMtLUDiZt2FA6rXz5Ts1Sz+bxcm2L94n7DbfD8EQk+M0VCb8Rhx
- E7gzceYH/TAk6OzK3STfYST4IeTjRcShL/ktnU9EWInF4GEjHh1Tx/XnLqQgRx9VQurz
- ducZYcWBzWHO141/FqHU0moQPKJ5nD6SfqCnGTum3FmjqVrSVicsCz9GCy2JOYV4aUPN
- ulHi1Pmrm3MGkL/kgo+zYARsqgHIiThWaSL3oYQEe+/5FkjVibvIvDFcr+0isAq0vA9E
- GurOCA/9oyBPUgRjQD2M0+3np4jkcvkIDviJVU/7QmRVjtg6U+aEVlIA+vs0ClkoZG/V
- ajww==
+ bh=UstYmeKWrQjcjNdNIIZ+qe2AL1KRVlUaxxjcEdrHQHc=;
+ b=AHrWfLEoNuNja12lUBrz9AYqzjUjUOnnrEhg38fXFROlrDGTVhN1VmkloJl0NT/drT
+ V+Q587uk4UYFq3msi4pb8x2A4nybg4dKAG+O/aRlAvoWZYiZhRWQgm1ZZO0NoByNU01+
+ t6On+geNejponi13LOHlpY5T6plwfYAzg/qcIPW1OYWjWIfWNOdB2ZUlVNZfg3cOVVAf
+ i/W3HH0c4W/3WokpE7C7dmavn5KwNgevCl6yP2TRFjxJfa2YVJVHDQwYUVtpGS8gBnHr
+ WxnLVE/zKmd/dzeYMTAHt2sMA9zSE8PeUn0c7UH6KM9z9xCQPlhY1Eez/AIfm6PRDyz2
+ cRSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=r/kPEICVkmCB7ZXrYZMgoQ7sz8+zlwLXXhZLaVuTWVU=;
- b=QtdlIwS5l+2FCPpJ5031M9Py16PaxGmmEozyaMEXzr3gexaWF4jkLsp066RvLw7+Wv
- FrrVXEqZQ0RrlFuY1VNEVT9BkCtbwzqiaL5onLdiuAvenc+91UHc+97WsCBis2eUEt79
- ZypzFlIR2dhjsQPJM6bz4yeiGrgfoJBaQ9+E2DGJz4/OkZYi5PcDyJoOz2b3d198XAj2
- AtoI8Yuy9+OpCnXF3NboL0XW1F3q4LzI70nQtkZ8Yy8C4gz66BPheLJSR59yuvMCMBNy
- q/GKo6K29x8Lv9rnRomHs5iDdGYuLEsoM9NO9MJ+xJn2ehJxpxZE4hOsGqebnJXRkxSr
- fWPA==
-X-Gm-Message-State: AOAM533o2pjAAH4g7cMPVutKe7X9rkgvO+ab61nz/MVGPRzTvNhxDwSU
- j2QNZFZRiiJauZrNPR/By+A=
-X-Google-Smtp-Source: ABdhPJxgNbjj+VQDX/uoNIRuNlQB7Ulxg7r2RZicjUJdmjxXirOJs0pNS1s/xDC7CU+2GgiEx5+ttg==
-X-Received: by 2002:a17:907:2506:: with SMTP id
- y6mr12297677ejl.265.1600060331100; 
- Sun, 13 Sep 2020 22:12:11 -0700 (PDT)
+ bh=UstYmeKWrQjcjNdNIIZ+qe2AL1KRVlUaxxjcEdrHQHc=;
+ b=qZEByHUpfgS/h3ubxjPT8KH7VUn0Nx2dOk0IqKEaQF0HIZ8buHWQJkOvkuocc6VIi8
+ qOaclHWMUnZQ6wAK3OnK7vVi1WTZCgRomy9ECAg9YLiTvs1XKOtEfiK9OIHKzMJ7L6ms
+ EMRLq7FqPiv93KnlWa04+W9y8Ae/FaYTqrnuPi/wF5z/wYllMGubcbNmYqyqByLJHX2I
+ zYEVTSMKD3C9DuhFyc29vXCpiw1BqYz/xj4H81vq32mL6VDxnPB5pWDaPSiyDG76yAWV
+ ETA/MGjHP/c16UInnG+JrjUUQ8VYg9KbT/DCI/5MWMSHGTlC+bbvqtlXV42+gHd5ssTt
+ 4AAA==
+X-Gm-Message-State: AOAM530eWxJZpcztVkvXsFfillqyz3Fefo/K5BiAOFFHEiirmfRQPNXL
+ grcM8wi6Wp0s575GNqjH+zYdCSokwXlf4w==
+X-Google-Smtp-Source: ABdhPJxlVI+WXqt/m/uBhKezS0PLLJ4mRbj3YAYfreZe8ubYue3SeNYZUEdyGm7Oaor5D+oYLt2ztA==
+X-Received: by 2002:a17:906:88d:: with SMTP id
+ n13mr13240708eje.75.1600060674473; 
+ Sun, 13 Sep 2020 22:17:54 -0700 (PDT)
 Received: from felia ([2001:16b8:2ddc:3000:7936:d9d0:986e:cca5])
- by smtp.gmail.com with ESMTPSA id lg22sm6987700ejb.48.2020.09.13.22.12.10
+ by smtp.gmail.com with ESMTPSA id m2sm6807561ejo.4.2020.09.13.22.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Sep 2020 22:12:10 -0700 (PDT)
+ Sun, 13 Sep 2020 22:17:53 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Mon, 14 Sep 2020 07:12:04 +0200 (CEST)
+Date: Mon, 14 Sep 2020 07:17:52 +0200 (CEST)
 X-X-Sender: lukas@felia
-To: Ayush <ayush@disroot.org>
-In-Reply-To: <8178fe030ae071aec6397987e672e0fb@disroot.org>
-Message-ID: <alpine.DEB.2.21.2009140708240.7737@felia>
-References: <alpine.DEB.2.21.2009132005270.6806@felia>
- <alpine.DEB.2.21.2009131220070.22585@felia>
- <193982aa3ddb7fcc7ee790d254cbdee0@disroot.org>
- <alpine.DEB.2.21.2009121608490.22523@felia>
- <20200912094826.150170-1-ayush@disroot.org>
- <2f6509d8dfcf8eb7322771aec1817104@disroot.org>
- <fc57f6016ed0405b87b99549e9de26fc@disroot.org>
- <8178fe030ae071aec6397987e672e0fb@disroot.org>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+In-Reply-To: <CABJPP5BaUss9pWq=e+UDmVvr-puJsBtSVppST+CTcB8JkEdLmQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2009140716420.7737@felia>
+References: <CABJPP5CSa_QowD-O3_E5ndoQJvuBv=n2x5WG-acwQKE=rt5+Rw@mail.gmail.com>
+ <alpine.DEB.2.21.2009110925160.9220@felia>
+ <CABJPP5AWNpYyx5asMNZccqbq07ZW+pH+EwJ+KTZ+SSOAnWZwVQ@mail.gmail.com>
+ <alpine.DEB.2.21.2009121252280.13082@felia>
+ <CABJPP5DMF9OpZR0agobunb3i3hLGkqedbeL-YohNn0X6Juk64w@mail.gmail.com>
+ <alpine.DEB.2.21.2009121419430.3770@felia>
+ <CABJPP5BFNjBhdcvBWqDYnR-o2sZ0oY77bYr9PxducXW4Y=482Q@mail.gmail.com>
+ <alpine.DEB.2.21.2009131301570.22585@felia>
+ <CABJPP5BmRcC+OTSjuX_QrYononVq__DkhjGOgiKrP147MAXK+g@mail.gmail.com>
+ <alpine.DEB.2.21.2009132010300.6806@felia>
+ <CABJPP5BaUss9pWq=e+UDmVvr-puJsBtSVppST+CTcB8JkEdLmQ@mail.gmail.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323329-1371501500-1600060673=:7737"
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: handle line break
- between commit and hash value
+Subject: Re: [Linux-kernel-mentees] Linux kernel checkpatch.pl mentorship
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,106 +120,54 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323329-1371501500-1600060673=:7737
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
 
-On Sun, 13 Sep 2020, Ayush wrote:
 
-> Sir,
-> 
-> > Yes, we should investigate that. If checkpatch.pl does not work properly
-> > with git ranges, we should fix that first. Otherwise, all our evaluations
-> > are broken...
-> 
-> I noticed one more issue (more likely issue with git):
-> 
-> If I run:
-> 
-> $ scripts/checkpatch.pl --show-types -g d31275a9dc0b..a02254f8a676
-> 
-> Output is: https://gist.githubusercontent.com/eldraco19/b979e752baa2c6fdc1776c8b65dfa21e/raw/39ad42113141929d93142d9a2962759b4b6b2e3b/checkpatch_issue.txt
-> 
-> which doesn't include some in-between commits like: 3dbf1ee6abbb, 69388e15f507 e.t.c.
-> 
-> Strangely it includes commit like 022467444515, which isn't even in the given range.
-> 
-> then with,
-> 
-> $ git log --no-merges --oneline 
-> .
-> .
-> a02254f8a676 dmaengine: ioat: Decreasing allocation chunk size 2M->512K
-> bd2bf302eef2 dmaengine: ioat: fixing chunk sizing macros dependency
-> 2fea2906b5cb dmaengine: Fix misspelling of "Analog Devices"
-> b3cb14310eb4 dt-bindings: dma: renesas,usb-dmac: convert bindings to json-schema
-> cde9a96ee24f dt-bindings: dma: renesas,rcar-dmac: convert bindings to json-schema
-> fc6f5d0a4983 dmaengine: dw-edma: Decouple dw-edma-core.c from struct pci_dev
-> 69388e15f507 pinctrl: cherryview: Add missing spinlock usage in chv_gpio_irq_handler
-> 3dbf1ee6abbb pinctrl: cherryview: Add missing spinlock usage in chv_gpio_irq_handler
-> 9f676e5313c1 gpio: mlxbf2: remove unused including <linux/version.h>
-> b392350ec3f2 ALSA: hda/hdmi: Add module option to disable audio component binding
-> 4c2b54f73aba gpio: dwapb: Split out dwapb_get_irq() helper
-> c59042ed8965 gpio: dwapb: Drop of_match_ptr() & ACPI_PTR() calls
-> 4f344e86c739 gpio: dwapb: Drop bogus BUG_ON()s
-> 48ce80568346 gpio: dwapb: Switch to more usual pattern of RMW in dwapb_gpio_set_debounce()
-> d31275a9dc0b gpio: dwapb: Convert to use IRQ core provided macros
-> .
-> .
-> (trimmed output for specific range)
-> 
-> It shows all the commits in between.
-> 
-> But if I run:
-> 
-> $ git log --no-merges v5.7..v5.8 --oneline
-> .
-> .
-> a02254f8a676 dmaengine: ioat: Decreasing allocation chunk size 2M->512K
-> bd2bf302eef2 dmaengine: ioat: fixing chunk sizing macros dependency
-> 2fea2906b5cb dmaengine: Fix misspelling of "Analog Devices"
-> b3cb14310eb4 dt-bindings: dma: renesas,usb-dmac: convert bindings to json-schema
-> cde9a96ee24f dt-bindings: dma: renesas,rcar-dmac: convert bindings to json-schema
-> fc6f5d0a4983 dmaengine: dw-edma: Decouple dw-edma-core.c from struct pci_dev
-> 3dbf1ee6abbb pinctrl: cherryview: Add missing spinlock usage in chv_gpio_irq_handler
-> 9f676e5313c1 gpio: mlxbf2: remove unused including <linux/version.h>
-> 4c2b54f73aba gpio: dwapb: Split out dwapb_get_irq() helper
-> c59042ed8965 gpio: dwapb: Drop of_match_ptr() & ACPI_PTR() calls
-> 4f344e86c739 gpio: dwapb: Drop bogus BUG_ON()s
-> 48ce80568346 gpio: dwapb: Switch to more usual pattern of RMW in dwapb_gpio_set_debounce()
-> d31275a9dc0b gpio: dwapb: Convert to use IRQ core provided macros
-> .
-> .
-> (trimmed output for specific range)
-> 
-> It shows commit 3dbf1ee6abbb but not 69388e15f507.
-> I confirmed both commits are present in tree from:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/log/?h=linux-5.8.y&ofs=18900
-> 
-> 
-> I think it is an issue with git.
-> 
-> Please give your opinion on this.
->
+On Mon, 14 Sep 2020, Dwaipayan Ray wrote:
 
-I cannot follow your description and explanation.
+> 
+> 
+> > You should also try to find a case where checkpatch.pl can be improved:
+> >
+> > - It is best if you look at the checkpatch.pl error/warning reports and
+> > check if you can find a class of typical false positives in the reported
+> > data. Then, think about how to make the pattern in checkpatch and propose
+> > a patch to checkpatch.pl on this mailing list; with the evaluation data
+> > backing that your patch really improves the situation. We will then test
+> > and check your patch as well.
+> >
+> > - If you really cannot find a typical false positive, maybe you can take
+> > the task from Ayush to fix checkpatch with git ranges?
+> >
+> Hi,I will try to find and evaluate the possiblity of such a case, and report my finding 
+> as soon as I find something substantial.
+> 
+> I may also require some advice from you on the patch submission process.
+> 
 
-What is the problem you encountered? What did you expect? What did you 
-observe? Which lines of code are involved? What git command is called?
-
-Why do you expect a certain behaviour?
-
-I would bet that you misunderstand git and git is not broken; so, convince 
-us on the mailing list that I lose this bet.
-
-You can do better explaining, then we might help you.
+That is what a mentor is there for, but try hard to understand the 
+warnings yourself first. This is a mentorship, not a tutorial.
 
 Lukas
+--8323329-1371501500-1600060673=:7737
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--8323329-1371501500-1600060673=:7737--
