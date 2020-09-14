@@ -2,116 +2,118 @@ Return-Path: <SRS0=UGpm=CX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9BA5C2BC11
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 15:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEAF1C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 18:32:18 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5487520EDD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 15:44:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 802B020731
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Sep 2020 18:32:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="RLRAX6Br"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5487520EDD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GpUJGi7K"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 802B020731
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DC48D8675F;
-	Mon, 14 Sep 2020 15:44:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4DB35866FB;
+	Mon, 14 Sep 2020 18:32:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QuSIzL3V4kkB; Mon, 14 Sep 2020 15:44:34 +0000 (UTC)
+	with ESMTP id 5VmCplRGWNXO; Mon, 14 Sep 2020 18:32:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5D92986759;
-	Mon, 14 Sep 2020 15:44:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 71FA3866F0;
+	Mon, 14 Sep 2020 18:32:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5405BC088B;
-	Mon, 14 Sep 2020 15:44:34 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8D5E0C0859
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 54D25C0859;
+	Mon, 14 Sep 2020 18:32:17 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5B273C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 15:44:32 +0000 (UTC)
+ Mon, 14 Sep 2020 18:32:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 897748675F
+ by silver.osuosl.org (Postfix) with ESMTP id 3D63720532
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 15:44:32 +0000 (UTC)
+ Mon, 14 Sep 2020 18:32:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4r8HadNEB1C6
+ with ESMTP id hdDaBq8CHKsW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 15:44:31 +0000 (UTC)
+ Mon, 14 Sep 2020 18:32:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 0CBDB86759
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by silver.osuosl.org (Postfix) with ESMTPS id EA8D92001E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Sep 2020 15:44:30 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08EFiFC6141963;
- Mon, 14 Sep 2020 15:44:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=eq4LTC2Yd5sfvcCLwppvKF+HmjZnZ6bst/Dh6vKmwQ4=;
- b=RLRAX6BrM34Ih+gjIw+Epxc9xBzMUxjRCzA49x9waBmG5ROyH122zIRNrKiJcl9F4jMG
- o5vlXfAT76qxk9mGooEGm/w6UYM4CCE3WCBuFtR+4iaDo4nWs6vrmB8arGC7QccFXZSe
- VtHLWWOWHlPYBIcfMkraiW/aC9MBB7N2cvKZt3LkD1WKoJbZL147JheLdjJKGzCnX0Ss
- IeoCGLYVBe9oQ4aZyDIr/uu9HrZapDkRL6gUQ2umnPvjwv4HxsI4nQKDZdgQARax9ZdL
- G5UdZXSmS3zQytLdUz5zKalVJIjdKEvbw6goCGJZhgXmGY10EVQtklnmB5CNlCMbejZk Vw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 33j91d916q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 14 Sep 2020 15:44:18 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08EFPMNK113211;
- Mon, 14 Sep 2020 15:44:17 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 33h881tn8s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Sep 2020 15:44:17 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08EFiDnQ017022;
- Mon, 14 Sep 2020 15:44:14 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 14 Sep 2020 15:44:13 +0000
-Date: Mon, 14 Sep 2020 18:44:05 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Anmol Karn <anmol.karan123@gmail.com>
-Message-ID: <20200914154405.GC18329@kadam>
-References: <20200910043424.19894-1-anmol.karan123@gmail.com>
- <20200910104918.GF12635@kadam> <20200912091028.GA67109@Thinkpad>
+ Mon, 14 Sep 2020 18:32:13 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id r7so1317232ejs.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Sep 2020 11:32:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=0asq3qzYkcTW0T3POqtYhWYdwBv26MypwWtgPf1/jWk=;
+ b=GpUJGi7KsaPc7pFwXN4WKUFrh/tGFbhC6vuEkZjxwk4PZ5DZrxlsDgDHHRV7wNjN6T
+ dVrq4mnyFR7QcxTE1hJZ0sBHkR2wvCCkvkpnL35Ow1AbOxJtWECvI8ODlVtJ4j9F6RQY
+ rsctaLAZZOgdux2ewA/ANTUE/lh9QWXs8OpMXEOaYFWtg6ZJ6YLCgawB0zFTLORcGm5A
+ 6uGqw+loXoUDhpkot8up0xRnb7P+HPCaVVqvSW2ZPWZYAajVbF3iGPtC4ELtcL0IEOlV
+ 5BJA4DlRDDO3cZwqInc+pLqUFSnK7XXp9pVS4GRxTBM5cDw9ZxBIfF3eXlEDfpdhmUeH
+ Y0PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=0asq3qzYkcTW0T3POqtYhWYdwBv26MypwWtgPf1/jWk=;
+ b=rvC2tRyYI4h40L2FY6iQl7B0guEDXNPQ43EzAkmtaP7qQ5LZZb2V4e4mSCLorCJnsd
+ iHU0hrkJ8l7aYT0h/kzToTYqYJ1OmurioXNtpmTUWpm8NrOyDcB1IL42eG6fJAUcs0MX
+ dvnRdbAhL9hLL0CCNjMz/QqEtlc9xovUFVFbFNlHu0ncG4oMaX4Kt0UEE5A9FGfRHkMk
+ lj+NCMzzr1X69SaB76KJ1sBwikB+SdJCNMuXD5AU+VinT7pkUlvUyaWJO7Wl62jwUpOW
+ F+EXLndTap06BqBNgbTbMweIFyt3iUVVf6uzm//Bq+/r4ARL3h9nr7PSM+PML5KDiwTs
+ nskg==
+X-Gm-Message-State: AOAM531BqwSAEd+gu9ceAW56wfuKsY5Zm7glINlf+Ck+C8wT4waBDIM8
+ c1NN99lDs3HUUwxcYSBrgDnjbMDFO6WCjA==
+X-Google-Smtp-Source: ABdhPJz9PJfMPgETsz39fb1bkgTUwST3FzpFSHgZ4rS1QA3sFT5w7LasKwZSQFj5uV4xgNeytDC2pQ==
+X-Received: by 2002:a17:906:cc98:: with SMTP id
+ oq24mr15692123ejb.106.1600108332281; 
+ Mon, 14 Sep 2020 11:32:12 -0700 (PDT)
+Received: from felia ([2001:16b8:2ddc:3000:f974:dac6:e996:e1de])
+ by smtp.gmail.com with ESMTPSA id 40sm10112107edr.67.2020.09.14.11.32.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Sep 2020 11:32:11 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Mon, 14 Sep 2020 20:32:05 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+In-Reply-To: <CABJPP5Aniv2kQ4wfAD9JuR_7Q5pjChasHZTAvBWOOaza4H3VSg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2009142016150.6496@felia>
+References: <CABJPP5CSa_QowD-O3_E5ndoQJvuBv=n2x5WG-acwQKE=rt5+Rw@mail.gmail.com>
+ <alpine.DEB.2.21.2009110925160.9220@felia>
+ <CABJPP5AWNpYyx5asMNZccqbq07ZW+pH+EwJ+KTZ+SSOAnWZwVQ@mail.gmail.com>
+ <alpine.DEB.2.21.2009121252280.13082@felia>
+ <CABJPP5DMF9OpZR0agobunb3i3hLGkqedbeL-YohNn0X6Juk64w@mail.gmail.com>
+ <alpine.DEB.2.21.2009121419430.3770@felia>
+ <CABJPP5BFNjBhdcvBWqDYnR-o2sZ0oY77bYr9PxducXW4Y=482Q@mail.gmail.com>
+ <alpine.DEB.2.21.2009131301570.22585@felia>
+ <CABJPP5BmRcC+OTSjuX_QrYononVq__DkhjGOgiKrP147MAXK+g@mail.gmail.com>
+ <alpine.DEB.2.21.2009132010300.6806@felia>
+ <CABJPP5BaUss9pWq=e+UDmVvr-puJsBtSVppST+CTcB8JkEdLmQ@mail.gmail.com>
+ <alpine.DEB.2.21.2009140716420.7737@felia>
+ <CABJPP5D87ZVTfZ4QHxp5vweTN16LQCy+rniq-uDVCvKkbYRDNg@mail.gmail.com>
+ <alpine.DEB.2.21.2009141535010.17999@felia>
+ <CABJPP5Aniv2kQ4wfAD9JuR_7Q5pjChasHZTAvBWOOaza4H3VSg@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200912091028.GA67109@Thinkpad>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9744
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 adultscore=0
- suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009140125
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9744
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- impostorscore=0
- priorityscore=1501 malwarescore=0 suspectscore=0 mlxlogscore=999
- clxscore=1015 adultscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009140126
-Cc: syzbot+0bef568258653cff272f@syzkaller.appspotmail.com,
- johan.hedberg@gmail.com, netdev@vger.kernel.org, marcel@holtmann.org,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: bluetooth: Fix null pointer
- dereference in hci_event_packet()
+Content-Type: multipart/mixed; boundary="8323329-1002204490-1600108331=:6496"
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Linux kernel checkpatch.pl mentorship
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -123,92 +125,133 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Sep 12, 2020 at 02:40:28PM +0530, Anmol Karn wrote:
-> On Thu, Sep 10, 2020 at 01:49:18PM +0300, Dan Carpenter wrote:
-> > On Thu, Sep 10, 2020 at 10:04:24AM +0530, Anmol Karn wrote:
-> > > Prevent hci_phy_link_complete_evt() from dereferencing 'hcon->amp_mgr'
-> > > as NULL. Fix it by adding pointer check for it.
-> > > 
-> > > Reported-and-tested-by: syzbot+0bef568258653cff272f@syzkaller.appspotmail.com
-> > > Link: https://syzkaller.appspot.com/bug?extid=0bef568258653cff272f 
-> > > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
-> > > ---
-> > >  net/bluetooth/hci_event.c | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > > 
-> > > diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-> > > index 4b7fc430793c..871e16804433 100644
-> > > --- a/net/bluetooth/hci_event.c
-> > > +++ b/net/bluetooth/hci_event.c
-> > > @@ -4936,6 +4936,11 @@ static void hci_phy_link_complete_evt(struct hci_dev *hdev,
-> > >  		return;
-> > >  	}
-> > >  
-> > > +	if (IS_ERR_OR_NULL(hcon->amp_mgr)) {
-> > 
-> > It can't be an error pointer.  Shouldn't we call hci_conn_del() on this
-> > path?  Try to find the Fixes tag to explain how this bug was introduced.
-> > 
-> > (Don't rush to send a v2.  The patch requires quite a bit more digging
-> > and detective work before it is ready).
-> > 
-> > > +		hci_dev_unlock(hdev);
-> > > +		return;
-> > > +	}
-> > > +
-> > >  	if (ev->status) {
-> > >  		hci_conn_del(hcon);
-> > >  		hci_dev_unlock(hdev);
-> > 
-> > regards,
-> > dan carpenter
-> > 
-> 
-> Sir,
-> 
-> I need little advice in continuing with this Patch,
-> 
-> I have looked into the Bisected logs and the problem occurs from this commit:
-> 
-> 941992d29447 ("ethernet: amd: use IS_ENABLED() instead of checking for built-in or module")
-> 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-That's just the patch which made the code testable by syzbot.  It didn't
-introduce the bug.
+--8323329-1002204490-1600108331=:6496
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+
+
+On Mon, 14 Sep 2020, Dwaipayan Ray wrote:
 
 > 
-> Here is a diff of patch which i modified from last patch,
+> > > The third candidate is related to the warning:
+> > >
+> > > WARNING:NO_AUTHOR_SIGN_OFF: Missing Signed-off-by: line by nominal patch author ...
+> > >
+> > > I found several such commits in which the author had used different mail addresses in the
+> > > signed-off -by section, due to which this warning is generated.
+> > >
+> > > An example is Commit dc5bdb68b5b3 .
+> > > Git log show:
+> > > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > ....,.
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > >
+> > > This is infact a common scenario. I easily found another commit 207324a321a8.
+> > > Git log shows:
+> > > Author: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+> > > ...
+> > > Signed-off-by: Minas Harutyunyan <hminas@synopsys.com>
+> > >
+> > > This warning could be avoided or at least handled better.
+> > >
+> > >
+> > > I would like to know if any of them can be worked on.
+> > >
+> >
+> > This last one might be good to look into.
+> >
+> > But what is your specific solution you have in mind?
+> >
+> > There is a file .mailmap in the repository that allows some kind of
+> > mapping. Maybe that is helpful.
+> >
+> > I suggest that you describe your proposed change in a clear way.
+> > Then, we can discuss if that change is reasonable or not.
 > 
-> diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-> index 4b7fc430793c..6ce435064e0b 100644
-> --- a/net/bluetooth/hci_event.c
-> +++ b/net/bluetooth/hci_event.c
-> @@ -4936,6 +4936,12 @@ static void hci_phy_link_complete_evt(struct hci_dev *hdev,
->                 return;
->         }
+> I checked the .mailmap file and it doesn't have all the email addresses. So it might not
+> be effective.
 > 
-> +       if (!hcon->amp_mgr) {
-> +               hci_conn_del(hcon);
-> +               hci_dev_unlock(hdev);
+> checkpatch.pl seems to compare only the email addresses to determine whether the author
+> has signed off.
+> 
+> checkpatch, line 2673:
+> if ($author ne '') {
+>                 if (same_email_addresses($1, $author)) {
+>                     $authorsignoff = 1;
+>                 }
+>             }
+> 
+> This causes numerous false positives if the author uses a different mail, which seems to be quite frequent.
+>
 
-I have no idea if calling hci_conn_del() is really the correct, thing.
-I don't know the code at all.  Anyway, do some research and figure out
-for sure what the correct thing is.
+But using different mail addresses should be complained about; unless we 
+really have a record that these two email addresses point to the same 
+person.
+ 
+> A possible solution would be to compare the names, i.e. $1 and $author, and keep its result stored
+> in some variable authorsignoff_byname. If the author's mail is not found, but his name matches, 
+> there can be a better warning message on the lines of:
+> "Possible missing signed-off-by line by nominal author. Author's email $email does not match signed off email.
+> $email2"
+> 
+> Or, if the warning message cannot be changed, there could be verbose information regarding the mismatch of email.
+> Is this feasible? 
+> 
 
-Also look for similar bugs in other places where hcon->amp_mgr is
-dereferenced.  For example, amp_read_loc_assoc_final_data() seems to
-have a similar bug.
+(Hmm, your email client is broken... lines so long...)
 
-regards,
-dan carpenter
+Sure, that is possible if the check is reasonable. But I do not understand 
+what we are doing here.
+
+It should complain when the author email and sign-off-by email does not 
+match, right?
+
+First explain:
+
+- which situations does checkpatch.pl currently complain about?
+
+- for which situation do you want to have more refined checks?
+
+- why does that actually improve checkpatch.pl?
+
+Checkpatch.pl should complain when developers do something wrong.
+
+To really understand what is wrong behavior and what is not, you probably 
+need to create some statistics on who authors and signs off with which 
+names and email addresses.
+
+Maybe we can collect all the previous instances where we know that 
+frequent developers, e.g., with more >100 commits, use multiple email 
+addresses interchangeably. If we add that list to the repository and
+let others know how to maintain it, checkpatch.pl can make use of that.
+
+With that extended check, we can warn newbies that just have a broken git 
+and sign-off setup and still reduce the false positives for the 
+experienced developers that might just have good reasons to have the 
+setup they have, i.e., they have this setup for many years and want to 
+keep it that way. 
+
+You can try to work that through or look for another case of potential 
+checkpatch.pl improvement in your evaluation data.
+
+Lukas
+--8323329-1002204490-1600108331=:6496
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--8323329-1002204490-1600108331=:6496--
