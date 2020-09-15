@@ -7,92 +7,104 @@ X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 923E4C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Sep 2020 13:23:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A7B7C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Sep 2020 13:26:29 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0332C206F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Sep 2020 13:23:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7055022240
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Sep 2020 13:26:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GtiFeo5K"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0332C206F4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rrUc/Nra"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7055022240
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 94DA7866B9;
-	Tue, 15 Sep 2020 13:23:08 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UJjmQOYUJH-P; Tue, 15 Sep 2020 13:23:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2845E866DA;
-	Tue, 15 Sep 2020 13:23:08 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C852C0864;
-	Tue, 15 Sep 2020 13:23:08 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 275C5C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 13:23:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0FF138584A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 13:23:07 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0E35285821;
+	Tue, 15 Sep 2020 13:26:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lAWrdDWwyC-h; Tue, 15 Sep 2020 13:26:27 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A2599856CB;
+	Tue, 15 Sep 2020 13:26:27 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9EEB3C0864;
+	Tue, 15 Sep 2020 13:26:27 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94186C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Sep 2020 13:26:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 88BE8204D4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Sep 2020 13:26:26 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X1Vac5693hTU
+ with ESMTP id RmMpDy9N0SaH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 13:23:06 +0000 (UTC)
+ Tue, 15 Sep 2020 13:26:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
- [209.85.221.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 38CC88583F
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+ [209.85.222.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 21D42204F0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 13:23:06 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id e16so3342939wrm.2
+ Tue, 15 Sep 2020 13:26:24 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id o5so4091222qke.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 06:23:06 -0700 (PDT)
+ Tue, 15 Sep 2020 06:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4HS6WOc7dx00pu/3nY1bGoVp8yqWB19u23njbttvM5M=;
- b=GtiFeo5K7KJEVRbbqQu8lQSpalhSoyVqT4pcqjaHnwIzf7AictAZGzIscCjCUpXSVx
- 6iqy4UPCMmvzpT4a/kiB4pfTesLfOmSv52XtspA2tlv4wjVlmN06aQJoGwbmYxL3Zhhe
- xe6jfvftgPqzQSROdoKdRfYxgSMBY8Yv6agw1Wp+i8TMEGxYOlphUn8tP4zW5AbEj77W
- MTYXbv+YATiSq97Skdei5boZDFOsjLjI9jN+oqq+7rYiX0bGdXUlcyaKzu5s6iIcdqgg
- W5TTEx2mfdY/Ps0zX3HAFLLKhs1q8QMVEzDM0Gu5DKxg58ENxoy93P1EGN5woMe8yUx2
- KabA==
+ h=date:from:to:cc:message-id:in-reply-to:references:subject
+ :mime-version:content-transfer-encoding:content-disposition;
+ bh=ECv1tH4dixNsdKxQCqvGJD0xyYRqc/3rORp/BHVcsQ4=;
+ b=rrUc/Nra5A278GUSmFmQgG0+9yiyz/Kp+IF8tT6eTd3T2zNG1ooEzO9ZlSCCOlPi9X
+ hG+YWCMJqq8/nKJTh+UiUyP6E0SMGLppdAPCAjaCaYUxKK9DFJQnilOVBKn6ywicFDW9
+ T/ep8wEpWgIA4CJKCzGviWoNMJFKt7DlgQ9U8gBz4HvwOmAkzWa1iRRXhtlTfNTo8kYK
+ 0Hh34hrXFgxJGrpV+bUnZYlVeXVlXR61XN5mr9hcMvIBijH7CUpZH5Ym59hVq3kWILQU
+ DSxDsdz+dODQ0fV5f6teQgCvV8Lb7WfrlqTz0PghqhgX0cWebwp42woWsJ9gpR9iVoNM
+ iUXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4HS6WOc7dx00pu/3nY1bGoVp8yqWB19u23njbttvM5M=;
- b=kR+ejtujhCBXNUlvwBWLqceW+rSUZHPPGB2LSEhDyhOxop6CqWF9lynGu1ZBOFOid7
- 9CCmtq4zqvVURjopZG2nP2F1QOhlVPWoKO1AM4675ULaHP2R1v1GG7HVPoloCL1k/XaC
- JVAIEpQQOqJIgZlOCzhl0wTA3TIoDQO+VbW8JzK66FwCVfdSBi9kKcNdDrlBkvvbj6yF
- 4zqSP2h+doJ9PD+H1/wKzkcwuk2l4zUVx2c/3QAQoVC/kdPR7r6tRre9qQMahMFN5S3k
- cUChkHwLHV+4MC9bhrYvtIUQ+/gwWJ01XnEfsL/jwuHRm/mnaTHe2RrXAzvkquvCp5y0
- RPtg==
-X-Gm-Message-State: AOAM533amcKMEXPYYG/K/8v88iPiD9Dki5kVe/Q2Ybdq00rOpdfLxg0Z
- QKvs+Kc6Z76my59F6NXFyv9UWZvdzqcJ5ezOLZI=
-X-Google-Smtp-Source: ABdhPJxUdNd18EIryaAvQ2FTd4T5NsP4UnA0exQpFRbAR1u/hIaXDAIUGgcHv2/jSX4wdvo9mvtPe1NRr23uVubFdW0=
-X-Received: by 2002:a5d:4710:: with SMTP id y16mr22182221wrq.203.1600176184615; 
- Tue, 15 Sep 2020 06:23:04 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
+ :references:subject:mime-version:content-transfer-encoding
+ :content-disposition;
+ bh=ECv1tH4dixNsdKxQCqvGJD0xyYRqc/3rORp/BHVcsQ4=;
+ b=EtyZesMhcRJgClNGIc+JaOnXYhiF0Py6xT1R2STek5P76zZj8vs/Gheeq+S6HzKQoI
+ AogBlHB7dHLeu7IiE3M38JTSMbZ8XHRoM9UYVnKnfsp2PfEezSnUfqNRjrNPKGOxrW6P
+ iN9QerJ/EgTo8b8GCwQi2Yvcy93DOUl4ih/F4BzCZKs+stz7gobd4wXP9TgppJ/k56Xo
+ X8KxLL7G5hsDKZmVIxjnb80l/YUqTSqZN5QiRu16Hgf6TzryTU7X5buDRV2KTszFFouu
+ f+RIKnPZLDjYIEntMHlgWHLRH9Ce09n+auM/TMsHSUA7QjpspvB/lav2qQ9DuSxpAtH1
+ y/pQ==
+X-Gm-Message-State: AOAM532Bdum0/OPS31++A3jZMNHxgGsUjLq6KJq2oqCCcFfhOv7O+yJL
+ j/RhjSq647RMAi6o1jxchMU=
+X-Google-Smtp-Source: ABdhPJzuz0o4wLDw+Cjo2IgGvOxLPSDN8JBtV21hG89SBTjGoXxWC7vpcN1/qhgD+HtvnbTR9wKs5w==
+X-Received: by 2002:a05:620a:13e8:: with SMTP id
+ h8mr17496044qkl.322.1600176383031; 
+ Tue, 15 Sep 2020 06:26:23 -0700 (PDT)
+Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id g45sm17473139qtb.60.2020.09.15.06.26.20
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 15 Sep 2020 06:26:22 -0700 (PDT)
+Date: Tue, 15 Sep 2020 10:26:17 -0300
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Message-ID: <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
+In-Reply-To: <alpine.DEB.2.21.2009151345001.31296@ramsan.of.borg>
+References: <alpine.DEB.2.21.2009151345001.31296@ramsan.of.borg>
+X-Mailer: Mailspring
 MIME-Version: 1.0
-References: <CAOY-YVmJEQZhhOnC16bYyiow8z+B0o5FOsvQKmmXFqaaM-SAug@mail.gmail.com>
- <CAKXUXMzL6B+b0a6yDUSDdhV24jOaQZDiodbBW8OwgU=RCfDE_w@mail.gmail.com>
- <CACT4Y+b+aYP05PG32ofpXG1oXEFBgQ8CYnoDD5ccggOPwc39nw@mail.gmail.com>
-In-Reply-To: <CACT4Y+b+aYP05PG32ofpXG1oXEFBgQ8CYnoDD5ccggOPwc39nw@mail.gmail.com>
-From: Himadri Pandya <himadrispandya@gmail.com>
-Date: Tue, 15 Sep 2020 18:52:53 +0530
-Message-ID: <CAOY-YVmYR70itmk6oNC_7L+o1kxfd2_W0EgCYn4KEQyGK-KPRw@mail.gmail.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: syzkaller <syzkaller@googlegroups.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Question regarding marking bugs as
-	"invalid"
+Content-Disposition: inline
+Cc: "=?utf-8?Q?mchehab+huawei=40kernel.org?=" <mchehab+huawei@kernel.org>,
+ "=?utf-8?Q?r.verdejo=40samsung.com?=" <r.verdejo@samsung.com>,
+ "=?utf-8?Q?linux-kernel=40vger.kernel.org?=" <linux-kernel@vger.kernel.org>,
+ "=?utf-8?Q?nicolas=40ndufresne.ca?=" <nicolas@ndufresne.ca>,
+ "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org?="
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "=?utf-8?Q?linux-media=40vger.kernel.org?=" <linux-media@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [v10 3/4] media: vidtv: add a bridge
+	driver
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,55 +122,57 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Sep 15, 2020 at 6:12 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Tue, Sep 15, 2020 at 2:03 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> >
-> > On Tue, Sep 15, 2020 at 1:52 PM Himadri Pandya <himadrispandya@gmail.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > Is it correct to mark bugs as "invalid" if they have reproducers but
-> > > the reproducer doesn't trigger any issue on testing current status? If
-> > > not, then what should be done about such bugs?
-> > >
-> > > Thanks & Regards,
-> > > Himadri
-> > >
-> >
-> > Himadri,
-> >
-> > if possible try to determine which commit fixed the issue the
-> > reproducer triggered.
-> >
-> > You can potentially bisect with the reproducer on the git history or
-> > you can simply look in the git log of the affected files if someone
-> > mentioned fixing something related to the trigger.
-> >
-> > That helps to make sure we do not just close reproducers that just
-> > need a lot of time, configuration or luck to hit a certain crash.
->
->
-> Hi Himadri,
->
-> Basically what Lukas said.
-> Bulk closing all of them as "invalid" would be bad for several
-> reasons. Either do some reasonable amount of degging, or wait for
-> syzbot fix bisection, maybe it will shed some light. It should happen
-> after 30 days since last crash IIRC. Also all testing requests/results
-> are shown on the dashboard, so this bit of information is not lost.
+Hi Geert,
 
-Understood.
+Thanks for bringing this to my attention.
 
-I incorrectly assumed(before posting this question) that I should mark
-such bugs as invalid and sent the command to syzbot for one such bug.
-Now I understand that it was not the right thing. It doesn't show on
-the dashboard and I don't know how to undo it :(.
 
-Bug's dashboard link -
-https://syzkaller.appspot.com/bug?id=4c7fd5b46451d957a3d8188f393f1982f9753fe7
+>> +	u32 nbytes = 0;  /* the number of bytes written by this function */
+>> +
+>> +	u64 nbytes_expected; /* the number of bytes we should have written */
+>> +	u64 nbytes_streamed; /* the number of bytes we actually wrote */
+>> +	u32 num_null_pkts; /* number of null packets to bridge the gap */
+>> +
+>> +	u64 elapsed_time_msecs = jiffies_to_usecs(m->timing.current_jiffies -
+>> +						  m->timing.past_jiffies);
+>> +
+>> +	elapsed_time_msecs = min(elapsed_time_msecs,
+>> (u64)VIDTV_MAX_SLEEP_USECS / 1000);
+>> +	nbytes_expected = div64_u64(m->mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);
+> 
+> Seriously?!?
+> 
+> You multiply by 1000 first, followed by a division by 1000 using an
+> expensive 64-by-64 division?
 
-Himadri
+This entire function is broken and needs a do-over :)
+
+> using an expensive 64-by-64 division?
+
+I am new to kernel development. I wasn't even aware that this was
+expensive, to be honest.
+
+
+>> +	if (nbytes_streamed < nbytes_expected) {
+>> +		/* can't write half a packet: roundup to a 188 multiple */
+>> +		nbytes_expected  = roundup(nbytes_expected - nbytes_streamed, TS_PACKET_LEN);
+> 
+> drivers/media/test-drivers/vidtv/vidtv_mux.o: In function `vidtv_mux_tick':
+> vidtv_mux.c:(.text+0x788): undefined reference to `__udivdi3'
+> 
+> This is a 64-by-32 division, hence it should use a helper from
+> <linux/math64.h>.
+> 
+> However, I'm wondering if "nbytes_expected - nbytes_streamed" is
+> guaranteed to be a "small" number, hence a 32-by-32 division would be
+> sufficient?
+
+I think so.
+
+I will send a patch to address the things you pointed out in this email.
+
+-- thanks
+-- Daniel
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
