@@ -2,89 +2,99 @@ Return-Path: <SRS0=XjTA=CY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67EA0C433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Sep 2020 13:35:17 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B56E2C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Sep 2020 14:16:02 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9C290222BA
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Sep 2020 13:35:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C290222BA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	by mail.kernel.org (Postfix) with ESMTPS id 32ECC2220E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Sep 2020 14:16:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KubDUZKs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32ECC2220E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2424C87136;
-	Tue, 15 Sep 2020 13:35:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B8BD785F8D;
+	Tue, 15 Sep 2020 14:16:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id B-UQUFTEjjzX; Tue, 15 Sep 2020 13:35:15 +0000 (UTC)
+	with ESMTP id LrgTmsIT01M9; Tue, 15 Sep 2020 14:16:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A0E1887089;
-	Tue, 15 Sep 2020 13:35:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B903384EE2;
+	Tue, 15 Sep 2020 14:16:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 78107C0864;
-	Tue, 15 Sep 2020 13:35:15 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 12D68C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A26A6C0859;
+	Tue, 15 Sep 2020 14:16:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 338F3C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 13:35:13 +0000 (UTC)
+ Tue, 15 Sep 2020 14:16:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id F1C3A8711C
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2289584F9F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 13:35:12 +0000 (UTC)
+ Tue, 15 Sep 2020 14:16:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NhO5AciiThv6
+ with ESMTP id NGafF4B-MIJ8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 13:35:12 +0000 (UTC)
+ Tue, 15 Sep 2020 14:15:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
- [209.85.167.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 534CF87089
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+ [209.85.128.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2845284EE2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 13:35:12 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id t76so3841617oif.7
+ Tue, 15 Sep 2020 14:15:59 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id e17so3560442wme.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 06:35:12 -0700 (PDT)
+ Tue, 15 Sep 2020 07:15:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/l+IerAwo/5CtpKuETy0cKKlUme4nRwW1WskpxlZD/4=;
+ b=KubDUZKsE0Enqx01zzwOKu7bos5aBQ2J3CU4HdNiF19/020ULdHNqLmzH/AczEYzMD
+ q2FfoYyRs2Td0M5eHmOHEVa59X07JMZXmKXCOPKiRmZCZchG4aa+R/Jp5BGzE9a83VDy
+ AHbevmidIKIEe69yN2lI4FfDBjoW/a8zrrDUcdrPBZPLHuEw4BH4OMu1z+9/iNPbk/w2
+ RipXHW1a7WBNTkGRbmkC4gsidCQdVwg5r+z5r1NhFl5blK8xrpEUIUjdtOXOO9kcYbev
+ O7SgXPPhvppRICr6rmOLKsvV6q2/xaT0YDdgHFnzeMB8CDulR9/OkkaZUT3P1Pbv+uLW
+ hI8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nhx4zaRbvHv02wDkLtCiRzQ+T/cexy7Wy6YPEzIW6L4=;
- b=qVQiY8ATyMsEj0HhQLruJT1p7NAbnO3Vu7/TsXJsLHXd92+AsInABr4l4lOnHwJ9+Q
- vByXNwD9DiGVmnBntCOulkqOzeiZzOkVTLGeIE6DLCYSC0uqlbP0KncR7qd4DSUAWjtL
- GX3v1C+xVIeHciGIPzJDqG0dobmHipu+Y83LI4orlO7r8wwtjvP1S3jDnMxwtCUxpF8t
- qgAWKJtpxfXSgbOIFFjjogJHJvc44X8WgvJTVPQrQ22X594+E9E/vv39TAxaS2Lzi4S2
- 2aU0Tas5oWAxySOv8wR+qoa68WCov7OukrnbeLgKmmAwtEkKqYHjWnyxG4inVeMywB7H
- xk+w==
-X-Gm-Message-State: AOAM530EaTO5gWqUzb/XLpEtGGdg9igZ93heNShrORNbPhwPAsj0/N7E
- fFQFnwXc72rlh9dM/h/AQzUYKZJ0AMmI975oCy4=
-X-Google-Smtp-Source: ABdhPJxjE7IZ1One9Nuag6nu0xEcQ8hWElbOe5QqICw2V/z+/yMb27HXjCabVPJXPjj9Z11F/OFVwDPyo408IPTG/6I=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr3178255oia.153.1600176911589; 
- Tue, 15 Sep 2020 06:35:11 -0700 (PDT)
+ bh=/l+IerAwo/5CtpKuETy0cKKlUme4nRwW1WskpxlZD/4=;
+ b=gd/OLKlE0czHw3FelY+w8tAXCaldqiQvm6vp6xpWKowZ9tPpXTf058hjSb3lfI1UIK
+ XsIYU2/J4PQwrtJSuw+iGPh32FWLhEUn/5zNPYgwHTFWiHOqVIqUs63uMHJLjBjBsc25
+ tYwTJb1HbfeUn5nB3G/PXf3Rted5gWvCCgF/RNB+qVA7CpSaBCf+ZZqyDwj26A/fT8Fo
+ HVdLqZ3jxW8tCRI5FSBPVIt1I42XVDmMNpSJSKBsTyeth7f9rSzO8KLrZNmreKKMohke
+ KL+qIscs+J8uLVr/dD/4CgbqNWfgJakXAPBO6RAsY0B54Yon6vPHdTwq/yGhHAJ1jg8u
+ pv6w==
+X-Gm-Message-State: AOAM530CGrbp9XiJiY9A+vLdXIAPkA2OliIJGmUNAHw409oA7QOI8ota
+ hGuwEWo/EexLe2MD+gXOIETeF5LZ3sqcOStJ5pE=
+X-Google-Smtp-Source: ABdhPJz28Un8tmbffsye+Bxt2p78/nl6JECk9Ub8WYB46Ctt1MafPjpu4l5CcKKhsMQW+LShV0PhbzPo1ZUkdYnxuN8=
+X-Received: by 2002:a7b:c749:: with SMTP id w9mr4722412wmk.29.1600179357574;
+ Tue, 15 Sep 2020 07:15:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <alpine.DEB.2.21.2009151345001.31296@ramsan.of.borg>
- <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
-In-Reply-To: <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 15 Sep 2020 15:35:00 +0200
-Message-ID: <CAMuHMdVfoQ-vW3VeO8vDVALNREBV1afaSnwnc0jnkoXmvw6xhQ@mail.gmail.com>
-To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc: "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
- "r.verdejo@samsung.com" <r.verdejo@samsung.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [v10 3/4] media: vidtv: add a bridge
-	driver
+References: <CAOY-YVmJEQZhhOnC16bYyiow8z+B0o5FOsvQKmmXFqaaM-SAug@mail.gmail.com>
+ <CAKXUXMzL6B+b0a6yDUSDdhV24jOaQZDiodbBW8OwgU=RCfDE_w@mail.gmail.com>
+ <CACT4Y+b+aYP05PG32ofpXG1oXEFBgQ8CYnoDD5ccggOPwc39nw@mail.gmail.com>
+ <CAOY-YVmYR70itmk6oNC_7L+o1kxfd2_W0EgCYn4KEQyGK-KPRw@mail.gmail.com>
+ <CACT4Y+Yo_m9C1t7AHpVq+5E-RDejMQYpK2eZUk1JTTwo+Lf3-Q@mail.gmail.com>
+In-Reply-To: <CACT4Y+Yo_m9C1t7AHpVq+5E-RDejMQYpK2eZUk1JTTwo+Lf3-Q@mail.gmail.com>
+From: Himadri Pandya <himadrispandya@gmail.com>
+Date: Tue, 15 Sep 2020 19:45:46 +0530
+Message-ID: <CAOY-YV=Mfu2at2KzoGNszKSEyUpTHzBdbr-SjyVyE_BJBbw_uw@mail.gmail.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: syzkaller <syzkaller@googlegroups.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Question regarding marking bugs as
+	"invalid"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,69 +112,73 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Daniel,
-
-On Tue, Sep 15, 2020 at 3:26 PM Daniel W. S. Almeida
-<dwlsalmeida@gmail.com> wrote:
-> >> +    u32 nbytes = 0;  /* the number of bytes written by this function */
-> >> +
-> >> +    u64 nbytes_expected; /* the number of bytes we should have written */
-> >> +    u64 nbytes_streamed; /* the number of bytes we actually wrote */
-> >> +    u32 num_null_pkts; /* number of null packets to bridge the gap */
-> >> +
-> >> +    u64 elapsed_time_msecs = jiffies_to_usecs(m->timing.current_jiffies -
-> >> +                                              m->timing.past_jiffies);
-> >> +
-> >> +    elapsed_time_msecs = min(elapsed_time_msecs,
-> >> (u64)VIDTV_MAX_SLEEP_USECS / 1000);
-> >> +    nbytes_expected = div64_u64(m->mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);
-> >
-> > Seriously?!?
-> >
-> > You multiply by 1000 first, followed by a division by 1000 using an
-> > expensive 64-by-64 division?
+On Tue, Sep 15, 2020 at 6:57 PM Dmitry Vyukov <dvyukov@google.com> wrote:
 >
-> This entire function is broken and needs a do-over :)
->
-> > using an expensive 64-by-64 division?
->
-> I am new to kernel development. I wasn't even aware that this was
-> expensive, to be honest.
-
-All divisions involving 64-bit data are expensive, especially on 32-bit
-platforms.  That's why we have the helpers in <linux/math.h>.  Most
-of them implement simplified variants, which are less expensive.
-
-> >> +    if (nbytes_streamed < nbytes_expected) {
-> >> +            /* can't write half a packet: roundup to a 188 multiple */
-> >> +            nbytes_expected  = roundup(nbytes_expected - nbytes_streamed, TS_PACKET_LEN);
+> On Tue, Sep 15, 2020 at 3:23 PM Himadri Pandya <himadrispandya@gmail.com> wrote:
+> > > > > Hi,
+> > > > >
+> > > > > Is it correct to mark bugs as "invalid" if they have reproducers but
+> > > > > the reproducer doesn't trigger any issue on testing current status? If
+> > > > > not, then what should be done about such bugs?
+> > > > >
+> > > > > Thanks & Regards,
+> > > > > Himadri
+> > > > >
+> > > >
+> > > > Himadri,
+> > > >
+> > > > if possible try to determine which commit fixed the issue the
+> > > > reproducer triggered.
+> > > >
+> > > > You can potentially bisect with the reproducer on the git history or
+> > > > you can simply look in the git log of the affected files if someone
+> > > > mentioned fixing something related to the trigger.
+> > > >
+> > > > That helps to make sure we do not just close reproducers that just
+> > > > need a lot of time, configuration or luck to hit a certain crash.
+> > >
+> > >
+> > > Hi Himadri,
+> > >
+> > > Basically what Lukas said.
+> > > Bulk closing all of them as "invalid" would be bad for several
+> > > reasons. Either do some reasonable amount of degging, or wait for
+> > > syzbot fix bisection, maybe it will shed some light. It should happen
+> > > after 30 days since last crash IIRC. Also all testing requests/results
+> > > are shown on the dashboard, so this bit of information is not lost.
 > >
-> > drivers/media/test-drivers/vidtv/vidtv_mux.o: In function `vidtv_mux_tick':
-> > vidtv_mux.c:(.text+0x788): undefined reference to `__udivdi3'
+> > Understood.
 > >
-> > This is a 64-by-32 division, hence it should use a helper from
-> > <linux/math64.h>.
+> > I incorrectly assumed(before posting this question) that I should mark
+> > such bugs as invalid and sent the command to syzbot for one such bug.
+> > Now I understand that it was not the right thing. It doesn't show on
+> > the dashboard and I don't know how to undo it :(.
 > >
-> > However, I'm wondering if "nbytes_expected - nbytes_streamed" is
-> > guaranteed to be a "small" number, hence a 32-by-32 division would be
-> > sufficient?
+> > Bug's dashboard link -
+> > https://syzkaller.appspot.com/bug?id=4c7fd5b46451d957a3d8188f393f1982f9753fe7
 >
-> I think so.
+> Hi Himadri,
 >
-> I will send a patch to address the things you pointed out in this email.
+> Transitions to terminal states are not undo-able. Consider the same
+> bug is rediscovered concurrently with one undoing "#syz invalid". Now
+> we have 2 versions of the same bug and it will be an incomprehensible
+> mess.
+>
 
-Thanks, looking forward to it!
+Understood. My sincerest apologies for being naive.
 
-Gr{oetje,eeting}s,
+My assumption was that commands like "invalid" are similar to the
+action of submitting a patch, it would generate some discussion about
+the bug and if it is really invalid, someone with authority(like
+maintainers) would actually go and mark it as "invalid". I was clearly
+mistaken. But if we don't have any gatekeeping on such commands and
+anyone can directly change the status of the bug by merely sending an
+email to syzbot, isn't it a security issue?
 
-                        Geert
+Himadri
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> But marking one bug in such a way is not the end of the world. We have
+> other real bugs marked as invalid. So no worries.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
