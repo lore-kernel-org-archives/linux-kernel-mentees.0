@@ -2,108 +2,102 @@ Return-Path: <SRS0=IxsT=CZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B1CC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 13:43:53 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC25C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 20:05:55 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 85E7522286
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 13:43:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7B67A20658
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 20:05:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+ltZlIe"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 85E7522286
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HgfEPHZV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B67A20658
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 12C3384826;
-	Wed, 16 Sep 2020 13:43:52 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EF18887501;
+	Wed, 16 Sep 2020 20:05:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8Ns5tK2GLSA0; Wed, 16 Sep 2020 13:43:51 +0000 (UTC)
+	with ESMTP id W+VfbKKZQUAa; Wed, 16 Sep 2020 20:05:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 165D38466C;
-	Wed, 16 Sep 2020 13:43:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 16EF587490;
+	Wed, 16 Sep 2020 20:05:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2FCAC0859;
-	Wed, 16 Sep 2020 13:43:50 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EE92BC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 085D5C0864;
+	Wed, 16 Sep 2020 20:05:53 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9D6BFC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 13:43:49 +0000 (UTC)
+ Wed, 16 Sep 2020 20:05:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DB81284771
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7EFC0874FE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 13:43:49 +0000 (UTC)
+ Wed, 16 Sep 2020 20:05:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Em84ETS9YaTJ
+ with ESMTP id n3bhcNINztNj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 13:43:48 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id ACF418466C
+ Wed, 16 Sep 2020 20:05:50 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+ [209.85.160.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 65E6687490
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 13:43:48 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id q5so8169829qkc.2
+ Wed, 16 Sep 2020 20:05:50 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id e7so7163221qtj.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 06:43:48 -0700 (PDT)
+ Wed, 16 Sep 2020 13:05:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:message-id:in-reply-to:references:subject
- :mime-version:content-transfer-encoding:content-disposition;
- bh=i+kt8NbkJcxlxgcLxVS6CeOWPHcc3xF+IDhB44RR268=;
- b=K+ltZlIe+PijHm11DJWUqDWOGK2CdfuB9iqjxvoegeouGbkxeLuGjgXq8AfRPqyc83
- 5BHzN7xmpjLoZdpzmrN8ETQ1hUjyyZZKVHQpiXj/S5ufWgFvtFmGrrQY2Xbds/0CWUxa
- gs3PLHuK9TjcK6GhGS7+T4bc5U802IRNgTkWD9hkDuzsvjatOhilPYNN78lpKbZ1diRt
- e+azuXZ6VvKEU+qC3SInjzTlG17ZqHbogJEvggkUFdJodfY8cDjE9zaWR8RYUcp1v64/
- fUikdKP51cMfrylKb6jB/4YcOSCuSuVolzOLl0jovm/fs32vnYF7G+dEGjYT4agmpI0C
- sG6g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EJFw4uKW8e/iIEi8z8Ir0rldGUxpdMF9h1PXE42yizw=;
+ b=HgfEPHZVnS86sF0lcmA5PP6+ri8SehwOknPCcG0mW3FyiWyjSycs2YGoSBd5ozzk87
+ txiSSTMWYqL3/HdoKau+QeLq4yHFP/qJRjM/Lm50WoD+iUtYtKq1C6uiYqitWoxmo0w6
+ AH/tXycpempNBciyQGQ8v8857oL4YJCel0NxD+fMoqzd45OC/3PwJgusD8cUBLJwAlc9
+ gYGx/D8lTL+4spk/86iCp3UtSsb6cwwbF1Cxx1QYHVCZaflkxJjD1ACc08YadILIpZWH
+ 4aiCeiUa6mGHABezctp0GR8O4xAEFsiz1umCSctducY4kK6T8uz4LhuLd3/NQpmXIq1x
+ Uamg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
- :references:subject:mime-version:content-transfer-encoding
- :content-disposition;
- bh=i+kt8NbkJcxlxgcLxVS6CeOWPHcc3xF+IDhB44RR268=;
- b=hGoq4JK8ud+vNaR+1+z/wrFqxOLsfK0crxRJ9dED5MUCbbFZozlCz4gS1uTqQkKy6c
- 6CZ4aYvNmMU2S2DRZU0PKlrLeArvXQxD5/t5+MrG9L8MNj8+FzP7UWyZ9DUsy6K77aUh
- enCsWKdIygQyRlxpWGXgFCO3rkFeka9gGaj4pmlY5z/URdvnTUBasQc82J7fAUSsU4S8
- 4Rim0FcGoBCyB/a+B0czgnmj1n7VkI+29LIGdjpLXubPHUI4JU1UIq3dNLHpypRamR9X
- +IaAswoFsh2PM9QZVU/ABcD+zdOFsKfmMsB4Dadxe1+9o7cqULMouvp0QaVzD7zLDy9E
- pW/A==
-X-Gm-Message-State: AOAM5330NljTWgQNrEQGtAjmwNzPMi/r9/yAaRNhITCq36vO4XystmsW
- eV/Em31E+0fEHDJeenJeBJo=
-X-Google-Smtp-Source: ABdhPJwQ2ByIHypHf9G8Fq55SO7s2+ErkosiVaEblPF4LX6tR/hvnvJnDSyT3oXWCruYXXL3omPuVw==
-X-Received: by 2002:a37:9f4e:: with SMTP id i75mr21405479qke.180.1600263827681; 
- Wed, 16 Sep 2020 06:43:47 -0700 (PDT)
-Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id w6sm18891846qti.63.2020.09.16.06.43.43
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 16 Sep 2020 06:43:46 -0700 (PDT)
-Date: Wed, 16 Sep 2020 10:43:42 -0300
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EJFw4uKW8e/iIEi8z8Ir0rldGUxpdMF9h1PXE42yizw=;
+ b=C0D9knbVU+wP4W3ypQDXzt08M6FjX+tHVkN+wYFNCSmYxSMsc6UrzBTYhBp+1rd2kx
+ M1VQCzNt8GKDyAAT4E3PgEthOigMgjen4SQfvHxRs5XoTRVBuXkXx61zWgOjVvxKWn/R
+ z8SzkWutloX0to9+nqxOx121hQckyQWuTWJ0GZbkNoppqLg5VdGVXlAkv7JvLpbdgvYX
+ Lwc0FqhUiJVlVWagY0cpAJymLfVz8BfL8BDyxwPGUcGF3pAuVOHzQBZAnicdxTXmUNcg
+ 5k+HIUdl8xVrzt+zvligMQ7cc8Xrx8zH67OULeagB8vM18UmnO3LLp9b7/rQ57OYRViW
+ U9/A==
+X-Gm-Message-State: AOAM533nU2TsU922Ec+7JYU8R2uy9GnxicCYTW8Nvt/za1ARWYDmJA7V
+ 2qAGpDhkC8UuublhUlBG9Do=
+X-Google-Smtp-Source: ABdhPJwrGADt2AO+3SC2kJyZ6ICn6XmP/Qmi2pLma8AkSBY0Ur6ZUlxs6101sCv8XmFGzACUqlvvCA==
+X-Received: by 2002:ac8:23a3:: with SMTP id q32mr24941972qtq.361.1600286749171; 
+ Wed, 16 Sep 2020 13:05:49 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id t11sm19242563qtp.32.2020.09.16.13.05.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Sep 2020 13:05:48 -0700 (PDT)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Message-ID: <BAE73C66-D2B7-44A5-8CD9-72D0430BEED7@getmailspring.com>
-In-Reply-To: <CAMuHMdXjA7q-v-mYY9DChC0XQbv9vfW6c3Vfn07-H-FgBr+izA@mail.gmail.com>
-References: <CAMuHMdXjA7q-v-mYY9DChC0XQbv9vfW6c3Vfn07-H-FgBr+izA@mail.gmail.com>
-X-Mailer: Mailspring
+X-Google-Original-From: Daniel W. S. Almeida
+To: mchehab@kernel.org
+Date: Wed, 16 Sep 2020 17:05:40 -0300
+Message-Id: <20200916200540.3239378-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- "=?utf-8?Q?r.verdejo=40samsung.com?=" <r.verdejo@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "=?utf-8?Q?nicolas=40ndufresne.ca?=" <nicolas@ndufresne.ca>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org?="
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH] media: vidtv: fix build on 32bit
+Cc: rdunlap@infradead.org, r.verdejo@samsung.com, linux-kernel@vger.kernel.org,
+ nicolas@ndufresne.ca, geert@linux-m68k.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v2] media: vidtv: fix build on 32bit
 	architectures
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -122,37 +116,264 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Mauro, Geert,
+From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-> That doesn't seem to be the right thing to do here.
->
-> Assuming that sampling rate is 48 kHz, you'll
-> have duration = 1.875, which would be rounded to 1.
->
-> In other words, the above is identical to:
->
-> au->pts = count
->
-> Now, I don't know from where that CLOCK_UNIT_90KHZ came from.
->
+Fix the following error for builds on 32bit architectures:
 
-Mauro, here's my current understanding:
+ERROR: modpost: "__udivdi3"
+[drivers/media/test-drivers/vidtv/dvb-vidtv-bridge.ko] undefined!
 
-The values for PTS have to be defined in terms of a 90khz clock. 
+Which is due to 64bit divisions that did not go through the helpers
+in linux/math64.h
 
-So for 30fps video, the values for PTS per frame would be:
+As vidtv_mux_check_mux_rate was not operational in its current form,
+drop the entire function while it is not fixed properly.
 
-frame_num/30 * 90000
+For now, call vidtv_mux_pad_with_nulls with a constant number of packets
+to avoid warnings due to unused functions when building this driver.
 
-so 0, 3000, 6000, 9000...etc
+The 64bit division used in the s302m is not needed, remove them and use
+a fixed number of frames and a constant PTS increment instead.
 
-The same math is being used here for audio, but instead we have the
-total audio sample count and a 48000 samples/sec
+Fixes: f90cf6079bf67988 ("media: vidtv: add a bridge driver")
+Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+---
+Changes in v2:
 
+Rework the s302m encoder so that a fixed number of frames and a constant
+increment value for pts is used. This removes the 64bit division that
+was making the build fail.
 
-I did miss this rounding error though, I'm sorry.
+---
 
+ .../media/test-drivers/vidtv/vidtv_encoder.h  |  2 +-
+ drivers/media/test-drivers/vidtv/vidtv_mux.c  | 42 +-------------
+ .../media/test-drivers/vidtv/vidtv_s302m.c    | 56 ++++++-------------
+ .../media/test-drivers/vidtv/vidtv_s302m.h    |  2 +
+ 4 files changed, 23 insertions(+), 79 deletions(-)
 
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_encoder.h b/drivers/media/test-drivers/vidtv/vidtv_encoder.h
+index a7c99cafab4f..65d81daef4c3 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_encoder.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_encoder.h
+@@ -148,7 +148,7 @@ struct vidtv_encoder {
+ 
+ 	__be16 es_pid;
+ 
+-	void *(*encode)(struct vidtv_encoder *e, u64 elapsed_time_usecs);
++	void *(*encode)(struct vidtv_encoder *e);
+ 
+ 	u32 (*clear)(struct vidtv_encoder *e);
+ 
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
+index 26a742c95c76..43b13aa3a8bc 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
+@@ -281,17 +281,11 @@ static u32 vidtv_mux_poll_encoders(struct vidtv_mux *m)
+ 	struct vidtv_channel *cur_chnl = m->channels;
+ 	struct vidtv_encoder *e = NULL;
+ 
+-	u64 elapsed_time_usecs = jiffies_to_usecs(m->timing.current_jiffies -
+-						  m->timing.past_jiffies);
+-
+-	elapsed_time_usecs = min_t(u64, elapsed_time_usecs, (u64)VIDTV_MAX_SLEEP_USECS);
+-
+ 	while (cur_chnl) {
+ 		e = cur_chnl->encoders;
+ 
+ 		while (e) {
+-			/* encode for 'elapsed_time_usecs' */
+-			e->encode(e, elapsed_time_usecs);
++			e->encode(e);
+ 			/* get the TS packets into the mux buffer */
+ 			au_nbytes = vidtv_mux_packetize_access_units(m, e);
+ 			nbytes += au_nbytes;
+@@ -337,38 +331,6 @@ static u32 vidtv_mux_pad_with_nulls(struct vidtv_mux *m, u32 npkts)
+ 	return nbytes;
+ }
+ 
+-static u32 vidtv_mux_check_mux_rate(struct vidtv_mux *m)
+-{
+-	/*
+-	 * attempt to maintain a constant mux rate, padding with null packets
+-	 * if needed
+-	 */
+-
+-	u32 nbytes = 0;  /* the number of bytes written by this function */
+-
+-	u64 nbytes_expected; /* the number of bytes we should have written */
+-	u64 nbytes_streamed; /* the number of bytes we actually wrote */
+-	u32 num_null_pkts; /* number of null packets to bridge the gap */
+-
+-	u64 elapsed_time_msecs = jiffies_to_usecs(m->timing.current_jiffies -
+-						  m->timing.past_jiffies);
+-
+-	elapsed_time_msecs = min(elapsed_time_msecs, (u64)VIDTV_MAX_SLEEP_USECS / 1000);
+-	nbytes_expected = div64_u64(m->mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);
+-	nbytes_expected *= elapsed_time_msecs;
+-
+-	nbytes_streamed = m->mux_buf_offset;
+-
+-	if (nbytes_streamed < nbytes_expected) {
+-		/* can't write half a packet: roundup to a 188 multiple */
+-		nbytes_expected  = roundup(nbytes_expected - nbytes_streamed, TS_PACKET_LEN);
+-		num_null_pkts    = nbytes_expected / TS_PACKET_LEN;
+-		nbytes          += vidtv_mux_pad_with_nulls(m, num_null_pkts);
+-	}
+-
+-	return nbytes;
+-}
+-
+ static void vidtv_mux_clear(struct vidtv_mux *m)
+ {
+ 	/* clear the packets currently in the mux */
+@@ -400,7 +362,7 @@ static void vidtv_mux_tick(struct work_struct *work)
+ 			nbytes += vidtv_mux_push_si(m);
+ 
+ 		nbytes += vidtv_mux_poll_encoders(m);
+-		nbytes += vidtv_mux_check_mux_rate(m);
++		nbytes += vidtv_mux_pad_with_nulls(m, 256);
+ 
+ 		npkts = nbytes / TS_PACKET_LEN;
+ 
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+index 122a450fb27c..ca42ad0a8a0a 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+@@ -40,6 +40,11 @@
+ #define S302M_BLOCK_SZ 192
+ #define S302M_SIN_LUT_NUM_ELEM 1024
+ 
++/* these are retrieved empirically from ffmpeg/libavcodec */
++#define FF_S302M_DEFAULT_NUM_FRAMES 1115
++#define FF_S302M_DEFAULT_PTS_INCREMENT 2090
++#define FF_S302M_DEFAULT_PTS_OFFSET 100000
++
+ /* Used by the tone generator: number of samples for PI */
+ #define PI		180
+ 
+@@ -189,7 +194,7 @@ static void vidtv_s302m_alloc_au(struct vidtv_encoder *e)
+ }
+ 
+ static void
+-vidtv_s302m_compute_sample_count_v(struct vidtv_encoder *e)
++vidtv_s302m_compute_sample_count_from_video(struct vidtv_encoder *e)
+ {
+ 	struct vidtv_access_unit *au = e->access_units;
+ 	struct vidtv_access_unit *sync_au = e->sync->access_units;
+@@ -208,33 +213,7 @@ vidtv_s302m_compute_sample_count_v(struct vidtv_encoder *e)
+ 	}
+ }
+ 
+-static void
+-vidtv_s302m_compute_sample_count(struct vidtv_encoder *e,
+-				 u64 elapsed_time_usecs)
+-{
+-	/* compute sample count for 'elapsed_time_usecs' */
+-	u32 sample_duration_usecs = USEC_PER_SEC / e->sampling_rate_hz;
+-	struct vidtv_access_unit *au = e->access_units;
+-
+-	au->num_samples = (u32)div64_u64(elapsed_time_usecs, sample_duration_usecs);
+-}
+-
+-static void vidtv_s302m_compute_pts(struct vidtv_encoder *e)
+-{
+-	u64 count = e->sample_count;
+-	struct vidtv_access_unit *au = e->access_units;
+-
+-	while (au) {
+-		count += au->num_samples;
+-
+-		au->pts = count *
+-			  CLOCK_UNIT_90KHZ / e->sampling_rate_hz;
+-
+-		au = au->next;
+-	}
+-}
+-
+-static void vidtv_s302m_compute_pts_v(struct vidtv_encoder *e)
++static void vidtv_s302m_compute_pts_from_video(struct vidtv_encoder *e)
+ {
+ 	struct vidtv_access_unit *au = e->access_units;
+ 	struct vidtv_access_unit *sync_au = e->sync->access_units;
+@@ -366,6 +345,7 @@ static u32 vidtv_s302m_write_h(struct vidtv_encoder *e, u32 p_sz)
+ static void vidtv_s302m_write_frames(struct vidtv_encoder *e)
+ {
+ 	struct vidtv_access_unit *au = e->access_units;
++	struct vidtv_s302m_ctx *ctx = e->ctx;
+ 	u32 nbytes_per_unit = 0;
+ 	u32 nbytes = 0;
+ 	u32 au_sz = 0;
+@@ -400,12 +380,13 @@ static void vidtv_s302m_write_frames(struct vidtv_encoder *e)
+ 		au->offset = nbytes - nbytes_per_unit;
+ 
+ 		nbytes_per_unit = 0;
++		ctx->au_count++;
+ 
+ 		au = au->next;
+ 	}
+ }
+ 
+-static void *vidtv_s302m_encode(struct vidtv_encoder *e, u64 elapsed_time)
++static void *vidtv_s302m_encode(struct vidtv_encoder *e)
+ {
+ 	/*
+ 	 * According to SMPTE 302M, an audio access unit is specified as those
+@@ -416,27 +397,26 @@ static void *vidtv_s302m_encode(struct vidtv_encoder *e, u64 elapsed_time)
+ 	 *
+ 	 * Assuming that it is also possible to send audio without any
+ 	 * associated video, as in a radio-like service, a single audio access unit
+-	 * is created with enough audio data for 'elapsed_time'
+-	 * The value of PTS is computed manually.
++	 * is created with values for 'num_samples' and 'pts' taken empirically from
++	 * ffmpeg
+ 	 */
+ 
+-	if (!elapsed_time)
+-		goto out;
++	struct vidtv_s302m_ctx *ctx = e->ctx;
+ 
+ 	vidtv_s302m_access_unit_destroy(e);
+ 	vidtv_s302m_alloc_au(e);
+ 
+ 	if (e->sync && e->sync->is_video_encoder) {
+-		vidtv_s302m_compute_sample_count_v(e);
+-		vidtv_s302m_compute_pts_v(e);
++		vidtv_s302m_compute_sample_count_from_video(e);
++		vidtv_s302m_compute_pts_from_video(e);
+ 	} else {
+-		vidtv_s302m_compute_sample_count(e, elapsed_time);
+-		vidtv_s302m_compute_pts(e);
++		e->access_units->num_samples = FF_S302M_DEFAULT_NUM_FRAMES;
++		e->access_units->pts = (ctx->au_count * FF_S302M_DEFAULT_PTS_INCREMENT) +
++				       FF_S302M_DEFAULT_PTS_OFFSET;
+ 	}
+ 
+ 	vidtv_s302m_write_frames(e);
+ 
+-out:
+ 	return e->encoder_buf;
+ }
+ 
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.h b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
+index 01ef47a812c8..eca5e3150ede 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_s302m.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
+@@ -33,10 +33,12 @@
+  * struct vidtv_s302m_ctx - s302m encoder context.
+  * @enc: A pointer to the containing encoder structure.
+  * @frame_index: The current frame in a block
++ * @au_count: The total number of access units encoded up to now
+  */
+ struct vidtv_s302m_ctx {
+ 	struct vidtv_encoder *enc;
+ 	u32 frame_index;
++	u32 au_count;
+ };
+ 
+ /**
+-- 
+2.28.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
