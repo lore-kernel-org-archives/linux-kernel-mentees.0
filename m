@@ -8,100 +8,98 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BBCFC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 05:07:20 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F05BC43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 05:27:20 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A9FB620936
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 05:07:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EBF1B21655
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 05:27:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aVC2T637"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A9FB620936
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A0ZiSvqZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EBF1B21655
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 31A438698B;
-	Wed, 16 Sep 2020 05:07:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7D706231A1;
+	Wed, 16 Sep 2020 05:27:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id t-PKkN5ajdri; Wed, 16 Sep 2020 05:07:18 +0000 (UTC)
+	with ESMTP id JbXkpCDbM4Ss; Wed, 16 Sep 2020 05:27:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A90868697C;
-	Wed, 16 Sep 2020 05:07:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DF80323115;
+	Wed, 16 Sep 2020 05:27:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8F542C0859;
-	Wed, 16 Sep 2020 05:07:18 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DDC42C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C86BBC0864;
+	Wed, 16 Sep 2020 05:27:18 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 54AADC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 05:07:17 +0000 (UTC)
+ Wed, 16 Sep 2020 05:27:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C577E8734A
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3D5BC86DD7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 05:07:17 +0000 (UTC)
+ Wed, 16 Sep 2020 05:27:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Bs-xxX8Kg2QH
+ with ESMTP id d1eiz4ebIErc
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 05:07:17 +0000 (UTC)
+ Wed, 16 Sep 2020 05:27:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0A6EF87349
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9CC1486AAB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 05:07:17 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id o16so950978pjr.2
+ Wed, 16 Sep 2020 05:27:16 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id e4so2565810pln.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Sep 2020 22:07:17 -0700 (PDT)
+ Tue, 15 Sep 2020 22:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qRRVZQATJVxdmxym9cYS4r8KR3RWYxM+eecLHTbYKPE=;
- b=aVC2T637dzhAw/XBS0mqij3Sm2gNdKH71qrUuBjRZC4Xc2udN+J6iTb+mtgJeGDfzX
- 1iu9AFzMGkFfU0GRVYO5vVDboPQs8etP9zBvfmulOczq9JdFP0x9UKBnpzo8S0FCx/Vy
- TcfffegkK3cRDB+1LS7J0dl1/CADD3Zld/eWTsXXYrtuky2GwRm/5/8ZnJukNHSjr2zl
- AeeUPEGh5+QicmNMzFWuBL86RyUX0qDUb1WjlyqKIBfNjSYImx3Aixn1HMD0Y3BuI/Pb
- zkZQKpurvYn2vNPo4v8UfqjZrwKbm5kWHqgIIUEQvprgL+LaQSZMi3jMSAOb0BMDt2xL
- gwhw==
+ bh=VJVDbbAlJ3EVegFgwxB/3/h59utgDfMyQ6scbBMOYNk=;
+ b=A0ZiSvqZool5kn3WbGpLkkhh1vZthuLxPC3zqqCNTVibSFcUjMOQ+IUGBS76hngwPv
+ HkhVhMiEAN1f4INTdiJhlJVzg883lrpc+AIXKZNa+mFvXd5zEosYgM+SJqH9NRkHVBlk
+ ArrNt4lfQtr894OODK5r+0MnLMvB0bYcbUnzaQhmpwjc2fXXu4C8mCZ191kIWCQJ4t6F
+ kDYQSIRirP6Tp8CkHTRvLB7vW4upDxNNvNPDLLocCqdRtZ9cyNjvo7LNjeZhyedD/+s3
+ kkNAmVK5nV4Maqc26fX6hZ7qhAp7NuT6skNoWfE78Ptl2PspbfuAjO2gTZ9DhKuyyVZq
+ zspw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qRRVZQATJVxdmxym9cYS4r8KR3RWYxM+eecLHTbYKPE=;
- b=q2RsUl5xGXkNq1BUeBpGjvcxAfuVaXasWSH2lWkY2GqX1qjPcJNYCuGvb9bYn+yHdr
- ytDoFAf28o1ORsHmPl6gPitfihi5rTHGltQgUKD1JDNUNwk7f3OK+wBumwhzMmAS1j3U
- tD5VAJclL/1gqg4KkAzym+plqcuqnNmik+x2IXYrphekLY99TcUAnvAr8VTb5hAHOrUh
- +u133lOCHTxmuF1fdVTLAAZ0pPmhaSjEHfbfvxh2xeSAEHZza6w8k5rjOCijMKmzFqPj
- pt8rHWE4BmX11uO3tb4VRT99dACzmGBjCvZRb8eRx67m1bgwSjK4HgaIJEustj1ekoWQ
- nvFA==
-X-Gm-Message-State: AOAM5322/j6861x2egwy9QhRndlgxR2ZGs18TBBR7ROvCYMZmpSwoMYP
- Dq3pfr4mhxtpfm3O6FPviCs9CVwEdbL3LIRU+aY=
-X-Google-Smtp-Source: ABdhPJyJ+cNX0PC6p643Vv5Ufb4fI56gTf58TjK5qVI6yEX/Z6q7hcMqJYTTdXwOCzLJs8JTaoE69Q==
-X-Received: by 2002:a17:902:b185:b029:d1:e5e7:bdd1 with SMTP id
- s5-20020a170902b185b02900d1e5e7bdd1mr4953338plr.49.1600232836024; 
- Tue, 15 Sep 2020 22:07:16 -0700 (PDT)
+ bh=VJVDbbAlJ3EVegFgwxB/3/h59utgDfMyQ6scbBMOYNk=;
+ b=CONjnhB1qsBbwSeqi9t0az/BlOsGvC5ox2kl3Ok3mWA15FOMO230/rW9j/O7AiWBq1
+ yAdnpQ9ozZNP7w0Fu30zrLpZRnTHo5oQdiqR97gFljgulhOS31wr8z4aNvHQxxT7VdrG
+ N0phZgGUppNRppHq4APVKUDcTPIAvsOvcRnl9F/5nOSZwThN1TgiNK0fpourQtzyuvID
+ mvrlwSbQeACK9SGA1qQFzo6NaXzYr6KhXCd0IR8YwKGpzWh5wWrzCXnsIUEWuSBEf/QB
+ ahD7fMipTZ/ubm3cUuvo8ToEK05e4dAZp8yRebPtfp+tIAp3qEENAL3z1s8OPuYc5dwq
+ aM4g==
+X-Gm-Message-State: AOAM532iIubXP0I+z2hRuUjuoH7h4QMIrZgOWdgOoO721L+s66WrlN5I
+ p6M0XnGVqMBYlo3afoz+N6X3ktTjHxzas5ucQTM=
+X-Google-Smtp-Source: ABdhPJy8G9XX2Xhtqw57CWyGwxACp6HRAIaTDwKifUE1VrFl4nVVK524/rBCPvr4xEp0GINizv1eCQ==
+X-Received: by 2002:a17:902:b086:b029:d1:e5e7:bddb with SMTP id
+ p6-20020a170902b086b02900d1e5e7bddbmr4635762plr.59.1600234035653; 
+ Tue, 15 Sep 2020 22:27:15 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.198.18])
- by smtp.gmail.com with ESMTPSA id i20sm13108051pgk.77.2020.09.15.22.07.12
+ by smtp.gmail.com with ESMTPSA id md10sm1172565pjb.45.2020.09.15.22.27.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 22:07:15 -0700 (PDT)
+ Tue, 15 Sep 2020 22:27:14 -0700 (PDT)
 From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 To: 
-Date: Wed, 16 Sep 2020 10:35:40 +0530
-Message-Id: <20200916050540.15290-1-anant.thazhemadam@gmail.com>
+Date: Wed, 16 Sep 2020 10:56:56 +0530
+Message-Id: <20200916052657.18683-1-anant.thazhemadam@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- Petko Manolov <petkan@nucleusys.com>,
- syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: [Linux-kernel-mentees] [PATCH] rtl8150: set memory to all 0xFFs on
-	failed register reads
+ linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ linux-fsdevel@vger.kernel.org,
+ syzbot+4191a44ad556eacc1a7a@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] fs: fix KMSAN uninit-value bug by
+	initializing nd in do_file_open_root
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,53 +117,34 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-get_registers() copies whatever memory is written by the
-usb_control_msg() call even if the underlying urb call ends up failing.
+The KMSAN bug report for the bug indicates that there exists;
+Local variable ----nd@do_file_open_root created at:
+ do_file_open_root+0xa4/0xb40 fs/namei.c:3385
+ do_file_open_root+0xa4/0xb40 fs/namei.c:3385
 
-If get_registers() fails, or ends up reading 0 bytes, meaningless and 
-junk register values would end up being copied over (and eventually read 
-by the driver), and since most of the callers of get_registers() don't 
-check the return values of get_registers() either, this would go unnoticed.
+Initializing nd fixes this issue, and doesn't break anything else either
 
-It might be a better idea to try and mirror the PCI master abort
-termination and set memory to 0xFFs instead in such cases.
-
-Fixes: https://syzkaller.appspot.com/bug?extid=abbc768b560c84d92fd3
-Reported-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
-Tested-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+Fixes: https://syzkaller.appspot.com/bug?extid=4191a44ad556eacc1a7a
+Reported-by: syzbot+4191a44ad556eacc1a7a@syzkaller.appspotmail.com
+Tested-by: syzbot+4191a44ad556eacc1a7a@syzkaller.appspotmail.com
 Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
- drivers/net/usb/rtl8150.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ fs/namei.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-index 733f120c852b..04fca7bfcbcb 100644
---- a/drivers/net/usb/rtl8150.c
-+++ b/drivers/net/usb/rtl8150.c
-@@ -162,8 +162,13 @@ static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
- 	ret = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
- 			      RTL8150_REQ_GET_REGS, RTL8150_REQT_READ,
- 			      indx, 0, buf, size, 500);
--	if (ret > 0 && ret <= size)
-+
-+	if (ret < 0)
-+		memset(data, 0xff, size);
-+
-+	else
- 		memcpy(data, buf, ret);
-+
- 	kfree(buf);
- 	return ret;
- }
-@@ -276,7 +281,7 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
- 
- static inline void set_ethernet_addr(rtl8150_t * dev)
+diff --git a/fs/namei.c b/fs/namei.c
+index e99e2a9da0f7..b27382586209 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -3404,7 +3404,7 @@ struct file *do_filp_open(int dfd, struct filename *pathname,
+ struct file *do_file_open_root(struct dentry *dentry, struct vfsmount *mnt,
+ 		const char *name, const struct open_flags *op)
  {
--	u8 node_id[6];
-+	u8 node_id[6] = {0};
- 
- 	get_registers(dev, IDR, sizeof(node_id), node_id);
- 	memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
+-	struct nameidata nd;
++	struct nameidata nd = {};
+ 	struct file *file;
+ 	struct filename *filename;
+ 	int flags = op->lookup_flags | LOOKUP_ROOT;
 -- 
 2.25.1
 
