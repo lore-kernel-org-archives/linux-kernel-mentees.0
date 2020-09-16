@@ -2,87 +2,88 @@ Return-Path: <SRS0=IxsT=CZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9742DC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 07:02:48 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C62C35256
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 07:06:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 087F121655
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 07:02:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b="GjClFFip"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 087F121655
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=nucleusys.com
+	by mail.kernel.org (Postfix) with ESMTPS id 6AD3222206
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 07:06:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6AD3222206
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B326C86A11;
-	Wed, 16 Sep 2020 07:02:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0D4388705C;
+	Wed, 16 Sep 2020 07:06:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mXxbMU7XZFUv; Wed, 16 Sep 2020 07:02:47 +0000 (UTC)
+	with ESMTP id V5Vvo8dMtHRY; Wed, 16 Sep 2020 07:06:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1831E86A14;
-	Wed, 16 Sep 2020 07:02:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8962487054;
+	Wed, 16 Sep 2020 07:06:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 07956C0859;
-	Wed, 16 Sep 2020 07:02:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C273C0859;
+	Wed, 16 Sep 2020 07:06:20 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3130EC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2757AC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 07:02:45 +0000 (UTC)
+ Wed, 16 Sep 2020 07:06:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1FE1187361
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1C3A98705C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 07:02:45 +0000 (UTC)
+ Wed, 16 Sep 2020 07:06:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-X-Amavis-Alert: BAD HEADER SECTION, Improper folded header field made up
- entirely of whitespace (char 20 hex): X-Spam-Report: ...that system
- for details.\n \n Content previ[...]
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XX-GXhpGhXHk
+ with ESMTP id 1wo-J04G+TKY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 07:02:43 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from zztop.nucleusys.com (lan.nucleusys.com [92.247.61.126])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9892887346
+ Wed, 16 Sep 2020 07:06:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0AB2387054
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 07:02:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=nucleusys.com; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:
- Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8fk+I4ZemBY5OogXFdLgsK51XfiRHsT4RBnrN+8HFMs=; b=GjClFFipRMYmH+d63qEmRBuFZk
- tbSOhuRA3TDineS+sjSW56nDqjshXWGsvcDP7vVm93n+woR2YO9knE+1tCYpthCNoAoMySrQDJ15H
- UGW0yStPQHrGcI6Z46aIBOKaZd9vaDN5eAKF15c9OL9kuxkUX4XqF4zKwnEytCz3OKwU=;
-Received: from 78-83-68-78.spectrumnet.bg ([78.83.68.78] helo=p310)
- by zztop.nucleusys.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <petkan@nucleusys.com>)
- id 1kIQnC-00058i-Qu; Wed, 16 Sep 2020 09:19:47 +0300
-Date: Wed, 16 Sep 2020 09:19:46 +0300
-From: Petko Manolov <petkan@nucleusys.com>
-To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <20200916061946.GA38262@p310>
-References: <20200916050540.15290-1-anant.thazhemadam@gmail.com>
+ Wed, 16 Sep 2020 07:06:18 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id a2so5693084otr.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Sep 2020 00:06:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LsQvtHeib1atrvvp2feLEjcTV2UF2/kU0aaYslA7vbY=;
+ b=GdFtxGb5qjXk4hd/WvCGNAGNE8JEcEKoIRvkta9e42wUOYvryc2eYohr/QxiLFNUfI
+ UOT63Koopzj0txoWtFaQEYM3kv134aljJCX/go+jFRxdSQ5g3K8GoW9KLXiza6UB/a8H
+ B+ZPmmXRX0KE+bmaeFRAfKzJQrBg580vvE4eXur2Yuk8WxZvq74Ar/sznRsC9gx19pjR
+ RHxPO1b/eE0+gOOndWBlMIAjJLFIOVv7sn2eTfUhXizKZo4Tj14B1zaPCt030BMbiMqG
+ TrTtsMmrGRDmO54d7qLxxVeRS/k4m0SqOO/4Jk9VRMtBG6q9isRcIs+8++A2AgP/PzWg
+ hhJA==
+X-Gm-Message-State: AOAM532BdOvEEqsf29rZkw3+w65t873RAvMJG9G8TsWx/JvvemSn4Z6J
+ zjsinihlg9DiI5nGBkQLpB64gby+xrTsB5aLetg=
+X-Google-Smtp-Source: ABdhPJxKmwKiMQprL5cUYhYw8TtCpuH52UjOz5tY3oy5rjo3bFWSZ4m127dVecTxjDzhROsJWJLoZIyaiNxs2MyUSSk=
+X-Received: by 2002:a9d:3b76:: with SMTP id
+ z109mr15872454otb.250.1600239977269; 
+ Wed, 16 Sep 2020 00:06:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200916050540.15290-1-anant.thazhemadam@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+References: <20200915180509.2661572-1-dwlsalmeida@gmail.com>
+ <20200916084036.09e8f3c8@coco.lan>
+In-Reply-To: <20200916084036.09e8f3c8@coco.lan>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 16 Sep 2020 09:06:06 +0200
+Message-ID: <CAMuHMdXjA7q-v-mYY9DChC0XQbv9vfW6c3Vfn07-H-FgBr+izA@mail.gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, r.verdejo@samsung.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, nicolas@ndufresne.ca,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] rtl8150: set memory to all 0xFFs
- on failed register reads
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH] media: vidtv: fix build on 32bit
+	architectures
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,79 +101,78 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 20-09-16 10:35:40, Anant Thazhemadam wrote:
-> get_registers() copies whatever memory is written by the
-> usb_control_msg() call even if the underlying urb call ends up failing.
+Hi Mauro, Daniel,
 
-Not true, memcpy() is only called if "ret" is positive.
+On Wed, Sep 16, 2020 at 8:40 AM Mauro Carvalho Chehab
+<mchehab@kernel.org> wrote:
+> Em Tue, 15 Sep 2020 15:05:09 -0300
+> "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
+> > From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> >
+> > Fix the following error for builds on 32bit architectures:
+> >
+> > ERROR: modpost: "__udivdi3"
+> > [drivers/media/test-drivers/vidtv/dvb-vidtv-bridge.ko] undefined!
+> >
+> > Which is due to 64bit divisions that did not go through the helpers
+> > in linux/math64.h
+> >
+> > As vidtv_mux_check_mux_rate was not operational in its current form,
+> > drop the entire function  while it is not fixed properly.
+> >
+> > For now, call vidtv_mux_pad_with_nulls with a constant number of packets
+> > to avoid warnings due to unused functions when building this driver.
+> >
+> > Fixes: f90cf6079bf67988 ("media: vidtv: add a bridge driver")
+> > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-> If get_registers() fails, or ends up reading 0 bytes, meaningless and junk 
-> register values would end up being copied over (and eventually read by the 
-> driver), and since most of the callers of get_registers() don't check the 
-> return values of get_registers() either, this would go unnoticed.
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # build-tested
 
-usb_control_msg() returns negative on error (look up usb_internal_control_msg() 
-to see for yourself) so it does not go unnoticed.  If for some reason it return 
-zero, nothing is copied.  Also, if usb transfer fail no register values are 
-being copied anywhere.
+> > --- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+> > +++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+> > @@ -285,12 +285,12 @@ static void vidtv_s302m_compute_pts(struct vidtv_encoder *e)
+> >  {
+> >       u64 count = e->sample_count;
+> >       struct vidtv_access_unit *au = e->access_units;
+> > +     u32 duration = CLOCK_UNIT_90KHZ / e->sampling_rate_hz;
+> >
+> >       while (au) {
+> >               count += au->num_samples;
+> >
+> > -             au->pts = count *
+> > -                       CLOCK_UNIT_90KHZ / e->sampling_rate_hz;
+> > +             au->pts = count * duration;
+>
+> That doesn't seem to be the right thing to do here.
+>
+> Assuming that sampling rate is 48 kHz, you'll
+> have duration = 1.875, which would be rounded to 1.
+>
+> In other words, the above is identical to:
+>
+>         au->pts = count
+>
+> Now, I don't know from where that CLOCK_UNIT_90KHZ came from.
+>
+> If such constant is not needed anymore, just drop it.
+>
+> If, on the other hand, this is required by the specs, then
+> you may need to do a 64 bits division, e. g. using
+> div64_u64() or do_div().
 
-Your patch also allows for memcpy() to be called with 'size' either zero or 
-greater than the allocated buffer size. Please, look at the code carefully.
+As vidtv_encoder.sampling_rate_hz is u32, there's fortunately no need
+to use div64_u64() (64-by-64), so div_u64() (64-by-32) is fine.
 
-> It might be a better idea to try and mirror the PCI master abort
-> termination and set memory to 0xFFs instead in such cases.
+Gr{oetje,eeting}s,
 
-I wasn't aware drivers are now responsible for filling up the memory with 
-anything.  Does not sound like a good idea to me.
+                        Geert
 
-> Fixes: https://syzkaller.appspot.com/bug?extid=abbc768b560c84d92fd3
-> Reported-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
-> Tested-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
-> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Well, NACK from me.
-
-
-cheers,
-Petko
-
-
-> ---
->  drivers/net/usb/rtl8150.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-> index 733f120c852b..04fca7bfcbcb 100644
-> --- a/drivers/net/usb/rtl8150.c
-> +++ b/drivers/net/usb/rtl8150.c
-> @@ -162,8 +162,13 @@ static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
->  	ret = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
->  			      RTL8150_REQ_GET_REGS, RTL8150_REQT_READ,
->  			      indx, 0, buf, size, 500);
-> -	if (ret > 0 && ret <= size)
-> +
-> +	if (ret < 0)
-> +		memset(data, 0xff, size);
-> +
-> +	else
->  		memcpy(data, buf, ret);
-> +
->  	kfree(buf);
->  	return ret;
->  }
-> @@ -276,7 +281,7 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
->  
->  static inline void set_ethernet_addr(rtl8150_t * dev)
->  {
-> -	u8 node_id[6];
-> +	u8 node_id[6] = {0};
->  
->  	get_registers(dev, IDR, sizeof(node_id), node_id);
->  	memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
-> -- 
-> 2.25.1
-> 
-> 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
