@@ -2,88 +2,88 @@ Return-Path: <SRS0=f0b9=DB=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57358C4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 21:53:54 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92517C4727F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 21:56:19 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CE62F21D20
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 21:53:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 23E9E239EC
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 21:56:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BjoKxTy1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="k3Osk55T"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE62F21D20
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lw4joe8L"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23E9E239EC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9FA2D86B0A;
-	Thu, 24 Sep 2020 21:53:53 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QHYC92Z0bRtU; Thu, 24 Sep 2020 21:53:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1EE0C86B90;
-	Thu, 24 Sep 2020 21:53:53 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 08A51C0859;
-	Thu, 24 Sep 2020 21:53:53 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 34C14C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 21:53:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E60F3204B3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 21:53:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C6AA12E113;
+	Thu, 24 Sep 2020 21:56:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QJbkbZT1ximK; Thu, 24 Sep 2020 21:56:16 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 795A8204B3;
+	Thu, 24 Sep 2020 21:56:16 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70970C0859;
+	Thu, 24 Sep 2020 21:56:16 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2A883C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Sep 2020 07:01:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1088186E86
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Sep 2020 07:01:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mws1nzhZIU2P
+ with ESMTP id 6G31IFtpGuNS
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 21:53:50 +0000 (UTC)
+ Wed, 16 Sep 2020 07:01:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by silver.osuosl.org (Postfix) with ESMTPS id DD3DE20469
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5661986E72
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 21:53:49 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600984426;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=50ls+vBq+FfTMVSndh/JUjpk9M8gYW0WEmaHS52ov8k=;
- b=BjoKxTy1U6UgZenE4M+pedzTdDBWmjQjQobkRZ5JK4lp1hYD1pfZm3CE/cIgodrnxeCktm
- TdMByqmjJxy4enCTDib0fm6j4Vk6BpKGDfXLwzOeodvasek+5B55/FneJPmWlLppzJ9Mpr
- H1dMhMm9NN4/n+McjtE6vNahwMzEgazKwiuPh5fHdOo2KD98HmawEYn5aLZkQm1EMT3TCa
- D+OmRqgoUd3e43vMDMwycVh/JTdVIWrnY3I440zpS4gzEZXJdiBruez/KOab/1wv7+BhF4
- RT65yv/uHvDsGUuW1DPergoCvEzHnmdO78CKOgwuejWsAfwOMKO9lfNlzG7TSg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600984426;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=50ls+vBq+FfTMVSndh/JUjpk9M8gYW0WEmaHS52ov8k=;
- b=k3Osk55T4BVLeOs/VuJRBYoV8EVmF++pnR29w1CC/rwV5NEARaHvp4iSy1FBHeDCIevC4W
- /AYlGdBVgp8Vq7Dg==
-To: Joe Perches <joe@perches.com>, Julia Lawall <julia.lawall@inria.fr>
-In-Reply-To: <6d5383a3ec02d89dd05797c3ae158aebdc0c88ae.camel@perches.com>
-Date: Thu, 24 Sep 2020 23:53:46 +0200
-Message-ID: <87r1qqvo2d.fsf@nanos.tec.linutronix.de>
+ Wed, 16 Sep 2020 07:01:16 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5c9.dynamic.kabel-deutschland.de
+ [95.90.213.201])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3363F206BE;
+ Wed, 16 Sep 2020 07:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600239676;
+ bh=L7oCfnb7lEbHdLKLiukpW+KCpdLJw0nUo40GHh0SkEA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Lw4joe8LKCkqV8IJyb1iQmNv0ta/uvx8FsMu8X1vcgC2vDAKQnn/bSg4riQZmEQv4
+ Y5Iwvhp05ckwvW1k2LTAo6M9r9GsPnmuXBMhZA+qEfuWKGgtUbHXPRTYAPwndI6jjh
+ Ia1xVsefs9m3xacGNvniuovmD+3U5+KSx2qO8Oag=
+Date: Wed, 16 Sep 2020 09:01:11 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Message-ID: <20200916090111.7dcfa0fe@coco.lan>
+In-Reply-To: <CAMuHMdVfoQ-vW3VeO8vDVALNREBV1afaSnwnc0jnkoXmvw6xhQ@mail.gmail.com>
+References: <alpine.DEB.2.21.2009151345001.31296@ramsan.of.borg>
+ <EA89ED5D-E477-4464-B523-D729796CE0D0@getmailspring.com>
+ <CAMuHMdVfoQ-vW3VeO8vDVALNREBV1afaSnwnc0jnkoXmvw6xhQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Cc: Giuseppe Scrivano <gscrivan@redhat.com>,
- Valdis =?utf-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
- kernelnewbies <kernelnewbies@kernelnewbies.org>,
- kernel-janitors <kernel-janitors@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, Andy Whitcroft <apw@shadowen.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, cocci <cocci@systeme.lip6.fr>
-Subject: Re: [Linux-kernel-mentees] [Cocci] coccinelle: Convert comma to
-	semicolons (was Re: [PATCH] checkpatch: Add test for comma
-	use that should be semicolon)
+X-Mailman-Approved-At: Thu, 24 Sep 2020 21:56:14 +0000
+Cc: "r.verdejo@samsung.com" <r.verdejo@samsung.com>,
+ linux-kernel@vger.kernel.org,
+ "linux-kernel-mentees@lists.linuxfoundation.org\"
+ <linux-kernel-mentees@lists.linuxfoundation.org>, "@osuosl.org,
+ " <linux-kernel@vger.kernel.org>"@osuosl.org,
+ "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [v10 3/4] media: vidtv: add a bridge
+	driver
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,50 +101,74 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Sep 24 2020 at 13:33, Joe Perches wrote:
-> On Thu, 2020-09-24 at 22:19 +0200, Thomas Gleixner wrote:
->> On Sat, Aug 22 2020 at 09:07, Julia Lawall wrote:
->> > On Fri, 21 Aug 2020, Joe Perches wrote:
->> > > True enough for a general statement, though the coccinelle
->> > > script Julia provided does not change a single instance of
->> > > for loop expressions with commas.
->> > > 
->> > > As far as I can tell, no logic defect is introduced by the
->> > > script at all.
->> > 
->> > The script has a rule to ensure that what is changed is part of a top
->> > level statement that has the form e1, e2;.  I put that in to avoid
->> > transforming cases where the comma is the body of a macro, but it protects
->> > against for loop headers as well.
->> 
->> Right. I went through the lot and did not find something dodgy. Except
->> for two hunks this still applies. Can someone please send a proper patch
->> with changelog/SOB etc. for this?
->
-> Treewide?
->
-> Somebody no doubt would complain, but there
-> _really should_ be some mechanism for these
-> trivial and correct treewide changes...
+Hi Geert,
 
-There are lots of mechanisms:
+Em Tue, 15 Sep 2020 15:35:00 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> escreveu:
 
- - Andrew picks such changes up
+> Hi Daniel,
+> 
+> On Tue, Sep 15, 2020 at 3:26 PM Daniel W. S. Almeida
+> <dwlsalmeida@gmail.com> wrote:
+> > >> +    u32 nbytes = 0;  /* the number of bytes written by this function */
+> > >> +
+> > >> +    u64 nbytes_expected; /* the number of bytes we should have written */
+> > >> +    u64 nbytes_streamed; /* the number of bytes we actually wrote */
+> > >> +    u32 num_null_pkts; /* number of null packets to bridge the gap */
+> > >> +
+> > >> +    u64 elapsed_time_msecs = jiffies_to_usecs(m->timing.current_jiffies -
+> > >> +                                              m->timing.past_jiffies);
+> > >> +
+> > >> +    elapsed_time_msecs = min(elapsed_time_msecs,
+> > >> (u64)VIDTV_MAX_SLEEP_USECS / 1000);
+> > >> +    nbytes_expected = div64_u64(m->mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);  
+> > >
+> > > Seriously?!?
+> > >
+> > > You multiply by 1000 first, followed by a division by 1000 using an
+> > > expensive 64-by-64 division?  
+> >
+> > This entire function is broken and needs a do-over :)
+> >  
+> > > using an expensive 64-by-64 division?  
+> >
+> > I am new to kernel development. I wasn't even aware that this was
+> > expensive, to be honest.  
+> 
+> All divisions involving 64-bit data are expensive, especially on 32-bit
+> platforms.  That's why we have the helpers in <linux/math.h>.  Most
+> of them implement simplified variants, which are less expensive.
 
- - With a few competent eyeballs on it (reviewers) this can go thorugh
-   the trivial tree as well. It's more than obvious after all.
+I agree that 64-bit math is something that should be used with some
+care. However, it is almost unavoidable do to 64-bit divisions for
+digital TV.
 
- - Send the script to Linus with a proper change log attached and ask
-   him to run it.
+See, digital TV system deals with frequencies that go up to
+2,150 GHz (and that's after converting them from ~10 GHz range,
+which is done on userspace, on satellite systems).
 
- - In the worst case if nobody feels responsible, I'll take care.
+Basically, most DVB drivers end using 64 bits math to setup clocks.
+Although we converted most of those cases - I guess there are still
+a few legacy drivers (written before 64bit archs) that use an
+algorithm for 64 bits division with a 32 bits result. That should
+be more expensive than a 64-bits division, specially on 64-bit archs.
 
-All of the above is better than trying to get the attention of a
-gazillion of maintainters.
+Also, stream bit rates are at the order of up to 50 Mbits/s. So,
+QoS stats usually need to do 64-bit math too, in order to avoid
+overflows.
+
+-
+
+On the other hand, a few 64-bits math operations at Kernel side
+means nothing in terms of the systems performance, as those are usually 
+done  either at setup phase or when some data packets arrived. Most
+of CPU cycles ended being spent at MPEG-TS decoding and at audio/video
+codecs, with needs to be done for each sample, and usually spend
+lots of CPU (and GPU) cycles doing math and copying big chunks of
+data.
 
 Thanks,
-
-        tglx
+Mauro
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
