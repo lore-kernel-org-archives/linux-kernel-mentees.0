@@ -2,108 +2,109 @@ Return-Path: <SRS0=IxsT=CZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA1DC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 12:07:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1473DC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 13:38:31 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C568C22209
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 12:07:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 52B3C22288
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 13:38:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RSQ+XVm5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C568C22209
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fHilp9TK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 52B3C22288
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 78D2E86E6B;
-	Wed, 16 Sep 2020 12:07:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C8BC7820C5;
+	Wed, 16 Sep 2020 13:38:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8hHi-e8f1guc; Wed, 16 Sep 2020 12:07:07 +0000 (UTC)
+	with ESMTP id K-A5ZLEkzjMo; Wed, 16 Sep 2020 13:38:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D1EA886E45;
-	Wed, 16 Sep 2020 12:07:07 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4256081A18;
+	Wed, 16 Sep 2020 13:38:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ABD9AC0864;
-	Wed, 16 Sep 2020 12:07:07 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9730AC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 33C95C0859;
+	Wed, 16 Sep 2020 13:38:29 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3882CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 12:07:06 +0000 (UTC)
+ Wed, 16 Sep 2020 13:38:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 6D97527236
+ by hemlock.osuosl.org (Postfix) with ESMTP id 26CE886FC7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 12:07:06 +0000 (UTC)
+ Wed, 16 Sep 2020 13:38:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZpUhiYmdJ0-o
+ with ESMTP id 6oMxxe7jmtnD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 12:07:05 +0000 (UTC)
+ Wed, 16 Sep 2020 13:38:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by silver.osuosl.org (Postfix) with ESMTPS id E14792083F
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7CB6D86F66
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 12:07:04 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id a9so2751441wmm.2
+ Wed, 16 Sep 2020 13:38:27 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id z19so3978905pfn.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 05:07:04 -0700 (PDT)
+ Wed, 16 Sep 2020 06:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=GgpqCFOaQtbkX22/BnoLSpV+0GZ39e+K3NP/lFjUr6M=;
- b=RSQ+XVm5RdsDGVC25YdMcGfQ35pGXklfgf34CMq0rGzjoqlH9qx/ZeLXIBdvs/QpGW
- fki6mJ+XHfYVQlVmAMSPlYkP1LALtSK5uq8BtI4j7SFVzPUcMRu239AzYMQbKicreiWj
- 3IVIp+NaKGDvZEFxXsOKuPcwJPg8eYOZTeCNkFyq+uUneL7jDcdvLZTiWHbNiZXVYOiT
- GAMP/ekOCfigF0iN9XgmLglkunTmVnbSC95g56VBB12/jYkwiR8sCUuDssIMrYyDBzTs
- F04kQ+FSKC9XXeFrr6ndjqMAHRRhqEf9SxR7elblSRoNc5jUAk/PCDgx1NzjUOpA2D2b
- qMAA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=RPMmBa/zuVIVa6YT0Ct/PRYo3W8xK4AI2YIowuyMAz8=;
+ b=fHilp9TKndRfRIpIEW7pskStpJIx9tJimZ/y0pA9ypEvUHuYNm+18QlWmYOouD1tX0
+ LCK9aNAEI5YK+8CxLy6PgjIyLZmIZKfqvdx8B+9dwUnu8GnDSki3ejFJDcxMtw4ZvZkD
+ o58I2PumQyjbrEwCBsQvpOvIod2iRymYkDGLSlbDNe4W6UpmWWVqCwY2nBO6TgvF0l4g
+ KHU2qC9MgZICr7bfyPlIUWcx9aqQb6z72coEyRXs4xC52mJuXIJ47/9zIuWZe9xlXciN
+ rWrQ0jdnFJUZre4qzzTb/8uUrDgfCghNIQGgFqFdkhyrVn5mG75WLqiOFP8ZrHLbyxL8
+ NelQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=GgpqCFOaQtbkX22/BnoLSpV+0GZ39e+K3NP/lFjUr6M=;
- b=cOFXBRgTeon+UW3lfQbuH5/zB9jUPmHHtibOKp4YRpianzpmKk9ISNVemuTd2PSfoy
- qo2NUxwKn48rtp9Cses3ZFUNA0d4hEcesvlq6nugnvl/rBg2MIadH9GETkEL3K3E1XmV
- 9jHy3xXLmgdkMDTcXJgXJMcoA1jY8oylLQKyRt98101v+L3WVpLCyZ89jUNk9cME360O
- 66wNonL1nK6EdC/Dh1EkK2u72qjWWhvkELWiCwpFqEdkxR7plkp+O58Shxly5BKhisWd
- PUkAiqRnU4gpJgh4ZALLMTcKhTltwr0j4Hi1J25EIRGiw6YG5Vfis0lliU3gZGi9kjQ9
- agiQ==
-X-Gm-Message-State: AOAM531k+tMcrm250hZLTuEWKPIdTGLnU6I5iXJw4U4gYDcVIDwgh49L
- xxWOa69LVXubohmgy3tTfuc=
-X-Google-Smtp-Source: ABdhPJygFA6R72dxuxDxgJPAUSLrcgHXWPQ9aD84fZTPBD9bwZ82SF7cj2qLsyNvyKyD08/JiUKEXg==
-X-Received: by 2002:a7b:c141:: with SMTP id z1mr4515288wmi.79.1600258023127;
- Wed, 16 Sep 2020 05:07:03 -0700 (PDT)
-Received: from felia ([2001:16b8:2dec:c500:83c:b38c:cca0:d0c2])
- by smtp.gmail.com with ESMTPSA id b188sm7160306wmb.2.2020.09.16.05.07.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 05:07:02 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 16 Sep 2020 14:06:56 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>, Ayush <ayush@disroot.org>
-In-Reply-To: <e6fa87d7-3b80-390f-4db2-40e977a4b635@gmail.com>
-Message-ID: <alpine.DEB.2.21.2009161352170.12662@felia>
-References: <6a2bdeea-265b-5cd0-78c2-aa865b0d5bb7@gmail.com>
- <alpine.DEB.2.21.2009121343290.13082@felia>
- <23226f28-dcc4-dba3-dac9-636464d37b03@gmail.com>
- <alpine.DEB.2.21.2009121422520.3770@felia>
- <4fe9f9e4-f016-6c1c-4ac6-7af82212d392@gmail.com>
- <alpine.DEB.2.21.2009131307420.22585@felia>
- <e6fa87d7-3b80-390f-4db2-40e977a4b635@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=RPMmBa/zuVIVa6YT0Ct/PRYo3W8xK4AI2YIowuyMAz8=;
+ b=WxcVel8YD81l/zbd7n+UjSFbYw6X9oXcLxGOp4rmcF/gpxrC1EMhZZMTle8dKmIdJQ
+ MC09zwWynAI6k4SNuskKqoDdfr+Xz3T/ZnVVU/7Iv9fIvBu1/kjJdzUoPNqJPxB2uUIb
+ VOCXxEMr3a0xuleLaTAP3l5fHiQ6Ba76LrzpySeubiPCg9957jiZUNTX6hpp00pg91p7
+ oBcMLOJOpeRhizYPauhl3g/m0BNQGYSKQrDmevmU2AVn3f885af8UjaXP2uono8o9ook
+ RnIwxZSQmF5aH8KpL46EK3Lz43fCIf3btzsqlJYwe5IrC7989U762KCLrzrVtiDQSre4
+ Z9nQ==
+X-Gm-Message-State: AOAM531Vv8gHX9bB2Kb9+f/2+UrijgiUJEKY+ko3l33/m9twBGJTebt5
+ ceA9AT3Q/N7KPR8jpEs3JVg=
+X-Google-Smtp-Source: ABdhPJw8pDY+mq6BWskzMRd1QiEHrMA+qZcz43pBqGlrejs0IcKqbHwaajsxiVnJqEydNRZeG2HCHg==
+X-Received: by 2002:a63:30c:: with SMTP id 12mr18613171pgd.66.1600263506704;
+ Wed, 16 Sep 2020 06:38:26 -0700 (PDT)
+Received: from [192.168.0.104] ([49.207.198.18])
+ by smtp.gmail.com with ESMTPSA id e62sm16987968pfh.76.2020.09.16.06.38.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Sep 2020 06:38:26 -0700 (PDT)
+To: Petko Manolov <petkan@nucleusys.com>
+References: <20200916050540.15290-1-anant.thazhemadam@gmail.com>
+ <20200916061946.GA38262@p310>
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Message-ID: <780e991d-864d-0491-f440-12a926920a8a@gmail.com>
+Date: Wed, 16 Sep 2020 19:08:21 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] RRRe: Evaluate and Improve checkpatch: tasks
+In-Reply-To: <20200916061946.GA38262@p310>
+Content-Language: en-US
+Cc: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH] rtl8150: set memory to all 0xFFs
+ on failed register reads
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,132 +123,65 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 
+On 16/09/20 11:49 am, Petko Manolov wrote:
+> On 20-09-16 10:35:40, Anant Thazhemadam wrote:
+>> get_registers() copies whatever memory is written by the
+>> usb_control_msg() call even if the underlying urb call ends up failing.
+> Not true, memcpy() is only called if "ret" is positive.
+Right. I'm really sorry I fumbled and messed up the commit message
+there. Thank you for pointing that out.
+>> If get_registers() fails, or ends up reading 0 bytes, meaningless and junk 
+>> register values would end up being copied over (and eventually read by the 
+>> driver), and since most of the callers of get_registers() don't check the 
+>> return values of get_registers() either, this would go unnoticed.
+> usb_control_msg() returns negative on error (look up usb_internal_control_msg() 
+> to see for yourself) so it does not go unnoticed.
 
-On Wed, 16 Sep 2020, Ujjwal Kumar wrote:
+When I said "this would go unnoticed", I meant get_register() failing would
+go unnoticed, not that usb_control_msg() failing would go unnoticed.
+I agree that get_registers() notices usb_control_msg() failing, and
+appropriately returns the return value from usb_control_msg().
+But there are many instances where get_registers() is called but the return
+value of get_registers() is not checked, to see if it failed or not; hence, "this
+would go unnoticed".
 
-> On 13/09/20 4:45 pm, Lukas Bulwahn wrote:
-> > 
-> > 
-> > On Sun, 13 Sep 2020, Ujjwal Kumar wrote:
-> > 
-> >> On 12/09/20 6:02 pm, Lukas Bulwahn wrote:
-> >>> On Sat, 12 Sep 2020, Ujjwal Kumar wrote:
-> >>>
-> >>>> On 12/09/20 5:14 pm, Lukas Bulwahn wrote:
-> >>>>>
-> >>>>>
-> >>>>> On Sat, 12 Sep 2020, Ujjwal Kumar wrote:
-> >>>>>
-> >>>>>> Hello Lukas,
-> >>>>>>
-> >>>>>> I attempted the tasks.
-> >>>>>>
-> >>>>>> Below is the link of GitHub repository containing my write-up and findings.
-> >>>>>> https://github.com/Ujjwal0501/lkmp-checkpatch
-> >>>>>>
-> >>>>>
-> >>>>> Thanks, it shows 404. Good luck next time.
-> >>>>
-> >>>> I'm really sorry for the noise. The link is active now.
-> >>>
-> >>> Okay, scripts and data looks sound. So, let us try those scripts.
-> >>>
-> >>> Please have a look at this patch:
-> >>>
-> >>> https://lore.kernel.org/linux-kernel-mentees/20200912094826.150170-1-ayush@disroot.org/
-> >>>
-> >>> The author states:
-> >>>
-> >>> This issue was discovered through a thorough analysis of checkpatch.pl
-> >>> errors and warnings of type GIT_COMMIT_ID on commits between v5.7 and
-> >>> v5.8.
-> >>>
-> >>> Before applying this patch, checkpatch.pl reported 342 errors of type
-> >>> GIT_COMMIT_ID. After applying patch, errors reduced to 284.
-> >>>
-> >>>
-> >>> If your scripts work, you should be able to confirm the statement.
-> >>>
-> >>
-> >> I'm unable to reproduce the same count as above because the script is run 
-> >> on different sets of commits.
-> >>
-> > 
-> > So, you say the evaluation from Ayush was not really a good evaluation of 
-> > v5.7..v.5.8 due to some misconception of Ayush how to obtain the set of 
-> > proper commits from v5.7..v5.8?
-> 
-> That is not totally correct as he correctly generated the list of commits in 
-> the first task. But the script used to generate the statistics used a 
-> different way so I was trying to point that specific thing.
-> 
-> >>
-> >>> The tasks are:
-> >>>
-> >>> 1. Run your scripts and create a full statistics of all error types with
-> >>> their according count for v5.7..v5.8.
-> >>>
-> >>> 2. Apply the patch with git am.
-> >>>
-> >>> 3. Run your scripts again and create a new statistics.
-> >>>
-> >>> 4. Compare before and after
-> >>>
-> >>> 5. Make all results available on your github repository.
-> >>>
-> >>
-> >> The results are available at the link 
-> >> https://github.com/Ujjwal0501/lkmp-checkpatch/blob/master/tasks.md
-> >>
-> >> Kindly take a look at it.
-> >>
-> > 
-> > Can you share the errors that have changed after the patch was applied?
-> > 
-> > - Which cases of GIT_COMMIT_ID have disappeared?
-> > - Which cases of GIT_COMMIT_ID are new?
-> > - Which cases of GIT_COMMIT_ID have changed?
-> > - Have cases of other type of errors/warnings/checks/notes disappeared, 
-> > been added or changed?
-> > 
-> > You state GIT_COMMIT_ID changed from 272 to 230, but the tester in
-> > 
-> > https://lore.kernel.org/linux-kernel-mentees/CABJPP5BFNjBhdcvBWqDYnR-o2sZ0oY77bYr9PxducXW4Y=482Q@mail.gmail.com/
-> > 
-> > claimed that it changed from 270 to 251.
-> > 
-> > Which numbers are right? Why is there a difference in both statistics?
-> 
-> The patch from Ayush appears to have a bug which I have detailed in my write up.
-> 
-> Kindly take a look at the link.
-> https://github.com/Ujjwal0501/lkmp-checkpatch/blob/master/followuptask1.md
->
+> If for some reason it return zero, nothing is copied.  Also, if usb transfer fail 
+> no register values are being copied anywhere.
 
-Ayush, please fix the bug.
+True.
+Now consider set_ethernet_addr(), and suppose get_register() fails when
+invoked from inside set_ethernet_addr().
+As you said, no value is copied back, which means no value is copied back
+into node_id, which leaves node_id uninitialized. This node_id (still
+uninitialized) is then blindly copied into dev->netdev->dev_addr; which
+is less than ideal and could also quickly prove to become an issue, right?
 
-Ujjwal, please do not create screenshots. That is wasteful and harmful to 
-the environment.
+> Your patch also allows for memcpy() to be called with 'size' either zero or 
+> greater than the allocated buffer size. Please, look at the code carefully.
+Oh. I apologize for this. This can be reverted relatively easily.
+>> It might be a better idea to try and mirror the PCI master abort
+>> termination and set memory to 0xFFs instead in such cases.
+> I wasn't aware drivers are now responsible for filling up the memory with 
+> anything.  Does not sound like a good idea to me.
+Since we copy the correct register values when get_register() doesn't fail,
+I thought it might be a slightly better alternative to fill node_id with 0xFFs,
+instead of leaving it go uninitialized in case get_registers() fails.
 
-You can share the same information by sharing plain text in nicely 
-formated ways.
+Also, what are the odds that a successful get_register() call would see
+0xFFs being copied?
+If that's very real scenario, then I admit this doesn't work at all.
 
-Ujjwal, I do not understand the diff you presented. We are really not 
-acquainted with your stat file, maybe you can explain what you read out of 
-that.
+The only other alternative approach I can think of that can handle the
+issue I highlighted above, is to introduce checking for get_registers()'s
+return values nearly everywhere it gets called.
+Would that be a more preferable and welcome approach?
 
-Which results are from which exact commit?
+Thank you for your time.
 
-Ujjwal, can you judge if the findings that disappeared should have not 
-been warned about in the first place?
-
-And the ones that appear new? Should they be really warned about or not?
-
-Are there further patterns in the GIT_COMMIT_ID findings that probably 
-should not be warned about and could be improved?
+Thanks,
+Anant
 
 
-Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
