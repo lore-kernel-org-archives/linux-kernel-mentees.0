@@ -1,104 +1,71 @@
-Return-Path: <SRS0=IxsT=CZ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=D/zP=C2=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC25C43461
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 20:05:55 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 820FBC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Sep 2020 00:22:52 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B67A20658
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Sep 2020 20:05:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HgfEPHZV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B67A20658
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id C48FC20684
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Sep 2020 00:22:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C48FC20684
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EF18887501;
-	Wed, 16 Sep 2020 20:05:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 749D286F41;
+	Thu, 17 Sep 2020 00:22:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id W+VfbKKZQUAa; Wed, 16 Sep 2020 20:05:53 +0000 (UTC)
+	with ESMTP id etRLc_dW_qgE; Thu, 17 Sep 2020 00:22:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 16EF587490;
-	Wed, 16 Sep 2020 20:05:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2674B86F3C;
+	Thu, 17 Sep 2020 00:22:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 085D5C0864;
-	Wed, 16 Sep 2020 20:05:53 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9D6BFC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A04DC0859;
+	Thu, 17 Sep 2020 00:22:50 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3A05CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 20:05:51 +0000 (UTC)
+ Thu, 17 Sep 2020 00:22:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7EFC0874FE
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1658087834
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 20:05:51 +0000 (UTC)
+ Thu, 17 Sep 2020 00:22:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n3bhcNINztNj
+ with ESMTP id YqQkat8CAklU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 20:05:50 +0000 (UTC)
+ Thu, 17 Sep 2020 00:22:46 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
- [209.85.160.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 65E6687490
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [195.92.253.2])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8424C87825
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 20:05:50 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id e7so7163221qtj.11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Sep 2020 13:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EJFw4uKW8e/iIEi8z8Ir0rldGUxpdMF9h1PXE42yizw=;
- b=HgfEPHZVnS86sF0lcmA5PP6+ri8SehwOknPCcG0mW3FyiWyjSycs2YGoSBd5ozzk87
- txiSSTMWYqL3/HdoKau+QeLq4yHFP/qJRjM/Lm50WoD+iUtYtKq1C6uiYqitWoxmo0w6
- AH/tXycpempNBciyQGQ8v8857oL4YJCel0NxD+fMoqzd45OC/3PwJgusD8cUBLJwAlc9
- gYGx/D8lTL+4spk/86iCp3UtSsb6cwwbF1Cxx1QYHVCZaflkxJjD1ACc08YadILIpZWH
- 4aiCeiUa6mGHABezctp0GR8O4xAEFsiz1umCSctducY4kK6T8uz4LhuLd3/NQpmXIq1x
- Uamg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EJFw4uKW8e/iIEi8z8Ir0rldGUxpdMF9h1PXE42yizw=;
- b=C0D9knbVU+wP4W3ypQDXzt08M6FjX+tHVkN+wYFNCSmYxSMsc6UrzBTYhBp+1rd2kx
- M1VQCzNt8GKDyAAT4E3PgEthOigMgjen4SQfvHxRs5XoTRVBuXkXx61zWgOjVvxKWn/R
- z8SzkWutloX0to9+nqxOx121hQckyQWuTWJ0GZbkNoppqLg5VdGVXlAkv7JvLpbdgvYX
- Lwc0FqhUiJVlVWagY0cpAJymLfVz8BfL8BDyxwPGUcGF3pAuVOHzQBZAnicdxTXmUNcg
- 5k+HIUdl8xVrzt+zvligMQ7cc8Xrx8zH67OULeagB8vM18UmnO3LLp9b7/rQ57OYRViW
- U9/A==
-X-Gm-Message-State: AOAM533nU2TsU922Ec+7JYU8R2uy9GnxicCYTW8Nvt/za1ARWYDmJA7V
- 2qAGpDhkC8UuublhUlBG9Do=
-X-Google-Smtp-Source: ABdhPJwrGADt2AO+3SC2kJyZ6ICn6XmP/Qmi2pLma8AkSBY0Ur6ZUlxs6101sCv8XmFGzACUqlvvCA==
-X-Received: by 2002:ac8:23a3:: with SMTP id q32mr24941972qtq.361.1600286749171; 
- Wed, 16 Sep 2020 13:05:49 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id t11sm19242563qtp.32.2020.09.16.13.05.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 13:05:48 -0700 (PDT)
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To: mchehab@kernel.org
-Date: Wed, 16 Sep 2020 17:05:40 -0300
-Message-Id: <20200916200540.3239378-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ Thu, 17 Sep 2020 00:22:46 +0000 (UTC)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
+ Linux)) id 1kIhh8-0004tj-2A; Thu, 17 Sep 2020 00:22:38 +0000
+Date: Thu, 17 Sep 2020 01:22:38 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Eric Biggers <ebiggers@kernel.org>
+Message-ID: <20200917002238.GO3421308@ZenIV.linux.org.uk>
+References: <20200916052657.18683-1-anant.thazhemadam@gmail.com>
+ <20200916054157.GC825@sol.localdomain>
 MIME-Version: 1.0
-Cc: rdunlap@infradead.org, r.verdejo@samsung.com, linux-kernel@vger.kernel.org,
- nicolas@ndufresne.ca, geert@linux-m68k.org,
+Content-Disposition: inline
+In-Reply-To: <20200916054157.GC825@sol.localdomain>
+Cc: linux-fsdevel@vger.kernel.org,
+ Anant Thazhemadam <anant.thazhemadam@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2] media: vidtv: fix build on 32bit
-	architectures
+ syzbot+4191a44ad556eacc1a7a@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] fs: fix KMSAN uninit-value bug
+ by initializing nd in do_file_open_root
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,265 +83,47 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+On Tue, Sep 15, 2020 at 10:41:57PM -0700, Eric Biggers wrote:
 
-Fix the following error for builds on 32bit architectures:
+> Looking at the actual KMSAN report, it looks like it's nameidata::dir_mode or
+> nameidata::dir_uid that is uninitialized.  You need to figure out the correct
+> solution, not just blindly initialize with zeroes -- that could hide a bug.
+> Is there a bug that is preventing these fields from being initialized to the
+> correct values, are these fields being used when they shouldn't be, etc...
 
-ERROR: modpost: "__udivdi3"
-[drivers/media/test-drivers/vidtv/dvb-vidtv-bridge.ko] undefined!
+False positive, and this is the wrong place to shut it up.
 
-Which is due to 64bit divisions that did not go through the helpers
-in linux/math64.h
+->dir_uid and ->dir_mode are set when link_path_walk() resolves the pathname
+to directory + final component.  They are used when deciding whether to reject
+a trailing symlink (on fs.protected_symlinks setups) and whether to allow
+creation in sticky directories (on fs.protected_regular and fs.protected_fifos
+setups).  Both operations really need the results of successful link_path_walk().
 
-As vidtv_mux_check_mux_rate was not operational in its current form,
-drop the entire function while it is not fixed properly.
+I don't see how that could be not a false positive.  If we hit the use in
+may_create_in_sticky(), we'd need the combination of
+	* pathname that consists only of slashes (or it will be initialized)
+	* LAST_NORM in nd->last_type, which is flat-out impossible, since
+we are left with LAST_ROOT for such pathnames.  The same goes for
+may_follow_link() use - we need WALK_TRAILING in flags to hit it in the
+first place, which can come from two sources -
+        return walk_component(nd, WALK_TRAILING);
+in lookup_last() (and walk_component() won't go anywhere near the
+call chain leading to may_follow_link() without LAST_NORM in nd->last_type)
+and
+        res = step_into(nd, WALK_TRAILING, dentry, inode, seq);
+in open_last_lookups(), which also won't go anywhere near that line without
+LAST_NORM in the nd->last_type.
 
-For now, call vidtv_mux_pad_with_nulls with a constant number of packets
-to avoid warnings due to unused functions when building this driver.
+IOW, unless we manage to call that without having called link_path_walk()
+at all or after link_path_walk() returning an error, we shouldn't hit
+that.  And if we *do* go there without link_path_walk() or with an error
+from link_path_walk(), we have a much worse problem.
 
-The 64bit division used in the s302m is not needed, remove them and use
-a fixed number of frames and a constant PTS increment instead.
-
-Fixes: f90cf6079bf67988 ("media: vidtv: add a bridge driver")
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
-Changes in v2:
-
-Rework the s302m encoder so that a fixed number of frames and a constant
-increment value for pts is used. This removes the 64bit division that
-was making the build fail.
-
----
-
- .../media/test-drivers/vidtv/vidtv_encoder.h  |  2 +-
- drivers/media/test-drivers/vidtv/vidtv_mux.c  | 42 +-------------
- .../media/test-drivers/vidtv/vidtv_s302m.c    | 56 ++++++-------------
- .../media/test-drivers/vidtv/vidtv_s302m.h    |  2 +
- 4 files changed, 23 insertions(+), 79 deletions(-)
-
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_encoder.h b/drivers/media/test-drivers/vidtv/vidtv_encoder.h
-index a7c99cafab4f..65d81daef4c3 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_encoder.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_encoder.h
-@@ -148,7 +148,7 @@ struct vidtv_encoder {
- 
- 	__be16 es_pid;
- 
--	void *(*encode)(struct vidtv_encoder *e, u64 elapsed_time_usecs);
-+	void *(*encode)(struct vidtv_encoder *e);
- 
- 	u32 (*clear)(struct vidtv_encoder *e);
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-index 26a742c95c76..43b13aa3a8bc 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-@@ -281,17 +281,11 @@ static u32 vidtv_mux_poll_encoders(struct vidtv_mux *m)
- 	struct vidtv_channel *cur_chnl = m->channels;
- 	struct vidtv_encoder *e = NULL;
- 
--	u64 elapsed_time_usecs = jiffies_to_usecs(m->timing.current_jiffies -
--						  m->timing.past_jiffies);
--
--	elapsed_time_usecs = min_t(u64, elapsed_time_usecs, (u64)VIDTV_MAX_SLEEP_USECS);
--
- 	while (cur_chnl) {
- 		e = cur_chnl->encoders;
- 
- 		while (e) {
--			/* encode for 'elapsed_time_usecs' */
--			e->encode(e, elapsed_time_usecs);
-+			e->encode(e);
- 			/* get the TS packets into the mux buffer */
- 			au_nbytes = vidtv_mux_packetize_access_units(m, e);
- 			nbytes += au_nbytes;
-@@ -337,38 +331,6 @@ static u32 vidtv_mux_pad_with_nulls(struct vidtv_mux *m, u32 npkts)
- 	return nbytes;
- }
- 
--static u32 vidtv_mux_check_mux_rate(struct vidtv_mux *m)
--{
--	/*
--	 * attempt to maintain a constant mux rate, padding with null packets
--	 * if needed
--	 */
--
--	u32 nbytes = 0;  /* the number of bytes written by this function */
--
--	u64 nbytes_expected; /* the number of bytes we should have written */
--	u64 nbytes_streamed; /* the number of bytes we actually wrote */
--	u32 num_null_pkts; /* number of null packets to bridge the gap */
--
--	u64 elapsed_time_msecs = jiffies_to_usecs(m->timing.current_jiffies -
--						  m->timing.past_jiffies);
--
--	elapsed_time_msecs = min(elapsed_time_msecs, (u64)VIDTV_MAX_SLEEP_USECS / 1000);
--	nbytes_expected = div64_u64(m->mux_rate_kbytes_sec * 1000, MSEC_PER_SEC);
--	nbytes_expected *= elapsed_time_msecs;
--
--	nbytes_streamed = m->mux_buf_offset;
--
--	if (nbytes_streamed < nbytes_expected) {
--		/* can't write half a packet: roundup to a 188 multiple */
--		nbytes_expected  = roundup(nbytes_expected - nbytes_streamed, TS_PACKET_LEN);
--		num_null_pkts    = nbytes_expected / TS_PACKET_LEN;
--		nbytes          += vidtv_mux_pad_with_nulls(m, num_null_pkts);
--	}
--
--	return nbytes;
--}
--
- static void vidtv_mux_clear(struct vidtv_mux *m)
- {
- 	/* clear the packets currently in the mux */
-@@ -400,7 +362,7 @@ static void vidtv_mux_tick(struct work_struct *work)
- 			nbytes += vidtv_mux_push_si(m);
- 
- 		nbytes += vidtv_mux_poll_encoders(m);
--		nbytes += vidtv_mux_check_mux_rate(m);
-+		nbytes += vidtv_mux_pad_with_nulls(m, 256);
- 
- 		npkts = nbytes / TS_PACKET_LEN;
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-index 122a450fb27c..ca42ad0a8a0a 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-@@ -40,6 +40,11 @@
- #define S302M_BLOCK_SZ 192
- #define S302M_SIN_LUT_NUM_ELEM 1024
- 
-+/* these are retrieved empirically from ffmpeg/libavcodec */
-+#define FF_S302M_DEFAULT_NUM_FRAMES 1115
-+#define FF_S302M_DEFAULT_PTS_INCREMENT 2090
-+#define FF_S302M_DEFAULT_PTS_OFFSET 100000
-+
- /* Used by the tone generator: number of samples for PI */
- #define PI		180
- 
-@@ -189,7 +194,7 @@ static void vidtv_s302m_alloc_au(struct vidtv_encoder *e)
- }
- 
- static void
--vidtv_s302m_compute_sample_count_v(struct vidtv_encoder *e)
-+vidtv_s302m_compute_sample_count_from_video(struct vidtv_encoder *e)
- {
- 	struct vidtv_access_unit *au = e->access_units;
- 	struct vidtv_access_unit *sync_au = e->sync->access_units;
-@@ -208,33 +213,7 @@ vidtv_s302m_compute_sample_count_v(struct vidtv_encoder *e)
- 	}
- }
- 
--static void
--vidtv_s302m_compute_sample_count(struct vidtv_encoder *e,
--				 u64 elapsed_time_usecs)
--{
--	/* compute sample count for 'elapsed_time_usecs' */
--	u32 sample_duration_usecs = USEC_PER_SEC / e->sampling_rate_hz;
--	struct vidtv_access_unit *au = e->access_units;
--
--	au->num_samples = (u32)div64_u64(elapsed_time_usecs, sample_duration_usecs);
--}
--
--static void vidtv_s302m_compute_pts(struct vidtv_encoder *e)
--{
--	u64 count = e->sample_count;
--	struct vidtv_access_unit *au = e->access_units;
--
--	while (au) {
--		count += au->num_samples;
--
--		au->pts = count *
--			  CLOCK_UNIT_90KHZ / e->sampling_rate_hz;
--
--		au = au->next;
--	}
--}
--
--static void vidtv_s302m_compute_pts_v(struct vidtv_encoder *e)
-+static void vidtv_s302m_compute_pts_from_video(struct vidtv_encoder *e)
- {
- 	struct vidtv_access_unit *au = e->access_units;
- 	struct vidtv_access_unit *sync_au = e->sync->access_units;
-@@ -366,6 +345,7 @@ static u32 vidtv_s302m_write_h(struct vidtv_encoder *e, u32 p_sz)
- static void vidtv_s302m_write_frames(struct vidtv_encoder *e)
- {
- 	struct vidtv_access_unit *au = e->access_units;
-+	struct vidtv_s302m_ctx *ctx = e->ctx;
- 	u32 nbytes_per_unit = 0;
- 	u32 nbytes = 0;
- 	u32 au_sz = 0;
-@@ -400,12 +380,13 @@ static void vidtv_s302m_write_frames(struct vidtv_encoder *e)
- 		au->offset = nbytes - nbytes_per_unit;
- 
- 		nbytes_per_unit = 0;
-+		ctx->au_count++;
- 
- 		au = au->next;
- 	}
- }
- 
--static void *vidtv_s302m_encode(struct vidtv_encoder *e, u64 elapsed_time)
-+static void *vidtv_s302m_encode(struct vidtv_encoder *e)
- {
- 	/*
- 	 * According to SMPTE 302M, an audio access unit is specified as those
-@@ -416,27 +397,26 @@ static void *vidtv_s302m_encode(struct vidtv_encoder *e, u64 elapsed_time)
- 	 *
- 	 * Assuming that it is also possible to send audio without any
- 	 * associated video, as in a radio-like service, a single audio access unit
--	 * is created with enough audio data for 'elapsed_time'
--	 * The value of PTS is computed manually.
-+	 * is created with values for 'num_samples' and 'pts' taken empirically from
-+	 * ffmpeg
- 	 */
- 
--	if (!elapsed_time)
--		goto out;
-+	struct vidtv_s302m_ctx *ctx = e->ctx;
- 
- 	vidtv_s302m_access_unit_destroy(e);
- 	vidtv_s302m_alloc_au(e);
- 
- 	if (e->sync && e->sync->is_video_encoder) {
--		vidtv_s302m_compute_sample_count_v(e);
--		vidtv_s302m_compute_pts_v(e);
-+		vidtv_s302m_compute_sample_count_from_video(e);
-+		vidtv_s302m_compute_pts_from_video(e);
- 	} else {
--		vidtv_s302m_compute_sample_count(e, elapsed_time);
--		vidtv_s302m_compute_pts(e);
-+		e->access_units->num_samples = FF_S302M_DEFAULT_NUM_FRAMES;
-+		e->access_units->pts = (ctx->au_count * FF_S302M_DEFAULT_PTS_INCREMENT) +
-+				       FF_S302M_DEFAULT_PTS_OFFSET;
- 	}
- 
- 	vidtv_s302m_write_frames(e);
- 
--out:
- 	return e->encoder_buf;
- }
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.h b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-index 01ef47a812c8..eca5e3150ede 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-@@ -33,10 +33,12 @@
-  * struct vidtv_s302m_ctx - s302m encoder context.
-  * @enc: A pointer to the containing encoder structure.
-  * @frame_index: The current frame in a block
-+ * @au_count: The total number of access units encoded up to now
-  */
- struct vidtv_s302m_ctx {
- 	struct vidtv_encoder *enc;
- 	u32 frame_index;
-+	u32 au_count;
- };
- 
- /**
--- 
-2.28.0
-
+I want to see the details of reproducer.  If it's for real, we have a much
+more serious problem; if it's a false positive, the right place to deal
+with it would be elsewhere (perhaps on return from link_path_walk() with
+a slashes-only pathname), but in any case it should only be done after we
+manage to understand what's going on.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
