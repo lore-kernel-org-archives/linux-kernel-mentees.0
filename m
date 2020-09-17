@@ -2,70 +2,75 @@ Return-Path: <SRS0=D/zP=C2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 820FBC433E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Sep 2020 00:22:52 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C7EC433E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Sep 2020 10:00:24 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C48FC20684
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Sep 2020 00:22:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C48FC20684
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=zeniv.linux.org.uk
+	by mail.kernel.org (Postfix) with ESMTPS id 13CA522205
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Sep 2020 10:00:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 13CA522205
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=sipsolutions.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 749D286F41;
-	Thu, 17 Sep 2020 00:22:51 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id etRLc_dW_qgE; Thu, 17 Sep 2020 00:22:50 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2674B86F3C;
-	Thu, 17 Sep 2020 00:22:50 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A04DC0859;
-	Thu, 17 Sep 2020 00:22:50 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A05CC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Sep 2020 00:22:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1658087834
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Sep 2020 00:22:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A2DED87870;
+	Thu, 17 Sep 2020 10:00:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id feuRibS6N0RL; Thu, 17 Sep 2020 10:00:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id ADC8E87669;
+	Thu, 17 Sep 2020 10:00:21 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 91369C0859;
+	Thu, 17 Sep 2020 10:00:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E42A3C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 17 Sep 2020 10:00:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id D5647875CE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 17 Sep 2020 10:00:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YqQkat8CAklU
+ with ESMTP id hFQwt72Xsz5m
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Sep 2020 00:22:46 +0000 (UTC)
+ Thu, 17 Sep 2020 10:00:18 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [195.92.253.2])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8424C87825
+Received: from sipsolutions.net (s3.sipsolutions.net [144.76.43.62])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D8C73875C6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Sep 2020 00:22:46 +0000 (UTC)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1kIhh8-0004tj-2A; Thu, 17 Sep 2020 00:22:38 +0000
-Date: Thu, 17 Sep 2020 01:22:38 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Eric Biggers <ebiggers@kernel.org>
-Message-ID: <20200917002238.GO3421308@ZenIV.linux.org.uk>
-References: <20200916052657.18683-1-anant.thazhemadam@gmail.com>
- <20200916054157.GC825@sol.localdomain>
+ Thu, 17 Sep 2020 10:00:17 +0000 (UTC)
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.94) (envelope-from <johannes@sipsolutions.net>)
+ id 1kIqi5-005Vc1-O3; Thu, 17 Sep 2020 12:00:13 +0200
+Message-ID: <cfcb01c087fdd9f22a875721444a7659bceec05f.camel@sipsolutions.net>
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Brendan Higgins <brendanhiggins@google.com>, Vitor Massaru Iha
+ <vitor@massaru.org>
+Date: Thu, 17 Sep 2020 12:00:12 +0200
+In-Reply-To: <CAFd5g47s09BfsqNx2RY1Zdp-TC4KbKgsMgr9-SHv1Nf6P9vAMQ@mail.gmail.com>
+ (sfid-20200819_231025_419730_3D8DCC68)
+References: <20200729175849.148332-1-vitor@massaru.org>
+ <CAFd5g47s09BfsqNx2RY1Zdp-TC4KbKgsMgr9-SHv1Nf6P9vAMQ@mail.gmail.com>
+ (sfid-20200819_231025_419730_3D8DCC68)
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200916054157.GC825@sol.localdomain>
-Cc: linux-fsdevel@vger.kernel.org,
- Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+4191a44ad556eacc1a7a@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] fs: fix KMSAN uninit-value bug
- by initializing nd in do_file_open_root
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, "open list:KERNEL
+ SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, kvalo@codeaurora.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] lib: kunit: add bitfield test
+	conversion to KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,47 +88,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Sep 15, 2020 at 10:41:57PM -0700, Eric Biggers wrote:
+On Wed, 2020-08-19 at 14:10 -0700, Brendan Higgins wrote:
+> On Wed, Jul 29, 2020 at 10:58 AM Vitor Massaru Iha <vitor@massaru.org> wrote:
+> > This adds the conversion of the runtime tests of test_bitfield,
+> > from `lib/test_bitfield.c` to KUnit tests.
+> > 
+> > Please apply this commit first (linux-kselftest/kunit-fixes):
+> > 3f37d14b8a3152441f36b6bc74000996679f0998 kunit: kunit_config: Fix parsing of CONFIG options with space
+> > 
+> > Code Style Documentation: [0]
+> > 
+> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> > Link: [0] https://lore.kernel.org/linux-kselftest/20200620054944.167330-1-davidgow@google.com/T/#u
+> 
+> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> 
+> Probably still want a review from Johannes though.
 
-> Looking at the actual KMSAN report, it looks like it's nameidata::dir_mode or
-> nameidata::dir_uid that is uninitialized.  You need to figure out the correct
-> solution, not just blindly initialize with zeroes -- that could hide a bug.
-> Is there a bug that is preventing these fields from being initialized to the
-> correct values, are these fields being used when they shouldn't be, etc...
+Huh, sorry, this slipped through the cracks.
 
-False positive, and this is the wrong place to shut it up.
+Yeah, don't really care, looks fine to me? I'm not familiar with the
+kunit infrastructure much yet.
 
-->dir_uid and ->dir_mode are set when link_path_walk() resolves the pathname
-to directory + final component.  They are used when deciding whether to reject
-a trailing symlink (on fs.protected_symlinks setups) and whether to allow
-creation in sticky directories (on fs.protected_regular and fs.protected_fifos
-setups).  Both operations really need the results of successful link_path_walk().
+Not sure I see much value in converting TEST_BITFIELD_COMPILE to a
+KUNIT_CASE though, because anyway it will not compile if you enable
+that? IOW, just leaving the function there without any KUNIT_CASE()
+reference to it should be fine and saves you an ifdef ...
 
-I don't see how that could be not a false positive.  If we hit the use in
-may_create_in_sticky(), we'd need the combination of
-	* pathname that consists only of slashes (or it will be initialized)
-	* LAST_NORM in nd->last_type, which is flat-out impossible, since
-we are left with LAST_ROOT for such pathnames.  The same goes for
-may_follow_link() use - we need WALK_TRAILING in flags to hit it in the
-first place, which can come from two sources -
-        return walk_component(nd, WALK_TRAILING);
-in lookup_last() (and walk_component() won't go anywhere near the
-call chain leading to may_follow_link() without LAST_NORM in nd->last_type)
-and
-        res = step_into(nd, WALK_TRAILING, dentry, inode, seq);
-in open_last_lookups(), which also won't go anywhere near that line without
-LAST_NORM in the nd->last_type.
+johannes
 
-IOW, unless we manage to call that without having called link_path_walk()
-at all or after link_path_walk() returning an error, we shouldn't hit
-that.  And if we *do* go there without link_path_walk() or with an error
-from link_path_walk(), we have a much worse problem.
-
-I want to see the details of reproducer.  If it's for real, we have a much
-more serious problem; if it's a false positive, the right place to deal
-with it would be elsewhere (perhaps on return from link_path_walk() with
-a slashes-only pathname), but in any case it should only be done after we
-manage to understand what's going on.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
