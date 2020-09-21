@@ -2,85 +2,91 @@ Return-Path: <SRS0=KrtX=C6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1874C43464
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 09:48:10 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 454E3C43464
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 12:12:02 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 483A021789
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 09:48:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 483A021789
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id CE2E3206D9
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 12:12:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pA/X/l/F"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE2E3206D9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DE6FA85F8E;
-	Mon, 21 Sep 2020 09:48:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 74C8886850;
+	Mon, 21 Sep 2020 12:12:01 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rC2pwhpvDaxJ; Mon, 21 Sep 2020 12:12:00 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7AB5E867FC;
+	Mon, 21 Sep 2020 12:12:00 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FA51C0859;
+	Mon, 21 Sep 2020 12:12:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8F9E1C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 21 Sep 2020 12:11:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8C14185FB6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 21 Sep 2020 12:11:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eSBvbGbkbmfb; Mon, 21 Sep 2020 09:48:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1E33585EC0;
-	Mon, 21 Sep 2020 09:48:07 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EB15C0889;
-	Mon, 21 Sep 2020 09:48:07 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54F18C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:48:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 35439870FD
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:48:05 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0zQkgeuCV-yx
+ with ESMTP id djD55XhfqLMb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:48:04 +0000 (UTC)
-X-Greylist: delayed 18:30:38 by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0064.hostedemail.com
- [216.40.44.64])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0ED7F870FC
+ Mon, 21 Sep 2020 12:11:56 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-oo1-f68.google.com (mail-oo1-f68.google.com
+ [209.85.161.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A7F76854E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:48:04 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 1A34C180275BB
+ Mon, 21 Sep 2020 12:11:56 +0000 (UTC)
+Received: by mail-oo1-f68.google.com with SMTP id y25so3183018oog.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:48:02 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay06.hostedemail.com (Postfix) with ESMTP id 62019182251A2;
- Mon, 21 Sep 2020 09:47:59 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: wind22_0914db627144
-X-Filterd-Recvd-Size: 3631
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf09.hostedemail.com (Postfix) with ESMTPA;
- Mon, 21 Sep 2020 09:47:58 +0000 (UTC)
-Message-ID: <984edba5dae45d5b5a9b8381f6164423380037d7.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 21 Sep 2020 02:47:57 -0700
-In-Reply-To: <alpine.DEB.2.21.2009210921520.7483@felia>
-References: <20200920091706.56276-1-dwaipayanray1@gmail.com>
- <7958ded756c895ca614ba900aae7b830a992475e.camel@perches.com>
- <CABJPP5Chm2xd2PW77=Ru9t4C6Yvq3SyEmr1gKsaQGyF5AxRVfA@mail.gmail.com>
- <52ccb41c8922dda44ac325f2f3e09f81f1936611.camel@perches.com>
- <alpine.DEB.2.21.2009210921520.7483@felia>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ Mon, 21 Sep 2020 05:11:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=O53UfZrdFDaL5dwfAkiOMuxDSIBhJ/FiVSPxTY510/M=;
+ b=pA/X/l/F6J7hiD0v/zRY3HmV0sy57X8yybdSU+SPDQZcmLViW4XhV6m5KG2ZjN+BGH
+ eeKsb+pMWUDvgJe7pgTQAhcGE21EQ8me+OcXuW2apSv5f9qi3iSybuq4+HoOjJLMf7Lj
+ 0Ja018UwSZRwJQZ64abr/ioH2M34jTCltDsNwZgG1siuEeCtmunoBEuiMgvA87v/Mb6L
+ T2OItEuOXHTWtmN2LDiz2wpbKZJK+IcsHlG6PIvL27AHVBDLSEcOJ0pqAcVSXok3BVvQ
+ zDvf+pR9IGKwIGwc+Hnh3X9DeuB3TWDnF1Sr+7ElMpAMygVUlIAH3t6K60WMwv8vZLjb
+ 4oBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=O53UfZrdFDaL5dwfAkiOMuxDSIBhJ/FiVSPxTY510/M=;
+ b=Ln63zd/HfYET9lAYitzM4iVZe/uSpIGlI14gecm0mzb5GZ+mJ/+u1rcJ0Excq0sEH1
+ mfFiKJvoT8SLeoLe9JbJGPnCcdNU+vH35nmIeGd4gEQvfYdHmBv0eYM0nB+fOaIiKM4r
+ g2kZmYrfSFlK33/eJkz2PHGJh/pEwR5XStYrjlmWzjm/qKVimRhw/jSVUdcOptcD+YJF
+ +FJ104dMt1yOaNl1cyJ2f9p7p0GzNjG2GgHz89Ee+v/wXMMbYt1lqmk/bF8c1ThL11/K
+ DwdeI4BH0MrWlAJJQr0UOUHU4DuCOdIheEtejFQjN9wizX+9FwGFv5L5ViKeQ3misg23
+ Ugbw==
+X-Gm-Message-State: AOAM530QzhpvXiLExRUodQWNJHcb1tgVoY88jWibfPBnBWEJgeyXJA4N
+ Hsakn5LkFsNM0uw45IEtVMZgf1nQbj0hIrWmcJ8=
+X-Google-Smtp-Source: ABdhPJw8cKmCKUQaF7bEfQBUmi2BtQEwb3ls9AIdVcHEml3Y+FhJzl5uSm6NZcp+nbY08flqYatbY2cCPEbQOH5Htbc=
+X-Received: by 2002:a4a:a385:: with SMTP id s5mr33044683ool.8.1600690315633;
+ Mon, 21 Sep 2020 05:11:55 -0700 (PDT)
 MIME-Version: 1.0
-Cc: apw@canonical.com, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: extend author
- Signed-off-by check for split From: header
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Mon, 21 Sep 2020 17:41:36 +0530
+Message-ID: <CABJPP5AVLBwACOwZQKhMoOgUF9ZiO6OoZt0+TkQQHoeUD8igYw@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] checkpatch.pl improvement:
+ NO_AUTHOR_SIGN_OFF warnings for users with multiple emails
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,77 +98,72 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 2020-09-21 at 09:39 +0200, Lukas Bulwahn wrote:
-> On Sun, 20 Sep 2020, Joe Perches wrote:
-> > On Sun, 2020-09-20 at 21:52 +0530, Dwaipayan Ray wrote:
-[]
-> > > For example, Lukas checked commits between v5.4 and
-> > > v5.8 and he found:
-> > >     175 Missing Signed-off-by: line by nominal patch authorrep
-> > >     'Daniel Vetter <daniel.vetter@ffwll.ch>'
-> > > =
+Hi Joe and Lukas and others,
+I would like to elaborate a bit on the issue and the solution I
+have thought of for fixing Missing Author Signed-off-by
+warning for regular committers who use multiple email
+addresses.
 
-> > > Infact in all of those commits he signed off using a different
-> > > mail, Daniel Vetter <daniel.vetter@intel.com>.
-> > > =
+The problem:
+While running checkpatch on previous commits to the kernel,
+there were multiple such instances where the author had
+signed off using a different email address rather than the one
+which he used to mail the patch.
 
-> > > So is it possible to resolve these using perhaps .mailmap
-> > > entries? Or should only the name mismatch part be better
-> > > handled? Or perhaps both?
-> > =
+From Lukas's data:
 
-> > Dunno.  It certainly can be improved...
-> > Try adding some more logic and see what you come up with.
-> > =
+$ grep "NO_AUTHOR_SIGN_OFF" v5.4..v5.8.tsv  | cut -f 7 | sort  | uniq -c |
+sort -nr | head -n 8
+    175 Missing Signed-off-by: line by nominal patch author 'Daniel
+Vetter <daniel.vetter@ffwll.ch>'
+     68 Missing Signed-off-by: line by nominal patch author 'Trond
+Myklebust <trondmy@gmail.com>'
+     43 Missing Signed-off-by: line by nominal patch author 'Thinh
+Nguyen <Thinh.Nguyen@synopsys.com>'
+     40 Missing Signed-off-by: line by nominal patch author 'Pascal
+van Leeuwen <pascalvanl@gmail.com>'
+     36 Missing Signed-off-by: line by nominal patch author 'Alex
+Maftei <amaftei@solarflare.com>'
+     31 Missing Signed-off-by: line by nominal patch author 'Valdis
+Kletnieks <valdis.kletnieks@vt.edu>'
+     24 Missing Signed-off-by: line by nominal patch author 'Luke
+Nelson <lukenels@cs.washington.edu>'
 
-> > btw:
-> > =
+So most of them belong to the case where they have signed off
+using a different mail address. I believe these can be handled
+better.
 
-> > The most frequent NO_AUTHOR_SIGN_OFF messages for v5.7..v5.8 are
-> > =
+Proposed Solution:
+The .mailmap file contains mappings of the following types:
+  name1 <mail1>
+  <mail1> <mail2>
+  name1 <mail1> <mail2>
+  name1 <mail1> name2 <mail2>
 
-> >      98 WARNING: From:/SoB: email address mismatch: 'From: Daniel Vette=
-r <daniel.vetter@ffwll.ch>' !=3D 'Signed-off-by: Daniel Vetter <daniel.vett=
-er@intel.com>'
-> >      24 WARNING: From:/SoB: email address mismatch: 'From: Thinh Nguyen=
- <Thinh.Nguyen@synopsys.com>' !=3D 'Signed-off-by: Thinh Nguyen <thinhn@syn=
-opsys.com>'
-> >      19 WARNING: From:/SoB: email address mismatch: 'From: Wolfram Sang=
- <wsa+renesas@sang-engineering.com>' !=3D 'Signed-off-by: Wolfram Sang <wsa=
-@kernel.org>'
-> >      11 WARNING: From:/SoB: email address mismatch: 'From: Luke Nelson =
-<lukenels@cs.washington.edu>' !=3D 'Signed-off-by: Luke Nelson <luke.r.nels=
-@gmail.com>'
-> >       8 WARNING: From:/SoB: email address mismatch: 'From: Christophe L=
-eroy <christophe.leroy@c-s.fr>' !=3D 'Signed-off-by: Christophe Leroy <chri=
-stophe.leroy@csgroup.eu>'
-> >       6 WARNING: From:/SoB: email address mismatch: 'From: Davidlohr Bu=
-eso <dave@stgolabs.net>' !=3D 'Signed-off-by: Davidlohr Bueso <dbueso@suse.=
-de>'
-> >       5 WARNING: Missing Signed-off-by: line by nominal patch author '"=
-Paul A. Clarke" <pc@us.ibm.com>'
-> >       4 WARNING: Missing Signed-off-by: line by nominal patch author 'H=
-uang Ying <ying.huang@intel.com>'
-> >       3 WARNING: Missing Signed-off-by: line by nominal patch author '"=
-Stephan M=FCller" <smueller@chronox.de>'
-[]
-> I hope Dwaipayan can come up with a '.AUTHOR_SIGN_OFF.mailmap' file that =
+Thus loading .mailmap data and matching email addresses for
+the same author would resolve many of these warnings.
 
-> we can use to distinguish the known developers that knowingly and =
+Now the remaining problem at hand is to have a data structure
+by which this query can be handled easily without much extra
+overhead.
 
-> intentionally use different identities vs. the 'newbies' that should =
+One possible solution is while parsing the author, also load mailmap
+and load associated email addresses to the author and load it
+into a hash. Next when a signed-off-by line is encountered and
+the email is found in our hash ( or maybe some other ds ), then
+the signed-off-by match should be positive.
 
-> validly be warned.
+Is this feasible? I would be looking at other possibilities too. But it
+would be great to have your view on it!
 
-I hope not.  One .mailmap should be enough.
-
-
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
