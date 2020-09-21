@@ -7,92 +7,92 @@ X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D76BAC43464
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 09:12:41 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 751B4C43463
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 09:15:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 594BD20773
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 09:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D1C41214F1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 09:15:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mgerXx6O"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 594BD20773
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+Z+WLBD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D1C41214F1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0A01E85F50;
-	Mon, 21 Sep 2020 09:12:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 66FF9871BA;
+	Mon, 21 Sep 2020 09:15:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vbmgdPhhD-PR; Mon, 21 Sep 2020 09:12:40 +0000 (UTC)
+	with ESMTP id 9cXuE7RZTIau; Mon, 21 Sep 2020 09:15:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A769685EB4;
-	Mon, 21 Sep 2020 09:12:40 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0386886FE7;
+	Mon, 21 Sep 2020 09:15:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 895A8C0889;
-	Mon, 21 Sep 2020 09:12:40 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 00890C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DDC5EC0889;
+	Mon, 21 Sep 2020 09:15:20 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3073CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:12:40 +0000 (UTC)
+ Mon, 21 Sep 2020 09:15:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E3DE785F50
+ by silver.osuosl.org (Postfix) with ESMTP id 16905204E3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:12:39 +0000 (UTC)
+ Mon, 21 Sep 2020 09:15:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pi9dHdp7oVei
+ with ESMTP id xqJSvIUCXYSt
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:12:39 +0000 (UTC)
+ Mon, 21 Sep 2020 09:15:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E5EED85EB4
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by silver.osuosl.org (Postfix) with ESMTPS id A459E204D9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 09:12:38 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id k14so12081607edo.1
+ Mon, 21 Sep 2020 09:15:18 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id o8so16631360ejb.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 02:12:38 -0700 (PDT)
+ Mon, 21 Sep 2020 02:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:date:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=XF00rUhoztZQkaE+JEwv7rGLnfJWwXtdTnDX+633PSI=;
- b=mgerXx6ORC2KE+2jJBi6TYl9LDzpxeQynjZJvbeFUY9Ys/QLANIGPJTO95XOa9ygL+
- iUeTfZjCfYzyLl28AVpJun4Bcu5im5nDOcioteZv829abqaVD3RKikVl5rCfXeaEW0rv
- jy9+xGJG7JiBjylv+5sGk8ikIwxV2+QEvFRgScnW0r7zeFQnEYaBtI8YcQQRfgkuc92p
- lZNtKxGIykmo9Rdb8ptnTiulju6XjroFhJjJonunwcjtOeUBcuIJ1U5RrFKUBtXKRItb
- v8K/Dpad/eQOLYtK+oQGxDcE3SS6gYB+S+a+OaRpNctfbLHB8RdKkGi239UREaB//jIA
- QuMw==
+ bh=kE06TYl1jRgIMZnXLIt/Yb1FSbincXcZmCiTm+r298o=;
+ b=B+Z+WLBD0WMM+EM9Uj/fhRpLAVqO/UXuBirlX6B5uHV3KWOoEHNhdNCd9sQwrv3RPE
+ BM8Xj9g9tcska1+K81zipesTCC6eOiO0t0bN2jGC0wQzF47iMJ4ZvGA9UeedpQZkwS5q
+ HIB/XxIWdDejia+j4noYYFnRRbK2cowUk3gDOarZnSZYuHPrf6uSW0Dlq7XjWScBoRt6
+ O9lAHxdCW7zstzn/DMHyQ6mA2wskYMUR7JMywLdGatK20KdwW4YYxuUrwVyN1hO7p+G9
+ R0yQsz70iiYpTSeaVslTN9ElF/SDx4ESxwakA6GegdXJRvFKrmwoLv3QqqUJXP70NzDi
+ H4kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=XF00rUhoztZQkaE+JEwv7rGLnfJWwXtdTnDX+633PSI=;
- b=ewMoLE3VHyPmJzuJmqQLtKxFRy2gIAbxLczco8x+b1CoP/rjBiscCXlDpSzgjjjqf3
- I1k24+iMuIn7aaWRIrsltB/KXj2vCG4kXm+/zYU+Qomsi9VCXxSHtGnUQpX2EDGCc52a
- LUjYm0VLpVsDutqJziZZaDGkE4eGzijRyH0pf374r/kS6AJ+Kvs6Fw4LbmSY8GWtmcLt
- T9+G/Wi+561JwTdau9JKXv2M+IRxw+NQq+YL2hUVONqzVtsWvBXxu1t5DA+LKh0zLpre
- ZCS1PcuDssUJ2MzzIE345BddMgq/l5Hr4jsu57C89TFVRe6pVLsHm297gEhxerG8qNGp
- EL3g==
-X-Gm-Message-State: AOAM531+IcSiuVg/Y9T8VdfhimmIeiQkk63Vx9/x/Fu5//Qs3AEo7F8n
- q/2CsIyQ91WBy6saD3jVxrM=
-X-Google-Smtp-Source: ABdhPJxlTdEyLh3n920HijECTTNhNbJRmS+ae/KU00LfiSu+47X8eNhHUop6rBfnwLlIr+H+HIEi6g==
-X-Received: by 2002:a50:9f6f:: with SMTP id
- b102mr50380190edf.272.1600679557160; 
- Mon, 21 Sep 2020 02:12:37 -0700 (PDT)
+ bh=kE06TYl1jRgIMZnXLIt/Yb1FSbincXcZmCiTm+r298o=;
+ b=dAyjqtr1GBXNWZB25BS0MrWDRdX+OqIHSgR5Qeh0K7w5UU9nFqCo74FPuOJh2XDPT/
+ ENCmoB25sFzsrf0wqL7Zq0kmrAzj9la9XK2A+LVS1oLBITw8hWL/o/WgSQdrfnMj3+Yf
+ w3Y7liGerxqXZRryHM6WQKXZjiBRIsIPF6p04aCfqpIZsW2Ci320Xldm8JhkVhAHERTf
+ uC3YT76dBYAgPaUL9JcxIisagxbyZLPKrt9JE3AptZ90xQU+FMj7NNxTsACjnd9wj1k4
+ 2iUocwNRbTbhZ7oQYedfUSDkSeMl4HIFF12GxqqahBVV2MUDbknrthQTe+Mc2aB7hWCc
+ 9T/g==
+X-Gm-Message-State: AOAM5328qAxzpesu/rFzpVxUpdk+PMsqZHDYYRttaYUWScPVoA9/ifYr
+ RvIFjrU2q+N127oEGtCuJb8=
+X-Google-Smtp-Source: ABdhPJz+j82ZRh+M6uneeutj33bHfHP/1VV/RdGSfT4y0q+SkDH7sh9FKmHMNB0FdI6Im8MVpOQHBA==
+X-Received: by 2002:a17:906:82c1:: with SMTP id
+ a1mr37395183ejy.270.1600679716959; 
+ Mon, 21 Sep 2020 02:15:16 -0700 (PDT)
 Received: from felia ([2001:16b8:2d52:a400:69ec:6d66:6c4c:48])
- by smtp.gmail.com with ESMTPSA id ks21sm8396477ejb.63.2020.09.21.02.12.36
+ by smtp.gmail.com with ESMTPSA id q1sm8387161ejy.37.2020.09.21.02.15.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 02:12:36 -0700 (PDT)
+ Mon, 21 Sep 2020 02:15:16 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Mon, 21 Sep 2020 11:12:35 +0200 (CEST)
+Date: Mon, 21 Sep 2020 11:15:15 +0200 (CEST)
 X-X-Sender: lukas@felia
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>
 In-Reply-To: <CABJPP5A8kaaFqR9Sm-rS6uuWb6CdbnkLLPXWpgp8XeEgC9uOJw@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2009211110190.7483@felia>
+Message-ID: <alpine.DEB.2.21.2009211112460.7483@felia>
 References: <alpine.DEB.2.21.2009181157160.14717@felia>
  <CABJPP5DGpep-S5F+J=dxdhBBDp2J9wQBrJvH_Ys6uJDj3AfRRA@mail.gmail.com>
  <alpine.DEB.2.21.2009181238230.14717@felia>
@@ -129,11 +129,7 @@ On Mon, 21 Sep 2020, Dwaipayan Ray wrote:
 > threads with subject [PATCH v2] and [PATCH v3]. Did you
 > get it separate or is it the same case? In other mail boxes
 > it seems to be okay.
->
-
-That is a bug in the gmail client. It looks good in my proper email 
-client.
- 
+> 
 > Apart from that for fixing the different email addresses, I
 > am thinking to try copying the read_mailmap subroutine
 > from scripts/get_maintainer.pl, see how it works and
@@ -141,12 +137,18 @@ client.
 > once I achieve something.
 >
 
-Sure, I am still wondering if it better to just use the .mailmap
-file or if we should introduce a separate file with the same format.
+Can you describe in a few sentence what the problem is, and which solution 
+you are exploring to Joe, linux-kernel and the mentees list.
 
-But let us start implementing and see.
+I would consider that your project proposal for the first mentee 
+milestone. With that, we can progress you to become a proper mentee in the 
+community bridge platform.
 
 Lukas
+ 
+> Thanks,
+> Dwaipayan.
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
