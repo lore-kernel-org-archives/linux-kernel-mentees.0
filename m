@@ -2,102 +2,97 @@ Return-Path: <SRS0=KrtX=C6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AF3C43463
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 08:55:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 660C0C43464
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 09:08:17 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 31E6820EDD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 08:55:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C8B5720773
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Sep 2020 09:08:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZyQf3hoX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31E6820EDD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o9gxHM53"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C8B5720773
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D8AC32040D;
-	Mon, 21 Sep 2020 08:55:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4E5AF204ED;
+	Mon, 21 Sep 2020 09:08:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZLJvvDuhEjfK; Mon, 21 Sep 2020 08:55:17 +0000 (UTC)
+	with ESMTP id KSXV4dFcvp9E; Mon, 21 Sep 2020 09:08:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3077E1FFFE;
-	Mon, 21 Sep 2020 08:55:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2D64B20516;
+	Mon, 21 Sep 2020 09:08:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D3748C0859;
-	Mon, 21 Sep 2020 08:55:16 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1E1DDC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A282C0859;
+	Mon, 21 Sep 2020 09:08:11 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE9D2C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 08:55:15 +0000 (UTC)
+ Mon, 21 Sep 2020 09:08:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0457C867CD
+ by fraxinus.osuosl.org (Postfix) with ESMTP id AB44085F83
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 08:55:15 +0000 (UTC)
+ Mon, 21 Sep 2020 09:08:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l3FYIKstLkr2
+ with ESMTP id wn6u45uPaXFf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 08:55:11 +0000 (UTC)
+ Mon, 21 Sep 2020 09:08:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D3546867CE
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+ [209.85.167.173])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 06F3285F77
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 08:55:11 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id 67so8424226pgd.12
+ Mon, 21 Sep 2020 09:08:09 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id x69so16119806oia.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Sep 2020 01:55:11 -0700 (PDT)
+ Mon, 21 Sep 2020 02:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RmCn5vOKz8H6U5hdnAJ3cL1ug+bt2KAFmZOtUuB/JUM=;
- b=ZyQf3hoXqTydB3dwB2Cja6PaaTTT69mUNmDEzXdGk2LsZrbC/+viWG4DgI5ZdW18iL
- Ucw1klDOpt9whPgMftqZitC5fJFHqGsfQeOZYiG9kvT4o+/E1XjDSeBg4hFS2Je/eDtX
- qo7tvCOSDjgCcDXqK6JTNUZO0jk0qaxmVmD7zeB6IXIoSajsmAEhOyp5iiITH5xEkMFM
- 9CvES7ov4LZOlNDny1IQ3DBzfX7/q+jc365viuul3UhIAkeafDR2S1YPss0MF586kOgz
- 7IzZyNvjjio32XyR91WzsmylMfbgD0dxNp4+ig6n+x4sxhUHTxDdAEYIjKZ00NKyGh5N
- XjAw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dbWT07vpyZ1SWOiX3mk1Zbhx2jweWcU4bi6BNw5WLn4=;
+ b=o9gxHM53+poPwlM0QzjV4UkiBVIgdjEQzc9A2zCqZfequDc82OY+uGutMbbrBSygG7
+ 1BFvVx4mNq/byu7WPiLdZeuYUhHiW4F5Xesl07Grtg//k9p76j3v67xZDCVXe+ShUAzY
+ 7rshIfx9NH1KHCvTmodpYLxpI3fUbgMg/nRlV0KQ41Q9VqJf1tpkIO+tJiPICwn5PCoC
+ h3kQAZwQIMj/7NSTxrwPbBKQysz4yVdCIK/euM2F7A1FxixhvM5y6kaqKn/1DVdIAzeS
+ mKUdeLkRqXLPct1MjF27lFEIU3R4IiTRID5rbgpLYtFMe6EwbzrdY0ngmUiGnlnoTA4n
+ iI6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RmCn5vOKz8H6U5hdnAJ3cL1ug+bt2KAFmZOtUuB/JUM=;
- b=eUkK7qFqyvTQzKE3L17FfIefxIBRxNmAbWlXISOcw+iJrOQJejqQnSrwDTyPr1jY1e
- iLDof+AFnoTdoonlD2Hfhj3iaI+hiZZX9/+fdGmeZbcOUCJgh2MY9ytFYsSpCwLT38fe
- +mm97FrRiV25vieqb/c9W98QSs0T6uvnDDZmUDqUB46B61x9SFzpQDAmFOiUYZIK5bzl
- UwXJ9aOLLOz43T+sjQdTdTab7eNlfZHHppnXnER+qf+uAD6nZsZ78VkfjoKNzEAr1xFS
- gtIMMlDHI7PswCJMqsOZRSLnX46Lz+sX6i5GcGuVJc+uq7qjb6pbtQFog+lxW8BThc1R
- 16VA==
-X-Gm-Message-State: AOAM532B45idF8k5hS58+VONnCz14v2CeblaTiAgQRzQtQ1AjPKVCXPa
- QyVI2iHAnwlOp1TmIYE6cSg=
-X-Google-Smtp-Source: ABdhPJwNIS+f1pLqc8PxeUKxyiWNS30Ht6l2/58kvVWVED2slhSbfH22NPMmUiaVz+IF/AlsdA7LHg==
-X-Received: by 2002:a17:902:d909:b029:d0:cbe1:e716 with SMTP id
- c9-20020a170902d909b02900d0cbe1e716mr43828585plz.36.1600678511222; 
- Mon, 21 Sep 2020 01:55:11 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:9004:606c:9848:4bbe:6238:289])
- by smtp.gmail.com with ESMTPSA id
- gj6sm10080572pjb.10.2020.09.21.01.55.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 01:55:10 -0700 (PDT)
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-To: akpm@linux-foundation.org
-Date: Mon, 21 Sep 2020 14:24:35 +0530
-Message-Id: <20200921085436.63003-1-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dbWT07vpyZ1SWOiX3mk1Zbhx2jweWcU4bi6BNw5WLn4=;
+ b=UDp6xMFJP3Me7bJi+f+CQygA0mnyPhcPgMLfZdC9yV6F5NnbQZogRdyak1+31ZZBJf
+ Sm3S9o5hPNH/9GPiA9neqiwsPlLRtKOlO+ZeRtlfGa2s+UmnR0ccuR8XXzN/Jm1JU8WY
+ +xpYoFiI4bWqE1+XkqFUqHyg55zeQOj77oSf/ZZ60s2gZxFSbUYni7IcuyhUro7kQTu0
+ 2ymvjsj5dHnC+9Nq367Gly53AcTfrVtGX3RnMW8h53fXSDpQoXBcFD5IjX1e0X6Bhh42
+ tQsKJrvy4zrDcQHeEOexmm4t1bUhVjgayfTKEBCz4rwPDAb7LXtJo+RuXnXednydmzk4
+ f5+w==
+X-Gm-Message-State: AOAM5328gd7fmyMQX6oVVPLbtPCYXbVgrLKlxbhDw+Dm/m4yMTo1E45R
+ ot1eD6KoaGF02BZJEm3JCV93FqqgN4vChb3CGo0=
+X-Google-Smtp-Source: ABdhPJzeEyih95uzcPdIb/0WJFTRnaedGGPpPqimX9825FR2IexiSSD9S79D3jUknFE2/ADoGdSohLwdcduhm38XuRM=
+X-Received: by 2002:aca:b2d7:: with SMTP id
+ b206mr17211915oif.110.1600679288048; 
+ Mon, 21 Sep 2020 02:08:08 -0700 (PDT)
 MIME-Version: 1.0
-Cc: dwaipayanray1@gmail.com, linux-kernel@vger.kernel.org, apw@canonical.com,
- joe@perches.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v3] checkpatch: extend author
-	Signed-off-by check for split From: header
+References: <alpine.DEB.2.21.2009181157160.14717@felia>
+ <CABJPP5DGpep-S5F+J=dxdhBBDp2J9wQBrJvH_Ys6uJDj3AfRRA@mail.gmail.com>
+ <alpine.DEB.2.21.2009181238230.14717@felia>
+In-Reply-To: <alpine.DEB.2.21.2009181238230.14717@felia>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Mon, 21 Sep 2020 14:37:48 +0530
+Message-ID: <CABJPP5A8kaaFqR9Sm-rS6uuWb6CdbnkLLPXWpgp8XeEgC9uOJw@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] checkpatch.pl investigation:
+	NO_AUTHOR_SIGN_OFF issues
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,59 +110,21 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Checkpatch did not handle cases where the author From: header
-was split into multiple lines. The author identity could not
-be resolved and checkpatch generated a false NO_AUTHOR_SIGN_OFF
-warning.
+Hi Lukas,
+I did send out the patch.
+Weirdly enough, my gmail inbox decided to combine both
+threads with subject [PATCH v2] and [PATCH v3]. Did you
+get it separate or is it the same case? In other mail boxes
+it seems to be okay.
 
-A typical example is commit e33bcbab16d1 ("tee: add support for
-session's client UUID generation"). When checkpatch was run on
-this commit, it displayed:
+Apart from that for fixing the different email addresses, I
+am thinking to try copying the read_mailmap subroutine
+from scripts/get_maintainer.pl, see how it works and
+try to write a solution based on that. I will let you know
+once I achieve something.
 
-"WARNING:NO_AUTHOR_SIGN_OFF: Missing Signed-off-by: line by nominal
-patch author ''"
-
-This was due to split header lines not being handled properly and
-the author himself wrote in commit cd2614967d8b ("checkpatch: warn
-if missing author Signed-off-by"):
-
-"Split From: headers are not fully handled: only the first part
-is compared."
-
-Support split From: headers by correctly parsing the header
-extension lines. RFC 5322, Section-2.2.3 stated that each extended
-line must start with a WSP character (a space or htab). The solution
-was therefore to concatenate the lines which start with a WSP to
-get the correct long header.
-
-Link: https://lore.kernel.org/linux-kernel-mentees/f5d8124e54a50480b0a9fa638787bc29b6e09854.camel@perches.com/
-Suggested-by: Joe Perches <joe@perches.com>
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Tested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Acked-by: Joe Perches <joe@perches.com>
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- scripts/checkpatch.pl | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 504d2e431c60..9e65d21456f1 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2661,6 +2661,10 @@ sub process {
- # Check the patch for a From:
- 		if (decode("MIME-Header", $line) =~ /^From:\s*(.*)/) {
- 			$author = $1;
-+			my $curline = $linenr;
-+			while(defined($rawlines[$curline]) && ($rawlines[$curline++] =~ /^[ \t]\s*(.*)/)) {
-+				$author .= $1;
-+			}
- 			$author = encode("utf8", $author) if ($line =~ /=\?utf-8\?/i);
- 			$author =~ s/"//g;
- 			$author = reformat_email($author);
--- 
-2.27.0
-
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
