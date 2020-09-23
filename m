@@ -2,74 +2,75 @@ Return-Path: <SRS0=Dbq6=DA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E83DC2D0A8
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B564C2D0A8
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:18:05 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CE8EC2145D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:04:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE8EC2145D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+	by mail.kernel.org (Postfix) with ESMTPS id 64BF62076E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:18:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 64BF62076E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 796AB872F4;
-	Wed, 23 Sep 2020 10:04:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E17B58704B;
+	Wed, 23 Sep 2020 10:18:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Qj93SBqOJ5fV; Wed, 23 Sep 2020 10:04:09 +0000 (UTC)
+	with ESMTP id eZwQKIQyko7M; Wed, 23 Sep 2020 10:18:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E15EB8703E;
-	Wed, 23 Sep 2020 10:04:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5FAD087044;
+	Wed, 23 Sep 2020 10:18:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DD37CC0889;
-	Wed, 23 Sep 2020 10:04:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 03F45C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 40563C0859;
+	Wed, 23 Sep 2020 10:18:02 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8787BC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:04:09 +0000 (UTC)
+ Wed, 23 Sep 2020 10:18:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E47A385EF5
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6F2EF87045
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:04:08 +0000 (UTC)
+ Wed, 23 Sep 2020 10:18:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pWXP5JK6ZlRa
+ with ESMTP id oL2g0+u6VmJW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:04:07 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A29D985BD3
+ Wed, 23 Sep 2020 10:18:00 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0121.hostedemail.com
+ [216.40.44.121])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4A76887044
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:04:07 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C3226B207;
- Wed, 23 Sep 2020 10:04:42 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
- id 3BB141E12E3; Wed, 23 Sep 2020 12:04:05 +0200 (CEST)
-Date: Wed, 23 Sep 2020 12:04:05 +0200
-From: Jan Kara <jack@suse.cz>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Message-ID: <20200923100405.GD6719@quack2.suse.cz>
-References: <0000000000004c1f4d05afcff2f4@google.com>
- <20200922154531.153922-1-yepeilin.cs@gmail.com>
+ Wed, 23 Sep 2020 10:18:00 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay05.hostedemail.com (Postfix) with ESMTP id F196918029157;
+ Wed, 23 Sep 2020 10:17:57 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: cloth60_240a9cc27155
+X-Filterd-Recvd-Size: 2211
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf17.hostedemail.com (Postfix) with ESMTPA;
+ Wed, 23 Sep 2020 10:17:57 +0000 (UTC)
+Message-ID: <338209a79fdd0b3f30d020825a5dafa98dd49ee8.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Wed, 23 Sep 2020 03:17:56 -0700
+In-Reply-To: <20200923100213.83901-1-dwaipayanray1@gmail.com>
+References: <20200923100213.83901-1-dwaipayanray1@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200922154531.153922-1-yepeilin.cs@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: syzkaller-bugs@googlegroups.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- Jan Kara <jack@suse.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] udf: Fix memory leak in
- udf_process_sequence()
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: extend
+ same_email_address check to load mailmap entries
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,93 +88,41 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue 22-09-20 11:45:31, Peilin Ye wrote:
-> udf_process_sequence() is leaking memory. Free `data.part_descs_loc`
-> before returning.
+On Wed, 2020-09-23 at 15:32 +0530, Dwaipayan Ray wrote:
+> Checkpatch throws a NO_AUTHOR_SIGN_OFF warning whenever either the
+> name or email address of author doesn't match any signed-off-by
+> entry. But it has no mechanism to check whether different email
+> addresses belong to the same author.
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 7b78fd02fb19 ("udf: Fix handling of Partition Descriptors")
-> Reported-and-tested-by: syzbot+128f4dd6e796c98b3760@syzkaller.appspotmail.com
-> Link: https://syzkaller.appspot.com/bug?id=c5ec4e6f5d818f3c4afd4d59342468eec08a38da
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-
-Thanks for the patch but I've just yesterday written exactly the same patch
-and merged it to my tree...
-
-								Honza
-
-> ---
->  fs/udf/super.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+> As a result, there have been multiple commits where the author has
+> signed off with a different email address which caused checkpatch
+> to product that warning.
 > 
-> diff --git a/fs/udf/super.c b/fs/udf/super.c
-> index 1c42f544096d..b0d862ab3024 100644
-> --- a/fs/udf/super.c
-> +++ b/fs/udf/super.c
-> @@ -1698,7 +1698,8 @@ static noinline int udf_process_sequence(
->  					"Pointers (max %u supported)\n",
->  					UDF_MAX_TD_NESTING);
->  				brelse(bh);
-> -				return -EIO;
-> +				ret = -EIO;
-> +				goto out;
->  			}
->  
->  			vdp = (struct volDescPtr *)bh->b_data;
-> @@ -1718,7 +1719,8 @@ static noinline int udf_process_sequence(
->  			curr = get_volume_descriptor_record(ident, bh, &data);
->  			if (IS_ERR(curr)) {
->  				brelse(bh);
-> -				return PTR_ERR(curr);
-> +				ret = PTR_ERR(curr);
-> +				goto out;
->  			}
->  			/* Descriptor we don't care about? */
->  			if (!curr)
-> @@ -1740,28 +1742,32 @@ static noinline int udf_process_sequence(
->  	 */
->  	if (!data.vds[VDS_POS_PRIMARY_VOL_DESC].block) {
->  		udf_err(sb, "Primary Volume Descriptor not found!\n");
-> -		return -EAGAIN;
-> +		ret = -EAGAIN;
-> +		goto out;
->  	}
->  	ret = udf_load_pvoldesc(sb, data.vds[VDS_POS_PRIMARY_VOL_DESC].block);
->  	if (ret < 0)
-> -		return ret;
-> +		goto out;
->  
->  	if (data.vds[VDS_POS_LOGICAL_VOL_DESC].block) {
->  		ret = udf_load_logicalvol(sb,
->  				data.vds[VDS_POS_LOGICAL_VOL_DESC].block,
->  				fileset);
->  		if (ret < 0)
-> -			return ret;
-> +			goto out;
->  	}
->  
->  	/* Now handle prevailing Partition Descriptors */
->  	for (i = 0; i < data.num_part_descs; i++) {
->  		ret = udf_load_partdesc(sb, data.part_descs_loc[i].rec.block);
->  		if (ret < 0)
-> -			return ret;
-> +			goto out;
->  	}
->  
-> -	return 0;
-> +	ret = 0;
-> +out:
-> +	kfree(data.part_descs_loc);
-> +	return ret;
->  }
->  
->  /*
-> -- 
-> 2.25.1
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> An example is commit dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore"),
+> where the author uses two different mail addresses, and checkpatch
+> generates a NO_AUTHOR_SIGN_OFF warning.
+
+.mailmap entries are used when a person no longer has
+access to a particular email and a mapping is created to
+allow these old/invalid email addresses to be converted
+to a current/valid email address.
+
+The idea here is that a person may have a .gitconfig or
+equivalent that still uses an old/invalid email address
+but uses a Signed-off-by: for a current/valid one, so
+a warning _should_ be emitted for this case.
+
+At least for checkpatch, mismatches in email addresses
+should not be papered over by assuming equivalence between
+multiple email addresses.
+
+So this should be a separate test and not used in a function
+named
+"same_email_address".  These are specifically _not_
+the same email
+addresses.
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
