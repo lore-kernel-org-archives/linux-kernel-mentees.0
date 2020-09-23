@@ -2,75 +2,84 @@ Return-Path: <SRS0=Dbq6=DA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B564C2D0A8
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:18:05 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2755C52D16
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:22:40 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 64BF62076E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:18:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 64BF62076E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9946523787
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:22:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="2i1jUvoL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9946523787
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E17B58704B;
-	Wed, 23 Sep 2020 10:18:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 41AC322D10;
+	Wed, 23 Sep 2020 10:22:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eZwQKIQyko7M; Wed, 23 Sep 2020 10:18:02 +0000 (UTC)
+	with ESMTP id tqlV5-f6FKge; Wed, 23 Sep 2020 10:22:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5FAD087044;
-	Wed, 23 Sep 2020 10:18:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F20AB228E7;
+	Wed, 23 Sep 2020 10:22:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 40563C0859;
-	Wed, 23 Sep 2020 10:18:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CED4DC0859;
+	Wed, 23 Sep 2020 10:22:38 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8787BC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 42A86C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:18:01 +0000 (UTC)
+ Wed, 23 Sep 2020 10:22:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6F2EF87045
+ by hemlock.osuosl.org (Postfix) with ESMTP id 3B13386F9F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:18:01 +0000 (UTC)
+ Wed, 23 Sep 2020 10:22:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oL2g0+u6VmJW
+ with ESMTP id wN+Yv9LG5A99
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:18:00 +0000 (UTC)
+ Wed, 23 Sep 2020 10:22:37 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0121.hostedemail.com
- [216.40.44.121])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4A76887044
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A38CF86F8D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:18:00 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay05.hostedemail.com (Postfix) with ESMTP id F196918029157;
- Wed, 23 Sep 2020 10:17:57 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: cloth60_240a9cc27155
-X-Filterd-Recvd-Size: 2211
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf17.hostedemail.com (Postfix) with ESMTPA;
- Wed, 23 Sep 2020 10:17:57 +0000 (UTC)
-Message-ID: <338209a79fdd0b3f30d020825a5dafa98dd49ee8.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Wed, 23 Sep 2020 03:17:56 -0700
-In-Reply-To: <20200923100213.83901-1-dwaipayanray1@gmail.com>
-References: <20200923100213.83901-1-dwaipayanray1@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ Wed, 23 Sep 2020 10:22:37 +0000 (UTC)
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 71CFC21BE5;
+ Wed, 23 Sep 2020 10:22:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600856557;
+ bh=XWz+vZF1g9LHOoSDkcsY0DgfgY9ECKBeXlo0tAjLp3E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=2i1jUvoLRFBz01yCEMI3AOBl7f7kw3YeK1wDQAayGCIXdpUkkkYqac305/pA+Xk2t
+ rz8XlHaWtW2W13ht3sKCDS3XCKPPmcTSwwMVrPaFlfp9A5sW4wbcJ1BozSbPzVhOsl
+ 2czFjN+d/NXfHtVMK4ZP3O4jv8B36hSznoXXwG7Q=
+Date: Wed, 23 Sep 2020 12:22:56 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Himadri Pandya <himadrispandya@gmail.com>
+Message-ID: <20200923102256.GA3154647@kroah.com>
+References: <20200923090519.361-1-himadrispandya@gmail.com>
+ <20200923090519.361-5-himadrispandya@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: extend
- same_email_address check to load mailmap entries
+Content-Disposition: inline
+In-Reply-To: <20200923090519.361-5-himadrispandya@gmail.com>
+Cc: linux-usb@vger.kernel.org, keescook@chromium.org,
+ pankaj.laxminarayan.bharadiya@intel.com, oneukum@suse.com,
+ yuehaibing@huawei.com, linux-kernel@vger.kernel.org, ogiannou@gmail.com,
+ netdev@vger.kernel.org, kuba@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
+ petkan@nucleusys.com
+Subject: Re: [Linux-kernel-mentees] [PATCH 4/4] net: rndis_host: use
+ usb_control_msg_recv() and usb_control_msg_send()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,41 +97,94 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 2020-09-23 at 15:32 +0530, Dwaipayan Ray wrote:
-> Checkpatch throws a NO_AUTHOR_SIGN_OFF warning whenever either the
-> name or email address of author doesn't match any signed-off-by
-> entry. But it has no mechanism to check whether different email
-> addresses belong to the same author.
+On Wed, Sep 23, 2020 at 02:35:19PM +0530, Himadri Pandya wrote:
+> The new usb_control_msg_recv() and usb_control_msg_send() nicely wraps
+> usb_control_msg() with proper error check. Hence use the wrappers
+> instead of calling usb_control_msg() directly.
 > 
-> As a result, there have been multiple commits where the author has
-> signed off with a different email address which caused checkpatch
-> to product that warning.
+> Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
+> ---
+>  drivers/net/usb/rndis_host.c | 44 ++++++++++++++----------------------
+>  1 file changed, 17 insertions(+), 27 deletions(-)
 > 
-> An example is commit dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore"),
-> where the author uses two different mail addresses, and checkpatch
-> generates a NO_AUTHOR_SIGN_OFF warning.
+> diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.c
+> index 6fa7a009a24a..30fc4a7183d3 100644
+> --- a/drivers/net/usb/rndis_host.c
+> +++ b/drivers/net/usb/rndis_host.c
+> @@ -113,14 +113,13 @@ int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
+>  		buf->request_id = (__force __le32) xid;
+>  	}
+>  	master_ifnum = info->control->cur_altsetting->desc.bInterfaceNumber;
+> -	retval = usb_control_msg(dev->udev,
+> -		usb_sndctrlpipe(dev->udev, 0),
+> -		USB_CDC_SEND_ENCAPSULATED_COMMAND,
+> -		USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> -		0, master_ifnum,
+> -		buf, le32_to_cpu(buf->msg_len),
+> -		RNDIS_CONTROL_TIMEOUT_MS);
+> -	if (unlikely(retval < 0 || xid == 0))
+> +	retval = usb_control_msg_send(dev->udev, 0,
+> +				      USB_CDC_SEND_ENCAPSULATED_COMMAND,
+> +				      USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> +				      0, master_ifnum, buf,
+> +				      le32_to_cpu(buf->msg_len),
+> +				      RNDIS_CONTROL_TIMEOUT_MS);
+> +	if (unlikely(xid == 0))
+>  		return retval;
+>  
+>  	/* Some devices don't respond on the control channel until
+> @@ -139,14 +138,11 @@ int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
+>  	/* Poll the control channel; the request probably completed immediately */
+>  	rsp = le32_to_cpu(buf->msg_type) | RNDIS_MSG_COMPLETION;
+>  	for (count = 0; count < 10; count++) {
+> -		memset(buf, 0, CONTROL_BUFFER_SIZE);
+> -		retval = usb_control_msg(dev->udev,
+> -			usb_rcvctrlpipe(dev->udev, 0),
+> -			USB_CDC_GET_ENCAPSULATED_RESPONSE,
+> -			USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> -			0, master_ifnum,
+> -			buf, buflen,
+> -			RNDIS_CONTROL_TIMEOUT_MS);
+> +		retval = usb_control_msg_recv(dev->udev, 0,
+> +					      USB_CDC_GET_ENCAPSULATED_RESPONSE,
+> +					      USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> +					      0, master_ifnum, buf, buflen,
+> +					      RNDIS_CONTROL_TIMEOUT_MS);
+>  		if (likely(retval >= 8)) {
 
-.mailmap entries are used when a person no longer has
-access to a particular email and a mapping is created to
-allow these old/invalid email addresses to be converted
-to a current/valid email address.
+retval here is never going to be positive, right?  So I don't think this
+patch is correct :(
 
-The idea here is that a person may have a .gitconfig or
-equivalent that still uses an old/invalid email address
-but uses a Signed-off-by: for a current/valid one, so
-a warning _should_ be emitted for this case.
+>  			msg_type = le32_to_cpu(buf->msg_type);
+>  			msg_len = le32_to_cpu(buf->msg_len);
+> @@ -178,17 +174,11 @@ int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
+>  				msg->msg_type = cpu_to_le32(RNDIS_MSG_KEEPALIVE_C);
+>  				msg->msg_len = cpu_to_le32(sizeof *msg);
+>  				msg->status = cpu_to_le32(RNDIS_STATUS_SUCCESS);
+> -				retval = usb_control_msg(dev->udev,
+> -					usb_sndctrlpipe(dev->udev, 0),
+> -					USB_CDC_SEND_ENCAPSULATED_COMMAND,
+> -					USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> -					0, master_ifnum,
+> -					msg, sizeof *msg,
+> -					RNDIS_CONTROL_TIMEOUT_MS);
+> -				if (unlikely(retval < 0))
+> -					dev_dbg(&info->control->dev,
+> -						"rndis keepalive err %d\n",
+> -						retval);
+> +				retval = usb_control_msg_send(dev->udev, 0,
+> +							      USB_CDC_SEND_ENCAPSULATED_COMMAND,
+> +							      USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> +							      0, master_ifnum, msg, sizeof(*msg),
+> +							      RNDIS_CONTROL_TIMEOUT_MS);
 
-At least for checkpatch, mismatches in email addresses
-should not be papered over by assuming equivalence between
-multiple email addresses.
+You lost the error message that the previous call had if something went
+wrong.  Don't know if it's really needed, but there's no reason to
+remove it here.
 
-So this should be a separate test and not used in a function
-named
-"same_email_address".  These are specifically _not_
-the same email
-addresses.
+thanks,
 
-
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
