@@ -2,97 +2,85 @@ Return-Path: <SRS0=Dbq6=DA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6045C4727D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 07:32:31 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53DB7C4363D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 07:39:06 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 31F462076B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 07:32:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6330B214D8
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 07:39:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HQ1d0lUB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31F462076B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BujE1Z7C"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6330B214D8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A4C0B86FE7;
-	Wed, 23 Sep 2020 07:32:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E84D922F05;
+	Wed, 23 Sep 2020 07:39:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WTLOuWT-gjDL; Wed, 23 Sep 2020 07:32:30 +0000 (UTC)
+	with ESMTP id t1mzoioQuFoY; Wed, 23 Sep 2020 07:39:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3553B86FC2;
-	Wed, 23 Sep 2020 07:32:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 96FFA22E96;
+	Wed, 23 Sep 2020 07:39:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1BEAEC0889;
-	Wed, 23 Sep 2020 07:32:30 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E9C7BC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 74A8CC0889;
+	Wed, 23 Sep 2020 07:39:03 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C38AC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 07:32:28 +0000 (UTC)
+ Wed, 23 Sep 2020 07:39:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D5EE586FD5
+ by silver.osuosl.org (Postfix) with ESMTP id 3667422EC1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 07:32:28 +0000 (UTC)
+ Wed, 23 Sep 2020 07:39:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id J6Cih9ESsfYi
+ with ESMTP id MGyvwNhlEoH0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 07:32:27 +0000 (UTC)
+ Wed, 23 Sep 2020 07:39:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by hemlock.osuosl.org (Postfix) with ESMTPS id AA53D86FC2
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
+ by silver.osuosl.org (Postfix) with ESMTPS id 4EF5B22E96
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 07:32:26 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id r7so26317557ejs.11
+ Wed, 23 Sep 2020 07:39:01 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id m13so13595080otl.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 00:32:26 -0700 (PDT)
+ Wed, 23 Sep 2020 00:39:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=1fpFHUiEuEZZUwFnjHKUxoQTEm3kogaW5gMMPSd34tM=;
- b=HQ1d0lUB7Ey9DqKpfGbk+ByaQJDJjSjViUEZsTX7m4B5RhgbpHr44tfYIR6JXY7f3L
- Epdt5PxIowTVt2HCCMyjxMRcQ5PgzN8yClJbl5LV6lR5NcxXSW60LzPsJo6Alz3aWF6O
- rn36TaYXaSUXGqgrA8cwU0IbijF20uBbGn/qFAJckHkSVFO+SUxkGHBeMJ2y4EbIueAX
- tVQWDKV+0HabUzmR7qitLVW2nECE4/6MAPU3MXW5vZJHc2D3tJe40ovlMk8sYanY2zM+
- QPHK+Y6BRQ5L9D4P0rQSGcVRV6H3FeI7EF4QX6IgCK2Ph3ChnPuPvb8kGqPgXPiyybeS
- 2cEg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IRmAjmuBLRDlHafKwUOWp9wh3KDYL9aLonW8el9ifAQ=;
+ b=BujE1Z7ClsLcmM8DLzZOBufZ1ncWU0cnM6vpK7K3B3IiB94FMwQOm64dWHD9u3HUns
+ lLvJZhWANoMrjuqBcAzNHbu3liYPnzAquHn+Xs3iap/rbcB6B8j2Cp8335HHs0RtFEr+
+ scqkN9uS+yrDzJ8oGM1YVGNE+OHV+nx9anv7Ygx8V1rzgYifAcqmOgsEgjCZ82uUTXAk
+ P/1P7Xm/hyL9E0v+vJBiXwIdPXRjKkw+bk2npc/n4pcEoN0cnmpNE2pzloy4UAsDVZGu
+ 5tuMvSuUR+2q7+LyGMhzdHvIfQCg/yh9kRclCY9fe8Hk0nZI5kwK/Z5udl/LTr1ayEYx
+ C/Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=1fpFHUiEuEZZUwFnjHKUxoQTEm3kogaW5gMMPSd34tM=;
- b=oPR8RX4KwLAUKp+sRprimCwH9+lnXdRPVlqAZmE49/4fR9mu+hFfjNhUP5ZrTGDMse
- gkbqR9Qx3Enx0DMmdBdcygTtiOzasCNo8okbiJvVITQCqEzQY4kL2HTE8r4DzBq4fmNB
- G+GrDEmc4475LAvfkAvm1kz8lhuSm9roQN+mUyj4r6w4qZWjqJdNSpR4Thz8joj9igsm
- NQPznj4bLzcRPdaGwECfwM2VQ504LDl3pfZ+wXRARJzbx1RYOnAvRlEpspRimDsi9fv5
- EacxYxVd59lPpLM483geW1uwmDub+TmTeO0uirqXZZLiaDpxXhiGeXNb6dWlO1aXX/pT
- oKmg==
-X-Gm-Message-State: AOAM531FKwYLJ6oU4NFilleXndcrl6QzobnnQNPZP5RYOWHYizlXEF20
- aOGGhbQ6bfACxyp7+KOF/tg=
-X-Google-Smtp-Source: ABdhPJy+g03RiywDOW2HP3IuadmRH4uFMN9617dlnE4n4p2TBJ8TLtRNs6etRvZFqpXsmJsmUDrd0g==
-X-Received: by 2002:a17:906:d78d:: with SMTP id
- pj13mr9197438ejb.15.1600846345149; 
- Wed, 23 Sep 2020 00:32:25 -0700 (PDT)
-Received: from felia ([2001:16b8:2dcd:aa00:cae:324b:3a69:3822])
- by smtp.gmail.com with ESMTPSA id e15sm13058959eds.5.2020.09.23.00.32.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 00:32:24 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 23 Sep 2020 09:32:23 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-In-Reply-To: <CABJPP5B9RsGXCCAHxve2hxmCSyPX3C5aO_5MU9QMtNm08cXiNg@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2009230925520.6068@felia>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IRmAjmuBLRDlHafKwUOWp9wh3KDYL9aLonW8el9ifAQ=;
+ b=JUaEsR57QlSj204WioREUBNHmIuirGG7q1L2ikLQRlvp8XGF5EfKkScdEQRdH97dQR
+ Xy2VbuALC6yGUl7Kvdpgr5e4V9dO2XXfTDodVNnFR6ky7o36fC3edmvAKsFZJwgXk+iS
+ ukKxQlConmBr/NYV59QvnowNuaaJE6nm92jYIOTm6I4He4IGCFFFFkKCOlF1wdn8n4lX
+ 05ojg3J1lHJ9v2XiXgDkhpD/Bl/pttE3WLoRIz+AMRd66T+A4Lec7vjuirnu8B1mrL0F
+ H0Dj8orxsVQeUfa6YHPG7kWsUS6qy7qivHAEuk9nscWxlq1zTq8ZdshRY3bciw2/UK+1
+ 7zgQ==
+X-Gm-Message-State: AOAM533mU3cxnKSMZz71ma/ejWQlnOtzvjK0ZRONGZ07/TzHm0lbf3VR
+ OXQbmVe3YB/jnkzFHtZc2f9YGwQJZtObr+mM6/c=
+X-Google-Smtp-Source: ABdhPJy8xuzeWpFLGYpNx3utnCEl0ZDrTKu8xrDsAQq3bFgKLY+GgAamtt/c8HBePiLvgtxc895POT/PqDqF/qjUOzM=
+X-Received: by 2002:a05:6830:c4:: with SMTP id x4mr5617448oto.30.1600846740241; 
+ Wed, 23 Sep 2020 00:39:00 -0700 (PDT)
+MIME-Version: 1.0
 References: <alpine.DEB.2.21.2009181157160.14717@felia>
  <CABJPP5DGpep-S5F+J=dxdhBBDp2J9wQBrJvH_Ys6uJDj3AfRRA@mail.gmail.com>
  <alpine.DEB.2.21.2009181238230.14717@felia>
@@ -101,8 +89,12 @@ References: <alpine.DEB.2.21.2009181157160.14717@felia>
  <CABJPP5B6D2ttt5D1ROrQNy7BDMcp+CBg6QB3vFRac4H10CkvCw@mail.gmail.com>
  <alpine.DEB.2.21.2009222028250.20644@felia>
  <CABJPP5B9RsGXCCAHxve2hxmCSyPX3C5aO_5MU9QMtNm08cXiNg@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
+ <alpine.DEB.2.21.2009230925520.6068@felia>
+In-Reply-To: <alpine.DEB.2.21.2009230925520.6068@felia>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Wed, 23 Sep 2020 13:08:40 +0530
+Message-ID: <CABJPP5CQxXdAD5fFRZaApjh2GJJ_2Dd1Q=6phS-61iLrU5qb9Q@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] checkpatch.pl investigation:
 	NO_AUTHOR_SIGN_OFF issues
@@ -123,66 +115,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On Wed, 23 Sep 2020, Dwaipayan Ray wrote:
-
+> > Hi,
+> > As for the lk_path, it can be removed easily. To me too, it didn't make much
+> > sense since it was just a duplicate, as $root should contain the same.
 > >
-> > Generally, I think it is a good first proof of concept.
-> > I believe you that functionality 'basically' works; again, we might
-> > already want to run a full-scale evaluation on that. Just to see
-> > if there are some impacts we might not be aware of yet.
+> > But again due to some reason,
+> > $root in checkpatch had the value ".",
+> > while $lk_path in get_maintainer had the value "./"
 > >
-> > As you already wrote, we, Joe, you and me, need to figure out
-> > now all the further details:
+> > I have no idea yet if this was a design decision or just different handling.
 > >
-> > - how can we avoid the duplicate code in checkpatch.pl and
-> > get_maintainers.pl?
+> > So, I can change the part where I referenced the mailmap file by adding
+> > a trailing / with $root rather than $lk_path. That should do it.
 > >
-> > - what is performance impact, especially as AUTHOR_SIGN_OFF check is not
-> > triggered often, and there are many other rules in checkpatch.pl?
+> > And for the duplicate code part, Joe did mention that either I could copy
+> > or place the read_mailmap code in a separate file and reference both
+> > checkpatch and get_maintainers from there.
 > >
-> > - further details, such as why do we need the lk_path is the first place?
-> > and many more questions of that kind.
+> > To me, copying seems much feasible because the referenced part of the
+> > mailmap handling code here is very small as there are some minor
+> > changes.
 > >
-> > Feel free to sketch a first commit message and create a PATCH RFC for the
-> > discussion with Joe.
-> >
-> >
-> > Lukas
-> >
-> 
-> Hi,
-> As for the lk_path, it can be removed easily. To me too, it didn't make much
-> sense since it was just a duplicate, as $root should contain the same.
-> 
-> But again due to some reason,
-> $root in checkpatch had the value ".",
-> while $lk_path in get_maintainer had the value "./"
-> 
-> I have no idea yet if this was a design decision or just different handling.
-> 
-> So, I can change the part where I referenced the mailmap file by adding
-> a trailing / with $root rather than $lk_path. That should do it.
-> 
-> And for the duplicate code part, Joe did mention that either I could copy
-> or place the read_mailmap code in a separate file and reference both
-> checkpatch and get_maintainers from there.
-> 
-> To me, copying seems much feasible because the referenced part of the
-> mailmap handling code here is very small as there are some minor
-> changes.
+>
+> Well, if you can argue copying code, it is fine. Go ahead and send out a
+> RFC patch.
 >
 
-Well, if you can argue copying code, it is fine. Go ahead and send out a 
-RFC patch.
+I definitely know that redundant code is a bad practice. But yes, I would
+send a patch in with a proper commit message to get yours and Joe's
+comments.
 
-Regarding the mentorship, would you have time for some virtual 
-face-to-face meeting to discuss the Eligibility Criteria and Mentorship 
-Models?
+> Regarding the mentorship, would you have time for some virtual
+> face-to-face meeting to discuss the Eligibility Criteria and Mentorship
+> Models?
+>
+>
+> Lukas
 
+Yes sure, what time are you available? I don't have any more classes
+today so I am free.
 
-Lukas
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
