@@ -2,101 +2,74 @@ Return-Path: <SRS0=Dbq6=DA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32FD1C2D0A8
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:02:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E83DC2D0A8
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:04:12 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AE7692076E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:02:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iLxCNmbN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE7692076E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id CE8EC2145D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:04:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE8EC2145D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5DBBF872F5;
-	Wed, 23 Sep 2020 10:02:33 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 796AB872F4;
+	Wed, 23 Sep 2020 10:04:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GJeRXlhzE4gb; Wed, 23 Sep 2020 10:02:32 +0000 (UTC)
+	with ESMTP id Qj93SBqOJ5fV; Wed, 23 Sep 2020 10:04:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BE3A28703E;
-	Wed, 23 Sep 2020 10:02:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E15EB8703E;
+	Wed, 23 Sep 2020 10:04:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A931C0889;
-	Wed, 23 Sep 2020 10:02:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DD37CC0889;
+	Wed, 23 Sep 2020 10:04:09 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 79E6EC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03F45C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:02:31 +0000 (UTC)
+ Wed, 23 Sep 2020 10:04:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6F2E5865C1
+ by whitealder.osuosl.org (Postfix) with ESMTP id E47A385EF5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:02:31 +0000 (UTC)
+ Wed, 23 Sep 2020 10:04:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EE4HpqwS3k7c
+ with ESMTP id pWXP5JK6ZlRa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:02:30 +0000 (UTC)
+ Wed, 23 Sep 2020 10:04:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8695285EF5
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A29D985BD3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:02:30 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id bd2so6568807plb.7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 03:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yjiUUAL+vaa7q/kXcFIldTG3r7KouSIag1um/KWY+Lo=;
- b=iLxCNmbNnZiHEd3LoJGzmpQErBJnd0Mk7w1ZiNAoSNI3Mdl1EIYiPagJv8EqvH44q1
- WcmGm6mjq1TTlZrBJHpelx2Sp37IA3xR9Hlrhtupy1y2JhwZeEinPrOeLvrrxEGKQpz4
- ovGW4bn6Hh6RTt/imiTIeBiy0GT4hQsByhkUnqtEtoskns3eLZ9szg2RL4S8WeYljoGh
- QMdWSHm1UJGpUefCBZY7mge2tOC2WuUyh+9CHqbIwEsVE9wlLjFPqFTJwmcy24uDeIqv
- 6SdNWKdQlJ7++jbT2qYFFDKoOSLpBIiXmfQYC1H08DKmkTabaXt4k1f0b53dXsDe+WsU
- WP5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yjiUUAL+vaa7q/kXcFIldTG3r7KouSIag1um/KWY+Lo=;
- b=eGtkNAeemd7EGuFZW1yJsP+w7pnMLqouc6jxqdqziknLk72OViOTMeM+HEkj24DN/6
- 8LH6CfQwT4qRkheIXHnPWqssRlEXXREaFJmVY3z+KRnbK9CNjOiUPI5Q8HLM80Be3K7S
- BFNni5QTqJSkh7mzMT8tqI0Gp1JpV3gs1jrVGg3qWTMoNS1rYGUxmabEFP2wT4p2Cp/c
- NGoON7AwqAIYW88Gp2vDBh1RZ32E35CMIrqEjmCoBoNAVpqjB+idvoFIRc/HEGpfroM/
- QT80oy2zcQdz0tToDemwCoHLf9QlTOM9VKSLF+cP1VZdaqfT6Fz/dnjqjq1khzUsyVzc
- npEw==
-X-Gm-Message-State: AOAM532024lULVhmdofLWmXCRBKHS8RxSt9JLlvrf8XXp3FxXI8VQ7Px
- StNxHc5BRBUwohX0BOccwYU=
-X-Google-Smtp-Source: ABdhPJxgervWu/6TFeSvN/CKqWoVvmATkm09KBXoW/Uw9CjY3jnCYI8PlgMO2BGeO3X07HtWiE+YPQ==
-X-Received: by 2002:a17:90b:350b:: with SMTP id
- ls11mr2747601pjb.201.1600855349930; 
- Wed, 23 Sep 2020 03:02:29 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:9004:608f:a38:ea2:c4a3:8a70])
- by smtp.gmail.com with ESMTPSA id
- gk14sm4901267pjb.41.2020.09.23.03.02.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 03:02:29 -0700 (PDT)
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-To: joe@perches.com
-Date: Wed, 23 Sep 2020 15:32:13 +0530
-Message-Id: <20200923100213.83901-1-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Wed, 23 Sep 2020 10:04:07 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id C3226B207;
+ Wed, 23 Sep 2020 10:04:42 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+ id 3BB141E12E3; Wed, 23 Sep 2020 12:04:05 +0200 (CEST)
+Date: Wed, 23 Sep 2020 12:04:05 +0200
+From: Jan Kara <jack@suse.cz>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Message-ID: <20200923100405.GD6719@quack2.suse.cz>
+References: <0000000000004c1f4d05afcff2f4@google.com>
+ <20200922154531.153922-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH RFC] checkpatch: extend
-	same_email_address check to load mailmap entries
+Content-Disposition: inline
+In-Reply-To: <20200922154531.153922-1-yepeilin.cs@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: syzkaller-bugs@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ Jan Kara <jack@suse.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] udf: Fix memory leak in
+ udf_process_sequence()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,176 +87,93 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Checkpatch throws a NO_AUTHOR_SIGN_OFF warning whenever either the
-name or email address of author doesn't match any signed-off-by
-entry. But it has no mechanism to check whether different email
-addresses belong to the same author.
+On Tue 22-09-20 11:45:31, Peilin Ye wrote:
+> udf_process_sequence() is leaking memory. Free `data.part_descs_loc`
+> before returning.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 7b78fd02fb19 ("udf: Fix handling of Partition Descriptors")
+> Reported-and-tested-by: syzbot+128f4dd6e796c98b3760@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?id=c5ec4e6f5d818f3c4afd4d59342468eec08a38da
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 
-As a result, there have been multiple commits where the author has
-signed off with a different email address which caused checkpatch
-to product that warning.
+Thanks for the patch but I've just yesterday written exactly the same patch
+and merged it to my tree...
 
-An example is commit dc5bdb68b5b3 ("drm/fb-helper: Fix vt restore"),
-where the author uses two different mail addresses, and checkpatch
-generates a NO_AUTHOR_SIGN_OFF warning.
+								Honza
 
-This was fixed by adding support for loading .mailmap entries.
-If a mismatch in name or email address then occurs, the
-entries in mailmap can be looked up to deterime the actual author
-name and email address.
-
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- scripts/checkpatch.pl | 113 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 111 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9e65d21456f1..bfa06c9b9625 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1128,6 +1128,78 @@ sub top_of_kernel_tree {
- 	return 1;
- }
- 
-+my $mailmap;
-+
-+sub read_mailmap {
-+    $mailmap = {
-+	names => {},
-+	addresses => {}
-+    };
-+
-+    return if (!defined($root) || !(-f "${root}/.mailmap"));
-+
-+    open(my $mailmap_file, '<', "${root}/.mailmap")
-+	or warn "$P: Can't open .mailmap: $!\n";
-+
-+    while (<$mailmap_file>) {
-+	s/#.*$//; #strip comments
-+	s/^\s+|\s+$//g; #trim
-+
-+	next if (/^\s*$/); #skip empty lines
-+	#entries have one of the following formats:
-+	# name1 <mail1>
-+	# <mail1> <mail2>
-+	# name1 <mail1> <mail2>
-+	# name1 <mail1> name2 <mail2>
-+	# (see man git-shortlog)
-+
-+	if (/^([^<]+)<([^>]+)>$/) {
-+	    my $real_name = $1;
-+	    my $address = $2;
-+
-+	    $real_name =~ s/\s+$//;
-+	    ($real_name, $address) = parse_email("$real_name <$address>");
-+	    $mailmap->{names}->{$address} = $real_name;
-+
-+	} elsif (/^<([^>]+)>\s*<([^>]+)>$/) {
-+	    my $real_address = $1;
-+	    my $wrong_address = $2;
-+
-+	    $mailmap->{addresses}->{$wrong_address} = $real_address;
-+
-+	} elsif (/^(.+)<([^>]+)>\s*<([^>]+)>$/) {
-+	    my $real_name = $1;
-+	    my $real_address = $2;
-+	    my $wrong_address = $3;
-+
-+	    $real_name =~ s/\s+$//;
-+	    ($real_name, $real_address) =
-+		parse_email("$real_name <$real_address>");
-+	    $mailmap->{names}->{$wrong_address} = $real_name;
-+	    $mailmap->{addresses}->{$wrong_address} = $real_address;
-+
-+	} elsif (/^(.+)<([^>]+)>\s*(.+)\s*<([^>]+)>$/) {
-+	    my $real_name = $1;
-+	    my $real_address = $2;
-+	    my $wrong_name = $3;
-+	    my $wrong_address = $4;
-+
-+	    $real_name =~ s/\s+$//;
-+	    ($real_name, $real_address) =
-+		parse_email("$real_name <$real_address>");
-+
-+	    $wrong_name =~ s/\s+$//;
-+	    ($wrong_name, $wrong_address) =
-+		parse_email("$wrong_name <$wrong_address>");
-+
-+	    my $wrong_email = format_email($wrong_name, $wrong_address);
-+	    $mailmap->{names}->{$wrong_email} = $real_name;
-+	    $mailmap->{addresses}->{$wrong_email} = $real_address;
-+	}
-+    }
-+    close($mailmap_file);
-+}
-+
- sub parse_email {
- 	my ($formatted_email) = @_;
- 
-@@ -1210,14 +1282,50 @@ sub reformat_email {
- 	return format_email($email_name, $email_address);
- }
- 
-+sub mailmap_email {
-+    my ($name, $address) = @_;
-+
-+    my $email = format_email($name, $address);
-+    my $real_name = $name;
-+    my $real_address = $address;
-+
-+    if (exists $mailmap->{names}->{$email} ||
-+	exists $mailmap->{addresses}->{$email}) {
-+	if (exists $mailmap->{names}->{$email}) {
-+	    $real_name = $mailmap->{names}->{$email};
-+	}
-+	if (exists $mailmap->{addresses}->{$email}) {
-+	    $real_address = $mailmap->{addresses}->{$email};
-+	}
-+    } else {
-+	if (exists $mailmap->{names}->{$address}) {
-+	    $real_name = $mailmap->{names}->{$address};
-+	}
-+	if (exists $mailmap->{addresses}->{$address}) {
-+	    $real_address = $mailmap->{addresses}->{$address};
-+	}
-+    }
-+    return ($real_name, $real_address);
-+}
-+
- sub same_email_addresses {
- 	my ($email1, $email2) = @_;
- 
- 	my ($email1_name, $name1_comment, $email1_address, $comment1) = parse_email($email1);
- 	my ($email2_name, $name2_comment, $email2_address, $comment2) = parse_email($email2);
- 
--	return $email1_name eq $email2_name &&
--	       $email1_address eq $email2_address;
-+	my $name_match = $email1_name eq $email2_name;
-+	my $address_match = $email1_address eq $email2_address;
-+
-+	if(!$name_match || !$address_match) {
-+		my ($real_name1, $real_address1) = mailmap_email($email1_name, $email1_address);
-+		my ($real_name2, $real_address2) = mailmap_email($email2_name, $email2_address);
-+
-+		$name_match |= ($real_name1 eq $real_name2);
-+		$address_match |= ($real_address1 eq $real_address2);
-+	}
-+
-+	return $name_match && $address_match;
- }
- 
- sub which {
-@@ -2400,6 +2508,7 @@ sub process {
- 
- 	my $checklicenseline = 1;
- 
-+	read_mailmap();
- 	sanitise_line_reset();
- 	my $line;
- 	foreach my $rawline (@rawlines) {
+> ---
+>  fs/udf/super.c | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
+> 
+> diff --git a/fs/udf/super.c b/fs/udf/super.c
+> index 1c42f544096d..b0d862ab3024 100644
+> --- a/fs/udf/super.c
+> +++ b/fs/udf/super.c
+> @@ -1698,7 +1698,8 @@ static noinline int udf_process_sequence(
+>  					"Pointers (max %u supported)\n",
+>  					UDF_MAX_TD_NESTING);
+>  				brelse(bh);
+> -				return -EIO;
+> +				ret = -EIO;
+> +				goto out;
+>  			}
+>  
+>  			vdp = (struct volDescPtr *)bh->b_data;
+> @@ -1718,7 +1719,8 @@ static noinline int udf_process_sequence(
+>  			curr = get_volume_descriptor_record(ident, bh, &data);
+>  			if (IS_ERR(curr)) {
+>  				brelse(bh);
+> -				return PTR_ERR(curr);
+> +				ret = PTR_ERR(curr);
+> +				goto out;
+>  			}
+>  			/* Descriptor we don't care about? */
+>  			if (!curr)
+> @@ -1740,28 +1742,32 @@ static noinline int udf_process_sequence(
+>  	 */
+>  	if (!data.vds[VDS_POS_PRIMARY_VOL_DESC].block) {
+>  		udf_err(sb, "Primary Volume Descriptor not found!\n");
+> -		return -EAGAIN;
+> +		ret = -EAGAIN;
+> +		goto out;
+>  	}
+>  	ret = udf_load_pvoldesc(sb, data.vds[VDS_POS_PRIMARY_VOL_DESC].block);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto out;
+>  
+>  	if (data.vds[VDS_POS_LOGICAL_VOL_DESC].block) {
+>  		ret = udf_load_logicalvol(sb,
+>  				data.vds[VDS_POS_LOGICAL_VOL_DESC].block,
+>  				fileset);
+>  		if (ret < 0)
+> -			return ret;
+> +			goto out;
+>  	}
+>  
+>  	/* Now handle prevailing Partition Descriptors */
+>  	for (i = 0; i < data.num_part_descs; i++) {
+>  		ret = udf_load_partdesc(sb, data.part_descs_loc[i].rec.block);
+>  		if (ret < 0)
+> -			return ret;
+> +			goto out;
+>  	}
+>  
+> -	return 0;
+> +	ret = 0;
+> +out:
+> +	kfree(data.part_descs_loc);
+> +	return ret;
+>  }
+>  
+>  /*
+> -- 
+> 2.25.1
+> 
 -- 
-2.27.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
