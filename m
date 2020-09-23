@@ -2,84 +2,105 @@ Return-Path: <SRS0=Dbq6=DA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F862C49EBF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:24:09 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29A41C4727E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:29:35 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1023723119
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:24:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BBE9523119
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Sep 2020 10:29:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="QaY6iA3x"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1023723119
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="u6yJI32v"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBE9523119
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CCB7C860D1;
-	Wed, 23 Sep 2020 10:24:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9ADBB867CE;
+	Wed, 23 Sep 2020 10:29:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TN8BUqD8b7Hj; Wed, 23 Sep 2020 10:24:08 +0000 (UTC)
+	with ESMTP id psB1F8KfDppx; Wed, 23 Sep 2020 10:29:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6A9D685546;
-	Wed, 23 Sep 2020 10:24:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 25C4486730;
+	Wed, 23 Sep 2020 10:29:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 67326C0859;
-	Wed, 23 Sep 2020 10:24:08 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EC9EBC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B6F3C0859;
+	Wed, 23 Sep 2020 10:29:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C94D3C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:24:06 +0000 (UTC)
+ Wed, 23 Sep 2020 10:29:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DB66D86FAD
+ by silver.osuosl.org (Postfix) with ESMTP id B26BA22D10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:24:06 +0000 (UTC)
+ Wed, 23 Sep 2020 10:29:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wln8h0ZHGbz6
+ with ESMTP id s9W8k4OKLUa2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:24:06 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5F8D686F9F
+ Wed, 23 Sep 2020 10:29:32 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0AA65204E7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Sep 2020 10:24:06 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 86EF521BE5;
- Wed, 23 Sep 2020 10:24:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600856646;
- bh=4axLnYFaEHtr9+q27LR9CjkX1jMW8YKOSTMnO3OD97o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QaY6iA3xkR5TGJx2K7V/+m5EtdlK9/Fu/ZBAOuocOaJy3KikVsEt/NfipxIsN+KVk
- XcJGR+N15eWXOgxJ+xF6P8Edsu1vbtiUGfcJeEINxQnvOsmq5C5VStjK9T2r3RuHlH
- 7NkOmNhwoViSSUm97fxeC28Hzl/9eCFGd8Zvgx9w=
-Date: Wed, 23 Sep 2020 12:24:25 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Himadri Pandya <himadrispandya@gmail.com>
-Message-ID: <20200923102425.GC3154647@kroah.com>
-References: <20200923090519.361-1-himadrispandya@gmail.com>
- <20200923090519.361-2-himadrispandya@gmail.com>
+ Wed, 23 Sep 2020 10:29:32 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id bb1so885965plb.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 23 Sep 2020 03:29:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=JI/zqwqxLAG9o9M3uwdlp+Q2ESbf1KLswdxq+phSMss=;
+ b=u6yJI32vRYyXSnq/EAHe1ycM5E/UH402GHw9uEHyjFqkwGjw4LxgSg5iLS+DiRQ4+r
+ o7Oeyl6s40YgiEk5lLE815dRP47+HbnUA46uteNZkALAUaMU9icgkCx5V4xe0cnUQ99d
+ 71b4vGj6t937JuPHgrem0dQTIRFdtBXZomoi7lc8431D0L6a2Xeqc82fbvp82Orpl5Yv
+ xJIV4wAoYiWMAXCsvj6cDs5aD51aFHi5y24p9NIRSNDyHU6AwnltjuqaIfChy9ZiQVJy
+ XtBQWuz11V6nG0xekQREIqGo0xJovNXYI4Yy9cD1YOtH3Im1aHFRg2HZUJVsiXtR8gBT
+ EISw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JI/zqwqxLAG9o9M3uwdlp+Q2ESbf1KLswdxq+phSMss=;
+ b=ESXaVisKHPOCMzgBcAAHdR7kOePmX4owi10Ggc45m09aaQYr0L2PKWwVsRucfke+nh
+ y5QZ/V4RaaHuV3T89ErWmKNIrkHDHZgLOrXBj/rAGvfxv3vD7WMy56Ns7T3cTfDzdsTw
+ 8xMSiiZO1AOjHAuCj+iMP2jz5YATaV199ybLHjB6ofbV6rdtXTDiWB4N3bPn+nWtPXGv
+ VD/CNzDw8vwTWML/aRsyo/q8mXkYGuq7n3A0AdSwxdskJK+lizdPZPPaQ/qMUeBjduJf
+ otQzIxhUP6abFTZ1OmWmQBSjFoFNl1h4Tqkc6ipSH94LmQto+zhBXuwF9jhJKsekD7H7
+ K5mg==
+X-Gm-Message-State: AOAM533E5ie5m6jpEdTz77k3SRyKb48CqrHknaANTACaXcRsi6AeCePG
+ RYXVhObpLXRHtqWjT9yBQg==
+X-Google-Smtp-Source: ABdhPJwkJ17OXMhXTjQk3IyAhB+j/BlL4pmBt9igviElaN0XRW+WDlr9Yxgy9/m+2VJRbrio0D/iMQ==
+X-Received: by 2002:a17:90b:46c4:: with SMTP id
+ jx4mr2931642pjb.190.1600856971629; 
+ Wed, 23 Sep 2020 03:29:31 -0700 (PDT)
+Received: from PWN (n11212042027.netvigator.com. [112.120.42.27])
+ by smtp.gmail.com with ESMTPSA id x27sm18118583pfp.128.2020.09.23.03.29.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Sep 2020 03:29:30 -0700 (PDT)
+Date: Wed, 23 Sep 2020 06:29:25 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Message-ID: <20200923102925.GA288879@PWN>
+References: <0000000000004c1f4d05afcff2f4@google.com>
+ <20200922154531.153922-1-yepeilin.cs@gmail.com>
+ <20200923100405.GD6719@quack2.suse.cz>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200923090519.361-2-himadrispandya@gmail.com>
-Cc: linux-usb@vger.kernel.org, keescook@chromium.org,
- pankaj.laxminarayan.bharadiya@intel.com, oneukum@suse.com,
- yuehaibing@huawei.com, linux-kernel@vger.kernel.org, ogiannou@gmail.com,
- netdev@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
- petkan@nucleusys.com
-Subject: Re: [Linux-kernel-mentees] [PATCH 1/4] net: usbnet: use
- usb_control_msg_recv() and usb_control_msg_send()
+In-Reply-To: <20200923100405.GD6719@quack2.suse.cz>
+Cc: syzkaller-bugs@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ Jan Kara <jack@suse.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] udf: Fix memory leak in
+ udf_process_sequence()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,63 +118,25 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Sep 23, 2020 at 02:35:16PM +0530, Himadri Pandya wrote:
-> Potential incorrect use of usb_control_msg() has resulted in new wrapper
-> functions to enforce its correct usage with proper error check. Hence
-> use these new wrapper functions instead of calling usb_control_msg()
-> directly.
+Hi,
+
+On Wed, Sep 23, 2020 at 12:04:05PM +0200, Jan Kara wrote:
+> On Tue 22-09-20 11:45:31, Peilin Ye wrote:
+> > udf_process_sequence() is leaking memory. Free `data.part_descs_loc`
+> > before returning.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Fixes: 7b78fd02fb19 ("udf: Fix handling of Partition Descriptors")
+> > Reported-and-tested-by: syzbot+128f4dd6e796c98b3760@syzkaller.appspotmail.com
+> > Link: https://syzkaller.appspot.com/bug?id=c5ec4e6f5d818f3c4afd4d59342468eec08a38da
+> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 > 
-> Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
-> ---
->  drivers/net/usb/usbnet.c | 46 ++++------------------------------------
->  1 file changed, 4 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-> index 2b2a841cd938..a38a85bef46a 100644
-> --- a/drivers/net/usb/usbnet.c
-> +++ b/drivers/net/usb/usbnet.c
-> @@ -1982,64 +1982,26 @@ EXPORT_SYMBOL(usbnet_link_change);
->  static int __usbnet_read_cmd(struct usbnet *dev, u8 cmd, u8 reqtype,
->  			     u16 value, u16 index, void *data, u16 size)
->  {
-> -	void *buf = NULL;
-> -	int err = -ENOMEM;
-> -
->  	netdev_dbg(dev->net, "usbnet_read_cmd cmd=0x%02x reqtype=%02x"
->  		   " value=0x%04x index=0x%04x size=%d\n",
->  		   cmd, reqtype, value, index, size);
->  
-> -	if (size) {
-> -		buf = kmalloc(size, GFP_KERNEL);
-> -		if (!buf)
-> -			goto out;
-> -	}
-> -
-> -	err = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
-> -			      cmd, reqtype, value, index, buf, size,
-> +	return usb_control_msg_recv(dev->udev, 0,
-> +			      cmd, reqtype, value, index, data, size,
->  			      USB_CTRL_GET_TIMEOUT);
-> -	if (err > 0 && err <= size) {
-> -        if (data)
-> -            memcpy(data, buf, err);
-> -        else
-> -            netdev_dbg(dev->net,
-> -                "Huh? Data requested but thrown away.\n");
-> -    }
-> -	kfree(buf);
-> -out:
-> -	return err;
->  }
+> Thanks for the patch but I've just yesterday written exactly the same patch
+> and merged it to my tree...
 
-Now there is no real need for these wrapper functions at all, except for
-the debugging which I doubt anyone needs anymore.
+Ah, no worries, happy to see the bug gets fixed!
 
-So how about just deleting these and calling the real function instead?
-
-thanks,
-
-greg k-h
+Peilin Ye
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
