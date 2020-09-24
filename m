@@ -6,78 +6,83 @@ X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA46C4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 11:31:43 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD9AEC2D0E2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 11:36:32 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9DC402220D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 11:31:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1769C2220D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 11:36:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=suse.com header.i=@suse.com header.b="VxAGt4wU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9DC402220D
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=suse.com header.i=@suse.com header.b="e6W4eeYU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1769C2220D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D6EDD2E101;
-	Thu, 24 Sep 2020 11:31:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A6BD78704B;
+	Thu, 24 Sep 2020 11:36:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UPAwGFpsxJcL; Thu, 24 Sep 2020 11:31:40 +0000 (UTC)
+	with ESMTP id yPP5lIGUX8Ed; Thu, 24 Sep 2020 11:36:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0E4DD27A60;
-	Thu, 24 Sep 2020 11:31:40 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3C45C8704F;
+	Thu, 24 Sep 2020 11:36:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EF02CC0859;
-	Thu, 24 Sep 2020 11:31:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 258EDC0859;
+	Thu, 24 Sep 2020 11:36:31 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4CA64C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 91312C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 11:31:39 +0000 (UTC)
+ Thu, 24 Sep 2020 11:36:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 40A0686B5C
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7DE1F86BC7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 11:31:39 +0000 (UTC)
+ Thu, 24 Sep 2020 11:36:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vHsUQkkefDaP
+ with ESMTP id nu+YclBaez+A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 11:31:38 +0000 (UTC)
+ Thu, 24 Sep 2020 11:36:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 98CE886B07
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DB52186BC0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 11:31:38 +0000 (UTC)
+ Thu, 24 Sep 2020 11:36:28 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1600947096;
+ t=1600947387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=clUvTAjWxOKB0zT0eA1ARy5x1LjR+x7YhgaXafvUhy4=;
- b=VxAGt4wUGV/PfYiprAcyAstOnKD3EWlzpm56hGOesIFqUrJFqUqRCCy6LvrYDwNAFpIMPH
- JSQrpwXV0rlQUzxDUi6T2a/WGJfrhqI0C8w4uOJJOrx77fkLCpilVATvMO0V1LSfSrakL7
- unytmJKc/h6lLIXMRqIyOX4vFfMpx2o=
+ bh=MZyvBg20qT73QpwIVlDigtRjVhnHdUuTkqO7GvwSeIE=;
+ b=e6W4eeYUCdmzKdxQ7xtoWbgJ9qdgvwr2lNlDirzA5K8Wrebqf2M3M/HUEs+GFMz86GkDnO
+ +SYxT7FpIuIZB1snPQ5GEuM7p9YxWimxBNYh3XwHLw5J+Y/O8gOgEZTtlGoi1WAQufifHL
+ TGzb/bqFAm2cN/kjrzhCyCG1l4fajns=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 98802AC85;
- Thu, 24 Sep 2020 11:31:36 +0000 (UTC)
-Message-ID: <2f997848ed05c1f060125f7567f6bc3fae7410bb.camel@suse.com>
+ by mx2.suse.de (Postfix) with ESMTP id 7D634AC65;
+ Thu, 24 Sep 2020 11:36:27 +0000 (UTC)
+Message-ID: <7f9e20b2eab783303c4e5f5c3244366fa88a6567.camel@suse.com>
 From: Oliver Neukum <oneukum@suse.com>
-To: Petko Manolov <petkan@nucleusys.com>
-Date: Thu, 24 Sep 2020 13:09:05 +0200
-In-Reply-To: <20200923144832.GA11151@karbon>
+To: Himadri Pandya <himadrispandya@gmail.com>
+Date: Thu, 24 Sep 2020 13:13:56 +0200
+In-Reply-To: <CAOY-YVkciMUgtS7USbBh_Uy_=fVWwMMDeHv=Ub_H3GaY0FKZyQ@mail.gmail.com>
 References: <20200923090519.361-1-himadrispandya@gmail.com>
  <20200923090519.361-4-himadrispandya@gmail.com>
- <1600856557.26851.6.camel@suse.com> <20200923144832.GA11151@karbon>
+ <1600856557.26851.6.camel@suse.com>
+ <CAOY-YVkHycXqem_Xr6nQLgKEunk3MNc7dBtZ=5Aym4Y06vs9xQ@mail.gmail.com>
+ <1600870858.25088.1.camel@suse.com>
+ <CAOY-YVkciMUgtS7USbBh_Uy_=fVWwMMDeHv=Ub_H3GaY0FKZyQ@mail.gmail.com>
 User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Cc: keescook@chromium.org, pankaj.laxminarayan.bharadiya@intel.com,
- linux-usb@vger.kernel.org, yuehaibing@huawei.com, linux-kernel@vger.kernel.org,
- ogiannou@gmail.com, netdev@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Cc: petkan@nucleusys.com, pankaj.laxminarayan.bharadiya@intel.com,
+ USB list <linux-usb@vger.kernel.org>, yuehaibing@huawei.com,
+ LKML <linux-kernel@vger.kernel.org>, ogiannou@gmail.com,
+ netdev <netdev@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ David Miller <davem@davemloft.net>, Kees Cook <keescook@chromium.org>
 Subject: Re: [Linux-kernel-mentees] [PATCH 3/4] net: usb: rtl8150: use
  usb_control_msg_recv() and usb_control_msg_send()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -97,20 +102,22 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Am Mittwoch, den 23.09.2020, 17:48 +0300 schrieb Petko Manolov:
+Am Mittwoch, den 23.09.2020, 20:02 +0530 schrieb Himadri Pandya:
 
-> > This internally uses kmemdup() with GFP_KERNEL.
-> > You cannot make this change. The API does not support it.
-> > I am afraid we will have to change the API first, before more
-> > such changes are done.
+> I meant that it was stupid to change it without properly understanding
+> the significance of GFP_NOIO in this context.
 > 
-> One possible fix is to add yet another argument to usb_control_msg_recv(), which 
-> would be the GFP_XYZ flag to pass on to kmemdup().  Up to Greg, of course.
+> So now, do we re-write the wrapper functions with flag passed as a parameter?
 
 Hi,
 
-submitted. The problem is those usages that are very hard to trace.
-I'd dislike to just slab GFP_NOIO on them for no obvious reason.
+I hope I set you in CC for a patch set doing exactly that.
+
+Do not let me or other maintainers discourage you from writing patches.
+Look at it this way. Had you not written this patch, I would not have
+looked into the matter. Patches are supposed to be reviewed.
+If you want additional information, just ask. We do not want
+people discouraged from writing substantial patches.
 
 	Regards
 		Oliver
