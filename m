@@ -2,90 +2,100 @@ Return-Path: <SRS0=3LEE=DC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C15AFC4727E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 21:05:59 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB76C4727F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 21:21:33 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 12B1D23730
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 21:05:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 12B1D23730
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7AB6B20738
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 21:21:32 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f5FqWITr"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7AB6B20738
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7C55086EAD;
-	Fri, 25 Sep 2020 21:05:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0BB9B86D9A;
+	Fri, 25 Sep 2020 21:21:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BHR2qjHtiB0N; Fri, 25 Sep 2020 21:21:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8BA47866F2;
+	Fri, 25 Sep 2020 21:21:31 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 82C7BC0859;
+	Fri, 25 Sep 2020 21:21:31 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5C697C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 25 Sep 2020 21:21:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 495C586EA4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 25 Sep 2020 21:21:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id i9EuYlgOTzRR; Fri, 25 Sep 2020 21:05:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9E24786EA3;
-	Fri, 25 Sep 2020 21:05:57 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8FB63C0890;
-	Fri, 25 Sep 2020 21:05:57 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2B000C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 21:05:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1E7FA87676
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 21:05:56 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sUWJ3Qw3laws
+ with ESMTP id fImutZGDneyT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 21:05:55 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0168.hostedemail.com
- [216.40.44.168])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 18CC087675
+ Fri, 25 Sep 2020 21:21:29 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B692486D8D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 21:05:55 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 24F8C18008CB0
+ Fri, 25 Sep 2020 21:21:29 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id f18so4449833pfa.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 17:26:34 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay04.hostedemail.com (Postfix) with ESMTP id BCB401800822B;
- Fri, 25 Sep 2020 17:26:31 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: songs62_3214a5527169
-X-Filterd-Recvd-Size: 4775
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf10.hostedemail.com (Postfix) with ESMTPA;
- Fri, 25 Sep 2020 17:26:29 +0000 (UTC)
-Message-ID: <58673398c6b836ebd7509f787e6f0d10bfd751bc.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Date: Fri, 25 Sep 2020 10:26:27 -0700
-In-Reply-To: <alpine.DEB.2.22.394.2009251904540.2772@hadrien>
-References: <87r1qqvo2d.fsf@nanos.tec.linutronix.de>
- <a53048f738dacc1c58654eb94e229de79d4f94c2.camel@perches.com>
- <alpine.DEB.2.22.394.2009251904540.2772@hadrien>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ Fri, 25 Sep 2020 14:21:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u6KKWq2+b35m5c9bkcH3yComPFsYVoFlhHvMuxwCP6Q=;
+ b=f5FqWITrzCt1VoD6hyYb881M2vfYba0VAWXS/PQTaO0Q9Y2ojkRRoYRs36v2MOEWCT
+ D0nzWvzKTZOrT+P/lda7LXvxbgw/sqZO3baEiX216rD2KLBVu5Ygm70MqlNntKzPDbpc
+ BLjAcjusBvWEPJU+pcrPCyzJzS1WmLZngnKDp+gShARzsUnQjTFs/oYFpNA4aaCNi9rt
+ h9PYEhefdi8By1v9Bak5DuGXUGU4PphNmBhZvPq8FyABT0M0fFnCgGKsoADMgb8K6bfk
+ Ow0WJQB348Z5bIdKHBtEVFx19sPSjlzdrMKNVLNd9o6EVbXqXsGDxxQTjvfP4Qpt31JH
+ DJ1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u6KKWq2+b35m5c9bkcH3yComPFsYVoFlhHvMuxwCP6Q=;
+ b=gwiHR1X+3BYSFP9gk2ZkKa4Wkaznm2JJdWnubucV7akulsvkZQh4rweHnJcE9O1C60
+ S+xYQgoj14UZbWbfVQtSvil2WpOoPaQwEjKZPwmHOcJH2M/CF6nxpOvyMzFD3rH4b7Vr
+ 8/bdii/tHimpfqqKzVH0HvR/S9TdYqSg8DsQ9WSJr26ELc/qFpyjr8zXM+0mCTWGHylQ
+ eWlCFuASFFrNfjlSFRqSsEM9DGitG0DwI5V3CT6Gg/vftSGdcyNs7+JZ9lzNTRULKYaR
+ ZBink5MtYVcYDLXUUy+QcH7OA42OgVZ/JjRu/w/KkzlV8cvRh4Scs701Ear8IEkrrlBH
+ 2IYA==
+X-Gm-Message-State: AOAM533yLS9+YW4HR8gpA4BDz02wY5tZ9mzeg3Aif5PJHj/WX+ZeDFch
+ 3D1sX5kEPasHZ1cPPu9YclY=
+X-Google-Smtp-Source: ABdhPJzANHHmDU3rIAtk3vA+WteNV0+FP2dBT1+m+jrlkRNMW2HtstSGX7Ep7SI9I/ExsCV37FOsNg==
+X-Received: by 2002:a63:c74f:: with SMTP id v15mr663816pgg.143.1601068889123; 
+ Fri, 25 Sep 2020 14:21:29 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:a404:2085:4633:7001:2dd8:81bf])
+ by smtp.gmail.com with ESMTPSA id il14sm109425pjb.54.2020.09.25.14.21.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 14:21:28 -0700 (PDT)
+From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+To: lukas.bulwahn@gmail.com
+Date: Sat, 26 Sep 2020 02:50:08 +0530
+Message-Id: <20200925212008.694018-1-ujjwalkumar0501@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Cc: Giuseppe Scrivano <gscrivan@redhat.com>,
- Valdis =?UTF-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
- kernelnewbies <kernelnewbies@kernelnewbies.org>,
- kernel-janitors <kernel-janitors@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, cocci <cocci@systeme.lip6.fr>,
- Andy Whitcroft <apw@shadowen.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [Linux-kernel-mentees] [Cocci] coccinelle: Convert comma to
- semicolons (was Re: [PATCH] checkpatch: Add test for comma use that should
- be semicolon)
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH] kconfig: Prepend interpeters when
+	calling scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,98 +113,59 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, 2020-09-25 at 19:06 +0200, Julia Lawall wrote:
-> On Thu, 24 Sep 2020, Joe Perches wrote:
-> > On Thu, 2020-09-24 at 23:53 +0200, Thomas Gleixner wrote:
-> > > On Thu, Sep 24 2020 at 13:33, Joe Perches wrote:
-> > > > On Thu, 2020-09-24 at 22:19 +0200, Thomas Gleixner wrote:
-> > > > > On Sat, Aug 22 2020 at 09:07, Julia Lawall wrote:
-> > > > > > On Fri, 21 Aug 2020, Joe Perches wrote:
-> > > > > > > True enough for a general statement, though the coccinelle
-> > > > > > > script Julia provided does not change a single instance of
-> > > > > > > for loop expressions with commas.
-> > > > > > > 
-> > > > > > > As far as I can tell, no logic defect is introduced by the
-> > > > > > > script at all.
-> > > > > > 
-> > > > > > The script has a rule to ensure that what is changed is part of a top
-> > > > > > level statement that has the form e1, e2;.  I put that in to avoid
-> > > > > > transforming cases where the comma is the body of a macro, but it protects
-> > > > > > against for loop headers as well.
-> > > > > 
-> > > > > Right. I went through the lot and did not find something dodgy. Except
-> > > > > for two hunks this still applies. Can someone please send a proper patch
-> > > > > with changelog/SOB etc. for this?
-> > > > 
-> > > > Treewide?
-> > > > 
-> > > > Somebody no doubt would complain, but there
-> > > > _really should_ be some mechanism for these
-> > > > trivial and correct treewide changes...
-> > > 
-> > > There are lots of mechanisms:
-> > 
-> > I've tried them all.
-> > 
-> > None of them work particularly well,
-> > especially the individual patch route.
-> > 
-> > >  - Andrew picks such changes up
-> > 
-> > Generally not treewide.
-> > 
-> > >  - With a few competent eyeballs on it (reviewers) this can go thorugh
-> > >    the trivial tree as well. It's more than obvious after all.
-> > 
-> > Jiri is almost non-existent when it comes to
-> > trivial treewide patches.
-> > 
-> > >  - Send the script to Linus with a proper change log attached and ask
-> > >    him to run it.
-> > 
-> > Linus has concerns about backports and what he
-> > deems trivialities.  Generally overblown IMO.
-> > 
-> > >  - In the worst case if nobody feels responsible, I'll take care.
-> > 
-> > If Julia doesn't send a new patch in the next few
-> > days, I will do the apply, fixup and resend of hers.
-> > 
-> > So, you're on-deck, nearly up...
-> > 
-> > > All of the above is better than trying to get the attention of a
-> > > gazillion of maintainters.
-> > 
-> > True.
-> > 
-> > And all of the treewide changes depend on some
-> > generic acceptance of value in the type of change.
-> > 
-> > Some believe that comma->semicolon conversions
-> > aren't useful as there isn't a logical change and
-> > the compiler output wouldn't be different.
-> 
-> I have a script that will cut up the patches and send them to the
-> appropriate maintainers, so I have no problem with that route.
+Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+---
+ init/Kconfig | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-I have a script that does that too.
-
-The complaint I get about its use is
-"OMG: My specific commit header style isn't followed"
-
-And the generic individual maintainer apply rate for
-each specific patch is always less than 50%.
-
-For instance the patches that converted the comma uses
-in if/do/while statements to use braces and semicolons
-from a month ago:
-
-https://lore.kernel.org/lkml/cover.1598331148.git.joe@perches.com/
-
-29 patches, 13 applied.
-
-Best of luck.
-
+diff --git a/init/Kconfig b/init/Kconfig
+index 91456ac0ef20..9f6ec575e3d1 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -30,12 +30,12 @@ config CC_IS_GCC
+ 
+ config GCC_VERSION
+ 	int
+-	default $(shell,$(srctree)/scripts/gcc-version.sh $(CC)) if CC_IS_GCC
++	default $(shell,sh $(srctree)/scripts/gcc-version.sh $(CC)) if CC_IS_GCC
+ 	default 0
+ 
+ config LD_VERSION
+ 	int
+-	default $(shell,$(LD) --version | $(srctree)/scripts/ld-version.sh)
++	default $(shell,$(LD) --version | awk -f $(srctree)/scripts/ld-version.sh)
+ 
+ config CC_IS_CLANG
+ 	def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q clang)
+@@ -45,20 +45,20 @@ config LD_IS_LLD
+ 
+ config CLANG_VERSION
+ 	int
+-	default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
++	default $(shell,sh $(srctree)/scripts/clang-version.sh $(CC))
+ 
+ config CC_CAN_LINK
+ 	bool
+-	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
+-	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
++	default $(success,sh $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
++	default $(success,sh $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
+ 
+ config CC_CAN_LINK_STATIC
+ 	bool
+-	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
+-	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
++	default $(success,sh $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
++	default $(success,sh $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
+ 
+ config CC_HAS_ASM_GOTO
+-	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
++	def_bool $(success,sh $(srctree)/scripts/gcc-goto.sh $(CC))
+ 
+ config CC_HAS_ASM_GOTO_OUTPUT
+ 	depends on CC_HAS_ASM_GOTO
+-- 
+2.26.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
