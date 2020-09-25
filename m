@@ -1,88 +1,105 @@
-Return-Path: <SRS0=f0b9=DB=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=3LEE=DC=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_20,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BDF7C4346E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 23:03:22 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEA00C4363D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 04:18:54 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3BCD123899
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Sep 2020 23:03:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3BCD123899
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2BE942085B
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 04:18:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KlAvLnUe"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BE942085B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A37F58742F;
-	Thu, 24 Sep 2020 23:03:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C3BC8203A7;
+	Fri, 25 Sep 2020 04:18:53 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vUgKBYWpkBSO; Fri, 25 Sep 2020 04:18:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 9DF5B20398;
+	Fri, 25 Sep 2020 04:18:52 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8BCC7C0890;
+	Fri, 25 Sep 2020 04:18:52 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 058EBC0859
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 25 Sep 2020 04:18:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id F02B68756B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 25 Sep 2020 04:18:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OfsTzRZX7HTL; Thu, 24 Sep 2020 23:03:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CF404873F3;
-	Thu, 24 Sep 2020 23:03:18 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BAA4CC0890;
-	Thu, 24 Sep 2020 23:03:18 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4B2D4C0859
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 23:03:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 40D6086B6C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 23:03:18 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bBRSEC94mLFw
+ with ESMTP id HzoxTyWs-MBa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 23:03:17 +0000 (UTC)
-X-Greylist: delayed 02:30:04 by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0164.hostedemail.com
- [216.40.44.164])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 46FCB86B68
+ Fri, 25 Sep 2020 04:18:51 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
+ [209.85.161.42])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 618C38756A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 23:03:17 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave07.hostedemail.com (Postfix) with ESMTP id B7B76183536F3
+ Fri, 25 Sep 2020 04:18:51 +0000 (UTC)
+Received: by mail-oo1-f42.google.com with SMTP id t3so434154ook.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Sep 2020 22:23:44 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay06.hostedemail.com (Postfix) with ESMTP id 67C1118224D82;
- Thu, 24 Sep 2020 22:23:42 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: space69_45180fb27162
-X-Filterd-Recvd-Size: 3682
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf03.hostedemail.com (Postfix) with ESMTPA;
- Thu, 24 Sep 2020 22:23:40 +0000 (UTC)
-Message-ID: <a53048f738dacc1c58654eb94e229de79d4f94c2.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Julia Lawall <julia.lawall@inria.fr>
-Date: Thu, 24 Sep 2020 15:23:39 -0700
-In-Reply-To: <87r1qqvo2d.fsf@nanos.tec.linutronix.de>
-References: <87r1qqvo2d.fsf@nanos.tec.linutronix.de>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ Thu, 24 Sep 2020 21:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9ZaexTVRSKhPTjNxCj8vUkxM/2bzMqCPcOMDQVzFNp4=;
+ b=KlAvLnUepcjere1ONUL57uGiMxPIBw/MbLGs9wDrzFWiWXihQegE9glRtXk3t55tIh
+ Er+cAYqFoqMkutCl5gtexK4KBmmYYGJjIn5Vqhp/LJQZ2DdzFqaVrrwwMeKNDmAWdsiq
+ rLy7s3ZOcBQ8aN/i5ck4DyjicDA0FafyfyKtGTH1UdO0Vttjdx5dHb2yBb490e6SI3oB
+ y8MoSos/EQ/pb9FXgBCSvTo7cIXN2tSfMqoC55BIf0zV35T9wx8McwLZmtIYp0hI26AV
+ vtUMwLyoRvdBC9EkPnyNVD5G9j2JUt0gnClGncmTbl6/KsL1sN41uZZE/wkN80mRFfRm
+ d6zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9ZaexTVRSKhPTjNxCj8vUkxM/2bzMqCPcOMDQVzFNp4=;
+ b=q9AkfAJRr/WspPhhgkCP5q6pDA98NfJTx0KB2LjPIEjcb6lEghN7DDCAJMSklq/rdm
+ l1eW1wDIziXCBD7sbe+3d3bUFEIudhLITkVeBhiHrsozTPurSssfBptaJ1VQiOASTpZZ
+ 57qyF7rw9kfydU7zdHgojPDkOVKaD+2PnG4Ecpb5cyA/Mt/VTX2ecQwbS4OYP6fM49yz
+ nLFhY6K09HAzlls9UC2R+QUjP9ag91ZDJnOoLLJgbFsR9Ij1QiF5olDbjV4xvo/mmhl2
+ HhJFSoC+YDS302Zd7MBEtRwCm5fgmY0ovcUlm2+Edn2S57AQbTeGz64fQtltRuIfYt4r
+ /c1A==
+X-Gm-Message-State: AOAM531dJlKuV554BTrIZmsz7WY9TDI7jARE2CnNl5kCzdzRrqBjfAX2
+ jMVOZNjplOBdhoObmqFLJbY0DSTv1bsneZjU+tg=
+X-Google-Smtp-Source: ABdhPJwoazM4w9TZwQ1vMuPE6zKSOQgdJrWGyxLj4frzBGDWN1WofaIG3HWa+/xFUdGC9NDpHWeaFXFgyJ0JsCN2B2k=
+X-Received: by 2002:a4a:a385:: with SMTP id s5mr1795131ool.8.1601007530290;
+ Thu, 24 Sep 2020 21:18:50 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Giuseppe Scrivano <gscrivan@redhat.com>,
- Valdis =?UTF-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
- kernelnewbies <kernelnewbies@kernelnewbies.org>,
- kernel-janitors <kernel-janitors@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, Andy Whitcroft <apw@shadowen.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, cocci <cocci@systeme.lip6.fr>
-Subject: Re: [Linux-kernel-mentees] [Cocci] coccinelle: Convert comma to
- semicolons (was Re: [PATCH] checkpatch: Add test for comma use that should
- be semicolon)
+References: <alpine.DEB.2.21.2009181157160.14717@felia>
+ <CABJPP5DGpep-S5F+J=dxdhBBDp2J9wQBrJvH_Ys6uJDj3AfRRA@mail.gmail.com>
+ <alpine.DEB.2.21.2009181238230.14717@felia>
+ <CABJPP5A8kaaFqR9Sm-rS6uuWb6CdbnkLLPXWpgp8XeEgC9uOJw@mail.gmail.com>
+ <alpine.DEB.2.21.2009211112460.7483@felia>
+ <CABJPP5B6D2ttt5D1ROrQNy7BDMcp+CBg6QB3vFRac4H10CkvCw@mail.gmail.com>
+ <alpine.DEB.2.21.2009222028250.20644@felia>
+ <CABJPP5B9RsGXCCAHxve2hxmCSyPX3C5aO_5MU9QMtNm08cXiNg@mail.gmail.com>
+ <alpine.DEB.2.21.2009230925520.6068@felia>
+ <CABJPP5CQxXdAD5fFRZaApjh2GJJ_2Dd1Q=6phS-61iLrU5qb9Q@mail.gmail.com>
+ <alpine.DEB.2.21.2009230941250.6068@felia>
+In-Reply-To: <alpine.DEB.2.21.2009230941250.6068@felia>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Fri, 25 Sep 2020 09:48:30 +0530
+Message-ID: <CABJPP5B8GJWPBqeb1RhJknN-4Q0_nQfU9M=Oy+K=Fwe02cgoag@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] checkpatch.pl investigation:
+	NO_AUTHOR_SIGN_OFF issues
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,78 +117,24 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, 2020-09-24 at 23:53 +0200, Thomas Gleixner wrote:
-> On Thu, Sep 24 2020 at 13:33, Joe Perches wrote:
-> > On Thu, 2020-09-24 at 22:19 +0200, Thomas Gleixner wrote:
-> > > On Sat, Aug 22 2020 at 09:07, Julia Lawall wrote:
-> > > > On Fri, 21 Aug 2020, Joe Perches wrote:
-> > > > > True enough for a general statement, though the coccinelle
-> > > > > script Julia provided does not change a single instance of
-> > > > > for loop expressions with commas.
-> > > > > 
-> > > > > As far as I can tell, no logic defect is introduced by the
-> > > > > script at all.
-> > > > 
-> > > > The script has a rule to ensure that what is changed is part of a top
-> > > > level statement that has the form e1, e2;.  I put that in to avoid
-> > > > transforming cases where the comma is the body of a macro, but it protects
-> > > > against for loop headers as well.
-> > > 
-> > > Right. I went through the lot and did not find something dodgy. Except
-> > > for two hunks this still applies. Can someone please send a proper patch
-> > > with changelog/SOB etc. for this?
-> > 
-> > Treewide?
-> > 
-> > Somebody no doubt would complain, but there
-> > _really should_ be some mechanism for these
-> > trivial and correct treewide changes...
-> 
-> There are lots of mechanisms:
+Hi,
+As Joe mentioned earlier, there might be four new
+warnings to handle better:
 
-I've tried them all.
+1) Same name, different address
+2) Same address, different name
+3) email extensions present in header but
+    not in signed off by
+4) comment blocks after name
 
-None of them work particularly well,
-especially the individual patch route.
+I am thinking to solve the first three in a single patch.
 
->  - Andrew picks such changes up
+As for the email extensions part, should it be handled
+differently? There will be redundant calls to that
+though because it's not an error seen quite often.
 
-Generally not treewide.
-
->  - With a few competent eyeballs on it (reviewers) this can go thorugh
->    the trivial tree as well. It's more than obvious after all.
-
-Jiri is almost non-existent when it comes to
-trivial treewide patches.
-
->  - Send the script to Linus with a proper change log attached and ask
->    him to run it.
-
-Linus has concerns about backports and what he
-deems trivialities.  Generally overblown IMO.
-
->  - In the worst case if nobody feels responsible, I'll take care.
-
-If Julia doesn't send a new patch in the next few
-days, I will do the apply, fixup and resend of hers.
-
-So, you're on-deck, nearly up...
-
-> All of the above is better than trying to get the attention of a
-> gazillion of maintainters.
-
-True.
-
-And all of the treewide changes depend on some
-generic acceptance of value in the type of change.
-
-Some believe that comma->semicolon conversions
-aren't useful as there isn't a logical change and
-the compiler output wouldn't be different.
-
-Anyway, cheers, Joe
-
-
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
