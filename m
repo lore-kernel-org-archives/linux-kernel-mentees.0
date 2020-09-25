@@ -2,109 +2,104 @@ Return-Path: <SRS0=3LEE=DC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 289A6C4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 09:00:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88EF2C4727C
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 10:13:13 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B681721741
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 09:00:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DA8F121741
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 10:13:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="CNu5IziH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B681721741
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i7Zjo2El"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA8F121741
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0CD6A8758C;
-	Fri, 25 Sep 2020 09:00:40 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3CE848758D;
+	Fri, 25 Sep 2020 10:13:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tEc5l3Pky4ny; Fri, 25 Sep 2020 09:00:38 +0000 (UTC)
+	with ESMTP id 1DEyKUTzYQcl; Fri, 25 Sep 2020 10:13:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C3F0487578;
-	Fri, 25 Sep 2020 09:00:38 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AECE187588;
+	Fri, 25 Sep 2020 10:13:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A51CAC0859;
-	Fri, 25 Sep 2020 09:00:38 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 063D6C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A12A9C0889;
+	Fri, 25 Sep 2020 10:13:11 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A37E6C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 09:00:37 +0000 (UTC)
+ Fri, 25 Sep 2020 10:13:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0212986C11
+ by silver.osuosl.org (Postfix) with ESMTP id 990262E157
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 09:00:37 +0000 (UTC)
+ Fri, 25 Sep 2020 10:13:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JHHWOiE7e1zs
+ with ESMTP id YpEKLOL1pL3v
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 09:00:35 +0000 (UTC)
-X-Greylist: delayed 00:16:35 by SQLgrey-1.7.6
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
- [209.85.167.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3364186C08
+ Fri, 25 Sep 2020 10:13:09 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id A68192E149
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 09:00:34 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id y11so1966197lfl.5
+ Fri, 25 Sep 2020 10:13:09 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id y14so2130585pgf.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 02:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=8bcdSgoAZ73IZy198rnRan6x5PSCC5tXv1r4zPoC4uo=;
- b=CNu5IziHGSAsmKK8nCUKNhXkCUfo9CYqtOAGtgz/t+upSDVlprZtizhSJr4Hd4NWDs
- FLUpnGUHgSV2vQpc9QhRZNe7EKp78O5sOjDU4BDE8eop1xscW0lYdEQB0RmABK5/HF+U
- Vp16JyuGjPPILnnwx1SaEsxE0sNIFsgJYqQN0=
+ Fri, 25 Sep 2020 03:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=720jfHfclRnuElbF5sBzZ7YrsJeN0GPjCiRxFVwpZoA=;
+ b=i7Zjo2El5BzxdVYuuVMLa8MGZcc6OstPdzLxRwuXbMZdkeeu04m+n0XhYNS/MxNSkI
+ +geUVpxEp6s3OgH7eUXw9uaBQrQGlBCVnmiYJWiL3enEzsGYVYIsC0NToHgONfeoZtNQ
+ 08429bRaEKBsTttN92pFdakTfdyCrToHclfhyX4rr8XMkapPN+F4kiDVVqbmyDLyD3DY
+ dkEFSJmSw51IsvsTjnMzLX2WELq2j0Z0PtdNZQsCioN4TodyVPV5jr2EAiY+nnVMnv9J
+ 0xrYTrx5pOJ46fagsf8opPRq6G3TwOCJP3ZFC0vp+96yjyM/fmXmr77viRZrad1yqkEO
+ CHPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=8bcdSgoAZ73IZy198rnRan6x5PSCC5tXv1r4zPoC4uo=;
- b=YC3xq09jfOx4cbo44gzFcbOVpYKy1xPv3nsKPHhNWWUlNq/3JysOq8GDLcm9/Obi3/
- OZ5MB/mLbrDKBVe5/hvL/XaQvxwEdbSrCTZP6ULHXljTiGdOhiVlR1Lk+NDHZfs1oTKx
- aRAIGLrENadUDsdeLHTYjGd2yU2u9ALyw9yOPKwS80u1xrRhxUkOkK5fReVXZDEouSv1
- 9aEPNdDUgjKntp/0Kqu/10vleEFxk/zfhFf+icII9mjXzcl5bhKcbkeTYXPRqZi4+K2v
- iz9oGN4JuddlQ+TwZCJe891FGgpOMYl8tiWwl5nDoiIwPRQX/+ehaB8kAtpArSnMmxR6
- weUw==
-X-Gm-Message-State: AOAM530/Vk2zQU/fz/VFPKb9chmZGDAgEdli3gSVQ83P3mU3iHffW/IY
- TW0PUnvyPsoPiTRN4Syme9omCq9MTZYM0biu
-X-Google-Smtp-Source: ABdhPJxjpBiJrrjmGbHLVq9si4d21DejsBC9IYOgST2F24H80iKx7KkiZhOIGDzbXrS0gMn/7HcSdA==
-X-Received: by 2002:adf:a3ca:: with SMTP id m10mr3338923wrb.104.1601023125154; 
- Fri, 25 Sep 2020 01:38:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h8sm1967181wrw.68.2020.09.25.01.38.43
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=720jfHfclRnuElbF5sBzZ7YrsJeN0GPjCiRxFVwpZoA=;
+ b=RuGf/kW5C43neOM51mmQKSSwVvqeEkB8Gcbkmm4WF9w7XjMJShbbjSGAbHlUhqqM35
+ 6E0KaqCfyxePu9UnxLc/n+KBXZqRD01da40p+Qe8OqD1bOeS3rzgCqOK/CFfz4B+AN3+
+ q68hMYllid2AcxEC2O3MnXuOZO1dVSrI33/GUzCXUW9KhDxGUhXmfuZEco5xdG4FzgF4
+ PY9GgfjRwHdQy4XsORfHHQHZJvhGOO5dY6I5vLuLH9rSp49eptDXt+V8nE8fwzWBtUbf
+ mqK3joxq6/gEb6uVB8LLWHxtYfuqRlA0J7tbYS0+Ab4jdVYyzuJK/nS5KD7WukAN31wK
+ viNQ==
+X-Gm-Message-State: AOAM532SUvbLw6c8JBuAwN/NfwE4o+rbLBCSOONwl6g7f4BGtLntGH/E
+ sXBmE6i40/wSov8K+hpHdg==
+X-Google-Smtp-Source: ABdhPJyH9hSYbuzMVkeLBRiy0bfoGk8cDtw/2un0NnyLt7EEM2tTDwRAuEk/AUNhm/BuhmA41p3M3g==
+X-Received: by 2002:aa7:8249:0:b029:142:2501:35c9 with SMTP id
+ e9-20020aa782490000b0290142250135c9mr3375837pfn.41.1601028789229; 
+ Fri, 25 Sep 2020 03:13:09 -0700 (PDT)
+Received: from PWN (n11212042027.netvigator.com. [112.120.42.27])
+ by smtp.gmail.com with ESMTPSA id h1sm1665573pji.52.2020.09.25.03.13.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 01:38:44 -0700 (PDT)
-Date: Fri, 25 Sep 2020 10:38:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-ID: <20200925083842.GC438822@phenom.ffwll.local>
-Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Peilin Ye <yepeilin.cs@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jiri Slaby <jirislaby@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org
+ Fri, 25 Sep 2020 03:13:08 -0700 (PDT)
+Date: Fri, 25 Sep 2020 06:13:00 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Jiri Slaby <jirislaby@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Message-ID: <20200925101300.GA890211@PWN>
 References: <0000000000006b9e8d059952095e@google.com>
  <cover.1600953813.git.yepeilin.cs@gmail.com>
- <20200924140937.GA749208@kroah.com>
+ <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200924140937.GA749208@kroah.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
 Cc: linux-fbdev@vger.kernel.org,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jiri Slaby <jirislaby@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH 0/3] Prevent out-of-bounds access
  for built-in font data buffers
@@ -125,31 +120,9 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Sep 24, 2020 at 04:09:37PM +0200, Greg Kroah-Hartman wrote:
-> On Thu, Sep 24, 2020 at 09:38:22AM -0400, Peilin Ye wrote:
-> > Hi all,
-> > 
-> > syzbot has reported [1] a global out-of-bounds read issue in
-> > fbcon_get_font(). A malicious user may resize `vc_font.height` to a large
-> > value in vt_ioctl(), causing fbcon_get_font() to overflow our built-in
-> > font data buffers, declared in lib/fonts/font_*.c:
-> > 
-> > (e.g. lib/fonts/font_8x8.c)
-> > #define FONTDATAMAX 2048
-> > 
-> > static const unsigned char fontdata_8x8[FONTDATAMAX] = {
-> > 
-> >         /* 0 0x00 '^@' */
-> >         0x00, /* 00000000 */
-> >         0x00, /* 00000000 */
-> >         0x00, /* 00000000 */
-> >         0x00, /* 00000000 */
-> >         0x00, /* 00000000 */
-> >         0x00, /* 00000000 */
-> >         0x00, /* 00000000 */
-> >         0x00, /* 00000000 */
-> >         [...]
-> > 
+Hi all!
+
+On Fri, Sep 25, 2020 at 08:46:04AM +0200, Jiri Slaby wrote:
 > > In order to perform a reliable range check, fbcon_get_font() needs to know
 > > `FONTDATAMAX` for each built-in font under lib/fonts/. Unfortunately, we
 > > do not keep that information in our font descriptor,
@@ -164,7 +137,12 @@ On Thu, Sep 24, 2020 at 04:09:37PM +0200, Greg Kroah-Hartman wrote:
 > > 
 > > To make things worse, `struct console_font` is part of the UAPI, so we
 > > cannot add a new field to keep track of `FONTDATAMAX`.
-> > 
+> 
+> Hi,
+> 
+> but you still can define struct kernel_console_font containing struct
+> console_font and the 4 more members you need in the kernel. See below.
+> 
 > > Fortunately, the framebuffer layer itself gives us a hint of how to
 > > resolve this issue without changing UAPI. When allocating a buffer for a
 > > user-provided font, fbcon_set_font() reserves four "extra words" at the
@@ -172,118 +150,52 @@ On Thu, Sep 24, 2020 at 04:09:37PM +0200, Greg Kroah-Hartman wrote:
 > > 
 > > (drivers/video/fbdev/core/fbcon.c)
 > > 	new_data = kmalloc(FONT_EXTRA_WORDS * sizeof(int) + size, GFP_USER);
-> >         [...]
-> > 	new_data += FONT_EXTRA_WORDS * sizeof(int);
-> > 	FNTSIZE(new_data) = size;
-> > 	FNTCHARCNT(new_data) = charcount;
-> > 	REFCOUNT(new_data) = 0;	/* usage counter */
-> >         [...]
-> > 	FNTSUM(new_data) = csum;
-> > 
-> > Later, to get the size of a data buffer, the framebuffer layer simply
-> > calls FNTSIZE() on it:
-> > 
-> > (drivers/video/fbdev/core/fbcon.h)
-> > 	/* Font */
-> > 	#define REFCOUNT(fd)	(((int *)(fd))[-1])
-> > 	#define FNTSIZE(fd)	(((int *)(fd))[-2])
-> > 	#define FNTCHARCNT(fd)	(((int *)(fd))[-3])
-> > 	#define FNTSUM(fd)	(((int *)(fd))[-4])
-> > 	#define FONT_EXTRA_WORDS 4
-> > 
-> > Currently, this is only done for user-provided fonts. Let us do the same
-> > thing for built-in fonts, prepend these "extra words" (including
-> > `FONTDATAMAX`) to their data buffers, so that other subsystems, like the
-> > framebuffer layer, can use these macros on all fonts, no matter built-in
-> > or user-provided. As an example, this series fixes the syzbot issue in
-> > fbcon_get_font():
-> > 
-> > (drivers/video/fbdev/core/fbcon.c)
-> >  	if (font->width <= 8) {
-> >  		j = vc->vc_font.height;
-> > +		if (font->charcount * j > FNTSIZE(fontdata))
-> > +			return -EINVAL;
-> > 	[...]
-> > 
-> > Similarly, newport_con also use these macros. It only uses three of them:
-> > 
-> > (drivers/video/console/newport_con.c)
-> > 	/* borrowed from fbcon.c */
-> > 	#define REFCOUNT(fd)	(((int *)(fd))[-1])
-> > 	#define FNTSIZE(fd)	(((int *)(fd))[-2])
-> > 	#define FNTCHARCNT(fd)	(((int *)(fd))[-3])
-> > 	#define FONT_EXTRA_WORDS 3
-> > 
-> > To keep things simple, move all these macro definitions to <linux/font.h>,
-> > use four words instead of three, and initialize the fourth word in
-> > newport_set_font() properly.
-> > 
-> > Many thanks to Greg Kroah-Hartman <gregkh@linuxfoundation.org>, who
-> > reviewed and improved this series!
-> > 
-> > [1]: KASAN: global-out-of-bounds Read in fbcon_get_font
-> >      https://syzkaller.appspot.com/bug?id=08b8be45afea11888776f897895aef9ad1c3ecfd
-> > 
-> > Peilin Ye (3):
-> >   fbdev, newport_con: Move FONT_EXTRA_WORDS macros into linux/font.h
-> >   Fonts: Support FONT_EXTRA_WORDS macros for built-in fonts
-> >   fbcon: Fix global-out-of-bounds read in fbcon_get_font()
-> > 
-> >  drivers/video/console/newport_con.c     |  7 +------
-> >  drivers/video/fbdev/core/fbcon.c        | 12 ++++++++++++
-> >  drivers/video/fbdev/core/fbcon.h        |  7 -------
-> >  drivers/video/fbdev/core/fbcon_rotate.c |  1 +
-> >  drivers/video/fbdev/core/tileblit.c     |  1 +
-> >  include/linux/font.h                    | 13 +++++++++++++
-> >  lib/fonts/font_10x18.c                  |  9 ++++-----
-> >  lib/fonts/font_6x10.c                   |  9 +++++----
-> >  lib/fonts/font_6x11.c                   |  9 ++++-----
-> >  lib/fonts/font_7x14.c                   |  9 ++++-----
-> >  lib/fonts/font_8x16.c                   |  9 ++++-----
-> >  lib/fonts/font_8x8.c                    |  9 ++++-----
-> >  lib/fonts/font_acorn_8x8.c              |  9 ++++++---
-> >  lib/fonts/font_mini_4x6.c               |  8 ++++----
-> >  lib/fonts/font_pearl_8x8.c              |  9 ++++-----
-> >  lib/fonts/font_sun12x22.c               |  9 ++++-----
-> >  lib/fonts/font_sun8x16.c                |  7 ++++---
-> >  lib/fonts/font_ter16x32.c               |  9 ++++-----
-> >  18 files changed, 79 insertions(+), 67 deletions(-)
 > 
-> Gotta love going backwards in arrays :)
+> I might be missing something (like coffee in the morning), but why don't
+> you just:
+> 1) declare struct font_data as
+> {
+>   unsigned sum, char_count, size, refcnt;
+>   const unsigned char data[];
+> }
 > 
-> Nice work, whole series is:
+> Or maybe "struct console_font font" instead of "const unsigned char
+> data[]", if need be.
 > 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 2) allocate by:
+>   kmalloc(struct_size(struct font_data, data, size));
 > 
+> 3) use container_of wherever needed
 > 
-> Daniel, can you take this through your tree?
-
-Applied to drm-misc-fixes, but just missed the pull request train for
--rc7. Should land in Linus' tree next week.
-
-But I did look at the code, and I have regrets. Macros into untyped arrays
-and negative indices is very old skool C. It's definitely neater than
-before, but also can't deny that we're doing dental surgery on a living
-and fire breathing dragon here :-/
-
-I guess I'll just add this to the list of requirements anyone has to
-resolve before we're going to resurrect scrollback.
-
-Cheers, Daniel
-
-
-
-
-
+> That is you name the data on negative indexes using struct as you
+> already have to define one.
 > 
-> thanks,
-> 
-> greg k-h
+> Then you don't need the ugly macros with negative indexes. And you can
+> pass this structure down e.g. to fbcon_do_set_font, avoiding potential
+> mistakes in accessing data[-1] and similar.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Sorry that I didn't mention it in the cover letter, but yes, I've tried
+this - a new `kernel_console_font` would be much cleaner than negative
+array indexing.
+
+The reason I ended up giving it up was, frankly speaking, these macros
+are being used at about 30 places, and I am not familiar enough with the
+framebuffer and newport_con code, so I wasn't confident how to clean
+them up and plug in `kernel_console_font` properly...
+
+Another reason was that, functions like fbcon_get_font() handle both user
+fonts and built-in fonts, so I wanted a single solution for both of
+them. I think we can't really introduce `kernel_console_font` while
+keeping these macros, that would make the error handling logics etc.
+very messy.
+
+I'm not very sure what to do now. Should I give it another try cleaning
+up all the macros?
+
+And thank you for reviewing this!
+
+Peilin Ye
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
