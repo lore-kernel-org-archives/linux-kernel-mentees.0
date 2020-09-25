@@ -2,105 +2,105 @@ Return-Path: <SRS0=3LEE=DC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 548E3C4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 11:24:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 013B1C4363D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 12:30:26 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D99DE20936
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 11:24:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4C39721D7A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 12:30:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YwusCQb4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D99DE20936
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HidLleV8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C39721D7A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 84E3720379;
-	Fri, 25 Sep 2020 11:24:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CE87D20474;
+	Fri, 25 Sep 2020 12:30:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZjUF+TmAH0a1; Fri, 25 Sep 2020 11:24:04 +0000 (UTC)
+	with ESMTP id MQQ0oiTd4Oig; Fri, 25 Sep 2020 12:30:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id C7DFF20387;
-	Fri, 25 Sep 2020 11:24:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 32BEE203B9;
+	Fri, 25 Sep 2020 12:30:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B03CFC0859;
-	Fri, 25 Sep 2020 11:24:04 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 69EEEC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 13760C0890;
+	Fri, 25 Sep 2020 12:30:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94097C0859
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 11:24:03 +0000 (UTC)
+ Fri, 25 Sep 2020 12:30:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5896586C73
+ by hemlock.osuosl.org (Postfix) with ESMTP id 740A8875C3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 11:24:03 +0000 (UTC)
+ Fri, 25 Sep 2020 12:30:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oiHnfGc1iW7M
+ with ESMTP id MSvln+vQI6Qt
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 11:24:02 +0000 (UTC)
+ Fri, 25 Sep 2020 12:30:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
- [209.85.221.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0022586B5E
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 95345875C1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 11:24:01 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id j2so3181225wrx.7
+ Fri, 25 Sep 2020 12:30:19 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id q4so1767457pjh.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 04:24:01 -0700 (PDT)
+ Fri, 25 Sep 2020 05:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SFWcfeS5wxuI7eAUUDEBe0a+as5YNy5FGHPEInpElA8=;
- b=YwusCQb4BNAs2qNa8S3uQAN1XOHgiKuS/bWyodzx+julOIpF8cMM+ULqoTh70csgmu
- Tg7LuB4jVQLF7thah9OEj3nFW152KXkekpYFu35kCOSdxD+ycnC44LKNN3PIqZLfOl12
- aW3JvhopCsNsu/CIHKE65qLtfjGq90wIacSzLzBjKAV0wAJC9AhL8sWSXQNlOJPH7J9j
- lfRJJFWnMLq13GfmwodEF09YeJRX0pOsxDuzkN5zxlbQ1ebIFdWAhShHm6aJt+HZyykP
- nJju+fVztQNgTUUzR07a17dNJyr8qTR0WIYQYGRBiNjxDWq7CL02l6imoZj4NOGBeysf
- Wmjg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DmHw04iklE3yrmT5+Qxme0jhNrvOG1JJbjBMAqjAnWs=;
+ b=HidLleV807GUhrWJ1dU9h0PZnXy0ihmP+SY9vuw8pNjtZxUTgEVpNlRnQgG/sGcBe3
+ xONWhv6pkw7HcqLlc0owLTuKvf8C/dHmpx/f/qDDd6xmfCKclLmRwJY+hhuIVLspasp+
+ KH6fzSL9BnbZi4Ir2K4cQphsdgNB1fsri0B/W4QZKPtQ61puXIweQV8MUy+T2Sy6u1Di
+ jvAIf18TNoyKvgn2MtipaeNoKBY9JGcpUEuTodzG56dNeirgoeGOBf1KcHdctay6tC95
+ pLGBY0B+BIaTtvilU2izDrtsjHLzyN660SL8RhJaPZQVbHxs3eDmGDM1qUU1wkZ8IYVT
+ yAAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SFWcfeS5wxuI7eAUUDEBe0a+as5YNy5FGHPEInpElA8=;
- b=aN33Li8V1+J0nMLIrwYW4MwlXD9qjzrK7GN9sSlpvKPeXHy5f/iqcDqXZi67xlfaZj
- iBVim15W7TvgVKZDd43Vpqn/YDRdO+6fANlIGJu07/MckSiVAfZH8WBZ/4FIjz6zGP8K
- XW9sVIQzlUTEUOtqpxTAYN1CWSiRraYgh7lnaC4EEopYb0xm7dx8ImPh3uSub++E9m0Z
- I934A3XDJtGedqI7XTnRrRdBGjfu287t+DmwifZdihpqUsTmOUBau3XLx9FX2kLpTsYX
- E9MN8zVtFJ4ZLVAFQNwZzppZWYvlCZk8NktnR81bJW78J4JFKiYOjxINrnu9wx3l27sn
- CI9g==
-X-Gm-Message-State: AOAM533ZwgqOUFSekcDRGzOG8pL1nwsgqiX8sh5oVw/PflCtwCKpgq/W
- mBI/4nLUnYMa12yOhtXmCHc8M21i6tgjytmT4AE=
-X-Google-Smtp-Source: ABdhPJzm9ewJSK7s1bAh20TjRk7fbdnLc3xpXegODgfo/yRdDK42Rrpg+9Cj7gBDCvmWeHhsbWumnOO3fGV9uaN0Ffk=
-X-Received: by 2002:adf:dcc7:: with SMTP id x7mr4036971wrm.203.1601033040375; 
- Fri, 25 Sep 2020 04:24:00 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DmHw04iklE3yrmT5+Qxme0jhNrvOG1JJbjBMAqjAnWs=;
+ b=QEsDmqfVTfDhsUc7DVUqDlfon5tZDS5k6MUi06ehzHpj00yGIHxlftnhnKlVRoSwBR
+ UsmcJ/TFURJG2oCiPJkGG6JN1qZlx3WLE4KPRi40R+UcSU1wmzFkzB56Tm9JDs7hU65h
+ ZWDULfiJYYT2jYf8c9HwLZpgWkLJdq3Kb4A4X6DzIxCQM+e/x9L0yv+mb+ByLhXWFWZY
+ CZxW4GHHF4h/HTwtRQVfh+wCnr78RbZPG7B07+90dZEP58UQhxjxyEEmRopqNfDIkmBj
+ 0f7RoV2zqvV4Tg1vtlvqF8CSTjyvIvussFe7JwYN7E7ivFh3eMY7zZIv4n505vKYBb7k
+ 8jaA==
+X-Gm-Message-State: AOAM532YJG/xd4/1YsxoZjGLrKvnUBum2ckSzlG+WA5pDIhu+te+j8Kr
+ PzoBW5Oap//W/s8RMVDYDsnfFRtFE/ooKw==
+X-Google-Smtp-Source: ABdhPJx90dniSpYvbsTy0D8NVubViEvvbwrfM8j9hqeqM6QQbe8UzuOiyAQCnKDPmgKo+LbbiCFVcA==
+X-Received: by 2002:a17:90a:e017:: with SMTP id u23mr113805pjy.3.1601037018625; 
+ Fri, 25 Sep 2020 05:30:18 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:a404:2085:4633:7001:2dd8:81bf])
+ by smtp.gmail.com with ESMTPSA id u138sm2554828pfc.218.2020.09.25.05.30.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Sep 2020 05:30:17 -0700 (PDT)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <4e69c59d-2daf-e63a-bf83-75fbcd105b62@gmail.com>
+ <alpine.DEB.2.21.2009241906520.16272@felia>
+From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+Message-ID: <3aa27e51-1b49-d0ad-3995-3a9185393847@gmail.com>
+Date: Fri, 25 Sep 2020 18:00:14 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200923090519.361-1-himadrispandya@gmail.com>
- <20200923090519.361-4-himadrispandya@gmail.com>
- <1600856557.26851.6.camel@suse.com>
- <CAOY-YVkHycXqem_Xr6nQLgKEunk3MNc7dBtZ=5Aym4Y06vs9xQ@mail.gmail.com>
- <1600870858.25088.1.camel@suse.com>
- <CAOY-YVkciMUgtS7USbBh_Uy_=fVWwMMDeHv=Ub_H3GaY0FKZyQ@mail.gmail.com>
- <7f9e20b2eab783303c4e5f5c3244366fa88a6567.camel@suse.com>
-In-Reply-To: <7f9e20b2eab783303c4e5f5c3244366fa88a6567.camel@suse.com>
-From: Himadri Pandya <himadrispandya@gmail.com>
-Date: Fri, 25 Sep 2020 16:53:48 +0530
-Message-ID: <CAOY-YVmBW52bXF95pTM3fNVUyRt=PNXZ5iGyq6mYsW2_iopnoQ@mail.gmail.com>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: petkan@nucleusys.com, pankaj.laxminarayan.bharadiya@intel.com,
- USB list <linux-usb@vger.kernel.org>, yuehaibing@huawei.com,
- LKML <linux-kernel@vger.kernel.org>, ogiannou@gmail.com,
- netdev <netdev@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- David Miller <davem@davemloft.net>, Kees Cook <keescook@chromium.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH 3/4] net: usb: rtl8150: use
-	usb_control_msg_recv() and usb_control_msg_send()
+In-Reply-To: <alpine.DEB.2.21.2009241906520.16272@felia>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] checkpatch.pl investigation for
+	false-positives
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,40 +118,122 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Sep 24, 2020 at 5:06 PM Oliver Neukum <oneukum@suse.com> wrote:
->
-> Am Mittwoch, den 23.09.2020, 20:02 +0530 schrieb Himadri Pandya:
->
-> > I meant that it was stupid to change it without properly understanding
-> > the significance of GFP_NOIO in this context.
-> >
-> > So now, do we re-write the wrapper functions with flag passed as a parameter?
->
-> Hi,
->
-> I hope I set you in CC for a patch set doing exactly that.
->
+On 24/09/20 10:56 pm, Lukas Bulwahn wrote:
+> 
+> 
+> On Wed, 23 Sep 2020, Ujjwal Kumar wrote:
+> 
+>> Hi Lukas,
+>>
+>> I looked at different error messages and came-up with a list of
+>> possible false positives reports by checkpatch script.
+>>
+>> First, is about BAD_SIGN_OFF warning for Duplicate signature.
+>> Though it is obvious to have these warnings but I am wondering 
+>> about situations where there is some other signature between 
+>> two exactly same signatures.
+>> For instance,
+>>
+>> commit 3f9c6d38797e9903937b007a341dad0c251765d6
+>>     ...
+>>     Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>     Acked-by: Andrew F. Davis <afd@ti.com>
+>>     Cc: <Stable@vger.kernel.org>
+>>     Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>
+>> commit 79ea1e12c0b8540100e89b32afb9f0e6503fad35
+>>     ...
+>>     Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+>>     Link: https://lore.kernel.org/r/20200604120420.b1dc540a7e26.I55
+>> dcca56bb5bdc5d7ad66a36a0b42afd7034d8be@changeid
+>>     Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+>>     
+>> I'm not familiar how/when these situations can occur. But if these 
+>> scenarios are commonly acceptable then the script should not report
+>>  a warning for duplicate signatures.
+>>
+> 
+> That is a typical situation when a maintainer sends their own patches to a 
+> mailing list and then picks them up again. Hmm, I need to think about if 
+> that should be addressed. You could of course detect the Link: 
+> with lore.kernel.org and identify that all further sign offs are now part 
+> of the patch integration. Running checkpatch.pl on git commits is not the
+> most common thing, so it might just be a minor issue.
+> 
+> Let us keep it in mind for now.
+> 
+>> ---
+>>
+>> Second, is about WHILE_AFTER_BRACE errors.
+>>
+>> Example commit: 6f8a57ccf8511724e6f48d732cb2940889789ab2
+>>
+>> The error message suggests to move the empty while loop with close 
+>> brace of an if block which is not recommended according to the code 
+>> style.
+>>
+>> The possible correction would be consider checking the type of 
+>> block that is ending and report only when the do block is found.
+>>
+> 
+> Okay, that is going to be tricky... maybe clang-format and friends is the 
+> better tool to handle that eventually. I would not pick that to 
+> investigate further, just because it is quite tricky. checkpatch.pl is 
+> already just doing some rough estimation and not really parsing the syntax 
+> tree.
+>> ---
+>>
+>> Third, is about EXECUTE_PERMISSIONS errors where the script reports 
+>> an error for a python (possible with others scripts as well) script 
+>> with file mode set as '100755' but file name does not include '.py' 
+>> extension and is not present under the 'scripts' directory tree.
+>>
+>> So, a python script file named 'binfmt_script' with file mode '100755'
+>>  is erroneously reported by the script as:
+>>
+>> ERROR:EXECUTE_PERMISSIONS: do not set execute permissions for source files
+>> #39: FILE: tools/testing/selftests/exec/binfmt_script
+>>
+>> even when it is okay to make the script file executable.
+>>
+>> Example commit b081320f0693cce0394f7c8bad9fba0b25982186
+>>
+>> A possible solution to this would be to use the script's first line 
+>> for determining whether the file is a executable file or not.
+>>
+> 
+> That seems reasonable. Maybe the rule needs an update anyway because 
+> executable scripts can also be in tools/...
+> 
+> I suggest to have a look at the discussion of this patch where we already 
+> discussed out the role of execute permissions in the kernel repository:
+> 
+> https://lore.kernel.org/linux-kernel-mentees/20200827060523.6fi34tcrg5xndzuu@mrinalpandey/#t
+> 
+> Mrinal never followed up on the two potential tasks in
+> https://lore.kernel.org/linux-kernel-mentees/alpine.DEB.2.21.2008310714560.8556@felia/
+> 
+> Ujjwal, maybe you can look at the build scripts and check if there are any 
+> places where the build really relies on the file being executable (which 
+> we currently do guarantee)?
+> 
 
-Yes.
+I unset executable bit on all the files, and tried building the kernel.
+The configuration step itself fails and hence it appears that build process 
+and Makefiles do rely on the executable bits for scripts.
 
-> Do not let me or other maintainers discourage you from writing patches.
-> Look at it this way. Had you not written this patch, I would not have
-> looked into the matter. Patches are supposed to be reviewed.
-> If you want additional information, just ask. We do not want
-> people discouraged from writing substantial patches.
->
+The init/Kconfig file is the reason behind failing builds. I prefixed the 
+script calls with relevant interpreters and now I can successfully 
+configure and build the kernel. Though I have not tried building all the 
+modules (only the ones relevant to my system configuration). I'll be able 
+to give a final opinion after making all the modules (my system is too slow
+with a dual core cpu :( ).
 
-Understood :).
+> If there are some questions to the task, feel free to ask.
+> 
+> Lukas
+> 
 
-I'll send v2 after the update in API is merged.
-
-Thanks,
-Himadri
-
->         Regards
->                 Oliver
->
->
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
