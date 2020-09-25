@@ -2,100 +2,90 @@ Return-Path: <SRS0=3LEE=DC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F0A6C4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 18:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C15AFC4727E
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 21:05:59 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A62B20878
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 18:04:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oGJFQDaS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A62B20878
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 12B1D23730
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Sep 2020 21:05:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 12B1D23730
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B404386E53;
-	Fri, 25 Sep 2020 18:04:32 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7C55086EAD;
+	Fri, 25 Sep 2020 21:05:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0dlAOJz3Zh8q; Fri, 25 Sep 2020 18:04:31 +0000 (UTC)
+	with ESMTP id i9EuYlgOTzRR; Fri, 25 Sep 2020 21:05:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B0B4A86E45;
-	Fri, 25 Sep 2020 18:04:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9E24786EA3;
+	Fri, 25 Sep 2020 21:05:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9265BC0859;
-	Fri, 25 Sep 2020 18:04:31 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A5435C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8FB63C0890;
+	Fri, 25 Sep 2020 21:05:57 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B000C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 18:04:29 +0000 (UTC)
+ Fri, 25 Sep 2020 21:05:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8FF3886E53
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1E7FA87676
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 18:04:29 +0000 (UTC)
+ Fri, 25 Sep 2020 21:05:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id w4OzoZ2WxRdI
+ with ESMTP id sUWJ3Qw3laws
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 18:04:27 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8A7ED86E11
+ Fri, 25 Sep 2020 21:05:55 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0168.hostedemail.com
+ [216.40.44.168])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 18CC087675
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 18:04:27 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id b17so2126246pji.1
+ Fri, 25 Sep 2020 21:05:55 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 24F8C18008CB0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 11:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SlJ1phCzV4Gyh0d+jKE5Xq3NkjRcylO3xgD8ZugmS5s=;
- b=oGJFQDaSEWjNfMnVtQuDJJ8068MVo0MHqJ/F42fcqLRRVUHtkIqcZRxVNcSVoby1pl
- iUD2DN62vSgMrMb+QoQ/dPov+1fkikLcA8z4cZWrUrbJBZttquIaYkrZ9M2WNT0Gpc3M
- 6EUEv9+iDrwF1eg6HbOPPIQqVKXyjmRf5YFFh6Dj+kqYohZI5FOQW+DkTVhr5wq1WR46
- Y5JYa2iE1YVH1voeJg5eK1ooF9TPGItZjD55nNLCC8Tol7bbivGKWsdNKnRM0HAfWXw7
- u3ATpNJ83Wfml2PKdMQK/CQstZIKepdGrlP7m2qCgln4sVwKDVEB9la4cY4GfCWhOf0N
- cWGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SlJ1phCzV4Gyh0d+jKE5Xq3NkjRcylO3xgD8ZugmS5s=;
- b=BChY7EommOAuv/EOc1GX0H/T0hsTSyr2+BX/TXmUfqfh2L8GadVF5/SgsGbCGhzCWu
- kEmrDmpBh0+8dwYGN3hkDw5wUY2pszZ7wG5kJvriyNk8teQrCAq5ak7H5g4gvQ3aF6XV
- RvsKIjRrfbogsDgOtmBSnkhCHbdX5EI3QLTk8xG5LVNKfTx7JZQWFYDUSUzXTMVU+iYQ
- kuyEDJ/EOqGwlWIponZIt34zz7AAgJs8dXFHvbn2QyHL1ibHIAJk3JqMQjjNTmsatdxQ
- E81hbdFatHZh1QodTVkEXBWuckbmcH0f1Xh4imARhzysvW4HnL/MurUt4F0Ms/lBXCpY
- KUcA==
-X-Gm-Message-State: AOAM530opPk6fF1OENFzXX05/P2A7I8sKqrUFPs5ztbVt0oBVFc2YYJN
- qnnMZ4xSkn//uaUau5unH9Y=
-X-Google-Smtp-Source: ABdhPJzoPO9cyIgcub04wElF2GrnfKicw3NsVaB+SWQ0ZgmHMfnbd/SH8bTaJsL0btakSoPp8nR/NQ==
-X-Received: by 2002:a17:90a:e68f:: with SMTP id
- s15mr669570pjy.79.1601057066876; 
- Fri, 25 Sep 2020 11:04:26 -0700 (PDT)
-Received: from localhost.localdomain ([27.255.176.56])
- by smtp.googlemail.com with ESMTPSA id 64sm3286817pfd.7.2020.09.25.11.04.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 11:04:26 -0700 (PDT)
-From: Puranjay Mohan <puranjay12@gmail.com>
-To: bjorn@helgaas.com
-Date: Fri, 25 Sep 2020 23:33:56 +0530
-Message-Id: <20200925180356.13093-1-puranjay12@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Fri, 25 Sep 2020 17:26:34 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay04.hostedemail.com (Postfix) with ESMTP id BCB401800822B;
+ Fri, 25 Sep 2020 17:26:31 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: songs62_3214a5527169
+X-Filterd-Recvd-Size: 4775
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf10.hostedemail.com (Postfix) with ESMTPA;
+ Fri, 25 Sep 2020 17:26:29 +0000 (UTC)
+Message-ID: <58673398c6b836ebd7509f787e6f0d10bfd751bc.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Date: Fri, 25 Sep 2020 10:26:27 -0700
+In-Reply-To: <alpine.DEB.2.22.394.2009251904540.2772@hadrien>
+References: <87r1qqvo2d.fsf@nanos.tec.linutronix.de>
+ <a53048f738dacc1c58654eb94e229de79d4f94c2.camel@perches.com>
+ <alpine.DEB.2.22.394.2009251904540.2772@hadrien>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Cc: linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Puranjay Mohan <puranjay12@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v4] PCI: Add support for LTR
+Cc: Giuseppe Scrivano <gscrivan@redhat.com>,
+ Valdis =?UTF-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
+ kernelnewbies <kernelnewbies@kernelnewbies.org>,
+ kernel-janitors <kernel-janitors@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, cocci <cocci@systeme.lip6.fr>,
+ Andy Whitcroft <apw@shadowen.org>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [Linux-kernel-mentees] [Cocci] coccinelle: Convert comma to
+ semicolons (was Re: [PATCH] checkpatch: Add test for comma use that should
+ be semicolon)
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,269 +103,98 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a new function pci_ltr_init() which will be called from
-pci_init_capabilities() to initialize every PCIe device's LTR values.
-Add code in probe.c to evaluate LTR _DSM and save the latencies in pci_dev.
+On Fri, 2020-09-25 at 19:06 +0200, Julia Lawall wrote:
+> On Thu, 24 Sep 2020, Joe Perches wrote:
+> > On Thu, 2020-09-24 at 23:53 +0200, Thomas Gleixner wrote:
+> > > On Thu, Sep 24 2020 at 13:33, Joe Perches wrote:
+> > > > On Thu, 2020-09-24 at 22:19 +0200, Thomas Gleixner wrote:
+> > > > > On Sat, Aug 22 2020 at 09:07, Julia Lawall wrote:
+> > > > > > On Fri, 21 Aug 2020, Joe Perches wrote:
+> > > > > > > True enough for a general statement, though the coccinelle
+> > > > > > > script Julia provided does not change a single instance of
+> > > > > > > for loop expressions with commas.
+> > > > > > > 
+> > > > > > > As far as I can tell, no logic defect is introduced by the
+> > > > > > > script at all.
+> > > > > > 
+> > > > > > The script has a rule to ensure that what is changed is part of a top
+> > > > > > level statement that has the form e1, e2;.  I put that in to avoid
+> > > > > > transforming cases where the comma is the body of a macro, but it protects
+> > > > > > against for loop headers as well.
+> > > > > 
+> > > > > Right. I went through the lot and did not find something dodgy. Except
+> > > > > for two hunks this still applies. Can someone please send a proper patch
+> > > > > with changelog/SOB etc. for this?
+> > > > 
+> > > > Treewide?
+> > > > 
+> > > > Somebody no doubt would complain, but there
+> > > > _really should_ be some mechanism for these
+> > > > trivial and correct treewide changes...
+> > > 
+> > > There are lots of mechanisms:
+> > 
+> > I've tried them all.
+> > 
+> > None of them work particularly well,
+> > especially the individual patch route.
+> > 
+> > >  - Andrew picks such changes up
+> > 
+> > Generally not treewide.
+> > 
+> > >  - With a few competent eyeballs on it (reviewers) this can go thorugh
+> > >    the trivial tree as well. It's more than obvious after all.
+> > 
+> > Jiri is almost non-existent when it comes to
+> > trivial treewide patches.
+> > 
+> > >  - Send the script to Linus with a proper change log attached and ask
+> > >    him to run it.
+> > 
+> > Linus has concerns about backports and what he
+> > deems trivialities.  Generally overblown IMO.
+> > 
+> > >  - In the worst case if nobody feels responsible, I'll take care.
+> > 
+> > If Julia doesn't send a new patch in the next few
+> > days, I will do the apply, fixup and resend of hers.
+> > 
+> > So, you're on-deck, nearly up...
+> > 
+> > > All of the above is better than trying to get the attention of a
+> > > gazillion of maintainters.
+> > 
+> > True.
+> > 
+> > And all of the treewide changes depend on some
+> > generic acceptance of value in the type of change.
+> > 
+> > Some believe that comma->semicolon conversions
+> > aren't useful as there isn't a logical change and
+> > the compiler output wouldn't be different.
+> 
+> I have a script that will cut up the patches and send them to the
+> appropriate maintainers, so I have no problem with that route.
 
-Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
----
-v4 - remove pci_upstream_bridge and use acpi_pci_find_companion()
-     to get the handle for evaluating _DSM.
-     Add acpi_check_dsm()
-     Change the logging mechanism.
-v3 - change the algorithm to add latencies, add helper funtions for
-     encoding and decoding the latencies.
-v2 - add an #ifdefin pci-acpi.c to fix the bug reported by test bot.
-v1 - based the patch on v5.9-rc1 so it applies correctly.
----
- drivers/pci/pci-acpi.c   | 37 ++++++++++++++++
- drivers/pci/pci.c        | 96 ++++++++++++++++++++++++++++++++++++++++
- drivers/pci/pci.h        |  3 ++
- drivers/pci/probe.c      |  7 ++-
- include/linux/pci-acpi.h |  1 +
- include/linux/pci.h      |  2 +
- 6 files changed, 145 insertions(+), 1 deletion(-)
+I have a script that does that too.
 
-diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
-index d5869a03f748..1bceee861bfc 100644
---- a/drivers/pci/pci-acpi.c
-+++ b/drivers/pci/pci-acpi.c
-@@ -1213,6 +1213,43 @@ static void pci_acpi_optimize_delay(struct pci_dev *pdev,
- 	ACPI_FREE(obj);
- }
- 
-+/* pci_acpi_evaluate_ltr_latency
-+ *
-+ * @dev - the pci_dev to evaluate and save latencies
-+ */
-+void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev)
-+{
-+#ifdef CONFIG_PCIEASPM
-+	struct acpi_device *adev;
-+	union acpi_object *obj, *elements;
-+
-+	adev = ACPI_COMPANION(&dev->dev);
-+	if (!adev && !pci_dev_is_added(dev))
-+		adev = acpi_pci_find_companion(&dev->dev);
-+	if (!adev)
-+		return;
-+
-+	if (!acpi_check_dsm(adev->handle, &pci_acpi_dsm_guid, 2,
-+				1ULL << DSM_PCI_LTR_MAX_LATENCY))
-+		return;
-+	obj = acpi_evaluate_dsm(adev->handle, &pci_acpi_dsm_guid, 2,
-+					DSM_PCI_LTR_MAX_LATENCY, NULL);
-+	if (!obj)
-+		return;
-+
-+	if (obj->type == ACPI_TYPE_PACKAGE && obj->package.count == 4) {
-+		elements = obj->package.elements;
-+		dev->max_snoop_latency = (u16)elements[1].integer.value |
-+				((u16)elements[0].integer.value <<
-+							PCI_LTR_SCALE_SHIFT);
-+		dev->max_nosnoop_latency = (u16)elements[3].integer.value |
-+				((u16)elements[2].integer.value <<
-+							PCI_LTR_SCALE_SHIFT);
-+	}
-+	ACPI_FREE(obj);
-+#endif
-+}
-+
- static void pci_acpi_set_external_facing(struct pci_dev *dev)
- {
- 	u8 val;
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index a458c46d7e39..a44f07550fac 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -3056,6 +3056,102 @@ void pci_pm_init(struct pci_dev *dev)
- 		dev->imm_ready = 1;
- }
- 
-+/**
-+ * pci_ltr_decode - Decode the latency to a value in ns
-+ * @latency: latency according to PCIe base specification 7.8.2.
-+ */
-+u64 pci_ltr_decode(u16 latency)
-+{
-+	u16 scale = (latency & PCI_LTR_SCALE_MASK) >> 10;
-+	u16 value = latency & PCI_LTR_VALUE_MASK;
-+
-+	switch (scale) {
-+	case 0: return value;
-+	case 1: return value * 32;
-+	case 2: return value * 1024;
-+	case 3: return value * 32768;
-+	case 4: return value * 1048576;
-+	case 5: return value * 33554432;
-+	}
-+	return 0;
-+}
-+
-+/**
-+ * pci_ltr_encode - Encode the value in ns to a 16 bit register value
-+ * @val: latency according to PCIe base specification 7.8.2.
-+ */
-+u16 pci_ltr_encode(u64 val)
-+{
-+	if (val <= 1UL * 0x3ff)
-+		return (0 << 10) | (val & 0x3ff);
-+	if (val <= 32UL * 0x3ff)
-+		return (1 << 10) | ((val >> 5) & 0x3ff);
-+	if (val <= 1024UL * 0x3ff)
-+		return (2 << 10) | ((val >> 10) & 0x3ff);
-+	if (val <= 32768UL * 0x3ff)
-+		return (3 << 10) | ((val >> 15) & 0x3ff);
-+	if (val <= 1048576UL * 0x3ff)
-+		return (4 << 10) | ((val >> 20) & 0x3ff);
-+	if (val <= 33554432UL * 0x3ff)
-+		return (5 << 10) | ((val >> 25) & 0x3ff);
-+	return 0;
-+}
-+
-+/**
-+ * pci_ltr_init - Initialize Latency Tolerance Information of given PCI device
-+ * @dev: PCI device to handle.
-+ */
-+void pci_ltr_init(struct pci_dev *dev)
-+{
-+#ifdef CONFIG_PCIEASPM
-+	struct pci_dev *bridge = dev;
-+	int ltr;
-+	u64 max_snoop = 0, max_nosnoop = 0;
-+	u16 max_snoop_encoded, max_nosnoop_encoded;
-+	u16 max_snoop_current, max_nosnoop_current;
-+	u64 max_snoop_current_decoded, max_nosnoop_current_decoded;
-+
-+	ltr = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_LTR);
-+	if (!ltr)
-+		return;
-+
-+	bridge = pci_upstream_bridge(bridge);
-+	while (bridge) {
-+		max_snoop += pci_ltr_decode(bridge->max_snoop_latency);
-+		max_nosnoop += pci_ltr_decode(bridge->max_nosnoop_latency);
-+		bridge = pci_upstream_bridge(bridge);
-+	}
-+	max_snoop_encoded = pci_ltr_encode(max_snoop);
-+	max_nosnoop_encoded = pci_ltr_encode(max_nosnoop);
-+
-+	pci_read_config_word(dev, ltr + PCI_LTR_MAX_SNOOP_LAT,
-+							&max_snoop_current);
-+	max_snoop_current_decoded = pci_ltr_decode(max_snoop_current);
-+	pci_read_config_word(dev, ltr + PCI_LTR_MAX_NOSNOOP_LAT,
-+							&max_nosnoop_current);
-+	max_nosnoop_current_decoded = pci_ltr_decode(max_nosnoop_current);
-+
-+	pci_dbg(dev,
-+		"Calculated Max Snoop Latency %lluns Max No-Snoop Latency %lluns\n",
-+							max_snoop, max_nosnoop);
-+
-+	if (max_snoop != max_snoop_current_decoded) {
-+		pci_info(dev, "Max Snoop Latency %lluns (was %lluns)\n",
-+					max_snoop, max_snoop_current_decoded);
-+		pci_write_config_word(dev,
-+					ltr + PCI_LTR_MAX_SNOOP_LAT,
-+							max_snoop_encoded);
-+	}
-+	if (max_nosnoop != max_nosnoop_current_decoded) {
-+		pci_info(dev, "Max No-Snoop Latency %lluns (was %lluns)\n",
-+					max_nosnoop, max_nosnoop_current_decoded);
-+		pci_write_config_word(dev,
-+				ltr + PCI_LTR_MAX_NOSNOOP_LAT,
-+						max_nosnoop_encoded);
-+	}
-+#endif
-+}
-+
- static unsigned long pci_ea_flags(struct pci_dev *dev, u8 prop)
- {
- 	unsigned long flags = IORESOURCE_PCI_FIXED | IORESOURCE_PCI_EA_BEI;
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index fa12f7cbc1a0..18890975d0f1 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -110,6 +110,7 @@ void pci_free_cap_save_buffers(struct pci_dev *dev);
- bool pci_bridge_d3_possible(struct pci_dev *dev);
- void pci_bridge_d3_update(struct pci_dev *dev);
- void pci_bridge_wait_for_secondary_bus(struct pci_dev *dev);
-+void pci_ltr_init(struct pci_dev *dev);
- 
- static inline void pci_wakeup_event(struct pci_dev *dev)
- {
-@@ -680,11 +681,13 @@ static inline int pci_aer_raw_clear_status(struct pci_dev *dev) { return -EINVAL
- 
- #ifdef CONFIG_ACPI
- int pci_acpi_program_hp_params(struct pci_dev *dev);
-+void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev);
- #else
- static inline int pci_acpi_program_hp_params(struct pci_dev *dev)
- {
- 	return -ENODEV;
- }
-+static inline void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev) {}
- #endif
- 
- #ifdef CONFIG_PCIEASPM
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 03d37128a24f..74433265ea7e 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -2105,6 +2105,11 @@ static void pci_configure_ltr(struct pci_dev *dev)
- 
- 	if (!pci_is_pcie(dev))
- 		return;
-+	/*
-+	 * Read latency values from _DSM and save in pci_dev
-+	 * as a part of latency tolerance reporting mechanism.
-+	 */
-+	pci_acpi_evaluate_ltr_latency(dev);
- 
- 	pcie_capability_read_dword(dev, PCI_EXP_DEVCAP2, &cap);
- 	if (!(cap & PCI_EXP_DEVCAP2_LTR))
-@@ -2123,7 +2128,6 @@ static void pci_configure_ltr(struct pci_dev *dev)
- 
- 		return;
- 	}
--
- 	if (!host->native_ltr)
- 		return;
- 
-@@ -2400,6 +2404,7 @@ static void pci_init_capabilities(struct pci_dev *dev)
- 	pci_ptm_init(dev);		/* Precision Time Measurement */
- 	pci_aer_init(dev);		/* Advanced Error Reporting */
- 	pci_dpc_init(dev);		/* Downstream Port Containment */
-+	pci_ltr_init(dev);		/* Latency Tolerance Reporting */
- 
- 	pcie_report_downtraining(dev);
- 
-diff --git a/include/linux/pci-acpi.h b/include/linux/pci-acpi.h
-index 5ba475ca9078..e23236a4ff66 100644
---- a/include/linux/pci-acpi.h
-+++ b/include/linux/pci-acpi.h
-@@ -110,6 +110,7 @@ extern const guid_t pci_acpi_dsm_guid;
- 
- /* _DSM Definitions for PCI */
- #define DSM_PCI_PRESERVE_BOOT_CONFIG		0x05
-+#define DSM_PCI_LTR_MAX_LATENCY			0x06
- #define DSM_PCI_DEVICE_NAME			0x07
- #define DSM_PCI_POWER_ON_RESET_DELAY		0x08
- #define DSM_PCI_DEVICE_READINESS_DURATIONS	0x09
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 835530605c0d..af7558e3c331 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -380,6 +380,8 @@ struct pci_dev {
- 	struct pcie_link_state	*link_state;	/* ASPM link state */
- 	unsigned int	ltr_path:1;	/* Latency Tolerance Reporting
- 					   supported from root to here */
-+	u16 max_snoop_latency;		/* LTR Max Snoop latency */
-+	u16 max_nosnoop_latency;	/* LTR Max No-Snoop latency */
- #endif
- 	unsigned int	eetlp_prefix_path:1;	/* End-to-End TLP Prefix */
- 
--- 
-2.27.0
+The complaint I get about its use is
+"OMG: My specific commit header style isn't followed"
+
+And the generic individual maintainer apply rate for
+each specific patch is always less than 50%.
+
+For instance the patches that converted the comma uses
+in if/do/while statements to use braces and semicolons
+from a month ago:
+
+https://lore.kernel.org/lkml/cover.1598331148.git.joe@perches.com/
+
+29 patches, 13 applied.
+
+Best of luck.
+
 
 _______________________________________________
 Linux-kernel-mentees mailing list
