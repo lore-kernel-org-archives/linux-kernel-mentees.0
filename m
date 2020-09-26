@@ -2,108 +2,113 @@ Return-Path: <SRS0=QfBv=DD=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F136C2D0A8
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 11:31:58 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C9FBC4727D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 19:11:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 22929238E2
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 11:31:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 81B0721D7F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 19:11:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AX41ckyX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 22929238E2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=vt-edu.20150623.gappssmtp.com header.i=@vt-edu.20150623.gappssmtp.com header.b="qvuhbvpu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81B0721D7F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=vt.edu
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BC94586BAD;
-	Sat, 26 Sep 2020 11:31:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 09212203DA;
+	Sat, 26 Sep 2020 19:11:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qNp3WFfdhLkS; Sat, 26 Sep 2020 11:31:56 +0000 (UTC)
+	with ESMTP id sYEWEgU3adHf; Sat, 26 Sep 2020 19:11:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DB57A86B92;
-	Sat, 26 Sep 2020 11:31:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B98A32037B;
+	Sat, 26 Sep 2020 19:11:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C1CB7C0891;
-	Sat, 26 Sep 2020 11:31:56 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AACDEC0859
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AA6B2C0889;
+	Sat, 26 Sep 2020 19:11:50 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 15069C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 11:31:55 +0000 (UTC)
+ Sat, 26 Sep 2020 19:11:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 933F4869ED
+ by hemlock.osuosl.org (Postfix) with ESMTP id F235F871CC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 11:31:55 +0000 (UTC)
+ Sat, 26 Sep 2020 19:11:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6sHT7Yq47WkE
+ with ESMTP id u9wd7X3ZSXO7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 11:31:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id DAF8F86502
+ Sat, 26 Sep 2020 19:11:48 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+ [209.85.160.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C785686F13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 11:31:54 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id n61so4818286ota.10
+ Sat, 26 Sep 2020 19:11:48 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id a4so5175539qth.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 04:31:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1GxBNd77YMndGIG8HaThqUtO7FwpxX65dIGNnCrMbsY=;
- b=AX41ckyXiYnoMl4lWSkp9Yf0+r4X/tVCemYXpux78y4wJUTsIYJr21b9AdCitF6sUl
- +mulNs1lRh84XQCyqJvfSHQhgmIWkMCs8OU2uLOxdUHKzFTaP3hT7qrMAY9qoGNk86hR
- qiDZlF4m6weitS0W00aIcVgPPhpvasOn04+dKFvpA9XfSB8F9X1ZetmWBR5xAgN2rEde
- mjLnA1iPlADZNCnhtpDKiGhlPC1yuJ1r7S7JVNKMMEr+Btbnq23twykOCSJK7ZEfQMAU
- leSYZ50u/wuUkdlrtuV6PN9rkevE2I+ts//WmJVA2GecPCnHOdLLRuAhPEzoevt1YOI1
- sOgA==
+ Sat, 26 Sep 2020 12:11:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vt-edu.20150623.gappssmtp.com; s=20150623;
+ h=sender:from:to:cc:subject:in-reply-to:references:mime-version
+ :content-transfer-encoding:date:message-id;
+ bh=HXHwAmJqtzhy0GaltRSGEDCBQtRzzJDllTi8cJUt2Wo=;
+ b=qvuhbvpu5AO68fMeveIuWfGTN+D0nmcZlJkX1mjHMmoXPPkHmZPS5g/D/RaJ3UJi1t
+ 9EyczrTwihu910bMwqhL94H4xZp9d//UhjyTRIFCMDEbx6vKWG2pg6CTW+r9DFOMfRFA
+ JrI9tnamwDhUeSGwOIgIwmg2tK13YK2+lX8OcWcBLZVPDmgOX3HULpBK9ufXJQLNLWVA
+ lOkHZuZvkIM7U5Z2RY3DKa6qZDfBtC+alVW5PlXgULgh+pSo5vkWeVupF9UPKtxmaGnh
+ W7C+FP9o6fS4a8TGvzzgsI1siljTwM0CN5LokWDdHCVq597qzdlgE6zw1OMUfrEAlIzb
+ qTGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1GxBNd77YMndGIG8HaThqUtO7FwpxX65dIGNnCrMbsY=;
- b=fHK3bVmWnPeLufz2TarYYn36Pg5ecsuRVQQpofyVu5q5mlU4g5aiHUJy7NrZNrFfdE
- vKQKZDgYJY1wvmxDhNZXdIT5IgsWjRO0Ruprg6cKCy29ANzuhNZ4FR3deNab5J5sSe9e
- Dtx2kx66j5pyPWC0mEqcwiuHUzrmOhII80pR4ivtTYndUKGONMdUWV7U7U3jl9+RppNs
- VorsgboERmZ9AQP/6KoKZjdoQe7vlh2Do6M50a4wXkhKk25mmRi4nt0Z1J+O+5WGSKGf
- zczQQAMzZjfeeApX8PdPRxWYjvKFCDR2ubYmsVKcwa+RRYUlWJUIVTicYFvsdAZHKx55
- PEKA==
-X-Gm-Message-State: AOAM530IC6E24Ee1kZx1Dh8FWeReDEo85hcvLRuMepmhjT5F9TMZ/S9p
- 3I1l9rQaf8ciung96PAzf6SNBtfl75YNhxoBgH0=
-X-Google-Smtp-Source: ABdhPJw9soOOEZV5d4VDFFPgrsi/NzoVXFjQK+UJw5hY48JCXdoDW6aC5OpAHfDs/N8zgUyMFEc3rP+EwIDGVu/QtJs=
-X-Received: by 2002:a9d:4b18:: with SMTP id q24mr3061369otf.265.1601119913864; 
- Sat, 26 Sep 2020 04:31:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <alpine.DEB.2.21.2009181157160.14717@felia>
- <CABJPP5DGpep-S5F+J=dxdhBBDp2J9wQBrJvH_Ys6uJDj3AfRRA@mail.gmail.com>
- <alpine.DEB.2.21.2009181238230.14717@felia>
- <CABJPP5A8kaaFqR9Sm-rS6uuWb6CdbnkLLPXWpgp8XeEgC9uOJw@mail.gmail.com>
- <alpine.DEB.2.21.2009211112460.7483@felia>
- <CABJPP5B6D2ttt5D1ROrQNy7BDMcp+CBg6QB3vFRac4H10CkvCw@mail.gmail.com>
- <alpine.DEB.2.21.2009222028250.20644@felia>
- <CABJPP5B9RsGXCCAHxve2hxmCSyPX3C5aO_5MU9QMtNm08cXiNg@mail.gmail.com>
- <alpine.DEB.2.21.2009230925520.6068@felia>
- <CABJPP5CQxXdAD5fFRZaApjh2GJJ_2Dd1Q=6phS-61iLrU5qb9Q@mail.gmail.com>
- <alpine.DEB.2.21.2009230941250.6068@felia>
- <CABJPP5B8GJWPBqeb1RhJknN-4Q0_nQfU9M=Oy+K=Fwe02cgoag@mail.gmail.com>
- <alpine.DEB.2.21.2009250854230.5992@felia>
- <CABJPP5Chc5+tNda3af88=pUC2XN8bEga4FiP=+KBwyx0UWOmyA@mail.gmail.com>
- <alpine.DEB.2.21.2009250930570.5992@felia>
-In-Reply-To: <alpine.DEB.2.21.2009250930570.5992@felia>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Sat, 26 Sep 2020 17:01:34 +0530
-Message-ID: <CABJPP5B8mfAi3MMS4xWbArJe=FcMBTF9U8qvXmaicGj5WKiGBQ@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] checkpatch.pl investigation:
-	NO_AUTHOR_SIGN_OFF issues
+ h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+ :mime-version:content-transfer-encoding:date:message-id;
+ bh=HXHwAmJqtzhy0GaltRSGEDCBQtRzzJDllTi8cJUt2Wo=;
+ b=RmIZ8w95Uvs4mSroM1O68QWxq6N7dK3MlPZjoIuXrMp90jU1M7c0ldii6JA/pgG76q
+ M+JNB9QGjQ0W4buoY+vqnPRsIDMH3p7tC7QnpoIWQgR8CBUNzqbs5zsWpjswNFcnyqLP
+ rpLUvMN7t+h3PDe+K3ORJHhV4hAp3brqKdHqi/9q+B+PNjrTLuwKcMM1pbQb/9R2tSvV
+ hfd47XEa+HA63WQDPREe++4yz0T1aq8801avf/c7p7MQZ57ZCbhzF+USgZrAk2HGmuq+
+ /SUyMeaACG95twxcjtFE5zkHO256zWo+GdbFDO5HZ/zxVvtSrjsYNz5StNGRpIkeHXmn
+ cw+Q==
+X-Gm-Message-State: AOAM531YglDcV+GPhv6EXVUu5TD1I3qBsmbRVG0xoiurUEAi2r+bHhMp
+ NnnmvkJg6wbY61K5nfCujeFCGw==
+X-Google-Smtp-Source: ABdhPJwR2g/ncpm2C/nXgazviM7lxAwgSV7qyq+RWN6LOPygiZjfv1mzPGO8S8L1GCjJk/lx6rhT2g==
+X-Received: by 2002:ac8:6f3b:: with SMTP id i27mr5793438qtv.299.1601147507604; 
+ Sat, 26 Sep 2020 12:11:47 -0700 (PDT)
+Received: from turing-police ([2601:5c0:c000:a8c1::359])
+ by smtp.gmail.com with ESMTPSA id b13sm4477025qkl.46.2020.09.26.12.11.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Sep 2020 12:11:46 -0700 (PDT)
+From: "Valdis Kl=?utf-8?Q?=c4=93?=tnieks" <valdis.kletnieks@vt.edu>
+X-Google-Original-From: "Valdis Kl=?utf-8?Q?=c4=93?=tnieks"
+ <Valdis.Kletnieks@vt.edu>
+X-Mailer: exmh version 2.9.0 11/07/2018 with nmh-1.7+dev
+To: Joe Perches <joe@perches.com>
+In-Reply-To: <58673398c6b836ebd7509f787e6f0d10bfd751bc.camel@perches.com>
+References: <87r1qqvo2d.fsf@nanos.tec.linutronix.de>
+ <a53048f738dacc1c58654eb94e229de79d4f94c2.camel@perches.com>
+ <alpine.DEB.2.22.394.2009251904540.2772@hadrien>
+ <58673398c6b836ebd7509f787e6f0d10bfd751bc.camel@perches.com>
+Mime-Version: 1.0
+Date: Sat, 26 Sep 2020 15:11:44 -0400
+Message-ID: <173999.1601147504@turing-police>
+Cc: Giuseppe Scrivano <gscrivan@redhat.com>,
+ kernelnewbies <kernelnewbies@kernelnewbies.org>,
+ kernel-janitors <kernel-janitors@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, cocci <cocci@systeme.lip6.fr>,
+ Julia Lawall <julia.lawall@inria.fr>, Andy Whitcroft <apw@shadowen.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [Linux-kernel-mentees] [Cocci] coccinelle: Convert comma to
+	semicolons (was Re: [PATCH] checkpatch: Add test for comma
+	use that should be semicolon)
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,73 +120,89 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1562594056059830412=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> > Yes, that should help I think. Currently checkpatch is very vague
-> > about Author sign offs, so subclassing it will really be helpful.
-> > But at the same point I don't think it should become
-> > too complex either.
+--===============1562594056059830412==
+Content-Type: multipart/signed; boundary="==_Exmh_1601147504_3912P";
+	 micalg=pgp-sha1; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 7bit
+
+--==_Exmh_1601147504_3912P
+Content-Type: text/plain; charset=us-ascii
+
+On Fri, 25 Sep 2020 10:26:27 -0700, Joe Perches said:
+> And the generic individual maintainer apply rate for
+> each specific patch is always less than 50%.
 >
-> Agree, that is where the evaluation will help (what is really happening,
-> what do we need to consider) and the severity comes into play (if we
-> consider all subclasses of same severity, we do not need to differentiate
-> between them.)
->
-> >
-> > I have already prepared a patch for the basic two classes:
-> > 1) same name, different address
-> > 2) same address, different name
-> >
-> > It would be great to have your feedback on this.
->
-> Okay, I suggest to run this script on a larger set of commits and see.
->
-> Probably, you can speed it your evaluation with checkpatch.pl by
-> restricting it to the AUTHOR_SIGN_OFF type. I will try that over the
-> weekend as well.
->
-> Lukas
+> For instance the patches that converted the comma uses
+> in if/do/while statements to use braces and semicolons
+> from a month ago:
 
-Hi,
-So I did run my script to evaluate the type of errors that were generated.
-My results are from commits between v5.7 and v5.8
+> 29 patches, 13 applied.
 
-1) Same address, different name
+To be fair, it's *always* been hard to get pure style patches applied, because
+they usually hit one of two types of code, with different results:
 
-There were 32 such instances. In general, there was no regularity in the
-specific error.
+Some of them hit code that's been stable for a long time - and those patches
+don't get applied because of the (admittedly small) risk that a "style" patch
+may actually break something - yes, that *does* happen often enough to worry a
+risk-adverse subtree maintainer.
 
-There were some cases with letter case mismatch. Like there was one
-committer who used the names "Arend Van Spriel", and "Arend van Spriel".
-I believe this error should not be generated and matching be made case
-neutral.
+Some of them hit code that's actively being worked on - and those patches don't
+get applied because they can cause merge conflicts.
 
-Apart from this, the rest of the cases in this category were some with missing
-first or last names, using names in other languages or having commas in
-one name, using initials etc. These should be warned about.
+This is a hard problem to fix, because it's difficult to say that either of
+those viewpoints is *totally* wrong. At best, you can make the case that some
+maintainers are a tad over-zealous on their attitude. And since its *hard* to
+find good maintainers, it's not possible to fix the problem by just putting
+somebody else in charge of a subtree. It's theoretically possible to bypass a
+problematic maintainer by sending the patch to the person one level up, or
+directly to Linus - but although that usually works if you have an urgent patch
+and the maintainer is on vacation or stubborn or whatever, that's got
+essentially zero chance of succeeding for a mere style patch.
 
-2) Same name, different address
+Unfortunately, although I understand the problem, I don't have a solution. It's
+easy to tactfully say "this code is wrong, and here is the fix".  It's a lot
+harder to find a tactful way to say "This person is wrong and should do it this
+way", because code doesn't fight back when you offer constructive criticism....
 
-There were 204 such instances. Most of them were of the form in which they
-used a completely different email address.
 
-Only one case was found with an email extension.
-<hpeter@gmail.com>
-<hpeter+linux_kernel@gmail.com>
-in commit 423d9118c624
 
-So in general I think most email mismatches should be specified by a WARN
-and for email extension there should be a --strict CHECK.
+--==_Exmh_1601147504_3912P
+Content-Type: application/pgp-signature
 
-What do you think of this?
+-----BEGIN PGP SIGNATURE-----
+Comment: Exmh version 2.9.0 11/07/2018
 
-Thanks,
-Dwaipayan.
+iQIVAwUBX2+ScAdmEQWDXROgAQI8Ag//YKel+oxk8JlWyUFEbQz41v44EhWHlykN
+LLlOnRINghANJbunFpoUgD+KW9I9mPy8MmbdF+SeQq8fT+g5qfIwsYNsTeJI/Bu8
+K3ksbdy6qcuqO5ZmfqS9d1VYykaAXbIi1OqTa6gkX60EU+c1zLuCo78gFyO0c27T
+193bWbUG7iCkEXN3261e+a8p1XvQOUtRULuedBbyUQ9GmIEv8oLOMErq4YSBVx5t
+k/FKSrRfu5ZesBbxOOzGpPQXMpq64vwatpcZlNs6fKZjnzgmCYtnSzMCZ13bhkGE
+zPQQs1Ak0c1GmBVTlZVYHUNNLG4SKdHchF9yKZ5gooqLu1eWEg6O5WxeMWAjIQ1d
+qbxKveWY0E8xj0PM//BgyZraCRrAT8KGcpXjFEWtsw07dKD3hnpdXg2PlrX972v2
+BPk+M7pGEe/qZJPdGiptefli6zxtuv+hQI9sVif99+FRQ3RlKx4/xte1O7iKn3/N
+wzXNZ7pFG0UPGIkM5pEzUWv1VmBXoZqDT9qqanHNZDkRjYuv0IouI0QWaZ5v363E
+SOK0YBnHPUHA+bMOek59eof91yAwzgCqUrmAlZ3T/AKKHY1jUIujKbr/zVhAfa9b
+x0mn/NSmOmLc86BSgNKrAhxkbfoOzPnwnMVx1AHMhzZ43mlsaNyDz09SomWDWkzX
+GcnpFZnyRSo=
+=Cdbo
+-----END PGP SIGNATURE-----
+
+--==_Exmh_1601147504_3912P--
+
+--===============1562594056059830412==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============1562594056059830412==--
