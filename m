@@ -2,114 +2,105 @@ Return-Path: <SRS0=QfBv=DD=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F375C4727F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 06:57:11 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A153C4727F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 06:59:25 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BE11E208B6
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 06:57:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2C1F3208B6
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 06:59:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="CObr7huB";
-	dkim=temperror (0-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BfdSY99C"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BE11E208B6
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kroah.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EvSNzB5a"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2C1F3208B6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 68E8C874F5;
-	Sat, 26 Sep 2020 06:57:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BA1B986CEC;
+	Sat, 26 Sep 2020 06:59:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CdE+riaW-IER; Sat, 26 Sep 2020 06:57:10 +0000 (UTC)
+	with ESMTP id VcHEzHgBITye; Sat, 26 Sep 2020 06:59:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F027D87476;
-	Sat, 26 Sep 2020 06:57:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3CDA285CA8;
+	Sat, 26 Sep 2020 06:59:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DCAA5C0859;
-	Sat, 26 Sep 2020 06:57:09 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 37C76C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 314A1C0859;
+	Sat, 26 Sep 2020 06:59:24 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B31F5C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 06:57:09 +0000 (UTC)
+ Sat, 26 Sep 2020 06:59:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 26FD7874F5
+ by whitealder.osuosl.org (Postfix) with ESMTP id AEAA685CA8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 06:57:09 +0000 (UTC)
+ Sat, 26 Sep 2020 06:59:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4rspZ8ureTtB
+ with ESMTP id nwHL0E7za08B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 06:57:08 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5209A87476
+ Sat, 26 Sep 2020 06:59:21 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B2A7A86CEC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 06:57:08 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 825235C00A4;
- Sat, 26 Sep 2020 02:57:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Sat, 26 Sep 2020 02:57:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=wE5f4yH95z3eUh4lASNB1J5KK1B
- PdHqAKe8t0/Q8lGs=; b=CObr7huBUHY7keLtXJHyEkoW18gT0kMjApANg938lgK
- w8R+r0qIZUdEZfaL4HzPBHRZrQWJjEmcDKhSoHsIurbBTmirAxIBgwW6r8RxkoYJ
- +foUj5PLN3Lpp36mgvOHRkkRsH9JHO84r/KLt5g/+QBvHCDGzDwabIqGJGhVeZV5
- ccR2nsufMGOmQygbwiaFQuxOx3goDVtlPi/n8UuavM2/rZs+AnAuar3YrgmXYpmY
- 1AuWK8nW3YIXnjF+OnbB0Wvci2IcMkz2hZFfUCWlz97kqSl5tKH7+uychn7GttaV
- rb1mdDNR+i+aLEiAauvgLq8oSIBJ4d4/p32/NT4r5Nw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=wE5f4y
- H95z3eUh4lASNB1J5KK1BPdHqAKe8t0/Q8lGs=; b=BfdSY99CS7khUtkSx+C0sR
- qGF3JYhtv14eGEI3gchaGBANiABknixPW/stW5wVzoBt5UrMu+rKpB+GiSJdioEE
- 0PFjvhYsdvOru0WFcu95iavZlrY0O1vIc8umIKGqvemb3CwXpl5Tl5reGJr1HW9o
- WvKncRRiL/R3I2lfSh3zKzVnzbvrc8MZ/JsRpJpGyGZhGXWa8poiKqJBzXsnuOPt
- xgBMkVkv4ITnOShiXEtmT2hqj7VV0tB+7B2oJdtKWT9Hh403HgRbVLsHkK3RDqTH
- TpqrZ/6yZdyOtxYjhPYqmCneAl5UxYOIxc1rq7sP9w+F/Bly8d5qSKZlPmMCdVMA
- ==
-X-ME-Sender: <xms:QuZuX3zpo84vPpAwzTHVjHPAzmBnuboSrj41jrcDyb80_wyy9SCQGQ>
- <xme:QuZuX_Tt1U3Vj52tqWRw12RQNW2c3W7g-br9mFWnBPccIHYWZiQnHl1Bp84vXHOF5
- wCpcyEjvO32XQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddugddutdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
- mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeegjefffe
- eijeeludejleffteeuffejkedtueekhfelkeejheevlefgffeiheevudenucffohhmrghi
- nhepghhithhhuhgsrdgtohhmpdhshiiikhgrlhhlvghrrdgrphhpshhpohhtrdgtohhmpd
- hkvghrnhgvlhdrohhrghenucfkphepkeefrdekiedrjeegrdeigeenucevlhhushhtvghr
- ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtg
- homh
-X-ME-Proxy: <xmx:QuZuXxXhL0SjmAq81tc9VVQ5GI9Z3xZ-xlzag4tuvYwNzZRuBMiMmQ>
- <xmx:QuZuXxgg2wY9vkN1KAKJ9cQcyLO_w4FmI71RTLUAChXEK88EanzBUw>
- <xmx:QuZuX5D-hWyKaukwEDeUD3WIOi140PctCOQq8FvfnOQ3fhzTvJ9yvw>
- <xmx:QuZuX84V3JjwTQL6EBsQLBd83NjQQ4OMoo9eSbjPlR-NOIf5wSQqWA>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- by mail.messagingengine.com (Postfix) with ESMTPA id DAB073064674;
- Sat, 26 Sep 2020 02:57:05 -0400 (EDT)
-Date: Sat, 26 Sep 2020 08:57:04 +0200
-From: Greg KH <greg@kroah.com>
+ Sat, 26 Sep 2020 06:59:21 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id m34so4276282pgl.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 25 Sep 2020 23:59:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=x+w8mC5uh7lhThmDKLQTnM7Vp+EwquhpIaBsAyJi/Us=;
+ b=EvSNzB5aXtjrzf4t4vxjwfn6z67Db2P+sSUtOWsU/WL5YbOMA5V7xzyD15OuwUCXMa
+ utL367Q2VoYCHqmCDLuQ1eZ8tGLsqNx9sUpZ40WnA8sVAZ08hh8fSbV7KEuRo+lrilCN
+ UPWVuxWtzWdXyJ5zBM6okFfsUX3gIWbg9tItj3nrC+AsfHez/n0mMTFWBOqKLmL2tElt
+ C1EkT21V+whWfrl0w1W0HbUCR9iukAcPBqn4FtunIcaUIQDdmpzFJP2exRBLbpbYIZzs
+ DC09KIZsK6m63tutAoGI9SRoiCNfBkBHRkALHMX5cLoUaHPKdW4G9WmHIXCa0kGEVV4Z
+ yH9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=x+w8mC5uh7lhThmDKLQTnM7Vp+EwquhpIaBsAyJi/Us=;
+ b=nz18VDgaX2WDylpt+y1hYHqYqKGL9cSRwuAUaeW14LzD1rkL7kSck6CKzxZiBQ+2zO
+ OYCxhgULtUmj7klKlWpA8y2xlK+iDQsVdlxk/+ZRxy0HFYrlEa69J/0h4iX0u7J74Mtr
+ NVoFxxtdmcuADhdhoEwssprui8A1aURG3j1Q8Y/mtqDAsWWhG4VXi8gRL3I26nY4Jv9Y
+ L1WxzLWd1XO5tWeB4j7qsQdaTNPN5dJlz3ea9CSShDLGtS6RTr7cXYVk5U+lormgEuOe
+ iQPzU9/lt6ymHN3fx8OgOTnv5XQwPbIt69t8WbV11L6K+tNpx7NyxlPGPIORNa8YJZAZ
+ FpQg==
+X-Gm-Message-State: AOAM532gvwScNRoNAoLGnvtVlE8HNtBQj3PFjdwhzAM/PxTvvdntkXzs
+ /j23Zy8J4OCcYvOifQREBus=
+X-Google-Smtp-Source: ABdhPJydWziZKnB781wBUGUPyi+qSrJHGONVRL1BJ7DKwODQ2ZsC+KMRWHife/gTBfmWSXryOpKGZA==
+X-Received: by 2002:aa7:941a:0:b029:142:2501:34dc with SMTP id
+ x26-20020aa7941a0000b0290142250134dcmr2621144pfo.53.1601103560937; 
+ Fri, 25 Sep 2020 23:59:20 -0700 (PDT)
+Received: from [192.168.0.104] ([49.207.212.24])
+ by smtp.gmail.com with ESMTPSA id w19sm4622501pfq.60.2020.09.25.23.59.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Sep 2020 23:59:20 -0700 (PDT)
 To: Dmitry Vyukov <dvyukov@google.com>
-Message-ID: <20200926065704.GA661191@kroah.com>
 References: <CAKBsNO=G_t6KrAYXcnMy07HyR8yrFELFoknd=9CnHBM-CJij=A@mail.gmail.com>
  <000000000000b8d3ef05b02efa93@google.com>
  <CACT4Y+aBTN3HzDWADsvD053T=qszSu5wGTCijM-kj9xZXDHTyg@mail.gmail.com>
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Message-ID: <e1baa592-9c7f-4bc0-dbb0-d76b3afe289f@gmail.com>
+Date: Sat, 26 Sep 2020 12:29:15 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
 In-Reply-To: <CACT4Y+aBTN3HzDWADsvD053T=qszSu5wGTCijM-kj9xZXDHTyg@mail.gmail.com>
-Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- Andrey Konovalov <andreyknvl@google.com>,
+Content-Language: en-US
+Cc: Andrey Konovalov <andreyknvl@google.com>,
  syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
  LKML <linux-kernel@vger.kernel.org>, Alexander Potapenko <glider@google.com>,
  syzbot <syzbot+35c80b2190255a410f66@syzkaller.appspotmail.com>,
@@ -132,39 +123,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Sep 26, 2020 at 08:53:07AM +0200, Dmitry Vyukov via Linux-kernel-mentees wrote:
+
+On 26/09/20 12:23 pm, Dmitry Vyukov wrote:
 > On Sat, Sep 26, 2020 at 5:25 AM syzbot
 > <syzbot+35c80b2190255a410f66@syzkaller.appspotmail.com> wrote:
-> >
-> > Hello,
-> >
-> > syzbot has tested the proposed patch and the reproducer did not trigger any issue:
-> >
-> > Reported-and-tested-by: syzbot+35c80b2190255a410f66@syzkaller.appspotmail.com
-> >
-> > Tested on:
-> >
-> > commit:         c5a13b33 kmsan: clang-format core
-> > git tree:       https://github.com/google/kmsan.git master
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=41fca8ac7f9e770a
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=35c80b2190255a410f66
-> > compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-> >
-> > Note: testing is done by a robot and is best-effort only.
-> 
+>> Hello,
+>>
+>> syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+>>
+>> Reported-and-tested-by: syzbot+35c80b2190255a410f66@syzkaller.appspotmail.com
+>>
+>> Tested on:
+>>
+>> commit:         c5a13b33 kmsan: clang-format core
+>> git tree:       https://github.com/google/kmsan.git master
+>> kernel config:  https://syzkaller.appspot.com/x/.config?x=41fca8ac7f9e770a
+>> dashboard link: https://syzkaller.appspot.com/bug?extid=35c80b2190255a410f66
+>> compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
+>>
+>> Note: testing is done by a robot and is best-effort only.
 > Hi Anant,
-> 
+>
 > I see you are testing lots of USB bugs. USB subsystem is currently
 > broken, testing of any USB bugs will give false "no crash" results,
 > see:
 > https://lore.kernel.org/linux-kernel-mentees/CACT4Y+YmbmrH9gCCnCzP-FYa-dKxx9qhKZ+RQxi1f-+Hoj1SUg@mail.gmail.com/
 
-Fixes for this USB problem are in my tree now and should show up in
-linux-next on Monday.
+Oh, I see. Thank you for letting me know. I'll be sure to keep that in mind, until I hear
+otherwise. :)
 
-thanks,
-
-greg k-h
+Thanks,
+Anant
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
