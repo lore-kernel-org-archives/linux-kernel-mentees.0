@@ -2,100 +2,104 @@ Return-Path: <SRS0=QfBv=DD=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5A64C2D0A8
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 05:29:33 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D6DC2D0A8
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 05:54:39 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4338C20809
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 05:29:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7195620809
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Sep 2020 05:54:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wmn8wSgP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4338C20809
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rK3KK5MF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7195620809
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E202386A2D;
-	Sat, 26 Sep 2020 05:29:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 02414204B7;
+	Sat, 26 Sep 2020 05:54:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S0TgE6JE3V5Y; Sat, 26 Sep 2020 05:29:32 +0000 (UTC)
+	with ESMTP id IxAqAKWQcaDn; Sat, 26 Sep 2020 05:54:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 22F26849F0;
-	Sat, 26 Sep 2020 05:29:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C861F204A2;
+	Sat, 26 Sep 2020 05:54:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 04604C0890;
-	Sat, 26 Sep 2020 05:29:32 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 259DBC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B1390C0890;
+	Sat, 26 Sep 2020 05:54:35 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DBD7DC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 05:29:31 +0000 (UTC)
+ Sat, 26 Sep 2020 05:54:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 19D52873A8
+ by whitealder.osuosl.org (Postfix) with ESMTP id C62B686778
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 05:29:31 +0000 (UTC)
+ Sat, 26 Sep 2020 05:54:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HB+hajQegpun
+ with ESMTP id eYCnQtIymMeX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 05:29:30 +0000 (UTC)
+ Sat, 26 Sep 2020 05:54:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3B5938743E
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+ [209.85.218.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6A7AC86726
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 26 Sep 2020 05:29:30 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id d19so409184pld.0
+ Sat, 26 Sep 2020 05:54:32 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id nw23so1481064ejb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Sep 2020 22:29:30 -0700 (PDT)
+ Fri, 25 Sep 2020 22:54:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kSf4efWYF+HuLdcapCh8HoYVo447St/4g3wGkNBqPZo=;
- b=Wmn8wSgPmesQzCgx/CNns3ebv5yd87bZYvS6xweOeZmuqu9+PrA3DUATfIaX795a6k
- zlSa4S1sTouBtY3TJfx+dDTQxiJscotgoaTAlXJJsbJl6JSYYB2Y4rlHcVLDIW0ondH+
- QEdZqe1DVLWvp52D2Mkwbgh3c/qj2/N/QO+CQSLDg/IZk4chdBStREkGr3shPL0IV1je
- YfiqhqQlVPSRjzTrtjX2Me05BYCoAfdFs8Tu0UYzaFsTf52/bU03aP1cHri+kplhYGHU
- 3MR+8r9Gegj+kZY0de78Cc1czxdOkqIEv7deWbrR/kKc4Z55mZBJ8k9xu+30Og9wHC7W
- Ey+g==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=mxYB7WHO2UMBNPR52GuSRo2nL+fUtl6zEaklX+aYC8Y=;
+ b=rK3KK5MFqI+a8ylD3uE/sx+hEtVGXKBgALdlvNsK00HloRaeU87cTRMJD4WLh4Ln4y
+ /E1vJD10nf090QPnpvmi2zIplATwOULkdZHtHqtjfUj39CUIaGeEkbacdEy2bYy58oYk
+ tnaXIWQTB1rMUt1T31gNUW6LdJl5kvWBT6K3tKOHh+tYQjS2YuKSXz9k2xFv70nmBPPc
+ jLSplAL4RGIcy7n3gOQRnV5SNrUJsdRMPwo4ndG81sDZQPoeTubT5Or1I/A6fZuKderY
+ tAeUBVS9qQtbmj7uzujDKa7r+CJnPvSfsK3YtnnWCnOGzLT8rQ+lsrzOeqecVqvY0VFy
+ JXSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kSf4efWYF+HuLdcapCh8HoYVo447St/4g3wGkNBqPZo=;
- b=BLT3tpkpIPXg52aWtFjeoUjlVKIKa34zQroEJzbpHCX25yo6z40lD67f8EdTb2rsm6
- ZNDac1Krjhkr+vOQHJQCjH4wiwwZIv8D2IV14GMzvr2Ujj6YjZnOYcYnlKIbGUncKmQc
- PpBbVuW2nSc6WBRkXIKeKBc3mLYHCK4Uy2g1Zy++v6I4meqhR0tD8Mb+4Al7E+xVTAbO
- 0arRo+Zy/d9VcyMhBSKXN8JTKw+CH8EEQGruSdUD/HhuQabpmDeUkKDa0/EK6CSPLmss
- qhzeX/8hXNMxT9iDRlcRvlXLCKRjEzdTAxBCS1s08snEognlZClyX50kyRxFmq3wsmrD
- U/Fg==
-X-Gm-Message-State: AOAM531ivyj3OyLSdmwgN19hmYq8HDCmJ09lCm71ZhytK3JYMBVgoy5O
- GQdwBcq7QL3h5ZJpW2XHHXI=
-X-Google-Smtp-Source: ABdhPJzfnxDsXzk7wBo5JFlf8UcjsE/KY3F+EalbHJdmUVj2G7gBI9feAndPZhvhttDY4Mt1/48TSA==
-X-Received: by 2002:a17:90b:898:: with SMTP id
- bj24mr807622pjb.145.1601098169626; 
- Fri, 25 Sep 2020 22:29:29 -0700 (PDT)
-Received: from localhost.localdomain ([27.255.176.56])
- by smtp.googlemail.com with ESMTPSA id e27sm4147158pfj.62.2020.09.25.22.29.26
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=mxYB7WHO2UMBNPR52GuSRo2nL+fUtl6zEaklX+aYC8Y=;
+ b=eOGlBytDmG++oaZ/KUPGW6EzzKZmhHQ2BOuMiuX3Xtua5KD0xUa9tllaHk1rFWiVlD
+ B4J/kASNNy9DkFjFSbnoy8nOVHsuYoLbe8IsIfsn244nNLxLiNYVMQP1iip9MVNjyW8i
+ RQKnOzEOAuuXc0z0PedKMTLr4bHb1C1KXjDfdiAPiU0UheD24Z8UdZCLHt6DTnyfHIMy
+ bjmSWmK6V4Hzv+Qa4Gl+JTTtadUXJ17vEpiDvNaetZWopzTft5jxYwkNNAN0tXy3ckJJ
+ LSIQfRZhFdMQd+OKsuGfoO1DSTYCQiRJ/jQ+cS4YrFfqr9OWFGsBOP9Nug3rI9y1WjjJ
+ Za9g==
+X-Gm-Message-State: AOAM530cuZSQ7gptAPUMe6cAf/qg7gNI3CSk4/KKSovJEMOxV6liSd4Y
+ IRB00FkDpluwifwlKbrPblY=
+X-Google-Smtp-Source: ABdhPJzXr3p+TPG8O/+5CYcTOrzjsICXKtsW441Ve62CqQYnH1k6E5AIDllxP0NqgMQqvi3HWG97Ig==
+X-Received: by 2002:a17:906:f1d5:: with SMTP id
+ gx21mr5750359ejb.165.1601099670633; 
+ Fri, 25 Sep 2020 22:54:30 -0700 (PDT)
+Received: from felia ([2001:16b8:2daa:2000:7099:7490:f83d:38e7])
+ by smtp.gmail.com with ESMTPSA id w19sm3472302edt.22.2020.09.25.22.54.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 22:29:28 -0700 (PDT)
-From: Puranjay Mohan <puranjay12@gmail.com>
-To: bjorn@helgaas.com
-Date: Sat, 26 Sep 2020 10:59:17 +0530
-Message-Id: <20200926052917.20247-1-puranjay12@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Fri, 25 Sep 2020 22:54:29 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Sat, 26 Sep 2020 07:54:23 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+In-Reply-To: <cabeb5d7-f9c3-7e6d-fa43-03e6ef0dc476@gmail.com>
+Message-ID: <alpine.DEB.2.21.2009260727250.4734@felia>
+References: <20200925212008.694018-1-ujjwalkumar0501@gmail.com>
+ <cabeb5d7-f9c3-7e6d-fa43-03e6ef0dc476@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Cc: linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Puranjay Mohan <puranjay12@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v5] PCI: Add support for LTR
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] kconfig: Prepend interpeters
+	when calling scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,263 +117,92 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a new function pci_ltr_init() which will be called from
-pci_init_capabilities() to initialize every PCIe device's LTR values.
-Add code in probe.c to evaluate LTR _DSM and save the latencies in pci_dev.
 
-Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
----
-v5 - Add static keyword with pci_ltr_encode() and pci_ltr_decode()
-v4 - remove pci_upstream_bridge and use acpi_pci_find_companion()
-     to get the handle for evaluating _DSM.
-     Add acpi_check_dsm()
-     Change the logging mechanism.
-v3 - change the algorithm to add latencies, add helper funtions for
-     encoding and decoding the latencies.
-v2 - add an #ifdefin pci-acpi.c to fix the bug reported by test bot.
-v1 - based the patch on v5.9-rc1 so it applies correctly.
----
- drivers/pci/pci-acpi.c   | 37 ++++++++++++++++
- drivers/pci/pci.c        | 96 ++++++++++++++++++++++++++++++++++++++++
- drivers/pci/pci.h        |  3 ++
- drivers/pci/probe.c      |  6 +++
- include/linux/pci-acpi.h |  1 +
- include/linux/pci.h      |  2 +
- 6 files changed, 145 insertions(+)
 
-diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
-index d5869a03f748..1bceee861bfc 100644
---- a/drivers/pci/pci-acpi.c
-+++ b/drivers/pci/pci-acpi.c
-@@ -1213,6 +1213,43 @@ static void pci_acpi_optimize_delay(struct pci_dev *pdev,
- 	ACPI_FREE(obj);
- }
- 
-+/* pci_acpi_evaluate_ltr_latency
-+ *
-+ * @dev - the pci_dev to evaluate and save latencies
-+ */
-+void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev)
-+{
-+#ifdef CONFIG_PCIEASPM
-+	struct acpi_device *adev;
-+	union acpi_object *obj, *elements;
-+
-+	adev = ACPI_COMPANION(&dev->dev);
-+	if (!adev && !pci_dev_is_added(dev))
-+		adev = acpi_pci_find_companion(&dev->dev);
-+	if (!adev)
-+		return;
-+
-+	if (!acpi_check_dsm(adev->handle, &pci_acpi_dsm_guid, 2,
-+				1ULL << DSM_PCI_LTR_MAX_LATENCY))
-+		return;
-+	obj = acpi_evaluate_dsm(adev->handle, &pci_acpi_dsm_guid, 2,
-+					DSM_PCI_LTR_MAX_LATENCY, NULL);
-+	if (!obj)
-+		return;
-+
-+	if (obj->type == ACPI_TYPE_PACKAGE && obj->package.count == 4) {
-+		elements = obj->package.elements;
-+		dev->max_snoop_latency = (u16)elements[1].integer.value |
-+				((u16)elements[0].integer.value <<
-+							PCI_LTR_SCALE_SHIFT);
-+		dev->max_nosnoop_latency = (u16)elements[3].integer.value |
-+				((u16)elements[2].integer.value <<
-+							PCI_LTR_SCALE_SHIFT);
-+	}
-+	ACPI_FREE(obj);
-+#endif
-+}
-+
- static void pci_acpi_set_external_facing(struct pci_dev *dev)
- {
- 	u8 val;
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index a458c46d7e39..fc6ba515135b 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -3056,6 +3056,102 @@ void pci_pm_init(struct pci_dev *dev)
- 		dev->imm_ready = 1;
- }
- 
-+/**
-+ * pci_ltr_decode - Decode the latency to a value in ns
-+ * @latency: latency according to PCIe base specification 7.8.2.
-+ */
-+static u64 pci_ltr_decode(u16 latency)
-+{
-+	u16 scale = (latency & PCI_LTR_SCALE_MASK) >> 10;
-+	u16 value = latency & PCI_LTR_VALUE_MASK;
-+
-+	switch (scale) {
-+	case 0: return value;
-+	case 1: return value * 32;
-+	case 2: return value * 1024;
-+	case 3: return value * 32768;
-+	case 4: return value * 1048576;
-+	case 5: return value * 33554432;
-+	}
-+	return 0;
-+}
-+
-+/**
-+ * pci_ltr_encode - Encode the value in ns to a 16 bit register value
-+ * @val: latency according to PCIe base specification 7.8.2.
-+ */
-+static u16 pci_ltr_encode(u64 val)
-+{
-+	if (val <= 1UL * 0x3ff)
-+		return (0 << 10) | (val & 0x3ff);
-+	if (val <= 32UL * 0x3ff)
-+		return (1 << 10) | ((val >> 5) & 0x3ff);
-+	if (val <= 1024UL * 0x3ff)
-+		return (2 << 10) | ((val >> 10) & 0x3ff);
-+	if (val <= 32768UL * 0x3ff)
-+		return (3 << 10) | ((val >> 15) & 0x3ff);
-+	if (val <= 1048576UL * 0x3ff)
-+		return (4 << 10) | ((val >> 20) & 0x3ff);
-+	if (val <= 33554432UL * 0x3ff)
-+		return (5 << 10) | ((val >> 25) & 0x3ff);
-+	return 0;
-+}
-+
-+/**
-+ * pci_ltr_init - Initialize Latency Tolerance Information of given PCI device
-+ * @dev: PCI device to handle.
-+ */
-+void pci_ltr_init(struct pci_dev *dev)
-+{
-+#ifdef CONFIG_PCIEASPM
-+	struct pci_dev *bridge = dev;
-+	int ltr;
-+	u64 max_snoop = 0, max_nosnoop = 0;
-+	u16 max_snoop_encoded, max_nosnoop_encoded;
-+	u16 max_snoop_current, max_nosnoop_current;
-+	u64 max_snoop_current_decoded, max_nosnoop_current_decoded;
-+
-+	ltr = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_LTR);
-+	if (!ltr)
-+		return;
-+
-+	bridge = pci_upstream_bridge(bridge);
-+	while (bridge) {
-+		max_snoop += pci_ltr_decode(bridge->max_snoop_latency);
-+		max_nosnoop += pci_ltr_decode(bridge->max_nosnoop_latency);
-+		bridge = pci_upstream_bridge(bridge);
-+	}
-+	max_snoop_encoded = pci_ltr_encode(max_snoop);
-+	max_nosnoop_encoded = pci_ltr_encode(max_nosnoop);
-+
-+	pci_read_config_word(dev, ltr + PCI_LTR_MAX_SNOOP_LAT,
-+							&max_snoop_current);
-+	max_snoop_current_decoded = pci_ltr_decode(max_snoop_current);
-+	pci_read_config_word(dev, ltr + PCI_LTR_MAX_NOSNOOP_LAT,
-+							&max_nosnoop_current);
-+	max_nosnoop_current_decoded = pci_ltr_decode(max_nosnoop_current);
-+
-+	pci_dbg(dev,
-+		"Calculated Max Snoop Latency %lluns Max No-Snoop Latency %lluns\n",
-+							max_snoop, max_nosnoop);
-+
-+	if (max_snoop != max_snoop_current_decoded) {
-+		pci_info(dev, "Max Snoop Latency %lluns (was %lluns)\n",
-+					max_snoop, max_snoop_current_decoded);
-+		pci_write_config_word(dev,
-+					ltr + PCI_LTR_MAX_SNOOP_LAT,
-+							max_snoop_encoded);
-+	}
-+	if (max_nosnoop != max_nosnoop_current_decoded) {
-+		pci_info(dev, "Max No-Snoop Latency %lluns (was %lluns)\n",
-+					max_nosnoop, max_nosnoop_current_decoded);
-+		pci_write_config_word(dev,
-+				ltr + PCI_LTR_MAX_NOSNOOP_LAT,
-+						max_nosnoop_encoded);
-+	}
-+#endif
-+}
-+
- static unsigned long pci_ea_flags(struct pci_dev *dev, u8 prop)
- {
- 	unsigned long flags = IORESOURCE_PCI_FIXED | IORESOURCE_PCI_EA_BEI;
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index fa12f7cbc1a0..18890975d0f1 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -110,6 +110,7 @@ void pci_free_cap_save_buffers(struct pci_dev *dev);
- bool pci_bridge_d3_possible(struct pci_dev *dev);
- void pci_bridge_d3_update(struct pci_dev *dev);
- void pci_bridge_wait_for_secondary_bus(struct pci_dev *dev);
-+void pci_ltr_init(struct pci_dev *dev);
- 
- static inline void pci_wakeup_event(struct pci_dev *dev)
- {
-@@ -680,11 +681,13 @@ static inline int pci_aer_raw_clear_status(struct pci_dev *dev) { return -EINVAL
- 
- #ifdef CONFIG_ACPI
- int pci_acpi_program_hp_params(struct pci_dev *dev);
-+void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev);
- #else
- static inline int pci_acpi_program_hp_params(struct pci_dev *dev)
- {
- 	return -ENODEV;
- }
-+static inline void pci_acpi_evaluate_ltr_latency(struct pci_dev *dev) {}
- #endif
- 
- #ifdef CONFIG_PCIEASPM
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 03d37128a24f..d5039ccf11a8 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -2105,6 +2105,11 @@ static void pci_configure_ltr(struct pci_dev *dev)
- 
- 	if (!pci_is_pcie(dev))
- 		return;
-+	/*
-+	 * Read latency values from _DSM and save in pci_dev
-+	 * as a part of latency tolerance reporting mechanism.
-+	 */
-+	pci_acpi_evaluate_ltr_latency(dev);
- 
- 	pcie_capability_read_dword(dev, PCI_EXP_DEVCAP2, &cap);
- 	if (!(cap & PCI_EXP_DEVCAP2_LTR))
-@@ -2400,6 +2405,7 @@ static void pci_init_capabilities(struct pci_dev *dev)
- 	pci_ptm_init(dev);		/* Precision Time Measurement */
- 	pci_aer_init(dev);		/* Advanced Error Reporting */
- 	pci_dpc_init(dev);		/* Downstream Port Containment */
-+	pci_ltr_init(dev);		/* Latency Tolerance Reporting */
- 
- 	pcie_report_downtraining(dev);
- 
-diff --git a/include/linux/pci-acpi.h b/include/linux/pci-acpi.h
-index 5ba475ca9078..e23236a4ff66 100644
---- a/include/linux/pci-acpi.h
-+++ b/include/linux/pci-acpi.h
-@@ -110,6 +110,7 @@ extern const guid_t pci_acpi_dsm_guid;
- 
- /* _DSM Definitions for PCI */
- #define DSM_PCI_PRESERVE_BOOT_CONFIG		0x05
-+#define DSM_PCI_LTR_MAX_LATENCY			0x06
- #define DSM_PCI_DEVICE_NAME			0x07
- #define DSM_PCI_POWER_ON_RESET_DELAY		0x08
- #define DSM_PCI_DEVICE_READINESS_DURATIONS	0x09
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 835530605c0d..af7558e3c331 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -380,6 +380,8 @@ struct pci_dev {
- 	struct pcie_link_state	*link_state;	/* ASPM link state */
- 	unsigned int	ltr_path:1;	/* Latency Tolerance Reporting
- 					   supported from root to here */
-+	u16 max_snoop_latency;		/* LTR Max Snoop latency */
-+	u16 max_nosnoop_latency;	/* LTR Max No-Snoop latency */
- #endif
- 	unsigned int	eetlp_prefix_path:1;	/* End-to-End TLP Prefix */
- 
--- 
-2.27.0
+On Sat, 26 Sep 2020, Ujjwal Kumar wrote:
+> 
+> To unset the executable bit I ran following command:
+> for i in $(find -executable -type f); do chmod -x $i; done
+> 
+> One thing that I noticed is, once we initiate a kernel build some 
+> programs are compiled and removing their executable bit is not desirable.
+> Even after performing "make clean" some of those programs still persist and 
+> removing their executable bit fails any further attempt to build the kernel.
+> 
+> For instance, tools/objtool/objtool file. In my case I had a total of 19 
+> files remaining after performing make clean.
+> 
 
+Good observation.
+
+You can properly clean your build with make mrproper, but maybe that is 
+not even enough... all generated files might not mean _all generated 
+tools_, such as objtool, etc.
+
+$ make help
+
+Cleaning targets:
+  clean		  - Remove most generated files but keep the config and
+                    enough build support to build external modules
+  mrproper	  - Remove all generated files + config + various backup files
+  distclean	  - mrproper + remove editor backup and patch files
+
+[...]
+
+After for i in $(find -executable -type f); do chmod -x $i; done:
+I saw those failures (probably as you did as well):
+
+*** Default configuration is based on 'x86_64_defconfig'
+sh: 1: ./scripts/gcc-version.sh: Permission denied
+init/Kconfig:34: syntax error
+init/Kconfig:33: invalid statement
+init/Kconfig:34: invalid statement
+sh: 1: ./scripts/ld-version.sh: Permission denied
+init/Kconfig:39: syntax error
+init/Kconfig:38: invalid statement
+sh: 1: ./scripts/clang-version.sh: Permission denied
+init/Kconfig:49: syntax error
+init/Kconfig:48: invalid statement
+scripts/kconfig/Makefile:80: recipe for target 'defconfig' failed
+make[1]: *** [defconfig] Error 1
+Makefile:606: recipe for target 'defconfig' failed
+make: *** [defconfig] Error 2
+
+
+After your patch was applied, they disappear. So, it does the job.
+More comments on the patch itself later.
+
+make defconfig works.
+
+make then fails:
+
+HOSTCC   /home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep.o
+/bin/sh: 1: /home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool//fixdep: Permission denied
+/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/build/Makefile.build:96: recipe for target 
+'/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep.o' failed
+make[4]: *** [/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep.o] Error 126
+Makefile:43: recipe for target '/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep-in.o' failed
+make[3]: *** [/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep-in.o] Error 2
+/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/build/Makefile.include:5: recipe for target 'fixdep' failed
+make[2]: *** [fixdep] Error 2
+Makefile:68: recipe for target 'objtool' failed
+make[1]: *** [objtool] Error 2
+Makefile:1885: recipe for target 'tools/objtool' failed
+make: *** [tools/objtool] Error 2
+make: *** Waiting for unfinished jobs....
+
+The make target also goes into tools/build/ and requires some targets 
+there and then uses those tools during the further build.
+
+So, we need some more patches here as well.
+
+Can you share the list of 19 files that remained even with make clean?
+
+Then, we go through them and check if they disappear with make mrproper or 
+with a different make target to clean them. Potentially, we also hook 
+those identified targets up into make mrproper then.
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
