@@ -2,103 +2,95 @@ Return-Path: <SRS0=/QZw=DF=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0DBCC47420
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Sep 2020 16:14:40 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7DC7C2D0A8
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Sep 2020 17:12:23 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 36B3C214D8
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Sep 2020 16:14:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4EAFB20773
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Sep 2020 17:12:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJzSpeWT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36B3C214D8
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pByaLf9X"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4EAFB20773
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B74C3203E0;
-	Mon, 28 Sep 2020 16:14:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 04265855F6;
+	Mon, 28 Sep 2020 17:12:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 37GPGGJVRSIM; Mon, 28 Sep 2020 16:14:37 +0000 (UTC)
+	with ESMTP id 5Zap_UHWNnPe; Mon, 28 Sep 2020 17:12:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A8AAB20009;
-	Mon, 28 Sep 2020 16:14:37 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 92EAE8558A;
+	Mon, 28 Sep 2020 17:12:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 90F8AC016F;
-	Mon, 28 Sep 2020 16:14:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 77238C0891;
+	Mon, 28 Sep 2020 17:12:22 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 267D1C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5A108C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Sep 2020 16:14:36 +0000 (UTC)
+ Mon, 28 Sep 2020 17:12:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1592D87036
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4994687060
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Sep 2020 16:14:36 +0000 (UTC)
+ Mon, 28 Sep 2020 17:12:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wb5T3HMoV4p6
+ with ESMTP id H8UF5UB5n3j5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Sep 2020 16:14:35 +0000 (UTC)
+ Mon, 28 Sep 2020 17:12:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1C05786FB0
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id BCEDC8702C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Sep 2020 16:14:35 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id r7so9311138ejs.11
+ Mon, 28 Sep 2020 17:12:20 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id h17so1690560otr.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Sep 2020 09:14:35 -0700 (PDT)
+ Mon, 28 Sep 2020 10:12:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=rPG25eKMYKrOTIORcQsFga3x3Kzn8+EhLNhD3EdsI94=;
- b=hJzSpeWTO23TzfUQHe3kzpCilym9yH4t+dOZk7Cwp+DdylWg8fmCJNujrL5Nnt0bI0
- lAzF5sw5cPIxb6Fu+2x8pH3o3Ez4cGWZ4rSnFj/5Nqz2iDRuIgHEgWCnMHftoQx4MflE
- Pm9/I1Z8mRDj8sV4SnKKSSdFfInIDEVqLTTbxAff8KhpCSHksawwM8zObmpq9yyyx8Wk
- oVsaZATJVvtrFAOOkREKGDvubxVlkLVhIjN2hEsbW1TuRtZYn2NbmXWU3j2/t63TdJ/Y
- t7ew2kvLPD15toYRmq2VPMhxqy5D/QxZm24tRICxHRREUYTRioSPvIU3VvL4deZhuyp9
- A1kA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QEBpUa9STJl2wvcoZHM9Qp83dQ90CUQEUH5xPYF8a7o=;
+ b=pByaLf9Xh4d1K9pohKWaLwbJtfDGqaLPSZTv7mKSXr0clGyiSZuRQct9xpCYtLBW/M
+ Fr+mre+9zDVJ4x1oYoix4rG3tT8PWML/+MgsF9bDV+j8J9pnZPLWW3icEcp0bxTwFRBy
+ sE+LW84pgizD4PhmCucVa84KsrW7cQGMQNYfoMd0OyGJwUoW9ag3NdS1UFtDYMagjbCM
+ 308tmy0F+GIb5dwKF1Nsmy1lKNn3Ztldpm0yHCMuz30MeErwXYpO8Rnld28q6xdZuM5O
+ iP168gLkcbxCyDO+LE2GPWxVEvJcZKQzCI7obTL6yEdPlyNAg7CLll0GF6Z8UbfCWCTe
+ du6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=rPG25eKMYKrOTIORcQsFga3x3Kzn8+EhLNhD3EdsI94=;
- b=p2Q3axsknQn2t+VGKM3L/2JFzkoVCcwAXrtpkz8JhloBeNtZ8pUpxR3Sp9fUJJZu1e
- rfP279FKdk3JsMvrCdZrCj9UwIEoudCTz9MZ7SGhTz5jQIpW19qqV8TUcPIhgIVrNrl+
- aUF0412KRTQ9AoQzSa8pUEt5h55c53e+bwm8aMMfZT5dArdu7oHMaRvJzkg5V+Uk6Fb8
- /+upr2yFFaZ+UR5O847xIFhy4JTZktmNBLtAYnj2utq1JioKW4W8vsDCuN7FbojjZUC6
- e8VomE9prVMl3EaPvjDUg117a6VJu8EhLyFR0GJwnCPy4ZytJoxQFSUYTL4wrzExqt1N
- 1DTw==
-X-Gm-Message-State: AOAM530zlIMRVWZ/qw0PEkReWl2cKvQ2v5nzMDIY/VTxSYOTUONRwZ8W
- sJwP1o33u+dM6xeknNt8eVA=
-X-Google-Smtp-Source: ABdhPJwLGGdOQSl/Td+DcX2rRJbI3cUAaWCS6bW4W0/bGKi206LPrSQmYAK/C/Lqt1EuWEcb77+9HQ==
-X-Received: by 2002:a17:906:cf9d:: with SMTP id
- um29mr2396759ejb.74.1601309673540; 
- Mon, 28 Sep 2020 09:14:33 -0700 (PDT)
-Received: from felia ([2001:16b8:2d9d:5000:7872:7299:adfa:b749])
- by smtp.gmail.com with ESMTPSA id i7sm1997048ejo.22.2020.09.28.09.14.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Sep 2020 09:14:32 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Mon, 28 Sep 2020 18:14:31 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-In-Reply-To: <CABJPP5D=q865sMYM768=qyY-gavG3VEyT4X1qGLsPT9umkTE8Q@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2009281805030.4154@felia>
-References: <CABJPP5D=q865sMYM768=qyY-gavG3VEyT4X1qGLsPT9umkTE8Q@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QEBpUa9STJl2wvcoZHM9Qp83dQ90CUQEUH5xPYF8a7o=;
+ b=i/PQxMsIjX6FE8N2xUncmRnVldCSCsPs7gFmsZbhf69WxlIQSHEGAJIi/LXA2losxm
+ g3n3FVvIwCgRTf/Yow6phIas4JtmBqUksUk8NRM0yFp8Kh6zKkC5zpRzVG/bVylRm83Q
+ WZF2ABWrkGY9Q8uMfUWlGvoke0imJ/vDiVXpWo7AHDJFwDxY+OKbhINImpaNoA+Pmg8C
+ 9shfY6GjDG1wcPey0oTXgbCTi8OQKav3om8RegAknpqwg/PbFsL+qfwGnjJThMFKvUyW
+ V5BiDAmKQup8keE3YDm10kYGDzUpF0krvkQKAc67k8EdRdsmKYfY1RU2F/YmslXwrqgq
+ hAyw==
+X-Gm-Message-State: AOAM533rvtQvjY/547n+w5SgKndghS6ZkTkZgI/gthjX0GA00F0676MW
+ GTnmMMPzhUdP1IPE0J3aXAj2BcNYpDV8Oknjli4=
+X-Google-Smtp-Source: ABdhPJxaCp1QdQPRkTo4l7QehG1rm7YAqsI9mHvNIm2c2sIT2PQ5wirKtQvLZt3C7thYU1HnJqcuqPOoTY7OuC9Q03s=
+X-Received: by 2002:a9d:4b18:: with SMTP id q24mr1574453otf.265.1601313139450; 
+ Mon, 28 Sep 2020 10:12:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <CABJPP5D=q865sMYM768=qyY-gavG3VEyT4X1qGLsPT9umkTE8Q@mail.gmail.com>
+ <alpine.DEB.2.21.2009281805030.4154@felia>
+In-Reply-To: <alpine.DEB.2.21.2009281805030.4154@felia>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Mon, 28 Sep 2020 22:41:58 +0530
+Message-ID: <CABJPP5DCnie+iLeeu0hVgvaVsOPk2fX9K59hLdhKO+SzoCJOQQ@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] checkpatch.pl investigation:
- MULTISTATEMENT_MACRO_USE_DO_WHILE issues
+	MULTISTATEMENT_MACRO_USE_DO_WHILE issues
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,60 +108,72 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On Mon, 28 Sep 2020, Dwaipayan Ray wrote:
-
-> Hi,
-> Checkpatch seems to generate some false positives on
-> certain macros.
-> 
-> For example running checkpatch on (kernel/trace/trace_export.c),
-> 
-> ERROR: Macros with multiple statements should be enclosed in a do - while loop
-> #49: FILE: kernel/trace/trace_export.c:49:
-> +#define __field_packed(type, container, item) type item;
-> 
-> ERROR: Macros with multiple statements should be enclosed in a do - while loop
-> #52: FILE: kernel/trace/trace_export.c:52:
-> +#define __array(type, item, size) type item[size];
+On Mon, Sep 28, 2020 at 9:44 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+>
+>
+>
+> On Mon, 28 Sep 2020, Dwaipayan Ray wrote:
+>
+> > Hi,
+> > Checkpatch seems to generate some false positives on
+> > certain macros.
+> >
+> > For example running checkpatch on (kernel/trace/trace_export.c),
+> >
+> > ERROR: Macros with multiple statements should be enclosed in a do - while loop
+> > #49: FILE: kernel/trace/trace_export.c:49:
+> > +#define __field_packed(type, container, item) type item;
+> >
+> > ERROR: Macros with multiple statements should be enclosed in a do - while loop
+> > #52: FILE: kernel/trace/trace_export.c:52:
+> > +#define __array(type, item, size) type item[size];
+> >
+>
+> I guess checkpatch.pl detects the semicolon and thinks it must be two
+> statements. How about checking if the semicolon is actually followed by
+> anything or not?
+>
+> > and several other same errors.
+> >
+>
+> Are they all in one file or spread around in the kernel everywhere?
 >
 
-I guess checkpatch.pl detects the semicolon and thinks it must be two 
-statements. How about checking if the semicolon is actually followed by 
-anything or not?
+Yes, there were all in the same file. I have to run checkpatch on other
+files extensively before I can confirm these issues exist elsewhere.
 
-> and several other same errors.
->
+But yes, checking for a semicolon followed by some characters
+does solve the problem, and changes the warning to a (Macros
+with complex values...).
 
-Are they all in one file or spread around in the kernel everywhere?
- 
-> Wrapping this in a do - while certainly doesn't make sense.
-> Removing the semicolon at the end of macro and appending semicolon
-> in the call changes the error to:
-> 
-> ERROR: Macros with complex values should be enclosed in parentheses
-> #49: FILE: kernel/trace/trace_export.c:49:
-> +#define __array_desc(type, container, item, size) type item[size]
-> 
-> This seems more reasonable. But the error isn't necessary in the first
-> place.
->
+I do agree that such complex checks should be left to clang-format or
+likewise.
 
-Considering format or semantic checks, I would always check if 
-the better check can be implemented with clang-format, clang-analyzer or 
-coccinelle.
+Not sure if it is worthwhile merging, but here goes the diff:
 
-checkpatch.pl is always just a quick heuristics; if other checking tools 
-become part of standard check, then we could actually just refer to those 
-checking tools instead.
+---
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 9e65d21456f1..8382977e95fd 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
 
+@@ -5351,7 +5367,7 @@ sub process {
+                                if ($dstat =~ /^\s*if\b/) {
 
-Lukas
+ERROR("MULTISTATEMENT_MACRO_USE_DO_WHILE",
+                                              "Macros starting with if
+should be enclosed by a do - while loop to avoid possible if/else
+logic defects\n" . "$herectx");
+-                               } elsif ($dstat =~ /;/) {
++                               } elsif ($dstat =~ /;.+/) {
 
-> Thanks,
-> Dwaipayan.
-> 
+ERROR("MULTISTATEMENT_MACRO_USE_DO_WHILE",
+                                              "Macros with multiple
+statements should be enclosed in a do - while loop\n" . "$herectx");
+                                } else {
+---
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
