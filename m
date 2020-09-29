@@ -2,108 +2,104 @@ Return-Path: <SRS0=644b=DG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D414CC4727C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Sep 2020 17:47:52 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5765DC4741F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Sep 2020 18:58:39 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 45826207F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Sep 2020 17:47:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8C7C42076D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Sep 2020 18:58:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayzdkzkz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45826207F7
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjUBSlhZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C7C42076D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B2F8B870DE;
-	Tue, 29 Sep 2020 17:47:51 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EMZzPQLgWEqo; Tue, 29 Sep 2020 17:47:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B990B870B5;
-	Tue, 29 Sep 2020 17:47:49 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95D01C0890;
-	Tue, 29 Sep 2020 17:47:49 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD494C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 17:47:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C9F0F85FAD
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 17:47:48 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0D6C7844FB;
+	Tue, 29 Sep 2020 18:58:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id O4HxQmAOKZ16; Tue, 29 Sep 2020 18:58:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A8931844DA;
+	Tue, 29 Sep 2020 18:58:37 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97852C0889;
+	Tue, 29 Sep 2020 18:58:37 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A7B59C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 29 Sep 2020 18:58:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 9E51720504
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 29 Sep 2020 18:58:36 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id d7WgqHxhvW4a
+ with ESMTP id 2dJsbKL38x1E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 17:47:47 +0000 (UTC)
+ Tue, 29 Sep 2020 18:58:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C779685FA2
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id B1647204D1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 17:47:47 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id q4so3052552pjh.5
+ Tue, 29 Sep 2020 18:58:33 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id d6so5490637pfn.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 10:47:47 -0700 (PDT)
+ Tue, 29 Sep 2020 11:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CQPkG1HPfqsLToqkmphsxK/cUBC8xnh+A7tH+3oSzi0=;
- b=ayzdkzkzdp6DvQV3POumhtAxGxp71Qf2v3g8Hp853w7++SYcM+Up6m1EckXvj4LxZp
- 0gEsbRLysD5rkLpvaQwtJr5K2GAl3nOVGvnTv1FvPj6YDGKNq5hiv58iqGZOx8yXGTnH
- GrZfdVr9tS/ddSKHDMuLq/yz+7Z5cOgg25v6MAnGRw9/uAaZtAxHXooR591juhWg70Ja
- +Ok+lIi5CohZtNZTmwH72SVNw86hWoUB9wMt//XcPgXs8h1ePNXjj21GkTlShtbXuJm/
- tjhZeqgj1hX5R4asSOpLeli1mKhaxPkMRG0EJ/0P+LP49pFhD+thVcvv6MdzTd/zkmu5
- mgiA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XZ/FToa3AtOQUQOsb9qJSrILRh6kvTTOmkZ8BW0o6ag=;
+ b=cjUBSlhZ6UxY7zZ/tL81xKJQC2TvgjdO4HRMZp3UP623ayNyff2RcBVkImm4i/gX1Y
+ E8vN0otEvcaBRFSvMH/7soYlnd5nbvxUCwZiewdQ789yRXxCxeqL0HHuwKDShVWwBbjG
+ CcStVRVo9N/N4rKWTUeopfKxnOwrkQt+BlooeaaK37C1LnAdCoHAFc4MczSgufDDutTJ
+ Ovvoyd5BK7T+1oLdqoqvykgugZ+bLrEj8TZDSE9zeuXYI8b4/OCvevAvRbsSX0lLIisS
+ dWP4oThRfkB5OqpoWbRCxOsxBF2h3ISeP9WCV37vpSgm4XAzqICdiZzrrbrM5Flm/Dds
+ b33w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=CQPkG1HPfqsLToqkmphsxK/cUBC8xnh+A7tH+3oSzi0=;
- b=Hxfy3fYL+ih2KuUX6o6p3ZwS9HpBrgix7EBm+DLuvxAAK9heekMaQpQW3eM1cbIzAs
- FbASJPzl8yYcdWr5XjzXKu9z94yaKzNKkcYN66B82FXZCNI0KbtOlw45gQYqO1DIT/cb
- iw4xc4r3VFTuRNsCO0IHLmAxHWEpN4aZ40zGN202sagewJ9NkPs+RkjP0HwrFDrHAKcE
- X7spq0Wkg58ZwU88pStTMSubW7U4LZ6QCa3eA84HZd6ECp3ql7AUhiXxmcKhpfPqy0V5
- eFPBzSxYJGuOqzsc2nRC22aBaGJiku/kyrkA/R96DvR5h6l2u6LIRcCiz+O1Qh2e8dT+
- W9WQ==
-X-Gm-Message-State: AOAM533SGHlqxz+fzCnjkNCHDsPflO7NsglKnGpW8eKqdTkmr/sWGQv7
- jrjle7oEEWhdDS0hSopV2sElEKU09AYn7A==
-X-Google-Smtp-Source: ABdhPJyaIAA+BMO8khLvjfpgreEytF8LqFKynXen/ukG84hjzaBwkdVESgRmFI+iE+7Zo4dllLBqxA==
-X-Received: by 2002:a17:90a:5588:: with SMTP id
- c8mr4797323pji.224.1601401666715; 
- Tue, 29 Sep 2020 10:47:46 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
- by smtp.gmail.com with ESMTPSA id s66sm6499090pfc.159.2020.09.29.10.47.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 10:47:45 -0700 (PDT)
-From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <20200925212008.694018-1-ujjwalkumar0501@gmail.com>
- <cabeb5d7-f9c3-7e6d-fa43-03e6ef0dc476@gmail.com>
- <alpine.DEB.2.21.2009260727250.4734@felia>
- <a24ccaf7-a96f-0ca1-cc36-135f88497ac4@gmail.com>
-Message-ID: <ea21b166-70b4-a03f-4258-6c2015189db7@gmail.com>
-Date: Tue, 29 Sep 2020 23:17:37 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=XZ/FToa3AtOQUQOsb9qJSrILRh6kvTTOmkZ8BW0o6ag=;
+ b=hMA+m0nQsJf0TShYxTuX/OJsWnW2HI4QqibtG9gPkVTQU/Q77B/qxII2cAh0Efec2b
+ 4xgLMGX34VJ243hpQXIV7bHn1vAnqPmXwT3Ou7/hgqCjNKr/xv2um0dP7bJ7FPJ1mECO
+ qfjnqbAfix4uSVkBj9eZYqWtDufepyUcJ//d5eyuqJQCs73gMoGj7b6+KcIauh6FsL3M
+ 9FZ9ji7a4YXvGc1rPN/av57TvCLy3eb1y+YNvIy4Ywh7enVF136iooqaHwSuyq7YLOiD
+ xh9uGO4Y014YTbfQo0ovP6rjQ9zRc8vq8+2vyPUU8y9cor1sO+UUaM4UY3nE/MhbmtRB
+ Osgg==
+X-Gm-Message-State: AOAM533ILU/mji9mER8Xty/1CiTf9SMl8unfb0rZ5Gtog+9BvDtUPMGv
+ WufRyEfOAAzg2UpzGSuorffbesgJJzXAyuCpJrA=
+X-Google-Smtp-Source: ABdhPJyKwhZR3c4Ipym8Bpt1caw0vWJ1Z4f6NSyMSqvkGi3xTPgpjdLmkGO66H3GJheo+MBVnsaTKQ==
+X-Received: by 2002:a17:902:74ca:b029:d2:ad1b:332 with SMTP id
+ f10-20020a17090274cab02900d2ad1b0332mr3471411plt.7.1601405912614; 
+ Tue, 29 Sep 2020 11:58:32 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.218.220])
+ by smtp.gmail.com with ESMTPSA id c3sm6350181pfn.23.2020.09.29.11.58.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 11:58:31 -0700 (PDT)
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+To: 
+Date: Wed, 30 Sep 2020 00:28:15 +0530
+Message-Id: <20200929185815.12879-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <a24ccaf7-a96f-0ca1-cc36-135f88497ac4@gmail.com>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] kconfig: Prepend interpeters
-	when calling scripts
+Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+ syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com,
+ Johan Hedberg <johan.hedberg@gmail.com>, Marcel Holtmann <marcel@holtmann.org>,
+ linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] bluetooth: hci_h5: close serdev
+	device and free hu in h5_close
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,180 +117,41 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 26/09/20 2:53 pm, Ujjwal Kumar wrote:
-> On 26/09/20 11:24 am, Lukas Bulwahn wrote:
->>
->>
->> On Sat, 26 Sep 2020, Ujjwal Kumar wrote:
->>>
->>> To unset the executable bit I ran following command:
->>> for i in $(find -executable -type f); do chmod -x $i; done
->>>
->>> One thing that I noticed is, once we initiate a kernel build some 
->>> programs are compiled and removing their executable bit is not desirable.
->>> Even after performing "make clean" some of those programs still persist and 
->>> removing their executable bit fails any further attempt to build the kernel.
->>>
->>> For instance, tools/objtool/objtool file. In my case I had a total of 19 
->>> files remaining after performing make clean.
->>>
->>
->> Good observation.
->>
->> You can properly clean your build with make mrproper, but maybe that is 
->> not even enough... all generated files might not mean _all generated 
->> tools_, such as objtool, etc.
->>
->> $ make help
->>
->> Cleaning targets:
->>   clean		  - Remove most generated files but keep the config and
->>                     enough build support to build external modules
->>   mrproper	  - Remove all generated files + config + various backup files
->>   distclean	  - mrproper + remove editor backup and patch files
->>
->> [...]
->>
->> After for i in $(find -executable -type f); do chmod -x $i; done:
->> I saw those failures (probably as you did as well):
-> 
-> Yes these are the same errors that I received.
-> 
->>
->> *** Default configuration is based on 'x86_64_defconfig'
->> sh: 1: ./scripts/gcc-version.sh: Permission denied
->> init/Kconfig:34: syntax error
->> init/Kconfig:33: invalid statement
->> init/Kconfig:34: invalid statement
->> sh: 1: ./scripts/ld-version.sh: Permission denied
->> init/Kconfig:39: syntax error
->> init/Kconfig:38: invalid statement
->> sh: 1: ./scripts/clang-version.sh: Permission denied
->> init/Kconfig:49: syntax error
->> init/Kconfig:48: invalid statement
->> scripts/kconfig/Makefile:80: recipe for target 'defconfig' failed
->> make[1]: *** [defconfig] Error 1
->> Makefile:606: recipe for target 'defconfig' failed
->> make: *** [defconfig] Error 2
->>
->>
->> After your patch was applied, they disappear. So, it does the job.
->> More comments on the patch itself later.
->>
->> make defconfig works.
->>
-> 
-> Yes, these errors appeared when we unset executable bits on files after 
-> performing 'make clean' and then perform a kernel build.
-> 
->> make then fails:
->>
->> HOSTCC   /home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep.o
->> /bin/sh: 1: /home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool//fixdep: Permission denied
->> /home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/build/Makefile.build:96: recipe for target 
->> '/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep.o' failed
->> make[4]: *** [/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep.o] Error 126
->> Makefile:43: recipe for target '/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep-in.o' failed
->> make[3]: *** [/home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/objtool/fixdep-in.o] Error 2
->> /home/lukas/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/tools/build/Makefile.include:5: recipe for target 'fixdep' failed
->> make[2]: *** [fixdep] Error 2
->> Makefile:68: recipe for target 'objtool' failed
->> make[1]: *** [objtool] Error 2
->> Makefile:1885: recipe for target 'tools/objtool' failed
->> make: *** [tools/objtool] Error 2
->> make: *** Waiting for unfinished jobs....
->>
->> The make target also goes into tools/build/ and requires some targets 
->> there and then uses those tools during the further build.
->>
->> So, we need some more patches here as well.
->>
->> Can you share the list of 19 files that remained even with make clean?
->>
-> 
-> After performing a make clean, the files that persist are:
-> ./tools/objtool/objtool
-> ./tools/objtool/fixdep
-> ./scripts/sorttable
-> ./scripts/mod/mk_elfconfig
-> ./scripts/mod/modpost
-> ./scripts/unifdef
-> ./scripts/basic/fixdep
-> ./scripts/bin2c
-> ./scripts/extract-cert
-> ./scripts/kconfig/conf
-> ./scripts/selinux/mdp/mdp
-> ./scripts/selinux/genheaders/genheaders
-> ./scripts/asn1_compiler
-> ./scripts/kallsyms
-> ./scripts/sign-file
-> ./scripts/genksyms/genksyms
-> ./scripts/recordmcount
-> ./scripts/insert-sys-cert
-> ./scripts/dtc/dtc
-> 
-> After performing 'make mrproper'/'make distclean' the files that persist 
-> are:
-> ./tools/objtool/objtool
-> ./tools/objtool/fixdep
+When h5_close() gets called, the memory allocated for the hu gets 
+freed only if hu->serdev doesn't exist. This leads to a memory leak.
+So when h5_close() is requested, close the serdev device instance and
+free the memory allocated to the hu entirely instead.
 
-These files can be removed using following command from srctree:
-make tools/objtool_clean
-
-So after performing 'make mrproper' and 'make tools/objtool_clean', we get 
-rid of all the compiled programs.
-
-Instead of 'make tools/objtool_clean' we can perform following commands:
-From the srctree directory, make tools/clean
-From the tools directory, make clean
-From the tools directory, make objtool_clean
-to remove the 2 files.
-
-> 
->> Then, we go through them and check if they disappear with make mrproper or 
->> with a different make target to clean them. Potentially, we also hook 
->> those identified targets up into make mrproper then.
-
-I tried hooking the clean task with 'make mrproper' in top-level Makefile 
-as follows:
-
-$ git diff Makefile
-diff --git a/Makefile b/Makefile
-index 5f1399a576d4..43ab6ce98c64 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1498,6 +1498,7 @@ $(mrproper-dirs):
-        $(Q)$(MAKE) $(clean)=$(patsubst _mrproper_%,%,$@)
- 
- mrproper: clean $(mrproper-dirs)
-+       $(Q)$(MAKE) tools/objtool_clean
-        $(call cmd,rmfiles)
- 
- # distclean
+Fixes: https://syzkaller.appspot.com/bug?extid=6ce141c55b2f7aafd1c4
+Reported-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
+Tested-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
+ drivers/bluetooth/hci_h5.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Instead of '$(Q)$(MAKE) tools/objtool_clean' we can perform following 
-command:
-'$(Q)$(MAKE) tools/clean' to clean the entire tools/ directory.
+diff --git a/drivers/bluetooth/hci_h5.c b/drivers/bluetooth/hci_h5.c
+index e41854e0d79a..3d1585add572 100644
+--- a/drivers/bluetooth/hci_h5.c
++++ b/drivers/bluetooth/hci_h5.c
+@@ -248,8 +248,12 @@ static int h5_close(struct hci_uart *hu)
+ 	if (h5->vnd && h5->vnd->close)
+ 		h5->vnd->close(h5);
+ 
+-	if (!hu->serdev)
+-		kfree(h5);
++	if (hu->serdev)
++		serdev_device_close(hu->serdev);
++
++	kfree_skb(h5->rx_skb);
++	kfree(h5);
++	h5 = NULL;
+ 
+ 	return 0;
+ }
+-- 
+2.25.1
 
-> 
-> Is it appropriate to include the files here: 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Makefile?h=next-20200925#n1466
-> ?
-> Or should it be included inside tools/objtool/Makefile here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/tools/objtool/Makefile?h=next-20200925#n78
-> ?
-> In the second link, it appears to me that the files are already included for 
-> clean task but still they are not cleaned.
-> 
->>> Lukas
->>
-> 
-> Thanks
-> Ujjwal Kumar
-> 
-
-Ujjwal Kumar
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
