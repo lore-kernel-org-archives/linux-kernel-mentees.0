@@ -2,105 +2,95 @@ Return-Path: <SRS0=42xI=DH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E199AC4727E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 10:56:08 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0465C4727E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 11:47:18 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4BF51206A1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 10:56:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D5A682075F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 11:47:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ST3Kd8Ns"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4BF51206A1
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="ilt2tbwC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D5A682075F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id AEE91851CC;
-	Wed, 30 Sep 2020 10:56:07 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8907C856F6;
+	Wed, 30 Sep 2020 11:47:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GP6yZ_4BJwON; Wed, 30 Sep 2020 10:56:07 +0000 (UTC)
+	with ESMTP id VSV5Qs1amR3I; Wed, 30 Sep 2020 11:47:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2AF1B8502A;
-	Wed, 30 Sep 2020 10:56:07 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DA577856CB;
+	Wed, 30 Sep 2020 11:47:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1196FC0890;
-	Wed, 30 Sep 2020 10:56:07 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8EA84C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C8D85C016F;
+	Wed, 30 Sep 2020 11:47:16 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 44095C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 10:56:05 +0000 (UTC)
+ Wed, 30 Sep 2020 11:47:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7753385549
+ by silver.osuosl.org (Postfix) with ESMTP id 380B320462
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 10:56:05 +0000 (UTC)
+ Wed, 30 Sep 2020 11:47:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BZURpibKDQcf
+ with ESMTP id W3oMgyVCaeE2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 10:56:03 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7492F8484B
+ Wed, 30 Sep 2020 11:47:13 +0000 (UTC)
+X-Greylist: delayed 00:21:47 by SQLgrey-1.7.6
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id C90DF20419
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 10:56:03 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id s31so885769pga.7
+ Wed, 30 Sep 2020 11:47:13 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id s66so1509834otb.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 03:56:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oHjy/cJNfXXtogE/EOScxb15VZyxV8RmFzlm1RVW7+4=;
- b=ST3Kd8NsgI00gcwe++TnkB9yoG7CcnwaH1PhFE7KHu2q8pACXvMlCKfgfMR4yCUOJu
- ADghrfvzWjSlgIUCxoJM7ZQjtPtxlo33UaHnhi+3+Y8DpDYs9PHoW5N3sZrZ4AtsxomX
- mFlkpo3duTlRy6LZnvVCEyrnEIoRNBO7X87egzV14m7epsPyc/6Jab9yI502MgaWlQae
- 2rIIV140OVnyhadXYHdTmEAXDspwTby8A0pU8fE3wJMaoN+2rkgMMdLhX1vm6wpplv37
- 0K806v7DDEPK3d+/Gj2NiaXqsYvDUrExl7lmpaOGK+r0m4Qo9ruZgkAAOfZldREf7KOn
- Bihg==
+ Wed, 30 Sep 2020 04:47:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XPhNhgXjvXmO6qMe12Ico/ebR2/givwfQj61bckl1Qw=;
+ b=ilt2tbwC7TC34+YDgjBCThqgVJBSTbEAwVvPYe1QHXusF6Z5z6Qhipdawxa2ueUHc/
+ Z29fDYlSSnSdMgyHlZLEHRHHCCrU1VXxd0D4yc1r5I1TFQ8HqE4YbmwyD3qvfYnx7QeP
+ 4NwAkOjWuoMBi53qM8r+48EmM0QeY7MrIr5Fs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oHjy/cJNfXXtogE/EOScxb15VZyxV8RmFzlm1RVW7+4=;
- b=tMvgeQh/Tg0gczUgtmz1UqXQuFk4rmLoRC54uQWnVND05xauicXZyRVYiABhj52Fb5
- E2E4yGbwJS44kezJbro03Hta9BsVaJe1+b/57leOPqipbw8MtLOFf8CeO8w+X1grxWMf
- PFXE/hQvDjDx67fl9f+hU+lmEb5lAW8C6sG1p+zrzXLltMB7YNrldYr3wv+Fay6TWKbU
- Sr0zobtp8MxZTdK51s8HVt5tZ1iyHtYqFiHov5iSkuqiWuxeoETpQRu0dqTZcgOc8zZ/
- Hk99OBthXyjiVr0MWCfwIC+Qoki5DVu83x+9d3EEPxHR2BuLBz0ryx04wmbgCcQt+8p2
- wX0Q==
-X-Gm-Message-State: AOAM531Y8vGZ62UR4Bj3gqsHD67cMrO7YOriuMwS6+UbmCwTBKH8vejw
- asYkIINcYaLA0f+4XZIevA==
-X-Google-Smtp-Source: ABdhPJxwDjg9fu9SIBa0weczPWatPsktZqfGJP54jLXM6mwLCAozwhwqJF1pVlQk2zADetgfH2HP7w==
-X-Received: by 2002:a63:4e0a:: with SMTP id c10mr1671562pgb.369.1601463362849; 
- Wed, 30 Sep 2020 03:56:02 -0700 (PDT)
-Received: from PWN ([161.117.80.159])
- by smtp.gmail.com with ESMTPSA id l14sm1837033pfc.170.2020.09.30.03.55.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 03:56:02 -0700 (PDT)
-Date: Wed, 30 Sep 2020 06:55:53 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <20200930105553.GA1154238@PWN>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XPhNhgXjvXmO6qMe12Ico/ebR2/givwfQj61bckl1Qw=;
+ b=Kc3LSgpnjAtphQU5cj/zRlLqZEMMQWqe1yotX2nCuWojP4bU0gMZ9/zEi05SkW/X00
+ hITTG8+z1PyJpf2aGgOeXtp0jewy/6IqPDlP5JlbZhiEqDw2ymZXURg9A2xF2FKlitJw
+ Xav31doik4LYy5MxAdyGDlD/5S4Cgzf8lv7h7Rwt8tvOIVgEH2cUzKr4ebgHZsRvA946
+ wr4i87jmmQtUq/aiUA5NbwYovwxLIScp0+9bJMo5UfMyGwM5IDeGioE29obP+Ktm3Rm0
+ Q7r49OIWegYvyD5ZK/v+awCRmhUm9IAE0o331ijqFk5IXYTsk8tVaUQrm40NluyZAqjb
+ BAhA==
+X-Gm-Message-State: AOAM533OebbNnOtavvLhdRH/Z+Oj+26n1t0CdEPFopIHN11OVsZR0wwz
+ zQf+MWu7B3Z0fadeLmW7Dr2Okezv1bjtM/POT6Y/FmCgvtRg0w==
+X-Google-Smtp-Source: ABdhPJxEgm74LL2epdjXJXLLzINvmmFbGywbDO4Fc87teAZPaKspdA7yDK4a1Y64+ZE5t7m/SLjyxrDFnCEfpchc8Ko=
+X-Received: by 2002:a05:6830:1e56:: with SMTP id
+ e22mr1190431otj.303.1601465125944; 
+ Wed, 30 Sep 2020 04:25:25 -0700 (PDT)
+MIME-Version: 1.0
 References: <0000000000006b9e8d059952095e@google.com>
  <cover.1600953813.git.yepeilin.cs@gmail.com>
  <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
  <20200925101300.GA890211@PWN>
- <20200925132551.GF438822@phenom.ffwll.local>
- <20200929123420.GA1143575@PWN>
+ <20200925132551.GF438822@phenom.ffwll.local> <20200929123420.GA1143575@PWN>
  <CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com>
- <20200930071151.GA1152145@PWN>
- <20200930095317.GX438822@phenom.ffwll.local>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200930095317.GX438822@phenom.ffwll.local>
+ <20200930071151.GA1152145@PWN> <20200930095317.GX438822@phenom.ffwll.local>
+ <20200930105553.GA1154238@PWN>
+In-Reply-To: <20200930105553.GA1154238@PWN>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 30 Sep 2020 13:25:14 +0200
+Message-ID: <CAKMK7uFzWZgs4rvqSXqn_ifr8utG_rNw54+y6CWjdV=Epak-iQ@mail.gmail.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
 Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
@@ -108,7 +98,7 @@ Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, Jiri Slaby <jirislaby@kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH 0/3] Prevent out-of-bounds access
- for built-in font data buffers
+	for built-in font data buffers
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,79 +116,98 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Sep 30, 2020 at 11:53:17AM +0200, Daniel Vetter wrote:
-> On Wed, Sep 30, 2020 at 03:11:51AM -0400, Peilin Ye wrote:
-> > On Tue, Sep 29, 2020 at 04:38:49PM +0200, Daniel Vetter wrote:
-> > > On Tue, Sep 29, 2020 at 2:34 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> > > > Ah, and speaking of built-in fonts, see fbcon_startup():
+On Wed, Sep 30, 2020 at 12:56 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+>
+> On Wed, Sep 30, 2020 at 11:53:17AM +0200, Daniel Vetter wrote:
+> > On Wed, Sep 30, 2020 at 03:11:51AM -0400, Peilin Ye wrote:
+> > > On Tue, Sep 29, 2020 at 04:38:49PM +0200, Daniel Vetter wrote:
+> > > > On Tue, Sep 29, 2020 at 2:34 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > > > > Ah, and speaking of built-in fonts, see fbcon_startup():
+> > > > >
+> > > > >         /* Setup default font */
+> > > > >                 [...]
+> > > > >                 vc->vc_font.charcount = 256; /* FIXME  Need to support more fonts */
+> > > > >                             ^^^^^^^^^^^^^^^
+> > > > >
+> > > > > This is because find_font() and get_default_font() return a `struct
+> > > > > font_desc *`, but `struct font_desc` doesn't contain `charcount`. I
+> > > > > think we also need to add a `charcount` field to `struct font_desc`.
 > > > >
-> > > >         /* Setup default font */
-> > > >                 [...]
-> > > >                 vc->vc_font.charcount = 256; /* FIXME  Need to support more fonts */
-> > > >                             ^^^^^^^^^^^^^^^
-> > > >
-> > > > This is because find_font() and get_default_font() return a `struct
-> > > > font_desc *`, but `struct font_desc` doesn't contain `charcount`. I
-> > > > think we also need to add a `charcount` field to `struct font_desc`.
-> > > 
-> > > Hm yeah ... I guess maybe struct font_desc should be the starting
-> > > point for the kernel internal font structure. It's at least there
-> > > already ...
-> > 
-> > I see, that will also make handling built-in fonts much easier!
-> 
-> I think the only downside with starting with font_desc as the internal
-> font represenation is that there's a few fields we don't need/have for
-> userspace fonts (like the id/name stuff). So any helpers to e.g. print out
-> font information need to make sure they don't trip over that
-> 
-> But otherwise I don't see a problem with this, I think.
+> > > > Hm yeah ... I guess maybe struct font_desc should be the starting
+> > > > point for the kernel internal font structure. It's at least there
+> > > > already ...
+> > >
+> > > I see, that will also make handling built-in fonts much easier!
+> >
+> > I think the only downside with starting with font_desc as the internal
+> > font represenation is that there's a few fields we don't need/have for
+> > userspace fonts (like the id/name stuff). So any helpers to e.g. print out
+> > font information need to make sure they don't trip over that
+> >
+> > But otherwise I don't see a problem with this, I think.
+>
+> Yes, and built-in fonts don't use refcount. Or maybe we can let
+> find_font() and get_default_font() kmalloc() a copy of built-in font
+> data, then keep track of refcount for both user and built-in fonts, but
+> that will waste a few K of memory for each built-in font we use...
 
-Yes, and built-in fonts don't use refcount. Or maybe we can let
-find_font() and get_default_font() kmalloc() a copy of built-in font
-data, then keep track of refcount for both user and built-in fonts, but
-that will waste a few K of memory for each built-in font we use...
+A possible trick for this would be to make sure built-in fonts start
+out with a refcount of 1. So never get freed. Plus maybe a check that
+if the name is set, then it's a built-in font and if we ever underflow
+the refcount we just WARN, but don't free anything.
 
-> > > I think for vc_date->vc_font we might need a multi-step approach:
-> > > - first add a new helper function which sets the font for a vc using
-> > > an uapi console_font struct (and probably hard-coded assumes cnt ==
-> > > 256.
-> > 
-> > But user fonts may have a charcount different to 256... But yes I'll try
-> > to figure out how.
-> 
-> Hm yeah, maybe we need a helper to give us the charcount then, which by
-> default is using the magic negative offset.
+Another trick would be kern_font_get/put wrappers (we'd want those
+anyway if the userspace fonts are refcounted) and if kern_font->name
+!= NULL (i.e. built-in font with name) then we simply don't call
+kref_get/put.
+-Daniel
 
-Ah, I see! :)
+> > > > I think for vc_date->vc_font we might need a multi-step approach:
+> > > > - first add a new helper function which sets the font for a vc using
+> > > > an uapi console_font struct (and probably hard-coded assumes cnt ==
+> > > > 256.
+> > >
+> > > But user fonts may have a charcount different to 256... But yes I'll try
+> > > to figure out how.
+> >
+> > Hm yeah, maybe we need a helper to give us the charcount then, which by
+> > default is using the magic negative offset.
+>
+> Ah, I see! :)
+>
+> > Then once we've converted everything over to explicitly passing charcount
+> > around, we can switch that helper. So something like
+> >
+> > int kern_font_charcount(struct kern_font *font);
+> >
+> > Feel free to bikeshed the struct name however you see fit :-)
+>
+> I think both `kern_font` and `font_desc` makes sense, naming is so
+> hard...
+>
+> > > > For first steps I'd start with demidlayering some of the internal
+> > > > users of uapi structs, like the console_font_op really shouldn't be
+> > > > used anywhere in any function, except in the ioctl handler that
+> > > > converts it into the right function call. You'll probably discover a
+> > > > few other places like this on the go.
+> > >
+> > > Sure, I'll start from this, then cleaning up these dummy functions, then
+> > > `vc_data`. Thank you for the insights!
+> >
+> > Please don't take this rough plan as fixed, it's just where I'd start from
+> > browsing the code and your analysis a bit. We'll probably have to adapt as
+> > we go and more nasty things turn up ...
+>
+> Sure, I'll first give it a try and see. Thank you!
+>
+> Peilin Ye
+>
 
-> Then once we've converted everything over to explicitly passing charcount
-> around, we can switch that helper. So something like
-> 
-> int kern_font_charcount(struct kern_font *font);
-> 
-> Feel free to bikeshed the struct name however you see fit :-)
 
-I think both `kern_font` and `font_desc` makes sense, naming is so
-hard...
-
-> > > For first steps I'd start with demidlayering some of the internal
-> > > users of uapi structs, like the console_font_op really shouldn't be
-> > > used anywhere in any function, except in the ioctl handler that
-> > > converts it into the right function call. You'll probably discover a
-> > > few other places like this on the go.
-> > 
-> > Sure, I'll start from this, then cleaning up these dummy functions, then
-> > `vc_data`. Thank you for the insights!
-> 
-> Please don't take this rough plan as fixed, it's just where I'd start from
-> browsing the code and your analysis a bit. We'll probably have to adapt as
-> we go and more nasty things turn up ...
-
-Sure, I'll first give it a try and see. Thank you!
-
-Peilin Ye
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
