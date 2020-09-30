@@ -8,101 +8,96 @@ X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 542E4C47425
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 14:18:30 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 223B1C4727E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 14:42:26 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C693020709
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 14:18:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8411E206FC
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 14:42:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VGn/rFmL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C693020709
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTu+N+Bo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8411E206FC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 61B4081FEE;
-	Wed, 30 Sep 2020 14:18:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 40E05860FD;
+	Wed, 30 Sep 2020 14:42:25 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MOzxqIlnKyMm; Wed, 30 Sep 2020 14:42:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 16E1B85F10;
+	Wed, 30 Sep 2020 14:42:24 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F167AC016F;
+	Wed, 30 Sep 2020 14:42:23 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 69E21C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 30 Sep 2020 14:42:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 578AD84F12
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 30 Sep 2020 14:42:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Nji8VYNM9OL7; Wed, 30 Sep 2020 14:18:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1E6E781FA0;
-	Wed, 30 Sep 2020 14:18:28 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0AA16C016F;
-	Wed, 30 Sep 2020 14:18:28 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1B84AC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 14:18:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 05E5E8700F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 14:18:27 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2qUwLTWsChQl
+ with ESMTP id 58pHt1L8kr8I
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 14:18:26 +0000 (UTC)
+ Wed, 30 Sep 2020 14:42:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8727F8719E
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 92FDA83AE3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 14:18:26 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id jw11so1048279pjb.0
+ Wed, 30 Sep 2020 14:42:22 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id d19so1153997pld.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 07:18:26 -0700 (PDT)
+ Wed, 30 Sep 2020 07:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TwJdx0lIfhHir6Nqx17GvuwpEA6xq9365oCpCop+vGs=;
- b=VGn/rFmLYPyMEMwlJDY0UTwwEY0T48qfEF3k+SblEi1HXQFUc4gB314tq8+0SCK+ty
- +0qmpjsXwfWbRflf2ym2DBnbqiIaJnJdj1fqwwQ8Obl9Hn+PpXhvl2ccyZDFSN0KxVrl
- 0wYcNfXqPQS7NB7QPRT7LnEGHXxRUOVS/l7BLECFMP4PIF7uhstzuYY1IpaGE0iczKhx
- Y0H5RhMs04NrIMJaG1HYIGK7JiUk4AAIBUvvjN7j4xaRBSX5T78mFLKCT7Ss4GPwJy6a
- /OYW5BFqpPECa8BfLJEFm/m+yMknHQcZZP72LylqFoHHhQ4o6Sm2v1v/0SWMUiAbTLVP
- 0zeQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EY+CSFeCM6JX5/1p7j0/EOqjBkg/p6wmfaxiruvqZq0=;
+ b=bTu+N+Bo3I+J0QATwke8o0iv+phPJt1tYuNlwJ1h9Cnvwba+YbmPgYjdHCHqyobmpG
+ 1QGAtMY8c6qsWEKgKobNVOExcU7HosrjzjdDCGWqbDXJ6imaFgzVFcmeSA8i6VjCkcgv
+ 0PM9we/VEb61B5guZSpKSe1DZPFo1iXutWmyfwlCr5oUe+oiyy8vryYuLXxHpm1C9EFU
+ /9Jllp8THnqRqIpHGX6h5S34eMIjuwhjUMJkUPtg4Y9CeHl81gIn1ATF3aLnwahuV2Kc
+ LO0Ml9l4hYy5RZBauwKvsGDjfeTaQyn2yo/LJNlElLv8YjqlNUDO5Wyscw/eLXqAshRJ
+ +AEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TwJdx0lIfhHir6Nqx17GvuwpEA6xq9365oCpCop+vGs=;
- b=EzYg8cjehOYXqu16XOxZM6/pn/L57Ik16hmqJ2aYuyrOtsqdjJYplG6YT2/hPuX/qp
- wLnJYwlwaqB/UkSVosHslIRnGMLauEq4OGIua0lqWYPRNV6vxjrjMOeSwMmO8s25T0VE
- 9phxiXsaBcBKXX+mSb9+mvpo2hDwl2C/Mt3s508KlFZdU1dZeoJPExHL8mEIuElq01jp
- nP3eqxYivcH9l73CI8zvim80OrvSL01D1v2onh35TNEbh+RvUn0DHXF56v63kbONpa5V
- HE9UiMI9roAJZkZqqF0hd2bWV7No0HBWRowxcopB/nkTZa64ROpbqi0E7jEzqAeuPONz
- n8iw==
-X-Gm-Message-State: AOAM531q9X/Qpb3dV43zlb9vCnC/6MHegEKegd+eRopyakGal5mkwmPp
- 7smUtAam8r4kZHoUxd8K5R0=
-X-Google-Smtp-Source: ABdhPJyU3iDeeonfLrCyZS8ZegFFDuTux5IsDvMQ8QoTTjVYYmJpmE38dykd4LCzMzGk2yDNKMIRRA==
-X-Received: by 2002:a17:90a:d18b:: with SMTP id
- fu11mr2678375pjb.203.1601475505953; 
- Wed, 30 Sep 2020 07:18:25 -0700 (PDT)
-Received: from localhost.localdomain ([45.118.167.204])
- by smtp.googlemail.com with ESMTPSA id 34sm2460770pgp.5.2020.09.30.07.18.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EY+CSFeCM6JX5/1p7j0/EOqjBkg/p6wmfaxiruvqZq0=;
+ b=Q//XILelAxxoJI8wZj2ZRyk2l58uGsbRUzq0Ih8odGXMOvi2ox6EH5KKr/lnBJVgAw
+ t1XkizxHLl6qvWE6eblNeUXKfkRU+AiwIsTOoB21reDyQuHk7rMZBAMDbV4fimQ3Mjhx
+ AdAehiHYvTcvHn9ejml0/M1n9TqfUonKImju2OuHIX7qjNPsOEVAIbKjCpOfVUo117or
+ i8NX9AdweZxxDHjE16pg1mAbY9P35FAc2gX525s+FSLbI7JIDbZj04pWdWOYSR/15ccQ
+ Au9ZGsrOlDfAA/gMwMScgfDFl8AJwl81plQXXOMDa2kthoUiAdeyX56ZVwxJw/ZPvhio
+ CQmA==
+X-Gm-Message-State: AOAM531ckOmR2uDiLJV9MFLSjTNJuTFneH8VtouPautOj5NCHuOLAtBh
+ BNR3ABjrYfKzVGY7MdaETkI=
+X-Google-Smtp-Source: ABdhPJyQwTmmdcn5Ms5UHFa1G7efb7LJlTkOaGFdryNBFOVJ8WKNuMCIbIJNRBEYQ5PUoTvXDdleNQ==
+X-Received: by 2002:a17:90a:5609:: with SMTP id
+ r9mr2884645pjf.217.1601476942073; 
+ Wed, 30 Sep 2020 07:42:22 -0700 (PDT)
+Received: from arpitha-Inspiron-7570.lan ([106.51.240.187])
+ by smtp.gmail.com with ESMTPSA id z25sm2481523pgl.6.2020.09.30.07.42.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 07:18:24 -0700 (PDT)
-From: Anmol Karn <anmol.karan123@gmail.com>
-To: marcel@holtmann.org,
-	johan.hedberg@gmail.com
-Date: Wed, 30 Sep 2020 19:48:13 +0530
-Message-Id: <20200930141813.410209-1-anmol.karan123@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200929173231.396261-1-anmol.karan123@gmail.com>
-References: <20200929173231.396261-1-anmol.karan123@gmail.com>
+ Wed, 30 Sep 2020 07:42:20 -0700 (PDT)
+From: Arpitha Raghunandan <98.arpi@gmail.com>
+To: brendanhiggins@google.com, tytso@mit.edu, adilger.kernel@dilger.ca,
+ skhan@linuxfoundation.org
+Date: Wed, 30 Sep 2020 20:10:52 +0530
+Message-Id: <20200930144052.62720-1-98.arpi@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org,
- syzbot+0bef568258653cff272f@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
-Subject: [Linux-kernel-mentees] [PATCH] net: bluetooth: Fix null pointer
-	dereference in hci_event_packet()
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
+Subject: [Linux-kernel-mentees] [RFC v2 1/2] kunit: Support for
+	Parameterized Testing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,45 +115,138 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-AMP_MGR is getting derefernced in hci_phy_link_complete_evt(), when called from hci_event_packet() and there is a possibility, that hcon->amp_mgr may not be found when accessing after initialization of hcon.
+This patch has a basic implementation for adding support for
+parameterized testing in KUnit. The macro KUNIT_CASE_PARAM takes
+in a function pointer to a function that returns the test case
+parameters, the number of test cases and the size of each test 
+case parameter. The get_test_case_parameters() acts as an iterator
+and returns one test case parameter each time it is called.
 
-- net/bluetooth/hci_event.c:4945
-The bug seems to get triggered in this line:
 
-bredr_hcon = hcon->amp_mgr->l2cap_conn->hcon;
-
-Fix it by adding a NULL check for the hcon->amp_mgr before checking the ev-status.
-
-Fixes: d5e911928bd8 ("Bluetooth: AMP: Process Physical Link Complete evt")
-Reported-and-tested-by: syzbot+0bef568258653cff272f@syzkaller.appspotmail.com 
-Link: https://syzkaller.appspot.com/bug?extid=0bef568258653cff272f 
-Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
+Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
 ---
-Change in v3:
-  - changed return o; to return; (Reported-by: kernel test robot <lkp@intel.com>
-)
+Changes v1->v2:
+- Parameterized input stored in a void* array
+- An iterator method to access the different parameters
 
- net/bluetooth/hci_event.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/kunit/test.h | 17 +++++++++++++++++
+ lib/kunit/test.c     | 27 +++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-index 4b7fc430793c..bbe0ca42cad2 100644
---- a/net/bluetooth/hci_event.c
-+++ b/net/bluetooth/hci_event.c
-@@ -4936,6 +4936,11 @@ static void hci_phy_link_complete_evt(struct hci_dev *hdev,
- 		return;
- 	}
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 59f3144f009a..d037ba8c3002 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -140,10 +140,14 @@ struct kunit;
+ struct kunit_case {
+ 	void (*run_case)(struct kunit *test);
+ 	const char *name;
++	void* (*get_params)(void);
++	int max_parameters_count;
++	int parameter_size;
  
-+	if (!hcon->amp_mgr) {
-+		hci_dev_unlock(hdev);
-+		return;
-+	}
+ 	/* private: internal use only. */
+ 	bool success;
+ 	char *log;
++	bool parameterized;
+ };
+ 
+ static inline char *kunit_status_to_string(bool status)
+@@ -162,6 +166,11 @@ static inline char *kunit_status_to_string(bool status)
+  */
+ #define KUNIT_CASE(test_name) { .run_case = test_name, .name = #test_name }
+ 
++#define KUNIT_CASE_PARAM(test_name, getparams, count, size) {	.run_case = test_name,						\
++								.name = #test_name, .parameterized = true,			\
++								.get_params = (void* (*)(void))getparams,			\
++								.max_parameters_count = count, .parameter_size = size }
 +
- 	if (ev->status) {
- 		hci_conn_del(hcon);
- 		hci_dev_unlock(hdev);
+ /**
+  * struct kunit_suite - describes a related collection of &struct kunit_case
+  *
+@@ -206,6 +215,11 @@ struct kunit {
+ 	/* private: internal use only. */
+ 	const char *name; /* Read only after initialization! */
+ 	char *log; /* Points at case log after initialization */
++	bool parameterized; /* True for parameterized tests */
++	void *param_values; /* Stores the test parameters for parameterized tests */
++	int max_parameters_count; /* Indicates maximum number of parameters for parameterized tests */
++	int iterator_count; /* Used by the iterator method for parameterized tests */
++	int parameter_size; /* Indicates size of a single test case for parameterized tests */
+ 	struct kunit_try_catch try_catch;
+ 	/*
+ 	 * success starts as true, and may only be set to false during a
+@@ -225,6 +239,7 @@ struct kunit {
+ };
+ 
+ void kunit_init_test(struct kunit *test, const char *name, char *log);
++void kunit_init_param_test(struct kunit *test, struct kunit_case *test_case);
+ 
+ int kunit_run_tests(struct kunit_suite *suite);
+ 
+@@ -237,6 +252,8 @@ int __kunit_test_suites_init(struct kunit_suite **suites);
+ 
+ void __kunit_test_suites_exit(struct kunit_suite **suites);
+ 
++void *get_test_case_parameters(struct kunit *test);
++
+ /**
+  * kunit_test_suites() - used to register one or more &struct kunit_suite
+  *			 with KUnit.
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index c36037200310..c4fd8f729e96 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -236,6 +236,18 @@ void kunit_init_test(struct kunit *test, const char *name, char *log)
+ }
+ EXPORT_SYMBOL_GPL(kunit_init_test);
+ 
++void kunit_init_param_test(struct kunit *test, struct kunit_case *test_case)
++{
++	spin_lock_init(&test->lock);
++	INIT_LIST_HEAD(&test->resources);
++	test->parameterized = true;
++	test->param_values = (void *)(test_case->get_params());
++	test->max_parameters_count = test_case->max_parameters_count;
++	test->parameter_size = test_case->parameter_size;
++	test->iterator_count = 0;
++}
++EXPORT_SYMBOL_GPL(kunit_init_param_test);
++
+ /*
+  * Initializes and runs test case. Does not clean up or do post validations.
+  */
+@@ -343,6 +355,8 @@ static void kunit_run_case_catch_errors(struct kunit_suite *suite,
+ 	struct kunit test;
+ 
+ 	kunit_init_test(&test, test_case->name, test_case->log);
++	if (test_case->parameterized)
++		kunit_init_param_test(&test, test_case);
+ 	try_catch = &test.try_catch;
+ 
+ 	kunit_try_catch_init(try_catch,
+@@ -407,6 +421,19 @@ void __kunit_test_suites_exit(struct kunit_suite **suites)
+ }
+ EXPORT_SYMBOL_GPL(__kunit_test_suites_exit);
+ 
++/*
++ * Iterator method for the parameterized test cases
++ */
++void *get_test_case_parameters(struct kunit *test)
++{
++	int index = test->iterator_count * test->parameter_size;
++
++	if (test->iterator_count != test->max_parameters_count)
++		test->iterator_count++;
++	return (test->param_values + index);
++}
++EXPORT_SYMBOL_GPL(get_test_case_parameters);
++
+ /*
+  * Used for static resources and when a kunit_resource * has been created by
+  * kunit_alloc_resource().  When an init function is supplied, @data is passed
 -- 
-2.28.0
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
