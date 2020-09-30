@@ -1,102 +1,110 @@
-Return-Path: <SRS0=644b=DG=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=42xI=DH=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E74B1C4727C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Sep 2020 20:57:56 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C9FC2D0A8
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 04:02:27 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3623820757
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Sep 2020 20:57:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 713712087D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 04:02:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uQwTBpZJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3623820757
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FOUG2k8+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 713712087D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8587D2045B;
-	Tue, 29 Sep 2020 20:57:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BBA188680F;
+	Wed, 30 Sep 2020 04:02:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4q29fgdfj10t; Tue, 29 Sep 2020 20:57:51 +0000 (UTC)
+	with ESMTP id ZxQHB5Pkk0mr; Wed, 30 Sep 2020 04:02:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id BAF792001F;
-	Tue, 29 Sep 2020 20:57:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9D80F867F8;
+	Wed, 30 Sep 2020 04:02:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 94E52C0889;
-	Tue, 29 Sep 2020 20:57:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 83D96C0890;
+	Wed, 30 Sep 2020 04:02:23 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B28CAC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0C34CC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 20:57:49 +0000 (UTC)
+ Wed, 30 Sep 2020 04:02:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9B40C85F8A
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 019CA86078
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 20:57:49 +0000 (UTC)
+ Wed, 30 Sep 2020 04:02:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8kSIUfjDA--q
+ with ESMTP id Dk03sJiS6lmB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 20:57:49 +0000 (UTC)
+ Wed, 30 Sep 2020 04:02:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id EEEC985F7C
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7127586049
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 20:57:48 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id u3so3398664pjr.3
+ Wed, 30 Sep 2020 04:02:21 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id e18so274027pgd.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 13:57:48 -0700 (PDT)
+ Tue, 29 Sep 2020 21:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MzVnM7zGHKWvt5JrX6t8rOtvcMExwl3IXeOBymXLfl4=;
- b=uQwTBpZJ3aFBIqyiAYDyoqCRKC7SmV/Yy7SJeDINPjs+CWMS9N07ErB+dePpf4qiHe
- MEp0ckYFpRKe0FM+DIvQBOx0sCV6KFy1LK2NZHUhAZhFUpMlfzNhTv1gTh4l7TLUxMCf
- Qg21dlIZu3tsLKXPTuAl3m+3ZA5LelbW7bSZBi1EFzlF8nJe+4JmDpzM93edPU61hVAn
- F4BXCI5McVWkgjSB4f6S157O/f9s2wErPM0MtKW3pc9OUlcB2ygUHKbk2AFD/jSSQIU6
- FKK/+ZgcjjdzdeJTEnXpgnoSpSrCaoyixbh4lQdqvhFMc9pxqRO9OCP0J1RKqauElInX
- tjAQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=A6Iu8CK+fvMEAi5WAmBNnIyxewSXT0brLKenSVEGXL4=;
+ b=FOUG2k8+MaztgIzts4HwDlrGsCudjd56IKZWBLbgBRGW/+cSpuwEsCSWMlu5X5nBBu
+ 8v6RNE3ofy5cTam6TcIjkuItXIvPyc7BnaDjbojyP6bpWtePhAM6lThFjdqzXAhLVzGv
+ rJbQKjncIrbIlyRWHDJ29BFUMMRVe0Y5VsBPbLsl3Bst+P8Ktaa043qBw5dyOe+/kXhe
+ UYwVUTDrG5ZOP70fROR05CZtKDJ9zhOZyHz1hblG2GGXhyuRq1b96FSREuL9ukVIUWXe
+ 18YjjTXSkaJR3uRKRYnMtw/wPv5ezudgB2hkwL7x8DllO4HhtpI+cExOxnfKNgTAw4d1
+ a28Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MzVnM7zGHKWvt5JrX6t8rOtvcMExwl3IXeOBymXLfl4=;
- b=Y5Nmnjs7kP/DNY5wmO3QWKaycA3PMCtPEZpb0C4SJ69KF8CGbZZGYl6F4t67Vp55Cs
- z9MqkUWSBth3PRCkxcH13a2lidboKVDNR2C1oBEy5UFwhC2mX9SWzNRZUjy1c1Vby2aU
- xpjSpDFQVUWHnihPWu46IxPBI2IwfZiAQvIp5xQBTeVvVezQogNJJAU66VKabCe9N9M8
- yU00H+4R1TfA+cX/YSZVUUh1eRJ3Zj9+e0RrS2cs7qEK386v7qDGfo9YQK1tl4py9i6Y
- WU86pJbl71EqjpxBZPAH0jsS5gtzLhxh3ZeFT+JLi/dIG/WVXpNSLp/AHZo6cpazIrEu
- zw0Q==
-X-Gm-Message-State: AOAM531Ygk33JEARHz3EQaCeIiwEpGm3oem/NEknCR3rS2PmZyMrVmF1
- E6zV9nTTtKNmmgMPogyYOts=
-X-Google-Smtp-Source: ABdhPJx/Yaj7/R4iDvNT+XxibxN5WU1hvgg+TWq5ZL3K5/9B3DlTNzyprO1OkksiFB3CI4Q5l7IsMw==
-X-Received: by 2002:a17:90a:6e45:: with SMTP id
- s5mr5417604pjm.12.1601413068385; 
- Tue, 29 Sep 2020 13:57:48 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:9004:6825:89f0:a659:1148:a80f])
- by smtp.gmail.com with ESMTPSA id x4sm6605421pff.57.2020.09.29.13.57.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 13:57:47 -0700 (PDT)
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-To: lukas.bulwahn@gmail.com
-Date: Wed, 30 Sep 2020 02:27:31 +0530
-Message-Id: <20200929205731.207393-1-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=A6Iu8CK+fvMEAi5WAmBNnIyxewSXT0brLKenSVEGXL4=;
+ b=SUqa5zZfxzkO0w4SplFEzWVAzKqfQCSNV29KkKz5X+Zu+ZzwID68jbFx+vJEz734PX
+ NUzT268S/feQA+BQ2bLrsssKV1KW9TaNTO5PCeM0uxAo+ZiRi5svrhEhbuxkR7ojLjZE
+ craK/9LL4fq8xVBYPZXTt/E/1mUmX7KOSVNoXuWCIYwg7sIA2hIvVPD7Cz/aLnhd6sCB
+ LBy8+4VcZdhOu6paaZcU1gjmW28bC2AIUGmAXTuszPPsqKC88DB8w2o4Rky4GfBhEqjk
+ X/hgsfWMkgZARYinhxvn+Ht+neKifheXQwKuBVMBLWbbAYWDRx9bhZFfgVqUTUupc6uW
+ a14w==
+X-Gm-Message-State: AOAM533531YK7FE/acS/3iNIv562TgQAG+UAm37BkpIN/W7z9jCd22S/
+ EN9F1bQZUkadE4GB7jxPdoc=
+X-Google-Smtp-Source: ABdhPJyA5nA4I3XO3XKaf/fb/M89xL8cx8S1ztqnn2lD6/kSbg6onBEyGX/DZDqqLsywchH+AQJnXQ==
+X-Received: by 2002:a63:a51a:: with SMTP id n26mr624314pgf.1.1601438540777;
+ Tue, 29 Sep 2020 21:02:20 -0700 (PDT)
+Received: from [192.168.0.104] ([49.207.218.220])
+ by smtp.gmail.com with ESMTPSA id f19sm354554pfd.45.2020.09.29.21.02.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Sep 2020 21:02:19 -0700 (PDT)
+To: linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com,
+ Petko Manolov <petkan@nucleusys.com>, "David S. Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20200929082028.50540-1-anant.thazhemadam@gmail.com>
+ <20200929084752.GA8101@carbon>
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Message-ID: <b5542434-7d12-0bba-8e54-8c5edfcb33b3@gmail.com>
+Date: Wed, 30 Sep 2020 09:32:15 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, dwaipayaray1@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH RFC] checkpatch: fix multistatement
-	macro checks
+In-Reply-To: <20200929084752.GA8101@carbon>
+Content-Language: en-US
+Subject: Re: [Linux-kernel-mentees] [PATCH] net: usb: rtl8150: prevent
+ set_ethernet_addr from setting uninit address
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,61 +122,69 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Checkpatch generates incorrect error message for certain
-macros.
 
-When checkpatch was run on commit 4649079b9de1
-"tracing: Make ftrace packed events have align of 1"), it
-generated multiple errors of the form:
+On 29/09/20 2:17 pm, Petko Manolov wrote:
+> On 20-09-29 13:50:28, Anant Thazhemadam wrote:
+>> When get_registers() fails (which happens when usb_control_msg() fails)
+>> in set_ethernet_addr(), the uninitialized value of node_id gets copied
+>> as the address.
+>>
+>> Checking for the return values appropriately, and handling the case
+>> wherein set_ethernet_addr() fails like this, helps in avoiding the
+>> mac address being incorrectly set in this manner.
+>>
+>> Reported-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+>> Tested-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+>> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+>> ---
+>>  drivers/net/usb/rtl8150.c | 24 ++++++++++++++++--------
+>>  1 file changed, 16 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+>> index 733f120c852b..e542a9ab2ff8 100644
+>> --- a/drivers/net/usb/rtl8150.c
+>> +++ b/drivers/net/usb/rtl8150.c
+>> @@ -150,7 +150,7 @@ static const char driver_name [] = "rtl8150";
+>>  **	device related part of the code
+>>  **
+>>  */
+>> -static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
+>> +static int get_registers(rtl8150_t *dev, u16 indx, u16 size, void *data)
+>>  {
+>>  	void *buf;
+>>  	int ret;
+>> @@ -274,12 +274,17 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
+>>  		return 1;
+>>  }
+>>  
+>> -static inline void set_ethernet_addr(rtl8150_t * dev)
+>> +static bool set_ethernet_addr(rtl8150_t *dev)
+>>  {
+>>  	u8 node_id[6];
+>> +	int ret;
+>>  
+>> -	get_registers(dev, IDR, sizeof(node_id), node_id);
+>> -	memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
+>> +	ret = get_registers(dev, IDR, sizeof(node_id), node_id);
+>> +	if (ret > 0 && ret <= sizeof(node_id)) {
+> get_registers() was recently modified to use usb_control_msg_recv() which does
+> not return partial reads.  IOW you'll either get negative value or
+> sizeof(node_id).  Since it is good to be paranoid i'd convert the above check
+> to:
+>
+> 	if (ret == sizeof(node_id)) {
+>
+> and fail in any other case.  Apart from this minor detail the rest of the patch 
+> looks good to me.
+>
+> Acked-by: Petko Manolov
+Got it. I'll be sure to include this in a v2, and send that in soon enough.
+Thanks for pointing that out. :)
 
-ERROR: Macros with multiple statements should be enclosed in a do -
-while loop
-+#define __field_packed(type, container, item)    type item;
+Thanks,
+Anant
 
-This should certainly not be enclosed in a do - while loop.
-The problem was with the trailing semicolon. Any statement
-with trailing semicolon was marked as a multi-line macro.
-This was fixed by having a seperate rule for excluding
-single statements terminated by semicolon.
 
-The second problem is due to while (...) {...} macros not being
-handled.
-For example, on commit fe557319aa06 ("maccess: rename probe_kernel_
-{read,write} to copy_{from,to}_kernel_nofault"), checkpatch
-generated following error:
-
-ERROR: Macros with multiple statements should be enclosed in a do -
-while loop
-+#define copy_to_kernel_nofault_loop(dst, src, len, type, err_label) \
- 	while (len >= sizeof(type)) {
-        ....
-
-This was fixed by having a seperate rule to match such while blocks.
-
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- scripts/checkpatch.pl | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9e65d21456f1..4fb612200c27 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -5342,10 +5342,12 @@ sub process {
- 			    $dstat !~ /^\.$Ident\s*=/ &&				# .foo =
- 			    $dstat !~ /^(?:\#\s*$Ident|\#\s*$Constant)\s*$/ &&		# stringification #foo
- 			    $dstat !~ /^do\s*$Constant\s*while\s*$Constant;?$/ &&	# do {...} while (...); // do {...} while (...)
-+				$dstat !~ /^while\s*$Constant\s*$Constant$/ &&			# while (...) {...}
- 			    $dstat !~ /^for\s*$Constant$/ &&				# for (...)
- 			    $dstat !~ /^for\s*$Constant\s+(?:$Ident|-?$Constant)$/ &&	# for (...) bar()
- 			    $dstat !~ /^do\s*{/ &&					# do {...
- 			    $dstat !~ /^\(\{/ &&						# ({...
-+				$dstat !~ /;$/ &&						# statement;
- 			    $ctx !~ /^.\s*#\s*define\s+TRACE_(?:SYSTEM|INCLUDE_FILE|INCLUDE_PATH)\b/)
- 			{
- 				if ($dstat =~ /^\s*if\b/) {
--- 
-2.27.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
