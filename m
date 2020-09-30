@@ -2,109 +2,102 @@ Return-Path: <SRS0=42xI=DH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C9FC2D0A8
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 04:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1998C4727C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 05:17:44 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 713712087D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 04:02:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 22D952072E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Sep 2020 05:17:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FOUG2k8+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 713712087D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZ7v7KkO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 22D952072E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BBA188680F;
-	Wed, 30 Sep 2020 04:02:24 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9D6818647A;
+	Wed, 30 Sep 2020 05:17:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZxQHB5Pkk0mr; Wed, 30 Sep 2020 04:02:23 +0000 (UTC)
+	with ESMTP id FsFfz7s3UCJQ; Wed, 30 Sep 2020 05:17:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9D80F867F8;
-	Wed, 30 Sep 2020 04:02:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 391038610B;
+	Wed, 30 Sep 2020 05:17:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 83D96C0890;
-	Wed, 30 Sep 2020 04:02:23 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0C34CC016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D05AC0889;
+	Wed, 30 Sep 2020 05:17:43 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4E776C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 04:02:22 +0000 (UTC)
+ Wed, 30 Sep 2020 05:17:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 019CA86078
+ by whitealder.osuosl.org (Postfix) with ESMTP id 342A48638F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 04:02:22 +0000 (UTC)
+ Wed, 30 Sep 2020 05:17:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Dk03sJiS6lmB
+ with ESMTP id kDPwRywaeUxC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 04:02:21 +0000 (UTC)
+ Wed, 30 Sep 2020 05:17:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7127586049
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 924958610B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Sep 2020 04:02:21 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id e18so274027pgd.4
+ Wed, 30 Sep 2020 05:17:40 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id x16so370619pgj.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Sep 2020 21:02:21 -0700 (PDT)
+ Tue, 29 Sep 2020 22:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=A6Iu8CK+fvMEAi5WAmBNnIyxewSXT0brLKenSVEGXL4=;
- b=FOUG2k8+MaztgIzts4HwDlrGsCudjd56IKZWBLbgBRGW/+cSpuwEsCSWMlu5X5nBBu
- 8v6RNE3ofy5cTam6TcIjkuItXIvPyc7BnaDjbojyP6bpWtePhAM6lThFjdqzXAhLVzGv
- rJbQKjncIrbIlyRWHDJ29BFUMMRVe0Y5VsBPbLsl3Bst+P8Ktaa043qBw5dyOe+/kXhe
- UYwVUTDrG5ZOP70fROR05CZtKDJ9zhOZyHz1hblG2GGXhyuRq1b96FSREuL9ukVIUWXe
- 18YjjTXSkaJR3uRKRYnMtw/wPv5ezudgB2hkwL7x8DllO4HhtpI+cExOxnfKNgTAw4d1
- a28Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZnhBSpvB3/nQLS/vGQDEpF/3T8Iv4KFvzWHc0eI0OQY=;
+ b=KZ7v7KkOGfVhjPCvwHb67JzHK/6tszBCzc3LgQFBgi5TvGDv2y0j6xiHTGidravuJL
+ KbtF1gnnV2JIVqyuBddkzsqpc95dlCN73klCiV2YvoEKUN3/Y92+PvgoZfwb45qsn8Wj
+ UZAEfBGrGep+e0Cur9PE8kc0ju4mBryrB+gKKngJ5lxj5LbBhr5fyjmsHOW3nyuVOx7R
+ XHJ7HYsS+fq/49FXh98g6qF89HKnISTh8DJrBuP7JgVNK3v243BNnlpJPL1akWvv2HCt
+ mjhS9tjBal/Qtxx0dxNR6jvBEgqSmpO89hKzgINeCw1NT2EUQpCCKEy9Jkaxh6JCrhzv
+ kqAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=A6Iu8CK+fvMEAi5WAmBNnIyxewSXT0brLKenSVEGXL4=;
- b=SUqa5zZfxzkO0w4SplFEzWVAzKqfQCSNV29KkKz5X+Zu+ZzwID68jbFx+vJEz734PX
- NUzT268S/feQA+BQ2bLrsssKV1KW9TaNTO5PCeM0uxAo+ZiRi5svrhEhbuxkR7ojLjZE
- craK/9LL4fq8xVBYPZXTt/E/1mUmX7KOSVNoXuWCIYwg7sIA2hIvVPD7Cz/aLnhd6sCB
- LBy8+4VcZdhOu6paaZcU1gjmW28bC2AIUGmAXTuszPPsqKC88DB8w2o4Rky4GfBhEqjk
- X/hgsfWMkgZARYinhxvn+Ht+neKifheXQwKuBVMBLWbbAYWDRx9bhZFfgVqUTUupc6uW
- a14w==
-X-Gm-Message-State: AOAM533531YK7FE/acS/3iNIv562TgQAG+UAm37BkpIN/W7z9jCd22S/
- EN9F1bQZUkadE4GB7jxPdoc=
-X-Google-Smtp-Source: ABdhPJyA5nA4I3XO3XKaf/fb/M89xL8cx8S1ztqnn2lD6/kSbg6onBEyGX/DZDqqLsywchH+AQJnXQ==
-X-Received: by 2002:a63:a51a:: with SMTP id n26mr624314pgf.1.1601438540777;
- Tue, 29 Sep 2020 21:02:20 -0700 (PDT)
-Received: from [192.168.0.104] ([49.207.218.220])
- by smtp.gmail.com with ESMTPSA id f19sm354554pfd.45.2020.09.29.21.02.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 21:02:19 -0700 (PDT)
-To: linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com,
- Petko Manolov <petkan@nucleusys.com>, "David S. Miller"
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20200929082028.50540-1-anant.thazhemadam@gmail.com>
- <20200929084752.GA8101@carbon>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZnhBSpvB3/nQLS/vGQDEpF/3T8Iv4KFvzWHc0eI0OQY=;
+ b=KQo98p2r0qwKu9tPG8TIYruFLt83WAK6K+s6KIkU99ev21WfrOyt2oamCVs1Vaed0W
+ kR5RIolNdWYbvlNyLnLB6M102aQn5jGhfgzrVzFNDp8lHxKYNGmwW0DDMzEA7C+MGoDg
+ zY5ub0F3MNzzS9gcdyxozuoPAHtSrcPsEcEW35p6co8PTuN+4DocFuhCzvzyZEctSTAS
+ 2vwDXbRUC0gTmmZTleo8GJ4ZWgNVWMJhTOChzdAtbXAU1ZdZd/0RkyycWnlJU4iGNI1j
+ pnkHy8fUdKved6RnoIeUc+JfY4pgbOJU0/j7OfFki9tihUOaa5dc/1NF9cH2GoaDm3a1
+ BXzw==
+X-Gm-Message-State: AOAM533Stbbhry3iRXjbjfcMjRiXY3QAWOF0N7QVvLQttMXhkOrpFP1M
+ kYvbS4GlNWSGsUtHgKJ/KLM=
+X-Google-Smtp-Source: ABdhPJxO94xHOft5zzV+L+Cm/yDieJuAT8EYKrRQxwsGxbw45yVgWmc7FmEh/QrkzovQtjhpGTBkoQ==
+X-Received: by 2002:a65:46c6:: with SMTP id n6mr818457pgr.328.1601443060046;
+ Tue, 29 Sep 2020 22:17:40 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.218.220])
+ by smtp.gmail.com with ESMTPSA id gm17sm633432pjb.46.2020.09.29.22.17.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 22:17:38 -0700 (PDT)
 From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <b5542434-7d12-0bba-8e54-8c5edfcb33b3@gmail.com>
-Date: Wed, 30 Sep 2020 09:32:15 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To: mst@redhat.com, jasowang@redhat.com, davem@davemloft.net, kuba@kernel.org,
+ ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org,
+ john.fastabend@gmail.com
+Date: Wed, 30 Sep 2020 10:47:20 +0530
+Message-Id: <20200930051722.389587-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200929084752.GA8101@carbon>
-Content-Language: en-US
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: usb: rtl8150: prevent
- set_ethernet_addr from setting uninit address
+Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH 0/2] reorder members of structures in
+	virtio_net for optimization
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,70 +115,30 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+The structures virtnet_info and receive_queue have byte holes in 
+middle, and their members could do with some rearranging 
+(order-of-declaration wise) in order to overcome this.
 
-On 29/09/20 2:17 pm, Petko Manolov wrote:
-> On 20-09-29 13:50:28, Anant Thazhemadam wrote:
->> When get_registers() fails (which happens when usb_control_msg() fails)
->> in set_ethernet_addr(), the uninitialized value of node_id gets copied
->> as the address.
->>
->> Checking for the return values appropriately, and handling the case
->> wherein set_ethernet_addr() fails like this, helps in avoiding the
->> mac address being incorrectly set in this manner.
->>
->> Reported-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
->> Tested-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
->> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
->> ---
->>  drivers/net/usb/rtl8150.c | 24 ++++++++++++++++--------
->>  1 file changed, 16 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
->> index 733f120c852b..e542a9ab2ff8 100644
->> --- a/drivers/net/usb/rtl8150.c
->> +++ b/drivers/net/usb/rtl8150.c
->> @@ -150,7 +150,7 @@ static const char driver_name [] = "rtl8150";
->>  **	device related part of the code
->>  **
->>  */
->> -static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
->> +static int get_registers(rtl8150_t *dev, u16 indx, u16 size, void *data)
->>  {
->>  	void *buf;
->>  	int ret;
->> @@ -274,12 +274,17 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
->>  		return 1;
->>  }
->>  
->> -static inline void set_ethernet_addr(rtl8150_t * dev)
->> +static bool set_ethernet_addr(rtl8150_t *dev)
->>  {
->>  	u8 node_id[6];
->> +	int ret;
->>  
->> -	get_registers(dev, IDR, sizeof(node_id), node_id);
->> -	memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
->> +	ret = get_registers(dev, IDR, sizeof(node_id), node_id);
->> +	if (ret > 0 && ret <= sizeof(node_id)) {
-> get_registers() was recently modified to use usb_control_msg_recv() which does
-> not return partial reads.  IOW you'll either get negative value or
-> sizeof(node_id).  Since it is good to be paranoid i'd convert the above check
-> to:
->
-> 	if (ret == sizeof(node_id)) {
->
-> and fail in any other case.  Apart from this minor detail the rest of the patch 
-> looks good to me.
->
-> Acked-by: Petko Manolov
-Got it. I'll be sure to include this in a v2, and send that in soon enough.
-Thanks for pointing that out. :)
+Rearranging the members helps in:
+  * elimination the byte holes in the middle of the structures
+  * reduce the size of the structure (virtnet_info)
+  * have more members stored in one cache line (as opposed to 
+    unnecessarily crossing the cacheline boundary and spanning
+    different cachelines)
 
-Thanks,
-Anant
+The analysis was performed using pahole.
 
+These patches may be applied in any order.
 
+Anant Thazhemadam (2):
+  net: reorder members of virtnet_info for optimization
+  net: reorder members of receive_queue in virtio_net for optimization
 
+ drivers/net/virtio_net.c | 44 +++++++++++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 21 deletions(-)
+
+-- 
+2.25.1
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
