@@ -2,106 +2,98 @@ Return-Path: <SRS0=PXb8=DI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EAC9C4727C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 14:10:01 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B13AC4741F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 14:15:08 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 93C8420872
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 14:10:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8DEE520B1F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 14:15:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7ArnX6C"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93C8420872
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EWjDPbwR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8DEE520B1F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2132B86AC1;
-	Thu,  1 Oct 2020 14:10:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F3B3C22EC9;
+	Thu,  1 Oct 2020 14:15:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CprlFu6HdgFc; Thu,  1 Oct 2020 14:09:59 +0000 (UTC)
+	with ESMTP id mzvqXDZXGwiy; Thu,  1 Oct 2020 14:15:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 86B1D84E1A;
-	Thu,  1 Oct 2020 14:09:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3F0572044C;
+	Thu,  1 Oct 2020 14:15:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D2AAC016F;
-	Thu,  1 Oct 2020 14:09:59 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1392FC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 34005C0889;
+	Thu,  1 Oct 2020 14:15:04 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 473F2C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 14:09:59 +0000 (UTC)
+ Thu,  1 Oct 2020 14:15:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id F076384E34
+ by hemlock.osuosl.org (Postfix) with ESMTP id 361768733F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 14:09:58 +0000 (UTC)
+ Thu,  1 Oct 2020 14:15:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oknod8GyHHq4
+ with ESMTP id 6XnE8PqQNVeX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 14:09:58 +0000 (UTC)
+ Thu,  1 Oct 2020 14:15:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0B82584E1A
+Received: from mail-oo1-f65.google.com (mail-oo1-f65.google.com
+ [209.85.161.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 829A98733D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 14:09:58 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id p9so8263013ejf.6
+ Thu,  1 Oct 2020 14:15:01 +0000 (UTC)
+Received: by mail-oo1-f65.google.com with SMTP id c4so1501178oou.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Oct 2020 07:09:57 -0700 (PDT)
+ Thu, 01 Oct 2020 07:15:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=r4yKLSiPg//7zM1FCcuwz0Bod6JtRzjDOJcNSPA2Ag4=;
- b=R7ArnX6C3d2+GfBev5iF+TYfxXZaLDRk7OgMF9rYtSotltY+Mzh9AmB2uyyvlzGPyy
- YG01a+3usoK8eAkzlb0DGAdaUAZZ8yzAb6ud3qBGkDIRlGpKGTGisESgbbhS+AxKT6lF
- Bn2qUa+X72ynFFINNSML7A0Rxk1NaoxyOTg4Wl3OWmGjZJdJoLZNKLk2hT17IylAvoi3
- LlYaUxEG6oV9EvpkxM6c/VtskVmn0MVNkRtYzbXL301Kf7f1AFQy6ICdtkkJwmy0sFPH
- 1B9LxgTevk9OMSMlxC7rzMW49xps8JuYrF2wNcrt1A4D3jvgA0kO9xiX+l+Pj1ZTI9cv
- emfw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cIliy11i/6b1jwkKYZrsCI0wV8C3PVY/39kWlf3FSSg=;
+ b=EWjDPbwRiL1zC9Ta21DE+7v7XnSXoA2jotzSIjmoLNTSwz4BQNEQPRXjT4H3fX0O2X
+ uMQqfhC/8Q3v0urNglGowdw1jkEhpbKY4zaNx4gnl1Z+nIC4hlgqw5BF0g8mdXDDSBhM
+ SptZ/Ez1pQsNPIEXKLq4hecGkkjkyUwqE/XFQNEobK5Ah87OrSoCNfBMa82+NjA+aN3X
+ kkNiGvltdsgGbgs/SOYNcBZJBYGGjRH8nqUczQZ3TkrcPzBRdnUe7pKLcVCygrV6+veS
+ B0yuTyZdnro6dkAc7u8Sri4odUonqHIrke4t3gJZ+af3/S1Kww+Kfvp9CmMAawIN5Cdw
+ qm5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=r4yKLSiPg//7zM1FCcuwz0Bod6JtRzjDOJcNSPA2Ag4=;
- b=niBa1XQBJOShPtl0IXx/5I298Imr9/NsvnGFnoxE/qZQInEQRQMET9Oe2GDfeiEWHT
- Az8yR+nzLfEZNBmYsuM5irDHxTaKDWqii+MQP35m7zaRVspcD0RETfQa9FmZPEHEGrTc
- IoShv0Jxt5Gn3rtvATrFGRBI7wiNu9FZqZIEgoijXIuIgZJ28rAV+87l+/desVfs/Ciw
- ApF/5ssnBvBag+Lyh5Brf2IV6jct79xvBCkf8a8vOoBXtizWvNgjlY7UN3inoHL1ix7C
- Cr1uQ2MBNofY+d2qUV+Bn/I37GtivJ3Fct2pWCLH3ZksUZKgus3C4XkwPepiRdQSxhFS
- kKew==
-X-Gm-Message-State: AOAM531g6EZDlfNuo+1qqa2nHz6MwPgBoATXaNyu0noPsCeLu8zDX7kp
- cUJaitysc/eS1PjpXEFWE4M=
-X-Google-Smtp-Source: ABdhPJxhwokV/xn3+9j0E4ky/JMcw96kcHX2TlDnDutzmuY9LfJwbfipKjv9M4YD9opZDcyJT4GFHQ==
-X-Received: by 2002:a17:906:fcae:: with SMTP id
- qw14mr1892953ejb.537.1601561396311; 
- Thu, 01 Oct 2020 07:09:56 -0700 (PDT)
-Received: from felia ([2001:16b8:2d4d:ba00:2c39:a8cb:1b2a:4845])
- by smtp.gmail.com with ESMTPSA id k8sm4193760ejz.60.2020.10.01.07.09.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:09:55 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Thu, 1 Oct 2020 16:09:54 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-In-Reply-To: <80f188d8-b0c2-ecf1-d0b9-faad146d2cec@gmail.com>
-Message-ID: <alpine.DEB.2.21.2010011554160.24571@felia>
-References: <61d45592-20be-7fe1-8168-5ccacca655a3@gmail.com>
- <alpine.DEB.2.21.2010011245490.24571@felia>
- <80f188d8-b0c2-ecf1-d0b9-faad146d2cec@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cIliy11i/6b1jwkKYZrsCI0wV8C3PVY/39kWlf3FSSg=;
+ b=UimbwlJHDAETDydULJG8NIEXyVAvmJTNqvuZ/z5TUOZ4b0hHxwMyVtiHEcf/vZORoU
+ TveVhHpiJF6nsAn0UfBTqN6Er7/0YN5mM1Rs+g5aAVgYQwGQwS9sQGoOwWTcF8Gk0tC+
+ I8Dh2r9QmBS2OS60XRbEtibPJz7P3nuP4BMFEpeHhSwsOF5k5B1dVr9umq9Vz5Mt9qv7
+ 04c3WGZ5hjljiAjtKD1o3PkVPiVwojFsQSkXTwxKJegHNOUvYIyuPhtt4hy/7DJQ7BOV
+ kDbsZEosm180HvjJ612woQVcxks7cpeRFX3sk9AejS0I/YXSWXO3Sx6mJy3PQvIUJ8bB
+ k04w==
+X-Gm-Message-State: AOAM53168SR8dRM+ZwRPGmnz3aXKwe/DwewEPqt+oISoa0Zllaw8RowG
+ H0CYV4cEkvXZ/jB9dHrworOM0obE4xpIdxiAKA4=
+X-Google-Smtp-Source: ABdhPJx55+7QmRWj7eDHlBi/wiRSQvurvakxS8awujgHqjDJjExP6gEsQ5GwDXySFadM62kCjk9oekBCA3dG3RpyM7k=
+X-Received: by 2002:a4a:dc99:: with SMTP id g25mr5751186oou.64.1601561700406; 
+ Thu, 01 Oct 2020 07:15:00 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH RFC] kbuild: use interpreters to
-	invoke scripts
+References: <20201001103314.136645-1-dwaipayanray1@gmail.com>
+ <8e110121c89414ab1601071868dbcf410195a209.camel@perches.com>
+ <CABJPP5CFE3KXzMzuvVxtJt5tOg8Ye6y1V7-mqT5pqazHjVWvJw@mail.gmail.com>
+ <f3dadda8af7eef6613d7a4105170058f2759507d.camel@perches.com>
+In-Reply-To: <f3dadda8af7eef6613d7a4105170058f2759507d.camel@perches.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Thu, 1 Oct 2020 19:44:38 +0530
+Message-ID: <CABJPP5AM01voDwARL4G0vMhFw4hMY+=dEQ7=obiKPzNtunyb7Q@mail.gmail.com>
+To: Joe Perches <joe@perches.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: fix
+	multi-statement macro checks
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,130 +111,97 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On Thu, 1 Oct 2020, Ujjwal Kumar wrote:
-
-> On 01/10/20 4:38 pm, Lukas Bulwahn wrote:
-> > 
-> > 
-> > On Thu, 1 Oct 2020, Ujjwal Kumar wrote:
-> > 
-> >> We cannot rely on execute bits to be set on files in the repository.
-> >> The build script should use the explicit interpreter when invoking any
-> >> script from the repository.
-> >>
-> >> Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-> >> Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
-> >>
-> >> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> >> Suggested-by: Kees Cook <keescook@chromium.org>
-> >> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> >> Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-> >> ---
-> >>  Documentation/Makefile                           | 16 ++++++++--------
-> >>  Documentation/userspace-api/media/Makefile       |  6 +++---
-> >>  Makefile                                         |  4 ++--
-> >>  arch/arm64/kernel/vdso/Makefile                  |  2 +-
-> >>  arch/arm64/kernel/vdso32/Makefile                |  2 +-
-> >>  arch/ia64/Makefile                               |  4 ++--
-> >>  arch/nds32/kernel/vdso/Makefile                  |  2 +-
-> >>  .../comedi/drivers/ni_routing/tools/Makefile     |  6 +++---
-> >>  scripts/Makefile.build                           |  2 +-
-> >>  scripts/Makefile.package                         |  4 ++--
-> >>  tools/bootconfig/Makefile                        |  2 +-
-> >>  tools/bpf/Makefile.helpers                       |  2 +-
-> >>  tools/lib/bpf/Makefile                           |  2 +-
-> >>  tools/perf/Makefile.perf                         |  2 +-
-> >>  tools/power/cpupower/Makefile                    |  2 +-
-> >>  tools/testing/selftests/rcutorture/Makefile      |  2 +-
-> >>  tools/testing/selftests/rseq/Makefile            |  2 +-
-> >>  tools/testing/selftests/vm/Makefile              |  6 +++---
-> >>  tools/testing/selftests/wireguard/qemu/Makefile  |  4 ++--
-> >>  tools/testing/selftests/x86/Makefile             |  6 +++---
-> >>  20 files changed, 39 insertions(+), 39 deletions(-)
-> >>
-> > 
-> > You will probably need to split this patch into multiple patches, but the 
-> > discussion will show how to split it best.
-> > 
-> > Probably:
-> > 
-> >  - one for Documentation
-> >  - one for general kbuild, maybe including arch
-> >  - one for selftests
-> >  - one for the other tools
-> >  - one for the comedi driver
-> > 
-> > So, what did you do for testing your change?
-> 
-> First, I had to unset the execute bits on all files.
-> for i in $(find -executable -type f); do chmod -x $i; done
-> 
-> To test the changes, I invoked the make rule under which my current 
-> changes lie. And I could see a permission-denied whenever a script 
-> was invoked. After the patch, the make rule progressed without 
-> any permissions error.
-> I couldn't test each and every change, because some rules failed 
-> before invoking the script and others could not be invoked by me.
-> 
-
-Which could you not test? Please share that.
-
-> I successfully tested the changes under Documentation/ (and some others).
-> 
-> $ make htmldocs
-> make[1]: execvp: ./scripts/sphinx-pre-install: Permission denied
-> make[1]: *** [Documentation/Makefile:81: htmldocs] Error 127
-> make: *** [Makefile:1661: htmldocs] Error 2
-> 
-> Files that I tested my changes on:
-> Documentation/Makefile                           | 16 ++++++++--------
-> Documentation/userspace-api/media/Makefile       |  6 +++---
-> Makefile                                         |  4 ++--
-> tools/perf/Makefile.perf                         |  2 +-
-> tools/power/cpupower/Makefile                    |  2 +-
-> 
-> 
-> > 
-> > Did you check if CONFIG_SHELL is actually available in tools?
-> 
-> Yes, I did check.
-> To verify, I echo(ed) the variables under a make task. And invoked 
-> the task from srctree.
+On Thu, Oct 1, 2020 at 7:12 PM Joe Perches <joe@perches.com> wrote:
+>
+> On Thu, 2020-10-01 at 18:57 +0530, Dwaipayan Ray wrote:
+> > On Thu, Oct 1, 2020 at 6:47 PM Joe Perches <joe@perches.com> wrote:
+> > > On Thu, 2020-10-01 at 16:03 +0530, Dwaipayan Ray wrote:
+> > > > Checkpatch.pl doesn't have a check for excluding while (...) {...}
+> > > > blocks from MULTISTATEMENT_MACRO_USE_DO_WHILE error.
+> > > >
+> > > > For example, running checkpatch.pl on the file mm/access.c in the
+> > > > kernel generates the following error:
+> > > >
+> > > > ERROR: Macros with complex values should be enclosed in parentheses
+> > > > +#define copy_from_kernel_nofault_loop(dst, src, len, type, err_label)        \
+> > > > +     while (len >= sizeof(type)) {                                   \
+> > > > +             __get_kernel_nofault(dst, src, type, err_label);        \
+> > > > +             dst += sizeof(type);                                    \
+> > > > +             src += sizeof(type);                                    \
+> > > > +             len -= sizeof(type);                                    \
+> > > > +     }
+> > > >
+> > > > The error is misleading for this case. Enclosing it in parantheses
+> > > > doesn't make any sense.
+> > >
+> > > OK
+> > >
+> > > > Checkpatch already has an exception list for such common macro types.
+> > > > Added a new exception for while (...) {...} style blocks to the same.
+> > > > This effectively fixed the wrong error message.
+> > > []
+> > > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > > []
+> > > > @@ -5342,6 +5342,7 @@ sub process {
+> > > >                           $dstat !~ /^\.$Ident\s*=/ &&                                # .foo =
+> > > >                           $dstat !~ /^(?:\#\s*$Ident|\#\s*$Constant)\s*$/ &&          # stringification #foo
+> > > >                           $dstat !~ /^do\s*$Constant\s*while\s*$Constant;?$/ &&       # do {...} while (...); // do {...} while (...)
+> > > > +                         $dstat !~ /^while\s*$Constant\s*$Constant\s*$/ &&           # while (...) {...}
+>
+> Note the \s*
+>                                                               ^
+>
+> > > Did you try to output $dstat for some matching cases?
+> > > What was the $dstat value for the cases you tried?
+> > >
+> > >
+> > Hi,
+> > I did check $dstat values.
+> >
+> > For example on file mm/maccess.c, there were two such macros:
+> >
+> > Case 1:
+> >
+> > $ctx:
+> > +#define copy_from_kernel_nofault_loop(dst, src, len, type, err_label) \
+> > + while (len >= sizeof(type)) { \
+> > + __get_kernel_nofault(dst, src, type, err_label); \
+> > + dst += sizeof(type); \
+> > + src += sizeof(type); \
+> > + len -= sizeof(type); \
+> > + }
+> >
+> > $dstat:
+> > while 1 1
+>
+> And perhaps this test should use \s+ instead.
+> What is $dstat with a #define like:
+>
+> #define foo(bar,baz)while(bar){bar--;baz++;}
+>
+> (no spaces anywhere bot the required one after define
 >
 
-That sounds good.
- 
-> >> --- a/arch/nds32/kernel/vdso/Makefile
-> >> +++ b/arch/nds32/kernel/vdso/Makefile
-> >> @@ -39,7 +39,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
-> >>  # Generate VDSO offsets using helper script
-> >>  gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
-> >>  quiet_cmd_vdsosym = VDSOSYM $@
-> >> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
-> >> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
-> >>
-> > 
-> > I guess it is better to modify gen-vdsosym.
-> 
-> Do you mean something as follows:
-> gen-vdsosym := $(CONFIG_SHELL) $(srctree)/$(src)/gen_vdso_offsets.sh
-> 
-> If so, I have never seen that style in the build files. Infact, the current
-> style is followed at many places.
-> For instance,
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/scripts/Makefile.lib?h=next-20201001#n398
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm/tools/Makefile?h=next-20201001#n50
->
+In this case, $dstat is: while11
 
-I searched around as well. I think your proposal is fine.
+So, if \s+ is used, it won't match with this. I ran checkpatch
+on it and some other condition seems to match, so it is
+excluded from the error.
 
-How about splitting out a first patch on the generic kbuild files and send 
-that out as RFC, first send the RFC patch to linux-kernel-mentees list, 
-then if that looks good, we go for Masahiro and the linux-kbuild list?
+However, if the macro is like:
 
-Lukas
+#define foo(bar,baz)while(bar) {bar--;baz++;}
+(one space after condition)
+
+$dstat is: while1 1
+(space after first 1)
+and the same error is again emitted.
+
+So I think \s* works better since there can be
+0 or more whitespaces between them.
+
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
