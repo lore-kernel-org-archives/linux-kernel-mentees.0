@@ -8,85 +8,85 @@ X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30949C4727F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 12:28:17 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DF87C4741F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 12:28:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B7DD02087D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 12:28:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1653B2087D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 12:28:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vfQtCC3m"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7DD02087D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uD8CXQZd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1653B2087D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9FBF18696B;
-	Thu,  1 Oct 2020 12:28:16 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A4CBC87345;
+	Thu,  1 Oct 2020 12:28:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3qv0iV78UOef; Thu,  1 Oct 2020 12:28:16 +0000 (UTC)
+	with ESMTP id goDgJpausiI5; Thu,  1 Oct 2020 12:28:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 30A7A8691C;
-	Thu,  1 Oct 2020 12:28:16 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4FE9B87337;
+	Thu,  1 Oct 2020 12:28:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A66AC0889;
-	Thu,  1 Oct 2020 12:28:16 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5C62DC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F1C8C0889;
+	Thu,  1 Oct 2020 12:28:26 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61ED7C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 12:28:14 +0000 (UTC)
+ Thu,  1 Oct 2020 12:28:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4B85886C69
+ by silver.osuosl.org (Postfix) with ESMTP id 4C36E2048F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 12:28:14 +0000 (UTC)
+ Thu,  1 Oct 2020 12:28:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MX3R5VdaW1cy
+ with ESMTP id TkVigSODbVRo
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 12:28:14 +0000 (UTC)
+ Thu,  1 Oct 2020 12:28:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id ED50586C63
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id A848B2041D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 12:28:13 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id v14so1786450pjd.4
+ Thu,  1 Oct 2020 12:28:24 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id t14so3907404pgl.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Oct 2020 05:28:13 -0700 (PDT)
+ Thu, 01 Oct 2020 05:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fjwnmscz0yil9BJar/ERhlr5lRA/SIC3GZV8Duqsy+A=;
- b=vfQtCC3mxJnOwF7Ww2VeP/fhKLsh2irLqd/ZQ8ITsCJgrYxOgLin0hbbo8cZSq0TT8
- jzRUJjpfOM4ZrpyF4/liO267vI/XYDmKmlASwzlEOCG6Y+GBLpjxZaeXY0yBeMTdVLoK
- Q1MK7hjslVZZOCoOUiqIGkqzGaPM0CVxwLhJpkciwYC8uL5k8IvNfEhNFw+/740xrJLR
- PIoD9CN1ZP8LaqnR2eVLIPTlDgqV1422WtNZ6DFpJWAIa0rwluNMfFfpkZ2rvzpzffp/
- uL/JYr8aVeQM/I4doQid5rdOnASibwhknhfOI/AJL+5bupHavdROcP0eV1K6ZSTijO1N
- UKSg==
+ bh=ypqOHrjRHTrRjWj0JrpKHgXr697RC6F/PNYuZQnGfKg=;
+ b=uD8CXQZdzmDCEwzR8gXof/EZqnW9HM5+NDbk8JtZCj8WkwAaxxnZK7jCKvHoox3Cgv
+ o4blxFzlUCoFhAaWUgRoWnymVNWSLY4de9HnYhOHIGjeX+IXEuGtM7ikCJ2I/H1jvVb4
+ gDzdLwMMsF293gOLxQqug/womCmgxYrbjbHo3HLsB0+apfAa59b0b2oZynJXL3sNuFsf
+ LqKIJjoE+Nwj1brTGFCrzTQIjXRhJcpn4MEbfWH+4Tb7Sjd5PN5dt4mg6I0E4d0SyjSd
+ GdtP50OsY342DXUasAaWEVCbHT4dHCuDDfduYrTCSYqf8j89m3vaO1+u4E2YkSms1l9q
+ 82Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fjwnmscz0yil9BJar/ERhlr5lRA/SIC3GZV8Duqsy+A=;
- b=eqlo6rvPbHrhSi8ucGqR3MUFzBjMQUAFvx6G09SgLUkq5hDRHTW7yVIY1xV8MHt2u+
- KS3GywDsLufAH9MyXuIb+uqb5HW0STMFvY94b5gQ2rDi1fpALloYnOAqWeJDK4v+WnCI
- FsOn7FxcS+f1Fkg9Utw4Oe5nLGLn3AWap4YAuD08C9SiUbO3QK2h7ebm+4SVf+M1jYER
- 0yXXHku6gtXiyXBk1kg81vPvtdZpa5C+R2fOPzDu/OuY94WrLNwYCI2ldwuBmhrkMreh
- YQHKHHzq5oFgDyDf7szqwSYLkMj4gQIA/ZmCRLQJm5kL29cwmgonA10geStA94fYgg++
- AGgA==
-X-Gm-Message-State: AOAM530W1wWrp5BdwWInKNXf8Fk9KC2cKu+jLQ14w3sJP8lYA0BusJ1k
- iYEg7LNZgnD9aKLD/ahccFs=
-X-Google-Smtp-Source: ABdhPJytG0TtooA/ti7rplUndguiIZY51ru5WUO6GpxeViniX6/MzTPHWmXOYNKYwrUMrQtll7f/cg==
-X-Received: by 2002:a17:90b:1b03:: with SMTP id
- nu3mr6898644pjb.148.1601555293584; 
- Thu, 01 Oct 2020 05:28:13 -0700 (PDT)
+ bh=ypqOHrjRHTrRjWj0JrpKHgXr697RC6F/PNYuZQnGfKg=;
+ b=IPt41d2zIIxvw67doSwX/nxEgMl7Sum18w0wkmqHCiW2eQ3q74aT8t4TPpGR5zk8Kq
+ DQqprvsF7ROX0/H5DAbkyaevkGgMVpQIcM8SxtQDCCUqdszxnZMcK1Wtv8/pkeof9pQj
+ iYzxEyrwVOYHakOvniFuzbfLVlIkg0482P3+MKW+CNhZR4PmKgQ+Q3/ldrQdTKdNDzxh
+ 8UWHwxG/zucBzXlat8YOeCkT/vhPnXIh3PSpLlYAPtHLoH7Uj3E/PSwNTmLdJ8xWILew
+ MNzReKZt2VKWexxBybg7lZgbMsNdKc7TChJRP3E+OOW8FxKtss3ZDEUoiLRMzoYjfP/I
+ 73WA==
+X-Gm-Message-State: AOAM530ETBQwWITY3HZrCVCO5AaLeTfdRtn0bYXXwlO1b145QcaUfNtl
+ SQBtW/Y+SVM1tCPE3AFK95o=
+X-Google-Smtp-Source: ABdhPJwBz5U6AswbiGknT4A+/BI8h3JQ1UevL5inKwYxlFZqbQj2tSMJL/mXdP6Bi7sF+EQXX6cAXw==
+X-Received: by 2002:a62:1542:0:b029:150:e3f5:d8fc with SMTP id
+ 63-20020a6215420000b0290150e3f5d8fcmr6787347pfv.66.1601555304239; 
+ Thu, 01 Oct 2020 05:28:24 -0700 (PDT)
 Received: from varodek.localdomain ([171.61.143.130])
- by smtp.gmail.com with ESMTPSA id m13sm5695199pjl.45.2020.10.01.05.28.05
+ by smtp.gmail.com with ESMTPSA id m13sm5695199pjl.45.2020.10.01.05.28.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 05:28:13 -0700 (PDT)
+ Thu, 01 Oct 2020 05:28:23 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -106,8 +106,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>
-Date: Thu,  1 Oct 2020 17:54:46 +0530
-Message-Id: <20201001122511.1075420-4-vaibhavgupta40@gmail.com>
+Date: Thu,  1 Oct 2020 17:54:47 +0530
+Message-Id: <20201001122511.1075420-5-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201001122511.1075420-1-vaibhavgupta40@gmail.com>
 References: <20201001122511.1075420-1-vaibhavgupta40@gmail.com>
@@ -115,8 +115,8 @@ MIME-Version: 1.0
 Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
  esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v3 03/28] scsi: megaraid_sas: update
-	function description
+Subject: [Linux-kernel-mentees] [PATCH v3 04/28] scsi: aacraid: Drop
+	pci_enable_wake() from .resume
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -134,27 +134,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-There is no "device" parameter in megasas_shutdown(). Instead there is
-"pdev" which is not described.
+The driver calls pci_enable_wake(...., false) in aac_resume(), and there is
+no corresponding pci_enable_wake(...., true) in aac_suspend(). Either it
+should do enable-wake the device in .suspend() or should not invoke
+pci_enable_wake() at all.
+
+Concluding that this is a bug and PCI core calls
+pci_enable_wake(pci_dev, PCI_D0, false) during resume, drop it from
+aac_resume().
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/megaraid/megaraid_sas_base.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/scsi/aacraid/linit.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index 72aa7fabe051..63ff8b87fd18 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -7904,7 +7904,7 @@ static void megasas_detach_one(struct pci_dev *pdev)
+diff --git a/drivers/scsi/aacraid/linit.c b/drivers/scsi/aacraid/linit.c
+index a308e86a97f1..289887d5cc79 100644
+--- a/drivers/scsi/aacraid/linit.c
++++ b/drivers/scsi/aacraid/linit.c
+@@ -1938,7 +1938,6 @@ static int aac_resume(struct pci_dev *pdev)
+ 	int r;
  
- /**
-  * megasas_shutdown -	Shutdown entry point
-- * @device:		Generic device structure
-+ * @pdev:		PCI device structure
-  */
- static void megasas_shutdown(struct pci_dev *pdev)
- {
+ 	pci_set_power_state(pdev, PCI_D0);
+-	pci_enable_wake(pdev, PCI_D0, 0);
+ 	pci_restore_state(pdev);
+ 	r = pci_enable_device(pdev);
+ 
 -- 
 2.28.0
 
