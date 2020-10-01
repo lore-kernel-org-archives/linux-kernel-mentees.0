@@ -2,73 +2,97 @@ Return-Path: <SRS0=PXb8=DI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C95CEC47420
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 09:28:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79678C4727C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 10:25:03 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1D82D2176B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 09:28:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1D82D2176B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+	by mail.kernel.org (Postfix) with ESMTPS id E03CA20848
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 10:25:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="harpW++e"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E03CA20848
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C47E9844FB;
-	Thu,  1 Oct 2020 09:28:46 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 682AB86AFD;
+	Thu,  1 Oct 2020 10:25:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cSs4z-z36rGL; Thu,  1 Oct 2020 09:28:46 +0000 (UTC)
+	with ESMTP id 2YaKMQMUnJ04; Thu,  1 Oct 2020 10:25:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2102F84471;
-	Thu,  1 Oct 2020 09:28:46 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 03B738654C;
+	Thu,  1 Oct 2020 10:25:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0AA0EC016F;
-	Thu,  1 Oct 2020 09:28:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E19C4C0889;
+	Thu,  1 Oct 2020 10:25:01 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B9C73C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E9B11C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 09:28:44 +0000 (UTC)
+ Thu,  1 Oct 2020 10:25:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A9142853B9
+ by whitealder.osuosl.org (Postfix) with ESMTP id D0AEC86992
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 09:28:44 +0000 (UTC)
+ Thu,  1 Oct 2020 10:25:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VlGQ4qTkO48x
+ with ESMTP id KLAEuWqbRLe9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 09:28:43 +0000 (UTC)
+ Thu,  1 Oct 2020 10:25:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by whitealder.osuosl.org (Postfix) with ESMTPS id ADD9C8347D
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+ [209.85.167.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2005F8698E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 09:28:43 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8FC8DAC35;
- Thu,  1 Oct 2020 09:28:41 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
- id 37EE91E12EF; Thu,  1 Oct 2020 11:28:41 +0200 (CEST)
-Date: Thu, 1 Oct 2020 11:28:41 +0200
-From: Jan Kara <jack@suse.cz>
-To: Anmol Karn <anmol.karan123@gmail.com>
-Message-ID: <20201001092841.GC17860@quack2.suse.cz>
-References: <20201001090547.431840-1-anmol.karan123@gmail.com>
+ Thu,  1 Oct 2020 10:25:00 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id m7so5041574oie.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 01 Oct 2020 03:25:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mDX/GGoaMgQ260TXrBLDWLavBVa469ZgAwHHg+DxBME=;
+ b=harpW++e7OcWb1zneneFGto4sEirrle+n0zU+OEQNJytGYA4IJ+tbtA5iM9A1/M28U
+ Zypyqaj3DG3VAW72rdhZJWh9ao2FEX7Fe6cFDofoPHu1GP+n2v6o7WL2CAefZLvNN1jy
+ EgLBCIWdYAbfvzNZwndpfkIqVYo5/H8fKaKpg22fb4rpT8RsZ77mM/Dm5PKHoBOStfN+
+ c0ndSXgPJGtxsljm+twEZ/QaOL99AKevyiD/gWLl/LIAKRBzhEA1RWcQKzUxLrpxQcou
+ 65nOc+79alI70SDarzDVficA1Abvj1MK5cQsocwI3oRicUpeecgEoSBimSDd07HhKvZz
+ spXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mDX/GGoaMgQ260TXrBLDWLavBVa469ZgAwHHg+DxBME=;
+ b=AJWWLfLxeEa48SzP5eR9C/okVCan0AxITqEGDq/5doWpvnE1qsqgg87F/7vTnbiS/0
+ GtDvCiyLYmxOvfFgZpVVH3nDPyN3MQ+Tvz9V4q619lm6tAkjW7JrItwCCm+dIAIBbbHi
+ MQUpJ8qH/WBqM1FVkR47fCKvMQgEpch5euoOC47+8sWvLuzbTFXz8pIgZ5BJ6PyAx/OK
+ ++o8x8roSVGpIbxX0vdpmlsNOMt/kSb1vAxx1Od/fSGcIwdLipXwqEeLqS9/ZsPPJ8T6
+ lOtRMnaEkECexWPNZJew5fLRo/F3GQl71oYbriYaBWo5GCX23bjTSOO+jd4KDwRQFw8J
+ yrtw==
+X-Gm-Message-State: AOAM532lAxO0E3hrC2gLsyR5JGdGZFvh7Nh/f1lqbtuzBeusZ71cg6ev
+ jnmMsQmuWHYQQKrLcORJoSI1ipEKTSq3d0Jn0JE=
+X-Google-Smtp-Source: ABdhPJxYrxcgNzqKrRJ7Nnz+g63iUbLoB8MEwMmmZMHxOKMia5Paa2zZZpnB6OL1o/2jMYm4U2ci16LpIXPIkmve64A=
+X-Received: by 2002:aca:ea44:: with SMTP id i65mr3623459oih.117.1601547899061; 
+ Thu, 01 Oct 2020 03:24:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201001090547.431840-1-anmol.karan123@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: jack@suse.cz, syzbot+9b33c9b118d77ff59b6f@syzkaller.appspotmail.com,
- jeffm@suse.com, syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- reiserfs-devel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] fs: reiserfs: xattr: Fix null
- pointer derefernce in open_xa_root()
+References: <20200930210333.166006-1-dwaipayanray1@gmail.com>
+ <20200930210333.166006-2-dwaipayanray1@gmail.com>
+ <alpine.DEB.2.21.2010011014540.24571@felia>
+In-Reply-To: <alpine.DEB.2.21.2010011014540.24571@felia>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Thu, 1 Oct 2020 15:54:36 +0530
+Message-ID: <CABJPP5CXxj_7uknihKU8NM295WvcVaMCtJ7hqMzWD+5XcBmR-g@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ Theodoros Chatziioannidis <sdi1600197@di.uoa.gr>
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 2/2] checkpatch: fix
+	multi-statement macro checks
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,60 +110,62 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu 01-10-20 14:35:47, Anmol Karn wrote:
-> d_really_is_negative() checks for the dentry->d_inode whether it's NULL
-> or not, but in open_xa_root(), when it checks 'privroot->d_inode', it
-> doesn't check whether privroot is NULL or not, this leads to a null
-> pointer dereference while calling it from open_xa_dir() while
-> initializing xaroot.
-> 
-> - fs/reiserfs/xattr.c
-> The bug seems to get triggered at this line:
-> 	
-> if (d_really_is_negative(privroot))
-> 		return ERR_PTR(-EOPNOTSUPP);
-> 
-> Fix it by adding a NULL check for privroot. 
-> 
-> Reported-and-tested-by: syzbot+9b33c9b118d77ff59b6f@syzkaller.appspotmail.com 
-> Link: https://syzkaller.appspot.com/bug?extid=9b33c9b118d77ff59b6f 
-> Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
+On Thu, Oct 1, 2020 at 1:52 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+>
+>
+>
+> On Thu, 1 Oct 2020, Dwaipayan Ray wrote:
+>
+> > Checkpatch.pl doesn't have a check for excluding while (...) {...}
+> > blocks from MULTISTATEMENT_MACRO_USE_DO_WHILE error.
+> >
+> > For example, running checkpatch.pl on the file mm/access.c in the
+> > kernel generates the following error:
+> >
+> > ERROR: Macros with complex values should be enclosed in parentheses
+> > +#define copy_from_kernel_nofault_loop(dst, src, len, type, err_label)        \
+> > +     while (len >= sizeof(type)) {                                   \
+> > +             __get_kernel_nofault(dst, src, type, err_label);        \
+> > +             dst += sizeof(type);                                    \
+> > +             src += sizeof(type);                                    \
+> > +             len -= sizeof(type);                                    \
+> > +     }
+> >
+> > The error is misleading for this case. Enclosing it in a paranthesis
+> > doesn't make any sense.
+> >
+>
+> s/a paranthesis/parentheses/
+>
 
-Thanks for the patch! I've already fixed the problem myself (slightly
-differently) but I'll comment about your patch below for educational
-purposes :). See
-https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git/commit/?h=for_next&id=c2bb80b8bdd04dfe32364b78b61b6a47f717af52
+I trusted checkpatch too much. Seems spelling.txt does not have an entry
+for parentheses. (maybe not the most common spelling error).
 
-> diff --git a/fs/reiserfs/xattr.c b/fs/reiserfs/xattr.c
-> index 28b241cd6987..a75480d0ee7e 100644
-> --- a/fs/reiserfs/xattr.c
-> +++ b/fs/reiserfs/xattr.c
-> @@ -121,8 +121,9 @@ static struct dentry *open_xa_root(struct super_block *sb, int flags)
->  	struct dentry *privroot = REISERFS_SB(sb)->priv_root;
->  	struct dentry *xaroot;
->  
-> -	if (d_really_is_negative(privroot))
-> +	if (!privroot || d_really_is_negative(privroot)) {
->  		return ERR_PTR(-EOPNOTSUPP);
+> > Checkpatch already has an exception list for such common macro types.
+> > Added a new exception for while (...) {...} style blocks to the same.
+> > This effectively fixed the wrong error message.
+> >
+>
+> This seems easier to understand and to judge than the other patch.
+>
+> We will still need an evaluation, though. Theodoros, maybe you can help us
+> here.
+>
+> Dwaipayan, looks good to me. Do you fix up the spelling mistake and then
+> send that patch to Joe and lkml?
+>
 
-I don't think EOPNOTSUPP is correct return code for !privroot case. AFAICS
-it would propagate out of reiserfs xattr code and would result in denying
-access to lookup_one_len() so xattr dir could never be initialized for such
-filesystem. So we need to return 0 (success, no xattrs present) in this
-case and because this is just a special case when we are initializing xattr
-dir and recurse back into xattr code, I've decided to perform this check
-directly in reiserfs_xattr_get().
+Thanks, I will do that. Sending just this patch for now. The other one
+needs more testing. I will send in the report once done.
 
-> +	}
+> Is it just the tab setting in my email client or is there a tab too much
+> that it does not align with the other comments?
 
-There's no need for additional braces in this 'if'.
->  
->  	inode_lock_nested(d_inode(privroot), I_MUTEX_XATTR);
+Yes, it was an extra tab. The tabs at that particular place are too
+non-uniform, causing confusion :(
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
