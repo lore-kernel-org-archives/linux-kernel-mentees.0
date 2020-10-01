@@ -6,71 +6,66 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE84EC4727C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:06:50 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEEDDC4727E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:08:30 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3174821481
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:06:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3174821481
+	by mail.kernel.org (Postfix) with ESMTPS id 6E09C21481
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:08:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6E09C21481
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D465A86BD3;
-	Thu,  1 Oct 2020 07:06:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 16A08841AC;
+	Thu,  1 Oct 2020 07:08:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iS3GfHW3ywv1; Thu,  1 Oct 2020 07:06:48 +0000 (UTC)
+	with ESMTP id G2IM-Me2NgOY; Thu,  1 Oct 2020 07:08:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7ED2686BCF;
-	Thu,  1 Oct 2020 07:06:48 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B92AC806D7;
+	Thu,  1 Oct 2020 07:08:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 62FA3C0889;
-	Thu,  1 Oct 2020 07:06:48 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8E7BBC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A2D9BC0889;
+	Thu,  1 Oct 2020 07:08:28 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C57FEC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:06:47 +0000 (UTC)
+ Thu,  1 Oct 2020 07:08:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 75C7322D22
+ by hemlock.osuosl.org (Postfix) with ESMTP id BA6E48728C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:06:47 +0000 (UTC)
+ Thu,  1 Oct 2020 07:08:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EvYZWFfEnyfC
+ with ESMTP id wUtC20zmDQfu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:06:44 +0000 (UTC)
+ Thu,  1 Oct 2020 07:08:26 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
- by silver.osuosl.org (Postfix) with ESMTP id 9463620363
+ by hemlock.osuosl.org (Postfix) with ESMTP id 065E887282
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:06:44 +0000 (UTC)
+ Thu,  1 Oct 2020 07:08:25 +0000 (UTC)
 Received: from marcel-macbook.fritz.box (p4fefc7f4.dip0.t-ipconnect.de
  [79.239.199.244])
- by mail.holtmann.org (Postfix) with ESMTPSA id 8394ECECD2;
- Thu,  1 Oct 2020 09:13:42 +0200 (CEST)
+ by mail.holtmann.org (Postfix) with ESMTPSA id 8D48ECECD2;
+ Thu,  1 Oct 2020 09:15:24 +0200 (CEST)
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
 From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20200930141813.410209-1-anmol.karan123@gmail.com>
-Date: Thu, 1 Oct 2020 09:06:42 +0200
-Message-Id: <6F6EF48D-561E-4628-A4F1-F1AF28743CAF@holtmann.org>
-References: <20200929173231.396261-1-anmol.karan123@gmail.com>
- <20200930141813.410209-1-anmol.karan123@gmail.com>
-To: Anmol Karn <anmol.karan123@gmail.com>
+In-Reply-To: <20200929185815.12879-1-anant.thazhemadam@gmail.com>
+Date: Thu, 1 Oct 2020 09:08:24 +0200
+Message-Id: <9D145813-A4B8-46AB-A55F-54C4AF82FD19@holtmann.org>
+References: <20200929185815.12879-1-anant.thazhemadam@gmail.com>
+To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 X-Mailer: Apple Mail (2.3608.120.23.2.1)
-Cc: Johan Hedberg <johan.hedberg@gmail.com>,
- "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
- syzbot+0bef568258653cff272f@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com, open list <linux-kernel@vger.kernel.org>,
- linux-bluetooth <linux-bluetooth@vger.kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
+Cc: linux-bluetooth@vger.kernel.org,
+ syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: bluetooth: Fix null pointer
- dereference in hci_event_packet()
+ Johan Hedberg <johan.hedberg@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] bluetooth: hci_h5: close serdev
+ device and free hu in h5_close
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,28 +83,20 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Anmol,
+Hi Anant,
 
-> AMP_MGR is getting derefernced in hci_phy_link_complete_evt(), when called from hci_event_packet() and there is a possibility, that hcon->amp_mgr may not be found when accessing after initialization of hcon.
+> When h5_close() gets called, the memory allocated for the hu gets 
+> freed only if hu->serdev doesn't exist. This leads to a memory leak.
+> So when h5_close() is requested, close the serdev device instance and
+> free the memory allocated to the hu entirely instead.
 > 
-> - net/bluetooth/hci_event.c:4945
-> The bug seems to get triggered in this line:
-> 
-> bredr_hcon = hcon->amp_mgr->l2cap_conn->hcon;
-> 
-> Fix it by adding a NULL check for the hcon->amp_mgr before checking the ev-status.
-> 
-> Fixes: d5e911928bd8 ("Bluetooth: AMP: Process Physical Link Complete evt")
-> Reported-and-tested-by: syzbot+0bef568258653cff272f@syzkaller.appspotmail.com 
-> Link: https://syzkaller.appspot.com/bug?extid=0bef568258653cff272f 
-> Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
+> Fixes: https://syzkaller.appspot.com/bug?extid=6ce141c55b2f7aafd1c4
+> Reported-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
+> Tested-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
+> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 > ---
-> Change in v3:
->  - changed return o; to return; (Reported-by: kernel test robot <lkp@intel.com>
-> )
-> 
-> net/bluetooth/hci_event.c | 5 +++++
-> 1 file changed, 5 insertions(+)
+> drivers/bluetooth/hci_h5.c | 8 ++++++--
+> 1 file changed, 6 insertions(+), 2 deletions(-)
 
 patch has been applied to bluetooth-next tree.
 
