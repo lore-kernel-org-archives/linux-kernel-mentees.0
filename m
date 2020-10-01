@@ -2,110 +2,100 @@ Return-Path: <SRS0=PXb8=DI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B71DC4727C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:45:52 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 615F7C4727C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:57:42 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 903F0207F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:45:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DB9372145D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:57:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R0fB6fw6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 903F0207F7
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bwqx3uHy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB9372145D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4632C86A07;
-	Thu,  1 Oct 2020 07:45:51 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6334222FC6;
+	Thu,  1 Oct 2020 07:57:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lH9Exmhw6aCb; Thu,  1 Oct 2020 07:45:50 +0000 (UTC)
+	with ESMTP id gtWBsjYcD3aT; Thu,  1 Oct 2020 07:57:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D3F3E86A00;
-	Thu,  1 Oct 2020 07:45:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4926922F26;
+	Thu,  1 Oct 2020 07:57:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C9B71C0889;
-	Thu,  1 Oct 2020 07:45:50 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A18F6C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3D871C0889;
+	Thu,  1 Oct 2020 07:57:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14290C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:45:49 +0000 (UTC)
+ Thu,  1 Oct 2020 07:57:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 90E0486C69
+ by hemlock.osuosl.org (Postfix) with ESMTP id F0F208730A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:45:49 +0000 (UTC)
+ Thu,  1 Oct 2020 07:57:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Jf9M_lDY1iyd
+ with ESMTP id BNiln12SRA1o
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:45:49 +0000 (UTC)
+ Thu,  1 Oct 2020 07:57:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2635F86C67
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id BDA1D87307
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:45:49 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id b124so3685387pfg.13
+ Thu,  1 Oct 2020 07:57:34 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id j136so669096wmj.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Oct 2020 00:45:49 -0700 (PDT)
+ Thu, 01 Oct 2020 00:57:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=VN3W20DodgO3Zj44IKBt6WsTun4/50u7wi6510gCoWM=;
- b=R0fB6fw60vBL+fvSnqvbYPeevGTqltgDvi5HpaeO9dZQ6jb10RvzDOw8A1hAWHCRdd
- ORftCMUJGrC1b8H/CtmUYxsKPbX7FCdvcLxjz0O36Z9bM7qK4vDkSCMBW7CvMs/LHT7V
- R//EW1hv2DTpnwM01hyFdl/v/PLFDi0MIk08374InPERQ4f6cpDfCjSZOJTE1xFhT1nn
- jHY7HGAjCN9BaSlAhV5+aIu/w3FfmYoXinaXp1CNTosESjXkEkXfSA9f+LponD86GRiH
- kq/IHdWzxj/3/iaj47zN9R5U/5X27pabKhsWGcIPL9nj9o9gHofrDSOX2AbsvV4qX+W7
- /NgA==
+ h=from:to:cc:subject:date:message-id;
+ bh=fO/xwDjrhenhlWFGk3DdZkVFlX+/hkokIVqB85yj9q8=;
+ b=Bwqx3uHyCyScf2SC7J0dP6b8TluUSYa3R57F+xWoWEDaEK+o7QRMP+bCtb+0kvaBD9
+ h+22TRDB+CqJMxYCVuW2YKGT90lchFukm71dkB8lFRdI6sJS5o9TOUmP3ttxhokvDe6O
+ 8yOqJesCuSSmpxXc7pEcvlQyy0mLiWDb8S6r8DCQ3VcsjdaClp6f70GjcpPnKvCHZlbw
+ 62VskwilqJr+7miBCi794mo/B/UKfzfI9CitGwoG+hV1xoD3IP1l+iYKkH44mEVIkZzq
+ OCO8TGmoef9l55dzoRUX/liwp2LoIk5QKo9rTIJPY/p/uR+MHRqZuNcQWmaHuwjJo1TM
+ vykQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VN3W20DodgO3Zj44IKBt6WsTun4/50u7wi6510gCoWM=;
- b=Oph9jeYI3l54mYWTTV/Ur+zgX5igELIuYDEX/ofeKhI5SeBYFduXLL5VHej9eyVVtI
- vFrqQ7Z6Ymzh2YtGRda2XNZhEitADGo9IqPYV/5y0/ljKReX7powZLp02StMgu1Zykec
- x4ZvXbscctnxqiYT61gdGZnLO9/mG8Ym8i2H/ShSRtbmpn23sQ+9NiAKBx6vyZ6vElVR
- AOXGm2SlDPeBTuaYEPmpL4WhjAnsBlxZrSK3lg48oaWRjfg5wAaywU4gkF2Py85JwkqU
- 5M+vZw9BC4k+9jiyp4DY0F62zkMMLAYGcgwx5GCo9SIuVDQ6P/rVPVXvzS8fVyDN6DgC
- XtMA==
-X-Gm-Message-State: AOAM532tQhtPMoooCFBzJAIqLAkUGmFKt8ig0VW7YvcOJIXgAaObQ/Iy
- kXNhBcseIa1drsxBCBqhZFM=
-X-Google-Smtp-Source: ABdhPJyp/ch4/L9rwgW9lIvX03PzXqb7gcqp6y3SXn7GGpNuBIWkLZ6lziCkf2XU3gQNQmVI3e+esw==
-X-Received: by 2002:a17:902:760b:b029:d1:9be4:856b with SMTP id
- k11-20020a170902760bb02900d19be4856bmr5766836pll.1.1601538348617; 
- Thu, 01 Oct 2020 00:45:48 -0700 (PDT)
-Received: from Thinkpad ([45.118.167.207])
- by smtp.gmail.com with ESMTPSA id t24sm5316742pfq.37.2020.10.01.00.45.44
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=fO/xwDjrhenhlWFGk3DdZkVFlX+/hkokIVqB85yj9q8=;
+ b=Sas5HizDstVDWvKhY8hEhlwI5z4uG4UIMB35udwyY0EEB/WHU7kxpoqIwM8DQd+QKl
+ uRTjgRFy/YFozRQgr8rKUB/pEX6s4ie+Hyy2qTKsNAxqP0Il/26s/luMpjZEKCU+ARwn
+ BJinogUHsOEybrCEBG3wHVIGNgPwHhuzZ9ppht5lxPYTUXz7H0hAVijy+BA27kZVI1Ee
+ IGz6oY9HiXXfZQh7v/JFUTifTkdWdvrZVbDlTsHuGrXZyVvmZJ4N3LGU0o+qaW41A9JD
+ IrFFxtB6XJZbP8ZCGBssYmFmGEWp6+jFSHnM31BmhiRnC5klbNW+Ff52KdllH+L9YGnO
+ sweg==
+X-Gm-Message-State: AOAM533MITf99UGXzEXBfNVFpPGhXwWW3jIBwCRDV1OsPlIdui9xWu7k
+ DfvL5FTi2wTcGw+Cb+i2hiY=
+X-Google-Smtp-Source: ABdhPJzqmTeSoVSj3eZWfMKoqv/hpLTEtUApfBAwXbTtQp2UVy5XutKX6uMVXd+nsjlytHcsbI/NNw==
+X-Received: by 2002:a1c:4054:: with SMTP id n81mr6819205wma.81.1601539053027; 
+ Thu, 01 Oct 2020 00:57:33 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2d4d:ba00:2c39:a8cb:1b2a:4845])
+ by smtp.gmail.com with ESMTPSA id b64sm7500948wmh.13.2020.10.01.00.57.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 00:45:47 -0700 (PDT)
-Date: Thu, 1 Oct 2020 13:15:40 +0530
-From: Anmol Karn <anmol.karan123@gmail.com>
-To: Marcel Holtmann <marcel@holtmann.org>
-Message-ID: <20201001074540.GA428447@Thinkpad>
-References: <20200929173231.396261-1-anmol.karan123@gmail.com>
- <20200930141813.410209-1-anmol.karan123@gmail.com>
- <6F6EF48D-561E-4628-A4F1-F1AF28743CAF@holtmann.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6F6EF48D-561E-4628-A4F1-F1AF28743CAF@holtmann.org>
-Cc: Johan Hedberg <johan.hedberg@gmail.com>,
- "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
- syzbot+0bef568258653cff272f@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com, open list <linux-kernel@vger.kernel.org>,
- linux-bluetooth <linux-bluetooth@vger.kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: bluetooth: Fix null pointer
- dereference in hci_event_packet()
+ Thu, 01 Oct 2020 00:57:32 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+ Kees Cook <keescook@chromium.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Michal Marek <michal.lkml@markovi.net>, linux-kbuild@vger.kernel.org
+Date: Thu,  1 Oct 2020 09:57:23 +0200
+Message-Id: <20201001075723.24246-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] kbuild: doc: describe proper script
+	invocation
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,47 +107,90 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Oct 01, 2020 at 09:06:42AM +0200, Marcel Holtmann wrote:
-> Hi Anmol,
-> 
-> > AMP_MGR is getting derefernced in hci_phy_link_complete_evt(), when called from hci_event_packet() and there is a possibility, that hcon->amp_mgr may not be found when accessing after initialization of hcon.
-> > 
-> > - net/bluetooth/hci_event.c:4945
-> > The bug seems to get triggered in this line:
-> > 
-> > bredr_hcon = hcon->amp_mgr->l2cap_conn->hcon;
-> > 
-> > Fix it by adding a NULL check for the hcon->amp_mgr before checking the ev-status.
-> > 
-> > Fixes: d5e911928bd8 ("Bluetooth: AMP: Process Physical Link Complete evt")
-> > Reported-and-tested-by: syzbot+0bef568258653cff272f@syzkaller.appspotmail.com 
-> > Link: https://syzkaller.appspot.com/bug?extid=0bef568258653cff272f 
-> > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
-> > ---
-> > Change in v3:
-> >  - changed return o; to return; (Reported-by: kernel test robot <lkp@intel.com>
-> > )
-> > 
-> > net/bluetooth/hci_event.c | 5 +++++
-> > 1 file changed, 5 insertions(+)
-> 
-> patch has been applied to bluetooth-next tree.
-> 
-> Regards
-> 
-> Marcel
-> 
+During an investigation to fix up the execute bits of scripts in the kernel
+repository, Andrew Morton and Kees Cook pointed out that the execute bit
+should not matter, and that build scripts cannot rely on that. Kees could
+not point to any documentation, though.
 
-Thank you :)
+Masahiro Yamada explained the convention of setting execute bits to make it
+easier for manual script invocation.
 
-Best,
-Anmol
+Provide some basic documentation how the build shall invoke scripts, such
+that the execute bits do not matter, and acknowledge that execute bits
+are useful nonetheless.
+
+This serves as reference for further clean-up patches in the future.
+
+Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
+Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
+Link: https://lore.kernel.org/linux-kbuild/CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com/
+
+Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+Suggested-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+RFC v1 -> RFC v2:
+explain why execute bits are still convenient.
+
+Kees, Andrew, please ack.
+
+Masahiro-san, I have taken your feedback into account. Please pick this small
+documentation update into your kbuild tree.
+
+Ujjwal Kumar, a potential future mentee, will follow up with further fixes to
+the build scripts.
+
+ Documentation/kbuild/makefiles.rst | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 58d513a0fa95..bd3e1baf58be 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -21,6 +21,7 @@ This document describes the Linux kernel Makefiles.
+ 	   --- 3.10 Special Rules
+ 	   --- 3.11 $(CC) support functions
+ 	   --- 3.12 $(LD) support functions
++	   --- 3.13 Script Invocation
+ 
+ 	=== 4 Host Program support
+ 	   --- 4.1 Simple Host Program
+@@ -605,6 +606,25 @@ more details, with real examples.
+ 		#Makefile
+ 		LDFLAGS_vmlinux += $(call ld-option, -X)
+ 
++3.13 Script invocation
++----------------------
++
++	Make rules may invoke scripts to build the kernel. The rules shall
++	always provide the appropriate interpreter to execute the script. They
++	shall not rely on the execute bits being set, and shall not invoke the
++	script directly. For the convenience of manual script invocation, such
++	as invoking ./scripts/checkpatch.pl, it is recommended to set execute
++	bits on the scripts nonetheless.
++
++	Kbuild provides variables $(CONFIG_SHELL), $(AWK), $(PERL),
++	$(PYTHON) and $(PYTHON3) to refer to interpreters for the respective
++	scripts.
++
++	Example::
++
++		#Makefile
++		cmd_depmod = $(CONFIG_SHELL) $(srctree)/scripts/depmod.sh $(DEPMOD) \
++			     $(KERNELRELEASE)
+ 
+ 4 Host Program support
+ ======================
+-- 
+2.17.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
