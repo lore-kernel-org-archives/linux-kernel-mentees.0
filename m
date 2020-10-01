@@ -2,114 +2,102 @@ Return-Path: <SRS0=PXb8=DI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20B55C4727C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 13:00:24 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36FE3C4727C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 13:23:17 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6FED120B1F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 13:00:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C8B6A20759
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 13:23:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=cloud.ionos.com header.i=@cloud.ionos.com header.b="Zx0TX2ub"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6FED120B1F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=cloud.ionos.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JcvmfdFU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C8B6A20759
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id EACCF2049B;
-	Thu,  1 Oct 2020 13:00:22 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9rjTePvpBRRj; Thu,  1 Oct 2020 13:00:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 93B3E204A9;
-	Thu,  1 Oct 2020 13:00:14 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 88C52C0889;
-	Thu,  1 Oct 2020 13:00:14 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AE470C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 13:00:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A9DBE86A3B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 13:00:12 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 682D186A58;
+	Thu,  1 Oct 2020 13:23:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BlusJxZdFnQb; Thu,  1 Oct 2020 13:23:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id D43F786A31;
+	Thu,  1 Oct 2020 13:23:15 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE168C016F;
+	Thu,  1 Oct 2020 13:23:15 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 551BAC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  1 Oct 2020 13:23:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4048F8730D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  1 Oct 2020 13:23:15 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rwo0llVPR+vN
+ with ESMTP id aZtKjvw1NUye
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 13:00:09 +0000 (UTC)
-X-Greylist: delayed 00:06:13 by SQLgrey-1.7.6
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id AB331869B4
+ Thu,  1 Oct 2020 13:23:14 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8DD60872B5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 13:00:09 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id u21so7955784eja.2
+ Thu,  1 Oct 2020 13:23:14 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id l126so4481258pfd.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Oct 2020 06:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloud.ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=06zHlwXUngyRXgBFfhpGG+CXA5ZNckw9XHHn+j/oAwY=;
- b=Zx0TX2ubgW0Ri33jwwHz69y55RfQINo/RuZyr9Hk+HdKZb0iVhlr8tk98VCxjNy0+Q
- tGMBzczN1vRhX0GveBC6m3gw0DZDnPR0oRfF7IKiY5zolv1BZzW9NVtNp54YliUUB63W
- /kEowAEbvMsVIZlvF1o13OYjfTQkNWCWd2hcxKSzDO0X/vKIDaN9ZB2gvBx7MyQ7uDdd
- OuM0YHROAg2o7vc0wM6w5N1+ZMOdXSbkm+JeE6lbn9CPN4FVW8XAsv6IoIgwRneBc7K4
- elmlOllXsDmnt77Gee5TgFFkKTU9oy8UvXodbOVB/zzWw+Xm543jNb2vEkavsYrbq4LT
- OF4A==
+ Thu, 01 Oct 2020 06:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=QMvUWwpCbcRQWQ/67lZpDcdES3Tgoo1hAu0TKVA+3CU=;
+ b=JcvmfdFU26r00kIq3l8tb+NbqO9R1ZBiVqfDQRV1DUXwOUnLXISFCCwGwYekcaYFeE
+ Ampei1bHnEoGp4ESwceDSp9hUzwT1OyGtecn39CfrSvHxteavnq0GVhxh9VWmR47txY9
+ AGlGrtTf287uB1Zk+8MbmO+CHko+d3AzEKz3I7OjkVC6M1qRoCqfBoA5YE0JdptBes5a
+ GXljDHpPLJc4gQlW1NC+jO1Z/M+Yp3EkjOWOtGhsUWvqT/pQdjZ7ThEE5UTh6tpBec8X
+ 5NmV/9FBdwOnko5QEpsm3xUXscYQsXHlSgT0Yrm2qD4nV25XqftScXxJ43xZcrrFHHm0
+ fE6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=06zHlwXUngyRXgBFfhpGG+CXA5ZNckw9XHHn+j/oAwY=;
- b=YUR4XBsRaQx/FX2Y3kAI2zW+99OxXMCxPnY68r8ypkbsJMAnWNpWG8d79uz5tmC4Lg
- NmtwVQN4p/WUSSvi3iG2OJWk4z73CQ9MD82qqm561/zvJnHZPNenqiL0a0FwTuiWR0CJ
- G1aXhAPtBA4SIWc2t61cpfOMWCfOY4QhrjNBVrQupMTHSoc98uPTLfW6VpNAOXasgakz
- BvNX9aHIBBF+R7GccEz76LGdXF2K10vIkCEROgcv7XaPtL79/TIDOTMdyYJUyThR4inh
- TwalKsynXTU4embAsU7VXHeDCD/1lN+i9G6ivYLs2BlYCLVgJbiTE0quAMAubh6O3DPG
- bL+g==
-X-Gm-Message-State: AOAM533wCy7ogLrMODcRN34mlp9ZFJwYMO6uW1W9SzaFYv8pEmDJCC7I
- W4Zd+WNwb1D7wQjySWXqHdrPhylIryDQvDdnbEU2Pw==
-X-Google-Smtp-Source: ABdhPJy2jnDB4nsMZeAxrM672OuFou/ETnP5WUNusUY+Dpfx4FikpknL0KnWapBriVEdeq0glYyNiCavk6KtiEFRwlM=
-X-Received: by 2002:a17:906:3397:: with SMTP id
- v23mr3190662eja.212.1601556834567; 
- Thu, 01 Oct 2020 05:53:54 -0700 (PDT)
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=QMvUWwpCbcRQWQ/67lZpDcdES3Tgoo1hAu0TKVA+3CU=;
+ b=Bicbgw8sJuv+EcT8DGIWvYlFwSrPKXgp7FyGvph94M7Ol051ALFPt7/i43tqmLJAuM
+ 1t3s7wYmDcJvHCFEVMcA399MsAs72gLOPREMdqrbt4FpjmfZ+xW7xDp2RjhQnOdGVctZ
+ iGd11TjaZdSBMm3YA7rnNDqa+U5cH8CGeP4CU0BVoho6U9b1agtO/VBn41Y55dvAJOwH
+ 099IX9jo3vMxnrHob+S4Dy9cdNizA+1AjX/2UE+EomHFL8oKiamHs+7iDTQvPOwidrr5
+ IhbbApWNfhvZya2RLxq4+njjLK8mZ11xvMyg0i2BFWz7/ic4QmJt6dEc98KxY6UaVmvJ
+ 1xjw==
+X-Gm-Message-State: AOAM531lv+qwPhC7PXTsQEXH8jJ7qMsZ9Vj8eCWPQEC4E5umhdIyMBln
+ FwONBWcEoARYmhJyB7gNbco=
+X-Google-Smtp-Source: ABdhPJyErk+l+mmIOPOASjYGAmYk5IF/PxLoEMqf52PS+fba8x+lCgnMI1Ygz6OXRdGG20eh8oDwtQ==
+X-Received: by 2002:a62:7f0e:0:b029:152:197b:e2bd with SMTP id
+ a14-20020a627f0e0000b0290152197be2bdmr1175738pfd.7.1601558594102; 
+ Thu, 01 Oct 2020 06:23:14 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+ by smtp.gmail.com with ESMTPSA id y4sm6824494pfr.46.2020.10.01.06.23.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 06:23:12 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Thu, 1 Oct 2020 21:22:58 +0800
+To: linux-gpio@vger.kernel.org
+Message-ID: <20201001132258.6yzosj2w7k4eod42@Rk>
 MIME-Version: 1.0
-References: <20201001122511.1075420-1-vaibhavgupta40@gmail.com>
- <20201001122511.1075420-18-vaibhavgupta40@gmail.com>
-In-Reply-To: <20201001122511.1075420-18-vaibhavgupta40@gmail.com>
-From: Jinpu Wang <jinpu.wang@cloud.ionos.com>
-Date: Thu, 1 Oct 2020 14:53:43 +0200
-Message-ID: <CAMGffEkF9ATZJ77FKTfP1g=iBLeVObco7nyQwLTjGu2pDehz-A@mail.gmail.com>
-To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Cc: Don Brace <don.brace@microsemi.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Hannes Reinecke <hare@suse.com>, Bradley Grove <linuxdrivers@attotech.com>,
- Linux SCSI Mailinglist <linux-scsi@vger.kernel.org>,
- Sathya Prakash <sathya.prakash@broadcom.com>, esc.storagedev@microsemi.com,
- James Smart <james.smart@broadcom.com>,
- Kashyap Desai <kashyap.desai@broadcom.com>, Bjorn Helgaas <helgaas@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Dick Kennedy <dick.kennedy@broadcom.com>,
- Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- John Garry <john.garry@huawei.com>, Adam Radford <aradford@gmail.com>,
- Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
- megaraidlinux.pdl@broadcom.com, Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
- MPT-FusionLinux.pdl@broadcom.com, linux-kernel@vger.kernel.org,
- Sumit Saxena <sumit.saxena@broadcom.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3 17/28] scsi: pm_8001: Drop PCI
-	Wakeup calls from .resume
+Content-Disposition: inline
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Nehal Shah <Nehal-bakulchandra.Shah@amd.com>
+Subject: [Linux-kernel-mentees] Any other ways to debug GPIO interrupt
+ controller (pinctrl-amd) for broken touchpads of a new laptop model?
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,47 +109,87 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Oct 1, 2020 at 2:30 PM Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
->
-> The driver calls pci_enable_wake(...., false) in pm8001_pci_resume(), and
-> there is no corresponding pci_enable_wake(...., true) in
-> pm8001_pci_suspend(). Either it should do enable-wake the device in
-> .suspend() or should not invoke pci_enable_wake() at all.
->
-> Concluding that this driver doesn't support enable-wake and PCI core calls
-> pci_enable_wake(pci_dev, PCI_D0, false) during resume, drop it from
-> pm8001_pci__resume().
->
-> Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Looks good to me!
-Acked-by: Jack Wang <jinpu.wang@cloud.ionos.com>
+Hi,
 
-Thanks!
-> ---
->  drivers/scsi/pm8001/pm8001_init.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
-> index 9e99262a2b9d..ee27ecb17560 100644
-> --- a/drivers/scsi/pm8001/pm8001_init.c
-> +++ b/drivers/scsi/pm8001/pm8001_init.c
-> @@ -1248,7 +1248,6 @@ static int pm8001_pci_resume(struct pci_dev *pdev)
->                 "operating state [D%d]\n", pdev, pm8001_ha->name, device_state);
->
->         pci_set_power_state(pdev, PCI_D0);
-> -       pci_enable_wake(pdev, PCI_D0, 0);
->         pci_restore_state(pdev);
->         rc = pci_enable_device(pdev);
->         if (rc) {
-> --
-> 2.28.0
->
+I'm trying to fix broken touchpads [1] for a new laptop model Legion-5
+15ARH05 which is shipped with two different touchpads, i.e., ElAN and
+Synaptics. For the ELAN touchpad, the kernel receives no interrupts to
+be informed of new data from the touchpad. For the Synaptics touchpad,
+only 7 interrupts are received per second which makes the touchpad
+completely unusable. Based on current observations, pinctrl-amd seems to
+be the most suspicious cause.
+
+
+Why do I think pinctrl-amd smells the most suspicious?
+======================================================
+
+This laptop model has the following hardware configurations specified
+via ACPI,
+  - The touchpad's data interrupt line is connected to pin#130 of a GPIO
+    chip
+
+         GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                         )
+                         {   // Pin list
+                             0x0082
+                         }
+
+  - This GPIO chip (HID: AMDI0030) which is assigned with IRQ#7 has its
+    common interrupt output line connected to one IO-APIC's pin#7
+
+         Interrupt (ResourceConsumer, Level, ActiveLow, Shared, ,, )
+         {
+             0x00000007,
+         }
+
+I add some code to kernel to poll the status of the GPIO chip's pin#130
+and IO-APIc's pin#7 every 1ms when I move my finger on the surface of
+the Synaptics touchpad continuously for about 1s. During the process of I
+move my finger, most of the time,
+  - GPIO chip's pin#130: low input, interrupt unmasked
+  - IO-APIC's pin#7: IRR=0, interrupt unmasked (in fact mask/unmask_ioapic_irq
+    have never been called by the IRQ follow controller handle_fasteoi_irq)
+
+So the touchpad has been generating interrupts most of the time while
+IO-APIC controller hasn't been masking the interrupt from the GPIO chip.
+But somehow the kernel could only get ~7 interrupts each second while
+the touchpad could generate 140 interrupts (time resolution of 7.2ms)
+per second. Assuming IO-APIC (arch/x86/kernel/apic/io_apic.c) is fine,
+then there's something wrong with the GPIO interrupt controller which
+works fine for the touchpad under Windows. Besides if I poll the touchpad
+data based on pin#130's status, the touchpad could also work under
+Windows.
+
+Ways to debug pinctrl-amd
+=========================
+
+I can't find any documentation about the AMDI0030 GPIO chip except for
+the commit logs of drivers/pinctrl/pinctrl-amd. One commit
+ba714a9c1dea85e0bf2899d02dfeb9c70040427c ("pinctrl/amd: Use regular interrupt instead of chained")
+inspired me to bring back chained interrupt to see if "an interrupt storm"
+would happen. The only change I noticed is that the interrupts arrive in
+pairs. The time internal between two interrupts in a pair is ~0.0016s
+but the time internal between interrupt pairs is still ~0.12s (~8Hz).
+Unfortunately, I don't get any insight about the GPIO interrupt
+controller from this tweaking. I wonder if there are any other ways
+to debug drivers/pinctrl/pinctrl-amd?
+
+Thank you!
+
+
+[1] https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190
+
+--
+Best regards,
+Coiby
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
