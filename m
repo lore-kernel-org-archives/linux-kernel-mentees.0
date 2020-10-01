@@ -6,87 +6,86 @@ X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79387C4727F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 12:29:11 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FCDCC4741F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 12:29:22 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2600621481
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 12:29:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B2DB02087D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 12:29:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MRsd2Wno"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2600621481
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eEW+Bq2O"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2DB02087D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C5E7C2048F;
-	Thu,  1 Oct 2020 12:29:10 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VRP055U5sQEM; Thu,  1 Oct 2020 12:29:09 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B4D2E20497;
-	Thu,  1 Oct 2020 12:29:09 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A1FB0C0889;
-	Thu,  1 Oct 2020 12:29:09 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 47972C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 12:29:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3449086B26
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 12:29:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 566CF86C63;
+	Thu,  1 Oct 2020 12:29:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BHghDuu9xgwX; Thu,  1 Oct 2020 12:29:20 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D045C86C52;
+	Thu,  1 Oct 2020 12:29:20 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B9243C0889;
+	Thu,  1 Oct 2020 12:29:20 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CCD20C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  1 Oct 2020 12:29:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id C8EA286943
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  1 Oct 2020 12:29:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l-7KoB_GDcmj
+ with ESMTP id HOKku0WAfHTN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 12:29:07 +0000 (UTC)
+ Thu,  1 Oct 2020 12:29:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D46D5869E2
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 38C108693F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 12:29:07 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id gm14so1890872pjb.2
+ Thu,  1 Oct 2020 12:29:19 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id d6so4330732pfn.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Oct 2020 05:29:07 -0700 (PDT)
+ Thu, 01 Oct 2020 05:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nFScM+arNxRtQeZvbbAHYBWlDLtA4fLReR+nPVgLlBM=;
- b=MRsd2WnoH84TSpfdS0xsAvvPKUvk+hWZ2jQyWrlHyJno4rRc/WvqtEJNAREGXx8lpc
- /aCIT/eymCmbHgVRPLsgUxGj6G8VePygO3I9hpnIBR++cdiovm6tHtXu+JXXLlKCL0xX
- mdPMbym0b+f4+UI7k89TE1GdFB57FAS9jxNNZ6KjQNV/tGEIItv9SeVBRVP13Jqwkunq
- kaEVvQVpvesS6iUFLdoLZzp+PWvlHcKTl8HXXadHCnqSUZFd2BgdSS0lpha9Er/EIFkk
- KGhmBW6jFGZ+srVHjpVRZBT3KuUsqIZ3x5TmeSFQrxPePp5t7lYj2SFjXJPncs34uTlD
- +Y5g==
+ bh=gmS7YS0DYtnClD0w40MsdNzZxacHM1ziMOHmrUQ2hbc=;
+ b=eEW+Bq2OFiAcFjiQ/Kh6k50Y+/jrfCr5zJgWHOXUF9hUA59/xEPLAC5NIH6AcsJBMX
+ BDM5+3mWvmHQZpeEMRBTROgyKQ7Jida8YlMzGvfIr2M1+O7Qcy6+udFsjda+DF+B0FlJ
+ a7k9ZIDbJgn2wWQSo/gHKzibWDxWlBAUTg9N5F9uNfEGJURBwfz8FL/ogjHqkOT40L3p
+ t5OhMhSR3Vv2A3Inm8JLsOF6VmgbVWwHMl7/ozsy8H3cccXX5fZA4E7wO+/3r/JABzjE
+ N3EBLbeNHJVkX5vl2hmg/XpJJN8f5akAJ5CEneJr/necgvUzjo01UgBRkG70MAjprecp
+ weuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nFScM+arNxRtQeZvbbAHYBWlDLtA4fLReR+nPVgLlBM=;
- b=Ce1/55UjpJabWQ7ocLa7aAwY7e42Bpy/rJlsdv9dpQVzLn4nrunrTcnD9gESZTWFTJ
- uOLDWZH1ST3n8bfGue3wxjxC/LkpRe+NG4VCjZpOfUB08N+DTAPcoHjLGeP85FfRp+vZ
- FRMueEgAJjB3YBI77Z7LgBE/qJP/6aqf7fis3iR2xSWK4vAQXUnT6f7JLOKteq2CJI66
- e35+/I5tZF1RaIaW4yRzwEciz3uKEols/ifZ9mPbHdFRN9wOAlf6uDJcsWnc+9B9TOcE
- d4n/iImvpMjoz+T0hpaJwKyTSkEd0C+vmpLqKP8NTDICslmcmBmNJbM4iGesw148Xqfz
- ePlg==
-X-Gm-Message-State: AOAM531K6mOBOzq318FlqgbGTRctoWO4UCMkBEXMCj6dCouCvAODWDr6
- m97yH+YcdMf0vnG7XoDJxxs=
-X-Google-Smtp-Source: ABdhPJwQJMPHi93RFnwt6p0B1nWePCTdTn//Wk9AHwIXspt4V69jOm3D2hO/uhuP3PPE6FF1Js5Dgw==
-X-Received: by 2002:a17:90a:bd0e:: with SMTP id
- y14mr6924794pjr.58.1601555347469; 
- Thu, 01 Oct 2020 05:29:07 -0700 (PDT)
+ bh=gmS7YS0DYtnClD0w40MsdNzZxacHM1ziMOHmrUQ2hbc=;
+ b=iWks0BkCpoqefVWyso9HUSNoVLjxhfini6iRAf+tN1FybP8A5hnQNkurR6/6Nlmi0y
+ h+BfphhDzU3CCH3tK+Ep9lfR3qmvL3NEHkUKP/A0LONQz6qV7IMsxzd0TqAfsERdQavA
+ EGopJtm3EMBVaxST6rrOgB8RhnqM6jx3pchn/qxd4EMTOQ2Ooe7M8IbHsslah+R9fUwj
+ g8Na/YgP5BI0b5UfqDI6Dhkd379XnoWyHJ0AQQ+Z3sQBPaGe1qc9khzP9CRFRFmI/s7G
+ j6zmjiQ3lhyn91Yij/Kqxb9629doTNwwJ90uhOTS8Eko9hrg4jU3Fp9dXQ2t22sA8F3p
+ kNeQ==
+X-Gm-Message-State: AOAM533/mot5IrkwgnHYhxQ17YFbrb/gRJ2NcVQ3zr1/MHuMkgTbJKfx
+ c7EfT6L2F8o7+SLi1oWtaF4=
+X-Google-Smtp-Source: ABdhPJwLO4BrCq7cf6OgUMx23vEZaXY9wyYutL8lxvt8uRhaE9u6WKIypSkdMK4htyWuRqaw/lpc+Q==
+X-Received: by 2002:a63:544a:: with SMTP id e10mr5895346pgm.284.1601555358804; 
+ Thu, 01 Oct 2020 05:29:18 -0700 (PDT)
 Received: from varodek.localdomain ([171.61.143.130])
- by smtp.gmail.com with ESMTPSA id m13sm5695199pjl.45.2020.10.01.05.28.59
+ by smtp.gmail.com with ESMTPSA id m13sm5695199pjl.45.2020.10.01.05.29.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 05:29:07 -0700 (PDT)
+ Thu, 01 Oct 2020 05:29:18 -0700 (PDT)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -106,8 +105,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>
-Date: Thu,  1 Oct 2020 17:54:51 +0530
-Message-Id: <20201001122511.1075420-9-vaibhavgupta40@gmail.com>
+Date: Thu,  1 Oct 2020 17:54:52 +0530
+Message-Id: <20201001122511.1075420-10-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201001122511.1075420-1-vaibhavgupta40@gmail.com>
 References: <20201001122511.1075420-1-vaibhavgupta40@gmail.com>
@@ -115,8 +114,8 @@ MIME-Version: 1.0
 Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
  esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v3 08/28] scsi: arcmsr: Drop PCI
-	wakeup calls from .resume
+Subject: [Linux-kernel-mentees] [PATCH v3 09/28] scsi: arcmsr: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -134,32 +133,114 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The driver calls pci_enable_wake(...., false) in arcmsr_resume(), and
-there is no corresponding pci_enable_wake(...., true) in arcmsr_suspend().
-Either it should do enable-wake the device in .suspend() or should not
-invoke pci_enable_wake() at all.
+Drivers should do only device-specific jobs. But in general, drivers using
+legacy PCI PM framework for .suspend()/.resume() have to manage many PCI
+PM-related tasks themselves which can be done by PCI Core itself. This
+brings extra load on the driver and it directly calls PCI helper functions
+to handle them.
 
-Concluding that this driver doesn't support enable-wake and PCI core calls
-pci_enable_wake(pci_dev, PCI_D0, false) during resume, drop it from
-arcmsr_resume().
+Switch to the new generic framework by updating function signatures and
+define a "struct dev_pm_ops" variable to bind PM callbacks. Also, remove
+unnecessary calls to the PCI Helper functions along with the legacy
+.suspend & .resume bindings.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/arcmsr/arcmsr_hba.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/scsi/arcmsr/arcmsr_hba.c | 32 +++++++++++---------------------
+ 1 file changed, 11 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/scsi/arcmsr/arcmsr_hba.c b/drivers/scsi/arcmsr/arcmsr_hba.c
-index 30914c8f29cc..6ed2ad10bede 100644
+index 6ed2ad10bede..43848b467d8c 100644
 --- a/drivers/scsi/arcmsr/arcmsr_hba.c
 +++ b/drivers/scsi/arcmsr/arcmsr_hba.c
-@@ -1094,7 +1094,6 @@ static int arcmsr_resume(struct pci_dev *pdev)
+@@ -113,8 +113,8 @@ static int arcmsr_bios_param(struct scsi_device *sdev,
+ static int arcmsr_queue_command(struct Scsi_Host *h, struct scsi_cmnd *cmd);
+ static int arcmsr_probe(struct pci_dev *pdev,
+ 				const struct pci_device_id *id);
+-static int arcmsr_suspend(struct pci_dev *pdev, pm_message_t state);
+-static int arcmsr_resume(struct pci_dev *pdev);
++static int __maybe_unused arcmsr_suspend(struct device *dev);
++static int __maybe_unused arcmsr_resume(struct device *dev);
+ static void arcmsr_remove(struct pci_dev *pdev);
+ static void arcmsr_shutdown(struct pci_dev *pdev);
+ static void arcmsr_iop_init(struct AdapterControlBlock *acb);
+@@ -213,13 +213,14 @@ static struct pci_device_id arcmsr_device_id_table[] = {
+ };
+ MODULE_DEVICE_TABLE(pci, arcmsr_device_id_table);
+ 
++static SIMPLE_DEV_PM_OPS(arcmsr_pm_ops, arcmsr_suspend, arcmsr_resume);
++
+ static struct pci_driver arcmsr_pci_driver = {
+ 	.name			= "arcmsr",
+ 	.id_table		= arcmsr_device_id_table,
+ 	.probe			= arcmsr_probe,
+ 	.remove			= arcmsr_remove,
+-	.suspend		= arcmsr_suspend,
+-	.resume			= arcmsr_resume,
++	.driver.pm		= &arcmsr_pm_ops,
+ 	.shutdown		= arcmsr_shutdown,
+ };
+ /*
+@@ -1065,14 +1066,14 @@ static void arcmsr_free_irq(struct pci_dev *pdev,
+ 	pci_free_irq_vectors(pdev);
+ }
+ 
+-static int arcmsr_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused arcmsr_suspend(struct device *dev)
+ {
+-	uint32_t intmask_org;
++	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct Scsi_Host *host = pci_get_drvdata(pdev);
+ 	struct AdapterControlBlock *acb =
  		(struct AdapterControlBlock *)host->hostdata;
  
- 	pci_set_power_state(pdev, PCI_D0);
--	pci_enable_wake(pdev, PCI_D0, 0);
- 	pci_restore_state(pdev);
- 	if (pci_enable_device(pdev)) {
- 		pr_warn("%s: pci_enable_device error\n", __func__);
+-	intmask_org = arcmsr_disable_outbound_ints(acb);
++	arcmsr_disable_outbound_ints(acb);
+ 	arcmsr_free_irq(pdev, acb);
+ 	del_timer_sync(&acb->eternal_timer);
+ 	if (set_date_time)
+@@ -1080,28 +1081,19 @@ static int arcmsr_suspend(struct pci_dev *pdev, pm_message_t state)
+ 	flush_work(&acb->arcmsr_do_message_isr_bh);
+ 	arcmsr_stop_adapter_bgrb(acb);
+ 	arcmsr_flush_adapter_cache(acb);
+-	pci_set_drvdata(pdev, host);
+-	pci_save_state(pdev);
+-	pci_disable_device(pdev);
+-	pci_set_power_state(pdev, pci_choose_state(pdev, state));
+ 	return 0;
+ }
+ 
+-static int arcmsr_resume(struct pci_dev *pdev)
++static int __maybe_unused arcmsr_resume(struct device *dev)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct Scsi_Host *host = pci_get_drvdata(pdev);
+ 	struct AdapterControlBlock *acb =
+ 		(struct AdapterControlBlock *)host->hostdata;
+ 
+-	pci_set_power_state(pdev, PCI_D0);
+-	pci_restore_state(pdev);
+-	if (pci_enable_device(pdev)) {
+-		pr_warn("%s: pci_enable_device error\n", __func__);
+-		return -ENODEV;
+-	}
+ 	if (arcmsr_set_dma_mask(acb))
+ 		goto controller_unregister;
+-	pci_set_master(pdev);
++
+ 	if (arcmsr_request_irq(pdev, acb) == FAILED)
+ 		goto controller_stop;
+ 	switch (acb->adapter_type) {
+@@ -1136,9 +1128,7 @@ static int arcmsr_resume(struct pci_dev *pdev)
+ 	scsi_remove_host(host);
+ 	arcmsr_free_ccb_pool(acb);
+ 	arcmsr_unmap_pciregion(acb);
+-	pci_release_regions(pdev);
+ 	scsi_host_put(host);
+-	pci_disable_device(pdev);
+ 	return -ENODEV;
+ }
+ 
 -- 
 2.28.0
 
