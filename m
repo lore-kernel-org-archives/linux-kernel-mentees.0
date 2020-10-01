@@ -2,100 +2,104 @@ Return-Path: <SRS0=PXb8=DI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 615F7C4727C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D527C4727C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 08:14:44 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DB9372145D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 07:57:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 65C7621707
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 08:14:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bwqx3uHy"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB9372145D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qm2L+QC+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 65C7621707
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6334222FC6;
-	Thu,  1 Oct 2020 07:57:41 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0EC2F22DE3;
+	Thu,  1 Oct 2020 08:14:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gtWBsjYcD3aT; Thu,  1 Oct 2020 07:57:38 +0000 (UTC)
+	with ESMTP id j7Vq2wfrFzgX; Thu,  1 Oct 2020 08:14:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 4926922F26;
-	Thu,  1 Oct 2020 07:57:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 15ED42044C;
+	Thu,  1 Oct 2020 08:14:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3D871C0889;
-	Thu,  1 Oct 2020 07:57:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E2C0EC0889;
+	Thu,  1 Oct 2020 08:14:40 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 14290C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EF620C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:57:37 +0000 (UTC)
+ Thu,  1 Oct 2020 08:14:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id F0F208730A
+ by hemlock.osuosl.org (Postfix) with ESMTP id D48F48730E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:57:36 +0000 (UTC)
+ Thu,  1 Oct 2020 08:14:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BNiln12SRA1o
+ with ESMTP id TlVMr3CDi-Ry
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:57:35 +0000 (UTC)
+ Thu,  1 Oct 2020 08:14:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BDA1D87307
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id DCDDA8730C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 07:57:34 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id j136so669096wmj.2
+ Thu,  1 Oct 2020 08:14:37 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id m6so4570668wrn.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Oct 2020 00:57:34 -0700 (PDT)
+ Thu, 01 Oct 2020 01:14:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=fO/xwDjrhenhlWFGk3DdZkVFlX+/hkokIVqB85yj9q8=;
- b=Bwqx3uHyCyScf2SC7J0dP6b8TluUSYa3R57F+xWoWEDaEK+o7QRMP+bCtb+0kvaBD9
- h+22TRDB+CqJMxYCVuW2YKGT90lchFukm71dkB8lFRdI6sJS5o9TOUmP3ttxhokvDe6O
- 8yOqJesCuSSmpxXc7pEcvlQyy0mLiWDb8S6r8DCQ3VcsjdaClp6f70GjcpPnKvCHZlbw
- 62VskwilqJr+7miBCi794mo/B/UKfzfI9CitGwoG+hV1xoD3IP1l+iYKkH44mEVIkZzq
- OCO8TGmoef9l55dzoRUX/liwp2LoIk5QKo9rTIJPY/p/uR+MHRqZuNcQWmaHuwjJo1TM
- vykQ==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=/5sLVmlxILZE/Z9rJTLkyneN7cZ0LA7DGwqcHPCyRwk=;
+ b=Qm2L+QC+6XO8f+Q5QpASJSWSQtPBAtKz/jPu/nCTxQdRHSARatxRatFgUuJDCeJxzG
+ UX7p4KJYv9wJ55918G1oUa/D5aVsWeQe+isidS1301N0ngF9swDOohpwFpAJ8VnXjKyJ
+ 4EOz4ERuZFoGn39eCiXBRYoP6/zRPNdncpcyBO47OKtXzIbLYSb0YvjSDzJP9+j1dBaM
+ NEDikWKOSO3wBJ1L5AtCndBBQylwCQjd7T8XEFH/7du7y4oXq3akO9CXkHMjkMVoxmi/
+ UrXUt6NKEOn+aIeBWbjqLkCeJ+x54f0ZRzCpdArJwfQTxRgeEf4yqTG3ywILnf5Jfprb
+ j/PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=fO/xwDjrhenhlWFGk3DdZkVFlX+/hkokIVqB85yj9q8=;
- b=Sas5HizDstVDWvKhY8hEhlwI5z4uG4UIMB35udwyY0EEB/WHU7kxpoqIwM8DQd+QKl
- uRTjgRFy/YFozRQgr8rKUB/pEX6s4ie+Hyy2qTKsNAxqP0Il/26s/luMpjZEKCU+ARwn
- BJinogUHsOEybrCEBG3wHVIGNgPwHhuzZ9ppht5lxPYTUXz7H0hAVijy+BA27kZVI1Ee
- IGz6oY9HiXXfZQh7v/JFUTifTkdWdvrZVbDlTsHuGrXZyVvmZJ4N3LGU0o+qaW41A9JD
- IrFFxtB6XJZbP8ZCGBssYmFmGEWp6+jFSHnM31BmhiRnC5klbNW+Ff52KdllH+L9YGnO
- sweg==
-X-Gm-Message-State: AOAM533MITf99UGXzEXBfNVFpPGhXwWW3jIBwCRDV1OsPlIdui9xWu7k
- DfvL5FTi2wTcGw+Cb+i2hiY=
-X-Google-Smtp-Source: ABdhPJzqmTeSoVSj3eZWfMKoqv/hpLTEtUApfBAwXbTtQp2UVy5XutKX6uMVXd+nsjlytHcsbI/NNw==
-X-Received: by 2002:a1c:4054:: with SMTP id n81mr6819205wma.81.1601539053027; 
- Thu, 01 Oct 2020 00:57:33 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2d4d:ba00:2c39:a8cb:1b2a:4845])
- by smtp.gmail.com with ESMTPSA id b64sm7500948wmh.13.2020.10.01.00.57.31
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=/5sLVmlxILZE/Z9rJTLkyneN7cZ0LA7DGwqcHPCyRwk=;
+ b=JeOBrJ8RxSwIx0QFSPxJX43ULmY6hBDNHnBsn3bQ2pZ/Ffvyw5AeIgjmvLuoR1pGiG
+ me8g3wRDaz7dSp0Cr8a5NN6PXo5fgSMJ3QtYSCDacf5ZIRp6UhaY4kx8qU/AzFEFZ9NR
+ u8Hhj+cGLINPS6aq+1tfj+vl8P+ylFHLK5rMsIEEJhLVkohHbsQJD0bbSGjpuwCnofY6
+ CSqbPMEUjTAHWRFSUqFftRiEO0M+Lft1mL5WTW0Pi7MemHvlF2usmEjx5TRbKk5eMo3/
+ d+FTrgMEmpOKRvu1vajm5gMSp49XvUij1JFpoyzvGRpDdsvEmaM71ZPEs5F4ApYxCQd2
+ xdxQ==
+X-Gm-Message-State: AOAM531Ez7YSIIpctOlEP+gvY5J9JPH6VbnPeEegdGbPfIhKYJq971jS
+ JY+8vjd4BTkNJt/Ef0+fl+A=
+X-Google-Smtp-Source: ABdhPJyZLP/ODL9DgAb/llZpaALcc+VuJfrZxBIQNA7Z7w16fMnTb3X1P+PFvDfmAVItvk98/rwcVg==
+X-Received: by 2002:adf:c3cc:: with SMTP id d12mr7542976wrg.399.1601540076344; 
+ Thu, 01 Oct 2020 01:14:36 -0700 (PDT)
+Received: from felia ([2001:16b8:2d4d:ba00:2c39:a8cb:1b2a:4845])
+ by smtp.gmail.com with ESMTPSA id b8sm7131696wmb.4.2020.10.01.01.14.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 00:57:32 -0700 (PDT)
+ Thu, 01 Oct 2020 01:14:35 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
- Kees Cook <keescook@chromium.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Michal Marek <michal.lkml@markovi.net>, linux-kbuild@vger.kernel.org
-Date: Thu,  1 Oct 2020 09:57:23 +0200
-Message-Id: <20201001075723.24246-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] kbuild: doc: describe proper script
-	invocation
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Thu, 1 Oct 2020 10:14:29 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Theodoros Chatziioannidis <sdi1600197@di.uoa.gr>
+In-Reply-To: <20200930210333.166006-1-dwaipayanray1@gmail.com>
+Message-ID: <alpine.DEB.2.21.2010011001340.24571@felia>
+References: <20200930210333.166006-1-dwaipayanray1@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 1/2] checkpatch: fix
+	multi-statement macro checks
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,90 +111,85 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-During an investigation to fix up the execute bits of scripts in the kernel
-repository, Andrew Morton and Kees Cook pointed out that the execute bit
-should not matter, and that build scripts cannot rely on that. Kees could
-not point to any documentation, though.
 
-Masahiro Yamada explained the convention of setting execute bits to make it
-easier for manual script invocation.
 
-Provide some basic documentation how the build shall invoke scripts, such
-that the execute bits do not matter, and acknowledge that execute bits
-are useful nonetheless.
+On Thu, 1 Oct 2020, Dwaipayan Ray wrote:
 
-This serves as reference for further clean-up patches in the future.
+> Checkpatch.pl generates errors which are false positive for
+> certain multi-statemenent macros.
+> 
+> The specific case investigated was whitespace separated statement
+> terminated by a semicolon. Checkpatch wrongly classifies such
+> as a multi-statement macro.
+> 
+> For example, commit 4649079b9de1 ("tracing: Make ftrace packed
+> events have align of 1") when analyzed with checkpatch generates:
+> 
+> ERROR: Macros with multiple statements should be enclosed in a do -
+> while loop
+> +#define __field_packed(type, container, item)    type item;
+> 
+> The error is misleading in this case and should not be produced.
+> The solution undertaken is to exclude any macro which doesn't
+> have any non-WSP character after the first and only semicolon(;)
 
-Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
-Link: https://lore.kernel.org/linux-kbuild/CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com/
+We all know what a semicolon is; so, you do not need to put that in 
+braces.
 
-Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-Suggested-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-RFC v1 -> RFC v2:
-explain why execute bits are still convenient.
+> present in it. This shall allow macros of the form "type item;",
+> "type item[size];", etc. to not generate the multi-statement macro
+> error.
+>
 
-Kees, Andrew, please ack.
+I think the core reason this might work is that it is a string without any 
+semicolon and then semicolon is at the very end of this expression.
 
-Masahiro-san, I have taken your feedback into account. Please pick this small
-documentation update into your kbuild tree.
+Okay, we need an evaluation if this makes the whole situation better or 
+worse...
 
-Ujjwal Kumar, a potential future mentee, will follow up with further fixes to
-the build scripts.
+Theodoros, can you help us and run checkpatch.pl for this one rule on the 
+current kernel source code before and after the patch is applied, and let 
+us know which differences you observe?
 
- Documentation/kbuild/makefiles.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Dwaipayan, can you try to do a similar evaluation on git commits?
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 58d513a0fa95..bd3e1baf58be 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -21,6 +21,7 @@ This document describes the Linux kernel Makefiles.
- 	   --- 3.10 Special Rules
- 	   --- 3.11 $(CC) support functions
- 	   --- 3.12 $(LD) support functions
-+	   --- 3.13 Script Invocation
- 
- 	=== 4 Host Program support
- 	   --- 4.1 Simple Host Program
-@@ -605,6 +606,25 @@ more details, with real examples.
- 		#Makefile
- 		LDFLAGS_vmlinux += $(call ld-option, -X)
- 
-+3.13 Script invocation
-+----------------------
-+
-+	Make rules may invoke scripts to build the kernel. The rules shall
-+	always provide the appropriate interpreter to execute the script. They
-+	shall not rely on the execute bits being set, and shall not invoke the
-+	script directly. For the convenience of manual script invocation, such
-+	as invoking ./scripts/checkpatch.pl, it is recommended to set execute
-+	bits on the scripts nonetheless.
-+
-+	Kbuild provides variables $(CONFIG_SHELL), $(AWK), $(PERL),
-+	$(PYTHON) and $(PYTHON3) to refer to interpreters for the respective
-+	scripts.
-+
-+	Example::
-+
-+		#Makefile
-+		cmd_depmod = $(CONFIG_SHELL) $(srctree)/scripts/depmod.sh $(DEPMOD) \
-+			     $(KERNELRELEASE)
- 
- 4 Host Program support
- ======================
--- 
-2.17.1
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 9e65d21456f1..72c4072307ea 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -5346,6 +5346,7 @@ sub process {
+>  			    $dstat !~ /^for\s*$Constant\s+(?:$Ident|-?$Constant)$/ &&	# for (...) bar()
+>  			    $dstat !~ /^do\s*{/ &&					# do {...
+>  			    $dstat !~ /^\(\{/ &&						# ({...
+> +			    $dstat !~ /^[^;]*;\s*$/ &&				# space separated statement;
 
+I do not understand this comment "space separated statement". The example 
+above was a macro for a type definition. Isn't that what you have in mind?
+
+
+Give it another iteration, but I think the patch is pretty clear and so 
+let us send it out to Joe and lkml with the next patch version.
+
+Lukas
+
+>  			    $ctx !~ /^.\s*#\s*define\s+TRACE_(?:SYSTEM|INCLUDE_FILE|INCLUDE_PATH)\b/)
+>  			{
+>  				if ($dstat =~ /^\s*if\b/) {
+> -- 
+> 2.27.0
+> 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
