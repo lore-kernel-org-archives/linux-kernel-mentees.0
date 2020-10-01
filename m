@@ -2,102 +2,104 @@ Return-Path: <SRS0=PXb8=DI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4017C47423
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 19:43:06 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AD54C47423
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 19:44:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6D74120759
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 19:43:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1A65A20759
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 19:44:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nBqMt+nJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D74120759
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tX1GvFWP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A65A20759
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2023487388;
-	Thu,  1 Oct 2020 19:43:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id ED69686933;
+	Thu,  1 Oct 2020 19:43:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XuTgycxhImh9; Thu,  1 Oct 2020 19:43:00 +0000 (UTC)
+	with ESMTP id 0UUNjjR_zHTV; Thu,  1 Oct 2020 19:43:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 842D087386;
-	Thu,  1 Oct 2020 19:43:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B6B008665E;
+	Thu,  1 Oct 2020 19:43:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 72EA6C016F;
-	Thu,  1 Oct 2020 19:43:00 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B1330C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D0AEC016F;
+	Thu,  1 Oct 2020 19:43:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 50959C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 19:42:58 +0000 (UTC)
+ Thu,  1 Oct 2020 19:43:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9BF1C87387
+ by whitealder.osuosl.org (Postfix) with ESMTP id 4C1B886B33
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 19:42:58 +0000 (UTC)
+ Thu,  1 Oct 2020 19:43:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sFQT4IgffRPu
+ with ESMTP id cdnf29Mbrxfd
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 19:42:53 +0000 (UTC)
+ Thu,  1 Oct 2020 19:43:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0C2E287386
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1708286B31
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 19:42:53 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id kk9so2465045pjb.2
+ Thu,  1 Oct 2020 19:43:50 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id d6so5572982pfn.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Oct 2020 12:42:53 -0700 (PDT)
+ Thu, 01 Oct 2020 12:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=5U9Z3gfL0bBLA7Q56k9zKtijE63sIgmucRUpQOLPbo4=;
- b=nBqMt+nJxc5kctNIoz5OidnPOm+8PIwab+qxC10Y2tSBxv5SeMLy+ydOA2+PDIHlnc
- lUpNOGQoR/ZKvMsl2p8FEUI6bQIi8TBbyUPinfCElND6xRGHMHEb6SgH6nh0r8+Karr3
- uI1YP6csb2elDr6MBFk5uJ9zKGeZwKbq1FiRiLx6iG7Fv88KIUP5dz1lwkMUS4a1hLLa
- zFgWyPqIiR2OQEFly2oOvOzOOE5Fm6pSHoGAJxBSu6jlmQ2Oew+0ieVrbkvo0hPUCzjJ
- /OT1X6wA5yxheYY3yyQ/MBB+JPjCaX9uo+idq4ITY2figjmfCY4pgKsDxClVyv18bnyL
- 025A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CzsQFq5TcOeOYdaiQDeN/QbyXwYMVKi6+YdbJZoiwuY=;
+ b=tX1GvFWPwIyzM0OHct28YSx+gEK8MvlEAzCcADfC6X+zLiC0nzFmjpiHc0Cr0oxTEw
+ ex5aYR8Whxc7BquvHCD/4e9vKYN9JLw//Hl5iAodd+aa0+cx7ZCtRp/6eXN5C9sfZz2T
+ dS3rXbv5C4j9AWNGk9sbKfOiJYae0Gej7QwyqGlnBfppPt+i0FZum05GT9VNuqT8joaq
+ MQSgW1AtqxhO9sV/l3/3MkFO3wp/IlutjgjHipK8oT/ngiB0YwuIwQRhtEvmuAdNCtj+
+ nMPP62yqIlXLpUzRZril0+xe6f7xANruMG5uzWu0W5/Nh2w6EaP9NRr8J1zdIrwe7aHw
+ p9Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=5U9Z3gfL0bBLA7Q56k9zKtijE63sIgmucRUpQOLPbo4=;
- b=sBY7Gy2SmSIF8ESntPjqnKDB7V9L5ipKk50HxMrZVygK1LJILp6Qh+V6qfqHGirg1X
- +rlsjHwMKqlqr7zo4ZWwbgSa3SEvSNqCF/nxkfrANYL1Fwa7ffWizrLBcN/wgK37LxgR
- bhr2AzGUHk0FCIkLU2YQFv6ywMqYVABdIULXboH4K4mBHp1rqrsl5mkFAqCBdR602CaY
- HagtkndcgEJebwc0D2c6Hn5tMSRYlsCjPC0g3+HJNNGAObL3FNa55OsonAIZmIeMMJIU
- dWbHAO74adUpD0z+oAW8VAK60/OWdPCQnrs81oN+y2cb1hFW52z1g/0FUXadtdJzM3O6
- gDdg==
-X-Gm-Message-State: AOAM531tRgheFCP+0BW6tYnQiUFPwEwLwQj+09gdGg52Mt3XmBXsaYwu
- QISaLZfnKAfr1SWeP9BF+FjiDEZEB+Jm0w==
-X-Google-Smtp-Source: ABdhPJypedxnPSVYdqq6BhNnGmaLWW2OgFAHaqT0I9FqFtnB6xx+jvoBxHVJgjtLE15tUDsFbQK4Xg==
-X-Received: by 2002:a17:90b:3109:: with SMTP id
- gc9mr1517585pjb.74.1601581372065; 
- Thu, 01 Oct 2020 12:42:52 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
- by smtp.gmail.com with ESMTPSA id e123sm7414543pfh.167.2020.10.01.12.42.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 12:42:51 -0700 (PDT)
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-Message-ID: <d860ed8f-ef17-acd8-00ef-0a496f4cbc35@gmail.com>
-Date: Fri, 2 Oct 2020 01:12:48 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CzsQFq5TcOeOYdaiQDeN/QbyXwYMVKi6+YdbJZoiwuY=;
+ b=jecOu9wSXV/MSUfPndb2ZVNaZz3O2wl5ycclDnYNWRrNgcOXbwv1luSnZrNlGnyw+k
+ GT92uYY7ijMDE4t9LpFnYh7CINzGoCK6C+4WP2QxeR84m51X0SgL3f/JeVvOF4agxr+K
+ ItI2k5f3/CoZhNOLHVtnrMKPdCVHprgbyjHohxMskRqg0CX8BrG7aybeLxkhgQwZWC1/
+ b1gYilNkw/e9ZY2Z9urzMgnTXlpNCWuAF5ZWPokox6vgRoHAnIKxiO6H/TZX2lprdSSL
+ V1dLsD+jZE/MyDmxM+2e8dvLoQazAKxRxv8PwleRnuUe2ZHoz1EGp5Gp7sVV2Zq2x0aI
+ z3RA==
+X-Gm-Message-State: AOAM532HrJ0PMpCYMlT+A7b0umZcIy6V1bfvgoAM9bLAXzESOzwtClW4
+ zzKvDnwFnjL4rUcUrJhcly86cEKLMQMImnJwgcY=
+X-Google-Smtp-Source: ABdhPJyduhQq86lDaODuQjpM/0yPytt2ShHGue+aD+PiP6gmiSEFi3UuZfNEVSGvFkVs3gvGkZKtCg==
+X-Received: by 2002:a63:ef51:: with SMTP id c17mr7403957pgk.36.1601581429050; 
+ Thu, 01 Oct 2020 12:43:49 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.217.69])
+ by smtp.gmail.com with ESMTPSA id q65sm1591670pfq.219.2020.10.01.12.43.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 12:43:48 -0700 (PDT)
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+To: 
+Date: Fri,  2 Oct 2020 01:13:28 +0530
+Message-Id: <20201001194329.9328-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH RFC] tools: kbuild: use interpreters
-	to invoke scripts
+Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+ syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com,
+ Johan Hedberg <johan.hedberg@gmail.com>, linux-bluetooth@vger.kernel.org,
+ Marcel Holtmann <marcel@holtmann.org>, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH v2] bluetooth: hci_h5: close serdev
+	device and free hu in h5_close
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,92 +117,43 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-We cannot rely on execute bits to be set on files in the repository.
-The build script should use the explicit interpreter when invoking any
-script from the repository.
+When h5_close() gets called, the memory allocated for the hu gets 
+freed only if hu->serdev doesn't exist. This leads to a memory leak.
+So when h5_close() is requested, close the serdev device instance and
+free the memory allocated to the hu entirely instead.
 
-Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
-
-Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-Suggested-by: Kees Cook <keescook@chromium.org>
-Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+Fixes: ce945552fde4 ("Bluetooth: hci_h5: Add support for serdev enumerated devices")
+Reported-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
+Tested-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
- tools/bootconfig/Makefile                        |  2 +-
- tools/bpf/Makefile.helpers                       |  2 +-
- tools/lib/bpf/Makefile                           |  2 +-
- tools/perf/Makefile.perf                         |  2 +-
- tools/power/cpupower/Makefile                    |  2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+Changes in v2:
+	* Fixed the Fixes tag
 
-diff --git a/tools/bootconfig/Makefile b/tools/bootconfig/Makefile
-index da5975775337..b6aee03a6ca9 100644
---- a/tools/bootconfig/Makefile
-+++ b/tools/bootconfig/Makefile
-@@ -21,7 +21,7 @@ $(OUTPUT)bootconfig: main.c $(LIBSRC)
- 	$(CC) $(filter %.c,$^) $(CFLAGS) -o $@
+ drivers/bluetooth/hci_h5.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/bluetooth/hci_h5.c b/drivers/bluetooth/hci_h5.c
+index e41854e0d79a..3d1585add572 100644
+--- a/drivers/bluetooth/hci_h5.c
++++ b/drivers/bluetooth/hci_h5.c
+@@ -248,8 +248,12 @@ static int h5_close(struct hci_uart *hu)
+ 	if (h5->vnd && h5->vnd->close)
+ 		h5->vnd->close(h5);
  
- test: $(ALL_PROGRAMS) test-bootconfig.sh
--	./test-bootconfig.sh $(OUTPUT)
-+	$(CONFIG_SHELL) ./test-bootconfig.sh $(OUTPUT)
+-	if (!hu->serdev)
+-		kfree(h5);
++	if (hu->serdev)
++		serdev_device_close(hu->serdev);
++
++	kfree_skb(h5->rx_skb);
++	kfree(h5);
++	h5 = NULL;
  
- install: $(ALL_PROGRAMS)
- 	install $(OUTPUT)bootconfig $(DESTDIR)$(bindir)
-diff --git a/tools/bpf/Makefile.helpers b/tools/bpf/Makefile.helpers
-index 854d084026dd..6f2b042ff719 100644
---- a/tools/bpf/Makefile.helpers
-+++ b/tools/bpf/Makefile.helpers
-@@ -35,7 +35,7 @@ man7: $(DOC_MAN7)
- RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
- 
- $(OUTPUT)$(HELPERS_RST): $(UP2DIR)../../include/uapi/linux/bpf.h
--	$(QUIET_GEN)$(UP2DIR)../../scripts/bpf_helpers_doc.py --filename $< > $@
-+	$(QUIET_GEN)$(PYTHON3) $(UP2DIR)../../scripts/bpf_helpers_doc.py --filename $< > $@
- 
- $(OUTPUT)%.7: $(OUTPUT)%.rst
- ifndef RST2MAN_DEP
-diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
-index f43249696d9f..8a3f7399568f 100644
---- a/tools/lib/bpf/Makefile
-+++ b/tools/lib/bpf/Makefile
-@@ -179,7 +179,7 @@ $(BPF_IN_STATIC): force elfdep zdep bpfdep $(BPF_HELPER_DEFS)
- 	$(Q)$(MAKE) $(build)=libbpf OUTPUT=$(STATIC_OBJDIR)
- 
- $(BPF_HELPER_DEFS): $(srctree)/tools/include/uapi/linux/bpf.h
--	$(QUIET_GEN)$(srctree)/scripts/bpf_helpers_doc.py --header \
-+	$(QUIET_GEN)$(PYTHON3) $(srctree)/scripts/bpf_helpers_doc.py --header \
- 		--file $(srctree)/tools/include/uapi/linux/bpf.h > $(BPF_HELPER_DEFS)
- 
- $(OUTPUT)libbpf.so: $(OUTPUT)libbpf.so.$(LIBBPF_VERSION)
-diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-index 6031167939ae..42f797e541d0 100644
---- a/tools/perf/Makefile.perf
-+++ b/tools/perf/Makefile.perf
-@@ -229,7 +229,7 @@ goals := $(filter-out all sub-make, $(MAKECMDGOALS))
- $(goals) all: sub-make
- 
- sub-make: fixdep
--	@./check-headers.sh
-+	$(Q)$(SHELL) ./check-headers.sh
- 	$(Q)$(MAKE) FIXDEP=1 -f Makefile.perf $(goals)
- 
- else # force_fixdep
-diff --git a/tools/power/cpupower/Makefile b/tools/power/cpupower/Makefile
-index c7bcddbd486d..b683e774f5e3 100644
---- a/tools/power/cpupower/Makefile
-+++ b/tools/power/cpupower/Makefile
-@@ -51,7 +51,7 @@ DESTDIR ?=
- # Package-related definitions. Distributions can modify the version
- # and _should_ modify the PACKAGE_BUGREPORT definition
- 
--VERSION:=			$(shell ./utils/version-gen.sh)
-+VERSION:=			$($(CONFIG_SHELL) ./utils/version-gen.sh)
- LIB_MAJ=			0.0.1
- LIB_MIN=			0
- 
+ 	return 0;
+ }
 -- 
-2.26.2
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
