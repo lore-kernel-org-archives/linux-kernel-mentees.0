@@ -2,104 +2,102 @@ Return-Path: <SRS0=PXb8=DI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AD54C47423
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 19:44:00 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FDD1C4727E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 19:45:02 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A65A20759
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 19:44:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 04CA120848
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Oct 2020 19:45:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tX1GvFWP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A65A20759
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oiUgOO93"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04CA120848
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id ED69686933;
-	Thu,  1 Oct 2020 19:43:59 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D212C8738B;
+	Thu,  1 Oct 2020 19:45:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0UUNjjR_zHTV; Thu,  1 Oct 2020 19:43:55 +0000 (UTC)
+	with ESMTP id ZzjeAndrTtmF; Thu,  1 Oct 2020 19:44:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B6B008665E;
-	Thu,  1 Oct 2020 19:43:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DF42087386;
+	Thu,  1 Oct 2020 19:44:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D0AEC016F;
-	Thu,  1 Oct 2020 19:43:55 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 50959C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DBC56C016F;
+	Thu,  1 Oct 2020 19:44:55 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 29652C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 19:43:54 +0000 (UTC)
+ Thu,  1 Oct 2020 19:44:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4C1B886B33
+ by hemlock.osuosl.org (Postfix) with ESMTP id 13EAC87388
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 19:43:54 +0000 (UTC)
+ Thu,  1 Oct 2020 19:44:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cdnf29Mbrxfd
+ with ESMTP id UJCY2h4FUrJV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 19:43:50 +0000 (UTC)
+ Thu,  1 Oct 2020 19:44:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1708286B31
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0F6C887386
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Oct 2020 19:43:50 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id d6so5572982pfn.9
+ Thu,  1 Oct 2020 19:44:48 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id h23so2456999pjv.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Oct 2020 12:43:50 -0700 (PDT)
+ Thu, 01 Oct 2020 12:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CzsQFq5TcOeOYdaiQDeN/QbyXwYMVKi6+YdbJZoiwuY=;
- b=tX1GvFWPwIyzM0OHct28YSx+gEK8MvlEAzCcADfC6X+zLiC0nzFmjpiHc0Cr0oxTEw
- ex5aYR8Whxc7BquvHCD/4e9vKYN9JLw//Hl5iAodd+aa0+cx7ZCtRp/6eXN5C9sfZz2T
- dS3rXbv5C4j9AWNGk9sbKfOiJYae0Gej7QwyqGlnBfppPt+i0FZum05GT9VNuqT8joaq
- MQSgW1AtqxhO9sV/l3/3MkFO3wp/IlutjgjHipK8oT/ngiB0YwuIwQRhtEvmuAdNCtj+
- nMPP62yqIlXLpUzRZril0+xe6f7xANruMG5uzWu0W5/Nh2w6EaP9NRr8J1zdIrwe7aHw
- p9Hw==
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=E6eg5BLNNt6tQQT+oLvRoYQfdPma9PurCdziiw+Wk5c=;
+ b=oiUgOO93Ph9o1FeUl3FAvnew+NmadFSQ6IABQjlLbGGj77sSkCyqcKUW3SiPQtMGj1
+ HpcEnygbR7ZNjNuZUopNaSx1IerDZ8gJzocfNajdUqvmhfVedaxEeuwsemdws1P5B2p8
+ WL3CRSFlrzug+KomnoFHXRSL3GmfUD4u5vep37VKjW1WELDDmz+RHfvkrjpf4tc8l3i9
+ qcRCUEVnOSEjypYo/nh0fOgOuWMIOThPRB349aCsZJykwljFHeMgzIdQbLYQq56Hi2xA
+ mWalZooC8F6RayHDCzjroFCAvzmo8JbKjlQxNVtkgTHeI5CX1sQmycKNVQPF6e0bDc1H
+ 888g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CzsQFq5TcOeOYdaiQDeN/QbyXwYMVKi6+YdbJZoiwuY=;
- b=jecOu9wSXV/MSUfPndb2ZVNaZz3O2wl5ycclDnYNWRrNgcOXbwv1luSnZrNlGnyw+k
- GT92uYY7ijMDE4t9LpFnYh7CINzGoCK6C+4WP2QxeR84m51X0SgL3f/JeVvOF4agxr+K
- ItI2k5f3/CoZhNOLHVtnrMKPdCVHprgbyjHohxMskRqg0CX8BrG7aybeLxkhgQwZWC1/
- b1gYilNkw/e9ZY2Z9urzMgnTXlpNCWuAF5ZWPokox6vgRoHAnIKxiO6H/TZX2lprdSSL
- V1dLsD+jZE/MyDmxM+2e8dvLoQazAKxRxv8PwleRnuUe2ZHoz1EGp5Gp7sVV2Zq2x0aI
- z3RA==
-X-Gm-Message-State: AOAM532HrJ0PMpCYMlT+A7b0umZcIy6V1bfvgoAM9bLAXzESOzwtClW4
- zzKvDnwFnjL4rUcUrJhcly86cEKLMQMImnJwgcY=
-X-Google-Smtp-Source: ABdhPJyduhQq86lDaODuQjpM/0yPytt2ShHGue+aD+PiP6gmiSEFi3UuZfNEVSGvFkVs3gvGkZKtCg==
-X-Received: by 2002:a63:ef51:: with SMTP id c17mr7403957pgk.36.1601581429050; 
- Thu, 01 Oct 2020 12:43:49 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.217.69])
- by smtp.gmail.com with ESMTPSA id q65sm1591670pfq.219.2020.10.01.12.43.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 12:43:48 -0700 (PDT)
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-To: 
-Date: Fri,  2 Oct 2020 01:13:28 +0530
-Message-Id: <20201001194329.9328-1-anant.thazhemadam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=E6eg5BLNNt6tQQT+oLvRoYQfdPma9PurCdziiw+Wk5c=;
+ b=l8kdaNYJVLphuc12Q1wmGD5HrYz0ll9y9id07zJoZ4jGwzZyNZOa1dt45qRyRLH+M4
+ CPrL/S/HidbCRde9b3jD3Ae7P/MJTN6sv/b4/zXZxYilAkquYZyJ4gH3jbuMqhusel/O
+ A+ySvulsLdkcC9jW7Rh+Y97wO4C2S0WzvuM63K+/Vu0xHLqWSBFsn+4e6W4YG75yfXkm
+ J8prMaiNSS2IX3hLqEnJYQUHfrjMDdhdL3mOvzk/eNEAiB8qzyzMiiwmflvm6nxcivux
+ 0qLXGjpFTECHhD5058lq4CZ5Y54P7Mi+xfqR/ZNeq8flf1RSurdmJP8ScwelIVGNwBIF
+ /pHA==
+X-Gm-Message-State: AOAM530M3NGVwHoCfM5mK5qFiZnJe5q1IlUcK5/u5PWRP40KdCNxRstD
+ fCUqk2+DUAiFNi4CWQuIK4CBdj1miLZbXA==
+X-Google-Smtp-Source: ABdhPJyIOl9x9fk5cHMZvdbmHtBqlzrI1sKXGtIBkSxH1JAhc6eBIZUnsCh5BY1voOUqbg7sDS8Clw==
+X-Received: by 2002:a17:90b:1245:: with SMTP id
+ gx5mr1426844pjb.193.1601581487153; 
+ Thu, 01 Oct 2020 12:44:47 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
+ by smtp.gmail.com with ESMTPSA id a5sm6342509pgk.13.2020.10.01.12.44.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Oct 2020 12:44:46 -0700 (PDT)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+Message-ID: <e13498ac-34ec-26bf-2a1d-e166974c9061@gmail.com>
+Date: Fri, 2 Oct 2020 01:14:43 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com,
- Johan Hedberg <johan.hedberg@gmail.com>, linux-bluetooth@vger.kernel.org,
- Marcel Holtmann <marcel@holtmann.org>, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v2] bluetooth: hci_h5: close serdev
-	device and free hu in h5_close
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH RFC] comedi: kbuild: use interpreters
+	to invoke scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,43 +115,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-When h5_close() gets called, the memory allocated for the hu gets 
-freed only if hu->serdev doesn't exist. This leads to a memory leak.
-So when h5_close() is requested, close the serdev device instance and
-free the memory allocated to the hu entirely instead.
+We cannot rely on execute bits to be set on files in the repository.
+The build script should use the explicit interpreter when invoking any
+script from the repository.
 
-Fixes: ce945552fde4 ("Bluetooth: hci_h5: Add support for serdev enumerated devices")
-Reported-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
-Tested-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
+Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
+
+Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+Suggested-by: Kees Cook <keescook@chromium.org>
+Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
 ---
-Changes in v2:
-	* Fixed the Fixes tag
+ drivers/staging/comedi/drivers/ni_routing/tools/Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/bluetooth/hci_h5.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/bluetooth/hci_h5.c b/drivers/bluetooth/hci_h5.c
-index e41854e0d79a..3d1585add572 100644
---- a/drivers/bluetooth/hci_h5.c
-+++ b/drivers/bluetooth/hci_h5.c
-@@ -248,8 +248,12 @@ static int h5_close(struct hci_uart *hu)
- 	if (h5->vnd && h5->vnd->close)
- 		h5->vnd->close(h5);
+diff --git a/drivers/staging/comedi/drivers/ni_routing/tools/Makefile b/drivers/staging/comedi/drivers/ni_routing/tools/Makefile
+index 6e92a06a44cb..1d4635320fdb 100644
+--- a/drivers/staging/comedi/drivers/ni_routing/tools/Makefile
++++ b/drivers/staging/comedi/drivers/ni_routing/tools/Makefile
+@@ -42,14 +42,14 @@ ni_values.py: convert_c_to_py
+ 	./convert_c_to_py
  
--	if (!hu->serdev)
--		kfree(h5);
-+	if (hu->serdev)
-+		serdev_device_close(hu->serdev);
-+
-+	kfree_skb(h5->rx_skb);
-+	kfree(h5);
-+	h5 = NULL;
+ csv-files : ni_values.py comedi_h.py
+-	./convert_py_to_csv.py
++	$(PYTHON3) ./convert_py_to_csv.py
  
- 	return 0;
- }
+ csv-blank :
+-	./make_blank_csv.py
++	$(PYTHON3) ./make_blank_csv.py
+ 	@echo New blank csv signal table in csv/blank_route_table.csv
+ 
+ c-files : comedi_h.py
+-	./convert_csv_to_c.py --route_values --device_routes
++	$(PYTHON3) ./convert_csv_to_c.py --route_values --device_routes
+ 
+ ROUTE_VALUES_SRC=$(wildcard ../ni_route_values/*.c)
+ DEVICE_ROUTES_SRC=$(wildcard ../ni_device_routes/*.c)
 -- 
-2.25.1
+2.26.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
