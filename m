@@ -2,101 +2,118 @@ Return-Path: <SRS0=/4fU=DJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40499C4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 12:42:45 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C977DC4363D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 13:36:43 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BEA1420672
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 12:42:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 337DC205ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 13:36:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dVxeuTTc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BEA1420672
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ee0Kc5v2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 337DC205ED
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6209B865DB;
-	Fri,  2 Oct 2020 12:42:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CE6DD273CF;
+	Fri,  2 Oct 2020 13:36:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dC5NmO9RuyoV; Fri,  2 Oct 2020 12:42:43 +0000 (UTC)
+	with ESMTP id B+CgCrzQ1QTU; Fri,  2 Oct 2020 13:36:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 859CA8659F;
-	Fri,  2 Oct 2020 12:42:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3FA67274E3;
+	Fri,  2 Oct 2020 13:36:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 69E25C016F;
-	Fri,  2 Oct 2020 12:42:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 221DEC0889;
+	Fri,  2 Oct 2020 13:36:40 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D2788C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 823C9C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 12:42:42 +0000 (UTC)
+ Fri,  2 Oct 2020 13:36:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B48BD872E5
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6915B85888
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 12:42:42 +0000 (UTC)
+ Fri,  2 Oct 2020 13:36:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m65usqZWB83m
+ with ESMTP id MTi2ws1R9Kmc
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 12:42:41 +0000 (UTC)
+ Fri,  2 Oct 2020 13:36:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 82F6B872E4
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 773CA85803
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 12:42:41 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id n14so1146137pff.6
+ Fri,  2 Oct 2020 13:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601645795;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cIhbUTo/DJer55KEx5Wibuu+sAwZNHGD9sBz3CfyeIg=;
+ b=ee0Kc5v2hETSqCTnlOrLAE6C6v7QlrUXQVMrNr0ShFPYmFlkL6BkIrkqnDkQKGuE1SehAm
+ iqMinIH2/dy32G/HkNovO/F7lUy6G5fgG8ow9Uc24k7s89NwhBR1/F2YuHUcpQZIwtP0Qw
+ Fn1bGx3PhnjQvv74xQ2TQYh4qUa9rU8=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-531-TYePZx7-PF2NSVAZXtIs0g-1; Fri, 02 Oct 2020 09:36:33 -0400
+X-MC-Unique: TYePZx7-PF2NSVAZXtIs0g-1
+Received: by mail-ej1-f71.google.com with SMTP id hh10so682868ejb.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 02 Oct 2020 05:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=mBqqMVYn6GUVR+0/1JDtYgm2F4237cvX5QjlbW1GLSw=;
- b=dVxeuTTcbe+wjDDACZV3+0aHShtELWLt1sX/zsDVVzQ/hwomMVt6cu3XlhiSJShIkF
- 15kvaXBIgpCpBOubzJTPWqi64djqXwLw44gj/h5enwNLu13IDvXKalAAuJfPY9km3UEX
- XHuef9WtKSIXJiZZ1KWefll47zsodlRxqw9k8Ih+iGKwHb5sWsLDqLK9qkLgO1NDvZig
- U6TjzI9LTomvcuGo3PKofWwevwAeuKMtZzQJHYq9B93MFz0JQiOK0vzO2AHhbvhVNvQ/
- DzUMt6l6TVHHwaiJ4cn4ykLuQq+caIf3L0mGADvH8C+4Cq911pdC8BI8pyi8ZyYGUVLW
- a+mA==
+ Fri, 02 Oct 2020 06:36:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mBqqMVYn6GUVR+0/1JDtYgm2F4237cvX5QjlbW1GLSw=;
- b=SNfhRMw2zW7oyWtjrRxmbbKdaFfKUr7BrIISEyZ9HFoEWJmuNb75DEzZCVOlOGHgdj
- l3u2xNWoPfTucyI63t5KgEalKa66hosbNvdlRoiQjR7CzNOlAnA6T9GAia7dgbQAN9kZ
- ORS7tJgDbqsddjtReyUFuTSoHAnuPmaixoTF8Bkns3fDnihFx9A63DfOdrXpAoRKphJs
- eySjkWiIzEee+VFFzdgjoVvzQUM5PBjvN/hHfMS2jJzlyn+SBLErHicbLuOi2XZYUPAu
- fc/0/G8lhiPpbHveiw/oBYm1V83aBaf9YcZT1vP+9MeNJ7y6qKWjgpdEgkYJ0gOkJLP+
- Zdlw==
-X-Gm-Message-State: AOAM53388B2s1aEAKE7ka4tpl0dUZi4n0HTyxMyNTxtIqpuCba6PTCVp
- R7ksK5SoDboduuYywdyOAkI=
-X-Google-Smtp-Source: ABdhPJzwoMfDkw5CuC+oXMKrvUJ9IU/GjpdmUT0ewtnrzvnYl9MN7QZWgyEhXxfMXiQDvlW493HEkw==
-X-Received: by 2002:aa7:918b:0:b029:152:1b08:e119 with SMTP id
- x11-20020aa7918b0000b02901521b08e119mr2460330pfa.2.1601642560742; 
- Fri, 02 Oct 2020 05:42:40 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id 17sm1904180pfi.55.2020.10.02.05.42.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 05:42:40 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Fri, 2 Oct 2020 20:42:35 +0800
-To: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <20201002124235.nhjzq7i4gpkzwgbs@Rk>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cIhbUTo/DJer55KEx5Wibuu+sAwZNHGD9sBz3CfyeIg=;
+ b=rJ2SXWuJDRPJzF/v9jRKwTb0k08mjNTS/fVmIiqskFlR20GG323Ef3qU/H1qCZlGH1
+ ODyIBA32LXlVhpFKF0tVPJO/rrFzf54zFLLjmZcUvV/kbGNuHo+tLSZ+IlmNRixMlBHx
+ ymq9iU4UJwk2Ezjx9UHE/O8M62BMBYwDcC6UxaaDURoyiVQtyEAyFOFx6t/S/X0ZkTE4
+ J21aSNaNMEducXm+64sYp3WzwfRHLl3001GYdI/QHK0Pc5lhRXYoeEL/pRG3zhQllLXz
+ LxXVfljtwrzgGW+duya3CkwBQz3Ys416FchRXbX/SoFS+zS6vjt1FnQ4gZCFB/lBKd2S
+ 4DRw==
+X-Gm-Message-State: AOAM5301zQWACE0roh5tsym3b/UVe1ffOFbgN2VhF5T6aWEVPrBSAWeI
+ zt+JtaUmM59LTqxC7L+JZMoKVylXo89PlNwJL2RKoUDnGrMAZOZkNC4GOcN6VbDYL9050xL99+u
+ n2/ubcQaq7FLBpsITe2uZ+UjPVdQeKrOXw/oIx9c4/43Lyv01
+X-Received: by 2002:a17:906:7088:: with SMTP id
+ b8mr2383217ejk.541.1601645791809; 
+ Fri, 02 Oct 2020 06:36:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFs1iaUQfkmf1ZsLA5aHPwpwEXhE1wwsH8u5alTSYeJwK/w2tkRtNuIMGzx+0cD/xA8sRnUA==
+X-Received: by 2002:a17:906:7088:: with SMTP id
+ b8mr2383195ejk.541.1601645791431; 
+ Fri, 02 Oct 2020 06:36:31 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id p3sm1172046edp.28.2020.10.02.06.36.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Oct 2020 06:36:30 -0700 (PDT)
+To: Coiby Xu <coiby.xu@gmail.com>
 References: <20201001132258.6yzosj2w7k4eod42@Rk>
  <CACRpkdYvaC_DUJW+nvmofhhHieDYAiREBog6rn5iS=J4moAtZg@mail.gmail.com>
  <3ded544f-be1b-8dc4-16b7-42172b1e1b08@redhat.com>
+ <20201002124235.nhjzq7i4gpkzwgbs@Rk>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <39f03cfe-0e7f-2ab6-7821-048cfcde8baa@redhat.com>
+Date: Fri, 2 Oct 2020 15:36:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3ded544f-be1b-8dc4-16b7-42172b1e1b08@redhat.com>
+In-Reply-To: <20201002124235.nhjzq7i4gpkzwgbs@Rk>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
@@ -115,249 +132,214 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Oct 02, 2020 at 11:40:12AM +0200, Hans de Goede wrote:
->Hi,
->
->On 10/1/20 10:57 PM, Linus Walleij wrote:
->>Sorry for top posting, but I want to page some people.
->>
->>I do not know anything about ACPI, but Hans de Goede is really
->>good with this kind of things and could possibly provide some
->>insight.
->
->Thanks, although I'm honored to be considered the go to person
->for these kinda things my specialty really lies with these
->kinda issues with intel Bay Trail and Cherry Trail SoCs
->never the less let me take a look.
-
-Thank you for taking time to examine this touchpad issue!
-
->
->>On Thu, Oct 1, 2020 at 3:23 PM Coiby Xu <coiby.xu@gmail.com> wrote:
->>>
->>>Hi,
->>>
->>>I'm trying to fix broken touchpads [1] for a new laptop model Legion-5
->>>15ARH05 which is shipped with two different touchpads, i.e., ElAN and
->>>Synaptics. For the ELAN touchpad, the kernel receives no interrupts to
->>>be informed of new data from the touchpad. For the Synaptics touchpad,
->>>only 7 interrupts are received per second which makes the touchpad
->>>completely unusable. Based on current observations, pinctrl-amd seems to
->>>be the most suspicious cause.
->>>
->>>
->>>Why do I think pinctrl-amd smells the most suspicious?
->>>======================================================
->>>
->>>This laptop model has the following hardware configurations specified
->>>via ACPI,
->>>   - The touchpad's data interrupt line is connected to pin#130 of a GPIO
->>>     chip
->>>
->>>          GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
->>>                          "\\_SB.GPIO", 0x00, ResourceConsumer, ,
->>>                          )
->>>                          {   // Pin list
->>>                              0x0082
->>>                          }
->>>
->>>   - This GPIO chip (HID: AMDI0030) which is assigned with IRQ#7 has its
->>>     common interrupt output line connected to one IO-APIC's pin#7
->>>
->>>          Interrupt (ResourceConsumer, Level, ActiveLow, Shared, ,, )
->>>          {
->>>              0x00000007,
->>>          }
->
->So these both look fine.
->
->>>I add some code to kernel to poll the status of the GPIO chip's pin#130
->>>and IO-APIc's pin#7 every 1ms when I move my finger on the surface of
->>>the Synaptics touchpad continuously for about 1s. During the process of I
->>>move my finger, most of the time,
->>>   - GPIO chip's pin#130: low input, interrupt unmasked
->>>   - IO-APIC's pin#7: IRR=0, interrupt unmasked (in fact mask/unmask_ioapic_irq
->>>     have never been called by the IRQ follow controller handle_fasteoi_irq)
->>>
->>>So the touchpad has been generating interrupts most of the time while
->>>IO-APIC controller hasn't been masking the interrupt from the GPIO chip.
->>>But somehow the kernel could only get ~7 interrupts each second
->
->So are you seeing these 7 interrupts / second for the touchpad irq or for
->the GPIO controllers parent irq ?
->
->Also to these 7 interrupts/sec stop happening when you do not touch the
->touchpad ?
->
-I see these 7 interrupts / second for the GPIO controller's parent irq.
-And they stop happening when I don't touch the touchpad.
-
->To me this sounds like the interrupt is configured as being triggered on
->a negative edge so that it only fires once when the line from the touchpad
->goes low, and for some reason 7 times a second the touchpad controller
->briefly releases the line (sorta gives up to signal the irq and then
->tries again?).
->
->>>while
->>>the touchpad could generate 140 interrupts (time resolution of 7.2ms)
->>>per second. Assuming IO-APIC (arch/x86/kernel/apic/io_apic.c) is fine,
->>>then there's something wrong with the GPIO interrupt controller which
->>>works fine for the touchpad under Windows. Besides if I poll the touchpad
->>>data based on pin#130's status, the touchpad could also work under
->>>Windows.
->
->I agree that this sounds like a problem with the GpioInt handling.
->
->>>Ways to debug pinctrl-amd
->>>=========================
->>>
->>>I can't find any documentation about the AMDI0030 GPIO chip except for
->>>the commit logs of drivers/pinctrl/pinctrl-amd. One commit
->>>ba714a9c1dea85e0bf2899d02dfeb9c70040427c ("pinctrl/amd: Use regular interrupt instead of chained")
->>>inspired me to bring back chained interrupt to see if "an interrupt storm"
->>>would happen. The only change I noticed is that the interrupts arrive in
->>>pairs. The time internal between two interrupts in a pair is ~0.0016s
->>>but the time internal between interrupt pairs is still ~0.12s (~8Hz).
->>>Unfortunately, I don't get any insight about the GPIO interrupt
->>>controller from this tweaking. I wonder if there are any other ways
->>>to debug drivers/pinctrl/pinctrl-amd?
->
->The way I would try to debug this (with access to the hardware) is
->to try an verify the interrupt trigger (level vs edge) settings inside
->pinctrl/amd by adding a bunch of printks printing them whenever the
->relevant register bits are touched.
->
->So I'm going to guess here that these touchpads use i2c-hid, so I
->took a quick peak at the i2c-hid irq request code from
->drivers/hid/i2c-hid/i2c-hid-core.c:
->
->        unsigned long irqflags = 0;
->        int ret;
->
->        dev_dbg(&client->dev, "Requesting IRQ: %d\n", client->irq);
->
->        if (!irq_get_trigger_type(client->irq))
->                irqflags = IRQF_TRIGGER_LOW;
->
->        ret = request_threaded_irq(client->irq, NULL, i2c_hid_irq,
->                                   irqflags | IRQF_ONESHOT, client->name, ihid);
->
->So this tries to preserve the pre-configured irq-type on the irq
->line and if no irq-type is set then it overrides the trigger-type
->to IRQF_TRIGGER_LOW, which means level-low.
->
->One quick hack you can try is ommenting out the "if (!irq_get_trigger_type(client->irq))"
->type, I guess maybe the pinctrl-amd code is defaulting all IRQs to some
->edge trigger type? This should override it and recontrol it to
->a level trigger type.
->
-Yes, "these touchpads use i2c-hid". I have examined the configuration of
-irq-type in drivers/hid/i2c-hid/i2c-hid-core.c and can confirm it's been
-configured to be level-low.
-
-$ sudo cat /sys/kernel/debug/gpio|grep -A1 pin130
-260:pin130      Level trigger| Active low| interrupt is enabled| interrupt is unmasked| disable wakeup in S0i3 state| disable wakeup in S3 state|
-
-(Of course we rely on drivers/pinctrl/pinctrl-amd.c to read&interpret
-data from the corresponding registers. If pinctrl-amd is return false
-reports, we can do nothing about this)
-
-Btw, we can't make any change in i2c-hid because they will be overridden
-by drivers/pinctrl/pinctrl-amd.c which use the values from the ACPI tables
-instead,
-
-static int amd_gpio_irq_set_type(struct irq_data *d, unsigned int type)
-{
-
-	/* Ignore the settings coming from the client and
-	 * read the values from the ACPI tables
-	 * while setting the trigger type
-	 */
-
-	irq_flags = irq_get_trigger_type(d->irq);
-	if (irq_flags != IRQ_TYPE_NONE)
-		type = irq_flags;
-}
-
-
-Also, With CONFIG_GENERIC_IRQ_DEBUGFS enabled, `cat /sys/kernel/debug/irq/irqs/72`
-also shows irq#72 (#72 is requested IRQ of this touchpad device) has the
-expected irq-type,
-
-$ cat /sys/kernel/debug/irq/irqs/72
-handler:  handle_level_irq
-device:   (null)
-status:   0x00000508
-             _IRQ_NOPROBE
-istate:   0x00000020
-             IRQS_ONESHOT
-ddepth:   0
-wdepth:   0
-dstate:   0x00402208
-             IRQ_TYPE_LEVEL_LOW
-             IRQD_LEVEL
-             IRQD_ACTIVATED
-             IRQD_IRQ_STARTED`
-
->###
->
->As you said hopefully the IOApic code is fine. Notice that the ioapic
->irqchip driver does not allow configuring the trigger type.
->
-
-Yes. unlike pinctrl-amd, arch/x86/kernel/apic/io_apic.c doesn't provide
-`(struct irq_chip*)->irq_set_type`. I notice during the setting-up of
-ia-apic, all pins are configured with edge-high according to the IRQ
-redirection table which can be printed out with the "apic=debug" kernel
-parameter,
-
-     .... IRQ redirection table:
-     IOAPIC 0:
-      pin00, disabled, edge , high, V(00), IRR(0), S(0), physical, D(00), M(0)
-
-      pin06, enabled , edge , high, V(06), IRR(0), S(0), physical, D(00), M(0)
-      pin07, disabled, edge , high, V(00), IRR(0), S(0), physical, D(00), M(0)
-
-Later, I manually printed out the IRQ redirection table when processing
-touchpad HID reports, pin07 (which is connected with the GPIO's common
-interrupt output line) has adopted the expected configuration,
-
-     pin07, enabled , level, low , V(07), IRR(1), S(0), physical, D(00), M(0)
-
-Today I played with the "noapic" kernel parameter to use PIC mode
-so we can confirm there is nothing wrong with io-apic. Unfortunately
-the I2C adapter can't be set-up (the error is "controller timed out").
-As a consequence, the touchpad as an I2C client won't work either.
-
-And I can't find a way to disable APIC for Windows either.
-
->I guess
->this is not part of the ioapic spec and that the BIOS/firmware is setting
->the triggerlevel in a io-apic implementation specific way, so we better hope
->it is right. I have had the unfortunate experience to try and debug a wrong
->io-apic irq-pin trigger-type issue with TPMs in some Lenovo thinkpads and
->in the end only the Lenovo BIOS team could fix this.
-
-If the same BIOS/firmware is setting the trigger level in a wrong way,
-shouldn't we find the same issue under Windows? Btw, I've set
-'acpi_osi="Windows 2015"'
-as the kernel parameter before but I didn't notice any change.
-
->Regards,
->
->Hans
->
-
---
-Best regards,
-Coiby
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+SGksCgpPbiAxMC8yLzIwIDI6NDIgUE0sIENvaWJ5IFh1IHdyb3RlOgo+IE9uIEZyaSwgT2N0IDAy
+LCAyMDIwIGF0IDExOjQwOjEyQU0gKzAyMDAsIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4+IEhpLAo+
+Pgo+PiBPbiAxMC8xLzIwIDEwOjU3IFBNLCBMaW51cyBXYWxsZWlqIHdyb3RlOgo+Pj4gU29ycnkg
+Zm9yIHRvcCBwb3N0aW5nLCBidXQgSSB3YW50IHRvIHBhZ2Ugc29tZSBwZW9wbGUuCj4+Pgo+Pj4g
+SSBkbyBub3Qga25vdyBhbnl0aGluZyBhYm91dCBBQ1BJLCBidXQgSGFucyBkZSBHb2VkZSBpcyBy
+ZWFsbHkKPj4+IGdvb2Qgd2l0aCB0aGlzIGtpbmQgb2YgdGhpbmdzIGFuZCBjb3VsZCBwb3NzaWJs
+eSBwcm92aWRlIHNvbWUKPj4+IGluc2lnaHQuCj4+Cj4+IFRoYW5rcywgYWx0aG91Z2ggSSdtIGhv
+bm9yZWQgdG8gYmUgY29uc2lkZXJlZCB0aGUgZ28gdG8gcGVyc29uCj4+IGZvciB0aGVzZSBraW5k
+YSB0aGluZ3MgbXkgc3BlY2lhbHR5IHJlYWxseSBsaWVzIHdpdGggdGhlc2UKPj4ga2luZGEgaXNz
+dWVzIHdpdGggaW50ZWwgQmF5IFRyYWlsIGFuZCBDaGVycnkgVHJhaWwgU29Dcwo+PiBuZXZlciB0
+aGUgbGVzcyBsZXQgbWUgdGFrZSBhIGxvb2suCj4gCj4gVGhhbmsgeW91IGZvciB0YWtpbmcgdGlt
+ZSB0byBleGFtaW5lIHRoaXMgdG91Y2hwYWQgaXNzdWUhCj4gCj4+Cj4+PiBPbiBUaHUsIE9jdCAx
+LCAyMDIwIGF0IDM6MjMgUE0gQ29pYnkgWHUgPGNvaWJ5Lnh1QGdtYWlsLmNvbT4gd3JvdGU6Cj4+
+Pj4KPj4+PiBIaSwKPj4+Pgo+Pj4+IEknbSB0cnlpbmcgdG8gZml4IGJyb2tlbiB0b3VjaHBhZHMg
+WzFdIGZvciBhIG5ldyBsYXB0b3AgbW9kZWwgTGVnaW9uLTUKPj4+PiAxNUFSSDA1IHdoaWNoIGlz
+IHNoaXBwZWQgd2l0aCB0d28gZGlmZmVyZW50IHRvdWNocGFkcywgaS5lLiwgRWxBTiBhbmQKPj4+
+PiBTeW5hcHRpY3MuIEZvciB0aGUgRUxBTiB0b3VjaHBhZCwgdGhlIGtlcm5lbCByZWNlaXZlcyBu
+byBpbnRlcnJ1cHRzIHRvCj4+Pj4gYmUgaW5mb3JtZWQgb2YgbmV3IGRhdGEgZnJvbSB0aGUgdG91
+Y2hwYWQuIEZvciB0aGUgU3luYXB0aWNzIHRvdWNocGFkLAo+Pj4+IG9ubHkgNyBpbnRlcnJ1cHRz
+IGFyZSByZWNlaXZlZCBwZXIgc2Vjb25kIHdoaWNoIG1ha2VzIHRoZSB0b3VjaHBhZAo+Pj4+IGNv
+bXBsZXRlbHkgdW51c2FibGUuIEJhc2VkIG9uIGN1cnJlbnQgb2JzZXJ2YXRpb25zLCBwaW5jdHJs
+LWFtZCBzZWVtcyB0bwo+Pj4+IGJlIHRoZSBtb3N0IHN1c3BpY2lvdXMgY2F1c2UuCj4+Pj4KPj4+
+Pgo+Pj4+IFdoeSBkbyBJIHRoaW5rIHBpbmN0cmwtYW1kIHNtZWxscyB0aGUgbW9zdCBzdXNwaWNp
+b3VzPwo+Pj4+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PQo+Pj4+Cj4+Pj4gVGhpcyBsYXB0b3AgbW9kZWwgaGFzIHRoZSBmb2xsb3dpbmcgaGFy
+ZHdhcmUgY29uZmlndXJhdGlvbnMgc3BlY2lmaWVkCj4+Pj4gdmlhIEFDUEksCj4+Pj4gwqAgLSBU
+aGUgdG91Y2hwYWQncyBkYXRhIGludGVycnVwdCBsaW5lIGlzIGNvbm5lY3RlZCB0byBwaW4jMTMw
+IG9mIGEgR1BJTwo+Pj4+IMKgwqDCoCBjaGlwCj4+Pj4KPj4+PiDCoMKgwqDCoMKgwqDCoMKgIEdw
+aW9JbnQgKExldmVsLCBBY3RpdmVMb3csIEV4Y2x1c2l2ZUFuZFdha2UsIFB1bGxVcCwgMHgwMDAw
+LAo+Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAi
+XFxfU0IuR1BJTyIsIDB4MDAsIFJlc291cmNlQ29uc3VtZXIsICwKPj4+PiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKQo+Pj4+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB7wqDCoCAvLyBQaW4gbGlzdAo+Pj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IDB4MDA4Mgo+Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCB9Cj4+Pj4KPj4+PiDCoCAtIFRoaXMgR1BJTyBjaGlwIChISUQ6IEFNREkwMDMwKSB3aGlj
+aCBpcyBhc3NpZ25lZCB3aXRoIElSUSM3IGhhcyBpdHMKPj4+PiDCoMKgwqAgY29tbW9uIGludGVy
+cnVwdCBvdXRwdXQgbGluZSBjb25uZWN0ZWQgdG8gb25lIElPLUFQSUMncyBwaW4jNwo+Pj4+Cj4+
+Pj4gwqDCoMKgwqDCoMKgwqDCoCBJbnRlcnJ1cHQgKFJlc291cmNlQ29uc3VtZXIsIExldmVsLCBB
+Y3RpdmVMb3csIFNoYXJlZCwgLCwgKQo+Pj4+IMKgwqDCoMKgwqDCoMKgwqAgewo+Pj4+IMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAweDAwMDAwMDA3LAo+Pj4+IMKgwqDCoMKgwqDCoMKgwqAgfQo+
+Pgo+PiBTbyB0aGVzZSBib3RoIGxvb2sgZmluZS4KPj4KPj4+PiBJIGFkZCBzb21lIGNvZGUgdG8g
+a2VybmVsIHRvIHBvbGwgdGhlIHN0YXR1cyBvZiB0aGUgR1BJTyBjaGlwJ3MgcGluIzEzMAo+Pj4+
+IGFuZCBJTy1BUEljJ3MgcGluIzcgZXZlcnkgMW1zIHdoZW4gSSBtb3ZlIG15IGZpbmdlciBvbiB0
+aGUgc3VyZmFjZSBvZgo+Pj4+IHRoZSBTeW5hcHRpY3MgdG91Y2hwYWQgY29udGludW91c2x5IGZv
+ciBhYm91dCAxcy4gRHVyaW5nIHRoZSBwcm9jZXNzIG9mIEkKPj4+PiBtb3ZlIG15IGZpbmdlciwg
+bW9zdCBvZiB0aGUgdGltZSwKPj4+PiDCoCAtIEdQSU8gY2hpcCdzIHBpbiMxMzA6IGxvdyBpbnB1
+dCwgaW50ZXJydXB0IHVubWFza2VkCj4+Pj4gwqAgLSBJTy1BUElDJ3MgcGluIzc6IElSUj0wLCBp
+bnRlcnJ1cHQgdW5tYXNrZWQgKGluIGZhY3QgbWFzay91bm1hc2tfaW9hcGljX2lycQo+Pj4+IMKg
+wqDCoCBoYXZlIG5ldmVyIGJlZW4gY2FsbGVkIGJ5IHRoZSBJUlEgZm9sbG93IGNvbnRyb2xsZXIg
+aGFuZGxlX2Zhc3Rlb2lfaXJxKQo+Pj4+Cj4+Pj4gU28gdGhlIHRvdWNocGFkIGhhcyBiZWVuIGdl
+bmVyYXRpbmcgaW50ZXJydXB0cyBtb3N0IG9mIHRoZSB0aW1lIHdoaWxlCj4+Pj4gSU8tQVBJQyBj
+b250cm9sbGVyIGhhc24ndCBiZWVuIG1hc2tpbmcgdGhlIGludGVycnVwdCBmcm9tIHRoZSBHUElP
+IGNoaXAuCj4+Pj4gQnV0IHNvbWVob3cgdGhlIGtlcm5lbCBjb3VsZCBvbmx5IGdldCB+NyBpbnRl
+cnJ1cHRzIGVhY2ggc2Vjb25kCj4+Cj4+IFNvIGFyZSB5b3Ugc2VlaW5nIHRoZXNlIDcgaW50ZXJy
+dXB0cyAvIHNlY29uZCBmb3IgdGhlIHRvdWNocGFkIGlycSBvciBmb3IKPj4gdGhlIEdQSU8gY29u
+dHJvbGxlcnMgcGFyZW50IGlycSA/Cj4+Cj4+IEFsc28gdG8gdGhlc2UgNyBpbnRlcnJ1cHRzL3Nl
+YyBzdG9wIGhhcHBlbmluZyB3aGVuIHlvdSBkbyBub3QgdG91Y2ggdGhlCj4+IHRvdWNocGFkID8K
+Pj4KPiBJIHNlZSB0aGVzZSA3IGludGVycnVwdHMgLyBzZWNvbmQgZm9yIHRoZSBHUElPIGNvbnRy
+b2xsZXIncyBwYXJlbnQgaXJxLgo+IEFuZCB0aGV5IHN0b3AgaGFwcGVuaW5nIHdoZW4gSSBkb24n
+dCB0b3VjaCB0aGUgdG91Y2hwYWQuCgpPbmx5IGZyb20gdGhlIHBhcmVudCBpcnEsIG9yIGFsc28g
+b24gdGhlIHRvdWNocGFkIGlycSBpdHNlbGYgPwoKSWYgdGhpcyBvbmx5IGhhcHBlbnMgb24gdGhl
+IHBhcmVudCBpcnEsIHRoZW4gSSB3b3VsZCBzdGFydCBsb29raW5nIGF0IHRoZQphbWQtcGluY3Ry
+bCBjb2RlIHdoaWNoIGRldGVybWluZXMgd2hpY2ggb2YgaXRzICJjaGlsZCIgaXJxcyB0byBmaXJl
+LgoKPj4gVG8gbWUgdGhpcyBzb3VuZHMgbGlrZSB0aGUgaW50ZXJydXB0IGlzIGNvbmZpZ3VyZWQg
+YXMgYmVpbmcgdHJpZ2dlcmVkIG9uCj4+IGEgbmVnYXRpdmUgZWRnZSBzbyB0aGF0IGl0IG9ubHkg
+ZmlyZXMgb25jZSB3aGVuIHRoZSBsaW5lIGZyb20gdGhlIHRvdWNocGFkCj4+IGdvZXMgbG93LCBh
+bmQgZm9yIHNvbWUgcmVhc29uIDcgdGltZXMgYSBzZWNvbmQgdGhlIHRvdWNocGFkIGNvbnRyb2xs
+ZXIKPj4gYnJpZWZseSByZWxlYXNlcyB0aGUgbGluZSAoc29ydGEgZ2l2ZXMgdXAgdG8gc2lnbmFs
+IHRoZSBpcnEgYW5kIHRoZW4KPj4gdHJpZXMgYWdhaW4/KS4KPj4KPj4+PiB3aGlsZQo+Pj4+IHRo
+ZSB0b3VjaHBhZCBjb3VsZCBnZW5lcmF0ZSAxNDAgaW50ZXJydXB0cyAodGltZSByZXNvbHV0aW9u
+IG9mIDcuMm1zKQo+Pj4+IHBlciBzZWNvbmQuIEFzc3VtaW5nIElPLUFQSUMgKGFyY2gveDg2L2tl
+cm5lbC9hcGljL2lvX2FwaWMuYykgaXMgZmluZSwKPj4+PiB0aGVuIHRoZXJlJ3Mgc29tZXRoaW5n
+IHdyb25nIHdpdGggdGhlIEdQSU8gaW50ZXJydXB0IGNvbnRyb2xsZXIgd2hpY2gKPj4+PiB3b3Jr
+cyBmaW5lIGZvciB0aGUgdG91Y2hwYWQgdW5kZXIgV2luZG93cy4gQmVzaWRlcyBpZiBJIHBvbGwg
+dGhlIHRvdWNocGFkCj4+Pj4gZGF0YSBiYXNlZCBvbiBwaW4jMTMwJ3Mgc3RhdHVzLCB0aGUgdG91
+Y2hwYWQgY291bGQgYWxzbyB3b3JrIHVuZGVyCj4+Pj4gV2luZG93cy4KPj4KPj4gSSBhZ3JlZSB0
+aGF0IHRoaXMgc291bmRzIGxpa2UgYSBwcm9ibGVtIHdpdGggdGhlIEdwaW9JbnQgaGFuZGxpbmcu
+Cj4+Cj4+Pj4gV2F5cyB0byBkZWJ1ZyBwaW5jdHJsLWFtZAo+Pj4+ID09PT09PT09PT09PT09PT09
+PT09PT09PT0KPj4+Pgo+Pj4+IEkgY2FuJ3QgZmluZCBhbnkgZG9jdW1lbnRhdGlvbiBhYm91dCB0
+aGUgQU1ESTAwMzAgR1BJTyBjaGlwIGV4Y2VwdCBmb3IKPj4+PiB0aGUgY29tbWl0IGxvZ3Mgb2Yg
+ZHJpdmVycy9waW5jdHJsL3BpbmN0cmwtYW1kLiBPbmUgY29tbWl0Cj4+Pj4gYmE3MTRhOWMxZGVh
+ODVlMGJmMjg5OWQwMmRmZWI5YzcwMDQwNDI3YyAoInBpbmN0cmwvYW1kOiBVc2UgcmVndWxhciBp
+bnRlcnJ1cHQgaW5zdGVhZCBvZiBjaGFpbmVkIikKPj4+PiBpbnNwaXJlZCBtZSB0byBicmluZyBi
+YWNrIGNoYWluZWQgaW50ZXJydXB0IHRvIHNlZSBpZiAiYW4gaW50ZXJydXB0IHN0b3JtIgo+Pj4+
+IHdvdWxkIGhhcHBlbi4gVGhlIG9ubHkgY2hhbmdlIEkgbm90aWNlZCBpcyB0aGF0IHRoZSBpbnRl
+cnJ1cHRzIGFycml2ZSBpbgo+Pj4+IHBhaXJzLiBUaGUgdGltZSBpbnRlcm5hbCBiZXR3ZWVuIHR3
+byBpbnRlcnJ1cHRzIGluIGEgcGFpciBpcyB+MC4wMDE2cwo+Pj4+IGJ1dCB0aGUgdGltZSBpbnRl
+cm5hbCBiZXR3ZWVuIGludGVycnVwdCBwYWlycyBpcyBzdGlsbCB+MC4xMnMgKH44SHopLgo+Pj4+
+IFVuZm9ydHVuYXRlbHksIEkgZG9uJ3QgZ2V0IGFueSBpbnNpZ2h0IGFib3V0IHRoZSBHUElPIGlu
+dGVycnVwdAo+Pj4+IGNvbnRyb2xsZXIgZnJvbSB0aGlzIHR3ZWFraW5nLiBJIHdvbmRlciBpZiB0
+aGVyZSBhcmUgYW55IG90aGVyIHdheXMKPj4+PiB0byBkZWJ1ZyBkcml2ZXJzL3BpbmN0cmwvcGlu
+Y3RybC1hbWQ/Cj4+Cj4+IFRoZSB3YXkgSSB3b3VsZCB0cnkgdG8gZGVidWcgdGhpcyAod2l0aCBh
+Y2Nlc3MgdG8gdGhlIGhhcmR3YXJlKSBpcwo+PiB0byB0cnkgYW4gdmVyaWZ5IHRoZSBpbnRlcnJ1
+cHQgdHJpZ2dlciAobGV2ZWwgdnMgZWRnZSkgc2V0dGluZ3MgaW5zaWRlCj4+IHBpbmN0cmwvYW1k
+IGJ5IGFkZGluZyBhIGJ1bmNoIG9mIHByaW50a3MgcHJpbnRpbmcgdGhlbSB3aGVuZXZlciB0aGUK
+Pj4gcmVsZXZhbnQgcmVnaXN0ZXIgYml0cyBhcmUgdG91Y2hlZC4KPj4KPj4gU28gSSdtIGdvaW5n
+IHRvIGd1ZXNzIGhlcmUgdGhhdCB0aGVzZSB0b3VjaHBhZHMgdXNlIGkyYy1oaWQsIHNvIEkKPj4g
+dG9vayBhIHF1aWNrIHBlYWsgYXQgdGhlIGkyYy1oaWQgaXJxIHJlcXVlc3QgY29kZSBmcm9tCj4+
+IGRyaXZlcnMvaGlkL2kyYy1oaWQvaTJjLWhpZC1jb3JlLmM6Cj4+Cj4+IMKgwqDCoMKgwqDCoCB1
+bnNpZ25lZCBsb25nIGlycWZsYWdzID0gMDsKPj4gwqDCoMKgwqDCoMKgIGludCByZXQ7Cj4+Cj4+
+IMKgwqDCoMKgwqDCoCBkZXZfZGJnKCZjbGllbnQtPmRldiwgIlJlcXVlc3RpbmcgSVJROiAlZFxu
+IiwgY2xpZW50LT5pcnEpOwo+Pgo+PiDCoMKgwqDCoMKgwqAgaWYgKCFpcnFfZ2V0X3RyaWdnZXJf
+dHlwZShjbGllbnQtPmlycSkpCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaXJxZmxh
+Z3MgPSBJUlFGX1RSSUdHRVJfTE9XOwo+Pgo+PiDCoMKgwqDCoMKgwqAgcmV0ID0gcmVxdWVzdF90
+aHJlYWRlZF9pcnEoY2xpZW50LT5pcnEsIE5VTEwsIGkyY19oaWRfaXJxLAo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aXJxZmxhZ3MgfCBJUlFGX09ORVNIT1QsIGNsaWVudC0+bmFtZSwgaWhpZCk7Cj4+Cj4+IFNvIHRo
+aXMgdHJpZXMgdG8gcHJlc2VydmUgdGhlIHByZS1jb25maWd1cmVkIGlycS10eXBlIG9uIHRoZSBp
+cnEKPj4gbGluZSBhbmQgaWYgbm8gaXJxLXR5cGUgaXMgc2V0IHRoZW4gaXQgb3ZlcnJpZGVzIHRo
+ZSB0cmlnZ2VyLXR5cGUKPj4gdG8gSVJRRl9UUklHR0VSX0xPVywgd2hpY2ggbWVhbnMgbGV2ZWwt
+bG93Lgo+Pgo+PiBPbmUgcXVpY2sgaGFjayB5b3UgY2FuIHRyeSBpcyBvbW1lbnRpbmcgb3V0IHRo
+ZSAiaWYgKCFpcnFfZ2V0X3RyaWdnZXJfdHlwZShjbGllbnQtPmlycSkpIgo+PiB0eXBlLCBJIGd1
+ZXNzIG1heWJlIHRoZSBwaW5jdHJsLWFtZCBjb2RlIGlzIGRlZmF1bHRpbmcgYWxsIElSUXMgdG8g
+c29tZQo+PiBlZGdlIHRyaWdnZXIgdHlwZT8gVGhpcyBzaG91bGQgb3ZlcnJpZGUgaXQgYW5kIHJl
+Y29udHJvbCBpdCB0bwo+PiBhIGxldmVsIHRyaWdnZXIgdHlwZS4KPj4KPiBZZXMsICJ0aGVzZSB0
+b3VjaHBhZHMgdXNlIGkyYy1oaWQiLiBJIGhhdmUgZXhhbWluZWQgdGhlIGNvbmZpZ3VyYXRpb24g
+b2YKPiBpcnEtdHlwZSBpbiBkcml2ZXJzL2hpZC9pMmMtaGlkL2kyYy1oaWQtY29yZS5jIGFuZCBj
+YW4gY29uZmlybSBpdCdzIGJlZW4KPiBjb25maWd1cmVkIHRvIGJlIGxldmVsLWxvdy4KPiAKPiAk
+IHN1ZG8gY2F0IC9zeXMva2VybmVsL2RlYnVnL2dwaW98Z3JlcCAtQTEgcGluMTMwCj4gMjYwOnBp
+bjEzMMKgwqDCoMKgwqAgTGV2ZWwgdHJpZ2dlcnwgQWN0aXZlIGxvd3wgaW50ZXJydXB0IGlzIGVu
+YWJsZWR8IGludGVycnVwdCBpcyB1bm1hc2tlZHwgZGlzYWJsZSB3YWtldXAgaW4gUzBpMyBzdGF0
+ZXwgZGlzYWJsZSB3YWtldXAgaW4gUzMgc3RhdGV8Cj4gCj4gKE9mIGNvdXJzZSB3ZSByZWx5IG9u
+IGRyaXZlcnMvcGluY3RybC9waW5jdHJsLWFtZC5jIHRvIHJlYWQmaW50ZXJwcmV0Cj4gZGF0YSBm
+cm9tIHRoZSBjb3JyZXNwb25kaW5nIHJlZ2lzdGVycy4gSWYgcGluY3RybC1hbWQgaXMgcmV0dXJu
+IGZhbHNlCj4gcmVwb3J0cywgd2UgY2FuIGRvIG5vdGhpbmcgYWJvdXQgdGhpcykKCldlbGwgeW91
+IGNvdWxkIHJldmlldyB0aGUgY29kZSBwcmludGluZyB0aGlzIHZzIHNheSB0aGUgY29kZSBzZXR0
+aW5nCnRoZSB0cmlnZ2VyIHR5cGUuIElmIHRob3NlIGRvbid0IG1hdGNoIHRoZW4gc29tZXRoaW5n
+IGlzIGRlZmluaXRlbHkKd3Jvbmcgc29tZXdoZXJlLgoKPiBCdHcsIHdlIGNhbid0IG1ha2UgYW55
+IGNoYW5nZSBpbiBpMmMtaGlkIGJlY2F1c2UgdGhleSB3aWxsIGJlIG92ZXJyaWRkZW4KPiBieSBk
+cml2ZXJzL3BpbmN0cmwvcGluY3RybC1hbWQuYyB3aGljaCB1c2UgdGhlIHZhbHVlcyBmcm9tIHRo
+ZSBBQ1BJIHRhYmxlcwo+IGluc3RlYWQsCj4gCj4gc3RhdGljIGludCBhbWRfZ3Bpb19pcnFfc2V0
+X3R5cGUoc3RydWN0IGlycV9kYXRhICpkLCB1bnNpZ25lZCBpbnQgdHlwZSkKPiB7Cj4gCj4gIMKg
+wqDCoMKgLyogSWdub3JlIHRoZSBzZXR0aW5ncyBjb21pbmcgZnJvbSB0aGUgY2xpZW50IGFuZAo+
+ICDCoMKgwqDCoCAqIHJlYWQgdGhlIHZhbHVlcyBmcm9tIHRoZSBBQ1BJIHRhYmxlcwo+ICDCoMKg
+wqDCoCAqIHdoaWxlIHNldHRpbmcgdGhlIHRyaWdnZXIgdHlwZQo+ICDCoMKgwqDCoCAqLwo+IAo+
+ICDCoMKgwqDCoGlycV9mbGFncyA9IGlycV9nZXRfdHJpZ2dlcl90eXBlKGQtPmlycSk7Cj4gIMKg
+wqDCoMKgaWYgKGlycV9mbGFncyAhPSBJUlFfVFlQRV9OT05FKQo+ICDCoMKgwqDCoMKgwqDCoCB0
+eXBlID0gaXJxX2ZsYWdzOwo+IH0KClRoYXQgbG9va3MgYSBiaXQgZmlzaHksIHNvbWV0aW1lcyB3
+ZSBuZWVkIHRvIG92ZXJyaWRlIHRoZSBpcnEtdHlwZSBmcm9tCmEgZHJpdmVyIGJlY2F1c2UgdGhl
+IEFDUEkgdGFibGVzIG9mIHZhcmlvdXMgZGV2aWNlcyBhcmUgb2Z0ZW4gb2YKZHViaW91cyBxdWFs
+aXR5LiBBRkFJSyBub24gb2YgdGhlIEludGVsIEdQSU8gZHJpdmVycyBkbyBzb21ldGhpbmcgbGlr
+ZQp0aGlzLi4uCgpBbHNvIEknbSBub3Qgc2VlaW5nIHRoaXMgaW4gdGhlIGxhdGVzdCB1cHN0cmVh
+bSBjb2RlLCBzbyBJIGd1ZXNzIHRoaXMKYml0IGdvdCByZWNlbnRseSBkcm9wcGVkIC4uLiA/CgpX
+aGF0IGtlcm5lbCB2ZXJzaW9uIGFyZSB5b3UgdGVzdGluZyB3aXRoPyBZb3UgcmVhbGx5IHNob3Vs
+ZCBhbHdheXMgdGVzdAp0aGluZ3MgbGlrZSB0aGlzIHdpdGggTGludXMnIGxhdGVzdCBtYXN0ZXIg
+YnJhbmNoLgoKSG1tLCBJIHdvbmRlciBpZiB0aGlzIGlzIG5vdCBhbiBpMmMtY29udHJvbGxlciBp
+c3N1ZSBpbnN0ZWFkLiBCdXQgeW91IHNob3VsZAp0aGF0IHlvdSB0cmllZCB0byBtb2RpZnkgdGhl
+IGkyYy1oaWQgY29kZSB0byBwb2xsIHRoZSBHUElPIGFuZCB0aGVuIHJ1biBpdHMKdGhyZWFkZWQt
+aXJxIGhhbmRsZXIgb24gYSBzdWNjZXNzZnVsbCBwb2xsIGluc3RlYWQgd29ya3MgYXJvdW5kIHRo
+aW5ncywgcmlnaHQgPwoKU3RpbGwgaXQgd291bGQgYmUgaW50ZXJlc3RpbmcgdG8gYWRkIGEgcHJp
+bnRrIHRvIHRoZSBiZWdpbiArIGVuZCBvZiB0aGUKaTJjLWhpZCB0aHJlYWRlZC1pcnEtaGFuZGxl
+ciB0byBzZWUgaG93IGxvbmcgaXQgdGFrZXMgdG8gcnVuLgoKUmVnYXJkcywKCkhhbnMKCgoKPiBB
+bHNvLCBXaXRoIENPTkZJR19HRU5FUklDX0lSUV9ERUJVR0ZTIGVuYWJsZWQsIGBjYXQgL3N5cy9r
+ZXJuZWwvZGVidWcvaXJxL2lycXMvNzJgCj4gYWxzbyBzaG93cyBpcnEjNzIgKCM3MiBpcyByZXF1
+ZXN0ZWQgSVJRIG9mIHRoaXMgdG91Y2hwYWQgZGV2aWNlKSBoYXMgdGhlCj4gZXhwZWN0ZWQgaXJx
+LXR5cGUsCj4gCj4gJCBjYXQgL3N5cy9rZXJuZWwvZGVidWcvaXJxL2lycXMvNzIKPiBoYW5kbGVy
+OsKgIGhhbmRsZV9sZXZlbF9pcnEKPiBkZXZpY2U6wqDCoCAobnVsbCkKPiBzdGF0dXM6wqDCoCAw
+eDAwMDAwNTA4Cj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX0lSUV9OT1BST0JFCj4gaXN0YXRl
+OsKgwqAgMHgwMDAwMDAyMAo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIElSUVNfT05FU0hPVAo+
+IGRkZXB0aDrCoMKgIDAKPiB3ZGVwdGg6wqDCoCAwCj4gZHN0YXRlOsKgwqAgMHgwMDQwMjIwOAo+
+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIElSUV9UWVBFX0xFVkVMX0xPVwo+ICDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIElSUURfTEVWRUwKPiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBJUlFEX0FD
+VElWQVRFRAo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIElSUURfSVJRX1NUQVJURURgCj4gCj4+
+ICMjIwo+Pgo+PiBBcyB5b3Ugc2FpZCBob3BlZnVsbHkgdGhlIElPQXBpYyBjb2RlIGlzIGZpbmUu
+IE5vdGljZSB0aGF0IHRoZSBpb2FwaWMKPj4gaXJxY2hpcCBkcml2ZXIgZG9lcyBub3QgYWxsb3cg
+Y29uZmlndXJpbmcgdGhlIHRyaWdnZXIgdHlwZS4KPj4KPiAKPiBZZXMuIHVubGlrZSBwaW5jdHJs
+LWFtZCwgYXJjaC94ODYva2VybmVsL2FwaWMvaW9fYXBpYy5jIGRvZXNuJ3QgcHJvdmlkZQo+IGAo
+c3RydWN0IGlycV9jaGlwKiktPmlycV9zZXRfdHlwZWAuIEkgbm90aWNlIGR1cmluZyB0aGUgc2V0
+dGluZy11cCBvZgo+IGlhLWFwaWMsIGFsbCBwaW5zIGFyZSBjb25maWd1cmVkIHdpdGggZWRnZS1o
+aWdoIGFjY29yZGluZyB0byB0aGUgSVJRCj4gcmVkaXJlY3Rpb24gdGFibGUgd2hpY2ggY2FuIGJl
+IHByaW50ZWQgb3V0IHdpdGggdGhlICJhcGljPWRlYnVnIiBrZXJuZWwKPiBwYXJhbWV0ZXIsCj4g
+Cj4gIMKgwqDCoCAuLi4uIElSUSByZWRpcmVjdGlvbiB0YWJsZToKPiAgwqDCoMKgIElPQVBJQyAw
+Ogo+ICDCoMKgwqDCoCBwaW4wMCwgZGlzYWJsZWQsIGVkZ2UgLCBoaWdoLCBWKDAwKSwgSVJSKDAp
+LCBTKDApLCBwaHlzaWNhbCwgRCgwMCksIE0oMCkKPiAKPiAgwqDCoMKgwqAgcGluMDYsIGVuYWJs
+ZWQgLCBlZGdlICwgaGlnaCwgVigwNiksIElSUigwKSwgUygwKSwgcGh5c2ljYWwsIEQoMDApLCBN
+KDApCj4gIMKgwqDCoMKgIHBpbjA3LCBkaXNhYmxlZCwgZWRnZSAsIGhpZ2gsIFYoMDApLCBJUlIo
+MCksIFMoMCksIHBoeXNpY2FsLCBEKDAwKSwgTSgwKQo+IAo+IExhdGVyLCBJIG1hbnVhbGx5IHBy
+aW50ZWQgb3V0IHRoZSBJUlEgcmVkaXJlY3Rpb24gdGFibGUgd2hlbiBwcm9jZXNzaW5nCj4gdG91
+Y2hwYWQgSElEIHJlcG9ydHMsIHBpbjA3ICh3aGljaCBpcyBjb25uZWN0ZWQgd2l0aCB0aGUgR1BJ
+TydzIGNvbW1vbgo+IGludGVycnVwdCBvdXRwdXQgbGluZSkgaGFzIGFkb3B0ZWQgdGhlIGV4cGVj
+dGVkIGNvbmZpZ3VyYXRpb24sCj4gCj4gIMKgwqDCoCBwaW4wNywgZW5hYmxlZCAsIGxldmVsLCBs
+b3cgLCBWKDA3KSwgSVJSKDEpLCBTKDApLCBwaHlzaWNhbCwgRCgwMCksIE0oMCkKPiAKPiBUb2Rh
+eSBJIHBsYXllZCB3aXRoIHRoZSAibm9hcGljIiBrZXJuZWwgcGFyYW1ldGVyIHRvIHVzZSBQSUMg
+bW9kZQo+IHNvIHdlIGNhbiBjb25maXJtIHRoZXJlIGlzIG5vdGhpbmcgd3Jvbmcgd2l0aCBpby1h
+cGljLiBVbmZvcnR1bmF0ZWx5Cj4gdGhlIEkyQyBhZGFwdGVyIGNhbid0IGJlIHNldC11cCAodGhl
+IGVycm9yIGlzICJjb250cm9sbGVyIHRpbWVkIG91dCIpLgo+IEFzIGEgY29uc2VxdWVuY2UsIHRo
+ZSB0b3VjaHBhZCBhcyBhbiBJMkMgY2xpZW50IHdvbid0IHdvcmsgZWl0aGVyLgo+IAo+IEFuZCBJ
+IGNhbid0IGZpbmQgYSB3YXkgdG8gZGlzYWJsZSBBUElDIGZvciBXaW5kb3dzIGVpdGhlci4KPiAK
+Pj4gSSBndWVzcwo+PiB0aGlzIGlzIG5vdCBwYXJ0IG9mIHRoZSBpb2FwaWMgc3BlYyBhbmQgdGhh
+dCB0aGUgQklPUy9maXJtd2FyZSBpcyBzZXR0aW5nCj4+IHRoZSB0cmlnZ2VybGV2ZWwgaW4gYSBp
+by1hcGljIGltcGxlbWVudGF0aW9uIHNwZWNpZmljIHdheSwgc28gd2UgYmV0dGVyIGhvcGUKPj4g
+aXQgaXMgcmlnaHQuIEkgaGF2ZSBoYWQgdGhlIHVuZm9ydHVuYXRlIGV4cGVyaWVuY2UgdG8gdHJ5
+IGFuZCBkZWJ1ZyBhIHdyb25nCj4+IGlvLWFwaWMgaXJxLXBpbiB0cmlnZ2VyLXR5cGUgaXNzdWUg
+d2l0aCBUUE1zIGluIHNvbWUgTGVub3ZvIHRoaW5rcGFkcyBhbmQKPj4gaW4gdGhlIGVuZCBvbmx5
+IHRoZSBMZW5vdm8gQklPUyB0ZWFtIGNvdWxkIGZpeCB0aGlzLgo+IAo+IElmIHRoZSBzYW1lIEJJ
+T1MvZmlybXdhcmUgaXMgc2V0dGluZyB0aGUgdHJpZ2dlciBsZXZlbCBpbiBhIHdyb25nIHdheSwK
+PiBzaG91bGRuJ3Qgd2UgZmluZCB0aGUgc2FtZSBpc3N1ZSB1bmRlciBXaW5kb3dzPyBCdHcsIEkn
+dmUgc2V0Cj4gJ2FjcGlfb3NpPSJXaW5kb3dzIDIwMTUiJwo+IGFzIHRoZSBrZXJuZWwgcGFyYW1l
+dGVyIGJlZm9yZSBidXQgSSBkaWRuJ3Qgbm90aWNlIGFueSBjaGFuZ2UuCj4gCj4+IFJlZ2FyZHMs
+Cj4+Cj4+IEhhbnMKPj4KPiAKPiAtLSAKPiBCZXN0IHJlZ2FyZHMsCj4gQ29pYnkKPiAKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1t
+ZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5k
+YXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
