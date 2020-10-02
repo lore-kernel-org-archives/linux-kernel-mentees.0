@@ -8,95 +8,95 @@ X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 640D3C4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 10:38:33 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A0FC4363D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 10:38:52 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E9ACB206CD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 10:38:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BA3E0206CD
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 10:38:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JLtc5lh2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E9ACB206CD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="orm8su3s"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA3E0206CD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5E99884E6B;
-	Fri,  2 Oct 2020 10:38:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5CEB927422;
+	Fri,  2 Oct 2020 10:38:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yIS_cP1gUkQw; Fri,  2 Oct 2020 10:38:29 +0000 (UTC)
+	with ESMTP id DMz30xYQHN1G; Fri,  2 Oct 2020 10:38:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9FB01834F0;
-	Fri,  2 Oct 2020 10:38:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D76EC273E1;
+	Fri,  2 Oct 2020 10:38:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D715C016F;
-	Fri,  2 Oct 2020 10:38:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C5709C016F;
+	Fri,  2 Oct 2020 10:38:49 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3C161C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0241C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 10:38:28 +0000 (UTC)
+ Fri,  2 Oct 2020 10:38:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 288F98729F
+ by hemlock.osuosl.org (Postfix) with ESMTP id BCF278729E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 10:38:28 +0000 (UTC)
+ Fri,  2 Oct 2020 10:38:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9ioHvmPihOjd
+ with ESMTP id DWKIr6GYNXSD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 10:38:27 +0000 (UTC)
+ Fri,  2 Oct 2020 10:38:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 180FD8729E
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1C2C98729F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 10:38:27 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id t7so566457pjd.3
+ Fri,  2 Oct 2020 10:38:48 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id kk9so562992pjb.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 02 Oct 2020 03:38:27 -0700 (PDT)
+ Fri, 02 Oct 2020 03:38:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=to:cc:from:subject:message-id:date:user-agent:mime-version
  :content-language:content-transfer-encoding;
- bh=CxbBf0VRe0OZIyWTwmQLbfkYS+f/I5q5WzqukLpPtqk=;
- b=JLtc5lh2MsqaX7zioCHCxpzbkfnQXTcTTboY6gLl+FU4n00gBWWEb3in1GySAqgOnN
- +HV6JOEdlVbKMf55IcCTPRIJuoF2uwmIfJy3Ix8O4+Pjdi72qIw/r+9K9QpRyvOo2e1v
- iyiafM7clhCulW7HqCo0Ircs982By91d21d/hvlH3Ge9RpZxhcIP466to1VuSTTxxd5u
- UVRPOvCPpk8REHX8jcKDkAMi0nL/YRECb42zhfly+lBaO5my/H3BpjHnNhDqnJ7mh83v
- yxSbxS4B8VSPSeH7QC+RZRmhs357gUz7JPs0C1Lxlc6kZ+Ddu51ZLrlS2h1JcBml2B0Z
- brUQ==
+ bh=l/P8bXlpdS7hKkb+vBkGufM4cQSzKzU38G16UO2xhSM=;
+ b=orm8su3s2u9sClQIQftJoxflv6FMllcwwDtqjo+7m78bDkHx3/Yi6WkZxwy/dpEcF3
+ LgRL+STZxj7+gPKed0tvMNjfol9b2tUaDEArZkDNyqjSq1qUaVAQVziyxiFVKz9slBTJ
+ +R2+JtYyDnhydem+lITPhzHQVvtfmCpmHOCcNY15Pq2u1fEjBbz15J7DXP/h88ecpptx
+ 87OT8FvyeA2a+nBWsEyoXpQtRYnBkPUdpe07oejW8mLbEpYXg1J4VpDbpCxJc4Ljz5yg
+ VDqgXiUo00nHM25BCdpzgHNKgQg552RJL6LcmjsrJdfnhMFf1GJt+p3XsPVqiFvFlA0B
+ T+MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
  :mime-version:content-language:content-transfer-encoding;
- bh=CxbBf0VRe0OZIyWTwmQLbfkYS+f/I5q5WzqukLpPtqk=;
- b=uAUaNZb9LcHwT5VTaDvmsg4+EGCh2X+4syry375yuUDImf4AM4focDl20v7CxoDHi5
- OMG5Y+eYUXzTzKOt4vH1LLUBC+VkJt0GxQjLKEzCHOwkArKDXLwp9Jc/1f8cF57Z82Vb
- WT0zdQK+XVutCi4P4PqqMLApgp/IRAcJ/Uwe7PVyH09p9qeTdEbL9g2la0HzraO+LmGj
- 2t0M7ewioqx/eKjA/wdA8s/jhZbVriduqE6YNc3eGfkrxRrWAJXZeRdqrNfXZbALJlQ1
- yac0QP2/JaKCviH3sjqx2fqCY0eNOYHpLu+AIYF4lHt7Hs/2rbACkx8QSxPjZu+XqMS0
- NmBw==
-X-Gm-Message-State: AOAM533EljSc1qq8BxUzzpdsvYGFDmtn6VPZYdcKPlHGtnP8TRL4bXC2
- NpFjOrq7xHV5eq/9SF+j1wPCH6KTFaPdWg==
-X-Google-Smtp-Source: ABdhPJz2c52EFPA1iNotpZwE7uO4be3v1r9T2C/GBc4yiZARpWTjQ68tI/lBTCqUxsZzbIXxQqhn0Q==
-X-Received: by 2002:a17:90a:9505:: with SMTP id
- t5mr2084550pjo.121.1601635106167; 
- Fri, 02 Oct 2020 03:38:26 -0700 (PDT)
+ bh=l/P8bXlpdS7hKkb+vBkGufM4cQSzKzU38G16UO2xhSM=;
+ b=A4KS9a2xv8mJh/y/FD/2ZrcHkW3lgAcJGIkqvqyAqfUu03io/19egx6D8Eou0vkGLb
+ jsfiN3mRYFtOqGanGaGWQWMjBQB6+AwBYbn6YPEhRvQncwzPpSwdwz69EJvxzXZbhL4S
+ kl8KzeDuSk5zNWY4CD7hV8BJixLKfOW0//QKmp6r9S6fHF8tukPrxQjypdFos2R1TWPK
+ /lzzHknmHa1j7P2sYAph6OmEM9/0SySaRmt/SDh+ciQPGIOK6QWPoy7bqhs6nRXrJH29
+ UPB0Tgwn6GK9hNCrSgW92V6tmVLDrNc3uaaTWyvJSxZ+pBvqlV203wcvg7kHfPdpRyhc
+ /Elw==
+X-Gm-Message-State: AOAM532qakxYLEbnszVwlFln8we9whxdSDLD6azLZg3jGMFFjCcHcjOF
+ 9EsomH6536GpdvBv+BjF3TEfswVrDUkAIA==
+X-Google-Smtp-Source: ABdhPJwXO0F0Um5f/kGw3zYAC3y+DiCKG+1bfdJKHj6ZiaPEnJZFFaVujM5H4DQOo4B8aJ5xhNAPrQ==
+X-Received: by 2002:a17:90a:a613:: with SMTP id
+ c19mr2118337pjq.119.1601635127246; 
+ Fri, 02 Oct 2020 03:38:47 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
- by smtp.gmail.com with ESMTPSA id s14sm1178483pjr.39.2020.10.02.03.38.24
+ by smtp.gmail.com with ESMTPSA id z25sm1263092pgl.6.2020.10.02.03.38.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 03:38:25 -0700 (PDT)
+ Fri, 02 Oct 2020 03:38:46 -0700 (PDT)
 To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-Message-ID: <18ac984e-3e29-e5df-a06f-ad5173678855@gmail.com>
-Date: Fri, 2 Oct 2020 16:08:22 +0530
+Message-ID: <9b756cd3-a0f9-4c64-33ce-c9a576ae551e@gmail.com>
+Date: Fri, 2 Oct 2020 16:08:43 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
 Content-Language: en-US
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH RFC 1/2] kconfig: use interpreters to
+Subject: [Linux-kernel-mentees] [PATCH RFC 2/2] kbuild: use interpreters to
 	invoke scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -127,55 +127,126 @@ Suggested-by: Kees Cook <keescook@chromium.org>
 Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
 ---
- init/Kconfig | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ Makefile                          | 4 ++--
+ arch/arm64/kernel/vdso/Makefile   | 2 +-
+ arch/arm64/kernel/vdso32/Makefile | 2 +-
+ arch/ia64/Makefile                | 4 ++--
+ arch/nds32/kernel/vdso/Makefile   | 2 +-
+ scripts/Makefile.build            | 2 +-
+ scripts/Makefile.package          | 4 ++--
+ 7 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 91456ac0ef20..524f6b555945 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -30,12 +30,12 @@ config CC_IS_GCC
+diff --git a/Makefile b/Makefile
+index f93dbae71248..5f1399a576d4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1258,7 +1258,7 @@ include/generated/utsrelease.h: include/config/kernel.release FORCE
+ PHONY += headerdep
+ headerdep:
+ 	$(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \
+-	$(srctree)/scripts/headerdep.pl -I$(srctree)/include
++	$(PERL) $(srctree)/scripts/headerdep.pl -I$(srctree)/include
  
- config GCC_VERSION
- 	int
--	default $(shell,$(srctree)/scripts/gcc-version.sh $(CC)) if CC_IS_GCC
-+	default $(shell,$(CONFIG_SHELL) $(srctree)/scripts/gcc-version.sh $(CC)) if CC_IS_GCC
- 	default 0
+ # ---------------------------------------------------------------------------
+ # Kernel headers
+@@ -1314,7 +1314,7 @@ PHONY += kselftest-merge
+ kselftest-merge:
+ 	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+ 	$(Q)find $(srctree)/tools/testing/selftests -name config | \
+-		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
++		xargs $(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+ 	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
  
- config LD_VERSION
- 	int
--	default $(shell,$(LD) --version | $(srctree)/scripts/ld-version.sh)
-+	default $(shell,$(LD) --version | $(AWK) -f $(srctree)/scripts/ld-version.sh)
+ # ---------------------------------------------------------------------------
+diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+index de981f7b4546..30fe93bb5488 100644
+--- a/arch/arm64/kernel/vdso/Makefile
++++ b/arch/arm64/kernel/vdso/Makefile
+@@ -65,7 +65,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+ # Generate VDSO offsets using helper script
+ gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
+ quiet_cmd_vdsosym = VDSOSYM $@
+-      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
++      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
  
- config CC_IS_CLANG
- 	def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q clang)
-@@ -45,20 +45,20 @@ config LD_IS_LLD
+ include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
+ 	$(call if_changed,vdsosym)
+diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+index 572475b7b7ed..4f8fe34bc75a 100644
+--- a/arch/arm64/kernel/vdso32/Makefile
++++ b/arch/arm64/kernel/vdso32/Makefile
+@@ -205,7 +205,7 @@ quiet_cmd_vdsomunge = MUNGE   $@
+ gen-vdsosym := $(srctree)/$(src)/../vdso/gen_vdso_offsets.sh
+ quiet_cmd_vdsosym = VDSOSYM $@
+ # The AArch64 nm should be able to read an AArch32 binary
+-      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
++      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
  
- config CLANG_VERSION
- 	int
--	default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
-+	default $(shell,$(CONFIG_SHELL) $(srctree)/scripts/clang-version.sh $(CC))
+ # Install commands for the unstripped file
+ quiet_cmd_vdso_install = INSTALL32 $@
+diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
+index 2876a7df1b0a..5f6cc3c3da50 100644
+--- a/arch/ia64/Makefile
++++ b/arch/ia64/Makefile
+@@ -28,8 +28,8 @@ cflags-y	:= -pipe $(EXTRA) -ffixed-r13 -mfixed-range=f12-f15,f32-f127 \
+ 		   -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
+ KBUILD_CFLAGS_KERNEL := -mconstant-gp
  
- config CC_CAN_LINK
- 	bool
--	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
--	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
-+	default $(success,$(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
-+	default $(success,$(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
+-GAS_STATUS	= $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
+-KBUILD_CPPFLAGS += $(shell $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
++GAS_STATUS	= $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
++KBUILD_CPPFLAGS += $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
  
- config CC_CAN_LINK_STATIC
- 	bool
--	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
--	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
-+	default $(success,$(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
-+	default $(success,$(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
+ ifeq ($(GAS_STATUS),buggy)
+ $(error Sorry, you need a newer version of the assember, one that is built from	\
+diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Makefile
+index 55df25ef0057..e77d4bcfa7c1 100644
+--- a/arch/nds32/kernel/vdso/Makefile
++++ b/arch/nds32/kernel/vdso/Makefile
+@@ -39,7 +39,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+ # Generate VDSO offsets using helper script
+ gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
+ quiet_cmd_vdsosym = VDSOSYM $@
+-      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
++      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
  
- config CC_HAS_ASM_GOTO
--	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-+	def_bool $(success,$(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC))
+ include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
+ 	$(call if_changed,vdsosym)
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index a467b9323442..893217ee4a17 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -104,7 +104,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
+ endif
  
- config CC_HAS_ASM_GOTO_OUTPUT
- 	depends on CC_HAS_ASM_GOTO
+ ifneq ($(KBUILD_EXTRA_WARN),)
+-  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
++  cmd_checkdoc = $(PERL) $(srctree)/scripts/kernel-doc -none $<
+ endif
+ 
+ # Compile C sources (.c)
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index f952fb64789d..4fc16c4776cc 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -44,7 +44,7 @@ if test "$(objtree)" != "$(srctree)"; then \
+ 	echo >&2; \
+ 	false; \
+ fi ; \
+-$(srctree)/scripts/setlocalversion --save-scmversion; \
++$(CONFIG_SHELL) $(srctree)/scripts/setlocalversion --save-scmversion; \
+ tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
+ 	--transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
+ rm -f $(objtree)/.scmversion
+@@ -123,7 +123,7 @@ git --git-dir=$(srctree)/.git archive --prefix=$(perf-tar)/         \
+ mkdir -p $(perf-tar);                                               \
+ git --git-dir=$(srctree)/.git rev-parse HEAD > $(perf-tar)/HEAD;    \
+ (cd $(srctree)/tools/perf;                                          \
+-util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
++$(CONFIG_SHELL) util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
+ tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
+ rm -r $(perf-tar);                                                  \
+ $(if $(findstring tar-src,$@),,                                     \
 -- 
 2.26.2
 
