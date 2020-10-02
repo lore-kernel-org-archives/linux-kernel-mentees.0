@@ -2,102 +2,109 @@ Return-Path: <SRS0=/4fU=DJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A0FC4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 10:38:52 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A84C4741F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 10:55:35 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA3E0206CD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 10:38:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 268D920708
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 10:55:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="orm8su3s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA3E0206CD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="odAo3zHg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 268D920708
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5CEB927422;
-	Fri,  2 Oct 2020 10:38:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C80BA86357;
+	Fri,  2 Oct 2020 10:55:34 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XfvEhP3_DO4o; Fri,  2 Oct 2020 10:55:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 145308630F;
+	Fri,  2 Oct 2020 10:55:34 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 01ED9C016F;
+	Fri,  2 Oct 2020 10:55:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2C7F9C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  2 Oct 2020 10:55:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 0B852204FD
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  2 Oct 2020 10:55:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DMz30xYQHN1G; Fri,  2 Oct 2020 10:38:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D76EC273E1;
-	Fri,  2 Oct 2020 10:38:49 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C5709C016F;
-	Fri,  2 Oct 2020 10:38:49 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0241C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 10:38:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id BCF278729E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 10:38:48 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DWKIr6GYNXSD
+ with ESMTP id qvJdKtkOHBjk
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 10:38:48 +0000 (UTC)
+ Fri,  2 Oct 2020 10:55:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1C2C98729F
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 1E991204CA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 10:38:48 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id kk9so562992pjb.2
+ Fri,  2 Oct 2020 10:55:31 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id d13so554601pgl.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 02 Oct 2020 03:38:48 -0700 (PDT)
+ Fri, 02 Oct 2020 03:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=l/P8bXlpdS7hKkb+vBkGufM4cQSzKzU38G16UO2xhSM=;
- b=orm8su3s2u9sClQIQftJoxflv6FMllcwwDtqjo+7m78bDkHx3/Yi6WkZxwy/dpEcF3
- LgRL+STZxj7+gPKed0tvMNjfol9b2tUaDEArZkDNyqjSq1qUaVAQVziyxiFVKz9slBTJ
- +R2+JtYyDnhydem+lITPhzHQVvtfmCpmHOCcNY15Pq2u1fEjBbz15J7DXP/h88ecpptx
- 87OT8FvyeA2a+nBWsEyoXpQtRYnBkPUdpe07oejW8mLbEpYXg1J4VpDbpCxJc4Ljz5yg
- VDqgXiUo00nHM25BCdpzgHNKgQg552RJL6LcmjsrJdfnhMFf1GJt+p3XsPVqiFvFlA0B
- T+MA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=I3l3pW7Q2Q9okF2imcqI+zzuik+YfrLOZr205jkuH+8=;
+ b=odAo3zHgm1zZYT0pe5T8WJVP7L80LgED9ZRhTaVeHHY1rR0ItOX4c4TqvOA1VfvPwE
+ yl8BaawUJvMlFjHSvve2wbNgFGiL+OkRXIUC3JPQMFxoslWxxShskfBmNhx8aItG2cqp
+ KvBEJjCCw5B21ehOQ7ek0b0/y5x+zP2tuc+U/6jqsRPKbt9SP+zMAHxU0VwAVsLE6icB
+ lnZnWDFPKBR737aCJ7In0ssj+qNzgmjpPtXxFJVTdx+vRQyxvmz4KbBDEU5JlbZLQ+4u
+ YAVNuElr9s+tbnqdtBEf8Mp1tDai2Ss06qX6Iypcn77qvap5Pdtr+Sdivnt9ie1OxJLs
+ Eq1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=l/P8bXlpdS7hKkb+vBkGufM4cQSzKzU38G16UO2xhSM=;
- b=A4KS9a2xv8mJh/y/FD/2ZrcHkW3lgAcJGIkqvqyAqfUu03io/19egx6D8Eou0vkGLb
- jsfiN3mRYFtOqGanGaGWQWMjBQB6+AwBYbn6YPEhRvQncwzPpSwdwz69EJvxzXZbhL4S
- kl8KzeDuSk5zNWY4CD7hV8BJixLKfOW0//QKmp6r9S6fHF8tukPrxQjypdFos2R1TWPK
- /lzzHknmHa1j7P2sYAph6OmEM9/0SySaRmt/SDh+ciQPGIOK6QWPoy7bqhs6nRXrJH29
- UPB0Tgwn6GK9hNCrSgW92V6tmVLDrNc3uaaTWyvJSxZ+pBvqlV203wcvg7kHfPdpRyhc
- /Elw==
-X-Gm-Message-State: AOAM532qakxYLEbnszVwlFln8we9whxdSDLD6azLZg3jGMFFjCcHcjOF
- 9EsomH6536GpdvBv+BjF3TEfswVrDUkAIA==
-X-Google-Smtp-Source: ABdhPJwXO0F0Um5f/kGw3zYAC3y+DiCKG+1bfdJKHj6ZiaPEnJZFFaVujM5H4DQOo4B8aJ5xhNAPrQ==
-X-Received: by 2002:a17:90a:a613:: with SMTP id
- c19mr2118337pjq.119.1601635127246; 
- Fri, 02 Oct 2020 03:38:47 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
- by smtp.gmail.com with ESMTPSA id z25sm1263092pgl.6.2020.10.02.03.38.45
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=I3l3pW7Q2Q9okF2imcqI+zzuik+YfrLOZr205jkuH+8=;
+ b=nfhUPCBedI29Xqsf65SmlvbzFM/Jsv6U63PnbUp623teHEwm1sSY4EJcGqStj7WQ0J
+ MkZ01x2QI08ZhOJjQKjJOcvudGGp+3fjKUCj/cZ9lmpaCINRoH2scWptrdliBnur0zI6
+ hBLulXR26lK+CHq6UHwTLzJVIT7IOFWNR9nt/COWJiq/uGpPKV483NrvY1N32TPttZrh
+ oST38sI1w+PRtxZKZFAe00Z5whrp6rl7UH0ZJhxBVlh4AvEjc7sJHrGCgA3304j6Y/u0
+ xP9MOX+2mMsi56oDsGdOzicprtXCKJgMBBEQenSxduCbxIi1IsKgVV5voi94CynoXRcr
+ 9KUA==
+X-Gm-Message-State: AOAM532ViC64Ahd9JO50PvKF8Jne4pJSiq499vtVSY92ujRAxxKklhNg
+ NOBTOWoElgelG81mik59tWA=
+X-Google-Smtp-Source: ABdhPJwoHAzGsxNS1W+ppr9tgidop7dSUNJHWMP0mvnqAXpS9f9Mspru3pgObTSnaU5sA2OM3Ow6/w==
+X-Received: by 2002:a05:6a00:2387:b029:142:2501:3970 with SMTP id
+ f7-20020a056a002387b029014225013970mr1971780pfc.53.1601636130257; 
+ Fri, 02 Oct 2020 03:55:30 -0700 (PDT)
+Received: from [192.168.0.104] ([49.207.217.69])
+ by smtp.gmail.com with ESMTPSA id e11sm1462142pfl.58.2020.10.02.03.55.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 03:38:46 -0700 (PDT)
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-Message-ID: <9b756cd3-a0f9-4c64-33ce-c9a576ae551e@gmail.com>
-Date: Fri, 2 Oct 2020 16:08:43 +0530
+ Fri, 02 Oct 2020 03:55:29 -0700 (PDT)
+To: Hans de Goede <hdegoede@redhat.com>
+References: <20201001194329.9328-1-anant.thazhemadam@gmail.com>
+ <33d8c103-0c24-3ad7-2a3c-ffeb625521ee@redhat.com>
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Message-ID: <52301834-83de-45e3-ff93-27fb3f865c5a@gmail.com>
+Date: Fri, 2 Oct 2020 16:25:25 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <33d8c103-0c24-3ad7-2a3c-ffeb625521ee@redhat.com>
 Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH RFC 2/2] kbuild: use interpreters to
-	invoke scripts
+Cc: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com,
+ Johan Hedberg <johan.hedberg@gmail.com>, Marcel Holtmann <marcel@holtmann.org>,
+ linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] bluetooth: hci_h5: close
+ serdev device and free hu in h5_close
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,148 +116,102 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-We cannot rely on execute bits to be set on files in the repository.
-The build script should use the explicit interpreter when invoking any
-script from the repository.
-
-Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
-
-Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-Suggested-by: Kees Cook <keescook@chromium.org>
-Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
----
- Makefile                          | 4 ++--
- arch/arm64/kernel/vdso/Makefile   | 2 +-
- arch/arm64/kernel/vdso32/Makefile | 2 +-
- arch/ia64/Makefile                | 4 ++--
- arch/nds32/kernel/vdso/Makefile   | 2 +-
- scripts/Makefile.build            | 2 +-
- scripts/Makefile.package          | 4 ++--
- 7 files changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index f93dbae71248..5f1399a576d4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1258,7 +1258,7 @@ include/generated/utsrelease.h: include/config/kernel.release FORCE
- PHONY += headerdep
- headerdep:
- 	$(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \
--	$(srctree)/scripts/headerdep.pl -I$(srctree)/include
-+	$(PERL) $(srctree)/scripts/headerdep.pl -I$(srctree)/include
- 
- # ---------------------------------------------------------------------------
- # Kernel headers
-@@ -1314,7 +1314,7 @@ PHONY += kselftest-merge
- kselftest-merge:
- 	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
- 	$(Q)find $(srctree)/tools/testing/selftests -name config | \
--		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
-+		xargs $(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
- 	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- 
- # ---------------------------------------------------------------------------
-diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
-index de981f7b4546..30fe93bb5488 100644
---- a/arch/arm64/kernel/vdso/Makefile
-+++ b/arch/arm64/kernel/vdso/Makefile
-@@ -65,7 +65,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
- # Generate VDSO offsets using helper script
- gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
- quiet_cmd_vdsosym = VDSOSYM $@
--      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
-+      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
- 
- include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
- 	$(call if_changed,vdsosym)
-diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-index 572475b7b7ed..4f8fe34bc75a 100644
---- a/arch/arm64/kernel/vdso32/Makefile
-+++ b/arch/arm64/kernel/vdso32/Makefile
-@@ -205,7 +205,7 @@ quiet_cmd_vdsomunge = MUNGE   $@
- gen-vdsosym := $(srctree)/$(src)/../vdso/gen_vdso_offsets.sh
- quiet_cmd_vdsosym = VDSOSYM $@
- # The AArch64 nm should be able to read an AArch32 binary
--      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
-+      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
- 
- # Install commands for the unstripped file
- quiet_cmd_vdso_install = INSTALL32 $@
-diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
-index 2876a7df1b0a..5f6cc3c3da50 100644
---- a/arch/ia64/Makefile
-+++ b/arch/ia64/Makefile
-@@ -28,8 +28,8 @@ cflags-y	:= -pipe $(EXTRA) -ffixed-r13 -mfixed-range=f12-f15,f32-f127 \
- 		   -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
- KBUILD_CFLAGS_KERNEL := -mconstant-gp
- 
--GAS_STATUS	= $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
--KBUILD_CPPFLAGS += $(shell $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
-+GAS_STATUS	= $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
-+KBUILD_CPPFLAGS += $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
- 
- ifeq ($(GAS_STATUS),buggy)
- $(error Sorry, you need a newer version of the assember, one that is built from	\
-diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Makefile
-index 55df25ef0057..e77d4bcfa7c1 100644
---- a/arch/nds32/kernel/vdso/Makefile
-+++ b/arch/nds32/kernel/vdso/Makefile
-@@ -39,7 +39,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
- # Generate VDSO offsets using helper script
- gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
- quiet_cmd_vdsosym = VDSOSYM $@
--      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
-+      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
- 
- include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
- 	$(call if_changed,vdsosym)
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index a467b9323442..893217ee4a17 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -104,7 +104,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
- endif
- 
- ifneq ($(KBUILD_EXTRA_WARN),)
--  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
-+  cmd_checkdoc = $(PERL) $(srctree)/scripts/kernel-doc -none $<
- endif
- 
- # Compile C sources (.c)
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index f952fb64789d..4fc16c4776cc 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -44,7 +44,7 @@ if test "$(objtree)" != "$(srctree)"; then \
- 	echo >&2; \
- 	false; \
- fi ; \
--$(srctree)/scripts/setlocalversion --save-scmversion; \
-+$(CONFIG_SHELL) $(srctree)/scripts/setlocalversion --save-scmversion; \
- tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
- 	--transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
- rm -f $(objtree)/.scmversion
-@@ -123,7 +123,7 @@ git --git-dir=$(srctree)/.git archive --prefix=$(perf-tar)/         \
- mkdir -p $(perf-tar);                                               \
- git --git-dir=$(srctree)/.git rev-parse HEAD > $(perf-tar)/HEAD;    \
- (cd $(srctree)/tools/perf;                                          \
--util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
-+$(CONFIG_SHELL) util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
- tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
- rm -r $(perf-tar);                                                  \
- $(if $(findstring tar-src,$@),,                                     \
--- 
-2.26.2
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gMDIvMTAvMjAgMzo1MiBwbSwgSGFucyBkZSBHb2VkZSB3cm90ZToKPiBIaSwKPgo+IE9uIDEw
+LzEvMjAgOTo0MyBQTSwgQW5hbnQgVGhhemhlbWFkYW0gd3JvdGU6Cj4+IFdoZW4gaDVfY2xvc2Uo
+KSBnZXRzIGNhbGxlZCwgdGhlIG1lbW9yeSBhbGxvY2F0ZWQgZm9yIHRoZSBodSBnZXRzCj4+IGZy
+ZWVkIG9ubHkgaWYgaHUtPnNlcmRldiBkb2Vzbid0IGV4aXN0LiBUaGlzIGxlYWRzIHRvIGEgbWVt
+b3J5IGxlYWsuCj4+IFNvIHdoZW4gaDVfY2xvc2UoKSBpcyByZXF1ZXN0ZWQsIGNsb3NlIHRoZSBz
+ZXJkZXYgZGV2aWNlIGluc3RhbmNlIGFuZAo+PiBmcmVlIHRoZSBtZW1vcnkgYWxsb2NhdGVkIHRv
+IHRoZSBodSBlbnRpcmVseSBpbnN0ZWFkLgo+Pgo+PiBGaXhlczogY2U5NDU1NTJmZGU0ICgiQmx1
+ZXRvb3RoOiBoY2lfaDU6IEFkZCBzdXBwb3J0IGZvciBzZXJkZXYgZW51bWVyYXRlZCBkZXZpY2Vz
+IikKPj4gUmVwb3J0ZWQtYnk6IHN5emJvdCs2Y2UxNDFjNTViMmY3YWFmZDFjNEBzeXprYWxsZXIu
+YXBwc3BvdG1haWwuY29tCj4+IFRlc3RlZC1ieTogc3l6Ym90KzZjZTE0MWM1NWIyZjdhYWZkMWM0
+QHN5emthbGxlci5hcHBzcG90bWFpbC5jb20KPj4gU2lnbmVkLW9mZi1ieTogQW5hbnQgVGhhemhl
+bWFkYW0gPGFuYW50LnRoYXpoZW1hZGFtQGdtYWlsLmNvbT4KPgo+IFNvIDIgY29tbWVudHMgdG8g
+dGhpczoKPgo+IDEuIFlvdSBjbGFpbSB0aGlzIGNoYW5nZSBmaXhlcyBhIG1lbW9yeS1sZWFrLCBi
+dXQgaW4gdGhlIHNlcmRldiBjYXNlCj4gdGhlIG1lbW9yeSBpcyBhbGxvY2F0ZWQgaW4gaDVfc2Vy
+ZGV2X3Byb2JlKCkgbGlrZSB0aGlzOgo+Cj4gwqDCoMKgwqDCoMKgIGg1ID0gZGV2bV9remFsbG9j
+KGRldiwgc2l6ZW9mKCpoNSksIEdGUF9LRVJORUwpOwo+Cj4gU28gaXRzIGxpZmV0aW1lIGlzIHRp
+ZWQgdG8gdGhlIGxpZmV0aW1lIG9mIHRoZSBkcml2ZXIgYmVpbmcgYm91bmQKPiB0byB0aGUgc2Vy
+ZGV2IGFuZCBpdCBpcyBhdXRvbWF0aWNhbGx5IGZyZWVkIHdoZW4gdGhlIGRyaXZlciBnZXRzCj4g
+dW5ib3VuZC4gSWYgeW91IGhhZCBsb29rZWQgYXQgd2hlcmUgdGhlIGg1IHN0cnVjdCBnZXRzIGFs
+bG9jYXRlZAo+IGluIGg1X2Nsb3NlKCktcyBjb3VudGVycGFydCwgaDVfb3BlbigpIHRoZW4geW91
+IGNvdWxkIGhhdmUgc2Vlbgo+IHRoaXMgdGhlcmU6Cj4KPiDCoMKgwqDCoMKgwqDCoCBpZiAoaHUt
+PnNlcmRldikgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBoNSA9IHNlcmRldl9k
+ZXZpY2VfZ2V0X2RydmRhdGEoaHUtPnNlcmRldik7Cj4gwqDCoMKgwqDCoMKgwqAgfSBlbHNlIHsK
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaDUgPSBremFsbG9jKHNpemVvZigqaDUp
+LCBHRlBfS0VSTkVMKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCFoNSkK
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAt
+RU5PTUVNOwo+IMKgwqDCoMKgwqDCoMKgIH0KPgo+IFNvIGl0IGlzIHZlcnkgY2xlYXIgaGVyZSwg
+dGhhdCB0aGUga3phbGxvYyBvbmx5IGhhcHBlbnMgaW4gdGhlCj4gaWYgKCFodS0+c2VyZGV2KSB3
+aGljaCBjbGVhcmx5IG1ha2VzIHRoZSBrZnJlZSgpIGhhdmUgdGhlIHNhbWUKPiBjb25kaXRpb24g
+dGhlIHJpZ2h0IHRoaW5nIHRvZG8uIEluIHRoZSBodS0+c2VyZGV2IHRoZSBkYXRhIHdoaWNoCj4g
+d2FzIGFsbG9jYXRlZCBieSBoNV9zZXJkZXZfcHJvYmUoKSBpcyB1c2VkIGluc3RlYWQgYW5kIG5v
+IGFsbG9jCj4gaGFwcGVucyBpbnNpZGUgaDVfb3BlbigpCj4KPiBJbiBnZW5lcmFsIHdoZW4gbG9v
+a2luZyBhdCByZXNvdXJjZSB0ZWFyZG93biB5b3Ugc2hvdWxkIGFsc28gbG9vawo+IGF0IHdoZXJl
+IHRoZXkgYXJlIGFsbG9jYXRlZCBpbiB0aGUgbWlycm9yIGZ1bmN0aW9uCj4gYW5kIHRoZSB0ZWFy
+ZG93biBzaG91bGQgbWlycm9yIHRoZSBhbGxvYyBjb2RlLgo+Cj4gU28gdGhlIG1haW4gY2hhbmdl
+IG9mIHlvdXIgY29tbWl0IGlzIHdyb25nOgo+Cj4gTkFDSy4KPgo+Cj4gMi4gWW91IGFyZSBtYWtp
+bmcgbXVsdGlwbGUgY2hhbmdlcyBpbiBhIHNpbmdsZSBjb21taXQgaGVyZSwgSSBjb3VudCBhdAo+
+IGxlYXN0IDMuIFdoZW4gZXZlciB5b3UgYXJlIG1ha2luZyBtdWx0aXBsZSBjaGFuZ2VzIGxpa2Ug
+dGhpcywgeW91IHNob3VsZCByZWFsbHkKPiBzcGxpdCB0aGUgY29tbWl0IHVwIGluIDEgY29tbWl0
+IHBlciBjaGFuZ2UgYW5kIGV4cGxhaW4gaW4gZWFjaCBjb21taXQKPiBtZXNzYWdlIHdoeSB0aGF0
+IGNoYW5nZSBpcyBiZWluZyBtYWRlICh3aHkgaXQgaXMgbmVjZXNzYXJ5KS4gV3JpdGluZwo+IGNv
+bW1pdCBtZXNzYWdlcyBsaWtlIHRoaXMgYWxzbyBsZWFkcyB0byB5b3UgZG91YmxlLWNoZWNraW5n
+IHlvdXIgb3duCj4gd29yayBieSBjYXJlZnVsbHkgY29uc2lkZXJpbmcgd2h5IHlvdSBhcmUgbWFr
+aW5nIHRoZSBjaGFuZ2VzLgo+Cj4gU28gYWJvdXQgdGhlIDMgZGlmZmVyZW50IGNoYW5nZXM6Cj4K
+PiAyYSkgTWFrZSB0aGUga2ZyZWUoaDUpIGNhbGwgdW5jb25kaXRpb25hbGx5LCB3aGljaCBhcyBt
+ZW50aW9uZWQgYWJvdmUKPiBpcyB3cm9uZy4KPgpIbW0sIEkgdW5kZXJzdGFuZCwgdGhhbmsgeW91
+LgoKPiAyYikgSW50cm9kdWNlIGEgY2FsbCB0byBrZnJlZV9za2IoaDUtPnJ4X3NrYik7IHdoaWNo
+IGlzIG5vdCBtZW50aW9uZWQgaW4KPiB0aGUgY29tbWl0IG1lc3NhZ2UgYXQgYWxsLsKgIFRoaXMg
+bG9va3MgbGlrZSBpdCB3b3VsZCBhY3R1YWxseSBiZSBhIHNlbnNpYmxlCj4gY2hhbmdlLCBhdCBs
+ZWFzdCBpbiB0aGUgImlmICghaHUtPnNlcmRldikiIGNhc2UuwqAgV2hlbiB1c2luZyB0aGUgc2Vy
+ZGV2Cj4gaW50ZXJmYWNlIHRoZW4ganVzdCBmcmVlaW5nIGl0IHdpbGwgbGVhdmUgYSBkYW5nbGlu
+ZyBwb2ludGVyLCBzbyBpdAo+IHdvdWxkIGJlIGJldHRlciAoZm9yIGJvdGggdGhlIGh1LT5zZXJk
+ZXYgYW5kIHRoZSAhaHUtPnNlcmRldiBjYXNlcykKPiB0byBjYWxsIGg1X3Jlc2V0X3J4KCkgb24g
+Y2xvc2UgaW5zdGVhZCB3aGljaCBkb2VzOgo+Cj4gwqDCoMKgwqDCoMKgwqAgaWYgKGg1LT5yeF9z
+a2IpIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAga2ZyZWVfc2tiKGg1LT5yeF9z
+a2IpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBoNS0+cnhfc2tiID0gTlVMTDsK
+PiDCoMKgwqDCoMKgwqDCoCB9Cj4KVGhpcyB3YXMgdGhlIGZpcnN0IHRoaW5nIEkgZGlkISAoYW5k
+IEkgdGVzdGVkIGFuZCBpdCB3b3JrcyB0b28pCsKgwqDCoCDCoMKgwqAgaHR0cHM6Ly9zeXprYWxs
+ZXIuYXBwc3BvdC5jb20vdGV4dD90YWc9UGF0Y2gmeD0xM2FjZjkxNzkwMDAwMAoKSG93ZXZlciwg
+SSB3YXMgd29ycmllZCB0aGF0IGRvaW5nIHNvIG1pZ2h0IG1lYW4gZnJlZWluZyBhbiBza2IKdGhh
+dCBtaWdodCBiZSByZXF1aXJlZCBzb21ld2hlcmUgYnkgdGhlIHNlcmRldiBjb25uZWN0aW9uICh3
+aGljaCBjb3VsZApwb3NzaWJseSBsZWFkIHRvIGEgbnVsbCBwdHIgZGVyZWZlcmVuY2UpLCBzbyBJ
+IHRob3VnaHQgY2xvc2luZyB0aGUgY29ubmVjdGlvbgphbHRvZ2V0aGVyIG1pZ2h0IGJlIGEgYmV0
+dGVyIGFsdGVybmF0aXZlLgoKQnV0IG5vdywgc2luY2UgSSd2ZSBiZWVuIHRvbGQgYmV0dGVyLCBJ
+J2xsIHN1Ym1pdCBhIHYzLCB0aGF0IG1ha2VzIHRoZSBtb3JlCnNlbnNpYmxlIGNoYW5nZSBhbmQg
+ZG9lc24ndCBjbG9zZSB0aGUgc2VyZGV2X2RldmljZSwgd2l0aCBhIG11Y2ggbW9yZQppbmZvcm1h
+dGl2ZSBjb21taXQgbWVzc2FnZSEKCkkgYWxzbyBmb3VuZCBhIHNpbWlsYXIgaW1wbGVtZW50YXRp
+b24gaW4gbXJ2bF9jbG9zZSgpIHdoZXJlIHRoZSBzZXJkZXZfZGV2aWNlCndhcyBiZWluZyBjbG9z
+ZWQgYW5kIGZlbHQgaXQgbWlnaHQgYmUgdGhlIHJpZ2h0IHdheSB0byBnby4gQnV0IEkgbm93IGtu
+b3cgdGhhdApJIHNob3VsZG4ndCBoYXZlIG92ZXJsb29rZWQgdGhlIGZhY3QgdGhhdCB0aGUgb3Bl
+biBmdW5jdGlvbnMgZm9yIGJvdGggZGlmZmVyLgpJJ20gc29ycnkgZm9yIHRoaXMuCgpMaWtlIHlv
+dSBtZW50aW9uZWQsIEkgc2hvdWxkJ3ZlIGdpdmVuIG1vcmUgcHJpb3JpdHkgdG8gdGhlIG1pcnJv
+ciBmdW5jdGlvbiwKYW5kIGxvb2tlZCB0byBzZWUgaWYgZXZlbiB0aGV5IHdlcmUgYWxvbmcgdGhl
+IHNhbWUgbGluZXMsIGFuZCBJIHdpbGwgYmUgc3VyZSB0bwprZWVwIHRoYXQgaW4gbWluZC4KCj4g
+MmMpIEludHJvZHVjZSBhIGNhbGwgdG8gc2VyZGV2X2RldmljZV9jbG9zZSgpLCB3aXRob3V0IHJl
+YWxseSBleHBsYWluaW5nCj4gd2h5IGluIHRoZSBjb21taXQgbWVzc2FnZS4gQWdhaW4gaWYgeW91
+IHdvdWxkIGhhdmUgbG9va2VkIGF0IHRoZSBtaXJyb3IKPiBoNV9jbG9zZSgpIGZ1bmN0aW9uIHRo
+ZW4geW91IHNlZSBubyBzZXJkZXZfZGV2aWNlX29wZW4oKSB0aGVyZS4KPiBBY3R1YWxseSBzZXJk
+ZXZfZGV2aWNlX29wZW4oKSBpcyBub3QgY2FsbGVkIGFueXdoZXJlIGluIHRoZSBoY2lfaDUuYyBj
+b2RlLgo+Cj4gRGlnZ2luZyBhIGxpdHRsZSBkZWVwZXIgKHVzaW5nIGdyZXApIHNob3dzIHRoYXQg
+aGNpX3VhcnRfcmVnaXN0ZXJfZGV2aWNlKCkKPiBjYWxscyBzZXJkZXZfZGV2aWNlX29wZW4oKSBh
+bmQgaGNpX3VhcnRfcmVnaXN0ZXJfZGV2aWNlKCkgZ2V0cyBjYWxsZWQgZnJvbToKPiBoNV9zZXJk
+ZXZfcHJvYmUoKSwgbGlrZXdpc2UgaGNpX3VhcnRfdW5yZWdpc3Rlcl9kZXZpY2UoKSBjYWxscwo+
+IHNlcmRldl9kZXZpY2VfY2xvc2UoKSBmb3IgdXMgYW5kIHRoYXQgZ2V0cyBjYWxsZWQgZnJvbSBo
+NV9zZXJkZXZfcmVtb3ZlKCksCj4gc28gdGhlcmUgaXMgbm8gbmVlZCB0byBjYWxsIHNlcmRldl9k
+ZXZpY2VfY2xvc2UoKSBmcm9tIGg1X2Nsb3NlKCkgYW5kIGRvaW5nCj4gc28gd2lsbCBhY3R1YWxs
+eSBicmVhayB0aGluZ3MsIGJlY2F1c2UgdGhlbiB0aGUgc2VyZGV2IHdpbGwgYmUgbGVmdCBjbG9z
+ZWQKPiBvbiBhIHN1YnNlcXVlbnQgaDVfb3BlbigpIGNhbGwuCj4KPiBSZWdhcmRzLAo+Cj4gSGFu
+cwo+ClRoYW5rIHlvdSBzbyBtdWNoIGZvciB0aGlzIHJldmlldywgYW5kIGZvciB5b3VyIHRpbWUh
+IDopCgpUaGFua3MsCkFuYW50Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwt
+bWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3Vu
+ZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
