@@ -2,127 +2,105 @@ Return-Path: <SRS0=/4fU=DJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71E60C4363D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 19:45:06 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EEC6C4363D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 21:36:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E6FEF206DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 19:45:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E5169206DC
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Oct 2020 21:36:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CENHWLnv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E6FEF206DD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bfd91RAL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5169206DC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9F5CC873F2;
-	Fri,  2 Oct 2020 19:45:05 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fqA9m+rsQ7tg; Fri,  2 Oct 2020 19:45:05 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F16EA873F0;
-	Fri,  2 Oct 2020 19:45:04 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4E8AC0889;
-	Fri,  2 Oct 2020 19:45:04 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1B070C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 19:45:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D3355203A0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 19:45:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6FECA2002E;
+	Fri,  2 Oct 2020 21:36:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vOjVz6ZR7Cq5; Fri,  2 Oct 2020 21:36:30 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id DDBF420394;
+	Fri,  2 Oct 2020 21:36:30 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C329CC0889;
+	Fri,  2 Oct 2020 21:36:30 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0D8BCC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  2 Oct 2020 21:36:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 037738643B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  2 Oct 2020 21:36:29 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9WhJHIHxWf3o
+ with ESMTP id WHuJD16snszP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 19:45:02 +0000 (UTC)
+ Fri,  2 Oct 2020 21:36:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by silver.osuosl.org (Postfix) with ESMTPS id F37B020406
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7257886190
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Oct 2020 19:45:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601667900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jgMa0/la5acn2bgv6JrmNlXcDw7ZYgonZFi8exdF+5s=;
- b=CENHWLnvpvaUw4qpKdSuuUNm+t/m953GeNPsLdM8KyXn3dQWtnXq9d/gwcIIQ55NOIJtKB
- RXKT/RPNtxt04kHxiH8wS7imXlzCdnJsr4dQo2f66ADpFIZNqKij5vW+/ZYRqLQqR9eR2V
- zP8rkQ8e9osiTs3jlOI3O7dDkMRvWxA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-uYPapH2UO_Ci20jFRftHUw-1; Fri, 02 Oct 2020 15:44:58 -0400
-X-MC-Unique: uYPapH2UO_Ci20jFRftHUw-1
-Received: by mail-ed1-f69.google.com with SMTP id r8so1111175edy.17
+ Fri,  2 Oct 2020 21:36:28 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id h6so995440pgk.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 02 Oct 2020 12:44:58 -0700 (PDT)
+ Fri, 02 Oct 2020 14:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WPtIb4b9HGZamYKXhh2KqdHdyBLc/qR1UQErEqHmd+s=;
+ b=Bfd91RALMexBIwsSkFsGQqhzCITd+Zrzx3mxAw6VIiE3THghd0AcGA+ruryD1OGqiM
+ bnQgCnYhwbBs+0yJ0fwB4pjAl0AOJW7reQXjboGulHWJA5smGGz7UzVCOX1Q29/DhvsC
+ kDvhkDe4rbxUvSrKX35labth1y8jLKYav+Bg5I0IYy/Eihj29gD846PusXg5KrPNSRTx
+ +uybVrQb/9RtXvVTTiUdE3JEb+oWkSav8TUqDYd2WZrVwdZhuA3GENFjKATrp2U6mZr3
+ dLFPpao4NnKlehP7/YZld/Rs2cBLI6sImLMjsPMOl4ir5BcMnOCcdDVb1IuVNdIGCVtu
+ xbTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jgMa0/la5acn2bgv6JrmNlXcDw7ZYgonZFi8exdF+5s=;
- b=GceLvgvY2jlsWdgN/JCZRLQNwxmR6Xq2AwHbGbILB439R6UsM+fVxnJrPIKvCCH2IB
- +WdCRXolzFrW0JiKhFC1CmlIipxAyPLHjN0SZrD+CHLBHBkXRdrCgXQBtzU8eWQHh++V
- V7vHwV0RIOYb3lgUKNsURLrgbWksqkOYZkWkpdmzANZUrLS7hwOvfbR2YkAcfuvT1noO
- hWsCZSsEhfulAntpWV83pbAMW5kkrt9OiejQkvpnop+/HWb+oaAOQ3agUxwtmfVzNeKK
- z90v/nwH2sFyVaH/De6gJ88emd6kOyqEGRwmXJriT7IsqfEKdAu65bMhHrVoQ1ITY2hB
- 30Pw==
-X-Gm-Message-State: AOAM5314Rb/LY/O+M5Y7vjMSNfSc86LZ0s4KHVl9rkvRllbEFCwzb/c0
- aDx/QbBWxBBEaxY7ER87qaeFnWVc3FcmH7qpguwF+igid1RwPXsVmIIG0+w0kZO7bRVphbiZRw+
- qWiOnqMpTLFNwIieUM/KzFpjH1R6wNTkIt8gTzccee5dVnTQA
-X-Received: by 2002:a17:906:edc4:: with SMTP id
- sb4mr3792260ejb.144.1601667896609; 
- Fri, 02 Oct 2020 12:44:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3ULDQuLHZRT7PJRaf61qpeFeNYqfn7LcmWcfwC+3dwuZARh6VNIbmSTUW+1EGrFVv5B6ODw==
-X-Received: by 2002:a17:906:edc4:: with SMTP id
- sb4mr3792251ejb.144.1601667896456; 
- Fri, 02 Oct 2020 12:44:56 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id j18sm829161ejc.111.2020.10.02.12.44.55
+ bh=WPtIb4b9HGZamYKXhh2KqdHdyBLc/qR1UQErEqHmd+s=;
+ b=bok9B9wncuXoMXmbxh1gjDr+1lFPSD/AInhbk/vIV95zLkc2D5RuRzkkWXcxFPirp2
+ 5Gf2bxMLQjZUjGUXgSL+wf83F4fiztFMEzrS8JOk2RmREL0xflx4KCGdW2LkofGTWWb/
+ 4dOhskeqZzojR2YPXMVaJC2limnGItUIl2UscqePuTIP4eDkHAEH44t1bBFAqDqGGrVm
+ Y697SxD+dmQghRPXeun3p4p2u9jstGeMSbGBPKBVBnFsHgt+ONcCkzSpfTL4YoE8SVkL
+ Yx1LtYwne+u07x6kKHpFoTgsijlubt42MZ/A7qicpfHJv+7178j7c5tq+Ho2xDQLh1f7
+ TZYQ==
+X-Gm-Message-State: AOAM533HsqMISnNRIRBUQS4kfgQlKZl6heqbwh+YQWCLBKLCZoTsuC6S
+ tuCKPEB8lp65GI33KNkTaEnQ/UgKKmbIvP6j
+X-Google-Smtp-Source: ABdhPJyfmvNMPNiv4U7VNcZDxPCc5Z92OshYuT4hmVneIQ6yyo+5Ops++w0XY4tlOyYAXLYOwryHIg==
+X-Received: by 2002:a62:54:0:b029:152:3212:f622 with SMTP id
+ 81-20020a6200540000b02901523212f622mr437504pfa.46.1601674587530; 
+ Fri, 02 Oct 2020 14:36:27 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
+ by smtp.gmail.com with ESMTPSA id b7sm5910263pjq.1.2020.10.02.14.36.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 12:44:55 -0700 (PDT)
-To: Coiby Xu <coiby.xu@gmail.com>
-References: <20201001132258.6yzosj2w7k4eod42@Rk>
- <CACRpkdYvaC_DUJW+nvmofhhHieDYAiREBog6rn5iS=J4moAtZg@mail.gmail.com>
- <3ded544f-be1b-8dc4-16b7-42172b1e1b08@redhat.com>
- <20201002124235.nhjzq7i4gpkzwgbs@Rk>
- <39f03cfe-0e7f-2ab6-7821-048cfcde8baa@redhat.com>
- <20201002145133.a43ypm2z7ofgtt7u@Rk>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <eed704f5-4210-788c-37b7-06d65b58d3de@redhat.com>
-Date: Fri, 2 Oct 2020 21:44:54 +0200
+ Fri, 02 Oct 2020 14:36:26 -0700 (PDT)
+From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <06b25639-0d7d-e635-706c-19b950c5ff2e@gmail.com>
+Message-ID: <0226bf70-611d-c12b-cbf2-2c2b70bbb2d9@gmail.com>
+Date: Sat, 3 Oct 2020 03:06:19 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201002145133.a43ypm2z7ofgtt7u@Rk>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <06b25639-0d7d-e635-706c-19b950c5ff2e@gmail.com>
 Content-Language: en-US
-Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Nehal Shah <Nehal-bakulchandra.Shah@amd.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Any other ways to debug GPIO interrupt
- controller (pinctrl-amd) for broken touchpads of a new laptop model?
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 0/2] use interpreters to
+	invoke scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -134,45 +112,88 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
-
-On 10/2/20 4:51 PM, Coiby Xu wrote:
-> On Fri, Oct 02, 2020 at 03:36:29PM +0200, Hans de Goede wrote:
-
-<snip>
-
->>>> So are you seeing these 7 interrupts / second for the touchpad irq or for
->>>> the GPIO controllers parent irq ?
->>>>
->>>> Also to these 7 interrupts/sec stop happening when you do not touch the
->>>> touchpad ?
->>>>
->>> I see these 7 interrupts / second for the GPIO controller's parent irq.
->>> And they stop happening when I don't touch the touchpad.
->>
->> Only from the parent irq, or also on the touchpad irq itself ?
->>
->> If this only happens on the parent irq, then I would start looking at the
->> amd-pinctrl code which determines which of its "child" irqs to fire.
+On 02/10/20 4:08 pm, Ujjwal Kumar wrote:
+> This patch series aims at removing the dependency on execute 
+> bit of the scripts in the kbuild system.
 > 
-> This only happens on the parent irq. The input's pin#130 of the GIPO
-> chip is low most of the time and pin#130.
+> If not working with fresh clone of linux-next, clean the srctree:
+> make distclean
+> make tools/clean
+> 
+> To test the dependency on execute bits, I tried building the 
+> kernel after removing x-bits for all files in the repository.
+> Removing execute bits:
+> for i in $(find -executable -type f); do chmod -x $i; done
+> 
+> Any attempts to configure (or build) the kernel fail because of 
+> 'Permission denied' on scripts with the following error:
+> $ make allmodconfig
+> sh: ./scripts/gcc-version.sh: Permission denied
+> init/Kconfig:34: syntax error
+> init/Kconfig:33: invalid statement
+> init/Kconfig:34: invalid statement
+> sh: ./scripts/ld-version.sh: Permission denied
+> init/Kconfig:39: syntax error
+> init/Kconfig:38: invalid statement
+> sh: ./scripts/clang-version.sh: Permission denied
+> init/Kconfig:49: syntax error
+> init/Kconfig:48: invalid statement
+> make[1]: *** [scripts/kconfig/Makefile:71: allmodconfig] Error 1
+> make: *** [Makefile:606: allmodconfig] Error 2
+> 
+> Changes:
+> 1. Adds specific interpreters (in Kconfig) to invoke 
+> scripts.
+> 
+> After this patch I could successfully do a kernel build 
+> without any errors.
+> 
+> 2. Again adds specific interpreters to other parts of 
+> kbuild system.
+> 
+> I could successfully perform the following make targets after 
+> applying the second patch:
+> make headerdep
+> make kselftest-merge
 
-Right, but it is a low-level triggered IRQ, so when it is low it should
-be executing the i2c-hid interrupt-handler. If it is not executing that
-then it is time to look at amd-pinctrl's irq-handler and figure out why
-that is not triggering the child irq handler for the touchpad.
+I could further test the changes as follows-
+scripts/Makefile.package:
+make rpm-pkg
+make perf-tar-src-pkg
 
-Regards,
+arch/ia64/Makefile:
+make ARCH=ia64 defconfig
 
-Hans
+arch/arm64/kernel/vdso/Makefile:
+ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make prepare
 
+> 
+> Following changes in the patch 2/2 are not yet tested:
+> arch/*
+> scripts/*
+> 
+> Ujjwal Kumar (2):
+>   kconfig: use interpreters to invoke scripts
+>   kbuild: use interpreters to invoke scripts
+> 
+>  Makefile                          |  4 ++--
+>  arch/arm64/kernel/vdso/Makefile   |  2 +-
+>  arch/arm64/kernel/vdso32/Makefile |  2 +-
+>  arch/ia64/Makefile                |  4 ++--
+>  arch/nds32/kernel/vdso/Makefile   |  2 +-
+>  init/Kconfig                      | 16 ++++++++--------
+>  scripts/Makefile.build            |  2 +-
+>  scripts/Makefile.package          |  4 ++--
+>  8 files changed, 18 insertions(+), 18 deletions(-)
+> 
+
+Ujjwal Kumar
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
