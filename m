@@ -2,95 +2,96 @@ Return-Path: <SRS0=1t5V=DK=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 674F8C47095
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 15:20:27 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C8C8C41604
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 15:21:39 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08678206DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 15:20:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CCB79206DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 15:21:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URSW9S7Y"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08678206DD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NUELTX9M"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CCB79206DD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B20C020371;
-	Sat,  3 Oct 2020 15:20:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6A85E8623B;
+	Sat,  3 Oct 2020 15:21:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id M8a6SDfvnPST; Sat,  3 Oct 2020 15:19:23 +0000 (UTC)
+	with ESMTP id BRcXNc7UDBBI; Sat,  3 Oct 2020 15:21:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 667832035C;
-	Sat,  3 Oct 2020 15:19:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C3634860E0;
+	Sat,  3 Oct 2020 15:21:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B3E2C0889;
-	Sat,  3 Oct 2020 15:19:23 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0900AC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B24BCC0889;
+	Sat,  3 Oct 2020 15:21:37 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A70FBC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 15:19:23 +0000 (UTC)
+ Sat,  3 Oct 2020 15:21:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EC1FB8725D
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A29C98623B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 15:19:22 +0000 (UTC)
+ Sat,  3 Oct 2020 15:21:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZvjEwPtMXZFq
+ with ESMTP id 5rNBzNgWEU4K
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 15:19:22 +0000 (UTC)
+ Sat,  3 Oct 2020 15:21:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6CBC981E04
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BFC7D860E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 15:19:22 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id y14so2886793pgf.12
+ Sat,  3 Oct 2020 15:21:35 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id u3so2736452pjr.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 03 Oct 2020 08:19:22 -0700 (PDT)
+ Sat, 03 Oct 2020 08:21:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:subject:to:cc:message-id:date:user-agent:mime-version
  :content-language:content-transfer-encoding;
- bh=HMfn3sVRJkjUaie6oXrhM0CzB/smuFPKw2b5ubgLlhc=;
- b=URSW9S7Yh9pgXx9kH/9tDW55XHPSaePxAJzrA1+IaFs74cDB4OcrStoabKhadIoHW7
- HqPPrs9+bYxgOAboifMNm77e5cuIG4M0wGUO+FEaMqlcLhzHmQqTeGblrD68vYnDeDD+
- VZIHxIHlLiS0Lby902IO+l4KrTZDrdXlfWq7AyVjNRJ4IWZCp2ykdwF0RnFm1BmSOcZr
- 1E//Wix2emL1M7szIvNhbVpG9fuiqALn6eoNkZGnBNljE5vqjYfewpode7sXdEUqS10C
- T0Dc2T7TgnOFIJ98oRnb5KBJxjpVHdWuVG42MFYt2k0H86e1f4WhP6pnBeulSf7fX159
- 9Y0g==
+ bh=l/P8bXlpdS7hKkb+vBkGufM4cQSzKzU38G16UO2xhSM=;
+ b=NUELTX9MYZwZ0qmChVIpQMZOA0R9gQhtJcKJYEIyKt4hhCQmyKRQ5xWatQFdNGz8i3
+ n5/4m0w01n8bu0nEqZz9+BZAJf8xV2EaJEIVzNRxqoWb15tw6QM607TuLmnma2j+U1cQ
+ 7AjciRCBSUIs3WL5VW5YN778QV/uLAX4V4hvfaCGkPAzcUX3kHU/0MArU35FXsIhLdC8
+ o3YgTXVyfJ4/PfF8xzmFUibii6/VwBf5ozxeMGXBRr6SPD0z4l+N3g2h7wQrJQntBYy2
+ c+vS/eY0buy5tZ/sBpvezeca4zdKX5joK3Vu7BVpyF/oeTNpPTlYfhvNNrRiTcFVWGfS
+ TQdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
  :mime-version:content-language:content-transfer-encoding;
- bh=HMfn3sVRJkjUaie6oXrhM0CzB/smuFPKw2b5ubgLlhc=;
- b=bdxJ/ySHXC+qOTIXEh592MUU003UcTV7zsH5udpQhJXfhGEcLNVwqF3ajQ7i0HHb7E
- M8R3edEi8TsSDBfOgoNpG/n9rPqEAZiw9VzyNIMm8gBb6HI/Cqn1viwnpnujCdkh802u
- df+lZyQ0mllGE/qDo9OTo3Y+WxW5AwCkMRnPdUWR1kaadE6PXDE2w+J6dyWJPWv09uZA
- HRhV/V0ouPjte157V36XHZXIV7FUA8JYTMBbKpBxDBHUufEnvcr4UE9bT6LPrwl/rR9k
- 75yfEmBf4EMse+NiQgRU60J10/QMMB+/hB3cDC/ra9PyHXgb9Ji3YEld+s0lvdT2ftLq
- /8bg==
-X-Gm-Message-State: AOAM5322BQ61YjHjAkTyX6LiEkSaoCw75Fma/kF3Yy1pz1nPqK5FmXQ/
- NWGINSTL6neBvLXd9cB3jqQJzbE+Ijum2mBH
-X-Google-Smtp-Source: ABdhPJz5rON6RZFPTbpjA/dtzaoEYP2k8KrlDnLsNCZN1DXtGWEylj5EaPIDAqO1U0Snz2amTP2b2g==
-X-Received: by 2002:aa7:9555:0:b029:152:4b0b:cca with SMTP id
- w21-20020aa795550000b02901524b0b0ccamr2917244pfq.16.1601738361449; 
- Sat, 03 Oct 2020 08:19:21 -0700 (PDT)
+ bh=l/P8bXlpdS7hKkb+vBkGufM4cQSzKzU38G16UO2xhSM=;
+ b=YiOEzRRtDQmc7I11WhDVwET/EcIQK+TMflqOm1ZBj43yNBZhbdvkdoyQJZJX26ISHI
+ +gtyqCHfIak1HZEu2DfxfEOAC9hO7yUi8BAy/y0sZaQ4rcqqbCwwPpVUm/EHhgv1yVZ9
+ FZ4K+5dStJ17wQgHqheIekp1dUMKCeEUJi6FXEvb2uZ4cGBVdJ8pXyJzKvpCAPbyEUAN
+ qLWPKeSAWfgT6OuCxJSNT9bdiMIImEKQtICl3sE4McpG0gnI2mNbtNYhk95vlHF5XJdo
+ bBbt4gqDJ1BxqeN5pPSHwDlIY/yGWl3e6liDyjQq2njCoPT55OSAT0O7ma5XO5f+bRTN
+ lT0A==
+X-Gm-Message-State: AOAM533hIG6wzX392d/heAJPgrA+lDZp+0z4mAD8VqrTulpMPh+bCSmM
+ EouDthOR3PFDiGXhH61TPVUEhYOfUXBt1UqH
+X-Google-Smtp-Source: ABdhPJyxBf1T0SKtqw6BFlG+BT+UZXKVLEtyAshw6qptV6ujOfLJmmBb4FxK5J5YBtLNAf01yiAh/w==
+X-Received: by 2002:a17:90a:1189:: with SMTP id
+ e9mr3196782pja.124.1601738494919; 
+ Sat, 03 Oct 2020 08:21:34 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
- by smtp.gmail.com with ESMTPSA id fv13sm5312717pjb.50.2020.10.03.08.19.16
+ by smtp.gmail.com with ESMTPSA id n125sm6026241pfn.185.2020.10.03.08.21.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Oct 2020 08:19:20 -0700 (PDT)
+ Sat, 03 Oct 2020 08:21:34 -0700 (PDT)
 From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
 To: Masahiro Yamada <masahiroy@kernel.org>,
  Michal Marek <michal.lkml@markovi.net>
-Message-ID: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
-Date: Sat, 3 Oct 2020 20:49:09 +0530
+Message-ID: <979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1@gmail.com>
+Date: Sat, 3 Oct 2020 20:51:23 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
@@ -103,8 +104,8 @@ Cc: linux-ia64@vger.kernel.org, Kees Cook <keescook@chromium.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  Andrew Morton <akpm@linux-foundation.org>,
  linux-arm-kernel@lists.infradead.org
-Subject: [Linux-kernel-mentees] [PATCH RFC 0/2] use interpreters to invoke
-	scripts
+Subject: [Linux-kernel-mentees] [PATCH RFC 2/2] kbuild: use interpreters to
+	invoke scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,72 +123,138 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patch series aims at removing the dependency on execute 
-bit of the scripts in the kbuild system.
+We cannot rely on execute bits to be set on files in the repository.
+The build script should use the explicit interpreter when invoking any
+script from the repository.
 
-If not working with fresh clone of linux-next, clean the srctree:
-make distclean
-make tools/clean
+Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
+Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
 
-To test the dependency on execute bits, I tried building the 
-kernel after removing x-bits for all files in the repository.
-Removing execute bits:
-for i in $(find -executable -type f); do chmod -x $i; done
+Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+Suggested-by: Kees Cook <keescook@chromium.org>
+Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+---
+ Makefile                          | 4 ++--
+ arch/arm64/kernel/vdso/Makefile   | 2 +-
+ arch/arm64/kernel/vdso32/Makefile | 2 +-
+ arch/ia64/Makefile                | 4 ++--
+ arch/nds32/kernel/vdso/Makefile   | 2 +-
+ scripts/Makefile.build            | 2 +-
+ scripts/Makefile.package          | 4 ++--
+ 7 files changed, 10 insertions(+), 10 deletions(-)
 
-Any attempts to configure (or build) the kernel fail because of 
-'Permission denied' on scripts with the following error:
-$ make allmodconfig
-sh: ./scripts/gcc-version.sh: Permission denied
-init/Kconfig:34: syntax error
-init/Kconfig:33: invalid statement
-init/Kconfig:34: invalid statement
-sh: ./scripts/ld-version.sh: Permission denied
-init/Kconfig:39: syntax error
-init/Kconfig:38: invalid statement
-sh: ./scripts/clang-version.sh: Permission denied
-init/Kconfig:49: syntax error
-init/Kconfig:48: invalid statement
-make[1]: *** [scripts/kconfig/Makefile:71: allmodconfig] Error 1
-make: *** [Makefile:606: allmodconfig] Error 2
-
-Changes:
-1. Adds specific interpreters (in Kconfig) to invoke 
-scripts.
-
-After this patch I could successfully do a kernel build 
-without any errors.
-
-2. Again, adds specific interpreters to other parts of 
-kbuild system.
-
-I could successfully perform the following make targets after 
-applying the PATCH 2/2:
-make headerdep
-make kselftest-merge
-make rpm-pkg
-make perf-tar-src-pkg
-make ARCH=ia64 defconfig
-ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make prepare
-
-Following changes in PATCH 2/2 are not yet tested:
-arch/arm64/kernel/vdso32/Makefile
-arch/nds32/kernel/vdso/Makefile
-scripts/Makefile.build
-
-Ujjwal Kumar (2):
-  kconfig: use interpreters to invoke scripts
-  kbuild: use interpreters to invoke scripts
-
- Makefile                          |  4 ++--
- arch/arm64/kernel/vdso/Makefile   |  2 +-
- arch/arm64/kernel/vdso32/Makefile |  2 +-
- arch/ia64/Makefile                |  4 ++--
- arch/nds32/kernel/vdso/Makefile   |  2 +-
- init/Kconfig                      | 16 ++++++++--------
- scripts/Makefile.build            |  2 +-
- scripts/Makefile.package          |  4 ++--
- 8 files changed, 18 insertions(+), 18 deletions(-)
-
+diff --git a/Makefile b/Makefile
+index f93dbae71248..5f1399a576d4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1258,7 +1258,7 @@ include/generated/utsrelease.h: include/config/kernel.release FORCE
+ PHONY += headerdep
+ headerdep:
+ 	$(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \
+-	$(srctree)/scripts/headerdep.pl -I$(srctree)/include
++	$(PERL) $(srctree)/scripts/headerdep.pl -I$(srctree)/include
+ 
+ # ---------------------------------------------------------------------------
+ # Kernel headers
+@@ -1314,7 +1314,7 @@ PHONY += kselftest-merge
+ kselftest-merge:
+ 	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+ 	$(Q)find $(srctree)/tools/testing/selftests -name config | \
+-		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
++		xargs $(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+ 	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+ 
+ # ---------------------------------------------------------------------------
+diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+index de981f7b4546..30fe93bb5488 100644
+--- a/arch/arm64/kernel/vdso/Makefile
++++ b/arch/arm64/kernel/vdso/Makefile
+@@ -65,7 +65,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+ # Generate VDSO offsets using helper script
+ gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
+ quiet_cmd_vdsosym = VDSOSYM $@
+-      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
++      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+ 
+ include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
+ 	$(call if_changed,vdsosym)
+diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+index 572475b7b7ed..4f8fe34bc75a 100644
+--- a/arch/arm64/kernel/vdso32/Makefile
++++ b/arch/arm64/kernel/vdso32/Makefile
+@@ -205,7 +205,7 @@ quiet_cmd_vdsomunge = MUNGE   $@
+ gen-vdsosym := $(srctree)/$(src)/../vdso/gen_vdso_offsets.sh
+ quiet_cmd_vdsosym = VDSOSYM $@
+ # The AArch64 nm should be able to read an AArch32 binary
+-      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
++      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+ 
+ # Install commands for the unstripped file
+ quiet_cmd_vdso_install = INSTALL32 $@
+diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
+index 2876a7df1b0a..5f6cc3c3da50 100644
+--- a/arch/ia64/Makefile
++++ b/arch/ia64/Makefile
+@@ -28,8 +28,8 @@ cflags-y	:= -pipe $(EXTRA) -ffixed-r13 -mfixed-range=f12-f15,f32-f127 \
+ 		   -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
+ KBUILD_CFLAGS_KERNEL := -mconstant-gp
+ 
+-GAS_STATUS	= $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
+-KBUILD_CPPFLAGS += $(shell $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
++GAS_STATUS	= $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
++KBUILD_CPPFLAGS += $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
+ 
+ ifeq ($(GAS_STATUS),buggy)
+ $(error Sorry, you need a newer version of the assember, one that is built from	\
+diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Makefile
+index 55df25ef0057..e77d4bcfa7c1 100644
+--- a/arch/nds32/kernel/vdso/Makefile
++++ b/arch/nds32/kernel/vdso/Makefile
+@@ -39,7 +39,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+ # Generate VDSO offsets using helper script
+ gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
+ quiet_cmd_vdsosym = VDSOSYM $@
+-      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
++      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+ 
+ include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
+ 	$(call if_changed,vdsosym)
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index a467b9323442..893217ee4a17 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -104,7 +104,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
+ endif
+ 
+ ifneq ($(KBUILD_EXTRA_WARN),)
+-  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
++  cmd_checkdoc = $(PERL) $(srctree)/scripts/kernel-doc -none $<
+ endif
+ 
+ # Compile C sources (.c)
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index f952fb64789d..4fc16c4776cc 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -44,7 +44,7 @@ if test "$(objtree)" != "$(srctree)"; then \
+ 	echo >&2; \
+ 	false; \
+ fi ; \
+-$(srctree)/scripts/setlocalversion --save-scmversion; \
++$(CONFIG_SHELL) $(srctree)/scripts/setlocalversion --save-scmversion; \
+ tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
+ 	--transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
+ rm -f $(objtree)/.scmversion
+@@ -123,7 +123,7 @@ git --git-dir=$(srctree)/.git archive --prefix=$(perf-tar)/         \
+ mkdir -p $(perf-tar);                                               \
+ git --git-dir=$(srctree)/.git rev-parse HEAD > $(perf-tar)/HEAD;    \
+ (cd $(srctree)/tools/perf;                                          \
+-util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
++$(CONFIG_SHELL) util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
+ tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
+ rm -r $(perf-tar);                                                  \
+ $(if $(findstring tar-src,$@),,                                     \
 -- 
 2.26.2
 
