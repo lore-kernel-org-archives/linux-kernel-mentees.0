@@ -2,109 +2,115 @@ Return-Path: <SRS0=1t5V=DK=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD20C47095
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 22:08:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC9FC41604
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 23:03:51 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97B3F206F8
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 22:08:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 381B92068D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 23:03:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBnjRal1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97B3F206F8
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uKCZDjH7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 381B92068D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3AB4585B8A;
-	Sat,  3 Oct 2020 22:08:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A98428539F;
+	Sat,  3 Oct 2020 23:03:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0QV4i+AYakI5; Sat,  3 Oct 2020 22:08:03 +0000 (UTC)
+	with ESMTP id DNOShleGJdYj; Sat,  3 Oct 2020 23:03:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 74A2985721;
-	Sat,  3 Oct 2020 22:08:03 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 94DAF85168;
+	Sat,  3 Oct 2020 23:03:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5AF6FC0889;
-	Sat,  3 Oct 2020 22:08:03 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 704DCC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7547FC016F;
+	Sat,  3 Oct 2020 23:03:49 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E27F5C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 22:08:01 +0000 (UTC)
+ Sat,  3 Oct 2020 23:03:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 62C1785B8A
+ by hemlock.osuosl.org (Postfix) with ESMTP id CAAD887077
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 22:08:01 +0000 (UTC)
+ Sat,  3 Oct 2020 23:03:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UrpCeyQGiltQ
+ with ESMTP id 2Qh3EXhC1gDV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 22:08:00 +0000 (UTC)
+ Sat,  3 Oct 2020 23:03:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1F79F85721
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4A70687071
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 22:08:00 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id u24so3283850pgi.1
+ Sat,  3 Oct 2020 23:03:46 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id l126so4006473pfd.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 03 Oct 2020 15:08:00 -0700 (PDT)
+ Sat, 03 Oct 2020 16:03:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=K7prn+OySA9dsDPOdM/Xq3Uxq9GhNO6pfnjq7gcgnBM=;
- b=SBnjRal1k9R0s2/i3bXCb0PMhTx3D6dT9Kf78kMqTIg7IrSLNp/IpQqeWrisPZ2yvD
- nnc/HcLp03ktgfYVXQ3rP3Gh0SNnfH5vAQ+yBCgCH94TlJKIsCQ+lYBle/zXJWDe8ZD0
- clwC/+Oo/rC5hK+P9DVjNqbruAFwGKvs1rcxC8ckKfm2/o/LWofTlUyIfTS7NuP8JAXl
- zry7RbAYiBmtjphf23GXLNx4pXZ3YfANLrHOwaqsVQBT5gzh9xiBJ2cha6VvR3se0Mxx
- 44S+S5m3X6dyAlJmh2KXKThfxJKc1ex7gWbK56ndmvc3UiSNGx7RrQOdrnBlo8xfUh3y
- DwuA==
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=KO991mYIDFc3604pCt92eyHAdDBh/VSTU0dt8VXMse0=;
+ b=uKCZDjH7xMslSWZGm7fIhKfxY4hv/Mr27dhLa0wA+6i8ERpGPqsThpgDJ1H5qz5FVF
+ RwbsZgREQgIcyy0+EN6pLthabKWyxLFJKPITtAxriBExCnYJ1JHrxCrfpCicviTER/Lo
+ Om/x8goBnAAcxWSBKuAkrxJqL9/6FBDlac22R3NvOynJbzUQcTuiU/AkOntLKnxQEYoD
+ Vy8UEGshSxWVFMopUp72Yp83CcKIXLBrWf+mewVuKx293wi72vn3RyW8ZodN6UgxTQgT
+ 7uWqtfJrRu79lizVaDelh5oF8zMRmOHYgfE345B32yhsFvl/ijp38czoMTCdynK3ifvp
+ aVng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=K7prn+OySA9dsDPOdM/Xq3Uxq9GhNO6pfnjq7gcgnBM=;
- b=I4Z+wNeCcmMcdsh4R3O2k8JNw6P50HkyyeGICi/Q72xe9Cqjnb7yG4QCiLRR8NM53k
- 4v3EPTp9MXLesV+BDYx+iE4DSQM9BfVlN5t0eeflDTUlQqN66SZx3okkOiw6h3MHWR44
- VVGNQK4cI16VQwWQF5/zSU9qEtSUIHxWJcshYAhCjm+LR74exDMR5fgShBT/SNSyqMAy
- O3SYQjsHaSCqKxNAFCQH0WSeqb/43btREoMJvjfmCpD07v/rP+t/JOwQXoRzlKg/YYhq
- +dxowhhyiC+8uy92p/3o9EBzHudZHRSExufTIAhyMtDGglM4CXkTMaFsanQp/g8WxFG1
- 81sQ==
-X-Gm-Message-State: AOAM533I5h3GM0t7aRP8LZ6vpLuIkcIrgm8myv7vm471+xpI30dzkAgt
- DNmKBYP44NFjojaq32+kUDI=
-X-Google-Smtp-Source: ABdhPJz27UI1n/OwASkq+l9PBfvnArPfn7FK4DrS9UteyGak86q9+UJctpK1rdhYlHRAZT7DQ/OGcQ==
-X-Received: by 2002:a05:6a00:23cc:b029:142:2501:34e5 with SMTP id
- g12-20020a056a0023ccb0290142250134e5mr9491367pfc.62.1601762879292; 
- Sat, 03 Oct 2020 15:07:59 -0700 (PDT)
-Received: from [192.168.0.104] ([49.207.217.69])
- by smtp.gmail.com with ESMTPSA id v2sm6392108pfu.105.2020.10.03.15.07.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Oct 2020 15:07:58 -0700 (PDT)
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=KO991mYIDFc3604pCt92eyHAdDBh/VSTU0dt8VXMse0=;
+ b=rQ/4lBQ9CBw2fk0OVgIRukLLS45s4hbl7K83BKbG9dfJmBiAAhtc2LTj68kbMs4m0w
+ r40YbcVu0SANpOpgxjpxhiMQr5f4nfcFuCQhU2vW/Nv1gB+osOZ7s1qZ7AwNAfQV+cHv
+ YeWmij+V1RMOodKabY8UbSCrMK53aAf6oskdEUjU2RxtJQhz1+POibZjCLhDKn49LYmB
+ FxEvc/7zIhHcUyFn9/Q2keDNqLqr+D6stVeyeQ+7tsepP+8LDABbkGDI+avhkgPtlOMc
+ Jplkrmv65glmLzavkfGaPokP0lWtAnbEkF4kIL0YO4kLV7/APjgAvAXnMWf0jf3wn4tc
+ fJXw==
+X-Gm-Message-State: AOAM5338wNXKNxCpD3mRaAeRZV3kl7xWROezg9Wsz/90ZNomqpqCFF61
+ izAsKRYHYkgjPypfLhhm3X0=
+X-Google-Smtp-Source: ABdhPJwKyQJ+g8eLsIH7oToQ1DuWnFm0UHIkXnzKQHtWAVc9pAw61nKx2lP2UvjyZjF5EjYAtJ8aRQ==
+X-Received: by 2002:a62:5bc2:0:b029:13e:d13d:a130 with SMTP id
+ p185-20020a625bc20000b029013ed13da130mr9524006pfb.24.1601766225527; 
+ Sat, 03 Oct 2020 16:03:45 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+ by smtp.gmail.com with ESMTPSA id 8sm3570050pfn.54.2020.10.03.16.03.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Oct 2020 16:03:44 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Sun, 4 Oct 2020 07:03:40 +0800
 To: Hans de Goede <hdegoede@redhat.com>
-References: <20201001194329.9328-1-anant.thazhemadam@gmail.com>
- <33d8c103-0c24-3ad7-2a3c-ffeb625521ee@redhat.com>
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <53d30b50-6cd4-57b2-9dc7-8cb8109ff7ab@gmail.com>
-Date: Sun, 4 Oct 2020 03:37:54 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Message-ID: <20201003230340.42mtl35n4ka4d5qw@Rk>
+References: <20201001132258.6yzosj2w7k4eod42@Rk>
+ <CACRpkdYvaC_DUJW+nvmofhhHieDYAiREBog6rn5iS=J4moAtZg@mail.gmail.com>
+ <3ded544f-be1b-8dc4-16b7-42172b1e1b08@redhat.com>
+ <20201002124235.nhjzq7i4gpkzwgbs@Rk>
+ <39f03cfe-0e7f-2ab6-7821-048cfcde8baa@redhat.com>
+ <20201002145133.a43ypm2z7ofgtt7u@Rk>
+ <eed704f5-4210-788c-37b7-06d65b58d3de@redhat.com>
+ <20201002224502.vn3ooodrxrblwauu@Rk>
+ <34cecd8e-ffa7-c2bc-8ce3-575db47ff455@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <33d8c103-0c24-3ad7-2a3c-ffeb625521ee@redhat.com>
-Content-Language: en-US
-Cc: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com,
- Johan Hedberg <johan.hedberg@gmail.com>, Marcel Holtmann <marcel@holtmann.org>,
- linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+Content-Disposition: inline
+In-Reply-To: <34cecd8e-ffa7-c2bc-8ce3-575db47ff455@redhat.com>
+Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Nehal Shah <Nehal-bakulchandra.Shah@amd.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] bluetooth: hci_h5: close
- serdev device and free hu in h5_close
+Subject: Re: [Linux-kernel-mentees] Any other ways to debug GPIO interrupt
+ controller (pinctrl-amd) for broken touchpads of a new laptop model?
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,91 +122,128 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Ck9uIDAyLzEwLzIwIDM6NTIgcG0sIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4gSGksCj4KPiBPbiAx
-MC8xLzIwIDk6NDMgUE0sIEFuYW50IFRoYXpoZW1hZGFtIHdyb3RlOgo+PiBXaGVuIGg1X2Nsb3Nl
-KCkgZ2V0cyBjYWxsZWQsIHRoZSBtZW1vcnkgYWxsb2NhdGVkIGZvciB0aGUgaHUgZ2V0cwo+PiBm
-cmVlZCBvbmx5IGlmIGh1LT5zZXJkZXYgZG9lc24ndCBleGlzdC4gVGhpcyBsZWFkcyB0byBhIG1l
-bW9yeSBsZWFrLgo+PiBTbyB3aGVuIGg1X2Nsb3NlKCkgaXMgcmVxdWVzdGVkLCBjbG9zZSB0aGUg
-c2VyZGV2IGRldmljZSBpbnN0YW5jZSBhbmQKPj4gZnJlZSB0aGUgbWVtb3J5IGFsbG9jYXRlZCB0
-byB0aGUgaHUgZW50aXJlbHkgaW5zdGVhZC4KPj4KPj4gRml4ZXM6IGNlOTQ1NTUyZmRlNCAoIkJs
-dWV0b290aDogaGNpX2g1OiBBZGQgc3VwcG9ydCBmb3Igc2VyZGV2IGVudW1lcmF0ZWQgZGV2aWNl
-cyIpCj4+IFJlcG9ydGVkLWJ5OiBzeXpib3QrNmNlMTQxYzU1YjJmN2FhZmQxYzRAc3l6a2FsbGVy
-LmFwcHNwb3RtYWlsLmNvbQo+PiBUZXN0ZWQtYnk6IHN5emJvdCs2Y2UxNDFjNTViMmY3YWFmZDFj
-NEBzeXprYWxsZXIuYXBwc3BvdG1haWwuY29tCj4+IFNpZ25lZC1vZmYtYnk6IEFuYW50IFRoYXpo
-ZW1hZGFtIDxhbmFudC50aGF6aGVtYWRhbUBnbWFpbC5jb20+Cj4KPiBTbyAyIGNvbW1lbnRzIHRv
-IHRoaXM6Cj4KPiAxLiBZb3UgY2xhaW0gdGhpcyBjaGFuZ2UgZml4ZXMgYSBtZW1vcnktbGVhaywg
-YnV0IGluIHRoZSBzZXJkZXYgY2FzZQo+IHRoZSBtZW1vcnkgaXMgYWxsb2NhdGVkIGluIGg1X3Nl
-cmRldl9wcm9iZSgpIGxpa2UgdGhpczoKPgo+IMKgwqDCoMKgwqDCoCBoNSA9IGRldm1fa3phbGxv
-YyhkZXYsIHNpemVvZigqaDUpLCBHRlBfS0VSTkVMKTsKPgo+IFNvIGl0cyBsaWZldGltZSBpcyB0
-aWVkIHRvIHRoZSBsaWZldGltZSBvZiB0aGUgZHJpdmVyIGJlaW5nIGJvdW5kCj4gdG8gdGhlIHNl
-cmRldiBhbmQgaXQgaXMgYXV0b21hdGljYWxseSBmcmVlZCB3aGVuIHRoZSBkcml2ZXIgZ2V0cwo+
-IHVuYm91bmQuIElmIHlvdSBoYWQgbG9va2VkIGF0IHdoZXJlIHRoZSBoNSBzdHJ1Y3QgZ2V0cyBh
-bGxvY2F0ZWQKPiBpbiBoNV9jbG9zZSgpLXMgY291bnRlcnBhcnQsIGg1X29wZW4oKSB0aGVuIHlv
-dSBjb3VsZCBoYXZlIHNlZW4KPiB0aGlzIHRoZXJlOgo+Cj4gwqDCoMKgwqDCoMKgwqAgaWYgKGh1
-LT5zZXJkZXYpIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaDUgPSBzZXJkZXZf
-ZGV2aWNlX2dldF9kcnZkYXRhKGh1LT5zZXJkZXYpOwo+IMKgwqDCoMKgwqDCoMKgIH0gZWxzZSB7
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGg1ID0ga3phbGxvYyhzaXplb2YoKmg1
-KSwgR0ZQX0tFUk5FTCk7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICghaDUp
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4g
-LUVOT01FTTsKPiDCoMKgwqDCoMKgwqDCoCB9Cj4KPiBTbyBpdCBpcyB2ZXJ5IGNsZWFyIGhlcmUs
-IHRoYXQgdGhlIGt6YWxsb2Mgb25seSBoYXBwZW5zIGluIHRoZQo+IGlmICghaHUtPnNlcmRldikg
-d2hpY2ggY2xlYXJseSBtYWtlcyB0aGUga2ZyZWUoKSBoYXZlIHRoZSBzYW1lCj4gY29uZGl0aW9u
-IHRoZSByaWdodCB0aGluZyB0b2RvLiBJbiB0aGUgaHUtPnNlcmRldiB0aGUgZGF0YSB3aGljaAo+
-IHdhcyBhbGxvY2F0ZWQgYnkgaDVfc2VyZGV2X3Byb2JlKCkgaXMgdXNlZCBpbnN0ZWFkIGFuZCBu
-byBhbGxvYwo+IGhhcHBlbnMgaW5zaWRlIGg1X29wZW4oKQo+Cj4gSW4gZ2VuZXJhbCB3aGVuIGxv
-b2tpbmcgYXQgcmVzb3VyY2UgdGVhcmRvd24geW91IHNob3VsZCBhbHNvIGxvb2sKPiBhdCB3aGVy
-ZSB0aGV5IGFyZSBhbGxvY2F0ZWQgaW4gdGhlIG1pcnJvciBmdW5jdGlvbgo+IGFuZCB0aGUgdGVh
-cmRvd24gc2hvdWxkIG1pcnJvciB0aGUgYWxsb2MgY29kZS4KPgo+IFNvIHRoZSBtYWluIGNoYW5n
-ZSBvZiB5b3VyIGNvbW1pdCBpcyB3cm9uZzoKPgo+IE5BQ0suCj4KPgo+IDIuIFlvdSBhcmUgbWFr
-aW5nIG11bHRpcGxlIGNoYW5nZXMgaW4gYSBzaW5nbGUgY29tbWl0IGhlcmUsIEkgY291bnQgYXQK
-PiBsZWFzdCAzLiBXaGVuIGV2ZXIgeW91IGFyZSBtYWtpbmcgbXVsdGlwbGUgY2hhbmdlcyBsaWtl
-IHRoaXMsIHlvdSBzaG91bGQgcmVhbGx5Cj4gc3BsaXQgdGhlIGNvbW1pdCB1cCBpbiAxIGNvbW1p
-dCBwZXIgY2hhbmdlIGFuZCBleHBsYWluIGluIGVhY2ggY29tbWl0Cj4gbWVzc2FnZSB3aHkgdGhh
-dCBjaGFuZ2UgaXMgYmVpbmcgbWFkZSAod2h5IGl0IGlzIG5lY2Vzc2FyeSkuIFdyaXRpbmcKPiBj
-b21taXQgbWVzc2FnZXMgbGlrZSB0aGlzIGFsc28gbGVhZHMgdG8geW91IGRvdWJsZS1jaGVja2lu
-ZyB5b3VyIG93bgo+IHdvcmsgYnkgY2FyZWZ1bGx5IGNvbnNpZGVyaW5nIHdoeSB5b3UgYXJlIG1h
-a2luZyB0aGUgY2hhbmdlcy4KPgo+IFNvIGFib3V0IHRoZSAzIGRpZmZlcmVudCBjaGFuZ2VzOgo+
-Cj4gMmEpIE1ha2UgdGhlIGtmcmVlKGg1KSBjYWxsIHVuY29uZGl0aW9uYWxseSwgd2hpY2ggYXMg
-bWVudGlvbmVkIGFib3ZlCj4gaXMgd3JvbmcuCj4KPiAyYikgSW50cm9kdWNlIGEgY2FsbCB0byBr
-ZnJlZV9za2IoaDUtPnJ4X3NrYik7IHdoaWNoIGlzIG5vdCBtZW50aW9uZWQgaW4KPiB0aGUgY29t
-bWl0IG1lc3NhZ2UgYXQgYWxsLsKgIFRoaXMgbG9va3MgbGlrZSBpdCB3b3VsZCBhY3R1YWxseSBi
-ZSBhIHNlbnNpYmxlCj4gY2hhbmdlLCBhdCBsZWFzdCBpbiB0aGUgImlmICghaHUtPnNlcmRldiki
-IGNhc2UuwqAgV2hlbiB1c2luZyB0aGUgc2VyZGV2Cj4gaW50ZXJmYWNlIHRoZW4ganVzdCBmcmVl
-aW5nIGl0IHdpbGwgbGVhdmUgYSBkYW5nbGluZyBwb2ludGVyLCBzbyBpdAo+IHdvdWxkIGJlIGJl
-dHRlciAoZm9yIGJvdGggdGhlIGh1LT5zZXJkZXYgYW5kIHRoZSAhaHUtPnNlcmRldiBjYXNlcykK
-PiB0byBjYWxsIGg1X3Jlc2V0X3J4KCkgb24gY2xvc2UgaW5zdGVhZCB3aGljaCBkb2VzOgo+Cj4g
-wqDCoMKgwqDCoMKgwqAgaWYgKGg1LT5yeF9za2IpIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAga2ZyZWVfc2tiKGg1LT5yeF9za2IpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBoNS0+cnhfc2tiID0gTlVMTDsKPiDCoMKgwqDCoMKgwqDCoCB9Cj4KPiAyYykgSW50
-cm9kdWNlIGEgY2FsbCB0byBzZXJkZXZfZGV2aWNlX2Nsb3NlKCksIHdpdGhvdXQgcmVhbGx5IGV4
-cGxhaW5pbmcKPiB3aHkgaW4gdGhlIGNvbW1pdCBtZXNzYWdlLiBBZ2FpbiBpZiB5b3Ugd291bGQg
-aGF2ZSBsb29rZWQgYXQgdGhlIG1pcnJvcgo+IGg1X2Nsb3NlKCkgZnVuY3Rpb24gdGhlbiB5b3Ug
-c2VlIG5vIHNlcmRldl9kZXZpY2Vfb3BlbigpIHRoZXJlLgo+IEFjdHVhbGx5IHNlcmRldl9kZXZp
-Y2Vfb3BlbigpIGlzIG5vdCBjYWxsZWQgYW55d2hlcmUgaW4gdGhlIGhjaV9oNS5jIGNvZGUuCj4K
-PiBEaWdnaW5nIGEgbGl0dGxlIGRlZXBlciAodXNpbmcgZ3JlcCkgc2hvd3MgdGhhdCBoY2lfdWFy
-dF9yZWdpc3Rlcl9kZXZpY2UoKQo+IGNhbGxzIHNlcmRldl9kZXZpY2Vfb3BlbigpIGFuZCBoY2lf
-dWFydF9yZWdpc3Rlcl9kZXZpY2UoKSBnZXRzIGNhbGxlZCBmcm9tOgo+IGg1X3NlcmRldl9wcm9i
-ZSgpLCBsaWtld2lzZSBoY2lfdWFydF91bnJlZ2lzdGVyX2RldmljZSgpIGNhbGxzCj4gc2VyZGV2
-X2RldmljZV9jbG9zZSgpIGZvciB1cyBhbmQgdGhhdCBnZXRzIGNhbGxlZCBmcm9tIGg1X3NlcmRl
-dl9yZW1vdmUoKSwKPiBzbyB0aGVyZSBpcyBubyBuZWVkIHRvIGNhbGwgc2VyZGV2X2RldmljZV9j
-bG9zZSgpIGZyb20gaDVfY2xvc2UoKSBhbmQgZG9pbmcKPiBzbyB3aWxsIGFjdHVhbGx5IGJyZWFr
-IHRoaW5ncywgYmVjYXVzZSB0aGVuIHRoZSBzZXJkZXYgd2lsbCBiZSBsZWZ0IGNsb3NlZAo+IG9u
-IGEgc3Vic2VxdWVudCBoNV9vcGVuKCkgY2FsbC4KPgo+IFJlZ2FyZHMsCj4KPiBIYW5zCj4KSGks
-CgpJIGRpZCBzb21lIG1vcmUgaW52ZXN0aWdhdGluZyBhbmQgdGVzdGluZyBmb3IgdGhpcyBidWcs
-IGFuZCB0dXJucyBvdXQgSSB3YXMgdmVyeQp3cm9uZy4gSSdtIHRydWx5IHNvcnJ5IGZvciB0aGF0
-LgoKVGhlIG1lbW9yeSBsZWFrIHRoYXQgaXMgY2F1c2VkIGlzIGNhdXNlZCB3aGVuICFodS0+c2Vy
-ZGV2IGl0c2VsZiwgc2luY2Ugd2UgZnJlZQpoNSwgYnV0IG5vdCBoNS0+cnhfc2tiLiBUaGlzIGlz
-IHdoYXQgY2F1c2VzIHRoZSBtZW1vcnkgbGVhay4KCkknbGwgc2VuZCBpbiBhIHYzIHRoYXQgY29y
-cmVjdHMgdGhpcyBpc3N1ZSBzb29uIGVub3VnaCwgYnkgZnJlZWluZyBoNS0+cnhfc2tiIGZpcnN0
-CmZvbGxvd2VkIGJ5IGg1IHdoZW4gIWh1LT5zZXJkZXY7IGFuZCBvdGhlcndpc2UgKHdoZW4gaHUt
-PnNlcmRldiBleGlzdHMpCmNhbGxpbmcgaDVfcmVzZXRfcngoKS4KClNvcnJ5IGZvciB0aGUgdHJv
-dWJsZS4KClRoYW5rcywKQW5hbnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5l
-bC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZv
-dW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+On Sat, Oct 03, 2020 at 03:22:46PM +0200, Hans de Goede wrote:
+>Hi,
+>
+>On 10/3/20 12:45 AM, Coiby Xu wrote:
+>>On Fri, Oct 02, 2020 at 09:44:54PM +0200, Hans de Goede wrote:
+>>>Hi,
+>>>
+>>>On 10/2/20 4:51 PM, Coiby Xu wrote:
+>>>>On Fri, Oct 02, 2020 at 03:36:29PM +0200, Hans de Goede wrote:
+>>>
+>>><snip>
+>>>
+>>>>>>>So are you seeing these 7 interrupts / second for the touchpad irq o=
+r for
+>>>>>>>the GPIO controllers parent irq ?
+>>>>>>>
+>>>>>>>Also to these 7 interrupts/sec stop happening when you do not touch =
+the
+>>>>>>>touchpad ?
+>>>>>>>
+>>>>>>I see these 7 interrupts / second for the GPIO controller's parent ir=
+q.
+>>>>>>And they stop happening when I don't touch the touchpad.
+>>>>>
+>>>>>Only from the parent irq, or also on the touchpad irq itself ?
+>>>>>
+>>>>>If this only happens on the parent irq, then I would start looking at =
+the
+>>>>>amd-pinctrl code which determines which of its "child" irqs to fire.
+>>>>
+>>>>This only happens on the parent irq. The input's pin#130 of the GIPO
+>>>>chip is low most of the time and pin#130.
+>>>
+>>>Right, but it is a low-level triggered IRQ, so when it is low it should
+>>>be executing the i2c-hid interrupt-handler. If it is not executing that
+>>>then it is time to look at amd-pinctrl's irq-handler and figure out why
+>>>that is not triggering the child irq handler for the touchpad.
+>>>
+>>I'm not sure if I have some incorrect understandings about GPIO
+>>interrupt controller because I don't quite follow your reasoning.
+>>What I actually suspect is there's something wrong with amd-pinctrl
+>>which makes the GPIO chip fail to assert its common interrupt output
+>>line connected to one IO-APIC's pin#7 thus IRQ#7 fails to fire. What
+>>I learn about this low-level triggered IRQ is that the i2c-hid
+>>interrupt-handler will be woken up by amd-pinctrl's irq-handler which
+>>is executed when the parent IRQ#7 fires. The code path is as follows,
+>>
+>> =A0=A0=A0 <IRQ>
+>> =A0=A0=A0 dump_stack+0x64/0x88
+>> =A0=A0=A0 __irq_wake_thread.cold+0x9/0x12
+>> =A0=A0=A0 __handle_irq_event_percpu+0x80/0x1c0
+>> =A0=A0=A0 handle_irq_event+0x58/0xb0
+>> =A0=A0=A0 handle_level_irq+0xb7/0x1a0
+>> =A0=A0=A0 generic_handle_irq+0x4a/0x60
+>> =A0=A0=A0 amd_gpio_irq_handler+0x15f/0x1b0 [pinctrl_amd]
+>> =A0=A0=A0 __handle_irq_event_percpu+0x45/0x1c0
+>> =A0=A0=A0 handle_irq_event+0x58/0xb0
+>> =A0=A0=A0 handle_fasteoi_irq+0xa2/0x210
+>> =A0=A0=A0 do_IRQ+0x70/0x120
+>> =A0=A0=A0 common_interrupt+0xf/0xf
+>> =A0=A0=A0 </IRQ>
+>>
+>>But the problem is somehow IRQ#7 doesn't even fire when the input's
+>>pin#130 of the GIPO is low. Without IRQ#7 firing, amd-pinctrl's
+>>irq-handler wouldn't be executed in the first place, let alonet
+>>triggering the child irq handler. Btw, amd-pinctrl's irq-handler
+>>simply iterate over all pins. If there is mapped irq found for this
+>>hwirq (yes, it won't even check if this pin triggers the interrupt),
+>>then it will call generic_handle_irq. So there's nothing wrong about
+>>this part of code.
+>
+>Ok, so the i2c-hid irq does fire, but only 7 times a second just
+>like the GPIO controller's parent irq.
+>
+I'm not sure if it's correct to say if hi2c-hid irq fires or not and how
+frequently it fires since the i2c-hid irq is mapped to pin#130 of the
+GPIO interrupt controller and the touchpad has another interrupt line
+connected to pin#130 which fires to indicate new data. All we know is
+pin#130 of the GPIO chip has low input most of the time when the finger
+is on the touchpad so we can infer the touchpad has been trying to
+notify the kernel of new data but somehow GPIO's parent irq only fires 7
+times / second.
+>The only thing I can think of then is to add printk-s to check how
+>long the i2c-hid interrupt handler takes to complete. It could be
+>there is a subtle bug somewhere causing the i2c transfers to take
+>longer when run from a (threaded) irq handler. That would be weird
+>though, so I don't expect this to result in any useful findings.
+>
+
+I also doubted if it takes too much time for the i2c-hid handler to
+finish reading i2c transfer, processing data and delivering to the input
+system. After measuring the time internal between the starting of the
+GPIO irq's parent handler and when pin#130 is unmasked, we can exclude
+this possibility.
+
+I have been wondering if we let make pin#130 have low input thus to
+trigger a interrupt firing or assert the GPIO's common interrupt output
+line manually thus we can measure how long does it take for the kernel
+to receive the signal. But once GPIO's pin is programmed to be a
+interrupt line we can't write anything to it and it seems other
+interrupts can only be generated by the hardware. So this idea is not
+plausible
+
+>Other then that I'm all out of ideas I'm afraid.
+>
+Thank you for taking time to investigate this issue anyway! Have a nice
+weekend:)
+>Regards,
+>
+>Hans
+>
+
+--
+Best regards,
+Coiby
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
