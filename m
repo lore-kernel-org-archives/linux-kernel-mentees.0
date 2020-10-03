@@ -2,76 +2,112 @@ Return-Path: <SRS0=1t5V=DK=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A82AC46466
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 02:06:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9659CC4727D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 05:51:21 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4BB642074B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 02:06:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4BB642074B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=davemloft.net
+	by mail.kernel.org (Postfix) with ESMTPS id 19956206CA
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Oct 2020 05:51:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eDbrYQ1/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 19956206CA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D9AA186947;
-	Sat,  3 Oct 2020 02:06:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B91BF8665F;
+	Sat,  3 Oct 2020 05:51:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TYd5hGCt-KZ6; Sat,  3 Oct 2020 02:06:47 +0000 (UTC)
+	with ESMTP id oTGveuKSYlsy; Sat,  3 Oct 2020 05:51:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DFEFF86DAC;
-	Sat,  3 Oct 2020 02:06:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 479D0864C4;
+	Sat,  3 Oct 2020 05:51:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B7372C0895;
-	Sat,  3 Oct 2020 02:06:47 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3E0E8C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 35A91C0889;
+	Sat,  3 Oct 2020 05:51:20 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94461C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 02:06:46 +0000 (UTC)
+ Sat,  3 Oct 2020 05:51:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3A0B086947
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8FF6086C75
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 02:06:46 +0000 (UTC)
+ Sat,  3 Oct 2020 05:51:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id e-G1M8RSUH1Y
+ with ESMTP id ufZEDb1X-Eqp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 02:06:43 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [23.128.96.9])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 80725868F7
+ Sat,  3 Oct 2020 05:51:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 062F586C66
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Oct 2020 02:06:43 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
- (using TLSv1 with cipher AES256-SHA (256/256 bits))
- (Client did not present a certificate)
- (Authenticated sender: davem-davemloft)
- by shards.monkeyblade.net (Postfix) with ESMTPSA id 947C91260D092;
- Fri,  2 Oct 2020 18:49:53 -0700 (PDT)
-Date: Fri, 02 Oct 2020 19:06:38 -0700 (PDT)
-Message-Id: <20201002.190638.1090456279017490485.davem@davemloft.net>
-To: anant.thazhemadam@gmail.com
-From: David Miller <davem@davemloft.net>
-In-Reply-To: <20200930051722.389587-1-anant.thazhemadam@gmail.com>
-References: <20200930051722.389587-1-anant.thazhemadam@gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 27.1
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12
- (shards.monkeyblade.net [2620:137:e000::1:9]);
- Fri, 02 Oct 2020 18:49:54 -0700 (PDT)
-Cc: hawk@kernel.org, daniel@iogearbox.net, mst@redhat.com,
- netdev@vger.kernel.org, jasowang@redhat.com, john.fastabend@gmail.com,
- ast@kernel.org, virtualization@lists.linux-foundation.org, kuba@kernel.org,
- bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Sat,  3 Oct 2020 05:51:18 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id f18so2920522pfa.10
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 02 Oct 2020 22:51:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=U+/EF2NGSw6neafVxjjcMYfRuR3DJX5CJ+tBNvZuiek=;
+ b=eDbrYQ1/6M4Lf6dtXjKmLkb9Mpk8YOQkWgLQJl7Oybb05dEBctkf1oZygTp3ea4U8f
+ b3yZcFTPBznd6uF9FFO/lpuyPcWr2iurLrwLPyBknKv8/VyV2/sbbpO6bP90/BInq29w
+ VQljsPxkIwjV9HjOZMB2tV+Xz6bWfJ0eafxtyOQm97yO09RiL3AIfjft1VcCc+NU+XSH
+ WESdAhGBYBMYW2F3voe9glrz/Jsquhvm5ZFpUJUK2ppJGPNnItFyRCV8o8AObWEw7kdq
+ bzBk18xgA7yASU/6crkWS18fPEYV4QFgB10WUxn1uxLu0qGV3DuRE2dCby+taRQe7wD0
+ E+nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=U+/EF2NGSw6neafVxjjcMYfRuR3DJX5CJ+tBNvZuiek=;
+ b=SqXY6Xrc5As0hroTMopOhsbBqL2u7oz21sVS2uTbUjyPueiAuSVO+UiNHSsweNq395
+ hAe7DH2FpRRNvJq8eSWJGs5UifLtLI8Bny7bUXZyEQ5pL0IdGzGUyGPncTTlDTp4MB+m
+ a5hmymzbEZX+SSQfxQV3sMTZAJsyMAQId2DMCB39zv/b71BU86vjpe0kGq9sQj19SmZq
+ NeVu4AasTQcBG6X6pxycAlbZSotrZzASFT6yv6sDRXaD4Sdpq93tzcsxeEe8zuUKsM1U
+ ArwwN1xq6Ncjh9xQYa4wlsEe5qUywxyO+6dvbqNr1ydiei3qbdQoxWyDAvQ2kPmdXxML
+ 2Bpg==
+X-Gm-Message-State: AOAM530XNrudo9nDOVx50uZyyZirD3SxsFEGfQ2UO+QqtSAirgMOdgK6
+ rBWGlbyo11gq+N2p+eMeTMQ=
+X-Google-Smtp-Source: ABdhPJziRclfzdzIVFLhkgcO4yRti4HLZ85RSEV/uXYO2t1/x37D1oe8GpDX/yrv1LkEUj6D6VYeNQ==
+X-Received: by 2002:a63:f807:: with SMTP id n7mr5433763pgh.311.1601704277432; 
+ Fri, 02 Oct 2020 22:51:17 -0700 (PDT)
+Received: from [192.168.0.104] ([49.207.217.69])
+ by smtp.gmail.com with ESMTPSA id d17sm4215270pfq.157.2020.10.02.22.51.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Oct 2020 22:51:16 -0700 (PDT)
+To: Greg KH <greg@kroah.com>, David Miller <davem@davemloft.net>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com, kuba@kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 0/2] reorder members of
- structures in virtio_net for optimization
+References: <20201001073221.239618-1-anant.thazhemadam@gmail.com>
+ <20201001.191522.1749084221364678705.davem@davemloft.net>
+ <83804e93-8f59-4d35-ec61-e9b5e6f00323@gmail.com>
+ <20201002115453.GA3338729@kroah.com>
+ <a19aa514-14a9-8c92-d41a-0b9e17daa8e3@gmail.com>
+ <20201002142901.GA3901@carbon>
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Message-ID: <dbd92308-2443-0c1d-92f1-f506339e0a5e@gmail.com>
+Date: Sat, 3 Oct 2020 11:21:12 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
+MIME-Version: 1.0
+In-Reply-To: <20201002142901.GA3901@carbon>
+Content-Language: en-US
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] net: usb: rtl8150: prevent
+ set_ethernet_addr from setting uninit address
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,33 +125,23 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Date: Wed, 30 Sep 2020 10:47:20 +0530
 
-> The structures virtnet_info and receive_queue have byte holes in 
-> middle, and their members could do with some rearranging 
-> (order-of-declaration wise) in order to overcome this.
-> 
-> Rearranging the members helps in:
->   * elimination the byte holes in the middle of the structures
->   * reduce the size of the structure (virtnet_info)
->   * have more members stored in one cache line (as opposed to 
->     unnecessarily crossing the cacheline boundary and spanning
->     different cachelines)
-> 
-> The analysis was performed using pahole.
-> 
-> These patches may be applied in any order.
+On 02-10-2020 19:59, Petko Manolov wrote:
+> On 20-10-02 17:35:25, Anant Thazhemadam wrote:
+>> Yes, this clears things up for me. I'll see to it that this gets done in a v3.
+> If set_ethernet_addr() fail, don't return error, but use eth_hw_addr_random() 
+> instead to set random MAC address and continue with the probing.
+>
+> You can take a look here:
+> https://lore.kernel.org/netdev/20201002075604.44335-1-petko.manolov@konsulko.com/
+>
+>
+> cheers,
+> Petko
+Thank you for this reference. :)
 
-What effects do these changes have on performance?
-
-The cache locality for various TX and RX paths could be effected.
-
-I'm not applying these patches without some data on the performance
-impact.
-
-Thank you.
-
+Thanks,
+Anant
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
