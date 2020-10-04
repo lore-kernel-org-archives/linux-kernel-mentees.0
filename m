@@ -2,106 +2,111 @@ Return-Path: <SRS0=vwAy=DL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E880C4727D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  4 Oct 2020 05:19:24 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E811C4727D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  4 Oct 2020 06:51:49 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CAB5A206DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  4 Oct 2020 05:19:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C26B72068D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  4 Oct 2020 06:51:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUEuRNL2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAB5A206DD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hH6CZfjm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C26B72068D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5EF13853E5;
-	Sun,  4 Oct 2020 05:19:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 77DAE86FAD;
+	Sun,  4 Oct 2020 06:51:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6Xu6i3BwaBSa; Sun,  4 Oct 2020 05:19:22 +0000 (UTC)
+	with ESMTP id fE8dl3V4jeNG; Sun,  4 Oct 2020 06:51:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DB04C8488E;
-	Sun,  4 Oct 2020 05:19:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E751A86F6A;
+	Sun,  4 Oct 2020 06:51:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D4006C0889;
-	Sun,  4 Oct 2020 05:19:22 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 19551C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C68F5C07FF;
+	Sun,  4 Oct 2020 06:51:47 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 075A2C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  4 Oct 2020 05:19:22 +0000 (UTC)
+ Sun,  4 Oct 2020 06:51:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0EA02853E5
+ by whitealder.osuosl.org (Postfix) with ESMTP id EDC0B863CE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  4 Oct 2020 05:19:22 +0000 (UTC)
+ Sun,  4 Oct 2020 06:51:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QrSTskY5whQS
+ with ESMTP id DMFPWiuHazyM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  4 Oct 2020 05:19:21 +0000 (UTC)
+ Sun,  4 Oct 2020 06:51:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 80F338488E
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2BC4E863A6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  4 Oct 2020 05:19:21 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id k8so4334068pfk.2
+ Sun,  4 Oct 2020 06:51:45 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id a3so7343494ejy.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 03 Oct 2020 22:19:21 -0700 (PDT)
+ Sat, 03 Oct 2020 23:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=YY5pMYpevGR839B5cx54Fulu2YjKsLgJpNccuay8eNE=;
- b=QUEuRNL2/f0vNDU811IkT8oJy65EEA5RLHx/EyzEou/dIw7Lgap4gMEklNC57gOplN
- l8xHJPahvprG2NoUvBsKTxugOIajPKlLNe4hUz3uTfYvznGIqSnlILhN/Jr5ev8iKq4F
- +y95QpfGDXoFfakhC46uVWWING9y39BpumyjKdZWKuhlDWyNCeRwxDaINRf/lm+7Mv52
- Fur8S5xlSIVKZcdcgUptMXD6aK72qo3mc/HYciHrbSqXpzNmHpIMdUNd4FbvcPY/n4BH
- CMKEMLzgi3TsqIZKnbBy8AnPpCQQigMtYEx9rFqzqW7c4TRylecFScgYdI+JiWHF69VF
- dZmw==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=lNHluM8woR+e77P0E5MEPND7G5EihPQXGymK5h4QF7U=;
+ b=hH6CZfjmZcYp0czforTytT4ysTbxRlfWf//1lGT9f5uJ+1gTAn4RW0tOkzIbJuIcWY
+ wH+0Bqr7cKRhMImtf2AVKsUPEBBDiH9gl71ysQLCDWNyGfVVFCGWfamFqD4N8wv6jycM
+ i7vtGNd+BDb1wg9Y8tfhQuNpgh3zXi2hqh/rFFFDrmmkYNB0Gfxf+z49pMCX7GUJOInQ
+ 1yIYO3a+f8RxsNFJFPhngLZbAeppG91mLln5MdpHYPCCGhsSXD5zOhsdwtMsDP1i5Y7F
+ DGqxOnMehD+1rAOzZVSCmLhqvaIpVyGNGF+vjHepbZBrAYxTUON5NzZO0repHsFM9l64
+ ISmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YY5pMYpevGR839B5cx54Fulu2YjKsLgJpNccuay8eNE=;
- b=aNlBoIe7Ak6CCCwBVD0rw4yK1XE54379VO2KoEwHtqQGdnK2tttq8s24Ai/HtfQvEp
- gJS/uoSaeAe6bmyUV3DzXfBrvGfkqQIZQ12nM30GIbrdeT4zfPe7lvuynHpKc+2BNNLe
- TOshfQ753L9tCrb0fY1oEcXVpMjC0jfCvbLGkls+bQmcteIfdHLaqO+WiI/Bfvd8Z3gW
- TzfQkQAN0Z2xUfsN+UZKuLzsFwfzzxk06FhCuuMTDs0Psj3acz3YjSbspsx9NbCB5pbK
- 1TUWRw3vMw+Z2GgBemBL+3AnWlpLvulhJKjd0I1ClToWngj5V4bBml/sbSJqrb8yDWIX
- z/tw==
-X-Gm-Message-State: AOAM533nalBiWiQoqOspiU31/zSZVSXf4AtQVgLRtHjA/uI8eqBtWJk0
- YmMghqj1mbKuiQQS6InvTA+vrbxRbKqsDnMPQk0=
-X-Google-Smtp-Source: ABdhPJyskOIiX+/6se3/zqc3U0Q28Gujo8gH9xebEuSsgrqq8f7Y8JyUZFinX4uREXcqoI6J6OpzQQ==
-X-Received: by 2002:a63:f345:: with SMTP id t5mr8807996pgj.147.1601788760553; 
- Sat, 03 Oct 2020 22:19:20 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.217.69])
- by smtp.gmail.com with ESMTPSA id d9sm6263859pjx.47.2020.10.03.22.19.16
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=lNHluM8woR+e77P0E5MEPND7G5EihPQXGymK5h4QF7U=;
+ b=IWdtkIVRUHES8U1HCS2Y4VBvD3neUXidzsOs3kimsFVGuAy3gnS4zCKMVa3KHW/+Ou
+ 3fTL8MKU0cQLbXg2HIlaE+uEq3qz+EEpbBPbpIcUspUqvGNBebYi4brPHE1TEjw9K9/i
+ DAyiUpc9g+uu6DlN/MpnuV5ZfAk5VEDrQNY/Scp/VxcMdvglPUqBYh/LPACbdocucDY4
+ yQGaJck5nZraBxHUOXJzl4nenQBO5CinBCJOdJD5wBcwJ0A4ktJtFYVyhqEC3j7jGjFL
+ XpnJc5YANkD0pAKky9/L2j0fz84r2PfCxsyxAAYuiYHeASluaqp6VUwkTF/+LFDoa3pC
+ JPHg==
+X-Gm-Message-State: AOAM532vqiOy/s7KZMGenW/z/v6Eer+w8nZhuXsuHRd+rjS+b8hXQq/b
+ bJJGGopM37cdgmNDxuiGB8c=
+X-Google-Smtp-Source: ABdhPJzVFG13oBskCpDw7Xf9Gh5IfwQdy4T1LEVT+vcHYhCkNzCRsYNp+Ene4RiTz3Hutnrhet/bWw==
+X-Received: by 2002:a17:906:fa8a:: with SMTP id
+ lt10mr9442973ejb.307.1601794303357; 
+ Sat, 03 Oct 2020 23:51:43 -0700 (PDT)
+Received: from felia ([2001:16b8:2d26:f700:8d52:b46b:d125:e62a])
+ by smtp.gmail.com with ESMTPSA id w13sm2742288eja.7.2020.10.03.23.51.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Oct 2020 22:19:19 -0700 (PDT)
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-To: 
-Date: Sun,  4 Oct 2020 10:47:08 +0530
-Message-Id: <20201004051708.21985-1-anant.thazhemadam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201001194329.9328-1-anant.thazhemadam@gmail.com>
-References: <20201001194329.9328-1-anant.thazhemadam@gmail.com>
+ Sat, 03 Oct 2020 23:51:42 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Sun, 4 Oct 2020 08:51:36 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+In-Reply-To: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
+Message-ID: <alpine.DEB.2.21.2010040809230.28226@felia>
+References: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com,
- Johan Hedberg <johan.hedberg@gmail.com>, linux-bluetooth@vger.kernel.org,
- Marcel Holtmann <marcel@holtmann.org>, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v3] bluetooth: hci_h5: fix memory
-	leak in h5_close
+Cc: Michal Marek <michal.lkml@markovi.net>, linux-ia64@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ clang-built-linux@googlegroups.com,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 0/2] use interpreters to
+	invoke scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,57 +124,115 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-When h5_close() is called and !hu->serdev, h5 is directly freed.
-However, h5->rx_skb is not freed before h5 is freed, which causes
-a memory leak.
-Freeing h5->rx_skb (when !hu->serdev) fixes this memory leak before
-freeing h5.
 
-Fixes: ce945552fde4 ("Bluetooth: hci_h5: Add support for serdev enumerated devices")
-Reported-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
-Tested-by: syzbot+6ce141c55b2f7aafd1c4@syzkaller.appspotmail.com
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
----
-Changes in v3:
-	* Free h5->rx_skb when !hu->serdev, and fix the memory leak
-	* Do not incorrectly and unnecessarily call serdev_device_close()
 
-Changes in v2:
-	* Fixed the Fixes tag
+On Sat, 3 Oct 2020, Ujjwal Kumar wrote:
 
-Hans de Goede also suggested calling h5_reset_rx() on close (for both, !hu->serdev
-and hu->serdev cases). 
-However, doing so seems to lead to a null-ptr-dereference error,
-        https://syzkaller.appspot.com/text?tag=CrashReport&x=136a9a5d900000,
-and for this reason, it has not been implemented.
+> This patch series aims at removing the dependency on execute 
+> bit of the scripts in the kbuild system.
+>
 
-Instead, directly freeing h5->rx_skb seems to suffice in preventing the memory leak
-reported. 
-And since h5 is freed immediately after freeing h5->rx_skb, assigning h5->rx_skb to
-be NULL isn't necessary.
+Ujjwal, your setup to send out the patch series created three unrelated 
+emails rather than the default way, i.e., to have one cover letter 
+and the patches in reply to the cover letter.
 
- drivers/bluetooth/hci_h5.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+You can see the difference here:
 
-diff --git a/drivers/bluetooth/hci_h5.c b/drivers/bluetooth/hci_h5.c
-index e41854e0d79a..171e55c080ce 100644
---- a/drivers/bluetooth/hci_h5.c
-+++ b/drivers/bluetooth/hci_h5.c
-@@ -248,8 +248,10 @@ static int h5_close(struct hci_uart *hu)
- 	if (h5->vnd && h5->vnd->close)
- 		h5->vnd->close(h5);
+https://lore.kernel.org/linux-kbuild/
+
+The presentation of your patch series looks different than the other 
+patch series on the list. Use the linux-kernel-mentees list for testing 
+your setup.
+
+For this version of the patch series, I guess it is okay; but this set up 
+right for the next patch series.
  
--	if (!hu->serdev)
-+	if (!hu->serdev){
-+		kfree_skb(h5->rx_skb);
- 		kfree(h5);
-+	}
- 
- 	return 0;
- }
--- 
-2.25.1
+> If not working with fresh clone of linux-next, clean the srctree:
+> make distclean
+> make tools/clean
+>
 
+I hit an unrelated issue on next-20201002 that make tools/clean fails.
+Other than that, this is all good.
+ 
+> To test the dependency on execute bits, I tried building the 
+> kernel after removing x-bits for all files in the repository.
+> Removing execute bits:
+> for i in $(find -executable -type f); do chmod -x $i; done
+>
+
+Okay, I did that.
+ 
+> Any attempts to configure (or build) the kernel fail because of 
+> 'Permission denied' on scripts with the following error:
+> $ make allmodconfig
+> sh: ./scripts/gcc-version.sh: Permission denied
+> init/Kconfig:34: syntax error
+> init/Kconfig:33: invalid statement
+> init/Kconfig:34: invalid statement
+> sh: ./scripts/ld-version.sh: Permission denied
+> init/Kconfig:39: syntax error
+> init/Kconfig:38: invalid statement
+> sh: ./scripts/clang-version.sh: Permission denied
+> init/Kconfig:49: syntax error
+> init/Kconfig:48: invalid statement
+> make[1]: *** [scripts/kconfig/Makefile:71: allmodconfig] Error 1
+> make: *** [Makefile:606: allmodconfig] Error 2
+>
+
+I can confirm that these errors are reported on next-20201002.
+ 
+> Changes:
+> 1. Adds specific interpreters (in Kconfig) to invoke 
+> scripts.
+> 
+> After this patch I could successfully do a kernel build 
+> without any errors.
+>
+
+With this first patch, I could then successfully do:
+
+make allmodconfig && make
+
+So far, so good. I did check the first patch.
+
+Lukas
+
+> 2. Again, adds specific interpreters to other parts of 
+> kbuild system.
+> 
+> I could successfully perform the following make targets after 
+> applying the PATCH 2/2:
+> make headerdep
+> make kselftest-merge
+> make rpm-pkg
+> make perf-tar-src-pkg
+> make ARCH=ia64 defconfig
+> ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make prepare
+> 
+> Following changes in PATCH 2/2 are not yet tested:
+> arch/arm64/kernel/vdso32/Makefile
+> arch/nds32/kernel/vdso/Makefile
+> scripts/Makefile.build
+> 
+> Ujjwal Kumar (2):
+>   kconfig: use interpreters to invoke scripts
+>   kbuild: use interpreters to invoke scripts
+> 
+>  Makefile                          |  4 ++--
+>  arch/arm64/kernel/vdso/Makefile   |  2 +-
+>  arch/arm64/kernel/vdso32/Makefile |  2 +-
+>  arch/ia64/Makefile                |  4 ++--
+>  arch/nds32/kernel/vdso/Makefile   |  2 +-
+>  init/Kconfig                      | 16 ++++++++--------
+>  scripts/Makefile.build            |  2 +-
+>  scripts/Makefile.package          |  4 ++--
+>  8 files changed, 18 insertions(+), 18 deletions(-)
+> 
+> -- 
+> 2.26.2
+> 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
