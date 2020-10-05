@@ -2,95 +2,105 @@ Return-Path: <SRS0=g3Jo=DM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AAFAC4363A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 10:02:11 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB78C4727D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 13:30:27 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A81312078E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 10:02:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 29AC020756
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 13:30:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JqHU7RFt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A81312078E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LiUPfJAY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 29AC020756
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3A0C986FCC;
-	Mon,  5 Oct 2020 10:02:10 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OXswFHEFQN94; Mon,  5 Oct 2020 10:02:09 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A078E86CB6;
-	Mon,  5 Oct 2020 10:02:09 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D038C07FF;
-	Mon,  5 Oct 2020 10:02:09 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9BBC7C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 10:02:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7ACA920470
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 10:02:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EA9C52042E;
+	Mon,  5 Oct 2020 13:30:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JCj9o2HmkqU1; Mon,  5 Oct 2020 13:30:25 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id C469B203D0;
+	Mon,  5 Oct 2020 13:30:25 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BEBB3C07FF;
+	Mon,  5 Oct 2020 13:30:25 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D414AC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  5 Oct 2020 13:30:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id CBB9B856BF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  5 Oct 2020 13:30:24 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Oub0pdB+YuY5
+ with ESMTP id 5L4O_7uCDQY0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 10:02:06 +0000 (UTC)
+ Mon,  5 Oct 2020 13:30:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oo1-f65.google.com (mail-oo1-f65.google.com
- [209.85.161.65])
- by silver.osuosl.org (Postfix) with ESMTPS id 1463220400
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id F37688557E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 10:02:05 +0000 (UTC)
-Received: by mail-oo1-f65.google.com with SMTP id 4so2072865ooh.11
+ Mon,  5 Oct 2020 13:30:23 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id b26so3558645pff.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 05 Oct 2020 03:02:05 -0700 (PDT)
+ Mon, 05 Oct 2020 06:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aGNJY1N+xv3ECllsfy4VYH0OZwB/DhC8S0nR2Z5DkZc=;
- b=JqHU7RFt2XNnmYE//lkfBMuL9hJFGSEXhEvRwviSWFJYdBfBcHAzIRoT4Qb8GbbGKv
- QIGYMww9sgfn07gpxUdSvzBBYzQv9T+KMhLasoZJwFGhvClzfbQ7KQFozug9N/GfJVDx
- q3fe0hnJaRIhxRZALt2gMDrBuVJ3uo1BQ+nZRBRvfICvs+R+EQqlOR4/mr8kETngDlhP
- L5UA4xxv5uuCCGjpiFzKO7Yp9LkDVuxUx9ADHmkVO/xjrgLDsZCuL+ROdjYCEH9Re8DZ
- o2e0bf4UQ6/RuBcauwWMfOtENwHYojKa8lHz/vzylI8s0u0YgnZEcGuk8FOsk6x0/Qip
- rYHQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KiVd1CB6lv+K5WRh3wsB+klp28Y/L0HyIFaj1iXVxLg=;
+ b=LiUPfJAYlPG24Mmd5k3kdAcFh4fpsIM6iQfhPWi/GlYdSZy5/Y4NYgjBGt2cWC63y0
+ PDxPAR8L1oTJoFcesFGZLGZqlLto66HKZI4ehZsOp+VRkpzuYs0skwwrEunRomaR5CCi
+ ATI5+0Jucupp3yVEMFZcUHP3sY6agPxRApErUiuLyaa6D9cu6GCcuhawlrK26U+y9iYi
+ CJmxovGG7JrVxpRJ6pdQapAALr9QIHtQmVQFWmQhPK9A+uGPTX2Vc47snJPzEe3LYpfd
+ CuMRzPTNW1qOKEYLQCzQgZv7tjNKKNRtdjntyBrip+MiAEbnxi37FYLVHU7onUjCJRYp
+ dQrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aGNJY1N+xv3ECllsfy4VYH0OZwB/DhC8S0nR2Z5DkZc=;
- b=LMC8Y+03X/YVxXz5T5mlXmG208zGKXymJ2ZpcFa+Zd6hukpYr17MB7PepR8D+Kckuv
- XNHUICAwuCqI3qs+4nwQDxJ7WekUwndSgc3xSDQZvUVo6T1SkUwREn8p3HahY440xlLT
- zRRIh8jt1soJsLBmtgb3/QiEb3GO4pJOgIeMHQZzq7gLpcK7dXC3gGE/Zfpix1h0gfvQ
- YzDcJ0hjxkVfMnG1+6/htYuc9dZSiaM4MTlV1/jUFkw74MXTkvDTSN4mDrq1BHuSOCVC
- bwuDEwaiBPeSijRWLNmgqzKBMfhBhtfQGQF9Zaly9Cmi9wnp4H29ZPRWgiJTGGLZ0oT7
- aO3g==
-X-Gm-Message-State: AOAM533Chm28szHM9CDOCzpW/SFVXc3RlxS1mcxJCYqY+44sR+P6z8j7
- JvGTFUDPrHaD9ocQ/CvFTQmuHo3Qh4YWl+jHNss=
-X-Google-Smtp-Source: ABdhPJw6A90WixETit5DayCjajn1G9JDABPgijlfw3R7lhWJ1PRhwmy+ETNm0jR5YaxfX9sWrZFobpxhw2SHN8Vtjsw=
-X-Received: by 2002:a4a:e1ee:: with SMTP id u14mr11848743ood.53.1601892124815; 
- Mon, 05 Oct 2020 03:02:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KiVd1CB6lv+K5WRh3wsB+klp28Y/L0HyIFaj1iXVxLg=;
+ b=mERwI+MOExiLCYZB4XbEoDOhfJqvFQD3Cs+oLoj+emEXw6kVgIKzwGsIKLdu2y2xxj
+ 1rWRz1gyH+5PTXBsJCKfD3ZL9rU+veqQrBejYJDtGTehm20bmSdlYnxS6wQMy2dcDlwC
+ 7+NwDOExL6wbGu8kJS88yz9P+p4R4t1q0FoqfPJ2LpiPE2NlPTnNGeCJVB/IItlXljgP
+ R0O6CUnNGe1fG5dzIdlYWad2oEPO1+9bEPns89ZMCPLt8P5Sj2/cCTWK2UDPWBsnaBHX
+ iqZhJYcfID4KcPuX0LCDGaQe8q1z9DeGYXvQONpM4yL7nuiByt9Ca/cDInU44H8M5XkP
+ Ijag==
+X-Gm-Message-State: AOAM532bKVsdfUvJnBpXhG4ij2yqbbmw7i+93FXjUDIc7JyMLGsWb2wD
+ BvzFW7RmVA7a/nV815Snj5AcjpDDmocv9vJYK5Y=
+X-Google-Smtp-Source: ABdhPJx42KObFaC35cretEvYRkAKYv1Q6kZMzxHGXyv3iTLzMgdH/w8QfHF+vIObQGxlrDZlOylVfQ==
+X-Received: by 2002:a63:5858:: with SMTP id i24mr14417015pgm.449.1601904622430; 
+ Mon, 05 Oct 2020 06:30:22 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.199.235])
+ by smtp.gmail.com with ESMTPSA id k7sm10597169pjs.9.2020.10.05.06.30.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 06:30:21 -0700 (PDT)
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+To: 
+Date: Mon,  5 Oct 2020 18:59:58 +0530
+Message-Id: <20201005132958.5712-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201005095634.69713-1-dwaipayanray1@gmail.com>
-In-Reply-To: <20201005095634.69713-1-dwaipayanray1@gmail.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Mon, 5 Oct 2020 15:31:42 +0530
-Message-ID: <CABJPP5B6pxF_Fkd8-=k_Bw71UWwoE4vA18RsESTD4X9AhP=Ejg@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add new warnings to
-	author signoff checks.
+Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+ Petko Manolov <petkan@nucleusys.com>,
+ syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, joe@perches.com,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
+Subject: [Linux-kernel-mentees] [PATCH v4] net: usb: rtl8150: set random MAC
+	address when set_ethernet_addr() fails
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,139 +118,86 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Oct 5, 2020 at 3:27 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
->
-> The author signed-off-by checks are currently very vague.
-> Cases like same name or same address are not handled separately.
->
-> For example, running checkpatch on commit be6577af0cef
-> ("parisc: Add atomic64_set_release() define to avoid CPU soft lockups"),
-> gives:
->
-> WARNING: Missing Signed-off-by: line by nominal patch author
-> 'John David Anglin <dave.anglin@bell.net>'
->
-> The signoff line was:
-> "Signed-off-by: Dave Anglin <dave.anglin@bell.net>"
->
-> Clearly the author has signed off but with a slightly different version
-> of his name. A more appropriate warning would have been to point out
-> at the name mismatch instead.
->
-> Introduced three new types of warnings:
->
-> 1) Address matches, but names are different.
->    "James Watson <james@gmail.com>", "James <james@gmail.com>"
->
-> 2) Name matches, but addresses are different.
->    "James Watson <james@watson.com>", "James Watson <james@gmail.com>"
->
-> 3) Name matches, but addresses without mail extensions are same.
->    "James Watson <james@gmail.com>", "James Watson <james+a@gmail.com>"
->
-> For the 3rd class, a --strict check message is generated, and for the
-> other two, warnings are generated.
->
-> Link: https://lore.kernel.org/lkml/7958ded756c895ca614ba900aae7b830a992475e.camel@perches.com/
-> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> ---
->  scripts/checkpatch.pl | 54 +++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 50 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 31624bbb342e..1380212f1a9d 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2347,6 +2347,7 @@ sub process {
->         my $signoff = 0;
->         my $author = '';
->         my $authorsignoff = 0;
-> +       my $author_sob = '';
->         my $is_patch = 0;
->         my $is_binding_patch = -1;
->         my $in_header_lines = $file ? 0 : 1;
-> @@ -2674,9 +2675,34 @@ sub process {
->                 if ($line =~ /^\s*signed-off-by:\s*(.*)/i) {
->                         $signoff++;
->                         $in_commit_log = 0;
-> -                       if ($author ne '') {
-> +                       if ($author ne ''  && $authorsignoff != 1) {
->                                 if (same_email_addresses($1, $author)) {
->                                         $authorsignoff = 1;
-> +                               } else {
-> +                                       my $ctx = $1;
-> +                                       my ($email_name, $email_comment, $email_address, $comment1) = parse_email($ctx);
-> +                                       my ($author_name, $author_comment, $author_address, $comment2) = parse_email($author);
-> +
-> +                                       if ($email_address eq $author_address) {
-> +                                               $author_sob = $ctx;
-> +                                               $authorsignoff = 2;
-> +                                       } elsif ($email_name eq $author_name) {
-> +                                               $author_sob = $ctx;
-> +                                               $authorsignoff = 3;
-> +
-> +                                               my $address1 = $email_address;
-> +                                               my $address2 = $author_address;
-> +
-> +                                               if ($address1 =~ /(\S+)\+\S+(\@.*)/) {
-> +                                                       $address1 = $1.$2;
-> +                                               }
-> +                                               if ($address2 =~ /(\S+)\+\S+(\@.*)/) {
-> +                                                       $address2 = $1.$2;
-> +                                               }
-> +                                               if ($address1 eq $address2) {
-> +                                                       $authorsignoff = 4;
-> +                                               }
-> +                                       }
->                                 }
->                         }
->                 }
-> @@ -6891,9 +6917,29 @@ sub process {
->                 if ($signoff == 0) {
->                         ERROR("MISSING_SIGN_OFF",
->                               "Missing Signed-off-by: line(s)\n");
-> -               } elsif (!$authorsignoff) {
-> -                       WARN("NO_AUTHOR_SIGN_OFF",
-> -                            "Missing Signed-off-by: line by nominal patch author '$author'\n");
-> +               } elsif ($authorsignoff != 1) {
-> +                       # authorsignoff values:
-> +                       # 0 -> missing sign off
-> +                       # 1 -> sign off identical
-> +                       # 2 -> addresses match, names different
-> +                       # 3 -> names match, addresses different
-> +                       # 4 -> names match, addresses excuding mail extensions (subaddresses) match
-> +
-> +                       my $sob_msg = "'From: $author' != 'Signed-off-by: $author_sob'";
-> +
-> +                       if ($authorsignoff == 0) {
-> +                               WARN("NO_AUTHOR_SIGN_OFF",
-> +                                        "Missing Signed-off-by: line by nominal patch author '$author'\n");
-> +                       } elsif ($authorsignoff == 2) {
-> +                               WARN("NO_AUTHOR_SIGN_OFF",
-> +                                        "From:/Signed-off-by: email name mismatch:\n$sob_msg\n");
-> +                       } elsif ($authorsignoff == 3) {
-> +                               WARN("NO_AUTHOR_SIGN_OFF",
-> +                                        "From:/Signed-off-by: email address mismatch:\n$sob_msg\n");
-> +                       } elsif ($authorsignoff == 4) {
-> +                               CHK("NO_AUTHOR_SIGN_OFF",
-> +                                       "From:/Signed-off-by: email extension mismatch:\n$sob_msg\n");
-> +                       }
->                 }
->         }
->
-> --
-> 2.27.0
->
+When get_registers() fails in set_ethernet_addr(),the uninitialized
+value of node_id gets copied over as the address.
+So, check the return value of get_registers().
 
-Hi Lukas,
-This is the updated patch with some style changes, and
-Joe's suggestions.
+If get_registers() executed successfully (i.e., it returns
+sizeof(node_id)), copy over the MAC address using ether_addr_copy()
+(instead of using memcpy()).
 
-Please let me know if I am missing something or if it is
-ready to be sent back again to Joe and LKML.
+Else, if get_registers() failed instead, a randomly generated MAC
+address is set as the MAC address instead.
 
-Thanks,
-Dwaipayan.
+Reported-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+Tested-by: syzbot+abbc768b560c84d92fd3@syzkaller.appspotmail.com
+Acked-by: Petko Manolov <petkan@nucleusys.com>
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+---
+Changes in v4:
+	* Use netdev_notice() instead of dev_warn() and update the 
+	  logged message to show the new random MAC as well 
+	  (Suggested by Joe Perches <joe@perches.com>)
+	* Convert set_ethernet_addr()'s return type back to void.
+	  Since we're not treating get_registers() (and thus 
+	  set_ethernet_addr()) failing as an erroneous condition,
+	  we can perform the error handling (setting a random
+	  ethernet address) that was being done in v3 within 
+	  set_ethernet_addr() itself.
+	  (Suggested by Petko Manolov <petkan@nucleusys.com>)
+
+Changes in v3:
+	* Set a random MAC address to the device rather than making
+	  the device not work at all in the even set_ethernet_addr()
+	  fails. (Suggested by David Miller <davem@davemloft.net>)
+	* Update set_ethernet_addr() to use ether_addr_copy() to copy 
+	  the MAC Address (instead of using memcpy() for that same).
+	  (Suggested by Joe Perches <joe@perches.com>)
+
+
+Changes in v2:
+	* Modified condition checking get_registers()'s return value to 
+		ret == sizeof(node_id)
+	  for stricter checking in compliance with the new 
+	  usb_control_msg_recv() API 
+	  (Suggested by Petko Manolov <petkan@nucleusys.com>)
+	* Added Acked-by: Petko Manolov
+
+ drivers/net/usb/rtl8150.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+index 733f120c852b..9d079dc2a535 100644
+--- a/drivers/net/usb/rtl8150.c
++++ b/drivers/net/usb/rtl8150.c
+@@ -274,12 +274,20 @@ static int write_mii_word(rtl8150_t * dev, u8 phy, __u8 indx, u16 reg)
+ 		return 1;
+ }
+ 
+-static inline void set_ethernet_addr(rtl8150_t * dev)
++static void set_ethernet_addr(rtl8150_t *dev)
+ {
+-	u8 node_id[6];
++	u8 node_id[ETH_ALEN];
++	int ret;
++
++	ret = get_registers(dev, IDR, sizeof(node_id), node_id);
+ 
+-	get_registers(dev, IDR, sizeof(node_id), node_id);
+-	memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
++	if (ret == sizeof(node_id)) {
++		ether_addr_copy(dev->netdev->dev_addr, node_id);
++	} else {
++		eth_hw_addr_random(dev->netdev);
++		netdev_notice(dev->netdev, "Assigned a random MAC address: %pM\n",
++			      dev->netdev->dev_addr);
++	}
+ }
+ 
+ static int rtl8150_set_mac_address(struct net_device *netdev, void *p)
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
