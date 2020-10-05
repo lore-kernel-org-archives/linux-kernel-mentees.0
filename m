@@ -2,79 +2,101 @@ Return-Path: <SRS0=g3Jo=DM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF5C4C4363A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 07:18:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 669B2C47095
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 07:30:12 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5535020659
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 07:18:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5535020659
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id E43C1205F4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 07:30:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWVoIHQ1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E43C1205F4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id DD94A2045B;
-	Mon,  5 Oct 2020 07:18:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 817E720458;
+	Mon,  5 Oct 2020 07:30:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GSo2ajI66Fzj; Mon,  5 Oct 2020 07:18:25 +0000 (UTC)
+	with ESMTP id qoNePbvZIThs; Mon,  5 Oct 2020 07:30:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D5EA52002B;
-	Mon,  5 Oct 2020 07:18:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7AB232041E;
+	Mon,  5 Oct 2020 07:30:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C1F65C07FF;
-	Mon,  5 Oct 2020 07:18:25 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 85B19C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 64322C07FF;
+	Mon,  5 Oct 2020 07:30:10 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 86692C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 07:18:24 +0000 (UTC)
+ Mon,  5 Oct 2020 07:30:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7BC4085402
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7C77C85F37
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 07:18:24 +0000 (UTC)
+ Mon,  5 Oct 2020 07:30:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kK246otLRsyT
+ with ESMTP id VrqMSzeV2thZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 07:18:23 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0067.hostedemail.com
- [216.40.44.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 4BA20841D4
+ Mon,  5 Oct 2020 07:30:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0ADF685F8E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 07:18:23 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave05.hostedemail.com (Postfix) with ESMTP id EFD1C18001161
+ Mon,  5 Oct 2020 07:30:08 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id k14so8158458edo.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 07:18:21 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay05.hostedemail.com (Postfix) with ESMTP id 70A4F18029210;
- Mon,  5 Oct 2020 07:18:19 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: worm55_1211179271bc
-X-Filterd-Recvd-Size: 4609
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf15.hostedemail.com (Postfix) with ESMTPA;
- Mon,  5 Oct 2020 07:18:18 +0000 (UTC)
-Message-ID: <a5cba9bb723626091f8790c794efe8de4ab184b8.camel@perches.com>
-From: Joe Perches <joe@perches.com>
+ Mon, 05 Oct 2020 00:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=ZvquyGjo6OdohUiG/A8csylVnfug5ahvWB2zW5ko35k=;
+ b=IWVoIHQ1o151301cUXQKCysumXa7kMl2j4y8laLWJigiRTqa+1Fs6kAXIWunENCANB
+ U/MoV4iV4VsU6tPbInmPuDWtDPkEfA8kQcIg+4QqSzCFpxWqhgkY6IjWx8BZ7B1DyR8v
+ qPWL5zCi9Oo3y/oGmThuoPhId/u51BYeJYN1wLLUKy5ZXNaf2AO7Dy7/QywdH7qI6XW8
+ hTtJPrWviDb932xdq2G5TE+LkFD9lgir1BVhILb2vaFUDwdoXP6+Px0YHe3v3Fl/OTSx
+ Y9nM2q5Kn28rzsOKq3Ev4mRqpZI5LRXiGZaL8dLbbqpWK7GrzyUQ4acMESjnQT5ROCuH
+ y2iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=ZvquyGjo6OdohUiG/A8csylVnfug5ahvWB2zW5ko35k=;
+ b=IkMOF2YV4ajL5RJtFC2kcvpIeOVo3WMFvwBCk876UEQdf8vpYZV1LZyVTxT72PGNP7
+ m8gkGEnwRWyJ4qFSSU9sZxtFQ0GafXewVtDQRi72wlUOInCssiDWXJAI+w8RgBT1V05b
+ x68FiVYt2PHgHbJe5SSL8iH43scxfIQsCTiewnNIVwNb9UTGA/IhtYosrcbpuhJmrX/m
+ nBRLi43BjjQcQaO6reV1Ly0L3CbBqCtFk015pe9Cbmd1YYw0R1M3FiH2bslWnHjvKQc6
+ J4ttUEwXcHMKTCfut2HCTucPjbtfSLkRAf1K0ANIDUT5rtOqXg9CEWyfLxoAHi4GGt7g
+ piKw==
+X-Gm-Message-State: AOAM533u/xRKJxsWg446K7TWwq1U4AjcN5TFryvgHHZkigUNfRbzokHN
+ bZ/fJxtuNNTbuxR+JbzS+k4=
+X-Google-Smtp-Source: ABdhPJzfHHI3ivhBlXSkK+ClPiNP8EIRMnhjsrAFJS1CZ8CG2qgRICdGZnrzpT2Hfp2ROcKjb8h3sw==
+X-Received: by 2002:a50:cf0b:: with SMTP id c11mr15190903edk.87.1601883006427; 
+ Mon, 05 Oct 2020 00:30:06 -0700 (PDT)
+Received: from felia ([2001:16b8:2dcc:7300:fc41:427:81ae:8ef0])
+ by smtp.gmail.com with ESMTPSA id u9sm7408611eje.119.2020.10.05.00.30.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 00:30:05 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Mon, 5 Oct 2020 09:30:04 +0200 (CEST)
+X-X-Sender: lukas@felia
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Mon, 05 Oct 2020 00:18:17 -0700
 In-Reply-To: <20201005064842.33495-1-dwaipayanray1@gmail.com>
+Message-ID: <alpine.DEB.2.21.2010050912210.6202@felia>
 References: <20201005064842.33495-1-dwaipayanray1@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+Cc: joe@perches.com, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
 Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: add new warnings
  to author signoff checks.
@@ -95,7 +117,10 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 2020-10-05 at 12:18 +0530, Dwaipayan Ray wrote:
+
+
+On Mon, 5 Oct 2020, Dwaipayan Ray wrote:
+
 > The author signed-off-by checks are currently very vague.
 > Cases like same name or same address are not handled separately.
 > 
@@ -126,33 +151,34 @@ On Mon, 2020-10-05 at 12:18 +0530, Dwaipayan Ray wrote:
 > 
 > For the 3rd class, a --strict check message is generated, and for the
 > other two, warnings are generated.
+>
 
-I don't have any issue with the concept, but please
-be consistent with spacing after if tests.
-
-Always use a single space after if
-
+I will start running an evaluation on checkpatch.pl before and after this 
+patch to get some insight on this change.
+ 
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 57 ++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 53 insertions(+), 4 deletions(-)
+> 
 > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-
+> index 31624bbb342e..80feb15f93cb 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
 > @@ -2347,6 +2347,7 @@ sub process {
 >  	my $signoff = 0;
 >  	my $author = '';
 >  	my $authorsignoff = 0;
 > +	my $authorsignoff_ctx = '';
-
-ctx isn't a descriptive name.
-
-Maybe $author_sob
-
+>  	my $is_patch = 0;
+>  	my $is_binding_patch = -1;
+>  	my $in_header_lines = $file ? 0 : 1;
 > @@ -2674,9 +2675,34 @@ sub process {
 >  		if ($line =~ /^\s*signed-off-by:\s*(.*)/i) {
 >  			$signoff++;
 >  			$in_commit_log = 0;
 > -			if ($author ne '') {
 > +			if ($author ne ''  && $authorsignoff != 1) {
-
-Has space after if
-
 >  				if (same_email_addresses($1, $author)) {
 >  					$authorsignoff = 1;
 > +				} else {
@@ -161,9 +187,28 @@ Has space after if
 > +					my ($author_name, $author_comment, $author_address, $comment2) = parse_email($author);
 > +
 > +					if($email_address eq $author_address) {
-
-No space after if, etc...
-
+> +						$authorsignoff_ctx = $ctx;
+> +						$authorsignoff = 2;
+> +					} elsif ($email_name eq $author_name) {
+> +						$authorsignoff_ctx = $ctx;
+> +						$authorsignoff = 3;
+> +
+> +						my $address1 = $email_address;
+> +						my $address2 = $author_address;
+> +
+> +						if ($address1 =~ /(\S+)\+\S+(\@.*)/) {
+> +							$address1 = $1.$2;
+> +						}
+> +						if ($address2 =~ /(\S+)\+\S+(\@.*)/) {
+> +							$address2 = $1.$2;
+> +						}
+> +						if($address1 eq $address2) {
+> +							$authorsignoff = 4;
+> +						}
+> +					}
+>  				}
+>  			}
+>  		}
 > @@ -6891,9 +6917,32 @@ sub process {
 >  		if ($signoff == 0) {
 >  			ERROR("MISSING_SIGN_OFF",
@@ -175,28 +220,23 @@ No space after if, etc...
 > +			# authorsignoff values:
 > +			# 0 -> missing sign off
 > +			# 1 -> sign off present
-
-sign off identical
-
 > +			# 2 -> address matches, name different
 > +			# 3 -> name matches, address different
 > +			# 4 -> name matches, address matches without extension
-
-extension here isn't obvious
-
 > +
 > +			my $ctx_msg = "'Signed-off-by: $authorsignoff_ctx' should be:\n'Signed-off-by: $author'";
-
-New line not necessary or useful really.
-
-And for mismatches, it's really not known that
-it should be one way or the or the other is it?
-
 > +
 > +			if($authorsignoff == 0) {
 > +				WARN("NO_AUTHOR_SIGN_OFF",
 > +					"Missing Signed-off-by: line by nominal patch author '$author'\n");
 > +			}
+
+I think in this case, we could actually turn this into an ERROR; now that 
+we have the refined cases (2,3,4) on which we would just warn or 'note' 
+with --strict checks.
+
+Lukas
+
 > +			elsif($authorsignoff == 2) {
 > +				WARN("NO_AUTHOR_SIGN_OFF",
 > +					"Author name mismatch:\n$ctx_msg\n");
@@ -212,7 +252,10 @@ it should be one way or the or the other is it?
 >  		}
 >  	}
 >  
-
+> -- 
+> 2.27.0
+> 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
