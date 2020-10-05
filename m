@@ -2,108 +2,103 @@ Return-Path: <SRS0=g3Jo=DM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC0BC4727E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 02:33:29 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4BADC4363A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 06:19:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5B6802072D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 02:33:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4D73120639
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Oct 2020 06:19:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rnUjOvGJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B6802072D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DGr+MFB0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D73120639
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C03780859;
-	Mon,  5 Oct 2020 02:33:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E026320395;
+	Mon,  5 Oct 2020 06:19:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ol9dWDH6FmxI; Mon,  5 Oct 2020 02:33:27 +0000 (UTC)
+	with ESMTP id SIYxW+KkUAyV; Mon,  5 Oct 2020 06:19:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 96CD284583;
-	Mon,  5 Oct 2020 02:33:27 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AC20720021;
+	Mon,  5 Oct 2020 06:19:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8EB24C07FF;
-	Mon,  5 Oct 2020 02:33:27 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 16DF6C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E1B3C016F;
+	Mon,  5 Oct 2020 06:19:32 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A208CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 02:33:26 +0000 (UTC)
+ Mon,  5 Oct 2020 06:19:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0074C84F90
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8A81A87033
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 02:33:26 +0000 (UTC)
+ Mon,  5 Oct 2020 06:19:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jfKNr4ntXAqR
+ with ESMTP id tbDofhoAlQBz
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 02:33:25 +0000 (UTC)
+ Mon,  5 Oct 2020 06:19:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E6CB484583
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8310187032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Oct 2020 02:33:24 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id b26so2458448pff.3
+ Mon,  5 Oct 2020 06:19:29 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id c8so7986152edv.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 04 Oct 2020 19:33:24 -0700 (PDT)
+ Sun, 04 Oct 2020 23:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=rxRn+o7dQyUInQLLFjQtARyvoiC2XV0Mzaxu7FdfKbY=;
- b=rnUjOvGJaCq002fq+dRf+LUNBlF5G30v6I2DEXQulnH91qSNIdpguOJT7Hp3Z0wM+C
- HizxgA0fZTPubPBHVxP7bgBRQgyqXoIc6TSmaO2uduuYJ1xWB9Z2stp4mRUnt3JyouhX
- pPXSFKwozQMLCuNMQzPUougL6Dd14hz3vb0yQSq3ZpObQU8EG8Ai5Dn/X/ZVtORW40YX
- 974PWZ0eDVOHYN3he5PvYslvk6L4vZQ420ryn9A6jxMvRUcigosorznzCxYVxJ4kjkKk
- 9iUJfamePwguiq4c81ygGj97ToX1DWKVjWD+CB0QOR4C2eTm3bUDi60w546bXmBRr8Vw
- AcFA==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=cGUYcTXxMfAtG3/qeBMEp1uWZ9jOPn1w/j9Mzda72fI=;
+ b=DGr+MFB0+QPrxTOZLho6Nm3giYqtbGjYDZPzj4cAYElVzQzrsrVlS39999vLFqtYJO
+ pglt+zyhaYTuG6kgqWJ+LfTlyX6xk/I5A5aRLBhlcBL3oyKptsu30nZPCdm+H0uZxWhX
+ uoD2Nu3gQwVQRZUubbwYuG1yZJZOYBY8h4TtgSgA4Ui5FtATYwv2Mn+golIh4PFM8qcb
+ zq0zkAN7kTVqNnUt9+++BEu2BAd4mRXhEyWQvHkC/4nuoYr1YHvRXRShsu1SORf+S5NY
+ OZa55HhaA+pr15PVtxeFHUL5kM+PPV88UhcQ18K20MVcUglLRKYQr1g/ixywTI0tljEc
+ Fsjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rxRn+o7dQyUInQLLFjQtARyvoiC2XV0Mzaxu7FdfKbY=;
- b=VP7oCOKHQZrdFFVLxdc1kmzpS4v7Vac0gBTBIk/IjPV2WXILsaCo2M9Fr99guK80i5
- ebJ+3zgPNRne7Te3YqlxMIe+KWMgZqQKa22NlnYzV0kzQTwHaoJCnnbLL0L/wv0Yx9KH
- QIlMtjQNItKX539DXrs1Mdoygp1BBPAls/rSqdyCl/4aIUPZ8L2JUS2r6KOdka5OjkSk
- FcsZYLEN0U/c4Fe6a+EeVsqpaqcvnN5jUfme8Q5c0RNPpuHIU2+x36xCPBBgf5yVR+Y7
- tAXU7x+Bq/GH/WAF6MvKxlvu1uKnERwLsneHLTRYvXLnNhuAouGQZugmF5nksIx/jh8o
- PBaw==
-X-Gm-Message-State: AOAM530vt7cUha2hw2IbOJSQKWV4c3jFa1IIVkIlDU548pqMHzIuPhzp
- /HlLxIeMGvfhkLByFp2gYFA=
-X-Google-Smtp-Source: ABdhPJyxbrvTQke9eIOTL4cFTq21SZYJ52RwH3YBRSDbrat2INmCGPRoG5ApYJRSF91GsucyIiOpmA==
-X-Received: by 2002:a63:341:: with SMTP id 62mr8448151pgd.443.1601865204481;
- Sun, 04 Oct 2020 19:33:24 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id 99sm8629921pjo.40.2020.10.04.19.33.22
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=cGUYcTXxMfAtG3/qeBMEp1uWZ9jOPn1w/j9Mzda72fI=;
+ b=PO3WJ2o0irppVuBWNBOE4/sHeBPy68BHy1IxIOzr9WQbM48Or1AOUGEhNuT1nW7sut
+ k+ZWJ4RgR+nctMtVVwW5GgoY8ls3IJuLsPL5YINWM43fBXMfO8XYVRjHcr6kX1JJhBuw
+ f3Yk2JxAfp4xeUhx+4M4l6ZLC/XgyOCjZjYL2g2GHn8T5SuD1ofHhwNlfW7IaSaeGfwE
+ OIlZjwykMWiXgt4YZW19LiFF72EhVf7APiLUUl5tPCsIc8/PmJ8NNi4YgWBZtRJSoFIJ
+ I0KqePZdR26iMjMY6fEt3PYB8YUpZ/8ytfH60nfUKYK+f7iOeySYGyn7TnPhS0VWa0na
+ wjlQ==
+X-Gm-Message-State: AOAM533V7RKkpou4zVPo0WAmsI80295j1I8nRvHQKYR2/eaIuh4KLCCF
+ d5DLj9CGIVY+jnZy41Pwdt2+3M5jOBd5nuZ1
+X-Google-Smtp-Source: ABdhPJxebOhL98OLqwW/X9R4fVS7FeBM1AVazD/F+nAczGrxrUw2JvioW1ZKVE5SCuGZQqxiuxSZCA==
+X-Received: by 2002:a50:fb16:: with SMTP id d22mr6154488edq.255.1601878767988; 
+ Sun, 04 Oct 2020 23:19:27 -0700 (PDT)
+Received: from felia ([2001:16b8:2dcc:7300:fc41:427:81ae:8ef0])
+ by smtp.gmail.com with ESMTPSA id dt8sm7022746ejc.113.2020.10.04.23.19.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 19:33:23 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Mon, 5 Oct 2020 10:33:19 +0800
-To: Benjamin Poirier <benjamin.poirier@gmail.com>
-Message-ID: <20201005023319.kc2nngfjeykqk7my@Rk>
-References: <20200814160601.901682-1-coiby.xu@gmail.com>
- <20200814160601.901682-2-coiby.xu@gmail.com>
- <20200816025640.GA27529@f3> <20200821030822.huyuxa5o5tcvtv2o@Rk>
+ Sun, 04 Oct 2020 23:19:27 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Mon, 5 Oct 2020 08:19:26 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+In-Reply-To: <20201004143812.117455-1-dwaipayanray1@gmail.com>
+Message-ID: <alpine.DEB.2.21.2010050811200.6202@felia>
+References: <20201004143812.117455-1-dwaipayanray1@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200821030822.huyuxa5o5tcvtv2o@Rk>
-Cc: Michal Kubecek <mkubecek@suse.cz>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- GR-Linux-NIC-Dev@marvell.com, Manish Chopra <manishc@marvell.com>,
- netdev@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [RFC 1/3] Initialize devlink health dump
- framework for the dlge driver
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: add new warnings
+ to author signoff checks.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,269 +110,155 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Aug 21, 2020 at 11:08:22AM +0800, Coiby Xu wrote:
->On Sun, Aug 16, 2020 at 11:56:40AM +0900, Benjamin Poirier wrote:
->>On 2020-08-15 00:05 +0800, Coiby Xu wrote:
->>>Initialize devlink health dump framework for the dlge driver so the
->>>coredump could be done via devlink.
->>>
->>>Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
->>>---
->>> drivers/staging/qlge/Makefile      |  2 +-
->>> drivers/staging/qlge/qlge.h        |  9 +++++++
->>> drivers/staging/qlge/qlge_health.c | 43 ++++++++++++++++++++++++++++++
->>> drivers/staging/qlge/qlge_health.h |  2 ++
->>> drivers/staging/qlge/qlge_main.c   | 21 +++++++++++++++
->>> 5 files changed, 76 insertions(+), 1 deletion(-)
->>> create mode 100644 drivers/staging/qlge/qlge_health.c
->>> create mode 100644 drivers/staging/qlge/qlge_health.h
->>>
->>>diff --git a/drivers/staging/qlge/Makefile b/drivers/staging/qlge/Makefile
->>>index 1dc2568e820c..0a1e4c8dd546 100644
->>>--- a/drivers/staging/qlge/Makefile
->>>+++ b/drivers/staging/qlge/Makefile
->>>@@ -5,4 +5,4 @@
->>>
->>> obj-$(CONFIG_QLGE) += qlge.o
->>>
->>>-qlge-objs := qlge_main.o qlge_dbg.o qlge_mpi.o qlge_ethtool.o
->>>+qlge-objs := qlge_main.o qlge_dbg.o qlge_mpi.o qlge_ethtool.o qlge_health.o
->>>diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
->>>index fc8c5ca8935d..055ded6dab60 100644
->>>--- a/drivers/staging/qlge/qlge.h
->>>+++ b/drivers/staging/qlge/qlge.h
->>>@@ -2061,6 +2061,14 @@ struct nic_operations {
->>> 	int (*port_initialize) (struct ql_adapter *);
->>> };
->>>
->>
->>This patch doesn't apply over the latest staging tree. I think your tree
->>is missing commit d923bb6bf508 ("staging: qlge: qlge.h: Function
->>definition arguments should have names.")
->
->Thank you for applying the patch to test it! I had incorrect
->understanding about the word "RFC" and didn't do a rebase onto
->the latest staging tree.
->
->>
->>>+
->>>+
->>>+struct qlge_devlink {
->>>+        struct ql_adapter *qdev;
->>>+        struct net_device *ndev;
->>
->>I don't have experience implementing devlink callbacks but looking at
->>some other devlink users (mlx4, ionic, ice), all of them use devlink
->>priv space for their main private structure. That would be struct
->>ql_adapter in this case. Is there a good reason to stray from that
->>pattern?
->>
->>>+        struct devlink_health_reporter *reporter;
->>>+};
->>>+
->>> /*
->>>  * The main Adapter structure definition.
->>>  * This structure has all fields relevant to the hardware.
->>>@@ -2078,6 +2086,7 @@ struct ql_adapter {
->>> 	struct pci_dev *pdev;
->>> 	struct net_device *ndev;	/* Parent NET device */
->>>
->>>+	struct qlge_devlink *devlink;
->>> 	/* Hardware information */
->>> 	u32 chip_rev_id;
->>> 	u32 fw_rev_id;
->>>diff --git a/drivers/staging/qlge/qlge_health.c b/drivers/staging/qlge/qlge_health.c
->>>new file mode 100644
->>>index 000000000000..292f6b1827e1
->>>--- /dev/null
->>>+++ b/drivers/staging/qlge/qlge_health.c
->>>@@ -0,0 +1,43 @@
->>>+#include "qlge.h"
->>>+#include "qlge_health.h"
->>>+
->>>+static int
->>>+qlge_reporter_coredump(struct devlink_health_reporter *reporter,
->>>+			struct devlink_fmsg *fmsg, void *priv_ctx,
->>>+			struct netlink_ext_ack *extack)
->>>+{
->>>+	return 0;
->>>+}
->>>+
->>>+static const struct devlink_health_reporter_ops qlge_reporter_ops = {
->>>+		.name = "dummy",
->>>+		.dump = qlge_reporter_coredump,
->>>+};
->>
->>I think
->>	select NET_DEVLINK
->>should be added to drivers/staging/qlge/Kconfig
->
->Thank you for reminding me!
->
->>
->>>+
->>>+int qlge_health_create_reporters(struct qlge_devlink *priv)
->>>+{
->>>+	int err;
->>>+
->>>+	struct devlink_health_reporter *reporter;
->>>+	struct devlink *devlink;
->>>+
->>>+	devlink = priv_to_devlink(priv);
->>>+	reporter =
->>>+		devlink_health_reporter_create(devlink, &qlge_reporter_ops,
->>>+					       0,
->>>+					       priv);
->>>+	if (IS_ERR(reporter)) {
->>>+		netdev_warn(priv->ndev,
->>>+			    "Failed to create reporter, err = %ld\n",
->>>+			    PTR_ERR(reporter));
->>>+		return PTR_ERR(reporter);
->>>+	}
->>>+	priv->reporter = reporter;
->>>+
->>>+	if (err)
->>>+		return err;
->>>+
->>>+	return 0;
->>>+}
->>>+
->>>+
->>
->>Stray newlines
->
->Will fix it in v1.
->
->>
->>>diff --git a/drivers/staging/qlge/qlge_health.h b/drivers/staging/qlge/qlge_health.h
->>>new file mode 100644
->>>index 000000000000..07d3bafab845
->>>--- /dev/null
->>>+++ b/drivers/staging/qlge/qlge_health.h
->>>@@ -0,0 +1,2 @@
->>>+#include <net/devlink.h>
->>>+int qlge_health_create_reporters(struct qlge_devlink *priv);
->>
->>I would suggest to put this in qlge.h instead of creating a new file.
->
->Although there are only two lines for now, is it possible qlge will add
->more devlink code? If that's the case, a file to single out these code
->is necessary as is the same to some other drivers,
->
->    $ find drivers -name *health*.h
->    drivers/net/ethernet/mellanox/mlx5/core/en/health.h
->
->    $ find drivers -name *devlink*.h
->    drivers/net/ethernet/huawei/hinic/hinic_devlink.h
->    drivers/net/ethernet/mellanox/mlx5/core/devlink.h
->    drivers/net/ethernet/mellanox/mlx5/core/en/devlink.h
->    drivers/net/ethernet/intel/ice/ice_devlink.h
->    drivers/net/ethernet/pensando/ionic/ionic_devlink.h
->    drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.h
->
->>
->>>diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
->>>index 1650de13842f..b2be7f4b7dd6 100644
->>>--- a/drivers/staging/qlge/qlge_main.c
->>>+++ b/drivers/staging/qlge/qlge_main.c
->>>@@ -42,6 +42,7 @@
->>> #include <net/ip6_checksum.h>
->>>
->>> #include "qlge.h"
->>>+#include "qlge_health.h"
->>>
->>> char qlge_driver_name[] = DRV_NAME;
->>> const char qlge_driver_version[] = DRV_VERSION;
->>>@@ -4550,6 +4551,8 @@ static void ql_timer(struct timer_list *t)
->>> 	mod_timer(&qdev->timer, jiffies + (5 * HZ));
->>> }
->>>
->>>+static const struct devlink_ops qlge_devlink_ops;
->>>+
->>> static int qlge_probe(struct pci_dev *pdev,
->>> 		      const struct pci_device_id *pci_entry)
->>> {
->>>@@ -4557,6 +4560,13 @@ static int qlge_probe(struct pci_dev *pdev,
->>> 	struct ql_adapter *qdev = NULL;
->>> 	static int cards_found;
->>> 	int err = 0;
->>>+	struct devlink *devlink;
->>>+	struct qlge_devlink *qlge_dl;
->>>+
->>>+	devlink = devlink_alloc(&qlge_devlink_ops, sizeof(struct qlge_devlink));
->>>+	if (!devlink)
->>>+		return -ENOMEM;
->>>+	qlge_dl = devlink_priv(devlink);
->>>
->>> 	ndev = alloc_etherdev_mq(sizeof(struct ql_adapter),
->>> 				 min(MAX_CPUS,
->>>@@ -4615,6 +4625,15 @@ static int qlge_probe(struct pci_dev *pdev,
->>> 		free_netdev(ndev);
->>> 		return err;
->>> 	}
->>>+
->>>+	err = devlink_register(devlink, &pdev->dev);
->>>+	if (err)
->>>+		devlink_free(devlink);
->>
->>Are you sure it's safe to continue devlink init after an error here?
->>Again, that does not resemble usage of devlink in other drivers (ex.
->>bnxt).
->
->Thank you for pointing out my neglect!
->
->>
->>>+
->>>+	qlge_health_create_reporters(qlge_dl);
->>>+	qlge_dl->qdev = qdev;
->>>+	qlge_dl->ndev = ndev;
->>>+	qdev->devlink = qlge_dl;
->>> 	/* Start up the timer to trigger EEH if
->>> 	 * the bus goes dead
->>> 	 */
->>>@@ -4647,6 +4666,8 @@ static void qlge_remove(struct pci_dev *pdev)
->>> 	unregister_netdev(ndev);
->>> 	ql_release_all(pdev);
->>> 	pci_disable_device(pdev);
->>>+	devlink_unregister(priv_to_devlink(qdev->devlink));
->>>+	devlink_health_reporter_destroy(qdev->devlink->reporter);
->>
->>Isn't the order of those two calls mixed up?
->
->I haven't studied the code to figure out why but other drivers also
->use the same order.
 
-Today I re-visit this issue and find all exiting drivers except for
-drivers/net/ethernet/mellanox/mlx5/core and drivers/net/ethernet/huawei/hinic
-call devlink_health_reporter_destroy before devlink_unregister. I guess
-I happened to look at mlx5 and hinic as the examples before.
 
-I also examine devlink_unregister and devlink_health_reporter_destroy
-and find they devlink_health_reporter_destroy doesn't need struct devlink.
+On Sun, 4 Oct 2020, Dwaipayan Ray wrote:
 
-But I will change the order in v1 anyway.
-
->>
->>> 	free_netdev(ndev);
->>> }
->>>
->>>--
->>>2.27.0
->>>
+> The author signed-off-by checks are currently very vague.
+> Cases like same name or same address are not handled separately.
+> 
+> For example, running checkpatch on commit be6577af0cef
+> ("parisc: Add atomic64_set_release() define to avoid CPU soft lockups"),
+> gives:
+> 
+> WARNING: Missing Signed-off-by: line by nominal patch author
+> 'John David Anglin <dave.anglin@bell.net>'
+> 
+> The signoff line was:
+> "Signed-off-by: Dave Anglin <dave.anglin@bell.net>"
+> 
+> Clearly the author has signed off but with a slightly different version
+> of his name. A more appropriate warning would have been to point out
+> at the name mismatch instead.
+> 
+> Introduced three new types of warnings:
+> 
+> 1) Address matches, but names are different.
+>    "James Watson <james@gmail.com>", "James <james@gmail.com>"
+> 
+> 2) Name matches, but addresses are different.
+>    "James Watson <james@watson.com>", "James Watson <james@gmail.com>"
+> 
+> 3) Name matches, but addresses without mail extensions are same.
+>    "James Watson <james@gmail.com>", "James Watson <james+a@gmail.com>"
+> 
+> For the 3rd class, a --strict check message is generated, and for the
+> other two, warnings are generated.
 >
->--
->Best regards,
->Coiby
 
---
-Best regards,
-Coiby
+Dwaipayan, I think it a good patch to start the discussion.
+
+Feel free to send this to Joe and lkml.
+ 
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 57 ++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 53 insertions(+), 4 deletions(-)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 31624bbb342e..80feb15f93cb 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -2347,6 +2347,7 @@ sub process {
+>  	my $signoff = 0;
+>  	my $author = '';
+>  	my $authorsignoff = 0;
+> +	my $authorsignoff_ctx = '';
+>  	my $is_patch = 0;
+>  	my $is_binding_patch = -1;
+>  	my $in_header_lines = $file ? 0 : 1;
+> @@ -2674,9 +2675,34 @@ sub process {
+>  		if ($line =~ /^\s*signed-off-by:\s*(.*)/i) {
+>  			$signoff++;
+>  			$in_commit_log = 0;
+> -			if ($author ne '') {
+> +			if ($author ne ''  && $authorsignoff != 1) {
+>  				if (same_email_addresses($1, $author)) {
+>  					$authorsignoff = 1;
+> +				} else {
+> +					my $ctx = $1;
+> +					my ($email_name, $email_comment, $email_address, $comment1) = parse_email($ctx);
+> +					my ($author_name, $author_comment, $author_address, $comment2) = parse_email($author);
+> +
+> +					if($email_address eq $author_address) {
+> +						$authorsignoff_ctx = $ctx;
+> +						$authorsignoff = 2;
+> +					} elsif ($email_name eq $author_name) {
+> +						$authorsignoff_ctx = $ctx;
+> +						$authorsignoff = 3;
+> +
+> +						my $address1 = $email_address;
+> +						my $address2 = $author_address;
+> +
+> +						if ($address1 =~ /(\S+)\+\S+(\@.*)/) {
+> +							$address1 = $1.$2;
+> +						}
+> +						if ($address2 =~ /(\S+)\+\S+(\@.*)/) {
+> +							$address2 = $1.$2;
+> +						}
+> +						if($address1 eq $address2) {
+> +							$authorsignoff = 4;
+> +						}
+> +					}
+>  				}
+>  			}
+>  		}
+> @@ -6891,9 +6917,32 @@ sub process {
+>  		if ($signoff == 0) {
+>  			ERROR("MISSING_SIGN_OFF",
+>  			      "Missing Signed-off-by: line(s)\n");
+> -		} elsif (!$authorsignoff) {
+> -			WARN("NO_AUTHOR_SIGN_OFF",
+> -			     "Missing Signed-off-by: line by nominal patch author '$author'\n");
+> +		} elsif ($authorsignoff != 1) {
+> +			# authorsignoff values:
+> +			# 0 -> missing sign off
+> +			# 1 -> sign off present
+> +			# 2 -> address matches, name different
+> +			# 3 -> name matches, address different
+> +			# 4 -> name matches, address matches without extension
+> +
+> +			my $ctx_msg = "'Signed-off-by: $authorsignoff_ctx' should be:\n'Signed-off-by: $author'";
+> +
+> +			if($authorsignoff == 0) {
+> +				WARN("NO_AUTHOR_SIGN_OFF",
+> +					"Missing Signed-off-by: line by nominal patch author '$author'\n");
+
+I think in this case, we could actually turn this into an ERROR; now that 
+we have the refined cases (2,3,4) on which we would just warn or 'note' 
+with --strict checks.
+
+Send it as is to Joe Perches and lkml and I will repeat my comment on that 
+mail and we will discuss it with Joe.
+
+Lukas
+
+> +			}
+> +			elsif($authorsignoff == 2) {
+> +				WARN("NO_AUTHOR_SIGN_OFF",
+> +					"Author name mismatch:\n$ctx_msg\n");
+> +			}
+> +			elsif($authorsignoff == 3) {
+> +				WARN("NO_AUTHOR_SIGN_OFF",
+> +					"Author address mismatch:\n$ctx_msg\n");
+> +			}
+> +			elsif($authorsignoff == 4) {
+> +				CHK("NO_AUTHOR_SIGN_OFF",
+> +					"Author mail extension mismatch:\n$ctx_msg\n");
+> +			}
+>  		}
+>  	}
+>  
+> -- 
+> 2.27.0
+> 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
