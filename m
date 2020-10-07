@@ -6,100 +6,97 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1BAC46466
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Oct 2020 03:54:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD4CC4363C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Oct 2020 06:33:41 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8FCB5208C7
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Oct 2020 03:54:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2392A206F0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Oct 2020 06:33:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PkilCjXO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FCB5208C7
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lirKZNMd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2392A206F0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0BADE87257;
-	Wed,  7 Oct 2020 03:54:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 822A98725C;
+	Wed,  7 Oct 2020 06:33:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0wupTksSdaOe; Wed,  7 Oct 2020 03:54:20 +0000 (UTC)
+	with ESMTP id 85Jj6dB6n2y8; Wed,  7 Oct 2020 06:33:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 991CD87254;
-	Wed,  7 Oct 2020 03:54:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 94E1687257;
+	Wed,  7 Oct 2020 06:33:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EB51C016F;
-	Wed,  7 Oct 2020 03:54:20 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E8D6EC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7ED59C016F;
+	Wed,  7 Oct 2020 06:33:39 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 102F4C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Oct 2020 03:54:18 +0000 (UTC)
+ Wed,  7 Oct 2020 06:33:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D257622C51
+ by fraxinus.osuosl.org (Postfix) with ESMTP id EB64C8511C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Oct 2020 03:54:18 +0000 (UTC)
+ Wed,  7 Oct 2020 06:33:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yGhwANNV8kHi
+ with ESMTP id M2tLu7giWbpC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Oct 2020 03:54:17 +0000 (UTC)
+ Wed,  7 Oct 2020 06:33:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by silver.osuosl.org (Postfix) with ESMTPS id AC07922C44
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0DC00847FE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Oct 2020 03:54:17 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id u24so555850pgi.1
+ Wed,  7 Oct 2020 06:33:36 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id t18so505980plo.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 06 Oct 2020 20:54:17 -0700 (PDT)
+ Tue, 06 Oct 2020 23:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=p+QF0MXUCrLAwwOTQcY0kO3Iiy6gO/CVTSWip3EaAQw=;
- b=PkilCjXO3ldpksAP/hgu2ylQJHuGX3Cc/p+GhEdHw13g5S44JTfZCygf/8fz4W+PFJ
- Nb4OmBNVrXUhof9WbgNl40xVtf7D4zqtqIqLaWJ1N22Q2p73kJBs+jJq6mN1lCyOUKyB
- +Y6NQrqC9bl0ZmkrDwTr9UQL/qIo1wV5QFSyP7hUrts/NnYKBYakmqf90XXi59fqmAA1
- lQmHg8TtuiYhZOHIS+DOL59zTpqduP36bpPftwsaO/gscVLeomWMwbjAIF5FU/dhVBDM
- peCclmXfi1F5NJNwAMSZojJFTTXlLqXTYZmegkSdgWRa/XyRAYZ4x+cngJVFXs0tuuH6
- xOYQ==
+ bh=ghveWhrhcR987K2j+v2KOBB59W/+/rKX3+mThnkvmCw=;
+ b=lirKZNMdNW5tvLEOi3VqYeoxLOyyJ/V4xsBP30AZbf4FnvfmPTvAvgfglBAjRaCIrr
+ wLVzM4VnWPOTHJnf0YOe0naj+xpmP4NOKKkOi0wJzjHZGejASZnLZjSJl+t8NdzrWkBG
+ YI8+uBX6DkWg3YdsmRIFiK9AZa1bRLIkLjjjq9IyxyGw1h6/Fx2Td969Mojdr0t6tGyj
+ m5Dud2XPEBym9OZ0/bInHUOFgzylFZUaLRlNy1Lcbjh8O8OG15AsWRlnKTKUKhzyIskW
+ A2eNyYnJ9u3tLTO3H2PxBNXrfJKWDPrExmDT2kZ1rGq+jDlv/qgUXSUcHUJOtxXqf8uR
+ /HHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=p+QF0MXUCrLAwwOTQcY0kO3Iiy6gO/CVTSWip3EaAQw=;
- b=XD9tUAQ29bNauzhfx0bW8v1PO4DV1ApM5XA82VEhRE32t4CwQKLcDohN4Zrh3o0wId
- v13Ho2C2JrLjV42gbkMpF5fKEnmPYPHUmgdhCnYMrbRYWyTO8TObzhS4iTit2WdOgkVF
- RzhPZj+eS8CtwKkFp/HKDRmOqSEAybW2e3J/UrC1XoVGwy2tpk+n3Teoah8sKj4+e/BP
- RK1v5eM9u2MsVObBmFieHMhqQQpwj/nrokLgffIJaY7JgpNNNukiUr9Odx9ykFWU28yf
- YK0LzjgjEIE8MENL5xTB7eHOVu2mMMO1fmjmBEaQeOLcjTgIT7YmJFKYsWv9vfyFWqoA
- WJmg==
-X-Gm-Message-State: AOAM530DP8lDOuDOBr1yEDa+rgfS7w8o8xxwkrbNBwvhVLDbyOdr2bHt
- v2qon7ooeIgdxcJ6+04jBYH0oNFB1G53p5JpNxg=
-X-Google-Smtp-Source: ABdhPJzUQKiSws5uRfeH5+wvhqfgLF3FUhAd5S5CQv7fIApvbLw3es85ToS/n34WDxWxMhjg6glgmw==
-X-Received: by 2002:a63:f803:: with SMTP id n3mr1239963pgh.231.1602042856673; 
- Tue, 06 Oct 2020 20:54:16 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.207.135])
- by smtp.gmail.com with ESMTPSA id k7sm509309pjs.9.2020.10.06.20.54.12
+ bh=ghveWhrhcR987K2j+v2KOBB59W/+/rKX3+mThnkvmCw=;
+ b=JtEqVPqEGI3+cPRRWTVexS2UcWkNw89N5zKWgWNUKUiAPJky31vm3aDWa5fPq/4T4+
+ FiUuEMae4viRyo5kAQR9NKHmnhwFrmJ8ifNZ0AGQ4Y07xO1Xo99ow9UzxX6AhEpIml3p
+ nzvVHO4hNVFmrIFQaJazjKIPOOS55E5m3UMThsaLOIDQOOoMqQ6t+ZUTTukoHoMPJDij
+ TqCwM55wvdwa3CWK8ODqOw5C5oGm+CejQO/WOF/bi4CPRRtJRdKAaPMWRxHvAPmQRk2p
+ FAjHMA4EEzBLT5kTEC/RqJeJLMyvTrQVHUYvQUpoWVYtjT5Dsit1aN71FASyuRnlkYYM
+ qvrg==
+X-Gm-Message-State: AOAM532POYYsdB5E5ZeI4M8VZToltwCdNFIhc+EpbpYeXVmz3Ly9+fRK
+ fdsT/j2vaaCAUBapzE0tfzs=
+X-Google-Smtp-Source: ABdhPJyXtzG3Jq5dW2h7hbty8BJzprUS2rdFW8I4eQbTjD8XyV8HW/+Q7srk1tFwgA8QJmlfDOnwNQ==
+X-Received: by 2002:a17:902:5999:b029:d3:f00b:8ae3 with SMTP id
+ p25-20020a1709025999b02900d3f00b8ae3mr1724819pli.36.1602052415393; 
+ Tue, 06 Oct 2020 23:33:35 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:9004:6078:3b0d:c364:bb32:6512])
+ by smtp.gmail.com with ESMTPSA id ck21sm1040349pjb.56.2020.10.06.23.33.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 20:54:16 -0700 (PDT)
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-To: 
-Date: Wed,  7 Oct 2020 09:24:01 +0530
-Message-Id: <20201007035401.9522-1-anant.thazhemadam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Tue, 06 Oct 2020 23:33:34 -0700 (PDT)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: joe@perches.com
+Date: Wed,  7 Oct 2020 12:03:15 +0530
+Message-Id: <20201007063315.41585-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, Johannes Berg <johannes@sipsolutions.net>,
- syzbot+b1bb342d1d097516cbda@syzkaller.appspotmail.com,
- "David S. Miller" <davem@davemloft.net>
-Subject: [Linux-kernel-mentees] [PATCH] net: wireless: nl80211: fix
-	out-of-bounds access in nl80211_del_key()
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dwaipayanray1@gmail.com
+Subject: [Linux-kernel-mentees] [PATCH v5] checkpatch: add new warnings to
+	author signoff checks.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,38 +114,229 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In nl80211_parse_key(), key.idx is first initialized as -1. 
-If this value of key.idx remains unmodified and gets returned, and
-nl80211_key_allowed() also returns 0, then rdev_del_key() gets called 
-with key.idx = -1.
-This causes an out-of-bounds array access.
+The author signed-off-by checks are currently very vague.
+Cases like same name or same address are not handled separately.
 
-Handle this issue by checking if the value of key.idx after
-nl80211_parse_key() is called and return -EINVAL if key.idx < 0.
+For example, running checkpatch on commit be6577af0cef
+("parisc: Add atomic64_set_release() define to avoid CPU soft lockups"),
+gives:
 
-Reported-by: syzbot+b1bb342d1d097516cbda@syzkaller.appspotmail.com
-Tested-by: syzbot+b1bb342d1d097516cbda@syzkaller.appspotmail.com
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+WARNING: Missing Signed-off-by: line by nominal patch author
+'John David Anglin <dave.anglin@bell.net>'
+
+The signoff line was:
+"Signed-off-by: Dave Anglin <dave.anglin@bell.net>"
+
+Clearly the author has signed off but with a slightly different version
+of his name. A more appropriate warning would have been to point out
+at the name mismatch instead.
+
+Previously, the values assumed by $authorsignoff were either 0 or 1
+to indicate whether a proper sign off by author is present.
+Extended the checks to handle four new cases.
+
+$authorsignoff values now denote the following:
+
+0: Missing sign off by patch author.
+
+1: Sign off present and identical.
+
+2: Addresses and names match, but comments differ.
+   "James Watson(JW) <james@gmail.com>", "James Watson <james@gmail.com>"
+
+3: Addresses match, but names are different.
+   "James Watson <james@gmail.com>", "James <james@gmail.com>"
+
+4: Names match, but addresses are different.
+   "James Watson <james@watson.com>", "James Watson <james@gmail.com>"
+
+5: Names match, addresses excluding subaddress details (RFC 5233) match.
+   "James Watson <james@gmail.com>", "James Watson <james+a@gmail.com>"
+
+Suggested-by: Joe Perches <joe@perches.com>
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 ---
- net/wireless/nl80211.c | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/checkpatch.pl | 93 +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 77 insertions(+), 16 deletions(-)
 
-diff --git a/net/wireless/nl80211.c b/net/wireless/nl80211.c
-index 2c9e9a2d1688..7fd45f6ddb05 100644
---- a/net/wireless/nl80211.c
-+++ b/net/wireless/nl80211.c
-@@ -4172,6 +4172,9 @@ static int nl80211_del_key(struct sk_buff *skb, struct genl_info *info)
- 	if (err)
- 		return err;
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 31624bbb342e..6e0a0d4603d0 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -1163,10 +1163,10 @@ sub parse_email {
+ 		}
+ 	}
  
-+	if (key.idx < 0)
-+		return -EINVAL;
++	$comment = trim($comment);
+ 	$name = trim($name);
+ 	$name =~ s/^\"|\"$//g;
+-	$name =~ s/(\s*\([^\)]+\))\s*//;
+-	if (defined($1)) {
++	if ($name =~ s/(\s*\([^\)]+\))\s*//) {
+ 		$name_comment = trim($1);
+ 	}
+ 	$address = trim($address);
+@@ -1181,10 +1181,12 @@ sub parse_email {
+ }
+ 
+ sub format_email {
+-	my ($name, $address) = @_;
++	my ($name, $name_comment, $address, $comment) = @_;
+ 
+ 	my $formatted_email;
+ 
++	$name_comment = trim($name_comment);
++	$comment = trim($comment);
+ 	$name = trim($name);
+ 	$name =~ s/^\"|\"$//g;
+ 	$address = trim($address);
+@@ -1197,9 +1199,9 @@ sub format_email {
+ 	if ("$name" eq "") {
+ 		$formatted_email = "$address";
+ 	} else {
+-		$formatted_email = "$name <$address>";
++		$formatted_email = "$name$name_comment <$address>";
+ 	}
+-
++	$formatted_email .= "$comment";
+ 	return $formatted_email;
+ }
+ 
+@@ -1207,17 +1209,23 @@ sub reformat_email {
+ 	my ($email) = @_;
+ 
+ 	my ($email_name, $name_comment, $email_address, $comment) = parse_email($email);
+-	return format_email($email_name, $email_address);
++	return format_email($email_name, $name_comment, $email_address, $comment);
+ }
+ 
+ sub same_email_addresses {
+-	my ($email1, $email2) = @_;
++	my ($email1, $email2, $match_comment) = @_;
+ 
+ 	my ($email1_name, $name1_comment, $email1_address, $comment1) = parse_email($email1);
+ 	my ($email2_name, $name2_comment, $email2_address, $comment2) = parse_email($email2);
+ 
++	if ($match_comment != 1) {
++		return $email1_name eq $email2_name &&
++		       $email1_address eq $email2_address;
++	}
+ 	return $email1_name eq $email2_name &&
+-	       $email1_address eq $email2_address;
++	       $email1_address eq $email2_address &&
++	       $name1_comment eq $name2_comment &&
++	       $comment1 eq $comment2;
+ }
+ 
+ sub which {
+@@ -2347,6 +2355,7 @@ sub process {
+ 	my $signoff = 0;
+ 	my $author = '';
+ 	my $authorsignoff = 0;
++	my $author_sob = '';
+ 	my $is_patch = 0;
+ 	my $is_binding_patch = -1;
+ 	my $in_header_lines = $file ? 0 : 1;
+@@ -2674,9 +2683,37 @@ sub process {
+ 		if ($line =~ /^\s*signed-off-by:\s*(.*)/i) {
+ 			$signoff++;
+ 			$in_commit_log = 0;
+-			if ($author ne '') {
+-				if (same_email_addresses($1, $author)) {
++			if ($author ne ''  && $authorsignoff != 1) {
++				if (same_email_addresses($1, $author, 1)) {
+ 					$authorsignoff = 1;
++				} else {
++					my $ctx = $1;
++					my ($email_name, $email_comment, $email_address, $comment1) = parse_email($ctx);
++					my ($author_name, $author_comment, $author_address, $comment2) = parse_email($author);
 +
- 	if (info->attrs[NL80211_ATTR_MAC])
- 		mac_addr = nla_data(info->attrs[NL80211_ATTR_MAC]);
++					if ($email_address eq $author_address && $email_name eq $author_name) {
++						$author_sob = $ctx;
++						$authorsignoff = 2;
++					} elsif ($email_address eq $author_address) {
++						$author_sob = $ctx;
++						$authorsignoff = 3;
++					} elsif ($email_name eq $author_name) {
++						$author_sob = $ctx;
++						$authorsignoff = 4;
++
++						my $address1 = $email_address;
++						my $address2 = $author_address;
++
++						if ($address1 =~ /(\S+)\+\S+(\@.*)/) {
++							$address1 = "$1$2";
++						}
++						if ($address2 =~ /(\S+)\+\S+(\@.*)/) {
++							$address2 = "$1$2";
++						}
++						if ($address1 eq $address2) {
++							$authorsignoff = 5;
++						}
++					}
+ 				}
+ 			}
+ 		}
+@@ -2733,7 +2770,7 @@ sub process {
+ 			}
+ 
+ 			my ($email_name, $name_comment, $email_address, $comment) = parse_email($email);
+-			my $suggested_email = format_email(($email_name, $email_address));
++			my $suggested_email = format_email(($email_name, $name_comment, $email_address, $comment));
+ 			if ($suggested_email eq "") {
+ 				ERROR("BAD_SIGN_OFF",
+ 				      "Unrecognized email address: '$email'\n" . $herecurr);
+@@ -2743,9 +2780,9 @@ sub process {
+ 				$dequoted =~ s/" </ </;
+ 				# Don't force email to have quotes
+ 				# Allow just an angle bracketed address
+-				if (!same_email_addresses($email, $suggested_email)) {
++				if (!same_email_addresses($email, $suggested_email, 0)) {
+ 					WARN("BAD_SIGN_OFF",
+-					     "email address '$email' might be better as '$suggested_email$comment'\n" . $herecurr);
++					     "email address '$email' might be better as '$suggested_email'\n" . $herecurr);
+ 				}
+ 			}
+ 
+@@ -6891,9 +6928,33 @@ sub process {
+ 		if ($signoff == 0) {
+ 			ERROR("MISSING_SIGN_OFF",
+ 			      "Missing Signed-off-by: line(s)\n");
+-		} elsif (!$authorsignoff) {
+-			WARN("NO_AUTHOR_SIGN_OFF",
+-			     "Missing Signed-off-by: line by nominal patch author '$author'\n");
++		} elsif ($authorsignoff != 1) {
++			# authorsignoff values:
++			# 0 -> missing sign off
++			# 1 -> sign off identical
++			# 2 -> names and addresses match, comments mismatch
++			# 3 -> addresses match, names different
++			# 4 -> names match, addresses different
++			# 5 -> names match, addresses excluding subaddress details (refer RFC 5233) match
++
++			my $sob_msg = "'From: $author' != 'Signed-off-by: $author_sob'";
++
++			if ($authorsignoff == 0) {
++				ERROR("NO_AUTHOR_SIGN_OFF",
++				      "Missing Signed-off-by: line by nominal patch author '$author'\n");
++			} elsif ($authorsignoff == 2) {
++				CHK("NO_AUTHOR_SIGN_OFF",
++				    "From:/Signed-off-by: email comments mismatch: $sob_msg\n");
++			} elsif ($authorsignoff == 3) {
++				WARN("NO_AUTHOR_SIGN_OFF",
++				     "From:/Signed-off-by: email name mismatch: $sob_msg\n");
++			} elsif ($authorsignoff == 4) {
++				WARN("NO_AUTHOR_SIGN_OFF",
++				     "From:/Signed-off-by: email address mismatch: $sob_msg\n");
++			} elsif ($authorsignoff == 5) {
++				WARN("NO_AUTHOR_SIGN_OFF",
++				     "From:/Signed-off-by: email subaddress mismatch: $sob_msg\n");
++			}
+ 		}
+ 	}
  
 -- 
-2.25.1
+2.27.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
