@@ -2,103 +2,76 @@ Return-Path: <SRS0=QZ3P=DR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09622C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 10 Oct 2020 18:05:03 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4BE1C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 10 Oct 2020 18:16:51 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6F873224B2
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 10 Oct 2020 18:05:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 40C7F224D4
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 10 Oct 2020 18:16:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWsO8rw+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F873224B2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="PO3hbo57"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40C7F224D4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D57E8204C6;
-	Sat, 10 Oct 2020 18:05:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 14B618741B;
+	Sat, 10 Oct 2020 18:16:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3aRqEuB8uOMd; Sat, 10 Oct 2020 18:16:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id A1DB38741A;
+	Sat, 10 Oct 2020 18:16:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 964A1C07FF;
+	Sat, 10 Oct 2020 18:16:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2D5A2C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 10 Oct 2020 18:16:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 1131820515
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 10 Oct 2020 18:16:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SgTmSBFnAyGA; Sat, 10 Oct 2020 18:05:00 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 50925203AE;
-	Sat, 10 Oct 2020 18:05:00 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 33646C07FF;
-	Sat, 10 Oct 2020 18:05:00 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6A528C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 18:04:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 61B8D872CC
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 18:04:58 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TK0ghUkcDbUA
+ with ESMTP id XXWAdlegxEjX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 18:04:57 +0000 (UTC)
+ Sat, 10 Oct 2020 18:16:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4C5F9872C9
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 48158204ED
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 18:04:57 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id l18so999517pgg.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 11:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=G7Wfxd5rme1m7TClufp4VEut1kgj/lI9DWLimurfbPU=;
- b=LWsO8rw+FZR5RRECdnqbt7diUHNUjZdWF2oU2FMh0RyNEgdVxtw0fHHKEPiC/TmnF9
- j+lCXbh6uGaWIRSCzQoH3VogVmXxU0Szx4+bFHsB9bb/2F6rsOxPzirPJshPMdWoJP6Q
- CPvEXYrpZ+R7z2Hpv0HEpDoDGCrSctQpIsvrgVB/JbkttjjPTEhELFLz0t6adTLCtAfa
- +EbbDH6FYZ3txeF2PulBp/mzRnwj9vglchUGBtR2vD6XcIvoig6Xh7f7N9Abv10xBlvi
- 4odPi5MLdHJjxReojngmNLMuO7zbszXE6I4SQEmDU3FIoEIb1W99pNyZXwJ0BB+lFj2C
- utKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=G7Wfxd5rme1m7TClufp4VEut1kgj/lI9DWLimurfbPU=;
- b=Adh7loSnqM7tM2/fMUmZNmb9BGud6ugTPaH7hwLXjK8U1XezgBNkQ2bvY0F26btHLj
- 8+uHlWIqwchVN1hwFuqrXtpojFeTlJ4Vm9fwt0SFXadNTEEGm3aSSoHXxOCLrhyi+WkI
- akdF3myjOn15KKCjJFcwFHxGM31Xc9+LYBnxpA0lFO0VQheMzZFqDP2NFndXdv5oszeJ
- TrrJ5nNrO6g55P5LmJFNPXUBmABKerhU7WVl62ZsSDdjaX+LVrGfkhhAY206HcjxUUSA
- mEV0OTN9RZMQF6OS0TcshBthcu5ZL7QlsK5dpza9U4+79MKJWRpFkBB2VYqK9c1rIFYz
- gbIw==
-X-Gm-Message-State: AOAM5326PXq3yRQ5sdz48XDlhltM4ABFfaW5pqHneYASLZw2LgnCvQdX
- RMpew5XWPU62raCC5h9P8aA=
-X-Google-Smtp-Source: ABdhPJxPOFAi9ocv/veCG4BPSrVt24N8PY2lvwQ4bnT1hXZ0f8ZFHG2J43pWpbWhkBhgpK3kdJP0uQ==
-X-Received: by 2002:a17:90a:aa18:: with SMTP id
- k24mr11040344pjq.231.1602353096497; 
- Sat, 10 Oct 2020 11:04:56 -0700 (PDT)
-Received: from [192.168.0.104] ([49.207.200.2])
- by smtp.gmail.com with ESMTPSA id t7sm16189012pjy.33.2020.10.10.11.04.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 10 Oct 2020 11:04:55 -0700 (PDT)
-To: Jakub Kicinski <kuba@kernel.org>
+ Sat, 10 Oct 2020 18:16:48 +0000 (UTC)
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
+ [163.114.132.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 74275224D2;
+ Sat, 10 Oct 2020 18:16:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602353807;
+ bh=sLoHu4Fmfk0Nq0w8TdeuFODgOJ4sZF27hA5hc3Z4lxM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=PO3hbo570m8zLVc7tkeR02Z1xJ24W0DnKQpgawOGaNATo0sOHXDeWP2OK9NT+xIX3
+ Ylkj4e/s9IuCBXVlqUiVavK4xH84UKtgxeSNw4UFL9Ji7t6g9z5Z0onpZOs9SumNNz
+ ivOmZIqbqR+0EqtyMggbvqSRPqhe6lALjfKrHhJs=
+Date: Sat, 10 Oct 2020 11:16:45 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Message-ID: <20201010111645.334647af@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <0de8e509-7ca5-7faf-70bf-5880ce0fc15c@gmail.com>
 References: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
  <20201010095302.5309c118@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <0de8e509-7ca5-7faf-70bf-5880ce0fc15c@gmail.com>
-Date: Sat, 10 Oct 2020 23:34:51 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <0de8e509-7ca5-7faf-70bf-5880ce0fc15c@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201010095302.5309c118@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Language: en-US
 Cc: Petko Manolov <petkan@nucleusys.com>, netdev@vger.kernel.org,
  linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
@@ -116,82 +89,35 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
-
-On 10/10/20 10:29 pm, Jakub Kicinski wrote:
-> On Sat, 10 Oct 2020 12:14:59 +0530 Anant Thazhemadam wrote:
->> get_registers() directly returns the return value of
->> usb_control_msg_recv() - 0 if successful, and negative error number =
-
->> otherwise.
-> Are you expecting Greg to take this as a part of some USB subsystem
-> changes? I don't see usb_control_msg_recv() in my tree, and the
-> semantics of usb_control_msg() are not what you described.
-
-No, I'm not. usb_control_msg_recv() is an API that was recently
-introduced, and get_registers() in rtl8150.c was also modified to
-use it in order to prevent partial reads.
-
-By your tree, I assume you mean
-=A0=A0=A0 https://git.kernel.org/pub/scm/linux/kernel/git/kuba/linux.git/
-(it was the only one I could find).
-
-I don't see the commit that this patch is supposed to fix in your
-tree either... :/
-
-Nonetheless, this commit fixes an issue that was applied to the
-networking tree, and has made its way into linux-next as well, if
-I'm not mistaken.
-
->> However, in set_ethernet_addr(), this return value is incorrectly =
-
->> checked.
->>
->> Since this return value will never be equal to sizeof(node_id), a =
-
->> random MAC address will always be generated and assigned to the =
-
->> device; even in cases when get_registers() is successful.
->>
->> Correctly modifying the condition that checks if get_registers() was =
-
->> successful or not fixes this problem, and copies the ethernet address
->> appropriately.
->>
->> Fixes: f45a4248ea4c ("set random MAC address when set_ethernet_addr() fa=
-ils")
->> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-> The fixes tag does not follow the standard format:
->
-> Fixes tag: Fixes: f45a4248ea4c ("set random MAC address when set_ethernet=
-_addr() fails")
-> Has these problem(s):
-> 	- Subject does not match target commit subject
-> 	  Just use
-> 		git log -1 --format=3D'Fixes: %h ("%s")'
->
->
-> Please put the relevant maintainer in the To: field of the email, and
-> even better - also mark the patch as [PATCH net], since it's a
-> networking fix.
-
-The script I've been using for sending patches in had been configured to CC
-the maintainer(s) and respective mailing list(s). Sorry about that.
-
-I will put the relevant maintainer in the To: field, fix the Fixes tag, and
-mark the patch as [PATCH net] as well and send in a v2.
-
-Thank you for your time.
-
-Thanks,
-Anant
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gU2F0LCAxMCBPY3QgMjAyMCAyMzozNDo1MSArMDUzMCBBbmFudCBUaGF6aGVtYWRhbSB3cm90
+ZToKPiBPbiAxMC8xMC8yMCAxMDoyOSBwbSwgSmFrdWIgS2ljaW5za2kgd3JvdGU6Cj4gPiBPbiBT
+YXQsIDEwIE9jdCAyMDIwIDEyOjE0OjU5ICswNTMwIEFuYW50IFRoYXpoZW1hZGFtIHdyb3RlOiAg
+Cj4gPj4gZ2V0X3JlZ2lzdGVycygpIGRpcmVjdGx5IHJldHVybnMgdGhlIHJldHVybiB2YWx1ZSBv
+Zgo+ID4+IHVzYl9jb250cm9sX21zZ19yZWN2KCkgLSAwIGlmIHN1Y2Nlc3NmdWwsIGFuZCBuZWdh
+dGl2ZSBlcnJvciBudW1iZXIgCj4gPj4gb3RoZXJ3aXNlLiAgCj4gPiBBcmUgeW91IGV4cGVjdGlu
+ZyBHcmVnIHRvIHRha2UgdGhpcyBhcyBhIHBhcnQgb2Ygc29tZSBVU0Igc3Vic3lzdGVtCj4gPiBj
+aGFuZ2VzPyBJIGRvbid0IHNlZSB1c2JfY29udHJvbF9tc2dfcmVjdigpIGluIG15IHRyZWUsIGFu
+ZCB0aGUKPiA+IHNlbWFudGljcyBvZiB1c2JfY29udHJvbF9tc2coKSBhcmUgbm90IHdoYXQgeW91
+IGRlc2NyaWJlZC4gIAo+IAo+IE5vLCBJJ20gbm90LiB1c2JfY29udHJvbF9tc2dfcmVjdigpIGlz
+IGFuIEFQSSB0aGF0IHdhcyByZWNlbnRseQo+IGludHJvZHVjZWQsIGFuZCBnZXRfcmVnaXN0ZXJz
+KCkgaW4gcnRsODE1MC5jIHdhcyBhbHNvIG1vZGlmaWVkIHRvCj4gdXNlIGl0IGluIG9yZGVyIHRv
+IHByZXZlbnQgcGFydGlhbCByZWFkcy4KPiAKPiBCeSB5b3VyIHRyZWUsIEkgYXNzdW1lIHlvdSBt
+ZWFuCj4gwqDCoMKgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
+Z2l0L2t1YmEvbGludXguZ2l0Lwo+IChpdCB3YXMgdGhlIG9ubHkgb25lIEkgY291bGQgZmluZCku
+Cj4gCj4gSSBkb24ndCBzZWUgdGhlIGNvbW1pdCB0aGF0IHRoaXMgcGF0Y2ggaXMgc3VwcG9zZWQg
+dG8gZml4IGluIHlvdXIKPiB0cmVlIGVpdGhlci4uLiA6Lwo+IAo+IE5vbmV0aGVsZXNzLCB0aGlz
+IGNvbW1pdCBmaXhlcyBhbiBpc3N1ZSB0aGF0IHdhcyBhcHBsaWVkIHRvIHRoZQo+IG5ldHdvcmtp
+bmcgdHJlZSwgYW5kIGhhcyBtYWRlIGl0cyB3YXkgaW50byBsaW51eC1uZXh0IGFzIHdlbGwsIGlm
+Cj4gSSdtIG5vdCBtaXN0YWtlbi4KCkkgbWVhbiB0aGUgbmV0d29ya2luZyB0cmVlLCB3aGF0J3Mg
+dGhlIGNvbW1pdCBJRCBpbiBsaW51eC1uZXh0PwoKWW91ciBmaXhlcyB0YWcgcG9pbnRzIHRvIGY0
+NWE0MjQ4ZWE0YywgYnV0IGxvb2tzIGxpa2UgdGhlIGNvZGUgd2FzCnF1aXRlIGNvcnJlY3QgYXQg
+dGhhdCBwb2ludC4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVz
+QGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24u
+b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
