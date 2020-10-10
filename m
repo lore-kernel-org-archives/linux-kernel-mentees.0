@@ -2,80 +2,80 @@ Return-Path: <SRS0=QZ3P=DR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF45C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 10 Oct 2020 16:59:38 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8CB3C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 10 Oct 2020 17:03:52 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 90B3C2244C
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 10 Oct 2020 16:59:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3AFB422228
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 10 Oct 2020 17:03:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VhD7iw2p"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 90B3C2244C
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="nif7FEXA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AFB422228
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 253062E342;
-	Sat, 10 Oct 2020 16:59:37 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sxCmXzk2npHD; Sat, 10 Oct 2020 16:59:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id C4E072E336;
-	Sat, 10 Oct 2020 16:59:35 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A622FC07FF;
-	Sat, 10 Oct 2020 16:59:35 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CED89C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 16:59:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B223087839
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 16:59:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C329D87839;
+	Sat, 10 Oct 2020 17:03:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jwL1gnCZ5ekx
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LyqgKqWEPa5P; Sat, 10 Oct 2020 17:03:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 56EC687783;
+	Sat, 10 Oct 2020 17:03:51 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 44FD8C07FF;
+	Sat, 10 Oct 2020 17:03:51 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F7C1C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 16:59:33 +0000 (UTC)
+ Sat, 10 Oct 2020 17:03:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4E8F8868A6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 10 Oct 2020 17:03:50 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id XGHW3nVi1WXn
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 10 Oct 2020 17:03:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 987BA87833
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3873D867ED
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Oct 2020 16:59:33 +0000 (UTC)
+ Sat, 10 Oct 2020 17:03:49 +0000 (UTC)
 Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
  [163.114.132.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 082792242F;
- Sat, 10 Oct 2020 16:59:32 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 49131221FE;
+ Sat, 10 Oct 2020 17:03:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602349173;
- bh=zdnFps3CzCUlnTgfjVcd7CjD9ds3BSlytH52crD8Aa0=;
+ s=default; t=1602349428;
+ bh=d0LFuyXXJbRxphXVoTE7xJapgi4yM0kVr93JTctrCqc=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VhD7iw2pL3eWIbAuUi4Q+/Bz8VIxfgPZqMk4f68r5HNAL7VdOoLfiP+OEe4p6KFFZ
- O/kbQyaPj6QGBJBTktsu9nPYPZup87CdfK5mWzexa4gtdjUVJi3p06r3mfUEHdGp9o
- yIkoxThpm9buzGfsaOY7ygGCcNB3d/VX9pFe5Alc=
-Date: Sat, 10 Oct 2020 09:59:31 -0700
+ b=nif7FEXAZPFBPMgF+HoD/XN8C3N3jzWD+luDeDHzdcoHuFElMVxv2+DtBRzbsp+Hi
+ ff7M7YsK8mSPltbzzjTZ5G10WFGrbxs7vIx2TqN6xsiks5aA6gHgh4wmB2XP+dqrSw
+ 5lD2YnIGYc6KQzz0Z8t05rBRMn5gCTxmMMpEnaXI=
+Date: Sat, 10 Oct 2020 10:03:46 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <20201010095302.5309c118@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
-References: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
+Message-ID: <20201010100346.158cbf62@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201010065623.10189-1-anant.thazhemadam@gmail.com>
+References: <20201010065623.10189-1-anant.thazhemadam@gmail.com>
 MIME-Version: 1.0
-Cc: Petko Manolov <petkan@nucleusys.com>, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "David S. Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: usb: rtl8150: don't
- incorrectly assign random MAC addresses
+Subject: Re: [Linux-kernel-mentees] [PATCH] net: usb: usbnet: update
+ __usbnet_{read|write}_cmd() to use new API
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,41 +93,10 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, 10 Oct 2020 12:14:59 +0530 Anant Thazhemadam wrote:
-> get_registers() directly returns the return value of
-> usb_control_msg_recv() - 0 if successful, and negative error number 
-> otherwise.
+On Sat, 10 Oct 2020 12:26:23 +0530 Anant Thazhemadam wrote:
+> GPF_KERNEL
 
-Are you expecting Greg to take this as a part of some USB subsystem
-changes? I don't see usb_control_msg_recv() in my tree, and the
-semantics of usb_control_msg() are not what you described.
-
-> However, in set_ethernet_addr(), this return value is incorrectly 
-> checked.
-> 
-> Since this return value will never be equal to sizeof(node_id), a 
-> random MAC address will always be generated and assigned to the 
-> device; even in cases when get_registers() is successful.
-> 
-> Correctly modifying the condition that checks if get_registers() was 
-> successful or not fixes this problem, and copies the ethernet address
-> appropriately.
-> 
-> Fixes: f45a4248ea4c ("set random MAC address when set_ethernet_addr() fails")
-> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-
-The fixes tag does not follow the standard format:
-
-Fixes tag: Fixes: f45a4248ea4c ("set random MAC address when set_ethernet_addr() fails")
-Has these problem(s):
-	- Subject does not match target commit subject
-	  Just use
-		git log -1 --format='Fixes: %h ("%s")'
-
-
-Please put the relevant maintainer in the To: field of the email, and
-even better - also mark the patch as [PATCH net], since it's a
-networking fix.
+You haven't even built this, let alone tested :/
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
