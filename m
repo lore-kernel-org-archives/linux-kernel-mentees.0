@@ -2,81 +2,106 @@ Return-Path: <SRS0=Swos=DS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F6DCC433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 17:59:41 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17801C43467
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 18:14:42 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 13674207EA
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 17:59:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6EA5D2222A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 18:14:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="X/9CsasW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 13674207EA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+BQcBWl"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6EA5D2222A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A3792203D5;
-	Sun, 11 Oct 2020 17:59:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1930C85D7D;
+	Sun, 11 Oct 2020 18:14:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OzmQ5n5AWlUj; Sun, 11 Oct 2020 17:59:39 +0000 (UTC)
+	with ESMTP id Erh_PnTtOd3i; Sun, 11 Oct 2020 18:14:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 838F6204B0;
-	Sun, 11 Oct 2020 17:59:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 14A5385C19;
+	Sun, 11 Oct 2020 18:14:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6AC04C07FF;
-	Sun, 11 Oct 2020 17:59:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09E32C0052;
+	Sun, 11 Oct 2020 18:14:39 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27AE3C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 98267C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 17:59:38 +0000 (UTC)
+ Sun, 11 Oct 2020 18:14:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1748D86239
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 875DA85D7D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 17:59:38 +0000 (UTC)
+ Sun, 11 Oct 2020 18:14:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8Qq28r_uuZ_T
+ with ESMTP id KuyK0n_edBJ5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 17:59:36 +0000 (UTC)
+ Sun, 11 Oct 2020 18:14:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D22AD86237
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id D1C3785C19
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 17:59:36 +0000 (UTC)
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
- [163.114.132.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 337F22222A;
- Sun, 11 Oct 2020 17:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602439176;
- bh=kpHPm3b0x7774/V3XF7AlNsW2/7DQu7ykW7w2QiUHmg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=X/9CsasW2yL1pDtbweT1nLYwhP/IWANFFTYZLgSlQLC9spG79Z0kOx81/ozKTmB8j
- jCEwZevWT/u4sqWInkWxOEy+mK6obAoprAAAuo2t66AGRdZ0w6kZHolfC2gb+B8bNa
- Nk3po15C7XSE86KlKYuXKZp2UYn9AzvLNtPoyd2g=
-Date: Sun, 11 Oct 2020 10:59:34 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <20201011105934.5c988cd3@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201011173030.141582-1-anant.thazhemadam@gmail.com>
-References: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
- <20201011173030.141582-1-anant.thazhemadam@gmail.com>
+ Sun, 11 Oct 2020 18:14:37 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id o3so1818485pgr.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 11 Oct 2020 11:14:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UowWsmXleYzuxEdUZhIHh/lbC1bevW2tfb9Za6sH6aM=;
+ b=G+BQcBWlE1epJkNcsrrrtHaaDK1zqxmeJu2AOrpMsrLzWl2RgjDTemfIN2Nestk47+
+ pIUuiiDWTFIegFXywSkYorchoUN3MQ+y+UyexS+CX8dPU45CGagAVTi8Fov+zSDDFqIz
+ tQR3+L0NSFYYgvKevozV6JKaMCLNfugGBW6PoGmYAmWjducq68qSi/JrUn4LZjOrJplm
+ km5BQFCo+kl3kIZMJBGZaudP2yCOAnXWEKaGHxaO38KF1kqiEN96cpRzGKPv2OFyHwzc
+ gIhx79EOKI9O3kgcNx/avOW6wjvJbQKuUqtPtf/fsbSD9KRIPbz++hGxBVK1h/vmArTH
+ 3XrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UowWsmXleYzuxEdUZhIHh/lbC1bevW2tfb9Za6sH6aM=;
+ b=Jtu2680Rk/Lj3nw2MDeTpvaNtqcci2OQ3Hi5TN+4wvg4HnDsUsycrB6Pk9PpVsbRiU
+ gUBu/k49N+GEIpBykvSnPoI4N3HS4PBXStYqQY+bYHJjXvZqNqEOWjqluKAg5TbEks4o
+ BcTJtiK4HepmEzlOOXrKSKUJM6QhBGOhvp2NawcnLnZWNocA1GwFc3CXY1iwb2Ag5rqw
+ ws1R7oEjyiEUhxGd1Jb/bO5hsUlNlMvNz2e2Bskrb+DK66ic9rrSK/qJhj216GaQKEab
+ YjJszL6TwG+F20Db9Xn7wwpBvF/iPpn0QpVYBtPubJGoHXkTW4HTYO4FE2P4ftzjBlgJ
+ bdRQ==
+X-Gm-Message-State: AOAM531AAtlvDTZKc7N74Hi6eqqykuASbP4kwh12QwhPxPXRXMmq92rA
+ MKlqEeu6mDvnbQuKG64ObBCB4VFZOlvgKw==
+X-Google-Smtp-Source: ABdhPJx/OgjLLVhFqZfXDwi7NkWBZF/uDN23TUVF9opMvmRerHBUfxSd1BOLshP4utZX8XMswviSXQ==
+X-Received: by 2002:a17:90b:412:: with SMTP id
+ v18mr16390718pjz.216.1602440076874; 
+ Sun, 11 Oct 2020 11:14:36 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
+ by smtp.gmail.com with ESMTPSA id y126sm16664267pgb.40.2020.10.11.11.14.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Oct 2020 11:14:36 -0700 (PDT)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <20201011162123.1151215-1-ujjwalkumar0501@gmail.com>
+ <alpine.DEB.2.21.2010111946390.5535@felia>
+From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+Message-ID: <28381616-fb42-4efa-7a5a-7127e1a3f794@gmail.com>
+Date: Sun, 11 Oct 2020 23:44:33 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Cc: sfr@canb.auug.org.au, petkan@nucleusys.com, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-next@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- davem@davemloft.net
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] net: usb: rtl8150: don't
- incorrectly assign random MAC addresses
+In-Reply-To: <alpine.DEB.2.21.2010111946390.5535@felia>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH] checkpatch: add shebang
+	check to EXECUTE_PERMISSIONS
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,35 +119,57 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, 11 Oct 2020 23:00:30 +0530 Anant Thazhemadam wrote:
-> In set_ethernet_addr(), if get_registers() succeeds, the ethernet address
-> that was read must be copied over. Otherwise, a random ethernet address
-> must be assigned.
+On 11/10/20 11:20 pm, Lukas Bulwahn wrote:
 > 
-> get_registers() returns 0 if successful, and negative error number
-> otherwise. However, in set_ethernet_addr(), this return value is
-> incorrectly checked.
 > 
-> Since this return value will never be equal to sizeof(node_id), a
-> random MAC address will always be generated and assigned to the
-> device; even in cases when get_registers() is successful.
+> On Sun, 11 Oct 2020, Ujjwal Kumar wrote:
 > 
-> Correctly modifying the condition that checks if get_registers() was
-> successful or not fixes this problem, and copies the ethernet address
-> appropriately.
+>> checkpatch script checks for invalid EXECUTE_PERMISSIONS on source
+>> files. The script leverages filename extensions and its path in
+>> the repository to decide whether to allow execute permissions on
+>> the file or not.
+>>
+>> Based on current check conditions, a perl script file without
+>> '.pl' extension in its filename and not belonging to 'scripts/'
+>> directory is reported as ERROR which is a false-positive.
+>>
+>> The script can correctly handle patches with mode changes and
+>> shebang line if shebang is taken into account. So, along with
+>> the current check conditions, adding the shebang check in the
+>> check conditions can improve the reports of the script.
+>>
 > 
-> Fixes: f45a4248ea4c ("net: usb: rtl8150: set random MAC address when set_ethernet_addr() fails")
-> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+> I think one of the core design decisions of checkpatch.pl is:
+> 
+> checkpatch.pl can run on a patch, even if the patch does not apply to the 
+> current repository version that is checked out.
 
-This patch is a fix to a conflict resolution in linux-next.
+From our past conversation I remember about this particular point.
 
-linux-next is not a "real" tree, it's an integration tree used to
-figure out conflicts early.
+> 
+> It solely uses the information in the patch, and does not try to guess how 
+> it could be applied etc.
 
-We had let Stephen know about the problem already. Please wait one
-week, and if the problem is still present resend this.
+I am fetching the 'shebang' from the patch itself (therefore I do not 
+understand how does the proposed change violate that design decision?).
 
-Thank you.
+> 
+> This patch violates that core design decisions.
+
+Can you please point out the exact change that violates the design decisions?
+
+> 
+> You can propose to Joe Perches and lkml, but do not be surprised if that 
+> is rejected because of this reason above.
+> 
+> I would be interested in the discussion.
+> 
+> Lukas
+> 
+>  
+
+Thanks
+Ujjwal Kumar
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
