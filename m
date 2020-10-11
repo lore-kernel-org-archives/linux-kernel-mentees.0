@@ -2,108 +2,81 @@ Return-Path: <SRS0=Swos=DS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F1DCC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 18:32:58 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49749C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 18:33:10 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F1A7D2078B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 18:32:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnGrWdKq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1A7D2078B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id BFFC02145D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 18:33:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BFFC02145D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A893485B99;
-	Sun, 11 Oct 2020 18:32:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5E4C8204D8;
+	Sun, 11 Oct 2020 18:33:09 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rrY5biXXqinl; Sun, 11 Oct 2020 18:33:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 65EF4204C2;
+	Sun, 11 Oct 2020 18:33:07 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B59CC0052;
+	Sun, 11 Oct 2020 18:33:07 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CA8AFC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 11 Oct 2020 18:33:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B26D185B99
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 11 Oct 2020 18:33:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7uxSWeJt9GmO; Sun, 11 Oct 2020 18:32:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4E06685008;
-	Sun, 11 Oct 2020 18:32:56 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 32886C0052;
-	Sun, 11 Oct 2020 18:32:56 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EC482C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 18:32:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id E863A875EC
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 18:32:54 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fKMl83PHGpOp
+ with ESMTP id We9yfjlJYSxM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 18:32:54 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3973C875EA
+ Sun, 11 Oct 2020 18:33:04 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0206.hostedemail.com
+ [216.40.44.206])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BA5AA85008
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 18:32:54 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id g9so11856837pgh.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 11:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0nBSwUP0/nh4c1VTCbemBuRSryKJbMShtl3MID456pw=;
- b=fnGrWdKqxkuasgu/CaJd6Ff0yDlee7v6l91qDpVFw7URCHZKUQh/5n//oY1fr+7TLk
- Pl3QPvHpPbIR4Yu3vvcbvSVABWiTy0KAJwD4hjP+Zhp45D4ciOqbbA50H+4d7MpQ74Ra
- /RHTnJVGI9BU67UeeuMfnUOFXwH/F51z7lzVROeYuYtPwimUrvFCEnlPaq+k2WH6aGii
- R3RIk96X5NUXTfocmXnqxtxdsdQyykD9ciSz+vNoc5RyDMxxiScmiOvEXonwfDrM6m9I
- YzN/qnqU70DiYP8kKfrVcbVTa4AWmD7VaLY1+VSf3xdMI4a2yLz9s1pcy2HMjPLH97i0
- wOtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0nBSwUP0/nh4c1VTCbemBuRSryKJbMShtl3MID456pw=;
- b=f7ZGtfn/z+YwcerijE2uZdEZ/cVQl8rklVpR9UAcdEs//z+WmdbZCIehhEGY6syMEf
- bTP+JMyOUisum8fkwGuyN4sbNg8WVjE22alWhEy7IZBj3GnL3iYEq1mGaNng4gIVuZ0d
- VfXVr7kRwHWe8vvSxWTsRWI3sCB7z9JnRRv8e7oxiNndiiDVeIuOUwMAjBB0mkXTEn0O
- WR42zhTg/Q30b3D/RZsXd2RYHWn5g79iPko7LWH5dU9M1b4g6adU3xhGCjH8mhep+sb6
- 3P+BeFsEwpK6IMZmlOvnOv2HJ3/O26IRcsfqx6DsPZnfhHNKMsQsBMZL+84Pz2bxg8AO
- fiCg==
-X-Gm-Message-State: AOAM532Pyxftbj8oV7776X7YLf+DA0DRY7o+XeQDSOpgr9Knak6LlEYD
- PwowSg5jxzRykJCM6ya14DGOubW3g47gFQ==
-X-Google-Smtp-Source: ABdhPJy1PLqSOS8cRFJyEJoHLOB5O2HEgs6RhTnExUuhVLXF5IEFmaL/r+hELeX8inhpQISjKFfyYg==
-X-Received: by 2002:a17:90a:5881:: with SMTP id
- j1mr6815865pji.56.1602441173269; 
- Sun, 11 Oct 2020 11:32:53 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
- by smtp.gmail.com with ESMTPSA id s77sm17402756pfc.164.2020.10.11.11.32.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Oct 2020 11:32:52 -0700 (PDT)
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <20201011162123.1151215-1-ujjwalkumar0501@gmail.com>
- <alpine.DEB.2.21.2010111946390.5535@felia>
- <28381616-fb42-4efa-7a5a-7127e1a3f794@gmail.com>
- <alpine.DEB.2.21.2010112017490.412@felia>
-From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-Message-ID: <3a27184a-0bab-92e5-1d86-a74bc699ca57@gmail.com>
-Date: Mon, 12 Oct 2020 00:02:49 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Sun, 11 Oct 2020 18:33:04 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id 72AC518224D6B;
+ Sun, 11 Oct 2020 18:33:03 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: smell48_4f01435271f4
+X-Filterd-Recvd-Size: 4300
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf04.hostedemail.com (Postfix) with ESMTPA;
+ Sun, 11 Oct 2020 18:33:01 +0000 (UTC)
+Message-ID: <6307397bd43636fea2e7341d24417cbbc3aaf922.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Jakub Kicinski <kuba@kernel.org>, Anant Thazhemadam
+ <anant.thazhemadam@gmail.com>
+Date: Sun, 11 Oct 2020 11:33:00 -0700
+In-Reply-To: <20201011105934.5c988cd3@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
+ <20201011173030.141582-1-anant.thazhemadam@gmail.com>
+ <20201011105934.5c988cd3@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.2010112017490.412@felia>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [RFC PATCH] checkpatch: add shebang
-	check to EXECUTE_PERMISSIONS
+Cc: sfr@canb.auug.org.au, petkan@nucleusys.com, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-next@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] net: usb: rtl8150: don't
+ incorrectly assign random MAC addresses
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,71 +94,60 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 11/10/20 11:49 pm, Lukas Bulwahn wrote:
-> 
-> 
-> On Sun, 11 Oct 2020, Ujjwal Kumar wrote:
-> 
->> On 11/10/20 11:20 pm, Lukas Bulwahn wrote:
->>>
->>>
->>> On Sun, 11 Oct 2020, Ujjwal Kumar wrote:
->>>
->>>> checkpatch script checks for invalid EXECUTE_PERMISSIONS on source
->>>> files. The script leverages filename extensions and its path in
->>>> the repository to decide whether to allow execute permissions on
->>>> the file or not.
->>>>
->>>> Based on current check conditions, a perl script file without
->>>> '.pl' extension in its filename and not belonging to 'scripts/'
->>>> directory is reported as ERROR which is a false-positive.
->>>>
->>>> The script can correctly handle patches with mode changes and
->>>> shebang line if shebang is taken into account. So, along with
->>>> the current check conditions, adding the shebang check in the
->>>> check conditions can improve the reports of the script.
->>>>
->>>
->>> I think one of the core design decisions of checkpatch.pl is:
->>>
->>> checkpatch.pl can run on a patch, even if the patch does not apply to the 
->>> current repository version that is checked out.
->>
->> From our past conversation I remember about this particular point.
->>
->>>
->>> It solely uses the information in the patch, and does not try to guess how 
->>> it could be applied etc.
->>
->> I am fetching the 'shebang' from the patch itself (therefore I do not 
->> understand how does the proposed change violate that design decision?).
->>
-> 
-> Okay, maybe I misread the patch; so, where those the first line come from?
-> What if that first line is not part of the patch?
+On Sun, 2020-10-11 at 10:59 -0700, Jakub Kicinski wrote:
+> On Sun, 11 Oct 2020 23:00:30 +0530 Anant Thazhemadam wrote:
+> > In set_ethernet_addr(), if get_registers() succeeds, the ethernet address
+> > that was read must be copied over. Otherwise, a random ethernet address
+> > must be assigned.
+> > 
+> > get_registers() returns 0 if successful, and negative error number
+> > otherwise. However, in set_ethernet_addr(), this return value is
+> > incorrectly checked.
+> > 
+> > Since this return value will never be equal to sizeof(node_id), a
+> > random MAC address will always be generated and assigned to the
+> > device; even in cases when get_registers() is successful.
+> > 
+> > Correctly modifying the condition that checks if get_registers() was
+> > successful or not fixes this problem, and copies the ethernet address
+> > appropriately.
 
-In that case there might be a false-positive. But I tried to handle such cases 
-where the first line is in the patch itself.
+There are many unchecked uses of set_registers and get_registers
+ in this file.
 
-Okay, so there are total of 4 cases with file mode change:
-1. mode change + create + modify
-2. mode change + create
-3. mode change + modify
-4. mode change
+If failures are really expected, then it might be better to fix
+them up too.
 
-the patch will handle all cases of type 1 and some cases of type 3.
-Other cases won't be handled because they cannot be handled without 
-breaking the core design decision.
-
-I do have references to say that the cases 2 and 4 are
-
-Which I thought is an improvement over current logic used for the check.
-
-Correct me if I am wrong.
+$ git grep -w '[gs]et_registers' drivers/net/usb/rtl8150.c
+drivers/net/usb/rtl8150.c:static int get_registers(rtl8150_t * dev, u16 indx, u16 size, void *data)
+drivers/net/usb/rtl8150.c:static int set_registers(rtl8150_t * dev, u16 indx, u16 size, const void *data)
+drivers/net/usb/rtl8150.c:      set_registers(dev, PHYADD, sizeof(data), data);
+drivers/net/usb/rtl8150.c:      set_registers(dev, PHYCNT, 1, &tmp);
+drivers/net/usb/rtl8150.c:              get_registers(dev, PHYCNT, 1, data);
+drivers/net/usb/rtl8150.c:              get_registers(dev, PHYDAT, 2, data);
+drivers/net/usb/rtl8150.c:      set_registers(dev, PHYADD, sizeof(data), data);
+drivers/net/usb/rtl8150.c:      set_registers(dev, PHYCNT, 1, &tmp);
+drivers/net/usb/rtl8150.c:              get_registers(dev, PHYCNT, 1, data);
+drivers/net/usb/rtl8150.c:      ret = get_registers(dev, IDR, sizeof(node_id), node_id);
+drivers/net/usb/rtl8150.c:      set_registers(dev, IDR, netdev->addr_len, netdev->dev_addr);
+drivers/net/usb/rtl8150.c:      get_registers(dev, CR, 1, &cr);
+drivers/net/usb/rtl8150.c:      set_registers(dev, CR, 1, &cr);
+drivers/net/usb/rtl8150.c:              set_registers(dev, IDR_EEPROM + (i * 2), 2,
+drivers/net/usb/rtl8150.c:      set_registers(dev, CR, 1, &cr);
+drivers/net/usb/rtl8150.c:      set_registers(dev, CR, 1, &data);
+drivers/net/usb/rtl8150.c:              get_registers(dev, CR, 1, &data);
+drivers/net/usb/rtl8150.c:      set_registers(dev, RCR, 1, &rcr);
+drivers/net/usb/rtl8150.c:      set_registers(dev, TCR, 1, &tcr);
+drivers/net/usb/rtl8150.c:      set_registers(dev, CR, 1, &cr);
+drivers/net/usb/rtl8150.c:      get_registers(dev, MSR, 1, &msr);
+drivers/net/usb/rtl8150.c:      get_registers(dev, CR, 1, &cr);
+drivers/net/usb/rtl8150.c:      set_registers(dev, CR, 1, &cr);
+drivers/net/usb/rtl8150.c:      get_registers(dev, CSCR, 2, &tmp);
+drivers/net/usb/rtl8150.c:      set_registers(dev, IDR, 6, netdev->dev_addr);
+drivers/net/usb/rtl8150.c:      get_registers(dev, BMCR, 2, &bmcr);
+drivers/net/usb/rtl8150.c:      get_registers(dev, ANLP, 2, &lpa);
 
 
-Thanks
-Ujjwal Kumar
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
