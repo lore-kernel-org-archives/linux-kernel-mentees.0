@@ -2,101 +2,105 @@ Return-Path: <SRS0=Swos=DS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0411BC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 16:23:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9D9C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 16:40:16 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5A6B421655
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 16:23:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 54A1E21655
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 11 Oct 2020 16:40:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hWYuf4ib"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5A6B421655
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rIf8lz27"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54A1E21655
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 16E53861C5;
-	Sun, 11 Oct 2020 16:23:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 04136864D0;
+	Sun, 11 Oct 2020 16:40:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ne01NDv435wt; Sun, 11 Oct 2020 16:23:26 +0000 (UTC)
+	with ESMTP id p_j_tlFgITGc; Sun, 11 Oct 2020 16:40:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5CBAE85F57;
-	Sun, 11 Oct 2020 16:23:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7653586027;
+	Sun, 11 Oct 2020 16:40:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 44122C0052;
-	Sun, 11 Oct 2020 16:23:26 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 77276C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5119FC0052;
+	Sun, 11 Oct 2020 16:40:15 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99206C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 16:23:25 +0000 (UTC)
+ Sun, 11 Oct 2020 16:40:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6BB3687633
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8308A864D0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 16:23:25 +0000 (UTC)
+ Sun, 11 Oct 2020 16:40:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hOuE5OqGo5RV
+ with ESMTP id eZCJTlN6DqLu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 16:23:24 +0000 (UTC)
+ Sun, 11 Oct 2020 16:40:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C83B287565
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0FCF386027
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 16:23:24 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id e10so11194656pfj.1
+ Sun, 11 Oct 2020 16:40:12 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id d1so2800938pfc.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Oct 2020 09:23:24 -0700 (PDT)
+ Sun, 11 Oct 2020 09:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hYE4ehUKZjXMDekgb4eAM48AV7kkjiDdfxLTJqssxB0=;
- b=hWYuf4ibs/qOWB8VNI5vC+pQ0L+B0mOhgZRvDWtVBF3rjZ+XObro91wffCkMtG+sMR
- as+BPN0iqwjGR3nguD+MZwpYeMdPQLUGPKBWN1TlQKA0+KrEj+WSJbT5GEamuE1RcLql
- EL5mJi3a7Bwle6hwqXZhmDnmKzGXwh1gXRp/lIDwPG4usKSrGjAHY9iQToF8yldATTZX
- ZT91bhWaEgu08Px9uoLS63U8La5gxL4sBqoKSxa8b1AuFpCjNbkn9Pm3TjFaahP8ByXm
- KPam6QrpYkdadtxwx2WI7G0bpSif+aQo/aWtuF/xadGMoNgjfYRh/Wu5J4S3ypXK0ke4
- LE9w==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kW4wZOh5SNFY8r0+MwJCLa35u134N9OKe7lAtH4Lb/M=;
+ b=rIf8lz27PuxfEsTLHR7X3z30nOgXaeGZ7ofJ9BEMZn9kjT69VCvppzoLc0VyK3qraK
+ cUYgnonAXUHqf5f+mMiqN99B3zaOz4Uy1SexbWb6Fx/jJ3Nuv38htCVPkb7wP7C0Ph8j
+ l9I54NHFEeMxS/avi9ZMvFGQ5aphtdUDraLQc2JliG8ZeShyACzEBpMbSJvt12GltNVr
+ wYADuPyqvaa/upm7CQFviZhw+ZKf1M8//a8h5CqLo8NECpipcyJWHfN7ALGns4X5yUHN
+ E4R3qtI6YQVw4P+jlnX54S1A+i4nJDKz4RYQprggScndOWTk5bEh5iDlAs2lpymOej3o
+ YUHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hYE4ehUKZjXMDekgb4eAM48AV7kkjiDdfxLTJqssxB0=;
- b=JZ2p/hhe8ac/uZRWZl7DLMgwY0EAqTQSP9zRTd3+KJEhqmIrrFB98kHPn9sbLQiDev
- QSd954c+49cY45jGQUC8cCHwy/LgwPz8x9ElSutlye1FYjmr/uVyXLy+fe1Vml/6+gS6
- cx3Bhik25P2xmDxxUYrl2oTR2PoSdh7HwG1mi5ucmDWYtGlWi/Q+XqAioTH76hfGiqvP
- Dj8/9ZLLJp7txSWkwIvnw2JychaF528tuvz6Xh2XALeAju9KC76uzrFARV8dn11yiS6e
- 2CgLHnPDSUxwQgtnz+/QGNful+qVH77q914mV6jqvblZ/8xyOjQUnmleZimzIii2Htko
- N6tA==
-X-Gm-Message-State: AOAM531c75rgrQ6+rRvLFvi18gZ4qkRaVWdHU67XBxeJ94hkGkPrAx/0
- rOR6FUlq9nQ0ThoAZr2ZUp0=
-X-Google-Smtp-Source: ABdhPJzPApn0nVTPfpb9jTqndANnWUSpp2xvA+HE4DHbKvM5yMib43oKxHNdpW6JAGSywNKTyqXFhQ==
-X-Received: by 2002:a17:90b:e15:: with SMTP id
- ge21mr14715086pjb.188.1602433404146; 
- Sun, 11 Oct 2020 09:23:24 -0700 (PDT)
+ bh=kW4wZOh5SNFY8r0+MwJCLa35u134N9OKe7lAtH4Lb/M=;
+ b=FGlEkbnr8DuMhjOYh0RjpINUQzptM2YsfaLwnLzqT4JcZjS7DlsrhmzM6mZNcJ3Np3
+ GdL17Tfld7mL59fGDrUzgAyfk21woCkxnQcSJ0x8dLCUN3UVOaYjhrqjhkWKkmMof9t2
+ LQVSdu9vP4HixOeF7MMXJGgdeIbhhJCOlEU03cLnQ1m/+iISgMKXKIYQfpNv4bkbM3Lx
+ 2NGMJX6IB2s8ocj7CJJbQ4WKS60pYCBMo8d9Iupjeir6Z9tx6h/AVutRqEtooroPEivZ
+ 7aSldpmdlCSzeRIqNUnSp6gF/rJFSb1+EjypxsfaGrf8FniFjofRHhdzRR87wLFSzyEh
+ IqjA==
+X-Gm-Message-State: AOAM5327+pRXaUUiCE4p1XEuKnfRiaeQs6XM6o2Y/JCwhZkH59I8P395
+ dFUt1nL347EZGsncgeo52rlh2Zy2DRvs3Q==
+X-Google-Smtp-Source: ABdhPJwGAWj6KvLcBvCO/kZUl7mOMQlwBRS79Czn5nxxV5y4PMrb5kSnMDv43gGAurURBCHnh47YUw==
+X-Received: by 2002:a17:90b:4b09:: with SMTP id
+ lx9mr15847654pjb.76.1602434411932; 
+ Sun, 11 Oct 2020 09:40:11 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
- by smtp.gmail.com with ESMTPSA id x9sm16393559pgr.22.2020.10.11.09.23.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Oct 2020 09:23:23 -0700 (PDT)
-From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+ by smtp.gmail.com with ESMTPSA id 126sm16989129pfg.192.2020.10.11.09.40.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Oct 2020 09:40:11 -0700 (PDT)
 To: lukas.bulwahn@gmail.com
-Date: Sun, 11 Oct 2020 21:51:25 +0530
-Message-Id: <20201011162123.1151215-1-ujjwalkumar0501@gmail.com>
-X-Mailer: git-send-email 2.26.2
+References: <20201011162123.1151215-1-ujjwalkumar0501@gmail.com>
+From: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+Message-ID: <cbd50f33-9584-6751-80bd-f2c66b8f14b9@gmail.com>
+Date: Sun, 11 Oct 2020 22:10:07 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-Subject: [Linux-kernel-mentees] [RFC PATCH] checkpatch: add shebang check to
-	EXECUTE_PERMISSIONS
+In-Reply-To: <20201011162123.1151215-1-ujjwalkumar0501@gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH] checkpatch: add shebang
+	check to EXECUTE_PERMISSIONS
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,68 +118,40 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-checkpatch script checks for invalid EXECUTE_PERMISSIONS on source
-files. The script leverages filename extensions and its path in
-the repository to decide whether to allow execute permissions on
-the file or not.
+On 11/10/20 9:51 pm, Ujjwal Kumar wrote:
+> checkpatch script checks for invalid EXECUTE_PERMISSIONS on source
+> files. The script leverages filename extensions and its path in
+> the repository to decide whether to allow execute permissions on
+> the file or not.
+> 
+> Based on current check conditions, a perl script file without
+> '.pl' extension in its filename and not belonging to 'scripts/'
+> directory is reported as ERROR which is a false-positive.
+> 
+> The script can correctly handle patches with mode changes and
+> shebang line if shebang is taken into account. So, along with
+> the current check conditions, adding the shebang check in the
+> check conditions can improve the reports of the script.
+> 
+> Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 
-Based on current check conditions, a perl script file without
-'.pl' extension in its filename and not belonging to 'scripts/'
-directory is reported as ERROR which is a false-positive.
+To test the changes, I used the following scripts:
 
-The script can correctly handle patches with mode changes and
-shebang line if shebang is taken into account. So, along with
-the current check conditions, adding the shebang check in the
-check conditions can improve the reports of the script.
+for i in $(find -executable -type f | grep "\.[a-z]" -v | grep "scripts/" -v); \
+do \
+hs=$(git log --reverse --format=%H $i | head -1); \
+echo $hs; \
+done | sort | uniq | \
+xargs -n1 -P7 scripts/checkpatch.pl --show-types --types EXECUTE_PERMISSIONS --terse -g
 
-Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
----
- scripts/checkpatch.pl | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Before patching, the script shows 21 false-positives.
+After applying the patch, the ERRORS are gone.
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index fab38b493cef..e596d30794bf 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1795,6 +1795,23 @@ sub get_stat_here {
- 	return $herectx;
- }
- 
-+sub get_shebang {
-+	my ($linenr, $realfile) = @_;
-+	my $rawline = "";
-+	my $shebang = "";
-+
-+	$rawline = raw_line($linenr, 3);
-+	if (defined $rawline &&
-+		$rawline =~ /^\@\@ -\d+(?:,\d+)? \+(\d+)(,(\d+))? \@\@/) {
-+		if (defined $1 && $1 == 1) {
-+			$shebang = raw_line($linenr, 4);
-+			$shebang = substr $shebang, 1;
-+		}
-+	}
-+
-+	return $shebang;
-+}
-+
- sub cat_vet {
- 	my ($vet) = @_;
- 	my ($res, $coded);
-@@ -2680,7 +2697,9 @@ sub process {
- # Check for incorrect file permissions
- 		if ($line =~ /^new (file )?mode.*[7531]\d{0,2}$/) {
- 			my $permhere = $here . "FILE: $realfile\n";
-+			my $shebang = get_shebang($linenr, $realfile);
- 			if ($realfile !~ m@scripts/@ &&
-+			    $shebang !~ /^#!\s*(\/\w)+.*/ &&
- 			    $realfile !~ /\.(py|pl|awk|sh)$/) {
- 				ERROR("EXECUTE_PERMISSIONS",
- 				      "do not set execute permissions for source files\n" . $permhere);
-
-base-commit: d67bc7812221606e1886620a357b13f906814af7
--- 
-2.26.2
-
+Thanks
+Ujjwal Kumar
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
