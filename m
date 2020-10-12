@@ -2,91 +2,88 @@ Return-Path: <SRS0=/ghF=DT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5011C433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 15:35:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57299C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 16:19:28 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7A3D720878
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 15:35:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9FA512080A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 16:19:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="S4Z7K/Q4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A3D720878
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="qNwNh7mR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FA512080A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5671986E0A;
-	Mon, 12 Oct 2020 15:35:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4FEDA86992;
+	Mon, 12 Oct 2020 16:19:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S+xlBPmZfFUE; Mon, 12 Oct 2020 15:35:52 +0000 (UTC)
+	with ESMTP id AjkgtyIzGDQW; Mon, 12 Oct 2020 16:19:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5934986E08;
-	Mon, 12 Oct 2020 15:35:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D317786951;
+	Mon, 12 Oct 2020 16:19:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3D88AC0893;
-	Mon, 12 Oct 2020 15:35:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C1CC9C0052;
+	Mon, 12 Oct 2020 16:19:26 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E242C0052
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6CF65C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:35:51 +0000 (UTC)
+ Mon, 12 Oct 2020 16:19:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 52E9186E17
+ by whitealder.osuosl.org (Postfix) with ESMTP id 66A848695F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:35:51 +0000 (UTC)
+ Mon, 12 Oct 2020 16:19:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MpeVXcpXCzkw
+ with ESMTP id aFitqTVA8+8G
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:35:49 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from condef-08.nifty.com (condef-08.nifty.com [202.248.20.73])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1D8E686E0A
+ Mon, 12 Oct 2020 16:19:24 +0000 (UTC)
+X-Greylist: delayed 00:46:02 by SQLgrey-1.7.6
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com
+ [210.131.2.81])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5E09986951
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:35:48 +0000 (UTC)
-Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-08.nifty.com
- with ESMTP id 09CFXUOY014847
+ Mon, 12 Oct 2020 16:19:24 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170]) (authenticated)
+ by conssluserg-02.nifty.com with ESMTP id 09CGJBXI003346
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Oct 2020 00:33:30 +0900
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175]) (authenticated)
- by conssluserg-04.nifty.com with ESMTP id 09CFXJad031848
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Oct 2020 00:33:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 09CFXJad031848
+ Tue, 13 Oct 2020 01:19:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 09CGJBXI003346
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1602516799;
- bh=4xfUkRM4tDIXFk/3vrkgZkiCeT2rEb0t423IsRd/G98=;
+ s=dec2015msa; t=1602519552;
+ bh=HSVjCaHtsc2dmRdoJJRl8nIVTZkEJZ3ZKN4IOKEiAz0=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=S4Z7K/Q4dgPotevhgimcaWst96OFcDNem9aT2gZGQEVZQSpbcec2wkRhGrkoR8FRF
- AKgJxRu6983EDPetJ+7/ldK7/GQ6DHGagMcCSpoAnvP0mZScXkUy8GQ0uxogCcx7wo
- J/1ArJR51t87dXtsHaB3AdBoLIWnnPLANOeu3Jd4U5YFTdGfrpGRK34mH69oJbOWUP
- QdwwQfLta5BZuONKcZYFeNiKXhXtdCKK0NpJoYinAO4ijbMtRMgy0yxXO9JClwcW/Q
- KbEcv24TxFdwp9KxczT23+k5GCB7H5SH5oaS586NRYertNgtLeJ1K1X9zdDZ/3wSMN
- hdx7ij93ZDG1A==
-X-Nifty-SrcIP: [209.85.210.175]
-Received: by mail-pf1-f175.google.com with SMTP id c20so3206592pfr.8
+ b=qNwNh7mRnCz6XCKrCTUait4q+4+oQXzlRXXLX6DKNwvlMSdKNT8Ve4P6Pkl0rmITX
+ HY4sE0RwIrcNNBKM063zq/jRI7s3rWdgs5VKJ/xRxa4hCbdrdmPcCjLTo3zHwXzzhm
+ +5R3WLyy6RkglKVLKaum2IJaZw0GEYmgLeeROtLr0qM2rY4u4Fh4KMlOUySMxXzu4S
+ 93uzhnXobNao2ZfiKUDcPEtqTPeeLJlhS3TIZwEn3M5K9zUZlAsZMPcufk0VCAroL6
+ bAJNCFa3Q0Lmyn150b8J7dwLDgz98NzXeS6NwmnByHzdT9CJLtSQAWdh1w1K/FPaB8
+ L7AZlO4Sbihhg==
+X-Nifty-SrcIP: [209.85.210.170]
+Received: by mail-pf1-f170.google.com with SMTP id 10so4408158pfp.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 08:33:19 -0700 (PDT)
-X-Gm-Message-State: AOAM532UKhUzntXdWUvVZMP3/+8iapJd7ZK05IpGRRPhqpBRjpE/PNGQ
- fw91V4dAE2CPamBrzUTgsnL+6fWEnzxhZ8h6D0U=
-X-Google-Smtp-Source: ABdhPJzY2prhw5FRGtjof81jBwHsEX04/rS7YVZYomzkxPVRVeT+isQ1/XL54G7/ldeuyrFICLsLjjjsTEcVQcpRjHk=
-X-Received: by 2002:a17:90a:c285:: with SMTP id
- f5mr21414855pjt.87.1602516798361; 
- Mon, 12 Oct 2020 08:33:18 -0700 (PDT)
+ Mon, 12 Oct 2020 09:19:11 -0700 (PDT)
+X-Gm-Message-State: AOAM531DZOGmFouIstpBZeL/UigCvS1YsR+Wk7PLptzckrW57GBAkZgT
+ LdBzbGGCs7S5XvfXPrqfZVIWmSk1tG8DGdUWQyg=
+X-Google-Smtp-Source: ABdhPJzngWagrH7sftCmJHLWQj8sGBu5RbPw53TOYBqMF5rPdKgCNRSBDYInuS5dENRcQV0vKp3ZD6d3YNumIy51UKs=
+X-Received: by 2002:a17:90b:1b12:: with SMTP id
+ nu18mr20160486pjb.153.1602519550926; 
+ Mon, 12 Oct 2020 09:19:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1@gmail.com>
-In-Reply-To: <979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1@gmail.com>
+References: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
+In-Reply-To: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 13 Oct 2020 00:32:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATQFgzsmUppA=4eF1VrO_Tg=zrM9NSvUxrOp=7qa2_GsQ@mail.gmail.com>
-Message-ID: <CAK7LNATQFgzsmUppA=4eF1VrO_Tg=zrM9NSvUxrOp=7qa2_GsQ@mail.gmail.com>
+Date: Tue, 13 Oct 2020 01:18:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQwib66YwnMuN9qGQBs8dqqVaufOr9BqYMKfYUqiXu6jg@mail.gmail.com>
+Message-ID: <CAK7LNAQwib66YwnMuN9qGQBs8dqqVaufOr9BqYMKfYUqiXu6jg@mail.gmail.com>
 To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
 Cc: Michal Marek <michal.lkml@markovi.net>, linux-ia64@vger.kernel.org,
  Kees Cook <keescook@chromium.org>,
@@ -98,8 +95,8 @@ Cc: Michal Marek <michal.lkml@markovi.net>, linux-ia64@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  Andrew Morton <akpm@linux-foundation.org>,
  linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH RFC 2/2] kbuild: use interpreters
-	to invoke scripts
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 0/2] use interpreters to
+	invoke scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,162 +114,107 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Oct 4, 2020 at 12:21 AM Ujjwal Kumar <ujjwalkumar0501@gmail.com> wrote:
+On Sun, Oct 4, 2020 at 12:19 AM Ujjwal Kumar <ujjwalkumar0501@gmail.com> wrote:
 >
-> We cannot rely on execute bits to be set on files in the repository.
-> The build script should use the explicit interpreter when invoking any
-> script from the repository.
+> This patch series aims at removing the dependency on execute
+> bit of the scripts in the kbuild system.
 >
-> Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-> Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
+> If not working with fresh clone of linux-next, clean the srctree:
+> make distclean
+> make tools/clean
 >
-> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-> ---
->  Makefile                          | 4 ++--
->  arch/arm64/kernel/vdso/Makefile   | 2 +-
->  arch/arm64/kernel/vdso32/Makefile | 2 +-
->  arch/ia64/Makefile                | 4 ++--
->  arch/nds32/kernel/vdso/Makefile   | 2 +-
->  scripts/Makefile.build            | 2 +-
->  scripts/Makefile.package          | 4 ++--
->  7 files changed, 10 insertions(+), 10 deletions(-)
+> To test the dependency on execute bits, I tried building the
+> kernel after removing x-bits for all files in the repository.
+> Removing execute bits:
+> for i in $(find -executable -type f); do chmod -x $i; done
 >
-> diff --git a/Makefile b/Makefile
-> index f93dbae71248..5f1399a576d4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1258,7 +1258,7 @@ include/generated/utsrelease.h: include/config/kernel.release FORCE
->  PHONY += headerdep
->  headerdep:
->         $(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \
-> -       $(srctree)/scripts/headerdep.pl -I$(srctree)/include
-> +       $(PERL) $(srctree)/scripts/headerdep.pl -I$(srctree)/include
+> Any attempts to configure (or build) the kernel fail because of
+> 'Permission denied' on scripts with the following error:
+> $ make allmodconfig
+> sh: ./scripts/gcc-version.sh: Permission denied
+> init/Kconfig:34: syntax error
+> init/Kconfig:33: invalid statement
+> init/Kconfig:34: invalid statement
+> sh: ./scripts/ld-version.sh: Permission denied
+> init/Kconfig:39: syntax error
+> init/Kconfig:38: invalid statement
+> sh: ./scripts/clang-version.sh: Permission denied
+> init/Kconfig:49: syntax error
+> init/Kconfig:48: invalid statement
+> make[1]: *** [scripts/kconfig/Makefile:71: allmodconfig] Error 1
+> make: *** [Makefile:606: allmodconfig] Error 2
 >
->  # ---------------------------------------------------------------------------
->  # Kernel headers
-> @@ -1314,7 +1314,7 @@ PHONY += kselftest-merge
->  kselftest-merge:
->         $(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
->         $(Q)find $(srctree)/tools/testing/selftests -name config | \
-> -               xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
-> +               xargs $(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
->         $(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+> Changes:
+> 1. Adds specific interpreters (in Kconfig) to invoke
+> scripts.
 >
->  # ---------------------------------------------------------------------------
-> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
-> index de981f7b4546..30fe93bb5488 100644
-> --- a/arch/arm64/kernel/vdso/Makefile
-> +++ b/arch/arm64/kernel/vdso/Makefile
-> @@ -65,7 +65,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
->  # Generate VDSO offsets using helper script
->  gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
->  quiet_cmd_vdsosym = VDSOSYM $@
-> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
-> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+> After this patch I could successfully do a kernel build
+> without any errors.
 >
->  include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
->         $(call if_changed,vdsosym)
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-> index 572475b7b7ed..4f8fe34bc75a 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -205,7 +205,7 @@ quiet_cmd_vdsomunge = MUNGE   $@
->  gen-vdsosym := $(srctree)/$(src)/../vdso/gen_vdso_offsets.sh
->  quiet_cmd_vdsosym = VDSOSYM $@
->  # The AArch64 nm should be able to read an AArch32 binary
-> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
-> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+> 2. Again, adds specific interpreters to other parts of
+> kbuild system.
 >
->  # Install commands for the unstripped file
->  quiet_cmd_vdso_install = INSTALL32 $@
-> diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
-> index 2876a7df1b0a..5f6cc3c3da50 100644
-> --- a/arch/ia64/Makefile
-> +++ b/arch/ia64/Makefile
-> @@ -28,8 +28,8 @@ cflags-y      := -pipe $(EXTRA) -ffixed-r13 -mfixed-range=f12-f15,f32-f127 \
->                    -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
->  KBUILD_CFLAGS_KERNEL := -mconstant-gp
+> I could successfully perform the following make targets after
+> applying the PATCH 2/2:
+> make headerdep
+> make kselftest-merge
+> make rpm-pkg
+> make perf-tar-src-pkg
+> make ARCH=ia64 defconfig
+> ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make prepare
 >
-> -GAS_STATUS     = $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
-> -KBUILD_CPPFLAGS += $(shell $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
-> +GAS_STATUS     = $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
-> +KBUILD_CPPFLAGS += $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
-
-
-
-These changes look wrong to me.
-
-$($(CONFIG_SHELL)    ->  $(shell $(CONFIG_SHELL)
-
-
-
-
-
->  ifeq ($(GAS_STATUS),buggy)
->  $(error Sorry, you need a newer version of the assember, one that is built from        \
-> diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Makefile
-> index 55df25ef0057..e77d4bcfa7c1 100644
-> --- a/arch/nds32/kernel/vdso/Makefile
-> +++ b/arch/nds32/kernel/vdso/Makefile
-> @@ -39,7 +39,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
->  # Generate VDSO offsets using helper script
->  gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
->  quiet_cmd_vdsosym = VDSOSYM $@
-> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
-> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+> Following changes in PATCH 2/2 are not yet tested:
+> arch/arm64/kernel/vdso32/Makefile
+> arch/nds32/kernel/vdso/Makefile
+> scripts/Makefile.build
 >
->  include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
->         $(call if_changed,vdsosym)
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index a467b9323442..893217ee4a17 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -104,7 +104,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
->  endif
+> Ujjwal Kumar (2):
+>   kconfig: use interpreters to invoke scripts
+>   kbuild: use interpreters to invoke scripts
 >
->  ifneq ($(KBUILD_EXTRA_WARN),)
-> -  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
-> +  cmd_checkdoc = $(PERL) $(srctree)/scripts/kernel-doc -none $<
->  endif
+>  Makefile                          |  4 ++--
+>  arch/arm64/kernel/vdso/Makefile   |  2 +-
+>  arch/arm64/kernel/vdso32/Makefile |  2 +-
+>  arch/ia64/Makefile                |  4 ++--
+>  arch/nds32/kernel/vdso/Makefile   |  2 +-
+>  init/Kconfig                      | 16 ++++++++--------
+>  scripts/Makefile.build            |  2 +-
+>  scripts/Makefile.package          |  4 ++--
+>  8 files changed, 18 insertions(+), 18 deletions(-)
 >
->  # Compile C sources (.c)
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index f952fb64789d..4fc16c4776cc 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -44,7 +44,7 @@ if test "$(objtree)" != "$(srctree)"; then \
->         echo >&2; \
->         false; \
->  fi ; \
-> -$(srctree)/scripts/setlocalversion --save-scmversion; \
-> +$(CONFIG_SHELL) $(srctree)/scripts/setlocalversion --save-scmversion; \
->  tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
->         --transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
->  rm -f $(objtree)/.scmversion
-> @@ -123,7 +123,7 @@ git --git-dir=$(srctree)/.git archive --prefix=$(perf-tar)/         \
->  mkdir -p $(perf-tar);                                               \
->  git --git-dir=$(srctree)/.git rev-parse HEAD > $(perf-tar)/HEAD;    \
->  (cd $(srctree)/tools/perf;                                          \
-> -util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
-> +$(CONFIG_SHELL) util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
->  tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
->  rm -r $(perf-tar);                                                  \
->  $(if $(findstring tar-src,$@),,                                     \
 > --
 > 2.26.2
 >
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1%40gmail.com.
 
 
+Andrew Morton suggested and applied the doc patch
+(commit e9aae7af4601688386 in linux-next),
+but did not pick up this series.
 
--- 
+It is difficult to predict which patch he would
+pick up, and which he would not.
+
+
+I can apply this series
+together with Lukas' base patch.
+
+
+I pointed out possible mistakes in 2/2.
+I can locally fix them up if you agree.
+
+
+BTW, Kees Cook suggested dropping the x bit
+from all scripts, but I did not agree with that part.
+
+
+In the doc change, Lukas mentioned
+"further clean-up patches", but I hope
+it does not mean dropping the x bits.
+
+
+--
 Best Regards
+
 Masahiro Yamada
 _______________________________________________
 Linux-kernel-mentees mailing list
