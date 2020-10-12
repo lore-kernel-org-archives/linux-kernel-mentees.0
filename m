@@ -2,99 +2,94 @@ Return-Path: <SRS0=/ghF=DT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C56C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 19:15:05 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C416DC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 19:31:39 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 33A22206C1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 19:15:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 41DA32074A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 19:31:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cXbYaD1W"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33A22206C1
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nlgyQz/8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 41DA32074A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A0B3B8641F;
-	Mon, 12 Oct 2020 19:15:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C791422708;
+	Mon, 12 Oct 2020 19:31:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Waje1zRN9z2I; Mon, 12 Oct 2020 19:15:04 +0000 (UTC)
+	with ESMTP id 2WG80jZzvLJ4; Mon, 12 Oct 2020 19:31:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 36388862F4;
-	Mon, 12 Oct 2020 19:15:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2113620459;
+	Mon, 12 Oct 2020 19:31:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B8D7C07FF;
-	Mon, 12 Oct 2020 19:15:04 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 84049C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0576DC07FF;
+	Mon, 12 Oct 2020 19:31:37 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A066CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 19:15:02 +0000 (UTC)
+ Mon, 12 Oct 2020 19:31:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 71F68858C6
+ by hemlock.osuosl.org (Postfix) with ESMTP id 9A2D987252
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 19:15:02 +0000 (UTC)
+ Mon, 12 Oct 2020 19:31:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4Ty5exOH8ghM
+ with ESMTP id dzep-5sxcY9w
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 19:15:02 +0000 (UTC)
+ Mon, 12 Oct 2020 19:31:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0A57F85888
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D53288724B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 19:15:02 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id g29so15317390pgl.2
+ Mon, 12 Oct 2020 19:31:34 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id q21so16831539ota.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 12:15:02 -0700 (PDT)
+ Mon, 12 Oct 2020 12:31:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0W9VIQQ1F92giMMXeSWdWmbGQa5CVj0mL0tk7E83wCM=;
- b=cXbYaD1W+sXjB1oa1fGEQEYvsVzcl4x+ZLIqLuJg0k0vu52uwdfK8egFw4qkSU74cK
- DQfNifBZ+AbS9e18I4wCFu+NkRHHlOcVSG2LMNLK/F+ceRtTKocuRVb/8J5tMDQlimx5
- QXghZFyblg4XoIozq8lE6uwVwF0cFv1tXKqnz6U+OhEk9BgV0eeeL8sRj28XhNLvefbV
- jHJBn6pfMvOv02Xz5oLRAOe8GXodgxcA8L9ca0PvzT0mHeMPq1LQmBTFzEYJs0Xxb6lo
- rO0E8zmQTrSLF1FGzNlCdDdviyyUNFsWL2X/VjD/x0oFwmsnGB3InZKdMxfh2LCkqUjT
- cA4g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ps43et4nVO/fhP/ThGiK2QjX6ht102CnO3xodAufrgU=;
+ b=nlgyQz/8YlTO8NEFGT5S42+8wWBbjQEr6PwqVgS+0gYZpGAvaJ0agbAFxLUvfGQ2pY
+ WFKkilsBQWRH9sQM0MUayb9kq6HTGkCJvhfc5nLbNqKEALC/g5mcRAt1lUcgKrf98iYU
+ OL9AqDa9AjS8qToQZX9W5RgDNQ1SQWMDaINScpxBntm8KO1Zfoc8g/hrqPqDSdBRnh9o
+ cnfa85FVizz0tmw69I7jIh+dcEucROtGhWyA/HsdWQu6iavhaJRKgUN7UpgUVj3Jhk0G
+ dCROBWSzCQJ3JAVy6nZfQAVxf+R6nkPD9qqyU69TpZrw+LdAaduQ23Y0ugTLGxKdDyyX
+ kAHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0W9VIQQ1F92giMMXeSWdWmbGQa5CVj0mL0tk7E83wCM=;
- b=raW3Up8GSFoMthl+Tu+MiwHirrfQagC1R9DNoN/ynvnfBz+g6RB5EoDUu4F+PqE+0q
- lycdXBAp0W43ZJlcbVvygpBTOPg4KW+ejkB9U0NGP9gU7TAjoKQLede4nTD55cgY47Zo
- jDpxDlbt7Z4bXSBRh784h19ryjd7Zqoste1r8FCG8QBEGPNLl9dXC9r/ZJFsOrxqNdGQ
- 9q2PB7BSF+BUxKgEN1uVMSlcfHPhXf9Xc5L+TxmiNuSmZR6FUGplEu1M7WXpak/4Xfyf
- cHTlo2EeRPof00ieVH8kDk0gFyFb8w/ExT86Cf25qLN19v85o7EwiKM4Rc7X9pPIxAIL
- xaKw==
-X-Gm-Message-State: AOAM531G2JFRbLEv1URseH7Vc7qbnoDDxoOlW/60rFpaIUhEkO3OPuP+
- X7U+mqPTlsgRdmV8zANMLhw=
-X-Google-Smtp-Source: ABdhPJyjLZOuE6PTDtLg3WxH711WjPHbl/SsktmpBj1T9ShTY5cbWbuYuo7IBTCmoOYobLs/BJMx0w==
-X-Received: by 2002:a63:1e0c:: with SMTP id e12mr14588630pge.386.1602530101422; 
- Mon, 12 Oct 2020 12:15:01 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:9004:60cf:bb87:436f:3a5f:b4e6])
- by smtp.gmail.com with ESMTPSA id p14sm25334110pjo.46.2020.10.12.12.14.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 12:15:00 -0700 (PDT)
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-To: lukas.bulwahn@gmail.com
-Date: Tue, 13 Oct 2020 00:44:34 +0530
-Message-Id: <20201012191434.365769-1-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ps43et4nVO/fhP/ThGiK2QjX6ht102CnO3xodAufrgU=;
+ b=aKmFs1zlruzaIZ+knHC+tEUj8sVx0ZhA9eV/7SLuBS7XEGclUfs7os/CpEh3G/bdEe
+ Xgz8P2g0+IXiJ7qUt1KYmIK+nj5FM778Th0fdzC+NYjq4SqmSoewjc52ve88qfCrZjmY
+ OhHzerkvBQFhnfKScV5RwLIPp9WP/DEsto37XLOwrwOouATRD21Urfjj8kFjJhwTnNFr
+ zdLLZJFoGVgta7Gxzs+yejfzZHH3z79z/OxT9qHZw8G+UHjHuY8cusibxjhc8VQ/CH04
+ mZCTu3NWm8Abt5uXU6v/8g4QL7w5gmY0K5hUy7sWrr045R8iUjztXfOMdEa3fB6Toc3V
+ 2pLA==
+X-Gm-Message-State: AOAM532THZP6Vhmzf8AkSoYD6JMN6R+BcQrlfiABdgx407rcfnS2WiN6
+ Oe+7+Ct+QRaUTcm49x5uePANX8HIOHgpVq4Eh6o=
+X-Google-Smtp-Source: ABdhPJxt/ZdncV0MNotekrOTgflZGUZobFA2f7l8wwL3Z7p32CN6Dd/7peluqlyYLBA3jSy3FasGQ3A6LMp+45NLguo=
+X-Received: by 2002:a9d:53cc:: with SMTP id i12mr18668353oth.215.1602531093965; 
+ Mon, 12 Oct 2020 12:31:33 -0700 (PDT)
 MIME-Version: 1.0
-Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] checkpatch: formatted email should
-	have a whitespace separating address and comment
+References: <20201012191434.365769-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20201012191434.365769-1-dwaipayanray1@gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Tue, 13 Oct 2020 01:01:09 +0530
+Message-ID: <CABJPP5CStDPHyV9MSgqueqfB8ZKdSgDZetXuRNbZZ1+Pk2aCdA@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: formatted email
+ should have a whitespace separating address and comment
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,49 +107,62 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-commit 0c01921 ("checkpatch: add new warnings to author signoff checks.")
-introduced new checks for author sign off. The format_email procedure
-was modified to add comment blocks to the formatted email. But no
-space was added between email address and the mail comment.
+On Tue, Oct 13, 2020 at 12:45 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+>
+> commit 0c01921 ("checkpatch: add new warnings to author signoff checks.")
+> introduced new checks for author sign off. The format_email procedure
+> was modified to add comment blocks to the formatted email. But no
+> space was added between email address and the mail comment.
+>
+> This caused issues in some cases where the email was in the form
+> of "author@example.com (Comment block)". The formatted email removed
+> the space at the end of address.
+>
+> An evaluation on checkpatch brought up this case. For example,
+> on commit 1129d31b55d5 ("ima: Fix ima digest hash table key calculation"),
+> the following warning was reported:
+>
+> WARNING:BAD_SIGN_OFF: email address 'David.Laight@aculab.com (big endian
+> system concerns)' might be better as 'David.Laight@aculab.com(big endian
+> system concerns)'
+>
+> Resolved this by adding a single space in between the address and comment
+> when the extracted comment is not empty.
+>
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 124ff9432b51..6000addf1af3 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -1201,7 +1201,9 @@ sub format_email {
+>         } else {
+>                 $formatted_email = "$name$name_comment <$address>";
+>         }
+> -       $formatted_email .= "$comment";
+> +       if ("$comment" ne "") {
+> +               $formatted_email .= " $comment";
+> +       }
+>         return $formatted_email;
+>  }
+>
+> --
+> 2.27.0
+>
 
-This caused issues in some cases where the email was in the form
-of "author@example.com (Comment block)". The formatted email removed
-the space at the end of address.
+Found this issue while looking through the checkpatch records.
 
-An evaluation on checkpatch brought up this case. For example,
-on commit 1129d31b55d5 ("ima: Fix ima digest hash table key calculation"),
-the following warning was reported:
+Investigated this after looking into Aditya's summary at
+https://lore.kernel.org/linux-kernel-mentees/a1675970-9eb9-bd6a-31ff-d04f88ca30e2@gmail.com/
+and definitely the space bug was affecting and causing some issues.
 
-WARNING:BAD_SIGN_OFF: email address 'David.Laight@aculab.com (big endian
-system concerns)' might be better as 'David.Laight@aculab.com(big endian
-system concerns)'
+If it's alright, could I quickly send it over to Joe?
 
-Resolved this by adding a single space in between the address and comment
-when the extracted comment is not empty.
-
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- scripts/checkpatch.pl | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 124ff9432b51..6000addf1af3 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1201,7 +1201,9 @@ sub format_email {
- 	} else {
- 		$formatted_email = "$name$name_comment <$address>";
- 	}
--	$formatted_email .= "$comment";
-+	if ("$comment" ne "") {
-+		$formatted_email .= " $comment";
-+	}
- 	return $formatted_email;
- }
- 
--- 
-2.27.0
-
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
