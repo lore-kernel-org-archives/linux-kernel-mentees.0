@@ -2,85 +2,104 @@ Return-Path: <SRS0=/ghF=DT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C616DC433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 15:23:47 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5011C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 15:35:53 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CCFF20878
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 15:23:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CCFF20878
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7A3D720878
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 15:35:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="S4Z7K/Q4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A3D720878
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0167687458;
-	Mon, 12 Oct 2020 15:23:47 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5671986E0A;
+	Mon, 12 Oct 2020 15:35:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6Vol2JpyDHln; Mon, 12 Oct 2020 15:23:46 +0000 (UTC)
+	with ESMTP id S+xlBPmZfFUE; Mon, 12 Oct 2020 15:35:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6A927873D5;
-	Mon, 12 Oct 2020 15:23:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5934986E08;
+	Mon, 12 Oct 2020 15:35:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 56490C0893;
-	Mon, 12 Oct 2020 15:23:46 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C6113C0052
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3D88AC0893;
+	Mon, 12 Oct 2020 15:35:52 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5E242C0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:23:44 +0000 (UTC)
+ Mon, 12 Oct 2020 15:35:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B0EA68743D
+ by whitealder.osuosl.org (Postfix) with ESMTP id 52E9186E17
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:23:44 +0000 (UTC)
+ Mon, 12 Oct 2020 15:35:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iA5NQzlunjcc
+ with ESMTP id MpeVXcpXCzkw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:23:43 +0000 (UTC)
+ Mon, 12 Oct 2020 15:35:49 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0232.hostedemail.com
- [216.40.44.232])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9AB70873D5
+Received: from condef-08.nifty.com (condef-08.nifty.com [202.248.20.73])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1D8E686E0A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:23:43 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave04.hostedemail.com (Postfix) with ESMTP id BB5A81800DCA6
+ Mon, 12 Oct 2020 15:35:48 +0000 (UTC)
+Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-08.nifty.com
+ with ESMTP id 09CFXUOY014847
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 15:23:42 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay04.hostedemail.com (Postfix) with ESMTP id 634A5180A7FCF;
- Mon, 12 Oct 2020 15:23:40 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: twist43_3b049cd271fb
-X-Filterd-Recvd-Size: 2477
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf12.hostedemail.com (Postfix) with ESMTPA;
- Mon, 12 Oct 2020 15:23:36 +0000 (UTC)
-Message-ID: <a9ced92c25f45931fd4a387e2cf1a39a36a11c27.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Ujjwal Kumar
- <ujjwalkumar0501@gmail.com>
-Date: Mon, 12 Oct 2020 08:23:35 -0700
-In-Reply-To: <alpine.DEB.2.21.2010121612150.6487@felia>
-References: <20201012054943.1196031-1-ujjwalkumar0501@gmail.com>
- <63053585d41ff81cdaad6cb727eb83d81207041a.camel@perches.com>
- <5a3fc45f-e5d7-da3d-4b4b-2a23512ff8de@gmail.com>
- <alpine.DEB.2.21.2010121612150.6487@felia>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ Tue, 13 Oct 2020 00:33:30 +0900
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175]) (authenticated)
+ by conssluserg-04.nifty.com with ESMTP id 09CFXJad031848
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 13 Oct 2020 00:33:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 09CFXJad031848
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1602516799;
+ bh=4xfUkRM4tDIXFk/3vrkgZkiCeT2rEb0t423IsRd/G98=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=S4Z7K/Q4dgPotevhgimcaWst96OFcDNem9aT2gZGQEVZQSpbcec2wkRhGrkoR8FRF
+ AKgJxRu6983EDPetJ+7/ldK7/GQ6DHGagMcCSpoAnvP0mZScXkUy8GQ0uxogCcx7wo
+ J/1ArJR51t87dXtsHaB3AdBoLIWnnPLANOeu3Jd4U5YFTdGfrpGRK34mH69oJbOWUP
+ QdwwQfLta5BZuONKcZYFeNiKXhXtdCKK0NpJoYinAO4ijbMtRMgy0yxXO9JClwcW/Q
+ KbEcv24TxFdwp9KxczT23+k5GCB7H5SH5oaS586NRYertNgtLeJ1K1X9zdDZ/3wSMN
+ hdx7ij93ZDG1A==
+X-Nifty-SrcIP: [209.85.210.175]
+Received: by mail-pf1-f175.google.com with SMTP id c20so3206592pfr.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 12 Oct 2020 08:33:19 -0700 (PDT)
+X-Gm-Message-State: AOAM532UKhUzntXdWUvVZMP3/+8iapJd7ZK05IpGRRPhqpBRjpE/PNGQ
+ fw91V4dAE2CPamBrzUTgsnL+6fWEnzxhZ8h6D0U=
+X-Google-Smtp-Source: ABdhPJzY2prhw5FRGtjof81jBwHsEX04/rS7YVZYomzkxPVRVeT+isQ1/XL54G7/ldeuyrFICLsLjjjsTEcVQcpRjHk=
+X-Received: by 2002:a17:90a:c285:: with SMTP id
+ f5mr21414855pjt.87.1602516798361; 
+ Mon, 12 Oct 2020 08:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [RFC PATCH] checkpatch: add shebang
-	check to EXECUTE_PERMISSIONS
+References: <979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1@gmail.com>
+In-Reply-To: <979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 13 Oct 2020 00:32:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATQFgzsmUppA=4eF1VrO_Tg=zrM9NSvUxrOp=7qa2_GsQ@mail.gmail.com>
+Message-ID: <CAK7LNATQFgzsmUppA=4eF1VrO_Tg=zrM9NSvUxrOp=7qa2_GsQ@mail.gmail.com>
+To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+Cc: Michal Marek <michal.lkml@markovi.net>, linux-ia64@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 2/2] kbuild: use interpreters
+	to invoke scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,38 +117,163 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 2020-10-12 at 16:16 +0200, Lukas Bulwahn wrote:
-> On Mon, 12 Oct 2020, Ujjwal Kumar wrote:
-> > On 12/10/20 11:47 am, Joe Perches wrote:
-> > > On Mon, 2020-10-12 at 11:19 +0530, Ujjwal Kumar wrote:
-> > > > checkpatch.pl checks for invalid EXECUTE_PERMISSIONS on source
-> > > > files. The script leverages filename extensions and its path in
-> > > > the repository to decide whether to allow execute permissions on
-> > > > the file or not.
-> > > > 
-> > > > Based on current check conditions, a perl script file having
-> > > > execute permissions, without '.pl' extension in its filename
-> > > > and not belonging to 'scripts/' directory is reported as ERROR
-> > > > which is a false-positive.
-> > > > 
-> > > > Adding a shebang check along with current conditions will make
-> > > > the check more generalised and improve checkpatch reports.
-> > > > To do so, without breaking the core design decision of checkpatch,
-> > > > we can fetch the first line from the patch itself and match it for
-> > > > a shebang pattern.
-> > > > 
-> > > > There can be cases where the first line is not part of the patch.
-> > > 
-> > > For instance: a patch that only changes permissions
-> > > without changing any of the file content.
-[]
-> > Should these new changes go as a separate patch or can they be
-> > included in the next iteration of this patch?
-[]
-The commit log should be updated with the example shown.
-Please send a clean V2.
+On Sun, Oct 4, 2020 at 12:21 AM Ujjwal Kumar <ujjwalkumar0501@gmail.com> wrote:
+>
+> We cannot rely on execute bits to be set on files in the repository.
+> The build script should use the explicit interpreter when invoking any
+> script from the repository.
+>
+> Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
+> Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
+>
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+> ---
+>  Makefile                          | 4 ++--
+>  arch/arm64/kernel/vdso/Makefile   | 2 +-
+>  arch/arm64/kernel/vdso32/Makefile | 2 +-
+>  arch/ia64/Makefile                | 4 ++--
+>  arch/nds32/kernel/vdso/Makefile   | 2 +-
+>  scripts/Makefile.build            | 2 +-
+>  scripts/Makefile.package          | 4 ++--
+>  7 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index f93dbae71248..5f1399a576d4 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1258,7 +1258,7 @@ include/generated/utsrelease.h: include/config/kernel.release FORCE
+>  PHONY += headerdep
+>  headerdep:
+>         $(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \
+> -       $(srctree)/scripts/headerdep.pl -I$(srctree)/include
+> +       $(PERL) $(srctree)/scripts/headerdep.pl -I$(srctree)/include
+>
+>  # ---------------------------------------------------------------------------
+>  # Kernel headers
+> @@ -1314,7 +1314,7 @@ PHONY += kselftest-merge
+>  kselftest-merge:
+>         $(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+>         $(Q)find $(srctree)/tools/testing/selftests -name config | \
+> -               xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+> +               xargs $(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+>         $(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>
+>  # ---------------------------------------------------------------------------
+> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+> index de981f7b4546..30fe93bb5488 100644
+> --- a/arch/arm64/kernel/vdso/Makefile
+> +++ b/arch/arm64/kernel/vdso/Makefile
+> @@ -65,7 +65,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+>  # Generate VDSO offsets using helper script
+>  gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
+>  quiet_cmd_vdsosym = VDSOSYM $@
+> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
+> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+>
+>  include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
+>         $(call if_changed,vdsosym)
+> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+> index 572475b7b7ed..4f8fe34bc75a 100644
+> --- a/arch/arm64/kernel/vdso32/Makefile
+> +++ b/arch/arm64/kernel/vdso32/Makefile
+> @@ -205,7 +205,7 @@ quiet_cmd_vdsomunge = MUNGE   $@
+>  gen-vdsosym := $(srctree)/$(src)/../vdso/gen_vdso_offsets.sh
+>  quiet_cmd_vdsosym = VDSOSYM $@
+>  # The AArch64 nm should be able to read an AArch32 binary
+> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
+> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+>
+>  # Install commands for the unstripped file
+>  quiet_cmd_vdso_install = INSTALL32 $@
+> diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
+> index 2876a7df1b0a..5f6cc3c3da50 100644
+> --- a/arch/ia64/Makefile
+> +++ b/arch/ia64/Makefile
+> @@ -28,8 +28,8 @@ cflags-y      := -pipe $(EXTRA) -ffixed-r13 -mfixed-range=f12-f15,f32-f127 \
+>                    -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
+>  KBUILD_CFLAGS_KERNEL := -mconstant-gp
+>
+> -GAS_STATUS     = $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
+> -KBUILD_CPPFLAGS += $(shell $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
+> +GAS_STATUS     = $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
+> +KBUILD_CPPFLAGS += $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
 
 
+
+These changes look wrong to me.
+
+$($(CONFIG_SHELL)    ->  $(shell $(CONFIG_SHELL)
+
+
+
+
+
+>  ifeq ($(GAS_STATUS),buggy)
+>  $(error Sorry, you need a newer version of the assember, one that is built from        \
+> diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Makefile
+> index 55df25ef0057..e77d4bcfa7c1 100644
+> --- a/arch/nds32/kernel/vdso/Makefile
+> +++ b/arch/nds32/kernel/vdso/Makefile
+> @@ -39,7 +39,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+>  # Generate VDSO offsets using helper script
+>  gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
+>  quiet_cmd_vdsosym = VDSOSYM $@
+> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
+> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+>
+>  include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
+>         $(call if_changed,vdsosym)
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index a467b9323442..893217ee4a17 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -104,7 +104,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
+>  endif
+>
+>  ifneq ($(KBUILD_EXTRA_WARN),)
+> -  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
+> +  cmd_checkdoc = $(PERL) $(srctree)/scripts/kernel-doc -none $<
+>  endif
+>
+>  # Compile C sources (.c)
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index f952fb64789d..4fc16c4776cc 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -44,7 +44,7 @@ if test "$(objtree)" != "$(srctree)"; then \
+>         echo >&2; \
+>         false; \
+>  fi ; \
+> -$(srctree)/scripts/setlocalversion --save-scmversion; \
+> +$(CONFIG_SHELL) $(srctree)/scripts/setlocalversion --save-scmversion; \
+>  tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
+>         --transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
+>  rm -f $(objtree)/.scmversion
+> @@ -123,7 +123,7 @@ git --git-dir=$(srctree)/.git archive --prefix=$(perf-tar)/         \
+>  mkdir -p $(perf-tar);                                               \
+>  git --git-dir=$(srctree)/.git rev-parse HEAD > $(perf-tar)/HEAD;    \
+>  (cd $(srctree)/tools/perf;                                          \
+> -util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
+> +$(CONFIG_SHELL) util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
+>  tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
+>  rm -r $(perf-tar);                                                  \
+>  $(if $(findstring tar-src,$@),,                                     \
+> --
+> 2.26.2
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1%40gmail.com.
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
