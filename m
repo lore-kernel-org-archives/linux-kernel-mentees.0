@@ -2,109 +2,91 @@ Return-Path: <SRS0=/ghF=DT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_05,DEAR_SOMETHING,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B14FFC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 09:18:00 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 002CCC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 09:38:29 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 211FC206FB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 09:17:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 648C720776
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 09:38:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pxf91ZAD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 211FC206FB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BkwC2oki"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 648C720776
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9537F204EC;
-	Mon, 12 Oct 2020 09:17:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D93AA8605E;
+	Mon, 12 Oct 2020 09:38:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IIy3ID-3A5kb; Mon, 12 Oct 2020 09:38:28 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2782485FFD;
+	Mon, 12 Oct 2020 09:38:28 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0CF31C0052;
+	Mon, 12 Oct 2020 09:38:28 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3B228C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 12 Oct 2020 09:38:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id EAEAB2076F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 12 Oct 2020 09:38:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Xm9x8Xqr2Peg; Mon, 12 Oct 2020 09:17:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9C5CF20474;
-	Mon, 12 Oct 2020 09:17:58 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 81382C07FF;
-	Mon, 12 Oct 2020 09:17:58 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 40FBAC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 09:17:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2C07B872A0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 09:17:57 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BjLUVFwKPTgt
+ with ESMTP id M8Q6DqkH0Nl2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 09:17:55 +0000 (UTC)
+ Mon, 12 Oct 2020 09:38:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B172F87285
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id DBCBC20532
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 09:17:55 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id j7so2894678pgk.5
+ Mon, 12 Oct 2020 09:38:24 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id w204so2925721oiw.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 02:17:55 -0700 (PDT)
+ Mon, 12 Oct 2020 02:38:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=Ov3FUKrNTHLpkrGh5RLsSQkZzOmYXtgceijebKP/orE=;
- b=Pxf91ZADA3kHjPOTZCRMhqikUJb6PIBg3jJeAbwA/Hf8O18uGy2b0oXYhxlV/BTduC
- n/djlhrL8iuzGzI7fyqZRmsCzqHugC0fvDI6OpfiJFg7FdKqYnTdmoeIF/AlzDZ5fUEA
- cBaj2zgLb7ITgxsXWhbRAPzZnTFP+3UHN2w9KWALiaD2FJ2TbDn2oT4W3M8DfHtf1FkF
- Nx7OVH7Z4k3RDHxutTwnSsOZ18/lCgUUtzsjLalW1qCDcBlrMHA60QSMgpW29f0Yhhdx
- Z8VjKTKEySkDlq43+F+xVpHzakF9ZASwJtHFB/iKmb1BZkItovGokmMJMfOIrigkWNRN
- Xe3A==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=hxYySEq9Cdang862Ey8rErr01XevORvfeJ+PkEOphgU=;
+ b=BkwC2okiECYLmt3afzrVPSbKEk1oDxoA72uZ6sDH2SBA0aDxhKtgKUtk3PgK/Ofwjk
+ Da4v0nxd2fLErhQMJ91ZXOoBMZnMknkQvVMruUy8sLTONyrOQPDnzsTEVOi/DCZ/FhYm
+ RG0MRqbcYXQzXCEcnUfXzETLmsRY970A5NCvog5CEscRHNU2ZeYRkPtDLaiQoVTFIr/q
+ nvH3vFxWxzjImdiKh6XOHEk39Mw3LabCGJvwkyYZkKblRtZryOCilqTDUsJR3zibB+q0
+ 84zO+N76szSd5wi+2ZViZXqXKeYei5RZQaZeva5+7u0iHI0mDZxhXcMLPkT45X5BfSyC
+ 21rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Ov3FUKrNTHLpkrGh5RLsSQkZzOmYXtgceijebKP/orE=;
- b=ssqGvHdov3vdqfUqYH26uQC/6BhMjIl5RbtZVBZZBXCuiya/CihJXWnr7qVbjVPCyM
- a4Y/YE7+aeT4U/5o3/vVMGOIvfBeJVj9gZJLsQbd/5CHhmAZD9PhTpyMQjg9LzDo2I6e
- 8LE8enJny1z/4oGqC0mW40Alb1cMxJQXAasAp/Mmy7tx4EbbPPqUW2U0CsRSu+APtPQ3
- RD+Ehwb5wt8tg8BohOyJXlxZnURMGd+p119gBm1KJ734m7P1X6nEjhCdTjNAqlDeLgvT
- ctXAVuIhgvLr1nkZktsbE2lWSXPpBydon+z/Ugl9vBFa+60KWiYhCUkyGz/Y+xLKCQiF
- aOfg==
-X-Gm-Message-State: AOAM532attYjTGO5o/sDkjW6MECv779VciQS2NXuKagaOozApw/dp7dd
- XviPdCJz085bNuzFt8e+LQI=
-X-Google-Smtp-Source: ABdhPJxxXGtyhYKNPjMn5KenHZwRXjmQMFBS4Ovr6doT1BbITKj2ygbJJBvg7ch/3u6iFxAfxHNPgg==
-X-Received: by 2002:a17:90b:4d05:: with SMTP id
- mw5mr9039646pjb.9.1602494275069; 
- Mon, 12 Oct 2020 02:17:55 -0700 (PDT)
-Received: from [192.168.0.104] ([49.207.200.2])
- by smtp.gmail.com with ESMTPSA id w205sm19514691pfc.78.2020.10.12.02.17.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 02:17:54 -0700 (PDT)
-To: Dominique Martinet <asmadeus@codewreck.org>
-References: <20201012042404.2508-1-anant.thazhemadam@gmail.com>
- <20201012075910.GA17745@nautica>
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <147004bd-5cff-6240-218d-ebd80a9b48a1@gmail.com>
-Date: Mon, 12 Oct 2020 14:47:50 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=hxYySEq9Cdang862Ey8rErr01XevORvfeJ+PkEOphgU=;
+ b=fvL+mu6faWxIMYo1M30hr2dEfVrmuImcPmnAF1m7Hm3l3irvZsIR6gfeVEjIoQXopm
+ 9fM1REmBXmuBpQzQujB3xUQKtj8BSl/l1Niws9kQtWvYgbhgNISbxUSt9QPuec5Vq5Ym
+ Jj45MJifhJDQfV9W1zBPG/WQb/KhdDWWCJ0APyze/97Pf0JQW82Z1cTNAReGNEO5XKv+
+ wwRMT8Ig1eyAnxPZITjbmzj1Ru9Wn1pZKdJu5St1q+CSFekn6f9pvdxnD31rzxkPk479
+ Fj5bfm3zHeK+ctIfzJWjjO3uzgtbfY9OXekNPAAqix3M2mFM8lBSfT8l+ND9np/ioFWI
+ bfzA==
+X-Gm-Message-State: AOAM531MZTCVDCMnIKtp5JBDQHoEDR8kxonPCiWHzUHtQ0uXfTuuvkQ+
+ LUc5ArhOfUd0Puf2cE2XQkrkcOjO7OK2Ft3AWMdoMBpw7dXOnw==
+X-Google-Smtp-Source: ABdhPJzwMYVLzRRefPP7qU5xW1Yyf33LiljPLcdvcBOxfWiomaF7lx1jvd7dZAn7b80xDWTTp9YEFioXT0ymVVvsYyM=
+X-Received: by 2002:a54:4615:: with SMTP id p21mr9690723oip.79.1602495503730; 
+ Mon, 12 Oct 2020 02:38:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201012075910.GA17745@nautica>
-Content-Language: en-US
-Cc: lucho@ionkov.net, syzbot+75d51fe5bf4ebe988518@syzkaller.appspotmail.com,
- ericvh@gmail.com, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- kuba@kernel.org, v9fs-developer@lists.sourceforge.net,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
-Subject: Re: [Linux-kernel-mentees] [PATCH net] net: 9p: initialize
- sun_server.sun_path to have addr's value only when addr is valid
+From: Aditya Srivastava <yashsri421@gmail.com>
+Date: Mon, 12 Oct 2020 15:08:12 +0530
+Message-ID: <CAJ7RK2spHzFJxAqkm+N=T4ZB8-SeqgCX+Bs5r5__eLJRbovL3w@mail.gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] Checkpatch.pl tasks for Community Bridge
+	Program
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,84 +98,108 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="===============6279919817289910361=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+--===============6279919817289910361==
+Content-Type: multipart/alternative; boundary="000000000000410a9b05b1760f90"
 
-On 12-10-2020 13:29, Dominique Martinet wrote:
-> Anant Thazhemadam wrote on Mon, Oct 12, 2020:
->> In p9_fd_create_unix, checking is performed to see if the addr (passed
->> as an argument) is NULL or not.
->> However, no check is performed to see if addr is a valid address, i.e.,
->> it doesn't entirely consist of only 0's.
->> The initialization of sun_server.sun_path to be equal to this faulty
->> addr value leads to an uninitialized variable, as detected by KMSAN.
->> Checking for this (faulty addr) and returning a negative error number
->> appropriately, resolves this issue.
-> I'm not sure I agree a fully zeroed address is faulty but I agree we can
-> probably refuse it given userspace can't pass useful abstract addresses
-> here.
+--000000000000410a9b05b1760f90
+Content-Type: text/plain; charset="UTF-8"
 
+Dear Sir/Ma'am
+I have performed some tasks on Checkpatch.pl to find out the aggregate and
+summary of Errors and Warnings that have been generated on certain Linux
+Kernel Versions' commits . The summary of my tasks are as follows:
+1. Task1: Create a list of all non-merge commits that were added in the
+version v5.8 but were not there in v5.7. Run checkpatch.pl script on these
+commits and create a statistical summary of findings.
+My findings:
+https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task1/reports/aggregate_report/analysis/summary.txt
+My Scripts for this task:
+https://github.com/AdityaSrivast/kernel-tasks/tree/master/Task1
 
-Understood. It's=A0 probably a better that I modify the commit message a li=
-ttle and
-send a v2 so it becomes more accurate.
+2. Task2: Test what are errors and warnings by checkpatch.pl reports on
+v5.6..v5.8. Generate a report with respect to changes suggested by
+Dwaipayan Ray (
+https://lore.kernel.org/linux-kernel-mentees/20201007192029.551744-1-dwaipayanray1@gmail.com/),
+to present the differences in a suitable aggregated form, to find out the
+kind of errors and warnings that are changing.
 
-> Just one nitpick but this is otherwise fine - good catch!
+My Findings:
+Change in the number of warnings and errors:
+https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/relative_change/summary_relative.txt
 
-Thank you!
+Individual summary report generated by checkpatch.pl:
+After the commit:
+https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/after_commit/summary_after_commit.txt
 
->
->> Reported-by: syzbot+75d51fe5bf4ebe988518@syzkaller.appspotmail.com
->> Tested-by: syzbot+75d51fe5bf4ebe988518@syzkaller.appspotmail.com
->> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
->> ---
->>  net/9p/trans_fd.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/net/9p/trans_fd.c b/net/9p/trans_fd.c
->> index c0762a302162..8f528e783a6c 100644
->> --- a/net/9p/trans_fd.c
->> +++ b/net/9p/trans_fd.c
->> @@ -1023,7 +1023,7 @@ p9_fd_create_unix(struct p9_client *client, const =
-char *addr, char *args)
->>  =
+Before the commit:
+https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/before_commit/summary_before_commit.txt
 
->>  	csocket =3D NULL;
->>  =
+Scripts used for this task:
+https://github.com/AdityaSrivast/kernel-tasks/tree/master/Task2
 
->> -	if (addr =3D=3D NULL)
->> +	if (!addr || !strlen(addr))
-> Since we don't care about the actual length here, how about checking for
-> addr[0] directly?
-> That'll spare a strlen() call in the valid case.
->
-You mentioned how a fully zeroed address isn't exactly faulty. By extension=
-, wouldn't that
-mean that an address that simply begins with a 0 isn't faulty as well?
-This is an interesting point, because if the condition is modified to check=
-ing for addr[0] directly,
-addresses that simply begin with 0 (but have more non-zero content followin=
-g) wouldn't be
-copied over either, right?
-In the end, it comes down to what you define as a "valid" value that sun_pa=
-th can have.
-We've already agreed that a fully zeroed address wouldn't qualify as a vali=
-d value for sun_path.
-Are addresses that aren't fully zeroed, but only begin with a 0 also to be =
-considered as an
-unacceptable value for sun_path?
+Thanks and Regards
+Aditya
 
-Thanks,
-Anant
+--000000000000410a9b05b1760f90
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Dear Sir/Ma&#39;am</div><div>I have performed some ta=
+sks on Checkpatch.pl to find out the aggregate and summary of Errors and Wa=
+rnings that have been generated on certain Linux Kernel Versions&#39; commi=
+ts . The summary of my tasks are as follows:</div><div>1. Task1: Create a l=
+ist of all non-merge commits that were added in the version v5.8 but were n=
+ot there in v5.7. Run <a href=3D"http://checkpatch.pl">checkpatch.pl</a> sc=
+ript on these commits and create a statistical summary of findings.<br></di=
+v><div>My findings: <a href=3D"https://github.com/AdityaSrivast/kernel-task=
+s/blob/master/Task1/reports/aggregate_report/analysis/summary.txt">https://=
+github.com/AdityaSrivast/kernel-tasks/blob/master/Task1/reports/aggregate_r=
+eport/analysis/summary.txt</a></div><div>My Scripts for this task: <a href=
+=3D"https://github.com/AdityaSrivast/kernel-tasks/tree/master/Task1">https:=
+//github.com/AdityaSrivast/kernel-tasks/tree/master/Task1</a></div><div><br=
+></div><div>2. Task2: Test what are errors and warnings by <a href=3D"http:=
+//checkpatch.pl">checkpatch.pl</a> reports on v5.6..v5.8. Generate a report=
+ with respect to changes suggested by Dwaipayan Ray (<a href=3D"https://lor=
+e.kernel.org/linux-kernel-mentees/20201007192029.551744-1-dwaipayanray1@gma=
+il.com/">https://lore.kernel.org/linux-kernel-mentees/20201007192029.551744=
+-1-dwaipayanray1@gmail.com/</a>), to present the differences in a suitable =
+aggregated form, to find out the kind of errors and warnings that are chang=
+ing.</div><div><br></div><div>My Findings:</div><div>Change in the number o=
+f warnings and errors: <a href=3D"https://github.com/AdityaSrivast/kernel-t=
+asks/blob/master/Task2/reports/analysis/relative_change/summary_relative.tx=
+t">https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/=
+analysis/relative_change/summary_relative.txt</a></div><div><br></div><div>=
+Individual summary report generated by <a href=3D"http://checkpatch.pl">che=
+ckpatch.pl</a>:</div><div>After the commit: <a href=3D"https://github.com/A=
+dityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/after_commit/s=
+ummary_after_commit.txt">https://github.com/AdityaSrivast/kernel-tasks/blob=
+/master/Task2/reports/analysis/after_commit/summary_after_commit.txt</a></d=
+iv><div><br></div><div>Before the commit: <a href=3D"https://github.com/Adi=
+tyaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/before_commit/su=
+mmary_before_commit.txt">https://github.com/AdityaSrivast/kernel-tasks/blob=
+/master/Task2/reports/analysis/before_commit/summary_before_commit.txt</a><=
+/div><div><br></div><div>Scripts used for this task: <a href=3D"https://git=
+hub.com/AdityaSrivast/kernel-tasks/tree/master/Task2">https://github.com/Ad=
+ityaSrivast/kernel-tasks/tree/master/Task2</a></div><div><br></div><div>Tha=
+nks and Regards</div><div>Aditya<br></div><div><br></div><div><br></div></d=
+iv>
 
+--000000000000410a9b05b1760f90--
 
+--===============6279919817289910361==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============6279919817289910361==--
