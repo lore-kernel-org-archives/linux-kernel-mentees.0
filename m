@@ -2,87 +2,108 @@ Return-Path: <SRS0=/ghF=DT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81B84C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 18:55:36 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD0EC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 18:56:29 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9014220870
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 18:55:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9014220870
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=petrovitsch.priv.at
+	by mail.kernel.org (Postfix) with ESMTPS id 09F3520870
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 18:56:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k79IQYW3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09F3520870
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3950A85F52;
-	Mon, 12 Oct 2020 18:55:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id AA3F7869BD;
+	Mon, 12 Oct 2020 18:56:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id y9R9TsKj25AQ; Mon, 12 Oct 2020 18:55:33 +0000 (UTC)
+	with ESMTP id UFCcQ4ICY6ed; Mon, 12 Oct 2020 18:56:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C34685F0E;
-	Mon, 12 Oct 2020 18:55:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B71B686A77;
+	Mon, 12 Oct 2020 18:56:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B325C0052;
-	Mon, 12 Oct 2020 18:55:33 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E3A80C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A5F62C0052;
+	Mon, 12 Oct 2020 18:56:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9094AC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 18:55:30 +0000 (UTC)
+ Mon, 12 Oct 2020 18:56:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CA53885F3E
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7D904872A8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 18:55:30 +0000 (UTC)
+ Mon, 12 Oct 2020 18:56:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9vPkcsGF_FDw
+ with ESMTP id SYRZYp7J1OWe
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 18:55:28 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from esgaroth.tuxoid.at (esgaroth.petrovitsch.at [78.47.184.11])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8201685F0E
+ Mon, 12 Oct 2020 18:56:25 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 64C7C872A5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 18:55:27 +0000 (UTC)
-Received: from [10.68.100.236] (h10-gesig.woeg.acw.at [217.116.178.11] (may be
- forged)) (authenticated bits=0)
- by esgaroth.tuxoid.at (8.15.2/8.15.2) with ESMTPSA id 09CIsXfE004912
- (version=TLSv1 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
- Mon, 12 Oct 2020 20:54:34 +0200
-To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-References: <20201012170631.1241502-1-ujjwalkumar0501@gmail.com>
- <20201012170631.1241502-3-ujjwalkumar0501@gmail.com>
- <alpine.DEB.2.21.2010122019410.17866@felia>
- <b4fdc7c5-8edf-3895-69fc-1bcf9efb5d4a@gmail.com>
-From: Bernd Petrovitsch <bernd@petrovitsch.priv.at>
-X-Pep-Version: 2.0
-Message-ID: <53b7257e-b192-07da-9dd3-06497ce826f0@petrovitsch.priv.at>
-Date: Mon, 12 Oct 2020 18:54:30 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Mon, 12 Oct 2020 18:56:25 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id e22so24705066ejr.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 12 Oct 2020 11:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=biDPwLiI8Ik7bdHXyocGnxl7FqtosCDZ7Phqn+mpcy8=;
+ b=k79IQYW374a8wG6Z4vjRd6ETzFT+f8zG+MhxFmu4j1X/rv0cBp2F+uUG6ruOR2yp3a
+ ddqZcIxMQLDOgJP5+Y5zIqY2ez/jXfSVA5swb3sLyI1aAWbREw1SPnhlvbom0d/DVF+Q
+ W2pvIn1zF+CVclti1A9cU7uATHMwfnV/8zZEJ9UYSUuYFN9ydoiO1Vwot2XfuDKLcRG/
+ bIfG35kj61IOSwu6QOQ2E/XJ4DaYi/7Pki9Y/44uoYhPoq4SJXSscs6cQPGc45oKL2d5
+ pzNxtsZy8NPD2y+xg6oCGUset2LZcj71eH64M+gjzffvGWfIoiNVVRrOvvNThwO0oPc5
+ zMXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=biDPwLiI8Ik7bdHXyocGnxl7FqtosCDZ7Phqn+mpcy8=;
+ b=gYtHQnO8QD9XEjNt4Szy4G51d3h5j1yPpIQLg3pGTSrLNRT9wDAe2ygQxMu9tbTfRw
+ U3Z3siy0RY89J8SaXJ/qQBixXpzFMelrVvk0HyNUYwsGkZWPZ42zwRxJr3riSburqTcK
+ oEP2XDs6+77IAzZa6BxrabtDGbsIUdpT3TcC4rc8BP5gv410vPycgIPW5sx/qSdWqNUA
+ /5CAIJ93OhC5bVdLVNiX1SyUbpdUAnk4edc6FID5645jZiL7iEd5mbycVlhy1175qdPC
+ O0/nUY6Kh4wnim7yZPn3omphD94XRJgm7ymGOlSTonoq+J68yoOiFXGr8i2lGp3C2u9J
+ 3s7Q==
+X-Gm-Message-State: AOAM530LnHxj411Y8net47M2UT2mme9Pi/pddQPXbgQfX0ZKy6vD0dxH
+ XA801pYL0SJVqx5UXExDgFZCQkDYqMC2wr4b
+X-Google-Smtp-Source: ABdhPJxIMiqxATGvTOr86AG6ykZAOBDBLTkyQL7J/MbOtaoovE9pD/p8neLPuJf1skWGy+umcJEP0A==
+X-Received: by 2002:a17:906:494:: with SMTP id
+ f20mr29041241eja.285.1602528983629; 
+ Mon, 12 Oct 2020 11:56:23 -0700 (PDT)
+Received: from felia ([2001:16b8:2d57:fc00:a1bd:911e:26f6:597])
+ by smtp.gmail.com with ESMTPSA id e2sm11063637ejd.81.2020.10.12.11.56.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 11:56:23 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Mon, 12 Oct 2020 20:56:21 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+In-Reply-To: <CABJPP5BHR8+bE14dM3EZ4Z5jSujz12jxQCFTku_4rV6n2b_kDA@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2010122053210.17866@felia>
+References: <20201011064348.14015-1-dwaipayanray1@gmail.com>
+ <CABJPP5BBMbUyzssxckDrTgpTya-onB9LjpvA14k-UhGW7zL5hg@mail.gmail.com>
+ <alpine.DEB.2.21.2010111937100.5535@felia>
+ <CABJPP5BvD-6QZ_tbFcTyRmBq_w8NES9v528Q3PeA9w8y0-nznQ@mail.gmail.com>
+ <CABJPP5BHR8+bE14dM3EZ4Z5jSujz12jxQCFTku_4rV6n2b_kDA@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <b4fdc7c5-8edf-3895-69fc-1bcf9efb5d4a@gmail.com>
-Content-Type: multipart/mixed; boundary="------------D9D31DCEC171E15EB310C0FA"
-Content-Language: en-US
-X-DCC--Metrics: esgaroth.tuxoid.at 1481; Body=14 Fuz1=14 Fuz2=14
-X-Virus-Scanned: clamav-milter 0.97 at esgaroth.tuxoid.at
-X-Virus-Status: Clean
-Cc: Michal Marek <michal.lkml@markovi.net>, linux-ia64@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- clang-built-linux@googlegroups.com,
- Nathan Chancellor <natechancellor@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 2/2] kbuild: use interpreters
-	to invoke scripts
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: add new
+ exceptions to repeated word check
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,250 +115,130 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This is a multi-part message in MIME format.
---------------D9D31DCEC171E15EB310C0FA
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi all!
 
-On 12/10/2020 18:42, Ujjwal Kumar wrote:
-> On 12/10/20 11:50 pm, Lukas Bulwahn wrote:
->>
->>
->> On Mon, 12 Oct 2020, Ujjwal Kumar wrote:
->>
->>> We cannot rely on execute bits to be set on files in the repository.
->>> The build script should use the explicit interpreter when invoking an=
-y
->>> script from the repository.
->>>
->>> Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9=
-a9d4c@linux-foundation.org/
->>> Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
->>>
->>> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
->>> Suggested-by: Kees Cook <keescook@chromium.org>
->>> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
->>> Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
->>> ---
->>>  Makefile                          | 4 ++--
->>>  arch/arm64/kernel/vdso/Makefile   | 2 +-
->>>  arch/arm64/kernel/vdso32/Makefile | 2 +-
->>>  arch/ia64/Makefile                | 4 ++--
->>>  arch/nds32/kernel/vdso/Makefile   | 2 +-
->>>  scripts/Makefile.build            | 2 +-
->>>  scripts/Makefile.package          | 4 ++--
->>>  7 files changed, 10 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/Makefile b/Makefile
->>> index 0af7945caa61..df20e71dd7c8 100644
->>> --- a/Makefile
->>> +++ b/Makefile
->>> @@ -1256,7 +1256,7 @@ include/generated/utsrelease.h: include/config/=
-kernel.release FORCE
->>>  PHONY +=3D headerdep
->>>  headerdep:
->>>  	$(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \
->>> -	$(srctree)/scripts/headerdep.pl -I$(srctree)/include
->>> +	$(PERL) $(srctree)/scripts/headerdep.pl -I$(srctree)/include
->>>
->>>  # ------------------------------------------------------------------=
----------
->>>  # Kernel headers
->>> @@ -1312,7 +1312,7 @@ PHONY +=3D kselftest-merge
->>>  kselftest-merge:
->>>  	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, co=
-nfig your kernel first!))
->>>  	$(Q)find $(srctree)/tools/testing/selftests -name config | \
->>> -		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.co=
-nfig
->>> +		xargs $(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -=
-m $(objtree)/.config
->>>  	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
->>>
->>>  # ------------------------------------------------------------------=
----------
->>> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso=
-/Makefile
->>> index edccdb77c53e..fb07804b7fc1 100644
->>> --- a/arch/arm64/kernel/vdso/Makefile
->>> +++ b/arch/arm64/kernel/vdso/Makefile
->>> @@ -65,7 +65,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
->>>  # Generate VDSO offsets using helper script
->>>  gen-vdsosym :=3D $(srctree)/$(src)/gen_vdso_offsets.sh
->>>  quiet_cmd_vdsosym =3D VDSOSYM $@
->>> -      cmd_vdsosym =3D $(NM) $< | $(gen-vdsosym) | LC_ALL=3DC sort > =
-$@
->>> +      cmd_vdsosym =3D $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC=
-_ALL=3DC sort > $@
->>>
->>>  include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
->>>  	$(call if_changed,vdsosym)
->>> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vd=
-so32/Makefile
->>> index 7f96a1a9f68c..617c9ac58156 100644
->>> --- a/arch/arm64/kernel/vdso32/Makefile
->>> +++ b/arch/arm64/kernel/vdso32/Makefile
->>> @@ -205,7 +205,7 @@ quiet_cmd_vdsomunge =3D MUNGE   $@
->>>  gen-vdsosym :=3D $(srctree)/$(src)/../vdso/gen_vdso_offsets.sh
->>>  quiet_cmd_vdsosym =3D VDSOSYM $@
->>>  # The AArch64 nm should be able to read an AArch32 binary
->>> -      cmd_vdsosym =3D $(NM) $< | $(gen-vdsosym) | LC_ALL=3DC sort > =
-$@
->>> +      cmd_vdsosym =3D $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC=
-_ALL=3DC sort > $@
->>>
->>>  # Install commands for the unstripped file
->>>  quiet_cmd_vdso_install =3D INSTALL32 $@
->>> diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
->>> index 703b1c4f6d12..86d42a2d09cb 100644
->>> --- a/arch/ia64/Makefile
->>> +++ b/arch/ia64/Makefile
->>> @@ -27,8 +27,8 @@ cflags-y	:=3D -pipe $(EXTRA) -ffixed-r13 -mfixed-ra=
-nge=3Df12-f15,f32-f127 \
->>>  		   -falign-functions=3D32 -frename-registers -fno-optimize-sibling=
--calls
->>>  KBUILD_CFLAGS_KERNEL :=3D -mconstant-gp
->>>
->>> -GAS_STATUS	=3D $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)=
-" "$(OBJDUMP)")
->>> -KBUILD_CPPFLAGS +=3D $(shell $(srctree)/arch/ia64/scripts/toolchain-=
-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
->>> +GAS_STATUS	=3D $(shell $(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/=
-check-gas "$(CC)" "$(OBJDUMP)")
->>> +KBUILD_CPPFLAGS +=3D $(shell $(CONFIG_SHELL) $(srctree)/arch/ia64/sc=
-ripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
->>
->> Here is an instance of what Masahiro-san pointed out being wrong.
->>
->> Ujjwal, will you send a v3?
->=20
-> Following is the quoted text from the reply mail from Masahiro
->=20
->>> -GAS_STATUS     =3D $(shell $(srctree)/arch/ia64/scripts/check-gas "$=
-(CC)" "$(OBJDUMP)")
->>> -KBUILD_CPPFLAGS +=3D $(shell $(srctree)/arch/ia64/scripts/toolchain-=
-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
->>> +GAS_STATUS     =3D $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/ch=
-eck-gas "$(CC)" "$(OBJDUMP)")
->>> +KBUILD_CPPFLAGS +=3D $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/=
-toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
->>
->>
->>
->> These changes look wrong to me.
->>
->> $($(CONFIG_SHELL)    ->  $(shell $(CONFIG_SHELL)
->>
->=20
-> From the above text, I understand as follows:
+On Tue, 13 Oct 2020, Dwaipayan Ray wrote:
 
-Did you actually *test* that (expecially) these lines work
-afterwards as good as before?
+> On Sun, Oct 11, 2020 at 11:12 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+> >
+> > On Sun, Oct 11, 2020 at 11:07 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > >
+> > >
+> > >
+> > > On Sun, 11 Oct 2020, Dwaipayan Ray wrote:
+> > >
+> > > > On Sun, Oct 11, 2020 at 12:14 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+> > > > >
+> > > > > The repeated word check generated false positives for
+> > > > > the following pattern:
+> > > > >
+> > > > > "git git://..."
+> > > > >
+> > > > > This resulted in lots of warnings in the MAINTAINERS file
+> > > > > which shouldn't have been generated.
+> > > > >
+> > > > > Fixed this issue by adding "git" to the exception list
+> > > > > for repeated word check.
+> > > > >
+> > > > > In addition, modified $word_pattern to capture words which
+> > > > > may contain a single letter like "a".
+> > > > > This ensures that repeated word warning in cases like
+> > > > > "This is a a repetition" are also generated.
+> > > > >
+> > > > > Link: https://lore.kernel.org/linux-kernel-mentees/b6cd81b936671a8868fe98536d7c80771bdfd61c.camel@perches.com/
+> > > > >
+> > > > > Suggested-by: Joe Perches <joe@perches.com>
+> > > > > Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > > > > Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> > > > > ---
+> > > > >  scripts/checkpatch.pl | 4 ++--
+> > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > > > > index 124ff9432b51..0ef75d2fb5cf 100755
+> > > > > --- a/scripts/checkpatch.pl
+> > > > > +++ b/scripts/checkpatch.pl
+> > > > > @@ -588,7 +588,7 @@ our @mode_permission_funcs = (
+> > > > >         ["__ATTR", 2],
+> > > > >  );
+> > > > >
+> > > > > -my $word_pattern = '\b[A-Z]?[a-z]{2,}\b';
+> > > > > +my $word_pattern = '\b[A-Z]?[a-z]{1,}\b';
+> > > > >
+> > > > >  #Create a search pattern for all these functions to speed up a loop below
+> > > > >  our $mode_perms_search = "";
+> > > > > @@ -3364,7 +3364,7 @@ sub process {
+> > > > >                                 }
+> > > > >
+> > > > >                                 next if ($first ne $second);
+> > > > > -                               next if ($first eq 'long');
+> > > > > +                               next if ($first =~ /(?:long|git)$/);
+> > > > >
+> > > > >                                 if (WARN("REPEATED_WORD",
+> > > > >                                          "Possible repeated word: '$first'\n" . $herecurr) &&
+> > > > > --
+> > > > > 2.27.0
+> > > > >
+> > > >
+> > > > One more additional improvement to this would be to make
+> > > > comparison case neutral.
+> > > >
+> > > > Like:
+> > > >
+> > > >  -  next if ($first ne $second);
+> > > > +  next if (lc($first) ne lc($second));
+> > > >
+> > > > What do you think?
+> > > >
+> > >
+> > > Sounds good. Please evaluate though. Then, we can really judge better.
+> > >
+> >
+> > Sure, I will run both the evaluations:
+> > 1) For case insenstitive matching
+> > 2) For single letter words
+> >
+> > Thanks,
+> > Dwaipayan.
+> 
+> I did run an evaulation for the single letter case
+> and though it caught one of the lurking 'a's, like in:
+> 
+> commit 8d90822643ad ("crypto: engine - support for batch requests")
+> 
+> WARNING:REPEATED_WORD: Possible repeated word: 'a'
+> #53: FILE: crypto/crypto_engine.c:472:
+> + * @cbk_do_batch: pointer to a callback function to be invoked when executing a
+> + *                a batch of requests.
+> 
+> 
+> But yikes, it introduced new false positive:
+> 
+> commit 6514b25d3fba ("lpfc: Refactor Send LS Request support")
+> 
+> WARNING:REPEATED_WORD: Possible repeated word: 'x'
+> #156: FILE: drivers/scsi/lpfc/lpfc_nvme.c:614:
+> + "Data: x%x x%x  rc x%x\n",
+> 
+> It's probably a bad idea to allow single lettered checking. :-[
+>
 
-> That my proposed change:
-> $(shell $(src...)    ->  $($(CONFIG_SHELL) $(src...)
->=20
-> is WRONG
+Yeah, I feared that...
 
-Yup, as it's in a Makefile and that's a Makefile construct.
+I agree single letter checking is probably not a good idea if we do not 
+refine that even more.
 
-> and in the next line he suggested the required correction.
-> That being:
-> $($(CONFIG_SHELL)    ->  $(shell $(CONFIG_SHELL)
+Maybe, we put that aside for now and look at other potential improvements.
 
-Such stuff should generally not be needed as the to-be-used
-shell can be set in Makefiles via a "SHELL =3D " assignment
-(defaulting to /bin/sh - what else;-).
-Flags for the shell can BTW set with ".SHELLFLAGS =3D ".
 
-So please
--) learn basic "Makefile" + "make" before brainlessly patching
-   a Makefile.
--) actually testy your changes to make sure the patch didn't
-   broke anything
--) and - last but not least - check if there isn't a shell
-   already set (and which).
-
-MfG,
-	Bernd
---=20
-There is no cloud, just other people computers.
--- https://static.fsf.org/nosvn/stickers/thereisnocloud.svg
-
---------------D9D31DCEC171E15EB310C0FA
-Content-Type: application/pgp-keys;
- name="pEpkey.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="pEpkey.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-lyN9df2R4qM7JHa5IGK2t9DC65Ur+0E7EEckVQ=3D=3D
-=3DOPxp
------END PGP PUBLIC KEY BLOCK-----
-
---------------D9D31DCEC171E15EB310C0FA
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---------------D9D31DCEC171E15EB310C0FA--
