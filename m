@@ -2,96 +2,110 @@ Return-Path: <SRS0=/ghF=DT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DEAR_SOMETHING,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61686C433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 12:57:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF118C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 13:41:08 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D69F9206D4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 12:57:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 114532076E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Oct 2020 13:41:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p9urderZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D69F9206D4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="myis63Jh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 114532076E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 867C886109;
-	Mon, 12 Oct 2020 12:57:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7E97A85A49;
+	Mon, 12 Oct 2020 13:41:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id brOtM4cHdmEq; Mon, 12 Oct 2020 12:57:52 +0000 (UTC)
+	with ESMTP id 2ruscC7M1fYK; Mon, 12 Oct 2020 13:41:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EB4C586102;
-	Mon, 12 Oct 2020 12:57:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id F1ABB85955;
+	Mon, 12 Oct 2020 13:41:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6A2CC07FF;
-	Mon, 12 Oct 2020 12:57:52 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2A7A3C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DAAFEC0052;
+	Mon, 12 Oct 2020 13:41:06 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 86BF0C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 12:57:51 +0000 (UTC)
+ Mon, 12 Oct 2020 13:41:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 23AA8207B0
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 757D985D4B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 12:57:51 +0000 (UTC)
+ Mon, 12 Oct 2020 13:41:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H8+SwjP+HiBQ
+ with ESMTP id EdN47dKBxbSw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 12:57:50 +0000 (UTC)
+ Mon, 12 Oct 2020 13:41:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
- [209.85.166.49])
- by silver.osuosl.org (Postfix) with ESMTPS id BEBEE207A6
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A06A285955
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 12:57:49 +0000 (UTC)
-Received: by mail-io1-f49.google.com with SMTP id q25so3451822ioh.4
+ Mon, 12 Oct 2020 13:41:04 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id h5so9173365wrv.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Oct 2020 05:57:49 -0700 (PDT)
+ Mon, 12 Oct 2020 06:41:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pYwaHHHzt0xp5Hmy0eiruysTLbB7s797mTtCY7lQns4=;
- b=p9urderZoEQJ7+I5OHF3cEB+vArEgDJ1phZxs0Dp1SOTusODH5lrt3TZFMdN6QZYFb
- U0B/5QNx2OYaJye/3nhhMGrtTzA4wL+FAA7/bPcTOKPWqWhLt42FMtuL+629KyRMERcp
- fNLsOZur3dBx3wr1mTTPQaK/6UD20CX/m4Gp6UKLwQviflG8x2Dn+HcE2cNMKfJp5rpK
- W8uZOqRawop9X0G3tnceftUUMR6q7KEafq+ZWqdTnwLOz6zhBW/upI7BgQM+cqAh7Tu5
- ZBNOLlDV9kOP+keEwrCvf+tSgX2GVNOR1e9+MqJHgicv9pTauZbRNccy3Gyt84GPOACN
- YIbQ==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=IJUnRg3mPl7jkNIy9dsIVIo/IklmtiJHaWeguv2Wi6o=;
+ b=myis63Jh6YDVFMzfEygbdF9hf05zpKmITCIrOSFpVhbl8MbqTQUpPKNrthRN4bO5yl
+ wc79p3g9mtnnnjpkbqE9eiHSA37bYb5Kmu7yBK8xzdzMJOXHsoG7tGnSjVRrbpixUFJT
+ cCHC/QGUeGslVcgZ2c/UJtWpO7GPQRjz2YD534IFFUaJ6vOn7yjSSksjjaniWJz+FB6q
+ wNLNI25LsHqQwfxCir6BNSrnP+QPQ0QkBSL2sTZiQgUXIhHNyV1J4dAg1/EaMbkRsm+S
+ RPv/tqbypnh6u5mng3PsfzcItpfboZQVu9V+MrAJZ+K3r9O2qPe8sKWtTE67WrbcR4ws
+ jRIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pYwaHHHzt0xp5Hmy0eiruysTLbB7s797mTtCY7lQns4=;
- b=qpe+kt5AbP/uR+FGi2SGp7Ncy+a++w5+suT54wXz9p4kzcNgWSBZ6ntl/4pQFX/Tmh
- 8VXrDUSlJmqkuxAtdSOeNbLyw5PRUcBukBO72HpTEBTFDgEyueBHQF2SVdnXYqOi2BXv
- paVo1bZgascMkyalCuu9BR6z0uOBLlWMHpjukKoJazP+h3sbj3N7djog+10FD9YR++XS
- WSB1kC+42uQjRRQU+FbgTITLfETbpPhYVZknjZAKZUAFID1NjKYu9H4s5iuyFaA4cFET
- 22S2wVE86OjaesNGBbK8lKjiMbVB9Ri0Ua+lpRa60qc4HMzMtmEJu/QDsVFL60qVdmMl
- OmVA==
-X-Gm-Message-State: AOAM5318+2iq1IO8aZCmZQcdKVjAXTrFOWnkBTP50FPTL5yWHSEnyhU1
- ELhaSmxrD6KLdntTP2GYzGaLN+I1BHGm3zqe3F4=
-X-Google-Smtp-Source: ABdhPJwKjhghzbqUoSmUTnCVpgIlyS0sPFu85zOcI2c5K07qZao3R7Za4P2qtttJbI1y4O0Ywx5uwBims/ru20ArgRk=
-X-Received: by 2002:a02:6d61:: with SMTP id e33mr5501103jaf.14.1602507468981; 
- Mon, 12 Oct 2020 05:57:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAJ7RK2spHzFJxAqkm+N=T4ZB8-SeqgCX+Bs5r5__eLJRbovL3w@mail.gmail.com>
-In-Reply-To: <CAJ7RK2spHzFJxAqkm+N=T4ZB8-SeqgCX+Bs5r5__eLJRbovL3w@mail.gmail.com>
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=IJUnRg3mPl7jkNIy9dsIVIo/IklmtiJHaWeguv2Wi6o=;
+ b=G7Ji0vqJUmC3VagILwdfbQHC2J9TJIkfacYvfRSjCKDzT5tHYOMNpw2i/UIcG8Edon
+ YeKMfFNmw6QUgJhkxeMVzbr2dvhgCamF+Imzw3FMIvth13ivPNsq5QKxgUSb+jZTXYD9
+ 34Pls3nTYkMNMvnxUljZ/utaMm/ZzanMnWUz8xYBejxvc1U3K85XZj4Kmg/impfrCaAu
+ CuYWiSd7wzP/eSi3oZGccNwlbqMkjDQ9I+EZTjSgsOz1FPBZVfSTeoTBMmmWOZkR4Erh
+ duu4nh77aKJEa6HbmaXf/abccfwk1o5dopY0RpY4CraRVMQg9yv2ukxYxEj8CyB2iT9m
+ IaHA==
+X-Gm-Message-State: AOAM5316FhB7gpyFsmM5AtjihNmc5lW76cJBAFEJ33ZAFAuP9hhkiW9I
+ gs5TKOfuR58E1kiczYkJuSQ=
+X-Google-Smtp-Source: ABdhPJxNacfJsPZ4yvtD3vkFSwscCrt+i4xkgGs8nl4/9iPQ2QPpRexcbXY0JT8irITMO0Ma8G6Vyg==
+X-Received: by 2002:adf:e80f:: with SMTP id o15mr28721128wrm.308.1602510062848; 
+ Mon, 12 Oct 2020 06:41:02 -0700 (PDT)
+Received: from felia ([2001:16b8:2d57:fc00:8472:203c:3ecb:c442])
+ by smtp.gmail.com with ESMTPSA id t5sm24754891wrb.21.2020.10.12.06.41.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 06:41:02 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 12 Oct 2020 14:57:33 +0200
-Message-ID: <CAKXUXMxyTdNSK0gR4FMkp29TrYX_G2Hwqor4UY2cWk45POyocQ@mail.gmail.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Checkpatch.pl tasks for Community Bridge
-	Program
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Mon, 12 Oct 2020 15:40:54 +0200 (CEST)
+X-X-Sender: lukas@felia
+To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+In-Reply-To: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
+Message-ID: <alpine.DEB.2.21.2010121537150.6487@felia>
+References: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Cc: Michal Marek <michal.lkml@markovi.net>, linux-ia64@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ clang-built-linux@googlegroups.com,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 0/2] use interpreters to
+	invoke scripts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,47 +123,92 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Oct 12, 2020 at 11:38 AM Aditya Srivastava <yashsri421@gmail.com> wrote:
+
+
+On Sat, 3 Oct 2020, Ujjwal Kumar wrote:
+
+> This patch series aims at removing the dependency on execute 
+> bit of the scripts in the kbuild system.
+> 
+> If not working with fresh clone of linux-next, clean the srctree:
+> make distclean
+> make tools/clean
+> 
+> To test the dependency on execute bits, I tried building the 
+> kernel after removing x-bits for all files in the repository.
+> Removing execute bits:
+> for i in $(find -executable -type f); do chmod -x $i; done
+> 
+> Any attempts to configure (or build) the kernel fail because of 
+> 'Permission denied' on scripts with the following error:
+> $ make allmodconfig
+> sh: ./scripts/gcc-version.sh: Permission denied
+> init/Kconfig:34: syntax error
+> init/Kconfig:33: invalid statement
+> init/Kconfig:34: invalid statement
+> sh: ./scripts/ld-version.sh: Permission denied
+> init/Kconfig:39: syntax error
+> init/Kconfig:38: invalid statement
+> sh: ./scripts/clang-version.sh: Permission denied
+> init/Kconfig:49: syntax error
+> init/Kconfig:48: invalid statement
+> make[1]: *** [scripts/kconfig/Makefile:71: allmodconfig] Error 1
+> make: *** [Makefile:606: allmodconfig] Error 2
+> 
+> Changes:
+> 1. Adds specific interpreters (in Kconfig) to invoke 
+> scripts.
+> 
+> After this patch I could successfully do a kernel build 
+> without any errors.
+> 
+> 2. Again, adds specific interpreters to other parts of 
+> kbuild system.
+> 
+> I could successfully perform the following make targets after 
+> applying the PATCH 2/2:
+> make headerdep
+> make kselftest-merge
+> make rpm-pkg
+> make perf-tar-src-pkg
+> make ARCH=ia64 defconfig
+> ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make prepare
+> 
+> Following changes in PATCH 2/2 are not yet tested:
+> arch/arm64/kernel/vdso32/Makefile
+> arch/nds32/kernel/vdso/Makefile
+> scripts/Makefile.build
+> 
+> Ujjwal Kumar (2):
+>   kconfig: use interpreters to invoke scripts
+>   kbuild: use interpreters to invoke scripts
 >
-> Dear Sir/Ma'am
-> I have performed some tasks on Checkpatch.pl to find out the aggregate and summary of Errors and Warnings that have been generated on certain Linux Kernel Versions' commits . The summary of my tasks are as follows:
-> 1. Task1: Create a list of all non-merge commits that were added in the version v5.8 but were not there in v5.7. Run checkpatch.pl script on these commits and create a statistical summary of findings.
-> My findings: https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task1/reports/aggregate_report/analysis/summary.txt
-> My Scripts for this task: https://github.com/AdityaSrivast/kernel-tasks/tree/master/Task1
->
-> 2. Task2: Test what are errors and warnings by checkpatch.pl reports on v5.6..v5.8. Generate a report with respect to changes suggested by Dwaipayan Ray (https://lore.kernel.org/linux-kernel-mentees/20201007192029.551744-1-dwaipayanray1@gmail.com/), to present the differences in a suitable aggregated form, to find out the kind of errors and warnings that are changing.
->
-> My Findings:
-> Change in the number of warnings and errors: https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/relative_change/summary_relative.txt
->
-> Individual summary report generated by checkpatch.pl:
-> After the commit: https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/after_commit/summary_after_commit.txt
->
-> Before the commit: https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/before_commit/summary_before_commit.txt
->
-> Scripts used for this task: https://github.com/AdityaSrivast/kernel-tasks/tree/master/Task2
->
 
-Your email client is broken; you cannot send emails to a kernel
-mailing list with this email setup. I will not bother to use a proper
-email client either :)
+Ujjwal, I suggest that you continue to wait if you get any feedback from 
+Masahiro-san within the next two weeks (although the merge window) and if
+not, try to rebase to the the next rc1 and resend this patchset with 
+Nathan's feedback tags added.
 
-summary at
-
-https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/relative_change/summary_relative.txt
-
-looks good.
-
-Dwaipayan probably needs to look into the details here.
-
-E.g., why did those really unrelated issues change?
-
-AVOID_BUG 240 239
-TYPO_SPELLING 536 537
-
-Let us see if we can make sense of this evaluation.
+The merge window is busy time for maintainers; in the meantime, you might
+look into if the build target 'make tools/clean' works on the current 
+release and if there are fixes getting merged that fix that.
 
 Lukas
+
+>  Makefile                          |  4 ++--
+>  arch/arm64/kernel/vdso/Makefile   |  2 +-
+>  arch/arm64/kernel/vdso32/Makefile |  2 +-
+>  arch/ia64/Makefile                |  4 ++--
+>  arch/nds32/kernel/vdso/Makefile   |  2 +-
+>  init/Kconfig                      | 16 ++++++++--------
+>  scripts/Makefile.build            |  2 +-
+>  scripts/Makefile.package          |  4 ++--
+>  8 files changed, 18 insertions(+), 18 deletions(-)
+> 
+> -- 
+> 2.26.2
+> 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
