@@ -2,103 +2,97 @@ Return-Path: <SRS0=TCtx=DV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83DD1C433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 12:52:03 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F167AC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:04:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D43D321527
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 12:52:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3A70D20878
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:04:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="t3rQYLxV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D43D321527
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fJ4C9Zaw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A70D20878
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 54AF787B98;
-	Wed, 14 Oct 2020 12:52:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9AE04878C4;
+	Wed, 14 Oct 2020 13:04:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Fi5lntXG4rpX; Wed, 14 Oct 2020 12:52:01 +0000 (UTC)
+	with ESMTP id CceIBGzAHcDU; Wed, 14 Oct 2020 13:04:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F32B4876D5;
-	Wed, 14 Oct 2020 12:52:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DFB158789D;
+	Wed, 14 Oct 2020 13:04:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E3FAAC0052;
-	Wed, 14 Oct 2020 12:52:00 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99C07C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C8335C07FF;
+	Wed, 14 Oct 2020 13:04:23 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F9C1C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 12:52:00 +0000 (UTC)
+ Wed, 14 Oct 2020 13:04:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8311B87B98
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 854108789D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 12:52:00 +0000 (UTC)
+ Wed, 14 Oct 2020 13:04:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id obgy-4tjSR-P
+ with ESMTP id Xegu2Cj75FlY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 12:51:59 +0000 (UTC)
+ Wed, 14 Oct 2020 13:04:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 150B6876D5
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6C3E687870
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 12:51:59 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id b1so3519663lfp.11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 05:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CrQiNLdocfTcTLAd9j40vDriU+zr9Xo9LkOFCavXT08=;
- b=t3rQYLxVN9iNmDwj6qTVJ5Md8W5QcW8M1yRg3zisJi4sYe4OIFPWTglm+YivOhH0SN
- q4vTqKBIKtWN0WLVFvZTbaDUpmrSWdyEiBSQ7h/EIyKxzSJAvqe9fIPSBKL6P9kHDVR4
- YECBezPlIQ64OkzyQNZ3OgtcbU2dBkzKCGAdprttHU8sZAXkyXG6HB8v8vD2uQpEwVpp
- 0n7PUxPw0c5x7yxgFPGe1/T6cLOEHEvOC1umsELZTp2hLarynXak/DLlHG2XswOKZfbs
- 1pnW1uRZeJ0Q4Jt1wxqLnQ9B//qpCXvVvyF4jEEfnN6dlShIbQO2JU9cPaUU2W5ZE9QZ
- xnnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CrQiNLdocfTcTLAd9j40vDriU+zr9Xo9LkOFCavXT08=;
- b=Ov4tK1EfEcnMxDfyZW0o7Hg9g9qWEJVO+f+hDUbFIDT5yKiqwEc7R4BgoHuxvH9JFw
- SS8pxUjtHYDXMxJSMJ1DgF1dnkMvyAKUmwE1UT7iDpImw5l2mstP+j2c807IKCLxlZWd
- x7duFpNkj4IFP/cTbYvgH+8iVkKkGM/oLA7Fl3ISjHH2dEKWn5h62hGykD2+MmdwDbTE
- MItdZX+lFGm+PG7/TGe89u1FOSwnTbRrk7xWmQQS9bn8QNFDqR8uXS3TdptzCwsA4ugJ
- WJwcpkoDHfgFL63vqALCrU/Jy0EJMVxJZMeR4I1g4PhD9+7Ju6myrRJHy9uOUMMnTBLm
- dD0A==
-X-Gm-Message-State: AOAM530nczCLk/WAKDiDhLac10o0daSu0iZxWN3WU74BQ3OkY0kTIu+D
- JMaJ69LWfnk7G5RUknIbuZTZ9g4HFDC9414r308=
-X-Google-Smtp-Source: ABdhPJyf8M4DdPvHx1pcTfenVs+tR5M2jNsagfYcwA6MGlXalv0Gnq7VmkuOIkbR7ijokD3SzibRXYRQ2LsNXA+BDFc=
-X-Received: by 2002:a05:6512:52f:: with SMTP id
- o15mr1211675lfc.381.1602679917293; 
- Wed, 14 Oct 2020 05:51:57 -0700 (PDT)
+ Wed, 14 Oct 2020 13:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602680660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SEeiR89yjI9xFVeEVUoUu9rdjXMwFKArbd3q8yMhdnk=;
+ b=fJ4C9Zawnvf1DyKMAbSMo6RD2s2x+Xaqq8yczMkjN13FmwfDYjPv/PvHTjWiWLO/5tNI4I
+ 8iCzq7bCpPh31niwR1AKoLqgFhIrPWwM2Pk39uoVIk7CXHM8CK71Ua+4x2ytvOp7L4bE/j
+ LpqsNvQN2XfLuGtHV59eKsr2t0Q5GKo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-djCRKjCEOcqbxFgj6vXNrg-1; Wed, 14 Oct 2020 09:04:18 -0400
+X-MC-Unique: djCRKjCEOcqbxFgj6vXNrg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF9F09CC0C;
+ Wed, 14 Oct 2020 13:04:16 +0000 (UTC)
+Received: from [10.33.36.138] (unknown [10.33.36.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DC815D9D5;
+ Wed, 14 Oct 2020 13:04:11 +0000 (UTC)
+To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+References: <20201013152648.438887-1-anant.thazhemadam@gmail.com>
+From: Andrew Price <anprice@redhat.com>
+Message-ID: <d75dc535-00be-3aa7-addb-c2615b202b56@redhat.com>
+Date: Wed, 14 Oct 2020 14:04:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <0000000000002954fa05b02468d7@google.com>
- <300c32a1-a0de-4f05-b467-0822b3d21733n@googlegroups.com>
- <CACT4Y+bw2EXyKnO6mB3ZKBTWWJ1gd7VMkNvYxD=xwbuRjYwj8g@mail.gmail.com>
- <CAC2o3DKaaxoManhVoFVeB8bLQycPVY8z+ndAVqVaT76vvgzm=Q@mail.gmail.com>
- <CACT4Y+ZBPTwvf9gH8JerBQLNCBvRPvXQpvGvDSHD2Y8Tsc91gw@mail.gmail.com>
- <CAC2o3DJus556g6DOtecZB2a8cGJEtF-WrkvrYVj18EPfYHnK3g@mail.gmail.com>
- <20201014095306.GA3597742@kroah.com>
-In-Reply-To: <20201014095306.GA3597742@kroah.com>
-From: Fox Chen <foxhlchen@gmail.com>
-Date: Wed, 14 Oct 2020 20:51:46 +0800
-Message-ID: <CAC2o3DJX3v+TqtQH=JL=WZ3e_O35nR9Yt5KiLwE0-Fc_5UeAFQ@mail.gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
- Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Cc: syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+In-Reply-To: <20201013152648.438887-1-anant.thazhemadam@gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Cc: agruenba@redhat.com, Fox Chen <foxhlchen@gmail.com>,
+ linux-kernel@vger.kernel.org,
+ syzbot+a5e2482a693e6b1e444b@syzkaller.appspotmail.com,
+ cluster-devel@redhat.com, rpeterso@redhat.com,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] KASAN: slab-out-of-bounds Read in
-	squashfs_get_id
+Subject: Re: [Linux-kernel-mentees] [Cluster-devel] [PATCH] fs: gfs2:
+ prevent OOB access in gfs2_read_sb()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,24 +104,128 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Anant, Dmitry, Greg,
+On 13/10/2020 16:26, Anant Thazhemadam wrote:
+> In gfs2_read_sb(), if the condition
+> 	(d != sdp->sd_heightsize[x - 1] || m)
+> isn't satisfied (in the first 11 iterations), the loop continues,
+> and begins to perform out-of-bounds access.
+> Fix this out-of-bounds access by introducing a condition in the for loop
+> that ensures that no more than GFS2_MAX_META_HEIGHT + 1 elements are
+> accessed.
+> 
+> In addition to this, if the above condition is satisfied when
+> x = GFS2_MAX_META_HEIGHT (which = 10), and the flow of control breaks
+> out of the loop, then an out-of-bounds access is performed again while
+> assigning sdp->sd_heightsize[x] = ~0 (since x would be 11 now.), and
+> also the assertion that spd->sd_max_height <= GFS2_MAX_META_HEIGHT would
+> fail.
+> Fix this out-of-bounds access and ensure that the assertion doesn't fail
+> by introducing another variable "index", which keeps track of the last
+> valid value of x (pre-increment) that can be used.
 
-Wow, mbox & raw work. lore has mailto link, just on-click, even more convenient.
+That's not quite the right approach. Your analysis below is correct: the 
+problem stems from the block size in the superblock being zeroed by the 
+fuzzer. So the correct fix would be to add a validation check for 
+sb_bsize (gfs2_check_sb() is lacking somewhat). Valid values are powers 
+of 2 between 512 and the page size.
 
-And, yes, I've found the mail on linux-kernel list.
+Just a heads-up to avoid duplication of effort: Fox Chen (CCed) has 
+attempted to fix this also[1], but I don't know if they plan to send 
+another patch.
 
+[1] https://www.redhat.com/archives/cluster-devel/2020-October/msg00006.html
 
-Thank you all for the help! :)
+Thanks,
+Andy
 
+> Reported-by: syzbot+a5e2482a693e6b1e444b@syzkaller.appspotmail.com
+> Tested-by: syzbot+a5e2482a693e6b1e444b@syzkaller.appspotmail.com
+> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+> ---
+> 
+> I have one question here (potentially a place where I suspect this
+> patch could have a fatal flaw and might need some rework).
+> 
+> 	sdp->sd_max_height = x;
+> 	sdp->sd_heightsize[x] = ~0;
+> 
+> Were these lines written with the logic that the value of x would be
+> equal to (sdp->sd_heightsize[]'s last index filled in by the loop) + 1?
+> Or, is the expected value of x at these lines equal to
+> (sdp->sd_heightsize[]'s last index as filled in by the loop)?
+> I would appreciate it if someone could clarify for me, how this would
+> hold against the second potential out-of-bounds access I mentioned in my
+> commit message.
+> 
+> An additional comment (which I feel is of some significance) on this.
+> Reproducing the crash locally, I could infer that sdp->sd_fsb2bb_shift
+> sdp->sd_sb.sb_bsize, sdp->sd_sb.sb_bsize_shift, and sdp->sd_inptrs
+> were all 0.
+> This by extension also means that in gfs2_read_sb(), all the attributes
+> whose values were determined by performing some sort of calculation
+> involving any one of these variables all resulted in either 0 or a
+> negative value.
+> Simply doing the math will also show how this was also the primary reason
+> this OOB access occured in the first place.
+> However, I still feel that gfs2_read_sb() could do with this bit of checking,
+> since it fundamentally prevents OOB accesses from occuring in gfs2_read_sb()
+> in all scenarios.
+> Anyways, coming back to my initial point. Can having values like that be
+> considered unacceptable and as something that needs to be handled (at
+> gfs2_fill_super() maybe?) or is this non-anomalous behaviour and okay?
+> 
+>   fs/gfs2/ops_fstype.c | 15 ++++++++-------
+>   1 file changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/fs/gfs2/ops_fstype.c b/fs/gfs2/ops_fstype.c
+> index 6d18d2c91add..66ee8fb06ab9 100644
+> --- a/fs/gfs2/ops_fstype.c
+> +++ b/fs/gfs2/ops_fstype.c
+> @@ -281,7 +281,7 @@ static int gfs2_read_sb(struct gfs2_sbd *sdp, int silent)
+>   {
+>   	u32 hash_blocks, ind_blocks, leaf_blocks;
+>   	u32 tmp_blocks;
+> -	unsigned int x;
+> +	unsigned int x, index;
+>   	int error;
+>   
+>   	error = gfs2_read_super(sdp, GFS2_SB_ADDR >> sdp->sd_fsb2bb_shift, silent);
+> @@ -329,20 +329,21 @@ static int gfs2_read_sb(struct gfs2_sbd *sdp, int silent)
+>   	sdp->sd_heightsize[0] = sdp->sd_sb.sb_bsize -
+>   				sizeof(struct gfs2_dinode);
+>   	sdp->sd_heightsize[1] = sdp->sd_sb.sb_bsize * sdp->sd_diptrs;
+> -	for (x = 2;; x++) {
+> +	for (x = 2; x <= GFS2_MAX_META_HEIGHT; x++) {
+>   		u64 space, d;
+>   		u32 m;
+>   
+> -		space = sdp->sd_heightsize[x - 1] * sdp->sd_inptrs;
+> +		index = x;
+> +		space = sdp->sd_heightsize[index - 1] * sdp->sd_inptrs;
+>   		d = space;
+>   		m = do_div(d, sdp->sd_inptrs);
+>   
+> -		if (d != sdp->sd_heightsize[x - 1] || m)
+> +		if (d != sdp->sd_heightsize[index - 1] || m)
+>   			break;
+> -		sdp->sd_heightsize[x] = space;
+> +		sdp->sd_heightsize[index] = space;
+>   	}
+> -	sdp->sd_max_height = x;
+> -	sdp->sd_heightsize[x] = ~0;
+> +	sdp->sd_max_height = index;
+> +	sdp->sd_heightsize[index] = ~0;
+>   	gfs2_assert(sdp, sdp->sd_max_height <= GFS2_MAX_META_HEIGHT);
+>   
+>   	sdp->sd_max_dents_per_leaf = (sdp->sd_sb.sb_bsize -
+> 
 
-Cheers!
-fox
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
