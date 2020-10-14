@@ -2,99 +2,102 @@ Return-Path: <SRS0=TCtx=DV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1B8EC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:25:40 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF03C43457
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:57:15 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3CFDC22201
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:25:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 61E8C22227
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:57:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gm7JdoEU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3CFDC22201
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mG3N0433"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61E8C22227
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A804987B76;
-	Wed, 14 Oct 2020 13:25:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C9F39878E1;
+	Wed, 14 Oct 2020 13:57:12 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id l37nO1tQ3AIp; Wed, 14 Oct 2020 13:57:11 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B6C7587639;
+	Wed, 14 Oct 2020 13:57:11 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8CA21C07FF;
+	Wed, 14 Oct 2020 13:57:11 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 00859C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 14 Oct 2020 13:57:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id E7ED687D86
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 14 Oct 2020 13:57:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QhOltjpmqH2r; Wed, 14 Oct 2020 13:25:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4323087B98;
-	Wed, 14 Oct 2020 13:25:39 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2851CC07FF;
-	Wed, 14 Oct 2020 13:25:39 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6F53EC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 13:25:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 52BD02E26D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 13:25:38 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hHzob4Sc9gia
+ with ESMTP id bo7c+nclj2Gu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 13:25:37 +0000 (UTC)
+ Wed, 14 Oct 2020 13:57:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
- [209.85.167.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 141B52E0F5
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id EC5F487690
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 13:25:37 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id 184so3674331lfd.6
+ Wed, 14 Oct 2020 13:57:07 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id d6so1785002plo.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 06:25:36 -0700 (PDT)
+ Wed, 14 Oct 2020 06:57:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mKFq6iwfvEkroibpmULLRLiQ1H931GZCc/Lu/Ysbxus=;
- b=gm7JdoEUZtN9HQCSRKe3cLDHs2mUxvk2g1hCrMvKdnYkdNFEHx8JeZOhujiGzMFi7t
- IScT5UvNf6Iuc2dfCJkq7h6Q9mG2eQbxmmaisk3ldX+OyPouie0QOdt6TG73eZL5NL56
- PBRoaCEchoKvs2H2oXJy32RsRulN0yTFdDkARAtNZY4WeWGnpnilumB5tHXFyrsp7glt
- ytkHlivCwSZbqrvREVvqIRcqDsTIQzKXCN8+ThSbI0QwOdkS9RoB8AViOSu1OUreXIW4
- 1XeTHOlMsMhVnv4SNnXVvHcnylVtqIu4Rn1SNUJfxjWL201oaxlMhsXRDsbxcwexWvhd
- Uk2A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IzJhHTSFV4aE1sSC7KkXjqi2ufY0RfaV89jrFKTw/jI=;
+ b=mG3N043341+5bBtnNcnr9MpI8mZhDJ7O7vwn1aWOUOCDmVIzvL/RvyY+Mdse/Aq5l4
+ 4FTNBIpY1+cr9nJpLS65/3s+myXHhJTOqmQVTf5Co4ksEfZr1bF3rtDAGq0DnSxGtHX9
+ YqupM7tAm4Hg76dHvFxoIX8fRQqR/zacae1kp23eovKg9tVGd4sDokQBbkwq0in9pnZM
+ s/YT/QYjKaU2ETfSN9QkPp0QzNZjefzGYmyrwjZ51k4JrerQtqYl6gTU60/FI+tYpzAf
+ /Ywz9a1PO9vPoqJ+Kd+1Rf8m57lYaLb75qEq8FgqjjTzO8GwhTKqYHgTKMl+DGixMyME
+ XQqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mKFq6iwfvEkroibpmULLRLiQ1H931GZCc/Lu/Ysbxus=;
- b=jNt242uA3t0ZZWNiCmDtli72qxhADyypeiU5jTFjrCylKEZpaOm6ZrqCkLKVQbld2D
- N15C9qhd6xAGoL+0XjEaTcshaDbeqBtTDMKBmV+Sik1GRXQBrz4tN/rIKXdvRnwnjfYa
- VwhxcY0WF6unolpsSqNrKGEQ43PbxRjUTj9I9d776lNzyb1A4aogWkuc7krLJUfNSWLZ
- yw1Vh5yPHclsXWZ+tbJA/C++oJjnBjayygp1R9z/lgJRQ+aKvLYSfIpX3bvvIGu5wcsH
- 02epuVgq0UunJKgw8pevzcS/5NKxCIx/+Y3aJOu7b2Jdh0VXFPrYFshHgbZYUQTU8osC
- 87cQ==
-X-Gm-Message-State: AOAM531N7NQmBZdC9LerEJNrQJgNyTtKRJxPRLW1f56x2OyM4XTWnVCp
- DAZgu/ePQeLVzixAL3mKJSlTejR4PbSgAxo2b30=
-X-Google-Smtp-Source: ABdhPJwulrqs2A1OwJl/ciD0ZDmCvYFr1xNNHp0xX0kyXd17jU0DVKvM+U1lUNcFP/8HGFI3MD3JXtZv7707iMXArNI=
-X-Received: by 2002:a19:40ca:: with SMTP id n193mr1250337lfa.96.1602681935224; 
- Wed, 14 Oct 2020 06:25:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IzJhHTSFV4aE1sSC7KkXjqi2ufY0RfaV89jrFKTw/jI=;
+ b=tpEQ7n/fGMAyUmYvo5Ep60sOCcEMdcakEtF1rZ6i/RfYsFbKc+c50BXmcvMQ320ZxZ
+ hPF3bc6lIXrYZLLWsQQAIbcazRaJihCd11X3IsO0e4LS4fovIFEKy/yPq5EDeFzakYAx
+ pMPzaTiDexcWZjsbcxgf0b4k+FcXU95NHl3VA2HvawdTKLYNqBMiydd2xAYbTzUw7hXW
+ 7rIVN89ubqYBWUUl5ZyKeSK55+QHudI/FR93L1oqIdrvFQZb45YPtlpoiwrhvZna1Vkb
+ 6NZcfqCr1ks5SAPDndFjml9hPSJQTpm7ziWkmAD73VSMZsoe/HYrVIj/7ikT3LCrRDxl
+ /jaQ==
+X-Gm-Message-State: AOAM531SnZdZeMRmkvuRdGPWWYyRbByPImitiqiK6h17VcCiKfF2Eusk
+ DygBNrCnUZZfqk1QDsEMooc=
+X-Google-Smtp-Source: ABdhPJyLKgvVi4cNhtcF1kmM5+5IYdJex9SfZsjFsZoLMQOErJnj4IR4XhMvD7AsyykNItj+W6IFcA==
+X-Received: by 2002:a17:902:d394:b029:d3:f13b:5ef0 with SMTP id
+ e20-20020a170902d394b02900d3f13b5ef0mr4497407pld.64.1602683827303; 
+ Wed, 14 Oct 2020 06:57:07 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:9004:686c:a3bc:1846:e23f:17d])
+ by smtp.gmail.com with ESMTPSA id
+ fa12sm3275824pjb.25.2020.10.14.06.57.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Oct 2020 06:57:06 -0700 (PDT)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: joe@perches.com
+Date: Wed, 14 Oct 2020 19:26:37 +0530
+Message-Id: <20201014135637.92319-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20201013152648.438887-1-anant.thazhemadam@gmail.com>
- <d75dc535-00be-3aa7-addb-c2615b202b56@redhat.com>
-In-Reply-To: <d75dc535-00be-3aa7-addb-c2615b202b56@redhat.com>
-From: Fox Chen <foxhlchen@gmail.com>
-Date: Wed, 14 Oct 2020 21:25:24 +0800
-Message-ID: <CAC2o3DJ1qBO+dhFVgGk_u5X2K0_G-pxQVjT32z=dsPL=4jr1_w@mail.gmail.com>
-To: Andrew Price <anprice@redhat.com>
-Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>, agruenba@redhat.com,
- linux-kernel@vger.kernel.org,
- syzbot+a5e2482a693e6b1e444b@syzkaller.appspotmail.com,
- cluster-devel@redhat.com, rpeterso@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [Cluster-devel] [PATCH] fs: gfs2:
-	prevent OOB access in gfs2_read_sb()
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add new exception to
+	repeated word check
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,21 +115,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Andrew,
+Recently, commit 4f6ad8aa1eac ("checkpatch: move repeated word test")
+moved the repeated word test to check for more file types. But after
+this, if checkpatch.pl is run on MAINTAINERS, it generates several
+new warnings of the type:
 
-On Wed, Oct 14, 2020 at 9:04 PM Andrew Price <anprice@redhat.com> wrote:
-> Just a heads-up to avoid duplication of effort: Fox Chen (CCed) has
-> attempted to fix this also[1], but I don't know if they plan to send
-> another patch.
+WARNING: Possible repeated word: 'git'
 
-Oh, I thought it was solved by someone else as you've pointed out the
-correct solution the other day. https://lkml.org/lkml/2020/10/5/538
+For example:
+WARNING: Possible repeated word: 'git'
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rw/uml.git
 
-I'm solving another bug right now, I will leave this to Anant. :)
+So, the pattern "git git://..." is a false positive in this case.
 
+Add 'git' to the exception list for repeated word check. This effectively
+fixes all the newly generated false positives.
 
-thanks,
-fox
+Fixes: 4f6ad8aa1eac ("checkpatch: move repeated word test")
+Link: https://lore.kernel.org/linux-kernel-mentees/b6cd81b936671a8868fe98536d7c80771bdfd61c.camel@perches.com/
+
+Suggested-by: Joe Perches <joe@perches.com>
+Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+---
+ scripts/checkpatch.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index f1a4e61917eb..b55d83360366 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3063,7 +3063,7 @@ sub process {
+ 				}
+ 
+ 				next if ($first ne $second);
+-				next if ($first eq 'long');
++				next if ($first =~ /(?:long|git)$/);
+ 
+ 				if (WARN("REPEATED_WORD",
+ 					 "Possible repeated word: '$first'\n" . $herecurr) &&
+-- 
+2.27.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
