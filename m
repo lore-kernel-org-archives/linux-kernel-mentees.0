@@ -7,79 +7,79 @@ X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD50C43457
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 09:24:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAB6EC433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 09:28:27 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 32B2D206DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 09:24:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DF546206DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 09:28:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aV5/FzuZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32B2D206DD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r2Sx5AgD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF546206DD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A134087D6A;
-	Wed, 14 Oct 2020 09:24:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4AB44875E6;
+	Wed, 14 Oct 2020 09:28:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ykJV3p6T0vwf; Wed, 14 Oct 2020 09:24:28 +0000 (UTC)
+	with ESMTP id fslzsr-9xWSF; Wed, 14 Oct 2020 09:28:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4830A87D3F;
-	Wed, 14 Oct 2020 09:24:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id CB2F98758C;
+	Wed, 14 Oct 2020 09:28:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 35A34C07FF;
-	Wed, 14 Oct 2020 09:24:28 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6B955C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B06CFC07FF;
+	Wed, 14 Oct 2020 09:28:25 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E9553C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 09:24:27 +0000 (UTC)
+ Wed, 14 Oct 2020 09:28:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 67B2987D6A
+ by hemlock.osuosl.org (Postfix) with ESMTP id DF7C687B72
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 09:24:27 +0000 (UTC)
+ Wed, 14 Oct 2020 09:28:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rPIcFew9TAR8
+ with ESMTP id Jfq3lH9zzmWr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 09:24:25 +0000 (UTC)
+ Wed, 14 Oct 2020 09:28:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 90B8A87D3F
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+ [209.85.166.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 35B1587B6D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 09:24:25 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id h6so2937719lfj.3
+ Wed, 14 Oct 2020 09:28:24 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id q25so4212204ioh.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 02:24:25 -0700 (PDT)
+ Wed, 14 Oct 2020 02:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5mkxHm5smRfDO1NSeLwP/Z67MTDrclYIyUblxSrjuLk=;
- b=aV5/FzuZxqbzxjN0zM8y7pNDFT8r6sBjZroZHksZRkBuUwqWpatvWtM7apNk9SWvS3
- YCv3ZhcFZ7wfQY8WBG4Q2+lGjAwPeYYxE3VZiLjRzQvJovIf+ZTLDgZ+KVZ9zmAKIKep
- y50+AAuGWrvgxT3eNfvvKB1C3nMeGa/aX1OvWtZcE4VuheAK0kPanjj1Ecr/Wsd96XLc
- AiqgWq0uh4N8q2UQ1IA0B55CU9mWnL9VHoWtUpcAB6fGSqr9pYaiNmqRwq1+WURhhM6v
- ZNDW5yd8DqyLykkZ4QqI1p7pP8go1dTyEqgspk6a1OsvjmBUrUW8QxcZZeltuSkIxQKt
- wJEQ==
+ :cc; bh=i8EftCVoWMr9g9/3nR/lzczp3hiLspvPCR86qMdeLOw=;
+ b=r2Sx5AgDeiwUtJl0QMZ+2d7WkXEKPj+lPuSpVF5xk/uGA2wuHpuBVCyshfP0296XpV
+ 6RROgeIvdvm8MbLDMVbpoCfawbEj+aL7lNnSV07ZwYpIP2MJfeJ8WysaCeydumyRQG+G
+ 17SzRoHlY/YMl5wTFRVijpOd0NOyHnWIi/UM3HeAPzI0pWHEn5n8ovjxiuey7Dv2yJB0
+ BZDSFhDz0XUnk3lQsn191UyxiIE/JZ16CNPmJ+Bz96/M0DQwH1Qb84dw1EXw0H5N/uD3
+ /fUAU5PQNCc6PxzhtWbgHbfS0/+G2Z0RmdVQ5OGYZ/7WXtNUGo24dxSD/ja3O2xR47cx
+ fOmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5mkxHm5smRfDO1NSeLwP/Z67MTDrclYIyUblxSrjuLk=;
- b=hzheZeBpUS6rBunJ0Vjxw/9cordkPYCo4eNgOufLL2UHTX8I6tgmyGNDwqxN30pmq/
- LZFXkuw69YTALfUGxxklqwxLNfkqOPdXtpTrZTgJpF+jumQ71duqk7AkrYvKMnqdxcWZ
- UTvrM1uDg0mL+yVLKrpyzqtwZa566F711yiaouc2/2Hj5FBLfeeFb5S5pdnQ5FB077ik
- vj7m92oKMo1K35eTD2pqWt4o5WTx+xIqjZE3rLsYIpO5dBkkDdPS+td8hzUrDIztgQG5
- sxkNLgToXLdWlV3jUNuyHdupKIBY/7Wst3V/pxkom5fxSPaj0/U42ZMiMvvD57xm6mUq
- chwQ==
-X-Gm-Message-State: AOAM532zPjO8xTW+z7daCQhxumG1AsRCAJaQRPC50hkhTAkW0n6lvIn5
- hp4OshB2Vojhw4zQ2ZME6KW2/oQktcY3uttR7u4=
-X-Google-Smtp-Source: ABdhPJwY7jh8nESOhT7+HNk4H4U3o+oOKvFoCX4gb93fN295GmYdslLDY2EpKx8zINrXoiTPYRuqRNDrjm96QRBhRds=
-X-Received: by 2002:a19:be86:: with SMTP id o128mr1001963lff.220.1602667463843; 
- Wed, 14 Oct 2020 02:24:23 -0700 (PDT)
+ bh=i8EftCVoWMr9g9/3nR/lzczp3hiLspvPCR86qMdeLOw=;
+ b=tWcKAdNtaMMbPgeJArHesQFwzqxM6ctWjMBvcC6dZaw9FI6wQi4EVv6wOW+XQealDY
+ Q6jOg9ZC5c3O2sHw0elLDEx/vp8xbCHAyGHo7anHCw1vFnuT0FdgRBq3pfzsH8XIG9zb
+ +riyOm/Il9GGKCT2UZOlTbmJoL8ghdsJlRIRvQ74+0T+CgcVmfiYgqgdsHseMtnqhvCL
+ Y7o2HneZqyRfbGyFSTr7fk8w6cFfPF8LrSDebh7mehjtjUBjrpFO9/hZhqtV9q8HN2AF
+ MrZTYhJbl5vTr+Sb5q+HA0ULZtAnMAtm7y28dIfQIIbtoX/prWxDcqzzvkrzTkH2lxsX
+ ANiQ==
+X-Gm-Message-State: AOAM530d70AkbjzVFMIiIPg3NsYrO1h4GDjuCuPpUi4jrI3WvVGBDADI
+ 9ZhShGMPEXtRiHFyVOjDUMDWA13lRJ+p+P0B9B8=
+X-Google-Smtp-Source: ABdhPJwe7qvlZkybhAgxE3nhTxpmMPWaxntDD3S8jYyDwbITbcWS3PdQylvEYJkmozx6+Wm5Hm5aRV0J2JXnri3amQY=
+X-Received: by 2002:a02:a90c:: with SMTP id n12mr2282565jam.102.1602667703550; 
+ Wed, 14 Oct 2020 02:28:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <0000000000002954fa05b02468d7@google.com>
  <300c32a1-a0de-4f05-b467-0822b3d21733n@googlegroups.com>
@@ -89,12 +89,12 @@ References: <0000000000002954fa05b02468d7@google.com>
  <CAC2o3DJus556g6DOtecZB2a8cGJEtF-WrkvrYVj18EPfYHnK3g@mail.gmail.com>
  <CACT4Y+Z867EecgQZYd49nWr75f-JcPA7pYAJvu1tOZi9JwaQvA@mail.gmail.com>
 In-Reply-To: <CACT4Y+Z867EecgQZYd49nWr75f-JcPA7pYAJvu1tOZi9JwaQvA@mail.gmail.com>
-From: Fox Chen <foxhlchen@gmail.com>
-Date: Wed, 14 Oct 2020 17:24:13 +0800
-Message-ID: <CAC2o3DLN4T9NoRfseQ6KJbxaGpeX1VQry59N6SELCOOJmtBZMQ@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 14 Oct 2020 11:28:08 +0200
+Message-ID: <CAKXUXMzFB4RVyYq0XS_1PZWgJVAW+CG8krHQr2iPAPaOykzyGA@mail.gmail.com>
 To: Dmitry Vyukov <dvyukov@google.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Cc: syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, Fox Chen <foxhlchen@gmail.com>
 Subject: Re: [Linux-kernel-mentees] KASAN: slab-out-of-bounds Read in
 	squashfs_get_id
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -114,9 +114,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-umm, bittersweet  :)
+On Wed, Oct 14, 2020 at 11:21 AM Dmitry Vyukov via
+Linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
+wrote:
+>
+> On Wed, Oct 14, 2020 at 11:13 AM Fox Chen <foxhlchen@gmail.com> wrote:
+> > > Oh, from groups. Yes, that won't work for the kernel. That also
+> > > generated an HTML email, which is generally not welcome on kernel
+> > > mailing lists.
+> > >
+> >
+> > Got it! thank you!
+> >
+> > If I miss the original email, without using "groups", how can I reply
+> > to the thread??
+> > Apart from manually copying/pasting the content, recipients, and
+> > setting in-reply-to, Is there any convenient way??
+>
+> No, unfortunately, no convenient way. Nature of email-based
+> development workflow.
+>
+> I think I've seen some web archives in the past that allowed you to
+> forward an email to yourself, and then you can reply to it normally.
+> But I don't remember where it was. Maybe you can find it.
+>
 
-Thank you, I'll check it out.
+If the mailing list is archived on lore.kernel.org
+(https://lore.kernel.org/lists.html), you can search the email there
+and you will find a suitable mailto link (which might work for your
+client)
+
+Alternatively, you can download an mbox, load that with an email
+client, and then respond from mutt, pine etc.
+
+syzkaller-bugs is not archived at lore.kernel.org, but I assumed all
+those emails there also go out to lkml.
+
+If useful, we could ask to archive syzkaller-bugs on lore.kernel.org as well.
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
