@@ -2,112 +2,104 @@ Return-Path: <SRS0=TCtx=DV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ECD7C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 04:43:22 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30DA9C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 05:46:48 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8CD442076D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 04:43:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 971822222C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 05:46:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y91XoDmg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8CD442076D
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nwv5Jrun"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 971822222C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 29E3E87F09;
-	Wed, 14 Oct 2020 04:43:21 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DAE92203FA;
+	Wed, 14 Oct 2020 05:46:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2SOQiOXga9qA; Wed, 14 Oct 2020 04:43:20 +0000 (UTC)
+	with ESMTP id UGoHKLKsS7jH; Wed, 14 Oct 2020 05:46:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 13B9D87DC3;
-	Wed, 14 Oct 2020 04:43:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F0A6C2039A;
+	Wed, 14 Oct 2020 05:46:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E000BC07FF;
-	Wed, 14 Oct 2020 04:43:19 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A9F74C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E0819C07FF;
+	Wed, 14 Oct 2020 05:46:45 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CE404C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 04:43:18 +0000 (UTC)
+ Wed, 14 Oct 2020 05:46:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 91DCF87DC3
+ by silver.osuosl.org (Postfix) with ESMTP id 9C38A203FA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 04:43:18 +0000 (UTC)
+ Wed, 14 Oct 2020 05:46:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SmISCR9nAD3k
+ with ESMTP id jDgHQabyolZW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 04:43:16 +0000 (UTC)
+ Wed, 14 Oct 2020 05:46:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A622A87D7F
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 804C92039A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 04:43:15 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id d81so991326wmc.1
+ Wed, 14 Oct 2020 05:46:43 +0000 (UTC)
+Received: by mail-ej1-f65.google.com with SMTP id t25so2984510ejd.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Oct 2020 21:43:15 -0700 (PDT)
+ Tue, 13 Oct 2020 22:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:date:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=yAoSXHRwpGz7nBgURGl4h1iZHKvaWjYO9+dk8dtTzEM=;
- b=Y91XoDmgSV0T8y7s38jad1TN0OqdQ/W7/i8P2ncbuMKEZD2rOkSZiUQTJlsuYKHtPU
- EAZV7qv1rUsvdBWUoA886/Y95M9vZa/oxqlJFhM8q/1rrvT6J84jeJlhZi8NQCojqDrj
- Tes5NzvdJSB+DVYiNzB7Z+JvVuOHpaiNru8rAGagKUdC0j9MPOurw7mLoHNDCbFsPoZS
- n583hEDRzu2p7Kqe01AlohE9ec6ZDpWlycrOa7cs+BNDFjntEoiVKIrhkwJA/95FI/mV
- FSdQmGYWryAjzzPk7+g9a6lDfDynMecp9R4n0hxGRZiNmkM4V9grSiY5O0gZsORtJ/5Y
- 3abg==
+ bh=STRPyXECWcKIltplEj2C6HgW45CdmUPVhi1h9K50BgA=;
+ b=nwv5JrunBDQOJDnDy8DxJyuBzuA/Y7BaCN/OCMVqP6MuQLli+zyRmEEGAq060tbJI3
+ f6pkpYhrqcFU+WydRQSYKm+iyJTTBYZ7KKMP37t/w821wgr0DJQdqKOKYMi6P7woG+Ry
+ j9rv7cGtnS37rwibw7h+sR8h8NfpugEuSecPwDBT7W5wIokytyYCqBa4HDsDktpxsYNv
+ pQLwRJ2EZ040dWCxujjuI+2cMU9Av40uZhEhLcwYbQm+cY7SBoSuvIA+dyWTNVNkNsBp
+ 56CdJUu9El1jynQGDU+icjSF+YSnevfGW6fvjc+YWQBZrRPXY5ZY/aLK9uWs07aSry9K
+ FK9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=yAoSXHRwpGz7nBgURGl4h1iZHKvaWjYO9+dk8dtTzEM=;
- b=ZSJzdS+vnRdZjPuuaCGbcKW1Ta8DJTW6Qny4F/Oy56MKShE6XLPDI2P4cHajdpmVDw
- rzWBu6PPOwt7vla9YtCPqksT4NQeC60JC2BPASFGP5LM6VX5AU5X9/bTMNtZF0loakQ9
- CGYtrohQO5KsdfoOGCt/YhQmZI6MWcjsyH+0g5Ha21vemKguDy43EKZ9opkV1seFG+f5
- ChMn6GurYjhBvpd82QFOn1/DfunYoqoZJYWdoI4oYLP8tRgnV5E/qD2WK14c5BObJg/i
- JXq+DexiOgsQQCI4vb2a5Npr+dLr5lbnGwKxGb5QN206HLMAchtyg+xsZN0mx/iwBjeB
- vyyA==
-X-Gm-Message-State: AOAM533KKa8cOB8kCme4aHtewg2qoEiN8x0G/1oAWZNrWgaD+AnNzeiO
- c8duf5pRXeiez58cLZ64q/0=
-X-Google-Smtp-Source: ABdhPJxLj7cfYT+/1rNY1VWyuk/FeNLUT9YgTom+iIidb6iYPJvpU8+DuMBSQu3AZwhlP+GOUgdJYw==
-X-Received: by 2002:a7b:c081:: with SMTP id r1mr1410127wmh.158.1602650594160; 
- Tue, 13 Oct 2020 21:43:14 -0700 (PDT)
+ bh=STRPyXECWcKIltplEj2C6HgW45CdmUPVhi1h9K50BgA=;
+ b=bOh7gRVKY92r7NrQkAOBMJ/m8zXPSOSgyAXqHuWaJ2xQqPpysn5BaNFEOTwBSfvnnJ
+ MOXt4sAEaJb6zaSQIlXvDlPjNomS870ovUs9OWZHyUfMBBJg2Oe5V+jUKc9SMxcH3/dw
+ PaFKNaVePmm7Pf1zqR99ZZIwDp8Ee1H5B9HSNRg//2l5smBeXDGPn2nWQOGsEQg7mPIM
+ 7xLiL/ZhWsNRucsAeKLdteY7EJx5XtOYGGZx70cbeVG6CW3bWQbtPo2U5SshNoojLA8G
+ MDCZO3WFBcunjt7ygQ3tY63lMyMm8Td/HaTyxtDSm+3wtNZCrYEguefD0DdUdaXipyHc
+ T5Vw==
+X-Gm-Message-State: AOAM533pCHcTXIrnQjbnT94JLWkSsQkFoHAKpg4pvUarUyubl3aEOTS3
+ bEhZWsJru/34yK8WkpW9Oxo=
+X-Google-Smtp-Source: ABdhPJxX/pHP+wB0Q0Rx87O0NVMkFbwJSOQsleVvEoA6b2DlvKbLJ28VuGQQ/GkvXeI8kDJVObpMSg==
+X-Received: by 2002:a17:906:a988:: with SMTP id
+ jr8mr3525968ejb.508.1602654401785; 
+ Tue, 13 Oct 2020 22:46:41 -0700 (PDT)
 Received: from felia ([2001:16b8:2da8:8200:4c70:9c82:f3bf:bebb])
- by smtp.gmail.com with ESMTPSA id h206sm1713989wmf.47.2020.10.13.21.43.13
+ by smtp.gmail.com with ESMTPSA id n4sm988978ejj.19.2020.10.13.22.46.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 21:43:13 -0700 (PDT)
+ Tue, 13 Oct 2020 22:46:41 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 14 Oct 2020 06:43:06 +0200 (CEST)
+Date: Wed, 14 Oct 2020 07:46:39 +0200 (CEST)
 X-X-Sender: lukas@felia
-To: Masahiro Yamada <masahiroy@kernel.org>
-In-Reply-To: <CAK7LNAR+W9h95sUZFwRHiyiDbUxn9b7KN5P1zKOAdR2emxp7=g@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2010140636020.6186@felia>
-References: <20201001075723.24246-1-lukas.bulwahn@gmail.com>
- <CAK7LNARXirw-DZg1-Dwq0NhWtqyS9PCpFhzjL7bfZjQt5-dL6A@mail.gmail.com>
- <CAK7LNAR+W9h95sUZFwRHiyiDbUxn9b7KN5P1zKOAdR2emxp7=g@mail.gmail.com>
+To: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+In-Reply-To: <20201013120129.1304101-1-ujjwalkumar0501@gmail.com>
+Message-ID: <alpine.DEB.2.21.2010140734270.6186@felia>
+References: <20201013120129.1304101-1-ujjwalkumar0501@gmail.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Cc: Michal Marek <michal.lkml@markovi.net>, Kees Cook <keescook@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] kbuild: doc: describe proper
-	script invocation
+Cc: Joe Perches <joe@perches.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH v2] checkpatch: add shebang
+ check to EXECUTE_PERMISSIONS
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -127,58 +119,57 @@ Sender: "Linux-kernel-mentees"
 
 
 
-On Wed, 14 Oct 2020, Masahiro Yamada wrote:
+On Tue, 13 Oct 2020, Ujjwal Kumar wrote:
 
-> On Tue, Oct 13, 2020 at 11:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Thu, Oct 1, 2020 at 4:57 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> > >
-> > > During an investigation to fix up the execute bits of scripts in the kernel
-> > > repository, Andrew Morton and Kees Cook pointed out that the execute bit
-> > > should not matter, and that build scripts cannot rely on that. Kees could
-> > > not point to any documentation, though.
-> > >
-> > > Masahiro Yamada explained the convention of setting execute bits to make it
-> > > easier for manual script invocation.
-> > >
-> > > Provide some basic documentation how the build shall invoke scripts, such
-> > > that the execute bits do not matter, and acknowledge that execute bits
-> > > are useful nonetheless.
-> > >
-> > > This serves as reference for further clean-up patches in the future.
-> > >
-> > > Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-> > > Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
-> > > Link: https://lore.kernel.org/linux-kbuild/CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com/
-> > >
-> > > Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> > > Suggested-by: Kees Cook <keescook@chromium.org>
-> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> >
-> >
-> > Applied to linux-kbuild.
-> > Thanks.
-> >
+> checkpatch.pl checks for invalid EXECUTE_PERMISSIONS on source
+> files. The script leverages filename extensions and its path in
+> the repository to decide whether to allow execute permissions on
+> the file or not.
 > 
-> No, not really.
+> Based on current check conditions, a perl script file having
+> execute permissions, without '.pl' extension in its filename
+> and not belonging to 'scripts/' directory is reported as ERROR
+> which is a false positive.
 > 
-> I will re-think if this is the right thing to do.
+> Adding a shebang check along with current conditions will make
+> the check more generalised and improve checkpatch reports.
+> To do so, without breaking the core design decision of checkpatch,
+> we can fetch the first line from the patch itself and match it for
+> a shebang pattern.
 > 
+> There can be cases where the first line is not part of the patch.
+> For instance: a patch that only changes permissions without
+> changing any of the file content.
+> In that case there may be a false positive report but in the end we
+> will have less false positives as we will be handling some of the
+> unhandled cases.
 >
 
-Masahiro-san, Andrew Morton has already picked this patch in his branch; 
-so, if we do not shout loudly, it will be merged. And we can follow up 
-with a solid improvement for rc2.
+I get the intent of your addition. However:
 
-I am happy to rework the documentation and help guide and review the 
-follow-up patches that have been sent by Ujjwal.
+I would bet that you only find one or two in a million commits, that would 
+actually benefit for this special check of a special case of a special 
+rule...
 
-Please provide some specific feedback what is wrong and why; I think the 
-basic request not to rely on the execute bit from Andrew and Kees is still 
-valid. Maybe we just need to be more specific on the rules to follow in 
-Makefiles and have multiple examples for the different cases to consider.
+So given the added complexity of yet another 19 lines in checkpatch with 
+little benefit of lowering false positive reports, I would be against 
+inclusion.
 
-Thanks,
+You can provide convincing arguments with an evaluation, where you show 
+on how many commits this change would really make a difference...
+
+It is probably better and simpler to just have a script checking for
+execute bits on all files in the repository on linux-next (with a list of 
+known intended executable files) and just report to you and then to the 
+developers when a new file with unintentional execute bit appeared.
+
+Keep up the good work. I just fear this patch is a dead end.
+
+There is still a lot of other issues you can contribute to.
+
+Just one bigger project example: Comparing clang-format suggestions on 
+patches against checkpatch.pl suggestions are fine-tuning both of them to fit to 
+the actual kernel style.
 
 Lukas
 _______________________________________________
