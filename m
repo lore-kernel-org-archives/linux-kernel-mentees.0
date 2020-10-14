@@ -2,109 +2,90 @@ Return-Path: <SRS0=TCtx=DV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DEAR_SOMETHING,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28AB3C433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 07:22:13 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7890C433DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 07:35:45 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 65B712078A
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 07:22:12 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a1kM6djg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 65B712078A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id E8F8820878
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 07:35:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E8F8820878
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C07F087C89;
-	Wed, 14 Oct 2020 07:22:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 461FF2E23A;
+	Wed, 14 Oct 2020 07:35:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yhPZ00fXvo9z; Wed, 14 Oct 2020 07:22:07 +0000 (UTC)
+	with ESMTP id QgTUJ8i5puBD; Wed, 14 Oct 2020 07:35:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7ACC487F74;
-	Wed, 14 Oct 2020 07:22:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 48FCD2E176;
+	Wed, 14 Oct 2020 07:35:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 69685C07FF;
-	Wed, 14 Oct 2020 07:22:07 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0F857C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 36C77C07FF;
+	Wed, 14 Oct 2020 07:35:41 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F70CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 07:22:06 +0000 (UTC)
+ Wed, 14 Oct 2020 07:35:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EFF3787C71
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4D41C8777F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 07:22:05 +0000 (UTC)
+ Wed, 14 Oct 2020 07:35:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZxUUHoLVNef7
+ with ESMTP id BXozl9aHpq_8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 07:22:05 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 18A1587C57
+ Wed, 14 Oct 2020 07:35:39 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0043.hostedemail.com
+ [216.40.44.43])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3D1BB87746
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 07:22:05 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id t25so3285651ejd.13
+ Wed, 14 Oct 2020 07:35:39 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 4F44918012894
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 00:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=uorydksgBqaQ4ZukUwiTFlIpgUZDNYHOUcspIwChfn4=;
- b=a1kM6djgb8r2mY4Zmju1VQeHpMs8lqF7dKA2Hq5Sm5HgTX09yH0/7N0mIfqPwu4FFf
- 5UmV6Jkb2/cC7351j2qR651ReUqYisf1L7wT5ujYnfcTsQ/9O8FQECNE76Z6fZuGQZtx
- VMeq4OUFOLahMOMBnQeaNUeuX2tG5CjEbsPWNc4HmM69hhSkBdsr3jtItKA0TUJ2L/Tf
- DV5mSJElbzT0VjoyH0GHAUJsAZ9Q7vOveJRTQiZkshTfYJ01/2Cezf8jJfzG+jZQ5UER
- TapvKyE3YOZE8Zivx687E8kmruwXORqDAeu8+MiOlNwczGPLLwbYgBe86e3MPnpOlvyf
- yyfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=uorydksgBqaQ4ZukUwiTFlIpgUZDNYHOUcspIwChfn4=;
- b=eeCtq2yNxID0Ztz1j/dwNk9GJCwaYVQrL2HzpJjcKh9BYPm3JjwPB8HL/bHAAgr7YT
- Ln0mbXNc5IKxsxY5eHAahlTma2HfVjzeMUQXDxVYMlXkZRwSMdmiy4WZENlYkj5FJ7OY
- ulPL35Tey1sOyU7saGIlDsZfXusXDTuGNL+mGBpZ62S+ZzpmWqEO97qG++iTg6UbJ8+H
- yGvtqPpBuhME1a+dXL/wNqsMy1s1/UZZJCBDKq8dxS3tUTlTSC5XMjsURPtbm0w1znIJ
- pNDVh5ZFVY/SiHwteHfBGkOQKeZBhcZ+C7UI6b8ourZwXDiQvhD0+wyECFe5Hhb+fE7D
- pQ0g==
-X-Gm-Message-State: AOAM533MESSI5Hl6gd0JvOK1dOeEEe9KCPCsd3HtkoMateCktDEb3UnA
- e1yJMLGTGkQ7u0aIxnqUv40U2wAQ70UJJChS
-X-Google-Smtp-Source: ABdhPJym4gsgurRxFcK0Pbc/RiPuK/+wcBci5uOHrbLJVOrlsVNmVRy7v92wUYChDNNPDzwKnjW6Tg==
-X-Received: by 2002:a17:906:6409:: with SMTP id
- d9mr3854403ejm.344.1602660123206; 
- Wed, 14 Oct 2020 00:22:03 -0700 (PDT)
-Received: from felia ([2001:16b8:2da8:8200:4c70:9c82:f3bf:bebb])
- by smtp.gmail.com with ESMTPSA id e17sm1143971ejh.64.2020.10.14.00.22.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 00:22:02 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 14 Oct 2020 09:22:01 +0200 (CEST)
-X-X-Sender: lukas@felia
-To: Aditya <yashsri421@gmail.com>
-In-Reply-To: <b8bea5b5-a8a0-b2b4-6c32-0fd071bb6ef7@gmail.com>
-Message-ID: <alpine.DEB.2.21.2010140917560.6186@felia>
-References: <CAJ7RK2spHzFJxAqkm+N=T4ZB8-SeqgCX+Bs5r5__eLJRbovL3w@mail.gmail.com>
- <CAKXUXMxyTdNSK0gR4FMkp29TrYX_G2Hwqor4UY2cWk45POyocQ@mail.gmail.com>
- <a1675970-9eb9-bd6a-31ff-d04f88ca30e2@gmail.com>
- <CAKXUXMy6AawtRNB6B3pPQK_QNT+NK1VT9QUBKQ4YGV-QbAkvBA@mail.gmail.com>
- <CAJ7RK2vQb=b6kGmZ3Xd7UKk9gieZbX+-CrTybqoksqjEh6m7Lg@mail.gmail.com>
- <b8bea5b5-a8a0-b2b4-6c32-0fd071bb6ef7@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ Wed, 14 Oct 2020 07:35:37 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id 1100118224092;
+ Wed, 14 Oct 2020 07:35:35 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: week96_5108ae82720a
+X-Filterd-Recvd-Size: 5175
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf06.hostedemail.com (Postfix) with ESMTPA;
+ Wed, 14 Oct 2020 07:35:34 +0000 (UTC)
+Message-ID: <4d55bf3eb55ea91639438eb949268b9a42140759.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 14 Oct 2020 00:35:32 -0700
+In-Reply-To: <alpine.DEB.2.21.2010140908240.6186@felia>
+References: <20201013120129.1304101-1-ujjwalkumar0501@gmail.com>
+ <alpine.DEB.2.21.2010140734270.6186@felia>
+ <316d5a53351d10cd1a26ce0c54883da05642c898.camel@perches.com>
+ <alpine.DEB.2.21.2010140812370.6186@felia>
+ <be7deeec0937327e0ddaadf8468d934ed363a533.camel@perches.com>
+ <alpine.DEB.2.21.2010140829150.6186@felia>
+ <04325089b524f20d3de167051bfb81b05083d8b1.camel@perches.com>
+ <alpine.DEB.2.21.2010140842310.6186@felia>
+ <084a2dabe5463a3528bb052515555f939235c012.camel@perches.com>
+ <alpine.DEB.2.21.2010140908240.6186@felia>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Checkpatch.pl tasks for Community Bridge
- Program
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH v2] checkpatch: add shebang
+ check to EXECUTE_PERMISSIONS
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,96 +103,86 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On Wed, 14 Oct 2020, Aditya wrote:
-
+On Wed, 2020-10-14 at 09:17 +0200, Lukas Bulwahn wrote:
+> $ clang-format-10 --version
+> Ubuntu clang-format version 
+> 10.0.1-++20200928083909+ef32c611aa2-1~exp1~20200928185400.194
 > 
-> On 13/10/20 2:41 am, Aditya Srivastava wrote:
-> > On Mon 12 Oct, 2020, 11:58 PM Lukas Bulwahn, <lukas.bulwahn@gmail.com>
-> > wrote:
-> >
-> >> On Mon, Oct 12, 2020 at 8:23 PM Dwaipayan Ray <dwaipayanray1@gmail.com>
-> >> wrote:
-> >>> On 12/10/20 6:27 pm, Lukas Bulwahn wrote:
-> >>>> On Mon, Oct 12, 2020 at 11:38 AM Aditya Srivastava <
-> >> yashsri421@gmail.com> wrote:
-> >>>>> Dear Sir/Ma'am
-> >>>>> I have performed some tasks on Checkpatch.pl to find out the
-> >> aggregate and summary of Errors and Warnings that have been generated on
-> >> certain Linux Kernel Versions' commits . The summary of my tasks are as
-> >> follows:
-> >>>>> 1. Task1: Create a list of all non-merge commits that were added in
-> >> the version v5.8 but were not there in v5.7. Run checkpatch.pl script on
-> >> these commits and create a statistical summary of findings.
-> >>>>> My findings:
-> >> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task1/reports/aggregate_report/analysis/summary.txt
-> >>>>> My Scripts for this task:
-> >> https://github.com/AdityaSrivast/kernel-tasks/tree/master/Task1
-> >>>>> 2. Task2: Test what are errors and warnings by checkpatch.pl reports
-> >> on v5.6..v5.8. Generate a report with respect to changes suggested by
-> >> Dwaipayan Ray (
-> >> https://lore.kernel.org/linux-kernel-mentees/20201007192029.551744-1-dwaipayanray1@gmail.com/),
-> >> to present the differences in a suitable aggregated form, to find out the
-> >> kind of errors and warnings that are changing.
-> >>>>> My Findings:
-> >>>>> Change in the number of warnings and errors:
-> >> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/relative_change/summary_relative.txt
-> >>>>> Individual summary report generated by checkpatch.pl:
-> >>>>> After the commit:
-> >> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/after_commit/summary_after_commit.txt
-> >>>>> Before the commit:
-> >> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/before_commit/summary_before_commit.txt
-> >>>>> Scripts used for this task:
-> >> https://github.com/AdityaSrivast/kernel-tasks/tree/master/Task2
-> >>>> Your email client is broken; you cannot send emails to a kernel
-> >>>> mailing list with this email setup. I will not bother to use a proper
-> >>>> email client either :)
-> >>>>
-> >>>> summary at
-> >>>>
-> >>>>
-> >> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/relative_change/summary_relative.txt
-> >>>> looks good.
-> >>>>
-> >>>> Dwaipayan probably needs to look into the details here.
-> >>>>
-> >>>> E.g., why did those really unrelated issues change?
-> >>>>
-> >>>> AVOID_BUG 240 239
-> >>>> TYPO_SPELLING 536 537
-> >>> Ya, this shouldn't happen.
-> >>>
-> >>> I checked the reports, and the new warnings appear as expected.
-> >>>
-> >>> Could Aditya perhaps find out which errors in this case have changed?
-> >>>
-> >> Dwaipayan, you can ask Aditya directly :)
-> >>
-> >> Aditya, can you help us and tell us which AVOID_BUG remained the same,
-> >> which appeared, and which disappeared?
-> >>
-> >> And the same for TYPO_SPELLING.
-> >>
-> >> Lukas
-> >>
+> $ clang-format-10 --help | grep 'dry-run'
+>   --dry-run                  - If set, do not actually make the formatting 
+> changes
+>   --ferror-limit=<uint>      - Set the maximum number of clang-format
+>     errors to emit before stopping (0 = no limit). Used only with --dry-run or -n
+>   -n                         - Alias for --dry-run
 
-Aditya, your email client setup is still broken.
+OK, maybe so.
 
-> Hi Sir,
-> 
-> I checked the warnings for AVOID_BUG and TYPO_SPELLING and I can confirm that they are occurring equally in both the cases(before and after the commit). The missed warning was just not in the expected format, in the report file.
-> 
-> For Eg. AVOID_BUG occurred as "cWARNING:AVOID_BUG: Avoid crash", but I was expecting the line to start with "WARNING:" or "ERROR:". This is why, this warning was not counted. Similar is the case for TYPO_SPELLING.
-> 
-> This probably happened because of multi-threading. To counter such occurrences, I have regenerated the summary report using regex. The summary can be found at the same url ie: https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task2/reports/analysis/relative_change/summary_relative.txt
->
-> Kindly let me know if you have any questions.
->
+However I think the clang-format --dry-run output doesn't
+currently contain particularly useful information.  Maybe
+later versions are better than version 10.
 
-Can you apply Dwaipayan's fix patch and re-run your evaluation?
+For instance:
 
-Lukas
+$ /usr/bin/clang-format-10 --version
+clang-format version 10.0.0-4ubuntu1 
+
+$ /usr/bin/clang-format-10 --dry-run drivers/net/ethernet/intel/igb/igb_main.c 2>&1 | head -25
+drivers/net/ethernet/intel/igb/igb_main.c:54:40: warning: code should be clang-formatted [-Wclang-format-violations]
+static const char igb_driver_string[] =
+                                       ^
+drivers/net/ethernet/intel/igb/igb_main.c:56:36: warning: code should be clang-formatted [-Wclang-format-violations]
+static const char igb_copyright[] =
+                                   ^
+drivers/net/ethernet/intel/igb/igb_main.c:100:3: warning: code should be clang-formatted [-Wclang-format-violations]
+        {0, }
+         ^
+drivers/net/ethernet/intel/igb/igb_main.c:100:5: warning: code should be clang-formatted [-Wclang-format-violations]
+        {0, }
+           ^
+drivers/net/ethernet/intel/igb/igb_main.c:163:58: warning: code should be clang-formatted [-Wclang-format-violations]
+static int igb_ndo_set_vf_vlan(struct net_device *netdev,
+                                                         ^
+drivers/net/ethernet/intel/igb/igb_main.c:164:28: warning: code should be clang-formatted [-Wclang-format-violations]
+                               int vf, u16 vlan, u8 qos, __be16 vlan_proto);
+                                                ^
+drivers/net/ethernet/intel/igb/igb_main.c:189:50: warning: code should be clang-formatted [-Wclang-format-violations]
+        SET_SYSTEM_SLEEP_PM_OPS(igb_suspend, igb_resume)
+                                                        ^
+drivers/net/ethernet/intel/igb/igb_main.c:190:21: warning: code should be clang-formatted [-Wclang-format-violations]
+        SET_RUNTIME_PM_OPS(igb_runtime_suspend, igb_runtime_resume,
+                           ^
+drivers/net/ethernet/intel/igb/igb_main.c:190:61: warning: code should be clang-formatted [-Wclang-format-violations]
+
+vs
+
+$ ./scripts/checkpatch.pl -f drivers/net/ethernet/intel/igb/igb_main.c 2>&1 | head -25
+WARNING: externs should be avoided in .c files
+#113: FILE: drivers/net/ethernet/intel/igb/igb_main.c:113:
++int igb_open(struct net_device *);
+
+WARNING: function definition argument 'struct net_device *' should also have an identifier name
+#113: FILE: drivers/net/ethernet/intel/igb/igb_main.c:113:
++int igb_open(struct net_device *);
+
+WARNING: externs should be avoided in .c files
+#114: FILE: drivers/net/ethernet/intel/igb/igb_main.c:114:
++int igb_close(struct net_device *);
+
+WARNING: function definition argument 'struct net_device *' should also have an identifier name
+#114: FILE: drivers/net/ethernet/intel/igb/igb_main.c:114:
++int igb_close(struct net_device *);
+
+CHECK: Alignment should match open parenthesis
+#191: FILE: drivers/net/ethernet/intel/igb/igb_main.c:191:
++	SET_RUNTIME_PM_OPS(igb_runtime_suspend, igb_runtime_resume,
++			igb_runtime_idle)
+
+CHECK: Please use a blank line after function/struct/union/enum declarations
+#193: FILE: drivers/net/ethernet/intel/igb/igb_main.c:193:
++};
++static void igb_shutdown(struct pci_dev *);
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
