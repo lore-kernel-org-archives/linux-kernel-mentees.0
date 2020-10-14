@@ -2,90 +2,103 @@ Return-Path: <SRS0=TCtx=DV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F167AC433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:04:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5443C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:14:16 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A70D20878
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:04:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 173BB208B3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 14 Oct 2020 13:14:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fJ4C9Zaw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A70D20878
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f/kAX/pv"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 173BB208B3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9AE04878C4;
-	Wed, 14 Oct 2020 13:04:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 77F1187A4C;
+	Wed, 14 Oct 2020 13:14:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CceIBGzAHcDU; Wed, 14 Oct 2020 13:04:23 +0000 (UTC)
+	with ESMTP id 9XKvPukEua8p; Wed, 14 Oct 2020 13:14:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DFB158789D;
-	Wed, 14 Oct 2020 13:04:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 10AD787870;
+	Wed, 14 Oct 2020 13:14:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C8335C07FF;
-	Wed, 14 Oct 2020 13:04:23 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9F9C1C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 023F9C07FF;
+	Wed, 14 Oct 2020 13:14:15 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 302E1C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 13:04:22 +0000 (UTC)
+ Wed, 14 Oct 2020 13:14:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 854108789D
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1ECC187D84
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 13:04:22 +0000 (UTC)
+ Wed, 14 Oct 2020 13:14:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xegu2Cj75FlY
+ with ESMTP id ZRzNbaLWKw6b
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 13:04:21 +0000 (UTC)
+ Wed, 14 Oct 2020 13:14:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6C3E687870
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 927C487D7C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Oct 2020 13:04:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602680660;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SEeiR89yjI9xFVeEVUoUu9rdjXMwFKArbd3q8yMhdnk=;
- b=fJ4C9Zawnvf1DyKMAbSMo6RD2s2x+Xaqq8yczMkjN13FmwfDYjPv/PvHTjWiWLO/5tNI4I
- 8iCzq7bCpPh31niwR1AKoLqgFhIrPWwM2Pk39uoVIk7CXHM8CK71Ua+4x2ytvOp7L4bE/j
- LpqsNvQN2XfLuGtHV59eKsr2t0Q5GKo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-djCRKjCEOcqbxFgj6vXNrg-1; Wed, 14 Oct 2020 09:04:18 -0400
-X-MC-Unique: djCRKjCEOcqbxFgj6vXNrg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF9F09CC0C;
- Wed, 14 Oct 2020 13:04:16 +0000 (UTC)
-Received: from [10.33.36.138] (unknown [10.33.36.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DC815D9D5;
- Wed, 14 Oct 2020 13:04:11 +0000 (UTC)
-To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+ Wed, 14 Oct 2020 13:14:12 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id j18so1985992pfa.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 14 Oct 2020 06:14:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=UawW9kr1VSlFsZgDsJocSNaJ6Xn7ZSJWICbrc18ExZo=;
+ b=f/kAX/pvagRkeIdnKXg+eLk1YQEk8AEaSMO4v/LAVYvP9aXQ7OTpenGA2Rt5D3rPdz
+ 9bos2WL/Li5bhZSEKkSLHSRWQh9fdnr2OkZnrZrcp7Z94LP8r3maCBQFCFYHdrTilqE1
+ Xg/nHZJlGyNPZTsYoKnN+oQGmixOkHfnOywaqQqyzN6v0tLpxFX1KopZ4VpYO6Myf7e6
+ JsrCEYpJmqWTwVqQFnifj86I7K7zAybo3a3Cjg+1aMkqNb/JQrezvJQa3jaV7Ngp5k9o
+ h1A5SEjXvly0shYu332fHNUlFNUCp8ZSJVg3d8iLBA1BonYHZJBefZYHdrw5NzITkeod
+ F80w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=UawW9kr1VSlFsZgDsJocSNaJ6Xn7ZSJWICbrc18ExZo=;
+ b=IsrMdEvWhPpU6aHyxDkQ15w+/GEAPPF1Km68djgE/MdC1pxxc/ETOQ2s4AkJZcWZuR
+ zl5VwMq3dr66xBa92LOR8T0RF/5gd3ZvDlGpWj8uZvtSHsuKG/FXVnM0Gx/V+Q8hl43z
+ C0PviUJkbz/1cfluUIbpIpnLPq1oeEK900OwlnS3+gZ3YRGZHgD2MlSUMiOUpza1IHkM
+ uEdAQDuKtUh0/NYFtjio4wty/DV0Sx7r+oMJ2k/LVGf6AySF/fgzl228G1OFEQ7f4UcR
+ j7IFXv+KeqTXIRTozCz65Re6hZu1iuZsmu2lhTaliAaBMMBXy+HGki2QUQrhDXjspToi
+ p08A==
+X-Gm-Message-State: AOAM532DTA9Hj+gjRgpJn+K4SGMfjR0wlDBKAGDc1pyRJP6caEmNhcOE
+ FIFKnzm/7KKrB9+aMSIbCAA=
+X-Google-Smtp-Source: ABdhPJworPLHLh5PTrbbUgBQX2HKwQrgckVM4USyKQLbZcOTMHSKev+j9cMneIwyEplnuMSOiDJ0Hg==
+X-Received: by 2002:aa7:9358:0:b029:152:b349:8af8 with SMTP id
+ 24-20020aa793580000b0290152b3498af8mr4352952pfn.9.1602681251951; 
+ Wed, 14 Oct 2020 06:14:11 -0700 (PDT)
+Received: from [192.168.0.104] ([49.207.205.44])
+ by smtp.gmail.com with ESMTPSA id p6sm3327907pjd.1.2020.10.14.06.14.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Oct 2020 06:14:11 -0700 (PDT)
+To: Andrew Price <anprice@redhat.com>
 References: <20201013152648.438887-1-anant.thazhemadam@gmail.com>
-From: Andrew Price <anprice@redhat.com>
-Message-ID: <d75dc535-00be-3aa7-addb-c2615b202b56@redhat.com>
-Date: Wed, 14 Oct 2020 14:04:10 +0100
+ <d75dc535-00be-3aa7-addb-c2615b202b56@redhat.com>
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Message-ID: <48a1f8ca-54ce-09f4-45c2-b1091d4e358a@gmail.com>
+Date: Wed, 14 Oct 2020 18:44:06 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201013152648.438887-1-anant.thazhemadam@gmail.com>
+In-Reply-To: <d75dc535-00be-3aa7-addb-c2615b202b56@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Cc: agruenba@redhat.com, Fox Chen <foxhlchen@gmail.com>,
  linux-kernel@vger.kernel.org,
  syzbot+a5e2482a693e6b1e444b@syzkaller.appspotmail.com,
@@ -104,129 +117,39 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 13/10/2020 16:26, Anant Thazhemadam wrote:
-> In gfs2_read_sb(), if the condition
-> 	(d != sdp->sd_heightsize[x - 1] || m)
-> isn't satisfied (in the first 11 iterations), the loop continues,
-> and begins to perform out-of-bounds access.
-> Fix this out-of-bounds access by introducing a condition in the for loop
-> that ensures that no more than GFS2_MAX_META_HEIGHT + 1 elements are
-> accessed.
-> 
-> In addition to this, if the above condition is satisfied when
-> x = GFS2_MAX_META_HEIGHT (which = 10), and the flow of control breaks
-> out of the loop, then an out-of-bounds access is performed again while
-> assigning sdp->sd_heightsize[x] = ~0 (since x would be 11 now.), and
-> also the assertion that spd->sd_max_height <= GFS2_MAX_META_HEIGHT would
-> fail.
-> Fix this out-of-bounds access and ensure that the assertion doesn't fail
-> by introducing another variable "index", which keeps track of the last
-> valid value of x (pre-increment) that can be used.
-
-That's not quite the right approach. Your analysis below is correct: the 
-problem stems from the block size in the superblock being zeroed by the 
-fuzzer. So the correct fix would be to add a validation check for 
-sb_bsize (gfs2_check_sb() is lacking somewhat). Valid values are powers 
-of 2 between 512 and the page size.
-
-Just a heads-up to avoid duplication of effort: Fox Chen (CCed) has 
-attempted to fix this also[1], but I don't know if they plan to send 
-another patch.
-
-[1] https://www.redhat.com/archives/cluster-devel/2020-October/msg00006.html
-
-Thanks,
-Andy
-
-> Reported-by: syzbot+a5e2482a693e6b1e444b@syzkaller.appspotmail.com
-> Tested-by: syzbot+a5e2482a693e6b1e444b@syzkaller.appspotmail.com
-> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-> ---
-> 
-> I have one question here (potentially a place where I suspect this
-> patch could have a fatal flaw and might need some rework).
-> 
-> 	sdp->sd_max_height = x;
-> 	sdp->sd_heightsize[x] = ~0;
-> 
-> Were these lines written with the logic that the value of x would be
-> equal to (sdp->sd_heightsize[]'s last index filled in by the loop) + 1?
-> Or, is the expected value of x at these lines equal to
-> (sdp->sd_heightsize[]'s last index as filled in by the loop)?
-> I would appreciate it if someone could clarify for me, how this would
-> hold against the second potential out-of-bounds access I mentioned in my
-> commit message.
-> 
-> An additional comment (which I feel is of some significance) on this.
-> Reproducing the crash locally, I could infer that sdp->sd_fsb2bb_shift
-> sdp->sd_sb.sb_bsize, sdp->sd_sb.sb_bsize_shift, and sdp->sd_inptrs
-> were all 0.
-> This by extension also means that in gfs2_read_sb(), all the attributes
-> whose values were determined by performing some sort of calculation
-> involving any one of these variables all resulted in either 0 or a
-> negative value.
-> Simply doing the math will also show how this was also the primary reason
-> this OOB access occured in the first place.
-> However, I still feel that gfs2_read_sb() could do with this bit of checking,
-> since it fundamentally prevents OOB accesses from occuring in gfs2_read_sb()
-> in all scenarios.
-> Anyways, coming back to my initial point. Can having values like that be
-> considered unacceptable and as something that needs to be handled (at
-> gfs2_fill_super() maybe?) or is this non-anomalous behaviour and okay?
-> 
->   fs/gfs2/ops_fstype.c | 15 ++++++++-------
->   1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/gfs2/ops_fstype.c b/fs/gfs2/ops_fstype.c
-> index 6d18d2c91add..66ee8fb06ab9 100644
-> --- a/fs/gfs2/ops_fstype.c
-> +++ b/fs/gfs2/ops_fstype.c
-> @@ -281,7 +281,7 @@ static int gfs2_read_sb(struct gfs2_sbd *sdp, int silent)
->   {
->   	u32 hash_blocks, ind_blocks, leaf_blocks;
->   	u32 tmp_blocks;
-> -	unsigned int x;
-> +	unsigned int x, index;
->   	int error;
->   
->   	error = gfs2_read_super(sdp, GFS2_SB_ADDR >> sdp->sd_fsb2bb_shift, silent);
-> @@ -329,20 +329,21 @@ static int gfs2_read_sb(struct gfs2_sbd *sdp, int silent)
->   	sdp->sd_heightsize[0] = sdp->sd_sb.sb_bsize -
->   				sizeof(struct gfs2_dinode);
->   	sdp->sd_heightsize[1] = sdp->sd_sb.sb_bsize * sdp->sd_diptrs;
-> -	for (x = 2;; x++) {
-> +	for (x = 2; x <= GFS2_MAX_META_HEIGHT; x++) {
->   		u64 space, d;
->   		u32 m;
->   
-> -		space = sdp->sd_heightsize[x - 1] * sdp->sd_inptrs;
-> +		index = x;
-> +		space = sdp->sd_heightsize[index - 1] * sdp->sd_inptrs;
->   		d = space;
->   		m = do_div(d, sdp->sd_inptrs);
->   
-> -		if (d != sdp->sd_heightsize[x - 1] || m)
-> +		if (d != sdp->sd_heightsize[index - 1] || m)
->   			break;
-> -		sdp->sd_heightsize[x] = space;
-> +		sdp->sd_heightsize[index] = space;
->   	}
-> -	sdp->sd_max_height = x;
-> -	sdp->sd_heightsize[x] = ~0;
-> +	sdp->sd_max_height = index;
-> +	sdp->sd_heightsize[index] = ~0;
->   	gfs2_assert(sdp, sdp->sd_max_height <= GFS2_MAX_META_HEIGHT);
->   
->   	sdp->sd_max_dents_per_leaf = (sdp->sd_sb.sb_bsize -
-> 
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+Ck9uIDE0LzEwLzIwIDY6MzQgcG0sIEFuZHJldyBQcmljZSB3cm90ZToKPiBPbiAxMy8xMC8yMDIw
+IDE2OjI2LCBBbmFudCBUaGF6aGVtYWRhbSB3cm90ZToKPj4gSW4gZ2ZzMl9yZWFkX3NiKCksIGlm
+IHRoZSBjb25kaXRpb24KPj4gwqDCoMKgwqAoZCAhPSBzZHAtPnNkX2hlaWdodHNpemVbeCAtIDFd
+IHx8IG0pCj4+IGlzbid0IHNhdGlzZmllZCAoaW4gdGhlIGZpcnN0IDExIGl0ZXJhdGlvbnMpLCB0
+aGUgbG9vcCBjb250aW51ZXMsCj4+IGFuZCBiZWdpbnMgdG8gcGVyZm9ybSBvdXQtb2YtYm91bmRz
+IGFjY2Vzcy4KPj4gRml4IHRoaXMgb3V0LW9mLWJvdW5kcyBhY2Nlc3MgYnkgaW50cm9kdWNpbmcg
+YSBjb25kaXRpb24gaW4gdGhlIGZvciBsb29wCj4+IHRoYXQgZW5zdXJlcyB0aGF0IG5vIG1vcmUg
+dGhhbiBHRlMyX01BWF9NRVRBX0hFSUdIVCArIDEgZWxlbWVudHMgYXJlCj4+IGFjY2Vzc2VkLgo+
+Pgo+PiBJbiBhZGRpdGlvbiB0byB0aGlzLCBpZiB0aGUgYWJvdmUgY29uZGl0aW9uIGlzIHNhdGlz
+ZmllZCB3aGVuCj4+IHggPSBHRlMyX01BWF9NRVRBX0hFSUdIVCAod2hpY2ggPSAxMCksIGFuZCB0
+aGUgZmxvdyBvZiBjb250cm9sIGJyZWFrcwo+PiBvdXQgb2YgdGhlIGxvb3AsIHRoZW4gYW4gb3V0
+LW9mLWJvdW5kcyBhY2Nlc3MgaXMgcGVyZm9ybWVkIGFnYWluIHdoaWxlCj4+IGFzc2lnbmluZyBz
+ZHAtPnNkX2hlaWdodHNpemVbeF0gPSB+MCAoc2luY2UgeCB3b3VsZCBiZSAxMSBub3cuKSwgYW5k
+Cj4+IGFsc28gdGhlIGFzc2VydGlvbiB0aGF0IHNwZC0+c2RfbWF4X2hlaWdodCA8PSBHRlMyX01B
+WF9NRVRBX0hFSUdIVCB3b3VsZAo+PiBmYWlsLgo+PiBGaXggdGhpcyBvdXQtb2YtYm91bmRzIGFj
+Y2VzcyBhbmQgZW5zdXJlIHRoYXQgdGhlIGFzc2VydGlvbiBkb2Vzbid0IGZhaWwKPj4gYnkgaW50
+cm9kdWNpbmcgYW5vdGhlciB2YXJpYWJsZSAiaW5kZXgiLCB3aGljaCBrZWVwcyB0cmFjayBvZiB0
+aGUgbGFzdAo+PiB2YWxpZCB2YWx1ZSBvZiB4IChwcmUtaW5jcmVtZW50KSB0aGF0IGNhbiBiZSB1
+c2VkLgo+Cj4gVGhhdCdzIG5vdCBxdWl0ZSB0aGUgcmlnaHQgYXBwcm9hY2guIFlvdXIgYW5hbHlz
+aXMgYmVsb3cgaXMgY29ycmVjdDogdGhlIHByb2JsZW0gc3RlbXMgZnJvbSB0aGUgYmxvY2sgc2l6
+ZSBpbiB0aGUgc3VwZXJibG9jayBiZWluZyB6ZXJvZWQgYnkgdGhlIGZ1enplci4gU28gdGhlIGNv
+cnJlY3QgZml4IHdvdWxkIGJlIHRvIGFkZCBhIHZhbGlkYXRpb24gY2hlY2sgZm9yIHNiX2JzaXpl
+IChnZnMyX2NoZWNrX3NiKCkgaXMgbGFja2luZyBzb21ld2hhdCkuIFZhbGlkIHZhbHVlcyBhcmUg
+cG93ZXJzIG9mIDIgYmV0d2VlbiA1MTIgYW5kIHRoZSBwYWdlIHNpemUuCj4KCkkgc2VlLiBUaGFu
+a3MgZm9yIHRoZSByZXZpZXchIEknbGwgc2VuZCBpbiBhIHYyIHRoYXQgaW1wbGVtZW50cyB0aGlz
+IGNoZWNrIHNvb24gZW5vdWdoLgoKVGhhbmtzLApBbmFudAoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBs
+aXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6
+Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVs
+LW1lbnRlZXMK
