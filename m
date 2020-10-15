@@ -2,88 +2,106 @@ Return-Path: <SRS0=0JRt=DW=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38269C433DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Oct 2020 10:50:47 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D79BC43457
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Oct 2020 14:10:26 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DE3DC22249
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Oct 2020 10:50:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DE3DC22249
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7A89020704
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Oct 2020 14:10:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNSxMPGk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A89020704
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5496D8827E;
-	Thu, 15 Oct 2020 10:50:44 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2689E886AA;
+	Thu, 15 Oct 2020 14:10:25 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XPlKTBDIJDVb; Thu, 15 Oct 2020 14:10:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6B33D88100;
+	Thu, 15 Oct 2020 14:10:24 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 47B6EC0052;
+	Thu, 15 Oct 2020 14:10:24 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AE1DEC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 15 Oct 2020 14:10:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A91CC86EEA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 15 Oct 2020 14:10:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Z4TsYB76BkHH; Thu, 15 Oct 2020 10:50:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1993484312;
-	Thu, 15 Oct 2020 10:50:12 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F36EDC07FF;
-	Thu, 15 Oct 2020 10:50:11 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ABED7C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Oct 2020 10:50:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 915FB87F11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Oct 2020 10:50:10 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0QJ237xRyH1j
+ with ESMTP id dQXJXKeJoqaX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Oct 2020 10:50:08 +0000 (UTC)
+ Thu, 15 Oct 2020 14:10:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4719287ED0
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0AE8286C11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Oct 2020 10:50:08 +0000 (UTC)
-IronPort-SDR: sdp2ncfbfDpqcBbfEPTDTxpScCiCwtXHJWgD8ZcJPS4eI+jh4gyK1FlMHNUyKEItpv08FCvi8p
- ATjG4rarasXA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9774"; a="165533374"
-X-IronPort-AV: E=Sophos;i="5.77,378,1596524400"; d="scan'208";a="165533374"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 03:50:07 -0700
-IronPort-SDR: XRJgxpgsxB4D8wBiqZnKJX82Bk4f1AUWT+2R8p9xT6iB3rw/VzqF/BhBLRPBXaIElicUARBrwz
- Ddg00+IephIg==
-X-IronPort-AV: E=Sophos;i="5.77,378,1596524400"; d="scan'208";a="330757409"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 03:50:03 -0700
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1kT0qf-007N8B-4h; Thu, 15 Oct 2020 13:51:05 +0300
-Date: Thu, 15 Oct 2020 13:51:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Vitor Massaru Iha <vitor@massaru.org>
-Message-ID: <20201015105105.GS4077@smile.fi.intel.com>
-References: <20201015014616.309000-1-vitor@massaru.org>
+ Thu, 15 Oct 2020 14:10:22 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id o3so1980014pgr.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 15 Oct 2020 07:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=aT/El/Gn9neHvZZa/+9NtdmwjsbnakBhZHDByWNqGyw=;
+ b=BNSxMPGkXPupxt3UFTpBo9CCOJOAFIXlAE7ATUBEzeF+Q3f5qZWm3G/Nv3rNGX5D8+
+ ZhH59Q/TWJX8QmM1PClQq4PU5tS9hticmSRCwXGyL7W50NiK1K9X1otuXEIIlVIS1KUP
+ c7V8gmqtIgMMZJugVmA9+PpgAtU3iW9UUaXDx59USDLehgNO1+hyNHtEKXhhdRavDWHB
+ LttvXd8TkTod160mb24X6WoGKqOB1vflsdcROKt5r7sY1/BgfADkLG7KgAcapfgpJc8V
+ ke+SdeS7bPizwOMnfQz16w8LTPHMzpsPOj97IXJD2EWzGygCvDL6INqqysepHGsgOhfD
+ zPGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aT/El/Gn9neHvZZa/+9NtdmwjsbnakBhZHDByWNqGyw=;
+ b=jZ4D6+FD1DyazFSaIJiwKU/y7ACEM5ibNFJXz4T1+RHIBTIlcqnF5qCIZWo+a76KCC
+ hQ0wWRsvtPnZB7LdZgBk1hgzZNpGpMFh+qfju+imBhNPQRVoUgrGzln/0x2M4EzpHvXD
+ EibgqiTey/IeGQi3NIJ738WWYLJRhfVO58+ljh/0UMRVbpoyjc/8mCpW3rQcvyi0LaIl
+ LOB2/OruUn7XUCumKONCmsPWn63AmANeBJgcVdAdCsk+A/LFBcHGxR4orukpslG3xDXq
+ 9GoBII5Lr5XRnkW4eupGburzvE9p/zVkVSCX0s/KW+RG2Je6eh/iX5VN8SBNlA+DzV3U
+ H8Vg==
+X-Gm-Message-State: AOAM533yWjzSc38etd6vNttSku5VhVTageTeU1GyARzHKsU1E1IZXVt9
+ SGjiht+DTe1aJXQSpiZfh/Q=
+X-Google-Smtp-Source: ABdhPJy1HYUu1kRjItzpQU19OCcT2k9XVykzELUm/mbikwcgFTym+yuiO3y8cnDSDJv9p2t8B+8F8A==
+X-Received: by 2002:a63:1c5f:: with SMTP id c31mr3605225pgm.340.1602771021326; 
+ Thu, 15 Oct 2020 07:10:21 -0700 (PDT)
+Received: from Thinkpad ([45.118.167.207])
+ by smtp.gmail.com with ESMTPSA id b185sm3341294pgc.68.2020.10.15.07.10.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Oct 2020 07:10:20 -0700 (PDT)
+Date: Thu, 15 Oct 2020 19:40:12 +0530
+From: Anmol Karn <anmol.karan123@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Message-ID: <20201015141012.GB77038@Thinkpad>
+References: <20201015001712.72976-1-anmol.karan123@gmail.com>
+ <20201015051225.GA404970@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201015014616.309000-1-vitor@massaru.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Cc: elver@google.com, mhocko@suse.com, arnd@arndb.de,
- torvalds@linux-foundation.org, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, elfring@users.sourceforge.net,
- paul.gortmaker@windriver.com, geert@linux-m68k.org,
- linux-kselftest@vger.kernel.org, tglx@linutronix.de,
- linux-kernel-mentees@lists.linuxfoundation.org, akpm@linux-foundation.org,
- kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] lib: kunit: add list_sort
-	test conversion to KUnit
+In-Reply-To: <20201015051225.GA404970@kroah.com>
+Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, ralf@linux-mips.org,
+ syzbot+a1c743815982d9496393@syzkaller.appspotmail.com,
+ linux-hams@vger.kernel.org, kuba@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] [PATCH] net: rose: Fix Null pointer
+ dereference in rose_send_frame()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,21 +119,88 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Oct 14, 2020 at 10:46:16PM -0300, Vitor Massaru Iha wrote:
-> This adds the conversion of the runtime tests of test_list_sort,
-> from `lib/test_list_sort.c` to KUnit tests.
+On Thu, Oct 15, 2020 at 07:12:25AM +0200, Greg KH wrote:
+> On Thu, Oct 15, 2020 at 05:47:12AM +0530, Anmol Karn wrote:
+> > In rose_send_frame(), when comparing two ax.25 addresses, it assigns rose_call to 
+> > either global ROSE callsign or default port, but when the former block triggers and 
+> > rose_call is assigned by (ax25_address *)neigh->dev->dev_addr, a NULL pointer is 
+> > dereferenced by 'neigh' when dereferencing 'dev'.
+> > 
+> > - net/rose/rose_link.c
+> > This bug seems to get triggered in this line:
+> > 
+> > rose_call = (ax25_address *)neigh->dev->dev_addr;
+> > 
+> > Prevent it by checking NULL condition for neigh->dev before comparing addressed for 
+> > rose_call initialization.
+> > 
+> > Reported-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com 
+> > Link: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3 
+> > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
+> > ---
+> > I am bit sceptical about the error return code, please suggest if anything else is 
+> > appropriate in place of '-ENODEV'.
+> > 
+> >  net/rose/rose_link.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
+> > index f6102e6f5161..92ea6a31d575 100644
+> > --- a/net/rose/rose_link.c
+> > +++ b/net/rose/rose_link.c
+> > @@ -97,6 +97,9 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
+> >  	ax25_address *rose_call;
+> >  	ax25_cb *ax25s;
+> >  
+> > +	if (!neigh->dev)
+> > +		return -ENODEV;
+> 
+> How can ->dev not be set at this point in time?  Shouldn't that be
+> fixed, because it could change right after you check this, right?
+> 
+> thanks,
+> 
+> greg k-h
 
-Please, provide better commit message. For example, add the output of _succeeded_
-*and* _failed_ test cases (yes, you have to break code manually to reproduce failed
-test cases) _before_ *and* _after_ the change.
+Hello Sir,
 
-W/o above information I'm going to NAK this as I promised before.
+Thanks for the review,
+After following the call trace i thought, if neigh->dev is NULL it should
+be checked, but I will figure out what is going on with the crash reproducer,
+and I think rose_loopback_timer() is the place where problem started. 
 
--- 
-With Best Regards,
-Andy Shevchenko
+Also, I have created a diff for checking neigh->dev before assigning ROSE callsign
+, please give your suggestions on this.
 
 
+diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
+index f6102e6f5161..2ddd5e559442 100644
+--- a/net/rose/rose_link.c
++++ b/net/rose/rose_link.c
+@@ -97,10 +97,14 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
+        ax25_address *rose_call;
+        ax25_cb *ax25s;
+ 
+-       if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
+-               rose_call = (ax25_address *)neigh->dev->dev_addr;
+-       else
+-               rose_call = &rose_callsign;
++       if (neigh->dev) {
++               if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
++                       rose_call = (ax25_address *)neigh->dev->dev_addr;
++               else
++                       rose_call = &rose_callsign;
++       } else {
++               return -ENODEV;
++       }
+ 
+        ax25s = neigh->ax25;
+        neigh->ax25 = ax25_send_frame(skb, 260, rose_call, &neigh->callsign, neigh->digipeat, neigh->dev);
+ 
+
+
+Thanks,
+Anmol
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
