@@ -6,72 +6,73 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C0DC433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Oct 2020 22:25:00 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B373C43457
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Oct 2020 22:37:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED5BA20776
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Oct 2020 22:24:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BC3CE20776
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Oct 2020 22:37:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvOqiLGg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED5BA20776
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKkhfJzy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC3CE20776
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 56FB887C7B;
-	Thu, 15 Oct 2020 22:24:59 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 48F1A87D96;
+	Thu, 15 Oct 2020 22:37:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ceNr5E8xLQKH; Thu, 15 Oct 2020 22:24:57 +0000 (UTC)
+	with ESMTP id jo25fBTfCOHR; Thu, 15 Oct 2020 22:37:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6F29987C69;
-	Thu, 15 Oct 2020 22:24:57 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CB39287D95;
+	Thu, 15 Oct 2020 22:37:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 50B0EC07FF;
-	Thu, 15 Oct 2020 22:24:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B05C4C07FF;
+	Thu, 15 Oct 2020 22:37:05 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DE439C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 149FDC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Oct 2020 22:24:55 +0000 (UTC)
+ Thu, 15 Oct 2020 22:37:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A15B42E673
+ by silver.osuosl.org (Postfix) with ESMTP id EB0CE2E679
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Oct 2020 22:24:55 +0000 (UTC)
+ Thu, 15 Oct 2020 22:37:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id g5yuSBQL9s4H
+ with ESMTP id oE1v4jxTAteX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Oct 2020 22:24:54 +0000 (UTC)
+ Thu, 15 Oct 2020 22:37:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 61705204C3
+ by silver.osuosl.org (Postfix) with ESMTPS id F203C20510
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Oct 2020 22:24:54 +0000 (UTC)
+ Thu, 15 Oct 2020 22:37:03 +0000 (UTC)
 Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
  [163.114.132.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4240920776;
- Thu, 15 Oct 2020 22:24:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9CC382076A;
+ Thu, 15 Oct 2020 22:37:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602800693;
- bh=vW2vkyOsUS/1+J06kIFHt1vg0A+dDdmryUp49IH19ts=;
+ s=default; t=1602801423;
+ bh=BMOsWE4aVRcmEffotsqEU3bAwwqr/B4tqNeqo6EqSZ8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=hvOqiLGgk3exYmwcNEcl4DgDkzifViuRitY4f/71zFTqH/XGrOj3SGscbcBgMC6aJ
- dZWX27RlBgGXKpAa+20uPviVHtIR6nPId+FeI8wD9+74dQtBp4JNvWVuo7jm8Eq5Jd
- O4K5SAaBaVLwQAIgBTSnXH/7kE7PNDH3ooNitX/Q=
-Date: Thu, 15 Oct 2020 15:24:51 -0700
+ b=eKkhfJzyd9CAGLCnNQz4n69pnUtmKxaWMJbcII+kR9FyuBUhL76wxmMh3lGn0pp+w
+ AJl+PrYiOPkiIiOncBMhXxPyeMTk4S4YJe+2HDFAYGBZ0hE+kyOJtw1feWG85MQJzT
+ sKlbe8qQt//mCCwsEhr/D9V+5b3cq+e+ujXmXXfQ=
+Date: Thu, 15 Oct 2020 15:37:00 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Stephen Rothwell <sfr@canb.auug.org.au>
-Message-ID: <20201015152451.125895b1@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201016085922.4a2b90d1@canb.auug.org.au>
+Message-ID: <20201015153700.1e97b354@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201015152451.125895b1@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 References: <20201010064459.6563-1-anant.thazhemadam@gmail.com>
  <20201011173030.141582-1-anant.thazhemadam@gmail.com>
  <20201012091428.103fc2be@canb.auug.org.au>
  <20201016085922.4a2b90d1@canb.auug.org.au>
+ <20201015152451.125895b1@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>, petkan@nucleusys.com,
  Greg KH <greg@kroah.com>, linux-usb@vger.kernel.org,
@@ -97,20 +98,24 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, 16 Oct 2020 08:59:22 +1100 Stephen Rothwell wrote:
-> > I will apply the above patch to the merge of the usb tree today to fix
-> > up a semantic conflict between the usb tree and Linus' tree.  
+On Thu, 15 Oct 2020 15:24:51 -0700 Jakub Kicinski wrote:
+> On Fri, 16 Oct 2020 08:59:22 +1100 Stephen Rothwell wrote:
+> > > I will apply the above patch to the merge of the usb tree today to fix
+> > > up a semantic conflict between the usb tree and Linus' tree.    
+> > 
+> > It looks like you forgot to mention this one to Linus :-(
+> > 
+> > It should probably say:
+> > 
+> > Fixes: b2a0f274e3f7 ("net: rtl8150: Use the new usb control message API.")  
 > 
-> It looks like you forgot to mention this one to Linus :-(
+> Umpf. I think Greg sent his changes first, so this is on me.
 > 
-> It should probably say:
-> 
-> Fixes: b2a0f274e3f7 ("net: rtl8150: Use the new usb control message API.")
+> The networking PR is still outstanding, can we reply to the PR with
+> the merge guidance. Or is it too late?
 
-Umpf. I think Greg sent his changes first, so this is on me.
-
-The networking PR is still outstanding, can we reply to the PR with
-the merge guidance. Or is it too late?
+I take that back, this came through net, not net-next so our current
+PR is irrelevant :)
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
