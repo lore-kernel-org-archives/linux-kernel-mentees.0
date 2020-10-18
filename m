@@ -2,98 +2,81 @@ Return-Path: <SRS0=+KdI=DZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A2BC433E7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Oct 2020 16:51:25 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D738C433E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Oct 2020 18:13:33 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 09CD92223F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Oct 2020 16:51:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bVmfFn6a"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09CD92223F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id B112F21655
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Oct 2020 18:13:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B112F21655
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B663C86EE8;
-	Sun, 18 Oct 2020 16:51:24 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id p69yyCHkMqie; Sun, 18 Oct 2020 16:51:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4101786E65;
-	Sun, 18 Oct 2020 16:51:24 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23BD3C088B;
-	Sun, 18 Oct 2020 16:51:24 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E6522C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Oct 2020 16:51:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id B69EA228CA
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Oct 2020 16:51:22 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 46C92228CA;
+	Sun, 18 Oct 2020 18:13:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HjzncfR2-aov; Sun, 18 Oct 2020 18:13:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 0B1CA20514;
+	Sun, 18 Oct 2020 18:13:31 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DE348C088B;
+	Sun, 18 Oct 2020 18:13:30 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CFDFCC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 18 Oct 2020 18:13:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id C7A7E8761E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 18 Oct 2020 18:13:29 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jYJQWQyDZaHW
+ with ESMTP id 7Ds1MJWeI7PX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Oct 2020 16:51:22 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by silver.osuosl.org (Postfix) with ESMTPS id D968E228AC
+ Sun, 18 Oct 2020 18:13:28 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0140.hostedemail.com
+ [216.40.44.140])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8084E8761A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Oct 2020 16:51:21 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id u127so556362oib.6
+ Sun, 18 Oct 2020 18:13:28 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 327BF181CA087
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Oct 2020 09:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/xbr1iyCmVHPM8Z+0u2tLKLLy6qAswXo6NMqrcz7V/s=;
- b=bVmfFn6awNB2/CzdrTTm8RdDtSDSR1opWIX65757pAPRZOR2YjHuhqFxHX8hb8fIYE
- 8JuBeBOMUPZYPL6S5zDmexyXyLkcGeRph0QvN24V7R2V14hXZNAX1hzdFe4mMtTih9av
- jYgBE8RkfkUCb7IgAOsT8rrHBLAkbuv32059BgeNWiuJ1odC5+DV2Nxnv6GbNdlR5dlv
- 4evZxNC4MgD6YqEWntQBJ3hqUnAmoxyuf4XmW5sVEJkgG6E8hSuMZYLbGBkObAaeI6Zu
- pFtbv9vaEzeEulumMjhigOI0KwFaU2ctt4dTg34JvI29Tr8NMEFqOusLbG3xLdAEZeLP
- z5zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/xbr1iyCmVHPM8Z+0u2tLKLLy6qAswXo6NMqrcz7V/s=;
- b=tp+hEyspJ3pK4fgnHJ00L10CW6ti+f4Vdjag/NjCQGhDqODdUFTcl2Fqa0CYwspmsR
- xmDbhqFKQ4ZWP0H+5sYhKrF04vdwdUXlZs0VieFPdGlyYAKw8WXuS+PQ2ewWrnYn20bw
- ZQR9IbtpmEf0huGcIodogY7li/uFVTiEcd8MsDjVJRv/C+maGHyuY2GNg84sm4NPe76q
- N+42vCWWfwDyHJRNqf7KCF3Fr/PWl8/+bejhQFqgcS5mj6vymsjTIRS0KyIaGFqzqAXa
- KFDl4Jit+vWotvlwoPmrLO7fSOQa9uPbYS8+uqbVtZI1qHTTL6kkMAonOyo9fpY66fcN
- 0AHA==
-X-Gm-Message-State: AOAM531SjiMFvzLuKTsZKFvwK4j5pX5W2nSV6/qECDBiJ8BTOb1ZPIbq
- q1gZkBrLRg1vUB1QS7iICgTjwWCwei/849svN1g=
-X-Google-Smtp-Source: ABdhPJyhWxhBMikpLU46CQ8PBjaY8lh36ICXoqo8ZC1BdgFdxeS4VGUomctZm0OHXL2F63/qOB1raHyV8+QYoHdebzc=
-X-Received: by 2002:aca:d5d2:: with SMTP id m201mr8910518oig.74.1603039880960; 
- Sun, 18 Oct 2020 09:51:20 -0700 (PDT)
-MIME-Version: 1.0
+ Sun, 18 Oct 2020 18:04:19 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay04.hostedemail.com (Postfix) with ESMTP id 3CE92180A7FD6;
+ Sun, 18 Oct 2020 18:04:16 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: face24_0c0baef27230
+X-Filterd-Recvd-Size: 3782
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf17.hostedemail.com (Postfix) with ESMTPA;
+ Sun, 18 Oct 2020 18:04:15 +0000 (UTC)
+Message-ID: <f5060c275bbe1cc52cab4e4625a0828c0a8a5676.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, Andrew Morton
+ <akpm@linux-foundation.org>
+Date: Sun, 18 Oct 2020 11:04:14 -0700
+In-Reply-To: <20201017162732.152351-1-dwaipayanray1@gmail.com>
 References: <20201017162732.152351-1-dwaipayanray1@gmail.com>
- <1ad9c5f49e10a192f0c6efb1116f3f0d31adce74.camel@perches.com>
- <CABJPP5DuQ_Y0LLS5BzNXUWyxjzp9ts5kgEH-3+7Pn7PPjq0Ljg@mail.gmail.com>
- <eda7a64b4af42ba1fb66a5b3704780cf3f761951.camel@perches.com>
- <CABJPP5Cr3giDJkJvBDd62iwx6y6r1dFhaVXp9jYXS8Y6k9b09A@mail.gmail.com>
- <e417e506c23ad56b2618204071c86e8a6ec2cb85.camel@perches.com>
-In-Reply-To: <e417e506c23ad56b2618204071c86e8a6ec2cb85.camel@perches.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Sun, 18 Oct 2020 22:20:53 +0530
-Message-ID: <CABJPP5CPgT4VHP9-xiWNVbPDVjDykPsE4kWTFgDmzp553H3o8Q@mail.gmail.com>
-To: Joe Perches <joe@perches.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel <linux-kernel@vger.kernel.org>
+ linux-kernel@vger.kernel.org
 Subject: Re: [Linux-kernel-mentees] [PATCH v5] checkpatch: add new exception
 	to repeated word check
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -113,28 +96,82 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Oct 18, 2020 at 12:41 PM Joe Perches <joe@perches.com> wrote:
->
-> On Sun, 2020-10-18 at 12:10 +0530, Dwaipayan Ray wrote:
-> > print index(" \t.,;?!", '');
-> >
-> > It output 0 in my case. So last words on a line seems to work.
-> > I don't know if this changes with the perl version though.
-> >
-> > So given this, will it be necessary to change end_char to ' ' ?
-> > or perhaps change both start_char and end_char to a ' ' to maintain
-> > uniformity?
->
-> It seems it's fine even back to perl 5.6, so it's fine as is.
->
-> cheers, Joe
->
-Okay thanks!
-Please let me know if any other change is needed
-or if it's good to go.
+On Sat, 2020-10-17 at 21:57 +0530, Dwaipayan Ray wrote:
+> Recently, commit 4f6ad8aa1eac ("checkpatch: move repeated word test")
+> moved the repeated word test to check for more file types. But after
+> this, if checkpatch.pl is run on MAINTAINERS, it generates several
+> new warnings of the type:
 
-Regards,
-Dwaipayan.
+Andrew, can you pick this up please?
+
+Acked-by: Joe Perches <joe@perches.com>
+
+> WARNING: Possible repeated word: 'git'
+> 
+> For example:
+> WARNING: Possible repeated word: 'git'
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rw/uml.git
+> 
+> So, the pattern "git git://..." is a false positive in this case.
+> 
+> There are several other combinations which may produce a wrong
+> warning message, such as "@size size", ":Begin begin", etc.
+> 
+> Extend repeated word check to compare the characters before and
+> after the word matches.
+> 
+> If there is a non whitespace character before the first word or a
+> non whitespace character excluding punctuation characters after
+> the second word, then the check is skipped and the warning is avoided.
+> 
+> Also add case insensitive word matching to the repeated word check.
+> 
+> Link: https://lore.kernel.org/linux-kernel-mentees/81b6a0bb2c7b9256361573f7a13201ebcd4876f1.camel@perches.com/
+> Suggested-by: Joe Perches <joe@perches.com>
+> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index f1a4e61917eb..ec380626bebc 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3052,19 +3052,30 @@ sub process {
+>  
+>  # check for repeated words separated by a single space
+>  		if ($rawline =~ /^\+/ || $in_commit_log) {
+> +			pos($rawline) = 1 if (!$in_commit_log);
+>  			while ($rawline =~ /\b($word_pattern) (?=($word_pattern))/g) {
+>  
+>  				my $first = $1;
+>  				my $second = $2;
+> -
+> +				my $start_pos = $-[1];
+> +				my $end_pos = $+[2];
+>  				if ($first =~ /(?:struct|union|enum)/) {
+>  					pos($rawline) += length($first) + length($second) + 1;
+>  					next;
+>  				}
+>  
+> -				next if ($first ne $second);
+> +				next if (lc($first) ne lc($second));
+>  				next if ($first eq 'long');
+>  
+> +				# check for character before and after the word matches
+> +				my $start_char = '';
+> +				my $end_char = '';
+> +				$start_char = substr($rawline, $start_pos - 1, 1) if ($start_pos > ($in_commit_log ? 0 : 1));
+> +				$end_char = substr($rawline, $end_pos, 1) if ($end_pos < length($rawline));
+> +
+> +				next if ($start_char =~ /^\S$/);
+> +				next if (index(" \t.,;?!", $end_char) == -1);
+> +
+>  				if (WARN("REPEATED_WORD",
+>  					 "Possible repeated word: '$first'\n" . $herecurr) &&
+>  				    $fix) {
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
