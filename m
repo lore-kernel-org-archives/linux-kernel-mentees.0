@@ -2,98 +2,91 @@ Return-Path: <SRS0=Guts=D3=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B36C4363A
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 20 Oct 2020 17:23:42 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D9FC4363A
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 20 Oct 2020 17:36:05 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2A28C2222D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 20 Oct 2020 17:23:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9EA0A2222D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 20 Oct 2020 17:36:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="HwMoGSoh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2A28C2222D
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qFeznhEr"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EA0A2222D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9045D869B7;
-	Tue, 20 Oct 2020 17:23:41 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0662D8627E;
+	Tue, 20 Oct 2020 17:36:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c8F5hPUwAcJA; Tue, 20 Oct 2020 17:23:40 +0000 (UTC)
+	with ESMTP id BOQZaI3q-UUV; Tue, 20 Oct 2020 17:36:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 934C18699B;
-	Tue, 20 Oct 2020 17:23:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7D69785C9A;
+	Tue, 20 Oct 2020 17:36:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82815C088B;
-	Tue, 20 Oct 2020 17:23:40 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 21C2BC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70601C088B;
+	Tue, 20 Oct 2020 17:36:03 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AEB56C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Oct 2020 17:23:39 +0000 (UTC)
+ Tue, 20 Oct 2020 17:36:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 10148204BB
+ by hemlock.osuosl.org (Postfix) with ESMTP id A3513872D5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Oct 2020 17:23:39 +0000 (UTC)
+ Tue, 20 Oct 2020 17:36:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3XTfmsoqSyTJ
+ with ESMTP id 3hecr3n3q271
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Oct 2020 17:23:37 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by silver.osuosl.org (Postfix) with ESMTPS id 9EDE520460
+ Tue, 20 Oct 2020 17:36:00 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
+ [209.85.210.49])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7F279872B9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Oct 2020 17:23:37 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id q5so2860290wmq.0
+ Tue, 20 Oct 2020 17:36:00 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id d28so2476065ote.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Oct 2020 10:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aHul1OxumjXdzLDFboabsxgP+T8wu9OYStK55aNunxk=;
- b=HwMoGSohPzWVlNfG4Z/+SYlX1rZDSqxxQkRj94FVYgfvOBuVCInBTS8uEIKoC0PW6P
- YWkueLP9ZP9VKntRpePZK+VOUMB5ZFjLrZojLdqOBZIdZJNrF511bV5Ng2y08AI3Uq3E
- Xld/Qn4WCDjyuitZz+sRaDNQZZ6m7cMmLWM0SDt204ZrBmAkavhUQidDAJ2GUMrxIPst
- vhCw6B5zEPRWJDNbc2gMJ6mGLl2ISM2E9gLEdrFFVawnSFBux7ujvkBsR1PCb7yUt9+x
- eUE/aW0NgOGxTDpI0KYlnSkq7Oy2XoqyrOJE8KZQuC0UUW/OBa5RLI9bVw7GYyrLYSwu
- DHKA==
+ Tue, 20 Oct 2020 10:36:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=jUtHL1zz64+HgEbc+QYsU5Wf3DliA6MQ26V5PfGv1xA=;
+ b=qFeznhErr+NbHFM6oDL+Z4EpPr4E0cBY8xTmereXW2Tla0qiE5jojZvSDvhv3gUWPz
+ auZTOkJ0ywPMENvvJCXK+SVFcNbSDtbGbC/qz5rtChnB9i5yL+xmri2nOAaVT7PS5Xkc
+ t0cgExVqHLYMO8+kJtt43HkPNPo7/xaMU4aQK6UPpSQMAqqWUgfoSrDPdxL1HXpnCQ7x
+ 5KHd01xaWlMHiBP9Uz3ab9HP0X8HwOJGn8BxZzEuS6pPkoUsMYqB4C/WCs6OIKz3ut+h
+ LUA72clvCerft07n7xn6Wn8jYSqqJzqDVSRUZtxuTe8o1BT4PU8N7G/lj/Xm4DQA/qlm
+ ceag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aHul1OxumjXdzLDFboabsxgP+T8wu9OYStK55aNunxk=;
- b=Dad30/EgFGCpoD1RjX3JYTyIUEEaKPJnxF9mD24hQTs9fXRn4SIhECj0q54Yycm35f
- 5XQzBneJnJKpwS0DG76bdcrF1WFFEw+X5siQUcWgnLEaZ8wCXlbjRf2748oVF5Ye5ix2
- 3Wm1P2PhOX/j4vq8l77pLMKTKjBPMiX0kEcGEaEla9HM4oobcxYw/q06W+wxsTk4jHVe
- Ag5iCqA01+99ZivCvfz10EDxrFWyJ4ldDWMSWpPFx5EvDA93b5giMFyOyenNIRGoqrrd
- MMFdM6HjmGZ6LiZDDzlvCX/O64kZPp+5WfYVtV+P29MAGrXDpGJM19uq+ZsWMtT+IUKz
- LOnw==
-X-Gm-Message-State: AOAM533tsB7zflvCFSy2OeFiGFww2Ri+d2AK1yD4jMjinT6iAjfHzw8K
- eCGVvlegxNueESKaePALb4B6lHg9kdaGp79X0YoPZA==
-X-Google-Smtp-Source: ABdhPJyBz8fiCvV4lgzvnRTjIxDLzCtl8EGS2CXkKOerO4VVgWpe8sC2tT8oe6pv8aiQhwhb9gUHlr6JLMqrbzinG7A=
-X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr4136218wms.77.1603214615616; 
- Tue, 20 Oct 2020 10:23:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=jUtHL1zz64+HgEbc+QYsU5Wf3DliA6MQ26V5PfGv1xA=;
+ b=Fobs6zWcFM4hSjAb/tGLLCBVy+dKKf/e+CZeNXGwl6TxrcDTe0SVdg5LU43D3ta2f7
+ cYMihgabvhexfCD7VSAqQyTisIOVUvqM+7B7GxvbhVDH/Yj21P4u9Rclg0i2u2K7ioaO
+ 98L1UwYrbQrW8d1S2mMxVr4KaHyC2jVYYx5gSm1oN8Yo7kJTcPC3Jxy22j2mLljiIAou
+ CndNy0JukN2K76AY6gQUYDdOz/yCuWv93eN+xWJCqDSDe2ptDJphTlwVrFYMdkRKH7Ub
+ cz6VvFjKZKbv0YAANyQTLOoPg4GPP7xXy6AroaV4o30/lbw4J6xdxbt/gZX2WQzo98Pv
+ GtjQ==
+X-Gm-Message-State: AOAM530cnnrzVG/6zXydYn65Mv6EI8PllzrcjNX2pEGcyfBgyzsy/mjS
+ RFwmrMq+iB/9XagjeHhPtazKvbK7a4sps27up24=
+X-Google-Smtp-Source: ABdhPJwDdXVsWzwIVuHoyhES4qxy/Z+eFL25kpPPcbJDT49wnBWwbnBNnH0prO0yQVHD9WwGr8Sat1tccpmMgV4X/NM=
+X-Received: by 2002:a9d:1ca6:: with SMTP id l38mr2661059ota.30.1603215359470; 
+ Tue, 20 Oct 2020 10:35:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201015170217.291916-1-vitor@massaru.org>
-In-Reply-To: <20201015170217.291916-1-vitor@massaru.org>
-Date: Tue, 20 Oct 2020 10:23:24 -0700
-Message-ID: <CAP-5=fV+4GijgjEPCqPZDL77HtqBO=tGzrt-PNiiO1d1xDS4kA@mail.gmail.com>
-To: Vitor Massaru Iha <vitor@massaru.org>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- LKML <linux-kernel@vger.kernel.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, Ingo Molnar <mingo@kernel.org>,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: kunit: add test_min_heap
-	test conversion to KUnit
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Tue, 20 Oct 2020 23:05:31 +0530
+Message-ID: <CABJPP5AF9s_qx=7Ory-4ZrwY7bEP9nAAtbzadozfwNPU_ymTEA@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] checkpatch: improving comment parsing in
+	email
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,323 +98,45 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Ian Rogers via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Oct 15, 2020 at 10:02 AM Vitor Massaru Iha <vitor@massaru.org> wrote:
->
-> This adds the conversion of the runtime tests of test_min_heap,
-> from `lib/test_min_heap.c` to KUnit tests.
->
-> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+Hi,
+checkpatch seems to have problems parsing some types of
+email comments. Some examples I could find were of the type:
 
-Acked-by: Ian Rogers <irogers@google.com>
+1) address@example.com (Comment)
+2) "Name (Comment) " address@example.com
+3) address@example.com #comment
+
+These comments aren't processed currently which causes
+false BAD_SIGN_OFF warnings.
+
+Examples are:
+
+WARNING:BAD_SIGN_OFF: email address 'David.Laight@aculab.com
+(big endian system concerns)' might be better as 'David.Laight@aculab.com
+(big endian system concerns)'
+
+WARNING:BAD_SIGN_OFF: email address 'stable@vger.kernel.org #4.20+'
+might be better as 'stable@vger.kernel.org#4.20+'
+
+The earlier warning is very frequent in the kernel.
+
+I did send a patch solving (1 and 3),
+https://lore.kernel.org/linux-kernel-mentees/a15a6cc0ddea068d78113f5e315eaba6f52b917a.camel@perches.com/
+
+Joe points out that comments and multiple comments can
+exist at any part of email. (perhaps RFC 5322 Appendix A.5). So
+that patch didn't solve the problem at the very root.
+
+What do you recommend be done?
 
 Thanks,
-Ian
-
-> ---
->   v2:
->     * change Kconfig entries to be more adherent to KUnit documentation,
->       min_heap test runs when enabling full test coverage (KUNIT_ALL_TESTS).
->     * make kconfig help more concise;
->     * fix KUNIT_TEST sufix;
->   v3:
->     * change KUNIT_EXPECT_FALSE_MSG for KUNIT_EXPECT_LE and KUNIT_EXPECT_GE
->       where they are applicable;
-> ---
->  lib/Kconfig.debug                         |  24 +++--
->  lib/Makefile                              |   2 +-
->  lib/{test_min_heap.c => min_heap_kunit.c} | 111 +++++++++++-----------
->  3 files changed, 72 insertions(+), 65 deletions(-)
->  rename lib/{test_min_heap.c => min_heap_kunit.c} (62%)
->
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 4f09c6505a2e..0e10ef1176de 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -1915,16 +1915,6 @@ config TEST_LIST_SORT
->
->           If unsure, say N.
->
-> -config TEST_MIN_HEAP
-> -       tristate "Min heap test"
-> -       depends on DEBUG_KERNEL || m
-> -       help
-> -         Enable this to turn on min heap function tests. This test is
-> -         executed only once during system boot (so affects only boot time),
-> -         or at module load time.
-> -
-> -         If unsure, say N.
-> -
->  config TEST_SORT
->         tristate "Array-based sort test"
->         depends on DEBUG_KERNEL || m
-> @@ -2256,6 +2246,20 @@ config BITS_TEST
->
->           If unsure, say N.
->
-> +config MIN_HEAP_KUNIT_TEST
-> +       tristate "KUnit test for Min heap" if !KUNIT_ALL_TESTS
-> +       depends on KUNIT
-> +       default KUNIT_ALL_TESTS
-> +       help
-> +         Enable this to turn on min heap function tests. This test is
-> +         executed only once during system boot (so affects only boot time),
-> +         or at module load time.
-> +
-> +         For more information on KUnit and unit tests in general please refer
-> +         to the KUnit documentation in Documentation/dev-tools/kunit/.
-> +
-> +         If unsure, say N.
-> +
->  config TEST_UDELAY
->         tristate "udelay test driver"
->         help
-> diff --git a/lib/Makefile b/lib/Makefile
-> index d862d41fdc3d..03d12e672cf8 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -68,7 +68,6 @@ CFLAGS_test_ubsan.o += $(call cc-disable-warning, vla)
->  UBSAN_SANITIZE_test_ubsan.o := y
->  obj-$(CONFIG_TEST_KSTRTOX) += test-kstrtox.o
->  obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
-> -obj-$(CONFIG_TEST_MIN_HEAP) += test_min_heap.o
->  obj-$(CONFIG_TEST_LKM) += test_module.o
->  obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
->  obj-$(CONFIG_TEST_OVERFLOW) += test_overflow.o
-> @@ -343,3 +342,4 @@ obj-$(CONFIG_BITFIELD_KUNIT) += bitfield_kunit.o
->  obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
->  obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
->  obj-$(CONFIG_BITS_TEST) += test_bits.o
-> +obj-$(CONFIG_MIN_HEAP_KUNIT_TEST) += min_heap_kunit.o
-> diff --git a/lib/test_min_heap.c b/lib/min_heap_kunit.c
-> similarity index 62%
-> rename from lib/test_min_heap.c
-> rename to lib/min_heap_kunit.c
-> index d19c8080fd4d..97c5771f2b5e 100644
-> --- a/lib/test_min_heap.c
-> +++ b/lib/min_heap_kunit.c
-> @@ -7,9 +7,8 @@
->
->  #include <linux/log2.h>
->  #include <linux/min_heap.h>
-> -#include <linux/module.h>
-> -#include <linux/printk.h>
->  #include <linux/random.h>
-> +#include <kunit/test.h>
->
->  static __init bool less_than(const void *lhs, const void *rhs)
->  {
-> @@ -29,37 +28,28 @@ static __init void swap_ints(void *lhs, void *rhs)
->         *(int *)rhs = temp;
->  }
->
-> -static __init int pop_verify_heap(bool min_heap,
-> +static __init void pop_verify_heap(struct kunit *context,
-> +                               bool min_heap,
->                                 struct min_heap *heap,
->                                 const struct min_heap_callbacks *funcs)
->  {
->         int *values = heap->data;
-> -       int err = 0;
->         int last;
->
->         last = values[0];
->         min_heap_pop(heap, funcs);
->         while (heap->nr > 0) {
->                 if (min_heap) {
-> -                       if (last > values[0]) {
-> -                               pr_err("error: expected %d <= %d\n", last,
-> -                                       values[0]);
-> -                               err++;
-> -                       }
-> +            KUNIT_EXPECT_LE(context, last, values[0]);
->                 } else {
-> -                       if (last < values[0]) {
-> -                               pr_err("error: expected %d >= %d\n", last,
-> -                                       values[0]);
-> -                               err++;
-> -                       }
-> +            KUNIT_EXPECT_GE(context, last, values[0]);
->                 }
->                 last = values[0];
->                 min_heap_pop(heap, funcs);
->         }
-> -       return err;
->  }
->
-> -static __init int test_heapify_all(bool min_heap)
-> +static __init void test_heapify_all(struct kunit *context, bool min_heap)
->  {
->         int values[] = { 3, 1, 2, 4, 0x8000000, 0x7FFFFFF, 0,
->                          -3, -1, -2, -4, 0x8000000, 0x7FFFFFF };
-> @@ -73,12 +63,11 @@ static __init int test_heapify_all(bool min_heap)
->                 .less = min_heap ? less_than : greater_than,
->                 .swp = swap_ints,
->         };
-> -       int i, err;
-> +       int i;
->
->         /* Test with known set of values. */
->         min_heapify_all(&heap, &funcs);
-> -       err = pop_verify_heap(min_heap, &heap, &funcs);
-> -
-> +       pop_verify_heap(context, min_heap, &heap, &funcs);
->
->         /* Test with randomly generated values. */
->         heap.nr = ARRAY_SIZE(values);
-> @@ -86,12 +75,10 @@ static __init int test_heapify_all(bool min_heap)
->                 values[i] = get_random_int();
->
->         min_heapify_all(&heap, &funcs);
-> -       err += pop_verify_heap(min_heap, &heap, &funcs);
-> -
-> -       return err;
-> +       pop_verify_heap(context, min_heap, &heap, &funcs);
->  }
->
-> -static __init int test_heap_push(bool min_heap)
-> +static __init void test_heap_push(struct kunit *context, bool min_heap)
->  {
->         const int data[] = { 3, 1, 2, 4, 0x80000000, 0x7FFFFFFF, 0,
->                              -3, -1, -2, -4, 0x80000000, 0x7FFFFFFF };
-> @@ -106,25 +93,22 @@ static __init int test_heap_push(bool min_heap)
->                 .less = min_heap ? less_than : greater_than,
->                 .swp = swap_ints,
->         };
-> -       int i, temp, err;
-> +       int i, temp;
->
->         /* Test with known set of values copied from data. */
->         for (i = 0; i < ARRAY_SIZE(data); i++)
->                 min_heap_push(&heap, &data[i], &funcs);
-> -
-> -       err = pop_verify_heap(min_heap, &heap, &funcs);
-> +       pop_verify_heap(context, min_heap, &heap, &funcs);
->
->         /* Test with randomly generated values. */
->         while (heap.nr < heap.size) {
->                 temp = get_random_int();
->                 min_heap_push(&heap, &temp, &funcs);
->         }
-> -       err += pop_verify_heap(min_heap, &heap, &funcs);
-> -
-> -       return err;
-> +       pop_verify_heap(context, min_heap, &heap, &funcs);
->  }
->
-> -static __init int test_heap_pop_push(bool min_heap)
-> +static __init void test_heap_pop_push(struct kunit *context, bool min_heap)
->  {
->         const int data[] = { 3, 1, 2, 4, 0x80000000, 0x7FFFFFFF, 0,
->                              -3, -1, -2, -4, 0x80000000, 0x7FFFFFFF };
-> @@ -139,7 +123,7 @@ static __init int test_heap_pop_push(bool min_heap)
->                 .less = min_heap ? less_than : greater_than,
->                 .swp = swap_ints,
->         };
-> -       int i, temp, err;
-> +       int i, temp;
->
->         /* Fill values with data to pop and replace. */
->         temp = min_heap ? 0x80000000 : 0x7FFFFFFF;
-> @@ -149,8 +133,7 @@ static __init int test_heap_pop_push(bool min_heap)
->         /* Test with known set of values copied from data. */
->         for (i = 0; i < ARRAY_SIZE(data); i++)
->                 min_heap_pop_push(&heap, &data[i], &funcs);
-> -
-> -       err = pop_verify_heap(min_heap, &heap, &funcs);
-> +       pop_verify_heap(context, min_heap, &heap, &funcs);
->
->         heap.nr = 0;
->         for (i = 0; i < ARRAY_SIZE(data); i++)
-> @@ -161,34 +144,54 @@ static __init int test_heap_pop_push(bool min_heap)
->                 temp = get_random_int();
->                 min_heap_pop_push(&heap, &temp, &funcs);
->         }
-> -       err += pop_verify_heap(min_heap, &heap, &funcs);
-> +       pop_verify_heap(context, min_heap, &heap, &funcs);
-> +}
->
-> -       return err;
-> +static void __init test_heapify_all_true(struct kunit *context)
-> +{
-> +       test_heapify_all(context, true);
->  }
->
-> -static int __init test_min_heap_init(void)
-> +static void __init test_heapify_all_false(struct kunit *context)
->  {
-> -       int err = 0;
-> -
-> -       err += test_heapify_all(true);
-> -       err += test_heapify_all(false);
-> -       err += test_heap_push(true);
-> -       err += test_heap_push(false);
-> -       err += test_heap_pop_push(true);
-> -       err += test_heap_pop_push(false);
-> -       if (err) {
-> -               pr_err("test failed with %d errors\n", err);
-> -               return -EINVAL;
-> -       }
-> -       pr_info("test passed\n");
-> -       return 0;
-> +       test_heapify_all(context, true);
-> +}
-> +
-> +static void __init test_heap_push_true(struct kunit *context)
-> +{
-> +       test_heap_push(context, true);
-> +}
-> +
-> +static void __init test_heap_push_false(struct kunit *context)
-> +{
-> +       test_heap_push(context, false);
->  }
-> -module_init(test_min_heap_init);
->
-> -static void __exit test_min_heap_exit(void)
-> +static void __init test_heap_pop_push_true(struct kunit *context)
->  {
-> -       /* do nothing */
-> +       test_heap_pop_push(context, true);
->  }
-> -module_exit(test_min_heap_exit);
-> +
-> +static void __init test_heap_pop_push_false(struct kunit *context)
-> +{
-> +       test_heap_pop_push(context, false);
-> +}
-> +
-> +static struct kunit_case __refdata min_heap_test_cases[] = {
-> +       KUNIT_CASE(test_heapify_all_true),
-> +       KUNIT_CASE(test_heapify_all_false),
-> +       KUNIT_CASE(test_heap_push_true),
-> +       KUNIT_CASE(test_heap_push_false),
-> +       KUNIT_CASE(test_heap_pop_push_true),
-> +       KUNIT_CASE(test_heap_pop_push_false),
-> +       {}
-> +};
-> +
-> +static struct kunit_suite min_heap_test_suite = {
-> +       .name = "min-heap",
-> +       .test_cases = min_heap_test_cases,
-> +};
-> +
-> +kunit_test_suites(&min_heap_test_suite);
->
->  MODULE_LICENSE("GPL");
->
-> base-commit: d2585f5164c298aaaed14c2c8d313cbe7bd5b253
-> --
-> 2.26.2
->
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
