@@ -2,86 +2,104 @@ Return-Path: <SRS0=nqa8=D4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D4F0C2D0A3
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Oct 2020 22:14:41 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2157C4363A
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Oct 2020 22:17:49 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DBE032419B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Oct 2020 22:14:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DBE032419B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 69765241A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Oct 2020 22:17:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uX+TIkLL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 69765241A3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 62BCE876B6;
-	Wed, 21 Oct 2020 22:14:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 12AD91FEF0;
+	Wed, 21 Oct 2020 22:17:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a9jG9aXMCr7O; Wed, 21 Oct 2020 22:14:40 +0000 (UTC)
+	with ESMTP id Ifz+DSCLDjB4; Wed, 21 Oct 2020 22:17:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 019F286AEF;
-	Wed, 21 Oct 2020 22:14:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8288D2E44B;
+	Wed, 21 Oct 2020 21:18:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2AB9C08A1;
-	Wed, 21 Oct 2020 22:14:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6BCEDC088B;
+	Wed, 21 Oct 2020 21:18:56 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 719A1C0052
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8C8BFC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 22:14:39 +0000 (UTC)
+ Wed, 21 Oct 2020 21:18:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5723220422
+ by silver.osuosl.org (Postfix) with ESMTP id 6A0272E5F8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 22:14:39 +0000 (UTC)
+ Wed, 21 Oct 2020 21:18:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dHmviovvhcgh
+ with ESMTP id lJlbfgySLVex
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 22:14:36 +0000 (UTC)
-X-Greylist: delayed 01:10:00 by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0053.hostedemail.com
- [216.40.44.53])
- by silver.osuosl.org (Postfix) with ESMTPS id 9032C2E911
+ Wed, 21 Oct 2020 21:18:51 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id A50F933930
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 19:43:23 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave03.hostedemail.com (Postfix) with ESMTP id C745A18021CA6
+ Wed, 21 Oct 2020 08:56:28 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id 33so1740558edq.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 17:17:15 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay06.hostedemail.com (Postfix) with ESMTP id 646F21801626A;
- Wed, 21 Oct 2020 17:17:13 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: fruit19_400ba4f2724a
-X-Filterd-Recvd-Size: 1682
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf11.hostedemail.com (Postfix) with ESMTPA;
- Wed, 21 Oct 2020 17:17:12 +0000 (UTC)
-Message-ID: <0f2bd4e988ce0a75434407a2db584a4e0c6c6280.camel@perches.com>
-From: Joe Perches <coupons@perches.com>
+ Wed, 21 Oct 2020 01:56:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=QAQplRo+V55ajN3EGanzMyFt2i4l3+5LI1zmZ61vsOs=;
+ b=uX+TIkLLy+7Otu7CTomnUg12kE3DaPfD7PjMUyEFfIVVqc2VFYm6ex1EebG/9wL72q
+ VdUWgn3U3N5e/FVv92We8hfo0yiO1VQLyhu6pa0AzBe7m+Y6QMTonbvNOVHCbhuVxBha
+ xufpeCaZHCxaEkdEWGUAnfh6XPvxVJwrQiLRDU0t3uwfXP9pgYH9GL9jTMEXI+pJ7gp6
+ SnPdlJaMCjAkol1eQwjVPk1WRBi23szC6K6p6Eau2XRpExJN33TU4IVLcz1skWr/kYW6
+ 9umwlR3Kswn83JdtTaPNsH24Pxh2FsZS1ZJ3DzJ/+he1bTmVaHPZTb908GGyZUC24WdM
+ Z+2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=QAQplRo+V55ajN3EGanzMyFt2i4l3+5LI1zmZ61vsOs=;
+ b=lhlQFBQUFgx2BY1Yo7CZ0JTx6f2XG+74VyCOgP3QBotbk0VhhJXegGLL0jnd+y5Ec9
+ tgPmHO4MV4CkpECHasrPDHGESd92LL48BglGUROHENAWFORhsf51iyXGvbvD4fm7cSzb
+ ZhB2ll//BrJ9WBWNYx1ynJ8rGq4zoEnIpiyCXEP/cItNvueF1+JFX4rGR44B9lw75FwZ
+ pacMng59eYeshqGI4uFOR6O8pWYMZ76mhG6gZlG3xxOHNBtzMJILskHpqLOJ8ZAgCrfl
+ /zcFDE5SJnmNJG2PJqpK8StRTCHyt7dAoYU6Hgxn8Xo6Zzw8HhvHSvKdboZPklB4GGKJ
+ 3aKQ==
+X-Gm-Message-State: AOAM530qu883MKTMlA3HoACizPk0pp61Ngqy056Yn3tE+mDGZmk/K0si
+ 3wfEyK2LdQ41DjKECn0i+lQl+omnvwXpqQ==
+X-Google-Smtp-Source: ABdhPJyUhpVR6RncxQ+cZIqYEAC5gRNNYu0Z9D61VnyThrZgfCd/CVMhlVaEJtCmKQhD4u6EbNhr6w==
+X-Received: by 2002:a50:9fe9:: with SMTP id c96mr1946520edf.241.1603270586896; 
+ Wed, 21 Oct 2020 01:56:26 -0700 (PDT)
+Received: from felia ([2001:16b8:2dac:c500:96c:5366:5c94:6f3])
+ by smtp.gmail.com with ESMTPSA id p15sm1849660eji.40.2020.10.21.01.56.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Oct 2020 01:56:26 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Wed, 21 Oct 2020 10:56:25 +0200 (CEST)
+X-X-Sender: lukas@felia
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Wed, 21 Oct 2020 10:17:10 -0700
-In-Reply-To: <CABJPP5D9noCN9nMD5HdHq+uk=ot+Xcvd35CrC1E1GKy+nHAhGw@mail.gmail.com>
-References: <20201021150120.29920-1-yashsri421@gmail.com>
- <f073750511750336de5f82600600ba6cb3ddbec0.camel@perches.com>
- <26647abf8cf14595a0dd22f10ec1c32e3dc2a8c0.camel@perches.com>
- <40ca3f0f9a960799ad0e534b77d778c90119e468.camel@perches.com>
- <CABJPP5D9noCN9nMD5HdHq+uk=ot+Xcvd35CrC1E1GKy+nHAhGw@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+In-Reply-To: <CABJPP5CQgkzYnq6KrwfAaaTbORLVSKqxdF=8-eM8stPtJOXOjQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2010211053430.8328@felia>
+References: <CABJPP5AF9s_qx=7Ory-4ZrwY7bEP9nAAtbzadozfwNPU_ymTEA@mail.gmail.com>
+ <alpine.DEB.2.21.2010210717460.8328@felia>
+ <CABJPP5CQgkzYnq6KrwfAaaTbORLVSKqxdF=8-eM8stPtJOXOjQ@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: fix false positive
-	for REPEATED_WORD warning
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] checkpatch: improving comment parsing in
+	email
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,22 +117,100 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 2020-10-21 at 22:29 +0530, Dwaipayan Ray wrote:
-> Can it be considered that the Hex numbers occur
-> mostly in pairs or groups of 8, like "FF" or "FFFFFFFF"?
+
+
+On Wed, 21 Oct 2020, Dwaipayan Ray wrote:
+
+> On Wed, Oct 21, 2020 at 11:01 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> >
+> >
+> >
+> > On Tue, 20 Oct 2020, Dwaipayan Ray wrote:
+> >
+> > > Hi,
+> > > checkpatch seems to have problems parsing some types of
+> > > email comments. Some examples I could find were of the type:
+> > >
+> > > 1) address@example.com (Comment)
+> > > 2) "Name (Comment) " address@example.com
+> > > 3) address@example.com #comment
+> > >
+> > > These comments aren't processed currently which causes
+> > > false BAD_SIGN_OFF warnings.
+> > >
+> > > Examples are:
+> > >
+> > > WARNING:BAD_SIGN_OFF: email address 'David.Laight@aculab.com
+> > > (big endian system concerns)' might be better as 'David.Laight@aculab.com
+> > > (big endian system concerns)'
+> > >
+> > > WARNING:BAD_SIGN_OFF: email address 'stable@vger.kernel.org #4.20+'
+> > > might be better as 'stable@vger.kernel.org#4.20+'
+> > >
+> > > The earlier warning is very frequent in the kernel.
+> > >
+> > > I did send a patch solving (1 and 3),
+> > > https://lore.kernel.org/linux-kernel-mentees/a15a6cc0ddea068d78113f5e315eaba6f52b917a.camel@perches.com/
+> > >
+> > > Joe points out that comments and multiple comments can
+> > > exist at any part of email. (perhaps RFC 5322 Appendix A.5). So
+> > > that patch didn't solve the problem at the very root.
+> > >
+> > > What do you recommend be done?
+> > >
+> >
+> > I cannot say much of BIG value and insight.
+> >
+> > As of now, I think these cases should be handled correctly and the check
+> > for: is it the same name or is it the same email should work properly no
+> > matter where and which kind of comment is used (as described by RFC 5322
+> > as you pointed out).
+> >
+> > I might change my opinion when:
+> >
+> > 1. We have an evaluation on how many cases of BAD_SIGN_OFF (and related
+> > types) do we currently still observed among 100,000 commits and how many
+> > due to not handling comments properly?
+> >
+> > 2. We have a rough idea how complex this whole checking function will get.
+> > At the moment, I cannot say if it "just 10 lines of code addition" (even
+> > if they might be quite intrinsic to get right) or if we need hundreds of
+> > lines with thousand of special cases etc. (which I do not expect, but who
+> > knows which complexity might be involved, once we go into the details).
+> >
+> > So, I suggest to evaluate and prototype and then we can better judge if it
+> > is worth really going forward, discussing it with Joeand adding it to mainline.
+> >
+> >
+> > What do you think, Dwaipayan?
+> >
 > 
-> I think it might reduce the negative side further.
+> Hi,
+> I completely agree with you. We could run the evaluation first and
+> see what kinds of comment patterns are used. We could also keep
+> the RFC 5322 guidelines as a base and modify the code to recognize
+> the comment blocks as per the specifications.
+> 
+> It could get fairly complex, because comment blocks are allowed almost
+> anywhere. So maybe we should just solve the most
+> common ones first. That would help the committers largely.
+> 
+> I think Joe wanted a complete solution for it. So I guess i will try
+> to cover as many cases which doesn't increase the code complexity
+> much.
+> 
+> I will start with the evaluation. If others can help out too it will be great.
+> After it, we can determine what cases need to be handled and what
+> can be ignored.
+>
 
-Maybe.  This already looks for pairs.
+Go for it and share your results with the group once you have something 
+which others can review and help to evaluate.
 
-Combined with your previous patch,
-https://lore.kernel.org/linux-kernel-mentees/20201017162732.152351-1-dwaipayanray1@gmail.com/
-it seems OK to me.
+The requirement for future applicants to be selected is to show that they 
+can help you with their work on evaluations and their explanations.
 
-Try something out and see if it makes a difference.
-
-
-
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
