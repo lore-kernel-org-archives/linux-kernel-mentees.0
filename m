@@ -2,95 +2,110 @@ Return-Path: <SRS0=nqa8=D4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 037B1C4363A
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Oct 2020 08:33:21 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7429C4363A
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Oct 2020 08:37:44 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2986322249
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Oct 2020 08:33:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3C8012177B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Oct 2020 08:37:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LppJSM10"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2986322249
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gdEz1bem"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C8012177B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 91385872E9;
-	Wed, 21 Oct 2020 08:33:19 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A1856867CF;
+	Wed, 21 Oct 2020 08:37:43 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hWfQRqxm5uKB; Wed, 21 Oct 2020 08:37:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id EECCC85FC0;
+	Wed, 21 Oct 2020 08:35:53 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C639BC088B;
+	Wed, 21 Oct 2020 08:35:53 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C2A0AC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 21 Oct 2020 08:35:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id B588F871EB
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 21 Oct 2020 08:35:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id O+w-c0HhEOVo; Wed, 21 Oct 2020 08:33:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 70913871EA;
-	Wed, 21 Oct 2020 08:33:18 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C3F3C088B;
-	Wed, 21 Oct 2020 08:33:18 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 659E6C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 08:33:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 50E8385F97
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 08:33:17 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t3YaDn-wO5L8
+ with ESMTP id 7ixGs1rFw4av
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 08:33:16 +0000 (UTC)
+ Wed, 21 Oct 2020 08:35:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3C4CE85D11
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 36D3481514
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 08:33:16 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id t15so1164302otk.0
+ Wed, 21 Oct 2020 08:35:52 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id v22so838183ply.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Oct 2020 01:33:16 -0700 (PDT)
+ Wed, 21 Oct 2020 01:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zwpm2PfD1PoMEkSaTrtq7QS2AM6eOjCZf0fAoAResG4=;
- b=LppJSM10eJuC2YiFMMN2R1q2cEYfmVzgy9ICp+AGCsvQOQxyE/+5xYkdRCpmmzzvCZ
- xNE4GuM54XRbkee5KM6d2NNupj86GsZk/u2KNOVyDN0vCk/Fb72EbX/fJsFR/S5Kqtil
- 8a+C5KK03F3ZVpIvwpNvpbg2NIkia2Yp+ZE9ThtS0RcVw+nLX+ztVsfXVNsEpt50uGi+
- 7ftM5R+jqfA88Ci3iHK0U3/EDEK31ofGCoip+ycQnJz2VKNpHDi/7W61M59Lx6u3LHOq
- 15S4wl01a82rN6b/MCzbRvgZ/0J5hlf/D4Oumh+4UUkLqAyBU64dGVU4u11fRXH5YfXS
- euOA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nU4pSYSVqgezf8LN7YQVK22orjTHRcBoVvx2UUIr73w=;
+ b=gdEz1bemOFy5Oj3ZctTrPCb8/SDCl2Q5ztbVzG5jrJ1tEReWcMRv1lfQdaHP5UROzj
+ VaDzHxG6Dvb5JjlYWGbziNuw4u9tMVRRTPp/XNSlGQH2fxPFpH9yrIBEr60LbZQbrOXk
+ 8TQw0XlKED7i9hba1O9j+5GbM8WP8QV5GDFbgQtxl2KTmr7Derg54pP6n8+QBiHF5mNp
+ WxBQMowEv+bl+ccx1E1K0ziOYE6zRFhb39dyXiygfEizX1QP5L7x4s9G/3WHQxu24lS4
+ Vtvavx3ihGYWZe8rkGnaDZc1603qQ+VADVPEAw007tZyxBc3O44eKHn8QZfshyVf4BNr
+ Fsug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zwpm2PfD1PoMEkSaTrtq7QS2AM6eOjCZf0fAoAResG4=;
- b=KRz9evFSV7swm2AAw9VKfkToJQ2CYYOm/7IJvtHfCfCjElLNFeSmH6QriQbpIxHx9q
- bKfW4rlTk6kJvfGLAf0EAoJ6cU+kOSs5zuMIBFrstf//p/4KpQ5+Y0QGLLwt6ZhOKx/P
- OygSNCnp+iQDwPeHMWrvldm797u8/9QHDrWhFhMpZk8WWoBIYruNKpYYz2+8yMVf3SNC
- 8Ha+qFe+5x+hK3akJF5Ehi4V9JM2bo5Wn6LDkFo/+AZK64dlznuui8oUvE1fhQM1sOi2
- vrirEfpVhk0hG6iCLYGO1ADBwVmVate0ZtRtbyF6338z3ADMoUYteIxKlR3WCkFSttAH
- x1AQ==
-X-Gm-Message-State: AOAM533xKW4BvwZCmHtE+99iGp8wq4KFCW9u6Yu4jZxhGwayu3LdH5G6
- 4cTMDKDrhidYs6u/nrN8HAo7KKj6kaCI3NJa20o=
-X-Google-Smtp-Source: ABdhPJwLDGqEg3xPKIdeQDjhNwAzyH1mALk/DkJ+89har1pp9Uux37ynGxYlJxe6VCGo+0I76AccMUZj0FhPLn62Hns=
-X-Received: by 2002:a9d:1ca6:: with SMTP id l38mr1914049ota.30.1603269195280; 
- Wed, 21 Oct 2020 01:33:15 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nU4pSYSVqgezf8LN7YQVK22orjTHRcBoVvx2UUIr73w=;
+ b=XOObL0C0Q16DmQ67kGi2QXo3DuirrDdDY8B5nmBRL6pcTMqk/wOp6inCxO5feGqJjG
+ asBFLUpB4Zevtd65bxb9UsAU+Y+/8KLKE6nr3H8qLNjJRkjUBMWUvhOg1HBq9FOQWOn4
+ rZrLKQd6587Wal/vMwKlI3L5LDc9uWP1kt30shqxh7WFn8lvLhXEHpIp0o7iJEy9HLer
+ i6z4mAGc2bycB3xGOXnVfHMx6xH92a+ZUFE2YrM6CYlGWlpOO6WIHj2725J//qoX9GVL
+ iQLmKzaD5CCvtgVc7Prj2T9nCh9lrV5fE4oojblrxXD6733pUat7Gz5kRqbaui0DsX/e
+ tMxA==
+X-Gm-Message-State: AOAM5303Y60bkRGL7jkG1jytmElfpZWFfvlefyADQtPaiWFJGVtCkkO0
+ 7j10nsFGJQk668DvneG+xocHuCzTbbzgAmcG
+X-Google-Smtp-Source: ABdhPJysNP0N8nrLkz3eEJyx5i1bhvTf+m+6Mv40LvR2OfCpVzl52dkd0BVCHXt2990Nw66ERJir6g==
+X-Received: by 2002:a17:902:c086:b029:d3:deab:e812 with SMTP id
+ j6-20020a170902c086b02900d3deabe812mr2465351pld.51.1603269351384; 
+ Wed, 21 Oct 2020 01:35:51 -0700 (PDT)
+Received: from ?IPv6:2402:3a80:401:55e5:8cb2:c45f:197:35d9?
+ ([2402:3a80:401:55e5:8cb2:c45f:197:35d9])
+ by smtp.gmail.com with ESMTPSA id q5sm1040440pjj.26.2020.10.21.01.35.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Oct 2020 01:35:50 -0700 (PDT)
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <20201021050027.13253-1-yashsri421@gmail.com>
+ <75340ad4-d0c1-4b60-9a2f-ea68ab97fe67@gmail.com>
+ <alpine.DEB.2.21.2010210801120.8328@felia>
+ <CABJPP5CRJTe3wuLwo8HpFX_dygThic6Ci1=L1=6x0p6e+yR32g@mail.gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <e50f6236-e4a2-49e5-c777-358de7b2ffe6@gmail.com>
+Date: Wed, 21 Oct 2020 14:05:44 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <CABJPP5AF9s_qx=7Ory-4ZrwY7bEP9nAAtbzadozfwNPU_ymTEA@mail.gmail.com>
- <alpine.DEB.2.21.2010210717460.8328@felia>
-In-Reply-To: <alpine.DEB.2.21.2010210717460.8328@felia>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Wed, 21 Oct 2020 14:02:47 +0530
-Message-ID: <CABJPP5CQgkzYnq6KrwfAaaTbORLVSKqxdF=8-eM8stPtJOXOjQ@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+In-Reply-To: <CABJPP5CRJTe3wuLwo8HpFX_dygThic6Ci1=L1=6x0p6e+yR32g@mail.gmail.com>
+Content-Language: en-US
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] checkpatch: improving comment parsing in
-	email
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: fix false positive
+	for REPEATED_WORD warning
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,90 +123,72 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Oct 21, 2020 at 11:01 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
->
->
->
-> On Tue, 20 Oct 2020, Dwaipayan Ray wrote:
->
-> > Hi,
-> > checkpatch seems to have problems parsing some types of
-> > email comments. Some examples I could find were of the type:
-> >
-> > 1) address@example.com (Comment)
-> > 2) "Name (Comment) " address@example.com
-> > 3) address@example.com #comment
-> >
-> > These comments aren't processed currently which causes
-> > false BAD_SIGN_OFF warnings.
-> >
-> > Examples are:
-> >
-> > WARNING:BAD_SIGN_OFF: email address 'David.Laight@aculab.com
-> > (big endian system concerns)' might be better as 'David.Laight@aculab.com
-> > (big endian system concerns)'
-> >
-> > WARNING:BAD_SIGN_OFF: email address 'stable@vger.kernel.org #4.20+'
-> > might be better as 'stable@vger.kernel.org#4.20+'
-> >
-> > The earlier warning is very frequent in the kernel.
-> >
-> > I did send a patch solving (1 and 3),
-> > https://lore.kernel.org/linux-kernel-mentees/a15a6cc0ddea068d78113f5e315eaba6f52b917a.camel@perches.com/
-> >
-> > Joe points out that comments and multiple comments can
-> > exist at any part of email. (perhaps RFC 5322 Appendix A.5). So
-> > that patch didn't solve the problem at the very root.
-> >
-> > What do you recommend be done?
-> >
->
-> I cannot say much of BIG value and insight.
->
-> As of now, I think these cases should be handled correctly and the check
-> for: is it the same name or is it the same email should work properly no
-> matter where and which kind of comment is used (as described by RFC 5322
-> as you pointed out).
->
-> I might change my opinion when:
->
-> 1. We have an evaluation on how many cases of BAD_SIGN_OFF (and related
-> types) do we currently still observed among 100,000 commits and how many
-> due to not handling comments properly?
->
-> 2. We have a rough idea how complex this whole checking function will get.
-> At the moment, I cannot say if it "just 10 lines of code addition" (even
-> if they might be quite intrinsic to get right) or if we need hundreds of
-> lines with thousand of special cases etc. (which I do not expect, but who
-> knows which complexity might be involved, once we go into the details).
->
-> So, I suggest to evaluate and prototype and then we can better judge if it
-> is worth really going forward, discussing it with Joeand adding it to mainline.
->
->
-> What do you think, Dwaipayan?
->
+On 21/10/20 1:50 pm, Dwaipayan Ray wrote:
+> Hey Aditya and Lukas,
+> 
+>>>> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+>>>> index 9b9ffd876e8a..181c95691715 100755
+>>>> --- a/scripts/checkpatch.pl
+>>>> +++ b/scripts/checkpatch.pl
+>>>> @@ -3052,7 +3052,9 @@ sub process {
+>>>>
+>>>>  # check for repeated words separated by a single space
+>>>>             if ($rawline =~ /^\+/ || $in_commit_log) {
+>>>> -                   while ($rawline =~ /\b($word_pattern) (?=($word_pattern))/g) {
+>>>> +                   # avoid repeating hex occurrences like 'ff ff fe 09 ...'
+>>>> +                   while ($rawline !~ /((\s)*[0-9a-z]{2}( )+){4,}/ &&
+> 
+> Pattern is probably wrong. It doesn't recognize word boundaries or
+> tabs between words. Example of the first type:
+> 
+> 000 00 ff ff ...
+> 
+> The regex matches "00 00 ff ff" ignoring the first 0.
+> 
+> I think it could be perhaps better with something like:
+> 
+>  # check for repeated words separated by a single space
+> -               if ($rawline =~ /^\+/ || $in_commit_log) {
+> +               if (($rawline =~ /^\+/ || $in_commit_log) &&
+> +                   $rawline !~ /(?:\b(?:[0-9a-f]{2}\s+){4,})/) {
+>                         pos($rawline) = 1 if (!$in_commit_log);
+>                         while ($rawline =~ /\b($word_pattern)
+> (?=($word_pattern))/g) {
+> 
+> Please test it though. I only ran it on a few patterns.
+> 
+> Apart from it, this does fix the problem. But I am quite sceptical about
+> matching 4 or more 2 lettered words in a row. There could be counter
+> examples but I guess that is very rare. It's not very general, but for
+> the moment it does the job.
+> 
+> So I think it's probably good with some changes. Not sure what Joe
+> would have in mind though.
+> 
+> Lukas, I think with the changes in place, it is ready to go for discussion.
+> 
+> Thanks,
+> Dwaipayan.
+> 
 
-Hi,
-I completely agree with you. We could run the evaluation first and
-see what kinds of comment patterns are used. We could also keep
-the RFC 5322 guidelines as a base and modify the code to recognize
-the comment blocks as per the specifications.
+Thanks Dwaipayan. You're correct.
+I'll use \b for checking the word boundaries and regenerate the
+reports. I used 4 as the minimum as there were some occurrences with 4
+hex words, For eg,
+WARNING:REPEATED_WORD: Possible repeated word: 'ff'
+#15:
+ d68:	61 29 ff ff 	ori     r9,r9,65535
 
-It could get fairly complex, because comment blocks are allowed almost
-anywhere. So maybe we should just solve the most
-common ones first. That would help the committers largely.
+for the commit 332ce969b763 ("powerpc/8xx: Reduce time spent in
+allow_user_access() and friends")
 
-I think Joe wanted a complete solution for it. So I guess i will try
-to cover as many cases which doesn't increase the code complexity
-much.
+In addition to your changes, I also plan to modify regex with [0-9a-f]
+(instead of a-z).
+I'll apply all the changes and send the report, along with the removed
+warnings again.
 
-I will start with the evaluation. If others can help out too it will be great.
-After it, we can determine what cases need to be handled and what
-can be ignored.
-
-Thanks,
-Dwaipayan.
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
