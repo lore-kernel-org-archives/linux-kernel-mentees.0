@@ -2,96 +2,105 @@ Return-Path: <SRS0=G515=D5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D57B7C388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Oct 2020 15:00:08 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB6AC388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Oct 2020 15:14:36 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 437BB24630
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Oct 2020 15:00:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 881F920709
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Oct 2020 15:14:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F7FBAVaQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 437BB24630
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fj/9Ua9L"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 881F920709
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 990548782D;
-	Thu, 22 Oct 2020 15:00:07 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DE3AB86AAB;
+	Thu, 22 Oct 2020 15:14:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1g7p6LxqbCD3; Thu, 22 Oct 2020 15:00:06 +0000 (UTC)
+	with ESMTP id LXXyMMi84OdZ; Thu, 22 Oct 2020 15:14:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 61FD48744D;
-	Thu, 22 Oct 2020 15:00:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 150D5867E5;
+	Thu, 22 Oct 2020 15:14:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A456C0052;
-	Thu, 22 Oct 2020 15:00:06 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD2F4C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 08BDDC088B;
+	Thu, 22 Oct 2020 15:14:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 353AFC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 15:00:04 +0000 (UTC)
+ Thu, 22 Oct 2020 15:14:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id C68BE8782D
+ by silver.osuosl.org (Postfix) with ESMTP id 1939A203AE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 15:00:04 +0000 (UTC)
+ Thu, 22 Oct 2020 15:14:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i58qzrcp22FJ
+ with ESMTP id dRpUmTWmbu+4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 15:00:03 +0000 (UTC)
+ Thu, 22 Oct 2020 15:14:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 64B628744D
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id 4B32420370
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 15:00:03 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id e20so1727307otj.11
+ Thu, 22 Oct 2020 15:14:30 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id 10so1324816pfp.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 08:00:03 -0700 (PDT)
+ Thu, 22 Oct 2020 08:14:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Na6bxm+chNgXOcwmPypF257p4yeLALEUdxQCMprVnTQ=;
- b=F7FBAVaQOXFEOmb952HzKh6W2Kf9/TepWkQCOiSLmJnlzVWdr160wD8dUzQD3qIikR
- gXOeYltacN4lak71MuPkpUlaRvl2oJcgcCiymko+VQOFhcMSKhFBCjY0+Jjun8RPf/Wb
- DKkcrSfyWJgVOidRXJ/Mmr7Q4mlp+386se9V/2cbu7+BAuamniLM6FG8sccA4zzZbbIo
- nBAHy29Umx+i4KZIqKbyxpJ4fhZ5XueOUq0lRLuhuAAyRPRmaQnuTYQW28qO/GTbgat1
- g+SYELUTPuf7nl780nLZScilRZOWv2VvMiE5S/In9m92PmVOXoc3CRykglZCk2Xdv+r1
- /Rgw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KZ/U65zjA9u6hMXsaiRL/mSlzHa3ohaGcy+QrWOeCZs=;
+ b=Fj/9Ua9LZjX1ogWCvx6x9V2T3WspUdgEnxPcTOgA2S+i5pocpE8RAAnELpu5+bER3C
+ se0syPVx3FXHuq+mshitx3zk2P13r8qcy2yqhf5/i+fH0051tDH0jk9ShCe4gnR6cz2V
+ v+IXGlMEs5eLfSFG/yyg8XDl//WjYjTqD4NL63BgjrIkZmuhvAymQKvhGEXPVcrcPft+
+ fGS4symGSQnkdwJoeU5qViq82MXoKEvRChiagBubdfKa/MLGZNEVqUDdZWXOrH+2rud1
+ GbmXj4adph1BIDxERtowli3aP9b8i+PMX0fVDTn1w/T0IvR3qKLhi6AYPWKKFXmCPrJ9
+ 26sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Na6bxm+chNgXOcwmPypF257p4yeLALEUdxQCMprVnTQ=;
- b=WEaH7Ok8sLsMafxPOv/3HoReLmEm0R27+cjbOw3rJQ3P6sC8tXXfNvaOAqb3IO/KRn
- 1xaVh0xHPuS+DwweHL+z3Z48MCDdpoJGFVFyS5P10ESMa+JqBTyilZK1mZVC9rGIqVZ9
- 30WiiPFbb7g6CN4smoOwIsoq1ZhqOCHqJ1XM7DfhtbPk7tr6MA92edqHbjLcrf/hiRuU
- kQ9rjp6JP+cN2s3Te7Sju0LgnC6DK1FXCfBcPmx9XxvjSraVpYsEAlyhIAivimmQXL8I
- B8itApXgfcJM/fBHNGxuFfyKT/tS5ezxfhLYgivz28xWXeydFGJq9cN5T1dYrVkwU75U
- uyNA==
-X-Gm-Message-State: AOAM531E5OxR0dEzziFlDWxA6GvuN6VlEYf4/q+8P+t4H2/b0F4dCbq6
- Dq+qCwK0hUBEhHR2mT1ZgxXow8IbnnAvIzGTSyk=
-X-Google-Smtp-Source: ABdhPJw+8r14rZtHIKwQLmsfTmrgWRlNjVUcEUW6qy/L8iV33GVB0yyieJKJpJoaMVh/rbbrvxnEmwWbWQOls25/+4k=
-X-Received: by 2002:a9d:53cc:: with SMTP id i12mr2019577oth.215.1603378802137; 
- Thu, 22 Oct 2020 08:00:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KZ/U65zjA9u6hMXsaiRL/mSlzHa3ohaGcy+QrWOeCZs=;
+ b=VUhB3ktS7CqFXtLFr0wqwzWhlgY8NQtwcRJLv0dG2e6cD0RXVETUafb16dKPwBKTnz
+ H2q41gjIW4sZTmusHlJfexoQTX8maT5tguzqp6PD1lBDmf83tmja69ghkG/mi2/++FUJ
+ deO4MK2uywwIVbUlxQ8OfGAvFWtHD8NyFw4DLvyT7rLD9DrsW46fAxsua3GfHMAci4V0
+ uF6Iy3aFTqVJZJVMl6dhUr6pqDWvwQYlMu4eaZhZawa/p9fLZOlsUpuMtkpC26iqsMjd
+ vcYyHf/EnzE9qtVfg1QJ6Btk1C4DZSUnEO8n2+W98vloodUVexZbhXhSJV7dWpeQlrXy
+ qz5g==
+X-Gm-Message-State: AOAM533hhsQoxvP+5NfuKuCOHIrnfIGiDmAG+xMMQrbNVq/EgmeMnIGS
+ pfPVHdI6RirW6y+ENRM0IMU=
+X-Google-Smtp-Source: ABdhPJy42DS6N7bC4UmjQLH4ThqM/A7jF0kkk3sDqAO6LScCP14YJLihJnQogZ5D64Vm6haSY84+tQ==
+X-Received: by 2002:a65:5a4d:: with SMTP id z13mr1379207pgs.297.1603379669614; 
+ Thu, 22 Oct 2020 08:14:29 -0700 (PDT)
+Received: from arpitha-Inspiron-7570.lan ([106.51.242.32])
+ by smtp.gmail.com with ESMTPSA id b16sm2704489pfp.195.2020.10.22.08.14.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Oct 2020 08:14:28 -0700 (PDT)
+From: Arpitha Raghunandan <98.arpi@gmail.com>
+To: brendanhiggins@google.com, skhan@linuxfoundation.org,
+ andriy.shevchenko@linux.intel.com, pmladek@suse.com, rostedt@goodmis.org,
+ sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
+ alexandre.belloni@bootlin.com, gregkh@linuxfoundation.org,
+ rdunlap@infradead.org, idryomov@gmail.com
+Date: Thu, 22 Oct 2020 20:43:49 +0530
+Message-Id: <20201022151349.47436-1-98.arpi@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201022145224.645538-1-dwaipayanray1@gmail.com>
-In-Reply-To: <20201022145224.645538-1-dwaipayanray1@gmail.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Thu, 22 Oct 2020 20:29:32 +0530
-Message-ID: <CABJPP5AQwRkT_2FozYxgTgUZ2RWS=k1TNN_QOvs6F5se-V-6ow@mail.gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: extend
-	attributes check to handle more patterns
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Subject: [Linux-kernel-mentees] [PATCH v2] lib: Convert test_printf.c to
+	KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,280 +118,295 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Oct 22, 2020 at 8:22 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
->
-> It is generally preferred that the macros from
-> include/linux/compiler_attributes.h are used, unless there
-> is a reason not to.
->
-> Checkpatch currently checks __attribute__ for each of
-> packed, aligned, printf, scanf, and weak. Other declarations
-> in compiler_attributes.h are not handled.
->
-> Add more definitions to the attribute check.
-> The following patterns are added:
->
-> __alias__(#symbol)
-> __always_inline__
-> __assume_aligned__(a, ## __VA_ARGS__)
-> __cold__
-> __const__
-> __copy__(symbol)
-> __designated_init__
-> __externally_visible__
-> __gnu_inline__
-> __malloc__
-> __mode__(x)
-> __no_caller_saved_registers__
-> __noclone__
-> __fallthrough__
-> __noinline__
-> __nonstring__
-> __noreturn__
-> __pure__
-> __unused__
-> __used__
->
-> Link: https://lore.kernel.org/linux-kernel-mentees/3ec15b41754b01666d94b76ce51b9832c2dd577a.camel@perches.com/
-> Suggested-by: Joe Perches <joe@perches.com>
-> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> ---
->  scripts/checkpatch.pl | 199 ++++++++++++++++++++++++++++++++++--------
->  1 file changed, 163 insertions(+), 36 deletions(-)
->
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 7e505688257a..968adcb15793 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -6155,50 +6155,177 @@ sub process {
->                         }
->                 }
->
-> -# Check for __attribute__ packed, prefer __packed
-> +# Check for compiler attributes
->                 if ($realfile !~ m@\binclude/uapi/@ &&
-> -                   $line =~ /\b__attribute__\s*\(\s*\(.*\bpacked\b/) {
-> -                       WARN("PREFER_PACKED",
-> -                            "__packed is preferred over __attribute__((packed))\n" . $herecurr);
-> -               }
-> +                   $line =~ /\b__attribute__\s*\(\s*\((.*)\)\s*\)/) {
-> +                       my $attr = trim($1);
->
-> -# Check for __attribute__ aligned, prefer __aligned
-> -               if ($realfile !~ m@\binclude/uapi/@ &&
-> -                   $line =~ /\b__attribute__\s*\(\s*\(.*aligned/) {
-> -                       WARN("PREFER_ALIGNED",
-> -                            "__aligned(size) is preferred over __attribute__((aligned(size)))\n" . $herecurr);
-> -               }
-> +                       # Check for __attribute__ alias, prefer __alias
-> +                       if ($attr =~/^_*alias_*/) {
-> +                               WARN("PREFER_ALIAS",
-> +                                    "__alias(symbol) is preferred over __attribute__((alias(#symbol)))\n" . $herecurr);
-> +                       }
->
-> -# Check for __attribute__ section, prefer __section
-> -               if ($realfile !~ m@\binclude/uapi/@ &&
-> -                   $line =~ /\b__attribute__\s*\(\s*\(.*_*section_*\s*\(\s*("[^"]*")/) {
-> -                       my $old = substr($rawline, $-[1], $+[1] - $-[1]);
-> -                       my $new = substr($old, 1, -1);
-> -                       if (WARN("PREFER_SECTION",
-> -                                "__section($new) is preferred over __attribute__((section($old)))\n" . $herecurr) &&
-> -                           $fix) {
-> -                               $fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*_*section_*\s*\(\s*\Q$old\E\s*\)\s*\)\s*\)/__section($new)/;
-> +                       # Check for __attribute__ aligned(size), prefer __aligned(size)
-> +                       if ($attr =~/^_*aligned_*\(/) {
-> +                               WARN("PREFER_ALIGNED",
-> +                                    "__aligned(size) is preferred over __attribute__((__aligned__(size)))\n" . $herecurr);
->                         }
-> -               }
->
-> -# Check for __attribute__ format(printf, prefer __printf
-> -               if ($realfile !~ m@\binclude/uapi/@ &&
-> -                   $line =~ /\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf/) {
-> -                       if (WARN("PREFER_PRINTF",
-> -                                "__printf(string-index, first-to-check) is preferred over __attribute__((format(printf, string-index, first-to-check)))\n" . $herecurr) &&
-> -                           $fix) {
-> -                               $fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf\s*,\s*(.*)\)\s*\)\s*\)/"__printf(" . trim($1) . ")"/ex;
-> +                       # Check for __attribute__ aligned, prefer __aligned_largest
-> +                       if ($attr =~/^_*aligned_*$/) {
-> +                               WARN("PREFER_ALIGNED_LARGEST",
-> +                                    "__aligned_largest is preferred over __attribute__((__aligned__))\n" . $herecurr);
-> +                       }
->
-> +                       # Check for __attribute__ always_inline, prefer __always_inline
-> +                       if ($attr =~/^_*always_inline_*/) {
-> +                               WARN("PREFER_ALWAYS_INLINE",
-> +                                    "__always_inline is preferred over __attribute__((__always_inline__))\n" . $herecurr);
->                         }
-> -               }
->
-> -# Check for __attribute__ format(scanf, prefer __scanf
-> -               if ($realfile !~ m@\binclude/uapi/@ &&
-> -                   $line =~ /\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\b/) {
-> -                       if (WARN("PREFER_SCANF",
-> -                                "__scanf(string-index, first-to-check) is preferred over __attribute__((format(scanf, string-index, first-to-check)))\n" . $herecurr) &&
-> -                           $fix) {
-> -                               $fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\s*,\s*(.*)\)\s*\)\s*\)/"__scanf(" . trim($1) . ")"/ex;
-> +                       # Check for __attribute__ assume_aligned, prefer __assume_aligned
-> +                       if ($attr =~/^_*assume_aligned_*/) {
-> +                               WARN("PREFER_ASSUME_ALIGNED",
-> +                                    "__asume_aligned(a, ...) is preferred over __attribute__((__assume_aligned__(a, ## __VA_ARGS__)))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ cold, prefer __cold
-> +                       if ($attr =~ /^_*cold_*/) {
-> +                               WARN("PREFER_COLD",
-> +                                    "__cold is preferred over __attribute__((__cold__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ const, prefer __attribute_const
-> +                       if ($attr =~ /^_*const_*/) {
-> +                               WARN("PREFER_CONST",
-> +                                    "__attribute_const is preferred over __attribute__((__const__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ copy, prefer __copy
-> +                       if ($attr =~ /^_*copy_*/) {
-> +                               WARN("PREFER_COPY",
-> +                                    "__copy(symbol) is preferred over __attribute__((__copy__(symbol)))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ desginated_init, prefer __designated_init
-> +                       if ($attr =~ /^_*designated_init_*/) {
-> +                               WARN("PREFER_DESIGNATED_INIT",
-> +                                    "__designated_init is preferred over __attribute__((__designated_init__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ externally_visible, prefer __visible
-> +                       if ($attr =~ /^_*externally_visible_*/) {
-> +                               WARN("PREFER_VISIBLE",
-> +                                    "__visible is preferred over __attribute__((__externally_visible__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ format(printf, prefer __printf
-> +                       if ($attr =~ /^_*format_*\s*\(\s*printf/) {
-> +                               if (WARN("PREFER_PRINTF",
-> +                                        "__printf(string-index, first-to-check) is preferred over __attribute__((format(printf, string-index, first-to-check)))\n" . $herecurr) &&
-> +                                       $fix) {
-> +                                       $fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf\s*,\s*(.*)\)\s*\)\s*\)/"__printf(" . trim($1) . ")"/ex;
-> +
-> +                               }
-> +                       }
-> +
-> +                       # Check for __attribute__ format(scanf, prefer __scanf
-> +                       if ($attr =~ /^_*format_*\s*\(\s*scanf\b/) {
-> +                               if (WARN("PREFER_SCANF",
-> +                                        "__scanf(string-index, first-to-check) is preferred over __attribute__((format(scanf, string-index, first-to-check)))\n" . $herecurr) &&
-> +                                       $fix) {
-> +                                       $fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\s*,\s*(.*)\)\s*\)\s*\)/"__scanf(" . trim($1) . ")"/ex;
-> +                               }
-> +                       }
-> +
-> +                       # Check for __attribute__ gnu_inline, prefer __gnu_inline
-> +                       if ($attr =~ /^_*gnu_inline_*/) {
-> +                               WARN("PREFER_GNU_INLINE",
-> +                                    "__gnu_inline is preferred over __attribute__((__gnu_inline__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ malloc, prefer __malloc
-> +                       if ($attr =~ /^_*malloc_*/) {
-> +                               WARN("PREFER_MALLOC",
-> +                                    "__malloc is preferred over __attribute__((__malloc__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ mode, prefer __mode
-> +                       if ($attr =~ /^_*mode_*/) {
-> +                               WARN("PREFER_MODE",
-> +                                    "__mode(x) is preferred over __attribute__((__mode__(x)))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ no_caller_saved_registers, prefer __no_caller_saved_registers
-> +                       if ($attr =~ /^_*no_caller_saved_registers_*/) {
-> +                               WARN("PREFER_NO_CALLER_SAVED_REGISTERS",
-> +                                    "__no_caller_saved_registers is preferred over __attribute__((__no_caller_saved_registers__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ noclone, prefer __noclone
-> +                       if ($attr =~ /^_*noclone_*/) {
-> +                               WARN("PREFER_NOCLONE",
-> +                                    "__noclone is preferred over __attribute__((__noclone__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ fallthrough, prefer fallthrough
-> +                       if ($attr =~ /^_*fallthrough_*/) {
-> +                               WARN("PREFER_FALLTHROUGH",
-> +                                    "fallthrough is preferred over __attribute__((__fallthrough__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ noinline, prefer noinline
-> +                       if ($attr =~ /^_*noinline_*/) {
-> +                               WARN("PREFER_NOINLINE",
-> +                                    "noinline is preferred over __attribute__((__noinline__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ nonstring, prefer __nonstring
-> +                       if ($attr =~ /^_*nonstring_*/) {
-> +                               WARN("PREFER_NONSTRING",
-> +                                    "__nonstring is preferred over __attribute__((__nonstring__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ noreturn, prefer __noreturn
-> +                       if ($attr =~ /^_*noreturn_*/) {
-> +                               WARN("PREFER_NORETURN",
-> +                                    "__noreturn is preferred over __attribute__((__noreturn__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ packed, prefer __packed
-> +                       if ($attr =~ /^_*packed_*/) {
-> +                               WARN("PREFER_PACKED",
-> +                                    "__packed is preferred over __attribute__((__packed__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ pure, prefer __pure
-> +                       if ($attr =~ /^_*pure_*/) {
-> +                               WARN("PREFER_PURE",
-> +                                    "__pure is preferred over __attribute__((__pure__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ section, prefer __section
-> +                       if ($attr =~ /^_*section_*\s*\(\s*("[^"]*")/) {
-> +                               my $old = substr($rawline, $-[1], $+[1] - $-[1]);
-> +                               my $new = substr($old, 1, -1);
-> +                               if (WARN("PREFER_SECTION",
-> +                                        "__section($new) is preferred over __attribute__((section($old)))\n" . $herecurr) &&
-> +                                       $fix) {
-> +                                       $fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*_*section_*\s*\(\s*\Q$old\E\s*\)\s*\)\s*\)/__section($new)/;
-> +                               }
-> +                       }
-> +
-> +                       # Check for __attribute__ unused, prefer __always_unused or __maybe_unused
-> +                       if ($attr =~ /^_*unused_*/) {
-> +                               WARN("PREFER_UNUSED",
-> +                                    "__always_unused or __maybe_unused is preferred over __attribute__((__unused__))\n" . $herecurr);
-> +                       }
-> +
-> +                       # Check for __attribute__ used, prefer __used
-> +                       if ($attr =~ /^_*used_*/) {
-> +                               WARN("PREFER_USED",
-> +                                    "__used is preferred over __attribute__((__used__))\n" . $herecurr);
->                         }
->                 }
->
-> --
-> 2.27.0
->
-Hi,
-This patch is meant to add handling of more __attribute__ shorthands
-from include/linux/compiler_attributes.h.
+Convert test lib/test_printf.c to KUnit. More information about
+KUnit can be found at:
+https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html.
+KUnit provides a common framework for unit tests in the kernel.
+KUnit and kselftest are standardizing around KTAP, converting this
+test to KUnit makes this test output in KTAP which we are trying to
+make the standard test result format for the kernel. More about
+the KTAP format can be found at:
+https://lore.kernel.org/linux-kselftest/CY4PR13MB1175B804E31E502221BC8163FD830@CY4PR13MB1175.namprd13.prod.outlook.com/.
+I ran both the original and converted tests as is to produce the
+output for success of the test in the two cases. I also ran these
+tests with a small modification to show the difference in the output
+for failure of the test in both cases. The modification I made is:
+- test("127.000.000.001|127.0.0.1", "%pi4|%pI4", &sa.sin_addr, &sa.sin_addr);
++ test("127-000.000.001|127.0.0.1", "%pi4|%pI4", &sa.sin_addr, &sa.sin_addr);
 
-I am a bit worried about the code size though. Is it better altogether
-to have a shared function for parameterized/non parameterized
-__attribute__ arguments? Might have to categorize the macros then.
+Original test success:
+[    0.591262] test_printf: loaded.
+[    0.591409] test_printf: all 388 tests passed
 
-What do you think is better?
+Original test failure:
+[    0.619345] test_printf: loaded.
+[    0.619394] test_printf: vsnprintf(buf, 256, "%piS|%pIS", ...)
+wrote '127.000.000.001|127.0.0.1', expected
+'127-000.000.001|127.0.0.1'
+[    0.619395] test_printf: vsnprintf(buf, 25, "%piS|%pIS", ...) wrote
+'127.000.000.001|127.0.0.', expected '127-000.000.001|127.0.0.'
+[    0.619396] test_printf: kvasprintf(..., "%piS|%pIS", ...) returned
+'127.000.000.001|127.0.0.1', expected '127-000.000.001|127.0.0.1'
+[    0.619495] test_printf: failed 3 out of 388 tests
 
-Thanks,
-Dwaipayan.
+Converted test success:
+    # Subtest: printf-kunit-test
+    1..1
+    ok 1 - selftest
+ok 1 - printf-kunit-test
+
+Converted test failure:
+    # Subtest: printf-kunit-test
+    1..1
+    # selftest: EXPECTATION FAILED at lib/printf_kunit.c:82
+vsnprintf(buf, 256, "%pi4|%pI4", ...) wrote
+'127.000.000.001|127.0.0.1', expected '127-000.000.001|127.0.0.1'
+    # selftest: EXPECTATION FAILED at lib/printf_kunit.c:82
+vsnprintf(buf, 5, "%pi4|%pI4", ...) wrote '127.', expected '127-'
+    # selftest: EXPECTATION FAILED at lib/printf_kunit.c:118
+kvasprintf(..., "%pi4|%pI4", ...) returned
+'127.000.000.001|127.0.0.1', expected '127-000.000.001|127.0.0.1'
+    not ok 1 - selftest
+not ok 1 - printf-kunit-test
+
+Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+---
+Changes v1->v2:
+- Retain the control flow (early returns) in do_test()
+- Display less irrelevant information on test failure
+- A more detailed commit message
+
+ lib/Kconfig.debug                     |  7 +--
+ lib/Makefile                          |  2 +-
+ lib/{test_printf.c => printf_kunit.c} | 76 +++++++++++++--------------
+ 3 files changed, 43 insertions(+), 42 deletions(-)
+ rename lib/{test_printf.c => printf_kunit.c} (91%)
+
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 66d44d35cc97..e82ca893ed5b 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2053,9 +2053,6 @@ config TEST_STRSCPY
+ config TEST_KSTRTOX
+ 	tristate "Test kstrto*() family of functions at runtime"
+ 
+-config TEST_PRINTF
+-	tristate "Test printf() family of functions at runtime"
+-
+ config TEST_BITMAP
+ 	tristate "Test bitmap_*() family of functions at runtime"
+ 	help
+@@ -2282,6 +2279,10 @@ config BITS_TEST
+ 
+ 	  If unsure, say N.
+ 
++config PRINTF_KUNIT_TEST
++	tristate "KUnit test for printf() family of functions at runtime"
++	depends on KUNIT
++
+ config TEST_UDELAY
+ 	tristate "udelay test driver"
+ 	help
+diff --git a/lib/Makefile b/lib/Makefile
+index ce45af50983a..c323447022b7 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -84,7 +84,6 @@ obj-$(CONFIG_TEST_SORT) += test_sort.o
+ obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
+ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
+ obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
+-obj-$(CONFIG_TEST_PRINTF) += test_printf.o
+ obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
+ obj-$(CONFIG_TEST_STRSCPY) += test_strscpy.o
+ obj-$(CONFIG_TEST_UUID) += test_uuid.o
+@@ -352,3 +351,4 @@ obj-$(CONFIG_BITFIELD_KUNIT) += bitfield_kunit.o
+ obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
+ obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
+ obj-$(CONFIG_BITS_TEST) += test_bits.o
++obj-$(CONFIG_PRINTF_KUNIT_TEST) += printf_kunit.o
+diff --git a/lib/test_printf.c b/lib/printf_kunit.c
+similarity index 91%
+rename from lib/test_printf.c
+rename to lib/printf_kunit.c
+index 7ac87f18a10f..e4dc1b1c8972 100644
+--- a/lib/test_printf.c
++++ b/lib/printf_kunit.c
+@@ -5,6 +5,7 @@
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <kunit/test.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+@@ -30,64 +31,57 @@
+ #define PAD_SIZE 16
+ #define FILL_CHAR '$'
+ 
+-static unsigned total_tests __initdata;
+-static unsigned failed_tests __initdata;
+ static char *test_buffer __initdata;
+ static char *alloced_buffer __initdata;
++struct kunit *kunittest;
+ 
+-static int __printf(4, 0) __init
++static void __printf(4, 0) __init
+ do_test(int bufsize, const char *expect, int elen,
+ 	const char *fmt, va_list ap)
+ {
+ 	va_list aq;
+ 	int ret, written;
+ 
+-	total_tests++;
+-
+ 	memset(alloced_buffer, FILL_CHAR, BUF_SIZE + 2*PAD_SIZE);
+ 	va_copy(aq, ap);
+ 	ret = vsnprintf(test_buffer, bufsize, fmt, aq);
+ 	va_end(aq);
+ 
+ 	if (ret != elen) {
+-		pr_warn("vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d\n",
++		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d\n",
+ 			bufsize, fmt, ret, elen);
+-		return 1;
++		return;
+ 	}
+ 
+ 	if (memchr_inv(alloced_buffer, FILL_CHAR, PAD_SIZE)) {
+-		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote before buffer\n", bufsize, fmt);
+-		return 1;
++		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote before buffer\n", bufsize, fmt);
++		return;
+ 	}
+ 
+ 	if (!bufsize) {
+-		if (memchr_inv(test_buffer, FILL_CHAR, BUF_SIZE + PAD_SIZE)) {
+-			pr_warn("vsnprintf(buf, 0, \"%s\", ...) wrote to buffer\n",
+-				fmt);
+-			return 1;
+-		}
+-		return 0;
++		if (memchr_inv(test_buffer, FILL_CHAR, BUF_SIZE + PAD_SIZE))
++			KUNIT_FAIL(kunittest, "vsnprintf(buf, 0, \"%s\", ...) wrote to buffer\n", fmt);
++		return;
+ 	}
+ 
+ 	written = min(bufsize-1, elen);
+ 	if (test_buffer[written]) {
+-		pr_warn("vsnprintf(buf, %d, \"%s\", ...) did not nul-terminate buffer\n",
++		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) did not nul-terminate buffer\n",
+ 			bufsize, fmt);
+-		return 1;
++		return;
+ 	}
+ 
+ 	if (memchr_inv(test_buffer + written + 1, FILL_CHAR, BUF_SIZE + PAD_SIZE - (written + 1))) {
+-		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator\n",
++		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator\n",
+ 			bufsize, fmt);
+-		return 1;
++		return;
+ 	}
+ 
+ 	if (memcmp(test_buffer, expect, written)) {
+-		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote '%s', expected '%.*s'\n",
++		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote '%s', expected '%.*s'\n",
+ 			bufsize, fmt, test_buffer, written, expect);
+-		return 1;
++		return;
+ 	}
+-	return 0;
+ }
+ 
+ static void __printf(3, 4) __init
+@@ -98,9 +92,8 @@ __test(const char *expect, int elen, const char *fmt, ...)
+ 	char *p;
+ 
+ 	if (elen >= BUF_SIZE) {
+-		pr_err("error in test suite: expected output length %d too long. Format was '%s'.\n",
++		KUNIT_FAIL(kunittest, "error in test suite: expected output length %d too long. Format was '%s'.\n",
+ 		       elen, fmt);
+-		failed_tests++;
+ 		return;
+ 	}
+ 
+@@ -112,19 +105,17 @@ __test(const char *expect, int elen, const char *fmt, ...)
+ 	 * enough and 0), and then we also test that kvasprintf would
+ 	 * be able to print it as expected.
+ 	 */
+-	failed_tests += do_test(BUF_SIZE, expect, elen, fmt, ap);
++	do_test(BUF_SIZE, expect, elen, fmt, ap);
+ 	rand = 1 + prandom_u32_max(elen+1);
+ 	/* Since elen < BUF_SIZE, we have 1 <= rand <= BUF_SIZE. */
+-	failed_tests += do_test(rand, expect, elen, fmt, ap);
+-	failed_tests += do_test(0, expect, elen, fmt, ap);
++	do_test(rand, expect, elen, fmt, ap);
++	do_test(0, expect, elen, fmt, ap);
+ 
+ 	p = kvasprintf(GFP_KERNEL, fmt, ap);
+ 	if (p) {
+-		total_tests++;
+ 		if (memcmp(p, expect, elen+1)) {
+-			pr_warn("kvasprintf(..., \"%s\", ...) returned '%s', expected '%s'\n",
++			KUNIT_FAIL(kunittest, "kvasprintf(..., \"%s\", ...) returned '%s', expected '%s'\n",
+ 				fmt, p, expect);
+-			failed_tests++;
+ 		}
+ 		kfree(p);
+ 	}
+@@ -303,16 +294,13 @@ plain(void)
+ 
+ 	err = plain_hash();
+ 	if (err) {
+-		pr_warn("plain 'p' does not appear to be hashed\n");
+-		failed_tests++;
++		KUNIT_FAIL(kunittest, "plain 'p' does not appear to be hashed\n");
+ 		return;
+ 	}
+ 
+ 	err = plain_format();
+-	if (err) {
+-		pr_warn("hashing plain 'p' has unexpected format\n");
+-		failed_tests++;
+-	}
++	if (err)
++		KUNIT_FAIL(kunittest, "hashing plain 'p' has unexpected format\n");
+ }
+ 
+ static void __init
+@@ -696,8 +684,9 @@ test_pointer(void)
+ 	fwnode_pointer();
+ }
+ 
+-static void __init selftest(void)
++static void __init selftest(struct kunit *ktest)
+ {
++	kunittest = ktest;
+ 	alloced_buffer = kmalloc(BUF_SIZE + 2*PAD_SIZE, GFP_KERNEL);
+ 	if (!alloced_buffer)
+ 		return;
+@@ -711,6 +700,17 @@ static void __init selftest(void)
+ 	kfree(alloced_buffer);
+ }
+ 
+-KSTM_MODULE_LOADERS(test_printf);
++static struct kunit_case printf_test_cases[] = {
++	KUNIT_CASE(selftest),
++	{}
++};
++
++static struct kunit_suite printf_test_suite = {
++	.name = "printf-kunit-test",
++	.test_cases = printf_test_cases,
++};
++
++kunit_test_suite(printf_test_suite);
++
+ MODULE_AUTHOR("Rasmus Villemoes <linux@rasmusvillemoes.dk>");
+ MODULE_LICENSE("GPL");
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
