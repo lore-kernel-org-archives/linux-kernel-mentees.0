@@ -2,108 +2,87 @@ Return-Path: <SRS0=G515=D5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E59B1C5517A
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Oct 2020 19:15:10 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D45BC388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Oct 2020 19:15:15 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1F3DF24656
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Oct 2020 19:15:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dpvUWooZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1F3DF24656
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id E30452465A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Oct 2020 19:15:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E30452465A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8068A87073;
-	Thu, 22 Oct 2020 19:15:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5F7218698C;
+	Thu, 22 Oct 2020 19:15:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nfMp9KI9owDL; Thu, 22 Oct 2020 19:15:08 +0000 (UTC)
+	with ESMTP id x-BbgWEqFn19; Thu, 22 Oct 2020 19:15:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DA23F86FE9;
-	Thu, 22 Oct 2020 19:15:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E64E3867F7;
+	Thu, 22 Oct 2020 19:15:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B870EC088B;
-	Thu, 22 Oct 2020 19:15:08 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 84FCFC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D59C0C088B;
+	Thu, 22 Oct 2020 19:15:12 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E9970C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 19:15:07 +0000 (UTC)
+ Thu, 22 Oct 2020 19:15:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 720B186FE9
+ by whitealder.osuosl.org (Postfix) with ESMTP id E5BC6867F7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 19:15:07 +0000 (UTC)
+ Thu, 22 Oct 2020 19:15:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QlOAY1PgpcCQ
+ with ESMTP id IX9u2gj2i66z
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 19:15:06 +0000 (UTC)
+ Thu, 22 Oct 2020 19:15:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 994CB87073
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B3A7E8685E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 19:15:06 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id h6so1536006pgk.4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 12:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MTOPs1CSneNAIcv0bX2fvvyRnuzty6FLHw/Un0yy0DU=;
- b=dpvUWooZMZxO3OAxNAJlXh0PhQvoFvvAOnv3KzUxOWanOsJIHJtKosY7lX3+S2ggYB
- a8K3w2zCYXj2bKjWxD3yTP7RpMM6MbXp2Z0BwqKHGlc/91ZBI6IBuVBkHxdPCZnbdQrG
- fsRolZDMezc5XqP5rUHBBmd/MG7ru9xnTl+QD5g0dZTOBEgWyMWTVzRnlbmd5dWcKI7L
- o6zxoJICUC04q4gTwj3Dn+GD+acCCxbh35+VqFSskD4gHB1VGSBKSxW+ZMuBUvfgYZoo
- gwT+vI0tExgeGbLD3CF+XQZL289HtQzeDfDzPstAFkqOYEFqFgIedpT8c85wPVwREqQU
- trJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MTOPs1CSneNAIcv0bX2fvvyRnuzty6FLHw/Un0yy0DU=;
- b=W4Cedi/rAYwjzS5mGbR1FLY/R5IScZWYAwBxRNUldxuc3iuYD9VPezGgKz4dWA6pE/
- TeUIBCP+2IiiWlOE0LxiAPhGrxXhoWn7hCXvqPzHphNY5Bd+vCPr0fBz9xKoZ+fmP2/t
- tfSVwvopMm8rPLjxomc35Wc2s19XPyuH94wBSeDcDS8k/w7I071vCUOCl/SZkns5r0kL
- e5iX2TF7rLv960N461MenMiH5TvfpRDF+EJYcO4ot1HsXjmrb005sk8hAcbD0aMUEWZw
- y37FT95sGkAlQGkaWxVlKlNm19sJt7Jvj6qTTJEDEwuOIUXyP9nKf0023MRcHaqK/VUH
- wrrQ==
-X-Gm-Message-State: AOAM532ZdytfS9GinH88Eoev7IWxeMIht4QhskUC6N2RGpBj1N4ieJCt
- McKsBol7+eNMvNz3JugGM+Q=
-X-Google-Smtp-Source: ABdhPJz9pcCvEF/9HR1/lctA5F5SxcIGH+6rTGs+MVMyRtCMFyMPTLygkwlaa8dobVnCGzx2bPbRTQ==
-X-Received: by 2002:a05:6a00:13aa:b029:15d:73e6:2e9f with SMTP id
- t42-20020a056a0013aab029015d73e62e9fmr4159975pfg.0.1603394105920; 
- Thu, 22 Oct 2020 12:15:05 -0700 (PDT)
-Received: from ?IPv6:2402:3a80:41a:7419:e1bd:6bc1:d06a:efd1?
- ([2402:3a80:41a:7419:e1bd:6bc1:d06a:efd1])
- by smtp.gmail.com with ESMTPSA id b3sm3170844pfd.66.2020.10.22.12.15.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Oct 2020 12:15:05 -0700 (PDT)
-To: Joe Perches <joe@perches.com>
-References: <20201022145021.28211-1-yashsri421@gmail.com>
- <4cbbd8d8b6c4d686f71648af8bc970baa4b0ee9b.camel@perches.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <5121bf7c-a126-6178-62ff-e54f0bb4cb6e@gmail.com>
-Date: Fri, 23 Oct 2020 00:44:59 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thu, 22 Oct 2020 19:15:09 +0000 (UTC)
+IronPort-SDR: 9PXdKS5dLhGH+YNlfSdItHQZ5iv6gU6aYSfjXTuCuAMeoggniQ2umHqxkIOuv8i5TvN8AKg2qs
+ G0sVe5mAG+tQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9782"; a="154536599"
+X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; d="scan'208";a="154536599"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2020 12:15:08 -0700
+IronPort-SDR: ikuR3ejjhRqsf9EID/IMJ0obREYf/JtrZzlUpYE5mee0KjLJQvZVSG0edSKvbt5S1vtBNjdJFZ
+ ZBzyAhpHco0A==
+X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; d="scan'208";a="359362854"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2020 12:15:04 -0700
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1kVg4E-00DVpH-VO; Thu, 22 Oct 2020 22:16:06 +0300
+Date: Thu, 22 Oct 2020 22:16:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arpitha Raghunandan <98.arpi@gmail.com>
+Message-ID: <20201022191606.GQ4077@smile.fi.intel.com>
+References: <20201022151349.47436-1-98.arpi@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <4cbbd8d8b6c4d686f71648af8bc970baa4b0ee9b.camel@perches.com>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dwaipayanray1@gmail.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: fix false
- positives in REPEATED_WORD warning
+Content-Disposition: inline
+In-Reply-To: <20201022151349.47436-1-98.arpi@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Cc: pmladek@suse.com, alexandre.belloni@bootlin.com, linux@rasmusvillemoes.dk,
+ rdunlap@infradead.org, brendanhiggins@google.com, linux-kernel@vger.kernel.org,
+ rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
+ linux-kselftest@vger.kernel.org, idryomov@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] lib: Convert test_printf.c to
+	KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,146 +100,307 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 22/10/20 9:40 pm, Joe Perches wrote:
-> On Thu, 2020-10-22 at 20:20 +0530, Aditya Srivastava wrote:
->> Presence of hexadecimal address or symbol results in false warning
->> message by checkpatch.pl.
-> []
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
->> @@ -3051,7 +3051,10 @@ sub process {
->>  		}
->>  
->>  # check for repeated words separated by a single space
->> -		if ($rawline =~ /^\+/ || $in_commit_log) {
->> +# avoid false positive from list command eg, '-rw-r--r-- 1 root root'
->> +		if (($rawline =~ /^\+/ || $in_commit_log) &&
->> +		$rawline !~ /[bcCdDlMnpPs\?-][rwxsStT-]{9}/) {
+On Thu, Oct 22, 2020 at 08:43:49PM +0530, Arpitha Raghunandan wrote:
+> Convert test lib/test_printf.c to KUnit. More information about
+> KUnit can be found at:
+> https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html.
+> KUnit provides a common framework for unit tests in the kernel.
+> KUnit and kselftest are standardizing around KTAP, converting this
+> test to KUnit makes this test output in KTAP which we are trying to
+> make the standard test result format for the kernel. More about
+> the KTAP format can be found at:
+> https://lore.kernel.org/linux-kselftest/CY4PR13MB1175B804E31E502221BC8163FD830@CY4PR13MB1175.namprd13.prod.outlook.com/.
+> I ran both the original and converted tests as is to produce the
+> output for success of the test in the two cases. I also ran these
+> tests with a small modification to show the difference in the output
+> for failure of the test in both cases. The modification I made is:
+> - test("127.000.000.001|127.0.0.1", "%pi4|%pI4", &sa.sin_addr, &sa.sin_addr);
+> + test("127-000.000.001|127.0.0.1", "%pi4|%pI4", &sa.sin_addr, &sa.sin_addr);
 > 
-> Alignment and use \b before and after the regex please.
-
-If we use \b either before or after or both it does not match patterns
-such as:
-+   -rw-r--r--. 1 root root 112K Mar 20 12:16
-selinux-policy-3.14.4-48.fc31.noarch.rpm
-
-This is happening probably because it is counting '-' for '\b'
-I have not observed any negatives of using this though.
-
+> Original test success:
+> [    0.591262] test_printf: loaded.
+> [    0.591409] test_printf: all 388 tests passed
 > 
-> 		if (($rawline =~ /^\+/ || $in_commit_log) &&
-> 		    $rawline !~ /\b[bcCdDlMnpPs\?-][rwxsStT-]{9}\b/) {
->> @@ -3065,6 +3068,34 @@ sub process {
->>  				next if ($first ne $second);
->>  				next if ($first eq 'long');
->>  
->> +				# avoid repeating hex occurrences like 'ff ff fe 09 ...'
->> +				if ($first =~ /\b[0-9a-f]{2,}/) {
->> +					# if such sequence occurs more than 4, it is most probably part of some of code
->> +					next if ((scalar @hex_seq)>4);
->> +					# for hex occurrences which are less than 4
->> +					# get first hex word in the line
->> +					if ($rawline =~ /\b[0-9a-f]{2,} /) {
->> +						my $post_hex_seq = $';
->> +
->> +						# set suffieciently high default values to avoid ignoring or counting in absence of another
->> +						my $non_hex_char_pos = 1000;
->> +						my $special_chars_pos = 500;
->> +
->> +						if ($post_hex_seq =~ /[g-z]+/) {
->> +							# first non hex character in post_hex_seq
->> +							$non_hex_char_pos = $-[0];
->> +						}
->> +						if($post_hex_seq =~ /[^a-zA-Z0-9]{2,}/) {
->> +							# first occurrence of 2 or more special chars
->> +							$special_chars_pos = $-[0];
->> +						}
+> Original test failure:
+> [    0.619345] test_printf: loaded.
+> [    0.619394] test_printf: vsnprintf(buf, 256, "%piS|%pIS", ...)
+> wrote '127.000.000.001|127.0.0.1', expected
+> '127-000.000.001|127.0.0.1'
+> [    0.619395] test_printf: vsnprintf(buf, 25, "%piS|%pIS", ...) wrote
+> '127.000.000.001|127.0.0.', expected '127-000.000.001|127.0.0.'
+> [    0.619396] test_printf: kvasprintf(..., "%piS|%pIS", ...) returned
+> '127.000.000.001|127.0.0.1', expected '127-000.000.001|127.0.0.1'
+> [    0.619495] test_printf: failed 3 out of 388 tests
 > 
-> What does all this code actually avoid?
+> Converted test success:
+>     # Subtest: printf-kunit-test
+>     1..1
+>     ok 1 - selftest
+> ok 1 - printf-kunit-test
 > 
+> Converted test failure:
+>     # Subtest: printf-kunit-test
+>     1..1
+>     # selftest: EXPECTATION FAILED at lib/printf_kunit.c:82
+> vsnprintf(buf, 256, "%pi4|%pI4", ...) wrote
+> '127.000.000.001|127.0.0.1', expected '127-000.000.001|127.0.0.1'
+>     # selftest: EXPECTATION FAILED at lib/printf_kunit.c:82
+> vsnprintf(buf, 5, "%pi4|%pI4", ...) wrote '127.', expected '127-'
+>     # selftest: EXPECTATION FAILED at lib/printf_kunit.c:118
+> kvasprintf(..., "%pi4|%pI4", ...) returned
+> '127.000.000.001|127.0.0.1', expected '127-000.000.001|127.0.0.1'
+>     not ok 1 - selftest
+> not ok 1 - printf-kunit-test
+
+Not bad. Rasmus, what do you think?
+
+> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+> ---
+> Changes v1->v2:
+> - Retain the control flow (early returns) in do_test()
+> - Display less irrelevant information on test failure
+> - A more detailed commit message
+> 
+>  lib/Kconfig.debug                     |  7 +--
+>  lib/Makefile                          |  2 +-
+>  lib/{test_printf.c => printf_kunit.c} | 76 +++++++++++++--------------
+>  3 files changed, 43 insertions(+), 42 deletions(-)
+>  rename lib/{test_printf.c => printf_kunit.c} (91%)
+
+I would based this on top of my series that renames existing KUnit based tests
+in lib/.
+
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 66d44d35cc97..e82ca893ed5b 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -2053,9 +2053,6 @@ config TEST_STRSCPY
+>  config TEST_KSTRTOX
+>  	tristate "Test kstrto*() family of functions at runtime"
+>  
+> -config TEST_PRINTF
+> -	tristate "Test printf() family of functions at runtime"
+> -
+>  config TEST_BITMAP
+>  	tristate "Test bitmap_*() family of functions at runtime"
+>  	help
+> @@ -2282,6 +2279,10 @@ config BITS_TEST
+>  
+>  	  If unsure, say N.
+>  
+> +config PRINTF_KUNIT_TEST
+> +	tristate "KUnit test for printf() family of functions at runtime"
+> +	depends on KUNIT
+> +
+>  config TEST_UDELAY
+>  	tristate "udelay test driver"
+>  	help
+> diff --git a/lib/Makefile b/lib/Makefile
+> index ce45af50983a..c323447022b7 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -84,7 +84,6 @@ obj-$(CONFIG_TEST_SORT) += test_sort.o
+>  obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
+>  obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
+>  obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
+> -obj-$(CONFIG_TEST_PRINTF) += test_printf.o
+>  obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
+>  obj-$(CONFIG_TEST_STRSCPY) += test_strscpy.o
+>  obj-$(CONFIG_TEST_UUID) += test_uuid.o
+> @@ -352,3 +351,4 @@ obj-$(CONFIG_BITFIELD_KUNIT) += bitfield_kunit.o
+>  obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
+>  obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
+>  obj-$(CONFIG_BITS_TEST) += test_bits.o
+> +obj-$(CONFIG_PRINTF_KUNIT_TEST) += printf_kunit.o
+> diff --git a/lib/test_printf.c b/lib/printf_kunit.c
+> similarity index 91%
+> rename from lib/test_printf.c
+> rename to lib/printf_kunit.c
+> index 7ac87f18a10f..e4dc1b1c8972 100644
+> --- a/lib/test_printf.c
+> +++ b/lib/printf_kunit.c
+> @@ -5,6 +5,7 @@
+>  
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+> +#include <kunit/test.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> @@ -30,64 +31,57 @@
+>  #define PAD_SIZE 16
+>  #define FILL_CHAR '$'
+>  
+> -static unsigned total_tests __initdata;
+> -static unsigned failed_tests __initdata;
+>  static char *test_buffer __initdata;
+>  static char *alloced_buffer __initdata;
+> +struct kunit *kunittest;
+>  
+> -static int __printf(4, 0) __init
+> +static void __printf(4, 0) __init
+>  do_test(int bufsize, const char *expect, int elen,
+>  	const char *fmt, va_list ap)
+>  {
+>  	va_list aq;
+>  	int ret, written;
+>  
+> -	total_tests++;
+> -
+>  	memset(alloced_buffer, FILL_CHAR, BUF_SIZE + 2*PAD_SIZE);
+>  	va_copy(aq, ap);
+>  	ret = vsnprintf(test_buffer, bufsize, fmt, aq);
+>  	va_end(aq);
+>  
+>  	if (ret != elen) {
+> -		pr_warn("vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d\n",
+> +		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d\n",
+>  			bufsize, fmt, ret, elen);
+> -		return 1;
+> +		return;
+>  	}
+>  
+>  	if (memchr_inv(alloced_buffer, FILL_CHAR, PAD_SIZE)) {
+> -		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote before buffer\n", bufsize, fmt);
+> -		return 1;
+> +		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote before buffer\n", bufsize, fmt);
+> +		return;
+>  	}
+>  
+>  	if (!bufsize) {
+> -		if (memchr_inv(test_buffer, FILL_CHAR, BUF_SIZE + PAD_SIZE)) {
+> -			pr_warn("vsnprintf(buf, 0, \"%s\", ...) wrote to buffer\n",
+> -				fmt);
+> -			return 1;
+> -		}
+> -		return 0;
+> +		if (memchr_inv(test_buffer, FILL_CHAR, BUF_SIZE + PAD_SIZE))
+> +			KUNIT_FAIL(kunittest, "vsnprintf(buf, 0, \"%s\", ...) wrote to buffer\n", fmt);
+> +		return;
+>  	}
+>  
+>  	written = min(bufsize-1, elen);
+>  	if (test_buffer[written]) {
+> -		pr_warn("vsnprintf(buf, %d, \"%s\", ...) did not nul-terminate buffer\n",
+> +		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) did not nul-terminate buffer\n",
+>  			bufsize, fmt);
+> -		return 1;
+> +		return;
+>  	}
+>  
+>  	if (memchr_inv(test_buffer + written + 1, FILL_CHAR, BUF_SIZE + PAD_SIZE - (written + 1))) {
+> -		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator\n",
+> +		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator\n",
+>  			bufsize, fmt);
+> -		return 1;
+> +		return;
+>  	}
+>  
+>  	if (memcmp(test_buffer, expect, written)) {
+> -		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote '%s', expected '%.*s'\n",
+> +		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote '%s', expected '%.*s'\n",
+>  			bufsize, fmt, test_buffer, written, expect);
+> -		return 1;
+> +		return;
+>  	}
+> -	return 0;
+>  }
+>  
+>  static void __printf(3, 4) __init
+> @@ -98,9 +92,8 @@ __test(const char *expect, int elen, const char *fmt, ...)
+>  	char *p;
+>  
+>  	if (elen >= BUF_SIZE) {
+> -		pr_err("error in test suite: expected output length %d too long. Format was '%s'.\n",
+> +		KUNIT_FAIL(kunittest, "error in test suite: expected output length %d too long. Format was '%s'.\n",
+>  		       elen, fmt);
+> -		failed_tests++;
+>  		return;
+>  	}
+>  
+> @@ -112,19 +105,17 @@ __test(const char *expect, int elen, const char *fmt, ...)
+>  	 * enough and 0), and then we also test that kvasprintf would
+>  	 * be able to print it as expected.
+>  	 */
+> -	failed_tests += do_test(BUF_SIZE, expect, elen, fmt, ap);
+> +	do_test(BUF_SIZE, expect, elen, fmt, ap);
+>  	rand = 1 + prandom_u32_max(elen+1);
+>  	/* Since elen < BUF_SIZE, we have 1 <= rand <= BUF_SIZE. */
+> -	failed_tests += do_test(rand, expect, elen, fmt, ap);
+> -	failed_tests += do_test(0, expect, elen, fmt, ap);
+> +	do_test(rand, expect, elen, fmt, ap);
+> +	do_test(0, expect, elen, fmt, ap);
+>  
+>  	p = kvasprintf(GFP_KERNEL, fmt, ap);
+>  	if (p) {
+> -		total_tests++;
+>  		if (memcmp(p, expect, elen+1)) {
+> -			pr_warn("kvasprintf(..., \"%s\", ...) returned '%s', expected '%s'\n",
+> +			KUNIT_FAIL(kunittest, "kvasprintf(..., \"%s\", ...) returned '%s', expected '%s'\n",
+>  				fmt, p, expect);
+> -			failed_tests++;
+>  		}
+>  		kfree(p);
+>  	}
+> @@ -303,16 +294,13 @@ plain(void)
+>  
+>  	err = plain_hash();
+>  	if (err) {
+> -		pr_warn("plain 'p' does not appear to be hashed\n");
+> -		failed_tests++;
+> +		KUNIT_FAIL(kunittest, "plain 'p' does not appear to be hashed\n");
+>  		return;
+>  	}
+>  
+>  	err = plain_format();
+> -	if (err) {
+> -		pr_warn("hashing plain 'p' has unexpected format\n");
+> -		failed_tests++;
+> -	}
+> +	if (err)
+> +		KUNIT_FAIL(kunittest, "hashing plain 'p' has unexpected format\n");
+>  }
+>  
+>  static void __init
+> @@ -696,8 +684,9 @@ test_pointer(void)
+>  	fwnode_pointer();
+>  }
+>  
+> -static void __init selftest(void)
+> +static void __init selftest(struct kunit *ktest)
+>  {
+> +	kunittest = ktest;
+>  	alloced_buffer = kmalloc(BUF_SIZE + 2*PAD_SIZE, GFP_KERNEL);
+>  	if (!alloced_buffer)
+>  		return;
+> @@ -711,6 +700,17 @@ static void __init selftest(void)
+>  	kfree(alloced_buffer);
+>  }
+>  
+> -KSTM_MODULE_LOADERS(test_printf);
+> +static struct kunit_case printf_test_cases[] = {
+> +	KUNIT_CASE(selftest),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite printf_test_suite = {
+> +	.name = "printf-kunit-test",
+> +	.test_cases = printf_test_cases,
+> +};
+> +
+> +kunit_test_suite(printf_test_suite);
+> +
+>  MODULE_AUTHOR("Rasmus Villemoes <linux@rasmusvillemoes.dk>");
+>  MODULE_LICENSE("GPL");
+> -- 
+> 2.25.1
 > 
 
-Sir, there are multiple variations of hex for which this warning is
-occurring, for eg:
-1) 00 c0 06 16 00 00 ff ff 00 93 1c 18 00 00 ff ff  ................
-2) ffffffff ffffffff 00000000 c070058c
-3)     f5a:       48 c7 44 24 78 ff ff    movq
-$0xffffffffffffffff,0x78(%rsp)
-4) +    fe fe
-5) +    fe fe   - ? end marker ?
-6) Code: ff ff 48 (...)
-
-So I first check if the repeated word matches /\b[0-9a-f]{2,}/ . If it
-does and occurs as a sequence of such repetitions more than 4(ie more
-than or equal to 5), then it is most probably a part of hexadecimal
-code. This is implemented here,
-
-+				if ($first =~ /\b[0-9a-f]{2,}/) {
-+					# if such sequence occurs more than 4, it is most probably part
-of some of code
-+					next if ((scalar @hex_seq)>4);
-
-This addresses our issues for warning similar to example (1),(2) and (3).
-
-But still we haven't detected 4,5,6. One can argue that we can modify:
-
-+					next if ((scalar @hex_seq)>4);
-
-with (scalar @hex_seq)>2 or (scalar @hex_seq)>3
-
-but then, we'll not be able to account for warnings such as:
-
-7) +	 * sets this to -1, the slack value will be calculated to be be
-halfway
-8) + * @seg: index of packet segment whose raw fields are to be be
-extracted
-9) The data in destination buffer is expected to be be parsed in big
-10) +	 *   1. New session or device can'be be created - session sysfs
-files
-
-Here I observed that in hex codes, there are atleast 2 special
-characters present before any non-hex character, for eg. in (5). Also
-generally such occurrences are very rare in writing english, and it is
-also helpful in our case.
-
-This is implemented here:
-
->> +				# avoid repeating hex occurrences like 'ff ff fe 09 ...'
->> +				if ($first =~ /\b[0-9a-f]{2,}/) {
->> +					# if such sequence occurs more than 4, it is most probably
-part of some of code
->> +					next if ((scalar @hex_seq)>4);
->> +					# for hex occurrences which are less than 4
->> +					# get first hex word in the line
->> +					if ($rawline =~ /\b[0-9a-f]{2,} /) {
->> +						my $post_hex_seq = $';
->> +
->> +						# set suffieciently high default values to avoid ignoring or
-counting in absence of another
->> +						my $non_hex_char_pos = 1000;
->> +						my $special_chars_pos = 500;
->> +
->> +						if ($post_hex_seq =~ /[g-z]+/) {
->> +							# first non hex character in post_hex_seq
->> +							$non_hex_char_pos = $-[0];
->> +						}
->> +						if($post_hex_seq =~ /[^a-zA-Z0-9]{2,}/) {
->> +							# first occurrence of 2 or more special chars
->> +							$special_chars_pos = $-[0];
->> +						}
-
-I have used these two lines for cases like example(4):
-+						my $non_hex_char_pos = 1000;
-+						my $special_chars_pos = 500;
-
-Here, non-hex characters are missing, thus the default character helps
-us to get desired result.
-Also, I have set higher values such that if one of them occurs in a
-line, the result remain unaffected, than with lower default values.
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Thanks
-Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
