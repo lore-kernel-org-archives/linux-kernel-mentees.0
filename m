@@ -2,92 +2,94 @@ Return-Path: <SRS0=Y4zm=D6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4412AC388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 06:33:34 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51651C55178
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 06:38:36 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BB6CF2192A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 06:33:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B3BFB2192A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 06:38:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tW+DxZVf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BB6CF2192A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTvjxTQf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B3BFB2192A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 50B3820439;
-	Fri, 23 Oct 2020 06:33:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3442986B11;
+	Fri, 23 Oct 2020 06:38:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SYMWvxeAcTTn; Fri, 23 Oct 2020 06:33:31 +0000 (UTC)
+	with ESMTP id leJAL5taAEY8; Fri, 23 Oct 2020 06:38:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 254302037B;
-	Fri, 23 Oct 2020 06:33:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BBA82866DA;
+	Fri, 23 Oct 2020 06:38:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0998FC0052;
-	Fri, 23 Oct 2020 06:33:31 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6125EC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AEA6DC0052;
+	Fri, 23 Oct 2020 06:38:34 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3A75BC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 06:33:29 +0000 (UTC)
+ Fri, 23 Oct 2020 06:38:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4B25186F57
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1A6A7867D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 06:33:29 +0000 (UTC)
+ Fri, 23 Oct 2020 06:38:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c2HJBihSwJfI
+ with ESMTP id TPP9g0X18PeJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 06:33:28 +0000 (UTC)
+ Fri, 23 Oct 2020 06:38:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1303E86F4D
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8DEC0866DA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 06:33:28 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id h6so438844pgk.4
+ Fri, 23 Oct 2020 06:38:32 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id l18so458744pgg.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 23:33:28 -0700 (PDT)
+ Thu, 22 Oct 2020 23:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ h=subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Uuo4nUiVLSySBOciEaIBUaKDItknrQkVKbQWMateKYs=;
- b=tW+DxZVfWESe5cJt98r3MECDjupJoUYGOLIHdFBMXrhowzHuDMEFxdHv0+MD773W4n
- au4N9iP24CUAj0tS0Ft45RunDbvu4oT9Hknr6zA0YBS+AlM2urBKaaQhSpaj014o0AWu
- f0JPAwSUjbGOZaQ9PYSOw7NZiFGqMi6BVy4W4bFwtsferMXhvBG+1BTkH0oPqam3pH+3
- nrhitWxT/hXnrX5NZEHYCaCoOc7b3hpX/uvDf3hJGfkfzRjsExVFI5WhPewT8w/Qy8xv
- oFhvPskhrMKrs60uTSHUUjhEgCEHzncS3WyuEARUjWRkJRlVTprZFI4LiZUYtre+CZsg
- a1Hg==
+ bh=du8DG9bmuPrMxShvvb8aQjcXCo588n8MEAUeaDJS0ro=;
+ b=jTvjxTQfWphPej6/1PfD28lAXYm0U1g/W21bzQeCqu/U7L+Z4hR6zakhVUaNOBMqGx
+ mee05wg+ZhnecR3FA+jjvoAjjCHhabm5pDHXc69JP7E9ZdS43xDoKP7XLQ3+Uja0jZqG
+ NPq2zBHqVWTCr98O/4qBN7dFoxIbd3r/CeTdulmx/IJjhmbQlIVEjWRS17O6J/u6ZJsW
+ VotXK4KtgnVJzmhe4O7e+1F2zIWGWFY0xSM3+B65H33q11j6GuukRYP0uEJmf+spdr9/
+ CvGUqJPDdc1yrNfGrbcovPJGwQZ4ZZPZmtfaxsfm96t4Rp/VCF9GT0YOaexVWbXoCPvo
+ O0cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Uuo4nUiVLSySBOciEaIBUaKDItknrQkVKbQWMateKYs=;
- b=GmJdJQ5ItkmpSLt6PfbwjezYfV8cWxp9rqRcD0W7iGeBPvwYt45px3gaMFzGWjWLvA
- Z/2UCQzvMy0PU9jjNVobP2ItrC9dYZpE8RWr24MfE4XqWnLpPZ6pAQmbxMLMSi4BMM0N
- jnDyCkJ2Rp106jUYHuegoeQkj6RC2U+gmKwzE2eNi877qlHQaMqCSdEJymJUiwbVyaOc
- TSL+kcCSDVG0T7dcoM7iRHL5HUShExZo2kfZmJ/PbIv7W/2HQbdaIHzmVXHfH1L0EDQp
- N71wRKeDvcxaSIsaSrNkl15jhxaVQ0Zy0aA3isJm/OIIOc6oeE+GstpjxOHnXMf5vWvS
- RaVQ==
-X-Gm-Message-State: AOAM533s9/AfvKz3xDHHVzLddra9Q0RV48oV6L49AATAr4XJpOmcCW82
- NQdm7Vgz65JXsul1ca1i+1o=
-X-Google-Smtp-Source: ABdhPJw2EmJlWlFn0DsQOlmkTgPZm4Pz6jzuwE/1ig6MIGiNFiXeW37qUO5GA2h27YyfNPeXC5OerQ==
-X-Received: by 2002:a63:4c55:: with SMTP id m21mr926904pgl.305.1603434807452; 
- Thu, 22 Oct 2020 23:33:27 -0700 (PDT)
+ bh=du8DG9bmuPrMxShvvb8aQjcXCo588n8MEAUeaDJS0ro=;
+ b=aB0iS/VyW6wgnwoco6FFM+hb91+7GQSD1vc+vUgdcGeFWCtdLQr/uMIPfqrpeJ0v2A
+ KcunHeWhfXdcl+xf1rTDylI4chFI7C8CgfmC9cQm29VObdGix/iulNjR+W58it02o+PC
+ 5vEdz4nzu0IR3bjQRn34COVbcCg6DbNiZ8a1GuV4uU6Zaz5HhDo8jGr/1lvZCtKq9M7I
+ 1rR/LHYISVVfG5rJld4d/Cb2z2KUm3ECk4TBXEhV8F5EyBkMc4SYauymywtQoTPqWiEt
+ 6UpwCeP4O5HbWdIIiX2ZZlk1/mL9Qr1JI3itQB4xIeRTkUweak9B0cybEL0THtNwBlcA
+ tukQ==
+X-Gm-Message-State: AOAM532K8ma+lR9Ab9WCG41szrSAczRHU2K0DwMlLrn7Cfu4Cy+SVcar
+ kGmkWUMQeRu81Hy64sHYKuU=
+X-Google-Smtp-Source: ABdhPJzgGubHtwtPVlQoW1i1YjP4CmDgF6KXik8vWFvSdt5ceVFh7FEl9ivr6PamrnrGEDOveB0pig==
+X-Received: by 2002:a17:90b:110b:: with SMTP id
+ gi11mr819076pjb.25.1603435112090; 
+ Thu, 22 Oct 2020 23:38:32 -0700 (PDT)
 Received: from ?IPv6:2402:3a80:429:6ba7:30ef:4722:a786:585f?
  ([2402:3a80:429:6ba7:30ef:4722:a786:585f])
- by smtp.gmail.com with ESMTPSA id g1sm825991pjj.3.2020.10.22.23.33.23
+ by smtp.gmail.com with ESMTPSA id l3sm741272pju.28.2020.10.22.23.38.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Oct 2020 23:33:26 -0700 (PDT)
+ Thu, 22 Oct 2020 23:38:31 -0700 (PDT)
+From: Aditya <yashsri421@gmail.com>
 To: Joe Perches <joe@perches.com>
 References: <20201022145021.28211-1-yashsri421@gmail.com>
  <4cbbd8d8b6c4d686f71648af8bc970baa4b0ee9b.camel@perches.com>
@@ -95,13 +97,13 @@ References: <20201022145021.28211-1-yashsri421@gmail.com>
  <67247b2d51aa8b2da7377e400e9191733144ed0f.camel@perches.com>
  <edaa9012-d512-26fc-0aca-f0eaf889a050@gmail.com>
  <b853a8ab4daface74075e93d83f94655f13a2979.camel@perches.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <8845d575-596e-b2e0-26c1-16e704074fc8@gmail.com>
-Date: Fri, 23 Oct 2020 12:03:19 +0530
+ <8845d575-596e-b2e0-26c1-16e704074fc8@gmail.com>
+Message-ID: <4d32f0db-0ab3-6a4d-9428-16e0651fbe29@gmail.com>
+Date: Fri, 23 Oct 2020 12:08:25 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <b853a8ab4daface74075e93d83f94655f13a2979.camel@perches.com>
+In-Reply-To: <8845d575-596e-b2e0-26c1-16e704074fc8@gmail.com>
 Content-Language: en-US
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, dwaipayanray1@gmail.com
@@ -124,91 +126,17 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 23/10/20 4:16 am, Joe Perches wrote:
-> On Fri, 2020-10-23 at 02:35 +0530, Aditya wrote:
->> On 23/10/20 1:03 am, Joe Perches wrote:
->>> On Fri, 2020-10-23 at 00:44 +0530, Aditya wrote:
->>>> On 22/10/20 9:40 pm, Joe Perches wrote:
->>>>> On Thu, 2020-10-22 at 20:20 +0530, Aditya Srivastava wrote:
->>>>>> Presence of hexadecimal address or symbol results in false warning
->>>>>> message by checkpatch.pl.
->>>>> []
->>>>>> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
->>>>> []
->>>>>> @@ -3051,7 +3051,10 @@ sub process {
->>>>>>  		}
->>>>>>  
->>>>>>  # check for repeated words separated by a single space
->>>>>> -		if ($rawline =~ /^\+/ || $in_commit_log) {
->>>>>> +# avoid false positive from list command eg, '-rw-r--r-- 1 root root'
->>>>>> +		if (($rawline =~ /^\+/ || $in_commit_log) &&
->>>>>> +		$rawline !~ /[bcCdDlMnpPs\?-][rwxsStT-]{9}/) {
->>>>>
->>>>> Alignment and use \b before and after the regex please.
->>>>
->>>> If we use \b either before or after or both it does not match patterns
->>>> such as:
->>>> +   -rw-r--r--. 1 root root 112K Mar 20 12:16'
->>> selinux-policy-3.14.4-48.fc31.noarch.rpm
->>>
->>> OK, thanks, it's good you checked.
->>>
->>>>> []
->>>>> What does all this code actually avoid?
->>>>
->>>> Sir, there are multiple variations of hex for which this warning is
->>>> occurring, for eg:
->>>> 1) 00 c0 06 16 00 00 ff ff 00 93 1c 18 00 00 ff ff  ................
->>>> 2) ffffffff ffffffff 00000000 c070058c
->>>> 3)     f5a:       48 c7 44 24 78 ff ff    movq
->>>> $0xffffffffffffffff,0x78(%rsp)
->>>> 4) +    fe fe
->>>> 5) +    fe fe   - ? end marker ?
->>>> 6) Code: ff ff 48 (...)
->>>
->>> So why not just match first with /^[0-9a-f]+$/i ?
->>>
->>> Doesn't that match all the cases listed above?
->>>
->>>
->>
->> Then, we'll not be able to account for cases such as:
->>
->> 1) +     * sets this to -1, the slack value will be calculated to be be
->> halfway [For 'be' 'be']
->> 2) + * @seg: index of packet segment whose raw fields are to be be
->> extracted [For 'be' 'be']
->> 3) Let's also add add a note about using only the l3 access without l4
->> [For 'add' 'add']
+On 23/10/20 12:03 pm, Aditya wrote:
+> However, though such cases haven't occurred over v6..v8.
 > 
-> Like the use of long, I think you're better off with
-> either a list or hash of specific words to ignore.
-> 
-> 
+> Actually, we could simplify it more on the basis of occurrences in
+> v6..v8, for eg. if we check for /[0-9c-f][0-9a-f]+/ (instead of
+> /[0-9a-f]{2,}/), it gives us desired result over v6..v8, but again
+> we'll miss out cases such as:
 > 
 
-Ok Sir. Actually, I was proceeding with this approach initially. But
-it has some side affects like it won't be able to detect hex such as:
+Sorry, v5.6..v5.8
 
-'ff 4d be be be 9f 04 48'
-
-Here although 'be' is part of hex sequence, it will be reported in the
-warning.
-However, though such cases haven't occurred over v6..v8.
-
-Actually, we could simplify it more on the basis of occurrences in
-v6..v8, for eg. if we check for /[0-9c-f][0-9a-f]+/ (instead of
-/[0-9a-f]{2,}/), it gives us desired result over v6..v8, but again
-we'll miss out cases such as:
-
-'ff af af bc bc ba ba bd bd'
-
-To counter all these, I had implemented the solution in the proposed
-way. But, I'll change it as you suggested. The advantage of it can be
-that the code complexity is less and the negatives will be few.
-
-Thanks
-Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
