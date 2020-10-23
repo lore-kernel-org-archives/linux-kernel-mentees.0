@@ -2,105 +2,83 @@ Return-Path: <SRS0=Y4zm=D6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEC6C4363A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 15:07:05 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771E7C388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 17:31:16 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 21433208B6
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 15:07:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A170521527
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 17:31:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tvM4Kjxg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 21433208B6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=suse.com header.i=@suse.com header.b="PD0NClmW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A170521527
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 54C9C87662;
-	Fri, 23 Oct 2020 15:07:04 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2CA6F87410;
+	Fri, 23 Oct 2020 17:31:15 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id S29OTAXpwRYZ; Fri, 23 Oct 2020 17:31:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8ED268740F;
+	Fri, 23 Oct 2020 17:31:14 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 737F5C088B;
+	Fri, 23 Oct 2020 17:31:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 312D4C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 23 Oct 2020 17:31:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1871C876A6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 23 Oct 2020 17:31:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yI-H1ITWE3-Z; Fri, 23 Oct 2020 15:07:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8E83587659;
-	Fri, 23 Oct 2020 15:07:03 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E6B0C0052;
-	Fri, 23 Oct 2020 15:07:03 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8A2CFC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 15:07:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7D36E2083F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 15:07:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id F4CFjjexhvdz
+ with ESMTP id JDpQNhw7SLHr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 15:07:00 +0000 (UTC)
+ Fri, 23 Oct 2020 17:31:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by silver.osuosl.org (Postfix) with ESMTPS id B343820BF9
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A6FE687669
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 15:07:00 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id e7so1528783pfn.12
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 08:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/iBmvJvix9p54rqEqgx/Lcv4Q0nYjFzFJSWY4VAZc0g=;
- b=tvM4KjxgVrZRChMo+peQ2BqcE/09kJoclvVF9Trvy0ZYDHhiNAMwLP24JysRobZCtt
- ifv/0xqeNqBW7DGbzUIueJPw/6zEOCNGTGgElCAzs096I4MW4vcn1oDyJM7JzugE64hs
- uhAfRjYaGLllmT5QYNnQxK9VbLSZMYm5eOAlLqDf/XjwcRE79hgj4WzbIE+lh/T/4O8o
- oC9x0Dc7iesFV9M6rKoFY8p63L9MLnNe7uQqqPtrVgqkF84mdkm7DtvKE+geY9OYWr43
- rHgBc4rz8FuhaytG6IoEcjC8FX+CQmxoPA+Y2lNnzT4oD1/N8PrOvvIGDnSHHy34j807
- YEQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/iBmvJvix9p54rqEqgx/Lcv4Q0nYjFzFJSWY4VAZc0g=;
- b=h0boZMOXf7xOT3QKGjdM9AjVnWv97W/8Qs8AyJ5TNeYD2v2R0rFXgTpy3X1mnQLlHu
- qLobm5QYateRITJblL4wxm7pkWtZKNS+SWndsqt0BUJYKWT4X7G6JX4yFMdDab5ysmOc
- R03BiF5fSysng4ihujM3tXVH8UWYLl6P4TbMyEg+wwXeGrw3sB11YluYaXuJaDqzXdWe
- qH3c/WCkHUgir9v4lo9uTJAOCYlrJrN8VHfzUh3waDpZ2w6W8xRxn/vFnt7sulam766D
- u949S0F4bYqyu15oM2czmhkgLhiKIi80Ze19zUVdHf8zKNhD9HFIOozkZl964vEO+dE7
- vysA==
-X-Gm-Message-State: AOAM532M9dV9X5GGUYBoMNI9b1KYw1f/O5euZ0TMJv5RpohQD+K+sUJ5
- K4IDYmhklwx02r1DlnFRmdA=
-X-Google-Smtp-Source: ABdhPJzBHqC4LtfWwc6YBcbGIxpDp2P/Fq/j+IzE5iv+J5psxOpNKbQO9s29ZGq1NqyULIBj4Q6Z0w==
-X-Received: by 2002:a17:90a:4b4e:: with SMTP id
- o14mr3257238pjl.216.1603465620315; 
- Fri, 23 Oct 2020 08:07:00 -0700 (PDT)
-Received: from arpitha-Inspiron-7570.lan ([106.51.242.32])
- by smtp.gmail.com with ESMTPSA id z28sm2415667pfk.213.2020.10.23.08.06.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 08:06:59 -0700 (PDT)
-From: Arpitha Raghunandan <98.arpi@gmail.com>
-To: brendanhiggins@google.com, skhan@linuxfoundation.org, elver@google.com,
- yzaikin@google.com, tytso@mit.edu, adilger.kernel@dilger.ca
-Date: Fri, 23 Oct 2020 20:36:34 +0530
-Message-Id: <20201023150634.282631-1-98.arpi@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201023150536.282568-1-98.arpi@gmail.com>
-References: <20201023150536.282568-1-98.arpi@gmail.com>
+ Fri, 23 Oct 2020 17:31:11 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1603474269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3rq43a05wms68FvUYQpJ6f6BxWzKhLrTDzGkVJPH+XM=;
+ b=PD0NClmWkXNM1R9LE07FzmL1COtEFexv1pz0M3EoIwWhgMmUE7qSMFoLxkjWkbB2V1a8nf
+ AVt6h7B/x58sFE9kNpxZM4SumJLliz0RQYtOZv1WOLAV0nHg7Vyy8a2wu4zSVix4GXrXPv
+ SJ6R9DVrxAcqXr0uCiM6oYkccq3lVfk=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 54AF6AB95;
+ Fri, 23 Oct 2020 17:31:09 +0000 (UTC)
+Date: Fri, 23 Oct 2020 19:31:08 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Arpitha Raghunandan <98.arpi@gmail.com>
+Message-ID: <20201023173108.GG32486@alley>
+References: <20201022151349.47436-1-98.arpi@gmail.com>
 MIME-Version: 1.0
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-ext4@vger.kernel.org,
+Content-Disposition: inline
+In-Reply-To: <20201022151349.47436-1-98.arpi@gmail.com>
+Cc: alexandre.belloni@bootlin.com, linux@rasmusvillemoes.dk,
+ rdunlap@infradead.org, brendanhiggins@google.com, linux-kernel@vger.kernel.org,
+ rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
+ linux-kselftest@vger.kernel.org, idryomov@gmail.com,
+ andriy.shevchenko@linux.intel.com,
  linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: [Linux-kernel-mentees] [PATCH v2 2/2] fs: ext4: Modify inode-test.c
-	to use KUnit parameterized testing feature
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] lib: Convert test_printf.c to
+	KUnit
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,360 +96,145 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Modify fs/ext4/inode-test.c to use the parameterized testing
-feature of KUnit.
+On Thu 2020-10-22 20:43:49, Arpitha Raghunandan wrote:
+> Convert test lib/test_printf.c to KUnit. More information about
 
-Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
----
-Changes v1->v2:
-- Modification based on latest implementation of KUnit parameterized testing
+> Converted test success:
+>     # Subtest: printf-kunit-test
+>     1..1
+>     ok 1 - selftest
+> ok 1 - printf-kunit-test
+> 
+> Converted test failure:
+>     # Subtest: printf-kunit-test
+>     1..1
+>     # selftest: EXPECTATION FAILED at lib/printf_kunit.c:82
+> vsnprintf(buf, 256, "%pi4|%pI4", ...) wrote
+> '127.000.000.001|127.0.0.1', expected '127-000.000.001|127.0.0.1'
+>     # selftest: EXPECTATION FAILED at lib/printf_kunit.c:82
+> vsnprintf(buf, 5, "%pi4|%pI4", ...) wrote '127.', expected '127-'
+>     # selftest: EXPECTATION FAILED at lib/printf_kunit.c:118
+> kvasprintf(..., "%pi4|%pI4", ...) returned
+> '127.000.000.001|127.0.0.1', expected '127-000.000.001|127.0.0.1'
+>     not ok 1 - selftest
 
- fs/ext4/inode-test.c | 318 ++++++++++++++++++++++---------------------
- 1 file changed, 162 insertions(+), 156 deletions(-)
+I agree with others that there should be more KUNIT_CASEs.
 
-diff --git a/fs/ext4/inode-test.c b/fs/ext4/inode-test.c
-index d62d802c9c12..611a1cf2581d 100644
---- a/fs/ext4/inode-test.c
-+++ b/fs/ext4/inode-test.c
-@@ -80,6 +80,137 @@ struct timestamp_expectation {
- 	bool lower_bound;
- };
- 
-+static struct timestamp_expectation test_data[] = {
-+	{
-+		.test_case_name = LOWER_BOUND_NEG_NO_EXTRA_BITS_CASE,
-+		.msb_set = true,
-+		.lower_bound = true,
-+		.extra_bits = 0,
-+		.expected = {.tv_sec = -0x80000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NEG_NO_EXTRA_BITS_CASE,
-+		.msb_set = true,
-+		.lower_bound = false,
-+		.extra_bits = 0,
-+		.expected = {.tv_sec = -1LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 0,
-+		.expected = {0LL, 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 0,
-+		.expected = {.tv_sec = 0x7fffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NEG_LO_1_CASE,
-+		.msb_set = true,
-+		.lower_bound = true,
-+		.extra_bits = 1,
-+		.expected = {.tv_sec = 0x80000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NEG_LO_1_CASE,
-+		.msb_set = true,
-+		.lower_bound = false,
-+		.extra_bits = 1,
-+		.expected = {.tv_sec = 0xffffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_LO_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 1,
-+		.expected = {.tv_sec = 0x100000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_LO_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 1,
-+		.expected = {.tv_sec = 0x17fffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NEG_HI_1_CASE,
-+		.msb_set = true,
-+		.lower_bound = true,
-+		.extra_bits =  2,
-+		.expected = {.tv_sec = 0x180000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NEG_HI_1_CASE,
-+		.msb_set = true,
-+		.lower_bound = false,
-+		.extra_bits = 2,
-+		.expected = {.tv_sec = 0x1ffffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_HI_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 2,
-+		.expected = {.tv_sec = 0x200000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_HI_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 2,
-+		.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_HI_1_NS_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 6,
-+		.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 1L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_HI_1_NS_MAX_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 0xFFFFFFFF,
-+		.expected = {.tv_sec = 0x300000000LL,
-+			     .tv_nsec = MAX_NANOSECONDS},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 3,
-+		.expected = {.tv_sec = 0x300000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 3,
-+		.expected = {.tv_sec = 0x37fffffffLL, .tv_nsec = 0L},
-+	}
-+};
-+
- static time64_t get_32bit_time(const struct timestamp_expectation * const test)
- {
- 	if (test->msb_set) {
-@@ -101,166 +232,41 @@ static time64_t get_32bit_time(const struct timestamp_expectation * const test)
-  */
- static void inode_test_xtimestamp_decoding(struct kunit *test)
- {
--	const struct timestamp_expectation test_data[] = {
--		{
--			.test_case_name = LOWER_BOUND_NEG_NO_EXTRA_BITS_CASE,
--			.msb_set = true,
--			.lower_bound = true,
--			.extra_bits = 0,
--			.expected = {.tv_sec = -0x80000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NEG_NO_EXTRA_BITS_CASE,
--			.msb_set = true,
--			.lower_bound = false,
--			.extra_bits = 0,
--			.expected = {.tv_sec = -1LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 0,
--			.expected = {0LL, 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 0,
--			.expected = {.tv_sec = 0x7fffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NEG_LO_1_CASE,
--			.msb_set = true,
--			.lower_bound = true,
--			.extra_bits = 1,
--			.expected = {.tv_sec = 0x80000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NEG_LO_1_CASE,
--			.msb_set = true,
--			.lower_bound = false,
--			.extra_bits = 1,
--			.expected = {.tv_sec = 0xffffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_LO_1_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 1,
--			.expected = {.tv_sec = 0x100000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_LO_1_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 1,
--			.expected = {.tv_sec = 0x17fffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NEG_HI_1_CASE,
--			.msb_set = true,
--			.lower_bound = true,
--			.extra_bits =  2,
--			.expected = {.tv_sec = 0x180000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NEG_HI_1_CASE,
--			.msb_set = true,
--			.lower_bound = false,
--			.extra_bits = 2,
--			.expected = {.tv_sec = 0x1ffffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_HI_1_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 2,
--			.expected = {.tv_sec = 0x200000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_HI_1_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 2,
--			.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_HI_1_NS_1_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 6,
--			.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 1L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_HI_1_NS_MAX_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 0xFFFFFFFF,
--			.expected = {.tv_sec = 0x300000000LL,
--				     .tv_nsec = MAX_NANOSECONDS},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 3,
--			.expected = {.tv_sec = 0x300000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 3,
--			.expected = {.tv_sec = 0x37fffffffLL, .tv_nsec = 0L},
--		}
--	};
--
- 	struct timespec64 timestamp;
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(test_data); ++i) {
--		timestamp.tv_sec = get_32bit_time(&test_data[i]);
--		ext4_decode_extra_time(&timestamp,
--				       cpu_to_le32(test_data[i].extra_bits));
--
--		KUNIT_EXPECT_EQ_MSG(test,
--				    test_data[i].expected.tv_sec,
--				    timestamp.tv_sec,
--				    CASE_NAME_FORMAT,
--				    test_data[i].test_case_name,
--				    test_data[i].msb_set,
--				    test_data[i].lower_bound,
--				    test_data[i].extra_bits);
--		KUNIT_EXPECT_EQ_MSG(test,
--				    test_data[i].expected.tv_nsec,
--				    timestamp.tv_nsec,
--				    CASE_NAME_FORMAT,
--				    test_data[i].test_case_name,
--				    test_data[i].msb_set,
--				    test_data[i].lower_bound,
--				    test_data[i].extra_bits);
--	}
-+
-+	struct timestamp_expectation *test_param =
-+			(struct timestamp_expectation *)(test->param_values);
-+
-+	timestamp.tv_sec = get_32bit_time(test_param);
-+	ext4_decode_extra_time(&timestamp,
-+			       cpu_to_le32(test_param->extra_bits));
-+
-+	KUNIT_EXPECT_EQ_MSG(test,
-+			    test_param->expected.tv_sec,
-+			    timestamp.tv_sec,
-+			    CASE_NAME_FORMAT,
-+			    test_param->test_case_name,
-+			    test_param->msb_set,
-+			    test_param->lower_bound,
-+			    test_param->extra_bits);
-+	KUNIT_EXPECT_EQ_MSG(test,
-+			    test_param->expected.tv_nsec,
-+			    timestamp.tv_nsec,
-+			    CASE_NAME_FORMAT,
-+			    test_param->test_case_name,
-+			    test_param->msb_set,
-+			    test_param->lower_bound,
-+			    test_param->extra_bits);
-+}
-+
-+static void *generate_params(struct kunit *test, void *prev)
-+{
-+	return KUNIT_PARAM_GENERATOR_HELPER(test, prev, test_data,
-+					struct timestamp_expectation);
- }
- 
- static struct kunit_case ext4_inode_test_cases[] = {
--	KUNIT_CASE(inode_test_xtimestamp_decoding),
-+	KUNIT_CASE_PARAM(inode_test_xtimestamp_decoding, generate_params),
- 	{}
- };
- 
--- 
-2.25.1
+> not ok 1 - printf-kunit-test
 
+> --- a/lib/test_printf.c
+> +++ b/lib/printf_kunit.c
+
+There is no standard at the moment. I see struct kunit_source defined,
+for example, in the following files:
+
+*test*.c:
+
+      drivers/base/power/qos-test.c:
+      drivers/base/test/property-entry-test.c:
+      drivers/thunderbolt/test.c:
+      fs/ext4/inode-test.c:
+      kernel/kcsan/kcsan-test.c:
+      kernel/sysctl-test.c:
+      lib/kunit/string-stream-test.c:
+      lib/list-test.c:
+      lib/test_bits.c:
+      lib/test_kasan.c:
+      lib/test_linear_ranges.c:
+      net/mptcp/crypto_test.c:
+      net/mptcp/token_test.c:
+      security/apparmor/policy_unpack_test.c:
+
+kunit-*-test.c:
+
+       lib/kunit/kunit-example-test.c:
+       lib/kunit/kunit-test.c:
+
+*_kunit.c
+
+      lib/bitfield_kunit.c:
+
+Please, either unify names of all the above modules or keep test_printf.c
+
+
+
+> @@ -5,6 +5,7 @@
+>  
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+> +#include <kunit/test.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> @@ -30,64 +31,57 @@
+>  #define PAD_SIZE 16
+>  #define FILL_CHAR '$'
+>  
+> -static unsigned total_tests __initdata;
+> -static unsigned failed_tests __initdata;
+>  static char *test_buffer __initdata;
+>  static char *alloced_buffer __initdata;
+> +struct kunit *kunittest;
+
+This should be static variable.
+
+>  
+> -static int __printf(4, 0) __init
+> +static void __printf(4, 0) __init
+>  do_test(int bufsize, const char *expect, int elen,
+>  	const char *fmt, va_list ap)
+>  {
+>  	va_list aq;
+>  	int ret, written;
+>  
+
+> @@ -696,8 +684,9 @@ test_pointer(void)
+>  	fwnode_pointer();
+>  }
+>  
+> -static void __init selftest(void)
+> +static void __init selftest(struct kunit *ktest)
+
+>  {
+> +	kunittest = ktest;
+>  	alloced_buffer = kmalloc(BUF_SIZE + 2*PAD_SIZE, GFP_KERNEL);
+
+The allocation and freeing should be done by the init,exit
+callbacs in struct kunit_testsuite. For example, see
+lib/kunit/kunit-test.c
+
+This function can then be removed. The particular tests will
+be called via more KUNIT_CASE() entries.
+
+>  	if (!alloced_buffer)
+>  		return;
+> @@ -711,6 +700,17 @@ static void __init selftest(void)
+>  	kfree(alloced_buffer);
+>  }
+>  
+> -KSTM_MODULE_LOADERS(test_printf);
+> +static struct kunit_case printf_test_cases[] = {
+> +	KUNIT_CASE(selftest),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite printf_test_suite = {
+> +	.name = "printf-kunit-test",
+
+Please, use:
+
+	.name = "printf"
+
+The fact that it is kunit-test should be clear from the context.
+
+> +	.test_cases = printf_test_cases,
+> +};
+> +
+> +kunit_test_suite(printf_test_suite);
+> +
+
+Best Regards,
+Petr
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
