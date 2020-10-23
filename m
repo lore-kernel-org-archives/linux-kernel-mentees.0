@@ -2,101 +2,97 @@ Return-Path: <SRS0=Y4zm=D6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5829AC388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 18:53:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90B9BC55178
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 18:56:38 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 974F320EDD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 18:53:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C391C208B6
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 18:56:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="MYXkJzrF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 974F320EDD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="EJJbzOU5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C391C208B6
 Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E53B18784D;
-	Fri, 23 Oct 2020 18:53:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 43C5F875EE;
+	Fri, 23 Oct 2020 18:56:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tlPccTdzJX8V; Fri, 23 Oct 2020 18:53:33 +0000 (UTC)
+	with ESMTP id dzgM++IF-W2x; Fri, 23 Oct 2020 18:56:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D25558783F;
-	Fri, 23 Oct 2020 18:53:33 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 425148753F;
+	Fri, 23 Oct 2020 18:56:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BB9DDC0052;
-	Fri, 23 Oct 2020 18:53:33 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0CC3AC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2D044C0052;
+	Fri, 23 Oct 2020 18:56:36 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03D0EC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 18:53:32 +0000 (UTC)
+ Fri, 23 Oct 2020 18:56:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EF8E38703F
+ by hemlock.osuosl.org (Postfix) with ESMTP id E67AF874D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 18:53:31 +0000 (UTC)
+ Fri, 23 Oct 2020 18:56:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WN9nl1t8JT-y
+ with ESMTP id 8CprhzQSytAw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 18:53:30 +0000 (UTC)
-X-Greylist: delayed 00:05:19 by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3CA0E86FD9
+ Fri, 23 Oct 2020 18:56:34 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 5446587286
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 18:53:30 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id l20so1120437wme.0
+ Fri, 23 Oct 2020 18:56:34 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id n15so2272761otl.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 11:53:30 -0700 (PDT)
+ Fri, 23 Oct 2020 11:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=a0PzLeTg3yakVCFG7qD5Xig1rmXRsgD+wVT4ZvpvDgc=;
- b=MYXkJzrFf+sXRkOO2oFypfPDGTu4Ljs/eaRLz3UGkWRrODXeXSCJGpHCko/QrL0+0a
- cAfkTtvK76NKERxdaNv/Wzb86wFgiUpNk11FllfJuD4SegIhJ3XqAwsR/+opIGm8UfnJ
- A7yWeYdxf7n2bzxqTGOl7QCksS4y4+hWL94yrJW35pzOyawWxC+6JSD5CGqH1TIfHAla
- cmNAhUsmuLdEpry4hZUh2/sNKhbhLEHNrMJC6hkNxWoDAuFWkytb3jnR1SbmhLER4Ui/
- uw20cq0vLlodd8a4r0++6HuMZxF+hyOHRzO2FcUnKaXV/qjYGQUJXT04EjHdvyZZw7Is
- B27w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EoT3yWOrSBsazr0sI34MLouxI66P/1yaiC+BUbvBhVc=;
+ b=EJJbzOU5YcXKkZkJyjL044nb3GvCvkwsMdiMk8c6ng9UPQusWKKAKoYX1hw1D3P0+0
+ XVpiXrnDohOvhglPaqqPDAf79YnzuWImu40KRK7Gxr8SIVczB6bo/S3Tg2+ubugJAc04
+ BIuaRzNEU/5rrO3ph+ep/ia/bOck5Hth07qBG5GVBDWX5cmBO2H9cD/pt+4ZYT2ygyY0
+ 1ash+G4niL3BBnn5ekGYwJKc8HunAjw3UsdpiNHcgfW7T/9f+P4DUB5yNEqtZt3Ik53t
+ zAN2Hhf3YhU0S1HAGyXw/4pz+UCDUHz3wbf65y+SwiujWN7058OFstD+XJs4AOk6s7sv
+ YFww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=a0PzLeTg3yakVCFG7qD5Xig1rmXRsgD+wVT4ZvpvDgc=;
- b=tgm9zGfgWzmTPUzp4qtlq5uX+bFnFi6rQ+DyemUBhBU5u6QuJYBH1rE0DW++sEjZy6
- P9Iyy5t7hjP4tvEMq2i7IAaWWQD+NJLNXZ9gj/x6xmU0TkLmvwVHwKds5c6qDTNn5e4l
- Jj3n4dRWSO4QPlw9xyTzy1gMygeblbMhFr8XQFC+k3Xia2UZm66v6FykEDcn/MPoP+rk
- XbWD6MLMjdva+94sdhOuGQ71PJUcGW0B8gOlGfdSakF4sF1F83cIU37p/p4wiPsGGz+U
- J+L+tN/lih3/+7cGtspyme4C1dya0bOLnCTRwV5ImWR6OXjl1+csgrkLV90l0w/zCNNg
- n9sQ==
-X-Gm-Message-State: AOAM5312UkQvt8LNr84vqxF7W3IIsVCX0NEXV5HsUgUxCTsi1lDs7+FA
- L+jViT5PPKkhf/hcoj+biOUmPNo15CTaeg==
-X-Google-Smtp-Source: ABdhPJzJ9MrdBDYGIxOFyAs3TuHSCjPE/x6kmNr1dP9zBCFjQ8F0sC1WS1pL9q0L0vRzPXAbs9HxdA==
-X-Received: by 2002:a1c:59c3:: with SMTP id n186mr3671406wmb.32.1603478889733; 
- Fri, 23 Oct 2020 11:48:09 -0700 (PDT)
-Received: from elver.google.com ([100.105.32.75])
- by smtp.gmail.com with ESMTPSA id 1sm5314861wre.61.2020.10.23.11.48.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 11:48:08 -0700 (PDT)
-Date: Fri, 23 Oct 2020 20:48:03 +0200
-To: Arpitha Raghunandan <98.arpi@gmail.com>
-Message-ID: <20201023184803.GA3922681@elver.google.com>
-References: <20201023150536.282568-1-98.arpi@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EoT3yWOrSBsazr0sI34MLouxI66P/1yaiC+BUbvBhVc=;
+ b=NthzI++YbBEOgwLHuQIubXpxqb6yAl+QgyKaD3pa4byQb7Vvqja7UjiIWYNxP8HnJ0
+ UiFgzE0ry3OmhBOp73/Tx8OCamUyyRoEQvRqXg5NxZ/4aCvYiNzb4UORAZ4oSEWAt/Qt
+ Yrf4yDpmKhnYtebyiT80GthOqC4yxgw0jQ4qL2Lwx2FGQwu5VmC4icG68HcFh5IKva8N
+ V9ECSwD8F1qDsGknC7KcMor0t4EWP7/ehjC+NX2p3phMCMmfDYSt1H6hUTkwzAM3jfJl
+ Xz7c837K1dpAbhHoM7ZnvjA23AHn2B+ugP782GnwTxhFz6AGSDLGStE3sVNUouRZKRg0
+ f/Og==
+X-Gm-Message-State: AOAM533lgEQHzeHR9I3wh7cPcTGsS/JYh4yIqLW8g6qFL8kBHQ5dgaYU
+ D1fMi6QkYbCWgPxaj9oBDLBFH4o4hNWn6rsjZQkDRQ==
+X-Google-Smtp-Source: ABdhPJzFo5v/hylmtjASbZpKKqG6nIfUwnRCajjhbZC/oESvTnYj2dsxSOQTw28NTqX+RyCiwVUyxDujQaimXgp7b9U=
+X-Received: by 2002:a9d:34d:: with SMTP id 71mr2539238otv.251.1603479392382;
+ Fri, 23 Oct 2020 11:56:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201023150536.282568-1-98.arpi@gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-Cc: linux-ext4@vger.kernel.org, tytso@mit.edu, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-kselftest@vger.kernel.org, yzaikin@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
+References: <20201023150536.282568-1-98.arpi@gmail.com>
+ <20201023184803.GA3922681@elver.google.com>
+In-Reply-To: <20201023184803.GA3922681@elver.google.com>
+Date: Fri, 23 Oct 2020 20:56:20 +0200
+Message-ID: <CANpmjNNdh=FmbC5ML7=gDOcdUsfUdsg6hgXeva4emdFKGPyjog@mail.gmail.com>
+To: Arpitha Raghunandan <98.arpi@gmail.com>
+Cc: linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Iurii Zaikin <yzaikin@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
 Subject: Re: [Linux-kernel-mentees] [PATCH v2 1/2] kunit: Support for
 	Parameterized Testing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -119,194 +115,17 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Oct 23, 2020 at 08:35PM +0530, Arpitha Raghunandan wrote:
-> Implementation of support for parameterized testing in KUnit.
+On Fri, 23 Oct 2020 at 20:48, Marco Elver <elver@google.com> wrote:
+[...]
+> > + */
+> > +static inline void *kunit_param_generator_helper(struct kunit *test,
+>
+> I don't think this needs to be inline, but see my other suggestion
+> below, which might make this function obsolete.
 
-Already looks much cleaner, thanks for using this approach!
-
-I think the commit message needs a brief summary of the approach.
-
-> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
-> ---
-> Changes v1->v2:
-> - Use of a generator method to access test case parameters
-> 
->  include/kunit/test.h | 45 ++++++++++++++++++++++++++++++++++++++++++++
->  lib/kunit/test.c     | 20 +++++++++++++++++++-
->  2 files changed, 64 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index a423fffefea0..c417ac140326 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -141,6 +141,7 @@ struct kunit;
->  struct kunit_case {
->  	void (*run_case)(struct kunit *test);
->  	const char *name;
-> +	void* (*generate_params)(struct kunit *test, void *prev);
-
-Would adding documentation above this field be the right place, or
-somewhere else? In any case, some explanation of the protocol would be
-good.
-
->  	/* private: internal use only. */
->  	bool success;
-> @@ -162,6 +163,9 @@ static inline char *kunit_status_to_string(bool status)
->   * &struct kunit_case for an example on how to use it.
->   */
->  #define KUNIT_CASE(test_name) { .run_case = test_name, .name = #test_name }
-> +#define KUNIT_CASE_PARAM(test_name, gen_params)			\
-> +		{ .run_case = test_name, .name = #test_name,	\
-> +		  .generate_params = gen_params }
->  
->  /**
->   * struct kunit_suite - describes a related collection of &struct kunit_case
-> @@ -208,6 +212,15 @@ struct kunit {
->  	const char *name; /* Read only after initialization! */
->  	char *log; /* Points at case log after initialization */
->  	struct kunit_try_catch try_catch;
-> +	/* param_values points to test case parameters in parameterized tests */
-> +	void *param_values;
-> +	/*
-> +	 * current_param stores the index of the parameter in
-> +	 * the array of parameters in parameterized tests.
-> +	 * current_param + 1 is printed to indicate the parameter
-> +	 * that causes the test to fail in case of test failure.
-> +	 */
-> +	int current_param;
->  	/*
->  	 * success starts as true, and may only be set to false during a
->  	 * test case; thus, it is safe to update this across multiple
-> @@ -1742,4 +1755,36 @@ do {									       \
->  						fmt,			       \
->  						##__VA_ARGS__)
->  
-> +/**
-> + * kunit_param_generator_helper() - Helper method for test parameter generators
-> + * 				    required in parameterized tests.
-> + * @test: The test context object.
-> + * @prev_param: a pointer to the previous test parameter, NULL for first parameter.
-> + * @param_array: a user-supplied pointer to an array of test parameters.
-> + * @array_size: number of test parameters in the array.
-> + * @type_size: size of one test parameter.
-> + */
-> +static inline void *kunit_param_generator_helper(struct kunit *test,
-
-I don't think this needs to be inline, but see my other suggestion
-below, which might make this function obsolete.
-
-> +					void *prev_param,
-> +					void *param_array,
-> +					size_t array_size,
-> +					size_t type_size)
-> +{
-> +	KUNIT_ASSERT_EQ(test, (prev_param - param_array) % type_size, 0);
-> +
-> +	if (!prev_param)
-> +		return param_array;
-> +
-> +	KUNIT_ASSERT_GE(test, prev_param, param_array);
-> +
-> +	if (prev_param + type_size < param_array + (array_size * type_size))
-> +		return prev_param + type_size;
-> +	else
-> +		return NULL;
-> +}
-> +
-> +#define KUNIT_PARAM_GENERATOR_HELPER(test, prev_param, param_array, param_type) \
-> +	kunit_param_generator_helper(test, prev_param, param_array,		\
-> +				ARRAY_SIZE(param_array), sizeof(param_type))
-
-You do not need param_type, you can use the same trick that ARRAY_SIZE
-uses:
-
-	#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-
-So you could use sizeof((param_aray)[0]) instead of sizeof(param_type).
-ARRAY_SIZE already checks for you that it's a real array via
-__must_be_array().
-
-
-The other question is, will kunit_param_generator_helper() find much use
-without the KUNIT_PARAM_GENERATOR_HELPER() macro? If I have some
-complicated generator protocol to generate params, then I'd just
-directly write the generator function. If your intent is to simplify the
-common-case array based generators, why not just have a macro generate
-the generator function?
-
-More specifically, have this macro here:
-
-+#define KUNIT_ARRAY_PARAM(name, array)								\
-+	static void *name##_gen_params(struct kunit *test, void *prev)				\
-+	{											\
-+		typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 : (array);	\
-+		return __next - (array) < ARRAY_SIZE((array)) ? __next : NULL;			\
-+	}
-
-[ It is entirely untested, but if it works verbatim you'll probably need my
-
-	Co-developed-by: Marco Elver <elver@google.com>
-	Signed-off-by: Marco Elver <elver@google.com>
- 
- just in case... ]
-
-Then, it can be used as follows:
-
-	static int num_cpus[] = {1, 2, 3, 4, 5};
-	KUNIT_ARRAY_PARAM(num_cpus, num_cpus);
-
-Then somewhere else:
-
-	KUNIT_CASE_PARAM(some_test, num_cpus_gen_params);
-
->  #endif /* _KUNIT_TEST_H */
-> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> index 750704abe89a..0e6ffe6384a7 100644
-> --- a/lib/kunit/test.c
-> +++ b/lib/kunit/test.c
-> @@ -127,6 +127,11 @@ unsigned int kunit_test_case_num(struct kunit_suite *suite,
->  }
->  EXPORT_SYMBOL_GPL(kunit_test_case_num);
->  
-> +static void kunit_print_failed_param(struct kunit *test)
-> +{
-> +	kunit_err(test, "\n\tTest failed at parameter: %d\n", test->current_param + 1);
-> +}
-> +
->  static void kunit_print_string_stream(struct kunit *test,
->  				      struct string_stream *stream)
->  {
-> @@ -168,6 +173,8 @@ static void kunit_fail(struct kunit *test, struct kunit_assert *assert)
->  	assert->format(assert, stream);
->  
->  	kunit_print_string_stream(test, stream);
-> +	if (test->param_values)
-> +		kunit_print_failed_param(test);
->  
->  	WARN_ON(string_stream_destroy(stream));
->  }
-> @@ -239,7 +246,18 @@ static void kunit_run_case_internal(struct kunit *test,
->  		}
->  	}
->  
-> -	test_case->run_case(test);
-> +	if (!test_case->generate_params) {
-> +		test_case->run_case(test);
-> +	} else {
-> +		test->param_values = test_case->generate_params(test, NULL);
-> +		test->current_param = 0;
-> +
-> +		while (test->param_values) {
-> +			test_case->run_case(test);
-> +			test->param_values = test_case->generate_params(test, test->param_values);
-> +			test->current_param++;
-> +		}
-> +	}
->  }
->  
->  static void kunit_case_internal_cleanup(struct kunit *test)
-
-Otherwise looks fine.
+Ah sorry, it's in a header so we might get complaints if it's not
+inline. But in any case, if you use the KUNIT_ARRAY_PARAM() macro I
+proposed, this function will become obsolete.
 
 Thanks,
 -- Marco
