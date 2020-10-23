@@ -2,113 +2,101 @@ Return-Path: <SRS0=Y4zm=D6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51651C55178
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 06:38:36 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D82AC388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 09:43:38 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B3BFB2192A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 06:38:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D1C002192A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Oct 2020 09:43:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTvjxTQf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B3BFB2192A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsKdJZlj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D1C002192A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3442986B11;
-	Fri, 23 Oct 2020 06:38:35 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 510EC2051F;
+	Fri, 23 Oct 2020 09:43:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id leJAL5taAEY8; Fri, 23 Oct 2020 06:38:34 +0000 (UTC)
+	with ESMTP id rEI9ierAeDQ8; Fri, 23 Oct 2020 09:43:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BBA82866DA;
-	Fri, 23 Oct 2020 06:38:34 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4BB862050C;
+	Fri, 23 Oct 2020 09:43:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AEA6DC0052;
-	Fri, 23 Oct 2020 06:38:34 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A75BC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 31518C088B;
+	Fri, 23 Oct 2020 09:43:35 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 36DA1C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 06:38:33 +0000 (UTC)
+ Fri, 23 Oct 2020 09:43:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1A6A7867D2
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2971C872ED
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 06:38:33 +0000 (UTC)
+ Fri, 23 Oct 2020 09:43:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TPP9g0X18PeJ
+ with ESMTP id 0x8bbIzJtGfc
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 06:38:32 +0000 (UTC)
+ Fri, 23 Oct 2020 09:43:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8DEC0866DA
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6F3FC872CC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 06:38:32 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id l18so458744pgg.0
+ Fri, 23 Oct 2020 09:43:33 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id v22so547034ply.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Oct 2020 23:38:32 -0700 (PDT)
+ Fri, 23 Oct 2020 02:43:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=du8DG9bmuPrMxShvvb8aQjcXCo588n8MEAUeaDJS0ro=;
- b=jTvjxTQfWphPej6/1PfD28lAXYm0U1g/W21bzQeCqu/U7L+Z4hR6zakhVUaNOBMqGx
- mee05wg+ZhnecR3FA+jjvoAjjCHhabm5pDHXc69JP7E9ZdS43xDoKP7XLQ3+Uja0jZqG
- NPq2zBHqVWTCr98O/4qBN7dFoxIbd3r/CeTdulmx/IJjhmbQlIVEjWRS17O6J/u6ZJsW
- VotXK4KtgnVJzmhe4O7e+1F2zIWGWFY0xSM3+B65H33q11j6GuukRYP0uEJmf+spdr9/
- CvGUqJPDdc1yrNfGrbcovPJGwQZ4ZZPZmtfaxsfm96t4Rp/VCF9GT0YOaexVWbXoCPvo
- O0cg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UngXBlnnjkw1Wqy0iVM1SCifmatRfaaY7ktN8yajVH8=;
+ b=hsKdJZljvb949NMcBwXlzAFMzOnQO0E0d345EHHx2ybHwi6fBEaftmadcUBDnkrAW1
+ p5DR2YFUdKsUgl3uaJNyi8CD+tlNzEG2WoTga60H61CQS1rjY0iboX503QP20EST9MW+
+ tNGA5mQlaKD2CVTpXHI9O3ngF/C2W1oMrIFeTLJTmXiTKjRn+HRCXwGo2YnjNIwnadSj
+ D3YJm/oELielGv0+d8QB3faYNG8wxcUo6L3z5MI6aFUrGLrX55l7RfMO3pyFETnQ4flb
+ 90kuhrsF2rhZgyP+wiNO37D8nXaNh1N7B9xHbHHe9i9WPdp7ch189a+4hBTMCby78V1h
+ Tn9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=du8DG9bmuPrMxShvvb8aQjcXCo588n8MEAUeaDJS0ro=;
- b=aB0iS/VyW6wgnwoco6FFM+hb91+7GQSD1vc+vUgdcGeFWCtdLQr/uMIPfqrpeJ0v2A
- KcunHeWhfXdcl+xf1rTDylI4chFI7C8CgfmC9cQm29VObdGix/iulNjR+W58it02o+PC
- 5vEdz4nzu0IR3bjQRn34COVbcCg6DbNiZ8a1GuV4uU6Zaz5HhDo8jGr/1lvZCtKq9M7I
- 1rR/LHYISVVfG5rJld4d/Cb2z2KUm3ECk4TBXEhV8F5EyBkMc4SYauymywtQoTPqWiEt
- 6UpwCeP4O5HbWdIIiX2ZZlk1/mL9Qr1JI3itQB4xIeRTkUweak9B0cybEL0THtNwBlcA
- tukQ==
-X-Gm-Message-State: AOAM532K8ma+lR9Ab9WCG41szrSAczRHU2K0DwMlLrn7Cfu4Cy+SVcar
- kGmkWUMQeRu81Hy64sHYKuU=
-X-Google-Smtp-Source: ABdhPJzgGubHtwtPVlQoW1i1YjP4CmDgF6KXik8vWFvSdt5ceVFh7FEl9ivr6PamrnrGEDOveB0pig==
-X-Received: by 2002:a17:90b:110b:: with SMTP id
- gi11mr819076pjb.25.1603435112090; 
- Thu, 22 Oct 2020 23:38:32 -0700 (PDT)
-Received: from ?IPv6:2402:3a80:429:6ba7:30ef:4722:a786:585f?
- ([2402:3a80:429:6ba7:30ef:4722:a786:585f])
- by smtp.gmail.com with ESMTPSA id l3sm741272pju.28.2020.10.22.23.38.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Oct 2020 23:38:31 -0700 (PDT)
-From: Aditya <yashsri421@gmail.com>
-To: Joe Perches <joe@perches.com>
-References: <20201022145021.28211-1-yashsri421@gmail.com>
- <4cbbd8d8b6c4d686f71648af8bc970baa4b0ee9b.camel@perches.com>
- <5121bf7c-a126-6178-62ff-e54f0bb4cb6e@gmail.com>
- <67247b2d51aa8b2da7377e400e9191733144ed0f.camel@perches.com>
- <edaa9012-d512-26fc-0aca-f0eaf889a050@gmail.com>
- <b853a8ab4daface74075e93d83f94655f13a2979.camel@perches.com>
- <8845d575-596e-b2e0-26c1-16e704074fc8@gmail.com>
-Message-ID: <4d32f0db-0ab3-6a4d-9428-16e0651fbe29@gmail.com>
-Date: Fri, 23 Oct 2020 12:08:25 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=UngXBlnnjkw1Wqy0iVM1SCifmatRfaaY7ktN8yajVH8=;
+ b=k9XAuIIA1AqND//Qng9OivkeD/WoPGkPEBYu3hGq4lImjyZm1vSM668ZrRZmqdmKoJ
+ ayFwmTQogp3n67nUQDyrP/pHlolndhdPLW9+9QWmgVJW6OGuy21qw9bPhufnCBIGavHv
+ +vINtOUHeJohB94VIU1QumZIKUWYM3R2T277mMOI/v4bx00jARZabl/DIoyVgohpx53I
+ B7olrGbrOI9v21ZZykjAsf1ebmLw25FkdTL0PjexbazivCJ3q60fv9IzTp6cGIxFgrVU
+ b3oy39EWhFXWgKniwq/9nvB18VM4BQ0FE2gwGsX+iRmkM4HriTmljG94Dw8Z5EH1EnQ0
+ HExQ==
+X-Gm-Message-State: AOAM531Bunly8VKLaMkUdZnLvikYYNuPEpylnTIaoUp/PE0pUlVfFV9h
+ FzqrbkLIJJJKa9u4oqAU5hs=
+X-Google-Smtp-Source: ABdhPJxzmYn1mKMJ6BRjBP3kJxc+8BMvcD6T6TZUD/0ODubNTlQ0ryH8aPRUEa/BZsrAvdRpJD5IoQ==
+X-Received: by 2002:a17:902:7c0d:b029:d3:de09:a3 with SMTP id
+ x13-20020a1709027c0db02900d3de0900a3mr1639764pll.52.1603446212846; 
+ Fri, 23 Oct 2020 02:43:32 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:9004:6890:ae4b:a0f8:1bbb:ec51])
+ by smtp.gmail.com with ESMTPSA id bx24sm1756775pjb.20.2020.10.23.02.43.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Oct 2020 02:43:32 -0700 (PDT)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: joe@perches.com
+Date: Fri, 23 Oct 2020 15:13:07 +0530
+Message-Id: <20201023094307.20820-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <8845d575-596e-b2e0-26c1-16e704074fc8@gmail.com>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dwaipayanray1@gmail.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: fix false
- positives in REPEATED_WORD warning
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH RFC v2] checkpatch: extend attributes
+	check to handle more patterns
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,16 +114,199 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 23/10/20 12:03 pm, Aditya wrote:
-> However, though such cases haven't occurred over v6..v8.
-> 
-> Actually, we could simplify it more on the basis of occurrences in
-> v6..v8, for eg. if we check for /[0-9c-f][0-9a-f]+/ (instead of
-> /[0-9a-f]{2,}/), it gives us desired result over v6..v8, but again
-> we'll miss out cases such as:
-> 
+It is generally preferred that the macros from
+include/linux/compiler_attributes.h are used, unless there
+is a reason not to.
 
-Sorry, v5.6..v5.8
+Checkpatch currently checks __attribute__ for each of
+packed, aligned, printf, scanf, and weak. Other declarations
+in compiler_attributes.h are not handled.
+
+Add a generic test to check the presence of such attributes.
+Some attributes require more specific handling and are kept
+separate.
+
+New attributes which are now handled are:
+
+__alias__(#symbol)
+__always_inline__
+__assume_aligned__(a, ## __VA_ARGS__)
+__cold__
+__const__
+__copy__(symbol)
+__designated_init__
+__externally_visible__
+__gnu_inline__
+__malloc__
+__mode__(x)
+__no_caller_saved_registers__
+__noclone__
+__fallthrough__
+__noinline__
+__nonstring__
+__noreturn__
+__pure__
+__unused__
+__used__
+
+Link: https://lore.kernel.org/linux-kernel-mentees/3ec15b41754b01666d94b76ce51b9832c2dd577a.camel@perches.com/
+Suggested-by: Joe Perches <joe@perches.com>
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+---
+ scripts/checkpatch.pl | 130 ++++++++++++++++++++++++++++++------------
+ 1 file changed, 94 insertions(+), 36 deletions(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 7e505688257a..69324c2e55d6 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -6155,50 +6155,108 @@ sub process {
+ 			}
+ 		}
+ 
+-# Check for __attribute__ packed, prefer __packed
++# Check for compiler attributes
+ 		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(.*\bpacked\b/) {
+-			WARN("PREFER_PACKED",
+-			     "__packed is preferred over __attribute__((packed))\n" . $herecurr);
+-		}
++		    $line =~ /\b__attribute__\s*\(\s*\((.*)\)\s*\)/) {
++			my $attr = trim($1);
++
++			my $attr_list = qr {
++				__alias__|
++				__aligned__$|
++				__aligned__\(.*\)|
++				__always_inline__|
++				__assume_aligned__\(.*\)|
++				__cold__|
++				__const__|
++				__copy__\(.*\)|
++				__designated_init__|
++				__externally_visible__|
++				__fallthrough__|
++				__gnu_inline__|
++				__malloc__|
++				__mode__\(.*\)|
++				__no_caller_saved_registers__|
++				__noclone__|
++				__noinline__|
++				__nonstring__|
++				__noreturn__|
++				__packed__|
++				__pure__|
++				__used__
++			}x;
+ 
+-# Check for __attribute__ aligned, prefer __aligned
+-		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(.*aligned/) {
+-			WARN("PREFER_ALIGNED",
+-			     "__aligned(size) is preferred over __attribute__((aligned(size)))\n" . $herecurr);
+-		}
++			my %attr_replace = (
++				"__alias__"			=> "__alias",
++				"__aligned__"		=> "__aligned_largest",
++				"__aligned__("		=> "__aligned",
++				"__always_inline__" 	=> "__always_inline",
++				"__assume_aligned__("	=> "__assume_aligned",
++				"__cold__"			=> "__cold",
++				"__const__"			=> "__const",
++				"__copy__("			=> "__copy",
++				"__designated_init__"		=> "__designated_init",
++				"__externally_visible__"	=> "__visible",
++				"__fallthrough__"		=> "fallthrough",
++				"__gnu_inline__"		=> "__gnu_inline",
++				"__malloc__"		=> "__malloc",
++				"__mode__("			=> "__mode",
++				"__no_caller_saved_registers__" => "__no_caller_saved_registers",
++				"__noclone__"		=> "__noclone",
++				"__noinline__"		=> "noinline",
++				"__nonstring__"		=> "__nonstring",
++				"__noreturn__"		=> "__noreturn",
++				"__packed__"		=> "__packed",
++				"__pure__"			=> "__pure",
++				"__used__"			=> "__used"
++			);
++
++			if ($attr =~/^($attr_list)/) {
++				my $old = $1;
++				if ($old =~ /^(__.+__\()(.*)\)/) {
++					my $new = $attr_replace{$1};
++					WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++					     "$new($2) is preffered over __attribute__(($old))\n" . $herecurr);
++				} else {
++					my $new = $attr_replace{$old};
++					WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++					     "$new is preffered over __attribute__(($old))\n" . $herecurr);
++				}
++			}
+ 
+-# Check for __attribute__ section, prefer __section
+-		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(.*_*section_*\s*\(\s*("[^"]*")/) {
+-			my $old = substr($rawline, $-[1], $+[1] - $-[1]);
+-			my $new = substr($old, 1, -1);
+-			if (WARN("PREFER_SECTION",
+-				 "__section($new) is preferred over __attribute__((section($old)))\n" . $herecurr) &&
+-			    $fix) {
+-				$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*_*section_*\s*\(\s*\Q$old\E\s*\)\s*\)\s*\)/__section($new)/;
++			# Check for __attribute__ format(printf, prefer __printf
++			if ($attr =~ /^_*format_*\s*\(\s*printf/) {
++				if (WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++				         "__printf(string-index, first-to-check) is preferred over __attribute__((format(printf, string-index, first-to-check)))\n" . $herecurr) &&
++					$fix) {
++					$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf\s*,\s*(.*)\)\s*\)\s*\)/"__printf(" . trim($1) . ")"/ex;
++
++				}
+ 			}
+-		}
+ 
+-# Check for __attribute__ format(printf, prefer __printf
+-		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf/) {
+-			if (WARN("PREFER_PRINTF",
+-				 "__printf(string-index, first-to-check) is preferred over __attribute__((format(printf, string-index, first-to-check)))\n" . $herecurr) &&
+-			    $fix) {
+-				$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf\s*,\s*(.*)\)\s*\)\s*\)/"__printf(" . trim($1) . ")"/ex;
++			# Check for __attribute__ format(scanf, prefer __scanf
++			if ($attr =~ /^_*format_*\s*\(\s*scanf\b/) {
++				if (WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++				         "__scanf(string-index, first-to-check) is preferred over __attribute__((format(scanf, string-index, first-to-check)))\n" . $herecurr) &&
++					$fix) {
++					$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\s*,\s*(.*)\)\s*\)\s*\)/"__scanf(" . trim($1) . ")"/ex;
++				}
++			}
+ 
++			# Check for __attribute__ section, prefer __section
++			if ($attr =~ /^_*section_*\s*\(\s*("[^"]*")/) {
++				my $old = substr($rawline, $-[1], $+[1] - $-[1]);
++				my $new = substr($old, 1, -1);
++				if (WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++				         "__section($new) is preferred over __attribute__((section($old)))\n" . $herecurr) &&
++					$fix) {
++					$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*_*section_*\s*\(\s*\Q$old\E\s*\)\s*\)\s*\)/__section($new)/;
++				}
+ 			}
+-		}
+ 
+-# Check for __attribute__ format(scanf, prefer __scanf
+-		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\b/) {
+-			if (WARN("PREFER_SCANF",
+-				 "__scanf(string-index, first-to-check) is preferred over __attribute__((format(scanf, string-index, first-to-check)))\n" . $herecurr) &&
+-			    $fix) {
+-				$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\s*,\s*(.*)\)\s*\)\s*\)/"__scanf(" . trim($1) . ")"/ex;
++			# Check for __attribute__ unused, prefer __always_unused or __maybe_unused
++			if ($attr =~ /^_*unused_*/) {
++				WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++				     "__always_unused or __maybe_unused is preferred over __attribute__((__unused__))\n" . $herecurr);
+ 			}
+ 		}
+ 
+-- 
+2.27.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
