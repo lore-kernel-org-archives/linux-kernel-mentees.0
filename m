@@ -2,109 +2,101 @@ Return-Path: <SRS0=3SZq=D7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07288C55179
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 24 Oct 2020 05:24:04 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D60BC55178
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 24 Oct 2020 09:06:33 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7665C22254
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 24 Oct 2020 05:24:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 34DF62225F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 24 Oct 2020 09:06:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gdwOMut2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7665C22254
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NH6nXlGt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 34DF62225F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 13C56878A4;
-	Sat, 24 Oct 2020 05:24:03 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SHpOqCNa3gQh; Sat, 24 Oct 2020 05:24:01 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5525E87875;
-	Sat, 24 Oct 2020 05:24:01 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B027C088B;
-	Sat, 24 Oct 2020 05:24:01 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A5C23C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Oct 2020 05:23:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 87C6D228CA
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Oct 2020 05:23:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6F4A0203D8;
+	Sat, 24 Oct 2020 09:06:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nKBvNMllR6Z5; Sat, 24 Oct 2020 09:06:30 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 4F4F6203C7;
+	Sat, 24 Oct 2020 09:06:30 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 23799C0052;
+	Sat, 24 Oct 2020 09:06:30 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4B0FFC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 24 Oct 2020 09:06:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2CFD686FAF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 24 Oct 2020 09:06:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4i-rVuLJnwT5
+ with ESMTP id jaV3dAYibC3X
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Oct 2020 05:23:58 +0000 (UTC)
+ Sat, 24 Oct 2020 09:06:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by silver.osuosl.org (Postfix) with ESMTPS id 8869B2079A
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CFF9486FAE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Oct 2020 05:23:58 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id g16so343942pjv.3
+ Sat, 24 Oct 2020 09:06:26 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id x10so8555plm.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Oct 2020 22:23:58 -0700 (PDT)
+ Sat, 24 Oct 2020 02:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IRCTFLxnKQ3FPr8M9KF2s2918UZVWOkYh+ykqRS7IC8=;
- b=gdwOMut2p1pDRPPYhKTUmDnE7ySPIU7AZA/B8IoIMY03gGP2UbrLCHxc/jio9G3vn3
- D4+H0QXF6o7PQQc8lShXEBOIO4eauP7ObDU0aRfWMcBNgJZ5m7fPeKtiYDxtfQgjBuJL
- 1lIM7nDi3GIdBmDfBN0Az3kZ+AdyG7GGs/CRE1eB6+vTzTG3ea8nG2Zfv/dYzxSZCFeU
- Nbf9MYKtfSIFbMEeUvO/U3Jr6obRJFdZcfHghw1eaz8Q9e1y2UCDMOvSQUNOnKWZJp7y
- udHZSKhaUfTos0frHx96uPSgWejxVJaMXZmmiRhKyGLXLDiaM8A04sg33YD387fXFs7v
- 7wrQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gk2cFmlbMq/sinRoeLY+9r9e8FSdPc5N55kkSeL51tM=;
+ b=NH6nXlGtCyHPOwHoToc2vFq67Mjkpgo195a5xL3nYoVJMP1QES7z0vlWXGR/NflJ7Y
+ tMW+y3ckjtiM64PEUNkrJVEmDyI2XXaa3EVxBUP8RRHuzubugHgAGfNG3Rmowxm8iCeX
+ eCpPxuYWYP2/ffoxgW4FgRZ5KlAyFyXacEvwuFhdsM/NDr/fM/TVmHGA59JiRspmGYba
+ O37dmWwSNgW1JC5zvSTBEr3SvJpENMl/hOE7Ly4EnOHLvC1ztote49tAjGOvLHEKo8TX
+ OXJ7nYv1V28EdClr/TIikUDZVaPIxRU4co4zbxAVuJXOh6VnNVxgJUtJX2GM4WcLqjux
+ nPkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IRCTFLxnKQ3FPr8M9KF2s2918UZVWOkYh+ykqRS7IC8=;
- b=KUntZj+lCxrBVhmgpuQkV/IxjQ0I5rUez4/qh5Z3pOZLRXmVlEp11ntLdTO7Qzv3IZ
- PPuyfRj+c74fTwS0cJTaEIA+hx8zxm+jXk3BWBU91fQyvh0AGENkLVr0JQWXYdTJPHm+
- dwSqMm68BK8+u8s+cYKBOmIcxq4Byx3BsboHfGmkBAeznSpp1/kAESgrtgJLfzN/TQIB
- 9rDoAJHMakNNArB6lS0MkM/wtIEnodegvqqQfeRQvNUvfiyPq+0DvE7rDKAUUK8kmps1
- tvXRMVkV52G11nZQ8OtahpW8zKZRXiUwpikZy9CkoWeuRc9XeRHxh57VeE2yKBsfBbHk
- sXQg==
-X-Gm-Message-State: AOAM530r0iwCyPwzKPHVRuD0oClmaDT7LQ8MC97JSr8M8GMAvC253Keh
- tP76WCRBgwtqOwmByEYxq+8=
-X-Google-Smtp-Source: ABdhPJy89fRYqOs1olXn9jsRFF9ut58I9WltmtEJObxNLDMrDIz0woJO2qDWi9vX2eviuL3a6VyAFQ==
-X-Received: by 2002:a17:902:7102:b029:d3:ef48:e51e with SMTP id
- a2-20020a1709027102b02900d3ef48e51emr2158617pll.72.1603517038007; 
- Fri, 23 Oct 2020 22:23:58 -0700 (PDT)
-Received: from [192.168.86.81] ([106.51.242.32])
- by smtp.gmail.com with ESMTPSA id z23sm3515874pgf.12.2020.10.23.22.23.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 22:23:57 -0700 (PDT)
-To: Marco Elver <elver@google.com>
-References: <20201023150536.282568-1-98.arpi@gmail.com>
- <20201023184803.GA3922681@elver.google.com>
-From: Arpitha Raghunandan <98.arpi@gmail.com>
-Message-ID: <91906d36-1f5b-b388-42a7-881b0915f0ea@gmail.com>
-Date: Sat, 24 Oct 2020 10:53:51 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=gk2cFmlbMq/sinRoeLY+9r9e8FSdPc5N55kkSeL51tM=;
+ b=sN0L+OvO/bl7ViPuZfOn/SMUB5PoARWveQhvN4KrYth0mxKk1aAW6u85/Q46vH889q
+ u2Vr9t5zQC753gyH3Qs/+XygcCeXWD76cX0wsvs16daseo+htWwrOxZ2d2P8TB7XtbMB
+ B0jeCJUdKftH8N2GrbdnYwLQR1OXnMP25LpdZKNbQOktSO6wuuz+rFDyFJcBffK1xVOD
+ xmJsVeCumnA2FguzCQ5jRenmQsjIs8Fq9E9G8xZLWw4SnU505x3YZdL4H4sqatHvnEXt
+ NkCP0oyGIuEib3R7bkFQS1bRqSq7CojGyzGK/vGkswpWHxuRqKYilVBrLvK3rs5zAV8p
+ l+VQ==
+X-Gm-Message-State: AOAM530DwbiRwxm5Hhr80OnGsyKQmkrbN4WTtvgzSuNyz/eOWlwx8XMO
+ XYNbh0c2S0G1flIQ50u/kVw=
+X-Google-Smtp-Source: ABdhPJxCQmNfRB2M4zRNe5tfuUFzx1eRwFhxk/iHaXM6oxIhEvHdSZk5Hd+dly2J5/orcPpQRWYbIQ==
+X-Received: by 2002:a17:902:b604:b029:d5:e2cd:5381 with SMTP id
+ b4-20020a170902b604b02900d5e2cd5381mr3631673pls.75.1603530386170; 
+ Sat, 24 Oct 2020 02:06:26 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:9004:683a:f9a0:a2:3868:eea])
+ by smtp.gmail.com with ESMTPSA id a18sm4420082pgw.50.2020.10.24.02.06.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Oct 2020 02:06:25 -0700 (PDT)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: joe@perches.com
+Date: Sat, 24 Oct 2020 14:35:57 +0530
+Message-Id: <20201024090557.45092-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20201023184803.GA3922681@elver.google.com>
-Content-Language: en-US
-Cc: linux-ext4@vger.kernel.org, tytso@mit.edu, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-kselftest@vger.kernel.org, yzaikin@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 1/2] kunit: Support for
-	Parameterized Testing
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v3] checkpatch: extend attributes
+	check to handle more patterns
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,211 +114,175 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 24/10/20 12:18 am, Marco Elver wrote:
-> On Fri, Oct 23, 2020 at 08:35PM +0530, Arpitha Raghunandan wrote:
->> Implementation of support for parameterized testing in KUnit.
-> 
-> Already looks much cleaner, thanks for using this approach!
-> 
-> I think the commit message needs a brief summary of the approach.
-> 
+It is generally preferred that the macros from
+include/linux/compiler_attributes.h are used, unless there
+is a reason not to.
 
-Okay, I will add a more detailed commit message for the next version.
+checkpatch currently checks __attribute__ for each of
+packed, aligned, printf, scanf, and weak. Other declarations
+in compiler_attributes.h are not handled.
 
->> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
->> ---
->> Changes v1->v2:
->> - Use of a generator method to access test case parameters
->>
->>  include/kunit/test.h | 45 ++++++++++++++++++++++++++++++++++++++++++++
->>  lib/kunit/test.c     | 20 +++++++++++++++++++-
->>  2 files changed, 64 insertions(+), 1 deletion(-)
->>
->> diff --git a/include/kunit/test.h b/include/kunit/test.h
->> index a423fffefea0..c417ac140326 100644
->> --- a/include/kunit/test.h
->> +++ b/include/kunit/test.h
->> @@ -141,6 +141,7 @@ struct kunit;
->>  struct kunit_case {
->>  	void (*run_case)(struct kunit *test);
->>  	const char *name;
->> +	void* (*generate_params)(struct kunit *test, void *prev);
-> 
-> Would adding documentation above this field be the right place, or
-> somewhere else? In any case, some explanation of the protocol would be
-> good.
-> 
+Add a generic test to check the presence of such attributes.
+Some attributes require more specific handling and are kept
+separate.
 
-I will include this.
+New attributes which are now handled are:
 
->>  	/* private: internal use only. */
->>  	bool success;
->> @@ -162,6 +163,9 @@ static inline char *kunit_status_to_string(bool status)
->>   * &struct kunit_case for an example on how to use it.
->>   */
->>  #define KUNIT_CASE(test_name) { .run_case = test_name, .name = #test_name }
->> +#define KUNIT_CASE_PARAM(test_name, gen_params)			\
->> +		{ .run_case = test_name, .name = #test_name,	\
->> +		  .generate_params = gen_params }
->>  
->>  /**
->>   * struct kunit_suite - describes a related collection of &struct kunit_case
->> @@ -208,6 +212,15 @@ struct kunit {
->>  	const char *name; /* Read only after initialization! */
->>  	char *log; /* Points at case log after initialization */
->>  	struct kunit_try_catch try_catch;
->> +	/* param_values points to test case parameters in parameterized tests */
->> +	void *param_values;
->> +	/*
->> +	 * current_param stores the index of the parameter in
->> +	 * the array of parameters in parameterized tests.
->> +	 * current_param + 1 is printed to indicate the parameter
->> +	 * that causes the test to fail in case of test failure.
->> +	 */
->> +	int current_param;
->>  	/*
->>  	 * success starts as true, and may only be set to false during a
->>  	 * test case; thus, it is safe to update this across multiple
->> @@ -1742,4 +1755,36 @@ do {									       \
->>  						fmt,			       \
->>  						##__VA_ARGS__)
->>  
->> +/**
->> + * kunit_param_generator_helper() - Helper method for test parameter generators
->> + * 				    required in parameterized tests.
->> + * @test: The test context object.
->> + * @prev_param: a pointer to the previous test parameter, NULL for first parameter.
->> + * @param_array: a user-supplied pointer to an array of test parameters.
->> + * @array_size: number of test parameters in the array.
->> + * @type_size: size of one test parameter.
->> + */
->> +static inline void *kunit_param_generator_helper(struct kunit *test,
-> 
-> I don't think this needs to be inline, but see my other suggestion
-> below, which might make this function obsolete.
-> 
->> +					void *prev_param,
->> +					void *param_array,
->> +					size_t array_size,
->> +					size_t type_size)
->> +{
->> +	KUNIT_ASSERT_EQ(test, (prev_param - param_array) % type_size, 0);
->> +
->> +	if (!prev_param)
->> +		return param_array;
->> +
->> +	KUNIT_ASSERT_GE(test, prev_param, param_array);
->> +
->> +	if (prev_param + type_size < param_array + (array_size * type_size))
->> +		return prev_param + type_size;
->> +	else
->> +		return NULL;
->> +}
->> +
->> +#define KUNIT_PARAM_GENERATOR_HELPER(test, prev_param, param_array, param_type) \
->> +	kunit_param_generator_helper(test, prev_param, param_array,		\
->> +				ARRAY_SIZE(param_array), sizeof(param_type))
-> 
-> You do not need param_type, you can use the same trick that ARRAY_SIZE
-> uses:
-> 
-> 	#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-> 
-> So you could use sizeof((param_aray)[0]) instead of sizeof(param_type).
-> ARRAY_SIZE already checks for you that it's a real array via
-> __must_be_array().
-> 
-> 
-> The other question is, will kunit_param_generator_helper() find much use
-> without the KUNIT_PARAM_GENERATOR_HELPER() macro? If I have some
-> complicated generator protocol to generate params, then I'd just
-> directly write the generator function. If your intent is to simplify the
-> common-case array based generators, why not just have a macro generate
-> the generator function?
-> 
-> More specifically, have this macro here:
-> 
-> +#define KUNIT_ARRAY_PARAM(name, array)								\
-> +	static void *name##_gen_params(struct kunit *test, void *prev)				\
-> +	{											\
-> +		typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 : (array);	\
-> +		return __next - (array) < ARRAY_SIZE((array)) ? __next : NULL;			\
-> +	}
-> 
-> [ It is entirely untested, but if it works verbatim you'll probably need my
-> 
-> 	Co-developed-by: Marco Elver <elver@google.com>
-> 	Signed-off-by: Marco Elver <elver@google.com>
->  
->  just in case... ]
-> 
-> Then, it can be used as follows:
-> 
-> 	static int num_cpus[] = {1, 2, 3, 4, 5};
-> 	KUNIT_ARRAY_PARAM(num_cpus, num_cpus);
-> 
-> Then somewhere else:
-> 
-> 	KUNIT_CASE_PARAM(some_test, num_cpus_gen_params);
-> 
+__alias__(#symbol)
+__always_inline__
+__assume_aligned__(a, ## __VA_ARGS__)
+__cold__
+__const__
+__copy__(symbol)
+__designated_init__
+__externally_visible__
+__gnu_inline__
+__malloc__
+__mode__(x)
+__no_caller_saved_registers__
+__noclone__
+__fallthrough__
+__noinline__
+__nonstring__
+__noreturn__
+__pure__
+__unused__
+__used__
 
-Yes, a macro can be used to generate the generator function. I will work with this
-for the next version.
+Link: https://lore.kernel.org/linux-kernel-mentees/3ec15b41754b01666d94b76ce51b9832c2dd577a.camel@perches.com/
+Suggested-by: Joe Perches <joe@perches.com>
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+---
+ scripts/checkpatch.pl | 105 +++++++++++++++++++++++++++---------------
+ 1 file changed, 69 insertions(+), 36 deletions(-)
 
->>  #endif /* _KUNIT_TEST_H */
->> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
->> index 750704abe89a..0e6ffe6384a7 100644
->> --- a/lib/kunit/test.c
->> +++ b/lib/kunit/test.c
->> @@ -127,6 +127,11 @@ unsigned int kunit_test_case_num(struct kunit_suite *suite,
->>  }
->>  EXPORT_SYMBOL_GPL(kunit_test_case_num);
->>  
->> +static void kunit_print_failed_param(struct kunit *test)
->> +{
->> +	kunit_err(test, "\n\tTest failed at parameter: %d\n", test->current_param + 1);
->> +}
->> +
->>  static void kunit_print_string_stream(struct kunit *test,
->>  				      struct string_stream *stream)
->>  {
->> @@ -168,6 +173,8 @@ static void kunit_fail(struct kunit *test, struct kunit_assert *assert)
->>  	assert->format(assert, stream);
->>  
->>  	kunit_print_string_stream(test, stream);
->> +	if (test->param_values)
->> +		kunit_print_failed_param(test);
->>  
->>  	WARN_ON(string_stream_destroy(stream));
->>  }
->> @@ -239,7 +246,18 @@ static void kunit_run_case_internal(struct kunit *test,
->>  		}
->>  	}
->>  
->> -	test_case->run_case(test);
->> +	if (!test_case->generate_params) {
->> +		test_case->run_case(test);
->> +	} else {
->> +		test->param_values = test_case->generate_params(test, NULL);
->> +		test->current_param = 0;
->> +
->> +		while (test->param_values) {
->> +			test_case->run_case(test);
->> +			test->param_values = test_case->generate_params(test, test->param_values);
->> +			test->current_param++;
->> +		}
->> +	}
->>  }
->>  
->>  static void kunit_case_internal_cleanup(struct kunit *test)
-> 
-> Otherwise looks fine.
-> 
-> Thanks,
-> -- Marco
-> 
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 7e505688257a..01d83d345b4c 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -6155,50 +6155,83 @@ sub process {
+ 			}
+ 		}
+ 
+-# Check for __attribute__ packed, prefer __packed
++# Check for compiler attributes
+ 		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(.*\bpacked\b/) {
+-			WARN("PREFER_PACKED",
+-			     "__packed is preferred over __attribute__((packed))\n" . $herecurr);
+-		}
++		    $line =~ /__attribute__\s*\(\s*($balanced_parens)\s*\)/) {
++			my $attr = $1;
++			$attr =~ s/\s*\(\s*(.*)\)\s*/$1/;
++
++			my %attr_list = (
++				"alias"				=> "__alias",
++				"aligned"			=> "__aligned",
++				"always_inline"			=> "__always_inline",
++				"assume_aligned"		=> "__assume_aligned",
++				"cold"				=> "__cold",
++				"const"				=> "__const",
++				"copy"				=> "__copy",
++				"designated_init"		=> "__designated_init",
++				"externally_visible"		=> "__visible",
++				"fallthrough"			=> "fallthrough",
++				"gnu_inline"			=> "__gnu_inline",
++				"malloc"			=> "__malloc",
++				"mode"				=> "__mode",
++				"no_caller_saved_registers"	=> "__no_caller_saved_registers",
++				"noclone"			=> "__noclone",
++				"noinline"			=> "noinline",
++				"nonstring"			=> "__nonstring",
++				"noreturn"			=> "__noreturn",
++				"packed"			=> "__packed",
++				"pure"				=> "__pure",
++				"used"				=> "__used"
++			);
++
++			if ($attr =~ /^(\w+)\s*(${balanced_parens})?/) {
++				my $curr_attr = $1;
++				my $params = '';
++				$params = $2 if defined($2);
++				$curr_attr =~ s/^[\s_]+|[\s_]+$//g;
++
++				if (exists($attr_list{$curr_attr})) {
++					my $new = $attr_list{$curr_attr};
++					WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++					     "$new$params is preffered over __attribute__(($attr))\n" . $herecurr);
++				}
++			}
+ 
+-# Check for __attribute__ aligned, prefer __aligned
+-		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(.*aligned/) {
+-			WARN("PREFER_ALIGNED",
+-			     "__aligned(size) is preferred over __attribute__((aligned(size)))\n" . $herecurr);
+-		}
++			# Check for __attribute__ format(printf, prefer __printf
++			if ($attr =~ /^_*format_*\s*\(\s*printf/) {
++				if (WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++				         "__printf(string-index, first-to-check) is preferred over __attribute__((format(printf, string-index, first-to-check)))\n" . $herecurr) &&
++					$fix) {
++					$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf\s*,\s*(.*)\)\s*\)\s*\)/"__printf(" . trim($1) . ")"/ex;
+ 
+-# Check for __attribute__ section, prefer __section
+-		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(.*_*section_*\s*\(\s*("[^"]*")/) {
+-			my $old = substr($rawline, $-[1], $+[1] - $-[1]);
+-			my $new = substr($old, 1, -1);
+-			if (WARN("PREFER_SECTION",
+-				 "__section($new) is preferred over __attribute__((section($old)))\n" . $herecurr) &&
+-			    $fix) {
+-				$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*_*section_*\s*\(\s*\Q$old\E\s*\)\s*\)\s*\)/__section($new)/;
++				}
+ 			}
+-		}
+ 
+-# Check for __attribute__ format(printf, prefer __printf
+-		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf/) {
+-			if (WARN("PREFER_PRINTF",
+-				 "__printf(string-index, first-to-check) is preferred over __attribute__((format(printf, string-index, first-to-check)))\n" . $herecurr) &&
+-			    $fix) {
+-				$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*printf\s*,\s*(.*)\)\s*\)\s*\)/"__printf(" . trim($1) . ")"/ex;
++			# Check for __attribute__ format(scanf, prefer __scanf
++			if ($attr =~ /^_*format_*\s*\(\s*scanf\b/) {
++				if (WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++				         "__scanf(string-index, first-to-check) is preferred over __attribute__((format(scanf, string-index, first-to-check)))\n" . $herecurr) &&
++					$fix) {
++					$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\s*,\s*(.*)\)\s*\)\s*\)/"__scanf(" . trim($1) . ")"/ex;
++				}
++			}
+ 
++			# Check for __attribute__ section, prefer __section
++			if ($attr =~ /^_*section_*\s*\(\s*("[^"]*")/) {
++				my $old = substr($rawline, $-[1], $+[1] - $-[1]);
++				my $new = substr($old, 1, -1);
++				if (WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++				         "__section($new) is preferred over __attribute__((section($old)))\n" . $herecurr) &&
++					$fix) {
++					$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*_*section_*\s*\(\s*\Q$old\E\s*\)\s*\)\s*\)/__section($new)/;
++				}
+ 			}
+-		}
+ 
+-# Check for __attribute__ format(scanf, prefer __scanf
+-		if ($realfile !~ m@\binclude/uapi/@ &&
+-		    $line =~ /\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\b/) {
+-			if (WARN("PREFER_SCANF",
+-				 "__scanf(string-index, first-to-check) is preferred over __attribute__((format(scanf, string-index, first-to-check)))\n" . $herecurr) &&
+-			    $fix) {
+-				$fixed[$fixlinenr] =~ s/\b__attribute__\s*\(\s*\(\s*format\s*\(\s*scanf\s*,\s*(.*)\)\s*\)\s*\)/"__scanf(" . trim($1) . ")"/ex;
++			# Check for __attribute__ unused, prefer __always_unused or __maybe_unused
++			if ($attr =~ /^_*unused/) {
++				WARN("PREFER_DEFINED_ATTRIBUTE_MACRO",
++				     "__always_unused or __maybe_unused is preferred over __attribute__((__unused__))\n" . $herecurr);
+ 			}
+ 		}
+ 
+-- 
+2.27.0
 
-Thanks!
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
