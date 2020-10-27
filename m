@@ -2,98 +2,98 @@ Return-Path: <SRS0=NLmV=EC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A063C388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 07:55:37 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB698C388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 08:28:13 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DA3C32224E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 07:55:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E7C9321556
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 08:28:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="p0ybGNuo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA3C32224E
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TEkfPgy/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E7C9321556
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A0AE987136;
-	Tue, 27 Oct 2020 07:55:36 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 585D685552;
+	Tue, 27 Oct 2020 08:28:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tVgmV-w93aOV; Tue, 27 Oct 2020 07:55:36 +0000 (UTC)
+	with ESMTP id OYtnVYZI__5h; Tue, 27 Oct 2020 08:28:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3EE8F870E1;
-	Tue, 27 Oct 2020 07:55:36 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A3051854C2;
+	Tue, 27 Oct 2020 08:28:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 28B3DC0859;
-	Tue, 27 Oct 2020 07:55:36 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9E60EC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 81CC5C088B;
+	Tue, 27 Oct 2020 08:28:11 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BF192C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 07:55:35 +0000 (UTC)
+ Tue, 27 Oct 2020 08:28:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 8ADC020392
+ by whitealder.osuosl.org (Postfix) with ESMTP id B32B986372
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 07:55:35 +0000 (UTC)
+ Tue, 27 Oct 2020 08:28:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cFpA9I5ks0cT
+ with ESMTP id 4fWlGNRTXMrL
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 07:55:34 +0000 (UTC)
+ Tue, 27 Oct 2020 08:28:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 83C422014A
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B3AE8862F4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 07:55:34 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id y186so406975oia.3
+ Tue, 27 Oct 2020 08:28:09 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id c16so504076wmd.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 00:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DOZ/or+uXcofLUI05AASj9pqYEI1+H4nTxttRQeOH3w=;
- b=p0ybGNuotD2awoJRp4EIUps3i33wWnSBscgfxKE+PLT03BAAfghsklin5UQ1AI5LHb
- NKoqRRtTa/rJIBjm2EWYL+fKZ+pwXGCG9lFC5kLy0Hdm9u+zLFyksmaM+WRGUtZjYNoj
- c3ikMGBTs+zDygIBiywKzSXWg5zfr96Pqw/VHcrTy79z5wSofz4rPXO8K3QreT1V7ylJ
- uM14o74YCSexauZZ3iyZwyKFTdex1g9v2Uxpx9ISawxwvePFy+zZMHYdiDvPsHcAYaUx
- 0iMz9wq8LP+Qv4HgF0HBr2ybRH2ImmsnCgs1B6Prd2o6mLH7LAvmdo4V8xgU5YDNOs28
- Oz5g==
+ Tue, 27 Oct 2020 01:28:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:message-id:user-agent:mime-version;
+ bh=Qnr+NYnJEoTE2+sy4SwBm/Ldy1MyDMdmkudDQ8tBZEg=;
+ b=TEkfPgy/r6kZVSdpRWbDiERqSYbb3zgfkrRPzVhywzq69f3eRt+4xCPQZAjHX/INsE
+ mxDQMT+X9ixdXJ8Y9ujmVUMkTqHnbSx4l1VvSE+aCR7JKuA6h/5zX5J9xNycRGvph7Iz
+ c3OKFspalFZqa7wmeTq1yYnD29eWjpMBGb1xLVNiClH258zWlX48cCL6Iys1imojsnmy
+ 4sMhYEBVKZlFfw1IwdTo9ZFvH0MHWY3VEJf1iYdY+XQBygI6pJ6kIeluLTOWS9BnDwfV
+ vXqRDrcMtzjY63Lqi3aeh6NaKV5QkMDsJA3o/dM9hNxHVPC/3BiqIcV3jQHToqnFaFTI
+ hgmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DOZ/or+uXcofLUI05AASj9pqYEI1+H4nTxttRQeOH3w=;
- b=QT6xel93J1f0aeqL1dRUvTTW/CV6jqEgbV8oKyX1n99pudSO0+7+N+dX3cQxAvu/0r
- 4Kz9hyUF0ZmEookfx1TfcUuVP5yuXbR5msWKHgQxHodBGo9DH854StaRqeT/KxcTfYrE
- w+z5BJX1P9FKDIFUKLyQG1ZCm5nmUNg2GzhfWi/cjF8Ad+gkzB7Iz6p4rdtcjUR7spuB
- HzzsQ0A5duleyGMDJ3ztSAo7wKOadsdFw7EH+/jmPG/n93Q1Kt2R0y5xz3/O3w+wUCgj
- zyiNE3oKQM4YmOBhmvt3Smi4uSrEJSuC809vPpuam9yFH8kJ5LuA3AAtYVWuVSWyNUyZ
- Yg0w==
-X-Gm-Message-State: AOAM5336G8UgZEAThtYOojBBMVHscTmTPGmBSkfVVmZ9b/tneJLmAB3F
- n62bHjUaKmcBOJ68klWVcoQEpxeOGZxLkt7HyaDU+w==
-X-Google-Smtp-Source: ABdhPJy9DnGoYipYvpataI7s7gEKop4LEknvR99sUFOYQrgxmqfLbYJYMFlpKS8G5wR7l7le8Ljz97l7WA1fdaM5ZvA=
-X-Received: by 2002:a54:4812:: with SMTP id j18mr632555oij.70.1603785333575;
- Tue, 27 Oct 2020 00:55:33 -0700 (PDT)
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:user-agent
+ :mime-version;
+ bh=Qnr+NYnJEoTE2+sy4SwBm/Ldy1MyDMdmkudDQ8tBZEg=;
+ b=nDFBez+tJyoVkKPGTSyRIJs41Jj164GpBDUQKAInQ52//rOTrdv/JkHzY5Cex50V0c
+ Ee/ORjne7YkDyS3ItcwhZ0poN5csmQ/bR8rAPqym3XQGBplEfk6ZEhw1748RPiN2NgWn
+ GOxtaQ7xmTQh1Co12eqKmEEdIbIKLZhYDSXqmx52IhJlvqk3T6Ou/nezMR75RIuNAiKM
+ c0qHfTFLYPNCC/XggFpmPIthO4jX+TNt+WKMBZBFHRZFkKzmQ4Bh2u9kuwN9p9u3yVjI
+ e6RrGcEG1vflAS9fuC53YeXn0c7/XCqZYQjDdtPRCpLpbstHYpZbKUnc1ZLEX3hf4xju
+ zmQg==
+X-Gm-Message-State: AOAM5312MCaqSLm+f3/W7JCmA/m1KuGZcb7eOWFczKOEAHx/mbDyqTx1
+ IVAEso9dTjXjpyJ/E+ehMSQ=
+X-Google-Smtp-Source: ABdhPJx5I8woCtOvN/i5lDmVIgnhMKgiXeLRzjDXjqMoYd8KK99RaMRG7Bz0EEcRDLg6MUMpV7BTyA==
+X-Received: by 2002:a7b:c5c3:: with SMTP id n3mr1350429wmk.44.1603787288106;
+ Tue, 27 Oct 2020 01:28:08 -0700 (PDT)
+Received: from felia ([2001:16b8:2de9:3700:3160:107b:5425:634f])
+ by smtp.gmail.com with ESMTPSA id r128sm1045895wma.20.2020.10.27.01.28.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 01:28:07 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Tue, 27 Oct 2020 09:28:06 +0100 (CET)
+X-X-Sender: lukas@felia
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Message-ID: <alpine.DEB.2.21.2010270918030.7937@felia>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-References: <20201026183523.82749-1-98.arpi@gmail.com>
-In-Reply-To: <20201026183523.82749-1-98.arpi@gmail.com>
-Date: Tue, 27 Oct 2020 08:55:22 +0100
-Message-ID: <CANpmjNMNd2fMmqsmBMSTwD6Cp0OBORjTgDBiDOzXD1zVyELLnw@mail.gmail.com>
-To: Arpitha Raghunandan <98.arpi@gmail.com>
-Cc: linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- Brendan Higgins <brendanhiggins@google.com>,
- LKML <linux-kernel@vger.kernel.org>, Andreas Dilger <adilger.kernel@dilger.ca>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Iurii Zaikin <yzaikin@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3 1/2] kunit: Support for
-	Parameterized Testing
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] Current state of your checkpatch.pl work
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,47 +105,25 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Marco Elver via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Marco Elver <elver@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 26 Oct 2020 at 19:36, Arpitha Raghunandan <98.arpi@gmail.com> wrote:
-[...]
->          * success starts as true, and may only be set to false during a
->          * test case; thus, it is safe to update this across multiple
-> @@ -1742,4 +1760,18 @@ do {                                                                            \
->                                                 fmt,                           \
->                                                 ##__VA_ARGS__)
->
-> +/**
-> + * KUNIT_PARAM_GENERATOR() - Helper method for test parameter generators
-> + *                          required in parameterized tests.
-> + * @name:  prefix of the name for the test parameter generator function.
+Hi Dwaipayan,
 
-This could mention that the generator function will be suffixed by
-"_gen_params".
+can you quickly update your Google Doc with the current state of 
+patches/features that you are currently working on, that are done, and 
+that we decided not to work on?
 
-> + * @prev: a pointer to the previous test parameter, NULL for first parameter.
-> + * @array: a user-supplied pointer to an array of test parameters.
-> + */
+Just to make sure that in case Aditya wants to start working on something, 
+we do not coincidently work there on the same and duplicate the efforts.
 
-I just noticed this: the interface of this macro does not include
-"prev" (which is an argument of the generated function, but not
-supplied to this macro; "prev" should hopefully be explained in the
-other comment you're adding for the new struct field). So, the
-kernel-doc comment here should only list the actual arguments of this
-macro, which is only "name" and "array".
-
-> +#define KUNIT_PARAM_GENERATOR(name, array)                                                     \
-[...]
 
 Thanks,
--- Marco
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
