@@ -2,129 +2,112 @@ Return-Path: <SRS0=NLmV=EC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B85E7C4363A
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 10:09:47 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB145C388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 14:39:26 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1FEAC21D24
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 10:09:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 590F622258
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 14:39:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="biUrUQfO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1FEAC21D24
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P2rHbNkC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 590F622258
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 724C585C56;
-	Tue, 27 Oct 2020 10:09:46 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B60E7872D5;
+	Tue, 27 Oct 2020 14:39:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xe8X2LpH5rjH; Tue, 27 Oct 2020 10:09:45 +0000 (UTC)
+	with ESMTP id QzBh9LJwnokd; Tue, 27 Oct 2020 14:39:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 821E185BBD;
-	Tue, 27 Oct 2020 10:09:45 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 141C1872C7;
+	Tue, 27 Oct 2020 14:39:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 675D7C088B;
-	Tue, 27 Oct 2020 10:09:45 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DCCD1C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7AE2C088B;
+	Tue, 27 Oct 2020 14:39:24 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9671DC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 10:09:43 +0000 (UTC)
+ Tue, 27 Oct 2020 14:39:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C2A0F8349B
+ by hemlock.osuosl.org (Postfix) with ESMTP id 855A3872D5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 10:09:43 +0000 (UTC)
+ Tue, 27 Oct 2020 14:39:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wt2nliVY5Puq
+ with ESMTP id Zo0eIqgK+Xs7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 10:09:42 +0000 (UTC)
+ Tue, 27 Oct 2020 14:39:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0476584BBE
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 07782872C7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 10:09:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603793356;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1xMFEL5l8qWQjfzBJoFlYHiuXf7nJEtoo8X1gM79n9U=;
- b=biUrUQfO1c/Z/7naFj0qvXN2uDjN++V7Kv8bu+gdikMm9lXYb9APdW1zZ6GabuYMpG5drq
- mzTBP4Ir4ym7mMVIhEvZCFW5SeTLdirp4PNNhslVYSsa/ooyV4EcA6Fnf1PI9hgAS7gJpq
- Mzz7t3pkWo5y4lpPaLn5cMbctxH8ORI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-hoF6mF2FM-OzxblyCrNTDA-1; Tue, 27 Oct 2020 06:09:14 -0400
-X-MC-Unique: hoF6mF2FM-OzxblyCrNTDA-1
-Received: by mail-ej1-f71.google.com with SMTP id z25so726865ejd.2
+ Tue, 27 Oct 2020 14:39:22 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id t6so333083plq.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 03:09:14 -0700 (PDT)
+ Tue, 27 Oct 2020 07:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Jq4p9ZOCOpULvr9rjXRr1hfcbCktqSPvgN26N3fDMKI=;
+ b=P2rHbNkCxVqv3VzLZrI9pRiekGKij2jCTuLBGnFuzNzKo232QsfG5w1r/Ncmxekom+
+ FFG8bIkBe7md8JwLjdqcGVeZGkV7Pq3nVV3VLIKFTdh1WdUEpKSE0MwJM29wEhJUo0de
+ Z2hg45xbwDwnBTwgLx9hQPLCm7zrVUlcqZ3TrnhSs8xQ18hW0zm+PZSXAyG3okq7iQgD
+ pZzm37irrPmVMmjxbC9qrynZkt1FrCY60Hb18mZrpzAqWvD0lSZKFPVP6OnSI8dQKPUE
+ +3T0Ne7Ji1MMYO4ddfIrx8kQHzrz5SopDaNxWAsZI369AADhnGxRRnt6jFNNcJxkWFKP
+ K0UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1xMFEL5l8qWQjfzBJoFlYHiuXf7nJEtoo8X1gM79n9U=;
- b=X3wkVNQ2vDzG59wlqDANIZXZndoWm99EAAqe+SWvBPo44Ed1I3opKwIqXJ7Yz9weOz
- i7oK/2aENS7HCwiRKf1J7zFtUKR+fjyGR58GV6EH8O/kdbtMAVjggSZCTVJiqGcsCVl2
- /VpBcJP+HqJsRkeMguJX18uGrK2gGlMPKfhIRKigVZ+L100MrY4RGJJSrivjQXmxpimm
- RFBbDvIXM0LUdsAgzFdrJ/RdARtuYgTSyajh504pL8nU82tahboVHkUB0XfjN+qAM0XU
- iwk8flIvgHYNq1NTK6IhIW3yBfFsqJoHmpTEQ0P8xIXXqjY1nxbfcrwZ7FerlywQQp0h
- kLsg==
-X-Gm-Message-State: AOAM532k3fg27CxHBd3R34G94eVMwBWiDQzw68sBTCQlX9eP6DoD/OrY
- QrQFKTV6O1J8oYW/q6dUC8Dio7c+fHdSRT0Cb/I63aOe4xDubhjb9mPgQQlcUxuEcBcEmRmNA1U
- xl3y0ACn/6kzicQ1Rt3X5rG03vMxXYPNLTJ/hK7knae9GYjBa
-X-Received: by 2002:aa7:ce18:: with SMTP id d24mr1432208edv.9.1603793352722;
- Tue, 27 Oct 2020 03:09:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwS8z+oH2D/VE0FuS6Z10aO24uUGqVEAJBgkvHzLOfz2K+8Ui2Yli+nXDkH4oh162wHg3Eiag==
-X-Received: by 2002:aa7:ce18:: with SMTP id d24mr1432176edv.9.1603793352431;
- Tue, 27 Oct 2020 03:09:12 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id y1sm649975edj.76.2020.10.27.03.09.11
+ bh=Jq4p9ZOCOpULvr9rjXRr1hfcbCktqSPvgN26N3fDMKI=;
+ b=X2SygMz3DgVVldvqcbQeCMyjMc9J07HEaql4orZ6foJFpzgTKGrk/Rb1zQdUw7vl70
+ LPjL2NOKlRSyvmJCWKB4YkRHmDY75ZZz6lgcfVLx0uOBJXtQEHGTNUZ1OBHdvGaZqD05
+ pH85hrJFG9ZtHzlUvfBkrso+gcEUbOlEf0e99pVibHy7TuC6BERJBFHOhnuT39GX0kfc
+ fu7zFwxS8EhURgatzjxVsIDP0UZM4iGljD2f5yn0+L1jvoQj32PdC/iuAQAlEc2CD7q+
+ dv4D0RaYbkCM5R3jHjCS1ircDu0PAC5CcnVae7JoPo6r7/0TZCVor9mehW4LFc2uYTzE
+ w5Vg==
+X-Gm-Message-State: AOAM531COXFdDCq5ynMItuoSr4aD6dREs0AHcc1Nv1WVXsScx9s264Rs
+ 2inItNujaXP8gf2SsT4JhVE=
+X-Google-Smtp-Source: ABdhPJzXa1Xh/0Y5jrlOMXl+jhRdt0b7jdQnNTre8jc74QTXFQrzuJKmJJtiY0V93QdH6AsI1Bpjgg==
+X-Received: by 2002:a17:902:b78c:b029:d4:da94:8766 with SMTP id
+ e12-20020a170902b78cb02900d4da948766mr2632161pls.31.1603809561465; 
+ Tue, 27 Oct 2020 07:39:21 -0700 (PDT)
+Received: from [192.168.86.81] ([106.51.240.100])
+ by smtp.gmail.com with ESMTPSA id x16sm2554341pff.14.2020.10.27.07.39.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Oct 2020 03:09:11 -0700 (PDT)
-To: Coiby Xu <coiby.xu@gmail.com>, Linus Walleij <linus.walleij@linaro.org>
-References: <20201003230340.42mtl35n4ka4d5qw@Rk>
- <20201004051644.f3fg2oavbobrwhf6@Rk> <20201006044941.fdjsp346kc5thyzy@Rk>
- <e9cfac98-51fc-b169-cb74-80fd11de12ec@redhat.com>
- <20201006083157.3pg6zvju5buxspns@Rk>
- <69853d2b-239c-79d5-bf6f-7dc0eec65602@redhat.com>
- <4f02cbdf-e1dd-b138-4975-118dd4f86089@redhat.com>
- <a07d3890-f560-855f-3631-a3d5848dcdf5@redhat.com>
- <20201014042420.fkkyabmrkiekpmfw@Rk>
- <df2c008b-e7b5-4fdd-42ea-4d1c62b52139@redhat.com>
- <20201026225400.37almqey2wxyazkn@Rk>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <f15806d6-32e2-c6b0-8f96-670a196380a8@redhat.com>
-Date: Tue, 27 Oct 2020 11:09:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Tue, 27 Oct 2020 07:39:20 -0700 (PDT)
+To: Marco Elver <elver@google.com>
+References: <20201026183523.82749-1-98.arpi@gmail.com>
+ <CANpmjNMnkXLFeQU6xZNwj3bWqE4Ap47wQKkL3-0ENX+R1YoLOg@mail.gmail.com>
+From: Arpitha Raghunandan <98.arpi@gmail.com>
+Message-ID: <5c38ba07-f910-ed0a-1a75-85240effaea7@gmail.com>
+Date: Tue, 27 Oct 2020 20:09:14 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201026225400.37almqey2wxyazkn@Rk>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CANpmjNMnkXLFeQU6xZNwj3bWqE4Ap47wQKkL3-0ENX+R1YoLOg@mail.gmail.com>
 Content-Language: en-US
-Cc: wang jun <availa@outlook.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Nehal Shah <Nehal-bakulchandra.Shah@amd.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Any other ways to debug GPIO interrupt
- controller (pinctrl-amd) for broken touchpads of a new laptop model?
+Cc: linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Iurii Zaikin <yzaikin@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v3 1/2] kunit: Support for
+	Parameterized Testing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -142,78 +125,120 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
-
-On 10/26/20 11:54 PM, Coiby Xu wrote:
-> Hi Hans and Linus,
+On 27/10/20 2:33 pm, Marco Elver wrote:
+> I just tried to give this a spin on some of my tests and noticed some
+> more things (apologies for the multiple rounds of comments):
 > 
-> Will you interpret the 0x0000 value for debounce timeout in GPIO
-> Interrupt Connection Resource Descriptor as disabling debouncing
-> filter?
+> On Mon, 26 Oct 2020 at 19:36, Arpitha Raghunandan <98.arpi@gmail.com> wrote:
+> [...]
+>>  /**
+>>   * struct kunit_suite - describes a related collection of &struct kunit_case
+>> @@ -208,6 +217,15 @@ struct kunit {
+>>         const char *name; /* Read only after initialization! */
+>>         char *log; /* Points at case log after initialization */
+>>         struct kunit_try_catch try_catch;
+>> +       /* param_values points to test case parameters in parameterized tests */
+>> +       void *param_values;
 > 
-> GpioInt (EdgeLevel, ActiveLevel, Shared, PinConfig, DebounceTimeout, ResourceSource,
-> ResourceSourceIndex, ResourceUsage, DescriptorName, VendorData) {PinList}
+> This should be singular, i.e. "param_value", since the generator only
+> generates 1 value for each test. Whether or not that value is a
+> pointer that points to more than 1 value or is an integer etc. is
+> entirely test-dependent.
 > 
-> I'm not sure if Windows' implementation is the de facto standard like
-> i2c-hid. But if we are going to conform to the ACPI specs and we would
-> regard 0x0000 debounce timeout as disabling debouncing filter, then we
-> can fix this touchpad issue and potentially some related issues by
-> implementing the feature of supporting configuring debounce timeout in
-> drivers/gpio/gpiolib-acpi.c and removing all debounce filter
-> configuration in amd_gpio_irq_set_type of drivers/pinctrl/pinctrl-amd.c.
-> What do you think?
+>> +       /*
+>> +        * current_param stores the index of the parameter in
+>> +        * the array of parameters in parameterized tests.
+>> +        * current_param + 1 is printed to indicate the parameter
+>> +        * that causes the test to fail in case of test failure.
+>> +        */
+>> +       int current_param;
 > 
-> A favorable evidence is I've collected five DSDT tables when
-> investigating this issue. All 5 DSDT tables have an GpioInt specifying
-> an non-zero debounce timeout value for the edge type irq and for all
-> the level type irq, the debounce timeout is set to 0x0000.
+> I think, per your comment above, this should be named "param_index".
+> Also, I would suggest removing the mention of "array" in the comment,
+> because the parameters aren't dependent on use of an array.
+> 
+>>         /*
+>>          * success starts as true, and may only be set to false during a
+>>          * test case; thus, it is safe to update this across multiple
+>> @@ -1742,4 +1760,18 @@ do {                                                                            \
+>>                                                 fmt,                           \
+>>                                                 ##__VA_ARGS__)
+>>
+>> +/**
+>> + * KUNIT_PARAM_GENERATOR() - Helper method for test parameter generators
+>> + *                          required in parameterized tests.
+>> + * @name:  prefix of the name for the test parameter generator function.
+>> + * @prev: a pointer to the previous test parameter, NULL for first parameter.
+>> + * @array: a user-supplied pointer to an array of test parameters.
+>> + */
+>> +#define KUNIT_PARAM_GENERATOR(name, array)                                                     \
+>> +       static void *name##_gen_params(void *prev)                                              \
+>> +       {                                                                                       \
+>> +               typeof((array)[0]) * __next = prev ? ((typeof(__next)) prev) + 1 : (array);     \
+>> +               return __next - (array) < ARRAY_SIZE((array)) ? __next : NULL;                  \
+>> +       }
+>> +
+>>  #endif /* _KUNIT_TEST_H */
+>> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+>> index 750704abe89a..b70ab9b12f3b 100644
+>> --- a/lib/kunit/test.c
+>> +++ b/lib/kunit/test.c
+>> @@ -127,6 +127,11 @@ unsigned int kunit_test_case_num(struct kunit_suite *suite,
+>>  }
+>>  EXPORT_SYMBOL_GPL(kunit_test_case_num);
+>>
+>> +static void kunit_print_failed_param(struct kunit *test)
+>> +{
+>> +       kunit_err(test, "\n\tTest failed at parameter: %d\n", test->current_param + 1);
+>> +}
+> 
+> Is this the only place where the param index is used? It might be
+> helpful to show the index together with the test-case name, otherwise
+> we get a series of test cases in the output which are all named the
+> same which can be confusing.
+> 
 
-That is a very interesting observation and this matches with my
-instincts which say that we should just disable the debounce filter
-for level triggered interrupts in pinctrl-amd.c
+Yes, this is the only place param index is used.
 
-Yes that is a bit of a shortcut vs reading the valie from the ACPI
-table, but I'm not sure that 0 always means disabled.
+>>  static void kunit_print_string_stream(struct kunit *test,
+>>                                       struct string_stream *stream)
+>>  {
+>> @@ -168,6 +173,8 @@ static void kunit_fail(struct kunit *test, struct kunit_assert *assert)
+>>         assert->format(assert, stream);
+>>
+>>         kunit_print_string_stream(test, stream);
+>> +       if (test->param_values)
+>> +               kunit_print_failed_param(test);
+>>
+>>         WARN_ON(string_stream_destroy(stream));
+>>  }
+>> @@ -239,7 +246,18 @@ static void kunit_run_case_internal(struct kunit *test,
+>>                 }
+>>         }
+>>
+>> -       test_case->run_case(test);
+>> +       if (!test_case->generate_params) {
+>> +               test_case->run_case(test);
+>> +       } else {
+>> +               test->param_values = test_case->generate_params(NULL);
+>> +               test->current_param = 0;
+>> +
+>> +               while (test->param_values) {
+>> +                       test_case->run_case(test);
+>> +                       test->param_values = test_case->generate_params(test->param_values);
+>> +                       test->current_param++;
+>> +               }
+>> +       }
+>>  }
+> 
+> Looking forward to v4. :-)
+> 
+> Thanks,
+> -- Marco
+> 
 
-Specifically the ACPI 6.2 spec also has a notion of pinconf settings
-and the docs on "PinConfig()"  say:
-
-Note: There is some overlap between the properties set by GpioIo/GpioInt/ PinFunction and
-PinConfig descriptors. For example, both are setting properties such as pull-ups. If the same
-property is specified by multiple descriptors for the same pins, the order in which these properties
-are applied is undetermined. To avoid any conflicts, GpioInt/GpioIo/PinFunction should provide a
-default value for these properties when PinConfig is used. If PinConfig is used to set pin bias,
-PullDefault should be used for GpioIo/GpioInt/ PinFunction. *If PinConfig is used to set debounce
-timeout, 0 should be used for GpioIo/GpioInt.*
-
-So that suggests that a value of 0 does not necessarily mean "disabled" but
-it means use a default, or possibly get the value from somewhere else such
-as from a ACPI PinConfig description (if present).
-
-So I see 2 ways to move forward with his:
-
-1. Just disable the debounce filter for level type IRQs; or
-2. Add a helper to sanitize the debounce pulse-duration setting and
-   call that when setting the IRQ type.
-   This helper would read the setting check it is not crazy long for
-   an IRQ-line (lets say anything above 1 ms is crazy long) and if it
-   is crazy long then overwrite it with a saner value.
-
-2. is a bit tricky, because if the IRQ line comes from a chip then
-obviously max 1ms debouncing to catch eletrical interference should be
-fine. But sometimes cheap buttons for things like volume up/down on tablets
-are directly connected to GPIOs and then we may want longer debouncing...
-
-So if we do 2. we may want to limit it to only level type IRQs too.
-
-Note I have contacted AMD about this and asked them for some input on this,
-ideally they can tell us how exactly we should program the debounce filter
-and based on which data we should do that.
-
-Regards,
-
-Hans
-
+I will make all the suggested changes.
+Thanks!
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
