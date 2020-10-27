@@ -2,110 +2,102 @@ Return-Path: <SRS0=NLmV=EC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28339C56201
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 09:52:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CEAC388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 10:04:35 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ACE4A20759
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 09:52:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3A65721D24
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Oct 2020 10:04:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k7S+sBnO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ACE4A20759
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jVYuPil2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A65721D24
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4C195870E5;
-	Tue, 27 Oct 2020 09:52:33 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8E6BE8726D;
+	Tue, 27 Oct 2020 10:04:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2Vq3xIjACkXc; Tue, 27 Oct 2020 09:52:32 +0000 (UTC)
+	with ESMTP id dzuQhzn05iaT; Tue, 27 Oct 2020 10:04:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DF6FE870C1;
-	Tue, 27 Oct 2020 09:52:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 099088724D;
+	Tue, 27 Oct 2020 10:04:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DB997C0859;
-	Tue, 27 Oct 2020 09:52:32 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5DD9EC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E5F36C1AD5;
+	Tue, 27 Oct 2020 10:04:31 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 76E4AC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 09:52:32 +0000 (UTC)
+ Tue, 27 Oct 2020 10:04:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4B71E870C3
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6616F843EC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 09:52:32 +0000 (UTC)
+ Tue, 27 Oct 2020 10:04:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N7JYo6a6x3GP
+ with ESMTP id PqF-ModP4LAh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 09:52:31 +0000 (UTC)
+ Tue, 27 Oct 2020 10:04:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 363F6870C1
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E702284693
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 09:52:31 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id h6so482430pgk.4
+ Tue, 27 Oct 2020 10:04:28 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id bc23so793023edb.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Oct 2020 02:52:31 -0700 (PDT)
+ Tue, 27 Oct 2020 03:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wh2Hw8EQyBD0Ddx8+aLTmA94GJKfHflrTQAtGiNwqjA=;
- b=k7S+sBnOSCWLi9gS94OK1suhL54C/xa8qk9PbC2/Ct/ad7G5m7J95qIOWJH1g3fQ32
- fEDDJgNe5Y0II0MgJogToX8CB9MCU0JyuItlUzVy7j9AMDMhssKRF5oIHu7QQ0HhIJvP
- AqCk86+NVzY8NfgsUNq6CFPGnCWwRhKPArXfdNQGqu9lR7YydzWxKdgQ4iH4rK8j+hT2
- qAe92PSiDmVPwrmr1TkyaEROrbh9tzoq1T6fx/UgtP4ujAVacDlmA7TG1c7b1DBtzZe4
- VFpKY3eubAqb+FJau8xRuMbjMpiHrdsFnEsZ2qHh+5euSdreoPGoU+oJmveVzxWtYar8
- VHIw==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=8pTHQKR+vcS+hwLl92NUAFl9Lf9iYDupp1UFEMFqwoo=;
+ b=jVYuPil2SST9HRcmViUDFdXkOjS5NPHaDntnbgIuk2wQlAjfm0ippuBKOBjAtCzEW7
+ bxjfDvsb6v9MSwaUEKyVF/mXxyoLq8h0P0NlP45pxudvVPnT4rjX75LMhE/biSmVnR2G
+ bPx4uNTr6qBFrrqn/W6gVhXssmBBj0iF1DAGMQy2GcHqH8WY8/We/QZK5NEwvDCNSrQh
+ vP4vZvb5EeSt2oQCtiTwxFf17wf1xvo87ROWbaW3Ug3K/cDP2SLM/I8PPcPv1eJnx4xK
+ ehUmqJrGP4PTldfB9x8metOYEKq/bxEvLOui/kZJhumhrcCzIDabPdmz7inRQs7FgI8p
+ 4JyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wh2Hw8EQyBD0Ddx8+aLTmA94GJKfHflrTQAtGiNwqjA=;
- b=LAcn3ed1EW+5l1UlnpL1x3oALjR36rgAss70N3Zjz+sHJlTX5T4jJnHsORAZv643Yn
- XMyBtnDmyIcTK7Gz0gngyds18Y9KdGKTdbCZBevuKRD18etGw/9bOHRaaatK6NMHoUqE
- mA4yhnGSrsd69Q/PqIoGlC5vsbHoFT5iR1cxQNfnnX2+cgZsYRDybrWLvkXBzp+8XOzE
- iCvP7SK7BYxSgFxio+NRsY2aOkFzCb2ZVoT04CyhBDbrcnMtbQ4aLmD1WqzDh0IoWlKi
- 3lS3/rrchqmqmeUjT7zSHNBXvYTdy49CNV3eISB3+mS+F079yz5FpcSmeu+Wf/icdGhX
- +Mmg==
-X-Gm-Message-State: AOAM532/qj5G31fUXuVqZm5VfNGIWKC8Lpd9kyi030S9fCWvBzh9zPP6
- zPrrOjTHs3EKnTMqLfDWtgqyemkgm7Ij9bo4MA8=
-X-Google-Smtp-Source: ABdhPJzkEGgGZewNw2BKSvNe4Bk+gwQcxoZALl2cLT2PGihJey9WvkfVQ7IeOXbSMrNRHG8AAjNGmkQ6k5q3zbonpEA=
-X-Received: by 2002:a62:343:0:b029:15c:e33c:faff with SMTP id
- 64-20020a6203430000b029015ce33cfaffmr746550pfd.7.1603792350629; Tue, 27 Oct
- 2020 02:52:30 -0700 (PDT)
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=8pTHQKR+vcS+hwLl92NUAFl9Lf9iYDupp1UFEMFqwoo=;
+ b=WK67fHIfGDXL7EgJtAsKhv90LZAcGp5WpyNX/JwFcYbIaQXJnlzN3Mv3c7VxYqkNKg
+ 9oTNNYsyBs3XJFW0KYO8pm/VPBinTMNXcEhJyBPTe4cyvmpgH6KxrQrcw0rUQoSO+ZvK
+ lbO+tUxe9BQLXC+YYkl3Ywnqmo4qAPo88qGkccKsPorDDQArmR+if5+Y9YBLroTBSJsJ
+ 2xyWR/giG2qNn/rmNcl+239xiQ642CS6L6JsqZ79DFO3ym+1aMkyZ51E3fbEksl+g57l
+ QJC7BFLUDjqTgRJ2T/3u3YzNJc0/MV/71U+FoBS+cVXVsjGeCzzHFQdYtjAeudLnhQ+w
+ gf8A==
+X-Gm-Message-State: AOAM530Q+C3S058eArufktNJELGTT7UWjfPAqblvrEygI0QCI53gp+tj
+ j+KEezu5habYPrXrLx2/fAE=
+X-Google-Smtp-Source: ABdhPJz7ZK19xBO1J01VPLa7sY75HpzJA1bLI79e4Q4R6ARP69i9h9QO9FqOXB3KWB0iTkKnwuKYzQ==
+X-Received: by 2002:a50:cf45:: with SMTP id d5mr1315465edk.225.1603793067279; 
+ Tue, 27 Oct 2020 03:04:27 -0700 (PDT)
+Received: from felia ([2001:16b8:2de9:3700:3160:107b:5425:634f])
+ by smtp.gmail.com with ESMTPSA id m11sm638880edv.14.2020.10.27.03.04.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 03:04:26 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Tue, 27 Oct 2020 11:04:25 +0100 (CET)
+X-X-Sender: lukas@felia
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+In-Reply-To: <CABJPP5DfCpCA3eD48WPU0H11gRTEN6eZzJvk7LEPVnPUj0M=Lg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2010271053560.7937@felia>
+References: <alpine.DEB.2.21.2010270918030.7937@felia>
+ <CABJPP5DfCpCA3eD48WPU0H11gRTEN6eZzJvk7LEPVnPUj0M=Lg@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-References: <20201003230340.42mtl35n4ka4d5qw@Rk>
- <20201004051644.f3fg2oavbobrwhf6@Rk>
- <20201006044941.fdjsp346kc5thyzy@Rk>
- <e9cfac98-51fc-b169-cb74-80fd11de12ec@redhat.com>
- <20201006083157.3pg6zvju5buxspns@Rk>
- <69853d2b-239c-79d5-bf6f-7dc0eec65602@redhat.com>
- <4f02cbdf-e1dd-b138-4975-118dd4f86089@redhat.com>
- <a07d3890-f560-855f-3631-a3d5848dcdf5@redhat.com>
- <20201014042420.fkkyabmrkiekpmfw@Rk>
- <df2c008b-e7b5-4fdd-42ea-4d1c62b52139@redhat.com>
- <20201026225400.37almqey2wxyazkn@Rk>
-In-Reply-To: <20201026225400.37almqey2wxyazkn@Rk>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 27 Oct 2020 11:52:14 +0200
-Message-ID: <CAHp75VeGs6v7EKfQ30YPf8gUE+fftUP3V8HRif7P9xs1wkXcKg@mail.gmail.com>
-To: Coiby Xu <coiby.xu@gmail.com>
-Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, wang jun <availa@outlook.com>,
- Hans de Goede <hdegoede@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Nehal Shah <Nehal-bakulchandra.Shah@amd.com>
-Subject: Re: [Linux-kernel-mentees] Any other ways to debug GPIO interrupt
- controller (pinctrl-amd) for broken touchpads of a new laptop model?
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Current state of your checkpatch.pl work
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -123,48 +115,42 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Oct 27, 2020 at 2:07 AM Coiby Xu <coiby.xu@gmail.com> wrote:
+On Tue, 27 Oct 2020, Dwaipayan Ray wrote:
+
+> On Tue, Oct 27, 2020 at 1:58 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> >
+> > Hi Dwaipayan,
+> >
+> > can you quickly update your Google Doc with the current state of
+> > patches/features that you are currently working on, that are done, and
+> > that we decided not to work on?
+> >
+> > Just to make sure that in case Aditya wants to start working on something,
+> > we do not coincidently work there on the same and duplicate the efforts.
+> >
+> >
+> > Thanks,
+> >
+> > Lukas
+> 
+> Hi,
+> I have updated the docs with the data - current status, solved ones and
+> things which need to be done and things which should not be done.
+> 
+> The link is:
+> https://docs.google.com/document/d/1kO6Bq27OFHgQaQYKIfSLh-0tfO_7gQIe6CdrVxY6AMQ/edit?usp=sharing
+> 
+> Please let me know if you can access it and if I should add anything
+> more to it for clarity.
 >
-> Hi Hans and Linus,
->
-> Will you interpret the 0x0000 value for debounce timeout in GPIO
-> Interrupt Connection Resource Descriptor as disabling debouncing
-> filter?
->
-> GpioInt (EdgeLevel, ActiveLevel, Shared, PinConfig, DebounceTimeout, ResourceSource,
-> ResourceSourceIndex, ResourceUsage, DescriptorName, VendorData) {PinList}
 
-According to the spec
+Looks good to me. I think you are on a good path considering the issues 
+you are looking at and the patches you are preparing.
 
-DebounceTimeout is an optional argument specifying the debounce wait
-time, in hundredths of
-milliseconds. The bit field name _DBT is automatically created to
-refer to this portion of the resource
-descriptor.
+No need for more details... just keep working on the patches. So far, Joe 
+Perches has accepted them all after a few code reviews.
 
-I interpret this as 0 == no debounce (or a minimum that hardware has
-if there is no possibility to disable).
-
-> I'm not sure if Windows' implementation is the de facto standard like
-> i2c-hid. But if we are going to conform to the ACPI specs and we would
-> regard 0x0000 debounce timeout as disabling debouncing filter, then we
-> can fix this touchpad issue and potentially some related issues by
-> implementing the feature of supporting configuring debounce timeout in
-> drivers/gpio/gpiolib-acpi.c and removing all debounce filter
-> configuration in amd_gpio_irq_set_type of drivers/pinctrl/pinctrl-amd.c.
-> What do you think?
->
-> A favorable evidence is I've collected five DSDT tables when
-> investigating this issue. All 5 DSDT tables have an GpioInt specifying
-> an non-zero debounce timeout value for the edge type irq and for all
-> the level type irq, the debounce timeout is set to 0x0000.
-
-To the future mails: please, do not top-post.
-And please remove a huge amount of unrelated lines in the reply.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
