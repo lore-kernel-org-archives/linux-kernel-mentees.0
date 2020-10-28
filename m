@@ -2,106 +2,111 @@ Return-Path: <SRS0=l7vb=ED=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A13C388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Oct 2020 16:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 794F6C388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Oct 2020 16:19:31 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0F00F247D4
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Oct 2020 15:59:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B7A40247E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Oct 2020 16:19:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLET7x1W"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0F00F247D4
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJj11ciI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7A40247E5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 78E4020796;
-	Wed, 28 Oct 2020 15:59:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4180F2078D;
+	Wed, 28 Oct 2020 16:19:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6Ip5i9nip8gi; Wed, 28 Oct 2020 15:59:59 +0000 (UTC)
+	with ESMTP id gK9rS5nwk0vW; Wed, 28 Oct 2020 16:19:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2D6AA20526;
-	Wed, 28 Oct 2020 15:59:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9114220784;
+	Wed, 28 Oct 2020 16:19:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 18BE0C0859;
-	Wed, 28 Oct 2020 15:59:59 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6F4DBC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 88341C088B;
+	Wed, 28 Oct 2020 16:19:29 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B101CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Oct 2020 15:59:58 +0000 (UTC)
+ Wed, 28 Oct 2020 16:19:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 55D5D86896
+ by hemlock.osuosl.org (Postfix) with ESMTP id 97F8D87490
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Oct 2020 15:59:58 +0000 (UTC)
+ Wed, 28 Oct 2020 16:19:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 763EGU_y_90V
+ with ESMTP id 8IVxRh0EK+91
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Oct 2020 15:59:57 +0000 (UTC)
+ Wed, 28 Oct 2020 16:19:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6D0928665E
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 12A6587487
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Oct 2020 15:59:57 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id t20so5723119edr.11
+ Wed, 28 Oct 2020 16:19:28 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id i26so3077148pgl.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Oct 2020 08:59:57 -0700 (PDT)
+ Wed, 28 Oct 2020 09:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=cJAn77o994EfkkHhXKW4sk2WJiLCtolXbWlqLCiVSLA=;
- b=dLET7x1WLlIgkTBihyZ3NSCMWZ4h1kUjvuMlPzK+BIckCkHIdYGwDsZ4PTQAhXU+vZ
- n9hGCb6esbikFUl0OXlVZQfMlPJwv4Ch5FEUIDnd2E+RyB53/P6DIsFUSK+gZxEJJY7B
- vpk3S84WNa4Tn/o9Yv1LaIYogsfoSe2m+7y+aDm6z0vVnZBTo5hdeEi8+8gfJmZcayru
- BWs+445Ru00hyx3UiggHr2Zi3hrq+6J9fzJtoBQdPWc89QBcZCiUis58hi8wOkNQ6nhV
- z2Bmoy7NCGjjzsbnnCkqgVxu5AfD8oLyak4X/B/R35AanjWlHyTdRaZ/cf1vAZgwcL6q
- lM/A==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=P2T+UqYIS0dJpIJQMJnEZs+QxG6HSzJVQAcItzmGQHo=;
+ b=cJj11ciImUo6mdr3+Xl/22tScjoA39k2QP0v07PKWaxO6yM6QUDPxx4WP2vOAGgj2y
+ YuCYgDVJ+0n8E+dgzT1YClAX6Qv5oqtOaGi4uQ6ZuqrjcVYIs0eVz/CHK8mn746lJ08j
+ m/qLe0U+fVKNKTOwJpde5aTabtZ7+QU1PqURsKXdufji/AG/NC1EFLgo+DKea3lVZzgH
+ gjvkj6uY7c0+Zt/MH0zmuV8XxjbGLwtJssUN3tIDUH5g6RZjp85isxkyA7dmtlTtA+pB
+ nw8jac3pxgq3jg8mld3hS52Fh0qa4AXjRxDGBFS5bARlfhP0hoGwCumX3jcwzuaa/r5f
+ sZng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=cJAn77o994EfkkHhXKW4sk2WJiLCtolXbWlqLCiVSLA=;
- b=CHtWn5DhxrlYjJiKnRk4SRcdMkMrkOmpboEBo/JELOFKJiLMnwmaZZbQIlPzypCgeN
- 0iKm+XgiCS+STjQnqc0Jejl9GtSUfJNQhLa9+hOfkLIv8gknueUSlXfKvaR3AZwA6R7D
- ZFfkx1MODJEJCnckJTpRNOxkV+5PAlQC05EgKL57jYhkVm4tGhFGGs3j6OvH0Ftb1Nnn
- n58TxzcYOeR98zCINR/hC5TfPdhI8Bc9U5kPNjB6gLtVTr2fAO2F9KQ9VQ9lsZfmrPD+
- hn8rXeYCRqo6uh3pNnKLApmxn0Y9ZXyyc5Sv8M0oiza5bf6a3p+c0PpE/09RmjwYQbg+
- X0ew==
-X-Gm-Message-State: AOAM532u5VsZfK+0dU495mvXOnU23Bd4H4pm63zWWxPEHYdIUEggRgxO
- 5TRUZafz3ovj7dHe5CPExIp5gRqpw3aOeCbu
-X-Google-Smtp-Source: ABdhPJwLhQpShFIcR5l7Dh6dHSOlyAXBeDthVmrgN+AQ93bhJPqRAihcJFIYXBm4jQaXBlwN0x+OxA==
-X-Received: by 2002:a05:6402:134c:: with SMTP id
- y12mr8373061edw.344.1603900795878; 
- Wed, 28 Oct 2020 08:59:55 -0700 (PDT)
-Received: from felia ([2001:16b8:2d7a:200:a915:6596:e9b0:4f60])
- by smtp.gmail.com with ESMTPSA id qt11sm3241325ejb.16.2020.10.28.08.59.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 08:59:55 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date: Wed, 28 Oct 2020 16:59:47 +0100 (CET)
-X-X-Sender: lukas@felia
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Aditya Srivastava <yashsri421@gmail.com>
-In-Reply-To: <CABJPP5CkzaQ8x+b8UYZCLwXC1WaZL6+rpkespV684zkPAeJXrA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2010281659160.13040@felia>
-References: <20201028152501.106117-1-dwaipayanray1@gmail.com>
- <CABJPP5CkzaQ8x+b8UYZCLwXC1WaZL6+rpkespV684zkPAeJXrA@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P2T+UqYIS0dJpIJQMJnEZs+QxG6HSzJVQAcItzmGQHo=;
+ b=EBlbj9oV4/EOmhm0v9MvgBZiesMX+9wyOcT1VktJSb8IbQnKUKB68pUGqu0egnNkjs
+ gvyA1Fghgc2EfYCe3jXx8UVhyNW2kDFADfp1Jr6hW+JbQKqdEa8gVptG0eoPW6c6Dsbo
+ gh3IlElmV+OyZAVPyEB90jlKt1AnebgGW2uBLtqLjQrpbUzaXcnO1ZQAUtmXJW4cdN73
+ Ok90EjYpG+OUbDlgSqIjlh21lwiUMyzej6tPSPuw42dJ9nmUYUnwb3Rm43bRuPAMdS5j
+ q8A88CVWLxNdHYPT9tl7Kq+l7V/upjWp8INItBlhTEL/pHgv33FlVGRhTZ8haz7tSoJg
+ gizA==
+X-Gm-Message-State: AOAM533v07opyKEse99qChwY1vcmnZIvLl9Po9PVe4LwbZC9kxgTEBWM
+ CU2hVl7jMaYG7GPXC86vJzo=
+X-Google-Smtp-Source: ABdhPJy7tmbWyrCJ4tg+ic5fvsA7QiDKUKweLzvawrrS8ObLrP7Z/LS7DQXzyvtqdQNB/JrKyq5pJQ==
+X-Received: by 2002:a65:680c:: with SMTP id l12mr166846pgt.118.1603901967410; 
+ Wed, 28 Oct 2020 09:19:27 -0700 (PDT)
+Received: from ?IPv6:2402:3a80:41e:761b:9145:f028:1ed9:d699?
+ ([2402:3a80:41e:761b:9145:f028:1ed9:d699])
+ by smtp.gmail.com with ESMTPSA id h4sm5874101pgc.13.2020.10.28.09.19.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Oct 2020 09:19:26 -0700 (PDT)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <f5a91092-8bb2-5cae-6911-3f1d4150d627@gmail.com>
+ <CAKXUXMzVn8qe7wOmo==r2z74X7VnhFnOpAdAUtJJcRNr==9Wog@mail.gmail.com>
+ <3180d302-0b26-3bbb-4e7a-b19037a95ff1@gmail.com>
+ <f6539e89-bb5f-d706-99e2-1f8577889cdc@gmail.com>
+ <f9526bbd-edc9-8367-346c-f6b29f2c63a9@gmail.com>
+ <CAKXUXMyuLhmCwR8rK-Nw2L3__5gXFcDn86fVMEz--b3Nizqa-g@mail.gmail.com>
+ <ae7f0aa5-80e6-1ae7-6763-f62791982e89@gmail.com>
+ <CAKXUXMxv5Yw801ag6O-12--pmvoaY0yrqvJCAXvkjWvJ1bCtgg@mail.gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <7233c3d3-8247-95d2-f95b-c2a93556daf8@gmail.com>
+Date: Wed, 28 Oct 2020 21:49:07 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: improve handling
-	of email comments
+In-Reply-To: <CAKXUXMxv5Yw801ag6O-12--pmvoaY0yrqvJCAXvkjWvJ1bCtgg@mail.gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, yashsri421@gmail.com
+Subject: Re: [Linux-kernel-mentees] Mentee Proposal Feedback
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,118 +124,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On Wed, 28 Oct 2020, Dwaipayan Ray wrote:
-
-> On Wed, Oct 28, 2020 at 8:55 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
-> >
-> > checkpatch has limited support for parsing email comments. It only
-> > support single name comments or single after address comments.
-> > Whereas, RFC 5322 specifies that comments can be inserted in
-> > between any tokens of the email fields.
-> >
-> > On analyzing 50,000 commits from v5.4 it was found that there were
-> > about 370 false positives resulting from wrong parsing of comments.
-> >
-> > Improve comment parsing mechanism in checkpatch.
-> >
-> > What is handled now:
-> >
-> > - Multiple name/address comments
-> > - Comments anywhere in between name/address
-> > - Multi level comments like (John (Doe) )
-> >
-> > Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> > ---
-> >  scripts/checkpatch.pl | 19 ++++++++++++++-----
-> >  1 file changed, 14 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > index fab38b493cef..ae8436385fc1 100755
-> > --- a/scripts/checkpatch.pl
-> > +++ b/scripts/checkpatch.pl
-> > @@ -1183,14 +1183,20 @@ sub parse_email {
-> >                 }
-> >         }
-> >
-> > -       $comment = trim($comment);
-> > +       # Comments in between name like John(A nice chap) Doe
-> > +       while ($name =~ s/\s*($balanced_parens)\s*/ /) {
-> > +               $name_comment .= trim($1);
-> > +       }
-> >         $name = trim($name);
-> >         $name =~ s/^\"|\"$//g;
-> > -       if ($name =~ s/(\s*\([^\)]+\))\s*//) {
-> > -               $name_comment = trim($1);
-> > +
-> > +       # Comments in between address like <john(his account)@doe.com>
-> > +       while ($address =~ s/\s*($balanced_parens)\s*//) {
-> > +               $comment .= trim($1);
-> >         }
-> >         $address = trim($address);
-> >         $address =~ s/^\<|\>$//g;
-> > +       $comment = trim($comment);
-> >
-> >         if ($name =~ /[^\w \-]/i) { ##has "must quote" chars
-> >                 $name =~ s/(?<!\\)"/\\"/g; ##escape quotes
-> > @@ -1205,8 +1211,6 @@ sub format_email {
-> >
-> >         my $formatted_email;
-> >
-> > -       $name_comment = trim($name_comment);
-> > -       $comment = trim($comment);
-> >         $name = trim($name);
-> >         $name =~ s/^\"|\"$//g;
-> >         $address = trim($address);
-> > @@ -1216,6 +1220,11 @@ sub format_email {
-> >                 $name = "\"$name\"";
-> >         }
-> >
-> > +       $name_comment = trim($name_comment);
-> > +       $name_comment =~ s/(.+)/ $1/;
-> > +       $comment = trim($comment);
-> > +       $comment =~ s/(.+)/ $1/;
-> > +
-> >         if ("$name" eq "") {
-> >                 $formatted_email = "$address";
-> >         } else {
-> > --
-> > 2.27.0
-> >
+On 28/10/20 1:53 pm, Lukas Bulwahn wrote:
+> On Wed, Oct 28, 2020 at 9:18 AM Aditya <yashsri421@gmail.com> wrote:
+>>
+>> On 28/10/20 11:03 am, Lukas Bulwahn wrote:
+>>>
+>>> I added some comments.
+>>> I suggest committing for the first three weeks to create at least five
+>>> new fix features in checkpatch.pl and get those patches accepted..
+>>>
+>>> Maybe you can already make a list of suggestions for automatic fix
+>>> features that you think are worth being implemented?
+>>>
+>>> What do you think?
+>>>
+>>> Lukas
+>>>
+>>
+>> I agree. I'll try to be more specific on this one.
+>> As I have not used this feature in past, I'd appreciate if others can
+>> help me regarding more issues they faced using it. This could also
+>> help me focus on more relevant issues.
+>>
 > 
-> Hi,
-> This patch is a follow up to our discussion earlier about improving the
-> comment handling at:
-> https://lore.kernel.org/linux-kernel-mentees/alpine.DEB.2.21.2010251022060.25172@felia/
+> Look at your evaluation and think what a suitable fix could be and
+> then look if that has already been implemented or not.
+> If not, you have a suitable task.
 > 
-> I have only tested it on a few patterns.  But I will run an
-> evaluation again on those 50k commits to see what changes.
 > 
-> What do you think of this?
->
+> Lukas
+> 
 
-That was exactly the comment I wanted to make.
+Thanks a lot for your suggestion sir. I have added specific tasks in
+my mentorship proposal doc. Kindly have a look and give suitable feedback.
 
-Commit message is clear; code addition also looks pretty clear.
+Link:
+https://docs.google.com/document/d/17ojyD17ZvcQZjP77a4eChSPKcm1iP7u_p_xmRWam1ek/edit?usp=sharing
 
-We are just missing the evaluation to make sure how much we improve and 
-that we did not add some stupid bug on the way.
-
-Aditya, can you help us here with evaluation?
-
-E.g., Dwaipayan takes from v5.4 into the future, e.g., until v5.8/v5.9 or 
-so.
-
-Aditya, you could then check e.g., v5.0..v5.4, so v5.4 down to the past as 
-far as your computer and scripts handles within roughly half a day...
-
-An evaluation on 100,000 commits is certainly a good basis.
-
-Of course, every mentorship candidate can join here as well and show off 
-their own evaluation script.
-
-Lukas
+Thank You
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
