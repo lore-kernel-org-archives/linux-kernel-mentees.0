@@ -2,103 +2,101 @@ Return-Path: <SRS0=/L4e=EF=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3D4DC00A89
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 09:37:43 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53701C4363A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 10:45:25 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 282CB20724
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 09:37:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7F4AA20720
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 10:45:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QB/44L2y"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 282CB20724
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UmYHjJew"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F4AA20720
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 82030868A9;
-	Fri, 30 Oct 2020 09:37:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B352D2050D;
+	Fri, 30 Oct 2020 10:45:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NzE7nC-dhvod; Fri, 30 Oct 2020 09:37:42 +0000 (UTC)
+	with ESMTP id a9QdV+A0-Kig; Fri, 30 Oct 2020 10:45:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0FA8481F0F;
-	Fri, 30 Oct 2020 09:37:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B06372047B;
+	Fri, 30 Oct 2020 10:45:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 020C2C0859;
-	Fri, 30 Oct 2020 09:37:42 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 680B7C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 92884C088B;
+	Fri, 30 Oct 2020 10:45:20 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2107EC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 09:37:41 +0000 (UTC)
+ Fri, 30 Oct 2020 10:45:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 57419868A9
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0831C8621D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 09:37:41 +0000 (UTC)
+ Fri, 30 Oct 2020 10:45:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dQHtZEXYj-XA
+ with ESMTP id 6Yox7PS9Wm89
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 09:37:40 +0000 (UTC)
+ Fri, 30 Oct 2020 10:45:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8989381F0F
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2B5BA8612E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 09:37:40 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id e15so4769567pfh.6
+ Fri, 30 Oct 2020 10:45:18 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id t25so7872934ejd.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 02:37:40 -0700 (PDT)
+ Fri, 30 Oct 2020 03:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5aVXnX620grHDgSsQ5xTgyg3OeYAemzZeXx5RrAujg0=;
- b=QB/44L2yx2cu3WTFJBbU7Fm6OlAUnsVL8UcvlIt9YlaKzoOjO7dF82Tkp1gVrVOb4l
- MsoPHY9OymiWUTtRylCR1NqwsMP93/f+VnpY+zxZwvyA3+03Z7fycvoLy8joNkG4ayr7
- VIh20uMkiNNcdUlVV5OhjKgn7HZhX2tAgrRi11CQ67tNUr8+IoKFgNptfhwODOQIaWiI
- ke5UohQcvuSLYBDf33x2F5M8IR2TYNU9Z28Geie+9GuGon940kDWZq9LR4aujh2Z6DRT
- Ex9EB8rlJHSI9g8VfjSaHF3+M5Wx9xhtMkQ4To4KunqFArepR6jM552291kFXezBpeuo
- bLeQ==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=t8aoSy0yuPyZvbmZesfhRLIy8e0pwuQhCSkQT/L6qTs=;
+ b=UmYHjJew2m0mpSsNWNHLbacWU1vsEWVus8iBs3lWX5YoPwpa48DAoS0Q1SvUnKLrMt
+ 2adXY7JWwXLbMVWRc1MaIST+OB1qMTOD+yljJTk6E93yJwtOrh6aIkaWTe4qth6robAo
+ XgFJgl28cnRGxfFXXjd81izPEV28hRFMnF2VyP2Z4crJn9lOqdZDtNiBqih/apYvB2jE
+ TPTfZ0pn97vjMIXqz14rrHGpJmUOPINNEx6bzUeKtm4Jks5pphrgnzQYsPIevBjau7Yf
+ CYMg7qEe+PZ+Fs2azrrWZDQ/PyntETkwkAQSnv1yjVWACxlgrDPHZyOJBY+WoTQbjBuf
+ nN4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5aVXnX620grHDgSsQ5xTgyg3OeYAemzZeXx5RrAujg0=;
- b=FH4Ouqb0OmF04p+xH/J1jW0v8aRXV0CCx3v+p7VxmALvk5lN+GHSk2AK8hXr7dOkbH
- yq4LmqwdIHLxSUrOTpIJDB6gwINYxkKKKW/WJel+eDFoLdNlOOdw2MqzvhWTHerGF5bz
- folfsHbf+6PpcDVfx2iXap1nDDdr7V35cDOaVTBHKT2eXuBJ4GFpZbcH2cvMMrNz/bKX
- uwFYqbyJRCLm9Xkl3J3N3+tQZbPiRka0+WLpSt2NeN18+Krg8S9xD94YveQgHOAdbrq6
- 4FKugPRVGavA9XmOIjzTKs2LXQu4+QVnFunYfCqn5XOpkjVOcRnd+B7SzT1lXZ6qcUMV
- xOqA==
-X-Gm-Message-State: AOAM532hcgHV0k407odEq+LaeHLUAEzug4xXetWkdLdEuMl2xaGhPitA
- MkYhSBkfJU+7xXe4OspsSYbPYpbZfPmTLw==
-X-Google-Smtp-Source: ABdhPJyfhnPuEd0FqMjFJ5KvsCLutgYZCzLXKWv1OoLJsJwCM/oxD2ikDS/eJvn0FKOFAjfopdpJ8A==
-X-Received: by 2002:a62:7695:0:b029:152:3ddd:24a3 with SMTP id
- r143-20020a6276950000b02901523ddd24a3mr8067786pfc.2.1604050659711; 
- Fri, 30 Oct 2020 02:37:39 -0700 (PDT)
-Received: from ?IPv6:2402:3a80:43d:9a7f:2d51:fcbb:1c2a:666a?
- ([2402:3a80:43d:9a7f:2d51:fcbb:1c2a:666a])
- by smtp.gmail.com with ESMTPSA id s22sm5380093pfu.119.2020.10.30.02.37.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Oct 2020 02:37:39 -0700 (PDT)
-To: lukas.bulwahn@gmail.com
-References: <20201030082335.14256-1-yashsri421@gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <a3c50073-4af5-9f58-bdb1-831c6e900b57@gmail.com>
-Date: Fri, 30 Oct 2020 15:07:35 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=t8aoSy0yuPyZvbmZesfhRLIy8e0pwuQhCSkQT/L6qTs=;
+ b=JA3GRPttac2a9HFggG82owF55dEnCGcIdlIsADvDCTpbtoXX35PdLORl9dX4jVTXQf
+ o22gdYuZcttP3kL0KyBOQDV4g4V2BwVy/8eiXzSp39uQPv6xE3Seb+U9/FK9+eFX8XsP
+ J6TsEBc5o/LoYgp16B0KoMpxHFfFfp1q6uHFRMa8X6VDiHwijbPhYHW2KFrJgp1HH/9f
+ rc6T+kAAG0IpurVk4RghaJo0TB7SIV0wKllnySfEW0bd/rzb5hSqM61XT+3Kr5E8Y9xi
+ hRoV9AYz2O3B/75akcfnbphsCU+mRiXQhjR4dZwQzwjM9AkXVe1HTIaS27dsUSECyH5j
+ JJLA==
+X-Gm-Message-State: AOAM532It3A8yeg2RZzgemua2j63vf4vVLPI8+4oM7bDvEPLKfX7hvwX
+ vFVXaOfy8LFnsD2pgYFVTxg=
+X-Google-Smtp-Source: ABdhPJyg/J5UdfRGAXjUQS8tjaNsS6uK7NkuUdkhPQLY6d3uq8t692ZREYlfDKCxoz11Exzyhw+IyQ==
+X-Received: by 2002:a17:906:3294:: with SMTP id
+ 20mr1739744ejw.322.1604054716691; 
+ Fri, 30 Oct 2020 03:45:16 -0700 (PDT)
+Received: from felia ([2001:16b8:2d02:400:25af:1ff4:dc3:177c])
+ by smtp.gmail.com with ESMTPSA id by8sm2259742edb.49.2020.10.30.03.45.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Oct 2020 03:45:15 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Fri, 30 Oct 2020 11:45:14 +0100 (CET)
+X-X-Sender: lukas@felia
+To: Aditya Srivastava <yashsri421@gmail.com>
 In-Reply-To: <20201030082335.14256-1-yashsri421@gmail.com>
-Content-Language: en-US
+Message-ID: <alpine.DEB.2.21.2010301134390.16621@felia>
+References: <20201030082335.14256-1-yashsri421@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
 	ERROR:GERRIT_CHANGE_ID
@@ -119,23 +117,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 30/10/20 1:53 pm, Aditya Srivastava wrote:
+
+I would drop the ERROR:, just say: add fix option for GERRIT_CHANGE_ID
+
+On Fri, 30 Oct 2020, Aditya Srivastava wrote:
+
 > Currently, whenever gerrit change id is present in commit, checkpatch.pl
+...whenever a Gerrir Change-Id is present in a commit,
+
 > gives an error to remove the change id before submitting the patch.
-> 
+>
+s/gives an error/warns/
+s/change id/Change-Id/
+ 
 > For eg, running checkpatch on commit adc311a5bbf6 ("iwlwifi: bump FW
+
+Just: "E.g.," not "For eg"
+ 
 > API to 53 for 22000 series"), causes error:
+
+s/causes error/reports this error/
+
 > 
 > ERROR:GERRIT_CHANGE_ID: Remove Gerrit Change-Id's before submitting
 > upstream
 > Change-Id: I5725e46394f3f53c3069723fd513cc53c7df383d
-> 
+>
+
+The default setup does not show the type name, I would suggest to just 
+show the default output from checkpatch.pl.
+ 
 > But there is no --fix option present for this error message, in case
 > user wants to fix it immediately.
 > 
 > To fix this error, delete the corresponding line from the patchfile when
 > checkpatch.pl is executed with --fix
 > 
+
+Provide a simple fix option by simply deleting the indicated line.
+
 > Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 > ---
 >  scripts/checkpatch.pl | 7 +++++--
@@ -156,16 +176,18 @@ On 30/10/20 1:53 pm, Aditya Srivastava wrote:
 > +			    $fix) {
 > +                                fix_delete_line($fixlinenr, $rawline);
 > +                        }
+
+The change itself looks good to me.
+
+Rework the commit message, send it out again here for a second check and 
+if it is fine then you can submit it to Joe and lkml.
 >  		}
 >  
 >  # Check if the commit log is in a possible stack dump
+> -- 
+> 2.17.1
 > 
-
-Sir I have a doubt: Can I start working on another patch and send that
-too before the first one gets accepted?
-
-Thanks
-Aditya
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
