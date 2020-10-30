@@ -2,79 +2,81 @@ Return-Path: <SRS0=/L4e=EF=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_NONE
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4508C4363A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 12:21:52 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E0AC4363A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 12:48:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 16E7A20724
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 12:21:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16E7A20724
+	by mail.kernel.org (Postfix) with ESMTPS id 83DC120725
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 12:48:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 83DC120725
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7DF7587053;
-	Fri, 30 Oct 2020 12:21:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E13DF861C8;
+	Fri, 30 Oct 2020 12:48:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 83-8WRvjQJZT; Fri, 30 Oct 2020 12:21:51 +0000 (UTC)
+	with ESMTP id hWULrUSGBsBk; Fri, 30 Oct 2020 12:48:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 127E487011;
-	Fri, 30 Oct 2020 12:21:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2449D85F8C;
+	Fri, 30 Oct 2020 12:48:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F0448C088B;
-	Fri, 30 Oct 2020 12:21:50 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3E956C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0967EC088B;
+	Fri, 30 Oct 2020 12:48:25 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D70A9C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:21:49 +0000 (UTC)
+ Fri, 30 Oct 2020 12:48:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 32C5087018
+ by whitealder.osuosl.org (Postfix) with ESMTP id CB62B868EB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:21:49 +0000 (UTC)
+ Fri, 30 Oct 2020 12:48:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id txcrm87KwJad
+ with ESMTP id Xp9SIrflm+EG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:21:48 +0000 (UTC)
+ Fri, 30 Oct 2020 12:48:22 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0084.hostedemail.com
- [216.40.44.84])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 035FE87011
+Received: from smtprelay.hostedemail.com (smtprelay0158.hostedemail.com
+ [216.40.44.158])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A7E81868E2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:21:48 +0000 (UTC)
+ Fri, 30 Oct 2020 12:48:22 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 1C24B181CBC08
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 30 Oct 2020 12:10:14 +0000 (UTC)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
  [216.40.38.60])
- by smtprelay08.hostedemail.com (Postfix) with ESMTP id 2A063182CF669;
- Fri, 30 Oct 2020 12:21:47 +0000 (UTC)
+ by smtprelay05.hostedemail.com (Postfix) with ESMTP id 94D22180286DE;
+ Fri, 30 Oct 2020 12:10:11 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: fall60_110101e27296
-X-Filterd-Recvd-Size: 3079
+X-HE-Tag: turn44_2e084d327295
+X-Filterd-Recvd-Size: 2361
 Received: from XPS-9350.home (unknown [47.151.133.149])
  (Authenticated sender: joe@perches.com)
- by omf18.hostedemail.com (Postfix) with ESMTPA;
- Fri, 30 Oct 2020 12:21:45 +0000 (UTC)
-Message-ID: <a4d1d9412d30b060c246d33427f319cdd4a39b5e.camel@perches.com>
+ by omf06.hostedemail.com (Postfix) with ESMTPA;
+ Fri, 30 Oct 2020 12:10:10 +0000 (UTC)
+Message-ID: <926a2f22e12bf989d46dc36c8779c50183bf4b7e.camel@perches.com>
 From: Joe Perches <joe@perches.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 30 Oct 2020 05:21:44 -0700
-In-Reply-To: <alpine.DEB.2.21.2010301255460.16621@felia>
-References: <20201030090704.40533-1-dwaipayanray1@gmail.com>
- <9d5c8699f94481ab5bf2d37348199ca1d6343c8b.camel@perches.com>
- <alpine.DEB.2.21.2010301255460.16621@felia>
+To: Aditya Srivastava <yashsri421@gmail.com>
+Date: Fri, 30 Oct 2020 05:10:09 -0700
+In-Reply-To: <20201030114447.24199-1-yashsri421@gmail.com>
+References: <20201030114447.24199-1-yashsri421@gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- yashsri421@gmail.com
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: improve handling of
-	email comments
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
+	GERRIT_CHANGE_ID
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,64 +88,58 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, 2020-10-30 at 12:58 +0100, Lukas Bulwahn wrote:
-> On Fri, 30 Oct 2020, Joe Perches wrote:
-> > On Fri, 2020-10-30 at 14:37 +0530, Dwaipayan Ray wrote:
-> > > checkpatch has limited support for parsing email comments. It only
-> > > support single name comments or single after address comments.
-> > > Whereas, RFC 5322 specifies that comments can be inserted in
-> > > between any tokens of the email fields.
-> > > 
-> > > Improve comment parsing mechanism in checkpatch.
-> > > 
-> > > What is handled now:
-> > > 
-> > > - Multiple name/address comments
-> > > - Comments anywhere in between name/address
-> > > - Nested comments like (John (Doe))
-> > > 
-> > > A brief analysis of checkpatch output on v5.0..v5.7 showed that
-> > > after these modifications, the number of BAD_SIGN_OFF warnings
-> > > came down from 2944 to 1424, and FROM_SIGN_OFF_MISMATCH came
-> > > down from 2366 to 2330.
-> > > 
-> > > So, a total of 1556 false positives were resolved in total.
-> > 
-> > A mere reduction in messages emitted isn't necessarily good.
-> > 
-> 
-> Agree. That is why I also went through the list of those warnings.
+On Fri, 2020-10-30 at 17:14 +0530, Aditya Srivastava wrote:
+> Currently, whenever a Gerrit Change-Id is present in a commit,
+> checkpatch.pl warns to remove the Change-Id before submitting the patch.
+> =
 
-So sending me a copy of that list shouldn't be a burden.
- 
-> > Please send me privately a complete list of these nominally
-> > false positive messages that are no longer emitted.
-> > 
-> > I believe one of the relatively common incorrect messages is
-> > for the cc: <stable@vger.kernel.org> where a version number is
-> > continued on the same line after a #.
-> > 
-> > CC: stable@vger.kernel.org # for versions x.y.z and above
-> > 
-> 
-> That was one, another common pattern was just quotes put inconsistently at 
-> different places.
+> E.g., running checkpatch on commit adc311a5bbf6 ("iwlwifi: bump FW
+> API to 53 for 22000 series") reports this error:
+> =
 
-Which to me is more an indication that a message
-_should_ be emitted as many email clients do not like
-to copy/paste incorrectly formatted email addresses
-(ie: Missing necessary quotes when the name contains
-characters like .) and that's a common way to cc a
-reply to a possible commit message of an email.
+> ERROR: Remove Gerrit Change-Id's before submitting upstream
+> Change-Id: I5725e46394f3f53c3069723fd513cc53c7df383d
+> =
 
-Perhaps as well the .mailmap mechanism may not cope
-with these differently formatted email addresses.
+> Provide a simple fix option by simply deleting the indicated line.
+[]
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -2852,8 +2852,11 @@ sub process {
+> =A0
+> =
+
+> =A0# Check for Gerrit Change-Ids not in any patch context
+> =A0		if ($realfile eq '' && !$has_patch_separator && $line =3D~ /^\s*chan=
+ge-id:/i) {
+> -			ERROR("GERRIT_CHANGE_ID",
+> -			      "Remove Gerrit Change-Id's before submitting upstream\n" . $her=
+ecurr);
+> +			if (ERROR("GERRIT_CHANGE_ID",
+> +			          "Remove Gerrit Change-Id's before submitting upstream\n" . =
+$herecurr) &&
+> +			    $fix) {
+> +                                fix_delete_line($fixlinenr, $rawline);
+> +                        }
+> =A0		}
+
+Seems sensible, thanks.
+
+It might also be sensible if the line before and the line after
+this change-id is also blank to remove one of those blank lines.
+
+On second thought:
+
+A quick check shows less than 20 of those in kernel git history
+so it might not be too worthwhile.
+
+Acked-by: Joe Perches <joe@perches.com>
 
 
 _______________________________________________
