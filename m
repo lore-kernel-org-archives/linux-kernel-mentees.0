@@ -2,106 +2,93 @@ Return-Path: <SRS0=CDUK=EG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C995C56201
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 15:06:26 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE6EAC388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 20:53:17 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2CEA820702
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 15:06:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 32758206DC
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 20:53:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ons3Iwtl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2CEA820702
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zjd1OUqs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32758206DC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E1AF1870A1;
-	Sat, 31 Oct 2020 15:06:25 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BFED187624;
+	Sat, 31 Oct 2020 20:53:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id su2RaHAzexgh; Sat, 31 Oct 2020 15:06:23 +0000 (UTC)
+	with ESMTP id frEvJtzSErtk; Sat, 31 Oct 2020 20:53:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5272F870A7;
-	Sat, 31 Oct 2020 15:06:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4509A87621;
+	Sat, 31 Oct 2020 20:53:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 42363C0859;
-	Sat, 31 Oct 2020 15:06:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 29220C0859;
+	Sat, 31 Oct 2020 20:53:16 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5C61FC0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A0C97C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 15:06:22 +0000 (UTC)
+ Sat, 31 Oct 2020 20:53:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4BC5B870B9
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8371085F50
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 15:06:22 +0000 (UTC)
+ Sat, 31 Oct 2020 20:53:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yJedimx-Ztw8
+ with ESMTP id z9NQdbXHrxyE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 15:06:21 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
- [209.85.160.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 00B24870A7
+ Sat, 31 Oct 2020 20:53:14 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 23EAB85F32
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 15:06:20 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id m65so6249740qte.11
+ Sat, 31 Oct 2020 20:53:14 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id x23so4744329plr.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 08:06:20 -0700 (PDT)
+ Sat, 31 Oct 2020 13:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QsiEQVnJgPtjofsvEVgHEaYNKMcgYG0VOfEEFck/Y0E=;
- b=Ons3IwtlqNwytQZtrJPFI7YpsmxmFn+1eH1/8Omx15U4RqEb/fAv8Rwh7d7t4rt/ad
- kHQbCxounm/RC56gORVH5ZFtncdzhWmizPfjRxECz2LXXtaAuYcRMCAvmvKCSCHCW8Fd
- XRMQIcxb3bluBOsB6ebcbi40+D5PQ8w9QUj8y5cO3KiyCw8kIPpzvWBBoMKLDEcXZeH0
- Nwy5Xtc9imzU/A8pgly6eo7JXachxTaZZq8BdGsNTKmPwyK7H0xjpmfPhAhENsOhbzff
- +sXvgk9fe0xEuRopT3m9CE99FcSLOTzDz8tbgHNr/1X0momp52dxy4LvnZylqhwjnfDE
- A6WQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=tdsVpzPWzlpi/N8lTcJ/F/65jzaQjtuC1M3o0w/m6PI=;
+ b=Zjd1OUqs9g2lk+2itvGuZy98b62dzsXDDVXVQOjOOuO7BhyMMKVQFdHCiiDHPFcMsC
+ ETAE3ycmeKjwKAyOePp2LbJSBEx19ye32NQOVttD+cSF5NlaKAetqx9nNxsWHHEQ4x3m
+ yZslfiGHIATCmOwGNshgxPVB1CqwSjoK1kCQlHI/tkYITiQA4n7A2DUc+zkgVdJidWmA
+ YLEvW/KjWx5iVWIIm18W6ehnxZ5d11QJ4FC6gld+tj90jw9C7Sz3Vy0F//cR2wwwwkTx
+ eoPJvr8VuKvSnTDdIFPszcjWJUBDW+pAuq4eCXs22ciILp6TWtCi2CMni7KOO/B9SJhe
+ mAXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QsiEQVnJgPtjofsvEVgHEaYNKMcgYG0VOfEEFck/Y0E=;
- b=NAgw7xn5xb/EScaEfydu5scevdGsP9aYgk/djEuGW9wkB1FP9Y8wWdG4VxIIqVkgqb
- pEs+aGpqPing6TVsZpkyH/zZhBTyFuKnsP87yziKVq2WuvNSph76P2qxEdfRyAcFfMia
- lDo9bx7UgalnkH+5xrX3wyo9JYUWSUYyhHUzqk6fSqHjHnp6eKkAukZ9kQnD7TxDJGak
- N3b9E+0nZ+6ZCaw8RZNT/oByZ5kvHQw9sSx2DCNhECN5MKtin4kRFQt9m+DpCxfH6UNh
- 8gi6r4spxBEG3/fhU1rlH0dhDoSUKXEudeBfWBoZJ/O72mxgLvXyY4iPEvkw0Gjuzc8c
- 8WGA==
-X-Gm-Message-State: AOAM531pha72yVOH/dHX7djJxJcC1Cblr7UTLWciHmLH8eUDQoRNTe0C
- TCpI3HsgOAr50j7TDMicxyE=
-X-Google-Smtp-Source: ABdhPJyvKzMo/EH6egGHLYSZQaM7wCaxJM3USy6Z5R1ireViCAw3ezh7IY6TjlAFQAHtlivtdy64mw==
-X-Received: by 2002:aed:3383:: with SMTP id v3mr1261185qtd.353.1604156780081; 
- Sat, 31 Oct 2020 08:06:20 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id z125sm2317030qke.54.2020.10.31.08.06.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Oct 2020 08:06:19 -0700 (PDT)
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To: mchehab+huawei@kernel.org,
-	r.verdejo@samsung.com,
-	nicolas@ndufresne.ca
-Date: Sat, 31 Oct 2020 12:05:52 -0300
-Message-Id: <20201031150552.663598-7-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201031150552.663598-1-dwlsalmeida@gmail.com>
-References: <20201031150552.663598-1-dwlsalmeida@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=tdsVpzPWzlpi/N8lTcJ/F/65jzaQjtuC1M3o0w/m6PI=;
+ b=J5xeqg2rbBQY6lz4+VeKzLD1yGgoG0wkq6DW83HPGAJh7eFr0iyYqCLPsy1CMUPTRO
+ UBEVVBZ+nqiDZqGQRSf5okWjt1JeyjHRKh2TdTF+XXFQDrLbut5U0rl3jon3XW947Ioa
+ TpdXLtAta0+QtIBBOINp01m0BB8/2I7Tw1Qvsxc4UxhT0W7ZxnYJvtyYDxgD5i/KJiA9
+ DgUQ+5Nl0yA1JaPfi+UEASPDTmhIJeMXpk8MX4su7BQMM/VehistaIPU7qQ/N/dQiJ1Y
+ xDYMlGBSF/qhUcSHP1KpIQnt1jrJNnqwH/6n9xULOoakmZM95rTw8zu5a1vlbSkd3ly0
+ mDoA==
+X-Gm-Message-State: AOAM532Ajfrjsk0g1bWaCHYInuWMWUslk/FbiByDrLImRIZvyD4IlUCP
+ SYbhWCPpUxmbeQdZR9udBM3cJEDQYSlvDpPN77DSmlZ3zUyDmg==
+X-Google-Smtp-Source: ABdhPJxNTpzvMrP8I3bSNEsIiwTR7JIMQdaw78srbkgTVNPq0eWS+31XqX/O2cxsUEHoQnO3Ss3XCJfQQo1aqh7J4+4=
+X-Received: by 2002:a17:902:a70e:b029:d6:a25c:50db with SMTP id
+ w14-20020a170902a70eb02900d6a25c50dbmr8041500plq.34.1604177593451; Sat, 31
+ Oct 2020 13:53:13 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2 6/6] media: vidtv: psi: fix
-	missing assignments in while loops
+References: <CAJ3Q+7bum=ESExRa7mcjLWq9wXGfHOrVMOFqTuwVW60DUH=87A@mail.gmail.com>
+In-Reply-To: <CAJ3Q+7bum=ESExRa7mcjLWq9wXGfHOrVMOFqTuwVW60DUH=87A@mail.gmail.com>
+From: Drupad Joshi <drupadjoshi64@gmail.com>
+Date: Sun, 1 Nov 2020 02:23:02 +0530
+Message-ID: <CAJ3Q+7a_Ddw_iUcA4ijJxuD+Vt_E2M9X+pw7=nnBeZvfhh9v9g@mail.gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] Fwd: Linux kernel upstream patch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,101 +100,61 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6440718190910871364=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+--===============6440718190910871364==
+Content-Type: multipart/alternative; boundary="0000000000009d4ae105b2fdb3f9"
 
-Some variables were only assigned once but were used in while
-loops as if they had been updated at every iteration. Fix this.
+--0000000000009d4ae105b2fdb3f9
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- drivers/media/test-drivers/vidtv/vidtv_psi.c | 22 +++++++++-----------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+---------- Forwarded message ---------
+From: Drupad Joshi <drupadjoshi64@gmail.com>
+Date: Sun, 1 Nov 2020 at 02:04
+Subject: Linux kernel upstream patch
+To: <training@linuxfoundation.org>, <info@linuxfoundation.org>
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-index ad2957efa483..4dda5b0004a3 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-@@ -1175,9 +1175,7 @@ u32 vidtv_psi_pmt_write_into(struct vidtv_psi_pmt_write_args args)
- 
- 	struct vidtv_psi_desc *table_descriptor   = args.pmt->descriptor;
- 	struct vidtv_psi_table_pmt_stream *stream = args.pmt->stream;
--	struct vidtv_psi_desc *stream_descriptor  = (stream) ?
--						    args.pmt->stream->descriptor :
--						    NULL;
-+	struct vidtv_psi_desc *stream_descriptor;
- 
- 	struct header_write_args h_args = {};
- 	struct psi_write_args psi_args  = {};
-@@ -1237,6 +1235,8 @@ u32 vidtv_psi_pmt_write_into(struct vidtv_psi_pmt_write_args args)
- 
- 		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
- 
-+		stream_descriptor = stream->descriptor;
-+
- 		while (stream_descriptor) {
- 			/* write the stream descriptors, if any */
- 			d_args.dest_buf           = args.buf;
-@@ -1324,9 +1324,7 @@ u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args)
- 	u32 crc = INITIAL_CRC;
- 
- 	struct vidtv_psi_table_sdt_service *service = args.sdt->service;
--	struct vidtv_psi_desc *service_desc = (args.sdt->service) ?
--					      args.sdt->service->descriptor :
--					      NULL;
-+	struct vidtv_psi_desc *service_desc;
- 
- 	struct header_write_args h_args = {};
- 	struct psi_write_args psi_args  = {};
-@@ -1373,6 +1371,8 @@ u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args)
- 
- 		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
- 
-+		service_desc = service->descriptor;
-+
- 		while (service_desc) {
- 			/* copy the service descriptors, if any */
- 			d_args.dest_buf           = args.buf;
-@@ -1616,9 +1616,7 @@ u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
- 
- 	struct vidtv_psi_desc *table_descriptor     = args.nit->descriptor;
- 	struct vidtv_psi_table_transport *transport = args.nit->transport;
--	struct vidtv_psi_desc *transport_descriptor = (transport) ?
--						       args.nit->transport->descriptor :
--						       NULL;
-+	struct vidtv_psi_desc *transport_descriptor;
- 
- 	struct header_write_args h_args = {};
- 	struct psi_write_args psi_args  = {};
-@@ -1686,6 +1684,8 @@ u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
- 
- 		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
- 
-+		transport_descriptor = transport->descriptor;
-+
- 		while (transport_descriptor) {
- 			/* write the transport descriptors, if any */
- 			d_args.dest_buf           = args.buf;
-@@ -1823,9 +1823,7 @@ u32 vidtv_psi_eit_write_into(struct vidtv_psi_eit_write_args args)
- 	u32 crc = INITIAL_CRC;
- 
- 	struct vidtv_psi_table_eit_event *event = args.eit->event;
--	struct vidtv_psi_desc *event_descriptor = (args.eit->event) ?
--						   args.eit->event->descriptor :
--						   NULL;
-+	struct vidtv_psi_desc *event_descriptor;
- 
- 	struct header_write_args h_args = {};
- 	struct psi_write_args psi_args  = {};
--- 
-2.29.2
+
+Hi ,
+
+I want to upstream or contribute to open source. Any training or help
+provided from you?
+
+Regards,
+Drupad
+
+--0000000000009d4ae105b2fdb3f9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">Drupad Joshi</strong> <span dir=3D"aut=
+o">&lt;<a href=3D"mailto:drupadjoshi64@gmail.com" target=3D"_blank">drupadj=
+oshi64@gmail.com</a>&gt;</span><br>Date: Sun, 1 Nov 2020 at 02:04<br>Subjec=
+t: Linux kernel upstream patch<br>To:  &lt;<a href=3D"mailto:training@linux=
+foundation.org" target=3D"_blank">training@linuxfoundation.org</a>&gt;,  &l=
+t;<a href=3D"mailto:info@linuxfoundation.org" target=3D"_blank">info@linuxf=
+oundation.org</a>&gt;<br></div><br><br><div dir=3D"ltr">Hi ,<div><br></div>=
+<div>I want to upstream or contribute to open source. Any training or help =
+provided from you?</div><div><br></div><div>Regards,</div><div>Drupad</div>=
+</div>
+</div></div>
+
+--0000000000009d4ae105b2fdb3f9--
+
+--===============6440718190910871364==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============6440718190910871364==--
