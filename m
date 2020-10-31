@@ -1,82 +1,85 @@
-Return-Path: <SRS0=/L4e=EF=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=CDUK=EG=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E0AC4363A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 12:48:27 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA174C388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 04:21:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 83DC120725
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 30 Oct 2020 12:48:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 83DC120725
+	by mail.kernel.org (Postfix) with ESMTPS id 382C420791
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 04:20:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 382C420791
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E13DF861C8;
-	Fri, 30 Oct 2020 12:48:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C4D6227A5C;
+	Sat, 31 Oct 2020 04:20:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hWULrUSGBsBk; Fri, 30 Oct 2020 12:48:25 +0000 (UTC)
+	with ESMTP id U+HDarHs8+3U; Sat, 31 Oct 2020 04:20:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2449D85F8C;
-	Fri, 30 Oct 2020 12:48:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5D89F27A61;
+	Sat, 31 Oct 2020 04:20:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0967EC088B;
-	Fri, 30 Oct 2020 12:48:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3DEDEC088B;
+	Sat, 31 Oct 2020 04:20:57 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D70A9C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 84910C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:48:23 +0000 (UTC)
+ Sat, 31 Oct 2020 04:20:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id CB62B868EB
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6B1D4870AA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:48:23 +0000 (UTC)
+ Sat, 31 Oct 2020 04:20:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xp9SIrflm+EG
+ with ESMTP id jfep5ZKlWVZq
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:48:22 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0158.hostedemail.com
- [216.40.44.158])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A7E81868E2
+ Sat, 31 Oct 2020 04:20:54 +0000 (UTC)
+X-Greylist: delayed 00:06:39 by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0231.hostedemail.com
+ [216.40.44.231])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E081386D9C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:48:22 +0000 (UTC)
+ Sat, 31 Oct 2020 04:20:53 +0000 (UTC)
 Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
  [10.5.19.251])
- by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 1C24B181CBC08
+ by smtpgrave04.hostedemail.com (Postfix) with ESMTP id ED35F1800EB28
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 30 Oct 2020 12:10:14 +0000 (UTC)
+ Sat, 31 Oct 2020 04:14:15 +0000 (UTC)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
  [216.40.38.60])
- by smtprelay05.hostedemail.com (Postfix) with ESMTP id 94D22180286DE;
- Fri, 30 Oct 2020 12:10:11 +0000 (UTC)
+ by smtprelay02.hostedemail.com (Postfix) with ESMTP id 682CD2480;
+ Sat, 31 Oct 2020 04:14:13 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: turn44_2e084d327295
-X-Filterd-Recvd-Size: 2361
+X-HE-Tag: top75_380e2f12729b
+X-Filterd-Recvd-Size: 7080
 Received: from XPS-9350.home (unknown [47.151.133.149])
  (Authenticated sender: joe@perches.com)
- by omf06.hostedemail.com (Postfix) with ESMTPA;
- Fri, 30 Oct 2020 12:10:10 +0000 (UTC)
-Message-ID: <926a2f22e12bf989d46dc36c8779c50183bf4b7e.camel@perches.com>
+ by omf11.hostedemail.com (Postfix) with ESMTPA;
+ Sat, 31 Oct 2020 04:14:12 +0000 (UTC)
+Message-ID: <8b9beccf81735f2e042447026a1043f8d21c2566.camel@perches.com>
 From: Joe Perches <joe@perches.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Date: Fri, 30 Oct 2020 05:10:09 -0700
-In-Reply-To: <20201030114447.24199-1-yashsri421@gmail.com>
-References: <20201030114447.24199-1-yashsri421@gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 30 Oct 2020 21:14:11 -0700
+In-Reply-To: <alpine.DEB.2.21.2010301255460.16621@felia>
+References: <20201030090704.40533-1-dwaipayanray1@gmail.com>
+ <9d5c8699f94481ab5bf2d37348199ca1d6343c8b.camel@perches.com>
+ <alpine.DEB.2.21.2010301255460.16621@felia>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
-	GERRIT_CHANGE_ID
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ yashsri421@gmail.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: improve handling of
+	email comments
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,61 +91,118 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, 2020-10-30 at 17:14 +0530, Aditya Srivastava wrote:
-> Currently, whenever a Gerrit Change-Id is present in a commit,
-> checkpatch.pl warns to remove the Change-Id before submitting the patch.
-> =
-
-> E.g., running checkpatch on commit adc311a5bbf6 ("iwlwifi: bump FW
-> API to 53 for 22000 series") reports this error:
-> =
-
-> ERROR: Remove Gerrit Change-Id's before submitting upstream
-> Change-Id: I5725e46394f3f53c3069723fd513cc53c7df383d
-> =
-
-> Provide a simple fix option by simply deleting the indicated line.
-[]
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -2852,8 +2852,11 @@ sub process {
-> =A0
-> =
-
-> =A0# Check for Gerrit Change-Ids not in any patch context
-> =A0		if ($realfile eq '' && !$has_patch_separator && $line =3D~ /^\s*chan=
-ge-id:/i) {
-> -			ERROR("GERRIT_CHANGE_ID",
-> -			      "Remove Gerrit Change-Id's before submitting upstream\n" . $her=
-ecurr);
-> +			if (ERROR("GERRIT_CHANGE_ID",
-> +			          "Remove Gerrit Change-Id's before submitting upstream\n" . =
-$herecurr) &&
-> +			    $fix) {
-> +                                fix_delete_line($fixlinenr, $rawline);
-> +                        }
-> =A0		}
-
-Seems sensible, thanks.
-
-It might also be sensible if the line before and the line after
-this change-id is also blank to remove one of those blank lines.
-
-On second thought:
-
-A quick check shows less than 20 of those in kernel git history
-so it might not be too worthwhile.
-
-Acked-by: Joe Perches <joe@perches.com>
-
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gRnJpLCAyMDIwLTEwLTMwIGF0IDEyOjU4ICswMTAwLCBMdWthcyBCdWx3YWhuIHdyb3RlOgo+
+IAo+IE9uIEZyaSwgMzAgT2N0IDIwMjAsIEpvZSBQZXJjaGVzIHdyb3RlOgo+IAo+ID4gT24gRnJp
+LCAyMDIwLTEwLTMwIGF0IDE0OjM3ICswNTMwLCBEd2FpcGF5YW4gUmF5IHdyb3RlOgo+ID4gPiBj
+aGVja3BhdGNoIGhhcyBsaW1pdGVkIHN1cHBvcnQgZm9yIHBhcnNpbmcgZW1haWwgY29tbWVudHMu
+IEl0IG9ubHkKPiA+ID4gc3VwcG9ydCBzaW5nbGUgbmFtZSBjb21tZW50cyBvciBzaW5nbGUgYWZ0
+ZXIgYWRkcmVzcyBjb21tZW50cy4KPiA+ID4gV2hlcmVhcywgUkZDIDUzMjIgc3BlY2lmaWVzIHRo
+YXQgY29tbWVudHMgY2FuIGJlIGluc2VydGVkIGluCj4gPiA+IGJldHdlZW4gYW55IHRva2VucyBv
+ZiB0aGUgZW1haWwgZmllbGRzLgo+ID4gPiAKPiA+ID4gSW1wcm92ZSBjb21tZW50IHBhcnNpbmcg
+bWVjaGFuaXNtIGluIGNoZWNrcGF0Y2guCj4gPiA+IAo+ID4gPiBXaGF0IGlzIGhhbmRsZWQgbm93
+Ogo+ID4gPiAKPiA+ID4gLSBNdWx0aXBsZSBuYW1lL2FkZHJlc3MgY29tbWVudHMKPiA+ID4gLSBD
+b21tZW50cyBhbnl3aGVyZSBpbiBiZXR3ZWVuIG5hbWUvYWRkcmVzcwo+ID4gPiAtIE5lc3RlZCBj
+b21tZW50cyBsaWtlIChKb2huIChEb2UpKQo+ID4gPiAKPiA+ID4gQSBicmllZiBhbmFseXNpcyBv
+ZiBjaGVja3BhdGNoIG91dHB1dCBvbiB2NS4wLi52NS43IHNob3dlZCB0aGF0Cj4gPiA+IGFmdGVy
+IHRoZXNlIG1vZGlmaWNhdGlvbnMsIHRoZSBudW1iZXIgb2YgQkFEX1NJR05fT0ZGIHdhcm5pbmdz
+Cj4gPiA+IGNhbWUgZG93biBmcm9tIDI5NDQgdG8gMTQyNCwgYW5kIEZST01fU0lHTl9PRkZfTUlT
+TUFUQ0ggY2FtZQo+ID4gPiBkb3duIGZyb20gMjM2NiB0byAyMzMwLgo+ID4gPiAKPiA+ID4gU28s
+IGEgdG90YWwgb2YgMTU1NiBmYWxzZSBwb3NpdGl2ZXMgd2VyZSByZXNvbHZlZCBpbiB0b3RhbC4K
+PiA+IAo+ID4gQSBtZXJlIHJlZHVjdGlvbiBpbiBtZXNzYWdlcyBlbWl0dGVkIGlzbid0IG5lY2Vz
+c2FyaWx5IGdvb2QuCj4gPiAKPiAKPiBBZ3JlZS4gVGhhdCBpcyB3aHkgSSBhbHNvIHdlbnQgdGhy
+b3VnaCB0aGUgbGlzdCBvZiB0aG9zZSB3YXJuaW5ncy4KPiAKPiBJIGNvdWxkIG5vdCBzcG90IGFu
+eSBvYnZpb3VzIHRydWUgcG9zaXRpdmUgYW1vbmcgdGhlIHJlZHVjZWQgb25lcy4KPiDCoAo+IAo+
+ID4gUGxlYXNlIHNlbmQgbWUgcHJpdmF0ZWx5IGEgY29tcGxldGUgbGlzdCBvZiB0aGVzZSBub21p
+bmFsbHkKPiA+IGZhbHNlIHBvc2l0aXZlIG1lc3NhZ2VzIHRoYXQgYXJlIG5vIGxvbmdlciBlbWl0
+dGVkLgo+ID4gCj4gPiBJIGJlbGlldmUgb25lIG9mIHRoZSByZWxhdGl2ZWx5IGNvbW1vbiBpbmNv
+cnJlY3QgbWVzc2FnZXMgaXMKPiA+IGZvciB0aGUgY2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3Jn
+PiB3aGVyZSBhIHZlcnNpb24gbnVtYmVyIGlzCj4gPiBjb250aW51ZWQgb24gdGhlIHNhbWUgbGlu
+ZSBhZnRlciBhICMuCj4gPiAKPiA+IENDOiBzdGFibGVAdmdlci5rZXJuZWwub3JnICMgZm9yIHZl
+cnNpb25zIHgueS56IGFuZCBhYm92ZQo+ID4gCj4gCj4gVGhhdCB3YXMgb25lLAoKSXQncyBub3Qg
+anVzdCBvbmUsIGl0J3MgfjkwJSBvZiB0aGUgbGlzdCB0aGF0IER3YWlwYXlhbiBzZW50IG1lLgoK
+JCB3YyAtbCBtaXNtYXRjaGVzCjgzMSBtaXNtYXRjaGVzCgokIGdyZXAgLXYgLWkgc3RhYmxlIG1p
+c21hdGNoZXMgfCB3YyAtbAo5OAoKPiBhbm90aGVyIGNvbW1vbiBwYXR0ZXJuIHdhcyBqdXN0IHF1
+b3RlcyBwdXQgaW5jb25zaXN0ZW50bHkgYXQgCj4gZGlmZmVyZW50IHBsYWNlcy4KClllcywgdGhl
+cmUgYXJlIHNvbWUgZGVmZWN0cyB0aGVyZS4KQnV0IHRoZXJlIGFyZSBhbHNvIG5vdyBmYWxzZSBu
+ZWdhdGl2ZXMuCgpGb3IgaW5zdGFuY2UsIHRoaXMgaXMgbm90IGFwcHJvcHJpYXRlIHRvIGlnbm9y
+ZToKCldBUk5JTkc6QkFEX1NJR05fT0ZGOiBlbWFpbCBhZGRyZXNzICdqYWNlay5hbmFzemV3c2tp
+QGdtYWlsLmNvbSwgbGludXgtbGVkc0B2Z2VyLmtlcm5lbC5vcmcsIGxpbnV4LWtlcm5lbEB2Z2Vy
+Lmtlcm5lbC5vcmcsIGRtdXJwaHlAdGkuY29tJyBtaWdodCBiZSBiZXR0ZXIgYXMgJ2phY2VrLmFu
+YXN6ZXdza2lAZ21haWwuY29tLGxpbnV4LWxlZHNAdmdlci5rZXJuZWwub3JnLCBsaW51eC1rZXJu
+ZWxAdmdlci5rZXJuZWwub3JnLCBkbXVycGh5QHRpLmNvbScKCkZyb20gdGhlIGZpbGUgdGhhdCBE
+d2FpcGF5YW4gc2VudCBtZSwgYWxsIHRoZSByZXN0IG5vdCBpbmNsdWRpbmcgdGhlCnN0YWJsZSB2
+YXJpYW50cywgd2hpY2ggSU1PIHNob3VsZCBiZSBoYW5kbGVkIHNlcGFyYXRlbHksIGFyZSBiZWxv
+dy4KCk9mIHRoZXNlIDk4IGluIHRvdGFsLCA2MCslIGFyZSB1bmljb2RlIHdoaWNoIElNTyBzaG91
+bGQgYWx3YXlzIGJlIHF1b3RlZAphbmQgbW9zdCBhcmUgZG91YmxlZCB3aXRoIEJBRF9TSUdOX09G
+RiBkb3VibGluZyBGUk9NX1NJR05fT0ZGX01JU01BVENICihhbmQgSSBkb24ndCBxdWl0ZSB1bmRl
+cnN0YW5kIHdoeSBpdCdzICJGcm9tOi8iIHRoZW4gIlNpZ25lZC1vZmYtYnk6IgoKJCBncmVwIC12
+IC1pIHN0YWJsZSBkd2FpIHwgc29ydCB8IHVuaXEgLWMgfCBzb3J0IC1ybgogICAgIDMxIFdBUk5J
+Tkc6QkFEX1NJR05fT0ZGOiBlbWFpbCBhZGRyZXNzICflkajnkLDmnbAgKFpob3UgWWFuamllKSA8
+emhvdXlhbmppZUB3YW55ZWV0ZWNoLmNvbT4nIG1pZ2h0IGJlIGJldHRlciBhcyAnIuWRqOeQsOad
+sCIoWmhvdSBZYW5qaWUpIDx6aG91eWFuamllQHdhbnllZXRlY2guY29tPicKICAgICAzMCBXQVJO
+SU5HOkZST01fU0lHTl9PRkZfTUlTTUFUQ0g6IEZyb206L1NpZ25lZC1vZmYtYnk6IGVtYWlsIG5h
+bWUgbWlzbWF0Y2g6ICdGcm9tOiAi5ZGo55Cw5p2wIihaaG91IFlhbmppZSkgPHpob3V5YW5qaWVA
+d2FueWVldGVjaC5jb20+JyAhPSAnU2lnbmVkLW9mZi1ieTog5ZGo55Cw5p2wIChaaG91IFlhbmpp
+ZSkgPHpob3V5YW5qaWVAd2FueWVldGVjaC5jb20+JwogICAgIApUaGVzZSAyOSBpbiB0b3RhbCB3
+b3VsZCBiZSBiZXR0ZXIgc3RyaXBwaW5nIGFueSBiaXRzIGluIHBhcmVudGhlc2VzIGZyb20KdGhl
+IG5hbWUgcG9ydGlvbiBvbmx5IHdoZW4gX25vdF8gaW5zaWRlIHF1b3Rlcy4KCiAgICAgMjAgV0FS
+TklORzpCQURfU0lHTl9PRkY6IGVtYWlsIGFkZHJlc3MgJ1Rob21hcyBIZWxsc3Ryw7ZtIChWTXdh
+cmUpIDx0aG9tYXNfb3NAc2hpcG1haWwub3JnPicgbWlnaHQgYmUgYmV0dGVyIGFzICciVGhvbWFz
+IEhlbGxzdHLDtm0iKFZNd2FyZSkgPHRob21hc19vc0BzaGlwbWFpbC5vcmc+JwogICAgICA1IFdB
+Uk5JTkc6QkFEX1NJR05fT0ZGOiBlbWFpbCBhZGRyZXNzICdILiBQZXRlciBBbnZpbiAoSW50ZWwp
+IDxocGFAenl0b3IuY29tPicgbWlnaHQgYmUgYmV0dGVyIGFzICciSC4gUGV0ZXIgQW52aW4iKElu
+dGVsKSA8aHBhQHp5dG9yLmNvbT4nCiAgICAgIAoKICAgICAgMSBXQVJOSU5HOkZST01fU0lHTl9P
+RkZfTUlTTUFUQ0g6IEZyb206L1NpZ25lZC1vZmYtYnk6IGVtYWlsIG5hbWUgbWlzbWF0Y2g6ICdG
+cm9tOiAiVGhvbWFzIEhlbGxzdHLDtm0iKFZNd2FyZSkgPHRob21hc19vc0BzaGlwbWFpbC5vcmc+
+JyAhPSAnU2lnbmVkLW9mZi1ieTogVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSkgPHRob21hc19v
+c0BzaGlwbWFpbC5vcmc+JwogICAgICAKICAgICAgMSBXQVJOSU5HOkZST01fU0lHTl9PRkZfTUlT
+TUFUQ0g6IEZyb206L1NpZ25lZC1vZmYtYnk6IGVtYWlsIG5hbWUgbWlzbWF0Y2g6ICdGcm9tOiAi
+U3JpdmF0c2EgUy4gQmhhdCIoVk13YXJlKSA8c3JpdmF0c2FAY3NhaWwubWl0LmVkdT4nICE9ICdT
+aWduZWQtb2ZmLWJ5OiBTcml2YXRzYSBTLiBCaGF0IChWTXdhcmUpIDxzcml2YXRzYUBjc2FpbC5t
+aXQuZWR1PicKICAgICAgMSBXQVJOSU5HOkZST01fU0lHTl9PRkZfTUlTTUFUQ0g6IEZyb206L1Np
+Z25lZC1vZmYtYnk6IGVtYWlsIG5hbWUgbWlzbWF0Y2g6ICdGcm9tOiBKYW5OaWV1d2VuaHVpemVu
+KGphbm5la2UpIDxqYW5uZWtlQGdudS5vcmc+JyAhPSAnU2lnbmVkLW9mZi1ieTogSmFuIE5pZXV3
+ZW5odWl6ZW4gPGphbm5la2VAZ251Lm9yZz4nICAKICAgICAgMSBXQVJOSU5HOkZST01fU0lHTl9P
+RkZfTUlTTUFUQ0g6IEZyb206L1NpZ25lZC1vZmYtYnk6IGVtYWlsIG5hbWUgbWlzbWF0Y2g6ICdG
+cm9tOiAiRnLDqWTDqXJpYyBQaWVycmV0IihmZXBpdHJlKSA8ZnJlZGVyaWMucGllcnJldEBxdWJl
+cy1vcy5vcmc+JyAhPSAnU2lnbmVkLW9mZi1ieTogRnLDqWTDqXJpYyBQaWVycmV0IChmZXBpdHJl
+KSA8ZnJlZGVyaWMucGllcnJldEBxdWJlcy1vcy5vcmc+JwoKU28gdGhlc2UgOCBvdGhlcnMgYXJl
+IG9uZXMgd2hlcmUgcXVvdGVzIGFyZSBlaXRoZXIgb2RkbHkgcGxhY2VkCm9yIHBlcmhhcHMgc2hv
+dWxkIGFsd2F5cyBleGlzdCBhbmQgdGhlIGNvbW1lbnQgaW4gcGFyZW50aGVzZXMKaXMgc3VnZ2Vz
+dGVkIHBvb3JseS4gIDcgb2YgdGhlc2Ugc2hvdWxkIGJlIGZpeGVkIGFuZCBvbmUgc2hvdWxkCnN0
+aWxsIGJlIHJlcG9ydGVkLgoKICAgICAgMSBXQVJOSU5HOkJBRF9TSUdOX09GRjogZW1haWwgYWRk
+cmVzcyAnIlRob21hcyBIZWxsc3Ryw7ZtIChWTXdhcmUpIiA8dGhvbWFzX29zQHNoaXBtYWlsLm9y
+Zz4nIG1pZ2h0IGJlIGJldHRlciBhcyAnIlRob21hcyBIZWxsc3Ryw7ZtIihWTXdhcmUpIDx0aG9t
+YXNfb3NAc2hpcG1haWwub3JnPicKICAgICAgMSBXQVJOSU5HOkJBRF9TSUdOX09GRjogZW1haWwg
+YWRkcmVzcyAnU3JpdmF0c2EgUy4gQmhhdCAoVk13YXJlKSA8c3JpdmF0c2FAY3NhaWwubWl0LmVk
+dT4nIG1pZ2h0IGJlIGJldHRlciBhcyAnIlNyaXZhdHNhIFMuIEJoYXQiKFZNd2FyZSkgPHNyaXZh
+dHNhQGNzYWlsLm1pdC5lZHU+JwogICAgICAxIFdBUk5JTkc6QkFEX1NJR05fT0ZGOiBlbWFpbCBh
+ZGRyZXNzICciUmFudGFsYSwgVG9tbWkgVC4gKE5va2lhIC0gRkkvRXNwb28pIiA8dG9tbWkudC5y
+YW50YWxhQG5va2lhLmNvbT4nIG1pZ2h0IGJlIGJldHRlciBhcyAnIlJhbnRhbGEsIFRvbW1pIFQu
+IihOb2tpYSAtIEZJL0VzcG9vKSA8dG9tbWkudC5yYW50YWxhQG5va2lhLmNvbT4nCiAgICAgIDEg
+V0FSTklORzpCQURfU0lHTl9PRkY6IGVtYWlsIGFkZHJlc3MgJyJLYWkgTcOka2lzYXJhIChLb2x1
+bWJ1cykiIDxrYWkubWFraXNhcmFAa29sdW1idXMuZmk+JyBtaWdodCBiZSBiZXR0ZXIgYXMgJyJL
+YWkgTcOka2lzYXJhIihLb2x1bWJ1cykgPGthaS5tYWtpc2FyYUBrb2x1bWJ1cy5maT4nCiAgICAg
+IDEgV0FSTklORzpCQURfU0lHTl9PRkY6IGVtYWlsIGFkZHJlc3MgJ2phY2VrLmFuYXN6ZXdza2lA
+Z21haWwuY29tLCBsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZywgbGludXgta2VybmVsQHZnZXIu
+a2VybmVsLm9yZywgZG11cnBoeUB0aS5jb20nIG1pZ2h0IGJlIGJldHRlciBhcyAnamFjZWsuYW5h
+c3pld3NraUBnbWFpbC5jb20sbGludXgtbGVkc0B2Z2VyLmtlcm5lbC5vcmcsIGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmcsIGRtdXJwaHlAdGkuY29tJwogICAgICAxIFdBUk5JTkc6QkFEX1NJ
+R05fT0ZGOiBlbWFpbCBhZGRyZXNzICdGcsOpZMOpcmljIFBpZXJyZXQgKGZlcGl0cmUpIDxmcmVk
+ZXJpYy5waWVycmV0QHF1YmVzLW9zLm9yZz4nIG1pZ2h0IGJlIGJldHRlciBhcyAnIkZyw6lkw6ly
+aWMgUGllcnJldCIoZmVwaXRyZSkgPGZyZWRlcmljLnBpZXJyZXRAcXViZXMtb3Mub3JnPicKICAg
+ICAgMSBXQVJOSU5HOkJBRF9TSUdOX09GRjogZW1haWwgYWRkcmVzcyAnRGF2aWQuTGFpZ2h0QGFj
+dWxhYi5jb20gKGJpZyBlbmRpYW4gc3lzdGVtIGNvbmNlcm5zKScgbWlnaHQgYmUgYmV0dGVyIGFz
+ICdEYXZpZC5MYWlnaHRAYWN1bGFiLmNvbShiaWcgZW5kaWFuIHN5c3RlbSBjb25jZXJucyknCiAg
+ICAgIDEgV0FSTklORzpCQURfU0lHTl9PRkY6IGVtYWlsIGFkZHJlc3MgJ2FwZW53YXJyQGZveG5l
+dC5uZXQgKEF2ZXJ5IFBlbm5hcnVuKScgbWlnaHQgYmUgYmV0dGVyIGFzICdhcGVud2FyckBmb3hu
+ZXQubmV0KEF2ZXJ5IFBlbm5hcnVuKScKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4
+LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5s
+aW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
