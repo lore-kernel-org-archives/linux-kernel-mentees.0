@@ -2,103 +2,106 @@ Return-Path: <SRS0=CDUK=EG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC1EC4742C
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 15:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA104C4742C
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 15:06:08 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 370CA20731
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 15:06:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3F85C20702
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 15:06:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DjjxHoqM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 370CA20731
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aZ0DfP3C"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F85C20702
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 90B8D2E0E6;
-	Sat, 31 Oct 2020 15:06:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EC4DC2E0EA;
+	Sat, 31 Oct 2020 15:06:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3WEEKRLsgbSJ; Sat, 31 Oct 2020 15:06:03 +0000 (UTC)
+	with ESMTP id xfT2oobYFWbE; Sat, 31 Oct 2020 15:06:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id BCD402E0E5;
-	Sat, 31 Oct 2020 15:06:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C43102E0E5;
+	Sat, 31 Oct 2020 15:06:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C862C0859;
-	Sat, 31 Oct 2020 15:06:03 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5DA3BC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B40CAC0859;
+	Sat, 31 Oct 2020 15:06:06 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0F2EAC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 15:06:02 +0000 (UTC)
+ Sat, 31 Oct 2020 15:06:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 588CE8775A
+ by fraxinus.osuosl.org (Postfix) with ESMTP id F24BC870A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 15:06:02 +0000 (UTC)
+ Sat, 31 Oct 2020 15:06:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2KAsCQ29BkeJ
+ with ESMTP id 5yogFbmbJCL1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 15:06:01 +0000 (UTC)
+ Sat, 31 Oct 2020 15:06:04 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
- [209.85.222.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B8EBD87707
+Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com
+ [209.85.219.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C3F5986B9E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 15:06:01 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id 140so7707674qko.2
+ Sat, 31 Oct 2020 15:06:04 +0000 (UTC)
+Received: by mail-qv1-f65.google.com with SMTP id w5so4147065qvn.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 08:06:01 -0700 (PDT)
+ Sat, 31 Oct 2020 08:06:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=r3BCGj3C/4k9OjwTa/exoIeLVH3IWgVh4YgNa/s9o/w=;
- b=DjjxHoqMs3i8d7hTv0raGxsHvfU0if+6RQHN5j61MQRdpP74wWrmy89fthESuCFEdy
- bvDUYCZDagOerpYqIfdAY3GZqQtlvbwRA2lNSdlsPLyTgoIo+AXCWoj+1lDXt0Lf/nEq
- KaSns5ISpVZ/tDuuvv2J+JqMhvY+HDxtLXJRGrsIPYjmK5sVt5wJk8Q1FLhyYqt8YIX8
- D5yy77N4iXbLRbB6DttkbuvB3GYvzQNH13kdaKpBcAqKz0dPxD+Eh3DVt1lN5fLjBtnc
- M58ccxaPYPOKUHUsXlz7r+hYiKZNXpxwS6dlU02ZmlDouiGV4dDcGGTZCesW1ccGlHU+
- UrVg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=m9xs1oNvMMX6kSZRMG/5Ry3mal8f/IuqjXrtdUz49RA=;
+ b=aZ0DfP3CqDR5TiCjp32FqF8eY05acVf9ArKmw7EW9jMJEf7LcI+m28oBMvVdMHY8aN
+ LTmJ9QzFA/9pgZsQstltNh7eQPQfL/p9pFU5BCWR/asEtv/QU9mCITECUqIPUctExteg
+ j7GSSVtIjNTBPlfRlZa4ULSEaVc6L0vayvJ5ey2rXEDnv8wrttgOscIQMmbtuSgzxXdM
+ +BPak9f1/N49T0V0Zp3tNgReMevSWJAWQLtwXDN0HYFI+PxDk88C8ifE0iHX7KWBSVL3
+ XL7akWK1JAxOpKF6t9pNjZCzCbcv0Mt/16UzNyBUUTL0JXClS3TBK0HMMUwolhXpvxrx
+ feNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=r3BCGj3C/4k9OjwTa/exoIeLVH3IWgVh4YgNa/s9o/w=;
- b=K3pVImGVdRhP7r9rL0NNvXmUcQsu9Egh7F6VOgFLV911CbmpgJX4xnplJ5z6NP9Zg4
- 4xngWhYRNbjlXKXOQVz2XFwVL/YEN8uP1r5lg/PUmio7GthrhF7bsieJP8lqjdZkqvKs
- QqMR9ecG1xXKthmLarAMR0ZbrFMSrwOPWj4yi8+YRdgbpom6Y790W3mLEKOrwFFc9cQk
- pVrOLiOtLhifQRY7PRfEsNyiAOV3Tb/8OECj1QAnvPGmK1z5YWTQC2LR3D5ixV1fKsHT
- ulkbUw8pHhGtU79Ylr+AsikvkG5LqCAu61It47XzYnvhiYN468cztQt/J/mgDTKYpr4T
- gAVA==
-X-Gm-Message-State: AOAM530dnrqJTkvSS66lTRPBtb+IVLUBJf0zzEuyI0erTZ0EMM8Oug02
- jHX8kCA/4/aOq5IusqMaf7Q=
-X-Google-Smtp-Source: ABdhPJyaTt9+4OWhS1aI3woLrkS9QdLAkRnDNYHBoLAw29rPafj+veutMJTHAddNZMp0U7PyLZIinw==
-X-Received: by 2002:a37:aa49:: with SMTP id t70mr7254043qke.165.1604156760736; 
- Sat, 31 Oct 2020 08:06:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=m9xs1oNvMMX6kSZRMG/5Ry3mal8f/IuqjXrtdUz49RA=;
+ b=PHhBgjmYMP0HEZQwAWpNyVqHkqpDVpq9SW+ckBMnBEMwPORKurE9ZZ3eMD/12JyhVB
+ ZDccWJwhkgbmq+25WEuq33jENBmLbmviJtpE9VLn9CLHlCEvFLvAaRgcn+YG5bPSqtRd
+ KTJZfxCKHX6mH9bR0VXqxfa/Y/MwfCtrA0P8r/a7lQzbVSWH4/pFc7Qm0I1bu7cBtAai
+ f/+Jz8qUyigAIwCBippRXZKRUeAq456Ivtfpz9HHAkigOmxadbJXkPR9IRtRn1UVWrn8
+ 3gu/vWZ89aiYaGHZPAn/WLVzfTkhmLNMsdyPBqYbs0Rx79Ad9Au9DpzFTbB42wry/+9D
+ zdWA==
+X-Gm-Message-State: AOAM530Tj2Z0zcMfUE9tRlJxqNjSCEEbV5Gp6ofAADxaa2kUvtiNf5Jg
+ TcmK9kfzD+Ot5OkxWCm6Q5w=
+X-Google-Smtp-Source: ABdhPJyz2FgtBhzVYdk3HEUQI0hlZKrE6nWvqcC3vCiSJ5wqKBNnN9XJriLmgjpOiLKlKQOf98f2Og==
+X-Received: by 2002:ad4:42ae:: with SMTP id e14mr13792036qvr.44.1604156763906; 
+ Sat, 31 Oct 2020 08:06:03 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
- by smtp.gmail.com with ESMTPSA id z125sm2317030qke.54.2020.10.31.08.05.57
+ by smtp.gmail.com with ESMTPSA id z125sm2317030qke.54.2020.10.31.08.06.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Oct 2020 08:06:00 -0700 (PDT)
+ Sat, 31 Oct 2020 08:06:03 -0700 (PDT)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To: mchehab+huawei@kernel.org,
 	r.verdejo@samsung.com,
 	nicolas@ndufresne.ca
-Date: Sat, 31 Oct 2020 12:05:46 -0300
-Message-Id: <20201031150552.663598-1-dwlsalmeida@gmail.com>
+Date: Sat, 31 Oct 2020 12:05:47 -0300
+Message-Id: <20201031150552.663598-2-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201031150552.663598-1-dwlsalmeida@gmail.com>
+References: <20201031150552.663598-1-dwlsalmeida@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2 0/6] media: vidtv: Add support for
-	more MPEG PSI tables
+Subject: [Linux-kernel-mentees] [PATCH v2 1/6] media: vidtv: extract the
+	initial CRC value to into a #define
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,35 +121,54 @@ Sender: "Linux-kernel-mentees"
 
 From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-Implement support for more MPEG PSI tables (i.e. NIT & EIT).
+The same constant (0xffffffff) is used in three different functions.
 
-While we're at it, fix a few minor mistakes in the PSI generator.
+Extract it into a #define to avoid repetition.
 
-I initially sent this without a cover letter and as WIP but I have
-now tidied it up and it's spotless. I tested the driver on a kernel
-with KASAN & Kmemleak and tested the output on DVBInspector.
+Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+---
+ drivers/media/test-drivers/vidtv/vidtv_psi.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Daniel W. S. Almeida (6):
-  media: vidtv: extract the initial CRC value to into a #define
-  media: vidtv: psi: add a Network Information Table (NIT)
-  media: vidtv: psi: Implement an Event Information Table (EIT)
-  media: vidtv: psi: extract descriptor chaining code into a helper
-  media: vidtv: Move s302m specific fields into encoder context
-  media: vidtv: psi: fix missing assignments in while loops
-
- .../driver-api/media/drivers/vidtv.rst        |   8 +-
- .../media/test-drivers/vidtv/vidtv_bridge.c   |   4 +
- .../media/test-drivers/vidtv/vidtv_channel.c  | 130 +++-
- .../media/test-drivers/vidtv/vidtv_channel.h  |   3 +
- .../media/test-drivers/vidtv/vidtv_encoder.h  |   3 -
- drivers/media/test-drivers/vidtv/vidtv_mux.c  |  29 +
- drivers/media/test-drivers/vidtv/vidtv_mux.h  |  11 +
- drivers/media/test-drivers/vidtv/vidtv_psi.c  | 678 +++++++++++++++++-
- drivers/media/test-drivers/vidtv/vidtv_psi.h  | 240 ++++++-
- .../media/test-drivers/vidtv/vidtv_s302m.c    |  25 +-
- .../media/test-drivers/vidtv/vidtv_s302m.h    |   3 +
- 11 files changed, 1083 insertions(+), 51 deletions(-)
-
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+index 82cf67dd27c0..f2e25e68c085 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+@@ -31,6 +31,7 @@
+ 
+ #define CRC_SIZE_IN_BYTES 4
+ #define MAX_VERSION_NUM 32
++#define INITIAL_CRC 0xffffffff
+ 
+ static const u32 CRC_LUT[256] = {
+ 	/* from libdvbv5 */
+@@ -784,7 +785,7 @@ u32 vidtv_psi_pat_write_into(struct vidtv_psi_pat_write_args args)
+ 	/* the number of bytes written by this function */
+ 	u32 nbytes = 0;
+ 	const u16 pat_pid = VIDTV_PAT_PID;
+-	u32 crc = 0xffffffff;
++	u32 crc = INITIAL_CRC;
+ 
+ 	struct vidtv_psi_table_pat_program *p = args.pat->program;
+ 
+@@ -974,7 +975,7 @@ u32 vidtv_psi_pmt_write_into(struct vidtv_psi_pmt_write_args args)
+ {
+ 	/* the number of bytes written by this function */
+ 	u32 nbytes = 0;
+-	u32 crc = 0xffffffff;
++	u32 crc = INITIAL_CRC;
+ 
+ 	struct vidtv_psi_desc *table_descriptor   = args.pmt->descriptor;
+ 	struct vidtv_psi_table_pmt_stream *stream = args.pmt->stream;
+@@ -1124,7 +1125,7 @@ u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args)
+ 	u32 nbytes  = 0;
+ 	u16 sdt_pid = VIDTV_SDT_PID;  /* see ETSI EN 300 468 v1.15.1 p. 11 */
+ 
+-	u32 crc = 0xffffffff;
++	u32 crc = INITIAL_CRC;
+ 
+ 	struct vidtv_psi_table_sdt_service *service = args.sdt->service;
+ 	struct vidtv_psi_desc *service_desc = (args.sdt->service) ?
 -- 
 2.29.2
 
