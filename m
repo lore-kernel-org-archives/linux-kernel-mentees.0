@@ -2,99 +2,103 @@ Return-Path: <SRS0=CDUK=EG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B742C388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 13:26:09 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC1EC4742C
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 15:06:05 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EA135206B5
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 13:26:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 370CA20731
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Oct 2020 15:06:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hg7eSqGJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA135206B5
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DjjxHoqM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 370CA20731
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 78ADB8718F;
-	Sat, 31 Oct 2020 13:26:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 90B8D2E0E6;
+	Sat, 31 Oct 2020 15:06:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nu4GmQOiAG1u; Sat, 31 Oct 2020 13:26:08 +0000 (UTC)
+	with ESMTP id 3WEEKRLsgbSJ; Sat, 31 Oct 2020 15:06:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1B3978714E;
-	Sat, 31 Oct 2020 13:26:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BCD402E0E5;
+	Sat, 31 Oct 2020 15:06:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E7DEDC1AD8;
-	Sat, 31 Oct 2020 13:26:07 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E6D79C1AD9
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C862C0859;
+	Sat, 31 Oct 2020 15:06:03 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5DA3BC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 13:26:06 +0000 (UTC)
+ Sat, 31 Oct 2020 15:06:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B3A138714E
+ by hemlock.osuosl.org (Postfix) with ESMTP id 588CE8775A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 13:26:06 +0000 (UTC)
+ Sat, 31 Oct 2020 15:06:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yCPLC1YXq14q
+ with ESMTP id 2KAsCQ29BkeJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 13:26:05 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
- [209.85.214.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D7A47871C8
+ Sat, 31 Oct 2020 15:06:01 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+ [209.85.222.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B8EBD87707
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 13:26:05 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id f21so4390932plr.5
+ Sat, 31 Oct 2020 15:06:01 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id 140so7707674qko.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Oct 2020 06:26:05 -0700 (PDT)
+ Sat, 31 Oct 2020 08:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=0hWZDcUTYlump+9ewKbPLwES33ljD/aOCIpVJgr+dWk=;
- b=hg7eSqGJhd3q1T0n8a2hFnuityMjPB0H7J9aeFqLWyjgwSx7OfPcetySUni35X5eVn
- zxb/UB+Wwil9RvkmzcadTjyoSqaT2AWfkjkUNt8RIr3m9mPRIiRd7RyJjFTNB7WvjCi6
- r8PgMHj9rJzfGz+UvanJ7lnexoNoWT2svRwtEisyTc49bOBW3h3T/EDHBdOeP//GFU93
- RllxFIJIDzIoeox1LaL02kB7j49JGsp51H8Hs575ZqxeIcmGiGUudMVIXiqF1xIgtwuR
- 8/7MI/q90VLBtAqItxWme188Q2P/HIMGjtVBRr5OlX8P/MI/u8t6OxoksApzu/P/IYEN
- czXw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=r3BCGj3C/4k9OjwTa/exoIeLVH3IWgVh4YgNa/s9o/w=;
+ b=DjjxHoqMs3i8d7hTv0raGxsHvfU0if+6RQHN5j61MQRdpP74wWrmy89fthESuCFEdy
+ bvDUYCZDagOerpYqIfdAY3GZqQtlvbwRA2lNSdlsPLyTgoIo+AXCWoj+1lDXt0Lf/nEq
+ KaSns5ISpVZ/tDuuvv2J+JqMhvY+HDxtLXJRGrsIPYjmK5sVt5wJk8Q1FLhyYqt8YIX8
+ D5yy77N4iXbLRbB6DttkbuvB3GYvzQNH13kdaKpBcAqKz0dPxD+Eh3DVt1lN5fLjBtnc
+ M58ccxaPYPOKUHUsXlz7r+hYiKZNXpxwS6dlU02ZmlDouiGV4dDcGGTZCesW1ccGlHU+
+ UrVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=0hWZDcUTYlump+9ewKbPLwES33ljD/aOCIpVJgr+dWk=;
- b=FGhR/PVfSgXFNU9E1jkDsGSd1IGlCS6zZlNAlx6o+1EpyoZKP7AxCzGp86fw0EHZ06
- b75eucgXn0LjwWdGCJAfx591lLd3KM8fyaPRuoKPWsdS7RK9RGwxjjVdwc/DAQR6x4nb
- akOVjSz4PYoz/pGOc/4B0DylX/PnGB2NfUWfORxIKmQ8XUolVjKawx+kH0/M298FQ7N5
- o8WS2aBazJs0SAG+bg/0Kyy8EJ5mmLgwPAp8wsZymqNPUG5omtRqhSFBrj2qxqvtlgr/
- YoxLbDJPZRVRQkxJmrJ+JpBiYlLEhIaPLXIClz3Ihhj/NyF0tl8kUU2h0Rwx1ddqSU2X
- ixUA==
-X-Gm-Message-State: AOAM532R3hv1+fuFZLukx8RRIDUwddHeID/yXErOLlUCTxOmpcG9MeIH
- dAGSK6F08/6N+5DzNAALqqc=
-X-Google-Smtp-Source: ABdhPJzkbnFLvks3B3T9uyZzFtchgajgPoi5vfsN1Coxb/50h+K3Sm7HipqK2j5ie4rNxQLaQ5Nqcg==
-X-Received: by 2002:a17:90a:c282:: with SMTP id
- f2mr8774871pjt.170.1604150765391; 
- Sat, 31 Oct 2020 06:26:05 -0700 (PDT)
-Received: from localhost.localdomain ([2402:3a80:41a:4007:2dbb:cea1:e3c5:6a3])
- by smtp.googlemail.com with ESMTPSA id
- z185sm8602479pfz.32.2020.10.31.06.26.02
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=r3BCGj3C/4k9OjwTa/exoIeLVH3IWgVh4YgNa/s9o/w=;
+ b=K3pVImGVdRhP7r9rL0NNvXmUcQsu9Egh7F6VOgFLV911CbmpgJX4xnplJ5z6NP9Zg4
+ 4xngWhYRNbjlXKXOQVz2XFwVL/YEN8uP1r5lg/PUmio7GthrhF7bsieJP8lqjdZkqvKs
+ QqMR9ecG1xXKthmLarAMR0ZbrFMSrwOPWj4yi8+YRdgbpom6Y790W3mLEKOrwFFc9cQk
+ pVrOLiOtLhifQRY7PRfEsNyiAOV3Tb/8OECj1QAnvPGmK1z5YWTQC2LR3D5ixV1fKsHT
+ ulkbUw8pHhGtU79Ylr+AsikvkG5LqCAu61It47XzYnvhiYN468cztQt/J/mgDTKYpr4T
+ gAVA==
+X-Gm-Message-State: AOAM530dnrqJTkvSS66lTRPBtb+IVLUBJf0zzEuyI0erTZ0EMM8Oug02
+ jHX8kCA/4/aOq5IusqMaf7Q=
+X-Google-Smtp-Source: ABdhPJyaTt9+4OWhS1aI3woLrkS9QdLAkRnDNYHBoLAw29rPafj+veutMJTHAddNZMp0U7PyLZIinw==
+X-Received: by 2002:a37:aa49:: with SMTP id t70mr7254043qke.165.1604156760736; 
+ Sat, 31 Oct 2020 08:06:00 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id z125sm2317030qke.54.2020.10.31.08.05.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Oct 2020 06:26:04 -0700 (PDT)
-From: Aditya Srivastava <yashsri421@gmail.com>
-To: lukas.bulwahn@gmail.com
-Date: Sat, 31 Oct 2020 18:55:56 +0530
-Message-Id: <20201031132556.10379-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Aditya Srivastava <yashsri421@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
-	COMMIT_LOG_LONG_LINE
+ Sat, 31 Oct 2020 08:06:00 -0700 (PDT)
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To: mchehab+huawei@kernel.org,
+	r.verdejo@samsung.com,
+	nicolas@ndufresne.ca
+Date: Sat, 31 Oct 2020 12:05:46 -0300
+Message-Id: <20201031150552.663598-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Cc: linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v2 0/6] media: vidtv: Add support for
+	more MPEG PSI tables
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,61 +110,45 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Currently, if a line exceeds 75 characters in a commit message,
-checkpatch.pl gives a warning corresponding to the same.
+From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-E.g., running checkpatch on commit a1af2afbd244 ("drm/nouveau/volt:Fix
-for some cards having 0 maximum voltage") reports this warning:
+Implement support for more MPEG PSI tables (i.e. NIT & EIT).
 
-WARNING: Possible unwrapped commit description (prefer a maximum 75
-chars per line)
+While we're at it, fix a few minor mistakes in the PSI generator.
 
-Some, mostly Fermi, vbioses appear to have zero max voltage. That causes Nouveau to not parse voltage entries, thus users not being able to set higher clocks.
+I initially sent this without a cover letter and as WIP but I have
+now tidied it up and it's spotless. I tested the driver on a kernel
+with KASAN & Kmemleak and tested the output on DVBInspector.
 
-Fix this warning by truncating the line after 75 chars, and push the
-remaining content to the next line
+Daniel W. S. Almeida (6):
+  media: vidtv: extract the initial CRC value to into a #define
+  media: vidtv: psi: add a Network Information Table (NIT)
+  media: vidtv: psi: Implement an Event Information Table (EIT)
+  media: vidtv: psi: extract descriptor chaining code into a helper
+  media: vidtv: Move s302m specific fields into encoder context
+  media: vidtv: psi: fix missing assignments in while loops
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- scripts/checkpatch.pl | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ .../driver-api/media/drivers/vidtv.rst        |   8 +-
+ .../media/test-drivers/vidtv/vidtv_bridge.c   |   4 +
+ .../media/test-drivers/vidtv/vidtv_channel.c  | 130 +++-
+ .../media/test-drivers/vidtv/vidtv_channel.h  |   3 +
+ .../media/test-drivers/vidtv/vidtv_encoder.h  |   3 -
+ drivers/media/test-drivers/vidtv/vidtv_mux.c  |  29 +
+ drivers/media/test-drivers/vidtv/vidtv_mux.h  |  11 +
+ drivers/media/test-drivers/vidtv/vidtv_psi.c  | 678 +++++++++++++++++-
+ drivers/media/test-drivers/vidtv/vidtv_psi.h  | 240 ++++++-
+ .../media/test-drivers/vidtv/vidtv_s302m.c    |  25 +-
+ .../media/test-drivers/vidtv/vidtv_s302m.h    |   3 +
+ 11 files changed, 1083 insertions(+), 51 deletions(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 5329927fc1c1..a0107ed257d1 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2881,8 +2881,20 @@ sub process {
- 		      $line =~ /^\s*(?:Fixes:|Link:)/i ||
- 					# A Fixes: or Link: line
- 		      $commit_log_possible_stack_dump)) {
--			WARN("COMMIT_LOG_LONG_LINE",
--			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
-+			if (WARN("COMMIT_LOG_LONG_LINE",
-+			     	 "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr) &&
-+			    $fix) {
-+				fix_delete_line($fixlinenr, $rawline);
-+				my $curr_line = $rawline;
-+				my $fixedline;
-+				while (length($curr_line) > 0) {
-+					# trim current line for any unnecessary spaces
-+					$curr_line = trim($curr_line);
-+					$fixedline = substr($curr_line, 0, 75);
-+					fix_insert_line($fixlinenr+1, $fixedline);
-+					$curr_line =~ s/$fixedline//;
-+				}
-+			}
- 			$commit_log_long_line = 1;
- 		}
- 
 -- 
-2.17.1
+2.29.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
