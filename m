@@ -2,79 +2,86 @@ Return-Path: <SRS0=yjWw=EH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 792F4C2D0A3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 09:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC41C2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 11:02:22 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 055F222226
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 09:12:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 323E520756
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 11:02:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="D2XKWuYg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 055F222226
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLUHj0Re"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 323E520756
 Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B111487534;
-	Sun,  1 Nov 2020 09:12:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C7DFC87282;
+	Sun,  1 Nov 2020 11:02:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IfhaNz3RkFR4; Sun,  1 Nov 2020 09:12:51 +0000 (UTC)
+	with ESMTP id V9ELRI7SEcyb; Sun,  1 Nov 2020 11:02:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5917B87528;
-	Sun,  1 Nov 2020 09:12:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1192287813;
+	Sun,  1 Nov 2020 11:02:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4ABC2C088B;
-	Sun,  1 Nov 2020 09:12:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C7EBC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE7E8C088B;
+	Sun,  1 Nov 2020 11:02:20 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B7F0EC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 09:12:50 +0000 (UTC)
+ Sun,  1 Nov 2020 11:02:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 72E2787534
+ by silver.osuosl.org (Postfix) with ESMTP id A82082033F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 09:12:50 +0000 (UTC)
+ Sun,  1 Nov 2020 11:02:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZcTL3Dv9pdIE
+ with ESMTP id M52vy68RWlVE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 09:12:49 +0000 (UTC)
+ Sun,  1 Nov 2020 11:02:16 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EA0B287528
+ by silver.osuosl.org (Postfix) with ESMTPS id EC56F20337
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 09:12:49 +0000 (UTC)
+ Sun,  1 Nov 2020 11:02:15 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0D72821D40;
- Sun,  1 Nov 2020 09:12:48 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id EAFDA2074F;
+ Sun,  1 Nov 2020 11:02:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604221969;
- bh=wtFgC6UAIkXkzXh7IYS/L+1QIbkEJ2r+VMo/+BDOR2A=;
+ s=default; t=1604228535;
+ bh=5XNFiqjH2oN7J9GEbY/PVlCdxYv+WtUQcnEnB0t38U0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=D2XKWuYgzU5qxmJUTEt0mqXxa2DdsGkKnp13o2T83Z8Idf5HdZXyU2EFm7PHBwJoZ
- v/c8DtKQyDkNm+7MCrL+H6nz8bfEoS3ddN4ldfrxSs+Edkgsf1J++cr0P8Lj2VkLly
- DNSr/KogxgkHuKMi+YlCPgpFIHBXKH21Ub+hjeok=
-Date: Sun, 1 Nov 2020 09:21:07 +0100
+ b=iLUHj0ReecjaVs/FH15VZkcACz93cXzUIe3yZNkNdBUr8gyqp8kffHcGoaXIjuhYV
+ N9ikhsDGmQwSl+SDDhK8JQxo5kfRSd3yYqsj6Q+fHdsp36JALoEnanuKgSS0oZ+1sL
+ XJ+lxSMYHpN9KEaTP59VrktOFwzIB9snxzHysrAc=
+Date: Sun, 1 Nov 2020 12:02:58 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Drupad Joshi <drupadjoshi64@gmail.com>
-Message-ID: <20201101082107.GA2548750@kroah.com>
-References: <CAJ3Q+7bum=ESExRa7mcjLWq9wXGfHOrVMOFqTuwVW60DUH=87A@mail.gmail.com>
- <CAJ3Q+7a_Ddw_iUcA4ijJxuD+Vt_E2M9X+pw7=nnBeZvfhh9v9g@mail.gmail.com>
- <20201101064315.GA432993@kroah.com>
- <CAJ3Q+7Z8Fo0k33COdiSpqyju0Xs-yG6tgXFhtpte7akLk2tQHQ@mail.gmail.com>
+To: Anmol Karn <anmol.karan123@gmail.com>
+Message-ID: <20201101110258.GA2925745@kroah.com>
+References: <20201015001712.72976-1-anmol.karan123@gmail.com>
+ <20201015051225.GA404970@kroah.com>
+ <20201015141012.GB77038@Thinkpad>
+ <20201015155051.GB66528@kroah.com>
+ <20201030105413.GA32091@Thinkpad>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAJ3Q+7Z8Fo0k33COdiSpqyju0Xs-yG6tgXFhtpte7akLk2tQHQ@mail.gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Fwd: Linux kernel upstream patch
+In-Reply-To: <20201030105413.GA32091@Thinkpad>
+Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, ralf@linux-mips.org,
+ syzbot+a1c743815982d9496393@syzkaller.appspotmail.com,
+ linux-hams@vger.kernel.org, kuba@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] [PATCH] net: rose: Fix Null pointer
+ dereference in rose_send_frame()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,14 +99,162 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Nov 01, 2020 at 01:36:43PM +0530, Drupad Joshi wrote:
-> No means I am looking for trainer who can help me in that.
+On Fri, Oct 30, 2020 at 04:24:13PM +0530, Anmol Karn wrote:
+> On Thu, Oct 15, 2020 at 05:50:51PM +0200, Greg KH wrote:
+> > On Thu, Oct 15, 2020 at 07:40:12PM +0530, Anmol Karn wrote:
+> > > On Thu, Oct 15, 2020 at 07:12:25AM +0200, Greg KH wrote:
+> > > > On Thu, Oct 15, 2020 at 05:47:12AM +0530, Anmol Karn wrote:
+> > > > > In rose_send_frame(), when comparing two ax.25 addresses, it assigns rose_call to 
+> > > > > either global ROSE callsign or default port, but when the former block triggers and 
+> > > > > rose_call is assigned by (ax25_address *)neigh->dev->dev_addr, a NULL pointer is 
+> > > > > dereferenced by 'neigh' when dereferencing 'dev'.
+> > > > > 
+> > > > > - net/rose/rose_link.c
+> > > > > This bug seems to get triggered in this line:
+> > > > > 
+> > > > > rose_call = (ax25_address *)neigh->dev->dev_addr;
+> > > > > 
+> > > > > Prevent it by checking NULL condition for neigh->dev before comparing addressed for 
+> > > > > rose_call initialization.
+> > > > > 
+> > > > > Reported-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com 
+> > > > > Link: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3 
+> > > > > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
+> > > > > ---
+> > > > > I am bit sceptical about the error return code, please suggest if anything else is 
+> > > > > appropriate in place of '-ENODEV'.
+> > > > > 
+> > > > >  net/rose/rose_link.c | 3 +++
+> > > > >  1 file changed, 3 insertions(+)
+> > > > > 
+> > > > > diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
+> > > > > index f6102e6f5161..92ea6a31d575 100644
+> > > > > --- a/net/rose/rose_link.c
+> > > > > +++ b/net/rose/rose_link.c
+> > > > > @@ -97,6 +97,9 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
+> > > > >  	ax25_address *rose_call;
+> > > > >  	ax25_cb *ax25s;
+> > > > >  
+> > > > > +	if (!neigh->dev)
+> > > > > +		return -ENODEV;
+> > > > 
+> > > > How can ->dev not be set at this point in time?  Shouldn't that be
+> > > > fixed, because it could change right after you check this, right?
+> > > > 
+> > > > thanks,
+> > > > 
+> > > > greg k-h
+> > > 
+> > > Hello Sir,
+> > > 
+> > > Thanks for the review,
+> > > After following the call trace i thought, if neigh->dev is NULL it should
+> > > be checked, but I will figure out what is going on with the crash reproducer,
+> > > and I think rose_loopback_timer() is the place where problem started. 
+> > > 
+> > > Also, I have created a diff for checking neigh->dev before assigning ROSE callsign
+> > > , please give your suggestions on this.
+> > > 
+> > > 
+> > > diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
+> > > index f6102e6f5161..2ddd5e559442 100644
+> > > --- a/net/rose/rose_link.c
+> > > +++ b/net/rose/rose_link.c
+> > > @@ -97,10 +97,14 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
+> > >         ax25_address *rose_call;
+> > >         ax25_cb *ax25s;
+> > >  
+> > > -       if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
+> > > -               rose_call = (ax25_address *)neigh->dev->dev_addr;
+> > > -       else
+> > > -               rose_call = &rose_callsign;
+> > > +       if (neigh->dev) {
+> > > +               if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
+> > > +                       rose_call = (ax25_address *)neigh->dev->dev_addr;
+> > > +               else
+> > > +                       rose_call = &rose_callsign;
+> > > +       } else {
+> > > +               return -ENODEV;
+> > > +       }
+> > 
+> > The point I am trying to make is that if someone else is setting ->dev
+> > to NULL in some other thread/context/whatever, while this is running,
+> > checking for it like this will not work.
+> > 
+> > What is the lifetime rules of that pointer?  Who initializes it, and who
+> > sets it to NULL.  Figure that out first please to determine how to check
+> > for this properly.
+> > 
+> > thanks,
+> > 
+> > greg k-h
 > 
-> I have not tried yet. But need a direction from you.
+> Hello All,
+> 
+> I investigated further on this,
+> 
+> Here is some things i noticed:
+> 
+> When I followed the call trace,
+> 
+> [ 84.241331][ C3] Call Trace:
+> [ 84.241331][ C3] rose_transmit_clear_request ($SOURCE/net/rose/rose_link.c:255)
+> [ 84.241331][ C3] ? lockdep_hardirqs_on ($SOURCE/kernel/locking/lockdep.c:4161)
+> [ 84.241331][ C3] rose_rx_call_request ($SOURCE/net/rose/af_rose.c:999)
+> [ 84.241331][ C3] ? rose_release ($SOURCE/net/rose/af_rose.c:970)
+> [ 84.241331][ C3] rose_loopback_timer ($SOURCE/net/rose/rose_loopback.c:100)
+> [ 84.241331][ C3] ? rose_transmit_link ($SOURCE/net/rose/rose_loopback.c:60)
+> 
+> in the rose_send_frame() it dereferenced `neigh->dev` when called from 
+> rose_transmit_clear_request(), and the first occurance of the `neigh`
+> is in rose_loopback_timer() as `rose_loopback_neigh`, and it is initialized 
+> in rose_add_loopback_neighh() as NULL.
+> 
+> - net/rose/rose_route.c:381
+> 
+> void rose_add_loopback_neigh(void)
+> {
+> 	struct rose_neigh *sn;
+> 
+> 	rose_loopback_neigh = kmalloc(sizeof(struct rose_neigh), GFP_KERNEL);
+> 	if (!rose_loopback_neigh)
+> 		return;
+> 	sn = rose_loopback_neigh;
+> 
+> 	sn->callsign  = null_ax25_address;
+> 	sn->digipeat  = NULL;
+> 	sn->ax25      = NULL;
+> 	sn->dev       = NULL;
+> 	^^^^^^^^^^^^^^^^^^^^^
+> 
+> i.e when `rose_loopback_neigh` used in rose_loopback_timer() its `->dev` was
+> still NULL and rose_loopback_timer() was calling rose_rx_call_request() 
+> without checking for NULL.
+> 
+> 
+> I have created the following patch to check for NULL pointer.
+> 
+> diff --git a/net/rose/rose_loopback.c b/net/rose/rose_loopback.c
+> index 7b094275ea8b..cd7774cb1d07 100644
+> --- a/net/rose/rose_loopback.c
+> +++ b/net/rose/rose_loopback.c
+> @@ -96,7 +96,7 @@ static void rose_loopback_timer(struct timer_list *unused)
+>                 }
+>  
+>                 if (frametype == ROSE_CALL_REQUEST) {
+> -                       if ((dev = rose_dev_get(dest)) != NULL) {
+> +                       if (rose_loopback_neigh->dev && (dev = rose_dev_get(dest)) != NULL) {
+>                                 if (rose_rx_call_request(skb, dev, rose_loopback_neigh, lci_o) == 0)
+>                                         kfree_skb(skb);
+>                         } else {
+> 
+> 
+> 
+> Please, review it and give me suggestions whether i am going right or not.
 
-There are plenty of free, online resources for this, start with that.
+That seems better, does it solve the syzbot test?
 
-good luck!
+thanks,
 
 greg k-h
 _______________________________________________
