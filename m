@@ -2,110 +2,106 @@ Return-Path: <SRS0=yjWw=EH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85631C55178
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 15:48:19 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E824BC2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 18:41:49 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 076A622246
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 15:48:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AFCF422253
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 18:41:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZAtPfAXU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 076A622246
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jnSKQjJB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AFCF422253
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9C61520406;
-	Sun,  1 Nov 2020 15:48:18 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B76AB8788D;
+	Sun,  1 Nov 2020 18:41:40 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id tdIeSrsAt6Mr; Sun,  1 Nov 2020 18:41:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 61E4687894;
+	Sun,  1 Nov 2020 18:41:35 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4DDCAC088B;
+	Sun,  1 Nov 2020 18:41:35 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D38B6C0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  1 Nov 2020 18:41:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 9C7D02033E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  1 Nov 2020 18:41:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id O6CRaNVDHuaM; Sun,  1 Nov 2020 15:48:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5A781203A5;
-	Sun,  1 Nov 2020 15:48:17 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 43226C0889;
-	Sun,  1 Nov 2020 15:48:17 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C69DDC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 15:48:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B3FF5872D4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 15:48:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id d38mS6kcbYNc
+ with ESMTP id oDEJ8RiGgOIi
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 15:48:14 +0000 (UTC)
+ Sun,  1 Nov 2020 18:41:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E2BD6872D2
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6E6C620008
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 15:48:14 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id m3so2063897pjf.4
+ Sun,  1 Nov 2020 18:41:32 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id u127so12430445oib.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 01 Nov 2020 07:48:14 -0800 (PST)
+ Sun, 01 Nov 2020 10:41:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=MFqfoYF37r0SCDNbL3WFzSImlz9fo3l92Mt1S0RvLJ8=;
- b=ZAtPfAXU+ez6G3Sa36jiNuVtip9xuBJgSCR0eoVs0LXVlEPK3y3U1y5jGjhnOCzM3j
- eWNju6HB/54AK4dHhdTOagCy4vl27W9zS8wYVeMMDvBwmlR+mvNdwRsAPW/B7Fl+Y6Du
- MrexSdOy4IPya4mnY3m6ec0J3zCaaP/rps+siodyeNxfI0oikzV/wMkUwwZFAz6p+b78
- 2HtfvsIYZW1/Szn0J2TiHndSBmstCX5igdVt3zIWxZUqtxRKfxQHmAA0l0VgoIiRKcYy
- 6yjBrWwbcEXKCWf9uGpD5WSkBntEAh+mTSlQ0SmtL4HB4cLriFZyx7JbrOY6MMDQb04g
- vZUA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4c01qTu7eKfC/iF/pts2olAGkQbDL56P0c5ulWky8zM=;
+ b=jnSKQjJBSkeGhY2jSS+hGEra6m/c7z44/yYbld2QW8aA5zLEI8ABbzH8QCLZpuNE+M
+ 3vDJs39XhIGgvifxAL4XdCLiMLzQqqTQaoXFKS8/v1nvVwGwoZFKEUwcIsO9rZZOhWZC
+ Eyp5LQU8zIis6vbDvnfQE0Y89dnArh/FIjg6AtpBGMi49d77Or4LeW+toTwqd90OAk7q
+ 83Nc31oqUECdcq7JenUSBPX35B41R7g7FT6p5LhlYjomFj7vy4GDtALjjt73LY1hv1u3
+ Pr/EOM23rope66m4zTIVyEsqti0JHK4HVUvB/UwC/Yosd0bFysvalO51pbgjtAvrt1dE
+ CXYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=MFqfoYF37r0SCDNbL3WFzSImlz9fo3l92Mt1S0RvLJ8=;
- b=c+SigvyLEM8Ybl2cIKwFbHVRXVQRiya7NkHSEhFR/ZTrbKpG2V9OyDIxlgnutpazKG
- 7fNwLm6P89y5B0PwU/EhKXWMATmLknfAYnR6VwFpIOcTKuiIgDtDJw6uGMRf/wjHNEAG
- 3akrvoORB1S5BZw4j59TzUX72RK6L/3QEErdyzLUeDwkrHg2zvPJm6dzceklp4E6ntVy
- /VXUNc+YS4pRToKnBnE8ER3E+tf56UYywx30iSa7gjWFb9N+sdrbfmpiqC/3rZt88zsY
- 8xVgVo217dqL8+mZjrac31UenZJrFnlu4iS/r9ci4vHA0Nhg5Oaa9H8DzRfxDv1GpaI+
- oZpQ==
-X-Gm-Message-State: AOAM5315th4Y5UATcBVKmyxMo9saQ+viKr7HcMdQhC+xYrFmRdr1OFYk
- YuFVx2RFO1Sg8nsT8+Rtz5M=
-X-Google-Smtp-Source: ABdhPJxr/Q4EjhU1j+7NucdANt0DklHJ7+90yeKV+x6ytGW9EZCS9YxpzmCS09o8aJ85J+qqZyTl5Q==
-X-Received: by 2002:a17:90a:e20f:: with SMTP id
- a15mr12429354pjz.12.1604245694224; 
- Sun, 01 Nov 2020 07:48:14 -0800 (PST)
-Received: from Thinkpad ([45.118.167.197])
- by smtp.gmail.com with ESMTPSA id m12sm9191897pgl.90.2020.11.01.07.48.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Nov 2020 07:48:13 -0800 (PST)
-Date: Sun, 1 Nov 2020 21:18:06 +0530
-From: Anmol Karn <anmol.karan123@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Message-ID: <20201101154806.GB56088@Thinkpad>
-References: <20201015001712.72976-1-anmol.karan123@gmail.com>
- <20201015051225.GA404970@kroah.com>
- <20201015141012.GB77038@Thinkpad>
- <20201015155051.GB66528@kroah.com>
- <20201030105413.GA32091@Thinkpad>
- <20201101110258.GA2925745@kroah.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4c01qTu7eKfC/iF/pts2olAGkQbDL56P0c5ulWky8zM=;
+ b=SnocKm7d8FKHh3gbeR2fwaJGaJ4UXob2cFG5Wa7H9UZQ4I1wCg/OPTTH+IY1ndAydB
+ DGSWs72dF04o7n704IxHgfnSZtiL6ad4QBjsD1aQeXakXZm4zh/NySD43nKhv4/quNqn
+ DdYS61Jk0h545bKE9poSzkkvm6TKd6w1AKxmU7pOdx2Fx1K/tDd3YAqA+juMWxeIOeaW
+ FD9EQwZKLnWjrMXVAqjRSxoGCaLpAaFOliz7ZsELQk3rNtt4FG39/+iX8kPx+YtTzHxf
+ 4vckto022pl82QLWNd/BRMD0Mi081L3F6+2Jj8R8b6epQcHWRTpJesmk62abnrXUchKF
+ OIVw==
+X-Gm-Message-State: AOAM532IKdtQDRwqvtLyKrfIhJ+8ZeP32da7D8nm4sBlF7w8YwpxvXy1
+ avlgHouiwtauDLx/Dxhqwpm36rD6as+bgg==
+X-Google-Smtp-Source: ABdhPJwJSxtRjz0O53LMJExGiyyh4omG3Kw/bv5mukwNhoWNnJjgDhfof66pDx5kKuoUZVLQvsHVuA==
+X-Received: by 2002:a17:90a:4481:: with SMTP id
+ t1mr13892290pjg.216.1604255627311; 
+ Sun, 01 Nov 2020 10:33:47 -0800 (PST)
+Received: from ?IPv6:2402:3a80:40c:3397:d01d:7878:b941:f1cf?
+ ([2402:3a80:40c:3397:d01d:7878:b941:f1cf])
+ by smtp.gmail.com with ESMTPSA id s23sm10255735pgl.47.2020.11.01.10.33.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 01 Nov 2020 10:33:46 -0800 (PST)
+To: lukas.bulwahn@gmail.com
+References: <20201101182106.28568-1-yashsri421@gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <dd8349f6-f847-103c-f393-eabc4cc0101e@gmail.com>
+Date: Mon, 2 Nov 2020 00:03:43 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201101110258.GA2925745@kroah.com>
-Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, ralf@linux-mips.org,
- syzbot+a1c743815982d9496393@syzkaller.appspotmail.com,
- linux-hams@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: rose: Fix Null pointer
- dereference in rose_send_frame()
+In-Reply-To: <20201101182106.28568-1-yashsri421@gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix for
+	DEPRECATED_VARIABLE
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -123,185 +119,118 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Nov 01, 2020 at 12:02:58PM +0100, Greg KH wrote:
-> On Fri, Oct 30, 2020 at 04:24:13PM +0530, Anmol Karn wrote:
-> > On Thu, Oct 15, 2020 at 05:50:51PM +0200, Greg KH wrote:
-> > > On Thu, Oct 15, 2020 at 07:40:12PM +0530, Anmol Karn wrote:
-> > > > On Thu, Oct 15, 2020 at 07:12:25AM +0200, Greg KH wrote:
-> > > > > On Thu, Oct 15, 2020 at 05:47:12AM +0530, Anmol Karn wrote:
-> > > > > > In rose_send_frame(), when comparing two ax.25 addresses, it assigns rose_call to 
-> > > > > > either global ROSE callsign or default port, but when the former block triggers and 
-> > > > > > rose_call is assigned by (ax25_address *)neigh->dev->dev_addr, a NULL pointer is 
-> > > > > > dereferenced by 'neigh' when dereferencing 'dev'.
-> > > > > > 
-> > > > > > - net/rose/rose_link.c
-> > > > > > This bug seems to get triggered in this line:
-> > > > > > 
-> > > > > > rose_call = (ax25_address *)neigh->dev->dev_addr;
-> > > > > > 
-> > > > > > Prevent it by checking NULL condition for neigh->dev before comparing addressed for 
-> > > > > > rose_call initialization.
-> > > > > > 
-> > > > > > Reported-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com 
-> > > > > > Link: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3 
-> > > > > > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
-> > > > > > ---
-> > > > > > I am bit sceptical about the error return code, please suggest if anything else is 
-> > > > > > appropriate in place of '-ENODEV'.
-> > > > > > 
-> > > > > >  net/rose/rose_link.c | 3 +++
-> > > > > >  1 file changed, 3 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
-> > > > > > index f6102e6f5161..92ea6a31d575 100644
-> > > > > > --- a/net/rose/rose_link.c
-> > > > > > +++ b/net/rose/rose_link.c
-> > > > > > @@ -97,6 +97,9 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
-> > > > > >  	ax25_address *rose_call;
-> > > > > >  	ax25_cb *ax25s;
-> > > > > >  
-> > > > > > +	if (!neigh->dev)
-> > > > > > +		return -ENODEV;
-> > > > > 
-> > > > > How can ->dev not be set at this point in time?  Shouldn't that be
-> > > > > fixed, because it could change right after you check this, right?
-> > > > > 
-> > > > > thanks,
-> > > > > 
-> > > > > greg k-h
-> > > > 
-> > > > Hello Sir,
-> > > > 
-> > > > Thanks for the review,
-> > > > After following the call trace i thought, if neigh->dev is NULL it should
-> > > > be checked, but I will figure out what is going on with the crash reproducer,
-> > > > and I think rose_loopback_timer() is the place where problem started. 
-> > > > 
-> > > > Also, I have created a diff for checking neigh->dev before assigning ROSE callsign
-> > > > , please give your suggestions on this.
-> > > > 
-> > > > 
-> > > > diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
-> > > > index f6102e6f5161..2ddd5e559442 100644
-> > > > --- a/net/rose/rose_link.c
-> > > > +++ b/net/rose/rose_link.c
-> > > > @@ -97,10 +97,14 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
-> > > >         ax25_address *rose_call;
-> > > >         ax25_cb *ax25s;
-> > > >  
-> > > > -       if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
-> > > > -               rose_call = (ax25_address *)neigh->dev->dev_addr;
-> > > > -       else
-> > > > -               rose_call = &rose_callsign;
-> > > > +       if (neigh->dev) {
-> > > > +               if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
-> > > > +                       rose_call = (ax25_address *)neigh->dev->dev_addr;
-> > > > +               else
-> > > > +                       rose_call = &rose_callsign;
-> > > > +       } else {
-> > > > +               return -ENODEV;
-> > > > +       }
-> > > 
-> > > The point I am trying to make is that if someone else is setting ->dev
-> > > to NULL in some other thread/context/whatever, while this is running,
-> > > checking for it like this will not work.
-> > > 
-> > > What is the lifetime rules of that pointer?  Who initializes it, and who
-> > > sets it to NULL.  Figure that out first please to determine how to check
-> > > for this properly.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
-> > 
-> > Hello All,
-> > 
-> > I investigated further on this,
-> > 
-> > Here is some things i noticed:
-> > 
-> > When I followed the call trace,
-> > 
-> > [ 84.241331][ C3] Call Trace:
-> > [ 84.241331][ C3] rose_transmit_clear_request ($SOURCE/net/rose/rose_link.c:255)
-> > [ 84.241331][ C3] ? lockdep_hardirqs_on ($SOURCE/kernel/locking/lockdep.c:4161)
-> > [ 84.241331][ C3] rose_rx_call_request ($SOURCE/net/rose/af_rose.c:999)
-> > [ 84.241331][ C3] ? rose_release ($SOURCE/net/rose/af_rose.c:970)
-> > [ 84.241331][ C3] rose_loopback_timer ($SOURCE/net/rose/rose_loopback.c:100)
-> > [ 84.241331][ C3] ? rose_transmit_link ($SOURCE/net/rose/rose_loopback.c:60)
-> > 
-> > in the rose_send_frame() it dereferenced `neigh->dev` when called from 
-> > rose_transmit_clear_request(), and the first occurance of the `neigh`
-> > is in rose_loopback_timer() as `rose_loopback_neigh`, and it is initialized 
-> > in rose_add_loopback_neighh() as NULL.
-> > 
-> > - net/rose/rose_route.c:381
-> > 
-> > void rose_add_loopback_neigh(void)
-> > {
-> > 	struct rose_neigh *sn;
-> > 
-> > 	rose_loopback_neigh = kmalloc(sizeof(struct rose_neigh), GFP_KERNEL);
-> > 	if (!rose_loopback_neigh)
-> > 		return;
-> > 	sn = rose_loopback_neigh;
-> > 
-> > 	sn->callsign  = null_ax25_address;
-> > 	sn->digipeat  = NULL;
-> > 	sn->ax25      = NULL;
-> > 	sn->dev       = NULL;
-> > 	^^^^^^^^^^^^^^^^^^^^^
-> > 
-> > i.e when `rose_loopback_neigh` used in rose_loopback_timer() its `->dev` was
-> > still NULL and rose_loopback_timer() was calling rose_rx_call_request() 
-> > without checking for NULL.
-> > 
-> > 
-> > I have created the following patch to check for NULL pointer.
-> > 
-> > diff --git a/net/rose/rose_loopback.c b/net/rose/rose_loopback.c
-> > index 7b094275ea8b..cd7774cb1d07 100644
-> > --- a/net/rose/rose_loopback.c
-> > +++ b/net/rose/rose_loopback.c
-> > @@ -96,7 +96,7 @@ static void rose_loopback_timer(struct timer_list *unused)
-> >                 }
-> >  
-> >                 if (frametype == ROSE_CALL_REQUEST) {
-> > -                       if ((dev = rose_dev_get(dest)) != NULL) {
-> > +                       if (rose_loopback_neigh->dev && (dev = rose_dev_get(dest)) != NULL) {
-> >                                 if (rose_rx_call_request(skb, dev, rose_loopback_neigh, lci_o) == 0)
-> >                                         kfree_skb(skb);
-> >                         } else {
-> > 
-> > 
-> > 
-> > Please, review it and give me suggestions whether i am going right or not.
+On 1/11/20 11:51 pm, Aditya Srivastava wrote:
+> The coding style of Makefile has been improved to use certain different
+> variable names as compared to earlier.
 > 
-> That seems better, does it solve the syzbot test?
+> E.g., variable name asflags-y should be used instead of EXTRA_AFLAGS, etc
 > 
-> thanks,
+> Currently checkpatch.pl warns the user to change variable name with
+> its corresponding upgrade, but does not have a fix option
 > 
-> greg k-h
+> Provide simple fix by substituting the variable name with its
+> corresponding upgrade.
+> 
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index a0107ed257d1..5fd34a862522 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3266,8 +3266,13 @@ sub process {
+>  				'EXTRA_LDFLAGS' =>  'ldflags-y',
+>  			};
+>  
+> -			WARN("DEPRECATED_VARIABLE",
+> -			     "Use of $flag is deprecated, please use \`$replacement->{$flag} instead.\n" . $herecurr) if ($replacement->{$flag});
+> +			if($replacement->{$flag}) {
+> +				if (WARN("DEPRECATED_VARIABLE",
+> +					 "Use of $flag is deprecated, please use \`$replacement->{$flag} instead.\n" . $herecurr) &&
+> +				    $fix) {
+> +					$fixed[$fixlinenr] =~ s/$flag/$replacement->{$flag}/;
+> +				}
+> +			}
+>  		}
+>  
+>  # check for DT compatible documentation
+> 
 
-Hello Sir,
+For this warning, I couldn't find any warning in the past. So, I
+generated a patch for myself, for testing:
 
-yes this patch is tested by syzbot.
+From 1bab609eae606a0b89aa6c752d07b0e64488a6e2 Mon Sep 17 00:00:00 2001
+From: Aditya Srivastava <yashsri421@gmail.com>
+Date: Sun, 1 Nov 2020 20:12:44 +0530
+Subject: [PATCH] makefile: testing
 
-Below links triggers same bug:
+random description, random content
 
-Link 1: https://syzkaller.appspot.com/bug?id=f46c94afb217ab49c75350adbd467d86ae2b59a6
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+ scripts/Makefile.lib | 1 +
+ 1 file changed, 1 insertion(+)
 
-Link 2: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 94133708889d..c9f50e2d9901 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -4,6 +4,7 @@ asflags-y  += $(EXTRA_AFLAGS)
+ ccflags-y  += $(EXTRA_CFLAGS)
+ cppflags-y += $(EXTRA_CPPFLAGS)
+ ldflags-y  += $(EXTRA_LDFLAGS)
++EXTRA_LDFLAGS  = ldflags-y
+ ifneq ($(always),)
+ $(warning 'always' is deprecated. Please use 'always-y' instead)
+ always-y   += $(always)
+-- 
+2.17.1
 
-Also, can i now send a version 2 of this patch?
+Running checkpatch.pl on it gives the warning:
+
+WARNING: Use of EXTRA_LDFLAGS is deprecated, please use `ldflags-y
+instead.
+#21: FILE: scripts/Makefile.lib:7:
++EXTRA_LDFLAGS  = cppflags-y
+
+On executing it with --fix produces this result:
+
+From 1bab609eae606a0b89aa6c752d07b0e64488a6e2 Mon Sep 17 00:00:00 2001
+From: Aditya Srivastava <yashsri421@gmail.com>
+Date: Sun, 1 Nov 2020 20:12:44 +0530
+Subject: [PATCH] makefile: testing
+
+random description, random content
+
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+ scripts/Makefile.lib | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 94133708889d..c9f50e2d9901 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -4,6 +4,7 @@ asflags-y  += $(EXTRA_AFLAGS)
+ ccflags-y  += $(EXTRA_CFLAGS)
+ cppflags-y += $(EXTRA_CPPFLAGS)
+ ldflags-y  += $(EXTRA_LDFLAGS)
++ldflags-y  = cppflags-y
+ ifneq ($(always),)
+ $(warning 'always' is deprecated. Please use 'always-y' instead)
+ always-y   += $(always)
+-- 
+2.17.1
 
 
-Thanks,
-Anmol
+Here, the variable 'EXTRA_LDFLAGS' gets replaced with 'ldflags-y', as
+was suggested in the message.
 
 
-
-
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
