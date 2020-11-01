@@ -2,106 +2,110 @@ Return-Path: <SRS0=yjWw=EH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E667DC55179
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 11:04:14 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85631C55178
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 15:48:19 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6FD8920756
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 11:04:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 076A622246
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 15:48:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eu2XwJaM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6FD8920756
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZAtPfAXU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 076A622246
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4E28587460;
-	Sun,  1 Nov 2020 11:04:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9C61520406;
+	Sun,  1 Nov 2020 15:48:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S6ikG6Mje9Ce; Sun,  1 Nov 2020 11:04:13 +0000 (UTC)
+	with ESMTP id O6CRaNVDHuaM; Sun,  1 Nov 2020 15:48:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4A2318745F;
-	Sun,  1 Nov 2020 11:04:13 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5A781203A5;
+	Sun,  1 Nov 2020 15:48:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E0B9C088B;
-	Sun,  1 Nov 2020 11:04:13 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F22A0C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 43226C0889;
+	Sun,  1 Nov 2020 15:48:17 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C69DDC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 11:04:11 +0000 (UTC)
+ Sun,  1 Nov 2020 15:48:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DCFA28764C
+ by hemlock.osuosl.org (Postfix) with ESMTP id B3FF5872D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 11:04:11 +0000 (UTC)
+ Sun,  1 Nov 2020 15:48:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uqkZv4uwgFdh
+ with ESMTP id d38mS6kcbYNc
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 11:04:10 +0000 (UTC)
+ Sun,  1 Nov 2020 15:48:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
  [209.85.216.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CE22A87618
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E2BD6872D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 11:04:10 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id g19so1052606pji.0
+ Sun,  1 Nov 2020 15:48:14 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id m3so2063897pjf.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 01 Nov 2020 03:04:10 -0800 (PST)
+ Sun, 01 Nov 2020 07:48:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rG3GBzV1DxebD4Yv+WVYveg501aneeVTu56PfKT/lyI=;
- b=Eu2XwJaM5BKn88VBm3LnJELt8SRkfpfAMnTvEFoWATfsxIyN4RRMuMVNV8CbQgBVcW
- FiyYs6iExWQsBikTJkARjqpOaC3UWkc/eSirayptM6tllO0Z1A2vleeq4HS9cT2RubjY
- eFfZoyJ3LXF0Jl3ykWJx8s76hSDKCFP5gOBKC/tLHYqgrlQYnLvrVwwBxV+98i5ZLnqu
- Zv0xGYXBxOGJHElj6YuDPgWF/bXUOqpqc5kMMi/8Kwes5gFnprs5zzW2MKjxUglluEav
- 8jxZ8JjBeOcQvJFgCmrle6k+7lVS4KMJwR+cMla6bhoI+zoKSwzCmDBdGxandS0oDc3c
- ktkw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=MFqfoYF37r0SCDNbL3WFzSImlz9fo3l92Mt1S0RvLJ8=;
+ b=ZAtPfAXU+ez6G3Sa36jiNuVtip9xuBJgSCR0eoVs0LXVlEPK3y3U1y5jGjhnOCzM3j
+ eWNju6HB/54AK4dHhdTOagCy4vl27W9zS8wYVeMMDvBwmlR+mvNdwRsAPW/B7Fl+Y6Du
+ MrexSdOy4IPya4mnY3m6ec0J3zCaaP/rps+siodyeNxfI0oikzV/wMkUwwZFAz6p+b78
+ 2HtfvsIYZW1/Szn0J2TiHndSBmstCX5igdVt3zIWxZUqtxRKfxQHmAA0l0VgoIiRKcYy
+ 6yjBrWwbcEXKCWf9uGpD5WSkBntEAh+mTSlQ0SmtL4HB4cLriFZyx7JbrOY6MMDQb04g
+ vZUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rG3GBzV1DxebD4Yv+WVYveg501aneeVTu56PfKT/lyI=;
- b=LZz1/vYvg/JsLatQgqMNrf7h+gdjm1CUzW/UDGgmgrPjJ/GljwASsuWXzdI9DfKavG
- gnoyWc2tgQxCo0BVG0g8XYHmIIetYxffmXtvacRvfpk0L/CD+fktD/QnaDaTHtQZBJh8
- cE1XdCdzjCk5PUI8q8ebIu0SvnU7CQhwnDBd2bpT7qGicGynwTjnlgIN0qGEtSVmhJFz
- JiFBLI7Ar4K5YpTarGeDIElSRGDdbNhXrKp0caTjuEx1xeBwlcWMgseawBNdU9GmFTqe
- H+3sYKK0E/gLq18R9yc3uPd2SqcIDUjbhuqLVPelrni/5wHDWyzto9wa3uTfuC8zb06D
- H43A==
-X-Gm-Message-State: AOAM533PgcCsHQ8yBbDQy3kUcOdoLi6bcbqdTBCecCRpIXqiUMbUqgQN
- mQ//9MUe09n8Fo3Wh2nvQjBfq/E8voqeaA==
-X-Google-Smtp-Source: ABdhPJwnRuVpr5c50Doc43+SFyFm/l1WUmuBOtYipGs2j64n5HfZ5aCNkOIG6WyDmuvMaeYDrq2L1w==
-X-Received: by 2002:a17:90a:d98c:: with SMTP id
- d12mr12639614pjv.191.1604228650136; 
- Sun, 01 Nov 2020 03:04:10 -0800 (PST)
-Received: from ?IPv6:2402:3a80:40c:3397:d01d:7878:b941:f1cf?
- ([2402:3a80:40c:3397:d01d:7878:b941:f1cf])
- by smtp.gmail.com with ESMTPSA id c127sm10968379pfc.115.2020.11.01.03.04.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Nov 2020 03:04:09 -0800 (PST)
-To: lukas.bulwahn@gmail.com
-References: <20201031132556.10379-1-yashsri421@gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <dbe7fc9c-8b68-aa2a-f35b-1a387b373186@gmail.com>
-Date: Sun, 1 Nov 2020 16:34:05 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MFqfoYF37r0SCDNbL3WFzSImlz9fo3l92Mt1S0RvLJ8=;
+ b=c+SigvyLEM8Ybl2cIKwFbHVRXVQRiya7NkHSEhFR/ZTrbKpG2V9OyDIxlgnutpazKG
+ 7fNwLm6P89y5B0PwU/EhKXWMATmLknfAYnR6VwFpIOcTKuiIgDtDJw6uGMRf/wjHNEAG
+ 3akrvoORB1S5BZw4j59TzUX72RK6L/3QEErdyzLUeDwkrHg2zvPJm6dzceklp4E6ntVy
+ /VXUNc+YS4pRToKnBnE8ER3E+tf56UYywx30iSa7gjWFb9N+sdrbfmpiqC/3rZt88zsY
+ 8xVgVo217dqL8+mZjrac31UenZJrFnlu4iS/r9ci4vHA0Nhg5Oaa9H8DzRfxDv1GpaI+
+ oZpQ==
+X-Gm-Message-State: AOAM5315th4Y5UATcBVKmyxMo9saQ+viKr7HcMdQhC+xYrFmRdr1OFYk
+ YuFVx2RFO1Sg8nsT8+Rtz5M=
+X-Google-Smtp-Source: ABdhPJxr/Q4EjhU1j+7NucdANt0DklHJ7+90yeKV+x6ytGW9EZCS9YxpzmCS09o8aJ85J+qqZyTl5Q==
+X-Received: by 2002:a17:90a:e20f:: with SMTP id
+ a15mr12429354pjz.12.1604245694224; 
+ Sun, 01 Nov 2020 07:48:14 -0800 (PST)
+Received: from Thinkpad ([45.118.167.197])
+ by smtp.gmail.com with ESMTPSA id m12sm9191897pgl.90.2020.11.01.07.48.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Nov 2020 07:48:13 -0800 (PST)
+Date: Sun, 1 Nov 2020 21:18:06 +0530
+From: Anmol Karn <anmol.karan123@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Message-ID: <20201101154806.GB56088@Thinkpad>
+References: <20201015001712.72976-1-anmol.karan123@gmail.com>
+ <20201015051225.GA404970@kroah.com>
+ <20201015141012.GB77038@Thinkpad>
+ <20201015155051.GB66528@kroah.com>
+ <20201030105413.GA32091@Thinkpad>
+ <20201101110258.GA2925745@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20201031132556.10379-1-yashsri421@gmail.com>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
-	COMMIT_LOG_LONG_LINE
+Content-Disposition: inline
+In-Reply-To: <20201101110258.GA2925745@kroah.com>
+Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, ralf@linux-mips.org,
+ syzbot+a1c743815982d9496393@syzkaller.appspotmail.com,
+ linux-hams@vger.kernel.org, kuba@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] [PATCH] net: rose: Fix Null pointer
+ dereference in rose_send_frame()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,60 +123,185 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 31/10/20 6:55 pm, Aditya Srivastava wrote:
-> Currently, if a line exceeds 75 characters in a commit message,
-> checkpatch.pl gives a warning corresponding to the same.
+On Sun, Nov 01, 2020 at 12:02:58PM +0100, Greg KH wrote:
+> On Fri, Oct 30, 2020 at 04:24:13PM +0530, Anmol Karn wrote:
+> > On Thu, Oct 15, 2020 at 05:50:51PM +0200, Greg KH wrote:
+> > > On Thu, Oct 15, 2020 at 07:40:12PM +0530, Anmol Karn wrote:
+> > > > On Thu, Oct 15, 2020 at 07:12:25AM +0200, Greg KH wrote:
+> > > > > On Thu, Oct 15, 2020 at 05:47:12AM +0530, Anmol Karn wrote:
+> > > > > > In rose_send_frame(), when comparing two ax.25 addresses, it assigns rose_call to 
+> > > > > > either global ROSE callsign or default port, but when the former block triggers and 
+> > > > > > rose_call is assigned by (ax25_address *)neigh->dev->dev_addr, a NULL pointer is 
+> > > > > > dereferenced by 'neigh' when dereferencing 'dev'.
+> > > > > > 
+> > > > > > - net/rose/rose_link.c
+> > > > > > This bug seems to get triggered in this line:
+> > > > > > 
+> > > > > > rose_call = (ax25_address *)neigh->dev->dev_addr;
+> > > > > > 
+> > > > > > Prevent it by checking NULL condition for neigh->dev before comparing addressed for 
+> > > > > > rose_call initialization.
+> > > > > > 
+> > > > > > Reported-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com 
+> > > > > > Link: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3 
+> > > > > > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
+> > > > > > ---
+> > > > > > I am bit sceptical about the error return code, please suggest if anything else is 
+> > > > > > appropriate in place of '-ENODEV'.
+> > > > > > 
+> > > > > >  net/rose/rose_link.c | 3 +++
+> > > > > >  1 file changed, 3 insertions(+)
+> > > > > > 
+> > > > > > diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
+> > > > > > index f6102e6f5161..92ea6a31d575 100644
+> > > > > > --- a/net/rose/rose_link.c
+> > > > > > +++ b/net/rose/rose_link.c
+> > > > > > @@ -97,6 +97,9 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
+> > > > > >  	ax25_address *rose_call;
+> > > > > >  	ax25_cb *ax25s;
+> > > > > >  
+> > > > > > +	if (!neigh->dev)
+> > > > > > +		return -ENODEV;
+> > > > > 
+> > > > > How can ->dev not be set at this point in time?  Shouldn't that be
+> > > > > fixed, because it could change right after you check this, right?
+> > > > > 
+> > > > > thanks,
+> > > > > 
+> > > > > greg k-h
+> > > > 
+> > > > Hello Sir,
+> > > > 
+> > > > Thanks for the review,
+> > > > After following the call trace i thought, if neigh->dev is NULL it should
+> > > > be checked, but I will figure out what is going on with the crash reproducer,
+> > > > and I think rose_loopback_timer() is the place where problem started. 
+> > > > 
+> > > > Also, I have created a diff for checking neigh->dev before assigning ROSE callsign
+> > > > , please give your suggestions on this.
+> > > > 
+> > > > 
+> > > > diff --git a/net/rose/rose_link.c b/net/rose/rose_link.c
+> > > > index f6102e6f5161..2ddd5e559442 100644
+> > > > --- a/net/rose/rose_link.c
+> > > > +++ b/net/rose/rose_link.c
+> > > > @@ -97,10 +97,14 @@ static int rose_send_frame(struct sk_buff *skb, struct rose_neigh *neigh)
+> > > >         ax25_address *rose_call;
+> > > >         ax25_cb *ax25s;
+> > > >  
+> > > > -       if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
+> > > > -               rose_call = (ax25_address *)neigh->dev->dev_addr;
+> > > > -       else
+> > > > -               rose_call = &rose_callsign;
+> > > > +       if (neigh->dev) {
+> > > > +               if (ax25cmp(&rose_callsign, &null_ax25_address) == 0)
+> > > > +                       rose_call = (ax25_address *)neigh->dev->dev_addr;
+> > > > +               else
+> > > > +                       rose_call = &rose_callsign;
+> > > > +       } else {
+> > > > +               return -ENODEV;
+> > > > +       }
+> > > 
+> > > The point I am trying to make is that if someone else is setting ->dev
+> > > to NULL in some other thread/context/whatever, while this is running,
+> > > checking for it like this will not work.
+> > > 
+> > > What is the lifetime rules of that pointer?  Who initializes it, and who
+> > > sets it to NULL.  Figure that out first please to determine how to check
+> > > for this properly.
+> > > 
+> > > thanks,
+> > > 
+> > > greg k-h
+> > 
+> > Hello All,
+> > 
+> > I investigated further on this,
+> > 
+> > Here is some things i noticed:
+> > 
+> > When I followed the call trace,
+> > 
+> > [ 84.241331][ C3] Call Trace:
+> > [ 84.241331][ C3] rose_transmit_clear_request ($SOURCE/net/rose/rose_link.c:255)
+> > [ 84.241331][ C3] ? lockdep_hardirqs_on ($SOURCE/kernel/locking/lockdep.c:4161)
+> > [ 84.241331][ C3] rose_rx_call_request ($SOURCE/net/rose/af_rose.c:999)
+> > [ 84.241331][ C3] ? rose_release ($SOURCE/net/rose/af_rose.c:970)
+> > [ 84.241331][ C3] rose_loopback_timer ($SOURCE/net/rose/rose_loopback.c:100)
+> > [ 84.241331][ C3] ? rose_transmit_link ($SOURCE/net/rose/rose_loopback.c:60)
+> > 
+> > in the rose_send_frame() it dereferenced `neigh->dev` when called from 
+> > rose_transmit_clear_request(), and the first occurance of the `neigh`
+> > is in rose_loopback_timer() as `rose_loopback_neigh`, and it is initialized 
+> > in rose_add_loopback_neighh() as NULL.
+> > 
+> > - net/rose/rose_route.c:381
+> > 
+> > void rose_add_loopback_neigh(void)
+> > {
+> > 	struct rose_neigh *sn;
+> > 
+> > 	rose_loopback_neigh = kmalloc(sizeof(struct rose_neigh), GFP_KERNEL);
+> > 	if (!rose_loopback_neigh)
+> > 		return;
+> > 	sn = rose_loopback_neigh;
+> > 
+> > 	sn->callsign  = null_ax25_address;
+> > 	sn->digipeat  = NULL;
+> > 	sn->ax25      = NULL;
+> > 	sn->dev       = NULL;
+> > 	^^^^^^^^^^^^^^^^^^^^^
+> > 
+> > i.e when `rose_loopback_neigh` used in rose_loopback_timer() its `->dev` was
+> > still NULL and rose_loopback_timer() was calling rose_rx_call_request() 
+> > without checking for NULL.
+> > 
+> > 
+> > I have created the following patch to check for NULL pointer.
+> > 
+> > diff --git a/net/rose/rose_loopback.c b/net/rose/rose_loopback.c
+> > index 7b094275ea8b..cd7774cb1d07 100644
+> > --- a/net/rose/rose_loopback.c
+> > +++ b/net/rose/rose_loopback.c
+> > @@ -96,7 +96,7 @@ static void rose_loopback_timer(struct timer_list *unused)
+> >                 }
+> >  
+> >                 if (frametype == ROSE_CALL_REQUEST) {
+> > -                       if ((dev = rose_dev_get(dest)) != NULL) {
+> > +                       if (rose_loopback_neigh->dev && (dev = rose_dev_get(dest)) != NULL) {
+> >                                 if (rose_rx_call_request(skb, dev, rose_loopback_neigh, lci_o) == 0)
+> >                                         kfree_skb(skb);
+> >                         } else {
+> > 
+> > 
+> > 
+> > Please, review it and give me suggestions whether i am going right or not.
 > 
-> E.g., running checkpatch on commit a1af2afbd244 ("drm/nouveau/volt:Fix
-> for some cards having 0 maximum voltage") reports this warning:
+> That seems better, does it solve the syzbot test?
 > 
-> WARNING: Possible unwrapped commit description (prefer a maximum 75
-> chars per line)
+> thanks,
 > 
-> Some, mostly Fermi, vbioses appear to have zero max voltage. That causes Nouveau to not parse voltage entries, thus users not being able to set higher clocks.
-> 
-> Fix this warning by truncating the line after 75 chars, and push the
-> remaining content to the next line
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  scripts/checkpatch.pl | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 5329927fc1c1..a0107ed257d1 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2881,8 +2881,20 @@ sub process {
->  		      $line =~ /^\s*(?:Fixes:|Link:)/i ||
->  					# A Fixes: or Link: line
->  		      $commit_log_possible_stack_dump)) {
-> -			WARN("COMMIT_LOG_LONG_LINE",
-> -			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
-> +			if (WARN("COMMIT_LOG_LONG_LINE",
-> +			     	 "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr) &&
-> +			    $fix) {
-> +				fix_delete_line($fixlinenr, $rawline);
-> +				my $curr_line = $rawline;
-> +				my $fixedline;
-> +				while (length($curr_line) > 0) {
-> +					# trim current line for any unnecessary spaces
-> +					$curr_line = trim($curr_line);
-> +					$fixedline = substr($curr_line, 0, 75);
-> +					fix_insert_line($fixlinenr+1, $fixedline);
-> +					$curr_line =~ s/$fixedline//;
-> +				}
-> +			}
->  			$commit_log_long_line = 1;
->  		}
->  
-> 
+> greg k-h
 
-Hi Sir
-Seeking your feedback on this one
+Hello Sir,
 
-Thanks
-Aditya
+yes this patch is tested by syzbot.
+
+Below links triggers same bug:
+
+Link 1: https://syzkaller.appspot.com/bug?id=f46c94afb217ab49c75350adbd467d86ae2b59a6
+
+Link 2: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3
+
+Also, can i now send a version 2 of this patch?
+
+
+Thanks,
+Anmol
+
+
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
