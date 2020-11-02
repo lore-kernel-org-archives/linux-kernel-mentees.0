@@ -1,4 +1,4 @@
-Return-Path: <SRS0=yjWw=EH=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=Fecm=EI=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -6,94 +6,101 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D2A3C2D0A3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 18:52:03 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C56DEC2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 03:17:25 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7E10C22274
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Nov 2020 18:52:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 402D920706
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 03:17:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HIooO0z6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E10C22274
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="moDwNx4L"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 402D920706
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1F11D86DB2;
-	Sun,  1 Nov 2020 18:52:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ob3+krlLvAT2; Sun,  1 Nov 2020 18:52:01 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8A7C685620;
-	Sun,  1 Nov 2020 18:52:01 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 77166C088B;
-	Sun,  1 Nov 2020 18:52:01 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 09DBAC0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 18:52:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E202820370
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 18:51:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F22A920492;
+	Mon,  2 Nov 2020 03:17:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QE7pBsPFYhuI; Mon,  2 Nov 2020 03:17:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id D0BDC20116;
+	Mon,  2 Nov 2020 03:17:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B99C1C0889;
+	Mon,  2 Nov 2020 03:17:23 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 40A2EC0889
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  2 Nov 2020 03:17:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 258FD86963
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  2 Nov 2020 03:17:23 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UWtQvKm2eXID
+ with ESMTP id aG3b+sL+e8wZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 18:51:59 +0000 (UTC)
+ Mon,  2 Nov 2020 03:17:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 1540E2035E
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6684E86998
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Nov 2020 18:51:59 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id k27so12415685oij.11
+ Mon,  2 Nov 2020 03:17:22 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id n16so9553505pgv.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 01 Nov 2020 10:51:59 -0800 (PST)
+ Sun, 01 Nov 2020 19:17:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=KFaeSYRh43G7/j9aXoN3pOj3AsZes0E2zRDX86awKWk=;
- b=HIooO0z6Ugr8C69I5LrlLtLiIU0lghFWNGGX2IFKJYNcCPNub3dF4+ptqUDO9Ddm4h
- KWI0/4hlE1E3NGHNz7q7LTwSSQOjOVyWdj+4E42hd2ngdQHfVfED4VCBbyc/wMtuUJJX
- Wvz3ThSa4ZRsvwTnobgza7hpnOJn5Qu/bN8OfiZResBT52iEJf+wqapvfJYx9D7KcZ4C
- 8ozoUWNXQR28fScwfVzhQ3cZamMmaQBWV5JKpKY5xkSU3USklfaYus7Hpg5eBpWytFEw
- NhUsJXCKoi/I7/DLPB03LMVMXst/gKvPl8VnKvOD588ynxjaY8mrddn2dYna0+k/MUbY
- Vz2w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fwNRxDnv+UtvNXDA29/weyHf8Kk1GunaCJV8fEWqD00=;
+ b=moDwNx4LCqS6nBHsZeSVmXTK7hi5PDEiX/2Ee5/gjcBkkr8ffzRYKmAzS/r94rU8jv
+ wqlHqNRKB8TfixhOD9Y2hAFZUorR0jTtVSYmB7j9nwlr4fHz5skVdWqamOY6fImILhIi
+ 1i2g9iAvjHe261r6LvUli9CB6uxQsQMWTvzsikIiF3CTG42fZFIMXfcOjRdSwKaR2sIH
+ aV0BfClvm24o8PIQsGPk4qhvOVsRByL8MWKTceTkyp2wTJ52YhNcZtXLXGaeESsyJJgI
+ NlN2BKveQDh9wpwFtgbRgtrNF8HCh9LT4ok2un/jDeR3Znj3dvCnwHWyuUR8d/fqy7lu
+ Dr/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=KFaeSYRh43G7/j9aXoN3pOj3AsZes0E2zRDX86awKWk=;
- b=bX2M4WZ6Pke81Du2lw/DP+A6p+aXcPJWNNAzCaWrX+u1nMlTdApX3GB18VZx4alf6t
- QIXty6UXhNFUGPyGZ5cL6oowXLPPFHSBaEfbEx7EWTzn005s3DbDst/nwD1weBBgTUMT
- eHlsr8q8x0TBFWF2MSkGP+JsGtzqQkx5goEVxH2XnjEg+vQ6yy3Ah4TKMdC/h+IE03NF
- 4ILm9EsNznqArlYiKdljPVdXjbANeRmMbIzNXB26zBLScA7ulnYGPFnvQpwKvfTbiPu2
- n1AzKykJfNLrI/ZyoBxr5LFO09cBKOXRQKOBjK6S9UfTYi2l4srTHL0X3Rh8Jmv3qAQz
- z1uA==
-X-Gm-Message-State: AOAM5327ieWjXo2WFyHk2/EZQKKONXHj0cVdQ19hYdKaSpwfoee4SWD8
- KeUIsvWuzstceSLc+rvazDtj/J80emf4CQ==
-X-Google-Smtp-Source: ABdhPJy+b1cdTP3YF2joELZpL6TPU86du4a+U8wxru7g5Icc3OJr0frMtgDEhk9rtAQd4jYmP1QA7A==
-X-Received: by 2002:a17:90a:5204:: with SMTP id
- v4mr12616747pjh.188.1604254875666; 
- Sun, 01 Nov 2020 10:21:15 -0800 (PST)
-Received: from localhost.localdomain ([2402:3a80:40c:3397:d01d:7878:b941:f1cf])
- by smtp.googlemail.com with ESMTPSA id kv19sm9493329pjb.22.2020.11.01.10.21.13
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fwNRxDnv+UtvNXDA29/weyHf8Kk1GunaCJV8fEWqD00=;
+ b=HQYA++QrBpgJqELal4bxnclKtvYrUEhSsmx+coLmj6ZpXdwLCrsWqWrX+2RJV5+e8o
+ mV86fyx39plXntUg8RMiCuT4KJJsZb+RfdNZ1Z/GtutijRs81++5IYxR1y5WRssPxJmW
+ SKxUpnvRW9tz6xojgKgEtHk6SjgwNhXndIeP3tQmF6Mu4XKgfRLIl+bUz3x8lU7Xyi55
+ Yi6upOeO0sJr859ojBR+QVzY2eOQUAZGvsc+dYqUR1QrYQhKXCvKAdgu7x7Nvf1zerGk
+ +u3J+0Lhpu3S0136mgTiw9KWu6maVT/uz71uHgIVWu5RjMekp1av/UNuwSAdqUuj330b
+ 1Rfg==
+X-Gm-Message-State: AOAM533k72WOuV2Xp83DblMYL04eTXdJ4A4H2rxkkcVWdeYrlzxweTd0
+ kqGOdDLDkSRjXWchE3r2swo=
+X-Google-Smtp-Source: ABdhPJzu3S6EJ0BwebnAPDMGQJr3fjjOnF+/krfTEZHvdPjaYsImqQwJpQ6j3dDh4/g/frpjJgX90g==
+X-Received: by 2002:a62:dd56:0:b029:155:8165:c6c2 with SMTP id
+ w83-20020a62dd560000b02901558165c6c2mr19488885pff.3.1604287041702; 
+ Sun, 01 Nov 2020 19:17:21 -0800 (PST)
+Received: from localhost.localdomain ([49.207.221.93])
+ by smtp.gmail.com with ESMTPSA id o22sm10997076pgb.83.2020.11.01.19.17.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Nov 2020 10:21:15 -0800 (PST)
-From: Aditya Srivastava <yashsri421@gmail.com>
-To: lukas.bulwahn@gmail.com
-Date: Sun,  1 Nov 2020 23:51:06 +0530
-Message-Id: <20201101182106.28568-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Aditya Srivastava <yashsri421@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add fix for
-	DEPRECATED_VARIABLE
+ Sun, 01 Nov 2020 19:17:20 -0800 (PST)
+From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+To: Oliver Hartkopp <socketcan@hartkopp.net>,
+ Marc Kleine-Budde <mkl@pengutronix.de>,
+ "David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
+Date: Mon,  2 Nov 2020 08:43:26 +0530
+Message-Id: <20201102031326.430048-1-anant.thazhemadam@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Cc: Anant Thazhemadam <anant.thazhemadam@gmail.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-can@vger.kernel.org,
+ syzbot+9bcb0c9409066696d3aa@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] net: can: prevent potential access
+	of uninitialized value in canfd_rcv()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,51 +112,69 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The coding style of Makefile has been improved to use certain different
-variable names as compared to earlier.
+In canfd_rcv(), cfd->len is uninitialized when skb->len = 0, and this
+uninitialized cfd->len is accessed nonetheless by pr_warn_once().
 
-E.g., variable name asflags-y should be used instead of EXTRA_AFLAGS, etc
+Fix this uninitialized variable access by checking cfd->len's validity
+condition (cfd->len > CANFD_MAX_DLEN) separately after the skb->len's
+condition is checked, and appropriately modify the log messages that
+are generated as well.
+In case either of the required conditions fail, the skb is freed and
+NET_RX_DROP is returned, same as before.
 
-Currently checkpatch.pl warns the user to change variable name with
-its corresponding upgrade, but does not have a fix option
-
-Provide simple fix by substituting the variable name with its
-corresponding upgrade.
-
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+Reported-by: syzbot+9bcb0c9409066696d3aa@syzkaller.appspotmail.com
+Tested-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
- scripts/checkpatch.pl | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+This patch was locally tested using the reproducer and .config file 
+generated by syzbot.
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index a0107ed257d1..5fd34a862522 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3266,8 +3266,13 @@ sub process {
- 				'EXTRA_LDFLAGS' =>  'ldflags-y',
- 			};
+ net/can/af_can.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/net/can/af_can.c b/net/can/af_can.c
+index ea29a6d97ef5..1b9f2e50f065 100644
+--- a/net/can/af_can.c
++++ b/net/can/af_can.c
+@@ -694,16 +694,25 @@ static int canfd_rcv(struct sk_buff *skb, struct net_device *dev,
+ {
+ 	struct canfd_frame *cfd = (struct canfd_frame *)skb->data;
  
--			WARN("DEPRECATED_VARIABLE",
--			     "Use of $flag is deprecated, please use \`$replacement->{$flag} instead.\n" . $herecurr) if ($replacement->{$flag});
-+			if($replacement->{$flag}) {
-+				if (WARN("DEPRECATED_VARIABLE",
-+					 "Use of $flag is deprecated, please use \`$replacement->{$flag} instead.\n" . $herecurr) &&
-+				    $fix) {
-+					$fixed[$fixlinenr] =~ s/$flag/$replacement->{$flag}/;
-+				}
-+			}
- 		}
+-	if (unlikely(dev->type != ARPHRD_CAN || skb->len != CANFD_MTU ||
+-		     cfd->len > CANFD_MAX_DLEN)) {
+-		pr_warn_once("PF_CAN: dropped non conform CAN FD skbuf: dev type %d, len %d, datalen %d\n",
++	if (unlikely(dev->type != ARPHRD_CAN || skb->len != CANFD_MTU)) {
++		pr_warn_once("PF_CAN: dropped non conform CAN FD skbuff: dev type %d, len %d\n",
++			     dev->type, skb->len);
++		goto free_skb;
++	}
++
++	// This check is made separately since cfd->len would be uninitialized if skb->len = 0.
++	else if (unlikely(cfd->len > CANFD_MAX_DLEN)) {
++		pr_warn_once("PF_CAN: dropped non conform CAN FD skbuff: dev type %d, len %d, datalen %d\n",
+ 			     dev->type, skb->len, cfd->len);
+-		kfree_skb(skb);
+-		return NET_RX_DROP;
++		goto free_skb;
+ 	}
  
- # check for DT compatible documentation
+ 	can_receive(skb, dev);
+ 	return NET_RX_SUCCESS;
++
++free_skb:
++	kfree_skb(skb);
++	return NET_RX_DROP;
+ }
+ 
+ /* af_can protocol functions */
 -- 
-2.17.1
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
