@@ -2,151 +2,103 @@ Return-Path: <SRS0=Fecm=EI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AF9C388F2
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 07:11:21 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E96D8C00A89
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 07:25:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0BE7A20870
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 07:11:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0BE7A20870
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+	by mail.kernel.org (Postfix) with ESMTPS id 358F7221FF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 07:25:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VxqQnRbt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 358F7221FF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 67A5686A3F;
-	Mon,  2 Nov 2020 07:11:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B35DD87357;
+	Mon,  2 Nov 2020 07:25:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id R4APU0gVVmrC; Mon,  2 Nov 2020 07:11:19 +0000 (UTC)
+	with ESMTP id kwSpfeTg-47V; Mon,  2 Nov 2020 07:25:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7FB5C869CD;
-	Mon,  2 Nov 2020 07:11:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0869C87232;
+	Mon,  2 Nov 2020 07:25:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 62A1EC088B;
-	Mon,  2 Nov 2020 07:11:19 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 03653C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7542C0889;
+	Mon,  2 Nov 2020 07:25:07 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 424FFC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 07:11:18 +0000 (UTC)
+ Mon,  2 Nov 2020 07:25:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id F278F87132
+ by silver.osuosl.org (Postfix) with ESMTP id 30620203D9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 07:11:17 +0000 (UTC)
+ Mon,  2 Nov 2020 07:25:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GXH5xAB7nRYk
+ with ESMTP id ctQX-2rmS0E9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 07:11:16 +0000 (UTC)
+ Mon,  2 Nov 2020 07:25:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3A41B87130
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id BB24C20482
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 07:11:16 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mkl@pengutronix.de>)
- id 1kZTzj-0001JA-27; Mon, 02 Nov 2020 08:11:11 +0100
-Received: from [IPv6:2a03:f580:87bc:d400:1e4c:3972:f69f:4bf4] (unknown
- [IPv6:2a03:f580:87bc:d400:1e4c:3972:f69f:4bf4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256 client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "mkl@blackshift.org",
- Issuer "StartCom Class 1 Client CA" (not verified))
- (Authenticated sender: mkl@blackshift.org)
- by smtp.blackshift.org (Postfix) with ESMTPSA id D266A587C5A;
- Mon,  2 Nov 2020 07:11:03 +0000 (UTC)
-To: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- Oliver Hartkopp <socketcan@hartkopp.net>,
- "David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-References: <20201102031326.430048-1-anant.thazhemadam@gmail.com>
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-Autocrypt: addr=mkl@pengutronix.de; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <1817819d-3aeb-8034-a4ec-7c70040b0cf0@pengutronix.de>
-Date: Mon, 2 Nov 2020 08:10:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Mon,  2 Nov 2020 07:25:03 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n18so13278953wrs.5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 01 Nov 2020 23:25:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=MQLK4mNHZJD9Sm9TBD2qY+qgjTLh5nvxbcWNeHwWuC4=;
+ b=VxqQnRbtbaNl+H8CmQGVaPXGB0CCNc0Xi6bO7/f7naYr+rzAiPU+HI9sdmh0eTwQc1
+ I5u+lm91DVGejVldeZodHe1jNBi/aQAmV9ESncDFixjCgrWEiq8SmcfW9ORFXsLMb1wJ
+ 0d+6TZvyFvSRvgS+k7n6HyWyH6E12S48jKwVYzTkqLchWZ7Qwa0oujcbfKAFgciu58pZ
+ kpNGUuBkstVfJDpWmVvt5RcwhogjzNRG+Y4vZ+zm4Sti0TubqrNGjmpmQs6X447r3l29
+ EI/XZj8r14ObxJYqpQ4fGNKRX7GowFGFVMXVe9OOfY046PFEU3N9nxgE86vxSIu/1xg8
+ gXBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=MQLK4mNHZJD9Sm9TBD2qY+qgjTLh5nvxbcWNeHwWuC4=;
+ b=f196kimrbWd75uO0EY4LynJhrFsdRGCf/WG3FhQTGltcCvsKgDWG2A8ny+b/crTnCX
+ bXYeYO29bzNkwVRDG12cn1ED7zqORBQsCYO8/jBMCAekNXzCmfD6I+j8zPmimNi58Rz2
+ Hpi6YQQnEH+6X8wVZiRLnjkNV3BxGk8p9B6yjBsbNww365HOFGvE8RZZKaTFIZJP6QDL
+ rafBfZCMvRvvKRK50ePOAakRlZe2NG/qgyD+5Q1g/rb/OzeNaJVsBiJWWJ4YsplJUPS4
+ UkgIBRW+Fd7wEjeSl7CZzmWSSdPRWu2LM6MAjFLneghwUWXQcetAKDrMp+zIKqqgeHTH
+ 5hiQ==
+X-Gm-Message-State: AOAM53022vSOwvE0lz/lRt6IGIPheLcaQWTthmvcti7wMrsb6fp7vXpE
+ wiys38xfsVJB1tNT7kEOKsQ=
+X-Google-Smtp-Source: ABdhPJxEqyFfZXxoza41bJZ4cFQMDkS0LV1ZKc7VfQJO9u1MiYmgiCrmv/qqnWQgGXbpqIEpRGcMfw==
+X-Received: by 2002:adf:b190:: with SMTP id q16mr19057132wra.288.1604301902289; 
+ Sun, 01 Nov 2020 23:25:02 -0800 (PST)
+Received: from felia ([2001:16b8:2d08:5700:a4fc:57d8:461e:80f1])
+ by smtp.gmail.com with ESMTPSA id t11sm10407348wmf.35.2020.11.01.23.25.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Nov 2020 23:25:01 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date: Mon, 2 Nov 2020 08:25:00 +0100 (CET)
+X-X-Sender: lukas@felia
+To: Aditya Srivastava <yashsri421@gmail.com>
+In-Reply-To: <20201031132556.10379-1-yashsri421@gmail.com>
+Message-ID: <alpine.DEB.2.21.2011020808040.11801@felia>
+References: <20201031132556.10379-1-yashsri421@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20201102031326.430048-1-anant.thazhemadam@gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kernel-mentees@lists.linuxfoundation.org
-Cc: syzbot+9bcb0c9409066696d3aa@syzkaller.appspotmail.com,
- netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-can@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] net: can: prevent potential
- access of uninitialized value in canfd_rcv()
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
+	COMMIT_LOG_LONG_LINE
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -158,156 +110,98 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8504984658029854274=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============8504984658029854274==
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature";
- boundary="ewozx9n6urGFNZ3BZbFyyP7RqJv8rAyn4"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ewozx9n6urGFNZ3BZbFyyP7RqJv8rAyn4
-Content-Type: multipart/mixed; boundary="ja28KKD9T02vFCeiXOuCFFfjP9k3lxMKX";
- protected-headers="v1"
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- Oliver Hartkopp <socketcan@hartkopp.net>,
- "David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Cc: linux-can@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+9bcb0c9409066696d3aa@syzkaller.appspotmail.com
-Message-ID: <1817819d-3aeb-8034-a4ec-7c70040b0cf0@pengutronix.de>
-Subject: Re: [PATCH] net: can: prevent potential access of uninitialized value
- in canfd_rcv()
-References: <20201102031326.430048-1-anant.thazhemadam@gmail.com>
-In-Reply-To: <20201102031326.430048-1-anant.thazhemadam@gmail.com>
 
---ja28KKD9T02vFCeiXOuCFFfjP9k3lxMKX
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On Sat, 31 Oct 2020, Aditya Srivastava wrote:
 
-On 11/2/20 4:13 AM, Anant Thazhemadam wrote:
-> In canfd_rcv(), cfd->len is uninitialized when skb->len =3D 0, and this=
+> Currently, if a line exceeds 75 characters in a commit message,
+> checkpatch.pl gives a warning corresponding to the same.
+> 
+> E.g., running checkpatch on commit a1af2afbd244 ("drm/nouveau/volt:Fix
+> for some cards having 0 maximum voltage") reports this warning:
+> 
+> WARNING: Possible unwrapped commit description (prefer a maximum 75
+> chars per line)
+> 
+> Some, mostly Fermi, vbioses appear to have zero max voltage. That causes Nouveau to not parse voltage entries, thus users not being able to set higher clocks.
+> 
+> Fix this warning by truncating the line after 75 chars, and push the
+> remaining content to the next line
+> 
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 
-> uninitialized cfd->len is accessed nonetheless by pr_warn_once().
->=20
-> Fix this uninitialized variable access by checking cfd->len's validity
-> condition (cfd->len > CANFD_MAX_DLEN) separately after the skb->len's
-> condition is checked, and appropriately modify the log messages that
-> are generated as well.
-> In case either of the required conditions fail, the skb is freed and
-> NET_RX_DROP is returned, same as before.
->=20
-> Reported-by: syzbot+9bcb0c9409066696d3aa@syzkaller.appspotmail.com
-> Tested-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+This is wrong on multiple levels:
+
+1. We must first ensure that the COMMIT_LOG_LONG_LINE are actually 
+largely true positives, i.e., it really makes sense to break those lines. 
+In my evaluations, I found many cases where it is clear that lines should 
+not be broken because it is tool output etc.
+
+2. You cannot just break at character 75. You would need to identify word 
+boundaries and break there.
+
+3. The proper fix is to identify the whole paragraph and then word-wrap 
+the whole paragraph with a limit of 75. Just adding some content in a new 
+line will make the commit message even more unreadable than before. So, 
+that is not a fix.
+
+
+So, I suggest to come up with a good strategy to really identify 
+COMMIT_LOG_LONG_LINE that sensibly can be word-wrapped, i.e.,
+distinguish between free-floating commit description and tool output,
+and then implement that word wrap properly.
+
+Or to prioritize another issue and possiblity for fix rules.
+
+You can see that there are potentially some good options for fixes around 
+the tags and sign-offs Dwaipayan has investigated.
+
+I am pretty sure this patch is this state will not be accepted.
+
+Lukas
+
 > ---
-> This patch was locally tested using the reproducer and .config file=20
-> generated by syzbot.
->=20
->  net/can/af_can.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
->=20
-> diff --git a/net/can/af_can.c b/net/can/af_can.c
-> index ea29a6d97ef5..1b9f2e50f065 100644
-> --- a/net/can/af_can.c
-> +++ b/net/can/af_can.c
-> @@ -694,16 +694,25 @@ static int canfd_rcv(struct sk_buff *skb, struct =
-net_device *dev,
-
-Can you create a similar patch for "can_rcv()"?
-
->  {
->  	struct canfd_frame *cfd =3D (struct canfd_frame *)skb->data;
-> =20
-> -	if (unlikely(dev->type !=3D ARPHRD_CAN || skb->len !=3D CANFD_MTU ||
-> -		     cfd->len > CANFD_MAX_DLEN)) {
-> -		pr_warn_once("PF_CAN: dropped non conform CAN FD skbuf: dev type %d,=
- len %d, datalen %d\n",
-> +	if (unlikely(dev->type !=3D ARPHRD_CAN || skb->len !=3D CANFD_MTU)) {=
-
-> +		pr_warn_once("PF_CAN: dropped non conform CAN FD skbuff: dev type %d=
-, len %d\n",
-> +			     dev->type, skb->len);
-> +		goto free_skb;
-> +	}
-> +
-> +	// This check is made separately since cfd->len would be uninitialize=
-d if skb->len =3D 0.
-
-Please don't use C++ comment style in the kernel.
-
-> +	else if (unlikely(cfd->len > CANFD_MAX_DLEN)) {
-
-Please move the "else" right after the closing curly bracket: "} else if =
-() {"
-or convert it into an "if () {"
-
-> +		pr_warn_once("PF_CAN: dropped non conform CAN FD skbuff: dev type %d=
-, len %d, datalen %d\n",
->  			     dev->type, skb->len, cfd->len);
-> -		kfree_skb(skb);
-> -		return NET_RX_DROP;
-> +		goto free_skb;
->  	}
-> =20
->  	can_receive(skb, dev);
->  	return NET_RX_SUCCESS;
-> +
-> +free_skb:
-> +	kfree_skb(skb);
-> +	return NET_RX_DROP;
->  }
-> =20
->  /* af_can protocol functions */
->=20
-
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
-
---ja28KKD9T02vFCeiXOuCFFfjP9k3lxMKX--
-
---ewozx9n6urGFNZ3BZbFyyP7RqJv8rAyn4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAl+fsQMACgkQqclaivrt
-76nZfAgAgXV9z8x/ItX1gWyjHdlGO4q1Y3gl0dPIt3afO67g1MEx1j5e3ZAExxNL
-0r9jmkOELFrqI9lyNyOdLdm22Ic9DxYZYPMrbmv5cX1QzeJcCe5HdhOj2m+fTY1x
-qCDqVgAMHfXyOghXxwW6/AYQagJEp+OAHKdboEi7B6qsZvjiYjQFSg6g9/YyIShN
-Wagmu7UI9G4TZ/A/NxeqDr0zC3v7SLMatcDWbVMKqEUkhu9NCEY+7fFtf8SCpduG
-/zlqMgC7MoeqSI2HAurnpQW0DV9WKm9+uJ9TtJaTPcd1CC9iL7YLCN9xWkkoK2CR
-PlBx3qYoxTTlhWvaSt7CNa+xY8pRpQ==
-=pn6S
------END PGP SIGNATURE-----
-
---ewozx9n6urGFNZ3BZbFyyP7RqJv8rAyn4--
-
---===============8504984658029854274==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>  scripts/checkpatch.pl | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 5329927fc1c1..a0107ed257d1 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -2881,8 +2881,20 @@ sub process {
+>  		      $line =~ /^\s*(?:Fixes:|Link:)/i ||
+>  					# A Fixes: or Link: line
+>  		      $commit_log_possible_stack_dump)) {
+> -			WARN("COMMIT_LOG_LONG_LINE",
+> -			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
+> +			if (WARN("COMMIT_LOG_LONG_LINE",
+> +			     	 "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr) &&
+> +			    $fix) {
+> +				fix_delete_line($fixlinenr, $rawline);
+> +				my $curr_line = $rawline;
+> +				my $fixedline;
+> +				while (length($curr_line) > 0) {
+> +					# trim current line for any unnecessary spaces
+> +					$curr_line = trim($curr_line);
+> +					$fixedline = substr($curr_line, 0, 75);
+> +					fix_insert_line($fixlinenr+1, $fixedline);
+> +					$curr_line =~ s/$fixedline//;
+> +				}
+> +			}
+>  			$commit_log_long_line = 1;
+>  		}
+>  
+> -- 
+> 2.17.1
+> 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============8504984658029854274==--
