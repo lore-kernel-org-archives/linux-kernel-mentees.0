@@ -5,88 +5,87 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41FCAC00A89
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:53:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E61C4742C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:53:45 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED0A0206F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:53:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0B810206F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:53:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pqGb/ojs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED0A0206F9
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k39IdQvP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B810206F9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8DD1E86A6F;
-	Mon,  2 Nov 2020 16:53:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EDC1586AA4;
+	Mon,  2 Nov 2020 16:53:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AmPcOUlO3MyI; Mon,  2 Nov 2020 16:53:32 +0000 (UTC)
+	with ESMTP id 6h2Wm8QrbjR6; Mon,  2 Nov 2020 16:53:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 11FCC86957;
-	Mon,  2 Nov 2020 16:53:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2173486A6F;
+	Mon,  2 Nov 2020 16:53:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 005B9C088B;
-	Mon,  2 Nov 2020 16:53:32 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 37D4EC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D508C088B;
+	Mon,  2 Nov 2020 16:53:44 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8A398C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:53:31 +0000 (UTC)
+ Mon,  2 Nov 2020 16:53:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 26B9D87227
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7BEBE86AA4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:53:31 +0000 (UTC)
+ Mon,  2 Nov 2020 16:53:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dmTKcrl9L31r
+ with ESMTP id FBcnHn7pW__1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:53:30 +0000 (UTC)
+ Mon,  2 Nov 2020 16:53:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 84CA387225
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B808186A6F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:53:30 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id z3so5227516pfz.6
+ Mon,  2 Nov 2020 16:53:41 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id o3so11267055pgr.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Nov 2020 08:53:30 -0800 (PST)
+ Mon, 02 Nov 2020 08:53:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+FYzDpJVo6o7vUtMY5MEW3bJWYDQoUDOxT/IdoR7Mtw=;
- b=pqGb/ojsmTzbDiumh4WtNsiJGH606Ide/pZHjT/+BjoFB9KSMAxpV5CQ/t8AKbvQGk
- XCAnGwApPmGusMpujWANyP8+gZo1ZRlaGApYaRePfDufmZHYy99ou3SXZuLmJXd0dWUt
- OKvifn+K0l7/WMND09NwcnDQuNoic84nBqnSOGIpaivKWdYB4YOrccXAwTuZUTvHTyWZ
- GzJ+y2jstwpxTLlbyW/PVd00XF4no1zmuNRnaB7cO9hRqxD1ZkZGWXtQUr1vebklVT5X
- e1GSX3d+E1PCXauLySvGSrl/ZR5kPQCC6NjKFQ2nJqe2TDljCRvMhydQZKWhjnAodB/s
- QVKg==
+ bh=Cb4ySFnlLhJ+JhmjzTriCdxevKzKPzQ3J+4RmScEJzI=;
+ b=k39IdQvP1VxpzbrTjqwHF03rdVaMGcVa2DaAthYQylkXsudCrqFgaVQbrIkBPu/FNd
+ QgQXKMyda64eqPigNDlcm9mGheOisop4qdbgVCJzw/ubGzQlkcqdWK3Ar8yut9n/KnyQ
+ SAnY1Kh1+u+17/F6wFRuhDjO/O6qf3hPw0T/D/zKjUT0WpkTMqVkzB11aE+sX2AfqC17
+ YTgY8W09DxEpecirzY99zQk2JIxo+vtDeGk7LqtBvr9sFweFACof13OVigrSUDEJcDz6
+ 7GOJBI8ll20grnDg10A5kSpOhmxPsTrbhoicpFhGMjh3GPD5QiPt5+o6hQln2PxKRop2
+ 5DnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+FYzDpJVo6o7vUtMY5MEW3bJWYDQoUDOxT/IdoR7Mtw=;
- b=e2P3zdzwhic/kPSpnSyZTW7yR1NLkRAlUmP2E00CEjo1/J+hTAQU4IFG4fqDoVHAy4
- 2YFSO/+rSi2XJuSi8iW4EkOmgOyiLtAcx9iiAcqq5hMwyQcYRi63eUg8U5Wo/x0aiYqh
- i31UPZIq3E0/VX2A1uDh9f3V4qecxi57iWLx0E3Ef3RFd/OvFTO0f+5fbKvzwXFl5vRS
- Pci1bRrZzwex/8EWMhoeKc4PKZwVhPBrjQAhz3Jojnjl5Y4gvXhSeMKsvDwI1Pc0L1Qc
- eP9Jn+kL066JtrQNPbk2DHuWZIdKdCegevW7OID20dUtDFUA3dvu3ZgOH/JSs5dUY6+8
- fDmA==
-X-Gm-Message-State: AOAM532L484sLiMYpyHWh5Z1aDGFl+jtKZ5nypPuxX74Lq2cq6ctrzUB
- u+RwkP2SqUQVa6o0Jd7x9A4=
-X-Google-Smtp-Source: ABdhPJzZ7HDMBFqkm0MG4EFU8WiBbdUVuQB59efLgHWUNo012dsn+LurOxiWFE0CxiU/fLJiJMq5UA==
-X-Received: by 2002:aa7:9341:0:b029:18b:b43:6c7 with SMTP id
- 1-20020aa793410000b029018b0b4306c7mr3186804pfn.7.1604336010095; 
- Mon, 02 Nov 2020 08:53:30 -0800 (PST)
+ bh=Cb4ySFnlLhJ+JhmjzTriCdxevKzKPzQ3J+4RmScEJzI=;
+ b=uRF+ILL6vEiMVY8OigvkM+rnw1VzXdfwcpOLOs9SnXOyfxOmKncA0dom9jMzpVlvB0
+ G+yBdnQ8Zic3cuCcI4lMhRoB80q9sZQO8Y4/sbWEm4ho7C2p9yUyQ7q1oMOnI03q9jf5
+ O1pCnaxbrl8Utq0JbpUI0OFX38kSQmFXPISwPBrETYBg9XcNdj/SsxY2LV9BWgOvva0j
+ ep6voBofR98BL5vtltW3GzfkDVb6FqvoYPYEn4R0h9khDGEo8eifDi7qiI9NeYQ74MdI
+ Y8jHlJzMQqIwFgnMWj0DJvSUeTr2EwkALgql6//Lu4fuN5e+p9ZU6Os4+cSoZUNZ7+Iq
+ JhGA==
+X-Gm-Message-State: AOAM5306rQMIqb+F2V68hsOdoysbFW9ZTxF35CqmVZ6fqXgW40wy1euf
+ GZPzDRKjFcEOoZMYpk5wzAs=
+X-Google-Smtp-Source: ABdhPJyDgyx30V3H6BJoMMsQFczZcCAejBuc6H/HGyKQkmU7mR9yTb65KORXvUYyjWd/Sjka5RxOJA==
+X-Received: by 2002:a63:7c46:: with SMTP id l6mr8264187pgn.301.1604336021260; 
+ Mon, 02 Nov 2020 08:53:41 -0800 (PST)
 Received: from varodek.localdomain ([223.179.149.110])
- by smtp.gmail.com with ESMTPSA id t74sm4953233pfc.47.2020.11.02.08.53.21
+ by smtp.gmail.com with ESMTPSA id t74sm4953233pfc.47.2020.11.02.08.53.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 08:53:29 -0800 (PST)
+ Mon, 02 Nov 2020 08:53:40 -0800 (PST)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -108,8 +107,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Balsundar P <balsundar.p@microchip.com>
-Date: Mon,  2 Nov 2020 22:17:17 +0530
-Message-Id: <20201102164730.324035-17-vaibhavgupta40@gmail.com>
+Date: Mon,  2 Nov 2020 22:17:18 +0530
+Message-Id: <20201102164730.324035-18-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201102164730.324035-1-vaibhavgupta40@gmail.com>
 References: <20201102164730.324035-1-vaibhavgupta40@gmail.com>
@@ -117,8 +116,8 @@ MIME-Version: 1.0
 Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
  esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v4 16/29] scsi: mpt3sas_scsih: use
-	generic power management
+Subject: [Linux-kernel-mentees] [PATCH v4 17/29] scsi: lpfc: use generic
+	power management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -149,108 +148,254 @@ unnecessary calls to the PCI Helper functions along with the legacy
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/mpt3sas/mpt3sas_scsih.c | 34 +++++++++++-----------------
- 1 file changed, 13 insertions(+), 21 deletions(-)
+ drivers/scsi/lpfc/lpfc_init.c | 100 +++++++++++-----------------------
+ 1 file changed, 33 insertions(+), 67 deletions(-)
 
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-index 2d201558b8fb..bc68544856b9 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-@@ -11084,20 +11084,18 @@ _scsih_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return rv;
- }
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index ca25e54bb782..bf12328a5e45 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -12581,8 +12581,7 @@ lpfc_pci_remove_one_s3(struct pci_dev *pdev)
  
--#ifdef CONFIG_PM
  /**
-  * scsih_suspend - power management suspend main entry point
-- * @pdev: PCI device struct
-- * @state: PM state change to (usually PCI_D3)
-+ * @dev: Device struct
+  * lpfc_pci_suspend_one_s3 - PCI func to suspend SLI-3 device for power mgmnt
+- * @pdev: pointer to PCI device
+- * @msg: power management message
++ * @dev_d: pointer to device
   *
-  * Return: 0 success, anything else error.
-  */
+  * This routine is to be called from the kernel's PCI subsystem to support
+  * system Power Management (PM) to device with SLI-3 interface spec. When
+@@ -12600,10 +12599,10 @@ lpfc_pci_remove_one_s3(struct pci_dev *pdev)
+  * 	0 - driver suspended the device
+  * 	Error otherwise
+  **/
 -static int
--scsih_suspend(struct pci_dev *pdev, pm_message_t state)
+-lpfc_pci_suspend_one_s3(struct pci_dev *pdev, pm_message_t msg)
 +static int __maybe_unused
-+scsih_suspend(struct device *dev)
++lpfc_pci_suspend_one_s3(struct device *dev_d)
  {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct Scsi_Host *shost;
- 	struct MPT3SAS_ADAPTER *ioc;
--	pci_power_t device_state;
- 	int rc;
+-	struct Scsi_Host *shost = pci_get_drvdata(pdev);
++	struct Scsi_Host *shost = dev_get_drvdata(dev_d);
+ 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
  
- 	rc = _scsih_get_shost_and_ioc(pdev, &shost, &ioc);
-@@ -11108,25 +11106,23 @@ scsih_suspend(struct pci_dev *pdev, pm_message_t state)
- 	flush_scheduled_work();
- 	scsi_block_requests(shost);
- 	_scsih_nvme_shutdown(ioc);
--	device_state = pci_choose_state(pdev, state);
--	ioc_info(ioc, "pdev=0x%p, slot=%s, entering operating state [D%d]\n",
--		 pdev, pci_name(pdev), device_state);
-+	ioc_info(ioc, "pdev=0x%p, slot=%s, entering operating state\n",
-+		 pdev, pci_name(pdev));
+ 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+@@ -12617,16 +12616,12 @@ lpfc_pci_suspend_one_s3(struct pci_dev *pdev, pm_message_t msg)
+ 	/* Disable interrupt from device */
+ 	lpfc_sli_disable_intr(phba);
  
+-	/* Save device state to PCI config space */
 -	pci_save_state(pdev);
- 	mpt3sas_base_free_resources(ioc);
--	pci_set_power_state(pdev, device_state);
+-	pci_set_power_state(pdev, PCI_D3hot);
+-
  	return 0;
  }
  
  /**
-  * scsih_resume - power management resume main entry point
-- * @pdev: PCI device struct
-+ * @dev: Device struct
+  * lpfc_pci_resume_one_s3 - PCI func to resume SLI-3 device for power mgmnt
+- * @pdev: pointer to PCI device
++ * @dev_d: pointer to device
   *
-  * Return: 0 success, anything else error.
-  */
+  * This routine is to be called from the kernel's PCI subsystem to support
+  * system Power Management (PM) to device with SLI-3 interface spec. When PM
+@@ -12643,10 +12638,10 @@ lpfc_pci_suspend_one_s3(struct pci_dev *pdev, pm_message_t msg)
+  * 	0 - driver suspended the device
+  * 	Error otherwise
+  **/
 -static int
--scsih_resume(struct pci_dev *pdev)
+-lpfc_pci_resume_one_s3(struct pci_dev *pdev)
 +static int __maybe_unused
-+scsih_resume(struct device *dev)
++lpfc_pci_resume_one_s3(struct device *dev_d)
  {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct Scsi_Host *shost;
- 	struct MPT3SAS_ADAPTER *ioc;
- 	pci_power_t device_state = pdev->current_state;
-@@ -11139,8 +11135,6 @@ scsih_resume(struct pci_dev *pdev)
- 	ioc_info(ioc, "pdev=0x%p, slot=%s, previous operating state [D%d]\n",
- 		 pdev, pci_name(pdev), device_state);
+-	struct Scsi_Host *shost = pci_get_drvdata(pdev);
++	struct Scsi_Host *shost = dev_get_drvdata(dev_d);
+ 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
+ 	uint32_t intr_mode;
+ 	int error;
+@@ -12654,19 +12649,6 @@ lpfc_pci_resume_one_s3(struct pci_dev *pdev)
+ 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+ 			"0452 PCI device Power Management resume.\n");
  
+-	/* Restore device state from PCI config space */
 -	pci_set_power_state(pdev, PCI_D0);
 -	pci_restore_state(pdev);
- 	ioc->pdev = pdev;
- 	r = mpt3sas_base_map_resources(ioc);
- 	if (r)
-@@ -11151,7 +11145,6 @@ scsih_resume(struct pci_dev *pdev)
- 	mpt3sas_base_start_watchdog(ioc);
+-
+-	/*
+-	 * As the new kernel behavior of pci_restore_state() API call clears
+-	 * device saved_state flag, need to save the restored state again.
+-	 */
+-	pci_save_state(pdev);
+-
+-	if (pdev->is_busmaster)
+-		pci_set_master(pdev);
+-
+ 	/* Startup the kernel thread for this host adapter. */
+ 	phba->worker_thread = kthread_run(lpfc_do_work, phba,
+ 					"lpfc_worker_%d", phba->brd_no);
+@@ -13423,8 +13405,7 @@ lpfc_pci_remove_one_s4(struct pci_dev *pdev)
+ 
+ /**
+  * lpfc_pci_suspend_one_s4 - PCI func to suspend SLI-4 device for power mgmnt
+- * @pdev: pointer to PCI device
+- * @msg: power management message
++ * @dev_d: pointer to device
+  *
+  * This routine is called from the kernel's PCI subsystem to support system
+  * Power Management (PM) to device with SLI-4 interface spec. When PM invokes
+@@ -13442,10 +13423,10 @@ lpfc_pci_remove_one_s4(struct pci_dev *pdev)
+  * 	0 - driver suspended the device
+  * 	Error otherwise
+  **/
+-static int
+-lpfc_pci_suspend_one_s4(struct pci_dev *pdev, pm_message_t msg)
++static int __maybe_unused
++lpfc_pci_suspend_one_s4(struct device *dev_d)
+ {
+-	struct Scsi_Host *shost = pci_get_drvdata(pdev);
++	struct Scsi_Host *shost = dev_get_drvdata(dev_d);
+ 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
+ 
+ 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+@@ -13460,16 +13441,12 @@ lpfc_pci_suspend_one_s4(struct pci_dev *pdev, pm_message_t msg)
+ 	lpfc_sli4_disable_intr(phba);
+ 	lpfc_sli4_queue_destroy(phba);
+ 
+-	/* Save device state to PCI config space */
+-	pci_save_state(pdev);
+-	pci_set_power_state(pdev, PCI_D3hot);
+-
  	return 0;
  }
--#endif /* CONFIG_PM */
  
  /**
-  * scsih_pci_error_detected - Called when a PCI error is detected.
-@@ -11453,6 +11446,8 @@ static struct pci_error_handlers _mpt3sas_err_handler = {
- 	.resume		= scsih_pci_resume,
+  * lpfc_pci_resume_one_s4 - PCI func to resume SLI-4 device for power mgmnt
+- * @pdev: pointer to PCI device
++ * @dev_d: pointer to device
+  *
+  * This routine is called from the kernel's PCI subsystem to support system
+  * Power Management (PM) to device with SLI-4 interface spac. When PM invokes
+@@ -13486,10 +13463,10 @@ lpfc_pci_suspend_one_s4(struct pci_dev *pdev, pm_message_t msg)
+  * 	0 - driver suspended the device
+  * 	Error otherwise
+  **/
+-static int
+-lpfc_pci_resume_one_s4(struct pci_dev *pdev)
++static int __maybe_unused
++lpfc_pci_resume_one_s4(struct device *dev_d)
+ {
+-	struct Scsi_Host *shost = pci_get_drvdata(pdev);
++	struct Scsi_Host *shost = dev_get_drvdata(dev_d);
+ 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
+ 	uint32_t intr_mode;
+ 	int error;
+@@ -13497,19 +13474,6 @@ lpfc_pci_resume_one_s4(struct pci_dev *pdev)
+ 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+ 			"0292 PCI device Power Management resume.\n");
+ 
+-	/* Restore device state from PCI config space */
+-	pci_set_power_state(pdev, PCI_D0);
+-	pci_restore_state(pdev);
+-
+-	/*
+-	 * As the new kernel behavior of pci_restore_state() API call clears
+-	 * device saved_state flag, need to save the restored state again.
+-	 */
+-	pci_save_state(pdev);
+-
+-	if (pdev->is_busmaster)
+-		pci_set_master(pdev);
+-
+ 	 /* Startup the kernel thread for this host adapter. */
+ 	phba->worker_thread = kthread_run(lpfc_do_work, phba,
+ 					"lpfc_worker_%d", phba->brd_no);
+@@ -13825,8 +13789,7 @@ lpfc_pci_remove_one(struct pci_dev *pdev)
+ 
+ /**
+  * lpfc_pci_suspend_one - lpfc PCI func to suspend dev for power management
+- * @pdev: pointer to PCI device
+- * @msg: power management message
++ * @dev: pointer to device
+  *
+  * This routine is to be registered to the kernel's PCI subsystem to support
+  * system Power Management (PM). When PM invokes this method, it dispatches
+@@ -13837,19 +13800,19 @@ lpfc_pci_remove_one(struct pci_dev *pdev)
+  * 	0 - driver suspended the device
+  * 	Error otherwise
+  **/
+-static int
+-lpfc_pci_suspend_one(struct pci_dev *pdev, pm_message_t msg)
++static int __maybe_unused
++lpfc_pci_suspend_one(struct device *dev)
+ {
+-	struct Scsi_Host *shost = pci_get_drvdata(pdev);
++	struct Scsi_Host *shost = dev_get_drvdata(dev);
+ 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
+ 	int rc = -ENODEV;
+ 
+ 	switch (phba->pci_dev_grp) {
+ 	case LPFC_PCI_DEV_LP:
+-		rc = lpfc_pci_suspend_one_s3(pdev, msg);
++		rc = lpfc_pci_suspend_one_s3(dev);
+ 		break;
+ 	case LPFC_PCI_DEV_OC:
+-		rc = lpfc_pci_suspend_one_s4(pdev, msg);
++		rc = lpfc_pci_suspend_one_s4(dev);
+ 		break;
+ 	default:
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
+@@ -13862,7 +13825,7 @@ lpfc_pci_suspend_one(struct pci_dev *pdev, pm_message_t msg)
+ 
+ /**
+  * lpfc_pci_resume_one - lpfc PCI func to resume dev for power management
+- * @pdev: pointer to PCI device
++ * @dev: pointer to device
+  *
+  * This routine is to be registered to the kernel's PCI subsystem to support
+  * system Power Management (PM). When PM invokes this method, it dispatches
+@@ -13873,19 +13836,19 @@ lpfc_pci_suspend_one(struct pci_dev *pdev, pm_message_t msg)
+  * 	0 - driver suspended the device
+  * 	Error otherwise
+  **/
+-static int
+-lpfc_pci_resume_one(struct pci_dev *pdev)
++static int __maybe_unused
++lpfc_pci_resume_one(struct device *dev)
+ {
+-	struct Scsi_Host *shost = pci_get_drvdata(pdev);
++	struct Scsi_Host *shost = dev_get_drvdata(dev);
+ 	struct lpfc_hba *phba = ((struct lpfc_vport *)shost->hostdata)->phba;
+ 	int rc = -ENODEV;
+ 
+ 	switch (phba->pci_dev_grp) {
+ 	case LPFC_PCI_DEV_LP:
+-		rc = lpfc_pci_resume_one_s3(pdev);
++		rc = lpfc_pci_resume_one_s3(dev);
+ 		break;
+ 	case LPFC_PCI_DEV_OC:
+-		rc = lpfc_pci_resume_one_s4(pdev);
++		rc = lpfc_pci_resume_one_s4(dev);
+ 		break;
+ 	default:
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_TRACE_EVENT,
+@@ -14065,14 +14028,17 @@ static const struct pci_error_handlers lpfc_err_handler = {
+ 	.resume = lpfc_io_resume,
  };
  
-+static SIMPLE_DEV_PM_OPS(scsih_pm_ops, scsih_suspend, scsih_resume);
++static SIMPLE_DEV_PM_OPS(lpfc_pci_pm_ops_one,
++			 lpfc_pci_suspend_one,
++			 lpfc_pci_resume_one);
 +
- static struct pci_driver mpt3sas_driver = {
- 	.name		= MPT3SAS_DRIVER_NAME,
- 	.id_table	= mpt3sas_pci_table,
-@@ -11460,10 +11455,7 @@ static struct pci_driver mpt3sas_driver = {
- 	.remove		= scsih_remove,
- 	.shutdown	= scsih_shutdown,
- 	.err_handler	= &_mpt3sas_err_handler,
--#ifdef CONFIG_PM
--	.suspend	= scsih_suspend,
--	.resume		= scsih_resume,
--#endif
-+	.driver.pm	= &scsih_pm_ops,
+ static struct pci_driver lpfc_driver = {
+ 	.name		= LPFC_DRIVER_NAME,
+ 	.id_table	= lpfc_id_table,
+ 	.probe		= lpfc_pci_probe_one,
+ 	.remove		= lpfc_pci_remove_one,
+ 	.shutdown	= lpfc_pci_remove_one,
+-	.suspend        = lpfc_pci_suspend_one,
+-	.resume		= lpfc_pci_resume_one,
++	.driver.pm	= &lpfc_pci_pm_ops_one,
+ 	.err_handler    = &lpfc_err_handler,
  };
  
- /**
 -- 
 2.28.0
 
