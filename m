@@ -5,88 +5,87 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F98CC55178
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:53:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 055BAC00A89
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:53:11 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 439CC206F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:53:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A1A2622258
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:53:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4lK7B2j"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 439CC206F9
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="To8S2jHL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A1A2622258
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2EFA58715E;
-	Mon,  2 Nov 2020 16:53:00 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6BC8B872B0;
+	Mon,  2 Nov 2020 16:53:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id n3HNnZ0spTby; Mon,  2 Nov 2020 16:52:59 +0000 (UTC)
+	with ESMTP id EZv7LwDs-t5l; Mon,  2 Nov 2020 16:53:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B6B0C87199;
-	Mon,  2 Nov 2020 16:52:59 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D2C35872A3;
+	Mon,  2 Nov 2020 16:53:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A61D7C088B;
-	Mon,  2 Nov 2020 16:52:59 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B491FC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BDC93C088B;
+	Mon,  2 Nov 2020 16:53:09 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C8C61C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:52:58 +0000 (UTC)
+ Mon,  2 Nov 2020 16:53:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id A2BFB869F2
+ by whitealder.osuosl.org (Postfix) with ESMTP id C4C9686AB1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:52:58 +0000 (UTC)
+ Mon,  2 Nov 2020 16:53:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IFXN3m5FHtUf
+ with ESMTP id Uy9ZKPoe46QJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:52:58 +0000 (UTC)
+ Mon,  2 Nov 2020 16:53:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2EECE86957
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5360286A95
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:52:58 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id z24so11299096pgk.3
+ Mon,  2 Nov 2020 16:53:08 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id a200so11592948pfa.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Nov 2020 08:52:58 -0800 (PST)
+ Mon, 02 Nov 2020 08:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MBzsuEUa6bYvsV+CNnIl+xHeK3YoENUVJTW96RlBScM=;
- b=i4lK7B2jCeWUWs/7k7aRJe2mVzCOREf/YaZphfdcnGM0u+NoaCHXT1UMtxiid1cPRk
- z+BPB3zIpcTUGy7gNJ+vQ+mf6T/j71u4xbBtkOpJFr0pkC7C9qKw3p0Q/5/01HSApBta
- Ou3O6JCnnfnkLTA7bAPGiA4KrhBxm/8fKADenbdF1J4iCL0+VyOS918WGeSy6jnLmizw
- gqP9jIo7nYYWjov+spMoRffy2As9Y9GUzTL5aQWpXYLgfZia0BjMUJBE8J1Or8gBFVVo
- F016wRV7uUCivQ4adKG5hAUXH+lhQwfZSg1Wfk102HFPrtIRVcxXRArRP+VFGN2ZB9nO
- alSg==
+ bh=6EF8lQwOXO2Z8DiQbYXGCQ2159bXf7Ji78BoyHo/jeA=;
+ b=To8S2jHLUsT+F/DtIpwDe+1nsQoZHhatxgqGT8Sxc9KuSJcRM3S8ryS3lDtBN5YMeC
+ eShZMSTpM3aCVSG4nLzekO+XOUtDj7y1FgYmyOoflsoop1hjOytHUrxV2RaxdVt1uR2K
+ MsYuRH9Cm4h6i8pQu10lgzPWUt+Es7x0imUyp5peUkZWoz88nNq3tKjWLVQXyeoy5Ul/
+ z5pEcBNh47ZPnd7Kj8KAiwpTLOhaDKBFsZhXe+elVgnjgD1CuacyLxDuhKvU82nUQZGn
+ tVYMZUv2X+pju79d8atKoU76RgvzTZQ64FLTcnhEqHIhg+OcbKdWCbaUTKMj13OhJ0Ia
+ oasA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MBzsuEUa6bYvsV+CNnIl+xHeK3YoENUVJTW96RlBScM=;
- b=eXcONi76Xxe35Yw91WLANbkUbcGifUHoVb6fblc+1IpnPG8Bk4iko5po6lYasklN2X
- ohqm1CGi9wKkzcS/WVvjabEevYyrgI8Vn6pkJn4WKSlfuR9UGGakM302UF70+bGDcA6a
- 45AouptHFIomCjOnBqj7ywC4kDDQyTaW4XcDzOwELhuaM6VU2wtC9lKxTBR8GSxWAP8B
- 9MWAf7WcoeZF9cZqvickfC0KaTwSLZKEvYWLWebJkFS7iLxPf1AZCdiK/8QpPqgRgTUn
- 9XZ5SkCQVKovyhOMYkjAhhsO13jGBs7jrYIrKWLIOys6ix+rmq4V3hNkeQmNyc7eAwcH
- nyRQ==
-X-Gm-Message-State: AOAM530ltX1nuf7x3nXiV8NZh54MUlC/x15lnK9sTUPjf1pSilbXCF7d
- SE0mrPxGh5FS41NICapCzzU=
-X-Google-Smtp-Source: ABdhPJxiIXDXayIA4x2vypTJ5B2naXIVlq1IYCXlgXG2jWp3RJ2Zwiiq5D86qMZ/Pko1ZcPv4K6N1w==
-X-Received: by 2002:a17:90a:3e4a:: with SMTP id
- t10mr18207881pjm.151.1604335977846; 
- Mon, 02 Nov 2020 08:52:57 -0800 (PST)
+ bh=6EF8lQwOXO2Z8DiQbYXGCQ2159bXf7Ji78BoyHo/jeA=;
+ b=EoPbF/TwQo8+A4bO1ahvDEY62j2dkykhTD06m822R3Jw2EboWT9w8mSUr28jlRw0yW
+ 444NApFB8vdHedkkyk1vUfelJkm9hYo5bLoND5p5rpJS+8H/xW8MGwrR24NL5yLf3zBk
+ GbyPxpQ+oksgBqU1vRKI02S8BmU4GybW7kKhc5pyG5xLKAP1P8i8p4CAKl5FSdMtfqOq
+ 8J7Xn/uPdFusrs/klf33nGcsNGfkT6iPLcnj2KCpFJmdAQNsgzN1ptEuFswvUwRTY5Lk
+ r1R7j3vv7KNwwGpRoLMH9gXig3cEovNvdl+mNxQ3EvRTW/ZebdjvIujBE/CKnZklMYgj
+ BN+w==
+X-Gm-Message-State: AOAM5304TByRLEtKOCfTj0ME6FTtbcCTyBQLEtPLi+gFaCNst/SoP/RB
+ HE+UcFIvkD8UAJWdNsYpb+4=
+X-Google-Smtp-Source: ABdhPJw+WZ503yKFquawRt0K3fv1VZ0392lfMRA03Pm+y/b3nAXy5mhWcTDXFlgVjXkApI1klFFsZw==
+X-Received: by 2002:a65:6819:: with SMTP id l25mr14077553pgt.111.1604335987979; 
+ Mon, 02 Nov 2020 08:53:07 -0800 (PST)
 Received: from varodek.localdomain ([223.179.149.110])
- by smtp.gmail.com with ESMTPSA id t74sm4953233pfc.47.2020.11.02.08.52.49
+ by smtp.gmail.com with ESMTPSA id t74sm4953233pfc.47.2020.11.02.08.52.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 08:52:57 -0800 (PST)
+ Mon, 02 Nov 2020 08:53:07 -0800 (PST)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -108,8 +107,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Balsundar P <balsundar.p@microchip.com>
-Date: Mon,  2 Nov 2020 22:17:14 +0530
-Message-Id: <20201102164730.324035-14-vaibhavgupta40@gmail.com>
+Date: Mon,  2 Nov 2020 22:17:15 +0530
+Message-Id: <20201102164730.324035-15-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201102164730.324035-1-vaibhavgupta40@gmail.com>
 References: <20201102164730.324035-1-vaibhavgupta40@gmail.com>
@@ -117,8 +116,8 @@ MIME-Version: 1.0
 Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
  esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v4 13/29] scsi: hisi_sas_v3_hw: Don't
-	use PCI helper functions
+Subject: [Linux-kernel-mentees] [PATCH v4 14/29] scsi: hisi_sas_v3_hw:
+	Remove extra function calls for runtime pm
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -136,68 +135,69 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers using new-framework/generic-framework should not handle standard
-power management operations. These operations were performed by legacy
-framework through PCI helper functions like pci_save/restore_state(),
-pci_set_power_state(), etc.
+Both runtime_suspend_v3_hw() and runtime_resume_v3_hw() do nothing else but
+invoke suspend_v3_hw() and resume_v3_hw() respectively. This is the case of
+unnecessary function calls. To use those functions for runtime pm as well,
+simply use UNIVERSAL_DEV_PM_OPS.
 
-Drivers should not use them now.
+make -j$(nproc) W=1, with CONFIG_PM disabled, throws '-Wunused-function'
+warning for runtime_suspend_v3_hw() and runtime_resume_v3_hw(). After
+dropping those function definitions, the warning was thrown for
+suspend_v3_hw() and resume_v3_hw(). Hence, mark them as '__maybe_unused'.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c | 23 ++++++-----------------
+ 1 file changed, 6 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-index f19f3db1ac6d..dfeb86c865d3 100644
+index dfeb86c865d3..9f0b4fe564cc 100644
 --- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
 +++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-@@ -3440,7 +3440,6 @@ static int _suspend_v3_hw(struct device *device)
- 	struct hisi_hba *hisi_hba = sha->lldd_ha;
- 	struct device *dev = hisi_hba->dev;
- 	struct Scsi_Host *shost = hisi_hba->shost;
--	pci_power_t device_state;
- 	int rc;
+@@ -3502,7 +3502,7 @@ static int _resume_v3_hw(struct device *device)
+ 	return 0;
+ }
  
- 	if (!pdev->pm_cap) {
-@@ -3466,12 +3465,7 @@ static int _suspend_v3_hw(struct device *device)
+-static int suspend_v3_hw(struct device *device)
++static int __maybe_unused suspend_v3_hw(struct device *device)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(device);
+ 	struct sas_ha_struct *sha = pci_get_drvdata(pdev);
+@@ -3518,7 +3518,7 @@ static int suspend_v3_hw(struct device *device)
+ 	return rc;
+ }
  
- 	hisi_sas_init_mem(hisi_hba);
+-static int resume_v3_hw(struct device *device)
++static int __maybe_unused resume_v3_hw(struct device *device)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(device);
+ 	struct sas_ha_struct *sha = pci_get_drvdata(pdev);
+@@ -3541,21 +3541,10 @@ static const struct pci_error_handlers hisi_sas_err_handler = {
+ 	.reset_done	= hisi_sas_reset_done_v3_hw,
+ };
  
--	device_state = pci_choose_state(pdev, PMSG_SUSPEND);
--	dev_warn(dev, "entering operating state [D%d]\n",
--			device_state);
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, device_state);
-+	dev_warn(dev, "entering suspend state\n");
+-static int runtime_suspend_v3_hw(struct device *dev)
+-{
+-	return suspend_v3_hw(dev);
+-}
+-
+-static int runtime_resume_v3_hw(struct device *dev)
+-{
+-	return resume_v3_hw(dev);
+-}
+-
+-static const struct dev_pm_ops hisi_sas_v3_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(suspend_v3_hw, resume_v3_hw)
+-	SET_RUNTIME_PM_OPS(runtime_suspend_v3_hw,
+-			   runtime_resume_v3_hw, NULL)
+-};
++static UNIVERSAL_DEV_PM_OPS(hisi_sas_v3_pm_ops,
++			    suspend_v3_hw,
++			    resume_v3_hw,
++			    NULL);
  
- 	hisi_sas_release_tasks(hisi_hba);
- 
-@@ -3491,15 +3485,7 @@ static int _resume_v3_hw(struct device *device)
- 
- 	dev_warn(dev, "resuming from operating state [D%d]\n",
- 		 device_state);
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
--	rc = pci_enable_device(pdev);
--	if (rc) {
--		dev_err(dev, "enable device failed during resume (%d)\n", rc);
--		return rc;
--	}
- 
--	pci_set_master(pdev);
- 	scsi_unblock_requests(shost);
- 	clear_bit(HISI_SAS_REJECT_CMD_BIT, &hisi_hba->flags);
- 
-@@ -3507,7 +3493,6 @@ static int _resume_v3_hw(struct device *device)
- 	rc = hw_init_v3_hw(hisi_hba);
- 	if (rc) {
- 		scsi_remove_host(shost);
--		pci_disable_device(pdev);
- 		return rc;
- 	}
- 	hisi_hba->hw->phys_init(hisi_hba);
+ static struct pci_driver sas_v3_pci_driver = {
+ 	.name		= DRV_NAME,
 -- 
 2.28.0
 
