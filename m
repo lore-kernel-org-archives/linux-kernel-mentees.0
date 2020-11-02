@@ -2,103 +2,111 @@ Return-Path: <SRS0=Fecm=EI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9691FC388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 17:40:10 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B18FBC2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 19:05:38 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 28CA321D40
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 17:40:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 099DB21556
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 19:05:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIDrIs4h"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28CA321D40
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpaxtWiZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 099DB21556
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A256186968;
-	Mon,  2 Nov 2020 17:40:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 797D586C6A;
+	Mon,  2 Nov 2020 19:05:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id H-Kqr8TokTHK; Mon,  2 Nov 2020 17:40:09 +0000 (UTC)
+	with ESMTP id 0tdxT-BD67MX; Mon,  2 Nov 2020 19:05:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1022385310;
-	Mon,  2 Nov 2020 17:40:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7CB52869C5;
+	Mon,  2 Nov 2020 19:05:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0379EC0889;
-	Mon,  2 Nov 2020 17:40:09 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E5D70C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70B59C088B;
+	Mon,  2 Nov 2020 19:05:36 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90B95C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 17:40:06 +0000 (UTC)
+ Mon,  2 Nov 2020 19:05:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id DC5CF203E8
+ by hemlock.osuosl.org (Postfix) with ESMTP id 77CE2872D7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 17:40:06 +0000 (UTC)
+ Mon,  2 Nov 2020 19:05:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id f8ac12QXEcXf
+ with ESMTP id ai1HZ8Pv+C+a
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 17:40:05 +0000 (UTC)
+ Mon,  2 Nov 2020 19:05:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by silver.osuosl.org (Postfix) with ESMTPS id D0E3720384
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id DEA16872D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 17:40:04 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id g11so667897pll.13
+ Mon,  2 Nov 2020 19:05:34 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id f38so11616211pgm.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Nov 2020 09:40:04 -0800 (PST)
+ Mon, 02 Nov 2020 11:05:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4FUjseBvSlN4iyKlxPmISM29dOoxCX8GBWbbpYhudEI=;
- b=YIDrIs4hnsMP/+ygcESF72A7xjSFMnE+4x7aP5jyclyeFMB4U2fQxf7SNMdKRo1DDq
- lToQq5m+es1IdL8lZwGUlLcRoeOFtMZzmlSncRGgKXK3eLOSLPGHlbUIwYox2YI4XYLj
- wHw7xxgxy0SWGtu4iaNQ0wE31hj4mFT1vDShKd8h0ZYgCuqtmqqm1DulC5hinbhZqUoN
- YerBaA5W9OHIu1IOOW40wkOdHiHkgmRU5nW6qq841uVGIx1i0smbqKbth84QxdvXZwcm
- 5w/fWByBBWjW8pGJXTBCj75r2EmTZ2uA5r7mw/hzmELaDQAWzB0gxlWgvOEOjW42v4LE
- 05cw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vcOhR29x/3SnW8U2CiNt+tjrEtmXX7l2/92ojb4Pxpk=;
+ b=DpaxtWiZMjYbNo0DhrRLPVPSP/knuZbX22hAKpoM8DDfByERoFXxP2piGgMQDgO8FB
+ QpMU2sUHj4oBBdInmgoStMt9hb9Tvkrab3cxlKadC6i3L+G7/IEZDzMbR3+YbxFoU4PN
+ iRrwWgGNFS7NeorZ7Nkl9OTuX3fy2gAg/PjLKxHUSeJqeQsWJ26mwcOAV+faia2Miugq
+ qzrIm9NdoX2QE6aWnu7m4SZwchqhGiUwL9M+Omn9gd3IKO26JkF7gI3xTdiYZ39Zh+LL
+ qzmHCPf9s3uO5KfbHNXDcsyGeUxP7JnW6N6vB3ZRvwLVZPF516V0RilwrDI7NBkZAo7t
+ Geng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4FUjseBvSlN4iyKlxPmISM29dOoxCX8GBWbbpYhudEI=;
- b=gYoFCik4QCPDf6nq5j/3Zf5AvVR98ToIiR54bMULGvENZfi325zLiaDzM1/zIC7zrt
- 9WM7y4lbrF1OIi1TeMWVAMmmOgP6Tu3MGkfSwIEKZJtsOPdBp5VOGOl5vRcrACcrI7JH
- Trgsfrl7pqgql6shT3o8SpHWt9oOdLSxeVSylHrrDmEQS0YGdemJypz83e8T66RN/CZe
- m4/jWFl4HISSP/oq9283D5aMvhbgG9ol1PjvViinVAN45k09a6C3lzMEt7JWyJB1uvTC
- hCZYjLP8CYaekj14HI8BtUFc1ArnLzV2PxZChC+fHRwORy6MhAW1AWnHC7m3NTu5pEo+
- GEHQ==
-X-Gm-Message-State: AOAM533z5B9oTcj2ftbsEqJGmORy9KFLSVUC/xb4Jen4B3/dlWUWMsyn
- MKWpw98kOhJttHcqYToFy7U=
-X-Google-Smtp-Source: ABdhPJzOlLg5cWU8Xm1c1s/AkcdP3EMOQfXigJqCCdawvffGOGPdYMWeNktnGnG99fV6j0SFx9dNJA==
-X-Received: by 2002:a17:902:8693:b029:d5:d861:6f03 with SMTP id
- g19-20020a1709028693b02900d5d8616f03mr21578621plo.19.1604338804184; 
- Mon, 02 Nov 2020 09:40:04 -0800 (PST)
-Received: from localhost.localdomain ([49.207.221.93])
- by smtp.gmail.com with ESMTPSA id v23sm75234pjh.46.2020.11.02.09.39.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:40:02 -0800 (PST)
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-To: Oliver Neukum <oneukum@suse.com>, "David S . Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>
-Date: Mon,  2 Nov 2020 23:09:46 +0530
-Message-Id: <20201102173946.13800-1-anant.thazhemadam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vcOhR29x/3SnW8U2CiNt+tjrEtmXX7l2/92ojb4Pxpk=;
+ b=GzPGruHcVLKeXVjYyiathuzlEO6wzCU0UGKub/jQwDIe3OA2/LfOOCZ5gJM0Squ2b9
+ RxRWTjgpNDTLcqk4aG+WQdXwZ/TCCrnmvftlA3Y03W/2smo6Z2+xlpJsZsSyw3BOAopa
+ 86vFxKChnSctx8Jb4ZSbaIy1PWV4GNsepSP0WKdliiE4izoTtO6TDchZ6QTH8LBEfpjw
+ d7W01nC1647gg2GReDmAXHve+bc9e4/U+qY0GugdNAgHtXVx2s909lWzwUbyUOni6t2r
+ 5qJlQYtlYdAyXr8sFrHVqJb8EW/sst5q/embKQAweS8MmWRCX62uYG9/y5WNOy7ByZgi
+ Tj1g==
+X-Gm-Message-State: AOAM531KB2aLVisNOLaiiLqlg8OvDqqqHCapeytqykVqU6XdTEyhA2ho
+ j+aByd0AIor96RAaYD39O6zJ3cuqyWdgAM5iuXI=
+X-Google-Smtp-Source: ABdhPJwPsbRWemfkUlObMtOEO+o6kF8HnAmoiWPrvzISru+uRYkWEuV0YWL7lyNWyivDdL7ZHYZPxLy4Y0igrwHoNm0=
+X-Received: by 2002:a17:90a:fb92:: with SMTP id
+ cp18mr19506158pjb.228.1604343934441; 
+ Mon, 02 Nov 2020 11:05:34 -0800 (PST)
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, Anant Thazhemadam <anant.thazhemadam@gmail.com>,
- linux-usb@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [RESEND PATCH v3] net: usb: usbnet: update
-	__usbnet_{read|write}_cmd() to use new API
+References: <69853d2b-239c-79d5-bf6f-7dc0eec65602@redhat.com>
+ <4f02cbdf-e1dd-b138-4975-118dd4f86089@redhat.com>
+ <a07d3890-f560-855f-3631-a3d5848dcdf5@redhat.com>
+ <20201014042420.fkkyabmrkiekpmfw@Rk>
+ <df2c008b-e7b5-4fdd-42ea-4d1c62b52139@redhat.com>
+ <20201026225400.37almqey2wxyazkn@Rk>
+ <f15806d6-32e2-c6b0-8f96-670a196380a8@redhat.com>
+ <CAHp75VcwiGREBUJ0A06EEw-SyabqYsp+dqs2DpSrhaY-2GVdAA@mail.gmail.com>
+ <86963e59-3661-c43c-4e08-a0f9b9e7ed07@redhat.com>
+ <CAHp75VcEr0AcdM2+ig5neMQn+5cfuttpFuAak7CkSO-qVjPeCw@mail.gmail.com>
+ <20201030045421.si3r5zsbeeyhkwns@Rk>
+In-Reply-To: <20201030045421.si3r5zsbeeyhkwns@Rk>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 2 Nov 2020 21:06:23 +0200
+Message-ID: <CAHp75Vej=LT06MEmoAvAxrHY7zzvPKEJLe03C3BN5X4EZos_JA@mail.gmail.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Linus Walleij <linus.walleij@linaro.org>, wang jun <availa@outlook.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Nehal Shah <Nehal-bakulchandra.Shah@amd.com>
+Subject: Re: [Linux-kernel-mentees] Any other ways to debug GPIO interrupt
+ controller (pinctrl-amd) for broken touchpads of a new laptop model?
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,111 +124,43 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Currently, __usbnet_{read|write}_cmd() use usb_control_msg().
-However, this could lead to potential partial reads/writes being
-considered valid, and since most of the callers of
-usbnet_{read|write}_cmd() don't take partial reads/writes into account
-(only checking for negative error number is done), and this can lead to
-issues.
+On Fri, Oct 30, 2020 at 6:54 AM Coiby Xu <coiby.xu@gmail.com> wrote:
+> On Tue, Oct 27, 2020 at 06:09:49PM +0200, Andy Shevchenko wrote:
+> >On Tue, Oct 27, 2020 at 6:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> >> On 10/27/20 4:13 PM, Andy Shevchenko wrote:
 
-However, the new usb_control_msg_{send|recv}() APIs don't allow partial
-reads and writes.
-Using the new APIs also relaxes the return value checking that must
-be done after usbnet_{read|write}_cmd() is called.
+...
 
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
----
-Changes in v3:
-	* Aligned continuation lines after the opening brackets
-Changes in v2:
-	* Fix build error
+> >> I see, so then the right thing to do for the bug which we are seeing
+> >> on some AMD platforms would be to honor the debounce setting I guess ?
+> >>
+> >> Can you and/or Mika write a patch(set) for this ?
+> >
+> >I will look at it, but meanwhile I would postpone until having a
+> >Mika's Ack on the action that my understanding and course of actions
+> >is correct.
+
+I will soon send a support patch against ACPI GPIO library code.
+
+> If you don't mind, let me write this patch(set) instead:)
+
+I leave to you whatever AMD code. It will suit our both interests :-)
+
+> I feel itchy
+> to fix this touchpad issue by myself after spending about a month of
+> my internship at Linux Foundation investigating this touchpad issue.
+> There are many enthusiastic Linux users waiting to get their touchpads
+> fixed and I could prioritize this task since I don't have other
+> obligations. I have provided a fallback solution [1] to save their
+> touchpads but it seems patches on gpiolib-acpi.c and pinctrl-amd could
+> reach mainline kernel much earlier.
+>
+> [1] https://lore.kernel.org/patchwork/patch/1323245/
 
 
- drivers/net/usb/usbnet.c | 52 ++++++++--------------------------------
- 1 file changed, 10 insertions(+), 42 deletions(-)
-
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index bf6c58240bd4..b2df3417a41c 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -1982,64 +1982,32 @@ EXPORT_SYMBOL(usbnet_link_change);
- static int __usbnet_read_cmd(struct usbnet *dev, u8 cmd, u8 reqtype,
- 			     u16 value, u16 index, void *data, u16 size)
- {
--	void *buf = NULL;
--	int err = -ENOMEM;
- 
- 	netdev_dbg(dev->net, "usbnet_read_cmd cmd=0x%02x reqtype=%02x"
- 		   " value=0x%04x index=0x%04x size=%d\n",
- 		   cmd, reqtype, value, index, size);
- 
--	if (size) {
--		buf = kmalloc(size, GFP_KERNEL);
--		if (!buf)
--			goto out;
--	}
--
--	err = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
--			      cmd, reqtype, value, index, buf, size,
--			      USB_CTRL_GET_TIMEOUT);
--	if (err > 0 && err <= size) {
--        if (data)
--            memcpy(data, buf, err);
--        else
--            netdev_dbg(dev->net,
--                "Huh? Data requested but thrown away.\n");
--    }
--	kfree(buf);
--out:
--	return err;
-+	return usb_control_msg_recv(dev->udev, 0,
-+				    cmd, reqtype, value, index, data, size,
-+				    USB_CTRL_GET_TIMEOUT, GFP_KERNEL);
- }
- 
- static int __usbnet_write_cmd(struct usbnet *dev, u8 cmd, u8 reqtype,
- 			      u16 value, u16 index, const void *data,
- 			      u16 size)
- {
--	void *buf = NULL;
--	int err = -ENOMEM;
--
- 	netdev_dbg(dev->net, "usbnet_write_cmd cmd=0x%02x reqtype=%02x"
- 		   " value=0x%04x index=0x%04x size=%d\n",
- 		   cmd, reqtype, value, index, size);
- 
--	if (data) {
--		buf = kmemdup(data, size, GFP_KERNEL);
--		if (!buf)
--			goto out;
--	} else {
--        if (size) {
--            WARN_ON_ONCE(1);
--            err = -EINVAL;
--            goto out;
--        }
--    }
--
--	err = usb_control_msg(dev->udev, usb_sndctrlpipe(dev->udev, 0),
--			      cmd, reqtype, value, index, buf, size,
--			      USB_CTRL_SET_TIMEOUT);
--	kfree(buf);
-+	if (size && !data) {
-+		WARN_ON_ONCE(1);
-+		return -EINVAL;
-+	}
- 
--out:
--	return err;
-+	return usb_control_msg_send(dev->udev, 0,
-+				    cmd, reqtype, value, index, data, size,
-+				    USB_CTRL_SET_TIMEOUT, GFP_KERNEL);
- }
- 
- /*
 -- 
-2.25.1
-
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
