@@ -5,88 +5,88 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB0DC388F2
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:50:53 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 224FEC4742C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:51:04 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 646C522258
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:50:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8D41D22277
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:51:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWH9UY/w"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 646C522258
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJYWDgNO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D41D22277
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1A38087149;
-	Mon,  2 Nov 2020 16:50:53 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EX-JKsHyA9BX; Mon,  2 Nov 2020 16:50:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id ACB8687103;
-	Mon,  2 Nov 2020 16:50:52 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C032C088B;
-	Mon,  2 Nov 2020 16:50:52 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B9335C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:50:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id A808D86A6F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:50:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 24E2086A6F;
+	Mon,  2 Nov 2020 16:51:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id djVsf4scbS1U; Mon,  2 Nov 2020 16:51:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C471B86957;
+	Mon,  2 Nov 2020 16:51:02 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3337C088B;
+	Mon,  2 Nov 2020 16:51:02 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 388ACC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  2 Nov 2020 16:51:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 33B2E87149
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  2 Nov 2020 16:51:02 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dxjTOipbYQ2J
+ with ESMTP id uhU5ypmxS+Te
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:50:51 +0000 (UTC)
+ Mon,  2 Nov 2020 16:51:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5900C869F2
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D31A587103
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:50:51 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id r3so7109678plo.1
+ Mon,  2 Nov 2020 16:51:01 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id u2so1157655pls.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Nov 2020 08:50:51 -0800 (PST)
+ Mon, 02 Nov 2020 08:51:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6vxmT3Q80RGrzEju3iFEpX/Dlj35TxSTYI0m/9BGYRs=;
- b=FWH9UY/wDTqHTqNDW/pn8h2yIfmsgHS21dYTh1aHdf8cUOHfnUFegf8yn4WRjjWGaH
- joAdmrRXOGEPJub/iSdpNMLi3lokD5WjHwC7k6ubgycdjzBFcw0+CbbaxCMVPRI6n8ML
- CY5AE4/7irrONltr1KZNZUnHRB3XLAjcDnAHaEtizk/QyoQZLPhexwozPopzFdSnocqR
- nlkTnvEIyEbP/sJTUBWxMiVnt1vA2HAc860zNARXrW0dlskPnVvCA/UJxJb0gd36o6pf
- YIJbquACBnknKIgAWfALmem9Up0DMD7OBWOCKDhEByXNdWHQ6L1SYiIhbwatDrEychsg
- SJ1w==
+ bh=cErhV76ENt4TSg24Fp7Ht7DEbiQDvH5TWJw2QAVKIhM=;
+ b=nJYWDgNOZZtlxDlK5ueJ/5vxhAzGVJPLWbe9fkSlizduzmFLoZH0zqf9t3kk2HuA8U
+ lE6tc3WYq/hvTZ0O/dieS6Q0bsdb+ZwDKBi/WGF+MNjDOGgMOOwl9I9+wvij52X2KOd+
+ A0IfARUHoB8llo6o4QJGAa3UBP3gx5Ug2qQLazIjl9u7OejBgmdVtGzum+CTl/qIPohd
+ vzbAFqVqxo9zbrtVnZ6LWqiAOk0nN93L8q48Eg1TSmA+c6G2URYTrBZxj+k7FnkjHTkB
+ VKsFmh+7Foh3Owu1wa0QQ9xbX8EmHldsQpndxjyfW4Ou2OWc3Uwh/ljhBDnfv/MiEC+i
+ DGbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6vxmT3Q80RGrzEju3iFEpX/Dlj35TxSTYI0m/9BGYRs=;
- b=MtycjkDhMnAnPvNzAZOOSSXFqDZFujK6/tbvww/7pldCt8TwJ6piIx3GcTsYlfHvUo
- r4GjDEELU1pnxdQ6fp4PGrKT1C9sHPBgj+so/3w0XiX6OjER5DxcA8z08RAqcBj1oXDm
- nw49ynF8ALxXDdtxmbkAw1a/LzMcfiljYGnMDHoFl2XcJHjjdogOO5OIePlShtrkcujI
- R+lgv09OWvFpligJvBMnp7mv+aqn1LW4XUTzDrHkcPFoZBCNJGjn3iqrmhIGHIJm40a6
- VCyXzz4qC3ji8buw3ykmXygW8yCZLTSQjeWzPEYefnYWbRbJ6kWnjweGnXM2pwwrUvi2
- XZKQ==
-X-Gm-Message-State: AOAM533T5/HFbxXIkFdMhDxokH6EOHmpRj0z+IZkFPqKB2EbmWTN/IqP
- QXSKgXFXlryKJ91nMs7uCxs=
-X-Google-Smtp-Source: ABdhPJz92w4o9HyAGBIzrllFPmwzHVzYzCAtkRWAXWpfppLSfftceomQcU1lQHfBjVjZXUoUlHfUJA==
-X-Received: by 2002:a17:902:8504:b029:d6:7552:19ab with SMTP id
- bj4-20020a1709028504b02900d6755219abmr22151785plb.83.1604335850971; 
- Mon, 02 Nov 2020 08:50:50 -0800 (PST)
+ bh=cErhV76ENt4TSg24Fp7Ht7DEbiQDvH5TWJw2QAVKIhM=;
+ b=aa7PnRZzXyMI5sN8iRFhqHkBR8e+QEkjGZccKQcF4Ai42QPnMLPUcMkCLVNd0KEBlD
+ PAg+PSnf/TNRiBdzUoZJRj4z9k82pZs8kByLLKKc1vLK+pfwuIRVLxEuCFNuJMEVsRqq
+ vBsDfFpsliU8Ld+4bpS25a+pSDQcOWfVFXzJdf2750/u8P2JUfYAP+ONPdzOT7vpKLlW
+ TvIvXNV3UohizTqSio4S6ON4hv05h8UinibPdZ0spymk/jxK+b2sNmR2UEukx4mrhCBV
+ i0Q3GaC9j9n2/wfk5ZUdKQWLjMTYTxpeHdad7LTVWmpw1WyKzhbZjdGtev4Ci4grlj8X
+ tp7g==
+X-Gm-Message-State: AOAM530U35MIA5Ebu6t8FcKRcaA/WDlz+fdDoDLKzlifKt3U6Im+BfZE
+ kOkruGUrlS6N5Kq2aJbs1iM=
+X-Google-Smtp-Source: ABdhPJwp05t7yRIHJ8huQ7eLUfoMgxcmBsNLB9C02JBi8y2dAFVcKApcplQEaIPahN07b26OqEY6+Q==
+X-Received: by 2002:a17:902:bb81:b029:d5:b437:edb4 with SMTP id
+ m1-20020a170902bb81b02900d5b437edb4mr21167595pls.6.1604335861454; 
+ Mon, 02 Nov 2020 08:51:01 -0800 (PST)
 Received: from varodek.localdomain ([223.179.149.110])
- by smtp.gmail.com with ESMTPSA id t74sm4953233pfc.47.2020.11.02.08.50.42
+ by smtp.gmail.com with ESMTPSA id t74sm4953233pfc.47.2020.11.02.08.50.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 08:50:50 -0800 (PST)
+ Mon, 02 Nov 2020 08:51:00 -0800 (PST)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -108,8 +108,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Balsundar P <balsundar.p@microchip.com>
-Date: Mon,  2 Nov 2020 22:17:04 +0530
-Message-Id: <20201102164730.324035-4-vaibhavgupta40@gmail.com>
+Date: Mon,  2 Nov 2020 22:17:05 +0530
+Message-Id: <20201102164730.324035-5-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201102164730.324035-1-vaibhavgupta40@gmail.com>
 References: <20201102164730.324035-1-vaibhavgupta40@gmail.com>
@@ -117,8 +117,8 @@ MIME-Version: 1.0
 Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
  esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v4 03/29] scsi: megaraid_sas: update
-	function description
+Subject: [Linux-kernel-mentees] [PATCH v4 04/29] scsi: aacraid: Drop
+	pci_enable_wake() from .resume
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -136,27 +136,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Function parameter 'pdev 'is described as Generic Device Structure. It is
-a PCI device structure.
+The driver calls pci_enable_wake(...., false) in aac_resume(), and there is
+no corresponding pci_enable_wake(...., true) in aac_suspend(). Either it
+should do enable-wake the device in .suspend() or should not invoke
+pci_enable_wake() at all.
+
+Concluding that this is a bug and PCI core calls
+pci_enable_wake(pci_dev, PCI_D0, false) during resume, drop it from
+aac_resume().
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/megaraid/megaraid_sas_base.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/scsi/aacraid/linit.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index bd330ea4063a..7384c8e9149d 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -7958,7 +7958,7 @@ static void megasas_detach_one(struct pci_dev *pdev)
+diff --git a/drivers/scsi/aacraid/linit.c b/drivers/scsi/aacraid/linit.c
+index 8f3772480582..8c4dcb5ab329 100644
+--- a/drivers/scsi/aacraid/linit.c
++++ b/drivers/scsi/aacraid/linit.c
+@@ -1938,7 +1938,6 @@ static int aac_resume(struct pci_dev *pdev)
+ 	int r;
  
- /**
-  * megasas_shutdown -	Shutdown entry point
-- * @pdev:		Generic device structure
-+ * @pdev:		PCI device structure
-  */
- static void megasas_shutdown(struct pci_dev *pdev)
- {
+ 	pci_set_power_state(pdev, PCI_D0);
+-	pci_enable_wake(pdev, PCI_D0, 0);
+ 	pci_restore_state(pdev);
+ 	r = pci_enable_device(pdev);
+ 
 -- 
 2.28.0
 
