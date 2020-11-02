@@ -5,88 +5,88 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E44E8C4742C
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:54:37 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F41C4742C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:54:48 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7358A22268
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:54:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9FA89206F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Nov 2020 16:54:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jhuPycR6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7358A22268
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpW31TLe"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FA89206F9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2008786AAA;
-	Mon,  2 Nov 2020 16:54:37 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 367538725F;
+	Mon,  2 Nov 2020 16:54:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BSfNTrPcXf2V; Mon,  2 Nov 2020 16:54:36 +0000 (UTC)
+	with ESMTP id INurG8TrBdD5; Mon,  2 Nov 2020 16:54:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A84BF86AA4;
-	Mon,  2 Nov 2020 16:54:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CCDAD87225;
+	Mon,  2 Nov 2020 16:54:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A460DC088B;
-	Mon,  2 Nov 2020 16:54:36 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9CB13C0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C83BCC088B;
+	Mon,  2 Nov 2020 16:54:46 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 65FBEC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:54:35 +0000 (UTC)
+ Mon,  2 Nov 2020 16:54:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 98C4E86A8F
+ by silver.osuosl.org (Postfix) with ESMTP id 532572010F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:54:35 +0000 (UTC)
+ Mon,  2 Nov 2020 16:54:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id W4qGiTEXf5_P
+ with ESMTP id MI+7mxHvUHV5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:54:35 +0000 (UTC)
+ Mon,  2 Nov 2020 16:54:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1EE4986A84
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id BB14E20013
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Nov 2020 16:54:35 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id b12so7115350plr.4
+ Mon,  2 Nov 2020 16:54:44 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id y14so11592493pfp.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Nov 2020 08:54:35 -0800 (PST)
+ Mon, 02 Nov 2020 08:54:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9uM1XyBCr19CDVWn9sf0w7KO65sKBGQo8/F3BUibYX0=;
- b=jhuPycR6Z/wfvaaHNzXfc6OMqTM4Mq+Ig3Ee77rGMzNXYvQWVO633PGQk5JKhaF3b6
- 3/iDxbTuFjPIBsUcSennmmHy02QR0xJUXKu9e8ClWUpoEUOEwI0NWhEjW810xOAKmzuy
- /fSnVWnf5zZphYFflkfjQfj6sC4ywREOnDbN5ck3and1bq5EmfSJaDj1Og5DkJ+ReaMN
- XbEcC6KXbk7Q9qP4VEON/GLc4LBchBug/PQf+FRuPfxkpcy30ZO66ng832u4aZ2U5sRB
- DnAgJGb7VLmXnm04ensXzXggKuWR2GJPsBUn9sBClxGDEFjHwXL7IKkzgAD+oi7AQtKT
- 4haw==
+ bh=6ccyY/JHq4D3PLCl7N5Le5xwodBVxQCbk5cLiaDjEFw=;
+ b=NpW31TLetItFsb140xAKZVbCVOKP2GAN9IMwURcruykGX00RcSle7+2EuM5I36CM8o
+ fe4KsRaDfKtHUaTt5xVXCH2kez+BLnx9rJKFhORdMLQa+sk8W1vYH6YiTDcef8q2V1nl
+ TUb30IC4T2Nfc+uLV0DYvKeXIHBywuPzlJoPTU+U8+zHYiyGEDA04TIpppSOGFkxexbh
+ pGh73vWQpUaRpZ0IY9BxvFO5oZ4uB7CxqpYtva2SHbT1HQ+v+o8j8g0UTb+rkEAPvUH+
+ uaO2mHw4WvhZwEH8bDpx50oDS1g4G4FzH6lSucG9qGv8O1Aqk+f4J93leDCgYGD3nIcm
+ IuCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9uM1XyBCr19CDVWn9sf0w7KO65sKBGQo8/F3BUibYX0=;
- b=P0fx6CF6F8YSS+CyQnXmGFROkeXpKys4jYLzSFiXMwvICsm9kF9NgpKlH8BhEnEp5p
- 7+7mx/YmZwZFGYliqR+GnKZgtklik7TlRabecF7C9OBjxoqyPY3lpz1acOQ5ndtV5RsH
- CW0sacqeWdE+rITAfpLoG3vBITYmW727/soLvXXwRL3vMpVycKdxEi3IkZgpYwsYh5E9
- gFO8+wWuZPFiGq6zOFPHI4usGumSr67BWIESbi1fWlxZ8AR5fJQIbPC0eukxbCeB6nUo
- DdfBuXoqIOnPyaoBWAblqZ0evtjokJqcsxBi/JF0tlWf+sppuZNl/DYTdIIgoJeFn8go
- EplA==
-X-Gm-Message-State: AOAM5323OQUMJ+U1fK5vfqrXSV7Up9bwy22gzF42FX5G/Fb4SpQuSy92
- E3EPO+HHWkGa9wD/Wk9lj1k=
-X-Google-Smtp-Source: ABdhPJy6QlJL7rYPIqq+l9/hn/Ik10ZaEmiHPX/5F8UA/Oua+uxbilOEwf4GgfFLo04ls0CNL2F2nA==
-X-Received: by 2002:a17:902:9b95:b029:d6:991d:118c with SMTP id
- y21-20020a1709029b95b02900d6991d118cmr18181316plp.4.1604336074711; 
- Mon, 02 Nov 2020 08:54:34 -0800 (PST)
+ bh=6ccyY/JHq4D3PLCl7N5Le5xwodBVxQCbk5cLiaDjEFw=;
+ b=l0qceO+8Z5/GroSAo3iZwSi3rdc8W7S2AMtRw6nnqywmSNLE18SAbctpdQZxdJ3p/N
+ oeZcfnbM+SHZKw23nP6oDIN0zfHMCXicpS9+qX3je6C8oNA0lBbGECNjH7zBEtPxxMPt
+ Q46+X+AEPVpYCxq5xbPqWE5FMJyt4VcN3iA3uc+ioiIk4Tj8gBi4sA7+2cpFnOCauIS0
+ eFt6VytO56Nb054Iaps4Jbjb8flFrxLY9avDrh12lqFDiRQTZ+BOl/69ldtijKYnoKJW
+ Z5AbYQ6KXRTk9PECpdjkHm72PZks6qRhd6uQpfrgsNydXxXxFCJLB7oLCnIPXYSYt5Q6
+ /Iwg==
+X-Gm-Message-State: AOAM530gLhybvmNky4g17KDaYHu5LFvVA1NEKDsCv4iiT1xv7ewGks4+
+ eXw43L5SBwDFm9Qf093Qu4A=
+X-Google-Smtp-Source: ABdhPJx/1LewIo20VjBh1CMTVa+zuJIuzuWLg4W/csDX8oOWuCb+rFAFC6LAzjvhej07R0r8NoDkqA==
+X-Received: by 2002:a17:90a:1188:: with SMTP id
+ e8mr18750804pja.61.1604336084398; 
+ Mon, 02 Nov 2020 08:54:44 -0800 (PST)
 Received: from varodek.localdomain ([223.179.149.110])
- by smtp.gmail.com with ESMTPSA id t74sm4953233pfc.47.2020.11.02.08.54.26
+ by smtp.gmail.com with ESMTPSA id t74sm4953233pfc.47.2020.11.02.08.54.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 08:54:34 -0800 (PST)
+ Mon, 02 Nov 2020 08:54:43 -0800 (PST)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
@@ -108,8 +108,8 @@ To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Balsundar P <balsundar.p@microchip.com>
-Date: Mon,  2 Nov 2020 22:17:23 +0530
-Message-Id: <20201102164730.324035-23-vaibhavgupta40@gmail.com>
+Date: Mon,  2 Nov 2020 22:17:24 +0530
+Message-Id: <20201102164730.324035-24-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201102164730.324035-1-vaibhavgupta40@gmail.com>
 References: <20201102164730.324035-1-vaibhavgupta40@gmail.com>
@@ -117,8 +117,8 @@ MIME-Version: 1.0
 Cc: linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
  esc.storagedev@microsemi.com, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, megaraidlinux.pdl@broadcom.com
-Subject: [Linux-kernel-mentees] [PATCH v4 22/29] scsi: 3w-9xxx: use generic
-	power management
+Subject: [Linux-kernel-mentees] [PATCH v4 23/29] scsi: 3w-sas: Drop PCI
+	Wakeup calls from .resume
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -136,105 +136,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers should do only device-specific jobs. But in general, drivers using
-legacy PCI PM framework for .suspend()/.resume() have to manage many PCI
-PM-related tasks themselves which can be done by PCI Core itself. This
-brings extra load on the driver and it directly calls PCI helper functions
-to handle them.
+The driver calls pci_enable_wake(...., false) in twl_resume(), and
+there is no corresponding pci_enable_wake(...., true) in twl_suspend().
+Either it should do enable-wake the device in .suspend() or should not
+invoke pci_enable_wake() at all.
 
-Switch to the new generic framework by updating function signatures and
-define a "struct dev_pm_ops" variable to bind PM callbacks. Also, remove
-unnecessary calls to the PCI Helper functions along with the legacy
-.suspend & .resume bindings.
+Concluding that this driver doesn't support enable-wake and PCI core calls
+pci_enable_wake(pci_dev, PCI_D0, false) during resume, drop it from
+twl_resume().
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/scsi/3w-9xxx.c | 29 +++++++----------------------
- 1 file changed, 7 insertions(+), 22 deletions(-)
+ drivers/scsi/3w-sas.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/scsi/3w-9xxx.c b/drivers/scsi/3w-9xxx.c
-index e458e99ff161..b4718a1b2bd6 100644
---- a/drivers/scsi/3w-9xxx.c
-+++ b/drivers/scsi/3w-9xxx.c
-@@ -2191,10 +2191,10 @@ static void twa_remove(struct pci_dev *pdev)
- 	twa_device_extension_count--;
- } /* End twa_remove() */
+diff --git a/drivers/scsi/3w-sas.c b/drivers/scsi/3w-sas.c
+index dda6fa857709..0b4888199699 100644
+--- a/drivers/scsi/3w-sas.c
++++ b/drivers/scsi/3w-sas.c
+@@ -1795,7 +1795,6 @@ static int twl_resume(struct pci_dev *pdev)
  
--#ifdef CONFIG_PM
- /* This function is called on PCI suspend */
--static int twa_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused twa_suspend(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct Scsi_Host *host = pci_get_drvdata(pdev);
- 	TW_Device_Extension *tw_dev = (TW_Device_Extension *)host->hostdata;
+ 	printk(KERN_WARNING "3w-sas: Resuming host %d.\n", tw_dev->host->host_no);
+ 	pci_set_power_state(pdev, PCI_D0);
+-	pci_enable_wake(pdev, PCI_D0, 0);
+ 	pci_restore_state(pdev);
  
-@@ -2214,31 +2214,19 @@ static int twa_suspend(struct pci_dev *pdev, pm_message_t state)
- 	}
- 	TW_CLEAR_ALL_INTERRUPTS(tw_dev);
- 
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
--
- 	return 0;
- } /* End twa_suspend() */
- 
- /* This function is called on PCI resume */
--static int twa_resume(struct pci_dev *pdev)
-+static int __maybe_unused twa_resume(struct device *dev)
- {
- 	int retval = 0;
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct Scsi_Host *host = pci_get_drvdata(pdev);
- 	TW_Device_Extension *tw_dev = (TW_Device_Extension *)host->hostdata;
- 
- 	printk(KERN_WARNING "3w-9xxx: Resuming host %d.\n", tw_dev->host->host_no);
--	pci_set_power_state(pdev, PCI_D0);
--	pci_restore_state(pdev);
- 
--	retval = pci_enable_device(pdev);
--	if (retval) {
--		TW_PRINTK(tw_dev->host, TW_DRIVER, 0x39, "Enable device failed during resume");
--		return retval;
--	}
--
--	pci_set_master(pdev);
- 	pci_try_set_mwi(pdev);
- 
- 	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-@@ -2276,11 +2264,9 @@ static int twa_resume(struct pci_dev *pdev)
- 
- out_disable_device:
- 	scsi_remove_host(host);
--	pci_disable_device(pdev);
- 
- 	return retval;
- } /* End twa_resume() */
--#endif
- 
- /* PCI Devices supported by this driver */
- static struct pci_device_id twa_pci_tbl[] = {
-@@ -2296,16 +2282,15 @@ static struct pci_device_id twa_pci_tbl[] = {
- };
- MODULE_DEVICE_TABLE(pci, twa_pci_tbl);
- 
-+static SIMPLE_DEV_PM_OPS(twa_pm_ops, twa_suspend, twa_resume);
-+
- /* pci_driver initializer */
- static struct pci_driver twa_driver = {
- 	.name		= "3w-9xxx",
- 	.id_table	= twa_pci_tbl,
- 	.probe		= twa_probe,
- 	.remove		= twa_remove,
--#ifdef CONFIG_PM
--	.suspend	= twa_suspend,
--	.resume		= twa_resume,
--#endif
-+	.driver.pm	= &twa_pm_ops,
- 	.shutdown	= twa_shutdown
- };
- 
+ 	retval = pci_enable_device(pdev);
 -- 
 2.28.0
 
