@@ -2,108 +2,101 @@ Return-Path: <SRS0=AIAE=EJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31FBDC4742C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 12:05:40 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB1EC2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 12:11:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7CF8B22409
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 12:05:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 069AF21D40
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 12:11:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WM+YtojM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CF8B22409
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hj89cR4g"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 069AF21D40
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EC8D086103;
-	Tue,  3 Nov 2020 12:05:38 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WOXObZaJu7Zw; Tue,  3 Nov 2020 12:05:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 96C1B86099;
-	Tue,  3 Nov 2020 12:05:38 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7AB18C088B;
-	Tue,  3 Nov 2020 12:05:38 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BA390C0051
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 12:05:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A2D508701C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 12:05:36 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7786F86CF3;
+	Tue,  3 Nov 2020 12:11:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id eroMaQPCUoRZ; Tue,  3 Nov 2020 12:11:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 465DB86C8B;
+	Tue,  3 Nov 2020 12:11:53 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 39762C088B;
+	Tue,  3 Nov 2020 12:11:53 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 115BBC0051
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Nov 2020 12:11:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id F002285F8E
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Nov 2020 12:11:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KM60tAyWTyC5
+ with ESMTP id b7EK1BPIKCct
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 12:05:35 +0000 (UTC)
+ Tue,  3 Nov 2020 12:11:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 67E5F86FB1
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 725DE85E08
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 12:05:35 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id o129so14019931pfb.1
+ Tue,  3 Nov 2020 12:11:51 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id w65so14035585pfd.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 03 Nov 2020 04:05:35 -0800 (PST)
+ Tue, 03 Nov 2020 04:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CoUtQrJSQRYVKiicQfT9b8FMAZeeb+zxod1LbaNVVzE=;
- b=WM+YtojMtExY2bSx1rZgI2jNzAxVBzt+gQy5d6FlFB2ZQ2+tYra7w3xUImdiB+4aCf
- 74xlNxvl1zafd+USLWhF854/j/ZmXaeNwS2v68wzLERsUozQD9eavP6APlj9hD/95GCf
- e5WhrwGzr9L0hAv7c8dBT4ZJAZ1AZkXA0byYWy7vGhF6pkyEQBvC0gk7Zya6rn5Gitmx
- 0QouET8V/OMgrTYTGYgfO4eYvYyRBauKwGxZuULll1gOABkJJO547wTYFsrCF8wTZsl+
- 7T0XRiHLRwTWQbA9BYv4YkX+abx1uCKY4dleuVBYPVruBvQi1tKqVeKpHfCUPUfRPq0L
- VEwA==
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=0jZqlGIJPFeiIIz84g3Sogc4z1E7uwMUHyI0ijMosxk=;
+ b=Hj89cR4glZjBkDrxsuCKj7tQ6MviPyD8xSVX6bB0MLZ0YvS/t0vDMER5fBc60Lzjod
+ ycgOQkwOgOTY2MxE79p9o+LSaEje6extZ7Y9yrp0NPAITFNoEp1Lfo6QIoRGuOodWD1g
+ wROlGzojzHX0siq18mjx33oPmXDtaKVvD8oPYowJy+sSkvZ/JonHQhfDqF9+ZIui4MiU
+ jWpHdMOpsmlCUj2Kwxxaqe4BeOoElAm2dgYnAp6FSESBMDOPLSM86q7Wy5RF7htHLkij
+ SKhlt6nq8ocfbcX/ki4jMKPrPWxMdMWgIhxnnojxNZdBDe5Y3XOK/UdwAZ3DnhOcrNXH
+ O4Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CoUtQrJSQRYVKiicQfT9b8FMAZeeb+zxod1LbaNVVzE=;
- b=YhQTKbuQAzmV9hJ+ijni77vFvUAq3e/OF/MakxzgIflm+4w5CtkL52Cxi3fDF2e7mm
- VF/dC0AQjbfdGBiNPjCeu4w2uUMI8l9xCOqnjgdFQ806TB/RFgF8cpkPGWQd2OV+4Inx
- QxugyYLsBSSpsJA85tI5DhbSK/GelklTm3q5IwdS8F4wqHzn1aTk2SrtvtDdHGL+nDt2
- FMwo7D8G22DWZxxkpHm49Qjgri99youvj0+F5pGFVPhMHw2Fqpq6vNpn51IyVwmwGJEJ
- vojagfxWCrbcC7qSjP8K9xxU++WI//BIO6BURdBTUauKv0lQa4oNBkquA8f6TBWgqw1n
- uwdA==
-X-Gm-Message-State: AOAM532ac7FjyZtrXUOl5eeKY1GKA/u/wK6OjXPUVoTdvNFekUePRVFG
- fNwQ7+PNqNkY9eLU2hQthxaZMBHMwPUI/Itj+Fc=
-X-Google-Smtp-Source: ABdhPJxUO60AuqbTEpZJUSjqUhnIPjXMPgP8GNKeKA0lClIJQEIZVlsw/a1hRyj6/h1KU1n4Q3C6NkqxI7vqhDJ0z/0=
-X-Received: by 2002:a05:6a00:850:b029:18a:a8ce:d346 with SMTP id
- q16-20020a056a000850b029018aa8ced346mr16078623pfk.73.1604405134945; Tue, 03
- Nov 2020 04:05:34 -0800 (PST)
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=0jZqlGIJPFeiIIz84g3Sogc4z1E7uwMUHyI0ijMosxk=;
+ b=IrRpb63m3KHyPKRLqJO4vGsjQHt+jB/fskDveRhGmacrq1id1l1CpK0u+H9u7zbkyY
+ 4wBPPJVki3VCAhXHT9XUoGNFz8rcB0YTK+5I0/AxA+plsNYHIm6RJHk7L+dvanKGTd4U
+ +9BicM1GiMfSWtF8MDFiI8YcsdLSBn7XGIgc2et+3yK6Q5waWjEaCZwZgQPws8qZ4tCy
+ ucept+hjxJfa16d3v4bmA01AQCFPDs+flmP8I0T3MOZz/fHN4FTjqipDMQ7Pbytci+HC
+ N48mlqq/hSKc0x/9avQvgrOo/oAwb/bm6R1iu3yA+7Zzv6z5545m9BJSmMaH9Yn3+YGW
+ wxGA==
+X-Gm-Message-State: AOAM53079Z4ukTEZ8FeS+7snDEv16Z6K3PicVCOIioNx84P7qKlTKHok
+ JNRoGqCu3qimNU1Oi3TbOd52JwDpXOF2Og==
+X-Google-Smtp-Source: ABdhPJx3DZObYwwpvQPOgVQ4FCaUlkTa7M9TztC7ONUDuWtCSUL78dXUTsQNl3FGqZcd6BcwK5Ovow==
+X-Received: by 2002:a63:5c5e:: with SMTP id n30mr16776422pgm.54.1604405510539; 
+ Tue, 03 Nov 2020 04:11:50 -0800 (PST)
+Received: from ?IPv6:2402:3a80:41d:f163:ac:13ab:8c6a:34ab?
+ ([2402:3a80:41d:f163:ac:13ab:8c6a:34ab])
+ by smtp.gmail.com with ESMTPSA id a28sm1615350pfk.50.2020.11.03.04.11.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Nov 2020 04:11:50 -0800 (PST)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <4b8da06a-5162-28da-d4d8-91feaa172231@gmail.com>
+Date: Tue, 3 Nov 2020 17:41:45 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201103111049.51916-1-98.arpi@gmail.com>
- <20201103113353.GC4077@smile.fi.intel.com>
- <20201103115223.GA268796@kroah.com>
-In-Reply-To: <20201103115223.GA268796@kroah.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 3 Nov 2020 14:06:23 +0200
-Message-ID: <CAHp75Vcw8Hyaks9ZbRfz7HhBzPM2cJxR4ypye5PwcZqY9rsYhA@mail.gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Petr Mladek <pmladek@suse.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Ilya Dryomov <idryomov@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: Convert test_printf.c to
-	KUnit
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] checkpatch: add fixes for BAD_SIGN_OFF
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,27 +114,59 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Nov 3, 2020 at 1:54 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> On Tue, Nov 03, 2020 at 01:33:53PM +0200, Andy Shevchenko wrote:
-> > On Tue, Nov 03, 2020 at 04:40:49PM +0530, Arpitha Raghunandan wrote:
+On 3/11/20 4:11 pm, Lukas Bulwahn wrote:
 
-...
-
-> > Better, indeed.
-> >
-> > But can be this improved to have a cumulative statistics, like showing only
-> > number of total, succeeded, failed with details of the latter ones?
+>> 1) WARNING:BAD_SIGN_OFF: Co-developed-by: should not be used to
+>> attribute nominal patch author '"Zhang, Jun" <jun.zhang@intel.com>'
+>>
 >
-> Is that the proper test output format?  We have a standard...
+> I think the fix here might be to drop the Co-developed-by: line,
+> right?
+> Can you confirm this fix on your evaluation?
+>
 
-I dunno. I'm asking...
-We have few possibilities here: a) let it go like above, b) use the
-cumulative statistics, c) if there is no such available, implement and
-use it, d) ...
+Yes, we will drop the Co-developed-by line for the author. As he has
+already signed off for the patch, co-developed doesn't make sense.
 
--- 
-With Best Regards,
-Andy Shevchenko
+>> 2) WARNING:BAD_SIGN_OFF: email address '"Matthew Wilcox (Oracle)"
+>> <willy@infradead.org>' might be better as 'Matthew Wilcox (Oracle)
+>> <willy@infradead.org>'
+>>
+>
+> I think Dwaipayan and Joe are discussing the proper handling of
+> quotes. I suggest to understand the resolution that Dwaipayan and
+> Joe
+> are working out before thinking about a fix for this option. They
+> might decide that only a few specific cases should be warned about
+> or not at all in case of quote mismatches.
+>
+
+Alright, I'll omit this one for now.
+
+>> 3) WARNING:BAD_SIGN_OFF: Duplicate signature
+>> etc.
+>>
+>
+> I do not see the fix option for this case 3; the duplicate signatures
+> are mostly due to the integration Signed-off-by trail.
+>
+
+Sir, mostly the duplicate signatures are occurring when the user signs
+off 2 or more times for the same role. For eg,
+
+For the commit 6dd47d9754ff ("mac80211: fix
+ieee80211_txq_setup_flows() failure path"), we get
+
+WARNING:BAD_SIGN_OFF: Duplicate signature
+#16:
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+
+as the user has used 'Signed-off-by' line 2 times. The fix for this
+can be to remove the repeated line, similar to co-developed-by one
+we're doing for the (1) case.
+
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
