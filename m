@@ -7,89 +7,90 @@ X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A4ACC388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 08:03:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D5DC2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 08:11:12 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 86E9B21D40
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 08:03:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8C02222275
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 08:11:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cxW3zUmh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86E9B21D40
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WIVn5uph"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C02222275
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1695685FA7;
-	Tue,  3 Nov 2020 08:03:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 17C9B85FA7;
+	Tue,  3 Nov 2020 08:11:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BvmNb0d7eKXf; Tue,  3 Nov 2020 08:03:14 +0000 (UTC)
+	with ESMTP id Y6AW1OWAXuYN; Tue,  3 Nov 2020 08:11:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9C37E85F94;
-	Tue,  3 Nov 2020 08:03:14 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8D38085F77;
+	Tue,  3 Nov 2020 08:11:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89FBEC088B;
-	Tue,  3 Nov 2020 08:03:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 73D19C0889;
+	Tue,  3 Nov 2020 08:11:10 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7DDA3C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E442CC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 08:03:13 +0000 (UTC)
+ Tue,  3 Nov 2020 08:11:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6AD0D85FA5
+ by fraxinus.osuosl.org (Postfix) with ESMTP id CAC2485F7D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 08:03:13 +0000 (UTC)
+ Tue,  3 Nov 2020 08:11:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 503TpK5wDm2P
+ with ESMTP id V520gWjKGBPR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 08:03:12 +0000 (UTC)
+ Tue,  3 Nov 2020 08:11:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
- [209.85.167.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 882A085F94
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0BABA85F77
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 08:03:12 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id f9so20968100lfq.2
+ Tue,  3 Nov 2020 08:11:09 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id o11so6298297ioo.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 03 Nov 2020 00:03:12 -0800 (PST)
+ Tue, 03 Nov 2020 00:11:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o8mlm/Qp/onAhk8/kvztnd8MhySLP+TPn3sjDt5NLiQ=;
- b=cxW3zUmhRl1EB3w2jHglo2o82jpPpZKF8Gdu2qJZceyQogIHaxCoce4L+DzBT0y5G+
- yauB3QTSzekB1R3Eh9Wn6JB3i75nqp5j/k72WuFRpXp1ytynkuV0be7B3Fw9r/Ob6MxL
- 6FtL3PQ3zT6zqSakjJirME5goCPS2XVW9roHWx3232IsDu6oqBIgVmFkUbGQsk9WvtnJ
- cB0K0jjd//W2vLR7ooWoAZMmvfrs40loSbHJ2vo5/fB8CRy6mQyBCoXLUaMbIsCvv+BR
- 6U2o+OEPv0LSkZC+YU5vj6mhAXyJ6pV+yRmGEI13H0JC8sXN8D+GCOh92MFxeqXX5PuJ
- Y7pg==
+ :cc; bh=kWNEcvYHB1Y+hYGFC0n25x7P0WSWWMjwyFtXRi1KVuc=;
+ b=WIVn5uphjuvxZyJn06lfWTowtZ7KxvFDIHfU4LM3/vHTIGvTPCkuYQJUOKsgAdQxuo
+ Q7ckz+8b+vcpj2IhVBOWLnW2HQKvOD0DVeoIftB/QKHZeGOtcRLYzOhjx5l1J2XbOmEB
+ 3xMGIi1itApit8gOK6UN18yMh2bEKbz7Gb61oM4VFASLAiiuEK8WHC4N7mKmEuf8M/8S
+ Uh7wWL9Ua/3l78eoi4pXvIZRQXVGBfOOiVfdph/PRp/auZpeqsyYxonQFl62C/UY+Xr/
+ D0QbovbM/C5XglVBGvgpt31RmPRjGuJ4hdD5L/cjGURDakj2dOQSiAgD8lFwMXGP9yOO
+ id5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=o8mlm/Qp/onAhk8/kvztnd8MhySLP+TPn3sjDt5NLiQ=;
- b=O5RTCM7o+/OAGGbPV//2Tz1Oabt8fAGGY+D0IqXaWF041xd2EotIaDgkpCLucemdIu
- q3det7waB+D+ed4I35/Xm3GkvEu5DRh2Ivp9ZvY7EF2XLt7H/W4gPwCCvkSHJT7BxOu+
- Xb4OySoW6Z8vL7EL6gp+1YJwI4iyRS3XhPjPFZaJZwxCzPmXodaXqT72ULbFsAJrUTm/
- Wqr+SCU52BbAwBoDD4Iq0uJupsOfrhMdqpWqTEj7ZRLttk6zagXvYw5iUgN8LHCmKnJb
- gIJLunpeeJ+07HxQp0ss/6uhu2hGV6M+yG8Nf33ovmSTxJMsMUhOwHmYagQuWWwULEZ7
- k4rw==
-X-Gm-Message-State: AOAM530ZPa/5As6A4PPI0q0V3kQdN95b8zCrhj9f0E1luhpnuzOxZ3T2
- fYhEO//s92wdqqk4sps1EczGtvXIXwllkkQdvyM=
-X-Google-Smtp-Source: ABdhPJztgVgZuzzhImE3PmiV7kc6P7RWG1BbSzEJkZpReb6ALVgGXw1c4V4FjifQn0T6SL9E9b5zMDkSfxsapPalOlE=
-X-Received: by 2002:a19:e016:: with SMTP id x22mr6868888lfg.400.1604390589169; 
- Tue, 03 Nov 2020 00:03:09 -0800 (PST)
+ bh=kWNEcvYHB1Y+hYGFC0n25x7P0WSWWMjwyFtXRi1KVuc=;
+ b=JVS9mO/dwfyzq5o0NyWMW930qenEpJNoZhTaBD1G8Bb9tr4Z8PbW8m1mAeZUdnkyBl
+ OM7OjURFWu3cE37q5Gx+s/ZYK19nNNQPp+UC6vpKhXHamOKzF++b9UO58O0PJF3LRwsR
+ ja8LtKttWHdJm4OoCg/gny/pYzzk5Uyd04ScI894sHfAPNsgT0lIPRZfUH+660Dvfsvu
+ 7sBBElOoFJByJkIyygj+6+yI19ZzAlRDg5lhmU1geUJsprjwh3ScAXsNLp0eHxFg9Tk8
+ GZdZQLH9V7/JSBknt33p3UKJmWaTv+eziSadW16U1lcGcNH3vfU/QLAiQDiKRGnwFCYp
+ w7Eg==
+X-Gm-Message-State: AOAM531N+x/Ubk1y+RSDaty2cGxwcqGOp3Md0gc9yz583eIkwO8V/J9i
+ VCAF6uX8WtcOTCX0W9KOeiWCEScAliKGX5LKQEY=
+X-Google-Smtp-Source: ABdhPJzSJwDJoErUxdthW2TS1p6R8cFpiAGMGXVdITnOSnwZCtXtdKBT1Gkl4Pwe+ETTYi63amCPX1kdS7W3DXuCBW0=
+X-Received: by 2002:a5e:9743:: with SMTP id h3mr13036096ioq.158.1604391068175; 
+ Tue, 03 Nov 2020 00:11:08 -0800 (PST)
 MIME-Version: 1.0
 References: <20201103054810.21978-1-dwaipayanray1@gmail.com>
  <CABJPP5DkJ3gwZDW+FBShs3Yo8z6GfP4LSMRW4hO5hL+fVXjShQ@mail.gmail.com>
  <e9d540c35ac04f0bb69e26d29c76c7cbd5693df8.camel@perches.com>
 In-Reply-To: <e9d540c35ac04f0bb69e26d29c76c7cbd5693df8.camel@perches.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Tue, 3 Nov 2020 13:32:38 +0530
-Message-ID: <CABJPP5D3v9ZGCCqn_wg43H5CN0ff=C8J8jDGYU6LHJBBn6-wAw@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 3 Nov 2020 09:10:54 +0100
+Message-ID: <CAKXUXMwH+tEBSV6xA952xQQFe+HvdJ5ew6V=n63sk89enj6p7Q@mail.gmail.com>
 To: Joe Perches <joe@perches.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel <linux-kernel@vger.kernel.org>,
  Aditya Srivastava <yashsri421@gmail.com>
 Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: improve email
@@ -111,7 +112,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Nov 3, 2020 at 12:58 PM Joe Perches <joe@perches.com> wrote:
+On Tue, Nov 3, 2020 at 8:28 AM Joe Perches <joe@perches.com> wrote:
 >
 > On Tue, 2020-11-03 at 11:28 +0530, Dwaipayan Ray wrote:
 > > On Tue, Nov 3, 2020 at 11:18 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
@@ -156,6 +157,13 @@ On Tue, Nov 3, 2020 at 12:58 PM Joe Perches <joe@perches.com> wrote:
 >
 > All other forms with stable@ should emit some message.
 >
+
+I agree that handling stable@vger.kernel.org should be a special case.
+
+We can even ask Greg KH and Sasha if they have certain preferences for
+the format of this meta information after the #, so that their scripts
+could pick this up.
+
 > And other <foo>-by: and cc: addresses should only have a form like
 >
 > Signed-off-by: "Full.Name" (possible comment) <email@domain.tld>
@@ -168,38 +176,28 @@ On Tue, Nov 3, 2020 at 12:58 PM Joe Perches <joe@perches.com> wrote:
 > with some message like "unexpected content after email address" rather
 > than "might be better as".
 >
-> What do you think best?
->
 
-Hello,
-I think the warning "unexpected content after email" is more reasonable.
-But maybe we can allow addresses of type:
+I agree with refining the error message here. Also, Aditya, Dwaipayan,
+here we can probably have some suitable fix methods, e.g., detect
+where the parsing fails (a missing ">" or a space where the should not
+be one, or a just few characters at the end, or a long list of email
+addresses which should be split etc.
 
-Full Name <email@domain.tld> (comment here)
-or
-Full Name <email@domain.tld> [another comment]
+Maybe you can coordinate among each other who would want to create
+suitable fix rules here?
 
-I checked the following:
-$ git log --format=email -100000 | grep -P '^(?:[\w\-]+-by:|cc:|CC:|Cc:)' \
-| grep -P ".*<\S+\@\S+>\s*(?:\(|\[|\/)" | wc -l
-280
+Also, start with the class of the most frequent mistakes for
+unexpected content after email addresses.
 
-And for stable ones, I found another pattern which is common:
-Cc: <stable@vger.kernel.org> [X.X]
-and only few instances of:
-cc: stable@vger.kernel.org (X.X)
+I imagine that a maintainer can simply run a tag sanitizing script
+which just cleans up those stupid mistakes before creating their git
+trees or sending git pulls to Linus. Let us try to add these
+sanitizing rules to checkpatch.pl with fix options for now; if that
+sanitizing feature becomes a monster script of its own within
+checkpatch.pl, we can refactor that into an independent script for
+cleaning up.
 
-Apart from these no other style has been used for stable so far.
-Maybe placing it in the generic check would suffice.
-
-So I think we can introduce the unexpected content warning for
-anything other than the braces or c89 comment styles. And
-maybe a separate check for stable won't be necessary then.
-
-What is your thought on this?
-
-Thanks,
-Dwaipayan.
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
