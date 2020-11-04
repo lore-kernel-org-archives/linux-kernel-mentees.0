@@ -1,101 +1,98 @@
-Return-Path: <SRS0=AIAE=EJ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=I1jd=EK=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E51CEC388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 20:03:20 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F19CC4741F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 06:47:35 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5A3CE20674
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Nov 2020 20:03:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 941C1223C7
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 06:47:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IlnaKg9p"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5A3CE20674
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VQl2kssQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 941C1223C7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CBEBD86D73;
-	Tue,  3 Nov 2020 20:03:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 048C720532;
+	Wed,  4 Nov 2020 06:47:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yjuOGwjoZ-d7; Tue,  3 Nov 2020 20:03:17 +0000 (UTC)
+	with ESMTP id JBK7Ba7pdZqw; Wed,  4 Nov 2020 06:47:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2296786C02;
-	Tue,  3 Nov 2020 20:03:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2F97120404;
+	Wed,  4 Nov 2020 06:47:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B40DC088B;
-	Tue,  3 Nov 2020 20:03:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 144B9C088B;
+	Wed,  4 Nov 2020 06:47:33 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B1238C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 02ABCC0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 20:03:15 +0000 (UTC)
+ Wed,  4 Nov 2020 06:47:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 92CDD8746A
+ by hemlock.osuosl.org (Postfix) with ESMTP id DE15187493
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 20:03:15 +0000 (UTC)
+ Wed,  4 Nov 2020 06:47:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Gv+c8OwBZhzZ
+ with ESMTP id qJwoXdLFTlF0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 20:03:14 +0000 (UTC)
+ Wed,  4 Nov 2020 06:47:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
- [209.85.167.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5886187466
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E09B18746C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Nov 2020 20:03:14 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id i6so23951410lfd.1
+ Wed,  4 Nov 2020 06:47:29 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id o3so15721573pgr.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 03 Nov 2020 12:03:14 -0800 (PST)
+ Tue, 03 Nov 2020 22:47:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rcG44gg9JsBMcXwjHb9lFTw4mEeTDRbo5E0yF7tkVWM=;
- b=IlnaKg9pnQyq0XUhrMVsb14/FfEzSGxZgCGRFpNWpo0uhl/vXHX/tQm5vYGv5dWTFJ
- GKogd8GDu22uIOaPdGPGkL1Noh5+YlHSCNA6BFxfWdlZLRI04t6OwpEq/arYeti4M3j6
- 9aNcXUFYVIDR76sfBfVmD/XU0AnosmmaEPl2pddcOMgn+5tjPeNG1kCOn7tl+FqHkCUJ
- 6fai9CFex2KGCDSkW5hS4lEipbq7S9Th+80kKKaULtkkORrKztFPpw7JBn8RNM07jNaL
- sabXXa8ThiDQMraZ8yXB3uVHIoMTj5FBH9KqRab3ge25ceqIRO7KP8bNNOyd5yY1Ce4p
- aIew==
+ h=from:to:cc:subject:date:message-id;
+ bh=1l065BLgxWbxhplgeNpVsx8uBEVKvB/dIxgH9PkcSoY=;
+ b=VQl2kssQL/MA4gCfSeHZLVdP/r3A7uu837GRvD5zvddRgqDdxBnMQTQFoq6e9CO0vW
+ cHMbvrgrcW7axHSoSjMfQmKny+YF6wAJeyCpojWhlzWv0GFagFUVQ8c09D56NQhV0+8E
+ 3r80DFulSqTmM+hBOUImyWXu5PPXL3Ho6nTY0OG8cL+KGGNICd7dK2XuEou4a0w8SJvE
+ Ax8Bn//3jgjJZ6+WBumalr/7pabCsetmwVfDzC+0ga0qvMnZ2QBeOLbuJlNtmrz69POX
+ ktycWACXUUMLkczZIXeGneDCy0zVqoPcEsWBW1uuepMwULE9p5lIU0N2k7Fw/LzyADo8
+ 4qnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rcG44gg9JsBMcXwjHb9lFTw4mEeTDRbo5E0yF7tkVWM=;
- b=F1Dobm3KogmGQLlfQBq8rI4dpEt6CVH3moBWXBadXry7AQRAynH4hsR8LMtZ4rd5ST
- ADG/Hvj9hSTM0tqHGINpLK5ZNqGtOWV0OhryKPC5JVZI1NXdX+UZ//Z/3BD8+3JAY6jo
- 4+wzeSHjlLZu8N8luezG+dKr+ZetqWlMWUTSDgkSjqR7cV9NAtSVhziGixbxpm+m4g4L
- pNuHCjdkqtnIVptgd+WSut+HgdQjBc9NBTCqWRsuooIofrcTl50+R4m8FCYPvv8jepBp
- ULhZ6CF8FeNikh+fb71AMmQm00SIRXF/dv86a8rM53HWIJhCXDG3TQXvnxt3Mw7lZbOJ
- /dGA==
-X-Gm-Message-State: AOAM533aj6Xgy+U6i5O1XseQfB8Zu7vkiNykGlNqcv6aJTAd05lTXPd4
- C5myQsmTGr5CFIK3MNSsgj6tr1IplMqnUp506Qo=
-X-Google-Smtp-Source: ABdhPJycWFdT224NrSwndSwQpqkFFygXdjoqovHnnFXfJksc8uvzfhyps3gDpGQo2rQBVrc/co9YDPwlOQUVk+JVbIA=
-X-Received: by 2002:a19:834e:: with SMTP id f75mr7941538lfd.111.1604433792181; 
- Tue, 03 Nov 2020 12:03:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20201103054810.21978-1-dwaipayanray1@gmail.com>
- <CABJPP5DkJ3gwZDW+FBShs3Yo8z6GfP4LSMRW4hO5hL+fVXjShQ@mail.gmail.com>
- <e9d540c35ac04f0bb69e26d29c76c7cbd5693df8.camel@perches.com>
- <CAKXUXMwH+tEBSV6xA952xQQFe+HvdJ5ew6V=n63sk89enj6p7Q@mail.gmail.com>
- <6c275d95c3033422addfc256a30e6ae3dd37941d.camel@perches.com>
-In-Reply-To: <6c275d95c3033422addfc256a30e6ae3dd37941d.camel@perches.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Wed, 4 Nov 2020 01:32:41 +0530
-Message-ID: <CABJPP5D3xVKGC2ESwQbgO4_5eEB5A1JFxKB-ghCOsWGU3FoEbg@mail.gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: improve email
-	parsing
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=1l065BLgxWbxhplgeNpVsx8uBEVKvB/dIxgH9PkcSoY=;
+ b=GWM/dQB1tCXA+/WPl/LNm5uOcFRLP+xCXA4MHC1JGptZmq8eSX2numXYelaq8pF+7u
+ uufcvP7DK5GixHB9wHQRHLus/vLRxvj4KcOkacEswk7H+UoCBaA2Fz+va/CfAPwBSqC4
+ 5UmZSwSTooXzVpWaz+98ziiW6NRqCPQd0I9OE6nPXgti/cWSAH/53xKdM+Kwi9CZ9gF3
+ MVy6712u3pUAvu87Z71pt6wz5OgTJJy2OX68SPmtTqnTGJfnoaJtjv/gJwrogdCMmLYr
+ gG8kZBZkaWmfIVb6hEqifBn5j/sqGUE6fuCiuPDg3W18wZhOSSwJ2RaLpG+OQB8WhJtu
+ dUoQ==
+X-Gm-Message-State: AOAM533dW6ue+W3sHVInD+2MarPQqrn6mbRbUxZaJPgahj/gCUnXRJZ0
+ MO0kytGg5UfCkIf5ddTEgho=
+X-Google-Smtp-Source: ABdhPJwRTaBboM6XKpBofRBwuq6f3rthm1CtkTdW9rvytiGCkEjVhU8h6//nXU/hjUWY/T2LcdqQdw==
+X-Received: by 2002:a65:4bc8:: with SMTP id p8mr16241224pgr.335.1604472449308; 
+ Tue, 03 Nov 2020 22:47:29 -0800 (PST)
+Received: from localhost.localdomain
+ ([2402:3a80:16e6:8166:e462:9fba:da9c:beed])
+ by smtp.gmail.com with ESMTPSA id s18sm1036873pgh.60.2020.11.03.22.47.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Nov 2020 22:47:28 -0800 (PST)
+From: Himadri Pandya <himadrispandya@gmail.com>
+To: johan@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Wed,  4 Nov 2020 12:16:48 +0530
+Message-Id: <20201104064703.15123-1-himadrispandya@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH 00/15] usb: serial: avoid using
+	usb_control_msg() directly
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,94 +104,66 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 4, 2020 at 1:02 AM Joe Perches <joe@perches.com> wrote:
->
-> On Tue, 2020-11-03 at 09:10 +0100, Lukas Bulwahn wrote:
-> > Maybe you can coordinate among each other who would want to create
-> > suitable fix rules here?
->
-> Yes please.
->
-> > Also, start with the class of the most frequent mistakes for
-> > unexpected content after email addresses.
-> >
-> > I imagine that a maintainer can simply run a tag sanitizing script
-> > which just cleans up those stupid mistakes before creating their git
-> > trees or sending git pulls to Linus.
->
-> Does anyone really do that?
-> It generally requires rebasing or post processing each commit after
-> being committed before another commit occurs.
->
-> > Let us try to add these
-> > sanitizing rules to checkpatch.pl with fix options for now; if that
-> > sanitizing feature becomes a monster script of its own within
-> > checkpatch.pl, we can refactor that into an independent script for
-> > cleaning up.
->
-> I rather doubt an independent script is going to be worthwhile
-> as these rules shouldn't be all that complex.
->
-> The only prefixes acceptable for a stable address should be
-> CC:|Cc:|cc:.  There are 2 uses in the last 100k commits for
-> Signed-off-by: and Acked-by: with stable addresses, those should have a
-> message/warning emitted in the future.
->
-> The forms used with those cc: stable addresses:
->
-> 2777    stable without comment
-> 1381    stable # comment
-> 74      stable [ comment ]
->
-> So I suggest standardizing on no comment and # comment with any other
-> style getting a warning.
->
-> For non-stable <foo>-by: and cc: addresses and other signatures:
->
-> Likely any content after a email address other than a parenthesized
-> block should have some checkpatch message emitted.
->
-> This should be OK:
->
-> Signed-off-by: Full Name (comment) <address@domain.tld> (maintainer:...)
->
-> But perhaps this should not be OK:
->
-> Signed-off-by: Full Name (comment) <address@domain.tld> # comment
->
-> There are 316 uses of this # comment style in the last 100k commits
-> and 103 with (comment) after the address.
-> Maybe the # use should be ok, maybe not.
->
-> And anyone that uses a multiple comments in a name or a even
-> a single comment in the email address should also get warned.
->
-> The below should not be OK even if actually valid address forms:
->
-> Signed-off-by: Full (comment1) Name (comment2) <address@domain.tld>
-> Signed-off-by: Full Name <address@(comment)domain.tld>
->
+There are many usages of usb_control_msg() that can use the new wrapper
+functions usb_contro_msg_send() & usb_control_msg_recv() for better
+error checks on short reads and writes. Hence use them whenever possible
+and avoid using usb_control_msg() directly.
 
-Thanks for your time and review.
+Himadri Pandya (15):
+  usb: serial: ark3116: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: belkin_sa: use usb_control_msg_send()
+  usb: serial: ch314: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: cp210x: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: cypress_m8: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: f81232: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: f81534: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: ftdi_sio: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: io_edgeport: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: io_ti: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: ipaq: use usb_control_msg_send()
+  usb: serial: ipw: use usb_control_msg_send()
+  usb: serial: iuu_phoenix: use usb_control_msg_send()
+  usb: serial: keyspan_pda: use usb_control_msg_recv() and
+    usb_control_msg_send()
+  usb: serial: kl5kusb105: use usb_control_msg_recv() and
+    usb_control_msg_send()
 
-I will try to handle these in my next iteration.
-Probably there could be extra warnings under
-BAD_SIGN_OFF to handle these cases.
+ drivers/usb/serial/ark3116.c     |  29 +----
+ drivers/usb/serial/belkin_sa.c   |  35 +++---
+ drivers/usb/serial/ch341.c       |  45 +++-----
+ drivers/usb/serial/cp210x.c      | 148 +++++++------------------
+ drivers/usb/serial/cypress_m8.c  |  38 ++++---
+ drivers/usb/serial/f81232.c      |  88 +++------------
+ drivers/usb/serial/f81534.c      |  63 +++--------
+ drivers/usb/serial/ftdi_sio.c    | 182 +++++++++++++------------------
+ drivers/usb/serial/io_edgeport.c |  73 +++++--------
+ drivers/usb/serial/io_ti.c       |  28 ++---
+ drivers/usb/serial/ipaq.c        |   9 +-
+ drivers/usb/serial/ipw.c         | 107 ++++++------------
+ drivers/usb/serial/iuu_phoenix.c |   5 +-
+ drivers/usb/serial/keyspan_pda.c | 172 ++++++++++++-----------------
+ drivers/usb/serial/kl5kusb105.c  |  94 ++++++++--------
+ 15 files changed, 406 insertions(+), 710 deletions(-)
 
-Am currently looking to achieve the following:
-- unexpected content after email
-- Use of multiple name comments
-- Use of comments in between address
-- stable@vger signoffs
+-- 
+2.17.1
 
-Thanks & Regards,
-Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
