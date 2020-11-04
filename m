@@ -6,98 +6,98 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA359C388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 06:47:36 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C99CEC2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 06:47:40 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 22A962222B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 06:47:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4262D2222B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 06:47:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ce47NTPV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 22A962222B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="It3dft3O"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4262D2222B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9EE8987493;
-	Wed,  4 Nov 2020 06:47:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B3066861FF;
+	Wed,  4 Nov 2020 06:47:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3BuIqr-RvkcX; Wed,  4 Nov 2020 06:47:35 +0000 (UTC)
+	with ESMTP id mJcVRvWJo6e2; Wed,  4 Nov 2020 06:47:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3000D8746C;
-	Wed,  4 Nov 2020 06:47:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3985F8610F;
+	Wed,  4 Nov 2020 06:47:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 274AEC088B;
-	Wed,  4 Nov 2020 06:47:35 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4529EC0051
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3653BC088B;
+	Wed,  4 Nov 2020 06:47:39 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C07C0C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Nov 2020 06:47:34 +0000 (UTC)
+ Wed,  4 Nov 2020 06:47:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2F35586978
+ by silver.osuosl.org (Postfix) with ESMTP id BBBCC20532
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Nov 2020 06:47:34 +0000 (UTC)
+ Wed,  4 Nov 2020 06:47:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LLe05h9Ia6E5
+ with ESMTP id lgnZ6A6V+zaT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Nov 2020 06:47:33 +0000 (UTC)
+ Wed,  4 Nov 2020 06:47:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 5049C869E5
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 7A63020404
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Nov 2020 06:47:33 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id u4so3930285pgr.9
+ Wed,  4 Nov 2020 06:47:37 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id o129so16512993pfb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 03 Nov 2020 22:47:33 -0800 (PST)
+ Tue, 03 Nov 2020 22:47:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IGCdR2zg93PxLfowoIUOGeqadZduI79Y1jQCNcPvnfw=;
- b=Ce47NTPV8niNPcpAYfYF2OEl7IvkfZ+6P937ZnFxssbhp64mXlNjGNiz95ujP+8EN/
- /SzZ6hKE78Ip6regihBDTo/GHyKcgiCX3OjPbPyUvKhjMN4woLcTXPSYymIKhu85RX62
- tptBy7wqqkFdBhIo4n6xArDqUpVuyuSwQ7gX1qFdt19ns4M3UDSlFK5g4/5y6Mv4UvY5
- IqcOSLDJRN84MNmN5CgBsHPmjV/PSLWJIbGqlkkE4yM6N29bvIVInwYcl/5XyGmb4zmU
- JiK+Bsi4qWzpPDXhMJJqpXoL/DSDYRyxsAQX9PQnV+4HM65NudqM9Xj/xipmCCpaRYnn
- kOFg==
+ bh=vnMYTYPWpL/m30915j5zLtve0vatdenqyPp6S7vmLgE=;
+ b=It3dft3OWinLT6cIhmfl1Xv4H4P0etg2tdyYAgpuFPVb5m0GvsMP7aDS00s3nNcknq
+ gPPq0cHV/5+JvxAyR5IoozAo8INdiK+/U1PS0GcwX37ZNTZzD9kWbc2/bLlEGj+A0pBf
+ YKDvw7/YoUAq/iisroJq59zIUmq+Gk3FwnTAbRngVlxh+VR0H3UFiR6TG8JlnbAehl4Q
+ 8QGM81Uvs5cdtzaVAuR+3jBxCtCMwIAjVQSSw+DcLwsw5F0UmX20kYTRM3nRkHDsy4Fv
+ D9qXpd5SkiCWtFlcckNq1Yt+Ned9A8E4QMvOjgQ34Y1zl63ROHxvtiNoU7mDH1XjCkCy
+ HJyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=IGCdR2zg93PxLfowoIUOGeqadZduI79Y1jQCNcPvnfw=;
- b=bleXDXmUq7U5uA34PITW93VdEcwKTSH0Sg3q6Cfn9mpfRiMYp3qaJlkL0O7+Uuwr26
- /vV6zk/7OPsv/w7ZwT53FIMJ0oLUfIFYsM3BLDN+9gMOXkgTjlVvTiO8u+TUt6iu3Yls
- kipJzvYH2eQKmJAUa3XOO6Prd9ZOrnF15E7JbpijjEDDz623ImPNih8fHjEyJbteslQs
- n1Da1QRgsIrL2hX8fwjhlH+cFxkQuVsg60Fet6L3Qq/3+R12+fYv0374kUmxU5PHtnRD
- UcTC8Dj1XBd9Xfh7iXnenWymA24b0MlryUrMlPn23hTBsmAqlCYJrFv3hslALXUcEB7c
- Ue6g==
-X-Gm-Message-State: AOAM533M6e06zoPmeXrRSjNfYkyXZ0Ox+DDQ7eyh5jirHSrENDmgj7vk
- 3J3riSkUmqjWaro+6WWYvio=
-X-Google-Smtp-Source: ABdhPJwHD78ybryi7ZO7u5PSZtfGLkLqwqQ6nfgHB3CPsSeV4quBSMb/+N7R9bIwgcw9R1hc1N5whQ==
-X-Received: by 2002:a17:90a:5285:: with SMTP id
- w5mr3010576pjh.50.1604472452997; 
- Tue, 03 Nov 2020 22:47:32 -0800 (PST)
+ bh=vnMYTYPWpL/m30915j5zLtve0vatdenqyPp6S7vmLgE=;
+ b=KICNJQzyCI/zfBzHPKGvzkaz9iucUlbPKrw+WKULnqxQjcrjv3S+3QYJqMQXZVCgNi
+ hh0k1nlQnSew4oo7U1HNXNT8bf/vSvTd7rqZDJWuBdVyvp+4f60asZWNphQ5b2r3I3+l
+ P1MsiOVw+D4oLiZ0yLM2tRpA2wskh3WVtpzfbIh/zTK+1CStcIUDQOgd6Oll7aHrohma
+ lWDIRxTd2TdfOPwlUGtN8vDT0Gp7TqlcUI328V0xNWnln1BXv6GQElmTMqoM/Y9/Brf5
+ sqO31y1t/YZDfVtsH61x3lhHjvjQvDCPZnCZTv9P8tR3sacRKm3ujBF3xDomCt7dv2jV
+ 0tVA==
+X-Gm-Message-State: AOAM5304nRjVYJ3qFr1ZpnJuR4Qt+6aHd+Za4+ozD4dBHgK0JzwadOR1
+ CfywDknkVy/MWKdgItDyH6o=
+X-Google-Smtp-Source: ABdhPJwnNQfXO7AjHXWMn/tpTXzV0nUf1dFk+DWr2khbTMJSk39gkNgezJp4Wv7vki3qJV0KgjGvpg==
+X-Received: by 2002:a62:2e47:0:b029:155:853a:80d5 with SMTP id
+ u68-20020a622e470000b0290155853a80d5mr28804533pfu.29.1604472457118; 
+ Tue, 03 Nov 2020 22:47:37 -0800 (PST)
 Received: from localhost.localdomain
  ([2402:3a80:16e6:8166:e462:9fba:da9c:beed])
- by smtp.gmail.com with ESMTPSA id s18sm1036873pgh.60.2020.11.03.22.47.29
+ by smtp.gmail.com with ESMTPSA id s18sm1036873pgh.60.2020.11.03.22.47.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 22:47:32 -0800 (PST)
+ Tue, 03 Nov 2020 22:47:36 -0800 (PST)
 From: Himadri Pandya <himadrispandya@gmail.com>
 To: johan@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Date: Wed,  4 Nov 2020 12:16:49 +0530
-Message-Id: <20201104064703.15123-2-himadrispandya@gmail.com>
+Date: Wed,  4 Nov 2020 12:16:50 +0530
+Message-Id: <20201104064703.15123-3-himadrispandya@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201104064703.15123-1-himadrispandya@gmail.com>
 References: <20201104064703.15123-1-himadrispandya@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH 01/15] usb: serial: ark3116: use
-	usb_control_msg_recv() and usb_control_msg_send()
+Subject: [Linux-kernel-mentees] [PATCH 02/15] usb: serial: belkin_sa: use
+	usb_control_msg_send()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,62 +116,133 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The new usb_control_msg_recv() and usb_control_msg_send() nicely wraps
-usb_control_msg() with proper error check. Hence use the wrappers
-instead of calling usb_control_msg() directly.
+The new usb_control_msg_send() nicely wraps usb_control_msg() with
+proper error check. Hence use the wrapper instead of calling
+usb_control_msg() directly.
 
 Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
 ---
- drivers/usb/serial/ark3116.c | 29 ++++-------------------------
- 1 file changed, 4 insertions(+), 25 deletions(-)
+ drivers/usb/serial/belkin_sa.c | 35 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/usb/serial/ark3116.c b/drivers/usb/serial/ark3116.c
-index 71a9206ea1e2..51302892c779 100644
---- a/drivers/usb/serial/ark3116.c
-+++ b/drivers/usb/serial/ark3116.c
-@@ -77,38 +77,17 @@ struct ark3116_private {
- static int ark3116_write_reg(struct usb_serial *serial,
- 			     unsigned reg, __u8 val)
+diff --git a/drivers/usb/serial/belkin_sa.c b/drivers/usb/serial/belkin_sa.c
+index 9bb123ab9bc9..a5ff55f48303 100644
+--- a/drivers/usb/serial/belkin_sa.c
++++ b/drivers/usb/serial/belkin_sa.c
+@@ -105,9 +105,10 @@ struct belkin_sa_private {
+ #define WDR_TIMEOUT 5000 /* default urb timeout */
+ 
+ /* assumes that struct usb_serial *serial is available */
+-#define BSA_USB_CMD(c, v) usb_control_msg(serial->dev, usb_sndctrlpipe(serial->dev, 0), \
+-					    (c), BELKIN_SA_SET_REQUEST_TYPE, \
+-					    (v), 0, NULL, 0, WDR_TIMEOUT)
++#define BSA_USB_CMD(c, v) usb_control_msg_send(serial->dev, 0, (c), \
++					       BELKIN_SA_SET_REQUEST_TYPE, \
++					       (v), 0, NULL, 0, WDR_TIMEOUT, \
++					       GFP_KERNEL)
+ 
+ static int belkin_sa_port_probe(struct usb_serial_port *port)
  {
--	int result;
- 	 /* 0xfe 0x40 are magic values taken from original driver */
--	result = usb_control_msg(serial->dev,
--				 usb_sndctrlpipe(serial->dev, 0),
--				 0xfe, 0x40, val, reg,
--				 NULL, 0, ARK_TIMEOUT);
--	if (result)
--		return result;
--
--	return 0;
-+	return usb_control_msg_send(serial->dev, 0, 0xfe, 0x40, val, reg, NULL, 0,
-+				    ARK_TIMEOUT, GFP_KERNEL);
+@@ -309,12 +310,11 @@ static void belkin_sa_set_termios(struct tty_struct *tty,
+ 		/* reassert DTR and (maybe) RTS on transition from B0 */
+ 		if ((old_cflag & CBAUD) == B0) {
+ 			control_state |= (TIOCM_DTR|TIOCM_RTS);
+-			if (BSA_USB_CMD(BELKIN_SA_SET_DTR_REQUEST, 1) < 0)
++			if (BSA_USB_CMD(BELKIN_SA_SET_DTR_REQUEST, 1))
+ 				dev_err(&port->dev, "Set DTR error\n");
+ 			/* don't set RTS if using hardware flow control */
+ 			if (!(old_cflag & CRTSCTS))
+-				if (BSA_USB_CMD(BELKIN_SA_SET_RTS_REQUEST
+-								, 1) < 0)
++				if (BSA_USB_CMD(BELKIN_SA_SET_RTS_REQUEST, 1))
+ 					dev_err(&port->dev, "Set RTS error\n");
+ 		}
+ 	}
+@@ -330,18 +330,18 @@ static void belkin_sa_set_termios(struct tty_struct *tty,
+ 
+ 		/* Report the actual baud rate back to the caller */
+ 		tty_encode_baud_rate(tty, baud, baud);
+-		if (BSA_USB_CMD(BELKIN_SA_SET_BAUDRATE_REQUEST, urb_value) < 0)
++		if (BSA_USB_CMD(BELKIN_SA_SET_BAUDRATE_REQUEST, urb_value))
+ 			dev_err(&port->dev, "Set baudrate error\n");
+ 	} else {
+ 		/* Disable flow control */
+ 		if (BSA_USB_CMD(BELKIN_SA_SET_FLOW_CTRL_REQUEST,
+-						BELKIN_SA_FLOW_NONE) < 0)
++				BELKIN_SA_FLOW_NONE))
+ 			dev_err(&port->dev, "Disable flowcontrol error\n");
+ 		/* Drop RTS and DTR */
+ 		control_state &= ~(TIOCM_DTR | TIOCM_RTS);
+-		if (BSA_USB_CMD(BELKIN_SA_SET_DTR_REQUEST, 0) < 0)
++		if (BSA_USB_CMD(BELKIN_SA_SET_DTR_REQUEST, 0))
+ 			dev_err(&port->dev, "DTR LOW error\n");
+-		if (BSA_USB_CMD(BELKIN_SA_SET_RTS_REQUEST, 0) < 0)
++		if (BSA_USB_CMD(BELKIN_SA_SET_RTS_REQUEST, 0))
+ 			dev_err(&port->dev, "RTS LOW error\n");
+ 	}
+ 
+@@ -352,7 +352,7 @@ static void belkin_sa_set_termios(struct tty_struct *tty,
+ 						: BELKIN_SA_PARITY_EVEN;
+ 		else
+ 			urb_value = BELKIN_SA_PARITY_NONE;
+-		if (BSA_USB_CMD(BELKIN_SA_SET_PARITY_REQUEST, urb_value) < 0)
++		if (BSA_USB_CMD(BELKIN_SA_SET_PARITY_REQUEST, urb_value))
+ 			dev_err(&port->dev, "Set parity error\n");
+ 	}
+ 
+@@ -377,7 +377,7 @@ static void belkin_sa_set_termios(struct tty_struct *tty,
+ 			urb_value = BELKIN_SA_DATA_BITS(8);
+ 			break;
+ 		}
+-		if (BSA_USB_CMD(BELKIN_SA_SET_DATA_BITS_REQUEST, urb_value) < 0)
++		if (BSA_USB_CMD(BELKIN_SA_SET_DATA_BITS_REQUEST, urb_value))
+ 			dev_err(&port->dev, "Set data bits error\n");
+ 	}
+ 
+@@ -385,8 +385,7 @@ static void belkin_sa_set_termios(struct tty_struct *tty,
+ 	if ((cflag & CSTOPB) != (old_cflag & CSTOPB)) {
+ 		urb_value = (cflag & CSTOPB) ? BELKIN_SA_STOP_BITS(2)
+ 						: BELKIN_SA_STOP_BITS(1);
+-		if (BSA_USB_CMD(BELKIN_SA_SET_STOP_BITS_REQUEST,
+-							urb_value) < 0)
++		if (BSA_USB_CMD(BELKIN_SA_SET_STOP_BITS_REQUEST, urb_value))
+ 			dev_err(&port->dev, "Set stop bits error\n");
+ 	}
+ 
+@@ -407,7 +406,7 @@ static void belkin_sa_set_termios(struct tty_struct *tty,
+ 		if (bad_flow_control)
+ 			urb_value &= ~(BELKIN_SA_FLOW_IRTS);
+ 
+-		if (BSA_USB_CMD(BELKIN_SA_SET_FLOW_CTRL_REQUEST, urb_value) < 0)
++		if (BSA_USB_CMD(BELKIN_SA_SET_FLOW_CTRL_REQUEST, urb_value))
+ 			dev_err(&port->dev, "Set flow control error\n");
+ 	}
+ 
+@@ -422,7 +421,7 @@ static void belkin_sa_break_ctl(struct tty_struct *tty, int break_state)
+ 	struct usb_serial_port *port = tty->driver_data;
+ 	struct usb_serial *serial = port->serial;
+ 
+-	if (BSA_USB_CMD(BELKIN_SA_SET_BREAK_REQUEST, break_state ? 1 : 0) < 0)
++	if (BSA_USB_CMD(BELKIN_SA_SET_BREAK_REQUEST, break_state ? 1 : 0))
+ 		dev_err(&port->dev, "Set break_ctl %d\n", break_state);
  }
  
- static int ark3116_read_reg(struct usb_serial *serial,
- 			    unsigned reg, unsigned char *buf)
- {
--	int result;
- 	/* 0xfe 0xc0 are magic values taken from original driver */
--	result = usb_control_msg(serial->dev,
--				 usb_rcvctrlpipe(serial->dev, 0),
--				 0xfe, 0xc0, 0, reg,
--				 buf, 1, ARK_TIMEOUT);
--	if (result < 1) {
--		dev_err(&serial->interface->dev,
--				"failed to read register %u: %d\n",
--				reg, result);
--		if (result >= 0)
--			result = -EIO;
--
--		return result;
--	}
--
--	return 0;
-+	return usb_control_msg_recv(serial->dev, 0, 0xfe, 0xc0, 0, reg, buf, 1,
-+				    ARK_TIMEOUT, GFP_KERNEL);
- }
+@@ -476,13 +475,13 @@ static int belkin_sa_tiocmset(struct tty_struct *tty,
+ 	spin_unlock_irqrestore(&priv->lock, flags);
  
- static inline int calc_divisor(int bps)
+ 	retval = BSA_USB_CMD(BELKIN_SA_SET_RTS_REQUEST, rts);
+-	if (retval < 0) {
++	if (retval) {
+ 		dev_err(&port->dev, "Set RTS error %d\n", retval);
+ 		goto exit;
+ 	}
+ 
+ 	retval = BSA_USB_CMD(BELKIN_SA_SET_DTR_REQUEST, dtr);
+-	if (retval < 0) {
++	if (retval) {
+ 		dev_err(&port->dev, "Set DTR error %d\n", retval);
+ 		goto exit;
+ 	}
 -- 
 2.17.1
 
