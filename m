@@ -2,111 +2,94 @@ Return-Path: <SRS0=I1jd=EK=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3988DC2D0A3
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 09:29:32 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D67C2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 11:14:42 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7222B20867
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 09:29:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CC284221F8
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Nov 2020 11:14:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjdcbgeB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7222B20867
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KCaekPK7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC284221F8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D79382049B;
-	Wed,  4 Nov 2020 09:29:30 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2A519873D6;
+	Wed,  4 Nov 2020 11:14:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8BiyCdsf2hX9; Wed,  4 Nov 2020 09:29:29 +0000 (UTC)
+	with ESMTP id 9AhBLr3Erb9q; Wed,  4 Nov 2020 11:14:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7EA9F20445;
-	Wed,  4 Nov 2020 09:29:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8C01C8732E;
+	Wed,  4 Nov 2020 11:14:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 63DBDC0889;
-	Wed,  4 Nov 2020 09:29:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7DC26C0889;
+	Wed,  4 Nov 2020 11:14:38 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC183C0051
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A27F6C0051
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Nov 2020 09:29:28 +0000 (UTC)
+ Wed,  4 Nov 2020 11:14:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9A94E867AC
+ by whitealder.osuosl.org (Postfix) with ESMTP id 91A7F868DA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Nov 2020 09:29:28 +0000 (UTC)
+ Wed,  4 Nov 2020 11:14:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id r8V94AyHl1Sz
+ with ESMTP id mI0zLj09dBvV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Nov 2020 09:29:27 +0000 (UTC)
+ Wed,  4 Nov 2020 11:14:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 73A868678E
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+ [209.85.166.66])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6EA47868D0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Nov 2020 09:29:27 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id 10so16814703pfp.5
+ Wed,  4 Nov 2020 11:14:36 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id m9so8134986iox.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 04 Nov 2020 01:29:27 -0800 (PST)
+ Wed, 04 Nov 2020 03:14:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ff2rrpxnHroqaZsbsC4jEU8UWNk1YlPRJg6oWReaNVE=;
- b=PjdcbgeB4Lj0up1qDNwdbm22OhUnLsK9AVmu3gba14S/tqpvFmZjBSL1fm7s/XZJfe
- 3suQ5RFhT/Rxt3TdQMt88nrR/+941mHVBS1jjvWqVDMNHhjawaQjZxN8hD0sCf4pq0Ih
- NabcKO3ae1LfJHdMUVwJEyg0YSAt27C3PFCuEq2xVU5wdbdFcW7m/YaJED2zY1h1DSwE
- di68dl7R2Xcu2U6HfHEl2qFhYaWvPTaK+v1++rmgF11rgX5v33hi4WM1QF0/3rSkcNY2
- mecVc4U+1nbB+vl/KnvUmkceAlqF7Mp/3xTolKFYIgZrbgCDqF7kXy+uYyCir6etzjqX
- 9Hgg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yS1S2EbDV3178JfYPdXQw8Y+fAAV0lrbSLN5aIfUviU=;
+ b=KCaekPK7XP/mTf4Pb/J3c/qvbGsJzE1/rK4FGU0oIi7Jh+BjxOvs+P95hpSrc5L+8X
+ XCPl+35le9sExUVf8Vs6mtsZmfZ5txFt8O1XAw3B3BJMs1YZGoDsaUpwm2OvZHbT6Rxl
+ b2POtoksvofaWct3dL3MMdAdgkEPBXU1wcN5scxS8C6RT9MCQBW2luBWSmUqvPqftbmR
+ Z1ELbyEbvQ1dYut3g1pxDeDZQ22uMd1BNx4D9vCdppeSw5LKx1m4LANxIgfZQFHxu6OZ
+ FqEz35+cQTeIVncmewosm1bT9l2rlmmMgqaKw8MCXjB1T7ICgXwyLGRjrLoJYA3Vjp/A
+ Ewbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ff2rrpxnHroqaZsbsC4jEU8UWNk1YlPRJg6oWReaNVE=;
- b=RFa5aKExyDeOxH5XTgEgBwo+nO4xKv+fvM0FmHr5K8QWCUccBk1OmSoPGTulmFSFd+
- 69LYbv39OTPSkvHatDuyyljBorc+j8o5W9dHy0Ojaakk+Mqnaf829sFVtc7IkESogrmR
- uxokJBvCuKGUDBnyI/gXnyeNwiQDLfCrRuFynG19PByHIUUpMB0VkN1ypp2wn31jWLjR
- VVqElxpvbEYLtZidRafA+MdcH1b8aAYx/YYeCFv5sLi1YnZ1JHEt1+RABaRpDv7Kmu9S
- MSQxrdjAV9NZ/mdGoU7m5Jt88o1HuJuwyBvj2APWVa5DziGUOF6PooxXFUEO7/wPg0lc
- KkfQ==
-X-Gm-Message-State: AOAM530UGU5y8TWYv27ANuf3c/x9gYrUN8TKDbLwegGeZtkq6vZXju8j
- zmYtRqS8gMWZEgRj514SIgDm8EJxxT4zm60W
-X-Google-Smtp-Source: ABdhPJxqcq5YhwRqEcutMCS4uphkMdpEvbng4WMQ12NOdUdIauQAV6/XBmkCRynxWSBY2imD6UBblQ==
-X-Received: by 2002:a17:90a:1f45:: with SMTP id
- y5mr3436400pjy.231.1604482166578; 
- Wed, 04 Nov 2020 01:29:26 -0800 (PST)
-Received: from ?IPv6:2402:3a80:42e:75da:a00f:b3fa:e6bc:9cc6?
- ([2402:3a80:42e:75da:a00f:b3fa:e6bc:9cc6])
- by smtp.gmail.com with ESMTPSA id l22sm1800207pff.27.2020.11.04.01.29.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Nov 2020 01:29:26 -0800 (PST)
-From: Aditya <yashsri421@gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <20201103133052.21053-1-yashsri421@gmail.com>
- <CAKXUXMx9nYkFBy3RYf-LY9VYUeWcf4FuQpT9F3=_p=9baBQikA@mail.gmail.com>
- <9d2a5a04-fd6e-f805-2036-2ab68358fbf4@gmail.com>
- <CAKXUXMyigTJoFAbwp=dE-4QEpOyUkMT=87UMJ3HZub35azb_4g@mail.gmail.com>
- <7c83fa07-8882-8261-cf35-3bd3347faccb@gmail.com>
- <alpine.DEB.2.21.2011040756210.21917@felia>
- <3b0a4c22-300a-819b-877e-e002dcebd831@gmail.com>
-Message-ID: <38c1c666-9ba0-a833-c76d-b00c172582c1@gmail.com>
-Date: Wed, 4 Nov 2020 14:59:20 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yS1S2EbDV3178JfYPdXQw8Y+fAAV0lrbSLN5aIfUviU=;
+ b=p7aDsizBNAVTuzLU13c+MZ/eiE9PN7CaMvQqeHduhQ0nvpKOpuU6pYUodsxNGNZhpd
+ dDxeNHbOF2Jr2yQYZT613NQv7J5I69RPRkHvzLc8I6rwHku7t2/CKlqfVYebOACY/M3p
+ Wwuthl2AUO7jip4oFpj7HXPJMuFsxZ87xHPygLgkDckgvXJhiVHxODzFUeSdRQDIEpux
+ fKNPJTdPWxL4WbfyVZ1x64+gk8hXrSeYwsswlw9mXfbM0gh04k/DPlFkMdg18s0J8gaN
+ gvkzZVHUxb7L8LMsNZbm1nbTGlj+HiT359sCYFrrAZEZTltZgR6cZCx/OzwBo3vKAbgG
+ bcBw==
+X-Gm-Message-State: AOAM53043AklniDNEqVpxvvnCuSGkIy5j7BuNzLqDzwSDu2a4QTnW1UV
+ jG9MA6BvVLbDBPNCtCRLnD1t+jiPfbrKkCi/29M=
+X-Google-Smtp-Source: ABdhPJyDyG7Sk4s6OxcSNt7IU8/wMnf90f9tXS8F7onoIvPIpSnjcHD8SOleSEZStzaEzB+xnxuIXjK3ijj4yRMUfGY=
+X-Received: by 2002:a02:c952:: with SMTP id u18mr19101826jao.139.1604488475613; 
+ Wed, 04 Nov 2020 03:14:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <3b0a4c22-300a-819b-877e-e002dcebd831@gmail.com>
-Content-Language: en-US
+References: <20201103151858.25375-1-yashsri421@gmail.com>
+In-Reply-To: <20201103151858.25375-1-yashsri421@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 4 Nov 2020 12:14:20 +0100
+Message-ID: <CAKXUXMzx=UacWsoPyiD5AVtfBpVDCcJpAFMo8OpXrf+KNpBFww@mail.gmail.com>
+To: Aditya Srivastava <yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fixes for
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix for
 	BAD_SIGN_OFF
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -125,165 +108,61 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 4/11/20 1:17 pm, Aditya wrote:
-> On 4/11/20 12:27 pm, Lukas Bulwahn wrote:
->>
->>
->> On Tue, 3 Nov 2020, Aditya wrote:
->>
->>> On 3/11/20 9:04 pm, Lukas Bulwahn wrote:
->>>> On Tue, Nov 3, 2020 at 3:47 PM Aditya <yashsri421@gmail.com> wrote:
->>>>>
->>>>> On 3/11/20 7:09 pm, Lukas Bulwahn wrote:
->>>>>> On Tue, Nov 3, 2020 at 2:31 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
->>>>>>>
->>>>>>> Currently, checkpatch warns if the author signs-off two or more times
->>>>>>> for the same role.
->>>>>>> E.g., for commit 6dd47d9754ff ("mac80211: fix
->>>>>>> ieee80211_txq_setup_flows() failure path") we get warning:
->>>>>>>
->>>>>>> WARNING: Duplicate signature
->>>>>>> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
->>>>>>>
->>>>>>> Here there are two Signed-off-by lines present for the same user. So,
->>>>>>> we get a warning to remove one.
->>>>>>>
->>>>>>> Similarly, we get warning if the author of the commit signs-off under
->>>>>>> co-developed-by.
->>>>>>> E.g. for commit 6e88559470f5 ("Documentation: Add section about
->>>>>>> CPU vulnerabilities for Spectre") we get:
->>>>>>>
->>>>>>> WARNING: Co-developed-by: should not be used to attribute nominal
->>>>>>> patch author 'Tim Chen <tim.c.chen@linux.intel.com>'
->>>>>>> Co-developed-by: Tim Chen <tim.c.chen@linux.intel.com>
->>>>>>>
->>>>>>> Provide fixes by removing the duplicate signature line and the
->>>>>>> co-developed-by line from the commit
->>>>>>>
->>>>>>
->>>>>>
->>>>>> The duplicate signature fix is simply wrong, because the indication of
->>>>>> the duplicate signature is imprecise.
->>>>>>
->>>>>> Probably, we would first really need to understand the valid cases of
->>>>>> duplicate signature warnings compared to the invalid ones.
->>>>>>
->>>>>> Please rework.
->>>>>>
->>>>>>
->>>>>> Lukas
->>>>>>
->>>>>
->>>>> Oh, Alright. I get it now.
->>>>> I ran a script over WARNING: Duplicate signature.
->>>>> I found out that it is occurring with these prefixes and their
->>>>> frequencies:
->>>>>
->>>>> Acked-by -- 6
->>>>> Signed-off-by -- 218
->>>>> Tested-by -- 3
->>>>> Reported-by -- 1
->>>>> Reviewed-by -- 8
->>>>> Cc -- 28
->>>>>
->>>>> IMO largely Signed-off-by warnings in this frequency might be false
->>>>> positives. This is so because we are simply checking for duplicate
->>>>> occurrences in the sign-offs in checkpatch.pl
->>>>>
->>>>>> Probably, we would first really need to understand the valid cases
->>>>>> of duplicate signature warnings compared to the invalid ones.
->>>>>>
->>>>>
->>>>> Is there any way I can know that the second sign-off is intended?
->>>>>
->>>>> In my observation, this particular commit was prefixed by '^Link:.*$'
->>>>> Alternatively, we could use maintainers list to ensure that the signer
->>>>> is maintainer and avoid this warning.
->>>>>
->>>>
->>>> That is somehow difficult to say, but probably it is best to
->>>> deactivate this multiple Signed-off-by: warning on git commits.
->>>>
->>>> On patches it makes sense to warn about duplicate Signed-off-by: ; on
->>>> commits, not so much.
->>>>
->>>>> How about other prefixes. Can we remove them?
->>>>>
->>>>
->>>> Can you show the duplicate Tested-by, Acked-by, Reported-by,
->>>> Reviewed-by, Cc in some structured format to quickly check those?
->>>>
->>>> Probably for those, we can really assess them to be all true positives
->>>> (maybe we can find out the reasons as well) and hence a fix for them
->>>> would make sense.
->>>>
->>>
->>> I generated git logs of all such commits, which might help us get some
->>> idea about mailing list or sign offs as well.
->>>
->>> Acked-by:
->>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/acked_by.txt
->>>
->>> Reported-by:
->>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/reported_by.txt
->>>
->>> Reviewed by:
->>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/reviewed_by.txt
->>>
->>> Tested-by:
->>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/tested_by.txt
->>>
->>> Cc: https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/cc.txt
->>>
->>>
->>>>> I observed one of the 'Tested-by' warnings and it was because of these
->>>>> sign offs:
->>>>>
->>>>> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
->>>>> Tested-by:Liang Yang <liang.yang@amlogic.com>
->>>>> Acked-by: Liang Yang <liang.yang@amlogic.com>
->>>>> Tested-by:Liang Yang <liang.yang@amlogic.com>
->>>>> Acked-by: Liang Yang <liang.yang@amlogic.com>
->>>>> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
->>>>>
->>>>> Here tested-by is occurring 2 times.
->>>>>
->>>>
->>>> That example seems to be a clear true positive. It would be
->>>> interesting to see how that happened to be added twice in a commit.
->>>> What was the state on the mailing list and what did the maintainer do
->>>> to add these tags twice (was this done manually or is there some
->>>> automatic tool involved?).
->>>>
->>>
->>> I found the mailing list state corresponding to that day. It indeed
->>> seems like a true positive.
->>>
->>> Link1:
->>> https://lore.kernel.org/linux-mtd/CAFBinCB9Z_H4wX3_g2hVL-XnS6Oq-KtPHa4Z1ws79FGp5jCapQ@mail.gmail.com/
->>>
->>> Link2 (reply):
->>> https://lore.kernel.org/linux-mtd/8ff232c3-f325-5b91-4de1-a39e63939df2@amlogic.com/
->>>
->>
->> Yes, and it suggest to fix patchwork :)
->>
->> How are your python programming skills?
->>
->> Do you want to try fixing patchwork for this issue?
->>
->> Lukas
->>
-> 
-> Sure, I'd like to try. Please guide me for it.
-> 
+On Tue, Nov 3, 2020 at 4:19 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+>
+> Currently, checkpatch warns us if the author of the commit signs-off
+> as co-developed-by.
+> E.g. for commit 6e88559470f5 ("Documentation: Add section about
+> CPU vulnerabilities for Spectre") we get:
+>
+> WARNING: Co-developed-by: should not be used to attribute nominal
+> patch author 'Tim Chen <tim.c.chen@linux.intel.com>'
+> Co-developed-by: Tim Chen <tim.c.chen@linux.intel.com>
+>
+> Provide a simple fix by removing the co-developed-by line from the
+> commit message
+>
 
-I might have got it wrong. Did you mean fixing the patch we are
-working on currently?
-I must be intermediate with Python, not too expert though(like 3.5/5)
+Patch looks good. Maybe you can add a statistics on how many cases of
+the last 200,000 commits this rule would actually trigger?
 
-Thanks
-Aditya
+E.g., you can probably quickly filter all commits that have at least
+one Co-developed-by tag among those last 200,000 commits (that is
+already only a few thousands), then take that list and just check with
+checkpatch.pl for this one rule quickly to see how often the rule
+would even trigger at all.
+
+Once you have that and explain that in the commit message, I think the
+patch is ready for lkml and Joe Perches.
+
+Lukas
+
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 58095d9d8f34..1030d4fc2abf 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -2827,8 +2827,11 @@ sub process {
+>  # Check Co-developed-by: immediately followed by Signed-off-by: with same name and email
+>                         if ($sign_off =~ /^co-developed-by:$/i) {
+>                                 if ($email eq $author) {
+> -                                       WARN("BAD_SIGN_OFF",
+> -                                             "Co-developed-by: should not be used to attribute nominal patch author '$author'\n" . "$here\n" . $rawline);
+> +                                       if (WARN("BAD_SIGN_OFF",
+> +                                                "Co-developed-by: should not be used to attribute nominal patch author '$author'\n" . "$here\n" . $rawline) &&
+> +                                           $fix) {
+> +                                               fix_delete_line($fixlinenr, $rawline);
+> +                                       }
+>                                 }
+>                                 if (!defined $lines[$linenr]) {
+>                                         WARN("BAD_SIGN_OFF",
+> --
+> 2.17.1
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
