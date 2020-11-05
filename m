@@ -2,109 +2,112 @@ Return-Path: <SRS0=u7S/=EL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 103F2C388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Nov 2020 02:26:21 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE6DC4742C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Nov 2020 07:32:04 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 693D7206E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Nov 2020 02:26:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 386DF20936
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Nov 2020 07:32:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmApw21x"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 693D7206E3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sexoXPsb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 386DF20936
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D17CA85C19;
-	Thu,  5 Nov 2020 02:26:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A29078703A;
+	Thu,  5 Nov 2020 07:32:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BTNSjOCpco65; Thu,  5 Nov 2020 02:26:17 +0000 (UTC)
+	with ESMTP id TavqeXHRC-Xj; Thu,  5 Nov 2020 07:32:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3862B85BCE;
-	Thu,  5 Nov 2020 02:26:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CF85F87036;
+	Thu,  5 Nov 2020 07:32:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 316B6C088B;
-	Thu,  5 Nov 2020 02:26:17 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 560F1C0889
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BB72DC0893;
+	Thu,  5 Nov 2020 07:32:02 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4D068C0889
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Nov 2020 02:26:15 +0000 (UTC)
+ Thu,  5 Nov 2020 07:32:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4F67D85C19
+ by silver.osuosl.org (Postfix) with ESMTP id 3282720767
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Nov 2020 02:26:15 +0000 (UTC)
+ Thu,  5 Nov 2020 07:32:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wtyYdLKeOyZP
+ with ESMTP id pEHavfwNpgXy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Nov 2020 02:26:14 +0000 (UTC)
+ Thu,  5 Nov 2020 07:31:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 83A6585BCE
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 01C7220373
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Nov 2020 02:26:14 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id x13so137472pfa.9
+ Thu,  5 Nov 2020 07:31:58 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id u4so756849pgr.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 04 Nov 2020 18:26:14 -0800 (PST)
+ Wed, 04 Nov 2020 23:31:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=aN2VJlOwLJDzq5SW3NAeCQ4IQzHScs1tSJ+sWZ4PuuE=;
- b=cmApw21x6XMxEXGLvq0E/VHQ5RQ5zN1kYwizsAUJbtXZC6BpIc/Ou/vL0ZjJ+fnHrN
- kH/ESE5lPiUOBwchmb2U0JJ/tkAQMcYPAlVEk7UrcCGayeX2iaXk0O9NNV3hWPH1yha7
- XzdQ67B6j515pZVC9GIzpshAk8fAGXGs2s7Clj+SyGeF22ya9DfsnnglgMNlVHAUClI/
- Lepoy67FE4s5BKHKpLzP4SdkSRF5VTS5IiWAtjbHwPhDQnmayyMepPHkcoGFRhr63uBL
- juOPRs6xHJBEm3vQN8rm3HB+dNbiNO9qgJtqCFuw018xmhZpYEaXUxiuIhU64y6UC8ay
- l5FQ==
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KwWJeTM/D9R/VMk0c7O5fyAjSbVgF3hVLEVxJwgSMQY=;
+ b=sexoXPsbszdr0SgsYsGtxqMv6PFQgTqBi/LEVgUgPxDd4iD79X2os5HE7jmxar2z/X
+ nisx1Z/lb64rBH3tc1VxENz2dGJMORcCyMHfkzELVb0Neqaer50Z9rPzz4821HG7LdL+
+ ovitZvy+qpIJaFCfUlUKLiG6cHJK1kJ8rK9Zxqfj0AaubzsM0qDKqA5GhcpQbdTkOaDi
+ 4oMuV1fFKDOglR5ii2bApfwN8VKA5c5xDdfJo8g0rE6sq/t9mVH9ZiXoAKMSqmaagavU
+ 8wirjkMmyeA6iywLlASxd+X/4evckAUsUqYkdzz19Di0IQxjw1b+ax5OwNjiEQnAZ+fv
+ Ae7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=aN2VJlOwLJDzq5SW3NAeCQ4IQzHScs1tSJ+sWZ4PuuE=;
- b=nQG9cTpz0t/JLxl5FWUJgGjEgLMtNP2X5AhfLVM/hHmMI2CeKjbMWfOKyJ5ZWIa13m
- +NrgqPemhJyYcouAeMNEVa9WaIyJ9T+kubjqQjat91qahhYMQCKJstGG0jM4+8tsikn8
- DRMPXHTcIyfbZP/AMaxb7D5JxNvQErU9IqMGDoNDWFidv/NGSXXS2plOUkvKQ87CaD4I
- sU5JlHXWX4NKF9Ee0h+wSwUk9E6BFzKuGnNe3MABQzCF2AMY8isbqqDneZ5MfNOgI+VV
- D9L17TF2nqYZp1VYKYfOr2v0TlUAa0rSwLjqF3UgPCv8JLyW6aW0mtvuJfqJCwPOcyn8
- 3SKQ==
-X-Gm-Message-State: AOAM532uaQI3QDA2wOITbLDaatU0qbemCK9CrtwIEso5t8aqYxo/Pk+O
- bmLGZbR3pW13euyfRbAUYTzIdHB/pMPrxI1jwvM=
-X-Google-Smtp-Source: ABdhPJxedl4jUMzUMl4EsKLOilb+nrQqtC+i0oWgXRlmi8E85vynkCFiwkEY3jGq9+pVrKTDZ6WATw==
-X-Received: by 2002:a17:90a:aa85:: with SMTP id
- l5mr123666pjq.119.1604543173469; 
- Wed, 04 Nov 2020 18:26:13 -0800 (PST)
-Received: from [192.168.0.104] ([49.207.201.182])
- by smtp.gmail.com with ESMTPSA id e10sm197790pfl.162.2020.11.04.18.26.10
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KwWJeTM/D9R/VMk0c7O5fyAjSbVgF3hVLEVxJwgSMQY=;
+ b=oGeQ+8IWsKv1OIPrRHi6Gc49in/hk2vsjROE/29tjQlCT9usqBjbWSp4xCkL83CQSF
+ Zk5/JRssgwx82sDHTZuaWCLwz3aXNuqZVWF5gHOwyFiETho8CxitVV/zV3T3nNyl+PqN
+ lmMiP6wiVuIjfWm8kYjL5Yv7RPcZQViBjYJL/ifoY1n6kyFlSjSbpIkq99b8pfRUCMKs
+ MQTu9sZF9mChYyYgOxIQLYXIKcP+9AwgqhMwA3YpLx7Fb/YxKvh+M//cur9RrhEF4rkf
+ Pdt6vKmdKW+vAHAdoiwufalBwirOgAsTR0t3Ky/Sx58FYKlOO1QItg/qktJORxfVmWoT
+ 3rGg==
+X-Gm-Message-State: AOAM530c92uKO4r0FHfxBJonqVlsMk3/PZCol6JDIHDG9jkQWGjOfcGB
+ iXHfwsVTDVssky8ki/PFFJ4=
+X-Google-Smtp-Source: ABdhPJwlJ/wgzWIBgU7sR+pzVdPV6RL+AG7jWIHVkZn+rUGhwXS9Rwon2+gUuIfwa3olj13o/PEw2Q==
+X-Received: by 2002:a17:90b:496:: with SMTP id
+ bh22mr1211222pjb.120.1604561518325; 
+ Wed, 04 Nov 2020 23:31:58 -0800 (PST)
+Received: from [192.168.86.81] ([106.51.243.217])
+ by smtp.gmail.com with ESMTPSA id m68sm1149343pga.46.2020.11.04.23.31.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Nov 2020 18:26:12 -0800 (PST)
-To: Jakub Kicinski <kuba@kernel.org>
-References: <20201102173946.13800-1-anant.thazhemadam@gmail.com>
- <20201104162444.66b5cc56@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <dc3a4901-9aad-3064-4131-bc3fc82f965f@gmail.com>
-Date: Thu, 5 Nov 2020 07:56:08 +0530
+ Wed, 04 Nov 2020 23:31:57 -0800 (PST)
+To: Marco Elver <elver@google.com>
+References: <20201027174630.85213-1-98.arpi@gmail.com>
+ <CANpmjNOpbXHs4gs9Ro-u7hyN_zZ7s3AqDcdDy1Nqxq4ckThugA@mail.gmail.com>
+From: Arpitha Raghunandan <98.arpi@gmail.com>
+Message-ID: <73c4e46c-10f1-9362-b4fb-94ea9d74e9b2@gmail.com>
+Date: Thu, 5 Nov 2020 13:01:50 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201104162444.66b5cc56@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <CANpmjNOpbXHs4gs9Ro-u7hyN_zZ7s3AqDcdDy1Nqxq4ckThugA@mail.gmail.com>
 Content-Language: en-US
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
+Cc: linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Iurii Zaikin <yzaikin@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "David S . Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [RESEND PATCH v3] net: usb: usbnet:
- update __usbnet_{read|write}_cmd() to use new API
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v4 1/2] kunit: Support for
+	Parameterized Testing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,47 +125,234 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-On 05/11/20 5:54 am, Jakub Kicinski wrote:
-> On Mon,  2 Nov 2020 23:09:46 +0530 Anant Thazhemadam wrote:
->> Currently, __usbnet_{read|write}_cmd() use usb_control_msg().
->> However, this could lead to potential partial reads/writes being
->> considered valid, and since most of the callers of
->> usbnet_{read|write}_cmd() don't take partial reads/writes into account
->> (only checking for negative error number is done), and this can lead to
->> issues.
+On 28/10/20 12:51 am, Marco Elver wrote:
+> On Tue, 27 Oct 2020 at 18:47, Arpitha Raghunandan <98.arpi@gmail.com> wrote:
 >>
->> However, the new usb_control_msg_{send|recv}() APIs don't allow partial
->> reads and writes.
->> Using the new APIs also relaxes the return value checking that must
->> be done after usbnet_{read|write}_cmd() is called.
+>> Implementation of support for parameterized testing in KUnit.
+>> This approach requires the creation of a test case using the
+>> KUNIT_CASE_PARAM macro that accepts a generator function as input.
+>> This generator function should return the next parameter given the
+>> previous parameter in parameterized tests. It also provides
+>> a macro to generate common-case generators.
 >>
->> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-> So you're changing the semantics without updating the callers?
->
-> I'm confused. 
->
-> Is this supposed to be applied to some tree which already has the
-> callers fixed?
->
-> At a quick scan at least drivers/net/usb/plusb.c* would get confused 
-> as it compares the return value to zero and 0 used to mean "nothing
-> transferred", now it means "all good", no? 
->
-> * I haven't looked at all the other callers
+>> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+>> Co-developed-by: Marco Elver <elver@google.com>
+>> Signed-off-by: Marco Elver <elver@google.com>
+>> ---
+>> Changes v3->v4:
+>> - Rename kunit variables
+>> - Rename generator function helper macro
+>> - Add documentation for generator approach
+>> - Display test case name in case of failure along with param index
+>> Changes v2->v3:
+>> - Modifictaion of generator macro and method
+>> Changes v1->v2:
+>> - Use of a generator method to access test case parameters
+>>
+>>  include/kunit/test.h | 34 ++++++++++++++++++++++++++++++++++
+>>  lib/kunit/test.c     | 21 ++++++++++++++++++++-
+>>  2 files changed, 54 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/kunit/test.h b/include/kunit/test.h
+>> index 9197da792336..ec2307ee9bb0 100644
+>> --- a/include/kunit/test.h
+>> +++ b/include/kunit/test.h
+>> @@ -107,6 +107,13 @@ struct kunit;
+>>   *
+>>   * @run_case: the function representing the actual test case.
+>>   * @name:     the name of the test case.
+>> + * @generate_params: the generator function for parameterized tests.
+>> + *
+>> + * The generator function is used to lazily generate a series of
+>> + * arbitrarily typed values that fit into a void*. The argument @prev
+>> + * is the previously returned value, which should be used to derive the
+>> + * next value; @prev is set to NULL on the initial generator call.
+>> + * When no more values are available, the generator must return NULL.
+>>   *
+> 
+> Hmm, should this really be the first paragraph? I think it should be
+> the paragraph before "Example:" maybe. But then that paragraph should
+> refer to generate_params e.g. "The generator function @generate_params
+> is used to ........".
+> 
+> The other option you have is to move this paragraph to the kernel-doc
+> comment for KUNIT_CASE_PARAM, which seems to be missing a kernel-doc
+> comment.
+> 
+>>   * A test case is a function with the signature,
+>>   * ``void (*)(struct kunit *)``
+>> @@ -141,6 +148,7 @@ struct kunit;
+>>  struct kunit_case {
+>>         void (*run_case)(struct kunit *test);
+>>         const char *name;
+>> +       void* (*generate_params)(void *prev);
+>>
+>>         /* private: internal use only. */
+>>         bool success;
+>> @@ -162,6 +170,9 @@ static inline char *kunit_status_to_string(bool status)
+>>   * &struct kunit_case for an example on how to use it.
+>>   */
+>>  #define KUNIT_CASE(test_name) { .run_case = test_name, .name = #test_name }
+> 
+> I.e. create a new kernel-doc comment for KUNIT_CASE_PARAM here, and
+> simply move the paragraph describing the generator protocol into that
+> comment.
+> 
+>> +#define KUNIT_CASE_PARAM(test_name, gen_params)                        \
+>> +               { .run_case = test_name, .name = #test_name,    \
+>> +                 .generate_params = gen_params }
+>>
+>>  /**
+>>   * struct kunit_suite - describes a related collection of &struct kunit_case
+>> @@ -208,6 +219,15 @@ struct kunit {
+>>         const char *name; /* Read only after initialization! */
+>>         char *log; /* Points at case log after initialization */
+>>         struct kunit_try_catch try_catch;
+>> +       /* param_value points to test case parameters in parameterized tests */
+> 
+> Hmm, not quite: param_value is the current parameter value for a test
+> case. Most likely it's a pointer, but it doesn't need to be.
+> 
+>> +       void *param_value;
+>> +       /*
+>> +        * param_index stores the index of the parameter in
+>> +        * parameterized tests. param_index + 1 is printed
+>> +        * to indicate the parameter that causes the test
+>> +        * to fail in case of test failure.
+>> +        */
+> 
+> I think this comment needs to be reformatted, because you can use at
+> the very least use 80 cols per line. (If you use vim, visual select
+> and do 'gq'.)
+> 
+>> +       int param_index;
+>>         /*
+>>          * success starts as true, and may only be set to false during a
+>>          * test case; thus, it is safe to update this across multiple
+>> @@ -1742,4 +1762,18 @@ do {                                                                            \
+>>                                                 fmt,                           \
+>>                                                 ##__VA_ARGS__)
+>>
+>> +/**
+>> + * KUNIT_ARRAY_PARAM() - Helper method for test parameter generators
+>> + *                      required in parameterized tests.
+>> + * @name:  prefix of the name for the test parameter generator function.
+>> + *        It will be suffixed by "_gen_params".
+>> + * @array: a user-supplied pointer to an array of test parameters.
+>> + */
+>> +#define KUNIT_ARRAY_PARAM(name, array)                                                         \
+>> +       static void *name##_gen_params(void *prev)                                              \
+>> +       {                                                                                       \
+>> +               typeof((array)[0]) * __next = prev ? ((typeof(__next)) prev) + 1 : (array);     \
+>> +               return __next - (array) < ARRAY_SIZE((array)) ? __next : NULL;                  \
+>> +       }
+>> +
+>>  #endif /* _KUNIT_TEST_H */
+>> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+>> index 750704abe89a..8ad908b61494 100644
+>> --- a/lib/kunit/test.c
+>> +++ b/lib/kunit/test.c
+>> @@ -127,6 +127,12 @@ unsigned int kunit_test_case_num(struct kunit_suite *suite,
+>>  }
+>>  EXPORT_SYMBOL_GPL(kunit_test_case_num);
+>>
+>> +static void kunit_print_failed_param(struct kunit *test)
+>> +{
+>> +       kunit_err(test, "\n\tTest failed at:\n\ttest case: %s\n\tparameter: %d\n",
+>> +                                               test->name, test->param_index + 1);
+>> +}
+> 
+> Hmm, perhaps I wasn't clear, but I think I also misunderstood how the
+> test case successes are presented: they are not, and it's all bunched
+> into a single test case.
+> 
+> Firstly, kunit_err() already prints the test name, so if we want
+> something like "  # : the_test_case_name: failed at parameter #X",
+> simply having
+> 
+>     kunit_err(test, "failed at parameter #%d\n", test->param_index + 1)
+> 
+> would be what you want.
+> 
+> But I think I missed that parameters do not actually produce a set of
+> test cases (sorry for noticing late). I think in their current form,
+> the parameterized tests would not be useful for my tests, because each
+> of my tests have test cases that have specific init and exit
+> functions. For each parameter, these would also need to run.
+> 
+> Ideally, each parameter produces its own independent test case
+> "test_case#param_index". That way, CI systems will also be able to
+> logically separate different test case params, simply because each
+> param produced its own distinct test case.
+> 
+> So, for example, we would get a series of test cases from something
+> like KUNIT_CASE_PARAM(test_case, foo_gen_params), and in the output
+> we'd see:
+> 
+>     ok X - test_case#1
+>     ok X - test_case#2
+>     ok X - test_case#3
+>     ok X - test_case#4
+>     ....
+> 
+> Would that make more sense?
+> 
+> That way we'd ensure that test-case specific initialization and
+> cleanup done in init and exit functions is properly taken care of, and
+> you wouldn't need kunit_print_failed_param().
+> 
+> AFAIK, for what I propose you'd have to modify kunit_print_ok_not_ok()
+> (show param_index if parameterized test) and probably
+> kunit_run_case_catch_errors() (generate params and set
+> test->param_value and param_index).
+> 
+> Was there a reason why each param cannot be a distinct test case? If
+> not, I think this would be more useful.
+> 
 
-I see. I checked most of the callers that directly called the functions,
-but it seems to have slipped my mind that these callers were also
-wrappers, and to check the callers for these wrapper.
-I apologize for the oversight.
-I'll perform a more in-depth analysis of all the callers, fix this mistake,
-and send in a patch series instead, that update all the callers too.
-Would that be alright?
+I tried adding support to run each parameter as a distinct test case by
+making changes to kunit_run_case_catch_errors(). The issue here is that
+since the results are displayed in KTAP format, this change will result in
+each parameter being considered a subtest of another subtest (test case
+in KUnit). To make this work, a lot of changes in other parts will be required,
+and it will get complicated. Running all parameters as one test case seems
+to be a better option right now. So for now, I will modify what is displayed
+by kunit_err() in case of test failure.
 
-Thank you for your time.
+>>  static void kunit_print_string_stream(struct kunit *test,
+>>                                       struct string_stream *stream)
+>>  {
+>> @@ -168,6 +174,8 @@ static void kunit_fail(struct kunit *test, struct kunit_assert *assert)
+>>         assert->format(assert, stream);
+>>
+>>         kunit_print_string_stream(test, stream);
+>> +       if (test->param_value)
+>> +               kunit_print_failed_param(test);
+>>
+>>         WARN_ON(string_stream_destroy(stream));
+>>  }
+>> @@ -239,7 +247,18 @@ static void kunit_run_case_internal(struct kunit *test,
+>>                 }
+>>         }
+>>
+>> -       test_case->run_case(test);
+>> +       if (!test_case->generate_params) {
+>> +               test_case->run_case(test);
+>> +       } else {
+>> +               test->param_value = test_case->generate_params(NULL);
+>> +               test->param_index = 0;
+>> +
+>> +               while (test->param_value) {
+>> +                       test_case->run_case(test);
+>> +                       test->param_value = test_case->generate_params(test->param_value);
+>> +                       test->param_index++;
+>> +               }
+>> +       }
+> 
+> Thanks,
+> -- Marco
+> 
 
-Thanks,
-Anant
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
