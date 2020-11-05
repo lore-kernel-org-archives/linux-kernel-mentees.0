@@ -2,82 +2,82 @@ Return-Path: <SRS0=u7S/=EL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BCEBC55178
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Nov 2020 16:14:57 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB31BC4741F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Nov 2020 17:41:29 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 93F1120786
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Nov 2020 16:14:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wyyh+fFS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93F1120786
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id EEF4B206CA
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Nov 2020 17:41:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EEF4B206CA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 38D7E8719C;
-	Thu,  5 Nov 2020 16:14:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6D2E285B0A;
+	Thu,  5 Nov 2020 17:41:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FcfNloLk3G+q; Thu,  5 Nov 2020 16:14:55 +0000 (UTC)
+	with ESMTP id A4t1NdsXEe1L; Thu,  5 Nov 2020 17:41:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C15D887180;
-	Thu,  5 Nov 2020 16:14:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 166A585AB5;
+	Thu,  5 Nov 2020 17:41:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC0C6C0893;
-	Thu,  5 Nov 2020 16:14:55 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A0A7C0889
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 00725C088B;
+	Thu,  5 Nov 2020 17:41:26 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0FC2EC0889
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Nov 2020 16:14:54 +0000 (UTC)
+ Thu,  5 Nov 2020 17:41:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 214B687180
+ by whitealder.osuosl.org (Postfix) with ESMTP id F1FDC865D6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Nov 2020 16:14:54 +0000 (UTC)
+ Thu,  5 Nov 2020 17:41:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BQAtGC57EH1r
+ with ESMTP id OAY7OBApzJS1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Nov 2020 16:14:52 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id AA7B587135
+ Thu,  5 Nov 2020 17:41:23 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0164.hostedemail.com
+ [216.40.44.164])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 518C2866E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Nov 2020 16:14:52 +0000 (UTC)
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
- [163.114.132.6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B5BC6206B7;
- Thu,  5 Nov 2020 16:14:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604592892;
- bh=urp1TUB7bsad4HXf4hTdc4VKnO9NVgIYTeMT68wlEuU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Wyyh+fFSHvTV97GVS2CF90aZljGaeaSSnfDyRwT27cf0apqDyUvPvgsYhSabjNLnu
- V/O9zFoAn/44po0ODzNjRbGzQ9TtdXv78slJTXnQg+uqBy1gUr+dLXtWxzC0oBGgBT
- +Mzx+2glIkLOXh4dAoKT8iYYEnAsFanUh8tUi890=
-Date: Thu, 5 Nov 2020 08:14:50 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Message-ID: <20201105081450.4a257e7f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <dc3a4901-9aad-3064-4131-bc3fc82f965f@gmail.com>
-References: <20201102173946.13800-1-anant.thazhemadam@gmail.com>
- <20201104162444.66b5cc56@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <dc3a4901-9aad-3064-4131-bc3fc82f965f@gmail.com>
+ Thu,  5 Nov 2020 17:41:23 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave05.hostedemail.com (Postfix) with ESMTP id 33611180275DF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  5 Nov 2020 17:41:21 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id A4EDD182233F3;
+ Thu,  5 Nov 2020 17:41:18 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: vase31_190ca99272cb
+X-Filterd-Recvd-Size: 5912
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf05.hostedemail.com (Postfix) with ESMTPA;
+ Thu,  5 Nov 2020 17:41:17 +0000 (UTC)
+Message-ID: <f83c2eeafdebc6307ee6e515e4d6652b2606a068.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, stable@vger.kernel.org, Greg KH
+ <gregkh@linuxfoundation.org>
+Date: Thu, 05 Nov 2020 09:41:15 -0800
+In-Reply-To: <20201105115949.39474-1-dwaipayanray1@gmail.com>
+References: <20201105115949.39474-1-dwaipayanray1@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S . Miller" <davem@davemloft.net>
-Subject: Re: [Linux-kernel-mentees] [RESEND PATCH v3] net: usb: usbnet:
- update __usbnet_{read|write}_cmd() to use new API
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, yashsri421@gmail.com
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] checkpatch: improve email
+	parsing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,53 +89,160 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, 5 Nov 2020 07:56:08 +0530 Anant Thazhemadam wrote:
-> On 05/11/20 5:54 am, Jakub Kicinski wrote:
-> > On Mon,  2 Nov 2020 23:09:46 +0530 Anant Thazhemadam wrote:  
-> >> Currently, __usbnet_{read|write}_cmd() use usb_control_msg().
-> >> However, this could lead to potential partial reads/writes being
-> >> considered valid, and since most of the callers of
-> >> usbnet_{read|write}_cmd() don't take partial reads/writes into account
-> >> (only checking for negative error number is done), and this can lead to
-> >> issues.
-> >>
-> >> However, the new usb_control_msg_{send|recv}() APIs don't allow partial
-> >> reads and writes.
-> >> Using the new APIs also relaxes the return value checking that must
-> >> be done after usbnet_{read|write}_cmd() is called.
-> >>
-> >> Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>  
-> > So you're changing the semantics without updating the callers?
-> >
-> > I'm confused. 
-> >
-> > Is this supposed to be applied to some tree which already has the
-> > callers fixed?
-> >
-> > At a quick scan at least drivers/net/usb/plusb.c* would get confused 
-> > as it compares the return value to zero and 0 used to mean "nothing
-> > transferred", now it means "all good", no? 
-> >
-> > * I haven't looked at all the other callers  
-> 
-> I see. I checked most of the callers that directly called the functions,
-> but it seems to have slipped my mind that these callers were also
-> wrappers, and to check the callers for these wrapper.
-> I apologize for the oversight.
-> I'll perform a more in-depth analysis of all the callers, fix this mistake,
-> and send in a patch series instead, that update all the callers too.
-> Would that be alright?
+(adding stable and Greg KH for additional review)
+On Thu, 2020-11-05 at 17:29 +0530, Dwaipayan Ray wrote:
+> checkpatch doesn't report warnings for many common mistakes
+> in emails. Some of which are trailing commas and incorrect
+> use of email comments.
 
-Yes. Probably best if you rename the existing function as first patch,
-then add a new one with the old name using usb_control_msg_{send|recv}()
-then switch the callers one by one, and finally remove the old renamed
-function.
+I presume you've tested this against the git tree.
+
+Can you send me a file with the BAD_SIGN_OFF messages generated
+and if possible the git SHA-1s of the commits?
+
+> At the same time several false positives are reported due to
+> incorrect handling of mail comments. The most common of which
+> is due to the pattern:
+> =
+
+> <stable@vger.kernel.org> # X.X
+> =
+
+> Improve email parsing in checkpatch.
+> =
+
+> Some general comment rules are defined:
+> =
+
+> - Multiple name comments should not be allowed.
+> - Comments inside address should not be allowed.
+> - In general comments should be enclosed within parentheses.
+> =A0=A0Exception for stable@vger.kernel.org # X.X
+
+not just vger.kernel.org, but this should also allow stable@kernel.org
+and only allow cc: and not any other -by: type for that email address.
+
+A process preference question for Greg and the stable team:
+
+The most common stable forms are
+
+	stable@vger.kernel.org # version info
+then
+	stable@vger.kernel.org [ version info ]
+
+with some other relatively infrequently used outlier styles, some
+that use parentheses, but this is not frequent.
+
+It might be sensible to standardize on the "# version info" trailer
+comment version info style and warn on any other form.
+
+A somewhat common style for the stable address is to use a name
+before the stable address which describes the version info:
+
+Perhaps any name before stable should be warned and the version
+should be a comment.
+
+Here's a list of the stable addresses with "version name" then
+stable address in the git tree and other outlier styles.
+
+     24 linux-stable <stable@vger.kernel.org>
+     21 5.4+ <stable@vger.kernel.org>
+     14 All applicable <stable@vger.kernel.org>
+      6 3.10+ <stable@vger.kernel.org>
+      5 5.9+ <stable@vger.kernel.org>
+      5 5.3+ <stable@vger.kernel.org>
+      5 5.1+ <stable@vger.kernel.org>
+      4 5.6+ <stable@vger.kernel.org>
+      4 4.20+ <stable@vger.kernel.org>
+      3 Stable Team <stable@vger.kernel.org>
+      3 4.19+ <stable@vger.kernel.org>
+      3 4.15+ <stable@vger.kernel.org>
+      3 4.10+ <stable@vger.kernel.org>
+      2 stable@vger.kernel.org (v2.6.12+)
+      2 5.2+ <stable@vger.kernel.org>
+      2 4.16+ <stable@vger.kernel.org>
+      1 v5.8+ <stable@vger.kernel.org>
+      1 v5.7+ <stable@vger.kernel.org>
+      1 v5.6+ <stable@vger.kernel.org>
+      1 v5.3+ <stable@vger.kernel.org>
+      1 v5.0+ <stable@vger.kernel.org>
+      1 v4.9+ <stable@vger.kernel.org>
+      1 <stable@vger.kernel.org> v5.0+
+      1 <stable@vger.kernel.org> +v4.18
+      1 stable@vger.kernel.org (3.14+)
+      1 5.8+ <stable@vger.kernel.org>
+      1 5.5+ <stable@vger.kernel.org>
+      1 5.0+ <stable@vger.kernel.org>
+      1 4.18+ <stable@vger.kernel.org>
+      1 4.14+ <stable@vger.kernel.org>
+      1 4.13+ <stable@vger.kernel.org>
+      1 4.0+ <stable@vger.kernel.org>
+      1 3.15+ <stable@vger.kernel.org>
+      1 3.11+ <stable@vger.kernel.org>
+
+> Improvements to parsing:
+> =
+
+> - Detect and report unexpected content after email.
+> - Quoted names are excluded from comment parsing.
+> - Trailing dots or commas in email are removed during
+> =A0=A0formatting. Correspondingly a BAD_SIGN_OFF warning
+> =A0=A0is emitted.
+> - Improperly quoted email like '"name <address>"' are now
+> =A0=A0warned about.
+
+All of the above seems right but perhaps the comment style for any
+<foo>-by: lines should also allow # comments.
+
+The below is just comments on the patch itself.
+
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -2800,9 +2806,57 @@ sub process {
+> =A0				$dequoted =3D~ s/" </ </;
+> =A0				# Don't force email to have quotes
+> =A0				# Allow just an angle bracketed address
+> -				if (!same_email_addresses($email, $suggested_email, 0)) {
+> +				if (!same_email_addresses($email, $suggested_email)) {
+> +					if (WARN("BAD_SIGN_OFF",
+> +					    "email address '$email' might be better as '$suggested_email'\n=
+" . $herecurr) &&
+> +						$fix) {
+
+trivia:
+
+Please always align $fix with tabs to the if and then 4 spaces to the
+open parenthesis.
+
+> +				# Comments must begin only with (
+> +				# or # in case of stable@vger.kernel.org
+> +				if ($email =3D~ /^.*stable\@vger/) {
+
+I believe this should be
+
+				if ($email =3D~ /^stable\@(?:vger\.)?kernel.org$/) {
+
+> +					if ($comment ne "" && $comment !~ /^#.+/) {
+> +						if (WARN("BAD_SIGN_OFF",
+> +						    "Invalid comment format for stable: '$email', prefer parenthes=
+es\n" . $herecurr) &&
+
+Prefer #
+
+> +							$fix) {
+> +							my $new_comment =3D $comment;
+> +							$new_comment =3D~ s/^[ \(\[]+|[ \)\]]+$//g;
+
+Does the comment include any leading whitespace here?
+I presumed not given the $comment !~ /^#/ test above.
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
