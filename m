@@ -2,104 +2,81 @@ Return-Path: <SRS0=GHoo=EM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C554C55178
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Nov 2020 10:31:53 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EA7C55178
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Nov 2020 10:41:20 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6FCBD206ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Nov 2020 10:31:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B2BAC2068D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Nov 2020 10:41:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="M/JE0jWW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6FCBD206ED
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="LIIV1fye"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2BAC2068D
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B510D8568D;
-	Fri,  6 Nov 2020 10:31:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 288BB86463;
+	Fri,  6 Nov 2020 10:41:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3NF-avH-DOo9; Fri,  6 Nov 2020 10:31:50 +0000 (UTC)
+	with ESMTP id ULWRtIPK5ldD; Fri,  6 Nov 2020 10:41:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A8C41853C5;
-	Fri,  6 Nov 2020 10:31:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CE207860F0;
+	Fri,  6 Nov 2020 10:41:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 85450C0893;
-	Fri,  6 Nov 2020 10:31:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3231C0893;
+	Fri,  6 Nov 2020 10:41:18 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 021B1C0889
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03E29C0889
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Nov 2020 10:31:48 +0000 (UTC)
+ Fri,  6 Nov 2020 10:41:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DC0C386479
+ by fraxinus.osuosl.org (Postfix) with ESMTP id DF43986463
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Nov 2020 10:31:48 +0000 (UTC)
+ Fri,  6 Nov 2020 10:41:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2q8yWlonViYj
+ with ESMTP id RrbiKcelzckA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Nov 2020 10:31:48 +0000 (UTC)
+ Fri,  6 Nov 2020 10:41:17 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A5B1E86463
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6EBBF860F0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Nov 2020 10:31:47 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id k18so834288wmj.5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 06 Nov 2020 02:31:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rasmusvillemoes.dk; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M1+FhL1Hdj59VRzZdZhioMqeWvhNPbEdiUD7VULxQQU=;
- b=M/JE0jWWrCdwzcZCXwIZD3eRRKTYy/8g8OKV0ZKDif3qphFlkO2H5JyC59iyuMtxNE
- Nu/yOa22/Toc1SAzQWEzm3poObF9hJw+XoFLePpHjoYvGPXXFpqYtwwf18kuAxDWyZzI
- 3KPHLXLwiikOSMubcfovBClQGtt9xnFGPPeyA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=M1+FhL1Hdj59VRzZdZhioMqeWvhNPbEdiUD7VULxQQU=;
- b=n4axk//SbWhDFNDAeTVsW91T5qa0ov3sv11qiOAw1OIuIoN083bE8vz+X4OqznFUKf
- /15Xw4C020HilQ/LXzZjcxQWU5xISvitzc2SPteF8ikG6l0v9ELRa+GcO//HW7/maP5f
- a2Sqpu4U413j/hx5xzzAEiayJrQxFcyEDzoXkf6i+FhBnRxF/z4kutwSgdItKGDxUL2w
- f1ZVaVaAF+SzozNxUI3T9JY4g7s98XlYrs1cG2bHYlTwniwVfgk3DdPOG2D/GHfAEZvw
- TDx8FXZWJ0Z1HPeCGjnsTb8XESFBdT5B366ygGK/hbFpAW7og+tg9veD61bWPt3JDjU0
- BXQg==
-X-Gm-Message-State: AOAM532O9QySVH5sSqzGwI7OD3UkAOjbrkJeBxzU/IdOn05Sevardz1B
- EZEH9r705PK4c/TDFlGIUCnz1Q==
-X-Google-Smtp-Source: ABdhPJzurZkBLjeRcDX+srfxJ/ab/V528S8yjKu3GWSmBaPWEbZPW7e13Q8ol2knWYcGMw1McbppEg==
-X-Received: by 2002:a1c:f405:: with SMTP id z5mr1631220wma.126.1604658705755; 
- Fri, 06 Nov 2020 02:31:45 -0800 (PST)
-Received: from [172.16.11.132] ([81.216.59.226])
- by smtp.gmail.com with ESMTPSA id t74sm1652566wmt.8.2020.11.06.02.31.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Nov 2020 02:31:44 -0800 (PST)
-To: Arpitha Raghunandan <98.arpi@gmail.com>, Petr Mladek <pmladek@suse.com>,
- Greg KH <gregkh@linuxfoundation.org>
+ Fri,  6 Nov 2020 10:41:17 +0000 (UTC)
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 41E4B20702;
+ Fri,  6 Nov 2020 10:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604659276;
+ bh=FZPOUxbRLfnd+t8CdYEkeO2TCpAs4UT0oND2nvpDiDU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LIIV1fyeLOQP3xvdO35mmMUbH6AnHfV2gll+R4VQt/8JMCXFuKE+oywvx2kFEpXkE
+ gK9egVH44hTJgnK8pv+jk9SQW8DrJnh4b5t3AxKaEMb6J0KStHwH9K2Rf+6O5saVIu
+ OnhkH6hhV8fuxh0NK96fZtx0Y7QPMV5DCTmJm3Cs=
+Date: Fri, 6 Nov 2020 11:42:03 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <20201106104203.GC2784089@kroah.com>
 References: <20201103111049.51916-1-98.arpi@gmail.com>
  <20201103113353.GC4077@smile.fi.intel.com>
  <20201103115223.GA268796@kroah.com> <20201103160728.GQ20201@alley>
  <57976ff4-7845-d721-ced1-1fe439000a9b@rasmusvillemoes.dk>
  <b24a8200-b456-ecab-cc60-6f4ff10baa5d@gmail.com>
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <1b452380-53a5-f396-bf2f-97736db28afb@rasmusvillemoes.dk>
-Date: Fri, 6 Nov 2020 11:31:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <1b452380-53a5-f396-bf2f-97736db28afb@rasmusvillemoes.dk>
 MIME-Version: 1.0
-In-Reply-To: <b24a8200-b456-ecab-cc60-6f4ff10baa5d@gmail.com>
-Content-Language: en-US
-Cc: alexandre.belloni@bootlin.com, Kees Cook <keescook@chromium.org>,
+Content-Disposition: inline
+In-Reply-To: <1b452380-53a5-f396-bf2f-97736db28afb@rasmusvillemoes.dk>
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>, alexandre.belloni@bootlin.com,
+ Kees Cook <keescook@chromium.org>, Petr Mladek <pmladek@suse.com>,
  rdunlap@infradead.org, brendanhiggins@google.com, linux-kernel@vger.kernel.org,
  rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
  linux-kselftest@vger.kernel.org, idryomov@gmail.com,
@@ -124,30 +101,22 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 06/11/2020 05.04, Arpitha Raghunandan wrote:
+On Fri, Nov 06, 2020 at 11:31:43AM +0100, Rasmus Villemoes wrote:
+> On 06/11/2020 05.04, Arpitha Raghunandan wrote:
+> > 
+> > The total number of "atoms" can be printed by maintaining a static variable
+> > total_count that can be incremented as is in the original test_printf test.
+> > But, the reporting of the random seed currently is done in kselftest and so
+> > will not show up with KUnit. I am not really sure which is better in this case.
 > 
-> The total number of "atoms" can be printed by maintaining a static variable
-> total_count that can be incremented as is in the original test_printf test.
-> But, the reporting of the random seed currently is done in kselftest and so
-> will not show up with KUnit. I am not really sure which is better in this case.
+> So my real questions are: Why do we have both kselftest and kunit?
 
-So my real questions are: Why do we have both kselftest and kunit?
-What's the difference? Are there any plans to merge the two frameworks?
-What's the point of converting from one to the other if not? And if one
-is to take a currently stand-alone ad hoc test module and place it under
-one of those umbrellas, which one should one choose?
+One is testing code within the kernel image testing it within
+kernelspace, and one is outside the kernel testing it from userspace.
 
-I don't really care if the "deterministic random testing" prep work goes
-with kstm or kunit; whichever framework could provide that boilerplate
-is the framework I'd make sure to use for subsequent work on various tests.
+thanks,
 
-The reporting of the number of "atoms" in the printf test suite is
-something I'd miss if not preserved, but if there's sufficient good
-rationale for doing the conversion to Kunit I could live with that. But
-if kunit then can't provide a per-test-module rnd_state and handle its
-seeding (and reporting of what seed was used), I won't ack the conversion.
-
-Rasmus
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
