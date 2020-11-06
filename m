@@ -6,84 +6,74 @@ X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EA7C55178
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Nov 2020 10:41:20 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A87C55178
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Nov 2020 10:43:01 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B2BAC2068D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Nov 2020 10:41:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 24CBE20702
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Nov 2020 10:42:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="LIIV1fye"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2BAC2068D
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="w8amJD6D"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 24CBE20702
 Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 288BB86463;
-	Fri,  6 Nov 2020 10:41:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 901AB87268;
+	Fri,  6 Nov 2020 10:42:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ULWRtIPK5ldD; Fri,  6 Nov 2020 10:41:18 +0000 (UTC)
+	with ESMTP id n0EpCk1wCbqt; Fri,  6 Nov 2020 10:42:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CE207860F0;
-	Fri,  6 Nov 2020 10:41:18 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0F56587247;
+	Fri,  6 Nov 2020 10:42:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B3231C0893;
-	Fri,  6 Nov 2020 10:41:18 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 03E29C0889
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F2090C0893;
+	Fri,  6 Nov 2020 10:42:55 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D559CC0889
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Nov 2020 10:41:17 +0000 (UTC)
+ Fri,  6 Nov 2020 10:42:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DF43986463
+ by silver.osuosl.org (Postfix) with ESMTP id A5BA72E0E9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Nov 2020 10:41:17 +0000 (UTC)
+ Fri,  6 Nov 2020 10:42:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RrbiKcelzckA
+ with ESMTP id 9oV-TXyHk76G
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Nov 2020 10:41:17 +0000 (UTC)
+ Fri,  6 Nov 2020 10:42:53 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6EBBF860F0
+ by silver.osuosl.org (Postfix) with ESMTPS id B26F020353
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Nov 2020 10:41:17 +0000 (UTC)
+ Fri,  6 Nov 2020 10:42:52 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 41E4B20702;
- Fri,  6 Nov 2020 10:41:16 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 92D4920702;
+ Fri,  6 Nov 2020 10:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604659276;
- bh=FZPOUxbRLfnd+t8CdYEkeO2TCpAs4UT0oND2nvpDiDU=;
+ s=default; t=1604659372;
+ bh=lzG1XHFrcM3QcQARAEI6Uz4IHlH2u0wbrmSoCt6+fVQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LIIV1fyeLOQP3xvdO35mmMUbH6AnHfV2gll+R4VQt/8JMCXFuKE+oywvx2kFEpXkE
- gK9egVH44hTJgnK8pv+jk9SQW8DrJnh4b5t3AxKaEMb6J0KStHwH9K2Rf+6O5saVIu
- OnhkH6hhV8fuxh0NK96fZtx0Y7QPMV5DCTmJm3Cs=
-Date: Fri, 6 Nov 2020 11:42:03 +0100
+ b=w8amJD6DJbnv+b4uA5X2WJVuUIHmrNo8TXyf8qmXiBGRyNRfwLNP2YgS92BHXN4ig
+ n8YQSXUJUGGzCsnYM01r4AvHhG0A40bj/ex9fC89A94WrflT1H4ZpM7TULF+R9ytti
+ VJrpSdppG58R+px+5NfxeyTgTmPFdSECl+ZMe2uQ=
+Date: Fri, 6 Nov 2020 11:43:38 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <20201106104203.GC2784089@kroah.com>
-References: <20201103111049.51916-1-98.arpi@gmail.com>
- <20201103113353.GC4077@smile.fi.intel.com>
- <20201103115223.GA268796@kroah.com> <20201103160728.GQ20201@alley>
- <57976ff4-7845-d721-ced1-1fe439000a9b@rasmusvillemoes.dk>
- <b24a8200-b456-ecab-cc60-6f4ff10baa5d@gmail.com>
- <1b452380-53a5-f396-bf2f-97736db28afb@rasmusvillemoes.dk>
+To: Himadri Pandya <himadrispandya@gmail.com>
+Message-ID: <20201106104338.GA2785199@kroah.com>
+References: <20201104064703.15123-1-himadrispandya@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1b452380-53a5-f396-bf2f-97736db28afb@rasmusvillemoes.dk>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>, alexandre.belloni@bootlin.com,
- Kees Cook <keescook@chromium.org>, Petr Mladek <pmladek@suse.com>,
- rdunlap@infradead.org, brendanhiggins@google.com, linux-kernel@vger.kernel.org,
- rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
- linux-kselftest@vger.kernel.org, idryomov@gmail.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] lib: Convert test_printf.c to
-	KUnit
+In-Reply-To: <20201104064703.15123-1-himadrispandya@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ johan@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH 00/15] usb: serial: avoid using
+	usb_control_msg() directly
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,22 +91,43 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Nov 06, 2020 at 11:31:43AM +0100, Rasmus Villemoes wrote:
-> On 06/11/2020 05.04, Arpitha Raghunandan wrote:
-> > 
-> > The total number of "atoms" can be printed by maintaining a static variable
-> > total_count that can be incremented as is in the original test_printf test.
-> > But, the reporting of the random seed currently is done in kselftest and so
-> > will not show up with KUnit. I am not really sure which is better in this case.
+On Wed, Nov 04, 2020 at 12:16:48PM +0530, Himadri Pandya wrote:
+> There are many usages of usb_control_msg() that can use the new wrapper
+> functions usb_contro_msg_send() & usb_control_msg_recv() for better
+> error checks on short reads and writes. Hence use them whenever possible
+> and avoid using usb_control_msg() directly.
 > 
-> So my real questions are: Why do we have both kselftest and kunit?
+> Himadri Pandya (15):
+>   usb: serial: ark3116: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: belkin_sa: use usb_control_msg_send()
+>   usb: serial: ch314: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: cp210x: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: cypress_m8: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: f81232: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: f81534: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: ftdi_sio: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: io_edgeport: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: io_ti: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: ipaq: use usb_control_msg_send()
+>   usb: serial: ipw: use usb_control_msg_send()
+>   usb: serial: iuu_phoenix: use usb_control_msg_send()
+>   usb: serial: keyspan_pda: use usb_control_msg_recv() and
+>     usb_control_msg_send()
+>   usb: serial: kl5kusb105: use usb_control_msg_recv() and
+>     usb_control_msg_send()
 
-One is testing code within the kernel image testing it within
-kernelspace, and one is outside the kernel testing it from userspace.
+For the whole series:
 
-thanks,
-
-greg k-h
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
