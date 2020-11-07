@@ -2,84 +2,107 @@ Return-Path: <SRS0=FEGG=EN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B35C388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 05:09:51 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C78D4C4741F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 08:20:54 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A8A420872
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 05:09:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A8A420872
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 4A9D9208E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 08:20:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="unNAAEgd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A9D9208E4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 18E848668A;
-	Sat,  7 Nov 2020 05:09:50 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1jdubXw+ibiW; Sat,  7 Nov 2020 05:09:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 61FD286BD0;
-	Sat,  7 Nov 2020 05:09:49 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 47A1DC088B;
-	Sat,  7 Nov 2020 05:09:49 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1BAECC0889
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:09:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C584484030
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:09:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D2F3A85D08;
+	Sat,  7 Nov 2020 08:20:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id p2rOP1042NeE; Sat,  7 Nov 2020 08:20:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6042585C95;
+	Sat,  7 Nov 2020 08:20:53 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 57FC6C088B;
+	Sat,  7 Nov 2020 08:20:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 56CE3C0889
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Nov 2020 08:20:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 329962036C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Nov 2020 08:20:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Jv5jHIxh2xWY
+ with ESMTP id z6OsBeKb43c0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:09:46 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0228.hostedemail.com
- [216.40.44.228])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8B48880ECB
+ Sat,  7 Nov 2020 08:20:51 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0FFAB2010C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:09:46 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave05.hostedemail.com (Postfix) with ESMTP id 44D271801C194
+ Sat,  7 Nov 2020 08:20:51 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id 62so2967372pgg.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:09:45 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay08.hostedemail.com (Postfix) with ESMTP id D0EC1182CED28;
- Sat,  7 Nov 2020 05:09:42 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: card60_151077e272d8
-X-Filterd-Recvd-Size: 3142
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf04.hostedemail.com (Postfix) with ESMTPA;
- Sat,  7 Nov 2020 05:09:41 +0000 (UTC)
-Message-ID: <8c642098bbbc92e7c56201184091a97c7b58d073.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Fri, 06 Nov 2020 21:09:39 -0800
-In-Reply-To: <CABJPP5Dyc4iK-3f-N1eKF9sPZhpr6A92PA1rFo1rx+9qvO10zQ@mail.gmail.com>
-References: <20201106214530.367247-1-dwaipayanray1@gmail.com>
- <38c2889ad15c0f34ce8c223518f1f6dbc9945286.camel@perches.com>
- <CABJPP5Dyc4iK-3f-N1eKF9sPZhpr6A92PA1rFo1rx+9qvO10zQ@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ Sat, 07 Nov 2020 00:20:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ZP1wEjjNoJ7pwTRn6B7L6e9GaH7pRaX0MhMHLuNUUzM=;
+ b=unNAAEgdoUDKN/F2HuUqnEzWeq0STic/TxA0q/cExK2sDKNpEFMRHH+AyP8SomR7qi
+ mVH3I9f5Wryxp+VM5xhVudErsG94nCnVOrm5Bf4o+iSekbwLekB2Wtgpm0jvDMFRbFEj
+ C4G7DEvjz5s8uUqqZ2B4j4+d/ix/X5+kiCuIPJK/sMNaRz9Vy59aMNEXoMWYVI+Yyrhb
+ PFyZuIPPJFOb/asp0TA3SNbeHnQn35zYipjt0w9eQL9ztTHCmCzPNVj+k7CtGVNmdU0i
+ oLQvC5tiqAAVJgchqDcoHzCTiWv8gz3SFvbU2whwgNBHUwZ82I52hIXNHKrUhxli88EK
+ eDrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZP1wEjjNoJ7pwTRn6B7L6e9GaH7pRaX0MhMHLuNUUzM=;
+ b=pl/Af6eyK7vb3w45kzHtHH0Yl2kd5u0yg6OwZeThP+mxvAkAPhxRtcswJlvwaTctnk
+ /XCozbAAwHKGYwFpp66AOuyWxYb+t36ZrMZc9FVJ2KLf+Vxd3S9TYKuSZk+wUJP0rKtK
+ k26uAIUGAXuCS418r/tPzSVNupuyBRtagpgMVPemlRxdeGHVD8IpCnpljTNwX9A+4S27
+ KTIVkobvJDFh5q3POyo7erF5Mh55L+LjO4W0XQN9CGppFtvwEqi/arBqzsBCduX/C/Kj
+ KKshpo42jn8ggrj4zgV9jVkDgxfhka5ckORADePkzsjtFZmCP1Zj++O2wfW8pP06yQan
+ MK3A==
+X-Gm-Message-State: AOAM533op4dgSX5tvIpNXQjgL0xVbXvw4T3VjQQ29euwbTzJ/MWesqMW
+ Qi0B1BtP4+lKpFzNT9Iy17g=
+X-Google-Smtp-Source: ABdhPJwY1LHmH+/XEfvhKs3BiIJJD7hZS7rvqj9s+q0mulqx4/2BTdYcuEQUexGwjRK/t5UKFC/a3Q==
+X-Received: by 2002:aa7:973d:0:b029:18b:23db:7711 with SMTP id
+ k29-20020aa7973d0000b029018b23db7711mr5545839pfg.13.1604737250479; 
+ Sat, 07 Nov 2020 00:20:50 -0800 (PST)
+Received: from Thinkpad ([45.118.167.196])
+ by smtp.gmail.com with ESMTPSA id g3sm3996722pgl.55.2020.11.07.00.20.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Nov 2020 00:20:49 -0800 (PST)
+Date: Sat, 7 Nov 2020 13:50:41 +0530
+From: Anmol Karn <anmol.karan123@gmail.com>
+To: Saeed Mahameed <saeed@kernel.org>
+Message-ID: <20201107082041.GA2675@Thinkpad>
+References: <20201105155600.9711-1-anmol.karan123@gmail.com>
+ <b97dc3f0843cc2b7d7674dbd467ad5ba40824ba3.camel@kernel.org>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v4] checkpatch: improve email
-	parsing
+Content-Disposition: inline
+In-Reply-To: <b97dc3f0843cc2b7d7674dbd467ad5ba40824ba3.camel@kernel.org>
+Cc: linux-hams@vger.kernel.org, netdev@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ ralf@linux-mips.org, syzbot+a1c743815982d9496393@syzkaller.appspotmail.com,
+ kuba@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 net] rose: Fix Null pointer
+ dereference in rose_send_frame()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,84 +114,84 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, 2020-11-07 at 10:11 +0530, Dwaipayan Ray wrote:
-> On Sat, Nov 7, 2020 at 3:34 AM Joe Perches <joe@perches.com> wrote:
-> > =
+Hello Sir,
 
-> > On Sat, 2020-11-07 at 03:15 +0530, Dwaipayan Ray wrote:
-> > > checkpatch doesn't report warnings for many common mistakes
-> > > in emails. Some of which are trailing commas and incorrect
-> > > use of email comments.
-> > =
+On Fri, Nov 06, 2020 at 01:04:27PM -0800, Saeed Mahameed wrote:
+> On Thu, 2020-11-05 at 21:26 +0530, Anmol Karn wrote:
+> > rose_send_frame() dereferences `neigh->dev` when called from
+> > rose_transmit_clear_request(), and the first occurance of the `neigh`
+> > is in rose_loopback_timer() as `rose_loopback_neigh`, and it is
+> > initialized
+> > in rose_add_loopback_neigh() as NULL. i.e when `rose_loopback_neigh`
+> > used in 
+> > rose_loopback_timer() its `->dev` was still NULL and
+> > rose_loopback_timer() 
+> > was calling rose_rx_call_request() without checking for NULL.
+> > 
+> > - net/rose/rose_link.c
+> > This bug seems to get triggered in this line:
+> > 
+> > rose_call = (ax25_address *)neigh->dev->dev_addr;
+> > 
+> > Fix it by adding NULL checking for `rose_loopback_neigh->dev` in
+> > rose_loopback_timer(). 
+> > 
+> > Reported-and-tested-by: 
+> > syzbot+a1c743815982d9496393@syzkaller.appspotmail.com 
+> > Link: 
+> > https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3
+> >  
+> > Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
+> 
+> missing proper fixes tag.
+> 
+> > ---
+> >  net/rose/rose_loopback.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/net/rose/rose_loopback.c b/net/rose/rose_loopback.c
+> > index 7b094275ea8b..cd7774cb1d07 100644
+> > --- a/net/rose/rose_loopback.c
+> > +++ b/net/rose/rose_loopback.c
+> > @@ -96,7 +96,7 @@ static void rose_loopback_timer(struct timer_list
+> > *unused)
+> >  		}
+> >  
+> >  		if (frametype == ROSE_CALL_REQUEST) {
+> > -			if ((dev = rose_dev_get(dest)) != NULL) {
+> > +			if (rose_loopback_neigh->dev && (dev =
+> > rose_dev_get(dest)) != NULL) {
+> >  				if (rose_rx_call_request(skb, dev,
+> > rose_loopback_neigh, lci_o) == 0)
+> >  					kfree_skb(skb);
+> >  			} else {
+> 
+> check patch is not happy:
+> 
+> WARNING:TYPO_SPELLING: 'occurance' may be misspelled - perhaps
+> 'occurrence'?
+> #7: 
+> rose_transmit_clear_request(), and the first occurance of the `neigh`
+> 
+> ERROR:ASSIGN_IN_IF: do not use assignment in if condition
+> #36: FILE: net/rose/rose_loopback.c:99:
+> +                       if (rose_loopback_neigh->dev && (dev =
+> rose_dev_get(dest)) != NULL) {
+> 
+> total: 1 errors, 1 warnings, 0 checks, 8 lines checked
+> 
+> 
 
-> > Assuming it all works, this looks good.  I haven't tested it.
-> > =
+Thank you for your review will rectify these and send another version.
 
-> > How did you test the $fix bits?
-> > =
-
-> Hi,
-> I actually dumped about 17k unique emails from git log, put it in one of
-> my previous patches, and ran checkpatch with --fix on it.
-> I checked the diff and most of the cases looked pretty good to me.
-> I could send the diff output if you like?
-
-Please.  Likely just to me as I imagine it's not interesting to most.
- =
-
-> > Trivial notes:
-> > =
-
-> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > []
-> > > +                             # stable@vger.kernel.org or stable@kern=
-el.org shouldn't
-> > > +                             # have an email name. In addition commm=
-ents should strictly
-> > > +                             # begin with a #
-> > > +                             if ($email =3D~ /^.*stable\@(?:vger\.)?=
-kernel\.org/) {
-> > =
-
-> > Likely better to test with a case insensitive match so
-> > STABLE@vger.kernel.org and such are still warned.
-> =
-
-> Sure, I will do that.
-> > =
-
-> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0if ($email =3D~ /\bstable\@(?:vger\.)?kernel\.or=
-g\b/i) {
-> > =
-
-> > > +                                     if ($sign_off =3D~ /cc:$/i && (=
-($comment ne "" && $comment !~ /^#.+/) ||
-> > > +                                         ($email_name ne ""))) {
-> > =
-
-> > > > $sign_off !~ /^cc:/i ?
-> =
-
-> I actually had a doubt about that one. Only the stable address with
-> Cc: should be checked right? Or something else?
-
-yes.
- =
-
-> What about those stable addresses with tags other than Cc: ? Should
-> a change be suggested?
-
-Ideally yes, but there were very few of those in the git commit
-history so it's probably not a big deal one way or another.
-
-
+Thanks,
+Anmol
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
