@@ -2,101 +2,84 @@ Return-Path: <SRS0=FEGG=EN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D34B1C56201
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 05:00:35 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B35C388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 05:09:51 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 378E720704
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 05:00:35 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="ozEJnOM2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 378E720704
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 6A8A420872
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 05:09:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A8A420872
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D40698745F;
-	Sat,  7 Nov 2020 05:00:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 18E848668A;
+	Sat,  7 Nov 2020 05:09:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Lun42oJfa8xL; Sat,  7 Nov 2020 05:00:34 +0000 (UTC)
+	with ESMTP id 1jdubXw+ibiW; Sat,  7 Nov 2020 05:09:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5BCFA8745D;
-	Sat,  7 Nov 2020 05:00:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 61FD286BD0;
+	Sat,  7 Nov 2020 05:09:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 457CFC0893;
-	Sat,  7 Nov 2020 05:00:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 47A1DC088B;
+	Sat,  7 Nov 2020 05:09:49 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8E1B4C0889
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1BAECC0889
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:00:32 +0000 (UTC)
+ Sat,  7 Nov 2020 05:09:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7860386ACA
+ by fraxinus.osuosl.org (Postfix) with ESMTP id C584484030
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:00:32 +0000 (UTC)
+ Sat,  7 Nov 2020 05:09:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9U4Un5zXELHl
+ with ESMTP id Jv5jHIxh2xWY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:00:31 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
- [209.85.208.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 010C986AC8
+ Sat,  7 Nov 2020 05:09:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0228.hostedemail.com
+ [216.40.44.228])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 8B48880ECB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 05:00:30 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id a25so3760322ljn.0
+ Sat,  7 Nov 2020 05:09:46 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave05.hostedemail.com (Postfix) with ESMTP id 44D271801C194
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 06 Nov 2020 21:00:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=voEsZPkyjZD18rzLtdDPpUVqOWAqR2u8yHFoISL5tWA=;
- b=ozEJnOM2IixHrnCPEtGb8FlqnzWcNz+owQfR7J4Eue5meJU/pZItrdTH+v0KHF0cFo
- 3lLpgXRPOSHF6gUusRw2FxmWULcNJa0AV7m/aCcn8kIQWrxpaenHvu4ZfGHc3ZiZiZBW
- WVFQB3tG8c63Lifd0NAKzG5T8ez3LWkaxc26yiUmwNA314ZHSabqU+PFVT0gGvfiPp6W
- TZYs2MYDYb1AFpUxW2W+wjZVFeZkYueQs6SaJyl5/oe0ESlReMhwk+xbeJ3Y9Y4s1GXs
- 07Fe+pa4L7AXyhtkqeXfpjSsJGpKXdPXYPYdYX2eifPUuJxWYcbqFN0iESHwomlTY+gt
- bJGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=voEsZPkyjZD18rzLtdDPpUVqOWAqR2u8yHFoISL5tWA=;
- b=XPn9I28Hg3lvbN72MybsdB6dW2FLlo8No2kSHWOonpCseg9odWARenf1Vmt4I9Wvrq
- 7iwk6Jr7O6J30gqi7Az+UrQfVo9BdfzZesXhy3MC+9wz8b7cGhRJOxSjYuB2bMf9yv1d
- sdLvZu85VBh/BhuJj4P1zeZY0e34PdcL5cVXwukU8Fd3c5SLIzHaZprsX9YCmbsCZEpR
- xu8xX8JscisLGx3Oa3kWJcfbhoygi4WOHuv4IYZaxtORTb4V9bVbRgt63M2u38hstlxd
- EuEEuUVCbPxEG9pYpJCdxwJ+cFxzjFF8jTbwcFu8W9uozKqKW4XN9HwsPXgjzhx1L79z
- dZ1Q==
-X-Gm-Message-State: AOAM532PcRPC1Y/Pxxw4uOnMn7XZTQJTzAQ/OjpKxGpjynFliGMDwV0E
- PY8UPzkxx6i9Kyf8ODn3nf5r5AOpMviWePzg6EZ4Og==
-X-Google-Smtp-Source: ABdhPJxRL+E/FG0jMGqNmEVkiK0JKDx1AmCZa7th6GCMdfj5xVmIDB1v0qf0mRD8QdCKNL5aBnnNUOaJn4UczaqLpNs=
-X-Received: by 2002:a2e:9a89:: with SMTP id p9mr2070693lji.363.1604725228766; 
- Fri, 06 Nov 2020 21:00:28 -0800 (PST)
+ Sat,  7 Nov 2020 05:09:45 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay08.hostedemail.com (Postfix) with ESMTP id D0EC1182CED28;
+ Sat,  7 Nov 2020 05:09:42 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: card60_151077e272d8
+X-Filterd-Recvd-Size: 3142
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf04.hostedemail.com (Postfix) with ESMTPA;
+ Sat,  7 Nov 2020 05:09:41 +0000 (UTC)
+Message-ID: <8c642098bbbc92e7c56201184091a97c7b58d073.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Fri, 06 Nov 2020 21:09:39 -0800
+In-Reply-To: <CABJPP5Dyc4iK-3f-N1eKF9sPZhpr6A92PA1rFo1rx+9qvO10zQ@mail.gmail.com>
+References: <20201106214530.367247-1-dwaipayanray1@gmail.com>
+ <38c2889ad15c0f34ce8c223518f1f6dbc9945286.camel@perches.com>
+ <CABJPP5Dyc4iK-3f-N1eKF9sPZhpr6A92PA1rFo1rx+9qvO10zQ@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20201106192154.51514-1-98.arpi@gmail.com>
- <20201106192249.51574-1-98.arpi@gmail.com>
-In-Reply-To: <20201106192249.51574-1-98.arpi@gmail.com>
-Date: Sat, 7 Nov 2020 13:00:17 +0800
-Message-ID: <CABVgOSkdwPHLSVQRZX_HoRNokgLFq8ue2gm6zVHWvkD=1-dFyQ@mail.gmail.com>
-To: Arpitha Raghunandan <98.arpi@gmail.com>
-Cc: Marco Elver <elver@google.com>, linux-ext4@vger.kernel.org,
- Theodore Ts'o <tytso@mit.edu>, Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Iurii Zaikin <yzaikin@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v6 2/2] fs: ext4: Modify
- inode-test.c to use KUnit parameterized testing feature
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Aditya Srivastava <yashsri421@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v4] checkpatch: improve email
+	parsing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,28 +91,84 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: David Gow via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Nov 7, 2020 at 3:23 AM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
->
-> Modify fs/ext4/inode-test.c to use the parameterized testing
-> feature of KUnit.
->
-> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
-> ---
+On Sat, 2020-11-07 at 10:11 +0530, Dwaipayan Ray wrote:
+> On Sat, Nov 7, 2020 at 3:34 AM Joe Perches <joe@perches.com> wrote:
+> > =
 
-This looks good to me. Thanks!
+> > On Sat, 2020-11-07 at 03:15 +0530, Dwaipayan Ray wrote:
+> > > checkpatch doesn't report warnings for many common mistakes
+> > > in emails. Some of which are trailing commas and incorrect
+> > > use of email comments.
+> > =
 
-Reviewed-by: David Gow <davidgow@google.com>
+> > Assuming it all works, this looks good.  I haven't tested it.
+> > =
 
--- David
+> > How did you test the $fix bits?
+> > =
+
+> Hi,
+> I actually dumped about 17k unique emails from git log, put it in one of
+> my previous patches, and ran checkpatch with --fix on it.
+> I checked the diff and most of the cases looked pretty good to me.
+> I could send the diff output if you like?
+
+Please.  Likely just to me as I imagine it's not interesting to most.
+ =
+
+> > Trivial notes:
+> > =
+
+> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > []
+> > > +                             # stable@vger.kernel.org or stable@kern=
+el.org shouldn't
+> > > +                             # have an email name. In addition commm=
+ents should strictly
+> > > +                             # begin with a #
+> > > +                             if ($email =3D~ /^.*stable\@(?:vger\.)?=
+kernel\.org/) {
+> > =
+
+> > Likely better to test with a case insensitive match so
+> > STABLE@vger.kernel.org and such are still warned.
+> =
+
+> Sure, I will do that.
+> > =
+
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0if ($email =3D~ /\bstable\@(?:vger\.)?kernel\.or=
+g\b/i) {
+> > =
+
+> > > +                                     if ($sign_off =3D~ /cc:$/i && (=
+($comment ne "" && $comment !~ /^#.+/) ||
+> > > +                                         ($email_name ne ""))) {
+> > =
+
+> > > > $sign_off !~ /^cc:/i ?
+> =
+
+> I actually had a doubt about that one. Only the stable address with
+> Cc: should be checked right? Or something else?
+
+yes.
+ =
+
+> What about those stable addresses with tags other than Cc: ? Should
+> a change be suggested?
+
+Ideally yes, but there were very few of those in the git commit
+history so it's probably not a big deal one way or another.
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
