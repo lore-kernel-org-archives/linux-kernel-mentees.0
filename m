@@ -2,96 +2,96 @@ Return-Path: <SRS0=FEGG=EN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5991C388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 18:38:46 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EDB0C388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 18:43:35 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 25C8020888
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 18:38:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B3A8220888
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 18:43:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WBlq0DO0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 25C8020888
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="prPaU/ys"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B3A8220888
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9C3DF20482;
-	Sat,  7 Nov 2020 18:38:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id veBozG1dF2l6; Sat,  7 Nov 2020 18:38:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DFAB92043F;
-	Sat,  7 Nov 2020 18:38:43 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC7FFC088B;
-	Sat,  7 Nov 2020 18:38:43 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1490BC0889
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 18:38:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EEB7C87112
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 18:38:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 323AD8716C;
+	Sat,  7 Nov 2020 18:43:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zsMpilnUS+Jo; Sat,  7 Nov 2020 18:43:33 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5BC998712C;
+	Sat,  7 Nov 2020 18:43:33 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 45F8EC088B;
+	Sat,  7 Nov 2020 18:43:33 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 29A7BC0889
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Nov 2020 18:43:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 135238693D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Nov 2020 18:43:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id D04ubZhInppC
+ with ESMTP id vsSZFhWernqv
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 18:38:41 +0000 (UTC)
+ Sat,  7 Nov 2020 18:43:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E1A9E8710C
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id CA27E85582
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 18:38:40 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id q1so4580357ilt.6
+ Sat,  7 Nov 2020 18:43:30 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id t13so4587293ilp.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 07 Nov 2020 10:38:40 -0800 (PST)
+ Sat, 07 Nov 2020 10:43:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JoEnEx9GVQeQzhBh1k3xc7yAF+2y8GR4uxCXOYb7Hh4=;
- b=WBlq0DO0+iEZ0KawPJ31q9dxyD8eydXsb9fo6f6XuzVPonZOfNJLqO5YnCwMoRzL45
- /eXFPKJm/3Dxg5xY9Sd3IUakt3HU/szHHdWeBckrzfrhRNfDTNlrtoa2w0IgIbZqmCe/
- qeBdIqbON0f32KJZ+lbGb8MwXAWl2cA1+FlGxr7/XWU9czUXehAvZBL6Nb+EylUZaWXh
- PGRtyuXcc1wwPE+60x8mP7kR6O/RCMQxM1oe5wZuQeVpixuQRzQMBQWtHlMNokCY5YOI
- cxzyWI5FC542xhZVqwBEDOSU31lRIU9GMIBS8bbqtokOfgDfDN07kqe8+92yKHNsyoSi
- /wBg==
+ :cc; bh=/5Og3sdSBO6BuNxTmVTLgcgY0wkp6td0eexZm2XJcKY=;
+ b=prPaU/ysolfOqOVDd8LEpDJlYbdF+Xc6XmEEsTKHSeA6sgCU0k90BJoKjAWBMYhTiX
+ sg2+k7YP0iPnXo2oPAthXygz429zpw0ZIaKC1gYjwt/3YayKN5R64UHnOq09kvaP65mF
+ XQiRiXpzrLD7Al/7cl/V7Wv17CibaxW+G/HPw/j4HkrIpCBmqoeu/pJmEWLyRpNcbVHP
+ nwMSzxDnIm4OqxCI0DY1aactywaSEWvOm3xtd4l4Ltcoe9CBx9wuyv9vyoLE1CplrNx+
+ nEbjGpbXDVCQOB8AM0M7xlpXW1QloXS+SpCkysYyFJL+fXjDc7GceDR1dUs+8nshgM6H
+ xptQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JoEnEx9GVQeQzhBh1k3xc7yAF+2y8GR4uxCXOYb7Hh4=;
- b=IigyRX4HccrkvPr0ChGD2ph4U1XiS+RtysT4fqtJ8OOw6RC4QUw4FVqxSL90t+Z7Am
- B0t5vRYjpNeshJ9oqdKJbLdERT7YUKUBeQbhe4S2MJjLQ8cQf0IYOpBOjaS7tvw08IYf
- EFD7pR/n38CbzoCAq55GUYPFFhTWs9AMO3TfEHvg5nZWUeg4UvtcXMFnhYqq26eJFROd
- W5WDpFgVftUoZFJf0E125XFCUP1r+IjuNKU67+vXk8I/vddijRPxzEU0DqOwrA0wkJ/Y
- MZGnhNR8IzLumSm3JBz2OU2vrFiLUDgJJRPLLhSHOiCOp6IGBSlj7XpUG2CgTizzhssy
- AINA==
-X-Gm-Message-State: AOAM5306G7A5lC9F2plLJLfw+8/aS1Q1HSQc19sX0zAKu8nVKEVeL3J3
- ho4ETK1hsrznb9yVdFpnrSbEyBYCaXSkIEELboE=
-X-Google-Smtp-Source: ABdhPJyueTdKzNm6QXMDQXugKvbe5kvSJ+p0H3dcTlojMrJ5+pW7EY/Q1qvcdnVdINm7Nco6PwsXIlhToXmta2WlPvo=
-X-Received: by 2002:a92:512:: with SMTP id q18mr5015823ile.147.1604774320179; 
- Sat, 07 Nov 2020 10:38:40 -0800 (PST)
+ bh=/5Og3sdSBO6BuNxTmVTLgcgY0wkp6td0eexZm2XJcKY=;
+ b=YrRpIG4lMFridXa8PnvxbdY23TzBLTz4V7xQzvzx7pPP3vtRA6dAkCM9LHsazMs6il
+ ax90ORV/jVK8LC2ryLwlAMHmX/5nscMjHkZahIkXCtxnxApxKZLiJZFwhchepWL3m2n4
+ nwopJhK1kQyFPECt/bfE3mYt6sw0Z/u6vnKnUplwi69AQ6v1oq+kHyv48qMrmva1bKuF
+ SidTfwmD2bf0wq/jBItz29jWGxgTZIZRpTdDCB/mJQCdMmKQSlxyB+nqTvySrspxmicH
+ MgWhwBrMfEBpek0ThmTm0XB9I6VWiMI/sVyeI8+uKRJtfaVNO3g3TQ59X+t/NNDGteFx
+ i+zA==
+X-Gm-Message-State: AOAM532psgHCklIT5luVYvmTdfQ/POhaNzM1IBEY6FM8lZo+9R+9iz0e
+ BWw5zXTBTXns4Eq4Gyen8LJWrL+1bvalNDCb9trfOdL9
+X-Google-Smtp-Source: ABdhPJzRE6E8N4UfpuPkEJHGrLgL/WOArxodVMvM/IjIoQ9pn0j33843lOjqrxnwlrfJ2bdVV6gEzNjVNO/HYYGlHpk=
+X-Received: by 2002:a92:2c06:: with SMTP id t6mr5292024ile.125.1604774610077; 
+ Sat, 07 Nov 2020 10:43:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20201103151858.25375-1-yashsri421@gmail.com>
- <CAKXUXMzx=UacWsoPyiD5AVtfBpVDCcJpAFMo8OpXrf+KNpBFww@mail.gmail.com>
- <6fca02c0-4c4d-c6bd-67b2-35304cf25499@gmail.com>
-In-Reply-To: <6fca02c0-4c4d-c6bd-67b2-35304cf25499@gmail.com>
+References: <20201107121742.27144-1-yashsri421@gmail.com>
+ <2837bf55-4bab-ffcc-843c-318c7de26ff4@gmail.com>
+In-Reply-To: <2837bf55-4bab-ffcc-843c-318c7de26ff4@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sat, 7 Nov 2020 19:38:28 +0100
-Message-ID: <CAKXUXMygzqgiCm+1SCaA5daO5HkoUXyhXS=QEE2d8GKUO4nypg@mail.gmail.com>
+Date: Sat, 7 Nov 2020 19:43:18 +0100
+Message-ID: <CAKXUXMxix-9oWtpbS1kAK+PY7hsNuKs7_z3GDvDyJHRadSZYNw@mail.gmail.com>
 To: Aditya <yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix for
-	BAD_SIGN_OFF
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: add fix option
+	for COMMIT_LOG_LONG_LINE
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,151 +103,187 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8207192976147349239=="
+Content-Type: multipart/mixed; boundary="===============8132065773631072705=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============8207192976147349239==
-Content-Type: multipart/alternative; boundary="0000000000004c8f4005b388a335"
+--===============8132065773631072705==
+Content-Type: multipart/alternative; boundary="000000000000940a9305b388b4ee"
 
---0000000000004c8f4005b388a335
+--000000000000940a9305b388b4ee
 Content-Type: text/plain; charset="UTF-8"
 
-On Sa., 7. Nov. 2020 at 10:27, Aditya <yashsri421@gmail.com> wrote:
+On Sa., 7. Nov. 2020 at 15:49, Aditya <yashsri421@gmail.com> wrote:
 
-> On 4/11/20 4:44 pm, Lukas Bulwahn wrote:
-> > On Tue, Nov 3, 2020 at 4:19 PM Aditya Srivastava <yashsri421@gmail.com>
-> wrote:
-> >>
-> >> Currently, checkpatch warns us if the author of the commit signs-off
-> >> as co-developed-by.
-> >> E.g. for commit 6e88559470f5 ("Documentation: Add section about
-> >> CPU vulnerabilities for Spectre") we get:
-> >>
-> >> WARNING: Co-developed-by: should not be used to attribute nominal
-> >> patch author 'Tim Chen <tim.c.chen@linux.intel.com>'
-> >> Co-developed-by: Tim Chen <tim.c.chen@linux.intel.com>
-> >>
-> >> Provide a simple fix by removing the co-developed-by line from the
-> >> commit message
-> >>
+> On 7/11/20 5:47 pm, Aditya Srivastava wrote:
+> > Currently, when a line exceeds 75 characters in a commit message,
+> > checkpatch.pl gives a warning corresponding to the same.
 > >
-> > Patch looks good. Maybe you can add a statistics on how many cases of
-> > the last 200,000 commits this rule would actually trigger?
+> > E.g., running checkpatch on commit a1af2afbd244 ("drm/nouveau/volt:Fix
+> > for some cards having 0 maximum voltage") we get this warning:
 > >
-> > E.g., you can probably quickly filter all commits that have at least
-> > one Co-developed-by tag among those last 200,000 commits (that is
-> > already only a few thousands), then take that list and just check with
-> > checkpatch.pl for this one rule quickly to see how often the rule
-> > would even trigger at all.
+> > WARNING: Possible unwrapped commit description (prefer a maximum 75
+> > chars per line)
 > >
-> > Once you have that and explain that in the commit message, I think the
-> > patch is ready for lkml and Joe Perches.
+> > Some, mostly Fermi, vbioses appear to have zero max voltage. That causes
+> Nouveau to not parse voltage entries, thus users not being able to set
+> higher clocks.
 > >
-> > Lukas
+> > Provide a fix by consuming first 70 chars of the corresponding line,
+> > then stop at the next whitespace, and substitute it with the consumed
+> > chars and a newline char.
+> >
+> > Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> > ---
+> >  scripts/checkpatch.pl | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > index 5a1096a4e220..ee665208ef02 100755
+> > --- a/scripts/checkpatch.pl
+> > +++ b/scripts/checkpatch.pl
+> > @@ -2881,8 +2881,11 @@ sub process {
+> >                     $line =~ /^\s*(?:Fixes:|Link:)/i ||
+> >                                       # A Fixes: or Link: line
+> >                     $commit_log_possible_stack_dump)) {
+> > -                     WARN("COMMIT_LOG_LONG_LINE",
+> > -                          "Possible unwrapped commit description
+> (prefer a maximum 75 chars per line)\n" . $herecurr);
+> > +                     if (WARN("COMMIT_LOG_LONG_LINE",
+> > +                              "Possible unwrapped commit description
+> (prefer a maximum 75 chars per line)\n" . $herecurr) &&
+> > +                         $fix) {
+> > +                             $fixed[$fixlinenr] =~
+> s/(.{70}[^\s]*)\s+/$1\n/g;
+> > +                     }
+> >                       $commit_log_long_line = 1;
+> >               }
+> >
 > >
 >
-> Hi Sir
-> I generated a report for around 200,000 commits (v4.13..v5.8), and
-> found that this rule was being triggered only 6 times. Statistically
-> this doesn't seem much. Is it still advisable to mention it in the
-> commit message?
-> Although, there's a possibility that user fixed this issue after
-> receiving the warning manually before committing.
->
 
-Can you share the six commits?
+Why do you not implement a proper word wrap function?
 
-Then we check if the fix is really the right fix of if something different
-is wrong with these commits.
-
-This certainly needs to be mentioned in the commit message.
-
+A single commit tells us very little if this rule in checkpatch.pl really
+is a good rule or not. A proper evaluation of typical cases of long commit
+lines would help much more to improve this rule.
 
 Lukas
 
 
+> Changes made in v2:
+> - Changing newline at whitespace instead of abrupt termination
+> - The special line cases such as 'Link', 'Fixes' or code addition
+> lines, etc. seem to be already excluded from this warning in the
+> if-block statements above the warning statement.
+>
+>
 > Thanks
 > Aditya
 >
->
 
---0000000000004c8f4005b388a335
+--000000000000940a9305b388b4ee
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Sa.=
-, 7. Nov. 2020 at 10:27, Aditya &lt;<a href=3D"mailto:yashsri421@gmail.com"=
+, 7. Nov. 2020 at 15:49, Aditya &lt;<a href=3D"mailto:yashsri421@gmail.com"=
 >yashsri421@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
 ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">On 4/11/20 4:44 pm, Lukas Bulwahn wrote:<br>
-&gt; On Tue, Nov 3, 2020 at 4:19 PM Aditya Srivastava &lt;<a href=3D"mailto=
-:yashsri421@gmail.com" target=3D"_blank">yashsri421@gmail.com</a>&gt; wrote=
-:<br>
-&gt;&gt;<br>
-&gt;&gt; Currently, checkpatch warns us if the author of the commit signs-o=
-ff<br>
-&gt;&gt; as co-developed-by.<br>
-&gt;&gt; E.g. for commit 6e88559470f5 (&quot;Documentation: Add section abo=
-ut<br>
-&gt;&gt; CPU vulnerabilities for Spectre&quot;) we get:<br>
-&gt;&gt;<br>
-&gt;&gt; WARNING: Co-developed-by: should not be used to attribute nominal<=
-br>
-&gt;&gt; patch author &#39;Tim Chen &lt;<a href=3D"mailto:tim.c.chen@linux.=
-intel.com" target=3D"_blank">tim.c.chen@linux.intel.com</a>&gt;&#39;<br>
-&gt;&gt; Co-developed-by: Tim Chen &lt;<a href=3D"mailto:tim.c.chen@linux.i=
-ntel.com" target=3D"_blank">tim.c.chen@linux.intel.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Provide a simple fix by removing the co-developed-by line from the=
-<br>
-&gt;&gt; commit message<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; Patch looks good. Maybe you can add a statistics on how many cases of<=
-br>
-&gt; the last 200,000 commits this rule would actually trigger?<br>
-&gt; <br>
-&gt; E.g., you can probably quickly filter all commits that have at least<b=
-r>
-&gt; one Co-developed-by tag among those last 200,000 commits (that is<br>
-&gt; already only a few thousands), then take that list and just check with=
-<br>
+">On 7/11/20 5:47 pm, Aditya Srivastava wrote:<br>
+&gt; Currently, when a line exceeds 75 characters in a commit message,<br>
 &gt; <a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">=
-checkpatch.pl</a> for this one rule quickly to see how often the rule<br>
-&gt; would even trigger at all.<br>
+checkpatch.pl</a> gives a warning corresponding to the same.<br>
 &gt; <br>
-&gt; Once you have that and explain that in the commit message, I think the=
+&gt; E.g., running checkpatch on commit a1af2afbd244 (&quot;drm/nouveau/vol=
+t:Fix<br>
+&gt; for some cards having 0 maximum voltage&quot;) we get this warning:<br=
+>
+&gt; <br>
+&gt; WARNING: Possible unwrapped commit description (prefer a maximum 75<br=
+>
+&gt; chars per line)<br>
+&gt; <br>
+&gt; Some, mostly Fermi, vbioses appear to have zero max voltage. That caus=
+es Nouveau to not parse voltage entries, thus users not being able to set h=
+igher clocks.<br>
+&gt; <br>
+&gt; Provide a fix by consuming first 70 chars of the corresponding line,<b=
+r>
+&gt; then stop at the next whitespace, and substitute it with the consumed<=
+br>
+&gt; chars and a newline char.<br>
+&gt; <br>
+&gt; Signed-off-by: Aditya Srivastava &lt;<a href=3D"mailto:yashsri421@gmai=
+l.com" target=3D"_blank">yashsri421@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" targ=
+et=3D"_blank">checkpatch.pl</a> | 7 +++++--<br>
+&gt;=C2=A0 1 file changed, 5 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferre=
+r" target=3D"_blank">checkpatch.pl</a> b/scripts/<a href=3D"http://checkpat=
+ch.pl" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a><br>
+&gt; index 5a1096a4e220..ee665208ef02 100755<br>
+&gt; --- a/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" targ=
+et=3D"_blank">checkpatch.pl</a><br>
+&gt; +++ b/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" targ=
+et=3D"_blank">checkpatch.pl</a><br>
+&gt; @@ -2881,8 +2881,11 @@ sub process {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0$line =3D~ /^\s*(?:Fixes:|Link:)/i ||<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# A Fi=
+xes: or Link: line<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0$commit_log_possible_stack_dump)) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0WARN(&quot;COMMIT_LOG_LONG_LINE&quot;,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;Possible unwrapped commit description (prefer a=
+ maximum 75 chars per line)\n&quot; . $herecurr);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0if (WARN(&quot;COMMIT_LOG_LONG_LINE&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Possible unwrapped commit descrip=
+tion (prefer a maximum 75 chars per line)\n&quot; . $herecurr) &amp;&amp;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0$fix) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$fixed[$fixlinenr] =3D~ s/(.{70}[^\s]*)\=
+s+/$1\n/g;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0$commit_log_long_line =3D 1;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 <br>
+&gt; <br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Why do you not i=
+mplement a proper word wrap function?</div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto">A single commit tells us very little if this rule in <a href=
+=3D"http://checkpatch.pl">checkpatch.pl</a> really is a good rule or not. A=
+ proper evaluation of typical cases of long commit lines would help much mo=
+re to improve this rule.</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
+>Lukas</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Changes made in v2:<br>
+- Changing newline at whitespace instead of abrupt termination<br>
+- The special line cases such as &#39;Link&#39;, &#39;Fixes&#39; or code ad=
+dition<br>
+lines, etc. seem to be already excluded from this warning in the<br>
+if-block statements above the warning statement.<br>
 <br>
-&gt; patch is ready for lkml and Joe Perches.<br>
-&gt; <br>
-&gt; Lukas<br>
-&gt; <br>
 <br>
-Hi Sir<br>
-I generated a report for around 200,000 commits (v4.13..v5.8), and<br>
-found that this rule was being triggered only 6 times. Statistically<br>
-this doesn&#39;t seem much. Is it still advisable to mention it in the<br>
-commit message?<br>
-Although, there&#39;s a possibility that user fixed this issue after<br>
-receiving the warning manually before committing.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Can you share th=
-e six commits?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Then we c=
-heck if the fix is really the right fix of if something different is wrong =
-with these commits.</div><div dir=3D"auto"><br></div><div dir=3D"auto">This=
- certainly needs to be mentioned in the commit message.</div><div dir=3D"au=
-to"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Lukas</div><div=
- dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
 Thanks<br>
 Aditya<br>
-<br>
 </blockquote></div></div>
 
---0000000000004c8f4005b388a335--
+--000000000000940a9305b388b4ee--
 
---===============8207192976147349239==
+--===============8132065773631072705==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -258,4 +294,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============8207192976147349239==--
+--===============8132065773631072705==--
