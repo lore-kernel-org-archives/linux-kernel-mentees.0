@@ -2,106 +2,96 @@ Return-Path: <SRS0=FEGG=EN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7225C388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 14:49:35 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5991C388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 18:38:46 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 60B6A20702
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 14:49:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 25C8020888
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Nov 2020 18:38:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tC4U5VLQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 60B6A20702
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WBlq0DO0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 25C8020888
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 10FB88539F;
-	Sat,  7 Nov 2020 14:49:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PXiAiPwfJjhV; Sat,  7 Nov 2020 14:49:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 73680868EA;
-	Sat,  7 Nov 2020 14:49:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5ABADC088B;
-	Sat,  7 Nov 2020 14:49:34 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C3AF3C0889
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 14:49:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A750D20452
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 14:49:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9C3DF20482;
+	Sat,  7 Nov 2020 18:38:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id veBozG1dF2l6; Sat,  7 Nov 2020 18:38:44 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id DFAB92043F;
+	Sat,  7 Nov 2020 18:38:43 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AC7FFC088B;
+	Sat,  7 Nov 2020 18:38:43 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1490BC0889
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Nov 2020 18:38:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id EEB7C87112
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Nov 2020 18:38:41 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4n-GP6CxtdHb
+ with ESMTP id D04ubZhInppC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 14:49:31 +0000 (UTC)
+ Sat,  7 Nov 2020 18:38:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by silver.osuosl.org (Postfix) with ESMTPS id D44BA20020
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+ [209.85.166.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E1A9E8710C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Nov 2020 14:49:31 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 10so4275403pfp.5
+ Sat,  7 Nov 2020 18:38:40 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id q1so4580357ilt.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 07 Nov 2020 06:49:31 -0800 (PST)
+ Sat, 07 Nov 2020 10:38:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=e+YwN3qanMjSAlRV/NRae0FGRJLQE/0F6ShH4SidaSg=;
- b=tC4U5VLQ1FrFCLNJRfOzouiHt3kUbRPKdroqHDEoK6r1RmV3MyF5M7si5/PYLr1Q6n
- 2MLsqyWr32S4JF3/NAYrFfZnMFoqvyzyuIZdJPjOgp09x/s9U4b+GCsHHNUjBhNOwE3I
- WSKOvJq9PGS/trX1elsLbzwQpcaTK3uCAgRAmL5aCNo/4gJuCOiAhJ/LD/KL3xJc4KQR
- 9zx+x/O6av1lS04JhrfiW+VNkWeS5YE+OQpSBMR5bIcd45rWjG6XVJ70lUYXqYzkaMpq
- +2c4UChBtgUAP8j9Rht/ygssY2uX8t4wLoKBj274iz9E/PpxAm+zV0gbhRFdLKS9K8Yj
- MPDQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JoEnEx9GVQeQzhBh1k3xc7yAF+2y8GR4uxCXOYb7Hh4=;
+ b=WBlq0DO0+iEZ0KawPJ31q9dxyD8eydXsb9fo6f6XuzVPonZOfNJLqO5YnCwMoRzL45
+ /eXFPKJm/3Dxg5xY9Sd3IUakt3HU/szHHdWeBckrzfrhRNfDTNlrtoa2w0IgIbZqmCe/
+ qeBdIqbON0f32KJZ+lbGb8MwXAWl2cA1+FlGxr7/XWU9czUXehAvZBL6Nb+EylUZaWXh
+ PGRtyuXcc1wwPE+60x8mP7kR6O/RCMQxM1oe5wZuQeVpixuQRzQMBQWtHlMNokCY5YOI
+ cxzyWI5FC542xhZVqwBEDOSU31lRIU9GMIBS8bbqtokOfgDfDN07kqe8+92yKHNsyoSi
+ /wBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=e+YwN3qanMjSAlRV/NRae0FGRJLQE/0F6ShH4SidaSg=;
- b=D/dSIhK/dLHV9lt1069bELlWY6EB5IZIcf/bzlgnzGBZzmdSIdm90LD405VD7OL1Ou
- iIx9dOLdj9u76Kn1GwKaH1ru+uoFQ9dhOe1m4UvkW2UPeiZUxgZhDG4xIoqCHiZUR2wP
- MqTKxJuyB79zFiTAWiX63RVrtO1269dOPxZqih/VtcHtggWTvfAqaI+cWHWlxEkSKjz0
- v7yR+YDw+UmEN2Wbd15EldYTIYPqH933JKstQG/lYCzSC8HDVbb/8epg2uBYT0VsReX3
- BR1iBQrpYD/TuKT694iAlrQCWtTzitItXo1FkJXupCKuTr18v8zSX402k5g5Otf/Qrvf
- shQw==
-X-Gm-Message-State: AOAM531tVo39F7xRD13bzvv3m1/FjDy8xcXpYmvb35sRt9WrAVtO48cW
- +uYtHjGKcmKpD+v356zSctD26jboMMO1Bw==
-X-Google-Smtp-Source: ABdhPJzrKJagrfFMgrMuXHv8bQTp6I8LvZ/gbwL4e0KrP/vkuSCWlI6/7buhA9R6kmWJpHTeA0pctw==
-X-Received: by 2002:a62:5293:0:b029:18b:5c86:7ad0 with SMTP id
- g141-20020a6252930000b029018b5c867ad0mr6539824pfb.51.1604760571139; 
- Sat, 07 Nov 2020 06:49:31 -0800 (PST)
-Received: from ?IPv6:2402:3a80:42d:7bb5:3470:9721:ad9d:115e?
- ([2402:3a80:42d:7bb5:3470:9721:ad9d:115e])
- by smtp.gmail.com with ESMTPSA id k21sm2330337pfu.7.2020.11.07.06.49.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Nov 2020 06:49:30 -0800 (PST)
-To: lukas.bulwahn@gmail.com
-References: <20201107121742.27144-1-yashsri421@gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <2837bf55-4bab-ffcc-843c-318c7de26ff4@gmail.com>
-Date: Sat, 7 Nov 2020 20:19:25 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JoEnEx9GVQeQzhBh1k3xc7yAF+2y8GR4uxCXOYb7Hh4=;
+ b=IigyRX4HccrkvPr0ChGD2ph4U1XiS+RtysT4fqtJ8OOw6RC4QUw4FVqxSL90t+Z7Am
+ B0t5vRYjpNeshJ9oqdKJbLdERT7YUKUBeQbhe4S2MJjLQ8cQf0IYOpBOjaS7tvw08IYf
+ EFD7pR/n38CbzoCAq55GUYPFFhTWs9AMO3TfEHvg5nZWUeg4UvtcXMFnhYqq26eJFROd
+ W5WDpFgVftUoZFJf0E125XFCUP1r+IjuNKU67+vXk8I/vddijRPxzEU0DqOwrA0wkJ/Y
+ MZGnhNR8IzLumSm3JBz2OU2vrFiLUDgJJRPLLhSHOiCOp6IGBSlj7XpUG2CgTizzhssy
+ AINA==
+X-Gm-Message-State: AOAM5306G7A5lC9F2plLJLfw+8/aS1Q1HSQc19sX0zAKu8nVKEVeL3J3
+ ho4ETK1hsrznb9yVdFpnrSbEyBYCaXSkIEELboE=
+X-Google-Smtp-Source: ABdhPJyueTdKzNm6QXMDQXugKvbe5kvSJ+p0H3dcTlojMrJ5+pW7EY/Q1qvcdnVdINm7Nco6PwsXIlhToXmta2WlPvo=
+X-Received: by 2002:a92:512:: with SMTP id q18mr5015823ile.147.1604774320179; 
+ Sat, 07 Nov 2020 10:38:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201107121742.27144-1-yashsri421@gmail.com>
-Content-Language: en-US
+References: <20201103151858.25375-1-yashsri421@gmail.com>
+ <CAKXUXMzx=UacWsoPyiD5AVtfBpVDCcJpAFMo8OpXrf+KNpBFww@mail.gmail.com>
+ <6fca02c0-4c4d-c6bd-67b2-35304cf25499@gmail.com>
+In-Reply-To: <6fca02c0-4c4d-c6bd-67b2-35304cf25499@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 7 Nov 2020 19:38:28 +0100
+Message-ID: <CAKXUXMygzqgiCm+1SCaA5daO5HkoUXyhXS=QEE2d8GKUO4nypg@mail.gmail.com>
+To: Aditya <yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: add fix option
-	for COMMIT_LOG_LONG_LINE
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix for
+	BAD_SIGN_OFF
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,63 +103,159 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8207192976147349239=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/11/20 5:47 pm, Aditya Srivastava wrote:
-> Currently, when a line exceeds 75 characters in a commit message,
-> checkpatch.pl gives a warning corresponding to the same.
-> 
-> E.g., running checkpatch on commit a1af2afbd244 ("drm/nouveau/volt:Fix
-> for some cards having 0 maximum voltage") we get this warning:
-> 
-> WARNING: Possible unwrapped commit description (prefer a maximum 75
-> chars per line)
-> 
-> Some, mostly Fermi, vbioses appear to have zero max voltage. That causes Nouveau to not parse voltage entries, thus users not being able to set higher clocks.
-> 
-> Provide a fix by consuming first 70 chars of the corresponding line,
-> then stop at the next whitespace, and substitute it with the consumed
-> chars and a newline char.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  scripts/checkpatch.pl | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 5a1096a4e220..ee665208ef02 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2881,8 +2881,11 @@ sub process {
->  		      $line =~ /^\s*(?:Fixes:|Link:)/i ||
->  					# A Fixes: or Link: line
->  		      $commit_log_possible_stack_dump)) {
-> -			WARN("COMMIT_LOG_LONG_LINE",
-> -			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
-> +			if (WARN("COMMIT_LOG_LONG_LINE",
-> +				 "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr) &&
-> +			    $fix) {
-> +				$fixed[$fixlinenr] =~ s/(.{70}[^\s]*)\s+/$1\n/g;
-> +			}
->  			$commit_log_long_line = 1;
->  		}
->  
-> 
+--===============8207192976147349239==
+Content-Type: multipart/alternative; boundary="0000000000004c8f4005b388a335"
 
-Changes made in v2:
-- Changing newline at whitespace instead of abrupt termination
-- The special line cases such as 'Link', 'Fixes' or code addition
-lines, etc. seem to be already excluded from this warning in the
-if-block statements above the warning statement.
+--0000000000004c8f4005b388a335
+Content-Type: text/plain; charset="UTF-8"
+
+On Sa., 7. Nov. 2020 at 10:27, Aditya <yashsri421@gmail.com> wrote:
+
+> On 4/11/20 4:44 pm, Lukas Bulwahn wrote:
+> > On Tue, Nov 3, 2020 at 4:19 PM Aditya Srivastava <yashsri421@gmail.com>
+> wrote:
+> >>
+> >> Currently, checkpatch warns us if the author of the commit signs-off
+> >> as co-developed-by.
+> >> E.g. for commit 6e88559470f5 ("Documentation: Add section about
+> >> CPU vulnerabilities for Spectre") we get:
+> >>
+> >> WARNING: Co-developed-by: should not be used to attribute nominal
+> >> patch author 'Tim Chen <tim.c.chen@linux.intel.com>'
+> >> Co-developed-by: Tim Chen <tim.c.chen@linux.intel.com>
+> >>
+> >> Provide a simple fix by removing the co-developed-by line from the
+> >> commit message
+> >>
+> >
+> > Patch looks good. Maybe you can add a statistics on how many cases of
+> > the last 200,000 commits this rule would actually trigger?
+> >
+> > E.g., you can probably quickly filter all commits that have at least
+> > one Co-developed-by tag among those last 200,000 commits (that is
+> > already only a few thousands), then take that list and just check with
+> > checkpatch.pl for this one rule quickly to see how often the rule
+> > would even trigger at all.
+> >
+> > Once you have that and explain that in the commit message, I think the
+> > patch is ready for lkml and Joe Perches.
+> >
+> > Lukas
+> >
+>
+> Hi Sir
+> I generated a report for around 200,000 commits (v4.13..v5.8), and
+> found that this rule was being triggered only 6 times. Statistically
+> this doesn't seem much. Is it still advisable to mention it in the
+> commit message?
+> Although, there's a possibility that user fixed this issue after
+> receiving the warning manually before committing.
+>
+
+Can you share the six commits?
+
+Then we check if the fix is really the right fix of if something different
+is wrong with these commits.
+
+This certainly needs to be mentioned in the commit message.
 
 
-Thanks
-Aditya
+Lukas
+
+
+> Thanks
+> Aditya
+>
+>
+
+--0000000000004c8f4005b388a335
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Sa.=
+, 7. Nov. 2020 at 10:27, Aditya &lt;<a href=3D"mailto:yashsri421@gmail.com"=
+>yashsri421@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">On 4/11/20 4:44 pm, Lukas Bulwahn wrote:<br>
+&gt; On Tue, Nov 3, 2020 at 4:19 PM Aditya Srivastava &lt;<a href=3D"mailto=
+:yashsri421@gmail.com" target=3D"_blank">yashsri421@gmail.com</a>&gt; wrote=
+:<br>
+&gt;&gt;<br>
+&gt;&gt; Currently, checkpatch warns us if the author of the commit signs-o=
+ff<br>
+&gt;&gt; as co-developed-by.<br>
+&gt;&gt; E.g. for commit 6e88559470f5 (&quot;Documentation: Add section abo=
+ut<br>
+&gt;&gt; CPU vulnerabilities for Spectre&quot;) we get:<br>
+&gt;&gt;<br>
+&gt;&gt; WARNING: Co-developed-by: should not be used to attribute nominal<=
+br>
+&gt;&gt; patch author &#39;Tim Chen &lt;<a href=3D"mailto:tim.c.chen@linux.=
+intel.com" target=3D"_blank">tim.c.chen@linux.intel.com</a>&gt;&#39;<br>
+&gt;&gt; Co-developed-by: Tim Chen &lt;<a href=3D"mailto:tim.c.chen@linux.i=
+ntel.com" target=3D"_blank">tim.c.chen@linux.intel.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Provide a simple fix by removing the co-developed-by line from the=
+<br>
+&gt;&gt; commit message<br>
+&gt;&gt;<br>
+&gt; <br>
+&gt; Patch looks good. Maybe you can add a statistics on how many cases of<=
+br>
+&gt; the last 200,000 commits this rule would actually trigger?<br>
+&gt; <br>
+&gt; E.g., you can probably quickly filter all commits that have at least<b=
+r>
+&gt; one Co-developed-by tag among those last 200,000 commits (that is<br>
+&gt; already only a few thousands), then take that list and just check with=
+<br>
+&gt; <a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">=
+checkpatch.pl</a> for this one rule quickly to see how often the rule<br>
+&gt; would even trigger at all.<br>
+&gt; <br>
+&gt; Once you have that and explain that in the commit message, I think the=
+<br>
+&gt; patch is ready for lkml and Joe Perches.<br>
+&gt; <br>
+&gt; Lukas<br>
+&gt; <br>
+<br>
+Hi Sir<br>
+I generated a report for around 200,000 commits (v4.13..v5.8), and<br>
+found that this rule was being triggered only 6 times. Statistically<br>
+this doesn&#39;t seem much. Is it still advisable to mention it in the<br>
+commit message?<br>
+Although, there&#39;s a possibility that user fixed this issue after<br>
+receiving the warning manually before committing.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Can you share th=
+e six commits?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Then we c=
+heck if the fix is really the right fix of if something different is wrong =
+with these commits.</div><div dir=3D"auto"><br></div><div dir=3D"auto">This=
+ certainly needs to be mentioned in the commit message.</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Lukas</div><div=
+ dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Thanks<br>
+Aditya<br>
+<br>
+</blockquote></div></div>
+
+--0000000000004c8f4005b388a335--
+
+--===============8207192976147349239==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============8207192976147349239==--
