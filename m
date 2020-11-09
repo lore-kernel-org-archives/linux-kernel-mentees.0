@@ -2,86 +2,106 @@ Return-Path: <SRS0=nBzY=EP=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB6EC388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 14:21:54 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 884B1C2D0A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 14:33:48 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8FDD4206E3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 14:21:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 09993206D8
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 14:33:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="iPse7ovU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FDD4206E3
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xs4all.nl
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+MQc87o"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09993206D8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 18D0A87072;
-	Mon,  9 Nov 2020 14:21:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B22B7869A5;
+	Mon,  9 Nov 2020 14:33:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FVP499UKiLoX; Mon,  9 Nov 2020 14:33:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 497EB867DE;
+	Mon,  9 Nov 2020 14:33:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B606C088B;
+	Mon,  9 Nov 2020 14:33:47 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 46312C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  9 Nov 2020 14:33:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2CEAE87024
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  9 Nov 2020 14:33:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UT5bNPJbcUSI; Mon,  9 Nov 2020 14:21:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F37E58702E;
-	Mon,  9 Nov 2020 14:21:51 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DD061C088B;
-	Mon,  9 Nov 2020 14:21:51 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1A1DEC016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 14:21:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 00CEF85EB8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 14:21:51 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tZkO7EuyQFN1
+ with ESMTP id uVfH301EART0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 14:21:48 +0000 (UTC)
+ Mon,  9 Nov 2020 14:33:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net
- [194.109.24.22])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9DDE485E40
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9974686EB1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 14:21:48 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
- by smtp-cloud9.xs4all.net with ESMTPA
- id c83CkyBtA1R0xc83GkX0pk; Mon, 09 Nov 2020 15:21:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
- t=1604931706; bh=gowLr2v+tp3iKFSKQG+TrDi3wEyC3IlEykNqnRk+nJM=;
- h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=iPse7ovUa++b3XLXLHaXOHlvmY6CGRhe+XLnY3dDd+DwM7mkRP7JrQaflsdEvHkwr
- a/rd2aaDgDVuNRZqNGr5Q/l4gm/6nbn9G6XGB4b+7ZccZOgHb9wCuPW2YRwFdfbd4C
- i6+uiTOBtL4aJjKnEZFnfHQxbCLxyB890grdpfFiBB8k74UUTF4nHbU+3SSdfjlVtU
- PQ680MATmIzuBBV4J12eWQxz7sfXP+fSR5ms4wp/5mlElghDBMrz9yPV1kL5IeJW5D
- EgVGfRU6FhkRHl6P7+CxVDy+xOseFvbZi6fP0bwSKIAlt+EbMlQ3lrua0bRp07NNFS
- zo2nFwxQ82pHA==
-To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <838fdbcc-87b1-a40a-ebd3-59fce07f2d51@gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6cd794fc-90f5-52fe-97d6-69692ec31333@xs4all.nl>
-Date: Mon, 9 Nov 2020 15:21:42 +0100
+ Mon,  9 Nov 2020 14:33:45 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id r186so7319546pgr.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 09 Nov 2020 06:33:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fttcQMLons3nPiplvI+EVt+bwrkEoscAEstouSW2knI=;
+ b=R+MQc87oFFKukvbIbZcg5w9QTw5OzNeYHAXGgW1/wMrhLRiFVccsKIw7IOnI5Woatn
+ XYSitidY5b6mONZgEIEioTA5E3VBK2p1EJLn8eEOQ3QPfjm6l823A+Pkpxw3GqSV+L0z
+ Pjx1XAYIdfc3+HyBtn3kfXOXm36UTvNlbdl9/krM5WQHFFEwQZ16+NAOQmsotH7uUpJ2
+ rjZohu+lRZvaCfcrUZW3eX99+hOEgU8BgVAakwV2ORpTvuKMFop7ZtLrAMq0I/L4teQX
+ FEDLT/HAK/FjZ0SgFr3r4uW7XeTDqi3VH2DxleCf5XQsoeFWPr/PF0P3ylFZPlDSO3xU
+ 15gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fttcQMLons3nPiplvI+EVt+bwrkEoscAEstouSW2knI=;
+ b=rT0h0GEoUkmd+caHkYSzfi8gcsJSMidzqXSp7Fv0+pdVyhWmWp+s2F7VGoFf9Sr4lO
+ e0MAA/5qwzp+O0AkArl1Au7wr0cEk6fc9dw+1a3WXj/L1sWSTeDk1RIq+/7X5be5vYiR
+ FSjQIaNlKN/AOuzpQcfboJQudPGn0xJrmNvQvyZwbWZCxSd0PAooxPhhwAmjZZxU5dK8
+ /t3IYAvsWTVw3twf+/DEEto7nwm9ORSZ0cV1CFMfxDTuyicgJDIs5W1qqn5phicSS0cA
+ 2B/ZzciucVCj7ZG+INlfCebiUSMG/ytup3dR1BNDZaR3loENplwijZNe4EQgzd8Hz6ak
+ VaNQ==
+X-Gm-Message-State: AOAM532V/NcDb4cJcAwfQpDxBHcfHYoQ8rnhK6abkZRPldwFto5+RWKf
+ b8aNqOfNmvhtYuk0V8pURmA=
+X-Google-Smtp-Source: ABdhPJwgxTev4N430m8iHlabone+fLGYWZenMvWWLz2xIcU9cvizSrACw7jaE56W+/idyR3NXgrXvA==
+X-Received: by 2002:a63:c55:: with SMTP id 21mr12436487pgm.392.1604932425087; 
+ Mon, 09 Nov 2020 06:33:45 -0800 (PST)
+Received: from ?IPv6:2402:3a80:415:19be:b84e:68cf:38c6:95bd?
+ ([2402:3a80:415:19be:b84e:68cf:38c6:95bd])
+ by smtp.gmail.com with ESMTPSA id a128sm8110445pfb.195.2020.11.09.06.33.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Nov 2020 06:33:44 -0800 (PST)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <20201109131040.19266-1-yashsri421@gmail.com>
+ <CAKXUXMyVqjG+XvZ+dnB=3NEnGcNOtcYFW2r5cJ3KCEzTE35rXQ@mail.gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <292a3930-9515-2387-40d3-63a14a61250b@gmail.com>
+Date: Mon, 9 Nov 2020 20:03:39 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <838fdbcc-87b1-a40a-ebd3-59fce07f2d51@gmail.com>
+In-Reply-To: <CAKXUXMyVqjG+XvZ+dnB=3NEnGcNOtcYFW2r5cJ3KCEzTE35rXQ@mail.gmail.com>
 Content-Language: en-US
-X-CMAE-Envelope: MS4xfF6cVYi/PoAvfJDQ2jDxWwZe3LmlktHnlitAM4Vzcw1r6HllTyixqgOMgKky87aom+2rGQUdxn42okXG8hnpK2EvrT8D6evQToiLjmoRV2htzvv7oItb
- 2TXSAinBS/bHeXPCIt/znf4Ie9Ox85KQoDs2ypoZlh3CPC/rEoNwJYqeQcM8x/dYgBbom3o7OHMWJhz8MRzFu7sFSRNy0x72JouYG3AlRtzG1mNX/5i1orcU
- MIDk8uhfd3S/u+7FGwuVEjCKOZKsdvwPFqbakMbQ5XVJ4QAIB23zvKfUIL5ec6LyulByzVzJqYlXBYEtoUcFfhQ9i/fqQ1gICjRJE36O760=
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] On test-media script integration for
-	vidtv
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, yashsri421@gmail.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
+	MISSING_SIGN_OFF
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,145 +119,38 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 09/11/2020 12:54, Daniel W. S. Almeida wrote:
-> Hi Hans & Mauro.
+On 9/11/20 7:10 pm, Lukas Bulwahn wrote:
+> On Mo., 9. Nov. 2020 at 14:10, Aditya Srivastava <yashsri421@gmail.com>
+> wrote:
 > 
-> Well I now have some more time to work on vidtv so I'd like to start off 
-> with the test-media script integration as mentioned by Hans some time ago.
-> 
-> Let's recap:
-> 
-> 
-> 
->> For regression testing of vidtv during the daily build it would be great if
->> the contrib/test/test-media script can be enhanced to include vidtv.
+>> Currently checkpatch warns us if there is no 'Signed-off-by' line
+>> for the patch.
 >>
->> This is run during the daily build with a kernel that has lockdep and many
->> other checks enabled, so it is very helpful to verify that no regressions
->> happened.
+>> E.g., running checkpatch on commit f68e7927212f ("Revert
+>> "powerpc/book3s32: Reorder _PAGE_XXX flags to simplify TLB handling"")
+>> reports this error:
 >>
->> Note that this script relies on the /dev/mediaX devices to run the tests. I
->> noticed that vidtv doesn't appear to create a /dev/mediaX device, even though
->> CONFIG_MEDIA_CONTROLLER_DVB=y. This is definitely something that would be good
->> to support in vidtv.
+>> ERROR: Missing Signed-off-by: line(s)
 >>
->> Regards,
+>> Provide a fix by adding a Signed-off-by line corresponding to the author
+>> of the patch before the start of diff(s)
 >>
->> Hans
 > 
+> Can you please provide an evaluation first?
 > 
-> So I have been looking at the documentation for a bit, i.e.
+> As far as remember, the fix is often not to add a Signed-off-by: tag but it
+> requires something completely different.
 > 
->> https://www.kernel.org/doc/html/v4.14/media/uapi/mediactl/media-controller-intro.html
-> 
-> What I understood from that is that entities and interfaces under 
-> /dev/media/ are created to model actual hardware, but vidtv is a virtual 
-> driver. Can this be clarified?
 
-For virtual drivers it models the virtual hardware. Userspace doesn't know
-that it is actually all emulated, it just looks like real hardware.
+I have generated the 'git logs' of the commits causing
+MISSING_SIGN_OFF at:
+https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task7/summary_log.txt
 
-> 
-> Is this separate from the files created by the dvb core as part of the 
-> driver initialization?
-> e.g. (for a single adapter):
-> 
-> /dev/adapter0/frontend0
-> /dev/adapter0/demux0
-> /dev/adapter0/dvr0
+Actually this fix was suggested by Joe at:
+https://lore.kernel.org/linux-kernel-mentees/e8fef5fbd71331b010988769b249af6a79048f48.camel@perches.com/
 
-Yes, it is separate. If CONFIG_MEDIA_CONTROLLER_DVB=y then an additional
-device node /dev/media0 is created.
-
-> 
-> Btw I noticed some drivers call dvb_create_media_graph() as part of 
-> their initialization, e.g. au0828-dvb.c, em28xx-dvb.c, cx231xx-dvb.c, 
-> but some (most) do not, why is this?
-
-I think that's because only a subset of DVB drivers support the media controller.
-
-> 
-> 
->> Daniel, if you look at the test-media script, then you'll see that it has
->> separate sections for each virtual driver. It's probably best to look at
->> the vim2m driver tests since that's the easiest.
->>
->> It loads the module, then it starts v4l2-compliance to test the API. This
->> utility basically tries all V4L2 APIs and checks that the driver conforms to
->> the spec.
->>
->> Note that you see options like '-m platform:vim2m' that selects which /dev/media
->> device to use based on the name and v4l2-compliance (or v4l2-ctl with the -z option)
->> then walks the topology of the media device and tests all interfaces it finds.
->>
->> Hence my question about media controller support in vidtv: this should be
->> supported there as well since it allows you to write these test sequences without
->> having to know which /dev/fooX device should be used.
->>
->> After the compliance test is run the script tests unbind/bind (always a nasty test)
->> and checks for memory leaks (if enabled in the kernel).
->>
->> Much of this test sequence can be copied for vidtv, but you need something else for
->> the compliance test. It would for now be enough to have some quick check with the
->> existing dvb utils from v4l-utils to see that the basics work.
->>
->> IMHO I think a dtv-compliance utility along the lines of v4l2-compliance and
->> cec-compliance should be created.
->>
->> I'm actually wondering whether the dtv compliance tests shouldn't be part of
->> v4l2-compliance (which would have to be renamed to media-compliance in that case)
->> since there are hybrid drivers supporting both in the same media topology.
->>
->> This would make compliance tests possible where analog/digital TV mode handling
->> is tested (i.e. if analog TV is in use, then trying to use digital TV would return
->> EBUSY and vice versa).
->>
->> It would require some work in v4l2-compliance.cpp to make this possible, but I
->> can do that myself.
->>
->> Compliance tests have proven to be a great method of testing for regressions and
->> testing drivers in general.
->>
->> Note that it takes a lot of time to create good compliance tests, but you just start
->> with some simple tests and expand it over time.
->>
->> Regards,
->>
->> Hans
-> 
-> 
-> Well, I checked the test-media script and it seems to be easy to add 
-> support for vidtv there, as Hans said most of the sequence there can be 
-> copied from the other drivers. However..
-> 
->  >It would for now be enough to have some quick check with the existing 
-> dvb utils from v4l-utils to see that the basics work.
-> 
-> Can we discuss this in further depth please? Maybe a few examples?
-> 
-> What I currently do is:
-> 
-> 1. zap the stream & open it in dvbinspector, manually check for mistakes
-> 2. manually check dmesg for errors
-> 3. maybe play the stream using vlc or Kaffeine
-
-I'm not a DVB expert, but I was thinking of testing if it can discover
-channels, and perhaps just a test to stream data without checking if it is
-actually valid video.
-
-The problem is that I am not all that familiar with the DVB utilities so I
-don't know if anything can be automated.
-
-An alternative is to start adding dtv support to v4l2-compliance. That utility
-already has media controller support, but it needs a bit of work to comfortably
-integrate DTV support as well. I can help with that if you want to go in that
-direction. v4l2-compliance would need a bit of refactoring, but it is nice to
-have the tests there since that makes it easy to support hybrid devices with a
-single compliance utility.
-
-Regards,
-
-	Hans
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
