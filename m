@@ -2,102 +2,100 @@ Return-Path: <SRS0=nBzY=EP=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A645DC2D0A3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 08:31:08 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A5CC388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 11:54:34 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F217C206ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 08:31:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 447F4206ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 11:54:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ARfyWBXZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F217C206ED
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mv1Xg4hu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 447F4206ED
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 50A3886990;
-	Mon,  9 Nov 2020 08:31:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7DA948705D;
+	Mon,  9 Nov 2020 11:54:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1ImUR-P-Py6f; Mon,  9 Nov 2020 08:31:05 +0000 (UTC)
+	with ESMTP id LWulDQdGAmqG; Mon,  9 Nov 2020 11:54:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3C0B58696A;
-	Mon,  9 Nov 2020 08:31:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A8E988700A;
+	Mon,  9 Nov 2020 11:54:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 24CB3C088B;
-	Mon,  9 Nov 2020 08:31:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9BE72C0889;
+	Mon,  9 Nov 2020 11:54:32 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 26A0FC016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 48143C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 08:31:04 +0000 (UTC)
+ Mon,  9 Nov 2020 11:54:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1123520505
+ by silver.osuosl.org (Postfix) with ESMTP id 1C9FA204D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 08:31:04 +0000 (UTC)
+ Mon,  9 Nov 2020 11:54:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id M96jnzrFNPY7
+ with ESMTP id T8Iqd3wDPZZ9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 08:31:02 +0000 (UTC)
+ Mon,  9 Nov 2020 11:54:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
- [209.85.166.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 54FC8203E5
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
+ [209.85.219.43])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8472B20028
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 08:31:02 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id u19so8945212ion.3
+ Mon,  9 Nov 2020 11:54:30 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id ec16so3862400qvb.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 09 Nov 2020 00:31:02 -0800 (PST)
+ Mon, 09 Nov 2020 03:54:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gCmRHba3p0PV9XzKnLBBBEmjgbuhh4zzgdktdZSYXF4=;
- b=ARfyWBXZTCYtJkllRxvcKgHEamw/KweYa6I9FgHWtjJhbr5E0yNUwuT00oC/fKfORc
- b5KWb3GmgE9DX/yRxFGoIvmvpXoUnXlWG5fmJk0O42+d07utBuj74lAJlN6OT1Z1IXeP
- nQH1Lrhar0UWTD0SQW/3q6X9omSTgHNoeTk+eW8QuBO19wRFipg96jB+rAkhSwHlatZe
- X/7YQfkog4SJ2ti/bZ48lo1nbUUv2c6/2mAk3B5M9wjPpmCoH8WjihtPE7MIPjdN7oiv
- pDU01CK8ssFqEDEj+167EYwhosMV0Zh1oZ1hIa0MDnH3+LfTljRplCRZ8TgucRVB1x48
- zAcQ==
+ h=from:to:cc:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=oH24vQ77nKmAQfj5En9OTOQy8UKIFEqTn+IPbckNbN8=;
+ b=Mv1Xg4huiZou0vFwiCzqS7cPQV5ipJEJs3vAxL/ur71AAVHw2ItgQnVsH55YcDrN5Z
+ dpzCwSWTvz0Q8sB2XGWgcI9/6vVDYL5iNmfLvGkxZ24a2n00qr9mKmqE82gl+bhZU/7l
+ dGaGr0hFa3ghOaeUlxgnQeynl4R8/DSfEd39MafdJv57rE9EJrQjmcSaGz/mUf9cjsti
+ imUCUyw6Fg2Ahxafwb8FwxNl3f7s5+a8eXWXF1HTtv2uNaIrN6uv8QOqmQZlXpSIMlNy
+ eH4iooevw2NBqZsSQ+j2JcYxgqd5hBxv0/QTVPJiQ1gZSveZ9oSFRJxNr84BRZ1Nxa32
+ zdyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gCmRHba3p0PV9XzKnLBBBEmjgbuhh4zzgdktdZSYXF4=;
- b=gX4j2SrpracYJYPug4dm3nakC5Z2cZNGiSKA90MhnqOcFgu/fgUK6jEYn77zb3Dmzy
- j2ItPHCgiFLbcSoTgc3z7xzx/h4KH++Kr4jbOSOrveLhVZ/4tOjIFqGPDss1dPQvXUCf
- 2IVnDoQ4IOP3jia/msJ5z84WIxO5202UYo0nLkUtYC7W0TuM/d3+lZANZi7stJ98kF7b
- UhoEW9ixSi6fqkE8E7j7U7usnx3eZmR6sexcfyV8tbjT3GOphZYrHbKAFI/PnW/S6tpR
- SnQc9yk2wC3INRf9GK49VTXt7CskFo92G4O+RMcNvCOu001SGL3qrk8BILqsQdxO3kQE
- HvqA==
-X-Gm-Message-State: AOAM5319lCU445dcJ2K1jdoMmT2d+/EU10ciRzOjgPJ0D8noG7gIqbyL
- nYc4PIrg8pw8Jfs3Njp/5Wmm3qJlA3i/2MBarWE=
-X-Google-Smtp-Source: ABdhPJxvmjI4aOx8kk9ULBH3wX9gB1AlRZWfkiTkmcaxiwkxOuQch3kzOqxQ6N5ytQkztJ5ltW0RjrOvXte7XwGwCmM=
-X-Received: by 2002:a02:ba90:: with SMTP id g16mr10004861jao.96.1604910661575; 
- Mon, 09 Nov 2020 00:31:01 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=oH24vQ77nKmAQfj5En9OTOQy8UKIFEqTn+IPbckNbN8=;
+ b=btTnxrV852EJY6TXrsG4FjTL82xOORzBVvf+EHXTEjl0e3m/fLdN/zyPxknu6P8gXK
+ /O9gVuWagzeCMnHoYeid+PJVVA7SbAZJmLvRB++oStiEN3O5oOQPLQ96sR6rbUrre+X1
+ 1dfeAOyzsSABjI+dKiiNkuL59WBGnn0pPEC0pMUkj46a1ujvNSNVgilrPcYSyZ2T7mo+
+ khOahf284yuC7XRcsE2eELd0nIk3LTq7Y2qesDb+HnMer6tWFLEe0fbEz0PextoQbYhL
+ NmcEU9+hMukC08NRJRJBBN8KOFbqhc4JhfNyNMcFvCkh78I6pgj0qH2rR6FBWYeEn89h
+ UcIg==
+X-Gm-Message-State: AOAM533BqDSqXNxwsKA/tlmQMHNQVRaQjB8Spmoj+ywB62LU2Kzoqj8y
+ 9j8pc8d0zIWgEGi8qkMNnRewGHkO4l4CwQ==
+X-Google-Smtp-Source: ABdhPJzU1mrn9kEMxgcLgBcJdVrbTZruhHzreOhdAOSm001f/TJCyFdz01+9ne7tr78sHMwqmrrA2A==
+X-Received: by 2002:ad4:5888:: with SMTP id dz8mr2298242qvb.34.1604922869162; 
+ Mon, 09 Nov 2020 03:54:29 -0800 (PST)
+Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac?
+ ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+ by smtp.gmail.com with ESMTPSA id z134sm6102351qka.21.2020.11.09.03.54.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Nov 2020 03:54:28 -0800 (PST)
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, hverkuil@xs4all.nl
+Message-ID: <838fdbcc-87b1-a40a-ebd3-59fce07f2d51@gmail.com>
+Date: Mon, 9 Nov 2020 08:54:25 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201103133052.21053-1-yashsri421@gmail.com>
- <CAKXUXMx9nYkFBy3RYf-LY9VYUeWcf4FuQpT9F3=_p=9baBQikA@mail.gmail.com>
- <9d2a5a04-fd6e-f805-2036-2ab68358fbf4@gmail.com>
- <CAKXUXMyigTJoFAbwp=dE-4QEpOyUkMT=87UMJ3HZub35azb_4g@mail.gmail.com>
- <7c83fa07-8882-8261-cf35-3bd3347faccb@gmail.com>
- <alpine.DEB.2.21.2011040756210.21917@felia>
- <3b0a4c22-300a-819b-877e-e002dcebd831@gmail.com>
- <38c1c666-9ba0-a833-c76d-b00c172582c1@gmail.com>
-In-Reply-To: <38c1c666-9ba0-a833-c76d-b00c172582c1@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 9 Nov 2020 09:30:50 +0100
-Message-ID: <CAKXUXMwo3j3p+3mM+vS-T5Gq602QdhV-5d_OHq90_LXE07NhyQ@mail.gmail.com>
-To: Aditya <yashsri421@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fixes for
-	BAD_SIGN_OFF
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Subject: [Linux-kernel-mentees] On test-media script integration for vidtv
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,176 +107,124 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 4, 2020 at 10:29 AM Aditya <yashsri421@gmail.com> wrote:
->
-> On 4/11/20 1:17 pm, Aditya wrote:
-> > On 4/11/20 12:27 pm, Lukas Bulwahn wrote:
-> >>
-> >>
-> >> On Tue, 3 Nov 2020, Aditya wrote:
-> >>
-> >>> On 3/11/20 9:04 pm, Lukas Bulwahn wrote:
-> >>>> On Tue, Nov 3, 2020 at 3:47 PM Aditya <yashsri421@gmail.com> wrote:
-> >>>>>
-> >>>>> On 3/11/20 7:09 pm, Lukas Bulwahn wrote:
-> >>>>>> On Tue, Nov 3, 2020 at 2:31 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
-> >>>>>>>
-> >>>>>>> Currently, checkpatch warns if the author signs-off two or more times
-> >>>>>>> for the same role.
-> >>>>>>> E.g., for commit 6dd47d9754ff ("mac80211: fix
-> >>>>>>> ieee80211_txq_setup_flows() failure path") we get warning:
-> >>>>>>>
-> >>>>>>> WARNING: Duplicate signature
-> >>>>>>> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-> >>>>>>>
-> >>>>>>> Here there are two Signed-off-by lines present for the same user. So,
-> >>>>>>> we get a warning to remove one.
-> >>>>>>>
-> >>>>>>> Similarly, we get warning if the author of the commit signs-off under
-> >>>>>>> co-developed-by.
-> >>>>>>> E.g. for commit 6e88559470f5 ("Documentation: Add section about
-> >>>>>>> CPU vulnerabilities for Spectre") we get:
-> >>>>>>>
-> >>>>>>> WARNING: Co-developed-by: should not be used to attribute nominal
-> >>>>>>> patch author 'Tim Chen <tim.c.chen@linux.intel.com>'
-> >>>>>>> Co-developed-by: Tim Chen <tim.c.chen@linux.intel.com>
-> >>>>>>>
-> >>>>>>> Provide fixes by removing the duplicate signature line and the
-> >>>>>>> co-developed-by line from the commit
-> >>>>>>>
-> >>>>>>
-> >>>>>>
-> >>>>>> The duplicate signature fix is simply wrong, because the indication of
-> >>>>>> the duplicate signature is imprecise.
-> >>>>>>
-> >>>>>> Probably, we would first really need to understand the valid cases of
-> >>>>>> duplicate signature warnings compared to the invalid ones.
-> >>>>>>
-> >>>>>> Please rework.
-> >>>>>>
-> >>>>>>
-> >>>>>> Lukas
-> >>>>>>
-> >>>>>
-> >>>>> Oh, Alright. I get it now.
-> >>>>> I ran a script over WARNING: Duplicate signature.
-> >>>>> I found out that it is occurring with these prefixes and their
-> >>>>> frequencies:
-> >>>>>
-> >>>>> Acked-by -- 6
-> >>>>> Signed-off-by -- 218
-> >>>>> Tested-by -- 3
-> >>>>> Reported-by -- 1
-> >>>>> Reviewed-by -- 8
-> >>>>> Cc -- 28
-> >>>>>
-> >>>>> IMO largely Signed-off-by warnings in this frequency might be false
-> >>>>> positives. This is so because we are simply checking for duplicate
-> >>>>> occurrences in the sign-offs in checkpatch.pl
-> >>>>>
-> >>>>>> Probably, we would first really need to understand the valid cases
-> >>>>>> of duplicate signature warnings compared to the invalid ones.
-> >>>>>>
-> >>>>>
-> >>>>> Is there any way I can know that the second sign-off is intended?
-> >>>>>
-> >>>>> In my observation, this particular commit was prefixed by '^Link:.*$'
-> >>>>> Alternatively, we could use maintainers list to ensure that the signer
-> >>>>> is maintainer and avoid this warning.
-> >>>>>
-> >>>>
-> >>>> That is somehow difficult to say, but probably it is best to
-> >>>> deactivate this multiple Signed-off-by: warning on git commits.
-> >>>>
-> >>>> On patches it makes sense to warn about duplicate Signed-off-by: ; on
-> >>>> commits, not so much.
-> >>>>
-> >>>>> How about other prefixes. Can we remove them?
-> >>>>>
-> >>>>
-> >>>> Can you show the duplicate Tested-by, Acked-by, Reported-by,
-> >>>> Reviewed-by, Cc in some structured format to quickly check those?
-> >>>>
-> >>>> Probably for those, we can really assess them to be all true positives
-> >>>> (maybe we can find out the reasons as well) and hence a fix for them
-> >>>> would make sense.
-> >>>>
-> >>>
-> >>> I generated git logs of all such commits, which might help us get some
-> >>> idea about mailing list or sign offs as well.
-> >>>
-> >>> Acked-by:
-> >>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/acked_by.txt
-> >>>
-> >>> Reported-by:
-> >>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/reported_by.txt
-> >>>
-> >>> Reviewed by:
-> >>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/reviewed_by.txt
-> >>>
-> >>> Tested-by:
-> >>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/tested_by.txt
-> >>>
-> >>> Cc: https://github.com/AdityaSrivast/kernel-tasks/blob/master/Task5/cc.txt
-> >>>
-> >>>
-> >>>>> I observed one of the 'Tested-by' warnings and it was because of these
-> >>>>> sign offs:
-> >>>>>
-> >>>>> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> >>>>> Tested-by:Liang Yang <liang.yang@amlogic.com>
-> >>>>> Acked-by: Liang Yang <liang.yang@amlogic.com>
-> >>>>> Tested-by:Liang Yang <liang.yang@amlogic.com>
-> >>>>> Acked-by: Liang Yang <liang.yang@amlogic.com>
-> >>>>> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> >>>>>
-> >>>>> Here tested-by is occurring 2 times.
-> >>>>>
-> >>>>
-> >>>> That example seems to be a clear true positive. It would be
-> >>>> interesting to see how that happened to be added twice in a commit.
-> >>>> What was the state on the mailing list and what did the maintainer do
-> >>>> to add these tags twice (was this done manually or is there some
-> >>>> automatic tool involved?).
-> >>>>
-> >>>
-> >>> I found the mailing list state corresponding to that day. It indeed
-> >>> seems like a true positive.
-> >>>
-> >>> Link1:
-> >>> https://lore.kernel.org/linux-mtd/CAFBinCB9Z_H4wX3_g2hVL-XnS6Oq-KtPHa4Z1ws79FGp5jCapQ@mail.gmail.com/
-> >>>
-> >>> Link2 (reply):
-> >>> https://lore.kernel.org/linux-mtd/8ff232c3-f325-5b91-4de1-a39e63939df2@amlogic.com/
-> >>>
-> >>
-> >> Yes, and it suggest to fix patchwork :)
-> >>
-> >> How are your python programming skills?
-> >>
-> >> Do you want to try fixing patchwork for this issue?
-> >>
-> >> Lukas
-> >>
-> >
-> > Sure, I'd like to try. Please guide me for it.
-> >
->
-> I might have got it wrong. Did you mean fixing the patch we are
-> working on currently?
-> I must be intermediate with Python, not too expert though(like 3.5/5)
->
+Hi Hans & Mauro.
 
-No, I meant the program patchwork; read the thread and learn how the
-problem was picked up in this patch.
+Well I now have some more time to work on vidtv so I'd like to start off 
+with the test-media script integration as mentioned by Hans some time ago.
 
-Lukas
+Let's recap:
+
+
+
+> For regression testing of vidtv during the daily build it would be great if
+> the contrib/test/test-media script can be enhanced to include vidtv.
+> 
+> This is run during the daily build with a kernel that has lockdep and many
+> other checks enabled, so it is very helpful to verify that no regressions
+> happened.
+> 
+> Note that this script relies on the /dev/mediaX devices to run the tests. I
+> noticed that vidtv doesn't appear to create a /dev/mediaX device, even though
+> CONFIG_MEDIA_CONTROLLER_DVB=y. This is definitely something that would be good
+> to support in vidtv.
+> 
+> Regards,
+> 
+> Hans
+
+
+So I have been looking at the documentation for a bit, i.e.
+
+> https://www.kernel.org/doc/html/v4.14/media/uapi/mediactl/media-controller-intro.html
+
+What I understood from that is that entities and interfaces under 
+/dev/media/ are created to model actual hardware, but vidtv is a virtual 
+driver. Can this be clarified?
+
+Is this separate from the files created by the dvb core as part of the 
+driver initialization?
+e.g. (for a single adapter):
+
+/dev/adapter0/frontend0
+/dev/adapter0/demux0
+/dev/adapter0/dvr0
+
+Btw I noticed some drivers call dvb_create_media_graph() as part of 
+their initialization, e.g. au0828-dvb.c, em28xx-dvb.c, cx231xx-dvb.c, 
+but some (most) do not, why is this?
+
+
+> Daniel, if you look at the test-media script, then you'll see that it has
+> separate sections for each virtual driver. It's probably best to look at
+> the vim2m driver tests since that's the easiest.
+> 
+> It loads the module, then it starts v4l2-compliance to test the API. This
+> utility basically tries all V4L2 APIs and checks that the driver conforms to
+> the spec.
+> 
+> Note that you see options like '-m platform:vim2m' that selects which /dev/media
+> device to use based on the name and v4l2-compliance (or v4l2-ctl with the -z option)
+> then walks the topology of the media device and tests all interfaces it finds.
+> 
+> Hence my question about media controller support in vidtv: this should be
+> supported there as well since it allows you to write these test sequences without
+> having to know which /dev/fooX device should be used.
+> 
+> After the compliance test is run the script tests unbind/bind (always a nasty test)
+> and checks for memory leaks (if enabled in the kernel).
+> 
+> Much of this test sequence can be copied for vidtv, but you need something else for
+> the compliance test. It would for now be enough to have some quick check with the
+> existing dvb utils from v4l-utils to see that the basics work.
+> 
+> IMHO I think a dtv-compliance utility along the lines of v4l2-compliance and
+> cec-compliance should be created.
+> 
+> I'm actually wondering whether the dtv compliance tests shouldn't be part of
+> v4l2-compliance (which would have to be renamed to media-compliance in that case)
+> since there are hybrid drivers supporting both in the same media topology.
+> 
+> This would make compliance tests possible where analog/digital TV mode handling
+> is tested (i.e. if analog TV is in use, then trying to use digital TV would return
+> EBUSY and vice versa).
+> 
+> It would require some work in v4l2-compliance.cpp to make this possible, but I
+> can do that myself.
+> 
+> Compliance tests have proven to be a great method of testing for regressions and
+> testing drivers in general.
+> 
+> Note that it takes a lot of time to create good compliance tests, but you just start
+> with some simple tests and expand it over time.
+> 
+> Regards,
+> 
+> Hans
+
+
+Well, I checked the test-media script and it seems to be easy to add 
+support for vidtv there, as Hans said most of the sequence there can be 
+copied from the other drivers. However..
+
+ >It would for now be enough to have some quick check with the existing 
+dvb utils from v4l-utils to see that the basics work.
+
+Can we discuss this in further depth please? Maybe a few examples?
+
+What I currently do is:
+
+1. zap the stream & open it in dvbinspector, manually check for mistakes
+2. manually check dmesg for errors
+3. maybe play the stream using vlc or Kaffeine
+
+-- thanks
+-- Daniel
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
