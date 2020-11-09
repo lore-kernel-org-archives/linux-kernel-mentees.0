@@ -2,95 +2,86 @@ Return-Path: <SRS0=nBzY=EP=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E3FC56201
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 13:40:54 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB6EC388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 14:21:54 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CEFAE20658
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 13:40:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8FDD4206E3
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Nov 2020 14:21:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIljPGrT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CEFAE20658
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="iPse7ovU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FDD4206E3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xs4all.nl
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 69280203FC;
-	Mon,  9 Nov 2020 13:40:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 18D0A87072;
+	Mon,  9 Nov 2020 14:21:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3rpPPW6nmQ16; Mon,  9 Nov 2020 13:40:52 +0000 (UTC)
+	with ESMTP id UT5bNPJbcUSI; Mon,  9 Nov 2020 14:21:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id BB7F52002B;
-	Mon,  9 Nov 2020 13:40:52 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F37E58702E;
+	Mon,  9 Nov 2020 14:21:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B0B29C0889;
-	Mon,  9 Nov 2020 13:40:52 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 501E7C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DD061C088B;
+	Mon,  9 Nov 2020 14:21:51 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1A1DEC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 13:40:51 +0000 (UTC)
+ Mon,  9 Nov 2020 14:21:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3C0D2203FC
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 00CEF85EB8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 13:40:51 +0000 (UTC)
+ Mon,  9 Nov 2020 14:21:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rEESvdl9ppcq
+ with ESMTP id tZkO7EuyQFN1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 13:40:49 +0000 (UTC)
+ Mon,  9 Nov 2020 14:21:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by silver.osuosl.org (Postfix) with ESMTPS id 8AB3E2002B
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net
+ [194.109.24.22])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9DDE485E40
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Nov 2020 13:40:49 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id u21so9760581iol.12
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 09 Nov 2020 05:40:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=61SFV3Odi6j4JPTAQHCZwmj/N5WFHhj/ghYNoVO/CU8=;
- b=GIljPGrTx7MHDQ3sIg5Y89eWa+J9EqLbi6/2rMyiPk+zJ1aR70BWU+txqe2wNDroyw
- pvXHN1DDS7R50lXs0L4g1/wbrFN66PV5woeaES4DM6Yx0umSEiBEqlo7h/p0Snm6/sr0
- AOT+2GX3ltCqPznsTiLWXsNOIJrYvkl9iXgfTVDYvh/B0+zdym0pyC8nnFzkazZoK6Oj
- 0kGTIy8ol+unVWKWxd4ZxwrWm9t58d7PL89SsidQqWWSOVuMuBshTpmDqPTSeNB0nzqi
- bu4ujONfv7cPq+UdMebn0FUsyAl68D62F8M4v2a6XKgmAdGOcUqCF9jV3bE7CRmo9mq1
- OU2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=61SFV3Odi6j4JPTAQHCZwmj/N5WFHhj/ghYNoVO/CU8=;
- b=VZqZE4W6gL1HRxJFFSmUgOdMy8ibtqfW98nPHUYC4fCGsNl+ra0QYtrlosC7h/+Fx/
- Y7/YDS1JtAY+dHCL633cl5yJMVRO6dKMPotcK5KbSXSOZzn+qJvyuW7YP9ABbCqTO3Ed
- cw11PmitYy7cxfxe4t69rN3saba2pLPewILJLyUjSWvFvlYC128e3SjSphWlNKsM1OCx
- JV1gOcBvMkNJkISkirSbhCZo7XLk5GBH9xCMJFAkrDFRH9amJNu8gbFAu7kjQVg6i6Mn
- EgBHgdOSDUJRf15SXqsMK+yRT4UKsGsMR7rm4QXF8SPM30jeSCOvQ8/iq9pLUe461i1J
- e33w==
-X-Gm-Message-State: AOAM5322grppd3aKbXTQ7N5DASFVFy8DKbZhpZ564zS9wwkGBrACpQT2
- MmFJBBa0SImOuljHAfb3LFs2yeW0sltu8z6NiyY=
-X-Google-Smtp-Source: ABdhPJw8G/+0Rrw9iw/nt8o2ZJ6dZJ0Y1VJPp+zR6FQGAEfXfZ84im8jtqnD8adOI6zlU3QyZilmtysfG8D+OFM2sJw=
-X-Received: by 2002:a5d:990e:: with SMTP id x14mr3625952iol.158.1604929248804; 
- Mon, 09 Nov 2020 05:40:48 -0800 (PST)
+ Mon,  9 Nov 2020 14:21:48 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud9.xs4all.net with ESMTPA
+ id c83CkyBtA1R0xc83GkX0pk; Mon, 09 Nov 2020 15:21:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+ t=1604931706; bh=gowLr2v+tp3iKFSKQG+TrDi3wEyC3IlEykNqnRk+nJM=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=iPse7ovUa++b3XLXLHaXOHlvmY6CGRhe+XLnY3dDd+DwM7mkRP7JrQaflsdEvHkwr
+ a/rd2aaDgDVuNRZqNGr5Q/l4gm/6nbn9G6XGB4b+7ZccZOgHb9wCuPW2YRwFdfbd4C
+ i6+uiTOBtL4aJjKnEZFnfHQxbCLxyB890grdpfFiBB8k74UUTF4nHbU+3SSdfjlVtU
+ PQ680MATmIzuBBV4J12eWQxz7sfXP+fSR5ms4wp/5mlElghDBMrz9yPV1kL5IeJW5D
+ EgVGfRU6FhkRHl6P7+CxVDy+xOseFvbZi6fP0bwSKIAlt+EbMlQ3lrua0bRp07NNFS
+ zo2nFwxQ82pHA==
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <838fdbcc-87b1-a40a-ebd3-59fce07f2d51@gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <6cd794fc-90f5-52fe-97d6-69692ec31333@xs4all.nl>
+Date: Mon, 9 Nov 2020 15:21:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201109131040.19266-1-yashsri421@gmail.com>
-In-Reply-To: <20201109131040.19266-1-yashsri421@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 9 Nov 2020 14:40:37 +0100
-Message-ID: <CAKXUXMyVqjG+XvZ+dnB=3NEnGcNOtcYFW2r5cJ3KCEzTE35rXQ@mail.gmail.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
-	MISSING_SIGN_OFF
+In-Reply-To: <838fdbcc-87b1-a40a-ebd3-59fce07f2d51@gmail.com>
+Content-Language: en-US
+X-CMAE-Envelope: MS4xfF6cVYi/PoAvfJDQ2jDxWwZe3LmlktHnlitAM4Vzcw1r6HllTyixqgOMgKky87aom+2rGQUdxn42okXG8hnpK2EvrT8D6evQToiLjmoRV2htzvv7oItb
+ 2TXSAinBS/bHeXPCIt/znf4Ie9Ox85KQoDs2ypoZlh3CPC/rEoNwJYqeQcM8x/dYgBbom3o7OHMWJhz8MRzFu7sFSRNy0x72JouYG3AlRtzG1mNX/5i1orcU
+ MIDk8uhfd3S/u+7FGwuVEjCKOZKsdvwPFqbakMbQ5XVJ4QAIB23zvKfUIL5ec6LyulByzVzJqYlXBYEtoUcFfhQ9i/fqQ1gICjRJE36O760=
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] On test-media script integration for
+	vidtv
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,210 +93,152 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7962288307716713216=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============7962288307716713216==
-Content-Type: multipart/alternative; boundary="000000000000c3c70d05b3acb50c"
+On 09/11/2020 12:54, Daniel W. S. Almeida wrote:
+> Hi Hans & Mauro.
+> 
+> Well I now have some more time to work on vidtv so I'd like to start off 
+> with the test-media script integration as mentioned by Hans some time ago.
+> 
+> Let's recap:
+> 
+> 
+> 
+>> For regression testing of vidtv during the daily build it would be great if
+>> the contrib/test/test-media script can be enhanced to include vidtv.
+>>
+>> This is run during the daily build with a kernel that has lockdep and many
+>> other checks enabled, so it is very helpful to verify that no regressions
+>> happened.
+>>
+>> Note that this script relies on the /dev/mediaX devices to run the tests. I
+>> noticed that vidtv doesn't appear to create a /dev/mediaX device, even though
+>> CONFIG_MEDIA_CONTROLLER_DVB=y. This is definitely something that would be good
+>> to support in vidtv.
+>>
+>> Regards,
+>>
+>> Hans
+> 
+> 
+> So I have been looking at the documentation for a bit, i.e.
+> 
+>> https://www.kernel.org/doc/html/v4.14/media/uapi/mediactl/media-controller-intro.html
+> 
+> What I understood from that is that entities and interfaces under 
+> /dev/media/ are created to model actual hardware, but vidtv is a virtual 
+> driver. Can this be clarified?
 
---000000000000c3c70d05b3acb50c
-Content-Type: text/plain; charset="UTF-8"
+For virtual drivers it models the virtual hardware. Userspace doesn't know
+that it is actually all emulated, it just looks like real hardware.
 
-On Mo., 9. Nov. 2020 at 14:10, Aditya Srivastava <yashsri421@gmail.com>
-wrote:
+> 
+> Is this separate from the files created by the dvb core as part of the 
+> driver initialization?
+> e.g. (for a single adapter):
+> 
+> /dev/adapter0/frontend0
+> /dev/adapter0/demux0
+> /dev/adapter0/dvr0
 
-> Currently checkpatch warns us if there is no 'Signed-off-by' line
-> for the patch.
->
-> E.g., running checkpatch on commit f68e7927212f ("Revert
-> "powerpc/book3s32: Reorder _PAGE_XXX flags to simplify TLB handling"")
-> reports this error:
->
-> ERROR: Missing Signed-off-by: line(s)
->
-> Provide a fix by adding a Signed-off-by line corresponding to the author
-> of the patch before the start of diff(s)
->
+Yes, it is separate. If CONFIG_MEDIA_CONTROLLER_DVB=y then an additional
+device node /dev/media0 is created.
 
-Can you please provide an evaluation first?
+> 
+> Btw I noticed some drivers call dvb_create_media_graph() as part of 
+> their initialization, e.g. au0828-dvb.c, em28xx-dvb.c, cx231xx-dvb.c, 
+> but some (most) do not, why is this?
 
-As far as remember, the fix is often not to add a Signed-off-by: tag but it
-requires something completely different.
+I think that's because only a subset of DVB drivers support the media controller.
 
-Lukas
+> 
+> 
+>> Daniel, if you look at the test-media script, then you'll see that it has
+>> separate sections for each virtual driver. It's probably best to look at
+>> the vim2m driver tests since that's the easiest.
+>>
+>> It loads the module, then it starts v4l2-compliance to test the API. This
+>> utility basically tries all V4L2 APIs and checks that the driver conforms to
+>> the spec.
+>>
+>> Note that you see options like '-m platform:vim2m' that selects which /dev/media
+>> device to use based on the name and v4l2-compliance (or v4l2-ctl with the -z option)
+>> then walks the topology of the media device and tests all interfaces it finds.
+>>
+>> Hence my question about media controller support in vidtv: this should be
+>> supported there as well since it allows you to write these test sequences without
+>> having to know which /dev/fooX device should be used.
+>>
+>> After the compliance test is run the script tests unbind/bind (always a nasty test)
+>> and checks for memory leaks (if enabled in the kernel).
+>>
+>> Much of this test sequence can be copied for vidtv, but you need something else for
+>> the compliance test. It would for now be enough to have some quick check with the
+>> existing dvb utils from v4l-utils to see that the basics work.
+>>
+>> IMHO I think a dtv-compliance utility along the lines of v4l2-compliance and
+>> cec-compliance should be created.
+>>
+>> I'm actually wondering whether the dtv compliance tests shouldn't be part of
+>> v4l2-compliance (which would have to be renamed to media-compliance in that case)
+>> since there are hybrid drivers supporting both in the same media topology.
+>>
+>> This would make compliance tests possible where analog/digital TV mode handling
+>> is tested (i.e. if analog TV is in use, then trying to use digital TV would return
+>> EBUSY and vice versa).
+>>
+>> It would require some work in v4l2-compliance.cpp to make this possible, but I
+>> can do that myself.
+>>
+>> Compliance tests have proven to be a great method of testing for regressions and
+>> testing drivers in general.
+>>
+>> Note that it takes a lot of time to create good compliance tests, but you just start
+>> with some simple tests and expand it over time.
+>>
+>> Regards,
+>>
+>> Hans
+> 
+> 
+> Well, I checked the test-media script and it seems to be easy to add 
+> support for vidtv there, as Hans said most of the sequence there can be 
+> copied from the other drivers. However..
+> 
+>  >It would for now be enough to have some quick check with the existing 
+> dvb utils from v4l-utils to see that the basics work.
+> 
+> Can we discuss this in further depth please? Maybe a few examples?
+> 
+> What I currently do is:
+> 
+> 1. zap the stream & open it in dvbinspector, manually check for mistakes
+> 2. manually check dmesg for errors
+> 3. maybe play the stream using vlc or Kaffeine
 
+I'm not a DVB expert, but I was thinking of testing if it can discover
+channels, and perhaps just a test to stream data without checking if it is
+actually valid video.
 
-> Suggested-by: Joe Perches <joe@perches.com>
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  scripts/checkpatch.pl | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index cb46288127ac..bc447aa4e5b0 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2404,6 +2404,7 @@ sub process {
->
->         my $last_blank_line = 0;
->         my $last_coalesced_string_linenr = -1;
-> +       my $diff_linenr = 0;
->
->         our @report = ();
->         our $cnt_lines = 0;
-> @@ -2602,6 +2603,10 @@ sub process {
->                         $realfile =~ s@^([^/]*)/@@ if (!$file);
->                         $in_commit_log = 0;
->                         $found_file = 1;
-> +                       # to add missing sign off line before diff(s)
-> +                       if($diff_linenr == 0) {
-> +                               $diff_linenr = $fixlinenr;
-> +                       }
->                 } elsif ($line =~ /^\+\+\+\s+(\S+)/) {
->                         $realfile = $1;
->                         $realfile =~ s@^([^/]*)/@@ if (!$file);
-> @@ -7119,8 +7124,11 @@ sub process {
->         }
->         if ($is_patch && $has_commit_log && $chk_signoff) {
->                 if ($signoff == 0) {
-> -                       ERROR("MISSING_SIGN_OFF",
-> -                             "Missing Signed-off-by: line(s)\n");
-> +                       if (ERROR("MISSING_SIGN_OFF",
-> +                                 "Missing Signed-off-by: line(s)\n") &&
-> +                           $fix) {
-> +                               fix_insert_line($diff_linenr,
-> "Signed-off-by: $author\n");
-> +                       }
->                 } elsif ($authorsignoff != 1) {
->                         # authorsignoff values:
->                         # 0 -> missing sign off
-> --
-> 2.17.1
->
->
+The problem is that I am not all that familiar with the DVB utilities so I
+don't know if anything can be automated.
 
---000000000000c3c70d05b3acb50c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+An alternative is to start adding dtv support to v4l2-compliance. That utility
+already has media controller support, but it needs a bit of work to comfortably
+integrate DTV support as well. I can help with that if you want to go in that
+direction. v4l2-compliance would need a bit of refactoring, but it is nice to
+have the tests there since that makes it easy to support hybrid devices with a
+single compliance utility.
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Mo.=
-, 9. Nov. 2020 at 14:10, Aditya Srivastava &lt;<a href=3D"mailto:yashsri421=
-@gmail.com">yashsri421@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">Currently checkpatch warns us if there is no &#39;Signed-off-=
-by&#39; line<br>
-for the patch.<br>
-<br>
-E.g., running checkpatch on commit f68e7927212f (&quot;Revert<br>
-&quot;powerpc/book3s32: Reorder _PAGE_XXX flags to simplify TLB handling&qu=
-ot;&quot;)<br>
-reports this error:<br>
-<br>
-ERROR: Missing Signed-off-by: line(s)<br>
-<br>
-Provide a fix by adding a Signed-off-by line corresponding to the author<br=
->
-of the patch before the start of diff(s)<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Can you please p=
-rovide an evaluation first?</div><div dir=3D"auto"><br></div><div dir=3D"au=
-to">As far as remember, the fix is often not to add a Signed-off-by: tag bu=
-t it requires something completely different.</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">Lukas</div><div dir=3D"auto"><br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><br>
-Suggested-by: Joe Perches &lt;<a href=3D"mailto:joe@perches.com" target=3D"=
-_blank">joe@perches.com</a>&gt;<br>
-Signed-off-by: Aditya Srivastava &lt;<a href=3D"mailto:yashsri421@gmail.com=
-" target=3D"_blank">yashsri421@gmail.com</a>&gt;<br>
----<br>
-=C2=A0scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
-"_blank">checkpatch.pl</a> | 12 ++++++++++--<br>
-=C2=A01 file changed, 10 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" ta=
-rget=3D"_blank">checkpatch.pl</a> b/scripts/<a href=3D"http://checkpatch.pl=
-" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a><br>
-index cb46288127ac..bc447aa4e5b0 100755<br>
---- a/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
-"_blank">checkpatch.pl</a><br>
-+++ b/scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D=
-"_blank">checkpatch.pl</a><br>
-@@ -2404,6 +2404,7 @@ sub process {<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 my $last_blank_line =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 my $last_coalesced_string_linenr =3D -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0my $diff_linenr =3D 0;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 our @report =3D ();<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 our $cnt_lines =3D 0;<br>
-@@ -2602,6 +2603,10 @@ sub process {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 $realfile =3D~ s@^([^/]*)/@@ if (!$file);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 $in_commit_log =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 $found_file =3D 1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0# to add missing sign off line before diff(s)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if($diff_linenr =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$diff_linenr =3D $fixlinenr;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } elsif ($line =3D~=
- /^\+\+\+\s+(\S+)/) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 $realfile =3D $1;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 $realfile =3D~ s@^([^/]*)/@@ if (!$file);<br>
-@@ -7119,8 +7124,11 @@ sub process {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ($is_patch &amp;&amp; $has_commit_log &amp;&=
-amp; $chk_signoff) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ($signoff =3D=3D=
- 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0ERROR(&quot;MISSING_SIGN_OFF&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Missing Signed-off-by: line(s)\n&quot;=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if (ERROR(&quot;MISSING_SIGN_OFF&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Missing Signed-off-by: l=
-ine(s)\n&quot;) &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0$fix) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fix_insert_line($diff_linenr, &quot;S=
-igned-off-by: $author\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } elsif ($authorsig=
-noff !=3D 1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 # authorsignoff values:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 # 0 -&gt; missing sign off<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div></div>
+Regards,
 
---000000000000c3c70d05b3acb50c--
-
---===============7962288307716713216==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+	Hans
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============7962288307716713216==--
