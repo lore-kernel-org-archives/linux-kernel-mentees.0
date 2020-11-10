@@ -2,104 +2,97 @@ Return-Path: <SRS0=mimn=EQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA5DC5517A
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 07:21:09 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 988E9C388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 09:32:29 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 81A6820731
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 07:21:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E4F5E20780
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 09:32:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="uWHW9oTs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81A6820731
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qVCJvm9F"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4F5E20780
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 39DBD86477;
-	Tue, 10 Nov 2020 07:21:08 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0fuHAi0PmEqk; Tue, 10 Nov 2020 07:21:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 664FC86489;
-	Tue, 10 Nov 2020 07:21:07 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 54F33C0889;
-	Tue, 10 Nov 2020 07:21:07 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F2B44C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 07:21:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id EBBE72044F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 07:21:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4270120513;
+	Tue, 10 Nov 2020 09:32:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SWWEVEIdHEro; Tue, 10 Nov 2020 09:32:27 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 2DA152050D;
+	Tue, 10 Nov 2020 09:32:27 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FFA8C088B;
+	Tue, 10 Nov 2020 09:32:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A930EC016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 10 Nov 2020 09:32:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 97F4487163
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 10 Nov 2020 09:32:26 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SNa-aXuuuOS7
+ with ESMTP id shUxUthh6A9R
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 07:21:04 +0000 (UTC)
+ Tue, 10 Nov 2020 09:32:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
- [209.85.208.194])
- by silver.osuosl.org (Postfix) with ESMTPS id 950BB2042B
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B1E53870C6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 07:21:03 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id b17so869171ljf.12
+ Tue, 10 Nov 2020 09:32:25 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id j5so6202989plk.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 09 Nov 2020 23:21:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tJU1aurExwbUVBfccNutoeNpTC+zhOBLVOQA13GCzvQ=;
- b=uWHW9oTszJEYw3u2jb8lZirZrpGMCMF3U48lt0AqkK0OhZezRKOYV9HVeEnpJFhex/
- OpmsMu8Bupdi4p/aghHOUnyYeYeKPe5rAZg4ebJ+AiNYWzCYKm+e2bf6H757dByjt3B/
- 7kS8XceUDbnC0/IxNVurLkcUHBYKe+ZxgiR/sv7/aKmQozHHcmNapD7fo4me52YgMpTB
- 49JifLApZOxe26pMA5njEOo4UitVECzWWdbKZiUkUWXoB6C6WlHPhPaNHUSIiHkn93vP
- nCPRwlmWixCRZ0IfpE7BxjQ+cwxjiLfPwcPEbkhU7MLk0dkTovM9pUkf4PCwIk00lkmo
- X6wA==
+ Tue, 10 Nov 2020 01:32:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=A2SmRAA8D1b8Uf+IYDXWbTN66Sv/n0JmpFYCM0SGAvo=;
+ b=qVCJvm9FrpQaIh0uzLAMQODs7Ma0u7WxG92Zd/32RkfKTJNId6Edf50v/sub+GPEnA
+ S0i8uxdNul3B5B47imtzBbOfWUPKp02bcCYlnd4BdfWODt16fQl2VnBDJtEl36ZO+xtB
+ 69KuVyr3Ntky7KjBUv2EhBRMbSHZcbNrugRZP05pAG74VirLKeG7AtqOfzQYZnXnWDEj
+ 4Cb+8Nuk6GPuWzOilwrWHpaGkKXiGhxBCJQLAcq/k9YkLuEsRzQnOlfrlB7+VNFU1/Rk
+ 5QyRYQqNtGGY+AhLolEC+pgs6cMlPMKUsiXCfnorgQsGEy5ZrCm8v+GXsByqtaH5uLBb
+ 4hbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tJU1aurExwbUVBfccNutoeNpTC+zhOBLVOQA13GCzvQ=;
- b=hRXKHE3bnin7aUT0g1fgpwwplrCzPucdXMkgLjj+FfbnxWawe6M4SDXUuOEX2GMDnb
- Ni2h1Iifl5ryusCwRm2oK0xlui21wZSniIvlhNoczXTcv/rS0mCxIQwwjv2enUTd+kOq
- zv9w5ozjjBdaXTUXOMktKOyluOhmFnJWI1vII/DDr4SFO4i9uMz6CawTixvWA4eHnnS4
- xo9xsMOUazJXRcR0LiUFY3xpnT5IJ3F+ubkltahpIZndvhTHEfZd9UT5YreTkG9/8X/J
- vcBFyn0chNvQfOgjz4lYRmR9iV6X+S3lWNYXrKrWtl5XyPb4gLJPD9nIWNm8VoMxo7m2
- QX+Q==
-X-Gm-Message-State: AOAM530znIeVhTaJr54f31H8yLXtnKw6cTH2Pg9B6YSOo9/kyO5mEJT1
- y5334GA4N803gCapV+Utk05Enzqbv3uCOwELeGQDzw==
-X-Google-Smtp-Source: ABdhPJz8GugbWn35s3Aee6iTYjwpUcVN9a/lKKSwllJpp9+hwk/dLsxsDsPk+0B1PsJbeu7p0y2fyN978Kkm/Yv+ir0=
-X-Received: by 2002:a2e:9746:: with SMTP id f6mr8042879ljj.270.1604992861337; 
- Mon, 09 Nov 2020 23:21:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20201106192154.51514-1-98.arpi@gmail.com>
- <CABVgOSkQ6+y7OGw2494cJa2b60EkSjncLNAgc9cJDbS=X9J3WA@mail.gmail.com>
- <CANpmjNNp2RUCE_ypp2R4MznikTYRYeCDuF7VMp+Hbh=55KWa3A@mail.gmail.com>
- <47a05c5a-485d-026b-c1c3-476ed1a97856@gmail.com>
-In-Reply-To: <47a05c5a-485d-026b-c1c3-476ed1a97856@gmail.com>
-Date: Tue, 10 Nov 2020 15:20:49 +0800
-Message-ID: <CABVgOSkZ9k6bHPp=LVATWfokMSrEuD87jOfE5MiVYAEbZMmaQQ@mail.gmail.com>
-To: Arpitha Raghunandan <98.arpi@gmail.com>
-Cc: Marco Elver <elver@google.com>, linux-ext4@vger.kernel.org,
- Theodore Ts'o <tytso@mit.edu>, Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Iurii Zaikin <yzaikin@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v6 1/2] kunit: Support for
-	Parameterized Testing
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=A2SmRAA8D1b8Uf+IYDXWbTN66Sv/n0JmpFYCM0SGAvo=;
+ b=ZEhb6+sY8ktc+WoT6CvuxBeXWQvpaqK4p1VW4Kd93QCZwuXegkLoFZIkPC7a2T1Zjw
+ l86B4Po0arO7a4pD2xGlDapglWUu4fAPjrXuzObqKsDYkB6niNDUZqQYYmewgXfzD+8X
+ +VUMd0oWidZACLMtHz8vQ/0l34IJiJvTDs6gpDsOZMCA+L6ZQDSdEnz9D8fV6DYZt16p
+ TeLxRqHEo35+ScF+6LUAyEm1zZipY5HY3ki0o/hqj5kUJfEJGLE9Xrcycn9dEdFz5mmv
+ Sn1Csu0G7R2pv2EGdFSkMW4vCnakT70ACqkSsNhBKr6GtYVQs4M4aNAe4Vs+1NbtVbg0
+ PvOw==
+X-Gm-Message-State: AOAM530lrZuogaDNbdcteLQezN80JoucQHb6U58IR1GInPkBVDJB6g11
+ MdzWUqV0XA4JWtsOxYYWybo=
+X-Google-Smtp-Source: ABdhPJyQ0QIR+lqs7fJq96bo6esWWwoaHIYuQ6wWVK7SGjXFS5eFsmOio2swNjTmx288RluzRNWjJw==
+X-Received: by 2002:a17:902:a50f:b029:d6:da2:aaa7 with SMTP id
+ s15-20020a170902a50fb02900d60da2aaa7mr16770217plq.42.1605000745185; 
+ Tue, 10 Nov 2020 01:32:25 -0800 (PST)
+Received: from localhost.localdomain ([2402:3a80:413:8adf:79d0:1679:313c:70a2])
+ by smtp.googlemail.com with ESMTPSA id r6sm2592819pjo.0.2020.11.10.01.32.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 01:32:24 -0800 (PST)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: lukas.bulwahn@gmail.com
+Date: Tue, 10 Nov 2020 15:02:16 +0530
+Message-Id: <20201110093216.14291-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, yashsri421@gmail.com
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
+	MISSING_SIGN_OFF
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,145 +104,91 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: David Gow via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gTW9uLCBOb3YgOSwgMjAyMCBhdCAyOjQ5IFBNIEFycGl0aGEgUmFnaHVuYW5kYW4gPDk4LmFy
-cGlAZ21haWwuY29tPiB3cm90ZToKPgo+IE9uIDA3LzExLzIwIDM6MzYgcG0sIE1hcmNvIEVsdmVy
-IHdyb3RlOgo+ID4gT24gU2F0LCA3IE5vdiAyMDIwIGF0IDA1OjU4LCBEYXZpZCBHb3cgPGRhdmlk
-Z293QGdvb2dsZS5jb20+IHdyb3RlOgo+ID4+IE9uIFNhdCwgTm92IDcsIDIwMjAgYXQgMzoyMiBB
-TSBBcnBpdGhhIFJhZ2h1bmFuZGFuIDw5OC5hcnBpQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPj4+Cj4g
-Pj4+IEltcGxlbWVudGF0aW9uIG9mIHN1cHBvcnQgZm9yIHBhcmFtZXRlcml6ZWQgdGVzdGluZyBp
-biBLVW5pdC4KPiA+Pj4gVGhpcyBhcHByb2FjaCByZXF1aXJlcyB0aGUgY3JlYXRpb24gb2YgYSB0
-ZXN0IGNhc2UgdXNpbmcgdGhlCj4gPj4+IEtVTklUX0NBU0VfUEFSQU0gbWFjcm8gdGhhdCBhY2Nl
-cHRzIGEgZ2VuZXJhdG9yIGZ1bmN0aW9uIGFzIGlucHV0Lgo+ID4+PiBUaGlzIGdlbmVyYXRvciBm
-dW5jdGlvbiBzaG91bGQgcmV0dXJuIHRoZSBuZXh0IHBhcmFtZXRlciBnaXZlbiB0aGUKPiA+Pj4g
-cHJldmlvdXMgcGFyYW1ldGVyIGluIHBhcmFtZXRlcml6ZWQgdGVzdHMuIEl0IGFsc28gcHJvdmlk
-ZXMKPiA+Pj4gYSBtYWNybyB0byBnZW5lcmF0ZSBjb21tb24tY2FzZSBnZW5lcmF0b3JzLgo+ID4+
-Pgo+ID4+PiBTaWduZWQtb2ZmLWJ5OiBBcnBpdGhhIFJhZ2h1bmFuZGFuIDw5OC5hcnBpQGdtYWls
-LmNvbT4KPiA+Pj4gQ28tZGV2ZWxvcGVkLWJ5OiBNYXJjbyBFbHZlciA8ZWx2ZXJAZ29vZ2xlLmNv
-bT4KPiA+Pj4gU2lnbmVkLW9mZi1ieTogTWFyY28gRWx2ZXIgPGVsdmVyQGdvb2dsZS5jb20+Cj4g
-Pj4+IC0tLQo+ID4+Cj4gPj4gVGhpcyBsb29rcyBnb29kIHRvIG1lISBBIGNvdXBsZSBvZiBtaW5v
-ciB0aG91Z2h0cyBhYm91dCB0aGUgb3V0cHV0Cj4gPj4gZm9ybWF0IGJlbG93LCBidXQgSSdtIHF1
-aXRlIGhhcHB5IHRvIGhhdmUgdGhpcyBhcy1pcyByZWdhcmRsZXNzLgo+ID4+Cj4gPj4gUmV2aWV3
-ZWQtYnk6IERhdmlkIEdvdyA8ZGF2aWRnb3dAZ29vZ2xlLmNvbT4KPiA+Pgo+ID4+IENoZWVycywK
-PiA+PiAtLSBEYXZpZAo+ID4+Cj4gPj4+IENoYW5nZXMgdjUtPnY2Ogo+ID4+PiAtIEZpeCBhbGln
-bm1lbnQgdG8gbWFpbnRhaW4gY29uc2lzdGVuY3kKPiA+Pj4gQ2hhbmdlcyB2NC0+djU6Cj4gPj4+
-IC0gVXBkYXRlIGtlcm5lbC1kb2MgY29tbWVudHMuCj4gPj4+IC0gVXNlIGNvbnN0IHZvaWQqIGZv
-ciBnZW5lcmF0b3IgcmV0dXJuIGFuZCBwcmV2IHZhbHVlIHR5cGVzLgo+ID4+PiAtIEFkZCBrZXJu
-ZWwtZG9jIGNvbW1lbnQgZm9yIEtVTklUX0FSUkFZX1BBUkFNLgo+ID4+PiAtIFJld29yayBwYXJh
-bWV0ZXJpemVkIHRlc3QgY2FzZSBleGVjdXRpb24gc3RyYXRlZ3k6IGVhY2ggcGFyYW1ldGVyIGlz
-IGV4ZWN1dGVkCj4gPj4+ICAgYXMgaWYgaXQgd2FzIGl0cyBvd24gdGVzdCBjYXNlLCB3aXRoIGl0
-cyBvd24gdGVzdCBpbml0aWFsaXphdGlvbiBhbmQgY2xlYW51cAo+ID4+PiAgIChpbml0IGFuZCBl
-eGl0IGFyZSBjYWxsZWQsIGV0Yy4pLiBIb3dldmVyLCB3ZSBjYW5ub3QgYWRkIG5ldyB0ZXN0IGNh
-c2VzIHBlciBUQVAKPiA+Pj4gICBwcm90b2NvbCBvbmNlIHdlIGhhdmUgYWxyZWFkeSBzdGFydGVk
-IGV4ZWN1dGlvbi4gSW5zdGVhZCwgbG9nIHRoZSByZXN1bHQgb2YKPiA+Pj4gICBlYWNoIHBhcmFt
-ZXRlciBydW4gYXMgYSBkaWFnbm9zdGljIGNvbW1lbnQuCj4gPj4+IENoYW5nZXMgdjMtPnY0Ogo+
-ID4+PiAtIFJlbmFtZSBrdW5pdCB2YXJpYWJsZXMKPiA+Pj4gLSBSZW5hbWUgZ2VuZXJhdG9yIGZ1
-bmN0aW9uIGhlbHBlciBtYWNybwo+ID4+PiAtIEFkZCBkb2N1bWVudGF0aW9uIGZvciBnZW5lcmF0
-b3IgYXBwcm9hY2gKPiA+Pj4gLSBEaXNwbGF5IHRlc3QgY2FzZSBuYW1lIGluIGNhc2Ugb2YgZmFp
-bHVyZSBhbG9uZyB3aXRoIHBhcmFtIGluZGV4Cj4gPj4+IENoYW5nZXMgdjItPnYzOgo+ID4+PiAt
-IE1vZGlmaWN0YWlvbiBvZiBnZW5lcmF0b3IgbWFjcm8gYW5kIG1ldGhvZAo+ID4+PiBDaGFuZ2Vz
-IHYxLT52MjoKPiA+Pj4gLSBVc2Ugb2YgYSBnZW5lcmF0b3IgbWV0aG9kIHRvIGFjY2VzcyB0ZXN0
-IGNhc2UgcGFyYW1ldGVycwo+ID4+Pgo+ID4+PiAgaW5jbHVkZS9rdW5pdC90ZXN0LmggfCAzNiAr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPj4+ICBsaWIva3VuaXQvdGVzdC5j
-ICAgICB8IDQ2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tCj4g
-Pj4+ICAyIGZpbGVzIGNoYW5nZWQsIDY5IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQo+
-ID4+Pgo+ID4+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9rdW5pdC90ZXN0LmggYi9pbmNsdWRlL2t1
-bml0L3Rlc3QuaAo+ID4+PiBpbmRleCBkYjFiMGFlNjY2YzQuLjE2NjE2ZDM5NzRmOSAxMDA2NDQK
-PiA+Pj4gLS0tIGEvaW5jbHVkZS9rdW5pdC90ZXN0LmgKPiA+Pj4gKysrIGIvaW5jbHVkZS9rdW5p
-dC90ZXN0LmgKPiA+Pj4gQEAgLTEwNyw2ICsxMDcsNyBAQCBzdHJ1Y3Qga3VuaXQ7Cj4gPiBbLi4u
-XQo+ID4+PiAtICAgICAgIGt1bml0X3N1aXRlX2Zvcl9lYWNoX3Rlc3RfY2FzZShzdWl0ZSwgdGVz
-dF9jYXNlKQo+ID4+PiAtICAgICAgICAgICAgICAga3VuaXRfcnVuX2Nhc2VfY2F0Y2hfZXJyb3Jz
-KHN1aXRlLCB0ZXN0X2Nhc2UpOwo+ID4+PiArICAgICAgIGt1bml0X3N1aXRlX2Zvcl9lYWNoX3Rl
-c3RfY2FzZShzdWl0ZSwgdGVzdF9jYXNlKSB7Cj4gPj4+ICsgICAgICAgICAgICAgICBzdHJ1Y3Qg
-a3VuaXQgdGVzdCA9IHsgLnBhcmFtX3ZhbHVlID0gTlVMTCwgLnBhcmFtX2luZGV4ID0gMCB9Owo+
-ID4+PiArICAgICAgICAgICAgICAgYm9vbCB0ZXN0X3N1Y2Nlc3MgPSB0cnVlOwo+ID4+PiArCj4g
-Pj4+ICsgICAgICAgICAgICAgICBpZiAodGVzdF9jYXNlLT5nZW5lcmF0ZV9wYXJhbXMpCj4gPj4+
-ICsgICAgICAgICAgICAgICAgICAgICAgIHRlc3QucGFyYW1fdmFsdWUgPSB0ZXN0X2Nhc2UtPmdl
-bmVyYXRlX3BhcmFtcyhOVUxMKTsKPiA+Pj4gKwo+ID4+PiArICAgICAgICAgICAgICAgZG8gewo+
-ID4+PiArICAgICAgICAgICAgICAgICAgICAgICBrdW5pdF9ydW5fY2FzZV9jYXRjaF9lcnJvcnMo
-c3VpdGUsIHRlc3RfY2FzZSwgJnRlc3QpOwo+ID4+PiArICAgICAgICAgICAgICAgICAgICAgICB0
-ZXN0X3N1Y2Nlc3MgJj0gdGVzdF9jYXNlLT5zdWNjZXNzOwo+ID4+PiArCj4gPj4+ICsgICAgICAg
-ICAgICAgICAgICAgICAgIGlmICh0ZXN0X2Nhc2UtPmdlbmVyYXRlX3BhcmFtcykgewo+ID4+PiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGt1bml0X2xvZyhLRVJOX0lORk8sICZ0ZXN0
-LAo+ID4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBLVU5JVF9T
-VUJURVNUX0lOREVOVAo+ID4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAiIyAlczogcGFyYW0tJWQgJXMiLAo+ID4+Cj4gPj4gV291bGQgaXQgbWFrZSBzZW5zZSB0
-byBoYXZlIHRoaXMgaW1pdGF0ZSB0aGUgVEFQIGZvcm1hdCBhIGJpdCBtb3JlPwo+ID4+IFNvLCBo
-YXZlICIjIFtva3xub3Qgb2tdIC0gW25hbWVdIiBhcyB0aGUgZm9ybWF0PyBbbmFtZV0gY291bGQg
-YmUKPiA+PiBzb21ldGhpbmcgbGlrZSAiW3Rlc3RfY2FzZS0+bmFtZV06cGFyYW0tW2luZGV4XSIg
-b3Igc2ltaWxhci4KPiA+PiBJZiB3ZSBrZWVwIGl0IGNvbW1lbnRlZCBvdXQgYW5kIGRvbid0IGlu
-ZGVudCBpdCBmdXJ0aGVyLCBpdCB3b24ndAo+ID4+IGZvcm1hbGx5IGJlIGEgbmVzdGVkIHRlc3Qg
-KHRob3VnaCBpZiB3ZSB3YW50ZWQgdG8gc3VwcG9ydCB0aG9zZSBsYXRlciwKPiA+PiBpdCdkIGJl
-IGVhc3kgdG8gYWRkKSwgYnV0IEkgdGhpbmsgaXQgd291bGQgYmUgbmljZXIgdG8gYmUgY29uc2lz
-dGVudAo+ID4+IGhlcmUuCj4gPgo+ID4gVGhlIHByZXZpb3VzIGF0dGVtcHQgWzFdIGF0IHNvbWV0
-aGluZyBzaW1pbGFyIGZhaWxlZCBiZWNhdXNlIGl0IHNlZW1zCj4gPiB3ZSdkIG5lZWQgdG8gdGVh
-Y2gga3VuaXQtdG9vbCBuZXcgdHJpY2tzIFsyXSwgdG9vLgo+ID4gWzFdIGh0dHBzOi8vbGttbC5r
-ZXJuZWwub3JnL3IvMjAyMDExMDUxOTU1MDMuR0EyMzk5NjIxQGVsdmVyLmdvb2dsZS5jb20KPiA+
-IFsyXSBodHRwczovL2xrbWwua2VybmVsLm9yZy9yLzIwMjAxMTA2MTIzNDMzLkdBMzU2MzIzNUBl
-bHZlci5nb29nbGUuY29tCj4gPgo+ID4gU28gaWYgd2UgZ28gd2l0aCBhIGRpZmZlcmVudCBmb3Jt
-YXQsIHdlIG1pZ2h0IG5lZWQgYSBwYXRjaCBiZWZvcmUgdGhpcwo+ID4gb25lIHRvIG1ha2Uga3Vu
-aXQtdG9vbCBjb21wYXRpYmxlIHdpdGggdGhhdCB0eXBlIG9mIGRpYWdub3N0aWMuCj4gPgo+ID4g
-Q3VycmVudGx5IEkgdGhpbmsgd2UgaGF2ZSB0aGUgZm9sbG93aW5nIHByb3Bvc2FscyBmb3IgYSBm
-b3JtYXQ6Cj4gPgo+ID4gMS4gVGhlIGN1cnJlbnQgIiMgW3Rlc3RfY2FzZS0+bmFtZV06IHBhcmFt
-LVtpbmRleF0gW29rfG5vdCBva10iIC0tCj4gPiB0aGlzIHdvcmtzIHdlbGwsIGJlY2F1c2Ugbm8g
-Y2hhbmdlcyB0byBrdW5pdC10b29sIGFyZSByZXF1aXJlZCwgYW5kIGl0Cj4gPiBhbHNvIHBpY2tz
-IHVwIHRoZSBkaWFnbm9zdGljIGNvbnRleHQgZm9yIHRoZSBjYXNlIGFuZCBkaXNwbGF5cyB0aGF0
-IG9uCj4gPiB0ZXN0IGZhaWx1cmUuCj4gPgo+ID4gMi4gWW91ciBwcm9wb3NlZCAiIyBbb2t8bm90
-IG9rXSAtIFt0ZXN0X2Nhc2UtPm5hbWVdOnBhcmFtLVtpbmRleF0iLgo+ID4gQXMtaXMsIHRoaXMg
-bmVlZHMgYSBwYXRjaCBmb3Iga3VuaXQtdG9vbCBhcyB3ZWxsLiBJIGp1c3QgY2hlY2tlZCwgYW5k
-Cj4gPiBpZiB3ZSBjaGFuZ2UgaXQgdG8gIiMgW29rfG5vdCBva10gLSBbdGVzdF9jYXNlLT5uYW1l
-XTogcGFyYW0tW2luZGV4XSIKPiA+IChub3RlIHRoZSBzcGFjZSBhZnRlciAnOicpIGl0IHdvcmtz
-IHdpdGhvdXQgY2hhbmdpbmcga3VuaXQtdG9vbC4gOy0pCj4gPgo+ID4gMy4gU29tZXRoaW5nIGxp
-a2UgIiMgW29rfG5vdCBva10gcGFyYW0tW2luZGV4XSAtIFt0ZXN0X2Nhc2UtPm5hbWVdIiwKPiA+
-IHdoaWNoIEkgaGFkIHBsYXllZCB3aXRoIGVhcmxpZXIgYnV0IGt1bml0LXRvb2wgaXMgZGVmaW5p
-dGVseSBub3QgeWV0Cj4gPiBoYXBweSB3aXRoLgo+ID4KPiA+IFNvIG15IGN1cnJlbnQgcHJlZmVy
-ZW5jZSBpcyAoMikgd2l0aCB0aGUgZXh0cmEgc3BhY2UgKG5vIGNoYW5nZSB0bwo+ID4ga3VuaXQt
-dG9vbCByZXF1aXJlZCkuIFdEWVQ/Cj4gPgoKSG1t4oCmIHRoYXQgZmFpbHVyZSBpbiBrdW5pdF90
-b29sIGlzIGRlZmluaXRlbHkgYSBidWc6IHdlIHNob3VsZG4ndCBjYXJlCndoYXQgY29tZXMgYWZ0
-ZXIgdGhlIGNvbW1lbnQgY2hhcmFjdGVyIGV4Y2VwdCBpZiBpdCdzIGFuIGV4cGxpY2l0CnN1YnRl
-c3QgZGVjbGFyYXRpb24gb3IgYSBjcmFzaC4gSSdsbCB0cnkgdG8gcHV0IGEgcGF0Y2ggdG9nZXRo
-ZXIgdG8KZml4IGl0LCBidXQgSSdkIHJhdGhlciBub3QgZGVsYXkgdGhpcyBqdXN0IGZvciB0aGF0
-LgoKSW4gYW55IHRob3VnaHQgYWJvdXQgdGhpcyBhIGJpdCBtb3JlLCBJdCB0dXJucyBvdXQgdGhh
-dCB0aGUgcHJvcG9zZWQKS1RBUCBzcGVjWzFdIGRpc2NvdXJhZ2VzIHRoZSB1c2Ugb2YgJzonLCBl
-eGNlcHQgYXMgcGFydCBvZiBhIHN1YnRlc3QKZGVjbGFyYXRpb24sIG9yIHBlcmhhcHMgYW4gYXMt
-eWV0LXVuc3BlY2lmaWVkIGZ1bGx5LXF1YWxpZmllZCB0ZXN0Cm5hbWUuIFRoZSBsYXR0ZXIgaXMg
-d2hhdCBJIHdhcyBnb2luZyBmb3IsIGJ1dCBpZiBpdCdzIGFjdGl2ZWx5CmJyZWFraW5nIGt1bml0
-X3Rvb2wsIHdlIG1pZ2h0IHdhbnQgdG8gaG9sZCBvZmYgb24gaXQuCgpJZiB3ZSB3ZXJlIHRvIHRy
-eSB0byB0cmVhdCB0aGVzZSBhcyBzdWJ0ZXN0cyBpbiBhY2NvcmRhbmNlIHdpdGggdGhhdApzcGVj
-LCB0aGUgd2F5IHdlJ2Qgd2FudCB0byB1c2Ugb25lIG9mIHRoZXNlIG9wdGlvbnM6CkEpICJbb2t8
-bm90IG9rXSBbaW5kZXhdIC0gcGFyYW0tW2luZGV4XSIgLS0gVGhpcyBkb2Vzbid0IG1lbnRpb24g
-dGhlCnRlc3QgY2FzZSBuYW1lLCBidXQgb3RoZXJ3aXNlIHRyZWF0cyB0aGluZ3MgZXhhY3RseSB0
-aGUgc2FtZSB3YXkgd2UKdHJlYXQgZXhpc3Rpbmcgc3VidGVzdHMuCgpCKSAiW29rfG5vdCBva10g
-W2luZGV4XSAtIFt0ZXN0X2Nhc2UtPm5hbWVdIiAtLSBUaGlzIGRvZXNuJ3QgbmFtZSB0aGUKInN1
-YnRlc3QiLCBqdXN0IGdpdmVzIHJlcGVhdGVkIHJlc3VsdHMgd2l0aCB0aGUgc2FtZSBuYW1lLgoK
-QykgIltva3xub3Qgb2tdIFtpbmRleF0gLSBbdGVzdF9jYXNlLT5uYW1lXVtzZXBhcmF0b3JdcGFy
-YW0tW2luZGV4XSIKLS0gVGhpcyBpcyBlcXVpdmFsZW50IHRvIG15IHN1Z2dlc3Rpb24gd2l0aCBh
-IHNlcGFyYXRvciBvZiAiOiIsIG9yIDIKYWJvdmUgd2l0aCBhIHNlcGFyYXRvciBvZiAiOiAiLiBU
-aGUgaW4tcHJvZ3Jlc3Mgc3BlYyBkb2Vzbid0IHlldApzcGVjaWZ5IGhvdyB0aGVzZSBmdWxseS1x
-dWFsaWZpZWQgbmFtZXMgd291bGQgd29yaywgb3RoZXIgdGhhbiB0aGF0CnRoZXknZCB1c2UgYSBj
-b2xvbiBzb21ld2hlcmUsIGFuZCBpZiB3ZSBjb21tZW50IGl0IG91dCwgIjogIiBpcwpyZXF1aXJl
-ZC4KCj4KPiBXaGljaCBmb3JtYXQgZG8gd2UgZmluYWxseSBnbyB3aXRoPwo+CgpJJ20gYWN0dWFs
-bHkgZ29pbmcgdG8gbWFrZSBhbm90aGVyIHdpbGQgc3VnZ2VzdGlvbiBmb3IgdGhpcywgd2hpY2gg
-aXMKYSBjb21iaW5hdGlvbiBvZiAoMSkgYW5kIChBKToKIiMgW3Rlc3RfY2FzZS0+bmFtZV06IFtv
-a3xub3Qgb2tdIFtpbmRleF0gLSBwYXJhbS1baW5kZXhdIgoKVGhpcyBnaXZlcyB1cyBhIEtUQVAt
-Y29tcGxpYW50IHJlc3VsdCBsaW5lLCBleGNlcHQgcHJlcGVuZGVkIHdpdGggIiMKW3Rlc3RfY2Fz
-ZS0+bmFtZV06ICIsIHdoaWNoIG1ha2VzIGl0IGZvcm1hbGx5IGEgZGlhZ25vc3RpYyBsaW5lLApy
-YXRoZXIgdGhhbiBhbiBhY3R1YWwgc3VidGVzdC4gUHV0dGluZyB0aGUgdGVzdCBuYW1lIGF0IHRo
-ZSBzdGFydAptYXRjaGVzIHdoYXQga3VuaXRfdG9vbCBpcyBleHBlY3RpbmcgYXQgdGhlIG1vbWVu
-dC4gSWYgd2UgdGhlbiB3YW50IHRvCnR1cm4gaXQgaW50byBhIHByb3BlciBzdWJ0ZXN0LCB3ZSBj
-YW4ganVzdCBnZXQgcmlkIG9mIHRoYXQgcHJlZml4IChhbmQKYWRkIHRoZSBhcHByb3ByaWF0ZSBj
-b3VudHMgZWxzZXdoZXJlKS4KCkRvZXMgdGhhdCBzb3VuZCBnb29kPwoKCj4gWy4uLl0KClRoYW5r
-cywKLS0gRGF2aWQKClsxXTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgta3NlbGZ0ZXN0
-L0NZNFBSMTNNQjExNzVCODA0RTMxRTUwMjIyMUJDODE2M0ZEODMwQENZNFBSMTNNQjExNzUubmFt
-cHJkMTMucHJvZC5vdXRsb29rLmNvbS9ULwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgt
-a2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxp
-bnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+Currently checkpatch warns us if there is no 'Signed-off-by' line
+for the patch.
+
+E.g., running checkpatch on commit 9ac060a708e0 ("leaking_addresses:
+Completely remove --version flag") reports this error:
+
+ERROR: Missing Signed-off-by: line(s)
+
+Provide a fix by adding a Signed-off-by line corresponding to the author
+of the patch before the patch separator line. Also avoid this error for
+the commits where some typo is present in the sign offs.
+
+E.g. for commit 8cde5d5f7361 ("bus: ti-sysc: Detect omap4 type timers
+for quirk") we get missing sign off as well as bad sign off for:
+Siganed-off-by: Tony Lindgren <tony@atomide.com>
+
+Here it is probably best to give BAD_SIGN_OFF warning for Non-standard
+signature and avoid MISSING_SIGN_OFF
+
+Suggested-by: Joe Perches <joe@perches.com>
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+ scripts/checkpatch.pl | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index cb46288127ac..849e4a510767 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2404,6 +2404,8 @@ sub process {
+ 
+ 	my $last_blank_line = 0;
+ 	my $last_coalesced_string_linenr = -1;
++	my $patch_separator_linenr = 0;
++	my $is_signed_off = 0;
+ 
+ 	our @report = ();
+ 	our $cnt_lines = 0;
+@@ -2755,6 +2757,10 @@ sub process {
+ 		if ($line =~ /^---$/) {
+ 			$has_patch_separator = 1;
+ 			$in_commit_log = 0;
++			# to add missing sign off line before diff(s)
++			if($patch_separator_linenr == 0) {
++				$patch_separator_linenr = $fixlinenr;
++			}
+ 		}
+ 
+ # Check if MAINTAINERS is being updated.  If so, there's probably no need to
+@@ -2771,6 +2777,8 @@ sub process {
+ 			my $space_after = $3;
+ 			my $email = $4;
+ 			my $ucfirst_sign_off = ucfirst(lc($sign_off));
++			# to avoid missing_sign_off error as it most probably is a typo
++			$is_signed_off = 1;
+ 
+ 			if ($sign_off !~ /$signature_tags/) {
+ 				WARN("BAD_SIGN_OFF",
+@@ -7118,9 +7126,12 @@ sub process {
+ 		      "Does not appear to be a unified-diff format patch\n");
+ 	}
+ 	if ($is_patch && $has_commit_log && $chk_signoff) {
+-		if ($signoff == 0) {
+-			ERROR("MISSING_SIGN_OFF",
+-			      "Missing Signed-off-by: line(s)\n");
++		if ($signoff == 0 && !$is_signed_off) {
++			if (ERROR("MISSING_SIGN_OFF",
++				  "Missing Signed-off-by: line(s)\n") &&
++			    $fix) {
++				fix_insert_line($patch_separator_linenr, "Signed-off-by: $author");
++			}
+ 		} elsif ($authorsignoff != 1) {
+ 			# authorsignoff values:
+ 			# 0 -> missing sign off
+-- 
+2.17.1
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
