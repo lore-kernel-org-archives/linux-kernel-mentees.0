@@ -2,76 +2,82 @@ Return-Path: <SRS0=mimn=EQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C4F6C4741F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 17:49:12 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B73D8C55ABD
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 17:58:20 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 71E0A2076E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 17:49:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71E0A2076E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=cmpwn.com
+	by mail.kernel.org (Postfix) with ESMTPS id 31A8F207D3
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 17:58:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWbeDanD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31A8F207D3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0FB1E84FBB;
-	Tue, 10 Nov 2020 17:49:11 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B100486B26;
+	Tue, 10 Nov 2020 17:58:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ejOMAtthEhys; Tue, 10 Nov 2020 17:49:09 +0000 (UTC)
+	with ESMTP id hHe2v5ijzaZP; Tue, 10 Nov 2020 17:58:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3488784BA5;
-	Tue, 10 Nov 2020 17:49:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5C8E686B25;
+	Tue, 10 Nov 2020 17:58:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23F28C088B;
-	Tue, 10 Nov 2020 17:49:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C800C088B;
+	Tue, 10 Nov 2020 17:58:19 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 659BDC016F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 82E47C016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 17:49:08 +0000 (UTC)
+ Tue, 10 Nov 2020 17:58:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 53D9A87257
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7089687253
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 17:49:08 +0000 (UTC)
+ Tue, 10 Nov 2020 17:58:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6A7JKuqif+4F
+ with ESMTP id asdNWidW8SCC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 17:49:07 +0000 (UTC)
-X-Greylist: delayed 00:08:20 by SQLgrey-1.7.6
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3308987253
+ Tue, 10 Nov 2020 17:58:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 178768724D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 17:49:07 +0000 (UTC)
+ Tue, 10 Nov 2020 17:58:18 +0000 (UTC)
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
+ [163.114.132.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C770F20781;
+ Tue, 10 Nov 2020 17:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605031097;
+ bh=RIQtxy/Q98sCLVqwPHTqyM87zYGU1ecCP3Nkry/4KJE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=qWbeDanDQ8LTacruEGA8MseDR7iXxqZAsBx00l+C3CFBxnBrM8oMkwL5NS+Jaytom
+ CELhIfkUkCHybYESX8bvfAsuraJ31VxvKZ7qYfQ25HYnV63ji4eoSk+N2r6ARt1qxQ
+ 5hpOt3DIMPY0I8rXOeghBkcE358WN5gOnUWUzBGI=
+Date: Tue, 10 Nov 2020 09:58:15 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Anmol Karn <anmol.karan123@gmail.com>
+Message-ID: <20201110095815.41577920@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201107191835.5541-1-anmol.karan123@gmail.com>
+References: <20201107082041.GA2675@Thinkpad>
+ <20201107191835.5541-1-anmol.karan123@gmail.com>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
- t=1605030044;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to; 
- bh=Z9zeRDZ2j+RYvYV/sSKPfJ23GM432ud8SVt0CMnE+Mc=;
- b=ikA/ah51Ygf4ph1diEptsMPmvqAc8dWOy8moZN6IdZk0XWv3rbTfpu2er8ZcEmmMiS4JUY
- qIiVv4SuAnOqlKwThZOKWZi5Nfd36v60fpIRsE+G7mlWqiDzqZaJn4XCKCOxS+VgkXmEge
- QJmOQ+ZKOymLH8xxH3VG3y4/Fr7CtBCVc/1oUnMgra4iXLLQrKX0SnpzxBtntSkFq9NZ4y
- 7EEhd08djCLvIQGPwa01TQXuvvF2RybfXIzhZbJ0PDVkxIVyUO2YhFPci2GDMav4UveOYb
- 0OeWULgT+3AfQJY5jsKCAmKq7m62hOHq461w71vTWLCAx0aKo1zvPVrYiY+nDw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Drew DeVault" <sir@cmpwn.com>
-To: "Aditya Srivastava" <yashsri421@gmail.com>, <corbet@lwn.net>
-Date: Tue, 10 Nov 2020 13:40:18 -0400
-Message-Id: <C6ZRNNLCPJJS.21CMC9SORJPVR@taiga>
-In-Reply-To: <20201110173949.31440-1-yashsri421@gmail.com>
-X-Authenticated-User: sir@cmpwn.com
-Cc: joe@perches.com, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] Documentation: include sign
-	off for reverts
+Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, ralf@linux-mips.org, saeed@kernel.org,
+ syzbot+a1c743815982d9496393@syzkaller.appspotmail.com,
+ linux-hams@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] [PATCH v3 net] rose: Fix Null pointer
+ dereference in rose_send_frame()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,16 +95,13 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue Nov 10, 2020 at 1:39 PM EDT, Aditya Srivastava wrote:
-> using your real name (sorry, no pseudonyms or anonymous contributions.)
-> This will be done for you automatically if you use ``git commit -s``.
-> +Also reverts should include a Signed-off-by. ``git revert -s`` does
-> +that for you.
+On Sun,  8 Nov 2020 00:48:35 +0530 Anmol Karn wrote:
+> +			dev = rose_dev_get(dest);
 
-The language here is a bit odd, try this:
+this calls dev_hold internally, you never release that reference in
+case ..neigh->dev is NULL
 
-Reverts should also include "Signed-off-by". ``git revert -s`` does that
-for you.
+> +			if (rose_loopback_neigh->dev && dev) {
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
