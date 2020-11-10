@@ -2,104 +2,107 @@ Return-Path: <SRS0=mimn=EQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C4BC388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 10:35:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6BADC388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 11:11:13 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 963E4206B2
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 10:35:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 15B46206B6
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 11:11:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="iihJcLKg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 963E4206B2
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ArFaKz/B"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15B46206B6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 045E987275;
-	Tue, 10 Nov 2020 10:35:27 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 88EBB86FDF;
+	Tue, 10 Nov 2020 11:11:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wtzxg5mQ5zXT; Tue, 10 Nov 2020 10:35:26 +0000 (UTC)
+	with ESMTP id 2XFOElDg0Qmt; Tue, 10 Nov 2020 11:11:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5C4D287242;
-	Tue, 10 Nov 2020 10:35:26 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E0D3586FAF;
+	Tue, 10 Nov 2020 11:11:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 358C5C0889;
-	Tue, 10 Nov 2020 10:35:26 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 91C77C016F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE947C088B;
+	Tue, 10 Nov 2020 11:11:11 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D72CBC016F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 10:35:24 +0000 (UTC)
+ Tue, 10 Nov 2020 11:11:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7F8D6868AB
+ by hemlock.osuosl.org (Postfix) with ESMTP id B982986FDE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 10:35:24 +0000 (UTC)
+ Tue, 10 Nov 2020 11:11:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9ZfA9S-_ThzZ
+ with ESMTP id kFOBCF5yYtft
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 10:35:23 +0000 (UTC)
+ Tue, 10 Nov 2020 11:11:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B98C6868A8
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 07DFF86FAF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 10:35:23 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id 30so6263191otx.9
+ Tue, 10 Nov 2020 11:11:10 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id m13so1703565pgl.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 02:35:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=O9J78ygcMCgUaBelKJGuBDpmTHHQsSZqL7xxo9X1FXA=;
- b=iihJcLKgP4TSrgi/XOpJJLxcsC62DsZSrPSTjA7lSmML5YPgIbfpXonIcaUFoZ4xND
- ol7Q40wpQdgn6+48hn4iIVJ6RPMWatx/ll/y5aX3iBAd7l/30optiS9wz43TMfCYv+h2
- 3LULW2nv89gzaqh0QYHdlgFn2P0+LzgIU90KRsO6wMHpQ0w8DsUOkkgMf0fXnRBMJxed
- HtTMfxmVjzq/58yo17tXXg3HgGhrb84M40048Zb30zqZibfvPSs5A6k35uGVuJ4lFW8e
- 8EoBkoS3jGroVu5o/+71qHhYl/uiJ51xqICPvfWaZ+TSea4oO2tjl6O2lwl0D7vgzrKB
- BI5g==
+ Tue, 10 Nov 2020 03:11:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iUPHg4zcpUK0Xa4+RM4YXMz9RrXvvxvzRzCUHjyVzpQ=;
+ b=ArFaKz/BrOFENgrR7tcKKkB/nAMVzJnLuu1UUOnbnIsKgO+9t0bjk5M4dm23yGM9Mk
+ 5S6+SQeHe0pNC2Deg6GYryMlHi1DSnjZTgtdtPvgVB1XTEH0FUTtmxIu9996h+dDb5L0
+ qhGTDIUSMYLLlrzYlhFoD5BX+hnk8xZPPEJdqHfd9hPNKggdMuW2UkYzYRSTPIex8g8G
+ XVAptS97B3YqoUS103l01Hp/35VmVBRKGdXFJDL8mtvFNUw/jmP3pA9v2IEEOaXubcBa
+ 1R5T0+eyjjM9jw7PreWyXXOYbhsnLz9b2IRpkW8UjEJBDvSRzJT6r4muj53whgBYan6y
+ mbtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=O9J78ygcMCgUaBelKJGuBDpmTHHQsSZqL7xxo9X1FXA=;
- b=Fnez5bqwqYOY0GlwrcC7JcFtK5qY24X7dY9BvDpM7fpKS+LMDD5tMJDJPejpGA1rWd
- 05lvC24gD77M14mkWSNCxLoWrM06X3ieCHQY/Zp+BpQ/g5MKSkCVk/zFE+jd9TgPKh/0
- ar+P5disv64to7sOidtA6Ok1vmHuhZPxfNO9oqYwO8ke9nXvuyXs1naDeKReKjiMGfo+
- XZagawpHORNMyA7LFeTjDZUKgY+aqNXL4E6xTZND599JXFvgis0biVhyNkaJOn0492oz
- BhdXpm/shmWGfkvkdauPsPMyRAsS/vev+++62C/eg0gw91SqwUibOEPwDM20QxEcU4om
- NDbA==
-X-Gm-Message-State: AOAM530MI9+1CZKrFQVEvriVx4QF+pMAsqtVzoP5AOWW9Z9Q3sOi3ygM
- DmM2BdD6uiJVqSRlTEWFyj16MvR/E1eCe9OjgjH3CA==
-X-Google-Smtp-Source: ABdhPJwnxEs/Uy6X8cWrXNv3gk8aEzJNoK265lQPtFA5Tp98fsZsbenX9qhYvw3oT3pOA4i1EhG2MWTej8+yAivp6AM=
-X-Received: by 2002:a9d:f44:: with SMTP id 62mr14385069ott.17.1605004522694;
- Tue, 10 Nov 2020 02:35:22 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iUPHg4zcpUK0Xa4+RM4YXMz9RrXvvxvzRzCUHjyVzpQ=;
+ b=kKvd2D/FiGD2SU4MWGlzA7Dvk4J+MbN3GqszqogMUcssJm3Z9Q+6fusQRhbfXAMitf
+ 3K3vUIwsjYRrx/ho+/rZkpfOB+ZEIz5j9bSHdoGWVPIVknclL7rFqcZYmcwknVaW/o1W
+ 6Dv45id9nqwrAxNPK1puZwZWsnui+hWDUdM5yvHGbNR5RepyY2Gr3SVxC1Ue1RjgLkMI
+ vAkEcaeVsJZVe4/Rzxu9UZD7HC9f7wMyb2hhKc4xl2RsVseQWw99M6pF6G4+wPbcRxKa
+ 0MmnDAbUck4wzA3xVNyCIexKcCvO6TTzg8bYVm+mcAnlIuVbLB6U4dItDfpJmR2ZAfwx
+ 0k8A==
+X-Gm-Message-State: AOAM5332O7Vc4hI97vGuNSVI01kG3CnvDgjNvdU5UiA1tsVscMsqqcPl
+ B087rCqI6KBp1VEhqjBhnI0+tCgQzj3Jjg==
+X-Google-Smtp-Source: ABdhPJyUDFxYmpKrIIMG8eaiqCXr1UqwNN8QG5SSMTc6pHgaDwrIz+qFpdVyXDZVzovhXFefJ1tDyQ==
+X-Received: by 2002:a17:90b:994:: with SMTP id
+ bl20mr4590411pjb.34.1605006669221; 
+ Tue, 10 Nov 2020 03:11:09 -0800 (PST)
+Received: from ?IPv6:2402:3a80:413:8adf:79d0:1679:313c:70a2?
+ ([2402:3a80:413:8adf:79d0:1679:313c:70a2])
+ by smtp.gmail.com with ESMTPSA id t74sm13999217pfc.47.2020.11.10.03.11.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Nov 2020 03:11:08 -0800 (PST)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <20201110100554.15995-1-yashsri421@gmail.com>
+ <CAKXUXMy2RG3UP_PEzH+KHhZNv7ehSgR9+oz_5mrQUyNO89HkHA@mail.gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <c4be24c1-6fa7-232c-df25-04de47eac72c@gmail.com>
+Date: Tue, 10 Nov 2020 16:41:04 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201106192154.51514-1-98.arpi@gmail.com>
- <CABVgOSkQ6+y7OGw2494cJa2b60EkSjncLNAgc9cJDbS=X9J3WA@mail.gmail.com>
- <CANpmjNNp2RUCE_ypp2R4MznikTYRYeCDuF7VMp+Hbh=55KWa3A@mail.gmail.com>
- <47a05c5a-485d-026b-c1c3-476ed1a97856@gmail.com>
- <CABVgOSkZ9k6bHPp=LVATWfokMSrEuD87jOfE5MiVYAEbZMmaQQ@mail.gmail.com>
-In-Reply-To: <CABVgOSkZ9k6bHPp=LVATWfokMSrEuD87jOfE5MiVYAEbZMmaQQ@mail.gmail.com>
-Date: Tue, 10 Nov 2020 11:35:11 +0100
-Message-ID: <CANpmjNMzNauQVNKK_ToWDKrwT1LKY7Tb+ApG8drX8wtBkBbWQQ@mail.gmail.com>
-To: David Gow <davidgow@google.com>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>, linux-ext4@vger.kernel.org,
- Theodore Ts'o <tytso@mit.edu>, Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Iurii Zaikin <yzaikin@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v6 1/2] kunit: Support for
-	Parameterized Testing
+In-Reply-To: <CAKXUXMy2RG3UP_PEzH+KHhZNv7ehSgR9+oz_5mrQUyNO89HkHA@mail.gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
+	MISSING_SIGN_OFF
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,86 +114,142 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Marco Elver via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Marco Elver <elver@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gVHVlLCAxMCBOb3YgMjAyMCBhdCAwODoyMSwgRGF2aWQgR293IDxkYXZpZGdvd0Bnb29nbGUu
-Y29tPiB3cm90ZToKWy4uLl0KPiA+ID4KPiA+ID4gVGhlIHByZXZpb3VzIGF0dGVtcHQgWzFdIGF0
-IHNvbWV0aGluZyBzaW1pbGFyIGZhaWxlZCBiZWNhdXNlIGl0IHNlZW1zCj4gPiA+IHdlJ2QgbmVl
-ZCB0byB0ZWFjaCBrdW5pdC10b29sIG5ldyB0cmlja3MgWzJdLCB0b28uCj4gPiA+IFsxXSBodHRw
-czovL2xrbWwua2VybmVsLm9yZy9yLzIwMjAxMTA1MTk1NTAzLkdBMjM5OTYyMUBlbHZlci5nb29n
-bGUuY29tCj4gPiA+IFsyXSBodHRwczovL2xrbWwua2VybmVsLm9yZy9yLzIwMjAxMTA2MTIzNDMz
-LkdBMzU2MzIzNUBlbHZlci5nb29nbGUuY29tCj4gPiA+Cj4gPiA+IFNvIGlmIHdlIGdvIHdpdGgg
-YSBkaWZmZXJlbnQgZm9ybWF0LCB3ZSBtaWdodCBuZWVkIGEgcGF0Y2ggYmVmb3JlIHRoaXMKPiA+
-ID4gb25lIHRvIG1ha2Uga3VuaXQtdG9vbCBjb21wYXRpYmxlIHdpdGggdGhhdCB0eXBlIG9mIGRp
-YWdub3N0aWMuCj4gPiA+Cj4gPiA+IEN1cnJlbnRseSBJIHRoaW5rIHdlIGhhdmUgdGhlIGZvbGxv
-d2luZyBwcm9wb3NhbHMgZm9yIGEgZm9ybWF0Ogo+ID4gPgo+ID4gPiAxLiBUaGUgY3VycmVudCAi
-IyBbdGVzdF9jYXNlLT5uYW1lXTogcGFyYW0tW2luZGV4XSBbb2t8bm90IG9rXSIgLS0KPiA+ID4g
-dGhpcyB3b3JrcyB3ZWxsLCBiZWNhdXNlIG5vIGNoYW5nZXMgdG8ga3VuaXQtdG9vbCBhcmUgcmVx
-dWlyZWQsIGFuZCBpdAo+ID4gPiBhbHNvIHBpY2tzIHVwIHRoZSBkaWFnbm9zdGljIGNvbnRleHQg
-Zm9yIHRoZSBjYXNlIGFuZCBkaXNwbGF5cyB0aGF0IG9uCj4gPiA+IHRlc3QgZmFpbHVyZS4KPiA+
-ID4KPiA+ID4gMi4gWW91ciBwcm9wb3NlZCAiIyBbb2t8bm90IG9rXSAtIFt0ZXN0X2Nhc2UtPm5h
-bWVdOnBhcmFtLVtpbmRleF0iLgo+ID4gPiBBcy1pcywgdGhpcyBuZWVkcyBhIHBhdGNoIGZvciBr
-dW5pdC10b29sIGFzIHdlbGwuIEkganVzdCBjaGVja2VkLCBhbmQKPiA+ID4gaWYgd2UgY2hhbmdl
-IGl0IHRvICIjIFtva3xub3Qgb2tdIC0gW3Rlc3RfY2FzZS0+bmFtZV06IHBhcmFtLVtpbmRleF0i
-Cj4gPiA+IChub3RlIHRoZSBzcGFjZSBhZnRlciAnOicpIGl0IHdvcmtzIHdpdGhvdXQgY2hhbmdp
-bmcga3VuaXQtdG9vbC4gOy0pCj4gPiA+Cj4gPiA+IDMuIFNvbWV0aGluZyBsaWtlICIjIFtva3xu
-b3Qgb2tdIHBhcmFtLVtpbmRleF0gLSBbdGVzdF9jYXNlLT5uYW1lXSIsCj4gPiA+IHdoaWNoIEkg
-aGFkIHBsYXllZCB3aXRoIGVhcmxpZXIgYnV0IGt1bml0LXRvb2wgaXMgZGVmaW5pdGVseSBub3Qg
-eWV0Cj4gPiA+IGhhcHB5IHdpdGguCj4gPiA+Cj4gPiA+IFNvIG15IGN1cnJlbnQgcHJlZmVyZW5j
-ZSBpcyAoMikgd2l0aCB0aGUgZXh0cmEgc3BhY2UgKG5vIGNoYW5nZSB0bwo+ID4gPiBrdW5pdC10
-b29sIHJlcXVpcmVkKS4gV0RZVD8KPiA+ID4KPgo+IEhtbeKApiB0aGF0IGZhaWx1cmUgaW4ga3Vu
-aXRfdG9vbCBpcyBkZWZpbml0ZWx5IGEgYnVnOiB3ZSBzaG91bGRuJ3QgY2FyZQo+IHdoYXQgY29t
-ZXMgYWZ0ZXIgdGhlIGNvbW1lbnQgY2hhcmFjdGVyIGV4Y2VwdCBpZiBpdCdzIGFuIGV4cGxpY2l0
-Cj4gc3VidGVzdCBkZWNsYXJhdGlvbiBvciBhIGNyYXNoLiBJJ2xsIHRyeSB0byBwdXQgYSBwYXRj
-aCB0b2dldGhlciB0bwo+IGZpeCBpdCwgYnV0IEknZCByYXRoZXIgbm90IGRlbGF5IHRoaXMganVz
-dCBmb3IgdGhhdC4KPgo+IEluIGFueSB0aG91Z2h0IGFib3V0IHRoaXMgYSBiaXQgbW9yZSwgSXQg
-dHVybnMgb3V0IHRoYXQgdGhlIHByb3Bvc2VkCj4gS1RBUCBzcGVjWzFdIGRpc2NvdXJhZ2VzIHRo
-ZSB1c2Ugb2YgJzonLCBleGNlcHQgYXMgcGFydCBvZiBhIHN1YnRlc3QKPiBkZWNsYXJhdGlvbiwg
-b3IgcGVyaGFwcyBhbiBhcy15ZXQtdW5zcGVjaWZpZWQgZnVsbHktcXVhbGlmaWVkIHRlc3QKPiBu
-YW1lLiBUaGUgbGF0dGVyIGlzIHdoYXQgSSB3YXMgZ29pbmcgZm9yLCBidXQgaWYgaXQncyBhY3Rp
-dmVseQo+IGJyZWFraW5nIGt1bml0X3Rvb2wsIHdlIG1pZ2h0IHdhbnQgdG8gaG9sZCBvZmYgb24g
-aXQuCj4KPiBJZiB3ZSB3ZXJlIHRvIHRyeSB0byB0cmVhdCB0aGVzZSBhcyBzdWJ0ZXN0cyBpbiBh
-Y2NvcmRhbmNlIHdpdGggdGhhdAo+IHNwZWMsIHRoZSB3YXkgd2UnZCB3YW50IHRvIHVzZSBvbmUg
-b2YgdGhlc2Ugb3B0aW9uczoKPiBBKSAiW29rfG5vdCBva10gW2luZGV4XSAtIHBhcmFtLVtpbmRl
-eF0iIC0tIFRoaXMgZG9lc24ndCBtZW50aW9uIHRoZQo+IHRlc3QgY2FzZSBuYW1lLCBidXQgb3Ro
-ZXJ3aXNlIHRyZWF0cyB0aGluZ3MgZXhhY3RseSB0aGUgc2FtZSB3YXkgd2UKPiB0cmVhdCBleGlz
-dGluZyBzdWJ0ZXN0cy4KPgo+IEIpICJbb2t8bm90IG9rXSBbaW5kZXhdIC0gW3Rlc3RfY2FzZS0+
-bmFtZV0iIC0tIFRoaXMgZG9lc24ndCBuYW1lIHRoZQo+ICJzdWJ0ZXN0IiwganVzdCBnaXZlcyBy
-ZXBlYXRlZCByZXN1bHRzIHdpdGggdGhlIHNhbWUgbmFtZS4KPgo+IEMpICJbb2t8bm90IG9rXSBb
-aW5kZXhdIC0gW3Rlc3RfY2FzZS0+bmFtZV1bc2VwYXJhdG9yXXBhcmFtLVtpbmRleF0iCj4gLS0g
-VGhpcyBpcyBlcXVpdmFsZW50IHRvIG15IHN1Z2dlc3Rpb24gd2l0aCBhIHNlcGFyYXRvciBvZiAi
-OiIsIG9yIDIKPiBhYm92ZSB3aXRoIGEgc2VwYXJhdG9yIG9mICI6ICIuIFRoZSBpbi1wcm9ncmVz
-cyBzcGVjIGRvZXNuJ3QgeWV0Cj4gc3BlY2lmeSBob3cgdGhlc2UgZnVsbHktcXVhbGlmaWVkIG5h
-bWVzIHdvdWxkIHdvcmssIG90aGVyIHRoYW4gdGhhdAo+IHRoZXknZCB1c2UgYSBjb2xvbiBzb21l
-d2hlcmUsIGFuZCBpZiB3ZSBjb21tZW50IGl0IG91dCwgIjogIiBpcwo+IHJlcXVpcmVkLgo+Cj4g
-Pgo+ID4gV2hpY2ggZm9ybWF0IGRvIHdlIGZpbmFsbHkgZ28gd2l0aD8KPiA+Cj4KPiBJJ20gYWN0
-dWFsbHkgZ29pbmcgdG8gbWFrZSBhbm90aGVyIHdpbGQgc3VnZ2VzdGlvbiBmb3IgdGhpcywgd2hp
-Y2ggaXMKPiBhIGNvbWJpbmF0aW9uIG9mICgxKSBhbmQgKEEpOgo+ICIjIFt0ZXN0X2Nhc2UtPm5h
-bWVdOiBbb2t8bm90IG9rXSBbaW5kZXhdIC0gcGFyYW0tW2luZGV4XSIKPgo+IFRoaXMgZ2l2ZXMg
-dXMgYSBLVEFQLWNvbXBsaWFudCByZXN1bHQgbGluZSwgZXhjZXB0IHByZXBlbmRlZCB3aXRoICIj
-Cj4gW3Rlc3RfY2FzZS0+bmFtZV06ICIsIHdoaWNoIG1ha2VzIGl0IGZvcm1hbGx5IGEgZGlhZ25v
-c3RpYyBsaW5lLAo+IHJhdGhlciB0aGFuIGFuIGFjdHVhbCBzdWJ0ZXN0LiBQdXR0aW5nIHRoZSB0
-ZXN0IG5hbWUgYXQgdGhlIHN0YXJ0Cj4gbWF0Y2hlcyB3aGF0IGt1bml0X3Rvb2wgaXMgZXhwZWN0
-aW5nIGF0IHRoZSBtb21lbnQuIElmIHdlIHRoZW4gd2FudCB0bwo+IHR1cm4gaXQgaW50byBhIHBy
-b3BlciBzdWJ0ZXN0LCB3ZSBjYW4ganVzdCBnZXQgcmlkIG9mIHRoYXQgcHJlZml4IChhbmQKPiBh
-ZGQgdGhlIGFwcHJvcHJpYXRlIGNvdW50cyBlbHNld2hlcmUpLgo+Cj4gRG9lcyB0aGF0IHNvdW5k
-IGdvb2Q/CgpTb3VuZHMgcmVhc29uYWJsZSB0byBtZSEgIFRoZSByZXBldGl0aW9uIG9mIFtpbmRl
-eF0gc2VlbXMgdW5uZWNlc3NhcnkKZm9yIG5vdywgYnV0IEkgdGhpbmsgaWYgd2UgYXQgc29tZSBw
-b2ludCBoYXZlIGEgd2F5IHRvIGdldCBhIHN0cmluZwpyZXByZXNlbnRhdGlvbiBvZiBhIHBhcmFt
-LCB3ZSBjYW4gc3Vic3RpdHV0ZSBwYXJhbS1baW5kZXhdIHdpdGggYQpzdHJpbmcgdGhhdCByZXBy
-ZXNlbnRzIHRoZSBwYXJhbS4KCk5vdGUgdGhhdCBvbmNlIHdlIHdhbnQgdG8gbWFrZSBpdCBhIHJl
-YWwgc3VidGVzdCwgd2UnZCBuZWVkIHRvIHJ1biB0aGUKZ2VuZXJhdG9yIHR3aWNlLCBvbmNlIHRv
-IGdldCB0aGUgbnVtYmVyIG9mIHBhcmFtcyBhbmQgdGhlbiB0byBydW4gdGhlCnRlc3RzLiBJZiB3
-ZSByZXF1aXJlIHRoYXQgcGFyYW0gZ2VuZXJhdG9ycyBhcmUgZGV0ZXJtaW5pc3RpYyBpbiB0aGUK
-bnVtYmVyIG9mIHBhcmFtcyBnZW5lcmF0ZWQsIHRoaXMgaXMgbm90IGEgcHJvYmxlbS4KClRoYW5r
-cywKLS0gTWFyY28KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVz
-QGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24u
-b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+On 10/11/20 4:01 pm, Lukas Bulwahn wrote:
+> On Tue, Nov 10, 2020 at 11:06 AM Aditya Srivastava <yashsri421@gmail.com> wrote:
+>>
+>> Currently checkpatch warns us if there is no 'Signed-off-by' line
+>> for the patch.
+>>
+>> E.g., running checkpatch on commit 9ac060a708e0 ("leaking_addresses:
+>> Completely remove --version flag") reports this error:
+>>
+>> ERROR: Missing Signed-off-by: line(s)
+>>
+>> Provide a fix by adding a Signed-off-by line corresponding to the author
+>> of the patch before the patch separator line. Also avoid this error for
+>> the commits where some typo is present in the sign off.
+>>
+>> E.g. for commit 8cde5d5f7361 ("bus: ti-sysc: Detect omap4 type timers
+>> for quirk") we get missing sign off as well as bad sign off for:
+>>
+>> Siganed-off-by: Tony Lindgren <tony@atomide.com>
+>>
+>> Here it is probably best to give BAD_SIGN_OFF warning for Non-standard
+>> signature and avoid MISSING_SIGN_OFF
+>>
+>> A quick evaluation over v4.13..v5.8 found out that 4 out of 11 cases
+>> for this error is because of missing sign offs in reverts. Add
+>> documentation regarding it for the future users.
+>>
+>> Suggested-by: Joe Perches <joe@perches.com>
+>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> 
+> Split this patch into two patches. One for documentation and one for
+> the checkpatch.pl change.
+> 
+> The documentation patch needs its own commit message to explain why we
+> think this should be pointed out.
+> 
+Okay
+
+>> ---
+>>  Documentation/process/submitting-patches.rst |  2 ++
+>>  scripts/checkpatch.pl                        | 17 ++++++++++++++---
+>>  2 files changed, 16 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+>> index 83d9a82055a7..ff065e1f6a25 100644
+>> --- a/Documentation/process/submitting-patches.rst
+>> +++ b/Documentation/process/submitting-patches.rst
+>> @@ -404,6 +404,8 @@ then you just add a line saying::
+>>
+>>  using your real name (sorry, no pseudonyms or anonymous contributions.)
+>>  This will be done for you automatically if you use ``git commit -s``.
+>> +Also reverts should include a Signed-off-by. ``git revert -s`` does
+>> +that for you.
+>>
+>>  Some people also put extra tags at the end.  They'll just be ignored for
+>>  now, but you can do this to mark internal company procedures or just
+>> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+>> index cb46288127ac..849e4a510767 100755
+>> --- a/scripts/checkpatch.pl
+>> +++ b/scripts/checkpatch.pl
+>> @@ -2404,6 +2404,8 @@ sub process {
+>>
+>>         my $last_blank_line = 0;
+>>         my $last_coalesced_string_linenr = -1;
+>> +       my $patch_separator_linenr = 0;
+>> +       my $is_signed_off = 0;
+>>
+>>         our @report = ();
+>>         our $cnt_lines = 0;
+>> @@ -2755,6 +2757,10 @@ sub process {
+>>                 if ($line =~ /^---$/) {
+>>                         $has_patch_separator = 1;
+>>                         $in_commit_log = 0;
+>> +                       # to add missing sign off line before diff(s)
+>> +                       if($patch_separator_linenr == 0) {
+>> +                               $patch_separator_linenr = $fixlinenr;
+>> +                       }
+> 
+> Why do you use fixlinenr here? How is that different from linenr?
+> 
+I used $fixlinenr here as we need to later use it for
+fix_insert_line(), where we are passing fixlinenrs' always. So, to
+keep it consistent, I used $fixlinenr
+Should I use $linenr instead? I think they differ by 1
+
+>>                 }
+>>
+>>  # Check if MAINTAINERS is being updated.  If so, there's probably no need to
+>> @@ -2771,6 +2777,8 @@ sub process {
+>>                         my $space_after = $3;
+>>                         my $email = $4;
+>>                         my $ucfirst_sign_off = ucfirst(lc($sign_off));
+>> +                       # to avoid missing_sign_off error as it most probably is a typo
+>> +                       $is_signed_off = 1;
+> 
+> Probably is_signed_off is the wrong name here.
+> 
+> Other than that, this change looks good.
+>
+Okay
+
+> Check if the patch applies on top of Dwaipayan's latest patches he sent.
+> 
+Yes, I have made the changes after applying this patch:
+https://lore.kernel.org/linux-kernel-mentees/20201108100632.75340-1-dwaipayanray1@gmail.com/
+
+>>
+>>                         if ($sign_off !~ /$signature_tags/) {
+>>                                 WARN("BAD_SIGN_OFF",
+>> @@ -7118,9 +7126,12 @@ sub process {
+>>                       "Does not appear to be a unified-diff format patch\n");
+>>         }
+>>         if ($is_patch && $has_commit_log && $chk_signoff) {
+>> -               if ($signoff == 0) {
+>> -                       ERROR("MISSING_SIGN_OFF",
+>> -                             "Missing Signed-off-by: line(s)\n");
+>> +               if ($signoff == 0 && !$is_signed_off) {
+>> +                       if (ERROR("MISSING_SIGN_OFF",
+>> +                                 "Missing Signed-off-by: line(s)\n") &&
+>> +                           $fix) {
+>> +                               fix_insert_line($patch_separator_linenr, "Signed-off-by: $author");
+>> +                       }
+>>                 } elsif ($authorsignoff != 1) {
+>>                         # authorsignoff values:
+>>                         # 0 -> missing sign off
+>> --
+>> 2.17.1
+>>
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
