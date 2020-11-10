@@ -8,89 +8,89 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 895CBC388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 14:01:07 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C57C4742C
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 14:49:31 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D1059207D3
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 14:01:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D7632206B2
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 14:49:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KO/fSuoS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D1059207D3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XhNfslzH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D7632206B2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3BAFC86B62;
-	Tue, 10 Nov 2020 14:01:06 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id K1j6Y5t5aPuc; Tue, 10 Nov 2020 14:01:05 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 95F5C86B5E;
-	Tue, 10 Nov 2020 14:01:05 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 75AB5C088B;
-	Tue, 10 Nov 2020 14:01:05 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E8468C016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 14:01:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id C9746864DA
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 14:01:03 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5F35480585;
+	Tue, 10 Nov 2020 14:49:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 45WUYaKx++lf; Tue, 10 Nov 2020 14:49:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4110E840C2;
+	Tue, 10 Nov 2020 14:49:29 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3078EC0889;
+	Tue, 10 Nov 2020 14:49:29 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DA0B2C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 10 Nov 2020 14:49:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id A299F20488
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 10 Nov 2020 14:49:27 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AN9lXTbxvPou
+ with ESMTP id zZ2yasIEQIYp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 14:01:02 +0000 (UTC)
+ Tue, 10 Nov 2020 14:49:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D0E0F86497
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8C1A82042B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 14:01:02 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id t8so9604291iov.8
+ Tue, 10 Nov 2020 14:49:26 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id x7so12299357ili.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 06:01:02 -0800 (PST)
+ Tue, 10 Nov 2020 06:49:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O4tAoEcXuDFFEih46ZZRkk3RthKKrNRSM174ZtjbOn0=;
- b=KO/fSuoSjtEP0miRAUV3iZklYFxcZ6F/60z/Af9bejx/K/frEV3OfahO2sIEptNezM
- TDGiz5L6qRsH2qrXSxKiJSnwMRtV827koG+hx+N1UKHe369XkkEwMlWkxxuduz6Mk3x1
- NrcBJTxyx9BrgHayvTAjVA+YE2mJZIZHYR2dkN8KeJImo/dJsRn0fXd4ZFwaL8sLrw1u
- PXHkaJuzWi1TXPfwrIkz00zyXntAV7nK/Xr3ys3ZYzWftEulvdcZibFX7IvHXFy12oiU
- KwGgPp2ya9fqPUgnP/rIPArvLOexjmziWnC0wQOGbWGRyP+qGufmikIQFphuZkPticAn
- gdKg==
+ :cc; bh=VNvbpZ00cNW4lHu5DJb6gTqFqswVVQZ1oD/XuwlnIBE=;
+ b=XhNfslzHXBFdCk3MEuYrppm7ijVG2VUQLBxxqvh39gwdeEKZ4Z1Pn9JhgbJNiZlH5i
+ LS4Cavz/ejxkWzon5VbBwORAlmonMKn+EKjYARxNwtgM6GClf2ewQputqw9qGoaQBVw6
+ fVtEiYaeqUDTBz1yrtCzyWWZrjpIn3EJhIQCWBfkXthDJyl4Z+zeTg6VU2AP54iCLz0U
+ MP0NddMqwTo1+Rr5DgjUTZbH66siJZdknG6FcPde/uXaLNsZIqax52bTb3c0SFw4BtFU
+ V/qr0hayye/c6WFyEWcPoa39LNjvMEdD7esSiuaBPyQsYTrGyvQDWnnnduQKc9NHXwsA
+ bo+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=O4tAoEcXuDFFEih46ZZRkk3RthKKrNRSM174ZtjbOn0=;
- b=USMyPlXkAvzVxrKBxTAyzYb/zodoFL07QP+Z1h429UQUbQvEit6OLCP9pSMUBwVqP2
- JU0B8SzCKHihhJ/vKgSyClcP4ZRYKz4m8jOm37nbjBsOEqJS5o3HA0pOVyYw/4obIO2C
- b8fmzsTQ12lAjIYs0BM4WeCpAR4gjI5q/kZR5niojhAoEYCAHMwU13GQPnnhPOGiW4s9
- ++d3RfQ1B/0rILvt3GIIuLh0tSbCrU5zLsNfdy39gEpIYYg6tbhC+qmmA8D2BoW2e+IS
- dlpSvqmshEunrbzx3FbE48USifvu6U8Ln59MZMKEstA7PymVPzf0cZs41jivjDjjKcJ7
- xLbQ==
-X-Gm-Message-State: AOAM530AJ1idPJGMJMXLRr5yihebj4nya2wR1scK4cAubJHRxHeH8VDF
- qDiZnuLda5uzHoMTTUzkdPfb641Ffb2mXkDLmmM=
-X-Google-Smtp-Source: ABdhPJzvso6++SuKAmbTWMsXgyu7tOPlz52SQY8HcuRrllr9KRknIhlj6+uDnFUl8RYO4iVtkV5qyMTE8IxY9UzVHfA=
-X-Received: by 2002:a5e:820d:: with SMTP id l13mr5804621iom.102.1605016862058; 
- Tue, 10 Nov 2020 06:01:02 -0800 (PST)
+ bh=VNvbpZ00cNW4lHu5DJb6gTqFqswVVQZ1oD/XuwlnIBE=;
+ b=Gv1m6x9TKzqlhc0JpciKwW3AMJNKw7NrMbI1gafzPj0io+tlnuS5HNYPUQw3b9zY7g
+ +nz5dwiPFZ3cyCeh857GOw7sIoDmAfYZtWU3BPTwIu/imQLuv+xmYwPUhhxy8lIQ63Vy
+ 7WU1hg7tiAVbDwueCAAoFwvrm68FWmVMCGbPOmmOe8c56FieihzbhgEa/iN2ug5gbhYP
+ yjVItlQKOHz47PxDQkUnnzrTmJastyj9uUZ1UnZhZjjlpJa98gKkOoCZSJQ8oWZEnJd3
+ LT3X/z5VL0wfZwofPwaDdfa9eKs4DXOH1Fc45GvAMPy8Hb1l7gqKOr6JDmkOA/Nyhsay
+ AWZg==
+X-Gm-Message-State: AOAM533Hjr1xjA0E4seIBdL5ALj61lD866F3iiPbiFvjwsYwVCwpxev9
+ v0edvTk5GScGRgwGjhaebkoOS31+0rVU/Vei/wk=
+X-Google-Smtp-Source: ABdhPJyWfYVWKzE8w1v+aDyRuR181FF7SmBEt7hAYI99K8viE0fKt9daa/QJK1TLPe4cEITw2vKoTWgI1Ytds9A0AbA=
+X-Received: by 2002:a92:cb51:: with SMTP id f17mr13866371ilq.64.1605019765635; 
+ Tue, 10 Nov 2020 06:49:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20201110130602.22359-1-yashsri421@gmail.com>
-In-Reply-To: <20201110130602.22359-1-yashsri421@gmail.com>
+References: <20201110134214.24082-1-yashsri421@gmail.com>
+In-Reply-To: <20201110134214.24082-1-yashsri421@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Tue, 10 Nov 2020 15:00:52 +0100
-Message-ID: <CAKXUXMxVfW3nDzGqhK2pwD6fVtcmSNK-USLtNaLVK_+E_6Smpg@mail.gmail.com>
+Date: Tue, 10 Nov 2020 15:49:15 +0100
+Message-ID: <CAKXUXMzSQX-NjOw1KBHMfag1GkizAJvLpyopjiRdOf+6K1r-KA@mail.gmail.com>
 To: Aditya Srivastava <yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
-	MISSING_SIGN_OFF
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Documentation:
+	include sign off for reverts
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,98 +108,49 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Nov 10, 2020 at 2:06 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+On Tue, Nov 10, 2020 at 2:42 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
 >
-> Currently checkpatch warns us if there is no 'Signed-off-by' line
-> for the patch.
+> Currently, we do not have any documentation on commit reverts regarding
+> the requirement of Signed-off-by tag for it. This may be misleading to
+> the users.
 >
-> E.g., running checkpatch on commit 9ac060a708e0 ("leaking_addresses:
-> Completely remove --version flag") reports this error:
+> On evaluating MISSING_SIGN_OFF over v4.13..v5.8, it was found that
+Just some minor nitpicking on wording:
+
+Evaluating MISSING_SIGN_OFF checkpatch warnings on v4.13..v5.8 showed that
+> 4 out of 11 cases for this error is because of missing sign offs in
+
+4 out of 11 cases missing a sign-off are revert commits.
+
+> revert commits.
 >
-> ERROR: Missing Signed-off-by: line(s)
+> Add documentation regarding the same.
 >
-> Provide a fix by adding a Signed-off-by line corresponding to the author
-> of the patch before the patch separator line. Also avoid this error for
-> the commits where some typo is present in the sign off.
->
-> E.g. for commit 8cde5d5f7361 ("bus: ti-sysc: Detect omap4 type timers
-> for quirk") we get missing sign off as well as bad sign off for:
->
-> Siganed-off-by: Tony Lindgren <tony@atomide.com>
->
-> Here it is probably best to give BAD_SIGN_OFF warning for Non-standard
-> signature and avoid MISSING_SIGN_OFF
->
-> Suggested-by: Joe Perches <joe@perches.com>
+
+...to document the community consensus and let readers know.
+
+Send the revised patch out to the appropriate developers and mailing
+lists and please CC me and Joe (because it is also on checkpatch
+rules).
+
 > Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 > ---
-> This patch was made after applying https://lore.kernel.org/linux-kernel-mentees/20201108100632.75340-1-dwaipayanray1@gmail.com/
-> and my last changes at https://lore.kernel.org/linux-kernel-mentees/20201108134317.25400-1-yashsri421@gmail.com/
+>  Documentation/process/submitting-patches.rst | 2 ++
+>  1 file changed, 2 insertions(+)
 >
->  scripts/checkpatch.pl | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 83d9a82055a7..ff065e1f6a25 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -404,6 +404,8 @@ then you just add a line saying::
 >
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index cb46288127ac..2deffd0c091b 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2404,6 +2404,8 @@ sub process {
+>  using your real name (sorry, no pseudonyms or anonymous contributions.)
+>  This will be done for you automatically if you use ``git commit -s``.
+> +Also reverts should include a Signed-off-by. ``git revert -s`` does
+> +that for you.
 >
->         my $last_blank_line = 0;
->         my $last_coalesced_string_linenr = -1;
-> +       my $patch_separator_linenr = 0;
-> +       my $non_standard_signature = 0;
->
->         our @report = ();
->         our $cnt_lines = 0;
-> @@ -2755,6 +2757,10 @@ sub process {
->                 if ($line =~ /^---$/) {
->                         $has_patch_separator = 1;
->                         $in_commit_log = 0;
-> +                       # to add missing sign off line before diff(s)
-> +                       if($patch_separator_linenr == 0) {
-> +                               $patch_separator_linenr = $linenr;
-
-Well are you sure linenr is correct? (As I wrote, I do not know, but
-you should know.)
-
-I think you would need to create a patch for testing your feature
-where multiple things are fixed within the same patch and then check
-if the fix is added at the right place.
-
-> +                       }
->                 }
->
->  # Check if MAINTAINERS is being updated.  If so, there's probably no need to
-> @@ -2775,6 +2781,9 @@ sub process {
->                         if ($sign_off !~ /$signature_tags/) {
->                                 WARN("BAD_SIGN_OFF",
->                                      "Non-standard signature: $sign_off\n" . $herecurr);
-> +
-> +                               # to avoid missing_sign_off error as it most probably is just a typo
-> +                               $non_standard_signature = 1;
-
-The variable name now sounds much better.
-
->                         }
->                         if (defined $space_before && $space_before ne "") {
->                                 if (WARN("BAD_SIGN_OFF",
-> @@ -7118,9 +7127,12 @@ sub process {
->                       "Does not appear to be a unified-diff format patch\n");
->         }
->         if ($is_patch && $has_commit_log && $chk_signoff) {
-> -               if ($signoff == 0) {
-> -                       ERROR("MISSING_SIGN_OFF",
-> -                             "Missing Signed-off-by: line(s)\n");
-> +               if ($signoff == 0 && !$non_standard_signature) {
-> +                       if (ERROR("MISSING_SIGN_OFF",
-> +                                 "Missing Signed-off-by: line(s)\n") &&
-> +                           $fix) {
-> +                               fix_insert_line($patch_separator_linenr - 1, "Signed-off-by: $author");
-> +                       }
->                 } elsif ($authorsignoff != 1) {
->                         # authorsignoff values:
->                         # 0 -> missing sign off
+>  Some people also put extra tags at the end.  They'll just be ignored for
+>  now, but you can do this to mark internal company procedures or just
 > --
 > 2.17.1
 >
