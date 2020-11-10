@@ -8,87 +8,87 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 988E9C388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 09:32:29 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0554C388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 10:06:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4F5E20780
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 09:32:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CA89C20780
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Nov 2020 10:06:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qVCJvm9F"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4F5E20780
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qvVm2ySm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CA89C20780
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4270120513;
-	Tue, 10 Nov 2020 09:32:28 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SWWEVEIdHEro; Tue, 10 Nov 2020 09:32:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2DA152050D;
-	Tue, 10 Nov 2020 09:32:27 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FFA8C088B;
-	Tue, 10 Nov 2020 09:32:27 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A930EC016F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 09:32:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 97F4487163
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 09:32:26 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 22A8F871C0;
+	Tue, 10 Nov 2020 10:06:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BmhcgxF4C0rf; Tue, 10 Nov 2020 10:06:04 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8BFBD87267;
+	Tue, 10 Nov 2020 10:06:04 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 72627C088B;
+	Tue, 10 Nov 2020 10:06:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D6451C016F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 10 Nov 2020 10:06:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id D0B24865E2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 10 Nov 2020 10:06:03 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id shUxUthh6A9R
+ with ESMTP id mjfNw7rvI2LP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 09:32:25 +0000 (UTC)
+ Tue, 10 Nov 2020 10:06:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B1E53870C6
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+ [209.85.214.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 42B2A862C7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 09:32:25 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id j5so6202989plk.7
+ Tue, 10 Nov 2020 10:06:03 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id x15so5420712pll.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Nov 2020 01:32:25 -0800 (PST)
+ Tue, 10 Nov 2020 02:06:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=A2SmRAA8D1b8Uf+IYDXWbTN66Sv/n0JmpFYCM0SGAvo=;
- b=qVCJvm9FrpQaIh0uzLAMQODs7Ma0u7WxG92Zd/32RkfKTJNId6Edf50v/sub+GPEnA
- S0i8uxdNul3B5B47imtzBbOfWUPKp02bcCYlnd4BdfWODt16fQl2VnBDJtEl36ZO+xtB
- 69KuVyr3Ntky7KjBUv2EhBRMbSHZcbNrugRZP05pAG74VirLKeG7AtqOfzQYZnXnWDEj
- 4Cb+8Nuk6GPuWzOilwrWHpaGkKXiGhxBCJQLAcq/k9YkLuEsRzQnOlfrlB7+VNFU1/Rk
- 5QyRYQqNtGGY+AhLolEC+pgs6cMlPMKUsiXCfnorgQsGEy5ZrCm8v+GXsByqtaH5uLBb
- 4hbg==
+ bh=AIhXcPN2MFExvWPLs/0cjSC2lNKguYNlSXb0urmzzQ4=;
+ b=qvVm2ySm9C/KwQM2OLcF5qh0PedLrWf7Dl/+yEMpeR5y/wSrTbOGjoueHS+FLCjUl+
+ wwtEyx/9KS0d+0/YSJH7XVmAEsQ4Wg0VQeD654bplEzLcE41sz5q37h3V3eJIBtlCzuQ
+ klLUuMzh5rjKwCM5ojmiNVVtG2mdEPCbkJUEAncwlI05YRqT7hypJM4iv1qFZpzzd12G
+ 9dMuB2LInR45y3nlDKfTj0MNNNlS8yG4ruYSu3TMbAiK+0nAB6c+/cE7hF6zgj/vr/27
+ /Lfhdc3qOdFPVnlo/YKNZ85Yf5a0ZSUDY+OSSTkJOYj4zwVLX/1K3LSmojuwifhm4FUL
+ /tpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=A2SmRAA8D1b8Uf+IYDXWbTN66Sv/n0JmpFYCM0SGAvo=;
- b=ZEhb6+sY8ktc+WoT6CvuxBeXWQvpaqK4p1VW4Kd93QCZwuXegkLoFZIkPC7a2T1Zjw
- l86B4Po0arO7a4pD2xGlDapglWUu4fAPjrXuzObqKsDYkB6niNDUZqQYYmewgXfzD+8X
- +VUMd0oWidZACLMtHz8vQ/0l34IJiJvTDs6gpDsOZMCA+L6ZQDSdEnz9D8fV6DYZt16p
- TeLxRqHEo35+ScF+6LUAyEm1zZipY5HY3ki0o/hqj5kUJfEJGLE9Xrcycn9dEdFz5mmv
- Sn1Csu0G7R2pv2EGdFSkMW4vCnakT70ACqkSsNhBKr6GtYVQs4M4aNAe4Vs+1NbtVbg0
- PvOw==
-X-Gm-Message-State: AOAM530lrZuogaDNbdcteLQezN80JoucQHb6U58IR1GInPkBVDJB6g11
- MdzWUqV0XA4JWtsOxYYWybo=
-X-Google-Smtp-Source: ABdhPJyQ0QIR+lqs7fJq96bo6esWWwoaHIYuQ6wWVK7SGjXFS5eFsmOio2swNjTmx288RluzRNWjJw==
-X-Received: by 2002:a17:902:a50f:b029:d6:da2:aaa7 with SMTP id
- s15-20020a170902a50fb02900d60da2aaa7mr16770217plq.42.1605000745185; 
- Tue, 10 Nov 2020 01:32:25 -0800 (PST)
+ bh=AIhXcPN2MFExvWPLs/0cjSC2lNKguYNlSXb0urmzzQ4=;
+ b=aaka/l3vrBagO9ZMnNksqaM0Appjkq6wRq5EoSWgvhMNvJ84k/scwl1XBNgVB43B00
+ wzWORVWv0lXS0rjyWsHjYBNjN/P+nACKuO0QTOiVJwnhTDPYTBXsmD2YYG/NgSqQLPD3
+ nLx+rEhuMfkfhGclB95cfpUNWGPG5xKdiiIFWaq35H3MQBqeo3Y2hf39Tmh0nJDa188Y
+ aEYUfmzBwS0MfJYns+DtUNGniADSeeps/Y4046gNV2b02JcgmEkkS+B3iAJaJ24HDzIq
+ RoQ3SnpdSUS5soYNzsmW60r3FP1bRQ1ca8dHmwjbLhbixRr6/TotU4quLnG2Tdcisjqh
+ 5KOQ==
+X-Gm-Message-State: AOAM531yv68BR3HZKO/RFFjXQVb3rCJwLa8tyxm1sFROzcFvrHuZNkFA
+ nJnKYo6RCBge603sN7nSaoI=
+X-Google-Smtp-Source: ABdhPJyAN4yF8APkGnlZRNEE9fXQ8jV1dMfnk/AdCqEro9CI27vrvOq8aJBi80FXcdPz5rwlrfMQ0A==
+X-Received: by 2002:a17:902:8508:b029:d5:af79:8b40 with SMTP id
+ bj8-20020a1709028508b02900d5af798b40mr16186162plb.28.1605002762726; 
+ Tue, 10 Nov 2020 02:06:02 -0800 (PST)
 Received: from localhost.localdomain ([2402:3a80:413:8adf:79d0:1679:313c:70a2])
- by smtp.googlemail.com with ESMTPSA id r6sm2592819pjo.0.2020.11.10.01.32.22
+ by smtp.googlemail.com with ESMTPSA id r8sm14599833pgn.30.2020.11.10.02.05.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 01:32:24 -0800 (PST)
+ Tue, 10 Nov 2020 02:06:02 -0800 (PST)
 From: Aditya Srivastava <yashsri421@gmail.com>
 To: lukas.bulwahn@gmail.com
-Date: Tue, 10 Nov 2020 15:02:16 +0530
-Message-Id: <20201110093216.14291-1-yashsri421@gmail.com>
+Date: Tue, 10 Nov 2020 15:35:54 +0530
+Message-Id: <20201110100554.15995-1-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Cc: linux-kernel-mentees@lists.linuxfoundation.org, yashsri421@gmail.com
 Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
@@ -121,21 +121,40 @@ ERROR: Missing Signed-off-by: line(s)
 
 Provide a fix by adding a Signed-off-by line corresponding to the author
 of the patch before the patch separator line. Also avoid this error for
-the commits where some typo is present in the sign offs.
+the commits where some typo is present in the sign off.
 
 E.g. for commit 8cde5d5f7361 ("bus: ti-sysc: Detect omap4 type timers
 for quirk") we get missing sign off as well as bad sign off for:
+
 Siganed-off-by: Tony Lindgren <tony@atomide.com>
 
 Here it is probably best to give BAD_SIGN_OFF warning for Non-standard
 signature and avoid MISSING_SIGN_OFF
 
+A quick evaluation over v4.13..v5.8 found out that 4 out of 11 cases
+for this error is because of missing sign offs in reverts. Add
+documentation regarding it for the future users.
+
 Suggested-by: Joe Perches <joe@perches.com>
 Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
- scripts/checkpatch.pl | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ Documentation/process/submitting-patches.rst |  2 ++
+ scripts/checkpatch.pl                        | 17 ++++++++++++++---
+ 2 files changed, 16 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 83d9a82055a7..ff065e1f6a25 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -404,6 +404,8 @@ then you just add a line saying::
+ 
+ using your real name (sorry, no pseudonyms or anonymous contributions.)
+ This will be done for you automatically if you use ``git commit -s``.
++Also reverts should include a Signed-off-by. ``git revert -s`` does
++that for you.
+ 
+ Some people also put extra tags at the end.  They'll just be ignored for
+ now, but you can do this to mark internal company procedures or just
 diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
 index cb46288127ac..849e4a510767 100755
 --- a/scripts/checkpatch.pl
