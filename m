@@ -2,70 +2,112 @@ Return-Path: <SRS0=I6GU=ET=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B726C4742C
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 22:01:50 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BFA1C4742C
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 22:38:03 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AE7F820B80
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 22:01:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE7F820B80
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
+	by mail.kernel.org (Postfix) with ESMTPS id 8ABF922252
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 22:38:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="jCHLj6m4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8ABF922252
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3C050879E0;
-	Fri, 13 Nov 2020 22:01:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3D8A7876B0;
+	Fri, 13 Nov 2020 22:38:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id N3MCsMPkZPkp; Fri, 13 Nov 2020 22:01:48 +0000 (UTC)
+	with ESMTP id gnEoECEUIPlp; Fri, 13 Nov 2020 22:38:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 75A9F879D9;
-	Fri, 13 Nov 2020 22:01:48 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 72687876AA;
+	Fri, 13 Nov 2020 22:38:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5314EC088E;
-	Fri, 13 Nov 2020 22:01:48 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B7618C0800
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E8CDC0891;
+	Fri, 13 Nov 2020 22:38:01 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C3934C0800
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 22:01:46 +0000 (UTC)
+ Fri, 13 Nov 2020 22:38:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9D4838779F
+ by fraxinus.osuosl.org (Postfix) with ESMTP id AAEFC876B0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 22:01:46 +0000 (UTC)
+ Fri, 13 Nov 2020 22:38:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 23zt4HyTinw6
+ with ESMTP id XIDHoiOd7p1F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 22:01:46 +0000 (UTC)
+ Fri, 13 Nov 2020 22:37:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 0A7DF8778D
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+ [209.85.167.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 64FD8876AA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 22:01:45 +0000 (UTC)
-Received: from lwn.net (localhost [127.0.0.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 24FB94FA;
- Fri, 13 Nov 2020 22:01:45 +0000 (UTC)
-Date: Fri, 13 Nov 2020 15:01:44 -0700
-From: Jonathan Corbet <corbet@lwn.net>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Message-ID: <20201113150144.11316c0c@lwn.net>
-In-Reply-To: <20201110174749.32068-1-yashsri421@gmail.com>
-References: <20201110174749.32068-1-yashsri421@gmail.com>
-Organization: LWN.net
+ Fri, 13 Nov 2020 22:37:59 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id a9so15375011lfh.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 13 Nov 2020 14:37:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RqE3OxR3fLcJWt0UMFEVkW0qslrVCHrDJ2Sqt24Sbmw=;
+ b=jCHLj6m4MAR++j5GWyqwiUgqQkCrp6edW1xtrSvfyHy7GSWTtP57EosXjkqRhtCDO8
+ C4mm7llFtnvUt7UuFBahHdZfnnhomfadwWqltIQTwecnAEcuDA9chCda27/u6M7kfgQB
+ m0UuTrU4gDAWtTaqCmW6qfpMb8Cdq1hWDZK3VKq664GrmSL1/IF7I8vjMjBhhcpRARzI
+ lWdwIi3b/Di/irsVzk0JtS60CYgS50uBaPhntG53+Fxn4zWC7Ei/pjZYbJ1STYZXTJOr
+ MiaW7mHMyoWViWHjv2Bw3ZXNS42ueUMTd6xZFCJ9WGnhhFA4PDVgK2SgFFiDJg/4LFvC
+ 2Izw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RqE3OxR3fLcJWt0UMFEVkW0qslrVCHrDJ2Sqt24Sbmw=;
+ b=YT9lYx7MQ7/adhcJBFSOQ87OVg05hrpb1AAtUw4KbOiL1ZPnKWvrIQ5UYVzF5ZPQQp
+ AZZ80kfa5QbL7bIjQyLC3oP6h8oTNO3vEvOpN1s9PvUxCZhHlwAEmb68QajxHB7WtfdU
+ Yp2jEUTxxbLdzT1emBUVfrvPGZGR8Tbvw5VcANMw/y5KSpa1a2MxCcNEUrzoYILfc3Yt
+ mHBMf2MtSfUE29fwbVcTfo452jn1klpDgmhJGKgMohoH/3qWz/svLkurvhmPfnZmpDUz
+ sB8ONFOPCpamzarlAbLJf9RZ1mVMxWymryrO1DDZKi0kyOPuk4nr/jNoD08l1jfiTOkY
+ MF7Q==
+X-Gm-Message-State: AOAM5304llb50QuFXnLcdB0BtzCLDmCHwrAL0vv8exQIrbY7y5RImorc
+ uLUIdwdFNlhKFrdRigDTC0mWj+9YrDvGGmTpe1xmOw==
+X-Google-Smtp-Source: ABdhPJxJAEyX+ydr8CN7N/Sw1lhvdBBhlUsqRFkfdnSMyxGFrSDS5AkroJKzK9ugEaBcjyZePeaDFG10stqa5Md7RD4=
+X-Received: by 2002:ac2:5c01:: with SMTP id r1mr1815912lfp.436.1605307077210; 
+ Fri, 13 Nov 2020 14:37:57 -0800 (PST)
 MIME-Version: 1.0
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, joe@perches.com,
- linux-kernel-mentees@lists.linuxfoundation.org, sir@cmpwn.com
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] Documentation: include sign
-	off for reverts
+References: <CABVgOSkQ6+y7OGw2494cJa2b60EkSjncLNAgc9cJDbS=X9J3WA@mail.gmail.com>
+ <CANpmjNNp2RUCE_ypp2R4MznikTYRYeCDuF7VMp+Hbh=55KWa3A@mail.gmail.com>
+ <47a05c5a-485d-026b-c1c3-476ed1a97856@gmail.com>
+ <CABVgOSkZ9k6bHPp=LVATWfokMSrEuD87jOfE5MiVYAEbZMmaQQ@mail.gmail.com>
+ <BY5PR13MB29336C5BE374D69939DCADABFDE90@BY5PR13MB2933.namprd13.prod.outlook.com>
+ <CABVgOSnJAgWvTTABaF082LuYjAoAWzrBsyu9sT7x4GGMVsOD6Q@mail.gmail.com>
+ <BY5PR13MB293305FE7ED35EC2B2C81AF1FDE80@BY5PR13MB2933.namprd13.prod.outlook.com>
+ <CABVgOSn0vUvHFTPPnFGCmg0pEotwr6TQXQieRV=EMqs1QmFYUw@mail.gmail.com>
+ <20201112123706.GA2457520@elver.google.com>
+ <CABVgOSkjExNtGny=CDT1WVaXUVgSEaf7hwx8=VY4atN5ot10KQ@mail.gmail.com>
+ <20201113103056.GA1568882@elver.google.com>
+In-Reply-To: <20201113103056.GA1568882@elver.google.com>
+Date: Sat, 14 Nov 2020 06:37:44 +0800
+Message-ID: <CABVgOS=0Qm-Aa5qgh3PRxbcV0-2ZZaQCm-4HY0dx8597oY+yXw@mail.gmail.com>
+To: Marco Elver <elver@google.com>
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ Theodore Ts'o <tytso@mit.edu>, "Bird, Tim" <Tim.Bird@sony.com>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Andreas Dilger <adilger.kernel@dilger.ca>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Iurii Zaikin <yzaikin@google.com>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v6 1/2] kunit: Support for
+	Parameterized Testing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,44 +119,156 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: David Gow via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, 10 Nov 2020 23:17:49 +0530
-Aditya Srivastava <yashsri421@gmail.com> wrote:
+On Fri, Nov 13, 2020 at 6:31 PM Marco Elver <elver@google.com> wrote:
+>
+> On Fri, Nov 13, 2020 at 01:17PM +0800, David Gow wrote:
+> > On Thu, Nov 12, 2020 at 8:37 PM Marco Elver <elver@google.com> wrote:
+> [...]
+> > > > (It also might be a little tricky with the current implementation to
+> > > > produce the test plan, as the parameters come from a generator, and I
+> > > > don't think there's a way of getting the number of parameters ahead of
+> > > > time. That's a problem with the sub-subtest model, too, though at
+> > > > least there it's a little more isolated from other tests.)
+> > >
+> > > The whole point of generators, as I envisage it, is to also provide the
+> > > ability for varying parameters dependent on e.g. environment,
+> > > configuration, number of CPUs, etc. The current array-based generator is
+> > > the simplest possible use-case.
+> > >
+> > > However, we *can* require generators generate a deterministic number of
+> > > parameters when called multiple times on the same system.
+> >
+> > I think this is a reasonable compromise, though it's not actually
+> > essential. As I understand the TAP spec, the test plan is actually
+> > optional (and/or can be at the end of the sequence of tests), though
+> > kunit_tool currently only supports having it at the beginning (which
+> > is strongly preferred by the spec anyway). I think we could get away
+> > with having it at the bottom of the subtest results though, which
+> > would save having to run the generator twice, when subtest support is
+> > added to kunit_tool.
+>
+> I can't find this in the TAP spec, where should I look? Perhaps we
+> shouldn't venture too far off the beaten path, given we might not be the
+> only ones that want to parse this output.
+>
 
-> Currently, we do not have any documentation on commit reverts regarding
-> the requirement of Signed-off-by tag for it. This may be misleading to
-> the users.
-> 
-> Evaluating MISSING_SIGN_OFF checkpatch warnings on v4.13..v5.8 showed
-> that 4 out of 11 cases missing a sign-off are revert commits.
-> 
-> Add documentation regarding the same to document the community
-> consensus and let readers know.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  Documentation/process/submitting-patches.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 83d9a82055a7..fb8261a4be30 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -404,6 +404,8 @@ then you just add a line saying::
->  
->  using your real name (sorry, no pseudonyms or anonymous contributions.)
->  This will be done for you automatically if you use ``git commit -s``.
-> +Reverts should also include "Signed-off-by". ``git revert -s`` does that
-> +for you.
+It's in the "Test Lines and the Plan" section:
+"The plan is optional but if there is a plan before the test points it
+must be the first non-diagnostic line output by the test file. In
+certain instances a test file may not know how many test points it
+will ultimately be running. In this case the plan can be the last
+non-diagnostic line in the output. The plan cannot appear in the
+middle of the output, nor can it appear more than once."
 
-Applied, thanks.
+My only concern with running through the generator multiple times to
+get the count is that it might be slow and/or more difficult if
+someone uses a more complicated generator. I can't think of anything
+specific yet, though, so we can always do it for now and change it
+later if a problematic case occurs.
 
-jon
+> > > To that end, I propose a v7 (below) that takes care of getting number of
+> > > parameters (and also displays descriptions for each parameter where
+> > > available).
+> > >
+> > > Now it is up to you how you want to turn the output from diagnostic
+> > > lines into something TAP compliant, because now we have the number of
+> > > parameters and can turn it into a subsubtest. But I think kunit-tool
+> > > doesn't understand subsubtests yet, so I suggest we take these patches,
+> > > and then somebody can prepare kunit-tool.
+> > >
+> >
+> > This sounds good to me. The only thing I'm not sure about is the
+> > format of the parameter description: thus far test names be valid C
+> > identifier names, due to the fact they're named after the test
+> > function. I don't think there's a fundamental reason parameters (and
+> > hence, potentially, subsubtests) need to follow that convention as
+> > well, but it does look a bit odd.  Equally, the square brackets around
+> > the description shouldn't be necessary according to the TAP spec, but
+> > do seem to make things a little more readable, particuarly with the
+> > names in the ext4 inode test. I'm not too worried about either of
+> > those, though: I'm sure it'll look fine once I've got used to it.
+>
+> The parameter description doesn't need to be a C identifier. At least
+> that's what I could immediately glean from TAP v13 spec (I'm looking
+> here: https://testanything.org/tap-version-13-specification.html and see
+> e.g. "ok 1 - Input file opened" ...).
+>
+
+Yeah: it looked a bit weird for everything else to be an identifier
+(given that KUnit does require it for tests), but these parameter
+descriptions not to be. It's not a problem, though, so let's go ahead
+with it.
+
+> [...]
+> > > > In any case, I'm happy to leave the final decision here to Arpitha and
+> > > > Marco, so long as we don't actually violate the TAP/KTAP spec and
+> > > > kunit_tool is able to read at least the top-level result. My
+> > > > preference is still to go either with the "# [test_case->name]:
+> > > > [ok|not ok] [index] - param-[index]", or to get rid of the
+> > > > per-parameter results entirely for now (or just print out a diagnostic
+> > > > message on failure). In any case, it's a decision we can revisit once
+> > > > we have support for named parameters, better tooling, or a better idea
+> > > > of how people are actually using this.
+> > >
+> > > Right, so I think we'll be in a better place if we implement: 1)
+> > > parameter to description conversion support, 2) counting parameters. So
+> > > I decided to see what it looks like, and it wasn't too bad. I just don't
+> > > know how you want to fix kunit-tool to make these non-diagnostic lines
+> > > and not complain, but as I said, it'd be good to not block these
+> > > patches.
+> >
+> > Yup, I tried this v7, and it looks good to me. The kunit_tool work
+> > will probably be a touch more involved, so I definitely don't want to
+> > hold up supporting this on that.
+> >
+> > My only thoughts on the v7 patch are:
+> > - I don't think we actually need the parameter count yet (or perhaps
+> > ever if we go with subtests as planned), so I be okay with getting rid
+> > of that.
+>
+> As noted above, perhaps we should keep it for compatibility with other
+> parsers and CI systems we don't have much control over. It'd be a shame
+> if 99% of KUnit output can be parsed by some partially compliant parser,
+> yet this would break it.
+
+KUnit has only started providing the test plans in some cases pretty
+recently, and the spec does make it optional, so I'm not particularly
+worried about this breaking parsers. I'm not too worried about it
+causing problems to have it either, though, so if you'd rather keep
+it, that's fine by me as well.
+
+> > - It'd be a possibility to get rid of the square brackets from the
+> > output, and if we still want them, make them part of the test itself:
+> > if this were TAP formatted, those brackets would be part of the
+> > subsubtest name.
+>
+> I don't mind. It's just that we can't prescribe a format, and as
+> seen below the descriptions include characters -<>=,. which can be
+> confusing. But perhaps you're right, so let's remove them.
+>
+> But as noted, TAP doesn't seem to care. So let's remove them.
+>
+
+Yeah: I have a slight preference for removing them, as TAP parsers
+would otherwise include them in the parameter name, which looks a
+little weird.
+Of course, the point is moot until we actually fix kunit_tool and make
+these subtests, so there's no fundamental reason we couldn't leave
+them in for now, and remove them then if you thought it was
+significantly more readable. (Personally, I'd still err on the side of
+removing them to avoid any unnecessary churn.)
+
+Cheers,
+-- David
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
