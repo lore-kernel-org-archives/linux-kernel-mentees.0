@@ -2,83 +2,109 @@ Return-Path: <SRS0=I6GU=ET=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C7CC388F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 16:15:21 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCEA9C61DD8
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 18:25:57 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8E9BB2076E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 16:15:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E9BB2076E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 40FB8206E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 18:25:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r/sjjkCk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40FB8206E0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 18D6786EB5;
-	Fri, 13 Nov 2020 16:15:20 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A1F1B8746C;
+	Fri, 13 Nov 2020 18:25:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Iav_HQ1G51gq; Fri, 13 Nov 2020 16:15:18 +0000 (UTC)
+	with ESMTP id zGZQICSsgFMx; Fri, 13 Nov 2020 18:25:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 37BB286AB5;
-	Fri, 13 Nov 2020 16:15:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9C70687458;
+	Fri, 13 Nov 2020 18:25:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 26CF7C0891;
-	Fri, 13 Nov 2020 16:15:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8FB75C0891;
+	Fri, 13 Nov 2020 18:25:55 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D17D4C0800
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AD7DFC0800
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 16:15:16 +0000 (UTC)
+ Fri, 13 Nov 2020 18:25:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 986B12E248
+ by silver.osuosl.org (Postfix) with ESMTP id 9BD432047C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 16:15:16 +0000 (UTC)
+ Fri, 13 Nov 2020 18:25:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Vk8Qe9+fkQGD
+ with ESMTP id y55fJ9vTVP3f
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 16:15:15 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0198.hostedemail.com
- [216.40.44.198])
- by silver.osuosl.org (Postfix) with ESMTPS id 1BFC5204C3
+ Fri, 13 Nov 2020 18:25:52 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by silver.osuosl.org (Postfix) with ESMTPS id C12C4203EF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 16:15:15 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave02.hostedemail.com (Postfix) with ESMTP id BFE411801A11C
+ Fri, 13 Nov 2020 18:25:52 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id r186so7779459pgr.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 16:15:12 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay02.hostedemail.com (Postfix) with ESMTP id 2AFA01E01;
- Fri, 13 Nov 2020 16:15:10 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: clock41_360a2f427310
-X-Filterd-Recvd-Size: 2628
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf08.hostedemail.com (Postfix) with ESMTPA;
- Fri, 13 Nov 2020 16:15:08 +0000 (UTC)
-Message-ID: <f85018e4992cfb394998b563d15fd69766bb81f3.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>, Andrew Morton
- <akpm@linux-foundation.org>
-Date: Fri, 13 Nov 2020 08:15:07 -0800
-In-Reply-To: <20201113152316.62975-1-dwaipayanray1@gmail.com>
-References: <20201113152316.62975-1-dwaipayanray1@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ Fri, 13 Nov 2020 10:25:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=G1QoO5KGAnssXJy8BQqXX/mA/RvCcC/VAoXV9KfstVI=;
+ b=r/sjjkCkdeU/0dWErgu9ASr20TKMKVhcl3P5Nkjz+0g050MOxu+CfBaMf6ETvbY9HZ
+ 8zAb806rZGAYiJ3YzNFxbPCDPNoGvXgO6cuMvpEDbJzaWexJFUeRYn/hOsATpLVaLmSs
+ NP3NMZ15UoiQpfYozs3he1Gb3Qda7XRfzZVsROSq6JpY/7gMkJT9wfEJu407XXFRvwfT
+ wDbvWw6biexXiX2X276WEnlydLPYfiAV9biHqsOfrjUgJ37Dv7/gmj/67D/hGSBqNqwq
+ I3iUvdd2nPivQKVJNXZWiASPZ47Hveszc0cbpjM1boM0lirCGPT8c0Rmpg+4UAy7f6NJ
+ omkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G1QoO5KGAnssXJy8BQqXX/mA/RvCcC/VAoXV9KfstVI=;
+ b=j1ZDbar5M/AXoio3uqBd/poYzCQfxGic2UWWupJzHYM/usY6N865CdNog3iIfj7evE
+ P3AEV5UopGw3jjAvqgGU4Ibty6ga9G7lrIox2X6Xr7KvoxrQZghiixITgoeEN0ZNeLk8
+ VcGsBtfqDabxXOhy0PyX7k4knXqFpesbK7V/IrMFyJQv2Hx3do9tMtQkXb00RWv2kG67
+ B0RzrbaQVvZIqR/HMlJQLyZa9/J91H6s4tjckuTRtDqh0W6kWRfqnaekktqy6cRsH3ii
+ PRwpesNFhQsA1dxQalGYCbUPqtD0C6XNKcy7cEZHBYiCPiGRtJ0g/+9O+Mc/SI0W+pqj
+ KhPg==
+X-Gm-Message-State: AOAM530E2fSYb4skTNOoYkRyZ2U/PbGCCK4rtG3TcJ7TwGcSVTlM3Zm0
+ atMQPSFznRpt8PVvkp1OSWZaa3GuMpiNgA==
+X-Google-Smtp-Source: ABdhPJwAcxXboInn5btxrjNKk68EXHGMQizzKOwi0tvMpmGcXHNiDPl6Ywpojciq0rxXbQNEqfdhFA==
+X-Received: by 2002:a17:90b:118b:: with SMTP id
+ gk11mr4476481pjb.178.1605291951632; 
+ Fri, 13 Nov 2020 10:25:51 -0800 (PST)
+Received: from [192.168.43.245] ([42.111.137.114])
+ by smtp.gmail.com with ESMTPSA id u22sm9236515pgf.24.2020.11.13.10.25.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Nov 2020 10:25:51 -0800 (PST)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <50c8be3c-fceb-255b-43ba-1ce8284ab410@gmail.com>
+ <CAKXUXMw2=4E8XpZFx04pkBmvwDSpcCedxE2ndX4DX5DTek_06g@mail.gmail.com>
+ <ed152561-0932-65e2-fc86-3540fc456b09@gmail.com>
+ <483df3b1-219c-129e-2c88-5411e012a9e1@gmail.com>
+ <CAKXUXMx4-2-=XkXkvUcx6GuNmwfkSyYbOWc04uXkFgnHxsNNvQ@mail.gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <31eeb998-0f1a-5ae2-fd0a-62fd1cf3349b@gmail.com>
+Date: Fri, 13 Nov 2020 23:55:45 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH V3] checkpatch: Fix spelling
- errors and remove repeated word
+In-Reply-To: <CAKXUXMx4-2-=XkXkvUcx6GuNmwfkSyYbOWc04uXkFgnHxsNNvQ@mail.gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Fix for BAD_SIGN_OFF: non-standard
+	signature
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,79 +116,96 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, 2020-11-13 at 20:53 +0530, Dwaipayan Ray wrote:
-> Delete repeated word in scripts/checkpatch.pl:
-> "are are" -> "are"
-> =
+On 13/11/20 8:56 pm, Lukas Bulwahn wrote:
+> On Fri, Nov 13, 2020 at 4:00 PM Aditya <yashsri421@gmail.com> wrote:
+>>
+>> On 13/11/20 8:05 pm, Aditya wrote:
+>>> On 12/11/20 1:34 am, Lukas Bulwahn wrote:
+>>>> On Wed, Nov 11, 2020 at 3:13 PM Aditya <yashsri421@gmail.com> wrote:
+>>>>>
+>>>>> Hi Sir
+>>>>> I have analyzed the checkpatch report for BAD_SIGN_OFF(over
+>>>>> v4.13..v5.8) for non-standard signature and generated reports for it.
+>>>>> Some mistakes are more frequent than others, whereas some mistakes
+>>>>> even have a frequency of 1.
+>>>>>
+>>>>> Non-standard signatures occurring with their frequency:
+>>>>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/non_standard_signs.txt
+>>>>>
+>>>>> Complete warning messages:
+>>>>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/warn_msgs.txt
+>>>>>
+>>>>> Should I implement the fix similar to TYPO_FIX, where we have a
+>>>>> separate file for common misspellings and corrected words? Or should I
+>>>>> make a hash of these misspellings in checkpatch.pl file as well?
+>>>>>
+>>>>> Also should I include all these misspelled words in it? Or omit words
+>>>>> below certain frequency?
+>>>>>
+>>>>
+>>>> I think the best way would be to compute some kind of edit distance to
+>>>> the known signature tags and if this edit distance is below a certain
+>>>> threshold, suggest that signature tag as the fix. We can then evaluate
+>>>> to determine the best suitable threshold. The edit distance between
+>>>> the different tags are so large that this should always work as
+>>>> intended.
+>>>>
+>>>> Then, we can look into these other creative tags and propose suitable
+>>>> existing tags for the more frequent ones that are non-standard. Or in
+>>>> the case, none of the existing ones fit we can start the discussion on
+>>>> proposing some new standard ones.
+>>>>
+>>>
+>>> I have generated a list of non-standard signatures and their fixes on
+>>> the basis of edit distance.
+>>>
+>>> This is the common list of non standard signatures and fixes (in
+>>> detail):
+>>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/min_dists.txt
+>>>
+>>> As I observed, I think, we can consider '<=2' as the threshold edit
+>>> distance.
+>>> List for non-standard signature and their proposed fix with edit
+>>> distance<=2 :
+>>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/less_than_3.txt
+>>>
+>>> I have also generated lists for 3 and 4 edit distance separately for
+>>> reference:
+>>> Equal to 3:
+>>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/equal_3.txt
+>>>
+>>> Equal to 4:
+>>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/equal_4.txt
+>>>
+>>> For the rest I guess we'll need to hard code eg. for 'Debugged-by',
+>>> 'Requested-by' etc.
+>>>
+>>> These are the complete lists of non-standard signatures:
+>>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/non_standard_signs.txt
+>>>
+> 
+> Can you share which non-standard-signatures would be
+> handled/transformed with edit distance 2 and which would not in a
+> similar format to non_standard_signs.txt (so, ordered by frequency).
+> 
+> We can then consider those that remain and find a good next strategy
+> for the most frequent non-standard signatures.
+> 
 
-> Fix typos:
-> "commments" -> "comments"
-> "falsly" -> "falsely"
-> =
+Non standard signatures handled with edit distance 2:
+https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/less_than2/signs_freq.txt
 
-> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Non standard signatures with edit distance greater than 2:
+https://github.com/AdityaSrivast/kernel-tasks/tree/master/random/non_standard_signature/more_than2
 
-thanks.
-
-Acked-by: Joe Perches <joe@perches.com>
-
-> ---
-> Changes in V3:
-> - Change subject line
-> Changes in V2:
-> - Add correction for falsly
-> =
-
-> =A0scripts/checkpatch.pl | 6 +++---
-> =A01 file changed, 3 insertions(+), 3 deletions(-)
-> =
-
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 2749f32dffe9..041b82f6669e 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2841,7 +2841,7 @@ sub process {
-> =A0
-> =
-
-> =A0
-> =
-
-> =A0				# stable@vger.kernel.org or stable@kernel.org shouldn't
-> -				# have an email name. In addition commments should strictly
-> +				# have an email name. In addition comments should strictly
-> =A0				# begin with a #
-> =A0				if ($email =3D~ /^.*stable\@(?:vger\.)?kernel\.org/i) {
-> =A0					if (($comment ne "" && $comment !~ /^#.+/) ||
-> @@ -5000,7 +5000,7 @@ sub process {
-> =A0## 		    $line !~ /^.\s*$Type\s+$Ident(?:\s*=3D[^,{]*)?\s*,\s*$Type\s*=
-$Ident.*/) {
-> =A0##
-> =A0## 			# Remove any bracketed sections to ensure we do not
-> -## 			# falsly report the parameters of functions.
-> +## 			# falsely report the parameters of functions.
-> =A0## 			my $ln =3D $line;
-> =A0## 			while ($ln =3D~ s/\([^\(\)]*\)//g) {
-> =A0## 			}
-> @@ -7109,7 +7109,7 @@ sub process {
-> =A0		exit(0);
-> =A0	}
-> =A0
-> =
-
-> -	# This is not a patch, and we are are in 'no-patch' mode so
-> +	# This is not a patch, and we are in 'no-patch' mode so
-> =A0	# just keep quiet.
-> =A0	if (!$chk_patch && !$is_patch) {
-> =A0		exit(0);
-
-
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
