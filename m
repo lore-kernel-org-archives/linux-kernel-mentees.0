@@ -8,92 +8,91 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2143C4742C
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 13:34:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E20ADC388F7
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 13:37:41 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 607F122201
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 13:34:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 516672222F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Nov 2020 13:37:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTs7KJkV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 607F122201
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dgQlXiQw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 516672222F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DAE12877CE;
-	Fri, 13 Nov 2020 13:34:50 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2AB4A877CE;
+	Fri, 13 Nov 2020 13:37:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UHAdUdySbhIg; Fri, 13 Nov 2020 13:34:50 +0000 (UTC)
+	with ESMTP id RgpC+ZvsfRYu; Fri, 13 Nov 2020 13:37:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 38B0A877BB;
-	Fri, 13 Nov 2020 13:34:50 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9C84387484;
+	Fri, 13 Nov 2020 13:37:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1F128C0891;
-	Fri, 13 Nov 2020 13:34:50 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A061CC0800
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 88004C0891;
+	Fri, 13 Nov 2020 13:37:40 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4D738C0800
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 13:34:49 +0000 (UTC)
+ Fri, 13 Nov 2020 13:37:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7CD3C2044B
+ by hemlock.osuosl.org (Postfix) with ESMTP id 45619877CE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 13:34:49 +0000 (UTC)
+ Fri, 13 Nov 2020 13:37:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2qU94NzbXPma
+ with ESMTP id 0Tktsl9hpzt2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 13:34:48 +0000 (UTC)
+ Fri, 13 Nov 2020 13:37:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
- [209.85.166.65])
- by silver.osuosl.org (Postfix) with ESMTPS id 57F5C20369
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
+ [209.85.166.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8F65C87484
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 13:34:48 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id u21so9743317iol.12
+ Fri, 13 Nov 2020 13:37:38 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id l12so8509153ilo.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Nov 2020 05:34:48 -0800 (PST)
+ Fri, 13 Nov 2020 05:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2s+IjuH8/GwNNYfXizL51ZXMfk83ORuiIPmeIRUaLZA=;
- b=MTs7KJkVWuBopP6twEClOHYZcvEgnxIZEjawBA4yTA/YulOakxrYTcvggSJJxXhU4l
- R6NFfRlcbMm2hYlCc0uf6ioM0nIXb07UlozcXenj352WkVbCytKD/zqG9GriYhMklZ5z
- d8fboUkw4ou99UNJ1KDFFfriq2fF9ghBDm+zpS820ytsoccgCjqgA3/4LSxHHZQhenzP
- mj6QYZYctSB8uwXyQC+XM8pomPoC08i1lOy2DDfWlygHTzrC0pw+bpvj0mvh+AfPykSY
- jiCyEjUrbrdM9KOX342m6OGo2eCJwO+lu8pqQLhsyDz3gKR0WngMniJ6QBMjaoUPblsF
- t83A==
+ :cc; bh=2AEhHlPj/3At4rCVZ3doELq0KCFho2fq+gmKFWZRtOg=;
+ b=dgQlXiQwvn49c1XSyh36l4vM9pZju2BOLbscdwSdOal0jGc6FTarv0JsEF4lkjNQIF
+ FcjPPyGdDnsVLEuqAaXMQKVs9PKiTr5lHNJuWKZzxehWH9v8alk5Ot0DAweMMu0yOY8T
+ RvbLxGBKqCJED7/XwYaxAy0/bAMW/aUTHMtVzClSNbuLF9evRzag+Mr0rgWYQ+QS0myX
+ DwcUsUOZ5z81bN+SWKNA/4lkZkeo7j/uaZdhyYFVlSNpxQDH1LzHVI3w+OS6UseCSvTl
+ +F5iGivDimiNzDohAAsgGeP5LBMg7lY4nrjyzsIVrCpyTB/0nXkzCAxSV4xhvHMBrOdK
+ QXfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2s+IjuH8/GwNNYfXizL51ZXMfk83ORuiIPmeIRUaLZA=;
- b=QBnEZQmyc9Vac4cwHxIR8AYWpFMK1RMR058YKVIND/RRV6PVcrgXsTjoXXGF7WEndM
- Yyn/nOUckqLslfXOwFTRp1rCQJ6nQ64kZW0xDQe8znyw5/TQaWeQZYqF/s0iZrW4UI2d
- zOIAazxLoUQeuttohSUncXHXIKRqBxE8RINqj4dpDbXmqDaDt1Bv657bN5uMuV0IHBIB
- YxEEXY2Th3WG7j1Ap/K62EA+xUdyNa4TnvYZSstV3R33Njgg+KP68z4pb48uLvjCzhma
- GpwKY65YcyEFqbwbEa0LR1EpYRBJkQUgsNaLtQDHpcvtYkbaJS1lA3kl3BXkh8fCeKBZ
- LlTg==
-X-Gm-Message-State: AOAM5302T6QB/r5FH/T6pcvsEO+oGHTmA+zo+BihrURRvsuBLBasWm78
- Znjl4YoH0SwJDMxbeyd3ArNIu3seGEOO/DFY1+Y=
-X-Google-Smtp-Source: ABdhPJz3NgOUsfY/zq5hbVMi9TOEW8/MiAuKcCic5vLFO0p87B/rRrlpUw24ixNuCJgWuBOL7mT73MEinYoT9l6SFrY=
-X-Received: by 2002:a05:6638:124d:: with SMTP id
- o13mr1937710jas.98.1605274487562; 
- Fri, 13 Nov 2020 05:34:47 -0800 (PST)
+ bh=2AEhHlPj/3At4rCVZ3doELq0KCFho2fq+gmKFWZRtOg=;
+ b=gVvS6ZZ+P1XolMAMkcU7Ah6gaYbxswmQu7z83jX0BNQCjtmOgUuzlqPqJMO555gmP1
+ /6OydCs4Bn7yflNHQb5kK4kJhIchA7ocgkZQgHR/rgyMFcb3nX2/POhq8lC5xJNj1rMx
+ KpviEForyl+8mGL9hjbkEnng8MGzU1pPpb7oMDqvhUn5tsj8ULTzi8jLoxzUDFfR5TON
+ ih1Fnuq7sJgwt9xBfREsCqn+o4EXONzGJVfjatZ2/Hg14FeXIO6GyhVOxeYT/BkAw3gn
+ M01NeX4mcMRt1o4A8Ddyl7RfdbUgEeGn6Bj5Ax+Lh9Lo5COo5j+1i6j27Imm/+6UDpKC
+ Ryuw==
+X-Gm-Message-State: AOAM530Fyo979hKslRmIdF7EqiVOYDHBlLQCjcF5n0/1Fgtz0rL3VjMU
+ blkrRZ4OgxIxi0B0q3V3DcBuPjD6iRaMwP7Ub4c=
+X-Google-Smtp-Source: ABdhPJzQCeJxUjqNl8C6r8N8AYjiWiZWZGbj/CHsMl1PkqvObWlxXUxlDHxCG18m57Wf03t9oPyqdQPKIUi2krUTaP8=
+X-Received: by 2002:a92:600e:: with SMTP id u14mr1734328ilb.221.1605274657789; 
+ Fri, 13 Nov 2020 05:37:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20201113131037.37519-1-dwaipayanray1@gmail.com>
-In-Reply-To: <20201113131037.37519-1-dwaipayanray1@gmail.com>
+References: <20201113123101.29057-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20201113123101.29057-1-dwaipayanray1@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 13 Nov 2020 14:34:36 +0100
-Message-ID: <CAKXUXMwsvj6Y3dEq-eAOyCoJV3qhV7K9U_uRrtbg9u4TV0zyeA@mail.gmail.com>
+Date: Fri, 13 Nov 2020 14:37:27 +0100
+Message-ID: <CAKXUXMxS-hF=j8wbwzc4d3x_guaUPs+WH=pK_QAJPEHmxg=5vA@mail.gmail.com>
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>
 Cc: Joe Perches <joe@perches.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: fix typo and remove
-	duplicate word
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC] checkpatch: add new cases to
+	commit handling
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,48 +110,68 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Nov 13, 2020 at 2:11 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+On Fri, Nov 13, 2020 at 1:31 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
-> Delete repeated word in scripts/checkpatch.pl.
-> "are are" -> "are"
+> Commit extraction in checkpatch fails in some cases.
+> One of the most common false positives is a split line
+> between "commit" and the git SHA of the commit.
 >
-> Fix typo "commments" -> "comments"
+> Improve commit handling to reduce false positives.
 >
-> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> Improvements:
+> - handle split line between commit and git SHA of commit.
+> - fix handling of split commit description.
+>
+> A quick evaluation of 50k commits from v5.4 showed that
+> the GIT_COMMIT_ID errors dropped from 1032 to 897. Most
+> of these were split lines between commit and its hash.
+>
 
-Does this make checkpatch.pl pass checkpatch without any further warnings?
+Can you send me the file of the evaluation, e.g., all contexts (two
+lines above and two lines below) around the warned line in the commits
+where the GIT_COMMIT_ID dropped?
 
-Nice idea to check if checkpatch.pl still fulfills the checkpatch
-rules we created...
+Then, I can do a quick sanity check as well.
 
 Lukas
 
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 > ---
->  scripts/checkpatch.pl | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  scripts/checkpatch.pl | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
 >
 > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 2749f32dffe9..e7fd2d6279cf 100755
+> index 024514946bed..f5ba2beac008 100755
 > --- a/scripts/checkpatch.pl
 > +++ b/scripts/checkpatch.pl
-> @@ -2841,7 +2841,7 @@ sub process {
+> @@ -2990,6 +2990,16 @@ sub process {
+>                         if ($line =~ /\bcommit\s+[0-9a-f]{5,}\s+\("([^"]+)"\)/i) {
+>                                 $orig_desc = $1;
+>                                 $hasparens = 1;
+> +                       } elsif ($line =~ /^\s*[0-9a-f]{5,}\s+\("([^"]+)"\)/i &&
+> +                                defined $rawlines[$linenr-2] &&
+> +                                $rawlines[$linenr-2] =~ /\bcommit\s*$/i) {
+> +                               $line =~ /^\s*[0-9a-f]{5,}\s+\("([^"]+)"\)/i;
+> +                               $orig_desc = $1;
+> +                               $hasparens = 1;
+> +                               $space = 0;
+> +                               $short = 0 if ($line =~ /\b[0-9a-f]{12,40}/i);
+> +                               $long = 1 if ($line =~ /\b[0-9a-f]{41,}/i);
+> +                               $case = 0 if ($line =~ /\b[0-9a-f]{5,40}[^A-F]/ && $rawlines[$linenr-2] =~ /\b[Cc]ommit\s*$/);
+>                         } elsif ($line =~ /\bcommit\s+[0-9a-f]{5,}\s*$/i &&
+>                                  defined $rawlines[$linenr] &&
+>                                  $rawlines[$linenr] =~ /^\s*\("([^"]+)"\)/) {
+> @@ -3001,7 +3011,9 @@ sub process {
+>                                 $line =~ /\bcommit\s+[0-9a-f]{5,}\s+\("([^"]+)$/i;
+>                                 $orig_desc = $1;
+>                                 $rawlines[$linenr] =~ /^\s*([^"]+)"\)/;
+> -                               $orig_desc .= " " . $1;
+> +                               my $split_desc = $1;
+> +                               $split_desc = " $split_desc" if ($line =~ /[\w\,\.]$/);
+> +                               $orig_desc .= $split_desc;
+>                                 $hasparens = 1;
+>                         }
 >
->
->                                 # stable@vger.kernel.org or stable@kernel.org shouldn't
-> -                               # have an email name. In addition commments should strictly
-> +                               # have an email name. In addition comments should strictly
->                                 # begin with a #
->                                 if ($email =~ /^.*stable\@(?:vger\.)?kernel\.org/i) {
->                                         if (($comment ne "" && $comment !~ /^#.+/) ||
-> @@ -7109,7 +7109,7 @@ sub process {
->                 exit(0);
->         }
->
-> -       # This is not a patch, and we are are in 'no-patch' mode so
-> +       # This is not a patch, and we are in 'no-patch' mode so
->         # just keep quiet.
->         if (!$chk_patch && !$is_patch) {
->                 exit(0);
 > --
 > 2.27.0
 >
