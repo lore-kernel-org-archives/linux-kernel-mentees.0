@@ -2,106 +2,82 @@ Return-Path: <SRS0=iase=EU=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C722C5519F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 14 Nov 2020 12:39:32 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD17FC5519F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 14 Nov 2020 19:18:47 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1B2F720759
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 14 Nov 2020 12:39:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 63F2E22263
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 14 Nov 2020 19:18:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c0PTWga1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B2F720759
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="UbQG5JPN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 63F2E22263
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B54C987925;
-	Sat, 14 Nov 2020 12:39:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1A25E8726F;
+	Sat, 14 Nov 2020 19:18:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mCoANqLOfCOf; Sat, 14 Nov 2020 12:39:30 +0000 (UTC)
+	with ESMTP id KvH4MquVnT7v; Sat, 14 Nov 2020 19:18:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EA1CF87917;
-	Sat, 14 Nov 2020 12:39:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0C9558711A;
+	Sat, 14 Nov 2020 19:18:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D8918C088E;
-	Sat, 14 Nov 2020 12:39:30 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 03CEBC0800
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7C5FC0891;
+	Sat, 14 Nov 2020 19:18:44 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C97C9C0800
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Nov 2020 12:39:30 +0000 (UTC)
+ Sat, 14 Nov 2020 19:18:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id CF45A2048F
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B3871861EE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Nov 2020 12:39:29 +0000 (UTC)
+ Sat, 14 Nov 2020 19:18:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UOPtwReVYQ7l
+ with ESMTP id 6muGkQgw3DoL
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Nov 2020 12:39:28 +0000 (UTC)
+ Sat, 14 Nov 2020 19:18:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by silver.osuosl.org (Postfix) with ESMTPS id EA8ED20404
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 15EDE86B24
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Nov 2020 12:39:27 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id w20so1691688pjh.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Nov 2020 04:39:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kdqJjRzk4yjHovnyTNeFJ9lrFAFtjkdfjru+LbxUuGA=;
- b=c0PTWga1dJYo8S/ecSfk0t4L+jEFAQNif8wmowUdhDXtvY37MJ1SfA7UtLuG2jWTEg
- aCptv+6Rp2h9Sk+5Qi2saac6LyySbzf+u4UaItA1wD8V6vlxcjNmu1xWOai8DS51jvYt
- VLxUUbSATXB2KQX51kqR7UoZeMH7rz+wLuDnBRWNG3+Y2rUrse02X6MdVTCZ8pZgPJ3W
- LxdBVdFrRLMMjuOHM2TOnMoinReVmZdEiD9gb+m7FhQX4sUmfq2PtoXo3F5P5lPfABpI
- G6mJh7ldGedPhpD6wnac0AIzRUQOEsPEZHm6kn+Gk9Fq10EW3Dc6Ofpqru5CJHN9cQ2Z
- liMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kdqJjRzk4yjHovnyTNeFJ9lrFAFtjkdfjru+LbxUuGA=;
- b=aK9vUmt3kI4XJ5ozr2abs6f5SXhHbW9k5IanGM4xwU8Rv+EAwyDKX6Zk/0gP+n1rTO
- VlA44oFQT01S1OWrpRIG1oJbCsvWfFbO4fTYURVcKir19GpcU2s/sVC4qqbP5lTU7Ddr
- pMq4+nb5H4fC1oypV09EV0DkyB9WtO8Hd5XMvucZUsHDgm6Xu/16WUIEtwRNLS3xBRnu
- EP363rcqNUEkSpzw+cPHdJy2Ai4wpnDJDaAUX18dFnwHoMJTI8yOtlkiJiiqvkJf0CxX
- OkXV4vIt0rX5BvNhuOqrKdiKyP4LPSRvhhaRHp75GQUp3rjuHR4vmLgitUwAjYHX1KfX
- hRTA==
-X-Gm-Message-State: AOAM531/zWkt9+PAVacBH2V+0AR/iv1S9pkRw5l8L1ebuFfziKWNArJd
- EO62Yw97ix3/eifpbcnUMe4=
-X-Google-Smtp-Source: ABdhPJzFyyZb8gZymRwXGBhqvGDur/pj0xGGprxKWpAQDXPx1yIrU4qaBmJ251ntlasE/6mWKXpkTQ==
-X-Received: by 2002:a17:90a:d201:: with SMTP id
- o1mr7809866pju.46.1605357567498; 
- Sat, 14 Nov 2020 04:39:27 -0800 (PST)
-Received: from arpitha-Inspiron-7570.lan ([106.51.242.81])
- by smtp.gmail.com with ESMTPSA id g8sm2214714pgn.47.2020.11.14.04.39.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Nov 2020 04:39:26 -0800 (PST)
-From: Arpitha Raghunandan <98.arpi@gmail.com>
-To: brendanhiggins@google.com, skhan@linuxfoundation.org, elver@google.com,
- yzaikin@google.com, tytso@mit.edu, adilger.kernel@dilger.ca,
- Tim.Bird@sony.com, davidgow@google.com
-Date: Sat, 14 Nov 2020 18:08:47 +0530
-Message-Id: <20201114123847.97990-1-98.arpi@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201114123648.97857-1-98.arpi@gmail.com>
-References: <20201114123648.97857-1-98.arpi@gmail.com>
+ Sat, 14 Nov 2020 19:18:40 +0000 (UTC)
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com
+ (c-67-180-217-166.hsd1.ca.comcast.net [67.180.217.166])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3E6732225E;
+ Sat, 14 Nov 2020 19:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605381519;
+ bh=XeWIoRdu3Vh6vI8C5YoHUTBLPxwLTyEekVkd5XX4N2g=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=UbQG5JPNXscaruzdvVD5th4tLGHg9bWZta0FCSu4QF/WeN+J2imau9P98bqPcy2fX
+ Z5xZbgoFjBK6OgW6DAv62jQav1sBqqTkQpai33lY7+lE+Zm3Url9ztLgKDwOHN2Yep
+ 0uLtgQu8frIHbM8+yZ9GHdHamVrJvV61SgzzuyGk=
+Date: Sat, 14 Nov 2020 11:18:38 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Anmol Karn <anmol.karan123@gmail.com>
+Message-ID: <20201114111838.03b933af@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201111165954.14743-1-anmol.karan123@gmail.com>
+References: <20201110194518.GA97719@Thinkpad>
+ <20201111165954.14743-1-anmol.karan123@gmail.com>
 MIME-Version: 1.0
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: [Linux-kernel-mentees] [PATCH v7 2/2] fs: ext4: Modify inode-test.c
-	to use KUnit parameterized testing feature
+Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, ralf@linux-mips.org, saeed@kernel.org,
+ syzbot+a1c743815982d9496393@syzkaller.appspotmail.com,
+ linux-hams@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ davem@davemloft.net
+Subject: Re: [Linux-kernel-mentees] [PATCH v4 net] rose: Fix Null pointer
+ dereference in rose_send_frame()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,375 +95,87 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Modify fs/ext4/inode-test.c to use the parameterized testing
-feature of KUnit.
+On Wed, 11 Nov 2020 22:29:54 +0530 Anmol Karn wrote:
+> rose_send_frame() dereferences `neigh->dev` when called from
+> rose_transmit_clear_request(), and the first occurrence of the
+> `neigh` is in rose_loopback_timer() as `rose_loopback_neigh`,
+> and it is initialized in rose_add_loopback_neigh() as NULL.
+> i.e when `rose_loopback_neigh` used in rose_loopback_timer()
+> its `->dev` was still NULL and rose_loopback_timer() was calling
+> rose_rx_call_request() without checking for NULL.
+> 
+> - net/rose/rose_link.c
+> This bug seems to get triggered in this line:
+> 
+> rose_call = (ax25_address *)neigh->dev->dev_addr;
+> 
+> Fix it by adding NULL checking for `rose_loopback_neigh->dev`
+> in rose_loopback_timer().
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Reported-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com
+> Tested-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3
+> Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
 
-Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
-Signed-off-by: Marco Elver <elver@google.com>
----
-Changes v6->v7:
-- Introduce timestamp_expectation_to_desc() to convert param to
-  description.
-Changes v5->v6:
-- No change to this patch of the patch series
-Changes v4->v5:
-- No change to this patch of the patch series
-Changes v3->v4:
-- Modification based on latest implementation of KUnit parameterized testing
-Changes v2->v3:
-- Marked hardcoded test data const
-- Modification based on latest implementation of KUnit parameterized testing
-Changes v1->v2:
-- Modification based on latest implementation of KUnit parameterized testing
+> diff --git a/net/rose/rose_loopback.c b/net/rose/rose_loopback.c
+> index 7b094275ea8b..6a71b6947d92 100644
+> --- a/net/rose/rose_loopback.c
+> +++ b/net/rose/rose_loopback.c
+> @@ -96,10 +96,12 @@ static void rose_loopback_timer(struct timer_list *unused)
+>  		}
+> 
+>  		if (frametype == ROSE_CALL_REQUEST) {
+> -			if ((dev = rose_dev_get(dest)) != NULL) {
+> +			dev = rose_dev_get(dest);
+> +			if (rose_loopback_neigh->dev && dev) {
+>  				if (rose_rx_call_request(skb, dev, rose_loopback_neigh, lci_o) == 0)
+>  					kfree_skb(skb);
+>  			} else {
+> +				dev_put(dev);
+>  				kfree_skb(skb);
+>  			}
+>  		} else {
 
- fs/ext4/inode-test.c | 320 ++++++++++++++++++++++---------------------
- 1 file changed, 164 insertions(+), 156 deletions(-)
+This is still not correct. With this code dev_put() could be called with
+NULL, which would cause a crash.
 
-diff --git a/fs/ext4/inode-test.c b/fs/ext4/inode-test.c
-index d62d802c9c12..97390ab13681 100644
---- a/fs/ext4/inode-test.c
-+++ b/fs/ext4/inode-test.c
-@@ -80,6 +80,145 @@ struct timestamp_expectation {
- 	bool lower_bound;
- };
+There is also a dev_put() missing if rose_rx_call_request() returns 0.
+
+I think that this is the correct code:
+
+diff --git a/net/rose/rose_loopback.c b/net/rose/rose_loopback.c
+index 7b094275ea8b..ff252ef73592 100644
+--- a/net/rose/rose_loopback.c
++++ b/net/rose/rose_loopback.c
+@@ -96,11 +96,22 @@ static void rose_loopback_timer(struct timer_list *unused)
+ 		}
  
-+static const struct timestamp_expectation test_data[] = {
-+	{
-+		.test_case_name = LOWER_BOUND_NEG_NO_EXTRA_BITS_CASE,
-+		.msb_set = true,
-+		.lower_bound = true,
-+		.extra_bits = 0,
-+		.expected = {.tv_sec = -0x80000000LL, .tv_nsec = 0L},
-+	},
+ 		if (frametype == ROSE_CALL_REQUEST) {
+-			if ((dev = rose_dev_get(dest)) != NULL) {
+-				if (rose_rx_call_request(skb, dev, rose_loopback_neigh, lci_o) == 0)
+-					kfree_skb(skb);
+-			} else {
++			if (!rose_loopback_neigh->dev) {
+ 				kfree_skb(skb);
++				continue;
++			}
 +
-+	{
-+		.test_case_name = UPPER_BOUND_NEG_NO_EXTRA_BITS_CASE,
-+		.msb_set = true,
-+		.lower_bound = false,
-+		.extra_bits = 0,
-+		.expected = {.tv_sec = -1LL, .tv_nsec = 0L},
-+	},
++			dev = rose_dev_get(dest);
++			if (!dev) {
++				kfree_skb(skb);
++				continue;
++			}
 +
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 0,
-+		.expected = {0LL, 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 0,
-+		.expected = {.tv_sec = 0x7fffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NEG_LO_1_CASE,
-+		.msb_set = true,
-+		.lower_bound = true,
-+		.extra_bits = 1,
-+		.expected = {.tv_sec = 0x80000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NEG_LO_1_CASE,
-+		.msb_set = true,
-+		.lower_bound = false,
-+		.extra_bits = 1,
-+		.expected = {.tv_sec = 0xffffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_LO_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 1,
-+		.expected = {.tv_sec = 0x100000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_LO_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 1,
-+		.expected = {.tv_sec = 0x17fffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NEG_HI_1_CASE,
-+		.msb_set = true,
-+		.lower_bound = true,
-+		.extra_bits =  2,
-+		.expected = {.tv_sec = 0x180000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NEG_HI_1_CASE,
-+		.msb_set = true,
-+		.lower_bound = false,
-+		.extra_bits = 2,
-+		.expected = {.tv_sec = 0x1ffffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_HI_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 2,
-+		.expected = {.tv_sec = 0x200000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_HI_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 2,
-+		.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_HI_1_NS_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 6,
-+		.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 1L},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_HI_1_NS_MAX_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 0xFFFFFFFF,
-+		.expected = {.tv_sec = 0x300000000LL,
-+			     .tv_nsec = MAX_NANOSECONDS},
-+	},
-+
-+	{
-+		.test_case_name = LOWER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = true,
-+		.extra_bits = 3,
-+		.expected = {.tv_sec = 0x300000000LL, .tv_nsec = 0L},
-+	},
-+
-+	{
-+		.test_case_name = UPPER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
-+		.msb_set = false,
-+		.lower_bound = false,
-+		.extra_bits = 3,
-+		.expected = {.tv_sec = 0x37fffffffLL, .tv_nsec = 0L},
-+	}
-+};
-+
-+static void timestamp_expectation_to_desc(const struct timestamp_expectation *t,
-+					  char *desc)
-+{
-+	strcpy(desc, t->test_case_name);
-+}
-+
-+KUNIT_ARRAY_PARAM(ext4_inode, test_data, timestamp_expectation_to_desc);
-+
- static time64_t get_32bit_time(const struct timestamp_expectation * const test)
- {
- 	if (test->msb_set) {
-@@ -101,166 +240,35 @@ static time64_t get_32bit_time(const struct timestamp_expectation * const test)
-  */
- static void inode_test_xtimestamp_decoding(struct kunit *test)
- {
--	const struct timestamp_expectation test_data[] = {
--		{
--			.test_case_name = LOWER_BOUND_NEG_NO_EXTRA_BITS_CASE,
--			.msb_set = true,
--			.lower_bound = true,
--			.extra_bits = 0,
--			.expected = {.tv_sec = -0x80000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NEG_NO_EXTRA_BITS_CASE,
--			.msb_set = true,
--			.lower_bound = false,
--			.extra_bits = 0,
--			.expected = {.tv_sec = -1LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 0,
--			.expected = {0LL, 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 0,
--			.expected = {.tv_sec = 0x7fffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NEG_LO_1_CASE,
--			.msb_set = true,
--			.lower_bound = true,
--			.extra_bits = 1,
--			.expected = {.tv_sec = 0x80000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NEG_LO_1_CASE,
--			.msb_set = true,
--			.lower_bound = false,
--			.extra_bits = 1,
--			.expected = {.tv_sec = 0xffffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_LO_1_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 1,
--			.expected = {.tv_sec = 0x100000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_LO_1_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 1,
--			.expected = {.tv_sec = 0x17fffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NEG_HI_1_CASE,
--			.msb_set = true,
--			.lower_bound = true,
--			.extra_bits =  2,
--			.expected = {.tv_sec = 0x180000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NEG_HI_1_CASE,
--			.msb_set = true,
--			.lower_bound = false,
--			.extra_bits = 2,
--			.expected = {.tv_sec = 0x1ffffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_HI_1_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 2,
--			.expected = {.tv_sec = 0x200000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_HI_1_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 2,
--			.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_HI_1_NS_1_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 6,
--			.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 1L},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_HI_1_NS_MAX_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 0xFFFFFFFF,
--			.expected = {.tv_sec = 0x300000000LL,
--				     .tv_nsec = MAX_NANOSECONDS},
--		},
--
--		{
--			.test_case_name = LOWER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
--			.msb_set = false,
--			.lower_bound = true,
--			.extra_bits = 3,
--			.expected = {.tv_sec = 0x300000000LL, .tv_nsec = 0L},
--		},
--
--		{
--			.test_case_name = UPPER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
--			.msb_set = false,
--			.lower_bound = false,
--			.extra_bits = 3,
--			.expected = {.tv_sec = 0x37fffffffLL, .tv_nsec = 0L},
--		}
--	};
--
- 	struct timespec64 timestamp;
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(test_data); ++i) {
--		timestamp.tv_sec = get_32bit_time(&test_data[i]);
--		ext4_decode_extra_time(&timestamp,
--				       cpu_to_le32(test_data[i].extra_bits));
--
--		KUNIT_EXPECT_EQ_MSG(test,
--				    test_data[i].expected.tv_sec,
--				    timestamp.tv_sec,
--				    CASE_NAME_FORMAT,
--				    test_data[i].test_case_name,
--				    test_data[i].msb_set,
--				    test_data[i].lower_bound,
--				    test_data[i].extra_bits);
--		KUNIT_EXPECT_EQ_MSG(test,
--				    test_data[i].expected.tv_nsec,
--				    timestamp.tv_nsec,
--				    CASE_NAME_FORMAT,
--				    test_data[i].test_case_name,
--				    test_data[i].msb_set,
--				    test_data[i].lower_bound,
--				    test_data[i].extra_bits);
--	}
-+
-+	struct timestamp_expectation *test_param =
-+			(struct timestamp_expectation *)(test->param_value);
-+
-+	timestamp.tv_sec = get_32bit_time(test_param);
-+	ext4_decode_extra_time(&timestamp,
-+			       cpu_to_le32(test_param->extra_bits));
-+
-+	KUNIT_EXPECT_EQ_MSG(test,
-+			    test_param->expected.tv_sec,
-+			    timestamp.tv_sec,
-+			    CASE_NAME_FORMAT,
-+			    test_param->test_case_name,
-+			    test_param->msb_set,
-+			    test_param->lower_bound,
-+			    test_param->extra_bits);
-+	KUNIT_EXPECT_EQ_MSG(test,
-+			    test_param->expected.tv_nsec,
-+			    timestamp.tv_nsec,
-+			    CASE_NAME_FORMAT,
-+			    test_param->test_case_name,
-+			    test_param->msb_set,
-+			    test_param->lower_bound,
-+			    test_param->extra_bits);
- }
- 
- static struct kunit_case ext4_inode_test_cases[] = {
--	KUNIT_CASE(inode_test_xtimestamp_decoding),
-+	KUNIT_CASE_PARAM(inode_test_xtimestamp_decoding, ext4_inode_gen_params),
- 	{}
- };
- 
--- 
-2.25.1
++			if (rose_rx_call_request(skb, dev, rose_loopback_neigh,
++						 lci_o) == 0) {
++				dev_put(dev);
++				kfree_skb(skb);
+ 			}
+ 		} else {
+ 			kfree_skb(skb);
 
+Please test this and resubmit it if it works.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
