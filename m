@@ -2,95 +2,94 @@ Return-Path: <SRS0=uYLy=EV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1019AC2D0E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 20:12:25 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAA8CC2D0E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 20:13:33 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7F062223AB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 20:12:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 36D7C223AB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 20:13:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8j5YeKp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F062223AB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GoqZoDcd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36D7C223AB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2E559871F3;
-	Sun, 15 Nov 2020 20:12:24 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EA8C98610F;
+	Sun, 15 Nov 2020 20:13:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id O5vtwgD9GNNd; Sun, 15 Nov 2020 20:12:23 +0000 (UTC)
+	with ESMTP id Y-2BooD7UX0X; Sun, 15 Nov 2020 20:13:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5AFC8871F0;
-	Sun, 15 Nov 2020 20:12:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 96981860CD;
+	Sun, 15 Nov 2020 20:13:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4381EC0891;
-	Sun, 15 Nov 2020 20:12:23 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A3C1BC07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 83600C0891;
+	Sun, 15 Nov 2020 20:13:32 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F34AC07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 20:12:21 +0000 (UTC)
+ Sun, 15 Nov 2020 20:13:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9229886A11
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5B06C860E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 20:12:21 +0000 (UTC)
+ Sun, 15 Nov 2020 20:13:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PneyxHfx3ZjX
+ with ESMTP id tP6ugtg8O0e7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 20:12:20 +0000 (UTC)
+ Sun, 15 Nov 2020 20:13:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7AF4F86A04
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BE682860CD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 20:12:20 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id e17so13237904ili.5
+ Sun, 15 Nov 2020 20:13:30 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id m9so15160760iox.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 12:12:20 -0800 (PST)
+ Sun, 15 Nov 2020 12:13:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w18Hi8SlwIC1WJ9Ypac1kq3bvWmweXF4GXoo4FRca6Q=;
- b=g8j5YeKpzKBZltpjqcQBp6jnONuZqV7Zc/vIi/FY+krSmWU0rNC8+zkUiRGdRzoUy6
- oBzbp+lmVWs5NEPg/2vk9498Y9U+/N25KvEzlfjXpyQIbIdYerl/6PjNImjR32rFxirS
- njo2UCF1HkFUuui0uEYL3S0XvNV25OnUYe8eLauFN5nuHcnvoJ45rntqH/FBRONABxpp
- N/yH0cNofGckNXkI12onEb9FH++hl/xDtypfJbgjS2q3h7cNna5/Z8cuMSeEhX8tlwNH
- bKUG9kySMXc2TDZ5e0KramU4JI/49Vmnb6yugzSl2pViLz7wjBNVu64KfRqneIIKp6na
- 9Evg==
+ :cc; bh=pHLY2qOpNiUPVHKCZPDwd0lLkSH0TX6NIRb8NF84rpY=;
+ b=GoqZoDcdWXTjDoAnfivWSRa9GCn/HcM3gm9wnpbTbu8aagLZO0biGhuBePy8G8Ap29
+ obIVeiy8lUZx/TF7xELhxWk/e+x5iQbU+W02Vvn0WZXZJX82/92e+cXnoS1/8o/WPSmj
+ +Chof0s9EhZncEs8tUbg4bojW6tl0uTTsB7Bkva1sTU/fcfxNX4HRbB0Noe6lbl4dKr8
+ GGy071yH0GLH1qIv/FnAnN/e9AkY/5g4+onUeCVmnBWgj9queKlUryjvJvGvVrMUH2Bs
+ 0SfMOZ+4ROX1ci1FgZroWU+bj1UyLRHrCm2R0lZfWhb5uI02nrlqjFU9rgkkE33B2q5P
+ 9JMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=w18Hi8SlwIC1WJ9Ypac1kq3bvWmweXF4GXoo4FRca6Q=;
- b=kNjqhxAJemwg7fYoKmSfMdTq4Qynu4rDy7D04gy6kh8Vi455GSpv601bdpaQjNFotT
- T94Kjgg8qd+C7GhAZrM1cmhQRgE6z5lM27HDm6pVPnV7Z0Ob0f0SZlVBO4TJORpbcxtX
- wdEOHTbQ7+oRzmUk8UWxigZRKbVr1XoETKoXjfqda0HigwucMKnHYEcfCLPnFU28N2GF
- tjKx/NUYKZrh4lWEQSjKuhGzsFqkL/FfYwbfdBBxGicxYHlw1yFwqWgZz/L2gyn2fWNh
- 7bEbDueoY5KMfd/E83Lprg8lPi0Es1OX5umk7OyJtJJC7i4utY6C8txB4ZsEsEiMifM9
- kmXQ==
-X-Gm-Message-State: AOAM5311+RxZXFGcM2ZChRJSeArqavGDgaMW8YD/rGl9maOQhiDREER4
- gSI4keXe4UrKh10DDIC1oVi4EiIC52xlCpyXIMo=
-X-Google-Smtp-Source: ABdhPJxT9F1DKAyw+KpO0I1hmmhKdYEQHOBigaqJK3UA+BQ/H+5OV7dUSN1bfH4rbZ7Q97IrvpTANKb9gV6g0h1gKXw=
-X-Received: by 2002:a92:600e:: with SMTP id u14mr5682762ilb.221.1605471139747; 
- Sun, 15 Nov 2020 12:12:19 -0800 (PST)
+ bh=pHLY2qOpNiUPVHKCZPDwd0lLkSH0TX6NIRb8NF84rpY=;
+ b=N65C0k1NqsB7+h7lGU6PWs+T6cRpcf1sSikPF4mDJ+5I8Qvf4DfnFopKKoYvoVVk0x
+ rRDjyUD7PjG876eWN/qtL+tyXElxOkSpggP+I9Svm0rz6S3gewHSYuOiAbZmUIAit5/c
+ OdxymSJIzcHeeFvEVKpVpVDoReNBjbpLTuNNNr3369WFECMbCOpZGW+VIZPTFCLfCoEW
+ YLoGTpD5CLgxxymUXc3oZQHd+9qhF3YprvO4k2RniOePLIOhdHZZodClrrTS5sMeg/jJ
+ Qg1gIw18h3R8iER29mx2pmKsOTdM1LTMybVKv4c1Tayzt0ew2gcKy8EHdAlhDW/au1Gz
+ FRJw==
+X-Gm-Message-State: AOAM533R4ubtfHM6CKYhnc0H9LWlQqiI+BnSi674aFQGUQ92CRMQ4zSu
+ 9sXKNtDp1Euvr9GvBi7xVc10FBhPkUQDjuVRrJc=
+X-Google-Smtp-Source: ABdhPJydyYyS1QJKhDg7hSaPQ7WIQAv6skbdZ5VyDp+BlGgGmDqlWoqJCcu3oymlgZ22tS5qNM0qWfFIl1qxMBgZ2Es=
+X-Received: by 2002:a02:ba90:: with SMTP id g16mr8591510jao.96.1605471210142; 
+ Sun, 15 Nov 2020 12:13:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20201115171853.8153-1-yashsri421@gmail.com>
-In-Reply-To: <20201115171853.8153-1-yashsri421@gmail.com>
+References: <20201115171626.38478-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20201115171626.38478-1-dwaipayanray1@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sun, 15 Nov 2020 21:12:09 +0100
-Message-ID: <CAKXUXMzq1GojaeHed8=8nO6sKkAsf+RNWuL0EDZrKYhqrrkkEQ@mail.gmail.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
+Date: Sun, 15 Nov 2020 21:13:19 +0100
+Message-ID: <CAKXUXMy+fKU=RODBagFL8YzT4xdbSZMi3fHV3ATx=bLNPp-hRg@mail.gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: add fix option
-	for MAINTAINERS_STYLE
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: Fix unescaped left
+	brace
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,67 +107,42 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Nov 15, 2020 at 6:19 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+On Sun, Nov 15, 2020 at 6:16 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
-> Checkpatch expects entries in MAINTAINERS file in a specific order and
-> warns if the changes made do not follow the specified order.
+> There is an unescaped left brace in a regex in OPEN_BRACE
+> check. This throws a runtime error when checkpatch is run
+> with --fix flag and the OPEN_BRACE check is executed.
 >
-> E.g., running checkpatch on commit 6f736909f0a4 ("MAINTAINERS: Add
-> patchwork link for PWM entry") reports this warning:
->
-> WARNING: Misordered MAINTAINERS entry - list 'Q:' before 'T:'
->  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git
-> +Q:     https://patchwork.ozlabs.org/project/linux-pwm/list/
->
-> Provide a simple fix by swapping the unordered lines
+> Fix it by escaping the left brace.
 >
 
+Can you find with 'git blame' which commit introduced this issue and
+add a Fixes: tag?
 
-Looks good to me.
+Other than that, it looks good.
 
 Lukas
 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 > ---
-> Changes in v2:
-> modified commit message
->
->  scripts/checkpatch.pl | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+>  scripts/checkpatch.pl | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 2749f32dffe9..c9aaaa443265 100755
+> index 2749f32dffe9..0da6422cd0fd 100755
 > --- a/scripts/checkpatch.pl
 > +++ b/scripts/checkpatch.pl
-> @@ -3299,13 +3299,22 @@ sub process {
->                                              "Unknown MAINTAINERS entry type: '$cur'\n" . $herecurr);
->                                 } else {
->                                         if ($previndex >= 0 && $curindex < $previndex) {
-> -                                               WARN("MAINTAINERS_STYLE",
-> -                                                    "Misordered MAINTAINERS entry - list '$cur:' before '$prev:'\n" . $hereprev);
-> +                                               if (WARN("MAINTAINERS_STYLE",
-> +                                                        "Misordered MAINTAINERS entry - list '$cur:' before '$prev:'\n" . $hereprev) &&
-> +                                                   $fix) {
-> +                                                       # swap these lines
-> +                                                       $fixed[$fixlinenr - 1] = $rawline;
-> +                                                       $fixed[$fixlinenr] = $prevrawline;
-> +                                               }
->                                         } elsif ((($prev eq 'F' && $cur eq 'F') ||
->                                                   ($prev eq 'X' && $cur eq 'X')) &&
->                                                  ($prevval cmp $curval) > 0) {
-> -                                               WARN("MAINTAINERS_STYLE",
-> -                                                    "Misordered MAINTAINERS entry - list file patterns in alphabetic order\n" . $hereprev);
-> +                                               if (WARN("MAINTAINERS_STYLE",
-> +                                                        "Misordered MAINTAINERS entry - list file patterns in alphabetic order\n" . $hereprev) &&
-> +                                                   $fix) {
-> +                                                       $fixed[$fixlinenr - 1] = $rawline;
-> +                                                       $fixed[$fixlinenr] = $prevrawline;
-> +                                               }
->                                         }
->                                 }
->                         }
+> @@ -4505,7 +4505,7 @@ sub process {
+>                             $fix) {
+>                                 fix_delete_line($fixlinenr, $rawline);
+>                                 my $fixed_line = $rawline;
+> -                               $fixed_line =~ /(^..*$Type\s*$Ident\(.*\)\s*){(.*)$/;
+> +                               $fixed_line =~ /(^..*$Type\s*$Ident\(.*\)\s*)\{(.*)$/;
+>                                 my $line1 = $1;
+>                                 my $line2 = $2;
+>                                 fix_insert_line($fixlinenr, ltrim($line1));
 > --
-> 2.17.1
+> 2.27.0
 >
 _______________________________________________
 Linux-kernel-mentees mailing list
