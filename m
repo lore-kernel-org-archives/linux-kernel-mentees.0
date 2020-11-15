@@ -2,112 +2,94 @@ Return-Path: <SRS0=uYLy=EV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CAAC55ABD
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 12:18:58 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05BD9C2D0E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 15:18:24 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2186C22384
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 12:18:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 71622223C7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 15:18:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lfAq5dfT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2186C22384
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T232a3Mi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71622223C7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C985C87214;
-	Sun, 15 Nov 2020 12:18:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 16EB886203;
+	Sun, 15 Nov 2020 15:18:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id O1R0WNr0WVEZ; Sun, 15 Nov 2020 12:18:57 +0000 (UTC)
+	with ESMTP id zMLEWguORVN0; Sun, 15 Nov 2020 15:18:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0425F87212;
-	Sun, 15 Nov 2020 12:18:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6253185FDB;
+	Sun, 15 Nov 2020 15:18:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EAB1EC0891;
-	Sun, 15 Nov 2020 12:18:56 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8D868C07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 49126C0800;
+	Sun, 15 Nov 2020 15:18:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A128CC07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 12:18:55 +0000 (UTC)
+ Sun, 15 Nov 2020 15:18:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 82C9187212
+ by silver.osuosl.org (Postfix) with ESMTP id 94DD3203E5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 12:18:55 +0000 (UTC)
+ Sun, 15 Nov 2020 15:18:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id B92tS5qib6aV
+ with ESMTP id qLCuLhLBDUyz
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 12:18:54 +0000 (UTC)
+ Sun, 15 Nov 2020 15:18:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5BA4587218
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id B7D87203CC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 12:18:54 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id w14so10947935pfd.7
+ Sun, 15 Nov 2020 15:18:19 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id e17so12835513ili.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 04:18:54 -0800 (PST)
+ Sun, 15 Nov 2020 07:18:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hmC+NTyOPG9xsbPPE7ybYs8sf4wxZzFo3eoABOkQDn0=;
- b=lfAq5dfTWSoXBCb4zCc6T/HTod4y6FrmmlU4Ds4wY1frDrS5S7nAi8cW1oa9nr1Ohs
- 12PCzcDjNX89b8f1XfYJonbCg+zWRnZWVvUJ9OuithLy4uBG2aV6P/3fqH82Qmcdvuqv
- nKsEk9HdDWyfdSKHSKiRfrfoiXcPdXNHVFlKyBQkHdL19v5tRYeJE8Retk2I70DViAk1
- HimYTaZgnf6kwbaQ0oXVvPjlkeOOTaHlvsQvQQw3sEf1Z6VY/7SUce6qyyFS0Rq4wicM
- jafi3WPhBdQLAy6HnpxfRijcfAHgc2T0LVDaPFAoMvkw8hRKeY0lnOGcMi/R2M2YteYj
- GYRw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qrSLHYa2obDZhFEI8kBdtOtSP4RkOPnQk8Oq8CzP1zU=;
+ b=T232a3MiyIrurqvF+AZlqWh4SmH4gH2O4RHxnPjbQUvsdm37TwJOvKGj54Davq3nQG
+ olkNQhgYkb/6AI8cYbYGKKZ430uYYAH0r0yUDF8gMOVKyGzJ98X8OItbedlkCwudx7cK
+ 8vii1mARlnk7dB7JNyCaDKb2/Q83rxplwxGdZy5SlNxVIWcXhA/689ICwHHcOug2cs0k
+ tIi03QWZhEW78g87MXmwllJ8vDiUuryNOHYFAVRNron5Phlw0n2wJ01ChDbzEwcmPJSy
+ C/WXrUxZ4uNkiNFAypuTAKmvx6E76jdOmERXNj7yVINV/l0Dx1xRUs74hOh6AIVr3Qa2
+ /PCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hmC+NTyOPG9xsbPPE7ybYs8sf4wxZzFo3eoABOkQDn0=;
- b=ScVYXjY69W+QHi9tSROi3EbMAWaM1gRu9W0Qu+rTZZNpXsecpCXyFTw+7NPd4/EWGj
- BMHuk5//FODeJ59Q3bASVxgI/ZfH3w/UX9rnWJwjd0TLD8krzpyx9RcoFYPiXCxD+QOx
- 4vjVc8BC4amHcHucvPeaj7KSk2XWy8IIc/VHk/dozSB9WsSZ+kB33bu4muPJf6XgfNal
- kOx/E0qIZkf95fi+bAFXUkyJKbP2egjnnkiqn8VckhPtT/qV/4kslwd4Tl5lhn/UPPVt
- ZvrD7enPYimnKFnMNZskRd1kASMp2WDUleKsWYm9QLCrWnGuTZiw6ma0q9EjEeyv9O8m
- 6BAw==
-X-Gm-Message-State: AOAM532ZVDrCPeV37HtmIJyMZmFV19AoL5H0cKSHAPNTvrofRCjQG37o
- iUlf4EVJhTbP3k9nloo8Qi4=
-X-Google-Smtp-Source: ABdhPJxoOacgNUAW/J/izVEdb9wykDwXs8uaMg89IrVXfrjlA9O5iwFxY6MWRJaPDKezyFHTuCQWVw==
-X-Received: by 2002:a05:6a00:c:b029:18b:eae3:bff0 with SMTP id
- h12-20020a056a00000cb029018beae3bff0mr9883589pfk.9.1605442733773; 
- Sun, 15 Nov 2020 04:18:53 -0800 (PST)
-Received: from [192.168.86.81] ([106.51.140.48])
- by smtp.gmail.com with ESMTPSA id f4sm15511310pjs.8.2020.11.15.04.18.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Nov 2020 04:18:53 -0800 (PST)
-To: Marco Elver <elver@google.com>
-References: <20201114123648.97857-1-98.arpi@gmail.com>
- <CANpmjNNsVxGiGWeij-EsDUpc_fBBYg7iBynis1tQKwh8ks5jQw@mail.gmail.com>
-From: Arpitha Raghunandan <98.arpi@gmail.com>
-Message-ID: <3c0eb37e-aa9b-876c-6635-1f32181f4e5d@gmail.com>
-Date: Sun, 15 Nov 2020 17:48:45 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qrSLHYa2obDZhFEI8kBdtOtSP4RkOPnQk8Oq8CzP1zU=;
+ b=O78haiNYfzxbHMiKEXAfCzQSsY5tszCkTlMv2NXxaLkIb76eWDk+pizgYvg5hv69Bx
+ uUcWcAJ1zMNf1ixBYVA+WgblpKBNcFWbk4nTrGM7Xrv+KbXgMk/pzNz67IVT1V/HbFOP
+ QXBtkLhMZu9bG8I38YCElE4rGIYZMwj/nOlaaXwle5xo1W/hkxdb2cKXwyDepfUjjxiM
+ MAFMG9EvFF0Ph6XGsujRP0BhNuYq7qlSwnhD4+NN0ny7J6HVF7LF5L2Nl1xjv8g9aqAM
+ xKeJPwo8DdMd4Ne5zVfC/Z52gIiSOiAjmsB+qs/aCCllz5TrEwVjMeo/G0vJTkW0EqUO
+ DH3w==
+X-Gm-Message-State: AOAM533x6TqFhahq9hEdMTW7f2wri3btaWDrT3u3nUzokt1seqGvfjYf
+ Npl3iV/idpUMk09k06Fm6eqN74F0es5bykYOA1M=
+X-Google-Smtp-Source: ABdhPJwH50cfnm5xz82/gry3gANuMkSo1q3kGM82NuSLmqLBh/6eEkRsRYkTM3Z5Z7FQuEZm11kxHIHR6NOG3/mS1Sw=
+X-Received: by 2002:a92:600e:: with SMTP id u14mr5257819ilb.221.1605453498877; 
+ Sun, 15 Nov 2020 07:18:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CANpmjNNsVxGiGWeij-EsDUpc_fBBYg7iBynis1tQKwh8ks5jQw@mail.gmail.com>
-Content-Language: en-US
-Cc: linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Tim Bird <Tim.Bird@sony.com>, Brendan Higgins <brendanhiggins@google.com>,
- LKML <linux-kernel@vger.kernel.org>, Andreas Dilger <adilger.kernel@dilger.ca>,
- David Gow <davidgow@google.com>, Iurii Zaikin <yzaikin@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v7 1/2] kunit: Support for
-	Parameterized Testing
+References: <20201115115409.14511-1-yashsri421@gmail.com>
+In-Reply-To: <20201115115409.14511-1-yashsri421@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 15 Nov 2020 16:18:08 +0100
+Message-ID: <CAKXUXMwMG0J6sPMbf1vx+e-g5x_NWSehnae7uik32Woug2JLDg@mail.gmail.com>
+To: Aditya Srivastava <yashsri421@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
+	ASSIGNMENT_CONTINUATIONS
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,162 +107,54 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 15/11/20 2:28 pm, Marco Elver wrote:
-> On Sat, 14 Nov 2020 at 13:38, Arpitha Raghunandan <98.arpi@gmail.com> wrote:
->> Implementation of support for parameterized testing in KUnit. This
->> approach requires the creation of a test case using the
->> KUNIT_CASE_PARAM() macro that accepts a generator function as input.
->>
->> This generator function should return the next parameter given the
->> previous parameter in parameterized tests. It also provides a macro to
->> generate common-case generators based on arrays. Generators may also
->> optionally provide a human-readable description of parameters, which is
->> displayed where available.
->>
->> Note, currently the result of each parameter run is displayed in
->> diagnostic lines, and only the overall test case output summarizes
->> TAP-compliant success or failure of all parameter runs. In future, when
->> supported by kunit-tool, these can be turned into subsubtest outputs.
->>
->> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
->> Co-developed-by: Marco Elver <elver@google.com>
->> Signed-off-by: Marco Elver <elver@google.com>
->> ---
->> Changes v6->v7:
->> - Clarify commit message.
->> - Introduce ability to optionally generate descriptions for parameters;
->>   if no description is provided, we'll still print 'param-N'.
->> - Change diagnostic line format to:
->>         # <test-case-name>: <ok|not ok> N - [<param description>]
->>
->> Changes v5->v6:
->> - Fix alignment to maintain consistency
->>
->> Changes v4->v5:
->> - Update kernel-doc comments.
->> - Use const void* for generator return and prev value types.
->> - Add kernel-doc comment for KUNIT_ARRAY_PARAM.
->> - Rework parameterized test case execution strategy: each parameter is executed
->>   as if it was its own test case, with its own test initialization and cleanup
->>   (init and exit are called, etc.). However, we cannot add new test cases per TAP
->>   protocol once we have already started execution. Instead, log the result of
->>   each parameter run as a diagnostic comment.
->>
->> Changes v3->v4:
->> - Rename kunit variables
->> - Rename generator function helper macro
->> - Add documentation for generator approach
->> - Display test case name in case of failure along with param index
->>
->> Changes v2->v3:
->> - Modifictaion of generator macro and method
->>
->> Changes v1->v2:
->> - Use of a generator method to access test case parameters
->> Changes v6->v7:
->> - Clarify commit message.
->> - Introduce ability to optionally generate descriptions for parameters;
->>   if no description is provided, we'll still print 'param-N'.
->> - Change diagnostic line format to:
->>         # <test-case-name>: <ok|not ok> N - [<param description>]
->> - Before execution of parameterized test case, count number of
->>   parameters and display number of parameters. Currently also as a
->>   diagnostic line, but this may be used in future to generate a subsubtest
->>   plan. A requirement of this change is that generators must generate a
->>   deterministic number of parameters.
->>
->> Changes v5->v6:
->> - Fix alignment to maintain consistency
->>
->> Changes v4->v5:
->> - Update kernel-doc comments.
->> - Use const void* for generator return and prev value types.
->> - Add kernel-doc comment for KUNIT_ARRAY_PARAM.
->> - Rework parameterized test case execution strategy: each parameter is executed
->>   as if it was its own test case, with its own test initialization and cleanup
->>   (init and exit are called, etc.). However, we cannot add new test cases per TAP
->>   protocol once we have already started execution. Instead, log the result of
->>   each parameter run as a diagnostic comment.
->>
->> Changes v3->v4:
->> - Rename kunit variables
->> - Rename generator function helper macro
->> - Add documentation for generator approach
->> - Display test case name in case of failure along with param index
->>
->> Changes v2->v3:
->> - Modifictaion of generator macro and method
->>
->> Changes v1->v2:
->> - Use of a generator method to access test case parameters
->>
->>  include/kunit/test.h | 51 ++++++++++++++++++++++++++++++++++++++
->>  lib/kunit/test.c     | 59 ++++++++++++++++++++++++++++++++++----------
->>  2 files changed, 97 insertions(+), 13 deletions(-)
->>
->> diff --git a/include/kunit/test.h b/include/kunit/test.h
->> index db1b0ae666c4..cf5f33b1c890 100644
->> --- a/include/kunit/test.h
->> +++ b/include/kunit/test.h
->> @@ -94,6 +94,9 @@ struct kunit;
->>  /* Size of log associated with test. */
->>  #define KUNIT_LOG_SIZE 512
->>
->> +/* Maximum size of parameter description string. */
->> +#define KUNIT_PARAM_DESC_SIZE 64
-> 
-> I think we need to make this larger, perhaps 128. I just noticed a few
-> of the inode-test strings are >64 chars (and it should probably also
-> use strncpy() to copy to description, which is my bad).
+On Sun, Nov 15, 2020 at 12:54 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+>
+> Currently, checkpatch warns us if an assignment operator is placed
+> at the start of a line and not at the end of previous line.
+>
+> E.g., running checkpatch on commit 8195b1396ec8 ("hv_netvsc: fix
+> deadlock on hotplug") reports:
+>
+> CHECK: Assignment operator '=' should be on the previous line
+> +       struct netvsc_device *nvdev
+> +               = container_of(w, struct netvsc_device, subchan_work);
+>
+> Provide a simple fix by appending assignment operator to the previous
+> line and removing from the current line
 >
 
-Okay, I will make the description size larger and use strncpy().
- 
->>  /*
->>   * TAP specifies subtest stream indentation of 4 spaces, 8 spaces for a
->>   * sub-subtest.  See the "Subtests" section in
->> @@ -107,6 +110,7 @@ struct kunit;
-> [...]
->> +/**
->> + * KUNIT_ARRAY_PARAM() - Define test parameter generator from an array.
->> + * @name:  prefix for the test parameter generator function.
->> + * @array: array of test parameters.
->> + * @get_desc: function to convert param to description; NULL to use default
->> + *
->> + * Define function @name_gen_params which uses @array to generate parameters.
->> + */
->> +#define KUNIT_ARRAY_PARAM(name, array, get_desc)                                               \
->> +       static const void *name##_gen_params(const void *prev, char *desc)                      \
->> +       {                                                                                       \
->> +               typeof((array)[0]) * __next = prev ? ((typeof(__next)) prev) + 1 : (array);     \
-> 
-> Why did you reintroduce a space between * and __next? AFAIK, this
-> should follow the same style as the rest of the kernel, and it should
-> just be 'thetype *ptr'.
-> 
+Looks reasonable to me.
 
-I introduced this space because checkpatch.pl gave an error without the space:
-ERROR: need consistent spacing around '*' (ctx:WxV)
-#1786: FILE: ./include/kunit/test.h:1786:
-+		typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 : (array);	\
+Lukas
 
-But, if this is a mistake as it doesn't recognize __next to be a pointer, I will remove the space.
-
->> +               if (__next - (array) < ARRAY_SIZE((array))) {                                   \
->> +                       void (*__get_desc)(typeof(__next), char *) = get_desc;                  \
->> +                       if (__get_desc)                                                         \
->> +                               __get_desc(__next, desc);                                       \
->> +                       return __next;                                                          \
->> +               }                                                                               \
->> +               return NULL;                                                                    \
->> +       }
->> +
-> 
-> Thanks,
-> -- Marco
-> 
-
-Thanks!
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index c9aaaa443265..5b1a5a65e69a 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3542,8 +3542,13 @@ sub process {
+>
+>  # check for assignments on the start of a line
+>                 if ($sline =~ /^\+\s+($Assignment)[^=]/) {
+> -                       CHK("ASSIGNMENT_CONTINUATIONS",
+> -                           "Assignment operator '$1' should be on the previous line\n" . $hereprev);
+> +                       if (CHK("ASSIGNMENT_CONTINUATIONS",
+> +                               "Assignment operator '$1' should be on the previous line\n" . $hereprev) &&
+> +                           $fix) {
+> +                               # add assignment operator to the previous line, remove from current line
+> +                               $fixed[$fixlinenr - 1] .= " $1";
+> +                               $fixed[$fixlinenr] =~ s/$1\s*//;
+> +                       }
+>                 }
+>
+>  # check for && or || at the start of a line
+> --
+> 2.17.1
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
