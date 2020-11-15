@@ -5,101 +5,103 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42AACC61DD8
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 18:58:48 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC38C2D0E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 18:59:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A8A162225B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 18:58:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 61AF22225B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Nov 2020 18:59:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o/hLQC6i"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A8A162225B
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pp/CNMaM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61AF22225B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3D284203CC;
-	Sun, 15 Nov 2020 18:58:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0BD4C87205;
+	Sun, 15 Nov 2020 18:59:38 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 84IQUWIVXh-F; Sun, 15 Nov 2020 18:59:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 494AD87201;
+	Sun, 15 Nov 2020 18:59:37 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4451AC0891;
+	Sun, 15 Nov 2020 18:59:37 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 31130C07FF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 15 Nov 2020 18:59:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 25D2520385
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 15 Nov 2020 18:59:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8fXh10TObufW; Sun, 15 Nov 2020 18:58:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2412D20385;
-	Sun, 15 Nov 2020 18:58:45 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 072A5C0891;
-	Sun, 15 Nov 2020 18:58:45 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B7379C07FF
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 18:58:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9D70B860EF
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 18:58:43 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0HlsxD4xcypi
+ with ESMTP id roEiRpS-nqVT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 18:58:42 +0000 (UTC)
+ Sun, 15 Nov 2020 18:59:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 804F085D7D
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id DB1DC20365
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 18:58:42 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id q5so11303271pfk.6
+ Sun, 15 Nov 2020 18:59:34 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id r9so2792466pjl.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 15 Nov 2020 10:58:42 -0800 (PST)
+ Sun, 15 Nov 2020 10:59:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fsui5Y17lzl7T7beDxKCrgnubgmvY0fF3OhZafDSjCY=;
- b=o/hLQC6i8ug7QkNmXb3Nkd6gGPV58MB272KNBO+EgMrAObw98YAxd3lFh6uJlmUNTB
- edaJzwycdCesTcZESBvDCdHXwsdXxgE3o+v8Bp7i9ehTFfG0XcZbFU4YoYSfxIH7q6KV
- Ptxvbtbv4KXxUnliZnlbLrezwn3LVXIR7Hbpsv96wHq7yxRbWgYKYcGcI/+efC5KJQEe
- kXcLpFQ2Ep6TGsrXJLkG1bBpzRInqYv5+eDjDbb4YsBjnlfiPxVTsaZj5a2XADgxCB1W
- VoM5jH+zd2nTnS5BU3GBoEqNjQw2GevPKVaAHsxfIxofjqeBVEWx5oBbYhmvagVu9hzI
- 6zEA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=I7nyAef/ps8aO0HXexFB9vyY502uhN9jokzsj+GrHx8=;
+ b=Pp/CNMaMKId7jnYeAU3sqT4Lk2cSuFGCkSH6nSyFMOU3PBB9zZJlBM8OZJF270ReYO
+ zhxmkg+9hbjWbavKQQfGVy6OR+lsPilxnLPIvyjZXK+HeBSzfeclCH7TAvjZ2N0vIQJ5
+ 7MHF2uzt8UpMvqQl5cCG9UPWmDXrosDOq+l8TEtZHyGjje2DbjXKpgqA7BmaolJVoTFF
+ mnEUb+4ZV0ALFKMCwoeTIdAUDuLN3eGqAI3pcOY7tW4vG0rGPj1COuriaKbdQ5KhZNlD
+ 0DvkAEszik36SSyHYTuyz9nkEhzxy0toxEc4s/3p+l6g6fbg8gSWKSd5wvwKFeEaEkke
+ tdFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fsui5Y17lzl7T7beDxKCrgnubgmvY0fF3OhZafDSjCY=;
- b=mysJ4aQISSMtNYZZ0/w4IDJGW+HDdeBkv02XghKpVaR4xhawG6jTfuDiQIK0W0XUnA
- n8EwgrNpxWCgbsY5piMiFtFhIcjtSpKxpx0Bp+t8BzjH+7FZRwT/KyJaFmJf1a1R8mll
- bz2lMREMJkx2s35pccRpcHeNHhQ4WRFdIOyYcSYmlvgSSrp6r+HjY21YFO2TGFJIgQYx
- MoucsYoS/8m/YY+9cOdJ2atBALb2F05l+5QhBpzy08jzbblUK2LKdkMzuC1kdjFaIaVR
- tedOL7vLhOO8PzNuv2l/rwRxrc12FiIEITju/AhSJC2nrX6CTRalK0BQU5rOLqI66arf
- FAWQ==
-X-Gm-Message-State: AOAM530S2bhrdi9RnnADt0xe+1rUKcok1q8X8MWI2CVQcZoIh3FRpOpA
- bZmrOWHxsZOwQIIIEDcdLqI=
-X-Google-Smtp-Source: ABdhPJxvXBIYimXCUURD+qcGDzPhl7TuBTnWmB6yRWztRS/kaJINJFH7TfN5UAptOYt51NAyCGVrGA==
-X-Received: by 2002:a62:8244:0:b029:196:c24:cfbc with SMTP id
- w65-20020a6282440000b02901960c24cfbcmr9276541pfd.18.1605466721970; 
- Sun, 15 Nov 2020 10:58:41 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=I7nyAef/ps8aO0HXexFB9vyY502uhN9jokzsj+GrHx8=;
+ b=U7w2XxcYj3L5dyqn5cD9guphOQEPJs50gJLjSTaktL5gXzGMY1mNaNKZBqE316L1Nv
+ AeEtbyREa+0D4yW+TZAl1W8UL0VStjfsnVuSgeXwsR7YXRy/NwX3yTQnQGPGYiZYg7wS
+ dH4I9jHQzE2Y3K/ztVUUvhG8CI8HtX8ald7eYYmHlyJudFFU0jaZsyA35ce/chy5VT88
+ F2BgtQj49iXCY4181znm26zSMP1b3jfULb64N8MsaHi4Ac58FxqNsgozOLqOAlRMSeGK
+ 54L+ocmuoZ11TwOKEXj2CT6ikMtY9EHkmIdP93m1kazskWSidrWfzwulrafts712XMQi
+ 15jQ==
+X-Gm-Message-State: AOAM531m3YYXRb4jfP5eV6oPwRrC7zbXWehecxdwJ6yfVcmTjNQmaK7c
+ wEhVRzP2zrVuNXLS+Ruvbyo=
+X-Google-Smtp-Source: ABdhPJzCkyJ2SXNFSQ35eY3rZCnCWLMVKCzccpXJTTGwujRL+UY4stljaGDCiwT7POMb05FpqzOiiA==
+X-Received: by 2002:a17:90a:f00a:: with SMTP id
+ bt10mr11672419pjb.91.1605466774396; 
+ Sun, 15 Nov 2020 10:59:34 -0800 (PST)
 Received: from arpitha-Inspiron-7570.lan ([106.51.140.48])
- by smtp.gmail.com with ESMTPSA id z7sm16375055pfq.214.2020.11.15.10.58.35
+ by smtp.gmail.com with ESMTPSA id k17sm17482645pji.50.2020.11.15.10.59.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Nov 2020 10:58:41 -0800 (PST)
+ Sun, 15 Nov 2020 10:59:33 -0800 (PST)
 From: Arpitha Raghunandan <98.arpi@gmail.com>
 To: brendanhiggins@google.com, skhan@linuxfoundation.org, elver@google.com,
  yzaikin@google.com, tytso@mit.edu, adilger.kernel@dilger.ca,
  Tim.Bird@sony.com, davidgow@google.com
-Date: Mon, 16 Nov 2020 00:27:59 +0530
-Message-Id: <20201115185759.169279-1-98.arpi@gmail.com>
+Date: Mon, 16 Nov 2020 00:29:05 +0530
+Message-Id: <20201115185905.169349-1-98.arpi@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201115185759.169279-1-98.arpi@gmail.com>
+References: <20201115185759.169279-1-98.arpi@gmail.com>
 MIME-Version: 1.0
 Cc: Arpitha Raghunandan <98.arpi@gmail.com>, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-ext4@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, kunit-dev@googlegroups.com
-Subject: [Linux-kernel-mentees] [PATCH v8 1/2] kunit: Support for
-	Parameterized Testing
+Subject: [Linux-kernel-mentees] [PATCH v8 2/2] fs: ext4: Modify inode-test.c
+	to use KUnit parameterized testing feature
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,285 +119,376 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Implementation of support for parameterized testing in KUnit. This
-approach requires the creation of a test case using the
-KUNIT_CASE_PARAM() macro that accepts a generator function as input.
-
-This generator function should return the next parameter given the
-previous parameter in parameterized tests. It also provides a macro to
-generate common-case generators based on arrays. Generators may also
-optionally provide a human-readable description of parameters, which is
-displayed where available.
-
-Note, currently the result of each parameter run is displayed in
-diagnostic lines, and only the overall test case output summarizes
-TAP-compliant success or failure of all parameter runs. In future, when
-supported by kunit-tool, these can be turned into subsubtest outputs.
+Modify fs/ext4/inode-test.c to use the parameterized testing
+feature of KUnit.
 
 Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
-Co-developed-by: Marco Elver <elver@google.com>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
 Changes v7->v8:
-- Increase KUNIT_PARAM_DESC_SIZE to 128
-- Format pointer style appropriately 
-
+- Replace strcpy() with strncpy() in timestamp_expectation_to_desc()
 Changes v6->v7:
-- Clarify commit message.
-- Introduce ability to optionally generate descriptions for parameters;
-  if no description is provided, we'll still print 'param-N'.
-- Change diagnostic line format to:
-        # <test-case-name>: <ok|not ok> N - [<param description>]
-
+- Introduce timestamp_expectation_to_desc() to convert param to
+  description.
 Changes v5->v6:
-- Fix alignment to maintain consistency
-
+- No change to this patch of the patch series
 Changes v4->v5:
-- Update kernel-doc comments.
-- Use const void* for generator return and prev value types.
-- Add kernel-doc comment for KUNIT_ARRAY_PARAM.
-- Rework parameterized test case execution strategy: each parameter is executed
-  as if it was its own test case, with its own test initialization and cleanup
-  (init and exit are called, etc.). However, we cannot add new test cases per TAP
-  protocol once we have already started execution. Instead, log the result of
-  each parameter run as a diagnostic comment.
-
+- No change to this patch of the patch series
 Changes v3->v4:
-- Rename kunit variables
-- Rename generator function helper macro
-- Add documentation for generator approach
-- Display test case name in case of failure along with param index
-
+- Modification based on latest implementation of KUnit parameterized testing
 Changes v2->v3:
-- Modifictaion of generator macro and method
-
+- Marked hardcoded test data const
+- Modification based on latest implementation of KUnit parameterized testing
 Changes v1->v2:
-- Use of a generator method to access test case parameters
-Changes v6->v7:
-- Clarify commit message.
-- Introduce ability to optionally generate descriptions for parameters;
-  if no description is provided, we'll still print 'param-N'.
-- Change diagnostic line format to:
-        # <test-case-name>: <ok|not ok> N - [<param description>]
-- Before execution of parameterized test case, count number of
-  parameters and display number of parameters. Currently also as a
-  diagnostic line, but this may be used in future to generate a subsubtest
-  plan. A requirement of this change is that generators must generate a
-  deterministic number of parameters.
+- Modification based on latest implementation of KUnit parameterized testing
 
-Changes v5->v6:
-- Fix alignment to maintain consistency
+ fs/ext4/inode-test.c | 323 ++++++++++++++++++++++---------------------
+ 1 file changed, 167 insertions(+), 156 deletions(-)
 
-Changes v4->v5:
-- Update kernel-doc comments.
-- Use const void* for generator return and prev value types.
-- Add kernel-doc comment for KUNIT_ARRAY_PARAM.
-- Rework parameterized test case execution strategy: each parameter is executed
-  as if it was its own test case, with its own test initialization and cleanup
-  (init and exit are called, etc.). However, we cannot add new test cases per TAP
-  protocol once we have already started execution. Instead, log the result of
-  each parameter run as a diagnostic comment.
-
-Changes v3->v4:
-- Rename kunit variables
-- Rename generator function helper macro
-- Add documentation for generator approach
-- Display test case name in case of failure along with param index
-
-Changes v2->v3:
-- Modifictaion of generator macro and method
-
-Changes v1->v2:
-- Use of a generator method to access test case parameters
-
- include/kunit/test.h | 51 ++++++++++++++++++++++++++++++++++++++
- lib/kunit/test.c     | 59 ++++++++++++++++++++++++++++++++++----------
- 2 files changed, 97 insertions(+), 13 deletions(-)
-
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index db1b0ae666c4..27b42a008c7a 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -94,6 +94,9 @@ struct kunit;
- /* Size of log associated with test. */
- #define KUNIT_LOG_SIZE	512
+diff --git a/fs/ext4/inode-test.c b/fs/ext4/inode-test.c
+index d62d802c9c12..2c0c00c45c6b 100644
+--- a/fs/ext4/inode-test.c
++++ b/fs/ext4/inode-test.c
+@@ -80,6 +80,148 @@ struct timestamp_expectation {
+ 	bool lower_bound;
+ };
  
-+/* Maximum size of parameter description string. */
-+#define KUNIT_PARAM_DESC_SIZE 128
++static const struct timestamp_expectation test_data[] = {
++	{
++		.test_case_name = LOWER_BOUND_NEG_NO_EXTRA_BITS_CASE,
++		.msb_set = true,
++		.lower_bound = true,
++		.extra_bits = 0,
++		.expected = {.tv_sec = -0x80000000LL, .tv_nsec = 0L},
++	},
 +
- /*
-  * TAP specifies subtest stream indentation of 4 spaces, 8 spaces for a
-  * sub-subtest.  See the "Subtests" section in
-@@ -107,6 +110,7 @@ struct kunit;
-  *
-  * @run_case: the function representing the actual test case.
-  * @name:     the name of the test case.
-+ * @generate_params: the generator function for parameterized tests.
-  *
-  * A test case is a function with the signature,
-  * ``void (*)(struct kunit *)``
-@@ -141,6 +145,7 @@ struct kunit;
- struct kunit_case {
- 	void (*run_case)(struct kunit *test);
- 	const char *name;
-+	const void* (*generate_params)(const void *prev, char *desc);
- 
- 	/* private: internal use only. */
- 	bool success;
-@@ -163,6 +168,27 @@ static inline char *kunit_status_to_string(bool status)
-  */
- #define KUNIT_CASE(test_name) { .run_case = test_name, .name = #test_name }
- 
-+/**
-+ * KUNIT_CASE_PARAM - A helper for creation a parameterized &struct kunit_case
-+ *
-+ * @test_name: a reference to a test case function.
-+ * @gen_params: a reference to a parameter generator function.
-+ *
-+ * The generator function::
-+ *
-+ *	const void* gen_params(const void *prev, char *desc)
-+ *
-+ * is used to lazily generate a series of arbitrarily typed values that fit into
-+ * a void*. The argument @prev is the previously returned value, which should be
-+ * used to derive the next value; @prev is set to NULL on the initial generator
-+ * call. When no more values are available, the generator must return NULL.
-+ * Optionally write a string into @desc (size of KUNIT_PARAM_DESC_SIZE)
-+ * describing the parameter.
-+ */
-+#define KUNIT_CASE_PARAM(test_name, gen_params)			\
-+		{ .run_case = test_name, .name = #test_name,	\
-+		  .generate_params = gen_params }
++	{
++		.test_case_name = UPPER_BOUND_NEG_NO_EXTRA_BITS_CASE,
++		.msb_set = true,
++		.lower_bound = false,
++		.extra_bits = 0,
++		.expected = {.tv_sec = -1LL, .tv_nsec = 0L},
++	},
 +
- /**
-  * struct kunit_suite - describes a related collection of &struct kunit_case
-  *
-@@ -208,6 +234,10 @@ struct kunit {
- 	const char *name; /* Read only after initialization! */
- 	char *log; /* Points at case log after initialization */
- 	struct kunit_try_catch try_catch;
-+	/* param_value is the current parameter value for a test case. */
-+	const void *param_value;
-+	/* param_index stores the index of the parameter in parameterized tests. */
-+	int param_index;
- 	/*
- 	 * success starts as true, and may only be set to false during a
- 	 * test case; thus, it is safe to update this across multiple
-@@ -1742,4 +1772,25 @@ do {									       \
- 						fmt,			       \
- 						##__VA_ARGS__)
- 
-+/**
-+ * KUNIT_ARRAY_PARAM() - Define test parameter generator from an array.
-+ * @name:  prefix for the test parameter generator function.
-+ * @array: array of test parameters.
-+ * @get_desc: function to convert param to description; NULL to use default
-+ *
-+ * Define function @name_gen_params which uses @array to generate parameters.
-+ */
-+#define KUNIT_ARRAY_PARAM(name, array, get_desc)						\
-+	static const void *name##_gen_params(const void *prev, char *desc)			\
-+	{											\
-+		typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 : (array);	\
-+		if (__next - (array) < ARRAY_SIZE((array))) {					\
-+			void (*__get_desc)(typeof(__next), char *) = get_desc;			\
-+			if (__get_desc)								\
-+				__get_desc(__next, desc);					\
-+			return __next;								\
-+		}										\
-+		return NULL;									\
++	{
++		.test_case_name = LOWER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
++		.msb_set = false,
++		.lower_bound = true,
++		.extra_bits = 0,
++		.expected = {0LL, 0L},
++	},
++
++	{
++		.test_case_name = UPPER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
++		.msb_set = false,
++		.lower_bound = false,
++		.extra_bits = 0,
++		.expected = {.tv_sec = 0x7fffffffLL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = LOWER_BOUND_NEG_LO_1_CASE,
++		.msb_set = true,
++		.lower_bound = true,
++		.extra_bits = 1,
++		.expected = {.tv_sec = 0x80000000LL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = UPPER_BOUND_NEG_LO_1_CASE,
++		.msb_set = true,
++		.lower_bound = false,
++		.extra_bits = 1,
++		.expected = {.tv_sec = 0xffffffffLL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = LOWER_BOUND_NONNEG_LO_1_CASE,
++		.msb_set = false,
++		.lower_bound = true,
++		.extra_bits = 1,
++		.expected = {.tv_sec = 0x100000000LL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = UPPER_BOUND_NONNEG_LO_1_CASE,
++		.msb_set = false,
++		.lower_bound = false,
++		.extra_bits = 1,
++		.expected = {.tv_sec = 0x17fffffffLL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = LOWER_BOUND_NEG_HI_1_CASE,
++		.msb_set = true,
++		.lower_bound = true,
++		.extra_bits =  2,
++		.expected = {.tv_sec = 0x180000000LL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = UPPER_BOUND_NEG_HI_1_CASE,
++		.msb_set = true,
++		.lower_bound = false,
++		.extra_bits = 2,
++		.expected = {.tv_sec = 0x1ffffffffLL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = LOWER_BOUND_NONNEG_HI_1_CASE,
++		.msb_set = false,
++		.lower_bound = true,
++		.extra_bits = 2,
++		.expected = {.tv_sec = 0x200000000LL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = UPPER_BOUND_NONNEG_HI_1_CASE,
++		.msb_set = false,
++		.lower_bound = false,
++		.extra_bits = 2,
++		.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = UPPER_BOUND_NONNEG_HI_1_NS_1_CASE,
++		.msb_set = false,
++		.lower_bound = false,
++		.extra_bits = 6,
++		.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 1L},
++	},
++
++	{
++		.test_case_name = LOWER_BOUND_NONNEG_HI_1_NS_MAX_CASE,
++		.msb_set = false,
++		.lower_bound = true,
++		.extra_bits = 0xFFFFFFFF,
++		.expected = {.tv_sec = 0x300000000LL,
++			     .tv_nsec = MAX_NANOSECONDS},
++	},
++
++	{
++		.test_case_name = LOWER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
++		.msb_set = false,
++		.lower_bound = true,
++		.extra_bits = 3,
++		.expected = {.tv_sec = 0x300000000LL, .tv_nsec = 0L},
++	},
++
++	{
++		.test_case_name = UPPER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
++		.msb_set = false,
++		.lower_bound = false,
++		.extra_bits = 3,
++		.expected = {.tv_sec = 0x37fffffffLL, .tv_nsec = 0L},
 +	}
++};
 +
- #endif /* _KUNIT_TEST_H */
-diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-index 750704abe89a..ec9494e914ef 100644
---- a/lib/kunit/test.c
-+++ b/lib/kunit/test.c
-@@ -325,39 +325,72 @@ static void kunit_catch_run_case(void *data)
-  * occur in a test case and reports them as failures.
-  */
- static void kunit_run_case_catch_errors(struct kunit_suite *suite,
--					struct kunit_case *test_case)
-+					struct kunit_case *test_case,
-+					struct kunit *test)
++static void timestamp_expectation_to_desc(const struct timestamp_expectation *t,
++					  char *desc)
++{
++	int desc_length = strlen(t->test_case_name);
++
++	strncpy(desc, t->test_case_name, desc_length);
++	desc[desc_length] = '\0';
++}
++
++KUNIT_ARRAY_PARAM(ext4_inode, test_data, timestamp_expectation_to_desc);
++
+ static time64_t get_32bit_time(const struct timestamp_expectation * const test)
  {
- 	struct kunit_try_catch_context context;
- 	struct kunit_try_catch *try_catch;
--	struct kunit test;
- 
--	kunit_init_test(&test, test_case->name, test_case->log);
--	try_catch = &test.try_catch;
-+	kunit_init_test(test, test_case->name, test_case->log);
-+	try_catch = &test->try_catch;
- 
- 	kunit_try_catch_init(try_catch,
--			     &test,
-+			     test,
- 			     kunit_try_run_case,
- 			     kunit_catch_run_case);
--	context.test = &test;
-+	context.test = test;
- 	context.suite = suite;
- 	context.test_case = test_case;
- 	kunit_try_catch_run(try_catch, &context);
- 
--	test_case->success = test.success;
+ 	if (test->msb_set) {
+@@ -101,166 +243,35 @@ static time64_t get_32bit_time(const struct timestamp_expectation * const test)
+  */
+ static void inode_test_xtimestamp_decoding(struct kunit *test)
+ {
+-	const struct timestamp_expectation test_data[] = {
+-		{
+-			.test_case_name = LOWER_BOUND_NEG_NO_EXTRA_BITS_CASE,
+-			.msb_set = true,
+-			.lower_bound = true,
+-			.extra_bits = 0,
+-			.expected = {.tv_sec = -0x80000000LL, .tv_nsec = 0L},
+-		},
 -
--	kunit_print_ok_not_ok(&test, true, test_case->success,
--			      kunit_test_case_num(suite, test_case),
--			      test_case->name);
-+	test_case->success = test->success;
+-		{
+-			.test_case_name = UPPER_BOUND_NEG_NO_EXTRA_BITS_CASE,
+-			.msb_set = true,
+-			.lower_bound = false,
+-			.extra_bits = 0,
+-			.expected = {.tv_sec = -1LL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = LOWER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
+-			.msb_set = false,
+-			.lower_bound = true,
+-			.extra_bits = 0,
+-			.expected = {0LL, 0L},
+-		},
+-
+-		{
+-			.test_case_name = UPPER_BOUND_NONNEG_NO_EXTRA_BITS_CASE,
+-			.msb_set = false,
+-			.lower_bound = false,
+-			.extra_bits = 0,
+-			.expected = {.tv_sec = 0x7fffffffLL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = LOWER_BOUND_NEG_LO_1_CASE,
+-			.msb_set = true,
+-			.lower_bound = true,
+-			.extra_bits = 1,
+-			.expected = {.tv_sec = 0x80000000LL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = UPPER_BOUND_NEG_LO_1_CASE,
+-			.msb_set = true,
+-			.lower_bound = false,
+-			.extra_bits = 1,
+-			.expected = {.tv_sec = 0xffffffffLL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = LOWER_BOUND_NONNEG_LO_1_CASE,
+-			.msb_set = false,
+-			.lower_bound = true,
+-			.extra_bits = 1,
+-			.expected = {.tv_sec = 0x100000000LL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = UPPER_BOUND_NONNEG_LO_1_CASE,
+-			.msb_set = false,
+-			.lower_bound = false,
+-			.extra_bits = 1,
+-			.expected = {.tv_sec = 0x17fffffffLL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = LOWER_BOUND_NEG_HI_1_CASE,
+-			.msb_set = true,
+-			.lower_bound = true,
+-			.extra_bits =  2,
+-			.expected = {.tv_sec = 0x180000000LL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = UPPER_BOUND_NEG_HI_1_CASE,
+-			.msb_set = true,
+-			.lower_bound = false,
+-			.extra_bits = 2,
+-			.expected = {.tv_sec = 0x1ffffffffLL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = LOWER_BOUND_NONNEG_HI_1_CASE,
+-			.msb_set = false,
+-			.lower_bound = true,
+-			.extra_bits = 2,
+-			.expected = {.tv_sec = 0x200000000LL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = UPPER_BOUND_NONNEG_HI_1_CASE,
+-			.msb_set = false,
+-			.lower_bound = false,
+-			.extra_bits = 2,
+-			.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = UPPER_BOUND_NONNEG_HI_1_NS_1_CASE,
+-			.msb_set = false,
+-			.lower_bound = false,
+-			.extra_bits = 6,
+-			.expected = {.tv_sec = 0x27fffffffLL, .tv_nsec = 1L},
+-		},
+-
+-		{
+-			.test_case_name = LOWER_BOUND_NONNEG_HI_1_NS_MAX_CASE,
+-			.msb_set = false,
+-			.lower_bound = true,
+-			.extra_bits = 0xFFFFFFFF,
+-			.expected = {.tv_sec = 0x300000000LL,
+-				     .tv_nsec = MAX_NANOSECONDS},
+-		},
+-
+-		{
+-			.test_case_name = LOWER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
+-			.msb_set = false,
+-			.lower_bound = true,
+-			.extra_bits = 3,
+-			.expected = {.tv_sec = 0x300000000LL, .tv_nsec = 0L},
+-		},
+-
+-		{
+-			.test_case_name = UPPER_BOUND_NONNEG_EXTRA_BITS_1_CASE,
+-			.msb_set = false,
+-			.lower_bound = false,
+-			.extra_bits = 3,
+-			.expected = {.tv_sec = 0x37fffffffLL, .tv_nsec = 0L},
+-		}
+-	};
+-
+ 	struct timespec64 timestamp;
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(test_data); ++i) {
+-		timestamp.tv_sec = get_32bit_time(&test_data[i]);
+-		ext4_decode_extra_time(&timestamp,
+-				       cpu_to_le32(test_data[i].extra_bits));
+-
+-		KUNIT_EXPECT_EQ_MSG(test,
+-				    test_data[i].expected.tv_sec,
+-				    timestamp.tv_sec,
+-				    CASE_NAME_FORMAT,
+-				    test_data[i].test_case_name,
+-				    test_data[i].msb_set,
+-				    test_data[i].lower_bound,
+-				    test_data[i].extra_bits);
+-		KUNIT_EXPECT_EQ_MSG(test,
+-				    test_data[i].expected.tv_nsec,
+-				    timestamp.tv_nsec,
+-				    CASE_NAME_FORMAT,
+-				    test_data[i].test_case_name,
+-				    test_data[i].msb_set,
+-				    test_data[i].lower_bound,
+-				    test_data[i].extra_bits);
+-	}
++
++	struct timestamp_expectation *test_param =
++			(struct timestamp_expectation *)(test->param_value);
++
++	timestamp.tv_sec = get_32bit_time(test_param);
++	ext4_decode_extra_time(&timestamp,
++			       cpu_to_le32(test_param->extra_bits));
++
++	KUNIT_EXPECT_EQ_MSG(test,
++			    test_param->expected.tv_sec,
++			    timestamp.tv_sec,
++			    CASE_NAME_FORMAT,
++			    test_param->test_case_name,
++			    test_param->msb_set,
++			    test_param->lower_bound,
++			    test_param->extra_bits);
++	KUNIT_EXPECT_EQ_MSG(test,
++			    test_param->expected.tv_nsec,
++			    timestamp.tv_nsec,
++			    CASE_NAME_FORMAT,
++			    test_param->test_case_name,
++			    test_param->msb_set,
++			    test_param->lower_bound,
++			    test_param->extra_bits);
  }
  
- int kunit_run_tests(struct kunit_suite *suite)
- {
-+	char param_desc[KUNIT_PARAM_DESC_SIZE];
- 	struct kunit_case *test_case;
- 
- 	kunit_print_subtest_start(suite);
- 
--	kunit_suite_for_each_test_case(suite, test_case)
--		kunit_run_case_catch_errors(suite, test_case);
-+	kunit_suite_for_each_test_case(suite, test_case) {
-+		struct kunit test = { .param_value = NULL, .param_index = 0 };
-+		bool test_success = true;
-+
-+		if (test_case->generate_params) {
-+			/* Get initial param. */
-+			param_desc[0] = '\0';
-+			test.param_value = test_case->generate_params(NULL, param_desc);
-+		}
-+
-+		do {
-+			kunit_run_case_catch_errors(suite, test_case, &test);
-+			test_success &= test_case->success;
-+
-+			if (test_case->generate_params) {
-+				if (param_desc[0] == '\0') {
-+					snprintf(param_desc, sizeof(param_desc),
-+						 "param-%d", test.param_index);
-+				}
-+
-+				kunit_log(KERN_INFO, &test,
-+					  KUNIT_SUBTEST_INDENT
-+					  "# %s: %s %d - %s",
-+					  test_case->name,
-+					  kunit_status_to_string(test.success),
-+					  test.param_index + 1, param_desc);
-+
-+				/* Get next param. */
-+				param_desc[0] = '\0';
-+				test.param_value = test_case->generate_params(test.param_value, param_desc);
-+				test.param_index++;
-+			}
-+		} while (test.param_value);
-+
-+		kunit_print_ok_not_ok(&test, true, test_success,
-+				      kunit_test_case_num(suite, test_case),
-+				      test_case->name);
-+	}
- 
- 	kunit_print_subtest_end(suite);
+ static struct kunit_case ext4_inode_test_cases[] = {
+-	KUNIT_CASE(inode_test_xtimestamp_decoding),
++	KUNIT_CASE_PARAM(inode_test_xtimestamp_decoding, ext4_inode_gen_params),
+ 	{}
+ };
  
 -- 
 2.25.1
