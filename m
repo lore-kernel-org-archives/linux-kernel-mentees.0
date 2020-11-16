@@ -2,77 +2,77 @@ Return-Path: <SRS0=dWhK=EW=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 157EDC63798
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Nov 2020 16:59:36 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C734C388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Nov 2020 21:55:54 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8200D20E65
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Nov 2020 16:59:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8200D20E65
+	by mail.kernel.org (Postfix) with ESMTPS id AEBCE2225E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Nov 2020 21:55:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AEBCE2225E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3157B87153;
-	Mon, 16 Nov 2020 16:59:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 30A5D85E47;
+	Mon, 16 Nov 2020 21:55:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UGSX4+Rsz2SD; Mon, 16 Nov 2020 16:59:34 +0000 (UTC)
+	with ESMTP id 3kYUTAXWt7vM; Mon, 16 Nov 2020 21:55:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B9466870E7;
-	Mon, 16 Nov 2020 16:59:34 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3127E85DFD;
+	Mon, 16 Nov 2020 21:55:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AFB87C0800;
-	Mon, 16 Nov 2020 16:59:34 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A23CFC07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 201F1C0891;
+	Mon, 16 Nov 2020 21:55:51 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2BB15C07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 16:59:33 +0000 (UTC)
+ Mon, 16 Nov 2020 21:55:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 915818714E
+ by silver.osuosl.org (Postfix) with ESMTP id 266401FF98
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 16:59:33 +0000 (UTC)
+ Mon, 16 Nov 2020 21:55:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xP8tEJtNF1F5
+ with ESMTP id rmG7i9eeQarN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 16:59:32 +0000 (UTC)
+ Mon, 16 Nov 2020 21:55:48 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0243.hostedemail.com
- [216.40.44.243])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 7FB5E870E7
+Received: from smtprelay.hostedemail.com (smtprelay0041.hostedemail.com
+ [216.40.44.41])
+ by silver.osuosl.org (Postfix) with ESMTPS id 07F301FEED
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 16:59:32 +0000 (UTC)
+ Mon, 16 Nov 2020 21:55:47 +0000 (UTC)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
  [216.40.38.60])
- by smtprelay07.hostedemail.com (Postfix) with ESMTP id 5480B181D3026;
- Mon, 16 Nov 2020 16:59:31 +0000 (UTC)
+ by smtprelay01.hostedemail.com (Postfix) with ESMTP id A099A100E7B49;
+ Mon, 16 Nov 2020 21:55:46 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: camp83_5f113d12732a
-X-Filterd-Recvd-Size: 1719
+X-HE-Tag: sky93_41062bc2732c
+X-Filterd-Recvd-Size: 2867
 Received: from XPS-9350.home (unknown [47.151.133.149])
  (Authenticated sender: joe@perches.com)
- by omf11.hostedemail.com (Postfix) with ESMTPA;
- Mon, 16 Nov 2020 16:59:30 +0000 (UTC)
-Message-ID: <f3ac4a646b82ef2d31bfb0e9ea953b2c961de2c2.camel@perches.com>
+ by omf13.hostedemail.com (Postfix) with ESMTPA;
+ Mon, 16 Nov 2020 21:55:45 +0000 (UTC)
+Message-ID: <d675ffc7c85c68117c3e2d78d2e35679f778a9c2.camel@perches.com>
 From: Joe Perches <joe@perches.com>
-To: Aditya Srivastava <yashsri421@gmail.com>, Andrew Morton
- <akpm@linux-foundation.org>
-Date: Mon, 16 Nov 2020 08:59:28 -0800
-In-Reply-To: <20201116083754.10629-1-yashsri421@gmail.com>
-References: <20201116083754.10629-1-yashsri421@gmail.com>
+To: Aditya Srivastava <yashsri421@gmail.com>
+Date: Mon, 16 Nov 2020 13:55:44 -0800
+In-Reply-To: <20201116071930.7733-1-yashsri421@gmail.com>
+References: <20201116071930.7733-1-yashsri421@gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] checkpatch: avoid
- COMMIT_LOG_LONG_LINE warning for signature tags
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: add fix option
+	for MAINTAINERS_STYLE
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,28 +90,64 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 2020-11-16 at 14:07 +0530, Aditya Srivastava wrote:
-> Currently checkpatch warns us for long lines in commits even for
-> signature tag lines.
+On Mon, 2020-11-16 at 12:49 +0530, Aditya Srivastava wrote:
+> Checkpatch expects entries in MAINTAINERS file in a specific order and
+> warns if the changes made do not follow the specified order.
+> =
 
-Thanks Aditya.
+> E.g., running checkpatch on commit 6f736909f0a4 ("MAINTAINERS: Add
+> patchwork link for PWM entry") reports this warning:
+> =
 
-Acked-by: Joe Perches <joe@perches.com>
+> WARNING: Misordered MAINTAINERS entry - list 'Q:' before 'T:'
+> =A0T:	git git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/li=
+nux-pwm.git
+> +Q:	https://patchwork.ozlabs.org/project/linux-pwm/list/
+> =
+
+> Provide a simple fix by swapping the unordered lines
+
+NAK.
+
+This --fix option can't work if a patch merely adds a single line.
+The patch context lines would be wrong.
+
+This has to make sure the both lines are additions (start with +)
+
 
 > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
 []
-> @@ -2961,8 +2961,8 @@ sub process {
-> =A0					# file delta changes
-> =A0		      $line =3D~ /^\s*(?:[\w\.\-]+\/)++[\w\.\-]+:/ ||
-> =A0					# filename then :
-> -		      $line =3D~ /^\s*(?:Fixes:|Link:)/i ||
-> -					# A Fixes: or Link: line
-> +		      $line =3D~ /^\s*(?:Fixes:|Link:|$signature_tags)/i ||
-> +					# A Fixes: or Link: line or signature tag line
-> =A0		      $commit_log_possible_stack_dump)) {
-> =A0			WARN("COMMIT_LOG_LONG_LINE",
-> =A0			     "Possible unwrapped commit description (prefer a maximum 75 ch=
-ars per line)\n" . $herecurr);
+> @@ -3299,13 +3299,22 @@ sub process {
+> =A0					     "Unknown MAINTAINERS entry type: '$cur'\n" . $herecurr);
+> =A0				} else {
+> =A0					if ($previndex >=3D 0 && $curindex < $previndex) {
+> -						WARN("MAINTAINERS_STYLE",
+> -						     "Misordered MAINTAINERS entry - list '$cur:' before '$prev:'\=
+n" . $hereprev);
+> +						if (WARN("MAINTAINERS_STYLE",
+> +							 "Misordered MAINTAINERS entry - list '$cur:' before '$prev:'\n" =
+. $hereprev) &&
+> +						    $fix) {
+> +							# swap these lines
+> +							$fixed[$fixlinenr - 1] =3D $rawline;
+> +							$fixed[$fixlinenr] =3D $prevrawline;
+> +						}
+> =A0					} elsif ((($prev eq 'F' && $cur eq 'F') ||
+> =A0						  ($prev eq 'X' && $cur eq 'X')) &&
+> =A0						 ($prevval cmp $curval) > 0) {
+> -						WARN("MAINTAINERS_STYLE",
+> -						     "Misordered MAINTAINERS entry - list file patterns in alphabe=
+tic order\n" . $hereprev);
+> +						if (WARN("MAINTAINERS_STYLE",
+> +							 "Misordered MAINTAINERS entry - list file patterns in alphabetic=
+ order\n" . $hereprev) &&
+> +						    $fix) {
+> +							$fixed[$fixlinenr - 1] =3D $rawline;
+> +							$fixed[$fixlinenr] =3D $prevrawline;
+> +						}
+> =A0					}
+> =A0				}
+> =A0			}
 
 
 _______________________________________________
