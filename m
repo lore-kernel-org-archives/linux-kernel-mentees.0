@@ -2,106 +2,96 @@ Return-Path: <SRS0=dWhK=EW=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D0FC4742C
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Nov 2020 08:21:47 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B65C55ABD
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Nov 2020 08:32:04 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C7CB12067C
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Nov 2020 08:21:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 97BA420731
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Nov 2020 08:32:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KeDlWw64"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C7CB12067C
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aQ8UI7u4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97BA420731
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3D16C86741;
-	Mon, 16 Nov 2020 08:21:46 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D7E8320428;
+	Mon, 16 Nov 2020 08:32:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0JIJVda-ZbJ3; Mon, 16 Nov 2020 08:21:45 +0000 (UTC)
+	with ESMTP id uH0cQvYI1NWM; Mon, 16 Nov 2020 08:32:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 98D1C86739;
-	Mon, 16 Nov 2020 08:21:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CA2032041F;
+	Mon, 16 Nov 2020 08:32:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D9A9C0800;
-	Mon, 16 Nov 2020 08:21:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3B39C0800;
+	Mon, 16 Nov 2020 08:32:01 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3298AC07FF
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E69D4C07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 08:21:44 +0000 (UTC)
+ Mon, 16 Nov 2020 08:32:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 197BE85F3E
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D48C585F41
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 08:21:44 +0000 (UTC)
+ Mon, 16 Nov 2020 08:32:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tWD5YY90ws_v
+ with ESMTP id 12aKvU8RIC9b
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 08:21:42 +0000 (UTC)
+ Mon, 16 Nov 2020 08:32:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 478F185F3A
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 19D3F85F3E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 08:21:42 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id q28so2033538pgk.1
+ Mon, 16 Nov 2020 08:32:00 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id s24so16452324ioj.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 00:21:42 -0800 (PST)
+ Mon, 16 Nov 2020 00:32:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z1kiidag7uIrKWdaFLUMiKmyyT0qLaMhrTFUIA9awpc=;
- b=KeDlWw64tc+7COhCdGBz1W/DvVLwCvblHXVvG3G8jtFina0Ie0m25nKoivM8X4PMNn
- +zafeQ2c0wQr0pZYacYjXfIB3nCMJjRXAnZJN6krPOFqnPADbdoCFrZ7ggAAUBzCQq+m
- oTwstCixUfK+/cpCg0ilsEOjCvoxaTGwVJrEy3QuaG67D4Bd/HR/31SEBb9Buwxht1+r
- d6pfGizPxIsw6cNNYY8IptPDhVOwvtyQAuqtVFRIpwJEMG0a6uOG4laI45H+1Q65P0U/
- /uMCbdbwm0Ep3qn/86BKGMDZ1PbnvlHKafiKQzkGPfx0nUYH2XAclhV1Zpj/Py85y8oH
- TBGA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZRJfbZxg8y9JVADNjyn4G1saLtXPcgVvV9AoM2Pg0tM=;
+ b=aQ8UI7u4IBKkwCQbJcUT6sJ5DFa2/XCm4gZ3wZPihxqxTxhStKrIxfxgJlYvqHaR4c
+ bmBtK9EzfIpSbZeJleCzD/iRYLhlkFX9DVe/TmyIo6lxuvyhgKujQ0rheMrzTkqmswrm
+ EBxr5EMLegt4EvYlCKEHlrQbRumuy5SNnteerUPKDbI4ElcN0yvbLUojec38fA7LgoPV
+ Mc4u436ngiqZF9Iz710F+MkGUIlGI/3HtNQxwksyH2bRsltakUa3+6AUeQb0IeoAp23t
+ r1q8EhK4icg3HrO7ejYxTFYDY1Wo6mNBMJ7Yw+cPrvq8fy+t7yWxPC4DRI5ajQpwyf70
+ OGdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Z1kiidag7uIrKWdaFLUMiKmyyT0qLaMhrTFUIA9awpc=;
- b=q7/jJleOzDR+s+6MQRDF6aYOPunjjCzGwXi4O6GECtJ8Y2WKxrV+D7ZEqkr9ZvaY/6
- KoWVtH2iq2yFUpX3fXrnPGhXOJ6IjHDrduMMTMsLoh+gl6RDwDnVPVFIN2x/mlQ5Zn7T
- QDl7sO7exOd1RVeMDmgmBkDpe2rl1/TTYura8bKlyOXevT2WauIgjGXBDUdLrM3hdMgL
- C06j+0H9f9c6HsBXoOALrKq1LgtX17IG0OwMuNc9o4bOmBRWqapeb8IRxywT/NpT9LKD
- fOgcij76UJ/fHd1r+YdmMaMSk3getmynqZxnns+q2IKVKlbmtyqmzKt0ekD4UbmEKuc8
- GQ2A==
-X-Gm-Message-State: AOAM533JysjboIx3LrZcjRhL+beeA0lH7vZyyq1WrsZLSnNWRzzY4I8P
- wkwEIjJSOeEpQ6K+ny3RGkm31y5aUn2Ryg==
-X-Google-Smtp-Source: ABdhPJxavGsTMEIapfz1cKr17rLYNIcWI0HoQ1yGilkhmN6/PU4k9yPz0yk9hpkBQNy1Trbmb6dKJA==
-X-Received: by 2002:a17:90b:1289:: with SMTP id
- fw9mr15210263pjb.85.1605514901511; 
- Mon, 16 Nov 2020 00:21:41 -0800 (PST)
-Received: from [192.168.43.245] ([42.111.137.21])
- by smtp.gmail.com with ESMTPSA id j184sm18825984pfg.207.2020.11.16.00.21.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Nov 2020 00:21:41 -0800 (PST)
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <20201115115409.14511-1-yashsri421@gmail.com>
- <CAKXUXMwMG0J6sPMbf1vx+e-g5x_NWSehnae7uik32Woug2JLDg@mail.gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <ed386f67-1436-8369-dd57-3bfbb870702f@gmail.com>
-Date: Mon, 16 Nov 2020 13:51:35 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZRJfbZxg8y9JVADNjyn4G1saLtXPcgVvV9AoM2Pg0tM=;
+ b=SPC7P3vE+nUDCvyDc2b7LvXpedchmU7zprrLTOG8+qNwHVWI+ieh/NXAINtx+HhZIw
+ j4V3Gh+cMxDaykdg0fEOvlBLXsQGxNmbo8FBewkU/8EuG04PU4OIFUl+/nPwrtZ4ibIE
+ 5GKujUG6ZK/STCPma4QhIlXoZn/G/Uyi7zBNN2IlJDMPMDehCPFGDxDq+la1EwamQQnD
+ q0+OhRysfQnkrwdf6hdQrJgRy9RC4dLhgT4Jjw00YRg8k7WvubNPW/ttPqv2P+Wvjblm
+ F6QCtPU3tzJcxejIDgQ5TdBqmq0g0pKuVPIRO/Dz1gLxKGWP1O0w36GjGqHalmJPLifK
+ wI2w==
+X-Gm-Message-State: AOAM532IYmrsC3gJaXs3gLjWH7fpkoYAKnWklaWtaPqAN0GSBsELr+zh
+ xthWN+V8p2dMsO5mhSYeH1m85BOZg86zOUtfUPo=
+X-Google-Smtp-Source: ABdhPJwtemNgNidlwJlkv5UbrR8JvLUdcYrH/sAKo45oNFcuD1SiG22BvV+Jx4y7Z0HPM1NsdRnpQn8ZMh9RHDMZn+Q=
+X-Received: by 2002:a05:6638:41a:: with SMTP id
+ q26mr10182904jap.27.1605515519294; 
+ Mon, 16 Nov 2020 00:31:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAKXUXMwMG0J6sPMbf1vx+e-g5x_NWSehnae7uik32Woug2JLDg@mail.gmail.com>
-Content-Language: en-US
+References: <20201116073154.8211-1-yashsri421@gmail.com>
+In-Reply-To: <20201116073154.8211-1-yashsri421@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 16 Nov 2020 09:31:48 +0100
+Message-ID: <CAKXUXMz5D83PMZCxFWAd0EAL6p_T0rzXQP3fYubSrBgf3meGyw@mail.gmail.com>
+To: Aditya Srivastava <yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
-	ASSIGNMENT_CONTINUATIONS
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] checkpatch: avoid
+ COMMIT_LOG_LONG_LINE warning for signature tags
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,64 +109,58 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 15/11/20 8:48 pm, Lukas Bulwahn wrote:
-> On Sun, Nov 15, 2020 at 12:54 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
->>
->> Currently, checkpatch warns us if an assignment operator is placed
->> at the start of a line and not at the end of previous line.
->>
->> E.g., running checkpatch on commit 8195b1396ec8 ("hv_netvsc: fix
->> deadlock on hotplug") reports:
->>
->> CHECK: Assignment operator '=' should be on the previous line
->> +       struct netvsc_device *nvdev
->> +               = container_of(w, struct netvsc_device, subchan_work);
->>
->> Provide a simple fix by appending assignment operator to the previous
->> line and removing from the current line
->>
-> 
-> Looks reasonable to me.
-> 
-> Lukas
-> 
->> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
->> ---
->>  scripts/checkpatch.pl | 9 +++++++--
->>  1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
->> index c9aaaa443265..5b1a5a65e69a 100755
->> --- a/scripts/checkpatch.pl
->> +++ b/scripts/checkpatch.pl
->> @@ -3542,8 +3542,13 @@ sub process {
->>
->>  # check for assignments on the start of a line
->>                 if ($sline =~ /^\+\s+($Assignment)[^=]/) {
->> -                       CHK("ASSIGNMENT_CONTINUATIONS",
->> -                           "Assignment operator '$1' should be on the previous line\n" . $hereprev);
->> +                       if (CHK("ASSIGNMENT_CONTINUATIONS",
->> +                               "Assignment operator '$1' should be on the previous line\n" . $hereprev) &&
->> +                           $fix) {
->> +                               # add assignment operator to the previous line, remove from current line
->> +                               $fixed[$fixlinenr - 1] .= " $1";
->> +                               $fixed[$fixlinenr] =~ s/$1\s*//;
->> +                       }
->>                 }
->>
->>  # check for && or || at the start of a line
->> --
->> 2.17.1
->>
+On Mon, Nov 16, 2020 at 8:32 AM Aditya Srivastava <yashsri421@gmail.com> wrote:
+>
+> Currently checkpatch warns us for long lines in commits even for
+> signature tag lines.
+>
+> Generally these lines exceed the 75-character limit because of:
+> 1) long names and long email address
+> 2) some comments on scoped review and acknowledgement, i.e., for a
+> dedicated pointer on what was reported by the identity in 'Reported-by'
+> 3) some additional comments on CC: stable@vger.org tags
+>
+> Exclude signature tag lines from this class of warning.
+>
+> There were 1896 COMMIT_LOG_LONG_LINE warnings in v5.6..v5.8 before this
+> patch application and 1879 afterwards.
+>
+> A quick manual check found all the dropped warnings related to signature
+> tags.
+>
 
-I have found an unhandled case with this fix ie if the line before
-this line is not an added line(ie '+') rather removed one(ie '-').
-Eg, with commit aef833c58d321f09a
+Looks good, I think you can send this to Joe and lkml now.
 
-I will send a modified patch handling that case as well.
 
-Thanks
-Aditya
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+> Changes in v2:
+> modify commit message: remove specific commit example, add cause of the warning instead
+>
+> Changes in v3:
+> modify commit message: minor english fix; remove difference count, add relative counts instead
+>
+>  scripts/checkpatch.pl | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index ac7e5ac80b58..f2369ac29d50 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -2961,8 +2961,8 @@ sub process {
+>                                         # file delta changes
+>                       $line =~ /^\s*(?:[\w\.\-]+\/)++[\w\.\-]+:/ ||
+>                                         # filename then :
+> -                     $line =~ /^\s*(?:Fixes:|Link:)/i ||
+> -                                       # A Fixes: or Link: line
+> +                     $line =~ /^\s*(?:Fixes:|Link:|$signature_tags)/i ||
+> +                                       # A Fixes: or Link: line or signature tag line
+>                       $commit_log_possible_stack_dump)) {
+>                         WARN("COMMIT_LOG_LONG_LINE",
+>                              "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
+> --
+> 2.17.1
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
