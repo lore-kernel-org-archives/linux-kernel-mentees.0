@@ -2,102 +2,99 @@ Return-Path: <SRS0=gqjg=EX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4557C5519F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Nov 2020 07:22:54 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DEBEC2D0E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Nov 2020 08:56:25 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 15D35246E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Nov 2020 07:22:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4F2FE223BD
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Nov 2020 08:56:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="WfYfJ93D"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15D35246E0
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yvmkcyw2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4F2FE223BD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7A65186523;
-	Tue, 17 Nov 2020 07:22:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BE906870FC;
+	Tue, 17 Nov 2020 08:56:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x3w2bcGpD18k; Tue, 17 Nov 2020 07:22:52 +0000 (UTC)
+	with ESMTP id lHimFJHpXJp7; Tue, 17 Nov 2020 08:56:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0B30285BBD;
-	Tue, 17 Nov 2020 07:22:52 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3FFAF870E1;
+	Tue, 17 Nov 2020 08:56:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 031B1C0800;
-	Tue, 17 Nov 2020 07:22:52 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5C89AC07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1222BC0891;
+	Tue, 17 Nov 2020 08:56:23 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 958A3C07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 07:22:50 +0000 (UTC)
+ Tue, 17 Nov 2020 08:56:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4A30285DDC
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7A0FE870FC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 07:22:50 +0000 (UTC)
+ Tue, 17 Nov 2020 08:56:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BwcM8s-wzh-F
+ with ESMTP id P60-XbCD42hW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 07:22:49 +0000 (UTC)
+ Tue, 17 Nov 2020 08:56:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
- [209.85.167.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 76A3085DCA
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E04F9870E1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 07:22:49 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id l11so16653154lfg.0
+ Tue, 17 Nov 2020 08:56:20 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id w20so88430pjh.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Nov 2020 23:22:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W4i9NQ6OsoFN+e3Rm0o5pJgxWmU5+u//PeH5iAlvI+Q=;
- b=WfYfJ93D2b8j/Ccxn/+u4A+b7M0oMztWQkICt8e/T2MyRer7AGAAZ8bcl/iScxkC10
- zbPD91sa/oGENgF8pCuiVYmsHN3/lrQIKzqM/aG0A5sSb4yw0XAVcnzaLjNwxFXCYq1u
- jdtX0Jt/GfV1ihXGwMbOV+f1omfzXxlRDGWGI+a8gfOq+BrD2OgqZZeTW7OAeQSW9ekE
- ZixbcRj0ZqSBfa6lYDt2LPFq6jHbtW/8bePoSvE5Wgacuz2XKsXCEpf7LlA+1MmHDBYg
- A0qPJviPSleIQa2o/nDYmYsif6kFgz8uPgz1VNrEbS7bN9jwR7IeGwnYfrNK/WAkuT33
- 4i2A==
+ Tue, 17 Nov 2020 00:56:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=it8JzRhie4ZUZLNrhDYP/725kiF3kapQrNtAIJC5Ezw=;
+ b=Yvmkcyw2oQDCua/AYGR5scHYE8K/I0tsj3R03qK+3fe0YL6FNCRwVVeJAutHFKEoH4
+ tlJVj+DpQvxtUb3bDsXm6eElOEdbUsE0mx2f4kTav3/09jjmhUX5AQ7XqlcIveu4/4Ch
+ EfhEH4SDEQyFlTJKQCahuBDEn4oLcotc2QPXaqdAs0w5PV75ZTgTvDY87R7nD9IOjH1r
+ GgyfAMl+RUFHJM7W2nf1Rd/1/6aXNU4QTa64QQFva0LLJoSVANkR9iXWAOhDTxJAQvaX
+ gr+GqkeJbiC0O7/+VerWVajqwKbQ/+RYZmX9F14/rXnWfPa/Lnzd2fZEbwm2sItqlVNV
+ G3Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W4i9NQ6OsoFN+e3Rm0o5pJgxWmU5+u//PeH5iAlvI+Q=;
- b=OzMFuh6nHTXxe+Rb9MpKkf1AcUjKDse30vYKIx9XAjWsZ+Z+t/sVt2G+CFSJWvFPuC
- /VX4L5bATK7VwKQgGbEfHzDnhSzhKk4UfaL7EFdDBhIQpinVLugUwvvdTn1pWEIymMYX
- IrfSUIbEzTj4yV7jUuaTTDdbw4mZP3hb0T+8ji8fsvuQN9X3arkKCc78xh6ofvvqWU1l
- ErhUkFikHXJq5sG45JHL5b32xvIDrUgYycd98QRUwNT+wHciu3QTtPJseQxMYh+kJ+sX
- +8bM4PWX7koy96eJrrBjrXCnD/rssnA6yhN6JCWNe6TwoRIRdQwD4FVGootwRLEJuQnj
- 6raw==
-X-Gm-Message-State: AOAM530+xUFAoIXqU4h8ey0L3VaesyP1gGiO5AyccyNfriTgqY+v0XH6
- A2Sx+ILaXudGBwJSfrCOu9GCFcaBmvS0/WFXZ5DDZA==
-X-Google-Smtp-Source: ABdhPJwO/2yfXmZ1Vt+DpDaiiQD3/ihK5JLFFsvm+jmuo6EweYkqBMdWs0coZNIQajHnfl8gDcLNZBNL9t49PS/n6RI=
-X-Received: by 2002:a19:4bc2:: with SMTP id y185mr1104940lfa.243.1605597767312; 
- Mon, 16 Nov 2020 23:22:47 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=it8JzRhie4ZUZLNrhDYP/725kiF3kapQrNtAIJC5Ezw=;
+ b=VV7zfrtlwpuTaRY7WvDy4boM7M7ax4+qHxmSBONvYnF8VEazPtSUu9xde6KzEJbcQR
+ nJSv0+6+tVDTiU/3ekC9utlVocxB1InBWyr0RicT4WsATELYHu9kBcbhHtxQRec7kwSs
+ 3c42gL1+TdJlZjzbX3kvZwx4c+NvBM+X5km8xXSPcbgaS9XYSd3+Xdf7035zdFsIzt6v
+ QSGIXnUav9RmhaII1cWEWtRw+u8J3Mm69WuVghFjgp7+IL1bKxfGxEUIARLFv6nueKas
+ Yg5EvfnZRDmglM3zoIiFK2HukJ9n1QyjmCvdbrUPBX6DPk/m2RcVKQpFE/URsT6Bad1Q
+ U75g==
+X-Gm-Message-State: AOAM532wNIuCMcAV64reOgyoJAG0BUxy6lAev+dZlEx2rOYKoiEf8DlS
+ vSVJmssgxDcA/PncCWDPP+c=
+X-Google-Smtp-Source: ABdhPJwYuSQsmPLP/LBEH+2WAywaYYG8zCGEvw2f+2XslJ5CCrnS7VPQH87QL5YEw0WbbZDd7ZvGug==
+X-Received: by 2002:a17:90a:9a1:: with SMTP id 30mr3632645pjo.52.1605603380328; 
+ Tue, 17 Nov 2020 00:56:20 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:60ba:80c7:87c0:8479:8968])
+ by smtp.gmail.com with ESMTPSA id y5sm20937998pfc.165.2020.11.17.00.56.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 00:56:19 -0800 (PST)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: lukas.bulwahn@gmail.com
+Date: Tue, 17 Nov 2020 14:25:53 +0530
+Message-Id: <20201117085553.52583-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20201116054035.211498-1-98.arpi@gmail.com>
- <20201116054150.211562-1-98.arpi@gmail.com>
-In-Reply-To: <20201116054150.211562-1-98.arpi@gmail.com>
-Date: Tue, 17 Nov 2020 15:22:35 +0800
-Message-ID: <CABVgOSmgf3WzYge79LwnJ0QWjZ37AASNJJZ7KV7BX2d++-7_QA@mail.gmail.com>
-To: Arpitha Raghunandan <98.arpi@gmail.com>
-Cc: Marco Elver <elver@google.com>, linux-ext4@vger.kernel.org,
- Theodore Ts'o <tytso@mit.edu>, "Bird, Tim" <Tim.Bird@sony.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Iurii Zaikin <yzaikin@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v9 2/2] fs: ext4: Modify
- inode-test.c to use KUnit parameterized testing feature
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add --fix option for
+	OPEN_BRACE issues
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,39 +106,110 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: David Gow via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Nov 16, 2020 at 1:42 PM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
->
-> Modify fs/ext4/inode-test.c to use the parameterized testing
-> feature of KUnit.
->
-> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
-[Resending this because the HTML-email demon struck again! Sorry for the mess!]
+Brace style misuses of the following types are now
+corrected:
 
+int foo(int bar,
+        int baz) { bar++;
+    return bar + baz;
+}
 
-Thanks: this is working well over here.
-The only (minor) issue I've noticed is that the diagnostic output is
-too big for the default log buffer if debugfs output is used, causing
-some of the messages to be dropped from the debugfs results file. But
-that's clearly not an issue with this patch, and the actual combined
-result is still present (and the complete results should show up in
-dmesg anyway).
+int foo(int bar,
+        int baz) {
+    return bar + baz;
+}
 
-Tested-by: David Gow <davidgow@google.com>
-Reviewed-by: David Gow <davidgow@google.com>
+if (bar &&
+    baz)
+{   bar++;
+    baz++;
+}
 
-Thanks!
--- David
+if (bar &&
+    baz)
+{
+    bar++;
+    baz++;
+}
+
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+---
+ scripts/checkpatch.pl | 38 +++++++++++++++++++++++++++++++++-----
+ 1 file changed, 33 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 0da6422cd0fd..8da6cde20c68 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3937,9 +3937,23 @@ sub process {
+ 			#print "pre<$pre_ctx>\nline<$line>\nctx<$ctx>\nnext<$lines[$ctx_ln - 1]>\n";
+ 
+ 			if ($ctx !~ /{\s*/ && defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*{/) {
+-				ERROR("OPEN_BRACE",
+-				      "that open brace { should be on the previous line\n" .
+-					"$here\n$ctx\n$rawlines[$ctx_ln - 1]\n");
++				if (ERROR("OPEN_BRACE",
++					  "that open brace { should be on the previous line\n" .
++						"$here\n$ctx\n$rawlines[$ctx_ln - 1]\n") &&
++				    $fix) {
++					my $line1 = $rawlines[$ctx_ln - 2];
++					my $line2 = $rawlines[$ctx_ln - 1];
++					fix_delete_line($ctx_ln - 2, $line1);
++					fix_delete_line($ctx_ln - 1, $line2);
++
++					my $fixedline = rtrim($line1) . " {";
++					fix_insert_line($ctx_ln - 1, $fixedline);
++					$fixedline = $line2;
++					$fixedline =~ s/^(.\s*)\{\s*/$1\t/;
++					if ($fixedline !~ /^\+\s*$/) {
++						fix_insert_line($ctx_ln - 1, $fixedline);
++					}
++				}
+ 			}
+ 			if ($level == 0 && $pre_ctx !~ /}\s*while\s*\($/ &&
+ 			    $ctx =~ /\)\s*\;\s*$/ &&
+@@ -6659,16 +6673,30 @@ sub process {
+ 			my $ok = 0;
+ 			my $cnt = statement_rawlines($stat);
+ 			my $herectx = $here . "\n";
++			my $cur_ln = $linenr - 1;
+ 			for (my $n = 0; $n < $cnt; $n++) {
+ 				my $rl = raw_line($linenr, $n);
+ 				$herectx .=  $rl . "\n";
+ 				$ok = 1 if ($rl =~ /^[ \+]\{/);
+ 				$ok = 1 if ($rl =~ /\{/ && $n == 0);
+ 				last if $rl =~ /^[ \+].*\{/;
++				$cur_ln++;
+ 			}
+ 			if (!$ok) {
+-				ERROR("OPEN_BRACE",
+-				      "open brace '{' following function definitions go on the next line\n" . $herectx);
++				if (ERROR("OPEN_BRACE",
++					  "open brace '{' following function definitions go on the next line\n" . $herectx) &&
++				    $fix && $rawlines[$cur_ln] =~ /^\+/) {
++					fix_delete_line($cur_ln, $rawlines[$cur_ln]);
++					my $fixed_line = $rawlines[$cur_ln];
++					$fixed_line =~ /(^.*\)\s*)\{(.*)$/;
++					my $line1 = rtrim($1);
++					my $line2 = $2;
++					fix_insert_line($cur_ln, $line1);
++					fix_insert_line($cur_ln, "\+{");
++					if ($line2 !~ /^\s*$/) {
++						fix_insert_line($cur_ln, "\+\t" . trim($line2));
++					}
++				}
+ 			}
+ 		}
+ 
+-- 
+2.27.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
