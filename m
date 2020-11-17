@@ -2,111 +2,98 @@ Return-Path: <SRS0=gqjg=EX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-3.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E616C5519F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Nov 2020 10:54:58 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B52C2D0E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Nov 2020 12:17:04 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8508E2464E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Nov 2020 10:54:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A56A12078E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Nov 2020 12:17:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WBgtMyM7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8508E2464E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fsq3/G9n"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A56A12078E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2E0528709B;
-	Tue, 17 Nov 2020 10:54:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 290C185815;
+	Tue, 17 Nov 2020 12:17:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zNbwRH0IZQr8; Tue, 17 Nov 2020 10:54:56 +0000 (UTC)
+	with ESMTP id 6uhuBBGBfW3o; Tue, 17 Nov 2020 12:17:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B639787098;
-	Tue, 17 Nov 2020 10:54:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BD1B085764;
+	Tue, 17 Nov 2020 12:17:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9E1CAC0891;
-	Tue, 17 Nov 2020 10:54:56 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 332C6C07FF
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8550C07FF;
+	Tue, 17 Nov 2020 12:17:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35B0DC07FF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 10:54:55 +0000 (UTC)
+ Tue, 17 Nov 2020 12:16:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2186D8709B
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2491785A6E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 10:54:55 +0000 (UTC)
+ Tue, 17 Nov 2020 12:16:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zvbbyJepHv6y
+ with ESMTP id Jj_3TyJmKSJf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 10:54:54 +0000 (UTC)
+ Tue, 17 Nov 2020 12:16:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8A16F87098
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+ [209.85.167.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6422185755
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 10:54:54 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id q28so5358873pgk.1
+ Tue, 17 Nov 2020 12:16:58 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id a9so28778390lfh.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Nov 2020 02:54:54 -0800 (PST)
+ Tue, 17 Nov 2020 04:16:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Sm8n6UYqLjDm8/GBzKE/gX4i+7HfB6mILkhsvWxWLqg=;
- b=WBgtMyM7CFOtzC8nJ/CIHW8uxmrJ8plkQhu0ARjiEDQmxbWteTqZrbkLvND4oyhtrH
- IADsrma/PToPGL1ka/L7bT/AdTGiL1SE/egg6+37vMJTK5zqp+nP7VO+6LZm9SbEGQMR
- XdyqtQcdu6ADZILekb/BeJqT3wBxPbvJcAawdYK17rW0kmQ3I1wNmHI2YRlDzsQxv7mV
- t+e4h9TZHSuy4wpeHIhP1AgpTHGUTQtPhms4d9PuIDxxURdqJ0ADwGn2bSjBLu5SZbae
- LKqG+v1lpWUz1bVMp9KLQCEsm9J3RwqEAGV4VLgli8RPuV69AvsFZx2p/dYYOvaiCOt0
- eY8A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cK+UkY7UMuPrxNeZ/Hg3g6XR2zbYBQoIOcrWCczaRWI=;
+ b=fsq3/G9nM642gB8X5whY8062hiGPY3IbgQjwoHJTKCdVuPun/uiuSYn1kRVc/Wv2Fq
+ 5FO+ThTjwgybNpPSaTLK++0K8aj54KCXuJqTwHpQwFM71gv1urmvhmo+k1dEimyXPtlv
+ Pf1BGQ9wBL75hr18vXT0I+SXrP5zybvxIacIRuqEcnjkU3iVNB6lG21Ie62XUriBBqIO
+ Pac8MFss0knFQK2u1H/6nBECVp66YifgmoUrkjF/SLun3+QA+4HBg5dGeNM8vHxMSjt4
+ tmBjQTurnwlVNiuY/XRdbwpc8nKb7RnXSBdj2Wfm6KNaL6S6rrzUada8w0gA1FNXMwpg
+ JIGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Sm8n6UYqLjDm8/GBzKE/gX4i+7HfB6mILkhsvWxWLqg=;
- b=J5EOrlyYo/mQvm3xkRM7feMmwGwHYwWtohw1aFmGHJHpabFg9n82PW5jZaIfglX2G+
- WGCdu3YRyJ+PlO0HOZbPiQWLMse3hClnTMFiOuS7tIQGc3MccPHd5UnfI1Zqpez7FMlA
- Ov+EYMchzdJ2UdsUp7UIFdOXtAUAW51Zd8Z5nVmFn4cGpujg2kuvCfUgGd1ULCT/BtS1
- O+32//9ynqmzRhqC+jhfHIyYKutKKGzAz66JCzqmFhv703jfKjdBfEn8nr46eQCoXclP
- I+yD52wAfFDQd21bsOsc2FYEpkIfln5sz4TwclMSNpbg81zF09wGtcDW4D3sy4Zy99Gl
- ZHKg==
-X-Gm-Message-State: AOAM5313zz35Ip/iZspgWio3QydC5M11Cnf0JhL1IgauVE/YLP17UFMM
- /obDY/SLC97QMqLoawRwzlw=
-X-Google-Smtp-Source: ABdhPJxTYI2atV+F/z+ssLv6UCtAIPcR3CHHHGLuEuUBD6kPWx1vMXmTjDpJ+AjkCxcS3z44F811Aw==
-X-Received: by 2002:a62:790f:0:b029:18a:ae57:353f with SMTP id
- u15-20020a62790f0000b029018aae57353fmr18013533pfc.78.1605610493977; 
- Tue, 17 Nov 2020 02:54:53 -0800 (PST)
-Received: from ?IPv6:2402:3a80:425:6282:bc1b:1de0:7718:e8a1?
- ([2402:3a80:425:6282:bc1b:1de0:7718:e8a1])
- by smtp.gmail.com with ESMTPSA id n10sm8828366pgb.45.2020.11.17.02.54.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 02:54:53 -0800 (PST)
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>
-References: <20201117040501.21914-1-yashsri421@gmail.com>
- <1b9c5353c6318cc7a4e013886012739e6627d82d.camel@perches.com>
- <791b3213aaabd5ecccc9d3f6dd0e8ee420611dbd.camel@perches.com>
- <CAKXUXMxGbL8myAJwobCNEimxmwKTyF41WUNkLU45HTqSKKAPRw@mail.gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <a9e4543f-3020-8626-ac42-8c912b28a21d@gmail.com>
-Date: Tue, 17 Nov 2020 16:24:47 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cK+UkY7UMuPrxNeZ/Hg3g6XR2zbYBQoIOcrWCczaRWI=;
+ b=JoE7b0Xw1wVzXFvR1UoLQ4CAdafoyHE0auoiBPoDNfrn2ikDyN6QVFAnFWrAM7Jtfj
+ moEmGbvLBUl39VKKaEnteamBCb/cNJwQChHOgIpKCFLF2Pthu4fH1K3h+0XGs0x5tTLA
+ rPkRrNVRJz2sKHYBcuCtFa0HUJiHvM2ltHiVAtrVRbW6lo7vaL2Br7xsHz4lROgxbCLe
+ jO9BnoUE0Vplu4w9I6ZFEmrbRQqzohB6ppX1yreAuH7AG9AnXxC/GEExe4x5Qk8HXqR9
+ JeG2xwHTCQfV0XTgbq6zlgbka9bcYqm3ACsBjJSuK+LJin0BuVPcmsw6hR3sS8UF5jGw
+ n9ww==
+X-Gm-Message-State: AOAM531WumUoGZ8GA1HS6m3a5GIYMvE4lgWUbrjl4ai9818VZdc0Dm30
+ t55LojFaqAKowwQFnJteJCSfwEKE16GI11/k2XY=
+X-Google-Smtp-Source: ABdhPJzwMv3JTQvgqYdVv/zqWWGMQkIb+5AG56+96gUDaB/g0W+CfixiiGuEfkUT8TmJ4UGhclIkQE5AMtx+I6qDh94=
+X-Received: by 2002:ac2:598f:: with SMTP id w15mr1533396lfn.148.1605615416466; 
+ Tue, 17 Nov 2020 04:16:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAKXUXMxGbL8myAJwobCNEimxmwKTyF41WUNkLU45HTqSKKAPRw@mail.gmail.com>
-Content-Language: en-US
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] checkpatch: add fix option
-	for MAINTAINERS_STYLE
+References: <20201117085553.52583-1-dwaipayanray1@gmail.com>
+ <CAKXUXMzM8AYPWkCKXnTRQG-a03Jh+HDCF=pGAjEsg9ah0odG2A@mail.gmail.com>
+ <CABJPP5AF2W+KEsKrQOeL9g1TpcCfsfOfRRmVygEQypdcYsZiXg@mail.gmail.com>
+ <CAKXUXMwaW72AQdLwX8D0d_UfT65qjZABBC+OMor3w92eCOgQ2A@mail.gmail.com>
+ <CABJPP5CgDsR=mFar1fm-nF7Pgd_eVb-WUGDz4KKEuaC6mqBKRQ@mail.gmail.com>
+In-Reply-To: <CABJPP5CgDsR=mFar1fm-nF7Pgd_eVb-WUGDz4KKEuaC6mqBKRQ@mail.gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Tue, 17 Nov 2020 17:46:25 +0530
+Message-ID: <CABJPP5C0KT6eJMJBSs0+LkUHbgHSmehhjKMM=NzH7CeQsfnC0g@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add --fix option for
+	OPEN_BRACE issues
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,70 +111,65 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 17/11/20 3:51 pm, Lukas Bulwahn wrote:
-> On Tue, Nov 17, 2020 at 5:29 AM Joe Perches <joe@perches.com> wrote:
->>
->> On Mon, 2020-11-16 at 20:26 -0800, Joe Perches wrote:
->>> On Tue, 2020-11-17 at 09:35 +0530, Aditya Srivastava wrote:
->>>> Checkpatch expects entries in MAINTAINERS file in a specific order and
->>>> warns if the changes made do not follow the specified order.
->>>>
->>>> E.g., running checkpatch on commit b33bc2b878e0 ("nexthop: Add entry to
->>>> MAINTAINERS") reports this warning:
->>>>
->>>> WARNING: Misordered MAINTAINERS entry - list file patterns in
->>>> alphabetic order
->>>> +F: include/uapi/linux/nexthop.h
->>>> +F: include/net/netns/nexthop.h
->>>>
->>>> Provide a simple fix by swapping the unordered lines, if both the lines
->>>> are additions (start with '+')
->>>
->>> On second thought, nak.
->>>
->>> This fails when there are 3 consecutive misordered lines.
->>>
->>> SECTION
->>> F:    c
->>> F:    b
->>> F:    a
->>>
->>
->> btw:
->>
->> scripts/parse-maintainers.pl already does this reordering properly so
->> this particular --fix addition isn't all that useful.
->>
-> 
-> I think the real fix is to provide some more documentation on
-> scripts/parse-maintainers.pl that explains how to run this script when
-> an author hits the warning type in checkpatch.pl.
-> 
-> I see these follow-up patches:
-> 
->   - some documentation on scripts/parse-maintainers.pl
->   - a patch to checkpatch.pl that points out this documentation when
-> this warning occurs.
->   - maybe: improve of scripts/parse-maintainers.pl to handle exactly
-> this use case of a patch author (assuming that the patch was just
-> created with git format-patch -1) and how to get the corrected diff
-> for this patch.
->   - maybe: a patch to checkpatch.pl that can create the command for
-> scripts/parse-maintainers.pl for a specific patch and which then can
-> be added with git commit --amend or git commit && git rebase and
-> squashing that in.
-> 
-> I think once that is done and better understood, you can much better
-> judge if there is really a need for a fix in checkpatch.pl.
-> 
-
-Okay thanks. Will check these out.
-
-Thanks
-Aditya
-
-> Lukas
+On Tue, Nov 17, 2020 at 3:17 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
+> > > I have only run on some test cases I made, which also included the
+> > > style misuses above. Finding files in the kernel for this exact check
+> > > might take a bit work. Should I do that? I think these custom examples
+> > > pretty much handles all the cases.
+> > >
+> >
+> > Well, it might be helpful to also submit some patches improving the
+> > code to see if the cases where it would trigger actually fits to the
+> > expectation of the maintainers, or if they intentionally have a
+> > different style in mind.
+> >
+> > I think it is worth running checkpatch to find such cases.
+> >
+> Okay thanks! I will try to find out some of those.
+
+I checked out some conversions over the kernel files and
+it's working pretty much as intended.
+
+For example in
+fs/f2fs/segment.c:
+
+static int report_one_zone_cb(struct blk_zone *zone, unsigned int idx,
+                  void *data) {
+    memcpy(data, zone, sizeof(struct blk_zone));
+
+was converted to:
+
+static int report_one_zone_cb(struct blk_zone *zone, unsigned int idx,
+                  void *data)
+{
+    memcpy(data, zone, sizeof(struct blk_zone));
+
+
+The brace positioning is correct after the fix.
+
+Another instance in net/netfilter/xt_IDLETIMER.c:
+
+if(ret < 0)
+{
+    pr_debug("checkentry helper return invalid\n");
+    return -EINVAL;
+}
+
+was changed to:
+
+if(ret < 0) {
+    pr_debug("checkentry helper return invalid\n");
+    return -EINVAL;
+}
+
+which is again I think the correct fix according to the
+conventions.
+
+What do you think Lukas?
+
+Thanks,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
