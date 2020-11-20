@@ -1,4 +1,4 @@
-Return-Path: <SRS0=/60u=EZ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=YTQs=E2=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -8,101 +8,95 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E9FC388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 19 Nov 2020 19:11:06 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0467C56202
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Nov 2020 10:13:09 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D311B208D5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 19 Nov 2020 19:11:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DAFB120709
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Nov 2020 10:13:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M9O64TUO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D311B208D5
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpv7sdWM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DAFB120709
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4573D86BB3;
-	Thu, 19 Nov 2020 19:11:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 253FC87543;
+	Fri, 20 Nov 2020 10:13:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3EBwiOezYiuK; Thu, 19 Nov 2020 19:11:03 +0000 (UTC)
+	with ESMTP id 0Et9f8k-M-S5; Fri, 20 Nov 2020 10:13:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3B08286BB2;
-	Thu, 19 Nov 2020 19:11:03 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B2DCC87506;
+	Fri, 20 Nov 2020 10:13:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23701C1825;
-	Thu, 19 Nov 2020 19:11:03 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8551FC0891
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A6293C1825;
+	Fri, 20 Nov 2020 10:13:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E921CC0891
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Nov 2020 19:11:01 +0000 (UTC)
+ Fri, 20 Nov 2020 10:13:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 73FC627428
+ by hemlock.osuosl.org (Postfix) with ESMTP id BFE8287535
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Nov 2020 19:11:01 +0000 (UTC)
+ Fri, 20 Nov 2020 10:13:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id itKGXPHDiERZ
+ with ESMTP id lHKTXeGBVJP1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Nov 2020 19:11:00 +0000 (UTC)
+ Fri, 20 Nov 2020 10:13:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 7960A203D0
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 43E3787506
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Nov 2020 19:11:00 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id y7so5381819pfq.11
+ Fri, 20 Nov 2020 10:13:06 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id b63so7386857pfg.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Nov 2020 11:11:00 -0800 (PST)
+ Fri, 20 Nov 2020 02:13:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ET473FpFp3FzmBYHYLYam48z0xHPg334N2d9XOKTrpI=;
- b=M9O64TUOsf61++A5YWBgorUTqsUhConEUSLgnhF2hmpRoMo9gbHMK0Y5lS02yWOQMn
- xrFztSbuLNQ+ucnJjCg73QRIECuWEG+UR2GOfVP2Mi+rJVZf9I83c8TB9KF9Mx0DCQIA
- S5xL24QjlB8rFTuwVcmUY0UFBOak89hVYYiTrzQTOcOr09VZvuHUqOPNvaTHx/uOSWzr
- y5ZKb595uyBSpRpNI0CZNInd4rqqkQmzLNBTRx/yGjwDlJzPes7Gmth90pGXMZKrnfRh
- FJxt8mxU95GAFuC0N0CG+/whmIcWoGZUPxlmWUy8+JWcC8kzHnkSMrOxTotefn/d24i1
- cF5Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=LojyVjphxIfE3xS+nLoPkEg9ZNGfFOs/PJ+bvOeGzwU=;
+ b=gpv7sdWMqbR3qZ9Am3ajAZ+FHei6syYY9ZoPyI9lXPELWVCnxH1bGeTfl/54ykJQ1n
+ vosceD0jrRpL5AOFmLhKxkJ05jyd1tepcdalFnPVDTVj9UEDmD93Bk9TaWHo7D0pLFYx
+ dhKhBhvflPWl9roYzbGnA8sMA7NsRM52c4AiBwArGtxPXLaE6rJwgxLIsrbD/yrAzfSB
+ agS0VZDqupIDIxSXsZfK4V2iRocX7N2ooFpDDGnU0vkrr2ienhXEzb45/u/bMRWbmmz1
+ XWSjYX4PHDsaDQ798te3HJH5szPWQyVBLFD/Uxo0lJpv0kTgZ0CV1DWE4l8sTP0rkdum
+ GlXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ET473FpFp3FzmBYHYLYam48z0xHPg334N2d9XOKTrpI=;
- b=mGoblHW8IOe4U7N2C+HXAVy3Dev1RZTN6vZfS4S2SRZUXIt1W8m2AQ4yNcf3O4F05o
- bq9jwx0lsqH0dSB2364sP8Exd3+/a9wqNIOCcTos4AWEP/UJGmjYyi7p/kVDjA/DOVrE
- rlY5Y1GiwqEB9128BNtXma/shBAWLWdWwdlwvzWpEG2kUulo6hVczRsaS4E5A4NWlIrm
- VA6fV8GS3wVsNmbomc9H0mebzF5kjdFo9iUbFE5rVvS46UnCbPNgpVOzjPm5JadblgIg
- fBIPjGkqbPhBhvvX9TgfFQ6ZcMngMcNjHPIJqgvKS/RLfaXpPjGUn+j0KhoW4sXmyk6e
- gKvg==
-X-Gm-Message-State: AOAM531dgM7aBDcUx18gOL8fVSRZWaFBbl6h+/Nskq3QqpS5c2U233O4
- +mY5qDM6uJl+b5mmEkY31N8=
-X-Google-Smtp-Source: ABdhPJypWIrTZZnDbwimuxmJITaEMB9QJgxNpUGeZf5bAuv3w+zqFXccFDnDvw5F0qjTUHsJf5qQlQ==
-X-Received: by 2002:aa7:8105:0:b029:18e:c8d9:2c24 with SMTP id
- b5-20020aa781050000b029018ec8d92c24mr10267432pfi.49.1605813059959; 
- Thu, 19 Nov 2020 11:10:59 -0800 (PST)
-Received: from localhost.localdomain ([45.118.167.196])
- by smtp.googlemail.com with ESMTPSA id x3sm452245pjk.17.2020.11.19.11.10.54
+ :references;
+ bh=LojyVjphxIfE3xS+nLoPkEg9ZNGfFOs/PJ+bvOeGzwU=;
+ b=CQM+OOaZPe3qZ1IaOL+GigPb0Wnl5Q7qSOTuCR93+1KB7qJRHJbLN02wCC83y9PA2c
+ 64EDM4ptqAPCqhi230sLHZP4rv7GYkCzrb4+wP200MUReYoSpZTepJaozbs2fDRwTwkp
+ Ssapr2CzLnERNrKiJahJe2pthM3m07jSvBLICnpv7+78uHlhpxZ1ywWdVNu1TTBWgzNz
+ KTSo6qw0YC6e3qYu3lXX5aQeRBWz2fspUVeWuOZXBwrTKe4YBt9vAnOUU7GNFCASF1Jz
+ mJfal5qPXBTHAqzh+QUe/FMKq2mQ122WkH5ocCj8tz4U7VIbTRNB2NblGii4cxtKg6PG
+ Ys9g==
+X-Gm-Message-State: AOAM531Sl9nhUmE6FryiRGK7vrIzUmA7S68OTuBUuul06zg+iBFSULW4
+ T+KpgnEcDC9PxEYsUbaaWqs=
+X-Google-Smtp-Source: ABdhPJxLW45BYHvEsSxR723O/iZyfvcXNxkYpX12cAlOilKK9ssw+9z2XjgZnyRTpbj20xnSfiMS6A==
+X-Received: by 2002:aa7:9308:0:b029:18b:3a1b:f46a with SMTP id
+ 8-20020aa793080000b029018b3a1bf46amr13464429pfj.64.1605867185782; 
+ Fri, 20 Nov 2020 02:13:05 -0800 (PST)
+Received: from localhost.localdomain ([2402:3a80:40a:513c:8f5:b466:78ec:c186])
+ by smtp.googlemail.com with ESMTPSA id
+ z16sm3026408pfq.179.2020.11.20.02.13.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 11:10:58 -0800 (PST)
-From: Anmol Karn <anmol.karan123@gmail.com>
-To: ralf@linux-mips.org,
-	davem@davemloft.net,
-	kuba@kernel.org
-Date: Fri, 20 Nov 2020 00:40:43 +0530
-Message-Id: <20201119191043.28813-1-anmol.karan123@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201115114448.GA40574@Thinkpad>
-References: <20201115114448.GA40574@Thinkpad>
-MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org,
- syzbot+a1c743815982d9496393@syzkaller.appspotmail.com, saeed@kernel.org,
- linux-hams@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v5 net] rose: Fix Null pointer
-	dereference in rose_send_frame()
+ Fri, 20 Nov 2020 02:13:05 -0800 (PST)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: lukas.bulwahn@gmail.com
+Date: Fri, 20 Nov 2020 15:42:54 +0530
+Message-Id: <20201120101254.17712-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAKXUXMz71tNsU-vLUtqYNiYEji48hF2EdLhdq+qvPy6Mr1sroA@mail.gmail.com>
+References: <CAKXUXMz71tNsU-vLUtqYNiYEji48hF2EdLhdq+qvPy6Mr1sroA@mail.gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, yashsri421@gmail.com
+Subject: [Linux-kernel-mentees] [PATCH] Documentation: MAINTAINERS: add
+	information about parse-maintainers.pl
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,79 +108,44 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-rose_send_frame() dereferences `neigh->dev` when called from
-rose_transmit_clear_request(), and the first occurrence of the
-`neigh` is in rose_loopback_timer() as `rose_loopback_neigh`,
-and it is initialized in rose_add_loopback_neigh() as NULL.
-i.e when `rose_loopback_neigh` used in rose_loopback_timer()
-its `->dev` was still NULL and rose_loopback_timer() was calling
-rose_rx_call_request() without checking for NULL.
+parse-maintainers.pl is a script which can be used to automatically
+order the contents of MAINTAINERS file in preferred order (i.e.
+'MRLSWQBCPTFXNK').
 
-- net/rose/rose_link.c
-This bug seems to get triggered in this line:
+But currently we don't have a documentation on it.
 
-rose_call = (ax25_address *)neigh->dev->dev_addr;
+Add documentation regarding the same in MAINTAINERS file.
 
-Fix it by adding NULL checking for `rose_loopback_neigh->dev`
-in rose_loopback_timer().
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Reported-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com
-Tested-by: syzbot+a1c743815982d9496393@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=9d2a7ca8c7f2e4b682c97578dfa3f236258300b3
-Signed-off-by: Anmol Karn <anmol.karan123@gmail.com>
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
-Changes in v5:
-	- Free `dev` in rose_rx_call_request() and add NULL check for `dev` before freeing it.
-	(Suggested-by: Jakub Kicinski <kuba@kernel.org>)
-Changes in v4:
-	- Free `dev`(on dev_hold()), when neigh->dev is NULL. (Suggested-by: Jakub Kicinski <kuba@kernel.org>)
-Changes in v3:
-        - Corrected checkpatch warnings and errors (Suggested-by: Saeed Mahameed <saeed@kernel.org>)
-        - Added "Fixes:" tag (Suggested-by: Saeed Mahameed <saeed@kernel.org>)
-Changes in v2:
-        - Added NULL check in rose_loopback_timer() (Suggested-by: Greg KH <gregkh@linuxfoundation.org>)
+the patch applies perfectly on latest next-20201119
 
- net/rose/rose_loopback.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ MAINTAINERS | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/net/rose/rose_loopback.c b/net/rose/rose_loopback.c
-index 7b094275ea8b..11c45c8c6c16 100644
---- a/net/rose/rose_loopback.c
-+++ b/net/rose/rose_loopback.c
-@@ -96,10 +96,19 @@ static void rose_loopback_timer(struct timer_list *unused)
- 		}
-
- 		if (frametype == ROSE_CALL_REQUEST) {
--			if ((dev = rose_dev_get(dest)) != NULL) {
--				if (rose_rx_call_request(skb, dev, rose_loopback_neigh, lci_o) == 0)
--					kfree_skb(skb);
--			} else {
-+			if (!rose_loopback_neigh->dev) {
-+				kfree_skb(skb);
-+				continue;
-+			}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5db753fa1295..7ad00af7acd4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -136,6 +136,9 @@ Descriptions of section entries and preferred order
+ 	      printk, pr_info or pr_err
+ 	   One regex pattern per line.  Multiple K: lines acceptable.
+ 
++This order can be generated automatically for you using
++``scripts/parse-maintainers.pl``.
 +
-+			dev = rose_dev_get(dest);
-+			if (!dev) {
-+				kfree_skb(skb);
-+				continue;
-+			}
-+
-+			if (rose_rx_call_request(skb, dev, rose_loopback_neigh, lci_o) == 0) {
-+				dev_put(dev);
- 				kfree_skb(skb);
- 			}
- 		} else {
---
-2.29.2
+ Maintainers List
+ ----------------
+ 
+-- 
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
