@@ -2,101 +2,76 @@ Return-Path: <SRS0=QJT4=E3=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AEB5C388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 16:17:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 096AFC388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 16:56:15 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1795720936
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 16:17:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c9KqRypu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1795720936
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 4B83D22206
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 16:56:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B83D22206
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B9C10873D7;
-	Sat, 21 Nov 2020 16:17:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F08E8871E9;
+	Sat, 21 Nov 2020 16:56:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5w6uIOPRWn-V; Sat, 21 Nov 2020 16:17:39 +0000 (UTC)
+	with ESMTP id zGdfmHhn0LTE; Sat, 21 Nov 2020 16:56:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DED47873D2;
-	Sat, 21 Nov 2020 16:17:39 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id ECE6E871DA;
+	Sat, 21 Nov 2020 16:56:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C6116C1825;
-	Sat, 21 Nov 2020 16:17:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CD812C1825;
+	Sat, 21 Nov 2020 16:56:11 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 961D5C0891
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 30A87C0891
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 16:17:38 +0000 (UTC)
+ Sat, 21 Nov 2020 16:56:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8B2DB86BE1
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2C47C86B27
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 16:17:38 +0000 (UTC)
+ Sat, 21 Nov 2020 16:56:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9OAPQo+ppT1P
+ with ESMTP id X5s6ny1pne8J
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 16:17:37 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 803CF84AE3
+ Sat, 21 Nov 2020 16:56:10 +0000 (UTC)
+X-Greylist: delayed 04:45:39 by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0180.hostedemail.com
+ [216.40.44.180])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1DAA986ABD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 16:17:37 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id w6so10870621pfu.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 08:17:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lTLpqp7Aal91RYPJOEsqEB7xHK/i1gxcmA4vDgFrBlM=;
- b=c9KqRypuwX8EZSFaXesWM6JD4yA0cJ8DtxKCw5viXMvf6Su/16pEhzJg09gDDKx+wl
- 9AYvL163o59c3Om3hfdBTOxoCMbHipPxQfQ2ANUlN+Tfrtp0x+f2+OrpvSqC0jc0YVoF
- hgp3MS7X9xDesjF5Yg0860TdCgNrnN9CrvhrLK0jOg5z3mhpqcEjvVBHCaLFmO3B8Bm6
- cZQnWfFdNeUWtiS3nQflKrU+a28kPHKgAS75KwxgGOotnI7gh8HoHJSrc3rys4EIUeS3
- YUbsfUB9rXU9bpBjsZ9BpejPPkgRvo3QITi7/2dOyjTPLBZTp+debhzVXqhX6NOHQtfb
- +qTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lTLpqp7Aal91RYPJOEsqEB7xHK/i1gxcmA4vDgFrBlM=;
- b=joTGuFiS8zdy7iazk+Dv7xaCCla3XHnAC2/JjVaIbN+bRZOpf+EghsbJ0pHWAr1ajr
- szZVF3YegCzMCAriTiZAUCGeZVNJrrLiP3ku+z3uTP4uUdj+gBkgD5Wfjc3Yk6PJH7iP
- yyos77JnyEIsDvLzWMd0LWO1rzkoWDJ1Dmrja1ZxU4U1msz6pHJXXLPN3/bitipkWPPw
- nGdxA7cRpzRLaOH04lFoL6Jnh+jMtPDwcEbkv0LJ72uW1EKq41P5ev2Amkpe1DygPqtx
- My9/rsen6G7/uJ80LNjbDBJcfKI1PHO7aDoqtcn/h8HM020m1pYEm9tXxXoX72/oGVXq
- BJ5A==
-X-Gm-Message-State: AOAM530lkLdHNvPgefQ1ntfCoXpBiWkKZyhupfytjqOWiTz7A78DzKuK
- yyNkoouoqhikjUrekIy00vI=
-X-Google-Smtp-Source: ABdhPJxd2xklANTvIuKL/UQpwphHJomdXZxXUwfOl+1XJL8WICOjvn1z1rHNP9rjFc7KeUcRD1OIUQ==
-X-Received: by 2002:aa7:9e90:0:b029:18b:a94:3498 with SMTP id
- p16-20020aa79e900000b029018b0a943498mr18983836pfq.54.1605975456964; 
- Sat, 21 Nov 2020 08:17:36 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:9004:6897:89ae:e2b0:e24b:73e9])
- by smtp.gmail.com with ESMTPSA id y201sm7011342pfb.2.2020.11.21.08.17.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Nov 2020 08:17:36 -0800 (PST)
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-To: joe@perches.com
-Date: Sat, 21 Nov 2020 21:47:06 +0530
-Message-Id: <20201121161706.104631-1-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Sat, 21 Nov 2020 16:56:10 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay08.hostedemail.com (Postfix) with ESMTP id BBB80182CED2A;
+ Sat, 21 Nov 2020 16:56:07 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: push52_240621927355
+X-Filterd-Recvd-Size: 2363
+Received: from XPS-9350.home (unknown [47.151.128.180])
+ (Authenticated sender: joe@perches.com)
+ by omf01.hostedemail.com (Postfix) with ESMTPA;
+ Sat, 21 Nov 2020 16:56:06 +0000 (UTC)
+Message-ID: <d68afd4b87e2ce3fc846d8ca5ab9a401ce04344a.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Aditya Srivastava <yashsri421@gmail.com>
+Date: Sat, 21 Nov 2020 08:56:05 -0800
+In-Reply-To: <20201121121557.23528-1-yashsri421@gmail.com>
+References: <20201121121557.23528-1-yashsri421@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add --fix option for
-	INCLUDE_LINUX
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: add fix option
+	for LOGICAL_CONTINUATIONS
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,46 +83,60 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Provide fix option to INCLUDE_LINUX check to replace asm
-includes.
+On Sat, 2020-11-21 at 17:45 +0530, Aditya Srivastava wrote:
+> Currently, checkpatch warns if logical continuations are placed at the
+> start of a line and not at the end of previous line.
+> =
 
-Macros of type:
- #include <asm/percpu.h>
+> E.g., running checkpatch on commit 3485507fc272 ("staging:
+> bcm2835-camera: Reduce length of enum names") reports:
+> =
 
-are corrected to:
- #include <linux/percpu.h>
+> CHECK:LOGICAL_CONTINUATIONS: Logical continuations should be on the
+> previous line
+> +	if (!ret
+> +	    && camera_port =3D=3D
+> =
 
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- scripts/checkpatch.pl | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+> Provide a simple fix by adding logical operator at the end of previous
+> line and removing from current line, if both the lines are additions
+> (ie start with '+')
+[]
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -3553,8 +3553,14 @@ sub process {
+> =A0
+> =
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 0da6422cd0fd..f852f130e065 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -5468,8 +5468,11 @@ sub process {
- 						CHK("ARCH_INCLUDE_LINUX",
- 						    "Consider using #include <linux/$file> instead of <asm/$file>\n" . $herecurr);
- 					} else {
--						WARN("INCLUDE_LINUX",
--						     "Use #include <linux/$file> instead of <asm/$file>\n" . $herecurr);
-+						if (WARN("INCLUDE_LINUX",
-+							 "Use #include <linux/$file> instead of <asm/$file>\n" . $herecurr) &&
-+						    $fix) {
-+							$fixed[$fixlinenr] =~ s/\<asm\/$file\>/\<linux\/$file\>/;
-+						}
- 					}
- 				}
- 			}
--- 
-2.27.0
+> =A0# check for && or || at the start of a line
+> =A0		if ($rawline =3D~ /^\+\s*(&&|\|\|)/) {
+> -			CHK("LOGICAL_CONTINUATIONS",
+> -			    "Logical continuations should be on the previous line\n" . $herep=
+rev);
+> +			my $operator =3D $1;
+> +			if (CHK("LOGICAL_CONTINUATIONS",
+> +				"Logical continuations should be on the previous line\n" . $hereprev=
+) &&
+> +			    $fix && $prevrawline =3D~ /^\+/) {
+> +				# add logical operator to the previous line, remove from current line
+> +				$fixed[$fixlinenr - 1] .=3D " $operator";
+> +				$fixed[$fixlinenr] =3D~ s/\Q$operator\E\s*//;
+> +			}
+
+One thing to be concerned about is a statement like
+
+	if (foo		// comment
+	    && bar)
+
+This should really perform the insertion at the last
+non-comment, non-whitespace char of the previous line.
+
 
 _______________________________________________
 Linux-kernel-mentees mailing list
