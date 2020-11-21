@@ -8,91 +8,91 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2098C388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 09:52:57 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9641DC388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 09:57:17 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EEBE52224A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 09:52:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1E5FC2224A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 09:57:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1qLDp0a"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EEBE52224A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eF2sR0pR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E5FC2224A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 835F486D8A;
-	Sat, 21 Nov 2020 09:52:56 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9F7CB86DD7;
+	Sat, 21 Nov 2020 09:57:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id l9AVwwqRt4aL; Sat, 21 Nov 2020 09:52:55 +0000 (UTC)
+	with ESMTP id B4TpDb0f0WOs; Sat, 21 Nov 2020 09:57:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 82AAE86D62;
-	Sat, 21 Nov 2020 09:52:55 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 14EA786DB7;
+	Sat, 21 Nov 2020 09:57:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D6E0C163C;
-	Sat, 21 Nov 2020 09:52:55 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4CFD2C0891
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 003F3C163C;
+	Sat, 21 Nov 2020 09:57:16 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CF672C0891
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 09:52:54 +0000 (UTC)
+ Sat, 21 Nov 2020 09:57:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3748086D64
+ by whitealder.osuosl.org (Postfix) with ESMTP id BD45C86DD7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 09:52:54 +0000 (UTC)
+ Sat, 21 Nov 2020 09:57:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1s-W8F7dNVnP
+ with ESMTP id GH8J-Yi1hA0C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 09:52:53 +0000 (UTC)
+ Sat, 21 Nov 2020 09:57:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
- [209.85.166.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 71B7786D62
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0F1FA86DB7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 09:52:53 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id m13so12538575ioq.9
+ Sat, 21 Nov 2020 09:57:14 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id y9so10885222ilb.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 01:52:53 -0800 (PST)
+ Sat, 21 Nov 2020 01:57:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yWOKyhMY9nx+PNHgXM5qC/gBgIKBQc141NLInLFRYlk=;
- b=W1qLDp0a1nAGi3qAF9dvDHlH60HGJjnjv3uYW4UijUdgIWJYK01gXJbuiY1yCU9j7d
- 059zIphjTl8XwVPCkjuHPffETZLscLifn9CFT1aVFndAJe2lad1YG48WUs7D5qBtPd63
- rtayN5A+rHc8fVAZ/2+FI+mkDxLNPWNLchU5/ZnlBi0P+OyT6c7NvL874hIIDwT25JDL
- PEoR/v+L1lITtx2Ww6zmcNcRLc1gxqSEhMOqA8KDr8LwHStvBDgD3/EkwGGbA4Rs7nOl
- +jqRGmATYNWx9NUfdmVhM5zU1IgyZ9D+ZwCbqm5PfqRCXUZX1oIiQuGDeT5WReedofxL
- hzPA==
+ :cc; bh=pLMEP0YXoqWCB5IHJXkN8BPZ37vl4VjrLPjvfS28lpE=;
+ b=eF2sR0pRUywmPlz4goRYhk8QiEFhSIoYJFItXqXIoDE09U7iUu9D1tahq0nEzp8QjA
+ rBlyvvrv3lVncySz+TImWF4MUraAPF+Pt7anLlQn6stDcW5IUKkUFzy2KCbsTP+BIxri
+ MsWX1lE3wuDbjgfyuJy5KwYRXDP881Tlc42iG0H712Tz8RoPtDA0DZEd/ayHZshcK1Gw
+ CkaobWwzJvTapkPCYtCUcGxCQiD5PnpfmndnPq8G8L4j17YbhVXTThb9JheAAXlxGFCc
+ OnfPBiKjpmdQ6jivLwVbT2uw+a+ZLnE+Wsa00scFzjdLDdMzkqhraQCgnRvssoidpboX
+ dufA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yWOKyhMY9nx+PNHgXM5qC/gBgIKBQc141NLInLFRYlk=;
- b=RTMPzxQ0h0uvsv5AYb+7BYSj9O9SiR76mam9bkHTKxN5UDNsuSHZ6dPkdh3nihClGg
- 25UJ7jKvR7zKDFfhHVliE1K7vSvHvyWCpJUFstMcUGRH75qave5mgugWTvHcAXkGRS6B
- BfCA5fhtWdcNSb3ZdNfwPArJ5NpCGBK34Da6VAIAwds6sgQ5bHwgoGGGRImVtniqVAUx
- qDioM7nqs9nGpeAggi1UFWmuNDORzna5REXHPJFp0Ri+/tJRoKrUgjpB7Ncu+UN5u6qW
- I3mg/wqXbCoDKB6j3vIOmncs0vr+/xGm3soF1I/0MrhCOHUhRCB3av/MFJc0QPosVF5x
- y8Gw==
-X-Gm-Message-State: AOAM53229ODum0wSsxEEk1D2a9HcmKn8Dl0Eo2Em24VIpSg0QhRDS4Wp
- B5uVfjPgW3nb4o0WCsK1Pp6lvZD6KeBvt2Ls2mc=
-X-Google-Smtp-Source: ABdhPJyTvV1Mfi94notwWc8cGJ1UNdx0PypOlbOFd20Ylp5DAoJUGizmLX/xQCx7oi2+foNLigRj7fGnzP1A3CLljZo=
-X-Received: by 2002:a05:6638:124d:: with SMTP id
- o13mr22007060jas.98.1605952372646; 
- Sat, 21 Nov 2020 01:52:52 -0800 (PST)
+ bh=pLMEP0YXoqWCB5IHJXkN8BPZ37vl4VjrLPjvfS28lpE=;
+ b=V+iN0for0Los5RryDdmn2Eun9eNcIb/0naRKwrxRZrJ0zcq+iRikeHtcb0vWZMRTP6
+ sk44qM7Zs6iDL/W8UzzQaDx6ZYxWbqhT98xRln3vdbTJvQ5uCiJg8sApsa8pRUyXe5jm
+ GYNA9JESUaf7/DSVBuZp91UiXQQ6wq5eaktMfJWu3aCtFhl7QO6eb5YlLOUxqkgQ1fpJ
+ GP/3qWXl5sIeAbNzfE7dZUf4euCychSCNz783nBsJlMAK1F7wY4OI1AYILyJ6sePr9hU
+ WlS4/lBaLoiOXQy/0KgVjtYh+bjwwvf7GKAQkiV5J7DSfRsVa34z7aQOm75Qafq9oyHA
+ yFlQ==
+X-Gm-Message-State: AOAM530E6P0HkdX7WOB7xvYSEK1KQXDbuRF21nwWuBKwM8fV9iiV45BQ
+ Om5K+BXuHXRPZXYoul10/UwSaIIlThFKOnU7Pss=
+X-Google-Smtp-Source: ABdhPJy7IyXM7U9HF2j+WyBsGp2FOXPyKc2e4KnenYQrEaRZQCUBV3qqxahxB+qiMLbB3HKt3oqFPuWKuOQoKSmgrS8=
+X-Received: by 2002:a92:aacc:: with SMTP id p73mr12403184ill.64.1605952633390; 
+ Sat, 21 Nov 2020 01:57:13 -0800 (PST)
 MIME-Version: 1.0
-References: <4230063e-48b5-8b0c-c92c-fc3e16b5ddb4@gmail.com>
- <20201121045827.12175-1-yashsri421@gmail.com>
-In-Reply-To: <20201121045827.12175-1-yashsri421@gmail.com>
+References: <CAKXUXMz71tNsU-vLUtqYNiYEji48hF2EdLhdq+qvPy6Mr1sroA@mail.gmail.com>
+ <20201120101254.17712-1-yashsri421@gmail.com>
+ <88ca7da2-9204-e061-7b67-1128a16a7852@gmail.com>
+In-Reply-To: <88ca7da2-9204-e061-7b67-1128a16a7852@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sat, 21 Nov 2020 10:52:41 +0100
-Message-ID: <CAKXUXMzfQn9qbSLKnBn+hMs4uqiPqzESXfOPocoLmkSvOZEKRQ@mail.gmail.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
+Date: Sat, 21 Nov 2020 10:57:02 +0100
+Message-ID: <CAKXUXMy2J6+RSZ1oesVAD_9+fXpCUF8ANRfpmq486_zw+Mrhpg@mail.gmail.com>
+To: Aditya <yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: add fix and
- improve warning msg for Non-standard signature
+Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: MAINTAINERS: add
+	information about parse-maintainers.pl
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,118 +110,61 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Nov 21, 2020 at 5:58 AM Aditya Srivastava <yashsri421@gmail.com> wrote:
+On Fri, Nov 20, 2020 at 11:16 AM Aditya <yashsri421@gmail.com> wrote:
 >
-> Checkpatch.pl warns on non-standard signature styles.
+> On 20/11/20 3:42 pm, Aditya Srivastava wrote:
+> > parse-maintainers.pl is a script which can be used to automatically
+> > order the contents of MAINTAINERS file in preferred order (i.e.
+> > 'MRLSWQBCPTFXNK').
+> >
+> > But currently we don't have a documentation on it.
+> >
+> > Add documentation regarding the same in MAINTAINERS file.
+> >
+> > Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> > ---
+> > the patch applies perfectly on latest next-20201119
+> >
+> >  MAINTAINERS | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 5db753fa1295..7ad00af7acd4 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -136,6 +136,9 @@ Descriptions of section entries and preferred order
+> >             printk, pr_info or pr_err
+> >          One regex pattern per line.  Multiple K: lines acceptable.
+> >
+> > +This order can be generated automatically for you using
+> > +``scripts/parse-maintainers.pl``.
+> > +
+> >  Maintainers List
+> >  ----------------
+> >
+> >
 >
-> This warning usually occurs because of incorrect use of signature tags,
-> e.g. tags such as 'Co-authored-by', which although seem correct, is not
-> a standard signature. Its standard equivalent is 'Co-developed-by'.
+> Rationale for my changes:
+> I did not go into much detail of its working here.
+> A bit detail on this can be to use 'scripts/parse-maintainers
+> --sorted' which produces the sorted file in MAINTAINERS.new by
+> default. The input and output default files can be changed using
+> '--input' and '--output' options. However, here I have omitted these
+> details as running with '--help' option already provides this
+> information in detail.
+> So just making user aware of the script should serve our purpose.
 >
-> An evaluation over v4.13..v5.8 found 'Co-authored-by' tag used 43 times
->
-> Similarly, 'Requested-by'(used 48 times) has its equivalent as
-> 'Suggested-by', and so on.
+> What do you think?
 >
 
-Better but still an incomplete summary.
-"and so on" is not good.
+It makes sense not to put that into MAINTAINERS.
 
-Consider a description that explains how you came to the conclusion.
+Do you understand how to use ./scripts/parse-maintainers, though?
 
-Then consider presenting the count of non-standard signature tags from
-v4.13..v5.8 is a simple structured form.
-
-By the way, there is no limit on the length of a commit message as
-long as you convey information in a dense form.
-
-Also, consider to present the rationale for each replacement.
-checkpatch shall explain to its user why it considers the replacement
-appropriate.
-
+So if the warning with checkpatch is shown on a patch, what would you
+need to execute to get a corrected patch?
 
 Lukas
-
-> Provide a fix by:
-> 1) replacing the non-standard signature with its standard equivalent
-> 2) removing the signature if it is not required
->
-> Also, improve warning messages correspondingly, providing users
-> suggestions to either replace or remove the signature
->
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> changes in v2: replace commit specific example with brief evaluation
->
->  scripts/checkpatch.pl | 45 +++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 43 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index fdfd5ec09be6..23a21dc2c29a 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -506,6 +506,27 @@ our $signature_tags = qr{(?xi:
->         Cc:
->  )};
->
-> +our %standard_signature_fix = (
-> +       "Requested-by:" => "Suggested-by:",
-> +       "Co-authored-by:" => "Co-developed-by:",
-> +       "Analyzed-by:" => "Co-developed-by:",
-> +       "Analysed-by:" => "Co-developed-by:",
-> +       "Improvements-by:" => "Co-developed-by:",
-> +       "Noticed-by:" => "Reported-by:",
-> +       "Inspired-by:" => "Suggested-by:",
-> +       "Verified-by:" => "Tested-by:",
-> +       "Okay-ished-by:" => "Acked-by:",
-> +       "Acked-for-MFD-by:" => "Acked-by:",
-> +       "Reviewed-off-by:" => "Reviewed-by:",
-> +       "Proposed-by:" => "Suggested-by:",
-> +       "Fixed-by:" => "Co-developed-by:",
-> +       "Pointed-out-by:" => "Suggested-by:",
-> +       "Pointed-at-by:" => "Suggested-by:",
-> +       "Suggestions-by:" => "Suggested-by:",
-> +       "Generated-by:" => "remove",
-> +       "Celebrated-by:" => "remove",
-> +);
-> +
->  our @typeListMisordered = (
->         qr{char\s+(?:un)?signed},
->         qr{int\s+(?:(?:un)?signed\s+)?short\s},
-> @@ -2773,8 +2794,28 @@ sub process {
->                         my $ucfirst_sign_off = ucfirst(lc($sign_off));
->
->                         if ($sign_off !~ /$signature_tags/) {
-> -                               WARN("BAD_SIGN_OFF",
-> -                                    "Non-standard signature: $sign_off\n" . $herecurr);
-> +                               my $suggested_signature = "";
-> +                               if (exists($standard_signature_fix{$sign_off})) {
-> +                                       $suggested_signature = $standard_signature_fix{$sign_off};
-> +                               }
-> +                               if ($suggested_signature eq "") {
-> +                                       WARN("BAD_SIGN_OFF",
-> +                                            "Non-standard signature: $sign_off\n" . $herecurr);
-> +                               }
-> +                               elsif ($suggested_signature eq "remove") {
-> +                                       if (WARN("BAD_SIGN_OFF",
-> +                                               "Non-standard signature: $sign_off. Please consider removing this signature tag.\n" . $herecurr) &&
-> +                                       $fix) {
-> +                                               fix_delete_line($fixlinenr, $rawline);
-> +                                       }
-> +                               }
-> +                               else {
-> +                                       if (WARN("BAD_SIGN_OFF",
-> +                                               "Non-standard signature: $sign_off. Please use '$suggested_signature' instead.\n" . $herecurr) &&
-> +                                       $fix) {
-> +                                               $fixed[$fixlinenr] =~ s/$sign_off/$suggested_signature/;
-> +                                       }
-> +                               }
->                         }
->                         if (defined $space_before && $space_before ne "") {
->                                 if (WARN("BAD_SIGN_OFF",
-> --
-> 2.17.1
->
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
