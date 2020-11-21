@@ -2,109 +2,96 @@ Return-Path: <SRS0=QJT4=E3=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E61F6C388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 12:59:09 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A82C388F9
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 13:13:08 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77133217A0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 12:59:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0523C22206
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Nov 2020 13:13:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AGqJtJIG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77133217A0
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HM8uDic1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0523C22206
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2A35787472;
-	Sat, 21 Nov 2020 12:59:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B495286BB3;
+	Sat, 21 Nov 2020 13:13:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ak6jLacx4h0k; Sat, 21 Nov 2020 12:59:08 +0000 (UTC)
+	with ESMTP id yJfkQmGdaJuA; Sat, 21 Nov 2020 13:13:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8CA1187484;
-	Sat, 21 Nov 2020 12:59:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3951886BA1;
+	Sat, 21 Nov 2020 13:13:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 72AFAC1825;
-	Sat, 21 Nov 2020 12:59:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AC68C1825;
+	Sat, 21 Nov 2020 13:13:07 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DB806C0891
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C3EC3C0891
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 12:59:06 +0000 (UTC)
+ Sat, 21 Nov 2020 13:13:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C2BC987476
+ by hemlock.osuosl.org (Postfix) with ESMTP id BD44C87491
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 12:59:06 +0000 (UTC)
+ Sat, 21 Nov 2020 13:13:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id isiRpIPOgpm4
+ with ESMTP id FfH5v2kxe0tg
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 12:59:06 +0000 (UTC)
+ Sat, 21 Nov 2020 13:13:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EF77C87472
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
+ [209.85.166.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CF15287473
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 12:59:05 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id u2so6381894pls.10
+ Sat, 21 Nov 2020 13:13:01 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id k8so575975ilr.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Nov 2020 04:59:05 -0800 (PST)
+ Sat, 21 Nov 2020 05:13:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wzGtrbSWHqRyLzK53BGUd2FEpxlIP+IfcG/pVwCdIQ0=;
- b=AGqJtJIGhrDYWhSIpIKhow/g20u6VTNdturDgH8v/xsW6GBA46iD8M8YTxd7U0y3aX
- mA8P6cL7iUEIak1n/8dcFNKeSlgVATAz9Ey0ulXAq3zByiMIUcwtLApTItIeRTOlh1mU
- cUKAP+LuzY4hLq5NufXQoPBx3AgygGDcwL9bJE4HmVRQwAezTx9bTPKQTtbfWC7wIFKU
- jbS2JZKMBki6YA1eHCwGYnhNt8CmdNg69NT8H572SCMHStC2QfFidYyxozG/hDaMnM5C
- /2mIKY8OUC7JJDilBzKnFzIhePhP7lrIeHyD40xDIqMoSGtvTCKNhk44BPZHh5kcGi8Y
- th2g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oJoI/rmP4YQQaPzTB9y5+rT/WTtpsRlfibFgJL8p1Wo=;
+ b=HM8uDic1BiLpfrKF5EGXsZvfgZQoy88MC2vI6UsMriQwnP6WutpG746S5mL9G5e5fM
+ DZsunqAeVnrlykZ0Tomp0IzG845mOnw4W7jfMmc3XcW6l4IEQ5AI+D0K2PomwsHMDZcm
+ 3dVt2AxbaeGObsMhBHHYGNUz6NPOY38DdfGqfao3qCCkGDWc9CUUwgRZV+66hf6gOlMo
+ 0xRaR73qSWOG3AN+0By4Kza3gqPRymh8xJxo3JZbEeVVgDukBEcn/flPnKR/iSWgSFLE
+ Hcacg4EkP33xt7guR2ZPqYBNhdeSMl32UtWMmmKNfIjYu8VBnOuOhTHW+sj/PJ4D7R9t
+ AUjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wzGtrbSWHqRyLzK53BGUd2FEpxlIP+IfcG/pVwCdIQ0=;
- b=g4Gmfs0X1w2DtrEraJNqRUoin6es5rscQaAp7rSrVdcp/4/peQATJJVwqZ9l79nZEK
- k67yXNPho4WmCERXDrXnZuYcmwhPlZlj/EgFXJMGu8F7wrpx0Okpp3XK/pXSDKGWrFCJ
- fAC2ID5l6qFZmcg52r5cTpKltqBkphyPOVsIQyJ8/vRrZnapW6bWxoMAcZjRUvbI/UCC
- BsBQBa5bMssqdiotk6syivBNxPyVyM73wp9M8XzqD9rj5j9USeZMz/NeQDseF/Dzjnvk
- rddj5EFD1FQQkarOzLZPfEXTmXdYx9RQ/H+N6Ag4qkCTxnJljU0FeHNGAE3ryAX44ZFv
- EIPA==
-X-Gm-Message-State: AOAM530yOYmdpGYf7teT8uc+vY+h3b5zhSr0qOveIiHooi72E48OHyrl
- U84KuXmjfiu1J/76qOygfn8xttHPeOtoFw==
-X-Google-Smtp-Source: ABdhPJzyTMIjuXwfYYuSffmG1loS+Y6ZKg7MAeT26ybCdhiEEOvFqvDqvZI5LDfAN2LjqGRJ4ctzqg==
-X-Received: by 2002:a17:902:c14b:b029:d6:ab18:108d with SMTP id
- 11-20020a170902c14bb02900d6ab18108dmr18026099plj.20.1605963545139; 
- Sat, 21 Nov 2020 04:59:05 -0800 (PST)
-Received: from ?IPv6:2402:3a80:400:4498:ed91:20bf:333c:1bc4?
- ([2402:3a80:400:4498:ed91:20bf:333c:1bc4])
- by smtp.gmail.com with ESMTPSA id h18sm2323041pfk.17.2020.11.21.04.59.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Nov 2020 04:59:04 -0800 (PST)
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <CAKXUXMz71tNsU-vLUtqYNiYEji48hF2EdLhdq+qvPy6Mr1sroA@mail.gmail.com>
- <20201120101254.17712-1-yashsri421@gmail.com>
- <88ca7da2-9204-e061-7b67-1128a16a7852@gmail.com>
- <CAKXUXMy2J6+RSZ1oesVAD_9+fXpCUF8ANRfpmq486_zw+Mrhpg@mail.gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <1c775585-9097-d596-61b2-ec989130685d@gmail.com>
-Date: Sat, 21 Nov 2020 18:28:59 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oJoI/rmP4YQQaPzTB9y5+rT/WTtpsRlfibFgJL8p1Wo=;
+ b=aCjNS9bAZGcBPNpSSzQjkj+hIUg8w+W0CX2BNaAlMNA1aEZDSskXdtf+aJS/o33vKf
+ TR08L1uHwoPLZYDP7Dt3vEU2XuT5hdt/ID5CR3CzmnUKMYFVoptDAGfipAsixEu7Id9g
+ lGxWMqTkCNYrkaHptbv5X2RaZoO43JOc1urZxLZktfixYQX9tEOF5I+1cryn3SpwT/Mo
+ tW5os+g/URgqWpSM1gUothgOSGGaaPBOk/w9OsZq89S0YGGZm8jjFBc8+tHDRSTUh399
+ EbD7K5ihWIQ7DqUY3SLgGxZe8G4zIKAmdozCJdlYYv2l1QxULGHnW3EiUKF5ozNEvV0Q
+ JXeg==
+X-Gm-Message-State: AOAM533ADOWHu1UbPCZsIk84v9XT6+MlQIH1xsYcB5nTNR9w37t2V8nM
+ F83YdTQ4A4S9IPQ+pULqsclIsFlxReb/0l+DlpU=
+X-Google-Smtp-Source: ABdhPJy8Mj6SouU02wnMliDWQ9owGxVgtXr7kskVmwfHltczGe0sCmAg0uNHOKcCG0v5CuKNREYZI+XUzWp574Bh36I=
+X-Received: by 2002:a92:600e:: with SMTP id u14mr27749373ilb.221.1605964381160; 
+ Sat, 21 Nov 2020 05:13:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAKXUXMy2J6+RSZ1oesVAD_9+fXpCUF8ANRfpmq486_zw+Mrhpg@mail.gmail.com>
-Content-Language: en-US
+References: <20201121080900.17297-1-dwaipayanray1@gmail.com>
+ <CAKXUXMxpfrXX2_xOmf0oePfh3=xcc_wHuc002tWacF98WkgK3Q@mail.gmail.com>
+ <CABJPP5DiiE8fzQVnsu9Kk-m7bYt=NRE8s1FdAE2Xc8TkRtUayw@mail.gmail.com>
+In-Reply-To: <CABJPP5DiiE8fzQVnsu9Kk-m7bYt=NRE8s1FdAE2Xc8TkRtUayw@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 21 Nov 2020 14:12:50 +0100
+Message-ID: <CAKXUXMx6J9xoiDEBkGZiSNVg24k6AWbFzFz-G8Uvh6btHFdSdw@mail.gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: MAINTAINERS: add
- information about parse-maintainers.pl
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add --fix option for
+	INCLUDE_LINUX
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,116 +109,103 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 21/11/20 3:27 pm, Lukas Bulwahn wrote:
-> On Fri, Nov 20, 2020 at 11:16 AM Aditya <yashsri421@gmail.com> wrote:
->>
->> On 20/11/20 3:42 pm, Aditya Srivastava wrote:
->>> parse-maintainers.pl is a script which can be used to automatically
->>> order the contents of MAINTAINERS file in preferred order (i.e.
->>> 'MRLSWQBCPTFXNK').
->>>
->>> But currently we don't have a documentation on it.
->>>
->>> Add documentation regarding the same in MAINTAINERS file.
->>>
->>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
->>> ---
->>> the patch applies perfectly on latest next-20201119
->>>
->>>  MAINTAINERS | 3 +++
->>>  1 file changed, 3 insertions(+)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 5db753fa1295..7ad00af7acd4 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -136,6 +136,9 @@ Descriptions of section entries and preferred order
->>>             printk, pr_info or pr_err
->>>          One regex pattern per line.  Multiple K: lines acceptable.
->>>
->>> +This order can be generated automatically for you using
->>> +``scripts/parse-maintainers.pl``.
->>> +
->>>  Maintainers List
->>>  ----------------
->>>
->>>
->>
->> Rationale for my changes:
->> I did not go into much detail of its working here.
->> A bit detail on this can be to use 'scripts/parse-maintainers
->> --sorted' which produces the sorted file in MAINTAINERS.new by
->> default. The input and output default files can be changed using
->> '--input' and '--output' options. However, here I have omitted these
->> details as running with '--help' option already provides this
->> information in detail.
->> So just making user aware of the script should serve our purpose.
->>
->> What do you think?
->>
-> 
-> It makes sense not to put that into MAINTAINERS.
-> 
-> Do you understand how to use ./scripts/parse-maintainers, though?
-> 
-Yes. From what I have understood, parse-maintainers.pl orders the
-maintainers lists in ASCII order.
-
-So, the list for '3C59X NETWORK DRIVER' will be displayed before
-'3CR990 NETWORK DRIVER'.
-
-It further orders the entries inside every list in this alphabetical
-order: 'MRLSWQBCPTFXNK'.
-
-> So if the warning with checkpatch is shown on a patch, what would you
-> need to execute to get a corrected patch?
+On Sat, Nov 21, 2020 at 12:56 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+>
+> On Sat, Nov 21, 2020 at 3:15 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> >
+> > On Sat, Nov 21, 2020 at 9:09 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+> > >
+> > > Provide fix option to INCLUDE_LINUX check to replace asm
+> > > includes.
+> > >
+> > > Macros of type:
+> > >  #include <asm/percpu.h>
+> > >
+> > > are corrected to:
+> > >  #include <linux/percpu.h>
+> > >
+> >
+> > The patch itself looks okay; but should this fix option not be limited
+> > to lines where content is added?
+> >
+>
+> Hi,
+> I think the warning itself is emitted for lines which are added.
+> So I think the fix option even now will change those added lines only.
+>
+> > Further we need to investigate:
+> > - is this still a valid rule?
+> > - is this rule and the rationale documented somewhere?
+>
+> I think the rule is valid. I was going through the documentation files
+> and in several examples I saw that the linux headers are preferred.
+>
+> Like in Documentation/core-api/local_ops.rst:
+>
+> 91:
+>    #include <linux/percpu.h>
+>    #include <asm/local.h>
+>
+> In Documentation/trace/kprobes.rst:
+>
+> 362:
+> #include <linux/kprobes.h>
+> int register_kprobe(struct kprobe *kp);
+>
+> 400:
+> #include <linux/kprobes.h>
+> #include <linux/ptrace.h>
+> int pre_handler(struct kprobe *p, struct pt_regs *regs);
+>
+> 410:
+> #include <linux/kprobes.h>
+> #include <linux/ptrace.h>
+> void post_handler(struct kprobe *p, struct pt_regs *regs,
+>   unsigned long flags);
+>
+> and so on...
+>
+> I didn't find any explicit mention about absolutely preffering
+> linux headers over asm headers whenever it exists.
+>
+> > - how many rule violations currently exist in the kernel repository?
+> > - are there known exceptions for some files in some directories?
+>
+> There are exceptions to this.
+> Like in include/linux/percpu.h,
+> #include <asm/percpu.h> needs to be included. as linux/percpu wraps
+> over asm/percpu. So these kinds are exempted from the check and
+> checkpatch doesn't report any warning.
+>
+> I did find some violations like in arch/csky/kernel/probes/decode-insn.h:
+> CHECK: Consider using #include <linux/kprobes.h> instead of <asm/kprobes.h>
+> #7: FILE: arch/csky/kernel/probes/decode-insn.h:7:
+> +#include <asm/kprobes.h>
+>
+> I found one commit which fixed one such case in the kernel:
+> commit ca5999fde0a17 ("mm: introduce include/linux/pgtable.h")
+> It says "The include/linux/pgtable.h is going to be the home of
+> generic page table
+>  manipulation functions."
+>
+> So I think it means that future additings should use <linux/pgtable.h>
+> instead of
+> <asm/pgtable.h>
+>
+> I think the ARCH_INCLUDE_LINUX also deserves a --fix option similarly.
+>
+> What do you think? Should I continue with this?
 >
 
-We can directly use this command 'scripts/parse-maintainers.pl
---output="MAINTAINERS" --order' to replace the MAINTAINERS with the
-correct order.
-However, I wouldn't recommend going for it. This is so because:
-1) The MAINTAINERS file at that time might not be ordered properly for
-all the different lists in it or among each other. This will result
-into producing more numbers of changed lines as desired.
+Yes, that is good. Thanks for the investigation.
 
-For eg, currently MAINTAINERS is not ordered properly. Running
-parse-maintainers.pl on it results in placing 'DELL WMI NOTIFICATIONS
-DRIVER' before 'DELL WMI SYSMAN DRIVER' and so on. (producing changes
-with 112 Removals and 113 Additions, for simple ordering)
+You can consider to:
 
-However if we are sure that these misplaced orders should not be
-placed in that way, we can add a warning and fix for this too ie for
-mutual ASCII ordering of the lists.
-But this might need the list to be ordered once, otherwise for any
-further changes to MAINTAINERS, it will emit this warning.
+- also fix the cases where this rule is violated and send patches to
+the maintainers.
+- add some documentation on this rule.
 
-The best option currently though might be to use
-'scripts/parse-maintainers.pl --order'. This creates a new
-MAINTAINERS.new file, without harming our 'MAINTAINERS' file.
-Now, one can check if their entries are correct manually and fix it
-accordingly.
-However, we can maybe automate this (as I think) by:
-Read MAINTAINERS.new and store these lists entries as hashes and
-replace it somehow (maybe using line numbers) in MAINTAINERS with the
-sorted one.
-
-> So if the warning with checkpatch is shown on a patch, what would ou
-> you need to execute to get a corrected patch?
-
-Again coming to this question, I don't think we can modify the patch
-alone, as the line numbers and other informations in the diff
-generated may change drastically. So, I think the user should probably
-consider making changes in MAINTAINERS itself and then creating patch.
-
-What do you think?
-
-Thanks
-Aditya
-
-> Lukas
-> 
-
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
