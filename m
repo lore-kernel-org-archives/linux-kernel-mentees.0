@@ -2,69 +2,68 @@ Return-Path: <SRS0=zGdC=E4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE66C5519F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Nov 2020 11:32:04 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C262EC5519F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Nov 2020 11:33:01 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D62E7208C3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Nov 2020 11:32:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D62E7208C3
+	by mail.kernel.org (Postfix) with ESMTPS id 2EECF208C3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Nov 2020 11:33:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2EECF208C3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7CD9086A95;
-	Sun, 22 Nov 2020 11:32:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B4562203FE;
+	Sun, 22 Nov 2020 11:33:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CW1eHbzUtnFz; Sun, 22 Nov 2020 11:32:02 +0000 (UTC)
+	with ESMTP id GAtr6QbzrxAP; Sun, 22 Nov 2020 11:32:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 08C2E86A3F;
-	Sun, 22 Nov 2020 11:32:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3FF5D203A4;
+	Sun, 22 Nov 2020 11:32:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EDA5CC0891;
-	Sun, 22 Nov 2020 11:32:01 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EAB47C0052
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 266DAC0891;
+	Sun, 22 Nov 2020 11:32:59 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D7E0FC0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Nov 2020 11:31:59 +0000 (UTC)
+ Sun, 22 Nov 2020 11:32:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DEF6185F7F
+ by silver.osuosl.org (Postfix) with ESMTP id B2DF4203DF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Nov 2020 11:31:59 +0000 (UTC)
+ Sun, 22 Nov 2020 11:32:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lN4gbcZS1nxA
+ with ESMTP id BweRdXBcn4dI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Nov 2020 11:31:59 +0000 (UTC)
+ Sun, 22 Nov 2020 11:32:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0223.hostedemail.com
- [216.40.44.223])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id F35F785F69
+Received: from smtprelay.hostedemail.com (smtprelay0076.hostedemail.com
+ [216.40.44.76])
+ by silver.osuosl.org (Postfix) with ESMTPS id 61C76203A4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Nov 2020 11:31:58 +0000 (UTC)
+ Sun, 22 Nov 2020 11:32:56 +0000 (UTC)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
  [216.40.38.60])
- by smtprelay08.hostedemail.com (Postfix) with ESMTP id B32FC182CED28;
- Sun, 22 Nov 2020 11:31:57 +0000 (UTC)
+ by smtprelay02.hostedemail.com (Postfix) with ESMTP id 3C55B248D;
+ Sun, 22 Nov 2020 11:32:55 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: rule91_3104a872735c
-X-Filterd-Recvd-Size: 3330
+X-HE-Tag: jelly52_1906f722735c
+X-Filterd-Recvd-Size: 2531
 Received: from XPS-9350.home (unknown [47.151.128.180])
  (Authenticated sender: joe@perches.com)
- by omf15.hostedemail.com (Postfix) with ESMTPA;
- Sun, 22 Nov 2020 11:31:56 +0000 (UTC)
-Message-ID: <9ede7de2b1da90e025e64c86ffbcc7f44843de69.camel@perches.com>
+ by omf05.hostedemail.com (Postfix) with ESMTPA;
+ Sun, 22 Nov 2020 11:32:54 +0000 (UTC)
+Message-ID: <368300090d93ad66f7fb19076d076d4321a04c42.camel@perches.com>
 From: Joe Perches <joe@perches.com>
 To: Aditya Srivastava <yashsri421@gmail.com>
-Date: Sun, 22 Nov 2020 03:31:55 -0800
+Date: Sun, 22 Nov 2020 03:32:53 -0800
 In-Reply-To: <20201122111025.17978-1-yashsri421@gmail.com>
 References: <1823e72eb92280d30457dda49e0a0036dee15dd3.camel@perches.com>
  <20201122111025.17978-1-yashsri421@gmail.com>
@@ -109,37 +108,13 @@ On Sun, 2020-11-22 at 16:40 +0530, Aditya Srivastava wrote:
 > Provide a simple fix by adding logical operator at the end of previous
 > line and removing from current line, if both the lines are additions
 > (ie start with '+')
-> =
 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> changes in v2: quote $operator at substitution
-> =
-
-> changes in v3: add a check for previous line ending with comment;
-> If so, insert $operator at the last non-comment, non-whitespace char of t=
-he previous line
-> =
-
-> changes in v4: improve the matching mechanism by matching line terminatio=
-n at comment or white space;
-> insert the operator before comments (if any) separated by a whitespace;
-> append the comment and its pre-whitespace after the inserted operator (if=
- comment was present),
-> ie if no comment was present nothing will be inserted after the operator
-> =
+Not quite yet.
 
 > changes in v5: improve regex for comment and line end with '$;'
-> =
-
-> =A0scripts/checkpatch.pl | 13 +++++++++++--
-> =A01 file changed, 11 insertions(+), 2 deletions(-)
-> =
-
+[]
 > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 5b1a5a65e69a..708a56f31466 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
+[]
 > @@ -3553,8 +3553,17 @@ sub process {
 > =A0
 > =
@@ -156,16 +131,14 @@ rev);
 > +			    $fix && $prevrawline =3D~ /^\+/) {
 > +				# add logical operator to the previous line, remove from current line
 > +				if ($prevline =3D~ /[\s$;]*$/) {
+
+This if is misleading as it will always match at least the EOL
+
 > +					my $line_end =3D substr($prevrawline, $-[0]);
 > +					$fixed[$fixlinenr - 1] =3D~ s/\Q$line_end\E/ $operator$line_end/;
-> +				}
-> +				$fixed[$fixlinenr] =3D~ s/\Q$operator\E\s*//;
-> +			}
-> =A0		}
-> =A0
-> =
 
-> =A0# check indentation starts on a tab stop
+It makes it seem as if this part is only done when the test is true.
+The test is always true.
 
 
 _______________________________________________
