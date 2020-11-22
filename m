@@ -2,78 +2,97 @@ Return-Path: <SRS0=zGdC=E4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B4ABC388F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Nov 2020 02:37:50 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 410ECC5519F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Nov 2020 07:52:26 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 943AA206F7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Nov 2020 02:37:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 943AA206F7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id ADE442078E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Nov 2020 07:52:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l3RCpky7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADE442078E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1FC7E20109;
-	Sun, 22 Nov 2020 02:37:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 496E886B7F;
+	Sun, 22 Nov 2020 07:52:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VHA65AfXuHbU; Sun, 22 Nov 2020 02:37:46 +0000 (UTC)
+	with ESMTP id Dtg8-e5KaIcL; Sun, 22 Nov 2020 07:52:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EDC3F20494;
-	Sun, 22 Nov 2020 02:37:35 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C2C5286B7B;
+	Sun, 22 Nov 2020 07:52:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D4327C1825;
-	Sun, 22 Nov 2020 02:37:35 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6DB38C0891
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3852C163C;
+	Sun, 22 Nov 2020 07:52:24 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 20EB8C0891
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Nov 2020 02:37:34 +0000 (UTC)
+ Sun, 22 Nov 2020 07:52:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5A0298716C
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1407B86B7F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Nov 2020 02:37:34 +0000 (UTC)
+ Sun, 22 Nov 2020 07:52:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ryJZ57HZL6N6
+ with ESMTP id hzar-d2p03CN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Nov 2020 02:37:33 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0131.hostedemail.com
- [216.40.44.131])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D736D87148
+ Sun, 22 Nov 2020 07:52:23 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 418E786B7B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 Nov 2020 02:37:32 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay01.hostedemail.com (Postfix) with ESMTP id B9DA1100E7B42;
- Sun, 22 Nov 2020 02:37:31 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: step08_1801d0827359
-X-Filterd-Recvd-Size: 3257
-Received: from XPS-9350.home (unknown [47.151.128.180])
- (Authenticated sender: joe@perches.com)
- by omf04.hostedemail.com (Postfix) with ESMTPA;
- Sun, 22 Nov 2020 02:37:30 +0000 (UTC)
-Message-ID: <1823e72eb92280d30457dda49e0a0036dee15dd3.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Date: Sat, 21 Nov 2020 18:37:29 -0800
-In-Reply-To: <20201121210442.17299-1-yashsri421@gmail.com>
-References: <a6ee46ce01747627196478ff2a965d48dd4eed73.camel@perches.com>
- <20201121210442.17299-1-yashsri421@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ Sun, 22 Nov 2020 07:52:23 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id f5so11750115ilj.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 21 Nov 2020 23:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uya8M97MSbquGLSSuEgi1pTq3SA20oRBkUbMUoRL2DM=;
+ b=l3RCpky7pEJahNyOzSKPzHEbxrZssTSLX78WpDOiUN7yBHPD54PajJZTrEp4nhrrrb
+ PeP0/8+cH3iRxXGARquJKFdPIAm2lULUwXsH20Njh6N26UGC1x1n+4WDOKQee0Leu1/S
+ KpLs7wRyPOafpJlCNz+6Gm/iM5/KYrPpausVtbXAY9g9GaK8DhQGRLX5vLE5SgFkonsN
+ nhezHUTyPIPlx2IrN4k9MGR/SqsAph/vfrwEQavvTBQsBuliX4r4pbDGJMs3umb1DblO
+ bymJQG2ek2iFYFm+wPr2N1DyWkB28oVYL/+V0spd6KBxnmt9LEvI65L6UTnK1q6su5mm
+ 3NOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uya8M97MSbquGLSSuEgi1pTq3SA20oRBkUbMUoRL2DM=;
+ b=EsDm6rWsSWevsY96Sj6qNU8RzWGlCPlEMiL13ZjgwB3zBuYf9jc07B9hFWS4eaX5yx
+ bT6qaQo2ttcUSkybgdiTkUrF1nFykktkDRULAVKEwyKlbJjKd/TrnuX5YWRNXUMwhjet
+ BC4SYJBOB+Hid+c5/WXtZHaJ0GKcgCL/AhWaRoNNn29ejx2kM7cIHmloSFPzvmoHtXvW
+ wWuk/35B56iybKeuxAXJfk1xWE/ErFN2Uww4OxHBN1PLm+EUc12Dxo2svjaAVR3A6KEN
+ t+IN5Z3Du2cLvVU4fPY6y0wVECCZ9mEqjlq+CKmKlltM29cws64VVFPsFFV6RiLbU3eq
+ JAEA==
+X-Gm-Message-State: AOAM530ZsPNFTgC16ZAJ2QDqe3LKQqmABjfV//aUOihek+tBbNq98R3S
+ yN/41NtE8oOrMVd3N79Dy3I6+GhWJlTuLRzHPXk=
+X-Google-Smtp-Source: ABdhPJyyQllnqBTOv2EnvSEVnvvAU2LtNHovkMC1LxZZuh7fm1TTzXW7u+7wlZ4FQ1reHwq8FhemrmPmldNHvmIw5k8=
+X-Received: by 2002:a92:aacc:: with SMTP id p73mr14926400ill.64.1606031542550; 
+ Sat, 21 Nov 2020 23:52:22 -0800 (PST)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v4] checkpatch: add fix option
-	for LOGICAL_CONTINUATIONS
+References: <357371d0-a445-181a-3565-a3ec0debc622@gmail.com>
+ <20201118173950.32660-1-yashsri421@gmail.com>
+ <CAKXUXMw=NnO4pU01bmTH+pkLckcJzByPktGJPuLf9st+x4VbXQ@mail.gmail.com>
+ <30d4ab51-41e7-d535-7cb2-5ae9d02cf58b@gmail.com>
+In-Reply-To: <30d4ab51-41e7-d535-7cb2-5ae9d02cf58b@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 22 Nov 2020 07:52:13 +0100
+Message-ID: <CAKXUXMx9J4uJcjsUXQS0heV80qf6d0OgzJ-0kHtimW7nd3dXKw@mail.gmail.com>
+To: Aditya <yashsri421@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: add fix option
+	for NETWORKING_BLOCK_COMMENT_STYLE
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,66 +110,74 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, 2020-11-22 at 02:34 +0530, Aditya Srivastava wrote:
-> Currently, checkpatch warns if logical continuations are placed at the
-> start of a line and not at the end of previous line.
-> 
-> E.g., running checkpatch on commit 3485507fc272 ("staging:
-> bcm2835-camera: Reduce length of enum names") reports:
-> 
-> CHECK:LOGICAL_CONTINUATIONS: Logical continuations should be on the
-> previous line
-> +	if (!ret
-> +	    && camera_port ==
-> 
-> Provide a simple fix by adding logical operator at the end of previous
-> line and removing from current line, if both the lines are additions
-> (ie start with '+')
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> changes in v2: quote $operator at substitution
-> 
-> changes in v3: add a check for previous line ending with comment;
-> If so, insert $operator at the last non-comment, non-whitespace char of the previous line
-> 
-> changes in v4: improve the matching mechanism by matching line termination at comment or white space;
-> insert the operator before comments (if any) separated by a whitespace;
-> append the comment and its pre-whitespace after the inserted operator (if comment was present),
-> ie if no comment was present nothing will be inserted after the operator
+On Thu, Nov 19, 2020 at 11:44 AM Aditya <yashsri421@gmail.com> wrote:
+>
+> On 19/11/20 12:30 am, Lukas Bulwahn wrote:
+> > On Mi., 18. Nov. 2020 at 18:40, Aditya Srivastava <yashsri421@gmail.com>
+> > wrote:
+> >
+> >> Currently, checkpatch warns us for files in 'net/' and 'drivers/net',
+> >> if we use an empty '/*' line for comment and contents of comments are
+> >> in next line
+> >>
+> >> E.g., running checkpatch on commit 0d52497ac8ee ("iwlwifi: pcie: remove
+> >> the refs / unrefs from the transport") reports this warning:
+> >>
+> >> WARNING: networking block comments don't use an empty /* line, use /*
+> >> Comment...
+> >> +               /*
+> >> +                * If the TXQ is active, then set the timer, if not,
+> >>
+> >> Provide a fix by appending the current line contents to previous line
+> >> and removing the current line
+> >>
+> >
+> > Patch generally looks good.
+> >
+> > Can you check how many comments in net actually follow that style and how
+> > many follow another style?
+> >
+> >
+>
+> In drivers/net:
+> Wrong style: 14695 lines
+> Correct style: 147961 lines (ie around 10 times)
+>
+> In net/:
+> Wrong style: 5090 lines
+> Correct style: 30485 lines
+>
 
-nak. I gave you a hint to the match string to use.
+Can you find out where the wrong style is used?
 
-$prevline =~ /[\s$;]*$/
+Maybe the documentation is a bit outdated.
 
-this matches either /* foo */ or // foo comment styles
-(or optional blanks before EOL)
+For example, some drivers and some subdirectories might have settled
+for another commenting style.
 
-Try something like:
----
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index fab38b493cef..3c78cf0c219f 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3434,8 +3434,15 @@ sub process {
- 
- # check for && or || at the start of a line
- 		if ($rawline =~ /^\+\s*(&&|\|\|)/) {
--			CHK("LOGICAL_CONTINUATIONS",
--			    "Logical continuations should be on the previous line\n" . $hereprev);
-+			my $operator = $1;
-+			if (CHK("LOGICAL_CONTINUATIONS",
-+				"Logical continuations should be on the previous line\n" . $hereprev) &&
-+			    $fix && $prevrawline =~ /^\+/) {
-+				# add logical operator to the previous line, remove from current line
-+				$prevline =~ /([\s$;]*$)/;
-+				substr($fixed[$fixlinenr - 1], $-[0]) = " $operator" . substr($prevrawline, $-[0],$+[0]);
-+				$fixed[$fixlinenr] =~ s/\Q$operator\E\s*//;
-+			}
- 		}
- 
- # check indentation starts on a tab stop
+I guess you can submit the fix option, but it could be that the whole
+rule/feature is broken anyway... so I do not know if that fix is of
+any good...
 
+I think it is better to actually understand, document and encode the
+current rule that applies.
+
+Can you provide an evaluation where the different styles for
+commenting are aggregated in a good way?
+E.g., consistently within a file with style XYZ; mixed style but
+80-90% are of style ABC; consistent within a directory.
+
+If you think some cases are in the wrong style for some specific
+files, simply send a patch correcting the commenting style and see.
+
+Lukas
+
+> There is also a documentation regarding this different comment format,
+> and can be found here:
+> https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
+>
+> Thanks
+> Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
