@@ -2,96 +2,100 @@ Return-Path: <SRS0=GItZ=E5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C062C2D0E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Nov 2020 12:07:19 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F74C2D0E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Nov 2020 12:21:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D62072076E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Nov 2020 12:07:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8D01620728
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Nov 2020 12:21:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QWre751T"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D62072076E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/XVHsWN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D01620728
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4FBF0860F6;
-	Mon, 23 Nov 2020 12:07:16 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 02D9C204A4;
+	Mon, 23 Nov 2020 12:21:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JMnH5nqx2Ke9; Mon, 23 Nov 2020 12:07:15 +0000 (UTC)
+	with ESMTP id 7QM+3w0VZ4BC; Mon, 23 Nov 2020 12:21:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D1EAD85A5D;
-	Mon, 23 Nov 2020 12:07:15 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D4F302002B;
+	Mon, 23 Nov 2020 12:21:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B9CC0C0891;
-	Mon, 23 Nov 2020 12:07:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B75CAC163C;
+	Mon, 23 Nov 2020 12:21:50 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3369EC0052
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 45781C0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Nov 2020 12:07:14 +0000 (UTC)
+ Mon, 23 Nov 2020 12:21:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0CD61204A4
+ by silver.osuosl.org (Postfix) with ESMTP id E71702002B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Nov 2020 12:07:14 +0000 (UTC)
+ Mon, 23 Nov 2020 12:21:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WX2aBCtBXb2r
+ with ESMTP id VXb94xcHyCVh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Nov 2020 12:07:12 +0000 (UTC)
+ Mon, 23 Nov 2020 12:21:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
- [209.85.166.171])
- by silver.osuosl.org (Postfix) with ESMTPS id C6AFA203C9
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id E47B0204A4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Nov 2020 12:07:12 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id y9so15679351ilb.0
+ Mon, 23 Nov 2020 12:21:47 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 81so14122579pgf.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Nov 2020 04:07:12 -0800 (PST)
+ Mon, 23 Nov 2020 04:21:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BCZLbeEsAT9HfsBAxqxx8lAxTuEn+0C5JhaGN1Wq1E8=;
- b=QWre751Ts7Bop65rY6vDK5p9lR5i3LnsygVZObOn2dNICuK4abSlu2G34I25xn6YNK
- Z7WMFtyPdAWlY70MItw2JGQSi9atp3hU3Ou0WMMhkZriphCa4iu4QK9OwsWs3LzgsC1X
- xsg2ncoHIfIuJ6jRhdKomNagcu3j5efbET3b3ZGUXLrrZiijVTpyficVLnGn/MGvAxLG
- KXZqxGlJn/p0Hb4xn9ab0WygMHY6LCKnb9clsctKhRJaO9LFqaFcPGSTLyf+Lu+4N+9n
- 4BUBzehjgSV6NCSoN8DhuPfyTW4zueqBQoFt47BEhFof1p1oQzH+J9D4niBQsAmOozOr
- C1HQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=mSpriLLOfnvvWXwNeKuBRnGOZCYcyYz+VRx9PPnfGfQ=;
+ b=J/XVHsWNO9J0CEQhv1TICBACr2qEZZY0G6TaswyQ+feVqYO5vQWZ7b9ymz/Ys4p5AH
+ lkzJlRQOhpN40AOItg4jxhjuabh/oczeiVvV3w+B3jyFyEYi9GASRmmDcx6FdfFT+ba3
+ AQjkK8Qn86eQU0nIf7SL+OG/QI7SJO+X8CIPxP+ZdwWOhHjvL6XXtUd5iQ76KdZyCUa4
+ /YwjkvK6Gqnxqthz/+kkfLO8kVOZhJiMPejIboqiwnzT3IAq2uNDIXmFOWJhu09iafvz
+ AjtGHeV608BufL1bmi2yEUwY8xPyEo6V5Z4GWJmGGuZSVFOMZnhicAqKa0J1oY8pZSDl
+ XRZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BCZLbeEsAT9HfsBAxqxx8lAxTuEn+0C5JhaGN1Wq1E8=;
- b=Edsx8dJhZ0Gd9uh0pBcWjnuKUdYMQirvqHiffFiO+sDOvltgvZsfibJELIocp3V/nI
- TUwsUTHB1LaGRMjcEgUXc9DTdmOSsvUbZz1Xjucx3Q5Ifat9lpnv9eMSypCrSSUdYj/S
- kyuyk+kae7G4wMWx91i07ipwM2rVuescnNjABm4iwSs89ar7cI1j4O7he6S77FV02Y6W
- fMnZaoDuXbF4Wvyd0F8KTUcwFLXmtus7aKEw0u+wXIEhH1ardxw7BaHYFXF6qntScEZ/
- Xzj6qwYeVgv4YO88kalKlzZJmw8afb8qS8tVumRRiY8drB9AOXcsbIIqGgGc1ha79erw
- Z+Hw==
-X-Gm-Message-State: AOAM531bY1KMnQFtKaKo8nLMtI+m1e9IVB9lbZHaUSP1ejNDWWUhrC8I
- EPL+XJ/200rzWJbvNSCozjpy/VYKakT24Kd80e4=
-X-Google-Smtp-Source: ABdhPJxEz4daN/GP2oWyTtxRQt1MJzx0xQpQeRIsaM7jSucDgFI92OMrCrEGUdoBQb2/+6u5jMzsFn/GOBRMCGLep0M=
-X-Received: by 2002:a92:512:: with SMTP id q18mr34358322ile.147.1606133232166; 
- Mon, 23 Nov 2020 04:07:12 -0800 (PST)
-MIME-Version: 1.0
-References: <CAKXUXMxwPSELEwWT91-+P8azzjxiaoKY8SLKvZVFLUJznvUyBw@mail.gmail.com>
- <5ad7076b88de21faae79cdc718631a5af80d574f.camel@perches.com>
-In-Reply-To: <5ad7076b88de21faae79cdc718631a5af80d574f.camel@perches.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 23 Nov 2020 13:07:07 +0100
-Message-ID: <CAKXUXMzQdwvs+gfs1eD131jMQvkTPbghN=-CDLevrSX0CJBdmw@mail.gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [Linux-kernel-mentees] Alternative to checkpatch fix options
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=mSpriLLOfnvvWXwNeKuBRnGOZCYcyYz+VRx9PPnfGfQ=;
+ b=l3wyx79Yq09mVvzPVL5kXPamGk7KDWn59qeFZi6WFSU5NzEsxGVFrUMFn4qL4jeXti
+ BfdnftOcphHjcR2Oscly6vX3AFRMHw/TQCDGa1AFQXMA1PzgmZ4EBWsNUBqtesoTloAT
+ VNW/sNkxCLPCniUHj9XLX+IXpf0KNQbOGxU3+nledd4jiiDiSaCgzqENPJBSljGXPH1I
+ UpeHsupkeh/7LtiPdwZ/PL43dE/ZhSqx4hR9k8lssPosBSpvazELQYgzoVPXFXRh5hvo
+ eIX7pKlD9SHbNPAWxHu7DXPGwaFRSsdhj8E76rgp3GiL/b0tKOwnhM0IxrvkqA7ILl4M
+ 8mog==
+X-Gm-Message-State: AOAM531iQuB/sKsOl4VljyfsCmUL76/yGeJAfSVhJbY/XTBfDI85K+5X
+ 1WA1Gwsd3u9lieO11OV4LWs=
+X-Google-Smtp-Source: ABdhPJyrWwrRG9ANQhEiZLhFTG71tmNT8qxwO9lMICwyPvyEGIi87ydoCr93fG2NARzhoRQrT2hn3Q==
+X-Received: by 2002:a05:6a00:6:b029:18b:b5a:494c with SMTP id
+ h6-20020a056a000006b029018b0b5a494cmr24896034pfk.81.1606134106891; 
+ Mon, 23 Nov 2020 04:21:46 -0800 (PST)
+Received: from localhost.localdomain ([2402:3a80:434:b4c0:e4c8:22ff:b3cf:2a08])
+ by smtp.googlemail.com with ESMTPSA id l20sm13298062pjq.33.2020.11.23.04.21.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Nov 2020 04:21:46 -0800 (PST)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: lukas.bulwahn@gmail.com
+Date: Mon, 23 Nov 2020 17:51:38 +0530
+Message-Id: <20201123122138.29260-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAKXUXMzfQn9qbSLKnBn+hMs4uqiPqzESXfOPocoLmkSvOZEKRQ@mail.gmail.com>
+References: <CAKXUXMzfQn9qbSLKnBn+hMs4uqiPqzESXfOPocoLmkSvOZEKRQ@mail.gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, yashsri421@gmail.com
+Subject: [Linux-kernel-mentees] [PATCH v3] checkpatch: add fix and improve
+	warning msg for Non-standard signature
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,68 +107,217 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Nov 23, 2020 at 12:48 PM Joe Perches <joe@perches.com> wrote:
->
-> On Mon, 2020-11-23 at 10:33 +0100, Lukas Bulwahn wrote:
-> > Dear Aditya and Dwaipayan,
-> >
-> > For creating fix options to checkpatch rules, please note that:
-> []
-> > it simply might be easier to invoke
-> > clang-format with a limited rule set for specific formatting fixes
-> > rather than trying to implement all of those syntactic fixes in
-> > checkpatch itself.
-> >
-> > Aditya, Dwaipayan, can you please consider that option and investigate
-> > the clang-format capability to do the fix before implementing that in
-> > checkpatch?
->
-> Which could be extremely cool if clang-format works on patch contexts.
-> But as far as I know it does not.  clang-format-diff does.
->
+Currently, checkpatch.pl warns for BAD_SIGN_OFF on non-standard signature
+styles.
 
-I used the term "clang-format" in my mail as the overall term for
-"clang-format" and "clang-format-diff".
+This warning occurs because of incorrect use of signature tags,
+e.g. an evaluation on v4.13..v5.8 showed the use of following incorrect
+signature tags, which may seem correct, but are not standard:
 
-> What maybe could happen is integration with checkpatch and the actual
-> application of the patch to a temporary file and then using
-> clang-format on the modified block similar to the integration of
-> clang-format and vim or emacs with selected contexts.
->
-> Maybe the integration of clang-format-diff could be done, but my
-> reading of its help file seems to show the newly added line needs to
-> be extracted without context. (ie: using -U0)
->
-> Anyway, please do investigate the integration because as you've
-> probably noticed, adding --fix rules to checkpatch can be painful.
->
-> I'm not in any way against this concept or integration, but I do not
-> expect this clang-format-diff integration to go particularly well
-> unless the patch context provided is an entire statement.
->
-> Maybe checkpatch could learn to apply patch series or could be
-> integrated along with git to apply patch series to a test branch
-> and clang-format-diff and the entire statement or function around
-> any change could be extracted and again run through clang-format.
->
-> I suggest you play with it and see what you can do.
->
+1) Requested-by (count: 48) => Suggested-by
+Rationale: In an open-source project, there are no 'requests', just
+'suggestions' to convince a maintainer to accept your patch
 
-I agree. It is by no means straightforward to run clang-format on a
-patch (or on a git commit) and integrate it with checkpatch... it will
-need a bit of exploration, investigation along those lines you
-suggested.
+2) Co-authored-by (count: 43) => Co-developed-by
+Rationale: Co-developed-by and Co-authored-by are synonyms
 
-Aditya, Dwaipayan, feel free to explore and use the mentees list to
-exchange ideas and investigations.
+3) Analyzed-by (count: 22) / Analysed-by (count: 5) => Co-developed-by
+Rationale: Analyzing is a part of Software Development, so
+'Co-developed-by' is perfectly fine, even if contributor did not create
+code
 
-Lukas
+4) Improvements-by (count: 19) => Co-developed-by
+
+5) Noticed-by (count: 11) => Reported-by
+
+6) Inspired-by (count: 11) => Suggested-by
+
+7) Verified-by (count: 8) => Tested-by
+Rationale: Used by a single user. On reading mailing list, it seems
+Tested-by might be a suitable alternative
+
+8) Okay-ished-by (count: 8) => Acked-by
+Rationale: Used by a single user. On reading mailing list, it seems
+Acked-by must be suitable alternative
+
+9) Acked-for-MFD-by (count: 6) => Acked-by
+
+10) Reviewed-off-by (count: 5) => Reviewed-by
+
+11) Proposed-by (count: 5) => Suggested-by
+Rationale: On observing the mailing list, this tag is always used for a
+maintainer. It seems that the changes might have been suggested by them
+and the tag is used as acknowledgement for the same
+
+12) Fixed-by (count: 3) => Co-developed-by
+Rationale: Fixing bug is a part of Software Development, so
+'Co-developed-by' is perfectly fine, even if contributor did not create
+code
+
+13) Pointed-out-by (count: 3) / Pointed-at-by (count: 2) => Suggested-by
+Rationale: The tags are used for maintainers. It seems that the changes
+might have been suggested by them and the tag is used as acknowledgement
+for the same
+E.g., Pointed-at-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+14) Suggestions-by (count: 3) => Suggested-by
+
+15) Generated-by (count: 17) => remove the tag
+On observing the mailing list, this tag is always used for quoting the
+tool or script, which might have been used to generate the patch.
+E.g. Generated-by: scripts/coccinelle/api/alloc/kzalloc-simple.cocci
+
+16) Celebrated-by (count: 3) => remove the tag
+This tag was used for only one commit. On observing mailing list, it seem
+like the celebration for a particular patch and changes.
+
+Provide a fix by:
+1) replacing the non-standard signature with its standard equivalent
+2) removing the signature if it is not required
+
+Also, improve warning messages correspondingly, providing users
+suggestions to either replace or remove the signature. Also provide
+suitable rationale to the user for the suggestion made.
+
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+changes in v2: replace commit specific example with brief evaluation
+
+changes in v3: provide rationale to users for every signature tag suggestion;
+modify commit message describing arrival to conclusion in a structured way
+
+ scripts/checkpatch.pl | 101 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 99 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index fdfd5ec09be6..575ff8efb0eb 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -506,6 +506,81 @@ our $signature_tags = qr{(?xi:
+ 	Cc:
+ )};
+ 
++our %standard_signature_fix = (
++	"Requested-by:" => {
++		suggestion => "Suggested-by:",
++		rationale => "In an open-source project, there are no 'requests', just 'suggestions' to convince a maintainer to accept your patch",
++	},
++	"Co-authored-by:" => {
++		suggestion => "Co-developed-by:",
++		rationale => "Co-developed-by and Co-authored-by are synonyms",
++	},
++	"Analyzed-by:" => {
++		suggestion => "Co-developed-by:",
++		rationale => "Analyzing is a part of Software Development, so 'Co-developed-by' is perfectly fine, even if contributor did not create code",
++	},
++	"Analysed-by:" => {
++		suggestion => "Co-developed-by:",
++		rationale => "Analysing is a part of Software Development, so 'Co-developed-by' is perfectly fine, even if contributor did not create code",
++	},
++	"Improvements-by:" => {
++		suggestion => "Co-developed-by:",
++		rationale => "Performing improvements are a part of Software Developement, so 'Co-developed-by' is perfectly fine, even if contributor did not create code",
++	},
++	"Noticed-by:" => {
++		suggestion => "Reported-by:",
++		rationale => "Reported-by and Noticed-by are synonyms",
++	},
++	"Inspired-by:" => {
++		suggestion => "Suggested-by:",
++		rationale => "Suggested-by is the standard signature tag for acknowledging user for their suggestions",
++	},
++	"Verified-by:" => {
++		suggestion => "Tested-by:",
++		rationale => "Tested-by and Verified-by are synonyms",
++	},
++	"Okay-ished-by:" => {
++		suggestion => "Acked-by:",
++		rationale => "Acked-by is the standard signature tag for recording your approval",
++	},
++	"Acked-for-MFD-by:" => {
++		suggestion => "Acked-by:",
++		rationale => "Acked-by is the standard signature tag for recording your approval",
++	},
++	"Reviewed-off-by:" => {
++		suggestion => "Reviewed-by:",
++		rationale => "Reviewed-by is the standard signature tag for recording your approval",
++	},
++	"Proposed-by:" => {
++		suggestion => "Suggested-by:",
++		rationale => "Proposing changes is same as suggesting changes, so Suggested-by seems perfectly fine",
++	},
++	"Fixed-by:" => {
++		suggestion => "Co-developed-by:",
++		rationale => "Fixing bug is a part of Software Development, so 'Co-developed-by' is perfectly fine, even if contributor did not create code",
++	},
++	"Pointed-out-by:" => {
++		suggestion => "Suggested-by:",
++		rationale => "Pointing out certain changes is synonymous to suggesting changes, so Suggested-by seems perfectly fine",
++	},
++	"Pointed-at-by:" => {
++		suggestion => "Suggested-by:",
++		rationale => "Pointing at certain changes is synonymous to suggesting changes, so Suggested-by seems perfectly fine",
++	},
++	"Suggestions-by:" => {
++		suggestion => "Suggested-by:",
++		rationale => "Suggested-by is the standard signature tag for acknowledging user for their suggestions",
++	},
++	"Generated-by:" => {
++		suggestion => "remove",
++		rationale => "Signature tags are used to acknowledge users for their contributions. It is advised to describe about tools in commit description instead",
++	},
++	"Celebrated-by:" => {
++		suggestion => "remove",
++		rationale => "Signature tags are used to acknowledge users for their contributions. This tag may not be required at all",
++	},
++);
++
+ our @typeListMisordered = (
+ 	qr{char\s+(?:un)?signed},
+ 	qr{int\s+(?:(?:un)?signed\s+)?short\s},
+@@ -2773,8 +2848,30 @@ sub process {
+ 			my $ucfirst_sign_off = ucfirst(lc($sign_off));
+ 
+ 			if ($sign_off !~ /$signature_tags/) {
+-				WARN("BAD_SIGN_OFF",
+-				     "Non-standard signature: $sign_off\n" . $herecurr);
++				my $suggested_signature = "";
++				my $rationale = "";
++				if (exists($standard_signature_fix{$sign_off})) {
++					$suggested_signature = $standard_signature_fix{$sign_off}{'suggestion'};
++					$rationale = $standard_signature_fix{$sign_off}{'rationale'};
++				}
++				if ($suggested_signature eq "") {
++					WARN("BAD_SIGN_OFF",
++					     "Non-standard signature: $sign_off\n" . $herecurr);
++				}
++				elsif ($suggested_signature eq "remove") {
++					if (WARN("BAD_SIGN_OFF",
++						"Non-standard signature: $sign_off. Please consider removing this signature tag. $rationale\n" . $herecurr) &&
++					$fix) {
++						fix_delete_line($fixlinenr, $rawline);
++					}
++				}
++				else {
++					if (WARN("BAD_SIGN_OFF",
++						"Non-standard signature: $sign_off. Please use '$suggested_signature' instead. $rationale\n" . $herecurr) &&
++					$fix) {
++						$fixed[$fixlinenr] =~ s/$sign_off/$suggested_signature/;
++					}
++				}
+ 			}
+ 			if (defined $space_before && $space_before ne "") {
+ 				if (WARN("BAD_SIGN_OFF",
+-- 
+2.17.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
