@@ -2,98 +2,103 @@ Return-Path: <SRS0=nBaC=E6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB88C2D0E4
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 Nov 2020 06:54:29 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7811FC63777
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 Nov 2020 07:25:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CCED206FB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 Nov 2020 06:54:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B895220679
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 Nov 2020 07:25:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkq3LttM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CCED206FB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="TI1qEy3T"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B895220679
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B319D84ECD;
-	Tue, 24 Nov 2020 06:54:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 30CB98634E;
+	Tue, 24 Nov 2020 07:25:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hBOSvzoocXKf; Tue, 24 Nov 2020 06:54:27 +0000 (UTC)
+	with ESMTP id E2bFXlT3IfZo; Tue, 24 Nov 2020 07:25:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A7E4C84EA7;
-	Tue, 24 Nov 2020 06:54:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B1079861A0;
+	Tue, 24 Nov 2020 07:25:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8138DC163C;
-	Tue, 24 Nov 2020 06:54:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 91A8DC0891;
+	Tue, 24 Nov 2020 07:25:47 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C2D3AC0052
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 43107C0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Nov 2020 06:54:25 +0000 (UTC)
+ Tue, 24 Nov 2020 07:25:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B69768715D
+ by hemlock.osuosl.org (Postfix) with ESMTP id 306338716A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Nov 2020 06:54:25 +0000 (UTC)
+ Tue, 24 Nov 2020 07:25:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Dp7nRSnzqsus
+ with ESMTP id diIbkMIytaSw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Nov 2020 06:54:25 +0000 (UTC)
+ Tue, 24 Nov 2020 07:25:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
- [209.85.166.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EB67287158
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+ [209.85.208.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 209FA87165
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Nov 2020 06:54:24 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id y9so18296120ilb.0
+ Tue, 24 Nov 2020 07:25:45 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id z1so2504943ljn.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Nov 2020 22:54:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ Mon, 23 Nov 2020 23:25:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Jyg5lcJdKgnuPCVzERa4Rt0xWB2AfCQtzpyLk67O5hU=;
- b=lkq3LttM7CTkaBXuWnEHF9j9YCCIyQZMet9iO4QghTwL8ln4iFPDQRHEXJX9shLaBS
- UaiSxBBfpa/vYmTOV80ruwaBlfTNDDAdHVXEShbhwIIeMR5By32wVx+mpAbk2eiNm5tu
- ucm40VBmzvujaB55jq36tXz52pyOgKs6pHQP1WM23d92+f5yKTb6zHOg+yUmk/QDs4UB
- snaLHinXdMPVny2mt7+EElL9sMz5JYpGbDT7dYB6oOED9dwhzD/QyxlnqHJa/ZXRgV3o
- m+t+IuodS57GUUCoY/wgXSkZBb/DQtKSs8OYvAFJRRhHO3VhWI2nM5FUNEbN36/fNmEv
- 7OTw==
+ :cc; bh=H7wcsVmiRBzdbzaU1jn2/D4v2W6wjtxUE3QJby9ONMo=;
+ b=TI1qEy3TmyLIzdKNdJQqeiqUMl+2ELnq3995chqivPaCfj/AzhaKQ+2bIqEmn9sxy8
+ z0YAtzsPF5XTcrRhQA+dIpONHcVgDybgufVR0123dzPsZB0K5a8zKSbMjCp3dBAMVdz8
+ qIBxDVo6WQz/LlL+YPoMbaWnug+TJfBTk0es6P72sznSVQnOIILfWRNOU99HrCWhuBgR
+ 602f2fTKn4Cse62ikNeOCdK8TvLEWJh9EBmw3xh5GloadBKmmCpn5hR4SuBxjCfDbi8E
+ q95ub1mUdRvnIs+qIg1wEkdX699lQEAyFKH67Gvm33GRj6e0tZcAjzmE+RrgTTaxgMpP
+ pogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Jyg5lcJdKgnuPCVzERa4Rt0xWB2AfCQtzpyLk67O5hU=;
- b=I6rGO7e3GdsY6Xau68zehK9CK1ZJGyReaQ7zrd4VqPastSmqB2jzCdRU5z258mutQy
- O4riOvLOypinXAneesNC3KG3j5kTYKL6ktKB3D/fi+uC/GYL6HMEsZB18eoXau+arxZK
- RpwCTZmplYLh53sYYy7TKzNGEz3esF8edsUzsUDqCQGNG/m73iqFtU2mLrpYbqV96xb9
- fWtMsFtnXc0Y7mnkKrKAG0wkypfia1G9Cz/Y05YB5i2VsmuH3bd3gyMSPpzcEw73/55K
- Q8HyaSsOs9OKJYYKQlbxTNCodyopYCCufpdAYqQMAjKoOVTYAS/tl55Gh+tP4dS+6V/T
- FgMQ==
-X-Gm-Message-State: AOAM533bM6DhX4k7/eewcpAKAxZL1zlGaFP+o5wiKi/NAITWC+0DkP3A
- 1X+i3KoOW3TtR1qz71Lf72EFdL2jlt9IsbRNlgo=
-X-Google-Smtp-Source: ABdhPJyCdOM0L5zrUb51hSfU7JeNsMaQ+XL9nXC5bGZFGTctTczOxXx9rKpmdH7xqcMblstNAgHqrpBzGiZ2idhhVag=
-X-Received: by 2002:a92:aacc:: with SMTP id p73mr3053455ill.64.1606200864161; 
- Mon, 23 Nov 2020 22:54:24 -0800 (PST)
+ bh=H7wcsVmiRBzdbzaU1jn2/D4v2W6wjtxUE3QJby9ONMo=;
+ b=jCBe6MuEo8U3w8tqMxl/n7YvVsSf1PTBRgnjNQT8/ZUWhaTVkHVeCPfLvv2woxQukQ
+ neDbpO7WDmaAxHcNpRyjZP8bj86E0NRekmjZf+FlycOjQwMcTScNwNegkXownEB0NtLd
+ FWCg9+AOXb8mXbxSII1dTiXYPY80YClt/jGxqy41eMWauSj6vE2lsGYrsY8KbpzMIS3r
+ ehVUqtfVU+ZPihMqorcBvSmvK3MSqxzTEqpLU/L9XldjjGKHz7qTjmAUNPeW/0+yjrYo
+ lYLgU+UwfH+l+lKx1iMV3WzEnAo6ZRw9L4JU1BhL02xTuqNcflG9HMevd0/1tQOygZ1n
+ Myag==
+X-Gm-Message-State: AOAM531hwzg9LYOE0iJC4GPDjDr6YoNdRvs+n+mvwQFaWPWvtf86NQyP
+ flLojgZD5dOIxQ9LNzs2zDKCL+meE7ScFfUWOM+thA==
+X-Google-Smtp-Source: ABdhPJyUBQdiFImnRxdqaR3qJ7rkDjgJVrH1lMWvXVptsR0064IC5JnBZyuU/OCbvVnd19TaTo3BuNVsIX88yf/i3EA=
+X-Received: by 2002:a2e:b54b:: with SMTP id a11mr1355573ljn.40.1606202742772; 
+ Mon, 23 Nov 2020 23:25:42 -0800 (PST)
 MIME-Version: 1.0
-References: <CAKXUXMx8siSm67jkBP_r+OKyKALfT2EDcX_SfX7JGBy3YisXcQ@mail.gmail.com>
- <20201123172430.12854-1-yashsri421@gmail.com>
- <148208ef84344069a6c95d3f686a86ca1199be90.camel@perches.com>
-In-Reply-To: <148208ef84344069a6c95d3f686a86ca1199be90.camel@perches.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Tue, 24 Nov 2020 07:54:13 +0100
-Message-ID: <CAKXUXMzcMWeM2M81b2PZ+D54LO6xd+m667vygWVF93Mnsq8QQg@mail.gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+References: <20201116054035.211498-1-98.arpi@gmail.com>
+ <CABVgOSkoQahYqMJ3dD1_X2+rF3OgwT658+8HRM2EZ5e0-94jmw@mail.gmail.com>
+ <CANpmjNOhb13YthVHmXxMjpD2JZUO4H2Z1KZSKqHeFUv-RbM5+Q@mail.gmail.com>
+In-Reply-To: <CANpmjNOhb13YthVHmXxMjpD2JZUO4H2Z1KZSKqHeFUv-RbM5+Q@mail.gmail.com>
+Date: Tue, 24 Nov 2020 15:25:30 +0800
+Message-ID: <CABVgOSnGnkCnAyAqVoLhMGb6XV_irtYB7pyOTon5Scab8GxKtg@mail.gmail.com>
+To: Marco Elver <elver@google.com>, Brendan Higgins <brendanhiggins@google.com>,
+ "Theodore Ts'o" <tytso@mit.edu>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>, linux-ext4@vger.kernel.org, "Bird,
+ Tim" <Tim.Bird@sony.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v4] checkpatch: add fix and
- improve warning msg for Non-standard signature
+ Andreas Dilger <adilger.kernel@dilger.ca>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Iurii Zaikin <yzaikin@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v9 1/2] kunit: Support for
+	Parameterized Testing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,58 +110,69 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: David Gow via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Nov 23, 2020 at 6:33 PM Joe Perches <joe@perches.com> wrote:
+On Mon, Nov 23, 2020 at 9:08 PM Marco Elver <elver@google.com> wrote:
 >
-> On Mon, 2020-11-23 at 22:54 +0530, Aditya Srivastava wrote:
-> > Currently, checkpatch.pl warns for BAD_SIGN_OFF on non-standard signature
-> > styles.
+> On Tue, 17 Nov 2020 at 08:21, David Gow <davidgow@google.com> wrote:
+> > On Mon, Nov 16, 2020 at 1:41 PM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
+> > >
+> > > Implementation of support for parameterized testing in KUnit. This
+> > > approach requires the creation of a test case using the
+> > > KUNIT_CASE_PARAM() macro that accepts a generator function as input.
+> > >
+> > > This generator function should return the next parameter given the
+> > > previous parameter in parameterized tests. It also provides a macro to
+> > > generate common-case generators based on arrays. Generators may also
+> > > optionally provide a human-readable description of parameters, which is
+> > > displayed where available.
+> > >
+> > > Note, currently the result of each parameter run is displayed in
+> > > diagnostic lines, and only the overall test case output summarizes
+> > > TAP-compliant success or failure of all parameter runs. In future, when
+> > > supported by kunit-tool, these can be turned into subsubtest outputs.
+> > >
+> > > Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+> > > Co-developed-by: Marco Elver <elver@google.com>
+> > > Signed-off-by: Marco Elver <elver@google.com>
+> > > ---
+> > [Resending this because my email client re-defaulted to HTML! Aarrgh!]
+> >
+> > This looks good to me! I tested it in UML and x86-64 w/ KASAN, and
+> > both worked fine.
+> >
+> > Reviewed-by: David Gow <davidgow@google.com>
+> > Tested-by: David Gow <davidgow@google.com>
 >
-> I think this proposed change is unnecessary.
+> Thank you!
 >
-> > This warning occurs because of incorrect use of signature tags,
-> > e.g. an evaluation on v4.13..v5.8 showed the use of following incorrect
-> > signature tags, which may seem correct, but are not standard:
+> > Thanks for sticking with this!
 >
-> Standards are useful, but standards are not constraints.
->
-
-Agree, but we do try to create statistics and try to derive quality
-statements from those tags (yes, empirical software engineering black
-magic...).
-Hence, I am in favor of suggesting to rewrite those tags that really
-do not add anything at all. E.g., Suggestions-by: vs. Suggested-by, or
-Coauthored-by vs. Co-developed-by.
-
-Anyone can ignore checkpatch; so it is not a constraint unless
-enforced by subsystem maintainers.
-
-> > 1) Requested-by (count: 48) => Suggested-by
-> > Rationale: In an open-source project, there are no 'requests', just
-> > 'suggestions' to convince a maintainer to accept your patch
->
-> There's nothing really wrong with some non-standard signatures.
-> And I think leaving humor like brown-paper-bag-by: is useful.
->
-
-I think we do not want to take the humor and fun away from patches.
-
-So let us not suggest deleting the humorous and celebrating ones.
-
-> Just telling people that they are using a non-standard signature
-> I think is enough.
+> Will these patches be landing in 5.11 or 5.12?
 >
 
-Maybe a patch reduced to the very obvious synonyms helps newcomers or
-people with lousy memory to be reminded that it is called
-"Co-developed-by:" not "Co-authored-by".
+I can't think of any reason not to have these in 5.11. We haven't
+started staging things in the kselftest/kunit branch for 5.11 yet,
+though.
 
-Lukas
+Patch 2 will probably need to be acked by Ted for ext4 first.
+
+Brendan, Shuah: can you make sure this doesn't get lost in patchwork?
+
+Cheers,
+-- David
+
+> > -- David
+>
+> Thanks,
+> -- Marco
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
