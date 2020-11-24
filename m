@@ -2,107 +2,96 @@ Return-Path: <SRS0=nBaC=E6=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9069C63697
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 Nov 2020 03:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB88C2D0E4
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 Nov 2020 06:54:29 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 264BC2080A
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 Nov 2020 03:12:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0CCED206FB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 Nov 2020 06:54:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IXunGBT9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 264BC2080A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkq3LttM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CCED206FB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 75644861F4;
-	Tue, 24 Nov 2020 03:12:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B319D84ECD;
+	Tue, 24 Nov 2020 06:54:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nB4EPQHyUOzr; Tue, 24 Nov 2020 03:12:34 +0000 (UTC)
+	with ESMTP id hBOSvzoocXKf; Tue, 24 Nov 2020 06:54:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DAD6685E7C;
-	Tue, 24 Nov 2020 03:12:34 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A7E4C84EA7;
+	Tue, 24 Nov 2020 06:54:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CC77AC163C;
-	Tue, 24 Nov 2020 03:12:34 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E9C79C0052
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8138DC163C;
+	Tue, 24 Nov 2020 06:54:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C2D3AC0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Nov 2020 03:12:33 +0000 (UTC)
+ Tue, 24 Nov 2020 06:54:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id CD8C98671E
+ by hemlock.osuosl.org (Postfix) with ESMTP id B69768715D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Nov 2020 03:12:33 +0000 (UTC)
+ Tue, 24 Nov 2020 06:54:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sff7mibrLksp
+ with ESMTP id Dp7nRSnzqsus
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Nov 2020 03:12:33 +0000 (UTC)
+ Tue, 24 Nov 2020 06:54:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2E55D811E7
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id EB67287158
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Nov 2020 03:12:33 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id k5so3503254plt.6
+ Tue, 24 Nov 2020 06:54:24 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id y9so18296120ilb.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Nov 2020 19:12:33 -0800 (PST)
+ Mon, 23 Nov 2020 22:54:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Cfq/nfp3VIzB8kJ/4Aoe3//TNwxiq0kRsB2O4wXa0RE=;
- b=IXunGBT9lpxE1Gy8krkmLoqv/tMttjxnyEzpn5GnDMS6x2sVRfT6iaM2mTyERBcwpO
- JGqN3fvtmVJLEcMLVtGbIy97fQ+C5/poj8rqzut2+zr418EkXROU00+uyjUUNbcRtUxX
- Jn+LquVXjlOau82ObZGD3hyah+OELI2ty5PB1IcscqJUcfyVzokfWifzPr64EZo0djvi
- Uk7tnsqigFBsVtAU4r+PexSBl+Eh5lZPosiUCOqGz18y9owFqD3s50AhovMrCx3ZoIPE
- m7MlZqWq4EMzbPR9X9XVjjQ03iNSFrm240qaK0m7ZQQ0DjbvWfs9EQIetii5VEwhwFwr
- lF4w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Jyg5lcJdKgnuPCVzERa4Rt0xWB2AfCQtzpyLk67O5hU=;
+ b=lkq3LttM7CTkaBXuWnEHF9j9YCCIyQZMet9iO4QghTwL8ln4iFPDQRHEXJX9shLaBS
+ UaiSxBBfpa/vYmTOV80ruwaBlfTNDDAdHVXEShbhwIIeMR5By32wVx+mpAbk2eiNm5tu
+ ucm40VBmzvujaB55jq36tXz52pyOgKs6pHQP1WM23d92+f5yKTb6zHOg+yUmk/QDs4UB
+ snaLHinXdMPVny2mt7+EElL9sMz5JYpGbDT7dYB6oOED9dwhzD/QyxlnqHJa/ZXRgV3o
+ m+t+IuodS57GUUCoY/wgXSkZBb/DQtKSs8OYvAFJRRhHO3VhWI2nM5FUNEbN36/fNmEv
+ 7OTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Cfq/nfp3VIzB8kJ/4Aoe3//TNwxiq0kRsB2O4wXa0RE=;
- b=GzDZaZ79pE2JALBD5mNr2Mh8z6tzggQDRm/W/92IjfG5La8K0KdEj0ssKUQAZxyv20
- v40XeRqWAyGlPKUGn38SvI1h10Rc/uDdNE+82oZ99qFCV+i8u9ypxiHfDfbE2jDKO3N8
- jMQvTQeBQ4lkuUOM4qvUNoFbSawDBNAKRw3n8ciakgkii3C4tSgCPOKa9cy69S+8bW6U
- g+Bl/RsdYHsGc1M7FzAncm9ZnGsfnJ7f0BGfM59qGeJqDylFL11DldXx+oPLKGAIc0fl
- 1OCG/RwbEAkZJYr0dBSjNM302NxYNbRrmaf8l3fzxLQ4nmvWTgwlDI4bIlug8qQ4pvqP
- q/HQ==
-X-Gm-Message-State: AOAM531ZCQhDWtbEiCtFIs1A6mKYY4TPKMDwPqqJpGhrkqqESpfuZTWx
- mPKQKNl3x2fBlDrOJWWqajQ=
-X-Google-Smtp-Source: ABdhPJy/SIbj27bYteQDbCYS+9HoSmJamtqkCHRqx4xz1b6nckV/I6uvO+e91XVibC7lu6fkFBdqZA==
-X-Received: by 2002:a17:902:eaca:b029:d6:807e:95b8 with SMTP id
- p10-20020a170902eacab02900d6807e95b8mr2304073pld.33.1606187552480; 
- Mon, 23 Nov 2020 19:12:32 -0800 (PST)
-Received: from ?IPv6:2402:3a80:422:4fb2:189e:bfca:2836:414f?
- ([2402:3a80:422:4fb2:189e:bfca:2836:414f])
- by smtp.gmail.com with ESMTPSA id i4sm11544555pgg.67.2020.11.23.19.12.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Nov 2020 19:12:31 -0800 (PST)
-To: Joe Perches <joe@perches.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Jyg5lcJdKgnuPCVzERa4Rt0xWB2AfCQtzpyLk67O5hU=;
+ b=I6rGO7e3GdsY6Xau68zehK9CK1ZJGyReaQ7zrd4VqPastSmqB2jzCdRU5z258mutQy
+ O4riOvLOypinXAneesNC3KG3j5kTYKL6ktKB3D/fi+uC/GYL6HMEsZB18eoXau+arxZK
+ RpwCTZmplYLh53sYYy7TKzNGEz3esF8edsUzsUDqCQGNG/m73iqFtU2mLrpYbqV96xb9
+ fWtMsFtnXc0Y7mnkKrKAG0wkypfia1G9Cz/Y05YB5i2VsmuH3bd3gyMSPpzcEw73/55K
+ Q8HyaSsOs9OKJYYKQlbxTNCodyopYCCufpdAYqQMAjKoOVTYAS/tl55Gh+tP4dS+6V/T
+ FgMQ==
+X-Gm-Message-State: AOAM533bM6DhX4k7/eewcpAKAxZL1zlGaFP+o5wiKi/NAITWC+0DkP3A
+ 1X+i3KoOW3TtR1qz71Lf72EFdL2jlt9IsbRNlgo=
+X-Google-Smtp-Source: ABdhPJyCdOM0L5zrUb51hSfU7JeNsMaQ+XL9nXC5bGZFGTctTczOxXx9rKpmdH7xqcMblstNAgHqrpBzGiZ2idhhVag=
+X-Received: by 2002:a92:aacc:: with SMTP id p73mr3053455ill.64.1606200864161; 
+ Mon, 23 Nov 2020 22:54:24 -0800 (PST)
+MIME-Version: 1.0
 References: <CAKXUXMx8siSm67jkBP_r+OKyKALfT2EDcX_SfX7JGBy3YisXcQ@mail.gmail.com>
  <20201123172430.12854-1-yashsri421@gmail.com>
  <148208ef84344069a6c95d3f686a86ca1199be90.camel@perches.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <6b3feb74-5f1d-ee1a-2e1a-8a5f803bed63@gmail.com>
-Date: Tue, 24 Nov 2020 08:42:25 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
 In-Reply-To: <148208ef84344069a6c95d3f686a86ca1199be90.camel@perches.com>
-Content-Language: en-US
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 24 Nov 2020 07:54:13 +0100
+Message-ID: <CAKXUXMzcMWeM2M81b2PZ+D54LO6xd+m667vygWVF93Mnsq8QQg@mail.gmail.com>
+To: Joe Perches <joe@perches.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Aditya Srivastava <yashsri421@gmail.com>
 Subject: Re: [Linux-kernel-mentees] [PATCH v4] checkpatch: add fix and
  improve warning msg for Non-standard signature
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -122,57 +111,52 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 23/11/20 11:03 pm, Joe Perches wrote:
+On Mon, Nov 23, 2020 at 6:33 PM Joe Perches <joe@perches.com> wrote:
+>
 > On Mon, 2020-11-23 at 22:54 +0530, Aditya Srivastava wrote:
->> Currently, checkpatch.pl warns for BAD_SIGN_OFF on non-standard signature
->> styles.
-> 
+> > Currently, checkpatch.pl warns for BAD_SIGN_OFF on non-standard signature
+> > styles.
+>
 > I think this proposed change is unnecessary.
->  
->> This warning occurs because of incorrect use of signature tags,
->> e.g. an evaluation on v4.13..v5.8 showed the use of following incorrect
->> signature tags, which may seem correct, but are not standard:
-> 
+>
+> > This warning occurs because of incorrect use of signature tags,
+> > e.g. an evaluation on v4.13..v5.8 showed the use of following incorrect
+> > signature tags, which may seem correct, but are not standard:
+>
 > Standards are useful, but standards are not constraints.
-> 
->> 1) Requested-by (count: 48) => Suggested-by
->> Rationale: In an open-source project, there are no 'requests', just
->> 'suggestions' to convince a maintainer to accept your patch
-> 
+>
+
+Agree, but we do try to create statistics and try to derive quality
+statements from those tags (yes, empirical software engineering black
+magic...).
+Hence, I am in favor of suggesting to rewrite those tags that really
+do not add anything at all. E.g., Suggestions-by: vs. Suggested-by, or
+Coauthored-by vs. Co-developed-by.
+
+Anyone can ignore checkpatch; so it is not a constraint unless
+enforced by subsystem maintainers.
+
+> > 1) Requested-by (count: 48) => Suggested-by
+> > Rationale: In an open-source project, there are no 'requests', just
+> > 'suggestions' to convince a maintainer to accept your patch
+>
 > There's nothing really wrong with some non-standard signatures.
 > And I think leaving humor like brown-paper-bag-by: is useful.
-> 
+>
+
+I think we do not want to take the humor and fun away from patches.
+
+So let us not suggest deleting the humorous and celebrating ones.
+
 > Just telling people that they are using a non-standard signature
 > I think is enough.
-> 
+>
 
-Hi Joe
-Thanks for reviewing. We were also planning to provide fix for certain
-non-standard signature warnings due to typo mistake in the signoffs,
-using edit distance approach. These signatures were probably not
-intended by the user.
-E.g. for signatures like: 'Reviwed-by:', 'Singed-off-by:',etc.
-Here is the list I have generated for non-standard signatures with
-edit distance of 2 or less along with their count (over v4.13..v5.8).
-(Among total 539 Non-standard signature warnings, warnings caused by
-typo mistakes are 85 in number):
+Maybe a patch reduced to the very obvious synonyms helps newcomers or
+people with lousy memory to be reminded that it is called
+"Co-developed-by:" not "Co-authored-by".
 
-https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/less_than2/signs_freq.txt
-
-This is the predicted correct signoffs we are getting (for less than
-or equal to 2):
-https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/less_than_3.txt
-
-
-The reason I have chosen 2 as threshold is that count 3 onwards, the
-results start deviating.
-List for edit distance 3:
-https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/non_standard_signature/equal_3.txt
-
-What do you think?
-
-Thanks
-Aditya
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
