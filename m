@@ -2,96 +2,101 @@ Return-Path: <SRS0=yuUc=E7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC7CC5519F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Nov 2020 12:26:24 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA632C5519F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Nov 2020 12:38:52 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7BE89206E5
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Nov 2020 12:26:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 269AD206E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Nov 2020 12:38:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPuOQNvA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7BE89206E5
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dRviKTZg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 269AD206E5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C4BEE2E0D7;
-	Wed, 25 Nov 2020 12:26:22 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A2DF38699E;
+	Wed, 25 Nov 2020 12:38:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7qFDf5E42GyP; Wed, 25 Nov 2020 12:26:19 +0000 (UTC)
+	with ESMTP id ZRS2OzbkTQrn; Wed, 25 Nov 2020 12:38:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id ACE8E2DDC9;
-	Wed, 25 Nov 2020 12:26:19 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3D4358697A;
+	Wed, 25 Nov 2020 12:38:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 911CCC0891;
-	Wed, 25 Nov 2020 12:26:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 259FCC0891;
+	Wed, 25 Nov 2020 12:38:50 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5C07BC0052
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DC662C0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Nov 2020 12:26:18 +0000 (UTC)
+ Wed, 25 Nov 2020 12:38:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5792687582
+ by hemlock.osuosl.org (Postfix) with ESMTP id CAACA87552
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Nov 2020 12:26:18 +0000 (UTC)
+ Wed, 25 Nov 2020 12:38:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hrvUlYpyv9YK
+ with ESMTP id ve4uMY+zbDZ7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Nov 2020 12:26:16 +0000 (UTC)
+ Wed, 25 Nov 2020 12:38:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3E4428757D
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+ [209.85.166.175])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6622B8750B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Nov 2020 12:26:16 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id r9so1945414ioo.7
+ Wed, 25 Nov 2020 12:38:47 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id v3so1994281ilo.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Nov 2020 04:26:16 -0800 (PST)
+ Wed, 25 Nov 2020 04:38:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xLg4939SSWEMKKrPt1zX1GkMXmvcrn9wVR9BLQfhcq8=;
- b=SPuOQNvAdV8CFLoCCRcyjdJPMMqqWL4Kna7TrKTnBBQnpxoI4MgUqNr0/SaDFMkOv3
- Gj+YtIvkA8RY4aCeqIsS4L1lcU/AFIZ+jOzyT6SpZhioPPWuyOafjj+LMHwDfdTHlilA
- GvBMhTcWlqBdfS7VUfOVnz/Eka+Vw9Mh/ckwM+qDeqs3vG1P0a2vFRZSGw5fC89+W/5q
- VIHh3cXEiWiCPgKsw88RcWQc5bIblfnXn7gaPpqLgsDF8RfkyJ49/qohC8bJJvtU/tZx
- BANJRVwzJ/VaJPcDMkHVMuSs/jM7L6gB+xm1IKAU0LzMyYix91SaH5CepVlDpa6ilgqW
- Hm1A==
+ :cc; bh=XiKakSURFO208jdj/g4WyefYAwdsmqm+tfVWxbacYYE=;
+ b=dRviKTZgrSJlhWnBByalizj+ccWV/P5sEAgHFOp7MxVKLqkt+8J7fwDazDm/qGMahQ
+ oCxiGGAC17/Xz5ecuI35DDDCdYzdeAlVwWXaKldbpipu25bmgP4Ylz5PbW9S2gZbQ1g7
+ iY9IndWA09wT0WCvJ45ZNrKieMUEMvdo7tvIIe4aRY8Yg98F0NCjibElI3/QMkt9tf3R
+ mSXQDzQa5VqBFYfmcBhcAOeDwDbfaj+sXzao56sPOeo6LNaKfogcywofm1RpMGeTPL5N
+ 0hkmsN+JfObV4b60w3AzfVCfI/YxHex22dkUPKPghAbR7GUwBbbxRncrQdkD5ite4N6z
+ vgMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xLg4939SSWEMKKrPt1zX1GkMXmvcrn9wVR9BLQfhcq8=;
- b=i1+a6mCtO8orYxfN/yr+C5KLfN74cNpCJBUMAaXiZOtNUiQayA17ZniQyuFyyFqu/y
- imQKjO8zk11Cr2HISU6X9Yg+3zaL4JveNoPxmB69Ol97l0TR/KFrDhBqQhG4l9OkiAwR
- 06nz0+FSDLErkNlEjcSxM3ecC50bDQU3Mu48E9C2YvPCZlGItQjGFptbp7tfR+wgWgV+
- C2EcbYDfyOEVP/0gqfoxd9G/uQYqOpvpdxRaqKJ2va0i5fZBmT6cfNzjF+GsegvKeTvm
- mJH6iF1ZGyNQgJePE6xKVDEiJFksKl/E/JkIS+zMnOX6p18Zq4zt2EOOXZjZcQs543lH
- Y/MQ==
-X-Gm-Message-State: AOAM532D9RLJOU5uoM6MvvLx6vNLapO4Eal9G+ujRlDT3+glVm9cmRfD
- koPisKsuIy2XRRlYs2L6rl4DawmomOMlGfxiITI=
-X-Google-Smtp-Source: ABdhPJy6RDfEZaWtQC21SyiSDdQSGrhXtfdRqaMWbIBMOfMRN4itoo0GNokQpdnOBwCfvh3rLFU3Y8pkgrFjNX9svrw=
-X-Received: by 2002:a6b:c047:: with SMTP id q68mr2357181iof.189.1606307175399; 
- Wed, 25 Nov 2020 04:26:15 -0800 (PST)
+ bh=XiKakSURFO208jdj/g4WyefYAwdsmqm+tfVWxbacYYE=;
+ b=rSLlPofanYpKvBqtJ28p9Vsn/7ELdp831pNwZZUswPX95cPb9AL5/5c3tIeADz3wlf
+ EfTgpfdNiZJxxqvuPLBY2Zkbd0Ysna8AXKGRICAVCaLHV4UGe38egpN1n2ygbSKV5kYH
+ PxjD4J9y6CPX8Qh8znF7z6i2LZbObqIye3w3OojP8LcFjQLPagoTnt8aGVjSBSn0dEvh
+ D/JL2g1G6ejcMNn6cT+ItMSr4OxRK5EZjgia95mGH2Jp9BjPGCMSDuPE5GwhD85v9DXz
+ OmdFJ/8p0SDQRraFnvMTrbgbdqjqpJTrDXj1/LzL0UMcCd3eKgfINrnYYIns2BbWq4ze
+ oxnA==
+X-Gm-Message-State: AOAM531t46MA2r1IFDRGqT3TGtA7fSr6Pykav+skAnTmzPFr72lSyclp
+ kXDkJJ/E4U9rzTHAU9DKwx37U3oHUp1cMwXq0ws=
+X-Google-Smtp-Source: ABdhPJwC6e6pTVp2mkOErqERZZ4c4/T+YhebnEnS+MuE2CxvllfWGBmtwGiH0r/8v8zL39SOF+KoiXaYoEbSxAOFxeU=
+X-Received: by 2002:a92:a804:: with SMTP id o4mr2715344ilh.125.1606307926577; 
+ Wed, 25 Nov 2020 04:38:46 -0800 (PST)
 MIME-Version: 1.0
-References: <CAKXUXMxFK9=rs+_VtYgA0S6X=ds0yfbTLu+7KQL9VYOsfVMh5Q@mail.gmail.com>
- <20201125112502.16351-1-yashsri421@gmail.com>
-In-Reply-To: <20201125112502.16351-1-yashsri421@gmail.com>
+References: <357371d0-a445-181a-3565-a3ec0debc622@gmail.com>
+ <20201118173950.32660-1-yashsri421@gmail.com>
+ <CAKXUXMw=NnO4pU01bmTH+pkLckcJzByPktGJPuLf9st+x4VbXQ@mail.gmail.com>
+ <30d4ab51-41e7-d535-7cb2-5ae9d02cf58b@gmail.com>
+ <CAKXUXMx9J4uJcjsUXQS0heV80qf6d0OgzJ-0kHtimW7nd3dXKw@mail.gmail.com>
+ <b2d1808d-1657-67c8-507e-b317b1ad86e8@gmail.com>
+ <CAKXUXMxA9jR00-qv7ng748hCx5GVN6zvR9uHfYQTdf0D35ju8Q@mail.gmail.com>
+In-Reply-To: <CAKXUXMxA9jR00-qv7ng748hCx5GVN6zvR9uHfYQTdf0D35ju8Q@mail.gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Wed, 25 Nov 2020 13:26:13 +0100
-Message-ID: <CAKXUXMxrXa2BFWKzYOuViOH8xGR6b+QDZ0oWBNnvahzKmGRwXw@mail.gmail.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
+Date: Wed, 25 Nov 2020 13:38:44 +0100
+Message-ID: <CAKXUXMy-S8VpR4-aTQcx-zg_4SXsb4Dj6qRS2ACi1TrgYjNa6g@mail.gmail.com>
+To: Aditya <yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] checkpatch: add fix and
- improve warning msg for Non-standard signature
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: add fix option
+	for NETWORKING_BLOCK_COMMENT_STYLE
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,236 +114,141 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 25, 2020 at 12:25 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+On Wed, Nov 25, 2020 at 8:19 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 >
-> Currently checkpatch warns for BAD_SIGN_OFF on non-standard signature
-> styles.
+> On Wed, Nov 25, 2020 at 8:02 AM Aditya <yashsri421@gmail.com> wrote:
+> >
+> > On 22/11/20 12:22 pm, Lukas Bulwahn wrote:
+> > > On Thu, Nov 19, 2020 at 11:44 AM Aditya <yashsri421@gmail.com> wrote:
+> > >>
+> > >> On 19/11/20 12:30 am, Lukas Bulwahn wrote:
+> > >>> On Mi., 18. Nov. 2020 at 18:40, Aditya Srivastava <yashsri421@gmail.com>
+> > >>> wrote:
+> > >>>
+> > >>>> Currently, checkpatch warns us for files in 'net/' and 'drivers/net',
+> > >>>> if we use an empty '/*' line for comment and contents of comments are
+> > >>>> in next line
+> > >>>>
+> > >>>> E.g., running checkpatch on commit 0d52497ac8ee ("iwlwifi: pcie: remove
+> > >>>> the refs / unrefs from the transport") reports this warning:
+> > >>>>
+> > >>>> WARNING: networking block comments don't use an empty /* line, use /*
+> > >>>> Comment...
+> > >>>> +               /*
+> > >>>> +                * If the TXQ is active, then set the timer, if not,
+> > >>>>
+> > >>>> Provide a fix by appending the current line contents to previous line
+> > >>>> and removing the current line
+> > >>>>
+> > >>>
+> > >>> Patch generally looks good.
+> > >>>
+> > >>> Can you check how many comments in net actually follow that style and how
+> > >>> many follow another style?
+> > >>>
+> > >>>
+> > >>
+> > >> In drivers/net:
+> > >> Wrong style: 14695 lines
+> > >> Correct style: 147961 lines (ie around 10 times)
+> > >>
+> > >> In net/:
+> > >> Wrong style: 5090 lines
+> > >> Correct style: 30485 lines
+> > >>
+> > >
+> > > Can you find out where the wrong style is used?
+> > >
+> > > Maybe the documentation is a bit outdated.
+> > >
+> > > For example, some drivers and some subdirectories might have settled
+> > > for another commenting style.
+> > >
+> > > I guess you can submit the fix option, but it could be that the whole
+> > > rule/feature is broken anyway... so I do not know if that fix is of
+> > > any good...
+> > >
+> > > I think it is better to actually understand, document and encode the
+> > > current rule that applies.
+> > >
+> > > Can you provide an evaluation where the different styles for
+> > > commenting are aggregated in a good way?
+> > > E.g., consistently within a file with style XYZ; mixed style but
+> > > 80-90% are of style ABC; consistent within a directory.
+> > >
+> > > If you think some cases are in the wrong style for some specific
+> > > files, simply send a patch correcting the commenting style and see.
+> > >
+> > Hi Lukas
+> > I have generated the reports regarding the comments used in various
+> > files at net/ and drivers/net.
+> > Directory wise reports:
+> >
+> > net/:
+> > https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/networking_block_comments/net/cumulative.txt
+> >
+> > drivers/net:
+> > https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/networking_block_comments/drivers_net/cumulative.txt
+> >
 >
-> A large number of these warnings occur because of typo mistakes in
-> signoffs. An evaluation over v4.13..v5.8 revealed that out of 539
-
-It is not a sign-off, it is a signature tag.
-
-> warnings due to Non-standard signatures, 87 are due to typo mistakes.
+> Can you sort that by the overall number of comments per directory?
 >
-why do you write "non-standard" capitalized?
-
-> Following are the standard signature tags which are often incorrectly
-> used with their counts(over v4.13..v5.8):
+> > File wise reports:
+> >
+> > net/:
+> > https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/networking_block_comments/net/cumulative_file.txt
+> >
+> > drivers/net:
+> > https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/networking_block_comments/drivers_net/cumulative_file.txt
+> >
+> > Some files in 'net/' follow the accepted syntax, such as:
+> > 'net/batman-adv => 985    0'.
+> >
+> > However, some completely not, such as:
+> > 'net/ax25 => 0    103'.
+> >
+> > Some even follow mixed syntax such as:
+> > 'net/netfilter => 87    125'.
+> >
+> > Similarly for drivers/net:
+> > drivers/net/ethernet/mellanox/mlxsw => 1071    0
+> > completely follow accepted syntax.
+> >
+> > drivers/net/wireless/ralink/rt2x00 => 98, 2082
+> > follow unaccepted syntax largely.
+> >
+> > whereas files such as drivers/net/wireless/ath/ath5k => 304, 486
+> > follow mixed syntax.
+> >
+> > It seems to me as the documentation might be outdated, as you had also
+> > suggested earlier, or maybe users are unaware of the documentation and
+> >  just use the syntax for conserving consistency of the code.
+> >
+> > What do you think?
+> >
 >
-
-This sentence above is not clear.
-
-> 1) Reviewed-by => 42
-> 2) Signed-off-by => 25
-> 3) Reported-by => 6
-> 4) Acked-by => 4
-> 5) Tested-by => 4
-> 6) Suggested-by => 4
+> I think it largely depends on the history of the code and developers
+> that take care...
 >
-
-You can probably drop the 1) to 6); simply indent it; I think "tag:
-count" or "tag     count" (where the spacing is aligned) is better
-than "tag => count"
-
-> Provide a fix by calculating levenshtein distance for the signature tag
-> with all the standard signatures and suggest a fix with signature, whose
-> edit distance is less than or equal to 2 with the misspelt signature.
->
-
-s/misspelt/misspelled/
-
-> Out of the 87 misspelt signatures fixed with this approach, 85 were
-> found to be good corrections and 2 were bad corrections.
->
-> The signature tags which are good corrections using this approach are:
->
-> 1)Reviwed-by (count: 19) => Reviewed-by
-> 2)Reviewd-by (count: 9) => Reviewed-by
-> 3)Singed-off-by (count: 8) => Signed-off-by
-> 4)Signed-of-by (count: 6) => Signed-off-by
-> 5)Rewieved-by (count: 3) => Reviewed-by
-> 6)Signed-off--by (count: 3) => Signed-off-by
-> 7)Revieved-by (count: 3) => Reviewed-by
-> 8)Reivewed-by (count: 2) => Reviewed-by
-> 9)Signef-off-by (count: 2) => Signed-off-by
-> 10)Test-by (count: 2) => Tested-by
-> 11)Acked_by (count: 2) => Acked-by
-> 12)Signed-off-by-by (count: 2) => Signed-off-by
-> 13)Reported-by-by (count: 1) => Reported-by
-> 14)Reporetd-by (count: 1) => Reported-by
-> 15)Reviewed--by (count: 1) => Reviewed-by
-> 16)Sugested-by (count: 1) => Suggested-by
-> 17)Suggested--by (count: 1) => Suggested-by
-> 18)Repoted-by (count: 1) => Reported-by
-> 19)Rported-by (count: 1) => Reported-by
-> 20)eigned-off-by (count: 1) => Signed-off-by
-> 21)Reveiwed-by (count: 1) => Reviewed-by
-> 22)igned-off-by (count: 1) => Signed-off-by
-> 23)Tested-by-by (count: 1) => Tested-by
-> 24)Sugessted-by (count: 1) => Suggested-by
-> 25)Rewiewed-by (count: 1) => Reviewed-by
-> 26)Teste-by (count: 1) => Tested-by
-> 27)Signee-off-by (count: 1) => Signed-off-by
-> 28)Signen-off-by (count: 1) => Signed-off-by
-> 29)Reviwed-By (count: 1) => Reviewed-by
-> 30)eported-by (count: 1) => Reported-by
-> 31)Reviewedy-by (count: 1) => Reviewed-by
-> 32)Siganed-off-by (count: 1) => Signed-off-by
-> 33)Ackedy-by (count: 1) => Acked-by
-> 34)Review-by (count: 1) => Reviewed-by
-> 35)Suggsted-by (count: 1) => Suggested-by
-> 36)Ack-by (count: 1) => Acked-by
-> 37)Reorted-by (count: 1) => Reported-by
+> We might just start to ask the larger areas to modify the rule for
+> their directory.
 >
 
-I do not think the enumeration of all those typos is interesting for
-the commit message. Maybe Joe will ask, but anyone else can imagine
-how such typos look like.
+I suggest we start with looking at the (let us say 10) "largest"
+directories with respect to number of comment blocks and then decide
+on a refinement of the rule for those subdirectories:
 
-If you think they should be kept, I would just sort it this way:
+A. Directory follows NETWORKING COMMENT STYLE; checkpatch shall warn
+to follow NETWORKING COMMENT STYLE.
+B. Directory follows GENERAL KERNEL COMMENT STYLE; checkpatch shall
+warn to follow GENERAL KERNEL COMMENT STYLE.
+C. Directory is too mixed; checkpatch shall not warn on any comment style.
 
-Typo variants of the tags were:
-
-Signed-off-by:
-  then list all variants
-
-Acked-by:
-  then list all variants
-
-Reported-by:
-  then list all variants
-
-etc.
-
-> Following were found to be bad corrections:
->
-> 1)-By (count: 1) => To
-
-How about not correcting to To: (It is simply too short).
-
-The explanation is getting better, give it another try. Then we might
-be in a good state for Joe and lkml.
+We can then start the discussion with the appropriate maintainer (and
+check what else this maintainer might maintain and if that is
+consistent) if they agree or disagree on that.
 
 Lukas
-
-> 2)Tweeted-by (count: 1) => Tested-by
->
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> changes in v2: modify commit message: replace specific example with overall evaluation, minor changes
->
-> changes in v3: summarize commit message
->
->  scripts/checkpatch.pl | 85 ++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 83 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index fdfd5ec09be6..775a49a06179 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -506,6 +506,77 @@ our $signature_tags = qr{(?xi:
->         Cc:
->  )};
->
-> +sub get_min {
-> +       my (@arr) = @_;
-> +       my $len = scalar @arr;
-> +       if((scalar @arr) < 1) {
-> +               # if underflow, return
-> +               return;
-> +       }
-> +       my $min = $arr[0];
-> +       for my $i (0 .. ($len-1)) {
-> +               if ($arr[$i] < $min) {
-> +                       $min = $arr[$i];
-> +               }
-> +       }
-> +       return $min;
-> +}
-> +
-> +sub get_edit_distance {
-> +       my ($str1, $str2) = @_;
-> +       my $len1 = length($str1);
-> +       my $len2 = length($str2);
-> +       # two dimensional array storing minimum edit distance
-> +       my @distance;
-> +       for my $i (0 .. $len1) {
-> +               for my $j (0 .. $len2) {
-> +                       if ($i == 0) {
-> +                               $distance[$i][$j] = $j;
-> +                       }
-> +                       elsif ($j == 0) {
-> +                               $distance[$i][$j] = $i;
-> +                       }
-> +                       elsif (substr($str1, $i-1, 1) eq substr($str2, $j-1, 1)) {
-> +                               $distance[$i][$j] = $distance[$i - 1][$j - 1];
-> +                       }
-> +                       else {
-> +                               my $dist1 = $distance[$i][$j - 1]; #insert distance
-> +                               my $dist2 = $distance[$i - 1][$j]; # remove
-> +                               my $dist3 = $distance[$i - 1][$j - 1]; #replace
-> +                               $distance[$i][$j] = 1 + get_min($dist1, $dist2, $dist3);
-> +                       }
-> +               }
-> +       }
-> +       return $distance[$len1][$len2];
-> +}
-> +
-> +sub get_standard_signature {
-> +       my ($sign_off) = @_;
-> +       $sign_off = lc($sign_off);
-> +       $sign_off =~ s/\-//g; # to match with formed hash
-> +       my @standard_signature_tags = (
-> +               'signed-off-by:', 'co-developed-by:', 'acked-by:', 'tested-by:',
-> +               'reviewed-by:', 'reported-by:', 'suggested-by:', 'to:', 'cc:'
-> +       );
-> +       # setting default values
-> +       my $standard_signature = 'signed-off-by';
-> +       my $min_edit_distance = 20;
-> +       my $edit_distance;
-> +       foreach (@standard_signature_tags) {
-> +               my $signature = $_;
-> +               $_ =~ s/\-//g;
-> +               $edit_distance = get_edit_distance($sign_off, $_);
-> +               if ($edit_distance < $min_edit_distance) {
-> +                       $min_edit_distance = $edit_distance;
-> +                       $standard_signature = $signature;
-> +               }
-> +       }
-> +        if($min_edit_distance<=2) {
-> +               return ucfirst($standard_signature);
-> +        }
-> +       return "";
-> +}
-> +
->  our @typeListMisordered = (
->         qr{char\s+(?:un)?signed},
->         qr{int\s+(?:(?:un)?signed\s+)?short\s},
-> @@ -2773,8 +2844,18 @@ sub process {
->                         my $ucfirst_sign_off = ucfirst(lc($sign_off));
->
->                         if ($sign_off !~ /$signature_tags/) {
-> -                               WARN("BAD_SIGN_OFF",
-> -                                    "Non-standard signature: $sign_off\n" . $herecurr);
-> +                               my $suggested_signature = get_standard_signature($sign_off);
-> +                               if ($suggested_signature eq "") {
-> +                                       WARN("BAD_SIGN_OFF",
-> +                                       "Non-standard signature: $sign_off\n" . $herecurr);
-> +                               }
-> +                               else {
-> +                                       if (WARN("BAD_SIGN_OFF",
-> +                                                "Non-standard signature: $sign_off. Please use '$suggested_signature' instead\n" . $herecurr) &&
-> +                                           $fix) {
-> +                                               $fixed[$fixlinenr] =~ s/$sign_off/$suggested_signature/;
-> +                                       }
-> +                               }
->                         }
->                         if (defined $space_before && $space_before ne "") {
->                                 if (WARN("BAD_SIGN_OFF",
-> --
-> 2.17.1
->
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
