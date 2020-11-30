@@ -8,96 +8,96 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 282C0C63777
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 09:11:01 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF91C5519F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 09:16:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 78CDC2074A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 09:11:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B6DD52074A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 09:15:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vUsFZJkj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78CDC2074A
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a+rz0XPP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B6DD52074A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0779F86CE6;
-	Mon, 30 Nov 2020 09:11:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1F5492045D;
+	Mon, 30 Nov 2020 09:15:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HrCG6sZ45cNl; Mon, 30 Nov 2020 09:10:57 +0000 (UTC)
+	with ESMTP id fwT67ocIsbEp; Mon, 30 Nov 2020 09:15:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 43BEC86CC1;
-	Mon, 30 Nov 2020 09:10:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2ADE92039C;
+	Mon, 30 Nov 2020 09:15:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1E37DC0859;
-	Mon, 30 Nov 2020 09:10:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C136C0859;
+	Mon, 30 Nov 2020 09:15:58 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2AD5DC0052
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9D1FCC0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 09:10:55 +0000 (UTC)
+ Mon, 30 Nov 2020 09:15:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 18F19873BF
+ by hemlock.osuosl.org (Postfix) with ESMTP id 82E2E873BE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 09:10:55 +0000 (UTC)
+ Mon, 30 Nov 2020 09:15:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EDoa2DtTleVz
+ with ESMTP id CL-WrGOAljfc
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 09:10:52 +0000 (UTC)
+ Mon, 30 Nov 2020 09:15:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 77E5B873BE
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 306FD873B1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 09:10:52 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id w202so9980275pff.10
+ Mon, 30 Nov 2020 09:15:55 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id e5so952196pjt.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 01:10:52 -0800 (PST)
+ Mon, 30 Nov 2020 01:15:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=vp1UjA5b9iBMvCva/GTPQT8GBuBUjUwESyb+0XNUQHk=;
- b=vUsFZJkjljQRsf9VNi2Ik/OOCnpFaA9u+T+dZ3uLQxbig+bKcH8QHlpPjMdRkRsfxd
- uY+XECfpydm0V5nzLb3LPKqPejeCdi3SqQ1eMxhyTbDVp12O8my2yaI6S1xk/F62gG+z
- cLnKUmG/GIa6sE6PiraFvPdBIOn94olLZESrADS5XL20qKNMnB8ptlq8xGjAHU9B7XF9
- fq+4TZgC1hY89HS46clIWjLZKAXMBJMc2VyNV0i1pi0KRmou0MHdeaYJ/qNVrKgeCU4K
- u9xMoWxwjAtOcsBnxXikWChGpGJP7wHXhYsc/9tdDV+VwHYDmQdoLYB3/yk9en/sENx1
- HBRw==
+ bh=FXZaPZ6Wa2Q+4SL2vnWGOCxVYyiUYdZrOWiFlU+FIk8=;
+ b=a+rz0XPPQfOkYA/WQqaYHGtorilV18qfphK1msjTfOrgdHfTHJu9czmXuGa/sJFpbC
+ TYfGL7lU8se6EtNDZuaY6ZF25tep1rcsjwRR6+C7gJ/ADMFzK2JLW1m5C/lvSIX1LfjL
+ vZLM/j1+t1Lpykl9mbgKHLjVrKZYjbtJ/Hu8DI6cQJrZ+ix9flUQgNPJ8KFO60RkKa1r
+ pdecNr/D3DTDSNZCo2ITBAlg1f8ysLjC5JwG6epyEAU3Idy0NymL8bqVp6BdVJ44L8YE
+ NhyoKoFH3ym69VtEabbp5QNu7UovRuU/h0Uwk6CIqC2NvmMDZK7QfuEI6d1phA1UtNDA
+ MmeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=vp1UjA5b9iBMvCva/GTPQT8GBuBUjUwESyb+0XNUQHk=;
- b=hfNv83iaRtqkWT3C/IIXhS9XYoo9ENx/0IsH7eXiSj/rCPZPTif6NtDpwmDgOWhljP
- Hd6wktX5C1TOIK5dSw6qr+CL1mBVAq0EfAzWDoiSu1HM5JFJIZSWBELX+XYeWARxEN7S
- Ew67C5/7fVZlKvcGaFX8MZitxEljG1X+hAKcYpCrs0XgxFCVnwVQdHPJ647GWeeAIshV
- nr9PFpjlZEI+9HE82dJ6E9HEBRm52iHqUWSBJ//Q0KCvqF6Gdqw/EU+3W9taZssIhmNu
- nKKWbj8h6e80JA+hVeUPjNLsKPKg+57jU1Gkhv5WW55XXtw6/Wcs/uoPt8e/cwv/f6z8
- Hk6A==
-X-Gm-Message-State: AOAM530TdjZ4bTccEp7xIYxeQdY3ZS7g2Jx8l9azg9rLI7kObzA6+/L/
- rFydHoMHNwKm2Xzy8qb1jiI=
-X-Google-Smtp-Source: ABdhPJzQl1jY6Z9l133uc1HNol3T7kcSrpSQR4y0UOJo2FSrlKImdeFFgyjdXofTzMKR/N+dirFEsw==
-X-Received: by 2002:aa7:8dc1:0:b029:197:5d15:279d with SMTP id
- j1-20020aa78dc10000b02901975d15279dmr17245610pfr.71.1606727451760; 
- Mon, 30 Nov 2020 01:10:51 -0800 (PST)
+ bh=FXZaPZ6Wa2Q+4SL2vnWGOCxVYyiUYdZrOWiFlU+FIk8=;
+ b=Joe8lHWOAcQeOsp1NMrvzq2iyZawRCe/whriSzP/XfIj+1P4wISbm3WmljeR3xBtWA
+ BLXb8nHjkxXTnCN6vkdugBHdXsMk6uNjwxrqCKNRnlwV2MNfj46CPmY7BgEmSqswvkkN
+ FGAFuG+uKf54tu1DV8cHkevTUX66/yJiYZmi4PlhaHJgWBLwML00tx4q241GB0M4WQ+s
+ KNkE1H1slOJQWovESS/tahGA43B0gdJcnRw/exJT4ZRpXXjmb1uH0V/by+YKpSUrKcfd
+ KCsoNG0C9QncbMubqrP3HDMfKPfKpE0sGEuU4uu0As+l2Ew8PNINqABuNxaiEns/0cex
+ kjcg==
+X-Gm-Message-State: AOAM530kVStV4O6372WDEYSFRncJIiptnso2oXWKw+QYx6JOeCxLy3kk
+ O8OOmgR9VAPhtoU8nmA+xOw=
+X-Google-Smtp-Source: ABdhPJwtwyU15Po6OMUqRSu8ArVRfNBEfzMPAapekf9/lYW0UFYwnwrl6D8XGQNQvBG4MmQt938PpQ==
+X-Received: by 2002:a17:90a:fa81:: with SMTP id
+ cu1mr7080966pjb.39.1606727754623; 
+ Mon, 30 Nov 2020 01:15:54 -0800 (PST)
 Received: from localhost.localdomain ([2402:3a80:419:6b90:c59c:7043:caf9:832d])
  by smtp.googlemail.com with ESMTPSA id
- y188sm15852589pfy.98.2020.11.30.01.10.48
+ fs12sm12637132pjb.49.2020.11.30.01.15.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Nov 2020 01:10:51 -0800 (PST)
+ Mon, 30 Nov 2020 01:15:54 -0800 (PST)
 From: Aditya Srivastava <yashsri421@gmail.com>
 To: joe@perches.com
-Date: Mon, 30 Nov 2020 14:40:42 +0530
-Message-Id: <20201130091042.14987-1-yashsri421@gmail.com>
+Date: Mon, 30 Nov 2020 14:45:45 +0530
+Message-Id: <20201130091545.15585-1-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <21acc492ab37acc42390abffb61aed370a22118.camel@perches.com>
-References: <21acc492ab37acc42390abffb61aed370a22118.camel@perches.com>
+In-Reply-To: <20201130091042.14987-1-yashsri421@gmail.com>
+References: <20201130091042.14987-1-yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, yashsri421@gmail.com
-Subject: [Linux-kernel-mentees] [PATCH v3] Currently checkpatch warns us if
-	there is no 'Signed-off-by' line for the patch.
+Subject: [Linux-kernel-mentees] [PATCH v3] checkpatch: add fix option for
+	MISSING_SIGN_OFF
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,6 +115,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
+
+Currently checkpatch warns us if there is no 'Signed-off-by' line for
+the patch.
 
 E.g., running checkpatch on commit 9ac060a708e0 ("leaking_addresses:
 Completely remove --version flag") reports this error:
