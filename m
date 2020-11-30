@@ -1,80 +1,103 @@
-Return-Path: <SRS0=lIAf=FD=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=9pg8=FE=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD99C3E8C5
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 29 Nov 2020 22:27:36 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 282C0C63777
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 09:11:01 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2F432078D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 29 Nov 2020 22:27:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E2F432078D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 78CDC2074A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 09:11:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vUsFZJkj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78CDC2074A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 79EB686276;
-	Sun, 29 Nov 2020 22:27:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pj_nZXSNnpDj; Sun, 29 Nov 2020 22:27:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6A8B786228;
-	Sun, 29 Nov 2020 22:27:33 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 40077C0859;
-	Sun, 29 Nov 2020 22:27:33 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D7B30C0052
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Nov 2020 22:27:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D271D86F89
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Nov 2020 22:27:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0779F86CE6;
+	Mon, 30 Nov 2020 09:11:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HrCG6sZ45cNl; Mon, 30 Nov 2020 09:10:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 43BEC86CC1;
+	Mon, 30 Nov 2020 09:10:57 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1E37DC0859;
+	Mon, 30 Nov 2020 09:10:57 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2AD5DC0052
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 30 Nov 2020 09:10:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 18F19873BF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 30 Nov 2020 09:10:55 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KjVh2frJtZY1
+ with ESMTP id EDoa2DtTleVz
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Nov 2020 22:27:30 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0162.hostedemail.com
- [216.40.44.162])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C99DB86F80
+ Mon, 30 Nov 2020 09:10:52 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 77E5B873BE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Nov 2020 22:27:30 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay01.hostedemail.com (Postfix) with ESMTP id 63192100E7B40;
- Sun, 29 Nov 2020 22:27:29 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: wheel10_07047072739c
-X-Filterd-Recvd-Size: 3936
-Received: from XPS-9350.home (unknown [47.151.128.180])
- (Authenticated sender: joe@perches.com)
- by omf05.hostedemail.com (Postfix) with ESMTPA;
- Sun, 29 Nov 2020 22:27:28 +0000 (UTC)
-Message-ID: <45c8575f69602a3ad6bc3129ab99905e9f233af0.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Aditya <yashsri421@gmail.com>, Andrew Morton <akpm@linux-foundation.org>
-Date: Sun, 29 Nov 2020 14:27:27 -0800
-In-Reply-To: <a0f6479e-0c1b-a2f8-a265-32cc31313870@gmail.com>
-References: <afaa79a6d86a4184878595ced3f2de1a92a4058c.camel@perches.com>
- <20201123102818.24364-1-yashsri421@gmail.com>
- <a0f6479e-0c1b-a2f8-a265-32cc31313870@gmail.com>
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
+ Mon, 30 Nov 2020 09:10:52 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id w202so9980275pff.10
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 30 Nov 2020 01:10:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=vp1UjA5b9iBMvCva/GTPQT8GBuBUjUwESyb+0XNUQHk=;
+ b=vUsFZJkjljQRsf9VNi2Ik/OOCnpFaA9u+T+dZ3uLQxbig+bKcH8QHlpPjMdRkRsfxd
+ uY+XECfpydm0V5nzLb3LPKqPejeCdi3SqQ1eMxhyTbDVp12O8my2yaI6S1xk/F62gG+z
+ cLnKUmG/GIa6sE6PiraFvPdBIOn94olLZESrADS5XL20qKNMnB8ptlq8xGjAHU9B7XF9
+ fq+4TZgC1hY89HS46clIWjLZKAXMBJMc2VyNV0i1pi0KRmou0MHdeaYJ/qNVrKgeCU4K
+ u9xMoWxwjAtOcsBnxXikWChGpGJP7wHXhYsc/9tdDV+VwHYDmQdoLYB3/yk9en/sENx1
+ HBRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=vp1UjA5b9iBMvCva/GTPQT8GBuBUjUwESyb+0XNUQHk=;
+ b=hfNv83iaRtqkWT3C/IIXhS9XYoo9ENx/0IsH7eXiSj/rCPZPTif6NtDpwmDgOWhljP
+ Hd6wktX5C1TOIK5dSw6qr+CL1mBVAq0EfAzWDoiSu1HM5JFJIZSWBELX+XYeWARxEN7S
+ Ew67C5/7fVZlKvcGaFX8MZitxEljG1X+hAKcYpCrs0XgxFCVnwVQdHPJ647GWeeAIshV
+ nr9PFpjlZEI+9HE82dJ6E9HEBRm52iHqUWSBJ//Q0KCvqF6Gdqw/EU+3W9taZssIhmNu
+ nKKWbj8h6e80JA+hVeUPjNLsKPKg+57jU1Gkhv5WW55XXtw6/Wcs/uoPt8e/cwv/f6z8
+ Hk6A==
+X-Gm-Message-State: AOAM530TdjZ4bTccEp7xIYxeQdY3ZS7g2Jx8l9azg9rLI7kObzA6+/L/
+ rFydHoMHNwKm2Xzy8qb1jiI=
+X-Google-Smtp-Source: ABdhPJzQl1jY6Z9l133uc1HNol3T7kcSrpSQR4y0UOJo2FSrlKImdeFFgyjdXofTzMKR/N+dirFEsw==
+X-Received: by 2002:aa7:8dc1:0:b029:197:5d15:279d with SMTP id
+ j1-20020aa78dc10000b02901975d15279dmr17245610pfr.71.1606727451760; 
+ Mon, 30 Nov 2020 01:10:51 -0800 (PST)
+Received: from localhost.localdomain ([2402:3a80:419:6b90:c59c:7043:caf9:832d])
+ by smtp.googlemail.com with ESMTPSA id
+ y188sm15852589pfy.98.2020.11.30.01.10.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Nov 2020 01:10:51 -0800 (PST)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: joe@perches.com
+Date: Mon, 30 Nov 2020 14:40:42 +0530
+Message-Id: <20201130091042.14987-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <21acc492ab37acc42390abffb61aed370a22118.camel@perches.com>
+References: <21acc492ab37acc42390abffb61aed370a22118.camel@perches.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v7] checkpatch: add fix option
-	for LOGICAL_CONTINUATIONS
+ linux-kernel@vger.kernel.org, yashsri421@gmail.com
+Subject: [Linux-kernel-mentees] [PATCH v3] Currently checkpatch warns us if
+	there is no 'Signed-off-by' line for the patch.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,109 +109,96 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, 2020-11-29 at 14:25 +0530, Aditya wrote:
-> On 23/11/20 3:58 pm, Aditya Srivastava wrote:
-> > Currently, checkpatch warns if logical continuations are placed at the
-> > start of a line and not at the end of previous line.
+E.g., running checkpatch on commit 9ac060a708e0 ("leaking_addresses:
+Completely remove --version flag") reports this error:
 
-Acked-by: Joe Perches <joe@perches.com>
+ERROR: Missing Signed-off-by: line(s)
 
-> > =
+Provide a fix by adding a Signed-off-by line corresponding to the author
+of the patch before the patch separator line.
 
-> > E.g., running checkpatch on commit 3485507fc272 ("staging:
-> > bcm2835-camera: Reduce length of enum names") reports:
-> > =
+Also, avoid this fix with the Non-standard signature warning, as the
+missing sign off is most likely because of typo.
 
-> > CHECK:LOGICAL_CONTINUATIONS: Logical continuations should be on the
-> > previous line
-> > +	if (!ret
-> > +	    && camera_port =3D=3D
-> > =
+E.g. for commit 8cde5d5f7361 ("bus: ti-sysc: Detect omap4 type timers
+for quirk") we get missing sign off as well as bad sign off warnings for:
 
-> > Provide a simple fix by inserting logical operator at the last
-> > non-comment, non-whitespace char of the previous line and removing from
-> > current line, if both the lines are additions(ie start with '+')
-> > =
+Siganed-off-by: Tony Lindgren <tony@atomide.com>
 
-> > Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> > ---
-> > changes in v2: quote $operator at substitution
-> > =
+Here it is probably best to fix the typo with BAD_SIGN_OFF warning and
+avoid adding an additional signoff.
 
-> > changes in v3: add a check for previous line ending with comment;
-> > If so, insert $operator at the last non-comment, non-whitespace char of=
- the previous line
-> > =
+Suggested-by: Joe Perches <joe@perches.com>
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+applies over next-20201120 and my last changes at:https://lore.kernel.org/linux-kernel-mentees/db1195235752685fc85fb52ecb1b1af3f35b5394.camel@perches.com/T/#u
 
-> > changes in v4: improve the matching mechanism by matching line terminat=
-ion at comment or white space;
-> > insert the operator before comments (if any) separated by a whitespace;
-> > append the comment and its pre-whitespace after the inserted operator (=
-if comment was present),
-> > ie if no comment was present nothing will be inserted after the operator
-> > =
+Changes in v2:
+  Add space after 'if'
+  Add check for $patch_separator_linenr to be greater than 0
 
-> > changes in v5: improve regex for comment and line end with '$;'
-> > =
+Changes in v3:
+  Give MISSING_SIGN_OFF warning irrespective of the value of $non_standard_signature, add check with fix option instead
+  Modify commit message accordingly
 
-> > changes in v6: remove if-check; modify commit message
-> > =
+ scripts/checkpatch.pl | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-> > changes in v7: add an extra '$' symbol at '$fixed[$fixlinenr - 1]' rege=
-x substitution to ensure match at line end
-> > =
-
-> > =A0scripts/checkpatch.pl | 12 ++++++++++--
-> > =A01 file changed, 10 insertions(+), 2 deletions(-)
-> > =
-
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > index 5b1a5a65e69a..fb3c50e0bde2 100755
-> > --- a/scripts/checkpatch.pl
-> > +++ b/scripts/checkpatch.pl
-> > @@ -3553,8 +3553,16 @@ sub process {
-> > =A0
-> > =
-
-> > =A0# check for && or || at the start of a line
-> > =A0		if ($rawline =3D~ /^\+\s*(&&|\|\|)/) {
-> > -			CHK("LOGICAL_CONTINUATIONS",
-> > -			    "Logical continuations should be on the previous line\n" . $her=
-eprev);
-> > +			my $operator =3D $1;
-> > +			if (CHK("LOGICAL_CONTINUATIONS",
-> > +				"Logical continuations should be on the previous line\n" . $herepr=
-ev) &&
-> > +			    $fix && $prevrawline =3D~ /^\+/) {
-> > +				# insert logical operator at last non-comment, non-whitepsace char=
- on previous line
-> > +				$prevline =3D~ /[\s$;]*$/;
-> > +				my $line_end =3D substr($prevrawline, $-[0]);
-> > +				$fixed[$fixlinenr - 1] =3D~ s/\Q$line_end\E$/ $operator$line_end/;
-> > +				$fixed[$fixlinenr] =3D~ s/\Q$operator\E\s*//;
-> > +			}
-> > =A0		}
-> > =A0
-> > =
-
-> > =A0# check indentation starts on a tab stop
-> > =
-
-> =
-
-> Hi Joe
-> You probably missed this patch. Please review :)
-> =
-
-> Thanks
-> Aditya
-
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 4a026926139f..3abf34bb9b00 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2462,6 +2462,8 @@ sub process {
+ 
+ 	my $last_blank_line = 0;
+ 	my $last_coalesced_string_linenr = -1;
++	my $patch_separator_linenr = 0;
++	my $non_standard_signature = 0;
+ 
+ 	our @report = ();
+ 	our $cnt_lines = 0;
+@@ -2813,6 +2815,10 @@ sub process {
+ 		if ($line =~ /^---$/) {
+ 			$has_patch_separator = 1;
+ 			$in_commit_log = 0;
++			# to add missing signed-off-by line before diff(s)
++			if ($patch_separator_linenr == 0) {
++				$patch_separator_linenr = $linenr;
++			}
+ 		}
+ 
+ # Check if MAINTAINERS is being updated.  If so, there's probably no need to
+@@ -2842,6 +2848,7 @@ sub process {
+ 						$fixed[$fixlinenr] =~ s/$sign_off/$suggested_signature/;
+ 					}
+ 				}
++				$non_standard_signature = 1;
+ 			}
+ 			if (defined $space_before && $space_before ne "") {
+ 				if (WARN("BAD_SIGN_OFF",
+@@ -7188,8 +7195,11 @@ sub process {
+ 	}
+ 	if ($is_patch && $has_commit_log && $chk_signoff) {
+ 		if ($signoff == 0) {
+-			ERROR("MISSING_SIGN_OFF",
+-			      "Missing Signed-off-by: line(s)\n");
++			if (ERROR("MISSING_SIGN_OFF",
++				  "Missing Signed-off-by: line(s)\n") &&
++			    $fix && !$non_standard_signature && $patch_separator_linenr > 0) {
++				fix_insert_line($patch_separator_linenr - 1, "Signed-off-by: $author");
++			}
+ 		} elsif ($authorsignoff != 1) {
+ 			# authorsignoff values:
+ 			# 0 -> missing sign off
+-- 
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
