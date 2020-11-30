@@ -7,93 +7,90 @@ X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB9AC64E7B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 15:23:46 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4795DC63777
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 15:51:58 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4B1F20719
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 15:23:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 98F45205F4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Nov 2020 15:51:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IPiQmLpU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4B1F20719
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CA2hTKbC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98F45205F4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5FF5085F8D;
-	Mon, 30 Nov 2020 15:23:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Lakjb7s45i1s; Mon, 30 Nov 2020 15:23:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6492E80EB2;
-	Mon, 30 Nov 2020 15:23:43 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 491C0C0859;
-	Mon, 30 Nov 2020 15:23:43 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5F528C0052
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 15:23:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5B6AF203B0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 15:23:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0F86522BCC;
+	Mon, 30 Nov 2020 15:51:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ggiz-TqdnFfX; Mon, 30 Nov 2020 15:51:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 624AC20116;
+	Mon, 30 Nov 2020 15:51:56 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 46DD9C0859;
+	Mon, 30 Nov 2020 15:51:56 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D3B90C0052
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 30 Nov 2020 15:51:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id C20B987170
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 30 Nov 2020 15:51:54 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Qpx2hU95CGsJ
+ with ESMTP id dyoaSU8KtJwH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 15:23:41 +0000 (UTC)
+ Mon, 30 Nov 2020 15:51:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by silver.osuosl.org (Postfix) with ESMTPS id CB5FA2039D
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 214C487167
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 15:23:41 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id e23so5408235pgk.12
+ Mon, 30 Nov 2020 15:51:54 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id f20so3851467ioc.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Nov 2020 07:23:41 -0800 (PST)
+ Mon, 30 Nov 2020 07:51:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/rT7ZIlRzSKunUJ2jMK58oVSr9Pw7MngCs1Xs+HeufU=;
- b=IPiQmLpU+unlrlntFMQM8SE0R+12/9PGGmrBpIpXenI5TRULZIqVRzypADw2Jaxd3i
- 4ovMWGfha7mJYhxJ7MinL5vu9igbDwXC0LPQUfKT+zCk3sXflS7byfo4P/jkDH4eriSN
- OMIQuGcYo1piddOB2KfndhNx3IVL4rPnn3IvQ2nJOq/vMcIyMFmytYpILZCdGR+X2hBI
- PdOrSQSgyyUNmZ2bQXZry/T9bbeFxOHu0zVyAstZYmNF9DGRhOu49IqFmO/Xwb9T6mgD
- GNwd6L4qkF2PGda+asAKAGum2iDAIMvVINMtm98LVY+HQMlq5nF85W37XUWH0zQvG0+q
- AsXw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3tzHBYv4kAgDPAOFnmDkgtRo0X1jUWkUmDcEEwAaNgw=;
+ b=CA2hTKbCINssMWV7MsfK61Yfs/3LNLleFBaMj/H3JJ06IH9C6bf/+1o6Q8pMmsD/wt
+ sv+aTNXuC8Iufa4F/Qy6tUmmKBJ78283pbW9gilk2E3e0lyEQ+phBD1bN4sI95csMqJk
+ lUxrKtxftv15Y6/2P3yIIkd8zXq2paPaKsJ+i9+iCgCiGS4tQMA4xKnQ4sjdh2aGgM22
+ 5wRstoovpEEo2YNL4I7o3QnhUhSsrVzOtT/oPxJYaB76pqQG+lD26c3189pX+90VUGYM
+ ZDOwb3ICtv4IVt3AHOgRtEO45mp3+zhyArmcxA3kQUYgNNbAVHEu1YFCMhUUegDM/eNk
+ gU5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/rT7ZIlRzSKunUJ2jMK58oVSr9Pw7MngCs1Xs+HeufU=;
- b=McAzFi8fQ6TP3wet+N9V288LVNvgQ/9cfvBGK3FvTCzJgJL+2b40/NebpMgAKxpQHS
- KUGidN95lPbPm0qKDio1B/IyM9R82cf+FdUS45TIgDR6XW4MlgfC7rvLVNjtkZl31mfA
- zCKmkg6oPyfq0BynZSy7yMwhMufz6FX5vsXJxwF+s78PQECY0x/rHQs5pYWzcdRd/BLW
- QFspDdmwFA9MHsTp0Rr8+hE/P7T9nxPiXqRrpXAOZMyPoW95oPnVXNBSG0D6A/qYkoU9
- 78m3JJGNfNUIWuNqOKMqVCFuToJiuMkHZjSdlj1eXlXxrFRWF0LWAHIN8SBsoG5M43Xq
- GPlg==
-X-Gm-Message-State: AOAM531O9umcjuDYcCgOE9lpbRT9c5VX7Cjbdkxhgfh8J1TLekY7W22I
- M631wEVA7Km1ekqXxl1Zjg==
-X-Google-Smtp-Source: ABdhPJwdgjtNeJQ0YkLQYG15ocYorEsCxZ6iPacdbOjuI7Ig3BghIHVL49XgUI0IaHoxi7DhmaVaVw==
-X-Received: by 2002:a65:6215:: with SMTP id d21mr18728738pgv.134.1606749821296; 
- Mon, 30 Nov 2020 07:23:41 -0800 (PST)
-Received: from PWN (59-125-13-244.HINET-IP.hinet.net. [59.125.13.244])
- by smtp.gmail.com with ESMTPSA id 143sm17146722pfc.119.2020.11.30.07.23.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Nov 2020 07:23:40 -0800 (PST)
-Date: Mon, 30 Nov 2020 10:23:29 -0500
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Message-ID: <20201130152329.GA25773@PWN>
-References: <CABJPP5CZhURjFi9xE9KpxKSygS2z_8pbnrvhvV0nQGP9+vZ5_g@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3tzHBYv4kAgDPAOFnmDkgtRo0X1jUWkUmDcEEwAaNgw=;
+ b=SdBqDa37gDwocR/1Q3i+zoLqUWX+xJtF18DjBEmBtX6r3/lHOZZuqBU27gL2rnkxa/
+ 6zGiPe8jaMWjyiqQomCx4wZOSk9fbRSFNZfh4UjWAMpyNLyK4TFFDVqu207/0ELvoqdo
+ GgOALwv1lGwJTX8QOMK/9erhAx+M/2Qys8qrUC0IGnRIjZaI3B3zdfPcosVmMkj1b6Fg
+ a3RII6vr5LEcht1S92VCq7OrBji6uDxsMzCgFE3GDFX63SE3Lh+dfuwHHKiBvhdRKnEF
+ YmwFxpidY0oovnr6vq3gDawSjDIPJsuYCCYi5PumpT+SKfWzpUuBMpF8GKMVg+g014UK
+ duhw==
+X-Gm-Message-State: AOAM533Ngy+FkD51emIWuOhd1hSfSK0ZhmNAXpG1upZDe/VfqooFRF7L
+ XWn4dkrNpBKqpdq2uPS0BKcbGwPUpGMpKYtX5ng=
+X-Google-Smtp-Source: ABdhPJzryPPaPbJtXxg1aFW2SMdWt9UchI/1LnwR+Z7Jz/VLh5v8SzB8LXiPpO+DT1rTDyGc9d/wtVrUzRccGuoiMno=
+X-Received: by 2002:a6b:b2c6:: with SMTP id
+ b189mr12387866iof.183.1606751513158; 
+ Mon, 30 Nov 2020 07:51:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CABJPP5CZhURjFi9xE9KpxKSygS2z_8pbnrvhvV0nQGP9+vZ5_g@mail.gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+References: <CABJPP5CZhURjFi9xE9KpxKSygS2z_8pbnrvhvV0nQGP9+vZ5_g@mail.gmail.com>
+ <20201130152329.GA25773@PWN>
+In-Reply-To: <20201130152329.GA25773@PWN>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 30 Nov 2020 16:51:42 +0100
+Message-ID: <CAKXUXMxGdWNQy95AEB1Ph8dqBgambD2t6s+--g0aT2VYj0q__g@mail.gmail.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] Possible new warning for checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -112,37 +109,46 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Nov 30, 2020 at 08:28:23PM +0530, Dwaipayan Ray wrote:
-> Hi Lukas,
-> I was having a talk with Peilin and a possible new idea came up.
-> It's about lines in the commit message that start with a '#'.
+On Mon, Nov 30, 2020 at 4:23 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
 >
-> Normally if a patch contains lines starting with '#' in the commit
-> message, when they are applied they successfully appear in the
-> git log. But if a maintainer for some reason decides to rebase and
-> reword the commit message for whatever reason, the # lines are gone.
-
-Thanks for bringing this up Dwaipayan!
-
-Yes, for example, if one included some code examples (e.g. `#define ...`)
-in the commit message, then the maintainer applied, and reworded the
-commit to add their own Signed-off-by:, then all the # lines are gone.
-
-> Peilin had a look at it and he was able to successfully reproduce this
-> fault.
+> On Mon, Nov 30, 2020 at 08:28:23PM +0530, Dwaipayan Ray wrote:
+> > Hi Lukas,
+> > I was having a talk with Peilin and a possible new idea came up.
+> > It's about lines in the commit message that start with a '#'.
+> >
+> > Normally if a patch contains lines starting with '#' in the commit
+> > message, when they are applied they successfully appear in the
+> > git log. But if a maintainer for some reason decides to rebase and
+> > reword the commit message for whatever reason, the # lines are gone.
 >
-> Now would it make sense if a warning for such lines starting with '#' in
-> the commit message are emitted by checkpatch itself? I have no idea
-> what other developers do, so I could be wrong at this point. But I would
-> like your opinion.
+> Thanks for bringing this up Dwaipayan!
+>
+> Yes, for example, if one included some code examples (e.g. `#define ...`)
+> in the commit message, then the maintainer applied, and reworded the
+> commit to add their own Signed-off-by:, then all the # lines are gone.
+>
+> > Peilin had a look at it and he was able to successfully reproduce this
+> > fault.
+> >
+> > Now would it make sense if a warning for such lines starting with '#' in
+> > the commit message are emitted by checkpatch itself? I have no idea
+> > what other developers do, so I could be wrong at this point. But I would
+> > like your opinion.
+>
+> I admit it is a beginner's mistake, but I myself learned it in a hard
+> way (i.e. by having a patch mainline'd then seeing these # lines gone),
+> so personally I hope this becomes a new feature of checkpatch.
+>
 
-I admit it is a beginner's mistake, but I myself learned it in a hard
-way (i.e. by having a patch mainline'd then seeing these # lines gone),
-so personally I hope this becomes a new feature of checkpatch.
+I think this makes sense and checkpatch should warn about that;
+probably the easy way to fix it is just to indent such lines by a few
+spaces, e.g., four spaces.
 
-Thank you,
-Peilin Ye
+Lukas
 
+> Thank you,
+> Peilin Ye
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
