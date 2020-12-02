@@ -2,83 +2,114 @@ Return-Path: <SRS0=wdXo=FG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA31DC64E7C
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 21:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D443CC64E7C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 22:58:49 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C890621D91
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 21:03:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C890621D91
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2A2B9221FD
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 22:58:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2A2B9221FD
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 2A3C220425;
-	Wed,  2 Dec 2020 21:03:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8A07A2E1F0;
+	Wed,  2 Dec 2020 22:58:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tZmKfvQSxzSQ; Wed,  2 Dec 2020 21:03:30 +0000 (UTC)
+	with ESMTP id CkaSOcFU0bL9; Wed,  2 Dec 2020 22:58:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 32213203EA;
-	Wed,  2 Dec 2020 21:03:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A3B7D2E17D;
+	Wed,  2 Dec 2020 22:58:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 157A1C163C;
-	Wed,  2 Dec 2020 21:03:30 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DF616C0052
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8617EC163C;
+	Wed,  2 Dec 2020 22:58:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CCF8BC0FA7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 21:03:28 +0000 (UTC)
+ Wed,  2 Dec 2020 22:58:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id CBFB420425
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B7ABB87376
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 21:03:28 +0000 (UTC)
+ Wed,  2 Dec 2020 22:58:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JLbO1BbGSOYp
+ with ESMTP id dU8Ia3NXhoEO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 21:03:27 +0000 (UTC)
-X-Greylist: delayed 00:52:51 by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0023.hostedemail.com
- [216.40.44.23])
- by silver.osuosl.org (Postfix) with ESMTPS id 1A802203EA
+ Wed,  2 Dec 2020 22:58:43 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 8276286EDD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 21:03:27 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 2542118021E57
+ Wed,  2 Dec 2020 22:58:43 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id t8so62062iov.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 21:03:26 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay03.hostedemail.com (Postfix) with ESMTP id B7ABA837F24C;
- Wed,  2 Dec 2020 21:03:23 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: kick66_3f163df273b6
-X-Filterd-Recvd-Size: 2574
-Received: from XPS-9350.home (unknown [47.151.128.180])
- (Authenticated sender: joe@perches.com)
- by omf16.hostedemail.com (Postfix) with ESMTPA;
- Wed,  2 Dec 2020 21:03:22 +0000 (UTC)
-Message-ID: <51225354b2a533250dad967ef413aaa4f41dfd66.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>, Andrew Morton
- <akpm@linux-foundation.org>
-Date: Wed, 02 Dec 2020 13:03:21 -0800
-In-Reply-To: <20201202205740.127986-1-dwaipayanray1@gmail.com>
-References: <20201202205740.127986-1-dwaipayanray1@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ Wed, 02 Dec 2020 14:58:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5cB+/vzqNyGLlY6gjXLdgcPyiXRJ9zfEjY/dw9Idssc=;
+ b=X8557/AaDSnc9UMi9+sP+NzMIycm4dY1OUc43TJwqCyubHtdOXlntePdg7MSqERib7
+ 2MHzSJXG1VwTGZwJ7AAfpgYiHYKhdFqqbt54Q++1yolC8XAg97L4/l6bPtqFRKYwZHMc
+ Aw1BX3BTAcOw807GmPNnGGsHLfghlU/C8d3+s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5cB+/vzqNyGLlY6gjXLdgcPyiXRJ9zfEjY/dw9Idssc=;
+ b=eJrrpRQxjEmp4GvD51NXNGEJqHjEaTN9hj63hWjtIerX2U5ab4XgC+f3JL16BbC6nd
+ OOufNTxONAgRSd5e11jNLF/8s1cR9z9B9LpKNyrGNZQo+sKgHuh3N6aG0Ve7RzoKmv2s
+ HEyLCTIru9f7c1cdr3KWNYwGrlYF1QOVYhl85oaTB4LNb09TbPQrRZNPuSh61R5KrfCE
+ fN/kNB42WwwBU+GU6kX9hnXrf0Yqaq6XoAh7Uqt8UyTUk4VXdhas1iGn6wZ6eiTWXUVd
+ RpblsijPre1Uey4uCWVHFDYR+sInULtUoyIaWpAKbdjsGo2+22OXpmxiWdtEc3YxYhjz
+ 9tFw==
+X-Gm-Message-State: AOAM533bY9z74m6EPBzmu5YBn0dIV8a8tq3S0sQhes2K/oZzh5uMemKh
+ oDqLDqWStJR/NXejVWM1G0kMP3J7
+X-Google-Smtp-Source: ABdhPJzw3Rv1enCYSm9+2gzSPLTdHJBQW7KQ7rpvW60Gn0Ix2oysMP10GIdQH+AH3ho7nq+g1z7Y2Q==
+X-Received: by 2002:a6b:600a:: with SMTP id r10mr533063iog.143.1606949922814; 
+ Wed, 02 Dec 2020 14:58:42 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
+ [24.9.64.241])
+ by smtp.gmail.com with ESMTPSA id a3sm118730ilp.5.2020.12.02.14.58.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Dec 2020 14:58:42 -0800 (PST)
+To: Marco Elver <elver@google.com>
+References: <20201116054035.211498-1-98.arpi@gmail.com>
+ <CABVgOSkoQahYqMJ3dD1_X2+rF3OgwT658+8HRM2EZ5e0-94jmw@mail.gmail.com>
+ <CANpmjNOhb13YthVHmXxMjpD2JZUO4H2Z1KZSKqHeFUv-RbM5+Q@mail.gmail.com>
+ <CABVgOSnGnkCnAyAqVoLhMGb6XV_irtYB7pyOTon5Scab8GxKtg@mail.gmail.com>
+ <CAFd5g4768o7UtOmM3X0X5upD0uF3j-=g3txi0_Ue3z8oM_Ghow@mail.gmail.com>
+ <505b8cd0-a61e-5ec3-7e0b-239d0ff55d56@linuxfoundation.org>
+ <CANpmjNMOMD+2OhBWNh5XuFufbm1bhXTUm4Y3_YiNNdfC=G2xdQ@mail.gmail.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <baa3bec1-224e-43c6-1e63-982e5eeb217f@linuxfoundation.org>
+Date: Wed, 2 Dec 2020 15:58:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Peilin Ye <yepeilin.cs@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] checkpatch: add warning for
- lines starting with a '#' in commit log
+In-Reply-To: <CANpmjNMOMD+2OhBWNh5XuFufbm1bhXTUm4Y3_YiNNdfC=G2xdQ@mail.gmail.com>
+Content-Language: en-US
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>, linux-ext4@vger.kernel.org,
+ Theodore Ts'o <tytso@mit.edu>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, "Bird,
+ Tim" <Tim.Bird@sony.com>, Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Andreas Dilger <adilger.kernel@dilger.ca>, David Gow <davidgow@google.com>,
+ Iurii Zaikin <yzaikin@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH v9 1/2] kunit: Support for
+	Parameterized Testing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,71 +121,96 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, 2020-12-03 at 02:27 +0530, Dwaipayan Ray wrote:
-> Commit log lines starting with '#' are dropped by git as comments.
-> Add a check to emit a warning for these lines.
-> =
+On 12/1/20 4:31 PM, Marco Elver wrote:
+> On Tue, 1 Dec 2020 at 23:28, Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>
+>> On 11/30/20 3:22 PM, Brendan Higgins wrote:
+>>> On Mon, Nov 23, 2020 at 11:25 PM David Gow <davidgow@google.com> wrote:
+>>>>
+>>>> On Mon, Nov 23, 2020 at 9:08 PM Marco Elver <elver@google.com> wrote:
+>>>>>
+>>>>> On Tue, 17 Nov 2020 at 08:21, David Gow <davidgow@google.com> wrote:
+>>>>>> On Mon, Nov 16, 2020 at 1:41 PM Arpitha Raghunandan <98.arpi@gmail.com> wrote:
+>>>>>>>
+>>>>>>> Implementation of support for parameterized testing in KUnit. This
+>>>>>>> approach requires the creation of a test case using the
+>>>>>>> KUNIT_CASE_PARAM() macro that accepts a generator function as input.
+>>>>>>>
+>>>>>>> This generator function should return the next parameter given the
+>>>>>>> previous parameter in parameterized tests. It also provides a macro to
+>>>>>>> generate common-case generators based on arrays. Generators may also
+>>>>>>> optionally provide a human-readable description of parameters, which is
+>>>>>>> displayed where available.
+>>>>>>>
+>>>>>>> Note, currently the result of each parameter run is displayed in
+>>>>>>> diagnostic lines, and only the overall test case output summarizes
+>>>>>>> TAP-compliant success or failure of all parameter runs. In future, when
+>>>>>>> supported by kunit-tool, these can be turned into subsubtest outputs.
+>>>>>>>
+>>>>>>> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+>>>>>>> Co-developed-by: Marco Elver <elver@google.com>
+>>>>>>> Signed-off-by: Marco Elver <elver@google.com>
+>>>>>>> ---
+>>>>>> [Resending this because my email client re-defaulted to HTML! Aarrgh!]
+>>>>>>
+>>>>>> This looks good to me! I tested it in UML and x86-64 w/ KASAN, and
+>>>>>> both worked fine.
+>>>>>>
+>>>>>> Reviewed-by: David Gow <davidgow@google.com>
+>>>>>> Tested-by: David Gow <davidgow@google.com>
+>>>>>
+>>>>> Thank you!
+>>>>>
+>>>>>> Thanks for sticking with this!
+>>>>>
+>>>>> Will these patches be landing in 5.11 or 5.12?
+>>>>>
+>>>>
+>>>> I can't think of any reason not to have these in 5.11. We haven't
+>>>> started staging things in the kselftest/kunit branch for 5.11 yet,
+>>>> though.
+>>>>
+>>>> Patch 2 will probably need to be acked by Ted for ext4 first.
+>>>>
+>>>> Brendan, Shuah: can you make sure this doesn't get lost in patchwork?
+>>>
+>>> Looks good to me. I would definitely like to pick this up. But yeah,
+>>> in order to pick up 2/2 we will need an ack from either Ted or Iurii.
+>>>
+>>> Ted seems to be busy right now, so I think I will just ask Shuah to go
+>>> ahead and pick this patch up by itself and we or Ted can pick up patch
+>>> 2/2 later.
+>>>
+>>> Cheers
+>>>
+>>
+>> I am seeing
+>>
+>> ERROR: need consistent spacing around '*' (ctx:WxV)
+>> #272: FILE: include/kunit/test.h:1786:
+>> +               typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 :
+>> (array);        \
+>>                                     ^
+>>
+>> Can you look into this and send v10?
+> 
+> This is a false positive. I pointed this out here before:
+> https://lkml.kernel.org/r/CANpmjNNhpe6TYt0KmBCCR-Wfz1Bxd8qnhiwegwnDQsxRAWmUMg@mail.gmail.com
+> 
+> checkpatch.pl thinks this is a multiplication, but this is a pointer,
+> so the spacing here is correct.
+> 
 
-> Also add a --fix option to insert a space before the leading '#' in
-> such lines.
-> =
+Thank you for confirming. I will apply this.
 
-> Suggested-by: Joe Perches <joe@perches.com>
-> Suggested-by: Peilin Ye <yepeilin.cs@gmail.com>
-> Tested-by: Peilin Ye <yepeilin.cs@gmail.com>
-> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-
-Acked-by: Joe Perches <joe@perches.com>
-
-> ---
-> Changes in v3:
-> - Modify commit message for more clarity
-> - Modify warning message
-> - Modify --fix option to substitute single space instead of tab
-> =
-
-> Changes in v2:
-> - Modify warning message and type
-> - Style fixes
-> =
-
-> =A0scripts/checkpatch.pl | 9 +++++++++
-> =A01 file changed, 9 insertions(+)
-> =
-
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index e8c1ed0b1fad..7940889877ba 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2966,6 +2966,15 @@ sub process {
-> =A0			$commit_log_possible_stack_dump =3D 0;
-> =A0		}
-> =A0
-> =
-
-> +# Check for lines starting with a #
-> +		if ($in_commit_log && $line =3D~ /^#/) {
-> +			if (WARN("COMMIT_COMMENT_SYMBOL",
-> +				 "Commit log lines starting with '#' are dropped by git as comments\=
-n" . $herecurr) &&
-> +			    $fix) {
-> +				$fixed[$fixlinenr] =3D~ s/^/ /;
-> +			}
-> +		}
-> +
-> =A0# Check for git id commit length and improperly formed commit descript=
-ions
-> =A0		if ($in_commit_log && !$commit_log_possible_stack_dump &&
-> =A0		    $line !~ /^\s*(?:Link|Patchwork|http|https|BugLink|base-commit):=
-/i &&
-
-
+thanks,
+-- Shuah
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
