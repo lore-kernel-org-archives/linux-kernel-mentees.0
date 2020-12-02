@@ -2,83 +2,95 @@ Return-Path: <SRS0=wdXo=FG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD7E7C71156
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 19:13:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 309C8C6369E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 20:00:57 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EBC6520643
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 19:13:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EBC6520643
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8AF802224C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 20:00:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8AF802224C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 48D5387457;
-	Wed,  2 Dec 2020 19:13:06 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EC85787780;
+	Wed,  2 Dec 2020 20:00:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id O4XLUyhMNJPR; Wed,  2 Dec 2020 19:13:05 +0000 (UTC)
+	with ESMTP id Zgs5995yNSAd; Wed,  2 Dec 2020 20:00:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BD4AF8744D;
-	Wed,  2 Dec 2020 19:13:05 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 11CFA8777F;
+	Wed,  2 Dec 2020 20:00:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B316CC0859;
-	Wed,  2 Dec 2020 19:13:05 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 298FEC0052
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09738C0859;
+	Wed,  2 Dec 2020 20:00:55 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 17EDBC0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 19:13:04 +0000 (UTC)
+ Wed,  2 Dec 2020 20:00:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0F38C87457
+ by silver.osuosl.org (Postfix) with ESMTP id 017B42E2A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 19:13:04 +0000 (UTC)
+ Wed,  2 Dec 2020 20:00:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id No52bckTmMns
+ with ESMTP id didFEq2Nyd+X
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 19:13:02 +0000 (UTC)
-X-Greylist: delayed 00:16:04 by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0066.hostedemail.com
- [216.40.44.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A69998744D
+ Wed,  2 Dec 2020 20:00:53 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+ [209.85.208.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0BF0320363
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 19:13:02 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave01.hostedemail.com (Postfix) with ESMTP id 044D91802EF1A
+ Wed,  2 Dec 2020 20:00:53 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id y16so5290928ljk.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 18:56:59 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay03.hostedemail.com (Postfix) with ESMTP id 80698837F27B;
- Wed,  2 Dec 2020 18:56:56 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: tiger43_1400336273b5
-X-Filterd-Recvd-Size: 2333
-Received: from XPS-9350.home (unknown [47.151.128.180])
- (Authenticated sender: joe@perches.com)
- by omf05.hostedemail.com (Postfix) with ESMTPA;
- Wed,  2 Dec 2020 18:56:55 +0000 (UTC)
-Message-ID: <5afbcd1423ee8fc2dfad191d94aef6efc17198c8.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Date: Wed, 02 Dec 2020 10:56:54 -0800
-In-Reply-To: <20201202183045.9309-1-yashsri421@gmail.com>
-References: <280235acc0e91365f3fd3b5be5a5244eced1ff61.camel@perches.com>
- <20201202183045.9309-1-yashsri421@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ Wed, 02 Dec 2020 12:00:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Zsx3zkwwHEFHc2ZqwiwShQ6Q9mkkL7TrgiVkNITirw0=;
+ b=VRb2YXjb/uGI6m8amqVXlZvc4Z/qToReryNEMQP81G4BPNKMZhAT/oDKwZKl90cpO3
+ +8EtTpFPAOezMTrbgvTftu/hrO2TJ7szYjW5cUDcfWgTsQqfU8YFdXoSXEK/ynzlZLGQ
+ f+Hvf0hX0kHjnSe9BmWOik7JERkLWFaeyjiVw9NfdiTL126U4Lf8/PaXyYbfMWxMAJS7
+ s5m07net2UoO7keFDh3bzg6tLnEgQqQTqnaqCGRiyT4TEhlwkWEwAlozkkB19JFYEb/F
+ jcaVfKpkDUKZaYBgNOu6g3zJgpSPelJK9PuegWMiKWSFriBV+D1f0R3yKDHjuJT3mcOz
+ lqog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Zsx3zkwwHEFHc2ZqwiwShQ6Q9mkkL7TrgiVkNITirw0=;
+ b=bkJkKf8Iz0BrW4wUtoXCcflnj+U+4abiTKL/9H2uLW08q59Z7KNBCQX6AX+luVCt5J
+ cZ9h9uIL3q2PHF36azQS7dtDmMgwH1S+QJgew6A0jp3YnXInF6xlLxDz28o2BCizxwRe
+ wqCK//l6rQeMPZGCp3By+Wx/QkpjuW1Nzl+TC4Gu7r3gnSCnC0aYdBFmwWZpoj82k/Vd
+ nTYo3XzQqOHJ3RFTUQIt8PT/kxoKU4A5jBOZnrO6TiRYnSjntEUzxzlaWTQXlv2wMaxJ
+ PFHQGPedI3RFLpwCkFTCb/xLxHGgIJd/+loGs65qSAmTMSQeF6rjghAEnGSrtWtHYNxG
+ WXpg==
+X-Gm-Message-State: AOAM530eoRcNitfDczybsoPTDm5S4SFT/7VcFdcm3p9Q06vTZCqTdJQc
+ 5tDhqJiYpFlLw1dq2auOZ4lkwaGfSfOKLlGD5Vs=
+X-Google-Smtp-Source: ABdhPJw/Coroj1JS2bEBOE0eyRmria5NjN2KoFfvTq16hjK/y5AEHWSEdYl4eI/kKpcJcTlLiUAeJskMAYy2+88iYj4=
+X-Received: by 2002:a05:651c:cb:: with SMTP id
+ 11mr2025398ljr.159.1606939250839; 
+ Wed, 02 Dec 2020 12:00:50 -0800 (PST)
 MIME-Version: 1.0
+References: <20201202101448.8494-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20201202101448.8494-1-dwaipayanray1@gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Thu, 3 Dec 2020 01:30:23 +0530
+Message-ID: <CABJPP5DSEb5G6G1O1Gvga_E3bT0DftTp6qcgh4RPSKL8cfus-Q@mail.gmail.com>
+To: Joe Perches <joe@perches.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH -mmots] checkpatch: add fix for
- non-standard signature - co-authored-by
+ linux-kernel <linux-kernel@vger.kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add warning for
+ lines starting with a '#' in commit log
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,57 +102,68 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, 2020-12-03 at 00:00 +0530, Aditya Srivastava wrote:
-> Currently, checkpatch.pl warns us for BAD_SIGN_OFF on the usage of
-> non-standard signatures.
+On Wed, Dec 2, 2020 at 3:45 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
-> An evaluation on v4.13..v5.8 showed that out of 539 warnings due to
-> non-standard signatures, 43 are due to the use of 'Co-authored-by'
-> tag, which may seem correct, but is not standard.
-> =
-
-> The standard signature equivalent for 'Co-authored-by' is
-> 'Co-developed-by'.
-
-I'm not going to ack this as I don't mind non-standard signatures.
-
-You should also always use patch subject versioning and include
-a changelog after the --- line.
-
-> Provide a fix by suggesting users with this signature alternative and
-> replacing.
-> =
-
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> Commit log lines starting with a '#' can be dropped by git if
+> the corresponding commit message is reworded by a maintainer.
+> This minor error can be easily avoided if checkpatch warns
+> for the same.
+>
+> Add a new check which emits a warning on finding lines starting
+> with a '#'. Also add a quick fix by adding a tab in front of
+> such lines.
+>
+> Suggested-by: Peilin Ye <yepeilin.cs@gmail.com>
+> Tested-by: Peilin Ye <yepeilin.cs@gmail.com>
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 > ---
-> =A0scripts/checkpatch.pl | 3 +++
-> =A01 file changed, 3 insertions(+)
-> =
-
+>  scripts/checkpatch.pl | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
 > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 4a026926139f..fc036d545d2d 100755
+> index e8c1ed0b1fad..a12edcf4f63a 100755
 > --- a/scripts/checkpatch.pl
 > +++ b/scripts/checkpatch.pl
-> @@ -2832,6 +2832,9 @@ sub process {
-> =A0
-> =
+> @@ -2966,6 +2966,15 @@ sub process {
+>                         $commit_log_possible_stack_dump = 0;
+>                 }
+>
+> +# Check for lines starting with a #
+> +               if ($in_commit_log && $line =~ /^#/) {
+> +                       if (WARN("POSSIBLE_IGNORED_LINE",
+> +                                "Commit log lines starting with a '#' might be dropped by git.\n" . $herecurr)
+> +                           && $fix) {
+> +                               $fixed[$fixlinenr] =~ s/^#/\t#/;
+> +                       }
+> +               }
+> +
+>  # Check for git id commit length and improperly formed commit descriptions
+>                 if ($in_commit_log && !$commit_log_possible_stack_dump &&
+>                     $line !~ /^\s*(?:Link|Patchwork|http|https|BugLink|base-commit):/i &&
+> --
+> 2.27.0
+>
+Hi,
+This patch may seem trivial but I wanted to send it to you for review
+nevertheless.
 
-> =A0			if ($sign_off !~ /$signature_tags/) {
-> =A0				my $suggested_signature =3D find_standard_signature($sign_off);
-> +				if ($sign_off =3D~ /co-authored-by:/i) {
-> +					$suggested_signature =3D "Co-developed-by:";
-> +				}
-> =A0				if ($suggested_signature eq "") {
-> =A0					WARN("BAD_SIGN_OFF",
-> =A0					     "Non-standard signature: $sign_off\n" . $herecurr);
+Peilin had earlier faced this problem in one of his patches which was
+mainlined. There were some '#define' lines in the commit log. Due to
+some reason the Maintainer had to reword the commit message, and
+ultimately those '#define' lines were lost in the tree that was merged.
 
+I am not sure if it would be exactly helpful for regular committers but for
+new contributers it might be nice to avoid such a mistake. Do you think
+it deserves inclusion in checkpatch?
 
+Thank you,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
