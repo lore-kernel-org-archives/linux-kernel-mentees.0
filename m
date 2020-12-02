@@ -2,83 +2,77 @@ Return-Path: <SRS0=wdXo=FG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D95DFC64E7C
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 16:02:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92614C83013
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 16:07:52 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0550C206A5
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 16:02:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0550C206A5
+	by mail.kernel.org (Postfix) with ESMTPS id DDFFC21D81
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  2 Dec 2020 16:07:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDFFC21D81
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=mit.edu
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5D8D987165;
-	Wed,  2 Dec 2020 16:02:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 57AC687160;
+	Wed,  2 Dec 2020 16:07:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BxAsixA0HgzZ; Wed,  2 Dec 2020 16:02:28 +0000 (UTC)
+	with ESMTP id hFY2Da1Qy_w0; Wed,  2 Dec 2020 16:07:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D9BDB87160;
-	Wed,  2 Dec 2020 16:02:28 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DD17A87154;
+	Wed,  2 Dec 2020 16:07:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D001AC0859;
-	Wed,  2 Dec 2020 16:02:28 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 75974C0052
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C73ECC0859;
+	Wed,  2 Dec 2020 16:07:50 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 20340C0052
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 16:02:27 +0000 (UTC)
+ Wed,  2 Dec 2020 16:07:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 42D712E267
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1323F87A1A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 16:02:26 +0000 (UTC)
+ Wed,  2 Dec 2020 16:07:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zopNiWnZKcgF
+ with ESMTP id ryMbauc+aGyz
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 16:02:23 +0000 (UTC)
+ Wed,  2 Dec 2020 16:07:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
- by silver.osuosl.org (Postfix) with ESMTPS id A5D962010C
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 37A8E879E9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Dec 2020 16:02:23 +0000 (UTC)
+ Wed,  2 Dec 2020 16:07:49 +0000 (UTC)
 Received: from callcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net
  [72.74.133.215]) (authenticated bits=0)
  (User authenticated as tytso@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 0B2G2FHk014005
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 0B2G7gd1016221
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 2 Dec 2020 11:02:16 -0500
+ Wed, 2 Dec 2020 11:07:43 -0500
 Received: by callcc.thunk.org (Postfix, from userid 15806)
- id 0AE36420136; Wed,  2 Dec 2020 11:02:15 -0500 (EST)
-Date: Wed, 2 Dec 2020 11:02:14 -0500
+ id C33DB420136; Wed,  2 Dec 2020 11:07:42 -0500 (EST)
+Date: Wed, 2 Dec 2020 11:07:42 -0500
 From: "Theodore Y. Ts'o" <tytso@mit.edu>
-To: Brendan Higgins <brendanhiggins@google.com>
-Message-ID: <20201202160214.GA390058@mit.edu>
+To: Arpitha Raghunandan <98.arpi@gmail.com>
+Message-ID: <20201202160742.GB390058@mit.edu>
 References: <20201116054035.211498-1-98.arpi@gmail.com>
- <CABVgOSkoQahYqMJ3dD1_X2+rF3OgwT658+8HRM2EZ5e0-94jmw@mail.gmail.com>
- <CANpmjNOhb13YthVHmXxMjpD2JZUO4H2Z1KZSKqHeFUv-RbM5+Q@mail.gmail.com>
- <CABVgOSnGnkCnAyAqVoLhMGb6XV_irtYB7pyOTon5Scab8GxKtg@mail.gmail.com>
- <CAFd5g4768o7UtOmM3X0X5upD0uF3j-=g3txi0_Ue3z8oM_Ghow@mail.gmail.com>
+ <20201116054150.211562-1-98.arpi@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAFd5g4768o7UtOmM3X0X5upD0uF3j-=g3txi0_Ue3z8oM_Ghow@mail.gmail.com>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>, Marco Elver <elver@google.com>,
- linux-ext4@vger.kernel.org,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, "Bird,
- Tim" <Tim.Bird@sony.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>, David Gow <davidgow@google.com>,
- Iurii Zaikin <yzaikin@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- KUnit Development <kunit-dev@googlegroups.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v9 1/2] kunit: Support for
-	Parameterized Testing
+In-Reply-To: <20201116054150.211562-1-98.arpi@gmail.com>
+Cc: elver@google.com, linux-ext4@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Tim.Bird@sony.com, brendanhiggins@google.com,
+ linux-kernel@vger.kernel.org, adilger.kernel@dilger.ca, davidgow@google.com,
+ yzaikin@google.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ kunit-dev@googlegroups.com
+Subject: Re: [Linux-kernel-mentees] [PATCH v9 2/2] fs: ext4: Modify
+ inode-test.c to use KUnit parameterized testing feature
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,25 +90,15 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Nov 30, 2020 at 02:22:22PM -0800, 'Brendan Higgins' via KUnit Development wrote:
+On Mon, Nov 16, 2020 at 11:11:50AM +0530, Arpitha Raghunandan wrote:
+> Modify fs/ext4/inode-test.c to use the parameterized testing
+> feature of KUnit.
 > 
-> Looks good to me. I would definitely like to pick this up. But yeah,
-> in order to pick up 2/2 we will need an ack from either Ted or Iurii.
-> 
-> Ted seems to be busy right now, so I think I will just ask Shuah to go
-> ahead and pick this patch up by itself and we or Ted can pick up patch
-> 2/2 later.
+> Signed-off-by: Arpitha Raghunandan <98.arpi@gmail.com>
+> Signed-off-by: Marco Elver <elver@google.com>
 
-I have been paying attention to this patch series, but I had presumed
-that this was much more of a kunit change than an ext4 change, and the
-critical bits was a review of the kunit infrastructure.  I certainly
-have no objection to changing the ext4 test to use the new
-parameterized testing, and if you'd like me to give a quick review,
-I'll take a quick look.  I assume, Brendan, that you've already tried
-doing a compile and run test of the patch series, so I'm not going to
-do that?
+Acked-by: Theodore Ts'o <tytso@mit.edu>
 
-						- Ted
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
