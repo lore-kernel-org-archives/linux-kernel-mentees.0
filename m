@@ -2,82 +2,83 @@ Return-Path: <SRS0=x+JC=FH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61DF1C433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Dec 2020 19:07:15 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 925CDC4361A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Dec 2020 19:13:31 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B12B521D95
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Dec 2020 19:07:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B12B521D95
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id C39C4221E7
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Dec 2020 19:13:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C39C4221E7
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3C088876AB;
-	Thu,  3 Dec 2020 19:07:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5FC0087B4C;
+	Thu,  3 Dec 2020 19:13:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EFs8QXdyznua; Thu,  3 Dec 2020 19:07:13 +0000 (UTC)
+	with ESMTP id GpxThFHH7w+I; Thu,  3 Dec 2020 19:13:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C2F98876AA;
-	Thu,  3 Dec 2020 19:07:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9C32687B4A;
+	Thu,  3 Dec 2020 19:13:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AED23C163C;
-	Thu,  3 Dec 2020 19:07:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80AB1C163C;
+	Thu,  3 Dec 2020 19:13:29 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EE9CDC0FA7
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CE9E2C0FA7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Dec 2020 19:07:11 +0000 (UTC)
+ Thu,  3 Dec 2020 19:13:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EA54087B41
+ by hemlock.osuosl.org (Postfix) with ESMTP id BB14987B4C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Dec 2020 19:07:11 +0000 (UTC)
+ Thu,  3 Dec 2020 19:13:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UZorUWkk7kIN
+ with ESMTP id DIo+cjWgO4TR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Dec 2020 19:07:11 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6950E87B40
+ Thu,  3 Dec 2020 19:13:26 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0138.hostedemail.com
+ [216.40.44.138])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E754687B4A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Dec 2020 19:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=g4HBptT8fiySRcTajzMRTlRGWzESksOlO+bH6MZblpU=; b=el3HGxdOM2TJ3q2T9+HMzJ1Mth
- aNLWKxtrYru1CYYE68mqGY6ybygj8aOLI6nzlUM4MCRLpiXYTeNgL2NgabjLV6fSih5GtVhw+8sOQ
- 2VUmKvcNBRQ/RKeZYxHn+Mt+Uqi48NYJrN71SXOllqepIc0Fi1WIYzLV66/i49JNhwMrj9BbjTt5J
- QrizonVWVlIuJdlxWFG/MRLnHp8YmoKZT9hJnntDUMQkasyr9OpSBP5GAlNotn90+0j9qhqLnxFsX
- QZjHJ0nbxSVviWOHE1CPw93zJ0HDaYKHlBfe2QdX3xz/QMSNnb42RUc5b/0vTpzMdKXI/LNl2nOy6
- CbUBB+FA==;
-Received: from [2601:1c0:6280:3f0::1494]
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kktwb-0007dT-OQ; Thu, 03 Dec 2020 19:07:10 +0000
-To: Joe Perches <joe@perches.com>, Nicolai Fischer <nicolai.fischer@fau.de>,
- linux-kernel@vger.kernel.org, Andi Kleen <ak@linux.intel.com>
+ Thu,  3 Dec 2020 19:13:25 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave07.hostedemail.com (Postfix) with ESMTP id 0E92A18022D12
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  3 Dec 2020 19:04:17 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay08.hostedemail.com (Postfix) with ESMTP id 72571182CED34;
+ Thu,  3 Dec 2020 19:04:14 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: ear41_3411058273be
+X-Filterd-Recvd-Size: 5946
+Received: from XPS-9350.home (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf04.hostedemail.com (Postfix) with ESMTPA;
+ Thu,  3 Dec 2020 19:04:12 +0000 (UTC)
+Message-ID: <40543766190a1d5e054e6573ae00112467acf964.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Randy Dunlap <rdunlap@infradead.org>, Nicolai Fischer
+ <nicolai.fischer@fau.de>, linux-kernel@vger.kernel.org, Andi Kleen
+ <ak@linux.intel.com>
+Date: Thu, 03 Dec 2020 11:04:11 -0800
+In-Reply-To: <7a81a3c0-2734-4799-5b34-0a6279c1e59d@infradead.org>
 References: <133ac827-c0d2-c5c7-39d8-7d2c17de7c76@fau.de>
  <8436bc4191d92af283ea6aa7ca450e36da653e2e.camel@perches.com>
  <16f0bfd4-61ca-48d8-c9ab-10bfc9a233ad@infradead.org>
  <a83033e9fcc706be129e9c4c0d30a0542f13d406.camel@perches.com>
  <7a81a3c0-2734-4799-5b34-0a6279c1e59d@infradead.org>
- <40543766190a1d5e054e6573ae00112467acf964.camel@perches.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <35b5a3fd-7b15-1173-b64a-b20839706527@infradead.org>
-Date: Thu, 3 Dec 2020 11:07:04 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <40543766190a1d5e054e6573ae00112467acf964.camel@perches.com>
-Content-Language: en-US
 Cc: apw@canonical.com, johannes.czekay@fau.de,
  kernel-janitors <kernel-janitors@vger.kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@i4.cs.fau.de
@@ -94,46 +95,147 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gMTIvMy8yMCAxMTowNCBBTSwgSm9lIFBlcmNoZXMgd3JvdGU6Cj4gT24gVGh1LCAyMDIwLTEy
-LTAzIGF0IDEwOjMxIC0wODAwLCBSYW5keSBEdW5sYXAgd3JvdGU6Cj4+IE9uIDEyLzMvMjAgOTo1
-OCBBTSwgSm9lIFBlcmNoZXMgd3JvdGU6Cj4+PiBPbiBXZWQsIDIwMjAtMTItMDIgYXQgMTA6NTkg
-LTA4MDAsIFJhbmR5IER1bmxhcCB3cm90ZToKPj4+Cj4+Pj4gVGhlcmUgYXJlIGFsc28gbGFyZ2Ug
-aHVua3Mgb2YgYmxvY2svS2NvbmZpZyBhbmQgZHJpdmVycy9oaWQvS2NvbmZpZwo+Pj4+IHRoYXQg
-ZG9uJ3QgdXNlIGFueSBpbmRlbnRhdGlvbiBmb3IgaGVscCB0ZXh0Li4uCj4+Pj4gaW4gY2FzZSB0
-aGF0IG1hdHRlcnMgaGVyZS4KPj4+Cj4+PiBNYXliZSBzb21ldGhpbmcgbGlrZSB0aGlzIGNvdWxk
-IGhlbHAuCj4+Pgo+Pj4gSW5kZW50IHRoZSB1bmluZGVudGVkIGhlbHAgYmxvY2tzIGJ5IDIgc3Bh
-Y2VzIGFuZCByZWZsb3cgd2hlcmUgYXBwcm9wcmlhdGUuCj4+Pgo+Pj4gLS0tCj4+PiDCoGJsb2Nr
-L0tjb25maWcgICAgICAgfCAxMDUgKysrKystLS0tLQo+Pj4gwqBkcml2ZXJzL2hpZC9LY29uZmln
-IHwgNTQ5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KPj4+IMKgMiBmaWxlcyBjaGFuZ2VkLCAzMzUgaW5zZXJ0aW9ucygrKSwgMzE5IGRlbGV0aW9u
-cygtKQo+Pgo+Pgo+PiBMR1RNLiBUaGFua3MuCj4gCj4gYnR3OiB0aGVyZSBhcHBlYXJzIHRvIGJl
-IH43NTAgaGVscCBzZWN0aW9ucyBpbiBLY29uZmlnIGZpbGVzCj4gdGhhdCBkbyBub3QgdXNlIDIg
-c3BhY2UgaW5kZW50YXRpb24gZm9yIHRoZSBoZWxwIGNvbnRlbnQgdnMKPiB0aGUgfjE0MDAwIGhl
-bHAgc2VjdGlvbnMgdGhhdCBkbyB1c2UgMiBzcGFjZSBpbmRlbnRhdGlvbi4KPiAKPiBNYXliZSB0
-aGVyZSdzIHNvbWUgdmFsdWUgaW4gc3RhbmRhcmRpemluZyBvbiB0aGUgMiBzcGFjZSBzdHlsZS4K
-CmNvZGluZy1zdHlsZS5yc3QgaW1wbGllcyB0byBtZWFuIHRoYXQgd2UgaGF2ZSBhbHJlYWR5IGRv
-bmUgdGhhdDoKCkZvciBhbGwgb2YgdGhlIEtjb25maWcqIGNvbmZpZ3VyYXRpb24gZmlsZXMgdGhy
-b3VnaG91dCB0aGUgc291cmNlIHRyZWUsCnRoZSBpbmRlbnRhdGlvbiBpcyBzb21ld2hhdCBkaWZm
-ZXJlbnQuICBMaW5lcyB1bmRlciBhIGBgY29uZmlnYGAgZGVmaW5pdGlvbgphcmUgaW5kZW50ZWQg
-d2l0aCBvbmUgdGFiLCB3aGlsZSBoZWxwIHRleHQgaXMgaW5kZW50ZWQgYW4gYWRkaXRpb25hbCB0
-d28Kc3BhY2VzLgoKCj4gCj4gQSB0cml2aWFsIHNjcmlwdCB0byBzaG93IHRoZSBzZWN0aW9ucyB0
-aGF0IGRvbid0IHVzZSAyIHNwYWNlczoKPiAKPiAkIGdpdCBncmVwIC1uIC1BMSAtUCAiXlxzKmhl
-bHBccyokIiAtLSAnKi9LY29uZmlnKicgfAo+ICAgZ3JlcCAtdiAnXi0tJCcgfAo+ICAgcGVybCAt
-ZSAnd2hpbGUgKDw+KSB7Cj4gICAgIG15ICRsaW5lMSA9ICRfOwo+ICAgICBteSAkbGluZTIgPSA8
-PjsKPiAKPiAgICAgbXkgJGwxID0gJGxpbmUxOwo+ICAgICBteSAkbDIgPSAkbGluZTI7Cj4gCj4g
-ICAgIGNob21wKCRsMSk7Cj4gICAgIGNob21wKCRsMik7Cj4gCj4gICAgICRsMSA9fiBzL14uKjpc
-ZCs6KFxzKikuKi8kMS87Cj4gICAgICRsMiA9fiBzL14uKi1cZCstKFxzKikuKi8kMS87Cj4gCj4g
-ICAgIGlmICgiJGwxICAiIG5lICIkbDIiKSB7Cj4gCXByaW50ICIkbGluZTEiOwo+IAlwcmludCAi
-JGxpbmUyIjsKPiAgICAgfQo+IH0nCj4gCj4gQ2hhbmdlIHRoZSBuZSB0byBlcSB0byBzZWUgdGhl
-IG1hdGNoZXMuCj4gCj4gRm9yIGluc3RhbmNlLCBhIGhlYWQgLTUwIG9mIHRoZSBhYm92ZSBpczoK
-PiAKW3NuaXBdCgp0aGFua3MuCi0tIAp+UmFuZHkKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApM
-aW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlz
-dHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50
-ZWVzCg==
+On Thu, 2020-12-03 at 10:31 -0800, Randy Dunlap wrote:
+> On 12/3/20 9:58 AM, Joe Perches wrote:
+> > On Wed, 2020-12-02 at 10:59 -0800, Randy Dunlap wrote:
+> > =
+
+> > > There are also large hunks of block/Kconfig and drivers/hid/Kconfig
+> > > that don't use any indentation for help text...
+> > > in case that matters here.
+> > =
+
+> > Maybe something like this could help.
+> > =
+
+> > Indent the unindented help blocks by 2 spaces and reflow where appropri=
+ate.
+> > =
+
+> > ---
+> > =A0block/Kconfig       | 105 +++++-----
+> > =A0drivers/hid/Kconfig | 549 +++++++++++++++++++++++++++---------------=
+----------
+> > =A02 files changed, 335 insertions(+), 319 deletions(-)
+> =
+
+> =
+
+> LGTM. Thanks.
+
+btw: there appears to be ~750 help sections in Kconfig files
+that do not use 2 space indentation for the help content vs
+the ~14000 help sections that do use 2 space indentation.
+
+Maybe there's some value in standardizing on the 2 space style.
+
+A trivial script to show the sections that don't use 2 spaces:
+
+$ git grep -n -A1 -P "^\s*help\s*$" -- '*/Kconfig*' |
+  grep -v '^--$' |
+  perl -e 'while (<>) {
+    my $line1 =3D $_;
+    my $line2 =3D <>;
+
+    my $l1 =3D $line1;
+    my $l2 =3D $line2;
+
+    chomp($l1);
+    chomp($l2);
+
+    $l1 =3D~ s/^.*:\d+:(\s*).*/$1/;
+    $l2 =3D~ s/^.*-\d+-(\s*).*/$1/;
+
+    if ("$l1  " ne "$l2") {
+	print "$line1";
+	print "$line2";
+    }
+}'
+
+Change the ne to eq to see the matches.
+
+For instance, a head -50 of the above is:
+
+arch/Kconfig:84:	help
+arch/Kconfig-85-	 This option enables a transparent branch optimization that
+arch/Kconfig:127:	help
+arch/Kconfig-128-	 If function tracer is enabled and the arch supports full
+arch/Kconfig:167:	help
+arch/Kconfig-168-	 Modern versions of GCC (since 4.4) have builtin functions
+arch/Kconfig:1056:       help
+arch/Kconfig-1057-          An architecture should select this if its sysca=
+ll numbering is sparse
+arch/alpha/Kconfig:147:	help
+arch/alpha/Kconfig-148-	  XL-233 and XL-266-based Alpha systems.
+arch/arm/Kconfig:1001:       help
+arch/arm/Kconfig-1002-	 This option enables the workaround for the 775420 C=
+ortex-A9 (r2p2,
+arch/arm/Kconfig-nommu:9:	help
+arch/arm/Kconfig-nommu-10-	 Say Y to manually set the base addresses and si=
+zes.
+arch/arm/Kconfig.debug:24:	help
+arch/arm/Kconfig.debug-25-		Generate a warning if any W+X mappings are foun=
+d at boot.
+arch/arm/mach-aspeed/Kconfig:21:	help
+arch/arm/mach-aspeed/Kconfig-22-	 Say yes if you intend to run on an Aspeed=
+ ast2400 or similar
+arch/arm/mach-aspeed/Kconfig:31:	help
+arch/arm/mach-aspeed/Kconfig-32-	 Say yes if you intend to run on an Aspeed=
+ ast2500 or similar
+arch/arm/mach-aspeed/Kconfig:42:	help
+arch/arm/mach-aspeed/Kconfig-43-	 Say yes if you intend to run on an Aspeed=
+ ast2600 or similar
+arch/arm/mach-imx/Kconfig:230:	help
+arch/arm/mach-imx/Kconfig-231-		This enables support for Freescale i.MX7 Du=
+al processor.
+arch/arm/mach-ixp4xx/Kconfig:41:    help
+arch/arm/mach-ixp4xx/Kconfig-42-	  Say 'Y' here if you want your kernel to =
+support the Giant
+arch/arm/mach-ixp4xx/Kconfig:178:	help
+arch/arm/mach-ixp4xx/Kconfig-179-		This board is currently inside the Links=
+ys WRV54G Gateways.
+arch/arm/mach-ixp4xx/Kconfig:216:	help
+arch/arm/mach-ixp4xx/Kconfig-217-          IXP4xx provides two methods of a=
+ccessing PCI memory space:
+arch/arm/mach-omap1/Kconfig:61:	help
+arch/arm/mach-omap1/Kconfig-62-          TI OMAP 1510 or 1610 Innovator boa=
+rd support. Say Y here if you
+arch/arm/mach-omap1/Kconfig:68:    	help
+arch/arm/mach-omap1/Kconfig-69-	  TI OMAP 1610/1611B H2 board support. Say =
+Y here if you have such
+arch/arm/mach-omap1/Kconfig:75:    	help
+arch/arm/mach-omap1/Kconfig-76-	  TI OMAP 1710 H3 board support. Say Y here=
+ if you have such
+arch/arm/mach-omap1/Kconfig:88:    	help
+arch/arm/mach-omap1/Kconfig-89-	  TI OMAP 5912 OSK (OMAP Starter Kit) board=
+ support. Say Y here
+arch/arm/mach-omap1/Kconfig:95:    	help
+arch/arm/mach-omap1/Kconfig-96-	  The OSK supports an optional add-on board=
+ with a Quarter-VGA
+arch/arm/mach-omap1/Kconfig:103:    	help
+arch/arm/mach-omap1/Kconfig-104-	  Support for TI OMAP 730 Perseus2 board. =
+Say Y here if you have such
+arch/arm/mach-omap1/Kconfig:110:    	help
+arch/arm/mach-omap1/Kconfig-111-	  Support for TI OMAP 850 F-Sample board. =
+Say Y here if you have such
+arch/arm/mach-omap1/Kconfig:126:	help
+arch/arm/mach-omap1/Kconfig-127-	 Support for the Palm Zire71 PDA. To boot =
+the kernel,
+arch/arm/mach-omap1/Kconfig:175:	help
+arch/arm/mach-omap1/Kconfig-176-          Support for generic OMAP-1510, 16=
+10 or 1710 board with
+arch/arm/mach-prima2/Kconfig:24:	help
+arch/arm/mach-prima2/Kconfig-25-          Support for CSR SiRFSoC ARM Corte=
+x A9 Platform
+
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
